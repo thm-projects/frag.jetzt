@@ -1,5 +1,5 @@
 <div fxLayout="row"
-     *ngIf="comments.length > 0"
+     *ngIf="comments.length > 0 || filterType || period !== 'time-all' || search"
      [ngClass]="{'search-container' : !scroll, 'search-container-fixed' : scroll}"
      (window:scroll)="checkScroll()"
      fxLayoutAlign="center">
@@ -7,52 +7,52 @@
   <button id="filter-close-button"
           mat-icon-button
           class="searchBarButton"
-          *ngIf="filter.filterType"
+          *ngIf="filterType"
           (click)="applyFilterByKey(null)"
           aria-labelledby="close_filter">
     <mat-icon class="searchBarIcon red">close</mat-icon>
   </button>
-  <mat-label *ngIf="deviceType === 'desktop'"
+  <mat-label *ngIf="!isMobile"
              fxLayoutAlign="center center">
     <mat-icon class="search-icon">search</mat-icon>
   </mat-label>
   <input appAccessibilityEscapedInput
          #searchBox
          id="searchBox"
-         [ngClass]="{'desktop-input': deviceType === 'desktop',
-   'mobile-input': deviceType === 'mobile' && !search, 'mobile-input-2': deviceType === 'mobile' && search }"
+         [ngClass]="{'desktop-input': !isMobile,
+         'mobile-input': isMobile && !search, 'mobile-input-2': isMobile && search }"
          (input)="searchComments()"
-         [(ngModel)]="filter.currentSearch"
+         [(ngModel)]="searchString"
          [placeholder]="searchPlaceholder"
          aria-labelledby="search-box-input-description"/>
   <button id="search_close-button"
           mat-icon-button
           class="searchBarButton close red"
-          *ngIf="filter.currentSearch || search"
+          *ngIf="searchString || search"
           (click)="abortSearch()">
     <mat-icon>close</mat-icon>
   </button>
 
   <div class="button-bar"
        fxLayoutAlign="center center">
-    <div *ngIf="comments && commentsFilteredByTime.length > 0">
+    <div *ngIf="comments && (commentsFilteredByTimeLength > 0 || filterType || period !== 'time-all')">
       <h3 class="counter"
-          *ngIf="comments && !hideCommentsList">{{commentsFilteredByTime  .length}}</h3>
+          *ngIf="!filterType">{{commentsFilteredByTimeLength}}</h3>
       <h3 class="counter-filtered"
-          *ngIf="filteredComments && hideCommentsList">{{filteredComments.length}}</h3>
+          *ngIf="filterType">{{comments.length}}</h3>
     </div>
 
     <button mat-icon-button
             class="searchBarButton"
             (click)="activateSearch()"
-            *ngIf="deviceType === 'mobile' && !search && comments && comments.length > 0 && !search">
+            *ngIf="isMobile && !search && comments && comments.length > 0 && !search">
       <mat-icon class="searchBarIcon">search</mat-icon>
     </button>
 
     <button id="sort-button"
             mat-icon-button
             class="searchBarButton"
-            *ngIf="!searchBox.value && comments && commentsFilteredByTime.length > 2 && !search"
+            *ngIf="comments && comments.length > 2 && !search"
             [matMenuTriggerFor]="sortMenu"
             matTooltip="{{ 'comment-list.sort-comments' | translate }}">
       <mat-icon class="searchBarIcon">swap_vert</mat-icon>
@@ -62,17 +62,17 @@
             mat-icon-button
             class="searchBarButton"
             aria-labelledby="time_settings"
-            *ngIf="!searchBox.value && comments && comments.length > 0 && !search"
+            *ngIf="comments && (comments.length > 0 || period !== 'time-all') && !search"
             [matMenuTriggerFor]="timeMenu"
-            [ngClass]="{'active-filter': filter.period !== 'time-all'}"
+            [ngClass]="{'active-filter': period !== 'time-all'}"
             matTooltip="{{ 'comment-list.select-time' | translate }}">
       <mat-icon class="searchBarIcon">history</mat-icon>
     </button>
 
     <button mat-icon-button
-            class="searchBarButton material-icons-outlined"
+            class="searchBarButton"
             (click)="switchToCommentList()"
-            *ngIf="!searchBox.value && comments && !search"
+            *ngIf="comments && !search"
             matTooltip="{{ 'comment-list.switch-to-comment-list' | translate }}">
       <mat-icon class="searchBarIcon material-icons-outlined">forum</mat-icon>
     </button>
@@ -84,8 +84,8 @@
             matTooltip="{{ 'comment-list.time' | translate }}"
             (click)="applySortingByKey('time')"
             aria-labelledby="access_time">
-      <mat-icon [ngClass]="{time: 'timesort'}[filter.sortType]">update</mat-icon>
-      <span [ngClass]="{time: 'timesort'}[filter.sortType]">{{ 'comment-list.sort-list-time' | translate }}</span>
+      <mat-icon [ngClass]="{time: 'timesort'}[sortType]">update</mat-icon>
+      <span [ngClass]="{time: 'timesort'}[sortType]">{{ 'comment-list.sort-list-time' | translate }}</span>
     </button>
 
     <button mat-menu-item
@@ -93,7 +93,7 @@
             (click)="applySortingByKey('score')"
             aria-labelledby="keyboard_arrow_up">
       <mat-icon class="material-icons-outlined"
-                [ngClass]="{score: 'up'}[!filter.sortReverse && filter.sortType]">
+                [ngClass]="{score: 'up'}[!sortReverse && sortType]">
         thumb_up
       </mat-icon>
       <span>{{ 'comment-list.sort-vote-asc' | translate }}</span>
@@ -103,7 +103,7 @@
             matTooltip="{{ 'comment-list.vote-desc' | translate }}"
             (click)="applySortingByKey('score', true)"
             aria-labelledby="keyboard_arrow_down">
-      <mat-icon [ngClass]="{score: 'down'}[filter.sortReverse && filter.sortType]"
+      <mat-icon [ngClass]="{score: 'down'}[sortReverse && sortType]"
                 class="material-icons-outlined">
         thumb_down
       </mat-icon>
@@ -114,7 +114,7 @@
   <mat-menu #timeMenu="matMenu" xPosition="before">
     <div *ngFor="let periodItem of periodsList">
       <button mat-menu-item (click)="setTimePeriod(periodItem)" class="period"
-              [ngClass]="{'selected': periodItem === filter.period}"
+              [ngClass]="{'selected': periodItem === period}"
               aria-labelledby="{{periodItem}}">
         <span>{{ ('comment-list.select-' + periodItem) | translate }}</span>
       </button>
@@ -132,29 +132,32 @@
 </button>
 
 <div *ngIf="!isLoading">
-  <app-comment *ngFor="let current of hideCommentsList ? filteredComments : commentsFilteredByTime"
+  <app-comment *ngFor="let current of comments"
                [comment]="current"
                [userRole]="user.role"
                [parseVote]="getVote(current)"
                [moderator]="true"
                [commentsWrittenByUser]="commentsWrittenByUsers.get(current.creatorId).size"
+               [isFromModerator]="moderatorAccountIds.has(current.creatorId)"
+               [isFromOwner]="room.ownerId === current.creatorId"
+               [user]="user"
                (clickedOnTag)="applyFilterByKey('tag', $event)"
-               (clickedUserNumber)="applyFilterByKey('userNumber', $event)"
+               (clickedUserNumber)="applyFilterByKey('creatorId', $event)"
                (clickedOnKeyword)="applyFilterByKey('keyword', $event)">
   </app-comment>
 </div>
 <ars-mat-paginator
-  *ngIf="(hideCommentsList ? filteredComments : commentsFilteredByTime).length>0"
+  *ngIf="comments.length > 0"
   [pageSize]="this.pageSize"
   (page)="handlePageEvent($event)"
   [showFirstLastButtons]="showFirstLastButtons"
   [pageSizeOptions]="pageSizeOptions"
   [pageIndex]="pageIndex"
-  [length]="(hideCommentsList ? filteredComments : commentsFilteredByTime).length"></ars-mat-paginator>
-<ars-row [height]="64" *ngIf="(hideCommentsList ? filteredComments : commentsFilteredByTime).length>0">
+  [length]="comments.length"></ars-mat-paginator>
+<ars-row [height]="64" *ngIf="comments.length > 0">
 </ars-row>
 
-<div *ngIf="comments && (commentsFilteredByTime.length < 1 && filter.period === 'time-all' || comments.length === 0) && !isLoading"
+<div *ngIf="comments && (commentsFilteredByTimeLength < 1 && period === 'time-all' || comments.length === 0) && !isLoading"
      fxLayout="row"
      fxLayoutAlign="center center"
      class="no-comments">
@@ -162,8 +165,8 @@
   <p class="oldtypo-p">{{ 'comment-page.no-comments' | translate }}</p>
 </div>
 
-<div *ngIf="(filteredComments && filteredComments.length === 0 && hideCommentsList)
-            || (comments && commentsFilteredByTime.length === 0 && filter.period !== 'time-all') && !isLoading && comments.length > 0"
+<div *ngIf="(filterType && comments.length === 0)
+            || (comments && commentsFilteredByTimeLength === 0 && period !== 'time-all') && !isLoading && comments.length > 0"
      fxLayout="row"
      fxLayoutAlign="center center"
      class="no-comments">

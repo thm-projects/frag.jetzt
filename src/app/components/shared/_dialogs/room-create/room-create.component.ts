@@ -9,6 +9,10 @@ import { AuthenticationService } from '../../../../services/http/authentication.
 import { TranslateService } from '@ngx-translate/core';
 import { User } from '../../../../models/user';
 import { defaultCategories } from '../../../../utils/defaultCategories';
+import { FormControl, Validators } from '@angular/forms';
+import { LanguageService } from '../../../../services/util/language.service';
+
+const invalidRegex = /[^A-Z0-9_\-.~]+/gi;
 
 @Component({
   selector: 'app-room-create',
@@ -16,16 +20,23 @@ import { defaultCategories } from '../../../../utils/defaultCategories';
   styleUrls: ['./room-create.component.scss']
 })
 export class RoomCreateComponent implements OnInit {
-  longName: string;
-  customShortIdName: string;
-  emptyInputs = false;
   shortIdAlreadyUsed = false;
-  shortIdCharInvalid = false;
   room: Room;
   roomId: string;
   user: User;
   hasCustomShortId = false;
   isLoading = false;
+  readonly roomNameLengthMin = 3;
+  readonly roomNameLengthMax = 30;
+  roomNameFormControl = new FormControl('', [
+    Validators.required, Validators.minLength(this.roomNameLengthMin), Validators.maxLength(this.roomNameLengthMax)
+  ]);
+  readonly shortIdLengthMin = 3;
+  readonly shortIdLengthMax = 30;
+  roomShortIdFormControl = new FormControl('', [
+    Validators.required, Validators.minLength(this.shortIdLengthMin), Validators.maxLength(this.shortIdLengthMax),
+    Validators.pattern('[a-zA-Z0-9_\\-.~]+'), this.verifyAlreadyUsed.bind(this)
+  ]);
 
   constructor(
     private roomService: RoomService,
@@ -34,43 +45,58 @@ export class RoomCreateComponent implements OnInit {
     public dialogRef: MatDialogRef<RoomCreateComponent>,
     private translateService: TranslateService,
     private authenticationService: AuthenticationService,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private languageService: LanguageService,
   ) {
+    this.languageService.getLanguage().subscribe(lang => this.translateService.use(lang));
   }
 
   ngOnInit() {
-    this.translateService.use(localStorage.getItem('currentLang'));
     this.authenticationService.watchUser.subscribe(newUser => this.user = newUser);
   }
 
-  resetEmptyInputs(): void {
-    this.emptyInputs = false;
-  }
-
   resetInvalidCharacters(): void {
-    if (this.customShortIdName) {
-      this.customShortIdName = this.customShortIdName.replace(/[^a-zA-Z0-9_\-.~]+/gi, '');
+    this.shortIdAlreadyUsed = false;
+    if (this.roomShortIdFormControl.value) {
+      this.roomShortIdFormControl.setValue(this.roomShortIdFormControl.value.replace(invalidRegex, ''));
     }
   }
 
-  checkLogin(longRoomName: string) {
+  verifyAlreadyUsed(c: FormControl) {
+    return this.shortIdAlreadyUsed ? {
+      shortId: {
+        valid: false
+      }
+    } : null;
+  }
+
+  checkLogin() {
     if (this.isLoading) {
+      return;
+    }
+    if (this.roomNameFormControl.value) {
+      this.roomNameFormControl.setValue(this.roomNameFormControl.value.trim());
+    }
+    if (this.roomNameFormControl.invalid) {
+      return;
+    }
+    if (this.hasCustomShortId && this.roomShortIdFormControl.invalid) {
       return;
     }
     this.isLoading = true;
     if (!this.user) {
       this.authenticationService.guestLogin(UserRole.CREATOR).subscribe(() => {
-        this.addRoom(longRoomName);
+        this.addRoom(this.roomNameFormControl.value);
       });
     } else {
-      this.addRoom(longRoomName);
+      this.addRoom(this.roomNameFormControl.value);
     }
   }
 
   addRoom(longRoomName: string) {
     longRoomName = longRoomName.trim();
     if (!longRoomName) {
-      this.emptyInputs = true;
+      this.isLoading = false;
       return;
     }
     const newRoom = new Room();
@@ -79,30 +105,17 @@ export class RoomCreateComponent implements OnInit {
     newRoom.description = '';
     newRoom.blacklist = '[]';
     newRoom.questionsBlocked = false;
-    newRoom.tags = defaultCategories[localStorage.getItem('currentLang')] || defaultCategories.default;
+    newRoom.tags = defaultCategories[this.languageService.currentLanguage()] || defaultCategories.default;
     newRoom.profanityFilter = ProfanityFilter.none;
-    if (this.hasCustomShortId && this.customShortIdName && this.customShortIdName.length > 0) {
-      if (!new RegExp('[1-9a-z,A-Z,\s,\-,\.,\_,\~]+').test(this.customShortIdName)
-        || this.customShortIdName.startsWith(' ') || this.customShortIdName.endsWith(' ')) {
-        this.shortIdCharInvalid = true;
-        return;
-      } else {
-        this.shortIdCharInvalid = false;
-      }
-      newRoom.shortId = this.customShortIdName;
-    } else {
-      newRoom.shortId = undefined;
-    }
+    newRoom.shortId = this.hasCustomShortId ? this.roomShortIdFormControl.value : undefined;
     this.roomService.addRoom(newRoom, () => {
       this.shortIdAlreadyUsed = true;
+      this.roomShortIdFormControl.updateValueAndValidity();
       this.isLoading = false;
     }).subscribe(room => {
       this.room = room;
-      let msg1: string;
-      let msg2: string;
-      this.translateService.get('home-page.created-1').subscribe(msg => msg1 = msg);
-      this.translateService.get('home-page.created-2').subscribe(msg => msg2 = msg);
-      this.notification.show(msg1 + longRoomName + msg2);
+      this.translateService.get('home-page.created', { longRoomName })
+        .subscribe(msg => this.notification.show(msg));
       this.authenticationService.setAccess(room.shortId, UserRole.CREATOR);
       this.authenticationService.assignRole(UserRole.CREATOR);
       this.router.navigate(['/creator/room/' + encodeURIComponent(room.shortId)]);
@@ -122,8 +135,8 @@ export class RoomCreateComponent implements OnInit {
   /**
    * Returns a lambda which executes the dialog dedicated action on call.
    */
-  buildRoomCreateActionCallback(room: HTMLInputElement): () => void {
-    return () => this.checkLogin(room.value);
+  buildRoomCreateActionCallback(): () => void {
+    return () => this.checkLogin();
   }
 
 

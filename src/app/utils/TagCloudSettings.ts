@@ -2,9 +2,6 @@ import { Room } from '../models/room';
 import { CloudParameters } from './cloud-parameters';
 import { TopicCloudAdminData } from '../components/shared/_dialogs/topic-cloud-administration/TopicCloudAdminData';
 import { TopicCloudAdminService } from '../services/util/topic-cloud-admin.service';
-import {
-  BrainstormingSettings
-} from '../components/shared/_dialogs/topic-cloud-brainstorming/topic-cloud-brainstorming.component';
 
 const CURRENT_VERSION = 1;
 
@@ -13,7 +10,6 @@ export class TagCloudSettings {
   constructor(
     public adminData: TopicCloudAdminData,
     public settings: CloudParameters,
-    public brainstorming: BrainstormingSettings,
   ) {
   }
 
@@ -26,28 +22,20 @@ export class TagCloudSettings {
       room.tagCloudSettings = null;
       return null;
     }
-    const { admin, cloud, brainstorming } = object;
-    return new TagCloudSettings(admin as TopicCloudAdminData, new CloudParameters(cloud), brainstorming);
+    const { admin, cloud } = object;
+    return new TagCloudSettings(admin as TopicCloudAdminData, new CloudParameters(cloud));
   }
 
-  static getDefault(brainstorming?: BrainstormingSettings): TagCloudSettings {
+  static getCurrent(isCurrentlyDark: boolean): TagCloudSettings {
     return new TagCloudSettings(TopicCloudAdminService.getDefaultAdminData,
-      CloudParameters.currentParameters, brainstorming);
-  }
-
-  static getDefaultByRoom(room: Room): TagCloudSettings {
-    return this.getDefault(JSON.parse(room.tagCloudSettings || null)?.brainstorming);
+      CloudParameters.getCurrentParameters(isCurrentlyDark));
   }
 
   applyToRoom(room: Room) {
-    const obj: any = {
+    room.tagCloudSettings = JSON.stringify({
       version: CURRENT_VERSION,
       admin: this.adminData,
       cloud: this.settings
-    };
-    if (this.brainstorming) {
-      obj.brainstorming = this.brainstorming;
-    }
-    room.tagCloudSettings = JSON.stringify(obj);
+    });
   }
 }

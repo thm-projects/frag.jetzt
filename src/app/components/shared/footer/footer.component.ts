@@ -1,7 +1,7 @@
-import { LanguageService } from '../../../services/util/language.service';
+import { Language, LanguageService } from '../../../services/util/language.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NotificationService } from '../../../services/util/notification.service';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthenticationService } from '../../../services/http/authentication.service';
@@ -19,6 +19,20 @@ import { StyleService } from '../../../../../projects/ars/src/lib/style/style.se
 import { MotdService } from '../../../services/http/motd.service';
 import { MotdDialogComponent } from '../_dialogs/motd-dialog/motd-dialog.component';
 import { MatMenu } from '@angular/material/menu';
+import { DeviceInfoService } from '../../../services/util/device-info.service';
+import { ComponentType } from '@angular/cdk/overlay';
+import {
+  IntroductionRoomListComponent
+} from '../_dialogs/introductions/introduction-room-list/introduction-room-list.component';
+import {
+  IntroductionRoomPageComponent
+} from '../_dialogs/introductions/introduction-room-page/introduction-room-page.component';
+import {
+  IntroductionCommentListComponent
+} from '../_dialogs/introductions/introduction-comment-list/introduction-comment-list.component';
+import {
+  IntroductionModerationComponent
+} from '../_dialogs/introductions/introduction-moderation/introduction-moderation.component';
 
 @Component({
   selector: 'app-footer',
@@ -28,31 +42,31 @@ import { MatMenu } from '@angular/material/menu';
 export class FooterComponent implements OnInit {
 
   @ViewChild('langMenu') langaugeMenu: MatMenu;
-
   public demoId = 'Feedback';
-
   public room: Room;
   public user: User;
-
   public open: string;
-  public deviceType: string;
-  public cookieAccepted: boolean;
-  public dataProtectionConsent: boolean;
-
-  public themeClass = localStorage.getItem('theme');
-
   public themes: Theme[];
 
-  constructor(public notificationService: NotificationService,
-              public router: Router,
-              public dialog: MatDialog,
-              private translateService: TranslateService,
-              private langService: LanguageService,
-              public authenticationService: AuthenticationService,
-              private themeService: ThemeService,
-              private styleService: StyleService,
-              private motdService: MotdService) {
-    langService.langEmitter.subscribe(lang => translateService.use(lang));
+  public get tourSite() {
+    return this._tourSite;
+  }
+
+  private _tourSite: ComponentType<any>;
+
+  constructor(
+    public notificationService: NotificationService,
+    public router: Router,
+    public dialog: MatDialog,
+    private translateService: TranslateService,
+    public langService: LanguageService,
+    public authenticationService: AuthenticationService,
+    public themeService: ThemeService,
+    private styleService: StyleService,
+    private motdService: MotdService,
+    public deviceInfo: DeviceInfoService,
+  ) {
+    langService.getLanguage().subscribe(lang => translateService.use(lang));
   }
 
   ngOnInit() {
@@ -67,32 +81,48 @@ export class FooterComponent implements OnInit {
         dialogRef.componentInstance.motdsList = e;
       });
     });
-    this.deviceType = localStorage.getItem('deviceType');
-    this.styleService.setColor(this.themeService.getThemeByKey(this.themeClass).isDark);
-    this.translateService.use(localStorage.getItem('currentLang'));
     this.translateService.get('footer.open').subscribe(message => {
       this.open = message;
     });
     this.themes = this.themeService.getThemes();
-    this.updateScale(this.themeService.getThemeByKey(this.themeClass).getScale(this.deviceType));
-    this.cookieAccepted = localStorage.getItem('cookieAccepted') === 'true';
-    this.dataProtectionConsent = localStorage.getItem('dataProtectionConsent') === 'true';
-
-    if (!localStorage.getItem('cookieAccepted')) {
-      this.showCookieModal();
-    } else {
-      if (!this.cookieAccepted || !this.dataProtectionConsent) {
-        this.showOverlay();
+    this.updateScale(this.themeService.currentTheme.getScale(this.deviceInfo.isCurrentlyMobile ? 'mobile' : 'desktop'));
+    this.router.events.subscribe(e => {
+      if (e instanceof NavigationEnd) {
+        const url = decodeURI(this.router.url).toLowerCase();
+        const roleRegex = '/(creator|moderator|participant)';
+        const roomRegex = '/room/[^/]{3,}';
+        if (url === '/user') {
+          this._tourSite = IntroductionRoomListComponent;
+        } else if (url.match(new RegExp(`^${roleRegex}${roomRegex}$`))) {
+          this._tourSite = IntroductionRoomPageComponent;
+        } else if (url.match(new RegExp(`^${roleRegex}${roomRegex}/comments$`))) {
+          this._tourSite = IntroductionCommentListComponent;
+        } else if (url.match(new RegExp(`^${roleRegex}${roomRegex}/moderator/comments$`))) {
+          this._tourSite = IntroductionModerationComponent;
+        } else {
+          this._tourSite = null;
+        }
       }
+    });
+    if (localStorage.getItem('cookieAccepted') !== 'true') {
+      this.showCookieModal();
     }
   }
 
   showDemo() {
-    const dialogRef = this.dialog.open(DemoVideoComponent, {
+    this.dialog.open(DemoVideoComponent, {
       width: '80%',
       maxWidth: '600px'
     });
-    dialogRef.componentInstance.deviceType = this.deviceType;
+  }
+
+  showCurrentTour() {
+    if (!this._tourSite) {
+      return;
+    }
+    this.dialog.open(this._tourSite, {
+      autoFocus: false
+    });
   }
 
   showCookieModal() {
@@ -103,10 +133,7 @@ export class FooterComponent implements OnInit {
 
     });
     dialogRef.disableClose = true;
-    dialogRef.componentInstance.deviceType = this.deviceType;
     dialogRef.afterClosed().subscribe(res => {
-      this.cookieAccepted = res;
-      this.dataProtectionConsent = res;
       if (!res) {
         this.showOverlay();
       }
@@ -114,48 +141,38 @@ export class FooterComponent implements OnInit {
   }
 
   showImprint() {
-    const dialogRef = this.dialog.open(ImprintComponent, {
+    this.dialog.open(ImprintComponent, {
       width: '80%',
       maxWidth: '600px'
     });
-    dialogRef.componentInstance.deviceType = this.deviceType;
   }
 
   showDataProtection() {
-    const dialogRef = this.dialog.open(DataProtectionComponent, {
+    this.dialog.open(DataProtectionComponent, {
       width: '80%',
       maxWidth: '600px'
     });
-    dialogRef.componentInstance.deviceType = this.deviceType;
 
   }
 
   showOverlay() {
     const dialogRef = this.dialog.open(OverlayComponent, {});
-    dialogRef.componentInstance.deviceType = this.deviceType;
     dialogRef.disableClose = true;
     dialogRef.afterClosed().subscribe(res => {
-      if (res) {
-        if (!this.cookieAccepted) {
-          this.showCookieModal();
-        } else if (!this.dataProtectionConsent) {
-          this.showDataProtection();
-        }
+      if (res && localStorage.getItem('cookieAccepted') !== 'true') {
+        this.showCookieModal();
       }
     });
   }
 
-  useLanguage(language: string) {
+  useLanguage(language: Language) {
     this.translateService.use(language);
-    localStorage.setItem('currentLang', language);
-    this.langService.langEmitter.emit(language);
+    this.langService.setLanguage(language);
   }
 
   changeTheme(theme: Theme) {
-    this.themeClass = theme.key;
     this.themeService.activate(theme.key);
-    this.updateScale(theme.getScale(this.deviceType));
-    this.styleService.setColor(theme.isDark);
+    this.updateScale(theme.getScale(this.deviceInfo.isCurrentlyMobile ? 'mobile' : 'desktop'));
   }
 
   updateScale(scale: number) {
@@ -163,14 +180,10 @@ export class FooterComponent implements OnInit {
     AppComponent.rescale.setDefaultScale(scale);
   }
 
-  getLanguage(): string {
-    return localStorage.getItem('currentLang');
-  }
-
   openMenu() {
-    if (this.getLanguage() === 'de') {
+    if (this.langService.currentLanguage() === 'de') {
       this.langaugeMenu._allItems.get(0).focus();
-    } else if (this.getLanguage() === 'en') {
+    } else if (this.langService.currentLanguage() === 'en') {
       this.langaugeMenu._allItems.get(1).focus();
     }
   }

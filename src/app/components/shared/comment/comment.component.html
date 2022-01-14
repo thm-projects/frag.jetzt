@@ -1,22 +1,15 @@
 <mat-card id="comment-card"
           class="border"
-          [ngClass]="{'highlighted': comment.highlighted, '': !comment.highlighted,
-          'moderator': moderator,
-          'border-notMarked': user !== undefined && comment.correct === 0 && comment.bookmark === false && comment.favorite === false && !comment.answer && comment.creatorId !== user.id,
-          'border-ownQuestion': user !== undefined && comment.creatorId === user.id && comment.correct === 0 && comment.bookmark === false && comment.favorite === false && !comment.answer,
-          'border-correct': comment.correct === 1,
-          'border-wrong': comment.correct === 2,
-          'border-answer': comment.answer && comment.bookmark === false && comment.favorite === false,
-          'border-bookmark': comment.bookmark === true,
-          'border-favorite': comment.favorite === true,
-          'border-fromModerator': isFromModerator,
-          'border-fromOwner': isFromOwner
-          }"
+          [class.highlighted]="comment.highlighted"
+          [class.moderator]="moderator"
+          [ngClass]="getBorderClass()"
           [@slide]="slideAnimationState"
           (@slide.done)="changeSlideState()">
+  <div class="color-tooltip"
+       [matTooltip]="'comment-page.border-tooltip-' + getBorderClass() | translate"></div>
   <div class="runningnum-outer">
     <p>
-      <mat-icon *ngIf="commentIcon">{{commentIcon}}</mat-icon>
+      <mat-icon *ngIf="getCommentIcon() as icon" [class]="getCommentIconClass()">{{icon}}</mat-icon>
       {{comment.number}}
     </p>
   </div>
@@ -50,7 +43,7 @@
           <mat-icon class="not-marked material-icons-outlined"
                     [matTooltip]="filterProfanityForModerators ? ('comment-page.show-comment-with-filter' | translate) :
             ('comment-page.show-comment-without-filter' | translate)">
-            {{filterProfanityForModerators ? 'visibility' : 'visibility_off'}}
+            {{filterProfanityForModerators ? 'visibility_off' : 'visibility'}}
           </mat-icon>
         </button>
         <button mat-icon-button
@@ -90,12 +83,12 @@
           </mat-icon>
         </button>
         <button mat-icon-button
-                *ngIf="!isStudent && !moderator"
+                *ngIf="!isStudent"
                 [disabled]="isStudent"
                 (click)="setFavorite(comment)"
                 tabindex="0"
                 attr.aria-labelledby="comment_grade{{ comment.id }}">
-          <mat-icon class="material-icons-outlined"
+          <mat-icon class="material-icons-round"
                     [ngClass]="{'favorite-icon' : comment.favorite, 'not-marked' : !comment.favorite}"
                     [matTooltip]="!comment.favorite ? ('comment-page.mark-favorite' | translate)
                                                  : ('comment-page.mark-not-favorite' | translate)">grade
@@ -105,7 +98,7 @@
                 *ngIf="(comment.favorite && isStudent && !(comment.creatorId && user && comment.creatorId === user.id))"
                 tabindex="0"
                 attr.aria-labelledby="comment_grade{{ comment.id }}">
-          <mat-icon class="material-icons-outlined"
+          <mat-icon class="material-icons-round"
                     [ngClass]="{'favorite-icon' : comment.favorite, 'not-marked' : !comment.favorite}"
                     [matTooltip]="!comment.favorite ? ('comment-page.mark-favorite' | translate)
                                                  : ('comment-page.mark-not-favorite' | translate)">grade
@@ -116,156 +109,46 @@
                 (click)="openBonusStarDialog()"
                 tabindex="0"
                 attr.aria-labelledby="comment_grade{{ comment.id }}">
-          <mat-icon class="material-icons-outlined"
+          <mat-icon class="material-icons-round"
                     [ngClass]="{'favorite-icon' : comment.favorite, 'not-marked' : !comment.favorite}"
                     [matTooltip]="!comment.favorite ? ('comment-page.mark-favorite' | translate)
                                                  : ('comment-page.mark-not-favorite' | translate)">grade
           </mat-icon>
         </button>
         <button mat-icon-button
-                *ngIf="(!isStudent || comment.bookmark) && !moderator"
-                [disabled]="isStudent"
+                *ngIf="!moderator"
                 (click)="setBookmark(comment)"
                 tabindex="0"
                 attr.aria-labelledby="comment_grade{{ comment.id }}">
           <mat-icon [ngClass]="{'bookmark-icon' : comment.bookmark, 'not-marked' : !comment.bookmark} "
                     [matTooltip]="!comment.bookmark ? ('comment-page.mark-bookmark' | translate)
-                                                      : ('comment-page.mark-not-bookmark' | translate)">bookmark_border
+                                                      : ('comment-page.mark-not-bookmark' | translate)">bookmark
           </mat-icon>
         </button>
       </ng-container>
 
       <button mat-icon-button
-              class="delete-own-comment material-icons-outlined"
-              *ngIf="(isStudent && (comment.creatorId && user && comment.creatorId === user.id)) && (!comment.bookmark || !comment.favorite || !comment.correct || !comment.answer)"
+              *ngIf="roomTags?.length && (isCreator || isModerator || comment.creatorId === user?.id)"
+              (click)="openChangeCommentTagDialog()"
+              tabindex="0">
+        <mat-icon class="not-marked"
+                  [matTooltip]="'comment-page.edit-change-tag' | translate">
+          style
+        </mat-icon>
+      </button>
+
+      <button mat-icon-button
+              *ngIf="(isCreator || comment.creatorId && user && comment.creatorId === user.id) && !comment.favorite"
               (click)="openDeleteCommentDialog()"
               tabindex="0"
               attr.aria-labelledby="comment_delete{{ comment.id }}"
       >
-        <mat-icon class="material-icons-outlined"
-                  matTooltip="{{ 'comment-page.delete-own-question' | translate }}">
-          delete_sweep
+        <mat-icon class="not-marked material-icons-outlined"
+                  matTooltip="{{ 'comment-page.delete-question' | translate }}">
+          delete
         </mat-icon>
       </button>
 
-      <ng-container *ngIf="!isStudent">
-        <button mat-icon-button
-                class="edit-button"
-                [mat-menu-trigger-for]="editMenu">
-          <mat-icon matTooltip="{{ 'comment-page.edit-menu' | translate }}">more_vert</mat-icon>
-        </button>
-        <mat-menu #editMenu>
-          <button mat-menu-item
-                  *ngIf="(isCreator || isModerator || comment.answer) && !inAnswerView"
-                  (click)="answerComment()"
-                  tabindex="0"
-                  attr.aria-labelledby="comment_answer{{ comment.id }}"
-          >
-            <mat-icon class="not-marked"
-                      [ngClass]="{'answered-icon' : comment.answer}">
-              comment
-            </mat-icon>
-            <span>
-              {{
-              comment.answer ?
-                ('comment-page.edit-answer-edit' | translate) :
-                ('comment-page.edit-answer-create' | translate)
-              }}
-            </span>
-          </button>
-          <button mat-menu-item
-                  *ngIf="(!isStudent || comment.correct === 1) && !moderator"
-                  [disabled]="isStudent"
-                  (click)="markCorrect(comment, 1)"
-                  tabindex="0"
-                  attr.aria-labelledby="comment_correct{{ comment.id }}"
-          >
-            <mat-icon [ngClass]="{'correct-icon' : comment.correct === 1,
-                              'not-marked' : (comment.correct === 0 || comment.correct === 2)}">
-              done
-            </mat-icon>
-            <span>
-              {{
-              comment.correct !== 1 ?
-                ('comment-page.edit-correct' | translate) :
-                ('comment-page.edit-correct-reset' | translate)
-              }}
-            </span>
-          </button>
-          <button mat-menu-item
-                  *ngIf="(!isStudent || comment.correct === 2) && !moderator"
-                  [disabled]="isStudent"
-                  (click)="markCorrect(comment, 2)"
-                  tabindex="0"
-                  attr.aria-labelledby="comment_not_correct{{ comment.id }}"
-          >
-            <mat-icon [ngClass]="{'wrong-icon' : comment.correct === 2,
-                              'not-marked' : (comment.correct === 0 || comment.correct === 1)}">
-              clear
-            </mat-icon>
-            <span>
-              {{
-              comment.correct != 2 ?
-                ('comment-page.edit-wrong' | translate) :
-                ('comment-page.edit-wrong-reset' | translate)
-              }}
-            </span>
-          </button>
-          <button mat-menu-item
-                  *ngIf="(!isStudent || comment.favorite) && !moderator"
-                  [disabled]="isStudent"
-                  (click)="setFavorite(comment)"
-                  tabindex="0"
-                  attr.aria-labelledby="comment_grade{{ comment.id }}"
-          >
-            <mat-icon class="material-icons-outlined"
-                      [ngClass]="{'favorite-icon' : comment.favorite, 'not-marked' : !comment.favorite}">
-              grade
-            </mat-icon>
-            <span>
-              {{
-              !comment.favorite ?
-                ('comment-page.edit-favorite' | translate) :
-                ('comment-page.edit-favorite-reset' | translate)
-              }}
-            </span>
-          </button>
-          <button mat-menu-item
-                  *ngIf="(!isStudent || comment.bookmark) && !moderator"
-                  [disabled]="isStudent"
-                  (click)="setBookmark(comment)"
-                  tabindex="0"
-                  attr.aria-labelledby="comment_grade{{ comment.id }}"
-          >
-            <mat-icon [ngClass]="{'bookmark-icon' : comment.bookmark, 'not-marked' : !comment.bookmark}">
-              bookmark_border
-            </mat-icon>
-            <span>
-              {{
-              !comment.bookmark ?
-                ('comment-page.edit-bookmark' | translate) :
-                ('comment-page.edit-bookmark-reset' | translate)
-              }}
-            </span>
-          </button>
-          <button mat-menu-item
-                  *ngIf="(isCreator || (comment.creatorId && user && comment.creatorId === user.id)) && !comment.favorite && !inAnswerView"
-                  (click)="openDeleteCommentDialog()"
-                  tabindex="0"
-                  attr.aria-labelledby="comment_delete{{ comment.id }}"
-          >
-            <mat-icon class="not-marked material-icons-outlined"
-                      matTooltip="{{ 'comment-page.delete-own-question' | translate }}">
-              delete_sweep
-            </mat-icon>
-            <span>
-              {{
-              'comment-page.edit-delete' | translate
-              }}
-            </span>
-          </button>
-        </mat-menu>
-      </ng-container>
     </div>
     <div fxLayout="row">
       <div class="body click"
@@ -353,7 +236,7 @@
            appJoyrideTemplate
            fxLayoutAlign="center center"
            matTooltip="{{ 'comment-page.user-number' | translate }}"
-           (click)="this.clickedUserNumber.emit(comment.userNumber)">
+           (click)="this.clickedUserNumber.emit(comment.creatorId)">
         <mat-icon class="user-icon material-icons-outlined">person_pin_circle</mat-icon>
         <span matBadge="{{commentsWrittenByUser}}"
               matBadgeSize="small"
@@ -363,7 +246,7 @@
       <div fxLayoutAlign="center center"
            matTooltip="{{ 'comment-page.keywords-per-question' | translate }}"
            [mat-menu-trigger-for]="keywordsMenu"
-           *ngIf="(comment.keywordsFromQuestioner != undefined && comment.keywordsFromQuestioner.length > 0)"
+           *ngIf="comment.keywordsFromQuestioner?.length"
            class="comment-keywords">
         <mat-icon svgIcon="hashtag"
                   class="keyword-icon"></mat-icon>
@@ -372,10 +255,31 @@
               matBadgeOverlap="false">
         </span>
         <mat-menu #keywordsMenu>
-          <mat-list dense
-                    class="keywords-list">
+          <mat-list dense class="keywords-list">
             <mat-list-item
               *ngFor="let keyword of sortKeywords(comment.keywordsFromQuestioner); let odd = odd; let even = even"
+              [class.keywords-alternate]="odd"
+              [class.keywords-even]="even">
+              <span (click)="this.clickedOnKeyword.emit(keyword.text)"
+                    class="keyword-span">{{keyword.text}}</span>
+            </mat-list-item>
+          </mat-list>
+        </mat-menu>
+      </div>
+      <div fxLayoutAlign="center center"
+           matTooltip="{{ 'comment-page.keywords-per-answer' | translate }}"
+           [mat-menu-trigger-for]="keywordsMenuAnswer"
+           *ngIf="comment.answerFulltextKeywords?.length"
+           class="comment-keywords">
+        <mat-icon class="keyword-answer-icon material-icons-outlined">tag</mat-icon>
+        <span matBadge="{{comment.answerQuestionerKeywords.length}}"
+              matBadgeSize="small"
+              matBadgeOverlap="false">
+        </span>
+        <mat-menu #keywordsMenuAnswer>
+          <mat-list dense class="keywords-list">
+            <mat-list-item
+              *ngFor="let keyword of sortKeywords(comment.answerQuestionerKeywords); let odd = odd; let even = even"
               [class.keywords-alternate]="odd"
               [class.keywords-even]="even">
               <span (click)="this.clickedOnKeyword.emit(keyword.text)"
@@ -388,11 +292,20 @@
       <span class="fill-remaining-space"></span>
       <div fxLayoutAlign="center center"
            matTooltip="{{ 'comment-page.questioner-name' | translate }}"
-           *ngIf="comment.questionerName"
+           *ngIf="comment.questionerName && (deviceInfo.isCurrentlyDesktop || comment.questionerName.length < 21)"
            class="questioner-name">
         <mat-icon class="material-icons-outlined">account_circle</mat-icon>
         <span style="padding-left: 5px">
           {{comment.questionerName}}
+        </span>
+      </div>
+      <div fxLayoutAlign="center center"
+           matTooltip="{{ 'comment-page.questioner-name' | translate }} ({{comment.questionerName}})"
+           *ngIf="comment.questionerName && deviceInfo.isCurrentlyMobile && comment.questionerName.length > 20"
+           class="questioner-name">
+        <mat-icon class="material-icons-outlined">account_circle</mat-icon>
+        <span style="padding-left: 5px">
+          {{comment.questionerName.substr(0, 20)}}…
         </span>
       </div>
       <button mat-icon-button

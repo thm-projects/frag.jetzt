@@ -1,4 +1,5 @@
 @use "sass:math";
+
 $popup-arrow-size: 20px;
 $popup-arrow-border-size: 2px;
 $popup-arrow-half-size: math.div($popup-arrow-size, 2);
@@ -113,7 +114,6 @@ span {
 
   & > p {
     display: inline;
-    font-weight: 600;
     vertical-align: middle;
   }
 }
@@ -128,6 +128,34 @@ button {
   margin-left: 0;
   padding-left: 10px;
   padding-right: 10px;
+}
+
+.vote-button {
+  background-color: var(--primary);
+  color: var(--on-primary);
+  min-width: 30px !important;
+  min-height: 10px !important;
+  width: calc(50% - 1em);
+  z-index: 3;
+  margin: 0.5em;
+
+  &.active {
+    background-color: var(--secondary);
+    color: var(--on-secondary);
+
+    &.downvote {
+      background-color: var(--red);
+      color: var(--white);
+    }
+  }
+
+  span {
+    margin: 0 5px;
+
+    > mat-icon {
+      margin: 0 0.2em;
+    }
+  }
 }
 
 .replace-button {

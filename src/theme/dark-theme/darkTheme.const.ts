@@ -9,7 +9,7 @@ export const dark = {
   '--background': '#121212',
   '--surface': '#052338',
   '--dialog': '#09394f',
-  '--cancel': 'Firebrick',
+  '--cancel': 'red',
   '--alt-surface': '#323232',
   '--alt-dialog': '#455a64',
 
@@ -19,20 +19,24 @@ export const dark = {
   '--on-background': '#eadabf',
   '--on-surface': '#eadabf',
   '--on-dialog': '#eadabf',
-  '--on-cancel': '#000000',
+  '--on-cancel': 'black',
 
   '--green': 'darkgreen',
-  '--red': 'firebrick',
+  '--red': 'red',
   '--white': '#ffffff',
   '--yellow': 'yellow',
   '--blue': '#3f51b5',
-  '--purple': '#9c27b0',
+  '--purple': 'purple',
   '--magenta': '#ea0a8e',
   '--light-green': 'lightgreen',
   '--grey': 'slategrey',
   '--grey-light': '#9E9E9E',
   '--black': 'black',
-  '--moderator': 'black'
+  '--moderator': 'black',
+
+  '--questionwall-intro-primary':'yellow',
+  '--questionwall-intro-secondary':'#eadabf',
+  '--questionwall-intro-background':'#121212'
 
 };
 

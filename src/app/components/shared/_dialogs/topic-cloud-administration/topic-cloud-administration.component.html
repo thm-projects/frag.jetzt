@@ -453,7 +453,7 @@
         <mat-icon>search</mat-icon>
       </mat-label>
       <div style="margin-left: 10px; margin-top: 6px;">
-        <mat-form-field [ngClass]="{'search': searchMode, 'smallerInput': deviceType === 'mobile'}">
+        <mat-form-field [ngClass]="{'search': searchMode, 'smallerInput': deviceInfo.isCurrentlyMobile}">
           <input #searchBox
                  class="searchBox"
                  (input)="searchKeyword()"

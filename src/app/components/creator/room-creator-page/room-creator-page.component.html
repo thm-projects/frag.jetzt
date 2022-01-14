@@ -61,7 +61,7 @@
           <button mat-menu-item
                   (click)="showBonusTokenDialog()"
                   aria-labelledby="person">
-            <mat-icon class="star material-icons-outlined">grade</mat-icon>
+            <mat-icon class="star material-icons-round">grade</mat-icon>
             {{ 'room-page.bonus-token' | translate}}
           </button>
           <button mat-menu-item
@@ -91,7 +91,7 @@
                     aria-labelledby="question_answer">
               <mat-icon matBadge="{{commentCounter > 0 ? commentCounter : null}}"
                         class="main-icon material-icons-outlined"
-                        [ngClass]="{'smallerIcon' : deviceType === 'mobile'}"
+                        [ngClass]="{'smallerIcon' : deviceInfo.isCurrentlyMobile}"
                         matTooltip="{{ 'room-page.session-question-board' | translate}}">forum
               </mat-icon>
               <h3>{{ 'room-page.comments' | translate}}</h3>
@@ -103,10 +103,10 @@
                     [disableRipple]="true"
                     routerLink="/moderator/room/{{ room.shortId }}/moderator/comments"
                     aria-labelledby="gavel">
-              <mat-icon style="color: red"
+              <mat-icon style="color: var(--red)"
                         matBadge="{{moderatorCommentCounter > 0 ? moderatorCommentCounter : null}}"
                         class="main-icon material-icons-round"
-                        [ngClass]="{'smallerIcon' : deviceType === 'mobile'}"
+                        [ngClass]="{'smallerIcon' : deviceInfo.isCurrentlyMobile}"
                         matTooltip="{{ 'room-page.session-moderation-board' | translate}}">gavel
               </mat-icon>
               <h3>{{ 'room-page.moderating-stream' | translate}}</h3>

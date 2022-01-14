@@ -5,8 +5,7 @@
 }
 
 mat-toolbar {
-  background-color: transparent;
-  box-shadow: none;
+  background-color: var(--background);
   position: relative;
 }
 
@@ -16,7 +15,7 @@ mat-toolbar {
 }
 
 mat-toolbar-row {
-  padding: 0 5px;
+  padding: 0 15px 0 5px;
 }
 
 .header-icons {
@@ -137,7 +136,7 @@ svg {
 }
 
 .color-warn {
-  color: red !important;
+  color: var(--red) !important;
 }
 
 .beamer-icon {
@@ -175,7 +174,7 @@ svg {
 }
 
 h1 {
-  color: red;
+  color: var(--red);
 }
 
 ::ng-deep #cdk-overlay-0 .mat-menu-content > button:hover mat-icon {

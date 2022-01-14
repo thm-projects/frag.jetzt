@@ -1,3 +1,5 @@
+@import "src/layout/laout-util";
+
 h2 {
   margin-bottom: 10px;
 }
@@ -38,5 +40,27 @@ mat-form-field {
   padding-left: 3%;
   &:nth-child(even) {
     background-color: var(--alt-dialog);
+  }
+}
+
+.action-button-container {
+  @include onSmallWidth {
+    overflow: auto;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column !important;
+    flex-wrap: wrap;
+    align-items: flex-end;
+  }
+}
+
+.help-button {
+  background-color: var(--green);
+  color: var(--white);
+  margin-top: 1rem;
+
+  .mat-icon {
+    font-size: 18px;
+    margin-top: 3px;
   }
 }

@@ -1,3 +1,5 @@
+@import "src/layout/laout-util";
+
 ::ng-deep {
   mat-radio-button {
     width: 100%;
@@ -13,7 +15,7 @@
 }
 
 .action-button-container {
-  @media screen and (max-width: 500px) {
+  @include onSmallWidth {
     overflow: auto;
     display: flex;
     justify-content: space-between;
@@ -24,8 +26,8 @@
 }
 
 .help-button {
-  background-color: var(--secondary);
-  color: var(--on-secondary);
+  background-color: var(--green);
+  color: var(--white);
   margin-top: 1rem;
 
   .mat-icon {

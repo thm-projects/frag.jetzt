@@ -9,7 +9,7 @@
   </div>
 </div>
 
-<div *ngIf="roomsWithRole">
+<div *ngIf="roomsWithRole && tableDataSource">
 
   <div *ngIf="tableDataSource.data.length === 0"
        aria-labelledby="emptySessionHistoryLabel">
@@ -47,7 +47,7 @@
               mat-sort-header
               sortActionDescription="Sort by name"
               *matHeaderCellDef
-              style="width: 40%; padding-right: 35px">
+              style="width: 41%; padding-right: 0">
             {{ 'room-list.panel-session-name' | translate }}
           </th>
           <td mat-cell
@@ -71,7 +71,7 @@
               mat-sort-header
               sortActionDescription="Sort by shortId"
               *matHeaderCellDef
-              style="width: 35%">
+              style="width: 41%">
             {{ 'room-list.panel-session-id' | translate }}
           </th>
           <td mat-cell
@@ -86,7 +86,7 @@
                       matTooltip="{{ 'header.questions-blocked' | translate}}">
               comments_disabled
             </mat-icon>
-            <mat-icon *ngIf= "!room.directSend"
+            <mat-icon *ngIf="!room.directSend"
                       class="warn material-icons-round"
                       [inline]="true"
                       matTooltip="{{ 'header.moderation-enabled' | translate}}">
@@ -102,7 +102,7 @@
               mat-sort-header
               sortActionDescription="Sort by role"
               *matHeaderCellDef
-              style="width: 25%">
+              style="width: 17%">
             {{ 'room-list.panel-user-role' | translate }}
           </th>
           <td mat-cell
@@ -115,9 +115,10 @@
                       mat-list-icon
                       *ngSwitchCase="creatorRole"
                       title="{{ 'room-list.creator-role' | translate }}">
-              mic_external_on
+              mic
             </mat-icon>
-            <mat-icon class="material-icons-outlined" mat-list-icon
+            <mat-icon class="material-icons-outlined"
+                      mat-list-icon
                       *ngSwitchCase="participantRole"
                       title="{{ 'room-list.participant-role' | translate }}">
               group
@@ -135,7 +136,7 @@
         <ng-container matColumnDef="button">
           <th mat-header-cell
               *matHeaderCellDef
-              style="width: 5%; text-align: end">
+              style="width: 1%; text-align: end">
             {{ 'room-list.panel-join-button' | translate }}
           </th>
           <td mat-cell

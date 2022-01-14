@@ -13,6 +13,7 @@ import { SpacyKeyword } from '../../../../services/http/spacy.service';
 import { Router } from '@angular/router';
 import { Room } from '../../../../models/room';
 import { SessionService } from '../../../../services/util/session.service';
+import { BrainstormingService } from '../../../../services/http/brainstorming.service';
 
 const CLOSE_TIME = 1500;
 
@@ -37,19 +38,24 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
   selectedLang: Language = 'en-US';
   spellingData: string[] = [];
   isBlacklistActive = true;
+  isBrainstorming = false;
   private _popupHoverTimer;
   private _popupCloseTimer;
   private _hasLeft = true;
+  private _isSending = false;
 
-  constructor(private langService: LanguageService,
-              private translateService: TranslateService,
-              private tagCloudDataService: TagCloudDataService,
-              private languagetoolService: LanguagetoolService,
-              private commentService: CommentService,
-              private sessionService: SessionService,
-              private router: Router,
-              private notificationService: NotificationService) {
-    this.langService.langEmitter.subscribe(lang => {
+  constructor(
+    private langService: LanguageService,
+    private translateService: TranslateService,
+    private tagCloudDataService: TagCloudDataService,
+    private languagetoolService: LanguagetoolService,
+    private commentService: CommentService,
+    private sessionService: SessionService,
+    private router: Router,
+    private notificationService: NotificationService,
+    private brainstormingService: BrainstormingService,
+  ) {
+    this.langService.getLanguage().subscribe(lang => {
       this.translateService.use(lang);
     });
   }
@@ -83,7 +89,23 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
     this.close();
   }
 
-  enter(elem: HTMLElement, tag: string, showReal: boolean,
+  getBrainstormingVotes(): number {
+    const votes = this.room.brainstormingSession.votesForWords?.[this.tag];
+    return (votes?.upvotes || 0) - (votes?.downvotes || 0);
+  }
+
+  getOwnVote(): number {
+    const vote = this.room.brainstormingSession.votesForWords?.[this.tag]?.ownHasUpvoted;
+    if (vote === true) {
+      return 1;
+    } else if (vote === false) {
+      return -1;
+    } else { //undefined or null
+      return 0;
+    }
+  }
+
+  enter(elem: HTMLElement, tag: string, isBrainstorming: boolean,
         tagData: TagCloudDataTagEntry, hoverDelayInMs: number, isBlacklistActive: boolean): void {
     if (!elem) {
       return;
@@ -109,11 +131,12 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
     this._hasLeft = true;
     this._popupHoverTimer = setTimeout(() => {
       this.tag = tag;
-      this.previousTag = showReal && elem.innerText;
-      this.elem = showReal && elem;
-      if (showReal) {
+      this.previousTag = isBrainstorming && elem.innerText;
+      this.elem = isBrainstorming && elem;
+      if (isBrainstorming) {
         elem.innerText = this.tag;
       }
+      this.isBrainstorming = isBrainstorming;
       this.tagData = tagData;
       this.categories = Array.from(tagData.categories.keys());
       this.calculateDateText(() => {
@@ -198,6 +221,69 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
     if (e.key === 'Enter') {
       this.updateTag();
     }
+  }
+
+  getTooltip(str: string): string {
+    return this.isBrainstorming ? str + '-brainstorming' : str;
+  }
+
+  onBrainstormVote(upvote: boolean) {
+    if (this._isSending) {
+      return;
+    }
+    this._isSending = true;
+    const currentVote = upvote ? 1 : -1;
+    const lastVote = this.getOwnVote();
+    if (currentVote === lastVote) {
+      this.setOwnVote(0);
+      this.brainstormingService.deleteVote(this.room.brainstormingSession.id, this.tag)
+        .subscribe({
+          next: _ => this._isSending = false,
+          error: _ => {
+            this.setOwnVote(lastVote);
+            this._isSending = false;
+          }
+        });
+      return;
+    }
+    this.setOwnVote(currentVote);
+    this.brainstormingService.createVote(this.room.brainstormingSession.id, this.tag, upvote)
+      .subscribe({
+        next: _ => this._isSending = false,
+        error: _ => {
+          this.setOwnVote(lastVote);
+          this._isSending = false;
+        }
+      });
+  }
+
+  private setOwnVote(vote: number) {
+    let upvote = true;
+    if (vote === 0) {
+      upvote = undefined;
+    } else if (vote === -1) {
+      upvote = false;
+    }
+    if (!this.room.brainstormingSession.votesForWords) {
+      this.room.brainstormingSession.votesForWords = {
+        [this.tag]: {
+          upvotes: 0,
+          downvotes: 0,
+          ownHasUpvoted: upvote
+        }
+      };
+      return;
+    }
+    const previous = this.room.brainstormingSession.votesForWords[this.tag];
+    if (!previous) {
+      this.room.brainstormingSession.votesForWords[this.tag] = {
+        upvotes: 0,
+        downvotes: 0,
+        ownHasUpvoted: upvote
+      };
+      return;
+    }
+    previous.ownHasUpvoted = upvote;
   }
 
   private position(elem: HTMLElement) {

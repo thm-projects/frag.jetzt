@@ -47,7 +47,7 @@ sonar:
   dependencies:
     - unit_tests
   script:
-    - npm i
+    - npm ci
     - sonar-scanner -Dsonar.login=$SONAR_TOKEN -Dsonar.host.url=https://scm.thm.de/sonar/
 
 ngbuild:
@@ -95,3 +95,33 @@ deploy_production:
     - ssh-keyscan "$SERVER_URL" >> ~/.ssh/known_hosts
     - ssh-add <(echo "$SSH_PRIVATE_KEY")
     - scp -r "$BUILD_DIR"* "$SSH_URL"
+
+.build_image_template:
+  stage: deploy
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: [""]
+  tags:
+    - kaniko
+  script:
+    - sed -i '/^dist$/d' .dockerignore
+    - mkdir -p /kaniko/.docker
+    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
+    - /kaniko/executor
+      --context     "$CI_PROJECT_DIR"
+      --dockerfile  "$CI_PROJECT_DIR/.docker/Dockerfile.kaniko"
+      --destination "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG"
+      --build-arg   "BUILD_DIR=$BUILD_DIR"
+
+build_image:
+  extends: .build_image_template
+  only:
+    - staging
+    - master
+
+build_image_manual:
+  extends: .build_image_template
+  when: manual
+  except:
+    - staging
+    - master

@@ -1,0 +1,12 @@
+<h1 tabindex="0" mat-dialog-title>{{ 'introductions.question-wall-title' | translate }} </h1>
+
+<mat-dialog-content tabindex="0">
+  <app-introduction-question-wall-en *ngIf="languageService.currentLanguage() === 'en'"></app-introduction-question-wall-en>
+  <app-introduction-question-wall-de *ngIf="languageService.currentLanguage() === 'de'"></app-introduction-question-wall-de>
+</mat-dialog-content>
+
+<app-dialog-action-buttons
+  confirmButtonLabel="cancel"
+  buttonsLabelSection="introductions"
+  [confirmButtonClickAction]="onClose.bind(this)">
+</app-dialog-action-buttons>

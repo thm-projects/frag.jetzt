@@ -62,7 +62,7 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
               private deviceInfo: DeviceInfoService,
               private eventService: EventService,
               private dialog: MatDialog) {
-    this.languageService.langEmitter.subscribe(lang => {
+    this.languageService.getLanguage().subscribe(lang => {
       this.translateService.use(lang);
       if (this.isEditor) {
         this.updateCSSVariables();
@@ -77,7 +77,7 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
                                maxTextCharacters: number,
                                maxDataCharacters: number): boolean {
     text = text.trim();
-    if (text.length < 1 && data.length < 1) {
+    if (this.getContentCount(data) < 1) {
       translateService.get('comment-page.error-comment').subscribe(message => {
         notificationService.show(message);
       });
@@ -132,6 +132,20 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
     }, '');
   }
 
+  private static getContentCount(data: string): number {
+    if (!data) {
+      return 0;
+    }
+    return JSON.parse(data).reduce((acc, k) => {
+      if (typeof k === 'string') {
+        return k.trim().length > 0 ? acc + 1 : acc;
+      }
+      if (k.insert) {
+        return k.insert?.trim?.()?.length ? acc + 1 : acc;
+      }
+      return acc + 1;
+    }, 0);
+  }
 
   ngOnInit(): void {
     const isMobile = this.deviceInfo.isUserAgentMobile;
@@ -143,7 +157,6 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
       };
       this.hasEmoji = !isMobile;
     }
-    this.translateService.use(localStorage.getItem('currentLang'));
     if (this.isEditor) {
       this.updateCSSVariables();
     }

@@ -292,7 +292,6 @@ a {
 
 .mat-cell {
   hyphens: auto !important;
-  padding-right: 5px !important;
 }
 
 .mat-header-row .mat-header-cell {
@@ -302,4 +301,10 @@ a {
 
 .mat-pseudo-checkbox-checked, .mat-pseudo-checkbox-indeterminate, .mat-accent .mat-pseudo-checkbox-checked, .mat-accent .mat-pseudo-checkbox-indeterminate {
   background: var(--green) !important;;
+}
+
+.mat-input-element::placeholder {
+  color: var(--on-surface);
+  opacity: (0.6);
+  font-style: italic;
 }

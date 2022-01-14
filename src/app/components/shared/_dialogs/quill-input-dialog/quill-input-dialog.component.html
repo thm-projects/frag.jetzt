@@ -9,6 +9,9 @@
            placeholder="{{'quill.tooltip-placeholder-' + data.type | translate}}"
            [(ngModel)]="value">
   </mat-form-field>
+
+  <h3>{{'quill.preview' | translate}}</h3>
+
   <app-custom-markdown [data]="getKatex()"
                        *ngIf="data.type === 'formula'"
                        [katexOptions]="katexOptions">

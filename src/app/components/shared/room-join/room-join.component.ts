@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Room } from '../../../models/room';
 import { RoomService } from '../../../services/http/room.service';
 import { Router } from '@angular/router';
@@ -6,7 +6,7 @@ import { RegisterErrorStateMatcher } from '../../home/_dialogs/register/register
 import { FormControl, Validators } from '@angular/forms';
 import { NotificationService } from '../../../services/util/notification.service';
 import { TranslateService } from '@ngx-translate/core';
-import { AuthenticationService } from '../../../services/http/authentication.service';
+import { AuthenticationService, LoginResult } from '../../../services/http/authentication.service';
 import { UserRole } from '../../../models/user-roles.enum';
 import { User } from '../../../models/user';
 import { Moderator } from '../../../models/moderator';
@@ -82,8 +82,8 @@ export class RoomJoinComponent implements OnInit {
   }
 
   guestLogin() {
-    this.authenticationService.guestLogin(UserRole.PARTICIPANT).subscribe(loggedIn => {
-      if (loggedIn === 'true') {
+    this.authenticationService.guestLogin(UserRole.PARTICIPANT).subscribe(result => {
+      if (result === LoginResult.success) {
         this.addAndNavigate();
       }
     });

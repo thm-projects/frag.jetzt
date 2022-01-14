@@ -7,14 +7,23 @@
     <button (click)="showDemo()"
             [joyrideStep]="'introduction'"
             [stepPosition]="'center'"
+            *ngIf="!this.tourSite"
             appJoyrideTemplate
             aria-labelledby="demo-label"
             class="focus_button"
             mat-button>
       <mat-icon class="material-icons-outlined">info</mat-icon>
-      <span *ngIf="deviceType === 'desktop'">
+      <span *ngIf="deviceInfo.isCurrentlyDesktop && router.url.endsWith('/home')">
         {{ 'footer.demo' | translate }}
       </span>
+    </button>
+
+    <button (click)="showCurrentTour()"
+            *ngIf="this.tourSite"
+            aria-labelledby="site-tour-label"
+            class="focus_button"
+            mat-button>
+      <mat-icon class="material-icons-outlined">tour</mat-icon>
     </button>
 
     <span class="fill-remaining-space"></span>
@@ -24,7 +33,7 @@
             class="focus_button"
             mat-button>
       <mat-icon>format_paint</mat-icon>
-      <span *ngIf="deviceType === 'desktop'">
+      <span *ngIf="deviceInfo.isCurrentlyDesktop && router.url.endsWith('/home')">
           {{'footer.style' | translate}}
         </span>
     </button>
@@ -37,7 +46,7 @@
             id="language-menu"
             mat-button>
       <mat-icon>language</mat-icon>
-      <span *ngIf="deviceType === 'desktop'">
+      <span *ngIf="deviceInfo.isCurrentlyDesktop && router.url.endsWith('/home')">
           {{'footer.language' | translate}}
         </span>
     </button>
@@ -49,7 +58,7 @@
             class="focus_button"
             mat-button>
       <mat-icon class="material-icons-outlined">privacy_tip</mat-icon>
-      <span *ngIf="deviceType === 'desktop'">
+      <span *ngIf="deviceInfo.isCurrentlyDesktop && router.url.endsWith('/home')">
         {{'footer.dsgvo' | translate}}
       </span>
     </button>
@@ -61,7 +70,7 @@
             class="focus_button"
             mat-button>
       <mat-icon class="material-icons-outlined">contact_mail</mat-icon>
-      <span *ngIf="deviceType === 'desktop'">
+      <span *ngIf="deviceInfo.isCurrentlyDesktop && router.url.endsWith('/home')">
         {{'footer.imprint' | translate}}
       </span>
     </button>
@@ -80,8 +89,8 @@
 'background-color':theme.getPreviewColor()}"
                class="btnColorIcon">
             <div [ngClass]="{
-'checked_true':theme.key===themeClass,
-'checked_false':theme.key!==themeClass}"
+'checked_true':theme.key===themeService.currentThemeName,
+'checked_false':theme.key!==themeService.currentThemeName}"
                  class="checked">
               <mat-icon [ngStyle]="{'color':theme.getOnPreviewColor()}">
                 checked
@@ -90,7 +99,7 @@
           </div>
           <div class="btnAppend">
             <div class="title">
-              <p class="title_bold">{{theme.getName(getLanguage())}}</p>
+              <p class="title_bold">{{theme.getName(langService.currentLanguage())}}</p>
             </div>
           </div>
         </div>
@@ -113,6 +122,7 @@
 <div class="visually-hidden">
   <div id="help-label">{{'footer.accessibility-help' | translate}}</div>
   <div id="demo-label">{{'footer.accessibility-demo' | translate}}</div>
+  <div id="site-tour-label">{{'footer.accessibility-site-tour' | translate}}</div>
   <div id="style-label">{{'footer.accessibility-style' | translate}}</div>
   <div id="language-label">{{'footer.accessibility-language' | translate}}</div>
   <div id="data-protection-label">{{'footer.accessibility-data_protection' | translate}}</div>

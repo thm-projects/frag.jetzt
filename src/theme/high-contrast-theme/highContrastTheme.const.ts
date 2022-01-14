@@ -6,10 +6,10 @@ export const highcontrast = {
   '--secondary': '#fb9a1c',
   '--secondary-variant': '#fb9a1c',
 
-  '--background': '#141414',
+  '--background': '#121212',
   '--surface': '#1e1e1e',
-  '--dialog': '#37474f',
-  '--cancel': 'Firebrick',
+  '--dialog': '#000000',
+  '--cancel': 'red',
   '--alt-surface': '#323232',
   '--alt-dialog': '#455a64',
 
@@ -19,20 +19,24 @@ export const highcontrast = {
   '--on-background': '#FFFFFF',
   '--on-surface': '#FFFFFF',
   '--on-dialog': '#FFFFFF',
-  '--on-cancel': '#ffffff',
+  '--on-cancel': 'black',
 
-  '--green': '#3ce933',
+  '--green': 'green',
   '--red': 'red',
   '--white': '#ffffff',
-  '--yellow': '#fb9a1c',
+  '--yellow': 'yellow',
   '--blue': '#3833e9',
-  '--purple': '#e933e2',
+  '--purple': 'purple',
   '--magenta': '#ea0a8e',
   '--light-green': '#33e98d',
   '--grey': '#7e7e7e',
   '--grey-light': '#9c9c9c',
   '--black': 'black',
   '--moderator': 'black',
+
+  '--questionwall-intro-primary':'yellow',
+  '--questionwall-intro-secondary':'#eadabf',
+  '--questionwall-intro-background':'#121212'
 
 };
 
@@ -41,7 +45,7 @@ export const highcontrast_meta = {
   translation: {
     name: {
       en: 'Contrast mode',
-      de: 'Kontrastmodus',
+      de: 'Kontrast',
     },
   },
   isDark: true,

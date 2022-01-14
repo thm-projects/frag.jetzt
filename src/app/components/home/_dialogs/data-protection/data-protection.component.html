@@ -7,13 +7,14 @@
 
 
   <mat-dialog-content tabindex="0">
-    <app-data-protection-en *ngIf="currentLang=='en'"></app-data-protection-en>
-    <app-data-protection-de *ngIf="currentLang=='de'"></app-data-protection-de>
+    <app-data-protection-en *ngIf="languageService.currentLanguage() === 'en'"></app-data-protection-en>
+    <app-data-protection-de *ngIf="languageService.currentLanguage() === 'de'"></app-data-protection-de>
   </mat-dialog-content>
 
   <app-dialog-action-buttons
+    confirmButtonLabel="cancel"
     buttonsLabelSection="imprint"
-    [cancelButtonClickAction]="buildConfirmActionCallback()">
+    [confirmButtonClickAction]="buildDeclineActionCallback()">
   </app-dialog-action-buttons>
 
 </div>

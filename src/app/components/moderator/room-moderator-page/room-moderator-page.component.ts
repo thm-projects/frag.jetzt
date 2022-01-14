@@ -5,7 +5,6 @@ import { RoomService } from '../../../services/http/room.service';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../services/util/language.service';
-import { WsCommentService } from '../../../services/websockets/ws-comment.service';
 import { CommentService } from '../../../services/http/comment.service';
 import { NotificationService } from '../../../services/util/notification.service';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
@@ -17,7 +16,9 @@ import { HeaderService } from '../../../services/util/header.service';
 import { ArsComposeService } from '../../../../../projects/ars/src/lib/services/ars-compose.service';
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
 import { AuthenticationService } from '../../../services/http/authentication.service';
-import { ModeratorService } from '../../../services/http/moderator.service';
+import { SessionService } from '../../../services/util/session.service';
+import { RoomDataService } from '../../../services/util/room-data.service';
+import { DeviceInfoService } from '../../../services/util/device-info.service';
 
 @Component({
   selector: 'app-room-moderator-page',
@@ -26,26 +27,29 @@ import { ModeratorService } from '../../../services/http/moderator.service';
 })
 export class RoomModeratorPageComponent extends RoomPageComponent implements OnInit, OnDestroy, AfterContentInit, AfterViewInit {
 
-  constructor(protected location: Location,
-              protected roomService: RoomService,
-              protected route: ActivatedRoute,
-              protected translateService: TranslateService,
-              protected dialog: MatDialog,
-              protected langService: LanguageService,
-              protected wsCommentService: WsCommentService,
-              protected commentService: CommentService,
-              protected notification: NotificationService,
-              protected headerService: HeaderService,
-              protected composeService: ArsComposeService,
-              protected bonusTokenService: BonusTokenService,
-              protected authenticationService: AuthenticationService,
-              protected moderatorService: ModeratorService,
-              public eventService: EventService,
-              private liveAnnouncer: LiveAnnouncer,
-              private _r: Renderer2) {
-    super(roomService, route, location, wsCommentService, commentService, eventService, headerService, composeService,
-      dialog, bonusTokenService, translateService, notification, authenticationService, moderatorService);
-    langService.langEmitter.subscribe(lang => translateService.use(lang));
+  constructor(
+    protected location: Location,
+    protected roomService: RoomService,
+    protected route: ActivatedRoute,
+    protected translateService: TranslateService,
+    protected dialog: MatDialog,
+    protected langService: LanguageService,
+    protected commentService: CommentService,
+    protected notification: NotificationService,
+    protected headerService: HeaderService,
+    protected composeService: ArsComposeService,
+    protected bonusTokenService: BonusTokenService,
+    protected authenticationService: AuthenticationService,
+    public eventService: EventService,
+    private liveAnnouncer: LiveAnnouncer,
+    private _r: Renderer2,
+    protected sessionService: SessionService,
+    protected roomDataService: RoomDataService,
+    public deviceInfo: DeviceInfoService,
+  ) {
+    super(roomService, route, location, commentService, eventService, headerService, composeService, dialog,
+      bonusTokenService, translateService, notification, authenticationService, sessionService, roomDataService);
+    langService.getLanguage().subscribe(lang => translateService.use(lang));
   }
 
   ngAfterViewInit() {
@@ -60,10 +64,7 @@ export class RoomModeratorPageComponent extends RoomPageComponent implements OnI
 
   ngOnInit() {
     window.scroll(0, 0);
-    this.route.params.subscribe(params => {
-      this.initializeRoom(params['shortId']);
-    });
-    this.translateService.use(localStorage.getItem('currentLang'));
+    this.initializeRoom();
     this.listenerFn = this._r.listen(document, 'keyup', (event) => {
       if (KeyboardUtils.isKeyEvent(event, KeyboardKey.Digit1) === true && this.eventService.focusOnInput === false) {
         document.getElementById('question_answer-button').focus();

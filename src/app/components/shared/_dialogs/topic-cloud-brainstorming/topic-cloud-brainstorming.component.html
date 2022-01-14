@@ -83,7 +83,7 @@
     <ng-container *ngIf="!brainstormingData?.active">
       <span *ngIf="!deviceInfo.isCurrentlyMobile">{{'content.brainstorm-old-session-title' | translate}}</span>
       <span *ngIf="deviceInfo.isCurrentlyMobile">{{'content.brainstorm-old-session-title-short' | translate}}</span>
-      <p>{{'content.brainstorm-old-session-info' | translate: getTranslate() }}</p>
+      <p>{{'content.brainstorm-old-session-info' | translate: brainstormingData }}</p>
       <ars-row class="break-row">
         <button mat-flat-button class="primary-btn" (click)="open()">
           {{'content.brainstorm-old-session-show' | translate}}
@@ -105,7 +105,7 @@
     <ng-container *ngIf="brainstormingData?.active">
       <span *ngIf="!deviceInfo.isCurrentlyMobile">{{'content.brainstorm-join-session-title' | translate}}</span>
       <span *ngIf="deviceInfo.isCurrentlyMobile">{{'content.brainstorm-join-session-title-short' | translate}}</span>
-      <p>{{'content.brainstorm-join-session-info' | translate: getTranslate() }}</p>
+      <p>{{'content.brainstorm-join-session-info' | translate: brainstormingData }}</p>
       <ars-row class="break-row">
         <button mat-flat-button class="primary-btn" (click)="open()">
           {{'content.brainstorm-join-session-join' | translate}}
@@ -127,7 +127,23 @@
   </mat-card>
 </mat-dialog-content>
 
-<app-dialog-action-buttons
-  buttonsLabelSection="content"
-  [cancelButtonClickAction]="cancelButtonActionCallback()">
-</app-dialog-action-buttons>
+
+<ars-row ars-flex-box class="action-button-container">
+  <ars-col>
+    <button
+      mat-flat-button
+      class="help-button"
+      (click)="openHelp()">
+      <mat-icon>question_mark</mat-icon>
+      {{ 'explanation.label' | translate}}
+    </button>
+  </ars-col>
+  <ars-col>
+    <app-dialog-action-buttons
+      buttonsLabelSection="content"
+      [spacing]="false"
+      [cancelButtonClickAction]="cancelButtonActionCallback()">
+    </app-dialog-action-buttons>
+  </ars-col>
+</ars-row>
+

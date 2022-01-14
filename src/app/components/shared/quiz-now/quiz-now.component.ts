@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { EventService } from '../../../services/util/event.service';
 import { Router } from '@angular/router';
+import { SessionService } from '../../../services/util/session.service';
 
 @Component({
   selector: 'app-quiz-now',
@@ -16,10 +17,13 @@ export class QuizNowComponent implements OnInit, OnDestroy {
   roleString: string;
   private _headerSubscription;
 
-  constructor(public sanitizer: DomSanitizer,
-              private router: Router,
-              private eventService: EventService) {
-    this.shortId = localStorage.getItem('shortId');
+  constructor(
+    public sanitizer: DomSanitizer,
+    private router: Router,
+    private eventService: EventService,
+    private sessionService: SessionService,
+  ) {
+    this.shortId = this.sessionService.getLastShortId();
     const access = (JSON.parse(localStorage.getItem('ROOM_ACCESS')) || []) as string[];
     const roomAccess = access.find(e => e.endsWith('_' + this.shortId)) || '0_' + this.shortId;
     const role = parseInt(roomAccess.substr(0, 1), 10);

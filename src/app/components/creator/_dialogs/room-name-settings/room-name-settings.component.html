@@ -6,14 +6,16 @@
            matInput
            [formControl]="roomNameFormControl"
            name="room-name"
-           maxlength="20"
-           aria-labelledby="room-name"/>
+           [maxlength]="roomNameLengthMax"
+           aria-labelledby="room-name">
     <mat-placeholder class="placeholder">{{ 'session.session-name' | translate }}</mat-placeholder>
-    <mat-hint align="end"><span aria-hidden="true">{{ roomNameFormControl.value.length }} / 20</span></mat-hint>
+    <mat-hint align="end">
+      <span aria-hidden="true">{{ roomNameFormControl.value.length }} / {{roomNameLengthMax}}</span>
+    </mat-hint>
     <mat-error *ngIf="roomNameFormControl.hasError('required')
           || roomNameFormControl.hasError('minlength')
           || roomNameFormControl.hasError('maxlength')">
-      {{ 'room-page.name-length-error' | translate }}
+      {{ 'room-page.name-length-error' | translate: { min: roomNameLengthMin, max: roomNameLengthMax } }}
     </mat-error>
   </mat-form-field>
 </div>

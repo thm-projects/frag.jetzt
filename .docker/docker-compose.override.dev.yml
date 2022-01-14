@@ -1,0 +1,20 @@
+version: '3.6'
+
+services:
+  frontend:
+    image: local-fragjetzt-dev
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: DEV
+    environment:
+      - WS_GATEWAY_WS_ADDRESS=ws://fragjetzt-ws-gateway:8080
+      - WS_GATEWAY_HTTP_ADDRESS=http://fragjetzt-ws-gateway:8080
+      - BACKEND_ADDRESS=http://fragjetzt-backend:8888
+    volumes:
+      - 'cache:/cache'
+      - './:/app'
+
+volumes:
+  cache:
+    name: fragjetzt-frontend-cache

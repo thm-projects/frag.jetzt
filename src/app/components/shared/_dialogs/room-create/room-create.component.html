@@ -1,53 +1,61 @@
-<form (ngSubmit)="checkLogin(roomName.value)">
+<form>
   <div fxLayout="column"
        fxLayoutAlign="center"
        fxLayoutGap="10px">
     <mat-form-field>
       <input appAccessibilityEscapedInput
-             (keypress)="resetEmptyInputs()"
              matInput
-             #roomName
              class="input-block"
              type="text"
-             maxlength="30"
-             [(ngModel)]="longName"
+             [maxlength]="roomNameLengthMax"
+             [formControl]="roomNameFormControl"
              name="roomName"
-             aria-labelledby="room-name-input"/>
-      <mat-placeholder *ngIf="hasCustomShortId" class="placeholder">{{ 'session.session-name' | translate }}</mat-placeholder>
-      <mat-placeholder *ngIf="!hasCustomShortId" class="placeholder">{{ 'session.session-name-with-key-code-generated' | translate }}</mat-placeholder>
-      <mat-hint align="end"
-                class="count"
-                *ngIf="!emptyInputs"><span aria-hidden="true">{{roomName.value.length}} / 30</span></mat-hint>
-      <mat-hint align="start"
-                class="error"
-                *ngIf="emptyInputs"><strong>{{ 'home-page.no-empty-name' | translate }}</strong></mat-hint>
+             aria-labelledby="room-name-input">
+      <mat-placeholder *ngIf="hasCustomShortId"
+                       class="placeholder">{{ 'session.session-name' | translate }}</mat-placeholder>
+      <mat-placeholder *ngIf="!hasCustomShortId"
+                       class="placeholder">{{ 'session.session-name-with-key-code-generated' | translate }}</mat-placeholder>
+      <mat-hint align="end" class="count">
+        <span aria-hidden="true">{{roomNameFormControl.value.length}} / {{roomNameLengthMax}}</span>
+      </mat-hint>
+      <mat-error *ngIf="roomNameFormControl.hasError('required')
+          || roomNameFormControl.hasError('minlength')
+          || roomNameFormControl.hasError('maxlength')">
+        <strong>
+          {{ 'home-page.name-length-error' | translate: {min: roomNameLengthMin, max: roomNameLengthMax} }}
+        </strong>
+      </mat-error>
     </mat-form-field>
-    <mat-slide-toggle (change)="hasCustomShortId=$event.checked">{{ 'home-page.custom-shortid' | translate }}</mat-slide-toggle>
+    <mat-slide-toggle
+      (change)="hasCustomShortId=$event.checked">{{ 'home-page.custom-shortid' | translate }}</mat-slide-toggle>
     <mat-form-field *ngIf="hasCustomShortId">
       <input appAccessibilityEscapedInput
              (keyup)="resetInvalidCharacters()"
              autofocus
              matInput
-             #customShortId
              class="input-block"
              type="text"
-             maxlength="30"
-             [(ngModel)]="customShortIdName"
+             [maxlength]="shortIdLengthMax"
+             [formControl]="roomShortIdFormControl"
              name="customShortId"
-             aria-labelledby="room-name-input"/>
+             aria-labelledby="room-name-input">
       <mat-placeholder class="placeholder">{{ 'home-page.custom-shortid-placeholder' | translate }}</mat-placeholder>
-      <mat-hint align="end"
-                class="count"
-                *ngIf="!emptyInputs"><span aria-hidden="true">{{customShortId.value.length}} / 30</span></mat-hint>
-      <mat-hint align="start"
-                class="error"
-                *ngIf="emptyInputs"><strong>{{ 'home-page.no-empty-key-code' | translate }}</strong></mat-hint>
-      <mat-hint align="start"
-                class="error"
-                *ngIf="shortIdAlreadyUsed"><strong>{{ 'home-page.invalid-shortid' | translate }}</strong></mat-hint>
-      <mat-hint align="start"
-                class="error"
-                *ngIf="shortIdCharInvalid"><strong>{{ 'home-page.invalid-char-shortid' | translate }}</strong></mat-hint>
+      <mat-hint align="end" class="count">
+        <span aria-hidden="true">{{roomShortIdFormControl.value.length}} / {{shortIdLengthMax}}</span>
+      </mat-hint>
+      <mat-error *ngIf="roomShortIdFormControl.hasError('required')
+          || roomShortIdFormControl.hasError('minlength')
+          || roomShortIdFormControl.hasError('maxlength')">
+        <strong>
+          {{ 'home-page.key-code-length-error' | translate: {min: shortIdLengthMin, max: shortIdLengthMax} }}
+        </strong>
+      </mat-error>
+      <mat-error *ngIf="roomShortIdFormControl.hasError('pattern')">
+        <strong>{{ 'home-page.invalid-char-shortid' | translate }}</strong>
+      </mat-error>
+      <mat-error *ngIf="roomShortIdFormControl.hasError('shortId')">
+        <strong>{{ 'home-page.invalid-shortid' | translate }}</strong>
+      </mat-error>
     </mat-form-field>
   </div>
 </form>
@@ -56,8 +64,8 @@
   confirmButtonLabel="create-room"
   [showLoadingCycle]="isLoading"
   [cancelButtonClickAction]="buildCloseDialogActionCallback()"
-  [confirmButtonClickAction]="buildRoomCreateActionCallback(roomName)"
-></app-dialog-action-buttons>
+  [confirmButtonClickAction]="buildRoomCreateActionCallback()">
+</app-dialog-action-buttons>
 
 <div class="visually-hidden">
   <div id="room-name-input">{{ 'home-page.room-name-input' | translate }}</div>
