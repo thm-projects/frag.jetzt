@@ -102,7 +102,13 @@
       </h2>
 
       <h2 class="header-slogan-desktop"
-          *ngIf="router.url.includes('home') && deviceInfo.isCurrentlyDesktop"
+          *ngIf="router.url.includes('home') && deviceInfo.isCurrentlyDesktop && !deviceInfo.isSafari"
+          fxLayoutAlign="center center">
+        {{ 'header.home-header' | translate }}
+      </h2>
+
+      <h2 class="header-slogan-desktop-safari"
+          *ngIf="router.url.includes('home') && deviceInfo.isCurrentlyDesktop && deviceInfo.isSafari"
           fxLayoutAlign="center center">
         {{ 'header.home-header' | translate }}
       </h2>
