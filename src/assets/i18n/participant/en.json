@@ -285,6 +285,12 @@
     "moderation-enabled": "All questions will be moderated.",
     "sure": "Are you sure?"
   },
+  "introductions": {
+    "cancel": "Cancel",
+    "question-wall-title": "Introduction for presentation",
+    "brainstorming-title": "Introduction for Brainstorming",
+    "tag-cloud-title": "Introduction for the topic cloud"
+  },
   "question-wall": {
     "next-comment": "Next question",
     "next-comment-icon": "navigate_next",
@@ -329,6 +335,7 @@
     "slider-lbl": "Set question zoom",
     "autofocus-off-lbl": "Stop automatic focusing of new questions",
     "autofocus-on-lbl": "Turn on automatic focusing of new questions",
+    "site-introduction-lbl": "Open an introduction for this page",
     "prev-comment-lbl": "Previous question",
     "next-comment-lbl": "Next question",
     "overview-question-tooltip": "Number of questions",
@@ -347,18 +354,19 @@
   "quill": {
     "cancel": "Cancel",
     "heading": "Input",
+    "preview": "Preview",
     "tooltip-remove": "Delete",
     "tooltip-action-save": "Save",
     "tooltip-action": "Edit",
-    "tooltip-label": "Visit URL:",
-    "tooltip-label-link": "Enter link:",
-    "tooltip-placeholder-link": "https://quilljs.com",
-    "tooltip-label-image": "Enter image:",
-    "tooltip-placeholder-image": "Embed URL",
-    "tooltip-label-video": "Enter video:",
-    "tooltip-placeholder-video": "Embed URL",
-    "tooltip-label-formula": "Enter formula:",
-    "tooltip-placeholder-formula": "e=mc^2"
+    "tooltip-label": "Visit link ...",
+    "tooltip-label-link": "Enter link ...",
+    "tooltip-placeholder-link": "Address must begin with https://...",
+    "tooltip-label-image": "Enter image URL ...",
+    "tooltip-placeholder-image": "Image address must begin with https://...",
+    "tooltip-label-video": "Enter video URL ...",
+    "tooltip-placeholder-video": "Video address must begin with https://...",
+    "tooltip-label-formula": "Enter a formula, for example …",
+    "tooltip-placeholder-formula": "We support the KaTeX formula set."
   },
   "tag-cloud": {
     "demo-data-topic": "Topic %d",

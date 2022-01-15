@@ -27,6 +27,7 @@
   "footer": {
     "accessibility-data_protection": "Öffnet die Datenschutzerklärung",
     "accessibility-demo": "Öffnet die Einführung zu »frag.jetzt«",
+    "accessibility-site-tour": "Öffnet eine Einleitung für die aktuelle Seite.",
     "accessibility-help": "Öffnet die Hilfe",
     "accessibility-imprint": "Öffnet das Impressum",
     "accessibility-language": "Öffnet die Sprachauswahl",
@@ -44,6 +45,13 @@
     "motd-title-old": "Archiv",
     "motd-title-new": "Aktuell",
     "motd-mark-read": "Gelesen"
+  },
+  "introductions": {
+    "cancel": "Schließen",
+    "comment-list-title": "Einführung in das Q&A Forum",
+    "moderation-title": "Einführung in die Moderation",
+    "room-list-title": "Einführung zur Raumliste",
+    "room-page-title": "Einführung zur Raumübersicht"
   },
   "content": {
     "cancel": "Abbrechen",
@@ -105,8 +113,8 @@
     "cancel": "Abbrechen",
     "delete": "Löschen",
     "delete-account": "Konto löschen",
-    "home-header": "",
-    "home-header-mobile": "",
+    "home-header": "Live Q&A",
+    "home-header-mobile": "Live Q&A",
     "id": "Code",
     "logged-out": "Du bist jetzt abgemeldet.",
     "login": "Anmelden",

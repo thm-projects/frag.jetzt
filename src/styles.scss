@@ -273,11 +273,16 @@ a {
 .mat-option {
   background-color: var(--dialog);
   color: var(--on-dialog);
-}
 
-.mat-option:hover {
-  background-color: var(--secondary) !important;
-  color: var(--on-secondary) !important;
+  &:hover {
+    background-color: var(--secondary) !important;
+    color: var(--on-secondary) !important;
+  }
+
+  &.mat-selected:not(.mat-active):not(:hover) {
+    background-color: var(--primary) !important;
+    color: var(--on-primary) !important;
+  }
 }
 
 .mat-select-panel .mat-option.mat-selected:not(.mat-option-multiple) {
@@ -301,4 +306,10 @@ a {
 
 .mat-pseudo-checkbox-checked, .mat-pseudo-checkbox-indeterminate, .mat-accent .mat-pseudo-checkbox-checked, .mat-accent .mat-pseudo-checkbox-indeterminate {
   background: var(--green) !important;;
+}
+
+.mat-input-element::placeholder {
+  color: var(--on-surface);
+  opacity: (0.6);
+  font-style: italic;
 }

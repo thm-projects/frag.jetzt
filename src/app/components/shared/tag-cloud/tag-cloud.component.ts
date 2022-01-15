@@ -41,6 +41,13 @@ import { DOMElementPrinter } from '../../../utils/DOMElementPrinter';
 import { RoomDataFilterService } from '../../../services/util/room-data-filter.service';
 import { FilterType, Period, RoomDataFilter } from '../../../services/util/room-data-filter';
 import { BrainstormingSession } from '../../../models/brainstorming-session';
+import {
+  IntroductionTagCloudComponent
+} from '../_dialogs/introductions/introduction-tag-cloud/introduction-tag-cloud.component';
+import {
+  IntroductionBrainstormingComponent
+} from '../_dialogs/introductions/introduction-brainstorming/introduction-brainstorming.component';
+import { ComponentType } from '@angular/cdk/overlay';
 
 class CustomPosition implements Position {
   left: number;
@@ -271,6 +278,13 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
       return false;
     }
     return !(this.brainstormingActive && !(this.brainstormingData?.active));
+  }
+
+  startIntroduction() {
+    const type: ComponentType<any> = this.brainstormingActive ? IntroductionTagCloudComponent : IntroductionBrainstormingComponent;
+    this.dialog.open(type, {
+      autoFocus: false
+    });
   }
 
   writeComment() {

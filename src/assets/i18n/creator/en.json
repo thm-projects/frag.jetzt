@@ -143,6 +143,12 @@
     "add-manually": "Enter a keyword for your question. Separate several keywords with a comma.",
     "select-keywords": "The text analysis suggests keywords. Which best describe your question?"
   },
+  "introductions": {
+    "cancel": "Cancel",
+    "question-wall-title": "Introduction for presentation",
+    "brainstorming-title": "Introduction for Brainstorming",
+    "tag-cloud-title": "Introduction for the topic cloud"
+  },
   "comment-page": {
     "a11y-comment_delete": "Deletes this question",
     "a11y-comment_grade": "Marks this question as a bonus question",
@@ -334,18 +340,19 @@
   "quill": {
     "cancel": "Cancel",
     "heading": "Input",
+    "preview": "Preview",
     "tooltip-remove": "Delete",
     "tooltip-action-save": "Save",
     "tooltip-action": "Edit",
-    "tooltip-label": "Visit URL:",
-    "tooltip-label-link": "Enter link:",
-    "tooltip-placeholder-link": "https://quilljs.com",
-    "tooltip-label-image": "Enter image:",
-    "tooltip-placeholder-image": "Embed URL",
-    "tooltip-label-video": "Enter video:",
-    "tooltip-placeholder-video": "Embed URL",
-    "tooltip-label-formula": "Enter formula:",
-    "tooltip-placeholder-formula": "e=mc^2"
+    "tooltip-label": "Visit link ...",
+    "tooltip-label-link": "Enter link ...",
+    "tooltip-placeholder-link": "Address must begin with https://...",
+    "tooltip-label-image": "Enter image URL ...",
+    "tooltip-placeholder-image": "Image address must begin with https://...",
+    "tooltip-label-video": "Enter video URL ...",
+    "tooltip-placeholder-video": "Video address must begin with https://...",
+    "tooltip-label-formula": "Enter a formula, for example …",
+    "tooltip-placeholder-formula": "We support the KaTeX formula set."
   },
   "room-page": {
     "a11y-add-moderator": "Add the entered User as Moderator",

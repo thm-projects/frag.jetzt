@@ -31,10 +31,15 @@
         </angular-tag-cloud>
         <app-active-user *ngIf="room" [alwaysShowInHeader]="true" [room]="this.room" [top]="120"></app-active-user>
       </ars-fill>
+      <button class="start_introduction"
+              (click)="startIntroduction()"
+              mat-fab
+              mat-icon-button>
+        <mat-icon>tour</mat-icon>
+      </button>
       <button *ngIf="canWriteComment() && !drawer?.opened"
               mat-fab
               mat-icon-button
-              aria-labelledby="add"
               class="fab_add_comment"
               (click)="writeComment()"
               matTooltip="{{ 'comment-list.add-comment' | translate }}">

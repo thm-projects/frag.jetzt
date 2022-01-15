@@ -142,6 +142,12 @@
     "add-manually": "Gib ein Stichwort zu deiner Frage ein. Trenne mehrere Stichwörter mit einem Komma.",
     "select-keywords": "Welche Stichwörter beschreiben deine Frage am besten?"
   },
+  "introductions": {
+    "cancel": "Schließen",
+    "question-wall-title": "Einführung zur Präsentation",
+    "brainstorming-title": "Einführung für das Brainstormen",
+    "tag-cloud-title": "Einführung in die Themenwolke"
+  },
   "comment-page": {
     "a11y-comment_delete": "Löscht diese Frage",
     "a11y-comment_grade": "Markiert diese Frage als Bonus-Frage",
@@ -332,19 +338,20 @@
   },
   "quill": {
     "cancel": "Abbrechen",
+    "preview": "Vorschau",
     "heading": "Eingabe",
     "tooltip-remove": "Löschen",
     "tooltip-action-save": "Speichern",
     "tooltip-action": "Editieren",
-    "tooltip-label": "URL besuchen:",
-    "tooltip-label-link": "Link eingeben:",
-    "tooltip-placeholder-link": "https://quilljs.com",
-    "tooltip-label-image": "Bild-URL eingeben:",
-    "tooltip-placeholder-image": "URL Adresse",
-    "tooltip-label-video": "Video-URL eingeben:",
-    "tooltip-placeholder-video": "URL Adresse",
-    "tooltip-label-formula": "Formel eingeben:",
-    "tooltip-placeholder-formula": "e=mc^2"
+    "tooltip-label": "Link besuchen …",
+    "tooltip-label-link": "Link eingeben …",
+    "tooltip-placeholder-link": "Die Adresse muss mit https://… beginnen.",
+    "tooltip-label-image": "Bild-URL eingeben …",
+    "tooltip-placeholder-image": "Die Bild-Adresse muss mit https://… beginnen.",
+    "tooltip-label-video": "Video-URL eingeben …",
+    "tooltip-placeholder-video": "Die Video-Adresse muss mit https://… beginnen.",
+    "tooltip-label-formula": "Gib eine Formel ein, zum Beispiel …",
+    "tooltip-placeholder-formula": "Wir unterstützen den KaTeX-Formelsatz."
   },
   "room-page": {
     "a11y-add-moderator": "Fügt den eingegebenen Benutzer als Moderator hinzu.",

@@ -1,5 +1,6 @@
 .app-component {
-  padding: 0 5% 30px;
+  padding: 0 5% 45px;
+  height: fit-content;
   z-index: 1;
 }
 
@@ -26,8 +27,9 @@ main {
 
 .inner_main_container {
   width: 100%;
+  height: calc(100% - 101px);
   margin-top: 64px;
-  margin-bottom: 64px;
+  margin-bottom: 37px;
   float: left;
 }
 

@@ -276,6 +276,12 @@
     "moderation-enabled": "Alle Fragen werden moderiert.",
     "sure": "Bist du sicher?"
   },
+  "introductions": {
+    "cancel": "Schließen",
+    "question-wall-title": "Einführung zur Präsentation",
+    "brainstorming-title": "Einführung für das Brainstormen",
+    "tag-cloud-title": "Einführung in die Themenwolke"
+  },
   "question-wall": {
     "next-comment": "Nächste Frage",
     "next-comment-icon": "navigate_next",
@@ -322,6 +328,7 @@
     "slider-lbl": "Fragen-Zoom einstellen",
     "autofocus-off-lbl": "Automatische Fokussierung neuer Fragen beenden",
     "autofocus-on-lbl": "Neue Fragen automatisch fokussieren",
+    "site-introduction-lbl": "Öffnet eine Einleitung für diese Seite",
     "prev-comment-lbl": "Vorherige Frage",
     "next-comment-lbl": "Nächste Frage",
     "overview-question-tooltip": "Anzahl Fragen",
@@ -340,18 +347,19 @@
   "quill": {
     "cancel": "Abbrechen",
     "heading": "Eingabe",
+    "preview": "Vorschau",
     "tooltip-remove": "Löschen",
     "tooltip-action-save": "Speichern",
     "tooltip-action": "Editieren",
-    "tooltip-label": "URL besuchen:",
-    "tooltip-label-link": "Link eingeben:",
-    "tooltip-placeholder-link": "https://quilljs.com",
-    "tooltip-label-image": "Bild-URL eingeben:",
-    "tooltip-placeholder-image": "URL-Adresse",
-    "tooltip-label-video": "Video-URL eingeben:",
-    "tooltip-placeholder-video": "URL-Adresse",
-    "tooltip-label-formula": "Formel eingeben:",
-    "tooltip-placeholder-formula": "e=mc^2"
+    "tooltip-label": "Link besuchen …",
+    "tooltip-label-link": "Link eingeben …",
+    "tooltip-placeholder-link": "Die Adresse muss mit https://… beginnen.",
+    "tooltip-label-image": "Bild-URL eingeben …",
+    "tooltip-placeholder-image": "Die Bild-Adresse muss mit https://… beginnen.",
+    "tooltip-label-video": "Video-URL eingeben …",
+    "tooltip-placeholder-video": "Die Video-Adresse muss mit https://… beginnen.",
+    "tooltip-label-formula": "Gib eine Formel ein, zum Beispiel …",
+    "tooltip-placeholder-formula": "Wir unterstützen den KaTeX-Formelsatz."
   },
   "tag-cloud": {
     "demo-data-topic": "Thema %d",

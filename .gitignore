@@ -1,5 +1,9 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
+# host specific environments
+.env
+docker-compose.override.yml
+
 # compiled output
 /dist
 /dist-server

@@ -16,7 +16,7 @@
             class="focus_button"
             *ngIf="router.url.endsWith('/home') && !deviceInfo.isSafari"
             (click)="startTour()">
-      <mat-icon class="header-icons material-icons-outlined">flag</mat-icon>
+      <mat-icon class="header-icons material-icons-outlined">tour</mat-icon>
       <span *ngIf="deviceInfo.isCurrentlyDesktop">
         {{ 'header.tour' | translate }}
       </span>
@@ -96,13 +96,25 @@
 
       <!--Feedback im Hörsaal-->
       <h2 class="header-slogan-mobile"
-          *ngIf="router.url.includes('home') && deviceInfo.isCurrentlyMobile"
+          *ngIf="router.url.includes('home') && deviceInfo.isCurrentlyMobile && !deviceInfo.isSafari"
+          fxLayoutAlign="center center">
+        {{ 'header.home-header-mobile' | translate }}
+      </h2>
+
+      <h2 class="header-slogan-mobile-safari"
+          *ngIf="router.url.includes('home') && deviceInfo.isCurrentlyMobile && deviceInfo.isSafari"
           fxLayoutAlign="center center">
         {{ 'header.home-header-mobile' | translate }}
       </h2>
 
       <h2 class="header-slogan-desktop"
-          *ngIf="router.url.includes('home') && deviceInfo.isCurrentlyDesktop"
+          *ngIf="router.url.includes('home') && deviceInfo.isCurrentlyDesktop && !deviceInfo.isSafari"
+          fxLayoutAlign="center center">
+        {{ 'header.home-header' | translate }}
+      </h2>
+
+      <h2 class="header-slogan-desktop-safari"
+          *ngIf="router.url.includes('home') && deviceInfo.isCurrentlyDesktop && deviceInfo.isSafari"
           fxLayoutAlign="center center">
         {{ 'header.home-header' | translate }}
       </h2>
