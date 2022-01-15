@@ -286,10 +286,10 @@
     "sure": "Are you sure?"
   },
   "introductions": {
-    "cancel": "Cancel",
-    "question-wall-title": "Introduction for presentation",
-    "brainstorming-title": "Introduction for Brainstorming",
-    "tag-cloud-title": "Introduction for the topic cloud"
+    "cancel": "Schließen",
+    "question-wall-title": "Introduction to the presentation mode",
+    "brainstorming-title": "Introduction to brainstorming",
+    "tag-cloud-title": "Introduction to the topic cloud"
   },
   "question-wall": {
     "next-comment": "Next question",
