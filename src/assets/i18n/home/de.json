@@ -228,11 +228,11 @@
     "roomJoinTitle": "Veranstaltung besuchen",
     "createRoom": "Jeder kann einen Raum für eine Veranstaltung erstellen. Der Zugangscode wird entweder generiert oder du bestimmst ihn selbst. Bedenke, ohne Registrierung existiert der Raum mit allen Daten nur in diesem Browser.",
     "createRoomTitle": "Raum erstellen",
-    "introduction": "Wenn du eigene Räume erstellen willst, dann informiere dich hier über das didaktische Konzept und die Einsatz-Szenarien von »frag.jetzt«.",
+    "introduction": "Wenn du eigene Räume erstellen willst, dann informiere dich hier über das didaktische Konzept und die Einsatz-Szenarien von »frag.jetzt«. Innerhalb der App findest du an dieser Stelle eine Hilfeseite für den aktuellen Kontext.",
     "introductionTitle": "Einführung in »frag.jetzt«",
     "feedbackLink": "Du hast einen Bug gefunden? Du hättest gern ein weiteres Feature? Der Link führt dich in den Feedback-Raum. Die Tour wird in diesem Raum fortgesetzt.",
     "feedbackLinkTitle": "Raum für Feedback",
-    "optionHeader": "Hier befindet sich das Hauptmenü von »frag.jetzt«. Neben den Optionen der aktuellen Seite findest du hier auch allgemeine Funktionen, darunter die Raumübersicht.",
+    "optionHeader": "Hier befindet sich das Hauptmenü von »frag.jetzt«. Neben den Optionen der aktuellen Seite findest du hier auch allgemeine Funktionen, darunter die Raumübersicht und die Neuigkeiten des »frag.jetzt«-Teams.",
     "optionHeaderTitle": "Optionen"
   },
   "login": {

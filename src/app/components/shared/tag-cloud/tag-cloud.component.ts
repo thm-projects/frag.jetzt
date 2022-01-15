@@ -281,7 +281,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
   }
 
   startIntroduction() {
-    const type: ComponentType<any> = this.brainstormingActive ? IntroductionTagCloudComponent : IntroductionBrainstormingComponent;
+    const type: ComponentType<any> = this.brainstormingActive ? IntroductionBrainstormingComponent : IntroductionTagCloudComponent;
     this.dialog.open(type, {
       autoFocus: false
     });
