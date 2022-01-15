@@ -96,7 +96,13 @@
 
       <!--Feedback im Hörsaal-->
       <h2 class="header-slogan-mobile"
-          *ngIf="router.url.includes('home') && deviceInfo.isCurrentlyMobile"
+          *ngIf="router.url.includes('home') && deviceInfo.isCurrentlyMobile && !deviceInfo.isSafari"
+          fxLayoutAlign="center center">
+        {{ 'header.home-header-mobile' | translate }}
+      </h2>
+
+      <h2 class="header-slogan-mobile-safari"
+          *ngIf="router.url.includes('home') && deviceInfo.isCurrentlyMobile && deviceInfo.isSafari"
           fxLayoutAlign="center center">
         {{ 'header.home-header-mobile' | translate }}
       </h2>
