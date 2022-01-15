@@ -138,7 +138,7 @@
       </button>
 
       <button mat-icon-button
-              *ngIf="(isCreator || comment.creatorId && user && comment.creatorId === user.id) && !comment.favorite"
+              *ngIf="(isCreator || (comment.creatorId && user && comment.creatorId === user.id)) && !comment.favorite"
               (click)="openDeleteCommentDialog()"
               tabindex="0"
               attr.aria-labelledby="comment_delete{{ comment.id }}"
@@ -269,7 +269,7 @@
       <div fxLayoutAlign="center center"
            matTooltip="{{ 'comment-page.keywords-per-answer' | translate }}"
            [mat-menu-trigger-for]="keywordsMenuAnswer"
-           *ngIf="comment.answerFulltextKeywords?.length"
+           *ngIf="comment.answerQuestionerKeywords?.length"
            class="comment-keywords">
         <mat-icon class="keyword-answer-icon material-icons-outlined">tag</mat-icon>
         <span matBadge="{{comment.answerQuestionerKeywords.length}}"

@@ -180,12 +180,12 @@ const roomImportExport = (translateService: TranslateService,
       ...ImportExportManager.createQuillMapper<string>(empty, e => e, e => e)
     },
     {
-      type: 'values',
+      type: 'value',
       languageKey: translatePath + '.room-categories',
       additionalLanguageKeys: [empty],
       valueMapper: {
-        export: (cfg, val) => val?.length ? val : [cfg.additional[0]],
-        import: (cfg, val) => val[0] === cfg.additional[0] ? [] : val
+        export: (cfg, val) => val?.length ? serializeStringArray(val) : cfg.additional[0],
+        import: (cfg, val) => val === cfg.additional[0] ? [] : deserializeStringArray(val)
       }
     },
     null,
