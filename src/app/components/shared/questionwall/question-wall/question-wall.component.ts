@@ -351,21 +351,21 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   sortScore(reverse?: boolean) {
     const filter = this.roomDataFilterService.currentFilter;
     filter.sortType = SortType.score;
-    filter.sortReverse = !!reverse;
+    filter.sortReverse = !reverse;
     this.roomDataFilterService.currentFilter = filter;
   }
 
   sortTime(reverse?: boolean) {
     const filter = this.roomDataFilterService.currentFilter;
     filter.sortType = SortType.time;
-    filter.sortReverse = !!reverse;
+    filter.sortReverse = !reverse;
     this.roomDataFilterService.currentFilter = filter;
   }
 
   sortControversy(reverse?: boolean) {
     const filter = this.roomDataFilterService.currentFilter;
     filter.sortType = SortType.controversy;
-    filter.sortReverse = !!reverse;
+    filter.sortReverse = !reverse;
     this.roomDataFilterService.currentFilter = filter;
   }
 

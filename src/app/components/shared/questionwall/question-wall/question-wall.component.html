@@ -37,16 +37,16 @@
                  [extra]="true">
           <mat-menu #sortMenu>
             <button mat-menu-item
-                    (click)="sortTime()"
+                    (click)="sortTime(true)"
                     aria-labelledby="sort-lbl-new">{{'question-wall.sort-new' | translate}}</button>
             <button mat-menu-item
-                    (click)="sortTime(true)"
+                    (click)="sortTime()"
                     aria-labelledby="sort-lbl-old">{{'question-wall.sort-old' | translate}}</button>
             <button mat-menu-item
-                    (click)="sortScore()"
+                    (click)="sortScore(true)"
                     aria-labelledby="sort-lbl-rating">{{'question-wall.sort-score' | translate}}</button>
             <button mat-menu-item
-                    (click)="sortControversy()"
+                    (click)="sortControversy(true)"
                     aria-labelledby="sort-lbl-controversy">{{'question-wall.sort-controversy' | translate}}</button>
           </mat-menu>
           <mat-menu #filterMenu>
