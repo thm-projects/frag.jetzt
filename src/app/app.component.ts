@@ -19,7 +19,7 @@ Quill.register('modules/imageResize', ImageResize);
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
 
@@ -59,7 +59,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.update.versionUpdates.pipe(
-      filter(e => e.type === 'VERSION_READY')
+      filter(e => e.type === 'VERSION_READY'),
     ).subscribe(update => {
       let install: string;
       this.translationService.get('home-page.install').subscribe(msg => {
@@ -67,7 +67,7 @@ export class AppComponent implements OnInit {
       });
       this.translationService.get('home-page.update-available').subscribe(msg => {
         this.notification.show(msg, install, {
-          duration: 10000
+          duration:5000,
         });
       });
       this.notification.snackRef.afterDismissed().subscribe(info => {

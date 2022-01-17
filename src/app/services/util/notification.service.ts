@@ -10,7 +10,7 @@ export class NotificationService {
 
   show(message: string, action?: string, config?: MatSnackBarConfig, panelClass?: string) {
     const defaultConfig: MatSnackBarConfig = {
-      duration: (action ? 25000 : 7000),
+      duration: (action ? 5000 : 3000),
       panelClass: (panelClass ? [panelClass] : ['snackbar'])
     };
 
