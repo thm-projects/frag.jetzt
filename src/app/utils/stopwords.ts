@@ -52,6 +52,8 @@ export const stopWords = [
   'liest',
   'Dont',
   'mussten',
-  'Herr'
+  'Herr',
+  'Wohin',
+  'Wieviel'
 ];
 export const superfluousSpecialCharacters = '“”‘’„‚«»‹›『』﹃﹄「」﹁﹂",《》〈〉\'`#&…\\';
