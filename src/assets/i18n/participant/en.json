@@ -78,6 +78,7 @@
     "pause-comments": "Freezes the display to read the questions at rest. Questions can still be asked and scored. The display is only updated again by clicking the button.",
     "play-comments": "Start the question stream",
     "comment-got-favorited": "Hey, you got a star for a question!",
+    "comment-got-unfavorited": "Hey, sorry your star was deleted",
     "comment-stream-stopped": "Question stream has been stopped.",
     "comment-stream-started": "Question stream has been started.",
     "comment-sent": "Your entry has been published.",

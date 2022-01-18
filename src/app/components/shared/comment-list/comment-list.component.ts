@@ -389,6 +389,11 @@ export class CommentListComponent implements OnInit, OnDestroy {
               this.notificationService.show(ret);
             });
           }
+          if (this.user.id === update.comment.creatorId && !update.comment.favorite) {
+            this.translateService.get('comment-list.comment-got-unfavorited').subscribe(ret => {
+              this.notificationService.show(ret);
+            });
+          }
         }
       }
       if (update.finished && wasUpdate) {
