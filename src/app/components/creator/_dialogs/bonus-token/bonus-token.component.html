@@ -112,15 +112,16 @@
                       </button>
                       <mat-menu #moreActions="matMenu"
                                 xPosition="before">
-                        <button mat-menu-item
-                                (click)="openDeleteAllBonusDialog()">
-                          <mat-icon class="delete material-icons-outlined">delete</mat-icon>
-                          <span class="delete-text"> {{ 'room-page.delete-all-tokens' | translate}}</span>
-                        </button>
+
                         <button mat-menu-item
                                 (click)="export()">
                           <mat-icon class="export material-icons-outlined">file_download</mat-icon>
                           <span class="delete-text">{{ 'room-page.export-bonus-archive' | translate }}</span>
+                        </button> 
+                        <button mat-menu-item
+                                (click)="openDeleteAllBonusDialog()">
+                          <mat-icon class="delete material-icons-outlined">delete</mat-icon>
+                          <span class="delete-text"> {{ 'room-page.delete-all-tokens' | translate}}</span>
                         </button>
                       </mat-menu>
                   </th>
