@@ -100,7 +100,7 @@
     "filter-read": "Besprochene Fragen",
     "filter-reset": "Zurücksetzen",
     "filter-wrong": "Verneinte Fragen",
-    "comment-got-favorited": "Der Fragesteller kann den Stern gegen einen Bonus einlösen.",
+    "question-was-marked-with-a-star": "Der Fragesteller kann den Stern per Mail gegen einen Bonus einlösen.",
     "owner": "Fragen, die ich gestellt habe",
     "read": "Fragen, die der Vortragende coram publico besprochen hat",
     "really-delete": "Willst du die Frage wirklich löschen?",
