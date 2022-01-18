@@ -213,6 +213,8 @@
     "downvote": "down votes:",
     "questioner-name": "Self assigned name",
     "brainstorming-placeholder": "Every idea is welcome!\nCreate a separate entry for each new idea.",
+    "brainstorming-info-single": "{{maxWordCount}} word / {{maxWordLength}} characters",
+    "brainstorming-info-multiple": "{{maxWordCount}} words / {{maxWordLength}} characters",
     "error-comment-brainstorming": "This brainstorming session allows only {{maxWordCount}} words.",
     "update": "Save",
     "border-tooltip-border-moderated": "This question is in moderation.",

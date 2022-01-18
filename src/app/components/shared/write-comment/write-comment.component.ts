@@ -52,6 +52,7 @@ export class WriteCommentComponent implements OnInit {
   isSpellchecking = false;
   hasSpellcheckConfidence = true;
   newLang = 'auto';
+  brainstormingInfo: string;
   readonly questionerNameMin = 2;
   readonly questionerNameMax = 30;
   questionerNameFormControl = new FormControl('', [
@@ -74,6 +75,10 @@ export class WriteCommentComponent implements OnInit {
     if (this.brainstormingData) {
       this.translateService.get('comment-page.brainstorming-placeholder', this.brainstormingData)
         .subscribe(msg => this.placeholder = msg);
+      this.translateService.get(this.brainstormingData.maxWordCount === 1 ?
+        'comment-page.brainstorming-info-single' :
+        'comment-page.brainstorming-info-multiple', this.brainstormingData)
+        .subscribe(msg => this.brainstormingInfo = msg);
     }
     if (this.isCommentAnswer) {
       this.maxTextCharacters = this.isModerator ? 2000 : 0;

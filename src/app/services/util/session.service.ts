@@ -154,7 +154,7 @@ export class SessionService {
         this._currentRole.next(UserRole.PARTICIPANT);
         break;
       case 'moderator':
-        this._canChangeRoleOnRoute = !url.endsWith('/moderator/comments');
+        this._canChangeRoleOnRoute = !url.endsWith('/moderator/comments') && segments[1]?.path !== 'join';
         this._currentRole.next(UserRole.EXECUTIVE_MODERATOR);
         break;
       case 'creator':

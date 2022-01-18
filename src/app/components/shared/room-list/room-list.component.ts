@@ -46,7 +46,7 @@ export class RoomListComponent implements OnInit, OnDestroy {
   sub: Subscription;
 
   tableDataSource: MatTableDataSource<Room>;
-  displayedColumns = ['name', 'shortId', 'role', 'button'] as const;
+  displayedColumns = ['name', 'shortId', 'role', 'moderator-access', 'button'] as const;
 
   creatorRole = UserRole.CREATOR;
   participantRole = UserRole.PARTICIPANT;
@@ -86,6 +86,10 @@ export class RoomListComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.sub?.unsubscribe();
+  }
+
+  showCode(room: Room): void {
+    this.moderatorService.getModeratorRoomCode(room.id).subscribe(code => console.log(code));
   }
 
   getRooms(): void {

@@ -6,6 +6,7 @@ import { RoomModeratorPageComponent } from './room-moderator-page/room-moderator
 import { CommentPageComponent } from '../shared/comment-page/comment-page.component';
 import { ModeratorCommentPageComponent } from './moderator-comment-page/moderator-comment-page.component';
 import { CommentAnswerComponent } from '../shared/comment-answer/comment-answer.component';
+import { ModeratorJoinComponent } from './moderator-join/moderator-join.component';
 
 const routes: Routes = [
   {
@@ -31,6 +32,10 @@ const routes: Routes = [
     component: CommentAnswerComponent,
     canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.EXECUTIVE_MODERATOR] }
+  },
+  {
+    path: 'join/:shortId',
+    component: ModeratorJoinComponent
   }
 ];
 
@@ -38,4 +43,5 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class ModeratorRoutingModule { }
+export class ModeratorRoutingModule {
+}

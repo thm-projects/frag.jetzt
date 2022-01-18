@@ -577,7 +577,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
       'color: var(--tag-cloud-inverted-background) !important; }');
     customTagCloudStyles.sheet.insertRule('#footer_rescale {' +
       'display: none; }');
-    customTagCloudStyles.sheet.insertRule('div.main_container {' +
+    customTagCloudStyles.sheet.insertRule('div.main_container, app-header > mat-toolbar {' +
       'background-color: var(--tag-cloud-background-color) !important; }');
   }
 

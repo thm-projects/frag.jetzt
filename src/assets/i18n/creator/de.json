@@ -255,6 +255,8 @@
     "downvote": "negativ:",
     "questioner-name": "Selbst vergebener Name",
     "brainstorming-placeholder": "Jede Idee ist willkommen!\nErstelle für jede neue Idee einen eigenen Eintrag.",
+    "brainstorming-info-single": "{{maxWordCount}} Wort / {{maxWordLength}} Zeichen",
+    "brainstorming-info-multiple": "{{maxWordCount}} Wörter / {{maxWordLength}} Zeichen",
     "error-comment-brainstorming": "Diese Brainstorming-Sitzung erlaubt nur eine Wortanzahl von {{maxWordCount}}.",
     "update": "Speichern",
     "border-tooltip-border-moderated": "Diese Frage ist in der Moderation.",
@@ -335,6 +337,12 @@
     "create-session": "Neue Sitzung",
     "created": "Die Sitzung »{{longRoomName}}« wurde erstellt.",
     "no-empty-name": "Gib einen Namen ein. Der Raum-Code wird generiert."
+  },
+  "moderator-join": {
+    "title": "Moderator-Beitritt",
+    "description": "Willst du dem Raum »{{room.name}}« als Moderator beitreten?",
+    "cancel": "Abbrechen",
+    "confirm": "Beitreten"
   },
   "quill": {
     "cancel": "Abbrechen",
