@@ -67,7 +67,7 @@ export class AppComponent implements OnInit {
       });
       this.translationService.get('home-page.update-available').subscribe(msg => {
         this.notification.show(msg, install, {
-          duration:5000,
+          duration: 5000,
         });
       });
       this.notification.snackRef.afterDismissed().subscribe(info => {
