@@ -86,7 +86,7 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed()
       .subscribe(result => {
         if (result === 'delete') {
-          this.toggleFavorite(bonusToken);
+          this.deleteBonus(bonusToken);
         }
       });
   }
@@ -105,17 +105,6 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
   }
 
   deleteBonus(bonusToken: BonusToken): void {
-    // Delete bonus via bonus-token-service
-    this.bonusTokenService.deleteToken(bonusToken.commentId, bonusToken.accountId).subscribe(_ => {
-      this.translateService.get('room-page.token-deleted').subscribe(msg => {
-        this.notificationService.show(msg);
-      });
-      const event = new BonusTokenDeleted(bonusToken.token);
-      this.eventService.broadcast(event.type, event.payload);
-    });
-  }
-
-  toggleFavorite(bonusToken: BonusToken): void {
     this.commentService.getComment(bonusToken.commentId).subscribe(comment => {
       this.commentService.toggleFavorite(comment).subscribe(_ => {
         const event = new BonusTokenDeleted(bonusToken.token);
@@ -125,12 +114,8 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
   }
 
   deleteAllBonuses(): void {
-    // Delete all bonuses via bonus-token-service with roomId
-    this.bonusTokenService.deleteTokensByRoomId(this.room.id).subscribe(_ => {
-      this.translateService.get('room-page.tokens-deleted').subscribe(msg => {
-        this.dialogRef.close();
-        this.notificationService.show(msg);
-      });
+    this.bonusTokens.forEach(bt => {
+      this.deleteBonus(bt);
     });
   }
 
