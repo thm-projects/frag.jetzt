@@ -144,10 +144,10 @@
     "select-keywords": "The text analysis suggests keywords. Which best describe your question?"
   },
   "introductions": {
-    "cancel": "Cancel",
-    "question-wall-title": "Introduction for presentation",
-    "brainstorming-title": "Introduction for Brainstorming",
-    "tag-cloud-title": "Introduction for the topic cloud"
+    "cancel": "Close",
+    "question-wall-title": "Introduction to the presentation mode",
+    "brainstorming-title": "Introduction to brainstorming",
+    "tag-cloud-title": "Introduction to the topic cloud"
   },
   "comment-page": {
     "a11y-comment_delete": "Deletes this question",

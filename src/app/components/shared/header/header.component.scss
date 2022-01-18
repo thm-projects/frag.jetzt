@@ -89,16 +89,29 @@ h2 {
 }
 
 .header-slogan-desktop {
-  margin-right: 10px;
-  margin-left: 130px;
-  font-size: medium !important;
-  color: var(--on-background);
+  margin-left: 100px;
+  font-size: unset !important;
+  letter-spacing: 1px;
+  color: var(--primary);
+}
+
+.header-slogan-desktop-safari {
+  margin-left: 150px;
+  font-size: unset !important;
+  letter-spacing: 1px;
+  color: var(--primary);
 }
 
 .header-slogan-mobile {
-  margin-left: 30px;
-  font-size: medium !important;
-  color: var(--on-background);
+  margin-right: 7px;
+  letter-spacing: 1px;
+  color: var(--primary);
+}
+
+.header-slogan-mobile-safari {
+  margin-left: 70px;
+  letter-spacing: 1px;
+  color: var(--primary);
 }
 
 .label-icon {

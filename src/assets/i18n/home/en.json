@@ -72,8 +72,8 @@
     "block": "Block new questions",
     "unlock": "Release for new questions",
     "delete-account": "Delete account",
-    "home-header": "",
-    "home-header-mobile": "",
+    "home-header": "Live Q&A",
+    "home-header-mobile": "Live Q&A",
     "id": "Key",
     "logged-out": "You are logged out now.",
     "login": "Sign in",
@@ -160,11 +160,11 @@
     "invalid-char-shortid": "This key code contains invalid characters."
   },
   "introductions": {
-    "cancel": "Cancel",
-    "comment-list-title": "Introduction for the Q&A forum",
-    "moderation-title": "Introduction for the moderation",
-    "room-list-title": "Introduction for the room list",
-    "room-page-title": "Introduction for the room overview"
+    "cancel": "Close",
+    "comment-list-title": "Introduction to the Q&A forum",
+    "moderation-title": "Introduction to the moderation",
+    "room-list-title": "Introduction to the room list",
+    "room-page-title": "Introduction to the room overview"
   },
   "content": {
     "cancel": "Cancel",
@@ -229,11 +229,11 @@
     "roomJoinTitle": "Join an event",
     "createRoom": "Anyone can create a room for an event. The access code is either generated or you determine it yourself. Bear in mind that without registration, the room and all its data will only exist in this browser.",
     "createRoomTitle": "Create a room",
-    "introduction": "If you want to create your own rooms, then find out about the didactic concept and the usage scenarios of »frag.jetzt«.",
+    "introduction": "If you want to create your own rooms, then find out about the didactic concept and the usage scenarios of »frag.jetzt«. Within the app, you will find a help page for the current context at this point.",
     "introductionTitle": "Introduction to »frag.jetzt«",
     "feedbackLink": "You found a bug? You would like to have another feature? The link leads you to the feedback room. The tour will continue in this room.",
     "feedbackLinkTitle": "Feedback room",
-    "optionHeader": "This is the main menu of »frag.jetzt«. In addition to the options of the current page, you will also find general functions here such as the room list.",
+    "optionHeader": "This is the main menu of »frag.jetzt«. In addition to the options of the current page, you will also find general functions here such as the room list or the news from the »frag.jetzt« team.",
     "optionHeaderTitle": "Options"
   },
   "login": {
