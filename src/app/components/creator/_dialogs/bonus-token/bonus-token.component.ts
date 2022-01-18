@@ -86,7 +86,7 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed()
       .subscribe(result => {
         if (result === 'delete') {
-          this.deleteBonus(bonusToken);
+          this.toggleFavorite(bonusToken);
         }
       });
   }
@@ -112,6 +112,15 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
       });
       const event = new BonusTokenDeleted(bonusToken.token);
       this.eventService.broadcast(event.type, event.payload);
+    });
+  }
+
+  toggleFavorite(bonusToken: BonusToken): void {
+    this.commentService.getComment(bonusToken.commentId).subscribe(comment => {
+      this.commentService.toggleFavorite(comment).subscribe(_ => {
+        const event = new BonusTokenDeleted(bonusToken.token);
+        this.eventService.broadcast(event.type, event.payload);
+      });
     });
   }
 
