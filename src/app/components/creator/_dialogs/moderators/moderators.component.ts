@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { NotificationService } from '../../../../services/util/notification.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -18,6 +18,7 @@ import { ModeratorRefreshCodeComponent } from '../moderator-refresh-code/moderat
 })
 export class ModeratorsComponent implements OnInit {
 
+  @Input() isCreator: boolean;
   roomId: string;
   moderators: Moderator[] = [];
   userIds: string[] = [];
@@ -25,12 +26,17 @@ export class ModeratorsComponent implements OnInit {
 
   get shortIdCode() {
     if (!this.moderatorShortId) {
-      return '---- ----';
+      if (this.isLoading) {
+        return '---- ----';
+      }
+      return this.notGeneratedMessage;
     }
     return this.moderatorShortId;
   }
 
   usernameFormControl = new FormControl('', [Validators.email]);
+  private isLoading = true;
+  private notGeneratedMessage: string;
 
   constructor(
     public dialogRef: MatDialogRef<RoomCreatorPageComponent>,
@@ -41,12 +47,18 @@ export class ModeratorsComponent implements OnInit {
     protected langService: LanguageService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
-    langService.getLanguage().subscribe(lang => translationService.use(lang));
+    langService.getLanguage().subscribe(lang => {
+      translationService.use(lang);
+      this.translationService.get('moderators-dialog.not-generated')
+        .subscribe(msg => this.notGeneratedMessage = msg);
+    });
   }
 
   ngOnInit() {
-    this.moderatorService.getModeratorRoomCode(this.roomId)
-      .subscribe(shortId => this.moderatorShortId = String(shortId));
+    this.moderatorService.getModeratorRoomCode(this.roomId).subscribe(shortId => {
+      this.moderatorShortId = shortId;
+      this.isLoading = false;
+    }, _ => this.isLoading = false);
     this.getModerators();
   }
 
@@ -61,10 +73,12 @@ export class ModeratorsComponent implements OnInit {
     const url = `${window.location.protocol}//${window.location.host}/moderator/join/${this.moderatorShortId}`;
     navigator.clipboard.writeText(url).then(() => {
       this.translationService.get('moderators-dialog.session-id-copied').subscribe(msg => {
-        this.notificationService.show(msg, '', { duration: 2000 });
+        this.notificationService.show(msg);
       });
     }, () => {
-      console.log('Clipboard write failed.');
+      this.translationService.get('moderators-dialog.something-went-wrong').subscribe(msg => {
+        this.notificationService.show(msg);
+      });
     });
   }
 
@@ -73,10 +87,14 @@ export class ModeratorsComponent implements OnInit {
     reference.afterClosed().subscribe(value => {
       if (value === true) {
         this.moderatorService.refreshRoomCode(this.roomId).subscribe(newShortId => {
-          this.moderatorShortId = String(newShortId);
-          this.moderators.length = 0;
-        }, _ => this.translationService.get('moderators-dialog.something-went-wrong')
-          .subscribe(msg => this.notificationService.show(msg)));
+          this.moderatorShortId = newShortId;
+          this.moderators = this.moderators.filter(m => m.loginId);
+          this.translationService.get('moderators-dialog.code-recreated')
+            .subscribe(msg => this.notificationService.show(msg));
+        }, () => {
+          this.translationService.get('moderators-dialog.something-went-wrong')
+            .subscribe(msg => this.notificationService.show(msg));
+        });
       }
     });
   }

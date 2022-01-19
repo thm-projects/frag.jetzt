@@ -2,10 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Moderator } from '../../models/moderator';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError, map, tap } from 'rxjs/operators';
 import { BaseHttpService } from './base-http.service';
 import { User } from '../../models/user';
-import { Room } from '../../models/room';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -48,6 +47,7 @@ export class ModeratorService extends BaseHttpService {
     const url = `${this.apiUrl.base + this.apiUrl.room}/${parentRoomId + this.apiUrl.moderatorCode}`;
     return this.http.get(url, httpOptions).pipe(
       tap(_ => ''),
+      map(obj => obj['accessCode']),
       catchError(this.handleError<any>('getModeratorRoomCode'))
     );
   }
@@ -64,6 +64,7 @@ export class ModeratorService extends BaseHttpService {
     const url = `${this.apiUrl.base + this.apiUrl.room}/${roomId + this.apiUrl.recreateCode}`;
     return this.http.put(url, null, httpOptions).pipe(
       tap(_ => ''),
+      map(obj => obj['accessCode']),
       catchError(this.handleError<any>('refreshRoomCode'))
     );
   }
