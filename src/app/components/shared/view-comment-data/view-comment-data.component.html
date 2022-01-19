@@ -6,13 +6,16 @@
                 (document:click)="onDocumentClick($event)"
                 (window:resize)="recalcAspectRatio()">
     <div quill-editor-toolbar>
-      <ng-container [ngTemplateOutlet]="isModerator ? moderatorToolbar : participantToolbar">
+      <ng-container [ngTemplateOutlet]="isBrainstorming ? brainstormingToolbar : (isModerator ? moderatorToolbar : participantToolbar)">
       </ng-container>
     </div>
   </quill-editor>
   <div #tooltipContainer></div>
   <div fxLayout="row" style="justify-content: flex-end; padding: 0 5px">
-    <span aria-hidden="true" style="font-size: 75%">
+    <span aria-hidden="true" style="font-size: 75%" *ngIf="textOverwrite">
+      {{textOverwrite}}
+    </span>
+    <span aria-hidden="true" style="font-size: 75%" *ngIf="!textOverwrite">
       {{currentText.length}} / {{maxTextCharacters}}
     </span>
   </div>
@@ -21,6 +24,10 @@
   <quill-view #quillView [modules]="quillModules" (window:resize)="recalcAspectRatio()">
   </quill-view>
 </div>
+
+<ng-template #brainstormingToolbar>
+  <span class="ql-formats"></span>
+</ng-template>
 
 <ng-template #participantToolbar>
   <span class="ql-formats">

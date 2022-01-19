@@ -4,8 +4,10 @@ h2 {
   margin-bottom: 10px;
 }
 
-p {
+p, em {
   font-size: medium;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
 }
 
 mat-form-field {

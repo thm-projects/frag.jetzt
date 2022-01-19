@@ -11,6 +11,7 @@ import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { MarkdownModule } from 'ngx-markdown';
 import { ArsModule } from '../../../../projects/ars/src/lib/ars.module';
+import { ModeratorJoinComponent } from './moderator-join/moderator-join.component';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export const HttpLoaderFactory = (http: HttpClient) => new TranslateHttpLoader(http, '../../assets/i18n/creator/', '.json');
@@ -35,7 +36,8 @@ export const HttpLoaderFactory = (http: HttpClient) => new TranslateHttpLoader(h
   declarations: [
     RoomModeratorPageComponent,
     ModeratorCommentListComponent,
-    ModeratorCommentPageComponent
+    ModeratorCommentPageComponent,
+    ModeratorJoinComponent
   ]
 })
 export class ModeratorModule {

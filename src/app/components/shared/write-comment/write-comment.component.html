@@ -15,10 +15,10 @@
       </span>
     <mat-select class="select-list" #select [(ngModel)]="selectedLang">
       <mat-option *ngFor="let lang of languages" [value]="lang">
-        <span *ngIf="lang == 'de-DE'">{{ 'spacy-dialog.de' | translate }}</span>
-        <span *ngIf="lang == 'en-US'">{{ 'spacy-dialog.en' | translate }}</span>
-        <span *ngIf="lang == 'fr'">{{ 'spacy-dialog.fr' | translate }}</span>
-        <span *ngIf="lang == 'auto'"><em>{{ 'spacy-dialog.auto' | translate }}</em></span>
+        <span *ngIf="lang === 'de-DE'">{{ 'spacy-dialog.de' | translate }}</span>
+        <span *ngIf="lang === 'en-US'">{{ 'spacy-dialog.en' | translate }}</span>
+        <span *ngIf="lang === 'fr'">{{ 'spacy-dialog.fr' | translate }}</span>
+        <span *ngIf="lang === 'auto'"><em>{{ 'spacy-dialog.auto' | translate }}</em></span>
       </mat-option>
     </mat-select>
   </button>
@@ -40,6 +40,8 @@
 <ars-row [height]="12"></ars-row>
 <app-view-comment-data *ngIf="enabled"
                        [isModerator]="isModerator"
+                       [isBrainstorming]="!!brainstormingData"
+                       [textOverwrite]="brainstormingInfo"
                        [isEditor]="true"
                        [maxTextCharacters]="maxTextCharacters"
                        [maxDataCharacters]="maxDataCharacters"

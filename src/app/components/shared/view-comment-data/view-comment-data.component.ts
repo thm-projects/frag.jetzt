@@ -29,7 +29,9 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
   @ViewChild('quillView') quillView: QuillViewComponent;
   @ViewChild('editorErrorLayer') editorErrorLayer: ElementRef<HTMLDivElement>;
   @ViewChild('tooltipContainer') tooltipContainer: ElementRef<HTMLDivElement>;
+  @Input() textOverwrite: string = null;
   @Input() isEditor = false;
+  @Input() isBrainstorming = false;
   @Input() isModerator = false;
 
   @Input()

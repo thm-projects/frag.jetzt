@@ -5,6 +5,7 @@ import { Moderator } from '../../models/moderator';
 import { catchError, tap } from 'rxjs/operators';
 import { BaseHttpService } from './base-http.service';
 import { User } from '../../models/user';
+import { Room } from '../../models/room';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -16,6 +17,8 @@ export class ModeratorService extends BaseHttpService {
     base: '/api',
     room: '/room',
     moderator: '/moderator',
+    moderatorCode: '/moderator-code',
+    recreateCode: '/moderator-refresh',
     user: '/user',
     find: '/find'
   };
@@ -38,6 +41,30 @@ export class ModeratorService extends BaseHttpService {
     return this.http.put(url, httpOptions).pipe(
       tap(_ => ''),
       catchError(this.handleError<any>('addModerator'))
+    );
+  }
+
+  getModeratorRoomCode(parentRoomId: string): Observable<string> {
+    const url = `${this.apiUrl.base + this.apiUrl.room}/${parentRoomId + this.apiUrl.moderatorCode}`;
+    return this.http.get(url, httpOptions).pipe(
+      tap(_ => ''),
+      catchError(this.handleError<any>('getModeratorRoomCode'))
+    );
+  }
+
+  addByRoomCode(moderatorRoomId: string) {
+    const url = `${this.apiUrl.base + this.apiUrl.room}/${moderatorRoomId + this.apiUrl.moderatorCode}/`;
+    return this.http.post(url, null, httpOptions).pipe(
+      tap(_ => ''),
+      catchError(this.handleError<any>('addByRoomCode'))
+    );
+  }
+
+  refreshRoomCode(roomId: string): Observable<string> {
+    const url = `${this.apiUrl.base + this.apiUrl.room}/${roomId + this.apiUrl.recreateCode}`;
+    return this.http.put(url, null, httpOptions).pipe(
+      tap(_ => ''),
+      catchError(this.handleError<any>('refreshRoomCode'))
     );
   }
 
@@ -70,7 +97,8 @@ export class ModeratorService extends BaseHttpService {
 
   addToHistory(roomId: string, userId: string): void {
     this.joinDate = new Date(Date.now());
-    const connectionUrl = `${ this.apiUrl.base + this.apiUrl.user }/${ userId }/roomHistory`;
-    this.http.post(connectionUrl, { roomId: roomId, lastVisit: this.joinDate.getTime() }, httpOptions).subscribe(() => {});
+    const connectionUrl = `${this.apiUrl.base + this.apiUrl.user}/${userId}/roomHistory`;
+    this.http.post(connectionUrl, { roomId, lastVisit: this.joinDate.getTime() }, httpOptions)
+      .subscribe(() => '');
   }
 }

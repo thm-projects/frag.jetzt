@@ -54,7 +54,13 @@ export class RoomDataProfanityFilter {
     [before: CommentFilterData, after: CommentFilterData, hasProfanity: boolean] {
     const keywordsFromSpacy = RoomDataProfanityFilter.cloneKeywords(comment.keywordsFromSpacy);
     const keywordsFromQuestioner = RoomDataProfanityFilter.cloneKeywords(comment.keywordsFromQuestioner);
+    if (!comment.answerFulltextKeywords) {
+      comment.answerFulltextKeywords = [];
+    }
     const answerFulltextKeywords = RoomDataProfanityFilter.cloneKeywords(comment.answerFulltextKeywords);
+    if (!comment.answerQuestionerKeywords) {
+      comment.answerQuestionerKeywords = [];
+    }
     const answerQuestionerKeywords = RoomDataProfanityFilter.cloneKeywords(comment.answerQuestionerKeywords);
     const after = this.filterCommentOfProfanity(room, comment);
     return [

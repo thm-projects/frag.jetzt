@@ -173,6 +173,23 @@
           </td>
         </ng-container>
 
+        <!-- Join button column -->
+        <ng-container matColumnDef="moderator-access">
+          <th mat-header-cell
+              *matHeaderCellDef
+              style="width: 1%; text-align: end">
+            {{ 'room-list.panel-join-button' | translate }}
+          </th>
+          <td mat-cell
+              *matCellDef="let room"
+              style="text-align: end; padding-right: 0"
+              attr.aria-labelledby="empty">
+            <button mat-icon-button (click)="showModeratorsDialog(room)" *ngIf="room.role > 0">
+              <mat-icon>key</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
         <tr mat-header-row
             *matHeaderRowDef="displayedColumns; sticky: true"></tr>
         <tr mat-row

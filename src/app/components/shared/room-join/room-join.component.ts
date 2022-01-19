@@ -9,10 +9,10 @@ import { TranslateService } from '@ngx-translate/core';
 import { AuthenticationService, LoginResult } from '../../../services/http/authentication.service';
 import { UserRole } from '../../../models/user-roles.enum';
 import { User } from '../../../models/user';
-import { Moderator } from '../../../models/moderator';
 import { ModeratorService } from '../../../services/http/moderator.service';
 import { KeyboardUtils } from '../../../utils/keyboard';
 import { KeyboardKey } from '../../../utils/keyboard/keys';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-room-join',
@@ -22,7 +22,6 @@ import { KeyboardKey } from '../../../utils/keyboard/keys';
 export class RoomJoinComponent implements OnInit {
   @ViewChild('sessionCode') sessionCodeElement: ElementRef;
 
-  room: Room;
   user: User;
 
   sessionCodeFormControl = new FormControl('', [Validators.required, Validators.pattern('[0-9 ]*')]);
@@ -43,73 +42,17 @@ export class RoomJoinComponent implements OnInit {
     this.authenticationService.watchUser.subscribe(newUser => this.user = newUser);
   }
 
-  onEnter() {
-    this.getRoom(this.sessionCodeElement.nativeElement.value);
-  }
-
-  getRoom(id: string): void {
-    this.roomService.getErrorHandledRoomByShortId(id, () => {
-      this.translateService.get('home-page.no-room-found').subscribe(message => {
-        this.notificationService.show(message);
-      });
-    })
-    .subscribe(room => {
-      this.room = room;
-      if (!room) {
-        this.translateService.get('home-page.no-room-found').subscribe(message => {
-          this.notificationService.show(message);
-        });
-      } else {
-        if (!this.user) {
-          this.guestLogin();
-        } else {
-          this.addAndNavigate();
-        }
-      }
-    });
-  }
-
   joinRoom(id: string): void {
-    if (!this.sessionCodeFormControl.hasError('required') && !this.sessionCodeFormControl.hasError('minlength')) {
-      if (!this.user) {
-        this.authenticationService.guestLogin(UserRole.PARTICIPANT).subscribe(() => {
-          this.getRoom(id);
-        });
-      } else {
-        this.getRoom(id);
-      }
+    if (this.sessionCodeFormControl.hasError('required') || this.sessionCodeFormControl.hasError('minlength')) {
+      return;
     }
-  }
-
-  guestLogin() {
-    this.authenticationService.guestLogin(UserRole.PARTICIPANT).subscribe(result => {
-      if (result === LoginResult.success) {
-        this.addAndNavigate();
-      }
+    if (this.user) {
+      this.getRoom(id);
+      return;
+    }
+    this.authenticationService.guestLogin(UserRole.PARTICIPANT).subscribe(() => {
+      this.getRoom(id);
     });
-  }
-
-  addAndNavigate() {
-    if (this.user.id === this.room.ownerId) {
-      this.authenticationService.setAccess(this.room.shortId, UserRole.CREATOR);
-      this.router.navigate([`/creator/room/${this.room.shortId}/comments`]);
-    } else {
-      this.roomService.addToHistory(this.room.id);
-      this.moderatorService.get(this.room.id).subscribe((moderators: Moderator[]) => {
-        let isModerator = false;
-        for (const m of moderators) {
-          if (m.accountId === this.user.id) {
-            this.authenticationService.setAccess(this.room.shortId, UserRole.EXECUTIVE_MODERATOR);
-            this.router.navigate([`/moderator/room/${this.room.shortId}/comments`]);
-            isModerator = true;
-          }
-        }
-        if (!isModerator) {
-          this.authenticationService.setAccess(this.room.shortId, UserRole.PARTICIPANT);
-          this.router.navigate([`/participant/room/${this.room.shortId}/comments`]);
-        }
-      });
-    }
   }
 
   cookiesDisabled(): boolean {
@@ -136,5 +79,78 @@ export class RoomJoinComponent implements OnInit {
     } else if (sessionCode.length === 4 && isBackspaceKeyboardEvent === false) { // add a space between each 4 digit group
       this.sessionCodeElement.nativeElement.value += ' ';
     }
+  }
+
+  private getRoom(id: string): void {
+    this.roomService.getErrorHandledRoomByShortId(id, () => {
+      this.translateService.get('home-page.no-room-found').subscribe(message => {
+        this.notificationService.show(message);
+      });
+    }).subscribe(room => {
+      if (room?.moderatorRoomReference) {
+        this.onModeratorCodeJoin(room);
+        return;
+      }
+      this.onRoomReceive(room);
+    });
+  }
+
+  private onModeratorCodeJoin(room: Room) {
+    if (!this.user) {
+      this.getRoom(room.moderatorRoomReference);
+      return;
+    }
+    forkJoin([
+      this.roomService.getRoom(room.moderatorRoomReference),
+      this.moderatorService.get(room.moderatorRoomReference)
+    ]).subscribe(([parent, mods]) => {
+      const modSet = new Set(mods.map(m => m.accountId));
+      if (parent.ownerId === this.user.id || modSet.has(this.user.id)) {
+        this.addAndNavigate(parent, modSet);
+        return;
+      }
+      this.router.navigate([`/moderator/join/${room.shortId}`]);
+    });
+  }
+
+  private onRoomReceive(room: Room) {
+    if (!room) {
+      this.translateService.get('home-page.no-room-found').subscribe(message => {
+        this.notificationService.show(message);
+      });
+      return;
+    }
+    this.moderatorService.get(room.id).subscribe(mods => {
+      const modSet = new Set(mods.map(m => m.accountId));
+      if (this.user) {
+        this.addAndNavigate(room, modSet);
+        return;
+      }
+      this.guestLogin(room, modSet);
+    });
+  }
+
+  private guestLogin(room: Room, mods: Set<string>) {
+    this.authenticationService.guestLogin(UserRole.PARTICIPANT).subscribe(result => {
+      if (result === LoginResult.success) {
+        this.addAndNavigate(room, mods);
+      }
+    });
+  }
+
+  private addAndNavigate(room: Room, mods: Set<string>) {
+    if (this.user.id === room.ownerId) {
+      this.authenticationService.setAccess(room.shortId, UserRole.CREATOR);
+      this.router.navigate([`/creator/room/${room.shortId}/comments`]);
+      return;
+    }
+    this.roomService.addToHistory(room.id);
+    if (mods.has(this.user.id)) {
+      this.authenticationService.setAccess(room.shortId, UserRole.EXECUTIVE_MODERATOR);
+      this.router.navigate([`/moderator/room/${room.shortId}/comments`]);
+      return;
+    }
+    this.authenticationService.setAccess(room.shortId, UserRole.PARTICIPANT);
+    this.router.navigate([`/participant/room/${room.shortId}/comments`]);
   }
 }

@@ -138,7 +138,7 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
       }
       this.isBrainstorming = isBrainstorming;
       this.tagData = tagData;
-      this.categories = Array.from(tagData.categories.keys());
+      this.categories = isBrainstorming ? [] : Array.from(tagData.categories.keys());
       this.calculateDateText(() => {
         this.position(elem);
         this.isBlacklistActive = isBlacklistActive;
