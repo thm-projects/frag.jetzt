@@ -27,7 +27,7 @@ export class ModeratorsComponent implements OnInit {
     if (!this.moderatorShortId) {
       return '---- ----';
     }
-    return this.moderatorShortId.substring(0, 4) + ' ' + this.moderatorShortId.substring(4);
+    return this.moderatorShortId;
   }
 
   usernameFormControl = new FormControl('', [Validators.email]);
