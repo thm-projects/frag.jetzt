@@ -100,7 +100,7 @@
     "filter-read": "Besprochene Fragen",
     "filter-reset": "Zurücksetzen",
     "filter-wrong": "Verneinte Fragen",
-    "comment-got-favorited": "Der Fragesteller kann den Stern gegen einen Bonus einlösen.",
+    "question-was-marked-with-a-star": "Der Fragesteller kann den Stern per Mail gegen einen Bonus einlösen.",
     "owner": "Fragen, die ich gestellt habe",
     "read": "Fragen, die der Vortragende coram publico besprochen hat",
     "really-delete": "Willst du die Frage wirklich löschen?",
@@ -144,8 +144,8 @@
   },
   "introductions": {
     "cancel": "Schließen",
-    "question-wall-title": "Einführung zur Präsentation",
-    "brainstorming-title": "Einführung für das Brainstormen",
+    "question-wall-title": "Einführung in den Präsentationsmodus",
+    "brainstorming-title": "Einführung in das Brainstorming",
     "tag-cloud-title": "Einführung in die Themenwolke"
   },
   "comment-page": {

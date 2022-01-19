@@ -386,7 +386,12 @@ export class CommentListComponent implements OnInit, OnDestroy {
       } else if (update.type === 'CommentPatched') {
         if (update.subtype === 'favorite') {
           if (this.user.id === update.comment.creatorId && update.comment.favorite) {
-            this.translateService.get('comment-list.comment-got-favorited').subscribe(ret => {
+            this.translateService.get('comment-list.question-was-marked-with-a-star').subscribe(ret => {
+              this.notificationService.show(ret);
+            });
+          }
+          if (this.user.id === update.comment.creatorId && !update.comment.favorite) {
+            this.translateService.get('comment-list.star-was-withdrawn-from-the-question').subscribe(ret => {
               this.notificationService.show(ret);
             });
           }

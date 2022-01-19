@@ -92,7 +92,7 @@
     "brainstorm-join-session-close": "Schließen",
     "brainstorm-old-session-title": "Letzte Sitzung",
     "brainstorm-old-session-title-short": "Letzte Sitzung",
-    "brainstorm-old-session-info": "Das Thema lautete »{{title}}«.",
+    "brainstorm-old-session-info": "Das Thema lautet »{{title}}«.",
     "brainstorm-old-session-show": "Anzeigen",
     "brainstorm-old-session-delete": "Löschen",
     "brainstorm-no-session": "Keine aktive Sitzung",
@@ -253,7 +253,7 @@
     "introductionTitle": "Einführung in »frag.jetzt«",
     "feedbackLink": "Du hast einen Bug gefunden? Du hättest gern ein weiteres Feature? Der Link führt dich in den Feedback-Raum. Die Tour wird in diesem Raum fortgesetzt.",
     "feedbackLinkTitle": "Raum für Feedback",
-    "optionHeader": "Hier befindet sich das Hauptmenü von »frag.jetzt«. Neben den Optionen der aktuellen Seite findest du hier auch allgemeine Funktionen, darunter die Raumübersicht und die Neuigkeiten des »frag.jetzt«-Teams.",
+    "optionHeader": "Hier befindet sich das Hauptmenü von »frag.jetzt«. Neben den Optionen der aktuellen Seite findest du hier auch allgemeine Funktionen, darunter die Raumübersicht und die Neuigkeiten des »frag.jetzt«-Teams. Die rote Glocke zeigt den Gaststatus des Users an.",
     "optionHeaderTitle": "Optionen"
   },
   "login": {

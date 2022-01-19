@@ -100,7 +100,7 @@
     "filter-read": "Questions discussed",
     "filter-reset": "Reset",
     "filter-wrong": "Negated questions",
-    "comment-got-favorited": "The questioner can redeem the star for a bonus.",
+    "question-was-marked-with-a-star": "The questioner can redeem the star for a bonus by mail.",
     "owner": "Questions I have asked",
     "read": "Discussed",
     "really-delete": "Do you really want to delete this question?",

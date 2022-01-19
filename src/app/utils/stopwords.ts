@@ -11,6 +11,7 @@ export const stopWords = [
   'z. b.',
   'd.h.',
   'd. h.',
+  'd.h',
   'Zum Beispiel',
   'Beispiel',
   'Bsp',

@@ -67,7 +67,8 @@
     "add-comment": "Stell deine Frage!",
     "pause-comments": "Friert die Anzeige ein, um die Fragen in Ruhe zu lesen. Fragen können weiterhin gestellt und bewertet werden. Die Anzeige aktualisiert sich wieder durch Klicken des Buttons.",
     "play-comments": "Neue Fragen und Bewertungen wieder anzeigen",
-    "comment-got-favorited": "Hey, du hast einen Stern für eine Frage bekommen!",
+    "question-was-marked-with-a-star": "Hey, du hast einen Stern für eine gute Frage bekommen!",
+    "star-was-withdrawn-from-the-question": "Sorry, einer deiner Sterne wurde wieder entfernt.",
     "comment-stream-stopped": "Der Fragen-Strom wurde gestoppt.",
     "comment-stream-started": "Der Fragen-Strom wurde gestartet.",
     "comment-sent": "Dein Beitrag wurde veröffentlicht.",
@@ -280,8 +281,8 @@
   },
   "introductions": {
     "cancel": "Schließen",
-    "question-wall-title": "Einführung zur Präsentation",
-    "brainstorming-title": "Einführung für das Brainstormen",
+    "question-wall-title": "Einführung in den Präsentationsmodus",
+    "brainstorming-title": "Einführung in das Brainstorming",
     "tag-cloud-title": "Einführung in die Themenwolke"
   },
   "question-wall": {

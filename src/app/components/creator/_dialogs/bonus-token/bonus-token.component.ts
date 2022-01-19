@@ -18,7 +18,9 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Sort } from '@angular/material/sort';
 import { SelectionModel } from '@angular/cdk/collections';
 import { AuthenticationService } from '../../../../services/http/authentication.service';
-import { UserRole } from '../../../../models/user-roles.enum';
+import { UserRole } from '../../../../../../src/app/models/user-roles.enum';
+import { EventService } from '../../../../../../src/app/services/util/event.service';
+import { BonusTokenDeleted } from '../../../../../../src/app/models/events/bonus-token-deleted';
 import { LanguageService } from '../../../../services/util/language.service';
 
 @Component({
@@ -33,6 +35,7 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
   bonusTokens: BonusToken[] = [];
   lang: string;
   isLoading = true;
+  sub: Subscription;
 
   tableDataSource: MatTableDataSource<BonusToken>;
   displayedColumns: string[] = ['questionNumber', 'token', 'date', 'button'];
@@ -47,17 +50,16 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
   private subscription: Subscription;
   private debounceTime = 800;
 
-  constructor(
-    private bonusTokenService: BonusTokenService,
-    public dialog: MatDialog,
-    protected router: Router,
-    private dialogRef: MatDialogRef<RoomCreatorPageComponent>,
-    private commentService: CommentService,
-    private translateService: TranslateService,
-    private notificationService: NotificationService,
-    private authenticationService: AuthenticationService,
-    private languageService: LanguageService,
-  ) {
+  constructor(private bonusTokenService: BonusTokenService,
+              public eventService: EventService,
+              public dialog: MatDialog,
+              protected router: Router,
+              private dialogRef: MatDialogRef<RoomCreatorPageComponent>,
+              private commentService: CommentService,
+              private translateService: TranslateService,
+              private notificationService: NotificationService, 
+              private authenticationService: AuthenticationService,
+              private languageService: LanguageService) {
     this.languageService.getLanguage().subscribe(lang => {
       this.translateService.use(lang);
       this.lang = lang;
@@ -66,14 +68,17 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.getTokens();
+    this.sub = this.eventService.on<any>('BonusTokenDeleted').subscribe(payload => {
+      this.bonusTokens = this.bonusTokens.filter(bt => bt.token !== payload.token);
+      this.updateTable(false);
+    });
   }
 
   getTokens(): void {
     this.bonusTokenService.getTokensByRoomId(this.room.id).subscribe(bonusTokens => this.updateTokens(bonusTokens));
   }
 
-  openDeleteSingleBonusDialog(userId: string, commentId: string, index: number): void {
-    this.notificationService.show(userId);
+  openDeleteSingleBonusDialog(bonusToken: BonusToken): void {
     const dialogRef = this.dialog.open(BonusDeleteComponent, {
       width: '400px'
     });
@@ -81,7 +86,7 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed()
       .subscribe(result => {
         if (result === 'delete') {
-          this.deleteBonus(userId, commentId, index);
+          this.deleteBonus(bonusToken);
         }
       });
   }
@@ -99,24 +104,18 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
       });
   }
 
-  deleteBonus(userId: string, commentId: string, index: number): void {
-    // Delete bonus via bonus-token-service
-    const toDelete = this.bonusTokens[index];
-    this.bonusTokenService.deleteToken(toDelete.roomId, toDelete.commentId, toDelete.userId).subscribe(_ => {
-      this.translateService.get('room-page.token-deleted').subscribe(msg => {
-        this.bonusTokens.splice(index, 1);
-        this.notificationService.show(msg);
+  deleteBonus(bonusToken: BonusToken): void {
+    this.commentService.getComment(bonusToken.commentId).subscribe(comment => {
+      this.commentService.toggleFavorite(comment).subscribe(_ => {
+        const event = new BonusTokenDeleted(bonusToken.token);
+        this.eventService.broadcast(event.type, event.payload);
       });
     });
   }
 
   deleteAllBonuses(): void {
-    // Delete all bonuses via bonus-token-service with roomId
-    this.bonusTokenService.deleteTokensByRoomId(this.room.id).subscribe(_ => {
-      this.translateService.get('room-page.tokens-deleted').subscribe(msg => {
-        this.dialogRef.close();
-        this.notificationService.show(msg);
-      });
+    this.bonusTokens.forEach(bt => {
+      this.deleteBonus(bt);
     });
   }
 
@@ -192,7 +191,7 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
   }
 
   updateTokens(bonusTokens: BonusToken[]): void {
-    this.bonusTokens = this.bonusTokens.concat(bonusTokens);
+    this.bonusTokens = bonusTokens;
     this.bonusTokens.forEach(element => {
       this.commentService.getComment(element.commentId).subscribe(comment => {
         element.questionNumber = comment.number;
