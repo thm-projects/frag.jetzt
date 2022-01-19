@@ -24,6 +24,27 @@
     "delete": "Delete",
     "delete-description": "Delete your Account"
   },
+  "moderators-dialog": {
+    "title": "Moderators",
+    "join-code": "Join-Code",
+    "empty": "No moderators yet",
+    "guest": "Guest",
+    "cancel": "Cancel",
+    "confirm": "Recreate",
+    "abort": "Abort",
+    "confirm-title": "Recreate Moderator Join Code",
+    "confirm-description": "Do you really want to renew the code? All existing moderators will be removed.",
+    "session-id-copied": "Room link was copied to the clipboard.",
+    "something-went-wrong": "Something went wrong.",
+    "email": "Mail address",
+    "email-error": "E-Mail is invalid.",
+    "a11y-email": "Enter the email of the user you want to add as a moderator",
+    "a11y-add": "Add the entered User as Moderator",
+    "a11y-delete": "Delete this Moderator",
+    "added": "Moderator was added.",
+    "not-found": "A user with the entered mail address could not be found. Are you sure that the user has registered at »frag.jetzt« with this address?",
+    "removed": "Moderator has been removed."
+  },
   "footer": {
     "accessibility-data_protection": "Open the privacy statement.",
     "accessibility-demo": "Open the introduction.",

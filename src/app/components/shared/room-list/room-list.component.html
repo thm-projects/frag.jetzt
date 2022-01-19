@@ -184,7 +184,7 @@
               *matCellDef="let room"
               style="text-align: end; padding-right: 0"
               attr.aria-labelledby="empty">
-            <button mat-icon-button (click)="showCode(room)">
+            <button mat-icon-button (click)="showModeratorsDialog(room)" *ngIf="room.role > 0">
               <mat-icon>key</mat-icon>
             </button>
           </td>

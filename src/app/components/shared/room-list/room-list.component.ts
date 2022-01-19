@@ -19,6 +19,7 @@ import { BonusTokenService } from '../../../services/http/bonus-token.service';
 import { copyCSVString, exportRoom } from '../../../utils/ImportExportMethods';
 import { Sort } from '@angular/material/sort';
 import { filter, take } from 'rxjs/operators';
+import { ModeratorsComponent } from '../../creator/_dialogs/moderators/moderators.component';
 
 type SortFunc<T> = (a: T, b: T) => number;
 
@@ -88,8 +89,11 @@ export class RoomListComponent implements OnInit, OnDestroy {
     this.sub?.unsubscribe();
   }
 
-  showCode(room: Room): void {
-    this.moderatorService.getModeratorRoomCode(room.id).subscribe(code => console.log(code));
+  showModeratorsDialog(room: Room): void {
+    const dialogRef = this.dialog.open(ModeratorsComponent, {
+      width: '400px'
+    });
+    dialogRef.componentInstance.roomId = room.id;
   }
 
   getRooms(): void {

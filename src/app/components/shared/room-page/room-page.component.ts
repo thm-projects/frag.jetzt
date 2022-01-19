@@ -387,14 +387,6 @@ export class RoomPageComponent implements OnInit, OnDestroy {
       });
       e.menuItem({
         translate: this.headerService.getTranslate(),
-        icon: 'gavel',
-        class: 'material-icons-outlined',
-        text: 'header.edit-moderator',
-        callback: () => this.showModeratorsDialog(),
-        condition: () => this.userRole > UserRole.PARTICIPANT
-      });
-      e.menuItem({
-        translate: this.headerService.getTranslate(),
         icon: 'comment_tag',
         class: 'material-icons-outlined',
         isSVGIcon: true,

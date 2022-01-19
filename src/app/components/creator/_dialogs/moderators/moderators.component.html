@@ -1,5 +1,20 @@
 <div mat-dialog-content>
-  <h2 class="oldtypo-h2">{{'room-page.moderators' | translate }}</h2>
+  <h2 class="oldtypo-h2">{{'moderators-dialog.title' | translate }}</h2>
+
+  <div fxLayout="row" fxLayoutAlign="space-around">
+    <h3 class="oldtypo-h3">{{'moderators-dialog.join-code' | translate}}</h3>
+    <p>{{shortIdCode}}</p>
+    <button mat-icon-button
+            (click)="copyShortIdLink()"
+            class="add">
+      <mat-icon>content_copy</mat-icon>
+    </button>
+    <button mat-icon-button
+            (click)="refreshCode()"
+            class="add">
+      <mat-icon>refresh</mat-icon>
+    </button>
+  </div>
 
   <div fxLayout="row">
     <mat-form-field class="input-block">
@@ -10,9 +25,9 @@
              aria-labelledby="moderator-email"
              [formControl]="usernameFormControl"
              name="username"/>
-      <mat-placeholder class="placeholder">{{ 'room-page.moderator-email' | translate }}</mat-placeholder>
+      <mat-placeholder class="placeholder">{{ 'moderators-dialog.email' | translate }}</mat-placeholder>
       <mat-error *ngIf="usernameFormControl.hasError('email')">
-        {{ 'room-page.email-error' | translate }}
+        {{ 'moderators-dialog.email-error' | translate }}
       </mat-error>
     </mat-form-field>
     <span class="fill-remaining-space"></span>
@@ -25,15 +40,18 @@
     <span class="fill-remaining-space"></span>
   </div>
   <p class="oldtypo-p"
-     *ngIf="moderators.length === 0">{{ 'room-page.no-moderators' | translate }}</p>
+     *ngIf="moderators.length === 0">{{ 'moderators-dialog.empty' | translate }}</p>
   <div *ngIf="moderators.length > 0">
     <div fxLayout="row"
          *ngFor="let moderator of moderators; index as i"
          class="moderators">
       <!--List of moderators-->
-      <p class="oldtypo-p">
+      <p class="oldtypo-p" *ngIf="moderator.loginId">
         {{i + 1}}. {{moderator.loginId}}
       </p>
+      <em class="oldtypo-p" *ngIf="!moderator.loginId">
+        {{i + 1}}. {{'moderators-dialog.guest' | translate}}
+      </em>
       <span class="fill-remaining-space"></span>
       <button mat-icon-button
               class="close"
@@ -57,7 +75,7 @@
   </ars-col>
   <ars-col>
     <app-dialog-action-buttons
-      buttonsLabelSection="content"
+      buttonsLabelSection="moderators-dialog"
       [spacing]="false"
       [cancelButtonClickAction]="buildCloseDialogActionCallback()">
     </app-dialog-action-buttons>
@@ -65,7 +83,7 @@
 </ars-row>
 
 <div class="visually-hidden">
-  <div id="moderator-email">{{'room-page.a11y-moderator-email' | translate}}</div>
-  <div id="add-moderator">{{'room-page.a11y-add-moderator' | translate}}</div>
-  <div id="delete-moderator">{{'room-page.a11y-delete-moderator' | translate}}</div>
+  <div id="moderator-email">{{'moderators-dialog.a11y-email' | translate}}</div>
+  <div id="add-moderator">{{'moderators-dialog.a11y-add' | translate}}</div>
+  <div id="delete-moderator">{{'moderators-dialog.a11y-delete' | translate}}</div>
 </div>

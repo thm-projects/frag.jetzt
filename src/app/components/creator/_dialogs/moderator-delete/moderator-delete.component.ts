@@ -1,6 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { ModeratorsComponent } from '../moderators/moderators.component';
 import { DialogConfirmActionButtonType } from '../../../shared/dialog/dialog-action-buttons/dialog-action-buttons.component';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { TranslateService } from '@ngx-translate/core';
@@ -19,7 +18,7 @@ export class ModeratorDeleteComponent implements OnInit {
    */
   confirmButtonType: DialogConfirmActionButtonType = DialogConfirmActionButtonType.Alert;
 
-  constructor(public dialogRef: MatDialogRef<ModeratorsComponent>,
+  constructor(public dialogRef: MatDialogRef<ModeratorDeleteComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
               private liveAnnouncer: LiveAnnouncer,
               private translationService: TranslateService ) { }
