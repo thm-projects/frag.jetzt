@@ -41,23 +41,19 @@ export class ModeratorJoinComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this._sub = this.languageService.getLanguage().subscribe(lang => this.translateService.use(lang));
     this.route.params.subscribe(params => {
-      this.roomService.getErrorHandledRoomByShortId(params.shortId, () => {
-        this.router.navigate(['/']);
-      }).subscribe(room => {
-        if (!room) {
+      this.authenticationService.guestLogin(UserRole.PARTICIPANT).subscribe(result => {
+        if (result !== LoginResult.success) {
           this.router.navigate(['/']);
           return;
         }
-        this.moderatorRoom = room;
-        if (this.user) {
-          this.onRoomReceive(room);
-          return;
-        }
-        this.authenticationService.guestLogin(UserRole.PARTICIPANT).subscribe(result => {
-          if (result !== LoginResult.success) {
+        this.roomService.getErrorHandledRoomByShortId(params.shortId, () => {
+          this.router.navigate(['/']);
+        }).subscribe(room => {
+          if (!room) {
             this.router.navigate(['/']);
             return;
           }
+          this.moderatorRoom = room;
           this.onRoomReceive(room);
         });
       });
