@@ -19,6 +19,7 @@ export class Room {
   blacklistIsActive: boolean;
   brainstormingSession: BrainstormingSession;
   tagCloudSettings: string;
+  moderatorRoomReference: string;
 
   constructor(
     ownerId: string = '',
@@ -36,7 +37,8 @@ export class Room {
     profanityFilter: ProfanityFilter = ProfanityFilter.none,
     blacklistIsActive: boolean = true,
     brainstormingSession: BrainstormingSession = null,
-    tagCloudSettings: string = null
+    tagCloudSettings: string = null,
+    moderatorRoomReference: string = null,
   ) {
     this.id = '';
     this.ownerId = ownerId;
@@ -55,6 +57,7 @@ export class Room {
     this.blacklistIsActive = blacklistIsActive;
     this.brainstormingSession = brainstormingSession;
     this.tagCloudSettings = tagCloudSettings;
+    this.moderatorRoomReference = moderatorRoomReference;
   }
 }
 

@@ -269,6 +269,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
       width: '400px'
     });
     dialogRef.componentInstance.roomId = this.room.id;
+    dialogRef.componentInstance.isCreator = this.sessionService.currentRole === 3;
   }
 
   showBonusTokenDialog(): void {
@@ -383,14 +384,6 @@ export class RoomPageComponent implements OnInit, OnDestroy {
         isSVGIcon: false,
         text: 'header.moderation-mode',
         callback: () => this.showCommentsDialog(),
-        condition: () => this.userRole > UserRole.PARTICIPANT
-      });
-      e.menuItem({
-        translate: this.headerService.getTranslate(),
-        icon: 'gavel',
-        class: 'material-icons-outlined',
-        text: 'header.edit-moderator',
-        callback: () => this.showModeratorsDialog(),
         condition: () => this.userRole > UserRole.PARTICIPANT
       });
       e.menuItem({

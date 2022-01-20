@@ -19,6 +19,7 @@ import { BonusTokenService } from '../../../services/http/bonus-token.service';
 import { copyCSVString, exportRoom } from '../../../utils/ImportExportMethods';
 import { Sort } from '@angular/material/sort';
 import { filter, take } from 'rxjs/operators';
+import { ModeratorsComponent } from '../../creator/_dialogs/moderators/moderators.component';
 
 type SortFunc<T> = (a: T, b: T) => number;
 
@@ -46,7 +47,7 @@ export class RoomListComponent implements OnInit, OnDestroy {
   sub: Subscription;
 
   tableDataSource: MatTableDataSource<Room>;
-  displayedColumns = ['name', 'shortId', 'role', 'button'] as const;
+  displayedColumns = ['name', 'shortId', 'role', 'moderator-access', 'button'] as const;
 
   creatorRole = UserRole.CREATOR;
   participantRole = UserRole.PARTICIPANT;
@@ -86,6 +87,14 @@ export class RoomListComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.sub?.unsubscribe();
+  }
+
+  showModeratorsDialog(room: Room): void {
+    const dialogRef = this.dialog.open(ModeratorsComponent, {
+      width: '400px'
+    });
+    dialogRef.componentInstance.roomId = room.id;
+    dialogRef.componentInstance.isCreator = room['role'] === 3;
   }
 
   getRooms(): void {

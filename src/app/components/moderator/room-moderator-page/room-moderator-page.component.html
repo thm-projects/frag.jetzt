@@ -25,13 +25,19 @@
             <span class="room-short-id">
               {{ 'room-page.session-id' | translate}}: {{ room.shortId }}
             </span>
-            <button id="copy"
-                    mat-icon-button
+            <button mat-icon-button
+                    class="subtitle-btn"
                     (click)="copyShortId()"
                     aria-labelledby="cloud_download">
-              <mat-icon class="copy material-icons-outlined"
+              <mat-icon class="material-icons-outlined"
                         matTooltip="{{ 'room-page.copy-session-id' | translate}}">share
               </mat-icon>
+            </button>
+            <button mat-icon-button
+                    class="subtitle-btn"
+                    [matTooltip]="'moderators-dialog.tooltip-moderators' | translate"
+                    (click)="showModeratorsDialog()">
+              <mat-icon class="material-icons-outlined">key</mat-icon>
             </button>
           </mat-card-subtitle>
         </mat-card-header>

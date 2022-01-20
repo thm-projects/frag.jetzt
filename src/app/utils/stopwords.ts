@@ -11,6 +11,7 @@ export const stopWords = [
   'z. b.',
   'd.h.',
   'd. h.',
+  'd.h',
   'Zum Beispiel',
   'Beispiel',
   'Bsp',
@@ -52,6 +53,8 @@ export const stopWords = [
   'liest',
   'Dont',
   'mussten',
-  'Herr'
+  'Herr',
+  'Wohin',
+  'Wieviel'
 ];
 export const superfluousSpecialCharacters = '“”‘’„‚«»‹›『』﹃﹄「」﹁﹂",《》〈〉\'`#&…\\';
