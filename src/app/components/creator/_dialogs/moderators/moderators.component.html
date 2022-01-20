@@ -5,12 +5,16 @@
     <h3 class="oldtypo-h3">{{'moderators-dialog.join-code' | translate}}</h3>
     <p>{{shortIdCode}}</p>
     <button mat-icon-button
+            *ngIf="moderatorShortId"
             (click)="copyShortIdLink()"
+            [matTooltip]="'moderators-dialog.tooltip-clipboard' | translate"
             class="add">
       <mat-icon>content_copy</mat-icon>
     </button>
     <button mat-icon-button
+            *ngIf="isCreator"
             (click)="refreshCode()"
+            [matTooltip]="'moderators-dialog.tooltip-recreate' | translate"
             class="add">
       <mat-icon>refresh</mat-icon>
     </button>
@@ -54,6 +58,7 @@
       </em>
       <span class="fill-remaining-space"></span>
       <button mat-icon-button
+              *ngIf="isCreator"
               class="close"
               (click)="openDeleteRoomDialog(moderator)"
               aria-labelledby="delete-moderator">

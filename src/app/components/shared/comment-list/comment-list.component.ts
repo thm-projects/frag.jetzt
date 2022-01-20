@@ -142,6 +142,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
         width: '400px',
       });
       dialogRef.componentInstance.roomId = this.sessionService.currentRoom.id;
+      dialogRef.componentInstance.isCreator = this.sessionService.currentRole === 3;
     });
     nav('tags', () => {
       const room = this.sessionService.currentRoom;

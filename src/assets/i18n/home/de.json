@@ -32,9 +32,14 @@
     "cancel": "Schließen",
     "confirm": "Erneuern",
     "abort": "Abbrechen",
+    "delete": "Löschen",
+    "sure": "Bist du sicher?",
+    "really-remove-moderator": "Willst du folgenden Moderator wirklich entfernen?",
+    "not-generated": "Noch nicht erstellt",
     "confirm-title": "Moderator-Join-Code erneuern",
-    "confirm-description": "Willst Du wirklich den Code erneuern? Alle vorhandenen Moderator*innen werden entfernt.",
+    "confirm-description": "Willst Du wirklich den Code erneuern? Alle vorhandenen Gast-Moderator*innen werden entfernt.",
     "session-id-copied": "Direktlink wurde in die Zwischenablage kopiert.",
+    "code-recreated": "Der Code wurde erfolgreich erneuert.",
     "something-went-wrong": "Etwas ist schiefgelaufen.",
     "email": "Mail-Adresse",
     "a11y-email": "Gib die E-Mail Adresse eines Benutzers ein, den du als Moderator hinzufügen möchtest. Der Moderator muss ein frag.jetzt Konto haben.",
@@ -43,7 +48,10 @@
     "email-error": "E-Mail-Adresse ist ungültig.",
     "added": "Moderator wurde hinzugefügt.",
     "not-found": "Ein User mit der angegebenen Mail-Adresse konnte nicht gefunden werden. Bist du sicher, dass sich der User bei »frag.jetzt« mit dieser Adresse registriert hat?",
-    "removed": "Moderator wurde entfernt."
+    "removed": "Moderator wurde entfernt.",
+    "tooltip-clipboard": "Hier kannst du den Direktlink kopieren.",
+    "tooltip-recreate": "Hier kannst du den Moderator-Code erneuern.",
+    "tooltip-moderators": "Hier kannst du alle Moderatoren, sowie ein Join-Code einsehen."
   },
   "footer": {
     "accessibility-data_protection": "Öffnet die Datenschutzerklärung",

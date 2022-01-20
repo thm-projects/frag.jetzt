@@ -94,6 +94,7 @@ export class RoomListComponent implements OnInit, OnDestroy {
       width: '400px'
     });
     dialogRef.componentInstance.roomId = room.id;
+    dialogRef.componentInstance.isCreator = room['role'] === 3;
   }
 
   getRooms(): void {
