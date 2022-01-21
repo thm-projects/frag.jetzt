@@ -9,6 +9,7 @@
     "entry-timestamp": "Bonus date",
     "entry-question": "Question text",
     "entry-answer": "Answer text",
+    "entry-commentNumber": "Bonus questionnumber",
     "file-name": "Bonus archive \"{{roomName}}\" {{date}}.csv"
   },
   "room-export": {
