@@ -102,6 +102,7 @@
     "filter-reset": "Reset",
     "filter-wrong": "Negated questions",
     "question-was-marked-with-a-star": "The questioner can redeem the star for a bonus by mail.",
+    "star-was-withdrawn-from-the-question": "Sorry, one of your stars has been removed again.",
     "owner": "Questions I have asked",
     "read": "Discussed",
     "really-delete": "Do you really want to delete this question?",
