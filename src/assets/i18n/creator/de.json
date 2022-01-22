@@ -339,10 +339,10 @@
     "no-empty-name": "Gib einen Namen ein. Der Raum-Code wird generiert."
   },
   "moderator-join": {
-    "title": "Moderator-Beitritt",
-    "description": "Willst du dem Raum »{{room.name}}« als Moderator beitreten?",
+    "title": "Moderatorzugang",
+    "description": "Willst du dem Raum »{{room.name}}« als Gast-Moderator betreten?",
     "cancel": "Abbrechen",
-    "confirm": "Beitreten"
+    "confirm": "Ja"
   },
   "quill": {
     "cancel": "Abbrechen",
@@ -363,7 +363,7 @@
   },
   "moderators-dialog": {
     "title": "Moderatoren",
-    "join-code": "Zugangscode",
+    "join-code": "Zugangscode:",
     "empty": "Keine Moderatoren vorhanden",
     "guest": "Gast-Moderator",
     "cancel": "Schließen",
@@ -373,7 +373,7 @@
     "sure": "Bist du sicher?",
     "really-remove-moderator": "Willst du folgenden Moderator wirklich entfernen?",
     "not-generated": "Noch nicht erstellt",
-    "confirm-title": "Zugangscode erneuern",
+    "confirm-title": "Neuer Zugangscode",
     "confirm-description": "Willst Du wirklich einen neuen Zugangscode erzeugen? Alle Gast-Moderatoren werden entfernt.",
     "session-id-copied": "Der Direktlink für Moderatoren wurde in die Zwischenablage kopiert.",
     "code-recreated": "Es wurde ein neuer Zugangscode erzeugt.",
@@ -386,7 +386,7 @@
     "added": "Der Moderator wurde hinzugefügt.",
     "not-found": "Ein User mit der angegebenen Mail-Adresse konnte nicht gefunden werden. Bist du sicher, dass sich der User bei »frag.jetzt« mit dieser Adresse registriert hat?",
     "removed": "Der Moderator wurde entfernt.",
-    "tooltip-clipboard": "Direktlink für Moderatoren in die Zwischenablage kopieren",
+    "tooltip-clipboard": "Direktlink für Moderatoren",
     "tooltip-recreate": "Neuen Zugangscode erzeugen",
     "tooltip-moderators": "Zugangscode für Moderatoren"
   },
@@ -417,7 +417,7 @@
     "changes-successful": "Änderungen gespeichert",
     "comments": "Zum Q&A-Forum",
     "comments-deleted": "Alle Fragen wurden gelöscht.",
-    "copy-session-id": "Gib den Link zu diesem Raum an die Teilnehmer weiter.",
+    "copy-session-id": "Direktlink für Teilnehmer",
     "create-content": "Frage stellen",
     "default-content-group": "Standard",
     "delete-all-comments": "Fragen löschen",
