@@ -363,15 +363,15 @@
   },
   "moderators-dialog": {
     "title": "Moderatoren",
-    "join-code": "Zugangscode:",
+    "join-code": "Code:",
     "empty": "Keine Moderatoren vorhanden",
     "guest": "Gast-Moderator",
     "cancel": "Schließen",
-    "confirm": "Erneuern",
+    "confirm": "Ja",
     "abort": "Abbrechen",
     "delete": "Entfernen",
     "sure": "Bist du sicher?",
-    "really-remove-moderator": "Willst du folgenden Moderator wirklich entfernen?",
+    "really-remove-moderator": "Willst du den Moderator wirklich entfernen?",
     "not-generated": "Noch nicht erstellt",
     "confirm-title": "Neuer Zugangscode",
     "confirm-description": "Willst Du wirklich einen neuen Zugangscode erzeugen? Alle Gast-Moderatoren werden entfernt.",
@@ -387,7 +387,7 @@
     "not-found": "Ein User mit der angegebenen Mail-Adresse konnte nicht gefunden werden. Bist du sicher, dass sich der User bei »frag.jetzt« mit dieser Adresse registriert hat?",
     "removed": "Der Moderator wurde entfernt.",
     "tooltip-clipboard": "Direktlink für Moderatoren",
-    "tooltip-recreate": "Neuen Zugangscode erzeugen",
+    "tooltip-recreate": "Neuer Zugangscode",
     "tooltip-moderators": "Zugangscode für Moderatoren"
   },
   "room-page": {
