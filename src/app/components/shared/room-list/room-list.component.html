@@ -146,7 +146,7 @@
             <button mat-icon-button
                     [matTooltip]="'moderators-dialog.tooltip-moderators' | translate"
                     (click)="showModeratorsDialog(room)" *ngIf="room.role > 0">
-              <mat-icon>key</mat-icon>
+              <mat-icon style="color: var(--red)">key</mat-icon>
             </button>
           </td>
         </ng-container>
