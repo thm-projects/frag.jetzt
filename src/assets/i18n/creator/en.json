@@ -364,7 +364,7 @@
     "tooltip-placeholder-formula": "We support the KaTeX formula set."
   },
   "moderators-dialog": {
-    "title": " Moderators ",
+    "title": "Moderators ",
     "join-code": "Code:",
     "empty": "No moderators available",
     "guest": "Guest Moderator",
