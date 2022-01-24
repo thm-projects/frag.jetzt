@@ -2,8 +2,7 @@
   <h2 class="oldtypo-h2">{{'moderators-dialog.title' | translate }}</h2>
 
   <div fxLayout="row" fxLayoutAlign="space-around">
-    <h3 class="oldtypo-h3">{{'moderators-dialog.join-code' | translate}}</h3>
-    <p>{{shortIdCode}}</p>
+    <p>{{'moderators-dialog.join-code' | translate}} {{shortIdCode}}</p>
     <button mat-icon-button
             *ngIf="moderatorShortId"
             (click)="copyShortIdLink()"
