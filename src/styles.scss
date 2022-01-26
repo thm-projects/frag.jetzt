@@ -200,7 +200,7 @@ a.info:hover span, a.info:focus span, a.info:active span {
 //}
 
 a {
-  word-break: break-all;
+  hyphens: auto !important;
 }
 
 .mat-row {
