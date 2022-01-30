@@ -116,7 +116,7 @@
     "vote-desc": "Descending votes",
     "vote-asc": "Ascending votes",
     "wrong": "Marked as wrong",
-    "really-delete": "Do you really want to delete this entry?",
+    "really-delete": "Do you really want to delete this contribution?",
     "select-time": "Select time period",
     "select-from-now": "Display questions from now on",
     "select-time-1h": "Last hour",
