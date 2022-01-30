@@ -45,6 +45,14 @@
               matTooltip="{{ 'comment-list.add-idea' | translate }}">
         <mat-icon>add</mat-icon>
       </button>
+      <button *ngIf="!brainstormingActive && canWriteComment() && !drawer?.opened"
+              mat-fab
+              mat-icon-button
+              class="fab_add_comment"
+              (click)="writeComment()"
+              matTooltip="{{ 'comment-list.add-comment' | translate }}">
+        <mat-icon>add</mat-icon>
+      </button>
     </mat-drawer-content>
   </mat-drawer-container>
 </ars-screen>

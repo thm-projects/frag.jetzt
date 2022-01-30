@@ -290,8 +290,8 @@
     "restart-account-activation-button": "Falls ungültig, neuen Schlüssel anfordern.",
     "restart-account-activation-correct": "Der Aktivierungs-Schlüssel wurde erneut gesendet.",
     "restart-account-activation-tooltip": "Sendet den Aktivierungs-Schlüssel erneut an die angegebene Adresse.",
-    "welcome": "»Noch Fragen?«",
-    "welcome-feedback": "➤ Frag das »frag.jetzt«-Team",
+    "welcome": "Noch Fragen?",
+    "welcome-feedback": "➤ Frag die Macher von »frag.jetzt«",
     "feedback-aria": "Baggs, Features, Lob und Tadel kannst du über diesen Link in unserer Feedback-Säschen äussern."
   },
   "overlay": {
@@ -460,7 +460,7 @@
   "topic-cloud": {
     "changes-gone-wrong": "Etwas ist schiefgelaufen!",
     "changes-successful": "Änderungen gespeichert",
-    "add-successful": "Wort hinzugefügt",
+    "add-successful": "Der Eintrag wurde auf die Sperrliste gesetzt.",
     "remove-successful": "Wort entfernt"
   },
   "worker-dialog": {

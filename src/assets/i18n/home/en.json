@@ -291,9 +291,9 @@
     "restart-account-activation-button": "If invalid, request a new key",
     "restart-account-activation-correct": "Activation key sent again",
     "restart-account-activation-tooltip": "Sends the activation key again",
-    "welcome": "»Any questions?«",
+    "welcome": "Any questions?",
     "welcome-subtitle": "anonymous | in your browser | for free",
-    "welcome-feedback": "➤ Ask the »frag.jetzt« team",
+    "welcome-feedback": "➤ Ask the creators of »frag.jetzt«",
     "feedback-aria": "Please use the following link to offer the developers bugs, features, praise and blame"
   },
   "overlay": {
@@ -463,7 +463,7 @@
     "changes-gone-wrong": "Something has gone wrong!",
     "changes-successful": "Successfully updated",
     "add-successful": "Word added",
-    "remove-successful": "Word removed"
+    "remove-successful": "The entry has been placed on the blacklist."
   },
   "worker-dialog": {
     "running": "Running",
