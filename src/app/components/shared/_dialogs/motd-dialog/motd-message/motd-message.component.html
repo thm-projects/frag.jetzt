@@ -8,8 +8,8 @@
     <ars-col class="align-center-y">
       <mat-checkbox [color]="'accent'" *ngIf="message.isNew && !message.isRead" [checked]="message.isRead"
                     (change)="setIsRead($event.checked)">
+        <span>{{ 'footer.motd-mark-read' | translate }}</span>
       </mat-checkbox>
-      <span>{{ 'footer.motd-mark-read' | translate }}</span>
     </ars-col>
   </ars-row>
   <ars-row>
