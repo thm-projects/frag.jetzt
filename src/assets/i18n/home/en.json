@@ -463,7 +463,7 @@
     "changes-gone-wrong": "Something has gone wrong!",
     "changes-successful": "Successfully updated",
     "add-successful": "Word added",
-    "remove-successful": "Word removed"
+    "remove-successful": "The entry has been placed on the blacklist."
   },
   "worker-dialog": {
     "running": "Running",

@@ -460,7 +460,7 @@
   "topic-cloud": {
     "changes-gone-wrong": "Etwas ist schiefgelaufen!",
     "changes-successful": "Änderungen gespeichert",
-    "add-successful": "Wort hinzugefügt",
+    "add-successful": "Der Eintrag wurde auf die Sperrliste gesetzt.",
     "remove-successful": "Wort entfernt"
   },
   "worker-dialog": {
