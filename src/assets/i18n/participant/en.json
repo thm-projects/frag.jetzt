@@ -75,6 +75,7 @@
     "a11y-activity": "active user",
     "answered": "Answered questions",
     "add-comment": "Ask a question!",
+    "add-idea": "Enter your idea!",
     "pause-comments": "Freezes the display to read the questions at rest. Questions can still be asked and scored. The display is only updated again by clicking the button.",
     "play-comments": "Start the question stream",
     "question-was-marked-with-a-star": "Hey, you got a star for a good question!",
