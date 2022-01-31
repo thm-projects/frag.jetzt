@@ -35,9 +35,17 @@
               (click)="startIntroduction()"
               mat-fab
               mat-icon-button>
-        <mat-icon>tour</mat-icon>
+        <mat-icon>play_arrow</mat-icon>
       </button>
-      <button *ngIf="canWriteComment() && !drawer?.opened"
+      <button *ngIf="brainstormingActive && canWriteComment() && !drawer?.opened"
+              mat-fab
+              mat-icon-button
+              class="fab_add_comment"
+              (click)="writeComment()"
+              matTooltip="{{ 'comment-list.add-idea' | translate }}">
+        <mat-icon>add</mat-icon>
+      </button>
+      <button *ngIf="!brainstormingActive && canWriteComment() && !drawer?.opened"
               mat-fab
               mat-icon-button
               class="fab_add_comment"
