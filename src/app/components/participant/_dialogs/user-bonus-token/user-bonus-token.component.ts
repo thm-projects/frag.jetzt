@@ -12,6 +12,7 @@ import { ExplanationDialogComponent } from '../../../shared/_dialogs/explanation
 import { ModeratorService } from '../../../../services/http/moderator.service';
 import { map, switchMap } from 'rxjs/operators';
 import { Clipboard } from '@angular/cdk/clipboard';
+import { CommentService } from '../../../../services/http/comment.service';
 
 export class MinRoom {
   name: string;
@@ -38,6 +39,7 @@ export class UserBonusTokenComponent implements OnInit {
   constructor(
     private bonusTokenService: BonusTokenService,
     private roomService: RoomService,
+    private commentService: CommentService,
     private dialogRef: MatDialogRef<UserBonusTokenComponent>,
     private moderatorService: ModeratorService,
     protected router: Router,
@@ -133,18 +135,19 @@ export class UserBonusTokenComponent implements OnInit {
   private copyClipboard(ownerEmail: string, moderatorEmails: string[]) {
     const sessionName = this.currentRoom.name;
     const sessionId = this.currentRoom.id;
-    const tokens = this.bonusTokens;
-    //TODO: Translation service for "owner email"
-    this.getTokensByRoom(sessionId)
-      this.clipboard.copy(
-      'Session-Name: ' + sessionName + 
-      '\nSession-Id: ' + sessionId + 
-      '\nOwner-Email: ' + ownerEmail + 
-      //'\nModerator-Emails: ' + (moderatorEmails.map(e => e)[0] !== '' ? moderatorEmails.map(e => e) : 'no email set') + 
-      '\nModerator-Emails: ' + moderatorEmails.map(e => {return e;}) + 
-      '\nMy tokens: ' + tokens.map(bt => {
-        return bt.token;
-      }));
+    const translationList = ['user-bonus-token.session-name', 'user-bonus-token.session-id', 'user-bonus-token.owner-email', 'user-bonus-token.moderator-emails', 'user-bonus-token.bonus-tokens', 'user-bonus-token.bonus-token-body1', 'user-bonus-token.bonus-token-body2'];
+    let clipBoardText: string;
+    this.translationService.get(translationList).subscribe(msgs => {
+      clipBoardText = msgs[translationList[0]] + ': ' + sessionName + msgs[translationList[1]] + ': ' + sessionId + msgs[translationList[2]] + ': ' + ownerEmail + 
+      msgs[translationList[3]] + ': ' + moderatorEmails.map(e => {return e;}) + msgs[translationList[4]] + ': '; 
+      this.bonusTokensMixin.filter(btm => btm.roomShortId === this.currentRoom.id).filter(btm => btm.accountId === this.userId).map(btm => {
+        this.commentService.getComment(btm.commentId).subscribe(comment => {
+          let date = new Date(btm.timestamp);
+          clipBoardText += '\n' + btm.token + msgs[translationList[5]] + date.toLocaleDateString() + msgs[translationList[6]] + comment.number;
+          this.clipboard.copy(clipBoardText);
+        });
+      });
+    });
   }
   
 
