@@ -13,6 +13,7 @@ import { ModeratorService } from '../../../../services/http/moderator.service';
 import { map, switchMap } from 'rxjs/operators';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { CommentService } from '../../../../services/http/comment.service';
+import { LanguageService } from '../../../../services/util/language.service';
 
 export class MinRoom {
   name: string;
@@ -35,11 +36,14 @@ export class UserBonusTokenComponent implements OnInit {
   bonusTokensMixin: BonusTokenRoomMixin[] = [];
   currentRoom: MinRoom;
   rooms: MinRoom[] = [];
+  lang: string; 
 
   constructor(
     private bonusTokenService: BonusTokenService,
     private roomService: RoomService,
     private commentService: CommentService,
+    private translateService: TranslateService, 
+    private langService: LanguageService,
     private dialogRef: MatDialogRef<UserBonusTokenComponent>,
     private moderatorService: ModeratorService,
     protected router: Router,
@@ -48,6 +52,7 @@ export class UserBonusTokenComponent implements OnInit {
     private notificationService: NotificationService,
     private clipboard: Clipboard
   ) {
+    langService.getLanguage().subscribe(lang => translateService.use(lang));
   }
 
   private static escapeForEmail(text: string): string {
@@ -55,6 +60,7 @@ export class UserBonusTokenComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.lang = this.translateService.currentLang;
     this.bonusTokenService.getTokensByUserId(this.userId).subscribe(list => {
       list.sort((a, b) => (a.token > b.token) ? 1 : -1);
       this.bonusTokens = list;
@@ -143,7 +149,7 @@ export class UserBonusTokenComponent implements OnInit {
       this.bonusTokensMixin.filter(btm => btm.roomShortId === this.currentRoom.id).filter(btm => btm.accountId === this.userId).map(btm => {
         this.commentService.getComment(btm.commentId).subscribe(comment => {
           let date = new Date(btm.timestamp);
-          clipBoardText += '\n' + btm.token + msgs[translationList[5]] + date.toLocaleDateString() + msgs[translationList[6]] + comment.number;
+          clipBoardText += '\n' + btm.token + msgs[translationList[5]] + date.toLocaleDateString(this.lang) + msgs[translationList[6]] + comment.number;
           this.clipboard.copy(clipBoardText);
         });
       });
