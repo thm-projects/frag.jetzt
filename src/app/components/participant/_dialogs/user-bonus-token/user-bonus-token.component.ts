@@ -11,6 +11,7 @@ import { NotificationService } from '../../../../services/util/notification.serv
 import { ExplanationDialogComponent } from '../../../shared/_dialogs/explanation-dialog/explanation-dialog.component';
 import { ModeratorService } from '../../../../services/http/moderator.service';
 import { map, switchMap } from 'rxjs/operators';
+import { Clipboard } from '@angular/cdk/clipboard';
 
 export class MinRoom {
   name: string;
@@ -42,7 +43,8 @@ export class UserBonusTokenComponent implements OnInit {
     protected router: Router,
     private translationService: TranslateService,
     private dialog: MatDialog,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private clipboard: Clipboard
   ) {
   }
 
@@ -91,7 +93,7 @@ export class UserBonusTokenComponent implements OnInit {
     }
   }
 
-  openMail() {
+  redeemStars(useEmail: boolean) {
     if (this.currentRoom) {
       this.roomService.getRoomByShortId(this.currentRoom.id)
         .pipe(
@@ -111,7 +113,11 @@ export class UserBonusTokenComponent implements OnInit {
             ))
         )
         .subscribe(ids => {
-          this.send(ids[0] || '', ids.slice(1));
+          if(useEmail) {
+            this.send(ids[0] || '', ids.slice(1));
+          } else {
+            this.copyClipboard(ids[0] || '', ids.slice(1));
+          }
         });
     } else {
       this.translationService.get('user-bonus-token.please-choose').subscribe(msg => {
@@ -123,6 +129,24 @@ export class UserBonusTokenComponent implements OnInit {
   buildDeclineActionCallback(): () => void {
     return () => this.dialogRef.close();
   }
+
+  private copyClipboard(ownerEmail: string, moderatorEmails: string[]) {
+    const sessionName = this.currentRoom.name;
+    const sessionId = this.currentRoom.id;
+    const tokens = this.bonusTokens;
+    //TODO: Translation service for "owner email"
+    this.getTokensByRoom(sessionId)
+      this.clipboard.copy(
+      'Session-Name: ' + sessionName + 
+      '\nSession-Id: ' + sessionId + 
+      '\nOwner-Email: ' + ownerEmail + 
+      //'\nModerator-Emails: ' + (moderatorEmails.map(e => e)[0] !== '' ? moderatorEmails.map(e => e) : 'no email set') + 
+      '\nModerator-Emails: ' + moderatorEmails.map(e => {return e;}) + 
+      '\nMy tokens: ' + tokens.map(bt => {
+        return bt.token;
+      }));
+  }
+  
 
   private send(ownerEmail: string, moderatorEmails: string[]) {
     const sessionName = this.currentRoom.name;

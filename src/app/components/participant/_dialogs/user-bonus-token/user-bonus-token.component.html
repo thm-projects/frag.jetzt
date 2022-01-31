@@ -28,9 +28,15 @@
         </mat-form-field>
         <button mat-flat-button
                 class="mailto"
-                (click)="openMail()">
+                (click)="redeemStars(true)">
           <mat-icon class="material-icons-outlined">email</mat-icon>
           {{ 'user-bonus-token.redeem-tokens' | translate }}
+        </button>
+        <button mat-flat-button
+                class="copyClipboard"
+                (click)="redeemStars(false)">
+          <mat-icon class="material-icons-outlined">copy</mat-icon>
+          {{ 'user-bonus-token.redeem-tokens-clipboard' | translate }}
         </button>
       </form>
     </div>
