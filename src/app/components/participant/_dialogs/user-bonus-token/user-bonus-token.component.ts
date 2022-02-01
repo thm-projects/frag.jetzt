@@ -141,7 +141,7 @@ export class UserBonusTokenComponent implements OnInit {
   private copyClipboard(ownerEmail: string, moderatorEmails: string[]) {
     const sessionName = this.currentRoom.name;
     const sessionId = this.currentRoom.id;
-    const translationList = ['user-bonus-token.session-name', 'user-bonus-token.session-id', 'user-bonus-token.owner-email', 'user-bonus-token.moderator-emails', 'user-bonus-token.bonus-tokens', 'user-bonus-token.bonus-token-body1', 'user-bonus-token.bonus-token-body2'];
+    const translationList = ['user-bonus-token.session-name', 'user-bonus-token.session-id', 'user-bonus-token.owner-email', 'user-bonus-token.moderator-emails', 'user-bonus-token.bonus-tokens', 'user-bonus-token.bonus-token-body1', 'user-bonus-token.bonus-token-body2', 'user-bonus-token.redeem-clipboard-success', 'user-bonus-token.redeem-clipboard-failure'];
     let clipBoardText: string;
     this.translationService.get(translationList).subscribe(msgs => {
       clipBoardText = msgs[translationList[0]] + ': ' + sessionName + msgs[translationList[1]] + ': ' + sessionId + msgs[translationList[2]] + ': ' + ownerEmail + 
@@ -153,14 +153,14 @@ export class UserBonusTokenComponent implements OnInit {
           this.clipboard.copy(clipBoardText);
         });
       });
+      this.notificationService.show(msgs[translationList[7]]);
     });
   }
-  
 
   private send(ownerEmail: string, moderatorEmails: string[]) {
     const sessionName = this.currentRoom.name;
     const sessionId = this.currentRoom.id;
-    const translationList = ['user-bonus-token.mail-subject', 'user-bonus-token.mail-body'];
+    const translationList = ['user-bonus-token.mail-subject', 'user-bonus-token.mail-body', 'user-bonus-token.redeem-mail-success'];
     const escapedModeratorEmails = moderatorEmails.reduce((acc, value) => {
       if (acc.length > 0) {
         return acc + ',' + UserBonusTokenComponent.escapeForEmail(value);
@@ -178,7 +178,9 @@ export class UserBonusTokenComponent implements OnInit {
         'subject=' + UserBonusTokenComponent.escapeForEmail(msgs[translationList[0]]) + '&' +
         (escapedModeratorEmails.length > 0 ? 'cc=' + escapedModeratorEmails + '&' : '') +
         'body=' + UserBonusTokenComponent.escapeForEmail(msgs[translationList[1]]);
-      window.location.href = mailText;
+      if(window.open(mailText, "_self") === null) {
+        this.notificationService.show(msgs[translationList[2]]);
+      }
     });
   }
 }
