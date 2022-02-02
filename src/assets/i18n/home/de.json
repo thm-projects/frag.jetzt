@@ -461,7 +461,10 @@
     "moderator-emails": "\nE-Mail der Moderatoren",
     "bonus-tokens": "\n\nMeine Bonustoken:",
     "bonus-token-body1": " vom ",
-    "bonus-token-body2": " mit der Fragennummer "
+    "bonus-token-body2": " mit der Fragennummer ", 
+    "redeem-clipboard-success": "Alle erforderlichen Daten für die Mail an das Veranstaltungsmanagement wurden in die Zwischenablage kopiert.", 
+    "redeeem-clipboard-failure": "Die Daten konnten nicht in der Zwischenablage gespeichert werden.", 
+    "redeem-mail-failure": "Auf deine Mail-App konnte nicht zugegriffen werden. Kopiere die Daten in die Zwischenablage und erstelle damit eine Mail an das Veranstaltungsmanagement."
   },
   "qr-dialog": {
     "session": "Code"

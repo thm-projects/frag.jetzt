@@ -562,7 +562,10 @@
     "moderator-emails": "\nModerator emails",
     "bonus-tokens": "\n\nMy bonus tokens",
     "bonus-token-body1": " from ",
-    "bonus-token-body2": " with the question number "
+    "bonus-token-body2": " with the question number ", 
+    "redeem-clipboard-success": "All required data for the mail to event management was copied to the clipboard.", 
+    "redeem-clipboard-failure": "The data could not be saved to the clipboard.", 
+    "redeem-mail-failure": "Your mail app could not be accessed. Copy the data to the clipboard and use it to create a mail to the event management."
   },
   "introduction": {
     "cancel": "Close",
