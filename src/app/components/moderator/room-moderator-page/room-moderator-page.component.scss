@@ -4,7 +4,7 @@ mat-card {
   width: 100%;
   max-width: 800px;
   min-height: auto;
-  padding: 0 10% 20% 10%;
+  padding: 0;
   background-color: var(--surface) !important;
 }
 
@@ -140,7 +140,7 @@ markdown {
 }
 
 h3 {
-  margin: 5% 0 5% 0;
+  margin: 0;
   color: var(--on-surface) !important;
   font-size: 14px;
   font-weight: normal;
