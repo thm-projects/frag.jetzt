@@ -11,6 +11,9 @@ import { NotificationService } from '../../../../services/util/notification.serv
 import { ExplanationDialogComponent } from '../../../shared/_dialogs/explanation-dialog/explanation-dialog.component';
 import { ModeratorService } from '../../../../services/http/moderator.service';
 import { map, switchMap } from 'rxjs/operators';
+import { Clipboard } from '@angular/cdk/clipboard';
+import { CommentService } from '../../../../services/http/comment.service';
+import { LanguageService } from '../../../../services/util/language.service';
 
 export class MinRoom {
   name: string;
@@ -33,17 +36,23 @@ export class UserBonusTokenComponent implements OnInit {
   bonusTokensMixin: BonusTokenRoomMixin[] = [];
   currentRoom: MinRoom;
   rooms: MinRoom[] = [];
+  lang: string; 
 
   constructor(
     private bonusTokenService: BonusTokenService,
     private roomService: RoomService,
+    private commentService: CommentService,
+    private translateService: TranslateService, 
+    private langService: LanguageService,
     private dialogRef: MatDialogRef<UserBonusTokenComponent>,
     private moderatorService: ModeratorService,
     protected router: Router,
     private translationService: TranslateService,
     private dialog: MatDialog,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private clipboard: Clipboard
   ) {
+    langService.getLanguage().subscribe(lang => translateService.use(lang));
   }
 
   private static escapeForEmail(text: string): string {
@@ -51,6 +60,7 @@ export class UserBonusTokenComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.lang = this.translateService.currentLang;
     this.bonusTokenService.getTokensByUserId(this.userId).subscribe(list => {
       list.sort((a, b) => (a.token > b.token) ? 1 : -1);
       this.bonusTokens = list;
@@ -91,7 +101,7 @@ export class UserBonusTokenComponent implements OnInit {
     }
   }
 
-  openMail() {
+  redeemStars(useEmail: boolean) {
     if (this.currentRoom) {
       this.roomService.getRoomByShortId(this.currentRoom.id)
         .pipe(
@@ -111,7 +121,11 @@ export class UserBonusTokenComponent implements OnInit {
             ))
         )
         .subscribe(ids => {
-          this.send(ids[0] || '', ids.slice(1));
+          if(useEmail) {
+            this.send(ids[0] || '', ids.slice(1));
+          } else {
+            this.copyClipboard(ids[0] || '', ids.slice(1));
+          }
         });
     } else {
       this.translationService.get('user-bonus-token.please-choose').subscribe(msg => {
@@ -124,10 +138,29 @@ export class UserBonusTokenComponent implements OnInit {
     return () => this.dialogRef.close();
   }
 
+  private copyClipboard(ownerEmail: string, moderatorEmails: string[]) {
+    const sessionName = this.currentRoom.name;
+    const sessionId = this.currentRoom.id;
+    const translationList = ['user-bonus-token.session-name', 'user-bonus-token.session-id', 'user-bonus-token.owner-email', 'user-bonus-token.moderator-emails', 'user-bonus-token.bonus-tokens', 'user-bonus-token.bonus-token-body1', 'user-bonus-token.bonus-token-body2', 'user-bonus-token.redeem-clipboard-success', 'user-bonus-token.redeem-clipboard-failure'];
+    let clipBoardText: string;
+    this.translationService.get(translationList).subscribe(msgs => {
+      clipBoardText = msgs[translationList[0]] + ': ' + sessionName + msgs[translationList[1]] + ': ' + sessionId + msgs[translationList[2]] + ': ' + ownerEmail + 
+      msgs[translationList[3]] + ': ' + moderatorEmails.map(e => {return e;}) + msgs[translationList[4]] + ': '; 
+      this.bonusTokensMixin.filter(btm => btm.roomShortId === this.currentRoom.id).filter(btm => btm.accountId === this.userId).map(btm => {
+        this.commentService.getComment(btm.commentId).subscribe(comment => {
+          let date = new Date(btm.timestamp);
+          clipBoardText += '\n' + btm.token + msgs[translationList[5]] + date.toLocaleDateString(this.lang) + msgs[translationList[6]] + comment.number;
+          this.clipboard.copy(clipBoardText);
+        });
+      });
+      this.notificationService.show(msgs[translationList[7]]);
+    });
+  }
+
   private send(ownerEmail: string, moderatorEmails: string[]) {
     const sessionName = this.currentRoom.name;
     const sessionId = this.currentRoom.id;
-    const translationList = ['user-bonus-token.mail-subject', 'user-bonus-token.mail-body'];
+    const translationList = ['user-bonus-token.mail-subject', 'user-bonus-token.mail-body', 'user-bonus-token.redeem-mail-success'];
     const escapedModeratorEmails = moderatorEmails.reduce((acc, value) => {
       if (acc.length > 0) {
         return acc + ',' + UserBonusTokenComponent.escapeForEmail(value);
@@ -145,7 +178,9 @@ export class UserBonusTokenComponent implements OnInit {
         'subject=' + UserBonusTokenComponent.escapeForEmail(msgs[translationList[0]]) + '&' +
         (escapedModeratorEmails.length > 0 ? 'cc=' + escapedModeratorEmails + '&' : '') +
         'body=' + UserBonusTokenComponent.escapeForEmail(msgs[translationList[1]]);
-      window.location.href = mailText;
+      if(window.open(mailText, "_self") === null) {
+        this.notificationService.show(msgs[translationList[2]]);
+      }
     });
   }
 }

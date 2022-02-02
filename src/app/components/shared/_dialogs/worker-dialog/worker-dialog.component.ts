@@ -47,7 +47,7 @@ export class WorkerDialogComponent implements OnInit {
         width: '200px',
         disableClose: true,
         autoFocus: false,
-        position: { left: '50px', bottom: '50px' },
+        position: { left: '50px', bottom: '150px' },
         role: 'dialog',
         hasBackdrop: false,
         closeOnNavigation: false,
