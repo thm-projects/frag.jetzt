@@ -14,6 +14,7 @@ import { map, switchMap } from 'rxjs/operators';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { CommentService } from '../../../../services/http/comment.service';
 import { LanguageService } from '../../../../services/util/language.service';
+import { BonusTokenUtilService } from '../../../../services/util/bonus-token-util.service';
 
 export class MinRoom {
   name: string;
@@ -45,6 +46,7 @@ export class UserBonusTokenComponent implements OnInit {
     private translateService: TranslateService, 
     private langService: LanguageService,
     private dialogRef: MatDialogRef<UserBonusTokenComponent>,
+    private bonusTokenUtilService: BonusTokenUtilService,
     private moderatorService: ModeratorService,
     protected router: Router,
     private translationService: TranslateService,
@@ -64,6 +66,7 @@ export class UserBonusTokenComponent implements OnInit {
     this.bonusTokenService.getTokensByUserId(this.userId).subscribe(list => {
       list.sort((a, b) => (a.token > b.token) ? 1 : -1);
       this.bonusTokens = list;
+      this.bonusTokens = this.bonusTokenUtilService.setQuestionNumber(this.bonusTokens);
       for (const bt of this.bonusTokens) {
         this.roomService.getRoom(bt.roomId).subscribe(room => {
           const btm = bt as BonusTokenRoomMixin;
@@ -145,13 +148,14 @@ export class UserBonusTokenComponent implements OnInit {
     let clipBoardText: string;
     this.translationService.get(translationList).subscribe(msgs => {
       clipBoardText = msgs[translationList[0]] + ': ' + sessionName + msgs[translationList[1]] + ': ' + sessionId + msgs[translationList[2]] + ': ' + ownerEmail + 
-      msgs[translationList[3]] + ': ' + moderatorEmails.map(e => {return e;}) + msgs[translationList[4]] + ': '; 
-      this.bonusTokensMixin.filter(btm => btm.roomShortId === this.currentRoom.id).filter(btm => btm.accountId === this.userId).map(btm => {
-        this.commentService.getComment(btm.commentId).subscribe(comment => {
+      msgs[translationList[3]] + ': ' + moderatorEmails.map(e => {return e;}) + msgs[translationList[4]] + ': ';
+      this.bonusTokensMixin.filter(btm => btm.roomShortId === this.currentRoom.id).filter(btm => btm.accountId === this.userId).sort((a, b) => {  
+        console.log(a.questionNumber + " - " + b.questionNumber);
+        return a.questionNumber - b.questionNumber;
+      }).map(btm => {
           let date = new Date(btm.timestamp);
-          clipBoardText += '\n' + btm.token + msgs[translationList[5]] + date.toLocaleDateString(this.lang) + msgs[translationList[6]] + comment.number;
+          clipBoardText += '\n' + btm.token + msgs[translationList[5]] + date.toLocaleDateString(this.lang) + msgs[translationList[6]] + btm.questionNumber;
           this.clipboard.copy(clipBoardText);
-        });
       });
       this.notificationService.show(msgs[translationList[7]]);
     });

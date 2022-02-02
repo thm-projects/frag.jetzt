@@ -22,6 +22,7 @@ import { UserRole } from '../../../../../../src/app/models/user-roles.enum';
 import { EventService } from '../../../../../../src/app/services/util/event.service';
 import { BonusTokenDeleted } from '../../../../../../src/app/models/events/bonus-token-deleted';
 import { LanguageService } from '../../../../services/util/language.service';
+import { BonusTokenUtilService } from '../../../../services/util/bonus-token-util.service';
 
 @Component({
   selector: 'app-bonus-token',
@@ -51,6 +52,7 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
   private debounceTime = 800;
 
   constructor(private bonusTokenService: BonusTokenService,
+              private bonusTokenUtilService: BonusTokenUtilService,
               public eventService: EventService,
               public dialog: MatDialog,
               protected router: Router,
@@ -192,11 +194,7 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
 
   updateTokens(bonusTokens: BonusToken[]): void {
     this.bonusTokens = bonusTokens;
-    this.bonusTokens.forEach(element => {
-      this.commentService.getComment(element.commentId).subscribe(comment => {
-        element.questionNumber = comment.number;
-      });
-    });
+    this.bonusTokens = this.bonusTokenUtilService.setQuestionNumber(this.bonusTokens);
     this.subscription = this.modelChanged
       .pipe(
         debounceTime(this.debounceTime),
