@@ -149,15 +149,13 @@ export class UserBonusTokenComponent implements OnInit {
     this.translationService.get(translationList).subscribe(msgs => {
       clipBoardText = msgs[translationList[0]] + ': ' + sessionName + msgs[translationList[1]] + ': ' + sessionId + msgs[translationList[2]] + ': ' + ownerEmail + 
       msgs[translationList[3]] + ': ' + moderatorEmails.map(e => {return e;}) + msgs[translationList[4]] + ': ';
-      this.bonusTokensMixin.filter(btm => btm.roomShortId === this.currentRoom.id).filter(btm => btm.accountId === this.userId).sort((a,b) => {  
+      this.bonusTokensMixin.filter(btm => btm.roomShortId === this.currentRoom.id).filter(btm => btm.accountId === this.userId).sort((a, b) => {  
         console.log(a.questionNumber + " - " + b.questionNumber);
         return a.questionNumber - b.questionNumber;
       }).map(btm => {
-        this.commentService.getComment(btm.commentId).subscribe(comment => {
           let date = new Date(btm.timestamp);
-          clipBoardText += '\n' + btm.token + msgs[translationList[5]] + date.toLocaleDateString(this.lang) + msgs[translationList[6]] + comment.number;
+          clipBoardText += '\n' + btm.token + msgs[translationList[5]] + date.toLocaleDateString(this.lang) + msgs[translationList[6]] + btm.questionNumber;
           this.clipboard.copy(clipBoardText);
-        });
       });
       this.notificationService.show(msgs[translationList[7]]);
     });
