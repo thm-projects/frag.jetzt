@@ -1,0 +1,22 @@
+<h2></h2>
+
+<mat-dialog-content>
+  <mat-chip-list>
+    <mat-chip>Montag</mat-chip>
+    <mat-chip>Dienstag</mat-chip>
+    <mat-chip>Mittwoch</mat-chip>
+    <mat-chip>Donnerstag</mat-chip>
+    <mat-chip>Freitag</mat-chip>
+    <mat-chip>Samstag</mat-chip>
+    <mat-chip>Sonntag</mat-chip>
+  </mat-chip-list>
+  <ngx-mat-timepicker>
+    Test?
+  </ngx-mat-timepicker>
+</mat-dialog-content>
+
+<app-dialog-action-buttons
+  confirmButtonLabel="cancel"
+  buttonsLabelSection="content"
+  [confirmButtonClickAction]="onClose.bind(this)">
+</app-dialog-action-buttons>

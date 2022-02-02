@@ -20,6 +20,9 @@ import { copyCSVString, exportRoom } from '../../../utils/ImportExportMethods';
 import { Sort } from '@angular/material/sort';
 import { filter, take } from 'rxjs/operators';
 import { ModeratorsComponent } from '../../creator/_dialogs/moderators/moderators.component';
+import {
+  CommentNotificationDialogComponent
+} from '../_dialogs/comment-notification-dialog/comment-notification-dialog.component';
 
 type SortFunc<T> = (a: T, b: T) => number;
 
@@ -219,6 +222,13 @@ export class RoomListComponent implements OnInit, OnDestroy {
 
   applyFilter(filterValue: string): void {
     this.tableDataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  openNotifications(room: Room) {
+    const dialogRef = this.dialog.open(CommentNotificationDialogComponent, {
+      minWidth: '400px'
+    });
+    dialogRef.componentInstance.room = room;
   }
 
   exportCsv(room: Room) {

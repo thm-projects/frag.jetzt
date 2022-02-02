@@ -425,6 +425,7 @@
     "session-history-1": "Dein Sitzungsverlauf enthält genau eine Sitzung.",
     "session-history-label": "Nachfolgend findest du eine Liste deiner Sitzungen.",
     "export-comments": "Q&A speichern",
+    "email-notification": "E-Mail-Benachrichtigung",
     "room-not-exist": "Der Raum existiert nicht. Bitte informiere die Person, die dir den Direktlink gegeben hat."
   },
   "session": {
@@ -455,15 +456,15 @@
     "mail-body": "Hallo,\n\nich habe in der »frag.jetzt«-Sitzung »{{sessionName}}« mit dem Raum-Code »{{sessionId}}« die folgenden Tokens erhalten:\n\n{{tokens}}\n\n\nIch bitte um die Einlösung in Bonuspunkte.\n\nDanke für »frag.jetzt«!\n\n---",
     "choose-session": "Wähle eine Sitzung …",
     "please-choose": "Bitte wähle zuerst eine Sitzung.",
-    "session-name": "Veranstaltung", 
-    "session-id": "\nRaum-Code", 
-    "owner-email": "\nE-Mail des Raumerstellers", 
+    "session-name": "Veranstaltung",
+    "session-id": "\nRaum-Code",
+    "owner-email": "\nE-Mail des Raumerstellers",
     "moderator-emails": "\nE-Mail der Moderatoren",
     "bonus-tokens": "\n\nMeine Bonustoken:",
     "bonus-token-body1": " vom ",
-    "bonus-token-body2": " mit der Fragennummer ", 
-    "redeem-clipboard-success": "Alle erforderlichen Daten für die Mail an das Veranstaltungsmanagement wurden in die Zwischenablage kopiert.", 
-    "redeeem-clipboard-failure": "Die Daten konnten nicht in der Zwischenablage gespeichert werden.", 
+    "bonus-token-body2": " mit der Fragennummer ",
+    "redeem-clipboard-success": "Alle erforderlichen Daten für die Mail an das Veranstaltungsmanagement wurden in die Zwischenablage kopiert.",
+    "redeeem-clipboard-failure": "Die Daten konnten nicht in der Zwischenablage gespeichert werden.",
     "redeem-mail-failure": "Auf deine Mail-App konnte nicht zugegriffen werden. Kopiere die Daten in die Zwischenablage und erstelle damit eine Mail an das Veranstaltungsmanagement."
   },
   "qr-dialog": {

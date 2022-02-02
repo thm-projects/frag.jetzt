@@ -427,6 +427,7 @@
     "session-history-1": "Your session history contains one session.",
     "session-history-label": "Below you will find a list of your sessions.",
     "export-comments": "Save Q&A",
+    "email-notification": "E-mail notification",
     "room-not-exist": "The room does not exist.\nPlease inform the person who gave you the direct link."
   },
   "session": {
@@ -457,15 +458,15 @@
     "mail-body": "Hello,\n\nI have received the following tokens in the »frag.jetzt« session »{{sessionName}}« with the key code »{{sessionId}}«:\n\n{{tokens}}\n\n\nI ask for the redemption in bonus points.\n\nThanks for »frag.jetzt«!\n\n---",
     "choose-session": "Choose a session …",
     "please-choose": "Please select a session first.",
-    "session-name": "Meeting", 
-    "session-id": "\nKey code", 
-    "owner-email": "\nRoom creator email", 
+    "session-name": "Meeting",
+    "session-id": "\nKey code",
+    "owner-email": "\nRoom creator email",
     "moderator-emails": "\nModerator emails",
     "bonus-tokens": "\n\nMy bonus tokens",
     "bonus-token-body1": " from ",
-    "bonus-token-body2": " with the question number ", 
-    "redeem-clipboard-success": "All required data for the mail to event management was copied to the clipboard.", 
-    "redeem-clipboard-failure": "The data could not be saved to the clipboard.", 
+    "bonus-token-body2": " with the question number ",
+    "redeem-clipboard-success": "All required data for the mail to event management was copied to the clipboard.",
+    "redeem-clipboard-failure": "The data could not be saved to the clipboard.",
     "redeem-mail-failure": "Your mail app could not be accessed. Copy the data to the clipboard and use it to create a mail to the event management."
   },
   "qr-dialog": {

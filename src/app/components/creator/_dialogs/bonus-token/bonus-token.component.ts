@@ -10,7 +10,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { Subject, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
-import { isNumeric } from 'rxjs/internal-compatibility';
 import { ExplanationDialogComponent } from '../../../shared/_dialogs/explanation-dialog/explanation-dialog.component';
 import { copyCSVString, exportBonusArchive } from '../../../../utils/ImportExportMethods';
 import { CommentService } from '../../../../services/http/comment.service';
@@ -18,11 +17,10 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Sort } from '@angular/material/sort';
 import { SelectionModel } from '@angular/cdk/collections';
 import { AuthenticationService } from '../../../../services/http/authentication.service';
-import { UserRole } from '../../../../../../src/app/models/user-roles.enum';
-import { EventService } from '../../../../../../src/app/services/util/event.service';
-import { BonusTokenDeleted } from '../../../../../../src/app/models/events/bonus-token-deleted';
+import { UserRole } from '../../../../models/user-roles.enum';
+import { EventService } from '../../../../services/util/event.service';
+import { BonusTokenDeleted } from '../../../../models/events/bonus-token-deleted';
 import { LanguageService } from '../../../../services/util/language.service';
-import { BonusTokenUtilService } from '../../../../services/util/bonus-token-util.service';
 
 @Component({
   selector: 'app-bonus-token',
@@ -59,7 +57,7 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
               private dialogRef: MatDialogRef<RoomCreatorPageComponent>,
               private commentService: CommentService,
               private translateService: TranslateService,
-              private notificationService: NotificationService, 
+              private notificationService: NotificationService,
               private authenticationService: AuthenticationService,
               private languageService: LanguageService) {
     this.languageService.getLanguage().subscribe(lang => {
@@ -178,7 +176,7 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
 
   validateTokenInput(input: any): boolean {
     let res = false;
-    if (input.length === 8 && isNumeric(input)) {
+    if (input.length === 8 && this.isNumeric(input)) {
       this.bonusTokens.forEach(bonusToken => {
         if (bonusToken.token === input) {
           res = true;
@@ -220,7 +218,7 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
             break;
           case 'date':
             data.sort((a, b) =>
-              +a.timestamp - +b.timestamp
+              +a.createdAt - +b.createdAt
             );
             break;
         }
@@ -263,5 +261,11 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+  }
+
+  private isNumeric(msg: string): boolean {
+    // @ts-ignore
+    // eslint-disable-next-line eqeqeq
+    return +msg == msg;
   }
 }

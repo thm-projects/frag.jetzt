@@ -79,6 +79,8 @@ import { IntroductionBrainstormingENComponent } from './_dialogs/introductions/i
 import { IntroductionModerationComponent } from './_dialogs/introductions/introduction-moderation/introduction-moderation.component';
 import { IntroductionModerationDEComponent } from './_dialogs/introductions/introduction-moderation/introduction-moderation-de/introduction-moderation-de.component';
 import { IntroductionModerationENComponent } from './_dialogs/introductions/introduction-moderation/introduction-moderation-en/introduction-moderation-en.component';
+import { CommentNotificationDialogComponent } from './_dialogs/comment-notification-dialog/comment-notification-dialog.component';
+import { NgxMatTimepickerModule } from '@angular-material-components/datetime-picker';
 
 @NgModule({
   imports: [
@@ -93,7 +95,8 @@ import { IntroductionModerationENComponent } from './_dialogs/introductions/intr
     ColorPickerModule,
     DragDropModule,
     JoyrideModule.forChild(),
-    QuillModule
+    QuillModule,
+    NgxMatTimepickerModule
   ],
   declarations: [
     RoomJoinComponent,
@@ -163,7 +166,8 @@ import { IntroductionModerationENComponent } from './_dialogs/introductions/intr
     IntroductionBrainstormingENComponent,
     IntroductionModerationComponent,
     IntroductionModerationDEComponent,
-    IntroductionModerationENComponent
+    IntroductionModerationENComponent,
+    CommentNotificationDialogComponent
   ],
     exports:[
         RoomJoinComponent,

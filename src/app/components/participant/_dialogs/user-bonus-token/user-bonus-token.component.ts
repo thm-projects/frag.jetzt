@@ -37,13 +37,13 @@ export class UserBonusTokenComponent implements OnInit {
   bonusTokensMixin: BonusTokenRoomMixin[] = [];
   currentRoom: MinRoom;
   rooms: MinRoom[] = [];
-  lang: string; 
+  lang: string;
 
   constructor(
     private bonusTokenService: BonusTokenService,
     private roomService: RoomService,
     private commentService: CommentService,
-    private translateService: TranslateService, 
+    private translateService: TranslateService,
     private langService: LanguageService,
     private dialogRef: MatDialogRef<UserBonusTokenComponent>,
     private bonusTokenUtilService: BonusTokenUtilService,
@@ -147,9 +147,9 @@ export class UserBonusTokenComponent implements OnInit {
     const translationList = ['user-bonus-token.session-name', 'user-bonus-token.session-id', 'user-bonus-token.owner-email', 'user-bonus-token.moderator-emails', 'user-bonus-token.bonus-tokens', 'user-bonus-token.bonus-token-body1', 'user-bonus-token.bonus-token-body2', 'user-bonus-token.redeem-clipboard-success', 'user-bonus-token.redeem-clipboard-failure'];
     let clipBoardText: string;
     this.translationService.get(translationList).subscribe(msgs => {
-      clipBoardText = msgs[translationList[0]] + ': ' + sessionName + msgs[translationList[1]] + ': ' + sessionId + msgs[translationList[2]] + ': ' + ownerEmail + 
+      clipBoardText = msgs[translationList[0]] + ': ' + sessionName + msgs[translationList[1]] + ': ' + sessionId + msgs[translationList[2]] + ': ' + ownerEmail +
       msgs[translationList[3]] + ': ' + moderatorEmails.map(e => {return e;}) + msgs[translationList[4]] + ': ';
-      this.bonusTokensMixin.filter(btm => btm.roomShortId === this.currentRoom.id).filter(btm => btm.accountId === this.userId).sort((a, b) => {  
+      this.bonusTokensMixin.filter(btm => btm.roomShortId === this.currentRoom.id).filter(btm => btm.accountId === this.userId).sort((a, b) => {
         console.log(a.questionNumber + " - " + b.questionNumber);
         return a.questionNumber - b.questionNumber;
       }).map(btm => {
