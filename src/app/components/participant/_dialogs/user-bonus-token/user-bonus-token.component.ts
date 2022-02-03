@@ -148,7 +148,7 @@ export class UserBonusTokenComponent implements OnInit {
     let clipBoardText: string;
     this.translationService.get(translationList).subscribe(msgs => {
       clipBoardText = msgs[translationList[0]] + ': ' + sessionName + msgs[translationList[1]] + ': ' + sessionId + msgs[translationList[2]] + ': ' + ownerEmail + 
-      msgs[translationList[3]] + ': ' + moderatorEmails.map(e => {return e;}) + msgs[translationList[4]] + ': ';
+      msgs[translationList[3]] + ': ' + moderatorEmails.map(e => {return e+'\n';}) + msgs[translationList[4]] + ': ';
       this.bonusTokensMixin.filter(btm => btm.roomShortId === this.currentRoom.id).filter(btm => btm.accountId === this.userId).sort((a, b) => {  
         console.log(a.questionNumber + " - " + b.questionNumber);
         return a.questionNumber - b.questionNumber;
