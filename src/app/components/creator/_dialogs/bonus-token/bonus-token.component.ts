@@ -195,7 +195,7 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
   updateTokens(bonusTokens: BonusToken[]): void {
     this.bonusTokens = bonusTokens;
     this.bonusTokens = this.bonusTokenUtilService.setQuestionNumber(this.bonusTokens);
-""    this.subscription = this.modelChanged
+    this.subscription = this.modelChanged
       .pipe(
         debounceTime(this.debounceTime),
       )
