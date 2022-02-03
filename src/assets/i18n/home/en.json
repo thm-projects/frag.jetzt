@@ -461,7 +461,7 @@
     "session-id": "\nKey code",
     "owner-email": "\nRoom creator email",
     "moderator-emails": "\nModerator emails",
-    "bonus-tokens": "\n\nMy bonus tokens",
+    "bonus-tokens": "\nMy bonus tokens",
     "bonus-token-body1": " from ",
     "bonus-token-body2": " with the question number ",
     "redeem-clipboard-success": "All required data for the mail to event management was copied to the clipboard.",

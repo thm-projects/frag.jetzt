@@ -553,7 +553,7 @@
     "session-id": "\nRaum-Code",
     "owner-email": "\nE-Mail des Raumerstellers",
     "moderator-emails": "\nE-Mail der Moderatoren",
-    "bonus-tokens": "\n\nMeine Bonustoken:",
+    "bonus-tokens": "\nMeine Bonustoken:",
     "bonus-token-body1": " vom ",
     "bonus-token-body2": " mit der Fragennummer ",
     "redeem-clipboard-success": "Alle erforderlichen Daten für die Mail an das Veranstaltungsmanagement wurden in die Zwischenablage kopiert.",
