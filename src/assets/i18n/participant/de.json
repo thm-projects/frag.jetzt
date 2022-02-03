@@ -548,6 +548,7 @@
     "mail-subject": "Bitte um Einlösung meiner Tokens aus der »frag.jetzt«-Sitzung »{{sessionName}}«",
     "mail-body1": "Hallo,\n\nich habe in der »frag.jetzt«-Sitzung »{{sessionName}}« mit dem Raum-Code »{{sessionId}}« die folgenden Tokens erhalten:\n",
     "mail-body2": "\n\n\nIch bitte um die Einlösung in Bonuspunkte.\n\nDanke für »frag.jetzt«!\n\n---",
+    "email-not-set": "Keine Email hinterlegt",
     "choose-session": "Wähle eine Sitzung …",
     "please-choose": "Bitte wähle zuerst eine Sitzung.",
     "session-name": "Veranstaltung",
