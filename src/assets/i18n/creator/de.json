@@ -380,7 +380,7 @@
     "session-id-copied": "Der Direktlink für Gastmoderatoren wurde in die Zwischenablage kopiert.",
     "code-recreated": "Es wurde ein neuer Zugangscode erzeugt.",
     "something-went-wrong": "Etwas ist schiefgelaufen.",
-    "email": "Mail-Adresse",
+    "email": "Mail-Adresse …",
     "a11y-email": "Gib die Mail Adresse eines Benutzers ein, den du als Moderator hinzufügen möchtest. Der Moderator muss ein frag.jetzt Konto haben.",
     "a11y-add": "Fügt den eingegebenen Benutzer als Moderator hinzu.",
     "a11y-delete": "Entfernt diesen Moderator.",

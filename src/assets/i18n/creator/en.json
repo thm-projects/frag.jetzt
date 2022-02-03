@@ -381,7 +381,7 @@
     "session-id-copied": "The direct link for guest moderators has been copied to the clipboard.",
     "code-recreated": "A new access code has been created.",
     "something-went-wrong": "Something went wrong.",
-    "email": "Mail address",
+    "email": "Mail address …",
     "a11y-email": "Enter the mail address of a user you want to add as a moderator. The moderator must have a »frag.jetzt« account.",
     "a11y-add": "Add the entered user as a moderator.",
     "a11y-delete": "Removes this moderator.",
