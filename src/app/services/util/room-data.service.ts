@@ -366,7 +366,7 @@ export class RoomDataService {
     c.roomId = room.id;
     c.body = payload.body;
     c.id = payload.id;
-    c.timestamp = payload.timestamp;
+    c.createdAt = payload.createdAt;
     c.tag = payload.tag;
     c.creatorId = payload.creatorId;
     c.keywordsFromQuestioner = JSON.parse(payload.keywordsFromQuestioner);

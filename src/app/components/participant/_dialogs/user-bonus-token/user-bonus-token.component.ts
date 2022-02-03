@@ -124,7 +124,7 @@ export class UserBonusTokenComponent implements OnInit {
             ))
         )
         .subscribe(ids => {
-          if(useEmail) {
+          if (useEmail) {
             this.send(ids[0] || '', ids.slice(1));
           } else {
             this.copyClipboard(ids[0] || '', ids.slice(1));
@@ -144,19 +144,27 @@ export class UserBonusTokenComponent implements OnInit {
   private copyClipboard(ownerEmail: string, moderatorEmails: string[]) {
     const sessionName = this.currentRoom.name;
     const sessionId = this.currentRoom.id;
-    const translationList = ['user-bonus-token.session-name', 'user-bonus-token.session-id', 'user-bonus-token.owner-email', 'user-bonus-token.moderator-emails', 'user-bonus-token.bonus-tokens', 'user-bonus-token.bonus-token-body1', 'user-bonus-token.bonus-token-body2', 'user-bonus-token.redeem-clipboard-success', 'user-bonus-token.redeem-clipboard-failure'];
+    const translationList = [
+      'user-bonus-token.session-name', 'user-bonus-token.session-id', 'user-bonus-token.owner-email',
+      'user-bonus-token.moderator-emails', 'user-bonus-token.bonus-tokens', 'user-bonus-token.bonus-token-body1',
+      'user-bonus-token.bonus-token-body2', 'user-bonus-token.redeem-clipboard-success',
+      'user-bonus-token.redeem-clipboard-failure'
+    ];
     let clipBoardText: string;
     this.translationService.get(translationList).subscribe(msgs => {
-      clipBoardText = msgs[translationList[0]] + ': ' + sessionName + msgs[translationList[1]] + ': ' + sessionId + msgs[translationList[2]] + ': ' + ownerEmail +
-      msgs[translationList[3]] + ': ' + moderatorEmails.map(e => {return e;}) + msgs[translationList[4]] + ': ';
-      this.bonusTokensMixin.filter(btm => btm.roomShortId === this.currentRoom.id).filter(btm => btm.accountId === this.userId).sort((a, b) => {
-        console.log(a.questionNumber + " - " + b.questionNumber);
-        return a.questionNumber - b.questionNumber;
-      }).map(btm => {
-          let date = new Date(btm.timestamp);
-          clipBoardText += '\n' + btm.token + msgs[translationList[5]] + date.toLocaleDateString(this.lang) + msgs[translationList[6]] + btm.questionNumber;
+      clipBoardText = msgs[translationList[0]] + ': ' + sessionName + msgs[translationList[1]] + ': ' + sessionId +
+        msgs[translationList[2]] + ': ' + ownerEmail + msgs[translationList[3]] + ': ' +
+        moderatorEmails.map(e => e) + msgs[translationList[4]] + ': ';
+      this.bonusTokensMixin
+        .filter(btm => btm.roomShortId === this.currentRoom.id)
+        .filter(btm => btm.accountId === this.userId)
+        .sort((a, b) => a.questionNumber - b.questionNumber)
+        .map(btm => {
+          const date = new Date(btm.createdAt);
+          clipBoardText += '\n' + btm.token + msgs[translationList[5]] + date.toLocaleDateString(this.lang) +
+            msgs[translationList[6]] + btm.questionNumber;
           this.clipboard.copy(clipBoardText);
-      });
+        });
       this.notificationService.show(msgs[translationList[7]]);
     });
   }
@@ -182,7 +190,7 @@ export class UserBonusTokenComponent implements OnInit {
         'subject=' + UserBonusTokenComponent.escapeForEmail(msgs[translationList[0]]) + '&' +
         (escapedModeratorEmails.length > 0 ? 'cc=' + escapedModeratorEmails + '&' : '') +
         'body=' + UserBonusTokenComponent.escapeForEmail(msgs[translationList[1]]);
-      if(window.open(mailText, "_self") === null) {
+      if (window.open(mailText, '_self') === null) {
         this.notificationService.show(msgs[translationList[2]]);
       }
     });

@@ -19,11 +19,11 @@
       <div class="date-container">
         <div class="date"
              *ngIf="language === 'de'; else englishDate">
-          {{comment.timestamp | date: ' dd.MM.yy HH:mm '}}
+          {{comment.createdAt | date: ' dd.MM.yy HH:mm '}}
         </div>
         <ng-template class="date"
                      #englishDate>
-          {{comment.timestamp | date: ' M/d/yy h:mm a '}}
+          {{comment.createdAt | date: ' M/d/yy h:mm a '}}
         </ng-template>
       </div>
       <button mat-icon-button
@@ -78,7 +78,7 @@
                 attr.aria-labelledby="comment_not_correct{{ comment.id }}">
           <mat-icon [ngClass]="{'wrong-icon' : comment.correct === 2,
                               'not-marked' : (comment.correct === 0 || comment.correct === 1)}"
-                    [matTooltip]="comment.correct != 2 ? ('comment-page.mark-wrong' | translate)
+                    [matTooltip]="comment.correct !== 2 ? ('comment-page.mark-wrong' | translate)
                                                  : ('comment-page.mark-not-wrong' | translate)">cancel
           </mat-icon>
         </button>
@@ -166,7 +166,7 @@
         <span id="comment-{{ comment.id }}"
               class="visually-hidden"
               aria-hidden="true">{{ 'comment-page.comment' | translate: {
-          time: (language === 'de' ? (comment.timestamp | date: ' HH:mm ') : (comment.timestamp | date: 'h:mm a')),
+          time: (language === 'de' ? (comment.createdAt | date: ' HH:mm ') : (comment.createdAt | date: 'h:mm a')),
           votes: comment.score === 1 ? ('comment-page.a11y-text_textForOneVote' | translate) : comment.score + ('comment-page.a11y-text_textForVotes' | translate),
           comment: readableCommentBody,
           correct: comment.correct === 1 ? ('comment-page.a11y-text_correct' | translate) : "",
@@ -329,11 +329,11 @@
     ('comment-page.a11y-comment-answer-not' | translate)}}
   </div>
   <div
-    id="comment_correct{{ comment.id }}">{{comment.correct != 1 ? ('comment-page.a11y-comment_not_marked_correct' | translate)
+    id="comment_correct{{ comment.id }}">{{comment.correct !== 1 ? ('comment-page.a11y-comment_not_marked_correct' | translate)
     : ('comment-page.a11y-comment_marked_correct' | translate) }}
   </div>
   <div
-    id="comment_not_correct{{ comment.id }}">{{comment.correct != 2 ? ('comment-page.a11y-comment_not_marked_wrong' | translate)
+    id="comment_not_correct{{ comment.id }}">{{comment.correct !== 2 ? ('comment-page.a11y-comment_not_marked_wrong' | translate)
     : ('comment-page.a11y-comment_marked_wrong' | translate) }}
   </div>
   <div id="comment_grade{{ comment.id }}">{{ !comment.favorite ? ('comment-page.a11y-comment_grade' | translate)

@@ -21,6 +21,7 @@ import { UserRole } from '../../../../models/user-roles.enum';
 import { EventService } from '../../../../services/util/event.service';
 import { BonusTokenDeleted } from '../../../../models/events/bonus-token-deleted';
 import { LanguageService } from '../../../../services/util/language.service';
+import { BonusTokenUtilService } from '../../../../services/util/bonus-token-util.service';
 
 @Component({
   selector: 'app-bonus-token',

@@ -10,6 +10,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 export class CommentNotificationDialogComponent implements OnInit {
 
   @Input() room: Room;
+  date = new Date();
 
   constructor(
     private dialogRef: MatDialogRef<CommentNotificationDialogComponent>

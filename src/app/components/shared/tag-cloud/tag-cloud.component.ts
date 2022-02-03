@@ -196,7 +196,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
         filter.filterType = FilterType.brainstormingQuestion;
         filter.period = Period.fromNow;
         filter.lastRoomId = room.id;
-        filter.fromNow = new Date(room.brainstormingSession.started).getTime();
+        filter.fromNow = new Date(room.brainstormingSession.createdAt).getTime();
         filter.save('tagCloud');
         this.roomDataFilterService.currentFilter = filter;
       }

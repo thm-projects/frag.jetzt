@@ -95,8 +95,7 @@ export class CommentService extends BaseHttpService {
     const connectionUrl = this.apiUrl.base + this.apiUrl.comment + '/';
     return this.http.post<Comment>(connectionUrl,
       {
-        roomId: comment.roomId, body: comment.body,
-        read: comment.read, creationTimestamp: comment.timestamp, tag: comment.tag,
+        roomId: comment.roomId, creatorId: comment.creatorId, body: comment.body, tag: comment.tag,
         keywordsFromSpacy: JSON.stringify(comment.keywordsFromSpacy),
         keywordsFromQuestioner: JSON.stringify(comment.keywordsFromQuestioner),
         language: comment.language, questionerName: comment.questionerName,
