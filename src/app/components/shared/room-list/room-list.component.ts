@@ -60,6 +60,7 @@ export class RoomListComponent implements OnInit, OnDestroy {
     direction: 'asc',
     active: 'name'
   };
+  hasEmail = false;
 
   constructor(
     private roomService: RoomService,
@@ -80,6 +81,7 @@ export class RoomListComponent implements OnInit, OnDestroy {
       take(1)
     ).subscribe(user => {
       this.user = user;
+      this.hasEmail = !!user.loginId;
       this.getRooms();
     });
     this.sub = this.eventService.on<any>('RoomDeleted').subscribe(payload => {
@@ -226,7 +228,7 @@ export class RoomListComponent implements OnInit, OnDestroy {
 
   openNotifications(room: Room) {
     const dialogRef = this.dialog.open(CommentNotificationDialogComponent, {
-      minWidth: '400px'
+      minWidth: '80%'
     });
     dialogRef.componentInstance.room = room;
   }

@@ -398,6 +398,22 @@
     "token": "Bonus-Token",
     "token-time": "Token-Zeitstempel"
   },
+  "comment-notification": {
+    "monday": "Montag",
+    "tuesday": "Dienstag",
+    "wednesday": "Mittwoch",
+    "thursday": "Donnerstag",
+    "friday": "Freitag",
+    "saturday": "Samstag",
+    "sunday": "Sonntag",
+    "close": "Schließen",
+    "last-setting": "Letzte Einstellung: %s",
+    "setting-inactive": "Inaktiv",
+    "confirm": "Übernehmen",
+    "deactivate": "Deaktivieren",
+    "something-went-wrong": "Etwas ist schiefgelaufen!",
+    "title": "Kommentar-Benachrichtigung"
+  },
   "room-list": {
     "creator-role": "Du bist der Ersteller dieses Raumes.",
     "entry": "Eintrag ",
