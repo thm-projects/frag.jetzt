@@ -145,7 +145,7 @@ export class UserBonusTokenComponent implements OnInit {
     this.translationService.get(translationList).subscribe(msgs => {
       ownerEmail = (ownerEmail === '' ? msgs[translationList[7]] : ownerEmail);
       clipBoardText = msgs[translationList[0]] + ': ' + sessionName + msgs[translationList[1]] + ': ' + sessionId + msgs[translationList[2]] + ': ' + ownerEmail + msgs[translationList[3]] + ': ' +
-      (moderatorEmails[0] === undefined ? msgs[translationList[7]]+'\n' : moderatorEmails.map(e => {return e+'\n';})) + msgs[translationList[4]] + ': ';
+      (moderatorEmails[0] === undefined ? msgs[translationList[7]] : moderatorEmails.map(e => {return '\n' + e;})) + msgs[translationList[4]] + ': ';
       this.bonusTokensMixin.filter(btm => btm.roomShortId === this.currentRoom.id).filter(btm => btm.accountId === this.userId).sort((a, b) => {  
         return a.questionNumber - b.questionNumber;
       }).map(btm => {
