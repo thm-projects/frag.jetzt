@@ -143,7 +143,7 @@ export class UserBonusTokenComponent implements OnInit {
     const translationList = ['user-bonus-token.session-name', 'user-bonus-token.session-id', 'user-bonus-token.owner-email', 'user-bonus-token.moderator-emails', 'user-bonus-token.bonus-tokens', 'user-bonus-token.bonus-token-body1', 'user-bonus-token.bonus-token-body2', 'user-bonus-token.email-not-set', 'user-bonus-token.redeem-clipboard-success', 'user-bonus-token.redeem-clipboard-failure'];
     let clipBoardText: string;
     this.translationService.get(translationList).subscribe(msgs => {
-      ownerEmail = (ownerEmail === '' ? msgs[translationList[7]] : ownerEmail);
+      ownerEmail = (ownerEmail === '' ? msgs[translationList[7]] : '\n' + ownerEmail);
       clipBoardText = msgs[translationList[0]] + ': ' + sessionName + msgs[translationList[1]] + ': ' + sessionId + msgs[translationList[2]] + ': ' + ownerEmail + msgs[translationList[3]] + ': ' +
       (moderatorEmails[0] === undefined ? msgs[translationList[7]] : moderatorEmails.map(e => {return '\n' + e;})) + msgs[translationList[4]] + ': ';
       this.bonusTokensMixin.filter(btm => btm.roomShortId === this.currentRoom.id).filter(btm => btm.accountId === this.userId).sort((a, b) => {  
