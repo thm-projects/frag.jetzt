@@ -174,6 +174,7 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
     return () => {
       this.roomDataFilterService.currentFilter.save('commentList');
       const filter = new RoomDataFilter(null);
+      filter.lastRoomId = this.roomDataFilterService.currentFilter?.lastRoomId;
       switch (this.continueFilter) {
         case 'continueWithAll':
           // all questions allowed
