@@ -190,7 +190,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
         return;
       }
       this.unreadComments++;
-      const date = new Date(c.comment.timestamp);
+      const date = new Date(c.comment.createdAt);
       this.commentCache[c.comment.id] = {
         date,
         old: false,
@@ -447,7 +447,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
       if (this.commentCache[comment.id]) {
         return;
       }
-      const date = new Date(comment.timestamp);
+      const date = new Date(comment.createdAt);
       this.commentCache[comment.id] = {
         date,
         old: true,

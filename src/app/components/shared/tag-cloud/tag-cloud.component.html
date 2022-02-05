@@ -37,7 +37,7 @@
               mat-icon-button>
         <mat-icon>play_arrow</mat-icon>
       </button>
-      <button *ngIf="brainstormingActive && canWriteComment() && !drawer?.opened"
+      <button *ngIf="canWriteComment() && !drawer?.opened"
               mat-fab
               mat-icon-button
               class="fab_add_comment"

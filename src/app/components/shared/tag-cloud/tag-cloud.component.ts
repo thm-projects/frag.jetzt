@@ -191,16 +191,12 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
       this.directSend = this.room.directSend;
       this.createCommentWrapper = new CreateCommentWrapper(this.translateService,
         this.notificationService, this.commentService, this.dialog, this.room);
-      if (!this.authenticationService.hasAccess(this.shortId, UserRole.PARTICIPANT)) {
-        this.roomService.addToHistory(this.room.id);
-        this.authenticationService.setAccess(this.shortId, UserRole.PARTICIPANT);
-      }
       if (this.brainstormingActive) {
         const filter = new RoomDataFilter(null);
         filter.filterType = FilterType.brainstormingQuestion;
         filter.period = Period.fromNow;
         filter.lastRoomId = room.id;
-        filter.fromNow = new Date(room.brainstormingSession.started).getTime();
+        filter.fromNow = new Date(room.brainstormingSession.createdAt).getTime();
         filter.save('tagCloud');
         this.roomDataFilterService.currentFilter = filter;
       }

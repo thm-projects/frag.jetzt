@@ -398,6 +398,22 @@
     "token": "Bonus-Token",
     "token-time": "Token-Zeitstempel"
   },
+  "comment-notification": {
+    "monday": "Montag",
+    "tuesday": "Dienstag",
+    "wednesday": "Mittwoch",
+    "thursday": "Donnerstag",
+    "friday": "Freitag",
+    "saturday": "Samstag",
+    "sunday": "Sonntag",
+    "close": "Schließen",
+    "last-setting": "Letzte Einstellung: %s",
+    "setting-inactive": "Inaktiv",
+    "confirm": "Übernehmen",
+    "deactivate": "Deaktivieren",
+    "something-went-wrong": "Etwas ist schiefgelaufen!",
+    "title": "Kommentar-Benachrichtigung"
+  },
   "room-list": {
     "creator-role": "Du bist der Ersteller dieses Raumes.",
     "entry": "Eintrag ",
@@ -425,6 +441,7 @@
     "session-history-1": "Dein Sitzungsverlauf enthält genau eine Sitzung.",
     "session-history-label": "Nachfolgend findest du eine Liste deiner Sitzungen.",
     "export-comments": "Q&A speichern",
+    "email-notification": "E-Mail-Benachrichtigung",
     "room-not-exist": "Der Raum existiert nicht. Bitte informiere die Person, die dir den Direktlink gegeben hat."
   },
   "session": {

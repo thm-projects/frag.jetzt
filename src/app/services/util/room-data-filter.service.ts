@@ -136,7 +136,7 @@ export class RoomDataFilterService {
         sortFunc = (a, b) => b.score - a.score;
         break;
       case SortType.time:
-        sortFunc = (a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime();
+        sortFunc = (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
         break;
       case SortType.controversy:
         sortFunc = (a, b) => RoomDataFilterService.calculateControversy(b.upvotes, b.downvotes) -
@@ -160,7 +160,7 @@ export class RoomDataFilterService {
       filter.period = DEFAULT_PERIOD;
     }
     if (filter.period === Period.all) {
-      return filter.freezedAt ? prefiltered.filter(c => new Date(c.timestamp).getTime() < filter.freezedAt) : prefiltered;
+      return filter.freezedAt ? prefiltered.filter(c => new Date(c.createdAt).getTime() < filter.freezedAt) : prefiltered;
     }
     const currentTime = new Date().getTime();
     let periodInSeconds;
@@ -194,7 +194,7 @@ export class RoomDataFilterService {
     const func = freezedAt ?
       (time: number) => time >= filterTime && time <= freezedAt :
       (time: number) => time >= filterTime;
-    return prefiltered.filter(c => func(new Date(c.timestamp).getTime()));
+    return prefiltered.filter(c => func(new Date(c.createdAt).getTime()));
   }
 
   private filterSearch(comments: Comment[], filter: RoomDataFilter, threshold: number, isModeration: boolean): Comment[] {
