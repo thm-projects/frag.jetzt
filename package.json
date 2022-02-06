@@ -34,6 +34,7 @@
     "angularx-qrcode": "^13.0.1",
     "badwords-list": "^1.0.0",
     "chart.js": "^2.9.4",
+    "ci": "^2.1.1",
     "emoji-toolkit": "^6.5.1",
     "get-stream": "^6.0.1",
     "is-docker": "^1.1.0",
