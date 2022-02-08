@@ -77,6 +77,7 @@ export interface BonusArchiveEntry {
   bonusTimestamp: Date;
   question: string;
   answer: string;
+  bonusQuestionNumber: string;
 }
 
 const bonusArchiveImportExport = (translateService: TranslateService) =>
@@ -88,12 +89,23 @@ const bonusArchiveImportExport = (translateService: TranslateService) =>
     {
       type: 'table', columns: [
         {
+          languageKey: 'bonus-archive-export.entry-commentNumber',
+          valueMapper: {
+            export: (config, k) => k.bonusQuestionNumber,
+            import: (config, val) => {
+              const c = {} as BonusArchiveEntry;
+              c.bonusQuestionNumber = val;
+              return c;
+            }
+          }
+        },
+        {
           languageKey: 'bonus-archive-export.entry-token',
           valueMapper: {
             export: (config, k) => k.bonusToken,
-            import: (config, value, previous) => {
+            import: (config, val) => {
               const c = {} as BonusArchiveEntry;
-              c.bonusToken = value || null;
+              c.bonusToken = val || null;
               return c;
             }
           }
@@ -102,9 +114,10 @@ const bonusArchiveImportExport = (translateService: TranslateService) =>
           languageKey: 'bonus-archive-export.entry-timestamp',
           valueMapper: {
             export: (config, k) => serializeDate(k.bonusTimestamp),
-            import: (config, value, previous) => {
-              previous.bonusTimestamp = value ? new Date(value) : null;
-              return previous;
+            import: (config, val) => {
+              const c = {} as BonusArchiveEntry;
+              c.bonusTimestamp = val ? new Date(val) : null;
+              return c;
             }
           }
         },
@@ -143,10 +156,11 @@ export const exportBonusArchive = (translateService: TranslateService,
       return forkJoin(tokens.map(token => commentService.getComment(token.commentId))).pipe(
         switchMap(comments => {
           const data: BonusArchiveEntry[] = comments.map((c, i) => ({
-            question: c?.body,
-            answer: c?.answer,
+            question: c?.answer,
+            answer: c?.body,
             bonusToken: tokens[i].token,
-            bonusTimestamp: tokens[i].createdAt
+            bonusTimestamp: tokens[i].createdAt,
+            bonusQuestionNumber: tokens[i].questionNumber.toString(),
           }));
           const date = new Date();
           return bonusArchiveImportExport(translateService).exportToCSV([

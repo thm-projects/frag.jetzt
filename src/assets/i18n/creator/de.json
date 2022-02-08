@@ -9,6 +9,7 @@
     "entry-timestamp": "Token-Zeitstempel",
     "entry-question": "Frage",
     "entry-answer": "Antwort",
+    "entry-commentNumber": "Bonus-Fragennummer",
     "file-name": "Bonus-Archiv \"{{roomName}}\" {{date}}.csv"
   },
   "room-export": {
