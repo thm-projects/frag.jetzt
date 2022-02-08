@@ -90,7 +90,7 @@ export class TopicCloudBrainstormingComponent implements OnInit, OnDestroy {
     this.brainstormingService.createSession({
       roomId: this._room.id,
       active: true,
-      started: new Date(),
+      createdAt: new Date(),
       title: this.question,
       maxWordCount: this.maxWordCount.value,
       maxWordLength: this.maxWordLength.value

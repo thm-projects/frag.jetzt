@@ -11,7 +11,7 @@ export class Comment {
   read: boolean;
   correct: CorrectWrong;
   favorite: boolean;
-  timestamp: Date;
+  createdAt: Date;
   bookmark: boolean;
   score: number;
   createdFromLecturer: boolean;
@@ -30,7 +30,7 @@ export class Comment {
   brainstormingQuestion: boolean;
   answerQuestionerKeywords: SpacyKeyword[];
   answerFulltextKeywords: SpacyKeyword[];
-
+  updatedAt: Date;
 
   constructor(roomId: string = '',
               creatorId: string = '',
@@ -65,7 +65,7 @@ export class Comment {
     this.correct = correct;
     this.favorite = favorite;
     this.bookmark = bookmark;
-    this.timestamp = creationTimestamp;
+    this.createdAt = creationTimestamp;
     this.score = score;
     this.createdFromLecturer = createdFromLecturer;
     this.highlighted = highlighted;
@@ -82,6 +82,7 @@ export class Comment {
     this.brainstormingQuestion = brainstormingQuestion;
     this.answerFulltextKeywords = answerFulltextKeywords;
     this.answerQuestionerKeywords = answerQuestionerKeywords;
+    this.updatedAt = null;
   }
 
   static mapModelToLanguage(model: Model): Language {

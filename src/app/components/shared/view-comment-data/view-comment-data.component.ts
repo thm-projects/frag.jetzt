@@ -153,7 +153,6 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
     const isMobile = this.deviceInfo.isUserAgentMobile;
     if (this.isEditor) {
       this.quillModules['emoji-toolbar'] = !isMobile;
-      this.quillModules['emoji-shortname'] = !isMobile;
       this.quillModules.imageResize = {
         modules: ['Resize', 'DisplaySize']
       };
@@ -165,64 +164,70 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    if (this.isEditor) {
-      this.editor.onContentChanged.subscribe(e => {
-        this._marks.onDataChange(e.delta);
-        this._currentData = ViewCommentDataComponent.getDataFromDelta(e.content);
-        this.currentText = e.text;
-      });
-      let wasLastPaste = false;
-      this.editor.onEditorCreated.subscribe(_ => {
-        this._marks = new Marks(this.editorErrorLayer.nativeElement, this.tooltipContainer.nativeElement, this.editor);
-        if (this._currentData) {
-          this.set(this._currentData);
-        }
-        const elem = this.editor.editorElem.firstElementChild as HTMLElement;
-        elem.focus();
-        elem.addEventListener('paste', () => {
-          wasLastPaste = true;
-        });
-        new AccessibilityEscapedInputDirective(
-          new ElementRef(this.editor.editorElem.firstElementChild as HTMLElement),
-          this.eventService
-        ).ngAfterViewInit();
-        this.overrideQuillTooltip();
-        this.syncErrorLayer();
-        setTimeout(() => {
-          this.syncErrorLayer();
-          if (this.afterEditorInit) {
-            this.afterEditorInit();
-          }
-        }, 200); // animations?
-      });
-      this.editor.onEditorChanged.subscribe(e => {
-        if (e.event === 'text-change' && wasLastPaste) {
-          wasLastPaste = false;
-          this.cleanContentOnPaste(e);
-        }
-        this._marks.sync();
-        this.syncErrorLayer();
-        const elem: HTMLDivElement = document.querySelector('div.ql-tooltip');
-        if (elem) {
-          setTimeout(() => {
-            let left = parseFloat(elem.style.left);
-            const containerWidth = this.editor.editorElem.getBoundingClientRect().width;
-            if (left < 0) {
-              elem.style.left = '0';
-              left = 0;
-            }
-            const right = left + elem.getBoundingClientRect().width;
-            if (right > containerWidth) {
-              elem.style.left = (containerWidth - right + left) + 'px';
-            }
-          });
-        }
-      });
-    } else {
+    if (!this.isEditor) {
+      if (this.quillView.editorElem) {
+        this.set(this._currentData);
+        return;
+      }
       this.quillView.onEditorCreated.subscribe(_ => {
         this.set(this._currentData);
       });
+      return;
     }
+    let wasLastPaste = false;
+    const initEditor = () => {
+      this._marks = new Marks(this.editorErrorLayer.nativeElement, this.tooltipContainer.nativeElement, this.editor);
+      if (this._currentData) {
+        this.set(this._currentData);
+      }
+      const elem = this.editor.editorElem.firstElementChild as HTMLElement;
+      elem.focus();
+      elem.addEventListener('paste', () => {
+        wasLastPaste = true;
+      });
+      new AccessibilityEscapedInputDirective(
+        new ElementRef(this.editor.editorElem.firstElementChild as HTMLElement),
+        this.eventService
+      ).ngAfterViewInit();
+      this.overrideQuillTooltip();
+      this.syncErrorLayer();
+      if (this.afterEditorInit) {
+        this.afterEditorInit();
+      }
+    };
+    if (this.editor.editorElem) {
+      initEditor();
+    } else {
+      this.editor.onEditorCreated.subscribe(_ => initEditor());
+    }
+    this.editor.onContentChanged.subscribe(e => {
+      this._marks.onDataChange(e.delta);
+      this._currentData = ViewCommentDataComponent.getDataFromDelta(e.content);
+      this.currentText = e.text;
+    });
+    this.editor.onEditorChanged.subscribe(e => {
+      if (e.event === 'text-change' && wasLastPaste) {
+        wasLastPaste = false;
+        this.cleanContentOnPaste(e);
+      }
+      this._marks.sync();
+      this.syncErrorLayer();
+      const tooltip: HTMLDivElement = document.querySelector('div.ql-tooltip');
+      if (tooltip) {
+        setTimeout(() => {
+          let left = parseFloat(tooltip.style.left);
+          const containerWidth = this.editor.editorElem.getBoundingClientRect().width;
+          if (left < 0) {
+            tooltip.style.left = '0';
+            left = 0;
+          }
+          const right = left + tooltip.getBoundingClientRect().width;
+          if (right > containerWidth) {
+            tooltip.style.left = (containerWidth - right + left) + 'px';
+          }
+        });
+      }
+    });
   }
 
   onDocumentClick(e) {

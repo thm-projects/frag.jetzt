@@ -159,7 +159,7 @@ export const exportBonusArchive = (translateService: TranslateService,
             question: c?.answer,
             answer: c?.body,
             bonusToken: tokens[i].token,
-            bonusTimestamp: tokens[i].timestamp,
+            bonusTimestamp: tokens[i].createdAt,
             bonusQuestionNumber: tokens[i].questionNumber.toString(),
           }));
           const date = new Date();
@@ -220,9 +220,9 @@ const roomImportExport = (translateService: TranslateService,
         {
           languageKey: translatePath + '.timestamp',
           valueMapper: {
-            export: (cfg, c) => serializeDate(c.timestamp as unknown as string),
+            export: (cfg, c) => serializeDate(c.createdAt as unknown as string),
             import: (cfg, val, prev) => {
-              prev.timestamp = (val ? Date.parse(val) : '') as unknown as Date;
+              prev.createdAt = (val ? Date.parse(val) : '') as unknown as Date;
               return prev;
             }
           }
@@ -456,7 +456,7 @@ export const exportRoom = (translateService: TranslateService,
             const bonusToken = value.find(v => v.accountId === comment.creatorId && v.commentId === comment.id);
             if (bonusToken) {
               comment.bonusToken = bonusToken.token;
-              comment.bonusTimeStamp = bonusToken.timestamp;
+              comment.bonusTimeStamp = bonusToken.createdAt;
             }
           }
           const dateString = new Date().toLocaleDateString();

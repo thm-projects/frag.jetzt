@@ -24,7 +24,6 @@ export class RoomService extends BaseHttpService {
     import: '/import',
     findRooms: '/find'
   };
-  private joinDate = new Date(Date.now());
 
   constructor(
     private http: HttpClient,
@@ -106,7 +105,7 @@ export class RoomService extends BaseHttpService {
 
   addToHistory(roomId: string): void {
     const connectionUrl = `${ this.apiUrl.base + this.apiUrl.user }/${ this.authService.getUser().id }/roomHistory`;
-    this.http.post(connectionUrl, {roomId, lastVisit: this.joinDate.getTime()}, httpOptions).subscribe();
+    this.http.post(connectionUrl, { roomId }, httpOptions).subscribe();
   }
 
   removeFromHistory(roomId: string): Observable<Room> {

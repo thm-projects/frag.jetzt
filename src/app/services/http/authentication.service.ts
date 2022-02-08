@@ -33,13 +33,19 @@ export class AuthenticationService extends BaseHttpService {
     register: '/register',
     registered: '/registered',
     resetPassword: '/resetpassword',
-    guest: '/guest'
+    guest: '/guest',
+    superAdmin: '/super-admin'
   };
   private httpOptions = {
     headers: new HttpHeaders({})
   };
 
   private roomAccess = new Map();
+  private _isSuperAdmin = false;
+
+  get isSuperAdmin() {
+    return this._isSuperAdmin;
+  }
 
   constructor(
     private dataStoreService: DataStoreService,
@@ -135,6 +141,7 @@ export class AuthenticationService extends BaseHttpService {
     // Actually don't destroy it because we want to preserve guest accounts in local storage
     // this.dataStoreService.remove(this.STORAGE_KEY);
     this.dataStoreService.set(LOGGED_IN, 'false');
+    this._isSuperAdmin = false;
     this.user.next(undefined);
   }
 
@@ -211,6 +218,17 @@ export class AuthenticationService extends BaseHttpService {
     }
   }
 
+  checkSuperAdmin(): Observable<boolean> {
+    if (!this.user.getValue()) {
+      throw new Error('Not logged in!');
+    }
+    const connectionUrl: string = this.apiUrl.base + this.apiUrl.user + this.apiUrl.superAdmin;
+    return this.http.get(connectionUrl, this.httpOptions).pipe(
+      tap(_ => ''),
+      catchError(err => of(err.error.message))
+    );
+  }
+
   private checkLogin(clientAuthentication: Observable<ClientAuthentication>,
                      userRole: UserRole): Observable<LoginResult> {
     return clientAuthentication.pipe(
@@ -250,6 +268,7 @@ export class AuthenticationService extends BaseHttpService {
     this.dataStoreService.set(STORAGE_KEY, JSON.stringify(user));
     this.dataStoreService.set(LOGGED_IN, 'true');
     this.user.next(user);
+    this.checkSuperAdmin().subscribe(res => this._isSuperAdmin = !!res);
   }
 
   private loadRoomAccesses() {

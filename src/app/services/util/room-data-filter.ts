@@ -27,7 +27,8 @@ export enum FilterType {
   unanswered = 'unanswered',
   owner = 'owner',
   number = 'number',
-  brainstormingQuestion = 'brainstormingQuestion'
+  brainstormingQuestion = 'brainstormingQuestion',
+  censored = 'censored'
 }
 
 export type FilterTypeKey = keyof typeof FilterType;

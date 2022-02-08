@@ -116,7 +116,7 @@ export class TagCloudDataService {
       TopicCloudAdminService.approveKeywordsOfComment(comment, roomDataService, adminData, blacklist, blacklistEnabled,
         brainstorming, (keyword: SpacyKeyword, isFromQuestioner: boolean, isFromAnswer: boolean) => {
           let current: TagCloudDataTagEntry = data.get(keyword.text);
-          const commentDate = new Date(comment.timestamp);
+          const commentDate = new Date(comment.createdAt);
           if (current === undefined) {
             current = {
               cachedVoteCount: 0,
@@ -373,7 +373,7 @@ export class TagCloudDataService {
       value.weight = this.calculateWeight(value, key);
       minWeight = Math.min(value.weight, minWeight === null ? value.weight : minWeight);
       maxWeight = Math.max(value.weight, maxWeight === null ? value.weight : maxWeight);
-    }))
+    }));
     //calculate weight counts and adjusted weights
     const same = minWeight === maxWeight;
     const span = maxWeight - minWeight;

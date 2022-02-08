@@ -146,7 +146,7 @@
             <button mat-icon-button
                     [matTooltip]="'moderators-dialog.tooltip-moderators' | translate"
                     (click)="showModeratorsDialog(room)" *ngIf="room.role > 0">
-              <mat-icon>key</mat-icon>
+              <mat-icon style="color: var(--red)">key</mat-icon>
             </button>
           </td>
         </ng-container>
@@ -173,6 +173,12 @@
                 <mat-icon class="delete material-icons-outlined">delete</mat-icon>
                 <span class="delete-text"> {{ (room.role < 3 ? 'room-list.panel-remove-button' :
                   'room-list.delete-room') | translate}}</span>
+              </button>
+              <button mat-menu-item
+                      *ngIf="hasEmail"
+                      (click)="openNotifications(room)">
+                <mat-icon class="notification material-icons-outlined">email</mat-icon>
+                <span class="delete-text">{{ 'room-list.email-notification' | translate }}</span>
               </button>
               <button mat-menu-item
                       (click)="exportCsv(room)">

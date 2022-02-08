@@ -204,8 +204,8 @@ export class SessionService {
 
   private fetchRoom(shortId: string) {
     this.roomService.getRoomByShortId(shortId).subscribe(room => {
+      this.roomService.addToHistory(room.id);
       if (!this.authenticationService.hasAccess(shortId, UserRole.PARTICIPANT)) {
-        this.roomService.addToHistory(room.id);
         this.authenticationService.setAccess(shortId, UserRole.PARTICIPANT);
       }
       this._beforeRoomUpdates = new Subject<Partial<Room>>();

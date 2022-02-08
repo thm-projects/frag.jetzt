@@ -11,15 +11,16 @@ export class BrainstormingSession {
   roomId: string;
   title: string;
   active: boolean;
-  started: Date;
+  createdAt: Date;
   maxWordLength: number;
   maxWordCount: number;
   votesForWords: WordVotes;
+  updatedAt: Date;
 
   constructor(roomId: string = '',
               title: string = '',
               active: boolean = true,
-              started: Date = null,
+              createdAt: Date = null,
               maxWordLength: number = 20,
               maxWordCount: number = 1,
               votesForWords: WordVotes = null) {
@@ -27,10 +28,11 @@ export class BrainstormingSession {
     this.roomId = roomId;
     this.title = title;
     this.active = active;
-    this.started = started;
+    this.createdAt = createdAt;
     this.maxWordLength = maxWordLength;
     this.maxWordCount = maxWordCount;
     this.votesForWords = votesForWords;
+    this.updatedAt = null;
   }
 
 }

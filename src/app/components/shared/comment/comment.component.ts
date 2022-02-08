@@ -198,6 +198,9 @@ export class CommentComponent implements OnInit, AfterViewInit {
     this.commentService.toggleFavorite(comment).subscribe(c => {
       this.comment.favorite = c.favorite;
       this.checkProfanity();
+      const text = this.comment.favorite ? 'comment-list.question-was-marked-with-a-star' :
+        'comment-list.star-was-withdrawn-from-the-question';
+      this.translateService.get(text).subscribe(ret => this.notification.show(ret));
     });
   }
 
@@ -243,9 +246,8 @@ export class CommentComponent implements OnInit, AfterViewInit {
 
   openChangeCommentTagDialog(): void {
     const dialogRef = this.dialog.open(EditCommentTagComponent, {
-      width: '400px'
+      minWidth: '80%'
     });
-    dialogRef.componentInstance.tags = this.roomTags;
     dialogRef.componentInstance.selectedTag = this.comment.tag;
     dialogRef.afterClosed().subscribe(result => {
       if (result !== undefined) {

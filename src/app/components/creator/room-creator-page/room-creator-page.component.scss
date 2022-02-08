@@ -4,7 +4,7 @@ mat-card {
   width: 100%;
   max-width: 800px;
   min-height: auto;
-  padding: 0 10% 20% 10%;
+  padding: 0 10% 0 10%;
   background-color: var(--surface) !important;
 }
 
@@ -50,9 +50,9 @@ mat-card-content > :first-child {
 }
 
 .room-short-id {
-  font-size: 16px;
-  color: var(--on-surface) !important;
-  margin-top: -10px;
+  font-size: 14px;
+  color: var(--on-surface)!important;
+  margin-top: -8px;
 }
 
 mat-grid-list {
@@ -140,7 +140,7 @@ markdown {
 }
 
 h3 {
-  margin: 5% 0 5% 0;
+  margin: 0;
   color: var(--on-surface) !important;
   font-size: 14px;
   font-weight: normal;
@@ -155,4 +155,11 @@ h2 {
 :host > div {
   margin-top: 5vh;
   min-height: calc(88vh - 115px) !important;
+}
+
+.key-icon {
+  color: var(--red);
+  font-size: 36px;
+  width: 36px;
+  height: 36px;
 }

@@ -33,7 +33,7 @@
         </mat-icon>
       </button>
     </div>
-    <div>
+    <div style="margin-top: 10px">
       <button *ngIf="isBrainstorming"
               mat-flat-button
               class="vote-button"
@@ -57,7 +57,7 @@
                     [ngTemplateOutlet]="downvotes">
       </ng-container>
     </div>
-    <div>
+    <div style="margin-top: 15px">
       <span>
         <mat-icon class="material-icons-outlined"
                   matTooltip="{{'tag-cloud.period-since-first-comment' | translate}}">date_range</mat-icon>

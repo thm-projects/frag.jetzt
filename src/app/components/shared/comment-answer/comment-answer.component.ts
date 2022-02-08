@@ -194,7 +194,7 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
     return this.roomDataService.getRoomDataOnce().pipe(
       map(comments => {
         const foundComment = comments.find(c => c.id === commentId);
-        return foundComment ? [foundComment, false] : null;
+        return (foundComment ? [foundComment, false] : null) as [Comment, boolean];
       }),
       mergeMap(current => {
         if (current) {
@@ -206,7 +206,7 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
         return this.roomDataService.getRoomDataOnce(false, true).pipe(
           map(comments => {
             const foundComment = comments.find(c => c.id === commentId);
-            return foundComment ? [foundComment, true] : null;
+            return (foundComment ? [foundComment, true] : null) as [Comment, boolean];
           })
         );
       })

@@ -144,7 +144,6 @@ export class RoomJoinComponent implements OnInit {
       this.router.navigate([`/creator/room/${room.shortId}/comments`]);
       return;
     }
-    this.roomService.addToHistory(room.id);
     if (mods.has(this.user.id)) {
       this.authenticationService.setAccess(room.shortId, UserRole.EXECUTIVE_MODERATOR);
       this.router.navigate([`/moderator/room/${room.shortId}/comments`]);

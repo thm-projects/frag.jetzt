@@ -19,7 +19,7 @@ h3, p {
   margin: 20px 0;
 }
 
-.mailto {
+.mailto, .copyClipboard {
   background-color: var(--primary);
   color: var(--on-primary);
 }
@@ -27,6 +27,13 @@ h3, p {
 form {
   margin: 10px 0;
   text-align: center;
+  overflow: auto;
+  display: flex;
+  justify-content: center;
+  flex-direction: column !important;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: 10px;
 }
 
 ::ng-deep .mat-form-field .mat-form-field-infix {
@@ -38,7 +45,7 @@ form {
     overflow: auto;
     display: flex;
     justify-content: space-between;
-    flex-direction: column !important;
+    flex-direction: column-reverse !important;
     flex-wrap: wrap;
     align-items: flex-end;
   }
@@ -53,4 +60,10 @@ form {
     font-size: 18px;
     margin-top: 3px;
   }
+}
+
+.placeholder {
+  color: var(--on-surface);
+  filter: opacity(0.6);
+  font-style: italic;
 }
