@@ -35,6 +35,7 @@ import {
 import { SessionService } from '../../../services/util/session.service';
 import { LanguageService } from '../../../services/util/language.service';
 import { DeviceInfoService } from '../../../services/util/device-info.service';
+import { CommentNotificationService } from '../../../services/http/comment-notification.service';
 
 @Component({
   selector: 'app-header',
@@ -55,6 +56,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   toggleUserActivity = false;
   userActivity = '?';
   isInRouteWithRoles = false;
+  hasEmailNotifications = false;
 
   constructor(
     public location: Location,
@@ -74,10 +76,11 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     private headerService: HeaderService,
     private onboardingService: OnboardingService,
     public themeService: ThemeService,
-    private sessionService: SessionService,
+    public sessionService: SessionService,
     private tagCloudDataService: TagCloudDataService,
     private languageService: LanguageService,
     public deviceInfo: DeviceInfoService,
+    private commentNotificationService: CommentNotificationService,
   ) {
     this.languageService.getLanguage().subscribe(lang => this.translationService.use(lang));
   }
@@ -113,6 +116,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
 
     this.sessionService.getRoom().subscribe(room => {
       this.room = room;
+      this.refreshNotifications();
     });
 
     this._r.listen(document, 'keyup', (event) => {
@@ -310,6 +314,17 @@ export class HeaderComponent implements OnInit, AfterViewInit {
 
   public navigateModeratorSettings() {
     this.eventService.broadcast('navigate', 'moderatorSettings');
+  }
+
+  public refreshNotifications() {
+    this.hasEmailNotifications = false;
+    const id = this.sessionService.currentRoom?.id;
+    if (!id) {
+      return;
+    }
+    this.commentNotificationService.findByRoomId(id).subscribe({
+      next: value => this.hasEmailNotifications = !!value?.length
+    });
   }
 
   public navigateToOtherView() {

@@ -92,6 +92,12 @@
                       matTooltip="{{ 'header.moderation-enabled' | translate}}">
               gavel
             </mat-icon>
+            <mat-icon *ngIf="room.hasNotifications"
+                      class="warn material-icons-outlined"
+                      [inline]="true"
+                      matTooltip="{{ 'header.active-email-notification' | translate}}">
+              email
+            </mat-icon>
           </td>
         </ng-container>
 
