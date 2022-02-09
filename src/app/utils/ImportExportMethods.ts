@@ -75,8 +75,8 @@ export const uploadCSV = (): Observable<string> => new Observable<string>(subscr
 export interface BonusArchiveEntry {
   bonusToken: string;
   bonusTimestamp: Date;
-  question: string;
   answer: string;
+  question: string;
   bonusQuestionNumber: string;
 }
 
@@ -111,17 +111,6 @@ const bonusArchiveImportExport = (translateService: TranslateService) =>
           }
         },
         {
-          languageKey: 'bonus-archive-export.entry-timestamp',
-          valueMapper: {
-            export: (config, k) => serializeDate(k.bonusTimestamp),
-            import: (config, val) => {
-              const c = {} as BonusArchiveEntry;
-              c.bonusTimestamp = val ? new Date(val) : null;
-              return c;
-            }
-          }
-        },
-        {
           languageKey: 'bonus-archive-export.entry-question',
           ...ImportExportManager.createQuillMapper<BonusArchiveEntry>('bonus-archive-export.empty',
             (c) => c.question, (val, c) => {
@@ -136,6 +125,24 @@ const bonusArchiveImportExport = (translateService: TranslateService) =>
               c.answer = val;
               return c;
             })
+        },
+        {
+          languageKey: 'bonus-archive-export.entry-date',
+          valueMapper: {
+            export: (config, k) => serializeDate(k.bonusTimestamp),
+            import: (config, val) => {
+              const c = {} as BonusArchiveEntry;
+              c.bonusTimestamp = val ? new Date(val) : null;
+              return c;
+            }
+          }
+        },
+        {
+          languageKey: 'bonus-archive-export.entry-time',
+          valueMapper: {
+            export: (config, k) => null,
+            import: (config, val) => null
+          }
         }
       ]
     } as ExportTable<BonusArchiveEntry>
@@ -155,9 +162,11 @@ export const exportBonusArchive = (translateService: TranslateService,
       }
       return forkJoin(tokens.map(token => commentService.getComment(token.commentId))).pipe(
         switchMap(comments => {
-          const data: BonusArchiveEntry[] = comments.map((c, i) => ({
-            question: c?.answer,
-            answer: c?.body,
+          const data: BonusArchiveEntry[] = comments.sort((a,b) => {
+            return a?.number - b?.number;
+          }).map((c, i) => ({
+            answer: c?.answer,
+            question: c?.body,
             bonusToken: tokens[i].token,
             bonusTimestamp: tokens[i].createdAt,
             bonusQuestionNumber: c?.number.toString(),
