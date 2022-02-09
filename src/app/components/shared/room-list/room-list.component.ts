@@ -23,6 +23,7 @@ import { ModeratorsComponent } from '../../creator/_dialogs/moderators/moderator
 import {
   CommentNotificationDialogComponent
 } from '../_dialogs/comment-notification-dialog/comment-notification-dialog.component';
+import { CommentNotificationService } from '../../../services/http/comment-notification.service';
 
 type SortFunc<T> = (a: T, b: T) => number;
 
@@ -72,6 +73,7 @@ export class RoomListComponent implements OnInit, OnDestroy {
     private translateService: TranslateService,
     public dialog: MatDialog,
     private bonusTokenService: BonusTokenService,
+    private commentNotificationService: CommentNotificationService,
   ) {
   }
 
@@ -132,6 +134,9 @@ export class RoomListComponent implements OnInit, OnDestroy {
     for (const room of newRooms) {
       this.commentService.countByRoomId(room.id, true).subscribe(count => {
         room.commentCount = count;
+      });
+      this.commentNotificationService.findByRoomId(room.id).subscribe(value => {
+        room.hasNotifications = !!value?.length;
       });
     }
     this.updateTable();

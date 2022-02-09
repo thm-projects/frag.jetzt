@@ -376,12 +376,12 @@ export class RoomDataService {
     c.keywordsFromQuestioner = JSON.parse(payload.keywordsFromQuestioner);
     c.language = payload.language;
     c.questionerName = payload.questionerName;
-    const filtered = room.profanityFilter === ProfanityFilter.deactivated;
+    const filtered = room.profanityFilter !== ProfanityFilter.deactivated;
     const source = isModeration ? this._fastNackCommentAccess : this._fastCommentAccess;
     const [beforeFiltering, afterFiltering, hasProfanity] = this._filter.filterCommentBody(room, c);
     source[c.id] = { comment: c, beforeFiltering, afterFiltering, hasProfanity, filtered };
     if (filtered) {
-      this.applyStateToComment(c, filtered, isModeration);
+      this.applyStateToComment(c, false, isModeration);
     }
     const commentSource = isModeration ? this._currentNackRoomComments : this._currentRoomComments;
     commentSource.getValue().push(c);

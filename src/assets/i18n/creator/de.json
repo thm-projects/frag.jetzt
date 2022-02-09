@@ -314,6 +314,22 @@
     "undo": "Rückgängig",
     "yes": "Ja"
   },
+  "comment-notification": {
+    "monday": "Montag",
+    "tuesday": "Dienstag",
+    "wednesday": "Mittwoch",
+    "thursday": "Donnerstag",
+    "friday": "Freitag",
+    "saturday": "Samstag",
+    "sunday": "Sonntag",
+    "close": "Schließen",
+    "last-setting": "Letzte Einstellung: %s",
+    "setting-inactive": "Inaktiv",
+    "confirm": "Übernehmen",
+    "deactivate": "Deaktivieren",
+    "something-went-wrong": "Etwas ist schiefgelaufen!",
+    "title": "Kommentar-Benachrichtigung"
+  },
   "deepl": {
     "header": "Text optimieren",
     "label": "Welcher Text soll gesendet werden?",

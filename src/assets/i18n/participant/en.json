@@ -131,6 +131,22 @@
     "cancel": "Cancel",
     "delete": "Delete"
   },
+  "comment-notification": {
+    "monday": "Monday",
+    "tuesday": "Tuesday",
+    "wednesday": "Wednesday",
+    "thursday": "Thursday",
+    "friday": "Friday",
+    "saturday": "Saturday",
+    "sunday": "Sunday",
+    "close": "Close",
+    "last-setting": "Last setting: %s",
+    "setting-inactive": "Inactive",
+    "confirm": "Confirm",
+    "deactivate": "Deactivate",
+    "something-went-wrong": "Something went wrong!",
+    "title": "Comment notification"
+  },
   "spacy-dialog": {
     "language": "Language",
     "auto": "auto",
