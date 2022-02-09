@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ComponentRef, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Comment } from '../../../models/comment';
 import { CommentService } from '../../../services/http/comment.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -12,9 +12,6 @@ import { RoomService } from '../../../services/http/room.service';
 import { EventService } from '../../../services/util/event.service';
 import { Router } from '@angular/router';
 import { AppComponent } from '../../../app.component';
-import { ModeratorsComponent } from '../../creator/_dialogs/moderators/moderators.component';
-import { TagsComponent } from '../../creator/_dialogs/tags/tags.component';
-import { DeleteCommentsComponent } from '../../creator/_dialogs/delete-comments/delete-comments.component';
 import { NotificationService } from '../../../services/util/notification.service';
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
 import { PageEvent } from '@angular/material/paginator';
@@ -32,6 +29,8 @@ import { RoomDataFilterService } from '../../../services/util/room-data-filter.s
 import { AuthenticationService } from '../../../services/http/authentication.service';
 import { DeviceInfoService } from '../../../services/util/device-info.service';
 import { Subscription } from 'rxjs';
+import { ArsComposeService } from '../../../../../projects/ars/src/lib/services/ars-compose.service';
+import { HeaderService } from '../../../services/util/header.service';
 
 
 @Component({
@@ -79,6 +78,7 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
   private firstReceive = true;
   private _deviceSub: Subscription;
   private _commentsSub: Subscription;
+  private _list: ComponentRef<any>[];
 
   constructor(
     private commentService: CommentService,
@@ -94,6 +94,8 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
     private sessionService: SessionService,
     private authenticationService: AuthenticationService,
     private deviceInfo: DeviceInfoService,
+    private composeService: ArsComposeService,
+    private headerService: HeaderService,
   ) {
     langService.getLanguage().subscribe(lang => translateService.use(lang));
     this._deviceSub = this.deviceInfo.isMobile().subscribe(mobile => this.isMobile = mobile);
@@ -104,84 +106,9 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
     this.pageSize = e.pageSize;
   }
 
-  initNavigation() {
-    const navigation = {};
-    const nav = (b, c) => navigation[b] = c;
-    nav('moderator', () => {
-      const dialogRef = this.dialog.open(ModeratorsComponent, {
-        width: '400px'
-      });
-      dialogRef.componentInstance.roomId = this.room.id;
-      dialogRef.componentInstance.isCreator = this.sessionService.currentRole === 3;
-    });
-    nav('tags', () => {
-      const updRoom = JSON.parse(JSON.stringify(this.room));
-      const dialogRef = this.dialog.open(TagsComponent, {
-        width: '400px'
-      });
-      let tags = [];
-      if (this.room.tags !== undefined) {
-        tags = this.room.tags;
-      }
-      dialogRef.componentInstance.tags = tags;
-      dialogRef.afterClosed()
-        .subscribe(result => {
-          if (!result || result === 'abort') {
-            return;
-          } else {
-            updRoom.tags = result;
-            this.roomService.updateRoom(updRoom)
-              .subscribe((room) => {
-                  this.room = room;
-                  this.translateService.get('room-page.changes-successful').subscribe(msg => {
-                    this.notificationService.show(msg);
-                  });
-                },
-                error => {
-                  this.translateService.get('room-page.changes-gone-wrong').subscribe(msg => {
-                    this.notificationService.show(msg);
-                  });
-                });
-          }
-        });
-    });
-    nav('deleteQuestions', () => {
-      const dialogRef = this.dialog.open(DeleteCommentsComponent, {
-        width: '400px'
-      });
-      dialogRef.componentInstance.roomId = this.roomId;
-      dialogRef.afterClosed()
-        .subscribe(result => {
-          if (result === 'delete') {
-            this.translateService.get('room-page.comments-deleted').subscribe(msg => {
-              this.notificationService.show(msg);
-            });
-            this.commentService.deleteCommentsByRoomId(this.roomId).subscribe();
-          }
-        });
-    });
-    nav('exportQuestions', () => {
-      exportRoom(this.translateService,
-        this.notificationService,
-        this.bonusTokenService,
-        this.commentService,
-        'room-export',
-        this.user,
-        this.room,
-        this.moderatorAccountIds
-      ).subscribe(text => {
-        copyCSVString(text[0], this.room.name + '-' + this.room.shortId + '-' + text[1] + '.csv');
-      });
-    });
-    this.headerInterface = this.eventService.on<string>('navigate').subscribe(e => {
-      if (navigation.hasOwnProperty(e)) {
-        navigation[e]();
-      }
-    });
-  }
-
   ngOnDestroy() {
     this.roomDataFilterService.currentFilter.save('moderatorList');
+    this._list?.forEach(e => e.destroy());
     this.roomDataFilterService.isModeration = false;
     this.headerInterface?.unsubscribe();
     this._deviceSub?.unsubscribe();
@@ -308,5 +235,43 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
       filter.fromNow = null;
     }
     this.roomDataFilterService.currentFilter = filter;
+  }
+
+  private initNavigation() {
+    /* eslint-disable @typescript-eslint/no-shadow */
+    this._list = this.composeService.builder(this.headerService.getHost(), e => {
+      e.menuItem({
+        translate: this.headerService.getTranslate(),
+        icon: 'forum',
+        class: 'material-icons-outlined',
+        text: 'header.back-to-questionboard',
+        callback: () => {
+          const role = (this.userRole === 3 ? 'creator' : 'moderator');
+          this.router.navigate([role + '/room/' + this.room?.shortId + '/comments']);
+        },
+        condition: () => true
+      });
+      e.menuItem({
+        translate: this.headerService.getTranslate(),
+        icon: 'file_download',
+        class: 'material-icons-outlined',
+        text: 'header.export-questions',
+        callback: () => {
+          exportRoom(this.translateService,
+            this.notificationService,
+            this.bonusTokenService,
+            this.commentService,
+            'room-export',
+            this.user,
+            this.room,
+            this.moderatorAccountIds
+          ).subscribe(text => {
+            copyCSVString(text[0], this.room.name + '-' + this.room.shortId + '-' + text[1] + '.csv');
+          });
+        },
+        condition: () => true
+      });
+    });
+    /* eslint-enable @typescript-eslint/no-shadow */
   }
 }

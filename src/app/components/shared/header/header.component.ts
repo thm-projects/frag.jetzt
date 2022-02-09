@@ -60,7 +60,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
 
   constructor(
     public location: Location,
-    private authenticationService: AuthenticationService,
+    public authenticationService: AuthenticationService,
     public notificationService: NotificationService,
     public router: Router,
     public translationService: TranslateService,
@@ -356,5 +356,27 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     // flip state if clicked
     this.room.questionsBlocked = !this.room.questionsBlocked;
     this.roomService.updateRoom(this.room).subscribe();
+  }
+
+  public getCurrentRoleIcon() {
+    if (this.authenticationService.isSuperAdmin) {
+      return 'manage_accounts';
+    } else if (this.user?.role === UserRole.EXECUTIVE_MODERATOR) {
+      return 'gavel';
+    } else if (this.user?.role === UserRole.CREATOR) {
+      return 'mic';
+    }
+    return 'person';
+  }
+
+  public getCurrentRoleDescription(): string {
+    if (this.authenticationService.isSuperAdmin) {
+      return 'tooltip-super-admin';
+    } else if (this.user?.role === UserRole.EXECUTIVE_MODERATOR) {
+      return 'tooltip-moderator';
+    } else if (this.user?.role === UserRole.CREATOR) {
+      return 'tooltip-creator';
+    }
+    return 'tooltip-participant';
   }
 }
