@@ -162,7 +162,9 @@ export const exportBonusArchive = (translateService: TranslateService,
       }
       return forkJoin(tokens.map(token => commentService.getComment(token.commentId))).pipe(
         switchMap(comments => {
-          const data: BonusArchiveEntry[] = comments.map((c, i) => ({
+          const data: BonusArchiveEntry[] = comments.sort((a,b) => {
+            return a?.number - b?.number;
+          }).map((c, i) => ({
             answer: c?.answer,
             question: c?.body,
             bonusToken: tokens[i].token,
