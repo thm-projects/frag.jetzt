@@ -191,6 +191,10 @@ export class RoomDataService {
     return source.hasProfanity;
   }
 
+  checkCommentProfanity(comment: Comment): boolean {
+    return !!(this._fastCommentAccess[comment.id] || this._fastNackCommentAccess[comment.id])?.hasProfanity;
+  }
+
   isCommentCensored(comment: Comment, isModeration = false): boolean {
     const source = isModeration ? this._fastNackCommentAccess[comment.id] : this._fastCommentAccess[comment.id];
     return source.filtered;
@@ -276,7 +280,7 @@ export class RoomDataService {
     this.updateBookmarks();
     this.activeUserService.getActiveUser(room)
       .subscribe(([count]) => this._currentUserCount.next(String(count || 0)));
-    const filtered = room.profanityFilter === ProfanityFilter.deactivated;
+    const filtered = room.profanityFilter !== ProfanityFilter.deactivated;
     this._commentServiceSubscription = this.wsCommentService.getCommentStream(room.id)
       .subscribe(msg => this.onMessageReceive(msg, false));
     const isUser = this.sessionService.currentRole === UserRole.PARTICIPANT;
@@ -291,7 +295,7 @@ export class RoomDataService {
           filtered
         };
         if (filtered) {
-          this.applyStateToComment(comment, filtered);
+          this.applyStateToComment(comment, false);
         }
       }
       if (isUser) {
@@ -318,7 +322,7 @@ export class RoomDataService {
             filtered
           };
           if (filtered) {
-            this.applyStateToComment(comment, filtered, true);
+            this.applyStateToComment(comment, false, true);
           }
         }
         this._currentNackRoomComments.next(comments);
@@ -366,18 +370,18 @@ export class RoomDataService {
     c.roomId = room.id;
     c.body = payload.body;
     c.id = payload.id;
-    c.timestamp = payload.timestamp;
+    c.createdAt = payload.createdAt;
     c.tag = payload.tag;
     c.creatorId = payload.creatorId;
     c.keywordsFromQuestioner = JSON.parse(payload.keywordsFromQuestioner);
     c.language = payload.language;
     c.questionerName = payload.questionerName;
-    const filtered = room.profanityFilter === ProfanityFilter.deactivated;
+    const filtered = room.profanityFilter !== ProfanityFilter.deactivated;
     const source = isModeration ? this._fastNackCommentAccess : this._fastCommentAccess;
     const [beforeFiltering, afterFiltering, hasProfanity] = this._filter.filterCommentBody(room, c);
     source[c.id] = { comment: c, beforeFiltering, afterFiltering, hasProfanity, filtered };
     if (filtered) {
-      this.applyStateToComment(c, filtered, isModeration);
+      this.applyStateToComment(c, false, isModeration);
     }
     const commentSource = isModeration ? this._currentNackRoomComments : this._currentRoomComments;
     commentSource.getValue().push(c);

@@ -98,6 +98,7 @@
     "filter-lecturer": "Announcements",
     "filter-owner": "My questions",
     "filter-brainstorm": "Brainstorming",
+    "filter-censored": "Censored",
     "filter-question-number": "Question number",
     "filter-read": "Questions discussed",
     "filter-reset": "Reset",
@@ -129,6 +130,22 @@
   "content": {
     "cancel": "Cancel",
     "delete": "Delete"
+  },
+  "comment-notification": {
+    "monday": "Monday",
+    "tuesday": "Tuesday",
+    "wednesday": "Wednesday",
+    "thursday": "Thursday",
+    "friday": "Friday",
+    "saturday": "Saturday",
+    "sunday": "Sunday",
+    "close": "Close",
+    "last-setting": "Last setting: %s",
+    "setting-inactive": "Inactive",
+    "confirm": "Confirm",
+    "deactivate": "Deactivate",
+    "something-went-wrong": "Something went wrong!",
+    "title": "Comment notification"
   },
   "spacy-dialog": {
     "language": "Language",
@@ -558,15 +575,15 @@
     "email-not-set": "\nNo email set",
     "choose-session": "Choose a session …",
     "please-choose": "Please select a session first.",
-    "session-name": "Meeting", 
-    "session-id": "\nKey code", 
-    "owner-email": "\n\nRoom creator email", 
+    "session-name": "Meeting",
+    "session-id": "\nKey code",
+    "owner-email": "\n\nRoom creator email",
     "moderator-emails": "\n\nModerator emails",
     "bonus-tokens": "\n\nMy bonus tokens",
     "bonus-token-body1": " from ",
-    "bonus-token-body2": " with the question number ", 
-    "redeem-clipboard-success": "All required data for the mail to event management was copied to the clipboard.", 
-    "redeem-clipboard-failure": "The data could not be saved to the clipboard.", 
+    "bonus-token-body2": " with the question number ",
+    "redeem-clipboard-success": "All required data for the mail to event management was copied to the clipboard.",
+    "redeem-clipboard-failure": "The data could not be saved to the clipboard.",
     "redeem-mail-failure": "Your mail app could not be accessed. Copy the data to the clipboard and use it to create a mail to the event management."
   },
   "introduction": {

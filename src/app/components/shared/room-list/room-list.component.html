@@ -92,6 +92,12 @@
                       matTooltip="{{ 'header.moderation-enabled' | translate}}">
               gavel
             </mat-icon>
+            <mat-icon *ngIf="room.hasNotifications"
+                      class="warn material-icons-outlined"
+                      [inline]="true"
+                      matTooltip="{{ 'header.active-email-notification' | translate}}">
+              email
+            </mat-icon>
           </td>
         </ng-container>
 
@@ -173,6 +179,12 @@
                 <mat-icon class="delete material-icons-outlined">delete</mat-icon>
                 <span class="delete-text"> {{ (room.role < 3 ? 'room-list.panel-remove-button' :
                   'room-list.delete-room') | translate}}</span>
+              </button>
+              <button mat-menu-item
+                      *ngIf="hasEmail"
+                      (click)="openNotifications(room)">
+                <mat-icon class="notification material-icons-outlined">email</mat-icon>
+                <span class="delete-text">{{ 'room-list.email-notification' | translate }}</span>
               </button>
               <button mat-menu-item
                       (click)="exportCsv(room)">

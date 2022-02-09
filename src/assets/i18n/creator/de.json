@@ -9,6 +9,7 @@
     "entry-timestamp": "Token-Zeitstempel",
     "entry-question": "Frage",
     "entry-answer": "Antwort",
+    "entry-commentNumber": "Bonus-Fragennummer",
     "file-name": "Bonus-Archiv \"{{roomName}}\" {{date}}.csv"
   },
   "room-export": {
@@ -97,6 +98,7 @@
     "filter-lecturer": "Ankündigungen",
     "filter-owner": "Meine Fragen",
     "filter-brainstorm": "Brainstorming",
+    "filter-censored": "Zensiert",
     "filter-question-number": "Fragenummer",
     "filter-read": "Besprochene Fragen",
     "filter-reset": "Zurücksetzen",
@@ -225,6 +227,7 @@
     "send-description": "Abschicken",
     "tag": "Kategorie",
     "tag-reset": "ohne",
+    "tag-open-all": "Kategorien bearbeiten",
     "tag-title": "Kategorie wählen oder ändern",
     "tag-to-filter": "Klick auf die Fragenkategorie, um Fragen dieser Kategorie zu filtern.",
     "user-number": "Klick auf das Pin-Icon, um alle Fragen dieses Fragenstellers zu filtern.",
@@ -310,6 +313,22 @@
     "submitted": "Frage erstellt. Bereit für die Erstellung neuer Fragen.",
     "undo": "Rückgängig",
     "yes": "Ja"
+  },
+  "comment-notification": {
+    "monday": "Montag",
+    "tuesday": "Dienstag",
+    "wednesday": "Mittwoch",
+    "thursday": "Donnerstag",
+    "friday": "Freitag",
+    "saturday": "Samstag",
+    "sunday": "Sonntag",
+    "close": "Schließen",
+    "last-setting": "Letzte Einstellung: %s",
+    "setting-inactive": "Inaktiv",
+    "confirm": "Übernehmen",
+    "deactivate": "Deaktivieren",
+    "something-went-wrong": "Etwas ist schiefgelaufen!",
+    "title": "Kommentar-Benachrichtigung"
   },
   "deepl": {
     "header": "Text optimieren",

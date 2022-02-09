@@ -20,6 +20,10 @@ import { copyCSVString, exportRoom } from '../../../utils/ImportExportMethods';
 import { Sort } from '@angular/material/sort';
 import { filter, take } from 'rxjs/operators';
 import { ModeratorsComponent } from '../../creator/_dialogs/moderators/moderators.component';
+import {
+  CommentNotificationDialogComponent
+} from '../_dialogs/comment-notification-dialog/comment-notification-dialog.component';
+import { CommentNotificationService } from '../../../services/http/comment-notification.service';
 
 type SortFunc<T> = (a: T, b: T) => number;
 
@@ -57,6 +61,7 @@ export class RoomListComponent implements OnInit, OnDestroy {
     direction: 'asc',
     active: 'name'
   };
+  hasEmail = false;
 
   constructor(
     private roomService: RoomService,
@@ -68,6 +73,7 @@ export class RoomListComponent implements OnInit, OnDestroy {
     private translateService: TranslateService,
     public dialog: MatDialog,
     private bonusTokenService: BonusTokenService,
+    private commentNotificationService: CommentNotificationService,
   ) {
   }
 
@@ -77,6 +83,7 @@ export class RoomListComponent implements OnInit, OnDestroy {
       take(1)
     ).subscribe(user => {
       this.user = user;
+      this.hasEmail = !!user.loginId;
       this.getRooms();
     });
     this.sub = this.eventService.on<any>('RoomDeleted').subscribe(payload => {
@@ -127,6 +134,9 @@ export class RoomListComponent implements OnInit, OnDestroy {
     for (const room of newRooms) {
       this.commentService.countByRoomId(room.id, true).subscribe(count => {
         room.commentCount = count;
+      });
+      this.commentNotificationService.findByRoomId(room.id).subscribe(value => {
+        room.hasNotifications = !!value?.length;
       });
     }
     this.updateTable();
@@ -219,6 +229,13 @@ export class RoomListComponent implements OnInit, OnDestroy {
 
   applyFilter(filterValue: string): void {
     this.tableDataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  openNotifications(room: Room) {
+    const dialogRef = this.dialog.open(CommentNotificationDialogComponent, {
+      minWidth: '80%'
+    });
+    dialogRef.componentInstance.room = room;
   }
 
   exportCsv(room: Room) {

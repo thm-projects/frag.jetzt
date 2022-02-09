@@ -2,7 +2,7 @@
 
 <mat-dialog-content>
   <button mat-button
-          *ngIf="tags?.length"
+          *ngIf="sessionInfo.currentRoom?.tags?.length"
           (click)="tagSelect.open()"
           matTooltip="{{ 'spacy-dialog.tag-button-hint' | translate }}"
           matTooltipShowDelay="750">
@@ -11,14 +11,30 @@
     <label for="tagSelect" *ngIf="selectedTag">{{selectedTag}}</label>
     <mat-select class="select-list" id="tagSelect" #tagSelect [(ngModel)]="selectedTag">
       <mat-option [value]="null"><em>{{'comment-page.tag-reset' | translate}}</em></mat-option>
-      <mat-option *ngFor="let tag of tags" [value]="tag">{{tag}}</mat-option>
+      <mat-option *ngFor="let tag of sessionInfo.currentRoom.tags" [value]="tag">{{tag}}</mat-option>
     </mat-select>
   </button>
 </mat-dialog-content>
 
-<app-dialog-action-buttons
-  buttonsLabelSection="comment-page"
-  confirmButtonLabel="update"
-  [cancelButtonClickAction]="buildCloseDialogActionCallback()"
-  [confirmButtonClickAction]="buildSaveActionCallback()"
-></app-dialog-action-buttons>
+
+<ars-row ars-flex-box class="action-button-container">
+  <ars-col>
+    <button
+      *ngIf="sessionInfo.currentRole > 0"
+      mat-flat-button
+      class="dialog-button"
+      (click)="openAllTags()">
+      <mat-icon class="material-icons-outlined">style</mat-icon>
+      {{ 'comment-page.tag-open-all' | translate}}
+    </button>
+  </ars-col>
+  <ars-col>
+    <app-dialog-action-buttons
+      buttonsLabelSection="comment-page"
+      confirmButtonLabel="update"
+      [spacing]="false"
+      [cancelButtonClickAction]="buildCloseDialogActionCallback()"
+      [confirmButtonClickAction]="buildSaveActionCallback()"
+    ></app-dialog-action-buttons>
+  </ars-col>
+</ars-row>

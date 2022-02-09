@@ -277,6 +277,16 @@
       </button>
 
       <button mat-menu-item
+              (click)="applyFilterByKey('censored')">
+        <mat-icon class="material-icons-outlined" [ngClass]="{censored: 'censored-icon'}[filterType]">
+          visibility
+        </mat-icon>
+        <span [ngClass]="{censored: 'censored-icon'}[filterType]">
+          {{ 'comment-list.filter-censored' | translate }}
+        </span>
+      </button>
+
+      <button mat-menu-item
               (click)="applyFilterByKey(null)"
               aria-labelledby="close">
         <mat-icon  style="color: var(--red)">close</mat-icon>

@@ -18,6 +18,10 @@ export class HeaderService {
   constructor() {
   }
 
+  public getHeaderComponent(): HeaderComponent {
+    return this.headerComponent();
+  }
+
   public initHeader(headerComponent: () => HeaderComponent) {
     this.headerComponent = headerComponent;
   }

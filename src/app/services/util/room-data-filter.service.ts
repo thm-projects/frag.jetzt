@@ -70,8 +70,8 @@ export class RoomDataFilterService {
     return new RoomDataFilter(this._currentFilter);
   }
 
-  set currentFilter(filter: RoomDataFilter) {
-    this._currentFilter = filter;
+  set currentFilter(f: RoomDataFilter) {
+    this._currentFilter = f;
     const room = this.sessionService.currentRoom;
     if (room) {
       this._currentFilter.checkRoom(room.id);
@@ -98,24 +98,24 @@ export class RoomDataFilterService {
     return this._currentFilteredData.asObservable().pipe(filter(v => !!v));
   }
 
-  filterCommentsByFilter(comments: Comment[], filter: RoomDataFilter, isModeration: boolean): Observable<FilterResult> {
+  filterCommentsByFilter(comments: Comment[], f: RoomDataFilter, isModeration: boolean): Observable<FilterResult> {
     if (!comments) {
       return of(null);
     }
     const threshold = this.sessionService.currentRoom.threshold;
     return this.sessionService.getModeratorsOnce().pipe(
       map((moderators): FilterResult => {
-        comments = this.filterTime(comments, filter, threshold, isModeration);
+        comments = this.filterTime(comments, f, threshold, isModeration);
         const timeFilteredCount = comments.length;
-        if (filter.currentSearch) {
+        if (f.currentSearch) {
           return {
-            comments: this.filterSearch(comments, filter, threshold, isModeration),
+            comments: this.filterSearch(comments, f, threshold, isModeration),
             timeFilteredCount
           };
         }
         const moderatorIds = new Set<string>(moderators.map(m => m.accountId));
-        comments = this.filterType(comments, filter, moderatorIds);
-        comments = this.sort(comments, filter, moderatorIds);
+        comments = this.filterType(comments, f, moderatorIds);
+        comments = this.sort(comments, f, moderatorIds);
         return { comments, timeFilteredCount };
       })
     );
@@ -129,14 +129,14 @@ export class RoomDataFilterService {
     ).subscribe(result => this._currentFilteredData.next(result));
   }
 
-  private sort(comments: Comment[], filter: RoomDataFilter, moderatorIds: Set<string>): Comment[] {
+  private sort(comments: Comment[], f: RoomDataFilter, moderatorIds: Set<string>): Comment[] {
     let sortFunc: (a: Comment, b: Comment) => number;
-    switch (filter.sortType) {
+    switch (f.sortType) {
       case SortType.score:
         sortFunc = (a, b) => b.score - a.score;
         break;
       case SortType.time:
-        sortFunc = (a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime();
+        sortFunc = (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
         break;
       case SortType.controversy:
         sortFunc = (a, b) => RoomDataFilterService.calculateControversy(b.upvotes, b.downvotes) -
@@ -145,7 +145,7 @@ export class RoomDataFilterService {
     if (sortFunc) {
       comments.sort(sortFunc);
     }
-    if (filter.sortReverse) {
+    if (f.sortReverse) {
       comments.reverse();
     }
     const ownerId = this.sessionService.currentRoom.ownerId;
@@ -154,21 +154,21 @@ export class RoomDataFilterService {
     return comments;
   }
 
-  private filterTime(comments: Comment[], filter: RoomDataFilter, threshold: number, isModeration: boolean): Comment[] {
-    const prefiltered = this.prefilter(comments, filter, threshold, isModeration);
-    if (filter.period === null || filter.period === undefined) {
-      filter.period = DEFAULT_PERIOD;
+  private filterTime(comments: Comment[], f: RoomDataFilter, threshold: number, isModeration: boolean): Comment[] {
+    const prefiltered = this.prefilter(comments, f, threshold, isModeration);
+    if (f.period === null || f.period === undefined) {
+      f.period = DEFAULT_PERIOD;
     }
-    if (filter.period === Period.all) {
-      return filter.freezedAt ? prefiltered.filter(c => new Date(c.timestamp).getTime() < filter.freezedAt) : prefiltered;
+    if (f.period === Period.all) {
+      return f.freezedAt ? prefiltered.filter(c => new Date(c.createdAt).getTime() < f.freezedAt) : prefiltered;
     }
     const currentTime = new Date().getTime();
     let periodInSeconds;
     const hourInSeconds = 3_600_000;
-    switch (filter.period) {
+    switch (f.period) {
       case Period.fromNow:
-        if (!filter.fromNow) {
-          filter.fromNow = currentTime;
+        if (!f.fromNow) {
+          f.fromNow = currentTime;
         }
         break;
       case Period.oneHour:
@@ -189,18 +189,18 @@ export class RoomDataFilterService {
       default:
         throw new Error('Time period is invalid.');
     }
-    const filterTime = filter.period === Period.fromNow ? filter.fromNow : currentTime - periodInSeconds;
-    const freezedAt = filter.freezedAt;
+    const filterTime = f.period === Period.fromNow ? f.fromNow : currentTime - periodInSeconds;
+    const freezedAt = f.freezedAt;
     const func = freezedAt ?
       (time: number) => time >= filterTime && time <= freezedAt :
       (time: number) => time >= filterTime;
-    return prefiltered.filter(c => func(new Date(c.timestamp).getTime()));
+    return prefiltered.filter(c => func(new Date(c.createdAt).getTime()));
   }
 
-  private filterSearch(comments: Comment[], filter: RoomDataFilter, threshold: number, isModeration: boolean): Comment[] {
-    const search = filter.currentSearch.toLowerCase();
+  private filterSearch(comments: Comment[], f: RoomDataFilter, threshold: number, isModeration: boolean): Comment[] {
+    const search = f.currentSearch.toLowerCase();
     const keywordFinder = (e: SpacyKeyword) => e.text.toLowerCase().includes(search);
-    return this.prefilter(comments, filter, threshold, isModeration).filter(c =>
+    return this.prefilter(comments, f, threshold, isModeration).filter(c =>
       c.body.toLowerCase().includes(search) ||
       c.answer?.toLowerCase().includes(search) ||
       c.keywordsFromSpacy?.some(keywordFinder) ||
@@ -210,10 +210,10 @@ export class RoomDataFilterService {
       c.answerFulltextKeywords?.some(keywordFinder));
   }
 
-  private filterType(comments: Comment[], filter: RoomDataFilter, moderators: Set<string>): Comment[] {
+  private filterType(comments: Comment[], f: RoomDataFilter, moderators: Set<string>): Comment[] {
     let filterFunc: (c: Comment) => boolean;
-    const filterCompare = filter.filterCompare;
-    switch (filter.filterType) {
+    const filterCompare = f.filterCompare;
+    switch (f.filterType) {
       case FilterType.correct:
         filterFunc = (c) => c.correct === CorrectWrong.CORRECT;
         break;
@@ -267,14 +267,17 @@ export class RoomDataFilterService {
       case FilterType.number:
         filterFunc = (c) => c.number === filterCompare;
         break;
+      case FilterType.censored:
+        filterFunc = (c) => this.roomDataService.checkCommentProfanity(c);
+        break;
       default:
         return comments;
     }
     return comments.filter(filterFunc);
   }
 
-  private prefilter(comments: Comment[], filter: RoomDataFilter, threshold: number, isModeration: boolean): Comment[] {
-    const brainstorm = filter.filterType === FilterType.brainstormingQuestion;
+  private prefilter(comments: Comment[], f: RoomDataFilter, threshold: number, isModeration: boolean): Comment[] {
+    const brainstorm = f.filterType === FilterType.brainstormingQuestion;
     const brainstorming = isModeration ? comments : comments.filter(c => c.brainstormingQuestion === brainstorm);
     return threshold !== 0 && !isModeration ? brainstorming.filter(c => c.score >= threshold) : brainstorming;
   }

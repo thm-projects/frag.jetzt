@@ -156,7 +156,8 @@
     "own-view": "Back to own view",
     "regular-user-view": "Participant view",
     "not-in-own-view": "You are currently in the participant view. In the options you can switch back to your view.",
-    "brainstorm-active": "A brainstorming session is currently taking place."
+    "brainstorm-active": "A brainstorming session is currently taking place.",
+    "active-email-notification": "Email notification is enabled."
   },
   "help": {
     "cancel": "Close",
@@ -400,6 +401,22 @@
     "token": "Bonus token",
     "token-time": "Token timestamp"
   },
+  "comment-notification": {
+    "monday": "Monday",
+    "tuesday": "Tuesday",
+    "wednesday": "Wednesday",
+    "thursday": "Thursday",
+    "friday": "Friday",
+    "saturday": "Saturday",
+    "sunday": "Sunday",
+    "close": "Close",
+    "last-setting": "Last setting: %s",
+    "setting-inactive": "Inactive",
+    "confirm": "Confirm",
+    "deactivate": "Deactivate",
+    "something-went-wrong": "Something went wrong!",
+    "title": "Comment notification"
+  },
   "room-list": {
     "creator-role": "You are the creator of this room.",
     "entry": "Entry",
@@ -427,6 +444,7 @@
     "session-history-1": "Your session history contains one session.",
     "session-history-label": "Below you will find a list of your sessions.",
     "export-comments": "Save Q&A",
+    "email-notification": "E-mail notification",
     "room-not-exist": "The room does not exist.\nPlease inform the person who gave you the direct link."
   },
   "session": {
