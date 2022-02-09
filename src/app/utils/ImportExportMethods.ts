@@ -167,7 +167,7 @@ export const exportBonusArchive = (translateService: TranslateService,
             question: c?.body,
             bonusToken: tokens[i].token,
             bonusTimestamp: tokens[i].createdAt,
-            bonusQuestionNumber: tokens[i].questionNumber.toString(),
+            bonusQuestionNumber: c?.number.toString(),
           }));
           const date = new Date();
           return bonusArchiveImportExport(translateService).exportToCSV([

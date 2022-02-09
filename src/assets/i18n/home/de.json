@@ -199,7 +199,8 @@
     "own-view": "Zurück zur eigenen Ansicht",
     "regular-user-view": "Teilnehmeransicht",
     "not-in-own-view": "Du befindest dich gerade in der Teilnehmeransicht. In den Optionen kannst du zurück zu deiner Ansicht wechseln.",
-    "brainstorm-active": "Aktuell findet eine Brainstorming-Sitzung statt."
+    "brainstorm-active": "Aktuell findet eine Brainstorming-Sitzung statt.",
+    "active-email-notification": "Die Email-Benachrichtigung ist aktiviert."
   },
   "help": {
     "cancel": "Schließen",

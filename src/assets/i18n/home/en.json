@@ -156,7 +156,8 @@
     "own-view": "Back to own view",
     "regular-user-view": "Participant view",
     "not-in-own-view": "You are currently in the participant view. In the options you can switch back to your view.",
-    "brainstorm-active": "A brainstorming session is currently taking place."
+    "brainstorm-active": "A brainstorming session is currently taking place.",
+    "active-email-notification": "Email notification is enabled."
   },
   "help": {
     "cancel": "Close",

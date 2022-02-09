@@ -41,7 +41,9 @@ import {
 import { SessionService } from '../../../services/util/session.service';
 import { RoomDataService } from '../../../services/util/room-data.service';
 import { mergeMap } from 'rxjs/operators';
-import { DeviceInfoService } from '../../../services/util/device-info.service';
+import {
+  CommentNotificationDialogComponent
+} from '../_dialogs/comment-notification-dialog/comment-notification-dialog.component';
 
 @Component({
   selector: 'app-room-page',
@@ -236,6 +238,13 @@ export class RoomPageComponent implements OnInit, OnDestroy {
         this.deleteRoom();
       }
     });
+  }
+
+  openEmailNotification(): void {
+    const dialogRef = this.dialog.open(CommentNotificationDialogComponent, {
+      minWidth: '80%'
+    });
+    dialogRef.componentInstance.room = this.room;
   }
 
   deleteRoom(): void {
@@ -480,6 +489,16 @@ export class RoomPageComponent implements OnInit, OnDestroy {
         ,
         () => this.userRole > UserRole.PARTICIPANT
       );
+      e.menuItem({
+        translate: this.headerService.getTranslate(),
+        icon: 'email',
+        class: 'material-icons-outlined',
+        iconColor: Palette.YELLOW,
+        isSVGIcon: false,
+        text: 'room-list.email-notification',
+        callback: () => this.openEmailNotification(),
+        condition: () => true
+      });
     });
     /* eslint-enable @typescript-eslint/no-shadow */
   }

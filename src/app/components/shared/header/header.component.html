@@ -83,6 +83,14 @@
         {{'header.moderation-warning'|translate}}
       </h2>
 
+      <div *ngIf="hasEmailNotifications && router.url.endsWith('/room/' + sessionService.currentRoom?.shortId)">
+        <mat-icon class="material-icons-outlined"
+                  style="color: red; margin-top: 8px"
+                  [matTooltip]="'header.active-email-notification' | translate">
+          email
+        </mat-icon>
+      </div>
+
       <span
         *ngIf="room && !room.directSend && router.url.includes('comments')"
         class="moderation-enabled"
