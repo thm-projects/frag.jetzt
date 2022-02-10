@@ -10,8 +10,8 @@ export const system_default_meta = {
   order: 5,
   translation: {
     name: {
-      en: 'Day / Night',
-      de: 'Tag / Nacht'
+      en: 'Day | Night',
+      de: 'Tag | Nacht'
     }
   },
   isDark: false,
@@ -23,7 +23,7 @@ export const system_default_meta = {
     light: 'arsnova',
     dark: 'dark'
   },
-  icon: 'settings_suggest',
+  icon: 'auto_awesome',
   isUtility: true
 
 };

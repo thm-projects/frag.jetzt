@@ -44,8 +44,8 @@ export const purple_meta = {
 
   translation: {
     name: {
-      en: 'Lecture room',
-      de: 'Hörsaal',
+      en: 'Scaled mode',
+      de: 'Skaliert',
     },
   },
   isDark: false,
@@ -54,6 +54,6 @@ export const purple_meta = {
   scale_desktop: 1.5,
   scale_mobile: 1,
   previewColor: 'background',
-  icon: 'door_front'
+  icon: 'open_in_full'
 
 };
