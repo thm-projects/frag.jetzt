@@ -324,9 +324,6 @@
 
     <ng-template #optionContent>
       <div class="label-icon">
-        <mat-icon *ngIf="!user.isGuest"
-                  class="header-icons">more_vert
-        </mat-icon>
         <mat-icon *ngIf="user.isGuest"
                   class="header-icons material-icons-filled color-warn"
                   [matTooltip]="'header.guest-account-tooltip' | translate">notifications
