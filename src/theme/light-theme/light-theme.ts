@@ -54,6 +54,6 @@ export const arsnova_meta = {
   scale_desktop: 1,
   scale_mobile: 1,
   previewColor: 'background',
-  icon: 'light_mode'
+  icon: 'light'
 
 };
