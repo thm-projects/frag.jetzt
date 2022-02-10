@@ -1,6 +1,6 @@
 export const dark = {
 
-  '--primary' : 'darkorange',
+  '--primary': 'darkorange',
   '--primary-variant': 'Maroon',
 
   '--secondary': 'darkgreen',
@@ -34,9 +34,9 @@ export const dark = {
   '--black': 'black',
   '--moderator': 'black',
 
-  '--questionwall-intro-primary':'yellow',
-  '--questionwall-intro-secondary':'#eadabf',
-  '--questionwall-intro-background':'#121212'
+  '--questionwall-intro-primary': 'yellow',
+  '--questionwall-intro-secondary': '#eadabf',
+  '--questionwall-intro-background': '#121212'
 
 };
 
@@ -53,6 +53,7 @@ export const dark_meta = {
   order: 2,
   scale_desktop: 1,
   scale_mobile: 1,
-  previewColor: 'background'
+  previewColor: 'background',
+  icon: 'dark_mode'
 
 };

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ComponentRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../services/util/language.service';
@@ -27,6 +27,8 @@ import { SpacyDialogComponent } from '../_dialogs/spacy-dialog/spacy-dialog.comp
 import { LanguagetoolService } from '../../../services/http/languagetool.service';
 import { DeepLService } from '../../../services/http/deep-l.service';
 import { SpacyService } from '../../../services/http/spacy.service';
+import { ArsComposeService } from '../../../../../projects/ars/src/lib/services/ars-compose.service';
+import { HeaderService } from '../../../services/util/header.service';
 
 @Component({
   selector: 'app-comment-answer',
@@ -50,6 +52,7 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
   isModerationComment = false;
   isSending = false;
   private _commentSubscription;
+  private _list: ComponentRef<any>[];
 
   constructor(
     protected route: ActivatedRoute,
@@ -68,11 +71,14 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
     private languagetoolService: LanguagetoolService,
     private deepLService: DeepLService,
     private spacyService: SpacyService,
+    private composeService: ArsComposeService,
+    private headerService: HeaderService,
   ) {
   }
 
   ngOnInit() {
     this.userRole = this.sessionService.currentRole;
+    this.initNavigation();
     this.authenticationService.watchUser.subscribe(newUser => {
       if (newUser) {
         this.user = newUser;
@@ -102,6 +108,7 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this._list?.forEach(e => e.destroy());
     this._commentSubscription?.unsubscribe();
     if (this.comment && !this.isStudent) {
       this.commentService.lowlight(this.comment).subscribe();
@@ -276,5 +283,28 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
         );
       })
     );
+  }
+
+  private initNavigation() {
+    /* eslint-disable @typescript-eslint/no-shadow */
+    this._list = this.composeService.builder(this.headerService.getHost(), e => {
+      e.menuItem({
+        translate: this.headerService.getTranslate(),
+        icon: 'forum',
+        class: 'material-icons-outlined',
+        text: 'header.back-to-questionboard',
+        callback: () => {
+          let role = 'participant';
+          if (this.userRole === UserRole.CREATOR) {
+            role = 'creator';
+          } else if (this.userRole > UserRole.PARTICIPANT) {
+            role = 'moderator';
+          }
+          this.router.navigate([role + '/room/' + this.room?.shortId + '/comments']);
+        },
+        condition: () => true
+      });
+    });
+    /* eslint-enable @typescript-eslint/no-shadow */
   }
 }

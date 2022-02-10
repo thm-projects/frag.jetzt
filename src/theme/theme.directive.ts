@@ -10,21 +10,20 @@ import { Subscription } from 'rxjs';
 
 export class ThemeDirective implements OnInit, OnDestroy {
 
-  private themeName;
   private themServiceSubscription: Subscription;
 
-  constructor(private elementRef: ElementRef,
-              private renderer: Renderer2,
-              @Inject(DOCUMENT) private document: any,
-              private themService: ThemeService) {
+  constructor(
+    private elementRef: ElementRef,
+    private renderer: Renderer2,
+    @Inject(DOCUMENT) private document: any,
+    private themService: ThemeService
+  ) {
   }
 
   ngOnInit() {
-    this.themService.getTheme()
-      .subscribe(themeName => {
-        this.themeName = themeName;
-        this.updateTheme(this.themeName);
-      });
+    this.themService.getTheme().subscribe(theme => {
+      this.updateTheme(theme.key);
+    });
   }
 
   updateTheme(themeName: string) {

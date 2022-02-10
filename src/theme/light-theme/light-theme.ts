@@ -34,9 +34,9 @@ export const arsnova = {
   '--black': '#000000',
   '--moderator': 'lightsalmon',
 
-  '--questionwall-intro-primary':'yellow',
-  '--questionwall-intro-secondary':'#eadabf',
-  '--questionwall-intro-background':'#121212'
+  '--questionwall-intro-primary': 'yellow',
+  '--questionwall-intro-secondary': '#eadabf',
+  '--questionwall-intro-background': '#121212'
 
 };
 
@@ -53,6 +53,7 @@ export const arsnova_meta = {
   order: 3,
   scale_desktop: 1,
   scale_mobile: 1,
-  previewColor: 'background'
+  previewColor: 'background',
+  icon: 'light_mode'
 
 };

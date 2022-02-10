@@ -54,6 +54,7 @@ export const highcontrast_meta = {
   scale_desktop: 1,
   scale_mobile: 1,
   previewColor: 'secondary',
+  icon: 'contrast'
 
 };
 
