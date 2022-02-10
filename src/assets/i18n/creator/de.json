@@ -6,7 +6,8 @@
     "name": "Veranstaltungsname",
     "code": "Raum-Code",
     "entry-token": "Bonus-Token",
-    "entry-timestamp": "Token-Zeitstempel",
+    "entry-date": "Token-Datum",
+    "entry-time": "Token-Uhrzeit",
     "entry-question": "Frage",
     "entry-answer": "Antwort",
     "entry-commentNumber": "Bonus-Fragennummer",
@@ -328,7 +329,7 @@
     "confirm": "Übernehmen",
     "deactivate": "Deaktivieren",
     "something-went-wrong": "Etwas ist schiefgelaufen!",
-    "title": "Kommentar-Benachrichtigung"
+    "title": "Mail-Benachrichtigung"
   },
   "deepl": {
     "header": "Text optimieren",

@@ -6,7 +6,8 @@
     "name": "Meeting room",
     "code": "Key code",
     "entry-token": "Bonus token",
-    "entry-timestamp": "Bonus date",
+    "entry-date": "Bonus date",
+    "entry-time": "Bonus time",
     "entry-question": "Question text",
     "entry-answer": "Answer text",
     "entry-commentNumber": "Bonus questionnumber",
@@ -329,7 +330,7 @@
     "confirm": "Confirm",
     "deactivate": "Deactivate",
     "something-went-wrong": "Something went wrong!",
-    "title": "Comment notification"
+    "title": "Email notification"
   },
   "deepl": {
     "header": "Optimize text",
