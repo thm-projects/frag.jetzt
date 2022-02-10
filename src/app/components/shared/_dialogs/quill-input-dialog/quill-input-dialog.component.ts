@@ -41,7 +41,11 @@ export class QuillInputDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.value = this.data.meta || '\\sigma = \\sqrt{ \\frac{1}{N} \\sum_{i=1}^N (x_i -\\mu)^2}';
+    if (this.data?.type === 'formula') {
+      this.value = this.data.meta || '\\sigma = \\sqrt{ \\frac{1}{N} \\sum_{i=1}^N (x_i -\\mu)^2}';
+    } else {
+      this.value = this.data.meta;
+    }
   }
 
   getKatex(): string {

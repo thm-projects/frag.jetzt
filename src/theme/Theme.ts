@@ -1,7 +1,6 @@
-
 export class Palette {
-  public static RED:string='var(--red)';
-  public static YELLOW:string='var(--yellow)';
+  public static RED: string = 'var(--red)';
+  public static YELLOW: string = 'var(--yellow)';
 }
 
 export class ColorElem {
@@ -13,7 +12,8 @@ export class ColorElem {
     public name: string,
     public attr: string,
     public color: string
-  ) {}
+  ) {
+  }
 
 }
 
@@ -31,12 +31,32 @@ export class ThemeTranslationList {
 
   public get(language: string) {
     for (let i = 0; i < this.map.length; i++) {
-      if (this.map[i][0] === language) {return this.map[i][1]; }
+      if (this.map[i][0] === language) {
+        return this.map[i][1];
+      }
     }
     console.error('ThemeTranslationList: Translation Error, Unknown Language: ' + language);
     return 'unknown';
   }
 
+}
+
+export interface ThemeMeta {
+  translation: {
+    name: {
+      en: string;
+      de: string;
+    };
+  };
+  isDark: boolean;
+  availableOnMobile: boolean;
+  order: number;
+  scale_desktop: number;
+  scale_mobile: number;
+  previewColor: string;
+  config?: any;
+  icon: string;
+  isUtility?: boolean;
 }
 
 export class Theme {
@@ -118,10 +138,14 @@ export class Theme {
    */
   public isDark: boolean;
 
+  public config: any;
+
+  public icon: string;
+
   constructor(
     public key: string,
-    public palette: Object,
-    public meta: Object
+    public palette: any,
+    public meta: ThemeMeta
   ) {
 
     /*Init order*/
@@ -144,6 +168,7 @@ export class Theme {
     /*Init isDark*/
     this.isDark = this.meta['isDark'];
 
+    this.icon = this.meta['icon'];
     /*Init all ColorElem*/
 
     this.colors = [];
@@ -160,22 +185,24 @@ export class Theme {
       }
     }
 
-    Theme.mainColors.forEach(e => {
-      this.get(e).on = this.get('on-' + e);
-      this.main.push(this.get(e));
-    });
+    if (!this.meta?.isUtility) {
+      Theme.mainColors.forEach(e => {
+        this.get(e).on = this.get('on-' + e);
+        this.main.push(this.get(e));
+      });
 
-    Theme.variantColors.forEach(e => {
-      this.get(e).variant = this.get(e + '-variant');
-    });
+      Theme.variantColors.forEach(e => {
+        this.get(e).variant = this.get(e + '-variant');
+      });
+    } else {
+      this.get(this.meta['previewColor']).on = this.get('on-' + this.meta['previewColor']);
+    }
+
     this.previewColor = this.get(this.meta['previewColor']);
   }
 
   public get(name: string): ColorElem {
-    for (let i = 0; i < this.colors.length; i++) {
-      if (this.colors[i].name === name) {return this.colors[i]; }
-    }
-    return null;
+    return this.colors.find(c => c.name === name);
   }
 
   public getName(language: string): string {
@@ -196,15 +223,20 @@ export class Theme {
 
   public getScale(deviceType: string): number {
     switch (deviceType) {
-      case 'desktop': return this.scaleDesktop;
-      case 'mobile': return this.scaleMobile;
-      default: console.error('unknown device type: ' + deviceType);
+      case 'desktop':
+        return this.scaleDesktop;
+      case 'mobile':
+        return this.scaleMobile;
+      default:
+        console.error('unknown device type: ' + deviceType);
     }
     return undefined;
   }
 
   public toString(language: string): string {
-    if (typeof language === 'undefined') {return 'waiting for language (currentLang)'; }
+    if (typeof language === 'undefined') {
+      return 'waiting for language (currentLang)';
+    }
     return this.name.get(language) + ' - ' + this.description.get(language);
   }
 }

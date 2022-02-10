@@ -10,12 +10,13 @@
            [(ngModel)]="value">
   </mat-form-field>
 
-  <h3>{{'quill.preview' | translate}}</h3>
+  <ng-container *ngIf="data.type === 'formula'">
+    <h3>{{'quill.preview' | translate}}</h3>
 
-  <app-custom-markdown [data]="getKatex()"
-                       *ngIf="data.type === 'formula'"
-                       [katexOptions]="katexOptions">
-  </app-custom-markdown>
+    <app-custom-markdown [data]="getKatex()"
+                         [katexOptions]="katexOptions">
+    </app-custom-markdown>
+  </ng-container>
 </mat-dialog-content>
 <app-dialog-action-buttons
   [buttonsLabelSection]="'quill'"

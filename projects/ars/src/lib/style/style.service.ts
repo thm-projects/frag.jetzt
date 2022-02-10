@@ -15,7 +15,7 @@ export class StyleService {
   constructor(
     private themeService: ThemeService
   ) {
-    this.themeService.getTheme().subscribe(_ => this.setColor(themeService.currentTheme.isDark));
+    this.themeService.getTheme().subscribe(theme => this.setColor(theme.isDark));
   }
 
   public setColor(isDark: boolean) {

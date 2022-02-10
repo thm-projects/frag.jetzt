@@ -54,5 +54,6 @@ export const purple_meta = {
   scale_desktop: 1.5,
   scale_mobile: 1,
   previewColor: 'background',
+  icon: 'door_front'
 
 };

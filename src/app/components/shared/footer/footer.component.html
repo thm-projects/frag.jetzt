@@ -85,14 +85,17 @@
               mat-menu-item
               style="height:50px;">
         <div class="btnContent">
-          <div [ngStyle]="{
-'background-color':theme.getPreviewColor()}"
+          <div [ngStyle]="{'background-color': theme.getPreviewColor()}"
                class="btnColorIcon">
             <div [ngClass]="{
-'checked_true':theme.key===themeService.currentThemeName,
-'checked_false':theme.key!==themeService.currentThemeName}"
+                   'checked_true': theme.key === themeService.activeTheme.key,
+                   'checked_false': theme.key !== themeService.activeTheme.key
+                 }"
                  class="checked">
-              <mat-icon [ngStyle]="{'color':theme.getOnPreviewColor()}">
+              <mat-icon class="theme-icon" [ngStyle]="{'color': theme.getOnPreviewColor()}">
+                {{theme.icon}}
+              </mat-icon>
+              <mat-icon class="theme-icon-checked" [ngStyle]="{'color': theme.getOnPreviewColor()}">
                 checked
               </mat-icon>
             </div>

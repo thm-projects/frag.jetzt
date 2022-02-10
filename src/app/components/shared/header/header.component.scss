@@ -117,6 +117,7 @@ h2 {
 .label-icon {
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 
 .mat-button {
@@ -170,20 +171,18 @@ svg {
   background-color: var(--primary-variant);
   border-radius: 5px;
 
-  * {
+  > ::ng-deep button, ::ng-deep ars-mat-menu-item > button {
     background-color: transparent !important;
-  }
 
-  *:hover {
-    color: var(--on-secondary) !important;
-    background-color: var(--secondary) !important;
-
-    mat-icon {
+    &:hover {
       color: var(--on-secondary) !important;
       background-color: var(--secondary) !important;
+
+      ::ng-deep * {
+        color: var(--on-secondary) !important;
+      }
     }
   }
-
 }
 
 h1 {

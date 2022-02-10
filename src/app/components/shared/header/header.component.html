@@ -197,143 +197,9 @@
               [overlapTrigger]="false">
       <!--      <p class="mat-menu-inner-title">Account</p>-->
 
-      <ng-container arsComposeHost></ng-container>
-
       <div class="mat-menu-inner-box">
 
-        <!-- Room -->
-        <ng-container *ngIf="router.url.includes('/room/')">
-
-          <!-- Room General Options - top -->
-
-          <!-- Moderator board / index -->
-
-          <ng-container
-            *ngIf="userRole > 0 && (router.url.endsWith('/moderator/comments') || router.url.includes('/comment/'))">
-
-            <button mat-menu-item
-                    tabindex="0"
-                    *ngIf="userRole === 3"
-                    routerLink="creator/room/{{room?.shortId}}/comments">
-              <mat-icon class="material-icons-outlined">
-                forum
-              </mat-icon>
-              <span>{{'header.back-to-questionboard' | translate}}</span>
-            </button>
-
-            <button mat-menu-item
-                    tabindex="0"
-                    *ngIf="userRole > 0 && userRole < 3"
-                    routerLink="moderator/room/{{room?.shortId}}/comments">
-              <mat-icon class="material-icons-outlined">
-                forum
-              </mat-icon>
-              <span>{{'header.back-to-questionboard' | translate}}</span>
-            </button>
-
-          </ng-container>
-
-          <ng-container *ngIf="userRole === 0 && router.url.includes('/comment/')">
-
-            <button mat-menu-item
-                    tabindex="0"
-                    routerLink="participant/room/{{room?.shortId}}/comments">
-              <mat-icon class="material-icons-outlined">
-                forum
-              </mat-icon>
-              <span>{{'header.back-to-questionboard' | translate}}</span>
-            </button>
-
-          </ng-container>
-
-          <!-- Question board -->
-          <ng-container *ngIf="router.url.endsWith('/comments')">
-
-            <button mat-menu-item
-                    *ngIf="!router.url.includes('/comment/') && !router.url.endsWith('/tagcloud') &&
-                           !router.url.endsWith('moderator/comments') && deviceInfo.isCurrentlyDesktop
-                           && room && !room.questionsBlocked"
-                    tabindex="0"
-                    (click)="navigateCreateQuestion();">
-              <mat-icon class="header-icons material-icons-outlined">
-                add
-              </mat-icon>
-              <span>{{'header.create-question' | translate}}</span>
-            </button>
-
-            <button mat-menu-item
-                    *ngIf="userRole > 0 && !router.url.includes('/comment/') && !router.url.endsWith('/tagcloud') &&
-                           !router.url.endsWith('moderator/comments')"
-                    tabindex="0"
-                    (click)="showQRDialog();">
-              <mat-icon class="header-icons">
-                qr_code
-              </mat-icon>
-              <span>{{'header.room-qr' | translate}}</span>
-            </button>
-
-            <button mat-menu-item
-                    tabindex="0"
-                    *ngIf="userRole > 0 && !router.url.includes('/participant/') &&
-                           !router.url.endsWith('moderator/comments')"
-                    [routerLink]="(userRole === 3 ? 'creator' : 'moderator') + '/room/' + room?.shortId + '/moderator/comments'">
-              <mat-icon class="material-icons-round">gavel</mat-icon>
-              <span>{{'header.moderationboard' | translate}}</span>
-            </button>
-
-            <button mat-menu-item
-                    tabindex="0"
-                    *ngIf="!router.url.endsWith('moderator/comments') && deviceInfo.isCurrentlyMobile"
-                    (click)="navigateTopicCloud()">
-              <mat-icon>cloud_queue</mat-icon>
-              <span>{{'header.tag-cloud' | translate}}</span>
-            </button>
-
-            <button mat-menu-item
-                    tabindex="0"
-                    *ngIf="!router.url.endsWith('moderator/comments') && deviceInfo.isCurrentlyMobile"
-                    (click)="navigateBrainstorming()">
-              <mat-icon class="material-icons-outlined">tips_and_updates</mat-icon>
-              <span>{{'header.brainstorming' | translate}}</span>
-            </button>
-
-            <button mat-menu-item
-                    tabindex="0"
-                    *ngIf="!router.url.endsWith('moderator/comments') && deviceInfo.isCurrentlyMobile"
-                    routerLink="quiz">
-              <mat-icon class="material-icons-outlined">emoji_events</mat-icon>
-              <span>{{'header.quiz-now' | translate}}</span>
-            </button>
-
-          </ng-container>
-
-          <!-- Session -->
-          <ng-container
-            *ngIf="!router.url.endsWith('/comments') && !router.url.includes('/comment/') && !router.url.endsWith('tagcloud')">
-
-            <!-- app-room-creator-page -->
-
-
-          </ng-container>
-
-          <!-- Room General Options - bot -->
-
-          <ng-container
-            *ngIf="userRole === 3 && !router.url.includes('/participant') && !router.url.endsWith('/comments') &&
-                   !router.url.includes('/comment/') && !router.url.endsWith('tagcloud')">
-
-
-          </ng-container>
-
-          <button mat-menu-item
-                  *ngIf="router.url.endsWith('/comments') && !router.url.includes('/comment/') && !router.url.endsWith('tagcloud')"
-                  (click)="navigateExportQuestions()"
-                  tabindex="0">
-            <mat-icon class="material-icons-outlined">file_download</mat-icon>
-            <span>{{'header.export-questions' | translate}}</span>
-          </button>
-
-        </ng-container>
+        <ng-container arsComposeHost></ng-container>
 
       </div>
 
@@ -456,6 +322,25 @@
 
     </mat-menu>
 
+    <ng-template #optionContent>
+      <div class="label-icon">
+        <mat-icon *ngIf="!user.isGuest"
+                  class="header-icons">more_vert
+        </mat-icon>
+        <mat-icon *ngIf="user.isGuest"
+                  class="header-icons material-icons-filled color-warn"
+                  [matTooltip]="'header.guest-account-tooltip' | translate">notifications
+        </mat-icon>
+        <mat-icon
+          *ngIf="this.router.url.indexOf('/room/') > 0"
+          class="header-icons material-icons-outlined"
+          [matTooltip]="'header.' + getCurrentRoleDescription() | translate">
+          {{getCurrentRoleIcon()}}
+        </mat-icon>
+        <h2 class="oldtypo-h2" *ngIf="deviceInfo.isCurrentlyDesktop">{{'header.my-account' | translate}}</h2>
+      </div>
+    </ng-template>
+
     <button [disabled]="cookiesDisabled()"
             mat-button
             [joyrideStep]="'optionHeader'"
@@ -465,16 +350,7 @@
             [matMenuTriggerFor]="userMenu"
             aria-labelledby="session-label"
             id="session-button">
-      <div class="label-icon">
-        <mat-icon *ngIf="!user.isGuest"
-                  class="header-icons">more_vert
-        </mat-icon>
-        <mat-icon *ngIf="user.isGuest"
-                  class="header-icons material-icons-filled color-warn"
-                  [matTooltip]="'header.guest-account-tooltip' | translate">notifications
-        </mat-icon>
-        <h2 class="oldtypo-h2">{{'header.my-account' | translate}}</h2>
-      </div>
+      <ng-container [ngTemplateOutlet]="optionContent"></ng-container>
     </button>
 
     <button [disabled]="cookiesDisabled()"
@@ -485,14 +361,19 @@
             *ngIf="user && deviceInfo.isCurrentlyMobile"
             [matMenuTriggerFor]="userMenu"
             aria-labelledby="session-label">
-      <mat-icon *ngIf="user.isGuest"
-                class="header-icons material-icons-filled color-warn"
-                [matTooltip]="'header.guest-account-tooltip' | translate">notifications
-      </mat-icon>
-      <mat-icon
-        class="header-icons">more_vert
-      </mat-icon>
+      <ng-container [ngTemplateOutlet]="optionContent"></ng-container>
     </button>
+
+    <ng-template #loginBtnContent>
+      <div class="label-icon">
+        <mat-icon class="header-icons"
+                  style="padding-right: 10px">
+          login
+        </mat-icon>
+        <h2 class="oldtypo-h2"
+            *ngIf="deviceInfo.isCurrentlyDesktop">{{'header.login' | translate}}</h2>
+      </div>
+    </ng-template>
 
     <button id="login-button"
             [disabled]="cookiesDisabled()"
@@ -503,13 +384,7 @@
             *ngIf="!user && deviceInfo.isCurrentlyDesktop"
             (click)=login(false)
             aria-labelledby="login-label">
-      <div class="label-icon">
-        <mat-icon class="header-icons"
-                  style="padding-right: 10px">login
-        </mat-icon>
-        <h2 class="oldtypo-h2"
-            *ngIf="deviceInfo.isCurrentlyDesktop">{{'header.login' | translate}}</h2>
-      </div>
+      <ng-container [ngTemplateOutlet]="loginBtnContent"></ng-container>
     </button>
 
     <button [disabled]="cookiesDisabled()"
@@ -520,7 +395,7 @@
             *ngIf="!user && deviceInfo.isCurrentlyMobile"
             (click)=login(false)
             aria-labelledby="login-label">
-      <mat-icon class="header-icons">login</mat-icon>
+      <ng-container [ngTemplateOutlet]="loginBtnContent"></ng-container>
     </button>
   </mat-toolbar-row>
 </mat-toolbar>
