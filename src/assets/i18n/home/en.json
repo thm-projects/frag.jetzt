@@ -419,7 +419,7 @@
     "confirm": "Confirm",
     "deactivate": "Deactivate",
     "something-went-wrong": "Something went wrong!",
-    "title": "Comment notification"
+    "title": "Email notification"
   },
   "room-list": {
     "creator-role": "You are the creator of this room.",
@@ -448,7 +448,7 @@
     "session-history-1": "Your session history contains one session.",
     "session-history-label": "Below you will find a list of your sessions.",
     "export-comments": "Save Q&A",
-    "email-notification": "E-mail notification",
+    "email-notification": "Email notification",
     "room-not-exist": "The room does not exist.\nPlease inform the person who gave you the direct link."
   },
   "session": {
