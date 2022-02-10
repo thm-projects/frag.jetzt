@@ -31,6 +31,10 @@ import { DeviceInfoService } from '../../../services/util/device-info.service';
 import { Subscription } from 'rxjs';
 import { ArsComposeService } from '../../../../../projects/ars/src/lib/services/ars-compose.service';
 import { HeaderService } from '../../../services/util/header.service';
+import { FormControl } from '@angular/forms';
+import { RoomDataService } from '../../../services/util/room-data.service';
+import { MatMenuTrigger } from '@angular/material/menu';
+import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 
 
 @Component({
@@ -40,6 +44,7 @@ import { HeaderService } from '../../../services/util/header.service';
 })
 export class ModeratorCommentListComponent implements OnInit, OnDestroy {
   @ViewChild('searchBox') searchField: ElementRef;
+  @ViewChild('filterMenuTrigger') filterMenuTrigger: MatMenuTrigger;
   user: User;
   roomId: string;
   AppComponent = AppComponent;
@@ -75,6 +80,9 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
   sortType: SortType;
   sortReverse: boolean;
   period: Period;
+  questionNumberFormControl = new FormControl();
+  questionNumberOptions: string[] = [];
+  private _allQuestionNumberOptions: string[] = [];
   private firstReceive = true;
   private _deviceSub: Subscription;
   private _commentsSub: Subscription;
@@ -93,12 +101,17 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
     private roomDataFilterService: RoomDataFilterService,
     private sessionService: SessionService,
     private authenticationService: AuthenticationService,
-    private deviceInfo: DeviceInfoService,
+    public deviceInfo: DeviceInfoService,
     private composeService: ArsComposeService,
     private headerService: HeaderService,
+    private roomDataService: RoomDataService,
   ) {
     langService.getLanguage().subscribe(lang => translateService.use(lang));
     this._deviceSub = this.deviceInfo.isMobile().subscribe(mobile => this.isMobile = mobile);
+    this.questionNumberFormControl.valueChanges.subscribe((v) => {
+      v = v || '';
+      this.questionNumberOptions = this._allQuestionNumberOptions.filter(e => e.startsWith(v));
+    });
   }
 
   handlePageEvent(e: PageEvent) {
@@ -187,6 +200,11 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
         this.search = true;
       }
     }
+    const allComments = this.roomDataService.getCurrentRoomData(true);
+    this._allQuestionNumberOptions = allComments.map(c => c.number)
+      .sort((a, b) => b - a).map(c => String(c));
+    const value = this.questionNumberFormControl.value || '';
+    this.questionNumberOptions = this._allQuestionNumberOptions.filter(e => e.startsWith(value));
     this.commentsWrittenByUsers.clear();
     for (const comment of this.comments) {
       let set = this.commentsWrittenByUsers.get(comment.creatorId);
@@ -235,6 +253,20 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
       filter.fromNow = null;
     }
     this.roomDataFilterService.currentFilter = filter;
+  }
+
+  isInCommentNumbers(value: string): boolean {
+    return this._allQuestionNumberOptions.indexOf(value) >= 0;
+  }
+
+  useCommentNumber(questionNumber: HTMLInputElement, menu: MatMenuTrigger, autoComplete: MatAutocompleteTrigger) {
+    if (!this.isInCommentNumbers(questionNumber.value)) {
+      return;
+    }
+    autoComplete.closePanel();
+    this.questionNumberFormControl.setValue('');
+    menu.closeMenu();
+    this.applyFilterByKey('number', +questionNumber.value);
   }
 
   private initNavigation() {

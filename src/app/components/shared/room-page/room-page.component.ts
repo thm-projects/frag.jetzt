@@ -497,7 +497,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
         isSVGIcon: false,
         text: 'room-list.email-notification',
         callback: () => this.openEmailNotification(),
-        condition: () => true
+        condition: () => !!this.user?.loginId
       });
     });
     /* eslint-enable @typescript-eslint/no-shadow */

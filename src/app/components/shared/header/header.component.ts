@@ -319,7 +319,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   public refreshNotifications() {
     this.hasEmailNotifications = false;
     const id = this.sessionService.currentRoom?.id;
-    if (!id) {
+    if (!id || !this.user?.loginId) {
       return;
     }
     this.commentNotificationService.findByRoomId(id).subscribe({

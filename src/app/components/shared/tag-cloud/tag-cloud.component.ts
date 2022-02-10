@@ -126,7 +126,6 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
   private _calcRenderContext: CanvasRenderingContext2D = null;
   private _calcFont: string = null;
   private readonly _smartDebounce = new SmartDebounce(50, 1_000);
-  private _currentTheme: Theme;
 
   constructor(
     private commentService: CommentService,
@@ -177,7 +176,6 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
         this.user = newUser;
       }
     });
-    this._currentTheme = this.themeService.currentTheme;
     this.route.data.subscribe(d => this.brainstormingActive = !!d.brainstorming);
     this.sessionService.getRoomOnce().subscribe(room => {
       this.userRole = this.sessionService.currentRole;
@@ -201,8 +199,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
         this.roomDataFilterService.currentFilter = filter;
       }
     });
-    this.themeSubscription = this.themeService.getTheme().subscribe((themeName) => {
-      this._currentTheme = this.themeService.getThemeByKey(themeName);
+    this.themeSubscription = this.themeService.getTheme().subscribe(() => {
       if (this.child) {
         setTimeout(() => {
           this.setCloudParameters(this.getCurrentCloudParameters(), false);
@@ -260,7 +257,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
 
   resetColorsToTheme() {
     const param = new CloudParameters();
-    param.resetToDefault(this._currentTheme.isDark);
+    param.resetToDefault(this.themeService.currentTheme.isDark);
     this.setCloudParameters(param, false);
     CloudParameters.removeParameters();
   }

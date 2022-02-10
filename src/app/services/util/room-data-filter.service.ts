@@ -278,7 +278,7 @@ export class RoomDataFilterService {
 
   private prefilter(comments: Comment[], f: RoomDataFilter, threshold: number, isModeration: boolean): Comment[] {
     const brainstorm = f.filterType === FilterType.brainstormingQuestion;
-    const brainstorming = isModeration ? comments : comments.filter(c => c.brainstormingQuestion === brainstorm);
+    const brainstorming = comments.filter(c => c.brainstormingQuestion === brainstorm);
     return threshold !== 0 && !isModeration ? brainstorming.filter(c => c.score >= threshold) : brainstorming;
   }
 }

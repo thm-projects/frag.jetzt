@@ -138,30 +138,42 @@ mat-icon {
   transition: all 0.1s;
   border-color: var(--red) !important;
   border-width: thick !important;
-}
 
-.checked.checked_true {
-  transform: scale(1);
-  opacity: 1;
-  background-color: transparent;
-}
+  &.checked_true {
+    transform: scale(1);
+    opacity: 1;
+    background-color: transparent;
 
-.checked.checked_false {
-  opacity: 1;
-}
+    > .theme-icon {
+      display: none;
+    }
 
-.checked.checked_false > mat-icon {
-  opacity: 0;
-}
+    > .theme-icon-checked {
+      opacity: 1;
+    }
+  }
 
-.checked > mat-icon {
-  float: left;
-  position: relative;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  color: #FFFFFF;
-  border-radius: 100%;
+  &.checked_false {
+    opacity: 1;
+
+    > .theme-icon {
+      opacity: 1;
+    }
+
+    > .theme-icon-checked {
+      display: none;
+    }
+  }
+
+  > mat-icon {
+    float: left;
+    position: relative;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    color: #FFFFFF;
+    border-radius: 100%;
+  }
 }
 
 .btnContent > .btnAppend {

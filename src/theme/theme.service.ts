@@ -3,13 +3,18 @@ import { BehaviorSubject } from 'rxjs';
 import { themes, themes_meta } from './arsnova-theme.const';
 import { Theme } from './Theme';
 
+const LOCAL_THEME_KEY = 'currentActiveTheme';
+const LOCAL_THEME_USE_SYSTEM_KEY = 'useSystemPropertiesForTheme';
+
 @Injectable({
   providedIn: 'root'
 })
 export class ThemeService {
-  private activeThem = new BehaviorSubject<string>(null);
+  private currentThemeSubject = new BehaviorSubject<Theme>(null);
   private themes: Theme[] = [];
-  private _currentTheme: Theme = null;
+  private _activeTheme: Theme = null;
+  private _isSystemDark = false;
+  private _isUsingSystemProperties = ThemeService.isUsingSystemProperties();
 
   constructor() {
     const isMobile = window.matchMedia && window.matchMedia('(max-width: 499px)').matches;
@@ -24,47 +29,57 @@ export class ThemeService {
         themes_meta[k])
       );
     }
-    this.themes.sort((a, b) => {
-      if (a.order < b.order) {
-        return -1;
-      } else if (a.order > b.order) {
-        return 1;
+    this.themes.sort((a, b) => a.order - b.order);
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+      this._isSystemDark = e.matches;
+      if (this._activeTheme?.key === 'systemDefault') {
+        this.updateBySystem();
       }
-      return 0;
     });
-    const isDark = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)').matches : true;
-    let currentTheme = this.currentThemeName;
-    const selectedTheme = this.themes.find(elem => elem.key === currentTheme);
-    if (!currentTheme || !selectedTheme || selectedTheme.isDark !== isDark) {
-      for (let i = this.themes.length - 1; i > 0; i--) {
-        const theme = this.themes[i];
-        if (theme.isDark === isDark) {
-          currentTheme = theme.key;
-          break;
-        }
-      }
-      this.activate(currentTheme);
-    }
+    this.activate(!this._isUsingSystemProperties && ThemeService.getActiveThemeConfig() || 'systemDefault');
   }
 
-  get currentThemeName(): string {
-    return this.activeThem.value;
+  private static getActiveThemeConfig(): string {
+    return localStorage.getItem(LOCAL_THEME_KEY);
+  }
+
+  private static setActiveThemeConfig(themeKey: string): void {
+    localStorage.setItem(LOCAL_THEME_KEY, themeKey);
+  }
+
+  private static isUsingSystemProperties(): boolean {
+    return localStorage.getItem(LOCAL_THEME_USE_SYSTEM_KEY) === 'true';
+  }
+
+  private static setUsingSystemProperties(isUsingProps: boolean): void {
+    localStorage.setItem(LOCAL_THEME_USE_SYSTEM_KEY, String(isUsingProps));
+  }
+
+  get activeTheme(): Theme {
+    return this._activeTheme;
   }
 
   get currentTheme(): Theme {
-    return this._currentTheme;
+    return this.currentThemeSubject.value;
   }
 
   public getTheme() {
-    return this.activeThem.asObservable();
+    return this.currentThemeSubject.asObservable();
   }
 
   public activate(name) {
-    this._currentTheme = this.getThemeByKey(name);
-    if (!this._currentTheme) {
+    this._activeTheme = this.getThemeByKey(name);
+    if (!this._activeTheme) {
       throw new Error('Theme "' + name + '" does not exist!');
     }
-    this.activeThem.next(name);
+    ThemeService.setActiveThemeConfig(name);
+    if (name === 'systemDefault') {
+      ThemeService.setUsingSystemProperties(true);
+      this.updateBySystem();
+    } else {
+      ThemeService.setUsingSystemProperties(false);
+      this.currentThemeSubject.next(this._activeTheme);
+    }
   }
 
   public getThemes(): Theme[] {
@@ -78,5 +93,14 @@ export class ThemeService {
       }
     }
     return null;
+  }
+
+  private updateBySystem() {
+    const name = this._activeTheme.meta.config[this._isSystemDark ? 'dark' : 'light'];
+    const theme = this.getThemeByKey(name);
+    if (!theme) {
+      throw new Error('Theme "' + name + '" does not exist!');
+    }
+    this.currentThemeSubject.next(theme);
   }
 }
