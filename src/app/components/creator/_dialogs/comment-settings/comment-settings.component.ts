@@ -11,6 +11,7 @@ import { DeleteCommentsComponent } from '../delete-comments/delete-comments.comp
 import { Room } from '../../../../models/room';
 import { CommentSettings } from '../../../../models/comment-settings';
 import { CommentSettingsDialog } from '../../../../models/comment-settings-dialog';
+import { SessionService } from '../../../../services/util/session.service';
 
 @Component({
   selector: 'app-comment-settings',
@@ -36,7 +37,7 @@ export class CommentSettingsComponent implements OnInit {
     protected roomService: RoomService,
     public router: Router,
     public commentService: CommentService,
-    private bonusTokenService: BonusTokenService,
+    private sessionService: SessionService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
   }
@@ -88,7 +89,6 @@ export class CommentSettingsComponent implements OnInit {
 
     this.editRoom.directSend = this.directSend;
     this.editRoom.threshold = this.settingThreshold ? this.commentThreshold : 0;
-    this.editRoom.moderated = this.enableCommentModeration;
 
     // If moderation isn't enabled, the direct send is of no interest and shouldn't be updated to avoid confusion about missing comments
     if ((this.enableCommentModeration && !this.directSend) || this.directSend) {
