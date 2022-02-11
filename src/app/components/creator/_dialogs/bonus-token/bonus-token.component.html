@@ -97,7 +97,7 @@
                       class="clickable"
                       *matCellDef="let bonusToken"
                       (click)="navToComment(bonusToken.commentId)">
-                    {{bonusToken.timestamp | date: lang === 'de' ? 'dd.MM.yy' : ' M/d/yy'}}
+                    {{bonusToken.createdAt | date: lang === 'de' ? 'dd.MM.yy' : ' M/d/yy'}}
                   </td>
                 </ng-container>
 
