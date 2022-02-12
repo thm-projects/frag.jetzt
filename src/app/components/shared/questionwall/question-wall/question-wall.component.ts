@@ -20,15 +20,7 @@ import { Room } from '../../../../models/room';
 import { mergeMap } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { IntroductionQuestionWallComponent } from '../../_dialogs/introductions/introduction-question-wall/introduction-question-wall.component';
-import { Moderator } from '../../../../models/moderator';
-
-interface CommentCache {
-  [commentId: string]: {
-    old: boolean;
-    timeAgo: string;
-    date: Date;
-  };
-}
+import { QuestionWallConfig } from '../QuestionWallConfig';
 
 const TIME_FORMAT_DE: [string, string][] =
   [
@@ -106,13 +98,13 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   userSelection = false;
   fontSize = 180;
   periodsList = Object.values(Period);
-  isLoading = true;
+  isLoading = false;
   user: User;
   animationTrigger = true;
   firstPassIntroduction = true;
   room: Room = null;
   period: Period;
-  private readonly commentCache: CommentCache = {};
+  config:QuestionWallConfig;
 
   constructor(
     private authenticationService: AuthenticationService,
@@ -126,19 +118,30 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     private roomDataFilterService: RoomDataFilterService,
     private dialog: MatDialog
   ) {
-    this.keySupport = new QuestionWallKeyEventSupport();
-    this.timeUpdateInterval = setInterval(() => {
-      const current = new Date().getTime();
-      this.comments.forEach(e => {
-        const cacheEntry = this.commentCache[e.id];
-        cacheEntry.timeAgo = updateTimeAgo(current, cacheEntry.date.getTime());
-      });
-    }, 15000);
-    this.langService.getLanguage().subscribe(lang => {
-      this.translateService.use(lang);
-      currentTimeFormat = lang.toUpperCase() === 'DE' ? TIME_FORMAT_DE : TIME_FORMAT_EN;
-    });
-    this.roomDataFilterService.currentFilter = RoomDataFilter.loadFilter('presentation');
+    this.config=new QuestionWallConfig(
+      authenticationService,
+      router,
+      commentService,
+      wsCommentService,
+      langService,
+      translateService,
+      roomDataService,
+      sessionService,
+      roomDataFilterService,
+      dialog
+    );
+    // this.timeUpdateInterval = setInterval(() => {
+    //   const current = new Date().getTime();
+    //   this.comments.forEach(e => {
+    //     const cacheEntry = this.commentCache[e.id];
+    //     cacheEntry.timeAgo = updateTimeAgo(current, cacheEntry.date.getTime());
+    //   });
+    // }, 15000);
+    // this.langService.getLanguage().subscribe(lang => {
+    //   this.translateService.use(lang);
+    //   currentTimeFormat = lang.toUpperCase() === 'DE' ? TIME_FORMAT_DE : TIME_FORMAT_EN;
+    // });
+    // this.roomDataFilterService.currentFilter = RoomDataFilter.loadFilter('presentation');
   }
 
   public wrap<E>(e: E, action: (e: E) => void) {
@@ -175,29 +178,31 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.roomDataFilterService.currentFilter = RoomDataFilter.loadFilter('presentation');
-    this.authenticationService.watchUser.subscribe(newUser => {
-      if (newUser) {
-        this.user = newUser;
-      }
-    });
-    this.roomDataFilterService.getData().subscribe(_ => this.onUpdateFiltering());
-    this.sessionService.getRoomOnce().pipe(mergeMap(_ => this.roomDataService.receiveUpdates([
-      { type: 'CommentCreated' }
-    ]))).subscribe(c => {
-      if (c.finished) {
-        return;
-      }
-      this.unreadComments++;
-      const date = new Date(c.comment.createdAt);
-      this.commentCache[c.comment.id] = {
-        date,
-        old: false,
-        timeAgo: updateTimeAgo(new Date().getTime(), date.getTime())
-      };
-    });
-    this.sessionService.getRoomOnce().subscribe(room => this.room = room);
-    this.initKeySupport();
+    this.config.runOnInit();
+    this.isLoading=false;
+    // this.roomDataFilterService.currentFilter = RoomDataFilter.loadFilter('presentation');
+    // this.authenticationService.watchUser.subscribe(newUser => {
+    //   if (newUser) {
+    //     this.user = newUser;
+    //   }
+    // });
+    // this.roomDataFilterService.getData().subscribe(_ => this.onUpdateFiltering());
+    // this.sessionService.getRoomOnce().pipe(mergeMap(_ => this.roomDataService.receiveUpdates([
+    //   { type: 'CommentCreated' }
+    // ]))).subscribe(c => {
+    //   if (c.finished) {
+    //     return;
+    //   }
+    //   this.unreadComments++;
+    //   const date = new Date(c.comment.createdAt);
+    //   // this.commentCache[c.comment.id] = {
+    //   //   date,
+    //   //   old: false,
+    //   //   timeAgo: updateTimeAgo(new Date().getTime(), date.getTime())
+    //   // };
+    // });
+    // this.sessionService.getRoomOnce().subscribe(room => this.room = room);
+    // this.initKeySupport();
   }
 
   initKeySupport() {
@@ -212,35 +217,40 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
-    document.getElementById('header_rescale').style.display = 'none';
-    document.getElementById('footer_rescale').style.display = 'none';
-    setTimeout(() => {
-      Rescale.requestFullscreen();
-    }, 10);
-    setTimeout(() => {
-      Array.from(document.getElementsByClassName('questionwall-screen')[0].getElementsByTagName('button')).forEach(e => {
-        e.addEventListener('keydown', e1 => {
-          e1.preventDefault();
-        });
-      });
-    }, 100);
+
+    this.config.runOnAfterViewInit();
+    // document.getElementById('header_rescale').style.display = 'none';
+    // document.getElementById('footer_rescale').style.display = 'none';
+    // setTimeout(() => {
+    //   Rescale.requestFullscreen();
+    // }, 10);
+    // setTimeout(() => {
+    //   Array.from(document.getElementsByClassName('questionwall-screen')[0].getElementsByTagName('button')).forEach(e => {
+    //     e.addEventListener('keydown', e1 => {
+    //       e1.preventDefault();
+    //     });
+    //   });
+    // }, 100);
   }
 
   ngOnDestroy(): void {
-    this.roomDataFilterService.currentFilter.save('presentation');
-    this.keySupport.destroy();
-    window.clearInterval(this.timeUpdateInterval);
-    document.getElementById('header_rescale').style.display = 'block';
-    document.getElementById('footer_rescale').style.display = 'block';
-    Rescale.exitFullscreen();
+    // this.roomDataFilterService.currentFilter.save('presentation');
+    // this.keySupport.destroy();
+    // window.clearInterval(this.timeUpdateInterval);
+    // document.getElementById('header_rescale').style.display = 'block';
+    // document.getElementById('footer_rescale').style.display = 'block';
+    // Rescale.exitFullscreen();
+    this.config.runOnDestroy();
   }
 
   getTimeAgo(commentId: string): string {
-    return this.commentCache[commentId].timeAgo;
+    // return this.commentCache[commentId].timeAgo;
+    return "undefined"
   }
 
   isOld(commentId: string): boolean {
-    return this.commentCache[commentId].old;
+    // return this.commentCache[commentId].old;
+    return false;
   }
 
   nextComment() {
@@ -288,11 +298,11 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     setTimeout(() => {
       this.commentFocusId = comment.id;
       this.commentFocus = comment;
-      const entry = this.commentCache[comment.id];
-      if (!entry.old) {
-        entry.old = true;
-        this.unreadComments--;
-      }
+      // const entry = this.commentCache[comment.id];
+      // if (!entry.old) {
+      //   entry.old = true;
+      //   this.unreadComments--;
+      // }
       this.getDOMCommentFocus().scrollIntoView({
         behavior: 'smooth',
         block: 'center'
@@ -432,60 +442,53 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onUpdateFiltering() {
-    const func=(moderators:Moderator[],lecturerId:string)=>{
-      const moderatorIds=moderators.map(x=>x.accountId);
-      const result = this.roomDataFilterService.currentData;
-      this.comments = ((sorted:any[])=>{
-        result.comments.forEach(e=>{
-          if(!moderatorIds.includes(e.creatorId)&&e.creatorId!==lecturerId){
-            sorted.push(e);
-          }
-        });
-        result.comments.forEach(e=>{
-          if(moderatorIds.includes(e.creatorId)){
-            sorted.push(e);
-          }
-        });
-        result.comments.forEach(e=>{
-          if(e.creatorId===lecturerId){
-            sorted.push(e);
-          }
-        });
-        return sorted;
-      })([]);
-      const filter = this.roomDataFilterService.currentFilter;
-      this.period = filter.period;
-      this.isLoading = false;
-      const current = new Date().getTime();
-      const tempUserSet = new Set<string>();
-      this.comments.forEach(comment => {
-        tempUserSet.add(comment.creatorId);
-        if (this.commentCache[comment.id]) {
-          return;
-        }
-        const date = new Date(comment.createdAt);
-        this.commentCache[comment.id] = {
-          date,
-          old: true,
-          timeAgo: updateTimeAgo(current, date.getTime())
-        };
-      });
-      this.refreshUserMap();
-      this.commentsCountQuestions = this.comments.length;
-      this.commentsCountUsers = tempUserSet.size;
-      this.animationTrigger = false;
-      setTimeout(() => {
-        this.animationTrigger = true;
-        if (this.comments.length < 1 || !this.comments.some(c => c.id === this.commentFocusId)) {
-          this.commentFocusId = null;
-        }
-      });
-    }
-    this.sessionService.getModerators().subscribe(e=>{
-      this.sessionService.getRoom().subscribe(r=>{
-        func(e,r.ownerId);
+    // const result=this.roomDataFilterService.currentData;
+    // const filter=this.roomDataFilterService.currentFilter;
+    // this.roomDataFilterService.getData().subscribe(e=>{
+    //   this.comments=e.comments;
+    // })
+    // const func=(moderators:Moderator[],lecturerId:string)=>{
+    //   const moderatorIds=moderators.map(x=>x.accountId);
+    //   const result = this.roomDataFilterService.currentData;
+    //   const filter = this.roomDataFilterService.currentFilter;
+    //   this.period = filter.period;
+    //   this.isLoading = false;
+    //   const current = new Date().getTime();
+    //   const tempUserSet = new Set<string>();
+    //   this.comments.forEach(comment => {
+    //     tempUserSet.add(comment.creatorId);
+    //     if (this.commentCache[comment.id]) {
+    //       return;
+    //     }
+    //     const date = new Date(comment.createdAt);
+    //     this.commentCache[comment.id] = {
+    //       date,
+    //       old: true,
+    //       timeAgo: updateTimeAgo(current, date.getTime())
+    //     };
+    //   });
+    //   this.refreshUserMap();
+    //   this.commentsCountQuestions = this.comments.length;
+    //   this.commentsCountUsers = tempUserSet.size;
+    //   this.animationTrigger = false;
+    //   setTimeout(() => {
+    //     this.animationTrigger = true;
+    //     if (this.comments.length < 1 || !this.comments.some(c => c.id === this.commentFocusId)) {
+    //       this.commentFocusId = null;
+    //     }
+    //   });
+    // }
+    // this.sessionService.getModerators().subscribe(e=>{
+    //   this.sessionService.getRoom().subscribe(r=>{
+    //     func(e,r.ownerId);
+    //   });
+    // });
+    this.roomDataFilterService.getData().subscribe(e=>{
+      this.comments=e.comments.map<Comment>(e=>{
+        return e;
       });
     });
+      this.isLoading=false;
   }
 
   setTimePeriod(period: Period) {
