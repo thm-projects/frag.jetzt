@@ -364,7 +364,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     } else if (this.user?.role === UserRole.EXECUTIVE_MODERATOR) {
       return 'gavel';
     } else if (this.user?.role === UserRole.CREATOR) {
-      return 'mic';
+      return 'co_present';
     }
     return 'person';
   }
