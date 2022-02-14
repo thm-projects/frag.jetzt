@@ -41,7 +41,7 @@
     "bookmark": "Bookmark",
     "comment-bookmarked": "Yes",
     "comment-not_bookmarked": "",
-    "token": "Bonus token",
+    "token": "Bonus code",
     "token-time": "Token timestamp"
   },
   "comment-list": {
@@ -579,7 +579,7 @@
     "session-id": "\nKey code",
     "owner-email": "\n\nRoom creator email",
     "moderator-emails": "\n\nModerator emails",
-    "bonus-tokens": "\n\nMy bonus tokens",
+    "bonus-tokens": "\n\nMy bonuses",
     "bonus-token-body1": " from ",
     "bonus-token-body2": " with the question number ",
     "redeem-clipboard-success": "All required data for the mail to event management was copied to the clipboard.",

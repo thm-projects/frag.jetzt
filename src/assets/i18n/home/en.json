@@ -116,7 +116,7 @@
     "tooltip-moderator": "You are a moderator in this room.",
     "tooltip-super-admin": "You are an administrator of »frag.jetzt«.",
     "my-sessions": "My rooms",
-    "really-delete-account": "Do you want to irrevocably delete your account with all sessions? If you have given bonus stars, export the questions so that you can check submitted bonus tokens.",
+    "really-delete-account": "Do you want to irrevocably delete your account with all sessions? If you have given bonus stars, export the questions so that you can check submitted bonus codes.",
     "sure": "Are you sure?",
     "user-bonus-token": "My bonus stars",
     "user-got-tokens": "You haven't received a star for a good question yet.",
@@ -402,7 +402,7 @@
     "bookmark": "Bookmark",
     "comment-bookmarked": "Yes",
     "comment-not_bookmarked": "",
-    "token": "Bonus token",
+    "token": "Bonus code",
     "token-time": "Token timestamp"
   },
   "comment-notification": {
@@ -485,7 +485,7 @@
     "session-id": "\nKey code",
     "owner-email": "\n\nRoom creator email",
     "moderator-emails": "\n\nModerator emails",
-    "bonus-tokens": "\n\nMy bonus tokens",
+    "bonus-tokens": "\n\nMy bonuses",
     "bonus-token-body1": " from ",
     "bonus-token-body2": " with the question number ",
     "redeem-clipboard-success": "All required data for the mail to event management was copied to the clipboard.",
