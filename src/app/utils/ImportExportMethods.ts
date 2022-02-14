@@ -136,13 +136,6 @@ const bonusArchiveImportExport = (translateService: TranslateService) =>
               return c;
             }
           }
-        },
-        {
-          languageKey: 'bonus-archive-export.entry-time',
-          valueMapper: {
-            export: (config, k) => null,
-            import: (config, val) => null
-          }
         }
       ]
     } as ExportTable<BonusArchiveEntry>
