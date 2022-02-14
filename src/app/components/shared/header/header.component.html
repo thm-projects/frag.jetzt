@@ -326,7 +326,8 @@
       <div class="label-icon">
         <mat-icon *ngIf="user.isGuest"
                   class="header-icons material-icons-filled color-warn"
-                  [matTooltip]="'header.guest-account-tooltip' | translate">notifications
+                  style="margin-right: 5px"
+                  [matTooltip]="'header.guest-account-tooltip' | translate">report
         </mat-icon>
         <mat-icon
           *ngIf="this.router.url.indexOf('/room/') > 0"
