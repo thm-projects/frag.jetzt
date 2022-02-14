@@ -1,16 +1,16 @@
 {
   "bonus-archive-export": {
-    "no-data": "There are no bonus tokens.",
+    "no-data": "There are no bonuses.",
     "empty": "",
     "date": "Bonus archive",
     "name": "Meeting room",
     "code": "Key code",
-    "entry-token": "Bonus token",
+    "entry-token": "Bonus code",
     "entry-date": "Bonus date",
     "entry-time": "Bonus time",
     "entry-question": "Question text",
     "entry-answer": "Answer text",
-    "entry-commentNumber": "Bonus questionnumber",
+    "entry-commentNumber": "Bonus question number",
     "file-name": "Bonus archive \"{{roomName}}\" {{date}}.csv"
   },
   "room-export": {
@@ -45,7 +45,7 @@
     "bookmark": "Bookmark",
     "comment-bookmarked": "Yes",
     "comment-not_bookmarked": "",
-    "token": "Bonus token",
+    "token": "Bonus code",
     "token-time": "Token timestamp"
   },
   "comment-list": {
@@ -114,7 +114,7 @@
     "sort-vote-desc": "Lowest rating first",
     "sort-controversy": "Controversial questions first",
     "sort-list-time": "Newest question first",
-    "star-was-withdrawn-from-the-question": "The bonus token of the questioner has been removed.",
+    "star-was-withdrawn-from-the-question": "The bonus for the questioner has been removed.",
     "time": "Time",
     "unread": "Not discussed",
     "vote-asc": "Ascending votes",
@@ -463,7 +463,7 @@
     "really-delete-comments": "Do you really want to delete all questions in this room? This action cannot be undone.",
     "really-delete-comments-hint": "There are questions in this room that you marked for a bonus. Remove the stars to delete all questions.",
     "delete-comments-alt-header": "Attention!",
-    "really2": "? This action cannot be undone. If you have given bonus stars, export all questions so that you can check submitted bonus tokens.",
+    "really2": "? This action cannot be undone. If you have given bonus stars, export all questions so that you can check submitted bonus codes.",
     "reallyContent": "Do you really want to delete the content ",
     "reallySession": "Do you really want to delete the room ",
     "room-not-found": "Room not found :(",
@@ -491,7 +491,7 @@
     "correct/wrong": "Correct / Wrong",
     "score": "Score",
     "timestamp": "Timestamp",
-    "token": "Bonus token",
+    "token": "Bonus code",
     "token-time": "Token timestamp",
     "nav-to-comment": "Go to question",
     "delete-token": "Delete token",

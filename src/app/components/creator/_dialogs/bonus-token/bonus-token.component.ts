@@ -73,6 +73,7 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
       this.bonusTokens = this.bonusTokens.filter(bt => bt.token !== payload.token);
       this.updateTable(false);
     });
+    this.sortData({active: 'questionNumber', direction: 'asc'});
   }
 
   getTokens(): void {

@@ -439,7 +439,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
       });
       e.menuItem({
         translate: this.headerService.getTranslate(),
-        icon: 'cloud_queue',
+        icon: 'blur_on',
         class: '',
         text: 'header.tag-cloud',
         callback: () => this.headerService.getHeaderComponent().navigateTopicCloud(),

@@ -434,7 +434,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
       });
       e.menuItem({
         translate: this.headerService.getTranslate(),
-        icon: 'cloud_download',
+        icon: 'blur_on',
         class: 'material-icons-outlined',
         text: 'header.tag-cloud-screenshot',
         callback: () => {
@@ -451,7 +451,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
       });
       e.menuItem({
         translate: this.headerService.getTranslate(),
-        icon: 'cloud_queue',
+        icon: 'blur_on',
         class: 'material-icons-outlined',
         text: 'header.tag-cloud-config',
         callback: () => this.drawer.toggle(),

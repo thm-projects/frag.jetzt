@@ -41,7 +41,7 @@
               *ngIf="!router.url.endsWith('moderator/comments') && router.url.endsWith('/comments') &&
                      deviceInfo.isCurrentlyDesktop"
               (click)="navigateTopicCloud()">
-        <mat-icon style="margin-right: 15px">cloud_queue</mat-icon>
+        <mat-icon style="margin-right: 15px">blur_on</mat-icon>
         <span>{{'header.tag-cloud' | translate}}</span>
       </button>
 
@@ -164,7 +164,7 @@
                   matTooltip="{{'header.overview-admin-config-enabled' | translate}}">
             <mat-icon class="oldtypo-h2 comment_tag-icon"
                       style="color: var(--red) !important; font-size: 24px !important; margin-top: -8px;">
-              cloud_queue
+              blur_on
             </mat-icon>
           </button>
           <button mat-icon-button
@@ -326,7 +326,8 @@
       <div class="label-icon">
         <mat-icon *ngIf="user.isGuest"
                   class="header-icons material-icons-filled color-warn"
-                  [matTooltip]="'header.guest-account-tooltip' | translate">notifications
+                  style="margin-right: 5px"
+                  [matTooltip]="'header.guest-account-tooltip' | translate">report
         </mat-icon>
         <mat-icon
           *ngIf="this.router.url.indexOf('/room/') > 0"
