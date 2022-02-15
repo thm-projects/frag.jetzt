@@ -1,11 +1,10 @@
-import { Component, OnInit, OnDestroy, Renderer2, AfterViewInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { EventService } from '../../../services/util/event.service';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { KeyboardUtils } from '../../../utils/keyboard';
 import { KeyboardKey } from '../../../utils/keyboard/keys';
 import { TranslateService } from '@ngx-translate/core';
 import { OnboardingService } from '../../../services/util/onboarding.service';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-home-page',

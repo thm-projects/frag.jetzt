@@ -9,7 +9,7 @@ import { CorrectWrong } from '../../models/correct-wrong.enum';
 import { filter, map } from 'rxjs/operators';
 import { AuthenticationService } from '../http/authentication.service';
 
-interface FilterResult {
+export interface FilterResult {
   comments: Comment[];
   timeFilteredCount: number;
 }

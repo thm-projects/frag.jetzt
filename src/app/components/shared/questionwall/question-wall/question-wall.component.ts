@@ -8,19 +8,18 @@ import { AuthenticationService } from '../../../../services/http/authentication.
 import { LanguageService } from '../../../../services/util/language.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Rescale } from '../../../../models/rescale';
-import { QuestionWallKeyEventSupport } from '../QuestionWallKeyEventSupport';
 import { MatSliderChange } from '@angular/material/slider';
 import { RoomDataService } from '../../../../services/util/room-data.service';
 import { User } from '../../../../models/user';
 import { UserRole } from '../../../../models/user-roles.enum';
 import { SessionService } from '../../../../services/util/session.service';
 import { RoomDataFilterService } from '../../../../services/util/room-data-filter.service';
-import { FilterType, Period, RoomDataFilter, SortType } from '../../../../services/util/room-data-filter';
+import { FilterType, Period, SortType } from '../../../../services/util/room-data-filter';
 import { Room } from '../../../../models/room';
-import { mergeMap } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { IntroductionQuestionWallComponent } from '../../_dialogs/introductions/introduction-question-wall/introduction-question-wall.component';
 import { QuestionWallConfig } from '../QuestionWallConfig';
+import { ComponentLifecycleAdapter } from '../ComponentLifecycleAdapter';
 
 const TIME_FORMAT_DE: [string, string][] =
   [
@@ -73,7 +72,7 @@ const updateTimeAgo = (currentTime: number, dateTime: number): string => {
   templateUrl: './question-wall.component.html',
   styleUrls: ['./question-wall.component.scss']
 })
-export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
+export class QuestionWallComponent extends ComponentLifecycleAdapter implements OnInit, AfterViewInit, OnDestroy {
 
   @ViewChild(ColComponent) colComponent: ColComponent;
   @ViewChild('sidelist') sidelist: ColComponent;
@@ -87,8 +86,6 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   commentsCountUsers = 0;
   unreadComments = 0;
   focusIncommingComments = true;
-  timeUpdateInterval;
-  keySupport: QuestionWallKeyEventSupport;
   filterTitle = '';
   filterDesc = '';
   filterIcon = '';
@@ -118,6 +115,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     private roomDataFilterService: RoomDataFilterService,
     private dialog: MatDialog
   ) {
+    super();
     this.config=new QuestionWallConfig(
       authenticationService,
       router,
@@ -128,8 +126,17 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
       roomDataService,
       sessionService,
       roomDataFilterService,
-      dialog
+      dialog,
+      this
     );
+    this.config.onKeyInit(key=>{
+      key.addKeyEvent('ArrowRight', () => this.nextComment());
+      key.addKeyEvent('ArrowLeft', () => this.prevComment());
+      key.addKeyEvent('ArrowDown', () => this.nextComment());
+      key.addKeyEvent('ArrowUp', () => this.prevComment());
+      key.addKeyEvent('l', () => this.toggleSideList());
+      key.addKeyEvent('q', () => this.toggleQRCode());
+    });
     // this.timeUpdateInterval = setInterval(() => {
     //   const current = new Date().getTime();
     //   this.comments.forEach(e => {
@@ -142,18 +149,6 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     //   currentTimeFormat = lang.toUpperCase() === 'DE' ? TIME_FORMAT_DE : TIME_FORMAT_EN;
     // });
     // this.roomDataFilterService.currentFilter = RoomDataFilter.loadFilter('presentation');
-  }
-
-  public wrap<E>(e: E, action: (e: E) => void) {
-    action(e);
-  }
-
-  public notUndefined<E>(e: E, action: (e: E) => void, elsePart?: () => void) {
-    if (e) {
-      action(e);
-    } else if (elsePart) {
-      elsePart();
-    }
   }
 
   toggleSideList() {
@@ -178,8 +173,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.config.runOnInit();
-    this.isLoading=false;
+    super.ngOnInit();
     // this.roomDataFilterService.currentFilter = RoomDataFilter.loadFilter('presentation');
     // this.authenticationService.watchUser.subscribe(newUser => {
     //   if (newUser) {
@@ -205,42 +199,29 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     // this.initKeySupport();
   }
 
-  initKeySupport() {
-    this.wrap(this.keySupport, key => {
-      key.addKeyEvent('ArrowRight', () => this.nextComment());
-      key.addKeyEvent('ArrowLeft', () => this.prevComment());
-      key.addKeyEvent('ArrowDown', () => this.nextComment());
-      key.addKeyEvent('ArrowUp', () => this.prevComment());
-      key.addKeyEvent('l', () => this.toggleSideList());
-      key.addKeyEvent('q', () => this.toggleQRCode());
-    });
-  }
-
   ngAfterViewInit(): void {
-
-    this.config.runOnAfterViewInit();
-    // document.getElementById('header_rescale').style.display = 'none';
-    // document.getElementById('footer_rescale').style.display = 'none';
-    // setTimeout(() => {
-    //   Rescale.requestFullscreen();
-    // }, 10);
-    // setTimeout(() => {
-    //   Array.from(document.getElementsByClassName('questionwall-screen')[0].getElementsByTagName('button')).forEach(e => {
-    //     e.addEventListener('keydown', e1 => {
-    //       e1.preventDefault();
-    //     });
-    //   });
-    // }, 100);
+    super.ngAfterViewInit();
+    document.getElementById('header_rescale').style.display = 'none';
+    document.getElementById('footer_rescale').style.display = 'none';
+    setTimeout(() => {
+      Rescale.requestFullscreen();
+    }, 10);
+    setTimeout(() => {
+      Array.from(document.getElementsByClassName('questionwall-screen')[0].getElementsByTagName('button')).forEach(e => {
+        e.addEventListener('keydown', e1 => {
+          e1.preventDefault();
+        });
+      });
+    }, 100);
+    this.isLoading=false;
   }
 
   ngOnDestroy(): void {
+    super.ngOnDestroy();
     // this.roomDataFilterService.currentFilter.save('presentation');
-    // this.keySupport.destroy();
     // window.clearInterval(this.timeUpdateInterval);
-    // document.getElementById('header_rescale').style.display = 'block';
-    // document.getElementById('footer_rescale').style.display = 'block';
-    // Rescale.exitFullscreen();
-    this.config.runOnDestroy();
+    document.getElementById('header_rescale').style.display = 'block';
+    document.getElementById('footer_rescale').style.display = 'block';
   }
 
   getTimeAgo(commentId: string): string {
