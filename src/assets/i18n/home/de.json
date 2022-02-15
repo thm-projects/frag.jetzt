@@ -153,7 +153,7 @@
     "moderation-enabled": "Alle Fragen werden moderiert.",
     "QR": "QR-Code der Sitzung in Vollansicht",
     "my-account": "Optionen",
-    "guest-account-tooltip": "Bitte beachte: Du bist als Gast eingeloggt. Als Gast werden deine Räume, Sitzungen und Boni gelöscht, nachdem du dich ausgeloggt hast. Wenn du dich mit einem Konto anmeldest, werden deine Räume, Sitzungen und Boni für 180 Tage nach deinem letzten Besuch gespeichert.",
+    "guest-account-tooltip": "Du bist als Gast eingeloggt. Deine Räume und Boni werden gelöscht, sobald du dich ausloggst. Wenn du dich mit einem Konto anmeldest, werden deine Räume und Boni für 180 Tage nach deinem letzten Besuch gespeichert.",
     "tooltip-participant": "Du bist Teilnehmer*in in diesem Raum.",
     "tooltip-creator": "Du bist Ersteller*in des Raumes.",
     "tooltip-moderator": "Du bist Moderator*in in diesem Raum.",
