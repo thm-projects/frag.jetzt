@@ -101,36 +101,41 @@ export class UserBonusTokenComponent implements OnInit {
   }
 
   redeemStars(useEmail: boolean) {
-    if (this.currentRoom) {
-      this.roomService.getRoomByShortId(this.currentRoom.id)
-        .pipe(
-          switchMap((room) => this.moderatorService.get(room.id)
-            .pipe(
-              switchMap((moderators) => {
-                const moderatorIds = moderators.map((moderator) => moderator.accountId);
-                const userIds = [room.ownerId, ...moderatorIds];
-                return this.moderatorService.getUserData(userIds)
-                  .pipe(
-                    map((users) => {
-                      users.sort((a, b) => userIds.indexOf(a.id) - userIds.indexOf(b.id));
-                      return users.map((user) => (user as any).email as string).filter(e => e);
-                    })
-                  );
-              })
-            ))
-        )
-        .subscribe(ids => {
-          if (useEmail) {
-            this.redeemEmail(ids[0] || '', ids.slice(1));
-          } else {
-            this.redeemClipboard(ids[0] || '', ids.slice(1));
-          }
+    if(!this.currentRoom) {
+      if (this.rooms.length > 0 && this.rooms[0]){
+        this.currentRoom = this.rooms[0];
+      } else {
+        this.translationService.get('user-bonus-token.please-choose').subscribe(msg => {
+          this.notificationService.show(msg);
         });
-    } else {
-      this.translationService.get('user-bonus-token.please-choose').subscribe(msg => {
-        this.notificationService.show(msg);
-      });
+        return;
+      }
     }
+
+    this.roomService.getRoomByShortId(this.currentRoom.id)
+      .pipe(
+        switchMap((room) => this.moderatorService.get(room.id)
+          .pipe(
+            switchMap((moderators) => {
+              const moderatorIds = moderators.map((moderator) => moderator.accountId);
+              const userIds = [room.ownerId, ...moderatorIds];
+              return this.moderatorService.getUserData(userIds)
+                .pipe(
+                  map((users) => {
+                    users.sort((a, b) => userIds.indexOf(a.id) - userIds.indexOf(b.id));
+                    return users.map((user) => (user as any).email as string).filter(e => e);
+                  })
+                );
+            })
+          ))
+      )
+      .subscribe(ids => {
+        if (useEmail) {
+          this.redeemEmail(ids[0] || '', ids.slice(1));
+        } else {
+          this.redeemClipboard(ids[0] || '', ids.slice(1));
+        }
+      });
   }
 
   buildDeclineActionCallback(): () => void {
