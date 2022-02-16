@@ -43,6 +43,7 @@ import {
 import { DeviceInfoService } from '../../../services/util/device-info.service';
 import { ArsComposeService } from '../../../../../projects/ars/src/lib/services/ars-compose.service';
 import { HeaderService } from '../../../services/util/header.service';
+import { TagCloudDataService } from '../../../services/util/tag-cloud-data.service';
 
 @Component({
   selector: 'app-comment-list',
@@ -117,6 +118,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
     public deviceInfo: DeviceInfoService,
     private composeService: ArsComposeService,
     private headerService: HeaderService,
+    private cloudDataService: TagCloudDataService,
   ) {
     langService.getLanguage().subscribe(lang => {
       translateService.use(lang);
@@ -443,7 +445,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
         class: '',
         text: 'header.tag-cloud',
         callback: () => this.headerService.getHeaderComponent().navigateTopicCloud(),
-        condition: () => this.deviceInfo.isCurrentlyMobile
+        condition: () => this.deviceInfo.isCurrentlyMobile && ((this.cloudDataService.currentData?.size || 0) > 0)
       });
       e.menuItem({
         translate: this.headerService.getTranslate(),
@@ -451,7 +453,8 @@ export class CommentListComponent implements OnInit, OnDestroy {
         class: 'material-icons-outlined',
         text: 'header.brainstorming',
         callback: () => this.headerService.getHeaderComponent().navigateBrainstorming(),
-        condition: () => this.deviceInfo.isCurrentlyMobile
+        condition: () => this.deviceInfo.isCurrentlyMobile &&
+          (!!this.room?.brainstormingSession || this.userRole > UserRole.PARTICIPANT)
       });
       e.menuItem({
         translate: this.headerService.getTranslate(),

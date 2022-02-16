@@ -387,7 +387,15 @@
     "tooltip-label-video": "Enter video URL ...",
     "tooltip-placeholder-video": "Video address must begin with https://...",
     "tooltip-label-formula": "Enter a formula, for example …",
-    "tooltip-placeholder-formula": "We support the KaTeX formula set."
+    "tooltip-placeholder-formula": "We support the KaTeX formula set.",
+    "tooltip-toolbar-bold": "Bold",
+    "tooltip-toolbar-unordered-list": "Bullet list",
+    "tooltip-toolbar-ordered-list": "Numbered list",
+    "tooltip-toolbar-blockquote": "Cite",
+    "tooltip-toolbar-link": "Create link",
+    "tooltip-toolbar-code": "Mark as source code",
+    "tooltip-toolbar-formula": "Insert formula",
+    "tooltip-toolbar-emote": "Insert emote"
   },
   "tag-cloud": {
     "demo-data-topic": "Topic %d",

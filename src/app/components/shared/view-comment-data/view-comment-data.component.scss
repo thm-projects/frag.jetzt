@@ -73,6 +73,19 @@
       stroke: var(--on-surface);
     }
 
+    .ql-select-wrapper {
+      position: relative;
+      float: left;
+
+      > select.ql-color {
+        width: 1px;
+        height: 1px;
+        position: relative;
+        vertical-align: bottom;
+        display: inline-block !important;
+      }
+    }
+
     .ql-picker {
       color: var(--on-surface);
       font-size: inherit !important;

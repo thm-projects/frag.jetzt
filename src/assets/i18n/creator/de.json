@@ -381,7 +381,19 @@
     "tooltip-label-video": "Video-URL eingeben …",
     "tooltip-placeholder-video": "Die Video-Adresse muss mit https://… beginnen.",
     "tooltip-label-formula": "Gib eine Formel ein, zum Beispiel …",
-    "tooltip-placeholder-formula": "Wir unterstützen den KaTeX-Formelsatz."
+    "tooltip-placeholder-formula": "Wir unterstützen den KaTeX-Formelsatz.",
+    "tooltip-toolbar-bold": "Fett",
+    "tooltip-toolbar-color": "Schriftfarbe",
+    "tooltip-toolbar-strike": "Durchstreichen",
+    "tooltip-toolbar-unordered-list": "Aufzählungsliste",
+    "tooltip-toolbar-ordered-list": "Nummerierte Liste",
+    "tooltip-toolbar-blockquote": "Zitieren",
+    "tooltip-toolbar-link": "Link erstellen",
+    "tooltip-toolbar-image": "Bild einfügen",
+    "tooltip-toolbar-video": "Video einfügen",
+    "tooltip-toolbar-code": "Als Quellcode kennzeichnen",
+    "tooltip-toolbar-formula": "Formel einfügen",
+    "tooltip-toolbar-emote": "Emote einfügen"
   },
   "moderators-dialog": {
     "title": "Gast- & Dauermoderatoren",
