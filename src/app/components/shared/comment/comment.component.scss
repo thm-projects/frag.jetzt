@@ -403,7 +403,7 @@ button:focus {
       > mat-icon {
         transform: scale(3.3);
         line-height: 10.5px;
-        padding-right: 10px;
+        padding-right: 15px;
       }
 
       font-family: 'Roboto', sans-serif;
@@ -411,7 +411,7 @@ button:focus {
       padding: 0;
       font-weight: bold;
       font-style: normal;
-      margin: 55px 95px 0 0;
+      margin: 55px 100px 0 0;
       color: var(--on-surface);
       opacity: 0.1;
       float: right;
@@ -419,7 +419,7 @@ button:focus {
       z-index: 0;
 
       @include onSmallWidth(430px) {
-        margin: 50px 50px 0 0;
+        margin: 60px 65px 0 0;
       }
 
       @include onSmallWidth(370px) {
