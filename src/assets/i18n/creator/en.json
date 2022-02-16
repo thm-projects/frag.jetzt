@@ -78,6 +78,7 @@
     "a11y-select-time-all": "Show all questions",
     "answered": "Answered questions",
     "add-comment": "Ask a question to the audience!",
+    "ask-question-empty": "Here you can ask your question.",
     "add-idea": "Enter your idea!",
     "pause-comments": "Freezes the display to read or present the questions at rest. Questions can still be asked and scored. The display is only updated again by clicking the button.",
     "play-comments": "Start the question stream",

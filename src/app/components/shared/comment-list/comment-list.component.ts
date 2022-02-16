@@ -382,6 +382,12 @@ export class CommentListComponent implements OnInit, OnDestroy {
     this.applyFilterByKey('number', +questionNumber.value);
   }
 
+  isCommentListEmpty(): boolean {
+    return this.comments &&
+      (this.commentsFilteredByTimeLength < 1 && this.period === 'time-all' || this.comments.length === 0) &&
+      !this.isLoading;
+  }
+
   private receiveRoom(room: Room) {
     this.room = room;
     this.moderationEnabled = room.moderated;

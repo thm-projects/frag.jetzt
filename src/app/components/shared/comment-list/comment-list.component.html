@@ -313,11 +313,15 @@
 <button *ngIf="commentsEnabled"
         mat-fab
         mat-icon-button
+        [ngClass]="{
+          center_screen: isCommentListEmpty()
+         }"
         aria-labelledby="add"
         class="fab_add_comment"
         (click)="writeComment()"
         matTooltip="{{ 'comment-list.add-comment' | translate }}">
   <mat-icon>add</mat-icon>
+  <p class="oldtypo-p" *ngIf="isCommentListEmpty()">{{'comment-list.ask-question-empty' | translate}}</p>
 </button>
 
 <app-mat-spinner-overlay *ngIf="isLoading" overlay="true"></app-mat-spinner-overlay>
@@ -358,7 +362,7 @@
 
 <!-- No Questions Present -->
 <div
-  *ngIf="comments && (commentsFilteredByTimeLength < 1 && period === 'time-all' || comments.length === 0) && !isLoading"
+  *ngIf="isCommentListEmpty()"
   fxLayout="row"
   fxLayoutAlign="center center"
   class="no-comments">
