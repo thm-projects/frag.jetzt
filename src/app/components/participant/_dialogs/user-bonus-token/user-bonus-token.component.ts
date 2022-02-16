@@ -102,7 +102,7 @@ export class UserBonusTokenComponent implements OnInit {
 
   redeemStars(useEmail: boolean) {
     if(!this.currentRoom) {
-      if (this.rooms.length > 0 && this.rooms[0]){
+      if (this.rooms.length === 1 && this.rooms[0]){
         this.currentRoom = this.rooms[0];
       } else {
         this.translationService.get('user-bonus-token.please-choose').subscribe(msg => {
