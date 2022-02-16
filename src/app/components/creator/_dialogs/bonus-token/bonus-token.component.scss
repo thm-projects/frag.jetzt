@@ -13,7 +13,9 @@ p {
 }
 
 .selected {
-  color: var(--red) !important;
+  color: var(--green) !important;
+  font-size: 18px !important;
+  font-weight: bold;
 }
 
 .flexbox-container {
