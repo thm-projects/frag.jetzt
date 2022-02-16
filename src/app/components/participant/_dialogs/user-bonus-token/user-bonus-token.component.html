@@ -13,7 +13,7 @@
 
     <div fxLayout="column">
       <form class="example-form">
-        <mat-form-field class="example-full-width">
+        <mat-form-field *ngIf="rooms.length > 1" class="example-full-width">
           <mat-label class="placeholder">{{ 'user-bonus-token.choose-session' | translate }}</mat-label>
           <input type="text"
                  matInput
