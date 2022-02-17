@@ -78,6 +78,7 @@
     "a11y-select-time-all": "Show all questions",
     "answered": "Answered questions",
     "add-comment": "Ask a question to the audience!",
+    "ask-question-empty": "Here you can ask your question.",
     "add-idea": "Enter your idea!",
     "pause-comments": "Freezes the display to read or present the questions at rest. Questions can still be asked and scored. The display is only updated again by clicking the button.",
     "play-comments": "Start the question stream",
@@ -382,7 +383,19 @@
     "tooltip-label-video": "Enter video URL ...",
     "tooltip-placeholder-video": "Video address must begin with https://...",
     "tooltip-label-formula": "Enter a formula, for example …",
-    "tooltip-placeholder-formula": "We support the KaTeX formula set."
+    "tooltip-placeholder-formula": "We support the KaTeX formula set.",
+    "tooltip-toolbar-bold": "Bold",
+    "tooltip-toolbar-color": "Font color",
+    "tooltip-toolbar-strike": "Strike through",
+    "tooltip-toolbar-unordered-list": "Bullet list",
+    "tooltip-toolbar-ordered-list": "Numbered list",
+    "tooltip-toolbar-blockquote": "Cite",
+    "tooltip-toolbar-link": "Create link",
+    "tooltip-toolbar-image": "Insert image",
+    "tooltip-toolbar-video": "Insert video",
+    "tooltip-toolbar-code": "Mark as source code",
+    "tooltip-toolbar-formula": "Insert formula",
+    "tooltip-toolbar-emote": "Insert emote"
   },
   "moderators-dialog": {
     "title": "Guest & permanent moderators",

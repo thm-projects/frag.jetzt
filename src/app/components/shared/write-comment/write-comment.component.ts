@@ -168,6 +168,14 @@ export class WriteCommentComponent implements OnInit {
     return this.selectedLang === 'auto' ? wordsCheck.language.detectedLanguage.confidence >= 0.5 : true;
   }
 
+  isSpellcheckingButtonDisabled(): boolean {
+    if (!this.commentData) {
+      return true;
+    }
+    const text = this.commentData.currentText;
+    return text.length < 5 || text.trim().split(/\s+/, 3).length < 3;
+  }
+
   checkSpellings(text: string, language: Language = this.selectedLang) {
     return this.languagetoolService.checkSpellings(text, language);
   }

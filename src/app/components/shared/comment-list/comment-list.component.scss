@@ -249,7 +249,17 @@ h3 {
   background-color: var(--primary);
   color: var(--on-primary);
   transform: scale(1.4);
-  transition: all 0.1s ease-in-out;
+  transition: all 0.5s ease-in-out;
+
+  &.center_screen {
+    right: calc(50% - 20px);
+    bottom: calc(50% - 20px);
+  }
+
+  p {
+    position: absolute;
+    transform: translate(calc(-50% + 12px), 0) scale(calc(1 / 1.4));
+  }
 }
 
 #createCommentJoyrideWrapper {

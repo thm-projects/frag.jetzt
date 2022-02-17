@@ -77,7 +77,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     private onboardingService: OnboardingService,
     public themeService: ThemeService,
     public sessionService: SessionService,
-    private tagCloudDataService: TagCloudDataService,
+    public tagCloudDataService: TagCloudDataService,
     private languageService: LanguageService,
     public deviceInfo: DeviceInfoService,
     private commentNotificationService: CommentNotificationService,

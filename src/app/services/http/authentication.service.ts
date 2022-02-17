@@ -261,7 +261,7 @@ export class AuthenticationService extends BaseHttpService {
 
   private setUser(user: User): void {
     const previousId = JSON.parse(this.dataStoreService.get(STORAGE_KEY) || null)?.id;
-    if (previousId !== user.id) {
+    if (previousId !== user?.id) {
       this.roomAccess.clear();
       this.saveAccessToLocalStorage();
     }
