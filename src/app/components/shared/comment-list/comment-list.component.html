@@ -126,7 +126,6 @@
   <mat-menu #sortMenu="matMenu"
             xPosition="before">
     <button mat-menu-item
-            matTooltip="{{ 'comment-list.time' | translate }}"
             (click)="applySortingByKey('time')"
             aria-labelledby="access_time">
       <mat-icon [ngClass]="{time: 'timesort'}[sortType]">update</mat-icon>
@@ -134,7 +133,6 @@
     </button>
 
     <button mat-menu-item
-            matTooltip="{{ 'comment-list.vote-asc' | translate }}"
             (click)="applySortingByKey('score')"
             aria-labelledby="keyboard_arrow_up">
       <mat-icon class="material-icons-outlined"
@@ -147,7 +145,6 @@
     </button>
 
     <button mat-menu-item
-            matTooltip="{{ 'comment-list.vote-desc' | translate }}"
             (click)="applySortingByKey('score', true)"
             aria-labelledby="keyboard_arrow_down">
       <mat-icon [ngClass]="{score: 'down'}[sortReverse && sortType]"
@@ -316,11 +313,15 @@
 <button *ngIf="commentsEnabled"
         mat-fab
         mat-icon-button
+        [ngClass]="{
+          center_screen: isCommentListEmpty()
+         }"
         aria-labelledby="add"
         class="fab_add_comment"
         (click)="writeComment()"
         matTooltip="{{ 'comment-list.add-comment' | translate }}">
   <mat-icon>add</mat-icon>
+  <p class="oldtypo-p" *ngIf="isCommentListEmpty()">{{'comment-list.ask-question-empty' | translate}}</p>
 </button>
 
 <app-mat-spinner-overlay *ngIf="isLoading" overlay="true"></app-mat-spinner-overlay>
@@ -357,11 +358,11 @@
 
 </div>
 <!-- Active User Overlay -->
-<app-active-user *ngIf="room" [room]="this.room"></app-active-user>
+<app-active-user *ngIf="room" [alwaysShowInHeader]="true" [room]="this.room"></app-active-user>
 
 <!-- No Questions Present -->
 <div
-  *ngIf="comments && (commentsFilteredByTimeLength < 1 && period === 'time-all' || comments.length === 0) && !isLoading"
+  *ngIf="isCommentListEmpty()"
   fxLayout="row"
   fxLayoutAlign="center center"
   class="no-comments">

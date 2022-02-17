@@ -17,6 +17,7 @@ import { LanguagetoolResult } from '../../../services/http/languagetool.service'
 import { NotificationService } from '../../../services/util/notification.service';
 import { AccessibilityEscapedInputDirective } from '../../../directives/accessibility-escaped-input.directive';
 import { EventService } from '../../../services/util/event.service';
+import { MatTooltip } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-view-comment-data',
@@ -29,6 +30,8 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
   @ViewChild('quillView') quillView: QuillViewComponent;
   @ViewChild('editorErrorLayer') editorErrorLayer: ElementRef<HTMLDivElement>;
   @ViewChild('tooltipContainer') tooltipContainer: ElementRef<HTMLDivElement>;
+  @ViewChild('moderatorToolbarFontColor') moderatorToolbarFontColor: ElementRef<HTMLSelectElement>;
+  @ViewChild('moderatorToolbarFontColorTooltip') moderatorToolbarFontColorTooltip: MatTooltip;
   @Input() textOverwrite: string = null;
   @Input() isEditor = false;
   @Input() isBrainstorming = false;
@@ -189,6 +192,20 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
         new ElementRef(this.editor.editorElem.firstElementChild as HTMLElement),
         this.eventService
       ).ngAfterViewInit();
+      const tooltip = this.moderatorToolbarFontColor?.nativeElement?.previousElementSibling;
+      if (tooltip) {
+        this.moderatorToolbarFontColor.nativeElement.style.opacity = '0';
+        tooltip.addEventListener('mouseenter', () => this.moderatorToolbarFontColorTooltip.show());
+        tooltip.addEventListener('mouseleave', () => this.moderatorToolbarFontColorTooltip.hide());
+        const picker = tooltip.querySelector('.ql-picker-options');
+        tooltip.addEventListener('mouseover', e => {
+          if (picker.contains(e.target as Node)) {
+            this.moderatorToolbarFontColorTooltip.hide();
+          } else {
+            this.moderatorToolbarFontColorTooltip.show();
+          }
+        });
+      }
       this.overrideQuillTooltip();
       this.syncErrorLayer();
       if (this.afterEditorInit) {

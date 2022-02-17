@@ -4,7 +4,6 @@ import { themes, themes_meta } from './arsnova-theme.const';
 import { Theme } from './Theme';
 
 const LOCAL_THEME_KEY = 'currentActiveTheme';
-const LOCAL_THEME_USE_SYSTEM_KEY = 'useSystemPropertiesForTheme';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +13,6 @@ export class ThemeService {
   private themes: Theme[] = [];
   private _activeTheme: Theme = null;
   private _isSystemDark = false;
-  private _isUsingSystemProperties = ThemeService.isUsingSystemProperties();
 
   constructor() {
     const isMobile = window.matchMedia && window.matchMedia('(max-width: 499px)').matches;
@@ -30,13 +28,15 @@ export class ThemeService {
       );
     }
     this.themes.sort((a, b) => a.order - b.order);
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+    const darkMatch = window.matchMedia('(prefers-color-scheme: dark)');
+    this._isSystemDark = darkMatch.matches;
+    darkMatch.addEventListener('change', e => {
       this._isSystemDark = e.matches;
       if (this._activeTheme?.key === 'systemDefault') {
         this.updateBySystem();
       }
     });
-    this.activate(!this._isUsingSystemProperties && ThemeService.getActiveThemeConfig() || 'systemDefault');
+    this.activate(ThemeService.getActiveThemeConfig() || 'dark');
   }
 
   private static getActiveThemeConfig(): string {
@@ -45,14 +45,6 @@ export class ThemeService {
 
   private static setActiveThemeConfig(themeKey: string): void {
     localStorage.setItem(LOCAL_THEME_KEY, themeKey);
-  }
-
-  private static isUsingSystemProperties(): boolean {
-    return localStorage.getItem(LOCAL_THEME_USE_SYSTEM_KEY) === 'true';
-  }
-
-  private static setUsingSystemProperties(isUsingProps: boolean): void {
-    localStorage.setItem(LOCAL_THEME_USE_SYSTEM_KEY, String(isUsingProps));
   }
 
   get activeTheme(): Theme {
@@ -74,10 +66,8 @@ export class ThemeService {
     }
     ThemeService.setActiveThemeConfig(name);
     if (name === 'systemDefault') {
-      ThemeService.setUsingSystemProperties(true);
       this.updateBySystem();
     } else {
-      ThemeService.setUsingSystemProperties(false);
       this.currentThemeSubject.next(this._activeTheme);
     }
   }

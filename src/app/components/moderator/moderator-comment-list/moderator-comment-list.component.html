@@ -107,7 +107,6 @@
   <mat-menu #sortMenu="matMenu"
             xPosition="before">
     <button mat-menu-item
-            matTooltip="{{ 'comment-list.time' | translate }}"
             (click)="applySortingByKey('time')"
             aria-labelledby="access_time">
       <mat-icon [ngClass]="{time: 'timesort'}[sortType]">update</mat-icon>
@@ -115,7 +114,6 @@
     </button>
 
     <button mat-menu-item
-            matTooltip="{{ 'comment-list.vote-asc' | translate }}"
             (click)="applySortingByKey('score')"
             aria-labelledby="keyboard_arrow_up">
       <mat-icon class="material-icons-outlined"
@@ -126,7 +124,6 @@
     </button>
 
     <button mat-menu-item
-            matTooltip="{{ 'comment-list.vote-desc' | translate }}"
             (click)="applySortingByKey('score', true)"
             aria-labelledby="keyboard_arrow_down">
       <mat-icon [ngClass]="{score: 'down'}[sortReverse && sortType]"

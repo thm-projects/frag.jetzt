@@ -77,6 +77,7 @@
     "a11y-select-time-2w": "Zeige alle Fragen der letzten 14 Tage an",
     "a11y-select-time-all": "Zeige alle Fragen an",
     "add-comment": "Stell eine Frage ans Publikum!",
+    "ask-question-empty": "Hier kannst du deine Frage stellen.",
     "add-idea": "Gib deine Idee ein!",
     "answered": "Beantwortete Fragen",
     "pause-comments": "Friert die Anzeige ein, um die Fragen in Ruhe zu lesen oder zu präsentieren. Fragen können weiterhin gestellt und bewertet werden. Die Anzeige aktualisiert sich wieder durch Klicken des Buttons.",
@@ -381,7 +382,19 @@
     "tooltip-label-video": "Video-URL eingeben …",
     "tooltip-placeholder-video": "Die Video-Adresse muss mit https://… beginnen.",
     "tooltip-label-formula": "Gib eine Formel ein, zum Beispiel …",
-    "tooltip-placeholder-formula": "Wir unterstützen den KaTeX-Formelsatz."
+    "tooltip-placeholder-formula": "Wir unterstützen den KaTeX-Formelsatz.",
+    "tooltip-toolbar-bold": "Fett",
+    "tooltip-toolbar-color": "Schriftfarbe",
+    "tooltip-toolbar-strike": "Durchstreichen",
+    "tooltip-toolbar-unordered-list": "Aufzählungsliste",
+    "tooltip-toolbar-ordered-list": "Nummerierte Liste",
+    "tooltip-toolbar-blockquote": "Zitieren",
+    "tooltip-toolbar-link": "Link erstellen",
+    "tooltip-toolbar-image": "Bild einfügen",
+    "tooltip-toolbar-video": "Video einfügen",
+    "tooltip-toolbar-code": "Als Quellcode kennzeichnen",
+    "tooltip-toolbar-formula": "Formel einfügen",
+    "tooltip-toolbar-emote": "Emote einfügen"
   },
   "moderators-dialog": {
     "title": "Gast- & Dauermoderatoren",

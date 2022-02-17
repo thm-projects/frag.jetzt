@@ -65,6 +65,7 @@
     "a11y-activity": "Aktive Benutzer",
     "answered": "Beantwortete Fragen",
     "add-comment": "Stell deine Frage!",
+    "ask-question-empty": "Hier kannst du deine Frage stellen.",
     "add-idea": "Gib deine Idee ein!",
     "pause-comments": "Friert die Anzeige ein, um die Fragen in Ruhe zu lesen. Fragen können weiterhin gestellt und bewertet werden. Die Anzeige aktualisiert sich wieder durch Klicken des Buttons.",
     "play-comments": "Neue Fragen und Bewertungen wieder anzeigen",
@@ -380,7 +381,15 @@
     "tooltip-label-video": "Video-URL eingeben …",
     "tooltip-placeholder-video": "Die Video-Adresse muss mit https://… beginnen.",
     "tooltip-label-formula": "Gib eine Formel ein, zum Beispiel …",
-    "tooltip-placeholder-formula": "Wir unterstützen den KaTeX-Formelsatz."
+    "tooltip-placeholder-formula": "Wir unterstützen den KaTeX-Formelsatz.",
+    "tooltip-toolbar-bold": "Fett",
+    "tooltip-toolbar-unordered-list": "Aufzählungsliste",
+    "tooltip-toolbar-ordered-list": "Nummerierte Liste",
+    "tooltip-toolbar-blockquote": "Zitieren",
+    "tooltip-toolbar-link": "Link erstellen",
+    "tooltip-toolbar-code": "Als Quellcode kennzeichnen",
+    "tooltip-toolbar-formula": "Formel einfügen",
+    "tooltip-toolbar-emote": "Emote einfügen"
   },
   "tag-cloud": {
     "demo-data-topic": "Thema %d",
