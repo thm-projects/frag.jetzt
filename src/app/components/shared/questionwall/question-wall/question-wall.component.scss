@@ -195,7 +195,7 @@
           justify-content: center;
           hyphens: auto;
           word-break: break-word;
-          color: yellow;
+          color: darkorange;
         }
 
         &-inner {
@@ -247,7 +247,7 @@
         &-title {
           font-size: 35px;
           padding: 32px 32px 0 32px;
-          color: yellow;
+          color: darkorange;
         }
 
         &-desc {
@@ -286,7 +286,7 @@
   .icon-color {
     color: var(--ars-button-color);
     &-yellow{
-      color:yellow;
+      color:darkorange;
       transform:scale(1.5);
     }
   }
@@ -296,10 +296,10 @@
 :host ::ng-deep {
   .questionwall-present-markdown {
     max-width: 100%;
-    color: yellow;
+    color: darkorange;
 
     hr {
-      border: 1px solid yellow;
+      border: 1px solid darkorange;
     }
   }
 
@@ -342,7 +342,7 @@
     &-on{
       width:20px;
       height:20px;
-      background-color: yellow;
+      background-color: darkorange;
     }
     &-off{
       width:10px;

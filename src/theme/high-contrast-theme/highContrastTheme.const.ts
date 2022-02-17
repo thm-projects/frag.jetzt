@@ -24,7 +24,7 @@ export const highcontrast = {
   '--green': 'green',
   '--red': 'red',
   '--white': '#ffffff',
-  '--yellow': 'yellow',
+  '--yellow': 'darkorange',
   '--blue': '#3833e9',
   '--purple': 'purple',
   '--magenta': '#ea0a8e',
@@ -34,7 +34,7 @@ export const highcontrast = {
   '--black': 'black',
   '--moderator': 'black',
 
-  '--questionwall-intro-primary':'yellow',
+  '--questionwall-intro-primary':'darkorange',
   '--questionwall-intro-secondary':'#eadabf',
   '--questionwall-intro-background':'#121212'
 
