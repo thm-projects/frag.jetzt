@@ -24,7 +24,7 @@ export const dark = {
   '--green': 'darkgreen',
   '--red': 'red',
   '--white': '#ffffff',
-  '--yellow': 'yellow',
+  '--yellow': 'darkorange',
   '--blue': '#3f51b5',
   '--purple': 'purple',
   '--magenta': '#ea0a8e',
@@ -34,7 +34,7 @@ export const dark = {
   '--black': 'black',
   '--moderator': 'black',
 
-  '--questionwall-intro-primary': 'yellow',
+  '--questionwall-intro-primary': 'darkorange',
   '--questionwall-intro-secondary': '#eadabf',
   '--questionwall-intro-background': '#121212'
 
