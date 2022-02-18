@@ -733,7 +733,7 @@
     "date": "Datum"
   },
   "worker-dialog": {
-    "running": "Laufend",
+    "running": "Stichwörter …",
     "room-name" : "Raum",
     "comments" : "Abgearbeitete Fragen",
     "bad-spelled" : "Zu schlechte Rechtschreibung",
