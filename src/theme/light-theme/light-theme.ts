@@ -1,28 +1,28 @@
 export const arsnova = {
 
-  '--primary': 'darkslateblue',
+  '--primary': 'darkblue',
   '--primary-variant': 'aliceblue',
 
-  '--secondary': 'teal',
+  '--secondary': 'darkcyan',
   '--secondary-variant': 'lightgreen',
 
   '--background': 'AliceBlue',
   '--surface': 'mintcream',
   '--dialog': 'aliceblue',
-  '--cancel': 'darkred',
+  '--cancel': 'red',
   '--alt-surface': '#eeeeee',
   '--alt-dialog': 'aliceblue',
 
-  '--on-primary': '#fafad2',
-  '--on-secondary': '#fafad2',
+  '--on-primary': 'white',
+  '--on-secondary': 'white',
   '--on-primary-variant': '#000000',
   '--on-background': '#000000',
   '--on-surface': '#000000',
   '--on-dialog': '#000000',
   '--on-cancel': 'white',
 
-  '--green': 'darkgreen',
-  '--red': 'darkred',
+  '--green': 'green',
+  '--red': 'red',
   '--white': '#ffffff',
   '--yellow': 'darkorange',
   '--blue': '#002878',
@@ -35,7 +35,7 @@ export const arsnova = {
   '--moderator': 'lightpink',
 
   '--questionwall-intro-primary': 'darkorange',
-  '--questionwall-intro-secondary': '#eadabf',
+  '--questionwall-intro-secondary': 'white',
   '--questionwall-intro-background': '#121212'
 
 };

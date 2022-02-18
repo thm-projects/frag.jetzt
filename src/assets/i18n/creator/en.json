@@ -731,8 +731,8 @@
     "date": "Date"
   },
   "worker-dialog": {
-    "running": "Running",
-    "room-name": "Room name",
+    "running": "Keywords …",
+    "room-name": "Room",
     "comments": "Questions",
     "bad-spelled": "Spelling too bad",
     "failed": "Error occurred",
