@@ -397,9 +397,9 @@ export class RoomPageComponent implements OnInit, OnDestroy {
       });
       e.menuItem({
         translate: this.headerService.getTranslate(),
-        icon: 'comment_tag',
+        icon: 'sell',
         class: 'material-icons-outlined',
-        isSVGIcon: true,
+        isSVGIcon: false,
         text: 'header.edit-tags',
         callback: () => this.showTagsDialog(),
         condition: () => this.userRole > UserRole.PARTICIPANT

@@ -404,8 +404,8 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   filterTag(tag: string) {
-    this.filterIcon = 'comment_tag';
-    this.isSvgIcon = true;
+    this.filterIcon = 'sell';
+    this.isSvgIcon = false;
     this.filterTitle = '';
     this.filterDesc = tag;
     const filter = this.roomDataFilterService.currentFilter;
