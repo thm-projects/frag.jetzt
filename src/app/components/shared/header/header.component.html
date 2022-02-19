@@ -336,8 +336,10 @@
           [matTooltip]="'header.' + getCurrentRoleDescription() | translate">
           {{getCurrentRoleIcon()}}
         </mat-icon>
-        <mat-icon class="header-icons"
-                  [matTooltip]="'header.my-account' | translate">more_vert
+        <h2 style="margin: 0 0px 0 10px; color: var(--on-surface)"
+            *ngIf="deviceInfo.isCurrentlyDesktop">{{'header.my-account' | translate}}</h2>
+        <mat-icon class="header-icons">
+          more_vert
         </mat-icon>
       </div>
     </ng-template>
