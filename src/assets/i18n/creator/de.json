@@ -362,8 +362,8 @@
     "no-empty-name": "Gib einen Namen ein. Der Raum-Code wird generiert."
   },
   "moderator-join": {
-    "title": "Zugang als Gastmoderator",
-    "description": "Willst du dem Raum »{{room.name}}« als Gastmoderator betreten?",
+    "title": "Zugang als Gastmoderator*in",
+    "description": "Willst du dem Raum »{{room.name}}« als Gastmoderator*in betreten?",
     "cancel": "Abbrechen",
     "confirm": "Ja"
   },
