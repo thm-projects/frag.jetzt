@@ -31,7 +31,7 @@
                      deviceInfo.isCurrentlyDesktop"
               routerLink="quiz">
         <mat-icon class="material-icons-outlined"
-                  style="margin-right: 15px">emoji_events
+                  style="margin-right: 5px">emoji_events
         </mat-icon>
         <span>{{'header.quiz-now' | translate}}</span>
       </button>
@@ -41,7 +41,7 @@
               *ngIf="!router.url.endsWith('moderator/comments') && router.url.endsWith('/comments') &&
                      deviceInfo.isCurrentlyDesktop && ((tagCloudDataService.currentData?.size || 0) > 0)"
               (click)="navigateTopicCloud()">
-        <mat-icon style="margin-right: 15px">blur_on</mat-icon>
+        <mat-icon style="margin-right: 5px">blur_on</mat-icon>
         <span>{{'header.tag-cloud' | translate}}</span>
       </button>
 
@@ -51,7 +51,7 @@
                      deviceInfo.isCurrentlyDesktop && (!!room?.brainstormingSession || userRole > 0)"
               (click)="navigateBrainstorming()">
         <mat-icon class="material-icons-outlined"
-                  style="margin-right: 15px">tips_and_updates
+                  style="margin-right: 5px">tips_and_updates
         </mat-icon>
         <span>{{'header.brainstorming' | translate}}</span>
       </button>
@@ -336,7 +336,7 @@
           [matTooltip]="'header.' + getCurrentRoleDescription() | translate">
           {{getCurrentRoleIcon()}}
         </mat-icon>
-        <h2 style="margin: 0 0px 0 10px; color: var(--on-surface)"
+        <h2 style="margin-left: 10px; color: var(--on-surface)"
             *ngIf="deviceInfo.isCurrentlyDesktop">{{'header.my-account' | translate}}</h2>
         <mat-icon class="header-icons">
           more_vert
