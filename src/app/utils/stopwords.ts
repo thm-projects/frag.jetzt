@@ -9,6 +9,8 @@ export const stopWords = [
   'zb.',
   'zb',
   'z. b.',
+  'z.b.',
+  'z.b',
   'd.h.',
   'd. h.',
   'd.h',
