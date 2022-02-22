@@ -234,7 +234,7 @@
     "tag-to-filter": "Klick auf die Fragenkategorie, um Fragen dieser Kategorie zu filtern.",
     "user-number": "Klick auf das Pin-Icon, um alle Fragen dieses Fragenstellers zu filtern.",
     "keywords-per-question": "Klick auf das #-Zeichen, um die Stichwörter anzuzeigen, die der Fragensteller bestimmt oder aus einer KI-generierten Liste ausgewählt hat.",
-    "keywords-per-answer": "Klick auf das Mehr-Zeichen, um die Stichwörter anzuzeigen, die der Beantworter bestimmt oder aus einer KI-generierten Liste ausgewählt hat.",
+    "keywords-per-answer": "Klick auf das #-Zeichen, um die Stichwörter anzuzeigen, die der Beantworter bestimmt oder aus einer KI-generierten Liste ausgewählt hat.",
     "keywords": "Stichwörter",
     "vote-down": "Frage abwerten",
     "vote-up": "Frage aufwerten",
