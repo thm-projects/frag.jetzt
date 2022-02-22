@@ -3,7 +3,7 @@ export const dark = {
   '--primary': 'darkorange',
   '--primary-variant': 'darkslategrey',
 
-  '--secondary': 'darkgreen',
+  '--secondary': 'blueviolet',
   '--secondary-variant': '#6f74dd',
 
   '--background': '#121212',
@@ -14,19 +14,19 @@ export const dark = {
   '--alt-dialog': '#455a64',
 
   '--on-primary': '#000000',
-  '--on-secondary': '#eadabf',
+  '--on-secondary': 'white',
   '--on-primary-variant': '#eadabf',
   '--on-background': '#eadabf',
   '--on-surface': '#eadabf',
   '--on-dialog': '#eadabf',
   '--on-cancel': 'black',
 
-  '--green': 'darkgreen',
+  '--green': 'lawngreen',
   '--red': 'red',
   '--white': '#ffffff',
   '--yellow': 'darkorange',
   '--blue': '#3f51b5',
-  '--purple': 'purple',
+  '--purple': 'blueviolet',
   '--magenta': '#ea0a8e',
   '--light-green': 'lightgreen',
   '--grey': 'slategrey',
