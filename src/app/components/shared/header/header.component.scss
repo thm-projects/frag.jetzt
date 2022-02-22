@@ -7,6 +7,9 @@
 mat-toolbar {
   background-color: var(--background);
   position: relative;
+  &:first-child {
+    padding-left: 5px;
+  }
 }
 
 .mat-toolbar-moderation {
@@ -120,11 +123,11 @@ h2 {
 }
 
 .mat-button {
-  padding: 0 0 0 10px;
+  padding: 0 5px 0 5px;
 }
 
-button:focus {
-  border: 1px solid var(--on-surface);
+button:hover {
+  outline: 1px solid var(--secondary);
 }
 
 svg {
@@ -215,18 +218,8 @@ h1 {
 
 .focus_button {
   min-height: 28px;
-  font-size: 16px;
-  padding: unset;
+  font-size: 14px;
   color: var(--on-surface);
-
-  &:focus {
-    background: var(--on-surface);
-    color: var(--background);
-
-    mat-icon {
-      color: var(--background);
-    }
-  }
 }
 
 ::ng-deep .mat-slide-toggle.mat-checked .mat-slide-toggle-thumb {

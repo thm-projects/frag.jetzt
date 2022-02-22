@@ -387,10 +387,6 @@ mat-card-content > :first-child {
   }
 }
 
-button:focus {
-  border: 1px solid var(--on-surface);
-}
-
 :host {
   .runningnum-outer {
     width: 100%;
@@ -436,9 +432,4 @@ button:focus {
   .images img {
     max-width: 100% !important;
   }
-}
-
-.mat-icon-button {
-  width: 35px;
-  height: 35px;
 }

@@ -5,13 +5,14 @@ footer {
 #footer-toolbar {
   background-color: var(--background);
   height: auto;
+  padding: 5px 0;
 
   &:first-child {
-    padding-left: 0;
+    padding-left: 5px;
   }
 
   &:last-child {
-    padding-right: 0;
+    padding-right: 5px;
   }
 }
 
@@ -19,6 +20,10 @@ footer {
   min-height: 28px;
   font-size: 12px;
   color: var(--on-surface);
+}
+
+button:hover {
+  outline: 1px solid var(--secondary);
 }
 
 mat-icon {
@@ -199,18 +204,10 @@ mat-icon {
   white-space: nowrap;
   float: left;
   padding: 0px;
-  margin-left: 15px;
+  margin-left: 12px;
+  margin-top: 10px;
 }
 
 .title_bold {
   font-weight: 500;
-}
-
-.focus_button:focus {
-  background: var(--on-surface);
-  color: var(--background);
-}
-
-.focus_item:focus {
-  border: 1px solid var(--on-surface);
 }
