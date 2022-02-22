@@ -193,12 +193,6 @@ a.info:hover span, a.info:focus span, a.info:active span {
   text-align: center;
 }
 
-//TODO: a13y must be revised
-//:focus {
-//  outline: 1px solid var(--on-surface);
-//  outline-offset: 8px;
-//}
-
 a {
   hyphens: auto !important;
 }
@@ -333,7 +327,7 @@ blockquote {
   margin-inline-end: 0;
 }
 
-.mat-tooltip  {
+.mat-tooltip {
   white-space: pre-line;
   color: white;
   background-color: darkslategrey;
