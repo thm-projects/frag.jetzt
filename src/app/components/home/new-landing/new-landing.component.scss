@@ -1,16 +1,19 @@
 .new-session {
-  width: 100%;
   height: 60px;
   border-radius: 5px;
-  margin: 10% 0 10% 0;
   font-size: 16px;
   background-color: var(--background);
   color: var(--on-background);
+  margin: 10% 0;
 }
 
 .add {
-  padding-right: 12px;
-  padding-left: 10px;
+  padding-right: 10px;
+  padding-left: 5px;
   transform: scale(2);
   color: var(--primary);
+}
+
+button:hover {
+  outline: 1px solid var(--secondary);
 }
