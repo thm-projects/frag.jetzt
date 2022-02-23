@@ -146,7 +146,7 @@
     "fullscreen": "Fullscreen & Text",
     "motd": "News",
     "tag-cloud-config": "Look & Animation",
-    "tag-cloud-screenshot": "Print",
+    "tag-cloud-screenshot": "Print keyword cloud",
     "tag-cloud-administration": "AI settings",
     "questions-blocked": "New questions blocked",
     "overview-question-tooltip": "Number of questions",
