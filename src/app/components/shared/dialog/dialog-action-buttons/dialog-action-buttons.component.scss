@@ -9,13 +9,13 @@
 }
 
 .primary-confirm-button {
-  background-color: var(--green);
-  color: var(--white);
+  background-color: var(--primary);
+  color: var(--on-primary);
 }
 
 .alert-confirm-button {
   background-color: var(--green);
-  color: var(--white);
+  color: var(--black);
 }
 
 .dialog-action-buttons .cancel-button:focus {
@@ -25,8 +25,8 @@
 }
 
 .dialog-action-buttons .primary-confirm-button:focus {
-  background: var(--green);
-  color: var(--white);
+  background: var(--primary);
+  color: var(--on-primary);
 }
 
 .spinner-container {

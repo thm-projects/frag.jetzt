@@ -8,7 +8,7 @@
 }
 
 #comment-card {
-  margin: 0 0 16px 0;
+  margin: 16px 0;
   background-color: var(--surface);
   padding: 1.5% 1.5% 3% 3%;
   transition: background-color 0.5s linear,
@@ -247,7 +247,6 @@ mat-card-content > :first-child {
 }
 
 .keyword-answer-icon {
-  margin-right: 10px;
   margin-left: 10px;
   color: var(--primary) !important;
 
@@ -388,10 +387,6 @@ mat-card-content > :first-child {
   }
 }
 
-button:focus {
-  border: 1px solid var(--on-surface);
-}
-
 :host {
   .runningnum-outer {
     width: 100%;
@@ -437,9 +432,4 @@ button:focus {
   .images img {
     max-width: 100% !important;
   }
-}
-
-.mat-icon-button {
-  width: 35px;
-  height: 35px;
 }

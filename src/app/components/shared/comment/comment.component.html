@@ -133,7 +133,7 @@
               tabindex="0">
         <mat-icon class="not-marked"
                   [matTooltip]="'comment-page.edit-change-tag' | translate">
-          style
+          sell
         </mat-icon>
       </button>
 
@@ -223,7 +223,7 @@
            (click)="this.clickedOnTag.emit(comment.tag)"
            *ngIf="comment.tag && comment.tag !== ''"
            class="comment-tags">
-        <mat-icon svgIcon="comment_tag"></mat-icon>
+        <mat-icon>sell</mat-icon>
         <span style="padding-left: 5px">
           {{comment.tag}}
         </span>
@@ -248,8 +248,8 @@
            [mat-menu-trigger-for]="keywordsMenu"
            *ngIf="comment.keywordsFromQuestioner?.length"
            class="comment-keywords">
-        <mat-icon svgIcon="hashtag"
-                  class="keyword-icon"></mat-icon>
+        <mat-icon
+                  class="keyword-icon">tag</mat-icon>
         <span matBadge="{{comment.keywordsFromQuestioner.length}}"
               matBadgeSize="small"
               matBadgeOverlap="false">

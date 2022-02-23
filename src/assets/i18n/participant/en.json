@@ -218,7 +218,7 @@
     "tag-to-filter": "Click on the question category to filter all questions in that category.",
     "user-number": "Click on the pin icon to filter all questions from this questioner.",
     "keywords-per-question": "Click on the # sign to display the keywords that the questioner has determined or selected from an AI-generated list.",
-    "keywords-per-answer": "Click on the 'more' sign to display the keywords that the answerer has determined or selected from an AI-generated list.",
+    "keywords-per-answer": "Click on the # sign to display the keywords that the answerer has determined or selected from an AI-generated list.",
     "keywords": "Keywords",
     "vote-down": "Vote down",
     "vote-up": "Vote up",
@@ -591,7 +591,7 @@
     "bonus-tokens": "\n\nMy bonuses",
     "bonus-token-body1": " from ",
     "bonus-token-body2": " with the question number ",
-    "redeem-clipboard-success": "All required data for the mail to event management was copied to the clipboard.",
+    "redeem-clipboard-success": "All required data for the mail was copied to the clipboard.",
     "redeem-clipboard-failure": "The data could not be saved to the clipboard.",
     "redeem-mail-failure": "Your mail app could not be accessed. Copy the data to the clipboard and use it to create a mail to the event management."
   },
@@ -614,7 +614,7 @@
     "cancel": "Cancel"
   },
   "worker-dialog": {
-    "running": "Running",
+    "running": "Keywords …",
     "room-name": "Room",
     "comments": "Processed questions",
     "bad-spelled": "Spelling too bad",

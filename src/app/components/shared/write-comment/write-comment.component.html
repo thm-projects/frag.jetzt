@@ -28,7 +28,7 @@
           (click)="tagSelect.open()"
           matTooltip="{{ 'spacy-dialog.tag-button-hint' | translate }}"
           matTooltipShowDelay="750">
-    <mat-icon class="btn-icon" svgIcon="comment_tag"></mat-icon>
+    <mat-icon class="btn-icon">sell</mat-icon>
     <label for="tagSelect" *ngIf="!selectedTag"><em>{{'comment-page.tag' | translate}}</em></label>
     <label for="tagSelect" *ngIf="selectedTag">{{selectedTag}}</label>
     <mat-select class="select-list" id="tagSelect" #tagSelect [(ngModel)]="selectedTag">

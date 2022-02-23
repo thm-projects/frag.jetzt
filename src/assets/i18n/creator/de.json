@@ -234,7 +234,7 @@
     "tag-to-filter": "Klick auf die Fragenkategorie, um Fragen dieser Kategorie zu filtern.",
     "user-number": "Klick auf das Pin-Icon, um alle Fragen dieses Fragenstellers zu filtern.",
     "keywords-per-question": "Klick auf das #-Zeichen, um die Stichwörter anzuzeigen, die der Fragensteller bestimmt oder aus einer KI-generierten Liste ausgewählt hat.",
-    "keywords-per-answer": "Klick auf das Mehr-Zeichen, um die Stichwörter anzuzeigen, die der Beantworter bestimmt oder aus einer KI-generierten Liste ausgewählt hat.",
+    "keywords-per-answer": "Klick auf das #-Zeichen, um die Stichwörter anzuzeigen, die der Beantworter bestimmt oder aus einer KI-generierten Liste ausgewählt hat.",
     "keywords": "Stichwörter",
     "vote-down": "Frage abwerten",
     "vote-up": "Frage aufwerten",
@@ -362,8 +362,8 @@
     "no-empty-name": "Gib einen Namen ein. Der Raum-Code wird generiert."
   },
   "moderator-join": {
-    "title": "Zugang als Gastmoderator",
-    "description": "Willst du dem Raum »{{room.name}}« als Gastmoderator betreten?",
+    "title": "Zugang als Gastmoderator*in",
+    "description": "Willst du dem Raum »{{room.name}}« als Gastmoderator*in betreten?",
     "cancel": "Abbrechen",
     "confirm": "Ja"
   },
@@ -733,7 +733,7 @@
     "date": "Datum"
   },
   "worker-dialog": {
-    "running": "Laufend",
+    "running": "Stichwörter …",
     "room-name" : "Raum",
     "comments" : "Abgearbeitete Fragen",
     "bad-spelled" : "Zu schlechte Rechtschreibung",

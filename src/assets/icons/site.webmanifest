@@ -2,7 +2,7 @@
     "name": "frag.jetzt",
     "short_name": "frag.jetzt",
     "description": "Die Digitalisierung des Nachfragens",
-    "categories": ["education"],
+    "categories": ["education", "audience response system", "Q&A"],
     "lang": "de",
 
     "icons": [

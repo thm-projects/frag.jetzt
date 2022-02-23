@@ -208,7 +208,7 @@
     "tag-to-filter": "Klick auf die Fragenkategorie, um alle Fragen dieser Kategorie zu filtern.",
     "user-number": "Klick auf das Pin-Icon, um alle Fragen dieses Fragenstellers zu filtern.",
     "keywords-per-question": "Klick auf das #-Zeichen, um die Stichwörter anzuzeigen, die der Fragensteller bestimmt oder aus einer KI-generierten Liste ausgewählt hat.",
-    "keywords-per-answer": "Klick auf das Mehr-Zeichen, um die Stichwörter anzuzeigen, die der Beantworter bestimmt oder aus einer KI-generierten Liste ausgewählt hat.",
+    "keywords-per-answer": "Klick auf das #-Zeichen, um die Stichwörter anzuzeigen, die der Beantworter bestimmt oder aus einer KI-generierten Liste ausgewählt hat.",
     "keywords": "Stichwörter",
     "vote-down": "Frage abwerten",
     "vote-up": "Frage aufwerten",
@@ -584,7 +584,7 @@
     "bonus-tokens": "\n\nMeine Boni",
     "bonus-token-body1": " vom ",
     "bonus-token-body2": " mit der Fragennummer ",
-    "redeem-clipboard-success": "Alle erforderlichen Daten für die Mail an das Veranstaltungsmanagement wurden in die Zwischenablage kopiert.",
+    "redeem-clipboard-success": "Alle erforderlichen Daten für die Mail wurden in die Zwischenablage kopiert.",
     "redeem-clipboard-failure": "Die Daten konnten nicht in der Zwischenablage gespeichert werden.",
     "redeem-mail-failure": "Auf deine Mail-App konnte nicht zugegriffen werden. Kopiere die Daten in die Zwischenablage und erstelle damit eine Mail an das Veranstaltungsmanagement."
   },
@@ -607,7 +607,7 @@
     "cancel": "Abbrechen"
   },
   "worker-dialog": {
-    "running": "Laufend",
+    "running": "Stichwörter …",
     "room-name": "Raum",
     "comments": "Abgearbeitete Fragen",
     "bad-spelled": "Zu schlechte Rechtschreibung",

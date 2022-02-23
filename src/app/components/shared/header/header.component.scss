@@ -7,6 +7,10 @@
 mat-toolbar {
   background-color: var(--background);
   position: relative;
+
+  &:first-child {
+    padding-left: 5px;
+  }
 }
 
 .mat-toolbar-moderation {
@@ -38,23 +42,8 @@ mat-toolbar-row {
   overflow: hidden;
 
   > button {
-    background-color: var(--primary-variant);
-    border-radius: 5px;
-
-    &:hover {
-      color: var(--on-secondary) !important;
-      background-color: var(--secondary) !important;
-
-      mat-icon {
-        color: var(--on-secondary) !important;
-        background-color: var(--secondary) !important;
-      }
-    }
-  }
-
-  &.darken > button {
-    background-color: var(--dialog);
-    color: var(--on-dialog)
+    background-color: var(--background);
+    color: var(--on-background);
   }
 }
 
@@ -84,12 +73,11 @@ mat-toolbar-row {
 }
 
 h2 {
-  margin-right: 10px;
-  font-size: medium !important;
+  font-size: 14px !important;
 }
 
 .header-slogan-desktop {
-  margin-left: 100px;
+  margin-left: 50px;
   font-size: unset !important;
   letter-spacing: 1px;
   color: var(--primary);
@@ -121,11 +109,11 @@ h2 {
 }
 
 .mat-button {
-  padding: 0 0 0 10px;
+  padding: 0 5px 0 5px;
 }
 
-button:focus {
-  border: 1px solid var(--on-surface);
+button:hover {
+  outline: 3px solid var(--secondary);
 }
 
 svg {
@@ -155,7 +143,7 @@ svg {
 
 .beamer-icon {
   transform: scale(1.4);
-  margin-right: 15px;
+  margin-right: 10px;
 }
 
 .mat-menu-inner-title {
@@ -216,18 +204,8 @@ h1 {
 
 .focus_button {
   min-height: 28px;
-  font-size: 16px;
-  padding: unset;
+  font-size: 14px;
   color: var(--on-surface);
-
-  &:focus {
-    background: var(--on-surface);
-    color: var(--background);
-
-    mat-icon {
-      color: var(--background);
-    }
-  }
 }
 
 ::ng-deep .mat-slide-toggle.mat-checked .mat-slide-toggle-thumb {

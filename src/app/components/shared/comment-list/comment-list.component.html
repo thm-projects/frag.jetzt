@@ -319,7 +319,7 @@
         aria-labelledby="add"
         class="fab_add_comment"
         (click)="writeComment()"
-        matTooltip="{{ 'comment-list.add-comment' | translate }}">
+        matTooltip="{{ 'comment-list.add-comment' | translate }}" [matTooltipPosition]="'above'">
   <mat-icon>add</mat-icon>
   <p class="oldtypo-p" *ngIf="isCommentListEmpty()">{{'comment-list.ask-question-empty' | translate}}</p>
 </button>

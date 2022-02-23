@@ -31,7 +31,7 @@
                      deviceInfo.isCurrentlyDesktop"
               routerLink="quiz">
         <mat-icon class="material-icons-outlined"
-                  style="margin-right: 15px">emoji_events
+                  style="margin-right: 5px">emoji_events
         </mat-icon>
         <span>{{'header.quiz-now' | translate}}</span>
       </button>
@@ -41,7 +41,7 @@
               *ngIf="!router.url.endsWith('moderator/comments') && router.url.endsWith('/comments') &&
                      deviceInfo.isCurrentlyDesktop && ((tagCloudDataService.currentData?.size || 0) > 0)"
               (click)="navigateTopicCloud()">
-        <mat-icon style="margin-right: 15px">blur_on</mat-icon>
+        <mat-icon style="margin-right: 5px">tag</mat-icon>
         <span>{{'header.tag-cloud' | translate}}</span>
       </button>
 
@@ -51,7 +51,7 @@
                      deviceInfo.isCurrentlyDesktop && (!!room?.brainstormingSession || userRole > 0)"
               (click)="navigateBrainstorming()">
         <mat-icon class="material-icons-outlined"
-                  style="margin-right: 15px">tips_and_updates
+                  style="margin-right: 5px">tips_and_updates
         </mat-icon>
         <span>{{'header.brainstorming' | translate}}</span>
       </button>
@@ -164,7 +164,7 @@
                   matTooltip="{{'header.overview-admin-config-enabled' | translate}}">
             <mat-icon class="oldtypo-h2 comment_tag-icon"
                       style="color: var(--red) !important; font-size: 24px !important; margin-top: -8px;">
-              blur_on
+              tag
             </mat-icon>
           </button>
           <button mat-icon-button
@@ -185,8 +185,8 @@
                   disableRipple="true"
                   class="pseudo-button"
                   matTooltip="{{'header.overview-keywords-tooltip' | translate}}">
-            <mat-icon svgIcon="hashtag"
-                      class="oldtypo-h2 comment_tag-icon"></mat-icon>
+            <mat-icon
+                      class="oldtypo-h2 comment_tag-icon">tag</mat-icon>
             <span style="margin-left: 0.1em;">{{commentsCountKeywords}}</span>
           </button>
         </ars-col>
@@ -336,8 +336,10 @@
           [matTooltip]="'header.' + getCurrentRoleDescription() | translate">
           {{getCurrentRoleIcon()}}
         </mat-icon>
-        <mat-icon class="header-icons"
-                  [matTooltip]="'header.my-account' | translate">more_vert
+        <h2 style="margin-left: 10px; color: var(--on-surface)"
+            *ngIf="deviceInfo.isCurrentlyDesktop">{{'header.my-account' | translate}}</h2>
+        <mat-icon class="header-icons">
+          more_vert
         </mat-icon>
       </div>
     </ng-template>

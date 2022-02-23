@@ -5,7 +5,7 @@
   <span *ngIf="isTopicRequirementActive">
     <mat-icon [inline]="true"
               style="color: var(--red) !important; font-size: x-large; padding-right: 10px;">
-      blur_on
+      tag
     </mat-icon>
     {{'header.overview-admin-config-enabled' | translate}}
   </span>
@@ -29,9 +29,9 @@
                     matTooltip="{{'header.overview-questioners-tooltip' | translate}}">person
           </mat-icon>
           {{allComments.users}}
-          <mat-icon svgIcon="hashtag"
+          <mat-icon
                     class="comment_tag-icon"
-                    matTooltip="{{'header.overview-keywords-tooltip' | translate}}"></mat-icon>
+                    matTooltip="{{'header.overview-keywords-tooltip' | translate}}">tag</mat-icon>
           {{allComments.keywords}}
         </div>
       </div>
@@ -50,9 +50,9 @@
                     matTooltip="{{'header.overview-questioners-tooltip' | translate}}">person
           </mat-icon>
           {{filteredComments.users}}
-          <mat-icon svgIcon="hashtag"
+          <mat-icon
                     class="comment_tag-icon"
-                    matTooltip="{{'header.overview-keywords-tooltip' | translate}}"></mat-icon>
+                    matTooltip="{{'header.overview-keywords-tooltip' | translate}}">tag</mat-icon>
           {{filteredComments.keywords}}
         </div>
       </div>
@@ -92,7 +92,7 @@
       <app-dialog-action-buttons
         buttonsLabelSection="content"
         confirmButtonLabel="tag-cloud-create"
-        buttonIcon="blur_on"
+        buttonIcon="tag"
         [spacing]="false"
         [cancelButtonClickAction]="cancelButtonActionCallback()"
         [confirmButtonClickAction]="confirmButtonActionCallback()">

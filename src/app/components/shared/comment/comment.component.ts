@@ -97,7 +97,7 @@ export class CommentComponent implements OnInit, AfterViewInit {
 
   getCommentIcon(): string {
     return (this.comment?.brainstormingQuestion && 'tips_and_updates') ||
-      (this.comment?.answer && 'question_answer') ||
+      (this.comment?.answer && 'comment') ||
       (this.isFromOwner && 'co_present') ||
       (this.isFromModerator && 'gavel') || '';
   }

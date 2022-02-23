@@ -1,9 +1,9 @@
 export const highcontrast = {
 
-  '--primary': '#fb9a1c',
+  '--primary': 'white',
   '--primary-variant': 'DarkSlateGray',
 
-  '--secondary': '#fb9a1c',
+  '--secondary': 'white',
   '--secondary-variant': '#fb9a1c',
 
   '--background': '#121212',

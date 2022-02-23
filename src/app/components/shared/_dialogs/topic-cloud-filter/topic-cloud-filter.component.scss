@@ -27,7 +27,9 @@ mat-radio-group {
 }
 
 .comment_tag-icon {
-  height: 18px !important;
+  font-size: 16px;
+  height: unset;
+  width: unset;
 }
 
 .mat-dialog-content {
@@ -48,7 +50,7 @@ mat-radio-group {
 
 .help-button {
   background-color: var(--green);
-  color: var(--white);
+  color: var(--black);
   margin-top: 1rem;
 
   .mat-icon {
