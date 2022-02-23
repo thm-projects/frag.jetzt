@@ -9,10 +9,10 @@ legend right
   | Repository | [[https://git.thm.de/arsnova/frag.jetzt]] |
   | Staging Server | [[https://staging.frag.jetzt]] |
   | UML-Tool| PlantUML v1.2022.1|
-  | Diagramtype | Class Diagram |
+  | Diagramtype | Class and Sequence Diagram |
   | Creator| Ruben Bimberg |
   | Mail| ruben.bimberg@mni.thm.de |
-  | Last Changed| 19.02.2022 |
+  | Last Changed| 23.02.2022 |
 end legend
 
 @enduml

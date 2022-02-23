@@ -19,6 +19,7 @@ Note that the enumeration `EDITING_MODERATOR` is currently unused.
 ## Data Flow Components
 
 The following diagram illustrates the data flow of frag.jetzt:
+
 ![Current Data Flow - Classes](./readme-diagrams/dataFlowComponents.png)
 
 The main component is the SessionService. It handles direct route requests from angular.
@@ -42,6 +43,7 @@ It uses the events from the other services mentioned and uses the filtered data 
 ## Data Flow Example
 
 Here is an example of a moderator joining to the comment list:
+
 ![Current Data Flow - Example](./readme-diagrams/dataFlowExample.png)
 
 Here you can see that some information is already cached and retained even over the destruction of components.
