@@ -5,7 +5,7 @@
   <span *ngIf="isTopicRequirementActive">
     <mat-icon [inline]="true"
               style="color: var(--red) !important; font-size: x-large; padding-right: 10px;">
-      blur_on
+      tag
     </mat-icon>
     {{'header.overview-admin-config-enabled' | translate}}
   </span>
@@ -92,7 +92,7 @@
       <app-dialog-action-buttons
         buttonsLabelSection="content"
         confirmButtonLabel="tag-cloud-create"
-        buttonIcon="blur_on"
+        buttonIcon="tag"
         [spacing]="false"
         [cancelButtonClickAction]="cancelButtonActionCallback()"
         [confirmButtonClickAction]="confirmButtonActionCallback()">

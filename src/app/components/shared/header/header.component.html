@@ -41,7 +41,7 @@
               *ngIf="!router.url.endsWith('moderator/comments') && router.url.endsWith('/comments') &&
                      deviceInfo.isCurrentlyDesktop && ((tagCloudDataService.currentData?.size || 0) > 0)"
               (click)="navigateTopicCloud()">
-        <mat-icon style="margin-right: 5px">blur_on</mat-icon>
+        <mat-icon style="margin-right: 5px">tag</mat-icon>
         <span>{{'header.tag-cloud' | translate}}</span>
       </button>
 
@@ -164,7 +164,7 @@
                   matTooltip="{{'header.overview-admin-config-enabled' | translate}}">
             <mat-icon class="oldtypo-h2 comment_tag-icon"
                       style="color: var(--red) !important; font-size: 24px !important; margin-top: -8px;">
-              blur_on
+              tag
             </mat-icon>
           </button>
           <button mat-icon-button
