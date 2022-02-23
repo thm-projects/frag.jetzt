@@ -49,16 +49,11 @@
 
   .joyride-backdrop {
     background-color: darkgray !important;
-    opacity: 0.4;
+    opacity: 0.6;
   }
 
   .backdrop-container {
     z-index: 999 !important;
-  }
-
-  .backdrop-target {
-    background-color: var(--primary);
-    opacity: 0.5;
   }
 
   .joyride-step__close {
