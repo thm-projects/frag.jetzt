@@ -1,0 +1,58 @@
+@startuml
+skinparam roundcorner 10
+skinparam Padding 5
+skinparam backgroundColor #EEEBDC
+
+actor User
+
+participant AuthenticationGuard as Auth
+participant SessionService as Session
+participant RoomDataService as Data
+participant RoomDataFilterService as Filter
+participant CommentListComponent as Comments
+
+User -> Auth: Request Comment List as Moderator
+activate Auth
+
+Auth -> Session: Validate user role and room
+activate Session
+
+Session -> Auth: First validate with cache
+Auth -> User: Route to Comment List
+deactivate Auth
+
+Session --> Session: Second validate with fetched data
+
+User -> Comments: Load Component
+activate Comments
+
+Comments -> Filter: Request filtered data
+activate Filter
+
+Filter -> Data: Request censored data
+activate Data
+
+Data -> Session: Request room information
+
+Session -> Data: Send already cached data
+Data --> Session: Receive room events
+
+Data -> Filter: Send data
+Filter --> Data: Receive comment data updates
+
+Filter -> Comments: Receive filtered data
+Comments --> Filter: Get notification on update
+
+User -> Comments: Request Leave
+Comments -> Filter: Delete notification
+deactivate Comments
+
+User -> Session: Receive Routing End Event
+Session -> Data: Close event notification
+deactivate Session
+Data -> Filter: Close event notification
+deactivate Filter
+deactivate Data
+
+@enduml
+
