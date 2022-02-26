@@ -11,7 +11,9 @@
     "entry-question": "Frage",
     "entry-answer": "Antwort",
     "entry-commentNumber": "Bonus-Fragenummer",
-    "file-name": "Bonus-Archiv \"{{roomName}}\" {{date}}.csv"
+    "file-name": "Bonus-Archiv \"{{roomName}}\" {{date}}.csv",
+    "user-name": "Benutzer",
+    "user-anonym": "anonym"
   },
   "room-export": {
     "no-comments": "Es sind noch keine Fragen vorhanden.",
@@ -78,6 +80,7 @@
     "a11y-select-time-all": "Zeige alle Fragen an",
     "add-comment": "Stell eine Frage ans Publikum!",
     "ask-question-empty": "Hier kannst du deine Frage stellen.",
+    "ask-brainstorm-empty": "Gib deine Idee ein!",
     "add-idea": "Gib deine Idee ein!",
     "answered": "Beantwortete Fragen",
     "pause-comments": "Friert die Anzeige ein, um die Fragen in Ruhe zu lesen oder zu präsentieren. Fragen können weiterhin gestellt und bewertet werden. Die Anzeige aktualisiert sich wieder durch Klicken des Buttons.",
@@ -275,7 +278,8 @@
     "border-tooltip-border-bookmark": "Diese Frage wurde mit einem Lesezeichen versehen.",
     "border-tooltip-border-favorite": "Diese Frage wurde für einen Bonus markiert.",
     "border-tooltip-border-fromModerator": "Diese Frage stammt von einem Moderator.",
-    "border-tooltip-border-fromOwner": "Diese Frage stammt vom Raumersteller."
+    "border-tooltip-border-fromOwner": "Diese Frage stammt vom Raumersteller.",
+    "preview-in-mock": "Teilnehmer-Vorschau"
   },
   "content": {
     "abort": "Abbrechen",
@@ -336,7 +340,8 @@
     "header": "Text optimieren",
     "label": "Welcher Text soll gesendet werden?",
     "option-normal": "Deine Eingabe:",
-    "option-improved": "KI-Vorschlag:"
+    "option-improved": "KI-Vorschlag:",
+    "no-optimization": "Der Text braucht keine Verbesserung."
   },
   "deepl-formality-select": {
     "error": "Der Text konnte nicht aktualisiert werden.",
@@ -428,7 +433,7 @@
   "room-page": {
     "a11y-cloud_download": "Direktlink zur Sitzung in die Zwischenablage kopieren",
     "a11y-delete-all-comments": "Löscht alle Fragen.",
-    "a11y-delete-room" : "Löscht den angegebenen Raum.",
+    "a11y-delete-room": "Löscht den angegebenen Raum.",
     "a11y-edit": "Öffnet ein Fenster mit den Optionen, Sitzung umbenennen, Beschreibung hinzufügen und Sitzung löschen.",
     "a11y-export-comments": "Exportiert alle Fragen.",
     "a11y-gavel": "Öffnet  das Moderations-Board.",
@@ -444,8 +449,6 @@
     "answer": "Antwort",
     "answer-statistics": "Statistiken",
     "bonus-token": "Bonus-Archiv",
-    "bonus-token-header": "Bonus-Archiv",
-    "no-bonus": "Du hast noch keine Frage mit einem Stern bewertet.",
     "cancel": "Abbrechen",
     "cancel-description": "Abbrechen",
     "changes-gone-wrong": "Etwas ist schief gelaufen!",
@@ -461,7 +464,6 @@
     "deleted": " gelöscht.",
     "description": "Begrüßungstext",
     "tab1": "Text",
-    "export-bonus-archive": "Exportieren",
     "export-comments": "Q&A speichern",
     "no-comments": "Es sind noch keine Fragen vorhanden.",
     "general": "Sitzung",
@@ -495,7 +497,7 @@
     "threshold": "Schwellenwert der Freigabe",
     "threshold-description": "Lege den Schwellenwert fest, ab dem eine negativ bewertete Frage angezeigt werden soll.",
     "update": "Speichern",
-    "block" : "Fragenstellen sperren",
+    "block": "Fragenstellen sperren",
     "update-description": "Speichert die Änderungen",
     "question": "Frage",
     "favorite": "Favorit",
@@ -506,10 +508,8 @@
     "token": "Bonus-Code",
     "token-time": "Token-Zeitstempel",
     "nav-to-comment": "Gehe zur Frage",
-    "delete-token": "Token löschen",
     "really-delete-token": "Willst du diesen Token wirklich löschen?",
     "really-delete-tokens": "Willst du wirklich alle Tokens dieser Sitzung löschen?",
-    "delete-all-tokens": "Alle Tokens löschen",
     "token-deleted": "Der Token wurde gelöscht.",
     "tokens-deleted": "Alle Tokens dieser Sitzung wurden gelöscht.",
     "profanity-heading": "Profanitätsfilter",
@@ -520,8 +520,7 @@
     "only-specific-language-will-be-filtered": "Jetzt werden Vulgärausdrücke auch aus anderen Sprachen zensiert.",
     "partial-words-will-be-filtered": "Jetzt werden Vulgärausdrücke auch innerhalb eines Wortes zensiert.",
     "keyword-from-spacy": "Stichwort von spaCy",
-    "keyword-from-questioner": "Stichwort vom Fragensteller",
-    "hint": "Token prüfen …"
+    "keyword-from-questioner": "Stichwort vom Fragensteller"
   },
   "session": {
     "a11y-description": "Gib eine Beschreibung für die Sitzung ein.",
@@ -711,12 +710,12 @@
     "highestWeight-tooltip": "x Themen mit der höchsten Gewichtung anzeigen",
     "rotate-weight": "Themen dieser Häufigkeitsgruppe um x Grad drehen",
     "rotate-weight-tooltip": "Themen dieser Häufigkeitsgruppe um x Grad drehen",
-    "font":"Schrift",
+    "font": "Schrift",
     "reset-btn": "Auf Standardwerte setzen",
     "font-family-tooltip": "Schrift auswählen …",
     "bold-notation-tooltip": "Schrift fett setzen",
-    "font-style-bold" : "Fette Schrift",
-    "font-family":"Schriftart",
+    "font-style-bold": "Fette Schrift",
+    "font-family": "Schriftart",
     "manual-weight-number": "Anzahl Themen beschränken",
     "manual-weight-number-tooltip": "Anzahl Themen der Häufigkeitsgruppe",
     "manual-weight-number-note": "Begrenzt die Anzahl Themen einer Häufigkeitsgruppe auf den eingestellten Wert"
@@ -730,14 +729,20 @@
     "timestamp": "Datum",
     "token-filter": "token-filter",
     "go-to": "Gehe zur Frage",
-    "date": "Datum"
+    "date": "Datum",
+    "bonus-token-header": "Bonus-Archiv",
+    "hint": "Token prüfen …",
+    "export-bonus-archive": "Exportieren",
+    "delete-all-tokens": "Alle Tokens löschen",
+    "no-bonus": "Du hast noch keine Frage mit einem Stern bewertet.",
+    "delete-token": "Token löschen"
   },
   "worker-dialog": {
     "running": "Stichwörter …",
-    "room-name" : "Raum",
-    "comments" : "Abgearbeitete Fragen",
-    "bad-spelled" : "Zu schlechte Rechtschreibung",
-    "failed" : "Fehler aufgetreten",
+    "room-name": "Raum",
+    "comments": "Abgearbeitete Fragen",
+    "bad-spelled": "Zu schlechte Rechtschreibung",
+    "failed": "Fehler aufgetreten",
     "inline-header": "Laufende Stichwort-Aktualisierungen"
   },
   "write-comment": {

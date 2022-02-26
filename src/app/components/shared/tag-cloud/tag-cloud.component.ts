@@ -374,6 +374,10 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
       });
   }
 
+  isCloudEmpty() {
+    return !this.data?.length;
+  }
+
   private getCurrentCloudParameters(): CloudParameters {
     return CloudParameters.getCurrentParameters(this.themeService.currentTheme.isDark);
   }
@@ -564,7 +568,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
       '--tag-cloud-font-weight: ' + this._currentSettings.fontWeight + ';' +
       '--tag-cloud-font-style: ' + this._currentSettings.fontStyle + ';' +
       '--tag-cloud-font-family: ' + this._currentSettings.fontFamily + '; }');
-    customTagCloudStyles.sheet.insertRule('.header-icons { ' +
+    customTagCloudStyles.sheet.insertRule('.header-icons, .header-icons + h2 { ' +
       'color: var(--tag-cloud-inverted-background) !important; }');
     customTagCloudStyles.sheet.insertRule('.header .oldtypo-h2, .header .oldtypo-h2 + span { ' +
       'color: var(--tag-cloud-inverted-background) !important; }');

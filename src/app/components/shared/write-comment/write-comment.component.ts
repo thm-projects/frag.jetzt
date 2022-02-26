@@ -60,12 +60,14 @@ export class WriteCommentComponent implements OnInit {
   ]);
   private _wasVerifiedWithoutDeepl = false;
 
-  constructor(private notification: NotificationService,
-              private languageService: LanguageService,
-              private translateService: TranslateService,
-              public languagetoolService: LanguagetoolService,
-              private deeplService: DeepLService,
-              private dialog: MatDialog) {
+  constructor(
+    private notification: NotificationService,
+    private languageService: LanguageService,
+    private translateService: TranslateService,
+    public languagetoolService: LanguagetoolService,
+    private deeplService: DeepLService,
+    private dialog: MatDialog,
+  ) {
     this.languageService.getLanguage().subscribe(lang => {
       this.translateService.use(lang);
     });
@@ -173,7 +175,7 @@ export class WriteCommentComponent implements OnInit {
       return true;
     }
     const text = this.commentData.currentText;
-    return text.length < 5 || text.trim().split(/\s+/, 3).length < 3;
+    return text.length < 5 || text.trim().split(/\s+/, 4).length < 4;
   }
 
   checkSpellings(text: string, language: Language = this.selectedLang) {
@@ -194,6 +196,7 @@ export class WriteCommentComponent implements OnInit {
       .subscribe(([improvedBody, improvedText]) => {
         this.isSpellchecking = false;
         if (improvedText.replace(/\s+/g, '') === text.replace(/\s+/g, '')) {
+          this.translateService.get('deepl.no-optimization').subscribe(msg => this.notification.show(msg));
           onClose({ body, text, view: this.commentData });
           return;
         }

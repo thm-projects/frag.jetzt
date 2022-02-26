@@ -24,6 +24,8 @@ import {
   CommentNotificationDialogComponent
 } from '../_dialogs/comment-notification-dialog/comment-notification-dialog.component';
 import { CommentNotificationService } from '../../../services/http/comment-notification.service';
+import { BonusTokenComponent } from '../../creator/_dialogs/bonus-token/bonus-token.component';
+import { UserBonusTokenComponent } from '../../participant/_dialogs/user-bonus-token/user-bonus-token.component';
 
 type SortFunc<T> = (a: T, b: T) => number;
 
@@ -62,6 +64,7 @@ export class RoomListComponent implements OnInit, OnDestroy {
     active: 'name'
   };
   hasEmail = false;
+  private urlToCopy = `${window.location.protocol}//${window.location.host}/participant/room/`;
 
   constructor(
     private roomService: RoomService,
@@ -251,6 +254,31 @@ export class RoomListComponent implements OnInit, OnDestroy {
       ).subscribe(text => {
         copyCSVString(text[0], room.name + '-' + room.shortId + '-' + text[1] + '.csv');
       });
+    });
+  }
+
+  openBonusTokens(room: Room) {
+    console.assert(room['role'] > UserRole.PARTICIPANT);
+    const dialogRef = this.dialog.open(BonusTokenComponent, {
+      width: '400px'
+    });
+    dialogRef.componentInstance.room = room;
+  }
+
+  openMyBonusTokens() {
+    const dialogRef = this.dialog.open(UserBonusTokenComponent, {
+      width: '600px'
+    });
+    dialogRef.componentInstance.userId = this.user.id;
+  }
+
+  copyShortId(room: Room): void {
+    navigator.clipboard.writeText(`${this.urlToCopy}${room.shortId}`).then(() => {
+      this.translateService.get('header.session-id-copied').subscribe(msg => {
+        this.notificationService.show(msg, '', { duration: 2000 });
+      });
+    }, () => {
+      console.log('Clipboard write failed.');
     });
   }
 

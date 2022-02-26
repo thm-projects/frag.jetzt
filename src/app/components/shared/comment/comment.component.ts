@@ -44,6 +44,7 @@ export class CommentComponent implements OnInit, AfterViewInit {
   static COMMENT_MAX_HEIGHT = 250;
 
   @Input() comment: Comment;
+  @Input() isMock = false;
   @Input() moderator: boolean;
   @Input() userRole: UserRole;
   @Input() user: User;
@@ -96,14 +97,29 @@ export class CommentComponent implements OnInit, AfterViewInit {
   }
 
   getCommentIcon(): string {
-    return (this.comment?.brainstormingQuestion && 'tips_and_updates') ||
-      (this.comment?.answer && 'comment') ||
-      (this.isFromOwner && 'co_present') ||
-      (this.isFromModerator && 'gavel') || '';
+    if (this.comment?.brainstormingQuestion) {
+      return 'tips_and_updates';
+    } else if (this.comment?.answer) {
+      return 'comment';
+    } else if (this.isFromOwner) {
+      return 'co_present';
+    } else if (this.isFromModerator) {
+      return 'gavel';
+    }
+    return 'person';
   }
 
   getCommentIconClass(): string {
-    return (this.comment?.answer && 'material-icons-outlined') || '';
+    if (this.comment?.brainstormingQuestion) {
+      return '';
+    } else if (this.comment?.answer) {
+      return 'material-icons-outlined';
+    } else if (this.isFromOwner) {
+      return '';
+    } else if (this.isFromModerator) {
+      return '';
+    }
+    return 'material-icons-outlined';
   }
 
   ngOnInit() {
@@ -128,6 +144,11 @@ export class CommentComponent implements OnInit, AfterViewInit {
   }
 
   checkProfanity() {
+    if (this.isMock) {
+      this.isProfanity = false;
+      this.filterProfanityForModerators = false;
+      return;
+    }
     this.isProfanity = this.roomDataService.isCommentProfane(this.comment, !this.comment.ack);
     this.filterProfanityForModerators = !this.roomDataService.isCommentCensored(this.comment, !this.comment.ack);
   }
@@ -196,7 +217,7 @@ export class CommentComponent implements OnInit, AfterViewInit {
 
 
   setFavorite(comment: Comment): void {
-    if(this.comment.favorite) {
+    if (this.comment.favorite) {
       const dialogRef = this.dialog.open(BonusDeleteComponent, {
         width: '400px'
       });
@@ -225,6 +246,9 @@ export class CommentComponent implements OnInit, AfterViewInit {
   }
 
   voteUp(comment: Comment): void {
+    if (this.isMock) {
+      return;
+    }
     const userId = this.authenticationService.getUser().id;
     if (this.hasVoted !== 1) {
       this.commentService.voteUp(comment, userId).subscribe(_ => this.votedComment.emit(this.comment.id));
@@ -239,6 +263,9 @@ export class CommentComponent implements OnInit, AfterViewInit {
   }
 
   voteDown(comment: Comment): void {
+    if (this.isMock) {
+      return;
+    }
     const userId = this.authenticationService.getUser().id;
     if (this.hasVoted !== -1) {
       this.commentService.voteDown(comment, userId).subscribe(_ => this.votedComment.emit(this.comment.id));
@@ -284,6 +311,9 @@ export class CommentComponent implements OnInit, AfterViewInit {
   }
 
   answerComment() {
+    if (this.isMock) {
+      return;
+    }
     let url: string;
     this.route.params.subscribe(params => {
       url = `${this.roleString}/room/${params['shortId']}/comment/${this.comment.id}`;
@@ -314,6 +344,9 @@ export class CommentComponent implements OnInit, AfterViewInit {
   }
 
   setBookmark(comment: Comment): void {
+    if (this.isMock) {
+      return;
+    }
     if (this.userRole === UserRole.PARTICIPANT) {
       this.roomDataService.toggleBookmark(comment);
       return;

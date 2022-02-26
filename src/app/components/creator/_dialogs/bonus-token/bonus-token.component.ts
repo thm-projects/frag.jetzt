@@ -22,6 +22,7 @@ import { EventService } from '../../../../services/util/event.service';
 import { BonusTokenDeleted } from '../../../../models/events/bonus-token-deleted';
 import { LanguageService } from '../../../../services/util/language.service';
 import { BonusTokenUtilService } from '../../../../services/util/bonus-token-util.service';
+import { ModeratorService } from '../../../../services/http/moderator.service';
 
 @Component({
   selector: 'app-bonus-token',
@@ -50,17 +51,20 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
   private subscription: Subscription;
   private debounceTime = 800;
 
-  constructor(private bonusTokenService: BonusTokenService,
-              private bonusTokenUtilService: BonusTokenUtilService,
-              public eventService: EventService,
-              public dialog: MatDialog,
-              protected router: Router,
-              private dialogRef: MatDialogRef<RoomCreatorPageComponent>,
-              private commentService: CommentService,
-              private translateService: TranslateService,
-              private notificationService: NotificationService,
-              private authenticationService: AuthenticationService,
-              private languageService: LanguageService) {
+  constructor(
+    private bonusTokenService: BonusTokenService,
+    private bonusTokenUtilService: BonusTokenUtilService,
+    public eventService: EventService,
+    public dialog: MatDialog,
+    protected router: Router,
+    private dialogRef: MatDialogRef<RoomCreatorPageComponent>,
+    private commentService: CommentService,
+    private translateService: TranslateService,
+    private notificationService: NotificationService,
+    private authenticationService: AuthenticationService,
+    private languageService: LanguageService,
+    private moderatorService: ModeratorService,
+  ) {
     this.languageService.getLanguage().subscribe(lang => {
       this.translateService.use(lang);
       this.lang = lang;
@@ -73,7 +77,7 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
       this.bonusTokens = this.bonusTokens.filter(bt => bt.token !== payload.token);
       this.updateTable(false);
     });
-    this.sortData({active: 'questionNumber', direction: 'asc'});
+    this.sortData({ active: 'questionNumber', direction: 'asc' });
   }
 
   getTokens(): void {
@@ -249,11 +253,8 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
   }
 
   export() {
-    exportBonusArchive(this.translateService,
-      this.commentService,
-      this.notificationService,
-      this.bonusTokenService,
-      this.room).subscribe(text => {
+    exportBonusArchive(this.translateService, this.commentService, this.notificationService, this.bonusTokenService,
+      this.moderatorService, this.room).subscribe(text => {
       this.translateService.get('bonus-archive-export.file-name', {
         roomName: this.room.name,
         date: text[1]

@@ -44,6 +44,8 @@ import { DeviceInfoService } from '../../../services/util/device-info.service';
 import { ArsComposeService } from '../../../../../projects/ars/src/lib/services/ars-compose.service';
 import { HeaderService } from '../../../services/util/header.service';
 import { TagCloudDataService } from '../../../services/util/tag-cloud-data.service';
+import { Palette } from '../../../../theme/Theme';
+import { BonusTokenComponent } from '../../creator/_dialogs/bonus-token/bonus-token.component';
 
 @Component({
   selector: 'app-comment-list',
@@ -472,6 +474,15 @@ export class CommentListComponent implements OnInit, OnDestroy {
       });
       e.menuItem({
         translate: this.headerService.getTranslate(),
+        icon: 'grade',
+        class: 'material-icons-round',
+        iconColor: Palette.YELLOW,
+        text: 'header.bonustoken',
+        callback: () => this.showBonusTokenDialog(),
+        condition: () => this.userRole > UserRole.PARTICIPANT
+      });
+      e.menuItem({
+        translate: this.headerService.getTranslate(),
         icon: 'file_download',
         class: 'material-icons-outlined',
         text: 'header.export-questions',
@@ -493,5 +504,13 @@ export class CommentListComponent implements OnInit, OnDestroy {
       });
     });
     /* eslint-enable @typescript-eslint/no-shadow */
+  }
+
+  private showBonusTokenDialog(): void {
+    console.assert(this.userRole > UserRole.PARTICIPANT);
+    const dialogRef = this.dialog.open(BonusTokenComponent, {
+      width: '400px'
+    });
+    dialogRef.componentInstance.room = this.room;
   }
 }
