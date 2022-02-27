@@ -14,6 +14,7 @@ import { CommentService } from '../services/http/comment.service';
 import { RoomService } from '../services/http/room.service';
 import { TSMap } from 'typescript-map';
 import { SpacyKeyword } from '../services/http/spacy.service';
+import { ModeratorService } from '../services/http/moderator.service';
 
 const serializeDate = (str: string | number | Date) => {
   if (!str) {
@@ -78,6 +79,7 @@ export interface BonusArchiveEntry {
   answer: string;
   question: string;
   bonusQuestionNumber: string;
+  userLoginId: string;
 }
 
 const bonusArchiveImportExport = (translateService: TranslateService) =>
@@ -92,21 +94,16 @@ const bonusArchiveImportExport = (translateService: TranslateService) =>
           languageKey: 'bonus-archive-export.entry-commentNumber',
           valueMapper: {
             export: (config, k) => k.bonusQuestionNumber,
-            import: (config, val) => {
-              const c = {} as BonusArchiveEntry;
-              c.bonusQuestionNumber = val;
-              return c;
-            }
+            import: (config, val) => ({ bonusQuestionNumber: val } as BonusArchiveEntry)
           }
         },
         {
           languageKey: 'bonus-archive-export.entry-token',
           valueMapper: {
             export: (config, k) => k.bonusToken,
-            import: (config, val) => {
-              const c = {} as BonusArchiveEntry;
-              c.bonusToken = val || null;
-              return c;
+            import: (config, val, prev) => {
+              prev.bonusToken = val || null;
+              return prev;
             }
           }
         },
@@ -130,10 +127,20 @@ const bonusArchiveImportExport = (translateService: TranslateService) =>
           languageKey: 'bonus-archive-export.entry-date',
           valueMapper: {
             export: (config, k) => serializeDate(k.bonusTimestamp),
-            import: (config, val) => {
-              const c = {} as BonusArchiveEntry;
-              c.bonusTimestamp = val ? new Date(val) : null;
-              return c;
+            import: (config, val, prev) => {
+              prev.bonusTimestamp = val ? new Date(val) : null;
+              return prev;
+            }
+          }
+        },
+        {
+          languageKey: 'bonus-archive-export.user-name',
+          additionalLanguageKeys: ['bonus-archive-export.user-anonym'],
+          valueMapper: {
+            export: (config, k) => k.userLoginId ? k.userLoginId : config.additional[0],
+            import: (config, val, prev) => {
+              prev.userLoginId = val && val !== config.additional[0] ? val : null;
+              return prev;
             }
           }
         }
@@ -145,6 +152,7 @@ export const exportBonusArchive = (translateService: TranslateService,
                                    commentService: CommentService,
                                    notificationService: NotificationService,
                                    bonusTokenService: BonusTokenService,
+                                   moderatorService: ModeratorService,
                                    room: Room): Observable<[string, string]> =>
   bonusTokenService.getTokensByRoomId(room.id).pipe(
     switchMap(tokens => {
@@ -155,14 +163,28 @@ export const exportBonusArchive = (translateService: TranslateService,
       }
       return forkJoin(tokens.map(token => commentService.getComment(token.commentId))).pipe(
         switchMap(comments => {
-          const data: BonusArchiveEntry[] = comments.sort((a,b) => {
-            return a?.number - b?.number;
-          }).map((c, i) => ({
+          const filteredComments = new Set(comments.filter(v => v?.creatorId).map(comment => comment.creatorId));
+          return moderatorService.getUserData([...filteredComments]).pipe(
+            map(users => {
+              const fastAccess = {} as any;
+              users.forEach(user => {
+                if (user) {
+                  fastAccess[user.id] = user['email'];
+                }
+              });
+              return comments.map(c => [fastAccess[c?.creatorId], c]);
+            })
+          );
+        }),
+        switchMap((arr: [userId: string, c: Comment][]) => {
+          arr.sort(([_, a], [__, b]) => a?.number - b?.number);
+          const data: BonusArchiveEntry[] = arr.map(([loginId, c], i) => ({
             answer: c?.answer,
             question: c?.body,
             bonusToken: tokens[i].token,
             bonusTimestamp: tokens[i].createdAt,
             bonusQuestionNumber: c?.number.toString(),
+            userLoginId: loginId
           }));
           const date = new Date();
           return bonusArchiveImportExport(translateService).exportToCSV([

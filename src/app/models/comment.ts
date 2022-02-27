@@ -31,6 +31,7 @@ export class Comment {
   answerQuestionerKeywords: SpacyKeyword[];
   answerFulltextKeywords: SpacyKeyword[];
   updatedAt: Date;
+  meta: any = null;
 
   constructor(roomId: string = '',
               creatorId: string = '',

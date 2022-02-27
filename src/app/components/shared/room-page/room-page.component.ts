@@ -269,7 +269,6 @@ export class RoomPageComponent implements OnInit, OnDestroy {
     }, () => {
       console.log('Clipboard write failed.');
     });
-
   }
 
   showModeratorsDialog(): void {

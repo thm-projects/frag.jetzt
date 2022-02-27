@@ -11,7 +11,9 @@
     "entry-question": "Question text",
     "entry-answer": "Answer text",
     "entry-commentNumber": "Bonus question number",
-    "file-name": "Bonus archive \"{{roomName}}\" {{date}}.csv"
+    "file-name": "Bonus archive \"{{roomName}}\" {{date}}.csv",
+    "user-name": "User",
+    "user-anonym": "anonymous"
   },
   "room-export": {
     "no-comments": "There are no entries yet.",
@@ -79,6 +81,7 @@
     "answered": "Answered questions",
     "add-comment": "Ask a question to the audience!",
     "ask-question-empty": "Here you can ask your question.",
+    "ask-brainstorm-empty": "Enter your idea!",
     "add-idea": "Enter your idea!",
     "pause-comments": "Freezes the display to read or present the questions at rest. Questions can still be asked and scored. The display is only updated again by clicking the button.",
     "play-comments": "Start the question stream",
@@ -276,7 +279,8 @@
     "border-tooltip-border-bookmark": "This question has been bookmarked.",
     "border-tooltip-border-favorite": "This question was marked for a bonus.",
     "border-tooltip-border-fromModerator": "This question comes from a moderator.",
-    "border-tooltip-border-fromOwner": "This question comes from the room creator."
+    "border-tooltip-border-fromOwner": "This question comes from the room creator.",
+    "preview-in-mock": "Participant preview"
   },
   "content": {
     "abort": "Abort",
@@ -337,7 +341,8 @@
     "header": "Optimize text",
     "label": " Which text to send?",
     "option-normal": "Your input:",
-    "option-improved": "AI suggestion:"
+    "option-improved": "AI suggestion:",
+    "no-optimization": "The text does not need improvement."
   },
   "deepl-formality-select": {
     "error": "The text could not be updated.",
@@ -445,8 +450,6 @@
     "answer": "Answer",
     "answer-statistics": "Statistics",
     "bonus-token": "Bonus archive",
-    "bonus-token-header": "Bonus archive",
-    "no-bonus": "You haven't rated a question with a star yet.",
     "cancel": "Cancel",
     "cancel-description": "Cancel",
     "changes-gone-wrong": "Something has gone wrong!",
@@ -462,7 +465,6 @@
     "deleted": " deleted.",
     "description": "Welcome text",
     "tab1": "Text",
-    "export-bonus-archive": "Export",
     "export-comments": "Save Q&A",
     "no-comments": "There are no questions yet.",
     "general": "Session",
@@ -507,10 +509,8 @@
     "token": "Bonus code",
     "token-time": "Token timestamp",
     "nav-to-comment": "Go to question",
-    "delete-token": "Delete token",
     "really-delete-token": "Do you really want to delete this token?",
     "really-delete-tokens": "Do you really want to delete all tokens of this session?",
-    "delete-all-tokens": "Delete all tokens",
     "token-deleted": "Token has been deleted.",
     "tokens-deleted": "All tokens of this sessions have been deleted.",
     "profanity-heading": "Profanity filter",
@@ -519,8 +519,7 @@
     "partial-words-filter": "Censor even within a word",
     "words-will-be-overwritten": "Profane words will be overwritten with ★★★★.",
     "only-specific-language-will-be-filtered": "Now profane expressions from other languages will also be censored.",
-    "partial-words-will-be-filtered": "Now profane expressions are also censored within a word.",
-    "hint": "Check token …"
+    "partial-words-will-be-filtered": "Now profane expressions are also censored within a word."
   },
   "session": {
     "a11y-description": "Enter a description of the session",
@@ -728,7 +727,13 @@
     "timestamp": "Date",
     "token-filter": "token-filter",
     "go-to": "Go to question",
-    "date": "Date"
+    "date": "Date",
+    "bonus-token-header": "Bonus archive",
+    "hint": "Check token …",
+    "export-bonus-archive": "Export",
+    "delete-all-tokens": "Delete all tokens",
+    "no-bonus": "You haven't rated a question with a star yet.",
+    "delete-token": "Delete token"
   },
   "worker-dialog": {
     "running": "Keywords …",
