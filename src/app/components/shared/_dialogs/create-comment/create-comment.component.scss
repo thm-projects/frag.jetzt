@@ -1,21 +1,23 @@
 @use "sass:math";
+@use "sass:list";
 
 $innerWidth: 375px;
-$innerHeight: 851px;
+$innerHeight: 812px;
 $own-margin: 20px;
 $customScaleFactor: 0.8;
 
-$mockWidth: 557px;
-$mockHeight: 1175px;
-$mockPadLeft: 40px;
-$mockPadTop: 155px;
-$mockPadRight: 33px;
-$mockPadBottom: 168px;
+$mockWidth: 1454px;
+$mockHeight: 2920px;
+$mockPadLeft: 89px;
+$mockPadTop: 68px;
+$mockPadRight: 96px;
+$mockPadBottom: 68px;
+$mockPixelRadius: 132px;
 
 $scale-factor: math.div($innerWidth, $mockWidth - $mockPadRight - $mockPadLeft);
 $width: math.round($mockWidth * $scale-factor);
 $height: math.round($mockHeight * $scale-factor);
-$padding: math.round($mockPadTop * $scale-factor) math.round($mockPadRight * $scale-factor) math.round($mockPadBottom * $scale-factor) math.round($mockPadLeft * $scale-factor);
+$padding: math.ceil($mockPadTop * $scale-factor) math.ceil($mockPadRight * $scale-factor) math.ceil($mockPadBottom * $scale-factor) math.ceil($mockPadLeft * $scale-factor);
 
 $parentWidth: 900px;
 $dialog-margin: 125px;
@@ -24,13 +26,13 @@ $parentWidthHalf: math.div($parentWidth, 2);
 $scaledWidth: math.div($width * (1 - $customScaleFactor), 2);
 
 .mobile-mock-wrapper {
-  background: url("/assets/images/phone_empty.png") no-repeat;
-  background-size: $width $height;
   --end-position: #{$parentWidthHalf - $dialog-margin + $own-margin - $scaledWidth};
   --start-position: #{$parentWidthHalf - $dialog-margin - $width + $scaledWidth};
+  --test: #{$scale-factor};
   --current-position: var(--start-position);
   position: absolute;
   padding: $padding;
+  margin-top: #{list.nth($padding, 1) * -1};
   left: calc(50% + var(--current-position));
   opacity: 0;
   width: $width;
@@ -41,11 +43,27 @@ $scaledWidth: math.div($width * (1 - $customScaleFactor), 2);
   overflow: hidden;
   transform: scale($customScaleFactor);
 
+  ::ng-deep {
+    div::-webkit-scrollbar {
+      width: 12px;
+    }
+    div::-webkit-scrollbar-track {
+      background: var(--dialog);
+    }
+    div::-webkit-scrollbar-thumb {
+      background-color: var(--secondary-variant);
+      border-radius: 20px;
+      border: 3px solid var(--surface);
+    }
+  }
+
   > div {
     display: flex;
     background-color: var(--background);
     width: 100%;
     height: 100%;
+    border-radius: #{$mockPixelRadius * $scale-factor};
+    margin-bottom: #{$height * -1};
 
     > div {
       display: inline-block;
@@ -55,10 +73,20 @@ $scaledWidth: math.div($width * (1 - $customScaleFactor), 2);
       padding: 0 5% 45px;
     }
   }
+
+  > img {
+    position: relative;
+    width: #{$width + list.nth($padding, 2) + list.nth($padding, 4)};
+    height: #{$height + list.nth($padding, 1) + list.nth($padding, 3)};
+    margin-top: #{list.nth($padding, 1) * -1};
+    left: #{list.nth($padding, 4) * -1};
+    pointer-events: none;
+  }
 }
 
 .preview-btn {
   margin-top: 1rem;
+  margin-bottom: 1rem;
   background-color: var(--secondary);
   color: var(--on-secondary);
 }

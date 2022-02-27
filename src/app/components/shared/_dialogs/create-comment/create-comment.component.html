@@ -15,7 +15,7 @@
           (click)="setMobileMockState(!isMobileMockActive)">
     {{'comment-page.preview-in-mock' | translate}}
   </button>
-  <div *ngIf="isMobileMockActive" class="mat-dialog-container mobile-mock-wrapper" #mobileMock>
+  <div *ngIf="isMobileMockActive" class="mobile-mock-wrapper" #mobileMock>
     <div>
       <div>
         <app-comment [comment]="getContent()"
@@ -27,5 +27,6 @@
                      [user]="user"></app-comment>
       </div>
     </div>
+    <img src="/assets/images/Iphone-X-Mock.png" alt="Phone preview">
   </div>
 </ars-row>
