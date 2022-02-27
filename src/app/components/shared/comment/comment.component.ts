@@ -160,6 +160,11 @@ export class CommentComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     setTimeout(() => {
+      if (this.isMock) {
+        this.isExpandable = false;
+        this.commentExpander.ref.nativeElement.style.display = 'none';
+        return;
+      }
       this.isExpandable = this.commentBody.getRenderedHeight() > CommentComponent.COMMENT_MAX_HEIGHT;
       if (!this.isExpandable) {
         this.commentExpander.ref.nativeElement.style.display = 'none';
