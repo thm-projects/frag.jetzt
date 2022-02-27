@@ -32,9 +32,13 @@ import { BonusDeleteComponent } from '../../creator/_dialogs/bonus-delete/bonus-
   styleUrls: ['./comment.component.scss'],
   animations: [
     trigger('slide', [
-      state('hidden', style({ opacity: 0, transform: 'translateY(-10px)' })),
-      state('visible', style({ opacity: 1, transform: 'translateY(0)' })),
-      transition('hidden <=> visible', animate(700))
+      state('new', style({ opacity: 0, transform: 'translate(-100%, 0)' })),
+      state('hidden', style({ opacity: 0, transform: 'translate(0, -10px)' })),
+      state('visible', style({ opacity: 1, transform: 'translate(0, 0)' })),
+      state('removed', style({ opacity: 0, transform: 'translate(100%, 0)' })),
+      transition('hidden <=> visible', animate(700)),
+      transition('new => visible', animate('700ms ease-in')),
+      transition('visible => removed', animate('700ms ease-out'))
     ])
   ]
 })
@@ -53,6 +57,13 @@ export class CommentComponent implements OnInit, AfterViewInit {
   @Input() commentsWrittenByUser = 1;
   @Input() isFromModerator = false;
   @Input() isFromOwner = false;
+
+  @Input() set isRemoved(value: boolean) {
+    if (value) {
+      this.slideAnimationState = 'removed';
+    }
+  }
+
   @Output() clickedOnTag = new EventEmitter<string>();
   @Output() clickedOnKeyword = new EventEmitter<string>();
   @Output() clickedUserNumber = new EventEmitter<string>();
@@ -123,6 +134,9 @@ export class CommentComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+    if (this.comment?.meta?.created) {
+      this.slideAnimationState = 'new';
+    }
     this.readableCommentBody = this.comment?.body ? ViewCommentDataComponent.getTextFromData(this.comment?.body?.trim()) : '';
     this.checkProfanity();
     switch (this.userRole) {
@@ -191,6 +205,9 @@ export class CommentComponent implements OnInit, AfterViewInit {
   }
 
   changeSlideState(): void {
+    if (this.slideAnimationState === 'removed') {
+      return;
+    }
     this.slideAnimationState = 'visible';
   }
 
