@@ -45,7 +45,7 @@ export const DEFAULT_PERIOD = Period.all;
 const DEFAULT_SORT = SortType.time;
 const DEFAULT_SORT_REVERSE = false;
 
-type FilterTypes = 'commentList' | 'presentation' | 'tagCloud' | 'moderatorList';
+export type FilterTypes = 'commentList' | 'presentation' | 'tagCloud' | 'moderatorList';
 
 export class RoomDataFilter {
 
@@ -56,6 +56,8 @@ export class RoomDataFilter {
   filterCompare: any;
   sortType: SortType;
   sortReverse: boolean;
+  moderation: boolean;
+  ignoreRoleSort: boolean;
   currentSearch: string;
   lastRoomId: string;
 
@@ -71,15 +73,17 @@ export class RoomDataFilter {
     this.filterCompare = obj.filterCompare;
     this.sortType = obj.sortType;
     this.sortReverse = obj.sortReverse;
+    this.moderation = obj.moderation;
+    this.ignoreRoleSort = obj.ignoreRoleSort;
     this.currentSearch = obj.currentSearch;
     this.lastRoomId = obj.lastRoomId;
   }
 
-  static loadFilter(name: FilterTypes): RoomDataFilter {
+  static loadFilter(name: string): RoomDataFilter {
     return new RoomDataFilter(JSON.parse(sessionStorage.getItem(name)));
   }
 
-  save(name: FilterTypes) {
+  save(name: string) {
     sessionStorage.setItem(name, JSON.stringify(this));
   }
 
@@ -87,6 +91,9 @@ export class RoomDataFilter {
     const changed = roomId !== this.lastRoomId;
     if (changed) {
       this.resetToDefault();
+    }
+    if (this.period === null || this.period === undefined) {
+      this.period = DEFAULT_PERIOD;
     }
     this.lastRoomId = roomId;
     return changed;
@@ -101,6 +108,8 @@ export class RoomDataFilter {
     this.filterCompare = null;
     this.sortType = DEFAULT_SORT;
     this.sortReverse = DEFAULT_SORT_REVERSE;
+    this.moderation = false;
+    this.ignoreRoleSort = false;
     this.currentSearch = '';
   }
 
