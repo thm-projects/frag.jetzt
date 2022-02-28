@@ -80,7 +80,7 @@ deploy_staging:
     - ssh-add <(echo "$SSH_PRIVATE_KEY")
     - scp -r "$BUILD_DIR"* "$STAGING_SSH_URL"
 
-deploy_production:
+.deploy_production:
   stage: deploy
   only:
     - master
@@ -117,7 +117,7 @@ build_image:
   extends: .build_image_template
   only:
     - staging
-    - master
+    # - master
 
 build_image_manual:
   extends: .build_image_template
