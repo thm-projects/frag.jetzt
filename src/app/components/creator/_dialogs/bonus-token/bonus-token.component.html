@@ -13,7 +13,7 @@
   <div class="flexbox-container">
     <!-- dialog capital -->
     <div>
-      <h2 class="oldtypo-h2">{{'room-page.bonus-token-header' | translate }}</h2>
+      <h2 class="oldtypo-h2">{{'token-validator.bonus-token-header' | translate }}</h2>
     </div>
 
     <div *ngIf="bonusTokens.length >= 1">
@@ -31,7 +31,7 @@
                     maxlength="20"
                     name="roomName"
                     aria-labelledby="room-name-input"/>
-            <mat-placeholder class="placeholder">{{ 'room-page.hint' | translate }}</mat-placeholder>
+            <mat-placeholder class="placeholder">{{ 'token-validator.hint' | translate }}</mat-placeholder>
             <mat-hint align="end"
                       class="count"><span aria-hidden="true">{{ value.length }} / 8</span></mat-hint>
           </mat-form-field>
@@ -116,12 +116,12 @@
                         <button mat-menu-item
                                 (click)="export()">
                           <mat-icon class="export material-icons-outlined">file_download</mat-icon>
-                          <span class="delete-text">{{ 'room-page.export-bonus-archive' | translate }}</span>
+                          <span class="delete-text">{{ 'token-validator.export-bonus-archive' | translate }}</span>
                         </button>
                         <button mat-menu-item
                                 (click)="openDeleteAllBonusDialog()">
                           <mat-icon class="delete material-icons-outlined">delete</mat-icon>
-                          <span class="delete-text"> {{ 'room-page.delete-all-tokens' | translate}}</span>
+                          <span class="delete-text"> {{ 'token-validator.delete-all-tokens' | translate}}</span>
                         </button>
                       </mat-menu>
                   </th>
@@ -142,7 +142,7 @@
                         <button mat-menu-item
                                 (click)="openDeleteSingleBonusDialog(bonusToken)">
                           <mat-icon class="delete material-icons-outlined">delete</mat-icon>
-                          <span class="delete-text"> {{ 'room-page.delete-token' | translate}}</span>
+                          <span class="delete-text"> {{ 'token-validator.delete-token' | translate}}</span>
                         </button>
                       </mat-menu>
                   </td>
@@ -159,7 +159,7 @@
 </div>
 
 <div *ngIf="bonusTokens.length === 0">
-  <p>{{'room-page.no-bonus' | translate }}
+  <p>{{'token-validator.no-bonus' | translate }}
   </p>
 </div>
 

@@ -108,6 +108,13 @@ mat-grid-tile {
 ::ng-deep .mat-badge-content {
   background: var(--secondary);
   color: var(--on-secondary);
+  font-size: 16px;
+}
+
+::ng-deep .mat-badge-medium .mat-badge-content {
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
 }
 
 markdown {

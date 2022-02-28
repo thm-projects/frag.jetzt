@@ -40,10 +40,14 @@
       <button *ngIf="brainstormingActive && canWriteComment() && !drawer?.opened"
               mat-fab
               mat-icon-button
+              [ngClass]="{
+                center_screen: isCloudEmpty()
+              }"
               class="fab_add_comment"
               (click)="writeComment()"
               matTooltip="{{ 'comment-list.add-idea' | translate }}">
         <mat-icon>add</mat-icon>
+        <p class="oldtypo-p" *ngIf="isCloudEmpty()">{{'comment-list.ask-brainstorm-empty' | translate}}</p>
       </button>
     </mat-drawer-content>
   </mat-drawer-container>

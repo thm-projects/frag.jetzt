@@ -84,20 +84,41 @@ export class CreateCommentKeywords {
   public static generateDeeplDelta(deepl: DeepLService, body: string, targetLang: TargetLang,
                                    formality = FormalityType.less): Observable<[string, string]> {
     const delta = ViewCommentDataComponent.getDeltaFromData(body);
+    let isMark = false;
+    const skipped = [];
     const xml = delta.ops.reduce((acc, e, i) => {
-      if (typeof e['insert'] === 'string' && e['insert'].trim().length) {
-        acc += '<x i="' + i + '">' + this.encodeHTML(CreateCommentKeywords.removeMarkdown(e['insert'])) + '</x>';
-        e['insert'] = '';
+      if (typeof e['insert'] !== 'string') {
+        skipped.push(i);
+        return acc;
       }
+      const text = this.encodeHTML(CreateCommentKeywords.removeMarkdown(e['insert']));
+      acc += isMark ? '<x>' + text + '</x>' : text;
+      e['insert'] = '';
+      isMark = !isMark;
       return acc;
     }, '');
     return deepl.improveTextStyle(xml, targetLang, formality).pipe(
       map(str => {
-        const regex = /<x i="(\d+)">([^<]+)<\/x>/gm;
+        let index = 0;
+        const nextStr = (textStr: string) => {
+          while (skipped[0] === index) {
+            skipped.splice(0, 1);
+            index++;
+          }
+          if (index >= delta.ops.length) {
+            return;
+          }
+          delta.ops[index++]['insert'] = this.decodeHTML(textStr);
+        };
+        const regex = /<x>([^<]+)<\/x>/gm;
         let m;
+        let start = 0;
         while ((m = regex.exec(str)) !== null) {
-          delta.ops[+m[1]]['insert'] += this.decodeHTML(m[2]);
+          nextStr(str.substring(start, m.index));
+          nextStr(m[1]);
+          start = m.index + m[0].length;
         }
+        nextStr(str.substring(start));
         const text = delta.ops.reduce((acc, el) => acc + (typeof el['insert'] === 'string' ? el['insert'] : ''), '');
         return [ViewCommentDataComponent.getDataFromDelta(delta), text];
       })

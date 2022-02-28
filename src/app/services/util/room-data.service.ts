@@ -376,6 +376,7 @@ export class RoomDataService {
     c.keywordsFromQuestioner = JSON.parse(payload.keywordsFromQuestioner);
     c.language = payload.language;
     c.questionerName = payload.questionerName;
+    c.meta = { created: true };
     const filtered = room.profanityFilter !== ProfanityFilter.deactivated;
     const source = isModeration ? this._fastNackCommentAccess : this._fastCommentAccess;
     const [beforeFiltering, afterFiltering, hasProfanity] = this._filter.filterCommentBody(room, c);
@@ -504,23 +505,34 @@ export class RoomDataService {
       console.error('comment ' + payload.id + ' was not found!');
       return;
     }
-    this.removeComment(payload.id, isModeration);
     this.triggerUpdate({
       type: 'CommentDeleted',
-      finished: true,
+      finished: false,
       comment: data.comment
     }, isModeration);
+    this.removeComment(payload.id, isModeration);
   }
 
   private removeComment(id: string, isModeration: boolean) {
-    const source = isModeration ? this._currentNackRoomComments : this._currentRoomComments;
-    const index = source.getValue().findIndex(el => el.id === id);
-    if (index >= 0) {
-      source.getValue().splice(index, 1);
-    } else {
-      console.error('comment ' + id + ' was not found!');
-    }
     const fastSource = isModeration ? this._fastNackCommentAccess : this._fastCommentAccess;
-    fastSource[id] = undefined;
+    const data = fastSource[id];
+    data.comment.meta = data.comment.meta || {};
+    data.comment.meta.removed = true;
+    const removeCommentFromSource = () => {
+      const source = isModeration ? this._currentNackRoomComments : this._currentRoomComments;
+      const index = source.getValue().findIndex(el => el.id === id);
+      if (index >= 0) {
+        source.getValue().splice(index, 1);
+      } else {
+        console.error('comment ' + id + ' was not found!');
+      }
+      fastSource[id] = undefined;
+      this.triggerUpdate({
+        type: 'CommentDeleted',
+        finished: true,
+        comment: data.comment
+      }, isModeration);
+    };
+    setTimeout(removeCommentFromSource, 700);
   }
 }

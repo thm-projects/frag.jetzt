@@ -66,6 +66,7 @@
     "answered": "Beantwortete Fragen",
     "add-comment": "Stell deine Frage!",
     "ask-question-empty": "Hier kannst du deine Frage stellen.",
+    "ask-brainstorm-empty": "Gib deine Idee ein!",
     "add-idea": "Gib deine Idee ein!",
     "pause-comments": "Friert die Anzeige ein, um die Fragen in Ruhe zu lesen. Fragen können weiterhin gestellt und bewertet werden. Die Anzeige aktualisiert sich wieder durch Klicken des Buttons.",
     "play-comments": "Neue Fragen und Bewertungen wieder anzeigen",
@@ -74,7 +75,7 @@
     "comment-stream-stopped": "Der Fragen-Strom wurde gestoppt.",
     "comment-stream-started": "Der Fragen-Strom wurde gestartet.",
     "comment-sent": "Dein Beitrag wurde veröffentlicht.",
-    "comment-sent-to-moderator": "Dein Beitrag wird nun von einem Moderator überprüft.",
+    "comment-sent-to-moderator": "Dein Beitrag wird von einem Moderator überprüft.",
     "comment-deleted": "Der Beitrag wurde gelöscht.",
     "correct": "Bejaht",
     "favorite": "Bonus-Frage",
@@ -236,13 +237,15 @@
     "border-tooltip-border-bookmark": "Diese Frage wurde mit einem Lesezeichen versehen.",
     "border-tooltip-border-favorite": "Diese Frage wurde für einen Bonus markiert.",
     "border-tooltip-border-fromModerator": "Diese Frage stammt von einem Moderator.",
-    "border-tooltip-border-fromOwner": "Diese Frage stammt vom Raumersteller."
+    "border-tooltip-border-fromOwner": "Diese Frage stammt vom Raumersteller.",
+    "preview-in-mock": "Teilnehmer-Vorschau"
   },
   "deepl": {
     "header": "Text optimieren",
     "label": "Welcher Text soll gesendet werden?",
     "option-normal": "Deine Eingabe:",
-    "option-improved": "KI-Vorschlag:"
+    "option-improved": "KI-Vorschlag:",
+    "no-optimization": "Der Text braucht keine Verbesserung."
   },
   "deepl-formality-select": {
     "error": "Der Text konnte nicht aktualisiert werden.",
@@ -293,7 +296,6 @@
     "live-feedback": "Live Feedback",
     "session-id": "Code",
     "bonus-token": "Tokens für Bonuspunkte",
-    "bonus-token-header": "Tokens für Bonuspunkte",
     "delete": "Frage löschen",
     "moderation-enabled": "Alle Fragen werden moderiert.",
     "sure": "Bist du sicher?"

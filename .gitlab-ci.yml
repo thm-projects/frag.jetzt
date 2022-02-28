@@ -37,7 +37,7 @@ unit_tests:
     - npm ci
     - npm test
 
-sonar:
+.sonar:
   stage: codestyle
   only:
     - staging
@@ -64,7 +64,7 @@ ngbuild:
     paths:
       - "$BUILD_DIR"
 
-deploy_staging:
+.deploy_staging:
   stage: deploy
   only:
     - staging
@@ -116,7 +116,7 @@ deploy_production:
 build_image:
   extends: .build_image_template
   only:
-    - staging
+    # - staging
     - master
 
 build_image_manual:
