@@ -1,4 +1,20 @@
 {
+  "bonus-archive-export": {
+    "no-data": "There are no bonuses.",
+    "empty": "",
+    "date": "Bonus archive",
+    "name": "Meeting room",
+    "code": "Key code",
+    "entry-token": "Bonus code",
+    "entry-date": "Bonus date",
+    "entry-time": "Bonus time",
+    "entry-question": "Question text",
+    "entry-answer": "Answer text",
+    "entry-commentNumber": "Bonus question number",
+    "file-name": "Bonus archive \"{{roomName}}\" {{date}}.csv",
+    "user-name": "User",
+    "user-anonym": "anonymous"
+  },
   "cookies": {
     "accept": "Accept",
     "accept-description": "Accept the use of a web storage and proceed to the app.",
@@ -161,7 +177,9 @@
     "regular-user-view": "Participant view",
     "not-in-own-view": "You are currently in the participant view. In the options you can switch back to your view.",
     "brainstorm-active": "A brainstorming session is currently taking place.",
-    "active-email-notification": "Email notification is enabled."
+    "active-email-notification": "Email notification is enabled.",
+    "direct-link": "Direct link",
+    "session-id-copied": "Direct link for participants was copied to the clipboard."
   },
   "help": {
     "cancel": "Close",
@@ -500,6 +518,23 @@
     "changes-successful": "Successfully updated",
     "add-successful": "Word added",
     "remove-successful": "The entry has been placed on the blacklist."
+  },
+  "token-validator": {
+    "valid": "Valid token",
+    "invalid": "Invalid token",
+    "cant-find-comment": "There is no question with this token.",
+    "questionNumber": "Number",
+    "token": "Token",
+    "timestamp": "Date",
+    "token-filter": "token-filter",
+    "go-to": "Go to question",
+    "date": "Date",
+    "bonus-token-header": "Bonus archive",
+    "hint": "Check token …",
+    "export-bonus-archive": "Export",
+    "delete-all-tokens": "Delete all tokens",
+    "no-bonus": "You haven't rated a question with a star yet.",
+    "delete-token": "Delete token"
   },
   "worker-dialog": {
     "running": "Keywords …",

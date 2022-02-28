@@ -191,6 +191,25 @@
                 <mat-icon class="export material-icons-outlined">file_download</mat-icon>
                 <span class="delete-text">{{ 'room-list.export-comments' | translate }}</span>
               </button>
+              <button mat-menu-item
+                      *ngIf="room.role > 0"
+                      (click)="openBonusTokens(room)">
+                <mat-icon class="star material-icons-round">grade</mat-icon>
+                <span class="delete-text">{{ 'header.bonustoken' | translate }}</span>
+              </button>
+              <button mat-menu-item
+                      *ngIf="room.role === 0"
+                      (click)="openMyBonusTokens()"
+                      tabindex="0">
+                <mat-icon class="star material-icons-round">grade</mat-icon>
+                <span class="delete-text">{{ 'header.user-bonus-token' | translate }}</span>
+              </button>
+              <button mat-menu-item
+                      (click)="copyShortId(room)"
+                      tabindex="0">
+                <mat-icon class="star material-icons-outlined">share</mat-icon>
+                <span class="delete-text">{{ 'header.direct-link' | translate }}</span>
+              </button>
             </mat-menu>
             <div class="visually-hidden">
               <div id="{{ 'joinButtonLabel' + room.shortId | translate }}">

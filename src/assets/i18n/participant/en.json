@@ -76,6 +76,7 @@
     "answered": "Answered questions",
     "add-comment": "Ask a question!",
     "ask-question-empty": "Here you can ask your question.",
+    "ask-brainstorm-empty": "Enter your idea!",
     "add-idea": "Enter your idea!",
     "pause-comments": "Freezes the display to read the questions at rest. Questions can still be asked and scored. The display is only updated again by clicking the button.",
     "play-comments": "Start the question stream",
@@ -246,13 +247,15 @@
     "border-tooltip-border-bookmark": "This question has been bookmarked.",
     "border-tooltip-border-favorite": "This question was marked for a bonus.",
     "border-tooltip-border-fromModerator": "This question comes from a moderator.",
-    "border-tooltip-border-fromOwner": "This question comes from the room creator."
+    "border-tooltip-border-fromOwner": "This question comes from the room creator.",
+    "preview-in-mock": "Participant preview"
   },
   "deepl": {
     "header": "Optimize text",
     "label": " Which text to send?",
     "option-normal": "Your input:",
-    "option-improved": "AI suggestion:"
+    "option-improved": "AI suggestion:",
+    "no-optimization": "The text does not need improvement."
   },
   "deepl-formality-select": {
     "error": "The text could not be updated.",
@@ -303,7 +306,6 @@
     "live-feedback": "Live feedback",
     "session-id": "Code",
     "bonus-token": "Tokens for bonus stars",
-    "bonus-token-header": "Tokens for bonus stars",
     "moderation-enabled": "All questions will be moderated.",
     "sure": "Are you sure?"
   },

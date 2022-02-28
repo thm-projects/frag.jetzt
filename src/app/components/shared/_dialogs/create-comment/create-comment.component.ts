@@ -1,4 +1,4 @@
-import { Component, Inject, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Inject, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Comment, Language as CommentLanguage } from '../../../../models/comment';
 import { NotificationService } from '../../../../services/util/notification.service';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
@@ -24,9 +24,10 @@ import { SessionService } from '../../../../services/util/session.service';
   templateUrl: './create-comment.component.html',
   styleUrls: ['./create-comment.component.scss']
 })
-export class CreateCommentComponent implements OnInit {
+export class CreateCommentComponent implements OnInit, OnDestroy {
 
   @ViewChild(WriteCommentComponent) commentComponent: WriteCommentComponent;
+  @ViewChild('mobileMock') mobileMock: ElementRef<HTMLDivElement>;
   @Input() user: User;
   @Input() userRole: UserRole;
   @Input() roomId: string;
@@ -34,6 +35,20 @@ export class CreateCommentComponent implements OnInit {
   @Input() brainstormingData: BrainstormingSession;
   isSendingToSpacy = false;
   isModerator = false;
+  private _mobileMockActive = false;
+  private _mobileMockTimeout;
+
+  get isMobileMockActive() {
+    return this._mobileMockActive;
+  }
+
+  private _mobileMockPossible = false;
+
+  get isMobileMockPossible() {
+    return this._mobileMockPossible;
+  }
+
+  private _mockMatcher: MediaQueryList;
 
   constructor(
     private notification: NotificationService,
@@ -50,6 +65,14 @@ export class CreateCommentComponent implements OnInit {
     private sessionService: SessionService,
   ) {
     this.languageService.getLanguage().subscribe(lang => this.translateService.use(lang));
+    this._mockMatcher = window.matchMedia('(min-width: 1400px) and (min-height: 550px)');
+    this._mobileMockPossible = this._mockMatcher.matches;
+    this._mockMatcher.addEventListener('change', e => {
+      this._mobileMockPossible = e.matches;
+      if (!this._mobileMockPossible) {
+        this._mobileMockActive = false;
+      }
+    });
   }
 
   static getWords(text: string): string[] {
@@ -62,6 +85,10 @@ export class CreateCommentComponent implements OnInit {
 
   ngOnInit() {
     this.isModerator = this.userRole > 0;
+  }
+
+  ngOnDestroy() {
+    this._mockMatcher.removeAllListeners();
   }
 
   onNoClick(): void {
@@ -169,6 +196,41 @@ export class CreateCommentComponent implements OnInit {
           });
         }
       });
+  }
+
+  setMobileMockState(activate: boolean) {
+    clearTimeout(this._mobileMockTimeout);
+    if (activate) {
+      this._mobileMockActive = true;
+      this._mobileMockTimeout = setTimeout(() => {
+        const style = this.mobileMock?.nativeElement?.style;
+        if (!style) {
+          return;
+        }
+        style.setProperty('--current-position', 'var(--end-position)');
+        style.opacity = '1';
+      });
+    } else {
+      this._mobileMockTimeout = setTimeout(() => this._mobileMockActive = false, 500);
+      const style = this.mobileMock?.nativeElement?.style;
+      if (!style) {
+        return;
+      }
+      style.setProperty('--current-position', '');
+      style.opacity = '0';
+    }
+  }
+
+  getContent(): Comment {
+    const data = this.commentComponent.commentData.currentData || '["\\n"]';
+    return {
+      body: data,
+      number: '?' as unknown as number,
+      upvotes: 0,
+      downvotes: 0,
+      score: 0,
+      createdAt: new Date()
+    } as Comment;
   }
 
   private wasWritten(term: string): boolean {

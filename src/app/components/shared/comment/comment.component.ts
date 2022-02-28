@@ -32,9 +32,13 @@ import { BonusDeleteComponent } from '../../creator/_dialogs/bonus-delete/bonus-
   styleUrls: ['./comment.component.scss'],
   animations: [
     trigger('slide', [
-      state('hidden', style({ opacity: 0, transform: 'translateY(-10px)' })),
-      state('visible', style({ opacity: 1, transform: 'translateY(0)' })),
-      transition('hidden <=> visible', animate(700))
+      state('new', style({ opacity: 0, transform: 'translate(-100%, 0)' })),
+      state('hidden', style({ opacity: 0, transform: 'translate(0, -10px)' })),
+      state('visible', style({ opacity: 1, transform: 'translate(0, 0)' })),
+      state('removed', style({ opacity: 0, transform: 'translate(100%, 0)' })),
+      transition('hidden <=> visible', animate(700)),
+      transition('new => visible', animate('700ms ease-in')),
+      transition('visible => removed', animate('700ms ease-out'))
     ])
   ]
 })
@@ -44,6 +48,7 @@ export class CommentComponent implements OnInit, AfterViewInit {
   static COMMENT_MAX_HEIGHT = 250;
 
   @Input() comment: Comment;
+  @Input() isMock = false;
   @Input() moderator: boolean;
   @Input() userRole: UserRole;
   @Input() user: User;
@@ -52,6 +57,13 @@ export class CommentComponent implements OnInit, AfterViewInit {
   @Input() commentsWrittenByUser = 1;
   @Input() isFromModerator = false;
   @Input() isFromOwner = false;
+
+  @Input() set isRemoved(value: boolean) {
+    if (value) {
+      this.slideAnimationState = 'removed';
+    }
+  }
+
   @Output() clickedOnTag = new EventEmitter<string>();
   @Output() clickedOnKeyword = new EventEmitter<string>();
   @Output() clickedUserNumber = new EventEmitter<string>();
@@ -96,17 +108,35 @@ export class CommentComponent implements OnInit, AfterViewInit {
   }
 
   getCommentIcon(): string {
-    return (this.comment?.brainstormingQuestion && 'tips_and_updates') ||
-      (this.comment?.answer && 'comment') ||
-      (this.isFromOwner && 'co_present') ||
-      (this.isFromModerator && 'gavel') || '';
+    if (this.comment?.brainstormingQuestion) {
+      return 'tips_and_updates';
+    } else if (this.comment?.answer) {
+      return 'comment';
+    } else if (this.isFromOwner) {
+      return 'co_present';
+    } else if (this.isFromModerator) {
+      return 'gavel';
+    }
+    return 'person';
   }
 
   getCommentIconClass(): string {
-    return (this.comment?.answer && 'material-icons-outlined') || '';
+    if (this.comment?.brainstormingQuestion) {
+      return '';
+    } else if (this.comment?.answer) {
+      return 'material-icons-outlined';
+    } else if (this.isFromOwner) {
+      return '';
+    } else if (this.isFromModerator) {
+      return '';
+    }
+    return 'material-icons-outlined';
   }
 
   ngOnInit() {
+    if (this.comment?.meta?.created) {
+      this.slideAnimationState = 'new';
+    }
     this.readableCommentBody = this.comment?.body ? ViewCommentDataComponent.getTextFromData(this.comment?.body?.trim()) : '';
     this.checkProfanity();
     switch (this.userRole) {
@@ -128,6 +158,11 @@ export class CommentComponent implements OnInit, AfterViewInit {
   }
 
   checkProfanity() {
+    if (this.isMock) {
+      this.isProfanity = false;
+      this.filterProfanityForModerators = false;
+      return;
+    }
     this.isProfanity = this.roomDataService.isCommentProfane(this.comment, !this.comment.ack);
     this.filterProfanityForModerators = !this.roomDataService.isCommentCensored(this.comment, !this.comment.ack);
   }
@@ -139,6 +174,11 @@ export class CommentComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     setTimeout(() => {
+      if (this.isMock) {
+        this.isExpandable = false;
+        this.commentExpander.ref.nativeElement.style.display = 'none';
+        return;
+      }
       this.isExpandable = this.commentBody.getRenderedHeight() > CommentComponent.COMMENT_MAX_HEIGHT;
       if (!this.isExpandable) {
         this.commentExpander.ref.nativeElement.style.display = 'none';
@@ -165,6 +205,9 @@ export class CommentComponent implements OnInit, AfterViewInit {
   }
 
   changeSlideState(): void {
+    if (this.slideAnimationState === 'removed') {
+      return;
+    }
     this.slideAnimationState = 'visible';
   }
 
@@ -196,7 +239,7 @@ export class CommentComponent implements OnInit, AfterViewInit {
 
 
   setFavorite(comment: Comment): void {
-    if(this.comment.favorite) {
+    if (this.comment.favorite) {
       const dialogRef = this.dialog.open(BonusDeleteComponent, {
         width: '400px'
       });
@@ -225,6 +268,9 @@ export class CommentComponent implements OnInit, AfterViewInit {
   }
 
   voteUp(comment: Comment): void {
+    if (this.isMock) {
+      return;
+    }
     const userId = this.authenticationService.getUser().id;
     if (this.hasVoted !== 1) {
       this.commentService.voteUp(comment, userId).subscribe(_ => this.votedComment.emit(this.comment.id));
@@ -239,6 +285,9 @@ export class CommentComponent implements OnInit, AfterViewInit {
   }
 
   voteDown(comment: Comment): void {
+    if (this.isMock) {
+      return;
+    }
     const userId = this.authenticationService.getUser().id;
     if (this.hasVoted !== -1) {
       this.commentService.voteDown(comment, userId).subscribe(_ => this.votedComment.emit(this.comment.id));
@@ -284,6 +333,9 @@ export class CommentComponent implements OnInit, AfterViewInit {
   }
 
   answerComment() {
+    if (this.isMock) {
+      return;
+    }
     let url: string;
     this.route.params.subscribe(params => {
       url = `${this.roleString}/room/${params['shortId']}/comment/${this.comment.id}`;
@@ -314,6 +366,9 @@ export class CommentComponent implements OnInit, AfterViewInit {
   }
 
   setBookmark(comment: Comment): void {
+    if (this.isMock) {
+      return;
+    }
     if (this.userRole === UserRole.PARTICIPANT) {
       this.roomDataService.toggleBookmark(comment);
       return;
