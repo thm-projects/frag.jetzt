@@ -190,6 +190,9 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
       { type: 'CommentCreated' }
     ]))).subscribe(c => {
       if (c.finished) {
+        if (this.focusIncommingComments) {
+          this.focusComment(c.comment);
+        }
         return;
       }
       this.unreadComments++;

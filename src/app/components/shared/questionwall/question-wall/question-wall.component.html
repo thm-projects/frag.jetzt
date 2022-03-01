@@ -541,6 +541,19 @@
           <mat-icon class="material-icons-outlined">play_circle_filled</mat-icon>
         </button>
         <button ars-btn
+                (click)="toggleFocusIncommingComments()"
+                matRipple
+                aria-labelledby="autofocus-on-lbl">
+          <ng-container *ngIf="focusIncommingComments">
+            <i>{{'question-wall.auto-renew-off-icon' | translate}}</i>
+            <p>{{'question-wall.auto-renew-off' | translate}}</p>
+          </ng-container>
+          <ng-container *ngIf="!focusIncommingComments">
+            <i>{{'question-wall.auto-renew-on-icon' | translate}}</i>
+            <p>{{'question-wall.auto-renew-on' | translate}}</p>
+          </ng-container>
+        </button>
+        <button ars-btn
                 matRipple
                 (click)="toggleQRCode()">
           <ng-container *ngIf="qrCodeExpanded">

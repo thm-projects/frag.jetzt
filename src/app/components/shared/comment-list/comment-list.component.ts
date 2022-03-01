@@ -90,6 +90,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
   private _allQuestionNumberOptions: string[] = [];
   private _list: ComponentRef<any>[];
   private _filterObject: DataFilterObject;
+  private _cloudFilterObject: DataFilterObject;
   private _headerSubscription: Subscription;
 
   constructor(
@@ -135,7 +136,12 @@ export class CommentListComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this._filterObject = new DataFilterObject('commentList', this.roomDataService,
       this.authenticationService, this.sessionService);
-    this.cloudDataService.filterObject = this._filterObject;
+    this._cloudFilterObject = new DataFilterObject('commentList', this.roomDataService,
+      this.authenticationService, this.sessionService);
+    const filter = this._cloudFilterObject.filter;
+    filter.resetToDefault();
+    this._cloudFilterObject.filter = filter;
+    this.cloudDataService.filterObject = this._cloudFilterObject;
     this.initNavigation();
     const data = localStorage.getItem('commentListPageSize');
     this.pageSize = data ? +data || this.pageSize : this.pageSize;
@@ -175,6 +181,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this._headerSubscription?.unsubscribe();
+    this._cloudFilterObject.unload();
     this._filterObject.unload();
     this._list?.forEach(e => e.destroy());
     this.commentStream?.unsubscribe();
