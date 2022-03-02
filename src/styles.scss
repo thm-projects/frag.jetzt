@@ -179,13 +179,13 @@ a.info span {
 a.info:hover span, a.info:focus span, a.info:active span {
   display: block;
   position: absolute;
-  top: 1.3em;
-  left: 0;
   width: max-content;
   background-color: var(--primary);
   color: var(--on-primary);
   text-align: left;
   padding: 5px;
+  left:unset;
+  bottom: -3em;
 }
 
 .mat-simple-snackbar span {
