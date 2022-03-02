@@ -121,7 +121,8 @@
   },
   "content": {
     "cancel": "Abbrechen",
-    "delete": "Löschen"
+    "delete": "Löschen",
+    "yes": "Ja"
   },
   "comment-notification": {
     "monday": "Montag",

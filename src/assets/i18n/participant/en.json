@@ -131,7 +131,8 @@
   },
   "content": {
     "cancel": "Cancel",
-    "delete": "Delete"
+    "delete": "Delete",
+    "yes": "Yes"
   },
   "comment-notification": {
     "monday": "Monday",
