@@ -3,7 +3,7 @@ variables:
 
 stages:
   - test
-  - codestyle
+  - codequality
   - build
   - deploy
 
@@ -13,7 +13,7 @@ cache:
     - node_modules/
 
 eslint:
-  stage: codestyle
+  stage: codequality
   tags:
     - angular
   image: local-angular:13
@@ -38,7 +38,7 @@ unit_tests:
     - npm test
 
 sonar:
-  stage: codestyle
+  stage: codequality
   only:
     - staging
   tags:
