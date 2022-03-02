@@ -15,7 +15,7 @@ export class TagsComponent {
 
   tags: string[];
   tagFormControl = new FormControl('', [
-    Validators.minLength(3), Validators.maxLength(20)
+    Validators.minLength(3), Validators.maxLength(20), Validators.required
   ]);
   private _closeSubscription: Subscription;
 
@@ -24,6 +24,15 @@ export class TagsComponent {
               protected langService: LanguageService) {
     langService.getLanguage().subscribe(lang => translationService.use(lang));
     this._closeSubscription = this.dialogRef.beforeClosed().subscribe(() => this.closeDialog());
+  }
+
+  getErrorMessage(){
+    if(this.tagFormControl.hasError('minlength') || this.tagFormControl.hasError('maxlength')){
+      return 'room-page.tag-error-length';
+    }
+    if(this.tagFormControl.hasError('required')){
+      return 'room-page.tag-error-empty';
+    }
   }
 
   addTag(tag: string) {
