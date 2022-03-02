@@ -88,7 +88,7 @@
           </mat-menu>
           <button ars-btn
                   class="pseudo-button qw-opening-fade-animation"
-                  [ngClass]="{'selected': hasFilter || period !== 'time-all'}"
+                  [ngClass]="{'selected': hasFilter || period !== 'All'}"
                   matRipple
                   matTooltip="{{'question-wall.overview-question-tooltip' | translate}}">
             <i>comment</i>
@@ -96,7 +96,7 @@
           </button>
           <button ars-btn
                   class="pseudo-button qw-opening-fade-animation"
-                  [ngClass]="{'selected': hasFilter || period !== 'time-all'}"
+                  [ngClass]="{'selected': hasFilter || period !== 'All'}"
                   matRipple
                   matTooltip="{{'question-wall.overview-questioners-tooltip' | translate}}">
             <i>person</i>
@@ -112,7 +112,7 @@
           </button>
           <button ars-btn
                   [mat-menu-trigger-for]="timeMenu"
-                  [ngClass]="{'selected': period !== 'time-all'}"
+                  [ngClass]="{'selected': period !== 'All'}"
                   matRipple
                   class="qw-opening-fade-animation"
                   aria-labelledby="filter-time">

@@ -42,7 +42,7 @@ export class ModeratorJoinComponent implements OnInit, OnDestroy {
     this._sub = this.languageService.getLanguage().subscribe(lang => this.translateService.use(lang));
     this.route.params.subscribe(params => {
       this.authenticationService.guestLogin(UserRole.PARTICIPANT).subscribe(result => {
-        if (result !== LoginResult.success) {
+        if (result !== LoginResult.Success) {
           this.router.navigate(['/']);
           return;
         }

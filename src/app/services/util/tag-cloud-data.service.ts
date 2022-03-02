@@ -183,7 +183,7 @@ export class TagCloudDataService {
   }
 
   get isBrainstorming(): boolean {
-    return this._filterObject?.filter?.filterType === FilterType.brainstormingQuestion;
+    return this._filterObject?.filter?.filterType === FilterType.BrainstormingQuestion;
   }
 
   updateDemoData(translate: TranslateService): void {

@@ -193,8 +193,8 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
         this.notificationService, this.commentService, this.dialog, this.room);
       if (this.brainstormingActive) {
         const filter = new RoomDataFilter(null);
-        filter.filterType = FilterType.brainstormingQuestion;
-        filter.period = Period.fromNow;
+        filter.filterType = FilterType.BrainstormingQuestion;
+        filter.period = Period.FromNow;
         filter.lastRoomId = room.id;
         filter.fromNow = new Date(room.brainstormingSession.createdAt).getTime();
         filter.save('tagCloud');
@@ -353,8 +353,8 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     //Room filter
     const filter = new RoomDataFilter(null);
     filter.lastRoomId = this.room.id;
-    filter.period = Period.all;
-    filter.filterType = FilterType.keyword;
+    filter.period = Period.All;
+    filter.filterType = FilterType.Keyword;
     filter.filterCompare = (tag as TagComment).realText;
     filter.save('commentList');
     this.router.navigate(['../'], { relativeTo: this.route });
@@ -429,7 +429,6 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
   }
 
   private initNavigation() {
-    /* eslint-disable @typescript-eslint/no-shadow */
     const list: ComponentRef<any>[] = this.composeService.builder(this.headerService.getHost(), e => {
       e.menuItem({
         translate: this.headerService.getTranslate(),
@@ -490,7 +489,6 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     this.onDestroyListener.subscribe(() => {
       list.forEach(e => e.destroy());
     });
-    /* eslint-enable @typescript-eslint/no-shadow */
   }
 
   private redraw(dataUpdate: boolean): void {
@@ -536,13 +534,13 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     }
     let textTransform = '';
     let plainTextTransform = 'unset';
-    if (this._currentSettings.textTransform === CloudTextStyle.capitalized) {
+    if (this._currentSettings.textTransform === CloudTextStyle.Capitalized) {
       textTransform = 'text-transform: capitalize;';
       plainTextTransform = 'capitalize';
-    } else if (this._currentSettings.textTransform === CloudTextStyle.lowercase) {
+    } else if (this._currentSettings.textTransform === CloudTextStyle.Lowercase) {
       textTransform = 'text-transform: lowercase;';
       plainTextTransform = 'lowercase';
-    } else if (this._currentSettings.textTransform === CloudTextStyle.uppercase) {
+    } else if (this._currentSettings.textTransform === CloudTextStyle.Uppercase) {
       textTransform = 'text-transform: uppercase;';
       plainTextTransform = 'uppercase';
     }

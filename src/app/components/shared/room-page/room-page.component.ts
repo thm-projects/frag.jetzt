@@ -375,7 +375,6 @@ export class RoomPageComponent implements OnInit, OnDestroy {
   }
 
   private initNavigation() {
-    /* eslint-disable @typescript-eslint/no-shadow */
     this._list = this.composeService.builder(this.headerService.getHost(), e => {
       e.menuItem({
         translate: this.headerService.getTranslate(),
@@ -499,7 +498,6 @@ export class RoomPageComponent implements OnInit, OnDestroy {
         condition: () => !!this.user?.loginId
       });
     });
-    /* eslint-enable @typescript-eslint/no-shadow */
   }
 
 }

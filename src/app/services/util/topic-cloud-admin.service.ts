@@ -51,8 +51,8 @@ export class TopicCloudAdminService {
     const admin = TopicCloudAdminService.getDefaultAdminData;
     settings.admin = {
       considerVotes: admin.considerVotes,
-      keywordORfulltext: brainstormingActive && admin.keywordORfulltext === KeywordOrFulltext.keyword ?
-        KeywordOrFulltext.both : admin.keywordORfulltext,
+      keywordORfulltext: brainstormingActive && admin.keywordORfulltext === KeywordOrFulltext.Keyword ?
+        KeywordOrFulltext.Both : admin.keywordORfulltext,
       wantedLabels: admin.wantedLabels,
       minQuestioners: admin.minQuestioners,
       minQuestions: admin.minQuestions,
@@ -81,7 +81,7 @@ export class TopicCloudAdminService {
     let censored = censoredInfo.keywordsFromQuestionerCensored;
     let answerCensored = censoredInfo.answerQuestionerKeywordsCensored;
     let isAnswerFromQuestioner = true;
-    if (config.keywordORfulltext === KeywordOrFulltext.both) {
+    if (config.keywordORfulltext === KeywordOrFulltext.Both) {
       if (!source || !source.length) {
         isFromQuestioner = false;
         source = comment.keywordsFromSpacy;
@@ -92,7 +92,7 @@ export class TopicCloudAdminService {
         answerSource = comment.answerFulltextKeywords;
         answerCensored = censoredInfo.answerFulltextKeywordsCensored;
       }
-    } else if (config.keywordORfulltext === KeywordOrFulltext.fulltext) {
+    } else if (config.keywordORfulltext === KeywordOrFulltext.Fulltext) {
       isFromQuestioner = false;
       isAnswerFromQuestioner = false;
       source = comment.keywordsFromSpacy;
@@ -169,7 +169,7 @@ export class TopicCloudAdminService {
           en: this.getDefaultSpacyTagsEN()
         },
         considerVotes: true,
-        keywordORfulltext: KeywordOrFulltext.both,
+        keywordORfulltext: KeywordOrFulltext.Both,
         minQuestioners: 1,
         minQuestions: 1,
         minUpvotes: 0,

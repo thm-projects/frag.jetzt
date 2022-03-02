@@ -280,7 +280,7 @@ export class RoomDataService {
     this.updateBookmarks();
     this.activeUserService.getActiveUser(room)
       .subscribe(([count]) => this._currentUserCount.next(String(count || 0)));
-    const filtered = room.profanityFilter !== ProfanityFilter.deactivated;
+    const filtered = room.profanityFilter !== ProfanityFilter.DEACTIVATED;
     this._commentServiceSubscription = this.wsCommentService.getCommentStream(room.id)
       .subscribe(msg => this.onMessageReceive(msg, false));
     const isUser = this.sessionService.currentRole === UserRole.PARTICIPANT;
@@ -377,7 +377,7 @@ export class RoomDataService {
     c.language = payload.language;
     c.questionerName = payload.questionerName;
     c.meta = { created: true };
-    const filtered = room.profanityFilter !== ProfanityFilter.deactivated;
+    const filtered = room.profanityFilter !== ProfanityFilter.DEACTIVATED;
     const source = isModeration ? this._fastNackCommentAccess : this._fastCommentAccess;
     const [beforeFiltering, afterFiltering, hasProfanity] = this._filter.filterCommentBody(room, c);
     source[c.id] = { comment: c, beforeFiltering, afterFiltering, hasProfanity, filtered };
