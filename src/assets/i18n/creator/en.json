@@ -127,13 +127,13 @@
     "switch-to-comment-list": "Switch to Q&A forum",
     "switch-to-moderation-list": "Switch to index",
     "select-time": "Select time period",
-    "select-from-now": "Display questions from now on",
-    "select-time-1h": "Last hour",
-    "select-time-3h": "Last 2 hours",
-    "select-time-1d": "Last 24 hours",
-    "select-time-1w": "Last 7 days",
-    "select-time-2w": "Last 14 days",
-    "select-time-all": "Unlimited in time"
+    "select-FromNow": "Display questions from now on",
+    "select-OneHour": "Last hour",
+    "select-ThreeHours": "Last 2 hours",
+    "select-OneDay": "Last 24 hours",
+    "select-OneWeek": "Last 7 days",
+    "select-TwoWeeks": "Last 14 days",
+    "select-All": "Unlimited in time"
   },
   "spacy-dialog": {
     "language": "Language",

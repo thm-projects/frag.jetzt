@@ -111,13 +111,13 @@
     "wrong": "Verneint",
     "really-delete": "Willst du den Beitrag wirklich löschen?",
     "select-time": "Zeitraum auswählen",
-    "select-from-now": "Fragen ab jetzt anzeigen",
-    "select-time-1h": "Letzte Stunde",
-    "select-time-3h": "Letzte 2 Stunden",
-    "select-time-1d": "Letzte 24 Stunden",
-    "select-time-1w": "Letzte 7 Tage",
-    "select-time-2w": "Letzte 14 Tage",
-    "select-time-all": "Zeitlich unbegrenzt"
+    "select-FromNow": "Fragen ab jetzt anzeigen",
+    "select-OneHour": "Letzte Stunde",
+    "select-ThreeHours": "Letzte 2 Stunden",
+    "select-OneDay": "Letzte 24 Stunden",
+    "select-OneWeek": "Letzte 7 Tage",
+    "select-TwoWeeks": "Letzte 14 Tage",
+    "select-All": "Zeitlich unbegrenzt"
   },
   "content": {
     "cancel": "Abbrechen",
