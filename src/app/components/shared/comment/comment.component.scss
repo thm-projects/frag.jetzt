@@ -125,6 +125,10 @@ mat-card-content > :first-child {
   height: 3.5rem;
 }
 
+.action-menu-content{
+  background: var(--dialog);
+}
+
 /*
 .highlighted {
   background-color: var(--secondary) !important;
