@@ -16,16 +16,7 @@ import { NotificationService } from '../../../services/util/notification.service
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
 import { PageEvent } from '@angular/material/paginator';
 import { copyCSVString, exportRoom } from '../../../utils/ImportExportMethods';
-import {
-  FilterType,
-  FilterTypeKey,
-  Period,
-  RoomDataFilter,
-  SortType,
-  SortTypeKey
-} from '../../../services/util/room-data-filter';
 import { SessionService } from '../../../services/util/session.service';
-import { RoomDataFilterService } from '../../../services/util/room-data-filter.service';
 import { AuthenticationService } from '../../../services/http/authentication.service';
 import { DeviceInfoService } from '../../../services/util/device-info.service';
 import { Subscription } from 'rxjs';
@@ -35,6 +26,8 @@ import { FormControl } from '@angular/forms';
 import { RoomDataService } from '../../../services/util/room-data.service';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { DataFilterObject } from '../../../utils/data-filter-object';
+import { FilterType, FilterTypeKey, Period, SortType, SortTypeKey } from '../../../utils/data-filter-object.lib';
 
 
 @Component({
@@ -85,8 +78,8 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
   private _allQuestionNumberOptions: string[] = [];
   private firstReceive = true;
   private _deviceSub: Subscription;
-  private _commentsSub: Subscription;
   private _list: ComponentRef<any>[];
+  private _filterObject: DataFilterObject;
 
   constructor(
     private commentService: CommentService,
@@ -98,7 +91,6 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
     private router: Router,
     private notificationService: NotificationService,
     private bonusTokenService: BonusTokenService,
-    private roomDataFilterService: RoomDataFilterService,
     private sessionService: SessionService,
     private authenticationService: AuthenticationService,
     public deviceInfo: DeviceInfoService,
@@ -112,6 +104,11 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
       v = v || '';
       this.questionNumberOptions = this._allQuestionNumberOptions.filter(e => e.startsWith(v));
     });
+    this._filterObject = new DataFilterObject('moderatorList', this.roomDataService,
+      this.authenticationService, this.sessionService);
+    const filter = this._filterObject.filter;
+    filter.moderation = true;
+    this._filterObject.filter = filter;
   }
 
   handlePageEvent(e: PageEvent) {
@@ -120,17 +117,13 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.roomDataFilterService.currentFilter.save('moderatorList');
+    this._filterObject.unload();
     this._list?.forEach(e => e.destroy());
-    this.roomDataFilterService.isModeration = false;
     this.headerInterface?.unsubscribe();
     this._deviceSub?.unsubscribe();
-    this._commentsSub?.unsubscribe();
   }
 
   ngOnInit() {
-    this.roomDataFilterService.currentFilter = RoomDataFilter.loadFilter('moderatorList');
-    this.roomDataFilterService.isModeration = true;
     this.initNavigation();
     this.authenticationService.watchUser.subscribe(user => {
       if (!user) {
@@ -142,7 +135,7 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
     this.sessionService.getRoomOnce().subscribe(room => this.room = room);
     this.sessionService.getModeratorsOnce()
       .subscribe(mods => this.moderatorAccountIds = new Set<string>(mods.map(m => m.accountId)));
-    this._commentsSub = this.roomDataFilterService.getData().subscribe(_ => this.onRefreshFiltering());
+    this._filterObject.subscribe(() => this.onRefreshFiltering());
     this.translateService.get('comment-list.search').subscribe(msg => {
       this.searchPlaceholder = msg;
     });
@@ -163,9 +156,9 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
     if (!this.searchString) {
       return;
     }
-    const filter = this.roomDataFilterService.currentFilter;
+    const filter = this._filterObject.filter;
     filter.currentSearch = this.searchString;
-    this.roomDataFilterService.currentFilter = filter;
+    this._filterObject.filter = filter;
   }
 
   activateSearch() {
@@ -178,9 +171,9 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
 
   abortSearch() {
     this.search = false;
-    const filter = this.roomDataFilterService.currentFilter;
+    const filter = this._filterObject.filter;
     filter.currentSearch = '';
-    this.roomDataFilterService.currentFilter = filter;
+    this._filterObject.filter = filter;
   }
 
   getVote(comment: Comment): Vote {
@@ -190,13 +183,13 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
   }
 
   onRefreshFiltering(): void {
-    const result = this.roomDataFilterService.currentData;
+    const result = this._filterObject.currentData;
     this.comments = result.comments;
     this.commentsFilteredByTimeLength = result.timeFilteredCount;
     this.isLoading = false;
     if (this.firstReceive && this.comments.length > 0) {
       this.firstReceive = false;
-      if (this.roomDataFilterService.currentFilter.currentSearch) {
+      if (this._filterObject.filter.currentSearch) {
         this.search = true;
       }
     }
@@ -214,7 +207,7 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
       }
       set.add(comment.id);
     }
-    const filter = this.roomDataFilterService.currentFilter;
+    const filter = this._filterObject.filter;
     this.filterType = filter.filterType;
     this.sortType = filter.sortType;
     this.sortReverse = filter.sortReverse;
@@ -223,17 +216,17 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
 
   applyFilterByKey(type: FilterTypeKey, compare?: any): void {
     this.pageIndex = 0;
-    const filter = this.roomDataFilterService.currentFilter;
+    const filter = this._filterObject.filter;
     filter.filterType = FilterType[type];
     filter.filterCompare = compare;
-    this.roomDataFilterService.currentFilter = filter;
+    this._filterObject.filter = filter;
   }
 
   applySortingByKey(type: SortTypeKey, reverse = false) {
-    const filter = this.roomDataFilterService.currentFilter;
+    const filter = this._filterObject.filter;
     filter.sortType = SortType[type];
     filter.sortReverse = reverse;
-    this.roomDataFilterService.currentFilter = filter;
+    this._filterObject.filter = filter;
   }
 
   switchToCommentList(): void {
@@ -247,12 +240,12 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
   }
 
   setTimePeriod(period?: Period) {
-    const filter = this.roomDataFilterService.currentFilter;
+    const filter = this._filterObject.filter;
     if (period) {
       filter.period = period;
       filter.fromNow = null;
     }
-    this.roomDataFilterService.currentFilter = filter;
+    this._filterObject.filter = filter;
   }
 
   isInCommentNumbers(value: string): boolean {

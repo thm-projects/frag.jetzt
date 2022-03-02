@@ -17,8 +17,9 @@ import { UserRole } from '../../../../models/user-roles.enum';
 import { RoomDataService } from '../../../../services/util/room-data.service';
 import { Subscription } from 'rxjs';
 import { SessionService } from '../../../../services/util/session.service';
-import { Period, RoomDataFilter } from '../../../../services/util/room-data-filter';
-import { RoomDataFilterService } from '../../../../services/util/room-data-filter.service';
+import { Period, RoomDataFilter } from '../../../../utils/data-filter-object.lib';
+import { DataFilterObject } from '../../../../utils/data-filter-object';
+import { AuthenticationService } from '../../../../services/http/authentication.service';
 
 class CommentsCount {
   comments: number;
@@ -57,7 +58,7 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
     private sessionService: SessionService,
     private topicCloudAdminService: TopicCloudAdminService,
     private roomDataService: RoomDataService,
-    private roomDataFilterService: RoomDataFilterService,
+    private authenticationService: AuthenticationService,
   ) {
     langService.getLanguage().subscribe(lang => translationService.use(lang));
     this._adminData = TopicCloudAdminService.getDefaultAdminData;
@@ -115,13 +116,12 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
   commentsLoadedCallback(isNew = false) {
     const room = this.sessionService.currentRoom;
     const blacklist = room.blacklist ? JSON.parse(room.blacklist) : [];
-    const comments = this.roomDataService.getCurrentRoomData(false);
-    const currentComments = this.roomDataFilterService.currentData.comments;
+    const currentComments = this.data.filterObject.currentData.comments;
     const mods = new Set<string>(this.sessionService.currentModerators.map(m => m.accountId));
-    this.roomDataFilterService.filterCommentsByFilter(comments, new RoomDataFilter(null), false)
-      .subscribe(result => {
-        this.allComments = this.getCommentCounts(result.comments, blacklist, room.blacklistIsActive, room.ownerId, mods);
-      });
+    DataFilterObject.filterOnce(new RoomDataFilter(null), this.roomDataService,
+      this.authenticationService, this.sessionService).subscribe(result => {
+      this.allComments = this.getCommentCounts(result.comments, blacklist, room.blacklistIsActive, room.ownerId, mods);
+    });
     this.filteredComments = this.getCommentCounts(currentComments, blacklist, room.blacklistIsActive, room.ownerId, mods);
     if (isNew) {
       this.hasNoKeywords = TopicCloudFilterComponent.isUpdatable(this.roomDataService.getCurrentRoomData(false),
@@ -172,26 +172,26 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
 
   confirmButtonActionCallback() {
     return () => {
-      this.roomDataFilterService.currentFilter.save('commentList');
-      const filter = new RoomDataFilter(null);
-      filter.lastRoomId = this.roomDataFilterService.currentFilter?.lastRoomId;
+      let filter = new RoomDataFilter(null);
+      filter.lastRoomId = this.sessionService.currentRoom?.id;
       switch (this.continueFilter) {
         case 'continueWithAll':
           // all questions allowed
-          this.roomDataFilterService.currentFilter = filter;
           break;
         case 'continueWithAllFromNow':
           filter.period = Period.fromNow;
           filter.fromNow = new Date().getTime();
-          this.roomDataFilterService.currentFilter = filter;
           break;
         case 'continueWithCurr':
+          const roomId = filter.lastRoomId;
+          filter = this.data.filterObject.filter;
+          filter.lastRoomId = roomId;
           break;
         default:
           return;
       }
 
-      this.roomDataFilterService.currentFilter.save('tagCloud');
+      filter.save('tagCloud');
       this.dialogRef.close();
       this.router.navigateByUrl(this.target);
     };

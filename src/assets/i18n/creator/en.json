@@ -319,7 +319,15 @@
     "subject": "Subject",
     "submitted": "Content submitted. Ready for creation of new content.",
     "undo": "Undo",
-    "yes": "Yes"
+    "yes": "Yes",
+    "tag-cloud-info": "The word cloud in »frag.jetzt« serves as a semantic filter: the larger the font, the more often the word was used grammatically in the questions or assigned as a keyword. The ratings of the questions also influence the font size.",
+    "tag-cloud-questions-title": "Which questions should be keyworded?",
+    "tag-cloud-questions-all": "All questions",
+    "tag-cloud-questions-all-short": "All",
+    "tag-cloud-questions-current-filtered": "List",
+    "tag-cloud-questions-from-now": "Questions from now on",
+    "tag-cloud-questions-from-now-short": "From now on",
+    "tag-cloud-create": "Create"
   },
   "comment-notification": {
     "monday": "Monday",

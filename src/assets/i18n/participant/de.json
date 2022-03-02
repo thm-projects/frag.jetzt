@@ -122,6 +122,14 @@
   "content": {
     "cancel": "Abbrechen",
     "delete": "Löschen",
+    "tag-cloud-info": "Je größer die Schrift, desto häufiger wurde das Wort in den Fragen verwendet oder als Stichwort vergeben. Auch die Bewertungen der Fragen beeinflussen die Schriftgröße.",
+    "tag-cloud-questions-title": "Welche Fragen sollen verschlagwortet werden?",
+    "tag-cloud-questions-all": "Alle Fragen",
+    "tag-cloud-questions-all-short": "Alle",
+    "tag-cloud-questions-current-filtered": "Liste",
+    "tag-cloud-questions-from-now": "Fragen ab jetzt",
+    "tag-cloud-questions-from-now-short": "Von nun an",
+    "tag-cloud-create": "Weiter",
     "yes": "Ja"
   },
   "comment-notification": {
