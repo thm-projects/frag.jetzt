@@ -202,7 +202,7 @@ export class RoomDataService {
 
   getCensoredInformation(comment: Comment, isModeration = false): CommentFilterData {
     const source = isModeration ? this._fastNackCommentAccess[comment.id] : this._fastCommentAccess[comment.id];
-    return source.afterFiltering;
+    return source?.afterFiltering;
   }
 
   toggleBookmark(comment: Comment) {

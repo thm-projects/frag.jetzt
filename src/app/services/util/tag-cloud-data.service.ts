@@ -10,8 +10,8 @@ import { CloudParameters } from '../../utils/cloud-parameters';
 import { SmartDebounce } from '../../utils/smart-debounce';
 import { Room } from '../../models/room';
 import { SessionService } from './session.service';
-import { RoomDataFilterService } from './room-data-filter.service';
-import { FilterType } from './room-data-filter';
+import { FilterType } from '../../utils/data-filter-object.lib';
+import { calculateControversy, DataFilterObject } from '../../utils/data-filter-object';
 
 export interface TagCloudDataTagEntry {
   weight: number;
@@ -76,12 +76,19 @@ export class TagCloudDataService {
   private _adminData: TopicCloudAdminData = null;
   private _subscriptionAdminData: Subscription;
   private readonly _smartDebounce = new SmartDebounce(200, 3_000);
+  private _lastSubscription: Subscription;
+  private _filterObject: DataFilterObject;
+
+  set filterObject(filter: DataFilterObject) {
+    this._filterObject = filter;
+    this._lastSubscription?.unsubscribe();
+    this._lastSubscription = filter?.subscribe(() => this.rebuildTagData());
+  }
 
   constructor(
     private _tagCloudAdmin: TopicCloudAdminService,
     private _roomDataService: RoomDataService,
     private sessionService: SessionService,
-    private roomDataFilterService: RoomDataFilterService,
   ) {
     this._isDemoActive = false;
     this._isAlphabeticallySorted = false;
@@ -96,7 +103,6 @@ export class TagCloudDataService {
     };
     this._metaDataBus = new BehaviorSubject<TagCloudMetaData>(null);
     this.sessionService.getRoom().subscribe(room => this.onRoomUpdate(room));
-    this.roomDataFilterService.getData().subscribe(() => this.rebuildTagData());
   }
 
   static buildDataFromComments(roomOwner: string,
@@ -177,7 +183,7 @@ export class TagCloudDataService {
   }
 
   get isBrainstorming(): boolean {
-    return this.roomDataFilterService.currentFilter.filterType === FilterType.brainstormingQuestion;
+    return this._filterObject?.filter?.filterType === FilterType.brainstormingQuestion;
   }
 
   updateDemoData(translate: TranslateService): void {
@@ -238,6 +244,10 @@ export class TagCloudDataService {
       }
       this.reformatData();
     }
+  }
+
+  unloadCloud() {
+    this._filterObject?.unload();
   }
 
   get alphabeticallySorted(): boolean {
@@ -336,7 +346,7 @@ export class TagCloudDataService {
         upvotes * scorings.summedUpvotes.score +
         downvotes * scorings.summedDownvotes.score +
         score * scorings.summedVotes.score +
-        RoomDataFilterService.calculateControversy(upvotes, downvotes, false) * scorings.controversy.score +
+        calculateControversy(upvotes, downvotes, false) * scorings.controversy.score +
         Math.max(score, 0) * scorings.cappedSummedVotes.score;
     }
     return tagData.comments.length * scorings.countComments.score +
@@ -348,15 +358,15 @@ export class TagCloudDataService {
       tagData.cachedUpVotes * scorings.summedUpvotes.score +
       tagData.cachedDownVotes * scorings.summedDownvotes.score +
       tagData.cachedVoteCount * scorings.summedVotes.score +
-      RoomDataFilterService.calculateControversy(tagData.cachedUpVotes, tagData.cachedDownVotes, false) * scorings.controversy.score +
+      calculateControversy(tagData.cachedUpVotes, tagData.cachedDownVotes, false) * scorings.controversy.score +
       Math.max(tagData.cachedVoteCount, 0) * scorings.cappedSummedVotes.score;
   }
 
   private rebuildTagData() {
-    if (this.roomDataFilterService.isModeration) {
+    if (!this._filterObject || this._filterObject.filter.moderation) {
       return;
     }
-    const filteredComments = this.roomDataFilterService.currentData;
+    const filteredComments = this._filterObject.currentData;
     if (!filteredComments) {
       return;
     }
