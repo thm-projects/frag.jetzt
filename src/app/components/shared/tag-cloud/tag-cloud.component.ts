@@ -193,8 +193,8 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
         this.notificationService, this.commentService, this.dialog, this.room);
       if (this.brainstormingActive) {
         const filter = new RoomDataFilter(null);
-        filter.filterType = FilterType.brainstormingQuestion;
-        filter.period = Period.fromNow;
+        filter.filterType = FilterType.BrainstormingQuestion;
+        filter.period = Period.FromNow;
         filter.lastRoomId = room.id;
         filter.fromNow = new Date(room.brainstormingSession.createdAt).getTime();
         filter.save('tagCloud');
@@ -353,8 +353,8 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     //Room filter
     const filter = new RoomDataFilter(null);
     filter.lastRoomId = this.room.id;
-    filter.period = Period.all;
-    filter.filterType = FilterType.keyword;
+    filter.period = Period.All;
+    filter.filterType = FilterType.Keyword;
     filter.filterCompare = (tag as TagComment).realText;
     filter.save('commentList');
     this.router.navigate(['../'], { relativeTo: this.route });

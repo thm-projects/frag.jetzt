@@ -37,7 +37,14 @@ import { HeaderService } from '../../../services/util/header.service';
 import { TagCloudDataService } from '../../../services/util/tag-cloud-data.service';
 import { Palette } from '../../../../theme/Theme';
 import { BonusTokenComponent } from '../../creator/_dialogs/bonus-token/bonus-token.component';
-import { FilterType, FilterTypeKey, Period, SortType, SortTypeKey } from '../../../utils/data-filter-object.lib';
+import {
+  FilterType,
+  FilterTypeKey,
+  Period,
+  PeriodKey,
+  SortType,
+  SortTypeKey
+} from '../../../utils/data-filter-object.lib';
 import { DataFilterObject } from '../../../utils/data-filter-object';
 
 @Component({
@@ -65,7 +72,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
   newestComment: string;
   freeze = false;
   commentStream: Subscription;
-  periodsList = Object.values(Period);
+  periodsList = Object.values(Period) as PeriodKey[];
   headerInterface = null;
   commentsEnabled: boolean;
   createCommentWrapper: CreateCommentWrapper = null;
@@ -362,10 +369,10 @@ export class CommentListComponent implements OnInit, OnDestroy {
     }, 450);
   }
 
-  setTimePeriod(period?: Period) {
+  setTimePeriod(period?: PeriodKey) {
     const filter = this._filterObject.filter;
     if (period) {
-      filter.period = period;
+      filter.period = Period[period];
       filter.fromNow = null;
     }
     this._filterObject.filter = filter;
@@ -382,12 +389,12 @@ export class CommentListComponent implements OnInit, OnDestroy {
     autoComplete.closePanel();
     this.questionNumberFormControl.setValue('');
     menu.closeMenu();
-    this.applyFilterByKey('number', +questionNumber.value);
+    this.applyFilterByKey('Number', +questionNumber.value);
   }
 
   isCommentListEmpty(): boolean {
     return this.comments &&
-      (this.commentsFilteredByTimeLength < 1 && this.period === 'time-all' || this.comments.length === 0) &&
+      (this.commentsFilteredByTimeLength < 1 && this.period === 'All' || this.comments.length === 0) &&
       !this.isLoading;
   }
 
