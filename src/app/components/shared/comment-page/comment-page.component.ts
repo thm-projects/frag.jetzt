@@ -49,7 +49,9 @@ export class CommentPageComponent implements OnInit, OnDestroy, AfterContentInit
           } else {
             this.liveAnnouncer.announce('The sort option is available as soon as 3 or more questions have been asked.');
           }
-        } else {document.getElementById('sort-button').focus(); }
+        } else {
+          document.getElementById('sort-button').focus();
+        }
       } else if (KeyboardUtils.isKeyEvent(event, KeyboardKey.Digit5) === true && this.eventService.focusOnInput === false) {
         if (document.body.contains(document.getElementById('filter-button')) === false) {
           const lang: string = this.translateService.currentLang;
@@ -59,7 +61,9 @@ export class CommentPageComponent implements OnInit, OnDestroy, AfterContentInit
           } else {
             this.liveAnnouncer.announce('The filter option is available as soon as 3 or more questions have been asked.');
           }
-        } else {document.getElementById('filter-button').focus(); }
+        } else {
+          document.getElementById('filter-button').focus();
+        }
 
       } else if (KeyboardUtils.isKeyEvent(event, KeyboardKey.Digit8) === true && this.eventService.focusOnInput === false) {
         this.liveAnnouncer.clear();

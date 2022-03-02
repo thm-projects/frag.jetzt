@@ -417,7 +417,6 @@ export class CommentListComponent implements OnInit, OnDestroy {
   }
 
   private initNavigation(): void {
-    /* eslint-disable @typescript-eslint/no-shadow */
     this._list = this.composeService.builder(this.headerService.getHost(), e => {
       e.menuItem({
         translate: this.headerService.getTranslate(),
@@ -503,7 +502,6 @@ export class CommentListComponent implements OnInit, OnDestroy {
         condition: () => true
       });
     });
-    /* eslint-enable @typescript-eslint/no-shadow */
   }
 
   private showBonusTokenDialog(): void {

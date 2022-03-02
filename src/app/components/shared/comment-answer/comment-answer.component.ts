@@ -267,8 +267,8 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
         comment.answerFulltextKeywords = result.keywords;
         comment.answerQuestionerKeywords = [];
         if (forward ||
-          ((result.resultType === KeywordsResultType.failure) && !result.wasSpacyError) ||
-          result.resultType === KeywordsResultType.badSpelled) {
+          ((result.resultType === KeywordsResultType.Failure) && !result.wasSpacyError) ||
+          result.resultType === KeywordsResultType.BadSpelled) {
           return of(true);
         }
         const dialogRef = this.dialog.open(SpacyDialogComponent, {
@@ -286,7 +286,6 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
   }
 
   private initNavigation() {
-    /* eslint-disable @typescript-eslint/no-shadow */
     this._list = this.composeService.builder(this.headerService.getHost(), e => {
       e.menuItem({
         translate: this.headerService.getTranslate(),
@@ -305,6 +304,5 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
         condition: () => true
       });
     });
-    /* eslint-enable @typescript-eslint/no-shadow */
   }
 }

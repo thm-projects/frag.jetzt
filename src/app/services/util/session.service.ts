@@ -276,7 +276,7 @@ export class SessionService {
     };
     return {
       next: value => {
-        if (value !== LoginResult.success) {
+        if (value !== LoginResult.Success) {
           goHome();
         }
       },

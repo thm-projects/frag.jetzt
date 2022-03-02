@@ -19,7 +19,9 @@ import { FilterType, Period, RoomDataFilter, SortType } from '../../../../servic
 import { Room } from '../../../../models/room';
 import { mergeMap } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
-import { IntroductionQuestionWallComponent } from '../../_dialogs/introductions/introduction-question-wall/introduction-question-wall.component';
+import {
+  IntroductionQuestionWallComponent
+} from '../../_dialogs/introductions/introduction-question-wall/introduction-question-wall.component';
 import { Moderator } from '../../../../models/moderator';
 
 interface CommentCache {
@@ -348,18 +350,18 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   sortScore(reverse?: boolean) {
-    this.sort(SortType.score,reverse);
+    this.sort(SortType.score, reverse);
   }
 
   sortTime(reverse?: boolean) {
-    this.sort(SortType.time,reverse);
+    this.sort(SortType.time, reverse);
   }
 
   sortControversy(reverse?: boolean) {
-    this.sort(SortType.controversy,reverse);
+    this.sort(SortType.controversy, reverse);
   }
 
-  sort(sortType:SortType,reverse?:boolean){
+  sort(sortType: SortType, reverse?: boolean) {
     const filter = this.roomDataFilterService.currentFilter;
     filter.sortType = sortType;
     filter.sortReverse = !!reverse;
@@ -432,22 +434,22 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onUpdateFiltering() {
-    const func=(moderators:Moderator[],lecturerId:string)=>{
-      const moderatorIds=moderators.map(x=>x.accountId);
+    const func = (moderators: Moderator[], lecturerId: string) => {
+      const moderatorIds = moderators.map(x => x.accountId);
       const result = this.roomDataFilterService.currentData;
-      this.comments = ((sorted:any[])=>{
-        result.comments.forEach(e=>{
-          if(!moderatorIds.includes(e.creatorId)&&e.creatorId!==lecturerId){
+      this.comments = ((sorted: any[]) => {
+        result.comments.forEach(e => {
+          if (!moderatorIds.includes(e.creatorId) && e.creatorId !== lecturerId) {
             sorted.push(e);
           }
         });
-        result.comments.forEach(e=>{
-          if(moderatorIds.includes(e.creatorId)){
+        result.comments.forEach(e => {
+          if (moderatorIds.includes(e.creatorId)) {
             sorted.push(e);
           }
         });
-        result.comments.forEach(e=>{
-          if(e.creatorId===lecturerId){
+        result.comments.forEach(e => {
+          if (e.creatorId === lecturerId) {
             sorted.push(e);
           }
         });
@@ -480,10 +482,10 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
           this.commentFocusId = null;
         }
       });
-    }
-    this.sessionService.getModerators().subscribe(e=>{
-      this.sessionService.getRoom().subscribe(r=>{
-        func(e,r.ownerId);
+    };
+    this.sessionService.getModerators().subscribe(e => {
+      this.sessionService.getRoom().subscribe(r => {
+        func(e, r.ownerId);
       });
     });
   }

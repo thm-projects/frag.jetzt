@@ -11,10 +11,10 @@ import {
 } from '../components/shared/_dialogs/quill-input-dialog/quill-input-dialog.component';
 
 export enum KeywordsResultType {
-  successful,
-  badSpelled,
-  languageNotSupported,
-  failure
+  Successful,
+  BadSpelled,
+  LanguageNotSupported,
+  Failure
 }
 
 export interface KeywordsResult {
@@ -82,7 +82,7 @@ export class CreateCommentKeywords {
   }
 
   public static generateDeeplDelta(deepl: DeepLService, body: string, targetLang: TargetLang,
-                                   formality = FormalityType.less): Observable<[string, string]> {
+                                   formality = FormalityType.Less): Observable<[string, string]> {
     const delta = ViewCommentDataComponent.getDeltaFromData(body);
     let isMark = false;
     const skipped = [];
@@ -138,8 +138,8 @@ export class CreateCommentKeywords {
         spacyService, text, body, language, result, useDeepl, brainstorming)),
       catchError((err) => of({
         keywords: [],
-        language: CommentLanguage.auto,
-        resultType: KeywordsResultType.failure,
+        language: CommentLanguage.AUTO,
+        resultType: KeywordsResultType.Failure,
         error: err
       } as KeywordsResult))
     );
@@ -162,8 +162,8 @@ export class CreateCommentKeywords {
       (!useDeepl && errorQuotient > ERROR_QUOTIENT_WELL_SPELLED))) {
       return of({
         keywords: [],
-        language: CommentLanguage.auto,
-        resultType: KeywordsResultType.badSpelled
+        language: CommentLanguage.AUTO,
+        resultType: KeywordsResultType.BadSpelled
       } as KeywordsResult);
     }
     const escapedText = this.escapeForSpacy(text);
@@ -208,13 +208,13 @@ export class CreateCommentKeywords {
             text: newText
           })),
           language: finalLanguage,
-          resultType: KeywordsResultType.successful
+          resultType: KeywordsResultType.Successful
         });
       }
       return of({
         keywords: [],
         language: finalLanguage,
-        resultType: KeywordsResultType.languageNotSupported
+        resultType: KeywordsResultType.LanguageNotSupported
       } as KeywordsResult);
     }
     if (brainstorming) {
@@ -224,12 +224,12 @@ export class CreateCommentKeywords {
       map(keywords => ({
         keywords,
         language: finalLanguage,
-        resultType: KeywordsResultType.successful
+        resultType: KeywordsResultType.Successful
       } as KeywordsResult)),
       catchError(err => of({
         keywords: [],
         language: finalLanguage,
-        resultType: KeywordsResultType.failure,
+        resultType: KeywordsResultType.Failure,
         error: err,
         wasSpacyError: true
       } as KeywordsResult))

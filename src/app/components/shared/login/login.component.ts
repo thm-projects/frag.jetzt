@@ -139,15 +139,15 @@ export class LoginComponent implements OnInit, OnChanges {
   }
 
   private checkLogin(loginResult: LoginResult) {
-    if (loginResult === LoginResult.failureActivation) {
+    if (loginResult === LoginResult.FailureActivation) {
       this.activateUser();
       return;
     }
-    if (loginResult === LoginResult.failurePasswordReset) {
+    if (loginResult === LoginResult.FailurePasswordReset) {
       this.openPasswordDialog(false);
       return;
     }
-    if (loginResult !== LoginResult.success) {
+    if (loginResult !== LoginResult.Success) {
       this.translationService.get('login.login-data-incorrect').subscribe(message => {
         this.notificationService.show(message);
       });

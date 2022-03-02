@@ -270,7 +270,6 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
   }
 
   private initNavigation() {
-    /* eslint-disable @typescript-eslint/no-shadow */
     this._list = this.composeService.builder(this.headerService.getHost(), e => {
       e.menuItem({
         translate: this.headerService.getTranslate(),
@@ -304,6 +303,5 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
         condition: () => true
       });
     });
-    /* eslint-enable @typescript-eslint/no-shadow */
   }
 }

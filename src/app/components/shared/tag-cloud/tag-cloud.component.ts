@@ -426,7 +426,6 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
   }
 
   private initNavigation() {
-    /* eslint-disable @typescript-eslint/no-shadow */
     const list: ComponentRef<any>[] = this.composeService.builder(this.headerService.getHost(), e => {
       e.menuItem({
         translate: this.headerService.getTranslate(),
@@ -487,7 +486,6 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     this.onDestroyListener.subscribe(() => {
       list.forEach(e => e.destroy());
     });
-    /* eslint-enable @typescript-eslint/no-shadow */
   }
 
   private redraw(dataUpdate: boolean): void {
@@ -533,13 +531,13 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     }
     let textTransform = '';
     let plainTextTransform = 'unset';
-    if (this._currentSettings.textTransform === CloudTextStyle.capitalized) {
+    if (this._currentSettings.textTransform === CloudTextStyle.Capitalized) {
       textTransform = 'text-transform: capitalize;';
       plainTextTransform = 'capitalize';
-    } else if (this._currentSettings.textTransform === CloudTextStyle.lowercase) {
+    } else if (this._currentSettings.textTransform === CloudTextStyle.Lowercase) {
       textTransform = 'text-transform: lowercase;';
       plainTextTransform = 'lowercase';
-    } else if (this._currentSettings.textTransform === CloudTextStyle.uppercase) {
+    } else if (this._currentSettings.textTransform === CloudTextStyle.Uppercase) {
       textTransform = 'text-transform: uppercase;';
       plainTextTransform = 'uppercase';
     }

@@ -51,7 +51,7 @@ export class Comment {
               keywordsFromSpacy: SpacyKeyword[] = [],
               upvotes = 0,
               downvotes = 0,
-              language = Language.auto,
+              language = Language.AUTO,
               questionerName: string = null,
               brainstormingQuestion = false,
               answerQuestionerKeywords: SpacyKeyword[] = [],
@@ -87,18 +87,18 @@ export class Comment {
   }
 
   static mapModelToLanguage(model: Model): Language {
-    return Language[model] || Language.auto;
+    return Language[model] || Language.AUTO;
   }
 }
 
 export enum Language {
-  de = 'DE',
-  en = 'EN',
-  fr = 'FR',
-  es = 'ES',
-  it = 'IT',
-  nl = 'NL',
-  pt = 'PT',
-  auto = 'AUTO'
+  DE = 'DE',
+  EN = 'EN',
+  FR = 'FR',
+  ES = 'ES',
+  IT = 'IT',
+  NL = 'NL',
+  PT = 'PT',
+  AUTO = 'AUTO'
 }
 

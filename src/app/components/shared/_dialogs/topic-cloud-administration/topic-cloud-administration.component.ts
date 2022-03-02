@@ -159,16 +159,16 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   }
 
   pushInKeywords(comment: Comment) {
-    let _keywordType = KeywordType.fromQuestioner;
+    let _keywordType = KeywordType.FromQuestioner;
     let keywords = comment.keywordsFromQuestioner;
-    if (this.keywordORfulltext === KeywordOrFulltext[KeywordOrFulltext.both]) {
+    if (this.keywordORfulltext === KeywordOrFulltext[KeywordOrFulltext.Both]) {
       if (!keywords || !keywords.length) {
         keywords = comment.keywordsFromSpacy;
-        _keywordType = KeywordType.fromSpacy;
+        _keywordType = KeywordType.FromSpacy;
       }
-    } else if (this.keywordORfulltext === KeywordOrFulltext[KeywordOrFulltext.fulltext]) {
+    } else if (this.keywordORfulltext === KeywordOrFulltext[KeywordOrFulltext.Fulltext]) {
       keywords = comment.keywordsFromSpacy;
-      _keywordType = KeywordType.fromSpacy;
+      _keywordType = KeywordType.FromSpacy;
     }
     if (!keywords) {
       keywords = [];
@@ -182,12 +182,12 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
           existingKey.comments.push(comment);
         }
       } else {
-        if (this.keywordORfulltext === KeywordOrFulltext[KeywordOrFulltext.both]) {
+        if (this.keywordORfulltext === KeywordOrFulltext[KeywordOrFulltext.Both]) {
           const includedFromQuestioner = comment.keywordsFromQuestioner.findIndex(e => e.text === _keyword.text) >= 0;
           if (includedFromQuestioner && comment.keywordsFromSpacy.findIndex(e => e.text === _keyword.text) >= 0) {
-            _keywordType = KeywordType.fromBoth;
+            _keywordType = KeywordType.FromBoth;
           } else {
-            _keywordType = includedFromQuestioner ? KeywordType.fromQuestioner : KeywordType.fromSpacy;
+            _keywordType = includedFromQuestioner ? KeywordType.FromQuestioner : KeywordType.FromSpacy;
           }
         }
         const entry = {
@@ -287,13 +287,13 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   }
 
   setAdminData() {
-    let profFilter = this.profanityFilter ? ProfanityFilter.none : ProfanityFilter.deactivated;
+    let profFilter = this.profanityFilter ? ProfanityFilter.NONE : ProfanityFilter.DEACTIVATED;
     if (this.profanityFilter) {
       if (this.censorLanguageSpecificCheck && this.censorPartialWordsCheck) {
-        profFilter = ProfanityFilter.all;
+        profFilter = ProfanityFilter.ALL;
       } else {
-        profFilter = this.censorLanguageSpecificCheck ? ProfanityFilter.languageSpecific : ProfanityFilter.none;
-        profFilter = this.censorPartialWordsCheck ? ProfanityFilter.partialWords : profFilter;
+        profFilter = this.censorLanguageSpecificCheck ? ProfanityFilter.LANGUAGE_SPECIFIC : ProfanityFilter.NONE;
+        profFilter = this.censorPartialWordsCheck ? ProfanityFilter.PARTIAL_WORDS : profFilter;
       }
     }
     let minQuestionersVerified = +this.minQuestioners;
@@ -332,12 +332,12 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   setDefaultAdminData(room: Room) {
     this.topicCloudAdminData = TopicCloudAdminService.getDefaultAdminData;
     this.considerVotes = this.topicCloudAdminData.considerVotes;
-    this.profanityFilter = room.profanityFilter !== ProfanityFilter.deactivated;
-    if (room.profanityFilter === ProfanityFilter.all) {
+    this.profanityFilter = room.profanityFilter !== ProfanityFilter.DEACTIVATED;
+    if (room.profanityFilter === ProfanityFilter.ALL) {
       this.censorLanguageSpecificCheck = this.censorPartialWordsCheck = true;
     } else if (this.profanityFilter) {
-      this.censorLanguageSpecificCheck = room.profanityFilter === ProfanityFilter.languageSpecific;
-      this.censorPartialWordsCheck = room.profanityFilter === ProfanityFilter.partialWords;
+      this.censorLanguageSpecificCheck = room.profanityFilter === ProfanityFilter.LANGUAGE_SPECIFIC;
+      this.censorPartialWordsCheck = room.profanityFilter === ProfanityFilter.PARTIAL_WORDS;
     }
     this.blacklistIsActive = room.blacklistIsActive;
     this.keywordORfulltext = KeywordOrFulltext[this.topicCloudAdminData.keywordORfulltext];
@@ -642,8 +642,8 @@ export interface Data {
 }
 
 enum KeywordType {
-  fromSpacy = 0,
-  fromQuestioner = 1,
-  fromBoth = 2
+  FromSpacy = 0,
+  FromQuestioner = 1,
+  FromBoth = 2
 }
 

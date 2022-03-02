@@ -37,7 +37,7 @@ export class Room {
     threshold: number = null,
     tags: string[] = [],
     questionsBlocked: boolean = false,
-    profanityFilter: ProfanityFilter = ProfanityFilter.none,
+    profanityFilter: ProfanityFilter = ProfanityFilter.NONE,
     blacklistIsActive: boolean = true,
     brainstormingSession: BrainstormingSession = null,
     tagCloudSettings: string = null,
@@ -68,9 +68,9 @@ export class Room {
 }
 
 export enum ProfanityFilter {
-  all = 'ALL',
-  languageSpecific = 'LANGUAGE_SPECIFIC',
-  partialWords = 'PARTIAL_WORDS',
-  none = 'NONE',
-  deactivated = 'DEACTIVATED'
+  ALL = 'ALL',
+  LANGUAGE_SPECIFIC = 'LANGUAGE_SPECIFIC',
+  PARTIAL_WORDS = 'PARTIAL_WORDS',
+  NONE = 'NONE',
+  DEACTIVATED = 'DEACTIVATED'
 }

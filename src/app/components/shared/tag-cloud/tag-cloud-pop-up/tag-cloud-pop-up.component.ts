@@ -304,52 +304,52 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
 
     // try to make a decision where to place the popup outgoing from tag with checks if we are at a border of the viewport
     enum PopupPosition {
-      top,
-      bottom,
-      left,
-      right
+      Top,
+      Bottom,
+      Left,
+      Right
     }
 
     let dockingPosition;
     if (isLeft && isTop && !isBottom && !isRight) {
-      dockingPosition = PopupPosition.right;
+      dockingPosition = PopupPosition.Right;
     } else if (isTop && !isLeft && !isRight && !isBottom) {
-      dockingPosition = PopupPosition.bottom;
+      dockingPosition = PopupPosition.Bottom;
     } else if (isRight && isTop && !isLeft && !isBottom) {
-      dockingPosition = PopupPosition.left;
+      dockingPosition = PopupPosition.Left;
     } else if (isLeft && !isTop && !isRight && !isBottom) {
-      dockingPosition = PopupPosition.right;
+      dockingPosition = PopupPosition.Right;
     } else if (!isLeft && !isTop && !isRight && !isBottom) {
       // default docking when all sides offer enough space
-      dockingPosition = PopupPosition.top;
+      dockingPosition = PopupPosition.Top;
     } else if (isRight && !isTop && !isLeft && !isBottom) {
-      dockingPosition = PopupPosition.left;
+      dockingPosition = PopupPosition.Left;
     } else if (isLeft && isBottom && !isTop && !isRight) {
-      dockingPosition = PopupPosition.right;
+      dockingPosition = PopupPosition.Right;
     } else if (!isLeft && isBottom && !isTop && !isRight) {
-      dockingPosition = PopupPosition.top;
+      dockingPosition = PopupPosition.Top;
     } else if (!isLeft && isBottom && isTop && !isRight) {
-      dockingPosition = PopupPosition.left;
+      dockingPosition = PopupPosition.Left;
     } else {
       /*
        * Find solution for small screens when all sides produce unpleasant results
        */
-      dockingPosition = PopupPosition.top;
+      dockingPosition = PopupPosition.Top;
     }
     html.classList.remove('left', 'right', 'up', 'down');
-    if (dockingPosition === PopupPosition.bottom) {
+    if (dockingPosition === PopupPosition.Bottom) {
       html.style.top = tag.bottom + 'px';
       html.style.left = tag.x + tag.width / 2 + 'px';
       html.classList.add('up');
-    } else if (dockingPosition === PopupPosition.top) {
+    } else if (dockingPosition === PopupPosition.Top) {
       html.style.top = tag.y + 'px';
       html.style.left = tag.x + tag.width / 2 + 'px';
       html.classList.add('down');
-    } else if (dockingPosition === PopupPosition.left) {
+    } else if (dockingPosition === PopupPosition.Left) {
       html.style.top = tag.top + tag.height / 2 + 'px';
       html.style.left = tag.x + 'px';
       html.classList.add('right');
-    } else if (dockingPosition === PopupPosition.right) {
+    } else if (dockingPosition === PopupPosition.Right) {
       html.style.top = tag.top + tag.height / 2 + 'px';
       html.style.left = tag.right + 'px';
       html.classList.add('left');

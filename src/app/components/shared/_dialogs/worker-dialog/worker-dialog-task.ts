@@ -65,17 +65,17 @@ export class WorkerDialogTask {
 
   private finishSpacyCall(index: number, result: KeywordsResult, previous: Language): void {
     let undo: () => any = () => '';
-    if (result.resultType === KeywordsResultType.badSpelled) {
+    if (result.resultType === KeywordsResultType.BadSpelled) {
       this.statistics.badSpelled++;
       undo = () => this.statistics.badSpelled--;
-    } else if (result.resultType === KeywordsResultType.languageNotSupported) {
+    } else if (result.resultType === KeywordsResultType.LanguageNotSupported) {
       this.statistics.notSupported++;
       undo = () => this.statistics.notSupported--;
-    } else if (result.resultType === KeywordsResultType.failure) {
+    } else if (result.resultType === KeywordsResultType.Failure) {
       this.statistics.failed++;
       undo = () => this.statistics.failed--;
     }
-    if (result.language === Language.auto) {
+    if (result.language === Language.AUTO) {
       result.language = null;
     }
     this.patchToServer(result.keywords, index, result.language, undo);

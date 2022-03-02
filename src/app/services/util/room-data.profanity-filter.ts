@@ -78,8 +78,8 @@ export class RoomDataProfanityFilter {
   }
 
   private filterCommentOfProfanity(room: Room, comment: Comment): CommentFilterData {
-    const partialWords = room.profanityFilter === ProfanityFilter.all || room.profanityFilter === ProfanityFilter.partialWords;
-    const languageSpecific = room.profanityFilter === ProfanityFilter.all || room.profanityFilter === ProfanityFilter.languageSpecific;
+    const partialWords = room.profanityFilter === ProfanityFilter.ALL || room.profanityFilter === ProfanityFilter.PARTIAL_WORDS;
+    const languageSpecific = room.profanityFilter === ProfanityFilter.ALL || room.profanityFilter === ProfanityFilter.LANGUAGE_SPECIFIC;
     const [body, bodyCensored] = this.profanityFilterService
       .filterProfanityWords(comment.body, partialWords, languageSpecific, comment.language);
     const [keywordsFromSpacy, keywordsFromSpacyCensored] = this
