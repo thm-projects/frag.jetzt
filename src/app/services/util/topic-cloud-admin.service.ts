@@ -74,27 +74,31 @@ export class TopicCloudAdminService {
     let source = comment.keywordsFromQuestioner;
     let answerSource = comment.answerQuestionerKeywords;
     let isFromQuestioner = true;
-    let censored = roomDataService.getCensoredInformation(comment).keywordsFromQuestionerCensored;
-    let answerCensored = roomDataService.getCensoredInformation(comment).answerQuestionerKeywordsCensored;
+    const censoredInfo = roomDataService.getCensoredInformation(comment);
+    if (!censoredInfo) {
+      return;
+    }
+    let censored = censoredInfo.keywordsFromQuestionerCensored;
+    let answerCensored = censoredInfo.answerQuestionerKeywordsCensored;
     let isAnswerFromQuestioner = true;
     if (config.keywordORfulltext === KeywordOrFulltext.both) {
       if (!source || !source.length) {
         isFromQuestioner = false;
         source = comment.keywordsFromSpacy;
-        censored = roomDataService.getCensoredInformation(comment).keywordsFromSpacyCensored;
+        censored = censoredInfo.keywordsFromSpacyCensored;
       }
-      if(!answerSource || !answerSource.length) {
+      if (!answerSource || !answerSource.length) {
         isAnswerFromQuestioner = false;
         answerSource = comment.answerFulltextKeywords;
-        answerCensored = roomDataService.getCensoredInformation(comment).answerFulltextKeywordsCensored;
+        answerCensored = censoredInfo.answerFulltextKeywordsCensored;
       }
     } else if (config.keywordORfulltext === KeywordOrFulltext.fulltext) {
       isFromQuestioner = false;
       isAnswerFromQuestioner = false;
       source = comment.keywordsFromSpacy;
-      censored = roomDataService.getCensoredInformation(comment).keywordsFromSpacyCensored;
+      censored = censoredInfo.keywordsFromSpacyCensored;
       answerSource = comment.answerFulltextKeywords;
-      answerCensored = roomDataService.getCensoredInformation(comment).answerFulltextKeywordsCensored;
+      answerCensored = censoredInfo.answerFulltextKeywordsCensored;
     }
     if (!source) {
       return;

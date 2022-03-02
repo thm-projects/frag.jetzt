@@ -20,7 +20,6 @@ import { RemindOfTokensComponent } from '../../participant/_dialogs/remind-of-to
 import { QrCodeDialogComponent } from '../_dialogs/qr-code-dialog/qr-code-dialog.component';
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
 import { MotdService } from '../../../services/http/motd.service';
-import { TopicCloudFilterComponent } from '../_dialogs/topic-cloud-filter/topic-cloud-filter.component';
 import { RoomService } from '../../../services/http/room.service';
 import { Room } from '../../../models/room';
 import { TagCloudDataService } from '../../../services/util/tag-cloud-data.service';
@@ -57,6 +56,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   userActivity = '?';
   isInRouteWithRoles = false;
   hasEmailNotifications = false;
+  hasKeywords = false;
 
   constructor(
     public location: Location,
@@ -276,46 +276,6 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     this.eventService.broadcast('navigate', 'questionBoard');
   }
 
-  public navigateRoomBonusToken() {
-    this.eventService.broadcast('navigate', 'roomBonusToken');
-  }
-
-  public navigateModerator() {
-    this.eventService.broadcast('navigate', 'moderator');
-  }
-
-  public navigateTags() {
-    this.eventService.broadcast('navigate', 'tags');
-  }
-
-  public navigateExportQuestions() {
-    this.eventService.broadcast('navigate', 'exportQuestions');
-  }
-
-  public navigateDeleteQuestions() {
-    this.eventService.broadcast('navigate', 'deleteQuestions');
-  }
-
-  public navigateCreateQuestion() {
-    this.eventService.broadcast('navigate', 'createQuestion');
-  }
-
-  public navigateDeleteRoom() {
-    this.eventService.broadcast('navigate', 'deleteRoom');
-  }
-
-  public navigateProfanityFilter() {
-    this.eventService.broadcast('navigate', 'profanityFilter');
-  }
-
-  public navigateEditSessionDescription() {
-    this.eventService.broadcast('navigate', 'editSessionDescription');
-  }
-
-  public navigateModeratorSettings() {
-    this.eventService.broadcast('navigate', 'moderatorSettings');
-  }
-
   public refreshNotifications() {
     this.hasEmailNotifications = false;
     const id = this.sessionService.currentRoom?.id;
@@ -337,11 +297,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   }
 
   public navigateTopicCloud() {
-    const confirmDialogRef = this.confirmDialog.open(TopicCloudFilterComponent, {
-      autoFocus: false
-    });
-    confirmDialogRef.componentInstance.target = this.router.url + '/tagcloud';
-    confirmDialogRef.componentInstance.userRole = this.userRole;
+    this.eventService.broadcast('navigate', 'topic-cloud');
   }
 
   public navigateBrainstorming() {

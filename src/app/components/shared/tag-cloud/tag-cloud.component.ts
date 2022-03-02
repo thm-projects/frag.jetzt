@@ -29,7 +29,6 @@ import { TagCloudPopUpComponent } from './tag-cloud-pop-up/tag-cloud-pop-up.comp
 import { TagCloudDataService, TagCloudDataTagEntry } from '../../../services/util/tag-cloud-data.service';
 import { CloudParameters, CloudTextStyle } from '../../../utils/cloud-parameters';
 import { SmartDebounce } from '../../../utils/smart-debounce';
-import { Theme } from '../../../../theme/Theme';
 import { MatDrawer } from '@angular/material/sidenav';
 import { DeviceInfoService } from '../../../services/util/device-info.service';
 import { ArsComposeService } from '../../../../../projects/ars/src/lib/services/ars-compose.service';
@@ -38,8 +37,6 @@ import { WorkerConfigDialogComponent } from '../_dialogs/worker-config-dialog/wo
 import { TagCloudSettings } from '../../../utils/TagCloudSettings';
 import { SessionService } from '../../../services/util/session.service';
 import { DOMElementPrinter } from '../../../utils/DOMElementPrinter';
-import { RoomDataFilterService } from '../../../services/util/room-data-filter.service';
-import { FilterType, Period, RoomDataFilter } from '../../../services/util/room-data-filter';
 import { BrainstormingSession } from '../../../models/brainstorming-session';
 import {
   IntroductionTagCloudComponent
@@ -48,6 +45,9 @@ import {
   IntroductionBrainstormingComponent
 } from '../_dialogs/introductions/introduction-brainstorming/introduction-brainstorming.component';
 import { ComponentType } from '@angular/cdk/overlay';
+import { DataFilterObject } from '../../../utils/data-filter-object';
+import { RoomDataService } from '../../../services/util/room-data.service';
+import { FilterType, Period, RoomDataFilter } from '../../../utils/data-filter-object.lib';
 
 class CustomPosition implements Position {
   left: number;
@@ -145,7 +145,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     private router: Router,
     public dataManager: TagCloudDataService,
     private deviceInfo: DeviceInfoService,
-    private roomDataFilterService: RoomDataFilterService,
+    private roomDataService: RoomDataService,
   ) {
     this.langService.getLanguage().subscribe(lang => {
       this.translateService.use(lang);
@@ -163,7 +163,9 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
   }
 
   ngOnInit(): void {
-    this.roomDataFilterService.currentFilter = RoomDataFilter.loadFilter('tagCloud');
+    const filterObj = new DataFilterObject('tagCloud', this.roomDataService,
+      this.authenticationService, this.sessionService);
+    this.dataManager.filterObject = filterObj;
     this.updateGlobalStyles();
     this.dataManager.getData().subscribe(data => {
       if (!data) {
@@ -196,7 +198,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
         filter.lastRoomId = room.id;
         filter.fromNow = new Date(room.brainstormingSession.createdAt).getTime();
         filter.save('tagCloud');
-        this.roomDataFilterService.currentFilter = filter;
+        filterObj.filter = filter;
       }
     });
     this.themeSubscription = this.themeService.getTheme().subscribe(() => {
@@ -216,6 +218,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
   }
 
   ngOnDestroy() {
+    this.dataManager.unloadCloud();
     const customTagCloudStyles = document.getElementById('tagCloudStyles') as HTMLStyleElement;
     if (customTagCloudStyles) {
       customTagCloudStyles.sheet.disabled = true;
