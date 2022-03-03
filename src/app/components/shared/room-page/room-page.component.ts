@@ -334,15 +334,31 @@ export class RoomPageComponent implements OnInit, OnDestroy {
     if (this.room.tags !== undefined) {
       tags = this.room.tags;
     }
+
     dialogRef.componentInstance.tags = tags;
+    const tagsBefore = [...tags];
     dialogRef.afterClosed().subscribe(result => {
-      if (!result || result === 'abort') {
+      if (!result || result === 'abort' || !this.hasTagChanges(tagsBefore,result)) {
         return;
       } else {
         updRoom.tags = result;
         this.saveChanges(updRoom);
       }
     });
+  }
+
+  hasTagChanges(before: any, after: any): boolean{
+    let changes = false;
+    if(before.length !== after.length) {
+      changes = true;
+    }else{
+      before.forEach((tag, index) => {
+        if (tag !== after[index]) {
+          changes = true;
+        }
+      });
+    }
+    return changes;
   }
 
   toggleProfanityFilter() {
