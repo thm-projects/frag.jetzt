@@ -43,7 +43,7 @@ sonar:
     - staging
   tags:
     - sonar-cli
-  allow_failure: true
+  allow_failure: false
   dependencies:
     - unit_tests
   script:
