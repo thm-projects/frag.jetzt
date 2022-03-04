@@ -532,7 +532,8 @@
     "comments": "Abgearbeitete Fragen",
     "bad-spelled": "Zu schlechte Rechtschreibung",
     "failed": "Fehler aufgetreten",
-    "inline-header": "Laufende Stichwort-Aktualisierungen"
+    "inline-header": "Laufende Stichwort-Aktualisierungen",
+    "404-error-description": "Die von Ihnen aufgerufene Seite existiert nicht."
   },
   "topic-cloud-filter": {
     "info-no-keywords": "Unsere KI-basierte Textanalyse kann Stichwörter ermitteln. Analyse starten?",
