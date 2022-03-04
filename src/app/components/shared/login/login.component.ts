@@ -52,7 +52,7 @@ export class LoginComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    let u;
+    let u = false;
     let p = false;
     if (changes.username) {
       this.usernameFormControl.setValue(changes.username.currentValue);
@@ -63,7 +63,6 @@ export class LoginComponent implements OnInit, OnChanges {
       p = true;
     }
     if (u && p && !changes.username.isFirstChange() && !changes.username.isFirstChange()) {
-      // TODO: this throws an Exception because data and UI are inconsistent
       this.activateUser();
     }
   }

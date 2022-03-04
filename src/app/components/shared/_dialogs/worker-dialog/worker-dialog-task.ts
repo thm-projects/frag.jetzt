@@ -87,18 +87,21 @@ export class WorkerDialogTask {
     if (language !== null) {
       changes.set('language', language);
     }
-    this.commentService.patchComment(this._comments[index], changes).subscribe(_ => {
+
+    this.commentService.patchComment(this._comments[index], changes).subscribe({
+      next: () => {
         this.statistics.succeeded++;
         this.callSpacy(index + concurrentCallsPerTask);
       },
-      patchError => {
+      error: patchError => {
         undo();
         this.statistics.failed++;
         if (patchError instanceof HttpErrorResponse && patchError.status === 403) {
           this.error = 'forbidden';
         }
         this.callSpacy(index + concurrentCallsPerTask);
-      });
+      }
+    });
   }
 
 }

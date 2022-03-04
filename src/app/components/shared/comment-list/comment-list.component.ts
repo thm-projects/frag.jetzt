@@ -20,7 +20,7 @@ import { AuthenticationService } from '../../../services/http/authentication.ser
 import { TitleService } from '../../../services/util/title.service';
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
 import { CreateCommentWrapper } from '../../../utils/create-comment-wrapper';
-import { RoomDataService } from '../../../services/util/room-data.service';
+import { RoomDataService, UpdateInformation } from '../../../services/util/room-data.service';
 import { OnboardingService } from '../../../services/util/onboarding.service';
 import { PageEvent } from '@angular/material/paginator';
 import { ViewCommentDataComponent } from '../view-comment-data/view-comment-data.component';
@@ -325,13 +325,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
           wasUpdate = true;
         }
       } else if (update.type === 'CommentPatched') {
-        if (update.subtype === 'favorite') {
-          if (this.user.id === update.comment.creatorId && this.userRole === UserRole.PARTICIPANT) {
-            const text = update.comment.favorite ? 'comment-list.question-was-marked-with-a-star' :
-              'comment-list.star-was-withdrawn-from-the-question';
-            this.translateService.get(text).subscribe(ret => this.notificationService.show(ret));
-          }
-        }
+        this.onCommentPatched(update);
       }
       if (update.finished && wasUpdate) {
         this.setFocusedComment(this.sendCommentId);
@@ -364,7 +358,11 @@ export class CommentListComponent implements OnInit, OnDestroy {
       // current live announcer content must be cleared before next read
       this.liveAnnouncer.clear();
 
-      this.liveAnnouncer.announce(newCommentText).catch(err => { /* TODO error handling */
+      this.liveAnnouncer.announce(newCommentText).catch(err => {
+        console.error(err);
+        this.translateService.get('comment-list.a11y-announce-error').subscribe(msg => {
+          this.notificationService.show(msg);
+        });
       });
     }, 450);
   }
@@ -396,6 +394,16 @@ export class CommentListComponent implements OnInit, OnDestroy {
     return this.comments &&
       (this.commentsFilteredByTimeLength < 1 && this.period === 'All' || this.comments.length === 0) &&
       !this.isLoading;
+  }
+
+  private onCommentPatched(update: UpdateInformation) {
+    if (update.subtype === 'favorite') {
+      if (this.user.id === update.comment.creatorId && this.userRole === UserRole.PARTICIPANT) {
+        const text = update.comment.favorite ? 'comment-list.question-was-marked-with-a-star' :
+          'comment-list.star-was-withdrawn-from-the-question';
+        this.translateService.get(text).subscribe(ret => this.notificationService.show(ret));
+      }
+    }
   }
 
   private receiveRoom(room: Room) {

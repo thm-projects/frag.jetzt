@@ -377,17 +377,19 @@ export class RoomPageComponent implements OnInit, OnDestroy {
   }
 
   protected saveChanges(updRoom: Room) {
-    this.roomService.updateRoom(updRoom).subscribe((room) => {
+    this.roomService.updateRoom(updRoom).subscribe({
+      next: (room) => {
         this.room = room;
         this.translateService.get('room-page.changes-successful').subscribe(msg => {
           this.notificationService.show(msg);
         });
       },
-      error => {
+      error: (error) => {
         this.translateService.get('room-page.changes-gone-wrong').subscribe(msg => {
           this.notificationService.show(msg);
         });
-      });
+      }
+    });
   }
 
   private initNavigation() {

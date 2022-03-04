@@ -102,25 +102,7 @@ export class WriteCommentComponent implements OnInit {
       return undefined;
     }
     return () => {
-      let allowed = true;
-      const data = this.commentData.currentData;
-      const text = this.commentData.currentText;
-      if (this.isQuestionerNameEnabled) {
-        this.questionerNameFormControl.setValue((this.questionerNameFormControl.value || '').trim());
-        allowed = !this.questionerNameFormControl.hasError('minlength') &&
-          !this.questionerNameFormControl.hasError('maxlength');
-      }
-      if (this.brainstormingData &&
-        CreateCommentComponent.getWords(text).length > this.brainstormingData.maxWordCount) {
-        this.translateService.get('comment-page.error-comment-brainstorming', this.brainstormingData)
-          .subscribe(msg => this.notification.show(msg));
-        allowed = false;
-      }
-      if (this.allowEmpty || (ViewCommentDataComponent.checkInputData(data, text,
-        this.translateService, this.notification, this.maxTextCharacters, this.maxDataCharacters) && allowed)) {
-        const realData = this.allowEmpty && text.length < 2 ? null : data;
-        func(realData, text, this.selectedTag, this.questionerNameFormControl.value, this._wasVerifiedWithoutDeepl);
-      }
+      this.createComment(func);
     };
   }
 
@@ -131,38 +113,41 @@ export class WriteCommentComponent implements OnInit {
   grammarCheck(rawText: string, langSelect: HTMLSpanElement): void {
     this.isSpellchecking = true;
     this.hasSpellcheckConfidence = true;
-    this.checkSpellings(rawText).subscribe((wordsCheck) => {
-      if (!this.checkLanguageConfidence(wordsCheck)) {
-        this.hasSpellcheckConfidence = false;
-        this.isSpellchecking = false;
-        return;
-      }
-      if (this.selectedLang === 'auto' &&
-        (langSelect.innerText.includes(this.newLang) || langSelect.innerText.includes('auto'))) {
-        if (wordsCheck.language.name.includes('German')) {
-          this.selectedLang = 'de-DE';
-        } else if (wordsCheck.language.name.includes('English')) {
-          this.selectedLang = 'en-US';
-        } else if (wordsCheck.language.name.includes('French')) {
-          this.selectedLang = 'fr';
-        } else {
-          this.newLang = wordsCheck.language.name;
+    this.checkSpellings(rawText).subscribe({
+      next: (wordsCheck) => {
+        if (!this.checkLanguageConfidence(wordsCheck)) {
+          this.hasSpellcheckConfidence = false;
+          this.isSpellchecking = false;
+          return;
         }
-        langSelect.innerHTML = this.newLang;
-      }
-      const previous = this.commentData.currentData;
-      this.openDeeplDialog(previous, rawText, wordsCheck,
-        (selected) => {
-          if (selected.view === this.commentData) {
-            this._wasVerifiedWithoutDeepl = true;
-            this.commentData.buildMarks(rawText, wordsCheck);
+        if (this.selectedLang === 'auto' &&
+          (langSelect.innerText.includes(this.newLang) || langSelect.innerText.includes('auto'))) {
+          if (wordsCheck.language.name.includes('German')) {
+            this.selectedLang = 'de-DE';
+          } else if (wordsCheck.language.name.includes('English')) {
+            this.selectedLang = 'en-US';
+          } else if (wordsCheck.language.name.includes('French')) {
+            this.selectedLang = 'fr';
           } else {
-            this.commentData.currentData = selected.body;
-            this.commentData.copyMarks(selected.view);
+            this.newLang = wordsCheck.language.name;
           }
-        });
-    }, () => {
-      this.isSpellchecking = false;
+          langSelect.innerHTML = this.newLang;
+        }
+        const previous = this.commentData.currentData;
+        this.openDeeplDialog(previous, rawText, wordsCheck,
+          (selected) => {
+            if (selected.view === this.commentData) {
+              this._wasVerifiedWithoutDeepl = true;
+              this.commentData.buildMarks(rawText, wordsCheck);
+            } else {
+              this.commentData.currentData = selected.body;
+              this.commentData.copyMarks(selected.view);
+            }
+          });
+      },
+      error: () => {
+        this.isSpellchecking = false;
+      }
     });
   }
 
@@ -182,6 +167,28 @@ export class WriteCommentComponent implements OnInit {
     return this.languagetoolService.checkSpellings(text, language);
   }
 
+  private createComment(func: SubmitFunction) {
+    let allowed = true;
+    const data = this.commentData.currentData;
+    const text = this.commentData.currentText;
+    if (this.isQuestionerNameEnabled) {
+      this.questionerNameFormControl.setValue((this.questionerNameFormControl.value || '').trim());
+      allowed = !this.questionerNameFormControl.hasError('minlength') &&
+        !this.questionerNameFormControl.hasError('maxlength');
+    }
+    if (this.brainstormingData &&
+      CreateCommentComponent.getWords(text).length > this.brainstormingData.maxWordCount) {
+      this.translateService.get('comment-page.error-comment-brainstorming', this.brainstormingData)
+        .subscribe(msg => this.notification.show(msg));
+      allowed = false;
+    }
+    if (this.allowEmpty || (ViewCommentDataComponent.checkInputData(data, text,
+      this.translateService, this.notification, this.maxTextCharacters, this.maxDataCharacters) && allowed)) {
+      const realData = this.allowEmpty && text.length < 2 ? null : data;
+      func(realData, text, this.selectedTag, this.questionerNameFormControl.value, this._wasVerifiedWithoutDeepl);
+    }
+  }
+
   private openDeeplDialog(body: string,
                           text: string,
                           result: LanguagetoolResult,
@@ -193,41 +200,43 @@ export class WriteCommentComponent implements OnInit {
       target = TargetLang.DE;
     }
     CreateCommentKeywords.generateDeeplDelta(this.deeplService, body, target)
-      .subscribe(([improvedBody, improvedText]) => {
-        this.isSpellchecking = false;
-        if (improvedText.replace(/\s+/g, '') === text.replace(/\s+/g, '')) {
-          this.translateService.get('deepl.no-optimization').subscribe(msg => this.notification.show(msg));
-          onClose({ body, text, view: this.commentData });
-          return;
-        }
-        const instance = this.dialog.open(DeepLDialogComponent, {
-          width: '900px',
-          maxWidth: '100%',
-          data: {
-            body,
-            text,
-            improvedBody,
-            improvedText,
-            maxTextCharacters: this.maxTextCharacters,
-            maxDataCharacters: this.maxDataCharacters,
-            isModerator: this.isModerator,
-            result,
-            onClose,
-            target: DeepLService.transformSourceToTarget(source),
-            usedTarget: target
-          }
-        });
-        instance.afterClosed().subscribe((val) => {
-          if (val) {
-            this.buildCreateCommentActionCallback(this.onDeeplSubmit)();
-          } else {
+      .subscribe({
+        next: ([improvedBody, improvedText]) => {
+          this.isSpellchecking = false;
+          if (improvedText.replace(/\s+/g, '') === text.replace(/\s+/g, '')) {
+            this.translateService.get('deepl.no-optimization').subscribe(msg => this.notification.show(msg));
             onClose({ body, text, view: this.commentData });
+            return;
           }
-        });
-      }, (_) => {
-        this.isSpellchecking = false;
-        onClose({ body, text, view: this.commentData });
+          const instance = this.dialog.open(DeepLDialogComponent, {
+            width: '900px',
+            maxWidth: '100%',
+            data: {
+              body,
+              text,
+              improvedBody,
+              improvedText,
+              maxTextCharacters: this.maxTextCharacters,
+              maxDataCharacters: this.maxDataCharacters,
+              isModerator: this.isModerator,
+              result,
+              onClose,
+              target: DeepLService.transformSourceToTarget(source),
+              usedTarget: target
+            }
+          });
+          instance.afterClosed().subscribe((val) => {
+            if (val) {
+              this.buildCreateCommentActionCallback(this.onDeeplSubmit)();
+            } else {
+              onClose({ body, text, view: this.commentData });
+            }
+          });
+        },
+        error: () => {
+          this.isSpellchecking = false;
+          onClose({ body, text, view: this.commentData });
+        }
       });
   }
-
 }

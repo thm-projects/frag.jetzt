@@ -6,7 +6,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { RoomService } from '../../../../services/http/room.service';
 import { Router } from '@angular/router';
 import { CommentService } from '../../../../services/http/comment.service';
-import { BonusTokenService } from '../../../../services/http/bonus-token.service';
 import { DeleteCommentsComponent } from '../delete-comments/delete-comments.component';
 import { Room } from '../../../../models/room';
 import { CommentSettings } from '../../../../models/comment-settings';

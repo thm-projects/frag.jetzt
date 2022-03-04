@@ -63,6 +63,7 @@ mat-icon {
 
 ::ng-deep .color-menu {
   padding: 0 8px 0 8px;
+  width: 170px !important;
 }
 
 ::ng-deep .mat-menu-panel {
@@ -88,10 +89,6 @@ mat-icon {
   left: calc(50% + 1px);
   transform: translate(-50%, -50%);
   color: white;
-}
-
-::ng-deep .color-menu {
-  width: 170px !important;
 }
 
 @media (max-width: 500px) {

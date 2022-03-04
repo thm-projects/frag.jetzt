@@ -162,11 +162,16 @@ export class CreateCommentComponent implements OnInit, OnDestroy {
           send(term);
           return;
         }
+
         this.spacyService.getKeywords(term, commentModel, true)
-          .subscribe((keywords) => {
+          .subscribe({
+            next: keywords => {
               send(keywords.map(kw => kw.text).join(' '));
             },
-            () => send(term));
+            error: () => {
+              send(term);
+            }
+          });
       });
   }
 
