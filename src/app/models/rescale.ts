@@ -115,7 +115,6 @@ export class Rescale {
   }
 
   private scaleUpdate() {
-    //TODO fix zoom not defined
     (document.getElementById('rescale_screen').style as any).zoom = this.scale + '';
   }
 

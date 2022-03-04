@@ -66,11 +66,17 @@ export class ModeratorJoinComponent implements OnInit, OnDestroy {
 
   confirm(): void {
     this.isSending = true;
-    this.moderatorService.addByRoomCode(this.moderatorRoom.id).subscribe(_ => {
-      this.roomService.addToHistory(this.room.id);
-      this.authenticationService.setAccess(this.room.shortId, UserRole.EXECUTIVE_MODERATOR);
-      this.router.navigate([`/moderator/room/${this.room.shortId}/comments`]);
-    }, _ => this.isSending = false);
+
+    this.moderatorService.addByRoomCode(this.moderatorRoom.id).subscribe({
+      next: () => {
+        this.roomService.addToHistory(this.room.id);
+        this.authenticationService.setAccess(this.room.shortId, UserRole.EXECUTIVE_MODERATOR);
+        this.router.navigate([`/moderator/room/${this.room.shortId}/comments`]);
+      },
+      error: () => {
+        this.isSending = false;
+      }
+    });
   }
 
   deny(): void {

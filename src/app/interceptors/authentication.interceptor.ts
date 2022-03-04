@@ -32,16 +32,19 @@ export class AuthenticationInterceptor implements HttpInterceptor {
         headers: req.headers.set(AUTH_HEADER_KEY, `${AUTH_SCHEME} ${token}`)
       });
 
-      return next.handle(cloned).pipe(tap((event: HttpEvent<any>) => {
-        if (event instanceof HttpResponse) {
-          // Possible to do something with the response here
-        }
-      }, (err: any) => {
-        if (err instanceof HttpErrorResponse) {
-          // Catch 401 errors
-          if (err.status === 401) {
-            this.notificationService.show('You are not logged in.');
-            this.router.navigate(['home']);
+      return next.handle(cloned).pipe(tap({
+        next: (event: HttpEvent<any>) => {
+          if (event instanceof HttpResponse)  {
+            // Possible to do something with the response here
+          }
+        },
+        error: (err: any) => {
+          if (err instanceof HttpErrorResponse) {
+            // Catch 401 errors
+            if (err.status === 401) {
+              this.notificationService.show('You are not logged in.');
+              this.router.navigate(['home']);
+            }
           }
         }
       }));

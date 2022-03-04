@@ -78,6 +78,7 @@
     "a11y-select-time-1w": "Show all questions of the last 7 days",
     "a11y-select-time-2w": "Show all questions of the last 14 days",
     "a11y-select-time-all": "Show all questions",
+    "a11y-announce-error": "Announcement could not be published",
     "answered": "Answered questions",
     "add-comment": "Ask a question to the audience!",
     "ask-question-empty": "Here you can ask your question.",

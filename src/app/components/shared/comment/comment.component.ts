@@ -239,6 +239,7 @@ export class CommentComponent implements OnInit, AfterViewInit {
 
 
   setFavorite(comment: Comment): void {
+    console.log('setFavorite');
     if (this.comment.favorite) {
       const dialogRef = this.dialog.open(BonusDeleteComponent, {
         width: '400px'
@@ -248,24 +249,25 @@ export class CommentComponent implements OnInit, AfterViewInit {
         .subscribe(result => {
           if (result === 'delete') {
             this.commentService.toggleFavorite(comment).subscribe(c => {
-              this.comment.favorite = c.favorite;
-              this.checkProfanity();
-              const text = this.comment.favorite ? 'comment-list.question-was-marked-with-a-star' :
-                'comment-list.star-was-withdrawn-from-the-question';
-              this.translateService.get(text).subscribe(ret => this.notification.show(ret));
+              this.notifyFavorite(c);
             });
           }
         });
     } else {
       this.commentService.toggleFavorite(comment).subscribe(c => {
-        this.comment.favorite = c.favorite;
-        this.checkProfanity();
-        const text = this.comment.favorite ? 'comment-list.question-was-marked-with-a-star' :
-          'comment-list.star-was-withdrawn-from-the-question';
-        this.translateService.get(text).subscribe(ret => this.notification.show(ret));
+        this.notifyFavorite(c);
       });
     }
   }
+
+  notifyFavorite(comment: Comment){
+    this.comment.favorite = comment.favorite;
+    this.checkProfanity();
+    const text = this.comment.favorite ? 'comment-list.question-was-marked-with-a-star' :
+      'comment-list.star-was-withdrawn-from-the-question';
+    this.translateService.get(text).subscribe(ret => this.notification.show(ret));
+  }
+
 
   voteUp(comment: Comment): void {
     if (this.isMock) {

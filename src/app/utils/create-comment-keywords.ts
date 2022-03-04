@@ -45,8 +45,6 @@ export class CreateCommentKeywords {
     if (!data) {
       return null;
     }
-    const urlRegex = /(www\.|https?:\/\/)\S+/gi;
-    let m;
     const result = JSON.parse(data).reduce((acc, k) => {
       let prevObjData;
       if (typeof k !== 'string') {
@@ -56,26 +54,7 @@ export class CreateCommentKeywords {
         }
         prevObjData = { ...k };
       }
-      const str = prevObjData ? k.insert : k;
-      let lastIndex = 0;
-      while ((m = urlRegex.exec(str)) !== null) {
-        if (m.index > lastIndex) {
-          const substring = str.substring(lastIndex, m.index);
-          acc.push(prevObjData ? { ...prevObjData, insert: substring } : substring);
-        }
-        lastIndex = m.index + m[0].length;
-        const link = m[1]?.toLowerCase() === 'www.' ? 'https://' + m[0] : m[0];
-        const videoLink = transformToVideo && QuillInputDialogComponent.getVideoUrl(link);
-        if (videoLink) {
-          acc.push({ video: videoLink });
-        } else {
-          acc.push({ attributes: { ...prevObjData?.attributes, link }, insert: link });
-        }
-      }
-      if (lastIndex < str.length) {
-        const substring = str.substring(lastIndex);
-        acc.push(prevObjData ? { ...prevObjData, insert: substring } : substring);
-      }
+      this.transformURLinString(prevObjData ? k.insert : k, prevObjData, transformToVideo, acc);
       return acc;
     }, []);
     return JSON.stringify(result);
@@ -143,6 +122,30 @@ export class CreateCommentKeywords {
         error: err
       } as KeywordsResult))
     );
+  }
+
+  private static transformURLinString(str: string, prevObjData: any, transformToVideo: boolean, acc: any[]) {
+    let m;
+    let lastIndex = 0;
+    const urlRegex = /(www\.|https?:\/\/)\S+/gi;
+    while ((m = urlRegex.exec(str)) !== null) {
+      if (m.index > lastIndex) {
+        const substring = str.substring(lastIndex, m.index);
+        acc.push(prevObjData ? { ...prevObjData, insert: substring } : substring);
+      }
+      lastIndex = m.index + m[0].length;
+      const link = m[1]?.toLowerCase() === 'www.' ? 'https://' + m[0] : m[0];
+      const videoLink = transformToVideo && QuillInputDialogComponent.getVideoUrl(link);
+      if (videoLink) {
+        acc.push({ video: videoLink });
+      } else {
+        acc.push({ attributes: { ...prevObjData?.attributes, link }, insert: link });
+      }
+    }
+    if (lastIndex < str.length) {
+      const substring = str.substring(lastIndex);
+      acc.push(prevObjData ? { ...prevObjData, insert: substring } : substring);
+    }
   }
 
   private static spacyKeywordsFromLanguagetoolResult(languagetoolService: LanguagetoolService,

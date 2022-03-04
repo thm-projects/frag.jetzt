@@ -574,7 +574,7 @@ export const importToRoom = (translateService: TranslateService,
   return generateCommentCreatorIds(result, roomService, roomId)
     .pipe(
       mergeMap(value => importRoomSettings(value, roomService, roomId)),
-      mergeMap(value => forkJoin(value[5].map(c => importComment(c, roomId, commentService)) as Observable<Comment>[])),
+      mergeMap(value => forkJoin(value[5].map(c => importComment(c, roomId, commentService)))),
       mergeMap(_ => result)
     );
 };

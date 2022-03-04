@@ -104,46 +104,10 @@ export class TopicCloudAdminService {
       return;
     }
     const wantedLabels = config.wantedLabels[comment.language.toLowerCase()];
-    for (let i = 0; i < source.length; i++) {
-      const keyword = source[i];
-      if (maskKeyword(keyword.text).length < 3) {
-        continue;
-      }
-      if (censored[i]) {
-        continue;
-      }
-      if (!brainstorming && wantedLabels && (!keyword.dep || !keyword.dep.some(e => wantedLabels.includes(e)))) {
-        continue;
-      }
-      if (!blacklistEnabled) {
-        keywordFunc(keyword, isFromQuestioner, false);
-        continue;
-      }
-      const lowerCasedKeyword = keyword.text.toLowerCase();
-      if (!blacklist.some(word => lowerCasedKeyword.includes(word))) {
-        keywordFunc(keyword, isFromQuestioner, false);
-      }
-    }
-    for (let i = 0; i < answerSource.length; i++) {
-      const keyword = answerSource[i];
-      if (maskKeyword(keyword.text).length < 3) {
-        continue;
-      }
-      if (answerCensored[i]) {
-        continue;
-      }
-      if (!brainstorming && wantedLabels && (!keyword.dep || !keyword.dep.some(e => wantedLabels.includes(e)))) {
-        continue;
-      }
-      if (!blacklistEnabled) {
-        keywordFunc(keyword, isAnswerFromQuestioner, true);
-        continue;
-      }
-      const lowerCasedKeyword = keyword.text.toLowerCase();
-      if (!blacklist.some(word => lowerCasedKeyword.includes(word))) {
-        keywordFunc(keyword, isAnswerFromQuestioner, true);
-      }
-    }
+    this.approveKeywords(keywordFunc, source, censored, brainstorming, wantedLabels, isFromQuestioner,
+      blacklistEnabled, blacklist, false);
+    this.approveKeywords(keywordFunc, answerSource, answerCensored, brainstorming, wantedLabels,
+      isAnswerFromQuestioner, blacklistEnabled, blacklist, true);
   }
 
   static isTopicAllowed(config: TopicCloudAdminData, comments: number, users: number,
@@ -165,8 +129,8 @@ export class TopicCloudAdminService {
     if (!data) {
       data = {
         wantedLabels: {
-          de: this.getDefaultSpacyTagsDE(),
-          en: this.getDefaultSpacyTagsEN()
+          de: this.getDefaultSpacyTags('de'),
+          en: this.getDefaultSpacyTags('en')
         },
         considerVotes: true,
         keywordORfulltext: KeywordOrFulltext.Both,
@@ -182,9 +146,19 @@ export class TopicCloudAdminService {
     return data;
   }
 
-  static getDefaultSpacyTagsDE(): string[] {
+  static getDefaultSpacyTags(lang: string): string[] {
     const tags: string[] = [];
-    spacyLabels.de.forEach(label => {
+    let currentSpacyLabels = [];
+    switch (lang) {
+      case 'de':
+        currentSpacyLabels = spacyLabels.de;
+        break;
+      case 'en':
+        currentSpacyLabels = spacyLabels.en;
+        break;
+      default:
+    }
+    currentSpacyLabels.forEach(label => {
       if (label.enabledByDefault) {
         tags.push(label.tag);
       }
@@ -192,14 +166,31 @@ export class TopicCloudAdminService {
     return tags;
   }
 
-  static getDefaultSpacyTagsEN(): string[] {
-    const tags: string[] = [];
-    spacyLabels.en.forEach(label => {
-      if (label.enabledByDefault) {
-        tags.push(label.tag);
+  private static approveKeywords(
+    keywordFunc: KeywordConsumer, keywords: SpacyKeyword[], censored: boolean[], brainstorming: boolean,
+    wantedLabels: string[], isFromQuestioner: boolean, blacklistEnabled: boolean, blacklist: string[],
+    isFromAnswer: boolean
+  ) {
+    for (let i = 0; i < keywords.length; i++) {
+      const keyword = keywords[i];
+      if (maskKeyword(keyword.text).length < 3) {
+        continue;
       }
-    });
-    return tags;
+      if (censored[i]) {
+        continue;
+      }
+      if (!brainstorming && wantedLabels && (!keyword.dep || !keyword.dep.some(e => wantedLabels.includes(e)))) {
+        continue;
+      }
+      if (!blacklistEnabled) {
+        keywordFunc(keyword, isFromQuestioner, isFromAnswer);
+        continue;
+      }
+      const lowerCasedKeyword = keyword.text.toLowerCase();
+      if (!blacklist.some(word => lowerCasedKeyword.includes(word))) {
+        keywordFunc(keyword, isFromQuestioner, isFromAnswer);
+      }
+    }
   }
 
   get getAdminData(): Observable<TopicCloudAdminData> {
@@ -245,7 +236,8 @@ export class TopicCloudAdminService {
   }
 
   updateRoom(updatedRoom: Room, message?: string) {
-    this.roomService.updateRoom(updatedRoom).subscribe(() => {
+    this.roomService.updateRoom(updatedRoom).subscribe({
+      next: () => {
         if (!message) {
           message = 'changes-successful';
         }
@@ -253,10 +245,11 @@ export class TopicCloudAdminService {
           this.notificationService.show(msg);
         });
       },
-      () => {
+      error: () => {
         this.translateService.get('topic-cloud.changes-gone-wrong').subscribe(msg => {
           this.notificationService.show(msg);
         });
-      });
+      }
+    });
   }
 }
