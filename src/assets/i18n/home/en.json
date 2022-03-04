@@ -534,7 +534,8 @@
     "comments": "Processed questions",
     "bad-spelled": "Spelling too bad",
     "failed": "Errors occurred",
-    "inline-header": "Running keyword updates"
+    "inline-header": "Running keyword updates",
+    "404-error-description": "The page you were looking for was not found."
   },
   "topic-cloud-filter": {
     "info-no-keywords": "Our AI-based text analysis can identify keywords. Start analysis?",
