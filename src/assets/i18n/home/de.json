@@ -37,7 +37,7 @@
   "delete-account": {
     "cancel": "Abbrechen",
     "cancel-description": "Löschung des Kontos abbrechen",
-    "delete": "Löschen",
+    "delete": "Ja",
     "delete-description": "Konto löschen"
   },
   "moderators-dialog": {
@@ -118,7 +118,7 @@
     "brainstorm-old-session-title-short": "Letzte Sitzung",
     "brainstorm-old-session-info": "Das Thema lautet »{{title}}«.",
     "brainstorm-old-session-show": "Anzeigen",
-    "brainstorm-old-session-delete": "Löschen",
+    "brainstorm-old-session-delete": "Ja",
     "brainstorm-no-session": "Keine aktive Sitzung",
     "brainstorming-action-went-wrong": "Etwas ist schiefgelaufen!",
     "brainstorming-direct-send-disabled": "Eine Brainstorming-Session kann nicht gestartet werden, wenn die Moderation aktiv ist.",
@@ -148,7 +148,7 @@
     "back": "Zurück",
     "brainstorming": "Brainstormen",
     "cancel": "Abbrechen",
-    "delete": "Löschen",
+    "delete": "Ja",
     "delete-account": "Konto löschen",
     "home-header": "Live Q&A",
     "home-header-mobile": "Live Q&A",
