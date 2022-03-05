@@ -47,9 +47,11 @@ $scaledWidth: math.div($width * (1 - $customScaleFactor), 2);
     div::-webkit-scrollbar {
       width: 12px;
     }
+
     div::-webkit-scrollbar-track {
       background: var(--dialog);
     }
+
     div::-webkit-scrollbar-thumb {
       background-color: var(--secondary-variant);
       border-radius: 20px;
@@ -85,8 +87,13 @@ $scaledWidth: math.div($width * (1 - $customScaleFactor), 2);
 }
 
 .preview-btn {
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-  background-color: var(--secondary);
-  color: var(--on-secondary);
+  margin: 10px;
+  background-color: transparent;
+  color: var(--secondary);
+  outline: var(--secondary) solid 3px;
+
+  &:hover {
+    background-color: var(--secondary);
+    color: var(--on-secondary);
+  }
 }
