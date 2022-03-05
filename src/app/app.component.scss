@@ -54,7 +54,9 @@ main {
 .rescale_overlay {
   width: 180px;
   height: 50px;
-  background-color: var(--primary);
+  background-color: transparent;
+  color: var(--primary);
+  outline: var(--primary) solid 3px;
   border-radius: 15px;
   position: fixed;
   left: 50px !important;
@@ -62,10 +64,6 @@ main {
   z-index: 2;
   display: none;
   transition: all 0.2s ease-in-out;
-
-  > button:focus {
-    box-shadow: inset 0 0 0 1px var(--on-surface);
-  }
 }
 
 .rescale_overlay > button {
@@ -73,8 +71,15 @@ main {
 }
 
 .rescale_overlay mat-icon {
-  color: var(--on-primary);
+  color: var(--primary);
   transform: scale(1.5);
+
+  &:hover {
+    background-color: var(--primary);
+    color: var(--on-primary);
+    border-radius: 15px;
+    padding: 3px
+  }
 }
 
 .rescale_overlay > button:first-child {
