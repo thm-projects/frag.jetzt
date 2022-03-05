@@ -40,8 +40,9 @@ mat-form-field.input-block {
 }
 
 .snackbar button {
-  background-color: var(--primary);
-  color: var(--on-primary) !important;
+  bbackground-color: transparent;
+  color: var(--primary);
+  outline: var(--primary) solid 3px;
 }
 
 .mat-input-element {
