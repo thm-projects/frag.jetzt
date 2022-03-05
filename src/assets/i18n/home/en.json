@@ -37,7 +37,7 @@
   "delete-account": {
     "cancel": "Cancel",
     "cancel-description": "Cancel account deletion",
-    "delete": "Delete",
+    "delete": "Yes",
     "delete-description": "Delete your Account"
   },
   "moderators-dialog": {
@@ -113,7 +113,7 @@
     "back": "Back",
     "brainstorming": "Brainstorming",
     "cancel": "Cancel",
-    "delete": "Delete",
+    "delete": "Yes",
     "block": "Block new questions",
     "unlock": "Release for new questions",
     "delete-account": "Delete account",
@@ -238,7 +238,7 @@
     "brainstorm-old-session-title-short": "Last session",
     "brainstorm-old-session-info": "The topic is »{{title}}«.",
     "brainstorm-old-session-show": "Show",
-    "brainstorm-old-session-delete": "Delete",
+    "brainstorm-old-session-delete": "Yes",
     "brainstorm-no-session": "No active session",
     "brainstorming-action-went-wrong": "Something went wrong!",
     "brainstorming-direct-send-disabled": "Brainstorming cannot be started when moderation is active.",
