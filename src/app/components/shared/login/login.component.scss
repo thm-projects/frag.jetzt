@@ -9,7 +9,7 @@
 
 .guest {
   background-color: transparent;
-  color: var(--primary);
+  color: var(--on-background);
   outline: var(--primary) solid 3px;
   margin: 15px;
 
@@ -21,7 +21,7 @@
 
 .login {
   background-color: transparent;
-  color: var(--secondary);
+  color: var(--on-background);
   outline: var(--secondary) solid 3px;
   margin: 15px;
 
