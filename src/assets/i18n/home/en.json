@@ -37,7 +37,7 @@
   "delete-account": {
     "cancel": "Cancel",
     "cancel-description": "Cancel account deletion",
-    "delete": "Yes",
+    "delete": "Yes, I want to delete my account.",
     "delete-description": "Delete your Account"
   },
   "moderators-dialog": {
