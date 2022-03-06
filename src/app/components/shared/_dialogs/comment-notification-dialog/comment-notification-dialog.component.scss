@@ -1,6 +1,7 @@
 .weekday-chip {
   background-color: var(--cancel);
   color: var(--on-cancel);
+  margin-top: 10px !important;
 
   &.active {
     background-color: transparent;
@@ -40,7 +41,7 @@
     background-color: transparent;
     color: var(--on-dialog);
     width: 100%;
-    margin-top: 10px;
+    margin: 16px;
 
     &:hover {
       outline: var(--cancel) solid 3px;

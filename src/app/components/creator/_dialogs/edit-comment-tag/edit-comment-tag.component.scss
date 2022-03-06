@@ -77,9 +77,16 @@ Styling for tag selection and language selection
 }
 
 .dialog-button {
-  background-color: var(--green);
-  color: var(--black);
+  background-color: transparent;
+  color: var(--on-dialog);
+  outline: var(--secondary) solid 3px;
   margin-top: 1rem;
+  margin-left: 3px;
+
+  &:hover {
+    background-color: var(--secondary);
+    color: var(--on-secondary);
+  }
 
   .mat-icon {
     font-size: 18px;
