@@ -59,11 +59,16 @@
   .joyride-step__close {
     width: 1em !important;
     height: 1em !important;
-    top: 0.75em !important;
-    right: 0.75em !important;
+    top: 1.5em !important;
+    right: 1.5em !important;
+    padding: 10px;
 
     line {
       stroke: var(--on-dialog);
+    }
+    &:hover {
+      outline: var(--on-dialog) solid 3px;
+      border-radius: 20px;
     }
   }
 
@@ -91,6 +96,13 @@
 .joy-secondary {
   background-color: transparent;
   color: var(--on-dialog);
+  margin-right: 10px;
+
+  &:hover {
+    background-color: transparent;
+    color: var(--on-dialog);
+    outline: var(--on-dialog) solid 3px;
+  }
 }
 
 h3 {
