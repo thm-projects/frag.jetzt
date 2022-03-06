@@ -38,8 +38,9 @@
              (matSortChange)="sortData($event)"
              mat-table
              [dataSource]="tableDataSource"
-             class="list-entries">
-        <caption>roomTable: a listing of all active rooms</caption>
+             class="list-entries"
+              aria-describedby="roomTable"
+              aria-label="This table shows all available rooms.">
 
         <!-- Room / Session name column -->
         <ng-container matColumnDef="name"
