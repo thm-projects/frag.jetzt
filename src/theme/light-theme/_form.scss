@@ -40,13 +40,13 @@ mat-form-field.input-block {
 }
 
 .snackbar button {
-  background-color: transparent;
-  color: var(--on-secondary);
-  outline: var(--primary) solid 3px;
+  background-color: transparent !important;
+  color: var(--on-secondary) !important;
+  outline: var(--primary) solid 3px !important;
 
   &:hover {
-    background-color: var(--primary);
-    color: var(--on-primary);
+    background-color: var(--primary) !important;
+    color: var(--on-primary) !important;
   }
 }
 
