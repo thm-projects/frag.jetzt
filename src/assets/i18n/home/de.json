@@ -37,7 +37,7 @@
   "delete-account": {
     "cancel": "Abbrechen",
     "cancel-description": "Löschung des Kontos abbrechen",
-    "delete": "Ja",
+    "delete": "Ja, ich will mein Konto löschen.",
     "delete-description": "Konto löschen"
   },
   "moderators-dialog": {
