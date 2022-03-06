@@ -34,7 +34,8 @@
       <button class="start_introduction"
               (click)="startIntroduction()"
               mat-fab
-              mat-icon-button>
+              mat-icon-button
+              matTooltip="{{ 'comment-list.start-introduction-video' | translate }}" [matTooltipPosition]="'above'">
         <mat-icon>play_arrow</mat-icon>
       </button>
       <button *ngIf="brainstormingActive && canWriteComment() && !drawer?.opened"
