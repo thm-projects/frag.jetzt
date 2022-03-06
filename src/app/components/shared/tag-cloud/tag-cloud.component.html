@@ -45,7 +45,7 @@
               }"
               class="fab_add_comment"
               (click)="writeComment()"
-              matTooltip="{{ 'comment-list.add-idea' | translate }}">
+              matTooltip="{{ 'comment-list.add-idea' | translate }}" [matTooltipPosition]="'above'">
         <mat-icon>add</mat-icon>
         <p class="oldtypo-p" *ngIf="isCloudEmpty()">{{'comment-list.ask-brainstorm-empty' | translate}}</p>
       </button>
