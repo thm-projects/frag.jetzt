@@ -187,7 +187,7 @@
       <button mat-menu-item
               (click)="applyFilterByKey('Bookmark')"
               aria-labelledby="bookmark">
-        <mat-icon class="bookmark"  style="color: purple"
+        <mat-icon class="bookmark" style="color: purple"
                   [ngClass]="{Bookmark: 'bookmark-icon'}[filterType]">bookmark
         </mat-icon>
         <span
@@ -227,7 +227,8 @@
       <button mat-menu-item
               (click)="applyFilterByKey('Owner')"
               aria-labelledby="comment">
-        <mat-icon class="material-icons-outlined" style="color: mediumslateblue" [ngClass]="{Owner: 'owner-icon'}[filterType]">
+        <mat-icon class="material-icons-outlined" style="color: mediumslateblue"
+                  [ngClass]="{Owner: 'owner-icon'}[filterType]">
           insert_emoticon
         </mat-icon>
         <span [ngClass]="{Owner: 'owner-icon'}[filterType]">{{ 'comment-list.filter-owner' | translate }}</span>
@@ -288,7 +289,7 @@
       <button mat-menu-item
               (click)="applyFilterByKey(null)"
               aria-labelledby="close">
-        <mat-icon  style="color: var(--red)">close</mat-icon>
+        <mat-icon style="color: var(--red)">close</mat-icon>
         <span>{{ 'comment-list.filter-reset' | translate }}</span>
       </button>
 
@@ -301,6 +302,7 @@
         class="scrollTop"
         [ngClass]="{'visible': isScrollButtonVisible()}"
         (click)="AppComponent.scrollTop()">
+  matTooltip="{{ 'comment-list.to-the-top' | translate }}" [matTooltipPosition]="'above'">
   <mat-icon>vertical_align_top</mat-icon>
 </button>
 
