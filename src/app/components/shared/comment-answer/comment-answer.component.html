@@ -16,6 +16,7 @@
     ></app-comment>
   </div>
   <div fxLayout="row"
+       *ngIf="isAnswerView"
        #writeCommentCard
        fxLayoutAlign="center">
     <mat-card class="answer border-answer"
@@ -34,6 +35,22 @@
                          [enabled]="!isStudent && (edit || !answer)">
       </app-write-comment>
     </mat-card>
+  </div>
+  <div *ngIf="!isAnswerView">
+    <div fxLayout="row"
+         #container
+         fxLayoutAlign="center"
+         *ngFor="let response of responses">
+      <app-comment [comment]="response"
+                   [user]="user"
+                   [userRole]="userRole"
+                   [parseVote]="vote"
+                   [moderator]="isModerationComment"
+                   [isFromModerator]="mods.has(comment.creatorId)"
+                   [isFromOwner]="room.ownerId === comment.creatorId"
+                   [isResponse] = true
+      ></app-comment>
+    </div>
   </div>
 </div>
 
