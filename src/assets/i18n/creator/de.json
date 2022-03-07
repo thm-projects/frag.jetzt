@@ -282,7 +282,7 @@
     "border-tooltip-border-favorite": "Diese Frage wurde für einen Bonus markiert.",
     "border-tooltip-border-fromModerator": "Diese Frage stammt von einem Moderator.",
     "border-tooltip-border-fromOwner": "Diese Frage stammt vom Raumersteller.",
-    "preview-in-mock": "Teilnehmer-Vorschau"
+    "preview-in-mock": "Vorschauprüfung auf einem Smartphone"
   },
   "content": {
     "abort": "Abbrechen",
@@ -374,7 +374,7 @@
   },
   "home-page": {
     "create-session": "Neue Sitzung",
-    "created": "Die Sitzung »{{longRoomName}}« wurde erstellt.",
+    "created": "Der Raum für die Sitzung »{{longRoomName}}« wurde erstellt.",
     "no-empty-name": "Gib einen Namen ein. Der Raum-Code wird generiert."
   },
   "moderator-join": {
