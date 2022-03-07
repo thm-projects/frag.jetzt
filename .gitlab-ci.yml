@@ -41,6 +41,7 @@ sonar:
   stage: codequality
   only:
     - staging
+    - merge_requests
   tags:
     - sonar-cli
   allow_failure: false
@@ -48,7 +49,7 @@ sonar:
     - unit_tests
   script:
     - npm ci
-    - sonar-scanner -Dsonar.login=$SONAR_TOKEN -Dsonar.host.url=https://scm.thm.de/sonar/
+    - sonar-scanner -Dsonar.login=$SONAR_TOKEN -Dsonar.host.url=https://scm.thm.de/sonar/ -Dsonar.qualitygate.wait=true
 
 ngbuild:
   stage: build
