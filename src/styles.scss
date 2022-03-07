@@ -341,3 +341,7 @@ blockquote {
   color: gray !important;
   outline: gray solid 3px !important;
 }
+
+:focus, :focus-visible {
+  background-color: transparent !important;
+}
