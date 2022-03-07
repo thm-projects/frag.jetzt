@@ -37,7 +37,7 @@
   "delete-account": {
     "cancel": "Cancel",
     "cancel-description": "Cancel account deletion",
-    "delete": "Yes, I want to delete my account.",
+    "delete": "Yes, delete for good.",
     "delete-description": "Delete your Account"
   },
   "moderators-dialog": {
@@ -133,7 +133,7 @@
     "tooltip-super-admin": "You are an administrator of »frag.jetzt«.",
     "my-sessions": "My rooms",
     "really-delete-account": "Do you want to irrevocably delete your account with all sessions? If you have given bonus stars, export the questions so that you can check submitted bonus codes.",
-    "confirm-delete-account": "Yes, I want to delete my account.",
+    "confirm-delete-account": "Yes, delete for good.",
     "sure": "Are you sure?",
     "user-bonus-token": "My bonus stars",
     "user-got-tokens": "You haven't received a star for a good question yet.",

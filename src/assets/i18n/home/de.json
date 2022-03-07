@@ -37,7 +37,7 @@
   "delete-account": {
     "cancel": "Abbrechen",
     "cancel-description": "Löschung des Kontos abbrechen",
-    "delete": "Ja, ich will mein Konto löschen.",
+    "delete": "Ja, löschen.",
     "delete-description": "Konto löschen"
   },
   "moderators-dialog": {
@@ -168,7 +168,7 @@
     "tooltip-super-admin": "Du bist Administrator*in von »frag.jetzt«.",
     "my-sessions": "Meine Räume",
     "really-delete-account": "Willst du dein Konto mit allen Sitzungen unwiderruflich löschen? Falls du Boni vergeben hast (Sterne), exportiere die Fragen, damit du eingereichte Bonus-Tokens überprüfen kannst.",
-    "confirm-delete-account": "Ja, ich will mein Konto löschen.",
+    "confirm-delete-account": "Ja, löschen.",
     "sure": "Bist du sicher?",
     "user-bonus-token": "Meine Bonus-Sterne",
     "user-got-tokens": "Du hast noch Sterne für Bonuspunkte, die verloren gehen!",

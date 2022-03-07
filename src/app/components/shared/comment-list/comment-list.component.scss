@@ -246,7 +246,7 @@ h3 {
 
 .fab_add_comment {
   position: fixed;
-  right: 25px;
+  right: 35px;
   bottom: 65px;
   z-index: 1;
   background-color: var(--primary);
@@ -255,7 +255,7 @@ h3 {
   transition: all 0.5s ease-in-out;
 
   &:hover {
-    background-color: transparent;
+    background-color: var(--background);
     color: var(--primary);
     outline: var(--primary) solid 3px;
   }
