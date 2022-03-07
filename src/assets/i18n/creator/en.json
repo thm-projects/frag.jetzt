@@ -283,7 +283,7 @@
     "border-tooltip-border-favorite": "This question was marked for a bonus.",
     "border-tooltip-border-fromModerator": "This question comes from a moderator.",
     "border-tooltip-border-fromOwner": "This question comes from the room creator.",
-    "preview-in-mock": "Participant preview"
+    "preview-in-mock": "Preview check on a smartphone"
   },
   "content": {
     "abort": "Abort",
@@ -375,7 +375,7 @@
   },
   "home-page": {
     "create-session": "New session",
-    "created": "Session »{{longRoomName}}« created",
+    "created": "The room for the session »{{longRoomName}}« has been created.",
     "no-empty-name": "Please enter a name."
   },
   "moderator-join": {

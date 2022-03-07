@@ -59,16 +59,17 @@
   .joyride-step__close {
     width: 1em !important;
     height: 1em !important;
-    top: 1.5em !important;
-    right: 1.5em !important;
+    top: 1em !important;
+    right: 1em !important;
     padding: 10px;
+    border-radius: 20px;
 
     line {
-      stroke: var(--on-dialog);
+      stroke: var(--cancel);
     }
+
     &:hover {
-      outline: var(--on-dialog) solid 3px;
-      border-radius: 20px;
+      outline: var(--cancel) solid 3px;
     }
   }
 
