@@ -131,35 +131,21 @@ button {
 }
 
 .vote-button {
-  background-color: transparent;
-  color: var(--on-surface);
-  outline: var(--green) solid 3px;
-  border-radius: 15px;
+  background-color: var(--primary);
+  color: var(--on-primary);
   min-width: 30px !important;
   min-height: 10px !important;
   width: calc(50% - 1em);
   z-index: 3;
   margin: 0.5em;
 
-  &:hover {
-    background-color: var(--green);
-    color: var(--white);
-  }
-
   &.active {
     background-color: var(--secondary);
     color: var(--on-secondary);
 
     &.downvote {
-      background-color: transparent;
-      color: var(--on-surface);
-      outline: var(--red) solid 3px;
-      border-radius: 15px;
-
-      &:hover {
-        background-color: var(--red);
-        color: var(--white);
-      }
+      background-color: var(--red);
+      color: var(--white);
     }
   }
 
