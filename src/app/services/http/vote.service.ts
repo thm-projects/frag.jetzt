@@ -30,7 +30,7 @@ export class VoteService extends BaseHttpService {
         accountId: userId
       },
       externalFilters: {
-        roomId: roomId
+        roomId
       }
     }).pipe(
       tap(() => ''),

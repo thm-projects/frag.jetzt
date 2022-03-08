@@ -24,9 +24,19 @@ button {
 }
 
 .spell-button {
-  background-color: var(--green);
-  color: var(--black);
-  margin-top: 1rem;
+  background-color: transparent;
+  color: var(--green);
+  outline: var(--green) solid 3px;
+  margin: 10px;
+
+  &:hover {
+    background-color: var(--green);
+    color: var(--black);
+  }
+
+  .mat-icon {
+    font-size: 18px;
+  }
 }
 
 .spellcheck {
@@ -73,6 +83,27 @@ button {
   .mat-tab-body-content {
     height: auto !important;
     overflow-x: hidden !important;
+  }
+
+  .mat-select-arrow-wrapper .mat-select-arrow {
+    color: var(--on-surface);
+  }
+
+  .mat-select-value {
+    width: auto !important;
+  }
+
+  .mat-select-value-text {
+    color: var(--on-surface);
+    caret-color: var(--on-surface);
+  }
+
+  .mat-primary .mat-option.mat-selected:not(.mat-option-disabled) {
+    color: var(--primary);
+  }
+
+  .mat-select-panel {
+    background: var(--dialog);
   }
 }
 
@@ -154,29 +185,6 @@ Styling for language select
 /*
 Styling for tag selection and language selection
  */
-
-::ng-deep {
-  .mat-select-arrow-wrapper .mat-select-arrow {
-    color: var(--on-surface);
-  }
-
-  .mat-select-value {
-    width: auto !important;
-  }
-
-  .mat-select-value-text {
-    color: var(--on-surface);
-    caret-color: var(--on-surface);
-  }
-
-  .mat-primary .mat-option.mat-selected:not(.mat-option-disabled) {
-    color: var(--primary);
-  }
-
-  .mat-select-panel {
-    background: var(--dialog);
-  }
-}
 
 .mat-option {
   color: var(--on-surface);

@@ -41,7 +41,6 @@ export class AuthenticationGuard implements CanActivate {
 
   private onNotAllowed() {
     this.notificationService.show(`You're not authorized to view this page.`);
-    // TODO: redirect to error page
     this.router.navigate(['/']);
   }
 }

@@ -1,32 +1,38 @@
 .dialog-action-buttons:not(.no-spacing), .dialog-action-buttons .buttons {
-  margin-top: 1rem;
+  margin: 10px;
 }
 
 .dialog-action-buttons .cancel-button {
-  background-color: var(--cancel);
-  color: var(--on-cancel);
+  background-color: transparent;
+  color: var(--on-dialog);
   margin-left: 10px;
+
+  &:hover {
+    outline: var(--cancel) solid 3px;
+  }
 }
 
 .primary-confirm-button {
-  background-color: var(--primary);
-  color: var(--on-primary);
+  background-color: transparent;
+  color: var(--primary);
+  outline: var(--primary) solid 3px;
+  margin-left: 15px !important;
+
+  &:hover {
+    background-color: var(--primary);
+    color: var(--on-primary);
+  }
 }
 
 .alert-confirm-button {
-  background-color: var(--green);
-  color: var(--black);
-}
+  background-color: transparent;
+  color: var(--primary);
+  outline: var(--primary) solid 3px;
 
-.dialog-action-buttons .cancel-button:focus {
-  background: var(--cancel);
-  color: var(--on-cancel);
-  margin-left: 10px;
-}
-
-.dialog-action-buttons .primary-confirm-button:focus {
-  background: var(--primary);
-  color: var(--on-primary);
+  &:hover {
+    background-color: var(--primary);
+    color: var(--on-primary);
+  }
 }
 
 .spinner-container {

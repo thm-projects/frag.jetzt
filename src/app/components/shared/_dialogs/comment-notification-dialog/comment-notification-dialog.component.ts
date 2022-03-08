@@ -9,13 +9,13 @@ import { CommentNotification } from '../../../../models/comment-notification';
 import { AuthenticationService } from '../../../../services/http/authentication.service';
 
 enum WeekDay {
-  monday,
-  tuesday,
-  wednesday,
-  thursday,
-  friday,
-  saturday,
-  sunday
+  Monday,
+  Tuesday,
+  Wednesday,
+  Thursday,
+  Friday,
+  Saturday,
+  Sunday
 }
 
 @Component({
@@ -90,7 +90,7 @@ export class CommentNotificationDialogComponent implements OnInit {
     this.commentNotificationService.findByRoomId(this.room.id).subscribe(settings => {
       settings.forEach(not => this.setNotification(not));
       this.isLoading = false;
-      this.updateDateTo(WeekDay.monday);
+      this.updateDateTo(WeekDay.Monday);
     });
   }
 

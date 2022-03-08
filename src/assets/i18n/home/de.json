@@ -37,7 +37,7 @@
   "delete-account": {
     "cancel": "Abbrechen",
     "cancel-description": "Löschung des Kontos abbrechen",
-    "delete": "Löschen",
+    "delete": "Ja, löschen.",
     "delete-description": "Konto löschen"
   },
   "moderators-dialog": {
@@ -108,7 +108,7 @@
     "brainstorm-title": "Brainstorming",
     "brainstorm-new-session": "Neue Brainstorming-Sitzung",
     "brainstorm-new-session-short": "Neue Sitzung",
-    "brainstorm-start": "Eröffnen",
+    "brainstorm-start": "Starte neue Sitzung",
     "brainstorm-join-session-title": "Laufender Sitzung beitreten?",
     "brainstorm-join-session-title-short": "Laufende Sitzung",
     "brainstorm-join-session-info": "Thema: »{{title}}«",
@@ -148,7 +148,7 @@
     "back": "Zurück",
     "brainstorming": "Brainstormen",
     "cancel": "Abbrechen",
-    "delete": "Löschen",
+    "delete": "Ja",
     "delete-account": "Konto löschen",
     "home-header": "Live Q&A",
     "home-header-mobile": "Live Q&A",
@@ -168,6 +168,7 @@
     "tooltip-super-admin": "Du bist Administrator*in von »frag.jetzt«.",
     "my-sessions": "Meine Räume",
     "really-delete-account": "Willst du dein Konto mit allen Sitzungen unwiderruflich löschen? Falls du Boni vergeben hast (Sterne), exportiere die Fragen, damit du eingereichte Bonus-Tokens überprüfen kannst.",
+    "confirm-delete-account": "Ja, löschen.",
     "sure": "Bist du sicher?",
     "user-bonus-token": "Meine Bonus-Sterne",
     "user-got-tokens": "Du hast noch Sterne für Bonuspunkte, die verloren gehen!",
@@ -226,7 +227,7 @@
     "accessibility-join-button": "Betritt die Sitzung, deren Code du eingegeben hast.",
     "accessibility-join-input": "Hier kannst du den Namen der Sitzung eingeben der du beitreten möchtest. Den Namen sagt dir die Sitzungsleitung.",
     "create-session": "Raum erstellen",
-    "created": "Die Sitzung »{{longRoomName}}« wurde erstellt.",
+    "created": "Der Raum für die Sitzung »{{longRoomName}}« wurde erstellt.",
     "exactly-8": "Der Code ist eine Kombination aus 8 Ziffern.",
     "link-description": "Öffnet neues Fenster",
     "live-announcer": "Willkommen auf der Seite fragpunktjetzt. Diese Seite wurde für Screenreader wie ChromeVox, Voiceover und viele andere optimiert. Ein Audioguide kann dir bei der Navigation helfen. Um Informationen zu Tastenkombinationen zu erhalten drücke jetzt die Enter-Taste oder rufe die Ansage zu einem späteren Zeitpunkt mit der Escape-Taste auf.",
@@ -302,9 +303,9 @@
     "password-required": "Passwort erforderlich",
     "password-reset": "Neues Passwort",
     "register": "Registrieren",
-    "restart-account-activation-button": "Falls ungültig, neuen Schlüssel anfordern.",
-    "restart-account-activation-correct": "Der Aktivierungs-Schlüssel wurde erneut gesendet.",
-    "restart-account-activation-tooltip": "Sendet den Aktivierungs-Schlüssel erneut an die angegebene Adresse.",
+    "restart-account-activation-button": "Neuen Schlüssel anfordern",
+    "restart-account-activation-correct": "Der Aktivierungs-Schlüssel wurde gesendet.",
+    "restart-account-activation-tooltip": "Sendet einen neuen Aktivierungs-Schlüssel an deine Adresse.",
     "welcome": "Noch Fragen?",
     "welcome-feedback": "➤ Frag die Macher von »frag.jetzt«",
     "feedback-aria": "Baggs, Features, Lob und Tadel kannst du über diesen Link in unserer Feedback-Säschen äussern."
@@ -423,7 +424,7 @@
     "sunday": "Sonntag",
     "close": "Schließen",
     "last-setting": "Letzte Einstellung: %s",
-    "setting-inactive": "Inaktiv",
+    "setting-inactive": "inaktiv",
     "confirm": "Übernehmen",
     "deactivate": "Deaktivieren",
     "something-went-wrong": "Etwas ist schiefgelaufen!",
@@ -532,7 +533,8 @@
     "comments": "Abgearbeitete Fragen",
     "bad-spelled": "Zu schlechte Rechtschreibung",
     "failed": "Fehler aufgetreten",
-    "inline-header": "Laufende Stichwort-Aktualisierungen"
+    "inline-header": "Laufende Stichwort-Aktualisierungen",
+    "404-error-description": "Die von Ihnen aufgerufene Seite existiert nicht."
   },
   "topic-cloud-filter": {
     "info-no-keywords": "Unsere KI-basierte Textanalyse kann Stichwörter ermitteln. Analyse starten?",

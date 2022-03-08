@@ -5,7 +5,6 @@ import { KeyboardUtils } from '../../../utils/keyboard';
 import { KeyboardKey } from '../../../utils/keyboard/keys';
 import { TranslateService } from '@ngx-translate/core';
 import { OnboardingService } from '../../../services/util/onboarding.service';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-home-page',

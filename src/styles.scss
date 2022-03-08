@@ -307,7 +307,7 @@ a {
 }
 
 .mat-pseudo-checkbox-checked, .mat-pseudo-checkbox-indeterminate, .mat-accent .mat-pseudo-checkbox-checked, .mat-accent .mat-pseudo-checkbox-indeterminate {
-  background: var(--green) !important;;
+  background: var(--green) !important;
 }
 
 .mat-input-element::placeholder {
@@ -334,4 +334,10 @@ blockquote {
   font-size: 16px;
   line-height: 1.5;
   hyphens: auto;
+}
+
+.mat-flat-button.mat-button-disabled {
+  background-color: lightgray !important;
+  color: gray !important;
+  outline: gray solid 3px !important;
 }

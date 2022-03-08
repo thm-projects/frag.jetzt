@@ -69,8 +69,7 @@ import 'prismjs/plugins/line-highlight/prism-line-highlight.js';
 import 'katex/dist/katex.min.js';
 import 'emoji-toolkit/lib/js/joypixels.min.js';
 
-export const dialogClose = (dialogResult: any) => {
-};
+export const dialogClose = (dialogResult: any) => '';
 
 export const initializeApp = (appConfig: AppConfig) => () => appConfig.load();
 

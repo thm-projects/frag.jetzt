@@ -44,7 +44,9 @@
                 (matSortChange)="sortData($event)"
                 mat-table
                 [dataSource]="tableDataSource"
-                class="list-entries">
+                class="list-entries"
+                 aria-describedby="roomTable"
+                 aria-label="This table shows all available rooms.">
 
                 <!-- number -->
                 <ng-container matColumnDef="questionNumber"
@@ -53,6 +55,7 @@
                       mat-sort-header
                       sortActionDescription="Sort by questionNumber"
                       *matHeaderCellDef
+                      scope="col"
                       style="width: 30%">
                       {{ 'token-validator.questionNumber' | translate }}
                   </th>
@@ -71,6 +74,7 @@
                       mat-sort-header
                       sortActionDescription="Sort by token"
                       *matHeaderCellDef
+                      scope="col"
                       style="width: 35%">
                     {{ 'token-validator.token' | translate }}
                   </th>
@@ -90,6 +94,7 @@
                       mat-sort-header
                       sortActionDescription="Sort by date"
                       *matHeaderCellDef
+                      scope="col"
                       style="width: 34%">
                       {{ 'token-validator.date' | translate }}
                   </th>
@@ -104,6 +109,7 @@
                 <!-- Join button column -->
                 <ng-container matColumnDef="button">
                   <th mat-header-cell
+                      scope="col"
                       *matHeaderCellDef
                       style="width: 1%">
                       <button mat-icon-button

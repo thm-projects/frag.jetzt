@@ -20,6 +20,7 @@ export class Room {
   brainstormingSession: BrainstormingSession;
   tagCloudSettings: string;
   moderatorRoomReference: string;
+  conversationDepth: number;
   createdAt: Date;
   updatedAt: Date;
   lastVisitCreator: Date;
@@ -37,11 +38,12 @@ export class Room {
     threshold: number = null,
     tags: string[] = [],
     questionsBlocked: boolean = false,
-    profanityFilter: ProfanityFilter = ProfanityFilter.none,
+    profanityFilter: ProfanityFilter = ProfanityFilter.NONE,
     blacklistIsActive: boolean = true,
     brainstormingSession: BrainstormingSession = null,
     tagCloudSettings: string = null,
     moderatorRoomReference: string = null,
+    conversationDepth: number = 0,
   ) {
     this.id = '';
     this.ownerId = ownerId;
@@ -64,13 +66,14 @@ export class Room {
     this.createdAt = new Date();
     this.updatedAt = null;
     this.lastVisitCreator = new Date();
+    this.conversationDepth = conversationDepth;
   }
 }
 
 export enum ProfanityFilter {
-  all = 'ALL',
-  languageSpecific = 'LANGUAGE_SPECIFIC',
-  partialWords = 'PARTIAL_WORDS',
-  none = 'NONE',
-  deactivated = 'DEACTIVATED'
+  ALL = 'ALL',
+  LANGUAGE_SPECIFIC = 'LANGUAGE_SPECIFIC',
+  PARTIAL_WORDS = 'PARTIAL_WORDS',
+  NONE = 'NONE',
+  DEACTIVATED = 'DEACTIVATED'
 }

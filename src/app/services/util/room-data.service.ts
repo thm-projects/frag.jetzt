@@ -46,22 +46,7 @@ class RoomDataUpdateSubscription {
    */
   private ensureEqual(value1: any, value2: any): boolean {
     if (Array.isArray(value1)) {
-      if (!Array.isArray(value2)) {
-        return false;
-      }
-      for (const key of value1) {
-        let same = false;
-        for (const otherKey of value2) {
-          if (this.ensureEqual(key, otherKey)) {
-            same = true;
-            break;
-          }
-        }
-        if (!same) {
-          return false;
-        }
-      }
-      return true;
+      return this.checkArrayIsSubset(value1, value2);
     } else if (typeof value1 === 'object') {
       if (typeof value2 !== 'object') {
         return false;
@@ -75,6 +60,25 @@ class RoomDataUpdateSubscription {
       return true;
     }
     return value1 === value2;
+  }
+
+  private checkArrayIsSubset(value1: any[], value2: any) {
+    if (!Array.isArray(value2)) {
+      return false;
+    }
+    for (const key of value1) {
+      let same = false;
+      for (const otherKey of value2) {
+        if (this.ensureEqual(key, otherKey)) {
+          same = true;
+          break;
+        }
+      }
+      if (!same) {
+        return false;
+      }
+    }
+    return true;
   }
 }
 
@@ -280,31 +284,12 @@ export class RoomDataService {
     this.updateBookmarks();
     this.activeUserService.getActiveUser(room)
       .subscribe(([count]) => this._currentUserCount.next(String(count || 0)));
-    const filtered = room.profanityFilter !== ProfanityFilter.deactivated;
+    const filtered = room.profanityFilter !== ProfanityFilter.DEACTIVATED;
     this._commentServiceSubscription = this.wsCommentService.getCommentStream(room.id)
       .subscribe(msg => this.onMessageReceive(msg, false));
     const isUser = this.sessionService.currentRole === UserRole.PARTICIPANT;
     this.commentService.getAckComments(room.id).subscribe(comments => {
-      for (const comment of comments) {
-        const [beforeFiltering, afterFiltering, hasProfanity] = this._filter.filterCommentBody(room, comment);
-        this._fastCommentAccess[comment.id] = {
-          comment,
-          beforeFiltering,
-          afterFiltering,
-          hasProfanity,
-          filtered
-        };
-        if (filtered) {
-          this.applyStateToComment(comment, false);
-        }
-      }
-      if (isUser) {
-        comments.forEach(c => {
-          c['globalBookmark'] = c.bookmark;
-          c.bookmark = !!this._userBookmarks[c.id];
-        });
-      }
-      this._currentRoomComments.next(comments);
+      this.onAckCommentReceive(comments, filtered, room, isUser);
     });
     const userRole = this.authenticationService.getUser()?.role || UserRole.PARTICIPANT;
     this._canAccessModerator = userRole > UserRole.PARTICIPANT;
@@ -312,20 +297,7 @@ export class RoomDataService {
       this._nackCommentServiceSubscription = this.wsCommentService.getModeratorCommentStream(room.id)
         .subscribe(msg => this.onMessageReceive(msg, true));
       this.commentService.getRejectedComments(room.id).subscribe(comments => {
-        for (const comment of comments) {
-          const [beforeFiltering, afterFiltering, hasProfanity] = this._filter.filterCommentBody(room, comment);
-          this._fastNackCommentAccess[comment.id] = {
-            comment,
-            beforeFiltering,
-            afterFiltering,
-            hasProfanity,
-            filtered
-          };
-          if (filtered) {
-            this.applyStateToComment(comment, false, true);
-          }
-        }
-        this._currentNackRoomComments.next(comments);
+        this.onRejectCommentReceive(comments, filtered, room);
       });
     }
     this.sessionService.receiveRoomUpdates().subscribe(() => {
@@ -334,6 +306,46 @@ export class RoomDataService {
         this._currentNackRoomComments.getValue().forEach(comment => this.refilterComment(comment, true));
       }
     });
+  }
+
+  private onRejectCommentReceive(comments: Comment[], filtered: boolean, room: Room) {
+    for (const comment of comments) {
+      const [beforeFiltering, afterFiltering, hasProfanity] = this._filter.filterCommentBody(room, comment);
+      this._fastNackCommentAccess[comment.id] = {
+        comment,
+        beforeFiltering,
+        afterFiltering,
+        hasProfanity,
+        filtered
+      };
+      if (filtered) {
+        this.applyStateToComment(comment, false, true);
+      }
+    }
+    this._currentNackRoomComments.next(comments);
+  }
+
+  private onAckCommentReceive(comments: Comment[], filtered: boolean, room: Room, isUser: boolean) {
+    for (const comment of comments) {
+      const [beforeFiltering, afterFiltering, hasProfanity] = this._filter.filterCommentBody(room, comment);
+      this._fastCommentAccess[comment.id] = {
+        comment,
+        beforeFiltering,
+        afterFiltering,
+        hasProfanity,
+        filtered
+      };
+      if (filtered) {
+        this.applyStateToComment(comment, false);
+      }
+    }
+    if (isUser) {
+      comments.forEach(c => {
+        c['globalBookmark'] = c.bookmark;
+        c.bookmark = !!this._userBookmarks[c.id];
+      });
+    }
+    this._currentRoomComments.next(comments);
   }
 
   private triggerUpdate(information: UpdateInformation, isModeration: boolean) {
@@ -377,7 +389,7 @@ export class RoomDataService {
     c.language = payload.language;
     c.questionerName = payload.questionerName;
     c.meta = { created: true };
-    const filtered = room.profanityFilter !== ProfanityFilter.deactivated;
+    const filtered = room.profanityFilter !== ProfanityFilter.DEACTIVATED;
     const source = isModeration ? this._fastNackCommentAccess : this._fastCommentAccess;
     const [beforeFiltering, afterFiltering, hasProfanity] = this._filter.filterCommentBody(room, c);
     source[c.id] = { comment: c, beforeFiltering, afterFiltering, hasProfanity, filtered };
@@ -461,9 +473,6 @@ export class RoomDataService {
           break;
         case 'tag':
           comment.tag = value as string;
-          break;
-        case 'answer':
-          comment.answer = value as string;
           break;
         default:
           hadKey = false;

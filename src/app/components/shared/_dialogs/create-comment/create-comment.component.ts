@@ -162,11 +162,16 @@ export class CreateCommentComponent implements OnInit, OnDestroy {
           send(term);
           return;
         }
+
         this.spacyService.getKeywords(term, commentModel, true)
-          .subscribe((keywords) => {
+          .subscribe({
+            next: keywords => {
               send(keywords.map(kw => kw.text).join(' '));
             },
-            () => send(term));
+            error: () => {
+              send(term);
+            }
+          });
       });
   }
 
@@ -179,8 +184,8 @@ export class CreateCommentComponent implements OnInit, OnDestroy {
         comment.keywordsFromSpacy = result.keywords;
         comment.keywordsFromQuestioner = [];
         if (forward ||
-          ((result.resultType === KeywordsResultType.failure) && !result.wasSpacyError) ||
-          result.resultType === KeywordsResultType.badSpelled) {
+          ((result.resultType === KeywordsResultType.Failure) && !result.wasSpacyError) ||
+          result.resultType === KeywordsResultType.BadSpelled) {
           this.dialogRef.close(comment);
         } else {
           const dialogRef = this.dialog.open(SpacyDialogComponent, {

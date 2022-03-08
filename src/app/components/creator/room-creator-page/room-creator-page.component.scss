@@ -108,11 +108,6 @@ mat-expansion-panel {
   margin: 10% 0 10% 0;
 }
 
-markdown {
-  color: var(--on-surface);
-  margin: 0 3% 0 3% !important;
-}
-
 ::ng-deep .mat-menu-panel {
   background-color: var(--dialog);
   color: var(--on-dialog);

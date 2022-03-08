@@ -22,8 +22,7 @@ import { Room } from '../../../models/room';
 import { VoteService } from '../../../services/http/vote.service';
 import { Vote } from '../../../models/vote';
 import { Location } from '@angular/common';
-import { CreateCommentKeywords, KeywordsResultType } from '../../../utils/create-comment-keywords';
-import { SpacyDialogComponent } from '../_dialogs/spacy-dialog/spacy-dialog.component';
+import { CreateCommentKeywords } from '../../../utils/create-comment-keywords';
 import { LanguagetoolService } from '../../../services/http/languagetool.service';
 import { DeepLService } from '../../../services/http/deep-l.service';
 import { SpacyService } from '../../../services/http/spacy.service';
@@ -149,24 +148,6 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
   saveAnswer(data: string, forward = false): void {
     this.answer = CreateCommentKeywords.transformURLtoQuill(data, true);
     this.edit = !this.answer;
-    const previous = this.comment.answer;
-    this.comment.answer = this.answer;
-    this.generateKeywords(this.comment, forward).subscribe(result => {
-      if (!result) {
-        this.edit = true;
-        this.comment.answer = previous;
-        setTimeout(() => {
-          this.commentComponent.commentData.currentData = this.answer;
-        });
-        return;
-      }
-      this.commentService.answer(this.comment, this.answer, this.comment.answerFulltextKeywords,
-        this.comment.answerQuestionerKeywords).subscribe(() => {
-        this.translateService.get('comment-page.comment-answered').subscribe(msg => {
-          this.notificationService.show(msg);
-        });
-      });
-    });
   }
 
   openDeleteAnswerDialog(): () => void {
@@ -186,7 +167,6 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
   deleteAnswer() {
     this.commentComponent.commentData.clear();
     this.answer = null;
-    this.commentService.answer(this.comment, this.answer).subscribe();
     this.translateService.get('comment-page.answer-deleted').subscribe(msg => {
       this.notificationService.show(msg);
     });
@@ -223,19 +203,13 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
   private onCommentReceive(c: Comment, isModerationComment: boolean) {
     this.comment = c;
     this.isModerationComment = isModerationComment;
-    this.answer = this.comment.answer;
     this.edit = !this.answer;
     this.isLoading = false;
     this._commentSubscription = this.roomDataService.receiveUpdates([
       { type: 'CommentPatched', finished: true, updates: ['ack'] },
-      { type: 'CommentPatched', finished: true, updates: ['answer'] },
       { type: 'CommentDeleted', finished: true }
     ]).subscribe(update => {
       if (update.type === 'CommentPatched') {
-        if (update.updates.includes('answer')) {
-          this.answer = this.comment.answer;
-          this.edit = !this.answer;
-        }
         if (update.updates.includes('ack')) {
           this.isModerationComment = !this.isModerationComment;
           if (!this.roomDataService.canAccessModerator) {
@@ -257,36 +231,7 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
     this.goBackToCommentList();
   }
 
-  private generateKeywords(comment: Comment, forward: boolean): Observable<boolean> {
-    this.isSending = true;
-    return CreateCommentKeywords.generateKeywords(this.languagetoolService, this.deepLService, this.spacyService,
-      comment.answer, false, forward, this.commentComponent.selectedLang).pipe(
-      mergeMap(result => {
-        this.isSending = false;
-        comment.language = result.language;
-        comment.answerFulltextKeywords = result.keywords;
-        comment.answerQuestionerKeywords = [];
-        if (forward ||
-          ((result.resultType === KeywordsResultType.failure) && !result.wasSpacyError) ||
-          result.resultType === KeywordsResultType.badSpelled) {
-          return of(true);
-        }
-        const dialogRef = this.dialog.open(SpacyDialogComponent, {
-          data: {
-            result: result.resultType,
-            comment,
-            isAnswer: true
-          }
-        });
-        return dialogRef.afterClosed().pipe(
-          map(res => !!res)
-        );
-      })
-    );
-  }
-
   private initNavigation() {
-    /* eslint-disable @typescript-eslint/no-shadow */
     this._list = this.composeService.builder(this.headerService.getHost(), e => {
       e.menuItem({
         translate: this.headerService.getTranslate(),
@@ -305,6 +250,5 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
         condition: () => true
       });
     });
-    /* eslint-enable @typescript-eslint/no-shadow */
   }
 }

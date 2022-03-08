@@ -26,9 +26,7 @@ export interface TagCloudDataTagEntry {
   dependencies: Set<string>;
   comments: Comment[];
   generatedByQuestionerCount: number;
-  fromAnswerCount: number;
   taggedCommentsCount: number;
-  answeredCommentsCount: number;
   commentsByCreator: number;
   commentsByModerators: number;
 }
@@ -120,57 +118,8 @@ export class TagCloudDataService {
         continue;
       }
       TopicCloudAdminService.approveKeywordsOfComment(comment, roomDataService, adminData, blacklist, blacklistEnabled,
-        brainstorming, (keyword: SpacyKeyword, isFromQuestioner: boolean, isFromAnswer: boolean) => {
-          let current: TagCloudDataTagEntry = data.get(keyword.text);
-          const commentDate = new Date(comment.createdAt);
-          if (current === undefined) {
-            current = {
-              cachedVoteCount: 0,
-              cachedUpVotes: 0,
-              cachedDownVotes: 0,
-              comments: [],
-              weight: 0,
-              adjustedWeight: 0,
-              distinctUsers: new Set<string>(),
-              categories: new Set<string>(),
-              dependencies: new Set<string>([...keyword.dep]),
-              firstTimeStamp: commentDate,
-              lastTimeStamp: commentDate,
-              generatedByQuestionerCount: 0,
-              taggedCommentsCount: 0,
-              answeredCommentsCount: 0,
-              commentsByCreator: 0,
-              commentsByModerators: 0,
-              fromAnswerCount: 0
-            };
-            data.set(keyword.text, current);
-          }
-          keyword.dep.forEach(dependency => current.dependencies.add(dependency));
-          current.cachedVoteCount += comment.score;
-          current.cachedUpVotes += comment.upvotes;
-          current.cachedDownVotes += comment.downvotes;
-          current.distinctUsers.add(comment.creatorId);
-          current.generatedByQuestionerCount += +isFromQuestioner;
-          current.fromAnswerCount += +isFromAnswer;
-          current.taggedCommentsCount += +!!comment.tag;
-          current.answeredCommentsCount += +!!comment.answer;
-          if (comment.creatorId === roomOwner) {
-            ++current.commentsByCreator;
-          } else if (moderators.has(comment.creatorId)) {
-            ++current.commentsByModerators;
-          }
-          if (comment.tag) {
-            current.categories.add(comment.tag);
-          }
-          // @ts-ignore
-          if (current.firstTimeStamp - commentDate > 0) {
-            current.firstTimeStamp = commentDate;
-          }
-          // @ts-ignore
-          if (current.lastTimeStamp - commentDate < 0) {
-            current.lastTimeStamp = commentDate;
-          }
-          current.comments.push(comment);
+        brainstorming, (keyword: SpacyKeyword, isFromQuestioner: boolean) => {
+          this.onKeywordApproved(comment, data, keyword, isFromQuestioner, roomOwner, moderators);
         });
       users.add(comment.creatorId);
     }
@@ -182,8 +131,60 @@ export class TagCloudDataService {
     ];
   }
 
+  private static onKeywordApproved(
+    comment: Comment, data: TagCloudData, keyword: SpacyKeyword, isFromQuestioner: boolean, roomOwner: string,
+    moderators: Set<string>
+  ) {
+    let current: TagCloudDataTagEntry = data.get(keyword.text);
+    const commentDate = new Date(comment.createdAt);
+    if (current === undefined) {
+      current = {
+        cachedVoteCount: 0,
+        cachedUpVotes: 0,
+        cachedDownVotes: 0,
+        comments: [],
+        weight: 0,
+        adjustedWeight: 0,
+        distinctUsers: new Set<string>(),
+        categories: new Set<string>(),
+        dependencies: new Set<string>([...keyword.dep]),
+        firstTimeStamp: commentDate,
+        lastTimeStamp: commentDate,
+        generatedByQuestionerCount: 0,
+        taggedCommentsCount: 0,
+        commentsByCreator: 0,
+        commentsByModerators: 0
+      };
+      data.set(keyword.text, current);
+    }
+    keyword.dep.forEach(dependency => current.dependencies.add(dependency));
+    current.cachedVoteCount += comment.score;
+    current.cachedUpVotes += comment.upvotes;
+    current.cachedDownVotes += comment.downvotes;
+    current.distinctUsers.add(comment.creatorId);
+    current.generatedByQuestionerCount += +isFromQuestioner;
+    current.taggedCommentsCount += +!!comment.tag;
+    if (comment.creatorId === roomOwner) {
+      ++current.commentsByCreator;
+    } else if (moderators.has(comment.creatorId)) {
+      ++current.commentsByModerators;
+    }
+    if (comment.tag) {
+      current.categories.add(comment.tag);
+    }
+    // @ts-ignore
+    if (current.firstTimeStamp - commentDate > 0) {
+      current.firstTimeStamp = commentDate;
+    }
+    // @ts-ignore
+    if (current.lastTimeStamp - commentDate < 0) {
+      current.lastTimeStamp = commentDate;
+    }
+    current.comments.push(comment);
+  }
+
   get isBrainstorming(): boolean {
-    return this._filterObject?.filter?.filterType === FilterType.brainstormingQuestion;
+    return this._filterObject?.filter?.filterType === FilterType.BrainstormingQuestion;
   }
 
   updateDemoData(translate: TranslateService): void {
@@ -204,10 +205,8 @@ export class TagCloudDataService {
           lastTimeStamp: new Date(),
           generatedByQuestionerCount: 0,
           taggedCommentsCount: 0,
-          answeredCommentsCount: 0,
           commentsByCreator: 0,
-          commentsByModerators: 0,
-          fromAnswerCount: 0
+          commentsByModerators: 0
         });
       }
     });
@@ -354,7 +353,6 @@ export class TagCloudDataService {
       tagData.generatedByQuestionerCount * scorings.countSelectedByQuestioner.score +
       tagData.commentsByModerators * scorings.countKeywordByModerator.score +
       tagData.commentsByCreator * scorings.countKeywordByCreator.score +
-      tagData.answeredCommentsCount * scorings.countCommentsAnswered.score +
       tagData.cachedUpVotes * scorings.summedUpvotes.score +
       tagData.cachedDownVotes * scorings.summedDownvotes.score +
       tagData.cachedVoteCount * scorings.summedVotes.score +

@@ -54,13 +54,18 @@ th, tr {
 }
 
 .help-button {
-  background-color: var(--green);
-  color: var(--black);
-  margin-top: 1rem;
+  background-color: transparent;
+  color: var(--green);
+  outline: var(--green) solid 3px;
+  margin: 10px;
+
+  &:hover {
+    background-color: var(--green);
+    color: var(--black);
+  }
 
   .mat-icon {
     font-size: 18px;
-    margin-top: 3px;
   }
 }
 

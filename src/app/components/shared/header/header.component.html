@@ -195,7 +195,6 @@
 
     <mat-menu #userMenu="matMenu"
               [overlapTrigger]="false">
-      <!--      <p class="mat-menu-inner-title">Account</p>-->
 
       <div class="mat-menu-inner-box">
 
@@ -322,20 +321,22 @@
 
     </mat-menu>
 
-    <ng-template #optionContent>
-      <div class="label-icon">
-        <mat-icon *ngIf="user.isGuest"
+    <mat-icon *ngIf="user?.isGuest"
                   class="header-icons material-icons-filled color-warn"
                   style="margin-right: 5px"
                   [matTooltip]="'header.guest-account-tooltip' | translate">
           priority_high
-        </mat-icon>
-        <mat-icon
+    </mat-icon>
+    
+    <mat-icon
           *ngIf="this.router.url.indexOf('/room/') > 0"
           class="header-icons material-icons-outlined"
           [matTooltip]="'header.' + getCurrentRoleDescription() | translate">
           {{getCurrentRoleIcon()}}
         </mat-icon>
+
+    <ng-template #optionContent>
+      <div class="label-icon">
         <h2 style="margin-left: 10px; color: var(--on-surface)"
             *ngIf="deviceInfo.isCurrentlyDesktop">{{'header.my-account' | translate}}</h2>
         <mat-icon class="header-icons">
