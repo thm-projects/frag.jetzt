@@ -27,7 +27,6 @@ $header-size: 67px;
     display: flex;
     justify-content: center;
     flex-direction: column;
-    align-items: flex-start;
     overflow: hidden;
   }
 
@@ -164,9 +163,10 @@ button {
   outline: var(--primary) solid 3px;
   min-width: 30px !important;
   min-height: 30px !important;
-  width: 100%;
-  margin: 20px 0;
+  width: auto;
   z-index: 3;
+  display: flex;
+  margin: 0 auto 10px;
 
   &:hover {
     background-color: var(--primary);
