@@ -15,7 +15,6 @@ export class Room {
   threshold: number;
   tags: string[];
   questionsBlocked: boolean;
-  conversationBlocked: boolean;
   profanityFilter: ProfanityFilter;
   blacklistIsActive: boolean;
   brainstormingSession: BrainstormingSession;
@@ -38,7 +37,6 @@ export class Room {
     threshold: number = null,
     tags: string[] = [],
     questionsBlocked: boolean = false,
-    conversationBlocked: boolean = true,
     profanityFilter: ProfanityFilter = ProfanityFilter.NONE,
     blacklistIsActive: boolean = true,
     brainstormingSession: BrainstormingSession = null,
