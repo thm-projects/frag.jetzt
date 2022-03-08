@@ -50,9 +50,7 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
   mods: Set<string>;
   vote: Vote;
   isModerationComment = false;
-  isAnswerView: boolean;
   isSending = false;
-  responses: Comment[];
   private _commentSubscription;
   private _list: ComponentRef<any>[];
 
@@ -88,12 +86,6 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
     });
     if (this.userRole !== UserRole.PARTICIPANT) {
       this.isStudent = false;
-    }
-    const answerView: string = localStorage.getItem('isAnswerView');
-    if(answerView === 'true'){
-      this.isAnswerView = true;
-    } else {
-      this.isAnswerView = false;
     }
     this.route.params.subscribe(params => {
       const commentId = params['commentId'];

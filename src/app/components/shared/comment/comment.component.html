@@ -1,6 +1,5 @@
 <mat-card id="comment-card"
           class="border"
-          [style.margin-left]="isResponse ? '50px' : '0'"
           [class.highlighted]="comment.highlighted"
           [class.moderator]="moderator"
           [ngClass]="getBorderClass()"
@@ -10,7 +9,6 @@
        [matTooltip]="'comment-page.border-tooltip-' + getBorderClass() | translate"></div>
   <div class="runningnum-outer">
     <p>
-      <mat-icon *ngIf="isResponse" class="material-icons-round forum-watermark">forum</mat-icon>
       <mat-icon *ngIf="getCommentIcon() as icon" [class]="getCommentIconClass()">{{icon}}</mat-icon>
       {{comment.number}}
     </p>
@@ -360,23 +358,6 @@
         </mat-icon>
       </button>
     </div>
-    <div style="margin-top: 10px"
-         fxLayout="row"
-         fxLayoutAlign="start center"
-         *ngIf="!conversationBlocked">
-      <button mat-button
-              class="replyButton"
-              [matTooltip]="('comment-page.write-response-tooltip' | translate)"> {{'comment-page.reply-comment-button' | translate}}
-      </button>
-
-      <button mat-icon-button *ngIf="true">
-        <mat-icon class="not-marked material-icons-round"
-                  matBadge="3"
-                  (click)="showConversation()"
-                  [matTooltip]="('comment-page.show-conversation-tooltip' | translate)">forum
-        </mat-icon>
-      </button>
-      </div>
   </div>
 </mat-card>
 

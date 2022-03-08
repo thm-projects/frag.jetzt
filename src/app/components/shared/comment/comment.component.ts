@@ -25,6 +25,7 @@ import { EditCommentTagComponent } from '../../creator/_dialogs/edit-comment-tag
 import { SessionService } from '../../../services/util/session.service';
 import { DeviceInfoService } from '../../../services/util/device-info.service';
 import { BonusDeleteComponent } from '../../creator/_dialogs/bonus-delete/bonus-delete.component';
+
 @Component({
   selector: 'app-comment',
   templateUrl: './comment.component.html',
@@ -56,7 +57,6 @@ export class CommentComponent implements OnInit, AfterViewInit {
   @Input() commentsWrittenByUser = 1;
   @Input() isFromModerator = false;
   @Input() isFromOwner = false;
-  @Input() isResponse = false;
 
   @Input() set isRemoved(value: boolean) {
     if (value) {
@@ -86,7 +86,6 @@ export class CommentComponent implements OnInit, AfterViewInit {
   filterProfanityForModerators = false;
   isProfanity = false;
   roomTags: string[];
-  conversationBlocked: boolean;
 
   constructor(
     protected authenticationService: AuthenticationService,
@@ -156,8 +155,6 @@ export class CommentComponent implements OnInit, AfterViewInit {
     this.translateService.use(this.language);
     this.inAnswerView = !this.router.url.includes('comments');
     this.roomTags = this.sessionService.currentRoom?.tags;
-    const room = this.sessionService.currentRoom;
-    this.conversationBlocked = room.conversationBlocked;
   }
 
   checkProfanity() {
@@ -446,15 +443,5 @@ export class CommentComponent implements OnInit, AfterViewInit {
       return 'border-moderated';
     }
     return 'border-notMarked';
-  }
-
-  showConversation(){
-    let url: string;
-    this.route.params.subscribe(params => {
-      url = `${this.roleString}/room/${params['shortId']}/comment/${this.comment.id}`;
-    });
-    localStorage.setItem('answeringQuestion', this.comment.id);
-    localStorage.setItem('isAnswerView', false.toString());
-    this.router.navigate([url]);
   }
 }
