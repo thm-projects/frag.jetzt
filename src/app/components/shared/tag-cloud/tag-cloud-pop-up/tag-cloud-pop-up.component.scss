@@ -159,12 +159,19 @@ button {
 }
 
 .replace-button {
-  background-color: var(--primary);
-  color: var(--on-primary);
+  background-color: transparent;
+  color: var(--primary);
+  outline: var(--primary) solid 3px;
   min-width: 30px !important;
-  min-height: 10px !important;
+  min-height: 30px !important;
   width: 100%;
+  margin: 20px 0;
   z-index: 3;
+
+  &:hover {
+    background-color: var(--primary);
+    color: var(--on-primary);
+  }
 }
 
 ::ng-deep .replacementContainer {
@@ -172,11 +179,11 @@ button {
 
   .mat-form-field-infix {
     min-width: 150px;
-    width: min-content;
+    line-height: normal;
   }
 
   .mat-form-field-wrapper {
-    margin-bottom: -0.8em;
+    margin: 1em 0 0 0;
   }
 }
 
