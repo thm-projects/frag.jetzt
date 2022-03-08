@@ -578,8 +578,6 @@
     "keyword-scoring-countKeywordByModerator-info": "Anzahl der Verwendungen dieses Stichworts durch Moderatoren",
     "keyword-scoring-countKeywordByCreator": "Anzahl Stichwörter vom Ersteller",
     "keyword-scoring-countKeywordByCreator-info": "Anzahl der Verwendungen dieses Stichworts durch den Ersteller",
-    "keyword-scoring-countCommentsAnswered": "Anzahl beantworteter Fragen",
-    "keyword-scoring-countCommentsAnswered-info": "Anzahl der Fragen, die dieses Stichwort enthalten und beantwortet wurden",
     "keyword-scoring-summedUpvotes": "Anzahl aller Up-votes",
     "keyword-scoring-summedUpvotes-info": "Anzahl aller Up-votes, die auf den Fragen mit diesem Stichwort gemacht worden sind",
     "keyword-scoring-summedDownvotes": "Anzahl aller Down-votes",

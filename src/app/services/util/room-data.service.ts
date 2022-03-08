@@ -474,9 +474,6 @@ export class RoomDataService {
         case 'tag':
           comment.tag = value as string;
           break;
-        case 'answer':
-          comment.answer = value as string;
-          break;
         default:
           hadKey = false;
           break;

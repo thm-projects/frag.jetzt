@@ -593,8 +593,6 @@
     "keyword-scoring-countKeywordByModerator-info": "Number of times this keyword has been used by moderators",
     "keyword-scoring-countKeywordByCreator": "Number of keywords from creator",
     "keyword-scoring-countKeywordByCreator-info": "Number of times this keyword has been used by the creator",
-    "keyword-scoring-countCommentsAnswered": "Number of answered questions",
-    "keyword-scoring-countCommentsAnswered-info": "Number of questions that have this keyword and have been answered",
     "keyword-scoring-summedUpvotes": "Number of all up votes",
     "keyword-scoring-summedUpvotes-info": "Number of all up votes made on the questions with this keyword",
     "keyword-scoring-summedDownvotes": "Number of all down votes",

@@ -20,6 +20,7 @@ export class Room {
   brainstormingSession: BrainstormingSession;
   tagCloudSettings: string;
   moderatorRoomReference: string;
+  conversationDepth: number;
   createdAt: Date;
   updatedAt: Date;
   lastVisitCreator: Date;
@@ -42,6 +43,7 @@ export class Room {
     brainstormingSession: BrainstormingSession = null,
     tagCloudSettings: string = null,
     moderatorRoomReference: string = null,
+    conversationDepth: number = 0,
   ) {
     this.id = '';
     this.ownerId = ownerId;
@@ -64,6 +66,7 @@ export class Room {
     this.createdAt = new Date();
     this.updatedAt = null;
     this.lastVisitCreator = new Date();
+    this.conversationDepth = conversationDepth;
   }
 }
 

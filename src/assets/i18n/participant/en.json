@@ -260,7 +260,8 @@
     "border-tooltip-border-favorite": "This question was marked for a bonus.",
     "border-tooltip-border-fromModerator": "This question comes from a moderator.",
     "border-tooltip-border-fromOwner": "This question comes from the room creator.",
-    "preview-in-mock": "Preview check on a smartphone",
+    "preview-in-mock": "Preview check on a smartphone"
+  },
   "deepl": {
     "header": "Optimize text",
     "label": " Which text to send?",
@@ -461,8 +462,6 @@
     "keyword-scoring-countKeywordByModerator-info": "Number of times this keyword has been used by moderators",
     "keyword-scoring-countKeywordByCreator": "Number of keywords from creator",
     "keyword-scoring-countKeywordByCreator-info": "Number of times this keyword has been used by the creator",
-    "keyword-scoring-countCommentsAnswered": "Number of answered comments",
-    "keyword-scoring-countCommentsAnswered-info": "Number of comments that have this keyword and have been answered",
     "keyword-scoring-summedUpvotes": "Number of all up votes",
     "keyword-scoring-summedUpvotes-info": "Number of all up votes made on the questions with this keyword",
     "keyword-scoring-summedDownvotes": "Number of all down votes",

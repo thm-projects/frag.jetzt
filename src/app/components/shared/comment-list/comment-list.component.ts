@@ -160,10 +160,12 @@ export class CommentListComponent implements OnInit, OnDestroy {
       if (this.sessionService.currentRole !== UserRole.PARTICIPANT) {
         return;
       }
-      this.voteService.getByRoomIdAndUserID(this.sessionService.currentRoom.id, this.user.id).subscribe(votes => {
-        for (const v of votes) {
-          this.commentVoteMap.set(v.commentId, v);
-        }
+      this.sessionService.getRoomOnce().subscribe(room => {
+        this.voteService.getByRoomIdAndUserID(room.id, this.user.id).subscribe(votes => {
+          for (const v of votes) {
+            this.commentVoteMap.set(v.commentId, v);
+          }
+        });
       });
     });
     this.userRole = this.sessionService.currentRole;

@@ -81,12 +81,10 @@ export class DataFilterObject {
     [FilterType.CreatorId]: (c, value) => c.creatorId === value,
     [FilterType.Keyword]: (c, value) => Boolean(
       c.keywordsFromQuestioner?.find(keyword => keyword.text === value) ||
-      c.keywordsFromSpacy?.find(keyword => keyword.text === value) ||
-      c.answerQuestionerKeywords?.find(k => k.text === value) ||
-      c.answerFulltextKeywords?.find(k => k.text === value)
+      c.keywordsFromSpacy?.find(keyword => keyword.text === value)
     ),
-    [FilterType.Answer]: c => Boolean(c.answer),
-    [FilterType.Unanswered]: c => !c.answer,
+    [FilterType.Answer]: c => true,
+    [FilterType.Unanswered]: c => false,
     [FilterType.Owner]: c => c.creatorId === this.authenticationService.getUser()?.id,
     [FilterType.Moderator]: c => this.moderators.has(c.creatorId),
     [FilterType.Owner]: c => this.sessionService.currentRoom?.id === c.creatorId,
@@ -234,12 +232,9 @@ export class DataFilterObject {
     const keywordFinder = (e: SpacyKeyword) => e.text.toLowerCase().includes(search);
     return comments.filter(c =>
       c.body.toLowerCase().includes(search) ||
-      c.answer?.toLowerCase().includes(search) ||
       c.keywordsFromSpacy?.some(keywordFinder) ||
       c.keywordsFromQuestioner?.some(keywordFinder) ||
-      c.questionerName?.toLowerCase().includes(search) ||
-      c.answerQuestionerKeywords?.some(keywordFinder) ||
-      c.answerFulltextKeywords?.some(keywordFinder));
+      c.questionerName?.toLowerCase().includes(search));
   }
 
   private filterWithTime(comments: Comment[]) {
