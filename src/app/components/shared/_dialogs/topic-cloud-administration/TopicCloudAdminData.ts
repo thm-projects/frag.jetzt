@@ -4,7 +4,7 @@ export interface TopicCloudAdminDataScoring {
 
 export const TopicCloudAdminDataScoringKey = [
   'countComments', 'countUsers', 'countSelectedByQuestioner', 'countKeywordByModerator', 'countKeywordByCreator',
-  'countCommentsAnswered', 'summedUpvotes', 'summedDownvotes', 'summedVotes', 'cappedSummedVotes', 'controversy'
+  'summedUpvotes', 'summedDownvotes', 'summedVotes', 'cappedSummedVotes', 'controversy'
 ] as const;
 
 export type TopicCloudAdminDataScoringObject = {
@@ -45,7 +45,6 @@ export const ensureDefaultScorings = (data: TopicCloudAdminData) => {
           score: 0.5
         };
         break;
-      case 'countCommentsAnswered':
       case 'countKeywordByCreator':
       case 'countKeywordByModerator':
       case 'countSelectedByQuestioner':
@@ -75,7 +74,6 @@ export const keywordsScoringMinMax: TopicCloudAdminDataScoringPreset = {
   countSelectedByQuestioner: { min: -5, max: 5 },
   countKeywordByModerator: { min: -5, max: 5 },
   countKeywordByCreator: { min: -5, max: 5 },
-  countCommentsAnswered: { min: -5, max: 5 },
   summedUpvotes: { min: -5, max: 5 },
   summedDownvotes: { min: -5, max: 5 },
   summedVotes: { min: -5, max: 5 },

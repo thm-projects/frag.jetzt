@@ -110,8 +110,6 @@ export class CommentComponent implements OnInit, AfterViewInit {
   getCommentIcon(): string {
     if (this.comment?.brainstormingQuestion) {
       return 'tips_and_updates';
-    } else if (this.comment?.answer) {
-      return 'comment';
     } else if (this.isFromOwner) {
       return 'co_present';
     } else if (this.isFromModerator) {
@@ -121,13 +119,7 @@ export class CommentComponent implements OnInit, AfterViewInit {
   }
 
   getCommentIconClass(): string {
-    if (this.comment?.brainstormingQuestion) {
-      return '';
-    } else if (this.comment?.answer) {
-      return 'material-icons-outlined';
-    } else if (this.isFromOwner) {
-      return '';
-    } else if (this.isFromModerator) {
+    if (this.comment?.brainstormingQuestion || this.isFromOwner || this.isFromModerator) {
       return '';
     }
     return 'material-icons-outlined';
@@ -260,7 +252,7 @@ export class CommentComponent implements OnInit, AfterViewInit {
     }
   }
 
-  notifyFavorite(comment: Comment){
+  notifyFavorite(comment: Comment) {
     this.comment.favorite = comment.favorite;
     this.checkProfanity();
     const text = this.comment.favorite ? 'comment-list.question-was-marked-with-a-star' :
@@ -431,8 +423,6 @@ export class CommentComponent implements OnInit, AfterViewInit {
       return 'border-favorite';
     } else if (this.comment.bookmark) {
       return 'border-bookmark';
-    } else if (this.comment.answer) {
-      return 'border-answer';
     } else if (this.comment.correct === CorrectWrong.WRONG) {
       return 'border-wrong';
     } else if (this.comment.correct === CorrectWrong.CORRECT) {

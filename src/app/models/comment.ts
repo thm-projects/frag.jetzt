@@ -18,7 +18,6 @@ export class Comment {
   highlighted: boolean;
   ack: boolean;
   tag: string;
-  answer: string;
   number: number;
   keywordsFromQuestioner: SpacyKeyword[];
   keywordsFromSpacy: SpacyKeyword[];
@@ -28,35 +27,37 @@ export class Comment {
   questionerName: string;
   createdBy;
   brainstormingQuestion: boolean;
-  answerQuestionerKeywords: SpacyKeyword[];
-  answerFulltextKeywords: SpacyKeyword[];
   updatedAt: Date;
   meta: any = null;
+  commentReference: string;
+  commentDepth: number;
+  deletedAt: Date;
 
-  constructor(roomId: string = '',
-              creatorId: string = '',
-              body: string = '',
-              read: boolean = false,
-              correct: CorrectWrong = CorrectWrong.NULL,
-              favorite: boolean = false,
-              creationTimestamp: Date = null,
-              bookmark: boolean = false,
-              score: number = 0,
-              createdFromLecturer = false,
-              highlighted: boolean = false,
-              ack: boolean = true,
-              tag: string = '',
-              answer: string = '',
-              keywordsFromQuestioner: SpacyKeyword[] = [],
-              keywordsFromSpacy: SpacyKeyword[] = [],
-              upvotes = 0,
-              downvotes = 0,
-              language = Language.AUTO,
-              questionerName: string = null,
-              brainstormingQuestion = false,
-              answerQuestionerKeywords: SpacyKeyword[] = [],
-              answerFulltextKeywords: SpacyKeyword[] = [],
-              createdBy?: any) {
+  constructor(
+    roomId: string = '',
+    creatorId: string = '',
+    body: string = '',
+    read: boolean = false,
+    correct: CorrectWrong = CorrectWrong.NULL,
+    favorite: boolean = false,
+    creationTimestamp: Date = null,
+    bookmark: boolean = false,
+    score: number = 0,
+    createdFromLecturer = false,
+    highlighted: boolean = false,
+    ack: boolean = true,
+    tag: string = '',
+    keywordsFromQuestioner: SpacyKeyword[] = [],
+    keywordsFromSpacy: SpacyKeyword[] = [],
+    upvotes = 0,
+    downvotes = 0,
+    language = Language.AUTO,
+    questionerName: string = null,
+    brainstormingQuestion = false,
+    createdBy: any = undefined,
+    commentReference: string = null,
+    commentDepth: number = 0,
+  ) {
     this.id = '';
     this.roomId = roomId;
     this.creatorId = creatorId;
@@ -72,7 +73,6 @@ export class Comment {
     this.highlighted = highlighted;
     this.ack = ack;
     this.tag = tag;
-    this.answer = answer;
     this.keywordsFromQuestioner = keywordsFromQuestioner;
     this.keywordsFromSpacy = keywordsFromSpacy;
     this.upvotes = upvotes;
@@ -81,9 +81,9 @@ export class Comment {
     this.createdBy = createdBy;
     this.questionerName = questionerName;
     this.brainstormingQuestion = brainstormingQuestion;
-    this.answerFulltextKeywords = answerFulltextKeywords;
-    this.answerQuestionerKeywords = answerQuestionerKeywords;
     this.updatedAt = null;
+    this.commentReference = commentReference;
+    this.commentDepth = commentDepth;
   }
 
   static mapModelToLanguage(model: Model): Language {

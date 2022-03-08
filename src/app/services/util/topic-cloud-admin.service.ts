@@ -28,7 +28,7 @@ const regexMaskKeyword = new RegExp('\\b(' + words.join('|') + ')\\b|' +
 export const maskKeyword = (keyword: string): string =>
   keyword.replace(regexMaskKeyword, '').replace(/\s+/, ' ').trim();
 
-export type KeywordConsumer = (keyword: SpacyKeyword, isFromQuestioner: boolean, isFromAnswer: boolean) => void;
+export type KeywordConsumer = (keyword: SpacyKeyword, isFromQuestioner: boolean) => void;
 
 @Injectable({
   providedIn: 'root',
@@ -72,42 +72,29 @@ export class TopicCloudAdminService {
                                   brainstorming: boolean,
                                   keywordFunc: KeywordConsumer) {
     let source = comment.keywordsFromQuestioner;
-    let answerSource = comment.answerQuestionerKeywords;
     let isFromQuestioner = true;
     const censoredInfo = roomDataService.getCensoredInformation(comment);
     if (!censoredInfo) {
       return;
     }
     let censored = censoredInfo.keywordsFromQuestionerCensored;
-    let answerCensored = censoredInfo.answerQuestionerKeywordsCensored;
-    let isAnswerFromQuestioner = true;
     if (config.keywordORfulltext === KeywordOrFulltext.Both) {
       if (!source || !source.length) {
         isFromQuestioner = false;
         source = comment.keywordsFromSpacy;
         censored = censoredInfo.keywordsFromSpacyCensored;
       }
-      if (!answerSource || !answerSource.length) {
-        isAnswerFromQuestioner = false;
-        answerSource = comment.answerFulltextKeywords;
-        answerCensored = censoredInfo.answerFulltextKeywordsCensored;
-      }
     } else if (config.keywordORfulltext === KeywordOrFulltext.Fulltext) {
       isFromQuestioner = false;
-      isAnswerFromQuestioner = false;
       source = comment.keywordsFromSpacy;
       censored = censoredInfo.keywordsFromSpacyCensored;
-      answerSource = comment.answerFulltextKeywords;
-      answerCensored = censoredInfo.answerFulltextKeywordsCensored;
     }
     if (!source) {
       return;
     }
     const wantedLabels = config.wantedLabels[comment.language.toLowerCase()];
     this.approveKeywords(keywordFunc, source, censored, brainstorming, wantedLabels, isFromQuestioner,
-      blacklistEnabled, blacklist, false);
-    this.approveKeywords(keywordFunc, answerSource, answerCensored, brainstorming, wantedLabels,
-      isAnswerFromQuestioner, blacklistEnabled, blacklist, true);
+      blacklistEnabled, blacklist);
   }
 
   static isTopicAllowed(config: TopicCloudAdminData, comments: number, users: number,
@@ -168,8 +155,7 @@ export class TopicCloudAdminService {
 
   private static approveKeywords(
     keywordFunc: KeywordConsumer, keywords: SpacyKeyword[], censored: boolean[], brainstorming: boolean,
-    wantedLabels: string[], isFromQuestioner: boolean, blacklistEnabled: boolean, blacklist: string[],
-    isFromAnswer: boolean
+    wantedLabels: string[], isFromQuestioner: boolean, blacklistEnabled: boolean, blacklist: string[]
   ) {
     for (let i = 0; i < keywords.length; i++) {
       const keyword = keywords[i];
@@ -183,12 +169,12 @@ export class TopicCloudAdminService {
         continue;
       }
       if (!blacklistEnabled) {
-        keywordFunc(keyword, isFromQuestioner, isFromAnswer);
+        keywordFunc(keyword, isFromQuestioner);
         continue;
       }
       const lowerCasedKeyword = keyword.text.toLowerCase();
       if (!blacklist.some(word => lowerCasedKeyword.includes(word))) {
-        keywordFunc(keyword, isFromQuestioner, isFromAnswer);
+        keywordFunc(keyword, isFromQuestioner);
       }
     }
   }

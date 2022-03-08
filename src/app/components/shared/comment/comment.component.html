@@ -47,18 +47,6 @@
           </mat-icon>
         </button>
         <button mat-icon-button
-                *ngIf="(isCreator || isModerator || comment.answer) && !inAnswerView"
-                (click)="answerComment()"
-                tabindex="0"
-                attr.aria-labelledby="comment_answer{{ comment.id }}">
-          <mat-icon class="not-marked material-icons-outlined"
-                    [ngClass]="{'answered-icon' : comment.answer}"
-                    [matTooltip]="comment.answer ? ('comment-page.has-answer' | translate) :
-                  ('comment-page.fullscreen' | translate)">
-            comment
-          </mat-icon>
-        </button>
-        <button mat-icon-button
                 *ngIf="(!isStudent || comment.correct === 1) && !moderator"
                 [disabled]="isStudent"
                 (click)="markCorrect(comment, 1)"
@@ -304,28 +292,6 @@
           </mat-list>
         </mat-menu>
       </div>
-      <div fxLayoutAlign="center center"
-           matTooltip="{{ 'comment-page.keywords-per-answer' | translate }}"
-           [mat-menu-trigger-for]="keywordsMenuAnswer"
-           *ngIf="comment.answerQuestionerKeywords?.length"
-           class="comment-keywords">
-        <mat-icon class="keyword-answer-icon material-icons-outlined">tag</mat-icon>
-        <span matBadge="{{comment.answerQuestionerKeywords.length}}"
-              matBadgeSize="small"
-              matBadgeOverlap="false">
-        </span>
-        <mat-menu #keywordsMenuAnswer>
-          <mat-list dense class="keywords-list">
-            <mat-list-item
-              *ngFor="let keyword of sortKeywords(comment.answerQuestionerKeywords); let odd = odd; let even = even"
-              [class.keywords-alternate]="odd"
-              [class.keywords-even]="even">
-              <span (click)="this.clickedOnKeyword.emit(keyword.text)"
-                    class="keyword-span">{{keyword.text}}</span>
-            </mat-list-item>
-          </mat-list>
-        </mat-menu>
-      </div>
 
       <span class="fill-remaining-space"></span>
       <div fxLayoutAlign="center center"
@@ -363,9 +329,6 @@
 
 <!--Hidden Div's for a11y-Descriptions-->
 <div class="visually-hidden">
-  <div id="comment_answer{{ comment.id }}">{{comment.answer ? ('comment-page.a11y-comment-answer' | translate) :
-    ('comment-page.a11y-comment-answer-not' | translate)}}
-  </div>
   <div
     id="comment_correct{{ comment.id }}">{{comment.correct !== 1 ? ('comment-page.a11y-comment_not_marked_correct' | translate)
     : ('comment-page.a11y-comment_marked_correct' | translate) }}
