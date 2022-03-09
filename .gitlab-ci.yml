@@ -3,7 +3,7 @@ variables:
 
 stages:
   - test
-  - codequality
+  - codestyle
   - build
   - deploy
 
@@ -13,11 +13,11 @@ cache:
     - node_modules/
 
 eslint:
-  stage: codequality
+  stage: codestyle
   tags:
     - angular
   image: local-angular:13
-  allow_failure: false
+  allow_failure: true
   dependencies: []
   script:
     - npm ci
@@ -37,19 +37,18 @@ unit_tests:
     - npm ci
     - npm test
 
-sonar:
-  stage: codequality
+.sonar:
+  stage: codestyle
   only:
     - staging
-    - merge_requests
   tags:
     - sonar-cli
-  allow_failure: false
+  allow_failure: true
   dependencies:
     - unit_tests
   script:
     - npm ci
-    - sonar-scanner -Dsonar.login=$SONAR_TOKEN -Dsonar.host.url=https://scm.thm.de/sonar/ -Dsonar.qualitygate.wait=true
+    - sonar-scanner -Dsonar.login=$SONAR_TOKEN -Dsonar.host.url=https://scm.thm.de/sonar/
 
 ngbuild:
   stage: build
@@ -65,7 +64,7 @@ ngbuild:
     paths:
       - "$BUILD_DIR"
 
-deploy_staging:
+.deploy_staging:
   stage: deploy
   only:
     - staging
@@ -117,8 +116,8 @@ deploy_production:
 build_image:
   extends: .build_image_template
   only:
-    - staging
-    # - master
+    # - staging
+    - master
 
 build_image_manual:
   extends: .build_image_template

@@ -137,52 +137,52 @@
                     </mat-expansion-panel-header>
                     <a
                       href="https://raw.githubusercontent.com/LDNOOBW/List-of-Dirty-Naughty-Obscene-and-Otherwise-Bad-Words/master/en"
-                      target="_blank" rel="noopener">English
+                      target="_blank">English
                     </a>
                     <br>
                     <a
                       href="https://raw.githubusercontent.com/LDNOOBW/List-of-Dirty-Naughty-Obscene-and-Otherwise-Bad-Words/master/de"
-                      target="_blank" rel="noopener">German
+                      target="_blank">German
                     </a>
                     <br>
                     <a
                       href="https://raw.githubusercontent.com/LDNOOBW/List-of-Dirty-Naughty-Obscene-and-Otherwise-Bad-Words/master/fr"
-                      target="_blank" rel="noopener">French
+                      target="_blank">French
                     </a>
                     <br>
                     <a
                       href="https://raw.githubusercontent.com/LDNOOBW/List-of-Dirty-Naughty-Obscene-and-Otherwise-Bad-Words/master/ar"
-                      target="_blank" rel="noopener">Arabic
+                      target="_blank">Arabic
                     </a>
                     <br>
                     <a
                       href="https://raw.githubusercontent.com/LDNOOBW/List-of-Dirty-Naughty-Obscene-and-Otherwise-Bad-Words/master/ru"
-                      target="_blank" rel="noopener">Russian
+                      target="_blank">Russian
                     </a>
                     <br>
                     <a
                       href="https://raw.githubusercontent.com/LDNOOBW/List-of-Dirty-Naughty-Obscene-and-Otherwise-Bad-Words/master/es"
-                      target="_blank" rel="noopener">Spanish
+                      target="_blank">Spanish
                     </a>
                     <br>
                     <a
                       href="https://raw.githubusercontent.com/LDNOOBW/List-of-Dirty-Naughty-Obscene-and-Otherwise-Bad-Words/master/it"
-                      target="_blank" rel="noopener">Italian
+                      target="_blank">Italian
                     </a>
                     <br>
                     <a
                       href="https://raw.githubusercontent.com/LDNOOBW/List-of-Dirty-Naughty-Obscene-and-Otherwise-Bad-Words/master/nl"
-                      target="_blank" rel="noopener">Netherlandish
+                      target="_blank">Netherlandish
                     </a>
                     <br>
                     <a
                       href="https://raw.githubusercontent.com/LDNOOBW/List-of-Dirty-Naughty-Obscene-and-Otherwise-Bad-Words/master/tr"
-                      target="_blank" rel="noopener">Turkish
+                      target="_blank">Turkish
                     </a>
                     <br>
                     <a
                       href="https://raw.githubusercontent.com/LDNOOBW/List-of-Dirty-Naughty-Obscene-and-Otherwise-Bad-Words/master/pt"
-                      target="_blank" rel="noopener">Portuguese
+                      target="_blank">Portuguese
                     </a>
                   </mat-expansion-panel>
                 </mat-accordion>
@@ -557,7 +557,7 @@
               <div *ngIf="isCreatorOrMod">
                 <!-- Only visible when not editing -->
                 <div *ngIf="!edit"
-                     style="text-align: end">
+                     align="end">
 
                   <button class="margin-right"
                           mat-icon-button
@@ -586,7 +586,8 @@
                            id="{{'edit-input'+i}}"
                            [(ngModel)]="newKeyword">
                   </mat-form-field>
-                  <div style="text-align: end">
+                  <!-- TODO: textinput and buttons in one row -->
+                  <div align="end">
                     <button mat-raised-button
                             class="redBackground margin-right"
                             (click)="cancelEdit()">{{'topic-cloud-dialog.cancel' | translate}}</button>
@@ -645,7 +646,7 @@
               <div>
                 <!-- Only visible when not editing -->
                 <div *ngIf="!edit"
-                     style="text-align: end">
+                     align="end">
 
                   <button class="margin-right"
                           mat-icon-button
@@ -675,7 +676,7 @@
                            [(ngModel)]="newKeyword">
                   </mat-form-field>
 
-                  <div style="text-align: end">
+                  <div align="end">
                     <button mat-raised-button
                             class="redBackground margin-right"
                             (click)="cancelEdit()">{{'topic-cloud-dialog.cancel' | translate}}</button>

@@ -132,7 +132,7 @@ export class RoomJoinComponent implements OnInit {
 
   private guestLogin(room: Room, mods: Set<string>) {
     this.authenticationService.guestLogin(UserRole.PARTICIPANT).subscribe(result => {
-      if (result === LoginResult.Success) {
+      if (result === LoginResult.success) {
         this.addAndNavigate(room, mods);
       }
     });

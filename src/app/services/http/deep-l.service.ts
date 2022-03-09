@@ -75,9 +75,9 @@ export enum TargetLang {
 /* eslint-enable @typescript-eslint/naming-convention */
 
 export enum FormalityType {
-  Default = '',
-  Less = 'less',
-  More = 'more'
+  default = '',
+  less = 'less',
+  more = 'more'
 }
 
 @Injectable({
@@ -122,7 +122,7 @@ export class DeepLService extends BaseHttpService {
     }
   }
 
-  improveTextStyle(text: string, temTargetLang: TargetLang, formality = FormalityType.Default): Observable<string> {
+  improveTextStyle(text: string, temTargetLang: TargetLang, formality = FormalityType.default): Observable<string> {
     return this.makeXMLTranslateRequest(text, temTargetLang, formality).pipe(
       mergeMap(result =>
         this.makeXMLTranslateRequest(
@@ -147,7 +147,7 @@ export class DeepLService extends BaseHttpService {
 
   private makeXMLTranslateRequest(text: string, targetLang: TargetLang, formality: FormalityType): Observable<DeepLResult> {
     const url = '/deepl/translate';
-    const tagFormality = DeepLService.supportsFormality(targetLang) && formality !== FormalityType.Default ? '&formality=' + formality : '';
+    const tagFormality = DeepLService.supportsFormality(targetLang) && formality !== FormalityType.default ? '&formality=' + formality : '';
     const data = 'target_lang=' + encodeURIComponent(targetLang) +
       '&preserve_formatting=1' +
       '&tag_handling=xml' + tagFormality +

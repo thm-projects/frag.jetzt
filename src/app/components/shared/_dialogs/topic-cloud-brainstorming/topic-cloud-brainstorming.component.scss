@@ -1,29 +1,17 @@
 @import "../../../../../layout/laout-util";
 
 .primary-btn {
-  background-color: transparent;
-  color: var(--primary);
-  outline: var(--primary) solid 3px;
+  background-color: var(--primary);
+  color: var(--on-primary);
   width: 100%;
   margin-top: 10px;
-
-  &:hover {
-    background-color: var(--primary);
-    color: var(--on-primary);
-  }
 }
 
 .secondary-btn {
-  background-color: transparent;
-  color: var(--cancel);
-  outline: var(--cancel) solid 3px;
+  background-color: var(--cancel);
+  color: var(--on-cancel);
   width: 100%;
   margin-top: 10px;
-
-  &:hover {
-    background-color: var(--cancel);
-    color: var(--on-cancel);
-  }
 }
 
 .brainstorm-container {
@@ -86,17 +74,12 @@
 }
 
 .help-button {
-  background-color: transparent;
-  color: var(--green);
-  outline: var(--green) solid 3px;
-  margin: 10px;
-
-  &:hover {
-    background-color: var(--green);
-    color: var(--black);
-  }
+  background-color: var(--green);
+  color: var(--black);
+  margin-top: 1rem;
 
   .mat-icon {
     font-size: 18px;
+    margin-top: 3px;
   }
 }

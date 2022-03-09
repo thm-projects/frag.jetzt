@@ -10,7 +10,8 @@
       ],
       "parserOptions": {
         "project": [
-          "tsconfig.json"
+          "tsconfig.json",
+          "e2e/tsconfig.json"
         ],
         "createDefaultProgram": true
       },
@@ -43,19 +44,6 @@
           {
             "accessibility": "explicit"
           }
-        ],
-        "@typescript-eslint/naming-convention": [
-          "error",
-          {
-            "format": ["UPPER_CASE", "StrictPascalCase"],
-            "selector": ["enumMember"]
-          }
-        ],
-        "@typescript-eslint/no-inferrable-types": "off",
-        "@typescript-eslint/no-shadow": "off",
-        "arrow-body-style": [
-          "off",
-          "as-needed"
         ],
         "brace-style": [
           "error",

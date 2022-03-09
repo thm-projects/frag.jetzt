@@ -53,7 +53,7 @@ export class RoomListComponent implements OnInit, OnDestroy {
   sub: Subscription;
 
   tableDataSource: MatTableDataSource<Room>;
-  displayedColumns = ['name', 'shortId', 'role', 'moderator-access', 'button'];
+  displayedColumns = ['name', 'shortId', 'role', 'moderator-access', 'button'] as const;
 
   creatorRole = UserRole.CREATOR;
   participantRole = UserRole.PARTICIPANT;

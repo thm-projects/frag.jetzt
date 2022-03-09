@@ -362,49 +362,43 @@ export class ImportExportManager {
           return;
         }
         const key = this.unescape(line[0]);
-        this.readWithStructuredItemType(item, line, key, trans, parser, result);
+        let value;
+        switch (item.type) {
+          case 'value':
+            value = this.unescape(line[1]);
+            if (item.valueMapper) {
+              value = item.valueMapper.import(this.buildMappingObject(key, trans, item.additionalLanguageKeys), value);
+            }
+            result.push(value);
+            break;
+          case 'values':
+            value = line.slice(1).map(e => this.unescape(e));
+            if (item.valueMapper) {
+              value = item.valueMapper.import(this.buildMappingObject(key, trans, item.additionalLanguageKeys), value);
+            }
+            result.push(value);
+            break;
+          case 'table':
+            const cols = line.map((e, i) =>
+              this.buildMappingObject(this.unescape(e), trans, item.columns[i].additionalLanguageKeys));
+            const data = [];
+            let dataLine: string[];
+            while ((dataLine = parser.readNextLine()) !== null) {
+              if (dataLine.length < item.columns.length) {
+                break;
+              }
+              data.push(item.columns.reduce((acc, col, i) =>
+                col.valueMapper.import(cols[i], this.unescape(dataLine[i]), acc), null));
+            }
+            result.push(data);
+            break;
+          default:
+            console.error('Discarded data on input (missing structure): ' + line);
+            break;
+        }
       });
       return result;
     }));
-  }
-
-  private readWithStructuredItemType(
-    item: ExportStructureItem, line: string[], key: string, translateObject: any, parser: CSVParser, result: any[]
-  ) {
-    let value;
-    switch (item.type) {
-      case 'value':
-        value = this.unescape(line[1]);
-        if (item.valueMapper) {
-          value = item.valueMapper.import(this.buildMappingObject(key, translateObject, item.additionalLanguageKeys), value);
-        }
-        result.push(value);
-        break;
-      case 'values':
-        value = line.slice(1).map(e => this.unescape(e));
-        if (item.valueMapper) {
-          value = item.valueMapper.import(this.buildMappingObject(key, translateObject, item.additionalLanguageKeys), value);
-        }
-        result.push(value);
-        break;
-      case 'table':
-        const cols = line.map((e, i) =>
-          this.buildMappingObject(this.unescape(e), translateObject, item.columns[i].additionalLanguageKeys));
-        const data = [];
-        let dataLine: string[];
-        while ((dataLine = parser.readNextLine()) !== null) {
-          if (dataLine.length < item.columns.length) {
-            break;
-          }
-          data.push(item.columns.reduce((acc, col, i) =>
-            col.valueMapper.import(cols[i], this.unescape(dataLine[i]), acc), null));
-        }
-        result.push(data);
-        break;
-      default:
-        console.error('Discarded data on input (missing structure): ' + line);
-        break;
-    }
   }
 
   private unescape(value: string): string {

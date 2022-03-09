@@ -8,15 +8,10 @@
 }
 
 .exitButton {
-  background-color: var(--background);
-  color: var(--cancel);
-  outline: var(--cancel) solid 3px;
+  background-color: var(--primary);
+  color: var(--on-primary);
   position: absolute;
   top: 2em;
   right: 2em;
-
-  &:hover {
-    background-color: var(--cancel);
-    color: var(--white);
-  }
+  max-height: 100px;
 }

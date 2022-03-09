@@ -67,7 +67,7 @@ export class WorkerDialogComponent implements OnInit {
     if (onlyFailed) {
       comments = comments.filter(c => {
         const isKeywordOkay = c.keywordsFromSpacy && c.keywordsFromSpacy.length > 0;
-        const isLanguageDefined = c.language !== Language.AUTO;
+        const isLanguageDefined = c.language !== Language.auto;
         let isKeywordWellDefined = false;
         if (isKeywordOkay) {
           isKeywordWellDefined = c.keywordsFromSpacy.every(keyword => {
