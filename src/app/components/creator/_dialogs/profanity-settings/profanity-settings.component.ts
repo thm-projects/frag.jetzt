@@ -32,12 +32,12 @@ export class ProfanitySettingsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.profanityCheck = this.editRoom.profanityFilter !== ProfanityFilter.DEACTIVATED;
-    if (this.editRoom.profanityFilter === ProfanityFilter.ALL) {
+    this.profanityCheck = this.editRoom.profanityFilter !== ProfanityFilter.deactivated;
+    if (this.editRoom.profanityFilter === ProfanityFilter.all) {
       this.censorLanguageSpecificCheck = this.censorPartialWordsCheck = true;
     } else if (this.profanityCheck) {
-      this.censorLanguageSpecificCheck = this.editRoom.profanityFilter === ProfanityFilter.LANGUAGE_SPECIFIC;
-      this.censorPartialWordsCheck = this.editRoom.profanityFilter === ProfanityFilter.PARTIAL_WORDS;
+      this.censorLanguageSpecificCheck = this.editRoom.profanityFilter === ProfanityFilter.languageSpecific;
+      this.censorPartialWordsCheck = this.editRoom.profanityFilter === ProfanityFilter.partialWords;
     }
   }
 
@@ -70,13 +70,13 @@ export class ProfanitySettingsComponent implements OnInit {
 
   save(): void {
     this.editRoom.questionsBlocked = this.check;
-    this.editRoom.profanityFilter = this.profanityCheck ? ProfanityFilter.NONE : ProfanityFilter.DEACTIVATED;
+    this.editRoom.profanityFilter = this.profanityCheck ? ProfanityFilter.none : ProfanityFilter.deactivated;
     if (this.profanityCheck) {
       if (this.censorLanguageSpecificCheck && this.censorPartialWordsCheck) {
-        this.editRoom.profanityFilter = ProfanityFilter.ALL;
+        this.editRoom.profanityFilter = ProfanityFilter.all;
       } else {
-        this.editRoom.profanityFilter = this.censorLanguageSpecificCheck ? ProfanityFilter.LANGUAGE_SPECIFIC : ProfanityFilter.NONE;
-        this.editRoom.profanityFilter = this.censorPartialWordsCheck ? ProfanityFilter.PARTIAL_WORDS : this.editRoom.profanityFilter;
+        this.editRoom.profanityFilter = this.censorLanguageSpecificCheck ? ProfanityFilter.languageSpecific : ProfanityFilter.none;
+        this.editRoom.profanityFilter = this.censorPartialWordsCheck ? ProfanityFilter.partialWords : this.editRoom.profanityFilter;
       }
     }
     this.roomService.updateRoom(this.editRoom).subscribe();

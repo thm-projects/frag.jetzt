@@ -43,15 +43,8 @@
   color: var(--on-background);
 
   > a {
-    padding: 10px;
+    padding: 5px;
     display: inline;
-
-    &:hover {
-      background-color: transparent;
-      color: var(--on-background);
-      outline: var(--secondary) solid 3px;
-      border-radius: 5px;
-    }
   }
 }
 

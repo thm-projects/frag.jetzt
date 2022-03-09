@@ -59,17 +59,11 @@
   .joyride-step__close {
     width: 1em !important;
     height: 1em !important;
-    top: 1em !important;
-    right: 1em !important;
-    padding: 10px;
-    border-radius: 20px;
+    top: 0.75em !important;
+    right: 0.75em !important;
 
     line {
-      stroke: var(--cancel);
-    }
-
-    &:hover {
-      outline: var(--cancel) solid 3px;
+      stroke: var(--on-dialog);
     }
   }
 
@@ -84,26 +78,13 @@
 }
 
 .joy-primary {
-  background-color: transparent;
-  color: var(--primary);
-  outline: var(--primary) solid 3px;
-
-  &:hover {
-    background-color: var(--primary);
-    color: var(--on-primary);
-  }
+  color: var(--on-primary);
+  background-color: var(--primary);
 }
 
 .joy-secondary {
-  background-color: transparent;
-  color: var(--on-dialog);
-  margin-right: 10px;
-
-  &:hover {
-    background-color: transparent;
-    color: var(--on-dialog);
-    outline: var(--on-dialog) solid 3px;
-  }
+  color: var(--on-secondary);
+  background-color: var(--secondary);
 }
 
 h3 {

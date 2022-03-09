@@ -19,12 +19,12 @@ export class DialogActionButtonsComponent implements OnInit {
   /**
    * gray out confirm button
    */
-  @Input() confirmButtonDisabled: boolean = false;
+  @Input() confirmButtonDisabled: boolean = false
 
   /**
    * gray out cancel button
    */
-  @Input() cancelButtonDisabled: boolean = false;
+  @Input() cancelButtonDisabled: boolean = false
 
   @Input() showDivider = true;
 
@@ -59,13 +59,13 @@ export class DialogActionButtonsComponent implements OnInit {
   /**
    * A callback which will be executed if the confirm button was clicked.
    */
-  @Input() confirmButtonClickAction: ((() => void) | undefined);
+  @Input() confirmButtonClickAction: (Function | undefined);
 
 
   /**
    * A callback which will be executed if the cancel button was clicked.
    */
-  @Input() cancelButtonClickAction: ((() => void) | undefined);
+  @Input() cancelButtonClickAction: (Function | undefined);
 
 
   /**

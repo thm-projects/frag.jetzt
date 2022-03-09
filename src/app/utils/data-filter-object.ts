@@ -51,16 +51,16 @@ export const getCommentRoleValue = (comment: Comment, ownerId: string, moderator
 
 const hourInSeconds = 3_600_000;
 const timeDurations: TimeDurationsObject = {
-  [Period.OneHour]: hourInSeconds,
-  [Period.ThreeHours]: 3 * hourInSeconds,
-  [Period.OneDay]: 24 * hourInSeconds,
-  [Period.OneWeek]: 24 * 7 * hourInSeconds,
-  [Period.TwoWeeks]: 24 * 14 * hourInSeconds,
+  [Period.oneHour]: hourInSeconds,
+  [Period.threeHours]: 3 * hourInSeconds,
+  [Period.oneDay]: 24 * hourInSeconds,
+  [Period.oneWeek]: 24 * 7 * hourInSeconds,
+  [Period.twoWeeks]: 24 * 14 * hourInSeconds,
 };
 const sortFunctions: SortFunctionsObject = {
-  [SortType.Score]: (a, b) => b.score - a.score,
-  [SortType.Time]: (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
-  [SortType.Controversy]: (a, b) =>
+  [SortType.score]: (a, b) => b.score - a.score,
+  [SortType.time]: (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+  [SortType.controversy]: (a, b) =>
     calculateControversy(b.upvotes, b.downvotes) - calculateControversy(a.upvotes, a.downvotes),
 };
 
@@ -70,26 +70,28 @@ export class DataFilterObject {
   private _currentData: Comment[] = null;
   private moderators: Set<string> = null;
   private readonly filterFunctions: FilterFunctionObject = {
-    [FilterType.Correct]: c => c.correct === CorrectWrong.CORRECT,
-    [FilterType.Wrong]: c => c.correct === CorrectWrong.WRONG,
-    [FilterType.Favorite]: c => Boolean(c.favorite),
-    [FilterType.Bookmark]: c => Boolean(c.bookmark),
-    [FilterType.NotBookmarked]: c => !c.bookmark,
-    [FilterType.Read]: c => Boolean(c.read),
-    [FilterType.Unread]: c => !c.read,
-    [FilterType.Tag]: (c, value) => c.tag === value,
-    [FilterType.CreatorId]: (c, value) => c.creatorId === value,
-    [FilterType.Keyword]: (c, value) => Boolean(
+    [FilterType.correct]: c => c.correct === CorrectWrong.CORRECT,
+    [FilterType.wrong]: c => c.correct === CorrectWrong.WRONG,
+    [FilterType.favorite]: c => Boolean(c.favorite),
+    [FilterType.bookmark]: c => Boolean(c.bookmark),
+    [FilterType.not_bookmarked]: c => !c.bookmark,
+    [FilterType.read]: c => Boolean(c.read),
+    [FilterType.unread]: c => !c.read,
+    [FilterType.tag]: (c, value) => c.tag === value,
+    [FilterType.creatorId]: (c, value) => c.creatorId === value,
+    [FilterType.keyword]: (c, value) => Boolean(
       c.keywordsFromQuestioner?.find(keyword => keyword.text === value) ||
-      c.keywordsFromSpacy?.find(keyword => keyword.text === value)
+      c.keywordsFromSpacy?.find(keyword => keyword.text === value) ||
+      c.answerQuestionerKeywords?.find(k => k.text === value) ||
+      c.answerFulltextKeywords?.find(k => k.text === value)
     ),
-    [FilterType.Answer]: c => true,
-    [FilterType.Unanswered]: c => false,
-    [FilterType.Owner]: c => c.creatorId === this.authenticationService.getUser()?.id,
-    [FilterType.Moderator]: c => this.moderators.has(c.creatorId),
-    [FilterType.Owner]: c => this.sessionService.currentRoom?.id === c.creatorId,
-    [FilterType.Number]: (c, value) => c.number === value,
-    [FilterType.Censored]: c => this.roomDataService.checkCommentProfanity(c)
+    [FilterType.answer]: c => Boolean(c.answer),
+    [FilterType.unanswered]: c => !c.answer,
+    [FilterType.owner]: c => c.creatorId === this.authenticationService.getUser()?.id,
+    [FilterType.moderator]: c => this.moderators.has(c.creatorId),
+    [FilterType.owner]: c => this.sessionService.currentRoom?.id === c.creatorId,
+    [FilterType.number]: (c, value) => c.number === value,
+    [FilterType.censored]: c => this.roomDataService.checkCommentProfanity(c)
   } as const;
   private readonly _filteredData = new BehaviorSubject<FilterResult>(null);
   private readonly _destroyNotifier = new Subject<any>();
@@ -192,7 +194,7 @@ export class DataFilterObject {
     const room = this.sessionService.currentRoom;
     // filter for brainstorming and threshold
     const threshold = room.threshold;
-    const isBrainstormingActive = this._filter.filterType === FilterType.BrainstormingQuestion;
+    const isBrainstormingActive = this._filter.filterType === FilterType.brainstormingQuestion;
     let comments = this._currentData.filter(c => c.brainstormingQuestion === isBrainstormingActive);
     comments = threshold !== 0 && !this._filter.moderation ? comments.filter(c => c.score >= threshold) : comments;
     // filter time
@@ -232,9 +234,12 @@ export class DataFilterObject {
     const keywordFinder = (e: SpacyKeyword) => e.text.toLowerCase().includes(search);
     return comments.filter(c =>
       c.body.toLowerCase().includes(search) ||
+      c.answer?.toLowerCase().includes(search) ||
       c.keywordsFromSpacy?.some(keywordFinder) ||
       c.keywordsFromQuestioner?.some(keywordFinder) ||
-      c.questionerName?.toLowerCase().includes(search));
+      c.questionerName?.toLowerCase().includes(search) ||
+      c.answerQuestionerKeywords?.some(keywordFinder) ||
+      c.answerFulltextKeywords?.some(keywordFinder));
   }
 
   private filterWithTime(comments: Comment[]) {
@@ -243,7 +248,7 @@ export class DataFilterObject {
     if (duration) {
       const filterTime = currentTime - duration;
       return comments.filter(c => new Date(c.createdAt).getTime() >= filterTime);
-    } else if (this._filter.period === Period.FromNow) {
+    } else if (this._filter.period === Period.fromNow) {
       if (!this._filter.fromNow) {
         this._filter.fromNow = currentTime;
       }

@@ -2,8 +2,6 @@
 
 Nomen est omen: The app's name says it all: it stands for both the app's main purpose and the web address https://frag.jetzt
 
-[![Quality Gate Status](https://scm.thm.de/sonar/api/project_badges/measure?project=de.thm.arsnova%3Afrag-jetzt-frontend&metric=alert_status)](https://scm.thm.de/sonar/dashboard?id=de.thm.arsnova%3Afrag-jetzt-frontend)
-
 ## frag.jetzt development with docker
 
 frag.jetzt consists of a variety of backend services. Starting them all individually or installing them on the computer is complex, which is why there is a docker compose solution for this.

@@ -27,14 +27,7 @@ import { RoomDataService } from '../../../services/util/room-data.service';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { DataFilterObject } from '../../../utils/data-filter-object';
-import {
-  FilterType,
-  FilterTypeKey,
-  Period,
-  PeriodKey,
-  SortType,
-  SortTypeKey
-} from '../../../utils/data-filter-object.lib';
+import { FilterType, FilterTypeKey, Period, SortType, SortTypeKey } from '../../../utils/data-filter-object.lib';
 
 
 @Component({
@@ -67,7 +60,7 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
   scrollExtended = false;
   search = false;
   searchPlaceholder = '';
-  periodsList = Object.values(Period) as PeriodKey[];
+  periodsList = Object.values(Period);
   headerInterface = null;
   pageIndex = 0;
   pageSize = 25;
@@ -246,10 +239,10 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
     this.router.navigate([`/${role}/room/${this.room.shortId}/comments`]);
   }
 
-  setTimePeriod(period?: PeriodKey) {
+  setTimePeriod(period?: Period) {
     const filter = this._filterObject.filter;
     if (period) {
-      filter.period = Period[period];
+      filter.period = period;
       filter.fromNow = null;
     }
     this._filterObject.filter = filter;
@@ -266,10 +259,11 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
     autoComplete.closePanel();
     this.questionNumberFormControl.setValue('');
     menu.closeMenu();
-    this.applyFilterByKey('Number', +questionNumber.value);
+    this.applyFilterByKey('number', +questionNumber.value);
   }
 
   private initNavigation() {
+    /* eslint-disable @typescript-eslint/no-shadow */
     this._list = this.composeService.builder(this.headerService.getHost(), e => {
       e.menuItem({
         translate: this.headerService.getTranslate(),
@@ -303,5 +297,6 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
         condition: () => true
       });
     });
+    /* eslint-enable @typescript-eslint/no-shadow */
   }
 }

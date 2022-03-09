@@ -6,6 +6,7 @@ import { catchError, tap, map } from 'rxjs/operators';
 import { BaseHttpService } from './base-http.service';
 import { TSMap } from 'typescript-map';
 import { Vote } from '../../models/vote';
+import { SpacyKeyword } from './spacy.service';
 
 const httpOptions = {
   // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -24,6 +25,20 @@ export class CommentService extends BaseHttpService {
 
   constructor(private http: HttpClient) {
     super();
+  }
+
+
+  answer(comment: Comment, answer: string,
+         fulltext: SpacyKeyword[] = [],
+         questioner: SpacyKeyword[] = []): Observable<Comment> {
+    comment.answer = answer;
+    comment.answerFulltextKeywords = fulltext;
+    comment.answerQuestionerKeywords = questioner;
+    const changes = new TSMap<string, any>();
+    changes.set('answer', comment.answer);
+    changes.set('answerFulltextKeywords', JSON.stringify(fulltext));
+    changes.set('answerQuestionerKeywords', JSON.stringify(questioner));
+    return this.patchComment(comment, changes);
   }
 
   toggleRead(comment: Comment): Observable<Comment> {
@@ -232,12 +247,16 @@ export class CommentService extends BaseHttpService {
       JSON.parse(comment.keywordsFromQuestioner as unknown as string) : null;
     comment.keywordsFromSpacy = comment.keywordsFromSpacy ?
       JSON.parse(comment.keywordsFromSpacy as unknown as string) : null;
+    comment.answerFulltextKeywords = comment.answerFulltextKeywords ?
+      JSON.parse(comment.answerFulltextKeywords as unknown as string) : null;
+    comment.answerQuestionerKeywords = comment.answerQuestionerKeywords ?
+      JSON.parse(comment.answerQuestionerKeywords as unknown as string) : null;
     return comment;
   }
 
   hashCode(s) {
-    let hash = 0;
-    for (let i = 0; i < s.length; i++) {
+    let hash;
+    for (let i = 0, h = 0; i < s.length; i++) {
       hash = Math.abs(Math.imul(31, hash) + s.charCodeAt(i) | 0);
     }
     const userNumberString = String(hash);

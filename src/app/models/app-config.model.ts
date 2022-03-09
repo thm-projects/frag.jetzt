@@ -9,6 +9,6 @@ export interface IAppConfig {
         };
         student: {
             allowGuest: boolean;
-        };
+        }
     };
 }

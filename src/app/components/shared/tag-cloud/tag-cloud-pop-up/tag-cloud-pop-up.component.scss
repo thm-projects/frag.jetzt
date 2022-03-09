@@ -27,6 +27,7 @@ $header-size: 67px;
     display: flex;
     justify-content: center;
     flex-direction: column;
+    align-items: flex-start;
     overflow: hidden;
   }
 
@@ -139,8 +140,8 @@ button {
   margin: 0.5em;
 
   &.active {
-    background-color: var(--green);
-    color: var(--black);
+    background-color: var(--secondary);
+    color: var(--on-secondary);
 
     &.downvote {
       background-color: var(--red);
@@ -158,20 +159,12 @@ button {
 }
 
 .replace-button {
-  background-color: transparent;
-  color: var(--primary);
-  outline: var(--primary) solid 3px;
+  background-color: var(--primary);
+  color: var(--on-primary);
   min-width: 30px !important;
-  min-height: 30px !important;
-  width: auto;
+  min-height: 10px !important;
+  width: 100%;
   z-index: 3;
-  display: flex;
-  margin: 0 auto 10px;
-
-  &:hover {
-    background-color: var(--primary);
-    color: var(--on-primary);
-  }
 }
 
 ::ng-deep .replacementContainer {
@@ -179,11 +172,11 @@ button {
 
   .mat-form-field-infix {
     min-width: 150px;
-    line-height: normal;
+    width: min-content;
   }
 
   .mat-form-field-wrapper {
-    margin: 1em 0 0 0;
+    margin-bottom: -0.8em;
   }
 }
 

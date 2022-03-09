@@ -65,17 +65,17 @@ export class WorkerDialogTask {
 
   private finishSpacyCall(index: number, result: KeywordsResult, previous: Language): void {
     let undo: () => any = () => '';
-    if (result.resultType === KeywordsResultType.BadSpelled) {
+    if (result.resultType === KeywordsResultType.badSpelled) {
       this.statistics.badSpelled++;
       undo = () => this.statistics.badSpelled--;
-    } else if (result.resultType === KeywordsResultType.LanguageNotSupported) {
+    } else if (result.resultType === KeywordsResultType.languageNotSupported) {
       this.statistics.notSupported++;
       undo = () => this.statistics.notSupported--;
-    } else if (result.resultType === KeywordsResultType.Failure) {
+    } else if (result.resultType === KeywordsResultType.failure) {
       this.statistics.failed++;
       undo = () => this.statistics.failed--;
     }
-    if (result.language === Language.AUTO) {
+    if (result.language === Language.auto) {
       result.language = null;
     }
     this.patchToServer(result.keywords, index, result.language, undo);
@@ -87,21 +87,18 @@ export class WorkerDialogTask {
     if (language !== null) {
       changes.set('language', language);
     }
-
-    this.commentService.patchComment(this._comments[index], changes).subscribe({
-      next: () => {
+    this.commentService.patchComment(this._comments[index], changes).subscribe(_ => {
         this.statistics.succeeded++;
         this.callSpacy(index + concurrentCallsPerTask);
       },
-      error: patchError => {
+      patchError => {
         undo();
         this.statistics.failed++;
         if (patchError instanceof HttpErrorResponse && patchError.status === 403) {
           this.error = 'forbidden';
         }
         this.callSpacy(index + concurrentCallsPerTask);
-      }
-    });
+      });
   }
 
 }

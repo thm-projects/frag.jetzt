@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, HostListener, Inject } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { DOCUMENT } from '@angular/common';
@@ -26,7 +26,9 @@ export class PresentCommentComponent implements OnInit {
     this.languageService.getLanguage().subscribe(lang => this.translateService.use(lang));
   }
 
+  @HostListener('document:keyup', ['$event'])
   onKeyUp(event: KeyboardEvent) {
+    // ToDo: migrate from deprecated event api
     if (KeyboardUtils.isKeyEvent(event, KeyboardKey.Escape) === true) {
       this.onCloseClick();
     }

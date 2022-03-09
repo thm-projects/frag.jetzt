@@ -34,8 +34,7 @@
       <button class="start_introduction"
               (click)="startIntroduction()"
               mat-fab
-              mat-icon-button
-              matTooltip="{{ 'comment-list.start-introduction-video' | translate }}" [matTooltipPosition]="'above'">
+              mat-icon-button>
         <mat-icon>play_arrow</mat-icon>
       </button>
       <button *ngIf="brainstormingActive && canWriteComment() && !drawer?.opened"
@@ -46,7 +45,7 @@
               }"
               class="fab_add_comment"
               (click)="writeComment()"
-              matTooltip="{{ 'comment-list.add-idea' | translate }}" [matTooltipPosition]="'above'">
+              matTooltip="{{ 'comment-list.add-idea' | translate }}">
         <mat-icon>add</mat-icon>
         <p class="oldtypo-p" *ngIf="isCloudEmpty()">{{'comment-list.ask-brainstorm-empty' | translate}}</p>
       </button>

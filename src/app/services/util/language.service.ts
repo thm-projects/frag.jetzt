@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 
-export const AVAILABLE_LANGUAGES = ['en', 'de'];
+export const AVAILABLE_LANGUAGES = ['en', 'de'] as const;
 
 export type Language = (typeof AVAILABLE_LANGUAGES)[number];
 
@@ -10,14 +10,14 @@ export class LanguageService {
   private readonly _language = new BehaviorSubject<Language>(null);
 
   constructor() {
-    const data = localStorage.getItem('currentLang');
+    const data = localStorage.getItem('currentLang') as Language;
     let lang = null;
     if (AVAILABLE_LANGUAGES.includes(data)) {
       lang = data;
     }
     if (!lang) {
       for (const language of navigator.languages) {
-        const langKey = language.split('-')[0].toLowerCase();
+        const langKey = language.split('-')[0].toLowerCase() as Language;
         if (AVAILABLE_LANGUAGES.includes(langKey)) {
           lang = langKey;
           break;

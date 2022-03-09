@@ -22,7 +22,7 @@ export class BaseHttpService {
         }
       }
       console.error(operation, error);
-      return throwError(() => error);
+      return throwError(error);
     };
   }
 
@@ -32,9 +32,8 @@ export class BaseHttpService {
 
   protected checkCanSendRequest(operation = 'operation'): Observable<any> {
     if (new Date().getTime() < this.nextRequest) {
-      const message = `${operation} is in timeout`;
-      console.error(message);
-      return throwError(() => new Error(message));
+      console.error(operation + ' is in timeout');
+      return throwError(new TimeoutError());
     }
     return null;
   }
