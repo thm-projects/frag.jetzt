@@ -49,6 +49,7 @@ export class CookiesComponent implements OnInit, AfterViewInit {
 
   exitApp() {
     localStorage.setItem('cookieAccepted', 'false');
+    // TODO somehow exit the app, since the user didn't accept cookie usage
     this.dialogRef.close(false);
   }
 

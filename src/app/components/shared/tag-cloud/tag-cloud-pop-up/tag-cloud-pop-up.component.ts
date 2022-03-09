@@ -2,7 +2,7 @@ import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../../services/util/language.service';
 import { TagCloudDataService, TagCloudDataTagEntry } from '../../../../services/util/tag-cloud-data.service';
-import { Language, LanguagetoolResult, LanguagetoolService } from '../../../../services/http/languagetool.service';
+import { Language, LanguagetoolService } from '../../../../services/http/languagetool.service';
 import { FormControl } from '@angular/forms';
 import { TSMap } from 'typescript-map';
 import { CommentService } from '../../../../services/http/comment.service';
@@ -117,7 +117,13 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
         if (['DE', 'FR', 'EN'].indexOf(langKey) < 0) {
           return;
         }
-        this.fillSpellingData(correction);
+        for (const match of correction.matches) {
+          if (match.replacements != null && match.replacements.length > 0) {
+            for (const replacement of match.replacements) {
+              this.spellingData.push(replacement.value);
+            }
+          }
+        }
       });
     }
     clearTimeout(this._popupCloseTimer);
@@ -196,18 +202,14 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
         comment.keywordsFromSpacy.forEach(renameKeyword);
       }
       changes.set('keywordsFromSpacy', JSON.stringify(comment.keywordsFromSpacy));
-
-      this.commentService.patchComment(comment, changes).subscribe({
-        next: () => {
-          this.translateService.get('topic-cloud-dialog.keyword-edit').subscribe(msg => {
-            this.notificationService.show(msg);
-          });
-        },
-        error: () => {
-          this.translateService.get('topic-cloud-dialog.changes-gone-wrong').subscribe(msg => {
-            this.notificationService.show(msg);
-          });
-        }
+      this.commentService.patchComment(comment, changes).subscribe(_ => {
+        this.translateService.get('topic-cloud-dialog.keyword-edit').subscribe(msg => {
+          this.notificationService.show(msg);
+        });
+      }, _ => {
+        this.translateService.get('topic-cloud-dialog.changes-gone-wrong').subscribe(msg => {
+          this.notificationService.show(msg);
+        });
       });
     });
     this.close(false);
@@ -253,16 +255,6 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
           this._isSending = false;
         }
       });
-  }
-
-  private fillSpellingData(correction: LanguagetoolResult): void {
-    for (const match of correction.matches) {
-      if (match.replacements != null && match.replacements.length > 0) {
-        for (const replacement of match.replacements) {
-          this.spellingData.push(replacement.value);
-        }
-      }
-    }
   }
 
   private setOwnVote(vote: number) {
@@ -312,52 +304,52 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
 
     // try to make a decision where to place the popup outgoing from tag with checks if we are at a border of the viewport
     enum PopupPosition {
-      Top,
-      Bottom,
-      Left,
-      Right
+      top,
+      bottom,
+      left,
+      right
     }
 
     let dockingPosition;
     if (isLeft && isTop && !isBottom && !isRight) {
-      dockingPosition = PopupPosition.Right;
+      dockingPosition = PopupPosition.right;
     } else if (isTop && !isLeft && !isRight && !isBottom) {
-      dockingPosition = PopupPosition.Bottom;
+      dockingPosition = PopupPosition.bottom;
     } else if (isRight && isTop && !isLeft && !isBottom) {
-      dockingPosition = PopupPosition.Left;
+      dockingPosition = PopupPosition.left;
     } else if (isLeft && !isTop && !isRight && !isBottom) {
-      dockingPosition = PopupPosition.Right;
+      dockingPosition = PopupPosition.right;
     } else if (!isLeft && !isTop && !isRight && !isBottom) {
       // default docking when all sides offer enough space
-      dockingPosition = PopupPosition.Top;
+      dockingPosition = PopupPosition.top;
     } else if (isRight && !isTop && !isLeft && !isBottom) {
-      dockingPosition = PopupPosition.Left;
+      dockingPosition = PopupPosition.left;
     } else if (isLeft && isBottom && !isTop && !isRight) {
-      dockingPosition = PopupPosition.Right;
+      dockingPosition = PopupPosition.right;
     } else if (!isLeft && isBottom && !isTop && !isRight) {
-      dockingPosition = PopupPosition.Top;
+      dockingPosition = PopupPosition.top;
     } else if (!isLeft && isBottom && isTop && !isRight) {
-      dockingPosition = PopupPosition.Left;
+      dockingPosition = PopupPosition.left;
     } else {
       /*
        * Find solution for small screens when all sides produce unpleasant results
        */
-      dockingPosition = PopupPosition.Top;
+      dockingPosition = PopupPosition.top;
     }
     html.classList.remove('left', 'right', 'up', 'down');
-    if (dockingPosition === PopupPosition.Bottom) {
+    if (dockingPosition === PopupPosition.bottom) {
       html.style.top = tag.bottom + 'px';
       html.style.left = tag.x + tag.width / 2 + 'px';
       html.classList.add('up');
-    } else if (dockingPosition === PopupPosition.Top) {
+    } else if (dockingPosition === PopupPosition.top) {
       html.style.top = tag.y + 'px';
       html.style.left = tag.x + tag.width / 2 + 'px';
       html.classList.add('down');
-    } else if (dockingPosition === PopupPosition.Left) {
+    } else if (dockingPosition === PopupPosition.left) {
       html.style.top = tag.top + tag.height / 2 + 'px';
       html.style.left = tag.x + 'px';
       html.classList.add('right');
-    } else if (dockingPosition === PopupPosition.Right) {
+    } else if (dockingPosition === PopupPosition.right) {
       html.style.top = tag.top + tag.height / 2 + 'px';
       html.style.left = tag.right + 'px';
       html.classList.add('left');

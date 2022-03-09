@@ -8,8 +8,8 @@ export class HighlightComment {
   constructor(id: string, lights: boolean) {
     this.type = 'HighlightComment';
     this.payload = {
-      id,
-      lights
+      id: id,
+      lights: lights
     };
   }
 }

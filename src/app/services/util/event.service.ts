@@ -1,4 +1,5 @@
-import { Subject, Observable } from 'rxjs';
+import { Subject } from 'rxjs';
+import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 
@@ -9,8 +10,8 @@ interface BroadcastEvent {
 
 @Injectable()
 export class EventService {
-  focusOnInput: boolean;
   private _eventBus: Subject<BroadcastEvent>;
+  focusOnInput: boolean;
 
   constructor() {
     this._eventBus = new Subject<BroadcastEvent>();
@@ -32,7 +33,7 @@ export class EventService {
   on<T>(key: any): Observable<T> {
     return this._eventBus.asObservable().pipe(
       filter(event => event.key === key),
-      map(event => event.data as T)
+      map(event => <T>event.data)
     );
   }
 }

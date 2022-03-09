@@ -10,7 +10,7 @@
     </div>
     <br>
     <mat-accordion id="accordion">
-      <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" class="matExpansionPanel">
+      <mat-expansion-panel [expanded]="step == 0" (opened)="setStep(0)" class="matExpansionPanel">
         <mat-expansion-panel-header>
           <mat-panel-title>
             <label class=" expansion-title settings-heading">{{'tag-cloud-config.general' | translate}}</label>
@@ -28,19 +28,19 @@
                            aria-label="Notation:"> {{'tag-cloud-config.notation' | translate}}
             <div>
               <mat-radio-button value="1" (change)="textStyleChanged(1)"
-                                [checked]="cloudParameters.textTransform === 1">{{'tag-cloud-config.lowerCase' | translate}}</mat-radio-button>
+                                [checked]="cloudParameters.textTransform == 1">{{'tag-cloud-config.lowerCase' | translate}}</mat-radio-button>
             </div>
             <div>
               <mat-radio-button value="2" (change)="textStyleChanged(3)"
-                                [checked]="cloudParameters.textTransform === 3">{{'tag-cloud-config.upperCase' | translate}}</mat-radio-button>
+                                [checked]="cloudParameters.textTransform == 3">{{'tag-cloud-config.upperCase' | translate}}</mat-radio-button>
             </div>
             <div>
               <mat-radio-button value="2" (change)="textStyleChanged(2)"
-                                [checked]="cloudParameters.textTransform === 2">{{'tag-cloud-config.capitalization' | translate}}</mat-radio-button>
+                                [checked]="cloudParameters.textTransform == 2">{{'tag-cloud-config.capitalization' | translate}}</mat-radio-button>
             </div>
             <div>
               <mat-radio-button value="0" (change)="textStyleChanged(0)"
-                                [checked]="cloudParameters.textTransform === 0">{{'tag-cloud-config.standard' | translate}}</mat-radio-button>
+                                [checked]="cloudParameters.textTransform == 0">{{'tag-cloud-config.standard' | translate}}</mat-radio-button>
             </div>
           </mat-radio-group>
         </div>
@@ -81,7 +81,7 @@
           </button>
         </mat-action-row>
       </mat-expansion-panel>
-      <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" class="matExpansionPanel">
+      <mat-expansion-panel [expanded]="step == 1" (opened)="setStep(1)" class="matExpansionPanel">
         <mat-expansion-panel-header>
           <mat-panel-title>
             <label class=" expansion-title settings-heading">{{'tag-cloud-config.font' | translate}}</label>
@@ -136,7 +136,7 @@
           </button>
         </mat-action-row>
       </mat-expansion-panel>
-      <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)" class="matExpansionPanel">
+      <mat-expansion-panel [expanded]="step == 2" (opened)="setStep(2)" class="matExpansionPanel">
         <mat-expansion-panel-header>
           <mat-panel-title>
             <label class=" expansion-title settings-heading">{{'tag-cloud-config.hover-title' | translate}}</label>
@@ -188,7 +188,7 @@
           </button>
         </mat-action-row>
       </mat-expansion-panel>
-      <mat-expansion-panel [expanded]="step === 3" (opened)="setStep(3)" class="matExpansionPanel">
+      <mat-expansion-panel [expanded]="step == 3" (opened)="setStep(3)" class="matExpansionPanel">
         <mat-expansion-panel-header>
           <mat-panel-title>
             <label

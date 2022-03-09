@@ -1,50 +1,48 @@
 export enum Period {
-  FromNow = 'FromNow',
-  OneHour = 'OneHour',
-  ThreeHours = 'ThreeHours',
-  OneDay = 'OneDay',
-  OneWeek = 'OneWeek',
-  TwoWeeks = 'TwoWeeks',
-  All = 'All'
+  fromNow = 'from-now',
+  oneHour = 'time-1h',
+  threeHours = 'time-3h',
+  oneDay = 'time-1d',
+  oneWeek = 'time-1w',
+  twoWeeks = 'time-2w',
+  all = 'time-all'
 }
 
-export type PeriodKey = keyof typeof Period;
-
 export enum FilterType {
-  Time = 'Time',
-  Read = 'Read',
-  Unread = 'Unread',
-  Favorite = 'Favorite',
-  Correct = 'Correct',
-  Wrong = 'Wrong',
-  Ack = 'Ack',
-  Bookmark = 'Bookmark',
-  NotBookmarked = 'NotBookmarked',
-  Moderator = 'Moderator',
-  Lecturer = 'Lecturer',
-  Tag = 'Tag',
-  CreatorId = 'CreatorId',
-  Keyword = 'Keyword',
-  Answer = 'Answer',
-  Unanswered = 'Unanswered',
-  Owner = 'Owner',
-  Number = 'Number',
-  BrainstormingQuestion = 'BrainstormingQuestion',
-  Censored = 'Censored'
+  time = 'time',
+  read = 'read',
+  unread = 'unread',
+  favorite = 'favorite',
+  correct = 'correct',
+  wrong = 'wrong',
+  ack = 'ack',
+  bookmark = 'bookmark',
+  not_bookmarked = 'not_bookmarked',
+  moderator = 'moderator',
+  lecturer = 'lecturer',
+  tag = 'tag',
+  creatorId = 'creatorId',
+  keyword = 'keyword',
+  answer = 'answer',
+  unanswered = 'unanswered',
+  owner = 'owner',
+  number = 'number',
+  brainstormingQuestion = 'brainstormingQuestion',
+  censored = 'censored'
 }
 
 export type FilterTypeKey = keyof typeof FilterType;
 
 export enum SortType {
-  Score = 'Score',
-  Time = 'Time',
-  Controversy = 'Controversy',
+  score = 'score',
+  time = 'time',
+  controversy = 'controversy',
 }
 
 export type SortTypeKey = keyof typeof SortType;
 
-export const DEFAULT_PERIOD = Period.All;
-const DEFAULT_SORT = SortType.Time;
+export const DEFAULT_PERIOD = Period.all;
+const DEFAULT_SORT = SortType.time;
 const DEFAULT_SORT_REVERSE = false;
 
 export type FilterTypes = 'commentList' | 'presentation' | 'tagCloud' | 'moderatorList';

@@ -16,7 +16,7 @@
         <mat-placeholder class="placeholder">{{ 'room-page.tag-new' | translate }}</mat-placeholder>
         <mat-hint align="end"><span aria-hidden="true">{{tag.value.length}} / 20</span></mat-hint>
         <mat-error *ngIf="!tagFormControl.valid">
-          {{ getErrorMessage() | translate }}
+          {{ 'room-page.tag-error' | translate }}
         </mat-error>
       </mat-form-field>
       <span class="fill-remaining-space"></span>
@@ -48,9 +48,9 @@
     </div>
   </div>
 </div>
+
 <app-dialog-action-buttons
   buttonsLabelSection="room-page"
-  confirmButtonLabel="close"
+  confirmButtonLabel="update"
   [confirmButtonClickAction]="buildSaveActionCallback()"
 ></app-dialog-action-buttons>
-

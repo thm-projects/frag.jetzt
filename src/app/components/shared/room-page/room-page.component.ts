@@ -334,31 +334,15 @@ export class RoomPageComponent implements OnInit, OnDestroy {
     if (this.room.tags !== undefined) {
       tags = this.room.tags;
     }
-
     dialogRef.componentInstance.tags = tags;
-    const tagsBefore = [...tags];
     dialogRef.afterClosed().subscribe(result => {
-      if (!result || result === 'abort' || !this.hasTagChanges(tagsBefore,result)) {
+      if (!result || result === 'abort') {
         return;
       } else {
         updRoom.tags = result;
         this.saveChanges(updRoom);
       }
     });
-  }
-
-  hasTagChanges(before: any, after: any): boolean{
-    let changes = false;
-    if(before.length !== after.length) {
-      changes = true;
-    }else{
-      before.forEach((tag, index) => {
-        if (tag !== after[index]) {
-          changes = true;
-        }
-      });
-    }
-    return changes;
   }
 
   toggleProfanityFilter() {
@@ -377,22 +361,21 @@ export class RoomPageComponent implements OnInit, OnDestroy {
   }
 
   protected saveChanges(updRoom: Room) {
-    this.roomService.updateRoom(updRoom).subscribe({
-      next: (room) => {
+    this.roomService.updateRoom(updRoom).subscribe((room) => {
         this.room = room;
         this.translateService.get('room-page.changes-successful').subscribe(msg => {
           this.notificationService.show(msg);
         });
       },
-      error: (error) => {
+      error => {
         this.translateService.get('room-page.changes-gone-wrong').subscribe(msg => {
           this.notificationService.show(msg);
         });
-      }
-    });
+      });
   }
 
   private initNavigation() {
+    /* eslint-disable @typescript-eslint/no-shadow */
     this._list = this.composeService.builder(this.headerService.getHost(), e => {
       e.menuItem({
         translate: this.headerService.getTranslate(),
@@ -516,6 +499,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
         condition: () => !!this.user?.loginId
       });
     });
+    /* eslint-enable @typescript-eslint/no-shadow */
   }
 
 }

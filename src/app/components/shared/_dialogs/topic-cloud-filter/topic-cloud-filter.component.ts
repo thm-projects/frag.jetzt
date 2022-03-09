@@ -179,7 +179,7 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
           // all questions allowed
           break;
         case 'continueWithAllFromNow':
-          filter.period = Period.FromNow;
+          filter.period = Period.fromNow;
           filter.fromNow = new Date().getTime();
           break;
         case 'continueWithCurr':

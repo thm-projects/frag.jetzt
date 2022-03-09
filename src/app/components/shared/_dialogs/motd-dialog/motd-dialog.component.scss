@@ -36,13 +36,6 @@
 }
 
 .mat-flat-button {
-  background-color: transparent;
-  color: var(--primary);
-  outline: var(--primary) solid 3px;
-  margin: 10px;
-
-  &:hover {
-    background-color: var(--primary);
-    color: var(--on-primary);
-  }
+  color: var(--black);
+  background-color: var(--green);
 }
