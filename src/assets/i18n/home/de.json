@@ -277,7 +277,7 @@
     "introductionTitle": "Einführung in »frag.jetzt«",
     "feedbackLink": "Du hast einen Bug gefunden? Du hättest gern ein weiteres Feature? Der Link führt dich in den Feedback-Raum. Die Tour wird in diesem Raum fortgesetzt.",
     "feedbackLinkTitle": "Raum für Feedback",
-    "optionHeader": "Hier befindet sich das Hauptmenü von »frag.jetzt«. Neben den Optionen der aktuellen Seite findest du hier auch allgemeine Funktionen, darunter die Raumübersicht und die Neuigkeiten des »frag.jetzt«-Teams. Die rote Glocke zeigt den Gaststatus des Users an.",
+    "optionHeader": "Hier befindet sich das Hauptmenü von »frag.jetzt«. Neben den Optionen der aktuellen Seite findest du hier auch allgemeine Funktionen, darunter die Raumübersicht und die Neuigkeiten des »frag.jetzt«-Teams. Das rote Ausrufezeichen zeigt den Gaststatus des Users an.",
     "optionHeaderTitle": "Optionen"
   },
   "login": {
