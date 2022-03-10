@@ -330,9 +330,11 @@ blockquote {
 .mat-tooltip {
   white-space: pre-line;
   color: white;
-  background-color: darkslategrey;
+  background-color: green;
+  border-radius: 10px !important;
   font-size: 16px;
   line-height: 1.5;
+  padding: 15px !important;
   hyphens: auto;
 }
 
