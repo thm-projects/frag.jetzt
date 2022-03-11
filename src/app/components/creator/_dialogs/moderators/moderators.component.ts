@@ -23,17 +23,6 @@ export class ModeratorsComponent implements OnInit {
   moderators: Moderator[] = [];
   userIds: string[] = [];
   moderatorShortId: string;
-
-  get shortIdCode() {
-    if (!this.moderatorShortId) {
-      if (this.isLoading) {
-        return '---- ----';
-      }
-      return this.notGeneratedMessage;
-    }
-    return this.moderatorShortId;
-  }
-
   usernameFormControl = new FormControl('', [Validators.email]);
   private isLoading = true;
   private notGeneratedMessage: string;
@@ -52,6 +41,16 @@ export class ModeratorsComponent implements OnInit {
       this.translationService.get('moderators-dialog.not-generated')
         .subscribe(msg => this.notGeneratedMessage = msg);
     });
+  }
+
+  get shortIdCode() {
+    if (!this.moderatorShortId) {
+      if (this.isLoading) {
+        return '---- ----';
+      }
+      return this.notGeneratedMessage;
+    }
+    return this.moderatorShortId;
   }
 
   ngOnInit() {

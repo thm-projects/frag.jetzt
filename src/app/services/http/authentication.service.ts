@@ -43,16 +43,20 @@ export class AuthenticationService extends BaseHttpService {
   private roomAccess = new Map();
   private _isSuperAdmin = false;
 
-  get isSuperAdmin() {
-    return this._isSuperAdmin;
-  }
-
   constructor(
     private dataStoreService: DataStoreService,
     private http: HttpClient,
   ) {
     super();
     this.loadRoomAccesses();
+  }
+
+  get watchUser() {
+    return this.user.asObservable();
+  }
+
+  get isSuperAdmin() {
+    return this._isSuperAdmin;
   }
 
   login(email: string, password: string, userRole: UserRole): Observable<LoginResult> {
@@ -169,10 +173,6 @@ export class AuthenticationService extends BaseHttpService {
 
   getToken(): string {
     return this.isLoggedIn() ? this.user.getValue().token : undefined;
-  }
-
-  get watchUser() {
-    return this.user.asObservable();
   }
 
   getUserAsSubject(): BehaviorSubject<User> {

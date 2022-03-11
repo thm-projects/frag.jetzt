@@ -46,6 +46,32 @@ export class TopicCloudAdminService {
     this.adminData = new BehaviorSubject<TopicCloudAdminData>(TopicCloudAdminService.getDefaultAdminData);
   }
 
+  static get getDefaultAdminData(): TopicCloudAdminData {
+    let data: TopicCloudAdminData = JSON.parse(localStorage.getItem(this.adminKey));
+    if (!data) {
+      data = {
+        wantedLabels: {
+          de: this.getDefaultSpacyTags('de'),
+          en: this.getDefaultSpacyTags('en')
+        },
+        considerVotes: true,
+        keywordORfulltext: KeywordOrFulltext.Both,
+        minQuestioners: 1,
+        minQuestions: 1,
+        minUpvotes: 0,
+        startDate: null,
+        endDate: null,
+        scorings: null
+      };
+    }
+    ensureDefaultScorings(data);
+    return data;
+  }
+
+  get getAdminData(): Observable<TopicCloudAdminData> {
+    return this.adminData.asObservable();
+  }
+
   static applySettingsToRoom(room: Room, brainstormingActive: boolean, isCurrentlyDark: boolean) {
     const settings: any = CloudParameters.getCurrentParameters(isCurrentlyDark);
     const admin = TopicCloudAdminService.getDefaultAdminData;
@@ -111,28 +137,6 @@ export class TopicCloudAdminService {
       (data.startDate === null) && (data.endDate === null);
   }
 
-  static get getDefaultAdminData(): TopicCloudAdminData {
-    let data: TopicCloudAdminData = JSON.parse(localStorage.getItem(this.adminKey));
-    if (!data) {
-      data = {
-        wantedLabels: {
-          de: this.getDefaultSpacyTags('de'),
-          en: this.getDefaultSpacyTags('en')
-        },
-        considerVotes: true,
-        keywordORfulltext: KeywordOrFulltext.Both,
-        minQuestioners: 1,
-        minQuestions: 1,
-        minUpvotes: 0,
-        startDate: null,
-        endDate: null,
-        scorings: null
-      };
-    }
-    ensureDefaultScorings(data);
-    return data;
-  }
-
   static getDefaultSpacyTags(lang: string): string[] {
     const tags: string[] = [];
     let currentSpacyLabels = [];
@@ -177,10 +181,6 @@ export class TopicCloudAdminService {
         keywordFunc(keyword, isFromQuestioner);
       }
     }
-  }
-
-  get getAdminData(): Observable<TopicCloudAdminData> {
-    return this.adminData.asObservable();
   }
 
   setAdminData(_adminData: TopicCloudAdminData, updateRoom: Room, userRole: UserRole) {

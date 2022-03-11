@@ -47,11 +47,6 @@ export class FooterComponent implements OnInit {
   public user: User;
   public open: string;
   public themes: Theme[];
-
-  public get tourSite() {
-    return this._tourSite;
-  }
-
   private _tourSite: ComponentType<any>;
 
   constructor(
@@ -67,6 +62,10 @@ export class FooterComponent implements OnInit {
     public deviceInfo: DeviceInfoService,
   ) {
     langService.getLanguage().subscribe(lang => translateService.use(lang));
+  }
+
+  get tourSite() {
+    return this._tourSite;
   }
 
   ngOnInit() {

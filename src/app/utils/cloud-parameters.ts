@@ -80,6 +80,10 @@ export class CloudParameters {
     }
   }
 
+  static set currentParameters(parameters: CloudParameters) {
+    localStorage.setItem('tagCloudConfiguration', JSON.stringify(parameters));
+  }
+
   static getCurrentParameters(isCurrentlyDark: boolean): CloudParameters {
     const jsonData = localStorage.getItem('tagCloudConfiguration');
     const temp = jsonData != null ? JSON.parse(jsonData) : null;
@@ -93,10 +97,6 @@ export class CloudParameters {
       }
     }
     return elem;
-  }
-
-  static set currentParameters(parameters: CloudParameters) {
-    localStorage.setItem('tagCloudConfiguration', JSON.stringify(parameters));
   }
 
   static removeParameters() {

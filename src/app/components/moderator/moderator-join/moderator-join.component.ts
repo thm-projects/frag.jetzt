@@ -22,10 +22,6 @@ export class ModeratorJoinComponent implements OnInit, OnDestroy {
   private moderatorRoom: Room;
   private _sub: Subscription;
 
-  get user() {
-    return this.authenticationService.getUser();
-  }
-
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -36,6 +32,10 @@ export class ModeratorJoinComponent implements OnInit, OnDestroy {
     private languageService: LanguageService,
   ) {
     this.translateService.use(this.languageService.currentLanguage());
+  }
+
+  get user() {
+    return this.authenticationService.getUser();
   }
 
   ngOnInit(): void {
