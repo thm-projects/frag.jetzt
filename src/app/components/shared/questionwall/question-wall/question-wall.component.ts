@@ -146,6 +146,10 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     this._filterObj.filter = filter;
   }
 
+  get hasFilter() {
+    return !!this._filterObj.filter.filterType;
+  }
+
   public wrap<E>(e: E, action: (e: E) => void) {
     action(e);
   }
@@ -474,10 +478,6 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     const filter = this._filterObj.filter;
     filter.period = Period[period];
     this._filterObj.filter = filter;
-  }
-
-  get hasFilter() {
-    return !!this._filterObj.filter.filterType;
   }
 
   private refreshUserMap() {

@@ -94,20 +94,6 @@ export class DataFilterObject {
   private readonly _filteredData = new BehaviorSubject<FilterResult>(null);
   private readonly _destroyNotifier = new Subject<any>();
 
-  public get filter(): RoomDataFilter {
-    return new RoomDataFilter(this._filter);
-  }
-
-  public set filter(dataFilter: RoomDataFilter) {
-    const previous = this._filter;
-    this._filter = dataFilter;
-    this.refresh(previous);
-  }
-
-  public get currentData(): FilterResult {
-    return this._filteredData.getValue();
-  }
-
   constructor(
     private readonly filterName: FilterTypes,
     private readonly roomDataService: RoomDataService,
@@ -128,6 +114,20 @@ export class DataFilterObject {
       this.moderators = new Set([...mods.map(mod => mod.accountId)]);
       this.refresh();
     });
+  }
+
+  get currentData(): FilterResult {
+    return this._filteredData.getValue();
+  }
+
+  get filter(): RoomDataFilter {
+    return new RoomDataFilter(this._filter);
+  }
+
+  set filter(dataFilter: RoomDataFilter) {
+    const previous = this._filter;
+    this._filter = dataFilter;
+    this.refresh(previous);
   }
 
   static filterOnce(

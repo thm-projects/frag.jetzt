@@ -57,13 +57,6 @@ export class CommentComponent implements OnInit, AfterViewInit {
   @Input() commentsWrittenByUser = 1;
   @Input() isFromModerator = false;
   @Input() isFromOwner = false;
-
-  @Input() set isRemoved(value: boolean) {
-    if (value) {
-      this.slideAnimationState = 'removed';
-    }
-  }
-
   @Output() clickedOnTag = new EventEmitter<string>();
   @Output() clickedOnKeyword = new EventEmitter<string>();
   @Output() clickedUserNumber = new EventEmitter<string>();
@@ -105,6 +98,18 @@ export class CommentComponent implements OnInit, AfterViewInit {
       translateService.use(lang);
       this.language = lang;
     });
+  }
+
+  @Input() set isRemoved(value: boolean) {
+    if (value) {
+      this.slideAnimationState = 'removed';
+    }
+  }
+
+  @Input() set parseVote(vote: Vote) {
+    if (vote) {
+      this.hasVoted = vote.vote;
+    }
   }
 
   getCommentIcon(): string {
@@ -201,13 +206,6 @@ export class CommentComponent implements OnInit, AfterViewInit {
       return;
     }
     this.slideAnimationState = 'visible';
-  }
-
-  @Input()
-  set parseVote(vote: Vote) {
-    if (vote) {
-      this.hasVoted = vote.vote;
-    }
   }
 
   setRead(comment: Comment): void {

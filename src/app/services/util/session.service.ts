@@ -46,11 +46,6 @@ export class SessionService {
     });
   }
 
-  public static needsUser(router: Router) {
-    const url = decodeURI(router.url);
-    return !(url === '/' || url === '/home' || url === '/quiz' || url === '/data-protection' || url === '/imprint');
-  }
-
   get canChangeRoleOnRoute(): boolean {
     return this._canChangeRoleOnRoute;
   }
@@ -59,12 +54,21 @@ export class SessionService {
     return this._currentRole.value;
   }
 
-  getRole(): Observable<UserRole> {
-    return this._currentRole.asObservable();
-  }
-
   get currentRoom(): Room {
     return this._currentRoom.value;
+  }
+
+  get currentModerators(): Moderator[] {
+    return this._currentModerators.value;
+  }
+
+  public static needsUser(router: Router) {
+    const url = decodeURI(router.url);
+    return !(url === '/' || url === '/home' || url === '/quiz' || url === '/data-protection' || url === '/imprint');
+  }
+
+  getRole(): Observable<UserRole> {
+    return this._currentRole.asObservable();
   }
 
   getRoom(): Observable<Room> {
@@ -83,10 +87,6 @@ export class SessionService {
       throw new Error('Currently not bound to a room.');
     }
     return (before ? this._beforeRoomUpdates : this._afterRoomUpdates).asObservable();
-  }
-
-  get currentModerators(): Moderator[] {
-    return this._currentModerators.value;
   }
 
   getModerators(): Observable<Moderator[]> {

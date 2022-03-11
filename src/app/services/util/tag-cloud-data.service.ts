@@ -77,12 +77,6 @@ export class TagCloudDataService {
   private _lastSubscription: Subscription;
   private _filterObject: DataFilterObject;
 
-  set filterObject(filter: DataFilterObject) {
-    this._filterObject = filter;
-    this._lastSubscription?.unsubscribe();
-    this._lastSubscription = filter?.subscribe(() => this.rebuildTagData());
-  }
-
   constructor(
     private _tagCloudAdmin: TopicCloudAdminService,
     private _roomDataService: RoomDataService,
@@ -101,6 +95,53 @@ export class TagCloudDataService {
     };
     this._metaDataBus = new BehaviorSubject<TagCloudMetaData>(null);
     this.sessionService.getRoom().subscribe(room => this.onRoomUpdate(room));
+  }
+
+  get metaData(): TagCloudMetaData {
+    return this._currentMetaData;
+  }
+
+  get currentData(): TagCloudData {
+    return this._dataBus.value;
+  }
+
+  get isBrainstorming(): boolean {
+    return this._filterObject?.filter?.filterType === FilterType.BrainstormingQuestion;
+  }
+
+  get alphabeticallySorted(): boolean {
+    return this._isAlphabeticallySorted;
+  }
+
+  get demoActive(): boolean {
+    return this._isDemoActive;
+  }
+
+  set demoActive(active: boolean) {
+    if (active !== this._isDemoActive) {
+      this._isDemoActive = active;
+      if (this._isDemoActive) {
+        this._lastMetaData = {
+          ...this._currentMetaData,
+          countPerWeight: [...this._currentMetaData.countPerWeight]
+        };
+        this._currentMetaData.minWeight = 1;
+        this._currentMetaData.maxWeight = 10;
+        this._currentMetaData.countPerWeight = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1];
+      } else if (this._lastMetaData !== null) {
+        for (const key of Object.keys(this._lastMetaData)) {
+          this._currentMetaData[key] = this._lastMetaData[key];
+        }
+        this._lastMetaData = null;
+      }
+      this.reformatData();
+    }
+  }
+
+  set filterObject(filter: DataFilterObject) {
+    this._filterObject = filter;
+    this._lastSubscription?.unsubscribe();
+    this._lastSubscription = filter?.subscribe(() => this.rebuildTagData());
   }
 
   static buildDataFromComments(roomOwner: string,
@@ -183,10 +224,6 @@ export class TagCloudDataService {
     current.comments.push(comment);
   }
 
-  get isBrainstorming(): boolean {
-    return this._filterObject?.filter?.filterType === FilterType.BrainstormingQuestion;
-  }
-
   updateDemoData(translate: TranslateService): void {
     translate.get('tag-cloud.demo-data-topic').subscribe(text => {
       this._demoData = new Map<string, TagCloudDataTagEntry>();
@@ -212,45 +249,8 @@ export class TagCloudDataService {
     });
   }
 
-  get metaData(): TagCloudMetaData {
-    return this._currentMetaData;
-  }
-
-  get currentData(): TagCloudData {
-    return this._dataBus.value;
-  }
-
-  get demoActive(): boolean {
-    return this._isDemoActive;
-  }
-
-  set demoActive(active: boolean) {
-    if (active !== this._isDemoActive) {
-      this._isDemoActive = active;
-      if (this._isDemoActive) {
-        this._lastMetaData = {
-          ...this._currentMetaData,
-          countPerWeight: [...this._currentMetaData.countPerWeight]
-        };
-        this._currentMetaData.minWeight = 1;
-        this._currentMetaData.maxWeight = 10;
-        this._currentMetaData.countPerWeight = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1];
-      } else if (this._lastMetaData !== null) {
-        for (const key of Object.keys(this._lastMetaData)) {
-          this._currentMetaData[key] = this._lastMetaData[key];
-        }
-        this._lastMetaData = null;
-      }
-      this.reformatData();
-    }
-  }
-
   unloadCloud() {
     this._filterObject?.unload();
-  }
-
-  get alphabeticallySorted(): boolean {
-    return this._isAlphabeticallySorted;
   }
 
   blockWord(tag: string, room: Room): void {

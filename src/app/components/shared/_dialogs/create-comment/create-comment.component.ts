@@ -38,17 +38,7 @@ export class CreateCommentComponent implements OnInit, OnDestroy {
   isModerator = false;
   private _mobileMockActive = false;
   private _mobileMockTimeout;
-
-  get isMobileMockActive() {
-    return this._mobileMockActive;
-  }
-
   private _mobileMockPossible = false;
-
-  get isMobileMockPossible() {
-    return this._mobileMockPossible;
-  }
-
   private _mockMatcher: MediaQueryList;
 
   constructor(
@@ -74,6 +64,14 @@ export class CreateCommentComponent implements OnInit, OnDestroy {
         this._mobileMockActive = false;
       }
     });
+  }
+
+  get isMobileMockActive() {
+    return this._mobileMockActive;
+  }
+
+  get isMobileMockPossible() {
+    return this._mobileMockPossible;
   }
 
   ngOnInit() {

@@ -34,6 +34,8 @@ docker-compose.override.yml
 /.sass-cache
 /connect.lock
 /coverage
+/cypress/screenshots
+/cypress/videos
 /libpeerconnection.log
 npm-debug.log
 yarn-error.log

@@ -155,6 +155,14 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     this._calcRenderContext = this._calcCanvas.getContext('2d');
   }
 
+  get tagCloudDataManager(): TagCloudDataService {
+    return this.dataManager;
+  }
+
+  get currentCloudParameters(): CloudParameters {
+    return new CloudParameters(this._currentSettings);
+  }
+
   private static invertHex(hexStr: string) {
     const r = 255 - parseInt(hexStr.substr(1, 2), 16);
     const g = 255 - parseInt(hexStr.substr(3, 2), 16);
@@ -228,14 +236,6 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
       this._subscriptionRoom.unsubscribe();
     }
     this.onDestroyListener.emit();
-  }
-
-  get tagCloudDataManager(): TagCloudDataService {
-    return this.dataManager;
-  }
-
-  get currentCloudParameters(): CloudParameters {
-    return new CloudParameters(this._currentSettings);
   }
 
   setCloudParameters(parameters: CloudParameters, save = true): void {

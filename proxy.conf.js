@@ -45,24 +45,27 @@ const PROXY_CONFIG = {
   },
   "/api/ws/websocket": {
     "target": process.env.WS_GATEWAY_WS_ADDRESS || "ws://localhost:8080",
-    "secure": false,
+    "secure": process.env.BACKEND_SECURE || false,
+    "changeOrigin": process.env.BACKEND_CHANGE_ORIGIN || false,
     "pathRewrite": {
-      "^/api": ""
+      [process.env.WS_GATEWAY_WS_REWRITE || "^/api"]: ""
     },
     "ws": true,
     "logLevel": "debug"
   },
   "/api/roomsubscription": {
     "target": process.env.WS_GATEWAY_HTTP_ADDRESS || "http://localhost:8080",
-    "secure": false,
+    "secure": process.env.BACKEND_SECURE || false,
+    "changeOrigin": process.env.BACKEND_CHANGE_ORIGIN || false,
     "pathRewrite": {
-      "^/api": ""
+      [process.env.WS_GATEWAY_HTTP_REWRITE || "^/api"]: ""
     },
     "logLevel": "debug"
   },
   "/api": {
     "target": process.env.BACKEND_ADDRESS || "http://localhost:8888",
-    "secure": false,
+    "secure": process.env.BACKEND_SECURE || false,
+    "changeOrigin": process.env.BACKEND_CHANGE_ORIGIN || false,
     "pathRewrite": {
       "^/api": ""
     },

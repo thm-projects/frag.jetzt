@@ -42,19 +42,6 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
   @Input() isEditor = false;
   @Input() isBrainstorming = false;
   @Input() isModerator = false;
-
-  @Input()
-  set currentData(data: string) {
-    this._currentData = data;
-    if ((this.editor && this.editor.quillEditor) || (this.quillView && this.quillView.quillEditor)) {
-      this.set(this._currentData);
-    }
-  }
-
-  get currentData(): string {
-    return this._currentData || '';
-  }
-
   @Input() maxTextCharacters = 500;
   @Input() maxDataCharacters = 1500;
   @Input() placeHolderText = '';
@@ -81,6 +68,17 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
         this.updateCSSVariables();
       }
     });
+  }
+
+  get currentData(): string {
+    return this._currentData || '';
+  }
+
+  @Input() set currentData(data: string) {
+    this._currentData = data;
+    if ((this.editor && this.editor.quillEditor) || (this.quillView && this.quillView.quillEditor)) {
+      this.set(this._currentData);
+    }
   }
 
   public static checkInputData(data: string,
