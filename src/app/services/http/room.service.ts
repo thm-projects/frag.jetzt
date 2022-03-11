@@ -108,11 +108,11 @@ export class RoomService extends BaseHttpService {
     this.http.post(connectionUrl, { roomId }, httpOptions).subscribe();
   }
 
-  removeFromHistory(roomId: string): Observable<Room> {
+  removeFromHistory(roomId: string): Observable<any> {
     const connectionUrl = `${ this.apiUrl.base + this.apiUrl.user }/${ this.authService.getUser().id }/roomHistory/${ roomId }`;
-    return this.http.delete<Room>(connectionUrl, httpOptions).pipe(
+    return this.http.delete<any>(connectionUrl, httpOptions).pipe(
       tap(() => ''),
-      catchError(this.handleError<Room>('deleteRoom'))
+      catchError(this.handleError<any>('deleteRoom'))
     );
   }
 
@@ -124,11 +124,11 @@ export class RoomService extends BaseHttpService {
     );
   }
 
-  deleteRoom(roomId: string): Observable<Room> {
+  deleteRoom(roomId: string): Observable<any> {
     const connectionUrl = `${ this.apiUrl.base + this.apiUrl.rooms }/${ roomId }`;
-    return this.http.delete<Room>(connectionUrl, httpOptions).pipe(
+    return this.http.delete<any>(connectionUrl, httpOptions).pipe(
       tap(() => ''),
-      catchError(this.handleError<Room>('deleteRoom'))
+      catchError(this.handleError<any>('deleteRoom'))
     );
   }
 

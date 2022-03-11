@@ -10,8 +10,8 @@ import { DeepLDialogComponent, ResultValue } from '../_dialogs/deep-ldialog/deep
 import { MatDialog } from '@angular/material/dialog';
 import { FormControl, Validators } from '@angular/forms';
 import { CreateCommentKeywords } from '../../../utils/create-comment-keywords';
-import { CreateCommentComponent } from '../_dialogs/create-comment/create-comment.component';
 import { BrainstormingSession } from '../../../models/brainstorming-session';
+import { SharedTextFormatting } from '../../../utils/shared-text-formatting';
 
 type SubmitFunction = (commentData: string, commentText: string, selectedTag: string, name?: string,
                        verifiedWithoutDeepl?: boolean) => any;
@@ -177,7 +177,7 @@ export class WriteCommentComponent implements OnInit {
         !this.questionerNameFormControl.hasError('maxlength');
     }
     if (this.brainstormingData &&
-      CreateCommentComponent.getWords(text).length > this.brainstormingData.maxWordCount) {
+      SharedTextFormatting.getWords(text).length > this.brainstormingData.maxWordCount) {
       this.translateService.get('comment-page.error-comment-brainstorming', this.brainstormingData)
         .subscribe(msg => this.notification.show(msg));
       allowed = false;
