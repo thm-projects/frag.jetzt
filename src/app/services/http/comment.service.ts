@@ -12,6 +12,16 @@ const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
 
+interface RoomQuestionCounts {
+  questionCount: number;
+  responseCount: number;
+}
+
+interface CountRequest {
+  roomId: string;
+  ack: boolean;
+}
+
 @Injectable()
 export class CommentService extends BaseHttpService {
   private apiUrl = {
@@ -84,7 +94,7 @@ export class CommentService extends BaseHttpService {
         keywordsFromSpacy: JSON.stringify(comment.keywordsFromSpacy),
         keywordsFromQuestioner: JSON.stringify(comment.keywordsFromQuestioner),
         language: comment.language, questionerName: comment.questionerName,
-        brainstormingQuestion: comment.brainstormingQuestion
+        brainstormingQuestion: comment.brainstormingQuestion, commentReference: comment.commentReference
       }, httpOptions).pipe(
       tap(_ => ''),
       catchError(this.handleError<Comment>('addComment'))
@@ -184,14 +194,11 @@ export class CommentService extends BaseHttpService {
     );
   }
 
-  countByRoomId(roomId: string, ack: boolean): Observable<number> {
-    const connectionUrl = this.apiUrl.base + this.apiUrl.comment + this.apiUrl.find + this.apiUrl.count;
-    return this.http.post<number>(connectionUrl, {
-      properties: { roomId, ack },
-      externalFilters: {}
-    }, httpOptions).pipe(
+  countByRoomId(rooms: CountRequest[]): Observable<RoomQuestionCounts[]> {
+    const connectionUrl = this.apiUrl.base + this.apiUrl.comment + this.apiUrl.count;
+    return this.http.post<RoomQuestionCounts[]>(connectionUrl, rooms, httpOptions).pipe(
       tap(_ => ''),
-      catchError(this.handleError<number>('countByRoomId', 0))
+      catchError(this.handleError<RoomQuestionCounts[]>('countByRoomId', []))
     );
   }
 

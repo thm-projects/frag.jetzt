@@ -113,12 +113,12 @@ export class RoomPageComponent implements OnInit, OnDestroy {
         if (this.moderationEnabled) {
           this.viewModuleCount = this.viewModuleCount + 1;
         }
-        this.commentService.countByRoomId(this.room.id, true).subscribe(commentCounter => {
-          this.setCommentCounter(commentCounter);
+        this.commentService.countByRoomId([{ roomId: this.room.id, ack: true }]).subscribe(commentCounter => {
+          this.setCommentCounter(commentCounter[0].questionCount);
         });
         if (this.moderationEnabled && this.userRole > UserRole.PARTICIPANT) {
-          this.commentService.countByRoomId(this.room.id, false).subscribe(commentCounter => {
-            this.moderatorCommentCounter = commentCounter;
+          this.commentService.countByRoomId([{ roomId: this.room.id, ack: false }]).subscribe(commentCounter => {
+            this.moderatorCommentCounter = commentCounter[0].questionCount;
           });
         }
         const sub = this.roomDataService.receiveUpdates([
@@ -338,7 +338,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
     dialogRef.componentInstance.tags = tags;
     const tagsBefore = [...tags];
     dialogRef.afterClosed().subscribe(result => {
-      if (!result || result === 'abort' || !this.hasTagChanges(tagsBefore,result)) {
+      if (!result || result === 'abort' || !this.hasTagChanges(tagsBefore, result)) {
         return;
       } else {
         updRoom.tags = result;
@@ -347,11 +347,11 @@ export class RoomPageComponent implements OnInit, OnDestroy {
     });
   }
 
-  hasTagChanges(before: any, after: any): boolean{
+  hasTagChanges(before: any, after: any): boolean {
     let changes = false;
-    if(before.length !== after.length) {
+    if (before.length !== after.length) {
       changes = true;
-    }else{
+    } else {
       before.forEach((tag, index) => {
         if (tag !== after[index]) {
           changes = true;

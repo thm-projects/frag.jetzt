@@ -18,7 +18,7 @@ export class Comment {
   highlighted: boolean;
   ack: boolean;
   tag: string;
-  number: number;
+  number: string;
   keywordsFromQuestioner: SpacyKeyword[];
   keywordsFromSpacy: SpacyKeyword[];
   upvotes: number;
@@ -90,6 +90,19 @@ export class Comment {
     return Language[model] || Language.AUTO;
   }
 }
+
+export const numberSorter = (a: string, b: string) => {
+  const arrA = a.split('.');
+  const arrB = b.split('.');
+  const minLen = Math.min(arrA.length, arrB.length);
+  for (let i = 0, equals = 0; i < minLen; i++) {
+    equals = +arrB[i] - +arrA[i];
+    if (equals !== 0) {
+      return equals;
+    }
+  }
+  return arrA.length - arrB.length;
+};
 
 export enum Language {
   DE = 'DE',
