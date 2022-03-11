@@ -18,6 +18,7 @@ import { RoomDataService } from '../../../../services/util/room-data.service';
 import { BrainstormingSession } from '../../../../models/brainstorming-session';
 import { LanguageService } from '../../../../services/util/language.service';
 import { SessionService } from '../../../../services/util/session.service';
+import { SharedTextFormatting } from '../../../../utils/shared-text-formatting';
 
 @Component({
   selector: 'app-submit-comment',
@@ -75,14 +76,6 @@ export class CreateCommentComponent implements OnInit, OnDestroy {
     });
   }
 
-  static getWords(text: string): string[] {
-    return text.split(/\s+/g).filter(e => e.trim().length);
-  }
-
-  static getTerm(text: string): string {
-    return text.replace(/\s+/g, ' ').trim();
-  }
-
   ngOnInit() {
     this.isModerator = this.userRole > 0;
   }
@@ -122,7 +115,7 @@ export class CreateCommentComponent implements OnInit, OnDestroy {
 
   generateBrainstormingKeywords(comment: Comment) {
     const text = ViewCommentDataComponent.getTextFromData(comment.body);
-    const term = CreateCommentComponent.getTerm(text);
+    const term = SharedTextFormatting.getTerm(text);
     const send = (termText: string) => {
       this.isSendingToSpacy = false;
       if (this.wasWritten(termText)) {
@@ -136,7 +129,7 @@ export class CreateCommentComponent implements OnInit, OnDestroy {
       }];
       this.dialogRef.close(comment);
     };
-    if (CreateCommentComponent.getWords(term).length > 1) {
+    if (SharedTextFormatting.getWords(term).length > 1) {
       send(term);
       return;
     }
