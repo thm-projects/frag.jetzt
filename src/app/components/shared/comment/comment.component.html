@@ -71,6 +71,28 @@
           </mat-icon>
         </button>
         <button mat-icon-button
+                *ngIf="!isStudent"
+                [disabled]="isStudent"
+                (click)="setFavorite(comment)"
+                tabindex="0"
+                attr.aria-labelledby="comment_grade{{ comment.id }}">
+          <mat-icon class="material-icons-round"
+                    [ngClass]="{'favorite-icon' : comment.favorite, 'not-marked' : !comment.favorite}"
+                    [matTooltip]="!comment.favorite ? ('comment-page.mark-favorite' | translate)
+                                                     : ('comment-page.mark-not-favorite' | translate)">grade
+          </mat-icon>
+        </button>
+        <button mat-icon-button
+                *ngIf="!moderator && !isStudent"
+                (click)="setBookmark(comment)"
+                tabindex="0"
+                attr.aria-labelledby="comment_grade{{ comment.id }}">
+          <mat-icon [ngClass]="{'bookmark-icon' : comment.bookmark, 'not-marked' : !comment.bookmark} "
+                    [matTooltip]="!comment.bookmark ? ('comment-page.mark-bookmark' | translate)
+                                                          : ('comment-page.mark-not-bookmark' | translate)">bookmark
+          </mat-icon>
+        </button>
+        <button mat-icon-button
                 *ngIf="isStudent"
                 (click)="setBookmark(comment)"
                 tabindex="0"
@@ -101,56 +123,33 @@
           </mat-icon>
         </button>
         <button mat-icon-button
+                *ngIf="(comment.favorite && isStudent && !(comment.creatorId && user && comment.creatorId === user.id))"
+                tabindex="0"
+                attr.aria-labelledby="comment_grade{{ comment.id }}">
+          <mat-icon class="material-icons-round"
+                    [ngClass]="{'favorite-icon' : comment.favorite, 'not-marked' : !comment.favorite}"
+                    [matTooltip]="!comment.favorite ? ('comment-page.mark-favorite' | translate)
+                                                     : ('comment-page.mark-not-favorite' | translate)">grade
+          </mat-icon>
+        </button>
+        <button mat-icon-button
+                *ngIf="(comment.favorite && isStudent && (comment.creatorId && user && comment.creatorId === user.id))"
+                (click)="openBonusStarDialog()"
+                tabindex="0"
+                attr.aria-labelledby="comment_grade{{ comment.id }}">
+          <mat-icon class="material-icons-round"
+                    [ngClass]="{'favorite-icon' : comment.favorite, 'not-marked' : !comment.favorite}"
+                    [matTooltip]="!comment.favorite ? ('comment-page.mark-favorite' | translate)
+                                                     : ('comment-page.mark-not-favorite' | translate)">grade
+          </mat-icon>
+        </button>
+        <button mat-icon-button
                 [matMenuTriggerFor]="actionButtonMenu"
                 *ngIf="(!isStudent)">
           <mat-icon class="not-marked">more_vert</mat-icon>
         </button>
         <mat-menu #actionButtonMenu="matMenu">
           <div fxLayout="column" class="action-menu-content">
-            <button mat-icon-button
-                    *ngIf="!isStudent"
-                    [disabled]="isStudent"
-                    (click)="setFavorite(comment)"
-                    tabindex="0"
-                    attr.aria-labelledby="comment_grade{{ comment.id }}">
-              <mat-icon class="material-icons-round"
-                        [ngClass]="{'favorite-icon' : comment.favorite, 'not-marked' : !comment.favorite}"
-                        [matTooltip]="!comment.favorite ? ('comment-page.mark-favorite' | translate)
-                                                     : ('comment-page.mark-not-favorite' | translate)">grade
-              </mat-icon>
-            </button>
-            <button mat-icon-button
-                    *ngIf="(comment.favorite && isStudent && !(comment.creatorId && user && comment.creatorId === user.id))"
-                    tabindex="0"
-                    attr.aria-labelledby="comment_grade{{ comment.id }}">
-              <mat-icon class="material-icons-round"
-                        [ngClass]="{'favorite-icon' : comment.favorite, 'not-marked' : !comment.favorite}"
-                        [matTooltip]="!comment.favorite ? ('comment-page.mark-favorite' | translate)
-                                                     : ('comment-page.mark-not-favorite' | translate)">grade
-              </mat-icon>
-            </button>
-            <button mat-icon-button
-                    *ngIf="(comment.favorite && isStudent && (comment.creatorId && user && comment.creatorId === user.id))"
-                    (click)="openBonusStarDialog()"
-                    tabindex="0"
-                    attr.aria-labelledby="comment_grade{{ comment.id }}">
-              <mat-icon class="material-icons-round"
-                        [ngClass]="{'favorite-icon' : comment.favorite, 'not-marked' : !comment.favorite}"
-                        [matTooltip]="!comment.favorite ? ('comment-page.mark-favorite' | translate)
-                                                     : ('comment-page.mark-not-favorite' | translate)">grade
-              </mat-icon>
-            </button>
-            <button mat-icon-button
-                    *ngIf="!moderator && !isStudent"
-                    (click)="setBookmark(comment)"
-                    tabindex="0"
-                    attr.aria-labelledby="comment_grade{{ comment.id }}">
-              <mat-icon [ngClass]="{'bookmark-icon' : comment.bookmark, 'not-marked' : !comment.bookmark} "
-                        [matTooltip]="!comment.bookmark ? ('comment-page.mark-bookmark' | translate)
-                                                          : ('comment-page.mark-not-bookmark' | translate)">bookmark
-              </mat-icon>
-            </button>
-
             <button mat-icon-button
                     *ngIf="roomTags?.length && (isCreator || isModerator || comment.creatorId === user?.id)"
                     (click)="openChangeCommentTagDialog()"
@@ -160,7 +159,6 @@
                 sell
               </mat-icon>
             </button>
-
             <button mat-icon-button
                     *ngIf="(isCreator || (comment.creatorId && user && comment.creatorId === user.id)) && !comment.favorite"
                     (click)="openDeleteCommentDialog()"
