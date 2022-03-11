@@ -2,7 +2,7 @@ import { Room } from '../models/room';
 import { forkJoin, Observable, of } from 'rxjs';
 import { ExportTable, ImportExportManager } from './ImportExportManager';
 import { TranslateService } from '@ngx-translate/core';
-import { Comment } from '../models/comment';
+import { Comment, numberSorter } from '../models/comment';
 import { CorrectWrong } from '../models/correct-wrong.enum';
 import { User } from '../models/user';
 import { UserRole } from '../models/user-roles.enum';
@@ -168,12 +168,12 @@ export const exportBonusArchive = (translateService: TranslateService,
           );
         }),
         switchMap((arr: [userId: string, c: Comment][]) => {
-          arr.sort(([_, a], [__, b]) => a?.number - b?.number);
+          arr.sort(([_, a], [__, b]) => numberSorter(a?.number, b?.number));
           const data: BonusArchiveEntry[] = arr.map(([loginId, c], i) => ({
             question: c?.body,
             bonusToken: tokens[i].token,
             bonusTimestamp: tokens[i].createdAt,
-            bonusQuestionNumber: c?.number.toString(),
+            bonusQuestionNumber: c?.number,
             userLoginId: loginId
           }));
           const date = new Date();
@@ -223,10 +223,10 @@ const roomImportExport = (translateService: TranslateService,
         {
           languageKey: translatePath + '.question-number',
           valueMapper: {
-            export: (cfg, c) => String(c.number),
+            export: (cfg, c) => c.number,
             import: (cfg, val) => {
               const c = new Comment();
-              c.number = parseInt(val, 10);
+              c.number = val;
               return c;
             }
           }
@@ -456,7 +456,7 @@ export const exportRoom = (translateService: TranslateService,
         });
         return null;
       }
-      comments.sort((a, b) => a.number - b.number);
+      comments.sort((a, b) => numberSorter(a.number, b.number));
       return bonusTokenService.getTokensByRoomId(room.id)
         .pipe(switchMap(value => {
           for (const comment of comments) {

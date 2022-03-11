@@ -134,10 +134,10 @@ export class RoomListComponent implements OnInit, OnDestroy {
     });
     this.roomsWithRole = this.roomsWithRole.concat(newRooms);
     this.isLoading = false;
+    this.commentService.countByRoomId(newRooms.map(r => ({ roomId: r.id, ack: true }))).subscribe(counts => {
+      counts.forEach((count, i) => newRooms[i].commentCount = count.questionCount);
+    });
     for (const room of newRooms) {
-      this.commentService.countByRoomId(room.id, true).subscribe(count => {
-        room.commentCount = count;
-      });
       this.commentNotificationService.findByRoomId(room.id).subscribe(value => {
         room.hasNotifications = !!value?.length;
       });

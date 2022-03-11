@@ -1,3 +1,5 @@
+import { UserRole } from './user-roles.enum';
+
 export enum CommentChangeType {
   CREATED = 'CREATED',
   DELETED = 'DELETED',
@@ -15,9 +17,11 @@ export class CommentChange {
   roomId: string;
   type: CommentChangeType;
   previousValueString: string;
-  previousValueNumber: number;
+  currentValueString: string;
   createdAt: Date;
   updatedAt: Date;
+  initiatorId: string;
+  initiatorRole: UserRole;
 
   constructor(
     id: string = '',
@@ -25,17 +29,21 @@ export class CommentChange {
     roomId: string = '',
     type: CommentChangeType = null,
     previousValueString: string = null,
-    previousValueNumber: number = null,
+    currentValueString: string = null,
     createdAt: Date = null,
     updatedAt: Date = null,
+    initiatorId: string = '',
+    initiatorRole: UserRole = null,
   ) {
     this.id = id;
     this.commentId = commentId;
     this.roomId = roomId;
     this.type = type;
     this.previousValueString = previousValueString;
-    this.previousValueNumber = previousValueNumber;
+    this.currentValueString = currentValueString;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
+    this.initiatorId = initiatorId;
+    this.initiatorRole = initiatorRole;
   }
 }

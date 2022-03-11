@@ -1,5 +1,5 @@
 import { Component, ComponentRef, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { Comment } from '../../../models/comment';
+import { Comment, numberSorter } from '../../../models/comment';
 import { CommentService } from '../../../services/http/comment.service';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../services/util/language.service';
@@ -246,8 +246,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
       this.isJoyrideActive = this.onboardingService.startDefaultTour();
     }
     const allComments = this.roomDataService.getCurrentRoomData();
-    this._allQuestionNumberOptions = allComments.map(c => c.number)
-      .sort((a, b) => b - a).map(c => String(c));
+    this._allQuestionNumberOptions = allComments.map(c => c.number).sort(numberSorter).map(c => String(c));
     const value = this.questionNumberFormControl.value || '';
     this.questionNumberOptions = this._allQuestionNumberOptions.filter(e => e.startsWith(value));
     this.commentsWrittenByUsers.clear();

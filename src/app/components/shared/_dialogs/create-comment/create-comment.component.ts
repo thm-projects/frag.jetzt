@@ -221,7 +221,7 @@ export class CreateCommentComponent implements OnInit, OnDestroy {
     const data = this.commentComponent.commentData.currentData || '["\\n"]';
     return {
       body: data,
-      number: '?' as unknown as number,
+      number: '?',
       upvotes: 0,
       downvotes: 0,
       score: 0,
