@@ -62,13 +62,11 @@ mat-icon {
 }
 
 ::ng-deep .color-menu {
-  padding: 0 8px 0 8px;
   width: 170px !important;
 }
 
 ::ng-deep .mat-menu-panel {
   padding: 0 10px !important;
-  width: 100% !important;
   background-color: var(--dialog);
   color: var(--on-dialog);
   min-width: unset !important;
