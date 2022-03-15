@@ -1,6 +1,6 @@
 Feature: Check if the tour guide works
     Check if the tour guide displays all relevant steps when a user visits frag.jetzt
-    
+
     Scenario: Tour guide pops up
         Given I am on the home page
         When I accept the privacy terms
@@ -15,9 +15,3 @@ Feature: Check if the tour guide works
         Given the tour guide is visible
         When I press the ESC-button
         Then the tour guide should close
-
-#    Scenario: Following tour guide
-#        Given the tour guide is visible
-#        When I follow the tour guide step by step
-#        And I reach the last step of the guide
-#        Then the tour guide should close
