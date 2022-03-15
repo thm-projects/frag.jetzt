@@ -9,7 +9,6 @@
     "test": "ng test --watch=false --browsers=ChromeHeadlessCustom --source-map=false --code-coverage",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "ci:e2e": "npx cypress verify && ng e2e --watch=false",
     "extract": "ngx-translate-extract -m _ --input ./src --output ./src/assets/i18n/de.json ./src/assets/i18n/en.json --clean --sort --format namespaced-json",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run"
