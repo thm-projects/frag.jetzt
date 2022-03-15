@@ -138,7 +138,7 @@ export class RoomListComponent implements OnInit, OnDestroy {
     this.commentService.countByRoomId(ids.map(id => ({ roomId: id, ack: true }))).subscribe(counts => {
       const cache = {} as { [key in string]: RoomQuestionCounts };
       counts.forEach((count, i) => cache[ids[i]] = count);
-      newRooms.forEach(r => r.commentCount = cache[r.id]?.questionCount || 0);
+      newRooms.forEach(r => r.commentCount = cache[r.id].questionCount || 0);
     });
     for (const room of newRooms) {
       this.commentNotificationService.findByRoomId(room.id).subscribe(value => {
