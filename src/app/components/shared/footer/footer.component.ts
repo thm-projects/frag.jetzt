@@ -33,6 +33,9 @@ import {
 import {
   IntroductionModerationComponent
 } from '../_dialogs/introductions/introduction-moderation/introduction-moderation.component';
+import {MatBottomSheet} from '@angular/material/bottom-sheet';
+import {DashboardComponent} from '../_dialogs/dashboard/dashboard.component';
+import { DashboardNotificationService } from '../../../services/util/dashboard-notification.service';
 
 @Component({
   selector: 'app-footer',
@@ -60,6 +63,8 @@ export class FooterComponent implements OnInit {
     private styleService: StyleService,
     private motdService: MotdService,
     public deviceInfo: DeviceInfoService,
+    public dashboard: MatBottomSheet,
+    public change: DashboardNotificationService
   ) {
     langService.getLanguage().subscribe(lang => translateService.use(lang));
   }
@@ -185,5 +190,13 @@ export class FooterComponent implements OnInit {
     } else if (this.langService.currentLanguage() === 'en') {
       this.langaugeMenu._allItems.get(1).focus();
     }
+  }
+
+  showDashboardBadge(){
+    return !(this.change.notificationEvents.length > 0 ? true : false);
+  }
+
+  openDashboard(){
+    this.dashboard.open(DashboardComponent);
   }
 }

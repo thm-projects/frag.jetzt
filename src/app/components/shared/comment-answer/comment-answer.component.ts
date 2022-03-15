@@ -16,7 +16,7 @@ import { KeyboardUtils } from '../../../utils/keyboard';
 import { KeyboardKey } from '../../../utils/keyboard/keys';
 import { RoomDataService } from '../../../services/util/room-data.service';
 import { forkJoin, Observable, of } from 'rxjs';
-import { map, mergeMap } from 'rxjs/operators';
+import { map, mergeMap} from 'rxjs/operators';
 import { SessionService } from '../../../services/util/session.service';
 import { Room } from '../../../models/room';
 import { VoteService } from '../../../services/http/vote.service';
@@ -44,12 +44,17 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
   userRole: UserRole;
   user: User;
   isStudent = true;
+  isCreator: boolean = false;
+  isModerator:  boolean = false;
   edit = false;
   room: Room;
   mods: Set<string>;
   vote: Vote;
   isModerationComment = false;
   isSending = false;
+  responses: Comment[] = [];
+  isConversationView: boolean;
+  roleString: string;
   private _commentSubscription;
   private _list: ComponentRef<any>[];
 
@@ -76,6 +81,7 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.isConversationView = this.router.url.endsWith('conversation');
     this.userRole = this.sessionService.currentRole;
     this.initNavigation();
     this.authenticationService.watchUser.subscribe(newUser => {
@@ -86,6 +92,19 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
     if (this.userRole !== UserRole.PARTICIPANT) {
       this.isStudent = false;
     }
+    switch (this.userRole) {
+      case UserRole.PARTICIPANT.valueOf():
+        this.isStudent = true;
+        this.roleString = 'participant';
+        break;
+      case UserRole.CREATOR.valueOf():
+        this.isCreator = true;
+        this.roleString = 'creator';
+        break;
+      case UserRole.EXECUTIVE_MODERATOR.valueOf():
+        this.isModerator = true;
+        this.roleString = 'moderator';
+    }
     this.route.params.subscribe(params => {
       const commentId = params['commentId'];
       forkJoin([this.sessionService.getRoomOnce(), this.sessionService.getModeratorsOnce()])
@@ -95,6 +114,7 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
           this.voteService.getByRoomIdAndUserID(this.sessionService.currentRoom.id, this.user.id).subscribe(votes => {
             this.vote = votes.find(v => v.commentId === commentId);
           });
+          this.getResponses();
           this.findComment(commentId).subscribe(result => {
             if (!result) {
               this.onNoComment();
@@ -112,6 +132,12 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
     if (this.comment && !this.isStudent) {
       this.commentService.lowlight(this.comment).subscribe();
     }
+  }
+
+  getResponses(){
+    this.commentService.getAckComments(this.room.id).subscribe(res => {
+      this.responses = res.filter(resp => resp.commentReference === this.comment.id);
+    });
   }
 
   checkForEscape(event: KeyboardEvent) {
@@ -142,7 +168,23 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
   }
 
   submitNormal(body: string, text: string, tag: string, name: string, verifiedWithoutDeepl: boolean) {
-    this.saveAnswer(body, !verifiedWithoutDeepl);
+    const response: Comment = new Comment();
+    response.roomId = this.room.id;
+    response.body = body;
+    response.creatorId = this.user.id;
+    response.createdFromLecturer = this.userRole > 0;
+    response.commentReference = this.comment.id;
+    response.tag = tag;
+    response.questionerName = name;
+    this.commentService.addComment(response).subscribe(c => {
+      let url: string;
+      this.route.params.subscribe(params => {
+        url = `${this.roleString}/room/${params['shortId']}/comment/${this.comment.id}/conversation`;
+      });
+      this.router.navigate([url]);
+    });
+    this.translateService.get('comment-list.comment-sent')
+      .subscribe(msg => this.notificationService.show(msg));
   }
 
   saveAnswer(data: string, forward = false): void {

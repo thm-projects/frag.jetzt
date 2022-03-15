@@ -25,6 +25,11 @@ import { EditCommentTagComponent } from '../../creator/_dialogs/edit-comment-tag
 import { SessionService } from '../../../services/util/session.service';
 import { DeviceInfoService } from '../../../services/util/device-info.service';
 import { BonusDeleteComponent } from '../../creator/_dialogs/bonus-delete/bonus-delete.component';
+import { DashboardNotificationService } from '../../../services/util/dashboard-notification.service';
+import { WsCommentChangeService } from '../../../services/websockets/ws-comment-change.service';
+import { CommentChange } from '../../../models/comment-change';
+import { NotificationEvent } from '../../../models/dashboard-notification';
+import { Room } from '../../../models/room';
 
 @Component({
   selector: 'app-comment',
@@ -57,6 +62,8 @@ export class CommentComponent implements OnInit, AfterViewInit {
   @Input() commentsWrittenByUser = 1;
   @Input() isFromModerator = false;
   @Input() isFromOwner = false;
+  @Input() isResponse = false;
+  @Input() isAnswerView = false;
   @Output() clickedOnTag = new EventEmitter<string>();
   @Output() clickedOnKeyword = new EventEmitter<string>();
   @Output() clickedUserNumber = new EventEmitter<string>();
@@ -79,6 +86,10 @@ export class CommentComponent implements OnInit, AfterViewInit {
   filterProfanityForModerators = false;
   isProfanity = false;
   roomTags: string[];
+  room: Room;
+  responses: Comment[] = [];
+  conversationBlocked: boolean;
+  showNotification = true;
 
   constructor(
     protected authenticationService: AuthenticationService,
@@ -93,6 +104,8 @@ export class CommentComponent implements OnInit, AfterViewInit {
     public dialog: MatDialog,
     protected langService: LanguageService,
     public deviceInfo: DeviceInfoService,
+    public notificationService: DashboardNotificationService,
+    public wsCommentChangeService: WsCommentChangeService,
   ) {
     langService.getLanguage().subscribe(lang => {
       translateService.use(lang);
@@ -106,7 +119,8 @@ export class CommentComponent implements OnInit, AfterViewInit {
     }
   }
 
-  @Input() set parseVote(vote: Vote) {
+  @Input()
+  set parseVote(vote: Vote) {
     if (vote) {
       this.hasVoted = vote.vote;
     }
@@ -152,6 +166,23 @@ export class CommentComponent implements OnInit, AfterViewInit {
     this.translateService.use(this.language);
     this.inAnswerView = !this.router.url.includes('comments');
     this.roomTags = this.sessionService.currentRoom?.tags;
+    this.room = this.sessionService.currentRoom;
+    this.wsCommentChangeService.getCommentStream(this.comment.roomId, this.comment.id).subscribe(data => {
+      const parsedObject = JSON.parse(data.body);
+      const commentChange: CommentChange = parsedObject.payload;
+      console.log(commentChange);
+      this.notificationService.notificationEvents.unshift(new NotificationEvent(
+        this.comment.number+'',
+        this.sessionService.currentRoom.name,
+        commentChange.type,
+        new Date(),
+        this.authenticationService.getUser().role,
+        'question',
+        0
+      ));
+      console.error(this.notificationService.notificationEvents);
+    });
+    this.getResponses();
   }
 
   checkProfanity() {
@@ -207,6 +238,7 @@ export class CommentComponent implements OnInit, AfterViewInit {
     }
     this.slideAnimationState = 'visible';
   }
+
 
   setRead(comment: Comment): void {
     this.commentService.toggleRead(comment).subscribe(c => {
@@ -328,11 +360,25 @@ export class CommentComponent implements OnInit, AfterViewInit {
     if (this.isMock) {
       return;
     }
+    if( this.isStudent && this.room.conversationDepth <= this.comment.commentDepth){
+      return;
+    }
     let url: string;
     this.route.params.subscribe(params => {
       url = `${this.roleString}/room/${params['shortId']}/comment/${this.comment.id}`;
     });
     localStorage.setItem('answeringQuestion', this.comment.id);
+    this.router.navigate([url]);
+  }
+
+  showConversation() {
+    if (this.isMock) {
+      return;
+    }
+    let url: string;
+    this.route.params.subscribe(params => {
+      url = `${this.roleString}/room/${params['shortId']}/comment/${this.comment.id}/conversation`;
+    });
     this.router.navigate([url]);
   }
 
@@ -431,5 +477,24 @@ export class CommentComponent implements OnInit, AfterViewInit {
       return 'border-moderated';
     }
     return 'border-notMarked';
+  }
+
+  respondToComment() {
+    let url: string;
+    this.route.params.subscribe(params => {
+      url = `${this.roleString}/room/${params['shortId']}/comment/${this.comment.id}`;
+    });
+    this.router.navigate([url]);
+  }
+
+  getResponses() {
+    this.commentService.getAckComments(this.room.id).subscribe(res => {
+      this.responses = res.filter(resp => resp.commentReference === this.comment.id);
+    });
+  }
+
+  toggleNotifications(){
+    this.showNotification = !this.showNotification;
+
   }
 }

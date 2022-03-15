@@ -44,6 +44,7 @@ import { mergeMap } from 'rxjs/operators';
 import {
   CommentNotificationDialogComponent
 } from '../_dialogs/comment-notification-dialog/comment-notification-dialog.component';
+import { ToggleConversationComponent } from '../../creator/_dialogs/toggle-conversation/toggle-conversation.component';
 
 @Component({
   selector: 'app-room-page',
@@ -55,12 +56,16 @@ export class RoomPageComponent implements OnInit, OnDestroy {
   user: User = null;
   isLoading = true;
   commentCounter: number;
+  responseCounter: number;
   urlToCopy = `${window.location.protocol}//${window.location.host}/participant/room/`;
   commentCounterEmit: EventEmitter<number> = new EventEmitter<number>();
+  responseCounterEmit: EventEmitter<number> = new EventEmitter<number>();
   onDestroyListener: EventEmitter<void> = new EventEmitter<void>();
   viewModuleCount = 1;
   moderatorCommentCounter: number;
+  moderatorResponseCounter: number;
   userRole: UserRole;
+  menuItemChanged: boolean = false;
   protected moderationEnabled = true;
   protected listenerFn: () => void;
   private _navigationBuild = new SyncFence(2, this.initNavigation.bind(this));
@@ -113,12 +118,14 @@ export class RoomPageComponent implements OnInit, OnDestroy {
         if (this.moderationEnabled) {
           this.viewModuleCount = this.viewModuleCount + 1;
         }
-        this.commentService.countByRoomId([{ roomId: this.room.id, ack: true }]).subscribe(commentCounter => {
-          this.setCommentCounter(commentCounter[0].questionCount);
+        this.commentService.getAckComments(this.room.id).subscribe(c => {
+          this.setCommentCounter(c.filter(comm => comm.commentReference === null).length);
+          this.setResponseCounter(c.filter(comm => comm.commentReference !== null).length);
         });
         if (this.moderationEnabled && this.userRole > UserRole.PARTICIPANT) {
-          this.commentService.countByRoomId([{ roomId: this.room.id, ack: false }]).subscribe(commentCounter => {
-            this.moderatorCommentCounter = commentCounter[0].questionCount;
+          this.commentService.getRejectedComments(this.room.id).subscribe(c => {
+            this.moderatorCommentCounter =  c.filter(comm => comm.commentReference === null).length;
+            this.moderatorResponseCounter = c.filter(comm => comm.commentReference !== null).length;
           });
         }
         const sub = this.roomDataService.receiveUpdates([
@@ -126,19 +133,17 @@ export class RoomPageComponent implements OnInit, OnDestroy {
           { type: 'CommentDeleted', finished: true },
           { type: 'CommentPatched', finished: true, updates: ['ack'] }
         ]).subscribe(update => {
-          if (update.type === 'CommentCreated') {
-            this.setCommentCounter(this.commentCounter + 1);
-          } else if (update.type === 'CommentDeleted') {
-            this.setCommentCounter(this.commentCounter - 1);
-          } else if (update.type === 'CommentPatched') {
-            if (update.comment.ack) {
-              this.setCommentCounter(this.commentCounter + 1);
-              this.moderatorCommentCounter = this.moderatorCommentCounter - 1;
-            } else {
-              this.setCommentCounter(this.commentCounter - 1);
-              this.moderatorCommentCounter = this.moderatorCommentCounter + 1;
+          this.commentService.getAckComments(this.room.id).subscribe(c => {
+            this.setCommentCounter(c.filter(comm => comm.commentReference === null).length);
+            this.setResponseCounter(c.filter(comm => comm.commentReference !== null).length);
+            if (update.type === 'CommentPatched') {
+              if (update.comment.ack) {
+                this.moderatorCommentCounter = this.moderatorCommentCounter - 1;
+              } else {
+                this.moderatorCommentCounter = this.moderatorCommentCounter + 1;
+              }
             }
-          }
+          });
         });
         this.onDestroyListener.subscribe(() => sub.unsubscribe());
         this.postRoomLoadHook();
@@ -150,6 +155,11 @@ export class RoomPageComponent implements OnInit, OnDestroy {
   setCommentCounter(commentCounter: number) {
     this.commentCounter = commentCounter;
     this.commentCounterEmit.emit(this.commentCounter);
+  }
+
+  setResponseCounter(responseCounter: number) {
+    this.responseCounter = responseCounter;
+    this.responseCounterEmit.emit(this.responseCounter);
   }
 
   delete(room: Room): void {
@@ -223,6 +233,36 @@ export class RoomPageComponent implements OnInit, OnDestroy {
           this.notificationService.show(msg);
         });
         this.commentService.deleteCommentsByRoomId(this.room.id).subscribe();
+      }
+    });
+  }
+
+  showToggleConversationDialog(a: ArsObserver<boolean>) {
+    if(this.menuItemChanged){
+      this.menuItemChanged = false;
+      return;
+    }
+     const dialogRef = this.dialog.open(ToggleConversationComponent, {
+      width: '600px',
+       data: {conversationBlocked: this.room.conversationDepth === 0? true : false, directSend: this.room.directSend}
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result);
+      if (result === 'confirm') {
+        if(a.get()){
+          this.room.conversationDepth = 0;
+        } else {
+          this.room.conversationDepth = 1;
+        }
+        if(this.room.conversationDepth === 0){
+          this.room.conversationDepth = 1;
+        } else {
+          this.room.conversationDepth = 0;
+        }
+        this.roomService.updateRoom(this.room).subscribe();
+      } else {
+        this.menuItemChanged = true;
+        a.set(!a.get());
       }
     });
   }
@@ -347,11 +387,11 @@ export class RoomPageComponent implements OnInit, OnDestroy {
     });
   }
 
-  hasTagChanges(before: any, after: any): boolean {
+  hasTagChanges(before: any, after: any): boolean{
     let changes = false;
-    if (before.length !== after.length) {
+    if(before.length !== after.length) {
       changes = true;
-    } else {
+    }else{
       before.forEach((tag, index) => {
         if (tag !== after[index]) {
           changes = true;
@@ -490,9 +530,9 @@ export class RoomPageComponent implements OnInit, OnDestroy {
           class: 'material-icons-outlined',
           iconColor: Palette.RED
         },
-        ArsObserver.build<boolean>(e => {
-          e.set(this.room.questionsBlocked);
-          e.onChange(a => {
+        ArsObserver.build<boolean>(ev => {
+          ev.set(this.room.questionsBlocked);
+          ev.onChange(a => {
             this.room.questionsBlocked = a.get();
             this.roomService.updateRoom(this.room).subscribe();
             if (a.get()) {
@@ -515,6 +555,30 @@ export class RoomPageComponent implements OnInit, OnDestroy {
         callback: () => this.openEmailNotification(),
         condition: () => !!this.user?.loginId
       });
+      e.altToggle({
+          translate: this.headerService.getTranslate(),
+          icon: 'forum',
+          class: 'material-icons-outlined',
+          isSVGIcon: false,
+          text: 'header.conversation-allow',
+          condition: () => this.userRole > UserRole.PARTICIPANT
+        },{
+          translate: this.headerService.getTranslate(),
+          icon: 'comments_disabled',
+          class: 'material-icons-outlined',
+          isSVGIcon: false,
+          text: 'header.conversation-block',
+          iconColor: Palette.RED,
+          condition: () => this.userRole > UserRole.PARTICIPANT
+        },
+        ArsObserver.build<boolean>(ev => {
+          ev.set(this.room.conversationDepth === 0? false: true);
+          ev.onChange(a => {
+            this.showToggleConversationDialog(a);
+          });
+        }),
+        () => this.userRole > UserRole.PARTICIPANT
+      );
     });
   }
 

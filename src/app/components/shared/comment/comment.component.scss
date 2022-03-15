@@ -84,12 +84,20 @@ mat-card-content > :first-child {
   margin-top: 12px;
   color: var(--primary);
   font-size: 24px;
+
+  @media (max-width: 330px) {
+    margin-left: -20px !important;
+  }
 }
 
 .scoreCreator {
   color: var(--primary);
-  margin: 0 8px 0 10px;
+  margin: 0 8px 0 min(10px, 2%);
   font-size: 24px;
+
+  @media (max-width: 330px) {
+    margin-left: -20px !important;
+  }
 }
 
 .body {
@@ -268,7 +276,7 @@ mat-card-content > :first-child {
   }
 }
 
-.mat-badge-content {
+::ng-deep .mat-badge-content {
   background: var(--secondary);
   color: var(--on-secondary);
 }
@@ -404,6 +412,13 @@ mat-card-content > :first-child {
         line-height: 10.5px;
         padding-right: 15px;
       }
+      > mat-icon.smaller-on-answer {
+        transform: scale(2.1);
+      }
+      > mat-icon.forum {
+        margin-left: 20px;
+        margin-right: -15px;
+      }
 
       font-family: 'Roboto', sans-serif;
       font-size: 80px;
@@ -429,6 +444,19 @@ mat-card-content > :first-child {
         }
       }
     }
+    > p.smaller-text {
+      font-size: 50px;
+      margin-top: 70px;
+
+      @media (max-width: 400px) {
+        margin-right: 45px;
+        transform: scale(0.9);
+      }
+      @media (max-width: 340px) {
+        margin-right: 20px;
+        transform: scale(0.6);
+      }
+    }
   }
 }
 
@@ -436,4 +464,24 @@ mat-card-content > :first-child {
   .images img {
     max-width: 100% !important;
   }
+}
+
+.responses-watermark {
+  margin-right: 50px;
+  font-size: 12px;
+}
+
+.replyButton{
+  color:var(--primary);
+  background-color:transparent;
+  margin-top:10px !important;
+}
+.replyButton:hover{
+  outline: var(--primary) solid;
+}
+
+.divider{
+  width:5px;
+  height:auto;
+  display:inline-block;
 }

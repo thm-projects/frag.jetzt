@@ -136,6 +136,9 @@ import {
   NgxMatNativeDateModule,
   NgxMatTimepickerModule
 } from '@angular-material-components/datetime-picker';
+import {ToggleConversationComponent} from '../creator/_dialogs/toggle-conversation/toggle-conversation.component';
+import { DashboardComponent } from './_dialogs/dashboard/dashboard.component';
+import { DashboardDialogComponent } from './_dialogs/dashboard-dialog/dashboard-dialog.component';
 
 @NgModule({
   imports: [
@@ -152,7 +155,8 @@ import {
     JoyrideModule.forChild(),
     QuillModule,
     NgxMatTimepickerModule,
-    NgxMatNativeDateModule
+    NgxMatNativeDateModule,
+
   ],
   declarations: [
     RoomJoinComponent,
@@ -223,35 +227,39 @@ import {
     IntroductionModerationComponent,
     IntroductionModerationDEComponent,
     IntroductionModerationENComponent,
-    CommentNotificationDialogComponent
+    CommentNotificationDialogComponent,
+    ToggleConversationComponent,
+    DashboardComponent,
+    DashboardDialogComponent
   ],
-  exports: [
-    RoomJoinComponent,
-    PageNotFoundComponent,
-    RoomPageComponent,
-    RoomListComponent,
-    HeaderComponent,
-    FooterComponent,
-    CommentPageComponent,
-    CommentListComponent,
-    CreateCommentComponent,
-    PresentCommentComponent,
-    CommentComponent,
-    DialogActionButtonsComponent,
-    UserBonusTokenComponent,
-    CloudConfigurationComponent,
-    TagCloudPopUpComponent,
-    ActiveUserComponent,
-    MatSpinnerOverlayComponent,
-    JoyrideTemplateDirective,
-    AutofocusDirective,
-    CustomMarkdownComponent,
-    ScrollIntoViewDirective,
-    ViewCommentDataComponent,
-    WriteCommentComponent,
-    AccessibilityEscapedInputDirective,
-    QuestionWallIntroComponent
-  ]
+    exports: [
+        RoomJoinComponent,
+        PageNotFoundComponent,
+        RoomPageComponent,
+        RoomListComponent,
+        HeaderComponent,
+        FooterComponent,
+        CommentPageComponent,
+        CommentListComponent,
+        CreateCommentComponent,
+        PresentCommentComponent,
+        CommentComponent,
+        DialogActionButtonsComponent,
+        UserBonusTokenComponent,
+        CloudConfigurationComponent,
+        TagCloudPopUpComponent,
+        ActiveUserComponent,
+        MatSpinnerOverlayComponent,
+        JoyrideTemplateDirective,
+        AutofocusDirective,
+        CustomMarkdownComponent,
+        ScrollIntoViewDirective,
+        ViewCommentDataComponent,
+        WriteCommentComponent,
+        AccessibilityEscapedInputDirective,
+        QuestionWallIntroComponent,
+        DashboardComponent
+    ]
 })
 export class SharedModule {
 }

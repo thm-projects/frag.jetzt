@@ -138,6 +138,10 @@ export class RoomListComponent implements OnInit, OnDestroy {
       counts.forEach((count, i) => newRooms[i].commentCount = count.questionCount);
     });
     for (const room of newRooms) {
+      this.commentService.getAckComments(room.id).subscribe(c => {
+        room.commentCount = c.filter(comm => comm.commentReference === null).length;
+        room.responseCount = c.filter(comm => comm.commentReference !== null).length;
+      });
       this.commentNotificationService.findByRoomId(room.id).subscribe(value => {
         room.hasNotifications = !!value?.length;
       });

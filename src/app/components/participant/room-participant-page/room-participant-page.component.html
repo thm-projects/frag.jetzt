@@ -4,26 +4,20 @@
      fxFill>
   <div fxLayout="row"
        fxLayoutAlign="center">
-    <app-mat-spinner-overlay *ngIf="isLoading"
-                             overlay="true"></app-mat-spinner-overlay>
+    <app-mat-spinner-overlay *ngIf="isLoading" overlay="true"></app-mat-spinner-overlay>
     <mat-card *ngIf="room">
-      <div fxLayout="row" fxLayoutAlign="center">
-      <mat-icon *ngIf="moderationEnabled"
-                class="gavel material-icons-round"
-                matTooltip="{{ 'room-page.moderation-enabled' | translate }}">
-        gavel
-      </mat-icon>
-      </div>
       <div fxLayout="row">
         <span class="fill-remaining-space"></span>
-        <mat-card-header fxLayoutAlign="center">
+        <mat-card-header fxLayoutAlign="center"
+                         fxLayout="row">
           <mat-card-title fxLayoutAlign="center">
             <h2>&raquo;{{room.name}}&laquo;</h2>
           </mat-card-title>
           <mat-card-subtitle fxLayoutAlign="center">
-            <h3 class="room-short-id">
+            <span class="room-short-id">
               {{ 'room-page.session-id' | translate}}: {{ room.shortId }}
-            </h3>
+            </span>
+
           </mat-card-subtitle>
         </mat-card-header>
         <span class="fill-remaining-space"></span>
@@ -31,28 +25,70 @@
 
       <mat-card-content *ngIf="room.description"
                         fxLayoutAlign="center">
-        <app-view-comment-data class="images"
-                               [currentData]="room.description"></app-view-comment-data>
+        <app-view-comment-data class="images" [currentData]="room.description"></app-view-comment-data>
       </mat-card-content>
-      <mat-grid-list cols="1"
-                     rowHeight="2:1">
-        <mat-grid-tile>
-          <button id="question_answer-button"
+      <div fxLayout="column"
+           fxLayoutAlign="center"
+           fxLayoutGap="20px">
+        <mat-grid-list cols="{{viewModuleCount}}"
+                       rowHeight="1:1"
+                       *ngIf="viewModuleCount > 1">
+          <mat-grid-tile>
+            <button id="question_answer-button"
+                    mat-icon-button
+                    [disableRipple]="true"
+                    routerLink="/participant/room/{{ room.shortId }}/comments"
+                    aria-labelledby="question_answer">
+              <mat-icon matBadge="{{commentCounter > 0 ? commentCounter : null}}"
+                        class="main-icon material-icons-outlined"
+                        [ngClass]="{'smallerIcon' : deviceInfo.isCurrentlyMobile}"
+                        matTooltip="{{ 'room-page.session-question-board' | translate}}">forum
+              </mat-icon>
+              <h3>{{ 'room-page.public-stream' | translate}}</h3>
+            </button>
+          </mat-grid-tile>
+        </mat-grid-list>
+        <div fxLayout="row"
+             fxLayoutAlign="center"
+             *ngIf="viewModuleCount <= 1"
+             class="question-button-div">
+          <button id="question_answer-button2"
                   mat-icon-button
                   [disableRipple]="true"
                   routerLink="/participant/room/{{ room.shortId }}/comments"
                   aria-labelledby="question_answer">
-            <mat-icon matBadge="{{commentCounter > 0 ? commentCounter : null}}"
+            <mat-icon *ngIf="room.conversationDepth===0"
+                      matBadge="{{commentCounter > 0 ? commentCounter : null}}"
+                      matBadgePosition="before"
+                      class="main-icon material-icons-outlined"
+                      [ngClass]="{'desktop' : deviceInfo.isCurrentlyDesktop}">
+              chat
+            </mat-icon>
+            <span *ngIf="room.conversationDepth===0"
+                      matBadge="{{responseCounter > 0 ? responseCounter : null}}"
+                      matBadgePosition="before"
+                      class="main-icon material-icons-outlined response-badge"
+                      [ngClass]="{'desktop' : deviceInfo.isCurrentlyDesktop}">
+            </span>
+            <mat-icon *ngIf="room.conversationDepth!==0"
+                      matBadge="{{commentCounter > 0 ? commentCounter : null}}"
+                      matBadgePosition="before"
                       class="main-icon material-icons-outlined"
                       [ngClass]="{'desktop' : deviceInfo.isCurrentlyDesktop}">forum
             </mat-icon>
-            <h3>{{ 'room-page.create-comment' | translate}}</h3>
+            <span *ngIf="room.conversationDepth!==0"
+                      matBadge="{{responseCounter > 0 ? responseCounter : null}}"
+                      matBadgePosition="before"
+                      class="main-icon material-icons-outlined response-badge"
+                      [ngClass]="{'desktop' : deviceInfo.isCurrentlyDesktop}">
+            </span>
+            <h3 *ngIf="room.conversationDepth===0" >{{ 'room-page.create-comment' | translate}}</h3>
+            <h3 *ngIf="room.conversationDepth!==0" >{{ 'room-page.create-comment-and-answer' | translate}}</h3>
           </button>
-        </mat-grid-tile>
-      </mat-grid-list>
-
+        </div>
+      </div>
     </mat-card>
-
+    <div *ngIf="!isLoading && !room">{{ 'room-page.room-not-found' | translate }}</div>
   </div>
   <button id="live_announcer-button"
           tabIndex="-1"

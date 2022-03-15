@@ -1,0 +1,16 @@
+<div mat-dialog-content>
+    <h2 class="oldtypo-h2"
+        tabindex="0">{{ 'moderators-dialog.sure' | translate }}</h2>
+    <div>
+      <p class="oldtypo-p"
+         tabindex="0">{{ getDialogMessage() | translate }}</p>
+    </div>
+  </div>
+<app-dialog-action-buttons
+                           buttonsLabelSection="content"
+                           confirmButtonLabel="delete"
+                           [cancelButtonClickAction]="buildCloseDialogActionCallback()"
+                           [confirmButtonType]=confirmButtonType
+                           [confirmButtonClickAction]="toggleConversationActionCallback()"
+></app-dialog-action-buttons>
+

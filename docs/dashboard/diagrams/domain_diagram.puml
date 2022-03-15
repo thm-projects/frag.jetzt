@@ -1,0 +1,147 @@
+@startuml
+
+skinparam class {
+	BackgroundColor PaleGreen
+	BorderColor Green
+	ArrowColor black
+	FontSize 28
+	BackgroundColor<<USP>> Pink
+	BorderColor<<USP>> HotPink
+}
+
+skinparam backgroundColor Linen
+skinparam linetype ortho
+skinparam shadowing true
+skinparam minClassWidth 200
+skinparam LegendBackgroundColor Strategy
+skinparam LegendBorderThickness 0
+skinparam LegendFontSize 20
+skinparam defaultFontSize 20
+skinparam Padding 8
+skinparam Nodesep 150
+skinparam ArrowThickness 2
+skinparam ArrowColor DarkSlateGray
+
+hide methods
+hide empty members
+hide circle
+
+package "frag.jetzt | domain diagram | Live DashBoard " <<Frame>> {
+
+class GuestUser {
+}
+  
+
+
+class RegisteredUser {
+  email
+  password
+}
+
+GuestUser -left-|> User
+RegisteredUser -up-|> User
+
+class SessionParticipant {
+}
+
+class TemporalSessionHolder {
+}
+
+SessionParticipant -left-|> GuestUser
+TemporalSessionHolder -up-|> GuestUser
+
+class Moderator <<USP>> {
+}
+
+class BonusParticipant <<USP>> {
+}
+
+class PermanentSessionHolder{
+}
+
+PermanentSessionHolder -left-|> RegisteredUser
+Moderator -up-|> RegisteredUser
+Moderator -down- Session :assigned to >
+BonusParticipant -right-|> RegisteredUser
+
+class Session {
+  id
+  name
+  description
+  holder
+  moderators
+  }
+
+class Question {
+  votes
+}
+
+class Status {
+  affirmed
+  negated
+  bonus
+  discussed
+}
+
+Status -left- Question
+
+class Board {
+  helpPage
+}
+
+class QuestionBoard {
+  counter
+  search
+  sorting
+  filtering
+  displayThreshold
+}
+
+class ModeratorBoard {
+  counter
+  search
+  sorting
+  filtering
+}
+
+Session *-right- Board
+QuestionBoard -left-|> Board
+ModeratorBoard -up-|> Board
+
+  
+class Notification {
+  Message
+  Date
+  Room name
+  question number
+}
+  
+class Dashboard {
+  filtering
+  search
+  
+}
+  
+Question -up-o QuestionBoard
+ModeratorBoard o-down- BannedQuestion
+Dashboard *-right-  Notification
+BannedQuestion -right-  Notification
+Question -left- Notification
+Notification -up- Session
+Notification -up- QuestionBoard
+Notification -right- ModeratorBoard
+Status -up- Notification
+}
+
+legend right
+  |<img:https://git.thm.de/arsnova/frag.jetzt/-/raw/staging/src/assets/icons/android-chrome-192x192.png> |= \n\n »frag.jetzt« |
+  | Produktion | [[https://frag.jetzt]] |
+  | Repository | [[https://git.thm.de/arsnova/frag.jetzt]] |
+  | Staging Server | [[https://staging.frag.jetzt]] |
+  | UML-Tool| PlantUML V1.2022.1|
+  | Ersteller| Yann, Ewo Tchougang|
+  | Mail| yann.ewo.tchougang@mni.thm.de |
+  | Letzte Änderung| 03.03.2022 |
+end legend
+
+@enduml

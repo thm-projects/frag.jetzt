@@ -24,6 +24,12 @@ const routes: Routes = [
     component: CommentAnswerComponent,
     canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.CREATOR] }
+  },
+  {
+    path: 'room/:shortId/comment/:commentId/conversation',
+    component: CommentAnswerComponent,
+    canActivate: [AuthenticationGuard],
+    data: { roles: [UserRole.CREATOR] }
   }
 ];
 

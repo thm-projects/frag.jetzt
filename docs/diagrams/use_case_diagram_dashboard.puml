@@ -1,0 +1,98 @@
+@startuml
+
+scale 1.0
+
+left to right direction
+
+skinparam backgroundColor Linen
+skinparam LegendBackgroundColor Strategy
+skinparam LegendBorderThickness 0
+skinparam LegendFontSize 20
+skinparam Padding 5
+skinparam defaultFontSize 24
+skinparam Nodesep 100
+skinparam ArrowThickness 2
+skinparam shadowing true
+
+skinparam usecase {
+    BackgroundColor PaleGreen
+    BorderColor Green
+    BackgroundColor<<USP>> Pink
+    BorderColor<<USP>> HotPink
+    BorderThickness 2
+    ArrowThickness 2
+    ArrowColor Green
+    ActorBorderColor Green
+}
+
+actor User
+
+
+
+
+rectangle "frag.jetzt | use-case diagram \n" << Business >> {
+
+
+    
+    User -- (Open dashboard)
+    User -- (Ask question)
+  
+    (Ask question) <.. (Toggle notificationbell) : << include >>
+    (Open dashboard) <.. (Filter notifications) : << include >>
+<<<<<<< HEAD
+    (Open dashboard) <.. (Lock dashboard) : << include >>
+    (Open dashboard) <.. (Close dashboard) : << include >>
+=======
+    (Open dashboard) <.. (Toggle all notification) : << include >>
+    (Open dashboard) <.. (Close Dashboard) : << include >>
+>>>>>>> Upload New File
+    (View notification) <.. (Dismiss notification) : << include >>
+    (Open dashboard) <.. (View notification) : << include >>
+    (Open dashboard) <.. (View no notification message) : << include >>
+    (View notification) <.. (Leap to question) : << include >>
+    (View notification) <.. (Leap to response) : << include >>
+    (View notification) <.. (View notification date) : << include >>
+    (View notification) <.. (View question nr) : << include >>
+    (View notification) <.. (View room name/short id) : << include >>
+    (View no notification message) <.. (Close dashboard) : << include >>
+    (Leap to response) <.. (Close dashboard) : << include >>
+    (Leap to question) <.. (Close dashboard) : << include >>
+    (Open dashboard) <.. (Close dashboard) : << include >>
+    (Filter notifications) <.. (Toggle bonus) : << include >>
+    (Filter notifications) <.. (Toggle banned) : << include >>
+    (Filter notifications) <.. (Toggle commented) : << include >>
+    (Filter notifications) <.. (Toggle wrong) : << include >>
+    (Filter notifications) <.. (Toggle correct) : << include >>
+    (Filter notifications) <.. (Toggle upvote) : <<include >>
+    (Filter notifications) <.. (Toggle downvote) : <<include >>
+    (Filter notifications) <.. (Toggle delete) : <<include >>
+    (Filter notifications) <.. (Toggle category) : <<include >>
+    (Filter notifications) <.. (Toggle restored) : <<include >>
+    (Open dashboard) <.. (Search question nr/tags) : <<include >>
+    (Search question nr/tags) <.. (View notification) : <<exclude >>
+    (Search question nr/tags) <.. (View no notification message) : <<exclude >>
+<<<<<<< HEAD
+    (Lock dashboard) <.. (Close dashboard) : <<include>>
+=======
+
+>>>>>>> Upload New File
+}
+
+legend right
+  | <img:https://git.thm.de/arsnova/frag.jetzt/-/raw/staging/src/assets/icons/android-chrome-192x192.png> |= \n\n »frag.jetzt« |
+  | Produktion | [[https://frag.jetzt]] |
+  | Repository | [[https://git.thm.de/arsnova/frag.jetzt]] |
+  | Staging Server | [[https://staging.frag.jetzt]] |
+  | UML-Tool| PlantUML V1.2022.1|
+  | Ersteller| Aakash Garg|
+  | Mail| aakash.garg@mni.thm.de |
+  | Letzte Änderung| 03.03.2022 |
+end legend
+
+@enduml
+
+<<<<<<< HEAD
+@enduml
+
+=======
+>>>>>>> Upload New File

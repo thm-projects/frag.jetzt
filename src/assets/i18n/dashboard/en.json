@@ -1,0 +1,56 @@
+{
+  "dashboard": {
+    "title": "Notifications",
+    "close": "Close notifications",
+    "filter": "Filter options",
+    "block": "Block notifications",
+    "delete": "Delete all notifications",
+    "activate": "Activate notifications"
+  },
+  "explanation": {
+    "label": "Explain",
+    "close": "Close",
+    "text": "Notifications",
+    "dialog-content": "In this view you will be able to view and manage their notifications. You will receive notifications about your rooms, questions and comments. With the Filter menu you can turn on/off different filters to search for notifications in a more targeted way. Also, you have the option to clear the current notification list or disable all notifications so you don't receive any more. If you want to view the post that has evoked a reaction, the notification will take you directly to the post."
+  },
+  "notification": {
+    "number-notifications": "Number: ",
+    "bonus": "Bonus",
+    "correct": "Correct",
+    "wrong": "Wrong",
+    "ban": "Banned",
+    "delete": "Deleted",
+    "comment": "Commented",
+    "lecturer": "Teacher",
+    "moderator": "Moderator",
+    "participant": "Participant",
+    "reaction": "Someone responded to your post",
+    "date-format": "'en-US'",
+    "time-format": "'en-US'",
+    "remove": "Remove notification",
+    "room": "room",
+    "go-to-question": "Go to question",
+    "go-to-comment": "Go to comment"
+  },
+  "message": {
+    "a": "A ",
+    "role-0": "participant ",
+    "role-1": "moderator ",
+    "role-2": "moderator ",
+    "role-3": "teacher ",
+    "question-change_ack": "has changed moderation status of your question.",
+    "question-change_favorite": "has changed the bonus of your question.",
+    "question-change_correct": "has changed the correctness of your question.",
+    "question-change_tag": "has changed the category of your question.",
+    "question-change_score": "has changed the category of your question.",
+    "question-deleted": "has deleted your question.",
+    "question-answered": "has marked your question as answered.",
+    "comment-change_score": "has changed the score of your comment.",
+    "comment-change_correct": "has changed the correctness of your comment.",
+    "comment-change_favorite": "has changed the bonus of your comment.",
+    "comment-change_tag": "has changed the category of your comment.",
+    "comment-change_ack": "has changed moderation status of your comment.",
+    "comment-deleted": "has deleted your comment.",
+    "comment-answered": "has marked your comment as answered."
+  }
+}

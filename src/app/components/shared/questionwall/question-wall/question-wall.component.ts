@@ -1,3 +1,4 @@
+
 import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { CommentService } from '../../../../services/http/comment.service';
 import { Comment } from '../../../../models/comment';
@@ -22,6 +23,8 @@ import {
 } from '../../_dialogs/introductions/introduction-question-wall/introduction-question-wall.component';
 import { FilterType, Period, PeriodKey, SortType } from '../../../../utils/data-filter-object.lib';
 import { DataFilterObject } from '../../../../utils/data-filter-object';
+import { Moderator } from '../../../../models/moderator';
+
 
 interface CommentCache {
   [commentId: string]: {
@@ -113,9 +116,9 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   firstPassIntroduction = true;
   room: Room = null;
   period: Period;
+  roomDataFilterService: any;
   private readonly commentCache: CommentCache = {};
   private _filterObj: DataFilterObject;
-
   constructor(
     private authenticationService: AuthenticationService,
     public router: Router,
@@ -371,7 +374,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   sort(sortType: SortType, reverse?: boolean) {
-    const filter = this._filterObj.filter;
+    const filter = this.roomDataFilterService.currentFilter;
     filter.sortType = sortType;
     filter.sortReverse = Boolean(reverse);
     this._filterObj.filter = filter;
@@ -443,34 +446,59 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onUpdateFiltering() {
-    const result = this._filterObj.currentData;
-    this.comments = result.comments;
-    const filter = this._filterObj.filter;
-    this.period = filter.period;
-    this.isLoading = false;
-    const current = new Date().getTime();
-    const tempUserSet = new Set<string>();
-    this.comments.forEach(comment => {
-      tempUserSet.add(comment.creatorId);
-      if (this.commentCache[comment.id]) {
-        return;
-      }
-      const date = new Date(comment.createdAt);
-      this.commentCache[comment.id] = {
-        date,
-        old: true,
-        timeAgo: updateTimeAgo(current, date.getTime())
-      };
-    });
-    this.refreshUserMap();
-    this.commentsCountQuestions = this.comments.length;
-    this.commentsCountUsers = tempUserSet.size;
-    this.animationTrigger = false;
-    setTimeout(() => {
-      this.animationTrigger = true;
-      if (this.comments.length < 1 || !this.comments.some(c => c.id === this.commentFocusId)) {
-        this.commentFocusId = null;
-      }
+    const func = (moderators: Moderator[], lecturerId: string) => {
+      const moderatorIds = moderators.map(x => x.accountId);
+      const result = this.roomDataFilterService.currentData;
+      this.comments = ((sorted: any[]) => {
+        result.comments.forEach(e => {
+          if (!moderatorIds.includes(e.creatorId) && e.creatorId !== lecturerId) {
+            sorted.push(e);
+          }
+        });
+        result.comments.forEach(e => {
+          if (moderatorIds.includes(e.creatorId)) {
+            sorted.push(e);
+          }
+        });
+        result.comments.forEach(e => {
+          if (e.creatorId === lecturerId) {
+            sorted.push(e);
+          }
+        });
+        return sorted;
+      })([]);
+      const filter = this.roomDataFilterService.currentFilter;
+      this.period = filter.period;
+      this.isLoading = false;
+      const current = new Date().getTime();
+      const tempUserSet = new Set<string>();
+      this.comments.forEach(comment => {
+        tempUserSet.add(comment.creatorId);
+        if (this.commentCache[comment.id]) {
+          return;
+        }
+        const date = new Date(comment.createdAt);
+        this.commentCache[comment.id] = {
+          date,
+          old: true,
+          timeAgo: updateTimeAgo(current, date.getTime())
+        };
+      });
+      this.refreshUserMap();
+      this.commentsCountQuestions = this.comments.length;
+      this.commentsCountUsers = tempUserSet.size;
+      this.animationTrigger = false;
+      setTimeout(() => {
+        this.animationTrigger = true;
+        if (this.comments.length < 1 || !this.comments.some(c => c.id === this.commentFocusId)) {
+          this.commentFocusId = null;
+        }
+      });
+    };
+    this.sessionService.getModerators().subscribe(e => {
+      this.sessionService.getRoom().subscribe(r => {
+        func(e, r.ownerId);
+      });
     });
   }
 

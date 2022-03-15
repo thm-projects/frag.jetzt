@@ -34,6 +34,12 @@ const routes: Routes = [
     data: { roles: [UserRole.EXECUTIVE_MODERATOR] }
   },
   {
+    path: 'room/:shortId/comment/:commentId/conversation',
+    component: CommentAnswerComponent,
+    canActivate: [AuthenticationGuard],
+    data: { roles: [UserRole.EXECUTIVE_MODERATOR] }
+  },
+  {
     path: 'join/:shortId',
     component: ModeratorJoinComponent
   }

@@ -57,6 +57,7 @@
     "quill-emoji": "^0.2.0",
     "quill-image-resize-module": "^3.0.0",
     "rxjs": "^7.5.2",
+    "source-map-support": "^0.5.21",
     "tslib": "^2.0.0",
     "typescript-map": "^0.1.0",
     "webpack": "^5.63.0",

@@ -60,12 +60,26 @@
                     [disableRipple]="true"
                     routerLink="/moderator/room/{{ room.shortId }}/comments"
                     aria-labelledby="question_answer">
-              <mat-icon matBadge="{{commentCounter > 0 ? commentCounter : null}}"
+              <mat-icon *ngIf="room.conversationDepth!==0"
+                        matBadge="{{commentCounter > 0 ? commentCounter : null}}"
                         class="main-icon material-icons-outlined"
                         [ngClass]="{'smallerIcon' : deviceInfo.isCurrentlyMobile}"
+                        matBadgePosition="before"
                         matTooltip="{{ 'room-page.session-question-board' | translate}}">forum
               </mat-icon>
-              <h3>{{ 'room-page.public-stream' | translate}}</h3>
+              <mat-icon *ngIf="room.conversationDepth===0"
+                        matBadge="{{commentCounter > 0 ? commentCounter : null}}"
+                        class="main-icon material-icons-outlined"
+                        [ngClass]="{'smallerIcon' : deviceInfo.isCurrentlyMobile}"
+                        matBadgePosition="before"
+                        matTooltip="{{ 'room-page.session-question-board' | translate}}">chat
+              </mat-icon>
+              <span matBadge="{{responseCounter > 0 ? responseCounter : null}}"
+                    matBadgePosition="before"
+                    class="main-icon material-icons-outlined response-badge">
+              </span>
+              <h3 *ngIf="room.conversationDepth===0" >{{ 'room-page.comments' | translate}}</h3>
+              <h3 *ngIf="room.conversationDepth!==0" >{{ 'room-page.comments-and-answers' | translate}}</h3>
             </button>
           </mat-grid-tile>
           <mat-grid-tile *ngIf="moderationEnabled">
@@ -74,11 +88,17 @@
                     [disableRipple]="true"
                     routerLink="/moderator/room/{{ room.shortId }}/moderator/comments"
                     aria-labelledby="gavel">
-              <mat-icon style="color: var(--red)" matBadge="{{moderatorCommentCounter > 0 ? moderatorCommentCounter : null}}"
+              <mat-icon style="color: var(--red)"
+                        matBadge="{{moderatorCommentCounter > 0 ? moderatorCommentCounter : null}}"
+                        matBadgePosition="before"
                         class="main-icon material-icons-round"
                         [ngClass]="{'smallerIcon' : deviceInfo.isCurrentlyMobile}"
                         matTooltip="{{ 'room-page.session-moderation-board' | translate}}">gavel
               </mat-icon>
+              <span matBadge="{{moderatorResponseCounter > 0 ? moderatorResponseCounter : null}}"
+                    matBadgePosition="before"
+                    class="main-icon material-icons-outlined response-badge">
+              </span>
               <h3>{{ 'room-page.moderating-stream' | translate}}</h3>
             </button>
           </mat-grid-tile>
@@ -92,11 +112,32 @@
                   [disableRipple]="true"
                   routerLink="/moderator/room/{{ room.shortId }}/comments"
                   aria-labelledby="question_answer">
-            <mat-icon matBadge="{{commentCounter > 0 ? commentCounter : null}}"
+            <mat-icon *ngIf="room.conversationDepth===0"
+                      matBadge="{{commentCounter > 0 ? commentCounter : null}}"
+                      matBadgePosition="before"
+                      class="main-icon material-icons-outlined"
+                      [ngClass]="{'desktop' : deviceInfo.isCurrentlyDesktop}">chat
+            </mat-icon>
+            <span *ngIf="room.conversationDepth===0"
+                      matBadge="{{responseCounter > 0 ? responseCounter : null}}"
+                      matBadgePosition="before"
+                      class="main-icon material-icons-outlined response-badge"
+                      [ngClass]="{'desktop' : deviceInfo.isCurrentlyDesktop}">
+            </span>
+            <mat-icon *ngIf="room.conversationDepth!==0"
+                      matBadge="{{commentCounter > 0 ? commentCounter : null}}"
+                      matBadgePosition="before"
                       class="main-icon material-icons-outlined"
                       [ngClass]="{'desktop' : deviceInfo.isCurrentlyDesktop}">forum
             </mat-icon>
-            <h3>{{ 'room-page.comments' | translate}}</h3>
+            <span *ngIf="room.conversationDepth!==0"
+                      matBadge="{{responseCounter > 0 ? responseCounter : null}}"
+                      matBadgePosition="before"
+                      class="main-icon material-icons-outlined response-badge"
+                      [ngClass]="{'desktop' : deviceInfo.isCurrentlyDesktop}">
+            </span>
+            <h3 *ngIf="room.conversationDepth===0" >{{ 'room-page.comments' | translate}}</h3>
+            <h3 *ngIf="room.conversationDepth!==0" >{{ 'room-page.comments-and-answers' | translate}}</h3>
           </button>
         </div>
       </div>

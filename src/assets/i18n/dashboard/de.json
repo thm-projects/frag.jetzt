@@ -1,0 +1,57 @@
+{
+  "dashboard": {
+    "title": "Benachrichtigungen",
+    "close": "Benachrichtigungen schließen",
+    "filter": "Filter Optionen",
+    "block": "Benachrichtigungen blockieren",
+    "delete": "Alle Benachrichtigungen löschen",
+
+    "activate": "Benachrichtigungen aktivieren"
+  },
+  "explanation": {
+    "label": "Erklären",
+    "close": "Schließen",
+    "text": "Benachrichtigungen",
+    "dialog-content":"In dieser Ansicht sind Sie in der Lage ihre Benachrichtigungen anzusehen und zu verwalten. Sie erhalten Benachrichtigungen zu ihren Räumen, Fragen und Kommentaren. Mit dem Filter Menü können Sie verschiedene Filter ein- und ausschalten und so gezielter nach Benachrichtigungen suchen. Außerdem haben Sie die Möglichkeit die aktuelle Benachrichtigungsliste zu löschen oder Sie deaktivieren alle Benachrichtigungen, sodass Sie keine weiteren erhalten. Falls Sie sich den Beitrag ansehen möchten, der eine Reaktion herbeigerufen hat, gelangen Sie über die Benachrichtigung direkt zum Beitrag."
+  },
+  "notification": {
+    "number-notifications": "Anzahl: ",
+    "bonus": "Bonus",
+    "correct": "Korrekt",
+    "wrong": "Falsch",
+    "ban": "Gebannt",
+    "delete": "Gelöscht",
+    "comment": "Kommentiert",
+    "lecturer": "Lehrer",
+    "moderator": "Moderator",
+    "participant": "Teilnehmer",
+    "reaction": "Jemand reagierte auf deinen Beitrag",
+    "date-format": "'de-DE'",
+    "time-format": "'de-DE'",
+    "remove": "Benachrichtigung entfernen",
+    "room": "Raum",
+    "go-to-question": "Gehe zur Frage",
+    "go-to-comment": "Gehe zu Kommentar"
+  },
+  "message": {
+    "a" : "Ein ",
+    "role-0": "Teilnehmer ",
+    "role-1": "Moderator ",
+    "role-2": "Moderator ",
+    "role-3": "Lehrer ",
+    "question-change_ack": "hat den Moderationsstatus deiner Frage geändert.",
+    "question-change_favorite": "hat den Bonus deiner Frage geändert.",
+    "question-change_correct": "hat die Richtigkeit deiner Frage geändert",
+    "question-change_tag": "hat die Kategorie deiner Frage geändert.",
+    "question-change_score": "hat die Punktzahl deiner Frage geändert",
+    "question-deleted": "hat deine Frage gelöscht.",
+    "question-answered": "hat deine Frage als beantwortet markiert.",
+    "comment-change_score": "hat die Punktzahl deines Kommentars geändert.",
+    "comment-change_correct": "hat die Richtigkeit deines Kommentars geändert.",
+    "comment-change_favorite": "hat den Bonus deines Kommentars geändert.",
+    "comment-change_tag": "hat die Kategorie deines Kommentars geändert.",
+    "comment-change_ack": "hat den Moderationsstatus deines Kommentars geändert.",
+    "comment-deleted": "hat deinen Kommentar gelöscht.",
+    "comment-answered": "hat deinen Kommentar als beantwortet markiert."
+  }
+}

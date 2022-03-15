@@ -104,7 +104,7 @@ address {
 }
 
 .overflow_hide {
-  height: 0px;
+  height: 0;
   overflow: hidden;
 }
 
@@ -112,7 +112,7 @@ address {
   width: 50%;
   height: 50%;
   position: fixed;
-  left: 0px;
+  left: 0;
   top: 25%;
   z-index: 1000;
   background-color: var(--surface);
@@ -342,4 +342,10 @@ blockquote {
   background-color: lightgray !important;
   color: gray !important;
   outline: gray solid 3px !important;
+}
+
+.mat-bottom-sheet-container{
+  background-color: var(--dialog);
+  color: var(--on-dialog);
+  max-height: 500px !important;
 }
