@@ -118,14 +118,14 @@ export class RoomPageComponent implements OnInit, OnDestroy {
         if (this.moderationEnabled) {
           this.viewModuleCount = this.viewModuleCount + 1;
         }
-        this.commentService.getAckComments(this.room.id).subscribe(c => {
-          this.setCommentCounter(c.filter(comm => comm.commentReference === null).length);
-          this.setResponseCounter(c.filter(comm => comm.commentReference !== null).length);
+        this.commentService.countByRoomId([{ roomId: this.room.id, ack: true }]).subscribe(commentCounter => {
+          this.setCommentCounter(commentCounter[0].questionCount);
+          this.setResponseCounter(commentCounter[0].responseCount);
         });
         if (this.moderationEnabled && this.userRole > UserRole.PARTICIPANT) {
-          this.commentService.getRejectedComments(this.room.id).subscribe(c => {
-            this.moderatorCommentCounter =  c.filter(comm => comm.commentReference === null).length;
-            this.moderatorResponseCounter = c.filter(comm => comm.commentReference !== null).length;
+          this.commentService.countByRoomId([{ roomId: this.room.id, ack: false }]).subscribe(commentCounter => {
+            this.moderatorCommentCounter = commentCounter[0].questionCount;
+            this.moderatorResponseCounter = commentCounter[0].responseCount;
           });
         }
         const sub = this.roomDataService.receiveUpdates([
