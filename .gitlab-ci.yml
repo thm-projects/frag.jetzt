@@ -3,7 +3,6 @@ variables:
 
 stages:
   - test
-  - e2e
   - codequality
   - build
   - deploy
@@ -38,8 +37,8 @@ unit_tests:
     - npm ci
     - npm test
 
-cypress:
-  stage: e2e
+e2e_cypress:
+  stage: test
   tags:
     - angular
   image: local-angular:13
