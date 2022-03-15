@@ -183,6 +183,7 @@
     "fullscreen": "Die Frage wurde beantwortet oder kommentiert. Klick auf das Symbol für die Ansicht.",
     "abort": "Abbrechen",
     "ask-question-description": "Gib hier deine Frage ein!",
+    "your-answer": "Antwort",
     "no-comment": "Der Kommentar existiert nicht!",
     "save-answer": "Speichern",
     "continue": "Weiter",
@@ -216,6 +217,9 @@
     "send": "Abschicken",
     "send-description": "Abschicken",
     "tag": "Kategorie",
+    "write-response-tooltip": "Kommentar verfassen",
+    "show-conversation-tooltip": "Zeige Konversation",
+    "reply-comment-button": "Anwort schreiben",
     "tag-reset": "ohne",
     "tag-title": "Kategorie ändern",
     "tag-to-filter": "Klick auf die Fragenkategorie, um alle Fragen dieser Kategorie zu filtern.",
@@ -300,6 +304,7 @@
     "a11y-question_answer": "Öffnet die Fragen-Seite und bietet dir die Möglichkeit, Fragen zu stellen.",
     "comments": "Fragen",
     "create-comment": "Stell deine Fragen!",
+    "create-comment-and-answer": "Frag und kommentiere!",
     "default-content-group": "Standard",
     "description": "Beschreibung der Sitzung",
     "give-feedback": "Feedback geben",
@@ -627,3 +632,4 @@
     "inline-header": "Laufende Stichwort-Aktualisierungen"
   }
 }
+

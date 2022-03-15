@@ -13,13 +13,15 @@
                  [moderator]="isModerationComment"
                  [isFromModerator]="mods.has(comment.creatorId)"
                  [isFromOwner]="room.ownerId === comment.creatorId"
+                 [isAnswerView] = "true"
     ></app-comment>
   </div>
   <div fxLayout="row"
        #writeCommentCard
+       *ngIf="room.conversationDepth || !isStudent"
        fxLayoutAlign="center">
     <mat-card class="answer border-answer"
-              *ngIf="!isStudent || answer">
+              *ngIf="((userRole > 0 || room.conversationDepth) || answer) && !isConversationView">
       <app-write-comment [isModerator]="userRole > 0"
                          [isCommentAnswer]="true"
                          [placeholder]="'comment-page.your-answer'"
@@ -31,9 +33,27 @@
                          [cancelLabel]="'delete-answer'"
                          [additionalTemplate]="editAnswer"
                          [isSpinning]="isSending"
-                         [enabled]="!isStudent && (edit || !answer)">
+                         [enabled]="(userRole > 0 || room.conversationDepth !== 0) && (edit || !answer)"
+                         [tags]="room.tags"
+                         [isQuestionerNameEnabled]="true">
       </app-write-comment>
     </mat-card>
+  </div>
+  <div *ngIf="isConversationView">
+    <div fxLayout="row"
+         #container
+         fxLayoutAlign="center"
+         *ngFor="let response of responses">
+      <app-comment [comment]="response"
+                   [user]="user"
+                   [userRole]="userRole"
+                   [parseVote]="vote"
+                   [moderator]="isModerationComment"
+                   [isFromModerator]="mods.has(comment.creatorId)"
+                   [isFromOwner]="room.ownerId === comment.creatorId"
+                   [isResponse] = true
+      ></app-comment>
+    </div>
   </div>
 </div>
 

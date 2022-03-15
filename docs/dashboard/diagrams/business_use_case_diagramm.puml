@@ -1,0 +1,62 @@
+@startuml
+
+scale 1.0
+
+left to right direction
+
+skinparam backgroundColor Linen
+skinparam LegendBackgroundColor Strategy
+skinparam LegendBorderThickness 0
+skinparam LegendFontSize 20
+skinparam Padding 5
+skinparam defaultFontSize 24
+skinparam Nodesep 100
+skinparam ArrowThickness 2
+skinparam shadowing true
+
+skinparam usecase {
+    BackgroundColor PaleGreen
+    BorderColor Green
+    BackgroundColor<<USP>> Pink
+    BorderColor<<USP>> HotPink
+    BorderThickness 2
+    ArrowThickness 2
+    ArrowColor Green
+    ActorBorderColor Green
+}
+
+actor User
+
+
+note "Users can filter notifications \n via multiple toggle switches or a search." as NoteForFilterNotifications
+note "If there are no notifications, a corresponding message will be displayed." as NoteForViewNotification
+
+rectangle "frag.jetzt | use-case diagram \n" << Business >> {
+
+
+    (Filter notifications) --- NoteForFilterNotifications
+    (View notification) --- NoteForViewNotification
+    User -- (Open dashboard)
+    User -- (Ask question)
+    
+    (Ask question) <.. (Toggle notificationbell) : << extend >>
+    (Open dashboard) <.. (Filter notifications) : << extend >>
+    (Open dashboard) <.. (Lock dashboard) : << extend >>
+    (Open dashboard) <.. (View notification) : << include >>
+    (View notification) <.. (Dismiss notification) : << extend >>
+    (View notification) <.. (Go to question/response) : << extend >>
+}
+
+legend right
+  | <img:https://git.thm.de/arsnova/frag.jetzt/-/raw/staging/src/assets/icons/android-chrome-192x192.png> |= \n\n »frag.jetzt« |
+  | Produktion | [[https://frag.jetzt]] |
+  | Repository | [[https://git.thm.de/arsnova/frag.jetzt]] |
+  | Staging Server | [[https://staging.frag.jetzt]] |
+  | UML-Tool| PlantUML V1.2022.1|
+  | Ersteller| Aakash Garg|
+  | Mail| aakash.garg@mni.thm.de |
+  | Letzte Änderung| 04.03.2022 |
+end legend
+
+@enduml
+

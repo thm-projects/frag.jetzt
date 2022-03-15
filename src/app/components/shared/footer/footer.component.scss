@@ -16,6 +16,11 @@ footer {
   }
 }
 
+.mat-badge-content {
+  background: var(--secondary) !important;
+  color: var(--on-secondary) !important;
+}
+
 .mat-button {
   min-height: 28px;
   font-size: 12px;
@@ -60,6 +65,7 @@ mat-icon {
   width: 45px;
   line-height: 100% !important;
 }
+
 
 ::ng-deep .color-menu {
   width: 170px !important;
@@ -201,6 +207,21 @@ mat-icon {
   padding: 0px;
   margin-left: 12px;
   margin-top: 10px;
+}
+.help-button {
+  background-color: transparent;
+  color: var(--green);
+  outline: var(--green) solid 3px;
+  margin: 10px;
+
+  &:hover {
+    background-color: var(--green);
+    color: var(--black);
+  }
+
+  .mat-icon {
+    font-size: 18px;
+  }
 }
 
 .title_bold {

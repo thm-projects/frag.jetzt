@@ -158,3 +158,15 @@ h2 {
   margin-top: 5vh;
   min-height: calc(88vh - 115px) !important;
 }
+.response-badge{
+  width: 0;
+  > .mat-badge-content{
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    left: -24px !important;
+    background-color: var(--alt-surface);
+    color: var(--on-surface);
+    font-size: 16px;
+  }
+}

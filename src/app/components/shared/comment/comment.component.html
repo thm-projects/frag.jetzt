@@ -1,5 +1,7 @@
 <mat-card id="comment-card"
           class="border"
+          [style.margin-left]="isResponse ? '50px' : '0'"
+          [style.background-color]="isResponse ? 'var(--dialog)' : 'var(--surface)'"
           [class.highlighted]="comment.highlighted"
           [class.moderator]="moderator"
           [ngClass]="getBorderClass()"
@@ -8,8 +10,13 @@
   <div class="color-tooltip"
        [matTooltip]="'comment-page.border-tooltip-' + getBorderClass() | translate"></div>
   <div class="runningnum-outer">
-    <p>
-      <mat-icon *ngIf="getCommentIcon() as icon" [class]="getCommentIconClass()">{{icon}}</mat-icon>
+    <p *ngIf="!isResponse">
+      <mat-icon  *ngIf="getCommentIcon() as icon" [class]="getCommentIconClass()">{{icon}}</mat-icon>
+      {{comment.number}}
+    </p>
+    <p *ngIf="isResponse" class="smaller-text">
+      <mat-icon *ngIf="getCommentIcon() as icon" [class]="getCommentIconClass()" class="smaller-on-answer">{{icon}}</mat-icon>
+      <mat-icon *ngIf="isResponse" class="material-icons-round smaller-on-answer forum">forum</mat-icon>
       {{comment.number}}
     </p>
   </div>
@@ -177,7 +184,7 @@
     <div fxLayout="row">
       <div class="body click"
            (click)="answerComment()"
-           role="button"
+           role="button 11"
            style="width:100%;"
            tabindex="0">
         <ars-row #commentBody
@@ -242,6 +249,14 @@
     <div style="margin-top: 10px"
          fxLayout="row"
          fxLayoutAlign="start center">
+
+         <button mat-icon-button (click)="toggleNotifications()" hidden="true">
+          <mat-icon
+          [ngClass]="{'wrong-icon' : !showNotification , 'correct-icon' : showNotification}"
+          class="material-icons-filled"
+          matTooltip="{{ 'comment-page.notification-on-off' | translate }}"
+          >notifications</mat-icon>
+        </button>
       <div fxLayoutAlign="center center"
            matTooltip="{{ 'comment-page.tag-to-filter' | translate }}"
            (click)="this.clickedOnTag.emit(comment.tag)"
@@ -312,7 +327,7 @@
       </div>
       <button mat-icon-button
               class="moderate-button"
-              *ngIf="(isCreator || isModerator) && !inAnswerView"
+              *ngIf="(isCreator || isModerator)"
               (click)="setAck(comment)"
               tabindex="0"
               attr.aria-labelledby="comment_moderation{{ comment.id }}">
@@ -322,6 +337,26 @@
         </mat-icon>
       </button>
     </div>
+    <div style="margin-top: 10px"
+         fxLayout="row"
+         fxLayoutAlign="start center">
+      <button mat-button
+              *ngIf="comment.commentDepth < room.conversationDepth || isCreator || isModerator "
+              class="replyButton"
+              (click)="respondToComment()"
+              [matTooltip]="('comment-page.write-response-tooltip' | translate)"> {{'comment-page.reply-comment-button' | translate}}
+      </button>
+
+      <button mat-icon-button *ngIf="!isAnswerView && responses.length >0">
+        <mat-icon class="not-marked material-icons-round"
+                  matBadge="{{responses.length}}"
+                  matBadgeColor="secondary"
+                  matBadgeSize="small"
+                  (click)="showConversation()"
+                  [matTooltip]="('comment-page.show-conversation-tooltip' | translate)">forum
+        </mat-icon>
+      </button>
+      </div>
   </div>
 </mat-card>
 

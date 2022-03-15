@@ -234,7 +234,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
 
   onRefreshFiltering(): void {
     const result = this._filterObject.currentData;
-    this.comments = result.comments;
+    this.comments = result.comments.filter(c => c.commentReference === null);
     this.commentsFilteredByTimeLength = result.timeFilteredCount;
     this.isLoading = false;
     if (this.comments.length > 0 && this.firstReceive) {
@@ -439,6 +439,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
         this.navigateTopicCloud();
       }
     });
+    /* eslint-disable @typescript-eslint/no-shadow */
     this._list = this.composeService.builder(this.headerService.getHost(), e => {
       e.menuItem({
         translate: this.headerService.getTranslate(),

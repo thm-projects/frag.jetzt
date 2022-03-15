@@ -29,6 +29,7 @@ import { DeviceInfoService } from '../../../services/util/device-info.service';
 })
 export class RoomCreatorPageComponent extends RoomPageComponent implements OnInit, OnDestroy, AfterContentInit, AfterViewInit{
   commentCounterEmitSubscription: any;
+  responseCounterEmitSubscription: any;
 
   constructor(
     protected roomService: RoomService,
@@ -57,6 +58,9 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
     this.commentCounterEmitSubscription = this.commentCounterEmit.subscribe(e => {
       this.titleService.attachTitle('(' + e + ')');
     });
+    this.responseCounterEmitSubscription = this.responseCounterEmit.subscribe(e => {
+      this.titleService.attachTitle('(' + e + ')');
+    });
     langService.getLanguage().subscribe(lang => translateService.use(lang));
   }
 
@@ -67,6 +71,7 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
   ngOnDestroy(){
     super.ngOnDestroy();
     this.commentCounterEmitSubscription.unsubscribe();
+    this.responseCounterEmitSubscription.unsubscribe();
     this.titleService.resetTitle();
   }
 

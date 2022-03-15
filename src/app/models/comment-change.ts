@@ -8,7 +8,7 @@ export enum CommentChangeType {
   CHANGE_FAVORITE = 'CHANGE_FAVORITE',
   CHANGE_CORRECT = 'CHANGE_CORRECT',
   CHANGE_TAG = 'CHANGE_TAG',
-  CHANGE_SCORE = 'CHANGE_SCORE'
+  CHANGE_SCORE = 'CHANGE_SCORE',
 }
 
 export class CommentChange {

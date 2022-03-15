@@ -83,7 +83,7 @@ export class WriteCommentComponent implements OnInit {
         .subscribe(msg => this.brainstormingInfo = msg);
     }
     if (this.isCommentAnswer) {
-      this.maxTextCharacters = this.isModerator ? 2000 : 0;
+      this.maxTextCharacters = 2000;
     } else {
       this.maxTextCharacters = this.isModerator ? 1000 : 500;
     }

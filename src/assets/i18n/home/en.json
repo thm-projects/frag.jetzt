@@ -116,6 +116,8 @@
     "delete": "Yes",
     "block": "Block new questions",
     "unlock": "Release for new questions",
+    "conversation-block": "Disable conversation",
+    "conversation-allow": "Enable conversation",
     "delete-account": "Delete account",
     "home-header": "Live Q&A",
     "home-header-mobile": "Live Q&A",
@@ -166,6 +168,7 @@
     "tag-cloud-screenshot": "Print keyword cloud",
     "tag-cloud-administration": "AI settings",
     "questions-blocked": "New questions blocked",
+    "conversation-enabled": "Conversation enabled",
     "overview-question-tooltip": "Number of questions",
     "overview-questioners-tooltip": "Number of questioners",
     "overview-keywords-tooltip": "Number of Keywords",
@@ -180,7 +183,8 @@
     "brainstorm-active": "A brainstorming session is currently taking place.",
     "active-email-notification": "Email notification is enabled.",
     "direct-link": "Direct link",
-    "session-id-copied": "Direct link for participants was copied to the clipboard."
+    "session-id-copied": "Direct link for participants was copied to the clipboard.",
+    "conversation-is-disabled": "Conversation is disabled in this room."
   },
   "help": {
     "cancel": "Close",

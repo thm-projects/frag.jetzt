@@ -158,6 +158,8 @@
     "logout": "Abmelden",
     "block": "Fragenstellen sperren",
     "unlock": "Fragenstellen freigeben",
+    "conversation-block": "Konversation sperren",
+    "conversation-allow": "Konversation freigeben",
     "moderation-enabled": "Alle Fragen werden moderiert.",
     "QR": "QR-Code der Sitzung in Vollansicht",
     "my-account": "Optionen",
@@ -201,6 +203,7 @@
     "tag-cloud-screenshot": "Stichwort-Wolke drucken",
     "tag-cloud-administration": "KI-Einstellungen",
     "questions-blocked": "Weitere Fragen deaktiviert ",
+    "conversation-enabled": "Konversation erlaubt",
     "overview-question-tooltip": "Anzahl Fragen",
     "overview-questioners-tooltip": "Anzahl Fragensteller",
     "overview-keywords-tooltip": "Anzahl Stichwörter",
@@ -215,7 +218,8 @@
     "brainstorm-active": "Aktuell findet eine Brainstorming-Sitzung statt.",
     "active-email-notification": "Die Mail-Benachrichtigung ist aktiviert.",
     "direct-link": "Direktlink",
-    "session-id-copied": "Der Direktlink für Teilnehmer wurde in die Zwischenablage kopiert."
+    "session-id-copied": "Der Direktlink für Teilnehmer wurde in die Zwischenablage kopiert.",
+    "conversation-is-disabled": "Konversation ist in diesem Raum nicht erlaubt."
   },
   "help": {
     "cancel": "Schließen",

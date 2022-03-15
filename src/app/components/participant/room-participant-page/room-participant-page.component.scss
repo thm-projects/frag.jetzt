@@ -4,7 +4,7 @@ mat-card {
   width: 100%;
   max-width: 800px;
   min-height: auto;
-  padding: 0 10% 15% 10%;
+  padding: 0 10% 0 10%;
   background-color: var(--surface) !important;
 }
 
@@ -17,6 +17,11 @@ mat-card-content > :first-child {
   height: 100%;
   border-radius: 0;
   color: var(--primary) !important;
+  transition: all 0.3s;
+
+  &:hover {
+    transform: scale(1.2)
+  }
 }
 
 .main-icon {
@@ -26,34 +31,23 @@ mat-card-content > :first-child {
   line-height: 100% !important;
 }
 
-.desktop {
-  font-size: 80px;
-  height: 80px;
-  width: 80px;
+.smallerIcon {
+  font-size: 60px;
+  height: 60px;
+  width: 60px;
+  line-height: 100% !important;
 }
 
-button {
-  width: 30%;
-  transition: all 0.3s;
-
-  &:hover {
-    transform: scale(1.2)
-  }
-}
-
-
-h3 {
-  margin: 0;
-  color: var(--on-surface) !important;
+.room-short-id {
   font-size: 14px;
-  font-weight: normal;
+  color: var(--on-surface)!important;
+  margin-top: -8px;
 }
 
-h2 {
-  font-size: 16px !important;
-  font-weight: normal;
-  margin-top: 35px;
+mat-grid-list {
+  margin: 0;
 }
+
 
 mat-card-header {
   margin: 0;
@@ -67,42 +61,33 @@ mat-card-subtitle {
   color: var(--on-surface) !important;
 }
 
-mat-expansion-panel {
-  background-color: var(--surface) !important;
-  min-width: 200px;
-  hyphens: auto;
-}
-
-mat-grid-list {
-  margin: 0;
-}
-
 mat-grid-tile {
-  height: 100% !important;
-  padding: 15% 0 15% 0 !important;
-}
-
-#settings {
-  width: 10%;
-  max-width: 40px;
-}
-
-#settings-icon {
-  font-size: 35px;
-  height: 35px;
-  width: 35px;
+  height: 70% !important;
+  padding: 10% 0 !important;
 }
 
 .gavel {
-  margin-top: 30px;
+  margin: 0.9em 0.25em 0 0;
   color: var(--red);
-  transform: scale(1.8);
 }
 
-.room-short-id {
-  font-size: 14px;
-  color: var(--on-surface)!important;
-  margin-top: -8px;
+.question-button-div {
+  margin: 10% 0 10% 0;
+}
+
+::ng-deep .mat-menu-panel {
+  background-color: var(--dialog);
+  color: var(--on-dialog);
+}
+
+::ng-deep .mat-menu-item {
+  background-color: var(--dialog);
+  color: var(--on-dialog);
+}
+
+.mat-menu-item .mat-icon {
+  background-color: var(--dialog);
+  color: var(--on-dialog);
 }
 
 ::ng-deep .mat-badge-content {
@@ -117,7 +102,39 @@ mat-grid-tile {
   line-height: 40px;
 }
 
+.inline-icon-button {
+  width: 40px;
+  height: 40px;
+  margin-top: 25px;
+}
+
+h3 {
+  margin: 0;
+  color: var(--on-surface) !important;
+  font-size: 14px;
+  font-weight: normal;
+}
+
+h2 {
+  font-size: 16px !important;
+  font-weight: normal;
+  margin-top: 35px;
+}
+
 :host > div {
   margin-top: 5vh;
   min-height: calc(88vh - 115px) !important;
+}
+
+.response-badge{
+  width: 0;
+  > .mat-badge-content{
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    left: -24px !important;
+    background-color: var(--alt-surface);
+    color: var(--on-surface);
+    font-size: 16px;
+  }
 }
