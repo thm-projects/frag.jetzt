@@ -43,7 +43,7 @@ cypress:
   tags:
     - angular
   image: local-angular:13
-  allow_failure: true
+  allow_failure: false
   dependencies: []
   cache:
     key:
@@ -56,7 +56,8 @@ cypress:
     - apt-get update && apt-get -y install libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb
     - source ci_staging_backend.export
     - npm ci
-    - npm run ci:e2e
+    - npx cypress verify
+    - ng e2e arsnova-angular-frontend --watch=false
 
 sonar:
   stage: codequality

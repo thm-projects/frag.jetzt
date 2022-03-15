@@ -12,7 +12,7 @@ const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
 
-interface RoomQuestionCounts {
+export interface RoomQuestionCounts {
   questionCount: number;
   responseCount: number;
 }
