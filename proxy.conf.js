@@ -1,3 +1,14 @@
+let wsHeaders = null;
+const wsOrigin = process.env.WS_GATEWAY_WS_ORIGIN;
+if (wsOrigin) {
+  wsHeaders = {
+    headers: {
+      host: wsOrigin.substring(wsOrigin.indexOf('//') + 2),
+      origin: wsOrigin
+    }
+  };
+}
+
 const PROXY_CONFIG = {
   "/antworte-jetzt": {
     "target": "https://staging.antworte.jetzt",
@@ -46,10 +57,10 @@ const PROXY_CONFIG = {
   "/api/ws/websocket": {
     "target": process.env.WS_GATEWAY_WS_ADDRESS || "ws://localhost:8080",
     "secure": process.env.BACKEND_SECURE || false,
-    "changeOrigin": process.env.BACKEND_CHANGE_ORIGIN || false,
     "pathRewrite": {
       [process.env.WS_GATEWAY_WS_REWRITE || "^/api"]: ""
     },
+    ...wsHeaders,
     "ws": true,
     "logLevel": "debug"
   },

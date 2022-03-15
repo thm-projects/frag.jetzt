@@ -22,7 +22,7 @@ export class WsConnectorService {
     private authService: AuthenticationService
   ) {
     this.client = new RxStomp();
-    this.client.connectionState$.subscribe(_ => {
+    this.client.connectionState$.subscribe(() => {
       const connected = !!this.client.stompClient.connected;
       if (this.connected$.value !== connected) {
         this.connected$.next(connected);
@@ -30,20 +30,25 @@ export class WsConnectorService {
     });
     const userSubject = authService.getUserAsSubject();
     userSubject.subscribe((user: User) => {
+      let deactivate: Promise<void>;
       if (this.client.connected) {
-        this.client.deactivate();
+        deactivate = this.client.deactivate();
+      } else {
+        deactivate = new Promise<void>(resolve => resolve());
       }
-
-      if (user && user.id) {
-        const copiedConf = ARSRxStompConfig;
+      if (!user?.id) {
+        return;
+      }
+      deactivate.then(() => {
+        const copiedConf = { ...ARSRxStompConfig };
         copiedConf.connectHeaders.token = user.token;
         this.headers = {
           'content-type': 'application/json',
-          'ars-user-id': '' + user.id
+          'ars-user-id': String(user.id)
         };
         this.client.configure(copiedConf);
         this.client.activate();
-      }
+      });
     });
   }
 
