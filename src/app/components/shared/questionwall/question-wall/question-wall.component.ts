@@ -95,7 +95,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   commentsCountQuestions = 0;
   commentsCountUsers = 0;
   unreadComments = 0;
-  focusIncommingComments = true;
+  focusIncomingComments = true;
   timeUpdateInterval;
   keySupport: QuestionWallKeyEventSupport;
   filterTitle = '';
@@ -190,7 +190,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
       { type: 'CommentCreated' }
     ]))).subscribe(c => {
       if (c.finished) {
-        if (this.focusIncommingComments) {
+        if (this.focusIncomingComments) {
           this.focusComment(c.comment);
         }
         return;
@@ -307,8 +307,8 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     }, 1);
   }
 
-  toggleFocusIncommingComments() {
-    this.focusIncommingComments = !this.focusIncommingComments;
+  toggleFocusIncomingComments() {
+    this.focusIncomingComments = !this.focusIncomingComments;
   }
 
   applyUserMap(user: string) {

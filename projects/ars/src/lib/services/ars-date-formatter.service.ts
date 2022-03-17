@@ -19,7 +19,7 @@ export const arsTimeTranslation = {
         week: "vor ? Woche%n",
         day: "&1Gestern&#vor ? Tagen",
         hour: "vor ? Stunde%n",
-        minute: "vor ? Minute%en",
+        minute: "vor ? Minute%n",
         second: "&#vor kurzem"
     }
   },
