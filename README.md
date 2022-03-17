@@ -8,6 +8,8 @@ Nomen est omen: The app's name says it all: it stands for both the app's main pu
 
 With our innovative product "frag.jetzt" we want to conquer the market of audience response systems. With "frag.jetzt," we are addressing teachers at schools and universities. With "frag.jetzt," we offer a browser-based, privacy-compliant Q&A app for anonymous, silent questioning. The unique selling point is the option to award "good questions" for earning bonuses. Studies show that active participation in class is significantly boosted by silent questions. Bonuses for good questions as extrinsic learning motivation reinforce this effect.
 
+# Features
+
 - There are three roles in the app: "room creator," "moderator," and "participant." The moderator role is assigned by the creator of a room to people who have registered. Also, the moderator role can be temporarily assigned to guests by creating a special room key or link. In each role, questions can be asked anonymously and the questions of others can be read.
 
 - After entering the room key or by scanning a QR code, participants can ask their questions and rate others' questions +1 or -1. The question board can be moderated. Room creators or moderators can set a threshold for automatically publishing a question, that is, at what rating a question is displayed on the question board. The threshold can be set between -100 and 0 evaluation points.
