@@ -78,7 +78,7 @@
           </mat-icon>
         </button>
         <button mat-icon-button
-                *ngIf="!isStudent"
+                *ngIf="!isStudent && comment.favorite"
                 [disabled]="isStudent"
                 (click)="setFavorite(comment)"
                 tabindex="0"
@@ -90,7 +90,7 @@
           </mat-icon>
         </button>
         <button mat-icon-button
-                *ngIf="!moderator && !isStudent"
+                *ngIf="!moderator && !isStudent && comment.bookmark"
                 (click)="setBookmark(comment)"
                 tabindex="0"
                 attr.aria-labelledby="comment_grade{{ comment.id }}">
@@ -157,6 +157,28 @@
         </button>
         <mat-menu #actionButtonMenu="matMenu">
           <div fxLayout="column" class="action-menu-content">
+            <button mat-icon-button
+                    *ngIf="!isStudent && !comment.favorite"
+                    [disabled]="isStudent"
+                    (click)="setFavorite(comment)"
+                    tabindex="0"
+                    attr.aria-labelledby="comment_grade{{ comment.id }}">
+              <mat-icon class="material-icons-round"
+                        [ngClass]="{'favorite-icon' : comment.favorite, 'not-marked' : !comment.favorite}"
+                        [matTooltip]="!comment.favorite ? ('comment-page.mark-favorite' | translate)
+                                                     : ('comment-page.mark-not-favorite' | translate)">grade
+              </mat-icon>
+            </button>
+            <button mat-icon-button
+                    *ngIf="!moderator && !isStudent && !comment.bookmark"
+                    (click)="setBookmark(comment)"
+                    tabindex="0"
+                    attr.aria-labelledby="comment_grade{{ comment.id }}">
+              <mat-icon [ngClass]="{'bookmark-icon' : comment.bookmark, 'not-marked' : !comment.bookmark} "
+                        [matTooltip]="!comment.bookmark ? ('comment-page.mark-bookmark' | translate)
+                                                          : ('comment-page.mark-not-bookmark' | translate)">bookmark
+              </mat-icon>
+            </button>
             <button mat-icon-button
                     *ngIf="roomTags?.length && (isCreator || isModerator || comment.creatorId === user?.id)"
                     (click)="openChangeCommentTagDialog()"
