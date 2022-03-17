@@ -18,7 +18,7 @@ export class MotdDialogComponent implements OnInit, OnDestroy {
     public dialogRef: MatDialogRef<MotdDialogComponent>,
     private translateService: TranslateService,
     public dialog: MatDialog
-  ) {  }
+  ) { }
 
   markAllAsRead() {
     this.motdsList.markAllAsRead();
