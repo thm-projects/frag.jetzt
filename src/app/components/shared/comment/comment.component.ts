@@ -94,9 +94,9 @@ export class CommentComponent implements OnInit, AfterViewInit {
   showNotification = true;
   showResponses: boolean = false;
   isConversationView: boolean = false;
+  sortMethod = 'Time';
   private _responseMatcher: MediaQueryList;
   private indentationPossible: boolean;
-  sortMethod = 'Time';
 
   constructor(
     protected authenticationService: AuthenticationService,
