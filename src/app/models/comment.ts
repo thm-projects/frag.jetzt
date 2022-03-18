@@ -32,6 +32,7 @@ export class Comment {
   commentReference: string;
   commentDepth: number;
   deletedAt: Date;
+  showNotification: boolean;
 
   constructor(
     roomId: string = '',
@@ -57,6 +58,7 @@ export class Comment {
     createdBy: any = undefined,
     commentReference: string = null,
     commentDepth: number = 0,
+    showNotifications: boolean = true
   ) {
     this.id = '';
     this.roomId = roomId;
@@ -84,6 +86,7 @@ export class Comment {
     this.updatedAt = null;
     this.commentReference = commentReference;
     this.commentDepth = commentDepth;
+    this.showNotification = showNotifications;
   }
 
   static mapModelToLanguage(model: Model): Language {

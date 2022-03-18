@@ -30,6 +30,7 @@ import { WsCommentChangeService } from '../../../services/websockets/ws-comment-
 import { CommentChange } from '../../../models/comment-change';
 import { NotificationEvent } from '../../../models/dashboard-notification';
 import { Room } from '../../../models/room';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-comment',
@@ -93,7 +94,7 @@ export class CommentComponent implements OnInit, AfterViewInit {
   conversationBlocked: boolean;
   showNotification = true;
   showResponses: boolean = false;
-  isConversationView: boolean = false;
+  isConversationView: boolean;
   sortMethod = 'Time';
   private _responseMatcher: MediaQueryList;
   private indentationPossible: boolean;
@@ -108,6 +109,7 @@ export class CommentComponent implements OnInit, AfterViewInit {
     private notification: NotificationService,
     private translateService: TranslateService,
     private roomDataService: RoomDataService,
+    public http: HttpClient,
     public dialog: MatDialog,
     protected langService: LanguageService,
     public deviceInfo: DeviceInfoService,
@@ -117,6 +119,10 @@ export class CommentComponent implements OnInit, AfterViewInit {
     langService.getLanguage().subscribe(lang => {
       translateService.use(lang);
       this.language = lang;
+      this.http.get('/assets/i18n/dashboard/' + lang + '.json')
+      .subscribe(translation=>{
+        this.translateService.setTranslation(lang, translation, true);
+      });
     });
   }
 
@@ -184,7 +190,9 @@ export class CommentComponent implements OnInit, AfterViewInit {
     this.wsCommentChangeService.getCommentStream(this.comment.roomId, this.comment.id).subscribe(data => {
       const parsedObject = JSON.parse(data.body);
       const commentChange: CommentChange = parsedObject.payload;
-      console.log(commentChange);
+      if(!this.comment.showNotification) {
+        return;
+      }
       this.notificationService.notificationEvents.unshift(new NotificationEvent(
         this.comment.number+ '',
         this.sessionService.currentRoom.name,
@@ -515,9 +523,8 @@ export class CommentComponent implements OnInit, AfterViewInit {
     });
   }
 
-  toggleNotifications() {
-    this.showNotification = !this.showNotification;
-
+  toggleNotifications(){
+    this.comment.showNotification = !this.comment.showNotification;
   }
 
   sortAnswers(value: string) {
