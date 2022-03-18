@@ -251,6 +251,7 @@
     "vote-up": "Vote up",
     "write-response-tooltip": "Write comment",
     "show-conversation-tooltip": "Show conversation",
+    "hide-conversation-tooltip": "Hide conversation",
     "reply-comment-button": "Reply",
     "write-comment": "Input",
     "preview-comment": "Preview",
@@ -477,6 +478,9 @@
     "comments": "To the questions",
     "comments-and-answers": "To questions & comments!",
     "comments-deleted": "All questions have been deleted.",
+    "conversation-allow": "Allow conversation",
+    "conversation-limit": "Limit conversation depth",
+    "conversation-depth": "Depth of Conversation",
     "copy-session-id": "Direct link for participants",
     "create-content": "Create content",
     "default-content-group": "Default",
@@ -542,9 +546,8 @@
     "words-will-be-overwritten": "Profane words will be overwritten with ★★★★.",
     "only-specific-language-will-be-filtered": "Now profane expressions from other languages will also be censored.",
     "partial-words-will-be-filtered": "Now profane expressions are also censored within a word.",
-    "allowing-conversation-confirm-moderated": "Should conversations really be allowed in this room?",
-    "allowing-conversation-confirm-not-moderated": "Questions and comments are currently published unmoderated. If the conversation is unlocked, you have no control over comments!\nShould conversation be allowed?",
-    "disabling-conversation-confirm": "Do you want to disable conversations between all users in this room?"
+    "allowing-conversation-confirm-not-moderated": "Questions and comments are currently published unmoderated. If the conversation is unlocked, you have no control over comments!",
+    "setup-conversation": "Conversation settings"
   },
   "session": {
     "a11y-description": "Enter a description of the session",

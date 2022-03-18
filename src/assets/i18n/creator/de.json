@@ -240,6 +240,7 @@
     "tag": "Kategorie",
     "write-response-tooltip": "Kommentar verfassen",
     "show-conversation-tooltip": "Zeige Konversation",
+    "hide-conversation-tooltip": "Verstecke Konversation",
     "reply-comment-button": "Anwort schreiben",
     "tag-reset": "ohne",
     "tag-open-all": "Kategorien bearbeiten",
@@ -476,6 +477,9 @@
     "comments": "Zu den Fragen",
     "comments-and-answers": "Zu den Fragen und Kommentaren",
     "comments-deleted": "Alle Fragen wurden gelöscht.",
+    "conversation-allow": "Konversation erlauben",
+    "conversation-limit": "Konversationstiefe limitieren",
+    "conversation-depth": "Konversationstiefe",
     "copy-session-id": "Direktlink für Teilnehmer",
     "create-content": "Frage stellen",
     "default-content-group": "Standard",
@@ -543,9 +547,8 @@
     "partial-words-will-be-filtered": "Jetzt werden Vulgärausdrücke auch innerhalb eines Wortes zensiert.",
     "keyword-from-spacy": "Stichwort von spaCy",
     "keyword-from-questioner": "Stichwort vom Fragensteller",
-    "allowing-conversation-confirm-moderated": "Sollen Konversationen in diesem Raum wirklich zugelassen werden?",
-    "allowing-conversation-confirm-not-moderated": "Die Fragen und Kommentare werden derzeit unmoderiert veröffentlicht. Wenn du die Konversation freischaltest, hast du keine Kontrolle über Kommentare!\nSoll die Konversation erlaubt werden?",
-    "disabling-conversation-confirm": "Willst du die Konversationen zwischen allen Nutzern in diesem Raum verbieten?"
+    "allowing-conversation-confirm-not-moderated": "Die Fragen und Kommentare werden derzeit unmoderiert veröffentlicht. Wenn du die Konversation freischaltest, hast du keine Kontrolle über Kommentare!",
+    "setup-conversation": "Konversation einstellen"
   },
   "session": {
     "a11y-description": "Gib eine Beschreibung für die Sitzung ein.",

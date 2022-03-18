@@ -65,7 +65,6 @@ export class RoomPageComponent implements OnInit, OnDestroy {
   moderatorCommentCounter: number;
   moderatorResponseCounter: number;
   userRole: UserRole;
-  menuItemChanged: boolean = false;
   protected moderationEnabled = true;
   protected listenerFn: () => void;
   private _navigationBuild = new SyncFence(2, this.initNavigation.bind(this));
@@ -237,32 +236,16 @@ export class RoomPageComponent implements OnInit, OnDestroy {
     });
   }
 
-  showToggleConversationDialog(a: ArsObserver<boolean>) {
-    if(this.menuItemChanged){
-      this.menuItemChanged = false;
-      return;
-    }
+  showToggleConversationDialog() {
      const dialogRef = this.dialog.open(ToggleConversationComponent, {
       width: '600px',
-       data: {conversationBlocked: this.room.conversationDepth === 0? true : false, directSend: this.room.directSend}
+       data: {conversationDepth: this.room.conversationDepth, directSend: this.room.directSend}
     });
     dialogRef.afterClosed().subscribe(result => {
       console.log(result);
-      if (result === 'confirm') {
-        if(a.get()){
-          this.room.conversationDepth = 0;
-        } else {
-          this.room.conversationDepth = 1;
-        }
-        if(this.room.conversationDepth === 0){
-          this.room.conversationDepth = 1;
-        } else {
-          this.room.conversationDepth = 0;
-        }
+      if (typeof result === 'number') {
+        this.room.conversationDepth = result;
         this.roomService.updateRoom(this.room).subscribe();
-      } else {
-        this.menuItemChanged = true;
-        a.set(!a.get());
       }
     });
   }
@@ -555,30 +538,15 @@ export class RoomPageComponent implements OnInit, OnDestroy {
         callback: () => this.openEmailNotification(),
         condition: () => !!this.user?.loginId
       });
-      e.altToggle({
-          translate: this.headerService.getTranslate(),
-          icon: 'forum',
-          class: 'material-icons-outlined',
-          isSVGIcon: false,
-          text: 'header.conversation-allow',
-          condition: () => this.userRole > UserRole.PARTICIPANT
-        },{
-          translate: this.headerService.getTranslate(),
-          icon: 'comments_disabled',
-          class: 'material-icons-outlined',
-          isSVGIcon: false,
-          text: 'header.conversation-block',
-          iconColor: Palette.RED,
-          condition: () => this.userRole > UserRole.PARTICIPANT
-        },
-        ArsObserver.build<boolean>(ev => {
-          ev.set(this.room.conversationDepth === 0? false: true);
-          ev.onChange(a => {
-            this.showToggleConversationDialog(a);
-          });
-        }),
-        () => this.userRole > UserRole.PARTICIPANT
-      );
+      e.menuItem({
+        translate: this.headerService.getTranslate(),
+        icon: 'forum',
+        class: 'material-icons-outlined',
+        isSVGIcon: false,
+        text: 'header.conversation',
+        callback: () => this.showToggleConversationDialog(),
+        condition: () => this.userRole > UserRole.PARTICIPANT
+      });
     });
   }
 

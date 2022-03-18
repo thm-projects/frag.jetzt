@@ -64,6 +64,7 @@ export class CommentComponent implements OnInit, AfterViewInit {
   @Input() isFromOwner = false;
   @Input() isResponse = false;
   @Input() isAnswerView = false;
+  @Input() parentDepth = -1;
   @Output() clickedOnTag = new EventEmitter<string>();
   @Output() clickedOnKeyword = new EventEmitter<string>();
   @Output() clickedUserNumber = new EventEmitter<string>();
@@ -91,7 +92,10 @@ export class CommentComponent implements OnInit, AfterViewInit {
   responses: Comment[] = [];
   conversationBlocked: boolean;
   showNotification = true;
-  isConversationView: boolean;
+  showResponses: boolean = false;
+  isConversationView: boolean = false;
+  private _responseMatcher: MediaQueryList;
+  private indentationPossible: boolean;
   sortMethod = 'Time';
 
   constructor(
@@ -148,6 +152,12 @@ export class CommentComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+    this._responseMatcher = window.matchMedia(
+      '(min-width: ' + (((this.comment.commentDepth - this.parentDepth) * 50) + 375).toString() + 'px)');
+    this.indentationPossible = this._responseMatcher.matches;
+    this._responseMatcher.addEventListener('change', e => {
+      this.indentationPossible = e.matches;
+    });
     this.isConversationView = this.router.url.endsWith('conversation');
     if (this.comment?.meta?.created) {
       this.slideAnimationState = 'new';
@@ -376,11 +386,22 @@ export class CommentComponent implements OnInit, AfterViewInit {
     if (this.isMock) {
       return;
     }
-    let url: string;
-    this.route.params.subscribe(params => {
-      url = `${this.roleString}/room/${params['shortId']}/comment/${this.comment.id}/conversation`;
-    });
-    this.router.navigate([url]);
+    if(this.isConversationView && this.indentationPossible){
+      this.showResponses = true;
+    } else {
+      let url: string;
+      this.route.params.subscribe(params => {
+        url = `${this.roleString}/room/${params['shortId']}/comment/${this.comment.id}/conversation`;
+      });
+      this.router.navigate([url]);
+    }
+  }
+
+  hideConversation() {
+    if (this.isMock) {
+      return;
+    }
+    this.showResponses = false;
   }
 
   delete(): void {

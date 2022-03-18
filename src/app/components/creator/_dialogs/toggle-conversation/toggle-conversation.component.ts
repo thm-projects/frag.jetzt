@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { CommentSettingsComponent } from '../comment-settings/comment-settings.component';
 import {
@@ -9,26 +9,29 @@ import {
   templateUrl: './toggle-conversation.component.html',
   styleUrls: ['./toggle-conversation.component.scss']
 })
-export class ToggleConversationComponent {
+export class ToggleConversationComponent implements OnInit {
   confirmButtonType: DialogConfirmActionButtonType = DialogConfirmActionButtonType.Alert;
+  newConversationDepth: number;
+  conversationLimited: boolean = true;
+  conversationAllowed: boolean;
   constructor(public dialogRef: MatDialogRef<CommentSettingsComponent>,@Inject(MAT_DIALOG_DATA) public data: any,) { }
 
+  ngOnInit() {
+    this.newConversationDepth = this.data.conversationDepth;
+    this.conversationLimited = this.newConversationDepth === -1? false: true;
+    this.conversationAllowed = this.newConversationDepth === 0? false: true;
+  }
   buildCloseDialogActionCallback(): () => void {
     return () => this.dialogRef.close('abort');
   }
  toggleConversationActionCallback(): () => void {
-    return () => this.dialogRef.close('confirm');
-  }
-
-  getDialogMessage(): string{
-    if(this.data.conversationBlocked){
-      if(this.data.directSend){
-        return 'room-page.allowing-conversation-confirm-not-moderated';
-      } else {
-        return 'room-page.allowing-conversation-confirm-moderated';
+    if(this.conversationAllowed){
+      if(!this.conversationLimited){
+        this.newConversationDepth = -1;
       }
-    } else{
-      return 'room-page.disabling-conversation-confirm';
+    } else {
+      this.newConversationDepth = 0;
     }
+    return () => this.dialogRef.close(this.newConversationDepth);
   }
 }
