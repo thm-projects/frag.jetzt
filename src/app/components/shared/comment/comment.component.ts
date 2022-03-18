@@ -68,6 +68,7 @@ export class CommentComponent implements OnInit, AfterViewInit {
   @Output() clickedOnKeyword = new EventEmitter<string>();
   @Output() clickedUserNumber = new EventEmitter<string>();
   @Output() votedComment = new EventEmitter<string>();
+  @Output() sortedAnswers = new EventEmitter<string>();
   @ViewChild('commentBody', { static: true }) commentBody: RowComponent;
   @ViewChild('commentBodyInner', { static: true }) commentBodyInner: RowComponent;
   @ViewChild('commentExpander', { static: true }) commentExpander: RowComponent;
@@ -90,6 +91,8 @@ export class CommentComponent implements OnInit, AfterViewInit {
   responses: Comment[] = [];
   conversationBlocked: boolean;
   showNotification = true;
+  isConversationView: boolean;
+  sortMethod = 'Time';
 
   constructor(
     protected authenticationService: AuthenticationService,
@@ -145,6 +148,7 @@ export class CommentComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+    this.isConversationView = this.router.url.endsWith('conversation');
     if (this.comment?.meta?.created) {
       this.slideAnimationState = 'new';
     }
@@ -172,7 +176,7 @@ export class CommentComponent implements OnInit, AfterViewInit {
       const commentChange: CommentChange = parsedObject.payload;
       console.log(commentChange);
       this.notificationService.notificationEvents.unshift(new NotificationEvent(
-        this.comment.number+'',
+        this.comment.number+ '',
         this.sessionService.currentRoom.name,
         commentChange.type,
         new Date(),
@@ -239,7 +243,6 @@ export class CommentComponent implements OnInit, AfterViewInit {
     this.slideAnimationState = 'visible';
   }
 
-
   setRead(comment: Comment): void {
     this.commentService.toggleRead(comment).subscribe(c => {
       this.comment.read = c.read;
@@ -258,7 +261,6 @@ export class CommentComponent implements OnInit, AfterViewInit {
       this.checkProfanity();
     });
   }
-
 
   setFavorite(comment: Comment): void {
     console.log('setFavorite');
@@ -289,7 +291,6 @@ export class CommentComponent implements OnInit, AfterViewInit {
       'comment-list.star-was-withdrawn-from-the-question';
     this.translateService.get(text).subscribe(ret => this.notification.show(ret));
   }
-
 
   voteUp(comment: Comment): void {
     if (this.isMock) {
@@ -360,7 +361,7 @@ export class CommentComponent implements OnInit, AfterViewInit {
     if (this.isMock) {
       return;
     }
-    if( this.isStudent && this.room.conversationDepth <= this.comment.commentDepth){
+    if (this.isStudent && this.room.conversationDepth <= this.comment.commentDepth){
       return;
     }
     let url: string;
@@ -493,8 +494,13 @@ export class CommentComponent implements OnInit, AfterViewInit {
     });
   }
 
-  toggleNotifications(){
+  toggleNotifications() {
     this.showNotification = !this.showNotification;
 
+  }
+
+  sortAnswers(value: string) {
+    this.sortedAnswers.emit(value);
+    this.sortMethod = value;
   }
 }

@@ -219,6 +219,22 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
     setTimeout(() => this.commentComponent.commentData.set(this.answer));
   }
 
+  applySortAnswers(value: string){
+    switch (value){
+      case 'Time':
+        this.responses.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+        this.responses.reverse();
+        break;
+      case 'BestScore':
+        this.responses.sort((a, b) =>  b.score - a.score);
+        break;
+      case 'WorstScore':
+        this.responses.sort((a, b) =>  b.score - a.score);
+        this.responses.reverse();
+        break;
+    }
+  }
+
   private findComment(commentId: string): Observable<[Comment, boolean]> {
     return this.roomDataService.getRoomDataOnce().pipe(
       map(comments => {

@@ -380,6 +380,15 @@
                   [matTooltip]="('comment-page.show-conversation-tooltip' | translate)">forum
         </mat-icon>
       </button>
+      <span class="fill-remaining-space"></span>
+      <button mat-icon-button
+              *ngIf="responses.length>2 && isConversationView"
+              id="sort-button"
+              [matMenuTriggerFor]="sortAnswersMenu"
+              aria-labelledby="swap_vert_answers"
+              matTooltip="{{ 'comment-list.sort-answers' | translate }}">
+        <mat-icon class="searchBarIcon">swap_vert</mat-icon>
+      </button>
       </div>
   </div>
 </mat-card>
@@ -433,3 +442,38 @@
     </mat-icon>
   </button>
 </ng-template>
+
+<mat-menu #sortAnswersMenu="matMenu"
+          xPosition="before">
+  <button mat-menu-item
+          (click)="sortAnswers('Time')">
+    <mat-icon [ngClass]="(sortMethod==='Time')?'answered-icon':''">
+              update
+    </mat-icon>
+    <span [ngClass]="(sortMethod==='Time')?'answered-icon':''">
+      {{ 'comment-list.sort-answers-time' | translate }}</span>
+  </button>
+
+  <button mat-menu-item
+          (click)="sortAnswers('BestScore')">
+    <mat-icon class="material-icons-outlined"
+              [ngClass]="(sortMethod==='BestScore')?'correct-icon':''">
+              thumb_up
+    </mat-icon>
+    <span [ngClass]="(sortMethod==='BestScore')?'correct-icon':''">
+        {{ 'comment-list.sort-vote-asc' | translate }}
+      </span>
+  </button>
+
+  <button mat-menu-item
+          (click)="sortAnswers('WorstScore')">
+    <mat-icon class="material-icons-outlined"
+              [ngClass]="(sortMethod==='WorstScore')?'wrong-icon':''">
+              thumb_down
+    </mat-icon>
+    <span [ngClass]="(sortMethod==='WorstScore')?'wrong-icon':''">
+        {{ 'comment-list.sort-vote-desc' | translate }}
+      </span>
+  </button>
+
+</mat-menu>
