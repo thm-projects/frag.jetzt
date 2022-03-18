@@ -153,7 +153,9 @@
         <button mat-icon-button
                 [matMenuTriggerFor]="actionButtonMenu"
                 *ngIf="(!isStudent)">
-          <mat-icon class="not-marked">more_vert</mat-icon>
+          <mat-icon
+            [matTooltip]= "('comment-page.option-menue' | translate)"
+            class="not-marked">more_vert</mat-icon>
         </button>
         <mat-menu #actionButtonMenu="matMenu">
           <div fxLayout="column" class="action-menu-content">
