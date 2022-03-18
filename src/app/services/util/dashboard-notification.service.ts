@@ -39,7 +39,20 @@ export class DashboardNotificationService {
     }
     this.notificationEvents.splice(index, 1);
   }
-
+  filterByString(filter: string, mode: boolean){
+    this.filterList = [];
+    this.notificationEvents.forEach((value) => {
+      if(mode){
+        if (value.commentNr === filter) {
+          this.filterList.push(value);
+        }
+      }else{
+        if (value.roomName === filter) {
+          this.filterList.push(value);
+        }
+      }
+    });
+  }
   //filter Notifications
   filterNotifications(filter: CommentChangeType) {
     this.filterList = [];

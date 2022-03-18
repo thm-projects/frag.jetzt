@@ -40,6 +40,30 @@
         <mat-icon class="delete-icon" [matTooltip]="'notification.publish' | translate">publish</mat-icon>
         {{'notification.publish' | translate}}
       </button>
+      <button mat-menu-item [matMenuTriggerFor]="notificationCommentsNr">
+        <mat-icon [matTooltip]="'notification.commentNr' | translate">
+          <span class="material-icons-outlined">tag</span>
+        </mat-icon>
+        {{'notification.commentNr' | translate}}
+      </button>
+      <button mat-menu-item [matMenuTriggerFor]="notificationRoomName">
+        <mat-icon [matTooltip]="'notification.roomName' | translate">
+          <span class="material-icons-outlined">other_houses</span>
+        </mat-icon>
+        {{'notification.roomName' | translate}}
+      </button>
+    </mat-menu>
+    <mat-menu #notificationCommentsNr="matMenu">
+      <div *ngFor="let notification of this.change.getList(filterIsOn)">
+        <button mat-menu-item (click)="filterIsOn=true;this.change.filterByString(notification.commentNr,true)">
+          {{notification.commentNr}}</button>
+      </div>
+    </mat-menu>
+    <mat-menu #notificationRoomName="matMenu">
+      <div *ngFor="let notification of this.change.getList(filterIsOn)">
+        <button mat-menu-item (click)="filterIsOn=true;this.change.filterByString(notification.roomName,false)">
+          {{notification.roomName}}</button>
+      </div>
     </mat-menu>
     <button *ngIf="!isNotificationBlocked" mat-icon-button class="example-icon"
       aria-label="Example icon-button with menu icon" (click)="toggleNotificationBlock()">
