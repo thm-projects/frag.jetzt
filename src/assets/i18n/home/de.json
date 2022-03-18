@@ -542,5 +542,16 @@
   "topic-cloud-filter": {
     "info-no-keywords": "Unsere KI-basierte Textanalyse kann Stichwörter ermitteln. Analyse starten?",
     "label-refresh-keywords-start": "Starten"
+  },
+  "login-dialog": {
+    "title": "Anmeldung",
+    "sign-in-as-guest": "Als Gast fortfahren",
+    "or": "oder",
+    "e-mail": "E-Mail",
+    "password": "Passwort",
+    "login": "Anmelden",
+    "forgot-password-description": "Probleme beim Login, beziehungsweise Passwort vergessen?",
+    "forgot-password": "Passwort zurücksetzen",
+    "sign-up": "Konto erstellen"
   }
 }

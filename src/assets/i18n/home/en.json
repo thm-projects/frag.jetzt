@@ -544,5 +544,16 @@
   "topic-cloud-filter": {
     "info-no-keywords": "Our AI-based text analysis can identify keywords. Start analysis?",
     "label-refresh-keywords-start": "Start"
+  },
+  "login-dialog": {
+    "title": "Login",
+    "sign-in-as-guest": "Continue as a guest",
+    "or": "or",
+    "e-mail": "E-Mail",
+    "password": "Password",
+    "login": "Login",
+    "forgot-password-description": "Login issues, or rather forgot the password?",
+    "forgot-password": "Reset password",
+    "sign-up": "Create a new account"
   }
 }
