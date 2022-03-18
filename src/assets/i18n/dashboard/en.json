@@ -31,6 +31,8 @@
     "room": "room",
     "go-to-question": "Go to question",
     "go-to-comment": "Go to comment",
+    "commentNr": "Comment number",
+    "roomName": "Room name",
     "answer" : "replied",
     "publish": "publish"
   },
