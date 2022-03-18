@@ -83,8 +83,8 @@ export class DataFilterObject {
       c.keywordsFromQuestioner?.find(keyword => keyword.text === value) ||
       c.keywordsFromSpacy?.find(keyword => keyword.text === value)
     ),
-    [FilterType.Answer]: c => true,
-    [FilterType.Unanswered]: c => false,
+    [FilterType.Answer]: c => Boolean(c.meta?.children?.length),
+    [FilterType.Unanswered]: c => !c.meta?.children?.length,
     [FilterType.Owner]: c => c.creatorId === this.authenticationService.getUser()?.id,
     [FilterType.Moderator]: c => this.moderators.has(c.creatorId),
     [FilterType.Owner]: c => this.sessionService.currentRoom?.id === c.creatorId,
