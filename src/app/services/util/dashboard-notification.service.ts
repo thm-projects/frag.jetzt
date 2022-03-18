@@ -10,8 +10,8 @@ export class DashboardNotificationService {
   notificationEvents: NotificationEvent[] = [];
   filterList: NotificationEvent[] = [];
 
-  getList(filterIsOn: boolean): NotificationEvent[]{
-    if(filterIsOn){
+  getList(hasFilter: boolean): NotificationEvent[]{
+    if(hasFilter){
       return this.filterList;
     }
     return this.notificationEvents;

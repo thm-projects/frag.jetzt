@@ -14,23 +14,31 @@
       <mat-icon [matTooltip]="'dashboard.filter' | translate">filter_list</mat-icon>
     </button>
     <mat-menu class="mat-menu" #menu="matMenu">
-      <button mat-menu-item (click)="filterIsOn=true;this.change.filterNotifications(commentChangeType.CHANGE_FAVORITE)">
+      <button mat-menu-item (click)="filterNotification('star')">
         <mat-icon class="favorite-icon" [matTooltip]="'notification.bonus' | translate">star</mat-icon>
         {{'notification.bonus' | translate}}
       </button>
-      <button mat-menu-item (click)="filterIsOn=true;this.change.filterNotifications(commentChangeType.CHANGE_CORRECT)">
+      <button mat-menu-item (click)="filterNotification('check_circle')">
         <mat-icon class="favourite-icon" [matTooltip]="'notification.correct' | translate">check_circle</mat-icon>
         {{'notification.correct' | translate}}
       </button>
-      <button mat-menu-item (click)="filterIsOn=true;this.change.filterNotifications(commentChangeType.DELETED)">
+      <button mat-menu-item (click)="filterNotification('delete')">
         <mat-icon class="delete-icon" [matTooltip]="'notification.delete' | translate">delete</mat-icon>
         {{'notification.delete' | translate}}
       </button>
-      <button mat-menu-item (click)="filterIsOn=true;this.change.filterNotifications(commentChangeType.CHANGE_ACK)">
+      <button mat-menu-item (click)="filterNotification('ban')">
         <mat-icon [matTooltip]="'notification.ban' | translate">
           <span class="material-icons-outlined">gavel</span>
         </mat-icon>
         {{'notification.ban' | translate}}
+      </button>
+      <button mat-menu-item (click)="filterNotification('question_answer')">
+        <mat-icon class="delete-icon" [matTooltip]="'notification.answer' | translate">question_answer</mat-icon>
+        {{'notification.answer' | translate}}
+      </button>
+      <button mat-menu-item (click)="filterNotification('publish')">
+        <mat-icon class="delete-icon" [matTooltip]="'notification.publish' | translate">publish</mat-icon>
+        {{'notification.publish' | translate}}
       </button>
     </mat-menu>
     <button *ngIf="!isNotificationBlocked" mat-icon-button class="example-icon"
@@ -54,7 +62,7 @@
   <hr>
   <mat-nav-list>
 <!--List Items-->
-  <div *ngFor="let notification of this.change.getList(filterIsOn); let i = index; last as isLast">
+  <div *ngFor="let notification of this.change.getList(hasFilter); let i = index; last as isLast">
       <a mat-list-item style="padding-right: 0">
 <!--Responder Icons-->
         <div class="responder-icon">

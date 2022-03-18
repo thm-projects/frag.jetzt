@@ -30,7 +30,9 @@
     "remove": "Remove notification",
     "room": "room",
     "go-to-question": "Go to question",
-    "go-to-comment": "Go to comment"
+    "go-to-comment": "Go to comment",
+    "answer" : "replied",
+    "publish": "publish"
   },
   "message": {
     "a": "A ",
