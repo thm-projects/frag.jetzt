@@ -276,9 +276,9 @@
 
          <button mat-icon-button (click)="toggleNotifications()" hidden="true">
           <mat-icon
-          [ngClass]="{'wrong-icon' : !showNotification , 'correct-icon' : showNotification}"
+          [ngClass]="{'wrong-icon' : !this.comment.showNotification , 'correct-icon' : this.comment.showNotification}"
           class="material-icons-filled"
-          matTooltip="{{ 'comment-page.notification-on-off' | translate }}"
+          matTooltip="{{ this.comment.showNotification ? ('notification.notification-off' | translate) : ('notification.notification-on' | translate) }}"
           >notifications</mat-icon>
         </button>
       <div fxLayoutAlign="center center"

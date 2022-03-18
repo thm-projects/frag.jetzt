@@ -32,6 +32,8 @@
     "room": "Raum",
     "go-to-question": "Gehe zur Frage",
     "go-to-comment": "Gehe zu Kommentar",
+    "notification-on" : "Benachrichtigungen aktivieren",
+    "notification-off" : "Benachrichtigungen deaktivieren",
     "commentNr": "Kommentar Nummer",
     "roomName": "Raum Name",
     "answer" : "geantwortet",
@@ -57,5 +59,11 @@
     "comment-change_ack": "hat den Moderationsstatus deines Kommentars geändert.",
     "comment-deleted": "hat deinen Kommentar gelöscht.",
     "comment-answered": "hat deinen Kommentar als beantwortet markiert."
+  },
+  "delete-notifications": {
+    "sure":"Bist du sicher?" ,
+    "message":"Willst du wirklich alle Benachrichtigungen löschen?",
+    "delete" :"Ja",
+    "cancel": "Abbrechen"
   }
 }

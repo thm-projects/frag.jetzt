@@ -31,6 +31,8 @@
     "room": "room",
     "go-to-question": "Go to question",
     "go-to-comment": "Go to comment",
+    "notification-on" : "Enable Notifications",
+    "notification-off" : "Disable Notifications",
     "commentNr": "Comment number",
     "roomName": "Room name",
     "answer" : "replied",
@@ -56,5 +58,11 @@
     "comment-change_ack": "has changed moderation status of your comment.",
     "comment-deleted": "has deleted your comment.",
     "comment-answered": "has marked your comment as answered."
+  },
+  "delete-notifications":{
+    "sure":"Are you sure?",
+    "message":"Do you really want to delete all notifications?",
+    "delete": "Yes",
+    "cancel": "Cancel"
   }
 }

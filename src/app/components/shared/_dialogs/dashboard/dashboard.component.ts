@@ -10,6 +10,7 @@ import { DashboardDialogComponent } from '../dashboard-dialog/dashboard-dialog.c
 import { CommentChangeType } from '../../../../models/comment-change';
 import { UserRole } from '../../../../models/user-roles.enum';
 import { NotificationEvent } from '../../../../models/dashboard-notification';
+import { DeleteAllNotificationsComponent } from '../delete-all-notifications/delete-all-notifications.component';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -61,6 +62,22 @@ export class DashboardComponent implements OnInit {
     this.dialog.open(DashboardDialogComponent, {
     });
   }
+
+  openDeleteNotifDialog(): void {
+    if(this.change.notificationEvents.length === 0) {
+      return;
+  }
+    const dialogRef = this.dialog.open(DeleteAllNotificationsComponent, {
+      width: '400px'
+    });
+    dialogRef.afterClosed()
+      .subscribe(result => {
+        if (result === 'delete') {
+          this.deleteNotes();
+        }
+      });
+  }
+
   goTo(item: NotificationEvent){
   //route to comment
   }
