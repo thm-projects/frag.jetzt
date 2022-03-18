@@ -31,7 +31,9 @@
     "remove": "Benachrichtigung entfernen",
     "room": "Raum",
     "go-to-question": "Gehe zur Frage",
-    "go-to-comment": "Gehe zu Kommentar"
+    "go-to-comment": "Gehe zu Kommentar",
+    "answer" : "geantwortet",
+    "publish": "veröffentlicht"
   },
   "message": {
     "a" : "Ein ",

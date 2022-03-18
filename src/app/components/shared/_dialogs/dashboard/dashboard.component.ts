@@ -18,7 +18,7 @@ import { NotificationEvent } from '../../../../models/dashboard-notification';
 export class DashboardComponent implements OnInit {
 
   toggleFilter: boolean = false;
-  filterIsOn: boolean = false;
+  hasFilter: boolean = false;
   isNotificationBlocked: boolean = false;
   date: string = new Date().toLocaleDateString('de-DE');
   commentChangeType: typeof CommentChangeType = CommentChangeType;
@@ -63,5 +63,28 @@ export class DashboardComponent implements OnInit {
   }
   goTo(item: NotificationEvent){
   //route to comment
+  }
+  filterNotification(msg: string){
+    this.hasFilter=true;
+    switch (msg) {
+      case 'star':
+        this.change.filterNotifications(this.commentChangeType.CHANGE_FAVORITE);
+        break;
+      case 'check_circle':
+        this.change.filterNotifications(this.commentChangeType.CHANGE_CORRECT);
+        break;
+      case 'delete':
+        this.change.filterNotifications(this.commentChangeType.DELETED);
+        break;
+      case 'ban':
+        this.change.filterNotifications(this.commentChangeType.CHANGE_ACK);
+        break;
+      case 'question_answer':
+        this.change.filterNotifications(this.commentChangeType.ANSWERED);
+        break;
+      case 'publish':
+        this.change.filterNotifications(this.commentChangeType.CREATED);
+        break;
+    }
   }
 }
