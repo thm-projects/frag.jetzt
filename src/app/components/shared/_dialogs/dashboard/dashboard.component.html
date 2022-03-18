@@ -54,14 +54,14 @@
       </button>
     </mat-menu>
     <mat-menu #notificationCommentsNr="matMenu">
-      <div *ngFor="let notification of this.change.getList(filterIsOn)">
-        <button mat-menu-item (click)="filterIsOn=true;this.change.filterByString(notification.commentNr,true)">
+      <div *ngFor="let notification of this.change.getList(hasFilter)">
+        <button mat-menu-item (click)="hasFilter=true;this.change.filterByString(notification.commentNr,true)">
           {{notification.commentNr}}</button>
       </div>
     </mat-menu>
     <mat-menu #notificationRoomName="matMenu">
-      <div *ngFor="let notification of this.change.getList(filterIsOn)">
-        <button mat-menu-item (click)="filterIsOn=true;this.change.filterByString(notification.roomName,false)">
+      <div *ngFor="let notification of this.change.getList(hasFilter)">
+        <button mat-menu-item (click)="hasFilter=true;this.change.filterByString(notification.roomName,false)">
           {{notification.roomName}}</button>
       </div>
     </mat-menu>
