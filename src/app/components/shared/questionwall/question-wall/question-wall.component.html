@@ -175,7 +175,8 @@
           <ng-container *ngIf="commentFocus">
             <ars-row class="questionwall-present-meta">
               <ng-container *ngIf="userMap&&userMap.get(commentFocus.creatorId)>1">
-                <i class="questionwall-icon questionwall-present-meta-icon questionwall-present-meta-left qw-fade-animation">person_pin_circle</i>
+                <i class="questionwall-icon questionwall-present-meta-icon
+                questionwall-present-meta-left qw-fade-animation">person_pin_circle</i>
                 <ars-col>
                   <span *ngIf="userMap.get(commentFocus.creatorId) > 1"
                         matBadge="{{userMap.get(commentFocus.creatorId)}}"
@@ -183,7 +184,9 @@
                         matBadgeOverlap="false" style="padding:0;"></span>
                 </ars-col>
               </ng-container>
-              <h2 class="questionwall-present-meta-timestamp questionwall-present-meta-left qw-fade-animation">{{getTimeAgo(commentFocus.id)}}</h2>
+              <h2 class="questionwall-present-meta-timestamp
+              questionwall-present-meta-left qw-fade-animation">
+                {{getTimeAgo(commentFocus.id)}}</h2>
             </ars-row>
             <ars-row>
               <ars-row class="bound qw-fade-animation"
@@ -541,14 +544,14 @@
           <mat-icon class="material-icons-outlined">play_circle_filled</mat-icon>
         </button>
         <button ars-btn
-                (click)="toggleFocusIncommingComments()"
+                (click)="toggleFocusIncomingComments()"
                 matRipple
                 aria-labelledby="autofocus-on-lbl">
-          <ng-container *ngIf="focusIncommingComments">
+          <ng-container *ngIf="focusIncomingComments">
             <i>{{'question-wall.auto-renew-off-icon' | translate}}</i>
             <p>{{'question-wall.auto-renew-off' | translate}}</p>
           </ng-container>
-          <ng-container *ngIf="!focusIncommingComments">
+          <ng-container *ngIf="!focusIncomingComments">
             <i>{{'question-wall.auto-renew-on-icon' | translate}}</i>
             <p>{{'question-wall.auto-renew-on' | translate}}</p>
           </ng-container>
