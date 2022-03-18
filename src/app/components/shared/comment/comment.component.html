@@ -385,6 +385,7 @@
                   (click)="hideConversation()"
                   [matTooltip]="('comment-page.hide-conversation-tooltip' | translate)">forum
         </mat-icon>
+      </button>
       <span class="fill-remaining-space"></span>
       <button mat-icon-button
               *ngIf="responses.length>2 && isConversationView"
@@ -394,7 +395,7 @@
               matTooltip="{{ 'comment-list.sort-answers' | translate }}">
         <mat-icon class="searchBarIcon">swap_vert</mat-icon>
       </button>
-      </div>
+    </div>
   </div>
 </mat-card>
 
