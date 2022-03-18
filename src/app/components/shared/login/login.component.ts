@@ -125,8 +125,8 @@ export class LoginComponent implements OnInit, OnChanges {
   /**
    * Returns a lambda which closes the dialog on call.
    */
-  buildCloseDialogActionCallback(): () => void {
-    return () => this.dialog.closeAll();
+  buildCloseDialogActionCallback(): void {
+    this.dialog.closeAll();
   }
 
 

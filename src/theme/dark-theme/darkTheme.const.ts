@@ -8,10 +8,10 @@ export const dark = {
 
   '--background': '#121212',
   '--surface': '#052338',
-  '--dialog': '#09394f',
+  '--dialog': '#15171D',
   '--cancel': 'red',
   '--alt-surface': '#323232',
-  '--alt-dialog': '#455a64',
+  '--alt-dialog': '#111217',
 
   '--on-primary': '#000000',
   '--on-secondary': 'white',

@@ -1,108 +1,165 @@
-.pwReset {
-  padding-left: 0;
-  color: var(--secondary);
+* {padding: 0; margin: 0; box-sizing: border-box;}
+
+header {
+  display: grid;
+  grid-template-columns: 1fr auto;
+
+  align-items: center;
+
+  h1.title {
+    color: var(--on-dialog) !important;
+    font-size: 18px !important;
+    font-weight: 400;
+  }
+
+  button {
+    padding: 0;
+  }
 }
 
-.regButton {
-  color: var(--secondary);
+form {
+  display: grid;
+  grid-template-rows: auto auto auto;
+
+  width: 100%;
+  margin-top: 14px;
+
+  .login-system-container .input-container {
+    margin-bottom: 14px;
+  }
+
+  .forgot-password-container {
+    margin-bottom: 14px;
+  }
 }
 
-.guest {
-  background-color: transparent;
-  color: var(--on-background);
-  outline: var(--primary) solid 3px;
-  margin: 15px;
+.input-container {
+  display: flex;
+  position: relative;
 
-  &:hover {
+  align-items: center;
+
+  border: 1px solid #3A3A3A;
+  border-radius: 7px;
+  transition: all 150ms ease-in-out;
+
+  input {
+    margin: 0;
+    padding: 14px;
+    outline: 0;
+    border: 0;
+
+    width: 100%;
+    border-radius: 7px;
+
+    background-color: var(--dialog);
+    color: var(--on-dialog);
+  }
+
+  &.error {
+    border: 1px solid var(--magenta);
+
+    label {
+      color: var(--magenta);
+    }
+  }
+
+  label {
+    margin: 0 14px;
+
+    background-color: var(--dialog);
+    color: var(--on-dialog);
+
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translate(0, -50%);
+
+    pointer-events:none;
+    transition: all 150ms ease-in-out;
+  }
+
+  input:focus ~ label,
+  input:valid ~ label {
+    top: 0;
+    padding: 0 7px;
+  }
+}
+
+button {
+  margin: 0;
+  padding: 14px 7px;
+  outline: 0;
+  border: 0;
+
+  cursor: pointer;
+  transition: all 150ms ease-in-out;
+
+  &.button {
+    background-color: var(--dialog);
+    color: var(--on-dialog);
+  }
+
+  &.alt-button {
+    background-color: var(--dialog);
+    color: var(--primary);
+    border: 1px solid var(--primary);
+    border-radius: 7px;
+
+    &:hover {
+      background-color: var(--primary);
+      color: var(--on-primary);
+    }
+  }
+}
+
+.bottom-container {
+  display: grid;
+  grid-template-columns: auto auto;
+  align-items: center;
+}
+
+.anonymous-container {
+  button {
+    width: 100%;
     background-color: var(--primary);
     color: var(--on-primary);
+
+    &:hover {
+      background-color: var(--dialog);
+      color: var(--primary);
+    }
   }
 }
 
-.login {
-  background-color: transparent;
-  color: var(--on-background);
-  outline: var(--secondary) solid 3px;
-  margin: 15px;
-
-  &:hover {
-    background-color: var(--secondary);
-    color: var(--on-secondary);
-  }
-}
-
-.forgot-password {
-  margin-top: 15px;
-}
-
-.forgot-password a {
-  text-decoration: underline;
-  color: var(--on-surface);
-  font-size: small;
-}
-
-p {
-  font-size: small;
-  margin: 13px 10px 0 0;
-  color: var(--on-surface);
-  vertical-align: text-bottom;
-}
-
-::ng-deep .mat-form-field-label {
-  color: var(--on-surface)!important;
-}
-
-::ng-deep .mat-form-field-underline {
-  background-color: var(--on-surface)!important;
-}
-
-mat-form-field {
-  color: var(--on-surface);
-}
-
-input {
-  caret-color: var(--on-surface);
-}
-
-input:-webkit-autofill {
-  -webkit-box-shadow:0 0 0 50px var(--dialog) inset;
-  -webkit-text-fill-color: var(--on-surface);
-}
-input:-webkit-autofill:focus {
-  -webkit-box-shadow: 0 0 0 50px var(--dialog) inset;
-  -webkit-text-fill-color: var(--on-surface);
-}
-
-h3 {
-  margin: 0 0 10px 0!important;
-}
-
-.register {
-  padding: .5rem 0;
-  align-items: baseline;
-}
-
-.registerBtn{
-  text-decoration:underline;
-  color:var(--on-surface);
-  cursor:pointer;
-  font-size:small;
-}
-
-.visually-hidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
+.page-splitter {
+  margin: 14px 0;
+  display: block;
+  text-align: center;
   overflow: hidden;
-  left: -10000px;
-}
+  white-space: nowrap;
 
-.or {
-  height: 30px;
-  font-size: small;
-  margin-top: 30px;
-}
+  span {
+    position: relative;
+    display: inline-block;
+  }
 
-::ng-deep .mat-form-field .mat-form-field-infix {
-  max-width: 500px;
+  span:before, span:after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 9999px;
+    height: 1px;
+    background-color: #3A3A3A;
+  }
+
+  span:before {
+    right: 100%;
+    margin-right: 15px;
+  }
+
+  span:after {
+    left: 100%;
+    margin-left: 15px;
+  }
 }
