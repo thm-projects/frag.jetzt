@@ -50,9 +50,10 @@
                    [userRole]="userRole"
                    [parseVote]="vote"
                    [moderator]="isModerationComment"
-                   [isFromModerator]="mods.has(comment.creatorId)"
-                   [isFromOwner]="room.ownerId === comment.creatorId"
+                   [isFromModerator]="mods.has(response.creatorId)"
+                   [isFromOwner]="room.ownerId === response.creatorId"
                    [isResponse] = true
+                   [parentDepth]="comment.commentDepth"
       ></app-comment>
     </div>
   </div>

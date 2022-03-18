@@ -222,6 +222,7 @@
     "tag": "Kategorie",
     "write-response-tooltip": "Kommentar verfassen",
     "show-conversation-tooltip": "Zeige Konversation",
+    "hide-conversation-tooltip": "Verstecke Konversation",
     "reply-comment-button": "Anwort schreiben",
     "tag-reset": "ohne",
     "tag-title": "Kategorie ändern",

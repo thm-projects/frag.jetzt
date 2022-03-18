@@ -1,6 +1,6 @@
 <mat-card id="comment-card"
           class="border"
-          [style.margin-left]="isResponse ? '50px' : '0'"
+          [style.margin-left]="parentDepth >= 0 ? ((comment.commentDepth - parentDepth) * 50).toString() + 'px' : '0'"
           [style.background-color]="isResponse ? 'var(--dialog)' : 'var(--surface)'"
           [class.highlighted]="comment.highlighted"
           [class.moderator]="moderator"
@@ -365,13 +365,13 @@
          fxLayout="row"
          fxLayoutAlign="start center">
       <button mat-button
-              *ngIf="comment.commentDepth < room.conversationDepth || isCreator || isModerator "
+              *ngIf="comment.commentDepth < room.conversationDepth || room.conversationDepth === -1 || isCreator || isModerator "
               class="replyButton"
               (click)="respondToComment()"
               [matTooltip]="('comment-page.write-response-tooltip' | translate)"> {{'comment-page.reply-comment-button' | translate}}
       </button>
 
-      <button mat-icon-button *ngIf="!isAnswerView && responses.length >0">
+      <button mat-icon-button *ngIf="!isAnswerView && !showResponses && responses.length >0">
         <mat-icon class="not-marked material-icons-round"
                   matBadge="{{responses.length}}"
                   matBadgeColor="secondary"
@@ -380,6 +380,11 @@
                   [matTooltip]="('comment-page.show-conversation-tooltip' | translate)">forum
         </mat-icon>
       </button>
+      <button mat-icon-button *ngIf="!isAnswerView && showResponses && responses.length >0">
+        <mat-icon class="wrong-icon material-icons-round"
+                  (click)="hideConversation()"
+                  [matTooltip]="('comment-page.hide-conversation-tooltip' | translate)">forum
+        </mat-icon>
       <span class="fill-remaining-space"></span>
       <button mat-icon-button
               *ngIf="responses.length>2 && isConversationView"
@@ -412,6 +417,18 @@
        id="comment_vote_up{{ comment.id }}">{{'comment-page.a11y-comment_vote_up' | translate}}</div>
   <div *ngIf="isStudent"
        id="comment_vote_down{{ comment.id }}">{{'comment-page.a11y-comment_vote_down' | translate}}</div>
+</div>
+
+<div *ngIf="showResponses">
+  <app-comment
+    *ngFor="let response of responses"
+    [comment]="response"
+    [user]="user"
+    [userRole]="userRole"
+    [isFromOwner]="room.ownerId === response.creatorId"
+    [isResponse] = true
+    [parentDepth]="parentDepth<0? comment.commentDepth : parentDepth">
+  </app-comment>
 </div>
 
 <ng-template #voting>
