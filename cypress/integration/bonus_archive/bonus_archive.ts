@@ -1,7 +1,8 @@
 import {And, Given, Then,When} from 'cypress-cucumber-preprocessor/steps';
 
 And('The question is set with a bonus token',() =>{
-  cy.xpath('//*[@id="comment-card"]/div[3]/div[1]/button[3]').click();
+  cy.xpath('//*[@id="comment-card"]/div[3]/div[1]/button[3]/span[1]/mat-icon').click();
+  cy.xpath('//*[@id="mat-menu-panel-8"]/div/div/button[1]/span[1]/mat-icon').click();
 });
 When('I click on the menu panel',() =>{
   cy.xpath('//*[@id="session-button"]').click();

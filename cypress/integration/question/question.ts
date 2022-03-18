@@ -18,10 +18,12 @@ But('The wrong icon should not be marked',()=>{
     .should('have.class','not-marked');
 });
 When('I set the bonus token for the question',()=>{
-  cy.xpath('//*[@id="comment-card"]/div[3]/div[1]/button[3]').click();
+  cy.xpath('//*[@id="comment-card"]/div[3]/div[1]/button[3]/span[1]/mat-icon').click();
+  cy.xpath('//*[@id="mat-menu-panel-8"]/div/div/button[1]/span[1]/mat-icon').click();
 });
 And('I set the bookmark',()=>{
-  cy.xpath('//*[@id="comment-card"]/div[3]/div[1]/button[4]').click();
+  cy.xpath('//*[@id="comment-card"]/div[3]/div[1]/button[4]/span[1]/mat-icon').click();
+  cy.xpath('//*[@id="mat-menu-panel-8"]/div/div/button[1]/span[1]/mat-icon').click();
 });
 Then('The bonus token should be marked',()=>{
   cy.xpath('//*[@id="comment-card"]/div[3]/div[1]/button[3]/span[1]/mat-icon')
@@ -32,7 +34,7 @@ And('the bookmark should be marked',()=>{
     .should('have.class','bookmark-icon');
 });
 When('I click on the icon wrapper', () =>{
-  cy.xpath('//*[@id="comment-card"]/div[3]/div[1]/button[5]').click();
+  cy.xpath('//*[@id="comment-card"]/div[3]/div[1]/button[3]/span[1]/mat-icon').click();
 });
 And('I click on the category icon',()=>{
   cy.get('mat-icon').contains('sell').click();

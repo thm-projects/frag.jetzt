@@ -20,7 +20,7 @@ Then('I should see the same question', () =>{
 });
 
 When('I click on the icon wrapper',() => {
-  cy.xpath('//*[@id="comment-card"]/div[3]/div[1]/button[5]', {timeout : 5000}).click();
+  cy.xpath('//*[@id="comment-card"]/div[3]/div[1]/button[3]/span[1]/mat-icon', {timeout : 5000}).click();
 });
 
 And('I click on the delete icon',() => {
