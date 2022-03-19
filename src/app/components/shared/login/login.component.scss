@@ -85,6 +85,9 @@ form {
 
     pointer-events: none;
     transition: all 150ms ease-in-out;
+
+    font-style: italic;
+    opacity: 0.6;
   }
 
   input:focus ~ label,
@@ -170,6 +173,14 @@ button {
     left: 100%;
     margin-left: 15px;
   }
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  left: -10000px;
 }
 
 .close {

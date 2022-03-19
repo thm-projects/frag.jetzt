@@ -1,5 +1,3 @@
-import { UserRole } from './user-roles.enum';
-
 export enum CommentChangeType {
   CREATED = 'CREATED',
   DELETED = 'DELETED',
@@ -9,6 +7,13 @@ export enum CommentChangeType {
   CHANGE_CORRECT = 'CHANGE_CORRECT',
   CHANGE_TAG = 'CHANGE_TAG',
   CHANGE_SCORE = 'CHANGE_SCORE',
+}
+
+export enum CommentChangeRole {
+  PARTICIPANT = 'PARTICIPANT',
+  EDITING_MODERATOR = 'EDITING_MODERATOR',
+  EXECUTIVE_MODERATOR = 'EXECUTIVE_MODERATOR',
+  CREATOR = 'CREATOR',
 }
 
 export class CommentChange {
@@ -21,7 +26,7 @@ export class CommentChange {
   createdAt: Date;
   updatedAt: Date;
   initiatorId: string;
-  initiatorRole: UserRole;
+  initiatorRole: CommentChangeRole;
 
   constructor(
     id: string = '',
@@ -33,7 +38,7 @@ export class CommentChange {
     createdAt: Date = null,
     updatedAt: Date = null,
     initiatorId: string = '',
-    initiatorRole: UserRole = null,
+    initiatorRole: CommentChangeRole = null,
   ) {
     this.id = id;
     this.commentId = commentId;

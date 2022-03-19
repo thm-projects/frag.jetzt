@@ -16,7 +16,7 @@ import { KeyboardUtils } from '../../../utils/keyboard';
 import { KeyboardKey } from '../../../utils/keyboard/keys';
 import { RoomDataService } from '../../../services/util/room-data.service';
 import { forkJoin, Observable, of } from 'rxjs';
-import { map, mergeMap} from 'rxjs/operators';
+import { map, mergeMap } from 'rxjs/operators';
 import { SessionService } from '../../../services/util/session.service';
 import { Room } from '../../../models/room';
 import { VoteService } from '../../../services/http/vote.service';
@@ -45,7 +45,7 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
   user: User;
   isStudent = true;
   isCreator: boolean = false;
-  isModerator:  boolean = false;
+  isModerator: boolean = false;
   edit = false;
   room: Room;
   mods: Set<string>;
@@ -114,7 +114,6 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
           this.voteService.getByRoomIdAndUserID(this.sessionService.currentRoom.id, this.user.id).subscribe(votes => {
             this.vote = votes.find(v => v.commentId === commentId);
           });
-          this.getResponses();
           this.findComment(commentId).subscribe(result => {
             if (!result) {
               this.onNoComment();
@@ -134,9 +133,9 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
     }
   }
 
-  getResponses(){
-    this.commentService.getAckComments(this.room.id).subscribe(res => {
-      this.responses = res.filter(resp => resp.commentReference === this.comment.id);
+  getResponses() {
+    this.roomDataService.getRoomDataOnce(false, this.isModerationComment).subscribe(data => {
+      this.responses = data.filter(resp => resp.commentReference === this.comment.id);
     });
   }
 
@@ -152,9 +151,12 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
   }
 
   checkForBackDropClick(event: PointerEvent, ...elements: Node[]) {
+    if (this.isConversationView) {
+      return;
+    }
     const target = event.target as Node;
     const parent = document.querySelector('.main_container');
-    if (event.target && parent.contains(target) && !elements.some(e => e && e.contains(target))) {
+    if (event.target && parent.contains(target) && !elements.some(e => e?.contains(target))) {
       this.goBackToCommentList();
     }
   }
@@ -219,17 +221,17 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
     setTimeout(() => this.commentComponent.commentData.set(this.answer));
   }
 
-  applySortAnswers(value: string){
-    switch (value){
+  applySortAnswers(value: string) {
+    switch (value) {
       case 'Time':
         this.responses.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
         this.responses.reverse();
         break;
       case 'BestScore':
-        this.responses.sort((a, b) =>  b.score - a.score);
+        this.responses.sort((a, b) => b.score - a.score);
         break;
       case 'WorstScore':
-        this.responses.sort((a, b) =>  b.score - a.score);
+        this.responses.sort((a, b) => b.score - a.score);
         this.responses.reverse();
         break;
     }
@@ -261,6 +263,7 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
   private onCommentReceive(c: Comment, isModerationComment: boolean) {
     this.comment = c;
     this.isModerationComment = isModerationComment;
+    this.getResponses();
     this.edit = !this.answer;
     this.isLoading = false;
     this._commentSubscription = this.roomDataService.receiveUpdates([

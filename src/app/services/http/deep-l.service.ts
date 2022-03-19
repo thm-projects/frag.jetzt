@@ -85,11 +85,20 @@ export enum FormalityType {
 })
 export class DeepLService extends BaseHttpService {
 
-  constructor(private http: HttpClient) {
+  constructor(
+    private http: HttpClient
+  ) {
     super();
-    this.checkAPIStatus().subscribe(hasQuota => {
-      if (!hasQuota) {
-        this.setTimeout(86_400_000);
+    this.checkAPIStatus().subscribe({
+      next: hasQuota => {
+        if (!hasQuota) {
+          this.setTimeout(86_400_000);
+        }
+      },
+      error: err => {
+        if (err?.status === 403) {
+          this.setTimeout(Number.MAX_SAFE_INTEGER);
+        }
       }
     });
   }
@@ -152,7 +161,7 @@ export class DeepLService extends BaseHttpService {
       '&preserve_formatting=1' +
       '&tag_handling=xml' + tagFormality +
       '&text=' + encodeURIComponent(text);
-    return this.http.post<DeepLResult>(url, data, httpOptions)
+    return this.checkCanSendRequest('makeXMLTranslateRequest') || this.http.post<DeepLResult>(url, data, httpOptions)
       .pipe(
         tap(_ => ''),
         timeout(4500),

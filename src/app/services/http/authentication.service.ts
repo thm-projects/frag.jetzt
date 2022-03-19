@@ -225,7 +225,7 @@ export class AuthenticationService extends BaseHttpService {
     const connectionUrl: string = this.apiUrl.base + this.apiUrl.user + this.apiUrl.superAdmin;
     return this.http.get(connectionUrl, this.httpOptions).pipe(
       tap(_ => ''),
-      catchError(err => of(err.error.message))
+      catchError(err => of(err.error?.message || err))
     );
   }
 

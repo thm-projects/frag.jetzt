@@ -10,14 +10,14 @@ const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
 
-interface CommentChangeSubscription {
+export interface CommentChangeSubscription {
   id: string;
   commentId: string;
   roomId: string;
   accountId: string;
 }
 
-interface RoomCommentChangeSubscription {
+export interface RoomCommentChangeSubscription {
   id: string;
   roomId: string;
   accountId: string;

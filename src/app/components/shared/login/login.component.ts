@@ -150,6 +150,7 @@ export class LoginComponent implements OnInit, OnChanges {
       this.translationService.get('login.login-data-incorrect').subscribe(message => {
         this.notificationService.show(message);
       });
+      return;
     }
     this.translationService.get('login.login-successful').subscribe(message => {
       this.notificationService.show(message);

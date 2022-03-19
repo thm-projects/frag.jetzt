@@ -3,21 +3,18 @@
     <mat-toolbar
         class="mat-elevation-z24"
         id="footer-toolbar"
-        *ngIf="!router.url.endsWith('/quiz')"
-    >
+        *ngIf="!router.url.endsWith('/quiz')">
         <button
             class="focus_button"
             (click)="openDashboard()"
             *ngIf="!router.url.endsWith('/home')"
-            mat-button
-        >
+            mat-button>
         <span
             class="material-icons-outlined"
             matBadgeSize= "small"
             matBadgePosition="above after"
-            [matBadge]="change.notificationEvents.length"
-            [matBadgeHidden]="showDashboardBadge()"
-        >
+            [matBadge]="change.getList().length || 0"
+            [matBadgeHidden]="+change.getList().length < 1">
             <mat-icon>
             notifications
             </mat-icon>
