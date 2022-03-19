@@ -12,7 +12,7 @@
     "label": "Erklären",
     "close": "Schließen",
     "text": "Benachrichtigungen",
-    "dialog-content":"In dieser Ansicht sind Sie in der Lage ihre Benachrichtigungen anzusehen und zu verwalten. Sie erhalten Benachrichtigungen zu ihren Räumen, Fragen und Kommentaren. Mit dem Filter Menü können Sie verschiedene Filter ein- und ausschalten und so gezielter nach Benachrichtigungen suchen. Außerdem haben Sie die Möglichkeit die aktuelle Benachrichtigungsliste zu löschen oder Sie deaktivieren alle Benachrichtigungen, sodass Sie keine weiteren erhalten. Falls Sie sich den Beitrag ansehen möchten, der eine Reaktion herbeigerufen hat, gelangen Sie über die Benachrichtigung direkt zum Beitrag."
+    "dialog-content":"Hier siehst du alle Reaktionen auf deine Fragen und Kommentare, zum Beispiel, ob du einen Stern erhalten hast, ob deine Frage beantwortet, kommentiert, verbannt oder gelöscht wurde. Mit einem Klick auf die Nachricht gelangst du zu deiner Frage."
   },
   "notification": {
     "number-notifications": "Anzahl: ",

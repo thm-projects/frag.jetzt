@@ -546,8 +546,8 @@
     "partial-words-will-be-filtered": "Jetzt werden Vulgärausdrücke auch innerhalb eines Wortes zensiert.",
     "keyword-from-spacy": "Stichwort von spaCy",
     "keyword-from-questioner": "Stichwort vom Fragensteller",
-    "allowing-conversation-confirm-not-moderated": "Das Q&A-Forum wird derzeit nicht moderiert. Wenn du Konversationen erlaubst, werden alle Kommentare sofort veröffentlicht.",
-    "setup-conversation": "Forum-Konversation einstellen"
+    "allowing-conversation-confirm-not-moderated": "Das Forum wird derzeit nicht moderiert. Wenn du Konversationen erlaubst, werden alle Kommentare sofort veröffentlicht.",
+    "setup-conversation": "Forum-Konversation"
   },
   "session": {
     "a11y-description": "Gib eine Beschreibung für die Sitzung ein.",

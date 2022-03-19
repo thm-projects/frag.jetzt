@@ -545,8 +545,8 @@
     "words-will-be-overwritten": "Profane words will be overwritten with ★★★★.",
     "only-specific-language-will-be-filtered": "Now profane expressions from other languages will also be censored.",
     "partial-words-will-be-filtered": "Now profane expressions are also censored within a word.",
-    "allowing-conversation-confirm-not-moderated": "The Q&A forum is currently not moderated. If you allow conversations, all comments will be released immediately.",
-    "setup-conversation": "Forum conversation settings"
+    "allowing-conversation-confirm-not-moderated": "The forum is currently not moderated. If you allow conversations, all comments will be released immediately.",
+    "setup-conversation": "Forum conversation"
   },
   "session": {
     "a11y-description": "Enter a description of the session",

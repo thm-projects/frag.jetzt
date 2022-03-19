@@ -1,16 +1,17 @@
 <div id="mat-sheet" style="max-height: 40%">
-<!--header navbar-->
+  <!--header navbar-->
 
   <mat-toolbar>
-    <div matBadge={{change.notificationEvents.length}} matBadgePosition="above after">
-      <mat-icon >notifications</mat-icon>
+    <div matBadge={{change.notificationEvents.length}} matBadgePosition="above after" matBadgeSize="small">
+      <mat-icon>notifications</mat-icon>
     </div>
-    <span id="title" *ngIf="deviceInfo.isCurrentlyDesktop" style="margin-left : 6px;">{{'dashboard.title' | translate}}
+    <span id="title" *ngIf="deviceInfo.isCurrentlyDesktop" style="margin-left : 10px;">{{'dashboard.title' | translate}}
     </span>
     <span class="example-spacer"></span>
-<!--Filter menu-->
-    <button mat-button [matMenuTriggerFor]="menu" mat-icon-button class="example-icon" aria-label="Example icon-button with share icon"
-      (click)="toggleFilter=!toggleFilter">
+    <!--Filter menu-->
+    <button mat-button [matMenuTriggerFor]="menu" mat-icon-button class="example-icon"
+            aria-label="Example icon-button with share icon"
+            (click)="toggleFilter=!toggleFilter">
       <mat-icon [matTooltip]="'dashboard.filter' | translate">filter_list</mat-icon>
     </button>
     <mat-menu class="mat-menu" #menu="matMenu">
@@ -66,11 +67,11 @@
       </div>
     </mat-menu>
     <button *ngIf="!isNotificationBlocked" mat-icon-button class="example-icon"
-      aria-label="Example icon-button with menu icon" (click)="toggleNotificationBlock()">
+            aria-label="Example icon-button with menu icon" (click)="toggleNotificationBlock()">
       <mat-icon [matTooltip]="'dashboard.block' | translate">notifications_active</mat-icon>
     </button>
     <button *ngIf="isNotificationBlocked" mat-icon-button class="example-icon"
-      aria-label="Example icon-button with menu icon" (click)="toggleNotificationBlock()">
+            aria-label="Example icon-button with menu icon" (click)="toggleNotificationBlock()">
       <mat-icon [matTooltip]="'dashboard.activate' | translate">notifications_off</mat-icon>
     </button>
     <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon"
@@ -85,22 +86,28 @@
   </mat-toolbar>
   <hr>
   <mat-nav-list>
-<!--List Items-->
-  <div *ngFor="let notification of this.change.getList(hasFilter); let i = index; last as isLast">
+    <!--List Items-->
+    <div *ngFor="let notification of this.change.getList(hasFilter); let i = index; last as isLast">
       <a mat-list-item style="padding-right: 0">
-<!--Responder Icons-->
+        <!--Responder Icons-->
         <div class="responder-icon">
-          <div *ngIf="notification.changer=== userRole.CREATOR"><mat-icon
-            [matTooltip]="'notification.lecturer' | translate">co_present
-          </mat-icon></div>
-          <div *ngIf="notification.changer===userRole.EXECUTIVE_MODERATOR"><mat-icon
-            [matTooltip]="'notification.moderator' | translate">gavel
-          </mat-icon></div>
-          <div *ngIf="notification.changer===userRole.PARTICIPANT"><mat-icon
-            [matTooltip]="'notification.participant' | translate">person
-          </mat-icon></div>
+          <div *ngIf="notification.changer=== userRole.CREATOR">
+            <mat-icon
+              [matTooltip]="'notification.lecturer' | translate">co_present
+            </mat-icon>
+          </div>
+          <div *ngIf="notification.changer===userRole.EXECUTIVE_MODERATOR">
+            <mat-icon
+              [matTooltip]="'notification.moderator' | translate">gavel
+            </mat-icon>
+          </div>
+          <div *ngIf="notification.changer===userRole.PARTICIPANT">
+            <mat-icon
+              [matTooltip]="'notification.participant' | translate">person
+            </mat-icon>
+          </div>
         </div>
-<!--Reaction Icons-->
+        <!--Reaction Icons-->
         <div *ngIf="notification.event=== commentChangeType.ANSWERED">
           <mat-icon class="comment-icon" [matTooltip]="'notification.comment' | translate">comment</mat-icon>
         </div>
@@ -122,17 +129,17 @@
         <div *ngIf="notification.event===commentChangeType.CHANGE_SCORE">
           <mat-icon class="score-icon" [matTooltip]="'notification.change-score' | translate">thumbs_up_down</mat-icon>
         </div>
-<!--Message Text-->
+        <!--Message Text-->
         <div>
           <div class="date">
             {{notification.createdAt.toLocaleDateString()}} {{notification.createdAt.toLocaleTimeString()}} in
             »{{notification.roomName}}«
           </div>
           <div class="message">
-            {{('message.a' | translate)+('message.role-'+notification.changer | translate)+('message.'+notification.type+'-'+(notification.event| lowercase)| translate)}}
+            {{('message.a' | translate) + ('message.role-' + notification.changer | translate) + ('message.' + notification.type + '-' + (notification.event| lowercase)| translate)}}
           </div>
         </div>
-<!--remove + go to buttons-->
+        <!--remove + go to buttons-->
         <span class="example-spacer"></span>
         <button mat-button class="remove-btn" (click)="this.change.deleteChange(i)">
           <mat-icon class="remove" [matTooltip]="'notification.remove' | translate">close
@@ -140,28 +147,29 @@
         </button>
         <button mat-button class="go-to-btn">
           <mat-icon *ngIf="notification.type==='question'" class="go-to"
-            [matTooltip]="'notification.go-to-question' | translate">keyboard_arrow_right
+                    [matTooltip]="'notification.go-to-question' | translate">keyboard_arrow_right
           </mat-icon>
-          <mat-icon *ngIf="notification.type==='comment'" class="go-to" [matTooltip]="'notification.go-to-comment' | translate">
+          <mat-icon *ngIf="notification.type==='comment'" class="go-to"
+                    [matTooltip]="'notification.go-to-comment' | translate">
             keyboard_arrow_right
           </mat-icon>
         </button>
-        </a>
-        <div *ngIf="!isLast">
-          <mat-divider></mat-divider>
+      </a>
+      <div *ngIf="!isLast">
+        <mat-divider></mat-divider>
+      </div>
+    </div>
+    <!--No Notifications-->
+    <div *ngIf="this.change.notificationEvents.length===0">
+      <a mat-list-item>
+        <div class="no-notifications">
+          <span mat-line id="empty">There are no notifications.</span>
         </div>
-        </div>
-        <!--No Notifications-->
-        <div *ngIf="this.change.notificationEvents.length===0">
-          <a mat-list-item>
-            <div class="no-notifications">
-              <span mat-line id="empty">There are no notifications</span>
-            </div>
-          </a>
-        </div>
-        </mat-nav-list>
-    <hr>
-<!--Footer-->
+      </a>
+    </div>
+  </mat-nav-list>
+  <hr>
+  <!--Footer-->
   <footer class="md-padding">
     <button
       mat-flat-button

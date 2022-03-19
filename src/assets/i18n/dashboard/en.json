@@ -11,7 +11,7 @@
     "label": "Explain",
     "close": "Close",
     "text": "Notifications",
-    "dialog-content": "In this view you will be able to view and manage their notifications. You will receive notifications about your rooms, questions and comments. With the Filter menu you can turn on/off different filters to search for notifications in a more targeted way. Also, you have the option to clear the current notification list or disable all notifications so you don't receive any more. If you want to view the post that has evoked a reaction, the notification will take you directly to the post."
+    "dialog-content": "Here you can see all the reactions to your questions and comments, for example, whether you received a star, whether your question was answered, commented, banned or deleted.\n\nWith a click on the message you get to your question."
   },
   "notification": {
     "number-notifications": "Number: ",
