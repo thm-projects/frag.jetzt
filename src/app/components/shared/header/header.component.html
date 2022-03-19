@@ -285,16 +285,6 @@
       </button>
 
       <button mat-menu-item
-              aria-hidden="true"
-              *ngIf="!deviceInfo.isSafari && !router.url.includes('home')  && !router.url.endsWith('/quiz')"
-              (click)="getRescale().toggleState();">
-        <mat-icon class="fullscreen"
-                  (click)="getRescale().toggleState();">text_increase
-        </mat-icon>
-        <span>{{'header.fullscreen' | translate}}</span>
-      </button>
-
-      <button mat-menu-item
               *ngIf="user"
               (click)="showMotdDialog()">
         <mat-icon class="faq material-icons-outlined">
@@ -303,6 +293,15 @@
         <span>{{'header.motd' | translate}}</span>
       </button>
 
+      <button mat-menu-item
+              aria-hidden="true"
+              *ngIf="!deviceInfo.isSafari && !router.url.includes('home')  && !router.url.endsWith('/quiz')"
+              (click)="getRescale().toggleState();">
+        <mat-icon class="fullscreen"
+                  (click)="getRescale().toggleState();">text_increase
+        </mat-icon>
+        <span>{{'header.fullscreen' | translate}}</span>
+      </button>
 
       <button mat-menu-item
               *ngIf="user && !user.isGuest && user.loginId && router.url.endsWith('/user')"
@@ -333,7 +332,7 @@
           class="header-icons material-icons-outlined"
           [matTooltip]="'header.' + getCurrentRoleDescription() | translate">
           {{getCurrentRoleIcon()}}
-        </mat-icon>
+    </mat-icon>
 
     <ng-template #optionContent>
       <div class="label-icon">

@@ -1,3 +1,4 @@
+@use "sass:math";
 @import "src/layout/laout-util";
 
 @mixin card-box-shadow($color: transparent, $x: -8px) {
@@ -420,7 +421,7 @@ $width-range: $max-width - $min-width;
 
     > p {
       font-family: 'Roboto', sans-serif;
-      font-size: calc(#{$font-range}em / #{$width-range} - #{$max-font-size - $max-width * $font-range / $width-range}px);
+      font-size: calc(#{$font-range}em / #{$width-range} - #{$max-font-size - math.div($max-width * $font-range, $width-range)}px);
       line-height: 1em;
       margin-top: calc(#{$margin-top}px - #{$margin-top}em / #{$max-font-size});
       padding: 0;
