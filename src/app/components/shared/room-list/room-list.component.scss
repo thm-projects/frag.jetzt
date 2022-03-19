@@ -118,8 +118,8 @@ th.mat-header-cell:first-of-type {
 .responseCountBadge{
   width: 0;
   >.mat-badge-content {
-    background-color: var(--alt-surface);
-    color: var(--on-surface);
+    background-color: var(--primary);
+    color: var(--on-primary);
     left: -16px !important;
     top: 14px !important;
   }
