@@ -1,7 +1,7 @@
 <header>
-  <h1 class="title">frag.jetzt - {{ 'login-dialog.title' | translate }}</h1>
+  <h1 class="title">{{ 'login-dialog.title' | translate }}</h1>
   <button class="button" (click)="buildCloseDialogActionCallback()">
-    <span class="material-icons">close</span>
+    <span class="material-icons-outlined close">close</span>
   </button>
 </header>
 
@@ -9,16 +9,21 @@
   <div class="login-container">
     <div class="login-system-container">
       <!-- email -->
-      <div class="input-container" [ngClass]="usernameFormControl.hasError('email') && !usernameFormControl.hasError('required') ? 'error' : 'no-error'">
-        <input appAccessibilityEscapedInput [formControl]="usernameFormControl" name="username" aria-labelledby="email-description" class="input" #userEmail required/>
+      <div class="input-container"
+           [ngClass]="usernameFormControl.hasError('email') && !usernameFormControl.hasError('required') ? 'error' : 'no-error'">
+        <input appAccessibilityEscapedInput [formControl]="usernameFormControl" name="username"
+               aria-labelledby="email-description" class="input" #userEmail required/>
         <label>{{ 'login-dialog.e-mail' | translate }}</label>
       </div>
-  
+
       <!-- password -->
       <div class="input-container">
-        <input appAccessibilityEscapedInput [formControl]="passwordFormControl" name="password" [type]="hide ? 'password' : 'text'" aria-labelledby="password-description" class="input" #userPassword required/>
+        <input appAccessibilityEscapedInput [formControl]="passwordFormControl" name="password"
+               [type]="hide ? 'password' : 'text'" aria-labelledby="password-description" class="input" #userPassword
+               required/>
         <label>{{ 'login-dialog.password' | translate }}</label>
-        <span (click)="hide = !hide" class="material-icons" style="margin-right: 14px; cursor: pointer; user-select: none;">{{hide ? 'visibility_off' : 'visibility'}}</span>
+        <span (click)="hide = !hide" class="material-icons-outlined"
+              style="margin: 0 7px; cursor: pointer; user-select: none;">{{hide ? 'visibility_off' : 'visibility'}}</span>
       </div>
     </div>
 
@@ -26,14 +31,17 @@
     <div class="forgot-password-container">
       <p>
         {{ 'login-dialog.forgot-password-description' | translate }}
-       <a href="" (click)="openPasswordDialog(); $event.preventDefault(); $event.stopPropagation();" role="button">{{ 'login.password-reset' | translate }}</a>
+        <a href="" (click)="openPasswordDialog(); $event.preventDefault(); $event.stopPropagation();"
+           role="button">{{ 'login.password-reset' | translate }}</a>
       </p>
     </div>
 
     <!-- sign up & login -->
     <div class="bottom-container">
-      <a href="" class="registerBtn" (click)="openRegisterDialog(); $event.preventDefault(); $event.stopPropagation();">{{ 'login-dialog.sign-up' | translate }}</a>
-      <button type="submit" aria-labelledby="login-description" class="alt-button login">{{ 'login-dialog.login' | translate }}</button>
+      <a href="" class="registerBtn"
+         (click)="openRegisterDialog(); $event.preventDefault(); $event.stopPropagation();">{{ 'login-dialog.sign-up' | translate }}</a>
+      <button type="submit" aria-labelledby="login-description"
+              class="alt-button login">{{ 'login-dialog.login' | translate }}</button>
     </div>
   </div>
 
@@ -42,7 +50,8 @@
   </div>
 
   <div class="anonymous-container">
-    <button (click)="guestLogin()" class=" alt-button guest" type="button" aria-labelledby="guest-login-description" matTooltip="{{'login.guest-login-tooltip' | translate}}">
+    <button (click)="guestLogin()" class=" alt-button guest" type="button" aria-labelledby="guest-login-description"
+            matTooltip="{{'login.guest-login-tooltip' | translate}}">
       {{ 'login-dialog.sign-in-as-guest' | translate }}
     </button>
   </div>

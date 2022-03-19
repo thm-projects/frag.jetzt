@@ -294,7 +294,7 @@
     "email-required": "E-mail required",
     "guest-login": "Sign in as a guest",
     "guest-login-description": "Sign in as a guest",
-    "guest-login-tooltip": "As a guest created rooms or acquired bonuses will be deleted after logging out. Rooms created as a registered user as well as acquired bonuses will be saved for 180 days after the last visit.",
+    "guest-login-tooltip": "Your rooms and bonuses will be deleted after you log out. Everything will be saved for 180 days if you have signed in.",
     "header": "Sign in",
     "input-incorrect": "Please check your data.",
     "login": "Sign in with account",
@@ -546,14 +546,14 @@
     "label-refresh-keywords-start": "Start"
   },
   "login-dialog": {
-    "title": "Login",
+    "title": "Sign in",
     "sign-in-as-guest": "Continue as a guest",
     "or": "or",
     "e-mail": "E-Mail",
     "password": "Password",
-    "login": "Login",
-    "forgot-password-description": "Login issues, or rather forgot the password?",
+    "login": "Sign in",
+    "forgot-password-description": "",
     "forgot-password": "Reset password",
-    "sign-up": "Create a new account"
+    "sign-up": "Create account"
   }
 }

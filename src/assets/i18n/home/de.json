@@ -293,7 +293,7 @@
     "email-required": "E-Mail-Adresse erforderlich",
     "guest-login": "Anmelden als Gast",
     "guest-login-description": "Als Gast anmelden",
-    "guest-login-tooltip": "Als Gast erstellte Räume oder erworbene Boni werden nach dem Ausloggen gelöscht. Als registrierter User angelegte Räume sowie erworbene Boni werden 180 Tage nach dem letzten Besuch gespeichert.",
+    "guest-login-tooltip": "Deine Räume und Boni werden nach dem Ausloggen gelöscht. Angemeldet wird alles für 180 Tage gespeichert.",
     "header": "Anmelden",
     "input-incorrect": "Bitte prüfe deine Eingaben.",
     "login": "Anmelden mit Konto",
@@ -544,13 +544,13 @@
     "label-refresh-keywords-start": "Starten"
   },
   "login-dialog": {
-    "title": "Anmeldung",
+    "title": "Anmelden",
     "sign-in-as-guest": "Als Gast fortfahren",
     "or": "oder",
     "e-mail": "E-Mail",
     "password": "Passwort",
     "login": "Anmelden",
-    "forgot-password-description": "Probleme beim Login, beziehungsweise Passwort vergessen?",
+    "forgot-password-description": "",
     "forgot-password": "Passwort zurücksetzen",
     "sign-up": "Konto erstellen"
   }
