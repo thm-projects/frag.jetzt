@@ -133,7 +133,7 @@ mat-card-content > :first-child {
   height: 3.5rem;
 }
 
-.action-menu-content{
+.action-menu-content {
   background: var(--dialog);
 }
 
@@ -412,9 +412,11 @@ mat-card-content > :first-child {
         line-height: 10.5px;
         padding-right: 15px;
       }
+
       > mat-icon.smaller-on-answer {
         transform: scale(2.1);
       }
+
       > mat-icon.forum {
         margin-left: 20px;
         margin-right: -15px;
@@ -444,6 +446,7 @@ mat-card-content > :first-child {
         }
       }
     }
+
     > p.smaller-text {
       font-size: 50px;
       margin-top: 70px;
@@ -471,21 +474,21 @@ mat-card-content > :first-child {
   font-size: 12px;
 }
 
-.replyButton{
-  color:var(--primary);
-  background-color:transparent;
-  margin-top:10px !important;
-}
-.replyButton:hover{
-  outline: var(--primary) solid;
+.replyButton {
+  color: var(--primary);
+  background-color: transparent;
+
+  &:hover {
+    outline: var(--primary) solid;
+  }
 }
 
-.divider{
-  width:5px;
-  height:auto;
-  display:inline-block;
+.divider {
+  width: 5px;
+  height: auto;
+  display: inline-block;
 }
 
-#sort-button{
+#sort-button {
   color: var(--secondary);
 }

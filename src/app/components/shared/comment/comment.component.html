@@ -367,8 +367,7 @@
       <button mat-button
               *ngIf="comment.commentDepth < room.conversationDepth || room.conversationDepth === -1 || isCreator || isModerator "
               class="replyButton"
-              (click)="respondToComment()"
-              [matTooltip]="('comment-page.write-response-tooltip' | translate)"> {{'comment-page.reply-comment-button' | translate}}
+              (click)="respondToComment()"> {{'comment-page.reply-comment-button' | translate}}
       </button>
 
       <button mat-icon-button *ngIf="!isAnswerView && !showResponses && responses.length >0">
