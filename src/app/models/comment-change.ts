@@ -27,6 +27,11 @@ export class CommentChange {
   updatedAt: Date;
   initiatorId: string;
   initiatorRole: CommentChangeRole;
+  commentCreatorId: string;
+  commentNumber: string;
+  isAnswer: boolean;
+  roomName: string;
+  roomShortId: string;
 
   constructor(
     id: string = '',
@@ -39,6 +44,11 @@ export class CommentChange {
     updatedAt: Date = null,
     initiatorId: string = '',
     initiatorRole: CommentChangeRole = null,
+    commentCreatorId: string = '',
+    commentNumber: string = '',
+    isAnswer: boolean = false,
+    roomName: string = '',
+    roomShortId: string = '',
   ) {
     this.id = id;
     this.commentId = commentId;
@@ -50,5 +60,10 @@ export class CommentChange {
     this.updatedAt = updatedAt;
     this.initiatorId = initiatorId;
     this.initiatorRole = initiatorRole;
+    this.commentCreatorId = commentCreatorId;
+    this.commentNumber = commentNumber;
+    this.isAnswer = isAnswer;
+    this.roomName = roomName;
+    this.roomShortId = roomShortId;
   }
 }

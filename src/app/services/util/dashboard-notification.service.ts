@@ -181,11 +181,11 @@ export class DashboardNotificationService {
   private pushNotification(message: IMessage) {
     const commentChange = JSON.parse(message.body).payload;
     commentChange.createdAt = new Date(commentChange.createdAt);
+    const accountId = this.authenticationService.getUser()?.id;
     const notification: NotificationEvent = {
       ...commentChange,
-      commentNr: '?',
-      roomName: '?',
-      roomShortId: '?'
+      fromSelf: accountId === commentChange.initiatorId,
+      ownsComment: accountId === commentChange.commentCreatorId,
     };
     this._notifications.unshift(notification);
     if (commentChange.createdAt > this._lastChanges) {

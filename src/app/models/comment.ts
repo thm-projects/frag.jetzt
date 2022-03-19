@@ -92,8 +92,8 @@ export class Comment {
 }
 
 export const numberSorter = (a: string, b: string) => {
-  const arrA = a.split('.');
-  const arrB = b.split('.');
+  const arrA = a.split('/');
+  const arrB = b.split('/');
   const minLen = Math.min(arrA.length, arrB.length);
   for (let i = 0, equals = 0; i < minLen; i++) {
     equals = +arrB[i] - +arrA[i];

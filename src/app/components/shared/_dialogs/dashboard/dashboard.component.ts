@@ -125,7 +125,7 @@ const LANGUAGE_MESSAGES: LanguageMessageObject = {
     } else {
       add = '-reset';
     }
-    return trans.get(`dashboard-notification.${not.fromSelf ? 'self-' : 'role-'}CHANGE_TAG${add}`, {
+    return trans.get(`dashboard-notification.${not.fromSelf ? 'self-' : 'role-'}CHANGE_SCORE${add}`, {
       role: interpolate[LANG_KEYS[notificationToIndex(not)]],
       commentTypeInfo: interpolate[key],
       commentTypeInfo2: interpolate[key + '-2'],
