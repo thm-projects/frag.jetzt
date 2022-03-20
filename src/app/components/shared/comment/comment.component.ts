@@ -93,6 +93,7 @@ export class CommentComponent implements OnInit, AfterViewInit {
   indentationPossible: boolean;
   readonly COMMENT_MARGIN = 15;
   private _responseMatcher: MediaQueryList;
+  private _commentNumber: string[] = [];
 
   constructor(
     protected authenticationService: AuthenticationService,
@@ -117,6 +118,7 @@ export class CommentComponent implements OnInit, AfterViewInit {
         .subscribe(translation => {
           this.translateService.setTranslation(lang, translation, true);
         });
+      this.generateCommentNumber();
     });
   }
 
@@ -201,6 +203,7 @@ export class CommentComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     setTimeout(() => {
+      this.generateCommentNumber();
       if (this.isMock) {
         this.isExpandable = false;
         this.commentExpander.ref.nativeElement.style.display = 'none';
@@ -514,5 +517,28 @@ export class CommentComponent implements OnInit, AfterViewInit {
 
   getMargin(): number {
     return (this.comment.commentDepth - this.parentDepth) * this.COMMENT_MARGIN;
+  }
+
+  getPrettyCommentNumber(): string[] {
+    return this._commentNumber;
+  }
+
+  private generateCommentNumber() {
+    if (!this.comment?.number) {
+      return;
+    }
+    const meta = this.comment.number.split('/');
+    const topLevelNumber = meta[0];
+    const number = meta[meta.length - 1];
+    if (meta.length === 1) {
+      this.translateService.get('comment-list.question-number', { number })
+        .subscribe(msg => this._commentNumber = msg.split('/'));
+      return;
+    }
+    this.translateService.get('comment-list.comment-number', {
+      topLevelNumber,
+      number,
+      level: meta.length - 1,
+    }).subscribe(msg => this._commentNumber = msg.split('/'));
   }
 }

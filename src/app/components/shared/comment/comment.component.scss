@@ -441,6 +441,11 @@ $width-range: $max-width - $min-width;
         font-size: 1em;
         width: 1em;
         height: 1em;
+        margin-right: 5px;
+      }
+
+      > span {
+        margin-left: 5px;
       }
     }
   }

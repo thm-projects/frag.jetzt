@@ -74,6 +74,8 @@
     "self-ANSWERED": "You have answered to {{commentTypeInfo}}",
     "self-CHANGE_ACK_0": "You have banned {{commentTypeInfo}}.",
     "self-CHANGE_ACK_1": "You have released {{commentTypeInfo}}.",
+    "self-CHANGE_FAVORITE_0": "You have marked {{commentTypeInfo}} as favorite.",
+    "self-CHANGE_FAVORITE_1": "You removed {{commentTypeInfo}} from favorites.",
     "self-CHANGE_CORRECT_0": "You have reset the correctness status of {{commentTypeInfo}}.",
     "self-CHANGE_CORRECT_1": "You marked {{commentTypeInfo}} as correct.",
     "self-CHANGE_CORRECT_2": "You marked {{commentTypeInfo}} as wrong.",

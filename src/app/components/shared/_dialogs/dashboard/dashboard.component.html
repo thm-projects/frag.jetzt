@@ -11,7 +11,7 @@
     <!--Filter menu-->
     <button mat-button [matMenuTriggerFor]="menu" mat-icon-button class="example-icon"
             aria-label="Example icon-button with share icon"
-            (click)="toggleFilter=!toggleFilter">
+            (click)="toggleFilter = !toggleFilter">
       <mat-icon [matTooltip]="'dashboard.filter' | translate">filter_list</mat-icon>
     </button>
     <mat-menu class="mat-menu" #menu="matMenu">
@@ -56,8 +56,8 @@
     </mat-menu>
     <mat-menu #notificationCommentsNr="matMenu">
       <div *ngFor="let notification of this.change.getList(hasFilter)">
-        <button mat-menu-item (click)="hasFilter=true;this.change.filterByString(notification.commentNr, true)">
-          {{notification.commentNr}}</button>
+        <button mat-menu-item (click)="hasFilter=true;this.change.filterByString(notification.commentNumber, true)">
+          {{notification.commentNumber}}</button>
       </div>
     </mat-menu>
     <mat-menu #notificationRoomName="matMenu">
@@ -66,11 +66,11 @@
           {{notification.roomName}}</button>
       </div>
     </mat-menu>
-    <button *ngIf="!isNotificationBlocked" mat-icon-button class="example-icon"
+    <button *ngIf="!change.isNotificationBlocked" mat-icon-button class="example-icon"
             aria-label="Example icon-button with menu icon" (click)="toggleNotificationBlock()">
       <mat-icon [matTooltip]="'dashboard.block' | translate">notifications_active</mat-icon>
     </button>
-    <button *ngIf="isNotificationBlocked" mat-icon-button class="example-icon"
+    <button *ngIf="change.isNotificationBlocked" mat-icon-button class="example-icon"
             aria-label="Example icon-button with menu icon" (click)="toggleNotificationBlock()">
       <mat-icon [matTooltip]="'dashboard.activate' | translate">notifications_off</mat-icon>
     </button>
@@ -91,17 +91,17 @@
       <a mat-list-item style="padding-right: 0">
         <!--Responder Icons-->
         <div class="responder-icon">
-          <div *ngIf="notification.initiatorRole === userRole.CREATOR">
+          <div *ngIf="notification.initiatorRole === 'CREATOR'">
             <mat-icon
               [matTooltip]="'notification.lecturer' | translate">co_present
             </mat-icon>
           </div>
-          <div *ngIf="notification.initiatorRole === userRole.EXECUTIVE_MODERATOR">
+          <div *ngIf="notification.initiatorRole === 'EXECUTIVE_MODERATOR'">
             <mat-icon
               [matTooltip]="'notification.moderator' | translate">gavel
             </mat-icon>
           </div>
-          <div *ngIf="notification.initiatorRole === userRole.PARTICIPANT">
+          <div *ngIf="notification.initiatorRole === 'PARTICIPANT'">
             <mat-icon
               [matTooltip]="'notification.participant' | translate">person
             </mat-icon>

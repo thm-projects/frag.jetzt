@@ -138,7 +138,9 @@
     "select-OneWeek": "Letzte 7 Tage",
     "select-TwoWeeks": "Letzte 14 Tage",
     "select-All": "Zeitlich unbegrenzt",
-    "star-was-withdrawn-from-the-question": "Der Stern wurde entfernt."
+    "star-was-withdrawn-from-the-question": "Der Stern wurde entfernt.",
+    "question-number": "F{{number}}",
+    "comment-number": "F{{topLevelNumber}}/L{{level}}/A{{number}}"
   },
   "spacy-dialog": {
     "language": "Sprache",
