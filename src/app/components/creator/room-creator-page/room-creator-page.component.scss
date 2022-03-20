@@ -171,15 +171,13 @@ h2 {
 }
 
 .response-badge {
-  width: 0;
-
-  > span {
-    width: 30px;
-    height: 30px;
-    line-height: 30px;
+  > .mat-badge-content{
+    width: 40px !important;
+    height: 40px !important;
+    line-height: 40px !important;
     background-color: var(--primary);
     color: var(--on-primary);
-    font-size: 12px;
+    font-size: 16px !important;
     margin: 40px 0 0 10px;
   }
 }
