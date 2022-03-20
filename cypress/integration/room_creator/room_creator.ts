@@ -1,4 +1,4 @@
-import {Given, When, Then, And} from 'cypress-cucumber-preprocessor/steps';
+import {When, Then, And} from 'cypress-cucumber-preprocessor/steps';
 
 let question = '';
 
@@ -52,7 +52,7 @@ And('The room name should be {string}',(newName) => {
     .should('have.text','»'+newName+'«');
 });
 And('I click on delete room inside the panel',() => {
-  cy.xpath('//*[@id="mat-menu-panel-0"]/div/div/ars-mat-menu-item[9]/button').click();
+  cy.xpath('//*[@id="mat-menu-panel-0"]/div/div/ars-mat-menu-item[13]/button').click();
 });
 And('I confirm to delete the room',() =>{
   cy.xpath('//*[@id="mat-dialog-2"]/app-room-delete/app-dialog-action-buttons/div/div[1]/div/button[1]').click();
