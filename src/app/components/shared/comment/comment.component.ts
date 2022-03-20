@@ -26,9 +26,6 @@ import { SessionService } from '../../../services/util/session.service';
 import { DeviceInfoService } from '../../../services/util/device-info.service';
 import { BonusDeleteComponent } from '../../creator/_dialogs/bonus-delete/bonus-delete.component';
 import { DashboardNotificationService } from '../../../services/util/dashboard-notification.service';
-import { WsCommentChangeService } from '../../../services/websockets/ws-comment-change.service';
-import { CommentChange } from '../../../models/comment-change';
-import { NotificationEvent } from '../../../models/dashboard-notification';
 import { Room } from '../../../models/room';
 import { HttpClient } from '@angular/common/http';
 
@@ -48,7 +45,6 @@ import { HttpClient } from '@angular/common/http';
     ])
   ]
 })
-
 export class CommentComponent implements OnInit, AfterViewInit {
 
   static COMMENT_MAX_HEIGHT = 250;
@@ -91,13 +87,12 @@ export class CommentComponent implements OnInit, AfterViewInit {
   roomTags: string[];
   room: Room;
   responses: Comment[] = [];
-  conversationBlocked: boolean;
-  showNotification = true;
   showResponses: boolean = false;
   isConversationView: boolean;
   sortMethod = 'Time';
+  indentationPossible: boolean;
+  readonly COMMENT_MARGIN = 15;
   private _responseMatcher: MediaQueryList;
-  private indentationPossible: boolean;
 
   constructor(
     protected authenticationService: AuthenticationService,
@@ -114,15 +109,14 @@ export class CommentComponent implements OnInit, AfterViewInit {
     protected langService: LanguageService,
     public deviceInfo: DeviceInfoService,
     public notificationService: DashboardNotificationService,
-    public wsCommentChangeService: WsCommentChangeService,
   ) {
     langService.getLanguage().subscribe(lang => {
       translateService.use(lang);
       this.language = lang;
       this.http.get('/assets/i18n/dashboard/' + lang + '.json')
-      .subscribe(translation=>{
-        this.translateService.setTranslation(lang, translation, true);
-      });
+        .subscribe(translation => {
+          this.translateService.setTranslation(lang, translation, true);
+        });
     });
   }
 
@@ -159,7 +153,7 @@ export class CommentComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this._responseMatcher = window.matchMedia(
-      '(min-width: ' + (((this.comment.commentDepth - this.parentDepth) * 50) + 375).toString() + 'px)');
+      '(min-width: ' + (this.getMargin() + 375).toString() + 'px)');
     this.indentationPossible = this._responseMatcher.matches;
     this._responseMatcher.addEventListener('change', e => {
       this.indentationPossible = e.matches;
@@ -187,23 +181,6 @@ export class CommentComponent implements OnInit, AfterViewInit {
     this.inAnswerView = !this.router.url.includes('comments');
     this.roomTags = this.sessionService.currentRoom?.tags;
     this.room = this.sessionService.currentRoom;
-    this.wsCommentChangeService.getCommentStream(this.comment.roomId, this.comment.id).subscribe(data => {
-      const parsedObject = JSON.parse(data.body);
-      const commentChange: CommentChange = parsedObject.payload;
-      if(!this.comment.showNotification) {
-        return;
-      }
-      this.notificationService.notificationEvents.unshift(new NotificationEvent(
-        this.comment.number+ '',
-        this.sessionService.currentRoom.name,
-        commentChange.type,
-        new Date(),
-        this.authenticationService.getUser().role,
-        'question',
-        0
-      ));
-      console.error(this.notificationService.notificationEvents);
-    });
     this.getResponses();
   }
 
@@ -281,7 +258,6 @@ export class CommentComponent implements OnInit, AfterViewInit {
   }
 
   setFavorite(comment: Comment): void {
-    console.log('setFavorite');
     if (this.comment.favorite) {
       const dialogRef = this.dialog.open(BonusDeleteComponent, {
         width: '400px'
@@ -379,7 +355,7 @@ export class CommentComponent implements OnInit, AfterViewInit {
     if (this.isMock) {
       return;
     }
-    if (this.isStudent && this.room.conversationDepth <= this.comment.commentDepth){
+    if (this.isStudent && this.room.conversationDepth <= this.comment.commentDepth) {
       return;
     }
     let url: string;
@@ -394,7 +370,7 @@ export class CommentComponent implements OnInit, AfterViewInit {
     if (this.isMock) {
       return;
     }
-    if(this.isConversationView && this.indentationPossible){
+    if (this.isConversationView && this.indentationPossible) {
       this.showResponses = true;
     } else {
       let url: string;
@@ -518,17 +494,25 @@ export class CommentComponent implements OnInit, AfterViewInit {
   }
 
   getResponses() {
-    this.commentService.getAckComments(this.room.id).subscribe(res => {
-      this.responses = res.filter(resp => resp.commentReference === this.comment.id);
+    this.roomDataService.getRoomDataOnce(false, this.moderator).subscribe(data => {
+      this.responses = data.filter(resp => resp.commentReference === this.comment.id);
     });
   }
 
-  toggleNotifications(){
-    this.comment.showNotification = !this.comment.showNotification;
+  toggleNotifications() {
+    if (this.notificationService.hasCommentSubscription(this.comment.id)) {
+      this.notificationService.deleteCommentSubscription(this.comment.id).subscribe();
+    } else {
+      this.notificationService.addCommentSubscription(this.comment.roomId, this.comment.id).subscribe();
+    }
   }
 
   sortAnswers(value: string) {
     this.sortedAnswers.emit(value);
     this.sortMethod = value;
+  }
+
+  getMargin(): number {
+    return (this.comment.commentDepth - this.parentDepth) * this.COMMENT_MARGIN;
   }
 }

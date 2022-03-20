@@ -2,7 +2,7 @@
      fxLayoutAlign="center"
      *ngIf="!isLoading"
      (document:keyup)="checkForEscape($event)"
-     (document:click)="checkForBackDropClick($event, container.firstChild, writeCommentCard.firstChild)">
+     (document:click)="checkForBackDropClick($event, container.firstChild, this.container.nextElementSibling?.firstChild)">
   <div fxLayout="row"
        #container
        fxLayoutAlign="center">
@@ -18,7 +18,6 @@
     ></app-comment>
   </div>
   <div fxLayout="row"
-       #writeCommentCard
        *ngIf="room.conversationDepth || !isStudent"
        fxLayoutAlign="center">
     <mat-card class="answer border-answer"
@@ -42,7 +41,6 @@
   </div>
   <div *ngIf="isConversationView">
     <div fxLayout="row"
-         #container
          fxLayoutAlign="center"
          *ngFor="let response of responses">
       <app-comment [comment]="response"
@@ -52,7 +50,7 @@
                    [moderator]="isModerationComment"
                    [isFromModerator]="mods.has(response.creatorId)"
                    [isFromOwner]="room.ownerId === response.creatorId"
-                   [isResponse] = true
+                   [isResponse]=true
                    [parentDepth]="comment.commentDepth"
       ></app-comment>
     </div>

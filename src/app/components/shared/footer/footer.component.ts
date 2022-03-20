@@ -33,8 +33,8 @@ import {
 import {
   IntroductionModerationComponent
 } from '../_dialogs/introductions/introduction-moderation/introduction-moderation.component';
-import {MatBottomSheet} from '@angular/material/bottom-sheet';
-import {DashboardComponent} from '../_dialogs/dashboard/dashboard.component';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { DashboardComponent } from '../_dialogs/dashboard/dashboard.component';
 import { DashboardNotificationService } from '../../../services/util/dashboard-notification.service';
 
 @Component({
@@ -192,11 +192,7 @@ export class FooterComponent implements OnInit {
     }
   }
 
-  showDashboardBadge(){
-    return !(this.change.notificationEvents.length > 0 ? true : false);
-  }
-
-  openDashboard(){
+  openDashboard() {
     this.dashboard.open(DashboardComponent);
   }
 }

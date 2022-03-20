@@ -61,7 +61,6 @@ export class RoomPageComponent implements OnInit, OnDestroy {
   commentCounterEmit: EventEmitter<number> = new EventEmitter<number>();
   responseCounterEmit: EventEmitter<number> = new EventEmitter<number>();
   onDestroyListener: EventEmitter<void> = new EventEmitter<void>();
-  viewModuleCount = 1;
   moderatorCommentCounter: number;
   moderatorResponseCounter: number;
   userRole: UserRole;
@@ -70,6 +69,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
   private _navigationBuild = new SyncFence(2, this.initNavigation.bind(this));
   private _sub: Subscription;
   private _list: ComponentRef<any>[];
+  private _viewModuleCount = 1;
 
   public constructor(
     protected roomService: RoomService,
@@ -87,6 +87,17 @@ export class RoomPageComponent implements OnInit, OnDestroy {
     protected sessionService: SessionService,
     protected roomDataService: RoomDataService,
   ) {
+  }
+
+  get viewModuleCount(): number {
+    return this._viewModuleCount;
+  }
+
+  set viewModuleCount(count: number) {
+    if (this.userRole === UserRole.PARTICIPANT) {
+      return;
+    }
+    this._viewModuleCount = count;
   }
 
   ngOnInit() {
@@ -237,9 +248,9 @@ export class RoomPageComponent implements OnInit, OnDestroy {
   }
 
   showToggleConversationDialog() {
-     const dialogRef = this.dialog.open(ToggleConversationComponent, {
+    const dialogRef = this.dialog.open(ToggleConversationComponent, {
       width: '600px',
-       data: {conversationDepth: this.room.conversationDepth, directSend: this.room.directSend}
+      data: { conversationDepth: this.room.conversationDepth, directSend: this.room.directSend }
     });
     dialogRef.afterClosed().subscribe(result => {
       console.log(result);
@@ -370,11 +381,11 @@ export class RoomPageComponent implements OnInit, OnDestroy {
     });
   }
 
-  hasTagChanges(before: any, after: any): boolean{
+  hasTagChanges(before: any, after: any): boolean {
     let changes = false;
-    if(before.length !== after.length) {
+    if (before.length !== after.length) {
       changes = true;
-    }else{
+    } else {
       before.forEach((tag, index) => {
         if (tag !== after[index]) {
           changes = true;
@@ -419,19 +430,20 @@ export class RoomPageComponent implements OnInit, OnDestroy {
     this._list = this.composeService.builder(this.headerService.getHost(), e => {
       e.menuItem({
         translate: this.headerService.getTranslate(),
-        icon: 'article',
-        class: 'material-icons-outlined',
-        text: 'header.edit-session-description',
-        callback: () => this.editSessionDescription(),
-        condition: () => this.userRole > UserRole.PARTICIPANT
-      });
-      e.menuItem({
-        translate: this.headerService.getTranslate(),
         icon: 'visibility_off',
         class: 'material-icons-outlined',
         isSVGIcon: false,
         text: 'header.moderation-mode',
         callback: () => this.showCommentsDialog(),
+        condition: () => this.userRole > UserRole.PARTICIPANT
+      });
+      e.menuItem({
+        translate: this.headerService.getTranslate(),
+        icon: 'forum',
+        class: 'material-icons-outlined',
+        isSVGIcon: false,
+        text: 'header.conversation',
+        callback: () => this.showToggleConversationDialog(),
         condition: () => this.userRole > UserRole.PARTICIPANT
       });
       e.menuItem({
@@ -472,30 +484,29 @@ export class RoomPageComponent implements OnInit, OnDestroy {
       });
       e.menuItem({
         translate: this.headerService.getTranslate(),
+        icon: 'email',
+        class: 'material-icons-outlined',
+        iconColor: Palette.YELLOW,
+        isSVGIcon: false,
+        text: 'room-list.email-notification',
+        callback: () => this.openEmailNotification(),
+        condition: () => !!this.user?.loginId
+      });
+      e.menuItem({
+        translate: this.headerService.getTranslate(),
+        icon: 'article',
+        class: 'material-icons-outlined',
+        text: 'header.edit-session-description',
+        callback: () => this.editSessionDescription(),
+        condition: () => this.userRole > UserRole.PARTICIPANT
+      });
+      e.menuItem({
+        translate: this.headerService.getTranslate(),
         icon: 'password',
         class: 'material-icons-outlined',
         text: 'header.profanity-filter',
         callback: () => this.toggleProfanityFilter(),
         condition: () => this.userRole > UserRole.PARTICIPANT
-      });
-      e.menuItem({
-        translate: this.headerService.getTranslate(),
-        icon: 'delete_sweep',
-        class: 'material-icons-outlined',
-        iconColor: Palette.RED,
-        text: 'header.delete-questions',
-        callback: () => this.deleteQuestions(),
-        condition: () => this.userRole > UserRole.PARTICIPANT
-      });
-      e.menuItem({
-        translate: this.headerService.getTranslate(),
-        icon: 'delete',
-        class: 'material-icons-outlined',
-        iconColor: Palette.RED,
-        isSVGIcon: false,
-        text: 'header.delete-room',
-        callback: () => this.openDeleteRoomDialog(),
-        condition: () => this.userRole === UserRole.CREATOR
       });
       e.altToggle(
         {
@@ -530,22 +541,22 @@ export class RoomPageComponent implements OnInit, OnDestroy {
       );
       e.menuItem({
         translate: this.headerService.getTranslate(),
-        icon: 'email',
+        icon: 'delete_sweep',
         class: 'material-icons-outlined',
-        iconColor: Palette.YELLOW,
-        isSVGIcon: false,
-        text: 'room-list.email-notification',
-        callback: () => this.openEmailNotification(),
-        condition: () => !!this.user?.loginId
+        iconColor: Palette.RED,
+        text: 'header.delete-questions',
+        callback: () => this.deleteQuestions(),
+        condition: () => this.userRole > UserRole.PARTICIPANT
       });
       e.menuItem({
         translate: this.headerService.getTranslate(),
-        icon: 'forum',
+        icon: 'delete',
         class: 'material-icons-outlined',
+        iconColor: Palette.RED,
         isSVGIcon: false,
-        text: 'header.conversation',
-        callback: () => this.showToggleConversationDialog(),
-        condition: () => this.userRole > UserRole.PARTICIPANT
+        text: 'header.delete-room',
+        callback: () => this.openDeleteRoomDialog(),
+        condition: () => this.userRole === UserRole.CREATOR
       });
     });
   }

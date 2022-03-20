@@ -32,7 +32,6 @@ export class Comment {
   commentReference: string;
   commentDepth: number;
   deletedAt: Date;
-  showNotification: boolean;
 
   constructor(
     roomId: string = '',
@@ -57,8 +56,7 @@ export class Comment {
     brainstormingQuestion = false,
     createdBy: any = undefined,
     commentReference: string = null,
-    commentDepth: number = 0,
-    showNotifications: boolean = true
+    commentDepth: number = 0
   ) {
     this.id = '';
     this.roomId = roomId;
@@ -86,7 +84,6 @@ export class Comment {
     this.updatedAt = null;
     this.commentReference = commentReference;
     this.commentDepth = commentDepth;
-    this.showNotification = showNotifications;
   }
 
   static mapModelToLanguage(model: Model): Language {
@@ -95,8 +92,8 @@ export class Comment {
 }
 
 export const numberSorter = (a: string, b: string) => {
-  const arrA = a.split('.');
-  const arrB = b.split('.');
+  const arrA = a.split('/');
+  const arrB = b.split('/');
   const minLen = Math.min(arrA.length, arrB.length);
   for (let i = 0, equals = 0; i < minLen; i++) {
     equals = +arrB[i] - +arrA[i];

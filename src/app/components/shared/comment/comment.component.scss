@@ -1,3 +1,4 @@
+@use "sass:math";
 @import "src/layout/laout-util";
 
 @mixin card-box-shadow($color: transparent, $x: -8px) {
@@ -8,12 +9,12 @@
 }
 
 #comment-card {
-  margin: 16px 0;
   background-color: var(--surface);
   padding: 1.5% 1.5% 3% 3%;
   transition: background-color 0.5s linear,
   box-shadow 0.15s ease-in-out;
   touch-action: auto !important;
+  margin: 16px 0 16px var(--marginLeft);
 }
 
 .color-tooltip {
@@ -399,65 +400,47 @@ mat-card-content > :first-child {
   }
 }
 
+// all in pixels
+$max-width: 800;
+$min-width: 375;
+$max-font-size: 80;
+$min-font-size: 40;
+$margin-top: 70;
+
+$font-range: $max-font-size - $min-font-size;
+$width-range: $max-width - $min-width;
 :host {
   .runningnum-outer {
-    width: 100%;
+    width: calc(100% - 72px);
     height: 0;
     background-color: var(--red);
     position: absolute;
+    right: 65px;
+    top: 60px;
+    font-size: calc(min(100vw, 800px) - var(--marginLeft));
 
     > p {
-      > mat-icon {
-        transform: scale(3.3);
-        line-height: 10.5px;
-        padding-right: 15px;
-      }
-
-      > mat-icon.smaller-on-answer {
-        transform: scale(2.1);
-      }
-
-      > mat-icon.forum {
-        margin-left: 20px;
-        margin-right: -15px;
-      }
-
       font-family: 'Roboto', sans-serif;
-      font-size: 80px;
+      font-size: calc(#{$font-range}em / #{$width-range} - #{$max-font-size - math.div($max-width * $font-range, $width-range)}px);
+      line-height: 1em;
+      margin-top: calc(#{$margin-top}px - #{$margin-top}em / #{$max-font-size});
       padding: 0;
       font-weight: bold;
       font-style: normal;
-      margin: 55px 100px 0 0;
       color: var(--on-surface);
       opacity: 0.1;
       float: right;
       position: relative;
       z-index: 0;
+      display: flex;
+      max-width: 100%;
+      overflow: hidden;
 
-      @include onSmallWidth(430px) {
-        margin: 60px 65px 0 0;
-      }
-
-      @include onSmallWidth(370px) {
-        font-size: 80px;
-
-        > mat-icon {
-          transform: scale(3.3);
-        }
-      }
-    }
-
-    > p.smaller-text {
-      font-size: 50px;
-      margin-top: 70px;
-
-      @media (max-width: 400px) {
-        margin-right: 45px;
-        transform: scale(0.9);
-      }
-      @media (max-width: 340px) {
-        margin-right: 20px;
-        transform: scale(0.6);
+      > mat-icon {
+        line-height: 1em;
+        font-size: 1em;
+        width: 1em;
+        height: 1em;
       }
     }
   }
