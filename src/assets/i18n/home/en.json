@@ -298,7 +298,7 @@
     "header": "Sign in",
     "input-incorrect": "Please check your data.",
     "login": "Sign in with account",
-    "login-data-incorrect": "Username or password incorrect",
+    "login-data-incorrect": "E-mail or password incorrect",
     "login-description": "Sign in with the entered account data",
     "login-successful": "You are logged in now.",
     "login-tooltip": "Sessions will be stored for 180 days.",

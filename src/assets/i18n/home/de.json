@@ -297,7 +297,7 @@
     "header": "Anmelden",
     "input-incorrect": "Bitte prüfe deine Eingaben.",
     "login": "Anmelden mit Konto",
-    "login-data-incorrect": "Benutzername oder Passwort falsch",
+    "login-data-incorrect": "E-Mail oder Passwort falsch",
     "login-description": "Mit den eingegebenen Kontodaten anmelden",
     "login-successful": "Du bist jetzt angemeldet.",
     "or": "Falls keine Speicherung erwünscht, dann:",
