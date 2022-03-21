@@ -33,19 +33,14 @@ actor User
 rectangle "frag.jetzt | use-case diagram \n" << Business >> {
 
 
-    
+
     User -- (Open dashboard)
     User -- (Ask question)
-  
+
     (Ask question) <.. (Toggle notificationbell) : << include >>
     (Open dashboard) <.. (Filter notifications) : << include >>
-<<<<<<< HEAD
-    (Open dashboard) <.. (Lock dashboard) : << include >>
-    (Open dashboard) <.. (Close dashboard) : << include >>
-=======
     (Open dashboard) <.. (Toggle all notification) : << include >>
     (Open dashboard) <.. (Close Dashboard) : << include >>
->>>>>>> Upload New File
     (View notification) <.. (Dismiss notification) : << include >>
     (Open dashboard) <.. (View notification) : << include >>
     (Open dashboard) <.. (View no notification message) : << include >>
@@ -71,11 +66,6 @@ rectangle "frag.jetzt | use-case diagram \n" << Business >> {
     (Open dashboard) <.. (Search question nr/tags) : <<include >>
     (Search question nr/tags) <.. (View notification) : <<exclude >>
     (Search question nr/tags) <.. (View no notification message) : <<exclude >>
-<<<<<<< HEAD
-    (Lock dashboard) <.. (Close dashboard) : <<include>>
-=======
-
->>>>>>> Upload New File
 }
 
 legend right

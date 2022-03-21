@@ -38,24 +38,27 @@ rectangle "frag.jetzt | use-case diagram \n" << Business >> {
     (View notification) --- NoteForViewNotification
     User -- (Open dashboard)
     User -- (Ask question)
-    
+
     (Ask question) <.. (Toggle notificationbell) : << extend >>
     (Open dashboard) <.. (Filter notifications) : << extend >>
-    (Open dashboard) <.. (Lock dashboard) : << extend >>
-    (Open dashboard) <.. (View notification) : << include >>
+    (Open dashboard) <.. (Disable notifications) : << extend >>
+    (Open dashboard) <.. (Enable notifications) : << extend >>
+    (Open dashboard) <.. (View notification) : << extend >>
     (View notification) <.. (Dismiss notification) : << extend >>
     (View notification) <.. (Go to question/response) : << extend >>
 }
 
 legend right
   | <img:https://git.thm.de/arsnova/frag.jetzt/-/raw/staging/src/assets/icons/android-chrome-192x192.png> |= \n\n »frag.jetzt« |
-  | Produktion | [[https://frag.jetzt]] |
+  | Production | [[https://frag.jetzt]] |
   | Repository | [[https://git.thm.de/arsnova/frag.jetzt]] |
   | Staging Server | [[https://staging.frag.jetzt]] |
   | UML-Tool| PlantUML V1.2022.1|
-  | Ersteller| Aakash Garg|
+  | Creator| Aakash Garg|
   | Mail| aakash.garg@mni.thm.de |
-  | Letzte Änderung| 04.03.2022 |
+  | Last editor| Ruben Bimberg|
+  | Mail| ruben.bimberg@mni.thm.de|
+  | Last edit| 21.03.2022 |
 end legend
 
 @enduml
