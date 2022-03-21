@@ -58,18 +58,16 @@ export class RoomPageComponent implements OnInit, OnDestroy {
   commentCounter: number;
   responseCounter: number;
   urlToCopy = `${window.location.protocol}//${window.location.host}/participant/room/`;
-  commentCounterEmit: EventEmitter<number> = new EventEmitter<number>();
-  responseCounterEmit: EventEmitter<number> = new EventEmitter<number>();
+  commentCounterEmit = new EventEmitter<[commentCount: number, responseCount: number]>();
   onDestroyListener: EventEmitter<void> = new EventEmitter<void>();
   moderatorCommentCounter: number;
   moderatorResponseCounter: number;
   userRole: UserRole;
-  protected moderationEnabled = true;
+  moderationEnabled = true;
   protected listenerFn: () => void;
   private _navigationBuild = new SyncFence(2, this.initNavigation.bind(this));
   private _sub: Subscription;
   private _list: ComponentRef<any>[];
-  private _viewModuleCount = 1;
 
   public constructor(
     protected roomService: RoomService,
@@ -87,17 +85,6 @@ export class RoomPageComponent implements OnInit, OnDestroy {
     protected sessionService: SessionService,
     protected roomDataService: RoomDataService,
   ) {
-  }
-
-  get viewModuleCount(): number {
-    return this._viewModuleCount;
-  }
-
-  set viewModuleCount(count: number) {
-    if (this.userRole === UserRole.PARTICIPANT) {
-      return;
-    }
-    this._viewModuleCount = count;
   }
 
   ngOnInit() {
@@ -120,40 +107,19 @@ export class RoomPageComponent implements OnInit, OnDestroy {
       this.user = user;
     });
     this.userRole = this.route.snapshot.data.roles[0];
-    this.preRoomLoadHook().subscribe(user => {
+    this.preRoomLoadHook().subscribe(() => {
       this.sessionService.getRoomOnce().subscribe(room => {
         this.room = room;
         this.isLoading = false;
         this.moderationEnabled = !this.room.directSend;
-        if (this.moderationEnabled) {
-          this.viewModuleCount = this.viewModuleCount + 1;
-        }
-        this.commentService.countByRoomId([{ roomId: this.room.id, ack: true }]).subscribe(commentCounter => {
-          this.setCommentCounter(commentCounter[0].questionCount);
-          this.setResponseCounter(commentCounter[0].responseCount);
-        });
-        if (this.moderationEnabled && this.userRole > UserRole.PARTICIPANT) {
-          this.commentService.countByRoomId([{ roomId: this.room.id, ack: false }]).subscribe(commentCounter => {
-            this.moderatorCommentCounter = commentCounter[0].questionCount;
-            this.moderatorResponseCounter = commentCounter[0].responseCount;
-          });
-        }
+        console.log(this.room.directSend);
+        this.updateResponseCounter();
         const sub = this.roomDataService.receiveUpdates([
           { type: 'CommentCreated', finished: true },
           { type: 'CommentDeleted', finished: true },
           { type: 'CommentPatched', finished: true, updates: ['ack'] }
-        ]).subscribe(update => {
-          this.commentService.getAckComments(this.room.id).subscribe(c => {
-            this.setCommentCounter(c.filter(comm => comm.commentReference === null).length);
-            this.setResponseCounter(c.filter(comm => comm.commentReference !== null).length);
-            if (update.type === 'CommentPatched') {
-              if (update.comment.ack) {
-                this.moderatorCommentCounter = this.moderatorCommentCounter - 1;
-              } else {
-                this.moderatorCommentCounter = this.moderatorCommentCounter + 1;
-              }
-            }
-          });
+        ]).subscribe(() => {
+          this.updateResponseCounter();
         });
         this.onDestroyListener.subscribe(() => sub.unsubscribe());
         this.postRoomLoadHook();
@@ -162,14 +128,10 @@ export class RoomPageComponent implements OnInit, OnDestroy {
     });
   }
 
-  setCommentCounter(commentCounter: number) {
+  setCommentCounter(commentCounter: number, responseCounter: number) {
     this.commentCounter = commentCounter;
-    this.commentCounterEmit.emit(this.commentCounter);
-  }
-
-  setResponseCounter(responseCounter: number) {
     this.responseCounter = responseCounter;
-    this.responseCounterEmit.emit(this.responseCounter);
+    this.commentCounterEmit.emit([this.commentCounter, responseCounter]);
   }
 
   delete(room: Room): void {
@@ -348,13 +310,6 @@ export class RoomPageComponent implements OnInit, OnDestroy {
 
   updateCommentSettings(settings: CommentSettingsDialog) {
     this.room.tags = settings.tags;
-
-    if (this.moderationEnabled && settings.directSend) {
-      this.viewModuleCount = this.viewModuleCount - 1;
-    } else if (!this.moderationEnabled && !settings.directSend) {
-      this.viewModuleCount = this.viewModuleCount + 1;
-    }
-
     this.moderationEnabled = !settings.directSend;
   }
 
@@ -422,6 +377,19 @@ export class RoomPageComponent implements OnInit, OnDestroy {
         this.translateService.get('room-page.changes-gone-wrong').subscribe(msg => {
           this.notificationService.show(msg);
         });
+      }
+    });
+  }
+
+  private updateResponseCounter(): void {
+    this.commentService.countByRoomId([
+      { roomId: this.room.id, ack: true },
+      { roomId: this.room.id, ack: false }
+    ]).subscribe(commentCounter => {
+      this.setCommentCounter(commentCounter[0].questionCount, commentCounter[0].responseCount);
+      if (this.moderationEnabled && this.userRole > UserRole.PARTICIPANT) {
+        this.moderatorCommentCounter = commentCounter[1].questionCount;
+        this.moderatorResponseCounter = commentCounter[1].responseCount;
       }
     });
   }
