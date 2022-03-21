@@ -481,6 +481,53 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     this._filterObj.filter = filter;
   }
 
+  getCommentIcon(comment: Comment): string {
+    const isFromOwner = this.room.ownerId === comment?.creatorId;
+    let isFromModerator = false;
+    this.sessionService.getModeratorsOnce()
+      .subscribe(mods => isFromModerator = mods.some(mod => mod.accountId === comment?.creatorId));
+    if (comment?.brainstormingQuestion) {
+      return 'tips_and_updates';
+    } else if (isFromOwner) {
+      return 'co_present';
+    } else if (isFromModerator) {
+      return 'gavel';
+    }
+    return 'person';
+  }
+
+  getCommentIconClass(comment: Comment): string {
+    const isFromOwner = this.room.ownerId === comment?.creatorId;
+    let isFromModerator = false;
+    this.sessionService.getModeratorsOnce()
+      .subscribe(mods => isFromModerator = mods.some(mod => mod.accountId === comment?.creatorId));
+    if (comment?.brainstormingQuestion || isFromOwner || isFromModerator) {
+      return '';
+    }
+    return 'material-icons-outlined';
+  }
+
+  generateCommentNumber(comment: Comment): string {
+    if (!comment?.number) {
+      return;
+    }
+    const meta = comment.number.split('/');
+    const topLevelNumber = meta[0];
+    const number = meta[meta.length - 1];
+    let message = '';
+    if (meta.length === 1) {
+      this.translateService.get('comment-list.question-number', { number })
+        .subscribe(msg => message = msg.split('/'));
+      return message;
+    }
+    this.translateService.get('comment-list.comment-number', {
+      topLevelNumber,
+      number,
+      level: meta.length - 1,
+    }).subscribe(msg => message = msg.split('/'));
+    return message;
+  }
+
   private refreshUserMap() {
     this.userMap.clear();
     this.comments.forEach(comment => {

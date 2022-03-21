@@ -112,8 +112,21 @@ mat-card-header {
   opacity: 0.25;
   transform: scale(0) rotate(0deg) translate(-50%, -50%);
   @media (min-width: 750px) {
-    animation: bg-object-anim 10s ease-in forwards infinite;
+    animation: var(--anim, bg-object-anim) 10s ease-in forwards infinite;
     animation-delay: var(--delay);
+  }
+}
+
+@keyframes bg-object-anim-reverse {
+  from {
+    color: var(--secondary);
+    opacity: 0.25;
+    transform: scale(0) rotate(720deg) translate(-50%, -50%);
+  }
+  to {
+    color: var(--primary);
+    opacity: 0;
+    transform: scale(10) rotate(0deg) translate(-50%, -50%);
   }
 }
 

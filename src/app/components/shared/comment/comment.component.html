@@ -383,9 +383,9 @@
               *ngIf="!notificationService.isNotificationBlocked"
               (click)="toggleNotifications()">
         <mat-icon
-          class="material-icons-filled"
+          class="not-marked material-icons-filled"
           matTooltip="{{ notificationService.hasCommentSubscription(comment?.id) ? ('notification.notification-off' | translate) : ('notification.notification-on' | translate) }}">
-          {{notificationService.hasCommentSubscription(comment?.id) ? 'notifications_off' : 'notifications'}}
+          {{notificationService.hasCommentSubscription(comment?.id) ? 'notifications' : 'notifications_off'}}
         </mat-icon>
       </button>
       <span class="fill-remaining-space"></span>

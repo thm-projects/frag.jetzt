@@ -155,7 +155,15 @@
         <ars-fill></ars-fill>
         <ars-col ars-flex-box>
           <ars-row *ngIf="commentFocus">
-            <p class="questionwall-present-meta-number">{{commentFocus.number}}</p>
+            <p class="questionwall-present-meta-number">
+              <mat-icon *ngIf="getCommentIcon(commentFocus) as icon"
+                        [class]="getCommentIconClass(commentFocus)">
+                {{icon}}
+              </mat-icon>
+              <span *ngFor="let element of generateCommentNumber(commentFocus)">
+                {{element}}
+              </span>
+            </p>
           </ars-row>
           <ars-fill></ars-fill>
         </ars-col>
@@ -167,7 +175,8 @@
             <ars-row class="questionwall-present-meta">
               <ng-container *ngIf="userMap&&userMap.get(commentFocus.creatorId)>1">
                 <mat-icon class="questionwall-icon questionwall-present-meta-icon
-                questionwall-present-meta-left qw-fade-animation">person_pin_circle</mat-icon>
+                questionwall-present-meta-left qw-fade-animation">person_pin_circle
+                </mat-icon>
                 <ars-col>
                   <span *ngIf="userMap.get(commentFocus.creatorId) > 1"
                         matBadge="{{userMap.get(commentFocus.creatorId)}}"
@@ -385,7 +394,15 @@
                     <ars-col ars-flex-box>
                       <ars-fill></ars-fill>
                       <ars-row>
-                        <p class="questionwall-comment-number">{{comment.number}}</p>
+                        <p class="questionwall-comment-number">
+                          <mat-icon *ngIf="getCommentIcon(comment) as icon"
+                                    [class]="getCommentIconClass(comment)">
+                            {{icon}}
+                          </mat-icon>
+                          <span *ngFor="let element of generateCommentNumber(comment)">
+                            {{element}}
+                          </span>
+                        </p>
                       </ars-row>
                       <ars-fill></ars-fill>
                     </ars-col>
@@ -398,8 +415,9 @@
                                (click)="focusComment(comment)"
                                style="box-sizing:border-box;padding:16px;cursor:pointer">
                         <ars-col class="questionwall-comment-meta">
-                          <ng-container *ngIf="userMap&&userMap.get(comment.creatorId)>1" >
-                            <mat-icon class="questionwall-icon" (click)="filterUser(comment)">person_pin_circle</mat-icon>
+                          <ng-container *ngIf="userMap&&userMap.get(comment.creatorId)>1">
+                            <mat-icon class="questionwall-icon" (click)="filterUser(comment)">person_pin_circle
+                            </mat-icon>
                             <span *ngIf="userMap.get(comment.creatorId) > 1"
                                   matBadge="{{userMap.get(comment.creatorId)}}"
                                   matBadgeSize="small"

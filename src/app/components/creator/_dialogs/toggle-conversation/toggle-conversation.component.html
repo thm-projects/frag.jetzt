@@ -9,20 +9,6 @@
     <mat-slide-toggle
       [(ngModel)]="conversationAllowed">{{ 'room-page.conversation-allow' | translate }}</mat-slide-toggle>
   </div>
-  <div fxLayout="row" style="margin-top: 15px">
-    <mat-slide-toggle
-      *ngIf="conversationAllowed"
-      [(ngModel)]="conversationLimited">{{ 'room-page.conversation-limit' | translate }}</mat-slide-toggle>
-  </div>
-  <div fxLayout="row" style="margin-top: 15px">
-    <mat-form-field
-      *ngIf="conversationAllowed && conversationLimited">
-      <mat-label>{{ 'room-page.conversation-depth' | translate }}</mat-label>
-      <input matInput
-             type="number"
-             [(ngModel)]="newConversationDepth">
-    </mat-form-field>
-  </div>
 </div>
 <app-dialog-action-buttons
   buttonsLabelSection="room-page"

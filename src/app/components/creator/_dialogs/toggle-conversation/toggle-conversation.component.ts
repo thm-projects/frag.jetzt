@@ -4,6 +4,7 @@ import { CommentSettingsComponent } from '../comment-settings/comment-settings.c
 import {
   DialogConfirmActionButtonType
 } from '../../../shared/dialog/dialog-action-buttons/dialog-action-buttons.component';
+
 @Component({
   selector: 'app-toggle-conversation',
   templateUrl: './toggle-conversation.component.html',
@@ -12,23 +13,26 @@ import {
 export class ToggleConversationComponent implements OnInit {
   confirmButtonType: DialogConfirmActionButtonType = DialogConfirmActionButtonType.Alert;
   newConversationDepth: number;
-  conversationLimited: boolean = true;
   conversationAllowed: boolean;
-  constructor(public dialogRef: MatDialogRef<CommentSettingsComponent>,@Inject(MAT_DIALOG_DATA) public data: any,) { }
+
+  constructor(
+    public dialogRef: MatDialogRef<CommentSettingsComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+  ) {
+  }
 
   ngOnInit() {
     this.newConversationDepth = this.data.conversationDepth;
-    this.conversationLimited = this.newConversationDepth === -1? false: true;
-    this.conversationAllowed = this.newConversationDepth === 0? false: true;
+    this.conversationAllowed = this.newConversationDepth !== 0;
   }
+
   buildCloseDialogActionCallback(): () => void {
     return () => this.dialogRef.close('abort');
   }
- toggleConversationActionCallback(): () => void {
-    if(this.conversationAllowed){
-      if(!this.conversationLimited){
-        this.newConversationDepth = -1;
-      }
+
+  toggleConversationActionCallback(): () => void {
+    if (this.conversationAllowed) {
+      this.newConversationDepth = 7;
     } else {
       this.newConversationDepth = 0;
     }
