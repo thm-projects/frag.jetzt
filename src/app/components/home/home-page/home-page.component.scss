@@ -152,7 +152,7 @@ mat-card-header {
 .bg-object {
   width: 15px;
   height: 15px;
-  border: 1px solid white;
+  border: 1px solid var(--primary);
   position: absolute;
   opacity: 0.25;
   transform: scale(0) rotate(0deg) translate(-50%, -50%);
