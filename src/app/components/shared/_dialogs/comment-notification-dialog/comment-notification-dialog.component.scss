@@ -1,22 +1,15 @@
 .weekday-chip {
-  background-color: var(--transparent);
-  color: var(--cancel);
-  margin-top: 10px !important;
-
-  &:hover {
-    color: var(--on-dialog);
-    outline: var(--on-dialog) solid 3px;
-  }
+  background-color: var(--primary);
+  color: var(--on-primary);
 
   &.active {
-    background-color: lawngreen;
-    color: black;
+    background-color: var(--secondary);
+    color: var(--on-secondary);
   }
 
   &.selected {
-    background-color: transparent;
-    color: var(--primary);
-    outline: var(--primary) solid 3px;
+    background-color: var(--surface);
+    color: var(--on-surface);
   }
 }
 
@@ -30,26 +23,16 @@
   }
 
   .primary-btn {
-    background-color: transparent;
-    color: var(--primary);
-    outline: var(--primary) solid 3px;
-    width: 70%;
+    background-color: var(--primary);
+    color: var(--on-primary);
+    width: 100%;
     margin-top: 10px;
-
-    &:hover {
-      background-color: var(--primary);
-      color: var(--on-primary);
-    }
   }
 
   .secondary-btn {
-    background-color: transparent;
-    color: var(--on-dialog);
-    width: 70%;
-    margin: 16px 0;
-
-    &:hover {
-      outline: var(--cancel) solid 3px;
-    }
+    background-color: var(--secondary);
+    color: var(--on-secondary);
+    width: 100%;
+    margin-top: 10px;
   }
 }

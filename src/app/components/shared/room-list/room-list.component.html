@@ -38,19 +38,15 @@
              (matSortChange)="sortData($event)"
              mat-table
              [dataSource]="tableDataSource"
-             class="list-entries"
-              aria-describedby="roomTable"
-              aria-label="This table shows all available rooms.">
+             class="list-entries">
 
         <!-- Room / Session name column -->
         <ng-container matColumnDef="name"
                       aria-hidden="true">
-          <th scope="col"
-              mat-header-cell
+          <th mat-header-cell
               mat-sort-header
               sortActionDescription="Sort by name"
               *matHeaderCellDef
-              scope="col"
               style="width: 41%; padding-right: 0">
             {{ 'room-list.panel-session-name' | translate }}
           </th>
@@ -81,7 +77,6 @@
               mat-sort-header
               sortActionDescription="Sort by shortId"
               *matHeaderCellDef
-              scope="col"
               style="width: 41%">
             {{ 'room-list.panel-session-id' | translate }}
           </th>
@@ -119,7 +114,6 @@
               mat-sort-header
               sortActionDescription="Sort by role"
               *matHeaderCellDef
-              scope="col"
               style="width: 17%">
             {{ 'room-list.panel-user-role' | translate }}
           </th>
@@ -154,7 +148,6 @@
         <ng-container matColumnDef="moderator-access">
           <th mat-header-cell
               *matHeaderCellDef
-              scope="col"
               style="width: 1%; text-align: end">
             {{ 'room-list.panel-join-button' | translate }}
           </th>
@@ -174,7 +167,6 @@
         <ng-container matColumnDef="button">
           <th mat-header-cell
               *matHeaderCellDef
-              scope="col"
               style="width: 1%; text-align: end">
             {{ 'room-list.panel-join-button' | translate }}
           </th>

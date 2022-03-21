@@ -24,15 +24,9 @@ button {
 }
 
 .save {
-  background-color: transparent;
-  color: var(--primary);
-  outline: var(--primary) solid 3px;
-  margin-right: 10px;
-
-  &:hover {
-    background-color: var(--primary);
-    color: var(--on-primary);
-  }
+  background-color: var(--primary);
+  color: var(--on-primary);
+  margin-right: 1%;
 }
 
 mat-icon {

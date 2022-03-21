@@ -52,7 +52,7 @@ export class LoginComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    let u = false;
+    let u;
     let p = false;
     if (changes.username) {
       this.usernameFormControl.setValue(changes.username.currentValue);
@@ -63,6 +63,7 @@ export class LoginComponent implements OnInit, OnChanges {
       p = true;
     }
     if (u && p && !changes.username.isFirstChange() && !changes.username.isFirstChange()) {
+      // TODO: this throws an Exception because data and UI are inconsistent
       this.activateUser();
     }
   }
@@ -138,15 +139,15 @@ export class LoginComponent implements OnInit, OnChanges {
   }
 
   private checkLogin(loginResult: LoginResult) {
-    if (loginResult === LoginResult.FailureActivation) {
+    if (loginResult === LoginResult.failureActivation) {
       this.activateUser();
       return;
     }
-    if (loginResult === LoginResult.FailurePasswordReset) {
+    if (loginResult === LoginResult.failurePasswordReset) {
       this.openPasswordDialog(false);
       return;
     }
-    if (loginResult !== LoginResult.Success) {
+    if (loginResult !== LoginResult.success) {
       this.translationService.get('login.login-data-incorrect').subscribe(message => {
         this.notificationService.show(message);
       });

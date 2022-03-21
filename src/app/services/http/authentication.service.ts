@@ -9,12 +9,12 @@ import { ClientAuthentication } from '../../models/client-authentication';
 import { BaseHttpService } from './base-http.service';
 
 export enum LoginResult {
-  Success,
-  Failure,
-  FailureActivation,
-  FailurePasswordReset,
-  FailureException,
-  NoData
+  success,
+  failure,
+  failureActivation,
+  failurePasswordReset,
+  failureException,
+  noData
 }
 
 const STORAGE_KEY = 'USER';
@@ -70,7 +70,7 @@ export class AuthenticationService extends BaseHttpService {
   refreshLogin(): Observable<LoginResult> {
     const data = this.dataStoreService.get(STORAGE_KEY);
     if (!data) {
-      return of(LoginResult.NoData);
+      return of(LoginResult.noData);
     }
     const user: User = JSON.parse(data);
     this.setUser(new User(
@@ -85,10 +85,10 @@ export class AuthenticationService extends BaseHttpService {
     return this.checkLogin(this.http.post<ClientAuthentication>(connectionUrl, {}, this.httpOptions), user.role)
       .pipe(
         tap(result => {
-          if (result === LoginResult.FailureException) {
+          if (result === LoginResult.failureException) {
             this.dataStoreService.remove(STORAGE_KEY);
             this.logout();
-          } else if (result !== LoginResult.Success) {
+          } else if (result !== LoginResult.success) {
             this.logout();
           }
         })
@@ -102,7 +102,7 @@ export class AuthenticationService extends BaseHttpService {
       this.refreshLogin().subscribe();
     }
     if (this.isLoggedIn()) {
-      return of(LoginResult.Success);
+      return of(LoginResult.success);
     }
     const connectionUrl: string = this.apiUrl.base + this.apiUrl.auth + this.apiUrl.login + this.apiUrl.guest;
     return this.checkLogin(this.http.post<ClientAuthentication>(connectionUrl, null, this.httpOptions), userRole).pipe(
@@ -234,7 +234,7 @@ export class AuthenticationService extends BaseHttpService {
     return clientAuthentication.pipe(
       map((result) => {
         if (!result) {
-          return LoginResult.Failure;
+          return LoginResult.failure;
         }
         this.setUser(new User(
           result.credentials,
@@ -243,19 +243,19 @@ export class AuthenticationService extends BaseHttpService {
           result.details,
           userRole,
           result.type === 'guest'));
-        return LoginResult.Success;
+        return LoginResult.success;
       }),
       catchError((e) => {
         // check if user needs activation
         if (e.error?.status === 403) {
           if (e.error?.message === 'Activation in process') {
-            return of(LoginResult.FailureActivation);
+            return of(LoginResult.failureActivation);
           } else if (e.error?.message === 'Password reset in process') {
-            return of(LoginResult.FailurePasswordReset);
+            return of(LoginResult.failurePasswordReset);
           }
         }
         console.error(e);
-        return of(LoginResult.FailureException);
+        return of(LoginResult.failureException);
       }));
   }
 

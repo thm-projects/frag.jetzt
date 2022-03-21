@@ -109,6 +109,10 @@
   padding-bottom: 20px;
 }
 
+.select-all-label {
+  padding-left: 15px;
+}
+
 .select-all-icon {
   float: left;
   padding-left: 16px;
@@ -136,18 +140,13 @@
 }
 
 .help-button {
-  background-color: transparent;
-  color: var(--green);
-  outline: var(--green) solid 3px;
-  margin: 10px;
-
-  &:hover {
-    background-color: var(--green);
-    color: var(--black);
-  }
+  background-color: var(--green);
+  color: var(--black);
+  margin-top: 1rem;
 
   .mat-icon {
     font-size: 18px;
+    margin-top: 3px;
   }
 }
 

@@ -20,7 +20,7 @@ import { AuthenticationService } from '../../../services/http/authentication.ser
 import { TitleService } from '../../../services/util/title.service';
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
 import { CreateCommentWrapper } from '../../../utils/create-comment-wrapper';
-import { RoomDataService, UpdateInformation } from '../../../services/util/room-data.service';
+import { RoomDataService } from '../../../services/util/room-data.service';
 import { OnboardingService } from '../../../services/util/onboarding.service';
 import { PageEvent } from '@angular/material/paginator';
 import { ViewCommentDataComponent } from '../view-comment-data/view-comment-data.component';
@@ -37,14 +37,7 @@ import { HeaderService } from '../../../services/util/header.service';
 import { TagCloudDataService } from '../../../services/util/tag-cloud-data.service';
 import { Palette } from '../../../../theme/Theme';
 import { BonusTokenComponent } from '../../creator/_dialogs/bonus-token/bonus-token.component';
-import {
-  FilterType,
-  FilterTypeKey,
-  Period,
-  PeriodKey,
-  SortType,
-  SortTypeKey
-} from '../../../utils/data-filter-object.lib';
+import { FilterType, FilterTypeKey, Period, SortType, SortTypeKey } from '../../../utils/data-filter-object.lib';
 import { DataFilterObject } from '../../../utils/data-filter-object';
 
 @Component({
@@ -72,7 +65,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
   newestComment: string;
   freeze = false;
   commentStream: Subscription;
-  periodsList = Object.values(Period) as PeriodKey[];
+  periodsList = Object.values(Period);
   headerInterface = null;
   commentsEnabled: boolean;
   createCommentWrapper: CreateCommentWrapper = null;
@@ -160,12 +153,10 @@ export class CommentListComponent implements OnInit, OnDestroy {
       if (this.sessionService.currentRole !== UserRole.PARTICIPANT) {
         return;
       }
-      this.sessionService.getRoomOnce().subscribe(room => {
-        this.voteService.getByRoomIdAndUserID(room.id, this.user.id).subscribe(votes => {
-          for (const v of votes) {
-            this.commentVoteMap.set(v.commentId, v);
-          }
-        });
+      this.voteService.getByRoomIdAndUserID(this.sessionService.currentRoom.id, this.user.id).subscribe(votes => {
+        for (const v of votes) {
+          this.commentVoteMap.set(v.commentId, v);
+        }
       });
     });
     this.userRole = this.sessionService.currentRole;
@@ -326,7 +317,13 @@ export class CommentListComponent implements OnInit, OnDestroy {
           wasUpdate = true;
         }
       } else if (update.type === 'CommentPatched') {
-        this.onCommentPatched(update);
+        if (update.subtype === 'favorite') {
+          if (this.user.id === update.comment.creatorId && this.userRole === UserRole.PARTICIPANT) {
+            const text = update.comment.favorite ? 'comment-list.question-was-marked-with-a-star' :
+              'comment-list.star-was-withdrawn-from-the-question';
+            this.translateService.get(text).subscribe(ret => this.notificationService.show(ret));
+          }
+        }
       }
       if (update.finished && wasUpdate) {
         this.setFocusedComment(this.sendCommentId);
@@ -359,19 +356,15 @@ export class CommentListComponent implements OnInit, OnDestroy {
       // current live announcer content must be cleared before next read
       this.liveAnnouncer.clear();
 
-      this.liveAnnouncer.announce(newCommentText).catch(err => {
-        console.error(err);
-        this.translateService.get('comment-list.a11y-announce-error').subscribe(msg => {
-          this.notificationService.show(msg);
-        });
+      this.liveAnnouncer.announce(newCommentText).catch(err => { /* TODO error handling */
       });
     }, 450);
   }
 
-  setTimePeriod(period?: PeriodKey) {
+  setTimePeriod(period?: Period) {
     const filter = this._filterObject.filter;
     if (period) {
-      filter.period = Period[period];
+      filter.period = period;
       filter.fromNow = null;
     }
     this._filterObject.filter = filter;
@@ -388,23 +381,13 @@ export class CommentListComponent implements OnInit, OnDestroy {
     autoComplete.closePanel();
     this.questionNumberFormControl.setValue('');
     menu.closeMenu();
-    this.applyFilterByKey('Number', +questionNumber.value);
+    this.applyFilterByKey('number', +questionNumber.value);
   }
 
   isCommentListEmpty(): boolean {
     return this.comments &&
-      (this.commentsFilteredByTimeLength < 1 && this.period === 'All' || this.comments.length === 0) &&
+      (this.commentsFilteredByTimeLength < 1 && this.period === 'time-all' || this.comments.length === 0) &&
       !this.isLoading;
-  }
-
-  private onCommentPatched(update: UpdateInformation) {
-    if (update.subtype === 'favorite') {
-      if (this.user.id === update.comment.creatorId && this.userRole === UserRole.PARTICIPANT) {
-        const text = update.comment.favorite ? 'comment-list.question-was-marked-with-a-star' :
-          'comment-list.star-was-withdrawn-from-the-question';
-        this.translateService.get(text).subscribe(ret => this.notificationService.show(ret));
-      }
-    }
   }
 
   private receiveRoom(room: Room) {
@@ -525,6 +508,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
         condition: () => true
       });
     });
+    /* eslint-enable @typescript-eslint/no-shadow */
   }
 
   private showBonusTokenDialog(): void {

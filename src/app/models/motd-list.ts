@@ -23,19 +23,6 @@ export class MotdList {
     this.sortList(this.messages);
   }
 
-  public markAllAsRead() {
-    this.localRead = [];
-    this.messagesNew.forEach(e => {
-      e.isRead = true;
-      this.localRead.push(e.id);
-    });
-    this.updateLocaleStorage();
-  }
-
-  public containsUnreadMessage(): boolean {
-    return this.messagesNew.filter(x => x.isNew && !x.isRead).length > 0;
-  }
-
   private parse(list: Motd[], messages: any, isNew: boolean): void {
     messages.forEach(e => {
       const motd: Motd = new Motd(
@@ -72,12 +59,25 @@ export class MotdList {
     }
   }
 
+  public markAllAsRead() {
+    this.localRead = [];
+    this.messagesNew.forEach(e => {
+      e.isRead = true;
+      this.localRead.push(e.id);
+    });
+    this.updateLocaleStorage();
+  }
+
   private updateLocaleStorage(): void {
     localStorage.setItem('motds', JSON.stringify(this.localRead));
   }
 
   private hasLocale(id: string): boolean {
     return this.localRead.indexOf(id) !== -1;
+  }
+
+  public containsUnreadMessage(): boolean {
+    return this.messagesNew.filter(x => x.isNew && !x.isRead).length > 0;
   }
 
 }

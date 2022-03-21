@@ -11,10 +11,15 @@ export class KeyboardUtils {
    * @see https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent
    */
   public static isKeyEvent(event: KeyboardEvent, ...keys: KeyboardKey[]): boolean {
+    const supportsKeyAttribute: boolean = (event.key !== undefined);
+
     return keys.filter(key => {
       const keyDefinition: IKeyboardKey = KEYBOARD_KEYS.get(key);
 
-      return keyDefinition.key.indexOf(event.key) !== -1;
+      return (supportsKeyAttribute === true
+        ? (keyDefinition.key.indexOf(event.key) !== -1) // new browser event
+        : (event.keyCode === keyDefinition.keyCode) // old browser event support
+      );
     }).length > 0;
   }
 }

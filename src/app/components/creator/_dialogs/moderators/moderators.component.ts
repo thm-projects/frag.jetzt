@@ -54,16 +54,10 @@ export class ModeratorsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.moderatorService.getModeratorRoomCode(this.roomId).subscribe({
-      next: shortId => {
-        this.moderatorShortId = shortId;
-        this.isLoading = false;
-      },
-      error: () => {
-        this.isLoading = false;
-      }
-    });
-
+    this.moderatorService.getModeratorRoomCode(this.roomId).subscribe(shortId => {
+      this.moderatorShortId = shortId;
+      this.isLoading = false;
+    }, _ => this.isLoading = false);
     this.getModerators();
   }
 
@@ -91,17 +85,14 @@ export class ModeratorsComponent implements OnInit {
     const reference = this.dialog.open(ModeratorRefreshCodeComponent);
     reference.afterClosed().subscribe(value => {
       if (value === true) {
-        this.moderatorService.refreshRoomCode(this.roomId).subscribe({
-          next: newShortId => {
-            this.moderatorShortId = newShortId;
-            this.moderators = this.moderators.filter(m => m.loginId);
-            this.translationService.get('moderators-dialog.code-recreated')
-              .subscribe(msg => this.notificationService.show(msg));
-          },
-          error: () => {
-            this.translationService.get('moderators-dialog.something-went-wrong')
-              .subscribe(msg => this.notificationService.show(msg));
-          }
+        this.moderatorService.refreshRoomCode(this.roomId).subscribe(newShortId => {
+          this.moderatorShortId = newShortId;
+          this.moderators = this.moderators.filter(m => m.loginId);
+          this.translationService.get('moderators-dialog.code-recreated')
+            .subscribe(msg => this.notificationService.show(msg));
+        }, () => {
+          this.translationService.get('moderators-dialog.something-went-wrong')
+            .subscribe(msg => this.notificationService.show(msg));
         });
       }
     });
@@ -130,6 +121,7 @@ export class ModeratorsComponent implements OnInit {
         return;
       }
       this.moderatorService.add(this.roomId, list[0].id).subscribe();
+      // this.moderatorService.addToHistory(this.roomId, list[0].id);
       this.moderators.push(new Moderator(list[0].id, this.roomId, loginId));
       this.translationService.get('moderators-dialog.added').subscribe(msg => {
         this.notificationService.show(msg);

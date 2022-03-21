@@ -232,37 +232,33 @@ export class SessionService {
           room.brainstormingSession.active = false;
           this._afterRoomUpdates.next(room);
         } else if (message.type === 'BrainstormingVoteUpdated') {
-          this.onBrainstormingVoteUpdated(message, room);
+          const { word, ...obj } = message.payload;
+          this._beforeRoomUpdates.next(room);
+          if (!room.brainstormingSession.votesForWords) {
+            room.brainstormingSession.votesForWords = {
+              [word]: {
+                ...obj,
+                ownHasUpvoted: undefined
+              }
+            };
+          } else {
+            const previous = room.brainstormingSession.votesForWords[word];
+            if (!previous) {
+              room.brainstormingSession.votesForWords[word] = {
+                ...obj,
+                ownHasUpvoted: undefined
+              };
+            } else {
+              previous.upvotes = obj.upvotes;
+              previous.downvotes = obj.downvotes;
+            }
+          }
+          this._afterRoomUpdates.next(room);
         }
       });
       this._currentRoom.next(room);
       this.moderatorService.get(room.id).subscribe(moderators => this._currentModerators.next(moderators));
     });
-  }
-
-  private onBrainstormingVoteUpdated(message: any, room: Room) {
-    const { word, ...obj } = message.payload;
-    this._beforeRoomUpdates.next(room);
-    if (!room.brainstormingSession.votesForWords) {
-      room.brainstormingSession.votesForWords = {
-        [word]: {
-          ...obj,
-          ownHasUpvoted: undefined
-        }
-      };
-    } else {
-      const previous = room.brainstormingSession.votesForWords[word];
-      if (!previous) {
-        room.brainstormingSession.votesForWords[word] = {
-          ...obj,
-          ownHasUpvoted: undefined
-        };
-      } else {
-        previous.upvotes = obj.upvotes;
-        previous.downvotes = obj.downvotes;
-      }
-    }
-    this._afterRoomUpdates.next(room);
   }
 
   private checkUser() {
@@ -280,7 +276,7 @@ export class SessionService {
     };
     return {
       next: value => {
-        if (value !== LoginResult.Success) {
+        if (value !== LoginResult.success) {
           goHome();
         }
       },

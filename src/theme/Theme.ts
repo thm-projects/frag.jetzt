@@ -17,13 +17,11 @@ export class ColorElem {
 
 }
 
-type LanguageTranslations = ThemeMeta['translation']['name'];
-
 export class ThemeTranslationList {
 
   map: string[][] = [];
 
-  constructor(private name, translation: LanguageTranslations) {
+  constructor(private name, translation: Object) {
     for (const k in translation) {
       if (translation.hasOwnProperty(k)) {
         this.map.push([k, translation[k]]);
@@ -32,9 +30,9 @@ export class ThemeTranslationList {
   }
 
   public get(language: string) {
-    for (const mapEntry of this.map) {
-      if (mapEntry[0] === language) {
-        return mapEntry[1];
+    for (let i = 0; i < this.map.length; i++) {
+      if (this.map[i][0] === language) {
+        return this.map[i][1];
       }
     }
     console.error('ThemeTranslationList: Translation Error, Unknown Language: ' + language);

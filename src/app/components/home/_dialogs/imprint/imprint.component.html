@@ -7,11 +7,9 @@
   <app-imprint-de *ngIf="languageService.currentLanguage() === 'de'"></app-imprint-de>
   <P>{{ 'imprint.frontend' | translate }}</P>
   <iframe [src]="safeURLfrontend"
-          title="Project statistic frontent"
           style="height: 60px; width: 240px; border: none"></iframe>
   <p>{{ 'imprint.backend' | translate }}</p>
   <iframe [src]="safeURLbackend"
-          title="Project statistic backend"
           style="height: 60px; width: 240px; border: none"></iframe>
 </mat-dialog-content>
 

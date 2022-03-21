@@ -10,10 +10,10 @@ export class CreateComment {
     constructor(roomId: string, creatorId: string, body: string, tag: string = '') {
         this.type = 'CreateComment';
         this.payload = {
-            roomId,
-            creatorId,
-            body,
-            tag
+            roomId: roomId,
+            creatorId: creatorId,
+            body: body,
+            tag: tag
         };
     }
 }
