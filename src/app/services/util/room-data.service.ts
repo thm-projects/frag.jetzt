@@ -322,7 +322,7 @@ export class RoomDataService {
         this.applyStateToComment(comment, false, true);
       }
     }
-    this.calculateCommentReferences(comments,true);
+    this.calculateCommentReferences(comments, true);
     this._currentNackRoomComments.next(comments);
   }
 
@@ -340,7 +340,7 @@ export class RoomDataService {
         this.applyStateToComment(comment, false);
       }
     }
-    this.calculateCommentReferences(comments,false);
+    this.calculateCommentReferences(comments, false);
     if (isUser) {
       comments.forEach(c => {
         c['globalBookmark'] = c.bookmark;
@@ -396,7 +396,7 @@ export class RoomDataService {
     const source = isModeration ? this._fastNackCommentAccess : this._fastCommentAccess;
     const [beforeFiltering, afterFiltering, hasProfanity] = this._filter.filterCommentBody(room, c);
     source[c.id] = { comment: c, beforeFiltering, afterFiltering, hasProfanity, filtered };
-    this.calculateCommentReferences([c],isModeration);
+    this.calculateCommentReferences([c], isModeration);
     if (filtered) {
       this.applyStateToComment(c, false, isModeration);
     }
@@ -548,11 +548,15 @@ export class RoomDataService {
     };
     setTimeout(removeCommentFromSource, 700);
   }
-  private calculateCommentReferences(comments: Comment[], isModeration: boolean){
+
+  private calculateCommentReferences(comments: Comment[], isModeration: boolean) {
     const fastSource = isModeration ? this._fastNackCommentAccess : this._fastCommentAccess;
-    for(const recieve of comments){
-      if(recieve.commentReference !== null){
-        const parent = fastSource[recieve.commentReference].comment;
+    for (const recieve of comments) {
+      if (recieve.commentReference !== null) {
+        const parent = fastSource[recieve.commentReference]?.comment;
+        if (!parent) {
+          return;
+        }
         parent.meta = parent.meta || {};
         parent.meta.children = parent.meta.children || [];
         parent.meta.children.push(recieve.id);

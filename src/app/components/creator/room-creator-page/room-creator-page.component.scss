@@ -1,183 +1,162 @@
-@import '../../../../styles';
+$margin: 40px;
+$padding: 16px;
+$footer-size: 46px;
+$header-size: 64px;
 
-mat-card {
-  width: 100%;
-  max-width: 800px;
-  min-height: auto;
-  padding: 0 10% 0 10%;
-  background-color: var(--surface) !important;
-}
+.card-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: $margin;
+  margin-bottom: $margin;
 
-mat-card-content > :first-child {
-  margin: 3% 0 3% 0;
-}
+  > mat-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    padding: $padding;
+    min-height: calc(100vh - #{$footer-size + $header-size + $margin * 2 + $padding * 2});
+    height: 100%;
+    width: 100%;
+    max-width: 800px;
+    background-color: var(--surface) !important;
 
-#room-edit-description {
-  margin-bottom: 0;
-}
+    > mat-card-header {
+      margin: 8px 0;
+      display: flex;
+      justify-content: center;
 
-.mat-icon-button {
-  width: 100%;
-  height: 100%;
-  border-radius: 0;
-  color: var(--primary) !important;
-  transition: all 0.3s;
+      mat-card-title {
+        display: flex;
+        justify-content: center;
+        color: var(--on-surface) !important;
 
-  &:hover {
-    transform: scale(1.2)
+        h2 {
+          font-size: 16px !important;
+          font-weight: normal;
+          margin-top: 35px;
+        }
+
+        .inline-icon-button {
+          width: 40px;
+          height: 40px;
+          margin-top: 25px;
+        }
+      }
+
+      mat-card-subtitle {
+        display: flex;
+        justify-content: center;
+        color: var(--on-surface) !important;
+
+        .room-short-id {
+          font-size: 14px;
+          color: var(--on-surface) !important;
+          margin-top: -8px;
+        }
+
+        .subtitle-btn {
+          width: 40px;
+          height: 40px;
+          margin-top: -20px;
+          color: var(--primary);
+        }
+
+        .key-icon {
+          color: var(--red);
+          font-size: 36px;
+          width: 36px;
+          height: 36px;
+        }
+      }
+    }
+
+    > mat-card-content {
+      margin: 8px 0;
+      display: flex;
+      justify-content: center;
+    }
+
+    > mat-card-footer {
+      width: 100%;
+      margin: 8px 0;
+      display: flex;
+      justify-content: space-around;
+      align-items: flex-end;
+
+      h3 {
+        margin: 0;
+        color: var(--on-surface) !important;
+        font-size: 14px;
+        font-weight: normal;
+      }
+
+      .mat-icon-button {
+        width: max-content;
+        height: 100%;
+        color: var(--primary) !important;
+        transition: all 0.3s;
+
+        &:hover {
+          transform: scale(1.2)
+        }
+      }
+
+      .gavel-icon {
+        color: var(--red);
+      }
+
+      .main-icon {
+        font-size: 80px;
+        height: 80px;
+        width: 80px;
+        line-height: 100% !important;
+      }
+
+      .smallerIcon {
+        font-size: 60px;
+        height: 60px;
+        width: 60px;
+        line-height: 100% !important;
+      }
+
+      mat-icon > ::ng-deep .mat-badge-content {
+        font-size: 16px;
+        width: 40px;
+        height: 40px;
+        line-height: 40px;
+        background: var(--secondary);
+        color: var(--on-secondary);
+      }
+
+      .response-badge {
+        width: 40px;
+        display: inline-block;
+        height: 80px;
+        line-height: 100% !important;
+
+        &.smallerIcon {
+          height: 60px;
+
+          > .mat-badge-content {
+            margin-top: 20px;
+          }
+        }
+
+        > .mat-badge-content {
+          width: 40px !important;
+          height: 40px !important;
+          line-height: 40px !important;
+          background-color: var(--primary);
+          color: var(--on-primary);
+          font-size: 16px !important;
+          margin: 30px 0 0 10px;
+        }
+      }
+    }
   }
-}
-
-.corner-icon {
-  font-size: 40px;
-  height: 40px;
-  width: 40px;
-  line-height: 100%;
-}
-
-.main-icon {
-  font-size: 80px;
-  height: 80px;
-  width: 80px;
-  line-height: 100% !important;
-}
-
-.smallerIcon {
-  font-size: 60px;
-  height: 60px;
-  width: 60px;
-  line-height: 100% !important;
-}
-
-.room-short-id {
-  font-size: 14px;
-  color: var(--on-surface) !important;
-  margin-top: -8px;
-}
-
-mat-grid-list {
-  margin: 0;
-}
-
-.second {
-  margin-bottom: 20px !important;
-}
-
-
-mat-card-header {
-  margin: 0;
-}
-
-mat-card-title {
-  color: var(--on-surface) !important;
-}
-
-mat-card-subtitle {
-  color: var(--on-surface) !important;
-}
-
-mat-grid-tile {
-  height: 70% !important;
-  padding: 10% 0 !important;
-}
-
-.mat-figure {
-  margin: 20px !important;
-}
-
-mat-expansion-panel {
-  background-color: var(--surface) !important;
-  color: var(--on-surface) !important;
-  min-width: 200px;
-  hyphens: auto;
-}
-
-.subtitle-btn {
-  width: 40px;
-  height: 40px;
-  margin-top: -20px;
-  color: var(--primary);
-}
-
-.gavel {
-  margin: 0.9em 0.25em 0 0;
-  color: var(--red);
-}
-
-.question-button-div {
-  margin: 10% 0 10% 0;
-}
-
-::ng-deep .mat-menu-panel {
-  background-color: var(--dialog);
-  color: var(--on-dialog);
-}
-
-::ng-deep .mat-menu-item {
-  background-color: var(--dialog);
-  color: var(--on-dialog);
-}
-
-.mat-menu-item .mat-icon {
-  background-color: var(--dialog);
-  color: var(--on-dialog);
-}
-
-::ng-deep .mat-badge-content {
-  background: var(--secondary);
-  color: var(--on-secondary);
-  font-size: 16px;
-}
-
-::ng-deep .mat-badge-medium .mat-badge-content {
-  width: 40px;
-  height: 40px;
-  line-height: 40px;
-}
-
-.inline-icon-button {
-  width: 40px;
-  height: 40px;
-  margin-top: 25px;
-}
-
-h3 {
-  margin: 0;
-  color: var(--on-surface) !important;
-  font-size: 14px;
-  font-weight: normal;
-}
-
-h2 {
-  font-size: 16px !important;
-  font-weight: normal;
-  margin-top: 35px;
-}
-
-:host > div {
-  margin-top: 5vh;
-  min-height: calc(88vh - 115px) !important;
-}
-
-.key-icon {
-  color: var(--red);
-  font-size: 36px;
-  width: 36px;
-  height: 36px;
 }
 
 .main-icon material-icons-outlined {
   width: 65px;
-}
-
-.response-badge {
-  > .mat-badge-content{
-    width: 40px !important;
-    height: 40px !important;
-    line-height: 40px !important;
-    background-color: var(--primary);
-    color: var(--on-primary);
-    font-size: 16px !important;
-    margin: 40px 0 0 10px;
-  }
 }
