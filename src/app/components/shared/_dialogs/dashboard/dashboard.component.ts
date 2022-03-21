@@ -142,7 +142,6 @@ export class DashboardComponent implements OnInit {
 
   toggleFilter: boolean = false;
   hasFilter: boolean = false;
-  isNotificationBlocked: boolean = false;
   date: string = new Date().toLocaleDateString('de-DE');
   commentChangeType: typeof CommentChangeType = CommentChangeType;
   userRole: typeof UserRole = UserRole;
@@ -156,7 +155,7 @@ export class DashboardComponent implements OnInit {
     public dialog: MatDialog,
     public deviceInfo: DeviceInfoService,
     public change: DashboardNotificationService,
-    private router: Router
+    private router: Router,
   ) {
     this.languageService.getLanguage().subscribe(lang => {
       this.translationService.use(lang);
@@ -177,7 +176,7 @@ export class DashboardComponent implements OnInit {
   }
 
   toggleNotificationBlock() {
-    this.isNotificationBlocked = !this.isNotificationBlocked;
+    this.change.isNotificationBlocked = !this.change.isNotificationBlocked;
   }
 
   deleteNotes() {

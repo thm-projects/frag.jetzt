@@ -10,15 +10,14 @@
   <div class="color-tooltip"
        [matTooltip]="'comment-page.border-tooltip-' + getBorderClass() | translate"></div>
   <div class="runningnum-outer">
-    <p *ngIf="!isResponse">
-      <mat-icon *ngIf="getCommentIcon() as icon" [class]="getCommentIconClass()">{{icon}}</mat-icon>
-      {{comment.number}}
-    </p>
-    <p *ngIf="isResponse" class="smaller-text">
-      <mat-icon *ngIf="getCommentIcon() as icon" [class]="getCommentIconClass()"
-                class="smaller-on-answer">{{icon}}</mat-icon>
-      <mat-icon *ngIf="isResponse" class="material-icons-round smaller-on-answer forum">forum</mat-icon>
-      {{comment.number}}
+    <p>
+      <mat-icon *ngIf="getCommentIcon() as icon"
+                [class]="getCommentIconClass()">
+        {{icon}}
+      </mat-icon>
+      <span *ngFor="let element of getPrettyCommentNumber()">
+        {{element}}
+      </span>
     </p>
   </div>
   <div fxLayout="column">
@@ -275,17 +274,6 @@
     <div style="margin-top: 10px"
          fxLayout="row"
          fxLayoutAlign="start center">
-      <button mat-icon-button (click)="toggleNotifications()" hidden="true">
-        <mat-icon
-          [ngClass]="{
-            'wrong-icon' : !this.notificationService.hasCommentSubscription(comment?.id),
-            'correct-icon' : this.notificationService.hasCommentSubscription(comment?.id)
-          }"
-          class="material-icons-filled"
-          matTooltip="{{ this.notificationService.hasCommentSubscription(comment?.id) ? ('notification.notification-off' | translate) : ('notification.notification-on' | translate) }}">
-          notifications
-        </mat-icon>
-      </button>
       <div fxLayoutAlign="center center"
            matTooltip="{{ 'comment-page.tag-to-filter' | translate }}"
            (click)="this.clickedOnTag.emit(comment.tag)"
@@ -389,6 +377,15 @@
         <mat-icon class="wrong-icon material-icons-round"
                   (click)="hideConversation()"
                   [matTooltip]="('comment-page.hide-conversation-tooltip' | translate)">forum
+        </mat-icon>
+      </button>
+      <button mat-icon-button
+              *ngIf="!notificationService.isNotificationBlocked"
+              (click)="toggleNotifications()">
+        <mat-icon
+          class="material-icons-filled"
+          matTooltip="{{ notificationService.hasCommentSubscription(comment?.id) ? ('notification.notification-off' | translate) : ('notification.notification-on' | translate) }}">
+          {{notificationService.hasCommentSubscription(comment?.id) ? 'notifications_off' : 'notifications'}}
         </mat-icon>
       </button>
       <span class="fill-remaining-space"></span>

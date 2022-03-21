@@ -123,7 +123,9 @@
     "select-OneDay": "Letzte 24 Stunden",
     "select-OneWeek": "Letzte 7 Tage",
     "select-TwoWeeks": "Letzte 14 Tage",
-    "select-All": "Zeitlich unbegrenzt"
+    "select-All": "Zeitlich unbegrenzt",
+    "question-number": "F{{number}}",
+    "comment-number": "F{{topLevelNumber}}/L{{level}}/A{{number}}"
   },
   "content": {
     "cancel": "Abbrechen",

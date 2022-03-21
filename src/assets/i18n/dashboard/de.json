@@ -74,6 +74,8 @@
     "self-ANSWERED": "Du hast {{commentTypeInfo}} beantwortet.",
     "self-CHANGE_ACK_0": "Du hast {{commentTypeInfo}} verbannt.",
     "self-CHANGE_ACK_1": "Du hast {{commentTypeInfo}} freigegeben.",
+    "self-CHANGE_FAVORITE_0": "Du hast {{commentTypeInfo}} favorisiert.",
+    "self-CHANGE_FAVORITE_1": "Du hast {{commentTypeInfo}} von den Favoriten entfernt.",
     "self-CHANGE_CORRECT_0": "Du hast den Korrekt-Status {{commentTypeInfo2}} zurückgesetzt.",
     "self-CHANGE_CORRECT_1": "Du hast {{commentTypeInfo}} als korrekt markiert.",
     "self-CHANGE_CORRECT_2": "Du hast {{commentTypeInfo}} als falsch markiert.",

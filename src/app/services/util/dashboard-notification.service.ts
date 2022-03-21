@@ -33,6 +33,7 @@ interface IdSubscriptionMapper<T> {
 })
 export class DashboardNotificationService {
 
+  public isNotificationBlocked: boolean = false;
   private _lastChanges = new Date(Number(localStorage.getItem('dashboard-notification-time')));
   private _lastUser = localStorage.getItem('dashboard-notification-user');
   private _notifications = loadNotifications();
@@ -179,6 +180,9 @@ export class DashboardNotificationService {
   }
 
   private pushNotification(message: IMessage) {
+    if (this.isNotificationBlocked) {
+      return;
+    }
     const commentChange = JSON.parse(message.body).payload;
     commentChange.createdAt = new Date(commentChange.createdAt);
     const accountId = this.authenticationService.getUser()?.id;
