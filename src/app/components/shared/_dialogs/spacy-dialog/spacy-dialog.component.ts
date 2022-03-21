@@ -39,9 +39,9 @@ export class SpacyDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.comment = this.data.comment;
-    this.langSupported = this.data.result !== KeywordsResultType.languageNotSupported;
-    const source = this.data?.isAnswer ? this.comment.answerFulltextKeywords : this.comment.keywordsFromSpacy;
-    this.hasKeywordsFromSpacy = this.data.result === KeywordsResultType.successful && source.length > 0;
+    this.langSupported = this.data.result !== KeywordsResultType.LanguageNotSupported;
+    const source = this.comment.keywordsFromSpacy;
+    this.hasKeywordsFromSpacy = this.data.result === KeywordsResultType.Successful && source.length > 0;
     this.keywords = source.map(keyword => ({
       word: keyword.text,
       dep: [...keyword.dep],
@@ -62,11 +62,7 @@ export class SpacyDialogComponent implements OnInit {
         text: kw.word,
         dep: kw.dep
       } as SpacyKeyword));
-      if (this.data?.isAnswer) {
-        this.comment.answerQuestionerKeywords = questioner;
-      } else {
-        this.comment.keywordsFromQuestioner = questioner;
-      }
+      this.comment.keywordsFromQuestioner = questioner;
       this.dialogRef.close(this.comment);
     };
   }

@@ -39,20 +39,20 @@ export class ThemeService {
     this.activate(ThemeService.getActiveThemeConfig() || 'dark');
   }
 
-  private static getActiveThemeConfig(): string {
-    return localStorage.getItem(LOCAL_THEME_KEY);
-  }
-
-  private static setActiveThemeConfig(themeKey: string): void {
-    localStorage.setItem(LOCAL_THEME_KEY, themeKey);
-  }
-
   get activeTheme(): Theme {
     return this._activeTheme;
   }
 
   get currentTheme(): Theme {
     return this.currentThemeSubject.value;
+  }
+
+  private static getActiveThemeConfig(): string {
+    return localStorage.getItem(LOCAL_THEME_KEY);
+  }
+
+  private static setActiveThemeConfig(themeKey: string): void {
+    localStorage.setItem(LOCAL_THEME_KEY, themeKey);
   }
 
   public getTheme() {

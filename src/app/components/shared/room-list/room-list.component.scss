@@ -66,6 +66,7 @@ th, tr {
 }
 
 .mat-badge-content {
+  top: -2px;
   background: var(--secondary);
   color: var(--on-secondary);
 }
@@ -113,4 +114,13 @@ th, tr {
 
 th.mat-header-cell:first-of-type {
   padding-left: 10px;
+}
+.responseCountBadge{
+  width: 0;
+  >.mat-badge-content {
+    background-color: var(--primary);
+    color: var(--on-primary);
+    left: -16px !important;
+    top: 14px !important;
+  }
 }

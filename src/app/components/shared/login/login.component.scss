@@ -1,79 +1,175 @@
-.pwReset {
-  padding-left: 0;
-  color: var(--secondary);
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
 }
 
-.regButton {
-  color: var(--secondary);
+header {
+  display: grid;
+  grid-template-columns: 1fr auto;
+
+  align-items: center;
+
+  h1.title {
+    color: var(--on-dialog) !important;
+    font-size: 18px !important;
+    font-weight: 400;
+  }
+
+  button {
+    padding: 0;
+  }
 }
 
-.guest {
-  background-color: var(--primary);
-  color: var(--on-primary);
-  margin-bottom: 10px;
+form {
+  display: grid;
+  grid-template-rows: auto auto auto;
+
+  width: 100%;
+  margin-top: 14px;
+
+  .login-system-container .input-container {
+    margin-bottom: 14px;
+  }
+
+  .forgot-password-container {
+    margin-bottom: 14px;
+  }
 }
 
-.login {
-  background-color: var(--secondary);
-  color: var(--on-secondary);
+.input-container {
+  display: flex;
+  position: relative;
+
+  align-items: center;
+
+  background-color: var(--dialog);
+  color: var(--on-dialog);
+
+  border: 1px solid #3A3A3A;
+  border-radius: 7px;
+  transition: all 150ms ease-in-out;
+
+  input {
+    margin: 0;
+    padding: 14px;
+    outline: 0;
+    border: 0;
+
+    width: 100%;
+    border-radius: 7px;
+
+    background-color: var(--dialog);
+    color: var(--on-dialog);
+  }
+
+  &.error {
+    border: 1px solid var(--cancel);
+
+    label {
+      color: var(--cancel);
+    }
+  }
+
+  label {
+    margin: 0 14px;
+
+    background-color: var(--dialog);
+    color: var(--on-dialog);
+    font-style: italic !important;
+
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translate(0, -50%);
+
+    pointer-events: none;
+    transition: all 150ms ease-in-out;
+  }
+
+  input:focus ~ label,
+  input:valid ~ label {
+    top: 0;
+    padding: 0 7px;
+  }
 }
 
-.forgot-password {
-  margin-top: 15px;
+button {
+  margin: 0;
+  padding: 14px 7px;
+  outline: 0;
+  border: 0;
+
+  cursor: pointer;
+  transition: all 150ms ease-in-out;
+
+  &.button {
+    background-color: var(--dialog);
+    color: var(--on-dialog);
+  }
+
+  &.alt-button {
+    background-color: var(--dialog);
+    color: var(--primary);
+    border: 1px solid var(--primary);
+    border-radius: 7px;
+
+    &:hover {
+      background-color: var(--primary);
+      color: var(--on-primary);
+    }
+  }
 }
 
-.forgot-password a {
-  text-decoration: underline;
-  color: var(--on-surface);
-  font-size: small;
+.bottom-container {
+  display: grid;
+  grid-template-columns: auto auto;
+  align-items: center;
 }
 
-p {
-  font-size: small;
-  margin: 13px 10px 0 0;
-  color: var(--on-surface);
-  vertical-align: text-bottom;
+.anonymous-container {
+  button {
+    width: 100%;
+    background-color: var(--primary);
+    color: var(--on-primary);
+
+    &:hover {
+      background-color: var(--dialog);
+      color: var(--primary);
+    }
+  }
 }
 
-::ng-deep .mat-form-field-label {
-  color: var(--on-surface)!important;
-}
+.page-splitter {
+  margin: 14px 0;
+  display: block;
+  text-align: center;
+  overflow: hidden;
+  white-space: nowrap;
 
-::ng-deep .mat-form-field-underline {
-  background-color: var(--on-surface)!important;
-}
+  span {
+    position: relative;
+    display: inline-block;
+  }
 
-mat-form-field {
-  color: var(--on-surface);
-}
+  span:before, span:after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 9999px;
+    height: 1px;
+    background-color: #3A3A3A;
+  }
 
-input {
-  caret-color: var(--on-surface);
-}
+  span:before {
+    right: 100%;
+    margin-right: 15px;
+  }
 
-input:-webkit-autofill {
-  -webkit-box-shadow:0 0 0 50px var(--dialog) inset;
-  -webkit-text-fill-color: var(--on-surface);
-}
-input:-webkit-autofill:focus {
-  -webkit-box-shadow: 0 0 0 50px var(--dialog) inset;
-  -webkit-text-fill-color: var(--on-surface);
-}
-
-h3 {
-  margin: 0 0 10px 0!important;
-}
-
-.register {
-  padding: .5rem 0;
-  align-items: baseline;
-}
-
-.registerBtn{
-  text-decoration:underline;
-  color:var(--on-surface);
-  cursor:pointer;
-  font-size:small;
+  span:after {
+    left: 100%;
+    margin-left: 15px;
+  }
 }
 
 .visually-hidden {
@@ -84,12 +180,12 @@ h3 {
   left: -10000px;
 }
 
-.or {
-  height: 30px;
-  font-size: small;
-  margin-top: 30px;
-}
+.close {
+  color: var(--cancel);
+  padding: 5px;
+  border-radius: 17px;
 
-::ng-deep .mat-form-field .mat-form-field-infix {
-  max-width: 500px;
+  &:hover {
+    outline: var(--cancel) solid 3px;
+  }
 }

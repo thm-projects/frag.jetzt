@@ -50,7 +50,9 @@ rectangle "frag.jetzt | use-case diagram \n" << Business >> {
     (Join session) <.. (Ask question) : << extend >>
     (Join session) <.. (Vote up question) : << extend >>
     (Join session) <.. (Vote down question) : << extend >>
-
+    Lecturer - (Interact with dashboard)
+    Moderator - (Interact with dashboard)
+    Student - (Interact with dashboard)
 }
 
 legend right

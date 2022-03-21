@@ -1,0 +1,183 @@
+<div id="mat-sheet" style="max-height: 40%">
+  <!--header navbar-->
+
+  <mat-toolbar>
+    <div [matBadge]="change.getList().length || 0" [matBadgePosition]="'above after'" [matBadgeSize]="'small'">
+      <mat-icon>notifications</mat-icon>
+    </div>
+    <span id="title" *ngIf="deviceInfo.isCurrentlyDesktop" style="margin-left : 10px;">{{'dashboard.title' | translate}}
+    </span>
+    <span class="example-spacer"></span>
+    <!--Filter menu-->
+    <button [matMenuTriggerFor]="menu" mat-icon-button class="example-icon"
+            aria-label="Example icon-button with share icon"
+            (click)="toggleFilter = !toggleFilter">
+      <mat-icon [matTooltip]="'dashboard.filter' | translate">filter_list</mat-icon>
+    </button>
+    <mat-menu class="mat-menu" #menu="matMenu">
+      <button mat-menu-item (click)="filterNotification('star')">
+        <mat-icon class="favorite-icon" [matTooltip]="'notification.tooltip-bonus' | translate">star</mat-icon>
+        {{'notification.bonus' | translate}}
+      </button>
+      <button mat-menu-item (click)="filterNotification('check_circle')">
+        <mat-icon class="favourite-icon" [matTooltip]="'notification.tooltip-correct' | translate">check_circle</mat-icon>
+        {{'notification.correct' | translate}}
+      </button>
+      <button mat-menu-item (click)="filterNotification('delete')">
+        <mat-icon class="delete-icon" [matTooltip]="'notification.tooltip-delete' | translate">delete</mat-icon>
+        {{'notification.delete' | translate}}
+      </button>
+      <button mat-menu-item (click)="filterNotification('ban')">
+        <mat-icon [matTooltip]="'notification.tooltip-ban' | translate">
+          <span class="material-icons-outlined">gavel</span>
+        </mat-icon>
+        {{'notification.ban' | translate}}
+      </button>
+      <button mat-menu-item (click)="filterNotification('question_answer')">
+        <mat-icon class="delete-icon" [matTooltip]="'notification.tooltip-answer' | translate">question_answer</mat-icon>
+        {{'notification.answer' | translate}}
+      </button>
+      <button mat-menu-item (click)="filterNotification('publish')">
+        <mat-icon class="delete-icon" [matTooltip]="'notification.tooltip-publish' | translate">publish</mat-icon>
+        {{'notification.publish' | translate}}
+      </button>
+      <button mat-menu-item [matMenuTriggerFor]="notificationCommentsNr">
+        <mat-icon [matTooltip]="'notification.tooltip-commentNr' | translate">
+          <span class="material-icons-outlined">tag</span>
+        </mat-icon>
+        {{'notification.commentNr' | translate}}
+      </button>
+      <button mat-menu-item [matMenuTriggerFor]="notificationRoomName">
+        <mat-icon [matTooltip]="'notification.tooltip-roomName' | translate">
+          <span class="material-icons-outlined">other_houses</span>
+        </mat-icon>
+        {{'notification.roomName' | translate}}
+      </button>
+    </mat-menu>
+    <mat-menu #notificationCommentsNr="matMenu">
+      <div *ngFor="let number of getCommentNumbers()">
+        <button mat-menu-item (click)="hasFilter=true; this.change.filterByString(number, true)">
+          {{number}}
+        </button>
+      </div>
+    </mat-menu>
+    <mat-menu #notificationRoomName="matMenu">
+      <div *ngFor="let name of getRoomNames()">
+        <button mat-menu-item (click)="hasFilter=true; this.change.filterByString(name, false)">
+          {{name}}
+        </button>
+      </div>
+    </mat-menu>
+    <button *ngIf="!change.isNotificationBlocked" mat-icon-button class="example-icon"
+            aria-label="Example icon-button with menu icon" (click)="toggleNotificationBlock()">
+      <mat-icon [matTooltip]="'dashboard.block' | translate">notifications_active</mat-icon>
+    </button>
+    <button *ngIf="change.isNotificationBlocked" mat-icon-button class="example-icon"
+            aria-label="Example icon-button with menu icon" (click)="toggleNotificationBlock()">
+      <mat-icon [matTooltip]="'dashboard.activate' | translate">notifications_off</mat-icon>
+    </button>
+    <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon"
+            (click)="openDeleteNotifDialog()"
+            style="margin-right: 10px">
+      <mat-icon [matTooltip]="'dashboard.delete' | translate">delete_sweep</mat-icon>
+    </button>
+    <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon"
+            (click)="closeDashboard()">
+      <mat-icon [matTooltip]="'dashboard.close' | translate">keyboard_arrow_down</mat-icon>
+    </button>
+  </mat-toolbar>
+  <mat-nav-list>
+    <!--List Items-->
+    <div *ngFor="let notification of this.change.getList(hasFilter); let i = index; last as isLast">
+      <a mat-list-item>
+        <!--Responder Icons-->
+        <div class="responder-icon">
+          <div *ngIf="notification.initiatorRole === 'CREATOR'">
+            <mat-icon
+              [matTooltip]="'notification.lecturer' | translate">co_present
+            </mat-icon>
+          </div>
+          <div *ngIf="notification.initiatorRole === 'EXECUTIVE_MODERATOR'">
+            <mat-icon
+              [matTooltip]="'notification.moderator' | translate">gavel
+            </mat-icon>
+          </div>
+          <div *ngIf="notification.initiatorRole === 'PARTICIPANT'">
+            <mat-icon
+              [matTooltip]="'notification.participant' | translate">person
+            </mat-icon>
+          </div>
+        </div>
+        <!--Reaction Icons-->
+        <div *ngIf="notification.type === commentChangeType.CREATED">
+          <mat-icon class="wrong-icon" [matTooltip]="'notification.wrong' | translate">highlight_off</mat-icon>
+        </div>
+        <div *ngIf="notification.type === commentChangeType.DELETED">
+          <mat-icon class="delete-icon" [matTooltip]="'notification.delete' | translate">delete</mat-icon>
+        </div>
+        <div *ngIf="notification.type === commentChangeType.ANSWERED">
+          <mat-icon class="comment-icon" [matTooltip]="'notification.comment' | translate">comment</mat-icon>
+        </div>
+        <div *ngIf="notification.type === commentChangeType.CHANGE_ACK">
+          <mat-icon class="ban-icon" [matTooltip]="'notification.ban' | translate">gavel</mat-icon>
+        </div>
+        <div *ngIf="notification.type === commentChangeType.CHANGE_FAVORITE">
+          <mat-icon class="star-icon" [matTooltip]="'notification.bonus' | translate">star</mat-icon>
+        </div>
+        <div *ngIf="notification.type === commentChangeType.CHANGE_CORRECT">
+          <mat-icon class="correct-icon" [matTooltip]="'notification.correct' | translate">check_circle</mat-icon>
+        </div>
+        <div *ngIf="notification.type === commentChangeType.CHANGE_TAG">
+          <mat-icon class="tag-icon" [matTooltip]="'notification.tag' | translate">sell</mat-icon>
+        </div>
+        <div *ngIf="notification.type === commentChangeType.CHANGE_SCORE">
+          <mat-icon class="score-icon" [matTooltip]="'notification.change-score' | translate">thumbs_up_down</mat-icon>
+        </div>
+        <!--Message Text-->
+        <div>
+          <div class="date">
+            {{notification.createdAt.toLocaleDateString()}} {{notification.createdAt.toLocaleTimeString()}} in
+            »{{notification.roomName}}«
+          </div>
+          <div class="message">
+            {{getNotificationMessage(notification) | async}}
+          </div>
+        </div>
+        <!--remove + go to buttons-->
+        <span class="example-spacer"></span>
+        <button mat-button class="remove-btn" (click)="this.change.deleteElement(hasFilter, i)">
+          <mat-icon class="remove" [matTooltip]="'notification.remove' | translate">close
+          </mat-icon>
+        </button>
+        <button mat-button class="go-to-btn">
+          <mat-icon class="go-to"
+                    (click)="goTo(notification)"
+                    [matTooltip]="'notification.go-to-' + (notification.isAnswer ? 'comment' : 'question') | translate">
+            keyboard_arrow_right
+          </mat-icon>
+        </button>
+      </a>
+      <div *ngIf="!isLast">
+        <mat-divider></mat-divider>
+      </div>
+    </div>
+    <!--No Notifications-->
+    <div *ngIf="this.change.getList().length === 0">
+      <a mat-list-item id="empty">
+        <div>
+          <span>{{'notification.no-notifications' | translate}}</span>
+        </div>
+      </a>
+    </div>
+  </mat-nav-list>
+  <!--Footer-->
+  <footer class="md-padding">
+    <button
+      mat-flat-button
+      class="help-button"
+      (click)="showExplanationDashboard()">
+      <mat-icon>question_mark</mat-icon>
+      {{ 'explanation.label' | translate}}
+    </button>
+  </footer>
+</div>

@@ -38,15 +38,19 @@
              (matSortChange)="sortData($event)"
              mat-table
              [dataSource]="tableDataSource"
-             class="list-entries">
+             class="list-entries"
+              aria-describedby="roomTable"
+              aria-label="This table shows all available rooms.">
 
         <!-- Room / Session name column -->
         <ng-container matColumnDef="name"
                       aria-hidden="true">
-          <th mat-header-cell
+          <th scope="col"
+              mat-header-cell
               mat-sort-header
               sortActionDescription="Sort by name"
               *matHeaderCellDef
+              scope="col"
               style="width: 41%; padding-right: 0">
             {{ 'room-list.panel-session-name' | translate }}
           </th>
@@ -55,6 +59,12 @@
               *matCellDef="let room"
               (click)="setCurrentRoom(room.shortId)"
               routerLink="/{{ roleToString((room.role)) }}/room/{{ room.shortId }}">
+            <span matBadge="{{room.responseCount > 0 ? room.responseCount : null}}"
+                  matBadgeSize="small"
+                  matBadgeOverlap="false"
+                  matBadgeColor="secondary"
+                  class="responseCountBadge">
+            </span>
             <span matBadge="{{room.commentCount > 0 ? room.commentCount : null}}"
                   matBadgePosition="before"
                   matBadgeSize="small"
@@ -71,6 +81,7 @@
               mat-sort-header
               sortActionDescription="Sort by shortId"
               *matHeaderCellDef
+              scope="col"
               style="width: 41%">
             {{ 'room-list.panel-session-id' | translate }}
           </th>
@@ -108,6 +119,7 @@
               mat-sort-header
               sortActionDescription="Sort by role"
               *matHeaderCellDef
+              scope="col"
               style="width: 17%">
             {{ 'room-list.panel-user-role' | translate }}
           </th>
@@ -142,6 +154,7 @@
         <ng-container matColumnDef="moderator-access">
           <th mat-header-cell
               *matHeaderCellDef
+              scope="col"
               style="width: 1%; text-align: end">
             {{ 'room-list.panel-join-button' | translate }}
           </th>
@@ -161,6 +174,7 @@
         <ng-container matColumnDef="button">
           <th mat-header-cell
               *matHeaderCellDef
+              scope="col"
               style="width: 1%; text-align: end">
             {{ 'room-list.panel-join-button' | translate }}
           </th>

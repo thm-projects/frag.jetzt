@@ -15,6 +15,7 @@ import { Clipboard } from '@angular/cdk/clipboard';
 import { CommentService } from '../../../../services/http/comment.service';
 import { LanguageService } from '../../../../services/util/language.service';
 import { BonusTokenUtilService } from '../../../../services/util/bonus-token-util.service';
+import { numberSorter } from '../../../../models/comment';
 
 export class MinRoom {
   name: string;
@@ -101,8 +102,8 @@ export class UserBonusTokenComponent implements OnInit {
   }
 
   redeemStars(useEmail: boolean) {
-    if(!this.currentRoom) {
-      if (this.rooms.length === 1 && this.rooms[0]){
+    if (!this.currentRoom) {
+      if (this.rooms.length === 1 && this.rooms[0]) {
         this.currentRoom = this.rooms[0];
       } else {
         this.translationService.get('user-bonus-token.please-choose').subscribe(msg => {
@@ -161,7 +162,7 @@ export class UserBonusTokenComponent implements OnInit {
       this.bonusTokensMixin
         .filter(btm => btm.roomShortId === this.currentRoom.id)
         .filter(btm => btm.accountId === this.userId)
-        .sort((a, b) => a.questionNumber - b.questionNumber)
+        .sort((a, b) => numberSorter(a.questionNumber, b.questionNumber))
         .forEach(btm => {
           const date = new Date(btm.createdAt);
           clipBoardText += '\n' + btm.token + msgs[translationList[5]] + date.toLocaleDateString(this.lang) +
@@ -201,7 +202,7 @@ export class UserBonusTokenComponent implements OnInit {
         this.bonusTokensMixin
           .filter(btm => btm.roomShortId === this.currentRoom.id)
           .filter(btm => btm.accountId === this.userId)
-          .sort((a, b) => a.questionNumber - b.questionNumber)
+          .sort((a, b) => numberSorter(a.questionNumber, b.questionNumber))
           .map(btm => {
             const date = new Date(btm.createdAt);
             return UserBonusTokenComponent.escapeForEmail('\n\n' + btm.token + msgs[translationList[3]] +

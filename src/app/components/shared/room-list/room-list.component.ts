@@ -10,7 +10,7 @@ import { AuthenticationService } from '../../../services/http/authentication.ser
 import { ModeratorService } from '../../../services/http/moderator.service';
 import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
-import { CommentService } from '../../../services/http/comment.service';
+import { CommentService, RoomQuestionCounts } from '../../../services/http/comment.service';
 import { NotificationService } from '../../../services/util/notification.service';
 import { TranslateService } from '@ngx-translate/core';
 import { RemoveFromHistoryComponent } from '../_dialogs/remove-from-history/remove-from-history.component';
@@ -53,7 +53,7 @@ export class RoomListComponent implements OnInit, OnDestroy {
   sub: Subscription;
 
   tableDataSource: MatTableDataSource<Room>;
-  displayedColumns = ['name', 'shortId', 'role', 'moderator-access', 'button'] as const;
+  displayedColumns = ['name', 'shortId', 'role', 'moderator-access', 'button'];
 
   creatorRole = UserRole.CREATOR;
   participantRole = UserRole.PARTICIPANT;
@@ -134,9 +134,19 @@ export class RoomListComponent implements OnInit, OnDestroy {
     });
     this.roomsWithRole = this.roomsWithRole.concat(newRooms);
     this.isLoading = false;
+    const ids = newRooms.map(r => r.id);
+    this.commentService.countByRoomId(ids.map(id => ({ roomId: id, ack: true }))).subscribe(counts => {
+      const cache = {} as { [key in string]: RoomQuestionCounts };
+      counts.forEach((count, i) => cache[ids[i]] = count);
+      newRooms.forEach(r => {
+        r.commentCount = cache[r.id]?.questionCount || 0;
+        r.responseCount = cache[r.id]?.responseCount || 0;
+      });
+    });
     for (const room of newRooms) {
-      this.commentService.countByRoomId(room.id, true).subscribe(count => {
-        room.commentCount = count;
+      this.commentService.getAckComments(room.id).subscribe(c => {
+        room.commentCount = c.filter(comm => comm.commentReference === null).length;
+        room.responseCount = c.filter(comm => comm.commentReference !== null).length;
       });
       this.commentNotificationService.findByRoomId(room.id).subscribe(value => {
         room.hasNotifications = !!value?.length;

@@ -10,7 +10,7 @@
     <label for="tagSelect" *ngIf="!selectedTag"><em>{{'comment-page.tag' | translate}}</em></label>
     <label for="tagSelect" *ngIf="selectedTag">{{selectedTag}}</label>
     <mat-select class="select-list" id="tagSelect" #tagSelect [(ngModel)]="selectedTag">
-      <mat-option [value]="null"><em>{{'comment-page.tag-reset' | translate}}</em></mat-option>
+      <mat-option class="tag-reset" [value]="null"><em>{{'comment-page.tag-reset' | translate}}</em></mat-option>
       <mat-option *ngFor="let tag of sessionInfo.currentRoom.tags" [value]="tag">{{tag}}</mat-option>
     </mat-select>
   </button>

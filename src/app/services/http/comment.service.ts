@@ -6,12 +6,21 @@ import { catchError, tap, map } from 'rxjs/operators';
 import { BaseHttpService } from './base-http.service';
 import { TSMap } from 'typescript-map';
 import { Vote } from '../../models/vote';
-import { SpacyKeyword } from './spacy.service';
 
 const httpOptions = {
   // eslint-disable-next-line @typescript-eslint/naming-convention
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
+
+export interface RoomQuestionCounts {
+  questionCount: number;
+  responseCount: number;
+}
+
+interface CountRequest {
+  roomId: string;
+  ack: boolean;
+}
 
 @Injectable()
 export class CommentService extends BaseHttpService {
@@ -25,20 +34,6 @@ export class CommentService extends BaseHttpService {
 
   constructor(private http: HttpClient) {
     super();
-  }
-
-
-  answer(comment: Comment, answer: string,
-         fulltext: SpacyKeyword[] = [],
-         questioner: SpacyKeyword[] = []): Observable<Comment> {
-    comment.answer = answer;
-    comment.answerFulltextKeywords = fulltext;
-    comment.answerQuestionerKeywords = questioner;
-    const changes = new TSMap<string, any>();
-    changes.set('answer', comment.answer);
-    changes.set('answerFulltextKeywords', JSON.stringify(fulltext));
-    changes.set('answerQuestionerKeywords', JSON.stringify(questioner));
-    return this.patchComment(comment, changes);
   }
 
   toggleRead(comment: Comment): Observable<Comment> {
@@ -99,7 +94,7 @@ export class CommentService extends BaseHttpService {
         keywordsFromSpacy: JSON.stringify(comment.keywordsFromSpacy),
         keywordsFromQuestioner: JSON.stringify(comment.keywordsFromQuestioner),
         language: comment.language, questionerName: comment.questionerName,
-        brainstormingQuestion: comment.brainstormingQuestion
+        brainstormingQuestion: comment.brainstormingQuestion, commentReference: comment.commentReference
       }, httpOptions).pipe(
       tap(_ => ''),
       catchError(this.handleError<Comment>('addComment'))
@@ -199,14 +194,11 @@ export class CommentService extends BaseHttpService {
     );
   }
 
-  countByRoomId(roomId: string, ack: boolean): Observable<number> {
-    const connectionUrl = this.apiUrl.base + this.apiUrl.comment + this.apiUrl.find + this.apiUrl.count;
-    return this.http.post<number>(connectionUrl, {
-      properties: { roomId, ack },
-      externalFilters: {}
-    }, httpOptions).pipe(
+  countByRoomId(rooms: CountRequest[]): Observable<RoomQuestionCounts[]> {
+    const connectionUrl = this.apiUrl.base + this.apiUrl.comment + this.apiUrl.count;
+    return this.http.post<RoomQuestionCounts[]>(connectionUrl, rooms, httpOptions).pipe(
       tap(_ => ''),
-      catchError(this.handleError<number>('countByRoomId', 0))
+      catchError(this.handleError<RoomQuestionCounts[]>('countByRoomId', []))
     );
   }
 
@@ -247,16 +239,12 @@ export class CommentService extends BaseHttpService {
       JSON.parse(comment.keywordsFromQuestioner as unknown as string) : null;
     comment.keywordsFromSpacy = comment.keywordsFromSpacy ?
       JSON.parse(comment.keywordsFromSpacy as unknown as string) : null;
-    comment.answerFulltextKeywords = comment.answerFulltextKeywords ?
-      JSON.parse(comment.answerFulltextKeywords as unknown as string) : null;
-    comment.answerQuestionerKeywords = comment.answerQuestionerKeywords ?
-      JSON.parse(comment.answerQuestionerKeywords as unknown as string) : null;
     return comment;
   }
 
   hashCode(s) {
-    let hash;
-    for (let i = 0, h = 0; i < s.length; i++) {
+    let hash = 0;
+    for (let i = 0; i < s.length; i++) {
       hash = Math.abs(Math.imul(31, hash) + s.charCodeAt(i) | 0);
     }
     const userNumberString = String(hash);

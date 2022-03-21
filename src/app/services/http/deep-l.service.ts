@@ -75,9 +75,9 @@ export enum TargetLang {
 /* eslint-enable @typescript-eslint/naming-convention */
 
 export enum FormalityType {
-  default = '',
-  less = 'less',
-  more = 'more'
+  Default = '',
+  Less = 'less',
+  More = 'more'
 }
 
 @Injectable({
@@ -85,11 +85,20 @@ export enum FormalityType {
 })
 export class DeepLService extends BaseHttpService {
 
-  constructor(private http: HttpClient) {
+  constructor(
+    private http: HttpClient
+  ) {
     super();
-    this.checkAPIStatus().subscribe(hasQuota => {
-      if (!hasQuota) {
-        this.setTimeout(86_400_000);
+    this.checkAPIStatus().subscribe({
+      next: hasQuota => {
+        if (!hasQuota) {
+          this.setTimeout(86_400_000);
+        }
+      },
+      error: err => {
+        if (err?.status === 403) {
+          this.setTimeout(Number.MAX_SAFE_INTEGER);
+        }
       }
     });
   }
@@ -122,7 +131,7 @@ export class DeepLService extends BaseHttpService {
     }
   }
 
-  improveTextStyle(text: string, temTargetLang: TargetLang, formality = FormalityType.default): Observable<string> {
+  improveTextStyle(text: string, temTargetLang: TargetLang, formality = FormalityType.Default): Observable<string> {
     return this.makeXMLTranslateRequest(text, temTargetLang, formality).pipe(
       mergeMap(result =>
         this.makeXMLTranslateRequest(
@@ -147,12 +156,12 @@ export class DeepLService extends BaseHttpService {
 
   private makeXMLTranslateRequest(text: string, targetLang: TargetLang, formality: FormalityType): Observable<DeepLResult> {
     const url = '/deepl/translate';
-    const tagFormality = DeepLService.supportsFormality(targetLang) && formality !== FormalityType.default ? '&formality=' + formality : '';
+    const tagFormality = DeepLService.supportsFormality(targetLang) && formality !== FormalityType.Default ? '&formality=' + formality : '';
     const data = 'target_lang=' + encodeURIComponent(targetLang) +
       '&preserve_formatting=1' +
       '&tag_handling=xml' + tagFormality +
       '&text=' + encodeURIComponent(text);
-    return this.http.post<DeepLResult>(url, data, httpOptions)
+    return this.checkCanSendRequest('makeXMLTranslateRequest') || this.http.post<DeepLResult>(url, data, httpOptions)
       .pipe(
         tap(_ => ''),
         timeout(4500),

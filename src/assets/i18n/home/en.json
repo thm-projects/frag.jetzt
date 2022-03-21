@@ -37,7 +37,7 @@
   "delete-account": {
     "cancel": "Cancel",
     "cancel-description": "Cancel account deletion",
-    "delete": "Delete",
+    "delete": "Yes, delete for good.",
     "delete-description": "Delete your Account"
   },
   "moderators-dialog": {
@@ -113,9 +113,10 @@
     "back": "Back",
     "brainstorming": "Brainstorming",
     "cancel": "Cancel",
-    "delete": "Delete",
+    "delete": "Yes",
     "block": "Block new questions",
     "unlock": "Release for new questions",
+    "conversation": "Forum conversation",
     "delete-account": "Delete account",
     "home-header": "Live Q&A",
     "home-header-mobile": "Live Q&A",
@@ -133,6 +134,7 @@
     "tooltip-super-admin": "You are an administrator of »frag.jetzt«.",
     "my-sessions": "My rooms",
     "really-delete-account": "Do you want to irrevocably delete your account with all sessions? If you have given bonus stars, export the questions so that you can check submitted bonus codes.",
+    "confirm-delete-account": "Yes, delete for good.",
     "sure": "Are you sure?",
     "user-bonus-token": "My bonus stars",
     "user-got-tokens": "You haven't received a star for a good question yet.",
@@ -165,6 +167,7 @@
     "tag-cloud-screenshot": "Print keyword cloud",
     "tag-cloud-administration": "AI settings",
     "questions-blocked": "New questions blocked",
+    "conversation-enabled": "Conversation enabled",
     "overview-question-tooltip": "Number of questions",
     "overview-questioners-tooltip": "Number of questioners",
     "overview-keywords-tooltip": "Number of Keywords",
@@ -179,7 +182,8 @@
     "brainstorm-active": "A brainstorming session is currently taking place.",
     "active-email-notification": "Email notification is enabled.",
     "direct-link": "Direct link",
-    "session-id-copied": "Direct link for participants was copied to the clipboard."
+    "session-id-copied": "Direct link for participants was copied to the clipboard.",
+    "conversation-is-disabled": "Conversation is disabled in this room."
   },
   "help": {
     "cancel": "Close",
@@ -190,7 +194,7 @@
     "accessibility-create": "Create a new session",
     "accessibility-join-button": "Enter the session with the specified session key.",
     "create-session": "Create a room",
-    "created": "Session »{{longRoomName}}« created",
+    "created": "The room for the session »{{longRoomName}}« has been created.",
     "exactly-8": "A key has exactly 8 digits.",
     "accessibility-join-input": "Here you can enter the  key of the session you want to join. The presenter will tell you the session key.",
     "link-description": "Opens a new tab",
@@ -228,7 +232,7 @@
     "brainstorm-title": "Brainstorming",
     "brainstorm-new-session": "New brainstorming session",
     "brainstorm-new-session-short": "New session",
-    "brainstorm-start": "Open",
+    "brainstorm-start": "Start new session",
     "brainstorm-join-session-title": "Join ongoing session?",
     "brainstorm-join-session-title-short": "Ongoing session",
     "brainstorm-join-session-info": "Topic: »{{title}}«",
@@ -277,7 +281,7 @@
     "introductionTitle": "Introduction to »frag.jetzt«",
     "feedbackLink": "You found a bug? You would like to have another feature? The link leads you to the feedback room. The tour will continue in this room.",
     "feedbackLinkTitle": "Feedback room",
-    "optionHeader": "This is the main menu of »frag.jetzt«. In addition to the options of the current page, you will also find general functions here such as the room list or the news from the »frag.jetzt« team. The red bell indicates the guest status of the user.",
+    "optionHeader": "This is the main menu of »frag.jetzt«. In addition to the options of the current page, you will also find general functions here such as the room list or the news from the »frag.jetzt« team. The red exclamation mark indicates the guest status of the user.",
     "optionHeaderTitle": "Options"
   },
   "login": {
@@ -290,11 +294,11 @@
     "email-required": "E-mail required",
     "guest-login": "Sign in as a guest",
     "guest-login-description": "Sign in as a guest",
-    "guest-login-tooltip": "As a guest created rooms or acquired bonuses will be deleted after logging out. Rooms created as a registered user as well as acquired bonuses will be saved for 180 days after the last visit.",
+    "guest-login-tooltip": "Your rooms and bonuses will be deleted after you log out. Everything will be saved for 180 days if you have signed in.",
     "header": "Sign in",
     "input-incorrect": "Please check your data.",
     "login": "Sign in with account",
-    "login-data-incorrect": "Username or password incorrect",
+    "login-data-incorrect": "E-mail or password incorrect",
     "login-description": "Sign in with the entered account data",
     "login-successful": "You are logged in now.",
     "login-tooltip": "Sessions will be stored for 180 days.",
@@ -303,9 +307,9 @@
     "password-required": "Password required",
     "password-reset": "New password",
     "register": "Sign up",
-    "restart-account-activation-button": "If invalid, request a new key",
-    "restart-account-activation-correct": "Activation key sent again",
-    "restart-account-activation-tooltip": "Sends the activation key again",
+    "restart-account-activation-button": "Request a new key",
+    "restart-account-activation-correct": "New activation key sent.",
+    "restart-account-activation-tooltip": "Sends a new activation key to your address.",
     "welcome": "Any questions?",
     "welcome-subtitle": "anonymous | in your browser | for free",
     "welcome-feedback": "➤ Ask the creators of »frag.jetzt«",
@@ -425,7 +429,7 @@
     "sunday": "Sunday",
     "close": "Close",
     "last-setting": "Last setting: %s",
-    "setting-inactive": "Inactive",
+    "setting-inactive": "inactive",
     "confirm": "Confirm",
     "deactivate": "Deactivate",
     "something-went-wrong": "Something went wrong!",
@@ -534,10 +538,22 @@
     "comments": "Processed questions",
     "bad-spelled": "Spelling too bad",
     "failed": "Errors occurred",
-    "inline-header": "Running keyword updates"
+    "inline-header": "Running keyword updates",
+    "404-error-description": "The page you were looking for was not found."
   },
   "topic-cloud-filter": {
     "info-no-keywords": "Our AI-based text analysis can identify keywords. Start analysis?",
     "label-refresh-keywords-start": "Start"
+  },
+  "login-dialog": {
+    "title": "Sign in",
+    "sign-in-as-guest": "Continue as a guest",
+    "or": "or",
+    "e-mail": "E-mail",
+    "password": "Password",
+    "login": "Sign in",
+    "forgot-password-description": "",
+    "forgot-password": "Reset password",
+    "sign-up": "Create account"
   }
 }

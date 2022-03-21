@@ -1,7 +1,7 @@
 import { TSMap } from 'typescript-map';
 
 // A map of available keyboard keys for the application
-export const KEYBOARD_KEYS: TSMap<KeyboardKey, IKeyboardKey> = new TSMap;
+export const KEYBOARD_KEYS: TSMap<KeyboardKey, IKeyboardKey> = new TSMap();
 
 
 /**

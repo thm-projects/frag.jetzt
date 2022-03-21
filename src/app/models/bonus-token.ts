@@ -4,7 +4,7 @@ export class BonusToken {
   userId: string;
   accountId: string;
   token: string;
-  questionNumber: number;
+  questionNumber: string;
   createdAt: Date;
   updatedAt: Date;
 
@@ -20,7 +20,7 @@ export class BonusToken {
     this.userId = userId;
     this.token = token;
     this.accountId = this.userId;
-    this.questionNumber = 0;
+    this.questionNumber = '?';
     this.createdAt = timestamp;
     this.updatedAt = null;
   }

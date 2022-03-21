@@ -28,7 +28,7 @@ const regexMaskKeyword = new RegExp('\\b(' + words.join('|') + ')\\b|' +
 export const maskKeyword = (keyword: string): string =>
   keyword.replace(regexMaskKeyword, '').replace(/\s+/, ' ').trim();
 
-export type KeywordConsumer = (keyword: SpacyKeyword, isFromQuestioner: boolean, isFromAnswer: boolean) => void;
+export type KeywordConsumer = (keyword: SpacyKeyword, isFromQuestioner: boolean) => void;
 
 @Injectable({
   providedIn: 'root',
@@ -46,13 +46,39 @@ export class TopicCloudAdminService {
     this.adminData = new BehaviorSubject<TopicCloudAdminData>(TopicCloudAdminService.getDefaultAdminData);
   }
 
+  static get getDefaultAdminData(): TopicCloudAdminData {
+    let data: TopicCloudAdminData = JSON.parse(localStorage.getItem(this.adminKey));
+    if (!data) {
+      data = {
+        wantedLabels: {
+          de: this.getDefaultSpacyTags('de'),
+          en: this.getDefaultSpacyTags('en')
+        },
+        considerVotes: true,
+        keywordORfulltext: KeywordOrFulltext.Both,
+        minQuestioners: 1,
+        minQuestions: 1,
+        minUpvotes: 0,
+        startDate: null,
+        endDate: null,
+        scorings: null
+      };
+    }
+    ensureDefaultScorings(data);
+    return data;
+  }
+
+  get getAdminData(): Observable<TopicCloudAdminData> {
+    return this.adminData.asObservable();
+  }
+
   static applySettingsToRoom(room: Room, brainstormingActive: boolean, isCurrentlyDark: boolean) {
     const settings: any = CloudParameters.getCurrentParameters(isCurrentlyDark);
     const admin = TopicCloudAdminService.getDefaultAdminData;
     settings.admin = {
       considerVotes: admin.considerVotes,
-      keywordORfulltext: brainstormingActive && admin.keywordORfulltext === KeywordOrFulltext.keyword ?
-        KeywordOrFulltext.both : admin.keywordORfulltext,
+      keywordORfulltext: brainstormingActive && admin.keywordORfulltext === KeywordOrFulltext.Keyword ?
+        KeywordOrFulltext.Both : admin.keywordORfulltext,
       wantedLabels: admin.wantedLabels,
       minQuestioners: admin.minQuestioners,
       minQuestions: admin.minQuestions,
@@ -72,78 +98,29 @@ export class TopicCloudAdminService {
                                   brainstorming: boolean,
                                   keywordFunc: KeywordConsumer) {
     let source = comment.keywordsFromQuestioner;
-    let answerSource = comment.answerQuestionerKeywords;
     let isFromQuestioner = true;
     const censoredInfo = roomDataService.getCensoredInformation(comment);
     if (!censoredInfo) {
       return;
     }
     let censored = censoredInfo.keywordsFromQuestionerCensored;
-    let answerCensored = censoredInfo.answerQuestionerKeywordsCensored;
-    let isAnswerFromQuestioner = true;
-    if (config.keywordORfulltext === KeywordOrFulltext.both) {
+    if (config.keywordORfulltext === KeywordOrFulltext.Both) {
       if (!source || !source.length) {
         isFromQuestioner = false;
         source = comment.keywordsFromSpacy;
         censored = censoredInfo.keywordsFromSpacyCensored;
       }
-      if (!answerSource || !answerSource.length) {
-        isAnswerFromQuestioner = false;
-        answerSource = comment.answerFulltextKeywords;
-        answerCensored = censoredInfo.answerFulltextKeywordsCensored;
-      }
-    } else if (config.keywordORfulltext === KeywordOrFulltext.fulltext) {
+    } else if (config.keywordORfulltext === KeywordOrFulltext.Fulltext) {
       isFromQuestioner = false;
-      isAnswerFromQuestioner = false;
       source = comment.keywordsFromSpacy;
       censored = censoredInfo.keywordsFromSpacyCensored;
-      answerSource = comment.answerFulltextKeywords;
-      answerCensored = censoredInfo.answerFulltextKeywordsCensored;
     }
     if (!source) {
       return;
     }
     const wantedLabels = config.wantedLabels[comment.language.toLowerCase()];
-    for (let i = 0; i < source.length; i++) {
-      const keyword = source[i];
-      if (maskKeyword(keyword.text).length < 3) {
-        continue;
-      }
-      if (censored[i]) {
-        continue;
-      }
-      if (!brainstorming && wantedLabels && (!keyword.dep || !keyword.dep.some(e => wantedLabels.includes(e)))) {
-        continue;
-      }
-      if (!blacklistEnabled) {
-        keywordFunc(keyword, isFromQuestioner, false);
-        continue;
-      }
-      const lowerCasedKeyword = keyword.text.toLowerCase();
-      if (!blacklist.some(word => lowerCasedKeyword.includes(word))) {
-        keywordFunc(keyword, isFromQuestioner, false);
-      }
-    }
-    for (let i = 0; i < answerSource.length; i++) {
-      const keyword = answerSource[i];
-      if (maskKeyword(keyword.text).length < 3) {
-        continue;
-      }
-      if (answerCensored[i]) {
-        continue;
-      }
-      if (!brainstorming && wantedLabels && (!keyword.dep || !keyword.dep.some(e => wantedLabels.includes(e)))) {
-        continue;
-      }
-      if (!blacklistEnabled) {
-        keywordFunc(keyword, isAnswerFromQuestioner, true);
-        continue;
-      }
-      const lowerCasedKeyword = keyword.text.toLowerCase();
-      if (!blacklist.some(word => lowerCasedKeyword.includes(word))) {
-        keywordFunc(keyword, isAnswerFromQuestioner, true);
-      }
-    }
+    this.approveKeywords(keywordFunc, source, censored, brainstorming, wantedLabels, isFromQuestioner,
+      blacklistEnabled, blacklist);
   }
 
   static isTopicAllowed(config: TopicCloudAdminData, comments: number, users: number,
@@ -160,31 +137,19 @@ export class TopicCloudAdminService {
       (data.startDate === null) && (data.endDate === null);
   }
 
-  static get getDefaultAdminData(): TopicCloudAdminData {
-    let data: TopicCloudAdminData = JSON.parse(localStorage.getItem(this.adminKey));
-    if (!data) {
-      data = {
-        wantedLabels: {
-          de: this.getDefaultSpacyTagsDE(),
-          en: this.getDefaultSpacyTagsEN()
-        },
-        considerVotes: true,
-        keywordORfulltext: KeywordOrFulltext.both,
-        minQuestioners: 1,
-        minQuestions: 1,
-        minUpvotes: 0,
-        startDate: null,
-        endDate: null,
-        scorings: null
-      };
+  static getDefaultSpacyTags(lang: string): string[] {
+    const tags: string[] = [];
+    let currentSpacyLabels = [];
+    switch (lang) {
+      case 'de':
+        currentSpacyLabels = spacyLabels.de;
+        break;
+      case 'en':
+        currentSpacyLabels = spacyLabels.en;
+        break;
+      default:
     }
-    ensureDefaultScorings(data);
-    return data;
-  }
-
-  static getDefaultSpacyTagsDE(): string[] {
-    const tags: string[] = [];
-    spacyLabels.de.forEach(label => {
+    currentSpacyLabels.forEach(label => {
       if (label.enabledByDefault) {
         tags.push(label.tag);
       }
@@ -192,18 +157,30 @@ export class TopicCloudAdminService {
     return tags;
   }
 
-  static getDefaultSpacyTagsEN(): string[] {
-    const tags: string[] = [];
-    spacyLabels.en.forEach(label => {
-      if (label.enabledByDefault) {
-        tags.push(label.tag);
+  private static approveKeywords(
+    keywordFunc: KeywordConsumer, keywords: SpacyKeyword[], censored: boolean[], brainstorming: boolean,
+    wantedLabels: string[], isFromQuestioner: boolean, blacklistEnabled: boolean, blacklist: string[]
+  ) {
+    for (let i = 0; i < keywords.length; i++) {
+      const keyword = keywords[i];
+      if (maskKeyword(keyword.text).length < 3) {
+        continue;
       }
-    });
-    return tags;
-  }
-
-  get getAdminData(): Observable<TopicCloudAdminData> {
-    return this.adminData.asObservable();
+      if (censored[i]) {
+        continue;
+      }
+      if (!brainstorming && wantedLabels && (!keyword.dep || !keyword.dep.some(e => wantedLabels.includes(e)))) {
+        continue;
+      }
+      if (!blacklistEnabled) {
+        keywordFunc(keyword, isFromQuestioner);
+        continue;
+      }
+      const lowerCasedKeyword = keyword.text.toLowerCase();
+      if (!blacklist.some(word => lowerCasedKeyword.includes(word))) {
+        keywordFunc(keyword, isFromQuestioner);
+      }
+    }
   }
 
   setAdminData(_adminData: TopicCloudAdminData, updateRoom: Room, userRole: UserRole) {
@@ -245,7 +222,8 @@ export class TopicCloudAdminService {
   }
 
   updateRoom(updatedRoom: Room, message?: string) {
-    this.roomService.updateRoom(updatedRoom).subscribe(() => {
+    this.roomService.updateRoom(updatedRoom).subscribe({
+      next: () => {
         if (!message) {
           message = 'changes-successful';
         }
@@ -253,10 +231,11 @@ export class TopicCloudAdminService {
           this.notificationService.show(msg);
         });
       },
-      () => {
+      error: () => {
         this.translateService.get('topic-cloud.changes-gone-wrong').subscribe(msg => {
           this.notificationService.show(msg);
         });
-      });
+      }
+    });
   }
 }

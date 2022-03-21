@@ -48,24 +48,36 @@ app-tag-cloud-pop-up {
 
 .start_introduction {
   position: fixed;
-  left: 30px;
-  bottom: 30px;
+  left: 35px;
+  bottom: 35px;
   background-color: var(--secondary);
   color: var(--on-secondary);
   transform: scale(1.4);
   transition: all 0.1s ease-in-out;
   z-index: 2;
+
+  &:hover {
+    background-color: var(--background);
+    color: var(--secondary);
+    outline: var(--secondary) solid 3px;
+  }
 }
 
 .fab_add_comment {
   position: fixed;
-  right: 30px;
-  bottom: 30px;
+  right: 35px;
+  bottom: 35px;
   background-color: var(--primary);
   color: var(--on-primary);
   transform: scale(1.4);
   transition: all 0.5s ease-in-out;
   z-index: 2;
+
+  &:hover {
+    background-color: var(--background);
+    color: var(--primary);
+    outline: var(--primary) solid 3px;
+  }
 
   &.center_screen {
     right: calc(50% - 20px);

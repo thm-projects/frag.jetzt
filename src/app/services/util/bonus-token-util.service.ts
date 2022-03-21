@@ -18,7 +18,7 @@ export class BonusTokenUtilService {
             this.commentService.getComment(bt.commentId).subscribe(comment => {
                 bt.questionNumber = comment.number;
             });
-        })
+        });
         return bts;
   }
 }

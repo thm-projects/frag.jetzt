@@ -22,8 +22,7 @@ import { Room } from '../../../models/room';
 import { VoteService } from '../../../services/http/vote.service';
 import { Vote } from '../../../models/vote';
 import { Location } from '@angular/common';
-import { CreateCommentKeywords, KeywordsResultType } from '../../../utils/create-comment-keywords';
-import { SpacyDialogComponent } from '../_dialogs/spacy-dialog/spacy-dialog.component';
+import { CreateCommentKeywords } from '../../../utils/create-comment-keywords';
 import { LanguagetoolService } from '../../../services/http/languagetool.service';
 import { DeepLService } from '../../../services/http/deep-l.service';
 import { SpacyService } from '../../../services/http/spacy.service';
@@ -45,12 +44,17 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
   userRole: UserRole;
   user: User;
   isStudent = true;
+  isCreator: boolean = false;
+  isModerator: boolean = false;
   edit = false;
   room: Room;
   mods: Set<string>;
   vote: Vote;
   isModerationComment = false;
   isSending = false;
+  responses: Comment[] = [];
+  isConversationView: boolean;
+  roleString: string;
   private _commentSubscription;
   private _list: ComponentRef<any>[];
 
@@ -77,6 +81,7 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.isConversationView = this.router.url.endsWith('conversation');
     this.userRole = this.sessionService.currentRole;
     this.initNavigation();
     this.authenticationService.watchUser.subscribe(newUser => {
@@ -86,6 +91,19 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
     });
     if (this.userRole !== UserRole.PARTICIPANT) {
       this.isStudent = false;
+    }
+    switch (this.userRole) {
+      case UserRole.PARTICIPANT.valueOf():
+        this.isStudent = true;
+        this.roleString = 'participant';
+        break;
+      case UserRole.CREATOR.valueOf():
+        this.isCreator = true;
+        this.roleString = 'creator';
+        break;
+      case UserRole.EXECUTIVE_MODERATOR.valueOf():
+        this.isModerator = true;
+        this.roleString = 'moderator';
     }
     this.route.params.subscribe(params => {
       const commentId = params['commentId'];
@@ -115,6 +133,12 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
     }
   }
 
+  getResponses() {
+    this.roomDataService.getRoomDataOnce(false, this.isModerationComment).subscribe(data => {
+      this.responses = data.filter(resp => resp.commentReference === this.comment.id);
+    });
+  }
+
   checkForEscape(event: KeyboardEvent) {
     if (KeyboardUtils.isKeyEvent(event, KeyboardKey.Escape)) {
       if (this.eventService.focusOnInput) {
@@ -127,9 +151,12 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
   }
 
   checkForBackDropClick(event: PointerEvent, ...elements: Node[]) {
+    if (this.isConversationView) {
+      return;
+    }
     const target = event.target as Node;
     const parent = document.querySelector('.main_container');
-    if (event.target && parent.contains(target) && !elements.some(e => e && e.contains(target))) {
+    if (event.target && parent.contains(target) && !elements.some(e => e?.contains(target))) {
       this.goBackToCommentList();
     }
   }
@@ -143,30 +170,28 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
   }
 
   submitNormal(body: string, text: string, tag: string, name: string, verifiedWithoutDeepl: boolean) {
-    this.saveAnswer(body, !verifiedWithoutDeepl);
+    const response: Comment = new Comment();
+    response.roomId = this.room.id;
+    response.body = body;
+    response.creatorId = this.user.id;
+    response.createdFromLecturer = this.userRole > 0;
+    response.commentReference = this.comment.id;
+    response.tag = tag;
+    response.questionerName = name;
+    this.commentService.addComment(response).subscribe(c => {
+      let url: string;
+      this.route.params.subscribe(params => {
+        url = `${this.roleString}/room/${params['shortId']}/comment/${this.comment.id}/conversation`;
+      });
+      this.router.navigate([url]);
+    });
+    this.translateService.get('comment-list.comment-sent')
+      .subscribe(msg => this.notificationService.show(msg));
   }
 
   saveAnswer(data: string, forward = false): void {
     this.answer = CreateCommentKeywords.transformURLtoQuill(data, true);
     this.edit = !this.answer;
-    const previous = this.comment.answer;
-    this.comment.answer = this.answer;
-    this.generateKeywords(this.comment, forward).subscribe(result => {
-      if (!result) {
-        this.edit = true;
-        this.comment.answer = previous;
-        setTimeout(() => {
-          this.commentComponent.commentData.currentData = this.answer;
-        });
-        return;
-      }
-      this.commentService.answer(this.comment, this.answer, this.comment.answerFulltextKeywords,
-        this.comment.answerQuestionerKeywords).subscribe(() => {
-        this.translateService.get('comment-page.comment-answered').subscribe(msg => {
-          this.notificationService.show(msg);
-        });
-      });
-    });
   }
 
   openDeleteAnswerDialog(): () => void {
@@ -186,7 +211,6 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
   deleteAnswer() {
     this.commentComponent.commentData.clear();
     this.answer = null;
-    this.commentService.answer(this.comment, this.answer).subscribe();
     this.translateService.get('comment-page.answer-deleted').subscribe(msg => {
       this.notificationService.show(msg);
     });
@@ -195,6 +219,22 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
   onEditClick() {
     this.edit = true;
     setTimeout(() => this.commentComponent.commentData.set(this.answer));
+  }
+
+  applySortAnswers(value: string) {
+    switch (value) {
+      case 'Time':
+        this.responses.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+        this.responses.reverse();
+        break;
+      case 'BestScore':
+        this.responses.sort((a, b) => b.score - a.score);
+        break;
+      case 'WorstScore':
+        this.responses.sort((a, b) => b.score - a.score);
+        this.responses.reverse();
+        break;
+    }
   }
 
   private findComment(commentId: string): Observable<[Comment, boolean]> {
@@ -223,19 +263,14 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
   private onCommentReceive(c: Comment, isModerationComment: boolean) {
     this.comment = c;
     this.isModerationComment = isModerationComment;
-    this.answer = this.comment.answer;
+    this.getResponses();
     this.edit = !this.answer;
     this.isLoading = false;
     this._commentSubscription = this.roomDataService.receiveUpdates([
       { type: 'CommentPatched', finished: true, updates: ['ack'] },
-      { type: 'CommentPatched', finished: true, updates: ['answer'] },
       { type: 'CommentDeleted', finished: true }
     ]).subscribe(update => {
       if (update.type === 'CommentPatched') {
-        if (update.updates.includes('answer')) {
-          this.answer = this.comment.answer;
-          this.edit = !this.answer;
-        }
         if (update.updates.includes('ack')) {
           this.isModerationComment = !this.isModerationComment;
           if (!this.roomDataService.canAccessModerator) {
@@ -257,36 +292,7 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
     this.goBackToCommentList();
   }
 
-  private generateKeywords(comment: Comment, forward: boolean): Observable<boolean> {
-    this.isSending = true;
-    return CreateCommentKeywords.generateKeywords(this.languagetoolService, this.deepLService, this.spacyService,
-      comment.answer, false, forward, this.commentComponent.selectedLang).pipe(
-      mergeMap(result => {
-        this.isSending = false;
-        comment.language = result.language;
-        comment.answerFulltextKeywords = result.keywords;
-        comment.answerQuestionerKeywords = [];
-        if (forward ||
-          ((result.resultType === KeywordsResultType.failure) && !result.wasSpacyError) ||
-          result.resultType === KeywordsResultType.badSpelled) {
-          return of(true);
-        }
-        const dialogRef = this.dialog.open(SpacyDialogComponent, {
-          data: {
-            result: result.resultType,
-            comment,
-            isAnswer: true
-          }
-        });
-        return dialogRef.afterClosed().pipe(
-          map(res => !!res)
-        );
-      })
-    );
-  }
-
   private initNavigation() {
-    /* eslint-disable @typescript-eslint/no-shadow */
     this._list = this.composeService.builder(this.headerService.getHost(), e => {
       e.menuItem({
         translate: this.headerService.getTranslate(),
@@ -305,6 +311,5 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
         condition: () => true
       });
     });
-    /* eslint-enable @typescript-eslint/no-shadow */
   }
 }

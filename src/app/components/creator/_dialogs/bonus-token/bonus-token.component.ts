@@ -23,6 +23,7 @@ import { BonusTokenDeleted } from '../../../../models/events/bonus-token-deleted
 import { LanguageService } from '../../../../services/util/language.service';
 import { BonusTokenUtilService } from '../../../../services/util/bonus-token-util.service';
 import { ModeratorService } from '../../../../services/http/moderator.service';
+import { numberSorter } from '../../../../models/comment';
 
 @Component({
   selector: 'app-bonus-token',
@@ -216,7 +217,7 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
       if (this.currentSort?.direction) {
         switch (this.currentSort.active) {
           case 'questionNumber':
-            data.sort((a, b) => a.questionNumber - b.questionNumber);
+            data.sort((a, b) => numberSorter(a.questionNumber, b.questionNumber));
             break;
           case 'token':
             data.sort((a, b) =>

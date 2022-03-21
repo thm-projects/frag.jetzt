@@ -110,9 +110,6 @@ app-comment {
   margin-top: 10%;
 }
 
-.button-bar {
-}
-
 .button-bar.joyrideActive {
   padding: 15px;
   margin: unset;
@@ -232,24 +229,36 @@ h3 {
 
 .scrollTop {
   position: fixed;
-  left: 25px;
+  left: 35px;
   bottom: 65px;
   transform: scale(0);
   z-index: 1;
   background-color: var(--secondary);
   color: var(--on-secondary);
   transition: 0.1s;
+
+  &:hover {
+    background-color: var(--background);
+    color: var(--secondary);
+    outline: var(--secondary) solid 3px;
+  }
 }
 
 .fab_add_comment {
   position: fixed;
-  right: 25px;
+  right: 35px;
   bottom: 65px;
   z-index: 1;
   background-color: var(--primary);
   color: var(--on-primary);
   transform: scale(1.4);
   transition: all 0.5s ease-in-out;
+
+  &:hover {
+    background-color: var(--background);
+    color: var(--primary);
+    outline: var(--primary) solid 3px;
+  }
 
   &.center_screen {
     right: calc(50% - 20px);
@@ -266,7 +275,7 @@ h3 {
   position: fixed;
   width: 56px + 2 * $joyrideElementPadding;
   height: 56px + 2 * $joyrideElementPadding;
-  right: 17px - $joyrideElementPadding;
+  right: 22px - $joyrideElementPadding;
   bottom: 57px - $joyrideElementPadding;
   visibility: hidden;
 }

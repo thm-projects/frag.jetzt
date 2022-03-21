@@ -1,4 +1,4 @@
-/*
+
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HomePageComponent } from './home-page.component';
@@ -15,6 +15,15 @@ import { RoomService } from '../../../services/http/room.service';
 import { EventService } from '../../../services/util/event.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { UserHomeComponent } from '../user-home/user-home.component';
+import {
+  DocumentService,
+  DomRefService, EventListenerService,
+  JoyrideBackdropService, JoyrideDirective,
+  JoyrideOptionsService,
+  JoyrideService, JoyrideStepsContainerService,
+  JoyrideStepService, LoggerService, StepDrawerService, TemplatesService
+} from 'ngx-joyride';
+
 
 describe('HomePageComponent', () => {
   let component: HomePageComponent;
@@ -39,7 +48,19 @@ describe('HomePageComponent', () => {
         LanguageService,
         EventService,
         ModeratorService,
-        RoomService
+        RoomService,
+        JoyrideService,
+        JoyrideStepService,
+        JoyrideBackdropService,
+        DocumentService,
+        DomRefService,
+        JoyrideOptionsService,
+        EventListenerService,
+        JoyrideStepsContainerService,
+        LoggerService,
+        StepDrawerService,
+        JoyrideDirective,
+        TemplatesService
       ]
     })
     .compileComponents();
@@ -55,4 +76,4 @@ describe('HomePageComponent', () => {
     expect(component).toBeTruthy();
   });
 });
-*/
+

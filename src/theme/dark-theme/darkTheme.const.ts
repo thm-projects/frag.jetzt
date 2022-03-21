@@ -8,10 +8,10 @@ export const dark = {
 
   '--background': '#121212',
   '--surface': '#052338',
-  '--dialog': '#09394f',
+  '--dialog': '#15171D',
   '--cancel': 'red',
   '--alt-surface': '#323232',
-  '--alt-dialog': '#455a64',
+  '--alt-dialog': '#111217',
 
   '--on-primary': '#000000',
   '--on-secondary': 'white',
@@ -24,7 +24,7 @@ export const dark = {
   '--green': 'lawngreen',
   '--red': 'red',
   '--white': '#ffffff',
-  '--yellow': 'darkorange',
+  '--yellow': 'yellow',
   '--blue': '#3f51b5',
   '--purple': 'blueviolet',
   '--magenta': '#ea0a8e',

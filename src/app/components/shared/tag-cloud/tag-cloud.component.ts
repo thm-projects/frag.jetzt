@@ -155,6 +155,14 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     this._calcRenderContext = this._calcCanvas.getContext('2d');
   }
 
+  get tagCloudDataManager(): TagCloudDataService {
+    return this.dataManager;
+  }
+
+  get currentCloudParameters(): CloudParameters {
+    return new CloudParameters(this._currentSettings);
+  }
+
   private static invertHex(hexStr: string) {
     const r = 255 - parseInt(hexStr.substr(1, 2), 16);
     const g = 255 - parseInt(hexStr.substr(3, 2), 16);
@@ -193,8 +201,8 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
         this.notificationService, this.commentService, this.dialog, this.room);
       if (this.brainstormingActive) {
         const filter = new RoomDataFilter(null);
-        filter.filterType = FilterType.brainstormingQuestion;
-        filter.period = Period.fromNow;
+        filter.filterType = FilterType.BrainstormingQuestion;
+        filter.period = Period.FromNow;
         filter.lastRoomId = room.id;
         filter.fromNow = new Date(room.brainstormingSession.createdAt).getTime();
         filter.save('tagCloud');
@@ -228,14 +236,6 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
       this._subscriptionRoom.unsubscribe();
     }
     this.onDestroyListener.emit();
-  }
-
-  get tagCloudDataManager(): TagCloudDataService {
-    return this.dataManager;
-  }
-
-  get currentCloudParameters(): CloudParameters {
-    return new CloudParameters(this._currentSettings);
   }
 
   setCloudParameters(parameters: CloudParameters, save = true): void {
@@ -303,35 +303,10 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     for (const [tag, tagData] of data) {
       const amount = this.dataManager.demoActive ? 10 - tagData.adjustedWeight : 1;
       for (let i = 0; i < amount; i++) {
-        const remaining = countFiler[tagData.adjustedWeight];
-        if (remaining !== 0) {
-          if (remaining > 0) {
-            --countFiler[tagData.adjustedWeight];
-          }
-          let rotation = this._currentSettings.cloudWeightSettings[tagData.adjustedWeight].rotation;
-          if (rotation === null || this._currentSettings.randomAngles) {
-            rotation = Math.floor(Math.random() * 30 - 15);
-          }
-          let filteredTag = maskKeyword(tag);
-          if (this.brainstormingActive && filteredTag.length > this.brainstormingData.maxWordLength) {
-            filteredTag = filteredTag.substr(0, this.brainstormingData.maxWordLength - 1) + '…';
-          }
-          newElements.push(new TagComment(filteredTag, tag, rotation, tagData.weight, tagData, newElements.length));
-        }
+        this.createTagElement(countFiler, tagData, tag, newElements);
       }
     }
-    if (this._currentSettings.sortAlphabetically) {
-      const lines = Math.floor(Math.sqrt(newElements.length - 1) + 1);
-      const divided = Math.floor(newElements.length / lines);
-      let remainder = newElements.length - divided * lines;
-      for (let i = 0, line = 0; line < lines; line++) {
-        const size = divided + (--remainder >= 0 ? 1 : 0);
-        for (let k = 0; k < size; k++, i++) {
-          newElements[i].position = new CustomPosition((k + 1) / (size + 1), (line + 1) / (lines + 1));
-        }
-      }
-      this.updateAlphabeticalPosition(newElements);
-    }
+    this.prepareAlphabeticalCloud(newElements);
     this.data = newElements;
     setTimeout(() => {
       this.updateTagCloud(true);
@@ -353,8 +328,8 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     //Room filter
     const filter = new RoomDataFilter(null);
     filter.lastRoomId = this.room.id;
-    filter.period = Period.all;
-    filter.filterType = FilterType.keyword;
+    filter.period = Period.All;
+    filter.filterType = FilterType.Keyword;
     filter.filterCompare = (tag as TagComment).realText;
     filter.save('commentList');
     this.router.navigate(['../'], { relativeTo: this.route });
@@ -365,20 +340,55 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
       throw new Error('user has no rights.');
     }
     TagCloudSettings.getCurrent(this.themeService.currentTheme.isDark).applyToRoom(this.room);
-    this.roomService.updateRoom(this.room).subscribe(_ => {
+    this.roomService.updateRoom(this.room).subscribe({
+      next: () => {
         this.translateService.get('tag-cloud.changes-successful').subscribe(msg => {
           this.notificationService.show(msg);
         });
       },
-      error => {
+      error: (error) => {
         this.translateService.get('tag-cloud.changes-gone-wrong').subscribe(msg => {
           this.notificationService.show(msg);
         });
-      });
+      }
+    });
   }
 
   isCloudEmpty() {
     return !this.data?.length;
+  }
+
+  private prepareAlphabeticalCloud(newElements: TagComment[]) {
+    if (this._currentSettings.sortAlphabetically) {
+      const lines = Math.floor(Math.sqrt(newElements.length - 1) + 1);
+      const divided = Math.floor(newElements.length / lines);
+      let remainder = newElements.length - divided * lines;
+      for (let i = 0, line = 0; line < lines; line++) {
+        const size = divided + (--remainder >= 0 ? 1 : 0);
+        for (let k = 0; k < size; k++, i++) {
+          newElements[i].position = new CustomPosition((k + 1) / (size + 1), (line + 1) / (lines + 1));
+        }
+      }
+      this.updateAlphabeticalPosition(newElements);
+    }
+  }
+
+  private createTagElement(countFiler: number[], tagData: TagCloudDataTagEntry, tag: string, newElements: TagComment[]) {
+    const remaining = countFiler[tagData.adjustedWeight];
+    if (remaining !== 0) {
+      if (remaining > 0) {
+        --countFiler[tagData.adjustedWeight];
+      }
+      let rotation = this._currentSettings.cloudWeightSettings[tagData.adjustedWeight].rotation;
+      if (rotation === null || this._currentSettings.randomAngles) {
+        rotation = Math.floor(Math.random() * 30 - 15);
+      }
+      let filteredTag = maskKeyword(tag);
+      if (this.brainstormingActive && filteredTag.length > this.brainstormingData.maxWordLength) {
+        filteredTag = filteredTag.substr(0, this.brainstormingData.maxWordLength - 1) + '…';
+      }
+      newElements.push(new TagComment(filteredTag, tag, rotation, tagData.weight, tagData, newElements.length));
+    }
   }
 
   private getCurrentCloudParameters(): CloudParameters {
@@ -429,7 +439,6 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
   }
 
   private initNavigation() {
-    /* eslint-disable @typescript-eslint/no-shadow */
     const list: ComponentRef<any>[] = this.composeService.builder(this.headerService.getHost(), e => {
       e.menuItem({
         translate: this.headerService.getTranslate(),
@@ -490,7 +499,6 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     this.onDestroyListener.subscribe(() => {
       list.forEach(e => e.destroy());
     });
-    /* eslint-enable @typescript-eslint/no-shadow */
   }
 
   private redraw(dataUpdate: boolean): void {
@@ -536,13 +544,13 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     }
     let textTransform = '';
     let plainTextTransform = 'unset';
-    if (this._currentSettings.textTransform === CloudTextStyle.capitalized) {
+    if (this._currentSettings.textTransform === CloudTextStyle.Capitalized) {
       textTransform = 'text-transform: capitalize;';
       plainTextTransform = 'capitalize';
-    } else if (this._currentSettings.textTransform === CloudTextStyle.lowercase) {
+    } else if (this._currentSettings.textTransform === CloudTextStyle.Lowercase) {
       textTransform = 'text-transform: lowercase;';
       plainTextTransform = 'lowercase';
-    } else if (this._currentSettings.textTransform === CloudTextStyle.uppercase) {
+    } else if (this._currentSettings.textTransform === CloudTextStyle.Uppercase) {
       textTransform = 'text-transform: uppercase;';
       plainTextTransform = 'uppercase';
     }
@@ -590,10 +598,8 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     if (!this._currentSettings) {
       return 2;
     }
-    const cssUpdates = ['backgroundColor', 'fontColor'];
     const dataUpdates = ['randomAngles', 'sortAlphabetically',
       'fontSizeMin', 'fontSizeMax', 'textTransform', 'fontStyle', 'fontWeight', 'fontFamily', 'fontSize'];
-    const cssWeightUpdates = ['color'];
     const dataWeightUpdates = ['maxVisibleElements', 'rotation'];
     for (const key of dataUpdates) {
       if (this._currentSettings[key] !== parameters[key]) {
@@ -607,6 +613,12 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
         }
       }
     }
+    return this.checkCssUpdateIntensity(parameters);
+  }
+
+  private checkCssUpdateIntensity(parameters: CloudParameters) {
+    const cssUpdates = ['backgroundColor', 'fontColor'];
+    const cssWeightUpdates = ['color'];
     for (const key of cssUpdates) {
       if (this._currentSettings[key] !== parameters[key]) {
         return 1;

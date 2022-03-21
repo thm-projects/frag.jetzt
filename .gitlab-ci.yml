@@ -3,7 +3,7 @@ variables:
 
 stages:
   - test
-  - codestyle
+  - codequality
   - build
   - deploy
 
@@ -13,11 +13,11 @@ cache:
     - node_modules/
 
 eslint:
-  stage: codestyle
+  stage: codequality
   tags:
     - angular
   image: local-angular:13
-  allow_failure: true
+  allow_failure: false
   dependencies: []
   script:
     - npm ci
@@ -37,18 +37,39 @@ unit_tests:
     - npm ci
     - npm test
 
-.sonar:
-  stage: codestyle
+e2e_cypress:
+  stage: test
+  tags:
+    - angular
+  image: local-angular:13
+  allow_failure: true
+  dependencies: []
+  cache:
+    key:
+      files:
+        - package.json
+    paths:
+      - ~/.npm
+      - ~/.cache
+  script:
+    - apt-get update && apt-get -y install libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb
+    - source ci_staging_backend.export
+    - npm ci
+    - npx cypress verify
+    - ng e2e arsnova-angular-frontend --watch=false
+
+sonar:
+  stage: codequality
   only:
     - staging
   tags:
     - sonar-cli
-  allow_failure: true
+  allow_failure: false
   dependencies:
     - unit_tests
   script:
     - npm ci
-    - sonar-scanner -Dsonar.login=$SONAR_TOKEN -Dsonar.host.url=https://scm.thm.de/sonar/
+    - sonar-scanner -Dsonar.login=$SONAR_TOKEN -Dsonar.host.url=https://scm.thm.de/sonar/ -Dsonar.qualitygate.wait=true
 
 ngbuild:
   stage: build
@@ -64,7 +85,7 @@ ngbuild:
     paths:
       - "$BUILD_DIR"
 
-.deploy_staging:
+deploy_staging:
   stage: deploy
   only:
     - staging
@@ -116,7 +137,7 @@ deploy_production:
 build_image:
   extends: .build_image_template
   only:
-    # - staging
+    - staging
     - master
 
 build_image_manual:

@@ -25,6 +25,9 @@ import { EditCommentTagComponent } from '../../creator/_dialogs/edit-comment-tag
 import { SessionService } from '../../../services/util/session.service';
 import { DeviceInfoService } from '../../../services/util/device-info.service';
 import { BonusDeleteComponent } from '../../creator/_dialogs/bonus-delete/bonus-delete.component';
+import { DashboardNotificationService } from '../../../services/util/dashboard-notification.service';
+import { Room } from '../../../models/room';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-comment',
@@ -42,7 +45,6 @@ import { BonusDeleteComponent } from '../../creator/_dialogs/bonus-delete/bonus-
     ])
   ]
 })
-
 export class CommentComponent implements OnInit, AfterViewInit {
 
   static COMMENT_MAX_HEIGHT = 250;
@@ -57,17 +59,14 @@ export class CommentComponent implements OnInit, AfterViewInit {
   @Input() commentsWrittenByUser = 1;
   @Input() isFromModerator = false;
   @Input() isFromOwner = false;
-
-  @Input() set isRemoved(value: boolean) {
-    if (value) {
-      this.slideAnimationState = 'removed';
-    }
-  }
-
+  @Input() isResponse = false;
+  @Input() isAnswerView = false;
+  @Input() parentDepth = -1;
   @Output() clickedOnTag = new EventEmitter<string>();
   @Output() clickedOnKeyword = new EventEmitter<string>();
   @Output() clickedUserNumber = new EventEmitter<string>();
   @Output() votedComment = new EventEmitter<string>();
+  @Output() sortedAnswers = new EventEmitter<string>();
   @ViewChild('commentBody', { static: true }) commentBody: RowComponent;
   @ViewChild('commentBodyInner', { static: true }) commentBodyInner: RowComponent;
   @ViewChild('commentExpander', { static: true }) commentExpander: RowComponent;
@@ -86,6 +85,15 @@ export class CommentComponent implements OnInit, AfterViewInit {
   filterProfanityForModerators = false;
   isProfanity = false;
   roomTags: string[];
+  room: Room;
+  responses: Comment[] = [];
+  showResponses: boolean = false;
+  isConversationView: boolean;
+  sortMethod = 'Time';
+  indentationPossible: boolean;
+  readonly COMMENT_MARGIN = 15;
+  private _responseMatcher: MediaQueryList;
+  private _commentNumber: string[] = [];
 
   constructor(
     protected authenticationService: AuthenticationService,
@@ -97,21 +105,39 @@ export class CommentComponent implements OnInit, AfterViewInit {
     private notification: NotificationService,
     private translateService: TranslateService,
     private roomDataService: RoomDataService,
+    public http: HttpClient,
     public dialog: MatDialog,
     protected langService: LanguageService,
     public deviceInfo: DeviceInfoService,
+    public notificationService: DashboardNotificationService,
   ) {
     langService.getLanguage().subscribe(lang => {
       translateService.use(lang);
       this.language = lang;
+      this.http.get('/assets/i18n/dashboard/' + lang + '.json')
+        .subscribe(translation => {
+          this.translateService.setTranslation(lang, translation, true);
+        });
+      this.generateCommentNumber();
     });
+  }
+
+  @Input() set isRemoved(value: boolean) {
+    if (value) {
+      this.slideAnimationState = 'removed';
+    }
+  }
+
+  @Input()
+  set parseVote(vote: Vote) {
+    if (vote) {
+      this.hasVoted = vote.vote;
+    }
   }
 
   getCommentIcon(): string {
     if (this.comment?.brainstormingQuestion) {
       return 'tips_and_updates';
-    } else if (this.comment?.answer) {
-      return 'comment';
     } else if (this.isFromOwner) {
       return 'co_present';
     } else if (this.isFromModerator) {
@@ -121,19 +147,20 @@ export class CommentComponent implements OnInit, AfterViewInit {
   }
 
   getCommentIconClass(): string {
-    if (this.comment?.brainstormingQuestion) {
-      return '';
-    } else if (this.comment?.answer) {
-      return 'material-icons-outlined';
-    } else if (this.isFromOwner) {
-      return '';
-    } else if (this.isFromModerator) {
+    if (this.comment?.brainstormingQuestion || this.isFromOwner || this.isFromModerator) {
       return '';
     }
     return 'material-icons-outlined';
   }
 
   ngOnInit() {
+    this._responseMatcher = window.matchMedia(
+      '(min-width: ' + (this.getMargin() + 375).toString() + 'px)');
+    this.indentationPossible = this._responseMatcher.matches;
+    this._responseMatcher.addEventListener('change', e => {
+      this.indentationPossible = e.matches;
+    });
+    this.isConversationView = this.router.url.endsWith('conversation');
     if (this.comment?.meta?.created) {
       this.slideAnimationState = 'new';
     }
@@ -155,6 +182,8 @@ export class CommentComponent implements OnInit, AfterViewInit {
     this.translateService.use(this.language);
     this.inAnswerView = !this.router.url.includes('comments');
     this.roomTags = this.sessionService.currentRoom?.tags;
+    this.room = this.sessionService.currentRoom;
+    this.getResponses();
   }
 
   checkProfanity() {
@@ -174,6 +203,7 @@ export class CommentComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     setTimeout(() => {
+      this.generateCommentNumber();
       if (this.isMock) {
         this.isExpandable = false;
         this.commentExpander.ref.nativeElement.style.display = 'none';
@@ -211,13 +241,6 @@ export class CommentComponent implements OnInit, AfterViewInit {
     this.slideAnimationState = 'visible';
   }
 
-  @Input()
-  set parseVote(vote: Vote) {
-    if (vote) {
-      this.hasVoted = vote.vote;
-    }
-  }
-
   setRead(comment: Comment): void {
     this.commentService.toggleRead(comment).subscribe(c => {
       this.comment.read = c.read;
@@ -237,7 +260,6 @@ export class CommentComponent implements OnInit, AfterViewInit {
     });
   }
 
-
   setFavorite(comment: Comment): void {
     if (this.comment.favorite) {
       const dialogRef = this.dialog.open(BonusDeleteComponent, {
@@ -248,23 +270,23 @@ export class CommentComponent implements OnInit, AfterViewInit {
         .subscribe(result => {
           if (result === 'delete') {
             this.commentService.toggleFavorite(comment).subscribe(c => {
-              this.comment.favorite = c.favorite;
-              this.checkProfanity();
-              const text = this.comment.favorite ? 'comment-list.question-was-marked-with-a-star' :
-                'comment-list.star-was-withdrawn-from-the-question';
-              this.translateService.get(text).subscribe(ret => this.notification.show(ret));
+              this.notifyFavorite(c);
             });
           }
         });
     } else {
       this.commentService.toggleFavorite(comment).subscribe(c => {
-        this.comment.favorite = c.favorite;
-        this.checkProfanity();
-        const text = this.comment.favorite ? 'comment-list.question-was-marked-with-a-star' :
-          'comment-list.star-was-withdrawn-from-the-question';
-        this.translateService.get(text).subscribe(ret => this.notification.show(ret));
+        this.notifyFavorite(c);
       });
     }
+  }
+
+  notifyFavorite(comment: Comment) {
+    this.comment.favorite = comment.favorite;
+    this.checkProfanity();
+    const text = this.comment.favorite ? 'comment-list.question-was-marked-with-a-star' :
+      'comment-list.star-was-withdrawn-from-the-question';
+    this.translateService.get(text).subscribe(ret => this.notification.show(ret));
   }
 
   voteUp(comment: Comment): void {
@@ -336,12 +358,37 @@ export class CommentComponent implements OnInit, AfterViewInit {
     if (this.isMock) {
       return;
     }
+    if (this.isStudent && this.room.conversationDepth <= this.comment.commentDepth) {
+      return;
+    }
     let url: string;
     this.route.params.subscribe(params => {
       url = `${this.roleString}/room/${params['shortId']}/comment/${this.comment.id}`;
     });
     localStorage.setItem('answeringQuestion', this.comment.id);
     this.router.navigate([url]);
+  }
+
+  showConversation() {
+    if (this.isMock) {
+      return;
+    }
+    if (this.isConversationView && this.indentationPossible) {
+      this.showResponses = true;
+    } else {
+      let url: string;
+      this.route.params.subscribe(params => {
+        url = `${this.roleString}/room/${params['shortId']}/comment/${this.comment.id}/conversation`;
+      });
+      this.router.navigate([url]);
+    }
+  }
+
+  hideConversation() {
+    if (this.isMock) {
+      return;
+    }
+    this.showResponses = false;
   }
 
   delete(): void {
@@ -429,8 +476,6 @@ export class CommentComponent implements OnInit, AfterViewInit {
       return 'border-favorite';
     } else if (this.comment.bookmark) {
       return 'border-bookmark';
-    } else if (this.comment.answer) {
-      return 'border-answer';
     } else if (this.comment.correct === CorrectWrong.WRONG) {
       return 'border-wrong';
     } else if (this.comment.correct === CorrectWrong.CORRECT) {
@@ -441,5 +486,59 @@ export class CommentComponent implements OnInit, AfterViewInit {
       return 'border-moderated';
     }
     return 'border-notMarked';
+  }
+
+  respondToComment() {
+    let url: string;
+    this.route.params.subscribe(params => {
+      url = `${this.roleString}/room/${params['shortId']}/comment/${this.comment.id}`;
+    });
+    this.router.navigate([url]);
+  }
+
+  getResponses() {
+    this.roomDataService.getRoomDataOnce(false, this.moderator).subscribe(data => {
+      this.responses = data.filter(resp => resp.commentReference === this.comment.id);
+    });
+  }
+
+  toggleNotifications() {
+    if (this.notificationService.hasCommentSubscription(this.comment.id)) {
+      this.notificationService.deleteCommentSubscription(this.comment.id).subscribe();
+    } else {
+      this.notificationService.addCommentSubscription(this.comment.roomId, this.comment.id).subscribe();
+    }
+  }
+
+  sortAnswers(value: string) {
+    this.sortedAnswers.emit(value);
+    this.sortMethod = value;
+  }
+
+  getMargin(): number {
+    return (this.comment.commentDepth - this.parentDepth) * this.COMMENT_MARGIN;
+  }
+
+  getPrettyCommentNumber(): string[] {
+    return this._commentNumber;
+  }
+
+  private generateCommentNumber() {
+    if (!this.comment?.number) {
+      return;
+    }
+    const meta = this.comment.number.split('/');
+    const topLevelNumber = meta[0];
+    const number = meta[meta.length - 1];
+    if (meta.length === 1) {
+      this.translateService.get('comment-list.question-number', { number })
+        .subscribe(msg => this._commentNumber = msg.split('/'));
+      return;
+    }
+    this.translateService.get('comment-list.comment-number', {
+      topLevelNumber,
+      number,
+      level: meta.length - 1,
+    }).subscribe(msg => this._commentNumber = msg.split('/'));
   }
 }

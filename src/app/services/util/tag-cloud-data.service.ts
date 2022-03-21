@@ -26,9 +26,7 @@ export interface TagCloudDataTagEntry {
   dependencies: Set<string>;
   comments: Comment[];
   generatedByQuestionerCount: number;
-  fromAnswerCount: number;
   taggedCommentsCount: number;
-  answeredCommentsCount: number;
   commentsByCreator: number;
   commentsByModerators: number;
 }
@@ -79,12 +77,6 @@ export class TagCloudDataService {
   private _lastSubscription: Subscription;
   private _filterObject: DataFilterObject;
 
-  set filterObject(filter: DataFilterObject) {
-    this._filterObject = filter;
-    this._lastSubscription?.unsubscribe();
-    this._lastSubscription = filter?.subscribe(() => this.rebuildTagData());
-  }
-
   constructor(
     private _tagCloudAdmin: TopicCloudAdminService,
     private _roomDataService: RoomDataService,
@@ -105,120 +97,20 @@ export class TagCloudDataService {
     this.sessionService.getRoom().subscribe(room => this.onRoomUpdate(room));
   }
 
-  static buildDataFromComments(roomOwner: string,
-                               moderators: Set<string>,
-                               blacklist: string[],
-                               blacklistEnabled: boolean,
-                               adminData: TopicCloudAdminData,
-                               roomDataService: RoomDataService,
-                               comments: Comment[],
-                               brainstorming: boolean): [TagCloudData, Set<string>] {
-    const data: TagCloudData = new Map<string, TagCloudDataTagEntry>();
-    const users = new Set<string>();
-    for (const comment of comments) {
-      if (brainstorming !== comment.brainstormingQuestion) {
-        continue;
-      }
-      TopicCloudAdminService.approveKeywordsOfComment(comment, roomDataService, adminData, blacklist, blacklistEnabled,
-        brainstorming, (keyword: SpacyKeyword, isFromQuestioner: boolean, isFromAnswer: boolean) => {
-          let current: TagCloudDataTagEntry = data.get(keyword.text);
-          const commentDate = new Date(comment.createdAt);
-          if (current === undefined) {
-            current = {
-              cachedVoteCount: 0,
-              cachedUpVotes: 0,
-              cachedDownVotes: 0,
-              comments: [],
-              weight: 0,
-              adjustedWeight: 0,
-              distinctUsers: new Set<string>(),
-              categories: new Set<string>(),
-              dependencies: new Set<string>([...keyword.dep]),
-              firstTimeStamp: commentDate,
-              lastTimeStamp: commentDate,
-              generatedByQuestionerCount: 0,
-              taggedCommentsCount: 0,
-              answeredCommentsCount: 0,
-              commentsByCreator: 0,
-              commentsByModerators: 0,
-              fromAnswerCount: 0
-            };
-            data.set(keyword.text, current);
-          }
-          keyword.dep.forEach(dependency => current.dependencies.add(dependency));
-          current.cachedVoteCount += comment.score;
-          current.cachedUpVotes += comment.upvotes;
-          current.cachedDownVotes += comment.downvotes;
-          current.distinctUsers.add(comment.creatorId);
-          current.generatedByQuestionerCount += +isFromQuestioner;
-          current.fromAnswerCount += +isFromAnswer;
-          current.taggedCommentsCount += +!!comment.tag;
-          current.answeredCommentsCount += +!!comment.answer;
-          if (comment.creatorId === roomOwner) {
-            ++current.commentsByCreator;
-          } else if (moderators.has(comment.creatorId)) {
-            ++current.commentsByModerators;
-          }
-          if (comment.tag) {
-            current.categories.add(comment.tag);
-          }
-          // @ts-ignore
-          if (current.firstTimeStamp - commentDate > 0) {
-            current.firstTimeStamp = commentDate;
-          }
-          // @ts-ignore
-          if (current.lastTimeStamp - commentDate < 0) {
-            current.lastTimeStamp = commentDate;
-          }
-          current.comments.push(comment);
-        });
-      users.add(comment.creatorId);
-    }
-    return [
-      new Map<string, TagCloudDataTagEntry>([...data].filter(v => brainstorming ||
-        TopicCloudAdminService.isTopicAllowed(adminData, v[1].comments.length, v[1].distinctUsers.size,
-          v[1].cachedUpVotes, v[1].firstTimeStamp, v[1].lastTimeStamp))),
-      users
-    ];
-  }
-
-  get isBrainstorming(): boolean {
-    return this._filterObject?.filter?.filterType === FilterType.brainstormingQuestion;
-  }
-
-  updateDemoData(translate: TranslateService): void {
-    translate.get('tag-cloud.demo-data-topic').subscribe(text => {
-      this._demoData = new Map<string, TagCloudDataTagEntry>();
-      for (let i = 10; i >= 1; i--) {
-        this._demoData.set(text.replace('%d', '' + i), {
-          cachedVoteCount: 0,
-          cachedUpVotes: 0,
-          cachedDownVotes: 0,
-          comments: [],
-          weight: i,
-          adjustedWeight: i - 1,
-          categories: new Set<string>(),
-          distinctUsers: new Set<string>(),
-          dependencies: new Set<string>(),
-          firstTimeStamp: new Date(),
-          lastTimeStamp: new Date(),
-          generatedByQuestionerCount: 0,
-          taggedCommentsCount: 0,
-          answeredCommentsCount: 0,
-          commentsByCreator: 0,
-          commentsByModerators: 0,
-          fromAnswerCount: 0
-        });
-      }
-    });
-  }
-
   get metaData(): TagCloudMetaData {
     return this._currentMetaData;
   }
 
   get currentData(): TagCloudData {
     return this._dataBus.value;
+  }
+
+  get isBrainstorming(): boolean {
+    return this._filterObject?.filter?.filterType === FilterType.BrainstormingQuestion;
+  }
+
+  get alphabeticallySorted(): boolean {
+    return this._isAlphabeticallySorted;
   }
 
   get demoActive(): boolean {
@@ -246,12 +138,119 @@ export class TagCloudDataService {
     }
   }
 
-  unloadCloud() {
-    this._filterObject?.unload();
+  set filterObject(filter: DataFilterObject) {
+    this._filterObject = filter;
+    this._lastSubscription?.unsubscribe();
+    this._lastSubscription = filter?.subscribe(() => this.rebuildTagData());
   }
 
-  get alphabeticallySorted(): boolean {
-    return this._isAlphabeticallySorted;
+  static buildDataFromComments(roomOwner: string,
+                               moderators: Set<string>,
+                               blacklist: string[],
+                               blacklistEnabled: boolean,
+                               adminData: TopicCloudAdminData,
+                               roomDataService: RoomDataService,
+                               comments: Comment[],
+                               brainstorming: boolean): [TagCloudData, Set<string>] {
+    const data: TagCloudData = new Map<string, TagCloudDataTagEntry>();
+    const users = new Set<string>();
+    for (const comment of comments) {
+      if (brainstorming !== comment.brainstormingQuestion) {
+        continue;
+      }
+      TopicCloudAdminService.approveKeywordsOfComment(comment, roomDataService, adminData, blacklist, blacklistEnabled,
+        brainstorming, (keyword: SpacyKeyword, isFromQuestioner: boolean) => {
+          this.onKeywordApproved(comment, data, keyword, isFromQuestioner, roomOwner, moderators);
+        });
+      users.add(comment.creatorId);
+    }
+    return [
+      new Map<string, TagCloudDataTagEntry>([...data].filter(v => brainstorming ||
+        TopicCloudAdminService.isTopicAllowed(adminData, v[1].comments.length, v[1].distinctUsers.size,
+          v[1].cachedUpVotes, v[1].firstTimeStamp, v[1].lastTimeStamp))),
+      users
+    ];
+  }
+
+  private static onKeywordApproved(
+    comment: Comment, data: TagCloudData, keyword: SpacyKeyword, isFromQuestioner: boolean, roomOwner: string,
+    moderators: Set<string>
+  ) {
+    let current: TagCloudDataTagEntry = data.get(keyword.text);
+    const commentDate = new Date(comment.createdAt);
+    if (current === undefined) {
+      current = {
+        cachedVoteCount: 0,
+        cachedUpVotes: 0,
+        cachedDownVotes: 0,
+        comments: [],
+        weight: 0,
+        adjustedWeight: 0,
+        distinctUsers: new Set<string>(),
+        categories: new Set<string>(),
+        dependencies: new Set<string>([...keyword.dep]),
+        firstTimeStamp: commentDate,
+        lastTimeStamp: commentDate,
+        generatedByQuestionerCount: 0,
+        taggedCommentsCount: 0,
+        commentsByCreator: 0,
+        commentsByModerators: 0
+      };
+      data.set(keyword.text, current);
+    }
+    keyword.dep.forEach(dependency => current.dependencies.add(dependency));
+    current.cachedVoteCount += comment.score;
+    current.cachedUpVotes += comment.upvotes;
+    current.cachedDownVotes += comment.downvotes;
+    current.distinctUsers.add(comment.creatorId);
+    current.generatedByQuestionerCount += +isFromQuestioner;
+    current.taggedCommentsCount += +!!comment.tag;
+    if (comment.creatorId === roomOwner) {
+      ++current.commentsByCreator;
+    } else if (moderators.has(comment.creatorId)) {
+      ++current.commentsByModerators;
+    }
+    if (comment.tag) {
+      current.categories.add(comment.tag);
+    }
+    // @ts-ignore
+    if (current.firstTimeStamp - commentDate > 0) {
+      current.firstTimeStamp = commentDate;
+    }
+    // @ts-ignore
+    if (current.lastTimeStamp - commentDate < 0) {
+      current.lastTimeStamp = commentDate;
+    }
+    current.comments.push(comment);
+  }
+
+  updateDemoData(translate: TranslateService): void {
+    translate.get('tag-cloud.demo-data-topic').subscribe(text => {
+      this._demoData = new Map<string, TagCloudDataTagEntry>();
+      for (let i = 10; i >= 1; i--) {
+        this._demoData.set(text.replace('%d', '' + i), {
+          cachedVoteCount: 0,
+          cachedUpVotes: 0,
+          cachedDownVotes: 0,
+          comments: [],
+          weight: i,
+          adjustedWeight: i - 1,
+          categories: new Set<string>(),
+          distinctUsers: new Set<string>(),
+          dependencies: new Set<string>(),
+          firstTimeStamp: new Date(),
+          lastTimeStamp: new Date(),
+          generatedByQuestionerCount: 0,
+          taggedCommentsCount: 0,
+          commentsByCreator: 0,
+          commentsByModerators: 0
+        });
+      }
+    });
+  }
+
+  unloadCloud() {
+    this._filterObject?.unload();
   }
 
   blockWord(tag: string, room: Room): void {
@@ -354,7 +353,6 @@ export class TagCloudDataService {
       tagData.generatedByQuestionerCount * scorings.countSelectedByQuestioner.score +
       tagData.commentsByModerators * scorings.countKeywordByModerator.score +
       tagData.commentsByCreator * scorings.countKeywordByCreator.score +
-      tagData.answeredCommentsCount * scorings.countCommentsAnswered.score +
       tagData.cachedUpVotes * scorings.summedUpvotes.score +
       tagData.cachedDownVotes * scorings.summedDownvotes.score +
       tagData.cachedVoteCount * scorings.summedVotes.score +

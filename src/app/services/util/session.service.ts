@@ -46,11 +46,6 @@ export class SessionService {
     });
   }
 
-  public static needsUser(router: Router) {
-    const url = decodeURI(router.url);
-    return !(url === '/' || url === '/home' || url === '/quiz' || url === '/data-protection' || url === '/imprint');
-  }
-
   get canChangeRoleOnRoute(): boolean {
     return this._canChangeRoleOnRoute;
   }
@@ -59,12 +54,21 @@ export class SessionService {
     return this._currentRole.value;
   }
 
-  getRole(): Observable<UserRole> {
-    return this._currentRole.asObservable();
-  }
-
   get currentRoom(): Room {
     return this._currentRoom.value;
+  }
+
+  get currentModerators(): Moderator[] {
+    return this._currentModerators.value;
+  }
+
+  public static needsUser(router: Router) {
+    const url = decodeURI(router.url);
+    return !(url === '/' || url === '/home' || url === '/quiz' || url === '/data-protection' || url === '/imprint');
+  }
+
+  getRole(): Observable<UserRole> {
+    return this._currentRole.asObservable();
   }
 
   getRoom(): Observable<Room> {
@@ -83,10 +87,6 @@ export class SessionService {
       throw new Error('Currently not bound to a room.');
     }
     return (before ? this._beforeRoomUpdates : this._afterRoomUpdates).asObservable();
-  }
-
-  get currentModerators(): Moderator[] {
-    return this._currentModerators.value;
   }
 
   getModerators(): Observable<Moderator[]> {
@@ -232,33 +232,37 @@ export class SessionService {
           room.brainstormingSession.active = false;
           this._afterRoomUpdates.next(room);
         } else if (message.type === 'BrainstormingVoteUpdated') {
-          const { word, ...obj } = message.payload;
-          this._beforeRoomUpdates.next(room);
-          if (!room.brainstormingSession.votesForWords) {
-            room.brainstormingSession.votesForWords = {
-              [word]: {
-                ...obj,
-                ownHasUpvoted: undefined
-              }
-            };
-          } else {
-            const previous = room.brainstormingSession.votesForWords[word];
-            if (!previous) {
-              room.brainstormingSession.votesForWords[word] = {
-                ...obj,
-                ownHasUpvoted: undefined
-              };
-            } else {
-              previous.upvotes = obj.upvotes;
-              previous.downvotes = obj.downvotes;
-            }
-          }
-          this._afterRoomUpdates.next(room);
+          this.onBrainstormingVoteUpdated(message, room);
         }
       });
       this._currentRoom.next(room);
       this.moderatorService.get(room.id).subscribe(moderators => this._currentModerators.next(moderators));
     });
+  }
+
+  private onBrainstormingVoteUpdated(message: any, room: Room) {
+    const { word, ...obj } = message.payload;
+    this._beforeRoomUpdates.next(room);
+    if (!room.brainstormingSession.votesForWords) {
+      room.brainstormingSession.votesForWords = {
+        [word]: {
+          ...obj,
+          ownHasUpvoted: undefined
+        }
+      };
+    } else {
+      const previous = room.brainstormingSession.votesForWords[word];
+      if (!previous) {
+        room.brainstormingSession.votesForWords[word] = {
+          ...obj,
+          ownHasUpvoted: undefined
+        };
+      } else {
+        previous.upvotes = obj.upvotes;
+        previous.downvotes = obj.downvotes;
+      }
+    }
+    this._afterRoomUpdates.next(room);
   }
 
   private checkUser() {
@@ -276,7 +280,7 @@ export class SessionService {
     };
     return {
       next: value => {
-        if (value !== LoginResult.success) {
+        if (value !== LoginResult.Success) {
           goHome();
         }
       },

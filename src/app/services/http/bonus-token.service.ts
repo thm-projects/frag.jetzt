@@ -27,7 +27,7 @@ export class BonusTokenService extends BaseHttpService {
     const connectionUrl = `${this.apiUrl.base + this.apiUrl.bonustoken + this.apiUrl.find}`;
     return this.http.post<BonusToken[]>(connectionUrl, {
       properties: {
-        roomId: roomId
+        roomId
       }
     }).pipe(
       tap(() => ''),

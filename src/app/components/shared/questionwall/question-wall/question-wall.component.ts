@@ -20,8 +20,9 @@ import { MatDialog } from '@angular/material/dialog';
 import {
   IntroductionQuestionWallComponent
 } from '../../_dialogs/introductions/introduction-question-wall/introduction-question-wall.component';
-import { FilterType, Period, SortType } from '../../../../utils/data-filter-object.lib';
+import { FilterType, Period, PeriodKey, SortType } from '../../../../utils/data-filter-object.lib';
 import { DataFilterObject } from '../../../../utils/data-filter-object';
+
 
 interface CommentCache {
   [commentId: string]: {
@@ -95,7 +96,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   commentsCountQuestions = 0;
   commentsCountUsers = 0;
   unreadComments = 0;
-  focusIncommingComments = true;
+  focusIncomingComments = true;
   timeUpdateInterval;
   keySupport: QuestionWallKeyEventSupport;
   filterTitle = '';
@@ -106,7 +107,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   userList: [number, string][] = [];
   userSelection = false;
   fontSize = 180;
-  periodsList = Object.values(Period);
+  periodsList = Object.values(Period) as PeriodKey[];
   isLoading = true;
   user: User;
   animationTrigger = true;
@@ -144,6 +145,10 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     const filter = this._filterObj.filter;
     filter.ignoreRoleSort = true;
     this._filterObj.filter = filter;
+  }
+
+  get hasFilter() {
+    return !!this._filterObj.filter.filterType;
   }
 
   public wrap<E>(e: E, action: (e: E) => void) {
@@ -190,7 +195,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
       { type: 'CommentCreated' }
     ]))).subscribe(c => {
       if (c.finished) {
-        if (this.focusIncommingComments) {
+        if (this.focusIncomingComments) {
           this.focusComment(c.comment);
         }
         return;
@@ -307,8 +312,8 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     }, 1);
   }
 
-  toggleFocusIncommingComments() {
-    this.focusIncommingComments = !this.focusIncommingComments;
+  toggleFocusIncomingComments() {
+    this.focusIncomingComments = !this.focusIncomingComments;
   }
 
   applyUserMap(user: string) {
@@ -355,15 +360,15 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   sortScore(reverse?: boolean) {
-    this.sort(SortType.score, reverse);
+    this.sort(SortType.Score, reverse);
   }
 
   sortTime(reverse?: boolean) {
-    this.sort(SortType.time, reverse);
+    this.sort(SortType.Time, reverse);
   }
 
   sortControversy(reverse?: boolean) {
-    this.sort(SortType.controversy, reverse);
+    this.sort(SortType.Controversy, reverse);
   }
 
   sort(sortType: SortType, reverse?: boolean) {
@@ -380,7 +385,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     this.filterDesc = '';
     const filter = this._filterObj.filter;
     filter.filterCompare = null;
-    filter.filterType = FilterType.favorite;
+    filter.filterType = FilterType.Favorite;
     this._filterObj.filter = filter;
   }
 
@@ -395,7 +400,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     this.filterDesc = '';
     const filter = this._filterObj.filter;
     filter.filterCompare = user;
-    filter.filterType = FilterType.creatorId;
+    filter.filterType = FilterType.CreatorId;
     this._filterObj.filter = filter;
   }
 
@@ -406,7 +411,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     this.filterDesc = '';
     const filter = this._filterObj.filter;
     filter.filterCompare = null;
-    filter.filterType = FilterType.bookmark;
+    filter.filterType = FilterType.Bookmark;
     this._filterObj.filter = filter;
   }
 
@@ -417,7 +422,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     this.filterDesc = tag;
     const filter = this._filterObj.filter;
     filter.filterCompare = tag;
-    filter.filterType = FilterType.tag;
+    filter.filterType = FilterType.Tag;
     this._filterObj.filter = filter;
   }
 
@@ -470,14 +475,57 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  setTimePeriod(period: Period) {
+  setTimePeriod(period: PeriodKey) {
     const filter = this._filterObj.filter;
-    filter.period = period;
+    filter.period = Period[period];
     this._filterObj.filter = filter;
   }
 
-  get hasFilter() {
-    return !!this._filterObj.filter.filterType;
+  getCommentIcon(comment: Comment): string {
+    const isFromOwner = this.room.ownerId === comment?.creatorId;
+    let isFromModerator = false;
+    this.sessionService.getModeratorsOnce()
+      .subscribe(mods => isFromModerator = mods.some(mod => mod.accountId === comment?.creatorId));
+    if (comment?.brainstormingQuestion) {
+      return 'tips_and_updates';
+    } else if (isFromOwner) {
+      return 'co_present';
+    } else if (isFromModerator) {
+      return 'gavel';
+    }
+    return 'person';
+  }
+
+  getCommentIconClass(comment: Comment): string {
+    const isFromOwner = this.room.ownerId === comment?.creatorId;
+    let isFromModerator = false;
+    this.sessionService.getModeratorsOnce()
+      .subscribe(mods => isFromModerator = mods.some(mod => mod.accountId === comment?.creatorId));
+    if (comment?.brainstormingQuestion || isFromOwner || isFromModerator) {
+      return '';
+    }
+    return 'material-icons-outlined';
+  }
+
+  generateCommentNumber(comment: Comment): string {
+    if (!comment?.number) {
+      return;
+    }
+    const meta = comment.number.split('/');
+    const topLevelNumber = meta[0];
+    const number = meta[meta.length - 1];
+    let message = '';
+    if (meta.length === 1) {
+      this.translateService.get('comment-list.question-number', { number })
+        .subscribe(msg => message = msg.split('/'));
+      return message;
+    }
+    this.translateService.get('comment-list.comment-number', {
+      topLevelNumber,
+      number,
+      level: meta.length - 1,
+    }).subscribe(msg => message = msg.split('/'));
+    return message;
   }
 
   private refreshUserMap() {

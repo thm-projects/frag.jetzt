@@ -104,7 +104,7 @@ address {
 }
 
 .overflow_hide {
-  height: 0px;
+  height: 0;
   overflow: hidden;
 }
 
@@ -112,7 +112,7 @@ address {
   width: 50%;
   height: 50%;
   position: fixed;
-  left: 0px;
+  left: 0;
   top: 25%;
   z-index: 1000;
   background-color: var(--surface);
@@ -215,6 +215,11 @@ a {
   color: var(--on-dialog);
 }
 
+.mat-menu-item svg {
+  stroke: var(--on-dialog);
+  fill: var(--on-dialog);
+}
+
 .star {
   color: var(--yellow) !important;
 }
@@ -307,7 +312,7 @@ a {
 }
 
 .mat-pseudo-checkbox-checked, .mat-pseudo-checkbox-indeterminate, .mat-accent .mat-pseudo-checkbox-checked, .mat-accent .mat-pseudo-checkbox-indeterminate {
-  background: var(--green) !important;;
+  background: var(--green) !important;
 }
 
 .mat-input-element::placeholder {
@@ -330,8 +335,22 @@ blockquote {
 .mat-tooltip {
   white-space: pre-line;
   color: white;
-  background-color: darkslategrey;
+  background-color: green;
+  border-radius: 10px !important;
   font-size: 16px;
   line-height: 1.5;
+  padding: 15px !important;
   hyphens: auto;
+}
+
+.mat-flat-button.mat-button-disabled {
+  background-color: lightgray !important;
+  color: gray !important;
+  outline: gray solid 3px !important;
+}
+
+.mat-bottom-sheet-container{
+  background-color: var(--dialog);
+  color: var(--on-dialog);
+  max-height: 500px !important;
 }

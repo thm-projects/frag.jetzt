@@ -34,6 +34,10 @@ export class QuestionWallIntroComponent implements OnInit, AfterViewInit {
     }, 2500);
   }
 
+  toArray(str: string): string[] {
+    return Object.assign([], str.split(''));
+  }
+
   private backgroundAnimation() {
     const background: HTMLElement = this.ref.nativeElement.getElementsByClassName('background')[0];
     background.style.transition = 'all 5s ease-in-out, opacity 1s ease-in-out';
@@ -71,10 +75,6 @@ export class QuestionWallIntroComponent implements OnInit, AfterViewInit {
         e.style.opacity = '0';
       });
     }, 1200);
-  }
-
-  toArray(str: string): string[] {
-    return Object.assign([], str.split(''));
   }
 
 }

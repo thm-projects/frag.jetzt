@@ -69,9 +69,6 @@ mat-toolbar-row {
   height: 18px !important;
 }
 
-.sessions {
-}
-
 h2 {
   font-size: 14px !important;
 }
@@ -207,6 +204,7 @@ h1 {
   font-size: 14px;
   color: var(--on-surface);
 }
+
 
 ::ng-deep .mat-slide-toggle.mat-checked .mat-slide-toggle-thumb {
   background-color: var(--secondary);

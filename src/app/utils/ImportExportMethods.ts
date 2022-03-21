@@ -2,7 +2,7 @@ import { Room } from '../models/room';
 import { forkJoin, Observable, of } from 'rxjs';
 import { ExportTable, ImportExportManager } from './ImportExportManager';
 import { TranslateService } from '@ngx-translate/core';
-import { Comment } from '../models/comment';
+import { Comment, numberSorter } from '../models/comment';
 import { CorrectWrong } from '../models/correct-wrong.enum';
 import { User } from '../models/user';
 import { UserRole } from '../models/user-roles.enum';
@@ -76,7 +76,6 @@ export const uploadCSV = (): Observable<string> => new Observable<string>(subscr
 export interface BonusArchiveEntry {
   bonusToken: string;
   bonusTimestamp: Date;
-  answer: string;
   question: string;
   bonusQuestionNumber: string;
   userLoginId: string;
@@ -112,14 +111,6 @@ const bonusArchiveImportExport = (translateService: TranslateService) =>
           ...ImportExportManager.createQuillMapper<BonusArchiveEntry>('bonus-archive-export.empty',
             (c) => c.question, (val, c) => {
               c.question = val;
-              return c;
-            })
-        },
-        {
-          languageKey: 'bonus-archive-export.entry-answer',
-          ...ImportExportManager.createQuillMapper<BonusArchiveEntry>('bonus-archive-export.empty',
-            (c) => c.answer, (val, c) => {
-              c.answer = val;
               return c;
             })
         },
@@ -177,13 +168,12 @@ export const exportBonusArchive = (translateService: TranslateService,
           );
         }),
         switchMap((arr: [userId: string, c: Comment][]) => {
-          arr.sort(([_, a], [__, b]) => a?.number - b?.number);
+          arr.sort(([_, a], [__, b]) => numberSorter(a?.number, b?.number));
           const data: BonusArchiveEntry[] = arr.map(([loginId, c], i) => ({
-            answer: c?.answer,
             question: c?.body,
             bonusToken: tokens[i].token,
             bonusTimestamp: tokens[i].createdAt,
-            bonusQuestionNumber: c?.number.toString(),
+            bonusQuestionNumber: c?.number,
             userLoginId: loginId
           }));
           const date = new Date();
@@ -233,10 +223,10 @@ const roomImportExport = (translateService: TranslateService,
         {
           languageKey: translatePath + '.question-number',
           valueMapper: {
-            export: (cfg, c) => String(c.number),
+            export: (cfg, c) => c.number,
             import: (cfg, val) => {
               const c = new Comment();
-              c.number = parseInt(val, 10);
+              c.number = val;
               return c;
             }
           }
@@ -281,13 +271,6 @@ const roomImportExport = (translateService: TranslateService,
               return c;
             }
           }
-        },
-        {
-          languageKey: translatePath + '.answer',
-          ...ImportExportManager.createQuillMapper<Comment>(empty, c => c.answer, (str, c) => {
-            c.answer = str;
-            return c;
-          })
         },
         {
           languageKey: translatePath + '.author-role',
@@ -473,7 +456,7 @@ export const exportRoom = (translateService: TranslateService,
         });
         return null;
       }
-      comments.sort((a, b) => a.number - b.number);
+      comments.sort((a, b) => numberSorter(a.number, b.number));
       return bonusTokenService.getTokensByRoomId(room.id)
         .pipe(switchMap(value => {
           for (const comment of comments) {
@@ -537,8 +520,7 @@ const importRoomSettings = (value: ImportQuestionsResult,
   );
 
 const ALLOWED_FIELDS: (keyof Comment)[] = [
-  'body', 'favorite', 'bookmark', 'correct', 'ack', 'tag', 'answer', 'keywordsFromSpacy', 'keywordsFromQuestioner',
-  'language', 'answerQuestionerKeywords', 'answerFulltextKeywords'
+  'body', 'favorite', 'bookmark', 'correct', 'ack', 'tag', 'keywordsFromSpacy', 'keywordsFromQuestioner', 'language'
 ];
 
 const importComment = (comment: CommentBonusTokenMixin,
@@ -555,8 +537,6 @@ const importComment = (comment: CommentBonusTokenMixin,
       const changes = new TSMap<string, any>();
       realComment.keywordsFromSpacy = JSON.stringify(realComment.keywordsFromSpacy || []) as unknown as SpacyKeyword[];
       realComment.keywordsFromQuestioner = JSON.stringify(realComment.keywordsFromQuestioner || []) as unknown as SpacyKeyword[];
-      realComment.answerFulltextKeywords = JSON.stringify(realComment.answerFulltextKeywords || []) as unknown as SpacyKeyword[];
-      realComment.answerQuestionerKeywords = JSON.stringify(realComment.answerQuestionerKeywords || []) as unknown as SpacyKeyword[];
       ALLOWED_FIELDS.forEach(key => changes.set(key, realComment[key]));
       return commentService.patchComment(realComment, changes);
     })
@@ -574,7 +554,7 @@ export const importToRoom = (translateService: TranslateService,
   return generateCommentCreatorIds(result, roomService, roomId)
     .pipe(
       mergeMap(value => importRoomSettings(value, roomService, roomId)),
-      mergeMap(value => forkJoin(value[5].map(c => importComment(c, roomId, commentService)) as Observable<Comment>[])),
+      mergeMap(value => forkJoin(value[5].map(c => importComment(c, roomId, commentService)))),
       mergeMap(_ => result)
     );
 };

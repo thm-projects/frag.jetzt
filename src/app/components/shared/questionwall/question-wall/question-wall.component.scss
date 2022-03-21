@@ -120,13 +120,20 @@
       }
 
       &-number {
-        font-size: 100px;
+        font-size: 40px;
         letter-spacing: 2px;
         padding-right: 10px;
         padding-bottom: 10px;
         box-sizing: border-box;
         font-weight: 600;
         color: rgba(255, 255, 255, 0.2);
+
+        > mat-icon {
+          font-size: 32px;
+          line-height: 32px;
+          width: 40px;
+          height: 40px;
+        }
       }
     }
 
@@ -143,11 +150,8 @@
         border-bottom: solid 1px var(--ars-border-color);
       }
 
-      &-comments {
-      }
-
       &-hide {
-        background-color:orange;
+        background-color: orange;
       }
 
       &-scroll {
@@ -236,10 +240,17 @@
 
         &-number {
           font-family: Roboto, 'sans-serif';
-          font-size: 256px;
+          font-size: 128px;
           padding-left: 16px;
           font-weight: bold;
           color: rgba(255, 255, 255, 0.2);
+
+          > mat-icon {
+            font-size: 102px;
+            line-height: 102px;
+            width: 128px;
+            height: 128px;
+          }
         }
       }
 
@@ -285,9 +296,10 @@
 
   .icon-color {
     color: var(--ars-button-color);
-    &-yellow{
-      color:darkorange;
-      transform:scale(1.5);
+
+    &-yellow {
+      color: darkorange;
+      transform: scale(1.5);
     }
   }
 
@@ -317,50 +329,54 @@
     }
   }
 
-  .side-list-numbers{
-    border-radius:100%;
-    padding:8px;
-    box-sizing:border-box;
-    >p{
-      text-align:center;
-      color:#FFFFFF;
+  .side-list-numbers {
+    border-radius: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+
+    > p {
+      text-align: center;
+      color: #FFFFFF;
     }
-    &-indicator{
-      width:10px;
-      height:10px;
-      background-color:#FFFFFF;
-      border-radius:2px;
-      position:relative;
-      left:50%;
-      top:50%;
-      transform:translate(-50%,-50%);
-      transition:all 0.1s ease-in-out;
+
+    &-indicator {
+      width: 10px;
+      height: 10px;
+      background-color: #FFFFFF;
+      border-radius: 2px;
+      position: relative;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      transition: all 0.1s ease-in-out;
     }
   }
 
-  .sln-indicator{
-    &-on{
-      width:20px;
-      height:20px;
+  .sln-indicator {
+    &-on {
+      width: 20px;
+      height: 20px;
       background-color: darkorange;
     }
-    &-off{
-      width:10px;
-      height:10px;
+
+    &-off {
+      width: 10px;
+      height: 10px;
     }
   }
 
-  .sln{
-    &-on{
-      cursor:default;
+  .sln {
+    &-on {
+      cursor: default;
     }
-    &-off{
-      cursor:pointer;
+
+    &-off {
+      cursor: pointer;
     }
   }
 
-  .side-list{
-    transition:width ease-in-out 0.1s;
+  .side-list {
+    transition: width ease-in-out 0.1s;
   }
 
   .qr-overlay {
@@ -369,7 +385,7 @@
     bottom: 64px;
     width: 200px;
     height: 200px;
-    animation:popin-qr-overlay 0.2s cubic-bezier(0,.04,0,1) both;
+    animation: popin-qr-overlay 0.2s cubic-bezier(0, .04, 0, 1) both;
   }
 
   @keyframes popin-qr-overlay {
@@ -399,77 +415,79 @@
     }
   }
 
-  .qw-comment-fade-animation{
-    animation:qw-comment-fade 0.2s ease-in-out both;
+  .qw-comment-fade-animation {
+    animation: qw-comment-fade 0.2s ease-in-out both;
   }
 
-  .qw-opening-fade-animation{
-    animation:qw-opening-fade 0.1s ease-in-out both;
+  .qw-opening-fade-animation {
+    animation: qw-opening-fade 0.1s ease-in-out both;
   }
 
-  .qw-fade-animation{
-    animation:qw-fade 0.2s ease-in-out both;
+  .qw-fade-animation {
+    animation: qw-fade 0.2s ease-in-out both;
   }
 
   @keyframes qw-fade {
     0% {
-      opacity:0;
+      opacity: 0;
     }
     100% {
-      opacity:1;
+      opacity: 1;
     }
   }
 
   @keyframes qw-opening-fade {
     0% {
-      opacity:0;
+      opacity: 0;
     }
     100% {
-      opacity:1;
+      opacity: 1;
     }
   }
 
   @keyframes qw-comment-fade {
     0% {
-      opacity:0;
-      margin-top:32px;
+      opacity: 0;
+      margin-top: 32px;
     }
     100% {
-      opacity:1;
-      margin-top:0px;
+      opacity: 1;
+      margin-top: 0px;
     }
   }
 
-  .qw-loading{
-    width:640px;
-    height:360px;
-    position:fixed;
-    left:50%;
-    top:50%;
-    transform:translate(-50%,-50%);
-    z-index:10000;
+  .qw-loading {
+    width: 640px;
+    height: 360px;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10000;
   }
 
-  .qw-center-text{
-    text-align:center;
+  .qw-center-text {
+    text-align: center;
   }
 
-  .qw-mat-button-wrapper{
-    box-sizing:border-box;
-    padding:16px;
-    >button>span>mat-icon{
-      margin-right:8px;
+  .qw-mat-button-wrapper {
+    box-sizing: border-box;
+    padding: 16px;
+
+    > button > span > mat-icon {
+      margin-right: 8px;
     }
-    >*{
+
+    > * {
       color: var(--ars-header-color);
     }
   }
 
-  .qw-text-heading{
+  .qw-text-heading {
     color: var(--ars-header-color);
   }
 
-  .qw-text-paragraph{
+  .qw-text-paragraph {
     color: var(--ars-header-color);
   }
 

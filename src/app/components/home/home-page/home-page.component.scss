@@ -1,7 +1,7 @@
 .outer {
   width: 80%;
   max-width: 300px;
-  background-color: var(--background);
+  background-color: transparent;
   box-shadow: none;
 }
 
@@ -43,8 +43,15 @@
   color: var(--on-background);
 
   > a {
-    padding: 5px;
+    padding: 10px;
     display: inline;
+
+    &:hover {
+      background-color: transparent;
+      color: var(--on-background);
+      outline: var(--secondary) solid 3px;
+      border-radius: 5px;
+    }
   }
 }
 
@@ -93,3 +100,46 @@ mat-card-header {
   height: auto;
   outline: none;
 }
+
+.bg-object {
+  --delay: 0s;
+  width: 15px;
+  height: 15px;
+  font-size: 40px;
+  line-height: 40px;
+  font-weight: bold;
+  position: absolute;
+  opacity: 0.25;
+  transform: scale(0) rotate(0deg) translate(-50%, -50%);
+  @media (min-width: 750px) {
+    animation: var(--anim, bg-object-anim) 10s ease-in forwards infinite;
+    animation-delay: var(--delay);
+  }
+}
+
+@keyframes bg-object-anim-reverse {
+  from {
+    color: var(--secondary);
+    opacity: 0.25;
+    transform: scale(0) rotate(720deg) translate(-50%, -50%);
+  }
+  to {
+    color: var(--primary);
+    opacity: 0;
+    transform: scale(10) rotate(0deg) translate(-50%, -50%);
+  }
+}
+
+@keyframes bg-object-anim {
+  from {
+    color: var(--secondary);
+    opacity: 0.25;
+    transform: scale(0) rotate(0deg) translate(-50%, -50%);
+  }
+  to {
+    color: var(--primary);
+    opacity: 0;
+    transform: scale(10) rotate(720deg) translate(-50%, -50%);
+  }
+}
+

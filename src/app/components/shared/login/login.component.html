@@ -1,94 +1,61 @@
-<form
-  fxLayout="column"
-  fxLayoutGap="10px"
-  (ngSubmit)="login(userEmail.value, userPassword.value)"
->
-  <mat-form-field class="input-block">
-    <input appAccessibilityEscapedInput
-           #userEmail
-           [errorStateMatcher]="matcher"
-           [formControl]="usernameFormControl"
-           matInput
-           name="username"
-           aria-labelledby="email-description"/>
-    <mat-placeholder class="placeholder">{{ 'login.email' | translate }}</mat-placeholder>
-    <mat-error *ngIf="usernameFormControl.hasError('email') && !usernameFormControl.hasError('required')">
-      {{ 'login.email-invalid' | translate }}
-    </mat-error>
-    <mat-error *ngIf="usernameFormControl.hasError('required')">
-      {{ 'login.email-required' | translate }}
-    </mat-error>
-  </mat-form-field>
-
-  <mat-form-field>
-    <input appAccessibilityEscapedInput
-           #userPassword
-           [errorStateMatcher]="matcher"
-           [formControl]="passwordFormControl"
-           matInput
-           name="password"
-           [type]="hide ? 'password' : 'text'"
-           aria-labelledby="password-description"/>
-
-    <mat-icon matSuffix
-              class="material-icons-outlined"
-              (click)="hide = !hide"
-              [attr.aria-label]="'Hide password'"
-              [attr.aria-pressed]="hide">
-      {{hide ? 'visibility' : 'visibility_off'}}
-    </mat-icon>
-
-    <mat-placeholder class="placeholder">{{ 'login.password' | translate }}</mat-placeholder>
-    <mat-error *ngIf="passwordFormControl.hasError('required')">{{ 'login.password-required' | translate }}</mat-error>
-
-  </mat-form-field>
-
-  <button
-    class="login"
-    mat-flat-button
-    type="submit"
-    aria-labelledby="login-description">
-    {{ 'login.login' | translate }}
+<header>
+  <h1 class="title">{{ 'login-dialog.title' | translate }}</h1>
+  <button class="button" (click)="buildCloseDialogActionCallback()">
+    <span class="material-icons-outlined close">close</span>
   </button>
+</header>
 
-  <p class="forgot-password">
-    <a
-      href=""
-      (click)="openPasswordDialog(); $event.preventDefault(); $event.stopPropagation();"
-      role="button"
-    >
-      {{ 'login.password-reset' | translate }}
-    </a>
+<form (submit)="login(userEmail.value, userPassword.value)">
+  <div class="login-container">
+    <div class="login-system-container">
+      <!-- email -->
+      <div class="input-container"
+           [ngClass]="usernameFormControl.hasError('email') && !usernameFormControl.hasError('required') ? 'error' : 'no-error'">
+        <input appAccessibilityEscapedInput [formControl]="usernameFormControl" name="username"
+               aria-labelledby="email-description" class="input" #userEmail required/>
+        <label>{{ 'login-dialog.e-mail' | translate }}</label>
+      </div>
 
-    <span style="padding-left: 20px">
-    <a href=""
-       class="registerBtn"
-       (click)="openRegisterDialog(); $event.preventDefault(); $event.stopPropagation();">
-      {{ 'login.register' | translate }}</a></span>
-  </p>
+      <!-- password -->
+      <div class="input-container">
+        <input appAccessibilityEscapedInput [formControl]="passwordFormControl" name="password"
+               [type]="hide ? 'password' : 'text'" aria-labelledby="password-description" class="input" #userPassword
+               required/>
+        <label>{{ 'login-dialog.password' | translate }}</label>
+        <span (click)="hide = !hide" class="material-icons-outlined"
+              style="margin: 0 7px; cursor: pointer; user-select: none;">{{hide ? 'visibility_off' : 'visibility'}}</span>
+      </div>
+    </div>
 
-  <div class="or"
-       fxLayoutAlign="center center">
-    <span>{{ 'login.or' | translate }}</span>
+    <!-- reset-password -->
+    <div class="forgot-password-container">
+      <p>
+        {{ 'login-dialog.forgot-password-description' | translate }}
+        <a href="" (click)="openPasswordDialog(); $event.preventDefault(); $event.stopPropagation();"
+           role="button">{{ 'login.password-reset' | translate }}</a>
+      </p>
+    </div>
+
+    <!-- sign up & login -->
+    <div class="bottom-container">
+      <a href="" class="registerBtn"
+         (click)="openRegisterDialog(); $event.preventDefault(); $event.stopPropagation();">{{ 'login-dialog.sign-up' | translate }}</a>
+      <button type="submit" aria-labelledby="login-description"
+              class="alt-button login">{{ 'login-dialog.login' | translate }}</button>
+    </div>
   </div>
 
-  <button id="focus_button_guest"
-          (click)="guestLogin()"
-          class="guest"
-          mat-flat-button
-          type="button"
-          aria-labelledby="guest-login-description"
-          matTooltip="{{'login.guest-login-tooltip' | translate}}">
-    {{ 'login.guest-login' | translate }}
-  </button>
+  <div class="page-splitter">
+    <span>{{ 'login-dialog.or' | translate }}</span>
+  </div>
 
+  <div class="anonymous-container">
+    <button (click)="guestLogin()" class=" alt-button guest" type="button" aria-labelledby="guest-login-description"
+            matTooltip="{{'login.guest-login-tooltip' | translate}}">
+      {{ 'login-dialog.sign-in-as-guest' | translate }}
+    </button>
+  </div>
 </form>
-
-<app-dialog-action-buttons
-  [spacing]="false"
-  buttonsLabelSection="login"
-  [cancelButtonClickAction]="buildCloseDialogActionCallback()"
-></app-dialog-action-buttons>
 
 <div class="visually-hidden">
   <div id="email-description">{{ 'login.email-description' | translate }}</div>

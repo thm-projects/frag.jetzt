@@ -22,10 +22,6 @@ export class ModeratorJoinComponent implements OnInit, OnDestroy {
   private moderatorRoom: Room;
   private _sub: Subscription;
 
-  get user() {
-    return this.authenticationService.getUser();
-  }
-
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -38,11 +34,15 @@ export class ModeratorJoinComponent implements OnInit, OnDestroy {
     this.translateService.use(this.languageService.currentLanguage());
   }
 
+  get user() {
+    return this.authenticationService.getUser();
+  }
+
   ngOnInit(): void {
     this._sub = this.languageService.getLanguage().subscribe(lang => this.translateService.use(lang));
     this.route.params.subscribe(params => {
       this.authenticationService.guestLogin(UserRole.PARTICIPANT).subscribe(result => {
-        if (result !== LoginResult.success) {
+        if (result !== LoginResult.Success) {
           this.router.navigate(['/']);
           return;
         }
@@ -66,11 +66,17 @@ export class ModeratorJoinComponent implements OnInit, OnDestroy {
 
   confirm(): void {
     this.isSending = true;
-    this.moderatorService.addByRoomCode(this.moderatorRoom.id).subscribe(_ => {
-      this.roomService.addToHistory(this.room.id);
-      this.authenticationService.setAccess(this.room.shortId, UserRole.EXECUTIVE_MODERATOR);
-      this.router.navigate([`/moderator/room/${this.room.shortId}/comments`]);
-    }, _ => this.isSending = false);
+
+    this.moderatorService.addByRoomCode(this.moderatorRoom.id).subscribe({
+      next: () => {
+        this.roomService.addToHistory(this.room.id);
+        this.authenticationService.setAccess(this.room.shortId, UserRole.EXECUTIVE_MODERATOR);
+        this.router.navigate([`/moderator/room/${this.room.shortId}/comments`]);
+      },
+      error: () => {
+        this.isSending = false;
+      }
+    });
   }
 
   deny(): void {
