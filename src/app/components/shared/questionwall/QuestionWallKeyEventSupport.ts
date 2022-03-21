@@ -5,12 +5,13 @@ export class QuestionWallKeyEventSupport {
   private readonly windowEvent;
 
   constructor() {
-    window.addEventListener('keyup', this.windowEvent = e => {
+    this.windowEvent = e => {
       if (this.keyMap.has(e.key)) {
         this.keyMap.get(e.key)();
         e.cancelBubble = true;
       }
-    });
+    };
+    window.addEventListener('keyup', this.windowEvent );
   }
 
   public addKeyEvent(key: string, evt: () => void) {

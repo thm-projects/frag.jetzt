@@ -152,7 +152,7 @@ export class RoomService extends BaseHttpService {
           this.router.navigateByUrl('');
         });
       }
-      return throwError(error);
+      return throwError(() => error);
     };
   }
 

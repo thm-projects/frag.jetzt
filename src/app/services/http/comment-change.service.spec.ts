@@ -1,17 +1,17 @@
 /*import { TestBed } from '@angular/core/testing';
 
-import { LanguagetoolService } from './languagetool.service';
+import { CommentChangeService } from './comment-change.service';
 
-describe('LanguagetoolService', () => {
-  let service: LanguagetoolService;
+describe('CommentChangeService', () => {
+  let service: CommentChangeService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(LanguagetoolService);
+    service = TestBed.inject(CommentChangeService);
   });
 
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
 });
-*/
+ */

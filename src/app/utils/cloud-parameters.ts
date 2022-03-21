@@ -21,10 +21,10 @@ export type CloudWeightSettings = [
 ];
 
 export enum CloudTextStyle {
-  normal,
-  lowercase,
-  capitalized,
-  uppercase
+  Normal,
+  Lowercase,
+  Capitalized,
+  Uppercase
 }
 
 const colorRegex = /rgba?\((\d+), (\d+), (\d+)(?:, (\d(?:\.\d+)?))?\)/;
@@ -140,7 +140,7 @@ export class CloudParameters {
     this.delayWord = 100;
     this.randomAngles = false;
     this.sortAlphabetically = false;
-    this.textTransform = CloudTextStyle.capitalized;
+    this.textTransform = CloudTextStyle.Capitalized;
     this.cloudWeightSettings = [
       {
         maxVisibleElements: elements,

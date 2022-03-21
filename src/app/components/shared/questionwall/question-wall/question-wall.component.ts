@@ -20,7 +20,7 @@ import { MatDialog } from '@angular/material/dialog';
 import {
   IntroductionQuestionWallComponent
 } from '../../_dialogs/introductions/introduction-question-wall/introduction-question-wall.component';
-import { FilterType, Period, SortType } from '../../../../utils/data-filter-object.lib';
+import { FilterType, Period, PeriodKey, SortType } from '../../../../utils/data-filter-object.lib';
 import { DataFilterObject } from '../../../../utils/data-filter-object';
 
 
@@ -107,7 +107,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   userList: [number, string][] = [];
   userSelection = false;
   fontSize = 180;
-  periodsList = Object.values(Period);
+  periodsList = Object.values(Period) as PeriodKey[];
   isLoading = true;
   user: User;
   animationTrigger = true;
@@ -360,15 +360,15 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   sortScore(reverse?: boolean) {
-    this.sort(SortType.score, reverse);
+    this.sort(SortType.Score, reverse);
   }
 
   sortTime(reverse?: boolean) {
-    this.sort(SortType.time, reverse);
+    this.sort(SortType.Time, reverse);
   }
 
   sortControversy(reverse?: boolean) {
-    this.sort(SortType.controversy, reverse);
+    this.sort(SortType.Controversy, reverse);
   }
 
   sort(sortType: SortType, reverse?: boolean) {
@@ -385,7 +385,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     this.filterDesc = '';
     const filter = this._filterObj.filter;
     filter.filterCompare = null;
-    filter.filterType = FilterType.favorite;
+    filter.filterType = FilterType.Favorite;
     this._filterObj.filter = filter;
   }
 
@@ -400,7 +400,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     this.filterDesc = '';
     const filter = this._filterObj.filter;
     filter.filterCompare = user;
-    filter.filterType = FilterType.creatorId;
+    filter.filterType = FilterType.CreatorId;
     this._filterObj.filter = filter;
   }
 
@@ -411,7 +411,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     this.filterDesc = '';
     const filter = this._filterObj.filter;
     filter.filterCompare = null;
-    filter.filterType = FilterType.bookmark;
+    filter.filterType = FilterType.Bookmark;
     this._filterObj.filter = filter;
   }
 
@@ -422,7 +422,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     this.filterDesc = tag;
     const filter = this._filterObj.filter;
     filter.filterCompare = tag;
-    filter.filterType = FilterType.tag;
+    filter.filterType = FilterType.Tag;
     this._filterObj.filter = filter;
   }
 
@@ -475,9 +475,9 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  setTimePeriod(period: Period) {
+  setTimePeriod(period: PeriodKey) {
     const filter = this._filterObj.filter;
-    filter.period = period;
+    filter.period = Period[period];
     this._filterObj.filter = filter;
   }
 

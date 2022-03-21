@@ -6,7 +6,13 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { EditorChangeContent, QuillEditorComponent, QuillModules, QuillViewComponent } from 'ngx-quill';
+import {
+  EditorChangeContent,
+  EditorChangeSelection,
+  QuillEditorComponent,
+  QuillModules,
+  QuillViewComponent
+} from 'ngx-quill';
 import { LanguageService } from '../../../services/util/language.service';
 import { TranslateService } from '@ngx-translate/core';
 import { DeviceInfoService } from '../../../services/util/device-info.service';
@@ -49,11 +55,13 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
   private _currentData = null;
   private _marks: Marks;
 
-  constructor(private languageService: LanguageService,
-              private translateService: TranslateService,
-              private deviceInfo: DeviceInfoService,
-              private eventService: EventService,
-              private dialog: MatDialog) {
+  constructor(
+    private languageService: LanguageService,
+    private translateService: TranslateService,
+    private deviceInfo: DeviceInfoService,
+    private eventService: EventService,
+    private dialog: MatDialog
+  ) {
     this.languageService.getLanguage().subscribe(lang => {
       this.translateService.use(lang);
       if (this.isEditor) {
@@ -190,20 +198,7 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
         new ElementRef(this.editor.editorElem.firstElementChild as HTMLElement),
         this.eventService
       ).ngAfterViewInit();
-      const tooltip = this.moderatorToolbarFontColor?.nativeElement?.previousElementSibling;
-      if (tooltip) {
-        this.moderatorToolbarFontColor.nativeElement.style.opacity = '0';
-        tooltip.addEventListener('mouseenter', () => this.moderatorToolbarFontColorTooltip.show());
-        tooltip.addEventListener('mouseleave', () => this.moderatorToolbarFontColorTooltip.hide());
-        const picker = tooltip.querySelector('.ql-picker-options');
-        tooltip.addEventListener('mouseover', e => {
-          if (picker.contains(e.target as Node)) {
-            this.moderatorToolbarFontColorTooltip.hide();
-          } else {
-            this.moderatorToolbarFontColorTooltip.show();
-          }
-        });
-      }
+      this.initMaterialTooltip();
       this.overrideQuillTooltip();
       this.syncErrorLayer();
       if (this.afterEditorInit) {
@@ -221,27 +216,7 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
       this.currentText = e.text;
     });
     this.editor.onEditorChanged.subscribe(e => {
-      if (e.event === 'text-change' && wasLastPaste) {
-        wasLastPaste = false;
-        this.cleanContentOnPaste(e);
-      }
-      this._marks.sync();
-      this.syncErrorLayer();
-      const tooltip: HTMLDivElement = document.querySelector('div.ql-tooltip');
-      if (tooltip) {
-        setTimeout(() => {
-          let left = parseFloat(tooltip.style.left);
-          const containerWidth = this.editor.editorElem.getBoundingClientRect().width;
-          if (left < 0) {
-            tooltip.style.left = '0';
-            left = 0;
-          }
-          const right = left + tooltip.getBoundingClientRect().width;
-          if (right > containerWidth) {
-            tooltip.style.left = (containerWidth - right + left) + 'px';
-          }
-        });
-      }
+      wasLastPaste = this.onEditorChange(e, wasLastPaste);
     });
   }
 
@@ -295,6 +270,49 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
     e.stopImmediatePropagation();
     this.handle(type);
     return false;
+  }
+
+  private initMaterialTooltip() {
+    const tooltip = this.moderatorToolbarFontColor?.nativeElement?.previousElementSibling;
+    if (!tooltip) {
+      return;
+    }
+    this.moderatorToolbarFontColor.nativeElement.style.opacity = '0';
+    tooltip.addEventListener('mouseenter', () => this.moderatorToolbarFontColorTooltip.show());
+    tooltip.addEventListener('mouseleave', () => this.moderatorToolbarFontColorTooltip.hide());
+    const picker = tooltip.querySelector('.ql-picker-options');
+    tooltip.addEventListener('mouseover', e => {
+      if (picker.contains(e.target as Node)) {
+        this.moderatorToolbarFontColorTooltip.hide();
+      } else {
+        this.moderatorToolbarFontColorTooltip.show();
+      }
+    });
+  }
+
+  private onEditorChange(e: EditorChangeContent | EditorChangeSelection, wasLastPaste: boolean): boolean {
+    if (e.event === 'text-change' && wasLastPaste) {
+      wasLastPaste = false;
+      this.cleanContentOnPaste(e);
+    }
+    this._marks.sync();
+    this.syncErrorLayer();
+    const tooltip: HTMLDivElement = document.querySelector('div.ql-tooltip');
+    if (tooltip) {
+      setTimeout(() => {
+        let left = parseFloat(tooltip.style.left);
+        const containerWidth = this.editor.editorElem.getBoundingClientRect().width;
+        if (left < 0) {
+          tooltip.style.left = '0';
+          left = 0;
+        }
+        const right = left + tooltip.getBoundingClientRect().width;
+        if (right > containerWidth) {
+          tooltip.style.left = (containerWidth - right + left) + 'px';
+        }
+      });
+    }
+    return wasLastPaste;
   }
 
   private cleanContentOnPaste(event: EditorChangeContent) {

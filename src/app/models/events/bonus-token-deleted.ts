@@ -1,14 +1,13 @@
 export class BonusTokenDeleted {
-    type: string;
-    payload: {
-      token: string;
+  type: string;
+  payload: {
+    token: string;
+  };
+
+  constructor(token: string) {
+    this.type = 'BonusTokenDeleted';
+    this.payload = {
+      token
     };
-  
-    constructor(token: string) {
-      this.type = 'BonusTokenDeleted';
-      this.payload = {
-        token: token
-      };
-    }
   }
-  
+}

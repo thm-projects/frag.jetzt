@@ -5,7 +5,6 @@ export class Rescale {
 
   public scale = 1;
   public cachedScale = 1;
-  private f;
   public defaultScale = 1;
 
   private state = 0;
@@ -75,11 +74,6 @@ export class Rescale {
     this.cachedScale = scale;
   }
 
-  private scaleUpdate() {
-    //TODO fix zoom not defined
-    (document.getElementById('rescale_screen').style as any).zoom = this.scale + '';
-  }
-
   public toggleState() {
     this.state++;
     if (this.state >= 2) {
@@ -118,6 +112,10 @@ export class Rescale {
 
   public getState(): number {
     return this.state;
+  }
+
+  private scaleUpdate() {
+    (document.getElementById('rescale_screen').style as any).zoom = this.scale + '';
   }
 
   private toggleHeader(b: boolean) {

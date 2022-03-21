@@ -1,6 +1,5 @@
 import { LanguagetoolResult } from '../../../services/http/languagetool.service';
 import { QuillEditorComponent } from 'ngx-quill';
-import { mark } from '@angular/compiler-cli/src/ngtsc/perf/src/clock';
 
 class ContentIndexFinder {
 
@@ -66,48 +65,11 @@ export class Marks {
     let index = 0;
     for (const op of delta.ops) {
       if (op['insert']) {
-        const len = typeof op['insert'] === 'string' ? op['insert'].length : 1;
-        for (const textError of this.textErrors) {
-          if (index > textError.startIndex + textError.markLength) {
-            continue;
-          }
-          if (index >= textError.startIndex) {
-            textError.markLength += len;
-            continue;
-          }
-          textError.startIndex += len;
-        }
-        index += len;
+        index += this.refreshMarkByOpInsert(op, index);
       } else if (op['retain']) {
         index += op['retain'];
       } else if (op['delete']) {
-        const len = op['delete'];
-        const endDelete = index + len;
-        this.textErrors = this.textErrors.filter((textError) => {
-          if (index >= textError.startIndex + textError.markLength) {
-            return true;
-          }
-          if (index > textError.startIndex) {
-            if (endDelete < textError.startIndex + textError.markLength) {
-              textError.markLength -= len;
-              return true;
-            }
-            textError.markLength = index - textError.startIndex;
-            return true;
-          }
-          if (endDelete < textError.startIndex) {
-            textError.startIndex -= len;
-            return true;
-          }
-          if (endDelete < textError.startIndex + textError.markLength) {
-            const errLen = textError.startIndex + textError.markLength - endDelete;
-            textError.startIndex = index;
-            textError.markLength = errLen;
-            return true;
-          }
-          textError.remove();
-          return false;
-        });
+        this.refreshMarkByOpDelete(op, index);
       } else {
         console.log(op);
       }
@@ -141,6 +103,51 @@ export class Marks {
       this.createMark(oldMark.startIndex, oldMark.markLength, oldMark);
     }
     this.sync();
+  }
+
+  private refreshMarkByOpDelete(op: any, index: number): void {
+    const len = op['delete'];
+    const endDelete = index + len;
+    this.textErrors = this.textErrors.filter((textError) => {
+      if (index >= textError.startIndex + textError.markLength) {
+        return true;
+      }
+      if (index > textError.startIndex) {
+        if (endDelete < textError.startIndex + textError.markLength) {
+          textError.markLength -= len;
+          return true;
+        }
+        textError.markLength = index - textError.startIndex;
+        return true;
+      }
+      if (endDelete < textError.startIndex) {
+        textError.startIndex -= len;
+        return true;
+      }
+      if (endDelete < textError.startIndex + textError.markLength) {
+        const errLen = textError.startIndex + textError.markLength - endDelete;
+        textError.startIndex = index;
+        textError.markLength = errLen;
+        return true;
+      }
+      textError.remove();
+      return false;
+    });
+  }
+
+  private refreshMarkByOpInsert(op: any, index: number): number {
+    const len = typeof op['insert'] === 'string' ? op['insert'].length : 1;
+    for (const textError of this.textErrors) {
+      if (index > textError.startIndex + textError.markLength) {
+        continue;
+      }
+      if (index >= textError.startIndex) {
+        textError.markLength += len;
+        continue;
+      }
+      textError.startIndex += len;
+    }
+    return len;
   }
 
   private createMark(start: number, len: number, dataObject: any) {
@@ -261,29 +268,33 @@ class Mark {
     let currentIndex = 0;
     for (const op of ops) {
       if (typeof op['insert'] === 'string') {
-        const text = op['insert'];
-        let i = text.indexOf('\n');
-        let findIndex = 0;
-        while (i >= 0) {
-          if (i > findIndex) {
-            bounds.push([this.startIndex + findIndex + currentIndex, i - findIndex]);
-          }
-          findIndex = i + 1;
-          i = text.indexOf('\n', findIndex);
-        }
-        if (text.length + currentIndex < this.markLength) {
-          if (text.length > findIndex) {
-            bounds.push([this.startIndex + findIndex + currentIndex, text.length - findIndex]);
-          }
-        } else if (this.markLength > findIndex + currentIndex && text.length > findIndex) {
-          bounds.push([this.startIndex + findIndex + currentIndex, this.markLength - findIndex - currentIndex]);
-        }
-        currentIndex += text.length;
+        currentIndex += this.updateBoundaryForText(op, bounds, currentIndex);
       } else {
         ++currentIndex;
       }
     }
     return bounds;
+  }
+
+  private updateBoundaryForText(op: any, bounds: [number, number][], currentIndex: number) {
+    const text = op['insert'];
+    let i = text.indexOf('\n');
+    let findIndex = 0;
+    while (i >= 0) {
+      if (i > findIndex) {
+        bounds.push([this.startIndex + findIndex + currentIndex, i - findIndex]);
+      }
+      findIndex = i + 1;
+      i = text.indexOf('\n', findIndex);
+    }
+    if (text.length + currentIndex < this.markLength) {
+      if (text.length > findIndex) {
+        bounds.push([this.startIndex + findIndex + currentIndex, text.length - findIndex]);
+      }
+    } else if (this.markLength > findIndex + currentIndex && text.length > findIndex) {
+      bounds.push([this.startIndex + findIndex + currentIndex, this.markLength - findIndex - currentIndex]);
+    }
+    return text.length;
   }
 
 }

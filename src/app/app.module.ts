@@ -71,8 +71,7 @@ import 'emoji-toolkit/lib/js/joypixels.min.js';
 import {MatBottomSheet} from '@angular/material/bottom-sheet';
 import { DashboardNotificationService } from './services/util/dashboard-notification.service';
 
-export const dialogClose = (dialogResult: any) => {
-};
+export const dialogClose = (dialogResult: any) => '';
 
 export const initializeApp = (appConfig: AppConfig) => () => appConfig.load();
 

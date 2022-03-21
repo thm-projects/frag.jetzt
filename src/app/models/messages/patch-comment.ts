@@ -10,8 +10,8 @@ export class PatchComment {
   constructor(id: string, changes: TSMap<string, any>) {
       this.type = 'PatchComment';
       this.payload = {
-        id: id,
-        changes: changes
+        id,
+        changes
       };
   }
 }
