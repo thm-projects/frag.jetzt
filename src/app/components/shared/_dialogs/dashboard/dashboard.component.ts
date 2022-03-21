@@ -8,7 +8,6 @@ import { DashboardNotificationService } from '../../../../services/util/dashboar
 import { DeviceInfoService } from '../../../../services/util/device-info.service';
 import { DashboardDialogComponent } from '../dashboard-dialog/dashboard-dialog.component';
 import { CommentChangeRole, CommentChangeType } from '../../../../models/comment-change';
-import { UserRole } from '../../../../models/user-roles.enum';
 import { NotificationEvent } from '../../../../models/dashboard-notification';
 import { DeleteAllNotificationsComponent } from '../delete-all-notifications/delete-all-notifications.component';
 import { Router } from '@angular/router';
@@ -144,7 +143,6 @@ export class DashboardComponent implements OnInit {
   hasFilter: boolean = false;
   date: string = new Date().toLocaleDateString('de-DE');
   commentChangeType: typeof CommentChangeType = CommentChangeType;
-  userRole: typeof UserRole = UserRole;
   private _prefetchedLangKeys: object = {};
 
   constructor(
@@ -203,8 +201,8 @@ export class DashboardComponent implements OnInit {
   }
 
   goTo(item: NotificationEvent) {
-    //http://localhost:4200/creator/room/87193786/comment/9036b7cc-a774-11ec-9b38-0242ac120004/conversation
-    this.router.navigate(['/']);
+    this.router.navigate([`/participant/room/${item.roomShortId}/comment/${item.commentId}/conversation`]);
+    this._bottomSheetRef.dismiss();
   }
 
   filterNotification(msg: string) {
@@ -233,6 +231,14 @@ export class DashboardComponent implements OnInit {
 
   getNotificationMessage(notification: NotificationEvent) {
     return LANGUAGE_MESSAGES[notification.type](this.translationService, notification, this._prefetchedLangKeys);
+  }
+
+  getCommentNumbers(): string[] {
+    return [...new Set<string>(this.change.getList(this.hasFilter).map(not => not.commentNumber))];
+  }
+
+  getRoomNames(): string[] {
+    return [...new Set<string>(this.change.getList(this.hasFilter).map(not => not.roomName))];
   }
 
   private updateLanguageKeys() {
