@@ -17,7 +17,6 @@ import { BonusTokenService } from '../../../services/http/bonus-token.service';
 import { AuthenticationService } from '../../../services/http/authentication.service';
 import { HeaderService } from '../../../services/util/header.service';
 import { ArsComposeService } from '../../../../../projects/ars/src/lib/services/ars-compose.service';
-import { RoomEditComponent } from '../_dialogs/room-edit/room-edit.component';
 import { SessionService } from '../../../services/util/session.service';
 import { RoomDataService } from '../../../services/util/room-data.service';
 import { DeviceInfoService } from '../../../services/util/device-info.service';
