@@ -42,7 +42,7 @@ e2e_cypress:
   tags:
     - angular
   image: local-angular:13
-  allow_failure: false
+  allow_failure: true
   dependencies: []
   cache:
     key:
