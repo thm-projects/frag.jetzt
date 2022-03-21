@@ -215,6 +215,11 @@ a {
   color: var(--on-dialog);
 }
 
+.mat-menu-item svg {
+  stroke: var(--on-dialog);
+  fill: var(--on-dialog);
+}
+
 .star {
   color: var(--yellow) !important;
 }
