@@ -321,7 +321,7 @@ export class TagCloudDataService {
   private onReceiveAdminData(data: TopicCloudAdminData, update = false) {
     this._adminData = data;
     if (update) {
-      this.rebuildTagData();
+      this.sessionService.getModeratorsOnce().subscribe(() => this.rebuildTagData());
     }
   }
 
