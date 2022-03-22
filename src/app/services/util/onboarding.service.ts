@@ -144,10 +144,6 @@ export class OnboardingService {
       state: 'running',
       step: step.number
     }));
-    const container: HTMLElement = document.querySelector('.joyride-step__holder');
-    if (container.style.position === 'fixed') {
-      container.classList.add('center');
-    }
     if (!this._activeTour.tourActions) {
       return;
     }
