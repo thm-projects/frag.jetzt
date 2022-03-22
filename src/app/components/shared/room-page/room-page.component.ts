@@ -112,7 +112,6 @@ export class RoomPageComponent implements OnInit, OnDestroy {
         this.room = room;
         this.isLoading = false;
         this.moderationEnabled = !this.room.directSend;
-        console.log(this.room.directSend);
         this.updateResponseCounter();
         const sub = this.roomDataService.receiveUpdates([
           { type: 'CommentCreated', finished: true },
