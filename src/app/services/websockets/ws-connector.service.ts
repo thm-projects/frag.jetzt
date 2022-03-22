@@ -1,4 +1,4 @@
- import { Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { RxStomp } from '@stomp/rx-stomp';
 import { AuthenticationService } from '../http/authentication.service';
 import { User } from '../../models/user';
@@ -18,6 +18,9 @@ export class WsConnectorService {
     'ars-user-id': ''
   };
 
+  private deactivationPromise: Promise<void>;
+  private isConnecting: boolean = false;
+
   constructor(
     private authService: AuthenticationService
   ) {
@@ -28,27 +31,8 @@ export class WsConnectorService {
         this.connected$.next(connected);
       }
     });
-    const userSubject = authService.getUserAsSubject();
-    userSubject.subscribe((user: User) => {
-      let deactivate: Promise<void>;
-      if (this.client.connected) {
-        deactivate = this.client.deactivate();
-      } else {
-        deactivate = new Promise<void>(resolve => resolve());
-      }
-      if (!user?.id) {
-        return;
-      }
-      deactivate.then(() => {
-        const copiedConf = { ...ARSRxStompConfig };
-        copiedConf.connectHeaders.token = user.token;
-        this.headers = {
-          'content-type': 'application/json',
-          'ars-user-id': String(user.id)
-        };
-        this.client.configure(copiedConf);
-        this.client.activate();
-      });
+    authService.getUserAsSubject().subscribe((user: User) => {
+      this.onUserUpdate(user);
     });
   }
 
@@ -65,6 +49,43 @@ export class WsConnectorService {
   public getWatcher(topic: string): Observable<IMessage> {
     if (this.client.connected) {
       return this.client.watch(topic, this.headers);
+    }
+  }
+
+  private onUserUpdate(user: User) {
+    const state = this.client.connectionState$.value;
+    const isOpenOrConnecting = state === 0 || state === 1;
+    if (!user) {
+      if (this.deactivationPromise || !isOpenOrConnecting) {
+        return;
+      }
+      this.headers = {
+        'content-type': 'application/json',
+        'ars-user-id': ''
+      };
+      this.deactivationPromise = this.client.deactivate().then(() => {
+        this.deactivationPromise = null;
+      });
+      return;
+    }
+    this.headers = {
+      'content-type': 'application/json',
+      'ars-user-id': String(user.id)
+    };
+    const copiedConf = { ...ARSRxStompConfig };
+    copiedConf.connectHeaders.token = user.token;
+    this.client.configure(copiedConf);
+    if (this.isConnecting) {
+      return;
+    }
+    if (this.deactivationPromise) {
+      this.isConnecting = true;
+      this.deactivationPromise.then(() => {
+        this.client.activate();
+        this.isConnecting = false;
+      });
+    } else if (!isOpenOrConnecting) {
+      this.client.activate();
     }
   }
 }

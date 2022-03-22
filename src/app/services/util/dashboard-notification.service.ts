@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { NotificationEvent } from '../../models/dashboard-notification';
-import { CommentChangeType } from '../../models/comment-change';
+import { CommentChange, CommentChangeType } from '../../models/comment-change';
 import { WsCommentChangeService } from '../websockets/ws-comment-change.service';
 import {
   CommentChangeService,
@@ -185,6 +185,13 @@ export class DashboardNotificationService {
     }
     const commentChange = JSON.parse(message.body).payload;
     commentChange.createdAt = new Date(commentChange.createdAt);
+    this.pushCommentChange(commentChange);
+  }
+
+  private pushCommentChange(commentChange: CommentChange): void {
+    if (this.isNotificationBlocked) {
+      return;
+    }
     const accountId = this.authenticationService.getUser()?.id;
     const notification: NotificationEvent = {
       ...commentChange,
@@ -218,7 +225,11 @@ export class DashboardNotificationService {
 
   private setup() {
     this.commentChangeService.findAllChangesSince(this._lastChanges).subscribe(changes => {
-      console.log(changes);
+      changes.forEach(change => {
+        change.createdAt = new Date(change.createdAt);
+      });
+      changes.sort((a, b) => Number(a.createdAt) - Number(b.createdAt));
+      changes.forEach(change => this.pushCommentChange(change));
     });
     this.commentChangeService.getRoomSubscriptions().subscribe(subscriptions => {
       subscriptions.forEach(subscription => {
