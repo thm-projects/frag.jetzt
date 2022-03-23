@@ -109,10 +109,10 @@ mat-card-header {
   line-height: 40px;
   font-weight: bold;
   position: absolute;
-  opacity: 0.25;
-  transform: scale(0) rotate(0deg) translate(-50%, -50%);
+  opacity: 0.4;
+  transform: scale(0) translate(-50%, -50%);
   @media (min-width: 750px) {
-    animation: var(--anim, bg-object-anim) 10s ease-in forwards infinite;
+    animation: var(--anim, bg-object-anim) 7s ease-in forwards infinite;
     animation-delay: var(--delay);
   }
 }
@@ -120,26 +120,26 @@ mat-card-header {
 @keyframes bg-object-anim-reverse {
   from {
     color: var(--secondary);
-    opacity: 0.25;
-    transform: scale(0) rotate(720deg) translate(-50%, -50%);
+    opacity: 0.4;
+    transform: scale(0) translate(-50%, -50%);
   }
   to {
     color: var(--primary);
     opacity: 0;
-    transform: scale(10) rotate(0deg) translate(-50%, -50%);
+    transform: scale(10) translate(-50%, -50%);
   }
 }
 
 @keyframes bg-object-anim {
   from {
     color: var(--secondary);
-    opacity: 0.25;
-    transform: scale(0) rotate(0deg) translate(-50%, -50%);
+    opacity: 0.4;
+    transform: scale(0) translate(-50%, -50%);
   }
   to {
     color: var(--primary);
     opacity: 0;
-    transform: scale(10) rotate(720deg) translate(-50%, -50%);
+    transform: scale(10) translate(-50%, -50%);
   }
 }
 
