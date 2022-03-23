@@ -78,7 +78,7 @@ export class ArsDateFormatter implements OnDestroy {
     interval = seconds / 86400;
     if(interval > 1){
       return {
-        unit:ArsTimeUnit.WEEK,
+        unit:ArsTimeUnit.DAY,
         time:Math.floor(interval)
       }
     }
