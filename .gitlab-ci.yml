@@ -91,6 +91,7 @@ ngbuild:
   dependencies:
     - install
   needs:
+    - install
     - e2e_cypress
     - sonar
     - unit_tests
