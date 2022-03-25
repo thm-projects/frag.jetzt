@@ -266,9 +266,13 @@ export class AuthenticationService extends BaseHttpService {
       this.saveAccessToLocalStorage();
     }
     this.dataStoreService.set(STORAGE_KEY, JSON.stringify(user));
-    this.dataStoreService.set(LOGGED_IN, 'true');
+    this.dataStoreService.set(LOGGED_IN, String(Boolean(user)));
     this.user.next(user);
-    this.checkSuperAdmin().subscribe(res => this._isSuperAdmin = !!res);
+    if (user) {
+      this.checkSuperAdmin().subscribe(res => this._isSuperAdmin = !!res);
+    } else {
+      this._isSuperAdmin = false;
+    }
   }
 
   private loadRoomAccesses() {
