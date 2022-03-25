@@ -19,6 +19,7 @@ install:
   artifacts:
     paths:
       - node_modules/
+      - /root/.cache/Cypress/
     expire_in: 30 minutes
 
 eslint:
@@ -87,10 +88,15 @@ ngbuild:
     - angular
   image: local-angular:13
   allow_failure: false
-  dependencies: []
+  dependencies:
+    - install
+  needs:
+    - e2e_cypress
+    - sonar
+    - unit_tests
+    - eslint
   script:
-    - npm ci
-    - ng build --prod --aot
+    - ng build --configuration production --aot
   artifacts:
     paths:
       - "$BUILD_DIR"
@@ -118,7 +124,6 @@ deploy_production:
   tags:
     - ssh
   dependencies:
-    - eslint
     - ngbuild
   script:
     - eval $(ssh-agent -s)
