@@ -3,9 +3,8 @@ Feature: Test the bonus archive for the token usage
   and if the navigation to the linked question works correctly
 
   Background:
-    Given I am on the home page and skipped dialogues
-    And I created the room "TestRoom"
-    And I go to the QnA
+    Given I created the test room
+    And I route to the QnA of the generated Test Room
     And I created the question "TestQuestion"
     And The question is set with a bonus token
 
@@ -23,3 +22,5 @@ Feature: Test the bonus archive for the token usage
     And I go to the question
     Then The question should be displayed
 
+  Scenario: Cleanup
+    Given that the test room will be deleted
