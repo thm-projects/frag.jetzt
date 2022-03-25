@@ -2,9 +2,8 @@ Feature: Test Question Behavior
   Question Behavior contains all question toggles and Question badge on the Q&A icon
 
   Background:
-    Given I am on the home page and skipped dialogues
-    And I created the room "TestRoom"
-    And I go to the QnA
+    Given I created the test room
+    And I route to the QnA of the generated Test Room
     And I created the question "TestQuestion"
 
   Scenario: Q&A badge displays question number
@@ -33,3 +32,6 @@ Feature: Test Question Behavior
     And I choose a category
     And I save the chosen category
     Then The category icon should be visible on the question
+
+  Scenario: Cleanup
+    Given that the test room will be deleted

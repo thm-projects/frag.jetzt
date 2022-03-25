@@ -41,6 +41,7 @@ export class DashboardNotificationService {
   private _commentSubscriptions: IdSubscriptionMapper<CommentChangeSubscription> = {};
   private _roomSubscriptions: IdSubscriptionMapper<RoomCommentChangeSubscription> = {};
   private _activeFilter: (notifications: NotificationEvent[]) => NotificationEvent[];
+  private _initialized = false;
 
   constructor(
     private wsCommentChangeService: WsCommentChangeService,
@@ -53,9 +54,12 @@ export class DashboardNotificationService {
       localStorage.setItem('dashboard-notification-user', this.authenticationService.getUser()?.id);
       localStorage.setItem('dashboard-notifications', JSON.stringify(this._notifications));
     });
-    this.setup();
     this.authenticationService.watchUser.pipe(filter(v => !!v)).subscribe(user => {
       if (user.id === this._lastUser) {
+        if (!this._initialized) {
+          this._initialized = true;
+          this.setup();
+        }
         return;
       }
       this._lastUser = user.id;

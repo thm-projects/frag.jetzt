@@ -24,7 +24,7 @@ Then('I should see the same question', () => {
 });
 
 When('I click on the icon wrapper', () => {
-  cy.xpath('//*[@id="comment-card"]/div[3]/div[1]/button[3]/span[1]/mat-icon', { timeout: 5000 }).click();
+  cy.xpath('//app-comment[1]/mat-card/div[3]/div[1]/button[3]/span[1]/mat-icon', { timeout: 5000 }).click();
 });
 
 And('I click on the delete icon', () => {
@@ -35,8 +35,9 @@ And('I confirm the dialog', () => {
   xPathInDialog('/app-delete-comment/app-dialog-action-buttons/div/div[1]/div/button[1]').click();
 });
 
-Then('The question should not exist', () => {
-  cy.get('#comment-card').should('not.exist');
+Then('The question should be deleted', () => {
+  xPathInSnackBar('/div[1]/simple-snack-bar/span', { timeout: 8_000 })
+    .should('have.text', 'The contribution has been deleted.');
 });
 
 And('I press the edit icon', () => {
@@ -69,9 +70,9 @@ And('I click on delete room inside the panel', () => {
 });
 
 And('I confirm to delete the room', () => {
-  xPathInSnackBar('', { timeout: 8_000 }).should('not.exist');
   xPathInDialog('/app-room-delete/app-dialog-action-buttons/div/div[1]/div/button[1]').click();
-  xPathInSnackBar('', { timeout: 8_000 }).should('exist');
+  xPathInSnackBar('/div[1]/simple-snack-bar/span', { timeout: 5_000 })
+    .should('have.text', 'Test deleted.');
 });
 
 And('I click on the sessions inside the panel', () => {

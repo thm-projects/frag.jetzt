@@ -1,9 +1,8 @@
 Feature: Test the Moderation usage for questions
 
   Background:
-    Given I am on the home page and skipped dialogues
-    And I created the room "TestRoom"
-    And I go to the QnA
+    Given I created the test room
+    And I route to the QnA of the generated Test Room
     And I created the question "TestQuestion"
 
   Scenario: Banned question should be removed from the Q&A
@@ -18,4 +17,6 @@ Feature: Test the Moderation usage for questions
     And I click on the moderation button
     Then The question should be displayed
 
+  Scenario: Cleanup
+    Given that the test room will be deleted
 
