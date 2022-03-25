@@ -8,5 +8,6 @@ Feature: Check if joining a room works
     Then I will navigate to its q&a-page as creator
 
   Scenario: Cleanup
+    Given I created the test room
     Given that the test room will be deleted
 
