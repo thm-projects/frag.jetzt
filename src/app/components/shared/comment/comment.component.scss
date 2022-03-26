@@ -480,3 +480,7 @@ $width-range: $max-width - $min-width;
 #sort-button {
   color: var(--secondary);
 }
+
+.mat-card {
+  border-radius: 40px !important;
+}

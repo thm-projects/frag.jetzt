@@ -2,15 +2,25 @@ variables:
   BUILD_DIR: dist
 
 stages:
+  - install
   - test
   - codequality
   - build
   - deploy
 
-cache:
-  key: ${CI_COMMIT_REF_SLUG}
-  paths:
-    - node_modules/
+install:
+  stage: install
+  tags:
+    - angular
+  image: local-angular:13
+  allow_failure: false
+  script:
+    - npm ci
+  artifacts:
+    paths:
+      - node_modules/
+      - /root/.cache/Cypress/
+    expire_in: 30 minutes
 
 eslint:
   stage: codequality
@@ -18,9 +28,11 @@ eslint:
     - angular
   image: local-angular:13
   allow_failure: false
-  dependencies: []
+  dependencies:
+    - install
+  needs:
+    - install
   script:
-    - npm ci
     - node_modules/eslint/bin/eslint.js -c .eslintrc.json --ext .ts ./src
 
 unit_tests:
@@ -29,7 +41,10 @@ unit_tests:
     - angular
   image: local-angular:13
   allow_failure: false
-  dependencies: []
+  dependencies:
+    - install
+  needs:
+    - install
   artifacts:
     paths:
       - coverage
@@ -43,18 +58,15 @@ e2e_cypress:
     - angular
   image: local-angular:13
   allow_failure: true
-  dependencies: []
-  cache:
-    key:
-      files:
-        - package.json
-    paths:
-      - ~/.npm
-      - ~/.cache
-  script:
+  dependencies:
+    - install
+  needs:
+    - install
+  before_script:
     - apt-get update && apt-get -y install libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb
+    - ./node_modules/.bin/cypress install
+  script:
     - source ci_staging_backend.export
-    - npm ci
     - npx cypress verify
     - ng e2e arsnova-angular-frontend --watch=false
 
@@ -77,10 +89,15 @@ ngbuild:
     - angular
   image: local-angular:13
   allow_failure: false
-  dependencies: []
+  dependencies:
+    - install
+  needs:
+    - install
+    - e2e_cypress
+    - unit_tests
+    - eslint
   script:
-    - npm ci
-    - ng build --prod --aot
+    - ng build --configuration production --aot
   artifacts:
     paths:
       - "$BUILD_DIR"
@@ -108,7 +125,6 @@ deploy_production:
   tags:
     - ssh
   dependencies:
-    - eslint
     - ngbuild
   script:
     - eval $(ssh-agent -s)

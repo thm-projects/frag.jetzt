@@ -16,5 +16,3 @@ And('I click on the moderation button', () => {
 Then('The question should be displayed', () => {
   cy.get('app-comment').should('exist');
 });
-
-
