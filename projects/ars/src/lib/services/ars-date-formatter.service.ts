@@ -17,10 +17,10 @@ export const arsTimeTranslation = {
       year: "vor ? Jahr%en",
         month: "vor ? Monat%en",
         week: "vor ? Woche%n",
-        day: "&1Gestern&#vor ? Tagen",
+        day: "&1gestern&#vor ? Tagen",
         hour: "vor ? Stunde%n",
         minute: "vor ? Minute%n",
-        second: "&#vor kurzem"
+        second: "&#vor Kurzem"
     }
   },
   en:{
@@ -28,10 +28,10 @@ export const arsTimeTranslation = {
       year: "? year%s ago",
       month: "? month%s ago",
       week: "? week%s",
-      day: "&1Yesterday&#? days ago",
+      day: "&1yesterday&#? days ago",
       hour: "? hour%s ago",
       minute: "? minute%s ago",
-      second: "&#now"
+      second: "&#shortly ago"
     }
   }
 }

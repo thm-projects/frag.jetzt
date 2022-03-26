@@ -305,7 +305,7 @@
     "step": "{{step}} / {{total}}",
     "done": "Finish",
     "createQuestion": "With the plus button you call the editor. An AI suggests keywords for your question. These are used to create a word cloud from the keywords of all the questions in the session.",
-    "createQuestionTitle": "Ask a question",
+    "createQuestionTitle": "You are now in the feedback room",
     "voting": "The audience can rate questions up or down, indicating their interest in answering a question or their agreement or disagreement with it. The rating difference is displayed.",
     "votingTitle": "Rate a question",
     "commentFilter": "There are numerous sorting and filtering options for the Q&A list. An active filter is shown in red. For better readability, the question stream can also be paused if it is very dynamic.",

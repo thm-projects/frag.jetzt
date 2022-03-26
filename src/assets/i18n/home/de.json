@@ -310,7 +310,7 @@
     "restart-account-activation-correct": "Der Aktivierungs-Schlüssel wurde gesendet.",
     "restart-account-activation-tooltip": "Sendet einen neuen Aktivierungs-Schlüssel an deine Adresse.",
     "welcome": "Noch Fragen?",
-    "welcome-feedback": "➤ Schreib dem »frag.jetzt«-Team",
+    "welcome-feedback": "➤ Schreib den »frag.jetzt«-Entwicklern",
     "feedback-aria": "Baggs, Features, Lob und Tadel kannst du über diesen Link in unserer Feedback-Säschen äussern."
   },
   "overlay": {
