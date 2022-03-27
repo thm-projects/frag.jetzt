@@ -350,8 +350,49 @@ blockquote {
   outline: gray solid 3px !important;
 }
 
-.mat-bottom-sheet-container{
+.mat-bottom-sheet-container {
   background-color: var(--dialog);
   color: var(--on-dialog);
-  max-height: 500px !important;
+  border-top-left-radius: 40px !important;
+  border-top-right-radius: 40px !important;
+  border-top: thin solid dimgray;
+  border-left: thin solid dimgray;
+  border-right: thin solid dimgray;
+  margin: 0 15px;
+  min-width: unset !important;
+}
+
+@media screen and (min-width: 800px) {
+
+  /* Works on Firefox */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--secondary) transparent;
+  }
+
+  /* Works on Chrome, Edge, and Safari */
+  *::-webkit-scrollbar {
+    width: 3px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: var(--dialog);
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background-color: var(--secondary);
+  }
+}
+
+@media screen and (max-width: 800px) {
+
+  body {
+    -ms-overflow-style: none; /* for Internet Explorer, Edge */
+    scrollbar-width: none; /* for Firefox */
+    overflow-y: scroll;
+  }
+
+  ::-webkit-scrollbar {
+    display: none; /* for Chrome, Safari, and Opera */
+  }
 }
