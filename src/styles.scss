@@ -353,7 +353,13 @@ blockquote {
 .mat-bottom-sheet-container {
   background-color: var(--dialog);
   color: var(--on-dialog);
-  max-height: 500px !important;
+  border-top-left-radius: 40px !important;
+  border-top-right-radius: 40px !important;
+  border-top: thin solid dimgray;
+  border-left: thin solid dimgray;
+  border-right: thin solid dimgray;
+  margin: 0 15px;
+  min-width: unset !important;
 }
 
 @media screen and (min-width: 800px) {
@@ -361,12 +367,12 @@ blockquote {
   /* Works on Firefox */
   * {
     scrollbar-width: thin;
-    scrollbar-color: var(--primary) var(--dialog);
+    scrollbar-color: var(--secondary) transparent;
   }
 
   /* Works on Chrome, Edge, and Safari */
   *::-webkit-scrollbar {
-    width: 10px;
+    width: 3px;
   }
 
   *::-webkit-scrollbar-track {
@@ -374,7 +380,7 @@ blockquote {
   }
 
   *::-webkit-scrollbar-thumb {
-    background-color: var(--primary);
+    background-color: var(--secondary);
   }
 }
 
