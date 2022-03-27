@@ -22,7 +22,7 @@
   &.mat-list-base {
     margin: 16px 0;
     padding: 0;
-    max-height: 205px;
+    max-height: 400px;
     overflow: auto;
 
     .mat-list-item {
@@ -180,8 +180,4 @@ button.example-icon:hover {
 
 .mat-bottom-sheet-container-large {
   max-height: 500px !important;
-}
-
-.mat-bottom-sheet-container {
-  max-height: 100% !important;
 }
