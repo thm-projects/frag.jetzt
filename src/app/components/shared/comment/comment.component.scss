@@ -82,7 +82,7 @@ mat-card-content > :first-child {
 .score {
   min-width: 40px;
   text-align: center;
-  margin-top: 12px;
+  margin-top: 3px;
   color: var(--primary);
   font-size: 24px;
 
@@ -93,7 +93,7 @@ mat-card-content > :first-child {
 
 .scoreCreator {
   color: var(--primary);
-  margin: 0 8px 0 min(10px, 2%);
+  margin-right: 10px;
   font-size: 24px;
 
   @media (max-width: 330px) {
@@ -409,11 +409,11 @@ $margin-top: 70;
 
 $font-range: $max-font-size - $min-font-size;
 $width-range: $max-width - $min-width;
+
 :host {
   .runningnum-outer {
     width: calc(100% - 72px);
     height: 0;
-    background-color: var(--red);
     position: absolute;
     right: 65px;
     top: 60px;
@@ -422,13 +422,12 @@ $width-range: $max-width - $min-width;
     > p {
       font-family: 'Roboto', sans-serif;
       font-size: calc(#{$font-range}em / #{$width-range} - #{$max-font-size - math.div($max-width * $font-range, $width-range)}px);
-      line-height: 1em;
-      margin-top: calc(#{$margin-top}px - #{$margin-top}em / #{$max-font-size});
+      line-height: normal;
       padding: 0;
-      font-weight: bold;
+      font-weight: normal;
       font-style: normal;
       color: var(--on-surface);
-      opacity: 0.1;
+      opacity: 0.2;
       float: right;
       position: relative;
       z-index: 0;
@@ -441,11 +440,12 @@ $width-range: $max-width - $min-width;
         font-size: 1em;
         width: 1em;
         height: 1em;
-        margin-right: 5px;
+        margin-right: 10px;
+        margin-top: 3px;
       }
 
       > span {
-        margin-left: 5px;
+        margin-left: 10px;
       }
     }
   }
