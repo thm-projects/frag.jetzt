@@ -6,7 +6,7 @@ export const dark = {
   '--secondary': 'blueviolet',
   '--secondary-variant': '#6f74dd',
 
-  '--background': '#121212',
+  '--background': 'black',
   '--surface': '#052338',
   '--dialog': '#15171D',
   '--cancel': 'red',
