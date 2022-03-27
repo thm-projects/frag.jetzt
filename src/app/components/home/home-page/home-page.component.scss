@@ -121,7 +121,7 @@ mat-card-header {
 @keyframes bg-object-anim-reverse {
   from {
     color: var(--secondary);
-    opacity: 0.4;
+    opacity: 0.5;
     transform: scale(0) translate(-50%, -50%);
   }
   to {
@@ -134,7 +134,7 @@ mat-card-header {
 @keyframes bg-object-anim {
   from {
     color: var(--secondary);
-    opacity: 0.4;
+    opacity: 0.6;
     transform: scale(0) translate(-50%, -50%);
   }
   to {
