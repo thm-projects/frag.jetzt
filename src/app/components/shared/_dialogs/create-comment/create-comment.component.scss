@@ -4,10 +4,10 @@
 $innerWidth: 375px;
 $innerHeight: 812px;
 $own-margin: 20px;
-$customScaleFactor: 0.8;
+$customScaleFactor: 0.5;
 
 $mockWidth: 1454px;
-$mockHeight: 2920px;
+$mockHeight: 3400px;
 $mockPadLeft: 89px;
 $mockPadTop: 68px;
 $mockPadRight: 96px;
@@ -20,7 +20,7 @@ $height: math.round($mockHeight * $scale-factor);
 $padding: math.ceil($mockPadTop * $scale-factor) math.ceil($mockPadRight * $scale-factor) math.ceil($mockPadBottom * $scale-factor) math.ceil($mockPadLeft * $scale-factor);
 
 $parentWidth: 900px;
-$dialog-margin: 125px;
+$dialog-margin: 50px;
 $parentWidthHalf: math.div($parentWidth, 2);
 
 $scaledWidth: math.div($width * (1 - $customScaleFactor), 2);
