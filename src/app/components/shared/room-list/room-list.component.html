@@ -39,8 +39,8 @@
              mat-table
              [dataSource]="tableDataSource"
              class="list-entries"
-              aria-describedby="roomTable"
-              aria-label="This table shows all available rooms.">
+             aria-describedby="roomTable"
+             aria-label="This table shows all available rooms.">
 
         <!-- Room / Session name column -->
         <ng-container matColumnDef="name"
@@ -132,19 +132,19 @@
             <mat-icon class="material-icons-outlined"
                       mat-list-icon
                       *ngSwitchCase="creatorRole"
-                      title="{{ 'room-list.creator-role' | translate }}">
+                      matTooltip="{{ 'room-list.creator-role' | translate }}">
               co_present
             </mat-icon>
             <mat-icon class="material-icons-outlined"
                       mat-list-icon
                       *ngSwitchCase="participantRole"
-                      title="{{ 'room-list.participant-role' | translate }}">
+                      matTooltip="{{ 'room-list.participant-role' | translate }}">
               group
             </mat-icon>
             <mat-icon class="material-icons-round"
                       mat-list-icon
                       *ngSwitchCase="executiveModeratorRole"
-                      title="{{ 'room-list.executive-moderator-role' | translate }}">
+                      matTooltip="{{ 'room-list.executive-moderator-role' | translate }}">
               gavel
             </mat-icon>
           </td>
