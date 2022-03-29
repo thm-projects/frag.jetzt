@@ -218,7 +218,11 @@
     "active-email-notification": "Die Mail-Benachrichtigung ist aktiviert.",
     "direct-link": "Direktlink",
     "session-id-copied": "Der Direktlink für Teilnehmer wurde in die Zwischenablage kopiert.",
-    "conversation-is-disabled": "Konversation ist in diesem Raum nicht erlaubt."
+    "conversation-is-disabled": "Konversation ist in diesem Raum nicht erlaubt.",
+    "zoom-exit": "Vollansicht verlassen",
+    "zoom-plus": "Text vergrößern",
+    "zoom-minus": "Text verkleinern",
+    "zoom-reset": "Text 100 %"
   },
   "help": {
     "cancel": "Schließen",

@@ -183,7 +183,11 @@
     "active-email-notification": "Email notification is enabled.",
     "direct-link": "Direct link",
     "session-id-copied": "Direct link for participants was copied to the clipboard.",
-    "conversation-is-disabled": "Conversation is disabled in this room."
+    "conversation-is-disabled": "Conversation is disabled in this room.",
+    "zoom-exit": " Exit full view",
+    "zoom-plus": " Increase text size",
+    "zoom-minus": " Decrease text size",
+    "zoom-reset": " Text size 100%"
   },
   "help": {
     "cancel": "Close",
