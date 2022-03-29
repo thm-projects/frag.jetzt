@@ -141,7 +141,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
       currentTimeFormat = lang.toUpperCase() === 'DE' ? TIME_FORMAT_DE : TIME_FORMAT_EN;
     });
     this._filterObj = new DataFilterObject('presentation', this.roomDataService,
-      this.authenticationService, this.sessionService, { ignoreRoleSort: true });
+      this.authenticationService, this.sessionService, { ignoreRoleSort: true, sortType: SortType.Score });
   }
 
   get hasFilter() {
