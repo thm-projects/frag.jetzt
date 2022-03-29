@@ -164,9 +164,9 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
   }
 
   private static invertHex(hexStr: string) {
-    const r = 255 - parseInt(hexStr.substr(1, 2), 16);
-    const g = 255 - parseInt(hexStr.substr(3, 2), 16);
-    const b = 255 - parseInt(hexStr.substr(5, 2), 16);
+    const r = 255 - parseInt(hexStr.substring(1, 3), 16);
+    const g = 255 - parseInt(hexStr.substring(3, 5), 16);
+    const b = 255 - parseInt(hexStr.substring(5, 7), 16);
     return `#${((r * 256 + g) * 256 + b).toString(16).padStart(6, '0')}`;
   }
 

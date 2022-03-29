@@ -101,6 +101,11 @@ export class RoomDataFilter {
     return changed;
   }
 
+  applyOptions(forceOptions: Partial<RoomDataFilter>) {
+    for (const key of Object.keys(forceOptions)) {
+      this[key] = forceOptions[key];
+    }
+  }
 
   resetToDefault() {
     this.period = DEFAULT_PERIOD;

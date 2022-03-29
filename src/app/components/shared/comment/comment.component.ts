@@ -236,7 +236,15 @@ export class CommentComponent implements OnInit, AfterViewInit {
 
   changeSlideState(): void {
     if (this.slideAnimationState === 'removed') {
+      if (this.comment?.meta?.removed) {
+        this.comment.meta.removed = undefined;
+      }
       return;
+    }
+    if (this.slideAnimationState === 'new') {
+      if (this.comment?.meta?.created) {
+        this.comment.meta.created = undefined;
+      }
     }
     this.slideAnimationState = 'visible';
   }
@@ -503,6 +511,9 @@ export class CommentComponent implements OnInit, AfterViewInit {
   }
 
   toggleNotifications() {
+    if (this.isMock) {
+      return true;
+    }
     if (this.notificationService.hasCommentSubscription(this.comment.id)) {
       this.notificationService.deleteCommentSubscription(this.comment.id).subscribe();
     } else {
