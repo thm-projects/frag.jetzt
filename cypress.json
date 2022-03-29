@@ -6,5 +6,7 @@
   "pluginsFile": "cypress/plugins/index.ts",
   "fixturesFolder": "cypress/fixtures",
   "baseUrl": "http://localhost:4200",
-  "testFiles": "**/*.{feature,features}"
+  "testFiles": "**/*.{feature,features}",
+  "video": false,
+  "screenshotOnRunFailure": false
 }

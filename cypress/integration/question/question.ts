@@ -2,7 +2,7 @@ import { But, Given, Then, When, And } from 'cypress-cucumber-preprocessor/steps
 import { xPathInDialog, xPathInMatSelectPanel, xPathInMenuPanel } from '../utils/angular-utils';
 
 Then('The badge should display the number {string}', (number) => {
-  cy.xpath('//*[@id="question_answer-button"]/span[1]/mat-icon/span').should('have.text', number);
+  cy.xpath('//*[@id="question_answer-button"]/span[1]/mat-icon/span').should('have.text', `Q${number}`);
 });
 
 Given('I set the question to wrong', () => {
