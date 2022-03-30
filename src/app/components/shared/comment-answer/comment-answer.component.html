@@ -13,7 +13,7 @@
                  [moderator]="isModerationComment"
                  [isFromModerator]="mods.has(comment.creatorId)"
                  [isFromOwner]="room.ownerId === comment.creatorId"
-                 [isAnswerView] = "true"
+                 [isAnswerView]="true"
                  (sortedAnswers)="applySortAnswers($event)"
     ></app-comment>
   </div>
@@ -35,7 +35,8 @@
                          [isSpinning]="isSending"
                          [enabled]="(userRole > 0 || room.conversationDepth !== 0) && (edit || !answer)"
                          [tags]="room.tags"
-                         [isQuestionerNameEnabled]="true">
+                         [isQuestionerNameEnabled]="true"
+                         [additionalMockOffset]="65">
       </app-write-comment>
     </mat-card>
   </div>

@@ -93,22 +93,21 @@ export class DataFilterObject {
   } as const;
   private readonly _filteredData = new BehaviorSubject<FilterResult>(null);
   private readonly _destroyNotifier = new Subject<any>();
+  private _dataUpdates: Subscription;
 
   constructor(
     private readonly filterName: FilterTypes,
     private readonly roomDataService: RoomDataService,
     private readonly authenticationService: AuthenticationService,
     private readonly sessionService: SessionService,
+    private readonly forceOptions: Partial<RoomDataFilter> = {},
   ) {
     this._filter = RoomDataFilter.loadFilter(filterName);
     this.sessionService.getRoomOnce().pipe(takeUntil(this._destroyNotifier)).subscribe(room => {
       this._filter.checkRoom(room.id);
+      this._filter.applyOptions(forceOptions);
       this.refreshSourceData();
-      this.roomDataService.receiveUpdates([
-        { type: 'CommentCreated', finished: true },
-        { type: 'CommentPatched', finished: true },
-        { type: 'CommentDeleted', finished: true },
-      ]).pipe(takeUntil(this._destroyNotifier)).subscribe(() => this.refresh());
+      this.subscribeUpdates();
     });
     this.sessionService.getModeratorsOnce().pipe(takeUntil(this._destroyNotifier)).subscribe(mods => {
       this.moderators = new Set([...mods.map(mod => mod.accountId)]);
@@ -185,6 +184,9 @@ export class DataFilterObject {
     if (!this._currentData || !this.moderators || !observed) {
       return;
     }
+    if (previousFilter && previousFilter.moderation !== this._filter.moderation) {
+      this.subscribeUpdates();
+    }
     if (previousFilter && (Boolean(previousFilter.freezedAt) !== Boolean(this._filter.freezedAt) ||
       Boolean(previousFilter.moderation) !== Boolean(this._filter.moderation))) {
       this.refreshSourceData();
@@ -251,6 +253,15 @@ export class DataFilterObject {
       return comments.filter(c => new Date(c.createdAt).getTime() >= filterTime);
     }
     return comments;
+  }
+
+  private subscribeUpdates() {
+    this._dataUpdates?.unsubscribe();
+    this._dataUpdates = this.roomDataService.receiveUpdates([
+      { type: 'CommentCreated', finished: true },
+      { type: 'CommentPatched', finished: true },
+      { type: 'CommentDeleted', finished: true },
+    ], this._filter.moderation).pipe(takeUntil(this._destroyNotifier)).subscribe(() => this.refresh());
   }
 
 }

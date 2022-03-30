@@ -21,13 +21,13 @@
               [disableRipple]="true"
               routerLink="/participant/room/{{ room.shortId }}/comments"
               aria-labelledby="question_answer">
-        <mat-icon matBadge="{{ commentCounter > 0 ? commentCounter : null }}"
+        <mat-icon matBadge="{{ commentCounter > 0 ? 'Q' + commentCounter : null }}"
                   class="main-icon material-icons-outlined"
                   [ngClass]="{'smallerIcon' : deviceInfo.isCurrentlyMobile}"
                   matBadgePosition="before">
           {{ room.conversationDepth === 0 ? 'chat' : 'forum' }}
         </mat-icon>
-        <span matBadge="{{responseCounter}}"
+        <span matBadge="{{'A' + responseCounter}}"
               matBadgePosition="before"
               *ngIf="responseCounter > 0"
               [ngClass]="{'smallerIcon' : deviceInfo.isCurrentlyMobile}"

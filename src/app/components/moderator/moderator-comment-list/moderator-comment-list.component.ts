@@ -112,10 +112,7 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
       this.questionNumberOptions = this._allQuestionNumberOptions.filter(e => e.startsWith(v));
     });
     this._filterObject = new DataFilterObject('moderatorList', this.roomDataService,
-      this.authenticationService, this.sessionService);
-    const filter = this._filterObject.filter;
-    filter.moderation = true;
-    this._filterObject.filter = filter;
+      this.authenticationService, this.sessionService, { moderation: true });
   }
 
   handlePageEvent(e: PageEvent) {
@@ -201,7 +198,6 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
       }
     }
     const allComments = this.roomDataService.getCurrentRoomData(true);
-    //155 23 => 23 - 155  => < 0
     this._allQuestionNumberOptions = allComments.map(c => c.number).sort(numberSorter).map(c => String(c));
     const value = this.questionNumberFormControl.value || '';
     this.questionNumberOptions = this._allQuestionNumberOptions.filter(e => e.startsWith(value));

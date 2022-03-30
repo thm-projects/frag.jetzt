@@ -11,6 +11,12 @@ import { LanguageService } from '../../../services/util/language.service';
 import { NotificationService } from '../../../services/util/notification.service';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { RoomService } from '../../../services/http/room.service';
+import { EventService } from '../../../services/util/event.service';
+import { AuthenticationService } from '../../../services/http/authentication.service';
+import { DataStoreService } from '../../../services/util/data-store.service';
+import { ModeratorService } from '../../../services/http/moderator.service';
 
 describe('WriteCommentComponent', () => {
   let component: WriteCommentComponent;
@@ -23,6 +29,7 @@ describe('WriteCommentComponent', () => {
         MatDialogModule,
         MatSnackBarModule,
         HttpClientTestingModule,
+        RouterTestingModule,
       ],
       providers: [
         {
@@ -33,6 +40,11 @@ describe('WriteCommentComponent', () => {
         LanguagetoolService,
         LanguageService,
         NotificationService,
+        RoomService,
+        EventService,
+        AuthenticationService,
+        DataStoreService,
+        ModeratorService,
       ],
       declarations: [WriteCommentComponent, TranslatePipe]
     }).compileComponents();

@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Language, LanguagetoolResult, LanguagetoolService } from '../../../services/http/languagetool.service';
 import { Comment } from '../../../models/comment';
@@ -12,6 +12,10 @@ import { FormControl, Validators } from '@angular/forms';
 import { CreateCommentKeywords } from '../../../utils/create-comment-keywords';
 import { BrainstormingSession } from '../../../models/brainstorming-session';
 import { SharedTextFormatting } from '../../../utils/shared-text-formatting';
+import { UserRole } from '../../../models/user-roles.enum';
+import { SessionService } from '../../../services/util/session.service';
+import { User } from '../../../models/user';
+import { AuthenticationService } from '../../../services/http/authentication.service';
 
 type SubmitFunction = (commentData: string, commentText: string, selectedTag: string, name?: string,
                        verifiedWithoutDeepl?: boolean) => any;
@@ -21,10 +25,11 @@ type SubmitFunction = (commentData: string, commentText: string, selectedTag: st
   templateUrl: './write-comment.component.html',
   styleUrls: ['./write-comment.component.scss']
 })
-export class WriteCommentComponent implements OnInit {
+export class WriteCommentComponent implements OnInit, OnDestroy {
 
   @ViewChild(ViewCommentDataComponent) commentData: ViewCommentDataComponent;
   @ViewChild('langSelect') langSelect: ElementRef<HTMLDivElement>;
+  @ViewChild('mobileMock') mobileMock: ElementRef<HTMLDivElement>;
   @Input() isModerator = false;
   @Input() tags: string[];
   @Input() onClose: () => any;
@@ -42,6 +47,7 @@ export class WriteCommentComponent implements OnInit {
   @Input() isQuestionerNameEnabled = false;
   @Input() brainstormingData: BrainstormingSession;
   @Input() allowEmpty = false;
+  @Input() additionalMockOffset: number = 0;
   comment: Comment;
   selectedTag: string;
   maxTextCharacters = 500;
@@ -53,12 +59,18 @@ export class WriteCommentComponent implements OnInit {
   hasSpellcheckConfidence = true;
   newLang = 'auto';
   brainstormingInfo: string;
+  userRole: UserRole;
+  user: User;
   readonly questionerNameMin = 2;
   readonly questionerNameMax = 30;
   questionerNameFormControl = new FormControl('', [
     Validators.minLength(this.questionerNameMin), Validators.maxLength(this.questionerNameMax)
   ]);
   private _wasVerifiedWithoutDeepl = false;
+  private _mobileMockActive = false;
+  private _mobileMockTimeout;
+  private _mobileMockPossible = false;
+  private _mockMatcher: MediaQueryList;
 
   constructor(
     private notification: NotificationService,
@@ -67,13 +79,31 @@ export class WriteCommentComponent implements OnInit {
     public languagetoolService: LanguagetoolService,
     private deeplService: DeepLService,
     private dialog: MatDialog,
+    private sessionService: SessionService,
+    private authenticationService: AuthenticationService,
   ) {
     this.languageService.getLanguage().subscribe(lang => {
       this.translateService.use(lang);
     });
   }
 
+  get isMobileMockActive() {
+    return this._mobileMockActive;
+  }
+
+  get isMobileMockPossible() {
+    return this._mobileMockPossible;
+  }
+
   ngOnInit(): void {
+    this._mockMatcher = window.matchMedia('(min-width: ' + (1500 + this.additionalMockOffset * 2 * 0.8 + 10) + 'px)');
+    this._mobileMockPossible = this._mockMatcher.matches;
+    this._mockMatcher.addEventListener('change', e => {
+      this._mobileMockPossible = e.matches;
+      if (!this._mobileMockPossible) {
+        this._mobileMockActive = false;
+      }
+    });
     if (this.brainstormingData) {
       this.translateService.get('comment-page.brainstorming-placeholder', this.brainstormingData)
         .subscribe(msg => this.placeholder = msg);
@@ -87,7 +117,13 @@ export class WriteCommentComponent implements OnInit {
     } else {
       this.maxTextCharacters = this.isModerator ? 1000 : 500;
     }
+    this.userRole = this.sessionService.currentRole;
     this.maxDataCharacters = this.isModerator ? this.maxTextCharacters * 5 : this.maxTextCharacters * 3;
+    this.authenticationService.watchUser.subscribe(user => this.user = user);
+  }
+
+  ngOnDestroy() {
+    this._mockMatcher.removeAllListeners();
   }
 
   buildCloseDialogActionCallback(): () => void {
@@ -165,6 +201,45 @@ export class WriteCommentComponent implements OnInit {
 
   checkSpellings(text: string, language: Language = this.selectedLang) {
     return this.languagetoolService.checkSpellings(text, language);
+  }
+
+  getContent(): Comment {
+    const data = this.commentData.currentData || '["\\n"]';
+    return {
+      body: data,
+      number: '?',
+      upvotes: 0,
+      downvotes: 0,
+      score: 0,
+      createdAt: new Date(),
+      questionerName: this.questionerNameFormControl.value,
+      tag: this.selectedTag,
+    } as Comment;
+  }
+
+  setMobileMockState(activate: boolean) {
+    clearTimeout(this._mobileMockTimeout);
+    if (activate) {
+      this._mobileMockActive = true;
+      this._mobileMockTimeout = setTimeout(() => {
+        const style = this.mobileMock?.nativeElement?.style;
+        if (!style) {
+          return;
+        }
+        style.setProperty('--current-position', 'var(--end-position)');
+        style.setProperty('--additional-padding', this.additionalMockOffset === 0 ? '0' :
+          this.additionalMockOffset + 'px');
+        style.opacity = '1';
+      });
+    } else {
+      this._mobileMockTimeout = setTimeout(() => this._mobileMockActive = false, 500);
+      const style = this.mobileMock?.nativeElement?.style;
+      if (!style) {
+        return;
+      }
+      style.setProperty('--current-position', '');
+      style.opacity = '0';
+    }
   }
 
   private createComment(func: SubmitFunction) {
