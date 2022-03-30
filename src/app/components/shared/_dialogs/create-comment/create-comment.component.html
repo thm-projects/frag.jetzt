@@ -9,24 +9,4 @@
                      [tags]="tags"
                      [isModerator]="userRole > 0">
   </app-write-comment>
-  <button mat-flat-button
-          class="preview-btn"
-          *ngIf="isMobileMockPossible"
-          (click)="setMobileMockState(!isMobileMockActive)">
-    {{'comment-page.preview-in-mock' | translate}}
-  </button>
-  <div *ngIf="isMobileMockActive" class="mobile-mock-wrapper" #mobileMock>
-    <div>
-      <div>
-        <app-comment [comment]="getContent()"
-                     [isMock]="true"
-                     [userRole]="0"
-                     [moderator]="false"
-                     [isFromModerator]="userRole === 2"
-                     [isFromOwner]="userRole === 3"
-                     [user]="user"></app-comment>
-      </div>
-    </div>
-    <img src="/assets/images/Iphone-X-Mock.png" alt="Phone preview">
-  </div>
 </ars-row>
