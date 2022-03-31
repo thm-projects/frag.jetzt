@@ -189,7 +189,7 @@
     "fullscreen": "Answer question",
     "abort": "Cancel",
     "acknowledge": "Moves the question back to the public list",
-    "your-answer": "Your answer",
+    "your-answer": "Enter your answer …",
     "answer": "Comment this question",
     "no-comment": "The comment doesn't exist!",
     "save-answer": "Save",
@@ -408,7 +408,7 @@
     "tooltip-placeholder-image": "Image address must begin with https://...",
     "tooltip-label-video": "Enter video URL ...",
     "tooltip-placeholder-video": "Video address must begin with https://...",
-    "tooltip-label-formula": "Enter a formula, for example …",
+    "tooltip-label-formula": "Enter a KaTeX formula, for example …",
     "tooltip-placeholder-formula": "We support the KaTeX formula set.",
     "tooltip-toolbar-bold": "Bold",
     "tooltip-toolbar-color": "Font color",
@@ -416,12 +416,12 @@
     "tooltip-toolbar-unordered-list": "Bullet list",
     "tooltip-toolbar-ordered-list": "Numbered list",
     "tooltip-toolbar-blockquote": "Cite",
-    "tooltip-toolbar-link": "Create link",
+    "tooltip-toolbar-link": "Link selected text",
     "tooltip-toolbar-image": "Insert image",
     "tooltip-toolbar-video": "Insert video",
     "tooltip-toolbar-code": "Mark as source code",
     "tooltip-toolbar-formula": "Insert formula",
-    "tooltip-toolbar-emote": "Insert emote"
+    "tooltip-toolbar-emote": "Insert emoji"
   },
   "moderators-dialog": {
     "title": "Guest & permanent moderators",
