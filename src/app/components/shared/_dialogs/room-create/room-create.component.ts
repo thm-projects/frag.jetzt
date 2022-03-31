@@ -108,6 +108,10 @@ export class RoomCreateComponent implements OnInit {
     newRoom.tags = defaultCategories[this.languageService.currentLanguage()] || defaultCategories.default;
     newRoom.profanityFilter = ProfanityFilter.NONE;
     newRoom.shortId = this.hasCustomShortId ? this.roomShortIdFormControl.value : undefined;
+    newRoom.conversationDepth = 7;
+    newRoom.brainstormingActive = true;
+    newRoom.quizActive = true;
+    newRoom.bonusArchiveActive = true;
     this.roomService.addRoom(newRoom, () => {
       this.shortIdAlreadyUsed = true;
       this.roomShortIdFormControl.updateValueAndValidity();

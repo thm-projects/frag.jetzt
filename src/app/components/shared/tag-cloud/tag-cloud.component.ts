@@ -339,8 +339,8 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     if (!this.user || this.user.role === UserRole.PARTICIPANT) {
       throw new Error('user has no rights.');
     }
-    TagCloudSettings.getCurrent(this.themeService.currentTheme.isDark).applyToRoom(this.room);
-    this.roomService.updateRoom(this.room).subscribe({
+    const tagCloudSettings = TagCloudSettings.getCurrent(this.themeService.currentTheme.isDark).serialize();
+    this.roomService.patchRoom(this.room.id, { tagCloudSettings }).subscribe({
       next: () => {
         this.translateService.get('tag-cloud.changes-successful').subscribe(msg => {
           this.notificationService.show(msg);
@@ -525,7 +525,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
         elem.style.transform = elem.style.transform.replace(transformationRotationKiller, '').trim();
         this.popup.enter(elem, dataElement.realText, this.brainstormingActive, dataElement.tagData,
           (this._currentSettings.hoverTime + this._currentSettings.hoverDelay) * 1_000,
-          this.room && this.room.blacklistIsActive);
+          this.room && this.room.blacklistActive);
       });
     });
   }

@@ -2,7 +2,6 @@ import { BrainstormingSession } from './brainstorming-session';
 
 export class Room {
   id: string;
-  revision: string;
   ownerId: string;
   shortId: string;
   abbreviation: string;
@@ -10,13 +9,12 @@ export class Room {
   description: string;
   blacklist: string;
   closed: boolean;
-  moderated: boolean;
   directSend: boolean;
   threshold: number;
   tags: string[];
   questionsBlocked: boolean;
   profanityFilter: ProfanityFilter;
-  blacklistIsActive: boolean;
+  blacklistActive: boolean;
   brainstormingSession: BrainstormingSession;
   tagCloudSettings: string;
   moderatorRoomReference: string;
@@ -24,6 +22,9 @@ export class Room {
   createdAt: Date;
   updatedAt: Date;
   lastVisitCreator: Date;
+  bonusArchiveActive: boolean;
+  quizActive: boolean;
+  brainstormingActive: boolean;
 
   constructor(
     ownerId: string = '',
@@ -33,17 +34,19 @@ export class Room {
     description: string = '',
     blacklist: string = '[]',
     closed: boolean = false,
-    moderated: boolean = true,
     directSend: boolean = true,
     threshold: number = null,
     tags: string[] = [],
     questionsBlocked: boolean = false,
     profanityFilter: ProfanityFilter = ProfanityFilter.NONE,
-    blacklistIsActive: boolean = true,
+    blacklistActive: boolean = true,
     brainstormingSession: BrainstormingSession = null,
     tagCloudSettings: string = null,
     moderatorRoomReference: string = null,
     conversationDepth: number = 0,
+    bonusArchiveActive: boolean = true,
+    quizActive: boolean = true,
+    brainstormingActive: boolean = true
   ) {
     this.id = '';
     this.ownerId = ownerId;
@@ -53,13 +56,12 @@ export class Room {
     this.description = description;
     this.blacklist = blacklist;
     this.closed = closed;
-    this.moderated = moderated;
     this.directSend = directSend;
     this.threshold = threshold;
     this.tags = tags;
     this.questionsBlocked = questionsBlocked;
     this.profanityFilter = profanityFilter;
-    this.blacklistIsActive = blacklistIsActive;
+    this.blacklistActive = blacklistActive;
     this.brainstormingSession = brainstormingSession;
     this.tagCloudSettings = tagCloudSettings;
     this.moderatorRoomReference = moderatorRoomReference;
@@ -67,6 +69,9 @@ export class Room {
     this.updatedAt = null;
     this.lastVisitCreator = new Date();
     this.conversationDepth = conversationDepth;
+    this.bonusArchiveActive = bonusArchiveActive;
+    this.quizActive = quizActive;
+    this.brainstormingActive = brainstormingActive;
   }
 }
 

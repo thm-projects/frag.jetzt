@@ -5,7 +5,7 @@ import {
   spacyLabels,
   TopicCloudAdminData
 } from '../../components/shared/_dialogs/topic-cloud-administration/TopicCloudAdminData';
-import { RoomService } from '../http/room.service';
+import { RoomPatch, RoomService } from '../http/room.service';
 import { Room } from '../../models/room';
 import { TranslateService } from '@ngx-translate/core';
 import { NotificationService } from './notification.service';
@@ -183,13 +183,13 @@ export class TopicCloudAdminService {
     }
   }
 
-  setAdminData(_adminData: TopicCloudAdminData, updateRoom: Room, userRole: UserRole) {
+  setAdminData(_adminData: TopicCloudAdminData, id: string, userRole: UserRole, data?: RoomPatch) {
     localStorage.setItem(TopicCloudAdminService.adminKey, JSON.stringify(_adminData));
-    if (!updateRoom || !userRole || userRole <= UserRole.PARTICIPANT) {
+    if (!id || !userRole || userRole <= UserRole.PARTICIPANT) {
       return;
     }
-    TagCloudSettings.getCurrent(this.themeService.currentTheme.isDark).applyToRoom(updateRoom);
-    this.updateRoom(updateRoom);
+    const tagCloudSettings = TagCloudSettings.getCurrent(this.themeService.currentTheme.isDark).serialize();
+    this.updateRoom(id, { ...data, tagCloudSettings });
   }
 
   addWordToBlacklist(word: string, room: Room) {
@@ -202,7 +202,7 @@ export class TopicCloudAdminService {
       return;
     }
     newList.push(word);
-    this.updateBlacklist(newList, room, 'add-successful');
+    this.updateBlacklist(newList, room.id, 'add-successful');
   }
 
   removeWordFromBlacklist(word: string, room: Room) {
@@ -212,17 +212,16 @@ export class TopicCloudAdminService {
     word = word.toLowerCase().trim();
     const newList = JSON.parse(room.blacklist).filter(e => e !== word);
     if (room.blacklist.length !== newList.length) {
-      this.updateBlacklist(newList, room, 'remove-successful');
+      this.updateBlacklist(newList, room.id, 'remove-successful');
     }
   }
 
-  updateBlacklist(list: string[], room: Room, msg?: string) {
-    room.blacklist = JSON.stringify(list);
-    this.updateRoom(room, msg);
+  updateBlacklist(list: string[], id: string, msg?: string) {
+    this.updateRoom(id, { blacklist: JSON.stringify(list) }, msg);
   }
 
-  updateRoom(updatedRoom: Room, message?: string) {
-    this.roomService.updateRoom(updatedRoom).subscribe({
+  updateRoom(id: string, data: RoomPatch, message?: string) {
+    this.roomService.patchRoom(id, data).subscribe({
       next: () => {
         if (!message) {
           message = 'changes-successful';

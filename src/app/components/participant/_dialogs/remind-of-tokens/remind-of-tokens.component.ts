@@ -1,6 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { RoomEditComponent } from '../../../creator/_dialogs/room-edit/room-edit.component';
 
 @Component({
   selector: 'app-remind-of-tokens',
@@ -10,7 +9,7 @@ import { RoomEditComponent } from '../../../creator/_dialogs/room-edit/room-edit
 export class RemindOfTokensComponent implements OnInit {
 
   constructor(
-    public dialogRef: MatDialogRef<RoomEditComponent>,
+    public dialogRef: MatDialogRef<RemindOfTokensComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
   ) {
   }

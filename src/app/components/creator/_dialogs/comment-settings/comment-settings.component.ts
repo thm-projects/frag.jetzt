@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { RoomCreatorPageComponent } from '../../room-creator-page/room-creator-page.component';
 import { NotificationService } from '../../../../services/util/notification.service';
@@ -6,11 +6,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { RoomService } from '../../../../services/http/room.service';
 import { Router } from '@angular/router';
 import { CommentService } from '../../../../services/http/comment.service';
-import { DeleteCommentsComponent } from '../delete-comments/delete-comments.component';
 import { Room } from '../../../../models/room';
-import { CommentSettings } from '../../../../models/comment-settings';
 import { CommentSettingsDialog } from '../../../../models/comment-settings-dialog';
-import { SessionService } from '../../../../services/util/session.service';
 
 @Component({
   selector: 'app-comment-settings',
@@ -19,14 +16,10 @@ import { SessionService } from '../../../../services/util/session.service';
 })
 export class CommentSettingsComponent implements OnInit {
 
-  roomId: string;
-  commentThreshold = -100;
-  editRoom: Room;
+  @Input() editRoom: Readonly<Room>;
   settingThreshold = false;
-  enableCommentModeration = true;
+  commentThreshold = -100;
   directSend = true;
-  tagsEnabled = false;
-  tags: string[] = [];
 
   constructor(
     public dialogRef: MatDialogRef<RoomCreatorPageComponent>,
@@ -36,7 +29,6 @@ export class CommentSettingsComponent implements OnInit {
     protected roomService: RoomService,
     public router: Router,
     public commentService: CommentService,
-    private sessionService: SessionService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
   }
@@ -46,8 +38,6 @@ export class CommentSettingsComponent implements OnInit {
       this.commentThreshold = this.editRoom.threshold;
       this.settingThreshold = !!this.editRoom.threshold;
     }
-    this.tags = [];
-    this.enableCommentModeration = this.editRoom.moderated;
     this.directSend = this.editRoom.directSend;
   }
 
@@ -59,45 +49,11 @@ export class CommentSettingsComponent implements OnInit {
     }
   }
 
-
-  openDeleteCommentDialog(): void {
-    const dialogRef = this.dialog.open(DeleteCommentsComponent, {
-      width: '400px'
-    });
-    dialogRef.componentInstance.roomId = this.roomId;
-    dialogRef.afterClosed()
-      .subscribe(result => {
-        if (result === 'delete') {
-          this.deleteComments();
-        }
-      });
-  }
-
-  deleteComments(): void {
-    this.translationService.get('room-page.comments-deleted').subscribe(msg => {
-      this.notificationService.show(msg);
-    });
-    this.commentService.deleteCommentsByRoomId(this.roomId).subscribe();
-  }
-
   closeDialog(): void {
-    const commentSettings = new CommentSettings();
-    commentSettings.roomId = this.roomId;
-    commentSettings.directSend = this.directSend;
-    const settingsReturn = new CommentSettingsDialog();
-
-    this.editRoom.directSend = this.directSend;
-    this.editRoom.threshold = this.settingThreshold ? this.commentThreshold : 0;
-
-    // If moderation isn't enabled, the direct send is of no interest and shouldn't be updated to avoid confusion about missing comments
-    if ((this.enableCommentModeration && !this.directSend) || this.directSend) {
-      this.roomService.updateRoom(this.editRoom).subscribe();
-      settingsReturn.directSend = this.directSend;
-    }
-    settingsReturn.enableModeration = this.enableCommentModeration;
-    settingsReturn.enableThreshold = this.settingThreshold;
-    settingsReturn.threshold = this.commentThreshold;
-    this.dialogRef.close(settingsReturn);
+    this.dialogRef.close(new CommentSettingsDialog(
+      this.settingThreshold ? this.commentThreshold : 0,
+      this.directSend
+    ));
   }
 
 

@@ -28,6 +28,7 @@
       <button mat-flat-button
               tabindex="0"
               *ngIf="!router.url.endsWith('moderator/comments') && router.url.endsWith('/comments') &&
+                     room?.quizActive &&
                      deviceInfo.isCurrentlyDesktop"
               routerLink="quiz">
         <mat-icon class="material-icons-outlined"
@@ -48,6 +49,7 @@
       <button mat-flat-button
               tabindex="0"
               *ngIf="!router.url.endsWith('moderator/comments') && router.url.endsWith('/comments') &&
+                     room?.brainstormingActive &&
                      deviceInfo.isCurrentlyDesktop && (!!room?.brainstormingSession || userRole > 0)"
               (click)="navigateBrainstorming()">
         <mat-icon class="material-icons-outlined"
@@ -222,7 +224,8 @@
       </button>
 
       <button mat-menu-item
-              *ngIf="userRole === 0 && !router.url.endsWith('/tagcloud') && !router.url.endsWith('/quiz')"
+              *ngIf="userRole === 0 && !router.url.endsWith('/tagcloud') && !router.url.endsWith('/quiz') &&
+                     (!room || room.bonusArchiveActive)"
               (click)="openUserBonusTokenDialog()"
               tabindex="0">
         <mat-icon class="star material-icons-round">grade</mat-icon>

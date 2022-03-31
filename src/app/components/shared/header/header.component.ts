@@ -308,12 +308,6 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     confirmDialogRef.componentInstance.userRole = this.userRole;
   }
 
-  public blockQuestions() {
-    // flip state if clicked
-    this.room.questionsBlocked = !this.room.questionsBlocked;
-    this.roomService.updateRoom(this.room).subscribe();
-  }
-
   public getCurrentRoleIcon() {
     if (this.authenticationService.isSuperAdmin) {
       return 'manage_accounts';
