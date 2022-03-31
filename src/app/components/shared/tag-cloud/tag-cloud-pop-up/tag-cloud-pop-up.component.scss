@@ -1,4 +1,5 @@
 @use "sass:math";
+
 $popup-arrow-size: 20px;
 $popup-arrow-border-size: 2px;
 $popup-arrow-half-size: math.div($popup-arrow-size, 2);
@@ -26,7 +27,6 @@ $header-size: 67px;
     display: flex;
     justify-content: center;
     flex-direction: column;
-    align-items: flex-start;
     overflow: hidden;
   }
 
@@ -113,7 +113,6 @@ span {
 
   & > p {
     display: inline;
-    font-weight: 600;
     vertical-align: middle;
   }
 }
@@ -130,13 +129,49 @@ button {
   padding-right: 10px;
 }
 
-.replace-button {
+.vote-button {
   background-color: var(--primary);
   color: var(--on-primary);
   min-width: 30px !important;
   min-height: 10px !important;
-  width: 100%;
+  width: calc(50% - 1em);
   z-index: 3;
+  margin: 0.5em;
+
+  &.active {
+    background-color: var(--green);
+    color: var(--black);
+
+    &.downvote {
+      background-color: var(--red);
+      color: var(--white);
+    }
+  }
+
+  span {
+    margin: 0 5px;
+
+    > mat-icon {
+      margin: 0 0.2em;
+    }
+  }
+}
+
+.replace-button {
+  background-color: transparent;
+  color: var(--primary);
+  outline: var(--primary) solid 3px;
+  min-width: 30px !important;
+  min-height: 30px !important;
+  width: auto;
+  z-index: 3;
+  display: flex;
+  margin: 0 auto 10px;
+
+  &:hover {
+    background-color: var(--primary);
+    color: var(--on-primary);
+  }
 }
 
 ::ng-deep .replacementContainer {
@@ -144,11 +179,11 @@ button {
 
   .mat-form-field-infix {
     min-width: 150px;
-    width: min-content;
+    line-height: normal;
   }
 
   .mat-form-field-wrapper {
-    margin-bottom: -0.8em;
+    margin: 1em 0 0 0;
   }
 }
 

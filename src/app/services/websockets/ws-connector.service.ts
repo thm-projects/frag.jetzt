@@ -3,13 +3,14 @@ import { RxStomp } from '@stomp/rx-stomp';
 import { AuthenticationService } from '../http/authentication.service';
 import { User } from '../../models/user';
 import { ARSRxStompConfig } from '../../rx-stomp.config';
-import { Observable } from 'rxjs';
-import { IMessage, StompHeaders } from '@stomp/stompjs';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { IMessage } from '@stomp/stompjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class WsConnectorService {
+  public readonly connected$ = new BehaviorSubject<boolean>(false);
   private client: RxStomp;
 
   private headers = {
@@ -17,34 +18,29 @@ export class WsConnectorService {
     'ars-user-id': ''
   };
 
+  private deactivationPromise: Promise<void>;
+  private isConnecting: boolean = false;
+
   constructor(
     private authService: AuthenticationService
   ) {
     this.client = new RxStomp();
-    const userSubject = authService.getUserAsSubject();
-    userSubject.subscribe((user: User) => {
-      if (this.client.connected) {
-        this.client.deactivate();
+    this.client.connectionState$.subscribe(() => {
+      const connected = !!this.client.stompClient.connected;
+      if (this.connected$.value !== connected) {
+        this.connected$.next(connected);
       }
-
-      if (user && user.id) {
-        const copiedConf = ARSRxStompConfig;
-        copiedConf.connectHeaders.token = user.token;
-        this.headers = {
-          'content-type': 'application/json',
-          'ars-user-id': '' + user.id
-        };
-        this.client.configure(copiedConf);
-        this.client.activate();
-      }
+    });
+    authService.getUserAsSubject().subscribe((user: User) => {
+      this.onUserUpdate(user);
     });
   }
 
   public send(destination: string, body: string): void {
     if (this.client.connected) {
       this.client.publish({
-        destination: destination,
-        body: body,
+        destination,
+        body,
         headers: this.headers
       });
     }
@@ -53,6 +49,43 @@ export class WsConnectorService {
   public getWatcher(topic: string): Observable<IMessage> {
     if (this.client.connected) {
       return this.client.watch(topic, this.headers);
+    }
+  }
+
+  private onUserUpdate(user: User) {
+    const state = this.client.connectionState$.value;
+    const isOpenOrConnecting = state === 0 || state === 1;
+    if (!user) {
+      if (this.deactivationPromise || !isOpenOrConnecting) {
+        return;
+      }
+      this.headers = {
+        'content-type': 'application/json',
+        'ars-user-id': ''
+      };
+      this.deactivationPromise = this.client.deactivate().then(() => {
+        this.deactivationPromise = null;
+      });
+      return;
+    }
+    this.headers = {
+      'content-type': 'application/json',
+      'ars-user-id': String(user.id)
+    };
+    const copiedConf = { ...ARSRxStompConfig };
+    copiedConf.connectHeaders.token = user.token;
+    this.client.configure(copiedConf);
+    if (this.isConnecting) {
+      return;
+    }
+    if (this.deactivationPromise) {
+      this.isConnecting = true;
+      this.deactivationPromise.then(() => {
+        this.client.activate();
+        this.isConnecting = false;
+      });
+    } else if (!isOpenOrConnecting) {
+      this.client.activate();
     }
   }
 }

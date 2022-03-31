@@ -7,18 +7,17 @@ app-comment {
 
 .mat-form-field {
   float: left;
-  padding-left: 10px;
+  padding-left: 5px;
 }
 
 #searchBox {
   box-sizing: border-box;
-  padding: 0 10px 0 5px;
+  padding: 0 10px 0 10px;
   background-color: var(--background);
   border: none;
   outline: none;
   min-height: 60px;
   font-size: large;
-  border-radius: 5px;
   color: var(--on-surface);
   transition: width 300ms linear;
 }
@@ -37,13 +36,11 @@ app-comment {
 }
 
 .search-container {
-  border-radius: 5px;
   background-color: var(--background);
   margin-bottom: 2%;
 }
 
 .search-container-fixed {
-  border-radius: 5px;
   background-color: var(--background);
   margin-bottom: 2%;
   position: fixed;
@@ -54,7 +51,7 @@ app-comment {
 }
 
 .search-icon {
-  padding: 10px;
+  padding: 10px 0 10px 0;
   color: var(--on-surface);
 }
 
@@ -98,7 +95,7 @@ app-comment {
 }
 
 .close {
-  margin: 5px 0 5px 0;
+  margin: 7px 0 5px 0;
 }
 
 .searchBarIcon {
@@ -113,11 +110,8 @@ app-comment {
   margin-top: 10%;
 }
 
-.button-bar {
-}
-
 .button-bar.joyrideActive {
-  padding: 15px;
+  padding: 15px 30px;
   margin: unset;
 }
 
@@ -146,7 +140,7 @@ app-comment {
 }
 
 .bookmark-icon {
-  color: var(--magenta);
+  color: var(--purple);
 }
 
 .not_bookmarked-icon {
@@ -154,11 +148,19 @@ app-comment {
 }
 
 .owner-icon {
-  color: var(--purple);
+  color: slateblue;
+}
+
+.brainstorm-icon {
+  color: var(--primary);
+}
+
+.censored-icon {
+  color: var(--red);
 }
 
 .number-icon {
-  color: var(--secondary);
+  color: var(--red);
 }
 
 .lecturer-icon {
@@ -175,11 +177,13 @@ app-comment {
 
 .counter-filtered {
   color: var(--red);
+  font-weight: normal;
 }
 
 h3 {
   font-size: 18pt !important;
-  margin: 10px 0 10px -10px;
+  margin: 10px 10px 10px -5px;
+  font-weight: bold;
 }
 
 .timesort {
@@ -225,31 +229,53 @@ h3 {
 
 .scrollTop {
   position: fixed;
-  left: 25px;
+  left: 35px;
   bottom: 65px;
   transform: scale(0);
   z-index: 1;
   background-color: var(--secondary);
   color: var(--on-secondary);
   transition: 0.1s;
+
+  &:hover {
+    background-color: var(--background);
+    color: var(--secondary);
+    outline: var(--secondary) solid 3px;
+  }
 }
 
 .fab_add_comment {
   position: fixed;
-  right: 25px;
+  right: 35px;
   bottom: 65px;
   z-index: 1;
   background-color: var(--primary);
   color: var(--on-primary);
   transform: scale(1.4);
-  transition: all 0.1s ease-in-out;
+  transition: all 0.5s ease-in-out;
+
+  &:hover {
+    background-color: var(--background);
+    color: var(--primary);
+    outline: var(--primary) solid 3px;
+  }
+
+  &.center_screen {
+    right: calc(50% - 20px);
+    bottom: calc(50% - 20px);
+  }
+
+  p {
+    position: absolute;
+    transform: translate(calc(-50% + 12px), 0) scale(calc(1 / 1.4));
+  }
 }
 
 #createCommentJoyrideWrapper {
   position: fixed;
   width: 56px + 2 * $joyrideElementPadding;
   height: 56px + 2 * $joyrideElementPadding;
-  right: 17px - $joyrideElementPadding;
+  right: 22px - $joyrideElementPadding;
   bottom: 57px - $joyrideElementPadding;
   visibility: hidden;
 }
@@ -284,5 +310,5 @@ h3 {
 }
 
 h1 {
-  color: red;
+  color: var(--red);
 }

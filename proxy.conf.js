@@ -1,3 +1,14 @@
+let wsHeaders = null;
+const wsOrigin = process.env.WS_GATEWAY_WS_ORIGIN;
+if (wsOrigin) {
+  wsHeaders = {
+    headers: {
+      host: wsOrigin.substring(wsOrigin.indexOf('//') + 2),
+      origin: wsOrigin
+    }
+  };
+}
+
 const PROXY_CONFIG = {
   "/antworte-jetzt": {
     "target": "https://staging.antworte.jetzt",
@@ -14,7 +25,7 @@ const PROXY_CONFIG = {
     }
   },
   "/deepl": {
-    "target": "https://api-free.deepl.com/v2",
+    "target": process.env.DEEPL_ADDRESS || "https://api-free.deepl.com/v2",
     "secure": true,
     "changeOrigin": true,
     "logLevel": "debug",
@@ -26,7 +37,7 @@ const PROXY_CONFIG = {
     }
   },
   "/languagetool": {
-    "target": "https://lt.frag.jetzt/v2/check",
+    "target": process.env.LT_ADDRESS || "https://lt.frag.jetzt/v2/check",
     "secure": true,
     "changeOrigin": true,
     "pathRewrite": {
@@ -35,7 +46,7 @@ const PROXY_CONFIG = {
     "logLevel": "debug"
   },
   "/spacy": {
-    "target": "https://spacy.frag.jetzt/spacy",
+    "target": process.env.SPACY_ADDRESS || "https://spacy.frag.jetzt/spacy",
     "secure": true,
     "changeOrigin": true,
     "pathRewrite": {
@@ -44,25 +55,28 @@ const PROXY_CONFIG = {
     "logLevel": "debug"
   },
   "/api/ws/websocket": {
-    "target": "ws://localhost:8080",
-    "secure": false,
+    "target": process.env.WS_GATEWAY_WS_ADDRESS || "ws://localhost:8080",
+    "secure": process.env.BACKEND_SECURE || false,
     "pathRewrite": {
-      "^/api": ""
+      [process.env.WS_GATEWAY_WS_REWRITE || "^/api"]: ""
     },
+    ...wsHeaders,
     "ws": true,
     "logLevel": "debug"
   },
   "/api/roomsubscription": {
-    "target": "http://localhost:8080",
-    "secure": false,
+    "target": process.env.WS_GATEWAY_HTTP_ADDRESS || "http://localhost:8080",
+    "secure": process.env.BACKEND_SECURE || false,
+    "changeOrigin": process.env.BACKEND_CHANGE_ORIGIN || false,
     "pathRewrite": {
-      "^/api": ""
+      [process.env.WS_GATEWAY_HTTP_REWRITE || "^/api"]: ""
     },
     "logLevel": "debug"
   },
   "/api": {
-    "target": "http://localhost:8888",
-    "secure": false,
+    "target": process.env.BACKEND_ADDRESS || "http://localhost:8888",
+    "secure": process.env.BACKEND_SECURE || false,
+    "changeOrigin": process.env.BACKEND_CHANGE_ORIGIN || false,
     "pathRewrite": {
       "^/api": ""
     },

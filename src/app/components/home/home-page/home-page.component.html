@@ -4,18 +4,19 @@
     [stepPosition]="'center'">
 </h1>
 
-<div fxLayout="column"
-     fxLayoutAlign="center"
-     fxLayoutGap="20px"
-     fxFill>
+<div data-nosnippet
+     class="main-container">
+  <div class="bg-object" style="top: 20%; left: 20%; --delay: 0s;">?</div>
+  <div class="bg-object" style="top: 30%; left: 80%; --delay: 2s; --anim: bg-object-anim-reverse;">?</div>
+  <div class="bg-object" style="top: 40%; left: 50%; --delay: 4s; --anim: bg-object-anim-reverse;">?</div>
   <div fxLayout="row"
        fxLayoutAlign="center">
 
-    <h1>
+    <h2>
       <span class="main-heading-secondary"
             aria-hidden="true">{{ 'login.welcome' | translate }}</span>
       <span class="main-heading-primary">frag.jetzt</span>
-    </h1>
+    </h2>
 
   </div>
 
@@ -39,14 +40,15 @@
   </div>
 
   <h2>
-    <span class="feedback">
+    <span data-nosnippet
+          class="feedback">
       <a [joyrideStep]="'feedbackLink'"
          appJoyrideTemplate
          [stepPosition]="'top'"
          class="info"
          href="https://frag.jetzt/participant/room/Feedback"
          target="_blank"
-         rel="noreferrer"
+         rel="noreferrer noopener"
          aria-labelledby="feedback-aria">{{ 'login.welcome-feedback' | translate }}
       </a>
     </span>

@@ -7,7 +7,7 @@ export class RoomDeleted {
   constructor(id: string) {
     this.type = 'RoomDeleted';
     this.payload = {
-      id: id
+      id
     };
   }
 }

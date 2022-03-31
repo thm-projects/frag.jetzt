@@ -2,25 +2,37 @@ variables:
   BUILD_DIR: dist
 
 stages:
+  - install
   - test
-  - codestyle
+  - codequality
   - build
   - deploy
 
-cache:
-  key: ${CI_COMMIT_REF_SLUG}
-  paths:
-    - node_modules/
-
-eslint:
-  stage: codestyle
+install:
+  stage: install
   tags:
     - angular
   image: local-angular:13
-  allow_failure: true
-  dependencies: []
+  allow_failure: false
   script:
     - npm ci
+  artifacts:
+    paths:
+      - node_modules/
+      - /root/.cache/Cypress/
+    expire_in: 30 minutes
+
+eslint:
+  stage: codequality
+  tags:
+    - angular
+  image: local-angular:13
+  allow_failure: false
+  dependencies:
+    - install
+  needs:
+    - install
+  script:
     - node_modules/eslint/bin/eslint.js -c .eslintrc.json --ext .ts ./src
 
 unit_tests:
@@ -29,7 +41,10 @@ unit_tests:
     - angular
   image: local-angular:13
   allow_failure: false
-  dependencies: []
+  dependencies:
+    - install
+  needs:
+    - install
   artifacts:
     paths:
       - coverage
@@ -37,18 +52,36 @@ unit_tests:
     - npm ci
     - npm test
 
+e2e_cypress:
+  stage: test
+  tags:
+    - angular
+  image: local-angular:13
+  allow_failure: true
+  dependencies:
+    - install
+  needs:
+    - install
+  before_script:
+    - apt-get update && apt-get -y install libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb
+    - ./node_modules/.bin/cypress install
+  script:
+    - source ci_staging_backend.export
+    - npx cypress verify
+    - ng e2e arsnova-angular-frontend --watch=false
+
 sonar:
-  stage: codestyle
+  stage: codequality
   only:
     - staging
   tags:
     - sonar-cli
-  allow_failure: true
+  allow_failure: false
   dependencies:
     - unit_tests
   script:
-    - npm i
-    - sonar-scanner -Dsonar.login=$SONAR_TOKEN -Dsonar.host.url=https://scm.thm.de/sonar/
+    - npm ci
+    - sonar-scanner -Dsonar.login=$SONAR_TOKEN -Dsonar.host.url=https://scm.thm.de/sonar/ -Dsonar.qualitygate.wait=true
 
 ngbuild:
   stage: build
@@ -56,10 +89,15 @@ ngbuild:
     - angular
   image: local-angular:13
   allow_failure: false
-  dependencies: []
+  dependencies:
+    - install
+  needs:
+    - install
+    - e2e_cypress
+    - unit_tests
+    - eslint
   script:
-    - npm ci
-    - ng build --prod --aot
+    - ng build --configuration production --aot
   artifacts:
     paths:
       - "$BUILD_DIR"
@@ -87,7 +125,6 @@ deploy_production:
   tags:
     - ssh
   dependencies:
-    - eslint
     - ngbuild
   script:
     - eval $(ssh-agent -s)
@@ -95,3 +132,33 @@ deploy_production:
     - ssh-keyscan "$SERVER_URL" >> ~/.ssh/known_hosts
     - ssh-add <(echo "$SSH_PRIVATE_KEY")
     - scp -r "$BUILD_DIR"* "$SSH_URL"
+
+.build_image_template:
+  stage: deploy
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: [""]
+  tags:
+    - kaniko
+  script:
+    - sed -i '/^dist$/d' .dockerignore
+    - mkdir -p /kaniko/.docker
+    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
+    - /kaniko/executor
+      --context     "$CI_PROJECT_DIR"
+      --dockerfile  "$CI_PROJECT_DIR/.docker/Dockerfile.kaniko"
+      --destination "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG"
+      --build-arg   "BUILD_DIR=$BUILD_DIR"
+
+build_image:
+  extends: .build_image_template
+  only:
+    - staging
+    - master
+
+build_image_manual:
+  extends: .build_image_template
+  when: manual
+  except:
+    - staging
+    - master

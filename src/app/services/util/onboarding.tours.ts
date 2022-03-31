@@ -29,7 +29,14 @@ const roomChecker = (roomService: RoomService, roomUrl: string): Observable<bool
   const shortId = roomUrl.substring(index, roomUrl.indexOf('/', index));
   const sub = new Subject<boolean>();
   roomService.getRoomByShortId(shortId)
-    .subscribe(room => sub.next(room != null), () => sub.next(false));
+    .subscribe({
+      next: room => {
+        sub.next(room != null);
+      },
+      error: () => {
+        sub.next(false);
+      }
+    });
   return sub.asObservable();
 };
 

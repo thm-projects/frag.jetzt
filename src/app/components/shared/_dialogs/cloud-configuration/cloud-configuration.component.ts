@@ -5,6 +5,7 @@ import { WeightClass } from './weight-class.interface';
 import { TagCloudMetaDataCount } from '../../../../services/util/tag-cloud-data.service';
 import { CloudParameters, CloudTextStyle } from '../../../../utils/cloud-parameters';
 import { AppComponent } from '../../../../app.component';
+import { LanguageService } from '../../../../services/util/language.service';
 
 @Component({
   selector: 'app-cloud-configuration',
@@ -103,11 +104,14 @@ export class CloudConfigurationComponent implements OnInit {
 
   isTestCloud = false;
 
-  constructor(private translateService: TranslateService) {
+  constructor(
+    private translateService: TranslateService,
+    private languageService: LanguageService,
+  ) {
+    this.languageService.getLanguage().subscribe(lang => this.translateService.use(lang));
   }
 
   ngOnInit() {
-    this.translateService.use(localStorage.getItem('currentLang'));
     this.cloudParameters = new CloudParameters(this.parent.currentCloudParameters);
     this.defaultCloudParameters = new CloudParameters(this.parent.currentCloudParameters);
     this.parent.dataManager.getMetaData().subscribe((value) => {

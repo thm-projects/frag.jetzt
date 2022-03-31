@@ -1,41 +1,58 @@
 .outer {
   width: 80%;
   max-width: 300px;
-  background-color: var(--background);
+  background-color: transparent;
   box-shadow: none;
 }
 
 .main-heading-primary {
   display: block;
-  font-size: 150%;
-  font-weight: bold;
+  font-size: 200%;
+  font-weight: 200;
   text-align: center;
   letter-spacing: 7px;
-  color: var(--secondary);
+  color: var(--primary);
   animation: moveInLeft 3s ease;
+  margin-bottom: 30px;
+}
+
+.main-container {
+  height: 100%;
+  min-height: calc(100vh - 110px);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  box-sizing: border-box;
 }
 
 .main-heading-secondary {
   display: block;
   margin-top: 4vh;
-  font-weight: bold;
-  font-size: 80%;
+  font-weight: normal;
   text-align: center;
-  color: var(--primary);
+  color: var(--secondary);
   animation: moveInRight 3.0s ease;
 }
 
 .feedback {
-  margin-top: -35px;
   display: block;
   font-weight: normal;
   font-size: 14px;
   text-align: center;
   color: var(--on-background);
+  opacity: 0.6;
 
   > a {
-    padding: 5px;
+    padding: 10px;
     display: inline;
+
+    &:hover {
+      background-color: transparent;
+      color: var(--on-background);
+      outline: var(--secondary) solid 3px;
+      border-radius: 5px;
+    }
   }
 }
 
@@ -84,3 +101,46 @@ mat-card-header {
   height: auto;
   outline: none;
 }
+
+.bg-object {
+  --delay: 0s;
+  width: 15px;
+  height: 15px;
+  font-size: 40px;
+  line-height: 40px;
+  font-weight: bold;
+  position: absolute;
+  opacity: 0.4;
+  transform: scale(0) translate(-50%, -50%);
+  @media (min-width: 750px) {
+    animation: var(--anim, bg-object-anim) 7s ease-in forwards infinite;
+    animation-delay: var(--delay);
+  }
+}
+
+@keyframes bg-object-anim-reverse {
+  from {
+    color: var(--secondary);
+    opacity: 0.5;
+    transform: scale(0) translate(-50%, -50%);
+  }
+  to {
+    color: var(--primary);
+    opacity: 0;
+    transform: scale(10) translate(-50%, -50%);
+  }
+}
+
+@keyframes bg-object-anim {
+  from {
+    color: var(--secondary);
+    opacity: 0.6;
+    transform: scale(0) translate(-50%, -50%);
+  }
+  to {
+    color: var(--primary);
+    opacity: 0;
+    transform: scale(10) translate(-50%, -50%);
+  }
+}
+

@@ -30,19 +30,19 @@ export const validatePassword = (password1: FormControl) =>
   };
 
 const validateEmail = (email1: FormControl) => (formControl: FormControl) => {
-    const email1Value = email1.value;
-    const email2Value = formControl.value;
+  const email1Value = email1.value;
+  const email2Value = formControl.value;
 
-    if (email1Value !== email2Value) {
-      return {
-        emailIsEqual: {
-          isEqual: false
-        }
-      };
-    } else {
-      return null;
-    }
-  };
+  if (email1Value !== email2Value) {
+    return {
+      emailIsEqual: {
+        isEqual: false
+      }
+    };
+  } else {
+    return null;
+  }
+};
 
 @Component({
   selector: 'app-register',
@@ -82,23 +82,24 @@ export class RegisterComponent implements OnInit {
   }
 
   register(username: string, password: string): void {
-    if (!this.usernameFormControl.hasError('required') && !this.usernameFormControl.hasError('email') &&
-      !this.username2FormControl.hasError('required') && !this.username2FormControl.hasError('emailIsEqual') &&
-      !this.password1FormControl.hasError('required') &&
-      !this.password2FormControl.hasError('required') && !this.password2FormControl.hasError('passwordIsEqual')) {
-      this.authenticationService.register(username, password).subscribe(
-        () => {
-          this.translationService.get('register.register-successful').subscribe(message => {
-            this.notificationService.show(message);
-          });
-          this.dialogRef.close({ username, password });
-        },
-        () => {
-          this.translationService.get('register.register-request-error').subscribe(message => {
-            this.notificationService.show(message);
-          });
-        }
-      );
+    if (this.usernameFormControl.valid &&
+      this.username2FormControl.valid &&
+      this.password1FormControl.valid &&
+      this.password2FormControl.valid) {
+      this.authenticationService.register(username, password).
+        subscribe({
+          next: () => {
+            this.translationService.get('register.register-successful').subscribe(message => {
+              this.notificationService.show(message);
+            });
+            this.dialogRef.close({ username, password });
+          },
+          error: () => {
+            this.translationService.get('register.register-request-error').subscribe(message => {
+              this.notificationService.show(message);
+            });
+          }
+        });
     } else {
       this.translationService.get('register.register-unsuccessful').subscribe(message => {
         this.notificationService.show(message);

@@ -14,7 +14,8 @@ export class BonusTokenService extends BaseHttpService {
   private apiUrl = {
     base: '/api',
     bonustoken: '/bonustoken',
-    delete: '/deleteby',
+    delete: '/delete',
+    deleteByRoom: '/deletebyroom',
     find: '/find'
   };
 
@@ -26,7 +27,7 @@ export class BonusTokenService extends BaseHttpService {
     const connectionUrl = `${this.apiUrl.base + this.apiUrl.bonustoken + this.apiUrl.find}`;
     return this.http.post<BonusToken[]>(connectionUrl, {
       properties: {
-        roomId: roomId
+        roomId
       }
     }).pipe(
       tap(() => ''),
@@ -46,9 +47,9 @@ export class BonusTokenService extends BaseHttpService {
     );
   }
 
-  deleteToken(roomId: string, commentId: string, userId: string) {
+  deleteToken(commentId: string, userId: string) {
     const connectionUrl = `${this.apiUrl.base + this.apiUrl.bonustoken + this.apiUrl.delete}`
-        + `?roomid=${roomId}&commentid=${commentId}&accountId=${userId}`;
+        + `?&commentid=${commentId}&userid=${userId}`;
     return this.http.delete<BonusToken>(connectionUrl, httpOptions).pipe(
       tap(_ => ''),
       catchError(this.handleError<BonusToken>('deleteToken'))
@@ -56,7 +57,7 @@ export class BonusTokenService extends BaseHttpService {
   }
 
   deleteTokensByRoomId(roomId: string) {
-    const connectionUrl = `${this.apiUrl.base + this.apiUrl.bonustoken + this.apiUrl.delete}?roomid=${roomId}`;
+    const connectionUrl = `${this.apiUrl.base + this.apiUrl.bonustoken + this.apiUrl.deleteByRoom}?roomid=${roomId}`;
     return this.http.delete<BonusToken>(connectionUrl, httpOptions).pipe(
       tap(_ => ''),
       catchError(this.handleError<BonusToken>('deleteToken'))

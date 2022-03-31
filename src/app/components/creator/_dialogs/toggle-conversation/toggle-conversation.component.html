@@ -1,0 +1,20 @@
+<div mat-dialog-content>
+  <h2 class="oldtypo-h2"
+      tabindex="0">{{ 'room-page.setup-conversation' | translate }}</h2>
+  <div *ngIf="data.directSend">
+    <p class="oldtypo-p"
+       tabindex="0">{{ 'room-page.allowing-conversation-confirm-not-moderated' | translate }}</p>
+  </div>
+  <div fxLayout="row" style="margin-top: 15px">
+    <mat-slide-toggle
+      [(ngModel)]="conversationAllowed">{{ 'room-page.conversation-allow' | translate }}</mat-slide-toggle>
+  </div>
+</div>
+<app-dialog-action-buttons
+  buttonsLabelSection="room-page"
+  confirmButtonLabel="update"
+  [cancelButtonClickAction]="buildCloseDialogActionCallback()"
+  [confirmButtonType]=confirmButtonType
+  [confirmButtonClickAction]="toggleConversationActionCallback()"
+></app-dialog-action-buttons>
+

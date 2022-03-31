@@ -2,7 +2,7 @@ import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../../services/util/language.service';
 import { TagCloudDataService, TagCloudDataTagEntry } from '../../../../services/util/tag-cloud-data.service';
-import { Language, LanguagetoolService } from '../../../../services/http/languagetool.service';
+import { Language, LanguagetoolResult, LanguagetoolService } from '../../../../services/http/languagetool.service';
 import { FormControl } from '@angular/forms';
 import { TSMap } from 'typescript-map';
 import { CommentService } from '../../../../services/http/comment.service';
@@ -11,8 +11,9 @@ import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { UserRole } from '../../../../models/user-roles.enum';
 import { SpacyKeyword } from '../../../../services/http/spacy.service';
 import { Router } from '@angular/router';
-import { RoleChecker } from '../../../../utils/RoleChecker';
 import { Room } from '../../../../models/room';
+import { SessionService } from '../../../../services/util/session.service';
+import { BrainstormingService } from '../../../../services/http/brainstorming.service';
 
 const CLOSE_TIME = 1500;
 
@@ -28,6 +29,8 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
   @Input() room: Room;
   replacementInput = new FormControl();
   tag: string;
+  previousTag: string;
+  elem: HTMLElement;
   tagData: TagCloudDataTagEntry;
   categories: string[];
   timePeriodText: string;
@@ -35,24 +38,30 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
   selectedLang: Language = 'en-US';
   spellingData: string[] = [];
   isBlacklistActive = true;
+  isBrainstorming = false;
   private _popupHoverTimer;
   private _popupCloseTimer;
   private _hasLeft = true;
+  private _isSending = false;
 
-  constructor(private langService: LanguageService,
-              private translateService: TranslateService,
-              private tagCloudDataService: TagCloudDataService,
-              private languagetoolService: LanguagetoolService,
-              private commentService: CommentService,
-              private router: Router,
-              private notificationService: NotificationService) {
-    this.langService.langEmitter.subscribe(lang => {
+  constructor(
+    private langService: LanguageService,
+    private translateService: TranslateService,
+    private tagCloudDataService: TagCloudDataService,
+    private languagetoolService: LanguagetoolService,
+    private commentService: CommentService,
+    private sessionService: SessionService,
+    private router: Router,
+    private notificationService: NotificationService,
+    private brainstormingService: BrainstormingService,
+  ) {
+    this.langService.getLanguage().subscribe(lang => {
       this.translateService.use(lang);
     });
   }
 
   ngOnInit(): void {
-    [this.userRole] = RoleChecker.checkRole(decodeURI(this.router.url));
+    this.userRole = this.sessionService.currentRole;
     this.timePeriodText = '...';
   }
 
@@ -73,11 +82,31 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
   }
 
   leave(): void {
+    if (this.elem && this.previousTag) {
+      this.elem.innerText = this.previousTag;
+    }
     clearTimeout(this._popupHoverTimer);
     this.close();
   }
 
-  enter(elem: HTMLElement, tag: string, tagData: TagCloudDataTagEntry, hoverDelayInMs: number, isBlacklistActive: boolean): void {
+  getBrainstormingVotes(): number {
+    const votes = this.room.brainstormingSession.votesForWords?.[this.tag];
+    return (votes?.upvotes || 0) - (votes?.downvotes || 0);
+  }
+
+  getOwnVote(): number {
+    const vote = this.room.brainstormingSession.votesForWords?.[this.tag]?.ownHasUpvoted;
+    if (vote === true) {
+      return 1;
+    } else if (vote === false) {
+      return -1;
+    } else { //undefined or null
+      return 0;
+    }
+  }
+
+  enter(elem: HTMLElement, tag: string, isBrainstorming: boolean,
+        tagData: TagCloudDataTagEntry, hoverDelayInMs: number, isBlacklistActive: boolean): void {
     if (!elem) {
       return;
     }
@@ -88,13 +117,7 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
         if (['DE', 'FR', 'EN'].indexOf(langKey) < 0) {
           return;
         }
-        for (const match of correction.matches) {
-          if (match.replacements != null && match.replacements.length > 0) {
-            for (const replacement of match.replacements) {
-              this.spellingData.push(replacement.value);
-            }
-          }
-        }
+        this.fillSpellingData(correction);
       });
     }
     clearTimeout(this._popupCloseTimer);
@@ -102,8 +125,14 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
     this._hasLeft = true;
     this._popupHoverTimer = setTimeout(() => {
       this.tag = tag;
+      this.previousTag = isBrainstorming && elem.innerText;
+      this.elem = isBrainstorming && elem;
+      if (isBrainstorming) {
+        elem.innerText = this.tag;
+      }
+      this.isBrainstorming = isBrainstorming;
       this.tagData = tagData;
-      this.categories = Array.from(tagData.categories.keys());
+      this.categories = isBrainstorming ? [] : Array.from(tagData.categories.keys());
       this.calculateDateText(() => {
         this.position(elem);
         this.isBlacklistActive = isBlacklistActive;
@@ -167,14 +196,18 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
         comment.keywordsFromSpacy.forEach(renameKeyword);
       }
       changes.set('keywordsFromSpacy', JSON.stringify(comment.keywordsFromSpacy));
-      this.commentService.patchComment(comment, changes).subscribe(_ => {
-        this.translateService.get('topic-cloud-dialog.keyword-edit').subscribe(msg => {
-          this.notificationService.show(msg);
-        });
-      }, _ => {
-        this.translateService.get('topic-cloud-dialog.changes-gone-wrong').subscribe(msg => {
-          this.notificationService.show(msg);
-        });
+
+      this.commentService.patchComment(comment, changes).subscribe({
+        next: () => {
+          this.translateService.get('topic-cloud-dialog.keyword-edit').subscribe(msg => {
+            this.notificationService.show(msg);
+          });
+        },
+        error: () => {
+          this.translateService.get('topic-cloud-dialog.changes-gone-wrong').subscribe(msg => {
+            this.notificationService.show(msg);
+          });
+        }
       });
     });
     this.close(false);
@@ -186,6 +219,79 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
     if (e.key === 'Enter') {
       this.updateTag();
     }
+  }
+
+  getTooltip(str: string): string {
+    return this.isBrainstorming ? str + '-brainstorming' : str;
+  }
+
+  onBrainstormVote(upvote: boolean) {
+    if (this._isSending) {
+      return;
+    }
+    this._isSending = true;
+    const currentVote = upvote ? 1 : -1;
+    const lastVote = this.getOwnVote();
+    if (currentVote === lastVote) {
+      this.setOwnVote(0);
+      this.brainstormingService.deleteVote(this.room.brainstormingSession.id, this.tag)
+        .subscribe({
+          next: _ => this._isSending = false,
+          error: _ => {
+            this.setOwnVote(lastVote);
+            this._isSending = false;
+          }
+        });
+      return;
+    }
+    this.setOwnVote(currentVote);
+    this.brainstormingService.createVote(this.room.brainstormingSession.id, this.tag, upvote)
+      .subscribe({
+        next: _ => this._isSending = false,
+        error: _ => {
+          this.setOwnVote(lastVote);
+          this._isSending = false;
+        }
+      });
+  }
+
+  private fillSpellingData(correction: LanguagetoolResult): void {
+    for (const match of correction.matches) {
+      if (match.replacements != null && match.replacements.length > 0) {
+        for (const replacement of match.replacements) {
+          this.spellingData.push(replacement.value);
+        }
+      }
+    }
+  }
+
+  private setOwnVote(vote: number) {
+    let upvote = true;
+    if (vote === 0) {
+      upvote = undefined;
+    } else if (vote === -1) {
+      upvote = false;
+    }
+    if (!this.room.brainstormingSession.votesForWords) {
+      this.room.brainstormingSession.votesForWords = {
+        [this.tag]: {
+          upvotes: 0,
+          downvotes: 0,
+          ownHasUpvoted: upvote
+        }
+      };
+      return;
+    }
+    const previous = this.room.brainstormingSession.votesForWords[this.tag];
+    if (!previous) {
+      this.room.brainstormingSession.votesForWords[this.tag] = {
+        upvotes: 0,
+        downvotes: 0,
+        ownHasUpvoted: upvote
+      };
+      return;
+    }
+    previous.ownHasUpvoted = upvote;
   }
 
   private position(elem: HTMLElement) {
@@ -206,52 +312,52 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
 
     // try to make a decision where to place the popup outgoing from tag with checks if we are at a border of the viewport
     enum PopupPosition {
-      top,
-      bottom,
-      left,
-      right
+      Top,
+      Bottom,
+      Left,
+      Right
     }
 
     let dockingPosition;
     if (isLeft && isTop && !isBottom && !isRight) {
-      dockingPosition = PopupPosition.right;
+      dockingPosition = PopupPosition.Right;
     } else if (isTop && !isLeft && !isRight && !isBottom) {
-      dockingPosition = PopupPosition.bottom;
+      dockingPosition = PopupPosition.Bottom;
     } else if (isRight && isTop && !isLeft && !isBottom) {
-      dockingPosition = PopupPosition.left;
+      dockingPosition = PopupPosition.Left;
     } else if (isLeft && !isTop && !isRight && !isBottom) {
-      dockingPosition = PopupPosition.right;
+      dockingPosition = PopupPosition.Right;
     } else if (!isLeft && !isTop && !isRight && !isBottom) {
       // default docking when all sides offer enough space
-      dockingPosition = PopupPosition.top;
+      dockingPosition = PopupPosition.Top;
     } else if (isRight && !isTop && !isLeft && !isBottom) {
-      dockingPosition = PopupPosition.left;
+      dockingPosition = PopupPosition.Left;
     } else if (isLeft && isBottom && !isTop && !isRight) {
-      dockingPosition = PopupPosition.right;
+      dockingPosition = PopupPosition.Right;
     } else if (!isLeft && isBottom && !isTop && !isRight) {
-      dockingPosition = PopupPosition.top;
+      dockingPosition = PopupPosition.Top;
     } else if (!isLeft && isBottom && isTop && !isRight) {
-      dockingPosition = PopupPosition.left;
+      dockingPosition = PopupPosition.Left;
     } else {
       /*
        * Find solution for small screens when all sides produce unpleasant results
        */
-      dockingPosition = PopupPosition.top;
+      dockingPosition = PopupPosition.Top;
     }
     html.classList.remove('left', 'right', 'up', 'down');
-    if (dockingPosition === PopupPosition.bottom) {
+    if (dockingPosition === PopupPosition.Bottom) {
       html.style.top = tag.bottom + 'px';
       html.style.left = tag.x + tag.width / 2 + 'px';
       html.classList.add('up');
-    } else if (dockingPosition === PopupPosition.top) {
+    } else if (dockingPosition === PopupPosition.Top) {
       html.style.top = tag.y + 'px';
       html.style.left = tag.x + tag.width / 2 + 'px';
       html.classList.add('down');
-    } else if (dockingPosition === PopupPosition.left) {
+    } else if (dockingPosition === PopupPosition.Left) {
       html.style.top = tag.top + tag.height / 2 + 'px';
       html.style.left = tag.x + 'px';
       html.classList.add('right');
-    } else if (dockingPosition === PopupPosition.right) {
+    } else if (dockingPosition === PopupPosition.Right) {
       html.style.top = tag.top + tag.height / 2 + 'px';
       html.style.left = tag.right + 'px';
       html.classList.add('left');

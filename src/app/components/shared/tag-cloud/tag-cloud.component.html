@@ -8,8 +8,9 @@
       <app-cloud-configuration #cloudComponent [parent]="this"></app-cloud-configuration>
     </mat-drawer>
     <mat-drawer-content>
-      <h1 *ngIf="question" class="tag-cloud-brainstorming-question mat-display-1">
-        {{question}}
+      <h1 *ngIf="brainstormingActive && brainstormingData?.title"
+          class="tag-cloud-brainstorming-question mat-display-1">
+        {{brainstormingData?.title}}
       </h1>
       <ars-fill ars-flex-box>
         <app-tag-cloud-pop-up [room]="room"></app-tag-cloud-pop-up>
@@ -30,14 +31,24 @@
         </angular-tag-cloud>
         <app-active-user *ngIf="room" [alwaysShowInHeader]="true" [room]="this.room" [top]="120"></app-active-user>
       </ars-fill>
-      <button *ngIf="((userRole > 0) || (room && !room.questionsBlocked)) && drawer && !drawer.opened"
+      <button class="start_introduction"
+              (click)="startIntroduction()"
               mat-fab
               mat-icon-button
-              aria-labelledby="add"
+              matTooltip="{{ 'comment-list.start-introduction-video' | translate }}" [matTooltipPosition]="'above'">
+        <mat-icon>play_arrow</mat-icon>
+      </button>
+      <button *ngIf="brainstormingActive && canWriteComment() && !drawer?.opened"
+              mat-fab
+              mat-icon-button
+              [ngClass]="{
+                center_screen: isCloudEmpty()
+              }"
               class="fab_add_comment"
               (click)="writeComment()"
-              matTooltip="{{ 'comment-list.add-comment' | translate }}">
+              matTooltip="{{ 'comment-list.add-idea' | translate }}" [matTooltipPosition]="'above'">
         <mat-icon>add</mat-icon>
+        <p class="oldtypo-p" *ngIf="isCloudEmpty()">{{'comment-list.ask-brainstorm-empty' | translate}}</p>
       </button>
     </mat-drawer-content>
   </mat-drawer-container>

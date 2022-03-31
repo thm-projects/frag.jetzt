@@ -6,12 +6,15 @@ import { DeepLService, FormalityType, SourceLang, TargetLang } from '../services
 import { Comment, Language as CommentLanguage } from '../models/comment';
 import { ViewCommentDataComponent } from '../components/shared/view-comment-data/view-comment-data.component';
 import { CURRENT_SUPPORTED_LANGUAGES, Model } from '../services/http/spacy.interface';
+import {
+  QuillInputDialogComponent
+} from '../components/shared/_dialogs/quill-input-dialog/quill-input-dialog.component';
 
 export enum KeywordsResultType {
-  successful,
-  badSpelled,
-  languageNotSupported,
-  failure
+  Successful,
+  BadSpelled,
+  LanguageNotSupported,
+  Failure
 }
 
 export interface KeywordsResult {
@@ -38,9 +41,10 @@ export class CreateCommentKeywords {
       .replace(/\[([^\n\[\]]*)\]\(([^()\n]*)\)/gm, '$1 $2');
   }
 
-  static transformURLtoQuill(data: string): string {
-    const urlRegex = /(www\.|https?:\/\/)\S+/gi;
-    let m;
+  static transformURLtoQuill(data: string, transformToVideo: boolean): string {
+    if (!data) {
+      return null;
+    }
     const result = JSON.parse(data).reduce((acc, k) => {
       let prevObjData;
       if (typeof k !== 'string') {
@@ -50,42 +54,50 @@ export class CreateCommentKeywords {
         }
         prevObjData = { ...k };
       }
-      const str = prevObjData ? k.insert : k;
-      let lastIndex = 0;
-      while ((m = urlRegex.exec(str)) !== null) {
-        if (m.index > lastIndex) {
-          const substring = str.substring(lastIndex, m.index);
-          acc.push(prevObjData ? { ...prevObjData, insert: substring } : substring);
-        }
-        lastIndex = m.index + m[0].length;
-        acc.push({ attributes: { link: m[0] }, insert: m[0] });
-      }
-      if (lastIndex < str.length) {
-        const substring = str.substring(lastIndex);
-        acc.push(prevObjData ? { ...prevObjData, insert: substring } : substring);
-      }
+      this.transformURLinString(prevObjData ? k.insert : k, prevObjData, transformToVideo, acc);
       return acc;
     }, []);
     return JSON.stringify(result);
   }
 
   public static generateDeeplDelta(deepl: DeepLService, body: string, targetLang: TargetLang,
-                                   formality = FormalityType.less): Observable<[string, string]> {
+                                   formality = FormalityType.Less): Observable<[string, string]> {
     const delta = ViewCommentDataComponent.getDeltaFromData(body);
+    let isMark = false;
+    const skipped = [];
     const xml = delta.ops.reduce((acc, e, i) => {
-      if (typeof e['insert'] === 'string' && e['insert'].trim().length) {
-        acc += '<x i="' + i + '">' + this.encodeHTML(CreateCommentKeywords.removeMarkdown(e['insert'])) + '</x>';
-        e['insert'] = '';
+      if (typeof e['insert'] !== 'string') {
+        skipped.push(i);
+        return acc;
       }
+      const text = this.encodeHTML(CreateCommentKeywords.removeMarkdown(e['insert']));
+      acc += isMark ? '<x>' + text + '</x>' : text;
+      e['insert'] = '';
+      isMark = !isMark;
       return acc;
     }, '');
     return deepl.improveTextStyle(xml, targetLang, formality).pipe(
       map(str => {
-        const regex = /<x i="(\d+)">([^<]+)<\/x>/gm;
+        let index = 0;
+        const nextStr = (textStr: string) => {
+          while (skipped[0] === index) {
+            skipped.splice(0, 1);
+            index++;
+          }
+          if (index >= delta.ops.length) {
+            return;
+          }
+          delta.ops[index++]['insert'] = this.decodeHTML(textStr);
+        };
+        const regex = /<x>([^<]+)<\/x>/gm;
         let m;
+        let start = 0;
         while ((m = regex.exec(str)) !== null) {
-          delta.ops[+m[1]]['insert'] += this.decodeHTML(m[2]);
+          nextStr(str.substring(start, m.index));
+          nextStr(m[1]);
+          start = m.index + m[0].length;
         }
+        nextStr(str.substring(start));
         const text = delta.ops.reduce((acc, el) => acc + (typeof el['insert'] === 'string' ? el['insert'] : ''), '');
         return [ViewCommentDataComponent.getDataFromDelta(delta), text];
       })
@@ -105,11 +117,35 @@ export class CreateCommentKeywords {
         spacyService, text, body, language, result, useDeepl, brainstorming)),
       catchError((err) => of({
         keywords: [],
-        language: CommentLanguage.auto,
-        resultType: KeywordsResultType.failure,
+        language: CommentLanguage.AUTO,
+        resultType: KeywordsResultType.Failure,
         error: err
       } as KeywordsResult))
     );
+  }
+
+  private static transformURLinString(str: string, prevObjData: any, transformToVideo: boolean, acc: any[]) {
+    let m;
+    let lastIndex = 0;
+    const urlRegex = /(www\.|https?:\/\/)\S+/gi;
+    while ((m = urlRegex.exec(str)) !== null) {
+      if (m.index > lastIndex) {
+        const substring = str.substring(lastIndex, m.index);
+        acc.push(prevObjData ? { ...prevObjData, insert: substring } : substring);
+      }
+      lastIndex = m.index + m[0].length;
+      const link = m[1]?.toLowerCase() === 'www.' ? 'https://' + m[0] : m[0];
+      const videoLink = transformToVideo && QuillInputDialogComponent.getVideoUrl(link);
+      if (videoLink) {
+        acc.push({ video: videoLink });
+      } else {
+        acc.push({ attributes: { ...prevObjData?.attributes, link }, insert: link });
+      }
+    }
+    if (lastIndex < str.length) {
+      const substring = str.substring(lastIndex);
+      acc.push(prevObjData ? { ...prevObjData, insert: substring } : substring);
+    }
   }
 
   private static spacyKeywordsFromLanguagetoolResult(languagetoolService: LanguagetoolService,
@@ -129,8 +165,8 @@ export class CreateCommentKeywords {
       (!useDeepl && errorQuotient > ERROR_QUOTIENT_WELL_SPELLED))) {
       return of({
         keywords: [],
-        language: CommentLanguage.auto,
-        resultType: KeywordsResultType.badSpelled
+        language: CommentLanguage.AUTO,
+        resultType: KeywordsResultType.BadSpelled
       } as KeywordsResult);
     }
     const escapedText = this.escapeForSpacy(text);
@@ -175,13 +211,13 @@ export class CreateCommentKeywords {
             text: newText
           })),
           language: finalLanguage,
-          resultType: KeywordsResultType.successful
+          resultType: KeywordsResultType.Successful
         });
       }
       return of({
         keywords: [],
         language: finalLanguage,
-        resultType: KeywordsResultType.languageNotSupported
+        resultType: KeywordsResultType.LanguageNotSupported
       } as KeywordsResult);
     }
     if (brainstorming) {
@@ -191,12 +227,12 @@ export class CreateCommentKeywords {
       map(keywords => ({
         keywords,
         language: finalLanguage,
-        resultType: KeywordsResultType.successful
+        resultType: KeywordsResultType.Successful
       } as KeywordsResult)),
       catchError(err => of({
         keywords: [],
         language: finalLanguage,
-        resultType: KeywordsResultType.failure,
+        resultType: KeywordsResultType.Failure,
         error: err,
         wasSpacyError: true
       } as KeywordsResult))

@@ -36,14 +36,13 @@ export class DeepLDialogComponent implements OnInit, AfterViewInit {
     private translateService: TranslateService,
     private deeplService: DeepLService,
     private dialog: MatDialog) {
-    this.languageService.langEmitter.subscribe(lang => {
+    this.languageService.getLanguage().subscribe(lang => {
       this.translateService.use(lang);
     });
     this.supportsFormality = DeepLService.supportsFormality(this.data.target);
   }
 
   ngOnInit(): void {
-    this.translateService.use(localStorage.getItem('currentLang'));
     this.normalValue = {
       body: this.data.body,
       text: this.data.text,
@@ -97,16 +96,19 @@ export class DeepLDialogComponent implements OnInit, AfterViewInit {
   }
 
   onFormalityChange(formality: string) {
-    CreateCommentKeywords.generateDeeplDelta(this.deeplService, this.data.body, this.data.usedTarget, formality as FormalityType)
-      .subscribe(([improvedBody, improvedText]) => {
-        this.improvedValue.body = improvedBody;
-        this.improvedValue.text = improvedText;
-        this.improved.currentData = improvedBody;
-      }, (_) => {
-        this.translateService.get('deepl-formality-select.error').subscribe(str => {
-          this.notificationService.show(str);
+      CreateCommentKeywords.generateDeeplDelta(this.deeplService, this.data.body, this.data.usedTarget, formality as FormalityType)
+        .subscribe({
+          next: ([improvedBody, improvedText]) => {
+            this.improvedValue.body = improvedBody;
+            this.improvedValue.text = improvedText;
+            this.improved.currentData = improvedBody;
+          },
+          error: () => {
+            this.translateService.get('deepl-formality-select.error').subscribe(str => {
+              this.notificationService.show(str);
+            });
+          }
         });
-      });
   }
 
 }

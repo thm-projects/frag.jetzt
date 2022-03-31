@@ -7,9 +7,9 @@ import { NotificationService } from '../../../../services/util/notification.serv
 import { TranslateService } from '@ngx-translate/core';
 import { RoomService } from '../../../../services/http/room.service';
 import { Router } from '@angular/router';
-import { RoomCreatorPageComponent } from '../../room-creator-page/room-creator-page.component';
-import { EventService } from '../../../../services/util/event.service';
+import { AuthenticationService } from '../../../../services/http/authentication.service';
 import { RoomDeleted } from '../../../../models/events/room-deleted';
+import { EventService } from '../../../../services/util/event.service';
 
 
 @Component({
@@ -26,11 +26,12 @@ export class RoomEditComponent implements OnInit {
 
   roomNameFormControl = new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(30)]);
 
-  constructor(public dialogRef: MatDialogRef<RoomCreatorPageComponent>,
+  constructor(public dialogRef: MatDialogRef<RoomEditComponent>,
               public dialog: MatDialog,
               public notificationService: NotificationService,
               public translationService: TranslateService,
               protected roomService: RoomService,
+              private authenticationService: AuthenticationService,
               public router: Router,
               public eventService: EventService,
               @Inject(MAT_DIALOG_DATA) public data: any) {
@@ -38,12 +39,12 @@ export class RoomEditComponent implements OnInit {
 
   ngOnInit() {
     this.check = this.editRoom.questionsBlocked;
-    this.profanityCheck = this.editRoom.profanityFilter !== ProfanityFilter.deactivated;
-    if (this.editRoom.profanityFilter === ProfanityFilter.all){
+    this.profanityCheck = this.editRoom.profanityFilter !== ProfanityFilter.DEACTIVATED;
+    if (this.editRoom.profanityFilter === ProfanityFilter.ALL){
       this.censorLanguageSpecificCheck = this.censorPartialWordsCheck = true;
     } else if (this.profanityCheck){
-      this.censorLanguageSpecificCheck = this.editRoom.profanityFilter === ProfanityFilter.languageSpecific;
-      this.censorPartialWordsCheck = this.editRoom.profanityFilter === ProfanityFilter.partialWords;
+      this.censorLanguageSpecificCheck = this.editRoom.profanityFilter === ProfanityFilter.LANGUAGE_SPECIFIC;
+      this.censorPartialWordsCheck = this.editRoom.profanityFilter === ProfanityFilter.PARTIAL_WORDS;
     }
   }
 
@@ -67,6 +68,7 @@ export class RoomEditComponent implements OnInit {
     this.roomService.deleteRoom(room.id).subscribe(result => {
       const event = new RoomDeleted(room.id);
       this.eventService.broadcast(event.type, event.payload);
+      this.authenticationService.removeAccess(room.shortId);
       this.closeDialog('delete');
       this.router.navigate([`/user`]);
     });
@@ -81,13 +83,13 @@ export class RoomEditComponent implements OnInit {
 
   save(): void {
     this.editRoom.questionsBlocked = this.check;
-    this.editRoom.profanityFilter = this.profanityCheck ? ProfanityFilter.none : ProfanityFilter.deactivated;
+    this.editRoom.profanityFilter = this.profanityCheck ? ProfanityFilter.NONE : ProfanityFilter.DEACTIVATED;
     if (this.profanityCheck) {
       if (this.censorLanguageSpecificCheck && this.censorPartialWordsCheck) {
-        this.editRoom.profanityFilter = ProfanityFilter.all;
+        this.editRoom.profanityFilter = ProfanityFilter.ALL;
       } else {
-        this.editRoom.profanityFilter = this.censorLanguageSpecificCheck ? ProfanityFilter.languageSpecific : ProfanityFilter.none;
-        this.editRoom.profanityFilter = this.censorPartialWordsCheck ? ProfanityFilter.partialWords : this.editRoom.profanityFilter;
+        this.editRoom.profanityFilter = this.censorLanguageSpecificCheck ? ProfanityFilter.LANGUAGE_SPECIFIC : ProfanityFilter.NONE;
+        this.editRoom.profanityFilter = this.censorPartialWordsCheck ? ProfanityFilter.PARTIAL_WORDS : this.editRoom.profanityFilter;
       }
     }
     this.roomService.updateRoom(this.editRoom).subscribe(r => this.editRoom = r);

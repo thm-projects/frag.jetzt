@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Language, LanguagetoolResult, LanguagetoolService } from '../../../services/http/languagetool.service';
 import { Comment } from '../../../models/comment';
@@ -10,6 +10,12 @@ import { DeepLDialogComponent, ResultValue } from '../_dialogs/deep-ldialog/deep
 import { MatDialog } from '@angular/material/dialog';
 import { FormControl, Validators } from '@angular/forms';
 import { CreateCommentKeywords } from '../../../utils/create-comment-keywords';
+import { BrainstormingSession } from '../../../models/brainstorming-session';
+import { SharedTextFormatting } from '../../../utils/shared-text-formatting';
+import { UserRole } from '../../../models/user-roles.enum';
+import { SessionService } from '../../../services/util/session.service';
+import { User } from '../../../models/user';
+import { AuthenticationService } from '../../../services/http/authentication.service';
 
 type SubmitFunction = (commentData: string, commentText: string, selectedTag: string, name?: string,
                        verifiedWithoutDeepl?: boolean) => any;
@@ -19,10 +25,11 @@ type SubmitFunction = (commentData: string, commentText: string, selectedTag: st
   templateUrl: './write-comment.component.html',
   styleUrls: ['./write-comment.component.scss']
 })
-export class WriteCommentComponent implements OnInit {
+export class WriteCommentComponent implements OnInit, OnDestroy {
 
   @ViewChild(ViewCommentDataComponent) commentData: ViewCommentDataComponent;
   @ViewChild('langSelect') langSelect: ElementRef<HTMLDivElement>;
+  @ViewChild('mobileMock') mobileMock: ElementRef<HTMLDivElement>;
   @Input() isModerator = false;
   @Input() tags: string[];
   @Input() onClose: () => any;
@@ -38,7 +45,9 @@ export class WriteCommentComponent implements OnInit {
   @Input() placeholder = 'comment-page.enter-comment';
   @Input() i18nSection = 'comment-page';
   @Input() isQuestionerNameEnabled = false;
-  @Input() brainstormingData: any;
+  @Input() brainstormingData: BrainstormingSession;
+  @Input() allowEmpty = false;
+  @Input() additionalMockOffset: number = 0;
   comment: Comment;
   selectedTag: string;
   maxTextCharacters = 500;
@@ -49,34 +58,72 @@ export class WriteCommentComponent implements OnInit {
   isSpellchecking = false;
   hasSpellcheckConfidence = true;
   newLang = 'auto';
+  brainstormingInfo: string;
+  userRole: UserRole;
+  user: User;
+  readonly questionerNameMin = 2;
+  readonly questionerNameMax = 30;
   questionerNameFormControl = new FormControl('', [
-    Validators.minLength(2), Validators.maxLength(20)
+    Validators.minLength(this.questionerNameMin), Validators.maxLength(this.questionerNameMax)
   ]);
   private _wasVerifiedWithoutDeepl = false;
+  private _mobileMockActive = false;
+  private _mobileMockTimeout;
+  private _mobileMockPossible = false;
+  private _mockMatcher: MediaQueryList;
 
-  constructor(private notification: NotificationService,
-              private languageService: LanguageService,
-              private translateService: TranslateService,
-              public languagetoolService: LanguagetoolService,
-              private deeplService: DeepLService,
-              private dialog: MatDialog) {
-    this.languageService.langEmitter.subscribe(lang => {
+  constructor(
+    private notification: NotificationService,
+    private languageService: LanguageService,
+    private translateService: TranslateService,
+    public languagetoolService: LanguagetoolService,
+    private deeplService: DeepLService,
+    private dialog: MatDialog,
+    private sessionService: SessionService,
+    private authenticationService: AuthenticationService,
+  ) {
+    this.languageService.getLanguage().subscribe(lang => {
       this.translateService.use(lang);
     });
   }
 
+  get isMobileMockActive() {
+    return this._mobileMockActive;
+  }
+
+  get isMobileMockPossible() {
+    return this._mobileMockPossible;
+  }
+
   ngOnInit(): void {
-    this.translateService.use(localStorage.getItem('currentLang'));
+    this._mockMatcher = window.matchMedia('(min-width: ' + (1500 + this.additionalMockOffset * 2 * 0.8 + 10) + 'px)');
+    this._mobileMockPossible = this._mockMatcher.matches;
+    this._mockMatcher.addEventListener('change', e => {
+      this._mobileMockPossible = e.matches;
+      if (!this._mobileMockPossible) {
+        this._mobileMockActive = false;
+      }
+    });
     if (this.brainstormingData) {
       this.translateService.get('comment-page.brainstorming-placeholder', this.brainstormingData)
         .subscribe(msg => this.placeholder = msg);
+      this.translateService.get(this.brainstormingData.maxWordCount === 1 ?
+        'comment-page.brainstorming-info-single' :
+        'comment-page.brainstorming-info-multiple', this.brainstormingData)
+        .subscribe(msg => this.brainstormingInfo = msg);
     }
     if (this.isCommentAnswer) {
-      this.maxTextCharacters = this.isModerator ? 2000 : 0;
+      this.maxTextCharacters = 2000;
     } else {
       this.maxTextCharacters = this.isModerator ? 1000 : 500;
     }
+    this.userRole = this.sessionService.currentRole;
     this.maxDataCharacters = this.isModerator ? this.maxTextCharacters * 5 : this.maxTextCharacters * 3;
+    this.authenticationService.watchUser.subscribe(user => this.user = user);
+  }
+
+  ngOnDestroy() {
+    this._mockMatcher.removeAllListeners();
   }
 
   buildCloseDialogActionCallback(): () => void {
@@ -91,23 +138,7 @@ export class WriteCommentComponent implements OnInit {
       return undefined;
     }
     return () => {
-      let allowed = true;
-      if (this.isQuestionerNameEnabled) {
-        this.questionerNameFormControl.setValue((this.questionerNameFormControl.value || '').trim());
-        allowed = !this.questionerNameFormControl.hasError('minlength') &&
-          !this.questionerNameFormControl.hasError('maxlength');
-      }
-      if (this.brainstormingData && this.commentData.currentText.split(/\s+/g).length - 1 >
-        this.brainstormingData.maxWordCount) {
-        this.translateService.get('comment-page.error-comment-brainstorming', this.brainstormingData)
-          .subscribe(msg => this.notification.show(msg));
-        allowed = false;
-      }
-      if (ViewCommentDataComponent.checkInputData(this.commentData.currentData, this.commentData.currentText,
-        this.translateService, this.notification, this.maxTextCharacters, this.maxDataCharacters) && allowed) {
-        func(this.commentData.currentData, this.commentData.currentText, this.selectedTag,
-          this.questionerNameFormControl.value, this._wasVerifiedWithoutDeepl);
-      }
+      this.createComment(func);
     };
   }
 
@@ -118,38 +149,41 @@ export class WriteCommentComponent implements OnInit {
   grammarCheck(rawText: string, langSelect: HTMLSpanElement): void {
     this.isSpellchecking = true;
     this.hasSpellcheckConfidence = true;
-    this.checkSpellings(rawText).subscribe((wordsCheck) => {
-      if (!this.checkLanguageConfidence(wordsCheck)) {
-        this.hasSpellcheckConfidence = false;
-        this.isSpellchecking = false;
-        return;
-      }
-      if (this.selectedLang === 'auto' &&
-        (langSelect.innerText.includes(this.newLang) || langSelect.innerText.includes('auto'))) {
-        if (wordsCheck.language.name.includes('German')) {
-          this.selectedLang = 'de-DE';
-        } else if (wordsCheck.language.name.includes('English')) {
-          this.selectedLang = 'en-US';
-        } else if (wordsCheck.language.name.includes('French')) {
-          this.selectedLang = 'fr';
-        } else {
-          this.newLang = wordsCheck.language.name;
+    this.checkSpellings(rawText).subscribe({
+      next: (wordsCheck) => {
+        if (!this.checkLanguageConfidence(wordsCheck)) {
+          this.hasSpellcheckConfidence = false;
+          this.isSpellchecking = false;
+          return;
         }
-        langSelect.innerHTML = this.newLang;
-      }
-      const previous = this.commentData.currentData;
-      this.openDeeplDialog(previous, rawText, wordsCheck,
-        (selected) => {
-          if (selected.view === this.commentData) {
-            this._wasVerifiedWithoutDeepl = true;
-            this.commentData.buildMarks(rawText, wordsCheck);
+        if (this.selectedLang === 'auto' &&
+          (langSelect.innerText.includes(this.newLang) || langSelect.innerText.includes('auto'))) {
+          if (wordsCheck.language.name.includes('German')) {
+            this.selectedLang = 'de-DE';
+          } else if (wordsCheck.language.name.includes('English')) {
+            this.selectedLang = 'en-US';
+          } else if (wordsCheck.language.name.includes('French')) {
+            this.selectedLang = 'fr';
           } else {
-            this.commentData.currentData = selected.body;
-            this.commentData.copyMarks(selected.view);
+            this.newLang = wordsCheck.language.name;
           }
-        });
-    }, () => {
-      this.isSpellchecking = false;
+          langSelect.innerHTML = this.newLang;
+        }
+        const previous = this.commentData.currentData;
+        this.openDeeplDialog(previous, rawText, wordsCheck,
+          (selected) => {
+            if (selected.view === this.commentData) {
+              this._wasVerifiedWithoutDeepl = true;
+              this.commentData.buildMarks(rawText, wordsCheck);
+            } else {
+              this.commentData.currentData = selected.body;
+              this.commentData.copyMarks(selected.view);
+            }
+          });
+      },
+      error: () => {
+        this.isSpellchecking = false;
+      }
     });
   }
 
@@ -157,8 +191,77 @@ export class WriteCommentComponent implements OnInit {
     return this.selectedLang === 'auto' ? wordsCheck.language.detectedLanguage.confidence >= 0.5 : true;
   }
 
+  isSpellcheckingButtonDisabled(): boolean {
+    if (!this.commentData) {
+      return true;
+    }
+    const text = this.commentData.currentText;
+    return text.length < 5 || text.trim().split(/\s+/, 4).length < 4;
+  }
+
   checkSpellings(text: string, language: Language = this.selectedLang) {
     return this.languagetoolService.checkSpellings(text, language);
+  }
+
+  getContent(): Comment {
+    const data = this.commentData.currentData || '["\\n"]';
+    return {
+      body: data,
+      number: '?',
+      upvotes: 0,
+      downvotes: 0,
+      score: 0,
+      createdAt: new Date(),
+      questionerName: this.questionerNameFormControl.value,
+      tag: this.selectedTag,
+    } as Comment;
+  }
+
+  setMobileMockState(activate: boolean) {
+    clearTimeout(this._mobileMockTimeout);
+    if (activate) {
+      this._mobileMockActive = true;
+      this._mobileMockTimeout = setTimeout(() => {
+        const style = this.mobileMock?.nativeElement?.style;
+        if (!style) {
+          return;
+        }
+        style.setProperty('--current-position', 'var(--end-position)');
+        style.setProperty('--additional-padding', this.additionalMockOffset === 0 ? '0' :
+          this.additionalMockOffset + 'px');
+        style.opacity = '1';
+      });
+    } else {
+      this._mobileMockTimeout = setTimeout(() => this._mobileMockActive = false, 500);
+      const style = this.mobileMock?.nativeElement?.style;
+      if (!style) {
+        return;
+      }
+      style.setProperty('--current-position', '');
+      style.opacity = '0';
+    }
+  }
+
+  private createComment(func: SubmitFunction) {
+    let allowed = true;
+    const data = this.commentData.currentData;
+    const text = this.commentData.currentText;
+    if (this.isQuestionerNameEnabled) {
+      this.questionerNameFormControl.setValue((this.questionerNameFormControl.value || '').trim());
+      allowed = !this.questionerNameFormControl.hasError('minlength') &&
+        !this.questionerNameFormControl.hasError('maxlength');
+    }
+    if (this.brainstormingData &&
+      SharedTextFormatting.getWords(text).length > this.brainstormingData.maxWordCount) {
+      this.translateService.get('comment-page.error-comment-brainstorming', this.brainstormingData)
+        .subscribe(msg => this.notification.show(msg));
+      allowed = false;
+    }
+    if (this.allowEmpty || (ViewCommentDataComponent.checkInputData(data, text,
+      this.translateService, this.notification, this.maxTextCharacters, this.maxDataCharacters) && allowed)) {
+      const realData = this.allowEmpty && text.length < 2 ? null : data;
+      func(realData, text, this.selectedTag, this.questionerNameFormControl.value, this._wasVerifiedWithoutDeepl);
+    }
   }
 
   private openDeeplDialog(body: string,
@@ -172,40 +275,43 @@ export class WriteCommentComponent implements OnInit {
       target = TargetLang.DE;
     }
     CreateCommentKeywords.generateDeeplDelta(this.deeplService, body, target)
-      .subscribe(([improvedBody, improvedText]) => {
-        this.isSpellchecking = false;
-        if (improvedText.replace(/\s+/g, '') === text.replace(/\s+/g, '')) {
-          onClose({ body, text, view: this.commentData });
-          return;
-        }
-        const instance = this.dialog.open(DeepLDialogComponent, {
-          width: '900px',
-          maxWidth: '100%',
-          data: {
-            body,
-            text,
-            improvedBody,
-            improvedText,
-            maxTextCharacters: this.maxTextCharacters,
-            maxDataCharacters: this.maxDataCharacters,
-            isModerator: this.isModerator,
-            result,
-            onClose,
-            target: DeepLService.transformSourceToTarget(source),
-            usedTarget: target
-          }
-        });
-        instance.afterClosed().subscribe((val) => {
-          if (val) {
-            this.buildCreateCommentActionCallback(this.onDeeplSubmit)();
-          } else {
+      .subscribe({
+        next: ([improvedBody, improvedText]) => {
+          this.isSpellchecking = false;
+          if (improvedText.replace(/\s+/g, '') === text.replace(/\s+/g, '')) {
+            this.translateService.get('deepl.no-optimization').subscribe(msg => this.notification.show(msg));
             onClose({ body, text, view: this.commentData });
+            return;
           }
-        });
-      }, (_) => {
-        this.isSpellchecking = false;
-        onClose({ body, text, view: this.commentData });
+          const instance = this.dialog.open(DeepLDialogComponent, {
+            width: '900px',
+            maxWidth: '100%',
+            data: {
+              body,
+              text,
+              improvedBody,
+              improvedText,
+              maxTextCharacters: this.maxTextCharacters,
+              maxDataCharacters: this.maxDataCharacters,
+              isModerator: this.isModerator,
+              result,
+              onClose,
+              target: DeepLService.transformSourceToTarget(source),
+              usedTarget: target
+            }
+          });
+          instance.afterClosed().subscribe((val) => {
+            if (val) {
+              this.buildCreateCommentActionCallback(this.onDeeplSubmit)();
+            } else {
+              onClose({ body, text, view: this.commentData });
+            }
+          });
+        },
+        error: () => {
+          this.isSpellchecking = false;
+          onClose({ body, text, view: this.commentData });
+        }
       });
   }
-
 }

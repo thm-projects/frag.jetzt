@@ -11,6 +11,7 @@ import { Observable, of } from 'rxjs';
 import { tap, mergeMap } from 'rxjs/operators';
 import { MatSnackBarConfig } from '@angular/material/snack-bar';
 import { UserRole } from '../models/user-roles.enum';
+import { BrainstormingSession } from '../models/brainstorming-session';
 
 export class CreateCommentWrapper {
   constructor(private translateService: TranslateService,
@@ -20,7 +21,7 @@ export class CreateCommentWrapper {
               private room: Room) {
   }
 
-  openCreateDialog(user: User, userRole: UserRole, brainstormingData: any = undefined): Observable<Comment> {
+  openCreateDialog(user: User, userRole: UserRole, brainstormingData: BrainstormingSession = undefined): Observable<Comment> {
     const dialogRef = this.dialog.open(CreateCommentComponent, {
       width: '900px',
       maxWidth: '100%',

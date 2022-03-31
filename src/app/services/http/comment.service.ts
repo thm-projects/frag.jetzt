@@ -12,6 +12,16 @@ const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
 
+export interface RoomQuestionCounts {
+  questionCount: number;
+  responseCount: number;
+}
+
+interface CountRequest {
+  roomId: string;
+  ack: boolean;
+}
+
 @Injectable()
 export class CommentService extends BaseHttpService {
   private apiUrl = {
@@ -24,14 +34,6 @@ export class CommentService extends BaseHttpService {
 
   constructor(private http: HttpClient) {
     super();
-  }
-
-
-  answer(comment: Comment, answer: string): Observable<Comment> {
-    comment.answer = answer;
-    const changes = new TSMap<string, any>();
-    changes.set('answer', comment.answer);
-    return this.patchComment(comment, changes);
   }
 
   toggleRead(comment: Comment): Observable<Comment> {
@@ -68,6 +70,12 @@ export class CommentService extends BaseHttpService {
     return this.patchComment(comment, changes);
   }
 
+  updateCommentTag(comment: Comment, tag: string): Observable<Comment> {
+    comment.tag = tag;
+    const changes = new TSMap<string, any>();
+    changes.set('tag', tag);
+    return this.patchComment(comment, changes);
+  }
 
   getComment(commentId: string): Observable<Comment> {
     const connectionUrl = `${this.apiUrl.base}${this.apiUrl.comment}/${commentId}`;
@@ -82,12 +90,11 @@ export class CommentService extends BaseHttpService {
     const connectionUrl = this.apiUrl.base + this.apiUrl.comment + '/';
     return this.http.post<Comment>(connectionUrl,
       {
-        roomId: comment.roomId, body: comment.body,
-        read: comment.read, creationTimestamp: comment.timestamp, tag: comment.tag,
+        roomId: comment.roomId, creatorId: comment.creatorId, body: comment.body, tag: comment.tag,
         keywordsFromSpacy: JSON.stringify(comment.keywordsFromSpacy),
         keywordsFromQuestioner: JSON.stringify(comment.keywordsFromQuestioner),
         language: comment.language, questionerName: comment.questionerName,
-        brainstormingQuestion: comment.brainstormingQuestion
+        brainstormingQuestion: comment.brainstormingQuestion, commentReference: comment.commentReference
       }, httpOptions).pipe(
       tap(_ => ''),
       catchError(this.handleError<Comment>('addComment'))
@@ -157,7 +164,7 @@ export class CommentService extends BaseHttpService {
 
   highlight(comment: Comment) {
     const connectionUrl = this.apiUrl.base + this.apiUrl.comment + '/' + comment.id + '/highlight';
-    return this.http.patch(connectionUrl, httpOptions).pipe(
+    return this.http.post(connectionUrl, null, httpOptions).pipe(
       tap(_ => ''),
       catchError(this.handleError<any>('highlightComment'))
     );
@@ -165,7 +172,7 @@ export class CommentService extends BaseHttpService {
 
   lowlight(comment: Comment) {
     const connectionUrl = this.apiUrl.base + this.apiUrl.comment + '/' + comment.id + '/lowlight';
-    return this.http.patch(connectionUrl, httpOptions).pipe(
+    return this.http.post(connectionUrl, null, httpOptions).pipe(
       tap(_ => ''),
       catchError(this.handleError<any>('lowlightComment'))
     );
@@ -187,14 +194,11 @@ export class CommentService extends BaseHttpService {
     );
   }
 
-  countByRoomId(roomId: string, ack: boolean): Observable<number> {
-    const connectionUrl = this.apiUrl.base + this.apiUrl.comment + this.apiUrl.find + this.apiUrl.count;
-    return this.http.post<number>(connectionUrl, {
-      properties: { roomId, ack },
-      externalFilters: {}
-    }, httpOptions).pipe(
+  countByRoomId(rooms: CountRequest[]): Observable<RoomQuestionCounts[]> {
+    const connectionUrl = this.apiUrl.base + this.apiUrl.comment + this.apiUrl.count;
+    return this.http.post<RoomQuestionCounts[]>(connectionUrl, rooms, httpOptions).pipe(
       tap(_ => ''),
-      catchError(this.handleError<number>('countByRoomId', 0))
+      catchError(this.handleError<RoomQuestionCounts[]>('countByRoomId', []))
     );
   }
 
@@ -228,19 +232,19 @@ export class CommentService extends BaseHttpService {
 
 
   parseComment(comment: Comment): Comment {
-    if (!comment){
+    if (!comment) {
       return;
     }
-    comment.userNumber = this.hashCode(comment.creatorId);
     comment.keywordsFromQuestioner = comment.keywordsFromQuestioner ?
-                                     JSON.parse(comment.keywordsFromQuestioner as unknown as string) : null;
-    comment.keywordsFromSpacy = comment.keywordsFromSpacy ? JSON.parse(comment.keywordsFromSpacy as unknown as string) : null;
+      JSON.parse(comment.keywordsFromQuestioner as unknown as string) : null;
+    comment.keywordsFromSpacy = comment.keywordsFromSpacy ?
+      JSON.parse(comment.keywordsFromSpacy as unknown as string) : null;
     return comment;
   }
 
   hashCode(s) {
-    let hash;
-    for (let i = 0, h = 0; i < s.length; i++) {
+    let hash = 0;
+    for (let i = 0; i < s.length; i++) {
       hash = Math.abs(Math.imul(31, hash) + s.charCodeAt(i) | 0);
     }
     const userNumberString = String(hash);

@@ -5,7 +5,6 @@ import { KeyboardUtils } from '../../../utils/keyboard';
 import { KeyboardKey } from '../../../utils/keyboard/keys';
 import { TranslateService } from '@ngx-translate/core';
 import { OnboardingService } from '../../../services/util/onboarding.service';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-home-page',
@@ -13,10 +12,7 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./home-page.component.scss']
 })
 export class HomePageComponent implements OnInit, OnDestroy, AfterViewInit {
-
-  deviceType: string;
   listenerFn: () => void;
-  private _eventServiceSubscription: Subscription;
 
   constructor(
     private translateService: TranslateService,
@@ -28,31 +24,22 @@ export class HomePageComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnInit() {
-    this.deviceType = localStorage.getItem('deviceType');
-    if (localStorage.getItem('cookieAccepted')) {
+    if (localStorage.getItem('cookieAccepted') === 'true') {
       this.loadListener();
-    } else {
-      const interval = setInterval(() => {
-        if (localStorage.getItem('cookieAccepted')) {
-          clearInterval(interval);
-          this.loadListener();
-        }
-      }, 100);
+      return;
     }
+    const sub = this.eventService.on<boolean>('dataProtectionConsentUpdate').subscribe(consented => {
+      if (consented) {
+        this.loadListener();
+        this.onboardingService.startDefaultTour();
+        sub.unsubscribe();
+      }
+    });
   }
 
   ngAfterViewInit() {
-    if (localStorage.getItem('dataProtectionConsent') === 'true') {
+    if (localStorage.getItem('cookieAccepted') === 'true') {
       this.onboardingService.startDefaultTour();
-    } else {
-      this._eventServiceSubscription = this.eventService.on<boolean>('dataProtectionConsentUpdate')
-        .subscribe(b => {
-          if (b) {
-            this._eventServiceSubscription.unsubscribe();
-            this._eventServiceSubscription = null;
-            this.onboardingService.startDefaultTour();
-          }
-        });
     }
   }
 
@@ -78,9 +65,6 @@ export class HomePageComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnDestroy() {
     this.listenerFn();
     this.eventService.makeFocusOnInputFalse();
-    if (this._eventServiceSubscription) {
-      this._eventServiceSubscription.unsubscribe();
-    }
   }
 
   public announce() {

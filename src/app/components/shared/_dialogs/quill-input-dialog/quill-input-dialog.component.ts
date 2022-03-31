@@ -26,7 +26,7 @@ export class QuillInputDialogComponent implements OnInit {
               private dialogRef: MatDialogRef<QuillInputDialogComponent>) {
   }
 
-  private static getVideoUrl(url) {
+  public static getVideoUrl(url) {
     let match = url.match(/^(?:(https?):\/\/)?(?:(?:www|m)\.)?youtube\.com\/watch.*v=([a-zA-Z0-9_-]+)/) ||
       url.match(/^(?:(https?):\/\/)?(?:(?:www|m)\.)?youtu\.be\/([a-zA-Z0-9_-]+)/) ||
       url.match(/^.*(youtu.be\/|v\/|e\/|u\/\w+\/|embed\/|v=)([^#&?]*).*/);
@@ -41,7 +41,11 @@ export class QuillInputDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.value = this.data.meta || '';
+    if (this.data?.type === 'formula') {
+      this.value = this.data.meta || '\\sigma = \\sqrt{ \\frac{1}{N} \\sum_{i=1}^N (x_i -\\mu)^2}';
+    } else {
+      this.value = this.data.meta;
+    }
   }
 
   getKatex(): string {

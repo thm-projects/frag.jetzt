@@ -1,9 +1,11 @@
+@import "src/layout/laout-util";
+
 h2 {
   margin-bottom: 10px;
 }
 
 p {
-  font-size: medium;
+  font-size: 14px;
 }
 
 mat-form-field {
@@ -39,4 +41,35 @@ mat-form-field {
   &:nth-child(even) {
     background-color: var(--alt-dialog);
   }
+}
+
+.action-button-container {
+  @include onSmallWidth {
+    overflow: auto;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column !important;
+    flex-wrap: wrap;
+    align-items: flex-end;
+  }
+}
+
+.help-button {
+  background-color: transparent;
+  color: var(--green);
+  outline: var(--green) solid 3px;
+  margin: 10px;
+
+  &:hover {
+    background-color: var(--green);
+    color: var(--black);
+  }
+
+  .mat-icon {
+    font-size: 18px;
+  }
+}
+
+.oldtypo-p {
+  line-height: 2.5 !important;
 }

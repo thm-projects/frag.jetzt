@@ -20,6 +20,11 @@ const routes: Routes = [
     path: 'room/:shortId/comment/:commentId',
     component: CommentAnswerComponent,
     data: { roles: [UserRole.PARTICIPANT] }
+  },
+  {
+    path: 'room/:shortId/comment/:commentId/conversation',
+    component: CommentAnswerComponent,
+    data: { roles: [UserRole.PARTICIPANT] }
   }
 ];
 

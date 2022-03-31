@@ -1,5 +1,5 @@
-import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { Comment } from '../../../models/comment';
+import { Component, ComponentRef, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Comment, numberSorter } from '../../../models/comment';
 import { CommentService } from '../../../services/http/comment.service';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../services/util/language.service';
@@ -15,33 +15,37 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { EventService } from '../../../services/util/event.service';
 import { Subscription } from 'rxjs';
 import { AppComponent } from '../../../app.component';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { AuthenticationService } from '../../../services/http/authentication.service';
 import { TitleService } from '../../../services/util/title.service';
-import { ModeratorsComponent } from '../../creator/_dialogs/moderators/moderators.component';
-import { TagsComponent } from '../../creator/_dialogs/tags/tags.component';
-import { DeleteCommentsComponent } from '../../creator/_dialogs/delete-comments/delete-comments.component';
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
-import { ModeratorService } from '../../../services/http/moderator.service';
 import { CreateCommentWrapper } from '../../../utils/create-comment-wrapper';
-import { TopicCloudAdminService } from '../../../services/util/topic-cloud-admin.service';
-import { RoomDataService } from '../../../services/util/room-data.service';
-import { WsRoomService } from '../../../services/websockets/ws-room.service';
-import { ActiveUserService } from '../../../services/http/active-user.service';
+import { RoomDataService, UpdateInformation } from '../../../services/util/room-data.service';
 import { OnboardingService } from '../../../services/util/onboarding.service';
 import { PageEvent } from '@angular/material/paginator';
-import { CommentListFilter, FilterType, FilterTypeKey, Period, SortType, SortTypeKey } from './comment-list.filter';
 import { ViewCommentDataComponent } from '../view-comment-data/view-comment-data.component';
 import { TopicCloudFilterComponent } from '../_dialogs/topic-cloud-filter/topic-cloud-filter.component';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { FormControl } from '@angular/forms';
-import { copyCSVString, exportQuestions } from '../../../utils/ImportExportMethods';
-
-export interface CommentListData {
-  currentFilter: CommentListFilter;
-  room: Room;
-}
+import { copyCSVString, exportRoom } from '../../../utils/ImportExportMethods';
+import { BrainstormingService } from '../../../services/http/brainstorming.service';
+import { SessionService } from '../../../services/util/session.service';
+import { DeviceInfoService } from '../../../services/util/device-info.service';
+import { ArsComposeService } from '../../../../../projects/ars/src/lib/services/ars-compose.service';
+import { HeaderService } from '../../../services/util/header.service';
+import { TagCloudDataService } from '../../../services/util/tag-cloud-data.service';
+import { Palette } from '../../../../theme/Theme';
+import { BonusTokenComponent } from '../../creator/_dialogs/bonus-token/bonus-token.component';
+import {
+  FilterType,
+  FilterTypeKey,
+  Period,
+  PeriodKey,
+  SortType,
+  SortTypeKey
+} from '../../../utils/data-filter-object.lib';
+import { DataFilterObject } from '../../../utils/data-filter-object';
 
 @Component({
   selector: 'app-comment-list',
@@ -51,18 +55,12 @@ export interface CommentListData {
 export class CommentListComponent implements OnInit, OnDestroy {
   @ViewChild('searchBox') searchField: ElementRef;
   @ViewChild('filterMenuTrigger') filterMenuTrigger: MatMenuTrigger;
-  @Input() user: User;
-  @Input() roomId: string;
-  shortId: string;
+  user: User;
   AppComponent = AppComponent;
   comments: Comment[] = [];
-  commentsFilteredByTime: Comment[] = [];
+  commentsFilteredByTimeLength: number;
   room: Room;
-  hideCommentsList = false;
-  filteredComments: Comment[];
   userRole: UserRole;
-  deviceType: string;
-  isSafari: string;
   isLoading = true;
   commentVoteMap = new Map<string, Vote>();
   scroll = false;
@@ -74,7 +72,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
   newestComment: string;
   freeze = false;
   commentStream: Subscription;
-  periodsList = Object.values(Period);
+  periodsList = Object.values(Period) as PeriodKey[];
   headerInterface = null;
   commentsEnabled: boolean;
   createCommentWrapper: CreateCommentWrapper = null;
@@ -87,13 +85,20 @@ export class CommentListComponent implements OnInit, OnDestroy {
   pageSizeOptions = [25, 50, 100, 200];
   showFirstLastButtons = true;
   commentsWrittenByUsers: Map<string, Set<string>> = new Map<string, Set<string>>();
-  filter: CommentListFilter;
   questionNumberFormControl = new FormControl();
   questionNumberOptions: string[] = [];
+  searchString: string;
+  filterType: FilterType;
+  sortType: SortType;
+  sortReverse: boolean;
+  period: Period;
+  moderatorAccountIds: Set<string>;
+  private firstReceive = true;
   private _allQuestionNumberOptions: string[] = [];
-  private _subscriptionEventServiceTagConfig = null;
-  private _subscriptionEventServiceRoomData = null;
-  private _subscriptionRoomService = null;
+  private _list: ComponentRef<any>[];
+  private _filterObject: DataFilterObject;
+  private _cloudFilterObject: DataFilterObject;
+  private _headerSubscription: Subscription;
 
   constructor(
     private commentService: CommentService,
@@ -106,25 +111,24 @@ export class CommentListComponent implements OnInit, OnDestroy {
     private notificationService: NotificationService,
     public eventService: EventService,
     public liveAnnouncer: LiveAnnouncer,
-    private route: ActivatedRoute,
     private router: Router,
     private titleService: TitleService,
-    private translationService: TranslateService,
     private bonusTokenService: BonusTokenService,
-    private moderatorService: ModeratorService,
-    private topicCloudAdminService: TopicCloudAdminService,
     private roomDataService: RoomDataService,
-    private wsRoomService: WsRoomService,
-    private activeUserService: ActiveUserService,
-    private onboardingService: OnboardingService
+    private onboardingService: OnboardingService,
+    private brainstormingService: BrainstormingService,
+    private sessionService: SessionService,
+    public deviceInfo: DeviceInfoService,
+    private composeService: ArsComposeService,
+    private headerService: HeaderService,
+    private cloudDataService: TagCloudDataService,
   ) {
-    langService.langEmitter.subscribe(lang => {
+    langService.getLanguage().subscribe(lang => {
       translateService.use(lang);
       this.translateService.get('comment-list.search').subscribe(msg => {
         this.searchPlaceholder = msg;
       });
     });
-    this.filter = CommentListFilter.loadFilter();
     this.questionNumberFormControl.valueChanges.subscribe((v) => {
       v = v || '';
       this.questionNumberOptions = this._allQuestionNumberOptions.filter(e => e.startsWith(v));
@@ -136,179 +140,62 @@ export class CommentListComponent implements OnInit, OnDestroy {
     this.pageSize = e.pageSize;
   }
 
-  initNavigation() {
-    this._subscriptionEventServiceTagConfig = this.eventService.on<string>('setTagConfig').subscribe(tag => {
-      this.setTimePeriod(Period.all);
-      this.applyFilterByKey('keyword', tag);
-    });
-    this._subscriptionEventServiceRoomData = this.eventService.on<string>('pushCurrentRoomData').subscribe(_ => {
-      this.eventService.broadcast('currentRoomData', {
-        currentFilter: this.filter,
-        room: this.room
-      } as CommentListData);
-    });
-    const navigation = {};
-    const nav = (b, c) => navigation[b] = c;
-    nav('createQuestion', () => this.writeComment());
-    nav('moderator', () => {
-      const dialogRef = this.dialog.open(ModeratorsComponent, {
-        width: '400px',
-      });
-      dialogRef.componentInstance.roomId = this.room.id;
-    });
-    nav('tags', () => {
-      const updRoom = JSON.parse(JSON.stringify(this.room));
-      const dialogRef = this.dialog.open(TagsComponent, {
-        width: '400px',
-      });
-      let tags = [];
-      if (this.room.tags !== undefined) {
-        tags = this.room.tags;
-      }
-      dialogRef.componentInstance.tags = tags;
-      dialogRef.afterClosed()
-        .subscribe(result => {
-          if (!result || result === 'abort') {
-            return;
-          } else {
-            updRoom.tags = result;
-            this.roomService.updateRoom(updRoom)
-              .subscribe((room) => {
-                  this.room = room;
-                  this.translateService.get('room-page.changes-successful').subscribe(msg => {
-                    this.notificationService.show(msg);
-                  });
-                },
-                error => {
-                  this.translateService.get('room-page.changes-gone-wrong').subscribe(msg => {
-                    this.notificationService.show(msg);
-                  });
-                });
-          }
-        });
-    });
-    nav('deleteQuestions', () => {
-      const dialogRef = this.dialog.open(DeleteCommentsComponent, {
-        width: '400px',
-      });
-      dialogRef.componentInstance.roomId = this.roomId;
-      dialogRef.afterClosed()
-        .subscribe(result => {
-          if (result === 'delete') {
-            this.translationService.get('room-page.comments-deleted').subscribe(msg => {
-              this.notificationService.show(msg);
-            });
-            this.commentService.deleteCommentsByRoomId(this.roomId).subscribe();
-          }
-        });
-    });
-    nav('exportQuestions', () => {
-      exportQuestions(this.translateService,
-        this.notificationService,
-        this.bonusTokenService,
-        this.commentService,
-        'comment-list',
-        this.user,
-        this.room,
-        this.filter.moderatorAccountIds
-      ).subscribe(text => {
-        copyCSVString(text[0], this.room.name + '-' + this.room.shortId + '-' + text[1] + '.csv');
-      });
-    });
-    this.headerInterface = this.eventService.on<string>('navigate').subscribe(e => {
-      if (navigation.hasOwnProperty(e)) {
-        navigation[e]();
-      }
-    });
-  }
-
   ngOnInit() {
+    this._filterObject = new DataFilterObject('commentList', this.roomDataService,
+      this.authenticationService, this.sessionService);
+    this._cloudFilterObject = new DataFilterObject('commentList', this.roomDataService,
+      this.authenticationService, this.sessionService);
+    const filter = this._cloudFilterObject.filter;
+    filter.resetToDefault();
+    this._cloudFilterObject.filter = filter;
+    this.cloudDataService.filterObject = this._cloudFilterObject;
     this.initNavigation();
     const data = localStorage.getItem('commentListPageSize');
     this.pageSize = data ? +data || this.pageSize : this.pageSize;
     this.authenticationService.watchUser.subscribe(newUser => {
-      if (newUser) {
-        this.user = newUser;
-        this.filter.updateUserId(this.user.id);
-        if (this.userRole === UserRole.PARTICIPANT) {
-          this.voteService.getByRoomIdAndUserID(this.roomId, this.user.id).subscribe(votes => {
-            for (const v of votes) {
-              this.commentVoteMap.set(v.commentId, v);
-            }
-          });
-        }
+      if (!newUser) {
+        return;
       }
-    });
-    this.userRole = this.route.snapshot.data.roles[0];
-    this.route.params.subscribe(params => {
-      this.shortId = params['shortId'];
-      this.authenticationService.checkAccess(this.shortId);
-      this.authenticationService.guestLogin(UserRole.PARTICIPANT).subscribe(r => {
-        this.roomService.getRoomByShortId(this.shortId).subscribe(room => {
-          this.receiveRoom(room);
-          this._subscriptionRoomService = this.wsRoomService.getRoomStream(this.roomId).subscribe(msg => {
-            const message = JSON.parse(msg.body);
-            if (message.type === 'RoomPatched') {
-              this.receiveRoom(message.payload.changes);
-            }
-          });
-          this.createCommentWrapper = new CreateCommentWrapper(this.translateService,
-            this.notificationService, this.commentService, this.dialog, this.room);
-          localStorage.setItem('moderationEnabled', JSON.stringify(this.moderationEnabled));
-          if (!this.authenticationService.hasAccess(this.shortId, UserRole.PARTICIPANT)) {
-            this.roomService.addToHistory(this.room.id);
-            this.authenticationService.setAccess(this.shortId, UserRole.PARTICIPANT);
+      this.user = newUser;
+      if (this.sessionService.currentRole !== UserRole.PARTICIPANT) {
+        return;
+      }
+      this.sessionService.getRoomOnce().subscribe(room => {
+        this.voteService.getByRoomIdAndUserID(room.id, this.user.id).subscribe(votes => {
+          for (const v of votes) {
+            this.commentVoteMap.set(v.commentId, v);
           }
-          this.moderatorService.get(this.roomId).subscribe(list => {
-            this.filter.updateModerators(list.map(m => m.accountId));
-
-            this.roomDataService.getRoomData(this.room.id).subscribe(comments => {
-              if (comments === null) {
-                return;
-              }
-              this.comments = comments;
-              this.generateKeywordsIfEmpty();
-              if (this.filter.currentSearch) {
-                this.search = true;
-                this.hideCommentsList = true;
-              }
-              this.refreshFiltering();
-              this.setFocusedComment(localStorage.getItem('answeringQuestion'));
-              this.eventService.broadcast('commentListCreated', null);
-              this.isJoyrideActive = this.onboardingService.startDefaultTour();
-            });
-            this.subscribeCommentStream();
-          });
         });
       });
     });
-    this.hideCommentsList = false;
-    this.translateService.use(localStorage.getItem('currentLang'));
-    this.deviceType = localStorage.getItem('deviceType');
-    this.isSafari = localStorage.getItem('isSafari');
+    this.userRole = this.sessionService.currentRole;
+    this.sessionService.getRoomOnce().subscribe(room => {
+      this.sessionService.getModeratorsOnce().subscribe(mods => {
+        this.moderatorAccountIds = new Set<string>(mods.map(m => m.accountId));
+      });
+      this.receiveRoom(room);
+      this.sessionService.receiveRoomUpdates().subscribe(_room => this.receiveRoom(_room));
+      this.createCommentWrapper = new CreateCommentWrapper(this.translateService,
+        this.notificationService, this.commentService, this.dialog, this.sessionService.currentRoom);
+      this.roomDataService.getRoomDataOnce().subscribe(comments => {
+        this.generateKeywordsIfEmpty(comments);
+        this._filterObject.subscribe(() => this.onRefreshFiltering());
+      });
+      this.subscribeCommentStream();
+    });
     this.translateService.get('comment-list.search').subscribe(msg => {
       this.searchPlaceholder = msg;
     });
   }
 
   ngOnDestroy() {
-    this.filter.save();
-    if (!this.freeze && this.commentStream) {
-      this.commentStream.unsubscribe();
-    }
-    if (this._subscriptionRoomService) {
-      this._subscriptionRoomService.unsubscribe();
-    }
+    this._headerSubscription?.unsubscribe();
+    this._cloudFilterObject.unload();
+    this._filterObject.unload();
+    this._list?.forEach(e => e.destroy());
+    this.commentStream?.unsubscribe();
     this.titleService.resetTitle();
-    if (this.headerInterface) {
-      this.headerInterface.unsubscribe();
-    }
-    if (this._subscriptionEventServiceRoomData) {
-      this._subscriptionEventServiceRoomData.unsubscribe();
-    }
-    if (this._subscriptionEventServiceTagConfig) {
-      this._subscriptionEventServiceTagConfig.unsubscribe();
-    }
+    this.headerInterface?.unsubscribe();
     localStorage.setItem('commentListPageSize', String(this.pageSize));
   }
 
@@ -324,12 +211,12 @@ export class CommentListComponent implements OnInit, OnDestroy {
 
   searchComments(): void {
     this.search = true;
-    if (this.filter.currentSearch) {
-      this.hideCommentsList = true;
-      this.filteredComments = this.filter.filterCommentsBySearch(this.comments);
-    } else if (!this.filter.filterType) {
-      this.hideCommentsList = false;
+    if (!this.searchString) {
+      return;
     }
+    const filter = this._filterObject.filter;
+    filter.currentSearch = this.searchString;
+    this._filterObject.filter = filter;
   }
 
   activateSearch() {
@@ -338,15 +225,28 @@ export class CommentListComponent implements OnInit, OnDestroy {
   }
 
   abortSearch() {
-    this.hideCommentsList = false;
-    this.filter.currentSearch = '';
     this.search = false;
-    this.refreshFiltering();
+    this.searchString = '';
+    const filter = this._filterObject.filter;
+    filter.currentSearch = '';
+    this._filterObject.filter = filter;
   }
 
-  refreshFiltering(): void {
-    this._allQuestionNumberOptions = this.comments.map(c => c.number)
-      .sort((a, b) => b - a).map(c => String(c));
+  onRefreshFiltering(): void {
+    const result = this._filterObject.currentData;
+    this.comments = result.comments.filter(c => c.commentReference === null);
+    this.commentsFilteredByTimeLength = result.timeFilteredCount;
+    this.isLoading = false;
+    if (this.comments.length > 0 && this.firstReceive) {
+      this.firstReceive = false;
+      if (this._filterObject.filter.currentSearch) {
+        this.search = true;
+      }
+      this.setFocusedComment(localStorage.getItem('answeringQuestion'));
+      this.isJoyrideActive = this.onboardingService.startDefaultTour();
+    }
+    const allComments = this.roomDataService.getCurrentRoomData();
+    this._allQuestionNumberOptions = allComments.map(c => c.number).sort(numberSorter).map(c => String(c));
     const value = this.questionNumberFormControl.value || '';
     this.questionNumberOptions = this._allQuestionNumberOptions.filter(e => e.startsWith(value));
     this.commentsWrittenByUsers.clear();
@@ -358,17 +258,12 @@ export class CommentListComponent implements OnInit, OnDestroy {
       }
       set.add(comment.id);
     }
-    this.isLoading = false;
-    this.commentsFilteredByTime = this.filter.filterCommentsByTime(this.comments);
-    this.titleService.attachTitle('(' + this.commentsFilteredByTime.length + ')');
-    if (this.search) {
-      this.filteredComments = this.filter.filterCommentsBySearch(this.comments);
-      return;
-    }
-    this.hideCommentsList = !!this.filter.filterType;
-    this.filteredComments = this.hideCommentsList ?
-      this.filter.filterCommentsByType(this.commentsFilteredByTime) : this.commentsFilteredByTime;
-    this.filter.sortCommentsBySortType(this.filteredComments);
+    this.titleService.attachTitle('(' + this.commentsFilteredByTimeLength + ')');
+    const filter = this._filterObject.filter;
+    this.filterType = filter.filterType;
+    this.sortType = filter.sortType;
+    this.sortReverse = filter.sortReverse;
+    this.period = filter.period;
   }
 
   getVote(comment: Comment): Vote {
@@ -383,15 +278,17 @@ export class CommentListComponent implements OnInit, OnDestroy {
 
   applyFilterByKey(type: FilterTypeKey, compare?: any): void {
     this.pageIndex = 0;
-    this.filter.filterType = FilterType[type];
-    this.filter.filterCompare = compare;
-    this.refreshFiltering();
+    const filter = this._filterObject.filter;
+    filter.filterType = FilterType[type];
+    filter.filterCompare = compare;
+    this._filterObject.filter = filter;
   }
 
   applySortingByKey(type: SortTypeKey, reverse = false) {
-    this.filter.sortType = SortType[type];
-    this.filter.sortReverse = reverse;
-    this.refreshFiltering();
+    const filter = this._filterObject.filter;
+    filter.sortType = SortType[type];
+    filter.sortReverse = reverse;
+    this._filterObject.filter = filter;
   }
 
   votedComment(voteInfo: string) {
@@ -400,14 +297,9 @@ export class CommentListComponent implements OnInit, OnDestroy {
 
   activateCommentStream(freezed: boolean) {
     this.freeze = freezed;
-    this.filter.freezedAt = freezed ? new Date().getTime() : null;
-    this.roomDataService.getRoomData(this.roomId, freezed).subscribe(comments => {
-      if (comments === null) {
-        return;
-      }
-      this.comments = comments;
-      this.refreshFiltering();
-    });
+    const filter = this._filterObject.filter;
+    filter.freezedAt = freezed ? new Date().getTime() : null;
+    this._filterObject.filter = filter;
     let message: string;
     if (freezed) {
       this.commentStream?.unsubscribe();
@@ -434,20 +326,11 @@ export class CommentListComponent implements OnInit, OnDestroy {
           wasUpdate = true;
         }
       } else if (update.type === 'CommentPatched') {
-        if (update.subtype === 'favorite') {
-          if (this.user.id === update.comment.creatorId && update.comment.favorite) {
-            this.translateService.get('comment-list.comment-got-favorited').subscribe(ret => {
-              this.notificationService.show(ret);
-            });
-          }
-        }
+        this.onCommentPatched(update);
       }
-      if (update.finished) {
-        this.refreshFiltering();
-        if (wasUpdate) {
-          this.setFocusedComment(this.sendCommentId);
-          this.sendCommentId = null;
-        }
+      if (update.finished && wasUpdate) {
+        this.setFocusedComment(this.sendCommentId);
+        this.sendCommentId = null;
       }
     });
   }
@@ -476,21 +359,22 @@ export class CommentListComponent implements OnInit, OnDestroy {
       // current live announcer content must be cleared before next read
       this.liveAnnouncer.clear();
 
-      this.liveAnnouncer.announce(newCommentText).catch(err => { /* TODO error handling */
+      this.liveAnnouncer.announce(newCommentText).catch(err => {
+        console.error(err);
+        this.translateService.get('comment-list.a11y-announce-error').subscribe(msg => {
+          this.notificationService.show(msg);
+        });
       });
     }, 450);
   }
 
-  setTimePeriod(period?: Period) {
+  setTimePeriod(period?: PeriodKey) {
+    const filter = this._filterObject.filter;
     if (period) {
-      this.filter.period = period;
-      this.filter.fromNow = null;
+      filter.period = Period[period];
+      filter.fromNow = null;
     }
-    this.refreshFiltering();
-  }
-
-  getComments(): Comment[] {
-    return this.hideCommentsList ? this.filteredComments : this.commentsFilteredByTime;
+    this._filterObject.filter = filter;
   }
 
   isInCommentNumbers(value: string): boolean {
@@ -504,20 +388,34 @@ export class CommentListComponent implements OnInit, OnDestroy {
     autoComplete.closePanel();
     this.questionNumberFormControl.setValue('');
     menu.closeMenu();
-    this.applyFilterByKey('number', +questionNumber.value);
+    this.applyFilterByKey('Number', +questionNumber.value);
+  }
+
+  isCommentListEmpty(): boolean {
+    return this.comments &&
+      (this.commentsFilteredByTimeLength < 1 && this.period === 'All' || this.comments.length === 0) &&
+      !this.isLoading;
+  }
+
+  private onCommentPatched(update: UpdateInformation) {
+    if (update.subtype === 'favorite') {
+      if (this.user.id === update.comment.creatorId && this.userRole === UserRole.PARTICIPANT) {
+        const text = update.comment.favorite ? 'comment-list.question-was-marked-with-a-star' :
+          'comment-list.star-was-withdrawn-from-the-question';
+        this.translateService.get(text).subscribe(ret => this.notificationService.show(ret));
+      }
+    }
   }
 
   private receiveRoom(room: Room) {
     this.room = room;
-    this.filter.updateRoom(room);
-    this.roomId = room.id;
     this.moderationEnabled = room.moderated;
     this.directSend = room.directSend;
     this.commentsEnabled = (this.userRole > UserRole.PARTICIPANT) || !room.questionsBlocked;
   }
 
-  private generateKeywordsIfEmpty() {
-    if (TopicCloudFilterComponent.isUpdatable(this.comments, this.userRole, this.roomId)) {
+  private generateKeywordsIfEmpty(comments: Comment[]) {
+    if (TopicCloudFilterComponent.isUpdatable(comments, this.userRole, this.sessionService.currentRoom.id)) {
       TopicCloudFilterComponent.startUpdate(this.dialog, this.room, this.userRole);
     }
   }
@@ -527,11 +425,124 @@ export class CommentListComponent implements OnInit, OnDestroy {
     if (!commentId) {
       return;
     }
-    const index = this.getComments().findIndex(e => e.id === commentId);
+    const index = this.comments.findIndex(e => e.id === commentId);
     if (index < 0) {
       return;
     }
     this.pageIndex = Math.floor(index / this.pageSize);
     setTimeout(() => this.focusCommentId = commentId, 100);
+  }
+
+  private initNavigation(): void {
+    this._headerSubscription = this.eventService.on<string>('navigate').subscribe(action => {
+      if (action === 'topic-cloud') {
+        this.navigateTopicCloud();
+      }
+    });
+    /* eslint-disable @typescript-eslint/no-shadow */
+    this._list = this.composeService.builder(this.headerService.getHost(), e => {
+      e.menuItem({
+        translate: this.headerService.getTranslate(),
+        icon: 'add',
+        class: 'header-icons material-icons-outlined',
+        text: 'header.create-question',
+        callback: () => this.writeComment(),
+        condition: () => this.deviceInfo.isCurrentlyDesktop &&
+          this.room && !this.room.questionsBlocked
+      });
+      e.menuItem({
+        translate: this.headerService.getTranslate(),
+        icon: 'qr_code',
+        class: 'header-icons',
+        text: 'header.room-qr',
+        callback: () => this.headerService.getHeaderComponent().showQRDialog(),
+        condition: () => this.userRole > 0
+      });
+      e.menuItem({
+        translate: this.headerService.getTranslate(),
+        icon: 'gavel',
+        class: 'material-icons-round',
+        text: 'header.moderationboard',
+        callback: () => {
+          const role = (this.userRole === 3 ? 'creator' : 'moderator');
+          this.router.navigate([role + '/room/' + this.room?.shortId + '/moderator/comments']);
+        },
+        condition: () => this.userRole > 0
+      });
+      e.menuItem({
+        translate: this.headerService.getTranslate(),
+        icon: 'tag',
+        class: '',
+        text: 'header.tag-cloud',
+        callback: () => this.navigateTopicCloud(),
+        condition: () => this.deviceInfo.isCurrentlyMobile && ((this.cloudDataService.currentData?.size || 0) > 0)
+      });
+      e.menuItem({
+        translate: this.headerService.getTranslate(),
+        icon: 'tips_and_updates',
+        class: 'material-icons-outlined',
+        text: 'header.brainstorming',
+        callback: () => this.headerService.getHeaderComponent().navigateBrainstorming(),
+        condition: () => this.deviceInfo.isCurrentlyMobile &&
+          (!!this.room?.brainstormingSession || this.userRole > UserRole.PARTICIPANT)
+      });
+      e.menuItem({
+        translate: this.headerService.getTranslate(),
+        icon: 'emoji_events',
+        class: 'material-icons-outlined',
+        text: 'header.quiz-now',
+        callback: () => this.router.navigate(['quiz']),
+        condition: () => this.deviceInfo.isCurrentlyMobile
+      });
+      e.menuItem({
+        translate: this.headerService.getTranslate(),
+        icon: 'grade',
+        class: 'material-icons-round',
+        iconColor: Palette.YELLOW,
+        text: 'header.bonustoken',
+        callback: () => this.showBonusTokenDialog(),
+        condition: () => this.userRole > UserRole.PARTICIPANT
+      });
+      e.menuItem({
+        translate: this.headerService.getTranslate(),
+        icon: 'file_download',
+        class: 'material-icons-outlined',
+        text: 'header.export-questions',
+        callback: () => {
+          const room = this.sessionService.currentRoom;
+          exportRoom(this.translateService,
+            this.notificationService,
+            this.bonusTokenService,
+            this.commentService,
+            'room-export',
+            this.user,
+            room,
+            new Set<string>(this.moderatorAccountIds)
+          ).subscribe(text => {
+            copyCSVString(text[0], room.name + '-' + room.shortId + '-' + text[1] + '.csv');
+          });
+        },
+        condition: () => true
+      });
+    });
+  }
+
+  private showBonusTokenDialog(): void {
+    console.assert(this.userRole > UserRole.PARTICIPANT);
+    const dialogRef = this.dialog.open(BonusTokenComponent, {
+      width: '400px'
+    });
+    dialogRef.componentInstance.room = this.room;
+  }
+
+  private navigateTopicCloud() {
+    const confirmDialogRef = this.dialog.open(TopicCloudFilterComponent, {
+      autoFocus: false,
+      data: {
+        filterObject: this._filterObject
+      }
+    });
+    confirmDialogRef.componentInstance.target = this.router.url + '/tagcloud';
+    confirmDialogRef.componentInstance.userRole = this.userRole;
   }
 }

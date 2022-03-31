@@ -14,32 +14,40 @@ import { MatDialog } from '@angular/material/dialog';
 import { User } from '../../../models/user';
 import { Room } from '../../../models/room';
 import { NotificationService } from '../../../services/util/notification.service';
-import { EventService } from '../../../services/util/event.service';
 import { AuthenticationService } from '../../../services/http/authentication.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserRole } from '../../../models/user-roles.enum';
 import { RoomService } from '../../../services/http/room.service';
 import { ThemeService } from '../../../../theme/theme.service';
-import { TopicCloudAdministrationComponent } from '../_dialogs/topic-cloud-administration/topic-cloud-administration.component';
+import {
+  TopicCloudAdministrationComponent
+} from '../_dialogs/topic-cloud-administration/topic-cloud-administration.component';
 import { WsCommentService } from '../../../services/websockets/ws-comment.service';
 import { CreateCommentWrapper } from '../../../utils/create-comment-wrapper';
 import { maskKeyword, TopicCloudAdminService } from '../../../services/util/topic-cloud-admin.service';
 import { TagCloudPopUpComponent } from './tag-cloud-pop-up/tag-cloud-pop-up.component';
 import { TagCloudDataService, TagCloudDataTagEntry } from '../../../services/util/tag-cloud-data.service';
-import { WsRoomService } from '../../../services/websockets/ws-room.service';
 import { CloudParameters, CloudTextStyle } from '../../../utils/cloud-parameters';
 import { SmartDebounce } from '../../../utils/smart-debounce';
-import { Theme } from '../../../../theme/Theme';
 import { MatDrawer } from '@angular/material/sidenav';
 import { DeviceInfoService } from '../../../services/util/device-info.service';
-import { SyncFence } from '../../../utils/SyncFence';
-import { Subscription } from 'rxjs';
-import { CommentListFilter } from '../comment-list/comment-list.filter';
 import { ArsComposeService } from '../../../../../projects/ars/src/lib/services/ars-compose.service';
 import { HeaderService } from '../../../services/util/header.service';
 import { WorkerConfigDialogComponent } from '../_dialogs/worker-config-dialog/worker-config-dialog.component';
-import { KeywordOrFulltext } from '../_dialogs/topic-cloud-administration/TopicCloudAdminData';
-import { RoleChecker } from '../../../utils/RoleChecker';
+import { TagCloudSettings } from '../../../utils/TagCloudSettings';
+import { SessionService } from '../../../services/util/session.service';
+import { DOMElementPrinter } from '../../../utils/DOMElementPrinter';
+import { BrainstormingSession } from '../../../models/brainstorming-session';
+import {
+  IntroductionTagCloudComponent
+} from '../_dialogs/introductions/introduction-tag-cloud/introduction-tag-cloud.component';
+import {
+  IntroductionBrainstormingComponent
+} from '../_dialogs/introductions/introduction-brainstorming/introduction-brainstorming.component';
+import { ComponentType } from '@angular/cdk/overlay';
+import { DataFilterObject } from '../../../utils/data-filter-object';
+import { RoomDataService } from '../../../services/util/room-data.service';
+import { FilterType, Period, RoomDataFilter } from '../../../utils/data-filter-object.lib';
 
 class CustomPosition implements Position {
   left: number;
@@ -76,9 +84,6 @@ class TagComment implements CloudData {
 const transformationScaleKiller = /scale\([^)]*\)/;
 const transformationRotationKiller = /rotate\(([^)]*)\)/;
 
-const CONDITION_ROOM = 0;
-const CONDITION_BUILT = 1;
-
 @Component({
   selector: 'app-tag-cloud',
   templateUrl: './tag-cloud.component.html',
@@ -108,173 +113,46 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     transitionTime: 0.6,
     delay: 0.4
   };
-  readonly userRole: UserRole;
+  userRole: UserRole;
   data: TagComment[] = [];
   isLoading = true;
   themeSubscription = null;
   createCommentWrapper: CreateCommentWrapper = null;
-  question = '';
-  maxWordCount: number;
-  maxWordLength: number;
+  brainstormingData: BrainstormingSession;
   brainstormingActive: boolean;
   private _currentSettings: CloudParameters;
-  private _subscriptionCommentlist = null;
   private _subscriptionRoom = null;
   private _calcCanvas: HTMLCanvasElement = null;
   private _calcRenderContext: CanvasRenderingContext2D = null;
   private _calcFont: string = null;
   private readonly _smartDebounce = new SmartDebounce(50, 1_000);
-  private _currentTheme: Theme;
-  private _syncFenceBuildCloud: SyncFence;
-  private _eventFilterSubscription: Subscription;
-  private _pushCurrentBrainstorming = false;
 
-  constructor(private commentService: CommentService,
-              private langService: LanguageService,
-              private translateService: TranslateService,
-              public dialog: MatDialog,
-              private notificationService: NotificationService,
-              public eventService: EventService,
-              private authenticationService: AuthenticationService,
-              private composeService: ArsComposeService,
-              private headerService: HeaderService,
-              private route: ActivatedRoute,
-              protected roomService: RoomService,
-              private themeService: ThemeService,
-              private wsCommentService: WsCommentService,
-              private topicCloudAdmin: TopicCloudAdminService,
-              private router: Router,
-              public dataManager: TagCloudDataService,
-              private wsRoomService: WsRoomService,
-              private deviceInfo: DeviceInfoService) {
-    this.roomId = localStorage.getItem('roomId');
-    this.langService.langEmitter.subscribe(lang => {
+  constructor(
+    private commentService: CommentService,
+    private langService: LanguageService,
+    private translateService: TranslateService,
+    public dialog: MatDialog,
+    private notificationService: NotificationService,
+    private authenticationService: AuthenticationService,
+    private composeService: ArsComposeService,
+    private headerService: HeaderService,
+    private route: ActivatedRoute,
+    protected roomService: RoomService,
+    private themeService: ThemeService,
+    private wsCommentService: WsCommentService,
+    private topicCloudAdmin: TopicCloudAdminService,
+    private sessionService: SessionService,
+    private router: Router,
+    public dataManager: TagCloudDataService,
+    private deviceInfo: DeviceInfoService,
+    private roomDataService: RoomDataService,
+  ) {
+    this.langService.getLanguage().subscribe(lang => {
       this.translateService.use(lang);
     });
-    [this.userRole] = RoleChecker.checkRole(decodeURI(this.router.url));
-    this._currentSettings = TagCloudComponent.getCurrentCloudParameters();
+    this._currentSettings = this.getCurrentCloudParameters();
     this._calcCanvas = document.createElement('canvas');
     this._calcRenderContext = this._calcCanvas.getContext('2d');
-    this._syncFenceBuildCloud = new SyncFence(2,
-      () => this.dataManager.bindToRoom(this.room, this.userRole, this.user.id, this.brainstormingActive));
-    this._eventFilterSubscription = eventService.on('tagCloudPassFilterData').subscribe((data: any) => {
-      if (data.brainstorming.brainstormingActive) {
-        this.brainstormingActive = true;
-        this.question = data.brainstorming.question as string;
-        this.maxWordCount = data.brainstorming.maxWordCount as number;
-        this.maxWordLength = data.brainstorming.maxWordLength as number;
-      } else {
-        this.brainstormingActive = false;
-      }
-      if (this.userRole > 0) {
-        this._pushCurrentBrainstorming = true;
-      }
-      localStorage.setItem('brainstormingActive', this.brainstormingActive ? 'true' : 'false');
-      (data.filter as CommentListFilter).save('cloudFilter');
-      this._eventFilterSubscription.unsubscribe();
-    });
-    eventService.broadcast('tagCloudInit');
-  }
-
-  private static getCurrentCloudParameters(): CloudParameters {
-    return CloudParameters.currentParameters;
-  }
-
-  private static invertHex(hexStr: string) {
-    const r = 255 - parseInt(hexStr.substr(1, 2), 16);
-    const g = 255 - parseInt(hexStr.substr(3, 2), 16);
-    const b = 255 - parseInt(hexStr.substr(5, 2), 16);
-    return `#${((r * 256 + g) * 256 + b).toString(16).padStart(6, '0')}`;
-  }
-
-  ngOnInit(): void {
-    if (!this._eventFilterSubscription.closed) {
-      this._eventFilterSubscription.unsubscribe();
-      this.brainstormingActive = localStorage.getItem('brainstormingActive') === 'true';
-    }
-    this.updateGlobalStyles();
-    this.dataManager.getData().subscribe(data => {
-      if (!data) {
-        return;
-      }
-      this.rebuildData();
-    });
-    this.dataManager.getMetaData().subscribe(data => {
-      if (!data) {
-        return;
-      }
-      this.eventService.broadcast('tagCloudHeaderDataOverview', data);
-    });
-    this.authenticationService.watchUser.subscribe(newUser => {
-      if (newUser) {
-        this.user = newUser;
-      }
-    });
-    this.route.params.subscribe(params => {
-      this.shortId = params['shortId'];
-      this.authenticationService.checkAccess(this.shortId);
-      this.authenticationService.guestLogin(UserRole.PARTICIPANT).subscribe(r => {
-        this.roomService.getRoomByShortId(this.shortId).subscribe(room => {
-          this.room = room;
-          this.roomId = room.id;
-          this._subscriptionRoom = this.wsRoomService.getRoomStream(this.roomId).subscribe(msg => {
-            const message = JSON.parse(msg.body);
-            if (message.type === 'RoomPatched') {
-              this.room.questionsBlocked = message.payload.changes.questionsBlocked;
-              this.room.blacklistIsActive = message.payload.changes.blacklistIsActive;
-              this.retrieveTagCloudSettings(message.payload.changes);
-            }
-          });
-          if (this._pushCurrentBrainstorming) {
-            TopicCloudAdminService.applySettingsToRoom(room, this.brainstormingActive ? {
-              question: this.question,
-              maxWordLength: this.maxWordLength,
-              maxWordCount: this.maxWordCount
-            } : null);
-            this.roomService.updateRoom(room).subscribe();
-          }
-          this.retrieveTagCloudSettings(room);
-          this.directSend = this.room.directSend;
-          this.createCommentWrapper = new CreateCommentWrapper(this.translateService,
-            this.notificationService, this.commentService, this.dialog, this.room);
-          if (!this.authenticationService.hasAccess(this.shortId, UserRole.PARTICIPANT)) {
-            this.roomService.addToHistory(this.room.id);
-            this.authenticationService.setAccess(this.shortId, UserRole.PARTICIPANT);
-          }
-          this._syncFenceBuildCloud.resolveCondition(CONDITION_ROOM);
-        });
-      });
-    });
-    this.translateService.use(localStorage.getItem('currentLang'));
-    this.themeSubscription = this.themeService.getTheme().subscribe((themeName) => {
-      this._currentTheme = this.themeService.getThemeByKey(themeName);
-      if (this.child) {
-        setTimeout(() => {
-          this.setCloudParameters(TagCloudComponent.getCurrentCloudParameters(), false);
-        }, 1);
-      }
-    });
-  }
-
-  ngAfterContentInit() {
-    this.initNavigation();
-    this._calcFont = window.getComputedStyle(document.getElementById('tagCloudComponent')).fontFamily;
-    setTimeout(() => this._syncFenceBuildCloud.resolveCondition(CONDITION_BUILT));
-    this.dataManager.updateDemoData(this.translateService);
-    this.setCloudParameters(TagCloudComponent.getCurrentCloudParameters(), false);
-  }
-
-  ngOnDestroy() {
-    const customTagCloudStyles = document.getElementById('tagCloudStyles') as HTMLStyleElement;
-    if (customTagCloudStyles) {
-      customTagCloudStyles.sheet.disabled = true;
-    }
-    this.themeSubscription.unsubscribe();
-    this.dataManager.unbindRoom();
-    if (this._subscriptionRoom) {
-      this._subscriptionRoom.unsubscribe();
-    }
-    this.onDestroyListener.emit();
   }
 
   get tagCloudDataManager(): TagCloudDataService {
@@ -283,6 +161,81 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
 
   get currentCloudParameters(): CloudParameters {
     return new CloudParameters(this._currentSettings);
+  }
+
+  private static invertHex(hexStr: string) {
+    const r = 255 - parseInt(hexStr.substring(1, 3), 16);
+    const g = 255 - parseInt(hexStr.substring(3, 5), 16);
+    const b = 255 - parseInt(hexStr.substring(5, 7), 16);
+    return `#${((r * 256 + g) * 256 + b).toString(16).padStart(6, '0')}`;
+  }
+
+  ngOnInit(): void {
+    const filterObj = new DataFilterObject('tagCloud', this.roomDataService,
+      this.authenticationService, this.sessionService);
+    this.dataManager.filterObject = filterObj;
+    this.updateGlobalStyles();
+    this.dataManager.getData().subscribe(data => {
+      if (!data) {
+        return;
+      }
+      this.rebuildData();
+    });
+    this.authenticationService.watchUser.subscribe(newUser => {
+      if (newUser) {
+        this.user = newUser;
+      }
+    });
+    this.route.data.subscribe(d => this.brainstormingActive = !!d.brainstorming);
+    this.sessionService.getRoomOnce().subscribe(room => {
+      this.userRole = this.sessionService.currentRole;
+      this.shortId = room.shortId;
+      this.roomId = room.id;
+      this.room = room;
+      this.sessionService.receiveRoomUpdates().subscribe(() => {
+        this.retrieveTagCloudSettings(room);
+      });
+      this.retrieveTagCloudSettings(room);
+      this.directSend = this.room.directSend;
+      this.createCommentWrapper = new CreateCommentWrapper(this.translateService,
+        this.notificationService, this.commentService, this.dialog, this.room);
+      if (this.brainstormingActive) {
+        const filter = new RoomDataFilter(null);
+        filter.filterType = FilterType.BrainstormingQuestion;
+        filter.period = Period.FromNow;
+        filter.lastRoomId = room.id;
+        filter.fromNow = new Date(room.brainstormingSession.createdAt).getTime();
+        filter.save('tagCloud');
+        filterObj.filter = filter;
+      }
+    });
+    this.themeSubscription = this.themeService.getTheme().subscribe(() => {
+      if (this.child) {
+        setTimeout(() => {
+          this.setCloudParameters(this.getCurrentCloudParameters(), false);
+        }, 1);
+      }
+    });
+  }
+
+  ngAfterContentInit() {
+    this.initNavigation();
+    this._calcFont = window.getComputedStyle(document.getElementById('tagCloudComponent')).fontFamily;
+    this.dataManager.updateDemoData(this.translateService);
+    this.setCloudParameters(this.getCurrentCloudParameters(), false);
+  }
+
+  ngOnDestroy() {
+    this.dataManager.unloadCloud();
+    const customTagCloudStyles = document.getElementById('tagCloudStyles') as HTMLStyleElement;
+    if (customTagCloudStyles) {
+      customTagCloudStyles.sheet.disabled = true;
+    }
+    this.themeSubscription.unsubscribe();
+    if (this._subscriptionRoom) {
+      this._subscriptionRoom.unsubscribe();
+    }
+    this.onDestroyListener.emit();
   }
 
   setCloudParameters(parameters: CloudParameters, save = true): void {
@@ -307,7 +260,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
 
   resetColorsToTheme() {
     const param = new CloudParameters();
-    param.resetToDefault(this._currentTheme.isDark);
+    param.resetToDefault(this.themeService.currentTheme.isDark);
     this.setCloudParameters(param, false);
     CloudParameters.removeParameters();
   }
@@ -316,12 +269,25 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     this.updateTagCloud();
   }
 
+  canWriteComment(): boolean {
+    if ((!this.room || this.room.questionsBlocked) && this.userRole === UserRole.PARTICIPANT) {
+      return false;
+    }
+    return !(this.brainstormingActive && !(this.brainstormingData?.active));
+  }
+
+  startIntroduction() {
+    const type: ComponentType<any> = this.brainstormingActive ? IntroductionBrainstormingComponent : IntroductionTagCloudComponent;
+    this.dialog.open(type, {
+      autoFocus: false
+    });
+  }
+
   writeComment() {
-    this.createCommentWrapper.openCreateDialog(this.user, this.userRole, this.brainstormingActive ? {
-      question: this.question,
-      maxWordLength: this.maxWordLength,
-      maxWordCount: this.maxWordCount
-    } : undefined).subscribe();
+    if (!this.canWriteComment()) {
+      return;
+    }
+    this.createCommentWrapper.openCreateDialog(this.user, this.userRole, this.brainstormingData).subscribe();
   }
 
   rebuildData() {
@@ -337,35 +303,10 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     for (const [tag, tagData] of data) {
       const amount = this.dataManager.demoActive ? 10 - tagData.adjustedWeight : 1;
       for (let i = 0; i < amount; i++) {
-        const remaining = countFiler[tagData.adjustedWeight];
-        if (remaining !== 0) {
-          if (remaining > 0) {
-            --countFiler[tagData.adjustedWeight];
-          }
-          let rotation = this._currentSettings.cloudWeightSettings[tagData.adjustedWeight].rotation;
-          if (rotation === null || this._currentSettings.randomAngles) {
-            rotation = Math.floor(Math.random() * 30 - 15);
-          }
-          let filteredTag = maskKeyword(tag);
-          if (this.brainstormingActive && filteredTag.length > this.maxWordLength) {
-            filteredTag = filteredTag.substr(0, this.maxWordLength - 1) + '…';
-          }
-          newElements.push(new TagComment(filteredTag, tag, rotation, tagData.weight, tagData, newElements.length));
-        }
+        this.createTagElement(countFiler, tagData, tag, newElements);
       }
     }
-    if (this._currentSettings.sortAlphabetically) {
-      const lines = Math.floor(Math.sqrt(newElements.length - 1) + 1);
-      const divided = Math.floor(newElements.length / lines);
-      let remainder = newElements.length - divided * lines;
-      for (let i = 0, line = 0; line < lines; line++) {
-        const size = divided + (--remainder >= 0 ? 1 : 0);
-        for (let k = 0; k < size; k++, i++) {
-          newElements[i].position = new CustomPosition((k + 1) / (size + 1), (line + 1) / (lines + 1));
-        }
-      }
-      this.updateAlphabeticalPosition(newElements);
-    }
+    this.prepareAlphabeticalCloud(newElements);
     this.data = newElements;
     setTimeout(() => {
       this.updateTagCloud(true);
@@ -381,68 +322,106 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
   }
 
   openTags(tag: CloudData): void {
-    if (this.dataManager.demoActive || this._subscriptionCommentlist !== null) {
+    if (this.brainstormingActive || this.dataManager.demoActive) {
       return;
     }
-    this._subscriptionCommentlist = this.eventService.on('commentListCreated').subscribe(() => {
-      this.eventService.broadcast('setTagConfig', (tag as TagComment).realText);
-      this._subscriptionCommentlist.unsubscribe();
-    });
+    //Room filter
+    const filter = new RoomDataFilter(null);
+    filter.lastRoomId = this.room.id;
+    filter.period = Period.All;
+    filter.filterType = FilterType.Keyword;
+    filter.filterCompare = (tag as TagComment).realText;
+    filter.save('commentList');
     this.router.navigate(['../'], { relativeTo: this.route });
   }
 
   updateTagCloudSettings() {
-    if (!this.user || this.user.role < 1) {
+    if (!this.user || this.user.role === UserRole.PARTICIPANT) {
       throw new Error('user has no rights.');
     }
-    this.roomService.getRoom(this.roomId).subscribe(room => {
-      TopicCloudAdminService.applySettingsToRoom(room);
-      this.room = room;
-      this.roomService.updateRoom(room).subscribe(_ => {
-          this.translateService.get('tag-cloud.changes-successful').subscribe(msg => {
-            this.notificationService.show(msg);
-          });
-        },
-        error => {
-          this.translateService.get('tag-cloud.changes-gone-wrong').subscribe(msg => {
-            this.notificationService.show(msg);
-          });
+    TagCloudSettings.getCurrent(this.themeService.currentTheme.isDark).applyToRoom(this.room);
+    this.roomService.updateRoom(this.room).subscribe({
+      next: () => {
+        this.translateService.get('tag-cloud.changes-successful').subscribe(msg => {
+          this.notificationService.show(msg);
         });
+      },
+      error: (error) => {
+        this.translateService.get('tag-cloud.changes-gone-wrong').subscribe(msg => {
+          this.notificationService.show(msg);
+        });
+      }
     });
   }
 
+  isCloudEmpty() {
+    return !this.data?.length;
+  }
+
+  private prepareAlphabeticalCloud(newElements: TagComment[]) {
+    if (this._currentSettings.sortAlphabetically) {
+      const lines = Math.floor(Math.sqrt(newElements.length - 1) + 1);
+      const divided = Math.floor(newElements.length / lines);
+      let remainder = newElements.length - divided * lines;
+      for (let i = 0, line = 0; line < lines; line++) {
+        const size = divided + (--remainder >= 0 ? 1 : 0);
+        for (let k = 0; k < size; k++, i++) {
+          newElements[i].position = new CustomPosition((k + 1) / (size + 1), (line + 1) / (lines + 1));
+        }
+      }
+      this.updateAlphabeticalPosition(newElements);
+    }
+  }
+
+  private createTagElement(countFiler: number[], tagData: TagCloudDataTagEntry, tag: string, newElements: TagComment[]) {
+    const remaining = countFiler[tagData.adjustedWeight];
+    if (remaining !== 0) {
+      if (remaining > 0) {
+        --countFiler[tagData.adjustedWeight];
+      }
+      let rotation = this._currentSettings.cloudWeightSettings[tagData.adjustedWeight].rotation;
+      if (rotation === null || this._currentSettings.randomAngles) {
+        rotation = Math.floor(Math.random() * 30 - 15);
+      }
+      let filteredTag = maskKeyword(tag);
+      if (this.brainstormingActive && filteredTag.length > this.brainstormingData.maxWordLength) {
+        filteredTag = filteredTag.substr(0, this.brainstormingData.maxWordLength - 1) + '…';
+      }
+      newElements.push(new TagComment(filteredTag, tag, rotation, tagData.weight, tagData, newElements.length));
+    }
+  }
+
+  private getCurrentCloudParameters(): CloudParameters {
+    return CloudParameters.getCurrentParameters(this.themeService.currentTheme.isDark);
+  }
+
   private retrieveTagCloudSettings(room: Room) {
-    const data = JSON.parse(room.tagCloudSettings);
-    if (data) {
-      const admin = TopicCloudAdminService.getDefaultAdminData;
-      admin.considerVotes = data.admin.considerVotes;
-      admin.keywordORfulltext = data.admin.keywordORfulltext;
-      admin.wantedLabels = data.admin.wantedLabels;
-      admin.minQuestioners = data.admin.minQuestioners;
-      admin.minQuestions = data.admin.minQuestions;
-      admin.minUpvotes = data.admin.minUpvotes;
-      admin.startDate = data.admin.startDate;
-      admin.endDate = data.admin.endDate;
-      admin.scorings = data.admin.scorings;
-      data.admin = undefined;
-      if (this.brainstormingActive) {
-        this.question = data.brainstorming?.question;
-        this.maxWordLength = data.brainstorming?.maxWordLength;
-        this.maxWordCount = data.brainstorming?.maxWordCount;
-      }
-      data.brainstorming = undefined;
-      this.topicCloudAdmin.setAdminData(admin, null, this.userRole);
-      if (this.deviceInfo.isCurrentlyMobile) {
-        const defaultParams = new CloudParameters();
-        defaultParams.resetToDefault(this.themeService.currentTheme.isDark);
-        data.fontSizeMin = defaultParams.fontSizeMin;
-        data.fontSizeMax = defaultParams.fontSizeMax;
-      }
-      this.setCloudParameters(data as CloudParameters);
-    } else {
+    const settings = TagCloudSettings.getFromRoom(room);
+    if (this.brainstormingActive && (!room.brainstormingSession ||
+      this.brainstormingData && this.brainstormingData.active !== room.brainstormingSession.active)) {
+      this.router.navigate(['../'], {
+        relativeTo: this.route
+      });
+      return;
+    }
+    this.brainstormingData = room.brainstormingSession;
+    if (!settings) {
       this.resetColorsToTheme();
       this.setCloudParameters(this.currentCloudParameters);
+      if (this.userRole > UserRole.PARTICIPANT) {
+        this.updateTagCloudSettings();
+      }
+      return;
     }
+    this.topicCloudAdmin.setAdminData(settings.adminData, null, this.userRole);
+    const data = settings.settings;
+    if (this.deviceInfo.isCurrentlyMobile) {
+      const defaultParams = new CloudParameters();
+      defaultParams.resetToDefault(this.themeService.currentTheme.isDark);
+      data.fontSizeMin = defaultParams.fontSizeMin;
+      data.fontSizeMax = defaultParams.fontSizeMax;
+    }
+    this.setCloudParameters(data);
   }
 
   private updateAlphabeticalPosition(elements: TagComment[]): void {
@@ -460,7 +439,6 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
   }
 
   private initNavigation() {
-    /* eslint-disable @typescript-eslint/no-shadow */
     const list: ComponentRef<any>[] = this.composeService.builder(this.headerService.getHost(), e => {
       e.menuItem({
         translate: this.headerService.getTranslate(),
@@ -472,7 +450,24 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
       });
       e.menuItem({
         translate: this.headerService.getTranslate(),
-        icon: 'cloud_queue',
+        icon: 'tag',
+        class: 'material-icons-outlined',
+        text: 'header.tag-cloud-screenshot',
+        callback: () => {
+          if (!this.child?.cloudDataHtmlElements?.length) {
+            this.translateService.get('tag-cloud.tag-cloud-no-elements')
+              .subscribe(msg => this.notificationService.show(msg));
+            return;
+          }
+          this.translateService.get('tag-cloud.tag-cloud-print-title', { roomName: this.room.name })
+            .subscribe(msg => DOMElementPrinter.printOnce(this.child?.cloudDataHtmlElements[0].parentElement,
+              msg, this._currentSettings.backgroundColor));
+        },
+        condition: () => true
+      });
+      e.menuItem({
+        translate: this.headerService.getTranslate(),
+        icon: 'tag',
         class: 'material-icons-outlined',
         text: 'header.tag-cloud-config',
         callback: () => this.drawer.toggle(),
@@ -504,7 +499,6 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     this.onDestroyListener.subscribe(() => {
       list.forEach(e => e.destroy());
     });
-    /* eslint-enable @typescript-eslint/no-shadow */
   }
 
   private redraw(dataUpdate: boolean): void {
@@ -529,7 +523,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
         const transformMatch = elem.style.transform.match(transformationRotationKiller);
         elem.dataset['tempRotation'] = transformMatch ? transformMatch[1] : '0deg';
         elem.style.transform = elem.style.transform.replace(transformationRotationKiller, '').trim();
-        this.popup.enter(elem, dataElement.realText, dataElement.tagData,
+        this.popup.enter(elem, dataElement.realText, this.brainstormingActive, dataElement.tagData,
           (this._currentSettings.hoverTime + this._currentSettings.hoverDelay) * 1_000,
           this.room && this.room.blacklistIsActive);
       });
@@ -550,13 +544,13 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     }
     let textTransform = '';
     let plainTextTransform = 'unset';
-    if (this._currentSettings.textTransform === CloudTextStyle.capitalized) {
+    if (this._currentSettings.textTransform === CloudTextStyle.Capitalized) {
       textTransform = 'text-transform: capitalize;';
       plainTextTransform = 'capitalize';
-    } else if (this._currentSettings.textTransform === CloudTextStyle.lowercase) {
+    } else if (this._currentSettings.textTransform === CloudTextStyle.Lowercase) {
       textTransform = 'text-transform: lowercase;';
       plainTextTransform = 'lowercase';
-    } else if (this._currentSettings.textTransform === CloudTextStyle.uppercase) {
+    } else if (this._currentSettings.textTransform === CloudTextStyle.Uppercase) {
       textTransform = 'text-transform: uppercase;';
       plainTextTransform = 'uppercase';
     }
@@ -585,13 +579,13 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
       '--tag-cloud-font-weight: ' + this._currentSettings.fontWeight + ';' +
       '--tag-cloud-font-style: ' + this._currentSettings.fontStyle + ';' +
       '--tag-cloud-font-family: ' + this._currentSettings.fontFamily + '; }');
-    customTagCloudStyles.sheet.insertRule('.header-icons { ' +
+    customTagCloudStyles.sheet.insertRule('.header-icons, .header-icons + h2 { ' +
       'color: var(--tag-cloud-inverted-background) !important; }');
     customTagCloudStyles.sheet.insertRule('.header .oldtypo-h2, .header .oldtypo-h2 + span { ' +
       'color: var(--tag-cloud-inverted-background) !important; }');
     customTagCloudStyles.sheet.insertRule('#footer_rescale {' +
       'display: none; }');
-    customTagCloudStyles.sheet.insertRule('div.main_container {' +
+    customTagCloudStyles.sheet.insertRule('div.main_container, app-header > mat-toolbar {' +
       'background-color: var(--tag-cloud-background-color) !important; }');
   }
 
@@ -604,10 +598,8 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     if (!this._currentSettings) {
       return 2;
     }
-    const cssUpdates = ['backgroundColor', 'fontColor'];
     const dataUpdates = ['randomAngles', 'sortAlphabetically',
       'fontSizeMin', 'fontSizeMax', 'textTransform', 'fontStyle', 'fontWeight', 'fontFamily', 'fontSize'];
-    const cssWeightUpdates = ['color'];
     const dataWeightUpdates = ['maxVisibleElements', 'rotation'];
     for (const key of dataUpdates) {
       if (this._currentSettings[key] !== parameters[key]) {
@@ -621,6 +613,12 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
         }
       }
     }
+    return this.checkCssUpdateIntensity(parameters);
+  }
+
+  private checkCssUpdateIntensity(parameters: CloudParameters) {
+    const cssUpdates = ['backgroundColor', 'fontColor'];
+    const cssWeightUpdates = ['color'];
     for (const key of cssUpdates) {
       if (this._currentSettings[key] !== parameters[key]) {
         return 1;

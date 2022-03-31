@@ -1,8 +1,7 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ComponentRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../services/util/language.service';
-import { WsCommentService } from '../../../services/websockets/ws-comment.service';
 import { CommentService } from '../../../services/http/comment.service';
 import { Comment } from '../../../models/comment';
 import { UserRole } from '../../../models/user-roles.enum';
@@ -11,12 +10,24 @@ import { MatDialog } from '@angular/material/dialog';
 import { DeleteAnswerComponent } from '../../creator/_dialogs/delete-answer/delete-answer.component';
 import { EventService } from '../../../services/util/event.service';
 import { WriteCommentComponent } from '../write-comment/write-comment.component';
-import { CorrectWrong } from '../../../models/correct-wrong.enum';
-import { Message } from '@stomp/stompjs';
 import { AuthenticationService } from '../../../services/http/authentication.service';
 import { User } from '../../../models/user';
 import { KeyboardUtils } from '../../../utils/keyboard';
 import { KeyboardKey } from '../../../utils/keyboard/keys';
+import { RoomDataService } from '../../../services/util/room-data.service';
+import { forkJoin, Observable, of } from 'rxjs';
+import { map, mergeMap } from 'rxjs/operators';
+import { SessionService } from '../../../services/util/session.service';
+import { Room } from '../../../models/room';
+import { VoteService } from '../../../services/http/vote.service';
+import { Vote } from '../../../models/vote';
+import { Location } from '@angular/common';
+import { CreateCommentKeywords } from '../../../utils/create-comment-keywords';
+import { LanguagetoolService } from '../../../services/http/languagetool.service';
+import { DeepLService } from '../../../services/http/deep-l.service';
+import { SpacyService } from '../../../services/http/spacy.service';
+import { ArsComposeService } from '../../../../../projects/ars/src/lib/services/ars-compose.service';
+import { HeaderService } from '../../../services/util/header.service';
 
 @Component({
   selector: 'app-comment-answer',
@@ -33,23 +44,46 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
   userRole: UserRole;
   user: User;
   isStudent = true;
+  isCreator: boolean = false;
+  isModerator: boolean = false;
   edit = false;
+  room: Room;
+  mods: Set<string>;
+  vote: Vote;
+  isModerationComment = false;
+  isSending = false;
+  responses: Comment[] = [];
+  isConversationView: boolean;
+  roleString: string;
   private _commentSubscription;
+  private _list: ComponentRef<any>[];
 
-  constructor(protected route: ActivatedRoute,
-              private notificationService: NotificationService,
-              private translateService: TranslateService,
-              protected langService: LanguageService,
-              private authenticationService: AuthenticationService,
-              protected wsCommentService: WsCommentService,
-              protected commentService: CommentService,
-              public dialog: MatDialog,
-              private router: Router,
-              public eventService: EventService) {
+  constructor(
+    protected route: ActivatedRoute,
+    private notificationService: NotificationService,
+    private translateService: TranslateService,
+    protected langService: LanguageService,
+    private authenticationService: AuthenticationService,
+    protected commentService: CommentService,
+    private roomDataService: RoomDataService,
+    public dialog: MatDialog,
+    private router: Router,
+    public eventService: EventService,
+    private sessionService: SessionService,
+    private voteService: VoteService,
+    private location: Location,
+    private languagetoolService: LanguagetoolService,
+    private deepLService: DeepLService,
+    private spacyService: SpacyService,
+    private composeService: ArsComposeService,
+    private headerService: HeaderService,
+  ) {
   }
 
   ngOnInit() {
-    this.userRole = this.route.snapshot.data.roles[0];
+    this.isConversationView = this.router.url.endsWith('conversation');
+    this.userRole = this.sessionService.currentRole;
+    this.initNavigation();
     this.authenticationService.watchUser.subscribe(newUser => {
       if (newUser) {
         this.user = newUser;
@@ -58,22 +92,51 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
     if (this.userRole !== UserRole.PARTICIPANT) {
       this.isStudent = false;
     }
+    switch (this.userRole) {
+      case UserRole.PARTICIPANT.valueOf():
+        this.isStudent = true;
+        this.roleString = 'participant';
+        break;
+      case UserRole.CREATOR.valueOf():
+        this.isCreator = true;
+        this.roleString = 'creator';
+        break;
+      case UserRole.EXECUTIVE_MODERATOR.valueOf():
+        this.isModerator = true;
+        this.roleString = 'moderator';
+    }
     this.route.params.subscribe(params => {
-      this.commentService.getComment(params['commentId']).subscribe(comment => {
-        this.comment = comment;
-        this.answer = this.comment.answer;
-        this.edit = !this.answer;
-        this.isLoading = false;
-        this._commentSubscription = this.wsCommentService.getCommentStream(comment.roomId)
-          .subscribe(msg => this.onMessageReceive(msg));
-      });
+      const commentId = params['commentId'];
+      forkJoin([this.sessionService.getRoomOnce(), this.sessionService.getModeratorsOnce()])
+        .subscribe(([room, mods]) => {
+          this.room = room;
+          this.mods = new Set<string>(mods.map(m => m.accountId));
+          this.voteService.getByRoomIdAndUserID(this.sessionService.currentRoom.id, this.user.id).subscribe(votes => {
+            this.vote = votes.find(v => v.commentId === commentId);
+          });
+          this.findComment(commentId).subscribe(result => {
+            if (!result) {
+              this.onNoComment();
+            } else {
+              this.onCommentReceive(...result);
+            }
+          });
+        });
     });
   }
 
   ngOnDestroy() {
-    if (this._commentSubscription) {
-      this._commentSubscription.unsubscribe();
+    this._list?.forEach(e => e.destroy());
+    this._commentSubscription?.unsubscribe();
+    if (this.comment && !this.isStudent) {
+      this.commentService.lowlight(this.comment).subscribe();
     }
+  }
+
+  getResponses() {
+    this.roomDataService.getRoomDataOnce(false, this.isModerationComment).subscribe(data => {
+      this.responses = data.filter(resp => resp.commentReference === this.comment.id);
+    });
   }
 
   checkForEscape(event: KeyboardEvent) {
@@ -88,28 +151,47 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
   }
 
   checkForBackDropClick(event: PointerEvent, ...elements: Node[]) {
+    if (this.isConversationView) {
+      return;
+    }
     const target = event.target as Node;
     const parent = document.querySelector('.main_container');
-    if (event.target && parent.contains(target) && !elements.some(e => e && e.contains(target))) {
+    if (event.target && parent.contains(target) && !elements.some(e => e?.contains(target))) {
       this.goBackToCommentList();
     }
   }
 
   goBackToCommentList() {
-    const str = decodeURI(this.router.url);
-    const newUrl = str.substr(0, str.lastIndexOf('/', str.lastIndexOf('/') - 1)) + '/comments';
-    this.router.navigate([newUrl]);
+    this.location.back();
   }
 
-  saveAnswer(): (string) => void {
-    return (text: string) => {
-      this.answer = text;
-      this.edit = !this.answer;
-      this.commentService.answer(this.comment, this.answer).subscribe();
-      this.translateService.get('comment-page.comment-answered').subscribe(msg => {
-        this.notificationService.show(msg);
+  receiveFromDeepL(body: string) {
+    this.saveAnswer(body);
+  }
+
+  submitNormal(body: string, text: string, tag: string, name: string, verifiedWithoutDeepl: boolean) {
+    const response: Comment = new Comment();
+    response.roomId = this.room.id;
+    response.body = body;
+    response.creatorId = this.user.id;
+    response.createdFromLecturer = this.userRole > 0;
+    response.commentReference = this.comment.id;
+    response.tag = tag;
+    response.questionerName = name;
+    this.commentService.addComment(response).subscribe(c => {
+      let url: string;
+      this.route.params.subscribe(params => {
+        url = `${this.roleString}/room/${params['shortId']}/comment/${this.comment.id}/conversation`;
       });
-    };
+      this.router.navigate([url]);
+    });
+    this.translateService.get('comment-list.comment-sent')
+      .subscribe(msg => this.notificationService.show(msg));
+  }
+
+  saveAnswer(data: string, forward = false): void {
+    this.answer = CreateCommentKeywords.transformURLtoQuill(data, true);
+    this.edit = !this.answer;
   }
 
   openDeleteAnswerDialog(): () => void {
@@ -129,7 +211,6 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
   deleteAnswer() {
     this.commentComponent.commentData.clear();
     this.answer = null;
-    this.commentService.answer(this.comment, this.answer).subscribe();
     this.translateService.get('comment-page.answer-deleted').subscribe(msg => {
       this.notificationService.show(msg);
     });
@@ -140,57 +221,95 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
     setTimeout(() => this.commentComponent.commentData.set(this.answer));
   }
 
-  private onMessageReceive(msg: Message) {
-    const message = JSON.parse(msg.body);
-    const payload = message.payload;
-    if (!payload || payload.id !== this.comment.id) {
-      return;
+  applySortAnswers(value: string) {
+    switch (value) {
+      case 'Time':
+        this.responses.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+        this.responses.reverse();
+        break;
+      case 'BestScore':
+        this.responses.sort((a, b) => b.score - a.score);
+        break;
+      case 'WorstScore':
+        this.responses.sort((a, b) => b.score - a.score);
+        this.responses.reverse();
+        break;
     }
-    if (message.type === 'CommentHighlighted') {
-      this.comment.highlighted = payload.lights as boolean;
-    } else if (message.type === 'CommentPatched') {
-      for (const [key, value] of Object.entries(payload.changes)) {
-        switch (key) {
-          case 'read':
-            this.comment.read = value as boolean;
-            break;
-          case 'correct':
-            this.comment.correct = value as CorrectWrong;
-            break;
-          case 'favorite':
-            this.comment.favorite = value as boolean;
-            break;
-          case 'bookmark':
-            this.comment.bookmark = value as boolean;
-            break;
-          case 'score':
-            this.comment.score = value as number;
-            break;
-          case 'upvotes':
-            this.comment.upvotes = value as number;
-            break;
-          case 'downvotes':
-            this.comment.downvotes = value as number;
-            break;
-          case 'keywordsFromSpacy':
-            this.comment.keywordsFromSpacy = JSON.parse(value as string);
-            break;
-          case 'keywordsFromQuestioner':
-            this.comment.keywordsFromQuestioner = JSON.parse(value as string);
-            break;
-          case 'ack':
-            this.comment.ack = value as boolean;
-            break;
-          case 'tag':
-            this.comment.tag = value as string;
-            break;
-          case 'answer':
-            this.comment.answer = value as string;
-            this.answer = this.comment.answer;
-            this.edit = !this.answer;
-            break;
+  }
+
+  private findComment(commentId: string): Observable<[Comment, boolean]> {
+    return this.roomDataService.getRoomDataOnce().pipe(
+      map(comments => {
+        const foundComment = comments.find(c => c.id === commentId);
+        return (foundComment ? [foundComment, false] : null) as [Comment, boolean];
+      }),
+      mergeMap(current => {
+        if (current) {
+          return of(current);
         }
+        if (!this.roomDataService.canAccessModerator) {
+          return of(null);
+        }
+        return this.roomDataService.getRoomDataOnce(false, true).pipe(
+          map(comments => {
+            const foundComment = comments.find(c => c.id === commentId);
+            return (foundComment ? [foundComment, true] : null) as [Comment, boolean];
+          })
+        );
+      })
+    );
+  }
+
+  private onCommentReceive(c: Comment, isModerationComment: boolean) {
+    this.comment = c;
+    this.isModerationComment = isModerationComment;
+    this.getResponses();
+    this.edit = !this.answer;
+    this.isLoading = false;
+    this._commentSubscription = this.roomDataService.receiveUpdates([
+      { type: 'CommentPatched', finished: true, updates: ['ack'] },
+      { type: 'CommentDeleted', finished: true }
+    ]).subscribe(update => {
+      if (update.type === 'CommentPatched') {
+        if (update.updates.includes('ack')) {
+          this.isModerationComment = !this.isModerationComment;
+          if (!this.roomDataService.canAccessModerator) {
+            this.onNoComment();
+          }
+        }
+      } else if (update.type === 'CommentDeleted') {
+        this.onNoComment();
       }
+    });
+    if (!this.isStudent) {
+      this.commentService.highlight(this.comment).subscribe();
     }
+  }
+
+  private onNoComment() {
+    this.translateService.get('comment-page.no-comment')
+      .subscribe(msg => this.notificationService.show(msg));
+    this.goBackToCommentList();
+  }
+
+  private initNavigation() {
+    this._list = this.composeService.builder(this.headerService.getHost(), e => {
+      e.menuItem({
+        translate: this.headerService.getTranslate(),
+        icon: 'forum',
+        class: 'material-icons-outlined',
+        text: 'header.back-to-questionboard',
+        callback: () => {
+          let role = 'participant';
+          if (this.userRole === UserRole.CREATOR) {
+            role = 'creator';
+          } else if (this.userRole > UserRole.PARTICIPANT) {
+            role = 'moderator';
+          }
+          this.router.navigate([role + '/room/' + this.room?.shortId + '/comments']);
+        },
+        condition: () => true
+      });
+    });
   }
 }

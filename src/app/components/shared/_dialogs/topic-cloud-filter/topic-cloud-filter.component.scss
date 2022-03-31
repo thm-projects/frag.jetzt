@@ -27,11 +27,13 @@ mat-radio-group {
 }
 
 .comment_tag-icon {
-  height: 18px !important;
+  font-size: 16px;
+  height: unset;
+  width: unset;
 }
 
 .mat-dialog-content {
-  padding: 0px 15px;
+  padding: 0;
   margin: 0;
 }
 
@@ -46,23 +48,19 @@ mat-radio-group {
   color: var(--on-secondary);
 }
 
-.brainstorm-container {
-  background-color: var(--surface);
-  margin-top: 10px;
-
-  > mat-form-field {
-    width: 100%;
-  }
-}
-
 .help-button {
-  background-color: var(--secondary);
-  color: var(--on-secondary);
-  margin-top: 1rem;
+  background-color: transparent;
+  color: var(--green);
+  outline: var(--green) solid 3px;
+  margin: 10px;
+
+  &:hover {
+    background-color: var(--green);
+    color: var(--black);
+  }
 
   .mat-icon {
     font-size: 18px;
-    margin-top: 3px;
   }
 }
 

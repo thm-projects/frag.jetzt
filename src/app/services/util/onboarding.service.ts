@@ -36,10 +36,9 @@ export class OnboardingService {
               private langService: LanguageService,
               private deviceInfo: DeviceInfoService) {
     this._finishedTours = new BehaviorSubject<string[]>([]);
-    this.langService.langEmitter.subscribe(lang => {
+    this.langService.getLanguage().subscribe(lang => {
       this.translateService.use(lang);
     });
-    this.translateService.use(localStorage.getItem('currentLang'));
   }
 
   onFinishTour(name = 'default'): Observable<any> {
@@ -145,10 +144,6 @@ export class OnboardingService {
       state: 'running',
       step: step.number
     }));
-    const container: HTMLElement = document.querySelector('.joyride-step__holder');
-    if (container.style.position === 'fixed') {
-      container.classList.add('center');
-    }
     if (!this._activeTour.tourActions) {
       return;
     }

@@ -1,38 +1,42 @@
 export const arsnova = {
 
-  '--primary': '#073a52',
-  '--primary-variant': 'LightGoldenrodYellow',
+  '--primary': 'darkblue',
+  '--primary-variant': 'aliceblue',
 
-  '--secondary': 'maroon',
+  '--secondary': 'darkcyan',
   '--secondary-variant': 'lightgreen',
 
-  '--background': 'Moccasin',
-  '--surface': 'LightGoldenrodYellow',
-  '--dialog': 'Navajowhite',
-  '--cancel': 'Firebrick',
+  '--background': 'AliceBlue',
+  '--surface': 'mintcream',
+  '--dialog': 'aliceblue',
+  '--cancel': 'red',
   '--alt-surface': '#eeeeee',
-  '--alt-dialog': 'Moccasin',
+  '--alt-dialog': 'aliceblue',
 
-  '--on-primary': '#fafad2',
-  '--on-secondary': '#fafad2',
+  '--on-primary': 'white',
+  '--on-secondary': 'white',
   '--on-primary-variant': '#000000',
   '--on-background': '#000000',
   '--on-surface': '#000000',
   '--on-dialog': '#000000',
-  '--on-cancel': '#ffffff',
+  '--on-cancel': 'white',
 
   '--green': 'green',
   '--red': 'red',
   '--white': '#ffffff',
-  '--yellow': 'red',
+  '--yellow': 'darkorange',
   '--blue': '#002878',
-  '--purple': '#9c27b0',
+  '--purple': 'purple',
   '--magenta': '#ea0a8e',
   '--light-green': 'lightgreen',
   '--grey': 'slategrey',
   '--grey-light': '#EEEEEE',
   '--black': '#000000',
-  '--moderator': 'lightsalmon'
+  '--moderator': 'lightpink',
+
+  '--questionwall-intro-primary': 'darkorange',
+  '--questionwall-intro-secondary': 'white',
+  '--questionwall-intro-background': '#121212'
 
 };
 
@@ -49,6 +53,7 @@ export const arsnova_meta = {
   order: 3,
   scale_desktop: 1,
   scale_mobile: 1,
-  previewColor: 'background'
+  previewColor: 'background',
+  icon: 'light'
 
 };

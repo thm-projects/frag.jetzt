@@ -9,9 +9,9 @@ export abstract class AbstractVote {
   protected constructor(type: string, userId: string, commentId: string, vote: number) {
     this.type = type;
     this.payload = {
-      userId: userId,
-      commentId: commentId,
-      vote: vote
+      userId,
+      commentId,
+      vote
     };
   }
 }

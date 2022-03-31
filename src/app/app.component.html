@@ -16,16 +16,16 @@
     <app-footer></app-footer>
   </footer>
   <div class="rescale_overlay" id="overlay_rescale" aria-hidden="true">
-    <button mat-icon-button (click)="getRescale().toggleState()" title="Exit">
+    <button mat-icon-button (click)="getRescale().toggleState()" matTooltip="{{ 'header.zoom-exit' | translate}}">
       <mat-icon>close_fullscreen</mat-icon>
     </button>
-    <button mat-icon-button (click)="getRescale().scaleUp()" title="Zoom +">
+    <button mat-icon-button (click)="getRescale().scaleUp()" matTooltip="{{ 'header.zoom-plus' | translate}}">
       <mat-icon>zoom_in</mat-icon>
     </button>
-    <button mat-icon-button (click)="getRescale().scaleDown()" title="Zoom -">
+    <button mat-icon-button (click)="getRescale().scaleDown()" matTooltip="{{ 'header.zoom-minus' | translate}}">
       <mat-icon>zoom_out</mat-icon>
     </button>
-    <button mat-icon-button (click)="getRescale().scaleUndo()" title="Reset Zoom">
+    <button mat-icon-button (click)="getRescale().scaleUndo()" matTooltip="{{ 'header.zoom-reset' | translate}}">
       <mat-icon>undo</mat-icon>
     </button>
   </div>

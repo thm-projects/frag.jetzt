@@ -1,42 +1,50 @@
-
 <ars-row>
-  <h2 tabindex="0" style="padding:0;margin:0 0 20px 0;">
+  <h2 tabindex="0"
+      style="padding:0;margin:0 0 20px 0;">
     {{ 'footer.motd-title-main' | translate }}
   </h2>
-
 </ars-row>
-<mat-dialog-content class="container" ars-flex-box>
+
+<mat-dialog-content class="container"
+                    ars-flex-box>
   <ars-row ars-flex-box>
     <ars-col>
       <h4 class="container-title">{{ 'footer.motd-title-new' | translate }}</h4>
     </ars-col>
     <ars-fill></ars-fill>
     <ars-col class="align-center-y">
-      <button mat-flat-button (click)="markAllAsRead()">
+      <button mat-flat-button
+              class="mark_as_read"
+              (click)="markAllAsRead()">
         <span>{{ 'footer.motd-mark-all-read' | translate }}</span>
       </button>
     </ars-col>
   </ars-row>
-  <ars-row class="message" ars-flex-box>
+  <ars-row class="message"
+           ars-flex-box>
     <ng-container *ngFor="let message of motdsList.messages">
-      <app-motd-message *ngIf="!message.isRead && message.isNew" [message]="message"></app-motd-message>
+      <app-motd-message *ngIf="!message.isRead && message.isNew"
+                        [message]="message"></app-motd-message>
     </ng-container>
   </ars-row>
   <ars-row>
     <h4 class="container-title">{{ 'footer.motd-title-old' | translate }}</h4>
   </ars-row>
-  <ars-row class="message" ars-flex-box>
+  <ars-row class="message"
+           ars-flex-box>
     <ng-container *ngFor="let message of motdsList.messages">
-      <app-motd-message *ngIf="message.isRead || !message.isNew" [message]="message"></app-motd-message>
+      <app-motd-message *ngIf="message.isRead || !message.isNew"
+                        [message]="message"></app-motd-message>
     </ng-container>
   </ars-row>
   <ars-row [height]="32"></ars-row>
   <ars-fill></ars-fill>
 </mat-dialog-content>
+
 <ars-row>
   <app-dialog-action-buttons
     buttonsLabelSection="imprint"
     [cancelButtonClickAction]="buildDeclineActionCallback()"
-  [spacing]="false">
+    [spacing]="false">
   </app-dialog-action-buttons>
 </ars-row>

@@ -171,7 +171,11 @@ export class ImportExportManager {
       }
     }
     if (lastIndex < value.length) {
-      arr.push(unescape(value.substring(lastIndex)));
+      let lastStr = unescape(value.substring(lastIndex));
+      if (!lastStr.endsWith('\n')) {
+        lastStr += '\n';
+      }
+      arr.push(lastStr);
     }
     return JSON.stringify(arr);
   }
@@ -183,7 +187,7 @@ export class ImportExportManager {
     const verify = (str: string) => str.replace(/{/g, '{{').replace(/}/g, '}}');
     const hardVerify = (str: string) => str.replace(/\\/g, '\\\\')
       .replace(/{/g, '\\{').replace(/}/g, '\\}');
-    return JSON.parse(value).reduce((acc, e) => {
+    const result = JSON.parse(value).reduce((acc, e) => {
       if (typeof e === 'string') {
         return acc + verify(e);
       } else if (typeof e['insert'] === 'string') {
@@ -202,6 +206,7 @@ export class ImportExportManager {
       }
       return acc;
     }, '');
+    return result.endsWith('\n') ? result.substr(0, result.length - 1) : result;
   }
 
   private static deserializeQuillAttributes(count: number, last: number, objStr: string): [any, string] {
@@ -357,43 +362,49 @@ export class ImportExportManager {
           return;
         }
         const key = this.unescape(line[0]);
-        let value;
-        switch (item.type) {
-          case 'value':
-            value = this.unescape(line[1]);
-            if (item.valueMapper) {
-              value = item.valueMapper.import(this.buildMappingObject(key, trans, item.additionalLanguageKeys), value);
-            }
-            result.push(value);
-            break;
-          case 'values':
-            value = line.slice(1).map(e => this.unescape(e));
-            if (item.valueMapper) {
-              value = item.valueMapper.import(this.buildMappingObject(key, trans, item.additionalLanguageKeys), value);
-            }
-            result.push(value);
-            break;
-          case 'table':
-            const cols = line.map((e, i) =>
-              this.buildMappingObject(this.unescape(e), trans, item.columns[i].additionalLanguageKeys));
-            const data = [];
-            let dataLine: string[];
-            while ((dataLine = parser.readNextLine()) !== null) {
-              if (dataLine.length < item.columns.length) {
-                break;
-              }
-              data.push(item.columns.reduce((acc, col, i) =>
-                col.valueMapper.import(cols[i], this.unescape(dataLine[i]), acc), null));
-            }
-            result.push(data);
-            break;
-          default:
-            console.error('Discarded data on input (missing structure): ' + line);
-            break;
-        }
+        this.readWithStructuredItemType(item, line, key, trans, parser, result);
       });
       return result;
     }));
+  }
+
+  private readWithStructuredItemType(
+    item: ExportStructureItem, line: string[], key: string, translateObject: any, parser: CSVParser, result: any[]
+  ) {
+    let value;
+    switch (item.type) {
+      case 'value':
+        value = this.unescape(line[1]);
+        if (item.valueMapper) {
+          value = item.valueMapper.import(this.buildMappingObject(key, translateObject, item.additionalLanguageKeys), value);
+        }
+        result.push(value);
+        break;
+      case 'values':
+        value = line.slice(1).map(e => this.unescape(e));
+        if (item.valueMapper) {
+          value = item.valueMapper.import(this.buildMappingObject(key, translateObject, item.additionalLanguageKeys), value);
+        }
+        result.push(value);
+        break;
+      case 'table':
+        const cols = line.map((e, i) =>
+          this.buildMappingObject(this.unescape(e), translateObject, item.columns[i].additionalLanguageKeys));
+        const data = [];
+        let dataLine: string[];
+        while ((dataLine = parser.readNextLine()) !== null) {
+          if (dataLine.length < item.columns.length) {
+            break;
+          }
+          data.push(item.columns.reduce((acc, col, i) =>
+            col.valueMapper.import(cols[i], this.unescape(dataLine[i]), acc), null));
+        }
+        result.push(data);
+        break;
+      default:
+        console.error('Discarded data on input (missing structure): ' + line);
+        break;
+    }
   }
 
   private unescape(value: string): string {

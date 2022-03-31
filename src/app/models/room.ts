@@ -1,3 +1,5 @@
+import { BrainstormingSession } from './brainstorming-session';
+
 export class Room {
   id: string;
   revision: string;
@@ -15,7 +17,13 @@ export class Room {
   questionsBlocked: boolean;
   profanityFilter: ProfanityFilter;
   blacklistIsActive: boolean;
+  brainstormingSession: BrainstormingSession;
   tagCloudSettings: string;
+  moderatorRoomReference: string;
+  conversationDepth: number;
+  createdAt: Date;
+  updatedAt: Date;
+  lastVisitCreator: Date;
 
   constructor(
     ownerId: string = '',
@@ -30,9 +38,12 @@ export class Room {
     threshold: number = null,
     tags: string[] = [],
     questionsBlocked: boolean = false,
-    profanityFilter: ProfanityFilter = ProfanityFilter.none,
+    profanityFilter: ProfanityFilter = ProfanityFilter.NONE,
     blacklistIsActive: boolean = true,
-    tagCloudSettings: string = null
+    brainstormingSession: BrainstormingSession = null,
+    tagCloudSettings: string = null,
+    moderatorRoomReference: string = null,
+    conversationDepth: number = 0,
   ) {
     this.id = '';
     this.ownerId = ownerId;
@@ -49,14 +60,20 @@ export class Room {
     this.questionsBlocked = questionsBlocked;
     this.profanityFilter = profanityFilter;
     this.blacklistIsActive = blacklistIsActive;
+    this.brainstormingSession = brainstormingSession;
     this.tagCloudSettings = tagCloudSettings;
+    this.moderatorRoomReference = moderatorRoomReference;
+    this.createdAt = new Date();
+    this.updatedAt = null;
+    this.lastVisitCreator = new Date();
+    this.conversationDepth = conversationDepth;
   }
 }
 
 export enum ProfanityFilter {
-  all = 'ALL',
-  languageSpecific = 'LANGUAGE_SPECIFIC',
-  partialWords = 'PARTIAL_WORDS',
-  none = 'NONE',
-  deactivated = 'DEACTIVATED'
+  ALL = 'ALL',
+  LANGUAGE_SPECIFIC = 'LANGUAGE_SPECIFIC',
+  PARTIAL_WORDS = 'PARTIAL_WORDS',
+  NONE = 'NONE',
+  DEACTIVATED = 'DEACTIVATED'
 }

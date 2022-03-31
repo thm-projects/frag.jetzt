@@ -5,6 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { RoomService } from '../../../../services/http/room.service';
 import { Room } from '../../../../models/room';
 import { WriteCommentComponent } from '../../../shared/write-comment/write-comment.component';
+import { CreateCommentKeywords } from '../../../../utils/create-comment-keywords';
 
 @Component({
   selector: 'app-room-description-settings',
@@ -16,9 +17,11 @@ export class RoomDescriptionSettingsComponent implements AfterViewInit {
   @ViewChild(WriteCommentComponent) writeComment: WriteCommentComponent;
   @Input() editRoom: Room;
 
-  constructor(public dialogRef: MatDialogRef<RoomCreatorPageComponent>,
-              public translationService: TranslateService,
-              protected roomService: RoomService) {
+  constructor(
+    public dialogRef: MatDialogRef<RoomCreatorPageComponent>,
+    public translationService: TranslateService,
+    protected roomService: RoomService
+  ) {
   }
 
 
@@ -32,12 +35,12 @@ export class RoomDescriptionSettingsComponent implements AfterViewInit {
     return () => this.dialogRef.close('abort');
   }
 
-  buildSaveActionCallback(): () => void {
-    return () => this.save();
+  buildSaveActionCallback(): (data: string) => void {
+    return (data) => this.save(data);
   }
 
-  save(): void {
-    this.editRoom.description = this.writeComment.commentData.currentData;
+  save(data: string): void {
+    this.editRoom.description = CreateCommentKeywords.transformURLtoQuill(data, true);
     this.roomService.updateRoom(this.editRoom).subscribe(r => this.editRoom = r);
     this.dialogRef.close('update');
   }

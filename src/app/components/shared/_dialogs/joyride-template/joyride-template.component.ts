@@ -28,13 +28,12 @@ export class JoyrideTemplateComponent implements OnInit {
               private router: Router,
               private translateService: TranslateService,
               private onboardingService: OnboardingService) {
-    this.langService.langEmitter.subscribe(lang => {
+    this.langService.getLanguage().subscribe(lang => {
       this.translateService.use(lang);
     });
   }
 
   ngOnInit(): void {
-    this.translateService.use(localStorage.getItem('currentLang'));
     this.translateService.get(`joyride.${this.name}Title`).subscribe(translation => this.title = translation);
     this.translateService.get(`joyride.${this.name}`).subscribe(translation => this.text = translation);
   }

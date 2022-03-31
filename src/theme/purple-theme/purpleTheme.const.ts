@@ -24,7 +24,7 @@ export const purple = {
   '--green': 'green',
   '--red': 'red',
   '--white': '#ffffff',
-  '--yellow': 'red',
+  '--yellow': 'gold',
   '--blue': 'blue',
   '--purple': 'purple',
   '--magenta': '#ea0a8e',
@@ -34,14 +34,18 @@ export const purple = {
   '--black': 'black',
   '--moderator': 'lightsalmon',
 
+  '--questionwall-intro-primary':'darkorange',
+  '--questionwall-intro-secondary':'#eadabf',
+  '--questionwall-intro-background':'#121212'
+
 };
 
 export const purple_meta = {
 
   translation: {
     name: {
-      en: 'Lecture room',
-      de: 'Hörsaal',
+      en: 'Scaled mode',
+      de: 'Skaliert',
     },
   },
   isDark: false,
@@ -50,5 +54,6 @@ export const purple_meta = {
   scale_desktop: 1.5,
   scale_mobile: 1,
   previewColor: 'background',
+  icon: 'open_in_full'
 
 };

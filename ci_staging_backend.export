@@ -1,0 +1,8 @@
+export WS_GATEWAY_WS_ADDRESS=wss://staging.frag.jetzt/api/ws/websocket
+export WS_GATEWAY_WS_REWRITE=^/api/ws/websocket
+export WS_GATEWAY_WS_ORIGIN=https://staging.frag.jetzt
+export WS_GATEWAY_HTTP_ADDRESS=https://staging.frag.jetzt/api/roomsubscription
+export WS_GATEWAY_HTTP_REWRITE=^/api/roomsubscription
+export BACKEND_ADDRESS=https://staging.frag.jetzt/api
+export BACKEND_SECURE=true
+export BACKEND_CHANGE_ORIGIN=true
