@@ -7,7 +7,7 @@
     "please-one": "Please select an answer.",
     "sent": "Answer sent",
     "submit": "Submit",
-    "your-answer": "Your answer"
+    "your-answer": "Enter your answer …"
   },
   "room-export": {
     "no-comments": "There are no entries yet.",
@@ -231,6 +231,7 @@
     "search-box-input-description": "Here you can search for questions.",
     "send": "Send",
     "send-description": "Send question",
+    "your-answer": "Enter your answer …",
     "tag": "Category",
     "tag-reset": "none",
     "tag-title": "Change category",
@@ -411,16 +412,16 @@
     "tooltip-placeholder-image": "Image address must begin with https://...",
     "tooltip-label-video": "Enter video URL ...",
     "tooltip-placeholder-video": "Video address must begin with https://...",
-    "tooltip-label-formula": "Enter a formula, for example …",
+    "tooltip-label-formula": "Enter a KaTeX formula, for example …",
     "tooltip-placeholder-formula": "We support the KaTeX formula set.",
     "tooltip-toolbar-bold": "Bold",
     "tooltip-toolbar-unordered-list": "Bullet list",
     "tooltip-toolbar-ordered-list": "Numbered list",
     "tooltip-toolbar-blockquote": "Cite",
-    "tooltip-toolbar-link": "Create link",
+    "tooltip-toolbar-link": "Link selected text",
     "tooltip-toolbar-code": "Mark as source code",
     "tooltip-toolbar-formula": "Insert formula",
-    "tooltip-toolbar-emote": "Insert emote"
+    "tooltip-toolbar-emote": "Insert emoji"
   },
   "tag-cloud": {
     "demo-data-topic": "Topic %d",

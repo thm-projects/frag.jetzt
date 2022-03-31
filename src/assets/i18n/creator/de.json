@@ -221,7 +221,7 @@
     "abort": "Abbrechen",
     "ask-question-description": "Gib hier deine Frage ans Publikum ein!",
     "acknowledge": "Setzt die Frage zurück auf die öffentliche Liste",
-    "your-answer": "Antwort",
+    "your-answer": "Gib deine Antwort ein …",
     "no-comment": "Der Kommentar existiert nicht!",
     "answer": "Frage kommentieren",
     "save-answer": "Speichern",
@@ -442,7 +442,7 @@
     "tooltip-placeholder-image": "Die Bild-Adresse muss mit https://… beginnen.",
     "tooltip-label-video": "Video-URL eingeben …",
     "tooltip-placeholder-video": "Die Video-Adresse muss mit https://… beginnen.",
-    "tooltip-label-formula": "Gib eine Formel ein, zum Beispiel …",
+    "tooltip-label-formula": "Gib eine KaTeX-Formel ein, zum Beispiel …",
     "tooltip-placeholder-formula": "Wir unterstützen den KaTeX-Formelsatz.",
     "tooltip-toolbar-bold": "Fett",
     "tooltip-toolbar-color": "Schriftfarbe",
@@ -450,12 +450,12 @@
     "tooltip-toolbar-unordered-list": "Aufzählungsliste",
     "tooltip-toolbar-ordered-list": "Nummerierte Liste",
     "tooltip-toolbar-blockquote": "Zitieren",
-    "tooltip-toolbar-link": "Link erstellen",
+    "tooltip-toolbar-link": "Markierten Text verlinken",
     "tooltip-toolbar-image": "Bild einfügen",
     "tooltip-toolbar-video": "Video einfügen",
-    "tooltip-toolbar-code": "Als Quellcode kennzeichnen",
+    "tooltip-toolbar-code": "Als Quellcode auszeichnen",
     "tooltip-toolbar-formula": "Formel einfügen",
-    "tooltip-toolbar-emote": "Emote einfügen"
+    "tooltip-toolbar-emote": "Emoji einfügen"
   },
   "moderators-dialog": {
     "title": "Gast- & Dauermoderatoren",
