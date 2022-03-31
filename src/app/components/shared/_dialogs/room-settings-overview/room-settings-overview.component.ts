@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ProfanityFilter, Room } from '../../../../models/room';
 import { ExplanationDialogComponent } from '../explanation-dialog/explanation-dialog.component';
-import { RoomService } from '../../../../services/http/room.service';
+import { RoomPatch, RoomService } from '../../../../services/http/room.service';
 import { TranslateService } from '@ngx-translate/core';
 import { NotificationService } from '../../../../services/util/notification.service';
 
@@ -14,6 +14,7 @@ import { NotificationService } from '../../../../services/util/notification.serv
 export class RoomSettingsOverviewComponent implements OnInit {
 
   @Input() room: Readonly<Room>;
+  @Input() awaitComplete = false;
   directSend: boolean;
   conversationEnabled: boolean;
   profanityFilter: ProfanityFilter;
@@ -40,24 +41,33 @@ export class RoomSettingsOverviewComponent implements OnInit {
   }
 
   onConfirm() {
-    this.roomService.patchRoom(this.room.id, {
+    const update: RoomPatch = {
       directSend: this.directSend,
       conversationDepth: this.conversationEnabled ? 7 : 0,
       profanityFilter: this.profanityFilter,
       bonusArchiveActive: this.bonusArchiveEnabled,
       quizActive: this.quizEnabled,
       brainstormingActive: this.brainstormingEnabled,
-    }).subscribe({
+    };
+    this.roomService.patchRoom(this.room.id, update).subscribe({
       next: () => {
-        this.translateService.get('room-page.changes-successful')
+        this.translateService.get('room-settings-overview.changes-successful')
           .subscribe(msg => this.notificationService.show(msg));
+        if (this.awaitComplete) {
+          this.dialogRef.close(update);
+        }
       },
       error: () => {
-        this.translateService.get('room-page.changes-gone-wrong')
+        this.translateService.get('room-settings-overview.changes-gone-wrong')
           .subscribe(msg => this.notificationService.show(msg));
+        if (this.awaitComplete) {
+          this.dialogRef.close({});
+        }
       }
     });
-    this.dialogRef.close();
+    if (!this.awaitComplete) {
+      this.dialogRef.close(update);
+    }
   }
 
   onCancel() {

@@ -26,6 +26,7 @@ import {
 import { CommentNotificationService } from '../../../services/http/comment-notification.service';
 import { BonusTokenComponent } from '../../creator/_dialogs/bonus-token/bonus-token.component';
 import { UserBonusTokenComponent } from '../../participant/_dialogs/user-bonus-token/user-bonus-token.component';
+import { RoomSettingsOverviewComponent } from '../_dialogs/room-settings-overview/room-settings-overview.component';
 
 type SortFunc<T> = (a: T, b: T) => number;
 
@@ -269,6 +270,22 @@ export class RoomListComponent implements OnInit, OnDestroy {
       width: '400px'
     });
     dialogRef.componentInstance.room = room;
+  }
+
+  openRoomSettingsOverview(room: Room) {
+    console.assert(room['role'] > UserRole.PARTICIPANT);
+    const ref = this.dialog.open(RoomSettingsOverviewComponent, {
+      width: '600px',
+    });
+    ref.componentInstance.room = room;
+    ref.componentInstance.awaitComplete = true;
+    ref.afterClosed().subscribe(data => {
+      if (typeof data === 'object') {
+        for (const key of Object.keys(data)) {
+          room[key] = data[key];
+        }
+      }
+    });
   }
 
   openMyBonusTokens() {

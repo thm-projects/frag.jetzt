@@ -151,8 +151,8 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   }
 
   getTime(time: Date) {
-    const hh = ('0' + time.getHours()).substr(-2);
-    const mm = ('0' + time.getMinutes()).substr(-2);
+    const hh = String(time.getHours()).padStart(2, '0');
+    const mm = String(time.getMinutes()).padStart(2, '0');
     this.cTime = hh + ':' + mm;
   }
 

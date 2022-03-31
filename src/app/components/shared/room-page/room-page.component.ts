@@ -45,7 +45,6 @@ import {
   CommentNotificationDialogComponent
 } from '../_dialogs/comment-notification-dialog/comment-notification-dialog.component';
 import { ToggleConversationComponent } from '../../creator/_dialogs/toggle-conversation/toggle-conversation.component';
-import { RoomSettingsOverviewComponent } from '../_dialogs/room-settings-overview/room-settings-overview.component';
 
 @Component({
   selector: 'app-room-page',
@@ -111,10 +110,6 @@ export class RoomPageComponent implements OnInit, OnDestroy {
     this.preRoomLoadHook().subscribe(() => {
       this.sessionService.getRoomOnce().subscribe(room => {
         this.room = room;
-        const ref = this.dialog.open(RoomSettingsOverviewComponent, {
-          width: '600px',
-        });
-        ref.componentInstance.room = this.room;
         this.isLoading = false;
         this.moderationEnabled = !this.room.directSend;
         const roomSub = this.sessionService.receiveRoomUpdates().subscribe(updRoom => {

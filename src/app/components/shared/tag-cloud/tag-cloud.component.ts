@@ -385,7 +385,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
       }
       let filteredTag = maskKeyword(tag);
       if (this.brainstormingActive && filteredTag.length > this.brainstormingData.maxWordLength) {
-        filteredTag = filteredTag.substr(0, this.brainstormingData.maxWordLength - 1) + '…';
+        filteredTag = filteredTag.substring(0, this.brainstormingData.maxWordLength - 1) + '…';
       }
       newElements.push(new TagComment(filteredTag, tag, rotation, tagData.weight, tagData, newElements.length));
     }
