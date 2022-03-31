@@ -141,6 +141,7 @@
                 *ngIf="(!isStudent)">
           <mat-icon
             [matTooltip]="('comment-page.option-menue' | translate)"
+            [matTooltipPosition]="'right'"
             class="not-marked">
             more_vert
           </mat-icon>
@@ -197,7 +198,7 @@
               matTooltip="{{
         ('comment-page.upvote' | translate) + ' ' + comment.upvotes + ' ' +
         ('comment-page.downvote' | translate) + ' ' + comment.downvotes
-        }}">{{comment.score}}</span>
+        }}" [matTooltipPosition]="'right'">{{comment.score}}</span>
       </div>
     </div>
     <ars-row ars-flex-box
@@ -292,7 +293,8 @@
               attr.aria-labelledby="comment_moderation{{ comment.id }}">
         <mat-icon class="gavel material-icons-round"
                   [matTooltip]="!comment.ack ? ('comment-page.acknowledge' | translate)
-                                                        : ('comment-page.reject' | translate)">gavel
+                                                        : ('comment-page.reject' | translate)"
+                  [matTooltipPosition]="'right'">gavel
         </mat-icon>
       </button>
     </div>
@@ -380,6 +382,7 @@
           (click)="voteUp(comment)"
           *ngIf="!disabled && user && comment.creatorId !== user.id"
           matTooltip="{{ 'comment-page.vote-up' | translate }}"
+          [matTooltipPosition]="'right'"
           tabindex="0"
           [disabled]="!user || comment.creatorId === user.id"
           attr.aria-labelledby="comment_vote_up{{ comment.id }}">
@@ -391,11 +394,13 @@
         matTooltip="{{
         ('comment-page.upvote' | translate) + ' ' + comment.upvotes + ' ' +
         ('comment-page.downvote' | translate) + ' ' + comment.downvotes
-        }}">{{comment.score}}</span>
+        }}"
+        [matTooltipPosition]="'right'">{{comment.score}}</span>
   <button mat-icon-button
           (click)="voteDown(comment)"
           *ngIf="!disabled && user && comment.creatorId !== user.id"
           matTooltip="{{ 'comment-page.vote-down' | translate }}"
+          [matTooltipPosition]="'right'"
           tabindex="0"
           attr.aria-labelledby="comment_vote_down{{ comment.id }}">
     <mat-icon class="voting-icon material-icons-outlined"
@@ -447,7 +452,8 @@
             tabindex="0"
             attr.aria-labelledby="comment_grade{{ comment.id }}">
       <mat-icon class="material-icons-round not-marked"
-                [matTooltip]="getTranslationForBonus('mark-favorite') | translate">
+                [matTooltip]="getTranslationForBonus('mark-favorite') | translate"
+                [matTooltipPosition]="'right'">
         grade
       </mat-icon>
     </button>
@@ -457,7 +463,8 @@
             tabindex="0"
             attr.aria-labelledby="comment_grade{{ comment.id }}">
       <mat-icon class="not-marked"
-                [matTooltip]="'comment-page.mark-bookmark' | translate">
+                [matTooltip]="'comment-page.mark-bookmark' | translate"
+                [matTooltipPosition]="'right'">
         bookmark
       </mat-icon>
     </button>
