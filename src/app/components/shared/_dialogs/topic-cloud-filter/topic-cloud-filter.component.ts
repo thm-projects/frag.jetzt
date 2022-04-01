@@ -120,9 +120,9 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
     const mods = new Set<string>(this.sessionService.currentModerators.map(m => m.accountId));
     DataFilterObject.filterOnce(new RoomDataFilter(null), this.roomDataService,
       this.authenticationService, this.sessionService).subscribe(result => {
-      this.allComments = this.getCommentCounts(result.comments, blacklist, room.blacklistIsActive, room.ownerId, mods);
+      this.allComments = this.getCommentCounts(result.comments, blacklist, room.blacklistActive, room.ownerId, mods);
     });
-    this.filteredComments = this.getCommentCounts(currentComments, blacklist, room.blacklistIsActive, room.ownerId, mods);
+    this.filteredComments = this.getCommentCounts(currentComments, blacklist, room.blacklistActive, room.ownerId, mods);
     if (isNew) {
       this.hasNoKeywords = TopicCloudFilterComponent.isUpdatable(this.roomDataService.getCurrentRoomData(false),
         this.userRole, room.id);

@@ -4,13 +4,15 @@ import { ProfanityFilter, Room } from '../../../../models/room';
 import { UserRole } from '../../../../models/user-roles.enum';
 import { Router } from '@angular/router';
 import { NotificationService } from '../../../../services/util/notification.service';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { AuthenticationService } from '../../../../services/http/authentication.service';
 import { TranslateService } from '@ngx-translate/core';
 import { User } from '../../../../models/user';
 import { defaultCategories } from '../../../../utils/defaultCategories';
 import { FormControl, Validators } from '@angular/forms';
 import { LanguageService } from '../../../../services/util/language.service';
+import { SessionService } from '../../../../services/util/session.service';
+import { RoomSettingsOverviewComponent } from '../room-settings-overview/room-settings-overview.component';
 
 const invalidRegex = /[^A-Z0-9_\-.~]+/gi;
 
@@ -47,6 +49,8 @@ export class RoomCreateComponent implements OnInit {
     private authenticationService: AuthenticationService,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private languageService: LanguageService,
+    private sessionService: SessionService,
+    private dialog: MatDialog,
   ) {
     this.languageService.getLanguage().subscribe(lang => this.translateService.use(lang));
   }
@@ -108,6 +112,10 @@ export class RoomCreateComponent implements OnInit {
     newRoom.tags = defaultCategories[this.languageService.currentLanguage()] || defaultCategories.default;
     newRoom.profanityFilter = ProfanityFilter.NONE;
     newRoom.shortId = this.hasCustomShortId ? this.roomShortIdFormControl.value : undefined;
+    newRoom.conversationDepth = 7;
+    newRoom.brainstormingActive = true;
+    newRoom.quizActive = true;
+    newRoom.bonusArchiveActive = true;
     this.roomService.addRoom(newRoom, () => {
       this.shortIdAlreadyUsed = true;
       this.roomShortIdFormControl.updateValueAndValidity();
@@ -118,7 +126,14 @@ export class RoomCreateComponent implements OnInit {
         .subscribe(msg => this.notification.show(msg));
       this.authenticationService.setAccess(room.shortId, UserRole.CREATOR);
       this.authenticationService.assignRole(UserRole.CREATOR);
-      this.router.navigate(['/creator/room/' + encodeURIComponent(room.shortId)]);
+      this.router.navigate(['/creator/room/' + encodeURIComponent(room.shortId)]).then(() => {
+        this.sessionService.getRoomOnce().subscribe(enteredRoom => {
+          const ref = this.dialog.open(RoomSettingsOverviewComponent, {
+            width: '600px',
+          });
+          ref.componentInstance.room = enteredRoom;
+        });
+      });
       this.closeDialog();
     });
   }

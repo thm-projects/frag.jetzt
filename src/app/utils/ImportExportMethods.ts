@@ -509,15 +509,11 @@ const generateCommentCreatorIds = (observer: Observable<ImportQuestionsResult>,
 
 const importRoomSettings = (value: ImportQuestionsResult,
                             roomService: RoomService,
-                            roomId: string): Observable<ImportQuestionsResult> => roomService.getRoom(roomId)
-  .pipe(
-    mergeMap(room => {
-      room.name = value[0];
-      room.description = value[3];
-      room.tags = value[4];
-      return roomService.updateRoom(room).pipe(map(_ => value));
-    })
-  );
+                            roomId: string): Observable<ImportQuestionsResult> => roomService.patchRoom(roomId, {
+  name: value[0],
+  description: value[3],
+  tags: value[4],
+}).pipe(map(_ => value));
 
 const ALLOWED_FIELDS: (keyof Comment)[] = [
   'body', 'favorite', 'bookmark', 'correct', 'ack', 'tag', 'keywordsFromSpacy', 'keywordsFromQuestioner', 'language'

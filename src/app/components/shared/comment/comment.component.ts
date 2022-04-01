@@ -270,6 +270,10 @@ export class CommentComponent implements OnInit, AfterViewInit {
 
   setFavorite(comment: Comment): void {
     if (this.comment.favorite) {
+      if (!this.room?.bonusArchiveActive) {
+        this.commentService.toggleFavorite(comment).subscribe();
+        return;
+      }
       const dialogRef = this.dialog.open(BonusDeleteComponent, {
         width: '400px'
       });
@@ -284,7 +288,9 @@ export class CommentComponent implements OnInit, AfterViewInit {
         });
     } else {
       this.commentService.toggleFavorite(comment).subscribe(c => {
-        this.notifyFavorite(c);
+        if (this.room?.bonusArchiveActive) {
+          this.notifyFavorite(c);
+        }
       });
     }
   }
@@ -532,6 +538,10 @@ export class CommentComponent implements OnInit, AfterViewInit {
 
   getPrettyCommentNumber(): string[] {
     return this._commentNumber;
+  }
+
+  getTranslationForBonus(message: string) {
+    return `comment-page.${message}${!this.room?.bonusArchiveActive ? '-disabled-bonus' : ''}`;
   }
 
   private generateCommentNumber() {

@@ -20,7 +20,6 @@ export class RoomServiceMock extends RoomService {
 
   private static readonly _roomMock = {
     id: '',
-    revision: null,
     ownerId: '',
     shortId: '',
     abbreviation: '00000000',
@@ -41,6 +40,11 @@ export class RoomServiceMock extends RoomService {
     createdAt: new Date(),
     updatedAt: null,
     lastVisitCreator: new Date(),
+    bonusArchiveActive: true,
+    quizActive: true,
+    brainstormingActive: true,
+    conversationDepth: 7,
+    blacklistActive: true,
   } as Readonly<Room>;
 
   rooms: Readonly<Room>[] = [];

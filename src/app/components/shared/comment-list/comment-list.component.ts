@@ -67,7 +67,6 @@ export class CommentListComponent implements OnInit, OnDestroy {
   scrollExtended = false;
   search = false;
   searchPlaceholder = '';
-  moderationEnabled = true;
   directSend = true;
   newestComment: string;
   freeze = false;
@@ -399,7 +398,8 @@ export class CommentListComponent implements OnInit, OnDestroy {
 
   private onCommentPatched(update: UpdateInformation) {
     if (update.subtype === 'favorite') {
-      if (this.user.id === update.comment.creatorId && this.userRole === UserRole.PARTICIPANT) {
+      if (this.user.id === update.comment.creatorId && this.userRole === UserRole.PARTICIPANT &&
+        this.room?.bonusArchiveActive) {
         const text = update.comment.favorite ? 'comment-list.question-was-marked-with-a-star' :
           'comment-list.star-was-withdrawn-from-the-question';
         this.translateService.get(text).subscribe(ret => this.notificationService.show(ret));
@@ -409,7 +409,6 @@ export class CommentListComponent implements OnInit, OnDestroy {
 
   private receiveRoom(room: Room) {
     this.room = room;
-    this.moderationEnabled = room.moderated;
     this.directSend = room.directSend;
     this.commentsEnabled = (this.userRole > UserRole.PARTICIPANT) || !room.questionsBlocked;
   }
@@ -483,7 +482,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
         class: 'material-icons-outlined',
         text: 'header.brainstorming',
         callback: () => this.headerService.getHeaderComponent().navigateBrainstorming(),
-        condition: () => this.deviceInfo.isCurrentlyMobile &&
+        condition: () => this.deviceInfo.isCurrentlyMobile && this.room?.brainstormingActive &&
           (!!this.room?.brainstormingSession || this.userRole > UserRole.PARTICIPANT)
       });
       e.menuItem({
@@ -492,7 +491,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
         class: 'material-icons-outlined',
         text: 'header.quiz-now',
         callback: () => this.router.navigate(['quiz']),
-        condition: () => this.deviceInfo.isCurrentlyMobile
+        condition: () => this.deviceInfo.isCurrentlyMobile && this.room?.quizActive
       });
       e.menuItem({
         translate: this.headerService.getTranslate(),
@@ -501,7 +500,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
         iconColor: Palette.YELLOW,
         text: 'header.bonustoken',
         callback: () => this.showBonusTokenDialog(),
-        condition: () => this.userRole > UserRole.PARTICIPANT
+        condition: () => this.userRole > UserRole.PARTICIPANT && this.room?.bonusArchiveActive
       });
       e.menuItem({
         translate: this.headerService.getTranslate(),

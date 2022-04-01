@@ -112,6 +112,11 @@ export class RoomPageComponent implements OnInit, OnDestroy {
         this.room = room;
         this.isLoading = false;
         this.moderationEnabled = !this.room.directSend;
+        const roomSub = this.sessionService.receiveRoomUpdates().subscribe(updRoom => {
+          this.moderationEnabled = !updRoom.directSend;
+          this.updateResponseCounter();
+        });
+        this.onDestroyListener.subscribe(() => roomSub.unsubscribe());
         this.updateResponseCounter();
         const sub = this.roomDataService.receiveUpdates([
           { type: 'CommentCreated', finished: true },
@@ -213,11 +218,12 @@ export class RoomPageComponent implements OnInit, OnDestroy {
       width: '600px',
       data: { conversationDepth: this.room.conversationDepth, directSend: this.room.directSend }
     });
+    dialogRef.componentInstance.editorRoom = this.room;
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
       if (typeof result === 'number') {
-        this.room.conversationDepth = result;
-        this.roomService.updateRoom(this.room).subscribe();
+        this.roomService.patchRoom(this.room.id, {
+          conversationDepth: result,
+        }).subscribe();
       }
     });
   }
@@ -285,21 +291,15 @@ export class RoomPageComponent implements OnInit, OnDestroy {
 
   showCommentsDialog(): void {
     console.assert(this.userRole > UserRole.PARTICIPANT);
-    const updRoom = JSON.parse(JSON.stringify(this.room));
-
     const dialogRef = this.dialog.open(CommentSettingsComponent, {
       width: '400px'
     });
-    dialogRef.componentInstance.roomId = this.room.id;
-    dialogRef.componentInstance.editRoom = updRoom;
+    dialogRef.componentInstance.editRoom = this.room;
     dialogRef.afterClosed().subscribe(result => {
       if (result === 'abort') {
         return;
-      } else {
-        if (result instanceof CommentSettingsDialog) {
-          this.updateCommentSettings(result);
-          this.saveChanges(updRoom);
-        }
+      } else if (result instanceof CommentSettingsDialog) {
+        this.saveChanges({ threshold: result.threshold, directSend: result.directSend });
       }
     });
     dialogRef.backdropClick().subscribe(res => {
@@ -307,46 +307,28 @@ export class RoomPageComponent implements OnInit, OnDestroy {
     });
   }
 
-  updateCommentSettings(settings: CommentSettingsDialog) {
-    this.room.tags = settings.tags;
-    this.moderationEnabled = !settings.directSend;
-  }
-
   showTagsDialog(): void {
     console.assert(this.userRole > UserRole.PARTICIPANT);
-    const updRoom = JSON.parse(JSON.stringify(this.room));
     const dialogRef = this.dialog.open(TagsComponent, {
       width: '400px'
     });
-    let tags = [];
-    if (this.room.tags !== undefined) {
-      tags = this.room.tags;
-    }
-
-    dialogRef.componentInstance.tags = tags;
+    const tags = [...(this.room.tags || [])];
     const tagsBefore = [...tags];
+    dialogRef.componentInstance.tags = tags;
     dialogRef.afterClosed().subscribe(result => {
       if (!result || result === 'abort' || !this.hasTagChanges(tagsBefore, result)) {
         return;
       } else {
-        updRoom.tags = result;
-        this.saveChanges(updRoom);
+        this.saveChanges({ tags: result });
       }
     });
   }
 
-  hasTagChanges(before: any, after: any): boolean {
-    let changes = false;
+  hasTagChanges(before: string[], after: string[]): boolean {
     if (before.length !== after.length) {
-      changes = true;
-    } else {
-      before.forEach((tag, index) => {
-        if (tag !== after[index]) {
-          changes = true;
-        }
-      });
+      return true;
     }
-    return changes;
+    return before.some(tag => !after.includes(tag));
   }
 
   toggleProfanityFilter() {
@@ -364,10 +346,9 @@ export class RoomPageComponent implements OnInit, OnDestroy {
   protected postRoomLoadHook() {
   }
 
-  protected saveChanges(updRoom: Room) {
-    this.roomService.updateRoom(updRoom).subscribe({
+  protected saveChanges(data: Partial<Room>) {
+    this.roomService.patchRoom(this.room.id, data).subscribe({
       next: (room) => {
-        this.room = room;
         this.translateService.get('room-page.changes-successful').subscribe(msg => {
           this.notificationService.show(msg);
         });
@@ -386,7 +367,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
       { roomId: this.room.id, ack: false }
     ]).subscribe(commentCounter => {
       this.setCommentCounter(commentCounter[0].questionCount, commentCounter[0].responseCount);
-      if (this.moderationEnabled && this.userRole > UserRole.PARTICIPANT) {
+      if (!this.room.directSend && this.userRole > UserRole.PARTICIPANT) {
         this.moderatorCommentCounter = commentCounter[1].questionCount;
         this.moderatorResponseCounter = commentCounter[1].responseCount;
       }
@@ -429,7 +410,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
         iconColor: Palette.YELLOW,
         text: 'header.bonustoken',
         callback: () => this.showBonusTokenDialog(),
-        condition: () => this.userRole > UserRole.PARTICIPANT
+        condition: () => this.userRole > UserRole.PARTICIPANT && this.room?.bonusArchiveActive
       });
       e.menuItem({
         translate: this.headerService.getTranslate(),
@@ -494,16 +475,14 @@ export class RoomPageComponent implements OnInit, OnDestroy {
         ArsObserver.build<boolean>(ev => {
           ev.set(this.room.questionsBlocked);
           ev.onChange(a => {
-            this.room.questionsBlocked = a.get();
-            this.roomService.updateRoom(this.room).subscribe();
+            this.roomService.patchRoom(this.room.id, { questionsBlocked: a.get() }).subscribe();
             if (a.get()) {
               this.headerService.getTranslate().get('header.questions-blocked').subscribe(msg => {
                 this.headerService.getNotificationService().show(msg);
               });
             }
           });
-        })
-        ,
+        }),
         () => this.userRole > UserRole.PARTICIPANT
       );
       e.menuItem({

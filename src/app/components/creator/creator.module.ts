@@ -5,7 +5,6 @@ import { RoomCreatorPageComponent } from './room-creator-page/room-creator-page.
 import { EssentialsModule } from '../essentials/essentials.module';
 import { ModeratorModule } from '../moderator/moderator.module';
 import { RoomDeleteComponent } from './_dialogs/room-delete/room-delete.component';
-import { RoomEditComponent } from './_dialogs/room-edit/room-edit.component';
 import { SharedModule } from '../shared/shared.module';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
@@ -56,7 +55,6 @@ export const HttpLoaderFactory = (http: HttpClient) => new TranslateHttpLoader(h
   declarations: [
     RoomCreatorPageComponent,
     RoomDeleteComponent,
-    RoomEditComponent,
     ModeratorsComponent,
     BonusTokenComponent,
     CommentSettingsComponent,
