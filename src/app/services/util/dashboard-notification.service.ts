@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { NotificationEvent } from '../../models/dashboard-notification';
-import { CommentChange, CommentChangeType } from '../../models/comment-change';
+import { CommentChange, CommentChangeRole, CommentChangeType } from '../../models/comment-change';
 import { WsCommentChangeService } from '../websockets/ws-comment-change.service';
 import {
   CommentChangeService,
@@ -29,6 +29,20 @@ interface IdSubscriptionMapper<T> {
   };
 }
 
+export enum DashboardFilter {
+  QuestionPublished = 'QuestionPublished',
+  QuestionMarkedWithStar = 'QuestionMarkedWithStar',
+  CommentMarkedWithStar = 'CommentMarkedWithStar',
+  QuestionAnswered = 'QuestionAnswered',
+  QuestionAffirmed = 'QuestionAffirmed',
+  QuestionNegated = 'QuestionNegated',
+  QuestionCommented = 'QuestionCommented',
+  QuestionBanned = 'QuestionBanned',
+  QuestionDeleted = 'QuestionDeleted',
+}
+
+type DashboardFilterObject = { [key in DashboardFilter]: (events: NotificationEvent[]) => NotificationEvent[] };
+
 @Injectable({
   providedIn: 'root'
 })
@@ -43,7 +57,30 @@ export class DashboardNotificationService {
   private _commentSubscriptions: IdSubscriptionMapper<CommentChangeSubscription> = {};
   private _roomSubscriptions: IdSubscriptionMapper<RoomCommentChangeSubscription> = {};
   private _activeFilter: (notifications: NotificationEvent[]) => NotificationEvent[];
+  private _activeFilterName: DashboardFilter;
   private _initialized = false;
+  private readonly filterObject: DashboardFilterObject = {
+    [DashboardFilter.CommentMarkedWithStar]: events =>
+      events.filter(e => e.isAnswer && e.type === CommentChangeType.CHANGE_FAVORITE && e.currentValueString === '1'),
+    [DashboardFilter.QuestionMarkedWithStar]: events =>
+      events.filter(e => !e.isAnswer && e.type === CommentChangeType.CHANGE_FAVORITE && e.currentValueString === '1'),
+    [DashboardFilter.QuestionAffirmed]: events =>
+      events.filter(e => !e.isAnswer && e.type === CommentChangeType.CHANGE_CORRECT && e.currentValueString === '1'),
+    [DashboardFilter.QuestionAnswered]: events =>
+      events.filter(e => !e.isAnswer && e.type === CommentChangeType.ANSWERED &&
+        [CommentChangeRole.CREATOR, CommentChangeRole.EXECUTIVE_MODERATOR, CommentChangeRole.EDITING_MODERATOR].includes(e.initiatorRole)),
+    [DashboardFilter.QuestionBanned]: events =>
+      events.filter(e => !e.isAnswer && e.type === CommentChangeType.CHANGE_ACK && e.currentValueString === '0'),
+    [DashboardFilter.QuestionDeleted]: events =>
+      events.filter(e => !e.isAnswer && e.type === CommentChangeType.DELETED),
+    [DashboardFilter.QuestionCommented]: events =>
+      events.filter(e => !e.isAnswer && e.type === CommentChangeType.ANSWERED &&
+        [CommentChangeRole.PARTICIPANT].includes(e.initiatorRole)),
+    [DashboardFilter.QuestionNegated]: events =>
+      events.filter(e => !e.isAnswer && e.type === CommentChangeType.CHANGE_CORRECT && e.currentValueString === '2'),
+    [DashboardFilter.QuestionPublished]: events =>
+      events.filter(e => !e.isAnswer && e.type === CommentChangeType.CHANGE_ACK && e.currentValueString === '1'),
+  };
 
   constructor(
     private wsCommentChangeService: WsCommentChangeService,
@@ -161,12 +198,23 @@ export class DashboardNotificationService {
     return this._roomNotifications;
   }
 
-  filterNotifications(type: CommentChangeType) {
+  getActiveFilter(): DashboardFilter {
+    return this._activeFilterName;
+  }
+
+  reset() {
     this._filteredNotifications.length = 0;
-    if (!Object.keys(CommentChangeType).includes(type)) {
+    this._activeFilterName = null;
+    this._activeFilter = null;
+  }
+
+  filterNotifications(type: DashboardFilter) {
+    this._filteredNotifications.length = 0;
+    if (!DashboardFilter[type]) {
       throw new Error('invalid filter argument');
     }
-    this._activeFilter = notifications => notifications.filter(n => n.type === type);
+    this._activeFilterName = type;
+    this._activeFilter = this.filterObject[type];
     this._filteredNotifications.push(...this._activeFilter(this.getList()));
   }
 
@@ -183,12 +231,6 @@ export class DashboardNotificationService {
     if (secondIndex >= 0) {
       elements[1].splice(secondIndex, 1);
     }
-  }
-
-  filterByString(str: string) {
-    this._filteredNotifications.length = 0;
-    this._activeFilter = notifications => notifications.filter(n => n.commentNumber === str);
-    this._filteredNotifications.push(...this._activeFilter(this.getList()));
   }
 
   private pushNotification(message: IMessage) {
