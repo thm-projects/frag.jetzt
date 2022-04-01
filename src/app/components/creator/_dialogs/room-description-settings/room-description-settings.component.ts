@@ -15,7 +15,7 @@ import { CreateCommentKeywords } from '../../../../utils/create-comment-keywords
 export class RoomDescriptionSettingsComponent implements AfterViewInit {
 
   @ViewChild(WriteCommentComponent) writeComment: WriteCommentComponent;
-  @Input() editRoom: Room;
+  @Input() editRoom: Readonly<Room>;
 
   constructor(
     public dialogRef: MatDialogRef<RoomCreatorPageComponent>,
@@ -40,8 +40,9 @@ export class RoomDescriptionSettingsComponent implements AfterViewInit {
   }
 
   save(data: string): void {
-    this.editRoom.description = CreateCommentKeywords.transformURLtoQuill(data, true);
-    this.roomService.updateRoom(this.editRoom).subscribe(r => this.editRoom = r);
+    this.roomService.patchRoom(this.editRoom.id, {
+      description: CreateCommentKeywords.transformURLtoQuill(data, true),
+    }).subscribe();
     this.dialogRef.close('update');
   }
 

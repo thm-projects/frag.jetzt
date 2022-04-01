@@ -1,6 +1,5 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { RoomCreatorPageComponent } from '../../room-creator-page/room-creator-page.component';
 import { NotificationService } from '../../../../services/util/notification.service';
 import { TranslateService } from '@ngx-translate/core';
 import { RoomService } from '../../../../services/http/room.service';
@@ -15,20 +14,22 @@ import { ProfanityFilter, Room } from '../../../../models/room';
 })
 export class ProfanitySettingsComponent implements OnInit {
 
-  editRoom: Room;
+  @Input() editRoom: Readonly<Room>;
   check = false;
   profanityCheck: boolean;
   censorPartialWordsCheck: boolean;
   censorLanguageSpecificCheck: boolean;
 
-  constructor(public dialogRef: MatDialogRef<RoomCreatorPageComponent>,
-              public dialog: MatDialog,
-              public notificationService: NotificationService,
-              public translationService: TranslateService,
-              protected roomService: RoomService,
-              public router: Router,
-              public eventService: EventService,
-              @Inject(MAT_DIALOG_DATA) public data: any) {
+  constructor(
+    public dialogRef: MatDialogRef<ProfanitySettingsComponent>,
+    public dialog: MatDialog,
+    public notificationService: NotificationService,
+    public translationService: TranslateService,
+    protected roomService: RoomService,
+    public router: Router,
+    public eventService: EventService,
+    @Inject(MAT_DIALOG_DATA) public data: any
+  ) {
   }
 
   ngOnInit() {
@@ -69,17 +70,21 @@ export class ProfanitySettingsComponent implements OnInit {
   }
 
   save(): void {
-    this.editRoom.questionsBlocked = this.check;
-    this.editRoom.profanityFilter = this.profanityCheck ? ProfanityFilter.NONE : ProfanityFilter.DEACTIVATED;
+    let profanityFilter: ProfanityFilter;
     if (this.profanityCheck) {
       if (this.censorLanguageSpecificCheck && this.censorPartialWordsCheck) {
-        this.editRoom.profanityFilter = ProfanityFilter.ALL;
+        profanityFilter = ProfanityFilter.ALL;
       } else {
-        this.editRoom.profanityFilter = this.censorLanguageSpecificCheck ? ProfanityFilter.LANGUAGE_SPECIFIC : ProfanityFilter.NONE;
-        this.editRoom.profanityFilter = this.censorPartialWordsCheck ? ProfanityFilter.PARTIAL_WORDS : this.editRoom.profanityFilter;
+        profanityFilter = this.censorLanguageSpecificCheck ? ProfanityFilter.LANGUAGE_SPECIFIC : ProfanityFilter.NONE;
+        profanityFilter = this.censorPartialWordsCheck ? ProfanityFilter.PARTIAL_WORDS : profanityFilter;
       }
+    } else {
+      profanityFilter = ProfanityFilter.DEACTIVATED;
     }
-    this.roomService.updateRoom(this.editRoom).subscribe();
+    this.roomService.patchRoom(this.editRoom.id, {
+      questionsBlocked: this.check,
+      profanityFilter
+    }).subscribe();
     this.closeDialog('update');
   }
 

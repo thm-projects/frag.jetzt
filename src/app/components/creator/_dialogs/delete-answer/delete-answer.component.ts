@@ -1,7 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { DialogConfirmActionButtonType } from '../../../shared/dialog/dialog-action-buttons/dialog-action-buttons.component';
+import {
+  DialogConfirmActionButtonType
+} from '../../../shared/dialog/dialog-action-buttons/dialog-action-buttons.component';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { RoomEditComponent } from '../room-edit/room-edit.component';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -14,10 +15,13 @@ export class DeleteAnswerComponent implements OnInit {
 
   confirmButtonType: DialogConfirmActionButtonType = DialogConfirmActionButtonType.Alert;
 
-  constructor(public dialogRef: MatDialogRef<RoomEditComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: any,
-              private liveAnnouncer: LiveAnnouncer,
-              private translationService: TranslateService ) { }
+  constructor(
+    public dialogRef: MatDialogRef<DeleteAnswerComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private liveAnnouncer: LiveAnnouncer,
+    private translationService: TranslateService
+  ) {
+  }
 
   ngOnInit() {
     this.translationService.get('comment-page.really-delete-answer').subscribe(msg => {

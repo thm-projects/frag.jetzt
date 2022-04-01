@@ -57,7 +57,6 @@ export class DashboardNotificationService {
     this.authenticationService.watchUser.pipe(filter(v => !!v)).subscribe(user => {
       if (user.id === this._lastUser) {
         if (!this._initialized) {
-          this._initialized = true;
           this.setup();
         }
         return;
@@ -204,7 +203,7 @@ export class DashboardNotificationService {
     };
     this._notifications.unshift(notification);
     if (commentChange.createdAt > this._lastChanges) {
-      this._lastChanges = commentChange.createdAt;
+      this._lastChanges = new Date(commentChange.createdAt.getTime() + 1);
     }
     if (this._activeFilter) {
       this._filteredNotifications.unshift(this._activeFilter([notification]));
@@ -228,6 +227,7 @@ export class DashboardNotificationService {
   }
 
   private setup() {
+    this._initialized = true;
     this.commentChangeService.findAllChangesSince(this._lastChanges).subscribe(changes => {
       changes.forEach(change => {
         change.createdAt = new Date(change.createdAt);

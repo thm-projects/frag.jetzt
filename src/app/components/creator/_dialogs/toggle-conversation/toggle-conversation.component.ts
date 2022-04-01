@@ -1,9 +1,9 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { CommentSettingsComponent } from '../comment-settings/comment-settings.component';
+import { Component, Input, OnInit } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
 import {
   DialogConfirmActionButtonType
 } from '../../../shared/dialog/dialog-action-buttons/dialog-action-buttons.component';
+import { Room } from '../../../../models/room';
 
 @Component({
   selector: 'app-toggle-conversation',
@@ -11,18 +11,18 @@ import {
   styleUrls: ['./toggle-conversation.component.scss']
 })
 export class ToggleConversationComponent implements OnInit {
+  @Input() editorRoom: Readonly<Room>;
   confirmButtonType: DialogConfirmActionButtonType = DialogConfirmActionButtonType.Alert;
   newConversationDepth: number;
   conversationAllowed: boolean;
 
   constructor(
-    public dialogRef: MatDialogRef<CommentSettingsComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any,
+    public dialogRef: MatDialogRef<ToggleConversationComponent>,
   ) {
   }
 
   ngOnInit() {
-    this.newConversationDepth = this.data.conversationDepth;
+    this.newConversationDepth = this.editorRoom.conversationDepth;
     this.conversationAllowed = this.newConversationDepth !== 0;
   }
 

@@ -373,7 +373,7 @@ export class TagCloudDataService {
     const room = this.sessionService.currentRoom;
     const blacklist = room.blacklist ? JSON.parse(room.blacklist) : [];
     const [data, users] = TagCloudDataService.buildDataFromComments(room.ownerId,
-      new Set<string>(this.sessionService.currentModerators.map(m => m.accountId)), blacklist, room.blacklistIsActive,
+      new Set<string>(this.sessionService.currentModerators.map(m => m.accountId)), blacklist, room.blacklistActive,
       this._adminData, this._roomDataService, filteredComments.comments, this.isBrainstorming);
     let minWeight = null;
     let maxWeight = null;

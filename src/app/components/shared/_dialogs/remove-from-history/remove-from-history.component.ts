@@ -1,6 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { RoomEditComponent } from '../../../creator/_dialogs/room-edit/room-edit.component';
 import { DialogConfirmActionButtonType } from '../../dialog/dialog-action-buttons/dialog-action-buttons.component';
 import { UserRole } from '../../../../models/user-roles.enum';
 
@@ -16,8 +15,11 @@ export class RemoveFromHistoryComponent implements OnInit {
   roomName: string;
   role: UserRole;
 
-  constructor(public dialogRef: MatDialogRef<RoomEditComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: any) { }
+  constructor(
+    public dialogRef: MatDialogRef<RemoveFromHistoryComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any
+  ) {
+  }
 
   ngOnInit() {
   }

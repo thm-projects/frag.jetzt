@@ -220,6 +220,7 @@
     "mark-bookmark": "Bookmark",
     "mark-not-correct": "Marked as correct",
     "mark-not-favorite": "The post was found to be good. If it is your post, click on the star to get a bonus.",
+    "mark-not-favorite-disabled-bonus": "The question is marked with a star so that everyone notices it.",
     "mark-not-bookmark": "Bookmark",
     "mark-not-wrong": "Marked as wrong",
     "mark-read": "Already discussed by the presenter",

@@ -207,6 +207,12 @@
               </button>
               <button mat-menu-item
                       *ngIf="room.role > 0"
+                      (click)="openRoomSettingsOverview(room)">
+                <mat-icon class="settings material-icons-round">room_preferences</mat-icon>
+                <span class="delete-text">{{ 'room-list.settings-overview' | translate }}</span>
+              </button>
+              <button mat-menu-item
+                      *ngIf="room.role > 0 && room.bonusArchiveActive"
                       (click)="openBonusTokens(room)">
                 <mat-icon class="star material-icons-round">grade</mat-icon>
                 <span class="delete-text">{{ 'header.bonustoken' | translate }}</span>

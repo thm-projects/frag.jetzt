@@ -140,6 +140,7 @@ import {ToggleConversationComponent} from '../creator/_dialogs/toggle-conversati
 import { DashboardComponent } from './_dialogs/dashboard/dashboard.component';
 import { DashboardDialogComponent } from './_dialogs/dashboard-dialog/dashboard-dialog.component';
 import { DeleteAllNotificationsComponent } from './_dialogs/delete-all-notifications/delete-all-notifications.component';
+import { RoomSettingsOverviewComponent } from './_dialogs/room-settings-overview/room-settings-overview.component';
 
 @NgModule({
   imports: [
@@ -232,7 +233,8 @@ import { DeleteAllNotificationsComponent } from './_dialogs/delete-all-notificat
     ToggleConversationComponent,
     DashboardComponent,
     DashboardDialogComponent,
-    DeleteAllNotificationsComponent
+    DeleteAllNotificationsComponent,
+    RoomSettingsOverviewComponent
   ],
     exports: [
         RoomJoinComponent,
