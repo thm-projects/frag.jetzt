@@ -127,11 +127,11 @@ export class RoomCreateComponent implements OnInit {
       this.authenticationService.setAccess(room.shortId, UserRole.CREATOR);
       this.authenticationService.assignRole(UserRole.CREATOR);
       this.router.navigate(['/creator/room/' + encodeURIComponent(room.shortId)]).then(() => {
-        this.sessionService.getRoomOnce().subscribe(room => {
+        this.sessionService.getRoomOnce().subscribe(enteredRoom => {
           const ref = this.dialog.open(RoomSettingsOverviewComponent, {
             width: '600px',
           });
-          ref.componentInstance.room = room;
+          ref.componentInstance.room = enteredRoom;
         });
       });
       this.closeDialog();
