@@ -67,6 +67,7 @@ export class FooterComponent implements OnInit {
     public change: DashboardNotificationService
   ) {
     langService.getLanguage().subscribe(lang => translateService.use(lang));
+    this.authenticationService.watchUser.subscribe(user => this.user = user);
   }
 
   get tourSite() {

@@ -20,7 +20,7 @@ import { AuthenticationService } from '../../../services/http/authentication.ser
 import { TitleService } from '../../../services/util/title.service';
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
 import { CreateCommentWrapper } from '../../../utils/create-comment-wrapper';
-import { RoomDataService, UpdateInformation } from '../../../services/util/room-data.service';
+import { CommentWithMeta, RoomDataService, UpdateInformation } from '../../../services/util/room-data.service';
 import { OnboardingService } from '../../../services/util/onboarding.service';
 import { PageEvent } from '@angular/material/paginator';
 import { ViewCommentDataComponent } from '../view-comment-data/view-comment-data.component';
@@ -57,7 +57,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
   @ViewChild('filterMenuTrigger') filterMenuTrigger: MatMenuTrigger;
   user: User;
   AppComponent = AppComponent;
-  comments: Comment[] = [];
+  comments: CommentWithMeta[] = [];
   commentsFilteredByTimeLength: number;
   room: Room;
   userRole: UserRole;
@@ -244,7 +244,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
       this.setFocusedComment(localStorage.getItem('answeringQuestion'));
       this.isJoyrideActive = this.onboardingService.startDefaultTour();
     }
-    const allComments = this.roomDataService.getCurrentRoomData();
+    const allComments = this.roomDataService.getCurrentRoomData().filter(c => c.commentReference === null);
     this._allQuestionNumberOptions = allComments.map(c => c.number).sort(numberSorter).map(c => String(c));
     const value = this.questionNumberFormControl.value || '';
     this.questionNumberOptions = this._allQuestionNumberOptions.filter(e => e.startsWith(value));

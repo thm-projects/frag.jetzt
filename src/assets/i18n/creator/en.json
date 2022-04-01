@@ -93,6 +93,7 @@
     "a11y-check_circle": "Filters all questions marked as correct",
     "a11y-close": "Picks up all filters",
     "a11y-close_search": "Closes the search of questions",
+    "a11y-conversation": "Filter after conversations",
     "a11y-filter_list": "Option to filter questions",
     "a11y-grade": "Filters all bonus questions",
     "a11y-moderator": "Filters all moderator questions",
@@ -133,6 +134,7 @@
     "filter-unanswered": "Not answered",
     "filter-comments": "Filter questions",
     "filter-correct": "Affirmed questions",
+    "filter-conversation": "Conversations",
     "filter-favorite": "Marked for a bonus",
     "filter-bookmark": "Bookmarked questions",
     "filter-not_bookmarked": "Not bookmarked",
@@ -419,10 +421,33 @@
     "add-moderators": "## Moderators \n\nGuest and permanent moderators have the same rights as the creator of the room. But they can't delete questions or the whole room. \n\nEveryone can be added as a **permanent moderator** with their **mail address** with which they registered at »frag.jetzt«. \n\nAn unregistered user can become a **guest moderator** by entering the room via **direct link** or 8-digit **access code**.",
     "room-settings-overview": "## Room settings \n\nHere you can see all the settings of the room in a simplified overview. \n\nYou can also make changes later in the options menu of the room."
   },
+  "header": {
+    "overview-question-tooltip": "Number of questions",
+    "overview-questioners-tooltip": "Number of questioners",
+    "overview-keywords-tooltip": "Number of Keywords"
+  },
+  "topic-cloud-filter": {
+    "info-no-keywords": "Our AI-based text analysis can identify keywords. Start analysis?",
+    "label-refresh-keywords-start": "Start"
+  },
   "home-page": {
     "create-session": "New session",
     "created": "The room for the session »{{longRoomName}}« has been created.",
     "no-empty-name": "Please enter a name."
+  },
+  "joyride": {
+    "next": "Next",
+    "prev": "Back",
+    "step": "{{step}} / {{total}}",
+    "done": "Finish",
+    "createQuestion": "With the plus button you call the editor. An AI suggests keywords for your question. These are used to create a word cloud from the keywords of all the questions in the session.",
+    "createQuestionTitle": "You are now in the feedback room",
+    "voting": "The audience can rate questions up or down, indicating their interest in answering a question or their agreement or disagreement with it. The rating difference is displayed.",
+    "votingTitle": "Rate a question",
+    "commentFilter": "There are numerous sorting and filtering options for the Q&A list. An active filter is shown in red. For better readability, the question stream can also be paused if it is very dynamic.",
+    "commentFilterTitle": "Manage Q&A list",
+    "commentUserNumber": "Click on the pin icon, and you will see all the questions of this user.",
+    "commentUserNumberTitle": "Find all questions of a user"
   },
   "moderator-join": {
     "title": "Join as guest moderator",
@@ -525,6 +550,7 @@
     "delete-room": "Delete room",
     "delete-room-description": "Delete session",
     "deleted": " deleted.",
+    "deleted-error": "An error occurred!",
     "description": "Welcome text",
     "tab1": "Text",
     "export-comments": "Save Q&A",

@@ -54,6 +54,7 @@
     "a11y-check_circle": "Filters all questions marked as correct",
     "a11y-close": "Picks up all filters",
     "a11y-close_search": "Closes the search of questions",
+    "a11y-conversation": "Filter after conversations",
     "a11y-filter_list": "Option to filter questions",
     "a11y-grade": "Filters all bonus questions",
     "a11y-moderator": "Filters all moderator questions",
@@ -97,6 +98,7 @@
     "filter-unanswered": "Not answered",
     "filter-comments": "Filter questions",
     "filter-correct": "Affirmed questions",
+    "filter-conversation": "Conversations",
     "filter-favorite": "Marked for a bonus",
     "filter-bookmark": "Bookmarked questions",
     "filter-not_bookmarked": "Not bookmarked",
@@ -294,6 +296,15 @@
     "topic-cloud": "## Topic cloud\n\nThe topic cloud visualizes the distribution of the keywords. These were determined by grammatical analysis of the nouns in the question text or explicitly assigned to the question by the author. \n\n The calculation of the font size includes:\n\n* the difference between up- and down-votes, if it is positive\n* the number of questions with this keyword\n* the number of questioners with this keyword.\n* the role of the questioner: room creator, moderator or participant \n* whether the questioner has selected a question category\n* whether the keyword was generated or assigned by the question poser\n* whether the question was answered by the room creator or a moderator\n* the controversy of the question  \n\n The topic cloud serves as a **navigator** to all questions related to a selected keyword: If you click on a word in the cloud, you will get to the questions related to this keyword. \n\nThe room creator can customize the appearance of the topic cloud in the options according to his wishes. He can also experiment with the keyword generation parameters to optimize the **semantic selectivity**.",
     "user-bonus": "The teacher can mark »good« questions for a bonus. Your questions from all courses (rooms) that have received a star will be listed here.\n\nDepending on the agreement, you can email the token of the star to the teacher to redeem it for a bonus.",
     "brainstorming": "## Lorem ipsum \n\nLorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,\nmolestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum\nnumquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium\noptio, eaque rerum! Provident similique accusantium nemo autem."
+  },
+  "header": {
+    "overview-question-tooltip": "Number of questions",
+    "overview-questioners-tooltip": "Number of questioners",
+    "overview-keywords-tooltip": "Number of Keywords"
+  },
+  "topic-cloud-filter": {
+    "info-no-keywords": "Our AI-based text analysis can identify keywords. Start analysis?",
+    "label-refresh-keywords-start": "Start"
   },
   "home-page": {
     "exactly-8": "A key is a combination of 8 digits.",

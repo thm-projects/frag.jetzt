@@ -1,7 +1,7 @@
 import { Component, ComponentRef, EventEmitter, OnDestroy, OnInit } from '@angular/core';
 import { Room } from '../../../models/room';
 import { RoomService } from '../../../services/http/room.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { CommentService } from '../../../services/http/comment.service';
 import { EventService } from '../../../services/util/event.service';
@@ -84,6 +84,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
     protected authenticationService: AuthenticationService,
     protected sessionService: SessionService,
     protected roomDataService: RoomDataService,
+    protected router: Router,
   ) {
   }
 
@@ -136,11 +137,6 @@ export class RoomPageComponent implements OnInit, OnDestroy {
     this.commentCounter = commentCounter;
     this.responseCounter = responseCounter;
     this.commentCounterEmit.emit([this.commentCounter, responseCounter]);
-  }
-
-  delete(room: Room): void {
-    this.roomService.deleteRoom(room.id).subscribe();
-    this.location.back();
   }
 
   editSessionName() {
@@ -250,14 +246,22 @@ export class RoomPageComponent implements OnInit, OnDestroy {
 
   deleteRoom(): void {
     console.assert(this.userRole === UserRole.CREATOR);
-    this.translateService.get('room-page.deleted').subscribe(msg => {
-      this.notificationService.show(this.room.name + msg);
-    });
-    this.roomService.deleteRoom(this.room.id).subscribe(result => {
-      const event = new RoomDeleted(this.room.id);
-      this.eventService.broadcast(event.type, event.payload);
-      this.authenticationService.removeAccess(this.room.shortId);
-      this.location.back();
+    this.roomService.deleteRoom(this.room.id).subscribe({
+      next: () => {
+        const event = new RoomDeleted(this.room.id);
+        this.eventService.broadcast(event.type, event.payload);
+        this.authenticationService.removeAccess(this.room.shortId);
+        this.router.navigate(['/user']).then(() => {
+          this.translateService.get('room-page.deleted').subscribe(msg => {
+            this.notificationService.show(this.room.name + msg);
+          });
+        });
+      },
+      error: () => {
+        this.translateService.get('room-page.deleted-error').subscribe(msg => {
+          this.notificationService.show(msg);
+        });
+      }
     });
   }
 

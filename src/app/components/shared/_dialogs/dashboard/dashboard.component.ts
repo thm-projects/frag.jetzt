@@ -147,7 +147,7 @@ export class DashboardComponent implements OnInit {
 
   constructor(
     private _bottomSheetRef: MatBottomSheetRef<DashboardComponent>,
-    private languageService: LanguageService,
+    public languageService: LanguageService,
     private translationService: TranslateService,
     public http: HttpClient,
     public dialog: MatDialog,
@@ -235,10 +235,6 @@ export class DashboardComponent implements OnInit {
 
   getCommentNumbers(): string[] {
     return [...new Set<string>(this.change.getList(this.hasFilter).map(not => not.commentNumber))];
-  }
-
-  getRoomNames(): string[] {
-    return [...new Set<string>(this.change.getList(this.hasFilter).map(not => not.roomName))];
   }
 
   private updateLanguageKeys() {

@@ -17,7 +17,7 @@ import { UserRole } from '../../../models/user-roles.enum';
 import { Rescale } from '../../../models/rescale';
 import { RowComponent } from '../../../../../projects/ars/src/lib/components/layout/frame/row/row.component';
 import { User } from '../../../models/user';
-import { RoomDataService } from '../../../services/util/room-data.service';
+import { CommentWithMeta, RoomDataService } from '../../../services/util/room-data.service';
 import { SpacyKeyword } from '../../../services/http/spacy.service';
 import { UserBonusTokenComponent } from '../../participant/_dialogs/user-bonus-token/user-bonus-token.component';
 import { ViewCommentDataComponent } from '../view-comment-data/view-comment-data.component';
@@ -49,7 +49,7 @@ export class CommentComponent implements OnInit, AfterViewInit {
 
   static COMMENT_MAX_HEIGHT = 250;
 
-  @Input() comment: Comment;
+  @Input() comment: CommentWithMeta;
   @Input() isMock = false;
   @Input() moderator: boolean;
   @Input() userRole: UserRole;
@@ -86,7 +86,7 @@ export class CommentComponent implements OnInit, AfterViewInit {
   isProfanity = false;
   roomTags: string[];
   room: Room;
-  responses: Comment[] = [];
+  responses: CommentWithMeta[] = [];
   showResponses: boolean = false;
   isConversationView: boolean;
   sortMethod = 'Time';
@@ -236,14 +236,14 @@ export class CommentComponent implements OnInit, AfterViewInit {
 
   changeSlideState(): void {
     if (this.slideAnimationState === 'removed') {
-      if (this.comment?.meta?.removed) {
-        this.comment.meta.removed = undefined;
+      if (this.comment.meta.removed) {
+        this.comment.meta.removed = false;
       }
       return;
     }
     if (this.slideAnimationState === 'new') {
       if (this.comment?.meta?.created) {
-        this.comment.meta.created = undefined;
+        this.comment.meta.created = false;
       }
     }
     this.slideAnimationState = 'visible';
@@ -542,6 +542,22 @@ export class CommentComponent implements OnInit, AfterViewInit {
 
   getTranslationForBonus(message: string) {
     return `comment-page.${message}${!this.room?.bonusArchiveActive ? '-disabled-bonus' : ''}`;
+  }
+
+  ownsComment() {
+    return this.comment.creatorId === (this.user?.id || 'invalid');
+  }
+
+  hasOneAction(): boolean {
+    const keys = ['star', 'change-tag', 'delete'] as const;
+    return keys.some(key => this.canInteractWithAction(key));
+  }
+
+  canInteractWithAction(interaction: 'star' | 'change-tag' | 'delete'): boolean {
+    const hasPrivileges = !this.isStudent || this.ownsComment();
+    return (interaction === 'star' && !this.isStudent && !this.comment.favorite) ||
+      (interaction === 'change-tag' && this.roomTags?.length && hasPrivileges) ||
+      (interaction === 'delete' && hasPrivileges && !this.comment.favorite);
   }
 
   private generateCommentNumber() {

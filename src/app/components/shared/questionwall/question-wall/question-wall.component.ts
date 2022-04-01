@@ -442,7 +442,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
 
   onUpdateFiltering() {
     const result = this._filterObj.currentData;
-    this.comments = result.comments;
+    this.comments = result.comments.filter(c => c.commentReference === null);
     const filter = this._filterObj.filter;
     this.period = filter.period;
     this.isLoading = false;

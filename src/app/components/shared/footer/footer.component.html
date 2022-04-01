@@ -7,21 +7,24 @@
         <button
             class="focus_button"
             (click)="openDashboard()"
-            *ngIf="!router.url.endsWith('/home')"
+            [joyrideStep]="'dashboard'"
+            [stepPosition]="'center'"
+            appJoyrideTemplate
+            *ngIf="router.url.includes('/room/')"
             mat-button>
-        <span
-            class="material-icons-outlined"
-            matBadgeSize= "small"
-            matBadgePosition="above after"
-            [matBadge]="change.getList().length || 0"
-            [matBadgeHidden]="+change.getList().length < 1">
-            <mat-icon>
-            notifications
-            </mat-icon>
-        </span>
-            <span *ngIf="deviceInfo.isCurrentlyDesktop && router.url.endsWith('/home')">{{ "Dashboard" | translate }}</span>
+          <span
+              class="material-icons-outlined"
+              matBadgeSize= "small"
+              matBadgePosition="above after"
+              [matBadge]="change.getList().length || 0"
+              [matBadgeHidden]="+change.getList().length < 1">
+              <mat-icon>
+              notifications
+              </mat-icon>
+          </span>
+          <span *ngIf="deviceInfo.isCurrentlyDesktop && router.url.endsWith('/home')">{{ "Dashboard" | translate }}</span>
         </button>
-        <span *ngIf="!router.url.endsWith('/home')" class="fill-remaining-space"></span>
+        <span *ngIf="router.url.includes('/room/')" class="fill-remaining-space"></span>
         <button
             (click)="showDemo()"
             [joyrideStep]="'introduction'"
@@ -37,14 +40,14 @@
         </button>
         <button
             (click)="showCurrentTour()"
-            *ngIf="this.tourSite"
+            *ngIf="this.tourSite && (!this.user?.loginId || this.deviceInfo.isCurrentlyDesktop)"
             aria-labelledby="site-tour-label"
             class="focus_button"
             mat-button
         >
             <mat-icon class="material-icons-outlined">play_circle_filled</mat-icon>
         </button>
-        <span class="fill-remaining-space"></span>
+        <span *ngIf="!this.tourSite || (!this.user?.loginId || this.deviceInfo.isCurrentlyDesktop)" class="fill-remaining-space"></span>
         <button
             [matMenuTriggerFor]="themeMenu"
             aria-labelledby="style-label"
@@ -160,6 +163,16 @@
             <mat-icon class="material-icons-outlined">more_vert</mat-icon>
         </button>
         <mat-menu #menu="matMenu">
+          <button
+            mat-menu-item
+            (click)="showCurrentTour()"
+            *ngIf="this.tourSite && this.user?.loginId"
+            aria-labelledby="site-tour-label"
+            class="focus_button"
+          >
+            <mat-icon class="material-icons-outlined">play_circle_filled</mat-icon>
+            <span>{{ 'footer.demo' | translate }}</span>
+          </button>
             <button
                 mat-menu-item
                 (click)="showDataProtection()"

@@ -12,6 +12,7 @@ import { Observable, Subscription, tap, throwError } from 'rxjs';
 import { IMessage } from '@stomp/stompjs';
 import { AuthenticationService } from '../http/authentication.service';
 import { filter } from 'rxjs/operators';
+import { SessionService } from './session.service';
 
 const loadNotifications = (): NotificationEvent[] => {
   const arr = JSON.parse(localStorage.getItem('dashboard-notifications') || '[]') as NotificationEvent[];
@@ -37,7 +38,8 @@ export class DashboardNotificationService {
   private _lastChanges = new Date(Number(localStorage.getItem('dashboard-notification-time')));
   private _lastUser = localStorage.getItem('dashboard-notification-user');
   private _notifications = loadNotifications();
-  private _filteredNotifications = [];
+  private _filteredNotifications: NotificationEvent[] = [];
+  private _roomNotifications: NotificationEvent[] = [];
   private _commentSubscriptions: IdSubscriptionMapper<CommentChangeSubscription> = {};
   private _roomSubscriptions: IdSubscriptionMapper<RoomCommentChangeSubscription> = {};
   private _activeFilter: (notifications: NotificationEvent[]) => NotificationEvent[];
@@ -48,6 +50,7 @@ export class DashboardNotificationService {
     private commentChangeService: CommentChangeService,
     private unloadService: UnloadService,
     private authenticationService: AuthenticationService,
+    private sessionService: SessionService,
   ) {
     unloadService.onUnload().subscribe(() => {
       localStorage.setItem('dashboard-notification-time', String(this._lastChanges.getTime()));
@@ -64,6 +67,11 @@ export class DashboardNotificationService {
       this._lastUser = user.id;
       this.cleanup();
       this.setup();
+    });
+    this.sessionService.getRoom().subscribe(room => {
+      this._roomNotifications.length = 0;
+      this._roomNotifications.push(...this._notifications.filter(n => n.roomId === room?.id));
+      this._activeFilter = null;
     });
   }
 
@@ -142,13 +150,15 @@ export class DashboardNotificationService {
 
   deleteAll() {
     this._notifications.length = 0;
+    this._roomNotifications.length = 0;
+    this._filteredNotifications.length = 0;
   }
 
   getList(filteredData = false): NotificationEvent[] {
     if (filteredData) {
       return this._filteredNotifications;
     }
-    return this._notifications;
+    return this._roomNotifications;
   }
 
   filterNotifications(type: CommentChangeType) {
@@ -157,11 +167,11 @@ export class DashboardNotificationService {
       throw new Error('invalid filter argument');
     }
     this._activeFilter = notifications => notifications.filter(n => n.type === type);
-    this._filteredNotifications.push(this._activeFilter(this._notifications));
+    this._filteredNotifications.push(...this._activeFilter(this.getList()));
   }
 
   deleteElement(filtered: boolean, index: number) {
-    const elements = [this._notifications, this._filteredNotifications];
+    const elements = [this.getList(), this._filteredNotifications];
     if (filtered) {
       elements.reverse();
     }
@@ -175,11 +185,10 @@ export class DashboardNotificationService {
     }
   }
 
-  filterByString(str: string, mode: boolean) {
+  filterByString(str: string) {
     this._filteredNotifications.length = 0;
-    const elem = mode ? 'commentNr' : 'roomName';
-    this._activeFilter = notifications => notifications.filter(n => n[elem] === str);
-    this._filteredNotifications.push(this._activeFilter(this._notifications));
+    this._activeFilter = notifications => notifications.filter(n => n.commentNumber === str);
+    this._filteredNotifications.push(...this._activeFilter(this.getList()));
   }
 
   private pushNotification(message: IMessage) {
@@ -203,10 +212,14 @@ export class DashboardNotificationService {
     };
     this._notifications.unshift(notification);
     if (commentChange.createdAt > this._lastChanges) {
-      this._lastChanges = new Date(commentChange.createdAt.getTime() + 1);
+      this._lastChanges = commentChange.createdAt;
     }
+    if (this.sessionService.currentRoom?.id !== notification.roomId) {
+      return;
+    }
+    this._roomNotifications.unshift(notification);
     if (this._activeFilter) {
-      this._filteredNotifications.unshift(this._activeFilter([notification]));
+      this._filteredNotifications.unshift(...this._activeFilter([notification]));
     }
   }
 
@@ -232,6 +245,7 @@ export class DashboardNotificationService {
       changes.forEach(change => {
         change.createdAt = new Date(change.createdAt);
       });
+      changes = changes.filter(change => change.createdAt.getTime() > this._lastChanges.getTime());
       changes.sort((a, b) => Number(a.createdAt) - Number(b.createdAt));
       changes.forEach(change => this.pushCommentChange(change));
     });
