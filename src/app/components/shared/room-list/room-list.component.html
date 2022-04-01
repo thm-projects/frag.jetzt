@@ -183,7 +183,9 @@
               style="text-align: end; padding-right: 0"
               attr.aria-labelledby="empty">
             <button mat-icon-button
-                    [matMenuTriggerFor]="moreActions">
+                    [matMenuTriggerFor]="moreActions"
+                    [matTooltip]="('room-list.option-menu' | translate)"
+                    [matTooltipPosition]="'right'">
               <mat-icon>more_vert</mat-icon>
             </button>
             <mat-menu #moreActions="matMenu"

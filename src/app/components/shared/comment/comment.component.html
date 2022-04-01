@@ -473,7 +473,8 @@
             (click)="openChangeCommentTagDialog()"
             tabindex="0">
       <mat-icon class="not-marked"
-                [matTooltip]="'comment-page.edit-change-tag' | translate">
+                [matTooltip]="'comment-page.edit-change-tag' | translate"
+                [matTooltipPosition]="'right'">
         sell
       </mat-icon>
     </button>
@@ -483,7 +484,8 @@
             tabindex="0"
             attr.aria-labelledby="comment_delete{{ comment.id }}">
       <mat-icon class="not-marked material-icons-outlined"
-                [matTooltip]="'comment-page.delete-question' | translate">
+                [matTooltip]="'comment-page.delete-question' | translate"
+                [matTooltipPosition]="'right'">
         delete
       </mat-icon>
     </button>
