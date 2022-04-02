@@ -127,6 +127,7 @@ $header-size: 64px;
         line-height: 40px;
         background: var(--secondary);
         color: var(--on-secondary);
+        font-weight: normal;
       }
 
       .response-badge {
@@ -150,6 +151,7 @@ $header-size: 64px;
           background-color: var(--primary);
           color: var(--on-primary);
           font-size: 16px !important;
+          font-weight: normal;
           margin: 30px 0 0 10px;
         }
       }
