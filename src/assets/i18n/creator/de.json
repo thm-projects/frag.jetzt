@@ -92,6 +92,7 @@
     "a11y-check_circle": "Filtert alle bejahten Fragen",
     "a11y-close": "Hebt alle Filter auf",
     "a11y-close_search": "Schließt den Suchvorgang von Fragen",
+    "a11y-conversation": "Filtert nach Konversationen",
     "a11y-filter_list": "Option Fragen zu filtern",
     "a11y-grade": "Filtert alle Bonus Fragen",
     "a11y-moderator": "Filtert alle Fragen von Moderatoren",
@@ -132,6 +133,7 @@
     "filter-unanswered": "Unbeantwortete Fragen",
     "filter-comments": "Fragen filtern",
     "filter-correct": "Bejahte Fragen",
+    "filter-conversation": "Konversationen",
     "filter-favorite": "Markiert für Bonus",
     "filter-bookmark": "Lesezeichen",
     "filter-not_bookmarked": "Ohne Lesezeichen",
@@ -417,10 +419,33 @@
     "add-moderators": "## Moderatoren \n\nGast- und Dauermoderatoren haben die gleichen Rechte wie der Ersteller des Raums. Sie können aber weder Fragen noch den ganzen Raum löschen. \n\nJeder kann mit seiner **Mailadresse**, mit der er sich bei »frag.jetzt« registriert hat, als **Dauermoderator** aufgenommen werden. \n\nEin unregistrierter User kann zum **Gastmoderator** werden, wenn er den Raum per **Direktlink** oder 8-stelligen **Zugangscode** betritt.",
     "room-settings-overview": "## Raumeinstellungen \n\nHier siehst du alle Einstellungen des Raumes in der Übersicht. \n\nDu kannst Änderungen auch später im Optionen-Menü des Raumes vornehmen."
   },
+  "header": {
+    "overview-question-tooltip": "Anzahl Fragen",
+    "overview-questioners-tooltip": "Anzahl Fragensteller",
+    "overview-keywords-tooltip": "Anzahl Stichwörter"
+  },
+  "topic-cloud-filter": {
+    "info-no-keywords": "Unsere KI-basierte Textanalyse kann Stichwörter ermitteln. Analyse starten?",
+    "label-refresh-keywords-start": "Starten"
+  },
   "home-page": {
     "create-session": "Neue Sitzung",
     "created": "Der Raum für die Sitzung »{{longRoomName}}« wurde erstellt.",
     "no-empty-name": "Gib einen Namen ein. Der Raum-Code wird generiert."
+  },
+  "joyride": {
+    "next": "Weiter",
+    "prev": "Zurück",
+    "step": "{{step}} / {{total}}",
+    "done": "Fertig",
+    "createQuestion": "Mit dem Plus-Button rufst du den Editor auf. Eine KI schlägt dir Stichwörter für deine Frage vor. Diese dienen dem Erstellen einer Wortwolke aus den Stichwörtern aller Fragen der Veranstaltung.",
+    "createQuestionTitle": "Du bist jetzt im Feedback-Raum",
+    "voting": "Das Publikum kann Fragen auf- oder abwerten und so sein Interesse an einer Beantwortung der Frage oder seine Zustimmung oder Ablehnung bekunden. Angezeigt wird die Bewertungsdifferenz.",
+    "votingTitle": "Eine Frage bewerten",
+    "commentFilter": "Es gibt zahlreiche Sortier- und Filteroptionen für die Q&A-Liste. Ein aktiver Filter wird rot angezeigt. Für eine bessere Lesbarkeit bei großer Dynamik kann der Fragenstrom auch angehalten werden.",
+    "commentFilterTitle": "Q&A-Liste verwalten",
+    "commentUserNumber": "Ein Klick auf das Pin-Icon und es werden dir alle Fragen dieses Users angezeigt.",
+    "commentUserNumberTitle": "Fragen eines Users finden"
   },
   "moderator-join": {
     "title": "Zugang als Gastmoderator*in",
@@ -523,6 +548,7 @@
     "delete-room": "Raum löschen",
     "delete-room-description": "Sitzung löschen",
     "deleted": " gelöscht.",
+    "deleted-error": "Es trat ein Fehler auf!",
     "description": "Begrüßungstext",
     "tab1": "Text",
     "export-comments": "Q&A speichern",

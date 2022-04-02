@@ -28,7 +28,6 @@ export class Comment {
   createdBy;
   brainstormingQuestion: boolean;
   updatedAt: Date;
-  meta: any = null;
   commentReference: string;
   commentDepth: number;
   deletedAt: Date;

@@ -44,6 +44,7 @@
     "a11y-check_circle": "Filtert alle bejahten Fragen",
     "a11y-close": "Hebt alle Filter auf",
     "a11y-close_search": "Schließt den Suchvorgang von Fragen",
+    "a11y-conversation": "Filtert nach Konversationen",
     "a11y-filter_list": "Option Fragen zu filtern",
     "a11y-grade": "Filtert alle Bonus Fragen",
     "a11y-moderator": "Filtert alle Fragen von Moderatoren",
@@ -87,6 +88,7 @@
     "filter-unanswered": "Unbeantwortete Fragen",
     "filter-comments": "Fragen filtern",
     "filter-correct": "Bejahte Fragen",
+    "filter-conversation": "Konversationen",
     "filter-favorite": "Markiert für Bonus",
     "filter-bookmark": "Lesezeichen",
     "filter-not_bookmarked": "Ohne Lesezeichen",
@@ -284,6 +286,15 @@
     "topic-cloud": "## Themenwolke \n\nDie Themenwolke visualisiert die Verteilung der Stichwörter. Diese wurden durch eine grammatikalische Analyse der Nomen im Fragetext ermittelt oder vom Autor explizit der Frage zugewiesen. \n\n  In die Berechnung der Schriftgröße gehen ein:\n\n* die Differenz zwischen Up- und Down-Votes, wenn sie positiv ist,\n* die Anzahl der Fragen mit diesem Stichwort,\n* die Anzahl der Fragensteller mit diesem Stichwort,\n* die Rolle des Fragenstellers: Raumersteller, Moderator oder Teilnehmer,\n* ob der Fragensteller eine Fragenkategorie ausgewählt hat,\n* ob das Stichwort generiert oder vom Fragensteller vergeben wurde,\n* ob die Frage vom Raumersteller oder einem Moderator beantwortet wurde,\n* die Kontroversität der Frage. \n\nDie Themenwolke dient als **Navigator** zu allen Fragen zu einem Stichwort: Wenn du auf ein Wort in der Wolke klickst, gelangst du zu den Fragen mit diesem Stichwort. \n\nDer Raumersteller kann das Aussehen der Themenwolke in den Optionen nach seinen Wünschen anpassen. Er kann auch mit den Parametern für die Stichwortgenerierung experimentieren, um die **semantische Trennschärfe** zu optimieren.",
     "user-bonus": "Die Lehrperson kann »gute« Fragen für einen Bonus markieren. Deine Fragen aus allen Kursen (Räumen), die einen Stern erhalten haben, werden hier aufgelistet.\n\nJe nach Vereinbarung kannst du den Bonus-Code per E-Mail an die Lehrperson schicken, um ihn gegen einen Bonus einzulösen.",
     "brainstorming": "## Lorem ipsum \n\nLorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,\nmolestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum\nnumquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium\noptio, eaque rerum! Provident similique accusantium nemo autem."
+  },
+  "header": {
+    "overview-question-tooltip": "Anzahl Fragen",
+    "overview-questioners-tooltip": "Anzahl Fragensteller",
+    "overview-keywords-tooltip": "Anzahl Stichwörter"
+  },
+  "topic-cloud-filter": {
+    "info-no-keywords": "Unsere KI-basierte Textanalyse kann Stichwörter ermitteln. Analyse starten?",
+    "label-refresh-keywords-start": "Starten"
   },
   "home-page": {
     "exactly-8": "Ein Raum-Code hat genau 8 Ziffern.",

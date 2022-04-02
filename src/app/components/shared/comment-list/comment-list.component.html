@@ -185,6 +185,16 @@
       </button>
 
       <button mat-menu-item
+              (click)="applyFilterByKey('Conversation')"
+              aria-labelledby="conversation">
+        <mat-icon class="conversation-icon material-icons-round">
+          forum
+        </mat-icon>
+        <span
+          [ngClass]="{Conversation: 'conversation-icon'}[filterType]">{{ 'comment-list.filter-conversation' | translate }}</span>
+      </button>
+
+      <button mat-menu-item
               (click)="applyFilterByKey('Bookmark')"
               aria-labelledby="bookmark">
         <mat-icon class="bookmark" style="color: purple"
@@ -227,8 +237,7 @@
       <button mat-menu-item
               (click)="applyFilterByKey('Owner')"
               aria-labelledby="comment">
-        <mat-icon class="material-icons-outlined" style="color: mediumslateblue"
-                  [ngClass]="{Owner: 'owner-icon'}[filterType]">
+        <mat-icon class="owner-icon material-icons-outlined">
           insert_emoticon
         </mat-icon>
         <span [ngClass]="{Owner: 'owner-icon'}[filterType]">{{ 'comment-list.filter-owner' | translate }}</span>
@@ -412,4 +421,5 @@
   <div id="select-time-1w">{{ 'comment-list.a11y-select-time-1w' | translate }}</div>
   <div id="select-time-all">{{ 'comment-list.a11y-select-time-all' | translate }}</div>
   <div id="activity">{{ 'comment-list.a11y-activity' | translate }} {{activeUsers}}</div>
+  <div id="conversation">{{'comment-list.a11y-conversation' | translate}}</div>
 </div>

@@ -16,6 +16,14 @@
   }
 }
 
+.activeIcon {
+  color: var(--primary) !important;
+
+  > mat-icon {
+    color: var(--primary);
+  }
+}
+
 .mat-nav-list {
   background-color: var(--dialog);
 

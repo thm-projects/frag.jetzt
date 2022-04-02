@@ -4,7 +4,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { LanguageService } from '../../../../services/util/language.service';
 import { TranslateService } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
-import { DashboardNotificationService } from '../../../../services/util/dashboard-notification.service';
+import {
+  DashboardFilter,
+  DashboardNotificationService
+} from '../../../../services/util/dashboard-notification.service';
 import { DeviceInfoService } from '../../../../services/util/device-info.service';
 import { DashboardDialogComponent } from '../dashboard-dialog/dashboard-dialog.component';
 import { CommentChangeRole, CommentChangeType } from '../../../../models/comment-change';
@@ -12,6 +15,7 @@ import { NotificationEvent } from '../../../../models/dashboard-notification';
 import { DeleteAllNotificationsComponent } from '../delete-all-notifications/delete-all-notifications.component';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { SessionService } from '../../../../services/util/session.service';
 
 const LANG_KEYS = [
   'PARTICIPANT', 'EXECUTIVE_MODERATOR', 'CREATOR', 'own-question', 'own-comment', 'own-question-2', 'own-comment-2',
@@ -33,6 +37,15 @@ const notificationToIndex = (not: NotificationEvent) => {
       return 1;
     default:
       return 0;
+  }
+};
+
+type DashboardFilterObjectIcons = {
+  [key in DashboardFilter]: {
+    condition: () => boolean;
+    icon: string;
+    iconClass: string;
+    activeClass: string;
   }
 };
 
@@ -143,17 +156,76 @@ export class DashboardComponent implements OnInit {
   hasFilter: boolean = false;
   date: string = new Date().toLocaleDateString('de-DE');
   commentChangeType: typeof CommentChangeType = CommentChangeType;
+  dashboardFilter: typeof DashboardFilter = DashboardFilter;
+  dashboardFilterKeys: string[] = Object.keys(this.dashboardFilter);
+  public readonly ICONS: DashboardFilterObjectIcons = {
+    [DashboardFilter.QuestionPublished]: {
+      condition: () => !this.session.currentRoom?.directSend,
+      icon: 'system_security_update_good',
+      iconClass: '',
+      activeClass: 'activeIcon'
+    },
+    [DashboardFilter.QuestionBanned]: {
+      condition: () => true,
+      icon: 'gavel',
+      iconClass: '',
+      activeClass: 'activeIcon'
+    },
+    [DashboardFilter.QuestionNegated]: {
+      condition: () => true,
+      icon: 'cancel',
+      iconClass: '',
+      activeClass: 'activeIcon'
+    },
+    [DashboardFilter.QuestionAffirmed]: {
+      condition: () => true,
+      icon: 'check_circle',
+      iconClass: '',
+      activeClass: 'activeIcon'
+    },
+    [DashboardFilter.QuestionAnswered]: {
+      condition: () => true,
+      icon: 'comment',
+      iconClass: '',
+      activeClass: 'activeIcon'
+    },
+    [DashboardFilter.QuestionMarkedWithStar]: {
+      condition: () => true,
+      icon: 'grade',
+      iconClass: '',
+      activeClass: 'activeIcon'
+    },
+    [DashboardFilter.CommentMarkedWithStar]: {
+      condition: () => true,
+      icon: 'grade',
+      iconClass: '',
+      activeClass: 'activeIcon'
+    },
+    [DashboardFilter.QuestionCommented]: {
+      condition: () => this.session.currentRoom?.conversationDepth > 0,
+      icon: 'forum',
+      iconClass: '',
+      activeClass: 'activeIcon'
+    },
+    [DashboardFilter.QuestionDeleted]: {
+      condition: () => true,
+      icon: 'delete',
+      iconClass: 'material-icons-outlined',
+      activeClass: 'activeIcon'
+    },
+  };
   private _prefetchedLangKeys: object = {};
 
   constructor(
     private _bottomSheetRef: MatBottomSheetRef<DashboardComponent>,
-    private languageService: LanguageService,
+    public languageService: LanguageService,
     private translationService: TranslateService,
     public http: HttpClient,
     public dialog: MatDialog,
     public deviceInfo: DeviceInfoService,
     public change: DashboardNotificationService,
     private router: Router,
+    private session: SessionService,
   ) {
     this.languageService.getLanguage().subscribe(lang => {
       this.translationService.use(lang);
@@ -205,28 +277,21 @@ export class DashboardComponent implements OnInit {
     this._bottomSheetRef.dismiss();
   }
 
-  filterNotification(msg: string) {
-    this.hasFilter = true;
-    switch (msg) {
-      case 'star':
-        this.change.filterNotifications(this.commentChangeType.CHANGE_FAVORITE);
-        break;
-      case 'check_circle':
-        this.change.filterNotifications(this.commentChangeType.CHANGE_CORRECT);
-        break;
-      case 'delete':
-        this.change.filterNotifications(this.commentChangeType.DELETED);
-        break;
-      case 'ban':
-        this.change.filterNotifications(this.commentChangeType.CHANGE_ACK);
-        break;
-      case 'question_answer':
-        this.change.filterNotifications(this.commentChangeType.ANSWERED);
-        break;
-      case 'publish':
-        this.change.filterNotifications(this.commentChangeType.CREATED);
-        break;
+  filterNotification(filter: string) {
+    if (this.change.getActiveFilter() === DashboardFilter[filter]) {
+      this.hasFilter = false;
+      this.change.reset();
+      return;
     }
+    this.hasFilter = true;
+    this.change.filterNotifications(DashboardFilter[filter]);
+  }
+
+  getActiveClass(filter: string) {
+    if (this.change.getActiveFilter() === DashboardFilter[filter]) {
+      return this.ICONS[filter].activeClass;
+    }
+    return '';
   }
 
   getNotificationMessage(notification: NotificationEvent) {
@@ -235,10 +300,6 @@ export class DashboardComponent implements OnInit {
 
   getCommentNumbers(): string[] {
     return [...new Set<string>(this.change.getList(this.hasFilter).map(not => not.commentNumber))];
-  }
-
-  getRoomNames(): string[] {
-    return [...new Set<string>(this.change.getList(this.hasFilter).map(not => not.roomName))];
   }
 
   private updateLanguageKeys() {
