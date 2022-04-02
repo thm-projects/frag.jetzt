@@ -138,7 +138,7 @@
         </button>
         <button mat-icon-button
                 [matMenuTriggerFor]="actionButtonMenu"
-                *ngIf="(!isStudent)">
+                *ngIf="!isStudent && hasOneAction()">
           <mat-icon
             [matTooltip]="('comment-page.option-menue' | translate)"
             [matTooltipPosition]="'right'"
@@ -309,7 +309,7 @@
 
       <button mat-icon-button *ngIf="!isAnswerView && !showResponses && responses.length > 0 && indentationPossible">
         <mat-icon class="not-marked material-icons-round"
-                  matBadge="{{responses.length}}"
+                  matBadge="{{comment.meta.responseCount}}"
                   matBadgeColor="secondary"
                   matBadgeSize="small"
                   (click)="showConversation()"
@@ -446,8 +446,7 @@
 <mat-menu #actionButtonMenu="matMenu">
   <div fxLayout="column" class="action-menu-content">
     <button mat-icon-button
-            *ngIf="!isStudent && !comment.favorite"
-            [disabled]="isStudent"
+            *ngIf="canInteractWithAction('star')"
             (click)="setFavorite(comment)"
             tabindex="0"
             attr.aria-labelledby="comment_grade{{ comment.id }}">
@@ -458,18 +457,7 @@
       </mat-icon>
     </button>
     <button mat-icon-button
-            *ngIf="!moderator && !isStudent && !comment.bookmark"
-            (click)="setBookmark(comment)"
-            tabindex="0"
-            attr.aria-labelledby="comment_grade{{ comment.id }}">
-      <mat-icon class="not-marked"
-                [matTooltip]="'comment-page.mark-bookmark' | translate"
-                [matTooltipPosition]="'right'">
-        bookmark
-      </mat-icon>
-    </button>
-    <button mat-icon-button
-            *ngIf="roomTags?.length && (isCreator || isModerator || comment.creatorId === user?.id)"
+            *ngIf="canInteractWithAction('change-tag')"
             (click)="openChangeCommentTagDialog()"
             tabindex="0">
       <mat-icon class="not-marked"
@@ -479,7 +467,7 @@
       </mat-icon>
     </button>
     <button mat-icon-button
-            *ngIf="(isCreator || (comment.creatorId && user && comment.creatorId === user.id)) && !comment.favorite"
+            *ngIf="canInteractWithAction('delete')"
             (click)="openDeleteCommentDialog()"
             tabindex="0"
             attr.aria-labelledby="comment_delete{{ comment.id }}">

@@ -287,7 +287,9 @@
     "feedbackLink": "You found a bug? You would like to have another feature? The link leads you to the feedback room. The tour will continue in this room.",
     "feedbackLinkTitle": "Feedback room",
     "optionHeader": "This is the main menu of »frag.jetzt«. In addition to the options of the current page, you will also find general functions here such as the room list or the news from the »frag.jetzt« team. The red exclamation mark indicates the guest status of the user.",
-    "optionHeaderTitle": "Options"
+    "optionHeaderTitle": "Options",
+    "dashboard": "This is the menu for the live notifications",
+    "dashboardTitle": "Live notifications"
   },
   "login": {
     "activation-key": "Activation key",

@@ -1,4 +1,4 @@
-import { RoomDataService } from '../services/util/room-data.service';
+import { CommentWithMeta, RoomDataService } from '../services/util/room-data.service';
 import { FilterType, FilterTypes, Period, RoomDataFilter, SortType } from './data-filter-object.lib';
 import { Comment } from '../models/comment';
 import { CorrectWrong } from '../models/correct-wrong.enum';
@@ -21,7 +21,7 @@ type SortFunctionsObject = {
 };
 
 interface FilterResult {
-  comments: Comment[];
+  comments: CommentWithMeta[];
   timeFilteredCount: number;
 }
 
@@ -67,7 +67,7 @@ const sortFunctions: SortFunctionsObject = {
 export class DataFilterObject {
 
   private _filter: RoomDataFilter;
-  private _currentData: Comment[] = null;
+  private _currentData: CommentWithMeta[] = null;
   private moderators: Set<string> = null;
   private readonly filterFunctions: FilterFunctionObject = {
     [FilterType.Correct]: c => c.correct === CorrectWrong.CORRECT,
@@ -83,13 +83,14 @@ export class DataFilterObject {
       c.keywordsFromQuestioner?.find(keyword => keyword.text === value) ||
       c.keywordsFromSpacy?.find(keyword => keyword.text === value)
     ),
-    [FilterType.Answer]: c => Boolean(c.meta?.children?.length),
-    [FilterType.Unanswered]: c => !c.meta?.children?.length,
+    [FilterType.Answer]: c => (c as CommentWithMeta).meta.responseCount - (c as CommentWithMeta).meta.responsesFromParticipants > 0,
+    [FilterType.Unanswered]: c => (c as CommentWithMeta).meta.responseCount - (c as CommentWithMeta).meta.responsesFromParticipants < 1,
     [FilterType.Owner]: c => c.creatorId === this.authenticationService.getUser()?.id,
     [FilterType.Moderator]: c => this.moderators.has(c.creatorId),
     [FilterType.Owner]: c => this.sessionService.currentRoom?.id === c.creatorId,
     [FilterType.Number]: (c, value) => c.number === value,
-    [FilterType.Censored]: c => this.roomDataService.checkCommentProfanity(c)
+    [FilterType.Censored]: c => this.roomDataService.checkCommentProfanity(c),
+    [FilterType.Conversation]: c => (c as CommentWithMeta).meta.responseCount > 0,
   } as const;
   private readonly _filteredData = new BehaviorSubject<FilterResult>(null);
   private readonly _destroyNotifier = new Subject<any>();
@@ -229,7 +230,7 @@ export class DataFilterObject {
     this._filteredData.next({ timeFilteredCount, comments });
   }
 
-  private filterWithSearch(comments: Comment[]) {
+  private filterWithSearch(comments: CommentWithMeta[]) {
     const search = this._filter.currentSearch.toLowerCase();
     const keywordFinder = (e: SpacyKeyword) => e.text.toLowerCase().includes(search);
     return comments.filter(c =>
@@ -239,7 +240,7 @@ export class DataFilterObject {
       c.questionerName?.toLowerCase().includes(search));
   }
 
-  private filterWithTime(comments: Comment[]) {
+  private filterWithTime(comments: CommentWithMeta[]) {
     const currentTime = new Date().getTime();
     const duration = timeDurations[this._filter.period];
     if (duration) {

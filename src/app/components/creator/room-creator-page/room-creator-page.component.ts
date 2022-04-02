@@ -53,7 +53,8 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
     public deviceInfo: DeviceInfoService,
   ) {
     super(roomService, route, location, commentService, eventService, headerService, composeService, dialog,
-      bonusTokenService, translateService, notification, authenticationService, sessionService, roomDataService);
+      bonusTokenService, translateService, notification, authenticationService, sessionService, roomDataService,
+      router);
     this.commentCounterEmitSubscription = this.commentCounterEmit.subscribe(e => {
       this.titleService.attachTitle(`(${e[0]} / ${e[1]})`);
     });
