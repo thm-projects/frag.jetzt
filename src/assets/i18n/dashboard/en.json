@@ -11,28 +11,19 @@
     "label": "Explain",
     "close": "Close",
     "text": "Notifications",
-    "dialog-content": "On the notification panel, you can see all reactions to your questions and comments, e.g. if you have received a star, if your question has been answered, commented, banned or deleted. Clicking on the message will take you to your question or comment. You can also select individual conversations you want to be notified about by clicking the bell icon on the question or comment."
+    "dialog-content": "On the notification board, you can see all reactions to your questions and comments, e.g. if you have received a star, if your question has been answered, commented, banned or deleted. Clicking on the message will take you to your question or comment. You can also select individual conversations you want to be notified about by clicking the bell icon on the question or comment."
     },
   "notification": {
-    "tooltip-QuestionPublished": "Show published questions from moderation",
-    "tooltip-QuestionMarkedWithStar": "Show questions awarded with a star",
-    "tooltip-CommentMarkedWithStar": "Show comments awarded with a star",
-    "tooltip-QuestionAnswered": "Show answered questions",
-    "tooltip-QuestionAffirmed": "Show affirmed questions",
-    "tooltip-QuestionNegated": "Show negated questions",
-    "tooltip-QuestionCommented": "Show comments to a question",
-    "tooltip-QuestionBanned": "Show questions banned for moderation",
-    "tooltip-QuestionDeleted": "Show deleted questions",
     "number-notifications": "Number: ",
-    "QuestionPublished": "Question published",
-    "QuestionMarkedWithStar": "Question marked with a star",
-    "CommentMarkedWithStar": "Comment marked with a star",
+    "QuestionPublished": "Post published",
+    "QuestionMarkedWithStar": "Question marked as excellent",
+    "CommentMarkedWithStar": "Comment marked as excellent",
     "QuestionAnswered": "Question answered",
     "QuestionAffirmed": "Question affirmed",
     "QuestionNegated": "Question negated",
     "QuestionCommented": "Question commented",
-    "QuestionBanned": "Question banned",
-    "QuestionDeleted": "Question deleted",
+    "QuestionBanned": "Post banned",
+    "QuestionDeleted": "Post deleted",
     "wrong": "Wrong",
     "comment": "Commented",
     "lecturer": "Room creator",
@@ -49,7 +40,7 @@
     "notification-off" : "Disable notification",
     "tag": "Tag",
     "change-score": "Scoring",
-    "no-notifications": "There are no notifications at this time."
+    "no-notifications": "No notifications at this time"
   },
   "dashboard-notification": {
     "PARTICIPANT": "A participant",
