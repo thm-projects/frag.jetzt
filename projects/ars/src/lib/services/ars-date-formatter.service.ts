@@ -268,7 +268,7 @@ export class ArsDateFormatter implements OnDestroy{
       str = str.replace('DATE', arsTimeTranslation[lang].dateConvert(time.date));
       str = str.replace('TIME', arsTimeTranslation[lang].timeConvert(time.date));
       if (time.time == 1){
-        return (str.split('%')[0]+((e:string)=>e.substring(e.indexOf(' ')))(str.split('%')[1])).replace('?', time.time + '');
+        return (str.split('%')[0] + ((e: string) => e.substring(e.indexOf(' ')))(str.split('%')[1])).replace('?', time.time + '');
       }else{
         return str.replace('%', '').replace('?', time.time + '');
       }
