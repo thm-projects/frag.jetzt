@@ -70,6 +70,7 @@ import 'katex/dist/katex.min.js';
 import 'emoji-toolkit/lib/js/joypixels.min.js';
 import {MatBottomSheet} from '@angular/material/bottom-sheet';
 import { DashboardNotificationService } from './services/util/dashboard-notification.service';
+import { MatNativeDateModule } from '@angular/material/core';
 
 export const dialogClose = (dialogResult: any) => '';
 
@@ -148,7 +149,8 @@ export const HttpLoaderFactory = (http: HttpClient) => new TranslateHttpLoader(h
     ArsModule,
     TagCloudModule,
     JoyrideModule.forRoot(),
-    QuillModule.forRoot()
+    QuillModule.forRoot(),
+    MatNativeDateModule
   ],
   providers: [
     /*AppConfig,

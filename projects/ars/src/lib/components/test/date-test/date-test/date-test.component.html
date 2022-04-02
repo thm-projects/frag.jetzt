@@ -1,0 +1,15 @@
+<ars-screen style="background-color:white;z-index:9999999;position:fixed;" ars-flex-box>
+
+  <ars-col [width]="500">
+
+    <ars-row arsComposeHost style="background-color:orange">
+    </ars-row>
+
+    <input type="datetime-local" (change)="onchange($event)">
+    <p *ngFor="let result of results">
+      {{result}}
+    </p>
+  </ars-col>
+
+
+</ars-screen>
