@@ -89,6 +89,7 @@ $header-size: 64px;
         color: var(--on-surface) !important;
         font-size: 14px;
         font-weight: normal;
+        padding: 0 20px 20px 20px; //Bugfix for Safari, which otherwise cuts off the text at the corners
       }
 
       .mat-icon-button {
