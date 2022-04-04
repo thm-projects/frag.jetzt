@@ -42,7 +42,7 @@
     "comment-bookmarked": "Yes",
     "comment-not_bookmarked": "",
     "token": "Bonus code",
-    "token-time": "Token timestamp"
+    "token-time": "Code timestamp"
   },
   "comment-list": {
     "a11y-access_time": "Sorts questions by time",
@@ -294,7 +294,7 @@
     "deepl": "## Text optimization\n\nTo make your question as readable and understandable as possible, we have it translated into German and back into English using the translation program [DeepL](https://www.deepl.com/translator).\n\nThe back translation is in almost all cases better than the original in terms of spelling, grammar, punctuation and language style. Back translation can be done in two ways: informally or formally.",
     "spacy": "## Text analysis\n\nUsing NLP (Natural Language Processing) your question will be analyzed grammatically. The recognized nouns are put into their basic form, i.e. lemmatized, and suggested to you as keywords. For the text analysis we use the free NLP software [spaCy](https://spacy.io/). \n\nThe keywords can be used to filter the list of questions or to create a word cloud.",
     "topic-cloud": "## Topic cloud\n\nThe topic cloud visualizes the distribution of the keywords. These were determined by grammatical analysis of the nouns in the question text or explicitly assigned to the question by the author. \n\n The calculation of the font size includes:\n\n* the difference between up- and down-votes, if it is positive\n* the number of questions with this keyword\n* the number of questioners with this keyword.\n* the role of the questioner: room creator, moderator or participant \n* whether the questioner has selected a question category\n* whether the keyword was generated or assigned by the question poser\n* whether the question was answered by the room creator or a moderator\n* the controversy of the question  \n\n The topic cloud serves as a **navigator** to all questions related to a selected keyword: If you click on a word in the cloud, you will get to the questions related to this keyword. \n\nThe room creator can customize the appearance of the topic cloud in the options according to his wishes. He can also experiment with the keyword generation parameters to optimize the **semantic selectivity**.",
-    "user-bonus": "The teacher can mark »good« questions for a bonus. Your questions from all courses (rooms) that have received a star will be listed here.\n\nDepending on the agreement, you can email the token of the star to the teacher to redeem it for a bonus.",
+    "user-bonus": "The teacher can mark »good« questions for a bonus. Your questions from all courses (rooms) that have received a star will be listed here.\n\nDepending on the agreement, you can email the code of the star to the teacher to redeem it for a bonus.",
     "brainstorming": "## Lorem ipsum \n\nLorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,\nmolestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum\nnumquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium\noptio, eaque rerum! Provident similique accusantium nemo autem."
   },
   "header": {
@@ -339,7 +339,7 @@
     "live-announcer": "You're in the session now. To get information about key combinations press the Enter key or call the announcement later with the Escape key.",
     "live-feedback": "Live feedback",
     "session-id": "Code",
-    "bonus-token": "Tokens for bonus stars",
+    "bonus-token": "Tokens for bonus points",
     "moderation-enabled": "All questions will be moderated.",
     "sure": "Are you sure?"
   },
@@ -360,7 +360,7 @@
     "auto-renew-off-icon": "cancel",
     "intro-title": "Question Focus",
     "intro-desc": "Click on a question or navigate backwards and forwards with the arrow keys.",
-    "intro-autofocus": "Tip for live sessions: The »Autofocus« at the bottom left promptly displays the latest question.",
+    "intro-autofocus": "",
     "sort": "Sort",
     "sort-time": "Time",
     "sort-score": "Score",
