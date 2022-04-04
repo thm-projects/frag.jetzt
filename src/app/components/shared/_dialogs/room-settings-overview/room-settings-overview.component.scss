@@ -1,6 +1,6 @@
 @import "src/layout/laout-util";
 
-mat-dialog-content {
+mat-dialog-content > div {
   display: flex;
   flex-direction: column;
   gap: 20px;

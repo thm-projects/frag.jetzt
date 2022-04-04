@@ -68,8 +68,11 @@ import 'prismjs/plugins/line-numbers/prism-line-numbers.js';
 import 'prismjs/plugins/line-highlight/prism-line-highlight.js';
 import 'katex/dist/katex.min.js';
 import 'emoji-toolkit/lib/js/joypixels.min.js';
-import {MatBottomSheet} from '@angular/material/bottom-sheet';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { DashboardNotificationService } from './services/util/dashboard-notification.service';
+import {
+  NotifyUnsupportedBrowserComponent
+} from './components/home/_dialogs/notify-unsupported-browser/notify-unsupported-browser.component';
 
 export const dialogClose = (dialogResult: any) => '';
 
@@ -106,7 +109,8 @@ export const HttpLoaderFactory = (http: HttpClient) => new TranslateHttpLoader(h
     DemoEnComponent,
     HelpEnComponent,
     OverlayComponent,
-    QuizNowComponent
+    QuizNowComponent,
+    NotifyUnsupportedBrowserComponent
   ],
   imports: [
     MatomoModule,

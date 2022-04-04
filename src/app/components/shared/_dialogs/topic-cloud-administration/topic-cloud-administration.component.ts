@@ -25,6 +25,7 @@ import { ProfanityFilter, Room } from '../../../../models/room';
 import { SessionService } from '../../../../services/util/session.service';
 import { DeviceInfoService } from '../../../../services/util/device-info.service';
 import { SpacyKeyword } from '../../../../services/http/spacy.service';
+import { ExplanationDialogComponent } from '../explanation-dialog/explanation-dialog.component';
 
 @Component({
   selector: 'app-topic-cloud-administration',
@@ -581,6 +582,13 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     for (const key of Object.keys(this.defaultScorings)) {
       this.scorings[key] = { ...this.defaultScorings[key] };
     }
+  }
+
+  openHelp() {
+    const ref = this.confirmDialog.open(ExplanationDialogComponent, {
+      autoFocus: false
+    });
+    ref.componentInstance.translateKey = 'explanation.cloud-configuration';
   }
 
   private renameKeyword(comments: Comment[], lowerCaseKeyword: string) {

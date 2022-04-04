@@ -289,7 +289,7 @@ export class DashboardNotificationService {
       });
       changes = changes.filter(change => change.createdAt.getTime() > this._lastChanges.getTime());
       changes.sort((a, b) => Number(a.createdAt) - Number(b.createdAt));
-      changes.forEach(change => this.pushCommentChange(change));
+      // This needs adjustments in the backend: changes.forEach(change => this.pushCommentChange(change));
     });
     this.commentChangeService.getRoomSubscriptions().subscribe(subscriptions => {
       subscriptions.forEach(subscription => {
