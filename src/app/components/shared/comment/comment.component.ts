@@ -564,18 +564,6 @@ export class CommentComponent implements OnInit, AfterViewInit {
     if (!this.comment?.number) {
       return;
     }
-    const meta = this.comment.number.split('/');
-    const topLevelNumber = meta[0];
-    const number = meta[meta.length - 1];
-    if (meta.length === 1) {
-      this.translateService.get('comment-list.question-number', { number })
-        .subscribe(msg => this._commentNumber = msg.split('/'));
-      return;
-    }
-    this.translateService.get('comment-list.comment-number', {
-      topLevelNumber,
-      number,
-      level: meta.length - 1,
-    }).subscribe(msg => this._commentNumber = msg.split('/'));
+    this._commentNumber = Comment.computePrettyCommentNumber(this.translateService, this.comment);
   }
 }

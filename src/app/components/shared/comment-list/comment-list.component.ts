@@ -245,7 +245,9 @@ export class CommentListComponent implements OnInit, OnDestroy {
       this.isJoyrideActive = this.onboardingService.startDefaultTour();
     }
     const allComments = this.roomDataService.getCurrentRoomData().filter(c => c.commentReference === null);
-    this._allQuestionNumberOptions = allComments.map(c => c.number).sort(numberSorter).map(c => String(c));
+    allComments.sort((a, b) => numberSorter(a.number, b.number));
+    this._allQuestionNumberOptions = allComments.map(c => Comment.computePrettyCommentNumber(this.translateService, c)
+      .join(' '));
     const value = this.questionNumberFormControl.value || '';
     this.questionNumberOptions = this._allQuestionNumberOptions.filter(e => e.startsWith(value));
     this.commentsWrittenByUsers.clear();

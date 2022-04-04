@@ -10,25 +10,10 @@ import { Room } from '../../models/room';
 import { TranslateService } from '@ngx-translate/core';
 import { NotificationService } from './notification.service';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { Comment } from '../../models/comment';
 import { UserRole } from '../../models/user-roles.enum';
 import { CloudParameters } from '../../utils/cloud-parameters';
-import { RoomDataService } from './room-data.service';
-import { stopWords, superfluousSpecialCharacters } from '../../utils/stopwords';
-import { escapeForRegex } from '../../utils/regex-escape';
 import { TagCloudSettings } from '../../utils/TagCloudSettings';
 import { ThemeService } from '../../../theme/theme.service';
-import { SpacyKeyword } from '../http/spacy.service';
-
-const words = stopWords.map(word => escapeForRegex(word).replace(/\s+/, '\\s*'));
-const httpRegex = /(https?:[^\s]+(\s|$))/;
-const specialCharacters = '[' + escapeForRegex(superfluousSpecialCharacters) + ']+';
-const regexMaskKeyword = new RegExp('\\b(' + words.join('|') + ')\\b|' +
-  httpRegex.source + '|' + specialCharacters, 'gmi');
-export const maskKeyword = (keyword: string): string =>
-  keyword.replace(regexMaskKeyword, '').replace(/\s+/, ' ').trim();
-
-export type KeywordConsumer = (keyword: SpacyKeyword, isFromQuestioner: boolean) => void;
 
 @Injectable({
   providedIn: 'root',
@@ -90,39 +75,6 @@ export class TopicCloudAdminService {
     room.tagCloudSettings = JSON.stringify(settings);
   }
 
-  static approveKeywordsOfComment(comment: Comment,
-                                  roomDataService: RoomDataService,
-                                  config: TopicCloudAdminData,
-                                  blacklist: string[],
-                                  blacklistEnabled: boolean,
-                                  brainstorming: boolean,
-                                  keywordFunc: KeywordConsumer) {
-    let source = comment.keywordsFromQuestioner;
-    let isFromQuestioner = true;
-    const censoredInfo = roomDataService.getCensoredInformation(comment);
-    if (!censoredInfo) {
-      return;
-    }
-    let censored = censoredInfo.keywordsFromQuestionerCensored;
-    if (config.keywordORfulltext === KeywordOrFulltext.Both) {
-      if (!source || !source.length) {
-        isFromQuestioner = false;
-        source = comment.keywordsFromSpacy;
-        censored = censoredInfo.keywordsFromSpacyCensored;
-      }
-    } else if (config.keywordORfulltext === KeywordOrFulltext.Fulltext) {
-      isFromQuestioner = false;
-      source = comment.keywordsFromSpacy;
-      censored = censoredInfo.keywordsFromSpacyCensored;
-    }
-    if (!source) {
-      return;
-    }
-    const wantedLabels = config.wantedLabels[comment.language.toLowerCase()];
-    this.approveKeywords(keywordFunc, source, censored, brainstorming, wantedLabels, isFromQuestioner,
-      blacklistEnabled, blacklist);
-  }
-
   static isTopicAllowed(config: TopicCloudAdminData, comments: number, users: number,
                         upvotes: number, firstTimeStamp: Date, lastTimeStamp: Date) {
     return !((config.minQuestions > comments) ||
@@ -155,32 +107,6 @@ export class TopicCloudAdminService {
       }
     });
     return tags;
-  }
-
-  private static approveKeywords(
-    keywordFunc: KeywordConsumer, keywords: SpacyKeyword[], censored: boolean[], brainstorming: boolean,
-    wantedLabels: string[], isFromQuestioner: boolean, blacklistEnabled: boolean, blacklist: string[]
-  ) {
-    for (let i = 0; i < keywords.length; i++) {
-      const keyword = keywords[i];
-      if (maskKeyword(keyword.text).length < 3) {
-        continue;
-      }
-      if (censored[i]) {
-        continue;
-      }
-      if (!brainstorming && wantedLabels && (!keyword.dep || !keyword.dep.some(e => wantedLabels.includes(e)))) {
-        continue;
-      }
-      if (!blacklistEnabled) {
-        keywordFunc(keyword, isFromQuestioner);
-        continue;
-      }
-      const lowerCasedKeyword = keyword.text.toLowerCase();
-      if (!blacklist.some(word => lowerCasedKeyword.includes(word))) {
-        keywordFunc(keyword, isFromQuestioner);
-      }
-    }
   }
 
   setAdminData(_adminData: TopicCloudAdminData, id: string, userRole: UserRole, data?: RoomPatch) {
