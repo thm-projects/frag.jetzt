@@ -514,6 +514,11 @@
     "session-name": "Meeting name",
     "session-name-with-key-code-generated": "Name of the meeting (have key code generated)"
   },
+  "unsupported-browser": {
+    "title": "Your browser is not supported",
+    "body": "Some features are not available in this browser. Please try to switch to another browser (like Firefox or Chrome).",
+    "close": "Close"
+  },
   "user-activation": {
     "activate": "Activate account",
     "activate-description": "Activates the account",

@@ -29,7 +29,7 @@
         </mat-icon>
         <span matBadge="{{'A' + responseCounter}}"
               matBadgePosition="before"
-              *ngIf="responseCounter > 0"
+              *ngIf="responseCounter > 0 && commentCounter > 0"
               [ngClass]="{'smallerIcon' : deviceInfo.isCurrentlyMobile}"
               class="response-badge">
         </span>

@@ -13,6 +13,11 @@ import Quill from 'quill';
 import ImageResize from 'quill-image-resize-module';
 import 'quill-emoji/dist/quill-emoji.js';
 import { LanguageService } from './services/util/language.service';
+import {
+  NotifyUnsupportedBrowserComponent
+} from './components/home/_dialogs/notify-unsupported-browser/notify-unsupported-browser.component';
+import { MatDialog } from '@angular/material/dialog';
+import { DeviceInfoService } from './services/util/device-info.service';
 
 Quill.register('modules/imageResize', ImageResize);
 
@@ -36,6 +41,8 @@ export class AppComponent implements OnInit {
     public notification: NotificationService,
     private customIconService: CustomIconService,
     private languageService: LanguageService,
+    private dialog: MatDialog,
+    private deviceInfo: DeviceInfoService,
   ) {
     customIconService.init();
     if (environment.name === 'prod') {
@@ -76,6 +83,11 @@ export class AppComponent implements OnInit {
         }
       });
     });
+    if (this.deviceInfo.isSafari) {
+      this.dialog.open(NotifyUnsupportedBrowserComponent, {
+        width: '600px'
+      });
+    }
   }
 
   public getRescale(): Rescale {

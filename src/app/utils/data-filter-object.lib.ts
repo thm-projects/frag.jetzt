@@ -40,6 +40,7 @@ export enum SortType {
   Score = 'Score',
   Time = 'Time',
   Controversy = 'Controversy',
+  Commented = 'Commented',
 }
 
 export type SortTypeKey = keyof typeof SortType;
