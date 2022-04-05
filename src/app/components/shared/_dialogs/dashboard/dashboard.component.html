@@ -20,8 +20,7 @@
                 [ngClass]="getActiveClass(key)"
                 *ngIf="ICONS[key].condition()"
                 (click)="filterNotification(key)">
-          <mat-icon [matTooltip]="'notification.tooltip-' + key | translate"
-                    [class]="ICONS[key].iconClass">
+          <mat-icon [class]="ICONS[key].iconClass">
             {{ICONS[key].icon}}
           </mat-icon>
           {{'notification.' + key | translate}}

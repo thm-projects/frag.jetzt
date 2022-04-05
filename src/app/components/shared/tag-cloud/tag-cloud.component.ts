@@ -24,7 +24,7 @@ import {
 } from '../_dialogs/topic-cloud-administration/topic-cloud-administration.component';
 import { WsCommentService } from '../../../services/websockets/ws-comment.service';
 import { CreateCommentWrapper } from '../../../utils/create-comment-wrapper';
-import { maskKeyword, TopicCloudAdminService } from '../../../services/util/topic-cloud-admin.service';
+import { TopicCloudAdminService } from '../../../services/util/topic-cloud-admin.service';
 import { TagCloudPopUpComponent } from './tag-cloud-pop-up/tag-cloud-pop-up.component';
 import { TagCloudDataService, TagCloudDataTagEntry } from '../../../services/util/tag-cloud-data.service';
 import { CloudParameters, CloudTextStyle } from '../../../utils/cloud-parameters';
@@ -48,6 +48,7 @@ import { ComponentType } from '@angular/cdk/overlay';
 import { DataFilterObject } from '../../../utils/data-filter-object';
 import { RoomDataService } from '../../../services/util/room-data.service';
 import { FilterType, Period, RoomDataFilter } from '../../../utils/data-filter-object.lib';
+import { maskKeyword } from '../../../services/util/tag-cloud-data.util';
 
 class CustomPosition implements Position {
   left: number;

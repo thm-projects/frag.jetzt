@@ -9,7 +9,7 @@ import { BehaviorSubject, Observable, Observer, Subject, Subscription, takeUntil
 import { filter } from 'rxjs/operators';
 
 type FilterFunctionObject = {
-  [key in FilterType]?: (c: Comment, compareValue?: any) => boolean;
+  [key in FilterType]?: (c: CommentWithMeta, compareValue?: any) => boolean;
 };
 
 type TimeDurationsObject = {
@@ -17,7 +17,7 @@ type TimeDurationsObject = {
 };
 
 type SortFunctionsObject = {
-  [key in SortType]?: (a: Comment, b: Comment) => number;
+  [key in SortType]?: (a: CommentWithMeta, b: CommentWithMeta) => number;
 };
 
 interface FilterResult {
@@ -27,17 +27,11 @@ interface FilterResult {
 
 type SubscribeParameterType<T> = Partial<Observer<T>> | ((value: T) => void);
 
-export const calculateControversy = (up = 0, down = 0, normalized = true): number => {
+export const calculateControversy = (up: number, down: number, responses: number): number => {
   const summed = up + down;
   const stretch = 10;
-  if (normalized) {
-    if (summed === 0) {
-      return 0;
-    }
-    return (summed - Math.abs(up - down)) * (1 - stretch / (summed + stretch)) / summed;
-  } else {
-    return (summed - Math.abs(up - down)) * (1 - stretch / (summed + stretch));
-  }
+  const responseWeight = 0.2;
+  return (summed - Math.abs(up - down)) * (1 - stretch / (summed + stretch)) * (1 + responseWeight * responses);
 };
 
 export const getCommentRoleValue = (comment: Comment, ownerId: string, moderatorIds: Set<string>): number => {
@@ -60,8 +54,9 @@ const timeDurations: TimeDurationsObject = {
 const sortFunctions: SortFunctionsObject = {
   [SortType.Score]: (a, b) => b.score - a.score,
   [SortType.Time]: (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
-  [SortType.Controversy]: (a, b) =>
-    calculateControversy(b.upvotes, b.downvotes) - calculateControversy(a.upvotes, a.downvotes),
+  [SortType.Controversy]: (a, b) => calculateControversy(b.upvotes, b.downvotes, b.meta.responseCount) -
+    calculateControversy(a.upvotes, a.downvotes, a.meta.responseCount),
+  [SortType.Commented]: (a, b) => b.meta.responseCount - a.meta.responseCount,
 };
 
 export class DataFilterObject {
@@ -83,14 +78,14 @@ export class DataFilterObject {
       c.keywordsFromQuestioner?.find(keyword => keyword.text === value) ||
       c.keywordsFromSpacy?.find(keyword => keyword.text === value)
     ),
-    [FilterType.Answer]: c => (c as CommentWithMeta).meta.responseCount - (c as CommentWithMeta).meta.responsesFromParticipants > 0,
-    [FilterType.Unanswered]: c => (c as CommentWithMeta).meta.responseCount - (c as CommentWithMeta).meta.responsesFromParticipants < 1,
+    [FilterType.Answer]: c => c.meta.responseCount - c.meta.responsesFromParticipants > 0,
+    [FilterType.Unanswered]: c => c.meta.responseCount - c.meta.responsesFromParticipants < 1,
     [FilterType.Owner]: c => c.creatorId === this.authenticationService.getUser()?.id,
     [FilterType.Moderator]: c => this.moderators.has(c.creatorId),
     [FilterType.Owner]: c => this.sessionService.currentRoom?.id === c.creatorId,
     [FilterType.Number]: (c, value) => c.number === value,
     [FilterType.Censored]: c => this.roomDataService.checkCommentProfanity(c),
-    [FilterType.Conversation]: c => (c as CommentWithMeta).meta.responseCount > 0,
+    [FilterType.Conversation]: c => c.meta.responseCount > 0,
   } as const;
   private readonly _filteredData = new BehaviorSubject<FilterResult>(null);
   private readonly _destroyNotifier = new Subject<any>();

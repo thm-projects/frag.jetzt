@@ -231,6 +231,10 @@ export class RoomDataService {
     return source?.afterFiltering;
   }
 
+  getCommentReference(id: string): CommentWithMeta {
+    return (this._fastCommentAccess[id] || this._fastNackCommentAccess[id])?.comment;
+  }
+
   toggleBookmark(comment: Comment) {
     comment.bookmark = !comment.bookmark;
     if (comment.bookmark) {

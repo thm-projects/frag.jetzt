@@ -206,6 +206,10 @@ h3 {
   color: var(--primary);
 }
 
+.commented {
+  color: var(--primary);
+}
+
 ::placeholder {
   color: var(--on-surface);
   filter: opacity(0.6);

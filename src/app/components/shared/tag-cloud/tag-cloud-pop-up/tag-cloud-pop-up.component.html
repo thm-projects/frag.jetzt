@@ -18,6 +18,13 @@
           {{getBrainstormingVotes()}}
         </p>
       </span>
+      <span *ngIf="!isBrainstorming">
+        <mat-icon class="material-icons-outlined"
+                  matTooltip="{{'tag-cloud.responses-to-keyword' | translate}}">forum</mat-icon>
+        <p>
+          {{tagData && tagData.responseCount}}
+        </p>
+      </span>
       <span>
         <mat-icon class="material-icons-outlined"
                   matTooltip="{{'tag-cloud.overview-questioners-topic-tooltip' | translate}}">person</mat-icon>

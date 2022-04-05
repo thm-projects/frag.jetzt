@@ -1,3 +1,5 @@
+@import "src/layout/laout-util";
+
 // hide scrollbar
 ::-webkit-scrollbar {
   display: none; /* Chrome Safari */
@@ -204,4 +206,33 @@ mat-dialog-content {
   font-size: 1.2em;
   margin: auto 0 auto 0.25em;
   color: var(--on-dialog);
+}
+
+.action-button-container {
+  padding-top: 20px;
+
+  @include onSmallWidth {
+    overflow: auto;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column !important;
+    flex-wrap: wrap;
+    align-items: flex-end;
+  }
+}
+
+.help-button {
+  background-color: transparent;
+  color: var(--green);
+  outline: var(--green) solid 3px;
+  margin: 10px;
+
+  &:hover {
+    background-color: var(--green);
+    color: var(--black);
+  }
+
+  .mat-icon {
+    font-size: 18px;
+  }
 }
