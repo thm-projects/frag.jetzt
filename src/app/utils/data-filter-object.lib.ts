@@ -30,7 +30,8 @@ export enum FilterType {
   Owner = 'Owner',
   Number = 'Number',
   BrainstormingQuestion = 'BrainstormingQuestion',
-  Censored = 'Censored'
+  Censored = 'Censored',
+  Conversation = 'Conversation',
 }
 
 export type FilterTypeKey = keyof typeof FilterType;
@@ -39,6 +40,7 @@ export enum SortType {
   Score = 'Score',
   Time = 'Time',
   Controversy = 'Controversy',
+  Commented = 'Commented',
 }
 
 export type SortTypeKey = keyof typeof SortType;

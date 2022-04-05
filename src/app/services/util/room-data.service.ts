@@ -24,6 +24,16 @@ export interface UpdateInformation {
   updates?: (keyof Comment)[];
 }
 
+export interface CommentWithMeta extends Comment {
+  meta: {
+    children: Set<string>;
+    removed: boolean;
+    created: boolean;
+    responseCount: number;
+    responsesFromParticipants: number;
+  };
+}
+
 class RoomDataUpdateSubscription {
   updateSubject = new Subject<UpdateInformation>();
   private readonly _filters: Partial<UpdateInformation>[];
@@ -84,7 +94,7 @@ class RoomDataUpdateSubscription {
 
 interface FastRoomAccessObject {
   [commentId: string]: {
-    comment: Comment;
+    comment: CommentWithMeta;
     beforeFiltering: CommentFilterData;
     afterFiltering: CommentFilterData;
     hasProfanity: boolean;
@@ -102,12 +112,12 @@ interface BookmarkAccess {
 export class RoomDataService {
 
   private _currentSubscriptions: RoomDataUpdateSubscription[] = [];
-  private _currentRoomComments: BehaviorSubject<Comment[]> = new BehaviorSubject<Comment[]>(null);
+  private _currentRoomComments: BehaviorSubject<CommentWithMeta[]> = new BehaviorSubject<CommentWithMeta[]>(null);
   private _fastCommentAccess: FastRoomAccessObject = null;
   private _commentServiceSubscription: Subscription = null;
   private _canAccessModerator = false;
   private _currentNackSubscriptions: RoomDataUpdateSubscription[] = [];
-  private _currentNackRoomComments: BehaviorSubject<Comment[]> = new BehaviorSubject<Comment[]>(null);
+  private _currentNackRoomComments: BehaviorSubject<CommentWithMeta[]> = new BehaviorSubject<CommentWithMeta[]>(null);
   private _fastNackCommentAccess: FastRoomAccessObject = null;
   private _nackCommentServiceSubscription: Subscription = null;
   private readonly _filter: RoomDataProfanityFilter;
@@ -149,6 +159,18 @@ export class RoomDataService {
     return this._canAccessModerator;
   }
 
+  private static addMeta(comment: Comment): CommentWithMeta {
+    const commentWithMeta = comment as CommentWithMeta;
+    commentWithMeta.meta = {
+      children: new Set(),
+      created: false,
+      removed: false,
+      responseCount: 0,
+      responsesFromParticipants: 0,
+    };
+    return commentWithMeta;
+  }
+
   observeUserCount(): Observable<string> {
     return this._currentUserCount.asObservable();
   }
@@ -169,12 +191,12 @@ export class RoomDataService {
     return subscription.updateSubject.asObservable();
   }
 
-  getRoomData(isModeration = false): Observable<Comment[]> {
+  getRoomData(isModeration = false): Observable<CommentWithMeta[]> {
     const source = isModeration ? this._currentNackRoomComments : this._currentRoomComments;
     return source.asObservable();
   }
 
-  getRoomDataOnce(freezed = false, isModeration = false): Observable<Comment[]> {
+  getRoomDataOnce(freezed = false, isModeration = false): Observable<CommentWithMeta[]> {
     const source = isModeration ? this._currentNackRoomComments : this._currentRoomComments;
     return source.asObservable().pipe(
       filter(v => !!v),
@@ -207,6 +229,10 @@ export class RoomDataService {
   getCensoredInformation(comment: Comment, isModeration = false): CommentFilterData {
     const source = isModeration ? this._fastNackCommentAccess[comment.id] : this._fastCommentAccess[comment.id];
     return source?.afterFiltering;
+  }
+
+  getCommentReference(id: string): CommentWithMeta {
+    return (this._fastCommentAccess[id] || this._fastNackCommentAccess[id])?.comment;
   }
 
   toggleBookmark(comment: Comment) {
@@ -289,7 +315,8 @@ export class RoomDataService {
       .subscribe(msg => this.onMessageReceive(msg, false));
     const isUser = this.sessionService.currentRole === UserRole.PARTICIPANT;
     this.commentService.getAckComments(room.id).subscribe(comments => {
-      this.onAckCommentReceive(comments, filtered, room, isUser);
+      this.sessionService.getModeratorsOnce().subscribe(() =>
+        this.onAckCommentReceive(comments.map(comment => RoomDataService.addMeta(comment)), filtered, room, isUser));
     });
     const userRole = this.authenticationService.getUser()?.role || UserRole.PARTICIPANT;
     this._canAccessModerator = userRole > UserRole.PARTICIPANT;
@@ -297,7 +324,8 @@ export class RoomDataService {
       this._nackCommentServiceSubscription = this.wsCommentService.getModeratorCommentStream(room.id)
         .subscribe(msg => this.onMessageReceive(msg, true));
       this.commentService.getRejectedComments(room.id).subscribe(comments => {
-        this.onRejectCommentReceive(comments, filtered, room);
+        this.sessionService.getModeratorsOnce().subscribe(() =>
+          this.onRejectCommentReceive(comments.map(comment => RoomDataService.addMeta(comment)), filtered, room));
       });
     }
     this.sessionService.receiveRoomUpdates().subscribe(() => {
@@ -308,7 +336,7 @@ export class RoomDataService {
     });
   }
 
-  private onRejectCommentReceive(comments: Comment[], filtered: boolean, room: Room) {
+  private onRejectCommentReceive(comments: CommentWithMeta[], filtered: boolean, room: Room) {
     for (const comment of comments) {
       const [beforeFiltering, afterFiltering, hasProfanity] = this._filter.filterCommentBody(room, comment);
       this._fastNackCommentAccess[comment.id] = {
@@ -326,7 +354,7 @@ export class RoomDataService {
     this._currentNackRoomComments.next(comments);
   }
 
-  private onAckCommentReceive(comments: Comment[], filtered: boolean, room: Room, isUser: boolean) {
+  private onAckCommentReceive(comments: CommentWithMeta[], filtered: boolean, room: Room, isUser: boolean) {
     for (const comment of comments) {
       const [beforeFiltering, afterFiltering, hasProfanity] = this._filter.filterCommentBody(room, comment);
       this._fastCommentAccess[comment.id] = {
@@ -380,7 +408,8 @@ export class RoomDataService {
 
   private onCommentCreate(payload: any, isModeration: boolean) {
     const room = this.sessionService.currentRoom;
-    const c = new Comment();
+    const c = RoomDataService.addMeta(new Comment());
+    c.meta.created = true;
     c.roomId = room.id;
     c.body = payload.body;
     c.id = payload.id;
@@ -390,7 +419,6 @@ export class RoomDataService {
     c.keywordsFromQuestioner = JSON.parse(payload.keywordsFromQuestioner);
     c.language = payload.language;
     c.questionerName = payload.questionerName;
-    c.meta = { created: true };
     c.commentReference = payload.commentReference;
     const filtered = room.profanityFilter !== ProfanityFilter.DEACTIVATED;
     const source = isModeration ? this._fastNackCommentAccess : this._fastCommentAccess;
@@ -529,8 +557,8 @@ export class RoomDataService {
   private removeComment(id: string, isModeration: boolean) {
     const fastSource = isModeration ? this._fastNackCommentAccess : this._fastCommentAccess;
     const data = fastSource[id];
-    data.comment.meta = data.comment.meta || {};
     data.comment.meta.removed = true;
+    this.removeReference(data.comment, isModeration);
     const removeCommentFromSource = () => {
       const source = isModeration ? this._currentNackRoomComments : this._currentRoomComments;
       const index = source.getValue().findIndex(el => el.id === id);
@@ -549,18 +577,48 @@ export class RoomDataService {
     setTimeout(removeCommentFromSource, 700);
   }
 
-  private calculateCommentReferences(comments: Comment[], isModeration: boolean) {
+  private calculateCommentReferences(comments: CommentWithMeta[], isModeration: boolean) {
     const fastSource = isModeration ? this._fastNackCommentAccess : this._fastCommentAccess;
     for (const recieve of comments) {
-      if (recieve.commentReference !== null) {
-        const parent = fastSource[recieve.commentReference]?.comment;
-        if (!parent) {
-          return;
-        }
-        parent.meta = parent.meta || {};
-        parent.meta.children = parent.meta.children || [];
-        parent.meta.children.push(recieve.id);
+      if (recieve.commentReference === null) {
+        continue;
       }
+      const parent = fastSource[recieve.commentReference]?.comment;
+      if (!parent) {
+        continue;
+      }
+      parent.meta.children.add(recieve.id);
+      this.updateResponseCount(recieve, isModeration, true);
+    }
+  }
+
+  private removeReference(comment: CommentWithMeta, isModeration: boolean) {
+    if (comment.commentReference === null) {
+      return;
+    }
+    const fastSource = isModeration ? this._fastNackCommentAccess : this._fastCommentAccess;
+    const parent = fastSource[comment.commentReference]?.comment;
+    if (!parent) {
+      return;
+    }
+    this.updateResponseCount(comment, isModeration, false);
+    parent.meta.children.delete(comment.id);
+  }
+
+  private updateResponseCount(comment: CommentWithMeta, isModeration: boolean, add: boolean) {
+    if (comment.commentReference === null) {
+      return;
+    }
+    const fastSource = isModeration ? this._fastNackCommentAccess : this._fastCommentAccess;
+    let parent: CommentWithMeta;
+    const count = comment.meta.responseCount + 1;
+    const isStudent = this.sessionService.currentRoom.ownerId !== comment.creatorId &&
+      this.sessionService.currentModerators.every(mod => mod.accountId !== comment.creatorId);
+    const fromParticipants = comment.meta.responsesFromParticipants + (isStudent ? 1 : 0);
+    while (comment.commentReference && (parent = fastSource[comment.commentReference]?.comment) && parent.meta.children.has(comment.id)) {
+      parent.meta.responseCount += count * (add ? 1 : -1);
+      parent.meta.responsesFromParticipants += fromParticipants * (add ? 1 : -1);
+      comment = parent;
     }
   }
 }

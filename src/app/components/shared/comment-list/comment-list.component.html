@@ -168,6 +168,18 @@
       </span>
     </button>
 
+    <button mat-menu-item
+            (click)="applySortingByKey('Commented')"
+            aria-labelledby="commented">
+      <mat-icon class="material-icons-outlined" [ngClass]="{Commented: 'commented'}[sortType]">
+        forum
+      </mat-icon>
+      <span
+        [ngClass]="{Commented: 'commented'}[sortType]">
+        {{ 'comment-list.sort-commented' | translate }}
+      </span>
+    </button>
+
   </mat-menu>
 
   <mat-menu #filterMenu="matMenu"
@@ -182,6 +194,16 @@
         </mat-icon>
         <span
           [ngClass]="{Favorite: 'favorite-icon'}[filterType]">{{ 'comment-list.filter-favorite' | translate }}</span>
+      </button>
+
+      <button mat-menu-item
+              (click)="applyFilterByKey('Conversation')"
+              aria-labelledby="conversation">
+        <mat-icon class="conversation-icon material-icons-round">
+          forum
+        </mat-icon>
+        <span
+          [ngClass]="{Conversation: 'conversation-icon'}[filterType]">{{ 'comment-list.filter-conversation' | translate }}</span>
       </button>
 
       <button mat-menu-item
@@ -227,8 +249,7 @@
       <button mat-menu-item
               (click)="applyFilterByKey('Owner')"
               aria-labelledby="comment">
-        <mat-icon class="material-icons-outlined" style="color: mediumslateblue"
-                  [ngClass]="{Owner: 'owner-icon'}[filterType]">
+        <mat-icon class="owner-icon material-icons-outlined">
           insert_emoticon
         </mat-icon>
         <span [ngClass]="{Owner: 'owner-icon'}[filterType]">{{ 'comment-list.filter-owner' | translate }}</span>
@@ -390,6 +411,7 @@
   <div id="keyboard_arrow_down">{{'comment-list.a11y-keyboard_arrow_down' | translate}}</div>
   <div id="access_time">{{'comment-list.a11y-access_time' | translate}}</div>
   <div id="controversy">{{'comment-list.a11y-controversy' | translate}}</div>
+  <div id="commented">{{'comment-list.a11y-commented' | translate}}</div>
   <div id="filter_list">{{'comment-list.a11y-filter_list' | translate}}</div>
   <div id="check_circle">{{'comment-list.a11y-check_circle' | translate}}</div>
   <div id="not_interested">{{'comment-list.a11y-not_interested' | translate}}</div>
@@ -412,4 +434,5 @@
   <div id="select-time-1w">{{ 'comment-list.a11y-select-time-1w' | translate }}</div>
   <div id="select-time-all">{{ 'comment-list.a11y-select-time-all' | translate }}</div>
   <div id="activity">{{ 'comment-list.a11y-activity' | translate }} {{activeUsers}}</div>
+  <div id="conversation">{{'comment-list.a11y-conversation' | translate}}</div>
 </div>

@@ -25,6 +25,7 @@ import { ProfanityFilter, Room } from '../../../../models/room';
 import { SessionService } from '../../../../services/util/session.service';
 import { DeviceInfoService } from '../../../../services/util/device-info.service';
 import { SpacyKeyword } from '../../../../services/http/spacy.service';
+import { ExplanationDialogComponent } from '../explanation-dialog/explanation-dialog.component';
 
 @Component({
   selector: 'app-topic-cloud-administration',
@@ -110,12 +111,12 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     this.spacyLabels = spacyLabels;
     this.wantedLabels = undefined;
     this.sessionService.getRoomOnce().subscribe(room => {
-      this.blacklistIsActive = room.blacklistIsActive;
+      this.blacklistIsActive = room.blacklistActive;
       this.blacklist = room.blacklist ? JSON.parse(room.blacklist) : [];
       this.setDefaultAdminData(room);
       this.initializeKeywords();
       this.subscriptionRoom = this.sessionService.receiveRoomUpdates().subscribe(_room => {
-        this.blacklistIsActive = room.blacklistIsActive;
+        this.blacklistIsActive = room.blacklistActive;
         this.blacklist = _room.blacklist ? JSON.parse(_room.blacklist) : [];
         this.refreshKeywords();
       });
@@ -294,10 +295,11 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
       scorings: this.scorings
     };
     const room = this.sessionService.currentRoom;
-    room.blacklistIsActive = this.blacklistIsActive;
-    room.blacklist = JSON.stringify(this.blacklist);
-    room.profanityFilter = this.getProfanityFilterType();
-    this.topicCloudAdminService.setAdminData(this.topicCloudAdminData, room, this.sessionService.currentRole);
+    this.topicCloudAdminService.setAdminData(this.topicCloudAdminData, room.id, this.sessionService.currentRole, {
+      blacklistActive: this.blacklistIsActive,
+      blacklist: JSON.stringify(this.blacklist),
+      profanityFilter: this.getProfanityFilterType(),
+    });
   }
 
   setDefaultAdminData(room: Room) {
@@ -310,7 +312,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
       this.censorLanguageSpecificCheck = room.profanityFilter === ProfanityFilter.LANGUAGE_SPECIFIC;
       this.censorPartialWordsCheck = room.profanityFilter === ProfanityFilter.PARTIAL_WORDS;
     }
-    this.blacklistIsActive = room.blacklistIsActive;
+    this.blacklistIsActive = room.blacklistActive;
     this.keywordORfulltext = KeywordOrFulltext[this.topicCloudAdminData.keywordORfulltext];
     this.wantedLabels = {
       de: this.topicCloudAdminData.wantedLabels.de,
@@ -580,6 +582,13 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     for (const key of Object.keys(this.defaultScorings)) {
       this.scorings[key] = { ...this.defaultScorings[key] };
     }
+  }
+
+  openHelp() {
+    const ref = this.confirmDialog.open(ExplanationDialogComponent, {
+      autoFocus: false
+    });
+    ref.componentInstance.translateKey = 'explanation.cloud-configuration';
   }
 
   private renameKeyword(comments: Comment[], lowerCaseKeyword: string) {

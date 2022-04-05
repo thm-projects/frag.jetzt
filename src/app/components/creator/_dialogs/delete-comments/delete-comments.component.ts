@@ -1,7 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { DialogConfirmActionButtonType } from '../../../shared/dialog/dialog-action-buttons/dialog-action-buttons.component';
+import {
+  DialogConfirmActionButtonType
+} from '../../../shared/dialog/dialog-action-buttons/dialog-action-buttons.component';
 import { TranslateService } from '@ngx-translate/core';
 import { BonusTokenService } from '../../../../services/http/bonus-token.service';
 import { CommentSettingsComponent } from '../comment-settings/comment-settings.component';
@@ -20,11 +22,14 @@ export class DeleteCommentsComponent implements OnInit {
   roomId: string;
   bonusQuestions = false;
 
-  constructor(public dialogRef: MatDialogRef<CommentSettingsComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: any,
-              private liveAnnouncer: LiveAnnouncer,
-              private translationService: TranslateService,
-              private tokenService: BonusTokenService)  { }
+  constructor(
+    public dialogRef: MatDialogRef<CommentSettingsComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private liveAnnouncer: LiveAnnouncer,
+    private translationService: TranslateService,
+    private tokenService: BonusTokenService
+  ) {
+  }
 
 
   ngOnInit() {

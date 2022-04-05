@@ -3,7 +3,7 @@ import { UserRole } from '../../../models/user-roles.enum';
 import { RoomPageComponent } from '../../shared/room-page/room-page.component';
 import { Location } from '@angular/common';
 import { RoomService } from '../../../services/http/room.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../services/util/language.service';
 import { CommentService } from '../../../services/http/comment.service';
@@ -56,9 +56,11 @@ export class RoomParticipantPageComponent extends RoomPageComponent implements O
     protected roomDataService: RoomDataService,
     public deviceInfo: DeviceInfoService,
     private titleService: TitleService,
+    protected router: Router,
   ) {
     super(roomService, route, location, commentService, eventService, headerService, composeService, dialog,
-      bonusTokenService, translateService, notificationService, authenticationService, sessionService, roomDataService);
+      bonusTokenService, translateService, notificationService, authenticationService, sessionService, roomDataService,
+      router);
     langService.getLanguage().subscribe(lang => translateService.use(lang));
     this.commentCounterEmitSubscription = this.commentCounterEmit.subscribe(e => {
       this.titleService.attachTitle(`(${e[0]} / ${e[1]})`);

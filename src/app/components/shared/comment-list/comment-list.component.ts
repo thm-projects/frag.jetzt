@@ -20,7 +20,7 @@ import { AuthenticationService } from '../../../services/http/authentication.ser
 import { TitleService } from '../../../services/util/title.service';
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
 import { CreateCommentWrapper } from '../../../utils/create-comment-wrapper';
-import { RoomDataService, UpdateInformation } from '../../../services/util/room-data.service';
+import { CommentWithMeta, RoomDataService, UpdateInformation } from '../../../services/util/room-data.service';
 import { OnboardingService } from '../../../services/util/onboarding.service';
 import { PageEvent } from '@angular/material/paginator';
 import { ViewCommentDataComponent } from '../view-comment-data/view-comment-data.component';
@@ -57,7 +57,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
   @ViewChild('filterMenuTrigger') filterMenuTrigger: MatMenuTrigger;
   user: User;
   AppComponent = AppComponent;
-  comments: Comment[] = [];
+  comments: CommentWithMeta[] = [];
   commentsFilteredByTimeLength: number;
   room: Room;
   userRole: UserRole;
@@ -67,7 +67,6 @@ export class CommentListComponent implements OnInit, OnDestroy {
   scrollExtended = false;
   search = false;
   searchPlaceholder = '';
-  moderationEnabled = true;
   directSend = true;
   newestComment: string;
   freeze = false;
@@ -245,8 +244,10 @@ export class CommentListComponent implements OnInit, OnDestroy {
       this.setFocusedComment(localStorage.getItem('answeringQuestion'));
       this.isJoyrideActive = this.onboardingService.startDefaultTour();
     }
-    const allComments = this.roomDataService.getCurrentRoomData();
-    this._allQuestionNumberOptions = allComments.map(c => c.number).sort(numberSorter).map(c => String(c));
+    const allComments = this.roomDataService.getCurrentRoomData().filter(c => c.commentReference === null);
+    allComments.sort((a, b) => numberSorter(a.number, b.number));
+    this._allQuestionNumberOptions = allComments.map(c => Comment.computePrettyCommentNumber(this.translateService, c)
+      .join(' '));
     const value = this.questionNumberFormControl.value || '';
     this.questionNumberOptions = this._allQuestionNumberOptions.filter(e => e.startsWith(value));
     this.commentsWrittenByUsers.clear();
@@ -399,7 +400,8 @@ export class CommentListComponent implements OnInit, OnDestroy {
 
   private onCommentPatched(update: UpdateInformation) {
     if (update.subtype === 'favorite') {
-      if (this.user.id === update.comment.creatorId && this.userRole === UserRole.PARTICIPANT) {
+      if (this.user.id === update.comment.creatorId && this.userRole === UserRole.PARTICIPANT &&
+        this.room?.bonusArchiveActive) {
         const text = update.comment.favorite ? 'comment-list.question-was-marked-with-a-star' :
           'comment-list.star-was-withdrawn-from-the-question';
         this.translateService.get(text).subscribe(ret => this.notificationService.show(ret));
@@ -409,7 +411,6 @@ export class CommentListComponent implements OnInit, OnDestroy {
 
   private receiveRoom(room: Room) {
     this.room = room;
-    this.moderationEnabled = room.moderated;
     this.directSend = room.directSend;
     this.commentsEnabled = (this.userRole > UserRole.PARTICIPANT) || !room.questionsBlocked;
   }
@@ -483,7 +484,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
         class: 'material-icons-outlined',
         text: 'header.brainstorming',
         callback: () => this.headerService.getHeaderComponent().navigateBrainstorming(),
-        condition: () => this.deviceInfo.isCurrentlyMobile &&
+        condition: () => this.deviceInfo.isCurrentlyMobile && this.room?.brainstormingActive &&
           (!!this.room?.brainstormingSession || this.userRole > UserRole.PARTICIPANT)
       });
       e.menuItem({
@@ -492,7 +493,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
         class: 'material-icons-outlined',
         text: 'header.quiz-now',
         callback: () => this.router.navigate(['quiz']),
-        condition: () => this.deviceInfo.isCurrentlyMobile
+        condition: () => this.deviceInfo.isCurrentlyMobile && this.room?.quizActive
       });
       e.menuItem({
         translate: this.headerService.getTranslate(),
@@ -501,7 +502,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
         iconColor: Palette.YELLOW,
         text: 'header.bonustoken',
         callback: () => this.showBonusTokenDialog(),
-        condition: () => this.userRole > UserRole.PARTICIPANT
+        condition: () => this.userRole > UserRole.PARTICIPANT && this.room?.bonusArchiveActive
       });
       e.menuItem({
         translate: this.headerService.getTranslate(),

@@ -5,14 +5,14 @@
     "date": "Bonus-Archiv",
     "name": "Veranstaltungsname",
     "code": "Raum-Code",
-    "entry-token": "Bonus-Code",
-    "entry-date": "Token-Datum",
-    "entry-time": "Token-Uhrzeit",
+    "entry-token": "Bonuscode",
+    "entry-date": "Code-Datum",
+    "entry-time": "Code-Uhrzeit",
     "entry-question": "Frage",
     "entry-answer": "Antwort",
     "entry-commentNumber": "Bonus-Fragenummer",
     "file-name": "Bonus-Archiv \"{{roomName}}\" {{date}}.csv",
-    "user-name": "Benutzer",
+    "user-name": "User",
     "user-anonym": "anonym"
   },
   "cookies": {
@@ -132,11 +132,11 @@
     "close": "Schließen",
     "deepl": "## Text optimieren \n\nUm deine Frage optimal lesbar und verständlich zu präsentieren, lassen wir sie mit dem KI-Übersetzungsprogramm [DeepL](https://www.deepl.com/translator) ins Englische und zurück ins Deutsche übersetzen. \n\nDie Rückübersetzung ist in fast allen Fällen besser als das Original in Bezug auf Rechtschreibung, Grammatik, Interpunktion und Sprachstil. Die Rückübersetzung kann auf zwei Arten erfolgen: informell (Duzen) oder formell (Siezen).",
     "spacy": "## Stichwörter \n\nMittels NLP (Natural Language Processing) wird deine Frage grammatikalisch analysiert. Die erkannten Substantive werden in ihre Grundform gebracht, d. h. lemmatisiert, und dir als Stichwörter vorgeschlagen. Für die Textanalyse verwenden wir die freie NLP-Software [spaCy](https://spacy.io/). \n\nDie Stichwörter können verwendet werden, um die Liste der Fragen zu filtern oder um eine Wortwolke zu erstellen.",
-    "topic-cloud": "## Themenwolke \n\nDie Themenwolke visualisiert die Verteilung der Stichwörter. Diese wurden durch eine grammatikalische Analyse der Nomen im Fragetext ermittelt oder vom Autor explizit der Frage zugewiesen. \n\n  In die Berechnung der Schriftgröße gehen ein:\n\n* die Differenz zwischen Up- und Down-Votes, wenn sie positiv ist,\n* die Anzahl der Fragen mit diesem Stichwort,\n* die Anzahl der Fragensteller mit diesem Stichwort,\n* die Rolle des Fragenstellers: Raumersteller, Moderator oder Teilnehmer,\n* ob der Fragensteller eine Fragenkategorie ausgewählt hat,\n* ob das Stichwort generiert oder vom Fragensteller vergeben wurde,\n* ob die Frage vom Raumersteller oder einem Moderator beantwortet wurde,\n* die Kontroversität der Frage. \n\nDie Themenwolke dient als **Navigator** zu allen Fragen zu einem Stichwort: Wenn du auf ein Wort in der Wolke klickst, gelangst du zu den Fragen mit diesem Stichwort. \n\nDer Raumersteller kann das Aussehen der Themenwolke in den Optionen nach seinen Wünschen anpassen. Er kann auch mit den Parametern für die Stichwortgenerierung experimentieren, um die **semantische Trennschärfe** zu optimieren.",
-    "user-bonus": "## Bonus \n\nDie Lehrperson kann »gute« Fragen für einen Bonus markieren. Deine Fragen aus allen Kursen (Räumen), die einen Stern erhalten haben, werden hier aufgelistet.\n\nJe nach Vereinbarung kannst du den Bonus-Code per E-Mail an die Lehrperson schicken, um ihn gegen einen Bonus einzulösen.",
-    "bonus-archive": "## Bonus-Archiv \n\nHier werden alle Fragen aufgelistet, die du in deinen Räumen mit einem Stern markiert hast. Anhand der Liste kannst du überprüfen, ob der Bonus-Code, den dir ein/e Teilnehmer/in per Mail geschickt hat, gültig ist. \n\nUm einen Code schnell zu finden, gibt es ein Suchfeld. Ist der Code gültig, kannst du dir die entsprechende Frage direkt über einen Link anzeigen lassen.",
-    "brainstorming": "## Brainstorming \n\nBeim Erstellen einer Brainstorming-Sitzung legt der Raumersteller oder ein Moderator das Thema der Brainstorming-Sitzung fest und bestimmt die maximale Gesamtzahl der Wörter und Zeichen pro Beitrag.\n\nÜber jeden Eintrag in der Wortwolke kann abgestimmt werden. Dazu fährt man mit dem Mauszeiger über den Eintrag und klickt auf ein Abstimmungs-Icon im zugehörigen Pop-up-Fenster.\n\nIn der Q&A-Liste können alle Brainstorming-Einträge mit dem entsprechenden Filter angezeigt werden. Wenn der Autor seinen Namen beim Erstellen des Beitrags angegeben hat, so ist dieser am Beitrag ersichtlich.",
-    "add-moderators": "## Moderator \n\nGast- und Dauermoderatoren haben die gleichen Rechte wie der Ersteller des Raums. Sie können aber weder Fragen noch den ganzen Raum löschen. \n\nJeder kann mit seiner **Mailadresse**, mit der er sich bei »frag.jetzt« registriert hat, als **Dauermoderator** aufgenommen werden. \n\nEin unregistrierter User kann zum **Gastmoderator** werden, wenn er den Raum per **Direktlink** oder 8-stelligen **Zugangscode** betritt."
+    "topic-cloud": "## Themenwolke \n\nDie Themenwolke visualisiert die Verteilung der Stichwörter. Diese wurden durch eine grammatikalische Analyse der Nomen im Fragetext ermittelt oder vom Autor oder der Autorin explizit der Frage zugewiesen. \n\n  In die Berechnung der Schriftgröße gehen ein:\n\n* die Differenz zwischen Up- und Down-Votes, wenn sie positiv ist,\n* die Anzahl der Fragen mit diesem Stichwort,\n* die Anzahl der Fragensteller/innen mit diesem Stichwort,\n* die Rolle: Raumersteller/in, Moderator/in oder Teilnehmer/in,\n* ob der/die Fragensteller/in eine Fragenkategorie ausgewählt hat,\n* ob das Stichwort generiert oder vom Fragensteller oder der Fragenstellerin vergeben wurde,\n* ob die Frage beantwortet wurde,\n* die Kontroversität der Frage. \n\nDie Themenwolke dient als **Navigator** zu allen Fragen zu einem Stichwort: Wenn du auf ein Wort in der Wolke klickst, gelangst du zu den Fragen mit diesem Stichwort. \n\nRaumersteller*innen können das Aussehen der Themenwolke in den Optionen nach ihren Wünschen anpassen. Er oder sie kann auch mit den Parametern für die Stichwortgenerierung experimentieren, um die **semantische Trennschärfe** zu optimieren.",
+    "user-bonus": "## Bonus \n\nDie Lehrperson kann »gute« Fragen für einen Bonus markieren. Deine Fragen aus allen Kursen (Räumen), die einen Stern erhalten haben, werden hier aufgelistet.\n\nJe nach Vereinbarung kannst du den Bonuscode per E-Mail an die Lehrperson schicken, um ihn gegen einen Bonus einzulösen.",
+    "bonus-archive": "## Bonus-Archiv \n\nHier werden alle Fragen aufgelistet, die du in deinen Räumen mit einem Stern markiert hast. Anhand der Liste kannst du überprüfen, ob der Bonuscode, den dir ein/e Teilnehmer/in per Mail geschickt hat, gültig ist. \n\nUm einen Code schnell zu finden, gibt es ein Suchfeld. Ist der Code gültig, kannst du dir die entsprechende Frage direkt über einen Link anzeigen lassen.",
+    "brainstorming": "## Brainstorming \n\nBeim Erstellen einer Brainstorming-Sitzung legen Moderator/innen das Thema der Sitzung und die maximale Anzahl der Wörter und Zeichen pro Beitrag fest. Ist nur ein Wort als Beitrag zugelassen, führt eine KI einen morphologschen Vergleich aller Beiträge durch. Es werden Mehrfachnennungen trotz unterschiedlicher Flexion und Schreibweise der Wörter sicher erkannt und in entsprechender Schriftgröße in einer Wortwolke angezeigt. \n\nÜber jeden Eintrag in der Wortwolke kann abgestimmt werden. Dazu fährt man mit dem Mauszeiger über den Eintrag und klickt auf ein Abstimmungs-Icon im zugehörigen Pop-up-Fenster.",    "add-moderators": "## Moderator/in \n\nGast- und Dauermoderator/innen haben die gleichen Rechte wie der/die Ersteller/in des Raums. Sie können aber weder Fragen noch den ganzen Raum löschen. \n\nJeder kann mit seiner **Mailadresse**, mit der er sich bei »frag.jetzt« registriert hat, als **Dauermoderator/in** aufgenommen werden. \n\nEin unregistrierter User kann **Gastmoderator/in** werden, wenn er oder sie den Raum per **Direktlink** oder 8-stelligen **Zugangscode** betritt.",
+    "room-settings-overview": "## Raumeinstellungen \n\nHier siehst du alle Einstellungen des Raumes in der Übersicht. \n\nDu kannst Änderungen auch später noch im Optionen-Menü des Raumes vornehmen. \n\nWegen der Anonymität der User und des damit potenziellen Missbrauchs des Q&A-Forums bieten wir dir mit den ersten drei Schaltern Einschränkungen an. Siehe die Hinweise dazu in den Tooltips der Schalter."
   },
   "header": {
     "abort": "Abbrechen",
@@ -194,7 +194,7 @@
     "back-to-room-moderator": "Raumverwaltung",
     "moderationboard": "Moderation",
     "create-question": "Frage stellen",
-    "questionwall": "Präsentieren",
+    "questionwall": "Fragen-Fokus",
     "tag-cloud": "Stichwörter",
     "fullscreen": "Vollbild & Text",
     "motd": "News",
@@ -204,7 +204,7 @@
     "questions-blocked": "Weitere Fragen deaktiviert ",
     "conversation-enabled": "Konversation erlaubt",
     "overview-question-tooltip": "Anzahl Fragen",
-    "overview-questioners-tooltip": "Anzahl Fragensteller",
+    "overview-questioners-tooltip": "Anzahl Fragensteller*innen",
     "overview-keywords-tooltip": "Anzahl Stichwörter",
     "update-spacy-keywords": "Stichwörter extrahieren",
     "overview-admin-config-enabled": "Schwellenwerte für die Anzeige der Themen sind aktiv.",
@@ -217,7 +217,7 @@
     "brainstorm-active": "Aktuell findet eine Brainstorming-Sitzung statt.",
     "active-email-notification": "Die Mail-Benachrichtigung ist aktiviert.",
     "direct-link": "Direktlink",
-    "session-id-copied": "Der Direktlink für Teilnehmer wurde in die Zwischenablage kopiert.",
+    "session-id-copied": "Der Direktlink für Teilnehmer*innen wurde in die Zwischenablage kopiert.",
     "conversation-is-disabled": "Konversation ist in diesem Raum nicht erlaubt.",
     "zoom-exit": "Vollansicht verlassen",
     "zoom-plus": "Text vergrößern",
@@ -285,7 +285,9 @@
     "feedbackLink": "Du hast einen Bug gefunden? Du hättest gern ein weiteres Feature? Der Link führt dich in den Feedback-Raum. Die Tour wird in diesem Raum fortgesetzt.",
     "feedbackLinkTitle": "Raum für Feedback",
     "optionHeader": "Hier befindet sich das Hauptmenü von »frag.jetzt«. Neben den Optionen der aktuellen Seite findest du hier auch allgemeine Funktionen, darunter die Raumübersicht und die Neuigkeiten des »frag.jetzt«-Teams. Das rote Ausrufezeichen zeigt den Gaststatus des Users an.",
-    "optionHeaderTitle": "Optionen"
+    "optionHeaderTitle": "Optionen",
+    "dashboard": "Hier befindet sich das Menü für die Live-Nachrichten",
+    "dashboardTitle": "Live-Nachrichten"
   },
   "login": {
     "activation-key": "Aktivierungs-Schlüssel",
@@ -418,8 +420,40 @@
     "bookmark": "Lesezeichen",
     "comment-bookmarked": "Ja",
     "comment-not_bookmarked": "",
-    "token": "Bonus-Code",
-    "token-time": "Token-Zeitstempel"
+    "token": "Bonuscode",
+    "token-time": "Code-Zeitstempel"
+  },
+  "room-settings-overview": {
+    "a11y-bonus-archive-enabled": "Schieberegler, um das Bonus-Archiv zu aktivieren.",
+    "a11y-brainstorming-enabled": "Schieberegler, um Brainstorming zu erlauben.",
+    "a11y-conversation-enabled": "Schieberegler, um Konversationen in diesem Raum freizuschalten.",
+    "a11y-profanity-toggle-active": "Schieberegler, um Profanität in diesem Raum zu filtern.",
+    "a11y-profanity-toggle-all": "Schieberegler, um in allen Sprachen Profanität zu filtern.",
+    "a11y-profanity-toggle-word": "Schieberegler, um innerhalb eines Wortes Profanität zu filtern.",
+    "a11y-quiz-enabled": "Schieberegler, um die integrierte Quiz-Option anzuzeigen.",
+    "a11y-settings-direct-send": "Schieberegler, um Fragen sofort sichtbar zu machen.",
+    "bonus-archive-enabled": "Bonus-Archiv aktivieren",
+    "brainstorming-enabled": "Brainstormen aktivieren",
+    "cancel": "Abbrechen",
+    "changes-successful": "Änderungen gespeichert",
+    "changes-gone-wrong": "Etwas ist schief gelaufen!",
+    "conversation-enabled": "Konversationen erlauben",
+    "profanity-toggle-active": "Profanität zensieren",
+    "profanity-toggle-all": "Polyglot zensieren",
+    "profanity-toggle-word": "Im Wort zensieren",
+    "quiz-enabled": "Quizzen aktivieren",
+    "save": "Speichern",
+    "settings-direct-send": "Fragen direkt veröffentlichen",
+    "title": "Raumeinstellungen",
+    "title-profanity": "Profanitätsfilter",
+    "tooltip-bonus-archive-enabled": "Wenn du einen Beitrag mit einem Stern auszeichnest, kannst du den Stern für die Vergabe von Bonuspunkten verwenden. Es wird ein Code generiert, den der/die Teilnehmer*in an deine E-Mail-Adresse für die Bonuseinlösung schickt.",
+    "tooltip-brainstorming-enabled": "Du kannst Brainstorming-Sitzungen zu bestimmten Fragen durchführen. Die Ideen (Wörter) werden von einer KI morphologisch verglichen und in einer Wortwolke angezeigt.",
+    "tooltip-conversation-enabled": "Du kannst Unterhaltungen aktivieren, damit die Teilnehmer*innen Fragen beantworten oder kommentieren können.",
+    "tooltip-profanity-toggle-active": "Wenn du die Filterung aktivierst, werden vulgäre Wörter in den Beiträgen zensiert.",
+    "tooltip-profanity-toggle-all": "Du kannst vulgäre Wörter in mehreren Sprachen zensieren.",
+    "tooltip-profanity-toggle-word": "Du kannst die Filterung innerhalb von Wörtern aktivieren, standardmäßig werden nur ganze Wörter zensiert.",
+    "tooltip-quiz-enabled": "Du kannst die Quiz-App https://antworte.jetzt in deinem Raum einsetzen.",
+    "tooltip-settings-direct-send": "Jede Frage wird sofort veröffentlicht. Schalte diese Option ab, wenn du jede Frage einzeln freigeben willst. Du kannst diese Aufgabe auch Moderator*innen übertragen."
   },
   "comment-notification": {
     "monday": "Montag",
@@ -446,6 +480,7 @@
     "join-message-template": "An der Sitzung {{session}} mit dem Code {{id}} und in der Rolle {{role}} teilnehmen",
     "moderator-role": "Du bist Moderator*in in diesem Raum.",
     "no-room-history": "Deine Raumliste ist leer.",
+    "option-menu": "Optionen",
     "panel-join-button": "",
     "panel-remove-button": "Eintrag entfernen",
     "delete-room": "Raum löschen",
@@ -465,6 +500,7 @@
     "session-history-label": "Nachfolgend findest du eine Liste deiner Sitzungen.",
     "export-comments": "Q&A speichern",
     "email-notification": "Mail-Benachrichtigung",
+    "settings-overview": "Raumeinstellungen",
     "room-not-exist": "Der Raum existiert nicht. Bitte informiere die Person, die dir den Direktlink gegeben hat."
   },
   "session": {
@@ -474,6 +510,11 @@
     "max-ls": "Maximale Anzahl Zeichen:",
     "session-name": "Veranstaltung",
     "session-name-with-key-code-generated": "Veranstaltung (Raum-Code generieren lassen)"
+  },
+  "unsupported-browser": {
+    "title": "Ihr Browser wird nicht unterstützt",
+    "body": "Einige Funktionen sind in diesem Browser nicht verfügbar. Bitte wechsle auf einen anderen Browser (wie Firefox oder Chrome).",
+    "close": "Schließen"
   },
   "user-activation": {
     "activate": "Konto aktivieren",
@@ -518,21 +559,21 @@
     "remove-successful": "Wort entfernt"
   },
   "token-validator": {
-    "valid": "Gültiger Token",
-    "invalid": "Ungültiger Token",
-    "cant-find-comment": "Es gibt keine Frage mit diesem Token.",
+    "valid": "Gültiger Bonuscode",
+    "invalid": "Ungültiger Bonuscode",
+    "cant-find-comment": "Es gibt keine Frage mit diesem Bonuscode.",
     "questionNumber": "Nummer",
-    "token": "Token",
+    "token": "Code",
     "timestamp": "Datum",
     "token-filter": "token-filter",
     "go-to": "Gehe zur Frage",
     "date": "Datum",
     "bonus-token-header": "Bonus-Archiv",
-    "hint": "Token prüfen …",
+    "hint": "Code prüfen …",
     "export-bonus-archive": "Exportieren",
-    "delete-all-tokens": "Alle Tokens löschen",
+    "delete-all-tokens": "Alle Codes löschen",
     "no-bonus": "Du hast noch keine Frage mit einem Stern bewertet.",
-    "delete-token": "Token löschen"
+    "delete-token": "Code löschen"
   },
   "worker-dialog": {
     "running": "Stichwörter …",

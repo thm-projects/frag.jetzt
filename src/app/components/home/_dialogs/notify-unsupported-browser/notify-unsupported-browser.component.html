@@ -1,0 +1,11 @@
+<h3>{{ 'unsupported-browser.title' | translate }}</h3>
+
+<mat-dialog-content>
+  {{ 'unsupported-browser.body' | translate }}
+</mat-dialog-content>
+
+<app-dialog-action-buttons
+  cancelButtonLabel="close"
+  buttonsLabelSection="unsupported-browser"
+  [cancelButtonClickAction]="this.onClose.bind(this)">
+</app-dialog-action-buttons>

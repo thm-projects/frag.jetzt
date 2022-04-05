@@ -278,8 +278,8 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
       return;
     }
     this.moderatorToolbarFontColor.nativeElement.style.opacity = '0';
-    tooltip.addEventListener('mouseenter', () => this.moderatorToolbarFontColorTooltip.show());
-    tooltip.addEventListener('mouseleave', () => this.moderatorToolbarFontColorTooltip.hide());
+    tooltip.addEventListener('mouseenter', () => this.moderatorToolbarFontColorTooltip?.show());
+    tooltip.addEventListener('mouseleave', () => this.moderatorToolbarFontColorTooltip?.hide());
     const picker = tooltip.querySelector('.ql-picker-options');
     tooltip.addEventListener('mouseover', e => {
       if (picker.contains(e.target as Node)) {

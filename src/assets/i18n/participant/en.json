@@ -42,7 +42,7 @@
     "comment-bookmarked": "Yes",
     "comment-not_bookmarked": "",
     "token": "Bonus code",
-    "token-time": "Token timestamp"
+    "token-time": "Code timestamp"
   },
   "comment-list": {
     "a11y-access_time": "Sorts questions by time",
@@ -54,6 +54,7 @@
     "a11y-check_circle": "Filters all questions marked as correct",
     "a11y-close": "Picks up all filters",
     "a11y-close_search": "Closes the search of questions",
+    "a11y-conversation": "Filter after conversations",
     "a11y-filter_list": "Option to filter questions",
     "a11y-grade": "Filters all bonus questions",
     "a11y-moderator": "Filters all moderator questions",
@@ -75,6 +76,7 @@
     "a11y-select-time-all": "Show all questions",
     "a11y-activity": "active user",
     "a11y-announce-error": "Announcement could not be published",
+    "a11y-commented": "Sort questions by the count of their responses",
     "answered": "Answered questions",
     "add-comment": "Ask a question!",
     "to-the-top": "To the top",
@@ -97,6 +99,7 @@
     "filter-unanswered": "Not answered",
     "filter-comments": "Filter questions",
     "filter-correct": "Affirmed questions",
+    "filter-conversation": "Conversations",
     "filter-favorite": "Marked for a bonus",
     "filter-bookmark": "Bookmarked questions",
     "filter-not_bookmarked": "Not bookmarked",
@@ -117,6 +120,7 @@
     "sort-vote-asc": "Highest rating first",
     "sort-vote-desc": "Lowest rating first",
     "sort-controversy": "Controversial questions first",
+    "sort-commented": "Questions with the most responses first",
     "sort-list-time": "Latest question first",
     "sort-answers-time": "Sort chronologically",
     "tag": "Category",
@@ -219,7 +223,8 @@
     "live-announcer": "You are now on the questions page. To get information about key combinations press the Enter key or call the announcement later with the Escape key.",
     "mark-bookmark": "Bookmark",
     "mark-not-correct": "Marked as correct",
-    "mark-not-favorite": "The question was found to be good. Click on the star to get a bonus.",
+    "mark-not-favorite": "The post was found to be good. If it is your post, click on the star to get a bonus.",
+    "mark-not-favorite-disabled-bonus": "The question is marked with a star so that everyone notices it.",
     "mark-not-bookmark": "Bookmark",
     "mark-not-wrong": "Marked as wrong",
     "mark-read": "Already discussed by the presenter",
@@ -291,8 +296,17 @@
     "deepl": "## Text optimization\n\nTo make your question as readable and understandable as possible, we have it translated into German and back into English using the translation program [DeepL](https://www.deepl.com/translator).\n\nThe back translation is in almost all cases better than the original in terms of spelling, grammar, punctuation and language style. Back translation can be done in two ways: informally or formally.",
     "spacy": "## Text analysis\n\nUsing NLP (Natural Language Processing) your question will be analyzed grammatically. The recognized nouns are put into their basic form, i.e. lemmatized, and suggested to you as keywords. For the text analysis we use the free NLP software [spaCy](https://spacy.io/). \n\nThe keywords can be used to filter the list of questions or to create a word cloud.",
     "topic-cloud": "## Topic cloud\n\nThe topic cloud visualizes the distribution of the keywords. These were determined by grammatical analysis of the nouns in the question text or explicitly assigned to the question by the author. \n\n The calculation of the font size includes:\n\n* the difference between up- and down-votes, if it is positive\n* the number of questions with this keyword\n* the number of questioners with this keyword.\n* the role of the questioner: room creator, moderator or participant \n* whether the questioner has selected a question category\n* whether the keyword was generated or assigned by the question poser\n* whether the question was answered by the room creator or a moderator\n* the controversy of the question  \n\n The topic cloud serves as a **navigator** to all questions related to a selected keyword: If you click on a word in the cloud, you will get to the questions related to this keyword. \n\nThe room creator can customize the appearance of the topic cloud in the options according to his wishes. He can also experiment with the keyword generation parameters to optimize the **semantic selectivity**.",
-    "user-bonus": "The teacher can mark »good« questions for a bonus. Your questions from all courses (rooms) that have received a star will be listed here.\n\nDepending on the agreement, you can email the token of the star to the teacher to redeem it for a bonus.",
+    "user-bonus": "The teacher can mark »good« questions for a bonus. Your questions from all courses (rooms) that have received a star will be listed here.\n\nDepending on the agreement, you can email the code of the star to the teacher to redeem it for a bonus.",
     "brainstorming": "## Lorem ipsum \n\nLorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,\nmolestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum\nnumquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium\noptio, eaque rerum! Provident similique accusantium nemo autem."
+  },
+  "header": {
+    "overview-question-tooltip": "Number of questions",
+    "overview-questioners-tooltip": "Number of questioners",
+    "overview-keywords-tooltip": "Number of Keywords"
+  },
+  "topic-cloud-filter": {
+    "info-no-keywords": "Our AI-based text analysis can identify keywords. Start analysis?",
+    "label-refresh-keywords-start": "Start"
   },
   "home-page": {
     "exactly-8": "A key is a combination of 8 digits.",
@@ -327,7 +341,7 @@
     "live-announcer": "You're in the session now. To get information about key combinations press the Enter key or call the announcement later with the Escape key.",
     "live-feedback": "Live feedback",
     "session-id": "Code",
-    "bonus-token": "Tokens for bonus stars",
+    "bonus-token": "Tokens for bonus points",
     "moderation-enabled": "All questions will be moderated.",
     "sure": "Are you sure?"
   },
@@ -348,7 +362,7 @@
     "auto-renew-off-icon": "cancel",
     "intro-title": "Question Focus",
     "intro-desc": "Click on a question or navigate backwards and forwards with the arrow keys.",
-    "intro-autofocus": "Tip for live sessions: The »Autofocus« at the bottom left promptly displays the latest question.",
+    "intro-autofocus": "",
     "sort": "Sort",
     "sort-time": "Time",
     "sort-score": "Score",
@@ -428,6 +442,7 @@
     "overview-questioners-topic-tooltip": "Authors",
     "period-since-first-comment":"Time since the first contribution",
     "ups-downs-difference": "Evaluation difference",
+    "responses-to-keyword": "Number of all responses to this topic",
     "upvote-topic": "Up-votes for this topic",
     "upvote-topic-brainstorming": "I like",
     "downvote-topic": "Down-votes for this topic",
@@ -482,6 +497,10 @@
     "keyword-scoring-cappedSummedVotes-info": "(See the sum of all votes). The sum cannot fall below zero and becomes a minimum of 0",
     "keyword-scoring-controversy": "Controversy of a question",
     "keyword-scoring-controversy-info": "Forms a score depending on the up votes and down votes.",
+    "keyword-scoring-responseCount": "Number of responses",
+    "keyword-scoring-responseCount-info": "Forms a score depending on the number of responses written by participants.",
+    "keyword-scoring-answerCount": "Number of answers",
+    "keyword-scoring-answerCount-info": "Forms a score depending on the number of answers written by a moderator or a creator.",
     "profanity": "Censor profanity",
     "hide-blacklist-words": "Hide blacklist keywords",
     "sort-alpha": "Alphabetically",

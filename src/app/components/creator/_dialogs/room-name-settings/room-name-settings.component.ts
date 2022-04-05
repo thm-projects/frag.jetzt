@@ -2,7 +2,6 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Room } from '../../../../models/room';
 import { FormControl, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
-import { RoomCreatorPageComponent } from '../../room-creator-page/room-creator-page.component';
 import { RoomService } from '../../../../services/http/room.service';
 
 @Component({
@@ -12,15 +11,17 @@ import { RoomService } from '../../../../services/http/room.service';
 })
 export class RoomNameSettingsComponent implements OnInit {
 
-  @Input() editRoom: Room;
+  @Input() editRoom: Readonly<Room>;
   readonly roomNameLengthMin = 3;
   readonly roomNameLengthMax = 30;
   roomNameFormControl = new FormControl('', [
     Validators.required, Validators.minLength(this.roomNameLengthMin), Validators.maxLength(this.roomNameLengthMax)
   ]);
 
-  constructor(private dialogRef: MatDialogRef<RoomCreatorPageComponent>,
-              private roomService: RoomService) {
+  constructor(
+    private dialogRef: MatDialogRef<RoomNameSettingsComponent>,
+    private roomService: RoomService
+  ) {
   }
 
   ngOnInit() {
@@ -39,8 +40,9 @@ export class RoomNameSettingsComponent implements OnInit {
     if (!this.roomNameFormControl.hasError('required')
       && !this.roomNameFormControl.hasError('minlength')
       && !this.roomNameFormControl.hasError('maxlength')) {
-      this.editRoom.name = this.roomNameFormControl.value;
-      this.roomService.updateRoom(this.editRoom).subscribe(r => this.editRoom = r);
+      this.roomService.patchRoom(this.editRoom.id, {
+        name: this.roomNameFormControl.value
+      }).subscribe();
       this.dialogRef.close('update');
     }
   }

@@ -2,7 +2,7 @@ import { Component, OnInit, Renderer2, OnDestroy, AfterContentInit, AfterViewIni
 import { RoomPageComponent } from '../../shared/room-page/room-page.component';
 import { Location } from '@angular/common';
 import { RoomService } from '../../../services/http/room.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../services/util/language.service';
 import { CommentService } from '../../../services/http/comment.service';
@@ -53,9 +53,11 @@ export class RoomModeratorPageComponent extends RoomPageComponent implements OnI
     protected roomDataService: RoomDataService,
     public deviceInfo: DeviceInfoService,
     private titleService: TitleService,
+    protected router: Router,
   ) {
     super(roomService, route, location, commentService, eventService, headerService, composeService, dialog,
-      bonusTokenService, translateService, notification, authenticationService, sessionService, roomDataService);
+      bonusTokenService, translateService, notification, authenticationService, sessionService, roomDataService,
+      router);
     this.commentCounterEmitSubscription = this.commentCounterEmit.subscribe(e => {
       this.titleService.attachTitle(`(${e[0]} / ${e[1]})`);
     });

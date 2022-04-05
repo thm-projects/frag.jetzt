@@ -22,12 +22,13 @@ import { Room } from '../../../models/room';
 import { VoteService } from '../../../services/http/vote.service';
 import { Vote } from '../../../models/vote';
 import { Location } from '@angular/common';
-import { CreateCommentKeywords } from '../../../utils/create-comment-keywords';
+import { CreateCommentKeywords, KeywordsResultType } from '../../../utils/create-comment-keywords';
 import { LanguagetoolService } from '../../../services/http/languagetool.service';
 import { DeepLService } from '../../../services/http/deep-l.service';
 import { SpacyService } from '../../../services/http/spacy.service';
 import { ArsComposeService } from '../../../../../projects/ars/src/lib/services/ars-compose.service';
 import { HeaderService } from '../../../services/util/header.service';
+import { SpacyDialogComponent } from '../_dialogs/spacy-dialog/spacy-dialog.component';
 
 @Component({
   selector: 'app-comment-answer',
@@ -170,6 +171,7 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
   }
 
   submitNormal(body: string, text: string, tag: string, name: string, verifiedWithoutDeepl: boolean) {
+    this.isSending = true;
     const response: Comment = new Comment();
     response.roomId = this.room.id;
     response.body = body;
@@ -178,15 +180,45 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
     response.commentReference = this.comment.id;
     response.tag = tag;
     response.questionerName = name;
-    this.commentService.addComment(response).subscribe(c => {
-      let url: string;
-      this.route.params.subscribe(params => {
-        url = `${this.roleString}/room/${params['shortId']}/comment/${this.comment.id}/conversation`;
+    this.openSpacyDialog(response, !verifiedWithoutDeepl, computed => {
+      this.commentService.addComment(computed).subscribe(() => {
+        let url: string;
+        this.route.params.subscribe(params => {
+          url = `${this.roleString}/room/${params['shortId']}/comment/${this.comment.id}/conversation`;
+        });
+        this.router.navigate([url]);
       });
-      this.router.navigate([url]);
+      this.translateService.get('comment-list.comment-sent')
+        .subscribe(msg => this.notificationService.show(msg));
     });
-    this.translateService.get('comment-list.comment-sent')
-      .subscribe(msg => this.notificationService.show(msg));
+  }
+
+  openSpacyDialog(comment: Comment, forward: boolean, onFinish: (comment) => void): void {
+    CreateCommentKeywords.generateKeywords(this.languagetoolService, this.deepLService,
+      this.spacyService, comment.body, false, forward, this.commentComponent.selectedLang)
+      .subscribe(result => {
+        this.isSending = false;
+        comment.language = result.language;
+        comment.keywordsFromSpacy = result.keywords;
+        comment.keywordsFromQuestioner = [];
+        if (forward ||
+          ((result.resultType === KeywordsResultType.Failure) && !result.wasSpacyError) ||
+          result.resultType === KeywordsResultType.BadSpelled) {
+          onFinish(comment);
+        } else {
+          const dialogRef = this.dialog.open(SpacyDialogComponent, {
+            data: {
+              result: result.resultType,
+              comment
+            }
+          });
+          dialogRef.afterClosed().subscribe(dialogResult => {
+            if (dialogResult) {
+              onFinish(dialogResult);
+            }
+          });
+        }
+      });
   }
 
   saveAnswer(data: string, forward = false): void {

@@ -183,7 +183,9 @@
               style="text-align: end; padding-right: 0"
               attr.aria-labelledby="empty">
             <button mat-icon-button
-                    [matMenuTriggerFor]="moreActions">
+                    [matMenuTriggerFor]="moreActions"
+                    [matTooltip]="('room-list.option-menu' | translate)"
+                    [matTooltipPosition]="'right'">
               <mat-icon>more_vert</mat-icon>
             </button>
             <mat-menu #moreActions="matMenu"
@@ -207,6 +209,12 @@
               </button>
               <button mat-menu-item
                       *ngIf="room.role > 0"
+                      (click)="openRoomSettingsOverview(room)">
+                <mat-icon class="settings material-icons-round">room_preferences</mat-icon>
+                <span class="delete-text">{{ 'room-list.settings-overview' | translate }}</span>
+              </button>
+              <button mat-menu-item
+                      *ngIf="room.role > 0 && room.bonusArchiveActive"
                       (click)="openBonusTokens(room)">
                 <mat-icon class="star material-icons-round">grade</mat-icon>
                 <span class="delete-text">{{ 'header.bonustoken' | translate }}</span>

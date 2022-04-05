@@ -15,58 +15,17 @@
       <mat-icon [matTooltip]="'dashboard.filter' | translate">filter_list</mat-icon>
     </button>
     <mat-menu class="mat-menu" #menu="matMenu">
-      <button mat-menu-item (click)="filterNotification('star')">
-        <mat-icon class="favorite-icon" [matTooltip]="'notification.tooltip-bonus' | translate">star</mat-icon>
-        {{'notification.bonus' | translate}}
-      </button>
-      <button mat-menu-item (click)="filterNotification('check_circle')">
-        <mat-icon class="favourite-icon" [matTooltip]="'notification.tooltip-correct' | translate">check_circle</mat-icon>
-        {{'notification.correct' | translate}}
-      </button>
-      <button mat-menu-item (click)="filterNotification('delete')">
-        <mat-icon class="delete-icon" [matTooltip]="'notification.tooltip-delete' | translate">delete</mat-icon>
-        {{'notification.delete' | translate}}
-      </button>
-      <button mat-menu-item (click)="filterNotification('ban')">
-        <mat-icon [matTooltip]="'notification.tooltip-ban' | translate">
-          <span class="material-icons-outlined">gavel</span>
-        </mat-icon>
-        {{'notification.ban' | translate}}
-      </button>
-      <button mat-menu-item (click)="filterNotification('question_answer')">
-        <mat-icon class="delete-icon" [matTooltip]="'notification.tooltip-answer' | translate">question_answer</mat-icon>
-        {{'notification.answer' | translate}}
-      </button>
-      <button mat-menu-item (click)="filterNotification('publish')">
-        <mat-icon class="delete-icon" [matTooltip]="'notification.tooltip-publish' | translate">publish</mat-icon>
-        {{'notification.publish' | translate}}
-      </button>
-      <button mat-menu-item [matMenuTriggerFor]="notificationCommentsNr">
-        <mat-icon [matTooltip]="'notification.tooltip-commentNr' | translate">
-          <span class="material-icons-outlined">tag</span>
-        </mat-icon>
-        {{'notification.commentNr' | translate}}
-      </button>
-      <button mat-menu-item [matMenuTriggerFor]="notificationRoomName">
-        <mat-icon [matTooltip]="'notification.tooltip-roomName' | translate">
-          <span class="material-icons-outlined">other_houses</span>
-        </mat-icon>
-        {{'notification.roomName' | translate}}
-      </button>
-    </mat-menu>
-    <mat-menu #notificationCommentsNr="matMenu">
-      <div *ngFor="let number of getCommentNumbers()">
-        <button mat-menu-item (click)="hasFilter=true; this.change.filterByString(number, true)">
-          {{number}}
+      <ng-container *ngFor="let key of dashboardFilterKeys">
+        <button mat-menu-item
+                [ngClass]="getActiveClass(key)"
+                *ngIf="ICONS[key].condition()"
+                (click)="filterNotification(key)">
+          <mat-icon [class]="ICONS[key].iconClass">
+            {{ICONS[key].icon}}
+          </mat-icon>
+          {{'notification.' + key | translate}}
         </button>
-      </div>
-    </mat-menu>
-    <mat-menu #notificationRoomName="matMenu">
-      <div *ngFor="let name of getRoomNames()">
-        <button mat-menu-item (click)="hasFilter=true; this.change.filterByString(name, false)">
-          {{name}}
-        </button>
-      </div>
+      </ng-container>
     </mat-menu>
     <button *ngIf="!change.isNotificationBlocked" mat-icon-button class="example-icon"
             aria-label="Example icon-button with menu icon" (click)="toggleNotificationBlock()">
@@ -136,8 +95,14 @@
         <!--Message Text-->
         <div>
           <div class="date">
-            {{notification.createdAt.toLocaleDateString()}} {{notification.createdAt.toLocaleTimeString()}} in
-            »{{notification.roomName}}«
+            {{notification.createdAt.toLocaleString(languageService.currentLanguage(), {
+            day: '2-digit',
+            hour: '2-digit',
+            second: '2-digit',
+            minute: '2-digit',
+            month: '2-digit',
+            year: 'numeric'
+          })}}
           </div>
           <div class="message">
             {{getNotificationMessage(notification) | async}}

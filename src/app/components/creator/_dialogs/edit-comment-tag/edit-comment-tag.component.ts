@@ -43,7 +43,7 @@ export class EditCommentTagComponent implements OnInit {
       const room = this.sessionInfo.currentRoom;
       const previous = room.tags;
       room.tags = result;
-      this.roomService.updateRoom(room).subscribe({
+      this.roomService.patchRoom(room.id, { tags: result }).subscribe({
         next: () => {
           this.translateService.get('room-page.changes-successful').subscribe(msg => {
             this.notificationService.show(msg);

@@ -1,6 +1,7 @@
 import { SpacyKeyword } from '../services/http/spacy.service';
 import { CorrectWrong } from './correct-wrong.enum';
 import { Model } from '../services/http/spacy.interface';
+import { TranslateService } from '@ngx-translate/core';
 
 export class Comment {
   id: string;
@@ -28,7 +29,6 @@ export class Comment {
   createdBy;
   brainstormingQuestion: boolean;
   updatedAt: Date;
-  meta: any = null;
   commentReference: string;
   commentDepth: number;
   deletedAt: Date;
@@ -88,6 +88,27 @@ export class Comment {
 
   static mapModelToLanguage(model: Model): Language {
     return Language[model] || Language.AUTO;
+  }
+
+  static computePrettyCommentNumber(translateService: TranslateService, comment: Comment): string[] {
+    if (!comment?.number) {
+      return [];
+    }
+    const meta = comment.number.split('/');
+    const topLevelNumber = meta[0];
+    const number = meta[meta.length - 1];
+    let commentNumber: string[] = [];
+    if (meta.length === 1) {
+      translateService.get('comment-list.question-number', { number })
+        .subscribe(msg => commentNumber = msg.split('/'));
+      return commentNumber;
+    }
+    translateService.get('comment-list.comment-number', {
+      topLevelNumber,
+      number,
+      level: meta.length - 1,
+    }).subscribe(msg => commentNumber = msg.split('/'));
+    return commentNumber;
   }
 }
 

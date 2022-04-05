@@ -1,0 +1,49 @@
+@import "src/layout/laout-util";
+
+mat-dialog-content > div {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  overflow: unset;
+
+  > mat-card {
+    background-color: var(--surface);
+    color: var(--on-surface) !important;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    > mat-label {
+      display: block;
+    }
+  }
+}
+
+.action-button-container {
+  margin-top: 20px;
+
+  @include onSmallWidth {
+    overflow: auto;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column !important;
+    flex-wrap: wrap;
+    align-items: flex-end;
+  }
+}
+
+.help-button {
+  background-color: transparent;
+  color: var(--green);
+  outline: var(--green) solid 3px;
+  margin: 10px;
+
+  &:hover {
+    background-color: var(--green);
+    color: var(--black);
+  }
+
+  .mat-icon {
+    font-size: 18px;
+  }
+}

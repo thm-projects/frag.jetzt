@@ -197,8 +197,10 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
         this.search = true;
       }
     }
-    const allComments = this.roomDataService.getCurrentRoomData(true);
-    this._allQuestionNumberOptions = allComments.map(c => c.number).sort(numberSorter).map(c => String(c));
+    const allComments = this.roomDataService.getCurrentRoomData(true).filter(c => c.commentReference === null);
+    allComments.sort((a, b) => numberSorter(a.number, b.number));
+    this._allQuestionNumberOptions = allComments.map(c => Comment.computePrettyCommentNumber(this.translateService, c)
+      .join(' '));
     const value = this.questionNumberFormControl.value || '';
     this.questionNumberOptions = this._allQuestionNumberOptions.filter(e => e.startsWith(value));
     this.commentsWrittenByUsers.clear();

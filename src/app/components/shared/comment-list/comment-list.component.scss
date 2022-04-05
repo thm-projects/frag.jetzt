@@ -151,6 +151,10 @@ app-comment {
   color: slateblue;
 }
 
+.conversation-icon {
+  color: mediumslateblue;
+}
+
 .brainstorm-icon {
   color: var(--primary);
 }
@@ -199,6 +203,10 @@ h3 {
 }
 
 .controversy {
+  color: var(--primary);
+}
+
+.commented {
   color: var(--primary);
 }
 
