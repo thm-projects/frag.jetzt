@@ -197,7 +197,6 @@ export class ArsDateFormatter implements OnDestroy{
   }
 
   ngOnDestroy(){
-    console.log('destroy');
   }
 
   /**
