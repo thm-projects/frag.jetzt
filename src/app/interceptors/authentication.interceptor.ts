@@ -13,6 +13,7 @@ import { AuthenticationService } from '../services/http/authentication.service';
 import { NotificationService } from '../services/util/notification.service';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
 
 const AUTH_HEADER_KEY = 'Authorization';
 const AUTH_SCHEME = 'Bearer';
@@ -33,7 +34,8 @@ export class AuthenticationInterceptor implements HttpInterceptor {
   constructor(
     private authenticationService: AuthenticationService,
     private notificationService: NotificationService,
-    private router: Router
+    private router: Router,
+    private translateService: TranslateService,
   ) {
   }
 
@@ -62,8 +64,9 @@ export class AuthenticationInterceptor implements HttpInterceptor {
       error: (err: any) => {
         if (err instanceof HttpErrorResponse && err.status === 401) {
           this.authenticationService.logout();
-          this.notificationService.show('You are not logged in.');
-          this.router.navigate(['home']);
+          this.router.navigate(['home']).then(() => {
+            this.translateService.get('header.logged-out').subscribe(msg => this.notificationService.show(msg));
+          });
         }
       }
     }));
