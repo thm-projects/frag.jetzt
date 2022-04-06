@@ -35,6 +35,7 @@ import { ArsMatPaginatorComponent } from './components/content/paginator/ars-mat
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { DateTestComponent } from './components/test/date-test/date-test/date-test.component';
 import { DateFormatterComponent } from './components/content/date-formatter/date-formatter.component';
+import {ArsLifeCycleVisitor} from "./models/util/ars-life-cycle-visitor";
 
 @NgModule({
   declarations: [
@@ -62,7 +63,8 @@ import { DateFormatterComponent } from './components/content/date-formatter/date
     MatMenuItemComponent,
     ArsMatPaginatorComponent,
     DateTestComponent,
-    DateFormatterComponent
+    DateFormatterComponent,
+    ArsLifeCycleVisitor
   ],
     imports:[
         MatIconModule,
