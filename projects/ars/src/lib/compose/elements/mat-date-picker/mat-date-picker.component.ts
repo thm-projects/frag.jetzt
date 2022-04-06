@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Inject, OnInit } from '@angular/core';
 import { ARS_MAT_DATE_PICKER, ArsMatDatePickerConfig } from './mat-date-picker-config';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 
@@ -7,7 +7,7 @@ import { MatDatepickerInputEvent } from '@angular/material/datepicker';
   templateUrl:'./mat-date-picker.component.html',
   styleUrls:['./mat-date-picker.component.scss']
 })
-export class MatDatePickerComponent implements OnInit{
+export class MatDatePickerComponent implements OnInit,AfterViewInit{
 
   constructor(
     @Inject(ARS_MAT_DATE_PICKER) public data: ArsMatDatePickerConfig
@@ -17,8 +17,11 @@ export class MatDatePickerComponent implements OnInit{
   ngOnInit(): void{
   }
 
+  ngAfterViewInit(){
+  }
+
   dateChange(e: MatDatepickerInputEvent<any>){
-    console.log(e);
+    this.data.change.set(new Date(e.value));
   }
 
 }
