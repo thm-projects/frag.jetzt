@@ -22,6 +22,7 @@ import {
 } from '../../_dialogs/introductions/introduction-question-wall/introduction-question-wall.component';
 import { FilterType, Period, PeriodKey, SortType } from '../../../../utils/data-filter-object.lib';
 import { DataFilterObject } from '../../../../utils/data-filter-object';
+import {ArsDateFormatter} from "../../../../../../projects/ars/src/lib/services/ars-date-formatter.service";
 
 
 interface CommentCache {
@@ -127,6 +128,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     private roomDataService: RoomDataService,
     private sessionService: SessionService,
     private dialog: MatDialog,
+    public dateFormatter: ArsDateFormatter
   ) {
     this.keySupport = new QuestionWallKeyEventSupport();
     this.timeUpdateInterval = setInterval(() => {
