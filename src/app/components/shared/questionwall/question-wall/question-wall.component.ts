@@ -1,28 +1,28 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { CommentService } from '../../../../services/http/comment.service';
-import { Comment } from '../../../../models/comment';
-import { WsCommentService } from '../../../../services/websockets/ws-comment.service';
-import { ColComponent } from '../../../../../../projects/ars/src/lib/components/layout/frame/col/col.component';
-import { Router } from '@angular/router';
-import { AuthenticationService } from '../../../../services/http/authentication.service';
-import { LanguageService } from '../../../../services/util/language.service';
-import { TranslateService } from '@ngx-translate/core';
-import { Rescale } from '../../../../models/rescale';
-import { QuestionWallKeyEventSupport } from '../QuestionWallKeyEventSupport';
-import { MatSliderChange } from '@angular/material/slider';
-import { RoomDataService } from '../../../../services/util/room-data.service';
-import { User } from '../../../../models/user';
-import { UserRole } from '../../../../models/user-roles.enum';
-import { SessionService } from '../../../../services/util/session.service';
-import { Room } from '../../../../models/room';
-import { mergeMap } from 'rxjs/operators';
-import { MatDialog } from '@angular/material/dialog';
+import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {CommentService} from '../../../../services/http/comment.service';
+import {Comment} from '../../../../models/comment';
+import {WsCommentService} from '../../../../services/websockets/ws-comment.service';
+import {ColComponent} from '../../../../../../projects/ars/src/lib/components/layout/frame/col/col.component';
+import {Router} from '@angular/router';
+import {AuthenticationService} from '../../../../services/http/authentication.service';
+import {LanguageService} from '../../../../services/util/language.service';
+import {TranslateService} from '@ngx-translate/core';
+import {Rescale} from '../../../../models/rescale';
+import {QuestionWallKeyEventSupport} from '../QuestionWallKeyEventSupport';
+import {MatSliderChange} from '@angular/material/slider';
+import {RoomDataService} from '../../../../services/util/room-data.service';
+import {User} from '../../../../models/user';
+import {UserRole} from '../../../../models/user-roles.enum';
+import {SessionService} from '../../../../services/util/session.service';
+import {Room} from '../../../../models/room';
+import {mergeMap} from 'rxjs/operators';
+import {MatDialog} from '@angular/material/dialog';
 import {
   IntroductionQuestionWallComponent
 } from '../../_dialogs/introductions/introduction-question-wall/introduction-question-wall.component';
-import { FilterType, Period, PeriodKey, SortType } from '../../../../utils/data-filter-object.lib';
-import { DataFilterObject } from '../../../../utils/data-filter-object';
-import { ArsDateFormatter } from '../../../../../../projects/ars/src/lib/services/ars-date-formatter.service';
+import {FilterType, Period, PeriodKey, SortType} from '../../../../utils/data-filter-object.lib';
+import {DataFilterObject} from '../../../../utils/data-filter-object';
+import {ArsDateFormatter} from '../../../../../../projects/ars/src/lib/services/ars-date-formatter.service';
 
 
 interface CommentCache {
@@ -296,6 +296,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
       return;
     }
     this.commentFocusId = null;
+    this.commentFocus = null;
     setTimeout(() => {
       this.commentFocusId = comment.id;
       this.commentFocus = comment;
