@@ -296,6 +296,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
       return;
     }
     this.commentFocusId = null;
+    this.commentFocus = null;
     setTimeout(() => {
       this.commentFocusId = comment.id;
       this.commentFocus = comment;
