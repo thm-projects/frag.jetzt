@@ -59,6 +59,8 @@
   }
 
   button > mat-icon {
+    transform:translateY(-3px);
+    height: 18px;
     color: var(--ars-button-color);
   }
 
