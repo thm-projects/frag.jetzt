@@ -58,7 +58,7 @@ export const arsTimeTranslation = {
       'Dezember'
     ],
     timeConvert:(date: Date) => date.toLocaleString('de-DE', {hour:'numeric', minute:'numeric', hour12:false}),
-    dateConvert:(date: Date) => date.getDay() + '. ' + arsTimeTranslation.de.monthTranslation[date.getMonth()]
+    dateConvert:(date: Date) => date.getDate() + '. ' + arsTimeTranslation.de.monthTranslation[date.getMonth()]
   },
   en:{
     time:{
