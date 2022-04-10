@@ -186,7 +186,12 @@
               </ng-container>
               <h2 class="questionwall-present-meta-timestamp
               questionwall-present-meta-left qw-fade-animation">
-                {{getTimeAgo(commentFocus.id)}}</h2>
+                <ars-date-formatter
+                  class="questionwall-comment-timestamp"
+                  [date]="commentFocus.createdAt"
+                  [formatter]="dateFormatter">
+                </ars-date-formatter>
+              </h2>
             </ars-row>
             <ars-row>
               <ars-row class="bound qw-fade-animation"
@@ -426,7 +431,13 @@
                                   (click)="filterUser(comment)">
                             </span>
                           </ng-container>
-                          <p class="questionwall-comment-timestamp">{{getTimeAgo(comment.id)}}</p>
+                          <p class="questionwall-comment-timestamp">
+                            <ars-date-formatter
+                              class="questionwall-comment-timestamp"
+                              [date]="comment.createdAt"
+                              [formatter]="dateFormatter">
+                            </ars-date-formatter>
+                          </p>
                         </ars-col>
                         <ars-col>
                           <p class="questionwall-comment-notification">{{isOld(comment.id) ? '' : 'NEW'}}</p>
