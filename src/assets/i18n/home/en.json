@@ -130,7 +130,7 @@
     "my-account": "Options",
     "guest-account-tooltip": "You are logged in as a guest. Your rooms and bonuses will be deleted when you log out. If you log in with an account, your rooms and bonuses will be saved for 180 days after your last visit.",
     "tooltip-participant": "You are a participant in this room.",
-    "tooltip-creator": "You are the lecturer.",
+    "tooltip-creator": "You created the room.",
     "tooltip-moderator": "You are a moderator in this room.",
     "tooltip-super-admin": "You are an administrator of »frag.jetzt«.",
     "my-sessions": "My rooms",
