@@ -133,6 +133,9 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
   }
 
   public static getTextFromData(jsonData: string): string {
+    if (!jsonData) {
+      return null;
+    }
     return JSON.parse(jsonData).reduce((acc, e) => {
       if (typeof e['insert'] === 'string') {
         return acc + e['insert'];

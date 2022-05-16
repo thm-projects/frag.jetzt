@@ -6,7 +6,8 @@
   <div fxLayout="row"
        #container
        fxLayoutAlign="center">
-    <app-comment [comment]="comment"
+    <app-comment *ngIf="comment?.body"
+                 [comment]="comment"
                  [user]="user"
                  [userRole]="userRole"
                  [parseVote]="vote"
@@ -44,7 +45,8 @@
     <div fxLayout="row"
          fxLayoutAlign="center"
          *ngFor="let response of responses">
-      <app-comment [comment]="response"
+      <app-comment *ngIf="response?.body"
+                   [comment]="response"
                    [user]="user"
                    [userRole]="userRole"
                    [parseVote]="vote"

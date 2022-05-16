@@ -14,7 +14,7 @@ import { AuthenticationService } from '../../../services/http/authentication.ser
 import { User } from '../../../models/user';
 import { KeyboardUtils } from '../../../utils/keyboard';
 import { KeyboardKey } from '../../../utils/keyboard/keys';
-import { RoomDataService } from '../../../services/util/room-data.service';
+import { CommentWithMeta, RoomDataService } from '../../../services/util/room-data.service';
 import { forkJoin, Observable, of } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
 import { SessionService } from '../../../services/util/session.service';
@@ -39,7 +39,7 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
 
   @ViewChild(WriteCommentComponent) commentComponent: WriteCommentComponent;
 
-  comment: Comment;
+  comment: CommentWithMeta;
   answer: string;
   isLoading = true;
   userRole: UserRole;
@@ -53,7 +53,7 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
   vote: Vote;
   isModerationComment = false;
   isSending = false;
-  responses: Comment[] = [];
+  responses: CommentWithMeta[] = [];
   isConversationView: boolean;
   roleString: string;
   private _commentSubscription;
@@ -269,11 +269,11 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
     }
   }
 
-  private findComment(commentId: string): Observable<[Comment, boolean]> {
+  private findComment(commentId: string): Observable<[CommentWithMeta, boolean]> {
     return this.roomDataService.getRoomDataOnce().pipe(
       map(comments => {
         const foundComment = comments.find(c => c.id === commentId);
-        return (foundComment ? [foundComment, false] : null) as [Comment, boolean];
+        return (foundComment ? [foundComment, false] : null) as [CommentWithMeta, boolean];
       }),
       mergeMap(current => {
         if (current) {
@@ -285,14 +285,14 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
         return this.roomDataService.getRoomDataOnce(false, true).pipe(
           map(comments => {
             const foundComment = comments.find(c => c.id === commentId);
-            return (foundComment ? [foundComment, true] : null) as [Comment, boolean];
+            return (foundComment ? [foundComment, true] : null) as [CommentWithMeta, boolean];
           })
         );
       })
     );
   }
 
-  private onCommentReceive(c: Comment, isModerationComment: boolean) {
+  private onCommentReceive(c: CommentWithMeta, isModerationComment: boolean) {
     this.comment = c;
     this.isModerationComment = isModerationComment;
     this.getResponses();
