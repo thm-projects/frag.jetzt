@@ -244,7 +244,7 @@
     "key-code-length-error": "Der Code muss {{min}} bis {{max}} Zeichen lang sein.",
     "no-room-found": "Ein Raum mit diesem Namen oder Code existiert nicht.",
     "only-numbers": "Der Raum-Code ist alphanumerisch.",
-    "please-enter": "Raum-Code eingeben",
+    "please-enter": "Welcher Raum?",
     "room-name-input": "Gib hier den Namen der Sitzung ein, die du erstellen möchtest.",
     "session-id": "Raum-Code …",
     "join-room": "Teilnehmen",
@@ -512,9 +512,9 @@
     "session-name-with-key-code-generated": "Veranstaltung (Raum-Code generieren lassen)"
   },
   "unsupported-browser": {
-    "title": "Ihr Browser wird nicht unterstützt",
-    "body": "Einige Funktionen sind in diesem Browser nicht verfügbar. Bitte wechsle auf einen anderen Browser (wie Firefox oder Chrome).",
-    "close": "Schließen"
+    "title": "Safari-Hinweis",
+    "body": "Die Features »Onboarding Tour«, »Fragen-Fokus« und »Vollbild & Text-Skalierung« sind im Safari-Browser leider nicht verfügbar. Bitte verwende Google Chrome, Mozilla Firefox oder Microsoft Edge.",
+    "close": "Trotzdem fortfahren"
   },
   "user-activation": {
     "activate": "Konto aktivieren",
