@@ -210,7 +210,7 @@
     "key-code-length-error": "The code must be {{min}} to {{max}} characters long.",
     "no-room-found": "No room found with this name or key code.",
     "only-numbers": "The key code is alphanumeric.",
-    "please-enter": "Enter key code",
+    "please-enter": "Which room?",
     "room-name-input": "Enter the name of the session you want to create.",
     "session-id": "Key code …",
     "join-room": "Join meeting",
@@ -515,9 +515,9 @@
     "session-name-with-key-code-generated": "Name of the meeting (have key code generated)"
   },
   "unsupported-browser": {
-    "title": "Your browser is not supported",
-    "body": "Some features are not available in this browser. Please try to switch to another browser (like Firefox or Chrome).",
-    "close": "Close"
+    "title": "Safari note",
+    "body": "Sorry, the »Onboarding tour«, »Question focus«, and »Fullscreen & Text« features are not available in the Safari browser. Please use Google Chrome, Mozilla Firefox, or Microsoft Edge.",
+    "close": "Continue anyway"
   },
   "user-activation": {
     "activate": "Activate account",
