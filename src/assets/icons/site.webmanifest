@@ -28,6 +28,7 @@
         "background_color": "#121212",
         "scope": "/",
         "start_url": "/home",
+        "id": "/home",
         "display": "standalone",
         "orientation": "any"
 }
