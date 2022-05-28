@@ -516,7 +516,7 @@
   },
   "unsupported-browser": {
     "title": "Safari note",
-    "body": "Sorry, the »Onboarding tour«, »Question focus«, and »Fullscreen & Text« features are not available in the Safari browser. Please use Google Chrome, Mozilla Firefox, or Microsoft Edge.",
+    "body": "Sorry, the »Onboarding tour«, »Question focus«, »Fullscreen & Text« features, and some display tools are not available in the Safari browser. Please use Google Chrome, Mozilla Firefox, or Microsoft Edge.",
     "close": "Continue anyway"
   },
   "user-activation": {
