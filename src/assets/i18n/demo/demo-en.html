@@ -114,7 +114,8 @@
       Conversations are also possible, i.e. comments on comments.
     </p>
     <p style="padding-top: 25px">
-      <strong>Categorizing questions</strong><br><br>The room creator and moderators can define categories (tags) for questions.
+      <strong>Categorizing questions</strong><br><br>The room creator and moderators can define categories (tags) for
+      questions.
       The question poser can assign his or her question to one of the predefined categories.
       Categorized questions can be filtered by clicking on the tag.
       For example, tagging allows the moderator of a panel discussion to filter questions from the audience by topic or
@@ -147,9 +148,9 @@
       The subsequent back translation into the source language
       transforms a poorly written source text into a formally correct and easily readable generated text
       without distorting the content.
-      </p>
+    </p>
 
-      <p>
+    <p>
       The thus cleaned text is passed on to the NLP software
       <a class="info"
          href="https://spacy.io/"
@@ -159,9 +160,9 @@
       </a>
 
       in order to extract nouns by case as keywords from it. In a final step,
-        we check whether the generated keyword is indexed in Wikipedia.
-        Only then will it be displayed.
-        </p>
+      we check whether the generated keyword is indexed in Wikipedia.
+      Only then will it be displayed.
+    </p>
 
     <p>
       The result is impressive: We create a word cloud from the AI-generated keywords of all questions,
@@ -183,28 +184,34 @@
     </p>
 
     <p style="padding-top: 25px">
-      <strong>Search, sort and filter questions</strong><br><br>
+      <strong>Searching, sorting and filtering questions</strong><br><br>
       The quick location of specific questions is made possible by search, sort and filter options.
       The full text search also includes the answers.
       Sorting is possible by time, rating and the degree of controversy.<br><br>
 
-      To identify controversial questions, i.e.,
-      questions where the positive and negative votes balance each other and have a value close to zero in the Q&A list,
-      we introduce an innovative sorting criterion: the degree of controversy or contradiction.
+      By clicking on the tag icon of a question, all questions of this category are displayed.
+      By clicking on the user icon of a question, all questions of this user will be displayed.
+      This allows you to assess the distribution of questions among the question posers:
+      How many people participate? Which questions does one and the same person ask?<br><br>
+
+      The following filter criteria can be selected: Bonus-awarded, bookmarked, not bookmarked, answered, unanswered,
+      and own questions.
+    </p>
+
+    <p style="padding-top: 25px">
+      <strong>Identifying controversial questions</strong><br><br>
+
+      To identify controversial questions, that is,
+      questions where the positive and negative votes are balanced and have a value close to zero in the Q&A forum,
+      we introduce an innovative sorting criterion: the degree of controversy or contradiction.<br><br>
+
       First, we form the difference between positive and negative votes and subtract it from the total number of votes.
       What remains is the absolute number of controversial votes.
       We divide this value by the total number of votes to get the percentage.
       Finally, we stretch the percentage with an empirical term
-      so that questions with very few controversial votes are not classified as more controversial than questions with
-      many votes.
-      A simple calculation with great power for question rounds with controversial topics.<br><br>
-
-      The following filter criteria can be selected: Bonus-awarded, bookmarked, not bookmarked, answered, unanswered,
-      and own questions.<br><br>
-      By clicking on the tag icon of a question, all questions of this category are displayed.
-      By clicking on the user icon of a question, all questions of this user will be displayed.
-      This allows you to assess the distribution of questions among the question posers:
-      How many people participate? Which questions does one and the same person ask?
+      so that questions with very few controversial votes are not classified as more controversial
+      than questions with many votes.
+      A simple calculation with great power for controversial question rounds.
     </p>
 
     <p style="padding-top: 25px">
@@ -254,7 +261,8 @@
       The idea providers become visible in the Q&A list if the corresponding filter has been activated.
     </p>
     <p style="padding-top: 25px">
-      <strong>Mail notification</strong><br><br>Registered users can be informed by mail about new questions and answers.
+      <strong>Mail notification</strong><br><br>Registered users can be informed by mail about new questions and
+      answers.
       Weekday and time of the mail notification can be set.
     </p>
     <p style="padding-top: 25px">
@@ -286,7 +294,8 @@
     </p>
 
     <p style="padding-top: 25px">
-    <strong>Usage options</strong><br><br>»frag.jetzt« is operated as free »Software as a Service« by TransMIT GmbH, see imprint.
+      <strong>Usage options</strong><br><br>»frag.jetzt« is operated as free »Software as a Service« by TransMIT GmbH,
+      see imprint.
       If you want to run »frag.jetzt« on your own server, you will find a Docker installation guide on
       <a class="info"
          href="https://github.com/thm-projects/frag.jetzt/blob/master/README.md"
