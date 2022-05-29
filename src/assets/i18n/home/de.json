@@ -21,7 +21,7 @@
     "cancel": "Ablehnen",
     "cancel-description": "Lehnt die Verwendung der Web-Storage-Technik ab und sperrt die Anwendung",
     "info-label": "Öffnet ein Dialogfenster mit der Datenschutzerklärung zu frag.jetzt",
-    "title": "Datenschutz"
+    "title": "Willkommen!"
   },
   "data-protection": {
     "cancel": "Ablehnen",
@@ -273,7 +273,7 @@
     "done": "Fertig",
     "cantAccessRoute": "Diese Route ist nicht verfügbar. Die Tour wird abgebrochen.",
     "greeting": "Wir führen dich zu den wichtigsten Stellen in unserer Q&A-App »frag.jetzt«. Die Tour dauert nur wenige Minuten.",
-    "greetingTitle": "Willkommen!",
+    "greetingTitle": "Onboarding-Tour",
     "loginButtonHeader": "Nein, es sei denn du willst deine besuchten oder selbst erstellten Räume auf unserem Server speichern. Ein Konto ist auch für die Verwaltung von Bonuspunkten ratsam.",
     "loginButtonHeaderTitle": "Muss ich mich registrieren?",
     "roomJoin": "Gib hier den Zugangscode für den Raum ein, um an der Veranstaltung teilzunehmen.",
