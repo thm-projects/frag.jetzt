@@ -35,11 +35,12 @@ mat-hint {
   }
 
   ::ng-deep .mat-form-field-underline {
-    background-color: var(--on-surface) !important;
+    background-color: var(--primary) !important;
   }
 
-  ::ng-deep .mat-form-field-ripple {
-    background-color: var(--on-surface) !important;
+  ::ng-deep.mat-form-field-ripple {
+    /*change color of underline when focused*/
+    background-color: var(--primary) !important;
   }
 
   ::ng-deep .mat-form-field .mat-form-field-infix {
