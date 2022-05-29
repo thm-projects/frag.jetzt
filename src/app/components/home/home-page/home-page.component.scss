@@ -112,6 +112,7 @@ mat-card-header {
   position: absolute;
   opacity: 0.4;
   transform: scale(0) translate(-50%, -50%);
+  z-index: 1000;
   @media (min-width: 750px) {
     animation: var(--anim, bg-object-anim) 7s ease-in forwards infinite;
     animation-delay: var(--delay);
