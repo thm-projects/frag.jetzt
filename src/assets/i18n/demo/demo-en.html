@@ -100,11 +100,10 @@
   </p>
   <div tabindex="0">
     <p style="padding-top: 25px">
-      <strong>Awarding a bonus for questions</strong><br><br>The teacher can award bonus points for good questions.
-      Awarded questions receive a star and the student finds an 8-digit number code (»token«) for each star on the
-      session
-      account.
+      <strong>Awarding a bonus for »good questions«</strong><br><br>The teacher can mark good questions with a star.
+      The question poser receives an 8-digit code for each star acquired (»token«).
       The tokens can be redeemed for bonus points by sending an e-mail to the teacher.
+      The teacher checks the submitted tokens against the awarded ones in the bonus archive of their room.
     </p>
     <p style="padding-top: 25px">
       <strong>Answering questions</strong><br><br>Teachers and moderators can answer questions in the affirmative, in
@@ -115,7 +114,7 @@
       Conversations are also possible, i.e. comments on comments.
     </p>
     <p style="padding-top: 25px">
-      <strong>Categorizing questions</strong><br><br>The room creator can define categories (tags) for questions.
+      <strong>Categorizing questions</strong><br><br>The room creator and moderators can define categories (tags) for questions.
       The question poser can assign his or her question to one of the predefined categories.
       Categorized questions can be filtered by clicking on the tag.
       For example, tagging allows the moderator of a panel discussion to filter questions from the audience by topic or
@@ -124,7 +123,7 @@
     </p>
 
     <p style="padding-top: 25px">
-      <strong>Analyzing questions with AI support</strong><br><br>
+      <strong>Analyzing and optimizing questions with AI support</strong><br><br>
       Over the course of an online course,
       hundreds of questions can quickly accumulate in the back channel,
       making it difficult to keep track of them after the fact.
@@ -148,6 +147,9 @@
       The subsequent back translation into the source language
       transforms a poorly written source text into a formally correct and easily readable generated text
       without distorting the content.
+      </p>
+
+      <p>
       The thus cleaned text is passed on to the NLP software
       <a class="info"
          href="https://spacy.io/"
@@ -156,7 +158,12 @@
         <span>Opens a new tab</span>
       </a>
 
-      in order to extract nouns by case as keywords from it.
+      in order to extract nouns by case as keywords from it. In a final step,
+        we check whether the generated keyword is indexed in Wikipedia.
+        Only then will it be displayed.
+        </p>
+
+    <p>
       The result is impressive: We create a word cloud from the AI-generated keywords of all questions,
       which we aptly call »topic cloud« in »frag.jetzt«.
     </p>
@@ -167,17 +174,12 @@
       Advancing to the next or previous question is conveniently done with the arrow keys.
       You can also activate the display in "kiosk mode":
       Then, incoming new questions are automatically shown in full view.
-      Switching to the next question is delayed to allow reading.
     </p>
     <p>
       On the Q&A list, constantly new questions or ratings can make reading and presenting difficult, as the positions
       of the questions change.
       With the pause button the question stream can be frozen.
       However, new questions or ratings are still possible.
-    </p>
-    <p>
-      If the presenter clicks on a question in the Q&A list, it appears in full view.
-      At the same time, the question flashes on the end devices of all participants to attract their attention.
     </p>
 
     <p style="padding-top: 25px">
@@ -269,22 +271,29 @@
       The user interface meets the readability requirements of WCAG 2.1 AA.
       Appropriate display options are available for projector presentations and for visually impaired persons.
       In particular, the font size of the questions can be scaled as needed.
-      Besides the room code, a session can also be entered directly via an automatically generated link (clipboard icon
-      on the session page).
     </p>
+
+    <p>
+      Besides the room code, a session can also be entered directly via an automatically generated link.
+    </p>
+
     <p style="padding-top: 25px">
       <strong>Data protection</strong><br><br>»frag.jetzt« can be used completely anonymously when registering as a
       guest.
       The accounts of registered users are stored and managed in accordance with the data protection regulations of the
       DSGVO.
       The program code is »Open Source Software« and can be viewed on GitHub.
-      »frag.jetzt« is operated as free »Software as a Service« by TransMIT GmbH, see imprint.
-      If you want to run »frag.now« on your own server, you will find a Docker installation guide on
+    </p>
+
+    <p style="padding-top: 25px">
+    <strong>Usage options</strong><br><br>»frag.jetzt« is operated as free »Software as a Service« by TransMIT GmbH, see imprint.
+      If you want to run »frag.jetzt« on your own server, you will find a Docker installation guide on
       <a class="info"
          href="https://github.com/thm-projects/frag.jetzt/blob/master/README.md"
          target="_blank" rel="noopener">GitHub <span>Opens a new tab</span></a>
       or you can commission TransMit GmbH with it.
     </p>
+
     <p style="padding-top: 25px">
       <strong>»Progressive Web App« (PWA)</strong><br><br>
       Although an ordinary Web page, it behaves like an app from the app store.
