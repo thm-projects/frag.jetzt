@@ -215,7 +215,8 @@
     "session-id": "Key code …",
     "join-room": "Join meeting",
     "update-available": "An update is available.",
-    "custom-shortid": "Set key code yourself",
+    "generated-shortid": "The key code will be generated.",
+    "custom-shortid": "Specify the key code …",
     "custom-shortid-placeholder": "Characters: a-z A-Z 0-9 - _ ~ .",
     "invalid-shortid": "This key code is already in use.",
     "invalid-char-shortid": "This key code contains invalid characters."
@@ -512,7 +513,7 @@
     "join": "Join session",
     "max-ls": "Max. characters:",
     "session-name": "Meeting name",
-    "session-name-with-key-code-generated": "Name of the meeting (have key code generated)"
+    "session-name-with-key-code-generated": "Enter the name of the meeting …"
   },
   "unsupported-browser": {
     "title": "Safari note",
