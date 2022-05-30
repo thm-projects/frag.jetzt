@@ -249,9 +249,10 @@
     "session-id": "Raum-Code …",
     "join-room": "Teilnehmen",
     "update-available": "Eine neue Version ist verfügbar.",
-    "custom-shortid": "Raum-Code selbst festlegen",
+    "custom-shortid": "Gib den Raum-Code vor …",
+    "generated-shortid": "Der Raum-Code wird generiert.",
     "custom-shortid-placeholder": "Code aus: a-z A-Z 0-9 - _ ~ .",
-    "invalid-shortid": "Der eingegebene Raum-Code wird bereits verwendet.",
+    "invalid-shortid": "Dieser Raum-Code ist bereits vergeben.",
     "invalid-char-shortid": "Der Raum-Code enthält unzulässige Zeichen."
   },
   "imprint": {
@@ -509,7 +510,7 @@
     "join": "Sitzung beitreten",
     "max-ls": "Maximale Anzahl Zeichen:",
     "session-name": "Veranstaltung",
-    "session-name-with-key-code-generated": "Veranstaltung (Raum-Code generieren lassen)"
+    "session-name-with-key-code-generated": "Gib den Veranstaltungsnamen ein …"
   },
   "unsupported-browser": {
     "title": "Safari-Hinweis",
