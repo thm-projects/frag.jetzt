@@ -273,7 +273,7 @@
     "step": "{{step}} / {{total}}",
     "done": "Fertig",
     "cantAccessRoute": "Diese Route ist nicht verfügbar. Die Tour wird abgebrochen.",
-    "greeting": "Wir führen dich zu den wichtigsten Stellen in unserer Q&A-App »frag.jetzt«. Die Tour dauert nur wenige Minuten.",
+    "greeting": "Wir führen dich zu den wichtigsten Stellen in unserer Q&A-App »frag.jetzt«. Die Tour dauert nur wenige Minuten. In der App informieren dich die Tooltips der Buttons und Icons über deren Funktion.",
     "greetingTitle": "Onboarding-Tour",
     "loginButtonHeader": "Nein, es sei denn du willst deine besuchten oder selbst erstellten Räume auf unserem Server speichern. Ein Konto ist auch für die Verwaltung von Bonuspunkten ratsam.",
     "loginButtonHeaderTitle": "Muss ich mich registrieren?",

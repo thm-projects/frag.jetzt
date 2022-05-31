@@ -275,7 +275,7 @@
     "step": "{{step}} / {{total}}",
     "done": "Finish",
     "cantAccessRoute": "This route is not available. The tour will be cancelled.",
-    "greeting": "We guide you to the most important places in our Q&A app »frag.jetzt«. The tour will only take a few minutes.",
+    "greeting": "We guide you to the most important places in our Q&A app »frag.jetzt«. The tour will only take a few minutes. In the app, the tooltips of the buttons and icons inform you about their function.",
     "greetingTitle": "Onboarding tour",
     "loginButtonHeader": "No, unless you want to store your visited or self-created rooms on our server. An account is also advisable for managing bonus points.",
     "loginButtonHeaderTitle": "Do I have to register?",
