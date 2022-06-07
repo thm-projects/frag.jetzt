@@ -80,7 +80,7 @@ export const arsTimeTranslation = {
         '? minute%s ago',
       second:
         '&0-30:just now;' +
-        'shortly ago'
+        'recently'
     },
     monthTranslation:[
       'January',

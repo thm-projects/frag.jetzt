@@ -137,7 +137,7 @@ Note: Resolves to a value without a tag similar to ``{{ date.toString() }}``
 >        '? minute%s ago',
 >      second:
 >        '&0-30:just now;' +
->        'shortly ago'
+>        'recently'
 >    }
 >  }
 >};
