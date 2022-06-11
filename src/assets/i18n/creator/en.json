@@ -331,7 +331,7 @@
     "border-tooltip-border-favorite": "This question was marked for a bonus.",
     "border-tooltip-border-fromModerator": "This question comes from a moderator.",
     "border-tooltip-border-fromOwner": "This question comes from the room creator.",
-    "preview-in-mock": "Preview check on a smartphone",
+    "preview-in-mock": "Preview on a mobile device",
     "notification-on-off" : "Enable / disable notifications"
   },
   "content": {

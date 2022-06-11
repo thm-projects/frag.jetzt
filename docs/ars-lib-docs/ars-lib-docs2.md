@@ -102,8 +102,8 @@ Note: Resolves to a value without a tag similar to ``{{ date.toString() }}``
 >      week:
 >        'vor ? Woche%n am DATE um TIME',
 >      day:
->        '&1:Gestern um TIME;' +
->        '&2:Vorgestern um TIME;' +
+>        '&1:gestern um TIME;' +
+>        '&2:vorgestern um TIME;' +
 >        'vor ? Tag%en um TIME',
 >      hour:
 >        'vor ? Stunde%n',
