@@ -37,7 +37,7 @@
         aria-labelledby="demo-label"
         class="focus_button"
         mat-button>
-        <mat-icon class="material-icons-outlined">info</mat-icon>
+        <mat-icon class="material-icons-outlined">description</mat-icon>
         <span *ngIf="deviceInfo.isCurrentlyDesktop && router.url.endsWith('/home')">
           {{ 'footer.demo' | translate }}
         </span>
@@ -62,7 +62,7 @@
         aria-labelledby="style-label"
         class="focus_button"
         mat-button>
-        <mat-icon>settings_brightness</mat-icon>
+        <mat-icon>contrast</mat-icon>
         <span *ngIf="deviceInfo.isCurrentlyDesktop && router.url.endsWith('/home')">
           {{'footer.style' | translate}}
         </span>
@@ -103,7 +103,7 @@
         aria-labelledby="imprint-label"
         class="focus_button"
         mat-button>
-        <mat-icon class="material-icons-outlined">contact_mail</mat-icon>
+        <mat-icon class="material-icons-outlined">privacy_tip</mat-icon>
         <span *ngIf="router.url.endsWith('/home')">
           {{'footer.imprint' | translate}}
         </span>
@@ -195,7 +195,7 @@
   <button
     mat-menu-item
     (click)="showImprint()">
-    <mat-icon class="material-icons-outlined">contact_mail</mat-icon>
+    <mat-icon class="material-icons-outlined">privacy_tip</mat-icon>
     <span>{{'footer.imprint' | translate}}</span>
   </button>
 </mat-menu>
