@@ -23,7 +23,7 @@ export const system_default_meta = {
     light: 'arsnova',
     dark: 'dark'
   },
-  icon: 'auto_awesome',
+  icon: 'settings_suggest',
   isUtility: true
 
 };

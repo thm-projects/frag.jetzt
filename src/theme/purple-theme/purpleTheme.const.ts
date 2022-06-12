@@ -44,8 +44,8 @@ export const purple_meta = {
 
   translation: {
     name: {
-      en: 'Scaled mode',
-      de: 'Skaliert',
+      en: 'Presentation',
+      de: 'Präsentation',
     },
   },
   isDark: false,
@@ -54,6 +54,6 @@ export const purple_meta = {
   scale_desktop: 1.5,
   scale_mobile: 1,
   previewColor: 'background',
-  icon: 'open_in_full'
+  icon: 'co_present'
 
 };
