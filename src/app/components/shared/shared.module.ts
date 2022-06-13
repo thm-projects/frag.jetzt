@@ -141,6 +141,7 @@ import { DashboardComponent } from './_dialogs/dashboard/dashboard.component';
 import { DashboardDialogComponent } from './_dialogs/dashboard-dialog/dashboard-dialog.component';
 import { DeleteAllNotificationsComponent } from './_dialogs/delete-all-notifications/delete-all-notifications.component';
 import { RoomSettingsOverviewComponent } from './_dialogs/room-settings-overview/room-settings-overview.component';
+import { AppRatingComponent } from './app-rating/app-rating.component';
 
 @NgModule({
   imports: [
@@ -234,36 +235,38 @@ import { RoomSettingsOverviewComponent } from './_dialogs/room-settings-overview
     DashboardComponent,
     DashboardDialogComponent,
     DeleteAllNotificationsComponent,
-    RoomSettingsOverviewComponent
+    RoomSettingsOverviewComponent,
+    AppRatingComponent
   ],
-    exports: [
-        RoomJoinComponent,
-        PageNotFoundComponent,
-        RoomPageComponent,
-        RoomListComponent,
-        HeaderComponent,
-        FooterComponent,
-        CommentPageComponent,
-        CommentListComponent,
-        CreateCommentComponent,
-        PresentCommentComponent,
-        CommentComponent,
-        DialogActionButtonsComponent,
-        UserBonusTokenComponent,
-        CloudConfigurationComponent,
-        TagCloudPopUpComponent,
-        ActiveUserComponent,
-        MatSpinnerOverlayComponent,
-        JoyrideTemplateDirective,
-        AutofocusDirective,
-        CustomMarkdownComponent,
-        ScrollIntoViewDirective,
-        ViewCommentDataComponent,
-        WriteCommentComponent,
-        AccessibilityEscapedInputDirective,
-        QuestionWallIntroComponent,
-        DashboardComponent
-    ]
+  exports: [
+    RoomJoinComponent,
+    PageNotFoundComponent,
+    RoomPageComponent,
+    RoomListComponent,
+    HeaderComponent,
+    FooterComponent,
+    CommentPageComponent,
+    CommentListComponent,
+    CreateCommentComponent,
+    PresentCommentComponent,
+    CommentComponent,
+    DialogActionButtonsComponent,
+    UserBonusTokenComponent,
+    CloudConfigurationComponent,
+    TagCloudPopUpComponent,
+    ActiveUserComponent,
+    MatSpinnerOverlayComponent,
+    JoyrideTemplateDirective,
+    AutofocusDirective,
+    CustomMarkdownComponent,
+    ScrollIntoViewDirective,
+    ViewCommentDataComponent,
+    WriteCommentComponent,
+    AccessibilityEscapedInputDirective,
+    QuestionWallIntroComponent,
+    DashboardComponent,
+    AppRatingComponent
+  ]
 })
 export class SharedModule {
 }

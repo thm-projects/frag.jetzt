@@ -1,0 +1,15 @@
+<h2 class="oldtypo-h2">App-Bewertung</h2>
+<div
+  (mouseleave)="onMouseLeave()">
+  <mat-icon
+    *ngFor="let index of [0, 1, 2, 3, 4]"
+    class="material-icons-outlined"
+    [ngClass]="getIcon(index)"
+    (click)="onClick(index, $event)"
+    (mousemove)="onMouseMove(index, $event)">
+    {{ getIcon(index) }}
+  </mat-icon>
+</div>
+<button mat-flat-button (click)="save()">
+  Speichern
+</button>

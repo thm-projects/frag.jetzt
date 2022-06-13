@@ -18,6 +18,7 @@ import {
 } from './components/home/_dialogs/notify-unsupported-browser/notify-unsupported-browser.component';
 import { MatDialog } from '@angular/material/dialog';
 import { DeviceInfoService } from './services/util/device-info.service';
+import { MatomoTrackingService } from './services/util/matomo-tracking.service';
 
 Quill.register('modules/imageResize', ImageResize);
 
@@ -36,18 +37,15 @@ export class AppComponent implements OnInit {
   constructor(
     private translationService: TranslateService,
     private update: SwUpdate,
-    private matomoInjector: MatomoInjector,
     private sessionService: SessionService,
     public notification: NotificationService,
     private customIconService: CustomIconService,
     private languageService: LanguageService,
     private dialog: MatDialog,
     private deviceInfo: DeviceInfoService,
+    private matomoTrackingService: MatomoTrackingService,
   ) {
     customIconService.init();
-    if (environment.name === 'prod') {
-      this.matomoInjector.init('https://arsnova.thm.de/stats/', 6);
-    }
     this.translationService.setDefaultLang(this.languageService.currentLanguage());
   }
 
