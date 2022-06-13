@@ -79,8 +79,10 @@ sonar:
   allow_failure: false
   dependencies:
     - unit_tests
+    - install
+  needs:
+    - install
   script:
-    - npm ci
     - sonar-scanner -Dsonar.login=$SONAR_TOKEN -Dsonar.host.url=https://scm.thm.de/sonar/ -Dsonar.qualitygate.wait=true
 
 ngbuild:

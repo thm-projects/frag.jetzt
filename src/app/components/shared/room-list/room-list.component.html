@@ -11,12 +11,12 @@
 
 <div *ngIf="roomsWithRole && tableDataSource">
 
-  <div *ngIf="tableDataSource.data.length === 0"
+  <div *ngIf="rooms.length === 0"
        aria-labelledby="emptySessionHistoryLabel">
     <h3 class="noRoomHistory">{{ 'room-list.no-room-history' | translate }}</h3>
   </div>
 
-  <div *ngIf="tableDataSource.data.length > 0">
+  <div *ngIf="rooms.length > 0">
 
     <div class="fill-space"
          *ngIf="this.rooms && this.rooms.length <= 5"></div>
@@ -47,10 +47,9 @@
                       aria-hidden="true">
           <th scope="col"
               mat-header-cell
-              mat-sort-header
+              mat-sort-header="name"
               sortActionDescription="Sort by name"
               *matHeaderCellDef
-              scope="col"
               style="width: 41%; padding-right: 0">
             {{ 'room-list.panel-session-name' | translate }}
           </th>
@@ -78,7 +77,7 @@
         <ng-container matColumnDef="shortId"
                       aria-hidden="true">
           <th mat-header-cell
-              mat-sort-header
+              mat-sort-header="shortId"
               sortActionDescription="Sort by shortId"
               *matHeaderCellDef
               scope="col"
@@ -116,7 +115,7 @@
         <ng-container matColumnDef="role"
                       aria-hidden="true">
           <th mat-header-cell
-              mat-sort-header
+              mat-sort-header="role"
               sortActionDescription="Sort by role"
               *matHeaderCellDef
               scope="col"

@@ -99,10 +99,7 @@
       <mat-label>
         {{'deepl-formality-select.name' | translate}}
       </mat-label>
-      <label for="deeplFormality">
-        {{selectedFormality && ('deepl-formality-select.' + selectedFormality | translate)}}
-      </label>
-      <mat-select id="deeplFormality" [(ngModel)]="selectedFormality"
+      <mat-select [(ngModel)]="selectedFormality"
                   (selectionChange)="formalityEmitter && formalityEmitter(selectedFormality)">
         <mat-option value="default">{{'deepl-formality-select.default' | translate}}</mat-option>
         <mat-option value="less">{{'deepl-formality-select.less' | translate}}</mat-option>

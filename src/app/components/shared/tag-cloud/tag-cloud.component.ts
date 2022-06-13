@@ -165,6 +165,15 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
   }
 
   private static invertHex(hexStr: string) {
+    /*
+    to test:
+    const currentColor: ColorRGB = [
+      parseInt(hexStr.substring(1, 3), 16),
+      parseInt(hexStr.substring(3, 5), 16),
+      parseInt(hexStr.substring(5, 7), 16)
+    ];
+    const [r, g, b] = ColorContrast.getInvertedColor(currentColor);
+     */
     const r = 255 - parseInt(hexStr.substring(1, 3), 16);
     const g = 255 - parseInt(hexStr.substring(3, 5), 16);
     const b = 255 - parseInt(hexStr.substring(5, 7), 16);
