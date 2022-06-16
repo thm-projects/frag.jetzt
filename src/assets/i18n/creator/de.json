@@ -41,7 +41,7 @@
     "tooltip-bonus-archive-enabled": "Wenn du einen Beitrag mit einem Stern auszeichnest, kannst du den Stern für die Vergabe von Bonuspunkten verwenden. Es wird ein Code generiert, den der/die Teilnehmer*in an deine E-Mail-Adresse für die Bonuseinlösung schickt.",
     "tooltip-brainstorming-enabled": "Du kannst Brainstorming-Sitzungen zu bestimmten Fragen durchführen. Die Ideen (Wörter) werden von einer KI morphologisch verglichen und in einer Wortwolke angezeigt.",
     "tooltip-conversation-enabled": "Du kannst Unterhaltungen aktivieren, damit die Teilnehmer*innen Fragen beantworten oder kommentieren können.",
-    "tooltip-profanity-toggle-active": "Wenn du die Filterung aktivierst, werden vulgäre Wörter in den Beiträgen zensiert.",
+    "tooltip-profanity-toggle-active": "Vulgäre Wörter in Beiträgen werden mit ★★★★ überschrieben.",
     "tooltip-profanity-toggle-all": "Du kannst vulgäre Wörter in mehreren Sprachen zensieren.",
     "tooltip-profanity-toggle-word": "Du kannst die Filterung innerhalb von Wörtern aktivieren, standardmäßig werden nur ganze Wörter zensiert.",
     "tooltip-quiz-enabled": "Du kannst die Quiz-App https://antworte.jetzt in deinem Raum einsetzen.",
