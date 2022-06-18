@@ -1,8 +1,8 @@
-<h1 style="display: none;"
+<div style="display: none;"
     [joyrideStep]="'greeting'"
     appJoyrideTemplate
     [stepPosition]="'center'">
-</h1>
+</div>
 
 <div data-nosnippet
      class="main-container">
@@ -12,11 +12,11 @@
   <div fxLayout="row"
        fxLayoutAlign="center">
 
-    <h2>
+    <h1>
       <span class="main-heading-secondary"
             aria-hidden="true">{{ 'login.welcome' | translate }}</span>
       <span class="main-heading-primary">frag.jetzt</span>
-    </h2>
+    </h1>
 
   </div>
 
@@ -62,5 +62,5 @@
           class="visually-hidden">{{ 'home-page.live-announcer' | translate }}</button>
 </div>
 <div class="visually-hidden">
-  <div id="feedback-aria">{{'login.feedback-aria' | translate}}</div>
+  <div id="feedback-aria" style="display: none;">{{'login.feedback-aria' | translate}}</div>
 </div>
