@@ -137,7 +137,7 @@ export class CommentComponent implements OnInit, AfterViewInit {
 
   getCommentIcon(): string {
     if (this.comment?.brainstormingQuestion) {
-      return 'tips_and_updates';
+      return 'psychology_alt';
     } else if (this.isFromOwner) {
       return 'co_present';
     } else if (this.isFromModerator) {

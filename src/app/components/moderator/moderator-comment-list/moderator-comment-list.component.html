@@ -204,7 +204,7 @@
               (click)="applyFilterByKey('Owner')"
               aria-labelledby="comment">
         <mat-icon class="material-icons-outlined" style="color: mediumslateblue" [ngClass]="{Owner: 'owner-icon'}[filterType]">
-          insert_emoticon
+          person
         </mat-icon>
         <span [ngClass]="{Owner: 'owner-icon'}[filterType]">{{ 'comment-list.filter-owner' | translate }}</span>
       </button>
@@ -212,7 +212,7 @@
       <button mat-menu-item
               (click)="applyFilterByKey('BrainstormingQuestion')">
         <mat-icon class="material-icons-outlined" [ngClass]="{BrainstormingQuestion: 'brainstorm-icon'}[filterType]">
-          tips_and_updates
+          psychology_alt
         </mat-icon>
         <span [ngClass]="{BrainstormingQuestion: 'brainstorm-icon'}[filterType]">
           {{ 'comment-list.filter-brainstorm' | translate }}

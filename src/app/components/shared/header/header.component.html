@@ -32,7 +32,7 @@
                      deviceInfo.isCurrentlyDesktop"
               routerLink="quiz">
         <mat-icon class="material-icons-outlined"
-                  style="margin-right: 5px">emoji_events
+                  style="margin-right: 5px">rocket_launch
         </mat-icon>
         <span>{{'header.quiz-now' | translate}}</span>
       </button>
@@ -53,7 +53,7 @@
                      deviceInfo.isCurrentlyDesktop && (!!room?.brainstormingSession || userRole > 0)"
               (click)="navigateBrainstorming()">
         <mat-icon class="material-icons-outlined"
-                  style="margin-right: 5px">tips_and_updates
+                  style="margin-right: 5px">psychology_alt
         </mat-icon>
         <span>{{'header.brainstorming' | translate}}</span>
       </button>
@@ -68,7 +68,7 @@
         <mat-icon class="material-icons-outlined"
                   style="color: green; margin-top: 8px"
                   [matTooltip]="'header.brainstorm-active' | translate">
-          tips_and_updates
+          psychology_alt
         </mat-icon>
       </div>
 
