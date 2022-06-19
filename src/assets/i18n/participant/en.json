@@ -213,7 +213,7 @@
     "enter-comment": "Enter your question …",
     "enter-title": "Title",
     "error-both-fields": "Please fill in all fields.",
-    "error-comment": "Please enter your question.",
+    "error-comment": "Please enter your contribution.",
     "error-comment-text": "Your text is too long. Please shorten it.",
     "error-comment-data": "Too much formatting or linked elements. Please remove some.",
     "error-brainstorm-duplicate": "You have already submitted this idea.",

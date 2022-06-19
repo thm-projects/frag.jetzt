@@ -480,7 +480,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
       });
       e.menuItem({
         translate: this.headerService.getTranslate(),
-        icon: 'tips_and_updates',
+        icon: 'psychology_alt',
         class: 'material-icons-outlined',
         text: 'header.brainstorming',
         callback: () => this.headerService.getHeaderComponent().navigateBrainstorming(),
@@ -489,7 +489,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
       });
       e.menuItem({
         translate: this.headerService.getTranslate(),
-        icon: 'emoji_events',
+        icon: 'rocket_launch',
         class: 'material-icons-outlined',
         text: 'header.quiz-now',
         callback: () => this.router.navigate(['quiz']),
