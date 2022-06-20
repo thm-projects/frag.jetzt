@@ -1,4 +1,9 @@
 {
+  "app-rating": {
+    "retry": "This is your old rating, enter a new one!",
+    "error": "An error has occurred!",
+    "success": "Thank you for your review!"
+  },
   "bonus-archive-export": {
     "no-data": "There are no bonuses.",
     "empty": "",

@@ -1,7 +1,10 @@
-import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { Component, Input, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { NotificationService } from '../../../services/util/notification.service';
 import { LanguageService } from '../../../services/util/language.service';
+import { AuthenticationService } from '../../../services/http/authentication.service';
+import { RatingService } from '../../../services/http/rating.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-app-rating',
@@ -10,16 +13,30 @@ import { LanguageService } from '../../../services/util/language.service';
 })
 export class AppRatingComponent implements OnInit {
 
+  @Input() onSuccess: () => void;
   @ViewChildren(MatIcon) children: QueryList<MatIcon>;
   private isSaving = false;
   private visibleRating = 0;
   private listeningToMove = true;
+  private changedBySubscription = false;
 
   constructor(
     private languageService: LanguageService,
     private notificationService: NotificationService,
+    private translateService: TranslateService,
+    private readonly authenticationService: AuthenticationService,
+    private readonly ratingService: RatingService,
   ) {
-    this.visibleRating = Number(localStorage.getItem('rating') || 0);
+    this.languageService.getLanguage().subscribe(lang => this.translateService.use(lang));
+    const subscription = authenticationService.watchUser.subscribe(user => {
+      this.ratingService.getByAccountId(user.id).subscribe(r => {
+        if (r !== undefined && r !== null) {
+          this.visibleRating = r.rating;
+          this.changedBySubscription = true;
+        }
+      });
+      setTimeout(() => subscription.unsubscribe());
+    });
   }
 
   getIcon(index: number) {
@@ -51,6 +68,7 @@ export class AppRatingComponent implements OnInit {
   }
 
   onMouseMove(index: number, event: MouseEvent) {
+    this.changedBySubscription = false;
     if (!this.listeningToMove) {
       return;
     }
@@ -65,12 +83,28 @@ export class AppRatingComponent implements OnInit {
 
   save() {
     if (this.isSaving) {
-      this.notificationService.show('Fehler!');
+      return;
+    }
+    if (this.changedBySubscription) {
+      this.translateService.get('app-rating.retry')
+        .subscribe(msg => this.notificationService.show(msg));
       return;
     }
     this.isSaving = true;
-    localStorage.setItem('rating', String(this.visibleRating));
-    this.notificationService.show('Danke für deine Bewertung!');
+    this.ratingService.create(this.authenticationService.getUser().id, this.visibleRating)
+      .subscribe({
+        next: () => {
+          this.translateService.get('app-rating.success')
+            .subscribe(msg => this.notificationService.show(msg));
+          this.onSuccess?.();
+          this.isSaving = false;
+        },
+        error: () => {
+          this.translateService.get('app-rating.error')
+            .subscribe(msg => this.notificationService.show(msg));
+          this.isSaving = false;
+        }
+      });
   }
 
 }

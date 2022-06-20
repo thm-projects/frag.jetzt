@@ -60,6 +60,12 @@
           tabIndex="-1"
           (click)="announce()"
           class="visually-hidden">{{ 'home-page.live-announcer' | translate }}</button>
+  <span style="justify-content: center; color: var(--on-background); display: flex; align-items: flex-end">
+    {{ rating }}
+    <mat-icon class="material-icons-outlined" style="margin: 0 0.25em; color: #bfbf00">star</mat-icon>
+    ( {{ people }}
+    <mat-icon class="material-icons-outlined" style="margin-left: 0.25em;">person</mat-icon>)
+  </span>
 </div>
 <div class="visually-hidden">
   <div id="feedback-aria">{{'login.feedback-aria' | translate}}</div>

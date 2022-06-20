@@ -67,17 +67,7 @@ export class ColorContrast {
     const darker = ensureBoundaries((l + 0.05) / contrastRatio - 0.05);
     const lighterContrast = (lighter + 0.05) / (l + 0.05);
     const darkerContrast = (l + 0.05) / (darker + 0.05);
-    return ColorContrast.HSLumaToRGB(
-      [invertedHue, s, lighterContrast > darkerContrast ? lighter : darker],
-      lighterContrast > darkerContrast
-    );
-    /*
-    other try:
-    return ColorContrast.generateRGBWithHueAndWCAGLighting(
-      invertedHue,
-      lighterContrast > darkerContrast ? lighter : darker
-    );
-    */
+    return ColorContrast.HSLumaToRGB([invertedHue, s, lighterContrast > darkerContrast ? lighter : darker]);
   }
 
   public static rgbToSrgb(color: ColorRGB): ColorSRGB {
@@ -120,65 +110,35 @@ export class ColorContrast {
     return [hue, saturation, luma];
   }
 
-  private static generateRGBWithHueAndWCAGLighting(hue: number, lightness: number): ColorRGB {
-    const saturationDivisor = 1 - Math.abs(2 * lightness - 1);
-    const lowerColorPercentage = 1 - Math.abs(hue % 2 - 1);
-    const indexes = HSLIndexes[Math.trunc(hue / 60)];
-    const f_1 = WCAGLuminanceCoefficients[indexes[0]];
-    const f_2 = WCAGLuminanceCoefficients[indexes[1]];
-    const saturation = lightness / (saturationDivisor * (f_1 + lowerColorPercentage * f_2));
-    const chromaticRange = saturation * saturationDivisor;
-    const x = chromaticRange * lowerColorPercentage;
-    const result: ColorSRGB = [0, 0, 0];
-    result[indexes[0]] = chromaticRange;
-    result[indexes[1]] = x;
-    const additional = lightness + this.getWCAGRelativeLuminance(result);
-    return this.srgbToRgb(result.map(el => el + additional) as ColorSRGB);
-  }
-
-  private static HSLumaToRGB(color: ColorHSLuma, takeLighter: boolean) {
+  private static HSLumaToRGB(color: ColorHSLuma) {
     const [h, s, luma] = color;
-    let hue = h / 60;
-    const hueRatio = 1 - Math.abs(hue % 2 - 1);
-    hue = Math.trunc(hue);
-    const indexes = HSLIndexes[Math.trunc(hue / 60)];
+    const hueSub = h / 60;
+    const hueRatio = 1 - Math.abs(hueSub % 2 - 1);
+    const truncatedHue = Math.trunc(hueSub);
+    const indexes = HSLIndexes[truncatedHue];
     const f_1 = WCAGLuminanceCoefficients[indexes[0]];
     const f_2 = WCAGLuminanceCoefficients[indexes[1]];
     const ratio = 2 * s * (f_1 + f_2 * hueRatio - 0.5);
     const l1 = luma / (ratio + 1);
     const l2 = (luma - ratio) / (1 - ratio);
-    const l = takeLighter ? Math.max(l1, l2) : Math.max(0, Math.min(l1, l2));
+    const distL1 = Math.abs(0.5 - l1);
+    const distL2 = Math.abs(0.5 - l2);
+    let l = distL1 > distL2 ? l2 : l1;
+    const canTakeL1 = l1 <= 0.5;
+    const canTakeL2 = l2 >= 0.5;
+    if (!canTakeL1 && canTakeL2) {
+      l = l2;
+    } else if (canTakeL1 && !canTakeL2) {
+      l = l1;
+    }
     const chromaticRange = s * (1 - Math.abs(2 * l - 1));
-    const lowerColorPercentage = 1 - Math.abs(hue % 2 - 1);
-    const x = chromaticRange * lowerColorPercentage;
+    const x = chromaticRange * hueRatio;
     const result: ColorSRGB = [0, 0, 0];
     result[indexes[0]] = chromaticRange;
     result[indexes[1]] = x;
     const m = l - chromaticRange / 2;
-    /*
-    [chromaRange + m, x + m, m]
-    chromaRange * f_r + x * f_g + m = luma
-    x = chromaRange * c
-    chromaRange * (f_r + f_g * c) + m = luma
-    m = l - chromaRange / 2
-    chromaRange * (f_r + f_g * c) + l - chromaRange / 2 = luma
-    chromaRange * (f_r + f_g * c - 0.5) + l = luma
-    chromaRange = s * (1 - Math.abs(2 * l - 1))
-    s * (1 - Math.abs(2 * l - 1)) * (f_r + f_g * c - 0.5) + l = luma
-    l < 0.5:
-      l * (2 * s * (f_r + f_g * c - 0.5) + 1) = luma
-      l = luma / (2 * s * (f_r + f_g * c - 0.5) + 1)
-    l >= 0.5:
-      (1 - l) * 2 * s * (f_r + f_g * c - 0.5) + l = luma
-      2 * s * (f_r + f_g * c - 0.5) + l (1 - 2 * s * (f_r + f_g * c - 0.5)) = luma
-      l = (luma - 2 * s * (f_r + f_g * c - 0.5)) / (1 - 2 * s * (f_r + f_g * c - 0.5))
-    2 * s * (f_r + f_g * c - 0.5) = ratio
-    l < 0.5:
-      l = luma / (ratio + 1)
-    l >= 0.5:
-      l = (luma - ratio) / (1 - ratio)
-     */
-    return this.srgbToRgb(result.map(el => el + m) as ColorSRGB);
+    const srgb = result.map(el => el + m) as ColorSRGB;
+    return this.srgbToRgb(srgb);
   }
 
 }
