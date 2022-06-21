@@ -5,6 +5,7 @@ import { LanguageService } from '../../../services/util/language.service';
 import { AuthenticationService } from '../../../services/http/authentication.service';
 import { RatingService } from '../../../services/http/rating.service';
 import { TranslateService } from '@ngx-translate/core';
+import { Rating } from '../../../models/rating';
 
 @Component({
   selector: 'app-app-rating',
@@ -13,7 +14,8 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class AppRatingComponent implements OnInit {
 
-  @Input() onSuccess: () => void;
+  @Input() rating: Rating = undefined;
+  @Input() onSuccess: (r: Rating) => void;
   @ViewChildren(MatIcon) children: QueryList<MatIcon>;
   private isSaving = false;
   private visibleRating = 0;
@@ -28,6 +30,11 @@ export class AppRatingComponent implements OnInit {
     private readonly ratingService: RatingService,
   ) {
     this.languageService.getLanguage().subscribe(lang => this.translateService.use(lang));
+    if (this.rating !== undefined) {
+      this.visibleRating = this.rating?.rating || 0;
+      this.changedBySubscription = this.rating !== null;
+      return;
+    }
     const subscription = authenticationService.watchUser.subscribe(user => {
       this.ratingService.getByAccountId(user.id).subscribe(r => {
         if (r !== undefined && r !== null) {
@@ -93,10 +100,10 @@ export class AppRatingComponent implements OnInit {
     this.isSaving = true;
     this.ratingService.create(this.authenticationService.getUser().id, this.visibleRating)
       .subscribe({
-        next: () => {
+        next: (r: Rating) => {
           this.translateService.get('app-rating.success')
             .subscribe(msg => this.notificationService.show(msg));
-          this.onSuccess?.();
+          this.onSuccess?.(r);
           this.isSaving = false;
         },
         error: () => {

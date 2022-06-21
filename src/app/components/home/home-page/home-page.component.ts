@@ -29,7 +29,7 @@ export class HomePageComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnInit() {
     this.ratingService.getRatings().subscribe(r => {
-      this.rating = r.rating.toLocaleString(undefined, { minimumFractionDigits: 1 });
+      this.rating = r.rating.toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 });
       this.people = r.people;
     });
     if (localStorage.getItem('cookieAccepted') === 'true') {

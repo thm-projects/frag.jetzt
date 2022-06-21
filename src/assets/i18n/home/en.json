@@ -224,7 +224,8 @@
     "custom-shortid": "Specify the key code …",
     "custom-shortid-placeholder": "Characters: a-z A-Z 0-9 - _ ~ .",
     "invalid-shortid": "This key code is already in use.",
-    "invalid-char-shortid": "This key code contains invalid characters."
+    "invalid-char-shortid": "This key code contains invalid characters.",
+    "app-rating": "Reevaluate app"
   },
   "introductions": {
     "cancel": "Close",

@@ -258,7 +258,8 @@
     "generated-shortid": "Der Raum-Code wird generiert.",
     "custom-shortid-placeholder": "Code aus: a-z A-Z 0-9 - _ ~ .",
     "invalid-shortid": "Dieser Raum-Code ist bereits vergeben.",
-    "invalid-char-shortid": "Der Raum-Code enthält unzulässige Zeichen."
+    "invalid-char-shortid": "Der Raum-Code enthält unzulässige Zeichen.",
+    "app-rating": "App neu bewerten"
   },
   "imprint": {
     "cancel": "Schließen",
