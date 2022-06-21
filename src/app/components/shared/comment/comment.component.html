@@ -226,20 +226,29 @@
           {{comment.tag}}
         </span>
       </div>
-      <div class="user-number"
-           *ngIf="commentsWrittenByUser > 1"
-           [ngClass]="{'joyrideActive': usesJoyride}"
+      <ng-template #userNumberContent>
+        <mat-icon class="user-icon material-icons-outlined">person_pin_circle</mat-icon>
+        <span matBadge="{{commentsWrittenByUser}}"
+              matBadgeSize="small"
+              matBadgeOverlap="false">
+        </span>
+      </ng-template>
+      <div class="user-number joyrideActive"
+           *ngIf="usesJoyride"
            [joyrideStep]="'commentUserNumber'"
            [stepPosition]="'right'"
            appJoyrideTemplate
            fxLayoutAlign="center center"
            matTooltip="{{ 'comment-page.user-number' | translate }}"
            (click)="this.clickedUserNumber.emit(comment.creatorId)">
-        <mat-icon class="user-icon material-icons-outlined">person_pin_circle</mat-icon>
-        <span matBadge="{{commentsWrittenByUser}}"
-              matBadgeSize="small"
-              matBadgeOverlap="false">
-        </span>
+        <ng-container [ngTemplateOutlet]="userNumberContent"></ng-container>
+      </div>
+      <div class="user-number"
+           *ngIf="!usesJoyride && commentsWrittenByUser > 1"
+           fxLayoutAlign="center center"
+           matTooltip="{{ 'comment-page.user-number' | translate }}"
+           (click)="this.clickedUserNumber.emit(comment.creatorId)">
+        <ng-container [ngTemplateOutlet]="userNumberContent"></ng-container>
       </div>
       <div fxLayoutAlign="center center"
            matTooltip="{{ 'comment-page.keywords-per-question' | translate }}"
