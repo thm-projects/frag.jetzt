@@ -10,7 +10,33 @@ export enum ArsTimeUnit{
   SECOND
 }
 
-export const arsTimeTranslation = {
+interface ArsTranslationVisitor{
+  dayTranslation:string[];
+  monthTranslation:string[];
+}
+
+interface ArsTimeTranslationRuleSetTemplate{
+  year:string;
+  month:string;
+  day:string;
+  week:string;
+  hour:string;
+  minute:string;
+  second:string;
+}
+
+interface ArsTimeTranslationInnerTemplate extends ArsTranslationVisitor{
+  time:ArsTimeTranslationRuleSetTemplate;
+  timeConvert:(date:Date,visitor:ArsTranslationVisitor)=>string;
+  dateConvert:(date:Date,visitor:ArsTranslationVisitor)=>string;
+}
+
+interface ArsTimeTranslationTemplate{
+  de:ArsTimeTranslationInnerTemplate;
+  en:ArsTimeTranslationInnerTemplate;
+}
+
+export const arsTimeTranslation:ArsTimeTranslationTemplate = {
   de:{
     time:{
       year:
@@ -57,17 +83,17 @@ export const arsTimeTranslation = {
       'November',
       'Dezember'
     ],
-    timeConvert:(date: Date) => date.toLocaleString('de-DE', {hour:'numeric', minute:'numeric', hour12:false}),
-    dateConvert:(date: Date) => date.getDate() + '. ' + arsTimeTranslation.de.monthTranslation[date.getMonth()]
+    timeConvert:(date: Date,visitor:ArsTranslationVisitor) => date.toLocaleString('de-DE', {hour:'numeric', minute:'numeric', hour12:false}),
+    dateConvert:(date: Date,visitor:ArsTranslationVisitor) => date.getDate() + '. ' + visitor.monthTranslation[date.getMonth()]
   },
   en:{
     time:{
       year:
-        '? year%s ago - DATE TIME',
+        '? year%s ago on DATE TIME',
       month:
-        '? month%s ago - DATE TIME',
+        '? month%s ago on DATE TIME',
       week:
-        '? week%s ago - DATE TIME',
+        '? week%s ago on DATE TIME',
       day:
         '&1:yesterday at TIME;' +
         '? days ago at TIME',
@@ -105,8 +131,14 @@ export const arsTimeTranslation = {
       'Saturday',
       'Sunday'
     ],
-    timeConvert:(date: Date) => date.toLocaleString('en-US', {hour:'numeric', minute:'numeric', hour12:true}),
-    dateConvert:(date: Date) => date.toLocaleDateString('en-US', {weekday:'long', year:'numeric', month:'long'}),
+    timeConvert:(date: Date,visitor:ArsTranslationVisitor) => {
+      let str=date.toLocaleString('en-US', {hour:'numeric', minute:'numeric', hour12:true});
+      if(str.split(':')[1].includes('00')){
+        str=str.replace(':00','');
+      }
+      return str;
+    },
+    dateConvert:(date: Date,visitor:ArsTranslationVisitor) => `Tuesday, March 22`
   }
 };
 
@@ -183,6 +215,15 @@ export class ArsDateFormatter implements OnDestroy{
   private map: ArsDateMap;
 
   constructor(){
+
+    window['testDate']=(date)=>{
+      const _date:Date=new Date(date);
+      const _approximation=this.approximateDate(_date);
+      const _translation_en=this.format(_approximation,'en');
+      const _translation_de=this.format(_approximation,'de');
+      console.log(_translation_de);
+      console.log(_translation_en);
+    };
     this.map = new ArsDateMap();
     ['en', 'de'].forEach(lang => {
       for (let timeKey in arsTimeTranslation[lang].time){
@@ -265,8 +306,8 @@ export class ArsDateFormatter implements OnDestroy{
   public format(time: ArsApproximateDate, lang: string): string{
     let str: string = this.map.format(time, lang);
     if (str.includes('%')){
-      str = str.replace('DATE', arsTimeTranslation[lang].dateConvert(time.date));
-      str = str.replace('TIME', arsTimeTranslation[lang].timeConvert(time.date));
+      str = str.replace('DATE', arsTimeTranslation[lang].dateConvert(time.date,arsTimeTranslation[lang]));
+      str = str.replace('TIME', arsTimeTranslation[lang].timeConvert(time.date,arsTimeTranslation[lang]));
       if (time.time == 1){
         return (str.split('%')[0] + ((e: string) => e.substring(e.indexOf(' ')))(str.split('%')[1])).replace('?', time.time + '');
       }else{
