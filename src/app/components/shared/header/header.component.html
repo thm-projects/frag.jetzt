@@ -31,8 +31,8 @@
                      room?.quizActive &&
                      deviceInfo.isCurrentlyDesktop"
               routerLink="quiz">
-        <mat-icon class="material-icons-outlined"
-                  style="margin-right: 5px">emoji_events
+        <mat-icon class="material-icons"
+                  style="transform: scale(1.2); margin-right: 5px">rocket_launch
         </mat-icon>
         <span>{{'header.quiz-now' | translate}}</span>
       </button>
@@ -42,7 +42,7 @@
               *ngIf="!router.url.endsWith('moderator/comments') && router.url.endsWith('/comments') &&
                      deviceInfo.isCurrentlyDesktop && ((tagCloudDataService.currentData?.size || 0) > 0)"
               (click)="navigateTopicCloud()">
-        <mat-icon style="margin-right: 5px">tag</mat-icon>
+        <mat-icon style="transform: scale(1.3); margin-right: 7px">tag</mat-icon>
         <span>{{'header.tag-cloud' | translate}}</span>
       </button>
 
@@ -52,8 +52,8 @@
                      room?.brainstormingActive &&
                      deviceInfo.isCurrentlyDesktop && (!!room?.brainstormingSession || userRole > 0)"
               (click)="navigateBrainstorming()">
-        <mat-icon class="material-icons-outlined"
-                  style="margin-right: 5px">tips_and_updates
+        <mat-icon class="material-icons"
+                  style="transform: scale(1.4); margin-right: 5px">psychology_alt
         </mat-icon>
         <span>{{'header.brainstorming' | translate}}</span>
       </button>
@@ -65,10 +65,10 @@
       </div>
 
       <div *ngIf="room?.brainstormingSession?.active">
-        <mat-icon class="material-icons-outlined"
-                  style="color: green; margin-top: 8px"
+        <mat-icon class="material-icons"
+                  style="transform: scale(1.4); color: green; margin-top: 8px"
                   [matTooltip]="'header.brainstorm-active' | translate">
-          tips_and_updates
+          psychology_alt
         </mat-icon>
       </div>
 
@@ -76,7 +76,7 @@
         <mat-icon class="material-icons-outlined"
                   style="color: var(--red); margin-top: 8px"
                   [matTooltip]="'header.not-in-own-view' | translate">
-          group
+          groups
         </mat-icon>
       </span>
 
@@ -188,7 +188,8 @@
                   class="pseudo-button"
                   matTooltip="{{'header.overview-keywords-tooltip' | translate}}">
             <mat-icon
-                      class="oldtypo-h2 comment_tag-icon">tag</mat-icon>
+              class="oldtypo-h2 comment_tag-icon">tag
+            </mat-icon>
             <span style="margin-left: 0.1em;">{{commentsCountKeywords}}</span>
           </button>
         </ars-col>
@@ -217,7 +218,7 @@
                   class="material-icons-round">gavel
         </mat-icon>
         <mat-icon *ngIf="userRole === user.role"
-                  class="material-icons-outlined">group
+                  class="material-icons-outlined">groups
         </mat-icon>
         <span *ngIf="userRole === user.role">{{'header.regular-user-view' | translate}}</span>
         <span *ngIf="userRole !== user.role">{{'header.own-view' | translate}}</span>
@@ -280,11 +281,9 @@
               routerLink="/user"
               tabindex="0">
         <mat-icon
-          class="sessions material-icons-outlined">door_front
+          class="sessions material-icons-outlined">meeting_room
         </mat-icon>
-        <span *ngIf="!user.isGuest">{{'header.my-sessions' | translate}}</span>
-        <span *ngIf="user.isGuest"
-              svgIcon="meeting_room">{{'header.visited-sessions' | translate}}</span>
+        <span>{{'header.my-sessions' | translate}}</span>
       </button>
 
       <button mat-menu-item
@@ -324,17 +323,17 @@
     </mat-menu>
 
     <mat-icon *ngIf="user?.isGuest"
-                  class="header-icons material-icons-filled color-warn"
-                  style="margin-right: 5px"
-                  [matTooltip]="'header.guest-account-tooltip' | translate">
-          priority_high
+              class="header-icons material-icons-filled color-warn"
+              style="margin-right: 5px"
+              [matTooltip]="'header.guest-account-tooltip' | translate">
+      priority_high
     </mat-icon>
 
     <mat-icon
-          *ngIf="this.router.url.indexOf('/room/') > 0"
-          class="header-icons material-icons-outlined"
-          [matTooltip]="'header.' + getCurrentRoleDescription() | translate">
-          {{getCurrentRoleIcon()}}
+      *ngIf="this.router.url.indexOf('/room/') > 0"
+      class="header-icons material-icons-outlined"
+      [matTooltip]="'header.' + getCurrentRoleDescription() | translate">
+      {{getCurrentRoleIcon()}}
     </mat-icon>
 
     <ng-template #optionContent>

@@ -3,7 +3,7 @@
     "title": "Benachrichtigungen",
     "close": "Board schließen",
     "filter": "Filter-Optionen",
-    "block": "Keine neuen Benachrichtigungen",
+    "block": "Benachrichtigungen deaktivieren",
     "delete": "Alle Benachrichtigungen löschen",
     "activate": "Benachrichtigungen aktivieren"
   },
@@ -11,7 +11,7 @@
     "label": "Erklären",
     "close": "Schließen",
     "text": "Benachrichtigungen",
-    "dialog-content": "Hier siehst du alle Reaktionen auf deine Fragen und Kommentare, zum Beispiel, ob du einen Stern erhalten hast, ob deine Frage beantwortet, kommentiert, verbannt oder gelöscht wurde. Mit einem Klick auf die Nachricht gelangst du zu deiner Frage. Du kannst auch einzelne Konversationen, über die du benachrichtigt werden willst, mit dem Glocken-Icon an der Frage oder am Kommentar auswählen."
+    "dialog-content": "Hier siehst du alle Reaktionen auf deine Fragen und Kommentare, zum Beispiel, ob du einen Stern erhalten hast, ob eine deiner Fragen beantwortet, kommentiert, verbannt oder gelöscht wurde. Mit einem Klick auf die Nachricht gelangst du zu deiner Frage. Du kannst auch einzelne Konversationen, über die du benachrichtigt werden willst, mit dem Glocken-Icon an der Frage oder am Kommentar auswählen."
   },
   "notification": {
     "number-notifications": "Anzahl: ",

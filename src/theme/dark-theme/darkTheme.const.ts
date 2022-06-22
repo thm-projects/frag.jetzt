@@ -54,6 +54,6 @@ export const dark_meta = {
   scale_desktop: 1,
   scale_mobile: 1,
   previewColor: 'background',
-  icon: 'dark_mode'
+  icon: 'nightlight_round'
 
 };

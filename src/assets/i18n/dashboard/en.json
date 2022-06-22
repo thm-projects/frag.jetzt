@@ -11,7 +11,7 @@
     "label": "Explain",
     "close": "Close",
     "text": "Notifications",
-    "dialog-content": "On the notification board, you can see all reactions to your questions and comments, e.g. if you have received a star, if your question has been answered, commented, banned or deleted. Clicking on the message will take you to your question or comment. You can also select individual conversations you want to be notified about by clicking the bell icon on the question or comment."
+    "dialog-content": "On the notification board, you can see all reactions to your questions and comments, e.g. if you have received a star, if one of your questions has been answered, commented, banned or deleted. Clicking on the message will take you to your question or comment. You can also select individual conversations you want to be notified about by clicking the bell icon on the question or comment."
     },
   "notification": {
     "number-notifications": "Number: ",

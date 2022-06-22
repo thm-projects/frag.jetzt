@@ -140,7 +140,7 @@
     "topic-cloud": "## Themenwolke \n\nDie Themenwolke visualisiert die Verteilung der Stichwörter. Diese wurden durch eine grammatikalische Analyse der Nomen im Fragetext ermittelt oder vom Autor oder der Autorin explizit der Frage zugewiesen. \n\n  In die Berechnung der Schriftgröße gehen ein:\n\n* die Differenz zwischen Up- und Down-Votes, wenn sie positiv ist,\n* die Anzahl der Fragen mit diesem Stichwort,\n* die Anzahl der Fragensteller\\*innenmit diesem Stichwort,\n* die Rolle: Raumersteller\\*in, Moderator\\*in oder Teilnehmer\\*in,\n* ob der/die Fragensteller\\*in eine Fragenkategorie ausgewählt hat,\n* ob das Stichwort generiert oder vom Fragensteller oder der Fragenstellerin vergeben wurde,\n* ob die Frage beantwortet wurde,\n* die Kontroversität der Frage. \n\nDie Themenwolke dient als **Navigator** zu allen Fragen zu einem Stichwort: Wenn du auf ein Wort in der Wolke klickst, gelangst du zu den Fragen mit diesem Stichwort. \n\nRaumersteller*innen können das Aussehen der Themenwolke in den Optionen nach ihren Wünschen anpassen. Er oder sie kann auch mit den Parametern für die Stichwortgenerierung experimentieren, um die **semantische Trennschärfe** zu optimieren.",
     "user-bonus": "## Bonus \n\nDie Lehrperson kann »gute« Fragen für einen Bonus markieren. Deine Fragen aus allen Kursen (Räumen), die einen Stern erhalten haben, werden hier aufgelistet.\n\nJe nach Vereinbarung kannst du den Bonuscode per E-Mail an die Lehrperson schicken, um ihn gegen einen Bonus einzulösen.",
     "bonus-archive": "## Bonus-Archiv \n\nHier werden alle Fragen aufgelistet, die du in deinen Räumen mit einem Stern markiert hast. Anhand der Liste kannst du überprüfen, ob der Bonuscode, den dir ein/e Teilnehmer\\*in per Mail geschickt hat, gültig ist. \n\nUm einen Code schnell zu finden, gibt es ein Suchfeld. Ist der Code gültig, kannst du dir die entsprechende Frage direkt über einen Link anzeigen lassen.",
-    "brainstorming": "## Brainstorming \n\nBeim Erstellen einer Brainstorming-Sitzung legen Moderator\\*innendas Thema der Sitzung und die maximale Anzahl der Wörter und Zeichen pro Beitrag fest. Ist nur ein Wort als Beitrag zugelassen, führt eine KI einen morphologschen Vergleich aller Beiträge durch. Es werden Mehrfachnennungen trotz unterschiedlicher Flexion und Schreibweise der Wörter sicher erkannt und in entsprechender Schriftgröße in einer Wortwolke angezeigt. \n\nÜber jeden Eintrag in der Wortwolke kann abgestimmt werden. Dazu fährt man mit dem Mauszeiger über den Eintrag und klickt auf ein Abstimmungs-Icon im zugehörigen Pop-up-Fenster.",    "add-moderators": "## Moderator\\*in \n\nGast- und Dauermoderator\\*innenhaben die gleichen Rechte wie der/die Ersteller\\*in des Raums. Sie können aber weder Fragen noch den ganzen Raum löschen. \n\nJeder kann mit seiner **Mailadresse**, mit der er sich bei »frag.jetzt« registriert hat, als **Dauermoderator\\*in** aufgenommen werden. \n\nEin unregistrierter User kann **Gastmoderator\\*in** werden, wenn er oder sie den Raum per **Direktlink** oder 8-stelligen **Zugangscode** betritt.",
+    "brainstorming": "## Brainstorming \n\nBeim Erstellen einer Brainstorming-Sitzung legen Moderator\\*innendas Thema der Sitzung und die maximale Anzahl der Wörter und Zeichen pro Beitrag fest. Ist nur ein Wort als Beitrag zugelassen, führt eine KI einen morphologschen Vergleich aller Beiträge durch. Es werden Mehrfachnennungen trotz unterschiedlicher Flexion und Schreibweise der Wörter sicher erkannt und in entsprechender Schriftgröße in einer Wortwolke angezeigt. \n\nÜber jeden Eintrag in der Wortwolke kann abgestimmt werden. Dazu fährt man mit dem Mauszeiger über den Eintrag und klickt auf ein Abstimmungs-Icon im zugehörigen Pop-up-Fenster.",    "add-moderators": "## Moderator\\*in \n\nGast- und Dauermoderator\\*innen haben die gleichen Rechte wie der/die Ersteller\\*in des Raums. Sie können aber weder Fragen noch den ganzen Raum löschen. \n\nJeder kann mit seiner **Mailadresse**, mit der er sich bei »frag.jetzt« registriert hat, als **Dauermoderator\\*in** aufgenommen werden. \n\nEin unregistrierter User kann **Gastmoderator\\*in** werden, wenn er oder sie den Raum per **Direktlink** oder 8-stelligen **Zugangscode** betritt.",
     "room-settings-overview": "## Raumeinstellungen \n\nHier siehst du alle Einstellungen des Raumes in der Übersicht. \n\nDu kannst Änderungen auch später noch im Optionen-Menü des Raumes vornehmen. \n\nWegen der Anonymität der User und des damit potenziellen Missbrauchs des Q&A-Forums bieten wir dir mit den ersten drei Schaltern Einschränkungen an. Siehe die Hinweise dazu in den Tooltips der Schalter."
   },
   "header": {
@@ -238,8 +238,8 @@
     "accessibility-create": "Erstellt eine neue Sitzung.",
     "accessibility-join-button": "Betritt die Sitzung, deren Code du eingegeben hast.",
     "accessibility-join-input": "Hier kannst du den Namen der Sitzung eingeben der du beitreten möchtest. Den Namen sagt dir die Sitzungsleitung.",
-    "create-session": "Raum erstellen",
-    "created": "Der Raum für die Sitzung »{{longRoomName}}« wurde erstellt.",
+    "create-session": "Raum kostenlos buchen",
+    "created": "Der Raum für die Sitzung »{{longRoomName}}« wurde gebucht.",
     "exactly-8": "Der Code ist eine Kombination aus 8 Ziffern.",
     "link-description": "Öffnet neues Fenster",
     "live-announcer": "Willkommen auf der Seite fragpunktjetzt. Diese Seite wurde für Screenreader wie ChromeVox, Voiceover und viele andere optimiert. Ein Audioguide kann dir bei der Navigation helfen. Um Informationen zu Tastenkombinationen zu erhalten drücke jetzt die Enter-Taste oder rufe die Ansage zu einem späteren Zeitpunkt mit der Escape-Taste auf.",
@@ -254,10 +254,10 @@
     "session-id": "Raum-Code …",
     "join-room": "Teilnehmen",
     "update-available": "Eine neue Version ist verfügbar.",
-    "custom-shortid": "Gib den Raum-Code vor …",
-    "generated-shortid": "Der Raum-Code wird generiert.",
+    "custom-shortid": "Wie soll der Code lauten?",
+    "generated-shortid": "Raum-Code wird generiert.",
     "custom-shortid-placeholder": "Code aus: a-z A-Z 0-9 - _ ~ .",
-    "invalid-shortid": "Dieser Raum-Code ist bereits vergeben.",
+    "invalid-shortid": "Dieser Raum-Code ist nicht verfügbar.",
     "invalid-char-shortid": "Der Raum-Code enthält unzulässige Zeichen.",
     "app-rating": "App neu bewerten"
   },
@@ -280,14 +280,14 @@
     "done": "Fertig",
     "cantAccessRoute": "Diese Route ist nicht verfügbar. Die Tour wird abgebrochen.",
     "greeting": "Wir führen dich zu den wichtigsten Stellen in unserer Q&A-App »frag.jetzt«. Die Tour dauert nur wenige Minuten. In der App informieren dich die Tooltips der Buttons und Icons über deren Funktion.",
-    "greetingTitle": "Onboarding-Tour",
+    "greetingTitle": "Onboarding",
     "loginButtonHeader": "Nein, es sei denn du willst deine besuchten oder selbst erstellten Räume auf unserem Server speichern. Ein Konto ist auch für die Verwaltung von Bonuspunkten ratsam.",
-    "loginButtonHeaderTitle": "Muss ich mich registrieren?",
+    "loginButtonHeaderTitle": "Muss ich mich anmelden?",
     "roomJoin": "Gib hier den Zugangscode für den Raum ein, um an der Veranstaltung teilzunehmen.",
     "roomJoinTitle": "Veranstaltung besuchen",
-    "createRoom": "Jeder kann einen Raum für eine Veranstaltung erstellen. Der Zugangscode wird entweder generiert oder du bestimmst ihn selbst. Bedenke, ohne Registrierung existiert der Raum mit allen Daten nur in diesem Browser.",
-    "createRoomTitle": "Raum erstellen",
-    "introduction": "Wenn du eigene Räume erstellen willst, dann informiere dich hier über das didaktische Konzept, die Features und Einsatz-Szenarien von »frag.jetzt«. Innerhalb der App findest du an dieser Stelle ein Video-Tutorial für den aktuellen Kontext.",
+    "createRoom": "Jeder kann einen Raum für eine Veranstaltung buchen. Der Zugangscode wird entweder generiert oder du bestimmst ihn selbst. Bedenke, ohne Registrierung existiert der Raum mit allen Daten nur in diesem Browser.",
+    "createRoomTitle": "Raum buchen",
+    "introduction": "Wenn du eigene Räume buchen willst, dann informiere dich hier über das didaktische Konzept, die Features und Einsatz-Szenarien von »frag.jetzt«. Innerhalb der App findest du an dieser Stelle ein Video-Tutorial für den aktuellen Kontext.",
     "introductionTitle": "Einführung in »frag.jetzt«",
     "feedbackLink": "Du hast einen Bug gefunden? Du hättest gern ein weiteres Feature? Der Link führt dich in den Feedback-Raum. Die Tour wird in diesem Raum fortgesetzt.",
     "feedbackLinkTitle": "Raum für Feedback",
@@ -392,7 +392,7 @@
   "room-create": {
     "cancel": "Abbrechen",
     "cancel-description": "Abbrechen",
-    "create-room": "Raum erstellen",
+    "create-room": "Raum buchen",
     "create-room-description": "Neue Sitzung."
   },
   "room-export": {
@@ -456,7 +456,7 @@
     "tooltip-bonus-archive-enabled": "Wenn du einen Beitrag mit einem Stern auszeichnest, kannst du den Stern für die Vergabe von Bonuspunkten verwenden. Es wird ein Code generiert, den der/die Teilnehmer*in an deine E-Mail-Adresse für die Bonuseinlösung schickt.",
     "tooltip-brainstorming-enabled": "Du kannst Brainstorming-Sitzungen zu bestimmten Fragen durchführen. Die Ideen (Wörter) werden von einer KI morphologisch verglichen und in einer Wortwolke angezeigt.",
     "tooltip-conversation-enabled": "Du kannst Unterhaltungen aktivieren, damit die Teilnehmer*innen Fragen beantworten oder kommentieren können.",
-    "tooltip-profanity-toggle-active": "Wenn du die Filterung aktivierst, werden vulgäre Wörter in den Beiträgen zensiert.",
+    "tooltip-profanity-toggle-active": "Vulgäre Wörter in Beiträgen werden mit ★★★★ überschrieben.",
     "tooltip-profanity-toggle-all": "Du kannst vulgäre Wörter in mehreren Sprachen zensieren.",
     "tooltip-profanity-toggle-word": "Du kannst die Filterung innerhalb von Wörtern aktivieren, standardmäßig werden nur ganze Wörter zensiert.",
     "tooltip-quiz-enabled": "Du kannst die Quiz-App https://antworte.jetzt in deinem Raum einsetzen.",
@@ -516,7 +516,7 @@
     "join": "Sitzung beitreten",
     "max-ls": "Maximale Anzahl Zeichen:",
     "session-name": "Veranstaltung",
-    "session-name-with-key-code-generated": "Gib den Veranstaltungsnamen ein …"
+    "session-name-with-key-code-generated": "Wie soll die Veranstaltung heißen?"
   },
   "unsupported-browser": {
     "title": "Safari-Hinweis",

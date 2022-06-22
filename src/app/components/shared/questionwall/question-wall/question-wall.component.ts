@@ -487,7 +487,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     this.sessionService.getModeratorsOnce()
       .subscribe(mods => isFromModerator = mods.some(mod => mod.accountId === comment?.creatorId));
     if (comment?.brainstormingQuestion) {
-      return 'tips_and_updates';
+      return 'psychology_alt';
     } else if (isFromOwner) {
       return 'co_present';
     } else if (isFromModerator) {
