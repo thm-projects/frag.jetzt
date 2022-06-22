@@ -92,6 +92,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
   sortReverse: boolean;
   period: Period;
   moderatorAccountIds: Set<string>;
+  hasGivenJoyride = false;
   private firstReceive = true;
   private _allQuestionNumberOptions: string[] = [];
   private _list: ComponentRef<any>[];
@@ -396,6 +397,24 @@ export class CommentListComponent implements OnInit, OnDestroy {
     return this.comments &&
       (this.commentsFilteredByTimeLength < 1 && this.period === 'All' || this.comments.length === 0) &&
       !this.isLoading;
+  }
+
+  getSlicedComments(): CommentWithMeta[] {
+    const start = this.pageIndex * this.pageSize;
+    const end = start + this.pageSize;
+    this.hasGivenJoyride = false;
+    return this.comments.slice(start, end);
+  }
+
+  requestJoyride(comment: Comment): boolean {
+    if (this.hasGivenJoyride) {
+      return false;
+    }
+    if (this.commentsWrittenByUsers.get(comment.creatorId).size > 1) {
+      this.hasGivenJoyride = true;
+      return true;
+    }
+    return false;
   }
 
   private onCommentPatched(update: UpdateInformation) {

@@ -20,10 +20,15 @@ mat-radio-group {
 .elementText {
   align-content: flex-start;
   margin-right: 10px;
+  display: flex;
+  align-items: center;
 }
 
 .elementIcons {
   margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.25em;
 }
 
 .comment_tag-icon {

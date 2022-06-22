@@ -49,7 +49,6 @@ unit_tests:
     paths:
       - coverage
   script:
-    - npm ci
     - npm test
 
 e2e_cypress:
@@ -79,8 +78,11 @@ sonar:
   allow_failure: false
   dependencies:
     - unit_tests
+    - install
+  needs:
+    - unit_tests
+    - install
   script:
-    - npm ci
     - sonar-scanner -Dsonar.login=$SONAR_TOKEN -Dsonar.host.url=https://scm.thm.de/sonar/ -Dsonar.qualitygate.wait=true
 
 ngbuild:

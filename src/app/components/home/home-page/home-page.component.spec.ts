@@ -23,6 +23,8 @@ import {
   JoyrideService, JoyrideStepsContainerService,
   JoyrideStepService, LoggerService, StepDrawerService, TemplatesService
 } from 'ngx-joyride';
+import { RatingService } from '../../../services/http/rating.service';
+import { RatingServiceMock } from '../../../services/mocks/rating.service.mock';
 
 
 describe('HomePageComponent', () => {
@@ -60,7 +62,11 @@ describe('HomePageComponent', () => {
         LoggerService,
         StepDrawerService,
         JoyrideDirective,
-        TemplatesService
+        TemplatesService,
+        {
+          provide: RatingService,
+          useClass: RatingServiceMock,
+        }
       ]
     })
     .compileComponents();

@@ -5,6 +5,8 @@ import { KeyboardUtils } from '../../../utils/keyboard';
 import { KeyboardKey } from '../../../utils/keyboard/keys';
 import { TranslateService } from '@ngx-translate/core';
 import { OnboardingService } from '../../../services/util/onboarding.service';
+import { RatingService } from '../../../services/http/rating.service';
+import { RatingResult } from '../../../models/rating-result';
 
 @Component({
   selector: 'app-home-page',
@@ -13,17 +15,22 @@ import { OnboardingService } from '../../../services/util/onboarding.service';
 })
 export class HomePageComponent implements OnInit, OnDestroy, AfterViewInit {
   listenerFn: () => void;
+  accumulatedRatings: RatingResult;
 
   constructor(
     private translateService: TranslateService,
     private eventService: EventService,
     private liveAnnouncer: LiveAnnouncer,
     private _r: Renderer2,
-    private onboardingService: OnboardingService
+    private onboardingService: OnboardingService,
+    private ratingService: RatingService,
   ) {
   }
 
   ngOnInit() {
+    this.ratingService.getRatings().subscribe(r => {
+      this.accumulatedRatings = r;
+    });
     if (localStorage.getItem('cookieAccepted') === 'true') {
       this.loadListener();
       return;

@@ -319,6 +319,9 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
   }
 
   private cleanContentOnPaste(event: EditorChangeContent) {
+    if (event.source !== 'user') {
+      return;
+    }
     const newDelta = { ops: [] };
     for (const deltaObj of event.delta.ops) {
       if (deltaObj.retain) {
@@ -339,8 +342,8 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
         newDelta.ops.push({ insert: deltaObj.insert });
       }
     }
-    this.editor.quillEditor.setContents(event.oldDelta);
-    this.editor.quillEditor.updateContents(newDelta);
+    this.editor.quillEditor.setContents(event.oldDelta, 'silent');
+    this.editor.quillEditor.updateContents(newDelta, 'silent');
   }
 
   private overrideQuillTooltip() {

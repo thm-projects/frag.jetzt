@@ -1,4 +1,9 @@
 {
+  "app-rating": {
+    "retry": "This is your old rating, enter a new one!",
+    "error": "An error has occurred!",
+    "success": "Thank you for your review!"
+  },
   "bonus-archive-export": {
     "no-data": "There are no bonuses.",
     "empty": "",
@@ -219,7 +224,8 @@
     "custom-shortid": "What should the code be?",
     "custom-shortid-placeholder": "Characters: a-z A-Z 0-9 - _ ~ .",
     "invalid-shortid": "This key code is not available.",
-    "invalid-char-shortid": "This key code contains invalid characters."
+    "invalid-char-shortid": "This key code contains invalid characters.",
+    "app-rating": "Reevaluate app"
   },
   "introductions": {
     "cancel": "Close",
