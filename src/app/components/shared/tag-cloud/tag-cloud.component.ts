@@ -49,6 +49,7 @@ import { DataFilterObject } from '../../../utils/data-filter-object';
 import { RoomDataService } from '../../../services/util/room-data.service';
 import { FilterType, Period, RoomDataFilter } from '../../../utils/data-filter-object.lib';
 import { maskKeyword } from '../../../services/util/tag-cloud-data.util';
+import { ColorContrast, ColorRGB } from '../../../utils/color-contrast';
 
 class CustomPosition implements Position {
   left: number;
@@ -165,9 +166,12 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
   }
 
   private static invertHex(hexStr: string) {
-    const r = 255 - parseInt(hexStr.substring(1, 3), 16);
-    const g = 255 - parseInt(hexStr.substring(3, 5), 16);
-    const b = 255 - parseInt(hexStr.substring(5, 7), 16);
+    const currentColor: ColorRGB = [
+      parseInt(hexStr.substring(1, 3), 16),
+      parseInt(hexStr.substring(3, 5), 16),
+      parseInt(hexStr.substring(5, 7), 16)
+    ];
+    const [r, g, b] = ColorContrast.getInvertedColor(currentColor);
     return `#${((r * 256 + g) * 256 + b).toString(16).padStart(6, '0')}`;
   }
 

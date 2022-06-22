@@ -1,0 +1,56 @@
+div {
+  margin: 1em;
+}
+
+h2 {
+  text-align: center;
+}
+
+button {
+  margin-top: 10px;
+  height: 2em;
+  border-radius: 5px;
+  font-size: 1em;
+  width: 100%;
+  background-color: var(--background);
+  color: var(--on-background);
+  outline: 3px solid var(--primary-variant);
+
+  &:hover {
+    outline: 3px solid var(--secondary);
+  }
+}
+
+mat-icon.interactive {
+  color: #7f7f00;
+  width: 1em;
+  height: 1em;
+  font-size: 3em;
+  cursor: pointer;
+  transition: transform 250ms ease, color 250ms ease;
+
+  &.star_full {
+    color: yellow;
+  }
+
+  &.star_half {
+    color: #bfbf00;
+  }
+
+  &:hover {
+    transform: scale(1.666666667);
+  }
+
+  &.bounce {
+    animation: starBounce 300ms ease-in-out;
+  }
+}
+
+@keyframes starBounce {
+  33% {
+    transform: scale(2);
+  }
+  66% {
+    transform: scale(1.33333333);
+  }
+}

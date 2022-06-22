@@ -10,6 +10,15 @@ if (wsOrigin) {
 }
 
 const PROXY_CONFIG = {
+  "/matomo": {
+    "target": "https://arsnova.thm.de/stats",
+    "secure": true,
+    "changeOrigin": false,
+    "pathRewrite": {
+      "^/matomo": ""
+    },
+    "logLevel": "debug"
+  },
   "/antworte-jetzt": {
     "target": "https://staging.antworte.jetzt",
     "secure": true,
