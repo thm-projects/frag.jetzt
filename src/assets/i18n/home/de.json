@@ -233,8 +233,8 @@
     "accessibility-create": "Erstellt eine neue Sitzung.",
     "accessibility-join-button": "Betritt die Sitzung, deren Code du eingegeben hast.",
     "accessibility-join-input": "Hier kannst du den Namen der Sitzung eingeben der du beitreten möchtest. Den Namen sagt dir die Sitzungsleitung.",
-    "create-session": "Raum erstellen",
-    "created": "Der Raum für die Sitzung »{{longRoomName}}« wurde erstellt.",
+    "create-session": "Raum kostenlos buchen",
+    "created": "Der Raum für die Sitzung »{{longRoomName}}« wurde gebucht.",
     "exactly-8": "Der Code ist eine Kombination aus 8 Ziffern.",
     "link-description": "Öffnet neues Fenster",
     "live-announcer": "Willkommen auf der Seite fragpunktjetzt. Diese Seite wurde für Screenreader wie ChromeVox, Voiceover und viele andere optimiert. Ein Audioguide kann dir bei der Navigation helfen. Um Informationen zu Tastenkombinationen zu erhalten drücke jetzt die Enter-Taste oder rufe die Ansage zu einem späteren Zeitpunkt mit der Escape-Taste auf.",
@@ -279,9 +279,9 @@
     "loginButtonHeaderTitle": "Muss ich mich anmelden?",
     "roomJoin": "Gib hier den Zugangscode für den Raum ein, um an der Veranstaltung teilzunehmen.",
     "roomJoinTitle": "Veranstaltung besuchen",
-    "createRoom": "Jeder kann einen Raum für eine Veranstaltung erstellen. Der Zugangscode wird entweder generiert oder du bestimmst ihn selbst. Bedenke, ohne Registrierung existiert der Raum mit allen Daten nur in diesem Browser.",
-    "createRoomTitle": "Raum erstellen",
-    "introduction": "Wenn du eigene Räume erstellen willst, dann informiere dich hier über das didaktische Konzept, die Features und Einsatz-Szenarien von »frag.jetzt«. Innerhalb der App findest du an dieser Stelle ein Video-Tutorial für den aktuellen Kontext.",
+    "createRoom": "Jeder kann einen Raum für eine Veranstaltung buchen. Der Zugangscode wird entweder generiert oder du bestimmst ihn selbst. Bedenke, ohne Registrierung existiert der Raum mit allen Daten nur in diesem Browser.",
+    "createRoomTitle": "Raum buchen",
+    "introduction": "Wenn du eigene Räume buchen willst, dann informiere dich hier über das didaktische Konzept, die Features und Einsatz-Szenarien von »frag.jetzt«. Innerhalb der App findest du an dieser Stelle ein Video-Tutorial für den aktuellen Kontext.",
     "introductionTitle": "Einführung in »frag.jetzt«",
     "feedbackLink": "Du hast einen Bug gefunden? Du hättest gern ein weiteres Feature? Der Link führt dich in den Feedback-Raum. Die Tour wird in diesem Raum fortgesetzt.",
     "feedbackLinkTitle": "Raum für Feedback",
@@ -386,7 +386,7 @@
   "room-create": {
     "cancel": "Abbrechen",
     "cancel-description": "Abbrechen",
-    "create-room": "Raum erstellen",
+    "create-room": "Raum buchen",
     "create-room-description": "Neue Sitzung."
   },
   "room-export": {

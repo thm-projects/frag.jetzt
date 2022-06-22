@@ -31,8 +31,8 @@
                      room?.quizActive &&
                      deviceInfo.isCurrentlyDesktop"
               routerLink="quiz">
-        <mat-icon class="material-icons-outlined"
-                  style="margin-right: 5px">rocket_launch
+        <mat-icon class="material-icons"
+                  style="transform: scale(1.2); margin-right: 5px">rocket_launch
         </mat-icon>
         <span>{{'header.quiz-now' | translate}}</span>
       </button>
@@ -42,7 +42,7 @@
               *ngIf="!router.url.endsWith('moderator/comments') && router.url.endsWith('/comments') &&
                      deviceInfo.isCurrentlyDesktop && ((tagCloudDataService.currentData?.size || 0) > 0)"
               (click)="navigateTopicCloud()">
-        <mat-icon style="margin-right: 5px">tag</mat-icon>
+        <mat-icon style="transform: scale(1.3); margin-right: 7px">tag</mat-icon>
         <span>{{'header.tag-cloud' | translate}}</span>
       </button>
 
@@ -52,8 +52,8 @@
                      room?.brainstormingActive &&
                      deviceInfo.isCurrentlyDesktop && (!!room?.brainstormingSession || userRole > 0)"
               (click)="navigateBrainstorming()">
-        <mat-icon class="material-icons-outlined"
-                  style="margin-right: 5px">psychology_alt
+        <mat-icon class="material-icons"
+                  style="transform: scale(1.4); margin-right: 5px">psychology_alt
         </mat-icon>
         <span>{{'header.brainstorming' | translate}}</span>
       </button>
@@ -65,8 +65,8 @@
       </div>
 
       <div *ngIf="room?.brainstormingSession?.active">
-        <mat-icon class="material-icons-outlined"
-                  style="color: green; margin-top: 8px"
+        <mat-icon class="material-icons"
+                  style="transform: scale(1.4); color: green; margin-top: 8px"
                   [matTooltip]="'header.brainstorm-active' | translate">
           psychology_alt
         </mat-icon>
