@@ -51,6 +51,7 @@ export class CreateCommentComponent implements OnInit {
     private sessionService: SessionService,
   ) {
     this.languageService.getLanguage().subscribe(lang => this.translateService.use(lang));
+    dialogRef.afterClosed().subscribe(comment => localStorage.setItem('comment-created', String(true)));
   }
 
   ngOnInit() {

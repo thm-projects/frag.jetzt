@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, QueryList, SimpleChanges, ViewChildren } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { NotificationService } from '../../../services/util/notification.service';
 import { LanguageService } from '../../../services/util/language.service';
@@ -13,7 +13,7 @@ import { RatingResult } from '../../../models/rating-result';
   templateUrl: './app-rating.component.html',
   styleUrls: ['./app-rating.component.scss']
 })
-export class AppRatingComponent implements OnInit {
+export class AppRatingComponent implements OnInit, OnChanges {
 
   @Input() rating: Rating = undefined;
   @Input() onSuccess: (r: Rating) => void;
@@ -43,14 +43,7 @@ export class AppRatingComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.rating !== undefined) {
-      this.visibleRating = this.rating?.rating || 0;
-      this.changedBySubscription = this.rating !== null;
-      return;
-    }
-    if (this.ratingResults !== undefined) {
-      this.visibleRating = this.ratingResults.rating;
-      this.people = this.ratingResults.people;
+    if (!this.canSubmit()) {
       return;
     }
     const subscription = this.authenticationService.watchUser.subscribe(user => {
@@ -62,6 +55,10 @@ export class AppRatingComponent implements OnInit {
       });
       setTimeout(() => subscription.unsubscribe());
     });
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    this.canSubmit();
   }
 
   onClick(index: number, event: MouseEvent) {
@@ -120,6 +117,20 @@ export class AppRatingComponent implements OnInit {
           this.isSaving = false;
         }
       });
+  }
+
+  private canSubmit(): boolean {
+    if (this.rating !== undefined) {
+      this.visibleRating = this.rating?.rating || 0;
+      this.changedBySubscription = this.rating !== null;
+      return false;
+    }
+    if (this.ratingResults !== undefined) {
+      this.visibleRating = this.ratingResults.rating;
+      this.people = this.ratingResults.people;
+      return false;
+    }
+    return true;
   }
 
 }

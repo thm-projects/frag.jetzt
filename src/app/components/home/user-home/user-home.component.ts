@@ -26,6 +26,7 @@ export class UserHomeComponent implements OnInit, OnDestroy, AfterContentInit {
   user: User;
   creatorRole: UserRole = UserRole.CREATOR;
   participantRole: UserRole = UserRole.PARTICIPANT;
+  canRate: boolean = Boolean(localStorage.getItem('comment-created'));
   loadingRatings: boolean = true;
   fetchedRating: Rating = undefined;
   listenerFn: () => void;
@@ -56,7 +57,7 @@ export class UserHomeComponent implements OnInit, OnDestroy, AfterContentInit {
   ngOnInit() {
     this.authenticationService.watchUser.subscribe(newUser => {
       this.user = newUser;
-      if (this.fetchedRating === undefined && this.user !== undefined && this.user !== null) {
+      if (this.canRate && this.fetchedRating === undefined && this.user !== undefined && this.user !== null) {
         this.fetchedRating = null;
         this.ratingService.getByAccountId(this.user.id).subscribe(r => {
           if (r !== null) {
