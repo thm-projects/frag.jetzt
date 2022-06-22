@@ -49,7 +49,6 @@ unit_tests:
     paths:
       - coverage
   script:
-    - npm ci
     - npm test
 
 e2e_cypress:
