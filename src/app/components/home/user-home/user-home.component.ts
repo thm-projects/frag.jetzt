@@ -29,8 +29,7 @@ export class UserHomeComponent implements OnInit, OnDestroy, AfterContentInit {
   loadingRatings: boolean = true;
   fetchedRating: Rating = undefined;
   listenerFn: () => void;
-  rating: string = '?';
-  people: number;
+  accumulatedRatings: RatingResult = undefined;
   private _list: ComponentRef<any>[];
 
   constructor(
@@ -91,8 +90,7 @@ export class UserHomeComponent implements OnInit, OnDestroy, AfterContentInit {
   onRate(r: Rating) {
     this.fetchedRating = r;
     this.ratingService.getRatings().subscribe(ratings => {
-      this.rating = ratings.rating.toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 });
-      this.people = ratings.people;
+      this.accumulatedRatings = ratings;
       this.initNavigation();
       this.loadingRatings = false;
     });
@@ -128,7 +126,7 @@ export class UserHomeComponent implements OnInit, OnDestroy, AfterContentInit {
     this._list = this.composeService.builder(this.headerService.getHost(), e => {
       e.menuItem({
         translate: this.headerService.getTranslate(),
-        icon: 'visibility_off',
+        icon: 'star',
         class: 'material-icons-outlined',
         isSVGIcon: false,
         text: 'home-page.app-rating',

@@ -21,7 +21,7 @@ button {
   }
 }
 
-mat-icon {
+mat-icon.interactive {
   color: #7f7f00;
   width: 1em;
   height: 1em;
@@ -29,7 +29,7 @@ mat-icon {
   cursor: pointer;
   transition: transform 250ms ease, color 250ms ease;
 
-  &.star {
+  &.star_full {
     color: yellow;
   }
 
