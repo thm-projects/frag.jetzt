@@ -198,8 +198,8 @@
   "home-page": {
     "accessibility-create": "Create a new session",
     "accessibility-join-button": "Enter the session with the specified session key.",
-    "create-session": "Create a room",
-    "created": "The room for the session »{{longRoomName}}« has been created.",
+    "create-session": "Book a room for free",
+    "created": "The room for the session »{{longRoomName}}« has been booked.",
     "exactly-8": "A key has exactly 8 digits.",
     "accessibility-join-input": "Here you can enter the  key of the session you want to join. The presenter will tell you the session key.",
     "link-description": "Opens a new tab",
@@ -281,9 +281,9 @@
     "loginButtonHeaderTitle": "Do I have to sign up?",
     "roomJoin": "Enter the access code for the room where the event you want to attend is taking place.",
     "roomJoinTitle": "Join an event",
-    "createRoom": "Anyone can create a room for an event. The access code is either generated or you determine it yourself. Bear in mind that without registration, the room and all its data will only exist in this browser.",
-    "createRoomTitle": "Create a room",
-    "introduction": "If you want to create your own rooms, then find out about the didactic concept, the features and usage scenarios of »frag.jetzt«. Within the app, you will find a video tutorial for the current context at this point.",
+    "createRoom": "Anyone can book a room for an event. The access code is either generated or you determine it yourself. Bear in mind that without registration, the room and all its data will only exist in this browser.",
+    "createRoomTitle": "Book a room",
+    "introduction": "If you want to book your own rooms, then find out about the didactic concept, the features and usage scenarios of »frag.jetzt«. Within the app, you will find a video tutorial for the current context at this point.",
     "introductionTitle": "Introduction to »frag.jetzt«",
     "feedbackLink": "You found a bug? You would like to have another feature? The link leads you to the feedback room. The tour will continue in this room.",
     "feedbackLinkTitle": "Feedback room",
@@ -389,7 +389,7 @@
   "room-create": {
     "cancel": "Cancel",
     "cancel-description": "Cancel",
-    "create-room": "Create room",
+    "create-room": "Book room",
     "create-room-description": "New session"
   },
   "room-export": {
