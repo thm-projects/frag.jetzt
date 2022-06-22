@@ -4,8 +4,6 @@ import { SwUpdate } from '@angular/service-worker';
 import { NotificationService } from './services/util/notification.service';
 import { Rescale } from './models/rescale';
 import { CustomIconService } from './services/util/custom-icon.service';
-import { MatomoInjector } from 'ngx-matomo-v9';
-import { environment } from '../environments/environment';
 import { filter } from 'rxjs/operators';
 import { SessionService } from './services/util/session.service';
 
