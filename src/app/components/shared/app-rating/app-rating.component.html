@@ -21,12 +21,11 @@
     <mat-icon
       *ngFor="let index of [0, 1, 2, 3, 4]"
       class="material-icons-outlined"
-      style="color: #bfbf00"
+      style="color: var(--yellow)"
       [ngClass]="getIcon(index)">
       {{ getIcon(index) }}
     </mat-icon>
     &nbsp;
-    {{ people }}
-    <mat-icon class="material-icons-outlined">person</mat-icon>
+    ({{ people }})
     </span>
 </ng-template>

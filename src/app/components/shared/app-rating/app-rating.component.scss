@@ -30,11 +30,11 @@ mat-icon.interactive {
   transition: transform 250ms ease, color 250ms ease;
 
   &.star_full {
-    color: yellow;
+    color: var(--yellow);
   }
 
   &.star_half {
-    color: #bfbf00;
+    color: var(--yellow);
   }
 
   &:hover {
