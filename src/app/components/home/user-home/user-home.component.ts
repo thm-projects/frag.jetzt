@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Renderer2, AfterContentInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, Renderer2, AfterContentInit, ComponentRef } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../services/util/language.service';
@@ -10,18 +10,28 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { EventService } from '../../../services/util/event.service';
 import { KeyboardUtils } from '../../../utils/keyboard';
 import { KeyboardKey } from '../../../utils/keyboard/keys';
+import { RatingService } from '../../../services/http/rating.service';
+import { Rating } from '../../../models/rating';
+import { RatingResult } from '../../../models/rating-result';
+import { HeaderService } from '../../../services/util/header.service';
+import { ArsComposeService } from '../../../../../projects/ars/src/lib/services/ars-compose.service';
+import { AppRatingComponent } from '../../shared/app-rating/app-rating.component';
 
 @Component({
   selector: 'app-user-home',
   templateUrl: './user-home.component.html',
-  styleUrls: [ './user-home.component.scss' ]
+  styleUrls: ['./user-home.component.scss']
 })
 export class UserHomeComponent implements OnInit, OnDestroy, AfterContentInit {
   user: User;
   creatorRole: UserRole = UserRole.CREATOR;
   participantRole: UserRole = UserRole.PARTICIPANT;
-
+  canRate: boolean = Boolean(localStorage.getItem('comment-created'));
+  loadingRatings: boolean = true;
+  fetchedRating: Rating = undefined;
   listenerFn: () => void;
+  accumulatedRatings: RatingResult = undefined;
+  private _list: ComponentRef<any>[];
 
   constructor(
     public dialog: MatDialog,
@@ -30,18 +40,34 @@ export class UserHomeComponent implements OnInit, OnDestroy, AfterContentInit {
     private authenticationService: AuthenticationService,
     private eventService: EventService,
     private liveAnnouncer: LiveAnnouncer,
-    private _r: Renderer2
+    private _r: Renderer2,
+    private readonly ratingService: RatingService,
+    protected headerService: HeaderService,
+    protected composeService: ArsComposeService,
   ) {
     langService.getLanguage().subscribe(lang => translateService.use(lang));
   }
 
   ngAfterContentInit(): void {
-    setTimeout( () => {
+    setTimeout(() => {
       document.getElementById('live_announcer-button').focus();
     }, 700);
   }
+
   ngOnInit() {
-    this.authenticationService.watchUser.subscribe(newUser => this.user = newUser);
+    this.authenticationService.watchUser.subscribe(newUser => {
+      this.user = newUser;
+      if (this.canRate && this.fetchedRating === undefined && this.user !== undefined && this.user !== null) {
+        this.fetchedRating = null;
+        this.ratingService.getByAccountId(this.user.id).subscribe(r => {
+          if (r !== null) {
+            this.onRate(r);
+          } else {
+            this.loadingRatings = false;
+          }
+        });
+      }
+    });
     this.listenerFn = this._r.listen(document, 'keyup', (event) => {
       if (KeyboardUtils.isKeyEvent(event, KeyboardKey.Digit1) === true && this.eventService.focusOnInput === false) {
         document.getElementById('session_id-input').focus();
@@ -58,7 +84,17 @@ export class UserHomeComponent implements OnInit, OnDestroy, AfterContentInit {
   }
 
   ngOnDestroy() {
+    this._list?.forEach(e => e.destroy());
     this.listenerFn();
+  }
+
+  onRate(r: Rating) {
+    this.fetchedRating = r;
+    this.ratingService.getRatings().subscribe(ratings => {
+      this.accumulatedRatings = ratings;
+      this.initNavigation();
+      this.loadingRatings = false;
+    });
   }
 
   public announce() {
@@ -80,6 +116,31 @@ export class UserHomeComponent implements OnInit, OnDestroy, AfterContentInit {
   openCreateRoomDialog(): void {
     this.dialog.open(RoomCreateComponent, {
       width: '350px'
+    });
+  }
+
+
+  private initNavigation() {
+    if (this._list) {
+      return;
+    }
+    this._list = this.composeService.builder(this.headerService.getHost(), e => {
+      e.menuItem({
+        translate: this.headerService.getTranslate(),
+        icon: 'star',
+        class: 'material-icons-outlined',
+        isSVGIcon: false,
+        text: 'home-page.app-rating',
+        callback: () => {
+          const dialogRef = this.dialog.open(AppRatingComponent);
+          dialogRef.componentInstance.rating = this.fetchedRating;
+          dialogRef.componentInstance.onSuccess = (r: Rating) => {
+            dialogRef.close();
+            this.onRate(r);
+          };
+        },
+        condition: () => this.fetchedRating !== null && this.fetchedRating !== undefined,
+      });
     });
   }
 }

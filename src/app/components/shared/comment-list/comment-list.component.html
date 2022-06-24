@@ -350,10 +350,10 @@
 
 <div *ngIf="!isLoading">
   <app-comment
-    *ngFor="let current of comments.slice(pageIndex * pageSize, (pageIndex * pageSize) + pageSize); let i = index"
+    *ngFor="let current of getSlicedComments(); let i = index"
     [isRemoved]="current?.meta?.removed"
     [appScrollIntoView]="current.id === focusCommentId"
-    [usesJoyride]="i === 0 && isJoyrideActive"
+    [usesJoyride]="requestJoyride(current)"
     [comment]="current"
     [parseVote]="getVote(current)"
     [userRole]="userRole"

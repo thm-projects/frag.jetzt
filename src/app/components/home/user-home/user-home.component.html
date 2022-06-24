@@ -18,6 +18,13 @@
       {{ 'home-page.create-session' | translate }}
     </button>
   </div>
+  <div *ngIf="!loadingRatings"
+       fxLayout="row"
+       fxLayoutAlign="center"
+       fxLayoutGap="15px">
+    <app-app-rating [onSuccess]="onRate.bind(this)"
+                    [ratingResults]="accumulatedRatings"></app-app-rating>
+  </div>
   <div fxLayout="row"
        fxLayoutAlign="center"
        fxLayoutGap="15px">

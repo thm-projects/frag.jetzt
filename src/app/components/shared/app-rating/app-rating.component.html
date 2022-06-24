@@ -1,0 +1,31 @@
+<ng-container *ngIf="!ratingResults; else stars">
+  <h2 class="oldtypo-h2">App-Bewertung</h2>
+  <div
+    (mouseleave)="onMouseLeave()">
+    <mat-icon
+      *ngFor="let index of [0, 1, 2, 3, 4]"
+      class="material-icons-outlined interactive"
+      [ngClass]="getIcon(index)"
+      (click)="onClick(index, $event)"
+      (mousemove)="onMouseMove(index, $event)">
+      {{ getIcon(index) }}
+    </mat-icon>
+  </div>
+  <button mat-flat-button (click)="save()">
+    Speichern
+  </button>
+</ng-container>
+
+<ng-template #stars>
+  <span style="justify-content: center; color: var(--on-background); display: flex; align-items: flex-end; font-size: 1.2em;">
+    <mat-icon
+      *ngFor="let index of [0, 1, 2, 3, 4]"
+      class="material-icons-outlined"
+      style="color: var(--yellow)"
+      [ngClass]="getIcon(index)">
+      {{ getIcon(index) }}
+    </mat-icon>
+    &nbsp;
+    ({{ people }})
+    </span>
+</ng-template>

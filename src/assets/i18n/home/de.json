@@ -1,4 +1,9 @@
 {
+  "app-rating": {
+    "retry": "Dies ist deine alte Bewertung, dib eine neue ein!",
+    "error": "Ein Fehler ist aufgetreten!",
+    "success": "Vielen Dank für deine Bewertung!"
+  },
   "bonus-archive-export": {
     "no-data": "Es gibt keine Bonus-Tokens.",
     "empty": "",
@@ -253,7 +258,8 @@
     "generated-shortid": "Raum-Code wird generiert.",
     "custom-shortid-placeholder": "Code aus: a-z A-Z 0-9 - _ ~ .",
     "invalid-shortid": "Dieser Raum-Code ist nicht verfügbar.",
-    "invalid-char-shortid": "Der Raum-Code enthält unzulässige Zeichen."
+    "invalid-char-shortid": "Der Raum-Code enthält unzulässige Zeichen.",
+    "app-rating": "App neu bewerten"
   },
   "imprint": {
     "cancel": "Schließen",

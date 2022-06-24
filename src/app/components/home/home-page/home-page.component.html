@@ -60,6 +60,7 @@
           tabIndex="-1"
           (click)="announce()"
           class="visually-hidden">{{ 'home-page.live-announcer' | translate }}</button>
+  <app-app-rating *ngIf="accumulatedRatings" [ratingResults]="accumulatedRatings"></app-app-rating>
 </div>
 <div class="visually-hidden">
   <div id="feedback-aria" style="display: none;">{{'login.feedback-aria' | translate}}</div>

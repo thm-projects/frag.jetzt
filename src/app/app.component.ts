@@ -4,8 +4,6 @@ import { SwUpdate } from '@angular/service-worker';
 import { NotificationService } from './services/util/notification.service';
 import { Rescale } from './models/rescale';
 import { CustomIconService } from './services/util/custom-icon.service';
-import { MatomoInjector } from 'ngx-matomo-v9';
-import { environment } from '../environments/environment';
 import { filter } from 'rxjs/operators';
 import { SessionService } from './services/util/session.service';
 
@@ -18,6 +16,7 @@ import {
 } from './components/home/_dialogs/notify-unsupported-browser/notify-unsupported-browser.component';
 import { MatDialog } from '@angular/material/dialog';
 import { DeviceInfoService } from './services/util/device-info.service';
+import { MatomoTrackingService } from './services/util/matomo-tracking.service';
 
 Quill.register('modules/imageResize', ImageResize);
 
@@ -36,18 +35,15 @@ export class AppComponent implements OnInit {
   constructor(
     private translationService: TranslateService,
     private update: SwUpdate,
-    private matomoInjector: MatomoInjector,
     private sessionService: SessionService,
     public notification: NotificationService,
     private customIconService: CustomIconService,
     private languageService: LanguageService,
     private dialog: MatDialog,
     private deviceInfo: DeviceInfoService,
+    private matomoTrackingService: MatomoTrackingService,
   ) {
     customIconService.init();
-    if (environment.name === 'prod') {
-      this.matomoInjector.init('https://arsnova.thm.de/stats/', 6);
-    }
     this.translationService.setDefaultLang(this.languageService.currentLanguage());
   }
 

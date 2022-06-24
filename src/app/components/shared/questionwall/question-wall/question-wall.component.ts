@@ -128,7 +128,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     private roomDataService: RoomDataService,
     private sessionService: SessionService,
     private dialog: MatDialog,
-    public dateFormatter: ArsDateFormatter
+    public dateFormatter: ArsDateFormatter,
   ) {
     this.keySupport = new QuestionWallKeyEventSupport();
     this.timeUpdateInterval = setInterval(() => {

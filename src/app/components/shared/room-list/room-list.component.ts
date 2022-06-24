@@ -229,7 +229,11 @@ export class RoomListComponent implements OnInit, OnDestroy {
           break;
       }
     }
-    this.tableDataSource = new MatTableDataSource(data);
+    const previousFilter = this.tableDataSource?.filter;
+    this.tableDataSource = new MatTableDataSource(previousFilter ? data.filter(elem =>
+      elem.name.toLowerCase().includes(previousFilter) ||
+      elem.shortId.toLowerCase().includes(previousFilter)
+    ) : data);
   }
 
   sortData(sort: Sort): void {
@@ -239,6 +243,7 @@ export class RoomListComponent implements OnInit, OnDestroy {
 
   applyFilter(filterValue: string): void {
     this.tableDataSource.filter = filterValue.trim().toLowerCase();
+    this.updateTable();
   }
 
   openNotifications(room: Room) {
