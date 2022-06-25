@@ -1,7 +1,7 @@
 {
   "app-rating": {
-    "retry": "Dies ist deine alte Bewertung, dib eine neue ein!",
-    "error": "Ein Fehler ist aufgetreten!",
+    "retry": "Dies ist deine alte Bewertung. Gib eine neue ein.",
+    "error": "Ein Fehler ist aufgetreten.",
     "success": "Vielen Dank für deine Bewertung!"
   },
   "bonus-archive-export": {

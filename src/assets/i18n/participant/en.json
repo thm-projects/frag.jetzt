@@ -625,7 +625,7 @@
     "email-not-set": "\nNo email set",
     "choose-session": "Choose a session …",
     "please-choose": "Please select a session first.",
-    "session-name": "Meeting",
+    "session-name": "Event",
     "session-id": "\nKey code",
     "owner-email": "\n\nRoom creator email",
     "moderator-emails": "\n\nModerator emails",

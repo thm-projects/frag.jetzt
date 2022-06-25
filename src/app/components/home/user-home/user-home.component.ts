@@ -119,7 +119,6 @@ export class UserHomeComponent implements OnInit, OnDestroy, AfterContentInit {
     });
   }
 
-
   private initNavigation() {
     if (this._list) {
       return;

@@ -1,7 +1,7 @@
 {
   "app-rating": {
-    "retry": "This is your old rating, enter a new one!",
-    "error": "An error has occurred!",
+    "retry": "This is your old rating. Enter a new one.",
+    "error": "An error has occurred",
     "success": "Thank you for your review!"
   },
   "bonus-archive-export": {
@@ -495,7 +495,7 @@
     "delete-room": "Delete room",
     "option-menu": "Options",
     "panel-session-id": "Room",
-    "panel-session-name": "Meeting",
+    "panel-session-name": "Event",
     "panel-user-role": "Role",
     "participant-role": "You are a participant.",
     "really-remove": "Do you really want to remove session",
@@ -518,7 +518,7 @@
     "description": "Session description",
     "join": "Join session",
     "max-ls": "Max. characters:",
-    "session-name": "Meeting name",
+    "session-name": "Event name",
     "session-name-with-key-code-generated": "What should the event be called?"
   },
   "unsupported-browser": {
@@ -548,7 +548,7 @@
     "email-not-set": "\nNo email set",
     "choose-session": "Choose a session …",
     "please-choose": "Please select a session first.",
-    "session-name": "Meeting",
+    "session-name": "Event",
     "session-id": "\nKey code",
     "owner-email": "\n\nRoom creator email",
     "moderator-emails": "\n\nModerator emails",
