@@ -23,7 +23,8 @@ button {
 }
 
 mat-icon.interactive {
-  color: #7f7f00;
+  color: var(--on-dialog);
+  opacity: 0.5;
   width: 1em;
   height: 1em;
   font-size: 3em;
@@ -32,10 +33,12 @@ mat-icon.interactive {
 
   &.star_full {
     color: var(--yellow);
+    opacity: unset;
   }
 
   &.star_half {
     color: var(--yellow);
+    opacity: unset;
   }
 
   &:hover {
