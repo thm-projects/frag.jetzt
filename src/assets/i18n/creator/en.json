@@ -620,7 +620,7 @@
     "create-session": "Create session",
     "description": "Description",
     "max-ls": "Max. characters:",
-    "session-name": "Meeting name",
+    "session-name": "Event name",
     "edit-session-name": "Edit meeting name",
     "preview": "Preview"
   },

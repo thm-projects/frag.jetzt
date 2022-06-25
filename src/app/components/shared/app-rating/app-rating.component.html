@@ -17,7 +17,8 @@
 </ng-container>
 
 <ng-template #stars>
-  <span style="justify-content: center; color: var(--on-background); display: flex; align-items: flex-end; font-size: 1.2em;">
+  <span
+    style="justify-content: center; color: var(--on-background); display: flex; align-items: flex-end; font-size: 1.0em;">
     <mat-icon
       *ngFor="let index of [0, 1, 2, 3, 4]"
       class="material-icons-outlined"
@@ -26,6 +27,6 @@
       {{ getIcon(index) }}
     </mat-icon>
     &nbsp;
-    ({{ people }})
+    {{ people }}
     </span>
 </ng-template>
