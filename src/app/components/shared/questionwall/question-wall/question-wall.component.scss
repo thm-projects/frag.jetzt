@@ -34,11 +34,11 @@
       font-family: 'Material Icons', serif;
       font-weight: normal;
       font-style: normal;
-      font-size: 18px;
+      font-size: 22px;
       line-height: 18px;
       padding: 0;
-      margin: 0;
       color: var(--ars-header-color);
+      margin-right: -3px;
     }
 
     &-header {
@@ -219,8 +219,8 @@
         }
 
         &-icon {
-          font-size: 20px;
-          line-height: 40px;
+          font-size: 22px;
+          margin-right: -3px;
         }
 
         &-user {
@@ -501,4 +501,8 @@ h2 {
   color: var(--red);
   font-weight: normal !important;
   padding-top: 10px !important;
+}
+
+button > mat-icon {
+  height: unset;
 }
