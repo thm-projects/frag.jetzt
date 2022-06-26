@@ -357,7 +357,7 @@
     "prev-comment": "Previous question",
     "prev-comment-icon": "navigate_before",
     "auto-renew-on": "Start autofocus for new questions",
-    "auto-renew-on-icon": "highlight",
+    "auto-renew-on-icon": "auto_mode",
     "auto-renew-off": "Exit autofocus for new questions",
     "auto-renew-off-icon": "cancel",
     "intro-title": "Question Focus",
