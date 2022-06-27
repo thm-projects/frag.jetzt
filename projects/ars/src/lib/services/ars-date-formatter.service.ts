@@ -14,15 +14,15 @@ export const arsTimeTranslation = {
   de:{
     time:{
       year:
-        'vor ? Jahr%en am DATE um TIME',
+        'vor ? Jahr%en DATE',
       month:
-        'vor ? Monat%en am DATE um TIME',
+        'vor ? Monat%en DATE',
       week:
-        'vor ? Woche%n am DATE um TIME',
+        'vor ? Woche%n DATE',
       day:
-        '&1:gestern um TIME;' +
-        '&2:vorgestern um TIME;' +
-        'vor ? Tag%en um TIME',
+        '&1:gestern TIME;' +
+        '&2:vorgestern TIME;' +
+        'vor ? Tag%en TIME',
       hour:
         'vor ? Stunde%n',
       minute:
@@ -57,20 +57,20 @@ export const arsTimeTranslation = {
       'November',
       'Dezember'
     ],
-    timeConvert:(date: Date) => date.toLocaleString('de-DE', {hour:'numeric', minute:'numeric', hour12:false}),
-    dateConvert:(date: Date) => date.getDate() + '. ' + arsTimeTranslation.de.monthTranslation[date.getMonth()]
+    timeConvert:(date: Date) => 'um '+date.toLocaleString('de-DE', {hour:'numeric', minute:'numeric', hour12:false}).replace('/\b0/g',''),
+    dateConvert:(date: Date) => `am ${arsTimeTranslation.de.dayTranslation[date.getDay()]}, ${date.getDate()} ${arsTimeTranslation.de.monthTranslation[date.getMonth()]}, ${date.getFullYear()}`,
   },
   en:{
     time:{
       year:
-        '? year%s ago - DATE TIME',
+        '? year%s ago DATE',
       month:
-        '? month%s ago - DATE TIME',
+        '? month%s ago DATE',
       week:
-        '? week%s ago - DATE TIME',
+        '? week%s ago DATE',
       day:
-        '&1:yesterday at TIME;' +
-        '? days ago at TIME',
+        '&1:yesterday TIME;' +
+        '? days ago TIME',
       hour:
         '? hour%s ago',
       minute:
@@ -105,8 +105,8 @@ export const arsTimeTranslation = {
       'Saturday',
       'Sunday'
     ],
-    timeConvert:(date: Date) => date.toLocaleString('en-US', {hour:'numeric', minute:'numeric', hour12:true}),
-    dateConvert:(date: Date) => date.toLocaleDateString('en-US', {weekday:'long', year:'numeric', month:'long'}),
+    timeConvert:(date: Date) => 'at '+date.toLocaleString('en-US', {hour:'numeric', minute:'numeric', hour12:true}),
+    dateConvert:(date: Date) => `on ${arsTimeTranslation.en.dayTranslation[date.getDay()]}, ${arsTimeTranslation.en.monthTranslation[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`,
   }
 };
 
