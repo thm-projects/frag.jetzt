@@ -117,6 +117,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   period: Period;
   private readonly commentCache: CommentCache = {};
   private _filterObj: DataFilterObject;
+  skipIntro: boolean = false;
 
   constructor(
     private authenticationService: AuthenticationService,
@@ -223,6 +224,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
+    this.skipIntro=localStorage.getItem('dev-mode')==='true';
     document.getElementById('header_rescale').style.display = 'none';
     document.getElementById('footer_rescale').style.display = 'none';
     setTimeout(() => {
