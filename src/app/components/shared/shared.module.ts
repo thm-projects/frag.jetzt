@@ -142,6 +142,7 @@ import { DashboardDialogComponent } from './_dialogs/dashboard-dialog/dashboard-
 import { DeleteAllNotificationsComponent } from './_dialogs/delete-all-notifications/delete-all-notifications.component';
 import { RoomSettingsOverviewComponent } from './_dialogs/room-settings-overview/room-settings-overview.component';
 import { AppRatingComponent } from './app-rating/app-rating.component';
+import { AppRatingPopUpComponent } from './_dialogs/app-rating-pop-up/app-rating-pop-up.component';
 
 @NgModule({
   imports: [
@@ -236,7 +237,8 @@ import { AppRatingComponent } from './app-rating/app-rating.component';
     DashboardDialogComponent,
     DeleteAllNotificationsComponent,
     RoomSettingsOverviewComponent,
-    AppRatingComponent
+    AppRatingComponent,
+    AppRatingPopUpComponent
   ],
   exports: [
     RoomJoinComponent,
