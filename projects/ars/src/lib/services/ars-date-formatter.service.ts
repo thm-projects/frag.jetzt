@@ -14,10 +14,13 @@ export const arsTimeTranslation = {
   de:{
     time:{
       year:
+        '&1:letztes Jahr DATE;' +
         'vor ? Jahr%en DATE',
       month:
+        '&1:letzten Monat;' +
         'vor ? Monat%en DATE',
       week:
+        '&1:letzte Woche;' +
         'vor ? Woche%n DATE',
       day:
         '&1:gestern TIME;' +
@@ -58,15 +61,18 @@ export const arsTimeTranslation = {
       'Dezember'
     ],
     timeConvert:(date: Date) => 'um '+(date.toLocaleString('de-DE', {hour:'numeric', minute:'numeric', hour12:false}).replace(/^0/gm,'')),
-    dateConvert:(date: Date) => `am ${arsTimeTranslation.de.dayTranslation[date.getDay()]}, ${date.getDate()}. ${arsTimeTranslation.de.monthTranslation[date.getMonth()]}, ${date.getFullYear()}`,
+    dateConvert:(date: Date) => `am ${arsTimeTranslation.de.dayTranslation[date.getDay()-1]}, ${date.getDate()}. ${arsTimeTranslation.de.monthTranslation[date.getMonth()]} ${date.getFullYear()}`,
   },
   en:{
     time:{
       year:
+        '&1:last year DATE;' +
         '? year%s ago DATE',
       month:
+        '&1:last month DATE;' +
         '? month%s ago DATE',
       week:
+        '&1:last week DATE;' +
         '? week%s ago DATE',
       day:
         '&1:yesterday TIME;' +
@@ -106,7 +112,7 @@ export const arsTimeTranslation = {
       'Sunday'
     ],
     timeConvert:(date: Date) => 'at '+date.toLocaleString('en-US', {hour:'numeric', minute:'numeric', hour12:true}),
-    dateConvert:(date: Date) => `on ${arsTimeTranslation.en.dayTranslation[date.getDay()]}, ${arsTimeTranslation.en.monthTranslation[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`,
+    dateConvert:(date: Date) => `on ${arsTimeTranslation.en.dayTranslation[date.getDay()-1]}, ${arsTimeTranslation.en.monthTranslation[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`,
   }
 };
 
