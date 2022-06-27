@@ -57,8 +57,8 @@ export const arsTimeTranslation = {
       'November',
       'Dezember'
     ],
-    timeConvert:(date: Date) => 'um '+date.toLocaleString('de-DE', {hour:'numeric', minute:'numeric', hour12:false}).replace('/\b0/g',''),
-    dateConvert:(date: Date) => `am ${arsTimeTranslation.de.dayTranslation[date.getDay()]}, ${date.getDate()} ${arsTimeTranslation.de.monthTranslation[date.getMonth()]}, ${date.getFullYear()}`,
+    timeConvert:(date: Date) => 'um '+(date.toLocaleString('de-DE', {hour:'numeric', minute:'numeric', hour12:false}).replace(/^0/gm,'')),
+    dateConvert:(date: Date) => `am ${arsTimeTranslation.de.dayTranslation[date.getDay()]}, ${date.getDate()}. ${arsTimeTranslation.de.monthTranslation[date.getMonth()]}, ${date.getFullYear()}`,
   },
   en:{
     time:{
