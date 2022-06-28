@@ -181,6 +181,7 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
     response.tag = tag;
     response.questionerName = name;
     this.openSpacyDialog(response, !verifiedWithoutDeepl, computed => {
+      localStorage.setItem('comment-created', String(true));
       this.commentService.addComment(computed).subscribe(() => {
         let url: string;
         this.route.params.subscribe(params => {

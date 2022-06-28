@@ -1,0 +1,127 @@
+::ng-deep .ratingContainer {
+  transform: translate(-50%, -100%);
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: var(--on-dialog) transparent transparent transparent;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: calc(100% - 1px);
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: var(--dialog) transparent transparent transparent;
+  }
+
+  &-below {
+    transform: translateX(-50%);
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      margin-left: -5px;
+      border-width: 5px;
+      border-style: solid;
+      border-color: transparent transparent var(--on-dialog) transparent;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: -9px;
+      left: 50%;
+      margin-left: -5px;
+      border-width: 5px;
+      border-style: solid;
+      border-color: transparent transparent var(--dialog) transparent;
+    }
+  }
+}
+
+.star_container {
+  color: var(--on-background);
+  display: flex;
+  align-items: center;
+  font-size: 1.2em;
+  margin-bottom: 0.75em;
+
+  > mat-icon {
+    color: #bfbf00;
+  }
+}
+
+.global_people {
+  display: block;
+  margin-bottom: 0.75em;
+}
+
+::ng-deep .star_bars {
+  display: flex;
+  line-height: 1.25 !important;
+  font-size: 16px;
+  margin-bottom: 0.75em;
+
+  > .star_bars_text {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  > .star_progress_bars {
+    flex-grow: 8;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-top: 2px;
+
+    > mat-progress-bar {
+      height: 16px;
+
+      svg {
+        display: none;
+      }
+
+      .mat-progress-bar-buffer {
+        background: slategray;
+      }
+
+      .mat-progress-bar-fill::after {
+        background: #dfdf00;
+      }
+    }
+  }
+
+  > .star_bars_percent {
+    flex-grow: 1;
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.link_ratings {
+  font-size: 1em;
+  display: block;
+  text-align: center;
+  margin-top: 2em;
+  line-height: 1.25;
+
+  > mat-icon {
+    font-size: 1em;
+    height: 1em;
+    width: 1em;
+    line-height: 1.25;
+  }
+}

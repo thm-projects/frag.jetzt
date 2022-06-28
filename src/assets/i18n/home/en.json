@@ -2,7 +2,17 @@
   "app-rating": {
     "retry": "This is your old rating. Enter a new one.",
     "error": "An error has occurred",
-    "success": "Thank you for your review! You want to talk to the developers about bugs and new features? Then visit our »Feedback« room."
+    "success": "Thank you for your review! You want to talk to the developers about bugs and new features? Then visit our »Feedback« room.",
+    "save": "Save",
+    "title": "App rating",
+    "pop-up-from-5": "{{rating}} from 5",
+    "pop-up-global-people": "{{people}} global ratings",
+    "pop-up-5-stars": "4.5 - 5 stars",
+    "pop-up-4-stars": "3.5 - 4 stars",
+    "pop-up-3-stars": "2.5 - 3 stars",
+    "pop-up-2-stars": "1.5 - 2 stars",
+    "pop-up-1-star": "0.5 - 1 stars",
+    "pop-up-link": "Show all ratings"
   },
   "bonus-archive-export": {
     "no-data": "There are no bonuses.",
