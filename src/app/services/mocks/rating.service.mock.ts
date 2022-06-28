@@ -11,6 +11,14 @@ export class RatingServiceMock extends RatingService {
   }
 
   getRatings(): Observable<RatingResult> {
-    return of({ rating: 0, people: 0 });
+    return of({
+      rating: 0,
+      fiveStarPercent: 0,
+      fourStarPercent: 0,
+      threeStarPercent: 0,
+      twoStarPercent: 0,
+      oneStarPercent: 0,
+      people: 0
+    });
   }
 }
