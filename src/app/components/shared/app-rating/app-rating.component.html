@@ -1,5 +1,5 @@
 <ng-container *ngIf="!ratingResults; else stars">
-  <h2 class="oldtypo-h2">App-Bewertung</h2>
+  <h2 class="oldtypo-h2">{{ 'app-rating.title' | translate }}</h2>
   <div
     (mouseleave)="onMouseLeave()">
     <mat-icon
@@ -12,21 +12,22 @@
     </mat-icon>
   </div>
   <button mat-flat-button (click)="save()">
-    Speichern
+    {{ 'app-rating.save' | translate }}
   </button>
 </ng-container>
 
 <ng-template #stars>
-  <span
-    style="justify-content: center; color: var(--on-background); display: flex; align-items: flex-end; font-size: 1.0em;">
+  <span #spanRef
+        (click)="openPopup(spanRef)"
+        style="justify-content: center; color: var(--on-background); display: flex; align-items: flex-end; font-size: 1.0em;">
     <mat-icon
       *ngFor="let index of [0, 1, 2, 3, 4]"
       class="material-icons-outlined"
-      style="color: var(--yellow)"
-      [ngClass]="getIcon(index)">
-      {{ getIcon(index) }}
+      style="color: var(--yellow);"
+      [ngClass]="getIconAccumulated(index)">
+      {{ getIconAccumulated(index) }}
     </mat-icon>
-    &nbsp;
+    <mat-icon style="cursor: pointer;">expand_more</mat-icon>
     {{ people }}
-    </span>
+  </span>
 </ng-template>
