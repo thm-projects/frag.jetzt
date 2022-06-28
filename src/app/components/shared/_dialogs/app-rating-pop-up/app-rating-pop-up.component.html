@@ -1,0 +1,42 @@
+<span class="star_container">
+  <mat-icon
+    *ngFor="let index of [0, 1, 2, 3, 4]"
+    class="material-icons-outlined"
+    [ngClass]="getIconAccumulated(index)">
+    {{ getIconAccumulated(index) }}
+  </mat-icon>
+  &nbsp;
+  {{ 'app-rating.pop-up-from-5' | translate: { rating } }}
+</span>
+<span class="global_people">
+  {{ 'app-rating.pop-up-global-people' | translate: { people } }}
+</span>
+<span class="star_bars">
+  <span class="star_bars_text">
+    <span>{{ 'app-rating.pop-up-5-stars' | translate }}</span>
+    <span>{{ 'app-rating.pop-up-4-stars' | translate }}</span>
+    <span>{{ 'app-rating.pop-up-3-stars' | translate }}</span>
+    <span>{{ 'app-rating.pop-up-2-stars' | translate }}</span>
+    <span>{{ 'app-rating.pop-up-1-star' | translate }}</span>
+  </span>
+  <span class="star_progress_bars">
+    <mat-progress-bar [value]="result.fiveStarPercent" color="primary" mode="determinate"></mat-progress-bar>
+    <mat-progress-bar [value]="result.fourStarPercent" color="primary" mode="determinate"></mat-progress-bar>
+    <mat-progress-bar [value]="result.threeStarPercent" color="primary" mode="determinate"></mat-progress-bar>
+    <mat-progress-bar [value]="result.twoStarPercent" color="primary" mode="determinate"></mat-progress-bar>
+    <mat-progress-bar [value]="result.oneStarPercent" color="primary" mode="determinate"></mat-progress-bar>
+  </span>
+  <span class="star_bars_percent">
+    <span>{{ result.fiveStarPercent }}%</span>
+    <span>{{ result.fourStarPercent }}%</span>
+    <span>{{ result.threeStarPercent }}%</span>
+    <span>{{ result.twoStarPercent }}%</span>
+    <span>{{ result.oneStarPercent }}%</span>
+  </span>
+</span>
+<a href="https://frag.jetzt/participant/room/Feedback"
+   target="_blank"
+   class="link_ratings">
+  {{ 'app-rating.pop-up-link' | translate }}
+  <mat-icon>chevron_right</mat-icon>
+</a>

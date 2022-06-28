@@ -7,6 +7,8 @@ import { RatingService } from '../../../services/http/rating.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Rating } from '../../../models/rating';
 import { RatingResult } from '../../../models/rating-result';
+import { AppRatingPopUpComponent } from '../_dialogs/app-rating-pop-up/app-rating-pop-up.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-app-rating',
@@ -19,7 +21,8 @@ export class AppRatingComponent implements OnInit, OnChanges {
   @Input() onSuccess: (r: Rating) => void;
   @Input() ratingResults: RatingResult = undefined;
   @ViewChildren(MatIcon) children: QueryList<MatIcon>;
-  people: number = 0;
+  @Input() popUpBelow = false;
+  people: string = '?';
   private isSaving = false;
   private visibleRating = 0;
   private listeningToMove = true;
@@ -31,6 +34,7 @@ export class AppRatingComponent implements OnInit, OnChanges {
     private translateService: TranslateService,
     private readonly authenticationService: AuthenticationService,
     private readonly ratingService: RatingService,
+    private dialog: MatDialog,
   ) {
     this.languageService.getLanguage().subscribe(lang => this.translateService.use(lang));
   }
@@ -40,6 +44,14 @@ export class AppRatingComponent implements OnInit, OnChanges {
       return 'star_full';
     }
     return this.visibleRating > index ? 'star_half' : 'star_border';
+  }
+
+  getIconAccumulated(index: number) {
+    const rating = Math.round(this.visibleRating * 2) / 2;
+    if (rating >= index + 1) {
+      return 'star_full';
+    }
+    return rating > index ? 'star_half' : 'star_border';
   }
 
   ngOnInit(): void {
@@ -93,6 +105,10 @@ export class AppRatingComponent implements OnInit, OnChanges {
     this.listeningToMove = true;
   }
 
+  openPopup(target: HTMLElement) {
+    AppRatingPopUpComponent.openDialogAt(this.dialog, target, this.ratingResults, this.popUpBelow);
+  }
+
   save() {
     if (this.isSaving) {
       return;
@@ -127,7 +143,7 @@ export class AppRatingComponent implements OnInit, OnChanges {
     }
     if (this.ratingResults !== undefined) {
       this.visibleRating = this.ratingResults.rating;
-      this.people = this.ratingResults.people;
+      this.people = this.ratingResults.people.toLocaleString(this.languageService.currentLanguage());
       return false;
     }
     return true;
