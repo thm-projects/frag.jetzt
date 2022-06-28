@@ -6,13 +6,13 @@
     "save": "Speichern",
     "title": "App-Bewertung",
     "pop-up-from-5": "{{rating}} von 5",
-    "pop-up-global-people": "{{people}} globale Bewertungen",
+    "pop-up-global-people": "{{people}} Bewertungen",
     "pop-up-5-stars": "4,5 - 5 Sterne",
     "pop-up-4-stars": "3,5 - 4 Sterne",
     "pop-up-3-stars": "2,5 - 3 Sterne",
     "pop-up-2-stars": "1,5 - 2 Sterne",
     "pop-up-1-star": "0,5 - 1 Stern",
-    "pop-up-link": "Alle Bewertungen zeigen"
+    "pop-up-link": "Zum »Feedback«-Raum"
   },
   "bonus-archive-export": {
     "no-data": "Es gibt keine Bonus-Tokens.",
