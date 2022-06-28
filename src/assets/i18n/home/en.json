@@ -6,13 +6,13 @@
     "save": "Save",
     "title": "App rating",
     "pop-up-from-5": "{{rating}} from 5",
-    "pop-up-global-people": "{{people}} global ratings",
+    "pop-up-global-people": "{{people}} ratings",
     "pop-up-5-stars": "4.5 - 5 stars",
     "pop-up-4-stars": "3.5 - 4 stars",
     "pop-up-3-stars": "2.5 - 3 stars",
     "pop-up-2-stars": "1.5 - 2 stars",
     "pop-up-1-star": "0.5 - 1 stars",
-    "pop-up-link": "Show all ratings"
+    "pop-up-link": "To the »Feedback« room"
   },
   "bonus-archive-export": {
     "no-data": "There are no bonuses.",
