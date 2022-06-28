@@ -23,6 +23,7 @@
        fxLayoutAlign="center"
        fxLayoutGap="15px">
     <app-app-rating [onSuccess]="onRate.bind(this)"
+                    [popUpBelow]="true"
                     [ratingResults]="accumulatedRatings"></app-app-rating>
   </div>
   <div fxLayout="row"

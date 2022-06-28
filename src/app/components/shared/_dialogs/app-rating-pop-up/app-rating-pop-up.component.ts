@@ -20,16 +20,16 @@ export class AppRatingPopUpComponent implements OnInit {
   ) {
   }
 
-  static openDialogAt(dialog: MatDialog, ref: HTMLElement, result: RatingResult) {
+  static openDialogAt(dialog: MatDialog, ref: HTMLElement, result: RatingResult, below: boolean) {
     const rect = ref.getBoundingClientRect();
     dialog.open(AppRatingPopUpComponent, {
       position: {
         left: (rect.left + rect.width / 2) + 'px',
-        top: rect.top + 'px',
+        top: below ? rect.bottom + 'px' : rect.top + 'px',
       },
       width: '90vw',
       maxWidth: '500px',
-      panelClass: 'ratingContainer',
+      panelClass: 'ratingContainer' + (below ? '-below' : ''),
       minWidth: 'min(90vw, 500px)',
       autoFocus: false,
     }).componentInstance.result = result;

@@ -21,6 +21,7 @@ export class AppRatingComponent implements OnInit, OnChanges {
   @Input() onSuccess: (r: Rating) => void;
   @Input() ratingResults: RatingResult = undefined;
   @ViewChildren(MatIcon) children: QueryList<MatIcon>;
+  @Input() popUpBelow = false;
   people: string = '?';
   private isSaving = false;
   private visibleRating = 0;
@@ -105,7 +106,7 @@ export class AppRatingComponent implements OnInit, OnChanges {
   }
 
   openPopup(target: HTMLElement) {
-    AppRatingPopUpComponent.openDialogAt(this.dialog, target, this.ratingResults);
+    AppRatingPopUpComponent.openDialogAt(this.dialog, target, this.ratingResults, this.popUpBelow);
   }
 
   save() {

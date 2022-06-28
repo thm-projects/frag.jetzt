@@ -22,6 +22,32 @@
     border-style: solid;
     border-color: var(--dialog) transparent transparent transparent;
   }
+
+  &-below {
+    transform: translateX(-50%);
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      margin-left: -5px;
+      border-width: 5px;
+      border-style: solid;
+      border-color: transparent transparent var(--on-dialog) transparent;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: -9px;
+      left: 50%;
+      margin-left: -5px;
+      border-width: 5px;
+      border-style: solid;
+      border-color: transparent transparent var(--dialog) transparent;
+    }
+  }
 }
 
 .star_container {
