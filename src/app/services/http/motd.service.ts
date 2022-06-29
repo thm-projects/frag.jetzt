@@ -15,6 +15,8 @@ import { OnboardingService } from '../util/onboarding.service';
 })
 export class MotdService extends BaseHttpService {
 
+  public static DEBUG: boolean = false;
+
   private list: MotdList;
   private dialogTrigger = new EventEmitter<void>();
   private hasNewMessages = false;
@@ -49,6 +51,9 @@ export class MotdService extends BaseHttpService {
       }
     });
     this.onboardingService.onFinishTour().subscribe(() => fence.resolveCondition(1));
+    if(MotdService.DEBUG) {
+      console.error('MotdService.DEBUG MUST be \'false\' for production!');
+    }
   }
 
   public onDialogRequest(): Observable<void> {
@@ -79,6 +84,17 @@ export class MotdService extends BaseHttpService {
       forkJoin([this.getMOTDs(false), this.getMOTDs(true)])
         .subscribe(([o, n]) => {
           this.list = new MotdList(n, o);
+          if(MotdService.DEBUG){
+            this.list.messages.push(new Motd(
+              'test',
+              new Date('3 October 2021'),
+              new Date(),
+              'test',
+              'test',
+              true,
+              false
+            ));
+          }
           this.validateNewMessage(this.list);
           e.next(this.list);
         });

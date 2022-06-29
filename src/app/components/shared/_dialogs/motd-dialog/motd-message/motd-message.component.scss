@@ -1,4 +1,14 @@
 :host {
+  .force-wrap{
+    flex-shrink: 1;
+    @media only screen and (max-width: 800px) {
+      >*{
+        padding-right:4px;
+        font-size:8px;
+      }
+    }
+  }
+
   .align-center-y {
     display: flex;
     justify-content: center;
