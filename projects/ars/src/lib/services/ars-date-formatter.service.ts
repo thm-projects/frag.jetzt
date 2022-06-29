@@ -38,13 +38,13 @@ export const arsTimeTranslation = {
         'vor kurzem'
     },
     dayTranslation:[
+      'Sonntag',
       'Montag',
       'Dienstag',
       'Mittwoch',
       'Donnerstag',
       'Freitag',
-      'Samstag',
-      'Sonntag'
+      'Samstag'
     ],
     monthTranslation:[
       'Januar',
@@ -61,7 +61,7 @@ export const arsTimeTranslation = {
       'Dezember'
     ],
     timeConvert:(date: Date) => 'um '+(date.toLocaleString('de-DE', {hour:'numeric', minute:'numeric', hour12:false}).replace(/^0/gm,'')),
-    dateConvert:(date: Date) => `am ${arsTimeTranslation.de.dayTranslation[date.getDay()-1]}, ${date.getDate()}. ${arsTimeTranslation.de.monthTranslation[date.getMonth()]} ${date.getFullYear()}`,
+    dateConvert:(date: Date) => `am ${arsTimeTranslation.de.dayTranslation[date.getDay()]}, ${date.getDate()}. ${arsTimeTranslation.de.monthTranslation[date.getMonth()]} ${date.getFullYear()}`,
   },
   en:{
     time:{
@@ -103,16 +103,16 @@ export const arsTimeTranslation = {
       'December'
     ],
     dayTranslation:[
+      'Sunday',
       'Monday',
       'Tuesday',
       'Wednesday',
       'Thursday',
       'Friday',
-      'Saturday',
-      'Sunday'
+      'Saturday'
     ],
     timeConvert:(date: Date) => 'at '+date.toLocaleString('en-US', {hour:'numeric', minute:'numeric', hour12:true}),
-    dateConvert:(date: Date) => `on ${arsTimeTranslation.en.dayTranslation[date.getDay()-1]}, ${arsTimeTranslation.en.monthTranslation[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`,
+    dateConvert:(date: Date) => `on ${arsTimeTranslation.en.dayTranslation[date.getDay()]}, ${arsTimeTranslation.en.monthTranslation[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`,
   }
 };
 
