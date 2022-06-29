@@ -242,7 +242,7 @@ export class ArsDateFormatter implements OnDestroy{
    */
   public approximateDate(date: Date): ArsApproximateDate{
     const s = Math.floor((new Date().getTime() - date.getTime()) / 1000);
-    const toTime = (b) => Math.round(s / b);
+    const toTime = b => Math.round(s / b);
     const test = ['YEAR', 'MONTH', 'DAY', 'HOUR', 'MINUTE', 'SECOND']
       .map<[string, number]>(x => [x, toTime(ArsTimeSecConversion[x])])
       .filter(x => x[1] > 0)
