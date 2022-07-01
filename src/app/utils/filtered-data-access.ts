@@ -9,8 +9,6 @@ import { SessionService } from '../services/util/session.service';
 import { Room } from '../models/room';
 import { filter } from 'rxjs/operators';
 
-type FilterStageResult = ForumData;
-
 interface AttachOptions {
   roomId: string;
   ownerId: string;
@@ -29,6 +27,7 @@ const STAGE_SORT_FILTER = 1 << 5;
 
 // Period definitions
 type PeriodCache = { [key in Period]: ForumComment[] };
+export type PeriodCounts = { [key in Period]: number };
 type PeriodFunctions = { [key in Period]: (currentTime: number, comment: ForumComment) => boolean };
 const hourInSeconds = 3_600_000;
 const threeHoursInSeconds = 3 * hourInSeconds;
@@ -47,6 +46,7 @@ const periodFunctions: PeriodFunctions = {
 
 // Filter definitions
 type FilterTypeCache = { [key in FilterType]: ForumComment[] };
+export type FilterTypeCounts = { [key in FilterType]: number };
 type FilterFunctionObject = {
   [key in FilterType]?: (c: ForumComment, compareValue?: any) => boolean;
 };
@@ -316,12 +316,28 @@ export class FilteredDataAccess {
     return this._periodCache[period].length;
   }
 
+  getPeriodCounts(): PeriodCounts {
+    const counts = {} as PeriodCounts;
+    for (const key of Object.keys(this._periodCache)) {
+      counts[key] = this._periodCache[key].length;
+    }
+    return counts;
+  }
+
   getCurrentFilterTypeCount() {
     return this.getFilterTypeCount(this._filter.filterType);
   }
 
   getFilterTypeCount(filterType: FilterType): number {
     return this._filterTypeCache[filterType].length;
+  }
+
+  getFilterTypeCounts(): FilterTypeCounts {
+    const counts = {} as FilterTypeCounts;
+    for (const key of Object.keys(this._filterTypeCache)) {
+      counts[key] = this._filterTypeCache[key].length;
+    }
+    return counts;
   }
 
   attach(options: AttachOptions) {

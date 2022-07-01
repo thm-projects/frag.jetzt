@@ -15,7 +15,7 @@ import { User } from '../../../models/user';
 import { KeyboardUtils } from '../../../utils/keyboard';
 import { KeyboardKey } from '../../../utils/keyboard/keys';
 import { RoomDataService } from '../../../services/util/room-data.service';
-import { forkJoin, Observable, of, Subscription } from 'rxjs';
+import { forkJoin, Observable, of } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
 import { SessionService } from '../../../services/util/session.service';
 import { Room } from '../../../models/room';

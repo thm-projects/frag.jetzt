@@ -46,7 +46,7 @@ import {
   SortTypeKey
 } from '../../../utils/data-filter-object.lib';
 import { CommentPatchedKeyInformation, ForumComment } from '../../../utils/data-accessor';
-import { FilteredDataAccess } from '../../../utils/filtered-data-access';
+import { FilteredDataAccess, FilterTypeCounts, PeriodCounts } from '../../../utils/filtered-data-access';
 
 @Component({
   selector: 'app-comment-list',
@@ -89,9 +89,11 @@ export class CommentListComponent implements OnInit, OnDestroy {
   questionNumberOptions: string[] = [];
   searchString: string;
   filterType: FilterType;
+  filterTypeCounts: FilterTypeCounts;
   sortType: SortType;
   sortReverse: boolean;
   period: Period;
+  periodCounts: PeriodCounts;
   moderatorAccountIds: Set<string>;
   hasGivenJoyride = false;
   private firstReceive = true;
@@ -286,6 +288,8 @@ export class CommentListComponent implements OnInit, OnDestroy {
     this.sortType = filter.sortType;
     this.sortReverse = filter.sortReverse;
     this.period = filter.period;
+    this.periodCounts = this._filterObject.getPeriodCounts();
+    this.filterTypeCounts = this._filterObject.getFilterTypeCounts();
   }
 
   getVote(comment: Comment): Vote {
@@ -405,10 +409,11 @@ export class CommentListComponent implements OnInit, OnDestroy {
     if (!this.isInCommentNumbers(questionNumber.value)) {
       return;
     }
+    const value = questionNumber.value.match(/\d+/g)[0];
     autoComplete.closePanel();
     this.questionNumberFormControl.setValue('');
     menu.closeMenu();
-    this.applyFilterByKey('Number', +questionNumber.value);
+    this.applyFilterByKey('Number', value);
   }
 
   isCommentListEmpty(): boolean {
