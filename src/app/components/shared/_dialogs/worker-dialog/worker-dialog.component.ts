@@ -63,7 +63,7 @@ export class WorkerDialogComponent implements OnInit {
     if (this.queuedRooms.has(room.id)) {
       return false;
     }
-    let comments = this.dialogRef.componentInstance.roomDataService.getCurrentRoomData(false);
+    let comments = this.dialogRef.componentInstance.roomDataService.dataAccessor.currentRawComments();
     if (onlyFailed) {
       comments = comments.filter(c => {
         const isKeywordOkay = c.keywordsFromSpacy && c.keywordsFromSpacy.length > 0;
@@ -83,7 +83,7 @@ export class WorkerDialogComponent implements OnInit {
         return !(isKeywordOkay && isKeywordWellDefined && isLanguageDefined);
       });
     }
-    this.dialogRef.componentInstance.appendRoom(room, comments);
+    this.dialogRef.componentInstance.appendRoom(room, [...comments]);
     return true;
   }
 

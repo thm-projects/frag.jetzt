@@ -14,7 +14,7 @@ import { AuthenticationService } from '../../../services/http/authentication.ser
 import { User } from '../../../models/user';
 import { KeyboardUtils } from '../../../utils/keyboard';
 import { KeyboardKey } from '../../../utils/keyboard/keys';
-import { CommentWithMeta, RoomDataService } from '../../../services/util/room-data.service';
+import { RoomDataService } from '../../../services/util/room-data.service';
 import { forkJoin, Observable, of } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
 import { SessionService } from '../../../services/util/session.service';
@@ -29,6 +29,7 @@ import { SpacyService } from '../../../services/http/spacy.service';
 import { ArsComposeService } from '../../../../../projects/ars/src/lib/services/ars-compose.service';
 import { HeaderService } from '../../../services/util/header.service';
 import { SpacyDialogComponent } from '../_dialogs/spacy-dialog/spacy-dialog.component';
+import { ForumComment } from '../../../utils/data-accessor';
 
 @Component({
   selector: 'app-comment-answer',
@@ -39,7 +40,7 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
 
   @ViewChild(WriteCommentComponent) commentComponent: WriteCommentComponent;
 
-  comment: CommentWithMeta;
+  comment: ForumComment;
   answer: string;
   isLoading = true;
   userRole: UserRole;
@@ -53,7 +54,6 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
   vote: Vote;
   isModerationComment = false;
   isSending = false;
-  responses: CommentWithMeta[] = [];
   isConversationView: boolean;
   roleString: string;
   private _commentSubscription;
@@ -79,6 +79,10 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
     private composeService: ArsComposeService,
     private headerService: HeaderService,
   ) {
+  }
+
+  get responses() {
+    return [...this.comment.children];
   }
 
   ngOnInit() {
@@ -127,17 +131,13 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    const source = this.isModerationComment ? this.roomDataService.moderatorDataAccessor : this.roomDataService.dataAccessor;
+    source.unregisterUI(true);
     this._list?.forEach(e => e.destroy());
     this._commentSubscription?.unsubscribe();
     if (this.comment && !this.isStudent) {
       this.commentService.lowlight(this.comment).subscribe();
     }
-  }
-
-  getResponses() {
-    this.roomDataService.getRoomDataOnce(false, this.isModerationComment).subscribe(data => {
-      this.responses = data.filter(resp => resp.commentReference === this.comment.id);
-    });
   }
 
   checkForEscape(event: KeyboardEvent) {
@@ -270,11 +270,11 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
     }
   }
 
-  private findComment(commentId: string): Observable<[CommentWithMeta, boolean]> {
-    return this.roomDataService.getRoomDataOnce().pipe(
+  private findComment(commentId: string): Observable<[ForumComment, boolean]> {
+    return this.roomDataService.dataAccessor.getRawComments(true, true).pipe(
       map(comments => {
         const foundComment = comments.find(c => c.id === commentId);
-        return (foundComment ? [foundComment, false] : null) as [CommentWithMeta, boolean];
+        return (foundComment ? [foundComment, false] : null) as [ForumComment, boolean];
       }),
       mergeMap(current => {
         if (current) {
@@ -283,30 +283,34 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
         if (!this.roomDataService.canAccessModerator) {
           return of(null);
         }
-        return this.roomDataService.getRoomDataOnce(false, true).pipe(
+        return this.roomDataService.moderatorDataAccessor.getRawComments(true, true).pipe(
           map(comments => {
             const foundComment = comments.find(c => c.id === commentId);
-            return (foundComment ? [foundComment, true] : null) as [CommentWithMeta, boolean];
+            return (foundComment ? [foundComment, true] : null) as [ForumComment, boolean];
           })
         );
       })
     );
   }
 
-  private onCommentReceive(c: CommentWithMeta, isModerationComment: boolean) {
+  private onCommentReceive(c: ForumComment, isModerationComment: boolean) {
     this.comment = c;
     this.isModerationComment = isModerationComment;
-    this.getResponses();
     this.edit = !this.answer;
     this.isLoading = false;
-    this._commentSubscription = this.roomDataService.receiveUpdates([
+    const source = isModerationComment ? this.roomDataService.moderatorDataAccessor : this.roomDataService.dataAccessor;
+    source.registerUI(true);
+    this._commentSubscription = source.receiveUpdates([
       { type: 'CommentPatched', finished: true, updates: ['ack'] },
       { type: 'CommentDeleted', finished: true }
     ]).subscribe(update => {
-      if (update.type === 'CommentPatched') {
+      if (update.comment.id !== this.comment.id) {
+        return;
+      }
+      if (update.type === 'CommentPatched' && update.finished === true) {
         if (update.updates.includes('ack')) {
           this.isModerationComment = !this.isModerationComment;
-          if (!this.roomDataService.canAccessModerator) {
+          if (this.isModerationComment && !this.roomDataService.canAccessModerator) {
             this.onNoComment();
           }
         }

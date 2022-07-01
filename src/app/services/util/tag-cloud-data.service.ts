@@ -4,14 +4,15 @@ import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { TopicCloudAdminService } from './topic-cloud-admin.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Comment } from '../../models/comment';
-import { CommentWithMeta, RoomDataService } from './room-data.service';
+import { RoomDataService } from './room-data.service';
 import { CloudParameters } from '../../utils/cloud-parameters';
 import { SmartDebounce } from '../../utils/smart-debounce';
 import { Room } from '../../models/room';
 import { SessionService } from './session.service';
 import { FilterType } from '../../utils/data-filter-object.lib';
-import { calculateControversy, DataFilterObject } from '../../utils/data-filter-object';
 import { TagCloudDataBuilder } from './tag-cloud-data.util';
+import { calculateControversy, FilteredDataAccess } from '../../utils/filtered-data-access';
+import { ForumComment } from '../../utils/data-accessor';
 
 export interface TagCloudDataTagEntry {
   weight: number;
@@ -32,7 +33,7 @@ export interface TagCloudDataTagEntry {
   responseCount: number;
   answerCount: number;
   countedComments: Set<string>;
-  questionChildren: Map<string, CommentWithMeta[]>;
+  questionChildren: Map<string, ForumComment[]>;
 }
 
 export interface TagCloudMetaData {
@@ -79,7 +80,7 @@ export class TagCloudDataService {
   private _subscriptionAdminData: Subscription;
   private readonly _smartDebounce = new SmartDebounce(200, 3_000);
   private _lastSubscription: Subscription;
-  private _filterObject: DataFilterObject;
+  private _filterObject: FilteredDataAccess;
 
   constructor(
     private _tagCloudAdmin: TopicCloudAdminService,
@@ -110,7 +111,7 @@ export class TagCloudDataService {
   }
 
   get isBrainstorming(): boolean {
-    return this._filterObject?.filter?.filterType === FilterType.BrainstormingQuestion;
+    return this._filterObject?.dataFilter?.filterType === FilterType.BrainstormingQuestion;
   }
 
   get alphabeticallySorted(): boolean {
@@ -142,10 +143,10 @@ export class TagCloudDataService {
     }
   }
 
-  set filterObject(filter: DataFilterObject) {
+  set filterObject(filter: FilteredDataAccess) {
     this._filterObject = filter;
     this._lastSubscription?.unsubscribe();
-    this._lastSubscription = filter?.subscribe(() => this.rebuildTagData());
+    this._lastSubscription = filter?.getFilteredData()?.subscribe(() => this.rebuildTagData());
   }
 
   static buildDataFromComments(roomOwner: string,
@@ -158,7 +159,7 @@ export class TagCloudDataService {
                                brainstorming: boolean): [TagCloudData, Set<string>] {
     const builder = new TagCloudDataBuilder(moderators, brainstorming, roomDataService, adminData, blacklist,
       blacklistEnabled, roomOwner);
-    builder.addComments(comments as CommentWithMeta[]);
+    builder.addComments(comments as ForumComment[]);
     return [builder.getData(), builder.getUsers()];
   }
 
@@ -183,7 +184,7 @@ export class TagCloudDataService {
           commentsByCreator: 0,
           commentsByModerators: 0,
           countedComments: new Set<string>(),
-          questionChildren: new Map<string, CommentWithMeta[]>(),
+          questionChildren: new Map<string, ForumComment[]>(),
           answerCount: 0,
           responseCount: 0,
         });
@@ -192,7 +193,7 @@ export class TagCloudDataService {
   }
 
   unloadCloud() {
-    this._filterObject?.unload();
+    this._filterObject?.detach();
   }
 
   blockWord(tag: string, room: Room): void {
@@ -245,7 +246,7 @@ export class TagCloudDataService {
     this._subscriptionAdminData = this._tagCloudAdmin.getAdminData.subscribe(adminData => {
       this.onReceiveAdminData(adminData, true);
     });
-    this._commentSubscription = this._roomDataService.receiveUpdates([
+    this._commentSubscription = this._roomDataService.dataAccessor.receiveUpdates([
       { type: 'CommentCreated', finished: true },
       { type: 'CommentDeleted' },
       { type: 'CommentPatched', finished: true, updates: ['score'] },
@@ -305,20 +306,20 @@ export class TagCloudDataService {
   }
 
   private rebuildTagData() {
-    if (!this._filterObject || this._filterObject.filter.moderation) {
+    if (!this._filterObject || this._filterObject.dataFilter.ignoreThreshold) { // ignoreThreshold = moderation
       return;
     }
-    const filteredComments = this._filterObject.currentData;
+    const filteredComments = this._filterObject.getCurrentData();
     if (!filteredComments) {
       return;
     }
     const currentMeta = this._isDemoActive ? this._lastMetaData : this._currentMetaData;
-    currentMeta.commentCount = filteredComments.comments.length;
+    currentMeta.commentCount = filteredComments.length;
     const room = this.sessionService.currentRoom;
     const blacklist = room.blacklist ? JSON.parse(room.blacklist) : [];
     const [data, users] = TagCloudDataService.buildDataFromComments(room.ownerId,
       new Set<string>(this.sessionService.currentModerators.map(m => m.accountId)), blacklist, room.blacklistActive,
-      this._adminData, this._roomDataService, filteredComments.comments, this.isBrainstorming);
+      this._adminData, this._roomDataService, [...filteredComments], this.isBrainstorming);
     let minWeight = null;
     let maxWeight = null;
     data.forEach(((value, key) => {

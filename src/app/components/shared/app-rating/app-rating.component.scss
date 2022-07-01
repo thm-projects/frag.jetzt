@@ -50,6 +50,20 @@ mat-icon.interactive {
   }
 }
 
+.star-preview {
+  justify-content: center;
+  color: var(--on-background);
+  display: flex;
+  align-items: flex-end;
+  font-size: 1.0em;
+  width: max-content;
+  margin: 0 auto;
+
+  .star {
+    color: var(--yellow);
+  }
+}
+
 @keyframes starBounce {
   33% {
     transform: scale(2);
