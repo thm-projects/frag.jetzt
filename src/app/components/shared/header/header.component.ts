@@ -312,7 +312,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     if (this.authenticationService.isSuperAdmin) {
       return 'manage_accounts';
     } else if (this.user?.role === UserRole.EXECUTIVE_MODERATOR) {
-      return 'gavel';
+      return 'support_agent';
     } else if (this.user?.role === UserRole.CREATOR) {
       return 'co_present';
     }

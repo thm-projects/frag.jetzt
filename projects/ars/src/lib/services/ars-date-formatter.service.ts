@@ -10,6 +10,15 @@ export enum ArsTimeUnit{
   SECOND
 }
 
+enum ArsTimeSecConversion {
+  YEAR = 31536000,
+  MONTH = 2592000,
+  DAY = 86400,
+  HOUR = 3600,
+  MINUTE = 60,
+  SECOND = 1
+}
+
 export const arsTimeTranslation = {
   de:{
     time:{
@@ -23,8 +32,8 @@ export const arsTimeTranslation = {
         '&1:letzte Woche;' +
         'vor ? Woche%n DATE',
       day:
-        '&1:gestern TIME;' +
-        '&2:vorgestern TIME;' +
+        '&1:gestern;' +
+        '&2:vorgestern;' +
         'vor ? Tag%en TIME',
       hour:
         'vor ? Stunde%n',
@@ -38,13 +47,13 @@ export const arsTimeTranslation = {
         'vor kurzem'
     },
     dayTranslation:[
+      'Sonntag',
       'Montag',
       'Dienstag',
       'Mittwoch',
       'Donnerstag',
       'Freitag',
-      'Samstag',
-      'Sonntag'
+      'Samstag'
     ],
     monthTranslation:[
       'Januar',
@@ -61,7 +70,7 @@ export const arsTimeTranslation = {
       'Dezember'
     ],
     timeConvert:(date: Date) => 'um '+(date.toLocaleString('de-DE', {hour:'numeric', minute:'numeric', hour12:false}).replace(/^0/gm,'')),
-    dateConvert:(date: Date) => `am ${arsTimeTranslation.de.dayTranslation[date.getDay()-1]}, ${date.getDate()}. ${arsTimeTranslation.de.monthTranslation[date.getMonth()]} ${date.getFullYear()}`,
+    dateConvert:(date: Date) => `am ${arsTimeTranslation.de.dayTranslation[date.getDay()]}, ${date.getDate()}. ${arsTimeTranslation.de.monthTranslation[date.getMonth()]} ${date.getFullYear()}`,
   },
   en:{
     time:{
@@ -75,7 +84,7 @@ export const arsTimeTranslation = {
         '&1:last week DATE;' +
         '? week%s ago DATE',
       day:
-        '&1:yesterday TIME;' +
+        '&1:yesterday;' +
         '? days ago TIME',
       hour:
         '? hour%s ago',
@@ -103,16 +112,16 @@ export const arsTimeTranslation = {
       'December'
     ],
     dayTranslation:[
+      'Sunday',
       'Monday',
       'Tuesday',
       'Wednesday',
       'Thursday',
       'Friday',
-      'Saturday',
-      'Sunday'
+      'Saturday'
     ],
     timeConvert:(date: Date) => 'at '+date.toLocaleString('en-US', {hour:'numeric', minute:'numeric', hour12:true}),
-    dateConvert:(date: Date) => `on ${arsTimeTranslation.en.dayTranslation[date.getDay()-1]}, ${arsTimeTranslation.en.monthTranslation[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`,
+    dateConvert:(date: Date) => `on ${arsTimeTranslation.en.dayTranslation[date.getDay()]}, ${arsTimeTranslation.en.monthTranslation[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`,
   }
 };
 
@@ -181,10 +190,19 @@ export class ArsDateMapEntry{
 
 }
 
+enum Token{
+  DATE='DATE',
+  FORM='%',
+  VAL='?',
+  TIME='TIME'
+}
+
 @Injectable({
   providedIn:'root'
 })
 export class ArsDateFormatter implements OnDestroy{
+
+  public static DEBUG: boolean=false;
 
   private map: ArsDateMap;
 
@@ -200,6 +218,16 @@ export class ArsDateFormatter implements OnDestroy{
         });
       }
     });
+    if(ArsDateFormatter.DEBUG){
+      console.error('ArsDateFormatter.DEBUG active!');
+      window['ars']={};
+      window['ars']['formatDate']=(date:Date)=>{
+        const approx=this.approximateDate(date);
+        console.log(approx);
+        console.log(this.format(approx,'de'));
+        console.log(this.format(approx,'en'));
+      };
+    }
   }
 
   ngOnDestroy(){
@@ -213,52 +241,23 @@ export class ArsDateFormatter implements OnDestroy{
    * @see ArsTimeUnit
    */
   public approximateDate(date: Date): ArsApproximateDate{
-
-    const seconds = Math.floor((new Date().getTime() - date.getTime()) / 1000);
-    let interval = seconds / 31536000;
-    if (interval > 1){
+    const s = Math.floor((new Date().getTime() - date.getTime()) / 1000);
+    const toTime = b => Math.round(s / b);
+    const test = ['YEAR', 'MONTH', 'DAY', 'HOUR', 'MINUTE', 'SECOND']
+      .map<[string, number]>(x => [x, toTime(ArsTimeSecConversion[x])])
+      .filter(x => x[1] > 0)
+      .sort(x => x[1]);
+    if (!test || !test.length) {
       return {
-        date:date,
-        unit:ArsTimeUnit.YEAR,
-        time:Math.floor(interval)
-      };
-    }
-    interval = seconds / 2592000;
-    if (interval > 1){
-      return {
-        date:date,
-        unit:ArsTimeUnit.MONTH,
-        time:Math.floor(interval)
-      };
-    }
-    interval = seconds / 86400;
-    if (interval > 1){
-      return {
-        date:date,
-        unit:ArsTimeUnit.DAY,
-        time:Math.floor(interval)
-      };
-    }
-    interval = seconds / 3600;
-    if (interval > 1){
-      return {
-        date:date,
-        unit:ArsTimeUnit.HOUR,
-        time:Math.floor(interval)
-      };
-    }
-    interval = seconds / 60;
-    if (interval > 1){
-      return {
-        date:date,
-        unit:ArsTimeUnit.MINUTE,
-        time:Math.floor(interval)
-      };
+        date: date,
+        unit: -1,
+        time: -1
+      }
     }
     return {
-      date:date,
-      unit:ArsTimeUnit.SECOND,
-      time:Math.floor(interval)
+      date: date,
+      unit: ArsTimeUnit[test[0][0]],
+      time: test[0][1]
     };
   }
 
@@ -270,19 +269,19 @@ export class ArsDateFormatter implements OnDestroy{
    */
   public format(time: ArsApproximateDate, lang: string): string{
     let str: string = this.map.format(time, lang);
-    if (str.includes('%')){
-      str = str.replace('DATE', arsTimeTranslation[lang].dateConvert(time.date));
-      str = str.replace('TIME', arsTimeTranslation[lang].timeConvert(time.date));
+    if (str.includes(Token.FORM)){
+      str = str.replace(Token.DATE, arsTimeTranslation[lang].dateConvert(time.date));
+      str = str.replace(Token.TIME, arsTimeTranslation[lang].timeConvert(time.date));
       if (time.time == 1){
-        return (str.split('%')[0] + ((e: string) => e.substring(e.indexOf(' ')))(str.split('%')[1])).replace('?', time.time + '');
+        return (str.split(Token.FORM)[0] + ((e: string) => e.substring(e.indexOf(' ')))(str.split(Token.FORM)[1])).replace(Token.VAL, time.time + '');
       }else{
-        return str.replace('%', '').replace('?', time.time + '');
+        return str.replace(Token.FORM, '').replace(Token.VAL, time.time + '');
       }
 
     }
-    str = str.replace('DATE', arsTimeTranslation[lang].dateConvert(time.date));
-    str = str.replace('TIME', arsTimeTranslation[lang].timeConvert(time.date));
-    str = str.replace('?', time.time + '');
+    str = str.replace(Token.DATE, arsTimeTranslation[lang].dateConvert(time.date));
+    str = str.replace(Token.TIME, arsTimeTranslation[lang].timeConvert(time.date));
+    str = str.replace(Token.VAL, time.time + '');
     return str;
   }
 
