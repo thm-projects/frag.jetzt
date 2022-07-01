@@ -141,7 +141,7 @@ export class CommentComponent implements OnInit, AfterViewInit {
     } else if (this.isFromOwner) {
       return 'co_present';
     } else if (this.isFromModerator) {
-      return 'gavel';
+      return 'support_agent';
     }
     return 'person';
   }
