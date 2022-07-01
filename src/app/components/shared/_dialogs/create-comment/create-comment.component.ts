@@ -171,12 +171,12 @@ export class CreateCommentComponent implements OnInit {
   }
 
   private wasWritten(term: string): boolean {
-    if (!this.roomDataService.getCurrentRoomData(false)) {
+    if (!this.roomDataService.dataAccessor.currentRawComments()) {
       return true;
     }
     const areEqual = (str1: string, str2: string): boolean =>
       str1.localeCompare(str2, undefined, { sensitivity: 'base' }) === 0;
-    return this.roomDataService.getCurrentRoomData(false).some(comment => comment.brainstormingQuestion &&
+    return this.roomDataService.dataAccessor.currentRawComments().some(comment => comment.brainstormingQuestion &&
       comment.creatorId === this.user?.id &&
       comment.keywordsFromSpacy?.some(kw => areEqual(kw.text, term)));
   }

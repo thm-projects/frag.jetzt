@@ -18,8 +18,9 @@ import { RoomDataService } from '../../../../services/util/room-data.service';
 import { Subscription } from 'rxjs';
 import { SessionService } from '../../../../services/util/session.service';
 import { Period, RoomDataFilter } from '../../../../utils/data-filter-object.lib';
-import { DataFilterObject } from '../../../../utils/data-filter-object';
 import { AuthenticationService } from '../../../../services/http/authentication.service';
+import { FilteredDataAccess } from '../../../../utils/filtered-data-access';
+import { take } from 'rxjs/operators';
 
 class CommentsCount {
   comments: number;
@@ -53,7 +54,7 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
     protected langService: LanguageService,
     private router: Router,
     protected roomService: RoomService,
-    @Inject(MAT_DIALOG_DATA) public data: any,
+    @Inject(MAT_DIALOG_DATA) public data: { filterObject: FilteredDataAccess },
     public eventService: EventService,
     private sessionService: SessionService,
     private topicCloudAdminService: TopicCloudAdminService,
@@ -103,7 +104,7 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.commentsLoadedCallback(true);
-    this._subscriptionCommentUpdates = this.roomDataService.receiveUpdates([{ finished: true }])
+    this._subscriptionCommentUpdates = this.roomDataService.dataAccessor.receiveUpdates([{ finished: true }])
       .subscribe(_ => this.commentsLoadedCallback());
   }
 
@@ -116,15 +117,25 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
   commentsLoadedCallback(isNew = false) {
     const room = this.sessionService.currentRoom;
     const blacklist = room.blacklist ? JSON.parse(room.blacklist) : [];
-    const currentComments = this.data.filterObject.currentData.comments;
+    const currentComments = [...this.data.filterObject.getCurrentData()];
     const mods = new Set<string>(this.sessionService.currentModerators.map(m => m.accountId));
-    DataFilterObject.filterOnce(new RoomDataFilter(null), this.roomDataService,
-      this.authenticationService, this.sessionService).subscribe(result => {
-      this.allComments = this.getCommentCounts(result.comments, blacklist, room.blacklistActive, room.ownerId, mods);
+    const filter = FilteredDataAccess.buildNormalAccess(this.sessionService, this.roomDataService, true, false, 'dummy');
+    const newFilter = filter.dataFilter;
+    newFilter.resetToDefault();
+    filter.dataFilter = newFilter;
+    filter.attach({
+      userId: this.authenticationService.getUser()?.id,
+      roomId: room.id,
+      ownerId: room.ownerId,
+      threshold: room.threshold,
+      moderatorIds: mods,
+    });
+    filter.getFilteredData().pipe(take(1)).subscribe(comments => {
+      this.allComments = this.getCommentCounts([...comments], blacklist, room.blacklistActive, room.ownerId, mods);
     });
     this.filteredComments = this.getCommentCounts(currentComments, blacklist, room.blacklistActive, room.ownerId, mods);
     if (isNew) {
-      this.hasNoKeywords = TopicCloudFilterComponent.isUpdatable(this.roomDataService.getCurrentRoomData(false),
+      this.hasNoKeywords = TopicCloudFilterComponent.isUpdatable([...this.roomDataService.dataAccessor.currentRawComments()],
         this.userRole, room.id);
     }
     this.disableCurrentFiltersOptions = ((this.allComments.comments === this.filteredComments.comments) &&
@@ -172,7 +183,8 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
 
   confirmButtonActionCallback() {
     return () => {
-      let filter = new RoomDataFilter(null);
+      let filter = RoomDataFilter.loadFilter('tagCloud');
+      filter.resetToDefault();
       filter.lastRoomId = this.sessionService.currentRoom?.id;
       switch (this.continueFilter) {
         case 'continueWithAll':
@@ -180,18 +192,17 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
           break;
         case 'continueWithAllFromNow':
           filter.period = Period.FromNow;
-          filter.fromNow = new Date().getTime();
+          filter.timeFilterStart = Date.now();
           break;
         case 'continueWithCurr':
           const roomId = filter.lastRoomId;
-          filter = this.data.filterObject.filter;
+          filter = this.data.filterObject.dataFilter;
           filter.lastRoomId = roomId;
           break;
         default:
           return;
       }
-
-      filter.save('tagCloud');
+      filter.save();
       this.dialogRef.close();
       this.router.navigateByUrl(this.target);
     };

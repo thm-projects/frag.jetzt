@@ -1,12 +1,13 @@
 import { TagCloudData, TagCloudDataTagEntry } from './tag-cloud-data.service';
 import { SpacyKeyword } from '../http/spacy.service';
-import { CommentWithMeta, RoomDataService } from './room-data.service';
+import { RoomDataService } from './room-data.service';
 import {
   KeywordOrFulltext,
   TopicCloudAdminData
 } from '../../components/shared/_dialogs/topic-cloud-administration/TopicCloudAdminData';
 import { stopWords, superfluousSpecialCharacters } from '../../utils/stopwords';
 import { escapeForRegex } from '../../utils/regex-escape';
+import { ForumComment } from '../../utils/data-accessor';
 
 const words = stopWords.map(word => escapeForRegex(word).replace(/\s+/, '\\s*'));
 const httpRegex = /(https?:[^\s]+(\s|$))/;
@@ -17,7 +18,7 @@ export const maskKeyword = (keyword: string): string =>
   keyword.replace(regexMaskKeyword, '').replace(/\s+/, ' ').trim();
 
 interface CommentKeywordSourceInformation {
-  comment: CommentWithMeta;
+  comment: ForumComment;
   source: SpacyKeyword[];
   censored: boolean[];
   fromQuestioner: boolean;
@@ -54,7 +55,7 @@ export class TagCloudDataBuilder {
     this.users.clear();
   }
 
-  addComments(comments: CommentWithMeta[]): void {
+  addComments(comments: ForumComment[]): void {
     for (const comment of comments) {
       if (this.brainstormingActive !== comment.brainstormingQuestion) {
         continue;
@@ -73,7 +74,7 @@ export class TagCloudDataBuilder {
       (this.adminData.endDate && new Date(this.adminData.endDate) < data.lastTimeStamp));
   }
 
-  private receiveSource(comment: CommentWithMeta): CommentKeywordSourceInformation {
+  private receiveSource(comment: ForumComment): CommentKeywordSourceInformation {
     const censoredInfo = this.roomDataService.getCensoredInformation(comment);
     if (!censoredInfo) {
       return null;
@@ -117,7 +118,7 @@ export class TagCloudDataBuilder {
     });
   }
 
-  private addToData(keyword: SpacyKeyword, comment: CommentWithMeta, isFromQuestioner: boolean) {
+  private addToData(keyword: SpacyKeyword, comment: ForumComment, isFromQuestioner: boolean) {
     let current: TagCloudDataTagEntry = this.data.get(keyword.text);
     const commentDate = new Date(comment.createdAt);
     if (current === undefined) {
@@ -139,7 +140,7 @@ export class TagCloudDataBuilder {
         commentsByModerators: 0,
         responseCount: 0,
         answerCount: 0,
-        questionChildren: new Map<string, CommentWithMeta[]>(),
+        questionChildren: new Map<string, ForumComment[]>(),
         countedComments: new Set<string>(),
       };
       this.data.set(keyword.text, current);
@@ -169,7 +170,7 @@ export class TagCloudDataBuilder {
     current.comments.push(comment);
   }
 
-  private addResponseAndAnswerCount(data: TagCloudDataTagEntry, comment: CommentWithMeta) {
+  private addResponseAndAnswerCount(data: TagCloudDataTagEntry, comment: ForumComment) {
     data.countedComments.add(comment.id);
     let lastCommentId;
     for (let parentComment = this.roomDataService.getCommentReference(comment.commentReference); parentComment;
@@ -181,19 +182,19 @@ export class TagCloudDataBuilder {
       lastCommentId = parentComment.id;
     }
     this.removeChildrenCounts(data, comment, lastCommentId);
-    data.responseCount += comment.meta.responseCount;
-    data.answerCount += comment.meta.responseCount - comment.meta.responsesFromParticipants;
+    data.responseCount += comment.totalAnswerCount;
+    data.answerCount += comment.totalAnswerCount - comment.totalAnswerFromParticipantCount;
   }
 
-  private removeChildrenCounts(data: TagCloudDataTagEntry, comment: CommentWithMeta, lastCommentId: string) {
+  private removeChildrenCounts(data: TagCloudDataTagEntry, comment: ForumComment, lastCommentId: string) {
     const referenced = data.questionChildren.get(lastCommentId) ||
       data.questionChildren.set(lastCommentId, []).get(lastCommentId);
     const filtered = referenced.filter(children => {
       for (let parentComment = this.roomDataService.getCommentReference(children.commentReference); parentComment;
            parentComment = this.roomDataService.getCommentReference(parentComment.commentReference)) {
         if (parentComment.id === comment.id) {
-          data.responseCount -= children.meta.responseCount;
-          data.answerCount -= children.meta.responseCount - children.meta.responsesFromParticipants;
+          data.responseCount += comment.totalAnswerCount;
+          data.answerCount += comment.totalAnswerCount - comment.totalAnswerFromParticipantCount;
           return false;
         }
       }
