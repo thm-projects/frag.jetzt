@@ -422,7 +422,7 @@ export class FilteredDataAccess {
     }
     if (stageUpdates & STAGE_SORT_SEARCH) {
       this._sortedSearchData = this.sortData(this._searchData);
-      this.emitData();
+      this.emitData(true);
     }
     if (stageUpdates & STAGE_FILTER) {
       this.buildFilterCache();
@@ -434,13 +434,18 @@ export class FilteredDataAccess {
       } else {
         this._sortedFilteredData = this.sortData(comments);
       }
-      this.emitData();
+      this.emitData(false);
     }
   }
 
-  private emitData() {
+  private emitData(searchOnly: boolean) {
+    if (searchOnly) {
+      if (this._filter.currentSearch) {
+        this._currentData.next(this._sortedSearchData);
+      }
+      return;
+    }
     if (this._filter.currentSearch) {
-      this._currentData.next(this._sortedSearchData);
       return;
     }
     const comments = this._filterTypeCache[this._filter.filterType];
