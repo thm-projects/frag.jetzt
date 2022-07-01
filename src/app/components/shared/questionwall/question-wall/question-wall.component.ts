@@ -491,7 +491,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     } else if (isFromOwner) {
       return 'co_present';
     } else if (isFromModerator) {
-      return 'gavel';
+      return 'support_agent';
     }
     return 'person';
   }
