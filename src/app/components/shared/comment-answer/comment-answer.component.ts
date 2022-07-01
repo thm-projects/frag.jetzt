@@ -308,11 +308,8 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
         return;
       }
       if (update.type === 'CommentPatched' && update.finished === true) {
-        if (update.updates.includes('ack')) {
-          this.isModerationComment = !this.isModerationComment;
-          if (this.isModerationComment && !this.roomDataService.canAccessModerator) {
-            this.onNoComment();
-          }
+        if (update.updates.includes('ack') && !this.roomDataService.canAccessModerator) {
+          this.onNoComment();
         }
       } else if (update.type === 'CommentDeleted') {
         this.onNoComment();

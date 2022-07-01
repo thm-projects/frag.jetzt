@@ -1,5 +1,5 @@
 import { FilterType, FilterTypes, Period, RoomDataFilter, SortType } from './data-filter-object.lib';
-import { DataAccessor, ForumComment, ForumData } from './data-accessor';
+import { DataAccessor, ForumComment } from './data-accessor';
 import { BehaviorSubject, Observable, of, Subject, Subscription, takeUntil } from 'rxjs';
 import { RoomDataService } from '../services/util/room-data.service';
 import { SpacyKeyword } from '../services/http/spacy.service';
@@ -197,9 +197,9 @@ export class FilteredDataAccess {
     name: FilterTypes,
     forceOptions?: Partial<RoomDataFilter>,
   ): FilteredDataAccess {
-    const filter = RoomDataFilter.loadFilter(name);
+    const roomDataFilter = RoomDataFilter.loadFilter(name);
     if (forceOptions) {
-      filter.applyOptions(forceOptions);
+      roomDataFilter.applyOptions(forceOptions);
     }
     const dataAccessor = dataService.dataAccessor;
     const access = new FilteredDataAccess(
@@ -207,7 +207,7 @@ export class FilteredDataAccess {
         dataAccessor.getRawComments.bind(dataAccessor) :
         dataAccessor.getForumComments.bind(dataAccessor),
       uiData,
-      filter,
+      roomDataFilter,
       comment => dataAccessor.getDataById(comment.id).hasProfanity,
       (destroyer) => this.constructAttachment(destroyer, sessionService, dataAccessor, access),
     );
@@ -250,9 +250,9 @@ export class FilteredDataAccess {
       { type: 'CommentPatched', finished: true },
     ]).pipe(takeUntil(destroyer)).subscribe(info => {
       if (info.type === 'CommentPatched' && info.finished) {
-        const filter = access._filter.filterType;
+        const filterType = access._filter.filterType;
         if (access._tempData.find(e => e.id === info.comment.id) !== undefined &&
-          this.hasChanges(filter, info.updates)) {
+          this.hasChanges(filterType, info.updates)) {
           access.updateStages(STAGE_FILTER & STAGE_SORT_FILTER);
         }
       }
@@ -261,8 +261,8 @@ export class FilteredDataAccess {
     sessionService.receiveRoomUpdates(true).pipe(takeUntil(destroyer)).subscribe(data => {
       const keys = Object.keys(data) as (keyof Room)[];
       hasChange = keys.includes('threshold');
-      const filter = access._filter.filterType;
-      if (filter === FilterType.Censored && keys.includes('profanityFilter')) {
+      const filterType = access._filter.filterType;
+      if (filterType === FilterType.Censored && keys.includes('profanityFilter')) {
         access.updateStages(STAGE_FILTER & STAGE_SORT_FILTER);
         hasChange = false;
       }
@@ -422,9 +422,7 @@ export class FilteredDataAccess {
     }
     if (stageUpdates & STAGE_SORT_SEARCH) {
       this._sortedSearchData = this.sortData(this._searchData);
-      if (this._filter.currentSearch) {
-        this._currentData.next(this._sortedSearchData);
-      }
+      this.emitData();
     }
     if (stageUpdates & STAGE_FILTER) {
       this.buildFilterCache();
@@ -436,10 +434,17 @@ export class FilteredDataAccess {
       } else {
         this._sortedFilteredData = this.sortData(comments);
       }
-      if (!this._filter.currentSearch) {
-        this._currentData.next(comments ? this._sortedFilteredData : this.sortData(this._periodCache[this._filter.period]));
-      }
+      this.emitData();
     }
+  }
+
+  private emitData() {
+    if (this._filter.currentSearch) {
+      this._currentData.next(this._sortedSearchData);
+      return;
+    }
+    const comments = this._filterTypeCache[this._filter.filterType];
+    this._currentData.next(comments ? this._sortedFilteredData : this.sortData(this._periodCache[this._filter.period]));
   }
 
   private preFilterData(data: ForumComment[]) {
