@@ -47,6 +47,7 @@
          *ngFor="let response of responses">
       <app-comment *ngIf="response?.body"
                    [comment]="response"
+                   [isRemoved]="response?.removed"
                    [user]="user"
                    [userRole]="userRole"
                    [parseVote]="vote"

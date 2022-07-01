@@ -9,6 +9,7 @@ import { Rating } from '../../../models/rating';
 import { RatingResult } from '../../../models/rating-result';
 import { AppRatingPopUpComponent } from '../_dialogs/app-rating-pop-up/app-rating-pop-up.component';
 import { MatDialog } from '@angular/material/dialog';
+import { DeviceInfoService } from '../../../services/util/device-info.service';
 
 @Component({
   selector: 'app-app-rating',
@@ -35,6 +36,7 @@ export class AppRatingComponent implements OnInit, OnChanges {
     private readonly authenticationService: AuthenticationService,
     private readonly ratingService: RatingService,
     private dialog: MatDialog,
+    private deviceInfo: DeviceInfoService,
   ) {
     this.languageService.getLanguage().subscribe(lang => this.translateService.use(lang));
   }
@@ -103,6 +105,13 @@ export class AppRatingComponent implements OnInit, OnChanges {
 
   onMouseLeave() {
     this.listeningToMove = true;
+  }
+
+  openPerMouse(target: HTMLElement) {
+    if (this.deviceInfo.isCurrentlyMobile) {
+      return;
+    }
+    this.openPopup(target);
   }
 
   openPopup(target: HTMLElement) {

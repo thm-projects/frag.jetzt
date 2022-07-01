@@ -152,7 +152,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   refreshKeywords() {
     this.blacklistKeywords = [];
     this.keywords = new Map<string, Keyword>();
-    this.roomDataService.getCurrentRoomData().forEach(comment => {
+    this.roomDataService.dataAccessor.currentRawComments().forEach(comment => {
       this.pushInKeywords(comment);
     });
     if (this.searchMode) {
@@ -215,7 +215,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   }
 
   initializeKeywords() {
-    this.roomDataService.getRoomDataOnce().subscribe(comments => {
+    this.roomDataService.dataAccessor.getRawComments(false, true).subscribe(comments => {
       this.keywords = new Map<string, Keyword>();
       comments.forEach(comment => {
         this.pushInKeywords(comment);
@@ -223,7 +223,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
       this.sortQuestions();
       this.isLoading = false;
     });
-    this.commentServiceSubscription = this.roomDataService.receiveUpdates([
+    this.commentServiceSubscription = this.roomDataService.dataAccessor.receiveUpdates([
       { type: 'CommentCreated', finished: true },
       { type: 'CommentDeleted' },
       { type: 'CommentPatched', finished: true, updates: ['score'] },
@@ -240,7 +240,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
         this.pushInKeywords(update.comment);
       } else if (update.type === 'CommentDeleted') {
         this.removeFromKeywords(update.comment);
-      } else if (update.type === 'CommentPatched' && update.subtype === 'ack') {
+      } else if (update.type === 'CommentPatched' && update.finished === false && update.subtype === 'ack') {
         if (!update.comment.ack) {
           this.removeFromKeywords(update.comment);
         }

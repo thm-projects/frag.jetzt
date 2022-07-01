@@ -45,11 +45,12 @@ import {
   IntroductionBrainstormingComponent
 } from '../_dialogs/introductions/introduction-brainstorming/introduction-brainstorming.component';
 import { ComponentType } from '@angular/cdk/overlay';
-import { DataFilterObject } from '../../../utils/data-filter-object';
 import { RoomDataService } from '../../../services/util/room-data.service';
 import { FilterType, Period, RoomDataFilter } from '../../../utils/data-filter-object.lib';
 import { maskKeyword } from '../../../services/util/tag-cloud-data.util';
 import { ColorContrast, ColorRGB } from '../../../utils/color-contrast';
+import { FilteredDataAccess } from '../../../utils/filtered-data-access';
+import { forkJoin } from 'rxjs';
 
 class CustomPosition implements Position {
   left: number;
@@ -176,9 +177,6 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
   }
 
   ngOnInit(): void {
-    const filterObj = new DataFilterObject('tagCloud', this.roomDataService,
-      this.authenticationService, this.sessionService);
-    this.dataManager.filterObject = filterObj;
     this.updateGlobalStyles();
     this.dataManager.getData().subscribe(data => {
       if (!data) {
@@ -192,7 +190,10 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
       }
     });
     this.route.data.subscribe(d => this.brainstormingActive = !!d.brainstorming);
-    this.sessionService.getRoomOnce().subscribe(room => {
+    forkJoin([
+      this.sessionService.getRoomOnce(),
+      this.sessionService.getModeratorsOnce(),
+    ]).subscribe(([room, mods]) => {
       this.userRole = this.sessionService.currentRole;
       this.shortId = room.shortId;
       this.roomId = room.id;
@@ -204,15 +205,27 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
       this.directSend = this.room.directSend;
       this.createCommentWrapper = new CreateCommentWrapper(this.translateService,
         this.notificationService, this.commentService, this.dialog, this.room);
+      let filterObj: FilteredDataAccess;
       if (this.brainstormingActive) {
-        const filter = new RoomDataFilter(null);
-        filter.filterType = FilterType.BrainstormingQuestion;
-        filter.period = Period.FromNow;
-        filter.lastRoomId = room.id;
-        filter.fromNow = new Date(room.brainstormingSession.createdAt).getTime();
-        filter.save('tagCloud');
-        filterObj.filter = filter;
+        filterObj = FilteredDataAccess.buildNormalAccess(this.sessionService, this.roomDataService, true, false, 'brainstorming');
+      } else {
+        filterObj = FilteredDataAccess.buildNormalAccess(this.sessionService, this.roomDataService, true, false, 'tagCloud');
       }
+      filterObj.attach({
+        moderatorIds: new Set<string>(mods.map(m => m.accountId)),
+        threshold: room.threshold,
+        ownerId: room.ownerId,
+        roomId: room.id,
+        userId: this.user.id,
+      });
+      if (this.brainstormingActive) {
+        const filter = filterObj.dataFilter;
+        filter.resetToDefault();
+        filter.timeFilterStart = new Date(room.brainstormingSession.createdAt).getTime();
+        filter.save();
+        filterObj.dataFilter = filter;
+      }
+      this.dataManager.filterObject = filterObj;
     });
     this.themeSubscription = this.themeService.getTheme().subscribe(() => {
       if (this.child) {
@@ -331,12 +344,13 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
       return;
     }
     //Room filter
-    const filter = new RoomDataFilter(null);
+    const filter = RoomDataFilter.loadFilter('commentList');
+    filter.resetToDefault();
     filter.lastRoomId = this.room.id;
     filter.period = Period.All;
     filter.filterType = FilterType.Keyword;
     filter.filterCompare = (tag as TagComment).realText;
-    filter.save('commentList');
+    filter.save();
     this.router.navigate(['../'], { relativeTo: this.route });
   }
 

@@ -318,9 +318,9 @@
         {{'comment-page.reply-comment-button' | translate}}
       </button>
 
-      <button mat-icon-button *ngIf="!isAnswerView && !showResponses && responses.length > 0 && indentationPossible">
+      <button mat-icon-button *ngIf="!isAnswerView && !showResponses && comment.totalAnswerCount > 0 && indentationPossible">
         <mat-icon class="not-marked material-icons-round"
-                  matBadge="{{comment.meta.responseCount}}"
+                  matBadge="{{comment.totalAnswerCount}}"
                   matBadgeColor="secondary"
                   matBadgeSize="small"
                   (click)="showConversation()"

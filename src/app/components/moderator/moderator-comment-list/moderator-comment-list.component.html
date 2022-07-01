@@ -283,7 +283,7 @@
 
 <div *ngIf="!isLoading">
   <app-comment *ngFor="let current of comments"
-               [isRemoved]="current?.meta?.removed"
+               [isRemoved]="current?.removed"
                [comment]="current"
                [userRole]="user.role"
                [parseVote]="getVote(current)"

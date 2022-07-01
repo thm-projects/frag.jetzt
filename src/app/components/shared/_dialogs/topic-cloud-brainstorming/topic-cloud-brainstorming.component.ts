@@ -169,12 +169,13 @@ export class TopicCloudBrainstormingComponent implements OnInit, OnDestroy {
   }
 
   private deleteOldBrainstormingQuestions(): Observable<any> {
-    if (!this.roomDataService.getCurrentRoomData()) {
+    const comments = this.roomDataService.dataAccessor.currentRawComments();
+    if (!comments) {
       return of(null);
     }
-    const toBeRemoved = this.roomDataService.getCurrentRoomData()
+    const toBeRemoved = comments
       .filter(comment => comment.brainstormingQuestion && comment.id)
-      .concat(this.roomDataService.getCurrentRoomData(true).filter(c => c.brainstormingQuestion && c.id));
+      .concat((this.roomDataService.moderatorDataAccessor.currentRawComments() ?? []).filter(c => c.brainstormingQuestion && c.id));
     if (toBeRemoved.length < 1) {
       return of(null);
     }

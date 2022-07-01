@@ -18,12 +18,12 @@
 
 <ng-template #stars>
   <span #spanRef
+        (mouseenter)="openPerMouse(spanRef)"
         (click)="openPopup(spanRef)"
-        style="justify-content: center; color: var(--on-background); display: flex; align-items: flex-end; font-size: 1.0em;">
+        class="star-preview">
     <mat-icon
       *ngFor="let index of [0, 1, 2, 3, 4]"
-      class="material-icons-outlined"
-      style="color: var(--yellow);"
+      class="material-icons-outlined star"
       [ngClass]="getIconAccumulated(index)">
       {{ getIconAccumulated(index) }}
     </mat-icon>

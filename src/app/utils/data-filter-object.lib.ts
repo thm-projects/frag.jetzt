@@ -45,50 +45,152 @@ export enum SortType {
 
 export type SortTypeKey = keyof typeof SortType;
 
-export const DEFAULT_PERIOD = Period.All;
-const DEFAULT_SORT = SortType.Time;
-const DEFAULT_SORT_REVERSE = false;
+export type FilterTypes = 'commentList' | 'presentation' | 'tagCloud' | 'brainstorming' | 'moderatorList' | 'children' | 'dummy';
 
-export type FilterTypes = 'commentList' | 'presentation' | 'tagCloud' | 'moderatorList';
+type DefaultData = Pick<RoomDataFilter,
+  'period' |
+  'timeFilterStart' |
+  'frozenAt' |
+  'filterType' |
+  'filterCompare' |
+  'sortType' |
+  'sortReverse' |
+  'ignoreThreshold' |
+  'ignoreRoleSort' |
+  'currentSearch'>;
+
+const DEFAULTS: { [key in FilterTypes]: DefaultData } = {
+  commentList: {
+    period: Period.All,
+    timeFilterStart: Date.now(),
+    frozenAt: null,
+    filterType: null,
+    filterCompare: null,
+    sortType: SortType.Time,
+    sortReverse: false,
+    ignoreThreshold: false,
+    ignoreRoleSort: false,
+    currentSearch: '',
+  },
+  moderatorList: {
+    period: Period.All,
+    timeFilterStart: Date.now(),
+    frozenAt: null,
+    filterType: null,
+    filterCompare: null,
+    sortType: SortType.Time,
+    sortReverse: false,
+    ignoreThreshold: true,
+    ignoreRoleSort: false,
+    currentSearch: '',
+  },
+  presentation: {
+    period: Period.All,
+    timeFilterStart: Date.now(),
+    frozenAt: null,
+    filterType: null,
+    filterCompare: null,
+    sortType: SortType.Score,
+    sortReverse: false,
+    ignoreThreshold: false,
+    ignoreRoleSort: true,
+    currentSearch: '',
+  },
+  tagCloud: {
+    period: Period.All,
+    timeFilterStart: Date.now(),
+    frozenAt: null,
+    filterType: null,
+    filterCompare: null,
+    sortType: SortType.Time,
+    sortReverse: false,
+    ignoreThreshold: false,
+    ignoreRoleSort: false,
+    currentSearch: '',
+  },
+  brainstorming: {
+    period: Period.FromNow,
+    timeFilterStart: Date.now(),
+    frozenAt: null,
+    filterType: FilterType.BrainstormingQuestion,
+    filterCompare: null,
+    sortType: SortType.Time,
+    sortReverse: false,
+    ignoreThreshold: false,
+    ignoreRoleSort: false,
+    currentSearch: '',
+  },
+  children: {
+    period: Period.All,
+    timeFilterStart: Date.now(),
+    frozenAt: null,
+    filterType: null,
+    filterCompare: null,
+    sortType: SortType.Time,
+    sortReverse: false,
+    ignoreThreshold: false,
+    ignoreRoleSort: false,
+    currentSearch: '',
+  },
+  dummy: {
+    period: Period.All,
+    timeFilterStart: Date.now(),
+    frozenAt: null,
+    filterType: null,
+    filterCompare: null,
+    sortType: SortType.Time,
+    sortReverse: false,
+    ignoreThreshold: false,
+    ignoreRoleSort: false,
+    currentSearch: '',
+  }
+};
 
 export class RoomDataFilter {
 
   period: Period;
-  fromNow: number;
-  freezedAt: number;
+  timeFilterStart: number;
+  frozenAt: number;
   filterType: FilterType;
   filterCompare: any;
   sortType: SortType;
   sortReverse: boolean;
-  moderation: boolean;
+  ignoreThreshold: boolean;
   ignoreRoleSort: boolean;
   currentSearch: string;
   lastRoomId: string;
 
-  constructor(obj) {
+  private constructor(
+    public readonly name: FilterTypes,
+    obj: Partial<RoomDataFilter>,
+  ) {
     if (!obj) {
       this.resetToDefault();
       return;
     }
     this.period = obj.period;
-    this.fromNow = obj.fromNow;
-    this.freezedAt = obj.freezedAt;
+    this.timeFilterStart = obj.timeFilterStart;
+    this.frozenAt = obj.frozenAt;
     this.filterType = obj.filterType;
     this.filterCompare = obj.filterCompare;
     this.sortType = obj.sortType;
     this.sortReverse = obj.sortReverse;
-    this.moderation = obj.moderation;
+    this.ignoreThreshold = obj.ignoreThreshold;
     this.ignoreRoleSort = obj.ignoreRoleSort;
     this.currentSearch = obj.currentSearch;
     this.lastRoomId = obj.lastRoomId;
   }
 
-  static loadFilter(name: string): RoomDataFilter {
-    return new RoomDataFilter(JSON.parse(sessionStorage.getItem(name)));
+  static clone(filter: RoomDataFilter): RoomDataFilter {
+    return new RoomDataFilter(filter.name, filter);
   }
 
-  save(name: string) {
-    sessionStorage.setItem(name, JSON.stringify(this));
+  static loadFilter(name: FilterTypes): RoomDataFilter {
+    return new RoomDataFilter(name, JSON.parse(sessionStorage.getItem(name)));
+  }
+
+  save() {
+    sessionStorage.setItem(this.name, JSON.stringify(this));
   }
 
   checkRoom(roomId: string): boolean {
@@ -97,7 +199,7 @@ export class RoomDataFilter {
       this.resetToDefault();
     }
     if (this.period === null || this.period === undefined) {
-      this.period = DEFAULT_PERIOD;
+      this.period = DEFAULTS[this.name].period;
     }
     this.lastRoomId = roomId;
     return changed;
@@ -110,16 +212,10 @@ export class RoomDataFilter {
   }
 
   resetToDefault() {
-    this.period = DEFAULT_PERIOD;
-    this.fromNow = null;
-    this.freezedAt = null;
-    this.filterType = null;
-    this.filterCompare = null;
-    this.sortType = DEFAULT_SORT;
-    this.sortReverse = DEFAULT_SORT_REVERSE;
-    this.moderation = false;
-    this.ignoreRoleSort = false;
-    this.currentSearch = '';
+    const obj = DEFAULTS[this.name];
+    for (const key of Object.keys(obj)) {
+      this[key] = obj[key];
+    }
   }
 
 }

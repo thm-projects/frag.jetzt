@@ -82,7 +82,7 @@ export class SessionService {
     );
   }
 
-  receiveRoomUpdates(before = false): Observable<Partial<Room>> | Observable<Room> {
+  receiveRoomUpdates(before = false): Observable<Partial<Room> | Room> {
     if (!this.currentRoom) {
       throw new Error('Currently not bound to a room.');
     }

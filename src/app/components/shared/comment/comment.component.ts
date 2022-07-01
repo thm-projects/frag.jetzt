@@ -17,7 +17,7 @@ import { UserRole } from '../../../models/user-roles.enum';
 import { Rescale } from '../../../models/rescale';
 import { RowComponent } from '../../../../../projects/ars/src/lib/components/layout/frame/row/row.component';
 import { User } from '../../../models/user';
-import { CommentWithMeta, RoomDataService } from '../../../services/util/room-data.service';
+import { RoomDataService } from '../../../services/util/room-data.service';
 import { SpacyKeyword } from '../../../services/http/spacy.service';
 import { UserBonusTokenComponent } from '../../participant/_dialogs/user-bonus-token/user-bonus-token.component';
 import { ViewCommentDataComponent } from '../view-comment-data/view-comment-data.component';
@@ -28,6 +28,7 @@ import { BonusDeleteComponent } from '../../creator/_dialogs/bonus-delete/bonus-
 import { DashboardNotificationService } from '../../../services/util/dashboard-notification.service';
 import { Room } from '../../../models/room';
 import { HttpClient } from '@angular/common/http';
+import { ForumComment } from '../../../utils/data-accessor';
 
 @Component({
   selector: 'app-comment',
@@ -49,7 +50,7 @@ export class CommentComponent implements OnInit, AfterViewInit {
 
   static COMMENT_MAX_HEIGHT = 250;
 
-  @Input() comment: CommentWithMeta;
+  @Input() comment: ForumComment;
   @Input() isMock = false;
   @Input() moderator: boolean;
   @Input() userRole: UserRole;
@@ -86,7 +87,7 @@ export class CommentComponent implements OnInit, AfterViewInit {
   isProfanity = false;
   roomTags: string[];
   room: Room;
-  responses: CommentWithMeta[] = [];
+  responses: ForumComment[] = [];
   showResponses: boolean = false;
   isConversationView: boolean;
   sortMethod = 'Time';
@@ -161,7 +162,7 @@ export class CommentComponent implements OnInit, AfterViewInit {
       this.indentationPossible = e.matches;
     });
     this.isConversationView = this.router.url.endsWith('conversation');
-    if (this.comment?.meta?.created) {
+    if (this.comment?.created) {
       this.slideAnimationState = 'new';
     }
     this.readableCommentBody = this.comment?.body ? ViewCommentDataComponent.getTextFromData(this.comment?.body?.trim()) : '';
@@ -236,14 +237,15 @@ export class CommentComponent implements OnInit, AfterViewInit {
 
   changeSlideState(): void {
     if (this.slideAnimationState === 'removed') {
-      if (this.comment.meta.removed) {
-        this.comment.meta.removed = false;
+      if (this.comment.removed) {
+        this.comment.removed = false;
+        this.roomDataService.dataAccessor.removeCommentFully(this.comment.id);
       }
       return;
     }
     if (this.slideAnimationState === 'new') {
-      if (this.comment?.meta?.created) {
-        this.comment.meta.created = false;
+      if (this.comment?.created) {
+        this.comment.created = false;
       }
     }
     this.slideAnimationState = 'visible';
@@ -511,9 +513,7 @@ export class CommentComponent implements OnInit, AfterViewInit {
   }
 
   getResponses() {
-    this.roomDataService.getRoomDataOnce(false, this.moderator).subscribe(data => {
-      this.responses = data.filter(resp => resp.commentReference === this.comment.id);
-    });
+    this.responses = [...this.comment.children];
   }
 
   toggleNotifications() {

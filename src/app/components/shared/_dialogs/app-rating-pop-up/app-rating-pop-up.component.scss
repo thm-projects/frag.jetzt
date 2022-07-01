@@ -58,7 +58,7 @@
   margin-bottom: 0.75em;
 
   > mat-icon {
-    color: #bfbf00;
+    color: var(--yellow);
   }
 }
 
@@ -94,11 +94,14 @@
       }
 
       .mat-progress-bar-buffer {
-        background: slategray;
+        background: var(--background);
+        border: 1px solid var(--on-dialog);
+        height: calc(1em - 2px);
+        width: calc(100% - 2px);
       }
 
       .mat-progress-bar-fill::after {
-        background: #dfdf00;
+        background: var(--yellow);
       }
     }
   }
