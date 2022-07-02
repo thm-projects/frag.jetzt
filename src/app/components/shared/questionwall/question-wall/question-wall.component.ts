@@ -21,8 +21,9 @@ import {
   IntroductionQuestionWallComponent
 } from '../../_dialogs/introductions/introduction-question-wall/introduction-question-wall.component';
 import { FilterType, Period, PeriodKey, SortType } from '../../../../utils/data-filter-object.lib';
-import { DataFilterObject } from '../../../../utils/data-filter-object';
 import { ArsDateFormatter } from '../../../../../../projects/ars/src/lib/services/ars-date-formatter.service';
+import { FilteredDataAccess } from '../../../../utils/filtered-data-access';
+import { forkJoin } from 'rxjs';
 
 
 interface CommentCache {
@@ -116,7 +117,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   room: Room = null;
   period: Period;
   private readonly commentCache: CommentCache = {};
-  private _filterObj: DataFilterObject;
+  private _filterObj: FilteredDataAccess;
 
   constructor(
     private authenticationService: AuthenticationService,
@@ -142,12 +143,11 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
       this.translateService.use(lang);
       currentTimeFormat = lang.toUpperCase() === 'DE' ? TIME_FORMAT_DE : TIME_FORMAT_EN;
     });
-    this._filterObj = new DataFilterObject('presentation', this.roomDataService,
-      this.authenticationService, this.sessionService, { ignoreRoleSort: true, sortType: SortType.Score });
+    this._filterObj = FilteredDataAccess.buildNormalAccess(this.sessionService, this.roomDataService, false, true, 'presentation');
   }
 
   get hasFilter() {
-    return !!this._filterObj.filter.filterType;
+    return Boolean(this._filterObj.dataFilter.filterType);
   }
 
   public wrap<E>(e: E, action: (e: E) => void) {
@@ -189,8 +189,20 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
         this.user = newUser;
       }
     });
-    this._filterObj.subscribe(() => this.onUpdateFiltering());
-    this.sessionService.getRoomOnce().pipe(mergeMap(_ => this.roomDataService.receiveUpdates([
+    forkJoin([
+      this.sessionService.getRoomOnce(),
+      this.sessionService.getModeratorsOnce(),
+    ]).subscribe(([room, mods]) => {
+      this._filterObj.attach({
+        moderatorIds: new Set<string>(mods.map(m => m.accountId)),
+        userId: this.user.id,
+        threshold: room.threshold,
+        ownerId: room.ownerId,
+        roomId: room.id,
+      });
+      this._filterObj.getFilteredData().subscribe(() => this.onUpdateFiltering());
+    });
+    this.sessionService.getRoomOnce().pipe(mergeMap(_ => this.roomDataService.dataAccessor.receiveUpdates([
       { type: 'CommentCreated' }
     ]))).subscribe(c => {
       if (c.finished) {
@@ -238,7 +250,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this._filterObj.unload();
+    this._filterObj.detach();
     this.keySupport.destroy();
     window.clearInterval(this.timeUpdateInterval);
     document.getElementById('header_rescale').style.display = 'block';
@@ -372,10 +384,10 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   sort(sortType: SortType, reverse?: boolean) {
-    const filter = this._filterObj.filter;
+    const filter = this._filterObj.dataFilter;
     filter.sortType = sortType;
     filter.sortReverse = Boolean(reverse);
-    this._filterObj.filter = filter;
+    this._filterObj.dataFilter = filter;
   }
 
   filterFavorites() {
@@ -383,10 +395,10 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     this.isSvgIcon = false;
     this.filterTitle = 'question-wall.filter-favorite';
     this.filterDesc = '';
-    const filter = this._filterObj.filter;
+    const filter = this._filterObj.dataFilter;
     filter.filterCompare = null;
     filter.filterType = FilterType.Favorite;
-    this._filterObj.filter = filter;
+    this._filterObj.dataFilter = filter;
   }
 
   filterUser(comment: Comment) {
@@ -398,10 +410,10 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     this.isSvgIcon = false;
     this.filterTitle = 'question-wall.filter-user';
     this.filterDesc = '';
-    const filter = this._filterObj.filter;
+    const filter = this._filterObj.dataFilter;
     filter.filterCompare = user;
     filter.filterType = FilterType.CreatorId;
-    this._filterObj.filter = filter;
+    this._filterObj.dataFilter = filter;
   }
 
   filterBookmark() {
@@ -409,10 +421,10 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     this.isSvgIcon = false;
     this.filterTitle = 'question-wall.filter-bookmark';
     this.filterDesc = '';
-    const filter = this._filterObj.filter;
+    const filter = this._filterObj.dataFilter;
     filter.filterCompare = null;
     filter.filterType = FilterType.Bookmark;
-    this._filterObj.filter = filter;
+    this._filterObj.dataFilter = filter;
   }
 
   filterTag(tag: string) {
@@ -420,17 +432,17 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     this.isSvgIcon = false;
     this.filterTitle = '';
     this.filterDesc = tag;
-    const filter = this._filterObj.filter;
+    const filter = this._filterObj.dataFilter;
     filter.filterCompare = tag;
     filter.filterType = FilterType.Tag;
-    this._filterObj.filter = filter;
+    this._filterObj.dataFilter = filter;
   }
 
   deactivateFilter() {
-    const filter = this._filterObj.filter;
+    const filter = this._filterObj.dataFilter;
     filter.filterType = null;
     filter.filterCompare = null;
-    this._filterObj.filter = filter;
+    this._filterObj.dataFilter = filter;
   }
 
   sliderChange(evt: MatSliderChange) {
@@ -444,9 +456,8 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onUpdateFiltering() {
-    const result = this._filterObj.currentData;
-    this.comments = result.comments.filter(c => c.commentReference === null);
-    const filter = this._filterObj.filter;
+    this.comments = [...this._filterObj.getCurrentData()];
+    const filter = this._filterObj.dataFilter;
     this.period = filter.period;
     this.isLoading = false;
     const current = new Date().getTime();
@@ -476,9 +487,10 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   setTimePeriod(period: PeriodKey) {
-    const filter = this._filterObj.filter;
+    const filter = this._filterObj.dataFilter;
     filter.period = Period[period];
-    this._filterObj.filter = filter;
+    filter.timeFilterStart = Date.now();
+    this._filterObj.dataFilter = filter;
   }
 
   getCommentIcon(comment: Comment): string {

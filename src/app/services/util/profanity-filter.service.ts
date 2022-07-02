@@ -90,10 +90,12 @@ export class ProfanityFilterService {
     localStorage.removeItem(this.profanityKey);
   }
 
-  filterProfanityWords(str: string,
-                       censorPartialWordsCheck: boolean,
-                       censorLanguageSpecificCheck: boolean,
-                       lang?: string): [string, boolean] {
+  filterProfanityWords(
+    str: string,
+    censorPartialWordsCheck: boolean,
+    censorLanguageSpecificCheck: boolean,
+    lang?: string
+  ): [string, boolean] {
     let profWords: any[];
     if (censorLanguageSpecificCheck) {
       profWords = BadWords[(lang !== 'AUTO' ? lang.toLowerCase() : this.languageService.currentLanguage())];

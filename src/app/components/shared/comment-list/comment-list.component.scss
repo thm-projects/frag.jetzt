@@ -1,5 +1,22 @@
 $joyrideElementPadding: 5px;
 
+.inline-count-badge {
+  float: right;
+  margin-top: 1.75em;
+  width: 1.75em;
+}
+
+.number-icon-button {
+  input {
+    margin-right: -1.75em;
+  }
+
+  .numbers > mat-icon {
+    font-size: 1.25em;
+    line-height: 1.5em;
+  }
+}
+
 app-comment {
   overflow: auto;
   overflow-wrap: break-word;

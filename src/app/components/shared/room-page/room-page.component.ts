@@ -119,7 +119,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
         });
         this.onDestroyListener.subscribe(() => roomSub.unsubscribe());
         this.updateResponseCounter();
-        const sub = this.roomDataService.receiveUpdates([
+        const sub = this.roomDataService.dataAccessor.receiveUpdates([
           { type: 'CommentCreated', finished: true },
           { type: 'CommentDeleted', finished: true },
           { type: 'CommentPatched', finished: true, updates: ['ack'] }
@@ -430,8 +430,8 @@ export class RoomPageComponent implements OnInit, OnDestroy {
         class: 'material-icons-outlined',
         text: 'header.import-questions',
         callback: () => this.importQuestions().subscribe(),
-        condition: () => (this.roomDataService.getCurrentRoomData()?.length || 0) +
-          (this.roomDataService.getCurrentRoomData(true)?.length || 0) === 0 &&
+        condition: () => (this.roomDataService.dataAccessor.currentRawComments()?.length || 0) +
+          (this.roomDataService.moderatorDataAccessor.currentRawComments()?.length || 0) === 0 &&
           this.user.id === this.room.ownerId,
       });
       e.menuItem({

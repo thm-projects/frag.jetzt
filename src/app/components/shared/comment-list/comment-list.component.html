@@ -119,6 +119,12 @@
               [ngClass]="{'selected': periodItem === period}"
               aria-labelledby="{{periodItem}}">
         <span>{{ ('comment-list.select-' + periodItem) | translate }}</span>
+        <span class="inline-count-badge"
+              *ngIf="periodItem !== 'FromNow'"
+              [matBadge]="periodCounts?.[periodItem] || 0"
+              matBadgeColor="secondary"
+              matBadgeSize="medium">
+        </span>
       </button>
     </div>
   </mat-menu>
@@ -194,6 +200,11 @@
         </mat-icon>
         <span
           [ngClass]="{Favorite: 'favorite-icon'}[filterType]">{{ 'comment-list.filter-favorite' | translate }}</span>
+        <span class="inline-count-badge"
+              [matBadge]="filterTypeCounts?.['Favorite'] || 0"
+              matBadgeColor="secondary"
+              matBadgeSize="medium">
+        </span>
       </button>
 
       <button mat-menu-item
@@ -204,6 +215,11 @@
         </mat-icon>
         <span
           [ngClass]="{Conversation: 'conversation-icon'}[filterType]">{{ 'comment-list.filter-conversation' | translate }}</span>
+        <span class="inline-count-badge"
+              [matBadge]="filterTypeCounts?.['Conversation'] || 0"
+              matBadgeColor="secondary"
+              matBadgeSize="medium">
+        </span>
       </button>
 
       <button mat-menu-item
@@ -214,6 +230,11 @@
         </mat-icon>
         <span
           [ngClass]="{Bookmark: 'bookmark-icon'}[filterType]">{{ 'comment-list.filter-bookmark' | translate }}</span>
+        <span class="inline-count-badge"
+              [matBadge]="filterTypeCounts?.['Bookmark'] || 0"
+              matBadgeColor="secondary"
+              matBadgeSize="medium">
+        </span>
       </button>
 
       <button mat-menu-item
@@ -224,6 +245,11 @@
         </mat-icon>
         <span
           [ngClass]="{NotBookmarked: 'not_bookmarked-icon'}[filterType]">{{ 'comment-list.filter-not_bookmarked' | translate }}</span>
+        <span class="inline-count-badge"
+              [matBadge]="filterTypeCounts?.['NotBookmarked'] || 0"
+              matBadgeColor="secondary"
+              matBadgeSize="medium">
+        </span>
       </button>
 
       <button mat-menu-item
@@ -234,6 +260,11 @@
         </mat-icon>
         <span
           [ngClass]="{Answer: 'answered-icon'}[filterType]">{{ 'comment-list.filter-answered' | translate }}</span>
+        <span class="inline-count-badge"
+              [matBadge]="filterTypeCounts?.['Answer'] || 0"
+              matBadgeColor="secondary"
+              matBadgeSize="medium">
+        </span>
       </button>
 
       <button mat-menu-item
@@ -244,6 +275,11 @@
         </mat-icon>
         <span
           [ngClass]="{Unanswered: 'unanswered-icon'}[filterType]">{{ 'comment-list.filter-unanswered' | translate }}</span>
+        <span class="inline-count-badge"
+              [matBadge]="filterTypeCounts?.['Unanswered'] || 0"
+              matBadgeColor="secondary"
+              matBadgeSize="medium">
+        </span>
       </button>
 
       <button mat-menu-item
@@ -253,6 +289,11 @@
           person
         </mat-icon>
         <span [ngClass]="{Owner: 'owner-icon'}[filterType]">{{ 'comment-list.filter-owner' | translate }}</span>
+        <span class="inline-count-badge"
+              [matBadge]="filterTypeCounts?.['Owner'] || 0"
+              matBadgeColor="secondary"
+              matBadgeSize="medium">
+        </span>
       </button>
 
       <button mat-menu-item
@@ -263,13 +304,19 @@
         <span [ngClass]="{BrainstormingQuestion: 'brainstorm-icon'}[filterType]">
           {{ 'comment-list.filter-brainstorm' | translate }}
         </span>
+        <span class="inline-count-badge"
+              [matBadge]="filterTypeCounts?.['BrainstormingQuestion'] || 0"
+              matBadgeColor="secondary"
+              matBadgeSize="medium">
+        </span>
       </button>
 
       <button mat-menu-item
+              class="number-icon-button"
               role="menuitem"
               (click)="$event.stopImmediatePropagation()">
         <mat-form-field>
-          <mat-label [ngClass]="{Number: 'number-icon'}[filterType]">
+          <mat-label class="numbers" [ngClass]="{Number: 'number-icon'}[filterType]">
             <mat-icon class="material-icons-outlined" [ngClass]="{Number: 'number-icon'}[filterType]">
               numbers
             </mat-icon>
@@ -304,6 +351,11 @@
         </mat-icon>
         <span [ngClass]="{Censored: 'censored-icon'}[filterType]">
           {{ 'comment-list.filter-censored' | translate }}
+        </span>
+        <span class="inline-count-badge"
+              [matBadge]="filterTypeCounts?.['Censored'] || 0"
+              matBadgeColor="secondary"
+              matBadgeSize="medium">
         </span>
       </button>
 
@@ -351,7 +403,7 @@
 <div *ngIf="!isLoading">
   <app-comment
     *ngFor="let current of getSlicedComments(); let i = index"
-    [isRemoved]="current?.meta?.removed"
+    [isRemoved]="current?.removed"
     [appScrollIntoView]="current.id === focusCommentId"
     [usesJoyride]="requestJoyride(current)"
     [comment]="current"

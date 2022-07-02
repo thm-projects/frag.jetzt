@@ -13,14 +13,14 @@ import { VoteService } from '../../../services/http/vote.service';
 import { NotificationService } from '../../../services/util/notification.service';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { EventService } from '../../../services/util/event.service';
-import { Subscription } from 'rxjs';
+import { forkJoin, Subject, Subscription, takeUntil } from 'rxjs';
 import { AppComponent } from '../../../app.component';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '../../../services/http/authentication.service';
 import { TitleService } from '../../../services/util/title.service';
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
 import { CreateCommentWrapper } from '../../../utils/create-comment-wrapper';
-import { CommentWithMeta, RoomDataService, UpdateInformation } from '../../../services/util/room-data.service';
+import { RoomDataService } from '../../../services/util/room-data.service';
 import { OnboardingService } from '../../../services/util/onboarding.service';
 import { PageEvent } from '@angular/material/paginator';
 import { ViewCommentDataComponent } from '../view-comment-data/view-comment-data.component';
@@ -45,7 +45,8 @@ import {
   SortType,
   SortTypeKey
 } from '../../../utils/data-filter-object.lib';
-import { DataFilterObject } from '../../../utils/data-filter-object';
+import { CommentPatchedKeyInformation, ForumComment } from '../../../utils/data-accessor';
+import { FilteredDataAccess, FilterTypeCounts, PeriodCounts } from '../../../utils/filtered-data-access';
 
 @Component({
   selector: 'app-comment-list',
@@ -57,7 +58,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
   @ViewChild('filterMenuTrigger') filterMenuTrigger: MatMenuTrigger;
   user: User;
   AppComponent = AppComponent;
-  comments: CommentWithMeta[] = [];
+  comments: ForumComment[] = [];
   commentsFilteredByTimeLength: number;
   room: Room;
   userRole: UserRole;
@@ -88,17 +89,19 @@ export class CommentListComponent implements OnInit, OnDestroy {
   questionNumberOptions: string[] = [];
   searchString: string;
   filterType: FilterType;
+  filterTypeCounts: FilterTypeCounts;
   sortType: SortType;
   sortReverse: boolean;
   period: Period;
+  periodCounts: PeriodCounts;
   moderatorAccountIds: Set<string>;
   hasGivenJoyride = false;
   private firstReceive = true;
   private _allQuestionNumberOptions: string[] = [];
   private _list: ComponentRef<any>[];
-  private _filterObject: DataFilterObject;
-  private _cloudFilterObject: DataFilterObject;
-  private _headerSubscription: Subscription;
+  private _filterObject: FilteredDataAccess;
+  private _cloudFilterObject: FilteredDataAccess;
+  private _destroySubject = new Subject();
 
   constructor(
     private commentService: CommentService,
@@ -141,14 +144,13 @@ export class CommentListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this._filterObject = new DataFilterObject('commentList', this.roomDataService,
-      this.authenticationService, this.sessionService);
-    this._cloudFilterObject = new DataFilterObject('commentList', this.roomDataService,
-      this.authenticationService, this.sessionService);
-    const filter = this._cloudFilterObject.filter;
+    this._filterObject = FilteredDataAccess
+      .buildNormalAccess(this.sessionService, this.roomDataService, false, true, 'commentList');
+    this._cloudFilterObject = FilteredDataAccess
+      .buildNormalAccess(this.sessionService, this.roomDataService, true, false, 'tagCloud');
+    const filter = this._cloudFilterObject.dataFilter;
     filter.resetToDefault();
-    this._cloudFilterObject.filter = filter;
-    this.cloudDataService.filterObject = this._cloudFilterObject;
+    this._cloudFilterObject.dataFilter = filter;
     this.initNavigation();
     const data = localStorage.getItem('commentListPageSize');
     this.pageSize = data ? +data || this.pageSize : this.pageSize;
@@ -169,18 +171,38 @@ export class CommentListComponent implements OnInit, OnDestroy {
       });
     });
     this.userRole = this.sessionService.currentRole;
-    this.sessionService.getRoomOnce().subscribe(room => {
-      this.sessionService.getModeratorsOnce().subscribe(mods => {
-        this.moderatorAccountIds = new Set<string>(mods.map(m => m.accountId));
-      });
+    forkJoin([
+      this.sessionService.getRoomOnce(),
+      this.sessionService.getModeratorsOnce(),
+    ]).subscribe(([room, mods]) => {
       this.receiveRoom(room);
-      this.sessionService.receiveRoomUpdates().subscribe(_room => this.receiveRoom(_room));
+      this.moderatorAccountIds = new Set<string>(mods.map(m => m.accountId));
+      this.sessionService.receiveRoomUpdates().subscribe(_room => this.receiveRoom(_room as Room));
       this.createCommentWrapper = new CreateCommentWrapper(this.translateService,
         this.notificationService, this.commentService, this.dialog, this.sessionService.currentRoom);
-      this.roomDataService.getRoomDataOnce().subscribe(comments => {
-        this.generateKeywordsIfEmpty(comments);
-        this._filterObject.subscribe(() => this.onRefreshFiltering());
+      this._filterObject.attach({
+        userId: this.user.id,
+        roomId: room.id,
+        ownerId: room.ownerId,
+        threshold: room.threshold,
+        moderatorIds: this.moderatorAccountIds,
       });
+      let hasUpdated = false;
+      this._filterObject.getFilteredData().subscribe(() => {
+        if (!hasUpdated) {
+          hasUpdated = true;
+          this.generateKeywordsIfEmpty([...this._filterObject.getSourceData()]);
+        }
+        this.onRefreshFiltering();
+      });
+      this._cloudFilterObject.attach({
+        userId: this.user.id,
+        roomId: room.id,
+        ownerId: room.ownerId,
+        threshold: room.threshold,
+        moderatorIds: this.moderatorAccountIds,
+      });
+      this.cloudDataService.filterObject = this._cloudFilterObject;
       this.subscribeCommentStream();
     });
     this.translateService.get('comment-list.search').subscribe(msg => {
@@ -189,9 +211,10 @@ export class CommentListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this._headerSubscription?.unsubscribe();
-    this._cloudFilterObject.unload();
-    this._filterObject.unload();
+    this._destroySubject.next(true);
+    this._destroySubject.complete();
+    this._cloudFilterObject.detach();
+    this._filterObject.detach();
     this._list?.forEach(e => e.destroy());
     this.commentStream?.unsubscribe();
     this.titleService.resetTitle();
@@ -214,9 +237,9 @@ export class CommentListComponent implements OnInit, OnDestroy {
     if (!this.searchString) {
       return;
     }
-    const filter = this._filterObject.filter;
+    const filter = this._filterObject.dataFilter;
     filter.currentSearch = this.searchString;
-    this._filterObject.filter = filter;
+    this._filterObject.dataFilter = filter;
   }
 
   activateSearch() {
@@ -227,25 +250,24 @@ export class CommentListComponent implements OnInit, OnDestroy {
   abortSearch() {
     this.search = false;
     this.searchString = '';
-    const filter = this._filterObject.filter;
+    const filter = this._filterObject.dataFilter;
     filter.currentSearch = '';
-    this._filterObject.filter = filter;
+    this._filterObject.dataFilter = filter;
   }
 
   onRefreshFiltering(): void {
-    const result = this._filterObject.currentData;
-    this.comments = result.comments.filter(c => c.commentReference === null);
-    this.commentsFilteredByTimeLength = result.timeFilteredCount;
+    this.comments = [...this._filterObject.getCurrentData()];
+    this.commentsFilteredByTimeLength = this._filterObject.getCurrentPeriodCount();
     this.isLoading = false;
     if (this.comments.length > 0 && this.firstReceive) {
       this.firstReceive = false;
-      if (this._filterObject.filter.currentSearch) {
+      if (this._filterObject.dataFilter.currentSearch) {
         this.search = true;
       }
       this.setFocusedComment(localStorage.getItem('answeringQuestion'));
       this.isJoyrideActive = this.onboardingService.startDefaultTour();
     }
-    const allComments = this.roomDataService.getCurrentRoomData().filter(c => c.commentReference === null);
+    const allComments = [...this._filterObject.getSourceData()];
     allComments.sort((a, b) => numberSorter(a.number, b.number));
     this._allQuestionNumberOptions = allComments.map(c => Comment.computePrettyCommentNumber(this.translateService, c)
       .join(' '));
@@ -261,11 +283,13 @@ export class CommentListComponent implements OnInit, OnDestroy {
       set.add(comment.id);
     }
     this.titleService.attachTitle('(' + this.commentsFilteredByTimeLength + ')');
-    const filter = this._filterObject.filter;
+    const filter = this._filterObject.dataFilter;
     this.filterType = filter.filterType;
     this.sortType = filter.sortType;
     this.sortReverse = filter.sortReverse;
     this.period = filter.period;
+    this.periodCounts = this._filterObject.getPeriodCounts();
+    this.filterTypeCounts = this._filterObject.getFilterTypeCounts();
   }
 
   getVote(comment: Comment): Vote {
@@ -280,17 +304,17 @@ export class CommentListComponent implements OnInit, OnDestroy {
 
   applyFilterByKey(type: FilterTypeKey, compare?: any): void {
     this.pageIndex = 0;
-    const filter = this._filterObject.filter;
+    const filter = this._filterObject.dataFilter;
     filter.filterType = FilterType[type];
     filter.filterCompare = compare;
-    this._filterObject.filter = filter;
+    this._filterObject.dataFilter = filter;
   }
 
   applySortingByKey(type: SortTypeKey, reverse = false) {
-    const filter = this._filterObject.filter;
+    const filter = this._filterObject.dataFilter;
     filter.sortType = SortType[type];
     filter.sortReverse = reverse;
-    this._filterObject.filter = filter;
+    this._filterObject.dataFilter = filter;
   }
 
   votedComment(voteInfo: string) {
@@ -299,9 +323,9 @@ export class CommentListComponent implements OnInit, OnDestroy {
 
   activateCommentStream(freezed: boolean) {
     this.freeze = freezed;
-    const filter = this._filterObject.filter;
-    filter.freezedAt = freezed ? new Date().getTime() : null;
-    this._filterObject.filter = filter;
+    const filter = this._filterObject.dataFilter;
+    filter.frozenAt = freezed ? new Date().getTime() : null;
+    this._filterObject.dataFilter = filter;
     let message: string;
     if (freezed) {
       this.commentStream?.unsubscribe();
@@ -317,7 +341,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
 
   subscribeCommentStream() {
     let wasUpdate = false;
-    this.commentStream = this.roomDataService.receiveUpdates([
+    this.commentStream = this.roomDataService.dataAccessor.receiveUpdates([
       { type: 'CommentCreated', finished: true },
       { type: 'CommentPatched', subtype: 'favorite' },
       { finished: true }
@@ -328,7 +352,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
           wasUpdate = true;
         }
       } else if (update.type === 'CommentPatched') {
-        this.onCommentPatched(update);
+        this.onCommentPatched(update as CommentPatchedKeyInformation);
       }
       if (update.finished && wasUpdate) {
         this.setFocusedComment(this.sendCommentId);
@@ -371,12 +395,10 @@ export class CommentListComponent implements OnInit, OnDestroy {
   }
 
   setTimePeriod(period?: PeriodKey) {
-    const filter = this._filterObject.filter;
-    if (period) {
-      filter.period = Period[period];
-      filter.fromNow = null;
-    }
-    this._filterObject.filter = filter;
+    const filter = this._filterObject.dataFilter;
+    filter.period = Period[period];
+    filter.timeFilterStart = Date.now();
+    this._filterObject.dataFilter = filter;
   }
 
   isInCommentNumbers(value: string): boolean {
@@ -387,10 +409,11 @@ export class CommentListComponent implements OnInit, OnDestroy {
     if (!this.isInCommentNumbers(questionNumber.value)) {
       return;
     }
+    const value = questionNumber.value.match(/\d+/g)[0];
     autoComplete.closePanel();
     this.questionNumberFormControl.setValue('');
     menu.closeMenu();
-    this.applyFilterByKey('Number', +questionNumber.value);
+    this.applyFilterByKey('Number', value);
   }
 
   isCommentListEmpty(): boolean {
@@ -399,7 +422,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
       !this.isLoading;
   }
 
-  getSlicedComments(): CommentWithMeta[] {
+  getSlicedComments(): ForumComment[] {
     const start = this.pageIndex * this.pageSize;
     const end = start + this.pageSize;
     this.hasGivenJoyride = false;
@@ -417,7 +440,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
     return false;
   }
 
-  private onCommentPatched(update: UpdateInformation) {
+  private onCommentPatched(update: CommentPatchedKeyInformation) {
     if (update.subtype === 'favorite') {
       if (this.user.id === update.comment.creatorId && this.userRole === UserRole.PARTICIPANT &&
         this.room?.bonusArchiveActive) {
@@ -454,11 +477,13 @@ export class CommentListComponent implements OnInit, OnDestroy {
   }
 
   private initNavigation(): void {
-    this._headerSubscription = this.eventService.on<string>('navigate').subscribe(action => {
-      if (action === 'topic-cloud') {
-        this.navigateTopicCloud();
-      }
-    });
+    this.eventService.on<string>('navigate')
+      .pipe(takeUntil(this._destroySubject))
+      .subscribe(action => {
+        if (action === 'topic-cloud') {
+          this.navigateTopicCloud();
+        }
+      });
     /* eslint-disable @typescript-eslint/no-shadow */
     this._list = this.composeService.builder(this.headerService.getHost(), e => {
       e.menuItem({
