@@ -208,21 +208,6 @@
       </button>
 
       <button mat-menu-item
-              (click)="applyFilterByKey('Conversation')"
-              aria-labelledby="conversation">
-        <mat-icon class="conversation-icon material-icons-round">
-          forum
-        </mat-icon>
-        <span
-          [ngClass]="{Conversation: 'conversation-icon'}[filterType]">{{ 'comment-list.filter-conversation' | translate }}</span>
-        <span class="inline-count-badge"
-              [matBadge]="filterTypeCounts?.['Conversation'] || 0"
-              matBadgeColor="secondary"
-              matBadgeSize="medium">
-        </span>
-      </button>
-
-      <button mat-menu-item
               (click)="applyFilterByKey('Bookmark')"
               aria-labelledby="bookmark">
         <mat-icon class="bookmark" style="color: purple"
@@ -232,51 +217,6 @@
           [ngClass]="{Bookmark: 'bookmark-icon'}[filterType]">{{ 'comment-list.filter-bookmark' | translate }}</span>
         <span class="inline-count-badge"
               [matBadge]="filterTypeCounts?.['Bookmark'] || 0"
-              matBadgeColor="secondary"
-              matBadgeSize="medium">
-        </span>
-      </button>
-
-      <button mat-menu-item
-              (click)="applyFilterByKey('NotBookmarked')"
-              aria-labelledby="not-bookmark">
-        <mat-icon class="not_bookmarked"
-                  [ngClass]="{NotBookmarked: 'not_bookmarked-icon'}[filterType]">bookmark_border
-        </mat-icon>
-        <span
-          [ngClass]="{NotBookmarked: 'not_bookmarked-icon'}[filterType]">{{ 'comment-list.filter-not_bookmarked' | translate }}</span>
-        <span class="inline-count-badge"
-              [matBadge]="filterTypeCounts?.['NotBookmarked'] || 0"
-              matBadgeColor="secondary"
-              matBadgeSize="medium">
-        </span>
-      </button>
-
-      <button mat-menu-item
-              (click)="applyFilterByKey('Answer')"
-              aria-labelledby="comment">
-        <mat-icon class="answer" style="color: var(--primary)"
-                  [ngClass]="{Answer: 'answered-icon'}[filterType]">comment
-        </mat-icon>
-        <span
-          [ngClass]="{Answer: 'answered-icon'}[filterType]">{{ 'comment-list.filter-answered' | translate }}</span>
-        <span class="inline-count-badge"
-              [matBadge]="filterTypeCounts?.['Answer'] || 0"
-              matBadgeColor="secondary"
-              matBadgeSize="medium">
-        </span>
-      </button>
-
-      <button mat-menu-item
-              (click)="applyFilterByKey('Unanswered')"
-              aria-labelledby="comment">
-        <mat-icon class="unanswered material-icons-outlined"
-                  [ngClass]="{Unanswered: 'unanswered-icon'}[filterType]">comment
-        </mat-icon>
-        <span
-          [ngClass]="{Unanswered: 'unanswered-icon'}[filterType]">{{ 'comment-list.filter-unanswered' | translate }}</span>
-        <span class="inline-count-badge"
-              [matBadge]="filterTypeCounts?.['Unanswered'] || 0"
               matBadgeColor="secondary"
               matBadgeSize="medium">
         </span>
@@ -297,8 +237,53 @@
       </button>
 
       <button mat-menu-item
+              (click)="applyFilterByKey('Conversation')"
+              aria-labelledby="conversation">
+        <mat-icon class="conversation-icon material-icons-outlined">
+          question_answer
+        </mat-icon>
+        <span
+          [ngClass]="{Conversation: 'conversation-icon'}[filterType]">{{ 'comment-list.filter-conversation' | translate }}</span>
+        <span class="inline-count-badge"
+              [matBadge]="filterTypeCounts?.['Conversation'] || 0"
+              matBadgeColor="secondary"
+              matBadgeSize="medium">
+        </span>
+      </button>
+
+      <button mat-menu-item
+              (click)="applyFilterByKey('Answer')"
+              aria-labelledby="comment">
+        <mat-icon class="answer" style="color: var(--primary)"
+                  [ngClass]="{Answer: 'answered-icon'}[filterType]">co_present
+        </mat-icon>
+        <span
+          [ngClass]="{Answer: 'answered-icon'}[filterType]">{{ 'comment-list.filter-answered' | translate }}</span>
+        <span class="inline-count-badge"
+              [matBadge]="filterTypeCounts?.['Answer'] || 0"
+              matBadgeColor="secondary"
+              matBadgeSize="medium">
+        </span>
+      </button>
+
+      <button mat-menu-item
+              (click)="applyFilterByKey('Unanswered')"
+              aria-labelledby="comment">
+        <mat-icon class="unanswered material-icons-outlined"
+                  [ngClass]="{Unanswered: 'unanswered-icon'}[filterType]">hourglass_bottom
+        </mat-icon>
+        <span
+          [ngClass]="{Unanswered: 'unanswered-icon'}[filterType]">{{ 'comment-list.filter-unanswered' | translate }}</span>
+        <span class="inline-count-badge"
+              [matBadge]="filterTypeCounts?.['Unanswered'] || 0"
+              matBadgeColor="secondary"
+              matBadgeSize="medium">
+        </span>
+      </button>
+
+      <button mat-menu-item
               (click)="applyFilterByKey('BrainstormingQuestion')">
-        <mat-icon class="material-icons-outlined" [ngClass]="{BrainstormingQuestion: 'brainstorm-icon'}[filterType]">
+        <mat-icon class="material-icons" [ngClass]="{BrainstormingQuestion: 'brainstorm-icon'}[filterType]">
           psychology_alt
         </mat-icon>
         <span [ngClass]="{BrainstormingQuestion: 'brainstorm-icon'}[filterType]">
@@ -312,13 +297,28 @@
       </button>
 
       <button mat-menu-item
+              (click)="applyFilterByKey('Censored')">
+        <mat-icon class="material-icons-outlined" [ngClass]="{Censored: 'censored-icon'}[filterType]">
+          password
+        </mat-icon>
+        <span [ngClass]="{Censored: 'censored-icon'}[filterType]">
+          {{ 'comment-list.filter-censored' | translate }}
+        </span>
+        <span class="inline-count-badge"
+              [matBadge]="filterTypeCounts?.['Censored'] || 0"
+              matBadgeColor="secondary"
+              matBadgeSize="medium">
+        </span>
+      </button>
+
+      <button mat-menu-item
               class="number-icon-button"
               role="menuitem"
               (click)="$event.stopImmediatePropagation()">
         <mat-form-field>
           <mat-label class="numbers" [ngClass]="{Number: 'number-icon'}[filterType]">
             <mat-icon class="material-icons-outlined" [ngClass]="{Number: 'number-icon'}[filterType]">
-              numbers
+            search
             </mat-icon>
             {{'comment-list.filter-question-number' | translate}}
           </mat-label>
@@ -342,21 +342,6 @@
             </mat-option>
           </mat-autocomplete>
         </mat-form-field>
-      </button>
-
-      <button mat-menu-item
-              (click)="applyFilterByKey('Censored')">
-        <mat-icon class="material-icons-outlined" [ngClass]="{Censored: 'censored-icon'}[filterType]">
-          visibility
-        </mat-icon>
-        <span [ngClass]="{Censored: 'censored-icon'}[filterType]">
-          {{ 'comment-list.filter-censored' | translate }}
-        </span>
-        <span class="inline-count-badge"
-              [matBadge]="filterTypeCounts?.['Censored'] || 0"
-              matBadgeColor="secondary"
-              matBadgeSize="medium">
-        </span>
       </button>
 
       <button mat-menu-item
