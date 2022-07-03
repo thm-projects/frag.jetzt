@@ -264,7 +264,7 @@
     "session-id": "Raum-Code …",
     "join-room": "Teilnehmen",
     "update-available": "Eine neue Version ist verfügbar.",
-    "custom-shortid": "Wie soll der Code lauten?",
+    "custom-shortid": "Wie soll der Raum-Code lauten?",
     "generated-shortid": "Raum-Code wird generiert.",
     "custom-shortid-placeholder": "Code aus: a-z A-Z 0-9 - _ ~ .",
     "invalid-shortid": "Dieser Raum-Code ist nicht verfügbar.",
