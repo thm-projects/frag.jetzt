@@ -621,7 +621,7 @@
     "description": "Description",
     "max-ls": "Max. characters:",
     "session-name": "Event name",
-    "edit-session-name": "Edit meeting name",
+    "edit-session-name": "Edit event title",
     "preview": "Preview"
   },
   "tag-cloud": {

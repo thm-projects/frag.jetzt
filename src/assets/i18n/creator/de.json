@@ -620,7 +620,7 @@
     "description": "Text",
     "max-ls": "Maximale Anzahl Zeichen:",
     "session-name": "Name der Veranstaltung",
-    "edit-session-name": "Name der Veranstaltung bearbeiten",
+    "edit-session-name": "Titel der Veranstaltung ändern",
     "preview": "Vorschau"
   },
   "tag-cloud-popup": {
