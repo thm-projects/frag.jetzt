@@ -129,14 +129,12 @@
         font-size: 40px;
         letter-spacing: 2px;
         padding-right: 10px;
-        padding-bottom: 10px;
         box-sizing: border-box;
-        font-weight: 600;
+        font-weight: bold;
         color: rgba(255, 255, 255, 0.2);
 
         > mat-icon {
-          font-size: 32px;
-          line-height: 32px;
+          font-size: 40px;
           width: 40px;
           height: 40px;
         }
@@ -252,8 +250,7 @@
           color: rgba(255, 255, 255, 0.2);
 
           > mat-icon {
-            font-size: 102px;
-            line-height: 102px;
+            font-size: 128px;
             width: 128px;
             height: 128px;
           }
