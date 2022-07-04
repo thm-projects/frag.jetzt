@@ -10,7 +10,7 @@
   }
 
   button:hover > * {
-    color: #ff8c00;
+    color: white;
   }
 
   .test {
@@ -33,7 +33,7 @@
     }
 
     &:hover * {
-      color: var(--ars-header-color);
+      color: white;
     }
 
   }
@@ -46,7 +46,7 @@
       font-size: 22px;
       line-height: 18px;
       padding: 0;
-      color: var(--ars-header-color);
+      color: darkorange;
       margin-right: -3px;
     }
 
@@ -111,12 +111,9 @@
 
       &-btn {
         > button > * {
-          color: var(--ars-button-color-light);
+          color: darkorange;
         }
 
-        > button:hover > * {
-          color: var(--ars-button-color);
-        }
       }
 
       &-notification {
@@ -304,7 +301,7 @@
   }
 
   .icon-color {
-    color: var(--ars-button-color);
+    color: darkorange;
 
     &-yellow {
       color: darkorange;
@@ -330,11 +327,11 @@
     }
 
     .mat-slider-thumb {
-      background-color: var(--ars-button-color);
+      background-color: darkorange;
     }
 
     .mat-slider-track-fill {
-      background-color: var(--ars-button-color);
+      background-color: darkorange;
     }
   }
 
@@ -513,5 +510,6 @@ h2 {
 }
 
 button > mat-icon {
+  color: darkorange;
   height: unset;
 }
