@@ -10,7 +10,7 @@
   }
 
   button:hover > * {
-    color: #ff8c00;
+    color: white;
   }
 
   .test {
@@ -33,7 +33,7 @@
     }
 
     &:hover * {
-      color: var(--ars-header-color);
+      color: white;
     }
 
   }
@@ -46,7 +46,7 @@
       font-size: 22px;
       line-height: 18px;
       padding: 0;
-      color: var(--ars-header-color);
+      color: darkorange;
       margin-right: -3px;
     }
 
@@ -111,12 +111,9 @@
 
       &-btn {
         > button > * {
-          color: var(--ars-button-color-light);
+          color: darkorange;
         }
 
-        > button:hover > * {
-          color: var(--ars-button-color);
-        }
       }
 
       &-notification {
@@ -132,14 +129,12 @@
         font-size: 40px;
         letter-spacing: 2px;
         padding-right: 10px;
-        padding-bottom: 10px;
         box-sizing: border-box;
-        font-weight: 600;
+        font-weight: bold;
         color: rgba(255, 255, 255, 0.2);
 
         > mat-icon {
-          font-size: 32px;
-          line-height: 32px;
+          font-size: 40px;
           width: 40px;
           height: 40px;
         }
@@ -255,8 +250,7 @@
           color: rgba(255, 255, 255, 0.2);
 
           > mat-icon {
-            font-size: 102px;
-            line-height: 102px;
+            font-size: 128px;
             width: 128px;
             height: 128px;
           }
@@ -304,7 +298,7 @@
   }
 
   .icon-color {
-    color: var(--ars-button-color);
+    color: darkorange;
 
     &-yellow {
       color: darkorange;
@@ -330,11 +324,11 @@
     }
 
     .mat-slider-thumb {
-      background-color: var(--ars-button-color);
+      background-color: darkorange;
     }
 
     .mat-slider-track-fill {
-      background-color: var(--ars-button-color);
+      background-color: darkorange;
     }
   }
 
@@ -513,5 +507,6 @@ h2 {
 }
 
 button > mat-icon {
+  color: darkorange;
   height: unset;
 }
