@@ -1,6 +1,7 @@
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { SerializedDelta } from './quill-utils';
 
 export interface MapperConfiguration {
   additional: string[];
@@ -111,9 +112,11 @@ export class ImportExportManager {
     });
   }
 
-  static createQuillMapper<T>(translationEmpty: string,
-                              access: (val: T) => string,
-                              fill: (val: string, t?: Partial<T>) => Partial<T>) {
+  static createQuillMapper<T>(
+    translationEmpty: string,
+    access: (val: T) => SerializedDelta,
+    fill: (val: string, t?: Partial<T>) => Partial<T>
+  ) {
     return {
       additionalLanguageKeys: [translationEmpty],
       valueMapper: {

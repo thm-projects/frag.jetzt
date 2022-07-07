@@ -1,4 +1,5 @@
 import { BrainstormingSession } from './brainstorming-session';
+import { ImmutableStandardDelta } from '../utils/quill-utils';
 
 export class Room {
   id: string;
@@ -6,7 +7,7 @@ export class Room {
   shortId: string;
   abbreviation: string;
   name: string;
-  description: string;
+  description: ImmutableStandardDelta;
   blacklist: string;
   closed: boolean;
   directSend: boolean;
@@ -31,7 +32,7 @@ export class Room {
     shortId: string = '',
     abbreviation: string = '',
     name: string = '',
-    description: string = '',
+    description: ImmutableStandardDelta = { ops: [] },
     blacklist: string = '[]',
     closed: boolean = false,
     directSend: boolean = true,

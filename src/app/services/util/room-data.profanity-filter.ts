@@ -3,9 +3,11 @@ import { Comment } from '../../models/comment';
 import { SpacyKeyword } from '../http/spacy.service';
 import { ProfanityFilterService } from './profanity-filter.service';
 import { ForumComment } from '../../utils/data-accessor';
+import { ImmutableStandardDelta } from '../../utils/quill-utils';
+import { clone } from '../../utils/ts-utils';
 
 export interface CommentFilterData {
-  body: string;
+  body: ImmutableStandardDelta;
   bodyCensored?: boolean;
   keywordsFromQuestioner: SpacyKeyword[];
   keywordsFromQuestionerCensored?: boolean[];
@@ -77,8 +79,8 @@ export class RoomDataProfanityFilter {
   private filterCommentOfProfanity(room: Room, comment: Comment): CommentFilterData {
     const partialWords = room.profanityFilter === ProfanityFilter.ALL || room.profanityFilter === ProfanityFilter.PARTIAL_WORDS;
     const languageSpecific = room.profanityFilter === ProfanityFilter.ALL || room.profanityFilter === ProfanityFilter.LANGUAGE_SPECIFIC;
-    const [body, bodyCensored] = this.profanityFilterService
-      .filterProfanityWords(comment.body, partialWords, languageSpecific, comment.language);
+    const [body, bodyCensored] = this
+      .checkQuill(comment.body, partialWords, languageSpecific, comment.language);
     const [keywordsFromSpacy, keywordsFromSpacyCensored] = this
       .checkKeywords(comment.keywordsFromSpacy, partialWords, languageSpecific, comment.language);
     const [keywordsFromQuestioner, keywordsFromQuestionerCensored] = this
@@ -95,6 +97,27 @@ export class RoomDataProfanityFilter {
       questionerName,
       questionerNameCensored,
     };
+  }
+
+  private checkQuill(
+    quillDelta: ImmutableStandardDelta,
+    partialWords: boolean,
+    languageSpecific: boolean,
+    lang: string,
+  ): [ImmutableStandardDelta, boolean] {
+    const newDelta = clone(quillDelta);
+    let censored = false;
+    newDelta.ops.forEach(op => {
+      if (typeof op.insert !== 'string') {
+        return;
+      }
+      const [text, textCensored] = this.profanityFilterService.filterProfanityWords(
+        op.insert, partialWords, languageSpecific, lang
+      );
+      censored = censored || textCensored;
+      op.insert = text;
+    });
+    return [newDelta, censored];
   }
 
   private checkKeywords(

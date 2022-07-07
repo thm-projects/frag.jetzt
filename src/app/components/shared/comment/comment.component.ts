@@ -29,6 +29,7 @@ import { DashboardNotificationService } from '../../../services/util/dashboard-n
 import { Room } from '../../../models/room';
 import { HttpClient } from '@angular/common/http';
 import { ForumComment } from '../../../utils/data-accessor';
+import { QuillUtils } from '../../../utils/quill-utils';
 
 @Component({
   selector: 'app-comment',
@@ -165,7 +166,7 @@ export class CommentComponent implements OnInit, AfterViewInit {
     if (this.comment?.created) {
       this.slideAnimationState = 'new';
     }
-    this.readableCommentBody = this.comment?.body ? ViewCommentDataComponent.getTextFromData(this.comment?.body?.trim()) : '';
+    this.readableCommentBody = this.comment?.body ? QuillUtils.getTextFromDelta(this.comment.body) : '';
     this.checkProfanity();
     switch (this.userRole) {
       case UserRole.PARTICIPANT.valueOf():

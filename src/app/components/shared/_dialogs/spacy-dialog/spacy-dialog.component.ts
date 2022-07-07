@@ -4,7 +4,7 @@ import { SpacyKeyword } from '../../../../services/http/spacy.service';
 import { Comment } from '../../../../models/comment';
 import { DialogActionButtonsComponent } from '../../dialog/dialog-action-buttons/dialog-action-buttons.component';
 import { ExplanationDialogComponent } from '../explanation-dialog/explanation-dialog.component';
-import { KeywordsResultType } from '../../../../utils/create-comment-keywords';
+import { KeywordsResultType } from '../../../../utils/keyword-extractor';
 
 export interface Keyword {
   word: string;

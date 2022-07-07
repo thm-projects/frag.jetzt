@@ -6,6 +6,8 @@ import { catchError, tap, map } from 'rxjs/operators';
 import { BaseHttpService } from './base-http.service';
 import { TSMap } from 'typescript-map';
 import { Vote } from '../../models/vote';
+import { QuillUtils, SerializedDelta, StandardDelta } from '../../utils/quill-utils';
+import { JSONString } from '../../utils/ts-utils';
 
 const httpOptions = {
   // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -21,6 +23,12 @@ interface CountRequest {
   roomId: string;
   ack: boolean;
 }
+
+export type CommentAPI = Omit<Comment, 'keywordsFromQuestioner' | 'keywordsFromSpacy' | 'body'> & {
+  keywordsFromQuestioner: JSONString;
+  keywordsFromSpacy: JSONString;
+  body: SerializedDelta;
+};
 
 @Injectable()
 export class CommentService extends BaseHttpService {
@@ -79,7 +87,7 @@ export class CommentService extends BaseHttpService {
 
   getComment(commentId: string): Observable<Comment> {
     const connectionUrl = `${this.apiUrl.base}${this.apiUrl.comment}/${commentId}`;
-    return this.http.get<Comment>(connectionUrl, httpOptions).pipe(
+    return this.http.get<CommentAPI>(connectionUrl, httpOptions).pipe(
       map(comment => this.parseComment(comment)),
       tap(_ => ''),
       catchError(this.handleError<Comment>('getComment'))
@@ -88,30 +96,31 @@ export class CommentService extends BaseHttpService {
 
   addComment(comment: Comment): Observable<Comment> {
     const connectionUrl = this.apiUrl.base + this.apiUrl.comment + '/';
-    return this.http.post<Comment>(connectionUrl,
+    return this.http.post<CommentAPI>(connectionUrl,
       {
-        roomId: comment.roomId, creatorId: comment.creatorId, body: comment.body, tag: comment.tag,
-        keywordsFromSpacy: JSON.stringify(comment.keywordsFromSpacy),
+        roomId: comment.roomId, creatorId: comment.creatorId, body: QuillUtils.serializeDelta(comment.body),
+        tag: comment.tag, keywordsFromSpacy: JSON.stringify(comment.keywordsFromSpacy),
         keywordsFromQuestioner: JSON.stringify(comment.keywordsFromQuestioner),
         language: comment.language, questionerName: comment.questionerName,
         brainstormingQuestion: comment.brainstormingQuestion, commentReference: comment.commentReference
       }, httpOptions).pipe(
+      map(c => this.parseComment(c)),
       tap(_ => ''),
       catchError(this.handleError<Comment>('addComment'))
     );
   }
 
-  deleteComment(commentId: string): Observable<Comment> {
+  deleteComment(commentId: string): Observable<void> {
     const connectionUrl = `${this.apiUrl.base + this.apiUrl.comment}/${commentId}`;
-    return this.http.delete<Comment>(connectionUrl, httpOptions).pipe(
+    return this.http.delete<void>(connectionUrl, httpOptions).pipe(
       tap(_ => ''),
-      catchError(this.handleError<Comment>('deleteComment'))
+      catchError(this.handleError<void>('deleteComment'))
     );
   }
 
   getAckComments(roomId: string): Observable<Comment[]> {
     const connectionUrl = this.apiUrl.base + this.apiUrl.comment + this.apiUrl.find;
-    return this.http.post<Comment[]>(connectionUrl, {
+    return this.http.post<CommentAPI[]>(connectionUrl, {
       properties: { roomId, ack: true },
       externalFilters: {}
     }, httpOptions).pipe(
@@ -123,7 +132,7 @@ export class CommentService extends BaseHttpService {
 
   getRejectedComments(roomId: string): Observable<Comment[]> {
     const connectionUrl = this.apiUrl.base + this.apiUrl.comment + this.apiUrl.find;
-    return this.http.post<Comment[]>(connectionUrl, {
+    return this.http.post<CommentAPI[]>(connectionUrl, {
       properties: { roomId, ack: false },
       externalFilters: {}
     }, httpOptions).pipe(
@@ -135,7 +144,7 @@ export class CommentService extends BaseHttpService {
 
   getComments(roomId: string): Observable<Comment[]> {
     const connectionUrl = this.apiUrl.base + this.apiUrl.comment + this.apiUrl.find;
-    return this.http.post<Comment[]>(connectionUrl, {
+    return this.http.post<CommentAPI[]>(connectionUrl, {
       properties: { roomId },
       externalFilters: {}
     }, httpOptions).pipe(
@@ -155,8 +164,8 @@ export class CommentService extends BaseHttpService {
 
   patchComment(comment: Comment, changes: TSMap<string, any>) {
     const connectionUrl = this.apiUrl.base + this.apiUrl.comment + '/' + comment.id;
-    return this.http.patch(connectionUrl, changes, httpOptions).pipe(
-      map(c => this.parseComment(c as Comment)),
+    return this.http.patch<CommentAPI>(connectionUrl, changes, httpOptions).pipe(
+      map(c => this.parseComment(c)),
       tap(_ => ''),
       catchError(this.handleError<any>('patchComment'))
     );
@@ -231,15 +240,15 @@ export class CommentService extends BaseHttpService {
   }
 
 
-  parseComment(comment: Comment): Comment {
+  parseComment(comment: CommentAPI): Comment {
+    const parsedComment = comment as unknown as Comment;
     if (!comment) {
-      return;
+      return parsedComment;
     }
-    comment.keywordsFromQuestioner = comment.keywordsFromQuestioner ?
-      JSON.parse(comment.keywordsFromQuestioner as unknown as string) : null;
-    comment.keywordsFromSpacy = comment.keywordsFromSpacy ?
-      JSON.parse(comment.keywordsFromSpacy as unknown as string) : null;
-    return comment;
+    parsedComment.keywordsFromQuestioner = JSON.parse(comment.keywordsFromQuestioner ?? null);
+    parsedComment.keywordsFromSpacy = JSON.parse(comment.keywordsFromSpacy ?? null);
+    parsedComment.body = QuillUtils.deserializeDelta(comment.body);
+    return parsedComment;
   }
 
   hashCode(s) {

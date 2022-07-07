@@ -27,7 +27,7 @@
                          [isCommentAnswer]="true"
                          [placeholder]="'comment-page.your-answer'"
                          [onClose]="openDeleteAnswerDialog()"
-                         [onDeeplSubmit]="receiveFromDeepL.bind(this)"
+                         [onDeeplSubmit]="submitNormal.bind(this)"
                          [onSubmit]="submitNormal.bind(this)"
                          [disableCancelButton]="!answer && commentComponent && commentComponent.commentData.currentText.length > 0"
                          [confirmLabel]="'save-answer'"

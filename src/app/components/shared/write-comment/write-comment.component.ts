@@ -9,16 +9,18 @@ import { DeepLService, SourceLang, TargetLang } from '../../../services/http/dee
 import { DeepLDialogComponent, ResultValue } from '../_dialogs/deep-ldialog/deep-ldialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { FormControl, Validators } from '@angular/forms';
-import { CreateCommentKeywords } from '../../../utils/create-comment-keywords';
 import { BrainstormingSession } from '../../../models/brainstorming-session';
 import { SharedTextFormatting } from '../../../utils/shared-text-formatting';
 import { UserRole } from '../../../models/user-roles.enum';
 import { SessionService } from '../../../services/util/session.service';
 import { User } from '../../../models/user';
 import { AuthenticationService } from '../../../services/http/authentication.service';
+import { StandardDelta } from '../../../utils/quill-utils';
+import { KeywordExtractor } from '../../../utils/keyword-extractor';
 
-type SubmitFunction = (commentData: string, commentText: string, selectedTag: string, name?: string,
-                       verifiedWithoutDeepl?: boolean) => any;
+type SubmitFunction = (
+  commentData: StandardDelta, commentText: string, selectedTag: string, name?: string, verifiedWithoutDeepl?: boolean
+) => any;
 
 @Component({
   selector: 'app-write-comment',
@@ -71,6 +73,7 @@ export class WriteCommentComponent implements OnInit, OnDestroy {
   private _mobileMockTimeout;
   private _mobileMockPossible = false;
   private _mockMatcher: MediaQueryList;
+  private _keywordExtractor: KeywordExtractor;
 
   constructor(
     private notification: NotificationService,
@@ -85,6 +88,7 @@ export class WriteCommentComponent implements OnInit, OnDestroy {
     this.languageService.getLanguage().subscribe(lang => {
       this.translateService.use(lang);
     });
+    this._keywordExtractor = new KeywordExtractor(languagetoolService, null, deeplService);
   }
 
   get isMobileMockActive() {
@@ -204,7 +208,7 @@ export class WriteCommentComponent implements OnInit, OnDestroy {
   }
 
   getContent(): Comment {
-    const data = this.commentData.currentData || '["\\n"]';
+    const data = this.commentData.currentData;
     return {
       body: data,
       number: '?',
@@ -214,7 +218,7 @@ export class WriteCommentComponent implements OnInit, OnDestroy {
       createdAt: new Date(),
       questionerName: this.questionerNameFormControl.value,
       tag: this.selectedTag,
-    } as Comment;
+    } as unknown as Comment;
   }
 
   setMobileMockState(activate: boolean) {
@@ -264,54 +268,55 @@ export class WriteCommentComponent implements OnInit, OnDestroy {
     }
   }
 
-  private openDeeplDialog(body: string,
-                          text: string,
-                          result: LanguagetoolResult,
-                          onClose: (selected: ResultValue) => void) {
+  private openDeeplDialog(
+    body: StandardDelta,
+    text: string,
+    result: LanguagetoolResult,
+    onClose: (selected: ResultValue) => void
+  ) {
     let target = TargetLang.EN_US;
     const code = result.language.detectedLanguage.code.toUpperCase().split('-')[0];
     const source = code in SourceLang ? SourceLang[code] : null;
     if (code.startsWith(SourceLang.EN)) {
       target = TargetLang.DE;
     }
-    CreateCommentKeywords.generateDeeplDelta(this.deeplService, body, target)
-      .subscribe({
-        next: ([improvedBody, improvedText]) => {
-          this.isSpellchecking = false;
-          if (improvedText.replace(/\s+/g, '') === text.replace(/\s+/g, '')) {
-            this.translateService.get('deepl.no-optimization').subscribe(msg => this.notification.show(msg));
-            onClose({ body, text, view: this.commentData });
-            return;
-          }
-          const instance = this.dialog.open(DeepLDialogComponent, {
-            width: '900px',
-            maxWidth: '100%',
-            data: {
-              body,
-              text,
-              improvedBody,
-              improvedText,
-              maxTextCharacters: this.maxTextCharacters,
-              maxDataCharacters: this.maxDataCharacters,
-              isModerator: this.isModerator,
-              result,
-              onClose,
-              target: DeepLService.transformSourceToTarget(source),
-              usedTarget: target
-            }
-          });
-          instance.afterClosed().subscribe((val) => {
-            if (val) {
-              this.buildCreateCommentActionCallback(this.onDeeplSubmit)();
-            } else {
-              onClose({ body, text, view: this.commentData });
-            }
-          });
-        },
-        error: () => {
-          this.isSpellchecking = false;
+    this._keywordExtractor.generateDeeplDelta(body, target).subscribe({
+      next: ([improvedBody, improvedText]) => {
+        this.isSpellchecking = false;
+        if (improvedText.replace(/\s+/g, '') === text.replace(/\s+/g, '')) {
+          this.translateService.get('deepl.no-optimization').subscribe(msg => this.notification.show(msg));
           onClose({ body, text, view: this.commentData });
+          return;
         }
-      });
+        const instance = this.dialog.open(DeepLDialogComponent, {
+          width: '900px',
+          maxWidth: '100%',
+          data: {
+            body,
+            text,
+            improvedBody,
+            improvedText,
+            maxTextCharacters: this.maxTextCharacters,
+            maxDataCharacters: this.maxDataCharacters,
+            isModerator: this.isModerator,
+            result,
+            onClose,
+            target: DeepLService.transformSourceToTarget(source),
+            usedTarget: target
+          }
+        });
+        instance.afterClosed().subscribe((val) => {
+          if (val) {
+            this.buildCreateCommentActionCallback(this.onDeeplSubmit)();
+          } else {
+            onClose({ body, text, view: this.commentData });
+          }
+        });
+      },
+      error: () => {
+        this.isSpellchecking = false;
+        onClose({ body, text, view: this.commentData });
+      }
+    });
   }
 }

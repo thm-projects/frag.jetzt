@@ -8,6 +8,7 @@ import { AuthenticationService } from '../http/authentication.service';
 import { generateConsequentlyUUID, generateRandomUUID, generateShortId } from '../../utils/test-utils';
 import { defaultCategories } from '../../utils/defaultCategories';
 import { Router } from '@angular/router';
+import { QuillUtils } from '../../utils/quill-utils';
 
 interface RoomHistory {
   userId: string;
@@ -24,13 +25,13 @@ export class RoomServiceMock extends RoomService {
     shortId: '',
     abbreviation: '00000000',
     name: '',
-    description: '',
+    description: { ops: [] },
     blacklist: '[]',
     closed: false,
     moderated: true,
     directSend: true,
     threshold: 0,
-    tags: defaultCategories.en,
+    tags: [...defaultCategories.en],
     questionsBlocked: false,
     profanityFilter: ProfanityFilter.NONE,
     blacklistIsActive: true,
@@ -140,14 +141,14 @@ export class RoomServiceMock extends RoomService {
     this.roomHistories.splice(index, 1, newElement);
   }
 
-  removeFromHistory(roomId: string): Observable<boolean> {
+  removeFromHistory(roomId: string): Observable<void> {
     const user = this.authenticationService.getUser();
     const index = this.roomHistories.findIndex(history => history.roomId === roomId && history.userId === user.id);
     if (index < 0) {
-      return of(false);
+      return of(null);
     }
     this.roomHistories.splice(index, 1);
-    return of(true);
+    return of(null);
   }
 
   updateRoom(updatedRoom: Room): Observable<Room> {
@@ -234,7 +235,7 @@ export class RoomServiceMock extends RoomService {
   }
 
   private validateRoom(room: Room) {
-    if (!room || !room.name || room.name.length > 30 || !room.description || room.description.length > 5000) {
+    if (!room || !room.name || room.name.length > 30 || !room.description || QuillUtils.serializeDelta(room.description).length > 5000) {
       throw new Error('Bad Request');
     }
   }

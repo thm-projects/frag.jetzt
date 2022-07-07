@@ -7,18 +7,18 @@ import { User } from '../../../../models/user';
 import { EventService } from '../../../../services/util/event.service';
 import { SpacyDialogComponent } from '../spacy-dialog/spacy-dialog.component';
 import { Language, LanguagetoolService } from '../../../../services/http/languagetool.service';
-import { CreateCommentKeywords, KeywordsResultType } from '../../../../utils/create-comment-keywords';
 import { WriteCommentComponent } from '../../write-comment/write-comment.component';
 import { DeepLService } from '../../../../services/http/deep-l.service';
 import { SpacyService } from '../../../../services/http/spacy.service';
 import { UserRole } from '../../../../models/user-roles.enum';
-import { ViewCommentDataComponent } from '../../view-comment-data/view-comment-data.component';
 import { CURRENT_SUPPORTED_LANGUAGES } from '../../../../services/http/spacy.interface';
 import { RoomDataService } from '../../../../services/util/room-data.service';
 import { BrainstormingSession } from '../../../../models/brainstorming-session';
 import { LanguageService } from '../../../../services/util/language.service';
 import { SessionService } from '../../../../services/util/session.service';
 import { SharedTextFormatting } from '../../../../utils/shared-text-formatting';
+import { QuillUtils, StandardDelta } from '../../../../utils/quill-utils';
+import { KeywordExtractor, KeywordsResultType } from '../../../../utils/keyword-extractor';
 
 @Component({
   selector: 'app-submit-comment',
@@ -35,6 +35,7 @@ export class CreateCommentComponent implements OnInit {
   @Input() brainstormingData: BrainstormingSession;
   isSendingToSpacy = false;
   isModerator = false;
+  private readonly _keywordExtractor: KeywordExtractor;
 
   constructor(
     private notification: NotificationService,
@@ -51,6 +52,7 @@ export class CreateCommentComponent implements OnInit {
     private sessionService: SessionService,
   ) {
     this.languageService.getLanguage().subscribe(lang => this.translateService.use(lang));
+    this._keywordExtractor = new KeywordExtractor(languagetoolService, spacyService, deeplService);
     dialogRef.afterClosed().subscribe(comment => localStorage.setItem('comment-created', String(true)));
   }
 
@@ -62,18 +64,18 @@ export class CreateCommentComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  forwardComment(body: string, text: string, tag: string, name: string, verifiedWithoutDeepl: boolean) {
+  forwardComment(body: StandardDelta, _text: string, tag: string, name: string, verifiedWithoutDeepl: boolean) {
     this.createComment(body, tag, name, !verifiedWithoutDeepl);
   }
 
-  closeDialog(body: string, text: string, tag: string, name: string) {
+  closeDialog(body: StandardDelta, _text: string, tag: string, name: string) {
     this.createComment(body, tag, name);
   }
 
-  createComment(body: string, tag: string, name: string, forward = false) {
+  createComment(body: StandardDelta, tag: string, name: string, forward = false) {
     const comment = new Comment();
     comment.roomId = this.sessionService.currentRoom.id;
-    comment.body = CreateCommentKeywords.transformURLtoQuill(body, this.isModerator);
+    comment.body = QuillUtils.transformURLtoQuillLink(body, this.isModerator);
     comment.creatorId = this.user.id;
     comment.createdFromLecturer = this.userRole > 0;
     comment.tag = tag;
@@ -88,7 +90,7 @@ export class CreateCommentComponent implements OnInit {
   }
 
   generateBrainstormingKeywords(comment: Comment) {
-    const text = ViewCommentDataComponent.getTextFromData(comment.body);
+    const text = QuillUtils.getTextFromDelta(comment.body);
     const term = SharedTextFormatting.getTerm(text);
     const send = (termText: string) => {
       this.isSendingToSpacy = false;
@@ -143,8 +145,7 @@ export class CreateCommentComponent implements OnInit {
   }
 
   openSpacyDialog(comment: Comment, forward: boolean, brainstorming: boolean): void {
-    CreateCommentKeywords.generateKeywords(this.languagetoolService, this.deeplService,
-      this.spacyService, comment.body, brainstorming, forward, this.commentComponent.selectedLang)
+    this._keywordExtractor.generateKeywords(comment.body, brainstorming, forward, this.commentComponent.selectedLang)
       .subscribe(result => {
         this.isSendingToSpacy = false;
         comment.language = result.language;
