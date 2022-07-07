@@ -6,7 +6,7 @@ import { catchError, tap, map } from 'rxjs/operators';
 import { BaseHttpService } from './base-http.service';
 import { TSMap } from 'typescript-map';
 import { Vote } from '../../models/vote';
-import { QuillUtils, SerializedDelta, StandardDelta } from '../../utils/quill-utils';
+import { QuillUtils, SerializedDelta } from '../../utils/quill-utils';
 import { JSONString } from '../../utils/ts-utils';
 
 const httpOptions = {

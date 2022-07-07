@@ -170,7 +170,6 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
   }
 
   receiveFromDeepL(body: StandardDelta) {
-    //TODO update to another component
     this.saveAnswer(body);
   }
 

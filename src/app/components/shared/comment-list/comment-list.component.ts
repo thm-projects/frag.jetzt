@@ -23,7 +23,6 @@ import { CreateCommentWrapper } from '../../../utils/create-comment-wrapper';
 import { RoomDataService } from '../../../services/util/room-data.service';
 import { OnboardingService } from '../../../services/util/onboarding.service';
 import { PageEvent } from '@angular/material/paginator';
-import { ViewCommentDataComponent } from '../view-comment-data/view-comment-data.component';
 import { TopicCloudFilterComponent } from '../_dialogs/topic-cloud-filter/topic-cloud-filter.component';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
@@ -47,7 +46,7 @@ import {
 } from '../../../utils/data-filter-object.lib';
 import { CommentPatchedKeyInformation, ForumComment } from '../../../utils/data-accessor';
 import { FilteredDataAccess, FilterTypeCounts, PeriodCounts } from '../../../utils/filtered-data-access';
-import { QuillUtils, StandardDelta } from '../../../utils/quill-utils';
+import { QuillUtils } from '../../../utils/quill-utils';
 
 @Component({
   selector: 'app-comment-list',
