@@ -1,5 +1,6 @@
 <mat-card id="comment-card"
           class="border"
+          [style]="{'--i': responseIndex}"
           [style.--marginLeft]="parentDepth >= 0 ? getMargin() + 'px' : '0px'"
           [style.background-color]="isResponse ? 'var(--dialog)' : 'var(--surface)'"
           [class.highlighted]="comment.highlighted"
@@ -383,7 +384,7 @@
     [user]="user"
     [userRole]="userRole"
     [isFromOwner]="room.ownerId === response.creatorId"
-    [isResponse]=true
+    [isResponse]="true"
     [parentDepth]="parentDepth<0? comment.commentDepth : parentDepth">
   </app-comment>
 </div>

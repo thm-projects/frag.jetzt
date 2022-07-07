@@ -20,7 +20,6 @@ import { User } from '../../../models/user';
 import { RoomDataService } from '../../../services/util/room-data.service';
 import { SpacyKeyword } from '../../../services/http/spacy.service';
 import { UserBonusTokenComponent } from '../../participant/_dialogs/user-bonus-token/user-bonus-token.component';
-import { ViewCommentDataComponent } from '../view-comment-data/view-comment-data.component';
 import { EditCommentTagComponent } from '../../creator/_dialogs/edit-comment-tag/edit-comment-tag.component';
 import { SessionService } from '../../../services/util/session.service';
 import { DeviceInfoService } from '../../../services/util/device-info.service';
@@ -41,8 +40,10 @@ import { QuillUtils } from '../../../utils/quill-utils';
       state('hidden', style({ opacity: 0, transform: 'translate(0, -10px)' })),
       state('visible', style({ opacity: 1, transform: 'translate(0, 0)' })),
       state('removed', style({ opacity: 0, transform: 'translate(100%, 0)' })),
+      state('child', style({ opacity: 0, transform: 'translate(0, calc((-100% - 32px) * var(--i, 1)))', zIndex: -1 })),
       transition('hidden <=> visible', animate(700)),
       transition('new => visible', animate('700ms ease-in')),
+      transition('child => visible', animate('700ms ease-in')),
       transition('visible => removed', animate('700ms ease-out'))
     ])
   ]
@@ -62,6 +63,7 @@ export class CommentComponent implements OnInit, AfterViewInit {
   @Input() isFromModerator = false;
   @Input() isFromOwner = false;
   @Input() isResponse = false;
+  @Input() responseIndex = 0;
   @Input() isAnswerView = false;
   @Input() parentDepth = -1;
   @Output() clickedOnTag = new EventEmitter<string>();
@@ -165,6 +167,9 @@ export class CommentComponent implements OnInit, AfterViewInit {
     this.isConversationView = this.router.url.endsWith('conversation');
     if (this.comment?.created) {
       this.slideAnimationState = 'new';
+    }
+    if (this.isConversationView) {
+      this.slideAnimationState = this.isResponse ? 'child' : 'visible';
     }
     this.readableCommentBody = this.comment?.body ? QuillUtils.getTextFromDelta(this.comment.body) : '';
     this.checkProfanity();

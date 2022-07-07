@@ -44,7 +44,7 @@
   <div *ngIf="isConversationView">
     <div fxLayout="row"
          fxLayoutAlign="center"
-         *ngFor="let response of responses">
+         *ngFor="let response of responses; let i = index">
       <app-comment *ngIf="response?.body"
                    [comment]="response"
                    [isRemoved]="response?.removed"
@@ -55,6 +55,7 @@
                    [isFromModerator]="mods.has(response.creatorId)"
                    [isFromOwner]="room.ownerId === response.creatorId"
                    [isResponse]=true
+                   [responseIndex]="i + 1"
                    [parentDepth]="comment.commentDepth"
       ></app-comment>
     </div>

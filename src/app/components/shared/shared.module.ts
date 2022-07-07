@@ -143,6 +143,7 @@ import { DeleteAllNotificationsComponent } from './_dialogs/delete-all-notificat
 import { RoomSettingsOverviewComponent } from './_dialogs/room-settings-overview/room-settings-overview.component';
 import { AppRatingComponent } from './app-rating/app-rating.component';
 import { AppRatingPopUpComponent } from './_dialogs/app-rating-pop-up/app-rating-pop-up.component';
+import { MinuteJumpClockComponent } from './minute-jump-clock/minute-jump-clock.component';
 
 @NgModule({
   imports: [
@@ -238,7 +239,8 @@ import { AppRatingPopUpComponent } from './_dialogs/app-rating-pop-up/app-rating
     DeleteAllNotificationsComponent,
     RoomSettingsOverviewComponent,
     AppRatingComponent,
-    AppRatingPopUpComponent
+    AppRatingPopUpComponent,
+    MinuteJumpClockComponent
   ],
   exports: [
     RoomJoinComponent,
