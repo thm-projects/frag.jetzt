@@ -45,6 +45,7 @@ import {
   CommentNotificationDialogComponent
 } from '../_dialogs/comment-notification-dialog/comment-notification-dialog.component';
 import { ToggleConversationComponent } from '../../creator/_dialogs/toggle-conversation/toggle-conversation.component';
+import { QuillUtils } from '../../../utils/quill-utils';
 
 @Component({
   selector: 'app-room-page',
@@ -351,7 +352,10 @@ export class RoomPageComponent implements OnInit, OnDestroy {
   }
 
   protected saveChanges(data: Partial<Room>) {
-    this.roomService.patchRoom(this.room.id, data).subscribe({
+    this.roomService.patchRoom(this.room.id, {
+      ...data,
+      description: QuillUtils.serializeDelta(data.description)
+    }).subscribe({
       next: (room) => {
         this.translateService.get('room-page.changes-successful').subscribe(msg => {
           this.notificationService.show(msg);

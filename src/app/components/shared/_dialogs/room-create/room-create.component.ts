@@ -106,10 +106,11 @@ export class RoomCreateComponent implements OnInit {
     const newRoom = new Room();
     newRoom.name = longRoomName;
     newRoom.abbreviation = '00000000';
-    newRoom.description = '';
+    newRoom.description = { ops: [] };
     newRoom.blacklist = '[]';
     newRoom.questionsBlocked = false;
-    newRoom.tags = defaultCategories[this.languageService.currentLanguage()] || defaultCategories.default;
+    const categories = defaultCategories[this.languageService.currentLanguage()] || defaultCategories.default;
+    newRoom.tags = [...categories];
     newRoom.profanityFilter = ProfanityFilter.NONE;
     newRoom.shortId = this.hasCustomShortId ? this.roomShortIdFormControl.value : undefined;
     newRoom.conversationDepth = 7;

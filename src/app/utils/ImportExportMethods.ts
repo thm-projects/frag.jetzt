@@ -15,6 +15,7 @@ import { RoomService } from '../services/http/room.service';
 import { TSMap } from 'typescript-map';
 import { SpacyKeyword } from '../services/http/spacy.service';
 import { ModeratorService } from '../services/http/moderator.service';
+import { ImmutableStandardDelta, QuillUtils, SerializedDelta } from './quill-utils';
 
 const serializeDate = (str: string | number | Date) => {
   if (!str) {
@@ -76,7 +77,7 @@ export const uploadCSV = (): Observable<string> => new Observable<string>(subscr
 export interface BonusArchiveEntry {
   bonusToken: string;
   bonusTimestamp: Date;
-  question: string;
+  question: SerializedDelta;
   bonusQuestionNumber: string;
   userLoginId: string;
 }
@@ -110,7 +111,7 @@ const bonusArchiveImportExport = (translateService: TranslateService) =>
           languageKey: 'bonus-archive-export.entry-question',
           ...ImportExportManager.createQuillMapper<BonusArchiveEntry>('bonus-archive-export.empty',
             (c) => c.question, (val, c) => {
-              c.question = val;
+              c.question = val as SerializedDelta;
               return c;
             })
         },
@@ -139,12 +140,14 @@ const bonusArchiveImportExport = (translateService: TranslateService) =>
     } as ExportTable<BonusArchiveEntry>
   ]);
 
-export const exportBonusArchive = (translateService: TranslateService,
-                                   commentService: CommentService,
-                                   notificationService: NotificationService,
-                                   bonusTokenService: BonusTokenService,
-                                   moderatorService: ModeratorService,
-                                   room: Room): Observable<[string, string]> =>
+export const exportBonusArchive = (
+  translateService: TranslateService,
+  commentService: CommentService,
+  notificationService: NotificationService,
+  bonusTokenService: BonusTokenService,
+  moderatorService: ModeratorService,
+  room: Room
+): Observable<[string, string]> =>
   bonusTokenService.getTokensByRoomId(room.id).pipe(
     switchMap(tokens => {
       if (tokens.length < 1) {
@@ -170,7 +173,7 @@ export const exportBonusArchive = (translateService: TranslateService,
         switchMap((arr: [userId: string, c: Comment][]) => {
           arr.sort(([_, a], [__, b]) => numberSorter(a?.number, b?.number));
           const data: BonusArchiveEntry[] = arr.map(([loginId, c], i) => ({
-            question: c?.body,
+            question: QuillUtils.serializeDelta(c?.body),
             bonusToken: tokens[i].token,
             bonusTimestamp: tokens[i].createdAt,
             bonusQuestionNumber: c?.number,
@@ -190,11 +193,13 @@ export const exportBonusArchive = (translateService: TranslateService,
     })
   );
 
-const roomImportExport = (translateService: TranslateService,
-                          translatePath: string,
-                          user?: User,
-                          room?: Room,
-                          moderatorIds?: Set<string>) => {
+const roomImportExport = (
+  translateService: TranslateService,
+  translatePath: string,
+  user?: User,
+  room?: Room,
+  moderatorIds?: Set<string>
+) => {
   const empty = translatePath + '.export-empty';
   const bufferedIds = [];
   const isMod = (user?.role || UserRole.PARTICIPANT) > UserRole.PARTICIPANT;
@@ -205,7 +210,7 @@ const roomImportExport = (translateService: TranslateService,
     {
       type: 'value',
       languageKey: translatePath + '.room-welcome',
-      ...ImportExportManager.createQuillMapper<string>(empty, e => e, e => e)
+      ...ImportExportManager.createQuillMapper<SerializedDelta>(empty, e => e, e => e as SerializedDelta)
     },
     {
       type: 'value',
@@ -243,8 +248,8 @@ const roomImportExport = (translateService: TranslateService,
         },
         {
           languageKey: translatePath + '.question',
-          ...ImportExportManager.createQuillMapper<Comment>(empty, c => c.body, (str, c) => {
-            c.body = str;
+          ...ImportExportManager.createQuillMapper<Comment>(empty, c => QuillUtils.serializeDelta(c.body), (str, c) => {
+            c.body = QuillUtils.deserializeDelta(str as SerializedDelta);
             return c;
           })
         },
@@ -471,7 +476,7 @@ export const exportRoom = (translateService: TranslateService,
             room.name,
             room.shortId,
             dateString,
-            room.description,
+            QuillUtils.serializeDelta(room.description),
             room.tags,
             comments
           ]).pipe(map(data => [data, dateString] as [string, string]));
@@ -483,7 +488,7 @@ export type ImportQuestionsResult = [
   roomName: string,
   roomShortId: string,
   exportDate: string,
-  roomDescription: string,
+  roomDescription: SerializedDelta,
   roomTags: string[],
   comments: CommentBonusTokenMixin[]
 ];
@@ -516,7 +521,7 @@ const importRoomSettings = (value: ImportQuestionsResult,
 }).pipe(map(_ => value));
 
 const ALLOWED_FIELDS: (keyof Comment)[] = [
-  'body', 'favorite', 'bookmark', 'correct', 'ack', 'tag', 'keywordsFromSpacy', 'keywordsFromQuestioner', 'language'
+  'favorite', 'bookmark', 'correct', 'ack', 'tag', 'keywordsFromSpacy', 'keywordsFromQuestioner', 'language'
 ];
 
 const importComment = (comment: CommentBonusTokenMixin,
@@ -533,6 +538,7 @@ const importComment = (comment: CommentBonusTokenMixin,
       const changes = new TSMap<string, any>();
       realComment.keywordsFromSpacy = JSON.stringify(realComment.keywordsFromSpacy || []) as unknown as SpacyKeyword[];
       realComment.keywordsFromQuestioner = JSON.stringify(realComment.keywordsFromQuestioner || []) as unknown as SpacyKeyword[];
+      realComment.body = QuillUtils.serializeDelta(realComment.body) as unknown as ImmutableStandardDelta;
       ALLOWED_FIELDS.forEach(key => changes.set(key, realComment[key]));
       return commentService.patchComment(realComment, changes);
     })

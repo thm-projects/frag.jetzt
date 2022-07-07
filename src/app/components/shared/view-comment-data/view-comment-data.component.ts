@@ -24,6 +24,7 @@ import { NotificationService } from '../../../services/util/notification.service
 import { AccessibilityEscapedInputDirective } from '../../../directives/accessibility-escaped-input.directive';
 import { EventService } from '../../../services/util/event.service';
 import { MatTooltip } from '@angular/material/tooltip';
+import { QuillUtils, StandardDelta } from '../../../utils/quill-utils';
 
 @Component({
   selector: 'app-view-comment-data',
@@ -52,7 +53,7 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
   currentText = '\n';
   quillModules: QuillModules = {};
   hasEmoji = true;
-  private _currentData = null;
+  private _currentData: StandardDelta = null;
   private _marks: Marks;
 
   constructor(
@@ -70,25 +71,27 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
     });
   }
 
-  get currentData(): string {
-    return this._currentData || '';
+  get currentData(): StandardDelta {
+    return this._currentData || { ops: [{ insert: '\n' }] };
   }
 
-  @Input() set currentData(data: string) {
+  @Input() set currentData(data: StandardDelta) {
     this._currentData = data;
-    if ((this.editor && this.editor.quillEditor) || (this.quillView && this.quillView.quillEditor)) {
+    if (this.editor?.quillEditor || this.quillView?.quillEditor) {
       this.set(this._currentData);
     }
   }
 
-  public static checkInputData(data: string,
-                               text: string,
-                               translateService: TranslateService,
-                               notificationService: NotificationService,
-                               maxTextCharacters: number,
-                               maxDataCharacters: number): boolean {
+  public static checkInputData(
+    data: StandardDelta,
+    text: string,
+    translateService: TranslateService,
+    notificationService: NotificationService,
+    maxTextCharacters: number,
+    maxDataCharacters: number
+  ): boolean {
     text = text.trim();
-    if (this.getContentCount(data) < 1) {
+    if (QuillUtils.getContentCount(data) < 1) {
       translateService.get('comment-page.error-comment').subscribe(message => {
         notificationService.show(message);
       });
@@ -98,38 +101,13 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
         notificationService.show(message);
       });
       return false;
-    } else if (data.length > maxDataCharacters) {
+    } else if (QuillUtils.serializeDelta(data).length > maxDataCharacters) {
       translateService.get('comment-page.error-comment-data').subscribe(message => {
         notificationService.show(message);
       });
       return false;
     }
     return true;
-  }
-
-  public static getDataFromDelta(contentDelta) {
-    return JSON.stringify(contentDelta.ops.map(op => {
-      let hasOnlyInsert = true;
-      for (const key in op) {
-        if (key !== 'insert') {
-          hasOnlyInsert = false;
-          break;
-        }
-      }
-      return hasOnlyInsert ? op['insert'] : op;
-    }));
-  }
-
-  public static getDeltaFromData(jsonData: string) {
-    return {
-      ops: JSON.parse(jsonData).map(elem => {
-        if (!elem['insert']) {
-          return { insert: elem };
-        } else {
-          return elem;
-        }
-      })
-    };
   }
 
   public static getTextFromData(jsonData: string): string {
@@ -215,7 +193,7 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
     }
     this.editor.onContentChanged.subscribe(e => {
       this._marks.onDataChange(e.delta);
-      this._currentData = ViewCommentDataComponent.getDataFromDelta(e.content);
+      this._currentData = e.content;
       this.currentText = e.text;
     });
     this.editor.onEditorChanged.subscribe(e => {
@@ -239,8 +217,7 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
     }
   }
 
-  set(jsonData: string): void {
-    const delta = ViewCommentDataComponent.getDeltaFromData(jsonData);
+  set(delta: StandardDelta): void {
     if (this.isEditor) {
       this.editor.quillEditor.setContents(delta);
     } else {

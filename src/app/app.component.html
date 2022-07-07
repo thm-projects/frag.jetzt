@@ -1,10 +1,13 @@
 <script src="models/rescale.ts"></script>
 <div fxLayout="column" fxFill appTheme id="outer_main_container">
-  <header class="header" id="header_rescale">
+  <header class="header" id="header_rescale" #headerElement>
     <app-header #header></app-header>
   </header>
   <div id="rescale_screen">
-    <div class="main_container" id="scroll_container">
+    <div class="main_container"
+         id="scroll_container"
+         #scrollElement
+         (scroll)="onScroll()">
       <div class="inner_main_container">
         <main fxFlex class="app-component">
           <router-outlet></router-outlet>
@@ -12,7 +15,7 @@
       </div>
     </div>
   </div>
-  <footer role="contentinfo" class="footer" id="footer_rescale">
+  <footer role="contentinfo" class="footer" id="footer_rescale" #footerElement>
     <app-footer></app-footer>
   </footer>
   <div class="rescale_overlay" id="overlay_rescale" aria-hidden="true">
