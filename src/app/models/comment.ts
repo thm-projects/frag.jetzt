@@ -2,13 +2,14 @@ import { SpacyKeyword } from '../services/http/spacy.service';
 import { CorrectWrong } from './correct-wrong.enum';
 import { Model } from '../services/http/spacy.interface';
 import { TranslateService } from '@ngx-translate/core';
+import { ImmutableStandardDelta, StandardDelta } from '../utils/quill-utils';
 
 export class Comment {
   id: string;
   roomId: string;
   creatorId: string;
   revision: string;
-  body: string;
+  body: ImmutableStandardDelta;
   read: boolean;
   correct: CorrectWrong;
   favorite: boolean;
@@ -36,7 +37,7 @@ export class Comment {
   constructor(
     roomId: string = '',
     creatorId: string = '',
-    body: string = '',
+    body: StandardDelta = { ops: [] },
     read: boolean = false,
     correct: CorrectWrong = CorrectWrong.NULL,
     favorite: boolean = false,
@@ -87,7 +88,7 @@ export class Comment {
   }
 
   static mapModelToLanguage(model: Model): Language {
-    return Language[model] || Language.AUTO;
+    return Language[model.toUpperCase()] || Language.AUTO;
   }
 
   static computePrettyCommentNumber(translateService: TranslateService, comment: Comment): string[] {
@@ -117,7 +118,7 @@ export const numberSorter = (a: string, b: string) => {
   const arrB = b.split('/');
   const minLen = Math.min(arrA.length, arrB.length);
   for (let i = 0, equals = 0; i < minLen; i++) {
-    equals = +arrB[i] - +arrA[i];
+    equals = Number(arrB[i]) - Number(arrA[i]);
     if (equals !== 0) {
       return equals;
     }

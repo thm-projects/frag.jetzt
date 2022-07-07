@@ -5,6 +5,7 @@ import { DOCUMENT } from '@angular/common';
 import { KeyboardUtils } from '../../../../utils/keyboard';
 import { KeyboardKey } from '../../../../utils/keyboard/keys';
 import { LanguageService } from '../../../../services/util/language.service';
+import { ImmutableStandardDelta } from '../../../../utils/quill-utils';
 
 @Component({
   selector: 'app-present-comment',
@@ -12,7 +13,7 @@ import { LanguageService } from '../../../../services/util/language.service';
   styleUrls: ['./present-comment.component.scss']
 })
 export class PresentCommentComponent implements OnInit {
-  public body: string;
+  public body: ImmutableStandardDelta;
   // flag for fullscreen
   private fs = false;
 

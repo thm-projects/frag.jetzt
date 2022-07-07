@@ -47,6 +47,7 @@ import {
 } from '../../../utils/data-filter-object.lib';
 import { CommentPatchedKeyInformation, ForumComment } from '../../../utils/data-accessor';
 import { FilteredDataAccess, FilterTypeCounts, PeriodCounts } from '../../../utils/filtered-data-access';
+import { QuillUtils, StandardDelta } from '../../../utils/quill-utils';
 
 @Component({
   selector: 'app-comment-list',
@@ -347,7 +348,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
       { finished: true }
     ]).subscribe(update => {
       if (update.type === 'CommentCreated') {
-        this.announceNewComment(update.comment.body);
+        this.announceNewComment(QuillUtils.getTextFromDelta(update.comment.body));
         if (update.comment.id && update.comment.id === this.sendCommentId) {
           wasUpdate = true;
         }
@@ -375,7 +376,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
    */
   public announceNewComment(comment: string) {
     // update variable so text will be fetched to DOM
-    this.newestComment = ViewCommentDataComponent.getTextFromData(comment);
+    this.newestComment = comment;
 
     // Currently the only possible way to announce the new comment text
     // @see https://github.com/angular/angular/issues/11405

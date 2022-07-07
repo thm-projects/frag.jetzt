@@ -3,10 +3,10 @@ import { SpacyKeyword, SpacyService } from '../../../../services/http/spacy.serv
 import { CommentService } from '../../../../services/http/comment.service';
 import { Comment, Language } from '../../../../models/comment';
 import { Language as Lang, LanguagetoolService } from '../../../../services/http/languagetool.service';
-import { CreateCommentKeywords, KeywordsResult, KeywordsResultType } from '../../../../utils/create-comment-keywords';
 import { TSMap } from 'typescript-map';
 import { HttpErrorResponse } from '@angular/common/http';
 import { DeepLService } from '../../../../services/http/deep-l.service';
+import { KeywordExtractor, KeywordsResult, KeywordsResultType } from '../../../../utils/keyword-extractor';
 
 const concurrentCallsPerTask = 4;
 
@@ -22,14 +22,18 @@ export class WorkerDialogTask {
   };
   private readonly _comments: Comment[] = null;
   private readonly _running: boolean[] = null;
+  private readonly _keywordExtractor: KeywordExtractor;
 
-  constructor(public readonly room: Room,
-              private comments: Comment[],
-              private spacyService: SpacyService,
-              private deeplService: DeepLService,
-              private commentService: CommentService,
-              private languagetoolService: LanguagetoolService,
-              private finished: () => void) {
+  constructor(
+    public readonly room: Room,
+    private comments: Comment[],
+    private spacyService: SpacyService,
+    private deeplService: DeepLService,
+    private commentService: CommentService,
+    private languagetoolService: LanguagetoolService,
+    private finished: () => void
+  ) {
+    this._keywordExtractor = new KeywordExtractor(languagetoolService, spacyService, deeplService);
     this._comments = comments;
     this.statistics.length = comments.length;
     this._running = new Array(concurrentCallsPerTask);
@@ -55,15 +59,13 @@ export class WorkerDialogTask {
       return;
     }
     const currentComment = this._comments[currentIndex];
-    CreateCommentKeywords.generateKeywords(this.languagetoolService, this.deeplService, this.spacyService,
-      currentComment.body,
-      currentComment.brainstormingQuestion,
+    this._keywordExtractor.generateKeywords(currentComment.body, currentComment.brainstormingQuestion,
       !currentComment.keywordsFromQuestioner || currentComment.keywordsFromQuestioner.length === 0,
       currentComment.language.toLowerCase() as Lang)
-      .subscribe((result) => this.finishSpacyCall(currentIndex, result, currentComment.language));
+      .subscribe((result) => this.finishSpacyCall(currentIndex, result));
   }
 
-  private finishSpacyCall(index: number, result: KeywordsResult, previous: Language): void {
+  private finishSpacyCall(index: number, result: KeywordsResult): void {
     let undo: () => any = () => '';
     if (result.resultType === KeywordsResultType.BadSpelled) {
       this.statistics.badSpelled++;

@@ -37,7 +37,7 @@ export class QuillInputDialogComponent implements OnInit {
     if (match) {
       return (match[1] || 'https') + '://player.vimeo.com/video/' + match[2] + '/';
     }
-    return null;
+    return url;
   }
 
   ngOnInit(): void {
@@ -75,7 +75,7 @@ export class QuillInputDialogComponent implements OnInit {
           }
           break;
         case 'video':
-          const value = QuillInputDialogComponent.getVideoUrl(this.value) || this.value;
+          const value = QuillInputDialogComponent.getVideoUrl(this.value);
           if (value) {
             this.data.quill.insertEmbed(this.data.selection.index, 'video', value, 'user');
           }

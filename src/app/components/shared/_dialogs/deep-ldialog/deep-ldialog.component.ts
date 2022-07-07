@@ -6,10 +6,11 @@ import { LanguageService } from '../../../../services/util/language.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ExplanationDialogComponent } from '../explanation-dialog/explanation-dialog.component';
 import { DeepLService, FormalityType } from '../../../../services/http/deep-l.service';
-import { CreateCommentKeywords } from '../../../../utils/create-comment-keywords';
+import { StandardDelta } from '../../../../utils/quill-utils';
+import { KeywordExtractor } from '../../../../utils/keyword-extractor';
 
 export interface ResultValue {
-  body: string;
+  body: StandardDelta;
   text: string;
   view: ViewCommentDataComponent;
 }
@@ -27,6 +28,7 @@ export class DeepLDialogComponent implements OnInit, AfterViewInit {
   normalValue: ResultValue;
   improvedValue: ResultValue;
   supportsFormality: boolean;
+  private readonly _keywordExtractor: KeywordExtractor;
 
   constructor(
     private dialogRef: MatDialogRef<DeepLDialogComponent>,
@@ -35,11 +37,13 @@ export class DeepLDialogComponent implements OnInit, AfterViewInit {
     private languageService: LanguageService,
     private translateService: TranslateService,
     private deeplService: DeepLService,
-    private dialog: MatDialog) {
+    private dialog: MatDialog,
+  ) {
     this.languageService.getLanguage().subscribe(lang => {
       this.translateService.use(lang);
     });
     this.supportsFormality = DeepLService.supportsFormality(this.data.target);
+    this._keywordExtractor = new KeywordExtractor(null, null, this.deeplService);
   }
 
   ngOnInit(): void {
@@ -80,8 +84,9 @@ export class DeepLDialogComponent implements OnInit, AfterViewInit {
         this.improvedValue.view = this.improved;
         current = this.improvedValue;
       }
-      if (ViewCommentDataComponent.checkInputData(current.body, current.text,
-        this.translateService, this.notificationService, this.data.maxTextCharacters, this.data.maxDataCharacters)) {
+      if (ViewCommentDataComponent.checkInputData(
+        current.body, current.text, this.translateService, this.notificationService, this.data.maxTextCharacters,
+        this.data.maxDataCharacters)) {
         this.data.onClose(current);
         this.dialogRef.close(true);
       }
@@ -96,19 +101,19 @@ export class DeepLDialogComponent implements OnInit, AfterViewInit {
   }
 
   onFormalityChange(formality: string) {
-      CreateCommentKeywords.generateDeeplDelta(this.deeplService, this.data.body, this.data.usedTarget, formality as FormalityType)
-        .subscribe({
-          next: ([improvedBody, improvedText]) => {
-            this.improvedValue.body = improvedBody;
-            this.improvedValue.text = improvedText;
-            this.improved.currentData = improvedBody;
-          },
-          error: () => {
-            this.translateService.get('deepl-formality-select.error').subscribe(str => {
-              this.notificationService.show(str);
-            });
-          }
-        });
+    this._keywordExtractor.generateDeeplDelta(this.data.body, this.data.usedTarget, formality as FormalityType)
+      .subscribe({
+        next: ([improvedBody, improvedText]) => {
+          this.improvedValue.body = improvedBody;
+          this.improvedValue.text = improvedText;
+          this.improved.currentData = improvedBody;
+        },
+        error: () => {
+          this.translateService.get('deepl-formality-select.error').subscribe(str => {
+            this.notificationService.show(str);
+          });
+        }
+      });
   }
 
 }
