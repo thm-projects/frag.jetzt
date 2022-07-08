@@ -15,8 +15,8 @@
   .circle {
     stroke-width: 9px;
     stroke-miterlimit: 10;
-    fill: var(--surface);
-    stroke: var(--surface);
+    fill: transparent;
+    stroke: transparent;
   }
 
   .mid-circle {
@@ -27,19 +27,19 @@
   .hour-marks {
     stroke-width: 9px;
     stroke-miterlimit: 10;
-    stroke: var(--on-surface);
+    stroke: var(--on-background);
   }
 
   .hour-arm {
     stroke-width: 17px;
     stroke-miterlimit: 10;
-    stroke: var(--on-surface);
+    stroke: var(--on-background);
   }
 
   .minute-arm {
     stroke-width: 11px;
     stroke-miterlimit: 10;
-    stroke: var(--on-surface);
+    stroke: var(--on-background);
   }
 
   .second-arm {
