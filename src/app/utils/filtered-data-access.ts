@@ -8,6 +8,7 @@ import { Comment } from '../models/comment';
 import { SessionService } from '../services/util/session.service';
 import { Room } from '../models/room';
 import { filter } from 'rxjs/operators';
+import { QuillUtils } from './quill-utils';
 
 interface AttachOptions {
   roomId: string;
@@ -476,7 +477,7 @@ export class FilteredDataAccess {
     const search = this._filter.currentSearch.toLowerCase();
     const keywordFinder = (e: SpacyKeyword) => e.text.toLowerCase().includes(search);
     this._searchData = data.filter(c =>
-      c.body.toLowerCase().includes(search) ||
+      QuillUtils.getTextFromDelta(c.body).toLowerCase().includes(search) ||
       c.keywordsFromSpacy?.some(keywordFinder) ||
       c.keywordsFromQuestioner?.some(keywordFinder) ||
       c.questionerName?.toLowerCase().includes(search));

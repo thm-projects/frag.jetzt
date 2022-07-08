@@ -22,7 +22,6 @@ import { Room } from '../../../models/room';
 import { VoteService } from '../../../services/http/vote.service';
 import { Vote } from '../../../models/vote';
 import { Location } from '@angular/common';
-import { CreateCommentKeywords, KeywordsResultType } from '../../../utils/create-comment-keywords';
 import { LanguagetoolService } from '../../../services/http/languagetool.service';
 import { DeepLService } from '../../../services/http/deep-l.service';
 import { SpacyService } from '../../../services/http/spacy.service';
@@ -30,6 +29,8 @@ import { ArsComposeService } from '../../../../../projects/ars/src/lib/services/
 import { HeaderService } from '../../../services/util/header.service';
 import { SpacyDialogComponent } from '../_dialogs/spacy-dialog/spacy-dialog.component';
 import { ForumComment } from '../../../utils/data-accessor';
+import { KeywordExtractor, KeywordsResultType } from '../../../utils/keyword-extractor';
+import { QuillUtils, StandardDelta } from '../../../utils/quill-utils';
 
 @Component({
   selector: 'app-comment-answer',
@@ -41,7 +42,7 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
   @ViewChild(WriteCommentComponent) commentComponent: WriteCommentComponent;
 
   comment: ForumComment;
-  answer: string;
+  answer: StandardDelta;
   isLoading = true;
   userRole: UserRole;
   user: User;
@@ -58,6 +59,7 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
   roleString: string;
   private _commentSubscription;
   private _list: ComponentRef<any>[];
+  private _keywordExtractor: KeywordExtractor;
 
   constructor(
     protected route: ActivatedRoute,
@@ -79,6 +81,7 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
     private composeService: ArsComposeService,
     private headerService: HeaderService,
   ) {
+    this._keywordExtractor = new KeywordExtractor(languagetoolService, spacyService, deepLService);
   }
 
   get responses() {
@@ -166,11 +169,11 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
     this.location.back();
   }
 
-  receiveFromDeepL(body: string) {
+  receiveFromDeepL(body: StandardDelta) {
     this.saveAnswer(body);
   }
 
-  submitNormal(body: string, text: string, tag: string, name: string, verifiedWithoutDeepl: boolean) {
+  submitNormal(body: StandardDelta, _text: string, tag: string, name: string, verifiedWithoutDeepl: boolean) {
     this.isSending = true;
     const response: Comment = new Comment();
     response.roomId = this.room.id;
@@ -195,8 +198,7 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
   }
 
   openSpacyDialog(comment: Comment, forward: boolean, onFinish: (comment) => void): void {
-    CreateCommentKeywords.generateKeywords(this.languagetoolService, this.deepLService,
-      this.spacyService, comment.body, false, forward, this.commentComponent.selectedLang)
+    this._keywordExtractor.generateKeywords(comment.body, false, forward, this.commentComponent.selectedLang)
       .subscribe(result => {
         this.isSending = false;
         comment.language = result.language;
@@ -222,8 +224,8 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
       });
   }
 
-  saveAnswer(data: string, forward = false): void {
-    this.answer = CreateCommentKeywords.transformURLtoQuill(data, true);
+  saveAnswer(data: StandardDelta, forward = false): void {
+    this.answer = QuillUtils.transformURLtoQuillLink(data, true);
     this.edit = !this.answer;
   }
 

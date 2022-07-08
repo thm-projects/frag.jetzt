@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { SwUpdate } from '@angular/service-worker';
 import { NotificationService } from './services/util/notification.service';
@@ -29,8 +29,14 @@ export class AppComponent implements OnInit {
 
   public static rescale: Rescale = new Rescale();
   private static scrollAnimation = true;
-
+  @ViewChild('headerElement')
+  headerElement: ElementRef<HTMLElement>;
+  @ViewChild('footerElement')
+  footerElement: ElementRef<HTMLElement>;
+  @ViewChild('scrollElement')
+  scrollElement: ElementRef<HTMLElement>;
   title = 'frag.jetzt';
+  private _lastScrollTop = 0;
 
   constructor(
     private translationService: TranslateService,
@@ -90,5 +96,26 @@ export class AppComponent implements OnInit {
     return AppComponent.rescale;
   }
 
+  onScroll() {
+    const scroller = this.scrollElement.nativeElement;
+    const current = scroller.scrollTop;
+    if (Math.abs(this._lastScrollTop - current) <= 10 && current > 0) {
+      return;
+    }
+    const header = this.headerElement.nativeElement;
+    const footer = this.footerElement.nativeElement;
+    if (current > this._lastScrollTop && current > header.offsetHeight) {
+      header.style.marginTop = '-' + header.offsetHeight + 'px';
+    } else {
+      header.style.marginTop = '0';
+    }
+    const height = scroller.scrollHeight - scroller.clientHeight - footer.offsetHeight;
+    if (current > this._lastScrollTop && current < height) {
+      footer.style.marginBottom = '-' + footer.offsetHeight + 'px';
+    } else {
+      footer.style.marginBottom = '0';
+    }
+    this._lastScrollTop = current;
+  }
 
 }

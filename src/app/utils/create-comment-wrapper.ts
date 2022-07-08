@@ -14,11 +14,13 @@ import { UserRole } from '../models/user-roles.enum';
 import { BrainstormingSession } from '../models/brainstorming-session';
 
 export class CreateCommentWrapper {
-  constructor(private translateService: TranslateService,
-              private notificationService: NotificationService,
-              private commentService: CommentService,
-              private dialog: MatDialog,
-              private room: Room) {
+  constructor(
+    private translateService: TranslateService,
+    private notificationService: NotificationService,
+    private commentService: CommentService,
+    private dialog: MatDialog,
+    private room: Room,
+  ) {
   }
 
   openCreateDialog(user: User, userRole: UserRole, brainstormingData: BrainstormingSession = undefined): Observable<Comment> {

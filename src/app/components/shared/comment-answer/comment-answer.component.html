@@ -27,7 +27,7 @@
                          [isCommentAnswer]="true"
                          [placeholder]="'comment-page.your-answer'"
                          [onClose]="openDeleteAnswerDialog()"
-                         [onDeeplSubmit]="receiveFromDeepL.bind(this)"
+                         [onDeeplSubmit]="submitNormal.bind(this)"
                          [onSubmit]="submitNormal.bind(this)"
                          [disableCancelButton]="!answer && commentComponent && commentComponent.commentData.currentText.length > 0"
                          [confirmLabel]="'save-answer'"
@@ -44,7 +44,7 @@
   <div *ngIf="isConversationView">
     <div fxLayout="row"
          fxLayoutAlign="center"
-         *ngFor="let response of responses">
+         *ngFor="let response of responses; let i = index">
       <app-comment *ngIf="response?.body"
                    [comment]="response"
                    [isRemoved]="response?.removed"
@@ -55,6 +55,7 @@
                    [isFromModerator]="mods.has(response.creatorId)"
                    [isFromOwner]="room.ownerId === response.creatorId"
                    [isResponse]=true
+                   [responseIndex]="i + 1"
                    [parentDepth]="comment.commentDepth"
       ></app-comment>
     </div>
