@@ -1,5 +1,8 @@
 <app-mat-spinner-overlay *ngIf="isLoading"
                          [overlay]="true"></app-mat-spinner-overlay>
+<app-minute-jump-clock [minWidth]="880"
+                       [offsetTop]="35"
+                       [fixedSize]="200"></app-minute-jump-clock>
 <ars-screen ars-flex-box
             class="questionwall-screen">
   <ars-row [height]="50"
@@ -86,6 +89,15 @@
               </button>
             </div>
           </mat-menu>
+          <button ars-btn
+                  style="height: 100%; padding: 0 8px 0 16px;"
+                  *ngIf="headerService.getHeaderComponent().toggleUserActivity"
+                  class="pseudo-button qw-opening-fade-animation"
+                  matRipple
+                  matTooltip="{{'question-wall.users-online' | translate}}">
+            <mat-icon class="userActivityIcon">comment</mat-icon>
+            <p style="margin-left: 0.25em;">{{headerService.getHeaderComponent().userActivity}}</p>
+          </button>
           <button ars-btn
                   class="pseudo-button qw-opening-fade-animation"
                   [ngClass]="{'selected': hasFilter || period !== 'All'}"
@@ -612,6 +624,7 @@
     </ars-style-btn-material>
   </ars-row>
   <app-active-user *ngIf="room"
+                   [alwaysShowInHeader]="true"
                    [room]="room"
                    [iconColor]="'#FFFFFF'"
                    [backgroundColor]="'#FFFFFF'"

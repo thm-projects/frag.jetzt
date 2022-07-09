@@ -269,7 +269,8 @@ import { MinuteJumpClockComponent } from './minute-jump-clock/minute-jump-clock.
     AccessibilityEscapedInputDirective,
     QuestionWallIntroComponent,
     DashboardComponent,
-    AppRatingComponent
+    AppRatingComponent,
+    MinuteJumpClockComponent
   ]
 })
 export class SharedModule {

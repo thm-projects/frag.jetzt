@@ -343,6 +343,7 @@
     "tag-cloud-title": "Einführung in die Themenwolke"
   },
   "question-wall": {
+    "users-online": "Aktuell eingeloggte User",
     "next-comment": "Nächste Frage",
     "next-comment-icon": "navigate_next",
     "prev-comment": "Vorherige Frage",
