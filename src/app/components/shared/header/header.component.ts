@@ -57,6 +57,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   isInRouteWithRoles = false;
   hasEmailNotifications = false;
   hasKeywords = false;
+  private _clockCount = 0;
 
   constructor(
     public location: Location,
@@ -144,6 +145,18 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     this.headerService.onUserChange(e => {
       this.userActivity = e;
     });
+  }
+
+  getClockCount() {
+    return this._clockCount;
+  }
+
+  registerClock() {
+    this._clockCount++;
+  }
+
+  unregisterClock() {
+    this._clockCount--;
   }
 
   showMotdDialog() {

@@ -150,7 +150,7 @@
       </button>
 
       <h2 class="oldtypo-h2"
-          *ngIf="deviceInfo.isCurrentlyDesktop && router.url !== '/home'">
+          *ngIf="deviceInfo.isCurrentlyDesktop && router.url !== '/home' && getClockCount() < 1">
         {{cTime}}
       </h2>
 

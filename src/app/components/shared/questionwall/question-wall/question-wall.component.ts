@@ -24,6 +24,7 @@ import { FilterType, Period, PeriodKey, SortType } from '../../../../utils/data-
 import { ArsDateFormatter } from '../../../../../../projects/ars/src/lib/services/ars-date-formatter.service';
 import { FilteredDataAccess } from '../../../../utils/filtered-data-access';
 import { forkJoin } from 'rxjs';
+import { HeaderService } from '../../../../services/util/header.service';
 
 
 interface CommentCache {
@@ -130,6 +131,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     private sessionService: SessionService,
     private dialog: MatDialog,
     public dateFormatter: ArsDateFormatter,
+    public headerService: HeaderService,
   ) {
     this.keySupport = new QuestionWallKeyEventSupport();
     this.timeUpdateInterval = setInterval(() => {
