@@ -26,21 +26,21 @@ export const arsTimeTranslation = {
         '&1:letztes Jahr DATE;' +
         'vor ? Jahr%en DATE',
       month:
-        '&1:letzten Monat;' +
+        '&1:letzten Monat DATE;' +
         'vor ? Monat%en DATE',
       week:
-        '&1:letzte Woche;' +
+        '&1:letzte Woche DATE;' +
         'vor ? Woche%n DATE',
       day:
-        '&1:gestern;' +
-        '&2:vorgestern;' +
-        'vor ? Tag%en TIME',
+        '&1:gestern TIME;' +
+        '&2:vorgestern TIME;' +
+        'vor ? Tag%en DATE',
       hour:
-        'vor ? Stunde%n',
+        'vor ? Stunde%n TIME',
       minute:
-        '&10-20:vor einer viertel Stunde;' +
-        '&20-40:vor einer halben Stunde;' +
-        '&40-60:vor einer Stunde;' +
+        '&15-20:vor einer viertel Stunde;' +
+        '&30-35:vor einer halben Stunde;' +
+        '&55-60:vor etwa einer Stunde;' +
         'vor ? Minute%n ',
       second:
         '&0-30:jetzt gerade;' +
@@ -84,14 +84,15 @@ export const arsTimeTranslation = {
         '&1:last week DATE;' +
         '? week%s ago DATE',
       day:
-        '&1:yesterday;' +
-        '? days ago TIME',
+        '&1:yesterday TIME;' +
+        '&2:day before yesterday TIME;' +
+        '? days ago DATE',
       hour:
-        '? hour%s ago',
+        '? hour%s ago TIME',
       minute:
-        '&10-20:quarter of an hour ago;' +
-        '&20-40:half an hour ago;' +
-        '&40-60:1 hour ago;' +
+        '&15-20:quarter of an hour ago;' +
+        '&30-35:half an hour ago;' +
+        '&55-60:about an hour ago;' +
         '? minute%s ago',
       second:
         '&0-30:just now;' +
