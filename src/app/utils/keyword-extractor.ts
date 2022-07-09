@@ -128,7 +128,7 @@ export class KeywordExtractor {
           start = m.index + m[0].length;
         }
         nextStr(str.substring(start));
-        return [newDelta, QuillUtils.getTextFromDelta(body)];
+        return [newDelta, QuillUtils.getTextFromDelta(newDelta)];
       })
     );
   }
