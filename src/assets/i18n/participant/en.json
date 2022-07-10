@@ -352,6 +352,7 @@
     "tag-cloud-title": "Introduction to the topic cloud"
   },
   "question-wall": {
+    "users-online": "Currently logged-in users",
     "next-comment": "Next question",
     "next-comment-icon": "navigate_next",
     "prev-comment": "Previous question",
