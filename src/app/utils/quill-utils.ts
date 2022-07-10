@@ -68,7 +68,7 @@ export class QuillUtils {
   static getContentCount(delta: ImmutableStandardDelta): number {
     return delta.ops.reduce((acc, op) => {
       return acc + (typeof op.insert === 'string' && op.insert.trim().length < 1 ? 0 : 1);
-    }, 1);
+    }, 0);
   }
 
   static transformURLtoQuillLink(data: StandardDelta, transformToVideo: boolean) {
