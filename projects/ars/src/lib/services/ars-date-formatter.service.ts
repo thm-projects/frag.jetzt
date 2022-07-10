@@ -191,6 +191,11 @@ export class ArsDateMapEntry{
 
 }
 
+export interface ArsDateFormatterConfig {
+  hideDate: boolean,
+  hideTime: boolean
+}
+
 enum Token{
   DATE='DATE',
   FORM='%',
@@ -267,12 +272,17 @@ export class ArsDateFormatter implements OnDestroy{
    * returns string
    * @param time: ArsApproximateDate
    * @param lang [en,de]
+   * @param config
    */
-  public format(time: ArsApproximateDate, lang: string): string{
+  public format(time: ArsApproximateDate, lang: string, config?: ArsDateFormatterConfig): string{
     let str: string = this.map.format(time, lang);
     if (str.includes(Token.FORM)){
-      str = str.replace(Token.DATE, arsTimeTranslation[lang].dateConvert(time.date));
-      str = str.replace(Token.TIME, arsTimeTranslation[lang].timeConvert(time.date));
+      if(config||!config.hideDate) {
+        str = str.replace(Token.DATE, arsTimeTranslation[lang].dateConvert(time.date));
+      }
+      if(config||!config.hideTime) {
+        str = str.replace(Token.TIME, arsTimeTranslation[lang].timeConvert(time.date));
+      }
       if (time.time == 1){
         return (str.split(Token.FORM)[0] + ((e: string) => e.substring(e.indexOf(' ')))(str.split(Token.FORM)[1])).replace(Token.VAL, time.time + '');
       }else{
@@ -280,8 +290,12 @@ export class ArsDateFormatter implements OnDestroy{
       }
 
     }
-    str = str.replace(Token.DATE, arsTimeTranslation[lang].dateConvert(time.date));
-    str = str.replace(Token.TIME, arsTimeTranslation[lang].timeConvert(time.date));
+    if(config||!config.hideDate) {
+      str = str.replace(Token.DATE, arsTimeTranslation[lang].dateConvert(time.date));
+    }
+    if(config||!config.hideTime) {
+      str = str.replace(Token.TIME, arsTimeTranslation[lang].timeConvert(time.date));
+    }
     str = str.replace(Token.VAL, time.time + '');
     return str;
   }
