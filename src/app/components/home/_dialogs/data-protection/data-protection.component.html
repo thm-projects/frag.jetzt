@@ -9,6 +9,7 @@
   <mat-dialog-content tabindex="0">
     <app-data-protection-en *ngIf="languageService.currentLanguage() === 'en'"></app-data-protection-en>
     <app-data-protection-de *ngIf="languageService.currentLanguage() === 'de'"></app-data-protection-de>
+    <app-data-protection-fr *ngIf="languageService.currentLanguage() === 'fr'"></app-data-protection-fr>
   </mat-dialog-content>
 
   <app-dialog-action-buttons

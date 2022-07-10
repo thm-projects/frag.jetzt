@@ -74,6 +74,11 @@ import { MatNativeDateModule } from '@angular/material/core';
 import {
   NotifyUnsupportedBrowserComponent
 } from './components/home/_dialogs/notify-unsupported-browser/notify-unsupported-browser.component';
+import { ImprintFrComponent } from '../assets/i18n/imprint/imprint-fr';
+import { HelpFrComponent } from '../assets/i18n/help/help-fr';
+import { DemoFrComponent } from '../assets/i18n/demo/demo-fr';
+import { DataProtectionFrComponent } from '../assets/i18n/data-protection/data-protection-fr';
+import { CookiesFrComponent } from '../assets/i18n/cookies/cookies-fr';
 
 export const dialogClose = (dialogResult: any) => '';
 
@@ -100,15 +105,19 @@ export const HttpLoaderFactory = (http: HttpClient) => new TranslateHttpLoader(h
     CookiesComponent,
     DataProtectionEnComponent,
     DataProtectionDeComponent,
+    DataProtectionFrComponent,
     CookiesEnComponent,
     CookiesDeComponent,
+    CookiesFrComponent,
     ImprintEnComponent,
     ImprintDeComponent,
+    ImprintFrComponent,
     HelpDeComponent,
     HelpEnComponent,
+    HelpFrComponent,
     DemoDeComponent,
     DemoEnComponent,
-    HelpEnComponent,
+    DemoFrComponent,
     OverlayComponent,
     QuizNowComponent,
     NotifyUnsupportedBrowserComponent
