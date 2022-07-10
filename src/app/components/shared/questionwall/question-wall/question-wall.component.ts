@@ -554,4 +554,5 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
       this.userList.push([num, user]);
     });
   }
+
 }
