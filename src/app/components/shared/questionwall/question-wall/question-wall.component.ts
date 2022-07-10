@@ -115,8 +115,10 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   user: User;
   animationTrigger = true;
   firstPassIntroduction = true;
+  introLoaded: boolean = false;
   room: Room = null;
   period: Period;
+  showClock: boolean = true;
   private readonly commentCache: CommentCache = {};
   private _filterObj: FilteredDataAccess;
 
@@ -146,6 +148,9 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
       currentTimeFormat = lang.toUpperCase() === 'DE' ? TIME_FORMAT_DE : TIME_FORMAT_EN;
     });
     this._filterObj = FilteredDataAccess.buildNormalAccess(this.sessionService, this.roomDataService, false, true, 'presentation');
+    if(localStorage.getItem('question-wall-not-show-clock')==='true'){
+      this.showClock=false;
+    }
   }
 
   get hasFilter() {
@@ -154,14 +159,6 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public wrap<E>(e: E, action: (e: E) => void) {
     action(e);
-  }
-
-  public notUndefined<E>(e: E, action: (e: E) => void, elsePart?: () => void) {
-    if (e) {
-      action(e);
-    } else if (elsePart) {
-      elsePart();
-    }
   }
 
   toggleSideList() {
@@ -542,6 +539,11 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     return message;
   }
 
+  toggleShowClock() {
+    this.showClock=!this.showClock;
+    localStorage.setItem('question-wall-not-show-clock',!this.showClock+'');
+  }
+
   private refreshUserMap() {
     this.userMap.clear();
     this.comments.forEach(comment => {
@@ -552,5 +554,4 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
       this.userList.push([num, user]);
     });
   }
-
 }

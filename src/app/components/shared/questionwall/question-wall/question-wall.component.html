@@ -1,6 +1,7 @@
 <app-mat-spinner-overlay *ngIf="isLoading"
                          [overlay]="true"></app-mat-spinner-overlay>
-<app-minute-jump-clock [minWidth]="880"
+<app-minute-jump-clock *ngIf="showClock"
+                       [minWidth]="880"
                        [offsetTop]="35"
                        [fixedSize]="200"></app-minute-jump-clock>
 <ars-screen ars-flex-box
@@ -582,6 +583,19 @@
           <ng-container *ngIf="!focusIncomingComments">
             <mat-icon>{{'question-wall.auto-renew-on-icon' | translate}}</mat-icon>
             <p>{{'question-wall.auto-renew-on' | translate}}</p>
+          </ng-container>
+        </button>
+        <button ars-btn
+                (click)="toggleShowClock()"
+                matRipple
+                aria-labelledby="autofocus-on-lbl">
+          <ng-container *ngIf="showClock">
+            <mat-icon>{{'question-wall.show-clock-off-icon' | translate}}</mat-icon>
+            <p>{{'question-wall.show-clock-off' | translate}}</p>
+          </ng-container>
+          <ng-container *ngIf="!showClock">
+            <mat-icon>{{'question-wall.show-clock-on-icon' | translate}}</mat-icon>
+            <p>{{'question-wall.show-clock-on' | translate}}</p>
           </ng-container>
         </button>
         <button ars-btn
