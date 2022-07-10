@@ -19,6 +19,10 @@ export class MinuteJumpClockComponent implements OnInit, AfterViewInit, OnDestro
   offsetTop: number = 0;
   @Input()
   offsetLeft: number = 0;
+  @Input()
+  zIndex: number = null;
+  @Input()
+  questionWallColor: boolean = false;
   @ViewChild('clock')
   svgClock: ElementRef<HTMLElement>;
   visible: boolean = false;
@@ -118,6 +122,13 @@ export class MinuteJumpClockComponent implements OnInit, AfterViewInit, OnDestro
     style.height = this.fixedSize ? this.fixedSize + 'px' : '100%';
     style.left = this.offsetLeft + 'px';
     style.top = this.offsetTop + 'px';
+    if (this.zIndex !== null) {
+      style.zIndex = String(this.zIndex);
+    }
+    if (this.questionWallColor) {
+      style.setProperty('--second-color', 'white');
+      style.setProperty('--accent-color', 'darkorange');
+    }
   }
 
 }
