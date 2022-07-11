@@ -1,12 +1,11 @@
 {
   "paginator": {
+    "firstPageLabel": "First",
     "itemsPerPageLabel": "Questions per page",
+    "lastPageLabel": "Last",
     "nextPageLabel": "Next",
     "previousPageLabel": "Previous",
-    "firstPageLabel": "First",
-    "lastPageLabel": "Last",
     "rangePageLabel1": "null",
     "rangePageLabel2": "%start - %end of %length"
   }
 }
-

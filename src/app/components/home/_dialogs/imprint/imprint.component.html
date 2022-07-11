@@ -5,6 +5,7 @@
 <mat-dialog-content tabindex="0">
   <app-imprint-en *ngIf="languageService.currentLanguage() === 'en'"></app-imprint-en>
   <app-imprint-de *ngIf="languageService.currentLanguage() === 'de'"></app-imprint-de>
+  <app-imprint-fr *ngIf="languageService.currentLanguage() === 'fr'"></app-imprint-fr>
   <P>{{ 'imprint.frontend' | translate }}</P>
   <iframe [src]="safeURLfrontend"
           loading="lazy"
