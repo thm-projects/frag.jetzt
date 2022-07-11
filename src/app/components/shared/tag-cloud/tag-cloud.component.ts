@@ -58,7 +58,7 @@ import { FilterType, Period, RoomDataFilter } from '../../../utils/data-filter-o
 import { maskKeyword } from '../../../services/util/tag-cloud-data.util';
 import { ColorContrast, ColorRGB } from '../../../utils/color-contrast';
 import { FilteredDataAccess } from '../../../utils/filtered-data-access';
-import { forkJoin } from 'rxjs';
+import { forkJoin, Subscription } from 'rxjs';
 
 class TagComment implements CloudData, WordMeta {
 
@@ -77,9 +77,6 @@ class TagComment implements CloudData, WordMeta {
   ) {
   }
 }
-
-const transformationScaleKiller = /scale\([^)]*\)/;
-const transformationRotationKiller = /rotate\(([^)]*)\)/;
 
 @Component({
   selector: 'app-tag-cloud',
@@ -119,6 +116,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
   private _currentSettings: CloudParameters;
   private _subscriptionRoom = null;
   private readonly _smartDebounce = new SmartDebounce(50, 1_000);
+  private themeSubscription: Subscription;
 
   constructor(
     private commentService: CommentService,
@@ -215,8 +213,8 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
       }
       this.dataManager.filterObject = filterObj;
     });
-    this.themeSubscription = this.themeService.getTheme().subscribe(() => {
-      if (this.child) {
+    this.themeSubscription = this.themeService.getTheme().subscribe(_ => {
+      if (this.cloud) {
         setTimeout(() => {
           this.setCloudParameters(this.getCurrentCloudParameters(), false);
         }, 1);
@@ -361,19 +359,14 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     return !this.data?.length;
   }
 
-  private prepareAlphabeticalCloud(newElements: TagComment[]) {
-    if (this._currentSettings.sortAlphabetically) {
-      const lines = Math.floor(Math.sqrt(newElements.length - 1) + 1);
-      const divided = Math.floor(newElements.length / lines);
-      let remainder = newElements.length - divided * lines;
-      for (let i = 0, line = 0; line < lines; line++) {
-        const size = divided + (--remainder >= 0 ? 1 : 0);
-        for (let k = 0; k < size; k++, i++) {
-          newElements[i].position = new CustomPosition((k + 1) / (size + 1), (line + 1) / (lines + 1));
-        }
-      }
-      this.updateAlphabeticalPosition(newElements);
-    }
+  enter(word: ActiveWord<TagComment>) {
+    this.popup.enter(word.element, word.meta.text, this.brainstormingActive, word.meta.tagData,
+      (this._currentSettings.hoverTime + this._currentSettings.hoverDelay) * 1_000,
+      this.room && this.room.blacklistActive);
+  }
+
+  leave() {
+    this.popup.leave();
   }
 
   private createTagElement(countFiler: number[], tagData: TagCloudDataTagEntry, tag: string, newElements: TagComment[]) {
@@ -396,16 +389,6 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
 
   private getCurrentCloudParameters(): CloudParameters {
     return CloudParameters.getCurrentParameters(this.themeService.currentTheme.isDark);
-  }
-
-  enter(word: ActiveWord<TagComment>) {
-    this.popup.enter(word.element, word.meta.text, this.brainstormingActive, word.meta.tagData,
-      (this._currentSettings.hoverTime + this._currentSettings.hoverDelay) * 1_000,
-      this.room && this.room.blacklistIsActive);
-  }
-
-  leave() {
-    this.popup.leave();
   }
 
   private retrieveTagCloudSettings(room: Room) {
@@ -459,7 +442,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
             return;
           }
           this.translateService.get('tag-cloud.tag-cloud-print-title', { roomName: this.room.name })
-            .subscribe(msg => DOMElementPrinter.printOnce(this.child?.cloudDataHtmlElements[0].parentElement,
+            .subscribe(msg => DOMElementPrinter.printOnce(this.cloud?.wordCloud.nativeElement,
               msg, this._currentSettings.backgroundColor));
         },
         condition: () => true

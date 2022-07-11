@@ -6,7 +6,7 @@ class LanguageDirectory {
     this.languages = languages;
   }
 
-  addNew (language) {
+  addNew (language, refLanguage) {
     if (this.languages.includes(language)) {
       return;
     }
@@ -20,7 +20,8 @@ class LanguageDirectory {
       }
       return elem;
     };
-    const obj = JSON.parse(fs.readFileSync(this.directory + this.languages[0] + '.json', {
+    const ref = this.languages.includes(refLanguage) ? refLanguage : this.languages[0];
+    const obj = JSON.parse(fs.readFileSync(this.directory + ref + '.json', {
       encoding: 'utf8'
     }));
     fs.writeFileSync(
@@ -93,7 +94,7 @@ const NO_COLOR = '\033[0m';
 const printHelp = () => {
   console.log(`
 ${RED}sort${NO_COLOR} - sort all files alphabetically
-${RED}add-language <lang-name>${NO_COLOR} - add language file
+${RED}add-language <lang-name> <old-reference-language>${NO_COLOR} - add language file
 ${RED}missing${NO_COLOR} - find missing keys, based on other language files
 ${RED}project-unused${NO_COLOR} - (TODO) find unused labels from the project
 `);
@@ -126,8 +127,8 @@ const sort = () => {
   findFiles().forEach(elem => elem.sort());
 };
 
-const addNew = (language) => {
-  findFiles().forEach(elem => elem.addNew(language));
+const addNew = (language, ref) => {
+  findFiles().forEach(elem => elem.addNew(language, ref));
 };
 
 const findMissing = () => {
@@ -151,10 +152,10 @@ switch (args[0].toLowerCase()) {
     sort();
     break;
   case 'add-language':
-    if (args.length < 2) {
+    if (args.length < 3) {
       printHelp();
     }
-    addNew(args[1]);
+    addNew(args[1], args[2]);
     break;
   case 'missing':
     findMissing();
