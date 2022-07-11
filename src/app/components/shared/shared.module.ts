@@ -141,6 +141,8 @@ import { DashboardComponent } from './_dialogs/dashboard/dashboard.component';
 import { DashboardDialogComponent } from './_dialogs/dashboard-dialog/dashboard-dialog.component';
 import { DeleteAllNotificationsComponent } from './_dialogs/delete-all-notifications/delete-all-notifications.component';
 import { RoomSettingsOverviewComponent } from './_dialogs/room-settings-overview/room-settings-overview.component';
+import { LivePollComponent } from './live-poll/live-poll.component';
+import { LivePollEntryComponent } from './live-poll/live-poll-entry/live-poll-entry.component';
 
 @NgModule({
   imports: [
@@ -234,7 +236,9 @@ import { RoomSettingsOverviewComponent } from './_dialogs/room-settings-overview
     DashboardComponent,
     DashboardDialogComponent,
     DeleteAllNotificationsComponent,
-    RoomSettingsOverviewComponent
+    RoomSettingsOverviewComponent,
+    LivePollComponent,
+    LivePollEntryComponent
   ],
     exports: [
         RoomJoinComponent,

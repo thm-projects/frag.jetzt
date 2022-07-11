@@ -5,7 +5,7 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './screen.component.html',
   styleUrls: ['./screen.component.scss']
 })
-export class FullScreenOverlayComponent implements OnInit {
+export class ArsFullScreenOverlayComponent implements OnInit {
 
   constructor() { }
 

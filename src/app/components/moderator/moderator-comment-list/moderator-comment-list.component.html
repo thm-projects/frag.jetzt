@@ -305,7 +305,7 @@
   [pageSizeOptions]="pageSizeOptions"
   [pageIndex]="pageIndex"
   [length]="comments.length"></ars-mat-paginator>
-<ars-row [height]="64" *ngIf="comments.length > 0">
+<ars-row [size]="64" *ngIf="comments.length > 0">
 </ars-row>
 
 <div *ngIf="comments && (commentsFilteredByTimeLength < 1 && period === 'All' || comments.length === 0) && !isLoading"

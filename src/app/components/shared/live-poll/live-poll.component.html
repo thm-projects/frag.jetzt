@@ -1,0 +1,43 @@
+<ng-container>
+  <div id="livePollExpander" style="background-color:black;"></div>
+</ng-container>
+<ng-container *ngIf="isLoaded">
+  <ars-screen ars-flex-box style="background-color:black;">
+    <ars-row ars-flex-box>
+      <button mat-icon-button (click)="close()">
+        <mat-icon style="color:white;">arrow_back</mat-icon>
+      </button>
+    </ars-row>
+    <ars-fill ars-flex-box [align]="'center'">
+      <ars-col ars-flex-box [size]="800" [align]="'center'" [inset]="true">
+        <ars-row ars-flex-box [borderBox]="true" [padding]="[4,16]">
+          <h1>
+            <span>{{'live-poll.title' | translate}}</span>
+          </h1>
+        </ars-row>
+        <ars-row ars-flex-box [borderBox]="true" [padding]="[8,16]" *ngFor="let e of list.list">
+          <app-live-poll-entry [value]="e"></app-live-poll-entry>
+        </ars-row>
+        <ars-row ars-flex-box [borderBox]="true" [padding]="[4,16]" [direction]="'row'">
+          <button mat-button style="color:white;padding:0 8px;">
+            <mat-icon style="color:white;padding-right:4px;">play_arrow</mat-icon>
+            <span *ngIf="device.isCurrentlyDesktop">{{'live-poll.start' | translate}}</span>
+          </button>
+          <button mat-button style="color:white;padding:0 8px;">
+            <mat-icon style="color:white;padding-right:4px;">stop</mat-icon>
+            <span *ngIf="device.isCurrentlyDesktop">{{'live-poll.stop' | translate}}</span>
+          </button>
+          <ars-fill></ars-fill>
+          <button mat-button style="color:white;padding:0 8px;">
+            <mat-icon style="color:white;padding-right:4px;">poll</mat-icon>
+            <span *ngIf="device.isCurrentlyDesktop">{{'live-poll.compare' | translate}}</span>
+          </button>
+        </ars-row>
+      </ars-col>
+    </ars-fill>
+  </ars-screen>
+</ng-container>
+
+<!--<mat-icon>sentiment_dissatisfied</mat-icon>-->
+<!--<mat-icon>sentiment_neutral</mat-icon>-->
+<!--<mat-icon>mood</mat-icon>-->

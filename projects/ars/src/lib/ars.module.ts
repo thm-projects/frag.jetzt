@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { ArsComponent } from './ars.component';
-import { FullScreenOverlayComponent } from './components/layout/base/screen/screen.component';
+import { ArsFullScreenOverlayComponent } from './components/layout/base/screen/screen.component';
 import { RowComponent } from './components/layout/frame/row/row.component';
 import { ColComponent } from './components/layout/frame/col/col.component';
 import { FillComponent } from './components/layout/frame/fill/fill.component';
@@ -36,11 +36,12 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { DateTestComponent } from './components/test/date-test/date-test/date-test.component';
 import { DateFormatterComponent } from './components/content/date-formatter/date-formatter.component';
 import {ArsLifeCycleVisitor} from "./models/util/ars-life-cycle-visitor";
+import { ArsComposeOverlayComponent } from './compose/base/ars-compose-overlay/ars-compose-overlay.component';
 
 @NgModule({
   declarations: [
     ArsComponent,
-    FullScreenOverlayComponent,
+    ArsFullScreenOverlayComponent,
     RowComponent,
     ColComponent,
     FillComponent,
@@ -64,7 +65,8 @@ import {ArsLifeCycleVisitor} from "./models/util/ars-life-cycle-visitor";
     ArsMatPaginatorComponent,
     DateTestComponent,
     DateFormatterComponent,
-    ArsLifeCycleVisitor
+    ArsLifeCycleVisitor,
+    ArsComposeOverlayComponent
   ],
     imports:[
         MatIconModule,
@@ -81,7 +83,7 @@ import {ArsLifeCycleVisitor} from "./models/util/ars-life-cycle-visitor";
     ],
     exports: [
         ArsComponent,
-        FullScreenOverlayComponent,
+        ArsFullScreenOverlayComponent,
         WrapperDirective,
         FrameTestComponent,
         ScrollDirective,

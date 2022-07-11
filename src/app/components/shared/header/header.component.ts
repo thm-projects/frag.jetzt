@@ -1,40 +1,51 @@
-import { AfterViewInit, Component, OnInit, Renderer2, ViewChild } from '@angular/core';
-import { AuthenticationService } from '../../../services/http/authentication.service';
-import { NotificationService } from '../../../services/util/notification.service';
-import { Router } from '@angular/router';
-import { User } from '../../../models/user';
-import { UserRole } from '../../../models/user-roles.enum';
-import { Location } from '@angular/common';
-import { TranslateService } from '@ngx-translate/core';
-import { MatDialog } from '@angular/material/dialog';
-import { LoginComponent } from '../login/login.component';
-import { DeleteAccountComponent } from '../_dialogs/delete-account/delete-account.component';
-import { UserService } from '../../../services/http/user.service';
-import { EventService } from '../../../services/util/event.service';
-import { AppComponent } from '../../../app.component';
-import { Rescale } from '../../../models/rescale';
-import { KeyboardUtils } from '../../../utils/keyboard';
-import { KeyboardKey } from '../../../utils/keyboard/keys';
-import { UserBonusTokenComponent } from '../../participant/_dialogs/user-bonus-token/user-bonus-token.component';
-import { RemindOfTokensComponent } from '../../participant/_dialogs/remind-of-tokens/remind-of-tokens.component';
-import { QrCodeDialogComponent } from '../_dialogs/qr-code-dialog/qr-code-dialog.component';
-import { BonusTokenService } from '../../../services/http/bonus-token.service';
-import { MotdService } from '../../../services/http/motd.service';
-import { RoomService } from '../../../services/http/room.service';
-import { Room } from '../../../models/room';
-import { TagCloudDataService } from '../../../services/util/tag-cloud-data.service';
-import { TopicCloudAdminService } from '../../../services/util/topic-cloud-admin.service';
-import { HeaderService } from '../../../services/util/header.service';
-import { OnboardingService } from '../../../services/util/onboarding.service';
-import { ArsComposeHostDirective } from '../../../../../projects/ars/src/lib/compose/ars-compose-host.directive';
-import { ThemeService } from '../../../../theme/theme.service';
+import {
+  AfterViewInit,
+  ApplicationRef,
+  Component,
+  ComponentRef,
+  OnInit,
+  Renderer2,
+  ViewChild,
+  ViewContainerRef
+} from '@angular/core';
+import {AuthenticationService} from '../../../services/http/authentication.service';
+import {NotificationService} from '../../../services/util/notification.service';
+import {Router} from '@angular/router';
+import {User} from '../../../models/user';
+import {UserRole} from '../../../models/user-roles.enum';
+import {Location} from '@angular/common';
+import {TranslateService} from '@ngx-translate/core';
+import {MatDialog} from '@angular/material/dialog';
+import {LoginComponent} from '../login/login.component';
+import {DeleteAccountComponent} from '../_dialogs/delete-account/delete-account.component';
+import {UserService} from '../../../services/http/user.service';
+import {EventService} from '../../../services/util/event.service';
+import {AppComponent} from '../../../app.component';
+import {Rescale} from '../../../models/rescale';
+import {KeyboardUtils} from '../../../utils/keyboard';
+import {KeyboardKey} from '../../../utils/keyboard/keys';
+import {UserBonusTokenComponent} from '../../participant/_dialogs/user-bonus-token/user-bonus-token.component';
+import {RemindOfTokensComponent} from '../../participant/_dialogs/remind-of-tokens/remind-of-tokens.component';
+import {QrCodeDialogComponent} from '../_dialogs/qr-code-dialog/qr-code-dialog.component';
+import {BonusTokenService} from '../../../services/http/bonus-token.service';
+import {MotdService} from '../../../services/http/motd.service';
+import {RoomService} from '../../../services/http/room.service';
+import {Room} from '../../../models/room';
+import {TagCloudDataService} from '../../../services/util/tag-cloud-data.service';
+import {TopicCloudAdminService} from '../../../services/util/topic-cloud-admin.service';
+import {HeaderService} from '../../../services/util/header.service';
+import {OnboardingService} from '../../../services/util/onboarding.service';
+import {ArsComposeHostDirective} from '../../../../../projects/ars/src/lib/compose/ars-compose-host.directive';
+import {ThemeService} from '../../../../theme/theme.service';
 import {
   TopicCloudBrainstormingComponent
 } from '../_dialogs/topic-cloud-brainstorming/topic-cloud-brainstorming.component';
-import { SessionService } from '../../../services/util/session.service';
-import { LanguageService } from '../../../services/util/language.service';
-import { DeviceInfoService } from '../../../services/util/device-info.service';
-import { CommentNotificationService } from '../../../services/http/comment-notification.service';
+import {SessionService} from '../../../services/util/session.service';
+import {LanguageService} from '../../../services/util/language.service';
+import {DeviceInfoService} from '../../../services/util/device-info.service';
+import {CommentNotificationService} from '../../../services/http/comment-notification.service';
+import {ArsComposeOverlayService} from '../../../../../projects/ars/src/lib/services/ars-compose-overlay.service';
+import {LivePollComponent} from '../live-poll/live-poll.component';
 
 @Component({
   selector: 'app-header',
@@ -81,6 +92,8 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     private languageService: LanguageService,
     public deviceInfo: DeviceInfoService,
     private commentNotificationService: CommentNotificationService,
+    private arsComposeOverlayService: ArsComposeOverlayService,
+    private applicationRef: ApplicationRef
   ) {
     this.languageService.getLanguage().subscribe(lang => this.translationService.use(lang));
   }
@@ -328,5 +341,19 @@ export class HeaderComponent implements OnInit, AfterViewInit {
       return 'tooltip-creator';
     }
     return 'tooltip-participant';
+  }
+
+  public openLivePoll(event: MouseEvent){
+    const app: AppComponent=this.applicationRef.components[0].instance;
+    const ref=this.arsComposeOverlayService.open(app.getViewContainerRef());
+    ref.instance.onAfterViewInit(()=>{
+      const livePoll: ComponentRef<LivePollComponent>=ref.instance.host.viewContainerRef.createComponent(LivePollComponent);
+      livePoll.instance.closeEmitter.subscribe(i=>{
+        ref.destroy();
+      });
+      livePoll.instance.setIntroConfig({
+        e:event
+      });
+    });
   }
 }

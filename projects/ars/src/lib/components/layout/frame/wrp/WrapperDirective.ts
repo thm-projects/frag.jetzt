@@ -1,4 +1,4 @@
-import { AfterViewInit, Directive, ElementRef, OnInit, Renderer2 } from '@angular/core';
+import {AfterViewInit, Directive, ElementRef, Input, OnInit, Renderer2} from '@angular/core';
 
 
 @Directive({
@@ -6,7 +6,11 @@ import { AfterViewInit, Directive, ElementRef, OnInit, Renderer2 } from '@angula
 })
 export class WrapperDirective implements OnInit, AfterViewInit {
 
-  public direction: string;
+  @Input() align: string = 'space-between';
+  @Input() borderBox: boolean = false;
+  @Input() padding: number[]|number = null;
+  @Input() direction: string = null;
+  public _direction: string;
 
   constructor(public ref: ElementRef, public render: Renderer2) {
   }
@@ -14,15 +18,29 @@ export class WrapperDirective implements OnInit, AfterViewInit {
   ngOnInit() {
   }
 
+  private setStyle(left:string,right:string) {
+    this.render.setStyle(this.ref.nativeElement, left,right);
+  }
+
   ngAfterViewInit() {
-    this.direction = this.getDirection();
-    this.render.setStyle(this.ref.nativeElement, 'display', 'flex');
-    this.render.setStyle(this.ref.nativeElement, 'justify-content', 'space-between');
-    this.render.setStyle(this.ref.nativeElement, 'overflow', 'auto');
-    this.render.setStyle(this.ref.nativeElement, 'flex-direction', this.direction);
+    this._direction = this.getDirection();
+    this.setStyle('display', 'flex');
+    this.setStyle('justify-content', this.align);
+    this.setStyle('overflow', 'auto');
+    this.setStyle('flex-direction', this._direction);
+    if(this.borderBox){
+      this.setStyle('box-sizing', 'border-box');
+    }
+    if(this.padding){
+      if(typeof this.padding === "object")
+        this.setStyle('padding',this.padding.map(x=>x+'px').join(' '));
+      else
+        this.setStyle('padding',this.padding+'px');
+    }
   }
 
   private getDirection(): string {
+    if(this.direction)return this.direction;
     let rows = 0;
     let cols = 0;
     Array.from((<HTMLElement>this.ref.nativeElement).children).forEach(e => {

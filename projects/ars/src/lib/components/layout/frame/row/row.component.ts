@@ -10,7 +10,8 @@ import { FrameType } from '../FrameType';
 export class RowComponent extends FrameType implements OnInit, AfterViewInit {
 
   @Input() overflow = 'visible';
-  @Input() height: number;
+  @Input() size: number;
+  @Input() inset: boolean = false;
 
   constructor(public ref: ElementRef, public render: Renderer2) {
     super('row');
@@ -20,8 +21,11 @@ export class RowComponent extends FrameType implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    if (this.height) {
-      this.setPx(this.height);
+    if (this.size) {
+      this.setPx(this.size);
+    }
+    if(this.inset){
+      this.render.setStyle(this.ref.nativeElement,'max-height','100%');
     }
     this.updateOverflow();
   }

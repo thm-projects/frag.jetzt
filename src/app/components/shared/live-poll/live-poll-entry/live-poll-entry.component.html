@@ -1,0 +1,16 @@
+<ars-row ars-flex-box [size]="64">
+  <ars-col [size]="64">
+    <p style="color:white;font-size:32px;padding:0;margin:12px 0;">{{value.symbol}}</p>
+  </ars-col>
+  <ars-fill>
+    <ars-col [ngStyle]="{
+    'width.px':(value.value > 0
+      ? (value.value / value.sum) * ( this.ref.nativeElement.offsetWidth - 64 )
+      : 0
+    ),
+    'max-width':'100%',
+    'transition':'all 0.2s ease-in-out',
+    'background-color':'green'
+    }"></ars-col>
+  </ars-fill>
+</ars-row>

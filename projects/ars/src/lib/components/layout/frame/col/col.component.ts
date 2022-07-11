@@ -1,5 +1,5 @@
-import { AfterViewInit, Component, ElementRef, Input, OnInit, Renderer2 } from '@angular/core';
-import { FrameType } from '../FrameType';
+import {AfterViewInit, Component, ElementRef, Input, OnInit, Renderer2} from '@angular/core';
+import {FrameType} from '../FrameType';
 
 @Component({
   selector: 'ars-col',
@@ -10,7 +10,8 @@ import { FrameType } from '../FrameType';
 export class ColComponent extends FrameType implements OnInit, AfterViewInit {
 
   @Input() overflow = 'visible';
-  @Input() width: number;
+  @Input() size: number;
+  @Input() inset: boolean = false;
 
   constructor(public ref: ElementRef, public render: Renderer2) {
     super('col');
@@ -20,8 +21,11 @@ export class ColComponent extends FrameType implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    if (this.width) {
-      this.setPx(this.width);
+    if (this.size) {
+      this.setPx(this.size);
+    }
+    if(this.inset){
+      this.render.setStyle(this.ref.nativeElement,'max-width','100%');
     }
     this.updateOverflow();
   }

@@ -2,7 +2,7 @@
                          [overlay]="true"></app-mat-spinner-overlay>
 <ars-screen ars-flex-box
             class="questionwall-screen">
-  <ars-row [height]="50"
+  <ars-row [size]="50"
            class="questionwall-header">
     <ars-style-btn-material *ngIf="room"
                             style="width:100%;height:100%;"
@@ -151,7 +151,7 @@
       <ars-fill>
       </ars-fill>
       <ars-row ars-flex-box
-               height="400">
+               size="400">
         <ars-fill></ars-fill>
         <ars-col ars-flex-box>
           <ars-row *ngIf="commentFocus">
@@ -201,7 +201,7 @@
                                        [currentData]="commentFocus.body"></app-view-comment-data>
               </ars-row>
             </ars-row>
-            <ars-row [height]="50">
+            <ars-row [size]="50">
               <ars-style-btn-material style="width:100%;height:100%;"
                                       ars-flex-box>
                 <ars-col ars-btn-wrp
@@ -268,7 +268,7 @@
         </ars-col>
       </div>
     </div>
-    <ars-col [width]="50"
+    <ars-col [size]="50"
              ars-flex-box>
       <ars-row>
         <button mat-icon-button
@@ -294,7 +294,7 @@
         <ars-row>
           <ng-container *ngIf="!sidelistExpanded">
             <ars-row role="button"
-                     [height]="50"
+                     [size]="50"
                      (click)="focusComment(comment)"
                      [ngClass]="comment.id === commentFocusId ? 'sln-on' : 'sln-off'"
                      class="side-list-numbers"
@@ -309,21 +309,21 @@
         </ars-fill>
       </ars-fill>
     </ars-col>
-    <ars-col [width]="450"
+    <ars-col [size]="450"
              [overflow]="'hidden'"
              #sidelist
              class="side-list">
-      <ars-col [width]="450">
+      <ars-col [size]="450">
 
         <ars-col ars-flex-box
-                 [width]="450"
+                 [size]="450"
                  class="questionwall-list"
                  #colComponent>
 
           <ars-row>
             <ars-row *ngIf="hasFilter"
                      class="questionwall-list-border-bottom"
-                     [height]="50">
+                     [size]="50">
               <ars-style-btn-material style="width:100%;height:100%;"
                                       ars-flex-box>
                 <ars-col ars-btn-wrp
@@ -394,7 +394,7 @@
                          class="questionwall-comment-anchor qw-comment-fade-animation"
                          style="float:left;">
                   <ars-row ars-flex-box
-                           height="170">
+                           size="170">
                     <ars-fill></ars-fill>
                     <ars-col ars-flex-box>
                       <ars-fill></ars-fill>
@@ -451,7 +451,7 @@
                                                  [currentData]="comment.body"></app-view-comment-data>
                         </p>
                       </ars-row>
-                      <ars-row [height]="50">
+                      <ars-row [size]="50">
                         <ars-style-btn-material style="width:100%;height:100%;"
                                                 ars-flex-box>
                           <ars-col ars-btn-wrp
@@ -497,7 +497,7 @@
 
             <ars-row *ngIf="userSelection">
               <ars-style-btn-material style="width:100%">
-                <ars-row [height]="50"
+                <ars-row [size]="50"
                          ars-flex-box
                          class="questionwall-list-border-bottom">
                   <ars-col ars-btn-wrp
@@ -547,7 +547,7 @@
       </ars-col>
     </ars-col>
   </ars-fill>
-  <ars-row [height]="50"
+  <ars-row [size]="50"
            class="questionwall-footer">
     <ars-style-btn-material style="width:100%;"
                             ars-flex-box>

@@ -39,6 +39,18 @@
 
       <button mat-flat-button
               tabindex="0"
+              (click)="openLivePoll($event)"
+              *ngIf="!router.url.endsWith('moderator/comments') && router.url.endsWith('/comments') &&
+                     room?.quizActive &&
+                     deviceInfo.isCurrentlyDesktop">
+        <mat-icon class="material-icons-outlined"
+                  style="margin-right: 5px">poll
+        </mat-icon>
+        <span>{{'header.live-poll' | translate}}</span>
+      </button>
+
+      <button mat-flat-button
+              tabindex="0"
               *ngIf="!router.url.endsWith('moderator/comments') && router.url.endsWith('/comments') &&
                      deviceInfo.isCurrentlyDesktop && ((tagCloudDataService.currentData?.size || 0) > 0)"
               (click)="navigateTopicCloud()">

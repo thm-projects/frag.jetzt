@@ -14,7 +14,7 @@
 Creates a row with variable __height__ in px.
 
 ```html
-<ars-row [height]="50"></ars-row>
+<ars-row [size]="50"></ars-row>
 ```
 
 #### Input
@@ -44,7 +44,7 @@ Creates a row with variable __height__ in px.
 
 ```html
 <ars-screen ars-flex-box>
-  <ars-row [height]="100"></ars-row>
+  <ars-row [size]="100"></ars-row>
 </ars-screen>
 ```
 
@@ -54,8 +54,8 @@ Creates a row with variable __height__ in px.
 
 ```html
 <ars-screen ars-flex-box>
-  <ars-row [height]="100"></ars-row>
-  <ars-row [height]="100"></ars-row>
+  <ars-row [size]="100"></ars-row>
+  <ars-row [size]="100"></ars-row>
 </ars-screen>
 ```
 
@@ -65,9 +65,9 @@ Creates a row with variable __height__ in px.
 
 ```html
 <ars-screen ars-flex-box>
-  <ars-row [height]="100"></ars-row>
-  <ars-row [height]="100"></ars-row>
-  <ars-row [height]="100"></ars-row>
+  <ars-row [size]="100"></ars-row>
+  <ars-row [size]="100"></ars-row>
+  <ars-row [size]="100"></ars-row>
 </ars-screen>
 ```
 
@@ -79,11 +79,11 @@ Creates a row with variable __height__ in px.
 
 ```html
 <ars-screen ars-flex-box>
-  <ars-col [width]="500" ars-flex-box>
-    <ars-row [height]="100"></ars-row>
-    <ars-row [height]="100"></ars-row>
-    <ars-row [height]="100"></ars-row>
-    <ars-row [height]="100"></ars-row>
+  <ars-col [size]="500" ars-flex-box>
+    <ars-row [size]="100"></ars-row>
+    <ars-row [size]="100"></ars-row>
+    <ars-row [size]="100"></ars-row>
+    <ars-row [size]="100"></ars-row>
     <ars-fill></ars-fill>
   </ars-col>
   <ars-fill></ars-fill>
@@ -101,7 +101,7 @@ Creates a row with variable __height__ in px.
 Creates a column with variable __width__ in px.
 
 ```html
-<ars-col [width]="50"></ars-col>
+<ars-col [size]="50"></ars-col>
 ```
 
 #### Input
@@ -131,7 +131,7 @@ Creates a column with variable __width__ in px.
 
 ```html
 <ars-screen ars-flex-box>
-  <ars-col [width]="100"></ars-col>
+  <ars-col [size]="100"></ars-col>
 </ars-screen>
 ```
 
@@ -141,8 +141,8 @@ Creates a column with variable __width__ in px.
 
 ```html
 <ars-screen ars-flex-box>
-  <ars-col [width]="100"></ars-col>
-  <ars-col [width]="100"></ars-col>
+  <ars-col [size]="100"></ars-col>
+  <ars-col [size]="100"></ars-col>
 </ars-screen>
 ```
 
@@ -152,9 +152,9 @@ Creates a column with variable __width__ in px.
 
 ```html
 <ars-screen ars-flex-box>
-  <ars-col [width]="100"></ars-col>
-  <ars-col [width]="100"></ars-col>
-  <ars-col [width]="100"></ars-col>
+  <ars-col [size]="100"></ars-col>
+  <ars-col [size]="100"></ars-col>
+  <ars-col [size]="100"></ars-col>
 </ars-screen>
 ```
 
@@ -166,12 +166,12 @@ Creates a column with variable __width__ in px.
 
 ```html
 <ars-screen ars-flex-box>
-  <ars-row [height]="100" ars-flex-box>
-    <ars-col [width]="100"></ars-col>
+  <ars-row [size]="100" ars-flex-box>
+    <ars-col [size]="100"></ars-col>
     <ars-fill></ars-fill>
-    <ars-col [width]="200"></ars-col>
+    <ars-col [size]="200"></ars-col>
     <ars-fill></ars-fill>
-    <ars-col [width]="100"></ars-col>
+    <ars-col [size]="100"></ars-col>
   </ars-row>
   <ars-fill></ars-fill>
 </ars-screen>
@@ -207,9 +207,9 @@ In most cases, the use of multiple ars-fill in one ars-flex-box is not recommend
 
 ```html
 <ars-screen ars-flex-box>
-  <ars-row [height]="100"></ars-row>
+  <ars-row [size]="100"></ars-row>
   <ars-fill></ars-fill>
-  <ars-row [height]="100"></ars-row>
+  <ars-row [size]="100"></ars-row>
 </ars-screen>
 ```
 
@@ -219,8 +219,8 @@ In most cases, the use of multiple ars-fill in one ars-flex-box is not recommend
 
 ```html
 <ars-screen ars-flex-box>
-  <ars-row [height]="100"></ars-row>
-  <ars-row [height]="100"></ars-row>
+  <ars-row [size]="100"></ars-row>
+  <ars-row [size]="100"></ars-row>
   <ars-fill></ars-fill>
 </ars-screen>
 ```
@@ -232,10 +232,10 @@ In most cases, the use of multiple ars-fill in one ars-flex-box is not recommend
 ```html
 <ars-screen ars-flex-box>
   <ars-fill></ars-fill>
-  <ars-row [height]="100"></ars-row>
-  <ars-row [height]="100"></ars-row>
+  <ars-row [size]="100"></ars-row>
+  <ars-row [size]="100"></ars-row>
   <ars-fill></ars-fill>
-  <ars-row [height]="100"></ars-row>
+  <ars-row [size]="100"></ars-row>
 </ars-screen>
 ```
 
@@ -261,13 +261,13 @@ Flex-Direction is determined by ars-row or ars-col.
 
 ```html
 <ars-screen ars-flex-box>
-  <ars-row [height]="100"></ars-row>
+  <ars-row [size]="100"></ars-row>
   <ars-fill ars-flex-box>
-    <ars-col [width]="100"></ars-col>
+    <ars-col [size]="100"></ars-col>
     <ars-fill></ars-fill>
-    <ars-col [width]="100"></ars-col>
+    <ars-col [size]="100"></ars-col>
   </ars-fill>
-  <ars-row [height]="100"></ars-row>
+  <ars-row [size]="100"></ars-row>
 </ars-screen>
 ```
 
@@ -277,13 +277,13 @@ Flex-Direction is determined by ars-row or ars-col.
 
 ```html
 <ars-screen ars-flex-box>
-  <ars-row [height]="100"></ars-row>
+  <ars-row [size]="100"></ars-row>
   <ars-fill ars-flex-box>
-    <ars-col [width]="100"></ars-col>
+    <ars-col [size]="100"></ars-col>
     <ars-fill ars-flex-box>
-      <ars-row [height]="200"></ars-row>
+      <ars-row [size]="200"></ars-row>
       <ars-fill ars-flex-box>
-        <ars-col [width]="300"></ars-col>
+        <ars-col [size]="300"></ars-col>
         <ars-fill></ars-fill>
       </ars-fill>
     </ars-fill>
@@ -331,21 +331,21 @@ Creates a centered Wrapper, that automatically switches between dynamic and fixe
 
 ```html
 <ars-screen ars-flex-box>
-  <ars-row [height]="64"></ars-row>
+  <ars-row [size]="64"></ars-row>
   <ars-fill [overflow]="'hidden'">
     <ars-resp ars-scroll [width]="500" [margin]="10">
-      <ars-row [height]="100"></ars-row>
-      <ars-row [height]="100"></ars-row>
-      <ars-row [height]="100"></ars-row>
-      <ars-row [height]="100"></ars-row>
-      <ars-row [height]="100"></ars-row>
-      <ars-row [height]="100"></ars-row>
-      <ars-row [height]="100"></ars-row>
-      <ars-row [height]="100"></ars-row>
-      <ars-row [height]="100"></ars-row>
+      <ars-row [size]="100"></ars-row>
+      <ars-row [size]="100"></ars-row>
+      <ars-row [size]="100"></ars-row>
+      <ars-row [size]="100"></ars-row>
+      <ars-row [size]="100"></ars-row>
+      <ars-row [size]="100"></ars-row>
+      <ars-row [size]="100"></ars-row>
+      <ars-row [size]="100"></ars-row>
+      <ars-row [size]="100"></ars-row>
     </ars-resp>
   </ars-fill>
-  <ars-row [height]="40"></ars-row>
+  <ars-row [size]="40"></ars-row>
 </ars-screen>
 ```
 
@@ -514,7 +514,7 @@ Can be used as __h3__, depending on typo-lead, being used as __h2__.
   rounded, and the entire typeface was made “slightly wider and rounder” with many changes in
   details.
 </p>
-<ars-row [height]="200" style="background-color: rgba(0,0,0,0.1)"></ars-row>
+<ars-row [size]="200" style="background-color: rgba(0,0,0,0.1)"></ars-row>
 ```
 
 ![](images/typography/typo-main-2.png)
@@ -546,7 +546,7 @@ for example pictures, can be spaced by adding `space-page-p`
   and media network The Verge, describes the font as<br>
   <i>"clean and modern, but not overly futuristic– not a science fiction font".</i>
 </p>
-<ars-row [height]="200" style="background-color: rgba(0,0,0,0.1)"></ars-row>
+<ars-row [size]="200" style="background-color: rgba(0,0,0,0.1)"></ars-row>
 ```
 
 ![](images/typography/typo-page-1.png)
@@ -567,7 +567,7 @@ This example uses `ars-row` for spacing elements and inline style to avoid confu
   <ars-screen ars-scroll>
     <ars-resp [width]="750" [margin]="30">
 
-      <ars-row [height]="300"></ars-row>
+      <ars-row [size]="300"></ars-row>
 
       <!-- typo-lead-h to typo-lead-p  -->
 
@@ -578,7 +578,7 @@ This example uses `ars-row` for spacing elements and inline style to avoid confu
         Roboto is a neo-grotesque sans-serif typeface family developed by Google.
       </p>
 
-      <ars-row [height]="160"></ars-row>
+      <ars-row [size]="160"></ars-row>
 
       <!-- typo-lead-h to typo-page-p -->
 
@@ -599,7 +599,7 @@ This example uses `ars-row` for spacing elements and inline style to avoid confu
         physical releases of games.
       </p>
 
-      <ars-row [height]="160"></ars-row>
+      <ars-row [size]="160"></ars-row>
 
       <!-- typo-main-h to typo-page-p -->
 
@@ -620,7 +620,7 @@ This example uses `ars-row` for spacing elements and inline style to avoid confu
         designs.
       </p>
 
-      <ars-row [height]="160"></ars-row>
+      <ars-row [size]="160"></ars-row>
 
       <!-- typo-main-h to typo-page-p (with box at bottom) -->
 
@@ -636,9 +636,9 @@ This example uses `ars-row` for spacing elements and inline style to avoid confu
         rounded, and the entire typeface was made “slightly wider and rounder” with many changes in
         details.
       </p>
-      <ars-row [height]="200" style="background-color: rgba(0,0,0,0.1)"></ars-row>
+      <ars-row [size]="200" style="background-color: rgba(0,0,0,0.1)"></ars-row>
 
-      <ars-row [height]="160"></ars-row>
+      <ars-row [size]="160"></ars-row>
 
       <!-- typo-page-h to typo-page-p (with box at bottom) -->
 
@@ -651,9 +651,9 @@ This example uses `ars-row` for spacing elements and inline style to avoid confu
         and media network The Verge, describes the font as<br>
         <i>"clean and modern, but not overly futuristic– not a science fiction font".</i>
       </p>
-      <ars-row [height]="200" style="background-color: rgba(0,0,0,0.1)"></ars-row>
+      <ars-row [size]="200" style="background-color: rgba(0,0,0,0.1)"></ars-row>
 
-      <ars-row [height]="160"></ars-row>
+      <ars-row [size]="160"></ars-row>
 
       <!-- typo-page-h to typo-page-p -->
 
@@ -667,7 +667,7 @@ This example uses `ars-row` for spacing elements and inline style to avoid confu
         automate the calculation using Sass or CSS.
       </p>
 
-      <ars-row [height]="160"></ars-row>
+      <ars-row [size]="160"></ars-row>
 
     </ars-resp>
   </ars-screen>

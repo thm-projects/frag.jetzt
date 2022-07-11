@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewContainerRef} from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { SwUpdate } from '@angular/service-worker';
 import { NotificationService } from './services/util/notification.service';
@@ -18,6 +18,7 @@ import {
 } from './components/home/_dialogs/notify-unsupported-browser/notify-unsupported-browser.component';
 import { MatDialog } from '@angular/material/dialog';
 import { DeviceInfoService } from './services/util/device-info.service';
+import {StyleDebug} from '../../projects/ars/src/lib/models/debug/StyleDebug';
 
 Quill.register('modules/imageResize', ImageResize);
 
@@ -43,12 +44,14 @@ export class AppComponent implements OnInit {
     private languageService: LanguageService,
     private dialog: MatDialog,
     private deviceInfo: DeviceInfoService,
+    private viewContainerRef: ViewContainerRef
   ) {
     customIconService.init();
     if (environment.name === 'prod') {
       this.matomoInjector.init('https://arsnova.thm.de/stats/', 6);
     }
     this.translationService.setDefaultLang(this.languageService.currentLanguage());
+    StyleDebug.border('c');
   }
 
   public static scrollTop() {
@@ -62,6 +65,10 @@ export class AppComponent implements OnInit {
 
   public static isScrolledTop(): boolean {
     return document.getElementById('scroll_container').scrollTop === 0;
+  }
+
+  public getViewContainerRef(): ViewContainerRef{
+    return this.viewContainerRef;
   }
 
   ngOnInit(): void {
