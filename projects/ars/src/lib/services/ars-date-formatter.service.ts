@@ -192,8 +192,13 @@ export class ArsDateMapEntry{
 }
 
 export interface ArsDateFormatterConfig {
-  hideDate: boolean,
-  hideTime: boolean
+  showDate?: boolean,
+  showTime?: boolean
+}
+
+export const ARS_DATE_FORMATTER_CONFIG_DEFAULT: ArsDateFormatterConfig = {
+  showDate: true,
+  showTime: true
 }
 
 enum Token{
@@ -275,14 +280,21 @@ export class ArsDateFormatter implements OnDestroy{
    * @param config
    */
   public format(time: ArsApproximateDate, lang: string, config?: ArsDateFormatterConfig): string{
+    if(!config){
+      this.format(time,lang,ARS_DATE_FORMATTER_CONFIG_DEFAULT);
+    }
+    config={...ARS_DATE_FORMATTER_CONFIG_DEFAULT,...config};
     let str: string = this.map.format(time, lang);
-    if (str.includes(Token.FORM)){
-      if(config||!config.hideDate) {
+    const parseBigToken=()=>{
+      if(config.showDate) {
         str = str.replace(Token.DATE, arsTimeTranslation[lang].dateConvert(time.date));
       }
-      if(config||!config.hideTime) {
+      if(config.showTime) {
         str = str.replace(Token.TIME, arsTimeTranslation[lang].timeConvert(time.date));
       }
+    }
+    if (str.includes(Token.FORM)){
+      parseBigToken();
       if (time.time == 1){
         return (str.split(Token.FORM)[0] + ((e: string) => e.substring(e.indexOf(' ')))(str.split(Token.FORM)[1])).replace(Token.VAL, time.time + '');
       }else{
@@ -290,12 +302,7 @@ export class ArsDateFormatter implements OnDestroy{
       }
 
     }
-    if(config||!config.hideDate) {
-      str = str.replace(Token.DATE, arsTimeTranslation[lang].dateConvert(time.date));
-    }
-    if(config||!config.hideTime) {
-      str = str.replace(Token.TIME, arsTimeTranslation[lang].timeConvert(time.date));
-    }
+    parseBigToken();
     str = str.replace(Token.VAL, time.time + '');
     return str;
   }
