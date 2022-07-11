@@ -1,0 +1,74 @@
+div {
+  margin: 1em;
+}
+
+h2 {
+  text-align: center;
+}
+
+button {
+  margin-top: 10px;
+  height: 2em;
+  border-radius: 5px;
+  font-size: 1em;
+  width: 100%;
+  background-color: transparent;
+  color: var(--primary);
+  outline: var(--primary) solid 3px;
+
+  &:hover {
+    background-color: var(--primary);
+    color: var(--on-primary);
+  }
+}
+
+mat-icon.interactive {
+  color: var(--on-dialog);
+  opacity: 0.5;
+  width: 1em;
+  height: 1em;
+  font-size: 3em;
+  cursor: pointer;
+  transition: transform 250ms ease, color 250ms ease;
+
+  &.star_full {
+    color: var(--yellow);
+    opacity: unset;
+  }
+
+  &.star_half {
+    color: var(--yellow);
+    opacity: unset;
+  }
+
+  &:hover {
+    transform: scale(1.666666667);
+  }
+
+  &.bounce {
+    animation: starBounce 300ms ease-in-out;
+  }
+}
+
+.star-preview {
+  justify-content: center;
+  color: var(--on-background);
+  display: flex;
+  align-items: flex-end;
+  font-size: 1.0em;
+  width: max-content;
+  margin: 0 auto;
+
+  .star {
+    color: var(--yellow);
+  }
+}
+
+@keyframes starBounce {
+  33% {
+    transform: scale(2);
+  }
+  66% {
+    transform: scale(1.33333333);
+  }
+}

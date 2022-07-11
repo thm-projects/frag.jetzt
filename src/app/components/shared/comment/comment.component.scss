@@ -1,3 +1,4 @@
+@use "sass:math";
 @import "src/layout/laout-util";
 
 @mixin card-box-shadow($color: transparent, $x: -8px) {
@@ -8,12 +9,12 @@
 }
 
 #comment-card {
-  margin: 0 0 16px 0;
   background-color: var(--surface);
   padding: 1.5% 1.5% 3% 3%;
   transition: background-color 0.5s linear,
   box-shadow 0.15s ease-in-out;
   touch-action: auto !important;
+  margin: 16px 0 16px var(--marginLeft);
 }
 
 .color-tooltip {
@@ -31,13 +32,12 @@ mat-card-content > :first-child {
 
 .delete-own-comment {
   color: var(--on-surface) !important;
-  margin-top: -22px !important
 }
 
 .voting-icon {
-  width: 24px;
-  height: 24px;
-  font-size: 20px;
+  width: 36px;
+  height: 36px;
+  font-size: 36px;
   color: var(--on-surface)
 }
 
@@ -82,17 +82,23 @@ mat-card-content > :first-child {
 .score {
   min-width: 40px;
   text-align: center;
-  margin: 0;
-  color: var(--on-surface);
+  margin-top: 3px;
+  color: var(--primary);
   font-size: 24px;
-  font-weight: bold;
+
+  @media (max-width: 330px) {
+    margin-left: -20px !important;
+  }
 }
 
 .scoreCreator {
   color: var(--primary);
-  margin: 0 10px 0 10px;
+  margin-right: 10px;
   font-size: 24px;
-  font-weight: bold;
+
+  @media (max-width: 330px) {
+    margin-left: -20px !important;
+  }
 }
 
 .body {
@@ -114,13 +120,12 @@ mat-card-content > :first-child {
 
 .user-icon,
 .mat-icon {
-  transform: scale(1.2);
+  transform: scale(1.0);
 }
 
 .date-container {
   font-size: 12px;
-  opacity: 0.7;
-  color: var(--on-surface);
+  color: dimgray;
   padding-top: .3rem;
 }
 
@@ -129,6 +134,11 @@ mat-card-content > :first-child {
   height: 3.5rem;
 }
 
+.action-menu-content {
+  background: var(--dialog);
+}
+
+/*
 .highlighted {
   background-color: var(--secondary) !important;
   transition: background-color 1s linear;
@@ -137,15 +147,16 @@ mat-card-content > :first-child {
 .highlighted * {
   color: var(--on-secondary) !important;
 }
+*/
 
 .gavel {
   color: var(--primary) !important;
   margin: 0 10px 0 10px;
-  transform: scale(1.3) !important;
 }
 
 .moderator {
   background-color: var(--moderator) !important;
+  border: thin solid dimgray;
 }
 
 .border {
@@ -250,8 +261,8 @@ mat-card-content > :first-child {
 }
 
 .keyword-answer-icon {
-  margin-right: 10px;
   margin-left: 10px;
+  color: var(--primary) !important;
 
   + span {
     transform: scale(1.2);
@@ -267,7 +278,7 @@ mat-card-content > :first-child {
   }
 }
 
-.mat-badge-content {
+::ng-deep .mat-badge-content {
   background: var(--secondary);
   color: var(--on-secondary);
 }
@@ -284,6 +295,7 @@ mat-card-content > :first-child {
 
 .user-number.joyrideActive {
   padding: 5px;
+  scroll-margin-top: 100px;
 }
 
 .commentExpanderButton {
@@ -309,12 +321,11 @@ mat-card-content > :first-child {
 }
 
 .edit-button .mat-icon {
-  transform: scale(1.5);
+  transform: scale(1.0);
   color: var(--on-surface);
 }
 
 .moderate-button .mat-icon {
-  transform: scale(1.2);
   color: var(--on-surface);
 }
 
@@ -391,46 +402,52 @@ mat-card-content > :first-child {
   }
 }
 
-button:focus {
-  border: 1px solid var(--on-surface);
-}
+// all in pixels
+$max-width: 800;
+$min-width: 375;
+$max-font-size: 80;
+$min-font-size: 40;
+$margin-top: 70;
+
+$font-range: $max-font-size - $min-font-size;
+$width-range: $max-width - $min-width;
 
 :host {
   .runningnum-outer {
-    width: 100%;
+    width: calc(100% - 72px);
     height: 0;
-    background-color: red;
     position: absolute;
+    right: 65px;
+    top: 60px;
+    font-size: calc(min(100vw, 800px) - var(--marginLeft));
 
     > p {
-      > mat-icon {
-        transform: scale(calc(120 / 24));
-        line-height: 10.5px;
-        padding-right: 5px;
-      }
-
       font-family: 'Roboto', sans-serif;
-      font-size: 120px;
+      font-size: calc(#{$font-range}em / #{$width-range} - #{$max-font-size - math.div($max-width * $font-range, $width-range)}px);
+      line-height: normal;
       padding: 0;
-      font-weight: bold;
+      font-weight: normal;
       font-style: normal;
-      margin: 25px 75px 0 0;
       color: var(--on-surface);
-      opacity: 0.1;
+      opacity: 0.2;
       float: right;
       position: relative;
       z-index: 0;
+      display: flex;
+      max-width: 100%;
+      overflow: hidden;
 
-      @include onSmallWidth(430px) {
-        margin: 25px 25px 0 0;
+      > mat-icon {
+        line-height: 1em;
+        font-size: 1em;
+        width: 1em;
+        height: 1em;
+        margin-right: 10px;
+        margin-top: 3px;
       }
 
-      @include onSmallWidth(370px) {
-        font-size: 100px;
-
-        > mat-icon {
-          transform: scale(calc(100 / 24));
-        }
+      > span {
+        margin-left: 10px;
       }
     }
   }
@@ -440,4 +457,32 @@ button:focus {
   .images img {
     max-width: 100% !important;
   }
+}
+
+.responses-watermark {
+  margin-right: 50px;
+  font-size: 12px;
+}
+
+.replyButton {
+  color: var(--primary);
+  background-color: transparent;
+
+  &:hover {
+    outline: var(--primary) solid;
+  }
+}
+
+.divider {
+  width: 5px;
+  height: auto;
+  display: inline-block;
+}
+
+#sort-button {
+  color: var(--secondary);
+}
+
+.mat-card {
+  border-radius: 40px !important;
 }

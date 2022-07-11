@@ -21,15 +21,16 @@ export type CloudWeightSettings = [
 ];
 
 export enum CloudTextStyle {
-  normal = 'unset',
-  lowercase = 'lowercase',
-  capitalized = 'capitalize',
-  uppercase = 'uppercase'
+  Normal = 'unset',
+  Lowercase = 'lowercase',
+  Capitalized = 'capitalize',
+  Uppercase = 'uppercase',
 }
 
 const colorRegex = /rgba?\((\d+), (\d+), (\d+)(?:, (\d(?:\.\d+)?))?\)/;
 
 export class CloudParameters {
+
   fontFamily: string;
   fontStyle: string;
   fontWeight: string;
@@ -79,6 +80,10 @@ export class CloudParameters {
     }
   }
 
+  static set currentParameters(parameters: CloudParameters) {
+    localStorage.setItem('tagCloudConfiguration', JSON.stringify(parameters));
+  }
+
   static getCurrentParameters(isCurrentlyDark: boolean): CloudParameters {
     const jsonData = localStorage.getItem('tagCloudConfiguration');
     const temp = jsonData != null ? JSON.parse(jsonData) : null;
@@ -92,10 +97,6 @@ export class CloudParameters {
       }
     }
     return elem;
-  }
-
-  static set currentParameters(parameters: CloudParameters) {
-    localStorage.setItem('tagCloudConfiguration', JSON.stringify(parameters));
   }
 
   static removeParameters() {
@@ -139,7 +140,7 @@ export class CloudParameters {
     this.delayWord = 100;
     this.randomAngles = false;
     this.sortAlphabetically = false;
-    this.textTransform = CloudTextStyle.capitalized;
+    this.textTransform = CloudTextStyle.Capitalized;
     this.cloudWeightSettings = [
       {
         maxVisibleElements: elements,

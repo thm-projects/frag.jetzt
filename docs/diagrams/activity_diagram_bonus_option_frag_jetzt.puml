@@ -87,7 +87,7 @@ if () then
 endif
 -[#black,bold]->
 |Student|
-partition "Redeem bonus token" {
+partition "Redeem bonus code" {
 :select "Account";
 note right
 PlantUML doesn't support pins.

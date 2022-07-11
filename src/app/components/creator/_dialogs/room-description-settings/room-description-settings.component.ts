@@ -5,7 +5,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { RoomService } from '../../../../services/http/room.service';
 import { Room } from '../../../../models/room';
 import { WriteCommentComponent } from '../../../shared/write-comment/write-comment.component';
-import { CreateCommentKeywords } from '../../../../utils/create-comment-keywords';
+import { QuillUtils, StandardDelta } from '../../../../utils/quill-utils';
+import { clone } from '../../../../utils/ts-utils';
 
 @Component({
   selector: 'app-room-description-settings',
@@ -15,7 +16,7 @@ import { CreateCommentKeywords } from '../../../../utils/create-comment-keywords
 export class RoomDescriptionSettingsComponent implements AfterViewInit {
 
   @ViewChild(WriteCommentComponent) writeComment: WriteCommentComponent;
-  @Input() editRoom: Room;
+  @Input() editRoom: Readonly<Room>;
 
   constructor(
     public dialogRef: MatDialogRef<RoomCreatorPageComponent>,
@@ -27,7 +28,7 @@ export class RoomDescriptionSettingsComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     if (this.editRoom) {
-      this.writeComment.commentData.currentData = this.editRoom.description;
+      this.writeComment.commentData.currentData = clone(this.editRoom.description);
     }
   }
 
@@ -35,13 +36,14 @@ export class RoomDescriptionSettingsComponent implements AfterViewInit {
     return () => this.dialogRef.close('abort');
   }
 
-  buildSaveActionCallback(): (data: string) => void {
+  buildSaveActionCallback(): (data: StandardDelta) => void {
     return (data) => this.save(data);
   }
 
-  save(data: string): void {
-    this.editRoom.description = CreateCommentKeywords.transformURLtoQuill(data, true);
-    this.roomService.updateRoom(this.editRoom).subscribe(r => this.editRoom = r);
+  save(data: StandardDelta): void {
+    this.roomService.patchRoom(this.editRoom.id, {
+      description: QuillUtils.serializeDelta(QuillUtils.transformURLtoQuillLink(data, true)),
+    }).subscribe();
     this.dialogRef.close('update');
   }
 

@@ -10,7 +10,7 @@ import { AuthenticationService } from '../../../services/http/authentication.ser
 import { ModeratorService } from '../../../services/http/moderator.service';
 import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
-import { CommentService } from '../../../services/http/comment.service';
+import { CommentService, RoomQuestionCounts } from '../../../services/http/comment.service';
 import { NotificationService } from '../../../services/util/notification.service';
 import { TranslateService } from '@ngx-translate/core';
 import { RemoveFromHistoryComponent } from '../_dialogs/remove-from-history/remove-from-history.component';
@@ -19,6 +19,14 @@ import { BonusTokenService } from '../../../services/http/bonus-token.service';
 import { copyCSVString, exportRoom } from '../../../utils/ImportExportMethods';
 import { Sort } from '@angular/material/sort';
 import { filter, take } from 'rxjs/operators';
+import { ModeratorsComponent } from '../../creator/_dialogs/moderators/moderators.component';
+import {
+  CommentNotificationDialogComponent
+} from '../_dialogs/comment-notification-dialog/comment-notification-dialog.component';
+import { CommentNotificationService } from '../../../services/http/comment-notification.service';
+import { BonusTokenComponent } from '../../creator/_dialogs/bonus-token/bonus-token.component';
+import { UserBonusTokenComponent } from '../../participant/_dialogs/user-bonus-token/user-bonus-token.component';
+import { RoomSettingsOverviewComponent } from '../_dialogs/room-settings-overview/room-settings-overview.component';
 
 type SortFunc<T> = (a: T, b: T) => number;
 
@@ -46,7 +54,7 @@ export class RoomListComponent implements OnInit, OnDestroy {
   sub: Subscription;
 
   tableDataSource: MatTableDataSource<Room>;
-  displayedColumns = ['name', 'shortId', 'role', 'button'] as const;
+  displayedColumns = ['name', 'shortId', 'role', 'moderator-access', 'button'];
 
   creatorRole = UserRole.CREATOR;
   participantRole = UserRole.PARTICIPANT;
@@ -56,6 +64,8 @@ export class RoomListComponent implements OnInit, OnDestroy {
     direction: 'asc',
     active: 'name'
   };
+  hasEmail = false;
+  private urlToCopy = `${window.location.protocol}//${window.location.host}/participant/room/`;
 
   constructor(
     private roomService: RoomService,
@@ -67,6 +77,7 @@ export class RoomListComponent implements OnInit, OnDestroy {
     private translateService: TranslateService,
     public dialog: MatDialog,
     private bonusTokenService: BonusTokenService,
+    private commentNotificationService: CommentNotificationService,
   ) {
   }
 
@@ -76,6 +87,7 @@ export class RoomListComponent implements OnInit, OnDestroy {
       take(1)
     ).subscribe(user => {
       this.user = user;
+      this.hasEmail = !!user.loginId;
       this.getRooms();
     });
     this.sub = this.eventService.on<any>('RoomDeleted').subscribe(payload => {
@@ -86,6 +98,14 @@ export class RoomListComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.sub?.unsubscribe();
+  }
+
+  showModeratorsDialog(room: Room): void {
+    const dialogRef = this.dialog.open(ModeratorsComponent, {
+      width: '400px'
+    });
+    dialogRef.componentInstance.roomId = room.id;
+    dialogRef.componentInstance.isCreator = room['role'] === 3;
   }
 
   getRooms(): void {
@@ -115,9 +135,18 @@ export class RoomListComponent implements OnInit, OnDestroy {
     });
     this.roomsWithRole = this.roomsWithRole.concat(newRooms);
     this.isLoading = false;
+    const ids = newRooms.map(r => r.id);
+    this.commentService.countByRoomId(ids.map(id => ({ roomId: id, ack: true }))).subscribe(counts => {
+      const cache = {} as { [key in string]: RoomQuestionCounts };
+      counts.forEach((count, i) => cache[ids[i]] = count);
+      newRooms.forEach(r => {
+        r.commentCount = cache[r.id]?.questionCount || 0;
+        r.responseCount = cache[r.id]?.responseCount || 0;
+      });
+    });
     for (const room of newRooms) {
-      this.commentService.countByRoomId(room.id, true).subscribe(count => {
-        room.commentCount = count;
+      this.commentNotificationService.findByRoomId(room.id).subscribe(value => {
+        room.hasNotifications = !!value?.length;
       });
     }
     this.updateTable();
@@ -200,7 +229,11 @@ export class RoomListComponent implements OnInit, OnDestroy {
           break;
       }
     }
-    this.tableDataSource = new MatTableDataSource(data);
+    const previousFilter = this.tableDataSource?.filter;
+    this.tableDataSource = new MatTableDataSource(previousFilter ? data.filter(elem =>
+      elem.name.toLowerCase().includes(previousFilter) ||
+      elem.shortId.toLowerCase().includes(previousFilter)
+    ) : data);
   }
 
   sortData(sort: Sort): void {
@@ -210,6 +243,14 @@ export class RoomListComponent implements OnInit, OnDestroy {
 
   applyFilter(filterValue: string): void {
     this.tableDataSource.filter = filterValue.trim().toLowerCase();
+    this.updateTable();
+  }
+
+  openNotifications(room: Room) {
+    const dialogRef = this.dialog.open(CommentNotificationDialogComponent, {
+      minWidth: '80%'
+    });
+    dialogRef.componentInstance.room = room;
   }
 
   exportCsv(room: Room) {
@@ -225,6 +266,47 @@ export class RoomListComponent implements OnInit, OnDestroy {
       ).subscribe(text => {
         copyCSVString(text[0], room.name + '-' + room.shortId + '-' + text[1] + '.csv');
       });
+    });
+  }
+
+  openBonusTokens(room: Room) {
+    console.assert(room['role'] > UserRole.PARTICIPANT);
+    const dialogRef = this.dialog.open(BonusTokenComponent, {
+      width: '400px'
+    });
+    dialogRef.componentInstance.room = room;
+  }
+
+  openRoomSettingsOverview(room: Room) {
+    console.assert(room['role'] > UserRole.PARTICIPANT);
+    const ref = this.dialog.open(RoomSettingsOverviewComponent, {
+      width: '600px',
+    });
+    ref.componentInstance.room = room;
+    ref.componentInstance.awaitComplete = true;
+    ref.afterClosed().subscribe(data => {
+      if (typeof data === 'object') {
+        for (const key of Object.keys(data)) {
+          room[key] = data[key];
+        }
+      }
+    });
+  }
+
+  openMyBonusTokens() {
+    const dialogRef = this.dialog.open(UserBonusTokenComponent, {
+      width: '600px'
+    });
+    dialogRef.componentInstance.userId = this.user.id;
+  }
+
+  copyShortId(room: Room): void {
+    navigator.clipboard.writeText(`${this.urlToCopy}${room.shortId}`).then(() => {
+      this.translateService.get('header.session-id-copied').subscribe(msg => {
+        this.notificationService.show(msg, '', { duration: 2000 });
+      });
+    }, () => {
+      console.log('Clipboard write failed.');
     });
   }
 

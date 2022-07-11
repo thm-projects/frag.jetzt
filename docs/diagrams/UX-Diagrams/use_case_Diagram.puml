@@ -103,7 +103,7 @@ rectangle "frag.jetzt | use-case diagram \n" << Business >> {
     (Topic cloud) <.. (Edit cloud view) : << extend >>
     (Edit cloud view) <.. (My cloud) : << extend >>
     (Edit cloud view) <.. (Demo cloud) : << extend >>
-    (Topic cloud) <.. (Correct a key word) : << extend >>
+    (Topic cloud) <.. (Correct a keyword) : << extend >>
     (Moderate questions) <.. (Tag) : << extend >>
     (Moderate questions) <.. (Bookmark) : << extend >>
     (Moderate questions) <.. (Delete) : << extend >>

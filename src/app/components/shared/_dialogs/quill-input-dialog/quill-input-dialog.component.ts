@@ -37,11 +37,15 @@ export class QuillInputDialogComponent implements OnInit {
     if (match) {
       return (match[1] || 'https') + '://player.vimeo.com/video/' + match[2] + '/';
     }
-    return null;
+    return url;
   }
 
   ngOnInit(): void {
-    this.value = this.data.meta || '';
+    if (this.data?.type === 'formula') {
+      this.value = this.data.meta || '\\sigma = \\sqrt{ \\frac{1}{N} \\sum_{i=1}^N (x_i -\\mu)^2}';
+    } else {
+      this.value = this.data.meta;
+    }
   }
 
   getKatex(): string {
@@ -71,7 +75,7 @@ export class QuillInputDialogComponent implements OnInit {
           }
           break;
         case 'video':
-          const value = QuillInputDialogComponent.getVideoUrl(this.value) || this.value;
+          const value = QuillInputDialogComponent.getVideoUrl(this.value);
           if (value) {
             this.data.quill.insertEmbed(this.data.selection.index, 'video', value, 'user');
           }

@@ -1,6 +1,13 @@
-h2 {
+.slogan {
   text-align: center;
-  font-size: 18px;
+  font-size: 20px;
+  font-weight: bold;
+  padding-top: 25px;
+  color: var(--primary);
+}
+
+h2 {
+  font-size: 20px;
   padding-top: 25px;
 }
 
@@ -22,6 +29,7 @@ li {
 
 iframe {
   width: 100%;
+  border: none;
 }
 
 .videoWrapper {
@@ -46,6 +54,7 @@ iframe {
   max-width: 100%;
   height: auto;
   outline: none;
+  border-radius: 8px;
 }
 
 a {

@@ -3,10 +3,10 @@ import { SpacyKeyword, SpacyService } from '../../../../services/http/spacy.serv
 import { CommentService } from '../../../../services/http/comment.service';
 import { Comment, Language } from '../../../../models/comment';
 import { Language as Lang, LanguagetoolService } from '../../../../services/http/languagetool.service';
-import { CreateCommentKeywords, KeywordsResult, KeywordsResultType } from '../../../../utils/create-comment-keywords';
 import { TSMap } from 'typescript-map';
 import { HttpErrorResponse } from '@angular/common/http';
 import { DeepLService } from '../../../../services/http/deep-l.service';
+import { KeywordExtractor, KeywordsResult, KeywordsResultType } from '../../../../utils/keyword-extractor';
 
 const concurrentCallsPerTask = 4;
 
@@ -22,14 +22,18 @@ export class WorkerDialogTask {
   };
   private readonly _comments: Comment[] = null;
   private readonly _running: boolean[] = null;
+  private readonly _keywordExtractor: KeywordExtractor;
 
-  constructor(public readonly room: Room,
-              private comments: Comment[],
-              private spacyService: SpacyService,
-              private deeplService: DeepLService,
-              private commentService: CommentService,
-              private languagetoolService: LanguagetoolService,
-              private finished: () => void) {
+  constructor(
+    public readonly room: Room,
+    private comments: Comment[],
+    private spacyService: SpacyService,
+    private deeplService: DeepLService,
+    private commentService: CommentService,
+    private languagetoolService: LanguagetoolService,
+    private finished: () => void
+  ) {
+    this._keywordExtractor = new KeywordExtractor(languagetoolService, spacyService, deeplService);
     this._comments = comments;
     this.statistics.length = comments.length;
     this._running = new Array(concurrentCallsPerTask);
@@ -55,27 +59,25 @@ export class WorkerDialogTask {
       return;
     }
     const currentComment = this._comments[currentIndex];
-    CreateCommentKeywords.generateKeywords(this.languagetoolService, this.deeplService, this.spacyService,
-      currentComment.body,
-      currentComment.brainstormingQuestion,
+    this._keywordExtractor.generateKeywords(currentComment.body, currentComment.brainstormingQuestion,
       !currentComment.keywordsFromQuestioner || currentComment.keywordsFromQuestioner.length === 0,
       currentComment.language.toLowerCase() as Lang)
-      .subscribe((result) => this.finishSpacyCall(currentIndex, result, currentComment.language));
+      .subscribe((result) => this.finishSpacyCall(currentIndex, result));
   }
 
-  private finishSpacyCall(index: number, result: KeywordsResult, previous: Language): void {
+  private finishSpacyCall(index: number, result: KeywordsResult): void {
     let undo: () => any = () => '';
-    if (result.resultType === KeywordsResultType.badSpelled) {
+    if (result.resultType === KeywordsResultType.BadSpelled) {
       this.statistics.badSpelled++;
       undo = () => this.statistics.badSpelled--;
-    } else if (result.resultType === KeywordsResultType.languageNotSupported) {
+    } else if (result.resultType === KeywordsResultType.LanguageNotSupported) {
       this.statistics.notSupported++;
       undo = () => this.statistics.notSupported--;
-    } else if (result.resultType === KeywordsResultType.failure) {
+    } else if (result.resultType === KeywordsResultType.Failure) {
       this.statistics.failed++;
       undo = () => this.statistics.failed--;
     }
-    if (result.language === Language.auto) {
+    if (result.language === Language.AUTO) {
       result.language = null;
     }
     this.patchToServer(result.keywords, index, result.language, undo);
@@ -87,18 +89,21 @@ export class WorkerDialogTask {
     if (language !== null) {
       changes.set('language', language);
     }
-    this.commentService.patchComment(this._comments[index], changes).subscribe(_ => {
+
+    this.commentService.patchComment(this._comments[index], changes).subscribe({
+      next: () => {
         this.statistics.succeeded++;
         this.callSpacy(index + concurrentCallsPerTask);
       },
-      patchError => {
+      error: patchError => {
         undo();
         this.statistics.failed++;
         if (patchError instanceof HttpErrorResponse && patchError.status === 403) {
           this.error = 'forbidden';
         }
         this.callSpacy(index + concurrentCallsPerTask);
-      });
+      }
+    });
   }
 
 }

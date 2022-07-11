@@ -8,8 +8,8 @@ export class ResetVote {
   constructor(userId: string, commentId: string) {
     this.type = 'ResetVote';
     this.payload = {
-      userId: userId,
-      commentId: commentId
+      userId,
+      commentId
     };
   }
 }

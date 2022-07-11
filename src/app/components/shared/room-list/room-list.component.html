@@ -11,12 +11,12 @@
 
 <div *ngIf="roomsWithRole && tableDataSource">
 
-  <div *ngIf="tableDataSource.data.length === 0"
+  <div *ngIf="rooms.length === 0"
        aria-labelledby="emptySessionHistoryLabel">
     <h3 class="noRoomHistory">{{ 'room-list.no-room-history' | translate }}</h3>
   </div>
 
-  <div *ngIf="tableDataSource.data.length > 0">
+  <div *ngIf="rooms.length > 0">
 
     <div class="fill-space"
          *ngIf="this.rooms && this.rooms.length <= 5"></div>
@@ -38,13 +38,16 @@
              (matSortChange)="sortData($event)"
              mat-table
              [dataSource]="tableDataSource"
-             class="list-entries">
+             class="list-entries"
+             aria-describedby="roomTable"
+             aria-label="This table shows all available rooms.">
 
         <!-- Room / Session name column -->
         <ng-container matColumnDef="name"
                       aria-hidden="true">
-          <th mat-header-cell
-              mat-sort-header
+          <th scope="col"
+              mat-header-cell
+              mat-sort-header="name"
               sortActionDescription="Sort by name"
               *matHeaderCellDef
               style="width: 41%; padding-right: 0">
@@ -55,6 +58,12 @@
               *matCellDef="let room"
               (click)="setCurrentRoom(room.shortId)"
               routerLink="/{{ roleToString((room.role)) }}/room/{{ room.shortId }}">
+            <span matBadge="{{room.responseCount > 0 ? room.responseCount : null}}"
+                  matBadgeSize="small"
+                  matBadgeOverlap="false"
+                  matBadgeColor="secondary"
+                  class="responseCountBadge">
+            </span>
             <span matBadge="{{room.commentCount > 0 ? room.commentCount : null}}"
                   matBadgePosition="before"
                   matBadgeSize="small"
@@ -68,9 +77,10 @@
         <ng-container matColumnDef="shortId"
                       aria-hidden="true">
           <th mat-header-cell
-              mat-sort-header
+              mat-sort-header="shortId"
               sortActionDescription="Sort by shortId"
               *matHeaderCellDef
+              scope="col"
               style="width: 41%">
             {{ 'room-list.panel-session-id' | translate }}
           </th>
@@ -92,6 +102,12 @@
                       matTooltip="{{ 'header.moderation-enabled' | translate}}">
               gavel
             </mat-icon>
+            <mat-icon *ngIf="room.hasNotifications"
+                      class="warn material-icons-outlined"
+                      [inline]="true"
+                      matTooltip="{{ 'header.active-email-notification' | translate}}">
+              email
+            </mat-icon>
           </td>
         </ng-container>
 
@@ -99,9 +115,10 @@
         <ng-container matColumnDef="role"
                       aria-hidden="true">
           <th mat-header-cell
-              mat-sort-header
+              mat-sort-header="role"
               sortActionDescription="Sort by role"
               *matHeaderCellDef
+              scope="col"
               style="width: 17%">
             {{ 'room-list.panel-user-role' | translate }}
           </th>
@@ -114,28 +131,29 @@
             <mat-icon class="material-icons-outlined"
                       mat-list-icon
                       *ngSwitchCase="creatorRole"
-                      title="{{ 'room-list.creator-role' | translate }}">
-              mic
+                      matTooltip="{{ 'room-list.creator-role' | translate }}">
+              co_present
             </mat-icon>
             <mat-icon class="material-icons-outlined"
                       mat-list-icon
                       *ngSwitchCase="participantRole"
-                      title="{{ 'room-list.participant-role' | translate }}">
-              group
+                      matTooltip="{{ 'room-list.participant-role' | translate }}">
+              person
             </mat-icon>
             <mat-icon class="material-icons-round"
                       mat-list-icon
                       *ngSwitchCase="executiveModeratorRole"
-                      title="{{ 'room-list.executive-moderator-role' | translate }}">
-              gavel
+                      matTooltip="{{ 'room-list.executive-moderator-role' | translate }}">
+              support_agent
             </mat-icon>
           </td>
         </ng-container>
 
-        <!-- Join button column -->
-        <ng-container matColumnDef="button">
+        <!-- Moderator access column -->
+        <ng-container matColumnDef="moderator-access">
           <th mat-header-cell
               *matHeaderCellDef
+              scope="col"
               style="width: 1%; text-align: end">
             {{ 'room-list.panel-join-button' | translate }}
           </th>
@@ -144,7 +162,29 @@
               style="text-align: end; padding-right: 0"
               attr.aria-labelledby="empty">
             <button mat-icon-button
-                    [matMenuTriggerFor]="moreActions">
+                    [matTooltip]="'moderators-dialog.tooltip-moderators' | translate"
+                    (click)="showModeratorsDialog(room)" *ngIf="room.role > 0">
+              <mat-icon style="color: var(--red)">key</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <!-- Join button column -->
+        <ng-container matColumnDef="button">
+          <th mat-header-cell
+              *matHeaderCellDef
+              scope="col"
+              style="width: 1%; text-align: end">
+            {{ 'room-list.panel-join-button' | translate }}
+          </th>
+          <td mat-cell
+              *matCellDef="let room"
+              style="text-align: end; padding-right: 0"
+              attr.aria-labelledby="empty">
+            <button mat-icon-button
+                    [matMenuTriggerFor]="moreActions"
+                    [matTooltip]="('room-list.option-menu' | translate)"
+                    [matTooltipPosition]="'right'">
               <mat-icon>more_vert</mat-icon>
             </button>
             <mat-menu #moreActions="matMenu"
@@ -156,9 +196,40 @@
                   'room-list.delete-room') | translate}}</span>
               </button>
               <button mat-menu-item
+                      *ngIf="hasEmail"
+                      (click)="openNotifications(room)">
+                <mat-icon class="notification material-icons-outlined">email</mat-icon>
+                <span class="delete-text">{{ 'room-list.email-notification' | translate }}</span>
+              </button>
+              <button mat-menu-item
                       (click)="exportCsv(room)">
                 <mat-icon class="export material-icons-outlined">file_download</mat-icon>
                 <span class="delete-text">{{ 'room-list.export-comments' | translate }}</span>
+              </button>
+              <button mat-menu-item
+                      *ngIf="room.role > 0"
+                      (click)="openRoomSettingsOverview(room)">
+                <mat-icon class="settings material-icons-round">room_preferences</mat-icon>
+                <span class="delete-text">{{ 'room-list.settings-overview' | translate }}</span>
+              </button>
+              <button mat-menu-item
+                      *ngIf="room.role > 0 && room.bonusArchiveActive"
+                      (click)="openBonusTokens(room)">
+                <mat-icon class="star material-icons-round">grade</mat-icon>
+                <span class="delete-text">{{ 'header.bonustoken' | translate }}</span>
+              </button>
+              <button mat-menu-item
+                      *ngIf="room.role === 0"
+                      (click)="openMyBonusTokens()"
+                      tabindex="0">
+                <mat-icon class="star material-icons-round">grade</mat-icon>
+                <span class="delete-text">{{ 'header.user-bonus-token' | translate }}</span>
+              </button>
+              <button mat-menu-item
+                      (click)="copyShortId(room)"
+                      tabindex="0">
+                <mat-icon class="star material-icons-outlined">share</mat-icon>
+                <span class="delete-text">{{ 'header.direct-link' | translate }}</span>
               </button>
             </mat-menu>
             <div class="visually-hidden">

@@ -29,7 +29,6 @@ $translateY: $header-size - $marginParent;
     display: flex;
     justify-content: center;
     flex-direction: column;
-    align-items: flex-start;
     overflow: hidden;
   }
 
@@ -116,7 +115,6 @@ span {
 
   & > p {
     display: inline;
-    font-weight: 600;
     vertical-align: middle;
   }
 }
@@ -143,8 +141,8 @@ button {
   margin: 0.5em;
 
   &.active {
-    background-color: var(--secondary);
-    color: var(--on-secondary);
+    background-color: var(--green);
+    color: var(--black);
 
     &.downvote {
       background-color: var(--red);
@@ -162,12 +160,20 @@ button {
 }
 
 .replace-button {
-  background-color: var(--primary);
-  color: var(--on-primary);
+  background-color: transparent;
+  color: var(--primary);
+  outline: var(--primary) solid 3px;
   min-width: 30px !important;
-  min-height: 10px !important;
-  width: 100%;
+  min-height: 30px !important;
+  width: auto;
   z-index: 3;
+  display: flex;
+  margin: 0 auto 10px;
+
+  &:hover {
+    background-color: var(--primary);
+    color: var(--on-primary);
+  }
 }
 
 ::ng-deep .replacementContainer {
@@ -175,11 +181,11 @@ button {
 
   .mat-form-field-infix {
     min-width: 150px;
-    width: min-content;
+    line-height: normal;
   }
 
   .mat-form-field-wrapper {
-    margin-bottom: -0.8em;
+    margin: 1em 0 0 0;
   }
 }
 

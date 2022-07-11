@@ -1,5 +1,22 @@
 $joyrideElementPadding: 5px;
 
+.inline-count-badge {
+  float: right;
+  margin-top: 1.75em;
+  width: 1.75em;
+}
+
+.number-icon-button {
+  input {
+    margin-right: -1.75em;
+  }
+
+  .numbers > mat-icon {
+    font-size: 1.25em;
+    line-height: 1.5em;
+  }
+}
+
 app-comment {
   overflow: auto;
   overflow-wrap: break-word;
@@ -110,11 +127,8 @@ app-comment {
   margin-top: 10%;
 }
 
-.button-bar {
-}
-
 .button-bar.joyrideActive {
-  padding: 15px;
+  padding: 15px 30px;
   margin: unset;
 }
 
@@ -154,8 +168,16 @@ app-comment {
   color: slateblue;
 }
 
+.conversation-icon {
+  color: mediumslateblue;
+}
+
 .brainstorm-icon {
   color: var(--primary);
+}
+
+.censored-icon {
+  color: var(--red);
 }
 
 .number-icon {
@@ -176,6 +198,7 @@ app-comment {
 
 .counter-filtered {
   color: var(--red);
+  font-weight: normal;
 }
 
 h3 {
@@ -197,6 +220,10 @@ h3 {
 }
 
 .controversy {
+  color: var(--primary);
+}
+
+.commented {
   color: var(--primary);
 }
 
@@ -227,31 +254,53 @@ h3 {
 
 .scrollTop {
   position: fixed;
-  left: 25px;
+  left: 35px;
   bottom: 65px;
   transform: scale(0);
   z-index: 1;
   background-color: var(--secondary);
   color: var(--on-secondary);
   transition: 0.1s;
+
+  &:hover {
+    background-color: var(--background);
+    color: var(--secondary);
+    outline: var(--secondary) solid 3px;
+  }
 }
 
 .fab_add_comment {
   position: fixed;
-  right: 25px;
+  right: 35px;
   bottom: 65px;
   z-index: 1;
   background-color: var(--primary);
   color: var(--on-primary);
   transform: scale(1.4);
-  transition: all 0.1s ease-in-out;
+  transition: all 0.5s ease-in-out;
+
+  &:hover {
+    background-color: var(--background);
+    color: var(--primary);
+    outline: var(--primary) solid 3px;
+  }
+
+  &.center_screen {
+    right: calc(50% - 20px);
+    bottom: calc(50% - 20px);
+  }
+
+  p {
+    position: absolute;
+    transform: translate(calc(-50% + 12px), 0) scale(calc(1 / 1.4));
+  }
 }
 
 #createCommentJoyrideWrapper {
   position: fixed;
   width: 56px + 2 * $joyrideElementPadding;
   height: 56px + 2 * $joyrideElementPadding;
-  right: 17px - $joyrideElementPadding;
+  right: 22px - $joyrideElementPadding;
   bottom: 57px - $joyrideElementPadding;
   visibility: hidden;
 }
@@ -286,5 +335,5 @@ h3 {
 }
 
 h1 {
-  color: red;
+  color: var(--red);
 }

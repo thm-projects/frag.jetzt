@@ -34,7 +34,7 @@ export const purple = {
   '--black': 'black',
   '--moderator': 'lightsalmon',
 
-  '--questionwall-intro-primary':'yellow',
+  '--questionwall-intro-primary':'darkorange',
   '--questionwall-intro-secondary':'#eadabf',
   '--questionwall-intro-background':'#121212'
 
@@ -44,8 +44,8 @@ export const purple_meta = {
 
   translation: {
     name: {
-      en: 'Lecture room',
-      de: 'Hörsaal',
+      en: 'Presentation',
+      de: 'Präsentation',
     },
   },
   isDark: false,
@@ -54,5 +54,6 @@ export const purple_meta = {
   scale_desktop: 1.5,
   scale_mobile: 1,
   previewColor: 'background',
+  icon: 'co_present'
 
 };

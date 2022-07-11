@@ -9,15 +9,12 @@ input {
 }
 
 .mat-form-field-label {
-  color: var(--on-surface)!important;
+  color: var(--on-surface) !important;
 }
 
-.mat-form-field-underline {
-  background-color: var(--on-surface)!important;
-}
-
-.mat-form-field-ripple {
-  background-color: var(--on-surface)!important;
+::ng-deep.mat-form-field-ripple {
+  /*change color of underline when focused*/
+  background-color: var(--primary) !important;
 }
 
 mat-form-field {
@@ -25,7 +22,7 @@ mat-form-field {
 }
 
 .count {
-  color: var(--on-surface)!important;
+  color: var(--on-surface) !important;
 }
 
 .error {

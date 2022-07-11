@@ -1,18 +1,24 @@
 import { Directive, ElementRef, Input } from '@angular/core';
+import { DeviceInfoService } from '../services/util/device-info.service';
 
 @Directive({
   selector: '[appScrollIntoView]'
 })
 export class ScrollIntoViewDirective {
 
-  @Input('appScrollIntoView')
-  set active(value: boolean) {
-    if (value) {
-      setTimeout(() => this.element.nativeElement.scrollIntoView({ behavior: 'smooth' }));
-    }
+  constructor(
+    private element: ElementRef,
+    private deviceInfo: DeviceInfoService,
+  ) {
   }
 
-  constructor(private element: ElementRef) {
+  @Input('appScrollIntoView') set active(value: boolean) {
+    if (value) {
+      setTimeout(() => {
+        const args = this.deviceInfo.isSafari ? false : { behavior: 'smooth', block: 'center', inline: 'center' };
+        this.element.nativeElement.scrollIntoView(args);
+      });
+    }
   }
 
 }

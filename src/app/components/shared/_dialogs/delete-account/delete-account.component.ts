@@ -1,6 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { RoomEditComponent } from '../../../creator/_dialogs/room-edit/room-edit.component';
 import { RoomService } from '../../../../services/http/room.service';
 import { Room } from '../../../../models/room';
 import { DialogConfirmActionButtonType } from '../../dialog/dialog-action-buttons/dialog-action-buttons.component';
@@ -24,12 +23,14 @@ export class DeleteAccountComponent implements OnInit {
   confirmButtonType: DialogConfirmActionButtonType = DialogConfirmActionButtonType.Alert;
 
 
-  constructor(public dialogRef: MatDialogRef<RoomEditComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: any,
-              private roomService: RoomService,
-              private authenticationService: AuthenticationService,
-              private liveAnnouncer: LiveAnnouncer,
-              private translationService: TranslateService) {
+  constructor(
+    public dialogRef: MatDialogRef<DeleteAccountComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private roomService: RoomService,
+    private authenticationService: AuthenticationService,
+    private liveAnnouncer: LiveAnnouncer,
+    private translationService: TranslateService
+  ) {
   }
 
   ngOnInit() {

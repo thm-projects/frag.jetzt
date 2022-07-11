@@ -1,5 +1,18 @@
 :host {
 
+  .userActivityIcon {
+    display: inline-block;
+    /*width: 25px;
+    height: 25px;
+    margin-bottom: -5px;*/
+    background-color: currentColor;
+    -webkit-mask-image: url("../../../../../assets/icons/activity.svg");
+    mask-image: url("../../../../../assets/icons/activity.svg");
+    mask-repeat: no-repeat;
+    mask-position: center;
+    mask-size: 100% 100%;
+  }
+
   p, h1, h2, h3, h4, h5 {
     padding: 0;
     margin: 0;
@@ -7,6 +20,10 @@
 
   button.selected > * {
     color: var(--red);
+  }
+
+  button:hover > * {
+    color: white;
   }
 
   .test {
@@ -27,6 +44,11 @@
     > * {
       cursor: default;
     }
+
+    &:hover * {
+      color: white;
+    }
+
   }
 
   .questionwall {
@@ -34,11 +56,11 @@
       font-family: 'Material Icons', serif;
       font-weight: normal;
       font-style: normal;
-      font-size: 18px;
+      font-size: 22px;
       line-height: 18px;
       padding: 0;
-      margin: 0;
-      color: var(--ars-header-color);
+      color: darkorange;
+      margin-right: -3px;
     }
 
     &-header {
@@ -102,12 +124,9 @@
 
       &-btn {
         > button > * {
-          color: var(--ars-button-color-light);
+          color: darkorange;
         }
 
-        > button:hover > * {
-          color: var(--ars-button-color);
-        }
       }
 
       &-notification {
@@ -120,13 +139,18 @@
       }
 
       &-number {
-        font-size: 100px;
-        letter-spacing: 2px;
-        padding-right: 10px;
-        padding-bottom: 10px;
-        box-sizing: border-box;
-        font-weight: 600;
+        font-family: Roboto, sans-serif;
+        font-size: 35px;
+        padding-right: 20px;
+        font-weight: bold;
         color: rgba(255, 255, 255, 0.2);
+
+        > mat-icon {
+          font-size: 45px;
+          width: 45px;
+          height: 100%;
+          vertical-align: text-bottom;
+        }
       }
     }
 
@@ -143,11 +167,8 @@
         border-bottom: solid 1px var(--ars-border-color);
       }
 
-      &-comments {
-      }
-
       &-hide {
-        background-color:orange;
+        background-color: orange;
       }
 
       &-scroll {
@@ -195,7 +216,7 @@
           justify-content: center;
           hyphens: auto;
           word-break: break-word;
-          color: yellow;
+          color: darkorange;
         }
 
         &-inner {
@@ -215,12 +236,12 @@
         }
 
         &-icon {
-          font-size: 20px;
-          line-height: 40px;
+          font-size: 22px;
+          margin-right: -3px;
         }
 
         &-user {
-          font-family: Roboto, 'sans-serif';
+          font-family: Roboto, sans-serif;
           font-size: 18px;
           padding-left: 4px;
           padding-right: 16px;
@@ -228,18 +249,25 @@
         }
 
         &-timestamp {
-          font-family: Roboto, 'sans-serif';
+          font-family: Roboto, sans-serif;
           font-size: 18px;
           font-weight: 400;
           color: var(--ars-paragraph-color);
         }
 
         &-number {
-          font-family: Roboto, 'sans-serif';
-          font-size: 256px;
+          font-family: Roboto, sans-serif;
+          font-size: 110px;
           padding-left: 16px;
           font-weight: bold;
           color: rgba(255, 255, 255, 0.2);
+
+          > mat-icon {
+            font-size: 135px;
+            width: 135px;
+            height: 100%;
+            vertical-align: text-bottom;
+          }
         }
       }
 
@@ -247,7 +275,7 @@
         &-title {
           font-size: 35px;
           padding: 32px 32px 0 32px;
-          color: yellow;
+          color: darkorange;
         }
 
         &-desc {
@@ -284,10 +312,11 @@
   }
 
   .icon-color {
-    color: var(--ars-button-color);
-    &-yellow{
-      color:yellow;
-      transform:scale(1.5);
+    color: darkorange;
+
+    &-yellow {
+      color: darkorange;
+      transform: scale(1.5);
     }
   }
 
@@ -296,10 +325,10 @@
 :host ::ng-deep {
   .questionwall-present-markdown {
     max-width: 100%;
-    color: yellow;
+    color: darkorange;
 
     hr {
-      border: 1px solid yellow;
+      border: 1px solid darkorange;
     }
   }
 
@@ -309,58 +338,62 @@
     }
 
     .mat-slider-thumb {
-      background-color: var(--ars-button-color);
+      background-color: darkorange;
     }
 
     .mat-slider-track-fill {
-      background-color: var(--ars-button-color);
+      background-color: darkorange;
     }
   }
 
-  .side-list-numbers{
-    border-radius:100%;
-    padding:8px;
-    box-sizing:border-box;
-    >p{
-      text-align:center;
-      color:#FFFFFF;
+  .side-list-numbers {
+    border-radius: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+
+    > p {
+      text-align: center;
+      color: #FFFFFF;
     }
-    &-indicator{
-      width:10px;
-      height:10px;
-      background-color:#FFFFFF;
-      border-radius:2px;
-      position:relative;
-      left:50%;
-      top:50%;
-      transform:translate(-50%,-50%);
-      transition:all 0.1s ease-in-out;
+
+    &-indicator {
+      width: 10px;
+      height: 10px;
+      background-color: #FFFFFF;
+      border-radius: 2px;
+      position: relative;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      transition: all 0.1s ease-in-out;
     }
   }
 
-  .sln-indicator{
-    &-on{
-      width:20px;
-      height:20px;
-      background-color: yellow;
+  .sln-indicator {
+    &-on {
+      width: 20px;
+      height: 20px;
+      background-color: darkorange;
     }
-    &-off{
-      width:10px;
-      height:10px;
+
+    &-off {
+      width: 10px;
+      height: 10px;
     }
   }
 
-  .sln{
-    &-on{
-      cursor:default;
+  .sln {
+    &-on {
+      cursor: default;
     }
-    &-off{
-      cursor:pointer;
+
+    &-off {
+      cursor: pointer;
     }
   }
 
-  .side-list{
-    transition:width ease-in-out 0.1s;
+  .side-list {
+    transition: width ease-in-out 0.1s;
   }
 
   .qr-overlay {
@@ -369,7 +402,7 @@
     bottom: 64px;
     width: 200px;
     height: 200px;
-    animation:popin-qr-overlay 0.2s cubic-bezier(0,.04,0,1) both;
+    animation: popin-qr-overlay 0.2s cubic-bezier(0, .04, 0, 1) both;
   }
 
   @keyframes popin-qr-overlay {
@@ -399,77 +432,79 @@
     }
   }
 
-  .qw-comment-fade-animation{
-    animation:qw-comment-fade 0.2s ease-in-out both;
+  .qw-comment-fade-animation {
+    animation: qw-comment-fade 0.2s ease-in-out both;
   }
 
-  .qw-opening-fade-animation{
-    animation:qw-opening-fade 0.1s ease-in-out both;
+  .qw-opening-fade-animation {
+    animation: qw-opening-fade 0.1s ease-in-out both;
   }
 
-  .qw-fade-animation{
-    animation:qw-fade 0.2s ease-in-out both;
+  .qw-fade-animation {
+    animation: qw-fade 0.2s ease-in-out both;
   }
 
   @keyframes qw-fade {
     0% {
-      opacity:0;
+      opacity: 0;
     }
     100% {
-      opacity:1;
+      opacity: 1;
     }
   }
 
   @keyframes qw-opening-fade {
     0% {
-      opacity:0;
+      opacity: 0;
     }
     100% {
-      opacity:1;
+      opacity: 1;
     }
   }
 
   @keyframes qw-comment-fade {
     0% {
-      opacity:0;
-      margin-top:32px;
+      opacity: 0;
+      margin-top: 32px;
     }
     100% {
-      opacity:1;
-      margin-top:0px;
+      opacity: 1;
+      margin-top: 0px;
     }
   }
 
-  .qw-loading{
-    width:640px;
-    height:360px;
-    position:fixed;
-    left:50%;
-    top:50%;
-    transform:translate(-50%,-50%);
-    z-index:10000;
+  .qw-loading {
+    width: 640px;
+    height: 360px;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10000;
   }
 
-  .qw-center-text{
-    text-align:center;
+  .qw-center-text {
+    text-align: center;
   }
 
-  .qw-mat-button-wrapper{
-    box-sizing:border-box;
-    padding:16px;
-    >button>span>mat-icon{
-      margin-right:8px;
+  .qw-mat-button-wrapper {
+    box-sizing: border-box;
+    padding: 16px;
+
+    > button > span > mat-icon {
+      margin-right: 8px;
     }
-    >*{
+
+    > * {
       color: var(--ars-header-color);
     }
   }
 
-  .qw-text-heading{
+  .qw-text-heading {
     color: var(--ars-header-color);
   }
 
-  .qw-text-paragraph{
+  .qw-text-paragraph {
     color: var(--ars-header-color);
   }
 
@@ -480,7 +515,12 @@
 }
 
 h2 {
-  color: red;
+  color: var(--red);
   font-weight: normal !important;
   padding-top: 10px !important;
+}
+
+button > mat-icon {
+  color: darkorange;
+  height: unset;
 }

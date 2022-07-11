@@ -1,7 +1,7 @@
 import { Component, ComponentRef, EventEmitter, OnDestroy, OnInit } from '@angular/core';
 import { Room } from '../../../models/room';
 import { RoomService } from '../../../services/http/room.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { CommentService } from '../../../services/http/comment.service';
 import { EventService } from '../../../services/util/event.service';
@@ -41,7 +41,11 @@ import {
 import { SessionService } from '../../../services/util/session.service';
 import { RoomDataService } from '../../../services/util/room-data.service';
 import { mergeMap } from 'rxjs/operators';
-import { DeviceInfoService } from '../../../services/util/device-info.service';
+import {
+  CommentNotificationDialogComponent
+} from '../_dialogs/comment-notification-dialog/comment-notification-dialog.component';
+import { ToggleConversationComponent } from '../../creator/_dialogs/toggle-conversation/toggle-conversation.component';
+import { QuillUtils } from '../../../utils/quill-utils';
 
 @Component({
   selector: 'app-room-page',
@@ -53,13 +57,14 @@ export class RoomPageComponent implements OnInit, OnDestroy {
   user: User = null;
   isLoading = true;
   commentCounter: number;
+  responseCounter: number;
   urlToCopy = `${window.location.protocol}//${window.location.host}/participant/room/`;
-  commentCounterEmit: EventEmitter<number> = new EventEmitter<number>();
+  commentCounterEmit = new EventEmitter<[commentCount: number, responseCount: number]>();
   onDestroyListener: EventEmitter<void> = new EventEmitter<void>();
-  viewModuleCount = 1;
   moderatorCommentCounter: number;
+  moderatorResponseCounter: number;
   userRole: UserRole;
-  protected moderationEnabled = true;
+  moderationEnabled = true;
   protected listenerFn: () => void;
   private _navigationBuild = new SyncFence(2, this.initNavigation.bind(this));
   private _sub: Subscription;
@@ -80,6 +85,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
     protected authenticationService: AuthenticationService,
     protected sessionService: SessionService,
     protected roomDataService: RoomDataService,
+    protected router: Router,
   ) {
   }
 
@@ -103,40 +109,23 @@ export class RoomPageComponent implements OnInit, OnDestroy {
       this.user = user;
     });
     this.userRole = this.route.snapshot.data.roles[0];
-    this.preRoomLoadHook().subscribe(user => {
+    this.preRoomLoadHook().subscribe(() => {
       this.sessionService.getRoomOnce().subscribe(room => {
         this.room = room;
         this.isLoading = false;
         this.moderationEnabled = !this.room.directSend;
-        if (this.moderationEnabled) {
-          this.viewModuleCount = this.viewModuleCount + 1;
-        }
-        this.commentService.countByRoomId(this.room.id, true).subscribe(commentCounter => {
-          this.setCommentCounter(commentCounter);
+        const roomSub = this.sessionService.receiveRoomUpdates().subscribe(updRoom => {
+          this.moderationEnabled = !updRoom.directSend;
+          this.updateResponseCounter();
         });
-        if (this.moderationEnabled && this.userRole > UserRole.PARTICIPANT) {
-          this.commentService.countByRoomId(this.room.id, false).subscribe(commentCounter => {
-            this.moderatorCommentCounter = commentCounter;
-          });
-        }
-        const sub = this.roomDataService.receiveUpdates([
+        this.onDestroyListener.subscribe(() => roomSub.unsubscribe());
+        this.updateResponseCounter();
+        const sub = this.roomDataService.dataAccessor.receiveUpdates([
           { type: 'CommentCreated', finished: true },
           { type: 'CommentDeleted', finished: true },
           { type: 'CommentPatched', finished: true, updates: ['ack'] }
-        ]).subscribe(update => {
-          if (update.type === 'CommentCreated') {
-            this.setCommentCounter(this.commentCounter + 1);
-          } else if (update.type === 'CommentDeleted') {
-            this.setCommentCounter(this.commentCounter - 1);
-          } else if (update.type === 'CommentPatched') {
-            if (update.comment.ack) {
-              this.setCommentCounter(this.commentCounter + 1);
-              this.moderatorCommentCounter = this.moderatorCommentCounter - 1;
-            } else {
-              this.setCommentCounter(this.commentCounter - 1);
-              this.moderatorCommentCounter = this.moderatorCommentCounter + 1;
-            }
-          }
+        ]).subscribe(() => {
+          this.updateResponseCounter();
         });
         this.onDestroyListener.subscribe(() => sub.unsubscribe());
         this.postRoomLoadHook();
@@ -145,14 +134,10 @@ export class RoomPageComponent implements OnInit, OnDestroy {
     });
   }
 
-  setCommentCounter(commentCounter: number) {
+  setCommentCounter(commentCounter: number, responseCounter: number) {
     this.commentCounter = commentCounter;
-    this.commentCounterEmit.emit(this.commentCounter);
-  }
-
-  delete(room: Room): void {
-    this.roomService.deleteRoom(room.id).subscribe();
-    this.location.back();
+    this.responseCounter = responseCounter;
+    this.commentCounterEmit.emit([this.commentCounter, responseCounter]);
   }
 
   editSessionName() {
@@ -225,6 +210,21 @@ export class RoomPageComponent implements OnInit, OnDestroy {
     });
   }
 
+  showToggleConversationDialog() {
+    const dialogRef = this.dialog.open(ToggleConversationComponent, {
+      width: '600px',
+      data: { conversationDepth: this.room.conversationDepth, directSend: this.room.directSend }
+    });
+    dialogRef.componentInstance.editorRoom = this.room;
+    dialogRef.afterClosed().subscribe(result => {
+      if (typeof result === 'number') {
+        this.roomService.patchRoom(this.room.id, {
+          conversationDepth: result,
+        }).subscribe();
+      }
+    });
+  }
+
   openDeleteRoomDialog(): void {
     console.assert(this.userRole === UserRole.CREATOR);
     const dialogRef = this.dialog.open(RoomDeleteComponent, {
@@ -238,16 +238,31 @@ export class RoomPageComponent implements OnInit, OnDestroy {
     });
   }
 
+  openEmailNotification(): void {
+    const dialogRef = this.dialog.open(CommentNotificationDialogComponent, {
+      minWidth: '80%'
+    });
+    dialogRef.componentInstance.room = this.room;
+  }
+
   deleteRoom(): void {
     console.assert(this.userRole === UserRole.CREATOR);
-    this.translateService.get('room-page.deleted').subscribe(msg => {
-      this.notificationService.show(this.room.name + msg);
-    });
-    this.roomService.deleteRoom(this.room.id).subscribe(result => {
-      const event = new RoomDeleted(this.room.id);
-      this.eventService.broadcast(event.type, event.payload);
-      this.authenticationService.removeAccess(this.room.shortId);
-      this.location.back();
+    this.roomService.deleteRoom(this.room.id).subscribe({
+      next: () => {
+        const event = new RoomDeleted(this.room.id);
+        this.eventService.broadcast(event.type, event.payload);
+        this.authenticationService.removeAccess(this.room.shortId);
+        this.router.navigate(['/user']).then(() => {
+          this.translateService.get('room-page.deleted').subscribe(msg => {
+            this.notificationService.show(this.room.name + msg);
+          });
+        });
+      },
+      error: () => {
+        this.translateService.get('room-page.deleted-error').subscribe(msg => {
+          this.notificationService.show(msg);
+        });
+      }
     });
   }
 
@@ -260,7 +275,6 @@ export class RoomPageComponent implements OnInit, OnDestroy {
     }, () => {
       console.log('Clipboard write failed.');
     });
-
   }
 
   showModeratorsDialog(): void {
@@ -269,6 +283,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
       width: '400px'
     });
     dialogRef.componentInstance.roomId = this.room.id;
+    dialogRef.componentInstance.isCreator = this.sessionService.currentRole === 3;
   }
 
   showBonusTokenDialog(): void {
@@ -281,21 +296,15 @@ export class RoomPageComponent implements OnInit, OnDestroy {
 
   showCommentsDialog(): void {
     console.assert(this.userRole > UserRole.PARTICIPANT);
-    const updRoom = JSON.parse(JSON.stringify(this.room));
-
     const dialogRef = this.dialog.open(CommentSettingsComponent, {
       width: '400px'
     });
-    dialogRef.componentInstance.roomId = this.room.id;
-    dialogRef.componentInstance.editRoom = updRoom;
+    dialogRef.componentInstance.editRoom = this.room;
     dialogRef.afterClosed().subscribe(result => {
       if (result === 'abort') {
         return;
-      } else {
-        if (result instanceof CommentSettingsDialog) {
-          this.updateCommentSettings(result);
-          this.saveChanges(updRoom);
-        }
+      } else if (result instanceof CommentSettingsDialog) {
+        this.saveChanges({ threshold: result.threshold, directSend: result.directSend });
       }
     });
     dialogRef.backdropClick().subscribe(res => {
@@ -303,37 +312,28 @@ export class RoomPageComponent implements OnInit, OnDestroy {
     });
   }
 
-  updateCommentSettings(settings: CommentSettingsDialog) {
-    this.room.tags = settings.tags;
-
-    if (this.moderationEnabled && settings.directSend) {
-      this.viewModuleCount = this.viewModuleCount - 1;
-    } else if (!this.moderationEnabled && !settings.directSend) {
-      this.viewModuleCount = this.viewModuleCount + 1;
-    }
-
-    this.moderationEnabled = !settings.directSend;
-  }
-
   showTagsDialog(): void {
     console.assert(this.userRole > UserRole.PARTICIPANT);
-    const updRoom = JSON.parse(JSON.stringify(this.room));
     const dialogRef = this.dialog.open(TagsComponent, {
       width: '400px'
     });
-    let tags = [];
-    if (this.room.tags !== undefined) {
-      tags = this.room.tags;
-    }
+    const tags = [...(this.room.tags || [])];
+    const tagsBefore = [...tags];
     dialogRef.componentInstance.tags = tags;
     dialogRef.afterClosed().subscribe(result => {
-      if (!result || result === 'abort') {
+      if (!result || result === 'abort' || !this.hasTagChanges(tagsBefore, result)) {
         return;
       } else {
-        updRoom.tags = result;
-        this.saveChanges(updRoom);
+        this.saveChanges({ tags: result });
       }
     });
+  }
+
+  hasTagChanges(before: string[], after: string[]): boolean {
+    if (before.length !== after.length) {
+      return true;
+    }
+    return before.some(tag => !after.includes(tag));
   }
 
   toggleProfanityFilter() {
@@ -351,31 +351,39 @@ export class RoomPageComponent implements OnInit, OnDestroy {
   protected postRoomLoadHook() {
   }
 
-  protected saveChanges(updRoom: Room) {
-    this.roomService.updateRoom(updRoom).subscribe((room) => {
-        this.room = room;
+  protected saveChanges(data: Partial<Room>) {
+    this.roomService.patchRoom(this.room.id, {
+      ...data,
+      description: QuillUtils.serializeDelta(data.description)
+    }).subscribe({
+      next: (room) => {
         this.translateService.get('room-page.changes-successful').subscribe(msg => {
           this.notificationService.show(msg);
         });
       },
-      error => {
+      error: (error) => {
         this.translateService.get('room-page.changes-gone-wrong').subscribe(msg => {
           this.notificationService.show(msg);
         });
-      });
+      }
+    });
+  }
+
+  private updateResponseCounter(): void {
+    this.commentService.countByRoomId([
+      { roomId: this.room.id, ack: true },
+      { roomId: this.room.id, ack: false }
+    ]).subscribe(commentCounter => {
+      this.setCommentCounter(commentCounter[0].questionCount, commentCounter[0].responseCount);
+      if (!this.room.directSend && this.userRole > UserRole.PARTICIPANT) {
+        this.moderatorCommentCounter = commentCounter[1].questionCount;
+        this.moderatorResponseCounter = commentCounter[1].responseCount;
+      }
+    });
   }
 
   private initNavigation() {
-    /* eslint-disable @typescript-eslint/no-shadow */
     this._list = this.composeService.builder(this.headerService.getHost(), e => {
-      e.menuItem({
-        translate: this.headerService.getTranslate(),
-        icon: 'article',
-        class: 'material-icons-outlined',
-        text: 'header.edit-session-description',
-        callback: () => this.editSessionDescription(),
-        condition: () => this.userRole > UserRole.PARTICIPANT
-      });
       e.menuItem({
         translate: this.headerService.getTranslate(),
         icon: 'visibility_off',
@@ -387,17 +395,18 @@ export class RoomPageComponent implements OnInit, OnDestroy {
       });
       e.menuItem({
         translate: this.headerService.getTranslate(),
-        icon: 'gavel',
+        icon: 'forum',
         class: 'material-icons-outlined',
-        text: 'header.edit-moderator',
-        callback: () => this.showModeratorsDialog(),
+        isSVGIcon: false,
+        text: 'header.conversation',
+        callback: () => this.showToggleConversationDialog(),
         condition: () => this.userRole > UserRole.PARTICIPANT
       });
       e.menuItem({
         translate: this.headerService.getTranslate(),
-        icon: 'comment_tag',
+        icon: 'sell',
         class: 'material-icons-outlined',
-        isSVGIcon: true,
+        isSVGIcon: false,
         text: 'header.edit-tags',
         callback: () => this.showTagsDialog(),
         condition: () => this.userRole > UserRole.PARTICIPANT
@@ -409,7 +418,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
         iconColor: Palette.YELLOW,
         text: 'header.bonustoken',
         callback: () => this.showBonusTokenDialog(),
-        condition: () => this.userRole > UserRole.PARTICIPANT
+        condition: () => this.userRole > UserRole.PARTICIPANT && this.room?.bonusArchiveActive
       });
       e.menuItem({
         translate: this.headerService.getTranslate(),
@@ -425,9 +434,27 @@ export class RoomPageComponent implements OnInit, OnDestroy {
         class: 'material-icons-outlined',
         text: 'header.import-questions',
         callback: () => this.importQuestions().subscribe(),
-        condition: () => (this.roomDataService.getCurrentRoomData()?.length || 0) +
-          (this.roomDataService.getCurrentRoomData(true)?.length || 0) === 0 &&
+        condition: () => (this.roomDataService.dataAccessor.currentRawComments()?.length || 0) +
+          (this.roomDataService.moderatorDataAccessor.currentRawComments()?.length || 0) === 0 &&
           this.user.id === this.room.ownerId,
+      });
+      e.menuItem({
+        translate: this.headerService.getTranslate(),
+        icon: 'email',
+        class: 'material-icons-outlined',
+        iconColor: Palette.YELLOW,
+        isSVGIcon: false,
+        text: 'room-list.email-notification',
+        callback: () => this.openEmailNotification(),
+        condition: () => !!this.user?.loginId
+      });
+      e.menuItem({
+        translate: this.headerService.getTranslate(),
+        icon: 'article',
+        class: 'material-icons-outlined',
+        text: 'header.edit-session-description',
+        callback: () => this.editSessionDescription(),
+        condition: () => this.userRole > UserRole.PARTICIPANT
       });
       e.menuItem({
         translate: this.headerService.getTranslate(),
@@ -437,6 +464,35 @@ export class RoomPageComponent implements OnInit, OnDestroy {
         callback: () => this.toggleProfanityFilter(),
         condition: () => this.userRole > UserRole.PARTICIPANT
       });
+      e.altToggle(
+        {
+          translate: this.headerService.getTranslate(),
+          text: 'header.block',
+          icon: 'comments_disabled',
+          class: 'material-icons-outlined',
+          iconColor: Palette.RED,
+          color: Palette.RED
+        },
+        {
+          translate: this.headerService.getTranslate(),
+          text: 'header.unlock',
+          icon: 'comments_disabled',
+          class: 'material-icons-outlined',
+          iconColor: Palette.RED
+        },
+        ArsObserver.build<boolean>(ev => {
+          ev.set(this.room.questionsBlocked);
+          ev.onChange(a => {
+            this.roomService.patchRoom(this.room.id, { questionsBlocked: a.get() }).subscribe();
+            if (a.get()) {
+              this.headerService.getTranslate().get('header.questions-blocked').subscribe(msg => {
+                this.headerService.getNotificationService().show(msg);
+              });
+            }
+          });
+        }),
+        () => this.userRole > UserRole.PARTICIPANT
+      );
       e.menuItem({
         translate: this.headerService.getTranslate(),
         icon: 'delete_sweep',
@@ -456,39 +512,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
         callback: () => this.openDeleteRoomDialog(),
         condition: () => this.userRole === UserRole.CREATOR
       });
-      e.altToggle(
-        {
-          translate: this.headerService.getTranslate(),
-          text: 'header.block',
-          icon: 'comments_disabled',
-          class: 'material-icons-outlined',
-          iconColor: Palette.RED,
-          color: Palette.RED
-        },
-        {
-          translate: this.headerService.getTranslate(),
-          text: 'header.unlock',
-          icon: 'comments_disabled',
-          class: 'material-icons-outlined',
-          iconColor: Palette.RED
-        },
-        ArsObserver.build<boolean>(e => {
-          e.set(this.room.questionsBlocked);
-          e.onChange(a => {
-            this.room.questionsBlocked = a.get();
-            this.roomService.updateRoom(this.room).subscribe();
-            if (a.get()) {
-              this.headerService.getTranslate().get('header.questions-blocked').subscribe(msg => {
-                this.headerService.getNotificationService().show(msg);
-              });
-            }
-          });
-        })
-        ,
-        () => this.userRole > UserRole.PARTICIPANT
-      );
     });
-    /* eslint-enable @typescript-eslint/no-shadow */
   }
 
 }

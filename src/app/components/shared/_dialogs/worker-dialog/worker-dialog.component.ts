@@ -47,7 +47,7 @@ export class WorkerDialogComponent implements OnInit {
         width: '200px',
         disableClose: true,
         autoFocus: false,
-        position: { left: '50px', bottom: '50px' },
+        position: { left: '50px', bottom: '150px' },
         role: 'dialog',
         hasBackdrop: false,
         closeOnNavigation: false,
@@ -63,11 +63,11 @@ export class WorkerDialogComponent implements OnInit {
     if (this.queuedRooms.has(room.id)) {
       return false;
     }
-    let comments = this.dialogRef.componentInstance.roomDataService.getCurrentRoomData(false);
+    let comments = this.dialogRef.componentInstance.roomDataService.dataAccessor.currentRawComments();
     if (onlyFailed) {
       comments = comments.filter(c => {
         const isKeywordOkay = c.keywordsFromSpacy && c.keywordsFromSpacy.length > 0;
-        const isLanguageDefined = c.language !== Language.auto;
+        const isLanguageDefined = c.language !== Language.AUTO;
         let isKeywordWellDefined = false;
         if (isKeywordOkay) {
           isKeywordWellDefined = c.keywordsFromSpacy.every(keyword => {
@@ -83,7 +83,7 @@ export class WorkerDialogComponent implements OnInit {
         return !(isKeywordOkay && isKeywordWellDefined && isLanguageDefined);
       });
     }
-    this.dialogRef.componentInstance.appendRoom(room, comments);
+    this.dialogRef.componentInstance.appendRoom(room, [...comments]);
     return true;
   }
 

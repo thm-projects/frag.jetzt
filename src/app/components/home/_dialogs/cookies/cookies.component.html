@@ -9,7 +9,7 @@
             aria-labelledby="info-label"
             class="info"
             (click)="openDataProtection()">
-      <mat-icon class="info-icon material-icons-outlined">privacy_tip</mat-icon>
+      <mat-icon class="info-icon material-icons-outlined">security</mat-icon>
     </button>
   </div>
 
@@ -19,6 +19,7 @@
 
     <app-cookies-de *ngIf="langService.currentLanguage() === 'de'"></app-cookies-de>
     <app-cookies-en *ngIf="langService.currentLanguage() === 'en'"></app-cookies-en>
+    <app-cookies-fr *ngIf="langService.currentLanguage() === 'fr'"></app-cookies-fr>
 
   </mat-dialog-content>
 

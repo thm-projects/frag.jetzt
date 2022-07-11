@@ -10,7 +10,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { Subject, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
-import { isNumeric } from 'rxjs/internal-compatibility';
 import { ExplanationDialogComponent } from '../../../shared/_dialogs/explanation-dialog/explanation-dialog.component';
 import { copyCSVString, exportBonusArchive } from '../../../../utils/ImportExportMethods';
 import { CommentService } from '../../../../services/http/comment.service';
@@ -19,7 +18,12 @@ import { Sort } from '@angular/material/sort';
 import { SelectionModel } from '@angular/cdk/collections';
 import { AuthenticationService } from '../../../../services/http/authentication.service';
 import { UserRole } from '../../../../models/user-roles.enum';
+import { EventService } from '../../../../services/util/event.service';
+import { BonusTokenDeleted } from '../../../../models/events/bonus-token-deleted';
 import { LanguageService } from '../../../../services/util/language.service';
+import { BonusTokenUtilService } from '../../../../services/util/bonus-token-util.service';
+import { ModeratorService } from '../../../../services/http/moderator.service';
+import { numberSorter } from '../../../../models/comment';
 
 @Component({
   selector: 'app-bonus-token',
@@ -33,6 +37,7 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
   bonusTokens: BonusToken[] = [];
   lang: string;
   isLoading = true;
+  sub: Subscription;
 
   tableDataSource: MatTableDataSource<BonusToken>;
   displayedColumns: string[] = ['questionNumber', 'token', 'date', 'button'];
@@ -49,6 +54,8 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
 
   constructor(
     private bonusTokenService: BonusTokenService,
+    private bonusTokenUtilService: BonusTokenUtilService,
+    public eventService: EventService,
     public dialog: MatDialog,
     protected router: Router,
     private dialogRef: MatDialogRef<RoomCreatorPageComponent>,
@@ -57,6 +64,7 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
     private notificationService: NotificationService,
     private authenticationService: AuthenticationService,
     private languageService: LanguageService,
+    private moderatorService: ModeratorService,
   ) {
     this.languageService.getLanguage().subscribe(lang => {
       this.translateService.use(lang);
@@ -66,14 +74,18 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.getTokens();
+    this.sub = this.eventService.on<any>('BonusTokenDeleted').subscribe(payload => {
+      this.bonusTokens = this.bonusTokens.filter(bt => bt.token !== payload.token);
+      this.updateTable(false);
+    });
+    this.sortData({ active: 'questionNumber', direction: 'asc' });
   }
 
   getTokens(): void {
     this.bonusTokenService.getTokensByRoomId(this.room.id).subscribe(bonusTokens => this.updateTokens(bonusTokens));
   }
 
-  openDeleteSingleBonusDialog(userId: string, commentId: string, index: number): void {
-    this.notificationService.show(userId);
+  openDeleteSingleBonusDialog(bonusToken: BonusToken): void {
     const dialogRef = this.dialog.open(BonusDeleteComponent, {
       width: '400px'
     });
@@ -81,7 +93,7 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed()
       .subscribe(result => {
         if (result === 'delete') {
-          this.deleteBonus(userId, commentId, index);
+          this.deleteBonus(bonusToken);
         }
       });
   }
@@ -99,24 +111,18 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
       });
   }
 
-  deleteBonus(userId: string, commentId: string, index: number): void {
-    // Delete bonus via bonus-token-service
-    const toDelete = this.bonusTokens[index];
-    this.bonusTokenService.deleteToken(toDelete.roomId, toDelete.commentId, toDelete.userId).subscribe(_ => {
-      this.translateService.get('room-page.token-deleted').subscribe(msg => {
-        this.bonusTokens.splice(index, 1);
-        this.notificationService.show(msg);
+  deleteBonus(bonusToken: BonusToken): void {
+    this.commentService.getComment(bonusToken.commentId).subscribe(comment => {
+      this.commentService.toggleFavorite(comment).subscribe(_ => {
+        const event = new BonusTokenDeleted(bonusToken.token);
+        this.eventService.broadcast(event.type, event.payload);
       });
     });
   }
 
   deleteAllBonuses(): void {
-    // Delete all bonuses via bonus-token-service with roomId
-    this.bonusTokenService.deleteTokensByRoomId(this.room.id).subscribe(_ => {
-      this.translateService.get('room-page.tokens-deleted').subscribe(msg => {
-        this.dialogRef.close();
-        this.notificationService.show(msg);
-      });
+    this.bonusTokens.forEach(bt => {
+      this.deleteBonus(bt);
     });
   }
 
@@ -177,7 +183,7 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
 
   validateTokenInput(input: any): boolean {
     let res = false;
-    if (input.length === 8 && isNumeric(input)) {
+    if (input.length === 8 && this.isNumeric(input)) {
       this.bonusTokens.forEach(bonusToken => {
         if (bonusToken.token === input) {
           res = true;
@@ -192,12 +198,8 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
   }
 
   updateTokens(bonusTokens: BonusToken[]): void {
-    this.bonusTokens = this.bonusTokens.concat(bonusTokens);
-    this.bonusTokens.forEach(element => {
-      this.commentService.getComment(element.commentId).subscribe(comment => {
-        element.questionNumber = comment.number;
-      });
-    });
+    this.bonusTokens = bonusTokens;
+    this.bonusTokens = this.bonusTokenUtilService.setQuestionNumber(this.bonusTokens);
     this.subscription = this.modelChanged
       .pipe(
         debounceTime(this.debounceTime),
@@ -215,7 +217,7 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
       if (this.currentSort?.direction) {
         switch (this.currentSort.active) {
           case 'questionNumber':
-            data.sort((a, b) => a.questionNumber - b.questionNumber);
+            data.sort((a, b) => numberSorter(a.questionNumber, b.questionNumber));
             break;
           case 'token':
             data.sort((a, b) =>
@@ -223,7 +225,7 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
             break;
           case 'date':
             data.sort((a, b) =>
-              +a.timestamp - +b.timestamp
+              +a.createdAt - +b.createdAt
             );
             break;
         }
@@ -252,11 +254,8 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
   }
 
   export() {
-    exportBonusArchive(this.translateService,
-      this.commentService,
-      this.notificationService,
-      this.bonusTokenService,
-      this.room).subscribe(text => {
+    exportBonusArchive(this.translateService, this.commentService, this.notificationService, this.bonusTokenService,
+      this.moderatorService, this.room).subscribe(text => {
       this.translateService.get('bonus-archive-export.file-name', {
         roomName: this.room.name,
         date: text[1]
@@ -266,5 +265,11 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+  }
+
+  private isNumeric(msg: string): boolean {
+    // @ts-ignore
+    // eslint-disable-next-line eqeqeq
+    return +msg == msg;
   }
 }

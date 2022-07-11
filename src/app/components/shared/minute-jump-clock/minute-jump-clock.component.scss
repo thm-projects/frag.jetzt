@@ -1,0 +1,57 @@
+.clock {
+  --second-color: var(--red);
+  --accent-color: var(--on-background);
+  position: fixed;
+  transform: scale(0.75);
+
+  /* Clock styles */
+  .circle {
+    stroke-width: 9px;
+    stroke-miterlimit: 10;
+    fill: transparent;
+    stroke: transparent;
+  }
+
+  .mid-circle {
+    fill: var(--second-color);
+    stroke: var(--second-color);
+  }
+
+  .hour-marks {
+    stroke-width: 9px;
+    stroke-miterlimit: 10;
+    stroke: var(--accent-color);
+  }
+
+  .hour-arm {
+    stroke-width: 17px;
+    stroke-miterlimit: 10;
+    stroke: var(--accent-color);
+  }
+
+  .minute-arm {
+    stroke-width: 11px;
+    stroke-miterlimit: 10;
+    stroke: var(--accent-color);
+  }
+
+  .second-arm {
+    stroke-width: 4px;
+    stroke-miterlimit: 10;
+    stroke: var(--second-color);
+  }
+
+  /* Transparent box ensuring arms center properly. */
+  .sizing-box {
+    fill: none;
+  }
+
+  /* Make all arms rotate around the same center point. */
+  /* Optional: Use transition for animation. */
+  .hour,
+  .minute,
+  .second {
+    transform-origin: 300px 300px;
+    /*transition: transform .5s ease-in-out;*/
+  }
+}

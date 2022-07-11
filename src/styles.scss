@@ -26,6 +26,7 @@ body {
   height: 100%;
   overflow: hidden;
   cursor: default;
+  background-color: var(--background, #121212);
 }
 
 .dark {
@@ -62,6 +63,12 @@ body {
 }
 
 .oldtypo {
+  &-h1 {
+    color: var(--on-surface) !important;
+    font-size: 20px !important;
+    hyphens: auto;
+  }
+
   &-h2 {
     color: var(--on-surface) !important;
     font-size: 18px !important;
@@ -71,6 +78,7 @@ body {
   &-h3 {
     color: var(--on-surface) !important;
     font-size: 16px !important;
+    hyphens: auto;
   }
 
   &-p {
@@ -97,7 +105,7 @@ address {
 }
 
 .overflow_hide {
-  height: 0px;
+  height: 0;
   overflow: hidden;
 }
 
@@ -105,7 +113,7 @@ address {
   width: 50%;
   height: 50%;
   position: fixed;
-  left: 0px;
+  left: 0;
   top: 25%;
   z-index: 1000;
   background-color: var(--surface);
@@ -165,6 +173,7 @@ a.info span {
   left: -9000px;
   width: 0;
   overflow: hidden;
+  font-size: 12px;
 }
 
 
@@ -185,14 +194,8 @@ a.info:hover span, a.info:focus span, a.info:active span {
   text-align: center;
 }
 
-//TODO: a13y must be revised
-//:focus {
-//  outline: 1px solid var(--on-surface);
-//  outline-offset: 8px;
-//}
-
 a {
-  word-break: break-all;
+  hyphens: auto !important;
 }
 
 .mat-row {
@@ -205,16 +208,26 @@ a {
 
 .mat-dialog-container {
   max-width: 650px !important;
-  margin: 0 auto;
   line-height: 1.5 !important;
+  border: thin solid dimgray;
+  margin: 0 auto;
 }
 
 .mat-menu-item .mat-icon-no-color {
   color: var(--on-dialog);
 }
 
+.mat-menu-item svg {
+  stroke: var(--on-dialog);
+  fill: var(--on-dialog);
+}
+
 .star {
   color: var(--yellow) !important;
+}
+
+.settings {
+  color: var(--primary) !important;
 }
 
 .faq {
@@ -273,11 +286,16 @@ a {
 .mat-option {
   background-color: var(--dialog);
   color: var(--on-dialog);
-}
 
-.mat-option:hover {
-  background-color: var(--secondary) !important;
-  color: var(--on-secondary) !important;
+  &:hover {
+    background-color: var(--secondary) !important;
+    color: var(--on-secondary) !important;
+  }
+
+  &.mat-selected:not(.mat-active):not(:hover) {
+    background-color: var(--primary) !important;
+    color: var(--on-primary) !important;
+  }
 }
 
 .mat-select-panel .mat-option.mat-selected:not(.mat-option-multiple) {
@@ -300,5 +318,86 @@ a {
 }
 
 .mat-pseudo-checkbox-checked, .mat-pseudo-checkbox-indeterminate, .mat-accent .mat-pseudo-checkbox-checked, .mat-accent .mat-pseudo-checkbox-indeterminate {
-  background: var(--green) !important;;
+  background: var(--green) !important;
+}
+
+.mat-input-element::placeholder {
+  color: var(--on-surface);
+  opacity: (0.6);
+  font-style: italic;
+}
+
+h1 {
+  color: var(--on-surface) !important;
+  font-size: 20px !important;
+  hyphens: auto;
+}
+
+blockquote {
+  margin-inline-start: 10px;
+  margin-inline-end: 0;
+}
+
+.mat-tooltip {
+  white-space: pre-line;
+  color: white;
+  background-color: green;
+  border-radius: 10px !important;
+  font-size: 16px;
+  line-height: 1.5;
+  padding: 15px !important;
+  hyphens: auto;
+}
+
+.mat-flat-button.mat-button-disabled {
+  background-color: lightgray !important;
+  color: gray !important;
+  outline: gray solid 3px !important;
+}
+
+.mat-bottom-sheet-container {
+  background-color: var(--dialog);
+  color: var(--on-dialog);
+  border-top-left-radius: 40px !important;
+  border-top-right-radius: 40px !important;
+  border-top: thin solid dimgray;
+  border-left: thin solid dimgray;
+  border-right: thin solid dimgray;
+  margin: 0 15px;
+  min-width: unset !important;
+}
+
+@media screen and (min-width: 800px) {
+
+  /* Works on Firefox */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--secondary) transparent;
+  }
+
+  /* Works on Chrome, Edge, and Safari */
+  *::-webkit-scrollbar {
+    width: 3px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: var(--dialog);
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background-color: var(--secondary);
+  }
+}
+
+@media screen and (max-width: 800px) {
+
+  body {
+    -ms-overflow-style: none; /* for Internet Explorer, Edge */
+    scrollbar-width: none; /* for Firefox */
+    overflow-y: scroll;
+  }
+
+  ::-webkit-scrollbar {
+    display: none; /* for Chrome, Safari, and Opera */
+  }
 }

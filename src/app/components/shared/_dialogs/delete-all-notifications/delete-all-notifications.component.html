@@ -1,0 +1,9 @@
+<h2 class="oldtypo-h2">{{ 'delete-notifications.sure' | translate }}</h2>
+<p class="oldtypo-p">{{ 'delete-notifications.message' | translate }}</p>
+<app-dialog-action-buttons
+  buttonsLabelSection="delete-notifications"
+  confirmButtonLabel="delete"
+  [confirmButtonType]=confirmButtonType
+  [cancelButtonClickAction]="buildCloseDialogActionCallback()"
+  [confirmButtonClickAction]="buildCommentDeleteActionCallback()"
+></app-dialog-action-buttons>

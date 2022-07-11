@@ -2,38 +2,63 @@
      fxLayoutAlign="center"
      *ngIf="!isLoading"
      (document:keyup)="checkForEscape($event)"
-     (document:click)="checkForBackDropClick($event, container.firstChild, writeCommentCard.firstChild)">
+     (document:click)="checkForBackDropClick($event, container.firstChild, this.container.nextElementSibling?.firstChild)">
   <div fxLayout="row"
        #container
        fxLayoutAlign="center">
-    <app-comment [comment]="comment"
+    <app-comment *ngIf="comment?.body"
+                 [comment]="comment"
                  [user]="user"
                  [userRole]="userRole"
                  [parseVote]="vote"
                  [moderator]="isModerationComment"
                  [isFromModerator]="mods.has(comment.creatorId)"
                  [isFromOwner]="room.ownerId === comment.creatorId"
+                 [isAnswerView]="true"
+                 (sortedAnswers)="applySortAnswers($event)"
     ></app-comment>
   </div>
   <div fxLayout="row"
-       #writeCommentCard
+       *ngIf="room.conversationDepth || !isStudent"
        fxLayoutAlign="center">
     <mat-card class="answer border-answer"
-              *ngIf="!isStudent || answer">
+              *ngIf="((userRole > 0 || room.conversationDepth) || answer) && !isConversationView">
       <app-write-comment [isModerator]="userRole > 0"
                          [isCommentAnswer]="true"
                          [placeholder]="'comment-page.your-answer'"
                          [onClose]="openDeleteAnswerDialog()"
-                         [onDeeplSubmit]="receiveFromDeepL.bind(this)"
+                         [onDeeplSubmit]="submitNormal.bind(this)"
                          [onSubmit]="submitNormal.bind(this)"
                          [disableCancelButton]="!answer && commentComponent && commentComponent.commentData.currentText.length > 0"
                          [confirmLabel]="'save-answer'"
                          [cancelLabel]="'delete-answer'"
                          [additionalTemplate]="editAnswer"
                          [isSpinning]="isSending"
-                         [enabled]="!isStudent && (edit || !answer)">
+                         [enabled]="(userRole > 0 || room.conversationDepth !== 0) && (edit || !answer)"
+                         [tags]="room.tags"
+                         [isQuestionerNameEnabled]="true"
+                         [additionalMockOffset]="65">
       </app-write-comment>
     </mat-card>
+  </div>
+  <div *ngIf="isConversationView">
+    <div fxLayout="row"
+         fxLayoutAlign="center"
+         *ngFor="let response of responses; let i = index">
+      <app-comment *ngIf="response?.body"
+                   [comment]="response"
+                   [isRemoved]="response?.removed"
+                   [user]="user"
+                   [userRole]="userRole"
+                   [parseVote]="vote"
+                   [moderator]="isModerationComment"
+                   [isFromModerator]="mods.has(response.creatorId)"
+                   [isFromOwner]="room.ownerId === response.creatorId"
+                   [isResponse]=true
+                   [responseIndex]="i + 1"
+                   [parentDepth]="comment.commentDepth"
+      ></app-comment>
+    </div>
   </div>
 </div>
 

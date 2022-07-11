@@ -28,16 +28,17 @@ export class UserActivationComponent implements OnInit {
   login(activationKey: string): void {
     activationKey = activationKey.trim();
 
-    this.userService.activate(this.data.name.trim(), activationKey).subscribe(
-      ret => {
-        this.dialogRef.close({ success: true });
-      },
-      err => {
-        this.translationService.get('user-activation.activation-key-incorrect').subscribe(message => {
-          this.notificationService.show(message);
-        });
-      }
-    );
+    this.userService.activate(this.data.name.trim(), activationKey)
+      .subscribe({
+        next: (ret) => {
+          this.dialogRef.close({ success: true });
+        },
+        error: (err) => {
+          this.translationService.get('user-activation.activation-key-incorrect').subscribe(message => {
+            this.notificationService.show(message);
+          });
+        }
+      });
   }
 
 

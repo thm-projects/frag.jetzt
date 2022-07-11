@@ -2,7 +2,7 @@ import { Room } from '../models/room';
 import { forkJoin, Observable, of } from 'rxjs';
 import { ExportTable, ImportExportManager } from './ImportExportManager';
 import { TranslateService } from '@ngx-translate/core';
-import { Comment } from '../models/comment';
+import { Comment, numberSorter } from '../models/comment';
 import { CorrectWrong } from '../models/correct-wrong.enum';
 import { User } from '../models/user';
 import { UserRole } from '../models/user-roles.enum';
@@ -14,6 +14,8 @@ import { CommentService } from '../services/http/comment.service';
 import { RoomService } from '../services/http/room.service';
 import { TSMap } from 'typescript-map';
 import { SpacyKeyword } from '../services/http/spacy.service';
+import { ModeratorService } from '../services/http/moderator.service';
+import { ImmutableStandardDelta, QuillUtils, SerializedDelta } from './quill-utils';
 
 const serializeDate = (str: string | number | Date) => {
   if (!str) {
@@ -75,8 +77,9 @@ export const uploadCSV = (): Observable<string> => new Observable<string>(subscr
 export interface BonusArchiveEntry {
   bonusToken: string;
   bonusTimestamp: Date;
-  question: string;
-  answer: string;
+  question: SerializedDelta;
+  bonusQuestionNumber: string;
+  userLoginId: string;
 }
 
 const bonusArchiveImportExport = (translateService: TranslateService) =>
@@ -88,23 +91,19 @@ const bonusArchiveImportExport = (translateService: TranslateService) =>
     {
       type: 'table', columns: [
         {
-          languageKey: 'bonus-archive-export.entry-token',
+          languageKey: 'bonus-archive-export.entry-commentNumber',
           valueMapper: {
-            export: (config, k) => k.bonusToken,
-            import: (config, value, previous) => {
-              const c = {} as BonusArchiveEntry;
-              c.bonusToken = value || null;
-              return c;
-            }
+            export: (config, k) => k.bonusQuestionNumber,
+            import: (config, val) => ({ bonusQuestionNumber: val } as BonusArchiveEntry)
           }
         },
         {
-          languageKey: 'bonus-archive-export.entry-timestamp',
+          languageKey: 'bonus-archive-export.entry-token',
           valueMapper: {
-            export: (config, k) => serializeDate(k.bonusTimestamp),
-            import: (config, value, previous) => {
-              previous.bonusTimestamp = value ? new Date(value) : null;
-              return previous;
+            export: (config, k) => k.bonusToken,
+            import: (config, val, prev) => {
+              prev.bonusToken = val || null;
+              return prev;
             }
           }
         },
@@ -112,27 +111,43 @@ const bonusArchiveImportExport = (translateService: TranslateService) =>
           languageKey: 'bonus-archive-export.entry-question',
           ...ImportExportManager.createQuillMapper<BonusArchiveEntry>('bonus-archive-export.empty',
             (c) => c.question, (val, c) => {
-              c.question = val;
+              c.question = val as SerializedDelta;
               return c;
             })
         },
         {
-          languageKey: 'bonus-archive-export.entry-answer',
-          ...ImportExportManager.createQuillMapper<BonusArchiveEntry>('bonus-archive-export.empty',
-            (c) => c.answer, (val, c) => {
-              c.answer = val;
-              return c;
-            })
+          languageKey: 'bonus-archive-export.entry-date',
+          valueMapper: {
+            export: (config, k) => serializeDate(k.bonusTimestamp),
+            import: (config, val, prev) => {
+              prev.bonusTimestamp = val ? new Date(val) : null;
+              return prev;
+            }
+          }
+        },
+        {
+          languageKey: 'bonus-archive-export.user-name',
+          additionalLanguageKeys: ['bonus-archive-export.user-anonym'],
+          valueMapper: {
+            export: (config, k) => k.userLoginId ? k.userLoginId : config.additional[0],
+            import: (config, val, prev) => {
+              prev.userLoginId = val && val !== config.additional[0] ? val : null;
+              return prev;
+            }
+          }
         }
       ]
     } as ExportTable<BonusArchiveEntry>
   ]);
 
-export const exportBonusArchive = (translateService: TranslateService,
-                                   commentService: CommentService,
-                                   notificationService: NotificationService,
-                                   bonusTokenService: BonusTokenService,
-                                   room: Room): Observable<[string, string]> =>
+export const exportBonusArchive = (
+  translateService: TranslateService,
+  commentService: CommentService,
+  notificationService: NotificationService,
+  bonusTokenService: BonusTokenService,
+  moderatorService: ModeratorService,
+  room: Room
+): Observable<[string, string]> =>
   bonusTokenService.getTokensByRoomId(room.id).pipe(
     switchMap(tokens => {
       if (tokens.length < 1) {
@@ -142,11 +157,27 @@ export const exportBonusArchive = (translateService: TranslateService,
       }
       return forkJoin(tokens.map(token => commentService.getComment(token.commentId))).pipe(
         switchMap(comments => {
-          const data: BonusArchiveEntry[] = comments.map((c, i) => ({
-            question: c?.body,
-            answer: c?.answer,
+          const filteredComments = new Set(comments.filter(v => v?.creatorId).map(comment => comment.creatorId));
+          return moderatorService.getUserData([...filteredComments]).pipe(
+            map(users => {
+              const fastAccess = {} as any;
+              users.forEach(user => {
+                if (user) {
+                  fastAccess[user.id] = user['email'];
+                }
+              });
+              return comments.map(c => [fastAccess[c?.creatorId], c]);
+            })
+          );
+        }),
+        switchMap((arr: [userId: string, c: Comment][]) => {
+          arr.sort(([_, a], [__, b]) => numberSorter(a?.number, b?.number));
+          const data: BonusArchiveEntry[] = arr.map(([loginId, c], i) => ({
+            question: QuillUtils.serializeDelta(c?.body),
             bonusToken: tokens[i].token,
-            bonusTimestamp: tokens[i].timestamp
+            bonusTimestamp: tokens[i].createdAt,
+            bonusQuestionNumber: c?.number,
+            userLoginId: loginId
           }));
           const date = new Date();
           return bonusArchiveImportExport(translateService).exportToCSV([
@@ -162,11 +193,13 @@ export const exportBonusArchive = (translateService: TranslateService,
     })
   );
 
-const roomImportExport = (translateService: TranslateService,
-                          translatePath: string,
-                          user?: User,
-                          room?: Room,
-                          moderatorIds?: Set<string>) => {
+const roomImportExport = (
+  translateService: TranslateService,
+  translatePath: string,
+  user?: User,
+  room?: Room,
+  moderatorIds?: Set<string>
+) => {
   const empty = translatePath + '.export-empty';
   const bufferedIds = [];
   const isMod = (user?.role || UserRole.PARTICIPANT) > UserRole.PARTICIPANT;
@@ -177,15 +210,15 @@ const roomImportExport = (translateService: TranslateService,
     {
       type: 'value',
       languageKey: translatePath + '.room-welcome',
-      ...ImportExportManager.createQuillMapper<string>(empty, e => e, e => e)
+      ...ImportExportManager.createQuillMapper<SerializedDelta>(empty, e => e, e => e as SerializedDelta)
     },
     {
-      type: 'values',
+      type: 'value',
       languageKey: translatePath + '.room-categories',
       additionalLanguageKeys: [empty],
       valueMapper: {
-        export: (cfg, val) => val?.length ? val : [cfg.additional[0]],
-        import: (cfg, val) => val[0] === cfg.additional[0] ? [] : val
+        export: (cfg, val) => val?.length ? serializeStringArray(val) : cfg.additional[0],
+        import: (cfg, val) => val === cfg.additional[0] ? [] : deserializeStringArray(val)
       }
     },
     null,
@@ -195,10 +228,10 @@ const roomImportExport = (translateService: TranslateService,
         {
           languageKey: translatePath + '.question-number',
           valueMapper: {
-            export: (cfg, c) => String(c.number),
+            export: (cfg, c) => c.number,
             import: (cfg, val) => {
               const c = new Comment();
-              c.number = parseInt(val, 10);
+              c.number = val;
               return c;
             }
           }
@@ -206,17 +239,17 @@ const roomImportExport = (translateService: TranslateService,
         {
           languageKey: translatePath + '.timestamp',
           valueMapper: {
-            export: (cfg, c) => serializeDate(c.timestamp as unknown as string),
+            export: (cfg, c) => serializeDate(c.createdAt as unknown as string),
             import: (cfg, val, prev) => {
-              prev.timestamp = (val ? Date.parse(val) : '') as unknown as Date;
+              prev.createdAt = (val ? Date.parse(val) : '') as unknown as Date;
               return prev;
             }
           }
         },
         {
           languageKey: translatePath + '.question',
-          ...ImportExportManager.createQuillMapper<Comment>(empty, c => c.body, (str, c) => {
-            c.body = str;
+          ...ImportExportManager.createQuillMapper<Comment>(empty, c => QuillUtils.serializeDelta(c.body), (str, c) => {
+            c.body = QuillUtils.deserializeDelta(str as SerializedDelta);
             return c;
           })
         },
@@ -243,13 +276,6 @@ const roomImportExport = (translateService: TranslateService,
               return c;
             }
           }
-        },
-        {
-          languageKey: translatePath + '.answer',
-          ...ImportExportManager.createQuillMapper<Comment>(empty, c => c.answer, (str, c) => {
-            c.answer = str;
-            return c;
-          })
         },
         {
           languageKey: translatePath + '.author-role',
@@ -435,14 +461,14 @@ export const exportRoom = (translateService: TranslateService,
         });
         return null;
       }
-      comments.sort((a, b) => a.number - b.number);
+      comments.sort((a, b) => numberSorter(a.number, b.number));
       return bonusTokenService.getTokensByRoomId(room.id)
         .pipe(switchMap(value => {
           for (const comment of comments) {
             const bonusToken = value.find(v => v.accountId === comment.creatorId && v.commentId === comment.id);
             if (bonusToken) {
               comment.bonusToken = bonusToken.token;
-              comment.bonusTimeStamp = bonusToken.timestamp;
+              comment.bonusTimeStamp = bonusToken.createdAt;
             }
           }
           const dateString = new Date().toLocaleDateString();
@@ -450,7 +476,7 @@ export const exportRoom = (translateService: TranslateService,
             room.name,
             room.shortId,
             dateString,
-            room.description,
+            QuillUtils.serializeDelta(room.description),
             room.tags,
             comments
           ]).pipe(map(data => [data, dateString] as [string, string]));
@@ -462,7 +488,7 @@ export type ImportQuestionsResult = [
   roomName: string,
   roomShortId: string,
   exportDate: string,
-  roomDescription: string,
+  roomDescription: SerializedDelta,
   roomTags: string[],
   comments: CommentBonusTokenMixin[]
 ];
@@ -488,19 +514,14 @@ const generateCommentCreatorIds = (observer: Observable<ImportQuestionsResult>,
 
 const importRoomSettings = (value: ImportQuestionsResult,
                             roomService: RoomService,
-                            roomId: string): Observable<ImportQuestionsResult> => roomService.getRoom(roomId)
-  .pipe(
-    mergeMap(room => {
-      room.name = value[0];
-      room.description = value[3];
-      room.tags = value[4];
-      return roomService.updateRoom(room).pipe(map(_ => value));
-    })
-  );
+                            roomId: string): Observable<ImportQuestionsResult> => roomService.patchRoom(roomId, {
+  name: value[0],
+  description: value[3],
+  tags: value[4],
+}).pipe(map(_ => value));
 
 const ALLOWED_FIELDS: (keyof Comment)[] = [
-  'body', 'favorite', 'bookmark', 'correct', 'ack', 'tag', 'answer', 'keywordsFromSpacy', 'keywordsFromQuestioner',
-  'language', 'answerQuestionerKeywords', 'answerFulltextKeywords'
+  'favorite', 'bookmark', 'correct', 'ack', 'tag', 'keywordsFromSpacy', 'keywordsFromQuestioner', 'language'
 ];
 
 const importComment = (comment: CommentBonusTokenMixin,
@@ -517,8 +538,7 @@ const importComment = (comment: CommentBonusTokenMixin,
       const changes = new TSMap<string, any>();
       realComment.keywordsFromSpacy = JSON.stringify(realComment.keywordsFromSpacy || []) as unknown as SpacyKeyword[];
       realComment.keywordsFromQuestioner = JSON.stringify(realComment.keywordsFromQuestioner || []) as unknown as SpacyKeyword[];
-      realComment.answerFulltextKeywords = JSON.stringify(realComment.answerFulltextKeywords || []) as unknown as SpacyKeyword[];
-      realComment.answerQuestionerKeywords = JSON.stringify(realComment.answerQuestionerKeywords || []) as unknown as SpacyKeyword[];
+      realComment.body = QuillUtils.serializeDelta(realComment.body) as unknown as ImmutableStandardDelta;
       ALLOWED_FIELDS.forEach(key => changes.set(key, realComment[key]));
       return commentService.patchComment(realComment, changes);
     })
@@ -536,7 +556,7 @@ export const importToRoom = (translateService: TranslateService,
   return generateCommentCreatorIds(result, roomService, roomId)
     .pipe(
       mergeMap(value => importRoomSettings(value, roomService, roomId)),
-      mergeMap(value => forkJoin(value[5].map(c => importComment(c, roomId, commentService)) as Observable<Comment>[])),
+      mergeMap(value => forkJoin(value[5].map(c => importComment(c, roomId, commentService)))),
       mergeMap(_ => result)
     );
 };

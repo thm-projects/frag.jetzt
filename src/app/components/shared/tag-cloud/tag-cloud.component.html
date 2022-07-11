@@ -23,14 +23,24 @@
                         (left)="leave()"></app-word-cloud>
         <app-active-user *ngIf="room" [alwaysShowInHeader]="true" [room]="this.room" [top]="120"></app-active-user>
       </ars-fill>
-      <button *ngIf="canWriteComment() && !drawer?.opened"
+      <button class="start_introduction"
+              (click)="startIntroduction()"
               mat-fab
               mat-icon-button
-              aria-labelledby="add"
+              matTooltip="{{ 'comment-list.start-introduction-video' | translate }}" [matTooltipPosition]="'above'">
+        <mat-icon>play_arrow</mat-icon>
+      </button>
+      <button *ngIf="brainstormingActive && canWriteComment() && !drawer?.opened"
+              mat-fab
+              mat-icon-button
+              [ngClass]="{
+                center_screen: isCloudEmpty()
+              }"
               class="fab_add_comment"
               (click)="writeComment()"
-              matTooltip="{{ 'comment-list.add-comment' | translate }}">
+              matTooltip="{{ 'comment-list.add-idea' | translate }}" [matTooltipPosition]="'above'">
         <mat-icon>add</mat-icon>
+        <p class="oldtypo-p" *ngIf="isCloudEmpty()">{{'comment-list.ask-brainstorm-empty' | translate}}</p>
       </button>
     </mat-drawer-content>
   </mat-drawer-container>

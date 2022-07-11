@@ -1,7 +1,6 @@
 import { Component, EventEmitter, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
-import { Motd } from '../../../../models/motd';
 import { MotdList } from '../../../../models/motd-list';
 
 @Component({

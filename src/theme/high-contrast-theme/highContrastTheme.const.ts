@@ -1,15 +1,15 @@
 export const highcontrast = {
 
-  '--primary': '#fb9a1c',
-  '--primary-variant': '#1e1e1e',
+  '--primary': 'white',
+  '--primary-variant': 'DarkSlateGray',
 
-  '--secondary': '#fb9a1c',
+  '--secondary': 'white',
   '--secondary-variant': '#fb9a1c',
 
   '--background': '#121212',
   '--surface': '#1e1e1e',
   '--dialog': '#000000',
-  '--cancel': 'Firebrick',
+  '--cancel': 'red',
   '--alt-surface': '#323232',
   '--alt-dialog': '#455a64',
 
@@ -19,7 +19,7 @@ export const highcontrast = {
   '--on-background': '#FFFFFF',
   '--on-surface': '#FFFFFF',
   '--on-dialog': '#FFFFFF',
-  '--on-cancel': '#ffffff',
+  '--on-cancel': 'black',
 
   '--green': 'green',
   '--red': 'red',
@@ -34,7 +34,7 @@ export const highcontrast = {
   '--black': 'black',
   '--moderator': 'black',
 
-  '--questionwall-intro-primary':'yellow',
+  '--questionwall-intro-primary':'darkorange',
   '--questionwall-intro-secondary':'#eadabf',
   '--questionwall-intro-background':'#121212'
 
@@ -44,8 +44,8 @@ export const highcontrast_meta = {
 
   translation: {
     name: {
-      en: 'Contrast mode',
-      de: 'Kontrast',
+      en: 'High contrast',
+      de: 'Hoher Kontrast',
     },
   },
   isDark: true,
@@ -54,6 +54,7 @@ export const highcontrast_meta = {
   scale_desktop: 1,
   scale_mobile: 1,
   previewColor: 'secondary',
+  icon: 'contrast'
 
 };
 

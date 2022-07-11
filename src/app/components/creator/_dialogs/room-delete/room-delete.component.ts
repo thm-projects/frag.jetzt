@@ -1,8 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Room } from '../../../../models/room';
-import { RoomEditComponent } from '../room-edit/room-edit.component';
-import { DialogConfirmActionButtonType } from '../../../shared/dialog/dialog-action-buttons/dialog-action-buttons.component';
+import {
+  DialogConfirmActionButtonType
+} from '../../../shared/dialog/dialog-action-buttons/dialog-action-buttons.component';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -19,10 +20,13 @@ export class RoomDeleteComponent implements OnInit {
    */
   confirmButtonType: DialogConfirmActionButtonType = DialogConfirmActionButtonType.Alert;
 
-  constructor(public dialogRef: MatDialogRef<RoomEditComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: any,
-              private liveAnnouncer: LiveAnnouncer,
-              private translationService: TranslateService ) { }
+  constructor(
+    public dialogRef: MatDialogRef<RoomDeleteComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private liveAnnouncer: LiveAnnouncer,
+    private translationService: TranslateService
+  ) {
+  }
 
 
   ngOnInit() {

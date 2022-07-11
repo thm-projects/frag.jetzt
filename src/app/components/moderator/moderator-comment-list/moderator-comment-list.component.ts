@@ -1,5 +1,5 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { Comment } from '../../../models/comment';
+import { Component, ComponentRef, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Comment, numberSorter } from '../../../models/comment';
 import { CommentService } from '../../../services/http/comment.service';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../services/util/language.service';
@@ -12,26 +12,30 @@ import { RoomService } from '../../../services/http/room.service';
 import { EventService } from '../../../services/util/event.service';
 import { Router } from '@angular/router';
 import { AppComponent } from '../../../app.component';
-import { ModeratorsComponent } from '../../creator/_dialogs/moderators/moderators.component';
-import { TagsComponent } from '../../creator/_dialogs/tags/tags.component';
-import { DeleteCommentsComponent } from '../../creator/_dialogs/delete-comments/delete-comments.component';
 import { NotificationService } from '../../../services/util/notification.service';
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
 import { PageEvent } from '@angular/material/paginator';
 import { copyCSVString, exportRoom } from '../../../utils/ImportExportMethods';
+import { SessionService } from '../../../services/util/session.service';
+import { AuthenticationService } from '../../../services/http/authentication.service';
+import { DeviceInfoService } from '../../../services/util/device-info.service';
+import { forkJoin, Subscription } from 'rxjs';
+import { ArsComposeService } from '../../../../../projects/ars/src/lib/services/ars-compose.service';
+import { HeaderService } from '../../../services/util/header.service';
+import { FormControl } from '@angular/forms';
+import { RoomDataService } from '../../../services/util/room-data.service';
+import { MatMenuTrigger } from '@angular/material/menu';
+import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import {
   FilterType,
   FilterTypeKey,
   Period,
-  RoomDataFilter,
+  PeriodKey,
   SortType,
   SortTypeKey
-} from '../../../services/util/room-data-filter';
-import { SessionService } from '../../../services/util/session.service';
-import { RoomDataFilterService } from '../../../services/util/room-data-filter.service';
-import { AuthenticationService } from '../../../services/http/authentication.service';
-import { DeviceInfoService } from '../../../services/util/device-info.service';
-import { Subscription } from 'rxjs';
+} from '../../../utils/data-filter-object.lib';
+import { FilteredDataAccess } from '../../../utils/filtered-data-access';
+import { ForumComment } from '../../../utils/data-accessor';
 
 
 @Component({
@@ -41,10 +45,11 @@ import { Subscription } from 'rxjs';
 })
 export class ModeratorCommentListComponent implements OnInit, OnDestroy {
   @ViewChild('searchBox') searchField: ElementRef;
+  @ViewChild('filterMenuTrigger') filterMenuTrigger: MatMenuTrigger;
   user: User;
   roomId: string;
   AppComponent = AppComponent;
-  comments: Comment[] = [];
+  comments: ForumComment[] = [];
   commentsFilteredByTimeLength: number;
   isMobile: boolean;
   room: Room;
@@ -63,7 +68,7 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
   scrollExtended = false;
   search = false;
   searchPlaceholder = '';
-  periodsList = Object.values(Period);
+  periodsList = Object.values(Period) as PeriodKey[];
   headerInterface = null;
   pageIndex = 0;
   pageSize = 25;
@@ -76,9 +81,13 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
   sortType: SortType;
   sortReverse: boolean;
   period: Period;
+  questionNumberFormControl = new FormControl();
+  questionNumberOptions: string[] = [];
+  private _allQuestionNumberOptions: string[] = [];
   private firstReceive = true;
   private _deviceSub: Subscription;
-  private _commentsSub: Subscription;
+  private _list: ComponentRef<any>[];
+  private _filterObject: FilteredDataAccess;
 
   constructor(
     private commentService: CommentService,
@@ -90,13 +99,22 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
     private router: Router,
     private notificationService: NotificationService,
     private bonusTokenService: BonusTokenService,
-    private roomDataFilterService: RoomDataFilterService,
     private sessionService: SessionService,
     private authenticationService: AuthenticationService,
-    private deviceInfo: DeviceInfoService,
+    public deviceInfo: DeviceInfoService,
+    private composeService: ArsComposeService,
+    private headerService: HeaderService,
+    private roomDataService: RoomDataService,
   ) {
     langService.getLanguage().subscribe(lang => translateService.use(lang));
     this._deviceSub = this.deviceInfo.isMobile().subscribe(mobile => this.isMobile = mobile);
+    this.questionNumberFormControl.valueChanges.subscribe((v) => {
+      v = v || '';
+      this.questionNumberOptions = this._allQuestionNumberOptions.filter(e => e.startsWith(v));
+    });
+    this._filterObject = FilteredDataAccess.buildModeratedAccess(
+      sessionService, roomDataService, true, true, 'moderatorList',
+    );
   }
 
   handlePageEvent(e: PageEvent) {
@@ -104,92 +122,14 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
     this.pageSize = e.pageSize;
   }
 
-  initNavigation() {
-    const navigation = {};
-    const nav = (b, c) => navigation[b] = c;
-    nav('moderator', () => {
-      const dialogRef = this.dialog.open(ModeratorsComponent, {
-        width: '400px'
-      });
-      dialogRef.componentInstance.roomId = this.room.id;
-    });
-    nav('tags', () => {
-      const updRoom = JSON.parse(JSON.stringify(this.room));
-      const dialogRef = this.dialog.open(TagsComponent, {
-        width: '400px'
-      });
-      let tags = [];
-      if (this.room.tags !== undefined) {
-        tags = this.room.tags;
-      }
-      dialogRef.componentInstance.tags = tags;
-      dialogRef.afterClosed()
-        .subscribe(result => {
-          if (!result || result === 'abort') {
-            return;
-          } else {
-            updRoom.tags = result;
-            this.roomService.updateRoom(updRoom)
-              .subscribe((room) => {
-                  this.room = room;
-                  this.translateService.get('room-page.changes-successful').subscribe(msg => {
-                    this.notificationService.show(msg);
-                  });
-                },
-                error => {
-                  this.translateService.get('room-page.changes-gone-wrong').subscribe(msg => {
-                    this.notificationService.show(msg);
-                  });
-                });
-          }
-        });
-    });
-    nav('deleteQuestions', () => {
-      const dialogRef = this.dialog.open(DeleteCommentsComponent, {
-        width: '400px'
-      });
-      dialogRef.componentInstance.roomId = this.roomId;
-      dialogRef.afterClosed()
-        .subscribe(result => {
-          if (result === 'delete') {
-            this.translateService.get('room-page.comments-deleted').subscribe(msg => {
-              this.notificationService.show(msg);
-            });
-            this.commentService.deleteCommentsByRoomId(this.roomId).subscribe();
-          }
-        });
-    });
-    nav('exportQuestions', () => {
-      exportRoom(this.translateService,
-        this.notificationService,
-        this.bonusTokenService,
-        this.commentService,
-        'room-export',
-        this.user,
-        this.room,
-        this.moderatorAccountIds
-      ).subscribe(text => {
-        copyCSVString(text[0], this.room.name + '-' + this.room.shortId + '-' + text[1] + '.csv');
-      });
-    });
-    this.headerInterface = this.eventService.on<string>('navigate').subscribe(e => {
-      if (navigation.hasOwnProperty(e)) {
-        navigation[e]();
-      }
-    });
-  }
-
   ngOnDestroy() {
-    this.roomDataFilterService.currentFilter.save('moderatorList');
-    this.roomDataFilterService.isModeration = false;
+    this._filterObject.detach();
+    this._list?.forEach(e => e.destroy());
     this.headerInterface?.unsubscribe();
     this._deviceSub?.unsubscribe();
-    this._commentsSub?.unsubscribe();
   }
 
   ngOnInit() {
-    this.roomDataFilterService.currentFilter = RoomDataFilter.loadFilter('moderatorList');
-    this.roomDataFilterService.isModeration = true;
     this.initNavigation();
     this.authenticationService.watchUser.subscribe(user => {
       if (!user) {
@@ -198,10 +138,21 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
       this.user = user;
     });
     this.userRole = this.user.role;
-    this.sessionService.getRoomOnce().subscribe(room => this.room = room);
-    this.sessionService.getModeratorsOnce()
-      .subscribe(mods => this.moderatorAccountIds = new Set<string>(mods.map(m => m.accountId)));
-    this._commentsSub = this.roomDataFilterService.getData().subscribe(_ => this.onRefreshFiltering());
+    forkJoin([
+      this.sessionService.getRoomOnce(),
+      this.sessionService.getModeratorsOnce(),
+    ]).subscribe(([room, mods]) => {
+      this.room = room;
+      this.moderatorAccountIds = new Set<string>(mods.map(m => m.accountId));
+      this._filterObject.attach({
+        ownerId: room.ownerId,
+        roomId: room.id,
+        userId: this.user.id,
+        threshold: room.threshold,
+        moderatorIds: this.moderatorAccountIds,
+      });
+      this._filterObject.getFilteredData().subscribe(() => this.onRefreshFiltering());
+    });
     this.translateService.get('comment-list.search').subscribe(msg => {
       this.searchPlaceholder = msg;
     });
@@ -222,9 +173,9 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
     if (!this.searchString) {
       return;
     }
-    const filter = this.roomDataFilterService.currentFilter;
+    const filter = this._filterObject.dataFilter;
     filter.currentSearch = this.searchString;
-    this.roomDataFilterService.currentFilter = filter;
+    this._filterObject.dataFilter = filter;
   }
 
   activateSearch() {
@@ -237,9 +188,9 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
 
   abortSearch() {
     this.search = false;
-    const filter = this.roomDataFilterService.currentFilter;
+    const filter = this._filterObject.dataFilter;
     filter.currentSearch = '';
-    this.roomDataFilterService.currentFilter = filter;
+    this._filterObject.dataFilter = filter;
   }
 
   getVote(comment: Comment): Vote {
@@ -249,16 +200,21 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
   }
 
   onRefreshFiltering(): void {
-    const result = this.roomDataFilterService.currentData;
-    this.comments = result.comments;
-    this.commentsFilteredByTimeLength = result.timeFilteredCount;
+    this.comments = [...this._filterObject.getCurrentData()];
+    this.commentsFilteredByTimeLength = this._filterObject.getCurrentPeriodCount();
     this.isLoading = false;
     if (this.firstReceive && this.comments.length > 0) {
       this.firstReceive = false;
-      if (this.roomDataFilterService.currentFilter.currentSearch) {
+      if (this._filterObject.dataFilter.currentSearch) {
         this.search = true;
       }
     }
+    const allComments = [...this._filterObject.getSourceData()];
+    allComments.sort((a, b) => numberSorter(a.number, b.number));
+    this._allQuestionNumberOptions = allComments.map(c => Comment.computePrettyCommentNumber(this.translateService, c)
+      .join(' '));
+    const value = this.questionNumberFormControl.value || '';
+    this.questionNumberOptions = this._allQuestionNumberOptions.filter(e => e.startsWith(value));
     this.commentsWrittenByUsers.clear();
     for (const comment of this.comments) {
       let set = this.commentsWrittenByUsers.get(comment.creatorId);
@@ -268,7 +224,7 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
       }
       set.add(comment.id);
     }
-    const filter = this.roomDataFilterService.currentFilter;
+    const filter = this._filterObject.dataFilter;
     this.filterType = filter.filterType;
     this.sortType = filter.sortType;
     this.sortReverse = filter.sortReverse;
@@ -277,17 +233,17 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
 
   applyFilterByKey(type: FilterTypeKey, compare?: any): void {
     this.pageIndex = 0;
-    const filter = this.roomDataFilterService.currentFilter;
+    const filter = this._filterObject.dataFilter;
     filter.filterType = FilterType[type];
     filter.filterCompare = compare;
-    this.roomDataFilterService.currentFilter = filter;
+    this._filterObject.dataFilter = filter;
   }
 
   applySortingByKey(type: SortTypeKey, reverse = false) {
-    const filter = this.roomDataFilterService.currentFilter;
+    const filter = this._filterObject.dataFilter;
     filter.sortType = SortType[type];
     filter.sortReverse = reverse;
-    this.roomDataFilterService.currentFilter = filter;
+    this._filterObject.dataFilter = filter;
   }
 
   switchToCommentList(): void {
@@ -300,12 +256,60 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
     this.router.navigate([`/${role}/room/${this.room.shortId}/comments`]);
   }
 
-  setTimePeriod(period?: Period) {
-    const filter = this.roomDataFilterService.currentFilter;
-    if (period) {
-      filter.period = period;
-      filter.fromNow = null;
+  setTimePeriod(period?: PeriodKey) {
+    const filter = this._filterObject.dataFilter;
+    filter.period = Period[period];
+    filter.timeFilterStart = Date.now();
+    this._filterObject.dataFilter = filter;
+  }
+
+  isInCommentNumbers(value: string): boolean {
+    return this._allQuestionNumberOptions.indexOf(value) >= 0;
+  }
+
+  useCommentNumber(questionNumber: HTMLInputElement, menu: MatMenuTrigger, autoComplete: MatAutocompleteTrigger) {
+    if (!this.isInCommentNumbers(questionNumber.value)) {
+      return;
     }
-    this.roomDataFilterService.currentFilter = filter;
+    autoComplete.closePanel();
+    this.questionNumberFormControl.setValue('');
+    menu.closeMenu();
+    this.applyFilterByKey('Number', +questionNumber.value);
+  }
+
+  private initNavigation() {
+    this._list = this.composeService.builder(this.headerService.getHost(), e => {
+      e.menuItem({
+        translate: this.headerService.getTranslate(),
+        icon: 'forum',
+        class: 'material-icons-outlined',
+        text: 'header.back-to-questionboard',
+        callback: () => {
+          const role = (this.userRole === 3 ? 'creator' : 'moderator');
+          this.router.navigate([role + '/room/' + this.room?.shortId + '/comments']);
+        },
+        condition: () => true
+      });
+      e.menuItem({
+        translate: this.headerService.getTranslate(),
+        icon: 'file_download',
+        class: 'material-icons-outlined',
+        text: 'header.export-questions',
+        callback: () => {
+          exportRoom(this.translateService,
+            this.notificationService,
+            this.bonusTokenService,
+            this.commentService,
+            'room-export',
+            this.user,
+            this.room,
+            this.moderatorAccountIds
+          ).subscribe(text => {
+            copyCSVString(text[0], this.room.name + '-' + this.room.shortId + '-' + text[1] + '.csv');
+          });
+        },
+        condition: () => true
+      });
+    });
   }
 }

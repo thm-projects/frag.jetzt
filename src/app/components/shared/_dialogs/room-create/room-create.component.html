@@ -27,7 +27,10 @@
       </mat-error>
     </mat-form-field>
     <mat-slide-toggle
-      (change)="hasCustomShortId=$event.checked">{{ 'home-page.custom-shortid' | translate }}</mat-slide-toggle>
+      (change)="hasCustomShortId=$event.checked">
+      <span *ngIf="hasCustomShortId">{{ 'home-page.custom-shortid' | translate }}</span>
+      <span *ngIf="!hasCustomShortId">{{ 'home-page.generated-shortid' | translate }}</span>
+    </mat-slide-toggle>
     <mat-form-field *ngIf="hasCustomShortId">
       <input appAccessibilityEscapedInput
              (keyup)="resetInvalidCharacters()"

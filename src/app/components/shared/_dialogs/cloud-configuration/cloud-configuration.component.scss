@@ -123,16 +123,25 @@ mat-icon {
   color: var(--on-primary);
 }
 
-::ng-deep .primary {
-  color: var(--on-primary);
-  background-color: var(--primary);
+.primary {
+  background-color: transparent;
+  color: var(--primary);
+  outline: var(--primary) solid 3px;
+
+  &:hover {
+    background-color: var(--primary);
+    color: var(--on-primary);
+  }
 }
 
-::ng-deep .secondary {
-  color: var(--on-cancel);
-  background-color: var(--cancel);
-  margin-right: 20px;
+.secondary {
+  background-color: transparent;
+  color: var(--on-dialog);
+  margin-right: 15px;
 
+  &:hover {
+    outline: var(--cancel) solid 3px;
+  }
 }
 
 .button-row {
@@ -141,10 +150,16 @@ mat-icon {
 }
 
 .reset {
-  margin: 25px auto auto auto;
-  background-color: var(--secondary);
-  color: var(--on-secondary);
   width: 100%;
+  margin: 25px auto auto auto;
+  background-color: transparent;
+  color: var(--secondary);
+  outline: var(--secondary) solid 3px;
+
+  &:hover {
+    background-color: var(--secondary);
+    color: var(--on-secondary);
+  }
 }
 
 .cloud-configuration-form {

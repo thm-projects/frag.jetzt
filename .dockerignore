@@ -1,2 +1,5 @@
-node_modules
+.angular
 .git
+dist
+node_modules
+Dockerfile

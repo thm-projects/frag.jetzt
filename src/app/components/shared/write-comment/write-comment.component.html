@@ -1,11 +1,22 @@
 <ars-row>
   <ng-container [ngTemplateOutlet]="additionalTemplate"></ng-container>
-  <button class="lang-btn"
-          mat-button
+
+  <button mat-button
+          *ngIf="enabled && tags && tags.length"
+          (click)="tagSelect.open()"
+          matTooltip="{{ 'spacy-dialog.tag-button-hint' | translate }}">
+    <mat-icon class="btn-icon">sell</mat-icon>
+    <label for="tagSelect" *ngIf="!selectedTag"><em>{{'comment-page.tag' | translate}}</em></label>
+    <mat-select class="select-list" id="tagSelect" #tagSelect [(ngModel)]="selectedTag">
+      <mat-option [value]="null"><em>{{'comment-page.tag-reset' | translate}}</em></mat-option>
+      <mat-option *ngFor="let tag of tags" [value]="tag">{{tag}}</mat-option>
+    </mat-select>
+
+  </button>
+  <button mat-button
           *ngIf="enabled"
           (click)="select.open()"
-          matTooltip="{{ 'spacy-dialog.lang-button-hint' | translate }}"
-          matTooltipShowDelay="750">
+          matTooltip="{{ 'spacy-dialog.lang-button-hint' | translate }}">
     <mat-icon class="btn-icon">language</mat-icon>
     <span *ngIf="selectedLang !== 'auto'">
         {{'spacy-dialog.' + (languagetoolService.mapLanguageToSpacyModel(selectedLang)) | translate}}
@@ -15,31 +26,20 @@
       </span>
     <mat-select class="select-list" #select [(ngModel)]="selectedLang">
       <mat-option *ngFor="let lang of languages" [value]="lang">
-        <span *ngIf="lang == 'de-DE'">{{ 'spacy-dialog.de' | translate }}</span>
-        <span *ngIf="lang == 'en-US'">{{ 'spacy-dialog.en' | translate }}</span>
-        <span *ngIf="lang == 'fr'">{{ 'spacy-dialog.fr' | translate }}</span>
-        <span *ngIf="lang == 'auto'"><em>{{ 'spacy-dialog.auto' | translate }}</em></span>
+        <span *ngIf="lang === 'de-DE'">{{ 'spacy-dialog.de' | translate }}</span>
+        <span *ngIf="lang === 'en-US'">{{ 'spacy-dialog.en' | translate }}</span>
+        <span *ngIf="lang === 'fr'">{{ 'spacy-dialog.fr' | translate }}</span>
+        <span *ngIf="lang === 'auto'"><em>{{ 'spacy-dialog.auto' | translate }}</em></span>
       </mat-option>
     </mat-select>
   </button>
-  <button class="tag-btn"
-          mat-button
-          *ngIf="enabled && tags && tags.length"
-          (click)="tagSelect.open()"
-          matTooltip="{{ 'spacy-dialog.tag-button-hint' | translate }}"
-          matTooltipShowDelay="750">
-    <mat-icon class="btn-icon" svgIcon="comment_tag"></mat-icon>
-    <label for="tagSelect" *ngIf="!selectedTag"><em>{{'comment-page.tag' | translate}}</em></label>
-    <label for="tagSelect" *ngIf="selectedTag">{{selectedTag}}</label>
-    <mat-select class="select-list" id="tagSelect" #tagSelect [(ngModel)]="selectedTag">
-      <mat-option [value]="null"><em>{{'comment-page.tag-reset' | translate}}</em></mat-option>
-      <mat-option *ngFor="let tag of tags" [value]="tag">{{tag}}</mat-option>
-    </mat-select>
-  </button>
+
 </ars-row>
 <ars-row [height]="12"></ars-row>
 <app-view-comment-data *ngIf="enabled"
                        [isModerator]="isModerator"
+                       [isBrainstorming]="!!brainstormingData"
+                       [textOverwrite]="brainstormingInfo"
                        [isEditor]="true"
                        [maxTextCharacters]="maxTextCharacters"
                        [maxDataCharacters]="maxDataCharacters"
@@ -64,7 +64,7 @@
 <ars-row ars-flex-box *ngIf="enabled" class="spellcheck">
   <ars-col>
     <button
-      [disabled]="!commentData || commentData.currentText.length < 5"
+      [disabled]="isSpellcheckingButtonDisabled()"
       mat-flat-button
       class="spell-button"
       (click)="checkGrammar()">
@@ -87,6 +87,31 @@
     ></app-dialog-action-buttons>
   </ars-col>
 </ars-row>
+
+<div>
+  <button mat-flat-button
+          class="preview-btn"
+          *ngIf="isMobileMockPossible"
+          (click)="setMobileMockState(!isMobileMockActive)">
+    {{'comment-page.preview-in-mock' | translate}}
+  </button>
+</div>
+<div *ngIf="isMobileMockActive"
+     class="mobile-mock-wrapper"
+     #mobileMock>
+  <div>
+    <div>
+      <app-comment [comment]="getContent()"
+                   [isMock]="true"
+                   [userRole]="0"
+                   [moderator]="false"
+                   [isFromModerator]="userRole === 2"
+                   [isFromOwner]="userRole === 3"
+                   [user]="user"></app-comment>
+    </div>
+  </div>
+  <img src="/assets/images/Iphone-X-Mock.png" loading="lazy" alt="Phone preview">
+</div>
 
 <div class="visually-hidden">
   <div id="questioner-name">{{ 'write-comment.a11y-questioner-name' | translate }}</div>

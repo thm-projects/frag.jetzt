@@ -2,7 +2,7 @@ import { Component, OnInit, Renderer2, OnDestroy, AfterContentInit, AfterViewIni
 import { RoomPageComponent } from '../../shared/room-page/room-page.component';
 import { Location } from '@angular/common';
 import { RoomService } from '../../../services/http/room.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../services/util/language.service';
 import { CommentService } from '../../../services/http/comment.service';
@@ -19,13 +19,19 @@ import { AuthenticationService } from '../../../services/http/authentication.ser
 import { SessionService } from '../../../services/util/session.service';
 import { RoomDataService } from '../../../services/util/room-data.service';
 import { DeviceInfoService } from '../../../services/util/device-info.service';
+import { Subscription } from 'rxjs';
+import { TitleService } from '../../../services/util/title.service';
 
 @Component({
   selector: 'app-room-moderator-page',
   templateUrl: './room-moderator-page.component.html',
-  styleUrls: ['./room-moderator-page.component.scss']
+  styleUrls: [
+    '../../creator/room-creator-page/room-creator-page.component.scss',
+    './room-moderator-page.component.scss'
+  ]
 })
 export class RoomModeratorPageComponent extends RoomPageComponent implements OnInit, OnDestroy, AfterContentInit, AfterViewInit {
+  commentCounterEmitSubscription: Subscription;
 
   constructor(
     protected location: Location,
@@ -46,9 +52,15 @@ export class RoomModeratorPageComponent extends RoomPageComponent implements OnI
     protected sessionService: SessionService,
     protected roomDataService: RoomDataService,
     public deviceInfo: DeviceInfoService,
+    private titleService: TitleService,
+    protected router: Router,
   ) {
     super(roomService, route, location, commentService, eventService, headerService, composeService, dialog,
-      bonusTokenService, translateService, notification, authenticationService, sessionService, roomDataService);
+      bonusTokenService, translateService, notification, authenticationService, sessionService, roomDataService,
+      router);
+    this.commentCounterEmitSubscription = this.commentCounterEmit.subscribe(e => {
+      this.titleService.attachTitle(`(${e[0]} / ${e[1]})`);
+    });
     langService.getLanguage().subscribe(lang => translateService.use(lang));
   }
 
@@ -60,6 +72,12 @@ export class RoomModeratorPageComponent extends RoomPageComponent implements OnI
     setTimeout(() => {
       document.getElementById('live_announcer-button').focus();
     }, 700);
+  }
+
+  ngOnDestroy() {
+    super.ngOnDestroy();
+    this.commentCounterEmitSubscription.unsubscribe();
+    this.titleService.resetTitle();
   }
 
   ngOnInit() {

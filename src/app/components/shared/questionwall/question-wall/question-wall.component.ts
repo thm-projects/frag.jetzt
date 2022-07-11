@@ -14,9 +14,18 @@ import { RoomDataService } from '../../../../services/util/room-data.service';
 import { User } from '../../../../models/user';
 import { UserRole } from '../../../../models/user-roles.enum';
 import { SessionService } from '../../../../services/util/session.service';
-import { RoomDataFilterService } from '../../../../services/util/room-data-filter.service';
-import { FilterType, Period, RoomDataFilter, SortType } from '../../../../services/util/room-data-filter';
 import { Room } from '../../../../models/room';
+import { mergeMap } from 'rxjs/operators';
+import { MatDialog } from '@angular/material/dialog';
+import {
+  IntroductionQuestionWallComponent
+} from '../../_dialogs/introductions/introduction-question-wall/introduction-question-wall.component';
+import { FilterType, Period, PeriodKey, SortType } from '../../../../utils/data-filter-object.lib';
+import { ArsDateFormatter } from '../../../../../../projects/ars/src/lib/services/ars-date-formatter.service';
+import { FilteredDataAccess } from '../../../../utils/filtered-data-access';
+import { forkJoin } from 'rxjs';
+import { HeaderService } from '../../../../services/util/header.service';
+
 
 interface CommentCache {
   [commentId: string]: {
@@ -90,7 +99,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   commentsCountQuestions = 0;
   commentsCountUsers = 0;
   unreadComments = 0;
-  focusIncommingComments = true;
+  focusIncomingComments = true;
   timeUpdateInterval;
   keySupport: QuestionWallKeyEventSupport;
   filterTitle = '';
@@ -101,7 +110,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   userList: [number, string][] = [];
   userSelection = false;
   fontSize = 180;
-  periodsList = Object.values(Period);
+  periodsList = Object.values(Period) as PeriodKey[];
   isLoading = true;
   user: User;
   animationTrigger = true;
@@ -109,6 +118,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   room: Room = null;
   period: Period;
   private readonly commentCache: CommentCache = {};
+  private _filterObj: FilteredDataAccess;
 
   constructor(
     private authenticationService: AuthenticationService,
@@ -119,7 +129,9 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     private translateService: TranslateService,
     private roomDataService: RoomDataService,
     private sessionService: SessionService,
-    private roomDataFilterService: RoomDataFilterService,
+    private dialog: MatDialog,
+    public dateFormatter: ArsDateFormatter,
+    public headerService: HeaderService,
   ) {
     this.keySupport = new QuestionWallKeyEventSupport();
     this.timeUpdateInterval = setInterval(() => {
@@ -133,7 +145,11 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
       this.translateService.use(lang);
       currentTimeFormat = lang.toUpperCase() === 'DE' ? TIME_FORMAT_DE : TIME_FORMAT_EN;
     });
-    this.roomDataFilterService.currentFilter = RoomDataFilter.loadFilter('presentation');
+    this._filterObj = FilteredDataAccess.buildNormalAccess(this.sessionService, this.roomDataService, false, true, 'presentation');
+  }
+
+  get hasFilter() {
+    return Boolean(this._filterObj.dataFilter.filterType);
   }
 
   public wrap<E>(e: E, action: (e: E) => void) {
@@ -170,13 +186,41 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.roomDataFilterService.currentFilter = RoomDataFilter.loadFilter('presentation');
     this.authenticationService.watchUser.subscribe(newUser => {
       if (newUser) {
         this.user = newUser;
       }
     });
-    this.roomDataFilterService.getData().subscribe(_ => this.onUpdateFiltering());
+    forkJoin([
+      this.sessionService.getRoomOnce(),
+      this.sessionService.getModeratorsOnce(),
+    ]).subscribe(([room, mods]) => {
+      this._filterObj.attach({
+        moderatorIds: new Set<string>(mods.map(m => m.accountId)),
+        userId: this.user.id,
+        threshold: room.threshold,
+        ownerId: room.ownerId,
+        roomId: room.id,
+      });
+      this._filterObj.getFilteredData().subscribe(() => this.onUpdateFiltering());
+    });
+    this.sessionService.getRoomOnce().pipe(mergeMap(_ => this.roomDataService.dataAccessor.receiveUpdates([
+      { type: 'CommentCreated' }
+    ]))).subscribe(c => {
+      if (c.finished) {
+        if (this.focusIncomingComments) {
+          this.focusComment(c.comment);
+        }
+        return;
+      }
+      this.unreadComments++;
+      const date = new Date(c.comment.createdAt);
+      this.commentCache[c.comment.id] = {
+        date,
+        old: false,
+        timeAgo: updateTimeAgo(new Date().getTime(), date.getTime())
+      };
+    });
     this.sessionService.getRoomOnce().subscribe(room => this.room = room);
     this.initKeySupport();
   }
@@ -208,7 +252,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.roomDataFilterService.currentFilter.save('presentation');
+    this._filterObj.detach();
     this.keySupport.destroy();
     window.clearInterval(this.timeUpdateInterval);
     document.getElementById('header_rescale').style.display = 'block';
@@ -266,6 +310,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
       return;
     }
     this.commentFocusId = null;
+    this.commentFocus = null;
     setTimeout(() => {
       this.commentFocusId = comment.id;
       this.commentFocus = comment;
@@ -281,8 +326,8 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     }, 1);
   }
 
-  toggleFocusIncommingComments() {
-    this.focusIncommingComments = !this.focusIncommingComments;
+  toggleFocusIncomingComments() {
+    this.focusIncomingComments = !this.focusIncomingComments;
   }
 
   applyUserMap(user: string) {
@@ -329,24 +374,22 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   sortScore(reverse?: boolean) {
-    const filter = this.roomDataFilterService.currentFilter;
-    filter.sortType = SortType.score;
-    filter.sortReverse = !!reverse;
-    this.roomDataFilterService.currentFilter = filter;
+    this.sort(SortType.Score, reverse);
   }
 
   sortTime(reverse?: boolean) {
-    const filter = this.roomDataFilterService.currentFilter;
-    filter.sortType = SortType.time;
-    filter.sortReverse = !!reverse;
-    this.roomDataFilterService.currentFilter = filter;
+    this.sort(SortType.Time, reverse);
   }
 
   sortControversy(reverse?: boolean) {
-    const filter = this.roomDataFilterService.currentFilter;
-    filter.sortType = SortType.controversy;
-    filter.sortReverse = !!reverse;
-    this.roomDataFilterService.currentFilter = filter;
+    this.sort(SortType.Controversy, reverse);
+  }
+
+  sort(sortType: SortType, reverse?: boolean) {
+    const filter = this._filterObj.dataFilter;
+    filter.sortType = sortType;
+    filter.sortReverse = Boolean(reverse);
+    this._filterObj.dataFilter = filter;
   }
 
   filterFavorites() {
@@ -354,10 +397,10 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     this.isSvgIcon = false;
     this.filterTitle = 'question-wall.filter-favorite';
     this.filterDesc = '';
-    const filter = this.roomDataFilterService.currentFilter;
+    const filter = this._filterObj.dataFilter;
     filter.filterCompare = null;
-    filter.filterType = FilterType.favorite;
-    this.roomDataFilterService.currentFilter = filter;
+    filter.filterType = FilterType.Favorite;
+    this._filterObj.dataFilter = filter;
   }
 
   filterUser(comment: Comment) {
@@ -369,10 +412,10 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     this.isSvgIcon = false;
     this.filterTitle = 'question-wall.filter-user';
     this.filterDesc = '';
-    const filter = this.roomDataFilterService.currentFilter;
+    const filter = this._filterObj.dataFilter;
     filter.filterCompare = user;
-    filter.filterType = FilterType.creatorId;
-    this.roomDataFilterService.currentFilter = filter;
+    filter.filterType = FilterType.CreatorId;
+    this._filterObj.dataFilter = filter;
   }
 
   filterBookmark() {
@@ -380,38 +423,43 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     this.isSvgIcon = false;
     this.filterTitle = 'question-wall.filter-bookmark';
     this.filterDesc = '';
-    const filter = this.roomDataFilterService.currentFilter;
+    const filter = this._filterObj.dataFilter;
     filter.filterCompare = null;
-    filter.filterType = FilterType.bookmark;
-    this.roomDataFilterService.currentFilter = filter;
+    filter.filterType = FilterType.Bookmark;
+    this._filterObj.dataFilter = filter;
   }
 
   filterTag(tag: string) {
-    this.filterIcon = 'comment_tag';
-    this.isSvgIcon = true;
+    this.filterIcon = 'sell';
+    this.isSvgIcon = false;
     this.filterTitle = '';
     this.filterDesc = tag;
-    const filter = this.roomDataFilterService.currentFilter;
+    const filter = this._filterObj.dataFilter;
     filter.filterCompare = tag;
-    filter.filterType = FilterType.tag;
-    this.roomDataFilterService.currentFilter = filter;
+    filter.filterType = FilterType.Tag;
+    this._filterObj.dataFilter = filter;
   }
 
   deactivateFilter() {
-    const filter = this.roomDataFilterService.currentFilter;
+    const filter = this._filterObj.dataFilter;
     filter.filterType = null;
     filter.filterCompare = null;
-    this.roomDataFilterService.currentFilter = filter;
+    this._filterObj.dataFilter = filter;
   }
 
   sliderChange(evt: MatSliderChange) {
     this.fontSize = evt.value;
   }
 
+  openSiteIntroduction() {
+    this.dialog.open(IntroductionQuestionWallComponent, {
+      autoFocus: false
+    });
+  }
+
   onUpdateFiltering() {
-    const result = this.roomDataFilterService.currentData;
-    this.comments = result.comments;
-    const filter = this.roomDataFilterService.currentFilter;
+    this.comments = [...this._filterObj.getCurrentData()];
+    const filter = this._filterObj.dataFilter;
     this.period = filter.period;
     this.isLoading = false;
     const current = new Date().getTime();
@@ -421,11 +469,10 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
       if (this.commentCache[comment.id]) {
         return;
       }
-      this.unreadComments++;
-      const date = new Date(comment.timestamp);
+      const date = new Date(comment.createdAt);
       this.commentCache[comment.id] = {
         date,
-        old: false,
+        old: true,
         timeAgo: updateTimeAgo(current, date.getTime())
       };
     });
@@ -441,14 +488,58 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  setTimePeriod(period: Period) {
-    const filter = this.roomDataFilterService.currentFilter;
-    filter.period = period;
-    this.roomDataFilterService.currentFilter = filter;
+  setTimePeriod(period: PeriodKey) {
+    const filter = this._filterObj.dataFilter;
+    filter.period = Period[period];
+    filter.timeFilterStart = Date.now();
+    this._filterObj.dataFilter = filter;
   }
 
-  get hasFilter() {
-    return !!this.roomDataFilterService.currentFilter.filterType;
+  getCommentIcon(comment: Comment): string {
+    const isFromOwner = this.room.ownerId === comment?.creatorId;
+    let isFromModerator = false;
+    this.sessionService.getModeratorsOnce()
+      .subscribe(mods => isFromModerator = mods.some(mod => mod.accountId === comment?.creatorId));
+    if (comment?.brainstormingQuestion) {
+      return 'psychology_alt';
+    } else if (isFromOwner) {
+      return 'co_present';
+    } else if (isFromModerator) {
+      return 'support_agent';
+    }
+    return 'person';
+  }
+
+  getCommentIconClass(comment: Comment): string {
+    const isFromOwner = this.room.ownerId === comment?.creatorId;
+    let isFromModerator = false;
+    this.sessionService.getModeratorsOnce()
+      .subscribe(mods => isFromModerator = mods.some(mod => mod.accountId === comment?.creatorId));
+    if (comment?.brainstormingQuestion || isFromOwner || isFromModerator) {
+      return '';
+    }
+    return 'material-icons-outlined';
+  }
+
+  generateCommentNumber(comment: Comment): string {
+    if (!comment?.number) {
+      return;
+    }
+    const meta = comment.number.split('/');
+    const topLevelNumber = meta[0];
+    const number = meta[meta.length - 1];
+    let message = '';
+    if (meta.length === 1) {
+      this.translateService.get('comment-list.question-number', { number })
+        .subscribe(msg => message = msg.split('/'));
+      return message;
+    }
+    this.translateService.get('comment-list.comment-number', {
+      topLevelNumber,
+      number,
+      level: meta.length - 1,
+    }).subscribe(msg => message = msg.split('/'));
+    return message;
   }
 
   private refreshUserMap() {

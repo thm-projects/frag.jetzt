@@ -14,6 +14,8 @@ export type Language = 'de' | 'de-AT' | 'de-CH' | 'de-DE' |
   'pt' | 'pt-BR' | 'pt-PT' |
   'auto';
 
+type FirstPart<T extends string> = T extends `${infer First}-${string}` ? First : T;
+
 export interface LanguagetoolResult {
   software: {
     name: string;
@@ -81,34 +83,7 @@ export class LanguagetoolService extends BaseHttpService {
   }
 
   mapLanguageToSpacyModel(language: Language): Model {
-    switch (language) {
-      case 'de':
-      case 'de-AT':
-      case 'de-CH':
-      case 'de-DE':
-        return 'de';
-      case 'en':
-      case 'en-AU':
-      case 'en-CA':
-      case 'en-GB':
-      case 'en-US':
-        return 'en';
-      case 'es':
-        return 'es';
-      case 'fr':
-        return 'fr';
-      case 'it':
-        return 'it';
-      case 'nl':
-      case 'nl-BE':
-        return 'nl';
-      case 'pt':
-      case 'pt-BR':
-      case 'pt-PT':
-        return 'pt';
-      default:
-        return 'auto';
-    }
+    return language.split('-', 1)[0] as FirstPart<Language>;
   }
 
   isSupportedLanguage(language: Language) {

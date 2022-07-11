@@ -33,6 +33,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { ArsMatPaginatorComponent } from './components/content/paginator/ars-mat-paginator/ars-mat-paginator.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { DateTestComponent } from './components/test/date-test/date-test/date-test.component';
+import { DateFormatterComponent } from './components/content/date-formatter/date-formatter.component';
+import {ArsLifeCycleVisitor} from "./models/util/ars-life-cycle-visitor";
 
 @NgModule({
   declarations: [
@@ -58,7 +61,10 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     MatChipListComponent,
     MatDatePickerComponent,
     MatMenuItemComponent,
-    ArsMatPaginatorComponent
+    ArsMatPaginatorComponent,
+    DateTestComponent,
+    DateFormatterComponent,
+    ArsLifeCycleVisitor
   ],
     imports:[
         MatIconModule,
@@ -73,7 +79,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
         MatSlideToggleModule,
         MatPaginatorModule
     ],
-    exports:[
+    exports: [
         ArsComponent,
         FullScreenOverlayComponent,
         WrapperDirective,
@@ -91,7 +97,9 @@ import { MatPaginatorModule } from '@angular/material/paginator';
         MaterialBtnComponent,
         ArsComposeHostDirective,
         ArsMatPaginatorComponent,
-        MatButtonComponent
+        MatButtonComponent,
+        DateTestComponent,
+        DateFormatterComponent
     ]
 })
 export class ArsModule { }

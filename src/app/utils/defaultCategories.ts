@@ -1,38 +1,10 @@
-type StringOfLength<Min, Max> = string & {
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  readonly StringOfLength: unique symbol;
-};
+import { HasStringLength } from './ts-utils';
 
-const isStringOfLength = <Min extends number, Max extends number>(
-  str: string,
-  min: Min,
-  max: Max
-): str is StringOfLength<Min, Max> => str.length >= min && str.length <= max;
+type HasObjectArrayStringLengths<T extends { [key: string]: Readonly<string[]> }> =
+  false extends HasStringLength<3, 20, T[keyof T][number]> ? false : true;
 
-const stringOfLength = <Min extends number, Max extends number>(
-  input: unknown,
-  min: Min,
-  max: Max
-): StringOfLength<Min, Max> => {
-  if (typeof input !== 'string') {
-    throw new Error('invalid input');
-  }
-
-  if (!isStringOfLength(input, min, max)) {
-    throw new Error('"' + input + '"[' + input.length + '] is not between specified min[' + min + '] and max[' + max + ']');
-  }
-
-  return input;
-};
-
-interface Categories {
-  [key: string]: StringOfLength<3, 20>[];
-}
-
-const verify = (strArr: string[]): StringOfLength<3, 20>[] => strArr.map(e => stringOfLength(e, 3, 20));
-
-export const defaultCategories: Categories = {
-  de: verify([
+export const defaultCategories = {
+  de: [
     'Kommentar',
     'Verständnisfrage',
     'Feedback',
@@ -41,8 +13,8 @@ export const defaultCategories: Categories = {
     '»frag.jetzt«',
     'Quizzing',
     'Sonstiges',
-  ]),
-  en: verify([
+  ],
+  en: [
     'Comment',
     'Comprehension',
     'Feedback',
@@ -51,6 +23,13 @@ export const defaultCategories: Categories = {
     '»frag.jetzt«',
     'Quizzing',
     'Miscellaneous',
-  ]),
-  default: verify([]),
-};
+  ],
+  default: [
+    'Feedback',
+    '»frag.jetzt«',
+    'Quizzing',
+  ],
+} as const;
+
+const ASSERT_VALID: HasObjectArrayStringLengths<typeof defaultCategories> = true;
+

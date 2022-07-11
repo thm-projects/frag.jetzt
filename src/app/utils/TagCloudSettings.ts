@@ -31,8 +31,8 @@ export class TagCloudSettings {
       CloudParameters.getCurrentParameters(isCurrentlyDark));
   }
 
-  applyToRoom(room: Room) {
-    room.tagCloudSettings = JSON.stringify({
+  serialize() {
+    return JSON.stringify({
       version: CURRENT_VERSION,
       admin: this.adminData,
       cloud: this.settings

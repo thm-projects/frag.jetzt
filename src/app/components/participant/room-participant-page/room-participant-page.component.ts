@@ -3,7 +3,7 @@ import { UserRole } from '../../../models/user-roles.enum';
 import { RoomPageComponent } from '../../shared/room-page/room-page.component';
 import { Location } from '@angular/common';
 import { RoomService } from '../../../services/http/room.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../services/util/language.service';
 import { CommentService } from '../../../services/http/comment.service';
@@ -13,7 +13,7 @@ import { EventService } from '../../../services/util/event.service';
 import { KeyboardUtils } from '../../../utils/keyboard';
 import { KeyboardKey } from '../../../utils/keyboard/keys';
 import { map } from 'rxjs/operators';
-import { Observable, of } from 'rxjs';
+import { Observable, of, Subscription } from 'rxjs';
 import { HeaderService } from '../../../services/util/header.service';
 import { ArsComposeService } from '../../../../../projects/ars/src/lib/services/ars-compose.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -22,13 +22,19 @@ import { NotificationService } from '../../../services/util/notification.service
 import { SessionService } from '../../../services/util/session.service';
 import { RoomDataService } from '../../../services/util/room-data.service';
 import { DeviceInfoService } from '../../../services/util/device-info.service';
+import { TitleService } from '../../../services/util/title.service';
 
 @Component({
   selector: 'app-room-participant-page',
   templateUrl: './room-participant-page.component.html',
-  styleUrls: ['./room-participant-page.component.scss']
+  styleUrls: [
+    '../../creator/room-creator-page/room-creator-page.component.scss',
+    './room-participant-page.component.scss'
+  ]
 })
 export class RoomParticipantPageComponent extends RoomPageComponent implements OnInit, OnDestroy, AfterContentInit, AfterViewInit {
+
+  commentCounterEmitSubscription: Subscription;
 
   constructor(
     protected location: Location,
@@ -49,9 +55,16 @@ export class RoomParticipantPageComponent extends RoomPageComponent implements O
     protected sessionService: SessionService,
     protected roomDataService: RoomDataService,
     public deviceInfo: DeviceInfoService,
+    private titleService: TitleService,
+    protected router: Router,
   ) {
     super(roomService, route, location, commentService, eventService, headerService, composeService, dialog,
-      bonusTokenService, translateService, notificationService, authenticationService, sessionService, roomDataService);
+      bonusTokenService, translateService, notificationService, authenticationService, sessionService, roomDataService,
+      router);
+    langService.getLanguage().subscribe(lang => translateService.use(lang));
+    this.commentCounterEmitSubscription = this.commentCounterEmit.subscribe(e => {
+      this.titleService.attachTitle(`(${e[0]} / ${e[1]})`);
+    });
     langService.getLanguage().subscribe(lang => translateService.use(lang));
   }
 
@@ -83,6 +96,12 @@ export class RoomParticipantPageComponent extends RoomPageComponent implements O
         this.eventService.makeFocusOnInputFalse();
       }
     });
+  }
+
+  ngOnDestroy() {
+    super.ngOnDestroy();
+    this.commentCounterEmitSubscription.unsubscribe();
+    this.titleService.resetTitle();
   }
 
   public announce() {

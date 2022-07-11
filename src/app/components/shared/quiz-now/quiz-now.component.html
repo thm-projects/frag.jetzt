@@ -3,6 +3,7 @@
   <iframe class="responsive-iframe"
           title="antworte.jetzt"
           [src]="urlSafe"
+          loading="lazy"
           (load)="isLoading = false"
           (error)="isLoading = false">
   </iframe>

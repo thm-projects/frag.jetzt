@@ -1,0 +1,12 @@
+<h1 tabindex="0" mat-dialog-title>{{ 'introductions.room-list-title' | translate }} </h1>
+
+<mat-dialog-content tabindex="0">
+  <app-introduction-room-list-en *ngIf="languageService.currentLanguage() === 'en'"></app-introduction-room-list-en>
+  <app-introduction-room-list-de *ngIf="languageService.currentLanguage() === 'de'"></app-introduction-room-list-de>
+</mat-dialog-content>
+
+<app-dialog-action-buttons
+  confirmButtonLabel="cancel"
+  buttonsLabelSection="introductions"
+  [confirmButtonClickAction]="onClose.bind(this)">
+</app-dialog-action-buttons>

@@ -1,5 +1,9 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
+# host specific environments
+.env
+docker-compose.override.yml
+
 # compiled output
 /dist
 /dist-server
@@ -30,6 +34,8 @@
 /.sass-cache
 /connect.lock
 /coverage
+/cypress/screenshots
+/cypress/videos
 /libpeerconnection.log
 npm-debug.log
 yarn-error.log

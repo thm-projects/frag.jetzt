@@ -2,22 +2,13 @@ export interface TopicCloudAdminDataScoring {
   score: number;
 }
 
-export enum TopicCloudAdminDataScoringKey {
-  countComments = 'countComments',
-  countUsers = 'countUsers',
-  countSelectedByQuestioner = 'countSelectedByQuestioner',
-  countKeywordByModerator = 'countKeywordByModerator',
-  countKeywordByCreator = 'countKeywordByCreator',
-  countCommentsAnswered = 'countCommentsAnswered',
-  summedUpvotes = 'summedUpvotes',
-  summedDownvotes = 'summedDownvotes',
-  summedVotes = 'summedVotes',
-  cappedSummedVotes = 'cappedSummedVotes',
-  controversy = 'controversy'
-}
+export const TopicCloudAdminDataScoringKey = [
+  'countComments', 'countUsers', 'countSelectedByQuestioner', 'countKeywordByModerator', 'countKeywordByCreator',
+  'summedUpvotes', 'summedDownvotes', 'summedVotes', 'cappedSummedVotes', 'controversy', 'responseCount', 'answerCount'
+] as const;
 
 export type TopicCloudAdminDataScoringObject = {
-  [key in TopicCloudAdminDataScoringKey]: TopicCloudAdminDataScoring;
+  [key in typeof TopicCloudAdminDataScoringKey[number]]: TopicCloudAdminDataScoring;
 };
 
 export interface TopicCloudAdminData {
@@ -39,25 +30,26 @@ export const ensureDefaultScorings = (data: TopicCloudAdminData) => {
   if (!data.scorings) {
     data.scorings = {} as TopicCloudAdminDataScoringObject;
   }
-  for (const option of Object.keys(TopicCloudAdminDataScoringKey)) {
+  for (const option of TopicCloudAdminDataScoringKey) {
     if (data.scorings[option]) {
       continue;
     }
     switch (option) {
-      case TopicCloudAdminDataScoringKey.cappedSummedVotes:
+      case 'cappedSummedVotes':
+      case 'responseCount':
         data.scorings[option] = {
           score: 0.1
         };
         break;
-      case TopicCloudAdminDataScoringKey.countUsers:
+      case 'countUsers':
         data.scorings[option] = {
           score: 0.5
         };
         break;
-      case TopicCloudAdminDataScoringKey.countCommentsAnswered:
-      case TopicCloudAdminDataScoringKey.countKeywordByCreator:
-      case TopicCloudAdminDataScoringKey.countKeywordByModerator:
-      case TopicCloudAdminDataScoringKey.countSelectedByQuestioner:
+      case 'countKeywordByCreator':
+      case 'countKeywordByModerator':
+      case 'countSelectedByQuestioner':
+      case 'answerCount':
         data.scorings[option] = {
           score: 1
         };
@@ -72,7 +64,7 @@ export const ensureDefaultScorings = (data: TopicCloudAdminData) => {
 };
 
 export type TopicCloudAdminDataScoringPreset = {
-  [key in TopicCloudAdminDataScoringKey]: {
+  [key in typeof TopicCloudAdminDataScoringKey[number]]: {
     min: number;
     max: number;
   };
@@ -84,18 +76,19 @@ export const keywordsScoringMinMax: TopicCloudAdminDataScoringPreset = {
   countSelectedByQuestioner: { min: -5, max: 5 },
   countKeywordByModerator: { min: -5, max: 5 },
   countKeywordByCreator: { min: -5, max: 5 },
-  countCommentsAnswered: { min: -5, max: 5 },
   summedUpvotes: { min: -5, max: 5 },
   summedDownvotes: { min: -5, max: 5 },
   summedVotes: { min: -5, max: 5 },
   cappedSummedVotes: { min: -5, max: 5 },
-  controversy: { min: -5, max: 5 }
+  controversy: { min: -5, max: 5 },
+  responseCount: { min: -5, max: 5 },
+  answerCount: { min: -5, max: 5 },
 };
 
 export enum KeywordOrFulltext {
-  keyword,
-  fulltext,
-  both
+  Keyword,
+  Fulltext,
+  Both
 }
 
 export interface Label {

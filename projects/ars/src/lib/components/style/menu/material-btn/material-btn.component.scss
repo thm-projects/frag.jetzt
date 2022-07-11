@@ -4,7 +4,7 @@
   p, h1, h2, h3, h4, h5 {
     padding: 0;
     margin: 0;
-    font-family: Roboto, 'sans-serif';
+    font-family: Roboto, sans-serif;
   }
 
   button {
@@ -31,7 +31,7 @@
     line-height: 18px;
     padding-top: 1px;
     padding-bottom: 3px;
-    color: var(--ars-button-color);
+    color: darkorange;
   }
 
   ars-row > button > p {
@@ -55,6 +55,12 @@
     font-style: normal;
     font-size: 18px;
     line-height: 18px;
+    color: var(--ars-button-color);
+  }
+
+  button > mat-icon {
+    transform:translateY(-3px);
+    height: 18px;
     color: var(--ars-button-color);
   }
 

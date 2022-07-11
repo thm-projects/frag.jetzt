@@ -1,0 +1,31 @@
+@startuml
+
+' hide the spot
+hide circle
+' avoid problems with angled crows feet
+skinparam linetype ortho
+' hide line when no methods are present
+hide empty methods
+' hide line when no fields are present
+hide empty fields
+skinparam roundcorner 10
+skinparam Padding 5
+skinparam backgroundColor #EEEBDC
+
+class Router <<Angular>>
+class AuthenticationGuard
+class SessionService
+class TagCloudDataService
+class RoomDataService
+class RoomDataFilterService
+
+Router <.down.. SessionService
+AuthenticationGuard .down..> SessionService
+TagCloudDataService .up..> SessionService
+RoomDataService .up..> SessionService
+RoomDataFilterService .up..> RoomDataService
+RoomDataFilterService .up..> SessionService
+TagCloudDataService .up...> RoomDataService
+TagCloudDataService .right...> RoomDataFilterService
+
+@enduml

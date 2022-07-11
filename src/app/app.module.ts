@@ -68,9 +68,19 @@ import 'prismjs/plugins/line-numbers/prism-line-numbers.js';
 import 'prismjs/plugins/line-highlight/prism-line-highlight.js';
 import 'katex/dist/katex.min.js';
 import 'emoji-toolkit/lib/js/joypixels.min.js';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { DashboardNotificationService } from './services/util/dashboard-notification.service';
+import { MatNativeDateModule } from '@angular/material/core';
+import {
+  NotifyUnsupportedBrowserComponent
+} from './components/home/_dialogs/notify-unsupported-browser/notify-unsupported-browser.component';
+import { ImprintFrComponent } from '../assets/i18n/imprint/imprint-fr';
+import { HelpFrComponent } from '../assets/i18n/help/help-fr';
+import { DemoFrComponent } from '../assets/i18n/demo/demo-fr';
+import { DataProtectionFrComponent } from '../assets/i18n/data-protection/data-protection-fr';
+import { CookiesFrComponent } from '../assets/i18n/cookies/cookies-fr';
 
-export const dialogClose = (dialogResult: any) => {
-};
+export const dialogClose = (dialogResult: any) => '';
 
 export const initializeApp = (appConfig: AppConfig) => () => appConfig.load();
 
@@ -95,17 +105,22 @@ export const HttpLoaderFactory = (http: HttpClient) => new TranslateHttpLoader(h
     CookiesComponent,
     DataProtectionEnComponent,
     DataProtectionDeComponent,
+    DataProtectionFrComponent,
     CookiesEnComponent,
     CookiesDeComponent,
+    CookiesFrComponent,
     ImprintEnComponent,
     ImprintDeComponent,
+    ImprintFrComponent,
     HelpDeComponent,
     HelpEnComponent,
+    HelpFrComponent,
     DemoDeComponent,
     DemoEnComponent,
-    HelpEnComponent,
+    DemoFrComponent,
     OverlayComponent,
-    QuizNowComponent
+    QuizNowComponent,
+    NotifyUnsupportedBrowserComponent
   ],
   imports: [
     MatomoModule,
@@ -147,7 +162,8 @@ export const HttpLoaderFactory = (http: HttpClient) => new TranslateHttpLoader(h
     ArsModule,
     TagCloudModule,
     JoyrideModule.forRoot(),
-    QuillModule.forRoot()
+    QuillModule.forRoot(),
+    MatNativeDateModule
   ],
   providers: [
     /*AppConfig,
@@ -178,6 +194,8 @@ export const HttpLoaderFactory = (http: HttpClient) => new TranslateHttpLoader(h
     CustomIconService,
     WsConnectorService,
     SpacyService,
+    MatBottomSheet,
+    DashboardNotificationService,
     {
       provide: MatDialogRef,
       useValue: {
@@ -187,7 +205,8 @@ export const HttpLoaderFactory = (http: HttpClient) => new TranslateHttpLoader(h
     {
       provide: MAT_DIALOG_DATA,
       useValue: []
-    }
+    },
+
   ],
   bootstrap: [AppComponent]
 })

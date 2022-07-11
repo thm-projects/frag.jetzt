@@ -20,18 +20,25 @@ mat-radio-group {
 .elementText {
   align-content: flex-start;
   margin-right: 10px;
+  display: flex;
+  align-items: center;
 }
 
 .elementIcons {
   margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.25em;
 }
 
 .comment_tag-icon {
-  height: 18px !important;
+  font-size: 16px;
+  height: unset;
+  width: unset;
 }
 
 .mat-dialog-content {
-  padding: 0px 15px;
+  padding: 0;
   margin: 0;
 }
 
@@ -47,13 +54,18 @@ mat-radio-group {
 }
 
 .help-button {
-  background-color: var(--green);
-  color: var(--white);
-  margin-top: 1rem;
+  background-color: transparent;
+  color: var(--green);
+  outline: var(--green) solid 3px;
+  margin: 10px;
+
+  &:hover {
+    background-color: var(--green);
+    color: var(--black);
+  }
 
   .mat-icon {
     font-size: 18px;
-    margin-top: 3px;
   }
 }
 

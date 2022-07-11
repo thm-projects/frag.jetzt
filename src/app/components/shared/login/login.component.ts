@@ -52,7 +52,7 @@ export class LoginComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    let u;
+    let u = false;
     let p = false;
     if (changes.username) {
       this.usernameFormControl.setValue(changes.username.currentValue);
@@ -63,7 +63,6 @@ export class LoginComponent implements OnInit, OnChanges {
       p = true;
     }
     if (u && p && !changes.username.isFirstChange() && !changes.username.isFirstChange()) {
-      // TODO: this throws an Exception because data and UI are inconsistent
       this.activateUser();
     }
   }
@@ -126,8 +125,8 @@ export class LoginComponent implements OnInit, OnChanges {
   /**
    * Returns a lambda which closes the dialog on call.
    */
-  buildCloseDialogActionCallback(): () => void {
-    return () => this.dialog.closeAll();
+  buildCloseDialogActionCallback(): void {
+    this.dialog.closeAll();
   }
 
 
@@ -139,18 +138,19 @@ export class LoginComponent implements OnInit, OnChanges {
   }
 
   private checkLogin(loginResult: LoginResult) {
-    if (loginResult === LoginResult.failureActivation) {
+    if (loginResult === LoginResult.FailureActivation) {
       this.activateUser();
       return;
     }
-    if (loginResult === LoginResult.failurePasswordReset) {
+    if (loginResult === LoginResult.FailurePasswordReset) {
       this.openPasswordDialog(false);
       return;
     }
-    if (loginResult !== LoginResult.success) {
+    if (loginResult !== LoginResult.Success) {
       this.translationService.get('login.login-data-incorrect').subscribe(message => {
         this.notificationService.show(message);
       });
+      return;
     }
     this.translationService.get('login.login-successful').subscribe(message => {
       this.notificationService.show(message);

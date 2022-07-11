@@ -241,7 +241,6 @@ export class CloudConfigurationComponent implements OnInit {
     this.parent.resetColorsToTheme();
     this.cloudParameters = new CloudParameters(this.parent.currentCloudParameters);
     this.defaultCloudParameters = new CloudParameters(this.parent.currentCloudParameters);
-    this.closePanel();
   }
 
   italicChecked(event) {

@@ -1,14 +1,14 @@
-<h1 style="display: none;"
+<div style="display: none;"
     [joyrideStep]="'greeting'"
     appJoyrideTemplate
     [stepPosition]="'center'">
-</h1>
+</div>
 
 <div data-nosnippet
-     fxLayout="column"
-     fxLayoutAlign="center"
-     fxLayoutGap="20px"
-     fxFill>
+     class="main-container">
+  <div class="bg-object" style="top: 20%; left: 20%; --delay: 0s;">?</div>
+  <div class="bg-object" style="top: 30%; left: 80%; --delay: 2s; --anim: bg-object-anim-reverse;">?</div>
+  <div class="bg-object" style="top: 40%; left: 50%; --delay: 4s; --anim: bg-object-anim-reverse;">?</div>
   <div fxLayout="row"
        fxLayoutAlign="center">
 
@@ -22,6 +22,7 @@
 
   <img tabindex="-1"
        src="/assets/background/auditorium.webp"
+       srcset="/assets/background/auditorium.webp 1x, /assets/background/Auditorium-original-bw.webp 2x"
        class="screenshot"
        width="811"
        height="185"
@@ -48,7 +49,7 @@
          class="info"
          href="https://frag.jetzt/participant/room/Feedback"
          target="_blank"
-         rel="noreferrer"
+         rel="noreferrer noopener"
          aria-labelledby="feedback-aria">{{ 'login.welcome-feedback' | translate }}
       </a>
     </span>
@@ -59,7 +60,8 @@
           tabIndex="-1"
           (click)="announce()"
           class="visually-hidden">{{ 'home-page.live-announcer' | translate }}</button>
+  <app-app-rating *ngIf="accumulatedRatings" [ratingResults]="accumulatedRatings"></app-app-rating>
 </div>
 <div class="visually-hidden">
-  <div id="feedback-aria">{{'login.feedback-aria' | translate}}</div>
+  <div id="feedback-aria" style="display: none;">{{'login.feedback-aria' | translate}}</div>
 </div>

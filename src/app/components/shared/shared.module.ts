@@ -31,8 +31,12 @@ import { MotdMessageComponent } from './_dialogs/motd-dialog/motd-message/motd-m
 import { TagCloudModule } from 'angular-tag-cloud-module';
 import { CloudConfigurationComponent } from './_dialogs/cloud-configuration/cloud-configuration.component';
 import { ColorPickerModule } from 'ngx-color-picker';
-import { TopicCloudConfirmDialogComponent } from './_dialogs/topic-cloud-confirm-dialog/topic-cloud-confirm-dialog.component';
-import { TopicCloudAdministrationComponent } from './_dialogs/topic-cloud-administration/topic-cloud-administration.component';
+import {
+  TopicCloudConfirmDialogComponent
+} from './_dialogs/topic-cloud-confirm-dialog/topic-cloud-confirm-dialog.component';
+import {
+  TopicCloudAdministrationComponent
+} from './_dialogs/topic-cloud-administration/topic-cloud-administration.component';
 import { TopicDialogCommentComponent } from './dialog/topic-dialog-comment/topic-dialog-comment.component';
 import { TopicCloudFilterComponent } from './_dialogs/topic-cloud-filter/topic-cloud-filter.component';
 import { SpacyDialogComponent } from './_dialogs/spacy-dialog/spacy-dialog.component';
@@ -57,8 +61,90 @@ import { QuillInputDialogComponent } from './_dialogs/quill-input-dialog/quill-i
 import { WorkerConfigDialogComponent } from './_dialogs/worker-config-dialog/worker-config-dialog.component';
 import { WordCloudComponent } from './tag-cloud/word-cloud/word-cloud.component';
 import { AccessibilityEscapedInputDirective } from '../../directives/accessibility-escaped-input.directive';
-import { QuestionWallIntroComponent } from './questionwall/question-wall/question-wall-intro/question-wall-intro/question-wall-intro.component';
-import { TopicCloudBrainstormingComponent } from './_dialogs/topic-cloud-brainstorming/topic-cloud-brainstorming.component';
+import {
+  QuestionWallIntroComponent
+} from './questionwall/question-wall/question-wall-intro/question-wall-intro/question-wall-intro.component';
+import {
+  TopicCloudBrainstormingComponent
+} from './_dialogs/topic-cloud-brainstorming/topic-cloud-brainstorming.component';
+import {
+  IntroductionQuestionWallComponent
+} from './_dialogs/introductions/introduction-question-wall/introduction-question-wall.component';
+import {
+  IntroductionQuestionWallDEComponent
+} from './_dialogs/introductions/introduction-question-wall/introduction-question-wall-de/introduction-question-wall-de.component';
+import {
+  IntroductionQuestionWallENComponent
+} from './_dialogs/introductions/introduction-question-wall/introduction-question-wall-en/introduction-question-wall-en.component';
+import {
+  IntroductionRoomListComponent
+} from './_dialogs/introductions/introduction-room-list/introduction-room-list.component';
+import {
+  IntroductionRoomListDEComponent
+} from './_dialogs/introductions/introduction-room-list/introduction-room-list-de/introduction-room-list-de.component';
+import {
+  IntroductionRoomListENComponent
+} from './_dialogs/introductions/introduction-room-list/introduction-room-list-en/introduction-room-list-en.component';
+import {
+  IntroductionRoomPageComponent
+} from './_dialogs/introductions/introduction-room-page/introduction-room-page.component';
+import {
+  IntroductionRoomPageDEComponent
+} from './_dialogs/introductions/introduction-room-page/introduction-room-page-de/introduction-room-page-de.component';
+import {
+  IntroductionRoomPageENComponent
+} from './_dialogs/introductions/introduction-room-page/introduction-room-page-en/introduction-room-page-en.component';
+import {
+  IntroductionCommentListComponent
+} from './_dialogs/introductions/introduction-comment-list/introduction-comment-list.component';
+import {
+  IntroductionCommentListDEComponent
+} from './_dialogs/introductions/introduction-comment-list/introduction-comment-list-de/introduction-comment-list-de.component';
+import {
+  IntroductionCommentListENComponent
+} from './_dialogs/introductions/introduction-comment-list/introduction-comment-list-en/introduction-comment-list-en.component';
+import {
+  IntroductionTagCloudComponent
+} from './_dialogs/introductions/introduction-tag-cloud/introduction-tag-cloud.component';
+import {
+  IntroductionTagCloudDEComponent
+} from './_dialogs/introductions/introduction-tag-cloud/introduction-tag-cloud-de/introduction-tag-cloud-de.component';
+import {
+  IntroductionTagCloudENComponent
+} from './_dialogs/introductions/introduction-tag-cloud/introduction-tag-cloud-en/introduction-tag-cloud-en.component';
+import {
+  IntroductionBrainstormingComponent
+} from './_dialogs/introductions/introduction-brainstorming/introduction-brainstorming.component';
+import {
+  IntroductionBrainstormingDEComponent
+} from './_dialogs/introductions/introduction-brainstorming/introduction-brainstorming-de/introduction-brainstorming-de.component';
+import {
+  IntroductionBrainstormingENComponent
+} from './_dialogs/introductions/introduction-brainstorming/introduction-brainstorming-en/introduction-brainstorming-en.component';
+import {
+  IntroductionModerationComponent
+} from './_dialogs/introductions/introduction-moderation/introduction-moderation.component';
+import {
+  IntroductionModerationDEComponent
+} from './_dialogs/introductions/introduction-moderation/introduction-moderation-de/introduction-moderation-de.component';
+import {
+  IntroductionModerationENComponent
+} from './_dialogs/introductions/introduction-moderation/introduction-moderation-en/introduction-moderation-en.component';
+import {
+  CommentNotificationDialogComponent
+} from './_dialogs/comment-notification-dialog/comment-notification-dialog.component';
+import {
+  NgxMatNativeDateModule,
+  NgxMatTimepickerModule
+} from '@angular-material-components/datetime-picker';
+import {ToggleConversationComponent} from '../creator/_dialogs/toggle-conversation/toggle-conversation.component';
+import { DashboardComponent } from './_dialogs/dashboard/dashboard.component';
+import { DashboardDialogComponent } from './_dialogs/dashboard-dialog/dashboard-dialog.component';
+import { DeleteAllNotificationsComponent } from './_dialogs/delete-all-notifications/delete-all-notifications.component';
+import { RoomSettingsOverviewComponent } from './_dialogs/room-settings-overview/room-settings-overview.component';
+import { AppRatingComponent } from './app-rating/app-rating.component';
+import { AppRatingPopUpComponent } from './_dialogs/app-rating-pop-up/app-rating-pop-up.component';
+import { MinuteJumpClockComponent } from './minute-jump-clock/minute-jump-clock.component';
 
 @NgModule({
   imports: [
@@ -73,7 +159,10 @@ import { TopicCloudBrainstormingComponent } from './_dialogs/topic-cloud-brainst
     ColorPickerModule,
     DragDropModule,
     JoyrideModule.forChild(),
-    QuillModule
+    QuillModule,
+    NgxMatTimepickerModule,
+    NgxMatNativeDateModule,
+
   ],
   declarations: [
     RoomJoinComponent,
@@ -123,35 +212,68 @@ import { TopicCloudBrainstormingComponent } from './_dialogs/topic-cloud-brainst
     WordCloudComponent,
     AccessibilityEscapedInputDirective,
     QuestionWallIntroComponent,
-    TopicCloudBrainstormingComponent
+    TopicCloudBrainstormingComponent,
+    IntroductionQuestionWallComponent,
+    IntroductionQuestionWallDEComponent,
+    IntroductionQuestionWallENComponent,
+    IntroductionRoomListComponent,
+    IntroductionRoomListDEComponent,
+    IntroductionRoomListENComponent,
+    IntroductionRoomPageComponent,
+    IntroductionRoomPageDEComponent,
+    IntroductionRoomPageENComponent,
+    IntroductionCommentListComponent,
+    IntroductionCommentListDEComponent,
+    IntroductionCommentListENComponent,
+    IntroductionTagCloudComponent,
+    IntroductionTagCloudDEComponent,
+    IntroductionTagCloudENComponent,
+    IntroductionBrainstormingComponent,
+    IntroductionBrainstormingDEComponent,
+    IntroductionBrainstormingENComponent,
+    IntroductionModerationComponent,
+    IntroductionModerationDEComponent,
+    IntroductionModerationENComponent,
+    CommentNotificationDialogComponent,
+    ToggleConversationComponent,
+    DashboardComponent,
+    DashboardDialogComponent,
+    DeleteAllNotificationsComponent,
+    RoomSettingsOverviewComponent,
+    AppRatingComponent,
+    AppRatingPopUpComponent,
+    MinuteJumpClockComponent
   ],
-    exports:[
-        RoomJoinComponent,
-        PageNotFoundComponent,
-        RoomPageComponent,
-        RoomListComponent,
-        HeaderComponent,
-        FooterComponent,
-        CommentPageComponent,
-        CommentListComponent,
-        CreateCommentComponent,
-        PresentCommentComponent,
-        CommentComponent,
-        DialogActionButtonsComponent,
-        UserBonusTokenComponent,
-        CloudConfigurationComponent,
-        TagCloudPopUpComponent,
-        ActiveUserComponent,
-        MatSpinnerOverlayComponent,
-        JoyrideTemplateDirective,
-        AutofocusDirective,
-        CustomMarkdownComponent,
-        ScrollIntoViewDirective,
-        ViewCommentDataComponent,
-        WriteCommentComponent,
-        AccessibilityEscapedInputDirective,
-        QuestionWallIntroComponent
-    ]
+  exports: [
+    RoomJoinComponent,
+    PageNotFoundComponent,
+    RoomPageComponent,
+    RoomListComponent,
+    HeaderComponent,
+    FooterComponent,
+    CommentPageComponent,
+    CommentListComponent,
+    CreateCommentComponent,
+    PresentCommentComponent,
+    CommentComponent,
+    DialogActionButtonsComponent,
+    UserBonusTokenComponent,
+    CloudConfigurationComponent,
+    TagCloudPopUpComponent,
+    ActiveUserComponent,
+    MatSpinnerOverlayComponent,
+    JoyrideTemplateDirective,
+    AutofocusDirective,
+    CustomMarkdownComponent,
+    ScrollIntoViewDirective,
+    ViewCommentDataComponent,
+    WriteCommentComponent,
+    AccessibilityEscapedInputDirective,
+    QuestionWallIntroComponent,
+    DashboardComponent,
+    AppRatingComponent,
+    MinuteJumpClockComponent
+  ]
 })
 export class SharedModule {
 }

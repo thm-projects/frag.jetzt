@@ -29,7 +29,14 @@ const roomChecker = (roomService: RoomService, roomUrl: string): Observable<bool
   const shortId = roomUrl.substring(index, roomUrl.indexOf('/', index));
   const sub = new Subject<boolean>();
   roomService.getRoomByShortId(shortId)
-    .subscribe(room => sub.next(room != null), () => sub.next(false));
+    .subscribe({
+      next: room => {
+        sub.next(room != null);
+      },
+      error: () => {
+        sub.next(false);
+      }
+    });
   return sub.asObservable();
 };
 
@@ -48,6 +55,7 @@ export const initDefaultTour = (authenticationService: AuthenticationService,
     'voting@participant/room/Feedback/comments',
     'commentFilter@participant/room/Feedback/comments',
     'commentUserNumber@participant/room/Feedback/comments',
+    'dashboard@participant/room/Feedback/comments',
     'optionHeader@participant/room/Feedback/comments'
   ],
   tourActions: {

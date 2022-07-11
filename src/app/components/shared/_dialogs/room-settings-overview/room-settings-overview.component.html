@@ -1,0 +1,87 @@
+<h3>{{'room-settings-overview.title' | translate}}</h3>
+
+<mat-dialog-content>
+  <div>
+    <mat-slide-toggle [(ngModel)]="directSend"
+                      aria-labelledby="settings-direct-send"
+                      matTooltip="{{ 'room-settings-overview.tooltip-settings-direct-send' | translate }}">
+      {{ 'room-settings-overview.settings-direct-send' | translate}}
+    </mat-slide-toggle>
+    <mat-slide-toggle [(ngModel)]="conversationEnabled"
+                      aria-labelledby="conversation-enabled"
+                      matTooltip="{{ 'room-settings-overview.tooltip-conversation-enabled' | translate }}">
+      {{ 'room-settings-overview.conversation-enabled' | translate}}
+    </mat-slide-toggle>
+    <mat-card>
+      <mat-label>{{ 'room-settings-overview.title-profanity' | translate }}</mat-label>
+      <mat-slide-toggle (click)="toggleProfanityFilter($event)"
+                        [checked]="profanityFilter !== 'DEACTIVATED'"
+                        aria-labelledby="profanity-toggle-active"
+                        matTooltip="{{ 'room-settings-overview.tooltip-profanity-toggle-active' | translate }}">
+        {{ 'room-settings-overview.profanity-toggle-active' | translate}}
+      </mat-slide-toggle>
+      <mat-slide-toggle (click)="toggleProfanityLanguage($event)"
+                        *ngIf="profanityFilter !== 'DEACTIVATED'"
+                        [checked]="profanityFilter === 'ALL' || profanityFilter === 'LANGUAGE_SPECIFIC'"
+                        aria-labelledby="profanity-toggle-all"
+                        matTooltip="{{ 'room-settings-overview.tooltip-profanity-toggle-all' | translate }}">
+        {{ 'room-settings-overview.profanity-toggle-all' | translate}}
+      </mat-slide-toggle>
+      <mat-slide-toggle (click)="toggleProfanityWords($event)"
+                        *ngIf="profanityFilter !== 'DEACTIVATED'"
+                        [checked]="profanityFilter === 'ALL' || profanityFilter === 'PARTIAL_WORDS'"
+                        aria-labelledby="profanity-toggle-word"
+                        matTooltip="{{ 'room-settings-overview.tooltip-profanity-toggle-word' | translate }}">
+        {{ 'room-settings-overview.profanity-toggle-word' | translate}}
+      </mat-slide-toggle>
+    </mat-card>
+    <mat-slide-toggle [(ngModel)]="bonusArchiveEnabled"
+                      aria-labelledby="bonus-archive-enabled"
+                      matTooltip="{{ 'room-settings-overview.tooltip-bonus-archive-enabled' | translate }}">
+      {{ 'room-settings-overview.bonus-archive-enabled' | translate}}
+    </mat-slide-toggle>
+    <mat-slide-toggle [(ngModel)]="quizEnabled"
+                      aria-labelledby="quiz-enabled"
+                      matTooltip="{{ 'room-settings-overview.tooltip-quiz-enabled' | translate }}">
+      {{ 'room-settings-overview.quiz-enabled' | translate}}
+    </mat-slide-toggle>
+    <mat-slide-toggle [(ngModel)]="brainstormingEnabled"
+                      aria-labelledby="brainstorming-enabled"
+                      matTooltip="{{ 'room-settings-overview.tooltip-brainstorming-enabled' | translate }}">
+      {{ 'room-settings-overview.brainstorming-enabled' | translate}}
+    </mat-slide-toggle>
+  </div>
+</mat-dialog-content>
+
+<ars-row ars-flex-box class="action-button-container">
+  <ars-col>
+    <button
+      mat-flat-button
+      class="help-button"
+      (click)="openHelp()">
+      <mat-icon>question_mark</mat-icon>
+      {{ 'explanation.label' | translate}}
+    </button>
+  </ars-col>
+  <ars-col>
+    <app-dialog-action-buttons
+      [buttonsLabelSection]="'room-settings-overview'"
+      [confirmButtonLabel]="'save'"
+      [showDivider]="false"
+      [spacing]="false"
+      [confirmButtonClickAction]="onConfirm.bind(this)"
+      [cancelButtonClickAction]="onCancel.bind(this)">>
+    </app-dialog-action-buttons>
+  </ars-col>
+</ars-row>
+
+<div class="visually-hidden">
+  <div id="settings-direct-send">{{'room-settings-overview.a11y-settings-direct-send' | translate}}</div>
+  <div id="conversation-enabled">{{'room-settings-overview.a11y-conversation-enabled' | translate}}</div>
+  <div id="profanity-toggle-active">{{'room-settings-overview.a11y-profanity-toggle-active' | translate}}</div>
+  <div id="profanity-toggle-all">{{'room-settings-overview.a11y-profanity-toggle-all' | translate}}</div>
+  <div id="profanity-toggle-word">{{'room-settings-overview.a11y-profanity-toggle-word' | translate}}</div>
+  <div id="bonus-archive-enabled">{{'room-settings-overview.a11y-bonus-archive-enabled' | translate}}</div>
+  <div id="quiz-enabled">{{'room-settings-overview.a11y-quiz-enabled' | translate}}</div>
+  <div id="brainstorming-enabled">{{'room-settings-overview.a11y-brainstorming-enabled' | translate}}</div>
+</div>

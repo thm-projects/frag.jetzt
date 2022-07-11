@@ -5,7 +5,6 @@ import { RoomCreatorPageComponent } from './room-creator-page/room-creator-page.
 import { EssentialsModule } from '../essentials/essentials.module';
 import { ModeratorModule } from '../moderator/moderator.module';
 import { RoomDeleteComponent } from './_dialogs/room-delete/room-delete.component';
-import { RoomEditComponent } from './_dialogs/room-edit/room-edit.component';
 import { SharedModule } from '../shared/shared.module';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
@@ -28,6 +27,7 @@ import { RoomDescriptionSettingsComponent } from './_dialogs/room-description-se
 import { RoomNameSettingsComponent } from './_dialogs/room-name-settings/room-name-settings.component';
 import { QRCodeModule } from 'angularx-qrcode';
 import { EditCommentTagComponent } from './_dialogs/edit-comment-tag/edit-comment-tag.component';
+import { ModeratorRefreshCodeComponent } from './_dialogs/moderator-refresh-code/moderator-refresh-code.component';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export const HttpLoaderFactory = (http: HttpClient) => new TranslateHttpLoader(http, '../../assets/i18n/creator/', '.json');
@@ -55,7 +55,6 @@ export const HttpLoaderFactory = (http: HttpClient) => new TranslateHttpLoader(h
   declarations: [
     RoomCreatorPageComponent,
     RoomDeleteComponent,
-    RoomEditComponent,
     ModeratorsComponent,
     BonusTokenComponent,
     CommentSettingsComponent,
@@ -69,7 +68,8 @@ export const HttpLoaderFactory = (http: HttpClient) => new TranslateHttpLoader(h
     ProfanitySettingsComponent,
     RoomDescriptionSettingsComponent,
     RoomNameSettingsComponent,
-    EditCommentTagComponent
+    EditCommentTagComponent,
+    ModeratorRefreshCodeComponent
   ],
   exports: []
 })

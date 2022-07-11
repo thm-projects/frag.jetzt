@@ -20,7 +20,6 @@ import { RemindOfTokensComponent } from '../../participant/_dialogs/remind-of-to
 import { QrCodeDialogComponent } from '../_dialogs/qr-code-dialog/qr-code-dialog.component';
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
 import { MotdService } from '../../../services/http/motd.service';
-import { TopicCloudFilterComponent } from '../_dialogs/topic-cloud-filter/topic-cloud-filter.component';
 import { RoomService } from '../../../services/http/room.service';
 import { Room } from '../../../models/room';
 import { TagCloudDataService } from '../../../services/util/tag-cloud-data.service';
@@ -35,6 +34,7 @@ import {
 import { SessionService } from '../../../services/util/session.service';
 import { LanguageService } from '../../../services/util/language.service';
 import { DeviceInfoService } from '../../../services/util/device-info.service';
+import { CommentNotificationService } from '../../../services/http/comment-notification.service';
 
 @Component({
   selector: 'app-header',
@@ -55,10 +55,13 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   toggleUserActivity = false;
   userActivity = '?';
   isInRouteWithRoles = false;
+  hasEmailNotifications = false;
+  hasKeywords = false;
+  private _clockCount = 0;
 
   constructor(
     public location: Location,
-    private authenticationService: AuthenticationService,
+    public authenticationService: AuthenticationService,
     public notificationService: NotificationService,
     public router: Router,
     public translationService: TranslateService,
@@ -74,10 +77,11 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     private headerService: HeaderService,
     private onboardingService: OnboardingService,
     public themeService: ThemeService,
-    private sessionService: SessionService,
-    private tagCloudDataService: TagCloudDataService,
+    public sessionService: SessionService,
+    public tagCloudDataService: TagCloudDataService,
     private languageService: LanguageService,
     public deviceInfo: DeviceInfoService,
+    private commentNotificationService: CommentNotificationService,
   ) {
     this.languageService.getLanguage().subscribe(lang => this.translationService.use(lang));
   }
@@ -113,6 +117,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
 
     this.sessionService.getRoom().subscribe(room => {
       this.room = room;
+      this.refreshNotifications();
     });
 
     this._r.listen(document, 'keyup', (event) => {
@@ -142,13 +147,25 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     });
   }
 
+  getClockCount() {
+    return this._clockCount;
+  }
+
+  registerClock() {
+    this._clockCount++;
+  }
+
+  unregisterClock() {
+    this._clockCount--;
+  }
+
   showMotdDialog() {
     this.motdService.requestDialog();
   }
 
   getTime(time: Date) {
-    const hh = ('0' + time.getHours()).substr(-2);
-    const mm = ('0' + time.getMinutes()).substr(-2);
+    const hh = String(time.getHours()).padStart(2, '0');
+    const mm = String(time.getMinutes()).padStart(2, '0');
     this.cTime = hh + ':' + mm;
   }
 
@@ -272,44 +289,15 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     this.eventService.broadcast('navigate', 'questionBoard');
   }
 
-  public navigateRoomBonusToken() {
-    this.eventService.broadcast('navigate', 'roomBonusToken');
-  }
-
-  public navigateModerator() {
-    this.eventService.broadcast('navigate', 'moderator');
-  }
-
-  public navigateTags() {
-    this.eventService.broadcast('navigate', 'tags');
-  }
-
-  public navigateExportQuestions() {
-    this.eventService.broadcast('navigate', 'exportQuestions');
-  }
-
-  public navigateDeleteQuestions() {
-    this.eventService.broadcast('navigate', 'deleteQuestions');
-  }
-
-  public navigateCreateQuestion() {
-    this.eventService.broadcast('navigate', 'createQuestion');
-  }
-
-  public navigateDeleteRoom() {
-    this.eventService.broadcast('navigate', 'deleteRoom');
-  }
-
-  public navigateProfanityFilter() {
-    this.eventService.broadcast('navigate', 'profanityFilter');
-  }
-
-  public navigateEditSessionDescription() {
-    this.eventService.broadcast('navigate', 'editSessionDescription');
-  }
-
-  public navigateModeratorSettings() {
-    this.eventService.broadcast('navigate', 'moderatorSettings');
+  public refreshNotifications() {
+    this.hasEmailNotifications = false;
+    const id = this.sessionService.currentRoom?.id;
+    if (!id || !this.user?.loginId) {
+      return;
+    }
+    this.commentNotificationService.findByRoomId(id).subscribe({
+      next: value => this.hasEmailNotifications = !!value?.length
+    });
   }
 
   public navigateToOtherView() {
@@ -322,11 +310,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   }
 
   public navigateTopicCloud() {
-    const confirmDialogRef = this.confirmDialog.open(TopicCloudFilterComponent, {
-      autoFocus: false
-    });
-    confirmDialogRef.componentInstance.target = this.router.url + '/tagcloud';
-    confirmDialogRef.componentInstance.userRole = this.userRole;
+    this.eventService.broadcast('navigate', 'topic-cloud');
   }
 
   public navigateBrainstorming() {
@@ -337,9 +321,25 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     confirmDialogRef.componentInstance.userRole = this.userRole;
   }
 
-  public blockQuestions() {
-    // flip state if clicked
-    this.room.questionsBlocked = !this.room.questionsBlocked;
-    this.roomService.updateRoom(this.room).subscribe();
+  public getCurrentRoleIcon() {
+    if (this.authenticationService.isSuperAdmin) {
+      return 'manage_accounts';
+    } else if (this.user?.role === UserRole.EXECUTIVE_MODERATOR) {
+      return 'support_agent';
+    } else if (this.user?.role === UserRole.CREATOR) {
+      return 'co_present';
+    }
+    return 'person';
+  }
+
+  public getCurrentRoleDescription(): string {
+    if (this.authenticationService.isSuperAdmin) {
+      return 'tooltip-super-admin';
+    } else if (this.user?.role === UserRole.EXECUTIVE_MODERATOR) {
+      return 'tooltip-moderator';
+    } else if (this.user?.role === UserRole.CREATOR) {
+      return 'tooltip-creator';
+    }
+    return 'tooltip-participant';
   }
 }

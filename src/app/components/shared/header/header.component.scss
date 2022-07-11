@@ -5,9 +5,12 @@
 }
 
 mat-toolbar {
-  background-color: transparent;
-  box-shadow: none;
+  background-color: var(--background);
   position: relative;
+
+  &:first-child {
+    padding-left: 5px;
+  }
 }
 
 .mat-toolbar-moderation {
@@ -16,7 +19,7 @@ mat-toolbar {
 }
 
 mat-toolbar-row {
-  padding: 0 5px;
+  padding: 0 15px 0 5px;
 }
 
 .header-icons {
@@ -39,23 +42,8 @@ mat-toolbar-row {
   overflow: hidden;
 
   > button {
-    background-color: var(--primary-variant);
-    border-radius: 5px;
-
-    &:hover {
-      color: var(--on-secondary) !important;
-      background-color: var(--secondary) !important;
-
-      mat-icon {
-        color: var(--on-secondary) !important;
-        background-color: var(--secondary) !important;
-      }
-    }
-  }
-
-  &.darken > button {
-    background-color: var(--dialog);
-    color: var(--on-dialog)
+    background-color: var(--background);
+    color: var(--on-background);
   }
 }
 
@@ -81,38 +69,52 @@ mat-toolbar-row {
   height: 18px !important;
 }
 
-.sessions {
-}
-
 h2 {
-  margin-right: 10px;
-  font-size: medium !important;
+  font-size: 14px !important;
 }
 
 .header-slogan-desktop {
-  margin-right: 10px;
-  margin-left: 130px;
-  font-size: medium !important;
-  color: var(--on-background);
+  margin-left: 50px;
+  font-size: unset !important;
+  letter-spacing: 1px;
+  color: var(--primary);
+}
+
+.header-slogan-desktop-safari {
+  margin-left: 150px;
+  font-size: unset !important;
+  letter-spacing: 1px;
+  color: var(--primary);
 }
 
 .header-slogan-mobile {
-  margin-left: 30px;
-  font-size: medium !important;
-  color: var(--on-background);
+  margin-right: 7px;
+  letter-spacing: 1px;
+  color: var(--primary);
+}
+
+.header-slogan-mobile-safari {
+  margin-left: 70px;
+  letter-spacing: 1px;
+  color: var(--primary);
 }
 
 .label-icon {
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 
 .mat-button {
-  padding: 0 0 0 10px;
+  padding: 0 5px 0 5px;
 }
 
-button:focus {
-  border: 1px solid var(--on-surface);
+button:hover {
+  outline: 3px solid var(--secondary);
+}
+
+.pseudo-button:hover {
+  outline: none !important;
 }
 
 svg {
@@ -137,12 +139,12 @@ svg {
 }
 
 .color-warn {
-  color: red !important;
+  color: var(--red) !important;
 }
 
 .beamer-icon {
-  transform: scale(1.4);
-  margin-right: 15px;
+  transform: scale(1.6);
+  margin-right: 12px;
 }
 
 .mat-menu-inner-title {
@@ -158,24 +160,22 @@ svg {
   background-color: var(--primary-variant);
   border-radius: 5px;
 
-  * {
+  > ::ng-deep button, ::ng-deep ars-mat-menu-item > button {
     background-color: transparent !important;
-  }
 
-  *:hover {
-    color: var(--on-secondary) !important;
-    background-color: var(--secondary) !important;
-
-    mat-icon {
+    &:hover {
       color: var(--on-secondary) !important;
       background-color: var(--secondary) !important;
+
+      ::ng-deep * {
+        color: var(--on-secondary) !important;
+      }
     }
   }
-
 }
 
 h1 {
-  color: red;
+  color: var(--red);
 }
 
 ::ng-deep #cdk-overlay-0 .mat-menu-content > button:hover mat-icon {
@@ -205,19 +205,10 @@ h1 {
 
 .focus_button {
   min-height: 28px;
-  font-size: 16px;
-  padding: unset;
+  font-size: 14px;
   color: var(--on-surface);
-
-  &:focus {
-    background: var(--on-surface);
-    color: var(--background);
-
-    mat-icon {
-      color: var(--background);
-    }
-  }
 }
+
 
 ::ng-deep .mat-slide-toggle.mat-checked .mat-slide-toggle-thumb {
   background-color: var(--secondary);
