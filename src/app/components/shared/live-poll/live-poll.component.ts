@@ -2,6 +2,7 @@ import {ChangeDetectorRef, Component, EventEmitter, Output} from '@angular/core'
 import {ArsLifeCycleVisitor} from '../../../../../projects/ars/src/lib/models/util/ars-life-cycle-visitor';
 import {LivePollEntry, LivePollList} from './live-poll-entry/LivePollEntry';
 import {DeviceInfoService} from '../../../services/util/device-info.service';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-live-poll',
@@ -16,7 +17,8 @@ export class LivePollComponent extends ArsLifeCycleVisitor {
 
   constructor(
     private changeDetectorRef: ChangeDetectorRef,
-    public device: DeviceInfoService
+    public device: DeviceInfoService,
+    public translate: TranslateService
   ) {
     super();
     this.onInit(() => {
@@ -44,6 +46,7 @@ export class LivePollComponent extends ArsLifeCycleVisitor {
         e.left = (options.e.clientX - 32) + 'px';
         e.top = (options.e.clientY - 32) + 'px';
         e.transition = 'all 0.7s cubic-bezier(.87,0,.27,.99)';
+        e.backgroundColor='var(--surface)';
         setTimeout(() => {
           e.width = '100vw';
           e.height = '100vh';

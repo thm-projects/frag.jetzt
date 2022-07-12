@@ -1,42 +1,76 @@
 <ng-container>
-  <div id="livePollExpander" style="background-color:black;"></div>
+  <div id="livePollExpander"></div>
 </ng-container>
 <ng-container *ngIf="isLoaded">
-  <ars-screen ars-flex-box style="background-color:black;">
-    <ars-row ars-flex-box>
+  <ars-screen ars-flex-box class="livePoll-main">
+    <ars-row ars-flex-box [borderBox]="true" [padding]="8">
       <button mat-icon-button (click)="close()">
-        <mat-icon style="color:white;">arrow_back</mat-icon>
+        <mat-icon style="color:var(--on-surface);">arrow_back</mat-icon>
       </button>
     </ars-row>
     <ars-fill ars-flex-box [align]="'center'">
-      <ars-col ars-flex-box [size]="800" [align]="'center'" [inset]="true">
-        <ars-row ars-flex-box [borderBox]="true" [padding]="[4,16]">
-          <h1>
+      <ars-col ars-flex-box class="fade-in-animation-wrapper" [size]="800" [align]="'flex-start'" [inset]="true">
+        <ars-fill></ars-fill>
+        <ars-row ars-flex-box [borderBox]="true" [padding]="[32,16]">
+          <h1
+            [matTooltip]="'live-poll.title-accessibility' | translate"
+            aria-describedby="title-label">
             <span>{{'live-poll.title' | translate}}</span>
           </h1>
         </ars-row>
         <ars-row ars-flex-box [borderBox]="true" [padding]="[8,16]" *ngFor="let e of list.list">
           <app-live-poll-entry [value]="e"></app-live-poll-entry>
         </ars-row>
-        <ars-row ars-flex-box [borderBox]="true" [padding]="[4,16]" [direction]="'row'">
-          <button mat-button style="color:white;padding:0 8px;">
-            <mat-icon style="color:white;padding-right:4px;">play_arrow</mat-icon>
+        <ars-row ars-flex-box class="fade-in-horizontal-animation-wrapper" [borderBox]="true" [padding]="[64,16]"
+                 [direction]="'row'">
+          <button mat-button aria-describedby="start-label"
+                  style="color:var(--on-primary);background-color:var(--primary);padding:0
+          8px;"
+                  [matTooltip]="'live-poll.start-accessibility' | translate">
+            <mat-icon style="color:var(--on-primary);padding-right:4px;">play_arrow</mat-icon>
             <span *ngIf="device.isCurrentlyDesktop">{{'live-poll.start' | translate}}</span>
           </button>
-          <button mat-button style="color:white;padding:0 8px;">
-            <mat-icon style="color:white;padding-right:4px;">stop</mat-icon>
+          <button mat-button aria-describedby="stop-label" style="color:var(--on-surface);padding:0 8px;"
+                  [matTooltip]="'live-poll.stop-accessibility' | translate">
+            <mat-icon style="color:var(--on-surface);padding-right:4px;margin-left:8px;">stop</mat-icon>
             <span *ngIf="device.isCurrentlyDesktop">{{'live-poll.stop' | translate}}</span>
           </button>
           <ars-fill></ars-fill>
-          <button mat-button style="color:white;padding:0 8px;">
-            <mat-icon style="color:white;padding-right:4px;">poll</mat-icon>
+          <button mat-button aria-describedby="compare-label" style="color:var(--on-secondary);background-color:var(--secondary);padding:0 8px;"
+                  [matTooltip]="'live-poll.compare-accessibility' | translate">
+            <mat-icon style="color:var(--on-secondary);padding-right:4px;">poll</mat-icon>
             <span *ngIf="device.isCurrentlyDesktop">{{'live-poll.compare' | translate}}</span>
           </button>
         </ars-row>
+        <ars-fill></ars-fill>
       </ars-col>
     </ars-fill>
+    <ars-row ars-flex-box [borderBox]="true" [padding]="8" [direction]="'row'" [align]="'flex-start'">
+      <ng-container *ngFor="let x of [
+        'search','favorite_border',
+        'lock','schedule','language','help_outline'
+        ]">
+        <button mat-icon-button (click)="close()">
+          <mat-icon style="color:var(--on-surface);">{{x}}</mat-icon>
+        </button>
+      </ng-container>
+      <ars-fill></ars-fill>
+      <ng-container *ngFor="let x of [
+        'search','favorite_border',
+        'lock','schedule','language','help_outline'
+        ]">
+        <button mat-icon-button (click)="close()">
+          <mat-icon style="color:var(--on-surface);">{{x}}</mat-icon>
+        </button>
+      </ng-container>
+    </ars-row>
   </ars-screen>
 </ng-container>
+
+<div class="visually-hidden">
+  <div *ngFor="let lbl of ['title','start','stop','compare']"
+       id="{{lbl+'-label'}}">{{('live-poll.'+lbl+'-accessibility') | translate}}</div>
+</div>
 
 <!--<mat-icon>sentiment_dissatisfied</mat-icon>-->
 <!--<mat-icon>sentiment_neutral</mat-icon>-->

@@ -105,6 +105,7 @@
     "room-settings-overview": "## Room settings \n\nHere you can see all settings of the room at a glance. \n\nYou can also make changes later in the options menu of the room. \n\nBecause of the anonymity of the users and the potential abuse of the Q&A forum, we offer you restriction options with the first three buttons. Look at the hints in the tooltips of the buttons."
   },
   "header": {
+    "live-poll": "Live-Poll",
     "abort": "Cancel",
     "accessibility-back": "Go back to the previous page",
     "accessibility-tour": "Starts the onboarding tour",
@@ -602,5 +603,15 @@
     "forgot-password-description": "",
     "forgot-password": "Reset password",
     "sign-up": "Create account"
+  },
+  "live-poll": {
+    "title": "Live-Poll",
+    "start": "Start",
+    "stop": "Stop",
+    "compare": "Compare Results",
+    "title-accessibility": "Live-Poll",
+    "start-accessibility": "Start Live-Poll",
+    "stop-accessibility": "Stop Live-Poll",
+    "compare-accessibility": "Compare Live-Poll"
   }
 }

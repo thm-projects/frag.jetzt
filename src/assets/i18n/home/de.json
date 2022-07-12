@@ -139,6 +139,7 @@
     "room-settings-overview": "## Raumeinstellungen \n\nHier siehst du alle Einstellungen des Raumes in der Übersicht. \n\nDu kannst Änderungen auch später noch im Optionen-Menü des Raumes vornehmen. \n\nWegen der Anonymität der User und des damit potenziellen Missbrauchs des Q&A-Forums bieten wir dir mit den ersten drei Schaltern Einschränkungen an. Siehe die Hinweise dazu in den Tooltips der Schalter."
   },
   "header": {
+    "live-poll": "Live-Poll",
     "abort": "Abbrechen",
     "accessibility-back": "Führt zur vorherigen Seite",
     "accessibility-tour": "Startet die Onboarding Tour",
@@ -599,5 +600,15 @@
     "forgot-password-description": "",
     "forgot-password": "Passwort zurücksetzen",
     "sign-up": "Konto erstellen"
+  },
+  "live-poll": {
+    "title": "Live Umfrage",
+    "start": "Start",
+    "stop": "Stop",
+    "compare": "Vergleiche Ergebnisse",
+    "title-accessibility": "Live-Poll",
+    "start-accessibility": "Start Live-Poll",
+    "stop-accessibility": "Stop Live-Poll",
+    "compare-accessibility": "Compare Live-Poll"
   }
 }
