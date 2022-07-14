@@ -1,6 +1,6 @@
 import { Component, ComponentRef, EventEmitter, OnDestroy, OnInit } from '@angular/core';
 import { Room } from '../../../models/room';
-import { RoomService } from '../../../services/http/room.service';
+import { RoomPatch, RoomService } from '../../../services/http/room.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { CommentService } from '../../../services/http/comment.service';
@@ -352,10 +352,9 @@ export class RoomPageComponent implements OnInit, OnDestroy {
   }
 
   protected saveChanges(data: Partial<Room>) {
-    this.roomService.patchRoom(this.room.id, {
-      ...data,
-      description: QuillUtils.serializeDelta(data.description)
-    }).subscribe({
+    const description = data?.description ? QuillUtils.serializeDelta(data.description) : null;
+    const obj: RoomPatch = (description ? { ...data, description } : { ...data }) as RoomPatch;
+    this.roomService.patchRoom(this.room.id, obj).subscribe({
       next: (room) => {
         this.translateService.get('room-page.changes-successful').subscribe(msg => {
           this.notificationService.show(msg);
