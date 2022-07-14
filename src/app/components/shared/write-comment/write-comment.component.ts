@@ -263,7 +263,7 @@ export class WriteCommentComponent implements OnInit, OnDestroy {
     }
     if (this.allowEmpty || (ViewCommentDataComponent.checkInputData(data, text,
       this.translateService, this.notification, this.maxTextCharacters, this.maxDataCharacters) && allowed)) {
-      const realData = this.allowEmpty && text.length < 2 ? null : data;
+      const realData = this.allowEmpty && text.length < 2 ? { ops: [] } : data;
       func(realData, text, this.selectedTag, this.questionerNameFormControl.value, this._wasVerifiedWithoutDeepl);
     }
   }
