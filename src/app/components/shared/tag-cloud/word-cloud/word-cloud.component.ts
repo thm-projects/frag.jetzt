@@ -79,6 +79,85 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
   ) {
   }
 
+  private static findPlaceInCloud<T extends WordMeta>(
+    elements: ActiveWord<T>[], newElement: ActiveWord<T>, parentWidth: number, parentHeight: number
+  ): boolean {
+    const { width: elemWidth, height: elemHeight } = newElement.buildInformation.position;
+    newElement.buildInformation.additional = new Array(4).fill(false);
+    const elemWidthHalf = elemWidth / 2;
+    const elemHeightHalf = elemHeight / 2;
+    if (elements.length === 0) {
+      newElement.buildInformation.origin = [-elemWidthHalf, -elemHeightHalf];
+      return true;
+    }
+    let bestPos = [0, 0];
+    let bestDistSquared = null;
+    let currentIndex = null;
+    const aspectSquared = Math.pow(parentHeight / parentWidth, 2);
+    const checkBetter = (x: number, y: number, hasNeighbour: boolean[], dir: number, elemIndex: number) => {
+      if (!hasNeighbour[dir] && !WordCloudComponent.isColliding(elements, x, y, elemWidth, elemHeight, parentWidth, parentHeight)) {
+        const newMid = [x + elemWidthHalf, y + elemHeightHalf];
+        const size = newMid[0] * newMid[0] * aspectSquared + newMid[1] * newMid[1];
+        if (!bestDistSquared || size < bestDistSquared) {
+          bestPos = newMid;
+          bestDistSquared = size;
+          currentIndex = [elemIndex, 0];
+        }
+      }
+    };
+    for (let i = 0; i < elements.length; ++i) {
+      const { additional, position, origin } = elements[i].buildInformation;
+      const { width, height } = position;
+      const [x, y] = origin;
+      const midX = x + width / 2;
+      const midY = y + height / 2;
+      //top
+      let newX = midX - elemWidthHalf;
+      let newY = y - elemHeight;
+      checkBetter(newX, newY, additional, 0, i);
+      //bottom
+      newY = y + height;
+      checkBetter(newX, newY, additional, 1, i);
+      //right
+      newX = x + width;
+      newY = midY - elemHeightHalf;
+      checkBetter(newX, newY, additional, 2, i);
+      //left
+      newX = x - elemWidth;
+      checkBetter(newX, newY, additional, 3, i);
+    }
+    if (bestDistSquared === null) {
+      return false;
+    }
+    newElement.buildInformation.origin = [bestPos[0] - elemWidthHalf, bestPos[1] - elemHeightHalf];
+    elements[currentIndex[0]].buildInformation.additional[currentIndex[1]] = true;
+    return true;
+  }
+
+  private static isColliding<T extends WordMeta>(
+    elements: ActiveWord<T>[],
+    x: number,
+    y: number,
+    width: number,
+    height: number,
+    parentWidth: number,
+    parentHeight: number,
+  ): boolean {
+    const endX = x + width;
+    const endY = y + height;
+    if (x < -parentWidth || endX > parentWidth || y < -parentHeight || endY > parentHeight) {
+      return true;
+    }
+    for (const element of elements) {
+      const [elemX, elemY] = element.buildInformation.origin;
+      const { width: elemWidth, height: elemHeight } = element.buildInformation.position;
+      if (elemX < endX && elemX + elemWidth > x && elemY < endY && elemY + elemHeight > y) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   private static invertHex(hexStr: string) {
     const currentColor: ColorRGB = [
       parseInt(hexStr.substring(1, 3), 16),
@@ -123,6 +202,9 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
   }
 
   updateParameters(previousValue: CloudParameters) {
+    if (this._cssStyleElement === undefined) {
+      return;
+    }
     if (this.needsRedraw(previousValue)) {
       this.updateStyles();
       this.redraw();
@@ -244,13 +326,15 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
 
   private redrawCloud(parentWidth: number, parentHeight: number) {
     const toDelete = [];
-    this._elements = this._elements.filter((word, i) => {
-      if (this.findPlaceInCloud(i, parentWidth, parentHeight)) {
-        return true;
+    const currentElements = [];
+    this._elements.forEach((word) => {
+      if (WordCloudComponent.findPlaceInCloud(currentElements, word, parentWidth, parentHeight)) {
+        currentElements.push(word);
+        return;
       }
       toDelete.push(word.element);
-      return false;
     });
+    this._elements = currentElements;
     for (const elem of toDelete) {
       elem.remove();
     }
@@ -415,83 +499,6 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
     for (const elem of toDeleteElement) {
       elem.remove();
     }
-  }
-
-  private findPlaceInCloud(index: number, parentWidth: number, parentHeight: number): boolean {
-    const { width: elemWidth, height: elemHeight } = this._elements[index].buildInformation.position;
-    this._elements[index].buildInformation.additional = new Array(4).fill(false);
-    const elemWidthHalf = elemWidth / 2;
-    const elemHeightHalf = elemHeight / 2;
-    if (index === 0) {
-      this._elements[0].buildInformation.origin = [-elemWidthHalf, -elemHeightHalf];
-      return true;
-    }
-    let bestPos = [0, 0];
-    let bestDistSquared = null;
-    let currentIndex = null;
-    const aspectSquared = Math.pow(parentHeight / parentWidth, 2);
-    const checkBetter = (x: number, y: number, hasNeighbour: boolean[], dir: number, elemIndex: number) => {
-      if (!hasNeighbour[dir] && !this.isColliding(x, y, elemWidth, elemHeight, index, parentWidth, parentHeight)) {
-        const newMid = [x + elemWidthHalf, y + elemHeightHalf];
-        const size = newMid[0] * newMid[0] * aspectSquared + newMid[1] * newMid[1];
-        if (!bestDistSquared || size < bestDistSquared) {
-          bestPos = newMid;
-          bestDistSquared = size;
-          currentIndex = [elemIndex, 0];
-        }
-      }
-    };
-    for (let i = 0; i < index; ++i) {
-      const { additional, position, origin } = this._elements[i].buildInformation;
-      if (!origin) {
-        continue;
-      }
-      const { width, height } = position;
-      const [x, y] = origin;
-      const midX = x + width / 2;
-      const midY = y + height / 2;
-      //top
-      let newX = midX - elemWidthHalf;
-      let newY = y - elemHeight;
-      checkBetter(newX, newY, additional, 0, i);
-      //bottom
-      newY = y + height;
-      checkBetter(newX, newY, additional, 1, i);
-      //right
-      newX = x + width;
-      newY = midY - elemHeightHalf;
-      checkBetter(newX, newY, additional, 2, i);
-      //left
-      newX = x - elemWidth;
-      checkBetter(newX, newY, additional, 3, i);
-    }
-    if (bestDistSquared === null) {
-      return false;
-    }
-    this._elements[index].buildInformation.origin = [bestPos[0] - elemWidthHalf, bestPos[1] - elemHeightHalf];
-    this._elements[currentIndex[0]].buildInformation.additional[currentIndex[1]] = true;
-    return true;
-  }
-
-  private isColliding(x: number, y: number, width: number, height: number, endIndex: number,
-                      parentWidth: number, parentHeight: number): boolean {
-    const endX = x + width;
-    const endY = y + height;
-    if (x < -parentWidth || endX > parentWidth || y < -parentHeight || endY > parentHeight) {
-      return true;
-    }
-    for (let i = 0; i < endIndex; ++i) {
-      const origin = this._elements[i].buildInformation.origin;
-      if (!origin) {
-        continue;
-      }
-      const [elemX, elemY] = origin;
-      const { width: elemWidth, height: elemHeight } = this._elements[i].buildInformation.position;
-      if (elemX < endX && elemX + elemWidth > x && elemY < endY && elemY + elemHeight > y) {
-        return true;
-      }
-    }
-    return false;
   }
 
   private doDraw(parentElement: HTMLDivElement, parentWidth: number, parentHeight: number) {
