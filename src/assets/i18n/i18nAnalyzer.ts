@@ -57,8 +57,6 @@ class FileSearcher {
   }
 
   static analyzeHTML(sourceFile: ts.SourceFile) {
-    const keys = [];
-    const elem = sourceFile.getText().includes('translate:');
     // Expression => Block | Identifier (translate: {} | translate: elem) ignorieren
     sourceFile.statements.forEach(node => {
       let success = false;
@@ -80,7 +78,6 @@ class FileSearcher {
         console.log(sourceFile.getText());
       }
     });
-    //console.log(keys);
   }
 }
 
