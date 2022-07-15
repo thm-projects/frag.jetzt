@@ -123,7 +123,60 @@ export const arsTimeTranslation = {
     ],
     timeConvert:(date: Date) => 'at '+date.toLocaleString('en-US', {hour:'numeric', minute:'numeric', hour12:true}),
     dateConvert:(date: Date) => `on ${arsTimeTranslation.en.dayTranslation[date.getDay()]}, ${arsTimeTranslation.en.monthTranslation[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`,
-  }
+  },
+  fr:{
+    time:{
+      year :
+        '&1:dernière année DATE;' +
+        'avant ? année%s DATE',
+      month :
+        '&1:dernier mois DATE;' +
+        'avant ? mois% DATE',
+      week :
+        '&1:dernière semaine DATE;' +
+        'avant ? semaine%s DATE',
+      day :
+        '&1:hier TIME;' +
+        '&2:avant-hier TIME;' +
+        'avant ? jour%s DATE',
+      hour :
+        'avant ? heure%s TIME',
+      minute :
+        '&15-20:il y a un quart d\'heure;' +
+      '&30-35:il y a une demi-heure;' +
+          '&55-60:il y a environ une heure;' +
+        'avant ? minute%s ',
+      second :
+        '&0-30:en ce moment;' +
+        'il y a peu'
+    },
+    dayTranslation :[
+      'dimanche',
+      'lundi',
+      'mardi',
+      'mercredi',
+      'jeudi',
+      'vendredi',
+      'samedi'
+    ],
+    monthTranslation :[
+      'janvier',
+      'février',
+      'mars',
+      'avril',
+      'Mai',
+      'juin',
+      'juillet',
+      'août',
+      'septembre',
+      'octobre',
+      'novembre',
+      'décembre'
+    ],
+    timeConvert:(date: Date) => 'à '+date.toLocaleString('fr_FR', {hour:'numeric', minute:'numeric', hour12:false}),
+    dateConvert:(date: Date) => `le ${arsTimeTranslation.de.dayTranslation[date.getDay()]}, ${date.getDate()}. ${arsTimeTranslation.de.monthTranslation[date.getMonth()]} ${date.getFullYear()}`,
+  },
+
 };
 
 export interface ArsApproximateDate{
