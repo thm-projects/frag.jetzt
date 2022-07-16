@@ -109,8 +109,8 @@
     "label": "Expliquer",
     "room-settings-overview": "## Paramètres de la salle \n\nIci, tu peux voir tous les paramètres de la salle dans un aperçu. \n\nTu peux aussi faire des modifications plus tard dans le menu Options de la salle. \n\nEn raison de l'anonymat des utilisateurs et de l'abus potentiel du forum Q&R, nous te proposons des restrictions avec les trois premiers boutons. Voir les indications à ce sujet dans les infobulles des boutons.",
     "spacy": "## Mots-clés \n\nAu moyen du NLP (Natural Language Processing), ta question est analysée grammaticalement. Les substantifs reconnus sont transformés en leur forme de base, c'est-à-dire lemmatisés, et te sont proposés comme mots-clés. Pour l'analyse de texte, nous utilisons le logiciel libre NLP [spaCy](https://spacy.io/). \n\nLes mots-clés peuvent être utilisés pour filtrer la liste des questions ou pour créer un nuage de mots.",
-    "topic-cloud": "## Nuage de sujets \n\nLe nuage thématique permet de visualiser la répartition des mots-clés. Ceux-ci ont été déterminés par une analyse grammaticale des noms dans le texte de la question ou attribués explicitement à la question par l'auteur. \n\n  Le calcul de la taille des caractères prend en compte\n\n* la différence entre les up- et down-votes, si elle est positive,\n* le nombre de questions contenant ce mot-clé,\n* le nombre de créateurs de questions avec ce mot-clé,\n* le rôle : créateur de salle, modérateur ou participant,\n* si l'auteur de la question a choisi une catégorie de questions,\n* si le mot-clé a été généré ou attribué par l'auteur de la question,\n* si la question a reçu une réponse,\n* le caractère controversé de la question. \n\nLe nuage de sujets sert de **navigateur** vers toutes les questions relatives à un mot-clé : si tu cliques sur un mot dans le nuage, tu accèderas aux questions relatives à ce mot-clé. \n\nLe créateur* d'espace peut adapter l'apparence du nuage thématique à ses souhaits dans les options. Il ou elle peut également expérimenter avec les paramètres de génération des mots-clés afin d'optimiser la **sélectivité sémantique**.",
-    "user-bonus": "## Bonus \n\nL'enseignant peut marquer les \"bonnes\" questions pour un bonus. Tes questions de tous les cours (salles) qui ont reçu une étoile sont listées ici.\n\nSelon l'accord, tu peux envoyer le code bonus par e-mail à l'enseignant pour l'échanger contre un bonus."
+    "topic-cloud": "## Nuage de sujets \n\nLe nuage thématique permet de visualiser la répartition des mots-clés. Ceux-ci ont été déterminés par une analyse grammaticale des noms dans le texte de la question ou attribués explicitement à la question par l'auteur. \n\n  Le calcul de la taille des caractères prend en compte\n\n* la différence entre les up- et down-votes, si elle est positive,\n* le nombre de questions contenant ce mot-clé,\n* le nombre de créateurs de questions avec ce mot-clé,\n* le rôle : créateur de salle, modérateur ou participant,\n* si l'auteur de la question a choisi une catégorie de questions,\n* si le mot-clé a été généré ou attribué par l'auteur de la question,\n* si la question a reçu une réponse,\n* le caractère controversé de la question. \n\nLe nuage de sujets sert de **navigateur** vers toutes les questions relatives à un mot-clé : si tu cliques sur un mot dans le nuage, tu accèderas aux questions relatives à ce mot-clé. \n\nLe créateur de la salle peut adapter l'apparence du nuage thématique à ses souhaits dans les options. Il ou elle peut également expérimenter avec les paramètres de génération des mots-clés afin d'optimiser la **sélectivité sémantique**.",
+    "user-bonus": "## Bonus \n\nL'enseignant peut marquer les « bonnes » questions pour un bonus. Tes questions de tous les cours (salles) qui ont reçu une étoile sont listées ici.\n\nSelon l'accord, tu peux envoyer le code bonus par e-mail à l'enseignant pour l'échanger contre un bonus."
   },
   "footer": {
     "accessibility-data_protection": "Ouvre la déclaration de protection des données",
@@ -451,8 +451,8 @@
     "comment-correct": "Correct",
     "comment-not_bookmarked": "",
     "comment-refused": "Modéré",
-    "comment-user-role-creator": "Créateur* de salle",
-    "comment-user-role-moderator": "Modérateur* de la discussion",
+    "comment-user-role-creator": "Créateur de salle",
+    "comment-user-role-moderator": "Modérateur de la discussion",
     "comment-user-role-participant": "Participant(e)",
     "comment-wrong": "Faux",
     "correct/wrong": "Vrai / Faux",
@@ -601,7 +601,7 @@
     "mail-body2": "\n\n\nJe demande à les échanger contre des points bonus.\n\nMerci pour «&nbsp;frag.jetzt&nbsp;» !\n\n---",
     "mail-subject": "Demande d'échange de mes jetons de la session «&nbsp;frag.jetzt&nbsp;» \"{{sessionName}\".",
     "moderator-emails": "\n\nE-mail des modérateurs",
-    "no-bonus": "Tu n'as pas encore reçu d'étoile pour une \"bonne\" question.",
+    "no-bonus": "Tu n'as pas encore reçu d'étoile pour une « bonne » question.",
     "owner-email": "\n\nE-mail du créateur de la salle",
     "please-choose": "Veuillez d'abord choisir une session.",
     "redeem-clipboard-failure": "Les données n'ont pas pu être enregistrées dans le presse-papier.",
