@@ -6,8 +6,8 @@
     "pop-up-3-stars": "2,5 - 3 étoiles",
     "pop-up-4-stars": "3,5 - 4 étoiles",
     "pop-up-5-stars": "4,5 - 5 étoiles",
-    "pop-up-from-5": "{{rating} sur 5",
-    "pop-up-global-people": "{{people} Évaluations",
+    "pop-up-from-5": "{{rating}} sur 5",
+    "pop-up-global-people": "{{people}} Évaluations",
     "pop-up-link": "Vers la salle « Feedback »",
     "retry": "Ceci est ton ancienne évaluation. Saisis-en une nouvelle.",
     "save": "Enregistrer",
@@ -24,7 +24,7 @@
     "entry-question": "Question",
     "entry-time": "Heure du code",
     "entry-token": "Code bonus",
-    "file-name": "Archives bonus{{roomName}\" {{date}.csv",
+    "file-name": "Archives bonus {{roomName}} {{date}.csv",
     "name": "Nom de l'événement",
     "no-data": "Il n'y a pas de jetons bonus.",
     "user-anonym": "anonyme",
@@ -48,7 +48,7 @@
   },
   "content": {
     "brainstorm-join-session-close": "Fermer",
-    "brainstorm-join-session-info": "Thème : \"{{title}\"",
+    "brainstorm-join-session-info": "Thème : \"{{title}}\"",
     "brainstorm-join-session-join": "Rejoindre",
     "brainstorm-join-session-title": "Rejoindre une session en cours ?",
     "brainstorm-join-session-title-short": "Session en cours",
@@ -56,7 +56,7 @@
     "brainstorm-new-session-short": "Nouvelle session",
     "brainstorm-no-session": "Aucune session active",
     "brainstorm-old-session-delete": "Supprimer",
-    "brainstorm-old-session-info": "Le sujet est \"{{title}\".",
+    "brainstorm-old-session-info": "Le sujet est \"{{title}}\".",
     "brainstorm-old-session-show": "Afficher",
     "brainstorm-old-session-title": "Dernière session",
     "brainstorm-old-session-title-short": "Dernière session",
@@ -69,10 +69,10 @@
     "brainstorming-word-length": "Nombre maximum de caractères",
     "cancel": "Annuler",
     "continue": "Suivant",
-    "field-hint-number": "Valeur : {{min}- {{max}",
+    "field-hint-number": "Valeur : {{min}} - {{max}}",
     "field-required": "Ce champ est nécessaire.",
-    "field-too-high": "Ton entrée est trop longue, elle doit être au maximum de {{max}.",
-    "field-too-low": "Ta saisie est trop courte, elle doit être au moins {{min}.",
+    "field-too-high": "Ton entrée est trop longue, elle doit être au maximum de {{max}}.",
+    "field-too-low": "Ta saisie est trop courte, elle doit être au moins {{min}}.",
     "reset": "Réinitialiser"
   },
   "cookies": {
@@ -294,7 +294,7 @@
     "prev": "Retourner",
     "roomJoin": "Saisis ici le code d'accès de la salle pour participer à l'événement.",
     "roomJoinTitle": "Assister à un événement",
-    "step": "{{step} / {{total}"
+    "step": "{{step}} / {{total}}"
   },
   "login": {
     "activation-key": "Clé d'activation",
