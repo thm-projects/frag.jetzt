@@ -48,7 +48,7 @@ export const arsnova_meta: ThemeMeta = {
     name: {
       en: 'Light mode',
       de: 'Light Mode',
-      fr: '--TODO-- | Light mode',
+      fr: 'Mode lumineux',
     },
   },
   isDark: false,

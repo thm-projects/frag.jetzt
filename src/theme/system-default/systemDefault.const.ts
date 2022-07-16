@@ -12,7 +12,7 @@ export const system_default_meta = {
     name: {
       en: 'Day | Night',
       de: 'Tag | Nacht',
-      fr: '--TODO-- | Day | Night',
+      fr: 'Jour | Nuit',
     }
   },
   isDark: false,
