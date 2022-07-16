@@ -86,7 +86,7 @@
     "really-delete": "Tu veux vraiment supprimer ce post ?",
     "search": "Rechercher …",
     "select-All": "Illimité dans le temps",
-    "select-FromNow": "Questions à partir de maintenant",
+    "select-FromNow": "À partir de maintenant",
     "select-OneDay": "Dernières 24 heures",
     "select-OneHour": "Dernière heure",
     "select-OneWeek": "Derniers 7 jours",
@@ -199,7 +199,7 @@
     "error-comment-brainstorming": "Cette session de brainstorming n'autorise qu'un nombre de mots de {{maxWordCount}}.",
     "error-comment-data": "Trop de formatage ou d'éléments liés. Veuillez en supprimer quelques-uns.",
     "error-comment-text": "Ton texte est trop long. Veuillez le raccourcir.",
-    "error-title": "Veuillez saisir un titre.",
+    "error-title": "Saisis un titre, s'il te plaît.",
     "exit-description": "Quitter la présentation",
     "export": "Exporter",
     "export-description": "Exporter",
@@ -300,7 +300,7 @@
     "tag-cloud-questions-all": "Toutes les questions",
     "tag-cloud-questions-all-short": "Tous les",
     "tag-cloud-questions-current-filtered": "Liste",
-    "tag-cloud-questions-from-now": "Questions à partir de maintenant",
+    "tag-cloud-questions-from-now": "À partir de maintenant",
     "tag-cloud-questions-from-now-short": "À partir de maintenant",
     "tag-cloud-questions-title": "Quelles questions doivent être indexées ?",
     "undo": "Annuler",
@@ -360,7 +360,7 @@
     "commentUserNumberTitle": "Trouver les questions d'un utilisateur",
     "createQuestion": "Avec le bouton plus, tu appelles l'éditeur. Une IA te propose des mots-clés pour ta question. Ceux-ci servent à créer un nuage de mots à partir des mots-clés de toutes les questions de l'événement.",
     "createQuestionTitle": "Tu es maintenant dans la salle de feedback.",
-    "done": "Terminé",
+    "done": "Terminer",
     "next": "Suivant",
     "prev": "Retourner",
     "step": "{{step}} / {{total}}",
@@ -519,7 +519,7 @@
     "live-feedback": "Feedback en direct",
     "moderating-stream": "Vers la modération",
     "moderation-mode": "Mode de modération",
-    "name-length-error": "Le nom doit être {{min} à {{max} caractères. caractères de long.",
+    "name-length-error": "Le nom doit comporter entre {{min}} et {{max}} caractères.",
     "nav-to-comment": "Aller à la question",
     "no-comments": "Il n'y a pas encore de questions.",
     "only-specific-language-will-be-filtered": "Désormais, les expressions vulgaires sont également censurées dans les autres langues.",
@@ -853,7 +853,7 @@
   },
   "write-comment": {
     "a11y-questioner-name": "Ici, tu peux, si tu le souhaites, entrer ton nom. Celui-ci est visible pour tous les participants à ce commentaire.",
-    "name-length-error": "Le nom doit être {{min} à {{max} caractères. caractères de long.",
+    "name-length-error": "LLe nom doit comporter entre {{min}} et {{max}} caractères.",
     "questioner-name": "Ton nom, si tu veux …"
   }
 }
