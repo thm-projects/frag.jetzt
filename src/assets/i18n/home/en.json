@@ -217,10 +217,10 @@
     "user-got-tokens": "You haven't received a star for a good question yet.",
     "users-online": "Currently logged-in users",
     "visited-sessions": "Sessions",
-    "zoom-exit": " Exit full view",
-    "zoom-minus": " Decrease text size",
-    "zoom-plus": " Increase text size",
-    "zoom-reset": " Text size 100%"
+    "zoom-exit": "Exit full view",
+    "zoom-minus": "Decrease text size",
+    "zoom-plus": "Increase text size",
+    "zoom-reset": "Reset zoom level"
   },
   "help": {
     "cancel": "Close",
