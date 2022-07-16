@@ -11,7 +11,7 @@
     "pop-up-link": "Vers la salle « Feedback »",
     "retry": "Ceci est ton ancienne évaluation. Saisis-en une nouvelle.",
     "save": "Enregistrer",
-    "success": "Merci beaucoup pour ton évaluation ! Tu souhaites discuter avec les développeurs des bugs et des nouvelles fonctionnalités ? Alors visite notre espace \"Feedback\".",
+    "success": "Merci beaucoup pour ton évaluation ! Tu souhaites discuter avec les développeurs des bugs et des nouvelles fonctionnalités ? Alors visite notre salle « Feedback ».",
     "title": "Évaluation de l'app"
   },
   "bonus-archive-export": {
@@ -242,11 +242,11 @@
     "invalid-char-shortid": "Le code de salle contient des caractères non autorisés.",
     "invalid-shortid": "Ce code de salle n'est pas disponible.",
     "join-room": "Participer",
-    "key-code-length-error": "Le code doit contenir entre {{min} et {{max} caractères. caractères de long.",
+    "key-code-length-error": "LLe code doit comporter entre {{min}} et {{max}} caractères.",
     "link-description": "Ouvrir une nouvelle fenêtre",
     "live-announcer": "Bienvenue sur le site de fragpunktjetzt. Ce site a été optimisé pour les lecteurs d'écran comme ChromeVox, Voiceover et bien d'autres. Un audioguide peut t'aider à naviguer. Pour obtenir des informations sur les combinaisons de touches, appuie maintenant sur la touche Entrée ou appelle l'annonce ultérieurement avec la touche Échap.",
     "live-announcer-user": "Tu te trouves maintenant sur la page d'utilisateur. Pour obtenir des informations sur les combinaisons de touches, appuie maintenant sur la touche Entrée ou appelle l'annonce plus tard avec la touche Echap.",
-    "name-length-error": "Le nom doit être {{min} à {{max} caractères. caractères de long.",
+    "name-length-error": "Le nom doit comporter entre {{min}} et {{max}} caractères.",
     "no-room-found": "Une salle portant ce nom ou ce code n'existe pas.",
     "only-numbers": "Le code de la salle est alphanumérique.",
     "please-enter": "Quelle salle ?",
@@ -276,7 +276,7 @@
   "joyride": {
     "cantAccessRoute": "Cet itinéraire n'est pas disponible. La visite est annulée.",
     "createRoom": "Tout le monde peut réserver une salle pour un événement. Le code d'accès est soit généré, soit tu le détermines toi-même. N'oublie pas que sans enregistrement, la salle et toutes ses données n'existent que dans ce navigateur.",
-    "createRoomTitle": "Réserver une salle",
+    "createRoomTitle": "Réserver la salle",
     "dashboard": "Ici se trouve le menu pour les actualités en direct.",
     "dashboardTitle": "Messages en direct",
     "done": "Terminé",
@@ -437,7 +437,7 @@
   "room-create": {
     "cancel": "Annuler",
     "cancel-description": "Annuler",
-    "create-room": "Réserver une salle",
+    "create-room": "Réserver la salle",
     "create-room-description": "Nouvelle session."
   },
   "room-export": {
