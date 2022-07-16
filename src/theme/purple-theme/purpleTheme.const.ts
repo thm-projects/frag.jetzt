@@ -48,7 +48,7 @@ export const purple_meta: ThemeMeta = {
     name: {
       en: 'Presentation',
       de: 'Präsentation',
-      fr: '--TODO-- | Presentation',
+      fr: 'Présentation',
     },
   },
   isDark: false,

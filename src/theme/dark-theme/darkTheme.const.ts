@@ -48,7 +48,7 @@ export const dark_meta: ThemeMeta = {
     name: {
       en: 'Dark mode',
       de: 'Dark Mode',
-      fr: '--TODO-- | Dark mode',
+      fr: 'Mode sombre',
     },
   },
   isDark: true,

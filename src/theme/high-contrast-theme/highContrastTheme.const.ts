@@ -48,7 +48,7 @@ export const highcontrast_meta: ThemeMeta = {
     name: {
       en: 'High contrast',
       de: 'Hoher Kontrast',
-      fr: '--TODO-- | High contrast',
+      fr: 'Contraste élevé',
     },
   },
   isDark: true,
