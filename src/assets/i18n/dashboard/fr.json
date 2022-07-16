@@ -8,7 +8,7 @@
     "title": "Notifications"
   },
   "dashboard-notification": {
-    "CREATOR": "Le/la créateur/trice de la salle*.",
+    "CREATOR": "Le/la créateur/trice de la salle.",
     "EXECUTIVE_MODERATOR": "Un*e modérateur*trice",
     "PARTICIPANT": "Un*e participant*e",
     "other-comment": "d'un commentaire",
@@ -80,7 +80,7 @@
     "go-to-comment": "Aller au commentaire",
     "go-to-question": "Aller à la question",
     "lecturer": "Créateur de salle",
-    "moderator": "Modérateur* de la discussion",
+    "moderator": "Modérateur de la discussion",
     "no-notifications": "Pas de notifications actuellement",
     "notification-off": "Désactiver la notification",
     "notification-on": "Activer la notification",
