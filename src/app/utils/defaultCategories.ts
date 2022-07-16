@@ -24,6 +24,16 @@ export const defaultCategories = {
     'Quizzing',
     'Miscellaneous',
   ],
+  fr: [
+    'Commentaire',
+    'Compréhension',
+    'Feedback',
+    'Organisationnel',
+    'Problème technique',
+    '« frag.jetzt »',
+    'Quiz',
+    'Divers',
+  ],
   default: [
     'Feedback',
     '»frag.jetzt«',
