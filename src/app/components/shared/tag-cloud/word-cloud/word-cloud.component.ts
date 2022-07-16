@@ -22,25 +22,26 @@ export interface WordMeta {
   rotate: number;
 }
 
-type CloudDrawFuncType = [top: boolean, bottom: boolean, right: boolean, left: boolean];
-
-interface PositionInformation {
+interface PositionInformation<K = any> {
   position: {
     width: number;
     height: number;
     rotation: number;
-    horizontalLine: [mx: number, my: number, bx: number, by: number];
-    verticalLine: [mx: number, my: number, bx: number, by: number];
+    normalizedHorizontalLine: [mx: number, my: number];
+    offsetHorizontalLine: [bx: number, by: number];
+    normalizedVerticalLine: [mx: number, my: number];
+    offsetVerticalLine: [bx: number, by: number];
   };
   origin: [x: number, y: number];
-  additional?: CloudDrawFuncType | any;
+  additional?: K;
 }
 
-export interface ActiveWord<T extends WordMeta> {
+export interface ActiveWord<T extends WordMeta, K = any> {
   meta: T;
   weightClass: number;
+  visible: boolean;
   element: HTMLSpanElement;
-  buildInformation: PositionInformation;
+  buildInformation: PositionInformation<K>;
 }
 
 export enum WeightClassType {
@@ -72,6 +73,7 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
   private _elements: ActiveWord<T>[] = [];
   private _cssStyleElement: HTMLStyleElement;
   private _styleIndexes: StyleDeclarations;
+  private _minHeight: number;
 
   constructor(
     private renderer2: Renderer2,
@@ -299,7 +301,7 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
     if (this.parameters.sortAlphabetically) {
       WordCloudDrawFunctions.calculateGridStructure(this._elements, parentWidth, parentHeight);
     } else {
-      this.redrawCloud(parentWidth, parentHeight);
+      WordCloudDrawFunctions.calculateCloud(this._elements, parentWidth, parentHeight, this._minHeight);
     }
     this.fontInfoService.waitTillFontLoaded(this.parameters.fontFamily).subscribe(_ => {
       this.doDraw(parentElement, parentWidth, parentHeight);
@@ -385,6 +387,7 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
       }
       newElements.push({
         element: null,
+        visible: false,
         meta: dataEntry,
         weightClass: null,
         buildInformation: {
@@ -445,10 +448,12 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
       word.weightClass = weightClass;
       word.element.style.setProperty('--rot', word.meta.rotate + 'deg');
     });
+    this._minHeight = null;
     this._elements.forEach((word) => {
       const computedElem = getComputedStyle(word.element);
       const width = parseFloat(computedElem.width) + parseFloat(computedElem.paddingLeft) + parseFloat(computedElem.paddingRight);
       const height = parseFloat(computedElem.height) + parseFloat(computedElem.paddingTop) + parseFloat(computedElem.paddingBottom);
+      this._minHeight = this._minHeight === null || this._minHeight > height ? height : this._minHeight;
       const cos = Math.cos(word.meta.rotate);
       const sin = Math.sin(word.meta.rotate);
       const halfW = width / 2;
@@ -457,15 +462,13 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
         width,
         height,
         rotation: word.meta.rotate,
-        horizontalLine: [
-          cos * width,
-          sin * width,
+        normalizedHorizontalLine: [cos, sin],
+        offsetHorizontalLine: [
           -halfW * cos + halfH * sin,
           -halfW * sin - halfH * cos,
         ],
-        verticalLine: [
-          -sin * height,
-          cos * height,
+        normalizedVerticalLine: [-sin, cos],
+        offsetVerticalLine: [
           halfW * cos + halfH * sin,
           halfW * sin - halfH * cos,
         ]
@@ -474,7 +477,7 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
   }
 
   private calculateChanges(data: T[]) {
-    const [min, max, obsoleteElements, newElements] = this.calculateObsoleteAndNewElements([...data, ...new Array(4000).fill(0).map(e => ({
+    const [min, max, obsoleteElements, newElements] = this.calculateObsoleteAndNewElements([...data, ...new Array(400).fill(0).map(e => ({
       text: Math.random().toString(16).substring(2, 6),
       rotate: 0,
       weight: 0,
@@ -507,11 +510,12 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
     parentElement.style.setProperty('--fadeInTime', timeInMs + 'ms');
     this._elements.forEach((e, i) => {
       const [x, y] = e.buildInformation.origin;
+      e.element.style.display = e.visible ? '' : 'none';
       e.element.style.setProperty('--pos-x', (x + parentWidth) + 'px');
       e.element.style.setProperty('--pos-y', (y + parentHeight) + 'px');
       e.element.dataset.index = String(i);
     });
-    const newElements = this._elements.filter(e => !e.element.classList.contains('visible'));
+    const newElements = this._elements.filter(e => !e.element.classList.contains('visible') && e.visible);
     let index = 0;
     const intervalId = setInterval(() => {
       if (index >= newElements.length) {
