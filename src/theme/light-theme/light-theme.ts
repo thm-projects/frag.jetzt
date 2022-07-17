@@ -1,3 +1,5 @@
+import { ThemeMeta } from '../Theme';
+
 export const arsnova = {
 
   '--primary': 'darkblue',
@@ -40,12 +42,13 @@ export const arsnova = {
 
 };
 
-export const arsnova_meta = {
+export const arsnova_meta: ThemeMeta = {
 
   translation: {
     name: {
       en: 'Light mode',
-      de: 'Light Mode'
+      de: 'Light Mode',
+      fr: 'Mode lumineux',
     },
   },
   isDark: false,

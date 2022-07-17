@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 
-export const AVAILABLE_LANGUAGES = ['en', 'de'];
+export const AVAILABLE_LANGUAGES = ['en', 'de', 'fr'];
 
 export type Language = (typeof AVAILABLE_LANGUAGES)[number];
 

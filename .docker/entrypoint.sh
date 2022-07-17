@@ -2,7 +2,7 @@
 
 # Only build node_modules if they do not exist or if package-lock changed
 if [ ! -d node_modules ] || (! sha1sum --check /cache/lock); then
-  echo "cache is invalid, rebuilding..."
+  echo "cache is invalid, rebuilding …"
 
   echo "clearing angular cache..."
   rm -rf .angular
