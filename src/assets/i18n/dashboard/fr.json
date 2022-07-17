@@ -8,9 +8,9 @@
     "title": "Notifications"
   },
   "dashboard-notification": {
-    "CREATOR": "Le/la créateur/trice de la salle.",
-    "EXECUTIVE_MODERATOR": "Un*e modérateur*trice",
-    "PARTICIPANT": "Un*e participant*e",
+    "CREATOR": "Le créateur de la salle.",
+    "EXECUTIVE_MODERATOR": "Un modérateur",
+    "PARTICIPANT": "Un participant",
     "other-comment": "d'un commentaire",
     "other-comment-2": "d'un commentaire",
     "other-question": "d'une question",
@@ -56,7 +56,7 @@
     "cancel": "Annuler",
     "delete": "Oui, supprimer le compte.",
     "message": "Tu veux vraiment supprimer toutes les notifications ?",
-    "sure": "Es-tu sûr(e) ?"
+    "sure": "Tu en es sûr ?"
   },
   "explanation": {
     "close": "Fermer",
@@ -85,7 +85,7 @@
     "notification-off": "Désactiver la notification",
     "notification-on": "Activer la notification",
     "number-notifications": "Nombre : ",
-    "participant": "Participant(e)",
+    "participant": "Participant",
     "reaction": "Quelqu'un a réagi à ta contribution.",
     "remove": "Supprimer la notification",
     "room": "Salle",
