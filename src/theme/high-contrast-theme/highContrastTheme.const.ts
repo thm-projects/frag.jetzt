@@ -1,3 +1,5 @@
+import { ThemeMeta } from '../Theme';
+
 export const highcontrast = {
 
   '--primary': 'white',
@@ -40,12 +42,13 @@ export const highcontrast = {
 
 };
 
-export const highcontrast_meta = {
+export const highcontrast_meta: ThemeMeta = {
 
   translation: {
     name: {
       en: 'High contrast',
       de: 'Hoher Kontrast',
+      fr: 'Contraste élevé',
     },
   },
   isDark: true,

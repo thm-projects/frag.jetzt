@@ -10,6 +10,7 @@ import { UserRole } from '../../models/user-roles.enum';
 import { filter, mergeMap, take } from 'rxjs/operators';
 import { AuthenticationService, LoginResult } from '../http/authentication.service';
 import { WsConnectorService } from '../websockets/ws-connector.service';
+import { QuillUtils, SerializedDelta } from '../../utils/quill-utils';
 
 @Injectable({
   providedIn: 'root'
@@ -130,7 +131,11 @@ export class SessionService {
   updateCurrentRoom(room: Partial<Room>): void {
     const current = this._currentRoom.getValue();
     for (const key of Object.keys(room)) {
-      current[key] = room[key];
+      if (key === 'description') {
+        current[key] = QuillUtils.deserializeDelta(room[key] as unknown as SerializedDelta);
+      } else {
+        current[key] = room[key];
+      }
     }
   }
 

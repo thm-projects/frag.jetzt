@@ -5,6 +5,7 @@ import { CommentService } from '../services/http/comment.service';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
 import { BookmarkAccess } from '../services/util/room-data.service';
+import { QuillUtils, SerializedDelta } from './quill-utils';
 
 export interface ForumData {
   children: Set<ForumComment>;
@@ -466,11 +467,15 @@ export class DataAccessor {
           this.removeComment(comment.id);
         }
         break;
+      case 'body':
+        comment.body = QuillUtils.deserializeDelta(value as SerializedDelta);
+        break;
       default:
         if (SIMPLE_PATCH_PROPERTIES.has(changeKey)) {
           // @ts-ignore
           comment[changeKey] = value;
         } else {
+          console.error('Unknown comment patch: ' + changeKey);
           hadKey = false;
         }
         break;

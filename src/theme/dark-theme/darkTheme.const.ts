@@ -1,3 +1,5 @@
+import { ThemeMeta } from '../Theme';
+
 export const dark = {
 
   '--primary': 'darkorange',
@@ -40,12 +42,13 @@ export const dark = {
 
 };
 
-export const dark_meta = {
+export const dark_meta: ThemeMeta = {
 
   translation: {
     name: {
       en: 'Dark mode',
-      de: 'Dark Mode'
+      de: 'Dark Mode',
+      fr: 'Mode sombre',
     },
   },
   isDark: true,

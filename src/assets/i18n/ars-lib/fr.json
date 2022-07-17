@@ -1,11 +1,11 @@
 {
   "paginator": {
-    "firstPageLabel": "--TODO-- | First",
-    "itemsPerPageLabel": "--TODO-- | Questions per page",
-    "lastPageLabel": "--TODO-- | Last",
-    "nextPageLabel": "--TODO-- | Next",
-    "previousPageLabel": "--TODO-- | Previous",
-    "rangePageLabel1": "--TODO-- | null",
-    "rangePageLabel2": "--TODO-- | %start - %end of %length"
+    "firstPageLabel": "Premier",
+    "itemsPerPageLabel": "Questions par page",
+    "lastPageLabel": "Dernier",
+    "nextPageLabel": "Suivant",
+    "previousPageLabel": "Précédent",
+    "rangePageLabel1": "zéro",
+    "rangePageLabel2": "%start - %end de %length"
   }
 }

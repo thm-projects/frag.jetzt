@@ -48,6 +48,7 @@ export interface ThemeMeta {
     name: {
       en: string;
       de: string;
+      fr: string;
     };
   };
   isDark: boolean;

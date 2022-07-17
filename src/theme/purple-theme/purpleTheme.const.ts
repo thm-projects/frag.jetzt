@@ -1,3 +1,5 @@
+import { ThemeMeta } from '../Theme';
+
 export const purple = {
 
   '--primary': '#00324a',
@@ -40,12 +42,13 @@ export const purple = {
 
 };
 
-export const purple_meta = {
+export const purple_meta: ThemeMeta = {
 
   translation: {
     name: {
       en: 'Presentation',
       de: 'Präsentation',
+      fr: 'Présentation',
     },
   },
   isDark: false,

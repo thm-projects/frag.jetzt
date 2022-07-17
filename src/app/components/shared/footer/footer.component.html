@@ -165,6 +165,12 @@
     mat-menu-item>
     {{ 'footer.english' | translate }}
   </button>
+  <button
+    (click)="useLanguage('fr')"
+    class="focus_item"
+    mat-menu-item>
+    {{ 'footer.french' | translate }}
+  </button>
 </mat-menu>
 
 <mat-menu #menu="matMenu">
