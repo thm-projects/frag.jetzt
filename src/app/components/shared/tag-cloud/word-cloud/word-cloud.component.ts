@@ -108,7 +108,7 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
     sheet.insertRule('.userActivityIcon { background-color: var(--tag-cloud-inverted-background) !important; }', sheet.cssRules.length);
     sheet.insertRule('.header .oldtypo-h2, .header .oldtypo-h2 + span { ' +
       'color: var(--tag-cloud-inverted-background) !important; }', sheet.cssRules.length);
-    sheet.insertRule('#footer_rescale { display: none; }', sheet.cssRules.length);
+    sheet.insertRule('#footer_rescale { display: none !important; }', sheet.cssRules.length);
     sheet.insertRule('div.main_container, app-header > .mat-toolbar { ' +
       'background-color: var(--tag-cloud-background-color) !important; color: var(--tag-cloud-inverted-background) !important; }',
       sheet.cssRules.length);
