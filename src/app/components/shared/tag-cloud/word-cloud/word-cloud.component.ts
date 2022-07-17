@@ -81,85 +81,6 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
   ) {
   }
 
-  private static findPlaceInCloud<T extends WordMeta>(
-    elements: ActiveWord<T>[], newElement: ActiveWord<T>, parentWidth: number, parentHeight: number
-  ): boolean {
-    const { width: elemWidth, height: elemHeight } = newElement.buildInformation.position;
-    newElement.buildInformation.additional = new Array(4).fill(false);
-    const elemWidthHalf = elemWidth / 2;
-    const elemHeightHalf = elemHeight / 2;
-    if (elements.length === 0) {
-      newElement.buildInformation.origin = [-elemWidthHalf, -elemHeightHalf];
-      return true;
-    }
-    let bestPos = [0, 0];
-    let bestDistSquared = null;
-    let currentIndex = null;
-    const aspectSquared = Math.pow(parentHeight / parentWidth, 2);
-    const checkBetter = (x: number, y: number, hasNeighbour: boolean[], dir: number, elemIndex: number) => {
-      if (!hasNeighbour[dir] && !WordCloudComponent.isColliding(elements, x, y, elemWidth, elemHeight, parentWidth, parentHeight)) {
-        const newMid = [x + elemWidthHalf, y + elemHeightHalf];
-        const size = newMid[0] * newMid[0] * aspectSquared + newMid[1] * newMid[1];
-        if (!bestDistSquared || size < bestDistSquared) {
-          bestPos = newMid;
-          bestDistSquared = size;
-          currentIndex = [elemIndex, 0];
-        }
-      }
-    };
-    for (let i = 0; i < elements.length; ++i) {
-      const { additional, position, origin } = elements[i].buildInformation;
-      const { width, height } = position;
-      const [x, y] = origin;
-      const midX = x + width / 2;
-      const midY = y + height / 2;
-      //top
-      let newX = midX - elemWidthHalf;
-      let newY = y - elemHeight;
-      checkBetter(newX, newY, additional, 0, i);
-      //bottom
-      newY = y + height;
-      checkBetter(newX, newY, additional, 1, i);
-      //right
-      newX = x + width;
-      newY = midY - elemHeightHalf;
-      checkBetter(newX, newY, additional, 2, i);
-      //left
-      newX = x - elemWidth;
-      checkBetter(newX, newY, additional, 3, i);
-    }
-    if (bestDistSquared === null) {
-      return false;
-    }
-    newElement.buildInformation.origin = [bestPos[0] - elemWidthHalf, bestPos[1] - elemHeightHalf];
-    elements[currentIndex[0]].buildInformation.additional[currentIndex[1]] = true;
-    return true;
-  }
-
-  private static isColliding<T extends WordMeta>(
-    elements: ActiveWord<T>[],
-    x: number,
-    y: number,
-    width: number,
-    height: number,
-    parentWidth: number,
-    parentHeight: number,
-  ): boolean {
-    const endX = x + width;
-    const endY = y + height;
-    if (x < -parentWidth || endX > parentWidth || y < -parentHeight || endY > parentHeight) {
-      return true;
-    }
-    for (const element of elements) {
-      const [elemX, elemY] = element.buildInformation.origin;
-      const { width: elemWidth, height: elemHeight } = element.buildInformation.position;
-      if (elemX < endX && elemX + elemWidth > x && elemY < endY && elemY + elemHeight > y) {
-        return true;
-      }
-    }
-    return false;
-  }
-
   private static invertHex(hexStr: string) {
     const currentColor: ColorRGB = [
       parseInt(hexStr.substring(1, 3), 16),
@@ -172,6 +93,7 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
 
   ngOnInit() {
     this._cssStyleElement = this.renderer2.createElement('style');
+    this._cssStyleElement.id = 'tagCloudStyles';
     this.renderer2.appendChild(document.head, this._cssStyleElement);
     const sheet = this._cssStyleElement.sheet;
     this._styleIndexes = {
@@ -180,12 +102,15 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
     };
     sheet.insertRule('.spacyTagCloudContainer { background-color: var(--tag-cloud-background-color, unset); }',
       sheet.cssRules.length);
-    sheet.insertRule('.header-icons { color: var(--tag-cloud-inverted-background) !important; }',
+    sheet.insertRule('.header-icons, .header-icons + h2, .userActivityTxt, app-header mat-icon { ' +
+      'color: var(--tag-cloud-inverted-background) !important; }',
       sheet.cssRules.length);
+    sheet.insertRule('.userActivityIcon { background-color: var(--tag-cloud-inverted-background) !important; }', sheet.cssRules.length);
     sheet.insertRule('.header .oldtypo-h2, .header .oldtypo-h2 + span { ' +
       'color: var(--tag-cloud-inverted-background) !important; }', sheet.cssRules.length);
     sheet.insertRule('#footer_rescale { display: none; }', sheet.cssRules.length);
-    sheet.insertRule('div.main_container { background-color: var(--tag-cloud-background-color) !important; }',
+    sheet.insertRule('div.main_container, app-header > .mat-toolbar { ' +
+      'background-color: var(--tag-cloud-background-color) !important; color: var(--tag-cloud-inverted-background) !important; }',
       sheet.cssRules.length);
     this.updateStyles();
   }
@@ -275,7 +200,7 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
 
   transformObjectToCSS(sheet: CSSStyleSheet, index: number, object: any) {
     const upper = /[A-Z]/gm;
-    const replacer = (x: string, ...args: any) => (args[1] === 0 ? '--' : '-') + x.toLowerCase();
+    const replacer = (x: string, ...args: any) => (args[0] === 0 ? '--' : '-') + x.toLowerCase();
     let str = '{';
     for (const key of Object.keys(object)) {
       str += `\n${key.replace(upper, replacer)}: ${object[key]};`;
@@ -324,22 +249,6 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
       return;
     }
     this.left.emit(activeWord);
-  }
-
-  private redrawCloud(parentWidth: number, parentHeight: number) {
-    const toDelete = [];
-    const currentElements = [];
-    this._elements.forEach((word) => {
-      if (WordCloudComponent.findPlaceInCloud(currentElements, word, parentWidth, parentHeight)) {
-        currentElements.push(word);
-        return;
-      }
-      toDelete.push(word.element);
-    });
-    this._elements = currentElements;
-    for (const elem of toDelete) {
-      elem.remove();
-    }
   }
 
   private isAlreadyCreated(obsoleteElements: { word: ActiveWord<T>; index: number }[], dataEntry: T) {
@@ -477,11 +386,7 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
   }
 
   private calculateChanges(data: T[]) {
-    const [min, max, obsoleteElements, newElements] = this.calculateObsoleteAndNewElements([...data, ...new Array(400).fill(0).map(e => ({
-      text: Math.random().toString(16).substring(2, 6),
-      rotate: 0,
-      weight: 0,
-    }) as T)]);
+    const [min, max, obsoleteElements, newElements] = this.calculateObsoleteAndNewElements(data);
     const isSame = Math.abs(max - min) <= Number.EPSILON;
     let defaultWeightClass;
     if (this.weightClassType === WeightClassType.Lowest) {
