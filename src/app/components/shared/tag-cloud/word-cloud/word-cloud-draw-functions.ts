@@ -344,7 +344,7 @@ export class WordCloudDrawFunctions {
     // start colliding
     quadTree.collideSAT(quadTreeSAT, (possibleCollisions) => {
       for (const coll of possibleCollisions) {
-        this.collide(coll, options);
+        this.collide(coll.buildInformation, options);
         if (options.tRanges.length === 0) {
           return true;
         }
@@ -391,11 +391,12 @@ export class WordCloudDrawFunctions {
   }
 
   private static collide<T extends WordMeta>(
-    coll: ActiveWord<T, CloudDrawFuncType<T>>,
+    build: ActiveWord<T, CloudDrawFuncType<T>>['buildInformation'],
     options: CollideArguments,
   ) {
-    const { offsetVerticalLine: collOffV, offsetHorizontalLine: collOffH } = coll.buildInformation.position;
-    const origin = coll.buildInformation.origin;
+    const collOffV = build.position.offsetVerticalLine;
+    const collOffH = build.position.offsetHorizontalLine;
+    const origin = build.origin;
     const mappings = [
       this.add(origin, collOffV), this.sub(origin, collOffV), this.add(origin, collOffH), this.sub(origin, collOffH)
     ];
@@ -452,9 +453,12 @@ export class WordCloudDrawFunctions {
   }
 
   private static collideSATRange(points: Vec2[], normal: Vec2, min: number, max: number, tGradient: number) {
-    const mappings = points.map(m => this.dot(normal, m));
-    const cMin = Math.min(mappings[0], mappings[1], mappings[2], mappings[3]);
-    const cMax = Math.max(mappings[0], mappings[1], mappings[2], mappings[3]);
+    const point1 = this.dot(normal, points[0]);
+    const point2 = this.dot(normal, points[1]);
+    const point3 = this.dot(normal, points[2]);
+    const point4 = this.dot(normal, points[3]);
+    const cMin = Math.min(point1, point2, point3, point4);
+    const cMax = Math.max(point1, point2, point3, point4);
     let tmin = cMin - max;
     let tmax = cMax - min;
     if (Math.abs(tGradient) <= Number.EPSILON) {
