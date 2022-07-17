@@ -11,7 +11,8 @@ export const system_default_meta = {
   translation: {
     name: {
       en: 'Day | Night',
-      de: 'Tag | Nacht'
+      de: 'Tag | Nacht',
+      fr: 'Jour | Nuit',
     }
   },
   isDark: false,

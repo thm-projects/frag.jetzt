@@ -123,6 +123,7 @@
     "demo": "Einführung",
     "dsgvo": "Datenschutz",
     "english": "Englisch",
+    "french": "Französisch",
     "german": "Deutsch",
     "help": "Hilfe",
     "imprint": "Impressum",
@@ -219,7 +220,7 @@
     "zoom-exit": "Vollansicht verlassen",
     "zoom-minus": "Text verkleinern",
     "zoom-plus": "Text vergrößern",
-    "zoom-reset": "Text 100 %"
+    "zoom-reset": "Zoomstufe zurücksetzen"
   },
   "help": {
     "cancel": "Schließen",

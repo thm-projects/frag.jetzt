@@ -190,6 +190,8 @@ export class FooterComponent implements OnInit {
       this.langaugeMenu._allItems.get(0).focus();
     } else if (this.langService.currentLanguage() === 'en') {
       this.langaugeMenu._allItems.get(1).focus();
+    } else if (this.langService.currentLanguage() === 'fr') {
+      this.langaugeMenu._allItems.get(2).focus();
     }
   }
 
