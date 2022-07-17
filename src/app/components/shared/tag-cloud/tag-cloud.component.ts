@@ -469,16 +469,16 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
       });
       e.menuItem({
         translate: this.headerService.getTranslate(),
-        icon: 'tag',
+        icon: 'print',
         class: 'material-icons-outlined',
         text: 'header.tag-cloud-screenshot',
         callback: () => {
           if (!this.child?.cloudDataHtmlElements?.length) {
-            this.translateService.get('tag-cloud.tag-cloud-no-elements')
+            this.translateService.get('tag-cloud.no-elements')
               .subscribe(msg => this.notificationService.show(msg));
             return;
           }
-          this.translateService.get('tag-cloud.tag-cloud-print-title', { roomName: this.room.name })
+          this.translateService.get('tag-cloud.print-title', { roomName: this.room.name })
             .subscribe(msg => DOMElementPrinter.printOnce(this.child?.cloudDataHtmlElements[0].parentElement,
               msg, this._currentSettings.backgroundColor));
         },
@@ -486,7 +486,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
       });
       e.menuItem({
         translate: this.headerService.getTranslate(),
-        icon: 'tag',
+        icon: 'cloud',
         class: 'material-icons-outlined',
         text: 'header.tag-cloud-config',
         callback: () => this.drawer.toggle(),
