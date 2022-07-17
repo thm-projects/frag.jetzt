@@ -60,19 +60,19 @@
   },
   "explanation": {
     "close": "Fermer",
-    "dialog-content": "Ici, tu peux voir toutes les réactions à tes questions et commentaires, par exemple si tu as reçu une étoile, si une de tes questions a reçu une réponse, a été commentée, bannie ou supprimée. En cliquant sur le message, tu accèdes à ta question. Tu peux aussi sélectionner des conversations individuelles pour lesquelles tu souhaites être averti(e) en cliquant sur l'icône en forme de cloche à côté de la question ou du commentaire.",
+    "dialog-content": "Ici, tu peux voir toutes les réactions à tes questions et commentaires, par exemple si tu as reçu une étoile, si une de tes questions a reçu une réponse, a été commentée, bannie ou supprimée. En cliquant sur le message, tu accèdes à ta question. Tu peux aussi sélectionner des conversations individuelles pour lesquelles tu souhaites être averti en cliquant sur l'icône en forme de cloche à côté de la question ou du commentaire.",
     "label": "Expliquer",
     "text": "Notifications"
   },
   "notification": {
     "CommentMarkedWithStar": "Commentaire excellent",
-    "QuestionAffirmed": "Question répondue par l'affirmative",
+    "QuestionAffirmed": "Réponse positive",
     "QuestionAnswered": "Question répondue",
     "QuestionBanned": "Message banni",
     "QuestionCommented": "Message commenté",
     "QuestionDeleted": "Message supprimé",
     "QuestionMarkedWithStar": "Question excellente",
-    "QuestionNegated": "Question non traitée",
+    "QuestionNegated": "Réponse négative",
     "QuestionPublished": "Contribution publiée",
     "change-score": "Évaluation",
     "comment": "Commenté",
