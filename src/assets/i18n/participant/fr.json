@@ -528,11 +528,11 @@
     "one-day": "1 jour",
     "one-hour": "1 heure",
     "one-week": "1 semaine",
-    "some-days": "{{days} jours",
-    "some-hours": "{{hours} heures",
-    "some-minutes": "{{minutes} minutes",
-    "some-months": "{{months} mois",
-    "some-weeks": "{{weeks} semaines",
+    "some-days": "{{days}} jours",
+    "some-hours": "{{hours}} heures",
+    "some-minutes": "{{minutes}} minutes",
+    "some-months": "{{months}} mois",
+    "some-weeks": "{{weeks}} semaines",
     "tag-correction-placeholder": "Correction …"
   },
   "topic-cloud-dialog": {
