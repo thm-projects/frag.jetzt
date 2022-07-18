@@ -102,7 +102,7 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
     };
     sheet.insertRule('.spacyTagCloudContainer { background-color: var(--tag-cloud-background-color, unset); }',
       sheet.cssRules.length);
-    sheet.insertRule('.header-icons, .header-icons + h2, .userActivityTxt, app-header mat-icon { ' +
+    sheet.insertRule('.header-icons, .header-icons + h2, .userActivityTxt, app-header mat-icon, app-header h2 { ' +
       'color: var(--tag-cloud-inverted-background) !important; }',
       sheet.cssRules.length);
     sheet.insertRule('.userActivityIcon { background-color: var(--tag-cloud-inverted-background) !important; }', sheet.cssRules.length);
