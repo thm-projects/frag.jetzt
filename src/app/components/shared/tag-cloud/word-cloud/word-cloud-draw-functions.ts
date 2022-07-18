@@ -122,12 +122,11 @@ export class WordCloudDrawFunctions {
         yOffset += ySpace;
       }
       const info = elements[i].buildInformation;
-      const { width, height } = info.position;
+      const { height } = info.position;
       info.origin = [
         -parentWidth + xOffset,
         -parentHeight + yOffset + height / 2
       ];
-      xOffset += width;
     }
   }
 
@@ -199,7 +198,7 @@ export class WordCloudDrawFunctions {
       bestDistSquared: null,
       currentIndex: null,
     };
-    // TODO: Check place
+    // TO-DO: Check place
     /*
     Constraint:
       - not closer than last element weight class
@@ -327,7 +326,7 @@ export class WordCloudDrawFunctions {
       yMin: elemOrigin[1] + args.elemMinY + Math.min(tRanges[0][0] * y, tRanges[0][1] * y),
       yMax: elemOrigin[1] + args.elemMaxY + Math.max(tRanges[0][0] * y, tRanges[0][1] * y),
     };
-    // TODO: Check Height limits, create range with optimalTPosition and subtract with filterTRanges
+    // TO-DO: Check Height limits, create range with optimalTPosition and subtract with filterTRanges
     const baseOffsetX = this.dot(elemOrigin, args.elemNormalX);
     const baseOffsetY = this.dot(elemOrigin, args.elemNormalY);
     const options: CollideArguments = {

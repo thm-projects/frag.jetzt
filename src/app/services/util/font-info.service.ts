@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subscriber } from 'rxjs';
 
 export interface FontFace {
   ascentOverride?: string;
@@ -28,6 +28,28 @@ export class FontInfoService {
   constructor() {
   }
 
+  private static checkFontReady(
+    faceSet: FontFaceSet, notLoadedFonts: FontFace[], sub: Subscriber<FontFace>, fontFamily: string
+  ) {
+    if (faceSet.check('1em ' + fontFamily)) {
+      sub.next(null);
+      sub.complete();
+      return;
+    }
+    if (notLoadedFonts.length < 1) {
+      sub.next(null);
+      sub.complete();
+    }
+    notLoadedFonts.forEach(font => {
+      font.loaded.then(_ => {
+        if (!sub.closed) {
+          sub.next(font);
+          sub.complete();
+        }
+      });
+    });
+  }
+
   waitTillFontLoaded(fontFamily: string): Observable<FontFace> {
     return new Observable(sub => {
       (document as any).fonts.ready.then((faceSet) => {
@@ -44,23 +66,7 @@ export class FontInfoService {
           }
           notLoadedFonts.push(font);
         }
-        if (faceSet.check('1em ' + fontFamily)) {
-          sub.next(null);
-          sub.complete();
-          return;
-        }
-        if (notLoadedFonts.length < 1) {
-          sub.next(null);
-          sub.complete();
-        }
-        notLoadedFonts.forEach(font => {
-          font.loaded.then(_ => {
-            if (!sub.closed) {
-              sub.next(font);
-              sub.complete();
-            }
-          });
-        });
+        FontInfoService.checkFontReady(faceSet, notLoadedFonts, sub, fontFamily);
       });
     });
   }
