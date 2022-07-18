@@ -52,10 +52,14 @@ export class FontInfoService {
 
   waitTillFontLoaded(fontFamily: string): Observable<FontFace> {
     return new Observable(sub => {
-      (document as any).fonts.ready.then((faceSet) => {
+      const faceSet = (document as any).fonts;
+      faceSet.ready.then(() => {
         const notLoadedFonts: FontFace[] = [];
-        for (const face of faceSet.keys()) {
-          const font = face as FontFace;
+        const iter: Iterator<FontFace> = faceSet.keys();
+        let iterElem = iter.next();
+        while (!iterElem.done) {
+          const font = iterElem.value as FontFace;
+          iterElem = iter.next();
           if (font.family !== fontFamily) {
             continue;
           }
