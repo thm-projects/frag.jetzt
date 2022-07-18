@@ -1,0 +1,60 @@
+
+<ars-row ars-flex-box>
+  <ars-col>
+
+    <mat-form-field appearance="legacy">
+      <mat-label>Live-Poll Name</mat-label>
+      <input matInput>
+    </mat-form-field>
+
+  </ars-col>
+  <ars-fill>
+
+    <mat-form-field style="width:100%;" appearance="legacy">
+      <mat-label>Live-Poll Name</mat-label>
+      <input matInput>
+    </mat-form-field>
+
+  </ars-fill>
+</ars-row>
+
+<ars-row>
+
+  <mat-form-field style="width:100%;" appearance="legacy">
+    <mat-label>Live-Poll Name</mat-label>
+    <input matInput>
+  </mat-form-field>
+
+</ars-row>
+
+<ars-row ars-flex-box [align]="'space-between'">
+  <ars-col>
+    <mat-button-toggle-group name="symbolType" aria-label="symbolType">
+      <mat-button-toggle value="ascii">ASCII</mat-button-toggle>
+      <mat-button-toggle value="materialIcons">Material Icons</mat-button-toggle>
+    </mat-button-toggle-group>
+  </ars-col>
+  <ars-col>
+    <button mat-button [matMenuTriggerFor]="predefinedSymbolSets" aria-describedby="compare-label"
+            style="color:var(--on-secondary);background-color:var(--secondary);padding:0 8px;"
+            [matTooltip]="'live-poll.compare-accessibility' | translate">
+      <mat-icon style="color:var(--on-secondary);padding-right:4px;">poll</mat-icon>
+      <span *ngIf="device.isCurrentlyDesktop">{{'live-poll.compare' | translate}}</span>
+    </button>
+  </ars-col>
+  <mat-menu #predefinedSymbolSets>
+    <button mat-menu-item *ngFor="let set of livePollService.defaultSymbolSet()"
+            (click)="setSymbolSet(set);">{{set[0]}}</button>
+  </mat-menu>
+
+</ars-row>
+
+<ars-row>
+
+  <button mat-button aria-describedby="compare-label" style="color:var(--on-secondary);background-color:var(--secondary);padding:0 8px;"
+          [matTooltip]="'live-poll.compare-accessibility' | translate">
+    <mat-icon style="color:var(--on-secondary);padding-right:4px;">poll</mat-icon>
+    <span *ngIf="device.isCurrentlyDesktop">{{'live-poll.compare' | translate}}</span>
+  </button>
+
+</ars-row>

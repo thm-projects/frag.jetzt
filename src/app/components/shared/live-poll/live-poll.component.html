@@ -11,37 +11,35 @@
     <ars-fill ars-flex-box [align]="'center'">
       <ars-col ars-flex-box class="fade-in-animation-wrapper" [size]="800" [align]="'flex-start'" [inset]="true">
         <ars-fill></ars-fill>
-        <ars-row ars-flex-box [borderBox]="true" [padding]="[32,16]">
-          <h1
-            [matTooltip]="'live-poll.title-accessibility' | translate"
-            aria-describedby="title-label">
-            <span>{{'live-poll.title' | translate}}</span>
-          </h1>
-        </ars-row>
-        <ars-row ars-flex-box [borderBox]="true" [padding]="[8,16]" *ngFor="let e of list.list">
-          <app-live-poll-entry [value]="e"></app-live-poll-entry>
-        </ars-row>
-        <ars-row ars-flex-box class="fade-in-horizontal-animation-wrapper" [borderBox]="true" [padding]="[64,16]"
-                 [direction]="'row'">
-          <button mat-button aria-describedby="start-label"
-                  style="color:var(--on-primary);background-color:var(--primary);padding:0
-          8px;"
-                  [matTooltip]="'live-poll.start-accessibility' | translate">
-            <mat-icon style="color:var(--on-primary);padding-right:4px;">play_arrow</mat-icon>
-            <span *ngIf="device.isCurrentlyDesktop">{{'live-poll.start' | translate}}</span>
-          </button>
-          <button mat-button aria-describedby="stop-label" style="color:var(--on-surface);padding:0 8px;"
-                  [matTooltip]="'live-poll.stop-accessibility' | translate">
-            <mat-icon style="color:var(--on-surface);padding-right:4px;margin-left:8px;">stop</mat-icon>
-            <span *ngIf="device.isCurrentlyDesktop">{{'live-poll.stop' | translate}}</span>
-          </button>
-          <ars-fill></ars-fill>
-          <button mat-button aria-describedby="compare-label" style="color:var(--on-secondary);background-color:var(--secondary);padding:0 8px;"
-                  [matTooltip]="'live-poll.compare-accessibility' | translate">
-            <mat-icon style="color:var(--on-secondary);padding-right:4px;">poll</mat-icon>
-            <span *ngIf="device.isCurrentlyDesktop">{{'live-poll.compare' | translate}}</span>
-          </button>
-        </ars-row>
+          <ng-container *ngIf="!session"><p>Loading Sessions</p></ng-container>
+          <ng-container *ngIf="session">
+            <ng-container *ngIf="isCreator">
+              <ng-container *ngIf="isCreate">
+                <app-live-poll-create></app-live-poll-create>
+              </ng-container>
+              <ng-container *ngIf="!isCreate">
+                <ng-container *ngIf="session.hasActiveLivePoll"></ng-container>
+                <ng-container *ngIf="!session.hasActiveLivePoll">
+                  <ng-container *ngIf="!session.previousLivePoll&&!session.currentLivePoll">
+                    <h1>You have not created a Live-Poll yet. Do you want to create one?</h1>
+                    <button (click)="createLivePoll()">Create Live-Poll</button>
+                  </ng-container>
+                  <ng-container *ngIf="session.currentLivePoll">
+                    <h1>Latest Live-Poll</h1>
+                  </ng-container>
+                  <ng-container *ngIf="session.previousLivePoll">
+                    <h1>Previous Live-Poll</h1>
+                  </ng-container>
+                </ng-container>
+              </ng-container>
+            </ng-container>
+            <ng-container *ngIf="!isCreator">
+              <ng-container *ngIf="session.hasActiveLivePoll"></ng-container>
+              <ng-container *ngIf="!session.hasActiveLivePoll">
+                <h1>No active Live-Polls. Come back later.</h1>
+              </ng-container>
+            </ng-container>
+          </ng-container>
         <ars-fill></ars-fill>
       </ars-col>
     </ars-fill>
@@ -65,11 +63,12 @@
       </ng-container>
     </ars-row>
   </ars-screen>
+
 </ng-container>
 
 <div class="visually-hidden">
   <div *ngFor="let lbl of ['title','start','stop','compare']"
-       id="{{lbl+'-label'}}">{{('live-poll.'+lbl+'-accessibility') | translate}}</div>
+       id="{{lbl+'-label'}}">{{('live-poll.' + lbl + '-accessibility') | translate}}</div>
 </div>
 
 <!--<mat-icon>sentiment_dissatisfied</mat-icon>-->

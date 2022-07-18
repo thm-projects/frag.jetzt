@@ -143,6 +143,8 @@ import { DeleteAllNotificationsComponent } from './_dialogs/delete-all-notificat
 import { RoomSettingsOverviewComponent } from './_dialogs/room-settings-overview/room-settings-overview.component';
 import { LivePollComponent } from './live-poll/live-poll.component';
 import { LivePollEntryComponent } from './live-poll/live-poll-entry/live-poll-entry.component';
+import { LivePollCreateComponent } from './live-poll/live-poll-create/live-poll-create.component';
+import { LivePollParticipantViewComponent } from './live-poll/view/live-poll-participant-view/live-poll-participant-view.component';
 
 @NgModule({
   imports: [
@@ -238,7 +240,9 @@ import { LivePollEntryComponent } from './live-poll/live-poll-entry/live-poll-en
     DeleteAllNotificationsComponent,
     RoomSettingsOverviewComponent,
     LivePollComponent,
-    LivePollEntryComponent
+    LivePollEntryComponent,
+    LivePollCreateComponent,
+    LivePollParticipantViewComponent
   ],
     exports: [
         RoomJoinComponent,

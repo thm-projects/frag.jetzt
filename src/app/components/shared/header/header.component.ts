@@ -46,6 +46,7 @@ import {DeviceInfoService} from '../../../services/util/device-info.service';
 import {CommentNotificationService} from '../../../services/http/comment-notification.service';
 import {ArsComposeOverlayService} from '../../../../../projects/ars/src/lib/services/ars-compose-overlay.service';
 import {LivePollComponent} from '../live-poll/live-poll.component';
+import {LivePollMockService} from '../../../services/mocks/live-poll-mock.service';
 
 @Component({
   selector: 'app-header',
@@ -93,7 +94,8 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     public deviceInfo: DeviceInfoService,
     private commentNotificationService: CommentNotificationService,
     private arsComposeOverlayService: ArsComposeOverlayService,
-    private applicationRef: ApplicationRef
+    private applicationRef: ApplicationRef,
+    private livePollService: LivePollMockService
   ) {
     this.languageService.getLanguage().subscribe(lang => this.translationService.use(lang));
   }
@@ -353,6 +355,9 @@ export class HeaderComponent implements OnInit, AfterViewInit {
       });
       livePoll.instance.setIntroConfig({
         e:event
+      });
+      livePoll.instance.setSessionData({
+        room: this.room
       });
     });
   }

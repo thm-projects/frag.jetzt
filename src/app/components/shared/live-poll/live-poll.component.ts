@@ -3,6 +3,10 @@ import {ArsLifeCycleVisitor} from '../../../../../projects/ars/src/lib/models/ut
 import {LivePollEntry, LivePollList} from './live-poll-entry/LivePollEntry';
 import {DeviceInfoService} from '../../../services/util/device-info.service';
 import {TranslateService} from '@ngx-translate/core';
+import {LivePollMockService, LivePollSession} from '../../../services/mocks/live-poll-mock.service';
+import {of} from 'rxjs';
+import {RoomService} from '../../../services/http/room.service';
+import {Room} from '../../../models/room';
 
 @Component({
   selector: 'app-live-poll',
@@ -13,27 +17,37 @@ export class LivePollComponent extends ArsLifeCycleVisitor {
 
   @Output() public closeEmitter: EventEmitter<number> = new EventEmitter<number>();
   public isLoaded: boolean = false;
-  public list: LivePollList;
+  public session: LivePollSession;
+  public isCreator: boolean = true;
+  public isCreate: boolean = true;
 
   constructor(
     private changeDetectorRef: ChangeDetectorRef,
     public device: DeviceInfoService,
-    public translate: TranslateService
+    public translate: TranslateService,
+    public livePollSessionService: LivePollMockService,
+    public roomService: RoomService
   ) {
     super();
-    this.onInit(() => {
-      this.list = new LivePollList();
-      'ABCD'.split('').forEach(e => {
-        const entry: LivePollEntry = new LivePollEntry();
-        entry.symbol = e;
-        this.list.list.push(entry);
-      });
-      const interval = setInterval(() => {
-        this.list.list[Math.floor(Math.random() * 4)].value += 1;
-        this.list.sum++;
-        this.list.propagate();
-      }, 800);
-      this.onDestroy(() => clearInterval(interval));
+    // this.onInit(() => {
+    //   this.list = new LivePollList();
+    //   'ABCD'.split('').forEach(e => {
+    //     const entry: LivePollEntry = new LivePollEntry();
+    //     entry.symbol = e;
+    //     this.list.list.push(entry);
+    //   });
+    //   const interval = setInterval(() => {
+    //     this.list.list[Math.floor(Math.random() * 4)].value += 1;
+    //     this.list.sum++;
+    //     this.list.propagate();
+    //   }, 800);
+    //   this.onDestroy(() => clearInterval(interval));
+    // });
+  }
+
+  public setSessionData(options: { room: Room }) {
+    this.livePollSessionService.getSessionData(options.room).subscribe(e=>{
+      this.session=e;
     });
   }
 
@@ -46,7 +60,7 @@ export class LivePollComponent extends ArsLifeCycleVisitor {
         e.left = (options.e.clientX - 32) + 'px';
         e.top = (options.e.clientY - 32) + 'px';
         e.transition = 'all 0.7s cubic-bezier(.87,0,.27,.99)';
-        e.backgroundColor='var(--surface)';
+        e.backgroundColor = 'var(--surface)';
         setTimeout(() => {
           e.width = '100vw';
           e.height = '100vh';
@@ -63,7 +77,14 @@ export class LivePollComponent extends ArsLifeCycleVisitor {
   }
 
   public close() {
-    this.closeEmitter.emit(0);
+    if(this.isCreate){
+      this.isCreate=false;
+    } else{
+      this.closeEmitter.emit(0);
+    }
   }
 
+  public createLivePoll() {
+    this.isCreate=true;
+  }
 }
