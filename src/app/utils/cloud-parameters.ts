@@ -21,10 +21,10 @@ export type CloudWeightSettings = [
 ];
 
 export enum CloudTextStyle {
-  Normal,
-  Lowercase,
-  Capitalized,
-  Uppercase
+  Normal = 'unset',
+  Lowercase = 'lowercase',
+  Capitalized = 'capitalize',
+  Uppercase = 'uppercase',
 }
 
 const colorRegex = /rgba?\((\d+), (\d+), (\d+)(?:, (\d(?:\.\d+)?))?\)/;

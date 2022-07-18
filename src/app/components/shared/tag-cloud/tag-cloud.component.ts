@@ -1,12 +1,6 @@
 import { AfterContentInit, Component, ComponentRef, EventEmitter, OnDestroy, OnInit, ViewChild } from '@angular/core';
 
-import {
-  CloudData,
-  CloudOptions,
-  Position,
-  TagCloudComponent as TCloudComponent,
-  ZoomOnHoverOptions
-} from 'angular-tag-cloud-module';
+import { CloudData, CloudOptions, Position, ZoomOnHoverOptions } from 'angular-tag-cloud-module';
 import { CommentService } from '../../../services/http/comment.service';
 import { LanguageService } from '../../../services/util/language.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -27,10 +21,11 @@ import { CreateCommentWrapper } from '../../../utils/create-comment-wrapper';
 import { TopicCloudAdminService } from '../../../services/util/topic-cloud-admin.service';
 import { TagCloudPopUpComponent } from './tag-cloud-pop-up/tag-cloud-pop-up.component';
 import { TagCloudDataService, TagCloudDataTagEntry } from '../../../services/util/tag-cloud-data.service';
-import { CloudParameters, CloudTextStyle } from '../../../utils/cloud-parameters';
+import { CloudParameters } from '../../../utils/cloud-parameters';
 import { SmartDebounce } from '../../../utils/smart-debounce';
 import { MatDrawer } from '@angular/material/sidenav';
 import { DeviceInfoService } from '../../../services/util/device-info.service';
+import { ActiveWord, WordCloudComponent, WordMeta } from './word-cloud/word-cloud.component';
 import { ArsComposeService } from '../../../../../projects/ars/src/lib/services/ars-compose.service';
 import { HeaderService } from '../../../services/util/header.service';
 import { WorkerConfigDialogComponent } from '../_dialogs/worker-config-dialog/worker-config-dialog.component';
@@ -48,44 +43,26 @@ import { ComponentType } from '@angular/cdk/overlay';
 import { RoomDataService } from '../../../services/util/room-data.service';
 import { FilterType, Period, RoomDataFilter } from '../../../utils/data-filter-object.lib';
 import { maskKeyword } from '../../../services/util/tag-cloud-data.util';
-import { ColorContrast, ColorRGB } from '../../../utils/color-contrast';
 import { FilteredDataAccess } from '../../../utils/filtered-data-access';
-import { forkJoin } from 'rxjs';
+import { forkJoin, Subscription } from 'rxjs';
 
-class CustomPosition implements Position {
-  left: number;
-  top: number;
+class TagComment implements CloudData, WordMeta {
 
-  constructor(public relativeLeft: number,
-              public relativeTop: number) {
-  }
-
-  updatePosition(width: number, height: number, metrics: TextMetrics) {
-    const offsetY = (metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent) / 2;
-    const offsetX = metrics.width / 2;
-    this.left = width * this.relativeLeft - offsetX;
-    this.top = height * this.relativeTop - offsetY;
-  }
-}
-
-class TagComment implements CloudData {
-
-  constructor(public text: string,
-              public realText: string,
-              public rotate: number,
-              public weight: number,
-              public tagData: TagCloudDataTagEntry,
-              public index: number,
-              public color: string = null,
-              public external: boolean = false,
-              public link: string = null,
-              public position: Position = null,
-              public tooltip: string = null) {
+  constructor(
+    public text: string,
+    public realText: string,
+    public rotate: number,
+    public weight: number,
+    public tagData: TagCloudDataTagEntry,
+    public index: number,
+    public color: string = null,
+    public external: boolean = false,
+    public link: string = null,
+    public position: Position = null,
+    public tooltip: string = null
+  ) {
   }
 }
-
-const transformationScaleKiller = /scale\([^)]*\)/;
-const transformationRotationKiller = /rotate\(([^)]*)\)/;
 
 @Component({
   selector: 'app-tag-cloud',
@@ -94,7 +71,7 @@ const transformationRotationKiller = /rotate\(([^)]*)\)/;
 })
 export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
 
-  @ViewChild(TCloudComponent, { static: false }) child: TCloudComponent;
+  @ViewChild(WordCloudComponent, { static: false }) cloud: WordCloudComponent<TagComment>;
   @ViewChild(TagCloudPopUpComponent) popup: TagCloudPopUpComponent;
   @ViewChild(MatDrawer) drawer: MatDrawer;
 
@@ -119,16 +96,13 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
   userRole: UserRole;
   data: TagComment[] = [];
   isLoading = true;
-  themeSubscription = null;
   createCommentWrapper: CreateCommentWrapper = null;
   brainstormingData: BrainstormingSession;
   brainstormingActive: boolean;
   private _currentSettings: CloudParameters;
   private _subscriptionRoom = null;
-  private _calcCanvas: HTMLCanvasElement = null;
-  private _calcRenderContext: CanvasRenderingContext2D = null;
-  private _calcFont: string = null;
   private readonly _smartDebounce = new SmartDebounce(50, 1_000);
+  private themeSubscription: Subscription;
 
   constructor(
     private commentService: CommentService,
@@ -154,8 +128,6 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
       this.translateService.use(lang);
     });
     this._currentSettings = this.getCurrentCloudParameters();
-    this._calcCanvas = document.createElement('canvas');
-    this._calcRenderContext = this._calcCanvas.getContext('2d');
   }
 
   get tagCloudDataManager(): TagCloudDataService {
@@ -166,18 +138,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     return new CloudParameters(this._currentSettings);
   }
 
-  private static invertHex(hexStr: string) {
-    const currentColor: ColorRGB = [
-      parseInt(hexStr.substring(1, 3), 16),
-      parseInt(hexStr.substring(3, 5), 16),
-      parseInt(hexStr.substring(5, 7), 16)
-    ];
-    const [r, g, b] = ColorContrast.getInvertedColor(currentColor);
-    return `#${((r * 256 + g) * 256 + b).toString(16).padStart(6, '0')}`;
-  }
-
   ngOnInit(): void {
-    this.updateGlobalStyles();
     this.dataManager.getData().subscribe(data => {
       if (!data) {
         return;
@@ -227,8 +188,8 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
       }
       this.dataManager.filterObject = filterObj;
     });
-    this.themeSubscription = this.themeService.getTheme().subscribe(() => {
-      if (this.child) {
+    this.themeSubscription = this.themeService.getTheme().subscribe(_ => {
+      if (this.cloud) {
         setTimeout(() => {
           this.setCloudParameters(this.getCurrentCloudParameters(), false);
         }, 1);
@@ -238,7 +199,6 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
 
   ngAfterContentInit() {
     this.initNavigation();
-    this._calcFont = window.getComputedStyle(document.getElementById('tagCloudComponent')).fontFamily;
     this.dataManager.updateDemoData(this.translateService);
     this.setCloudParameters(this.getCurrentCloudParameters(), false);
   }
@@ -263,9 +223,6 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     this.zoomOnHoverOptions.delay = parameters.hoverDelay;
     this.zoomOnHoverOptions.scale = parameters.hoverScale;
     this.zoomOnHoverOptions.transitionTime = parameters.hoverTime;
-    if (updateIntensity >= 1) {
-      this.updateGlobalStyles();
-    }
     if (updateIntensity >= 2) {
       if (!this.dataManager.updateConfig(parameters)) {
         this.rebuildData();
@@ -305,11 +262,12 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     if (!this.canWriteComment()) {
       return;
     }
-    this.createCommentWrapper.openCreateDialog(this.user, this.userRole, this.brainstormingData).subscribe();
+    this.createCommentWrapper.openCreateDialog(this.user, this.userRole,
+      this.brainstormingActive && this.brainstormingData).subscribe();
   }
 
   rebuildData() {
-    if (!this.child || !this.dataManager.currentData) {
+    if (!this.cloud || !this.dataManager.currentData) {
       return;
     }
     const newElements = [];
@@ -324,7 +282,6 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
         this.createTagElement(countFiler, tagData, tag, newElements);
       }
     }
-    this.prepareAlphabeticalCloud(newElements);
     this.data = newElements;
     setTimeout(() => {
       this.updateTagCloud(true);
@@ -333,9 +290,6 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
 
   updateTagCloud(dataUpdated = false) {
     this.isLoading = true;
-    if (this._currentSettings.sortAlphabetically && this.data.length) {
-      this.updateAlphabeticalPosition(this.data);
-    }
     this._smartDebounce.call(() => this.redraw(dataUpdated));
   }
 
@@ -377,19 +331,14 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     return !this.data?.length;
   }
 
-  private prepareAlphabeticalCloud(newElements: TagComment[]) {
-    if (this._currentSettings.sortAlphabetically) {
-      const lines = Math.floor(Math.sqrt(newElements.length - 1) + 1);
-      const divided = Math.floor(newElements.length / lines);
-      let remainder = newElements.length - divided * lines;
-      for (let i = 0, line = 0; line < lines; line++) {
-        const size = divided + (--remainder >= 0 ? 1 : 0);
-        for (let k = 0; k < size; k++, i++) {
-          newElements[i].position = new CustomPosition((k + 1) / (size + 1), (line + 1) / (lines + 1));
-        }
-      }
-      this.updateAlphabeticalPosition(newElements);
-    }
+  enter(word: ActiveWord<TagComment>) {
+    this.popup.enter(word.element, word.meta.text, this.brainstormingActive, word.meta.tagData,
+      (this._currentSettings.hoverTime + this._currentSettings.hoverDelay) * 1_000,
+      this.room && this.room.blacklistActive);
+  }
+
+  leave() {
+    this.popup.leave();
   }
 
   private createTagElement(countFiler: number[], tagData: TagCloudDataTagEntry, tag: string, newElements: TagComment[]) {
@@ -443,20 +392,6 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     this.setCloudParameters(data);
   }
 
-  private updateAlphabeticalPosition(elements: TagComment[]): void {
-    const sizes = new Array(10);
-    const fontRange = (this._currentSettings.fontSizeMax - this._currentSettings.fontSizeMin) / 10;
-    for (let i = 1; i <= 10; i++) {
-      sizes[i - 1] = (this._currentSettings.fontSizeMin + fontRange * i).toFixed(0) + '%';
-    }
-    const width = this.child.calculatedWidth;
-    const height = this.child.calculatedHeight;
-    elements.forEach((e, i) => {
-      this._calcRenderContext.font = sizes[e.tagData.adjustedWeight] + ' ' + this._calcFont;
-      (e.position as CustomPosition).updatePosition(width, height, this._calcRenderContext.measureText(e.text));
-    });
-  }
-
   private initNavigation() {
     const list: ComponentRef<any>[] = this.composeService.builder(this.headerService.getHost(), e => {
       e.menuItem({
@@ -473,13 +408,13 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
         class: 'material-icons-outlined',
         text: 'header.tag-cloud-screenshot',
         callback: () => {
-          if (!this.child?.cloudDataHtmlElements?.length) {
+          if (!this.cloud?.wordCloud) {
             this.translateService.get('tag-cloud.no-elements')
               .subscribe(msg => this.notificationService.show(msg));
             return;
           }
           this.translateService.get('tag-cloud.print-title', { roomName: this.room.name })
-            .subscribe(msg => DOMElementPrinter.printOnce(this.child?.cloudDataHtmlElements[0].parentElement,
+            .subscribe(msg => DOMElementPrinter.printOnce(this.cloud?.wordCloud.nativeElement,
               msg, this._currentSettings.backgroundColor));
         },
         condition: () => true
@@ -521,96 +456,17 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
   }
 
   private redraw(dataUpdate: boolean): void {
-    if (this.child === undefined) {
+    if (this.cloud === undefined) {
       return;
     }
     this.isLoading = false;
     if (!dataUpdate) {
-      this.child.reDraw();
+      this.cloud.redraw();
     }
-    if (this.dataManager.currentData === null) {
-      return;
-    }
-    this.child.cloudDataHtmlElements.forEach((elem, i) => {
-      const dataElement = this.data[i];
-      elem.addEventListener('mouseleave', () => {
-        elem.style.transform = elem.style.transform.replace(transformationScaleKiller, '').trim() +
-          ' rotate(' + (elem.dataset['tempRotation'] || '0deg') + ')';
-        this.popup.leave();
-      });
-      elem.addEventListener('mouseenter', () => {
-        const transformMatch = elem.style.transform.match(transformationRotationKiller);
-        elem.dataset['tempRotation'] = transformMatch ? transformMatch[1] : '0deg';
-        elem.style.transform = elem.style.transform.replace(transformationRotationKiller, '').trim();
-        this.popup.enter(elem, dataElement.realText, this.brainstormingActive, dataElement.tagData,
-          (this._currentSettings.hoverTime + this._currentSettings.hoverDelay) * 1_000,
-          this.room && this.room.blacklistActive);
-      });
-    });
-  }
-
-  private updateGlobalStyles(): void {
-    let customTagCloudStyles = document.getElementById('tagCloudStyles') as HTMLStyleElement;
-    if (!customTagCloudStyles) {
-      customTagCloudStyles = document.createElement('style');
-      customTagCloudStyles.id = 'tagCloudStyles';
-      document.head.appendChild(customTagCloudStyles);
-    }
-    customTagCloudStyles.sheet.disabled = false;
-    const rules = customTagCloudStyles.sheet.cssRules;
-    for (let i = rules.length - 1; i >= 0; i--) {
-      customTagCloudStyles.sheet.deleteRule(i);
-    }
-    let textTransform = '';
-    let plainTextTransform = 'unset';
-    if (this._currentSettings.textTransform === CloudTextStyle.Capitalized) {
-      textTransform = 'text-transform: capitalize;';
-      plainTextTransform = 'capitalize';
-    } else if (this._currentSettings.textTransform === CloudTextStyle.Lowercase) {
-      textTransform = 'text-transform: lowercase;';
-      plainTextTransform = 'lowercase';
-    } else if (this._currentSettings.textTransform === CloudTextStyle.Uppercase) {
-      textTransform = 'text-transform: uppercase;';
-      plainTextTransform = 'uppercase';
-    }
-    customTagCloudStyles.sheet.insertRule('.spacyTagCloud > span, .spacyTagCloud > span > a { ' +
-      textTransform + ' font-family: ' + this._currentSettings.fontFamily + '; ' +
-      'font-size: ' + this._currentSettings.fontSize + '; ' +
-      'font-weight: ' + this._currentSettings.fontWeight + '; ' +
-      'font-style:' + this._currentSettings.fontStyle + '; }');
-    const fontRange = (this._currentSettings.fontSizeMax - this._currentSettings.fontSizeMin) / 10;
-    for (let i = 1; i <= 10; i++) {
-      customTagCloudStyles.sheet.insertRule('.spacyTagCloud > span.w' + i + ', ' +
-        '.spacyTagCloud > span.w' + i + ' > a { ' +
-        'color: ' + this._currentSettings.cloudWeightSettings[i - 1].color + '; ' +
-        'font-size: ' + (this._currentSettings.fontSizeMin + fontRange * i).toFixed(0) + '%; }');
-    }
-    customTagCloudStyles.sheet.insertRule('.spacyTagCloud > span:hover, .spacyTagCloud > span:hover > a { ' +
-      'color: ' + this._currentSettings.fontColor + ' !important; ' +
-      'background-color: ' + this._currentSettings.backgroundColor + '; }');
-    customTagCloudStyles.sheet.insertRule('.spacyTagCloudContainer { ' +
-      'background-color: ' + this._currentSettings.backgroundColor + '; }');
-    const invertedBackground = TagCloudComponent.invertHex(this._currentSettings.backgroundColor);
-    customTagCloudStyles.sheet.insertRule(':root { ' +
-      '--tag-cloud-inverted-background: ' + invertedBackground + ';' +
-      '--tag-cloud-transform: ' + plainTextTransform + ';' +
-      '--tag-cloud-background-color: ' + this._currentSettings.backgroundColor + ';' +
-      '--tag-cloud-font-weight: ' + this._currentSettings.fontWeight + ';' +
-      '--tag-cloud-font-style: ' + this._currentSettings.fontStyle + ';' +
-      '--tag-cloud-font-family: ' + this._currentSettings.fontFamily + '; }');
-    customTagCloudStyles.sheet.insertRule('.header-icons, .header-icons + h2 { ' +
-      'color: var(--tag-cloud-inverted-background) !important; }');
-    customTagCloudStyles.sheet.insertRule('.header .oldtypo-h2, .header .oldtypo-h2 + span { ' +
-      'color: var(--tag-cloud-inverted-background) !important; }');
-    customTagCloudStyles.sheet.insertRule('#footer_rescale {' +
-      'display: none; }');
-    customTagCloudStyles.sheet.insertRule('div.main_container, app-header > mat-toolbar {' +
-      'background-color: var(--tag-cloud-background-color) !important; }');
   }
 
   /**
    * 0 = update nothing,
-   * 1 = update css,
    * 2 = update data
    */
   private calcUpdateIntensity(parameters: CloudParameters): number {
@@ -629,24 +485,6 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
       for (const key of dataWeightUpdates) {
         if (this._currentSettings.cloudWeightSettings[i][key] !== parameters.cloudWeightSettings[i][key]) {
           return 2;
-        }
-      }
-    }
-    return this.checkCssUpdateIntensity(parameters);
-  }
-
-  private checkCssUpdateIntensity(parameters: CloudParameters) {
-    const cssUpdates = ['backgroundColor', 'fontColor'];
-    const cssWeightUpdates = ['color'];
-    for (const key of cssUpdates) {
-      if (this._currentSettings[key] !== parameters[key]) {
-        return 1;
-      }
-    }
-    for (let i = 0; i < 10; i++) {
-      for (const key of cssWeightUpdates) {
-        if (this._currentSettings.cloudWeightSettings[i][key] !== parameters.cloudWeightSettings[i][key]) {
-          return 1;
         }
       }
     }

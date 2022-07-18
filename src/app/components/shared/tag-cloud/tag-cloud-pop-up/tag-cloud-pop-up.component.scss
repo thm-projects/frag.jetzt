@@ -5,6 +5,8 @@ $popup-arrow-border-size: 2px;
 $popup-arrow-half-size: math.div($popup-arrow-size, 2);
 $popup-arrow-offset: $popup-arrow-half-size + $popup-arrow-border-size;
 $header-size: 67px;
+$marginParent: 15px;
+$translateY: $header-size - $marginParent;
 
 .popupContainer {
   visibility: hidden;
@@ -17,7 +19,7 @@ $header-size: 67px;
   box-sizing: border-box;
   z-index: 3;
   color: var(--on-dialog);
-  transform: translateY(-$header-size);
+  transform: translateY(-$translateY);
   min-width: 200px;
   display: flex;
   justify-content: center;
@@ -48,7 +50,7 @@ $header-size: 67px;
 
   &.down {
     visibility: unset;
-    transform: translate(-50%, calc(-100% - #{$header-size + $popup-arrow-offset}));
+    transform: translate(-50%, calc(-100% - #{$translateY + $popup-arrow-offset}));
 
     &::after {
       top: 100%;
@@ -61,7 +63,7 @@ $header-size: 67px;
 
   &.left {
     visibility: unset;
-    transform: translate($popup-arrow-offset, calc(-50% - #{$header-size}));
+    transform: translate($popup-arrow-offset, calc(-50% - #{$translateY}));
 
     &::after {
       top: 50%;
@@ -74,7 +76,7 @@ $header-size: 67px;
 
   &.up {
     visibility: unset;
-    transform: translate(-50%, $popup-arrow-offset - $header-size);
+    transform: translate(-50%, $popup-arrow-offset - $translateY);
 
     &::after {
       bottom: 100%;
@@ -87,7 +89,7 @@ $header-size: 67px;
 
   &.right {
     visibility: unset;
-    transform: translate(calc(-100% - #{$popup-arrow-offset}), calc(-50% - #{$header-size}));
+    transform: translate(calc(-100% - #{$popup-arrow-offset}), calc(-50% - #{$translateY}));
 
     &::after {
       top: 50%;
