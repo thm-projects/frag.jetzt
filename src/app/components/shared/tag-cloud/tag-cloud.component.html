@@ -15,20 +15,12 @@
       <ars-fill ars-flex-box>
         <app-tag-cloud-pop-up [room]="room"></app-tag-cloud-pop-up>
         <app-mat-spinner-overlay *ngIf="isLoading" overlay="true"></app-mat-spinner-overlay>
-        <angular-tag-cloud
-          id="tagCloudComponent"
-          class="spacyTagCloud"
-          (window:resize)="onResize($event)"
-          (clicked)="openTags($event)"
-          [data]="data"
-          [width]="options.width"
-          [height]="options.height"
-          [overflow]="options.overflow"
-          [delay]="currentCloudParameters.delayWord"
-          [randomizeAngle]="false"
-          [zoomOnHover]="zoomOnHoverOptions"
-          [realignOnResize]="false">
-        </angular-tag-cloud>
+        <app-word-cloud [keywords]="data"
+                        [parameters]="currentCloudParameters"
+                        style="flex-grow: 1"
+                        (clicked)="openTags($event)"
+                        (entered)="enter($event)"
+                        (left)="leave()"></app-word-cloud>
         <app-active-user *ngIf="room" [alwaysShowInHeader]="true" [room]="this.room" [top]="120"></app-active-user>
       </ars-fill>
       <button class="start_introduction"

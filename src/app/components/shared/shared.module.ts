@@ -59,6 +59,7 @@ import { DeepLDialogComponent } from './_dialogs/deep-ldialog/deep-ldialog.compo
 import { ExplanationDialogComponent } from './_dialogs/explanation-dialog/explanation-dialog.component';
 import { QuillInputDialogComponent } from './_dialogs/quill-input-dialog/quill-input-dialog.component';
 import { WorkerConfigDialogComponent } from './_dialogs/worker-config-dialog/worker-config-dialog.component';
+import { WordCloudComponent } from './tag-cloud/word-cloud/word-cloud.component';
 import { AccessibilityEscapedInputDirective } from '../../directives/accessibility-escaped-input.directive';
 import {
   QuestionWallIntroComponent
@@ -208,6 +209,7 @@ import { MinuteJumpClockComponent } from './minute-jump-clock/minute-jump-clock.
     ExplanationDialogComponent,
     QuillInputDialogComponent,
     WorkerConfigDialogComponent,
+    WordCloudComponent,
     AccessibilityEscapedInputDirective,
     QuestionWallIntroComponent,
     TopicCloudBrainstormingComponent,

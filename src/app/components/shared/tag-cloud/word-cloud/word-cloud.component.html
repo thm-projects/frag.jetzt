@@ -1,0 +1,7 @@
+<div #wordCloud
+     class="word-cloud"
+     (window:resize)="redraw()"
+     (document:mouseover)="onMouseEvent($event)"
+     (document:mouseout)="onMouseEvent($event)"
+     (document:click)="onMouseEvent($event)">
+</div>
