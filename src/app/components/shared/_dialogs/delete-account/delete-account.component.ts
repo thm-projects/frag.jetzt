@@ -48,9 +48,9 @@ export class DeleteAccountComponent implements OnInit {
     this.liveAnnouncer.clear();
 
     if (lang === 'de') {
-      this.liveAnnouncer.announce('Willst du dein Konto mit allen Sitzungen unwiderruflich löschen?', 'assertive');
+      this.liveAnnouncer.announce('Willst du dein Konto mit allen Räumen unwiderruflich löschen?', 'assertive');
     } else {
-      this.liveAnnouncer.announce('Do you really want to irrevocably delete your account with the associated sessions?', 'assertive');
+      this.liveAnnouncer.announce('Do you really want to irrevocably delete your account with the associated rooms?', 'assertive');
     }
 
   }
