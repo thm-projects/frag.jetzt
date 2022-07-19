@@ -477,7 +477,7 @@
     "a11y-person": "Opens a window to add moderators",
     "a11y-question_answer": "Opens all questions asked about the session",
     "a11y-room-name": "Give the session a new name here.",
-    "a11y-settings": "Opens a window with options to manage sessions, manage questions, and add moderators.",
+    "a11y-settings": "Opens a window with options to manage rooms, manage questions, and add moderators.",
     "a11y-settings-comment-moderation": "Slider to moderate Questions",
     "a11y-settings-direct-send": "Slider to send Questions directly to participant",
     "a11y-threshold": "Slider for setting the threshold for visible questions",
