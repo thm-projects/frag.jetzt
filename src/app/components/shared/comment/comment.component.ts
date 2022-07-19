@@ -95,6 +95,7 @@ export class CommentComponent implements OnInit, AfterViewInit {
   isConversationView: boolean;
   sortMethod = 'Time';
   indentationPossible: boolean;
+  currentDateString = '?';
   readonly COMMENT_MARGIN = 15;
   private _responseMatcher: MediaQueryList;
   private _commentNumber: string[] = [];
@@ -123,6 +124,7 @@ export class CommentComponent implements OnInit, AfterViewInit {
           this.translateService.setTranslation(lang, translation, true);
         });
       this.generateCommentNumber();
+      this.onLanguageChange();
     });
   }
 
@@ -190,6 +192,7 @@ export class CommentComponent implements OnInit, AfterViewInit {
     this.inAnswerView = !this.router.url.includes('comments');
     this.roomTags = this.sessionService.currentRoom?.tags;
     this.room = this.sessionService.currentRoom;
+    this.onLanguageChange();
     this.getResponses();
   }
 
@@ -564,6 +567,23 @@ export class CommentComponent implements OnInit, AfterViewInit {
     return (interaction === 'star' && !this.isStudent && !this.comment.favorite) ||
       (interaction === 'change-tag' && this.roomTags?.length && hasPrivileges) ||
       (interaction === 'delete' && hasPrivileges && !this.comment.favorite);
+  }
+
+  private onLanguageChange() {
+    if (!this.comment) {
+      return;
+    }
+    const date = new Date(this.comment.createdAt);
+    const dateString = date.toLocaleDateString(this.langService.currentLanguage(), {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric'
+    });
+    const timeString = date.toLocaleTimeString(this.langService.currentLanguage(), {
+      minute: '2-digit',
+      hour: '2-digit',
+    });
+    this.readableCommentBody = dateString + ' ' + timeString;
   }
 
   private generateCommentNumber() {
