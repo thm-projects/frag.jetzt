@@ -422,7 +422,6 @@ $width-range: $max-width - $min-width;
     font-size: calc(min(100vw, 800px) - var(--marginLeft));
 
     > p {
-      font-family: 'Roboto', sans-serif;
       font-size: calc(#{$font-range}em / #{$width-range} - #{$max-font-size - math.div($max-width * $font-range, $width-range)}px);
       line-height: normal;
       padding: 0;

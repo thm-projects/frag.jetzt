@@ -139,7 +139,6 @@
       }
 
       &-number {
-        font-family: Roboto, sans-serif;
         font-size: 35px;
         padding-right: 20px;
         font-weight: bold;
@@ -241,7 +240,6 @@
         }
 
         &-user {
-          font-family: Roboto, sans-serif;
           font-size: 18px;
           padding-left: 4px;
           padding-right: 16px;
@@ -249,14 +247,12 @@
         }
 
         &-timestamp {
-          font-family: Roboto, sans-serif;
           font-size: 18px;
           font-weight: 400;
           color: var(--ars-paragraph-color);
         }
 
         &-number {
-          font-family: Roboto, sans-serif;
           font-size: 110px;
           padding-left: 16px;
           font-weight: bold;
