@@ -72,64 +72,64 @@ import {
 } from './_dialogs/introductions/introduction-question-wall/introduction-question-wall.component';
 import {
   IntroductionQuestionWallDEComponent
-} from './_dialogs/introductions/introduction-question-wall/introduction-question-wall-de/introduction-question-wall-de.component';
+} from '../../../assets/i18n/components/_dialogs/introductions/introduction-question-wall/introduction-question-wall-de.component';
 import {
   IntroductionQuestionWallENComponent
-} from './_dialogs/introductions/introduction-question-wall/introduction-question-wall-en/introduction-question-wall-en.component';
+} from '../../../assets/i18n/components/_dialogs/introductions/introduction-question-wall/introduction-question-wall-en.component';
 import {
   IntroductionRoomListComponent
 } from './_dialogs/introductions/introduction-room-list/introduction-room-list.component';
 import {
   IntroductionRoomListDEComponent
-} from './_dialogs/introductions/introduction-room-list/introduction-room-list-de/introduction-room-list-de.component';
+} from '../../../assets/i18n/components/_dialogs/introductions/introduction-room-list/introduction-room-list-de.component';
 import {
   IntroductionRoomListENComponent
-} from './_dialogs/introductions/introduction-room-list/introduction-room-list-en/introduction-room-list-en.component';
+} from '../../../assets/i18n/components/_dialogs/introductions/introduction-room-list/introduction-room-list-en.component';
 import {
   IntroductionRoomPageComponent
 } from './_dialogs/introductions/introduction-room-page/introduction-room-page.component';
 import {
   IntroductionRoomPageDEComponent
-} from './_dialogs/introductions/introduction-room-page/introduction-room-page-de/introduction-room-page-de.component';
+} from '../../../assets/i18n/components/_dialogs/introductions/introduction-room-page/introduction-room-page-de.component';
 import {
   IntroductionRoomPageENComponent
-} from './_dialogs/introductions/introduction-room-page/introduction-room-page-en/introduction-room-page-en.component';
+} from '../../../assets/i18n/components/_dialogs/introductions/introduction-room-page/introduction-room-page-en.component';
 import {
   IntroductionCommentListComponent
 } from './_dialogs/introductions/introduction-comment-list/introduction-comment-list.component';
 import {
   IntroductionCommentListDEComponent
-} from './_dialogs/introductions/introduction-comment-list/introduction-comment-list-de/introduction-comment-list-de.component';
+} from '../../../assets/i18n/components/_dialogs/introductions/introduction-comment-list/introduction-comment-list-de.component';
 import {
   IntroductionCommentListENComponent
-} from './_dialogs/introductions/introduction-comment-list/introduction-comment-list-en/introduction-comment-list-en.component';
+} from '../../../assets/i18n/components/_dialogs/introductions/introduction-comment-list/introduction-comment-list-en.component';
 import {
   IntroductionTagCloudComponent
 } from './_dialogs/introductions/introduction-tag-cloud/introduction-tag-cloud.component';
 import {
   IntroductionTagCloudDEComponent
-} from './_dialogs/introductions/introduction-tag-cloud/introduction-tag-cloud-de/introduction-tag-cloud-de.component';
+} from '../../../assets/i18n/components/_dialogs/introductions/introduction-tag-cloud/introduction-tag-cloud-de.component';
 import {
   IntroductionTagCloudENComponent
-} from './_dialogs/introductions/introduction-tag-cloud/introduction-tag-cloud-en/introduction-tag-cloud-en.component';
+} from '../../../assets/i18n/components/_dialogs/introductions/introduction-tag-cloud/introduction-tag-cloud-en.component';
 import {
   IntroductionBrainstormingComponent
 } from './_dialogs/introductions/introduction-brainstorming/introduction-brainstorming.component';
 import {
   IntroductionBrainstormingDEComponent
-} from './_dialogs/introductions/introduction-brainstorming/introduction-brainstorming-de/introduction-brainstorming-de.component';
+} from '../../../assets/i18n/components/_dialogs/introductions/introduction-brainstorming/introduction-brainstorming-de.component';
 import {
   IntroductionBrainstormingENComponent
-} from './_dialogs/introductions/introduction-brainstorming/introduction-brainstorming-en/introduction-brainstorming-en.component';
+} from '../../../assets/i18n/components/_dialogs/introductions/introduction-brainstorming/introduction-brainstorming-en.component';
 import {
   IntroductionModerationComponent
 } from './_dialogs/introductions/introduction-moderation/introduction-moderation.component';
 import {
   IntroductionModerationDEComponent
-} from './_dialogs/introductions/introduction-moderation/introduction-moderation-de/introduction-moderation-de.component';
+} from '../../../assets/i18n/components/_dialogs/introductions/introduction-moderation/introduction-moderation-de.component';
 import {
   IntroductionModerationENComponent
-} from './_dialogs/introductions/introduction-moderation/introduction-moderation-en/introduction-moderation-en.component';
+} from '../../../assets/i18n/components/_dialogs/introductions/introduction-moderation/introduction-moderation-en.component';
 import {
   CommentNotificationDialogComponent
 } from './_dialogs/comment-notification-dialog/comment-notification-dialog.component';
@@ -145,6 +145,27 @@ import { RoomSettingsOverviewComponent } from './_dialogs/room-settings-overview
 import { AppRatingComponent } from './app-rating/app-rating.component';
 import { AppRatingPopUpComponent } from './_dialogs/app-rating-pop-up/app-rating-pop-up.component';
 import { MinuteJumpClockComponent } from './minute-jump-clock/minute-jump-clock.component';
+import {
+  IntroductionBrainstormingFRComponent
+} from '../../../assets/i18n/components/_dialogs/introductions/introduction-brainstorming/introduction-brainstorming-fr.component';
+import {
+  IntroductionCommentListFRComponent
+} from '../../../assets/i18n/components/_dialogs/introductions/introduction-comment-list/introduction-comment-list-fr.component';
+import {
+  IntroductionModerationFRComponent
+} from '../../../assets/i18n/components/_dialogs/introductions/introduction-moderation/introduction-moderation-fr.component';
+import {
+  IntroductionQuestionWallFRComponent
+} from '../../../assets/i18n/components/_dialogs/introductions/introduction-question-wall/introduction-question-wall-fr.component';
+import {
+  IntroductionRoomListFRComponent
+} from '../../../assets/i18n/components/_dialogs/introductions/introduction-room-list/introduction-room-list-fr.component';
+import {
+  IntroductionRoomPageFRComponent
+} from '../../../assets/i18n/components/_dialogs/introductions/introduction-room-page/introduction-room-page-fr.component';
+import {
+  IntroductionTagCloudFRComponent
+} from '../../../assets/i18n/components/_dialogs/introductions/introduction-tag-cloud/introduction-tag-cloud-fr.component';
 
 @NgModule({
   imports: [
@@ -216,24 +237,31 @@ import { MinuteJumpClockComponent } from './minute-jump-clock/minute-jump-clock.
     IntroductionQuestionWallComponent,
     IntroductionQuestionWallDEComponent,
     IntroductionQuestionWallENComponent,
+    IntroductionQuestionWallFRComponent,
     IntroductionRoomListComponent,
     IntroductionRoomListDEComponent,
     IntroductionRoomListENComponent,
+    IntroductionRoomListFRComponent,
     IntroductionRoomPageComponent,
     IntroductionRoomPageDEComponent,
     IntroductionRoomPageENComponent,
+    IntroductionRoomPageFRComponent,
     IntroductionCommentListComponent,
     IntroductionCommentListDEComponent,
     IntroductionCommentListENComponent,
+    IntroductionCommentListFRComponent,
     IntroductionTagCloudComponent,
     IntroductionTagCloudDEComponent,
     IntroductionTagCloudENComponent,
+    IntroductionTagCloudFRComponent,
     IntroductionBrainstormingComponent,
     IntroductionBrainstormingDEComponent,
     IntroductionBrainstormingENComponent,
+    IntroductionBrainstormingFRComponent,
     IntroductionModerationComponent,
     IntroductionModerationDEComponent,
     IntroductionModerationENComponent,
+    IntroductionModerationFRComponent,
     CommentNotificationDialogComponent,
     ToggleConversationComponent,
     DashboardComponent,

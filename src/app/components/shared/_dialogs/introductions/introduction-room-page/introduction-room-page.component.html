@@ -3,6 +3,7 @@
 <mat-dialog-content tabindex="0">
   <app-introduction-room-page-en *ngIf="languageService.currentLanguage() === 'en'"></app-introduction-room-page-en>
   <app-introduction-room-page-de *ngIf="languageService.currentLanguage() === 'de'"></app-introduction-room-page-de>
+  <app-introduction-room-page-fr *ngIf="languageService.currentLanguage() === 'fr'"></app-introduction-room-page-fr>
 </mat-dialog-content>
 
 <app-dialog-action-buttons

@@ -3,6 +3,7 @@
 <mat-dialog-content tabindex="0">
   <app-introduction-tag-cloud-en *ngIf="languageService.currentLanguage() === 'en'"></app-introduction-tag-cloud-en>
   <app-introduction-tag-cloud-de *ngIf="languageService.currentLanguage() === 'de'"></app-introduction-tag-cloud-de>
+  <app-introduction-tag-cloud-fr *ngIf="languageService.currentLanguage() === 'fr'"></app-introduction-tag-cloud-fr>
 </mat-dialog-content>
 
 <app-dialog-action-buttons

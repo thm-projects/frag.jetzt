@@ -43,17 +43,17 @@ import { ModeratorModule } from './components/moderator/moderator.module';
 import { ImprintComponent } from './components/home/_dialogs/imprint/imprint.component';
 import { DataProtectionComponent } from './components/home/_dialogs/data-protection/data-protection.component';
 import { CookiesComponent } from './components/home/_dialogs/cookies/cookies.component';
-import { DataProtectionEnComponent } from '../assets/i18n/data-protection/data-protection-en';
-import { DataProtectionDeComponent } from '../assets/i18n/data-protection/data-protection-de';
-import { CookiesEnComponent } from '../assets/i18n/cookies/cookies-en';
-import { CookiesDeComponent } from '../assets/i18n/cookies/cookies-de';
-import { ImprintEnComponent } from '../assets/i18n/imprint/imprint-en';
-import { ImprintDeComponent } from '../assets/i18n/imprint/imprint-de';
-import { HelpDeComponent } from '../assets/i18n/help/help-de';
-import { HelpEnComponent } from '../assets/i18n/help/help-en';
+import { DataProtectionEnComponent } from '../assets/i18n/components/data-protection/data-protection-en';
+import { DataProtectionDeComponent } from '../assets/i18n/components/data-protection/data-protection-de';
+import { CookiesEnComponent } from '../assets/i18n/components/cookies/cookies-en';
+import { CookiesDeComponent } from '../assets/i18n/components/cookies/cookies-de';
+import { ImprintEnComponent } from '../assets/i18n/components/imprint/imprint-en';
+import { ImprintDeComponent } from '../assets/i18n/components/imprint/imprint-de';
+import { HelpDeComponent } from '../assets/i18n/components/help/help-de';
+import { HelpEnComponent } from '../assets/i18n/components/help/help-en';
 import { OverlayComponent } from './components/home/_dialogs/overlay/overlay.component';
-import { DemoDeComponent } from '../assets/i18n/demo/demo-de';
-import { DemoEnComponent } from '../assets/i18n/demo/demo-en';
+import { DemoDeComponent } from '../assets/i18n/components/demo/demo-de';
+import { DemoEnComponent } from '../assets/i18n/components/demo/demo-en';
 import { ArsModule } from '../../projects/ars/src/lib/ars.module';
 import { MatIconModule } from '@angular/material/icon';
 import { MatomoModule } from 'ngx-matomo-v9';
@@ -74,11 +74,11 @@ import { MatNativeDateModule } from '@angular/material/core';
 import {
   NotifyUnsupportedBrowserComponent
 } from './components/home/_dialogs/notify-unsupported-browser/notify-unsupported-browser.component';
-import { ImprintFrComponent } from '../assets/i18n/imprint/imprint-fr';
-import { HelpFrComponent } from '../assets/i18n/help/help-fr';
-import { DemoFrComponent } from '../assets/i18n/demo/demo-fr';
-import { DataProtectionFrComponent } from '../assets/i18n/data-protection/data-protection-fr';
-import { CookiesFrComponent } from '../assets/i18n/cookies/cookies-fr';
+import { ImprintFrComponent } from '../assets/i18n/components/imprint/imprint-fr';
+import { HelpFrComponent } from '../assets/i18n/components/help/help-fr';
+import { DemoFrComponent } from '../assets/i18n/components/demo/demo-fr';
+import { DataProtectionFrComponent } from '../assets/i18n/components/data-protection/data-protection-fr';
+import { CookiesFrComponent } from '../assets/i18n/components/cookies/cookies-fr';
 
 export const dialogClose = (dialogResult: any) => '';
 
