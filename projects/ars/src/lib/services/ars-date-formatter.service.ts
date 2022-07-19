@@ -173,8 +173,8 @@ export const arsTimeTranslation = {
       'novembre',
       'décembre'
     ],
-    timeConvert:(date: Date) => 'à '+date.toLocaleString('fr_FR', {hour:'numeric', minute:'numeric', hour12:false}),
-    dateConvert:(date: Date) => `le ${arsTimeTranslation.de.dayTranslation[date.getDay()]}, ${date.getDate()}. ${arsTimeTranslation.de.monthTranslation[date.getMonth()]} ${date.getFullYear()}`,
+    timeConvert:(date: Date) => 'à '+date.toLocaleString('fr-FR', {hour:'numeric', minute:'numeric', hour12:false}),
+    dateConvert:(date: Date) => 'le ' + date.toLocaleString('fr', {weekday: 'long', year: 'numeric', month: 'long', day: '2-digit'}) ,
   },
 
 };
@@ -198,7 +198,7 @@ export class ArsDateMap{
         map.set(i, []));
       return map;
     };
-    ['en', 'de'].forEach(e => this.map.set(e, cmap()));
+    ['en', 'de', 'fr'].forEach(e => this.map.set(e, cmap()));
   }
 
   public add(lang: string, timeUnit: ArsTimeUnit, value: string){
@@ -262,7 +262,7 @@ export class ArsDateFormatter implements OnDestroy{
 
   constructor(){
     this.map = new ArsDateMap();
-    ['en', 'de'].forEach(lang => {
+    ['en', 'de', 'fr'].forEach(lang => {
       for (let timeKey in arsTimeTranslation[lang].time){
         arsTimeTranslation[lang].time[timeKey].split(';').forEach(e => {
           if (e.length <= 0){
@@ -280,6 +280,7 @@ export class ArsDateFormatter implements OnDestroy{
         console.log(approx);
         console.log(this.format(approx,'de'));
         console.log(this.format(approx,'en'));
+        console.log(this.format(approx,'fr'));
       };
     }
   }
