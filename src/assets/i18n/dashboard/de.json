@@ -45,7 +45,7 @@
     "self-CHANGE_FAVORITE_1": "Du hast {{commentTypeInfo}} ins Bonus-Archiv aufgenommen.",
     "self-CHANGE_SCORE+1": "Du hast {{commentTypeInfo}} aufgewertet.",
     "self-CHANGE_SCORE-1": "Du hast {{commentTypeInfo}} abgewertet.",
-    "self-CHANGE_SCORE-reset": "Du hast deine Brwertung von {{commentTypeInfo2}} zurückgenommen.",
+    "self-CHANGE_SCORE-reset": "Du hast deine Bewertung von {{commentTypeInfo2}} zurückgenommen.",
     "self-CHANGE_TAG-change": "Du hast die Kategorie {{commentTypeInfo2}} von »{{tag1}}« auf »{{tag2}}« geändert.",
     "self-CHANGE_TAG-deleted": "Du hast die Kategorie {{commentTypeInfo2}} gelöscht.",
     "self-CHANGE_TAG-new": "Du hast die Kategorie {{commentTypeInfo2}} auf »{{tag}}« gesetzt.",
