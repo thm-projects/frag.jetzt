@@ -547,6 +547,10 @@
     "session-name": "Veranstaltung",
     "session-name-with-key-code-generated": "Wie soll die Veranstaltung heißen?"
   },
+  "title": {
+    "default-title": "frag.jetzt: Fragen sammeln, bewerten und präsentieren.",
+    "attach-title": "frag.jetzt {{attachment}}"
+  },
   "token-validator": {
     "bonus-token-header": "Bonus-Archiv",
     "cant-find-comment": "Es gibt keine Frage mit diesem Bonuscode.",

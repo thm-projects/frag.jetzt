@@ -17,6 +17,7 @@ import {
 import { MatDialog } from '@angular/material/dialog';
 import { DeviceInfoService } from './services/util/device-info.service';
 import { MatomoTrackingService } from './services/util/matomo-tracking.service';
+import { TitleService } from './services/util/title.service';
 
 Quill.register('modules/imageResize', ImageResize);
 
@@ -48,6 +49,7 @@ export class AppComponent implements OnInit {
     private dialog: MatDialog,
     private deviceInfo: DeviceInfoService,
     private matomoTrackingService: MatomoTrackingService,
+    private titleService: TitleService,
   ) {
     customIconService.init();
     this.translationService.setDefaultLang(this.languageService.currentLanguage());
