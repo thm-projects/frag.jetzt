@@ -547,6 +547,10 @@
     "session-name": "Event name",
     "session-name-with-key-code-generated": "What should the event be called?"
   },
+  "title": {
+    "default-title": "frag.jetzt: Collect, evaluate and present questions.",
+    "attach-title": "frag.jetzt {{attachment}}"
+  },
   "token-validator": {
     "bonus-token-header": "Bonus archive",
     "cant-find-comment": "There is no question with this bonus code.",
