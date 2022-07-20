@@ -3,6 +3,7 @@
 <mat-dialog-content tabindex="0">
   <app-introduction-moderation-en *ngIf="languageService.currentLanguage() === 'en'"></app-introduction-moderation-en>
   <app-introduction-moderation-de *ngIf="languageService.currentLanguage() === 'de'"></app-introduction-moderation-de>
+  <app-introduction-moderation-fr *ngIf="languageService.currentLanguage() === 'fr'"></app-introduction-moderation-fr>
 </mat-dialog-content>
 
 <app-dialog-action-buttons

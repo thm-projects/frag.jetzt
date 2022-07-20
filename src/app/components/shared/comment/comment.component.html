@@ -25,14 +25,9 @@
     <div fxLayout="row"
          class="comment-actions">
       <div class="date-container">
-        <div class="date"
-             *ngIf="language === 'de'; else englishDate">
-          {{comment.createdAt | date: ' dd.MM.yy HH:mm '}}
+        <div class="date">
+          {{ readableCommentBody }}
         </div>
-        <ng-template class="date"
-                     #englishDate>
-          {{comment.createdAt | date: ' M/d/yy h:mm a '}}
-        </ng-template>
       </div>
       <button mat-icon-button
               *ngIf="comment.read"
