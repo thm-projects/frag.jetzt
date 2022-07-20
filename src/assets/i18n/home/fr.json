@@ -548,7 +548,7 @@
     "session-name-with-key-code-generated": "Quel doit être le nom de l'événement ?"
   },
   "title": {
-    "default-title": "frag.jetzt: Collecter, évaluer et présenter des questions.",
+    "default-title": "frag.jetzt : Collecter, évaluer et présenter des questions",
     "attach-title": "frag.jetzt {{attachment}}"
   },
   "token-validator": {

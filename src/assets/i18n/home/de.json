@@ -548,7 +548,7 @@
     "session-name-with-key-code-generated": "Wie soll die Veranstaltung heißen?"
   },
   "title": {
-    "default-title": "frag.jetzt: Fragen sammeln, bewerten und präsentieren.",
+    "default-title": "frag.jetzt: Fragen sammeln, bewerten und präsentieren",
     "attach-title": "frag.jetzt {{attachment}}"
   },
   "token-validator": {
