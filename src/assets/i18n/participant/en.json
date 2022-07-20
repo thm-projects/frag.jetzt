@@ -288,6 +288,7 @@
     "votingTitle": "Rate a question"
   },
   "question-wall": {
+    "introduction": "Introduction",
     "auto-renew-off": "Exit autofocus for new questions",
     "auto-renew-off-icon": "cancel",
     "auto-renew-on": "Start autofocus for new questions",

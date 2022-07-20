@@ -1,13 +1,23 @@
 <p>
-  Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
-  sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.
+  The screencast shows you the following use cases:
 </p>
+
+<ol>
+  <li>Show QR code</li>
+  <li>Turn autofocus on and off</li>
+  <li>Scale focused question</li>
+  <li>Show and hide question list</li>
+  <li>Sort and hide question list</li>
+  <li>Navigate question list</li>
+</ol>
+
+<p>(work in progress)</p>
 
 <div class="videoWrapper">
   <iframe allowfullscreen
           height="315"
           width="560"
-          src="https://www.youtube.com/embed/ScMzIvxBSi4?autoplay=0"
+          [src]="sanitizer.trust('https://www.youtube.com/embed/ScMzIvxBSi4?autoplay=0')"
           tabindex="0"
           title="Placeholder video"
   ></iframe>

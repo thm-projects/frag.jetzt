@@ -288,6 +288,7 @@
     "votingTitle": "Evaluer une question"
   },
   "question-wall": {
+    "introduction": "Introduction",
     "auto-renew-off": "Arrêter la mise au point automatique pour les nouvelles questions",
     "auto-renew-off-icon": "close",
     "auto-renew-on": "Démarrer la mise au point automatique pour les nouvelles questions",

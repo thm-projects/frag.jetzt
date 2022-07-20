@@ -1,13 +1,23 @@
 <p>
-  Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
-  sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.
+  Der Screencast zeigt dir die folgenden Use Cases:
 </p>
+
+<ol>
+  <li>QR-Code ein- und ausblenden</li>
+  <li>Autofokus ein- und ausschalten</li>
+  <li>Fokussierte Frage skalieren</li>
+  <li>Fragenliste ein- und ausblenden</li>
+  <li>Fragenliste sortieren und filtern</li>
+  <li>Durch die Fragenliste navigieren</li>
+</ol>
+
+<p>(in Arbeit)</p>
 
 <div class="videoWrapper">
   <iframe allowfullscreen
           height="315"
           width="560"
-          src="https://www.youtube.com/embed/ScMzIvxBSi4?autoplay=0"
+          [src]="sanitizer.trust('https://www.youtube.com/embed/ScMzIvxBSi4?autoplay=0')"
           tabindex="0"
           title="Placeholder video"
   ></iframe>
