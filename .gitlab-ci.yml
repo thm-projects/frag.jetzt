@@ -95,9 +95,6 @@ ngbuild:
     - install
   needs:
     - install
-    - e2e_cypress
-    - unit_tests
-    - eslint
   script:
     - ng build --configuration production --aot
   artifacts:

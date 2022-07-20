@@ -207,12 +207,15 @@ export class ArsDateMap{
 
   public format(i: ArsApproximateDate, lang: string): string{
     const list: ArsDateMapEntry[] = this.map.get(lang).get(i.unit);
-    for (let x = 0; x < list.length; x++){
-      if (list[x].test(i)){
-        return list[x].text;
+    if (!list) {
+      return 'N/A';
+    }
+    for (const element of list) {
+      if (element.test(i)) {
+        return element.text;
       }
     }
-    return '';
+    return 'N/A';
   }
 
 }
@@ -297,11 +300,11 @@ export class ArsDateFormatter implements OnDestroy{
    */
   public approximateDate(date: Date): ArsApproximateDate{
     const s = Math.floor((new Date().getTime() - date.getTime()) / 1000);
-    const toTime = b => Math.round(s / b);
+    const toTime = b => Math.floor(s / b);
     const test = ['YEAR', 'MONTH', 'DAY', 'HOUR', 'MINUTE', 'SECOND']
       .map<[string, number]>(x => [x, toTime(ArsTimeSecConversion[x])])
       .filter(x => x[1] > 0)
-      .sort(x => x[1]);
+      .sort((a, b) => a[1] - b[1]);
     if (!test || !test.length) {
       return {
         date: date,

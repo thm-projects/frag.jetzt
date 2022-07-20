@@ -55,6 +55,8 @@ interface StyleDeclarations {
   weights: number[];
 }
 
+const TO_RAD = 2 * Math.PI / 360;
+
 @Component({
   selector: 'app-word-cloud',
   templateUrl: './word-cloud.component.html',
@@ -92,27 +94,6 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
   }
 
   ngOnInit() {
-    this._cssStyleElement = this.renderer2.createElement('style');
-    this._cssStyleElement.id = 'tagCloudStyles';
-    this.renderer2.appendChild(document.head, this._cssStyleElement);
-    const sheet = this._cssStyleElement.sheet;
-    this._styleIndexes = {
-      root: sheet.insertRule(':root {}', sheet.cssRules.length),
-      weights: [],
-    };
-    sheet.insertRule('.spacyTagCloudContainer { background-color: var(--tag-cloud-background-color, unset); }',
-      sheet.cssRules.length);
-    sheet.insertRule('.header-icons, .header-icons + h2, .userActivityTxt, app-header mat-icon, app-header h2 { ' +
-      'color: var(--tag-cloud-inverted-background) !important; }',
-      sheet.cssRules.length);
-    sheet.insertRule('.userActivityIcon { background-color: var(--tag-cloud-inverted-background) !important; }', sheet.cssRules.length);
-    sheet.insertRule('.header .oldtypo-h2, .header .oldtypo-h2 + span { ' +
-      'color: var(--tag-cloud-inverted-background) !important; }', sheet.cssRules.length);
-    sheet.insertRule('#footer_rescale { display: none !important; }', sheet.cssRules.length);
-    sheet.insertRule('div.main_container, app-header > .mat-toolbar { ' +
-      'background-color: var(--tag-cloud-background-color) !important; color: var(--tag-cloud-inverted-background) !important; }',
-      sheet.cssRules.length);
-    this.updateStyles();
   }
 
   ngOnDestroy() {
@@ -120,17 +101,17 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes.keywords) {
-      this.redraw();
-    }
     if (changes.parameters) {
       this.updateParameters(changes.parameters.previousValue);
+    }
+    if (changes.keywords) {
+      this.redraw();
     }
   }
 
   updateParameters(previousValue: CloudParameters) {
     if (this._cssStyleElement === undefined) {
-      return;
+      this.initCSSElement();
     }
     if (this.needsRedraw(previousValue)) {
       this.updateStyles();
@@ -141,7 +122,7 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
   }
 
   needsRedraw(previous: CloudParameters): boolean {
-    if (previous === null) {
+    if (previous === null || previous === undefined) {
       return true;
     }
     const current = this.parameters;
@@ -363,8 +344,9 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
       const width = parseFloat(computedElem.width) + parseFloat(computedElem.paddingLeft) + parseFloat(computedElem.paddingRight);
       const height = parseFloat(computedElem.height) + parseFloat(computedElem.paddingTop) + parseFloat(computedElem.paddingBottom);
       this._minHeight = this._minHeight === null || this._minHeight > height ? height : this._minHeight;
-      const cos = Math.cos(word.meta.rotate);
-      const sin = Math.sin(word.meta.rotate);
+      const rot = word.meta.rotate * TO_RAD;
+      const cos = Math.cos(rot);
+      const sin = Math.sin(rot);
       const halfW = width / 2;
       const halfH = height / 2;
       word.buildInformation.position = {
@@ -407,6 +389,29 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
     for (const elem of toDeleteElement) {
       elem.remove();
     }
+  }
+
+  private initCSSElement() {
+    this._cssStyleElement = this.renderer2.createElement('style');
+    this._cssStyleElement.id = 'tagCloudStyles';
+    this.renderer2.appendChild(document.head, this._cssStyleElement);
+    const sheet = this._cssStyleElement.sheet;
+    this._styleIndexes = {
+      root: sheet.insertRule(':root {}', sheet.cssRules.length),
+      weights: [],
+    };
+    sheet.insertRule('.spacyTagCloudContainer { background-color: var(--tag-cloud-background-color, unset); }',
+      sheet.cssRules.length);
+    sheet.insertRule('.header-icons, .header-icons + h2, .userActivityTxt, app-header mat-icon, app-header h2 { ' +
+      'color: var(--tag-cloud-inverted-background) !important; }',
+      sheet.cssRules.length);
+    sheet.insertRule('.userActivityIcon { background-color: var(--tag-cloud-inverted-background) !important; }', sheet.cssRules.length);
+    sheet.insertRule('.header .oldtypo-h2, .header .oldtypo-h2 + span { ' +
+      'color: var(--tag-cloud-inverted-background) !important; }', sheet.cssRules.length);
+    sheet.insertRule('#footer_rescale { display: none !important; }', sheet.cssRules.length);
+    sheet.insertRule('div.main_container, app-header > .mat-toolbar { ' +
+      'background-color: var(--tag-cloud-background-color) !important; color: var(--tag-cloud-inverted-background) !important; }',
+      sheet.cssRules.length);
   }
 
   private doDraw(parentElement: HTMLDivElement, parentWidth: number, parentHeight: number) {
