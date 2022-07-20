@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SessionService } from '../../../../../../app/services/util/session.service';
-import { DomSanitizer } from '@angular/platform-browser';
+import { CachedSanitizerService } from '../../../../../../app/services/util/cached-sanitizer.service';
 
 @Component({
   selector: 'app-introduction-tag-cloud-fr',
@@ -11,12 +11,8 @@ export class IntroductionTagCloudFRComponent implements OnInit {
 
   constructor(
     public sessionInfo: SessionService,
-    private domSanitizer: DomSanitizer,
+    public sanitizer: CachedSanitizerService,
   ) {
-  }
-
-  trust(url: string) {
-    return this.domSanitizer.bypassSecurityTrustResourceUrl(url);
   }
 
   ngOnInit(): void {
