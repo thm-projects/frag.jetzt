@@ -4,7 +4,7 @@ import {LivePollEntry} from './LivePollEntry';
 @Component({
   selector: 'app-live-poll-entry',
   templateUrl: './live-poll-entry.component.html',
-  styleUrls: ['./live-poll-entry.component.scss']
+  styleUrls: ['../live-poll.component.scss']
 })
 export class LivePollEntryComponent implements OnInit {
 

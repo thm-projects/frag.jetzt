@@ -1,10 +1,8 @@
 import {ChangeDetectorRef, Component, EventEmitter, Output} from '@angular/core';
 import {ArsLifeCycleVisitor} from '../../../../../projects/ars/src/lib/models/util/ars-life-cycle-visitor';
-import {LivePollEntry, LivePollList} from './live-poll-entry/LivePollEntry';
 import {DeviceInfoService} from '../../../services/util/device-info.service';
 import {TranslateService} from '@ngx-translate/core';
 import {LivePollMockService, LivePollSession} from '../../../services/mocks/live-poll-mock.service';
-import {of} from 'rxjs';
 import {RoomService} from '../../../services/http/room.service';
 import {Room} from '../../../models/room';
 
@@ -29,25 +27,11 @@ export class LivePollComponent extends ArsLifeCycleVisitor {
     public roomService: RoomService
   ) {
     super();
-    // this.onInit(() => {
-    //   this.list = new LivePollList();
-    //   'ABCD'.split('').forEach(e => {
-    //     const entry: LivePollEntry = new LivePollEntry();
-    //     entry.symbol = e;
-    //     this.list.list.push(entry);
-    //   });
-    //   const interval = setInterval(() => {
-    //     this.list.list[Math.floor(Math.random() * 4)].value += 1;
-    //     this.list.sum++;
-    //     this.list.propagate();
-    //   }, 800);
-    //   this.onDestroy(() => clearInterval(interval));
-    // });
   }
 
   public setSessionData(options: { room: Room }) {
-    this.livePollSessionService.getSessionData(options.room).subscribe(e=>{
-      this.session=e;
+    this.livePollSessionService.getSessionData(options.room).subscribe(e => {
+      this.session = e;
     });
   }
 
@@ -77,14 +61,14 @@ export class LivePollComponent extends ArsLifeCycleVisitor {
   }
 
   public close() {
-    if(this.isCreate){
-      this.isCreate=false;
-    } else{
+    if (this.isCreate) {
+      this.isCreate = false;
+    } else {
       this.closeEmitter.emit(0);
     }
   }
 
   public createLivePoll() {
-    this.isCreate=true;
+    this.isCreate = true;
   }
 }

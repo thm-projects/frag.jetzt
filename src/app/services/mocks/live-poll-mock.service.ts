@@ -9,7 +9,7 @@ export declare type LivePollSymbolType='ascii'|'materialIcon';
 export const predefinedSymbolSets: [string, LivePollSymbolSet][] = [
   ['letter',{type:'ascii',symbol:'ABCD'.split('')}],
   ['number',{type:'ascii',symbol:'1234'.split('')}],
-  ['sentiment',{type:'materialIcon',symbol:['sentiment_satisfied','sentiment_very_satisfied','sentiment_dissatisfied','sentiment_neutral']}]
+  ['sentiment',{type:'materialIcon',symbol:['sentiment_very_satisfied','sentiment_satisfied','sentiment_neutral','sentiment_dissatisfied']}]
 ];
 
 export interface LivePollSymbolSet {

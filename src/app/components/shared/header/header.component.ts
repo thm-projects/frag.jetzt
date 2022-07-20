@@ -346,15 +346,16 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   }
 
   public openLivePoll(event: MouseEvent){
-    const app: AppComponent=this.applicationRef.components[0].instance;
-    const ref=this.arsComposeOverlayService.open(app.getViewContainerRef());
-    ref.instance.onAfterViewInit(()=>{
-      const livePoll: ComponentRef<LivePollComponent>=ref.instance.host.viewContainerRef.createComponent(LivePollComponent);
-      livePoll.instance.closeEmitter.subscribe(i=>{
+    /*TODO preventdefault on double click*/
+    const app: AppComponent = this.applicationRef.components[0].instance;
+    const ref = this.arsComposeOverlayService.open(app.getViewContainerRef());
+    ref.instance.onAfterViewInit(() => {
+      const livePoll: ComponentRef<LivePollComponent> = ref.instance.host.viewContainerRef.createComponent(LivePollComponent);
+      livePoll.instance.closeEmitter.subscribe(i => {
         ref.destroy();
       });
       livePoll.instance.setIntroConfig({
-        e:event
+        e: event
       });
       livePoll.instance.setSessionData({
         room: this.room

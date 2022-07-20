@@ -1,4 +1,5 @@
 import {AfterViewInit, Directive, ElementRef, Input, OnInit, Renderer2} from '@angular/core';
+import {ArsLayoutAlignment} from "../../../../models/types/ArsTypedef";
 
 
 @Directive({
@@ -6,7 +7,7 @@ import {AfterViewInit, Directive, ElementRef, Input, OnInit, Renderer2} from '@a
 })
 export class WrapperDirective implements OnInit, AfterViewInit {
 
-  @Input() align: string = 'space-between';
+  @Input() align: ArsLayoutAlignment|string = 'space-between';
   @Input() borderBox: boolean = false;
   @Input() padding: number[]|number = null;
   @Input() direction: string = null;

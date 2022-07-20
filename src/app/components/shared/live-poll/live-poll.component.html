@@ -5,41 +5,45 @@
   <ars-screen ars-flex-box class="livePoll-main">
     <ars-row ars-flex-box [borderBox]="true" [padding]="8">
       <button mat-icon-button (click)="close()">
-        <mat-icon style="color:var(--on-surface);">arrow_back</mat-icon>
+        <mat-icon class="colors-foreground">arrow_back</mat-icon>
       </button>
     </ars-row>
     <ars-fill ars-flex-box [align]="'center'">
       <ars-col ars-flex-box class="fade-in-animation-wrapper" [size]="800" [align]="'flex-start'" [inset]="true">
         <ars-fill></ars-fill>
-          <ng-container *ngIf="!session"><p>Loading Sessions</p></ng-container>
-          <ng-container *ngIf="session">
-            <ng-container *ngIf="isCreator">
-              <ng-container *ngIf="isCreate">
-                <app-live-poll-create></app-live-poll-create>
-              </ng-container>
-              <ng-container *ngIf="!isCreate">
-                <ng-container *ngIf="session.hasActiveLivePoll"></ng-container>
-                <ng-container *ngIf="!session.hasActiveLivePoll">
-                  <ng-container *ngIf="!session.previousLivePoll&&!session.currentLivePoll">
+        <ng-container *ngIf="!session"><p>Loading Sessions</p></ng-container>
+        <ng-container *ngIf="session">
+          <ng-container *ngIf="isCreator">
+            <ng-container *ngIf="isCreate">
+              <app-live-poll-create></app-live-poll-create>
+            </ng-container>
+            <ng-container *ngIf="!isCreate">
+              <ng-container *ngIf="session.hasActiveLivePoll"></ng-container>
+              <ng-container *ngIf="!session.hasActiveLivePoll">
+                <ng-container *ngIf="!session.previousLivePoll&&!session.currentLivePoll">
+                  <ars-row>
                     <h1>You have not created a Live-Poll yet. Do you want to create one?</h1>
+                  </ars-row>
+                  <ars-row>
                     <button (click)="createLivePoll()">Create Live-Poll</button>
-                  </ng-container>
-                  <ng-container *ngIf="session.currentLivePoll">
-                    <h1>Latest Live-Poll</h1>
-                  </ng-container>
-                  <ng-container *ngIf="session.previousLivePoll">
-                    <h1>Previous Live-Poll</h1>
-                  </ng-container>
+                  </ars-row>
+                </ng-container>
+                <ng-container *ngIf="session.currentLivePoll">
+                  <h1>Latest Live-Poll</h1>
+                </ng-container>
+                <ng-container *ngIf="session.previousLivePoll">
+                  <h1>Previous Live-Poll</h1>
                 </ng-container>
               </ng-container>
             </ng-container>
-            <ng-container *ngIf="!isCreator">
-              <ng-container *ngIf="session.hasActiveLivePoll"></ng-container>
-              <ng-container *ngIf="!session.hasActiveLivePoll">
-                <h1>No active Live-Polls. Come back later.</h1>
-              </ng-container>
+          </ng-container>
+          <ng-container *ngIf="!isCreator">
+            <ng-container *ngIf="session.hasActiveLivePoll"></ng-container>
+            <ng-container *ngIf="!session.hasActiveLivePoll">
+              <h1>No active Live-Polls. Come back later.</h1>
             </ng-container>
           </ng-container>
+        </ng-container>
         <ars-fill></ars-fill>
       </ars-col>
     </ars-fill>
@@ -49,7 +53,7 @@
         'lock','schedule','language','help_outline'
         ]">
         <button mat-icon-button (click)="close()">
-          <mat-icon style="color:var(--on-surface);">{{x}}</mat-icon>
+          <mat-icon class="colors-foreground">{{x}}</mat-icon>
         </button>
       </ng-container>
       <ars-fill></ars-fill>
@@ -58,7 +62,7 @@
         'lock','schedule','language','help_outline'
         ]">
         <button mat-icon-button (click)="close()">
-          <mat-icon style="color:var(--on-surface);">{{x}}</mat-icon>
+          <mat-icon class="colors-foreground">{{x}}</mat-icon>
         </button>
       </ng-container>
     </ars-row>

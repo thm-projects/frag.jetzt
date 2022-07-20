@@ -26,7 +26,8 @@
     <span *ngIf="device.isCurrentlyDesktop">{{'live-poll.stop' | translate}}</span>
   </button>
   <ars-fill></ars-fill>
-  <button mat-button aria-describedby="compare-label" style="color:var(--on-secondary);background-color:var(--secondary);padding:0 8px;"
+  <button mat-button aria-describedby="compare-label"
+          style="color:var(--on-secondary);background-color:var(--secondary);padding:0 8px;"
           [matTooltip]="'live-poll.compare-accessibility' | translate">
     <mat-icon style="color:var(--on-secondary);padding-right:4px;">poll</mat-icon>
     <span *ngIf="device.isCurrentlyDesktop">{{'live-poll.compare' | translate}}</span>

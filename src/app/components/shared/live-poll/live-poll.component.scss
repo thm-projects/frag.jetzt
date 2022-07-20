@@ -1,4 +1,37 @@
 :host {
+  .colors {
+    &-foreground {
+      color: var(--on-surface);
+    }
+  }
+
+  .livePoll {
+    &-button {
+      color: var(--on-secondary);
+      background-color: var(--secondary);
+      padding: 0 8px;
+
+      mat-icon {
+        color: var(--on-secondary);
+        padding-right: 4px;
+      }
+    }
+
+    &-entry {
+      border-radius: 8px;
+      box-shadow: inset 0px 0px 0px 1px rgba(0, 0, 0, 0.1);
+
+      &-bar {
+        height: calc(100% - 16px);
+        margin-top: 8px;
+        max-width: 100%;
+        transition: all 0.2s ease-in-out;
+        background-color: var(--primary);
+        border-radius: 8px;
+      }
+    }
+  }
+
   #livePollExpander {
     width: 64px;
     height: 64px;
@@ -6,17 +39,21 @@
     position: fixed;
     border-radius: 32px;
     z-index: 2;
-    box-shadow:0px 16px 32px rgba(0,0,0,0.1);
+    box-shadow: 0px 16px 32px rgba(0, 0, 0, 0.1);
   }
-  .livePoll-main{
+
+  .livePoll-main {
     background-color: var(--surface);
   }
-  .fade-in-animation-wrapper{
-    animation:fade-wrap-animation 0.2s;
+
+  .fade-in-animation-wrapper {
+    animation: fade-wrap-animation 0.2s;
+
     > ars-row {
-      position:relative;
+      position: relative;
     }
   }
+
   @for $i from 1 through 10 {
     .fade-in-animation-wrapper ars-row:nth-child(#{$i}n) {
       animation: fade-in-animation 0.2s ease-in-out both;
@@ -29,33 +66,33 @@
       animation-delay: #{($i * 0.2) + 1.5}s;
     }
   }
-  @keyframes fade-in-animation{
-    from{
-      opacity:0;
-      top:64px;
+  @keyframes fade-in-animation {
+    from {
+      opacity: 0;
+      top: 64px;
     }
-    to{
-      opacity:1;
-      top:0px;
-    }
-  }
-  @keyframes fade-wrap-animation{
-    0%{
-      overflow:hidden;
-    }
-    99%{
-      overflow:hidden;
-    }
-    to{
-      overflow:auto;
+    to {
+      opacity: 1;
+      top: 0px;
     }
   }
-  @keyframes fade-in-horizontal-animation{
-    from{
-      opacity:0;
+  @keyframes fade-wrap-animation {
+    0% {
+      overflow: hidden;
     }
-    to{
-      opacity:1;
+    99% {
+      overflow: hidden;
+    }
+    to {
+      overflow: auto;
+    }
+  }
+  @keyframes fade-in-horizontal-animation {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
     }
   }
 

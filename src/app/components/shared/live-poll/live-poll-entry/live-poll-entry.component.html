@@ -1,17 +1,19 @@
-<ars-row ars-flex-box [size]="64">
+<ars-row ars-flex-box [size]="64" class="livePoll-entry" #entry_w>
   <ars-col [size]="64">
-    <p style="color:var(--on-surface);font-size:32px;padding:0;margin:12px 0;">{{value.symbol}}</p>
+    <ng-container *ngIf="value.type==='materialIcon'">
+      <mat-icon
+        style="color:var(--on-surface);font-size:32px;padding-top:16px;padding-left:16px;">{{value.symbol}}</mat-icon>
+    </ng-container>
+    <ng-container *ngIf="value.type==='ascii'">
+      <p style="color:var(--on-surface);font-size:32px;margin:12px 0;padding: 0 0 0 22px;">{{value.symbol}}</p>
+    </ng-container>
   </ars-col>
   <ars-fill>
-    <ars-col [ngStyle]="{
+    <ars-col class="livePoll-entry-bar" [ngStyle]="{
     'width.px':(value.value > 0
-      ? (value.value / value.sum) * ( this.ref.nativeElement.offsetWidth - 64 )
+      ? (value.value / value.sum) * ( entry_w.ref.nativeElement.offsetWidth )
       : 5
-    ),
-    'max-width':'100%',
-    'transition':'all 0.2s ease-in-out',
-    'background-color':'var(--primary)',
-    'border-radius': '5px'
+    )
     }"></ars-col>
   </ars-fill>
 </ars-row>
