@@ -301,7 +301,7 @@ export class ArsDateFormatter implements OnDestroy{
     const test = ['YEAR', 'MONTH', 'DAY', 'HOUR', 'MINUTE', 'SECOND']
       .map<[string, number]>(x => [x, toTime(ArsTimeSecConversion[x])])
       .filter(x => x[1] > 0)
-      .sort(x => x[1]);
+      .sort((a, b) => a[1] - b[1]);
     if (!test || !test.length) {
       return {
         date: date,

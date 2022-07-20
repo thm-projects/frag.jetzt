@@ -1,6 +1,6 @@
 import { AfterContentInit, Component, ComponentRef, EventEmitter, OnDestroy, OnInit, ViewChild } from '@angular/core';
 
-import { CloudData, CloudOptions, Position, ZoomOnHoverOptions } from 'angular-tag-cloud-module';
+import { CloudOptions, ZoomOnHoverOptions } from 'angular-tag-cloud-module';
 import { CommentService } from '../../../services/http/comment.service';
 import { LanguageService } from '../../../services/util/language.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -46,7 +46,7 @@ import { maskKeyword } from '../../../services/util/tag-cloud-data.util';
 import { FilteredDataAccess } from '../../../utils/filtered-data-access';
 import { forkJoin, Subscription } from 'rxjs';
 
-class TagComment implements CloudData, WordMeta {
+class TagComment implements WordMeta {
 
   constructor(
     public text: string,
@@ -55,11 +55,6 @@ class TagComment implements CloudData, WordMeta {
     public weight: number,
     public tagData: TagCloudDataTagEntry,
     public index: number,
-    public color: string = null,
-    public external: boolean = false,
-    public link: string = null,
-    public position: Position = null,
-    public tooltip: string = null
   ) {
   }
 }
@@ -293,7 +288,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     this._smartDebounce.call(() => this.redraw(dataUpdated));
   }
 
-  openTags(tag: CloudData): void {
+  openTags(tag: WordMeta): void {
     if (this.brainstormingActive || this.dataManager.demoActive) {
       return;
     }
