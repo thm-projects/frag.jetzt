@@ -30,56 +30,9 @@ import { HeaderService } from '../../../../services/util/header.service';
 interface CommentCache {
   [commentId: string]: {
     old: boolean;
-    timeAgo: string;
     date: Date;
   };
 }
-
-const TIME_FORMAT_DE: [string, string][] =
-  [
-    ['vor % Jahr', 'vor % Jahren'],
-    ['vor % Monat', 'vor % Monaten'],
-    ['vor % Tag', 'vor % Tagen'],
-    ['vor % Stunde', 'vor % Stunden'],
-    ['vor % Minute', 'vor % Minuten'],
-    ['vor % Sekunde', 'vor % Sekunden']
-  ];
-
-const TIME_FORMAT_EN: [string, string][] = [
-  ['% year ago', '% years ago'],
-  ['% month ago', '% months ago'],
-  ['% day ago', '% days ago'],
-  ['% hour ago', '% hours ago'],
-  ['% minute ago', '% minutes ago'],
-  ['% second ago', '% seconds ago'],
-];
-
-let currentTimeFormat: [string, string][] = TIME_FORMAT_EN;
-
-const calcTime = (time: number, format: [string, string]): string => {
-  if (time < 1) {
-    return null;
-  }
-  return format[time === 1 ? 0 : 1].replace('%', String(time));
-};
-
-const estimatedMonthDuration = 365.25 / 12;
-
-const updateTimeAgo = (currentTime: number, dateTime: number): string => {
-  const seconds = Math.floor((currentTime - dateTime) / 1000);
-  const minutes = Math.floor(seconds / 60);
-  const hours = Math.floor(minutes / 60);
-  const days = Math.floor(hours / 24);
-  const months = Math.floor(days / estimatedMonthDuration);
-  const years = Math.floor(months / 12);
-  return calcTime(years, currentTimeFormat[0]) ||
-    calcTime(months, currentTimeFormat[1]) ||
-    calcTime(days, currentTimeFormat[2]) ||
-    calcTime(hours, currentTimeFormat[3]) ||
-    calcTime(minutes, currentTimeFormat[4]) ||
-    calcTime(seconds, currentTimeFormat[5]) ||
-    currentTimeFormat[5][0].replace('%', '1');
-};
 
 @Component({
   selector: 'app-question-wall',
@@ -100,7 +53,6 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   commentsCountUsers = 0;
   unreadComments = 0;
   focusIncomingComments = true;
-  timeUpdateInterval;
   keySupport: QuestionWallKeyEventSupport;
   filterTitle = '';
   filterDesc = '';
@@ -134,16 +86,8 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     public headerService: HeaderService,
   ) {
     this.keySupport = new QuestionWallKeyEventSupport();
-    this.timeUpdateInterval = setInterval(() => {
-      const current = new Date().getTime();
-      this.comments.forEach(e => {
-        const cacheEntry = this.commentCache[e.id];
-        cacheEntry.timeAgo = updateTimeAgo(current, cacheEntry.date.getTime());
-      });
-    }, 15000);
     this.langService.getLanguage().subscribe(lang => {
       this.translateService.use(lang);
-      currentTimeFormat = lang.toUpperCase() === 'DE' ? TIME_FORMAT_DE : TIME_FORMAT_EN;
     });
     this._filterObj = FilteredDataAccess.buildNormalAccess(this.sessionService, this.roomDataService, false, true, 'presentation');
   }
@@ -218,7 +162,6 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
       this.commentCache[c.comment.id] = {
         date,
         old: false,
-        timeAgo: updateTimeAgo(new Date().getTime(), date.getTime())
       };
     });
     this.sessionService.getRoomOnce().subscribe(room => this.room = room);
@@ -254,14 +197,9 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnDestroy(): void {
     this._filterObj.detach();
     this.keySupport.destroy();
-    window.clearInterval(this.timeUpdateInterval);
     document.getElementById('header_rescale').style.display = 'block';
     document.getElementById('footer_rescale').style.display = 'block';
     Rescale.exitFullscreen();
-  }
-
-  getTimeAgo(commentId: string): string {
-    return this.commentCache[commentId].timeAgo;
   }
 
   isOld(commentId: string): boolean {
@@ -462,7 +400,6 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     const filter = this._filterObj.dataFilter;
     this.period = filter.period;
     this.isLoading = false;
-    const current = new Date().getTime();
     const tempUserSet = new Set<string>();
     this.comments.forEach(comment => {
       tempUserSet.add(comment.creatorId);
@@ -473,7 +410,6 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
       this.commentCache[comment.id] = {
         date,
         old: true,
-        timeAgo: updateTimeAgo(current, date.getTime())
       };
     });
     this.refreshUserMap();
