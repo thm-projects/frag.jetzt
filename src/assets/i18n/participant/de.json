@@ -288,6 +288,7 @@
     "votingTitle": "Eine Frage bewerten"
   },
   "question-wall": {
+    "introduction": "Einführung",
     "auto-renew-off": "Autofokus für neue Fragen beenden",
     "auto-renew-off-icon": "close",
     "auto-renew-on": "Autofokus für neue Fragen starten",
