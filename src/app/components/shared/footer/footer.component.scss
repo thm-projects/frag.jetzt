@@ -31,6 +31,11 @@ button:hover {
   outline: 3px solid var(--secondary);
 }
 
+button.focus_item:focus {
+    background-color: var(--secondary) !important;
+    color: var(--on-secondary) !important;
+}
+
 mat-icon {
   margin-right: 2%;
 }
