@@ -547,6 +547,10 @@
     "session-name": "Événement",
     "session-name-with-key-code-generated": "Quel doit être le nom de l'événement ?"
   },
+  "title": {
+    "default-title": "frag.jetzt: Recueillir, évaluer et présenter les questions.",
+    "attach-title": "frag.jetzt {{attachment}}"
+  },
   "token-validator": {
     "bonus-token-header": "Archives bonus",
     "cant-find-comment": "Il n'y a pas de question avec ce code bonus.",

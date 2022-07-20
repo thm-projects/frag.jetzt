@@ -1,24 +1,41 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { TranslateService } from '@ngx-translate/core';
+import { LanguageService } from './language.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TitleService {
 
-  static DEFAULT_TITLE = 'frag.jetzt';
+  private _attachment: any = null;
 
-  constructor() { }
-
-  setTitle(title: string) {
-    document.title = title;
+  constructor(
+    private httpClient: HttpClient,
+    private translateService: TranslateService,
+    private languageService: LanguageService,
+  ) {
+    this.languageService.getLanguage().subscribe(lang => {
+      this.translateService.use(lang);
+      this.updateTitle();
+    });
   }
 
   resetTitle() {
-    this.setTitle(TitleService.DEFAULT_TITLE);
+    this._attachment = null;
+    this.updateTitle();
   }
 
   attachTitle(str: string) {
-    this.setTitle(TitleService.DEFAULT_TITLE + ' ' + str);
+    this._attachment = str;
+    this.updateTitle();
+  }
+
+  private updateTitle() {
+    const key = this._attachment ? 'title.attach-title' : 'title.default-title';
+    this.translateService.get(key, { attachment: this._attachment }).subscribe(msg => {
+      document.title = msg;
+    });
   }
 
 }
