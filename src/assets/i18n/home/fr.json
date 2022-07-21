@@ -377,10 +377,10 @@
   "password-reset": {
     "a11y-new_password1": "Saisis ici ton nouveau mot de passe.",
     "a11y-new_password2": "Saisis à nouveau ton nouveau mot de passe ici.",
-    "a11y-password_reset_button": "Envoie à l'e-mail saisi une clé de réinitialisation du mot de passe qui permet de définir un nouveau mot de passe.",
+    "a11y-password_reset_button": "Envoie à l'e-mail saisi une clé de réinitialisation du mot de passe qui permet de créer un nouveau mot de passe.",
     "a11y-password_reset_key": "Saisis ici la clé de réinitialisation du mot de passe que tu as reçue par e-mail.",
     "a11y-password_set_button": "Définit le nouveau mot de passe",
-    "a11y-password_set_email": "Saisis ici ton adresse e-mail pour définir un nouveau mot de passe.",
+    "a11y-password_set_email": "Saisis ici ton adresse e-mail pour créer un nouveau mot de passe.",
     "cancel": "Annuler",
     "cancel-description": "Annuler",
     "email": "E-mail",
@@ -394,15 +394,15 @@
     "new-password": "Nouveau mot de passe",
     "new-password-key-expired": "La clé a expiré, le processus doit être redémarré.",
     "new-password-key-invalid": "La clé n'est pas valide.",
-    "new-password-successful": "Ton nouveau mot de passe a été défini.",
+    "new-password-successful": "Ton nouveau mot de passe a été créé.",
     "reset-button-description": "Réinitialise le mot de passe du compte.",
     "reset-failed-because-of-activation-process": "La réinitialisation a échoué, le processus d'activation est en cours.",
     "reset-password": "Réinitialiser le mot de passe",
     "reset-password-description": "Tu peux réinitialiser ton mot de passe ici.",
     "reset-successful": "Si un compte existe avec cette adresse e-mail, un message a été envoyé.",
-    "set-button-description": "Définit le nouveau mot de passe pour le compte",
-    "set-new-password": "Définis un nouveau mot de passe avec le code clé qui t'a été envoyé :",
-    "set-new-password-button": "Définir le mot de passe"
+    "set-button-description": "Crée le nouveau mot de passe pour le compte",
+    "set-new-password": "Crée un nouveau mot de passe avec le code clé qui t'a été envoyé :",
+    "set-new-password-button": "Créer le mot de passe"
   },
   "qr-dialog": {
     "session": "Code"
@@ -548,7 +548,7 @@
     "session-name-with-key-code-generated": "Quel doit être le nom de l'événement ?"
   },
   "title": {
-    "default-title": "frag.jetzt: Collecter, évaluer et présenter des questions.",
+    "default-title": "frag.jetzt : Collecter, évaluer et présenter des questions",
     "attach-title": "frag.jetzt {{attachment}}"
   },
   "token-validator": {
