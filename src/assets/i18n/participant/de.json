@@ -268,10 +268,10 @@
     "title": ""
   },
   "introductions": {
-    "brainstorming-title": "Einführung in das Brainstorming",
+    "brainstorming-title": "Use Cases der Brainstorming-Session",
     "cancel": "Schließen",
-    "question-wall-title": "Einführung in den Präsentationsmodus",
-    "tag-cloud-title": "Einführung in die Themenwolke"
+    "question-wall-title": "Use Cases des Präsentationsmodus",
+    "tag-cloud-title": "Use Cases der Stichwort-Wolke"
   },
   "joyride": {
     "commentFilter": "Es gibt zahlreiche Sortier- und Filteroptionen für die Q&A-Liste. Ein aktiver Filter wird rot angezeigt. Für eine bessere Lesbarkeit bei großer Dynamik kann der Fragenstrom auch angehalten werden.",
