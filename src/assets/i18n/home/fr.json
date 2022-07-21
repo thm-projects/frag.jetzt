@@ -268,10 +268,10 @@
   },
   "introductions": {
     "cancel": "Fermer",
-    "comment-list-title": "Introduction au forum Q&R",
-    "moderation-title": "Introduction à la modération",
-    "room-list-title": "Introduction à la liste des salles",
-    "room-page-title": "Introduction à la liste des salles"
+    "comment-list-title": "Les cas d'utilisation du forum Q&R",
+    "moderation-title": "Les cas d'utilisation de la modération",
+    "room-list-title": "Les cas d'utilisation de la liste des salles",
+    "room-page-title": "Les cas d'utilisation de la salle"
   },
   "joyride": {
     "cantAccessRoute": "Cet itinéraire n'est pas disponible. La visite est annulée.",
@@ -401,7 +401,7 @@
     "reset-password-description": "Tu peux réinitialiser ton mot de passe ici.",
     "reset-successful": "Si un compte existe avec cette adresse e-mail, un message a été envoyé.",
     "set-button-description": "Crée le nouveau mot de passe pour le compte",
-    "set-new-password": "Crée un nouveau mot de passe avec le code clé qui t'a été envoyé :",
+    "set-new-password": "Crée un nouveau mot de passe à l'aide du code clé qui t'a été envoyé :",
     "set-new-password-button": "Créer le mot de passe"
   },
   "qr-dialog": {
