@@ -42,7 +42,7 @@
               *ngIf="!router.url.endsWith('moderator/comments') && router.url.endsWith('/comments') &&
                      deviceInfo.isCurrentlyDesktop && ((tagCloudDataService.currentData?.size || 0) > 0)"
               (click)="navigateTopicCloud()">
-        <mat-icon style="transform: scale(1.3); margin-right: 7px">tag</mat-icon>
+        <mat-icon style="transform: scale(1.3); margin-right: 7px">radar</mat-icon>
         <span>{{'header.tag-cloud' | translate}}</span>
       </button>
 
