@@ -516,7 +516,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
       });
       e.menuItem({
         translate: this.headerService.getTranslate(),
-        icon: 'tag',
+        icon: 'radar',
         class: '',
         text: 'header.tag-cloud',
         callback: () => this.navigateTopicCloud(),
