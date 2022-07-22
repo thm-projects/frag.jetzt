@@ -612,6 +612,14 @@
     "title-accessibility": "Live-Poll",
     "start-accessibility": "Start Live-Poll",
     "stop-accessibility": "Stop Live-Poll",
-    "compare-accessibility": "Compare Live-Poll"
+    "compare-accessibility": "Compare Live-Poll",
+    "timer": "Timer",
+    "timer-accessibility": "Timer",
+    "symbolset": "Symbol",
+    "symbolset-accessibility": "Symbol",
+    "create": "Create",
+    "create-accessibility": "Create",
+    "set-name": "Name",
+    "set-name-hint": "What is the name of your Live Poll?"
   }
 }

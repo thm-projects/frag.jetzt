@@ -1,20 +1,30 @@
 <ars-row class="fade-in-animation-wrapper">
   <ars-row>
-    <mat-form-field style="width:100%;" appearance="legacy">
-      <mat-label>Live-Poll Name</mat-label>
-      <input matInput>
-      <mat-error *ngIf="data.name">{{'live-poll.error-enter-name' | translate}}</mat-error>
+    <mat-form-field style="width:100%;" appearance="fill">
+      <mat-label>{{'live-poll.set-name' | translate}}</mat-label>
+      <input matInput required #txtIn (change)="data.name=txtIn.value">
+      <mat-icon matPrefix style="margin-right:8px;" class="colors-foreground">edit</mat-icon>
+      <mat-hint>{{'live-poll.set-name-hint' | translate}}</mat-hint>
     </mat-form-field>
   </ars-row>
   <ars-row ars-flex-box>
     <ars-col ars-flex-box>
-      <h1>preview:</h1>
+      <p
+        style="text-transform: uppercase;font-size:12px;font-weight:bold;margin-top:32px;letter-spacing:1px;color:var(--on-background);">
+        preview:</p>
     </ars-col>
     <ars-col ars-flex-box [padding]="[8,0]">
-      <button mat-button [matMenuTriggerFor]="predefinedSymbolSets" aria-describedby="compare-label"
+      <button mat-button [matMenuTriggerFor]="predefinedSymbolSets" aria-describedby="symbolset-label"
               class="livePoll-button" [matTooltip]="'live-poll.symbolset-accessibility' | translate">
         <mat-icon>list</mat-icon>
         <span *ngIf="device.isCurrentlyDesktop">{{'live-poll.symbolset' | translate}}</span>
+      </button>
+      <ars-col [size]="16"></ars-col>
+      <button mat-button [matMenuTriggerFor]="predefinedSymbolSets" aria-describedby="timer-label"
+              class="livePoll-button"
+              [matTooltip]="'live-poll.timer-accessibility' | translate">
+        <mat-icon>timer</mat-icon>
+        <span *ngIf="device.isCurrentlyDesktop">{{'live-poll.timer' | translate}}</span>
       </button>
       <mat-menu #predefinedSymbolSets>
         <button mat-menu-item *ngFor="let set of livePollService.defaultSymbolSet()"
@@ -27,7 +37,7 @@
   </ars-row>
   <ars-row ars-flex-box [padding]="[16,0]">
     <ars-col>
-      <button mat-button aria-describedby="compare-label"
+      <button mat-button aria-describedby="compare-label" (click)="submit()"
               class="livePoll-button" [matTooltip]="'live-poll.create-accessibility' | translate">
         <mat-icon>send</mat-icon>
         <span *ngIf="device.isCurrentlyDesktop">{{'live-poll.create' | translate}}</span>

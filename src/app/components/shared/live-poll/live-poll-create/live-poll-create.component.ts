@@ -1,11 +1,11 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {DeviceInfoService} from '../../../../services/util/device-info.service';
 import {
   LivePollMockService,
   LivePollSession,
   LivePollSymbolSet
 } from '../../../../services/mocks/live-poll-mock.service';
-import {LivePollList} from '../live-poll-entry/LivePollEntry';
+import {LivePollBuildInfo, LivePollList} from '../live-poll-entry/LivePollEntry';
 
 @Component({
   selector: 'app-live-poll-create',
@@ -15,6 +15,7 @@ import {LivePollList} from '../live-poll-entry/LivePollEntry';
 export class LivePollCreateComponent implements OnInit {
 
   @Input() session: LivePollSession;
+  @Output() submitEmit: EventEmitter<LivePollBuildInfo>=new EventEmitter<LivePollBuildInfo>();
 
   public data: LivePollList;
   public isValid: boolean = false;
@@ -36,6 +37,10 @@ export class LivePollCreateComponent implements OnInit {
   public setSymbolSet(set: [string, LivePollSymbolSet]) {
     this.data.symbolSet = set[1];
     this.revalidate();
+  }
+
+  public submit() {
+    this.submitEmit.emit(this.data);
   }
 
   private revalidate() {

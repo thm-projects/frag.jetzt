@@ -5,9 +5,15 @@ import {
   predefinedSymbolSets
 } from '../../../../services/mocks/live-poll-mock.service';
 
+export interface LivePollBuildInfo{
+  name: string;
+  symbolSet: LivePollSymbolSet;
+}
+
 export class LivePollList implements LivePollData {
   name: string;
   symbolSet: LivePollSymbolSet;
+  closed: boolean;
   public list: LivePollEntry[];
   public sum: number = 0;
   public highest: number = 0;

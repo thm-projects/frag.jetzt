@@ -18,6 +18,7 @@ export interface LivePollSymbolSet {
 }
 
 export interface LivePollData {
+  closed: boolean;
   name: string;
   symbolSet: LivePollSymbolSet;
   list: LivePollEntry[];
@@ -36,22 +37,36 @@ export interface LivePollSession {
 })
 export class LivePollMockService {
 
-  constructor(private r: RoomDataService) {
-  }
+  private session: LivePollSession;
 
-  public getSessionData(room: Room): Observable<LivePollSession> {
-    return of<LivePollSession>({
+  constructor(private r: RoomDataService) {
+    this.session={
       hasActiveLivePoll: false,
       currentLivePoll: null,
       previousLivePoll: null
-    });
+    };
   }
 
-  public updateSessionData(session: LivePollSession) {
+  public getSessionData(room: Room): Observable<LivePollSession> {
+    return of<LivePollSession>(this.deepCopy());
+  }
+
+  public start(): Observable<LivePollSession> {
+    this.session.hasActiveLivePoll=true;
+    return of<LivePollSession>(this.deepCopy());
+  }
+
+  public updateSessionData(session: LivePollSession): Observable<LivePollSession> {
+    Object.keys(session).forEach(k=>this.session[k]=session[k]);
+    return of<LivePollSession>(this.deepCopy());
   }
 
   public defaultSymbolSet(): [string, LivePollSymbolSet][] {
     return predefinedSymbolSets;
+  }
+
+  private deepCopy(): LivePollSession{
+    return JSON.parse(JSON.stringify(this.session));
   }
 
 }
