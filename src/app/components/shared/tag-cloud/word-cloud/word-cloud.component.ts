@@ -68,6 +68,7 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
   @Output() clicked = new EventEmitter<T>();
   @Output() entered = new EventEmitter<ActiveWord<T>>();
   @Output() left = new EventEmitter<ActiveWord<T>>();
+  @Input() isRadar = false;
   @Input() keywords: T[];
   @Input() weightClasses = 10;
   @Input() weightClassType = WeightClassType.Lowest;
@@ -83,13 +84,16 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
   ) {
   }
 
-  private static invertHex(hexStr: string) {
-    const currentColor: ColorRGB = [
+  private static getRGBColor(hexStr: string) {
+    return [
       parseInt(hexStr.substring(1, 3), 16),
       parseInt(hexStr.substring(3, 5), 16),
       parseInt(hexStr.substring(5, 7), 16)
-    ];
-    const [r, g, b] = ColorContrast.getInvertedColor(currentColor);
+    ] as ColorRGB;
+  }
+
+  private static colorToHex(color: ColorRGB) {
+    const [r, g, b] = color;
     return `#${((r * 256 + g) * 256 + b).toString(16).padStart(6, '0')}`;
   }
 
@@ -155,8 +159,20 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
     const transform = this.parameters.textTransform || CloudTextStyle.Normal;
     const sheet = this._cssStyleElement.sheet;
     const { root, weights } = this._styleIndexes;
-    const invertedBackground = WordCloudComponent.invertHex(this.parameters.backgroundColor);
+    const color = WordCloudComponent.getRGBColor(this.parameters.backgroundColor);
+    const inverted = ColorContrast.getInvertedColor(color);
+    const invertedBackground = WordCloudComponent.colorToHex(inverted);
+    const hsl = ColorContrast.rgbToHsl(inverted);
+    let grayscale = 1;
+    if (hsl[1] > 0) {
+      grayscale = 1 - hsl[1] * (1 - Math.abs(2 * hsl[2] - 1));
+    }
+    let rot = hsl[0] - 120;
+    if (rot < 0) {
+      rot += 360;
+    }
     this.transformObjectToCSS(sheet, root, {
+      WordCloudImage: `hue-rotate(${rot + 'deg'}) grayscale(${grayscale}) opacity(0.5)`,
       TagCloudFontColor: this.parameters.fontColor,
       TagCloudBackgroundColor: this.parameters.backgroundColor,
       TagCloudInvertedBackground: invertedBackground,

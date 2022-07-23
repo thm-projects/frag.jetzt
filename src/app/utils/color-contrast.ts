@@ -10,6 +10,10 @@ export type ColorSRGB = [red: number, green: number, blue: number];
  * hue in [0, 360], saturation in [0, 1], luma in [0, 1]
  */
 export type ColorHSLuma = [hue: number, saturation: number, luma: number];
+/**
+ * hue in [0, 360], saturation in [0, 1], lightness in [0, 1]
+ */
+export type ColorHSL = [hue: number, saturation: number, lightness: number];
 
 const HSLIndexes = [
   [0, 1],
@@ -51,6 +55,35 @@ export class ColorContrast {
     const l1 = Math.max(firstL, secondL);
     const l2 = Math.min(firstL, secondL);
     return (l1 + 0.05) / (l2 + 0.05);
+  }
+
+  static rgbToHsl(color: ColorRGB, fallbackHue: number = 0): ColorHSL {
+    const srgb = this.rgbToSrgb(color);
+    const [sr, sg, sb] = srgb;
+    const max = Math.max(sr, sg, sb);
+    const min = Math.min(sr, sg, sb);
+    const chromaticRange = max - min;
+    let hue;
+    if (chromaticRange < Number.EPSILON) {
+      hue = fallbackHue;
+    } else if (max === sr) {
+      hue = (sg - sb) / chromaticRange;
+    } else if (max === sg) {
+      hue = (sb - sr) / chromaticRange + 2;
+    } else if (max === sb) {
+      hue = (sr - sg) / chromaticRange + 4;
+    } else {
+      console.error('Unreachable');
+      return null;
+    }
+    hue *= 60;
+    hue = hue < 0 ? hue + 360 : hue;
+    const lightness = (max + min) / 2;
+    if (lightness < Number.EPSILON || 1 - lightness < Number.EPSILON) {
+      return [hue, 0, lightness];
+    }
+    const saturation = chromaticRange / (1 - Math.abs(2 * lightness - 1));
+    return [hue, saturation, lightness];
   }
 
 

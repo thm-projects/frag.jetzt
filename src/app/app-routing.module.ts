@@ -6,6 +6,7 @@ import { UserHomeComponent } from './components/home/user-home/user-home.compone
 import { ImprintComponent } from './components/home/_dialogs/imprint/imprint.component';
 import { DataProtectionComponent } from './components/home/_dialogs/data-protection/data-protection.component';
 import { QuizNowComponent } from './components/shared/quiz-now/quiz-now.component';
+import { DemoVideoComponent } from './components/home/_dialogs/demo-video/demo-video.component';
 
 const routes: Routes = [
   {
@@ -24,6 +25,10 @@ const routes: Routes = [
   {
     path: 'imprint',
     component: ImprintComponent
+  },
+  {
+    path: 'introduction',
+    component: DemoVideoComponent,
   },
   {
     path: 'data-protection',

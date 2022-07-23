@@ -1,4 +1,17 @@
 @use "sass:math";
+
+.word-cloud-image {
+  position: absolute;
+  background-image: url('/assets/images/radar.svg'), url('/assets/images/radar.png');
+  background-repeat: no-repeat;
+  background-size: auto;
+  background-position: center center;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  filter: var(--word-cloud-image, hue-rotate(0deg) grayscale(0) opacity(0.5));
+}
+
 :host .word-cloud {
   height: 100%;
   font-size: var(--tag-cloud-font-size, unset);
