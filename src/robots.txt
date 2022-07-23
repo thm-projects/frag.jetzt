@@ -1,4 +1,8 @@
 User-agent: *
+Allow: /data-protection/
+Allow: /home/
+Allow: /imprint/
+Allow: /introduction/
 Disallow: /frag.jetzt/user/
 Disallow: /frag.jetzt/creator/
 Disallow: /frag.jetzt/participant/

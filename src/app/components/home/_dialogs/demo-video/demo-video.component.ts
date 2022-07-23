@@ -3,6 +3,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { KeyboardUtils } from '../../../../utils/keyboard';
 import { KeyboardKey } from '../../../../utils/keyboard/keys';
 import { LanguageService } from '../../../../services/util/language.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-demo-video',
@@ -15,6 +16,7 @@ export class DemoVideoComponent implements OnInit {
     public dialogRef: MatDialogRef<DemoVideoComponent>,
     public dialog: MatDialog,
     public languageService: LanguageService,
+    public router: Router,
   ) {
   }
 
@@ -38,7 +40,9 @@ export class DemoVideoComponent implements OnInit {
   }
 
   ngOnInit() {
-    document.getElementById('setFocus').focus();
+    if (this.router.url !== '/introduction') {
+      document.getElementById('setFocus').focus();
+    }
   }
 
   /**
