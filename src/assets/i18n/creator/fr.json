@@ -390,7 +390,7 @@
     "empty": "Aucun modérateur disponible",
     "guest": "Modérateur invité",
     "join-code": "Code invité :",
-    "not-found": "Un utilisateur avec l'adresse e-mail indiquée n'a pas pu être trouvé. Es-tu sûr que l'utilisateur s'est enregistré sur «&nbsp;frag.jetzt&nbsp;» avec cette adresse ?",
+    "not-found": "Un utilisateur avec l'adresse e-mail indiquée n'a pas pu être trouvé. Es-tu sûr que l'utilisateur s'est enregistré sur « frag.jetzt » avec cette adresse ?",
     "not-generated": "…",
     "really-remove-moderator": "Tu veux vraiment supprimer le modérateur ?",
     "removed": "Le modérateur a été supprimé.",
