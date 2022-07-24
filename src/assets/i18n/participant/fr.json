@@ -633,7 +633,7 @@
     "email-not-set": "\nPas d'email enregistré",
     "header": "Échanger des étoiles contre des points bonus",
     "mail-body1": "Bonjour\n\nJ'ai obtenu les tokens suivants lors de la session « {{sessionName}} » avec le code de salle « {{sessionId}} » :\n",
-    "mail-body2": "\n\n\nJe demande à les échanger contre des points bonus.\n\nMerci pour «&nbsp;frag.jetzt&nbsp;» !\n\n---",
+    "mail-body2": "\n\n\nJe demande à les échanger contre des points bonus.\n\nMerci pour « frag.jetzt » !\n\n---",
     "mail-subject": "Demande d'échange de mes jetons de la session « {{sessionName}} »",
     "moderator-emails": "\n\nE-mail des modérateurs",
     "no-bonus": "Tu n'as pas encore reçu d'étoile pour une « bonne » question.",
