@@ -47,6 +47,15 @@ mat-toolbar-row {
   }
 }
 
+#options-login-box {
+  display: flex;
+
+  > mat-icon {
+    margin-top: auto;
+    margin-bottom: auto;
+  }
+}
+
 .topic-cloud-btns {
   > ars-col button {
     margin-right: 0.75em;

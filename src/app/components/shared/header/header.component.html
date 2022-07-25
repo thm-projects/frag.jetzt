@@ -322,86 +322,88 @@
 
     </mat-menu>
 
-    <mat-icon *ngIf="user?.isGuest"
-              class="header-icons material-icons-filled color-warn"
-              style="margin-right: 5px"
-              [matTooltip]="'header.guest-account-tooltip' | translate">
-      priority_high
-    </mat-icon>
+    <div id="options-login-box">
+      <mat-icon *ngIf="user?.isGuest"
+                class="header-icons material-icons-filled color-warn"
+                style="margin-right: 5px"
+                [matTooltip]="'header.guest-account-tooltip' | translate">
+        priority_high
+      </mat-icon>
 
-    <mat-icon
-      *ngIf="this.router.url.indexOf('/room/') > 0"
-      class="header-icons material-icons-outlined"
-      [matTooltip]="'header.' + getCurrentRoleDescription() | translate">
-      {{getCurrentRoleIcon()}}
-    </mat-icon>
+      <mat-icon
+        *ngIf="this.router.url.indexOf('/room/') > 0"
+        class="header-icons material-icons-outlined"
+        [matTooltip]="'header.' + getCurrentRoleDescription() | translate">
+        {{getCurrentRoleIcon()}}
+      </mat-icon>
 
-    <ng-template #optionContent>
-      <div class="label-icon">
-        <h2 style="margin-left: 5px"
-            *ngIf="deviceInfo.isCurrentlyDesktop">{{'header.my-account' | translate}}</h2>
-        <mat-icon class="header-icons">
-          more_vert
-        </mat-icon>
-      </div>
-    </ng-template>
+      <ng-template #optionContent>
+        <div class="label-icon">
+          <h2 style="margin-left: 5px"
+              *ngIf="deviceInfo.isCurrentlyDesktop">{{'header.my-account' | translate}}</h2>
+          <mat-icon class="header-icons">
+            more_vert
+          </mat-icon>
+        </div>
+      </ng-template>
 
-    <button [disabled]="cookiesDisabled()"
-            mat-button
-            [joyrideStep]="'optionHeader'"
-            [stepPosition]="'center'"
-            appJoyrideTemplate
-            *ngIf="user && deviceInfo.isCurrentlyDesktop"
-            [matMenuTriggerFor]="userMenu"
-            aria-labelledby="session-label"
-            id="session-button">
-      <ng-container [ngTemplateOutlet]="optionContent"></ng-container>
-    </button>
+      <button [disabled]="cookiesDisabled()"
+              mat-button
+              [joyrideStep]="'optionHeader'"
+              [stepPosition]="'center'"
+              appJoyrideTemplate
+              *ngIf="user && deviceInfo.isCurrentlyDesktop"
+              [matMenuTriggerFor]="userMenu"
+              aria-labelledby="session-label"
+              id="session-button">
+        <ng-container [ngTemplateOutlet]="optionContent"></ng-container>
+      </button>
 
-    <button [disabled]="cookiesDisabled()"
-            mat-icon-button
-            [joyrideStep]="'optionHeader'"
-            [stepPosition]="'center'"
-            appJoyrideTemplate
-            *ngIf="user && deviceInfo.isCurrentlyMobile"
-            [matMenuTriggerFor]="userMenu"
-            aria-labelledby="session-label">
-      <ng-container [ngTemplateOutlet]="optionContent"></ng-container>
-    </button>
+      <button [disabled]="cookiesDisabled()"
+              mat-icon-button
+              [joyrideStep]="'optionHeader'"
+              [stepPosition]="'center'"
+              appJoyrideTemplate
+              *ngIf="user && deviceInfo.isCurrentlyMobile"
+              [matMenuTriggerFor]="userMenu"
+              aria-labelledby="session-label">
+        <ng-container [ngTemplateOutlet]="optionContent"></ng-container>
+      </button>
 
-    <ng-template #loginBtnContent>
-      <div class="label-icon">
-        <mat-icon class="header-icons"
-                  style="padding-right: 10px">
-          login
-        </mat-icon>
-        <h2 class="oldtypo-h2"
-            *ngIf="deviceInfo.isCurrentlyDesktop">{{'header.login' | translate}}</h2>
-      </div>
-    </ng-template>
+      <ng-template #loginBtnContent>
+        <div class="label-icon">
+          <mat-icon class="header-icons"
+                    style="padding-right: 10px">
+            login
+          </mat-icon>
+          <h2 class="oldtypo-h2"
+              *ngIf="deviceInfo.isCurrentlyDesktop">{{'header.login' | translate}}</h2>
+        </div>
+      </ng-template>
 
-    <button id="login-button"
-            [disabled]="cookiesDisabled()"
-            mat-button
-            [joyrideStep]="'loginButtonHeader'"
-            [stepPosition]="'center'"
-            appJoyrideTemplate
-            *ngIf="!user && deviceInfo.isCurrentlyDesktop"
-            (click)=login(false)
-            aria-labelledby="login-label">
-      <ng-container [ngTemplateOutlet]="loginBtnContent"></ng-container>
-    </button>
+      <button id="login-button"
+              [disabled]="cookiesDisabled()"
+              mat-button
+              [joyrideStep]="'loginButtonHeader'"
+              [stepPosition]="'center'"
+              appJoyrideTemplate
+              *ngIf="!user && deviceInfo.isCurrentlyDesktop"
+              (click)=login(false)
+              aria-labelledby="login-label">
+        <ng-container [ngTemplateOutlet]="loginBtnContent"></ng-container>
+      </button>
 
-    <button [disabled]="cookiesDisabled()"
-            mat-icon-button
-            [joyrideStep]="'loginButtonHeader'"
-            [stepPosition]="'center'"
-            appJoyrideTemplate
-            *ngIf="!user && deviceInfo.isCurrentlyMobile"
-            (click)=login(false)
-            aria-labelledby="login-label">
-      <ng-container [ngTemplateOutlet]="loginBtnContent"></ng-container>
-    </button>
+      <button [disabled]="cookiesDisabled()"
+              mat-icon-button
+              [joyrideStep]="'loginButtonHeader'"
+              [stepPosition]="'center'"
+              appJoyrideTemplate
+              *ngIf="!user && deviceInfo.isCurrentlyMobile"
+              (click)=login(false)
+              aria-labelledby="login-label">
+        <ng-container [ngTemplateOutlet]="loginBtnContent"></ng-container>
+      </button>
+    </div>
   </mat-toolbar-row>
 </mat-toolbar>
 
