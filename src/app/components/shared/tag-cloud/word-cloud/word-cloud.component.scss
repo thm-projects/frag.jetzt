@@ -1,7 +1,7 @@
 @use "sass:math";
 
 .word-cloud-image {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   background-image: url('/assets/images/radar.svg'), url('/assets/images/radar.png');
@@ -12,6 +12,15 @@
   height: 100%;
   z-index: 0;
   filter: var(--word-cloud-image, hue-rotate(0deg) grayscale(0) opacity(0.5));
+
+  &.brainstorm {
+    background-image: url('/assets/images/normal-themes-brainstorm.jpeg');
+    filter: unset;
+
+    &.dark {
+      background-image: url('/assets/images/dark-theme-brainstorm.jpeg');
+    }
+  }
 }
 
 :host .word-cloud {
@@ -38,7 +47,7 @@
 
     &:hover {
       color: var(--tag-cloud-font-color, unset);
-      background-color: var(--tag-cloud-background-color, unset);
+      background-color: var(--tag-cloud-inverted-font-color, unset);
       z-index: 1;
       --scale: 1.4;
     }
