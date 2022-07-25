@@ -15,6 +15,7 @@ import { FontInfoService } from '../../../../services/util/font-info.service';
 import { CloudParameters, CloudTextStyle } from '../../../../utils/cloud-parameters';
 import { ColorContrast, ColorRGB } from '../../../../utils/color-contrast';
 import { WordCloudDrawFunctions } from './word-cloud-draw-functions';
+import { ThemeService } from '../../../../../theme/theme.service';
 
 export interface WordMeta {
   text: string;
@@ -80,7 +81,8 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
 
   constructor(
     private renderer2: Renderer2,
-    private fontInfoService: FontInfoService
+    private fontInfoService: FontInfoService,
+    public themeService: ThemeService,
   ) {
   }
 
@@ -171,9 +173,13 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
     if (rot < 0) {
       rot += 360;
     }
+    const invertedFont = WordCloudComponent.colorToHex(
+      ColorContrast.getInvertedColor(WordCloudComponent.getRGBColor(this.parameters.fontColor))
+    );
     this.transformObjectToCSS(sheet, root, {
       WordCloudImage: `hue-rotate(${rot + 'deg'}) grayscale(${grayscale}) opacity(0.5)`,
       TagCloudFontColor: this.parameters.fontColor,
+      TagCloudInvertedFontColor: invertedFont,
       TagCloudBackgroundColor: this.parameters.backgroundColor,
       TagCloudInvertedBackground: invertedBackground,
       TagCloudTransform: transform,
@@ -416,18 +422,32 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
       root: sheet.insertRule(':root {}', sheet.cssRules.length),
       weights: [],
     };
-    sheet.insertRule('.spacyTagCloudContainer { background-color: var(--tag-cloud-background-color, unset); }',
-      sheet.cssRules.length);
-    sheet.insertRule('.header-icons, .header-icons + h2, .userActivityTxt, app-header mat-icon, app-header h2 { ' +
-      'color: var(--tag-cloud-inverted-background) !important; }',
-      sheet.cssRules.length);
-    sheet.insertRule('.userActivityIcon { background-color: var(--tag-cloud-inverted-background) !important; }', sheet.cssRules.length);
-    sheet.insertRule('.header .oldtypo-h2, .header .oldtypo-h2 + span { ' +
-      'color: var(--tag-cloud-inverted-background) !important; }', sheet.cssRules.length);
-    sheet.insertRule('#footer_rescale { display: none !important; }', sheet.cssRules.length);
-    sheet.insertRule('div.main_container, app-header > .mat-toolbar { ' +
-      'background-color: var(--tag-cloud-background-color) !important; color: var(--tag-cloud-inverted-background) !important; }',
-      sheet.cssRules.length);
+    sheet.insertRule('.spacyTagCloudContainer, body {' +
+      ' background-color: var(--tag-cloud-background-color, unset);' +
+      ' }', sheet.cssRules.length);
+    sheet.insertRule('.header-icons, .header-icons + h2, .userActivityTxt, app-header mat-icon, app-header h2 {' +
+      ' color: var(--tag-cloud-inverted-background) !important;' +
+      ' }', sheet.cssRules.length);
+    sheet.insertRule('.header-content-container > *, #options-login-box, #back-button {' +
+      ' background-color: var(--tag-cloud-background-color, unset);' +
+      ' padding-left: 0.25em;' +
+      ' padding-right: 0.25em;' +
+      ' border-radius: 16px;' +
+      ' }', sheet.cssRules.length);
+    sheet.insertRule('.userActivityIcon {' +
+      ' background-color: var(--tag-cloud-inverted-background) !important;' +
+      ' }', sheet.cssRules.length);
+    sheet.insertRule('.header .oldtypo-h2, .header .oldtypo-h2 + span {' +
+      ' color: var(--tag-cloud-inverted-background) !important;' +
+      ' }', sheet.cssRules.length);
+    sheet.insertRule('#footer_rescale {' +
+      ' display: none !important;' +
+      ' }', sheet.cssRules.length);
+    sheet.insertRule('div.main_container, app-header > .mat-toolbar {' +
+      ' background-color: unset !important;' +
+      ' box-shadow: none; !important;' +
+      ' color: var(--tag-cloud-inverted-background) !important;' +
+      ' }', sheet.cssRules.length);
   }
 
   private doDraw(parentElement: HTMLDivElement, parentWidth: number, parentHeight: number) {
