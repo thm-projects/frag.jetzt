@@ -276,7 +276,7 @@
   "joyride": {
     "cantAccessRoute": "Cet itinéraire n'est pas disponible. La visite est annulée.",
     "createRoom": "Tout le monde peut réserver une salle pour un événement. Le code d'accès est soit généré, soit tu le détermines toi-même. N'oublie pas que sans enregistrement, la salle et toutes ses données n'existent que dans ce navigateur.",
-    "createRoomTitle": "Réserver la salle",
+    "createRoomTitle": "Réserver une salle",
     "dashboard": "Ici se trouve le menu pour les actualités en direct.",
     "dashboardTitle": "Messages en direct",
     "done": "Terminé",
@@ -284,7 +284,7 @@
     "feedbackLinkTitle": "Salle de feedback",
     "greeting": "Nous te guidons vers les endroits les plus importants de notre application Q&R. La visite ne dure que quelques minutes. Dans l'application, les infobulles des boutons et des icônes t'informent de leur fonction.",
     "greetingTitle": "Embarquement",
-    "introduction": "Si tu veux réserver tes propres salles, informe-toi ici sur le concept didactique, les caractéristiques et les scénarios d'utilisation d'application. Dans l'application, tu trouveras à cet endroit un tutoriel vidéo pour le contexte actuel.",
+    "introduction": "Si tu souhaites réserver tes propres salles, informe-toi ici sur le concept didactique, les caractéristiques et les scénarios d'utilisation de cette app. Dans l'app, tu trouveras à cet endroit un court tutoriel vidéo sur les cas d'utilisation de la page actuelle.",
     "introductionTitle": "Introduction à « frag.jetzt »",
     "loginButtonHeader": "Non, sauf si tu souhaites sauvegarder les salles que tu as visitées ou créés toi-même sur notre serveur. Un compte est également conseillé pour la gestion des points bonus.",
     "loginButtonHeaderTitle": "Dois-je m'inscrire ?",
@@ -325,7 +325,7 @@
     "restart-account-activation-correct": "La clé d'activation a été envoyée.",
     "restart-account-activation-tooltip": "Envoie une nouvelle clé d'activation à ton adresse.",
     "welcome": "« Des questions ? »",
-    "welcome-feedback": "➤ Écris aux développeurs de « frag.jetzt ».",
+    "welcome-feedback": "➤ Écris aux développeurs de « frag.jetzt »",
     "welcome-subtitle": "Anonyme | à l'intérieur du navigateur | gratuit"
   },
   "login-dialog": {

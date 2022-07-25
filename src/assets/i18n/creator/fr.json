@@ -364,7 +364,7 @@
     "next": "Suivant",
     "prev": "Retourner",
     "step": "{{step}} / {{total}}",
-    "voting": "Le public peut valoriser ou dévaloriser les questions et ainsi manifester son intérêt à répondre à la question ou son accord ou son désaccord. La différence d'évaluation est affichée.",
+    "voting": "Le public peut valoriser ou dévaloriser les questions et les réactions qu'elles suscitent, exprimant ainsi son intérêt pour la réponse à la question ou son accord ou son désaccord.\n La différence d'évaluation est affichée.",
     "votingTitle": "Evaluer une question"
   },
   "moderator-join": {
