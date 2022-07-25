@@ -422,19 +422,27 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
       root: sheet.insertRule(':root {}', sheet.cssRules.length),
       weights: [],
     };
-    sheet.insertRule('.spacyTagCloudContainer, body {' +
+    sheet.insertRule('.spacyTagCloudContainer, body, #rescale_screen {' +
       ' background-color: var(--tag-cloud-background-color, unset);' +
       ' }', sheet.cssRules.length);
     sheet.insertRule('.header-icons, .header-icons + h2, .userActivityTxt, app-header mat-icon, app-header h2 {' +
       ' color: var(--tag-cloud-inverted-background) !important;' +
       ' }', sheet.cssRules.length);
+    sheet.insertRule('.header-content-container > div > mat-icon {' +
+      ' margin-top: 0 !important;' +
+      ' }', sheet.cssRules.length);
     sheet.insertRule('.header-content-container > *, #options-login-box, #back-button {' +
       ' background-color: var(--tag-cloud-background-color, unset);' +
-      ' padding-left: 0.25em;' +
-      ' padding-right: 0.25em;' +
+      ' padding-left: 0.25rem;' +
+      ' padding-right: 0.25rem;' +
       ' border-radius: 16px;' +
+      ' height: 2.5rem;' +
+      ' display: flex;' +
+      ' justify-content: center;' +
+      ' align-items: center;' +
       ' }', sheet.cssRules.length);
     sheet.insertRule('.userActivityIcon {' +
+      ' margin-top: -0.5rem;' +
       ' background-color: var(--tag-cloud-inverted-background) !important;' +
       ' }', sheet.cssRules.length);
     sheet.insertRule('.header .oldtypo-h2, .header .oldtypo-h2 + span {' +
