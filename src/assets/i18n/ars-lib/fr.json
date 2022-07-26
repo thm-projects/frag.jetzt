@@ -3,7 +3,7 @@
     "firstPageLabel": "Premier",
     "itemsPerPageLabel": "Questions par page",
     "lastPageLabel": "Dernier",
-    "nextPageLabel": "Suivant",
+    "nextPageLabel": "Continuer",
     "previousPageLabel": "Précédent",
     "rangePageLabel1": "zéro",
     "rangePageLabel2": "%start - %end de %length"
