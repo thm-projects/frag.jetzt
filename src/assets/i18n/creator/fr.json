@@ -351,7 +351,7 @@
     "brainstorming-title": "Les cas d'utilisation du brainstorming",
     "cancel": "Fermer",
     "question-wall-title": "Les cas d'utilisation du mode de présentation",
-    "tag-cloud-title": "Les cas d'utilisation du nuage de mots-clés"
+    "tag-cloud-title": "Cas d'utilisation du radar de questions"
   },
   "joyride": {
     "commentFilter": "Il existe de nombreuses options de tri et de filtrage pour la liste des questions-réponses. Un filtre actif est affiché en rouge. Pour une meilleure lisibilité en cas de grande dynamique, le flux de questions peut également être mis en pause.",
