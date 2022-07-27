@@ -31,8 +31,8 @@ export const highcontrast = {
   '--purple': 'purple',
   '--magenta': '#ea0a8e',
   '--light-green': '#33e98d',
-  '--grey': '#7e7e7e',
-  '--grey-light': '#9c9c9c',
+  '--grey': 'slategrey',
+  '--grey-light': 'darkgray',
   '--black': 'black',
   '--moderator': 'black',
 

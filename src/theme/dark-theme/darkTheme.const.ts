@@ -32,7 +32,7 @@ export const dark = {
   '--magenta': '#ea0a8e',
   '--light-green': 'lightgreen',
   '--grey': 'slategrey',
-  '--grey-light': '#9E9E9E',
+  '--grey-light': 'darkgrey',
   '--black': 'black',
   '--moderator': 'black',
 

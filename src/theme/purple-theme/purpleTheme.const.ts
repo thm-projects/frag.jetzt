@@ -32,7 +32,7 @@ export const purple = {
   '--magenta': '#ea0a8e',
   '--light-green': 'lightgreen',
   '--grey': 'slategrey',
-  '--grey-light': 'lightgrey',
+  '--grey-light': 'darkgray',
   '--black': 'black',
   '--moderator': 'lightsalmon',
 

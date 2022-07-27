@@ -535,7 +535,7 @@
     "really-delete-comments-hint": "Il y a des questions dans cette salle que tu as marquées pour obtenir un bonus. Enlève les étoiles pour supprimer toutes les questions.",
     "really-delete-token": "Veux-tu vraiment supprimer ce code bonus ?",
     "really-delete-tokens": "Veux-tu vraiment supprimer tous les codes bonus de cette session ?",
-    "really2": " ? Cette action ne peut pas être annulée. Si tu as attribué des bonus (étoiles), exporte toutes les questions afin de pouvoir vérifier les jetons bonus soumis.",
+    "really2": " ? Cette action ne peut pas être annulée. Si tu as attribué des bonus (étoiles), exporte toutes les questions afin de pouvoir vérifier les codes bonus soumis.",
     "reallyContent": "Veux-tu voir la contribution ",
     "reallySession": "Veux-tu vraiment supprimer la salle ",
     "room-not-found": "La salle n'a pas été trouvée (",
