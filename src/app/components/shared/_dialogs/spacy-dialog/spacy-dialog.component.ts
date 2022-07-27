@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { SpacyKeyword } from '../../../../services/http/spacy.service';
 import { Comment } from '../../../../models/comment';
 import { DialogActionButtonsComponent } from '../../dialog/dialog-action-buttons/dialog-action-buttons.component';
@@ -28,20 +28,23 @@ export class SpacyDialogComponent implements OnInit {
   hasKeywordsFromSpacy = false;
   langSupported: boolean;
   manualKeywords = '';
+  noSuccess = false;
   _concurrentEdits = 0;
 
   constructor(
     public dialogRef: MatDialogRef<SpacyDialogComponent>,
     private dialog: MatDialog,
-    @Inject(MAT_DIALOG_DATA) public data
+    @Inject(MAT_DIALOG_DATA) public data,
   ) {
   }
 
   ngOnInit(): void {
     this.comment = this.data.comment;
-    this.langSupported = this.data.result !== KeywordsResultType.LanguageNotSupported;
+    const resultKey = this.data.result.result;
+    this.langSupported = resultKey !== KeywordsResultType.LanguageNotSupported;
     const source = this.comment.keywordsFromSpacy;
-    this.hasKeywordsFromSpacy = this.data.result === KeywordsResultType.Successful && source.length > 0;
+    this.noSuccess = resultKey === KeywordsResultType.Failure || resultKey === KeywordsResultType.BadSpelled;
+    this.hasKeywordsFromSpacy = resultKey === KeywordsResultType.Successful && source.length > 0;
     this.keywords = source.map(keyword => ({
       word: keyword.text,
       dep: [...keyword.dep],
@@ -58,12 +61,13 @@ export class SpacyDialogComponent implements OnInit {
 
   buildCreateCommentActionCallback() {
     return () => {
-      const questioner = this.keywords.filter(kw => kw.selected && kw.word.length).map(kw => ({
+      this.comment.keywordsFromQuestioner = this.keywords.filter(kw => kw.selected && kw.word.length).map(kw => ({
         text: kw.word,
         dep: kw.dep
       } as SpacyKeyword));
-      this.comment.keywordsFromQuestioner = questioner;
-      this.dialogRef.close(this.comment);
+      this.dialogRef.close({
+        comment: this.comment,
+      });
     };
   }
 

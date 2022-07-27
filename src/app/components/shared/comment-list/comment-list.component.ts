@@ -459,7 +459,8 @@ export class CommentListComponent implements OnInit, OnDestroy {
 
   private generateKeywordsIfEmpty(comments: Comment[]) {
     if (TopicCloudFilterComponent.isUpdatable(comments, this.userRole, this.sessionService.currentRoom.id)) {
-      TopicCloudFilterComponent.startUpdate(this.dialog, this.room, this.userRole);
+      // TO-DO: Enable if valid
+      // do: TopicCloudFilterComponent.startUpdate(this.dialog, this.room, this.userRole);
     }
   }
 

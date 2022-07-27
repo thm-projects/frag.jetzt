@@ -3,7 +3,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../services/util/language.service';
 import { CommentService } from '../../../services/http/comment.service';
-import { Comment } from '../../../models/comment';
 import { UserRole } from '../../../models/user-roles.enum';
 import { NotificationService } from '../../../services/util/notification.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -27,10 +26,10 @@ import { DeepLService } from '../../../services/http/deep-l.service';
 import { SpacyService } from '../../../services/http/spacy.service';
 import { ArsComposeService } from '../../../../../projects/ars/src/lib/services/ars-compose.service';
 import { HeaderService } from '../../../services/util/header.service';
-import { SpacyDialogComponent } from '../_dialogs/spacy-dialog/spacy-dialog.component';
 import { ForumComment } from '../../../utils/data-accessor';
-import { KeywordExtractor, KeywordsResultType } from '../../../utils/keyword-extractor';
+import { KeywordExtractor } from '../../../utils/keyword-extractor';
 import { QuillUtils, StandardDelta } from '../../../utils/quill-utils';
+import { Comment } from '../../../models/comment';
 
 @Component({
   selector: 'app-comment-answer',
@@ -54,7 +53,6 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
   mods: Set<string>;
   vote: Vote;
   isModerationComment = false;
-  isSending = false;
   isConversationView: boolean;
   roleString: string;
   private _commentSubscription;
@@ -81,7 +79,9 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
     private composeService: ArsComposeService,
     private headerService: HeaderService,
   ) {
-    this._keywordExtractor = new KeywordExtractor(languagetoolService, spacyService, deepLService);
+    this._keywordExtractor = new KeywordExtractor(
+      dialog, translateService, notificationService, roomDataService, languagetoolService, spacyService, deepLService
+    );
   }
 
   get responses() {
@@ -169,78 +169,33 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
     this.location.back();
   }
 
-  receiveFromDeepL(body: StandardDelta) {
-    this.saveAnswer(body);
-  }
-
-  submitNormal(body: StandardDelta, _text: string, tag: string, name: string, verifiedWithoutDeepl: boolean) {
-    this.isSending = true;
-    const response: Comment = new Comment();
-    response.roomId = this.room.id;
-    response.body = body;
-    response.creatorId = this.user.id;
-    response.createdFromLecturer = this.userRole > 0;
-    response.commentReference = this.comment.id;
-    response.tag = tag;
-    response.questionerName = name;
-    this.openSpacyDialog(response, !verifiedWithoutDeepl, computed => {
-      localStorage.setItem('comment-created', String(true));
-      this.commentService.addComment(computed).subscribe(() => {
-        let url: string;
-        this.route.params.subscribe(params => {
-          url = `${this.roleString}/room/${params['shortId']}/comment/${this.comment.id}/conversation`;
-        });
-        this.router.navigate([url]);
-      });
-      this.translateService.get('comment-list.comment-sent')
-        .subscribe(msg => this.notificationService.show(msg));
-    });
-  }
-
-  openSpacyDialog(comment: Comment, forward: boolean, onFinish: (comment) => void): void {
-    this._keywordExtractor.generateKeywords(comment.body, false, forward, this.commentComponent.selectedLang)
-      .subscribe(result => {
-        this.isSending = false;
-        comment.language = result.language;
-        comment.keywordsFromSpacy = result.keywords;
-        comment.keywordsFromQuestioner = [];
-        if (forward ||
-          ((result.resultType === KeywordsResultType.Failure) && !result.wasSpacyError) ||
-          result.resultType === KeywordsResultType.BadSpelled) {
-          onFinish(comment);
-        } else {
-          const dialogRef = this.dialog.open(SpacyDialogComponent, {
-            data: {
-              result: result.resultType,
-              comment
-            }
-          });
-          dialogRef.afterClosed().subscribe(dialogResult => {
-            if (dialogResult) {
-              onFinish(dialogResult);
-            }
-          });
-        }
-      });
-  }
-
-  saveAnswer(data: StandardDelta, forward = false): void {
+  _saveAnswer(data: StandardDelta, _forward = false): void {
     this.answer = QuillUtils.transformURLtoQuillLink(data, true);
     this.edit = !this.answer;
   }
 
-  openDeleteAnswerDialog(): () => void {
-    return () => {
-      const dialogRef = this.dialog.open(DeleteAnswerComponent, {
-        width: '400px'
+  onSubmit(comment?: Comment): () => void {
+    if (comment) {
+      this.commentService.addComment(comment).subscribe(() => {
+        this.translateService.get('comment-list.comment-sent')
+          .subscribe(msg => this.notificationService.show(msg));
       });
-      dialogRef.afterClosed()
-        .subscribe(result => {
-          if (result === 'delete') {
-            this.deleteAnswer();
-          }
-        });
-    };
+      this.route.params.subscribe(params => {
+        this.router.navigate([
+          `${this.roleString}/room/${params['shortId']}/comment/${this.comment.id}/conversation`
+        ]);
+      });
+      return;
+    }
+    const dialogRef = this.dialog.open(DeleteAnswerComponent, {
+      width: '400px'
+    });
+    dialogRef.afterClosed()
+      .subscribe(result => {
+        if (result === 'delete') {
+          this.deleteAnswer();
+        }
+      });
   }
 
   deleteAnswer() {

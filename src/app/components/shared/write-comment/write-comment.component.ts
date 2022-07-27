@@ -17,10 +17,9 @@ import { User } from '../../../models/user';
 import { AuthenticationService } from '../../../services/http/authentication.service';
 import { StandardDelta } from '../../../utils/quill-utils';
 import { KeywordExtractor } from '../../../utils/keyword-extractor';
-
-type SubmitFunction = (
-  commentData: StandardDelta, commentText: string, selectedTag: string, name?: string, verifiedWithoutDeepl?: boolean
-) => any;
+import { RoomDataService } from '../../../services/util/room-data.service';
+import { SpacyService } from '../../../services/http/spacy.service';
+import { ForumComment } from '../../../utils/data-accessor';
 
 @Component({
   selector: 'app-write-comment',
@@ -34,10 +33,7 @@ export class WriteCommentComponent implements OnInit, OnDestroy {
   @ViewChild('mobileMock') mobileMock: ElementRef<HTMLDivElement>;
   @Input() isModerator = false;
   @Input() tags: string[];
-  @Input() onClose: () => any;
-  @Input() onSubmit: SubmitFunction;
-  @Input() onDeeplSubmit: SubmitFunction;
-  @Input() isSpinning = false;
+  @Input() onClose: (comment?: Comment) => any;
   @Input() disableCancelButton = false;
   @Input() confirmLabel = 'save';
   @Input() cancelLabel = 'cancel';
@@ -50,7 +46,8 @@ export class WriteCommentComponent implements OnInit, OnDestroy {
   @Input() brainstormingData: BrainstormingSession;
   @Input() allowEmpty = false;
   @Input() additionalMockOffset: number = 0;
-  comment: Comment;
+  @Input() commentReference: string = null;
+  isSubmittingComment = false;
   selectedTag: string;
   maxTextCharacters = 500;
   maxDataCharacters = 2500;
@@ -68,7 +65,7 @@ export class WriteCommentComponent implements OnInit, OnDestroy {
   questionerNameFormControl = new FormControl('', [
     Validators.minLength(this.questionerNameMin), Validators.maxLength(this.questionerNameMax)
   ]);
-  private _wasVerifiedWithoutDeepl = false;
+  private _hadUsedDeepl = false;
   private _mobileMockActive = false;
   private _mobileMockTimeout;
   private _mobileMockPossible = false;
@@ -84,11 +81,15 @@ export class WriteCommentComponent implements OnInit, OnDestroy {
     private dialog: MatDialog,
     private sessionService: SessionService,
     private authenticationService: AuthenticationService,
+    private roomDataService: RoomDataService,
+    private spacyService: SpacyService,
   ) {
     this.languageService.getLanguage().subscribe(lang => {
       this.translateService.use(lang);
     });
-    this._keywordExtractor = new KeywordExtractor(languagetoolService, null, deeplService);
+    this._keywordExtractor = new KeywordExtractor(
+      dialog, translateService, notification, roomDataService, languagetoolService, spacyService, deeplService
+    );
   }
 
   get isMobileMockActive() {
@@ -137,12 +138,9 @@ export class WriteCommentComponent implements OnInit, OnDestroy {
     return () => this.onClose();
   }
 
-  buildCreateCommentActionCallback(func: SubmitFunction): () => void {
-    if (!func) {
-      return undefined;
-    }
+  buildCreateCommentActionCallback(): () => void {
     return () => {
-      this.createComment(func);
+      this.createComment();
     };
   }
 
@@ -175,13 +173,17 @@ export class WriteCommentComponent implements OnInit, OnDestroy {
         }
         const previous = this.commentData.currentData;
         this.openDeeplDialog(previous, rawText, wordsCheck,
-          (selected) => {
+          (selected, submitted) => {
             if (selected.view === this.commentData) {
-              this._wasVerifiedWithoutDeepl = true;
+              this._hadUsedDeepl = false;
               this.commentData.buildMarks(rawText, wordsCheck);
             } else {
+              this._hadUsedDeepl = true;
               this.commentData.currentData = selected.body;
               this.commentData.copyMarks(selected.view);
+            }
+            if (submitted) {
+              this.createComment();
             }
           });
       },
@@ -207,7 +209,7 @@ export class WriteCommentComponent implements OnInit, OnDestroy {
     return this.languagetoolService.checkSpellings(text, language);
   }
 
-  getContent(): Comment {
+  getContent(): ForumComment {
     const data = this.commentData.currentData;
     return {
       body: data,
@@ -218,7 +220,7 @@ export class WriteCommentComponent implements OnInit, OnDestroy {
       createdAt: new Date(),
       questionerName: this.questionerNameFormControl.value,
       tag: this.selectedTag,
-    } as unknown as Comment;
+    } as unknown as ForumComment;
   }
 
   setMobileMockState(activate: boolean) {
@@ -246,7 +248,7 @@ export class WriteCommentComponent implements OnInit, OnDestroy {
     }
   }
 
-  private createComment(func: SubmitFunction) {
+  private createComment() {
     let allowed = true;
     const data = this.commentData.currentData;
     const text = this.commentData.currentText;
@@ -264,7 +266,22 @@ export class WriteCommentComponent implements OnInit, OnDestroy {
     if (this.allowEmpty || (ViewCommentDataComponent.checkInputData(data, text,
       this.translateService, this.notification, this.maxTextCharacters, this.maxDataCharacters) && allowed)) {
       const realData = this.allowEmpty && text.length < 2 ? { ops: [] } : data;
-      func(realData, text, this.selectedTag, this.questionerNameFormControl.value, this._wasVerifiedWithoutDeepl);
+      this.isSubmittingComment = true;
+      this._keywordExtractor.createCommentInteractive({
+        userId: this.user.id,
+        isBrainstorming: !!this.brainstormingData,
+        body: realData,
+        tag: this.selectedTag,
+        questionerName: this.questionerNameFormControl.value,
+        callbackFinished: () => this.isSubmittingComment = false,
+        isModerator: this.userRole > 0,
+        hadUsedDeepL: this._hadUsedDeepl,
+        selectedLanguage: this.selectedLang,
+        commentReference: this.commentReference,
+      }).subscribe(comment => {
+        localStorage.setItem('comment-created', String(true));
+        this.onClose(comment);
+      });
     }
   }
 
@@ -272,7 +289,7 @@ export class WriteCommentComponent implements OnInit, OnDestroy {
     body: StandardDelta,
     text: string,
     result: LanguagetoolResult,
-    onClose: (selected: ResultValue) => void
+    onClose: (selected: ResultValue, submitted?: boolean) => void
   ) {
     let target = TargetLang.EN_US;
     const code = result.language.detectedLanguage.code.toUpperCase().split('-')[0];
@@ -280,7 +297,7 @@ export class WriteCommentComponent implements OnInit, OnDestroy {
     if (code.startsWith(SourceLang.EN)) {
       target = TargetLang.DE;
     }
-    this._keywordExtractor.generateDeeplDelta(body, target).subscribe({
+    this.deeplService.improveDelta(body, target).subscribe({
       next: ([improvedBody, improvedText]) => {
         this.isSpellchecking = false;
         if (improvedText.replace(/\s+/g, '') === text.replace(/\s+/g, '')) {
@@ -307,7 +324,7 @@ export class WriteCommentComponent implements OnInit, OnDestroy {
         });
         instance.afterClosed().subscribe((val) => {
           if (val) {
-            this.buildCreateCommentActionCallback(this.onDeeplSubmit)();
+            onClose(val, true);
           } else {
             onClose({ body, text, view: this.commentData });
           }

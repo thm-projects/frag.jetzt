@@ -33,7 +33,7 @@ export class WorkerDialogTask {
     private languagetoolService: LanguagetoolService,
     private finished: () => void
   ) {
-    this._keywordExtractor = new KeywordExtractor(languagetoolService, spacyService, deeplService);
+    this._keywordExtractor = new KeywordExtractor(null, null, null, null, languagetoolService, spacyService, deeplService);
     this._comments = comments;
     this.statistics.length = comments.length;
     this._running = new Array(concurrentCallsPerTask);
@@ -59,8 +59,14 @@ export class WorkerDialogTask {
       return;
     }
     const currentComment = this._comments[currentIndex];
-    this._keywordExtractor.generateKeywords(currentComment.body, currentComment.brainstormingQuestion,
-      !currentComment.keywordsFromQuestioner || currentComment.keywordsFromQuestioner.length === 0,
+    const selectedLang = currentComment.language.toLowerCase() as Lang;
+    if (currentComment.brainstormingQuestion) {
+      this._keywordExtractor.generateBrainstormingTerm(currentComment.body, selectedLang)
+        .subscribe((result) => this.finishSpacyCall(currentIndex, result));
+      return;
+    }
+    this._keywordExtractor.generateKeywords(currentComment.body,
+      false,
       currentComment.language.toLowerCase() as Lang)
       .subscribe((result) => this.finishSpacyCall(currentIndex, result));
   }

@@ -33,7 +33,7 @@ export class RoomDataService {
   constructor(
     private wsCommentService: WsCommentService,
     private commentService: CommentService,
-    private sessionService: SessionService,
+    public readonly sessionService: SessionService,
     private profanityFilterService: ProfanityFilterService,
     private authenticationService: AuthenticationService,
     private activeUserService: ActiveUserService,
