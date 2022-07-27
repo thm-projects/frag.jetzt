@@ -279,10 +279,6 @@ a {
   white-space: normal !important;
 }
 
-.mat-slide-toggle-content {
-  white-space: normal !important;
-}
-
 .mat-option {
   background-color: var(--dialog);
   color: var(--on-dialog);
@@ -400,4 +396,20 @@ blockquote {
   ::-webkit-scrollbar {
     display: none; /* for Chrome, Safari, and Opera */
   }
+}
+
+.mat-slide-toggle-bar {
+  background-color: var(--grey-light);
+}
+
+.mat-slide-toggle-thumb {
+  background-color: var(--grey);
+}
+
+.mat-slide-toggle.mat-checked .mat-slide-toggle-bar {
+  background-color: var(--grey-light);
+}
+
+.mat-slide-toggle.mat-checked .mat-slide-toggle-thumb {
+  background-color: var(--secondary);
 }
