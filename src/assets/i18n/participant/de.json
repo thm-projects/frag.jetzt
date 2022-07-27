@@ -47,6 +47,7 @@
     "answered": "Beantwortete Fragen",
     "ask-brainstorm-empty": "Gib deine Idee ein!",
     "ask-question-empty": "Hier kannst du deine Frage stellen.",
+    "counter": "Q {{comments}} | A {{answers}}",
     "comment-deleted": "Der Beitrag wurde gelöscht.",
     "comment-number": "Q{{topLevelNumber}}/L{{level}}/A{{number}}",
     "comment-sent": "Dein Beitrag wurde veröffentlicht.",

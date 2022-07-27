@@ -45,9 +45,9 @@
        fxLayoutAlign="center center">
     <div *ngIf="comments && (commentsFilteredByTimeLength > 0 || filterType || period !== 'All')">
       <h3 class="counter"
-          *ngIf="!filterType && !search">{{commentsFilteredByTimeLength}}</h3>
+          *ngIf="!filterType && !search">{{ 'comment-list.counter' | translate: getCommentInfo() }}</h3>
       <h3 class="counter-filtered"
-          *ngIf="filterType || search">{{comments.length}}</h3>
+          *ngIf="filterType || search">{{ comments.length }}</h3>
     </div>
 
     <button mat-icon-button

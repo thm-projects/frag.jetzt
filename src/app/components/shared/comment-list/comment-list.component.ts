@@ -440,6 +440,15 @@ export class CommentListComponent implements OnInit, OnDestroy {
     return false;
   }
 
+  getCommentInfo() {
+    const answers = this.comments.reduce((acc, c) => acc + c.totalAnswerCount, 0);
+    return {
+      comments: this.comments.length,
+      answers,
+      moderated: this.roomDataService.moderatorDataAccessor.currentRawComments().length,
+    } as const;
+  }
+
   private onCommentPatched(update: CommentPatchedKeyInformation) {
     if (update.subtype === 'favorite') {
       if (this.user.id === update.comment.creatorId && this.userRole === UserRole.PARTICIPANT &&
