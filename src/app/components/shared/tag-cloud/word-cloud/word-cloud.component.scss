@@ -43,6 +43,7 @@
     &.visible {
       transition: opacity ease var(--fadeInTime, 0ms), transform 1s ease 0.4s;
       opacity: 1;
+      border-radius: 20px;
     }
 
     &:hover {
