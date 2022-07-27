@@ -414,7 +414,7 @@
   "room-page": {
     "a11y-announcer": "Tu te trouves maintenant dans la session avec le code de salle que tu as saisi.",
     "a11y-question_answer": "Ouvre la page des questions et te donne la possibilité de poser des questions.",
-    "bonus-token": "Jetons pour les points bonus",
+    "bonus-token": "Codes bonus pour points bonus",
     "comments": "Questions",
     "create-comment": "Pose tes questions !",
     "create-comment-and-answer": "Demande & répond !",
@@ -634,7 +634,7 @@
     "header": "Échanger des étoiles contre des points bonus",
     "mail-body1": "Bonjour\n\nJ'ai obtenu les tokens suivants lors de la session « {{sessionName}} » avec le code de salle « {{sessionId}} » :\n",
     "mail-body2": "\n\n\nJe demande à les échanger contre des points bonus.\n\nMerci pour « frag.jetzt » !\n\n---",
-    "mail-subject": "Demande d'échange de mes jetons de la session « {{sessionName}} »",
+    "mail-subject": "Demande d'échange de mes codes bonus de la session « {{sessionName}} »",
     "moderator-emails": "\n\nE-mail des modérateurs",
     "no-bonus": "Tu n'as pas encore reçu d'étoile pour une « bonne » question.",
     "owner-email": "\n\nE-mail du créateur de la salle",
