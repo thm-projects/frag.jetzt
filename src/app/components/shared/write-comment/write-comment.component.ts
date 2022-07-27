@@ -278,9 +278,14 @@ export class WriteCommentComponent implements OnInit, OnDestroy {
         hadUsedDeepL: this._hadUsedDeepl,
         selectedLanguage: this.selectedLang,
         commentReference: this.commentReference,
-      }).subscribe(comment => {
-        localStorage.setItem('comment-created', String(true));
-        this.onClose(comment);
+      }).subscribe({
+        next: comment => {
+          localStorage.setItem('comment-created', String(true));
+          this.onClose(comment);
+        },
+        error: () => {
+          // Ignore
+        }
       });
     }
   }

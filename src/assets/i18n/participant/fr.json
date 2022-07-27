@@ -444,7 +444,9 @@
     "select-all-hint": "Sélectionner tous les noms comme mots-clés",
     "select-keyword-hint": "Sélectionner ce mot comme mot-clé",
     "select-keywords": "Quels mots-clés décrivent le mieux ta question ?",
-    "tag-button-hint": "Choisis la catégorie qui correspond le mieux à ta question."
+    "tag-button-hint": "Choisis la catégorie qui correspond le mieux à ta question.",
+    "analysis-error": "Des erreurs se sont produites lors de l'extraction des mots-clés. La question doit-elle être créée sans mots-clés ?",
+    "analysis-bad-spelled": "La qualité du commentaire n'a pas pu être détectée ou est insuffisante. La question doit-elle être créée sans mots-clés ?"
   },
   "tag-cloud": {
     "blacklist-topic": "Ajouter à la liste de blocage",

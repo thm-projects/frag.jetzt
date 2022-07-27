@@ -256,7 +256,7 @@ export class KeywordExtractor {
         resultType: KeywordsResultType.Failure,
         error: err,
         wasDeepLError: true,
-      } as KeywordsResult)),
+      } as KeywordsResult))
     );
   }
 

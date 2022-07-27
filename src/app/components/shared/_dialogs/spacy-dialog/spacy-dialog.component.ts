@@ -28,7 +28,7 @@ export class SpacyDialogComponent implements OnInit {
   hasKeywordsFromSpacy = false;
   langSupported: boolean;
   manualKeywords = '';
-  noSuccess = false;
+  customMessage = null;
   _concurrentEdits = 0;
 
   constructor(
@@ -40,10 +40,15 @@ export class SpacyDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.comment = this.data.comment;
-    const resultKey = this.data.result.result;
+    const resultKey = this.data.result.resultType;
     this.langSupported = resultKey !== KeywordsResultType.LanguageNotSupported;
     const source = this.comment.keywordsFromSpacy;
-    this.noSuccess = resultKey === KeywordsResultType.Failure || resultKey === KeywordsResultType.BadSpelled;
+    if (resultKey === KeywordsResultType.Failure) {
+      this.customMessage = 'spacy-dialog.analysis-error';
+      console.error(this.data.result.error);
+    } else if (resultKey === KeywordsResultType.BadSpelled) {
+      this.customMessage = 'spacy-dialog.analysis-bad-spelled';
+    }
     this.hasKeywordsFromSpacy = resultKey === KeywordsResultType.Successful && source.length > 0;
     this.keywords = source.map(keyword => ({
       word: keyword.text,

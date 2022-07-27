@@ -623,7 +623,9 @@
     "select-all-hint": "Select all keywords",
     "select-keyword-hint": "Select this keyword",
     "select-keywords": "The text analysis suggests keywords. Which best describe your question?",
-    "tag-button-hint": "Choose the appropriate category for your question."
+    "tag-button-hint": "Choose the appropriate category for your question.",
+    "analysis-error": "Errors occurred during the extraction of keywords. Should the question be created without keywords?",
+    "analysis-bad-spelled": "The quality of the comment could not be detected or is insufficient. Should the question be created without keywords?"
   },
   "tag-cloud": {
     "blacklist-topic": "Add to blacklist",
