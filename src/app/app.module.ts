@@ -79,6 +79,7 @@ import { HelpFrComponent } from '../assets/i18n/components/help/help-fr';
 import { DemoFrComponent } from '../assets/i18n/components/demo/demo-fr';
 import { DataProtectionFrComponent } from '../assets/i18n/components/data-protection/data-protection-fr';
 import { CookiesFrComponent } from '../assets/i18n/components/cookies/cookies-fr';
+import { AdminModule } from './components/admin/admin.module';
 
 export const dialogClose = (dialogResult: any) => '';
 
@@ -133,6 +134,7 @@ export const HttpLoaderFactory = (http: HttpClient) => new TranslateHttpLoader(h
     MatIconModule,
     MatDialogModule,
     HttpClientModule,
+    AdminModule,
     CreatorModule,
     ModeratorModule,
     MarkdownModule.forRoot({

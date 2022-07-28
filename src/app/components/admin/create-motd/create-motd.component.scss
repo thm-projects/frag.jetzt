@@ -1,0 +1,25 @@
+:host > mat-card {
+  margin-top: 2rem;
+  background: var(--surface);
+  color: var(--on-surface);
+  display: flex;
+  flex-direction: column;
+}
+
+
+button {
+  background-color: var(--surface);
+  color: var(--on-surface);
+  border-radius: 5px;
+  font-size: 1rem;
+
+  &:hover {
+    outline: 3px solid var(--secondary);
+  }
+}
+
+.time-select {
+  display: flex;
+  justify-content: space-evenly;
+  margin: 1em 0;
+}

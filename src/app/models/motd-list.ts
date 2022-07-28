@@ -42,10 +42,9 @@ export class MotdList {
         e.id,
         new Date(e.startTimestamp),
         new Date(e.endTimestamp),
-        e.msgEnglish,
-        e.msgGerman,
         isNew,
-        this.localRead.indexOf(e.id) >= 0
+        this.localRead.indexOf(e.id) >= 0,
+        e.messages,
       );
       motd.isReadEmit.subscribe(m => {
         this.updateLocaleRead(m);

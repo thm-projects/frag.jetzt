@@ -33,11 +33,7 @@ export class MotdMessageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.release.push(ArsUtil.setInterval(() => {
       this.date.emit(this.arsDateFormatter.approximateDate(this.message.startTimestamp));
     }, 1000, true));
-    if (this.languageService.currentLanguage() === 'de') {
-      this.translatedMessage = this.message.msgGerman;
-    } else {
-      this.translatedMessage = this.message.msgEnglish;
-    }
+    this.translatedMessage = this.message.getMessage(this.languageService.currentLanguage());
   }
 
   public setIsRead(isRead: boolean) {

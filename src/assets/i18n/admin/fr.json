@@ -1,0 +1,19 @@
+{
+  "create-motd": {
+    "create": "Créer",
+    "english": "Texte anglais",
+    "error": "Une erreur s'est produite !",
+    "french": "Texte français",
+    "german": "Texte allemand",
+    "label": "Date de début et de fin",
+    "placeholder-date-end": "Date de fin",
+    "placeholder-date-start": "Date de début",
+    "placeholder-english": "Entrer ici...",
+    "placeholder-french": "Entrer ici...",
+    "placeholder-german": "Entrer ici...",
+    "placeholder-time-end": "Fin du temps",
+    "placeholder-time-start": "Heure de début",
+    "success": "Créé avec succès",
+    "title": "Créez un message du jour !"
+  }
+}

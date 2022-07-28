@@ -47,7 +47,6 @@
     "answered": "Answered questions",
     "ask-brainstorm-empty": "Enter your idea!",
     "ask-question-empty": "Here you can ask your question.",
-    "counter": "Q {{comments}} | A {{answers}} | M {{moderated}}",
     "comment-deleted": "The contribution has been deleted.",
     "comment-number": "Q{{topLevelNumber}}/L{{level}}/A{{number}}",
     "comment-sent": "Your contribution has been published.",
@@ -55,6 +54,7 @@
     "comment-stream-started": "Question stream has been started.",
     "comment-stream-stopped": "Question stream has been stopped.",
     "correct": "Marked as correct",
+    "counter": "Q {{comments}} | A {{answers}} | M {{moderated}}",
     "favorite": "Bonus question",
     "filter-answered": "Answered questions",
     "filter-bookmark": "Bookmarked questions",
@@ -286,7 +286,6 @@
     "votingTitle": "Rate a question"
   },
   "question-wall": {
-    "introduction": "Help",
     "auto-renew-off": "Exit autofocus for new questions",
     "auto-renew-off-icon": "cancel",
     "auto-renew-on": "Start autofocus for new questions",
@@ -313,6 +312,7 @@
     "intro-autofocus": "",
     "intro-desc": "Click on a question or navigate forward and backward using the arrow keys.",
     "intro-title": "Question Focus",
+    "introduction": "Help",
     "leave": "Back to forum",
     "next-comment": "Next question",
     "next-comment-icon": "navigate_next",
@@ -429,6 +429,8 @@
   },
   "spacy-dialog": {
     "add-manually": "Enter a keyword for your question. Separate several keywords with a comma.",
+    "analysis-bad-spelled": "No keywords could be generated.",
+    "analysis-error": "Errors occurred during the extraction of keywords. Should the question be created without keywords?",
     "auto": "auto",
     "de": "German",
     "edit-keyword-hint": "Edit keyword",
@@ -442,9 +444,7 @@
     "select-all-hint": "Select all words as keywords",
     "select-keyword-hint": "Select this word as a keyword",
     "select-keywords": "Which keywords best describe your question?",
-    "tag-button-hint": "Select the most appropriate category for your question.",
-    "analysis-error": "Errors occurred during the extraction of keywords. Should the question be created without keywords?",
-    "analysis-bad-spelled": "No keywords could be generated."
+    "tag-button-hint": "Select the most appropriate category for your question."
   },
   "tag-cloud": {
     "blacklist-topic": "Add topic to blacklist",

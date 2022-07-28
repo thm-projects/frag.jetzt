@@ -52,7 +52,6 @@
     "answered": "Questions répondues",
     "ask-brainstorm-empty": "Saisis ton idée !",
     "ask-question-empty": "Tu peux poser ta question ici.",
-    "counter": "Q {{comments}} | R {{answers}} | M {{moderated}}",
     "comment-deleted": "Le message a été supprimé.",
     "comment-number": "Q{{topLevelNumber}}/N{{level}}/R{{number}}",
     "comment-sent": "Ton message a été publié.",
@@ -60,6 +59,7 @@
     "comment-stream-started": "Le flux de questions a été lancé.",
     "comment-stream-stopped": "Le flux de questions a été stoppé.",
     "correct": "Questions marquées comme correctes",
+    "counter": "Q {{comments}} | R {{answers}} | M {{moderated}}",
     "favorite": "Questions marquées",
     "filter-answered": "Questions répondues",
     "filter-bookmark": "Signet",
@@ -574,6 +574,8 @@
   },
   "spacy-dialog": {
     "add-manually": "Saisis un mot-clé en rapport avec ta question. Sépare plusieurs mots-clés par une virgule.",
+    "analysis-bad-spelled": "Aucun mot-clé n'a pu être généré",
+    "analysis-error": "Des erreurs sont survenues pendant l'extraction des mots-clés. Doit-on créer la question sans mots-clés ?",
     "auto": "auto",
     "de": "Allemand",
     "edit-keyword-hint": "Éditer un mot",
@@ -584,12 +586,10 @@
     "lang-button-hint": "Choisis la langue pour la vérification orthographique.",
     "language": "Langue",
     "select-all": "Sélectionner tout",
-    "select-all-hint" : "Sélectionner tous les mots comme mots-clés",
-    "select-keyword-hint" : "Sélectionner ce mot comme mot-clé",
-    "select-keywords" : "Quels mots clés décrivent le mieux ta question ?",
-    "tag-button-hint" : "Choisis la catégorie la plus pertinente pour ta question",
-    "analysis-error" : "Des erreurs sont survenues pendant l'extraction des mots-clés. Doit-on créer la question sans mots-clés ?",
-    "analysis-bad-spelled" : "Aucun mot-clé n'a pu être généré"
+    "select-all-hint": "Sélectionner tous les mots comme mots-clés",
+    "select-keyword-hint": "Sélectionner ce mot comme mot-clé",
+    "select-keywords": "Quels mots clés décrivent le mieux ta question ?",
+    "tag-button-hint": "Choisis la catégorie la plus pertinente pour ta question"
   },
   "tag-cloud": {
     "blacklist-topic": "Ajouter à la liste de blocage",

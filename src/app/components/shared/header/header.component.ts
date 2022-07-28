@@ -232,6 +232,10 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     this.navToHome();
   }
 
+  routeAdmin() {
+    this.router.navigate(['/admin/create-motd']);
+  }
+
   openDeleteUserDialog() {
     const dialogRef = this.dialog.open(DeleteAccountComponent, {
       width: '600px'
