@@ -54,6 +54,7 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
   vote: Vote;
   isModerationComment = false;
   isConversationView: boolean;
+  backUrl: string = null;
   roleString: string;
   private _commentSubscription;
   private _list: ComponentRef<any>[];
@@ -89,6 +90,7 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.backUrl = sessionStorage.getItem('conversation-fallback-url');
     this.isConversationView = this.router.url.endsWith('conversation');
     this.userRole = this.sessionService.currentRole;
     this.initNavigation();
@@ -99,6 +101,9 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
     });
     if (this.userRole !== UserRole.PARTICIPANT) {
       this.isStudent = false;
+    }
+    if (this.backUrl && this.isConversationView) {
+      document.getElementById('header_rescale').style.display = 'none';
     }
     switch (this.userRole) {
       case UserRole.PARTICIPANT.valueOf():
@@ -133,7 +138,13 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
     });
   }
 
+  goBack() {
+    this.router.navigate([this.backUrl]);
+  }
+
   ngOnDestroy() {
+    sessionStorage.removeItem('conversation-fallback-url');
+    document.getElementById('header_rescale').style.display = '';
     const source = this.isModerationComment ? this.roomDataService.moderatorDataAccessor : this.roomDataService.dataAccessor;
     source.unregisterUI(true);
     this._list?.forEach(e => e.destroy());

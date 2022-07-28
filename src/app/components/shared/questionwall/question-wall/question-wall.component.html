@@ -220,10 +220,11 @@
                                       ars-flex-box>
                 <ars-col ars-btn-wrp
                          [xp]="32"
-                         *ngIf="user && commentFocus.creatorId !== user.id"
+                         *ngIf="commentFocus.creatorId !== user?.id || commentFocus.totalAnswerCount > 0"
                          [extra]="true"
                          class="questionwall-comment-btn">
                   <button ars-btn
+                          *ngIf="commentFocus.creatorId !== user?.id"
                           (click)="likeComment(commentFocus)"
                           class="qw-fade-animation"
                           matRipple>
@@ -231,11 +232,20 @@
                     <p style="padding-left:22px;">{{commentFocus.upvotes}}</p>
                   </button>
                   <button ars-btn
+                          *ngIf="commentFocus.creatorId !== user?.id"
                           (click)="dislikeComment(commentFocus)"
                           class="qw-fade-animation"
                           matRipple>
                     <mat-icon>thumb_down</mat-icon>
                     <p style="padding-left:22px;">{{commentFocus.downvotes}}</p>
+                  </button>
+                  <button ars-btn
+                          *ngIf="commentFocus.totalAnswerCount > 0"
+                          (click)="openConversation(commentFocus)"
+                          class="qw-fade-animation"
+                          matRipple>
+                    <mat-icon class="material-icons-round">forum</mat-icon>
+                    <p style="padding-left:22px;">{{commentFocus.totalAnswerCount}}</p>
                   </button>
                 </ars-col>
                 <ars-fill></ars-fill>
@@ -471,19 +481,28 @@
                           <ars-col ars-btn-wrp
                                    [xp]="16"
                                    [extra]="true"
-                                   *ngIf="user && comment.creatorId !== user.id"
+                                   *ngIf="comment.creatorId !== user?.id || comment?.totalAnswerCount > 0"
                                    class="questionwall-comment-btn">
                             <button ars-btn
+                                    *ngIf="comment.creatorId !== user?.id"
                                     (click)="likeComment(comment)"
                                     matRipple>
                               <mat-icon>thumb_up</mat-icon>
                               <p style="padding-left:4px;">{{comment.upvotes}}</p>
                             </button>
                             <button ars-btn
+                                    *ngIf="comment.creatorId !== user?.id"
                                     (click)="dislikeComment(comment)"
                                     matRipple>
                               <mat-icon>thumb_down</mat-icon>
                               <p style="padding-left:4px;">{{comment.downvotes}}</p>
+                            </button>
+                            <button ars-btn
+                                    *ngIf="comment?.totalAnswerCount > 0"
+                                    (click)="openConversation(comment)"
+                                    matRipple>
+                              <mat-icon class="material-icons-round">forum</mat-icon>
+                              <p style="padding-left:4px;">{{comment.totalAnswerCount}}</p>
                             </button>
                           </ars-col>
                           <ars-fill (click)="focusComment(comment)"

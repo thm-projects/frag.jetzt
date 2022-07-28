@@ -1,3 +1,34 @@
+.fake-header {
+  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+  height: 4rem;
+  width: 100%;
+  position: fixed;
+  left: 0;
+  top: 0;
+  background-color: var(--background);
+  color: var(--on-background);
+  display: flex;
+  align-items: center;
+
+  button {
+    margin: 0 0 0 10px;
+    min-width: 0;
+    border-radius: 5px;
+
+    &:hover {
+      outline: 3px solid var(--secondary);
+    }
+
+    mat-icon {
+      font-size: 24px;
+      line-height: 1em;
+      width: 1em;
+      height: 1em;
+      margin: 0 10px 0 0;
+    }
+  }
+}
+
 app-comment, mat-card {
   width: 100%;
   max-width: 800px;
