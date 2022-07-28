@@ -2,7 +2,7 @@
   <p class="counter"
      *ngIf="!filterType && !search">{{ 'comment-list.counter' | translate: getCommentInfo() }}</p>
   <p class="counter-filtered"
-      *ngIf="filterType || search">{{ comments.length }}<br></p>
+      *ngIf="filterType || search">{{ comments.length }}</p>
 </div>
 
 <div fxLayout="row"
