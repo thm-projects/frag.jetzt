@@ -52,6 +52,7 @@
     "answered": "Beantwortete Fragen",
     "ask-brainstorm-empty": "Gib deine Idee ein!",
     "ask-question-empty": "Hier kannst du deine Frage stellen.",
+    "counter": "Q {{comments}} | A {{answers}} | M {{moderated}}",
     "comment-deleted": "Der Beitrag wurde gelöscht.",
     "comment-number": "Q{{topLevelNumber}}/L{{level}}/A{{number}}",
     "comment-sent": "Dein Beitrag wurde veröffentlicht.",
@@ -583,10 +584,12 @@
     "lang-button-hint": "Wähle die Sprache für die Rechtschreibprüfung.",
     "language": "Sprache",
     "select-all": "Alles auswählen",
-    "select-all-hint": "Alle Nomen als Stichwörter auswählen",
+    "select-all-hint": "Alle Wörter als Stichwörter auswählen",
     "select-keyword-hint": "Dieses Wort als Stichwort auswählen",
     "select-keywords": "Welche Stichwörter beschreiben deine Frage am besten?",
-    "tag-button-hint": "Wähle die treffende Kategorie für deine Frage."
+    "tag-button-hint": "Wähle die treffende Kategorie für deine Frage.",
+    "analysis-error": "Während der Extraktion von Stichwörtern sind Fehler aufgetreten. Soll die Frage ohne Stichwörter erstellt werden?",
+    "analysis-bad-spelled": "Es konnten keine Stichwörter generiert werden."
   },
   "tag-cloud": {
     "blacklist-topic": "Auf die Sperrliste setzen",

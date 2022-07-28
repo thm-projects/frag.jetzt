@@ -52,6 +52,7 @@
     "answered": "Questions répondues",
     "ask-brainstorm-empty": "Saisis ton idée !",
     "ask-question-empty": "Tu peux poser ta question ici.",
+    "counter": "Q {{comments}} | R {{answers}} | M {{moderated}}",
     "comment-deleted": "Le message a été supprimé.",
     "comment-number": "Q{{topLevelNumber}}/N{{level}}/R{{number}}",
     "comment-sent": "Ton message a été publié.",
@@ -583,10 +584,12 @@
     "lang-button-hint": "Choisis la langue pour la vérification orthographique.",
     "language": "Langue",
     "select-all": "Sélectionner tout",
-    "select-all-hint": "Sélectionner tous les noms comme mots-clés",
-    "select-keyword-hint": "Sélectionner ce mot comme mot-clé",
-    "select-keywords": "Quels mots-clés décrivent le mieux ta question ?",
-    "tag-button-hint": "Choisis la catégorie qui correspond le mieux à ta question."
+    "select-all-hint" : "Sélectionner tous les mots comme mots-clés",
+    "select-keyword-hint" : "Sélectionner ce mot comme mot-clé",
+    "select-keywords" : "Quels mots clés décrivent le mieux ta question ?",
+    "tag-button-hint" : "Choisis la catégorie la plus pertinente pour ta question",
+    "analysis-error" : "Des erreurs sont survenues pendant l'extraction des mots-clés. Doit-on créer la question sans mots-clés ?",
+    "analysis-bad-spelled" : "Aucun mot-clé n'a pu être généré"
   },
   "tag-cloud": {
     "blacklist-topic": "Ajouter à la liste de blocage",

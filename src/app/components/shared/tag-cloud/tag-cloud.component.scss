@@ -18,10 +18,9 @@ ars-fill {
 }
 
 mat-drawer-container {
-  height: calc(100% - #{$header-size});
+  height: 100%;
   width: 100%;
   position: fixed;
-  margin-top: $header-size;
 }
 
 mat-drawer-content {

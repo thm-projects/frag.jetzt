@@ -79,11 +79,11 @@
       [buttonsLabelSection]="i18nSection"
       [confirmButtonLabel]="confirmLabel"
       [cancelButtonLabel]="cancelLabel"
-      [showLoadingCycle]="isSpinning"
+      [showLoadingCycle]="isSubmittingComment"
       [showDivider]="false"
       [spacing]="false"
       [cancelButtonClickAction]="buildCloseDialogActionCallback()"
-      [confirmButtonClickAction]="buildCreateCommentActionCallback(this.onSubmit)"
+      [confirmButtonClickAction]="buildCreateCommentActionCallback()"
     ></app-dialog-action-buttons>
   </ars-col>
 </ars-row>

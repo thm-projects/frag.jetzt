@@ -440,6 +440,15 @@ export class CommentListComponent implements OnInit, OnDestroy {
     return false;
   }
 
+  getCommentInfo() {
+    const answers = this.comments.reduce((acc, c) => acc + c.totalAnswerCount, 0);
+    return {
+      comments: this.comments.length,
+      answers,
+      moderated: this.roomDataService.moderatorDataAccessor.currentRawComments().length,
+    } as const;
+  }
+
   private onCommentPatched(update: CommentPatchedKeyInformation) {
     if (update.subtype === 'favorite') {
       if (this.user.id === update.comment.creatorId && this.userRole === UserRole.PARTICIPANT &&
@@ -459,7 +468,8 @@ export class CommentListComponent implements OnInit, OnDestroy {
 
   private generateKeywordsIfEmpty(comments: Comment[]) {
     if (TopicCloudFilterComponent.isUpdatable(comments, this.userRole, this.sessionService.currentRoom.id)) {
-      TopicCloudFilterComponent.startUpdate(this.dialog, this.room, this.userRole);
+      // TO-DO: Enable if valid
+      // do: TopicCloudFilterComponent.startUpdate(this.dialog, this.room, this.userRole);
     }
   }
 
