@@ -213,16 +213,13 @@
   },
   "content": {
     "cancel": "Annuler",
-    "delete": "Oui",
     "tag-cloud-create": "Continue",
-    "tag-cloud-info": "Plus la police est grande, plus le mot a été utilisé souvent dans les questions ou attribué comme mot-clé. Les évaluations des questions influencent également la taille de la police.",
     "tag-cloud-questions-all": "Toutes les questions",
     "tag-cloud-questions-all-short": "Tous les",
-    "tag-cloud-questions-current-filtered": "Liste actuelle",
-    "tag-cloud-questions-from-now": "À partir de maintenant",
+    "tag-cloud-questions-current-filtered": "Questions filtrées",
+    "tag-cloud-questions-from-now": "Questions à partir de maintenant",
     "tag-cloud-questions-from-now-short": "À partir de maintenant",
-    "tag-cloud-questions-title": "Quelles sont les questions que tu aimerais avoir sur le radar ?",
-    "yes": "Oui"
+    "tag-cloud-questions-title": "Quelles sont les questions que tu aimerais avoir sur le radar ?"
   },
   "deepl": {
     "header": "Optimiser le texte",
