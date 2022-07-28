@@ -193,18 +193,13 @@ app-comment {
 }
 
 .counter {
-  color: var(--secondary);
-  width: max-content;
+  font-size: 18px;
+  color: var(--on-background);
 }
 
 .counter-filtered {
+  font-size: 18px;
   color: var(--red);
-  font-weight: normal;
-}
-
-h3 {
-  font-size: 18pt !important;
-  margin: 10px 10px 10px -5px;
   font-weight: bold;
 }
 

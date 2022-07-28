@@ -47,7 +47,7 @@
     "answered": "Answered questions",
     "ask-brainstorm-empty": "Enter your idea!",
     "ask-question-empty": "Here you can ask your question.",
-    "counter": "Q {{comments}} | A {{answers}}",
+    "counter": "Q {{comments}} | A {{answers}} | M {{moderated}}",
     "comment-deleted": "The contribution has been deleted.",
     "comment-number": "Q{{topLevelNumber}}/L{{level}}/A{{number}}",
     "comment-sent": "Your contribution has been published.",

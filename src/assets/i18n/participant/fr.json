@@ -47,7 +47,7 @@
     "answered": "Questions répondues",
     "ask-brainstorm-empty": "Saisis ton idée !",
     "ask-question-empty": "Tu peux poser ta question ici.",
-    "counter": "Q {{comments}} | A {{answers}}",
+    "counter": "Q {{comments}} | R {{answers}} | M {{moderated}}",
     "comment-deleted": "Le message a été supprimé.",
     "comment-number": "Q{{topLevelNumber}}/N{{level}}/R{{number}}",
     "comment-sent": "Ton message a été publié.",

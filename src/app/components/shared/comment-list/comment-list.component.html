@@ -1,3 +1,10 @@
+<div *ngIf="comments && (commentsFilteredByTimeLength > 0 || filterType || period !== 'All')">
+  <p class="counter"
+     *ngIf="!filterType && !search">{{ 'comment-list.counter' | translate: getCommentInfo() }}</p>
+  <p class="counter-filtered"
+      *ngIf="filterType || search">{{ comments.length }}<br></p>
+</div>
+
 <div fxLayout="row"
      *ngIf="comments.length > 0 || filterType || period !== 'All' || search"
      [ngClass]="{'search-container' : !scroll, 'search-container-fixed' : scroll}"
@@ -43,12 +50,7 @@
        [stepPosition]="'bottom'"
        appJoyrideTemplate
        fxLayoutAlign="center center">
-    <div *ngIf="comments && (commentsFilteredByTimeLength > 0 || filterType || period !== 'All')">
-      <h3 class="counter"
-          *ngIf="!filterType && !search">{{ 'comment-list.counter' | translate: getCommentInfo() }}</h3>
-      <h3 class="counter-filtered"
-          *ngIf="filterType || search">{{ comments.length }}</h3>
-    </div>
+
 
     <button mat-icon-button
             class="searchBarButton"
@@ -320,7 +322,7 @@
         <mat-form-field>
           <mat-label class="numbers" [ngClass]="{Number: 'number-icon'}[filterType]">
             <mat-icon class="material-icons-outlined" [ngClass]="{Number: 'number-icon'}[filterType]">
-            search
+              search
             </mat-icon>
             {{'comment-list.filter-question-number' | translate}}
           </mat-label>
