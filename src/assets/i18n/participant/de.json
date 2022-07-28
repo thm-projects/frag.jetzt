@@ -213,16 +213,13 @@
   },
   "content": {
     "cancel": "Abbrechen",
-    "delete": "Ja",
     "tag-cloud-create": "Weiter",
-    "tag-cloud-info": "Je größer die Schrift, desto häufiger wurde das Wort in den Fragen verwendet oder als Stichwort vergeben. Auch die Bewertungen der Fragen beeinflussen die Schriftgröße.",
     "tag-cloud-questions-all": "Alle Fragen",
     "tag-cloud-questions-all-short": "Alle",
-    "tag-cloud-questions-current-filtered": "Aktuelle Liste",
-    "tag-cloud-questions-from-now": "Fragen ab jetzt",
-    "tag-cloud-questions-from-now-short": "Von nun an",
-    "tag-cloud-questions-title": "Welche Fragen willst du auf dem Radar haben?",
-    "yes": "Ja"
+    "tag-cloud-questions-current-filtered": "Gefiltert",
+    "tag-cloud-questions-from-now": "Nur Fragen ab jetzt",
+    "tag-cloud-questions-from-now-short": "Ab jetzt",
+    "tag-cloud-questions-title": "Welche Fragen willst du auf dem Radar haben?"
   },
   "deepl": {
     "header": "Text optimieren",

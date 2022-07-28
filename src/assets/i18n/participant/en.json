@@ -213,16 +213,13 @@
   },
   "content": {
     "cancel": "Cancel",
-    "delete": "Yes",
     "tag-cloud-create": "Next",
-    "tag-cloud-info": "The word cloud in »frag.jetzt« serves as a semantic filter: the larger the font, the more often the word was used grammatically in the questions or assigned as a keyword. The ratings of the questions also influence the font size.",
     "tag-cloud-questions-all": "All questions",
     "tag-cloud-questions-all-short": "All",
-    "tag-cloud-questions-current-filtered": "Current list",
-    "tag-cloud-questions-from-now": "Questions from now on",
+    "tag-cloud-questions-current-filtered": "Filtered",
+    "tag-cloud-questions-from-now": "Only questions from now on",
     "tag-cloud-questions-from-now-short": "From now on",
-    "tag-cloud-questions-title": "Which questions do you want on the radar?",
-    "yes": "Yes"
+    "tag-cloud-questions-title": "Which questions do you want on the radar?"
   },
   "deepl": {
     "header": "Optimize text",
