@@ -25,6 +25,7 @@ import { ArsDateFormatter } from '../../../../../../projects/ars/src/lib/service
 import { FilteredDataAccess } from '../../../../utils/filtered-data-access';
 import { forkJoin } from 'rxjs';
 import { HeaderService } from '../../../../services/util/header.service';
+import { ForumComment } from '../../../../utils/data-accessor';
 
 
 interface CommentCache {
@@ -46,8 +47,8 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
 
   sidelistExpanded = true;
   qrCodeExpanded = false;
-  comments: Comment[] = [];
-  commentFocus: Comment = null;
+  comments: ForumComment[] = [];
+  commentFocus: ForumComment = null;
   commentFocusId: string = null;
   commentsCountQuestions = 0;
   commentsCountUsers = 0;
@@ -242,7 +243,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  focusComment(comment: Comment) {
+  focusComment(comment: ForumComment) {
     this.firstPassIntroduction = false;
     if (this.commentFocusId === comment.id) {
       return;
@@ -286,21 +287,9 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   leave() {
-    const resolveUserRole: () => string = () => {
-      switch (this.user ? this.user.role : -1) {
-        case UserRole.PARTICIPANT:
-          return 'participant';
-        case UserRole.EDITING_MODERATOR:
-          return 'moderator';
-        case UserRole.EXECUTIVE_MODERATOR:
-          return 'moderator';
-        case UserRole.CREATOR:
-          return 'creator';
-        default:
-          return 'participant';
-      }
-    };
-    this.router.navigate(['/' + resolveUserRole() + '/room/' + this.sessionService.currentRoom.shortId + '/comments']);
+    this.router.navigate([
+      '/' + this.resolveUserRole() + '/room/' + this.sessionService.currentRoom.shortId + '/comments'
+    ]);
   }
 
   likeComment(comment: Comment) {
@@ -309,6 +298,14 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
 
   dislikeComment(comment: Comment) {
     this.commentService.voteDown(comment, this.user.id).subscribe();
+  }
+
+  openConversation(comment: Comment) {
+    sessionStorage.setItem('conversation-fallback-url', decodeURI(this.router.url));
+    this.router.navigate([
+      '/' + this.resolveUserRole() + '/room/' + this.sessionService.currentRoom.shortId +
+      '/comment/' + comment.id + '/conversation'
+    ]);
   }
 
   sortScore(reverse?: boolean) {
@@ -477,6 +474,21 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     }).subscribe(msg => message = msg.split('/'));
     return message;
   }
+
+  private resolveUserRole(): string {
+    switch (this.user ? this.user.role : -1) {
+      case UserRole.PARTICIPANT:
+        return 'participant';
+      case UserRole.EDITING_MODERATOR:
+        return 'moderator';
+      case UserRole.EXECUTIVE_MODERATOR:
+        return 'moderator';
+      case UserRole.CREATOR:
+        return 'creator';
+      default:
+        return 'participant';
+    }
+  };
 
   private refreshUserMap() {
     this.userMap.clear();

@@ -58,9 +58,14 @@ export class DeepLDialogComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.normal.afterEditorInit = () => {
+    const build = () => {
       this.normal.buildMarks(this.data.text, this.data.result);
     };
+    if (this.normal.initialized) {
+      build();
+    } else {
+      this.normal.afterEditorInit = build;
+    }
   }
 
   buildCloseDialogActionCallback(): () => void {
@@ -84,7 +89,7 @@ export class DeepLDialogComponent implements OnInit, AfterViewInit {
       if (ViewCommentDataComponent.checkInputData(
         current.body, current.text, this.translateService, this.notificationService, this.data.maxTextCharacters,
         this.data.maxDataCharacters)) {
-        this.data.onClose(current);
+        this.data.onClose(current, true);
         this.dialogRef.close(true);
       }
     };

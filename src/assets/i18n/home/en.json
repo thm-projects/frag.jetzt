@@ -186,6 +186,7 @@
     "my-account": "Options",
     "my-sessions": "My rooms",
     "not-in-own-view": "You are currently in the participant view. In the options you can switch back to your view.",
+    "open-admin": "Administration",
     "overview-admin-config-enabled": "Thresholds for displaying topics are active.",
     "overview-keywords-tooltip": "Number of Keywords",
     "overview-question-tooltip": "Number of questions",
@@ -548,8 +549,8 @@
     "session-name-with-key-code-generated": "What should the event be called?"
   },
   "title": {
-    "default-title": "frag.jetzt: Collect, evaluate and present questions",
-    "attach-title": "frag.jetzt {{attachment}}"
+    "attach-title": "frag.jetzt {{attachment}}",
+    "default-title": "frag.jetzt: Collect, evaluate and present questions"
   },
   "token-validator": {
     "bonus-token-header": "Bonus archive",
