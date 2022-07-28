@@ -53,6 +53,7 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
   currentText = '\n';
   quillModules: QuillModules = {};
   hasEmoji = true;
+  private _initialized = false;
   private _currentData: StandardDelta = null;
   private _marks: Marks;
 
@@ -69,6 +70,10 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
         this.updateCSSVariables();
       }
     });
+  }
+
+  get initialized(): boolean {
+    return this._initialized;
   }
 
   get currentData(): StandardDelta {
@@ -182,9 +187,8 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
       this.initMaterialTooltip();
       this.overrideQuillTooltip();
       this.syncErrorLayer();
-      if (this.afterEditorInit) {
-        this.afterEditorInit();
-      }
+      this.afterEditorInit?.();
+      this._initialized = true;
     };
     if (this.editor.editorElem) {
       initEditor();
@@ -263,9 +267,9 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
     const picker = tooltip.querySelector('.ql-picker-options');
     tooltip.addEventListener('mouseover', e => {
       if (picker.contains(e.target as Node)) {
-        this.moderatorToolbarFontColorTooltip.hide();
+        this.moderatorToolbarFontColorTooltip?.hide();
       } else {
-        this.moderatorToolbarFontColorTooltip.show();
+        this.moderatorToolbarFontColorTooltip?.show();
       }
     });
   }

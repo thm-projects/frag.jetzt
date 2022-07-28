@@ -328,9 +328,7 @@ export class WriteCommentComponent implements OnInit, OnDestroy {
           }
         });
         instance.afterClosed().subscribe((val) => {
-          if (val) {
-            onClose(val, true);
-          } else {
+          if (!val) {
             onClose({ body, text, view: this.commentData });
           }
         });
