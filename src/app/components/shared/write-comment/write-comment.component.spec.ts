@@ -17,6 +17,8 @@ import { EventService } from '../../../services/util/event.service';
 import { AuthenticationService } from '../../../services/http/authentication.service';
 import { DataStoreService } from '../../../services/util/data-store.service';
 import { ModeratorService } from '../../../services/http/moderator.service';
+import { CommentService } from '../../../services/http/comment.service';
+import { CommentServiceMock } from '../../../services/mocks/comment.service.mock';
 
 describe('WriteCommentComponent', () => {
   let component: WriteCommentComponent;
@@ -35,6 +37,10 @@ describe('WriteCommentComponent', () => {
         {
           provide: TranslateService,
           useClass: TranslateServiceMock,
+        },
+        {
+          provide: CommentService,
+          useClass: CommentServiceMock,
         },
         DeepLService,
         LanguagetoolService,

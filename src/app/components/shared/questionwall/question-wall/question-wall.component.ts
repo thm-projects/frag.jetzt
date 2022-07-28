@@ -488,7 +488,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
       default:
         return 'participant';
     }
-  };
+  }
 
   private refreshUserMap() {
     this.userMap.clear();
