@@ -6,7 +6,7 @@ import { Comment, Language } from '../../models/comment';
 import { generateConsequentlyUUID } from '../../utils/test-utils';
 import { CorrectWrong } from '../../models/correct-wrong.enum';
 import { map } from 'rxjs/operators';
-import { QuillUtils, SerializedDelta, StandardDelta } from '../../utils/quill-utils';
+import { QuillUtils, SerializedDelta } from '../../utils/quill-utils';
 
 @Injectable()
 export class CommentServiceMock extends CommentService {
