@@ -33,7 +33,7 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatTooltipModule } from '@angular/material/tooltip';
+import { MAT_TOOLTIP_DEFAULT_OPTIONS, MatTooltipModule } from '@angular/material/tooltip';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
@@ -49,9 +49,9 @@ export const HttpLoaderFactory = (http: HttpClient) => {
         provide: TranslateLoader,
         useFactory: HttpLoaderFactory,
         deps: [HttpClient]
-        },
+      },
       isolate: true
-   })
+    }),
   ],
   exports: [
     MatAutocompleteModule,
@@ -90,8 +90,22 @@ export const HttpLoaderFactory = (http: HttpClient) => {
     FlexLayoutModule,
     FormsModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
-  declarations: []
+  declarations: [],
+  providers: [
+    {
+      provide: MAT_TOOLTIP_DEFAULT_OPTIONS,
+      useValue: {
+        disableTooltipInteractivity: false,
+        hideDelay: 1000,
+        position: undefined,
+        showDelay: 1000,
+        touchGestures: undefined,
+        touchendHideDelay: 1500,
+      },
+    },
+  ]
 })
-export class EssentialsModule { }
+export class EssentialsModule {
+}

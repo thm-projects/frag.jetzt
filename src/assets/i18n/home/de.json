@@ -186,6 +186,7 @@
     "my-account": "Optionen",
     "my-sessions": "Meine Räume",
     "not-in-own-view": "Du befindest dich gerade in der Teilnehmeransicht. In den Optionen kannst du zurück zu deiner Ansicht wechseln.",
+    "open-admin": "Administration",
     "overview-admin-config-enabled": "Schwellenwerte für die Anzeige der Themen sind aktiv.",
     "overview-keywords-tooltip": "Anzahl Stichwörter",
     "overview-question-tooltip": "Anzahl Fragen",
@@ -548,8 +549,8 @@
     "session-name-with-key-code-generated": "Wie soll die Veranstaltung heißen?"
   },
   "title": {
-    "default-title": "frag.jetzt: Fragen sammeln, bewerten und präsentieren",
-    "attach-title": "frag.jetzt {{attachment}}"
+    "attach-title": "frag.jetzt {{attachment}}",
+    "default-title": "frag.jetzt: Fragen sammeln, bewerten und präsentieren"
   },
   "token-validator": {
     "bonus-token-header": "Bonus-Archiv",

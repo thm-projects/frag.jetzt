@@ -1,5 +1,9 @@
 <ars-row>
-  <div class="anchor-wrp">
+  <div *ngIf="customMessage">
+    <p>{{ customMessage | translate }}</p>
+  </div>
+  <div *ngIf="!customMessage"
+       class="anchor-wrp">
     <span *ngIf="keywords.length > 0">
         <span>{{ 'spacy-dialog.select-keywords' | translate }}</span>
       <ars-row class="select-all-section">

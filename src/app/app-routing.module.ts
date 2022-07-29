@@ -39,6 +39,10 @@ const routes: Routes = [
     component: QuizNowComponent
   },
   {
+    path: 'admin',
+    loadChildren: () => import('./components/admin/admin.module').then(m => m.AdminModule)
+  },
+  {
     path: 'creator',
     loadChildren: () => import('./components/creator/creator.module').then(m => m.CreatorModule)
   },

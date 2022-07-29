@@ -2,10 +2,7 @@
   <app-write-comment [confirmLabel]="'send'"
                      [brainstormingData]="brainstormingData"
                      [isQuestionerNameEnabled]="true"
-                     [onSubmit]="this.forwardComment.bind(this)"
-                     [onDeeplSubmit]="this.closeDialog.bind(this)"
                      [onClose]="this.onNoClick.bind(this)"
-                     [isSpinning]="isSendingToSpacy"
                      [tags]="tags"
                      [isModerator]="userRole > 0">
   </app-write-comment>

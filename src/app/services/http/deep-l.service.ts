@@ -3,6 +3,8 @@ import { BaseHttpService } from './base-http.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { catchError, map, tap, timeout, mergeMap } from 'rxjs/operators';
+import { ImmutableStandardDelta, QuillUtils, StandardDelta } from '../../utils/quill-utils';
+import { clone } from '../../utils/ts-utils';
 
 /* eslint-disable @typescript-eslint/naming-convention */
 const httpOptions = {
@@ -129,6 +131,79 @@ export class DeepLService extends BaseHttpService {
       default:
         return false;
     }
+  }
+
+  static removeMarkdown(text: string): string {
+    // remove emphasis elements before (*_~), heading (#) and quotation (>)
+    return text.replace(/([*_~]+(?=[^*_~\s]))|(^[ \t]*#+ )|(^[ \t]*>[> ]*)/gm, '')
+      // remove code blocks (`)
+      .replace(/(`+)/g, '')
+      // remove emphasis elements after (*_~)
+      .replace(/([^*_~\s])[*_~]+/gm, '$1')
+      // replace links
+      .replace(/\[([^\n\[\]]*)\]\(([^()\n]*)\)/gm, '$1 $2');
+  }
+
+  private static encodeHTML(str: string): string {
+    return str.replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&apos;');
+  }
+
+  private static decodeHTML(str: string): string {
+    return str.replace(/&apos;/g, '\'')
+      .replace(/&quot;/g, '"')
+      .replace(/&gt;/g, '>')
+      .replace(/&lt;/g, '<')
+      .replace(/&amp;/g, '&');
+  }
+
+  improveDelta(
+    body: ImmutableStandardDelta,
+    targetLang: TargetLang,
+    formality = FormalityType.Less,
+  ): Observable<[StandardDelta, string]> {
+    let isMark = false;
+    const skipped = [];
+    const newDelta: StandardDelta = clone(body);
+    const xml = newDelta.ops.reduce((acc, e, i) => {
+      if (typeof e['insert'] !== 'string') {
+        skipped.push(i);
+        return acc;
+      }
+      const text = DeepLService.encodeHTML(DeepLService.removeMarkdown(e['insert']));
+      acc += isMark ? '<x>' + text + '</x>' : text;
+      e['insert'] = '';
+      isMark = !isMark;
+      return acc;
+    }, '');
+    return this.improveTextStyle(xml, targetLang, formality).pipe(
+      map(str => {
+        let index = 0;
+        const nextStr = (textStr: string) => {
+          while (skipped[0] === index) {
+            skipped.splice(0, 1);
+            index++;
+          }
+          if (index >= newDelta.ops.length) {
+            return;
+          }
+          newDelta.ops[index++]['insert'] = DeepLService.decodeHTML(textStr);
+        };
+        const regex = /<x>([^<]*)<\/x>/g;
+        let m;
+        let start = 0;
+        while ((m = regex.exec(str)) !== null) {
+          nextStr(str.substring(start, m.index));
+          nextStr(m[1]);
+          start = m.index + m[0].length;
+        }
+        nextStr(str.substring(start));
+        return [newDelta, QuillUtils.getTextFromDelta(newDelta)];
+      })
+    );
   }
 
   improveTextStyle(text: string, temTargetLang: TargetLang, formality = FormalityType.Default): Observable<string> {
