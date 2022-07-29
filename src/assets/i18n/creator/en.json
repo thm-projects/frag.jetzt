@@ -59,6 +59,7 @@
     "comment-stream-started": "The question stream has been started.",
     "comment-stream-stopped": "The question stream has been stopped.",
     "correct": "Marked as correct",
+    "counter": "Q {{comments}} | A {{answers}} | M {{moderated}}",
     "favorite": "Bonus question",
     "filter-answered": "Answered questions",
     "filter-bookmark": "Bookmarked questions",
@@ -573,6 +574,8 @@
   },
   "spacy-dialog": {
     "add-manually": "Enter a keyword for your question. Separate several keywords with a comma.",
+    "analysis-bad-spelled": "No keywords could be generated.",
+    "analysis-error": "Errors occurred during the extraction of keywords. Should the question be created without keywords?",
     "auto": "auto",
     "de": "German",
     "edit-keyword-hint": "Edit keyword",
@@ -583,10 +586,10 @@
     "lang-button-hint": "Choose the language for the spell checker.",
     "language": "Language",
     "select-all": "Select all",
-    "select-all-hint": "Select all keywords",
-    "select-keyword-hint": "Select this keyword",
-    "select-keywords": "The text analysis suggests keywords. Which best describe your question?",
-    "tag-button-hint": "Choose the appropriate category for your question."
+    "select-all-hint": "Select all words as keywords",
+    "select-keyword-hint": "Select this word as a keyword",
+    "select-keywords": "Which keywords best describe your question?",
+    "tag-button-hint": "Select the most appropriate category for your question."
   },
   "tag-cloud": {
     "blacklist-topic": "Add to blacklist",

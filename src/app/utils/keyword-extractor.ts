@@ -1,12 +1,17 @@
 import { Language, LanguagetoolResult, LanguagetoolService } from '../services/http/languagetool.service';
-import { DeepLService, FormalityType, SourceLang, TargetLang } from '../services/http/deep-l.service';
+import { DeepLService, SourceLang, TargetLang } from '../services/http/deep-l.service';
 import { SpacyKeyword, SpacyService } from '../services/http/spacy.service';
-import { Observable, of } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { Comment, Language as CommentLanguage } from '../models/comment';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { Model } from '../services/http/spacy.interface';
 import { ImmutableStandardDelta, QuillUtils, StandardDelta } from './quill-utils';
-import { clone } from './ts-utils';
+import { SharedTextFormatting } from './shared-text-formatting';
+import { RoomDataService } from '../services/util/room-data.service';
+import { TranslateService } from '@ngx-translate/core';
+import { NotificationService } from '../services/util/notification.service';
+import { SpacyDialogComponent } from '../components/shared/_dialogs/spacy-dialog/spacy-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 export enum KeywordsResultType {
   Successful,
@@ -21,6 +26,20 @@ export interface KeywordsResult {
   resultType: KeywordsResultType;
   error?: any;
   wasSpacyError?: boolean;
+  wasDeepLError?: boolean;
+}
+
+export interface CommentCreateOptions {
+  body: StandardDelta;
+  tag: string;
+  questionerName: string;
+  userId: string;
+  commentReference?: string;
+  isModerator: boolean;
+  isBrainstorming: boolean;
+  selectedLanguage: Language;
+  hadUsedDeepL: boolean;
+  callbackFinished?: () => void;
 }
 
 const ERROR_QUOTIENT_WELL_SPELLED = 20;
@@ -28,21 +47,14 @@ const ERROR_QUOTIENT_USE_DEEPL = 75;
 
 export class KeywordExtractor {
   constructor(
+    private dialog: MatDialog,
+    private translateService: TranslateService,
+    private notification: NotificationService,
+    private roomDataService: RoomDataService,
     private languagetoolService: LanguagetoolService,
     private spacyService: SpacyService,
     private deeplService: DeepLService,
   ) {
-  }
-
-  static removeMarkdown(text: string): string {
-    // remove emphasis elements before (*_~), heading (#) and quotation (>)
-    return text.replace(/([*_~]+(?=[^*_~\s]))|(^[ \t]*#+ )|(^[ \t]*>[> ]*)/gm, '')
-      // remove code blocks (`)
-      .replace(/(`+)/g, '')
-      // remove emphasis elements after (*_~)
-      .replace(/([^*_~\s])[*_~]+/gm, '$1')
-      // replace links
-      .replace(/\[([^\n\[\]]*)\]\(([^()\n]*)\)/gm, '$1 $2');
   }
 
   static isKeywordAcceptable(keyword: string): boolean {
@@ -66,80 +78,122 @@ export class KeywordExtractor {
     });
   }
 
-  private static generateBrainstormingWords(text: string): SpacyKeyword[] {
-    return KeywordExtractor.escapeForSpacy(text).split(/\s+/g).filter(e => e.length).map(newText => ({
-      dep: ['ROOT'],
-      text: newText
-    }));
-  }
-
-  private static encodeHTML(str: string): string {
-    return str.replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;')
-      .replace(/'/g, '&apos;');
-  }
-
-  private static decodeHTML(str: string): string {
-    return str.replace(/&apos;/g, '\'')
-      .replace(/&quot;/g, '"')
-      .replace(/&gt;/g, '>')
-      .replace(/&lt;/g, '<')
-      .replace(/&amp;/g, '&');
-  }
-
-  generateDeeplDelta(
-    body: ImmutableStandardDelta, targetLang: TargetLang, formality = FormalityType.Less
-  ): Observable<[StandardDelta, string]> {
-    let isMark = false;
-    const skipped = [];
-    const newDelta: StandardDelta = clone(body);
-    const xml = newDelta.ops.reduce((acc, e, i) => {
-      if (typeof e['insert'] !== 'string') {
-        skipped.push(i);
-        return acc;
-      }
-      const text = KeywordExtractor.encodeHTML(KeywordExtractor.removeMarkdown(e['insert']));
-      acc += isMark ? '<x>' + text + '</x>' : text;
-      e['insert'] = '';
-      isMark = !isMark;
-      return acc;
-    }, '');
-    return this.deeplService.improveTextStyle(xml, targetLang, formality).pipe(
-      map(str => {
-        let index = 0;
-        const nextStr = (textStr: string) => {
-          while (skipped[0] === index) {
-            skipped.splice(0, 1);
-            index++;
+  createCommentInteractive(
+    options: CommentCreateOptions,
+  ): Observable<Comment> {
+    const comment = new Comment();
+    comment.body = QuillUtils.transformURLtoQuillLink(options.body, options.isModerator);
+    comment.tag = options.tag;
+    comment.questionerName = options.questionerName;
+    comment.roomId = this.roomDataService.sessionService.currentRoom.id;
+    comment.creatorId = options.userId;
+    comment.createdFromLecturer = options.isModerator;
+    comment.brainstormingQuestion = options.isBrainstorming;
+    comment.commentReference = options.commentReference;
+    if (options.isBrainstorming) {
+      return this.generateBrainstormingTerm(options.body, options.selectedLanguage).pipe(
+        switchMap((result) => {
+          options.callbackFinished?.();
+          if (this.wasWritten(result.keywords[0].text, options.userId)) {
+            this.translateService.get('comment-page.error-brainstorm-duplicate')
+              .subscribe(msg => this.notification.show(msg));
+            return throwError(() => new Error('Brainstorming idea already written'));
           }
-          if (index >= newDelta.ops.length) {
-            return;
-          }
-          newDelta.ops[index++]['insert'] = KeywordExtractor.decodeHTML(textStr);
-        };
-        const regex = /<x>([^<]*)<\/x>/g;
-        let m;
-        let start = 0;
-        while ((m = regex.exec(str)) !== null) {
-          nextStr(str.substring(start, m.index));
-          nextStr(m[1]);
-          start = m.index + m[0].length;
+          comment.language = result.language;
+          comment.keywordsFromSpacy = result.keywords;
+          comment.keywordsFromQuestioner = [];
+          return of(comment);
+        }),
+      );
+    }
+    return this.generateKeywords(options.body, options.hadUsedDeepL, options.selectedLanguage).pipe(
+      switchMap((result) => {
+        options.callbackFinished?.();
+        comment.language = result.language;
+        comment.keywordsFromSpacy = result.keywords;
+        comment.keywordsFromQuestioner = [];
+        return this.openSpacyDialog(comment, result);
+      }),
+    );
+  }
+
+  generateBrainstormingTerm(
+    body: ImmutableStandardDelta,
+    language: Language = 'auto',
+  ): Observable<KeywordsResult> {
+    const text = QuillUtils.getTextFromDelta(body);
+    const term = SharedTextFormatting.getTerm(text);
+    return this.languagetoolService.checkSpellings(text, language).pipe(
+      switchMap((result) => {
+        const lang = result.language.code as Language;
+        const isSupported = this.languagetoolService.isSupportedLanguage(lang);
+        const commentModel = this.languagetoolService.mapLanguageToSpacyModel(lang);
+        const finalLanguage = Comment.mapModelToLanguage(commentModel);
+        const hasConfidence = language === 'auto' ? result.language.detectedLanguage.confidence >= 0.5 : true;
+        //TO-DO: Adapt spacy service
+        const spacyNotUpdated = true;
+        if (!isSupported || spacyNotUpdated) {
+          return of({
+            keywords: [{
+              text: term,
+              dep: ['ROOT'],
+            }],
+            language: hasConfidence ? finalLanguage : CommentLanguage.AUTO,
+            resultType: KeywordsResultType.LanguageNotSupported,
+          });
         }
-        nextStr(str.substring(start));
-        return [newDelta, QuillUtils.getTextFromDelta(newDelta)];
-      })
+        if (!hasConfidence) {
+          return of({
+            keywords: [{
+              text: term,
+              dep: ['ROOT'],
+            }],
+            language: finalLanguage,
+            resultType: KeywordsResultType.BadSpelled,
+          });
+        }
+        return this.spacyService.getKeywords(term, commentModel, true).pipe(
+          map(keywords => ({
+            keywords: [{
+              text: keywords.map(kw => kw.text).join(' '),
+              dep: ['ROOT'],
+            }],
+            language: finalLanguage,
+            resultType: KeywordsResultType.Successful,
+          } as KeywordsResult)),
+          catchError(err => of({
+            keywords: [{
+              text: term,
+              dep: ['ROOT'],
+            }],
+            language: finalLanguage,
+            resultType: KeywordsResultType.Failure,
+            error: err,
+            wasSpacyError: true,
+          } as KeywordsResult)),
+        );
+      }),
+      catchError((err) => of({
+        keywords: [{
+          text: term,
+          dep: ['ROOT'],
+        }],
+        language: CommentLanguage.AUTO,
+        resultType: KeywordsResultType.Failure,
+        error: err
+      } as KeywordsResult))
     );
   }
 
   generateKeywords(
-    body: ImmutableStandardDelta, brainstorming: boolean, useDeepl: boolean = false, language: Language = 'auto'
+    body: ImmutableStandardDelta,
+    hadUsedDeepL: boolean = false,
+    language: Language = 'auto',
   ): Observable<KeywordsResult> {
     const text = QuillUtils.getTextFromDelta(body).trim();
     return this.languagetoolService.checkSpellings(text, language).pipe(
       switchMap(result => this.spacyKeywordsFromLanguagetoolResult(
-        text, body, language, result, useDeepl, brainstorming
+        text, body, language, result, hadUsedDeepL,
       )),
       catchError((err) => of({
         keywords: [],
@@ -156,24 +210,20 @@ export class KeywordExtractor {
     selectedLanguage: Language,
     result: LanguagetoolResult,
     hadUsedDeepL: boolean,
-    brainstorming: boolean
   ): Observable<KeywordsResult> {
     const lang = result.language.code as Language;
     const isSupported = this.languagetoolService.isSupportedLanguage(lang);
     const commentModel = this.languagetoolService.mapLanguageToSpacyModel(lang);
     const finalLanguage = Comment.mapModelToLanguage(commentModel);
+    const hasConfidence = selectedLanguage === 'auto' ? result.language.detectedLanguage.confidence >= 0.5 : true;
     if (!isSupported) {
       return of({
-        keywords: brainstorming ? KeywordExtractor.generateBrainstormingWords(text) : [],
-        language: finalLanguage,
-        resultType: brainstorming ? KeywordsResultType.Successful : KeywordsResultType.LanguageNotSupported,
+        keywords: [],
+        language: hasConfidence ? finalLanguage : CommentLanguage.AUTO,
+        resultType: KeywordsResultType.LanguageNotSupported,
       });
     }
-    if (brainstorming) {
-      return this.callSpacy(text, finalLanguage, commentModel, true);
-    }
     const wordCount = text.match(/\S+/g)?.length || 0;
-    const hasConfidence = selectedLanguage === 'auto' ? result.language.detectedLanguage.confidence >= 0.5 : true;
     const errorQuotient = (result.matches.length * 100) / wordCount;
     /*
     If no confidence, too many errors for DeepL or DeepL were used and there are still too many errors:
@@ -189,16 +239,24 @@ export class KeywordExtractor {
     }
     // not many errors, forward to spacy
     if (errorQuotient <= ERROR_QUOTIENT_WELL_SPELLED) {
-      return this.callSpacy(text, finalLanguage, commentModel, false);
+      return this.callSpacy(text, finalLanguage, commentModel);
     }
+    // error quotient higher than well spelled, implies that no deepl was used
     let target = TargetLang.EN_US;
     const code = result.language.detectedLanguage.code.split('-', 1)[0].toUpperCase();
     if (code === SourceLang.EN) {
       target = TargetLang.DE;
     }
-    this.generateDeeplDelta(body, target).pipe(
+    return this.deeplService.improveDelta(body, target).pipe(
       switchMap(([_, improvedText]) =>
-        this.callSpacy(improvedText, finalLanguage, commentModel, false)),
+        this.callSpacy(improvedText.trim(), finalLanguage, commentModel)),
+      catchError(err => of({
+        keywords: [],
+        language: finalLanguage,
+        resultType: KeywordsResultType.Failure,
+        error: err,
+        wasDeepLError: true,
+      } as KeywordsResult))
     );
   }
 
@@ -206,10 +264,9 @@ export class KeywordExtractor {
     text: string,
     finalLanguage: string,
     commentModel: Model,
-    brainstorming: boolean
   ): Observable<KeywordsResult> {
     const escapedText = KeywordExtractor.escapeForSpacy(text);
-    return this.spacyService.getKeywords(escapedText, commentModel, brainstorming).pipe(
+    return this.spacyService.getKeywords(escapedText, commentModel, false).pipe(
       map(keywords => ({
         keywords,
         language: finalLanguage,
@@ -223,5 +280,33 @@ export class KeywordExtractor {
         wasSpacyError: true,
       } as KeywordsResult)),
     );
+  }
+
+  private openSpacyDialog(comment: Comment, keywordResult: KeywordsResult): Observable<Comment> {
+    const dialogRef = this.dialog.open(SpacyDialogComponent, {
+      data: {
+        result: keywordResult,
+        comment
+      }
+    });
+    return dialogRef.afterClosed().pipe(
+      switchMap(result => {
+        if (!result?.comment) {
+          return throwError(() => new Error('No Comment provided'));
+        }
+        return of(result.comment);
+      }),
+    );
+  }
+
+  private wasWritten(term: string, userId: string): boolean {
+    if (!this.roomDataService.dataAccessor.currentRawComments()) {
+      return true;
+    }
+    const areEqual = (str1: string, str2: string): boolean =>
+      str1.localeCompare(str2, undefined, { sensitivity: 'base' }) === 0;
+    return this.roomDataService.dataAccessor.currentRawComments().some(comment => comment.brainstormingQuestion &&
+      comment.creatorId === userId &&
+      comment.keywordsFromSpacy?.some(kw => areEqual(kw.text, term)));
   }
 }

@@ -18,6 +18,9 @@ export class AuthenticationGuard implements CanActivate {
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
+    if (route.data.superAdmin) {
+      return this.isSuperAdmin();
+    }
     const requiredRoles = route.data['roles'] as Array<UserRole>;
     const url = decodeURI(state.url);
     let wasAllowed = null;
@@ -37,6 +40,14 @@ export class AuthenticationGuard implements CanActivate {
       this.onNotAllowed();
     }
     return wasAllowed;
+  }
+
+  private isSuperAdmin() {
+    if (!this.authenticationService.isSuperAdmin) {
+      this.onNotAllowed();
+      return false;
+    }
+    return true;
   }
 
   private onNotAllowed() {

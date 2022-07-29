@@ -1,3 +1,10 @@
+<div class="fake-header">
+  <button mat-button
+          (click)="goBack()">
+    <mat-icon>arrow_back</mat-icon>
+    <span class="oldtypo" style="color: var(--red) !important;">Zurück zum Fragen-Fokus</span>
+  </button>
+</div>
 <div fxLayout="column"
      fxLayoutAlign="center"
      *ngIf="!isLoading"
@@ -26,14 +33,12 @@
       <app-write-comment [isModerator]="userRole > 0"
                          [isCommentAnswer]="true"
                          [placeholder]="'comment-page.your-answer'"
-                         [onClose]="openDeleteAnswerDialog()"
-                         [onDeeplSubmit]="submitNormal.bind(this)"
-                         [onSubmit]="submitNormal.bind(this)"
+                         [onClose]="onSubmit.bind(this)"
+                         [commentReference]="comment.id"
                          [disableCancelButton]="!answer && commentComponent && commentComponent.commentData.currentText.length > 0"
                          [confirmLabel]="'save-answer'"
                          [cancelLabel]="'delete-answer'"
                          [additionalTemplate]="editAnswer"
-                         [isSpinning]="isSending"
                          [enabled]="(userRole > 0 || room.conversationDepth !== 0) && (edit || !answer)"
                          [tags]="room.tags"
                          [isQuestionerNameEnabled]="true"

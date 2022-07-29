@@ -7,7 +7,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { ExplanationDialogComponent } from '../explanation-dialog/explanation-dialog.component';
 import { DeepLService, FormalityType } from '../../../../services/http/deep-l.service';
 import { StandardDelta } from '../../../../utils/quill-utils';
-import { KeywordExtractor } from '../../../../utils/keyword-extractor';
 
 export interface ResultValue {
   body: StandardDelta;
@@ -28,7 +27,6 @@ export class DeepLDialogComponent implements OnInit, AfterViewInit {
   normalValue: ResultValue;
   improvedValue: ResultValue;
   supportsFormality: boolean;
-  private readonly _keywordExtractor: KeywordExtractor;
 
   constructor(
     private dialogRef: MatDialogRef<DeepLDialogComponent>,
@@ -43,7 +41,6 @@ export class DeepLDialogComponent implements OnInit, AfterViewInit {
       this.translateService.use(lang);
     });
     this.supportsFormality = DeepLService.supportsFormality(this.data.target);
-    this._keywordExtractor = new KeywordExtractor(null, null, this.deeplService);
   }
 
   ngOnInit(): void {
@@ -61,9 +58,14 @@ export class DeepLDialogComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.normal.afterEditorInit = () => {
+    const build = () => {
       this.normal.buildMarks(this.data.text, this.data.result);
     };
+    if (this.normal.initialized) {
+      build();
+    } else {
+      this.normal.afterEditorInit = build;
+    }
   }
 
   buildCloseDialogActionCallback(): () => void {
@@ -87,7 +89,7 @@ export class DeepLDialogComponent implements OnInit, AfterViewInit {
       if (ViewCommentDataComponent.checkInputData(
         current.body, current.text, this.translateService, this.notificationService, this.data.maxTextCharacters,
         this.data.maxDataCharacters)) {
-        this.data.onClose(current);
+        this.data.onClose(current, true);
         this.dialogRef.close(true);
       }
     };
@@ -101,7 +103,7 @@ export class DeepLDialogComponent implements OnInit, AfterViewInit {
   }
 
   onFormalityChange(formality: string) {
-    this._keywordExtractor.generateDeeplDelta(this.data.body, this.data.usedTarget, formality as FormalityType)
+    this.deeplService.improveDelta(this.data.body, this.data.usedTarget, formality as FormalityType)
       .subscribe({
         next: ([improvedBody, improvedText]) => {
           this.improvedValue.body = improvedBody;

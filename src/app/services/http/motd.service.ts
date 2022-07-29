@@ -3,12 +3,18 @@ import { BaseHttpService } from './base-http.service';
 import { HttpClient } from '@angular/common/http';
 import { EventService } from '../util/event.service';
 import { AuthenticationService } from './authentication.service';
-import { forkJoin, Observable, of } from 'rxjs';
+import { forkJoin, Observable, of, tap } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Motd } from '../../models/motd';
 import { MotdList } from '../../models/motd-list';
 import { SyncFence } from '../../utils/SyncFence';
 import { OnboardingService } from '../util/onboarding.service';
+
+interface MotdAPI {
+  startTimestamp: Date;
+  endTimestamp: Date;
+  messages: { [key: string]: { language: string; message: string } };
+}
 
 @Injectable({
   providedIn: 'root'
@@ -51,7 +57,7 @@ export class MotdService extends BaseHttpService {
       }
     });
     this.onboardingService.onFinishTour().subscribe(() => fence.resolveCondition(1));
-    if(MotdService.DEBUG) {
+    if (MotdService.DEBUG) {
       console.error('MotdService.DEBUG MUST be \'false\' for production!');
     }
   }
@@ -84,21 +90,31 @@ export class MotdService extends BaseHttpService {
       forkJoin([this.getMOTDs(false), this.getMOTDs(true)])
         .subscribe(([o, n]) => {
           this.list = new MotdList(n, o);
-          if(MotdService.DEBUG){
+          if (MotdService.DEBUG) {
             this.list.messages.push(new Motd(
               'test',
               new Date('3 October 2021'),
               new Date(),
-              'test',
-              'test',
               true,
-              false
+              false,
+              {
+                en: { message: 'test' },
+                de: { message: 'test' },
+                fr: { message: 'test' },
+              },
             ));
           }
           this.validateNewMessage(this.list);
           e.next(this.list);
         });
     });
+  }
+
+  createMOTD(motd: MotdAPI): Observable<MotdAPI> {
+    return this.http.post<MotdAPI>('/api/motds/', motd).pipe(
+      tap(_ => ''),
+      catchError(this.handleError<MotdAPI>('createMOTD')),
+    );
   }
 
   private getMOTDs(newMessages: boolean): Observable<Motd[]> {
@@ -111,6 +127,7 @@ export class MotdService extends BaseHttpService {
       properties: {},
       externalFilters
     }).pipe(
+      tap(_ => ''),
       catchError(_ => of([]))
     );
   }

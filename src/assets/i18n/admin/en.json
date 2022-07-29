@@ -1,0 +1,19 @@
+{
+  "create-motd": {
+    "create": "Create",
+    "english": "English text",
+    "error": "An error has occurred!",
+    "french": "French Text",
+    "german": "German text",
+    "label": "Start and end date",
+    "placeholder-date-end": "End date",
+    "placeholder-date-start": "Start date",
+    "placeholder-english": "Enter here...",
+    "placeholder-french": "Enter here...",
+    "placeholder-german": "Enter here...",
+    "placeholder-time-end": "End time",
+    "placeholder-time-start": "Start time",
+    "success": "Successfully created",
+    "title": "Create a Message of the day!"
+  }
+}
