@@ -413,3 +413,15 @@ blockquote {
 .mat-slide-toggle.mat-checked .mat-slide-toggle-thumb {
   background-color: var(--secondary);
 }
+
+.mat-accent .mat-slider-track-fill {
+  background-color: var(--primary) !important;
+}
+
+.mat-slider-thumb-label {
+  background-color: var(--grey-light) !important;
+}
+
+.mat-slider-thumb {
+  background-color: var(--primary) !important;
+}

@@ -268,7 +268,8 @@
     "tag-cloud-questions-current-filtered": "Questions filtrées",
     "tag-cloud-questions-from-now": "Questions à partir de maintenant",
     "tag-cloud-questions-from-now-short": "À partir de maintenant",
-    "tag-cloud-questions-title": "Quelles sont les questions que tu aimerais avoir sur le radar ?"
+    "tag-cloud-questions-title": "Quelles sont les questions que tu aimerais avoir sur le radar ?",
+    "yes": "Qui"
   },
   "deepl": {
     "header": "Optimiser le texte",
