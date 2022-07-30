@@ -25,14 +25,3 @@
   right:2em;
   max-height: 100px;
 }
-
-::ng-deep .mat-accent .mat-slider-thumb {
-  background-color: var(--on-surface);
-}
-::ng-deep .mat-accent .mat-slider-thumb-label {
-  background-color: var(--on-surface);
-}
-::ng-deep .mat-accent .mat-slider-track-fill {
-  background-color: var(--on-surface);
-}
-

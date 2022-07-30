@@ -99,17 +99,6 @@ mat-icon {
   color: var(--primary);
 }
 
-::ng-deep .mat-accent .mat-slider-track-fill,
-::ng-deep .mat-accent .mat-slider-thumb,
-::ng-deep .mat-accent .mat-slider-thumb-label {
-  color: var(--on-primary);
-  background-color: var(--primary);
-}
-
-::ng-deep .mat-accent .mat-slider-thumb-label-text {
-  color: var(--on-primary);
-}
-
 .primary {
   background-color: transparent;
   color: var(--primary);
