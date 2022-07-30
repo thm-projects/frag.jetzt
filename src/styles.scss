@@ -414,8 +414,12 @@ blockquote {
   background-color: var(--secondary);
 }
 
+.mat-slider-wrapper {
+  background-color: darkgray !important;
+}
+
 .mat-accent .mat-slider-track-fill {
-  background-color: var(--primary) !important;
+  background-color: darkorange !important;
 }
 
 .mat-slider-thumb-label {
@@ -423,5 +427,5 @@ blockquote {
 }
 
 .mat-slider-thumb {
-  background-color: var(--primary) !important;
+  background-color: darkorange !important;
 }
