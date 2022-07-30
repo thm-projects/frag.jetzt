@@ -2,10 +2,22 @@ import {ChangeDetectorRef, Component, EventEmitter, Output} from '@angular/core'
 import {ArsLifeCycleVisitor} from '../../../../../projects/ars/src/lib/models/util/ars-life-cycle-visitor';
 import {DeviceInfoService} from '../../../services/util/device-info.service';
 import {TranslateService} from '@ngx-translate/core';
-import {LivePollData, LivePollMockService, LivePollSession} from '../../../services/mocks/live-poll-mock.service';
+import {
+  LivePollData,
+  LivePollMockService,
+  LivePollSession,
+  predefinedSymbolSets
+} from '../../../services/mocks/live-poll-mock.service';
 import {RoomService} from '../../../services/http/room.service';
 import {Room} from '../../../models/room';
 import {LivePollBuildInfo, LivePollList} from './live-poll-entry/LivePollEntry';
+import {User} from '../../../models/user';
+
+export interface LivePollConfiguration{
+  session: LivePollSession;
+  user: User;
+  room: Room;
+}
 
 @Component({
   selector: 'app-live-poll',
@@ -15,10 +27,13 @@ import {LivePollBuildInfo, LivePollList} from './live-poll-entry/LivePollEntry';
 export class LivePollComponent extends ArsLifeCycleVisitor {
 
   @Output() public closeEmitter: EventEmitter<number> = new EventEmitter<number>();
+  public data: LivePollConfiguration;
+  public user: User;
+  public room: Room;
   public isLoaded: boolean = false;
   public session: LivePollSession;
   public isCreator: boolean = true;
-  public isCreate: boolean = true;
+  public isCreate: boolean = false;
   public livePollFocus: LivePollData = null;
 
   constructor(
@@ -31,9 +46,12 @@ export class LivePollComponent extends ArsLifeCycleVisitor {
     super();
   }
 
-  public setSessionData(options: { room: Room }) {
+  public setSessionData(options: { room: Room; user: User }) {
+    this.user=options.user;
+    this.room=options.room;
     this.livePollSessionService.getSessionData(options.room).subscribe(e => {
       this.session = e;
+      this.data={...options,...{session:this.session}};
     });
   }
 
@@ -90,5 +108,13 @@ export class LivePollComponent extends ArsLifeCycleVisitor {
 
   public createLivePoll() {
     this.isCreate = true;
+  }
+
+  public debug_force() {
+    this.createNewLivePoll({
+      name: 'Do you like Live-Polls?',
+      symbolSet: predefinedSymbolSets[0][1]
+    });
+    this.startLivePoll();
   }
 }

@@ -5,6 +5,32 @@
     }
   }
 
+  .live-poll-vote-option{
+    width:50%;
+    height:50%;
+    border:none;
+    box-sizing: border-box;
+    padding:8px;
+    background-color: transparent;
+    >div{
+      width:100%;
+      height:100%;
+      box-sizing: border-box;
+      border-radius: 8px;
+      background-color: var(--secondary);
+      >span{
+        font-size:2em;
+        font-weight:600;
+        float:left;
+        position:relative;
+        left:50%;
+        top:50%;
+        transform:translate3D(-50%,-50%,0);
+        color: var(--on-secondary);
+      }
+    }
+  }
+
   .livePoll {
     &-button {
       color: var(--on-secondary);

@@ -358,7 +358,8 @@ export class HeaderComponent implements OnInit, AfterViewInit {
         e: event
       });
       livePoll.instance.setSessionData({
-        room: this.room
+        room: this.room,
+        user: this.user
       });
     });
   }

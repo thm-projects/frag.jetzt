@@ -1,0 +1,52 @@
+
+<ars-row class="fade-in-animation-wrapper">
+
+  <ars-row ars-flex-box [borderBox]="true" [padding]="[32,16]" [align]="'flex-start'">
+    <ars-col>
+      <h1
+        [matTooltip]="'live-poll.title' | translate"
+        aria-describedby="name-label">
+        <span>{{data.session.currentLivePoll.name}}</span>
+      </h1>
+    </ars-col>
+    <ars-fill></ars-fill>
+  </ars-row>
+
+  <ars-row ars-flex-box [borderBox]="true" [padding]="[8,16]"
+           *ngFor="let e of data.session.currentLivePoll.list">
+    <app-live-poll-entry [value]="e"></app-live-poll-entry>
+  </ars-row>
+  <ars-row ars-flex-box class="fade-in-horizontal-animation-wrapper" [borderBox]="true"
+           [padding]="[64,16]"
+           [direction]="'row'">
+<!--    <button mat-button aria-describedby="start-label"-->
+<!--            style="color:var(&#45;&#45;on-primary);background-color:var(&#45;&#45;primary);padding:0 8px;"-->
+<!--            [matTooltip]="'live-poll.start-accessibility' | translate">-->
+<!--      <mat-icon style="color:var(&#45;&#45;on-primary);padding-right:4px;">play_arrow</mat-icon>-->
+<!--      <span *ngIf="device.isCurrentlyDesktop">{{'live-poll.start' | translate}}</span>-->
+<!--    </button>-->
+    <button mat-button *ngIf="data.user.role"
+            aria-describedby="stop-label" style="color:var(--on-surface);padding:08px;"
+            [matTooltip]="'live-poll.stop-accessibility' | translate">
+      <mat-icon style="color:var(--on-surface);padding-right:4px;margin-left:8px;">stop</mat-icon>
+      <span *ngIf="device.isCurrentlyDesktop">{{'live-poll.stop' | translate}}</span>
+    </button>
+<!--    <ars-fill></ars-fill>-->
+<!--    <button mat-button aria-describedby="compare-label"-->
+<!--            style="color:var(&#45;&#45;on-secondary);background-color:var(&#45;&#45;secondary);padding:0 8px;"-->
+<!--            [matTooltip]="'live-poll.compare-accessibility' | translate">-->
+<!--      <mat-icon style="color:var(&#45;&#45;on-secondary);padding-right:4px;">poll</mat-icon>-->
+<!--      <span *ngIf="device.isCurrentlyDesktop">{{'live-poll.compare' | translate}}</span>-->
+<!--    </button>-->
+  </ars-row>
+
+  <ars-row ars-flex-box [size]="256" style="flex-wrap: wrap" class="fade-in-horizontal-animation-wrapper">
+    <button class="live-poll-vote-option"
+            *ngFor="let symbol of data.session.currentLivePoll.symbolSet.symbol">
+      <div>
+        <span>{{symbol}}</span>
+      </div>
+    </button>
+  </ars-row>
+
+</ars-row>

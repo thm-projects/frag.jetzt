@@ -144,7 +144,7 @@ import { RoomSettingsOverviewComponent } from './_dialogs/room-settings-overview
 import { LivePollComponent } from './live-poll/live-poll.component';
 import { LivePollEntryComponent } from './live-poll/live-poll-entry/live-poll-entry.component';
 import { LivePollCreateComponent } from './live-poll/live-poll-create/live-poll-create.component';
-import { LivePollParticipantViewComponent } from './live-poll/view/live-poll-participant-view/live-poll-participant-view.component';
+import { LivePollViewComponent } from './live-poll/view/live-poll-view/live-poll-view.component';
 
 @NgModule({
   imports: [
@@ -242,7 +242,7 @@ import { LivePollParticipantViewComponent } from './live-poll/view/live-poll-par
     LivePollComponent,
     LivePollEntryComponent,
     LivePollCreateComponent,
-    LivePollParticipantViewComponent
+    LivePollViewComponent,
   ],
     exports: [
         RoomJoinComponent,
