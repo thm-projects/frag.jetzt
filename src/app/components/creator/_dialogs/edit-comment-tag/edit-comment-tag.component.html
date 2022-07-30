@@ -4,8 +4,7 @@
   <button mat-button
           *ngIf="sessionInfo.currentRoom?.tags?.length"
           (click)="tagSelect.open()"
-          matTooltip="{{ 'spacy-dialog.tag-button-hint' | translate }}"
-          matTooltipShowDelay="1000">
+          matTooltip="{{ 'spacy-dialog.tag-button-hint' | translate }}">
     <mat-icon class="btn-icon">sell</mat-icon>
     <label for="tagSelect" *ngIf="!selectedTag"><em>{{'comment-page.tag' | translate}}</em></label>
     <label for="tagSelect" *ngIf="selectedTag">{{selectedTag}}</label>

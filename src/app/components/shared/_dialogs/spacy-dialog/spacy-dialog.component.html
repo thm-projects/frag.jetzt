@@ -38,21 +38,18 @@
             <mat-checkbox [checked]="keyword.completed"
                           (change)="keyword.selected = $event.checked"
                           [(ngModel)]="keyword.completed"
-                          matTooltip="{{ 'spacy-dialog.select-keyword-hint' | translate }}"
-                          matTooltipShowDelay="1000">
+                          matTooltip="{{ 'spacy-dialog.select-keyword-hint' | translate }}">
             </mat-checkbox>
             <button *ngIf="!keyword.editing"
                     (click)="onEdit(keyword); onEditChange(1)" mat-icon-button
                     [ngClass]="{'keywords-actions-selected': keyword.selected}"
-                    matTooltip="{{ 'spacy-dialog.edit-keyword-hint' | translate }}"
-                    matTooltipShowDelay="1000">
+                    matTooltip="{{ 'spacy-dialog.edit-keyword-hint' | translate }}">
               <mat-icon>edit</mat-icon>
             </button>
             <button *ngIf="keyword.editing"
                     (click)="onEndEditing(keyword); onEditChange(-1)" mat-icon-button
                     class="edit-accept"
-                    matTooltip="{{ 'spacy-dialog.editing-done-hint' | translate }}"
-                    matTooltipShowDelay="1000">
+                    matTooltip="{{ 'spacy-dialog.editing-done-hint' | translate }}">
               <mat-icon>check</mat-icon>
             </button>
           </div>

@@ -98,9 +98,9 @@ export const HttpLoaderFactory = (http: HttpClient) => {
       provide: MAT_TOOLTIP_DEFAULT_OPTIONS,
       useValue: {
         disableTooltipInteractivity: false,
-        hideDelay: 1000,
+        hideDelay: 0,
         position: undefined,
-        showDelay: 1000,
+        showDelay: 300,
         touchGestures: undefined,
         touchendHideDelay: 1500,
       },
