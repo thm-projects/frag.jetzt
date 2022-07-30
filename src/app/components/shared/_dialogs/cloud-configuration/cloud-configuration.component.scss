@@ -61,11 +61,9 @@ mat-icon {
 .color-box {
   flex: 1 1 100%;
   box-sizing: border-box;
-  border: 2px solid var(--on-dialog);
   height: 30px;
   width: 20px;
   bottom: 8px;
-  border-radius: 50%;
   margin-top: 13px;
   margin-bottom: 10px;
   transform: translateY(-4px);
@@ -140,6 +138,7 @@ mat-icon {
 
 .cloud-configuration-form {
   width: min-content;
+  margin-top: 40px;
 }
 
 .drawer-container {
@@ -174,22 +173,16 @@ mat-icon {
 }
 
 .weight-class-setting-content {
-  border-top: 3px solid var(--primary);
   padding-top: 20px;
   padding-bottom: 15px;
 }
 
 .weight-class-heading {
-  border: none;
   color: var(--on-dialog);
 }
 
 #extendedViewButton {
   margin-right: 10px;
-}
-
-.demo-cloud-settings {
-  border-bottom: none;
 }
 
 #accordion {
@@ -202,10 +195,8 @@ mat-icon {
 }
 
 .special-settings {
-  border-top: none;
-  border-bottom: 2px solid var(--primary);
   padding: 10px 0;
-  margin-bottom: 20px;
+  margin: 20px 30px 0px 30px;
 }
 
 #rotation {
@@ -220,7 +211,6 @@ mat-icon {
 }
 
 .firstElementOfExpansionPanel {
-  border-top: 2px solid var(--primary);
   padding-top: 10px;
 }
 
@@ -229,10 +219,10 @@ mat-icon {
   padding-bottom: 10px;
 }
 
-.automatic-spelling {
-  padding-bottom: 30px;
-}
-
 .save-or-cancel {
   width: max-content;
+}
+
+.alphabetical-sorting {
+  margin-left: 0;
 }

@@ -4,7 +4,7 @@
       <div class="input-row" fxLayout="row" fxLayoutGap="5px" fxLayout.xs="column">
         <mat-slide-toggle fxFlex (change)="parent.dataManager.demoActive = !parent.dataManager.demoActive"
                           [checked]="parent.dataManager.demoActive"
-                          [ngModelOptions]="{standalone: true}">Demo Cloud
+                          [ngModelOptions]="{standalone: true}">Demo
         </mat-slide-toggle>
       </div>
     </div>
@@ -17,14 +17,14 @@
           </mat-panel-title>
         </mat-expansion-panel-header>
         <div class="input-row firstElementOfExpansionPanel" fxLayout="row" fxLayoutGap="5px" fxLayout.xs="column">
-          <mat-slide-toggle matTooltip="{{'tag-cloud-config.random-angle-tooltip' | translate}}"
+          <mat-slide-toggle
                             (change)="valueChanged()" fxFlex [(ngModel)]="cloudParameters.randomAngles"
                             [ngModelOptions]="{standalone: true}">{{'tag-cloud-config.random-angle' | translate}}</mat-slide-toggle>
           <mat-icon matTooltip="{{'tag-cloud-config.random-angle-note' | translate}}">help</mat-icon>
         </div>
         <div class="input-row special-settings automatic-spelling" fxLayout="row" fxLayoutGap="5px"
              fxLayout.xs="column">
-          <mat-radio-group matTooltip="{{'tag-cloud-config.notation-tooltip' | translate}}"
+          <mat-radio-group
                            aria-label="Notation:"> {{'tag-cloud-config.notation' | translate}}
             <div>
               <mat-radio-button value="1" (change)="textStyleChanged(1)"
@@ -47,7 +47,7 @@
         <div class="input-row special-settings alphabetical-sorting" fxLayout="row" fxLayoutGap="5px"
              fxLayout.xs="column">
           <div class="input-row" fxLayout="row" fxLayoutGap="5px" fxLayout.xs="column">
-            <mat-slide-toggle matTooltip="{{'tag-cloud-config.alphabetical-sorting-tooltip' | translate}}"
+            <mat-slide-toggle
                               [(ngModel)]="cloudParameters.sortAlphabetically"
                               [checked]="cloudParameters.sortAlphabetically" [ngModelOptions]="{standalone: true}"
                               (change)="valueChanged()">{{'tag-cloud-config.alphabetical-sorting' | translate}}</mat-slide-toggle>
@@ -71,8 +71,7 @@
           <mat-label class="label-text">{{'tag-cloud-config.word-delay' | translate}}</mat-label>
           <mat-slider #delaySlider min="0" max="1000" step="50" [(ngModel)]="cloudParameters.delayWord"
                       [ngModelOptions]="{standalone: true}" (change)="valueChanged()" [thumbLabel]="true"
-                      [value]="cloudParameters.delayWord"
-                      matTooltip="{{'tag-cloud-config.word-delay-tooltip' | translate}}">
+                      [value]="cloudParameters.delayWord">
           </mat-slider>
         </div>
         <mat-action-row>
@@ -91,7 +90,6 @@
           <mat-form-field appearance="fill">
             <mat-label>{{'tag-cloud-config.font-family' | translate}}</mat-label>
             <mat-select (selectionChange)="valueChanged()"
-                        matTooltip="{{'tag-cloud-config.font-family-tooltip' | translate}}"
                         [(ngModel)]="cloudParameters.fontFamily">
               <mat-option value="sans-serif">Normal</mat-option>
               <mat-option value="Abril Fatface">Abril Fatface</mat-option>
@@ -103,7 +101,7 @@
         </div>
         <div class="input-row special-settings automatic-spelling" fxLayout="row" fxLayoutGap="5px"
              fxLayout.xs="column">
-          <mat-radio-group matTooltip="{{'tag-cloud-config.bold-notation-tooltip' | translate}}" aria-label="Notation:">
+          <mat-radio-group aria-label="Notation:">
             <div>
               <mat-slide-toggle [checked]="checkBold()" (change)="boldChecked($event)"
                                 [ngModelOptions]="{standalone: true}">{{'tag-cloud-config.font-style-bold' | translate}}</mat-slide-toggle>
@@ -116,7 +114,7 @@
             <input #minFont [value]="cloudParameters.fontSizeMin.toString()" matInput type="number"
                    [(ngModel)]="cloudParameters.fontSizeMin" [ngModelOptions]="{standalone: true}"
                    (change)="calcMaxFont($event,true)"
-                   min="50" max="300" step="10" matTooltip="{{'tag-cloud-config.font-size-min-tooltip' | translate}}"/>
+                   min="50" max="300" step="10" />
           </mat-form-field>
         </div>
         <div class="input-row" fxLayout="column" fxLayoutGap="5px">
@@ -124,7 +122,7 @@
             <mat-label>{{'tag-cloud-config.font-size-max' | translate}}</mat-label>
             <input matInput type="number" [(ngModel)]="maxFont" [value]="maxFont.toString()"
                    [ngModelOptions]="{standalone: true}" (change)="calcMaxFont($event,false)" min="1" max="10" step="1"
-                   matTooltip="{{'tag-cloud-config.font-size-max-tooltip' | translate}}"/>
+                   />
           </mat-form-field>
         </div>
         <mat-action-row>
@@ -160,7 +158,7 @@
                         [(ngModel)]="cloudParameters.hoverScale" [ngModelOptions]="{standalone: true}"
                         (change)="valueChanged()"
                         [thumbLabel]="true"
-                        matTooltip="{{'tag-cloud-config.hover-scale-tooltip' | translate}}"></mat-slider>
+                        ></mat-slider>
           </div>
           <div class="input-row" fxLayout="column" fxLayoutGap="5px">
             <mat-label class="label-text">{{'tag-cloud-config.hover-time' | translate}}</mat-label>
@@ -168,7 +166,7 @@
                         [(ngModel)]="cloudParameters.hoverTime" [ngModelOptions]="{standalone: true}"
                         (change)="valueChanged()"
                         [thumbLabel]="true"
-                        matTooltip="{{'tag-cloud-config.hover-time-tooltip' | translate}}"></mat-slider>
+                        ></mat-slider>
           </div>
           <div class="input-row" fxLayout="column" fxLayoutGap="5px">
             <mat-label class="label-text">{{'tag-cloud-config.hover-delay' | translate}}</mat-label>
@@ -176,7 +174,7 @@
                         [(ngModel)]="cloudParameters.hoverDelay" [ngModelOptions]="{standalone: true}"
                         (change)="valueChanged()"
                         [thumbLabel]="true"
-                        matTooltip="{{'tag-cloud-config.hover-delay-tooltip' | translate}}"></mat-slider>
+                        ></mat-slider>
           </div>
         </div>
         <mat-action-row>
@@ -213,7 +211,7 @@
                 </div>
                 <div class="input-row firstElementOfWeightClass" fxLayout="row" fxLayoutGap="5px" fxLayout.xs="column"
                      *ngIf="weightClass.actualTagNumber > 0 && !parent.dataManager.demoActive">
-                  <mat-slide-toggle matTooltip="{{'tag-cloud-config.manual-weight-number-tooltip' | translate}}"
+                  <mat-slide-toggle
                                     (change)="valueChanged()" fxFlex [(ngModel)]=" weightClass.allowManualTagNumber"
                                     [ngModelOptions]="{standalone: true}">{{'tag-cloud-config.manual-weight-number' | translate}}</mat-slide-toggle>
                   <mat-icon matTooltip="{{'tag-cloud-config.manual-weight-number-note' | translate}}">help</mat-icon>
@@ -225,8 +223,7 @@
                     <mat-slider [value]="weightClass.maxTagNumber" min="1" [max]="weightClass.actualTagNumber" step="1"
                                 [(ngModel)]="weightClass.maxTagNumber" [ngModelOptions]="{standalone: true}"
                                 (change)="valueChanged()"
-                                [thumbLabel]="true"
-                                matTooltip="{{'tag-cloud-config.weight-number-tooltip' | translate}}"></mat-slider>
+                                [thumbLabel]="true"></mat-slider>
                   </div>
                 </div>
                 <div class="input-row" fxLayout="column" fxLayoutGap="5px" *ngIf="!cloudParameters.randomAngles">
@@ -234,8 +231,7 @@
                   <mat-slider [value]="weightClass.rotationAngle" min="-180" max="180" step="1"
                               [(ngModel)]="weightClass.rotationAngle" [ngModelOptions]="{standalone: true}"
                               (change)="valueChanged()"
-                              [thumbLabel]="true"
-                              matTooltip="{{'tag-cloud-config.rotate-weight-tooltip' | translate}}"></mat-slider>
+                              [thumbLabel]="true"></mat-slider>
                 </div>
               </div>
             </div>
