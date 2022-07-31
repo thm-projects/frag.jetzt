@@ -449,10 +449,10 @@
     "tag-button-hint": "Select the most appropriate category for your question."
   },
   "tag-cloud": {
-    "blacklist-topic": "Add keywordto blacklist",
+    "blacklist-topic": "Add keyword to blacklist",
     "changes-gone-wrong": "Something has gone wrong!",
     "changes-successful": "Successfully updated",
-    "demo-data-topic": "Topic %d",
+    "demo-data-topic": "Keyword %d",
     "downvote-topic": "Down-votes for this topic",
     "downvote-topic-brainstorming": "Don't like",
     "no-elements": "The word cloud is empty.",
@@ -460,9 +460,9 @@
     "overview-questioners-topic-tooltip": "Authors",
     "period-since-first-comment": "Time since the first contribution",
     "print-title": "Word cloud from room »{{roomName}}«",
-    "responses-to-keyword": "Number of all responses to this topic",
+    "responses-to-keyword": "Number of all responses to this keyword",
     "ups-downs-difference": "Evaluation difference",
-    "upvote-topic": "Up-votes for this topic",
+    "upvote-topic": "Up-votes for this keyword",
     "upvote-topic-brainstorming": "I like"
   },
   "tag-cloud-config": {
