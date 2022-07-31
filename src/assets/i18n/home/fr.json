@@ -130,9 +130,9 @@
     "language": "Langue",
     "motd-mark-all-read": "Tout lu",
     "motd-mark-read": "Lu",
-    "motd-title-main": "Actualités",
-    "motd-title-new": "Actualités",
-    "motd-title-old": "Archives",
+    "motd-title-main": "Des nouvelles des développeurs",
+    "motd-title-new": "Dernières actualités",
+    "motd-title-old": "Archive",
     "open": "Ouvert",
     "style": "Affichage"
   },
