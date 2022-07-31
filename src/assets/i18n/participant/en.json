@@ -152,6 +152,7 @@
     "brainstorming-placeholder": "Every idea is welcome!\nCreate a separate entry for each new idea.",
     "cancel": "Cancel",
     "cancel-description": "Cancel",
+    "category": "Category:",
     "comment": "Question {{ comment }} was asked at {{ time }} and has currently {{ votes }}. {{correct}} {{wrong}} {{bonus}} {{beamer}}",
     "continue": "Continue",
     "delete-answer": "Yes",
@@ -448,7 +449,7 @@
     "tag-button-hint": "Select the most appropriate category for your question."
   },
   "tag-cloud": {
-    "blacklist-topic": "Add topic to blacklist",
+    "blacklist-topic": "Add keywordto blacklist",
     "changes-gone-wrong": "Something has gone wrong!",
     "changes-successful": "Successfully updated",
     "demo-data-topic": "Topic %d",
@@ -474,9 +475,9 @@
     "cancel-btn": "Cancel",
     "capitalization": "Capitalization",
     "cleanUpView": "Tag-Cleanup Settings",
-    "extended-btn": "Weight classes",
+    "extended-btn": "Frequency groups",
     "font": "Font",
-    "font-family": "Font Family",
+    "font-family": "Font family",
     "font-family-tooltip": "Select font",
     "font-size-max": "Font size max",
     "font-size-max-tooltip": "Size ratio max. / min. font size",
