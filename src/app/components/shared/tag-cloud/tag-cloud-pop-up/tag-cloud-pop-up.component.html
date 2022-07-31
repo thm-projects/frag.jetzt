@@ -98,7 +98,7 @@
               (click)="updateTag()">{{"comment-page.send" | translate}}</button>
     </div>
     <div *ngIf="categories && categories.length">
-      <p>Kategorien:</p>
+      <p style="padding-bottom: 16px">{{"comment-page.category" | translate}}</p>
       <ul>
         <li *ngFor="let category of categories">{{category}}</li>
       </ul>

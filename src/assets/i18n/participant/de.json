@@ -152,6 +152,7 @@
     "brainstorming-placeholder": "Jede Idee ist willkommen!\nErstelle für jede neue Idee einen eigenen Eintrag.",
     "cancel": "Abbrechen",
     "cancel-description": "Abbrechen",
+    "category": "Kategorie:",
     "comment": "Die Frage {{ comment }} wurde um {{ time }} Uhr gestellt und hat derzeitig {{ votes }}. {{correct}} {{wrong}} {{bonus}} {{beamer}}",
     "continue": "Weiter",
     "delete-answer": "Ja",
