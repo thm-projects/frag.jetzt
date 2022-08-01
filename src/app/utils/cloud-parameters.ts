@@ -137,7 +137,7 @@ export class CloudParameters {
     this.hoverScale = CloudParameters.mapValue(minValue, 375, 1500, 1.4, 2);
     this.hoverTime = 1;
     this.hoverDelay = 0.4;
-    this.delayWord = 100;
+    this.delayWord = 800;
     this.randomAngles = false;
     this.sortAlphabetically = false;
     this.textTransform = CloudTextStyle.Capitalized;
