@@ -31,32 +31,25 @@
                     <h1>You have not created a Live-Poll yet. Do you want to create one?</h1>
                   </ars-row>
                   <ars-row>
-                    <button (click)="createLivePoll()">Create Live-Poll</button>
+                    <button mat-button
+                            aria-describedby="stop-label" style="color:var(--on-surface);padding:0 8px;"
+                            (click)="createLivePoll()"
+                            [matTooltip]="'live-poll.stop-accessibility' | translate">
+                      <mat-icon style="color:var(--on-surface);padding-right:4px;">face</mat-icon>
+                      <span *ngIf="device.isCurrentlyDesktop">Create</span>
+                    </button>
                   </ars-row>
                 </ng-container>
-                <ars-row style="box-shadow:inset 0 0 0 1px black;">
-                  <h1>Live-Poll</h1>
-                  <ng-container *ngIf="session.currentLivePoll">
-                    <h1>Name: {{session.currentLivePoll.name}}</h1>
-                    <ng-container *ngIf="session.currentLivePoll.closed"></ng-container>
-                    <ng-container *ngIf="!session.currentLivePoll.closed">
-                      <button (click)="startLivePoll();">START</button>
-                    </ng-container>
-                  </ng-container>
-                  <ng-container *ngIf="!session.currentLivePoll">
-                    <h1>EMPTY</h1>
-                  </ng-container>
-                </ars-row>
-                <ars-row style="box-shadow:inset 0 0 0 1px black;">
-                  <h1>Previous Live-Poll</h1>
-                  <ng-container *ngIf="session.previousLivePoll">
-                  </ng-container>
-                  <ng-container *ngIf="!session.previousLivePoll">
-                    <h1>EMPTY</h1>
-                  </ng-container>
-                </ars-row>
                 <ars-row>
-                  <button *ngIf="session.currentLivePoll&&session.previousLivePoll">Compare</button>
+                  <ng-container *ngIf="session.currentLivePoll&&!session.currentLivePoll.closed">
+                    <button mat-button
+                            aria-describedby="stop-label" style="color:var(--on-surface);padding:0 8px;"
+                            (click)="startLivePoll()"
+                            [matTooltip]="'live-poll.stop-accessibility' | translate">
+                      <mat-icon style="color:var(--on-surface);padding-right:4px;">face</mat-icon>
+                      <span *ngIf="device.isCurrentlyDesktop">Start</span>
+                    </button>
+                  </ng-container>
                 </ars-row>
               </ng-container>
             </ng-container>

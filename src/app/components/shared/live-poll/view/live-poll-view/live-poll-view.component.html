@@ -26,7 +26,7 @@
 <!--      <span *ngIf="device.isCurrentlyDesktop">{{'live-poll.start' | translate}}</span>-->
 <!--    </button>-->
     <button mat-button *ngIf="data.user.role"
-            aria-describedby="stop-label" style="color:var(--on-surface);padding:08px;"
+            aria-describedby="stop-label" style="color:var(--on-surface);padding:0 8px;"
             [matTooltip]="'live-poll.stop-accessibility' | translate">
       <mat-icon style="color:var(--on-surface);padding-right:4px;margin-left:8px;">stop</mat-icon>
       <span *ngIf="device.isCurrentlyDesktop">{{'live-poll.stop' | translate}}</span>

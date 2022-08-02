@@ -1,7 +1,7 @@
 import {ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
 import {DeviceInfoService} from '../../../../../services/util/device-info.service';
 import {TranslateService} from '@ngx-translate/core';
-import {LivePollMockService, LivePollSession} from '../../../../../services/mocks/live-poll-mock.service';
+import {LivePollMockService} from '../../../../../services/mocks/live-poll-mock.service';
 import {RoomService} from '../../../../../services/http/room.service';
 import {LivePollConfiguration} from '../../live-poll.component';
 
