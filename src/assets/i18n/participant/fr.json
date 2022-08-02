@@ -55,6 +55,7 @@
     "comment-stream-stopped": "Le flux de questions a été stoppé.",
     "correct": "Affirmatif",
     "counter": "Q {{comments}} | R {{answers}} | M {{moderated}}",
+    "counter-description": "Compteur de questions (Q), de réponses (R) et de questions dans la modération (M)",
     "favorite": "Question bonus",
     "filter-answered": "Questions répondues",
     "filter-bookmark": "Signet",

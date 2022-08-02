@@ -55,6 +55,7 @@
     "comment-stream-stopped": "Question stream has been stopped.",
     "correct": "Marked as correct",
     "counter": "Q {{comments}} | A {{answers}} | M {{moderated}}",
+    "counter-description": "Counter for questions (Q), answers (A) and questions in moderation (M)",
     "favorite": "Bonus question",
     "filter-answered": "Answered questions",
     "filter-bookmark": "Bookmarked questions",

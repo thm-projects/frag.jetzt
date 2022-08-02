@@ -55,6 +55,7 @@
     "comment-stream-stopped": "Der Fragen-Strom wurde gestoppt.",
     "correct": "Bejaht",
     "counter": "Q {{comments}} | A {{answers}} | M {{moderated}}",
+    "counter-description": "Zähler für Fragen (Q), Antworten (A) und Fragen in der Moderation (M)",
     "favorite": "Bonus-Frage",
     "filter-answered": "Beantwortete Fragen",
     "filter-bookmark": "Lesezeichen",
