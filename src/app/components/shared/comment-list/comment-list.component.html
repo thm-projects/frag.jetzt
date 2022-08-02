@@ -1,8 +1,11 @@
 <div *ngIf="comments && (commentsFilteredByTimeLength > 0 || filterType || period !== 'All')">
   <p class="counter"
-     *ngIf="!filterType && !search">{{ 'comment-list.counter' | translate: getCommentInfo() }}</p>
+     *ngIf="!filterType && !search">
+     <span matTooltip="{{ 'comment-list.counter-description' | translate }}">
+       {{ 'comment-list.counter' | translate: getCommentInfo() }}</span>
+  </p>
   <p class="counter-filtered"
-      *ngIf="filterType || search">{{ comments.length }}</p>
+     *ngIf="filterType || search">{{ comments.length }}</p>
 </div>
 
 <div fxLayout="row"
@@ -50,7 +53,6 @@
        [stepPosition]="'bottom'"
        appJoyrideTemplate
        fxLayoutAlign="center center">
-
 
     <button mat-icon-button
             class="searchBarButton"
