@@ -100,7 +100,7 @@ export const HttpLoaderFactory = (http: HttpClient) => {
         disableTooltipInteractivity: false,
         hideDelay: 0,
         position: undefined,
-        showDelay: 300,
+        showDelay: 200,
         touchGestures: undefined,
         touchendHideDelay: 1500,
       },
