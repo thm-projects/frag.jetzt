@@ -654,7 +654,7 @@
     "cancel": "Cancel",
     "continue": "Continue",
     "heading": "Extract keywords",
-    "label": "Choose from which questions to extract keywords using Artificial Intelligence (see »Introduction« in the footer):",
+    "label": "Choose from which questions to extract keywords:",
     "normal": "Reanalyze all questions in the room",
     "only-failed": "Only questions that have not been analyzed"
   },

@@ -654,7 +654,7 @@
     "cancel": "Abbrechen",
     "continue": "Weiter",
     "heading": "Stichwörter extrahieren",
-    "label": "Wähle, aus welchen Fragen mittels Künstlicher Intelligenz (siehe »Einführung« in der Fußzeile) Stichwörter extrahiert werden sollen:",
+    "label": "Wähle, aus welchen Fragen Stichwörter extrahiert werden sollen:",
     "normal": "Alle Fragen des Raumes neu analysieren",
     "only-failed": "Nur Fragen, die nicht analysiert worden sind"
   },
