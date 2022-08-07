@@ -31,7 +31,6 @@ import { HeaderService } from '../../../services/util/header.service';
 import { WorkerConfigDialogComponent } from '../_dialogs/worker-config-dialog/worker-config-dialog.component';
 import { TagCloudSettings } from '../../../utils/TagCloudSettings';
 import { SessionService } from '../../../services/util/session.service';
-import { DOMElementPrinter } from '../../../utils/DOMElementPrinter';
 import { BrainstormingSession } from '../../../models/brainstorming-session';
 import {
   IntroductionTagCloudComponent
