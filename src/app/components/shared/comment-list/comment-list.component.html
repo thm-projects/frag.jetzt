@@ -199,6 +199,20 @@
     <div>
 
       <button mat-menu-item
+              (click)="applyFilterByKey('Owner')"
+              aria-labelledby="comment">
+        <mat-icon class="owner-icon material-icons-outlined">
+          person
+        </mat-icon>
+        <span [ngClass]="{Owner: 'owner-icon'}[filterType]">{{ 'comment-list.filter-owner' | translate }}</span>
+        <span class="inline-count-badge"
+              [matBadge]="filterTypeCounts?.['Owner'] || 0"
+              matBadgeColor="secondary"
+              matBadgeSize="medium">
+        </span>
+      </button>
+
+      <button mat-menu-item
               (click)="applyFilterByKey('Favorite')"
               aria-labelledby="grade">
         <mat-icon class="star material-icons-round"
@@ -223,20 +237,6 @@
           [ngClass]="{Bookmark: 'bookmark-icon'}[filterType]">{{ 'comment-list.filter-bookmark' | translate }}</span>
         <span class="inline-count-badge"
               [matBadge]="filterTypeCounts?.['Bookmark'] || 0"
-              matBadgeColor="secondary"
-              matBadgeSize="medium">
-        </span>
-      </button>
-
-      <button mat-menu-item
-              (click)="applyFilterByKey('Owner')"
-              aria-labelledby="comment">
-        <mat-icon class="owner-icon material-icons-outlined">
-          person
-        </mat-icon>
-        <span [ngClass]="{Owner: 'owner-icon'}[filterType]">{{ 'comment-list.filter-owner' | translate }}</span>
-        <span class="inline-count-badge"
-              [matBadge]="filterTypeCounts?.['Owner'] || 0"
               matBadgeColor="secondary"
               matBadgeSize="medium">
         </span>

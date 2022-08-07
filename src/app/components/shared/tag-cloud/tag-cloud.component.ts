@@ -31,7 +31,6 @@ import { HeaderService } from '../../../services/util/header.service';
 import { WorkerConfigDialogComponent } from '../_dialogs/worker-config-dialog/worker-config-dialog.component';
 import { TagCloudSettings } from '../../../utils/TagCloudSettings';
 import { SessionService } from '../../../services/util/session.service';
-import { DOMElementPrinter } from '../../../utils/DOMElementPrinter';
 import { BrainstormingSession } from '../../../models/brainstorming-session';
 import {
   IntroductionTagCloudComponent
@@ -395,23 +394,6 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
         class: 'material-icons-outlined',
         text: 'header.back-to-questionboard',
         callback: () => this.router.navigate(['../'], { relativeTo: this.route }),
-        condition: () => true
-      });
-      e.menuItem({
-        translate: this.headerService.getTranslate(),
-        icon: 'print',
-        class: 'material-icons-outlined',
-        text: 'header.tag-cloud-screenshot',
-        callback: () => {
-          if (!this.cloud?.wordCloud) {
-            this.translateService.get('tag-cloud.no-elements')
-              .subscribe(msg => this.notificationService.show(msg));
-            return;
-          }
-          this.translateService.get('tag-cloud.print-title', { roomName: this.room.name })
-            .subscribe(msg => DOMElementPrinter.printOnce(this.cloud?.wordCloud.nativeElement,
-              msg, this._currentSettings.backgroundColor));
-        },
         condition: () => true
       });
       e.menuItem({
