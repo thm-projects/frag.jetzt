@@ -7,7 +7,7 @@
     "please-one": "Bitte gib eine Antwort ein.",
     "sent": "Antwort gesendet",
     "submit": "Abschicken",
-    "your-answer": "Geben deine Antwort ein …"
+    "your-answer": "Gib deine Antwort ein …"
   },
   "comment-list": {
     "a11y-access_time": "Sortiert Fragen nach der Uhrzeit",
@@ -151,8 +151,8 @@
     "brainstorming-info-multiple": "{{maxWordCount}} Wörter / {{maxWordLength}} Zeichen",
     "brainstorming-info-single": "{{maxWordCount}} Wort / {{maxWordLength}} Zeichen",
     "brainstorming-placeholder": "Jede Idee ist willkommen!\nErstelle für jede neue Idee einen eigenen Eintrag.",
-    "cancel": "Abbrechen",
-    "cancel-description": "Abbrechen",
+    "cancel": "Verwerfen",
+    "cancel-description": "Verwerfen",
     "category": "Kategorie:",
     "comment": "Die Frage {{ comment }} wurde um {{ time }} Uhr gestellt und hat derzeitig {{ votes }}. {{correct}} {{wrong}} {{bonus}} {{beamer}}",
     "continue": "Weiter",
