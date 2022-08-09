@@ -8,12 +8,12 @@
     "label": "Anfangs- und Enddatum",
     "placeholder-date-end": "Enddatum",
     "placeholder-date-start": "Anfangsdatum",
-    "placeholder-english": "Hier eingeben...",
-    "placeholder-french": "Hier eingeben...",
-    "placeholder-german": "Hier eingeben...",
+    "placeholder-english": "Hier eingeben …",
+    "placeholder-french": "Hier eingeben …",
+    "placeholder-german": "Hier eingeben …",
     "placeholder-time-end": "Endzeit",
     "placeholder-time-start": "Anfangszeit",
-    "success": "Erfolgreich erstellt",
-    "title": "Erstelle eine Message of the day!"
+    "success": "News erfolgreich erstellt",
+    "title": "Aktuelle News erstellen"
   }
 }

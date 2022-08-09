@@ -1,20 +1,22 @@
 :host > mat-card {
   margin-top: 2rem;
-  background: var(--surface);
-  color: var(--on-surface);
+  background: var(--surface) !important;
+  color: var(--on-surface) !important;
   display: flex;
   flex-direction: column;
 }
 
-
 button {
-  background-color: var(--surface);
-  color: var(--on-surface);
-  border-radius: 5px;
-  font-size: 1rem;
+  background-color: transparent;
+  color: var(--primary);
+  outline: var(--primary) solid 3px;
+  font-size: 16px;
+  width: 100%;
+  margin-top: 20px;
 
   &:hover {
-    outline: 3px solid var(--secondary);
+    background-color: var(--primary);
+    color: var(--on-primary);
   }
 }
 

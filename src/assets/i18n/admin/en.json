@@ -8,12 +8,12 @@
     "label": "Start and end date",
     "placeholder-date-end": "End date",
     "placeholder-date-start": "Start date",
-    "placeholder-english": "Enter here...",
-    "placeholder-french": "Enter here...",
-    "placeholder-german": "Enter here...",
+    "placeholder-english": "Enter here …",
+    "placeholder-french": "Enter here …",
+    "placeholder-german": "Enter here …",
     "placeholder-time-end": "End time",
     "placeholder-time-start": "Start time",
-    "success": "Successfully created",
-    "title": "Create a Message of the day!"
+    "success": "News successfully created",
+    "title": "Create latest news"
   }
 }
