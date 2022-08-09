@@ -30,7 +30,7 @@
   </mat-form-field>
   <mat-form-field *ngFor="let item of ['english', 'german', 'french']; let i = index">
     <mat-label>{{ ('create-motd.' + item) | translate }}</mat-label>
-    <textarea matInput
+    <textarea matInput rows="10" cols="80"
               [(ngModel)]="langEntries[i]"
               [placeholder]="('create-motd.placeholder-' + item) | translate">
     </textarea>
