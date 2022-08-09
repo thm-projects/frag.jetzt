@@ -210,7 +210,7 @@
     "grammar-check": "Optimiser le texte avec l'IA",
     "has-answer": "Tu as répondu à la question. Clique ici pour voir ou modifier ta réponse.",
     "hide-conversation-tooltip": "Cacher la conversation",
-    "keywords": "Radar de questions",
+    "keywords": "Radar à questions",
     "keywords-per-answer": "Clique sur le signe # pour afficher les mots-clés que la personne qui a répondu a déterminés ou choisis dans une liste générée par l'IA.",
     "keywords-per-question": "Clique sur le signe # pour afficher les mots-clés que l'auteur de la question a déterminés ou choisis dans une liste générée par l'IA.",
     "live-announcer": "Tu te trouves maintenant sur la page des questions. Pour obtenir des informations sur les combinaisons de touches, appuie maintenant sur la touche Entrée ou appelle l'annonce ultérieurement avec la touche Échap.",
@@ -260,11 +260,11 @@
     "vote-down": "Dévaloriser la question",
     "vote-up": "Valoriser la question",
     "write-comment": "Saisie",
-    "your-answer": "Saisis ta réponse …"
+    "your-answer": "Écris ta réponse …"
   },
   "content": {
     "cancel": "Annuler",
-    "tag-cloud-create": "Continue",
+    "tag-cloud-create": "Continuer",
     "tag-cloud-questions-all": "Toutes les questions",
     "tag-cloud-questions-all-short": "Tous les",
     "tag-cloud-questions-current-filtered": "Questions filtrées",
@@ -301,7 +301,7 @@
     "label": "Expliquer",
     "room-settings-overview": "## Paramètres de la salle \n\nIci, tu peux voir tous les paramètres de la salle dans un aperçu. \n\nTu peux aussi faire des modifications plus tard dans le menu Options de la salle. \n\nEn raison de l'anonymat des utilisateurs et de l'abus potentiel du forum Q&R, nous te proposons des restrictions avec les trois premiers boutons. Voir les indications à ce sujet dans les infobulles des boutons.",
     "spacy": "## Mots-clés \n\nAu moyen du NLP (Natural Language Processing), ta question est analysée grammaticalement. Les substantifs reconnus sont transformés en leur forme de base, c'est-à-dire lemmatisés, et te sont proposés comme mots-clés. Pour l'analyse de texte, nous utilisons le logiciel libre NLP [spaCy](https://spacy.io/). \n\nLes mots-clés peuvent être utilisés pour filtrer la liste des questions ou pour créer un nuage de mots.",
-    "topic-cloud": "## Radar de questions \n\n Si tu veux garder un œil sur toutes les questions, tu as besoin d'une sorte de « radar ». Notre radar localise les questions et les réponses à l'aide de leurs mots-clés : plus il y a de questions et de réponses qui se rapportent à un mot-clé, plus le mot-clé apparaît grand et central sur le radar.\n\n Le radar de questions te sert de **navigateur** : Si tu cliques sur un mot, tu accèderas aux questions et réponses liées à ce mot-clé. \n\n Les mots-clés sont déterminés en temps réel à l'aide d'une analyse grammaticale des noms ou ont été déterminés par l'auteur. \n\n Le calcul de la taille de la police prend en compte:\n\n* la différence entre les votes ascendants et descendants, si elle est positive,\n* le nombre de questions avec ce mot-clé,\n* le nombre d'auteurs de questions avec ce mot-clé,\n* le rôle : créateur de salle, modérateur ou participant,\n* si une catégorie de questions a été choisie,\n* si le mot-clé a été généré ou attribué,\n* si la question a reçu une réponse,\n* la controversité de la question. \n\nLes créateurs de salle peuvent adapter la visualisation à leurs souhaits. Il est également possible d'expérimenter avec les paramètres de génération de mots-clés afin d'optimiser l'acuité sémantique.",
+    "topic-cloud": "## Radar à questions \n\n Si tu veux garder un œil sur toutes les questions, tu as besoin d'une sorte de « radar ». Notre radar localise les questions et les réponses à l'aide de leurs mots-clés : plus il y a de questions et de réponses qui se rapportent à un mot-clé, plus le mot-clé apparaît grand et central sur le radar.\n\n Le radar à questions te sert de **navigateur** : Si tu cliques sur un mot, tu accèderas aux questions et réponses liées à ce mot-clé. \n\n Les mots-clés sont déterminés en temps réel à l'aide d'une analyse grammaticale des noms ou ont été déterminés par l'auteur. \n\n Le calcul de la taille de la police prend en compte:\n\n* la différence entre les votes ascendants et descendants, si elle est positive,\n* le nombre de questions avec ce mot-clé,\n* le nombre d'auteurs de questions avec ce mot-clé,\n* le rôle : créateur de salle, modérateur ou participant,\n* si une catégorie de questions a été choisie,\n* si le mot-clé a été généré ou attribué,\n* si la question a reçu une réponse,\n* la controversité de la question. \n\nLes créateurs de salle peuvent adapter la visualisation à leurs souhaits. Il est également possible d'expérimenter avec les paramètres de génération de mots-clés afin d'optimiser l'acuité sémantique.",
     "user-bonus": "## Bonus \n\nL'enseignant peut marquer les « bonnes » questions pour un bonus. Tes questions de tous les cours (salles) qui ont reçu une étoile sont listées ici.\n\nSelon l'accord, tu peux envoyer le code bonus par e-mail à l'enseignant pour l'échanger contre un bonus."
   },
   "header": {
@@ -318,7 +318,7 @@
     "brainstorming-title": "Les cas d'utilisation du brainstorming",
     "cancel": "Fermer",
     "question-wall-title": "Les cas d'utilisation du mode de présentation",
-    "tag-cloud-title": "Cas d'utilisation du radar de questions"
+    "tag-cloud-title": "Cas d'utilisation du radar à questions"
   },
   "joyride": {
     "commentFilter": "Il existe de nombreuses options de tri et de filtrage pour la liste des questions-réponses. Un filtre actif est affiché en rouge. Pour une meilleure lisibilité en cas de grande dynamique, le flux de questions peut également être mis en pause.",
@@ -764,7 +764,7 @@
     "keyword-scoring-summedVotes": "Somme de tous les votes",
     "keyword-scoring-summedVotes-info": "Somme des votes positifs et négatifs effectués sur les questions avec ce mot-clé",
     "keyword-search": "Rechercher …",
-    "keywords": "Radar de questions",
+    "keywords": "Radar à questions",
     "keywords-merge": "Sujets réunis",
     "language": "Langue",
     "language-specific-filter": "Censurer dans toutes les langues",
