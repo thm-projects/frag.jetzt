@@ -116,7 +116,7 @@ mat-card-header {
   transform: scale(0) translate(-50%, -50%);
   z-index: 1000;
   @media (min-width: 750px) {
-    animation: var(--anim, bg-object-anim) 10s ease-in-out 3;
+    animation: bg-object-anim 10s ease-in-out 3;
   }
 }
 
