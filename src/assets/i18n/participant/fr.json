@@ -113,7 +113,7 @@
     "confirm": "Appliquer",
     "deactivate": "Désactiver",
     "friday": "Vendredi",
-    "last-setting": "Dernier réglage&nbsp;: %s",
+    "last-setting": "Dernier réglage : %s",
     "monday": "Lundi",
     "saturday": "Samedi",
     "setting-inactive": "inactif",
@@ -158,7 +158,7 @@
     "continue": "Continuer",
     "delete-answer": "Oui",
     "delete-question": "Supprimer",
-    "downvote": " ┇ négatif&nbsp;:",
+    "downvote": " ┇ négatif :",
     "edit-change-tag": "Changer de catégorie",
     "enter-comment": "Saisis ta question …",
     "enter-title": "Titre",
@@ -207,7 +207,7 @@
     "tag-title": "Changer de catégorie",
     "tag-to-filter": "Clique sur la catégorie de questions (étiquette) pour filtrer toutes les questions de cette catégorie.",
     "update": "Enregistrer",
-    "upvote": "positif&nbsp;:",
+    "upvote": "positif :",
     "user-number": "Clic sur l'icône pin pour filtrer toutes les questions de la personne qui a posé la question.",
     "vote-down": "Dévaloriser la question",
     "vote-up": "Valoriser la question",
@@ -229,8 +229,8 @@
     "header": "Optimiser le texte",
     "label": "Quel texte doit être diffusé ?",
     "no-optimization": "Le texte n'a pas besoin d'être amélioré.",
-    "option-improved": "Suggestion de l'IA&nbsp;:",
-    "option-normal": "Ta saisie&nbsp;:"
+    "option-improved": "Suggestion de l'IA :",
+    "option-normal": "Ta saisie :"
   },
   "deepl-formality-select": {
     "default": "Préréglage",
@@ -246,10 +246,10 @@
   "explanation": {
     "brainstorming": "## Lorem ipsum \n\nLorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,\nmolestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum\nnumquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium\noptio, eaque rerum ! Provident similique accusantium nemo autem.",
     "close": "Fermer",
-    "deepl": "## Optimiser le texte \n\nPour que ta question soit présentée de manière parfaitement lisible et compréhensible, nous la faisons traduire en anglais et en français par le programme de traduction par IA [DeepL](https://www.deepl.com/translator). \n\nDans presque tous les cas, la retraduction est meilleure que l'original en termes d'orthographe, de grammaire, de ponctuation et de style linguistique. La retraduction peut se faire de deux manières&nbsp;: de manière informelle (tutoiement) ou formelle (vouvoiement).",
+    "deepl": "## Optimiser le texte \n\nPour que ta question soit présentée de manière parfaitement lisible et compréhensible, nous la faisons traduire en anglais et en français par le programme de traduction par IA [DeepL](https://www.deepl.com/translator). \n\nDans presque tous les cas, la retraduction est meilleure que l'original en termes d'orthographe, de grammaire, de ponctuation et de style linguistique. La retraduction peut se faire de deux manières : de manière informelle (tutoiement) ou formelle (vouvoiement).",
     "label": "Expliquer",
     "spacy": "## Mots-clés \n\nAu moyen du NLP (Natural Language Processing), ta question est analysée grammaticalement. Les substantifs reconnus sont transformés en leur forme de base, c'est-à-dire lemmatisés, et te sont proposés comme mots-clés. Pour l'analyse de texte, nous utilisons le logiciel libre NLP [spaCy](https://spacy.io/). \n\nLes mots-clés peuvent être utilisés pour filtrer la liste des questions ou pour créer un nuage de mots.",
-    "topic-cloud": "## Radar à questions \n\n Si tu veux garder un œil sur toutes les questions, tu as besoin d'une sorte de « radar ». Notre radar localise les questions et les réponses à l'aide de leurs mots-clés&nbsp;: plus il y a de questions et de réponses qui se rapportent à un mot-clé, plus le mot-clé apparaît grand et central sur le radar.\n\n Le radar à questions te sert de **navigateur**&nbsp;: Si tu cliques sur un mot, tu accèderas aux questions et réponses liées à ce mot-clé. \n\n Les mots-clés sont déterminés en temps réel à l'aide d'une analyse grammaticale des noms ou ont été déterminés par l'auteur. \n\n Le calcul de la taille de la police prend en compte:\n\n* la différence entre les votes ascendants et descendants, si elle est positive,\n* le nombre de questions avec ce mot-clé,\n* le nombre d'auteurs de questions avec ce mot-clé,\n* le rôle&nbsp;: créateur de salle, modérateur ou participant,\n* si une catégorie de questions a été choisie,\n* si le mot-clé a été généré ou attribué,\n* si la question a reçu une réponse,\n* la controversité de la question. \n\nLes créateurs de salle peuvent adapter la visualisation à leurs souhaits. Il est également possible d'expérimenter avec les paramètres de génération de mots-clés afin d'optimiser l'acuité sémantique.",
+    "topic-cloud": "## Radar à questions \n\n Si tu veux garder un œil sur toutes les questions, tu as besoin d'une sorte de « radar ». Notre radar localise les questions et les réponses à l'aide de leurs mots-clés : plus il y a de questions et de réponses qui se rapportent à un mot-clé, plus le mot-clé apparaît grand et central sur le radar.\n\n Le radar à questions te sert de **navigateur** : Si tu cliques sur un mot, tu accèderas aux questions et réponses liées à ce mot-clé. \n\n Les mots-clés sont déterminés en temps réel à l'aide d'une analyse grammaticale des noms ou ont été déterminés par l'auteur. \n\n Le calcul de la taille de la police prend en compte:\n\n* la différence entre les votes ascendants et descendants, si elle est positive,\n* le nombre de questions avec ce mot-clé,\n* le nombre d'auteurs de questions avec ce mot-clé,\n* le rôle : créateur de salle, modérateur ou participant,\n* si une catégorie de questions a été choisie,\n* si le mot-clé a été généré ou attribué,\n* si la question a reçu une réponse,\n* la controversité de la question. \n\nLes créateurs de salle peuvent adapter la visualisation à leurs souhaits. Il est également possible d'expérimenter avec les paramètres de génération de mots-clés afin d'optimiser l'acuité sémantique.",
     "user-bonus": "L'enseignant peut marquer les « bonnes » questions pour un bonus. Tes questions de tous les cours (salles) qui ont reçu une étoile sont listées ici.\n\nSelon l'accord, tu peux envoyer le code bonus par e-mail à l'enseignant pour l'échanger contre un bonus."
   },
   "header": {
@@ -427,7 +427,7 @@
     "live-announcer": "Tu es maintenant dans la session. Pour obtenir des informations sur les combinaisons de touches, appuie maintenant sur la touche Entrée ou appelle l'annonce ultérieurement avec la touche Échap.",
     "live-feedback": "Feedback en direct",
     "moderation-enabled": "Toutes les questions sont modérées.",
-    "session-id": "Code",
+    "session-id": "Code ",
     "sure": "Tu en es sûr ?"
   },
   "spacy-dialog": {
@@ -502,7 +502,7 @@
     "manual-weight-number-note": "Limite le nombre de mots du groupe de fréquence à la valeur définie.",
     "manual-weight-number-tooltip": "Nombre de sujets du groupe de fréquence",
     "notation": "Lettres majuscules et minuscules:",
-    "notation-tooltip": "Réglage de l'orthographe&nbsp;: petit, grand, comme indiqué",
+    "notation-tooltip": "Réglage de l'orthographe : petit, grand, comme indiqué",
     "overflow": "Débordement",
     "random-angle": "Tourner les saisies au hasard",
     "random-angle-note": "Si tu actives l'option ici, la rotation des mots dans les groupes de fréquence sera désactivée.",
@@ -521,7 +521,7 @@
     "weight-class-settings": "Groupes de fréquence",
     "weight-color": "Couleur de la police",
     "weight-color-tooltip": "Sélection de la couleur de la police",
-    "weight-number": "Nombre maximal de mots&nbsp;:",
+    "weight-number": "Nombre maximal de mots :",
     "weight-number-tooltip": "définir le nombre maximal de sujets",
     "word-delay": "Afficher les entrées de manière retardée:",
     "word-delay-tooltip": "Retard d'animation des sujets"
@@ -635,7 +635,7 @@
     "copy-clipboard-notification": "Copié dans le cache du navigateur",
     "email-not-set": "\nPas d'email enregistré",
     "header": "Échanger des étoiles contre des points bonus",
-    "mail-body1": "Bonjour\n\nJ'ai obtenu les tokens suivants lors de la session « {{sessionName}} » avec le code de salle « {{sessionId}} »&nbsp;:\n",
+    "mail-body1": "Bonjour\n\nJ'ai obtenu les tokens suivants lors de la session « {{sessionName}} » avec le code de salle « {{sessionId}} » :\n",
     "mail-body2": "\n\n\nJe demande à les échanger contre des points bonus.\n\nMerci pour « frag.jetzt » !\n\n---",
     "mail-subject": "Demande d'échange de mes codes bonus de la session « {{sessionName}} »",
     "moderator-emails": "\n\nE-mail des modérateurs",
@@ -654,7 +654,7 @@
     "cancel": "Annuler",
     "continue": "Continuer",
     "heading": "Extraire des mots-clés",
-    "label": "Choisis les questions à partir desquelles des mots-clés doivent être extraits&nbsp;:",
+    "label": "Choisis les questions à partir desquelles des mots-clés doivent être extraits :",
     "normal": "Réanalyser toutes les questions de la pièce.",
     "only-failed": "Seulement les questions qui n'ont pas été analysées"
   },

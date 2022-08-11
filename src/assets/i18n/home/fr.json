@@ -35,7 +35,7 @@
     "confirm": "Appliquer",
     "deactivate": "Désactiver",
     "friday": "Vendredi",
-    "last-setting": "Dernier réglage&nbsp;: %s",
+    "last-setting": "Dernier réglage : %s",
     "monday": "Lundi",
     "saturday": "Samedi",
     "setting-inactive": "inactif",
@@ -48,7 +48,7 @@
   },
   "content": {
     "brainstorm-join-session-close": "Fermer",
-    "brainstorm-join-session-info": "Thème&nbsp;: « {{title}} »",
+    "brainstorm-join-session-info": "Thème : « {{title}} »",
     "brainstorm-join-session-join": "Rejoindre",
     "brainstorm-join-session-title": "Rejoindre une session en cours ?",
     "brainstorm-join-session-title-short": "Session en cours",
@@ -69,7 +69,7 @@
     "brainstorming-word-length": "Nombre maximum de caractères",
     "cancel": "Annuler",
     "continue": "Continuer",
-    "field-hint-number": "Valeur&nbsp;: {{min}} - {{max}}",
+    "field-hint-number": "Valeur : {{min}} - {{max}}",
     "field-required": "Ce champ est nécessaire.",
     "field-too-high": "Ton entrée est trop longue, elle doit être au maximum de {{max}}.",
     "field-too-low": "Ta saisie est trop courte, elle doit être au moins {{min}}.",
@@ -105,11 +105,11 @@
     "bonus-archive": "## Archives bonus \n\nIci sont listées toutes les questions que tu as marquées d'une étoile dans tes salles. Grâce à cette liste, tu peux vérifier si le code bonus qu'un participant t'a envoyé par e-mail est valable. \n\nPour trouver rapidement un code, il y a un champ de recherche. Si le code est valable, tu peux afficher directement la question correspondante via un lien.",
     "brainstorming": "## Brainstorming \n\nLors de la création d'une session de brainstorming, les modérateurs définissent le thème de la session et le nombre maximal de mots et de caractères par contribution. Si un seul mot est autorisé comme contribution, une IA effectue une comparaison morphologique de toutes les contributions. Les citations multiples sont reconnues avec certitude malgré les différences de flexion et d'orthographe des mots et sont affichées dans un nuage de mots avec la taille de police correspondante. \n\nIl est possible de voter sur chaque entrée du nuage de mots. Pour ce faire, il suffit de passer le curseur de souris sur l'entrée et de cliquer sur une icône de vote dans la fenêtre pop-up correspondante.",
     "close": "Fermer",
-    "deepl": "## Optimiser le texte \n\nPour que ta question soit présentée de manière parfaitement lisible et compréhensible, nous la faisons traduire en anglais et en français par le programme de traduction par IA [DeepL](https://www.deepl.com/translator). \n\nDans presque tous les cas, la retraduction est meilleure que l'original en termes d'orthographe, de grammaire, de ponctuation et de style linguistique. La retraduction peut se faire de deux manières&nbsp;: de manière informelle (tutoiement) ou formelle (vouvoiement).",
+    "deepl": "## Optimiser le texte \n\nPour que ta question soit présentée de manière parfaitement lisible et compréhensible, nous la faisons traduire en anglais et en français par le programme de traduction par IA [DeepL](https://www.deepl.com/translator). \n\nDans presque tous les cas, la retraduction est meilleure que l'original en termes d'orthographe, de grammaire, de ponctuation et de style linguistique. La retraduction peut se faire de deux manières : de manière informelle (tutoiement) ou formelle (vouvoiement).",
     "label": "Expliquer",
     "room-settings-overview": "## Paramètres de la salle \n\nIci, tu peux voir tous les paramètres de la salle dans un aperçu. \n\nTu peux aussi faire des modifications plus tard dans le menu Options de la salle. \n\nEn raison de l'anonymat des utilisateurs et de l'abus potentiel du forum Q&R, nous te proposons des restrictions avec les trois premiers boutons. Voir les indications à ce sujet dans les infobulles des boutons.",
     "spacy": "## Mots-clés \n\nAu moyen du NLP (Natural Language Processing), ta question est analysée grammaticalement. Les substantifs reconnus sont transformés en leur forme de base, c'est-à-dire lemmatisés, et te sont proposés comme mots-clés. Pour l'analyse de texte, nous utilisons le logiciel libre NLP [spaCy](https://spacy.io/). \n\nLes mots-clés peuvent être utilisés pour filtrer la liste des questions ou pour créer un nuage de mots.",
-    "topic-cloud": "## Radar à questions \n\n Si tu veux garder un œil sur toutes les questions, tu as besoin d'une sorte de « radar ». Notre radar localise les questions et les réponses à l'aide de leurs mots-clés&nbsp;: plus il y a de questions et de réponses qui se rapportent à un mot-clé, plus le mot-clé apparaît grand et central sur le radar.\n\n Le radar à questions te sert de **navigateur**&nbsp;: Si tu cliques sur un mot, tu accèderas aux questions et réponses liées à ce mot-clé. \n\n Les mots-clés sont déterminés en temps réel à l'aide d'une analyse grammaticale des noms ou ont été déterminés par l'auteur. \n\n Le calcul de la taille de la police prend en compte:\n\n* la différence entre les votes ascendants et descendants, si elle est positive,\n* le nombre de questions avec ce mot-clé,\n* le nombre d'auteurs de questions avec ce mot-clé,\n* le rôle&nbsp;: créateur de salle, modérateur ou participant,\n* si une catégorie de questions a été choisie,\n* si le mot-clé a été généré ou attribué,\n* si la question a reçu une réponse,\n* la controversité de la question. \n\nLes créateurs de salle peuvent adapter la visualisation à leurs souhaits. Il est également possible d'expérimenter avec les paramètres de génération de mots-clés afin d'optimiser l'acuité sémantique.",
+    "topic-cloud": "## Radar à questions \n\n Si tu veux garder un œil sur toutes les questions, tu as besoin d'une sorte de « radar ». Notre radar localise les questions et les réponses à l'aide de leurs mots-clés : plus il y a de questions et de réponses qui se rapportent à un mot-clé, plus le mot-clé apparaît grand et central sur le radar.\n\n Le radar à questions te sert de **navigateur** : Si tu cliques sur un mot, tu accèderas aux questions et réponses liées à ce mot-clé. \n\n Les mots-clés sont déterminés en temps réel à l'aide d'une analyse grammaticale des noms ou ont été déterminés par l'auteur. \n\n Le calcul de la taille de la police prend en compte:\n\n* la différence entre les votes ascendants et descendants, si elle est positive,\n* le nombre de questions avec ce mot-clé,\n* le nombre d'auteurs de questions avec ce mot-clé,\n* le rôle : créateur de salle, modérateur ou participant,\n* si une catégorie de questions a été choisie,\n* si le mot-clé a été généré ou attribué,\n* si la question a reçu une réponse,\n* la controversité de la question. \n\nLes créateurs de salle peuvent adapter la visualisation à leurs souhaits. Il est également possible d'expérimenter avec les paramètres de génération de mots-clés afin d'optimiser l'acuité sémantique.",
     "user-bonus": "## Bonus \n\nL'enseignant peut marquer les « bonnes » questions pour un bonus. Tes questions de tous les cours (salles) qui ont reçu une étoile sont listées ici.\n\nSelon l'accord, tu peux envoyer le code bonus par e-mail à l'enseignant pour l'échanger contre un bonus."
   },
   "footer": {
@@ -173,7 +173,7 @@
     "guest-account-tooltip": "Tu es connecté en tant qu'invité. Tes salles et tes bonus sont supprimés dès que tu te déconnectes. Si tu te connectes avec un compte, tes salles et tes bonus sont conservés pendant 180 jours après ta dernière visite.",
     "home-header": "Q&R en direct",
     "home-header-mobile": "Q&R en direct",
-    "id": "Code",
+    "id": "Code ",
     "import-questions": "Importer des Q&R",
     "logged-out": "Tu es maintenant déconnecté.",
     "login": "Se connecter",
@@ -236,7 +236,7 @@
     "create-session": "Réserver une salle gratuitement",
     "created": "La salle pour la session \"{{longRoomName}}\" a été réservée.",
     "custom-shortid": "Quel doit être le code de la salle ?",
-    "custom-shortid-placeholder": "Code composé de&nbsp;: a-z A-Z 0-9 - _ ~ .",
+    "custom-shortid-placeholder": "Code composé de : a-z A-Z 0-9 - _ ~ .",
     "exactly-8": "Le code est une combinaison de 8 chiffres.",
     "generated-shortid": "Le code de salle est généré.",
     "install": "Installer",
@@ -316,7 +316,7 @@
     "login-description": "Se connecter avec les données de compte saisies",
     "login-successful": "Tu es maintenant connecté.",
     "login-tooltip": "La session est enregistrée pendant 180 jours.",
-    "or": "Si aucune sauvegarde n'est souhaitée&nbsp;:",
+    "or": "Si aucune sauvegarde n'est souhaitée :",
     "password": "Mot de passe",
     "password-description": "Saisis ici ton mot de passe.",
     "password-required": "Mot de passe nécessaire",
@@ -356,7 +356,7 @@
     "email-error": "L'adresse mail saisie n'est pas valide.",
     "empty": "Aucun modérateur disponible",
     "guest": "Modérateur invité",
-    "join-code": "Code invité&nbsp;:",
+    "join-code": "Code invité :",
     "not-found": "Un utilisateur avec l'adresse mail indiquée n'a pas pu être trouvé. Es-tu sûr que l'utilisateur s'est enregistré sur « frag.jetzt » avec cette adresse ?",
     "not-generated": "…",
     "really-remove-moderator": "Tu veux vraiment supprimer le modérateur ?",
@@ -402,11 +402,11 @@
     "reset-password-description": "Tu peux réinitialiser ton mot de passe ici.",
     "reset-successful": "Si un compte existe avec cette adresse mail, un message a été envoyé.",
     "set-button-description": "Crée le nouveau mot de passe pour le compte",
-    "set-new-password": "Crée un nouveau mot de passe à l'aide du code clé qui t'a été envoyé&nbsp;:",
+    "set-new-password": "Crée un nouveau mot de passe à l'aide du code clé qui t'a été envoyé :",
     "set-new-password-button": "Créer le mot de passe"
   },
   "qr-dialog": {
-    "session": "Code"
+    "session": "Code "
   },
   "register": {
     "cancel": "Annuler",
@@ -544,13 +544,13 @@
     "create-session": "Enregistrer",
     "description": "Description de l'événement",
     "join": "Rejoindre une session",
-    "max-ls": "Nombre maximum de caractères&nbsp;:",
+    "max-ls": "Nombre maximum de caractères :",
     "session-name": "Événement",
     "session-name-with-key-code-generated": "Quel doit être le nom de l'événement ?"
   },
   "title": {
     "attach-title": "frag.jetzt {{attachment}}",
-    "default-title": "frag.jetzt&nbsp;: Collecter, évaluer et présenter des questions"
+    "default-title": "frag.jetzt : Collecter, évaluer et présenter des questions"
   },
   "token-validator": {
     "bonus-token-header": "Archives bonus",
@@ -602,7 +602,7 @@
     "copy-clipboard-notification": "Copié dans le cache du navigateur",
     "email-not-set": "\nPas d'email enregistré",
     "header": "Échanger des étoiles contre des points bonus",
-    "mail-body1": "Bonjour\n\nJ'ai obtenu les tokens suivants lors de la session « {{sessionName}} » avec le code de salle « {{sessionId}} »&nbsp;:\n",
+    "mail-body1": "Bonjour\n\nJ'ai obtenu les tokens suivants lors de la session « {{sessionName}} » avec le code de salle « {{sessionId}} » :\n",
     "mail-body2": "\n\n\nJe demande à les échanger contre des points bonus.\n\nMerci pour « frag.jetzt » !\n\n---",
     "mail-subject": "Demande d'échange de mes codes bonus de la session « {{sessionName}} »",
     "moderator-emails": "\n\nE-mail des modérateurs",
