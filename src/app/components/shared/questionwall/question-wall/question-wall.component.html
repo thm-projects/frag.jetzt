@@ -229,7 +229,7 @@
                           class="qw-fade-animation"
                           matRipple>
                     <mat-icon>thumb_up</mat-icon>
-                    <p style="padding-left:22px;">{{commentFocus.upvotes}}</p>
+                    <p style="padding-left: 4px;">{{commentFocus.upvotes}}</p>
                   </button>
                   <button ars-btn
                           *ngIf="commentFocus.creatorId !== user?.id"
@@ -237,7 +237,7 @@
                           class="qw-fade-animation"
                           matRipple>
                     <mat-icon>thumb_down</mat-icon>
-                    <p style="padding-left:22px;">{{commentFocus.downvotes}}</p>
+                    <p style="padding-left: 4px;">{{commentFocus.downvotes}}</p>
                   </button>
                   <button ars-btn
                           *ngIf="commentFocus.totalAnswerCount > 0"
@@ -245,7 +245,7 @@
                           class="qw-fade-animation"
                           matRipple>
                     <mat-icon class="material-icons-round">forum</mat-icon>
-                    <p style="padding-left:22px;">{{commentFocus.totalAnswerCount}}</p>
+                    <p style="padding-left: 4px;">{{commentFocus.totalAnswerCount}}</p>
                   </button>
                 </ars-col>
                 <ars-fill></ars-fill>
