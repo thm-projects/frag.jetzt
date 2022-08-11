@@ -173,7 +173,7 @@
     "guest-account-tooltip": "Tu es connecté en tant qu'invité. Tes salles et tes bonus sont supprimés dès que tu te déconnectes. Si tu te connectes avec un compte, tes salles et tes bonus sont conservés pendant 180 jours après ta dernière visite.",
     "home-header": "Q&R en direct",
     "home-header-mobile": "Q&R en direct",
-    "id": "Code",
+    "id": "Code ",
     "import-questions": "Importer des Q&R",
     "logged-out": "Tu es maintenant déconnecté.",
     "login": "Se connecter",
@@ -256,10 +256,10 @@
     "update-available": "Une nouvelle version est disponible."
   },
   "imprint": {
-    "backend": "Statistiques du projet du backend :",
+    "backend": "Statistiques du projet backend :",
     "cancel": "Fermer",
     "cancel-description": "Ferme l'impressum.",
-    "frontend": "Statistiques de projet du frontend :",
+    "frontend": "Statistiques du projet frontend :",
     "title": "Mentions légales"
   },
   "introduction": {
@@ -406,7 +406,7 @@
     "set-new-password-button": "Créer le mot de passe"
   },
   "qr-dialog": {
-    "session": "Code"
+    "session": "Code "
   },
   "register": {
     "cancel": "Annuler",

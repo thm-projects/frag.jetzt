@@ -427,7 +427,7 @@
     "live-announcer": "Tu es maintenant dans la session. Pour obtenir des informations sur les combinaisons de touches, appuie maintenant sur la touche Entrée ou appelle l'annonce ultérieurement avec la touche Échap.",
     "live-feedback": "Feedback en direct",
     "moderation-enabled": "Toutes les questions sont modérées.",
-    "session-id": "Code",
+    "session-id": "Code ",
     "sure": "Tu en es sûr ?"
   },
   "spacy-dialog": {

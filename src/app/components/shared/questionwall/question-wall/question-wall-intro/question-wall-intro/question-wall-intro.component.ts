@@ -40,8 +40,7 @@ export class QuestionWallIntroComponent implements OnInit, AfterViewInit {
 
   private backgroundAnimation() {
     const background: HTMLElement = this.ref.nativeElement.getElementsByClassName('background')[0];
-    background.style.transition = 'all 5s ease-in-out, opacity 1s ease-in-out';
-    background.style.filter = 'grayscale(1) brightness(0.5)';
+    background.style.transition = 'all 5s ease-in-out, opacity 3s ease-in-out';
     setTimeout(() => {
       background.style.filter = 'grayscale(1) brightness(1)';
     }, 1);
