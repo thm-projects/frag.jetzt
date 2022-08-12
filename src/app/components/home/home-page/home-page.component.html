@@ -1,14 +1,15 @@
 <div style="display: none;"
-    [joyrideStep]="'greeting'"
-    appJoyrideTemplate
-    [stepPosition]="'center'">
+     [joyrideStep]="'greeting'"
+     appJoyrideTemplate
+     [stepPosition]="'center'">
 </div>
 
 <div data-nosnippet
      class="main-container">
   <div class="bg-object" style="top: 20%; left: 20%; animation-delay: 0s;">?</div>
   <div class="bg-object" style="top: 30%; left: 80%; animation-delay: 2s;">?</div>
-  <div class="bg-object" style="top: 40%; left: 50%; animation-delay: 5s;">?</div>
+  <div class="bg-object"
+       style="top: 40%; left: 50%; font-size: 30px; animation-delay: 5s;">{{ 'login.call' | translate }}</div>
   <div fxLayout="row"
        fxLayoutAlign="center">
 

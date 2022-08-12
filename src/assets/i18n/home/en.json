@@ -299,6 +299,7 @@
   },
   "login": {
     "activation-key": "Activation key",
+    "call": "Ask now!",
     "cancel": "Cancel",
     "cancel-description": "Cancel",
     "email": "E-mail",
