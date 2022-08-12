@@ -138,6 +138,7 @@
     "a11y-text_wrong": "La réponse à cette question est négative.",
     "abort": "Annuler",
     "ask-question-description": "Saisis ta question ici !",
+    "back-to-question-focus": "Retour au focus sur les questions",
     "border-tooltip-border-answer": "Une réponse a été apportée à ce post.",
     "border-tooltip-border-bookmark": "Ce message a été mis en signet.",
     "border-tooltip-border-correct": "Ce message a été marqué comme étant correct.",
@@ -285,7 +286,7 @@
     "next": "Continuer",
     "prev": "Retourner",
     "step": "{{step}} / {{total}}",
-    "voting": "Le public peut valoriser ou dévaloriser les questions et les réactions qu'elles suscitent, exprimant ainsi son intérêt à répondre à la question ou son accord ou son désaccord.",
+    "voting": "Le public peut valoriser ou dévaloriser les questions, exprimant ainsi son intérêt pour la réponse à la question ou son accord ou désaccord.",
     "votingTitle": "Evaluer une question"
   },
   "question-wall": {

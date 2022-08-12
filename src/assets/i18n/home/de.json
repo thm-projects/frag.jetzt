@@ -406,6 +406,7 @@
     "set-new-password-button": "Setze Passwort"
   },
   "qr-dialog": {
+    "url": "URL: frag.jetzt",
     "session": "Code"
   },
   "register": {
