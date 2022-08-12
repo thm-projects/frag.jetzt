@@ -130,7 +130,7 @@
     "language": "Langue",
     "motd-mark-all-read": "Tout lu",
     "motd-mark-read": "Lu",
-    "motd-title-main": "Des nouvelles des développeurs",
+    "motd-title-main": "Nouvelles des développeurs",
     "motd-title-new": "Dernières actualités",
     "motd-title-old": "Archive",
     "open": "Ouvert",
@@ -299,6 +299,7 @@
   },
   "login": {
     "activation-key": "Clé d'activation",
+    "call": "Demande maintenant!",
     "cancel": "Annuler",
     "cancel-description": "Annuler",
     "email": "E-mail",
