@@ -299,7 +299,7 @@
   },
   "login": {
     "activation-key": "Clé d'activation",
-    "call": "Demande maintenant!",
+    "call": "Demande maintenant !",
     "cancel": "Annuler",
     "cancel-description": "Annuler",
     "email": "E-mail",
@@ -326,7 +326,7 @@
     "restart-account-activation-button": "Demander une nouvelle clé",
     "restart-account-activation-correct": "La clé d'activation a été envoyée.",
     "restart-account-activation-tooltip": "Envoie une nouvelle clé d'activation à ton adresse.",
-    "welcome": "« Des questions ? »",
+    "welcome": "Des questions ?",
     "welcome-feedback": "➤ Écris aux développeurs de « frag.jetzt »",
     "welcome-subtitle": "Anonyme | à l'intérieur du navigateur | gratuit"
   },
