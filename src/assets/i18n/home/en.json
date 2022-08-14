@@ -186,7 +186,7 @@
     "my-account": "Options",
     "my-sessions": "My rooms",
     "not-in-own-view": "You are currently in the participant view. In the options you can switch back to your view.",
-    "open-admin": "Administration",
+    "open-admin": "Create a news",
     "overview-admin-config-enabled": "Thresholds for displaying topics are active.",
     "overview-keywords-tooltip": "Number of Keywords",
     "overview-question-tooltip": "Number of questions",
@@ -299,7 +299,7 @@
   },
   "login": {
     "activation-key": "Activation key",
-    "call": "Ask now!",
+    "call": "Ask your questions anonymously and now!",
     "cancel": "Cancel",
     "cancel-description": "Cancel",
     "email": "E-mail",

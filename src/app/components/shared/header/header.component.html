@@ -309,7 +309,7 @@
               *ngIf="user && !user.isGuest && user.loginId && authenticationService.isSuperAdmin && router.url.endsWith('/user')"
               (click)="routeAdmin()"
               tabindex="0">
-        <mat-icon class="color-warn">admin_panel_settings</mat-icon>
+        <mat-icon class="color-warn">campaign</mat-icon>
         <span>{{'header.open-admin' | translate}}</span>
       </button>
 
