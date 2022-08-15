@@ -265,6 +265,7 @@
   },
   "content": {
     "cancel": "Abbrechen",
+    "delete": "Löschen",
     "tag-cloud-create": "Weiter",
     "tag-cloud-questions-all": "Alle Fragen",
     "tag-cloud-questions-all-short": "Alle",
@@ -526,7 +527,7 @@
     "tag-new": "Neue Kategorie:",
     "tags": "Fragenkategorien",
     "threshold": "Schwellenwert der Freigabe",
-    "threshold-description": "Lege den Schwellenwert fest, ab dem eine negativ bewertete Frage angezeigt werden soll.",
+    "threshold-description": "Leg den Wert für die negative Bewertung fest, unter dem eine Frage nicht mehr angezeigt werden soll.",
     "timestamp": "Zeitstempel",
     "token": "Bonuscode",
     "token-deleted": "Der Code wurde gelöscht.",

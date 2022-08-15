@@ -265,6 +265,7 @@
   },
   "content": {
     "cancel": "Cancel",
+    "delete": "Delete",
     "tag-cloud-create": "Next",
     "tag-cloud-questions-all": "All questions",
     "tag-cloud-questions-all-short": "All",
@@ -526,7 +527,7 @@
     "tag-new": "New category:",
     "tags": "Question categories",
     "threshold": "Release threshold",
-    "threshold-description": "Set the threshold value above which a negatively rated question should be displayed.",
+    "threshold-description": "Set the negative rating value below which a question should no longer be displayed.",
     "timestamp": "Timestamp",
     "token": "Bonus code",
     "token-deleted": "Code has been deleted.",
