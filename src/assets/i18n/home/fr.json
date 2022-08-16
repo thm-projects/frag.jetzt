@@ -219,8 +219,8 @@
     "users-online": "Utilisateurs actuellement connectés",
     "visited-sessions": "Sessions",
     "zoom-exit": "Quitter la vue complète",
-    "zoom-minus": "Réduire le texte",
-    "zoom-plus": "Agrandir le texte",
+    "zoom-minus": "Réduire la taille du texte",
+    "zoom-plus": "Agrandir la taille du texte",
     "zoom-reset": "Réinitialiser le niveau de zoom"
   },
   "help": {
