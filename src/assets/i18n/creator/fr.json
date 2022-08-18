@@ -538,7 +538,7 @@
     "words-will-be-overwritten": "Les mots vulgaires sont remplacés par ★★★★."
   },
   "room-settings-overview": {
-    "a11y-bonus-archive-enabled": "Curseur pour activer l'archive bonus.",
+    "a11y-bonus-archive-enabled": "Curseur pour activer l'archive de bonus.",
     "a11y-brainstorming-enabled": "Curseur pour autoriser le brainstorming.",
     "a11y-conversation-enabled": "Curseur pour débloquer les conversations dans cette salle.",
     "a11y-profanity-toggle-active": "Curseur pour filtrer la profanation dans cette salle.",

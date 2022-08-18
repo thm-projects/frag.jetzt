@@ -80,6 +80,7 @@
     "accept-description": "Bestätigt die Verwendung der Web-Storage-Technik und schaltet die Anwendung frei",
     "cancel": "Ablehnen",
     "cancel-description": "Lehnt die Verwendung der Web-Storage-Technik ab und sperrt die Anwendung",
+    "data-protection": "Datenschutzerklärung",
     "info-label": "Öffnet ein Dialogfenster mit der Datenschutzerklärung zu frag.jetzt",
     "title": "Willkommen!"
   },
@@ -371,10 +372,10 @@
     "tooltip-recreate": "Zugangscode für Gastmoderator*innen erzeugen"
   },
   "overlay": {
-    "cancel": "Doch akzeptieren?",
+    "cancel": "Ich hab's mir überlegt …",
     "cancel-description": "Öffnet den Dialog zur Verwendung der Web-Storage-Technik in frag.jetzt",
-    "message": "Du hast unsere Datenschutzerklärung abgelehnt.",
-    "title": "Nutzung nicht möglich"
+    "message": "Als Gast kannst du »frag.jetzt« völlig anonym nutzen.",
+    "title": "Noch einmal überlegen?"
   },
   "password-reset": {
     "a11y-new_password1": "Gib hier dein neues Passwort ein.",

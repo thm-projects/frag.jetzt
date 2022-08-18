@@ -80,6 +80,7 @@
     "accept-description": "Accept the use of a web storage and proceed to the app.",
     "cancel": "Reject",
     "cancel-description": "Reject usage of a web storage and exit the app.",
+    "data-protection": "Privacy policy",
     "info-label": "Opens a dialog with the frag.jetzt data protection policy.",
     "title": "Welcome to our site!"
   },
@@ -371,10 +372,10 @@
     "tooltip-recreate": "Generate access code for guest moderators"
   },
   "overlay": {
-    "cancel": "Accept after all?",
+    "cancel": "I have thought it over again …",
     "cancel-description": "Opens the web storage setting dialog",
-    "message": "You have rejected our data protection declaration.",
-    "title": "Use not possible"
+    "message": "As a guest, you can use »frag.jetzt« completely anonymously.",
+    "title": "Think again?"
   },
   "password-reset": {
     "a11y-new_password1": "Enter your new password here",
