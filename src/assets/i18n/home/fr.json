@@ -80,6 +80,7 @@
     "accept-description": "Confirme l'utilisation de la technique de stockage web et active l'application.",
     "cancel": "Refuser",
     "cancel-description": "Refuse l'utilisation de la technique de stockage web et bloque l'application.",
+    "data-protection": "Déclaration de protection des données",
     "info-label": "Ouvre une boîte de dialogue avec la déclaration de confidentialité de frag.jetzt",
     "title": "Bienvenue !"
   },
@@ -371,10 +372,10 @@
     "tooltip-recreate": "Générer un code d'accès pour les modérateurs invités"
   },
   "overlay": {
-    "cancel": "Accepter quand même ?",
+    "cancel": "J'ai repensé à tout ça …",
     "cancel-description": "Ouvre la boîte de dialogue pour l'utilisation de la technique de stockage web dans frag.maintenant",
-    "message": "Tu as refusé notre politique de confidentialité.",
-    "title": "Utilisation impossible"
+    "message": "En tant qu'invité, tu peux utiliser « frag.jetzt » de manière totalement anonyme.",
+    "title": "Réfléchis encore ?"
   },
   "password-reset": {
     "a11y-new_password1": "Saisis ici ton nouveau mot de passe.",
@@ -511,7 +512,7 @@
     "settings-overview": "Réglages de la salle"
   },
   "room-settings-overview": {
-    "a11y-bonus-archive-enabled": "Curseur pour activer l'archive bonus.",
+    "a11y-bonus-archive-enabled": "Curseur pour activer l'archive de bonus.",
     "a11y-brainstorming-enabled": "Curseur pour autoriser le brainstorming.",
     "a11y-conversation-enabled": "Curseur pour débloquer les conversations dans cette salle.",
     "a11y-profanity-toggle-active": "Curseur pour filtrer la profanation dans cette salle.",
@@ -615,7 +616,7 @@
     "redeem-clipboard-success": "Toutes les données nécessaires pour le e-mail ont été copiées dans le cache du navigateur.",
     "redeem-mail-failure": "Ton application de e-mail n'a pas pu être accédée. Copie les données dans le cache du navigateur et utilise-les pour créer un e-mail destiné au service de gestion des événements.",
     "redeem-tokens": "Encaisser le code bonus par mail",
-    "redeem-tokens-clipboard": "Code de bonus dans le presse-papiers",
+    "redeem-tokens-clipboard": "Code bonus dans le presse-papiers",
     "session-id": "\nCode de la salle",
     "session-name": "Événement"
   },
