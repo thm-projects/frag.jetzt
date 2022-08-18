@@ -339,7 +339,7 @@
   "moderator-join": {
     "cancel": "Annuler",
     "confirm": "Oui",
-    "description": "Veux-tu entrer dans la salle \"{{room.name}}\" en tant que présentateur invité ?",
+    "description": "Veux-tu entrer dans la salle « {{room.name}} » en tant que modérateur invité ?",
     "title": "Accès en tant que modérateur invité"
   },
   "moderators-dialog": {
@@ -354,7 +354,7 @@
     "confirm-description": "Si tu génères un nouveau code d'accès, les modérateurs invités précédents seront supprimés. Générer un code ?",
     "confirm-title": "Générer un code d'accès",
     "delete": "Supprimer",
-    "email": "adresse mail …",
+    "email": "Adresse mail …",
     "email-error": "L'adresse mail saisie n'est pas valide.",
     "empty": "Aucun modérateur disponible",
     "guest": "Modérateur invité",
@@ -367,9 +367,9 @@
     "something-went-wrong": "Quelque chose s'est mal passé.",
     "sure": "Tu en es sûr ?",
     "title": "Modérateurs invités & permanents",
-    "tooltip-clipboard": "Partager le lien direct pour les modérateurs invités.",
-    "tooltip-moderators": "Code d'accès pour les modérateurs invités | Enregistrement des modérateurs permanents.",
-    "tooltip-recreate": "Générer un code d'accès pour les modérateurs invités."
+    "tooltip-clipboard": "Partager le lien direct pour les modérateurs invités",
+    "tooltip-moderators": "Code d'accès pour les modérateurs invités | Enregistrement des modérateurs permanents",
+    "tooltip-recreate": "Générer un code d'accès pour les modérateurs invités"
   },
   "quill": {
     "cancel": "Annuler",
@@ -436,7 +436,7 @@
     "user-number": "Numéro d'utilisateur"
   },
   "room-page": {
-    "a11y-cloud_download": "Copier le lien direct vers la session dans le cache du navigateur.",
+    "a11y-cloud_download": "Copier le lien direct vers la session dans le cache du navigateur",
     "a11y-delete-all-comments": "Supprime toutes les questions.",
     "a11y-delete-room": "Supprime la salle spécifiée.",
     "a11y-edit": "Ouvre une fenêtre avec les options, Renommer la session, Ajouter une description et Supprimer la session.",
@@ -454,7 +454,7 @@
     "allowing-conversation-confirm-not-moderated": "Le forum n'est actuellement pas modéré. Si tu autorises les conversations, tous les commentaires seront immédiatement publiés.",
     "answer": "Réponse",
     "answer-statistics": "Statistiques",
-    "block": "Ne permet pas d'autres questions",
+    "block": "Bloquer des questions",
     "bonus-token": "Archive de bonus",
     "cancel": "Annuler",
     "cancel-description": "Annuler",
@@ -467,7 +467,7 @@
     "conversation-allow": "Autoriser les conversations",
     "conversation-depth": "Profondeur de la conversation",
     "conversation-limit": "Limiter la profondeur de la conversation",
-    "copy-session-id": "Lien direct pour les participants.",
+    "copy-session-id": "Lien direct pour les participants",
     "correct/wrong": "Vrai / Faux",
     "create-content": "Poser une question",
     "default-content-group": "Standard",
@@ -649,7 +649,7 @@
     "manual-weight-number": "Limiter le nombre de sujets",
     "manual-weight-number-note": "Limite le nombre de mots du groupe de fréquence à la valeur définie.",
     "manual-weight-number-tooltip": "Nombre de sujets du groupe de fréquence",
-    "notation": "Lettres majuscules et minuscules:",
+    "notation": "Lettres majuscules et minuscules :",
     "notation-tooltip": "Réglage de l'orthographe : petit, grand, comme indiqué",
     "overflow": "Débordement",
     "random-angle": "Tourner les mots au hasard",
