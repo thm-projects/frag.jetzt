@@ -76,9 +76,9 @@
     "reset": "Reset"
   },
   "cookies": {
-    "accept": "Accept",
+    "accept": "Onboarding …",
     "accept-description": "Accept the use of a web storage and proceed to the app.",
-    "cancel": "Reject",
+    "cancel": "Cancel",
     "cancel-description": "Reject usage of a web storage and exit the app.",
     "data-protection": "Privacy policy",
     "info-label": "Opens a dialog with the frag.jetzt data protection policy.",

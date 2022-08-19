@@ -76,9 +76,9 @@
     "reset": "Réinitialiser"
   },
   "cookies": {
-    "accept": "Accepter",
+    "accept": "Onboarding …",
     "accept-description": "Confirme l'utilisation de la technique de stockage web et active l'application.",
-    "cancel": "Refuser",
+    "cancel": "Annuler",
     "cancel-description": "Refuse l'utilisation de la technique de stockage web et bloque l'application.",
     "data-protection": "Déclaration de protection des données",
     "info-label": "Ouvre une boîte de dialogue avec la déclaration de confidentialité de frag.jetzt",
