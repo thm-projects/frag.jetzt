@@ -708,7 +708,7 @@
     "cancel": "Cancel",
     "confirm": "Are you sure?",
     "delete": "Yes",
-    "delete-message": "Do you really want to delete the topic?",
+    "delete-message": "Do you really want to delete this keyword? ",
     "merge": "Merge",
     "merge-message": "Keyword already exists, do you want to merge both keywords?"
   },
@@ -720,7 +720,7 @@
     "both": "From keywords and full text",
     "cancel": "Cancel",
     "changes-gone-wrong": "Something has gone wrong.",
-    "delete": "Yes",
+    "delete": "Delete",
     "edit": "Edit",
     "edit-blacklist-list": "Add to the blacklist",
     "edit-keyword-tip": "New keyword",

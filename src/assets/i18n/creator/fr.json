@@ -708,7 +708,7 @@
     "cancel": "Annuler",
     "confirm": "Tu en es sûr ?",
     "delete": "Oui",
-    "delete-message": "Tu veux vraiment supprimer le mot-clé ?",
+    "delete-message": "Tu veux vraiment supprimer ce mot-clé ? ",
     "merge": "Fusionner",
     "merge-message": "Le mot-clé existe déjà. Veux-tu fusionner les deux sujets ?"
   },
@@ -720,7 +720,7 @@
     "both": "A partir de mots-clés et du texte intégral",
     "cancel": "Annuler",
     "changes-gone-wrong": "Quelque chose a mal tourné",
-    "delete": "Oui",
+    "delete": "Supprimer",
     "edit": "Modifier",
     "edit-blacklist-list": "Ajouter à la Blacklist",
     "edit-keyword-tip": "Nouveau mot-clé",

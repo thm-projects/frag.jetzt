@@ -708,7 +708,7 @@
     "cancel": "Abbrechen",
     "confirm": "Bist du sicher?",
     "delete": "Ja",
-    "delete-message": "Willst du das Thema wirklich löschen?",
+    "delete-message": "Willst du dieses Stichwort wirklich löschen? ",
     "merge": "Zusammenfügen",
     "merge-message": "Stichwort existiert bereits. Willst du die beiden Stichwörter zusammenfügen?"
   },
@@ -720,7 +720,7 @@
     "both": "Aus Stichwörtern und Volltext",
     "cancel": "Abbrechen",
     "changes-gone-wrong": "Etwas ist schiefgelaufen",
-    "delete": "Ja",
+    "delete": "Löschen",
     "edit": "Bearbeiten",
     "edit-blacklist-list": "Zur Blacklist hinzufügen",
     "edit-keyword-tip": "Neues Stichwort",
