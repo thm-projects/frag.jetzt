@@ -573,7 +573,7 @@
     "valid": "Valid code"
   },
   "topic-cloud": {
-    "add-successful": "Word added",
+    "add-successful": "The entry was banned to the blacklist.",
     "changes-gone-wrong": "Something has gone wrong!",
     "changes-successful": "Successfully updated",
     "remove-successful": "The entry has been placed on the blacklist."

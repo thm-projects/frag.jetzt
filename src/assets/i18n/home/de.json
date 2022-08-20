@@ -573,7 +573,7 @@
     "valid": "Gültiger Bonuscode"
   },
   "topic-cloud": {
-    "add-successful": "Der Eintrag wurde auf die Sperrliste gesetzt.",
+    "add-successful": "Der Eintrag wurde auf die Blacklist verbannt.",
     "changes-gone-wrong": "Etwas ist schiefgelaufen!",
     "changes-successful": "Änderungen gespeichert",
     "remove-successful": "Wort entfernt"

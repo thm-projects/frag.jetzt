@@ -128,65 +128,6 @@
                 <p>{{getFilteredProfanity()}}</p>
 
 
-                <mat-accordion>
-                  <mat-expansion-panel class="color-surface">
-                    <mat-expansion-panel-header class="color-surface">
-                      <mat-panel-title>
-                        {{"topic-cloud-dialog.words-in-profanity" | translate}}
-                      </mat-panel-title>
-                    </mat-expansion-panel-header>
-                    <a
-                      href="https://raw.githubusercontent.com/LDNOOBW/List-of-Dirty-Naughty-Obscene-and-Otherwise-Bad-Words/master/en"
-                      target="_blank" rel="noopener">English
-                    </a>
-                    <br>
-                    <a
-                      href="https://raw.githubusercontent.com/LDNOOBW/List-of-Dirty-Naughty-Obscene-and-Otherwise-Bad-Words/master/de"
-                      target="_blank" rel="noopener">German
-                    </a>
-                    <br>
-                    <a
-                      href="https://raw.githubusercontent.com/LDNOOBW/List-of-Dirty-Naughty-Obscene-and-Otherwise-Bad-Words/master/fr"
-                      target="_blank" rel="noopener">French
-                    </a>
-                    <br>
-                    <a
-                      href="https://raw.githubusercontent.com/LDNOOBW/List-of-Dirty-Naughty-Obscene-and-Otherwise-Bad-Words/master/ar"
-                      target="_blank" rel="noopener">Arabic
-                    </a>
-                    <br>
-                    <a
-                      href="https://raw.githubusercontent.com/LDNOOBW/List-of-Dirty-Naughty-Obscene-and-Otherwise-Bad-Words/master/ru"
-                      target="_blank" rel="noopener">Russian
-                    </a>
-                    <br>
-                    <a
-                      href="https://raw.githubusercontent.com/LDNOOBW/List-of-Dirty-Naughty-Obscene-and-Otherwise-Bad-Words/master/es"
-                      target="_blank" rel="noopener">Spanish
-                    </a>
-                    <br>
-                    <a
-                      href="https://raw.githubusercontent.com/LDNOOBW/List-of-Dirty-Naughty-Obscene-and-Otherwise-Bad-Words/master/it"
-                      target="_blank" rel="noopener">Italian
-                    </a>
-                    <br>
-                    <a
-                      href="https://raw.githubusercontent.com/LDNOOBW/List-of-Dirty-Naughty-Obscene-and-Otherwise-Bad-Words/master/nl"
-                      target="_blank" rel="noopener">Netherlandish
-                    </a>
-                    <br>
-                    <a
-                      href="https://raw.githubusercontent.com/LDNOOBW/List-of-Dirty-Naughty-Obscene-and-Otherwise-Bad-Words/master/tr"
-                      target="_blank" rel="noopener">Turkish
-                    </a>
-                    <br>
-                    <a
-                      href="https://raw.githubusercontent.com/LDNOOBW/List-of-Dirty-Naughty-Obscene-and-Otherwise-Bad-Words/master/pt"
-                      target="_blank" rel="noopener">Portuguese
-                    </a>
-                  </mat-expansion-panel>
-                </mat-accordion>
-
               </mat-expansion-panel>
             </mat-accordion>
 
@@ -204,11 +145,6 @@
             <mat-expansion-panel class="color-background"
                                  (opened)="enterProfanityWord=true; focusInput('bad-word-input')"
                                  (closed)="enterProfanityWord = false">
-              <mat-expansion-panel-header class="color-background">
-                <mat-panel-title>
-                  {{'topic-cloud-dialog.edit-profanity-list' | translate}}
-                </mat-panel-title>
-              </mat-expansion-panel-header>
 
               <mat-form-field>
                 <mat-label>{{'topic-cloud-dialog.enter-word' | translate}}</mat-label>
@@ -223,32 +159,6 @@
                 {{'topic-cloud-dialog.add-word' | translate}}
               </button>
 
-              <mat-list role="list"
-                        *ngIf="showProfanityList"
-                        class="margin-bottom">
-                <mat-list-item class="color-on-surface"
-                               *ngFor="let word of profanitywordlist"
-                               role="listitem">{{word}}
-                  <button style="margin-left: auto"
-                          mat-icon-button
-                          class="red"
-                          (click)="removeWordFromProfanityList(word)">
-                    <mat-icon class="material-icons-outlined" mat-list-icon
-                              style="margin-bottom: 6px;">delete_sweep
-                    </mat-icon>
-                  </button>
-                </mat-list-item>
-              </mat-list>
-
-              <div>
-                <button mat-raised-button
-                        *ngIf="profanitywordlist.length > 0"
-                        class="primaryBackground"
-                        (click)="showProfanityList=!showProfanityList">
-                  {{showProfanityList ? ('topic-cloud-dialog.hide-profanity-list' | translate) :
-                  ('topic-cloud-dialog.show-profanity-list' | translate)}}
-                </button>
-              </div>
             </mat-expansion-panel>
 
             <mat-expansion-panel class="color-background margin-bottom"
@@ -476,7 +386,8 @@
            style="margin-left: auto; font-weight: bold;">
         <mat-icon [ngClass]="{'animation-blink': searchMode}"
                   class="oldtypo-h2 comment_tag-icon"
-                  matTooltip="{{'topic-cloud-dialog.keyword-counter' | translate}}">tag</mat-icon>
+                  matTooltip="{{'topic-cloud-dialog.keyword-counter' | translate}}">tag
+        </mat-icon>
         <p [ngClass]="{'animation-blink': searchMode}"
            matTooltip="{{'topic-cloud-dialog.keyword-counter' | translate}}">
           {{searchMode ? filteredKeywords.length :

@@ -303,7 +303,7 @@
     "label": "Expliquer",
     "room-settings-overview": "## Paramètres de la salle \n\nIci, tu peux voir tous les paramètres de la salle dans un aperçu. \n\nTu peux aussi faire des modifications plus tard dans le menu Options de la salle. \n\nEn raison de l'anonymat des utilisateurs et de l'abus potentiel du forum Q&R, nous te proposons des restrictions avec les trois premiers boutons. Voir les indications à ce sujet dans les infobulles des boutons.",
     "spacy": "## Mots-clés \n\nAu moyen du NLP (Natural Language Processing), ta question est analysée grammaticalement. Les substantifs reconnus sont transformés en leur forme de base, c'est-à-dire lemmatisés, et te sont proposés comme mots-clés. Pour l'analyse de texte, nous utilisons le logiciel libre NLP [spaCy](https://spacy.io/). \n\nLes mots-clés peuvent être utilisés pour filtrer la liste des questions ou pour créer un nuage de mots.",
-    "topic-cloud": "## Radar à questions \n\n Si tu veux garder un œil sur toutes les questions, tu as besoin d'une sorte de « radar ». Notre radar localise les questions et les réponses à l'aide de leurs mots-clés : plus il y a de questions et de réponses qui se rapportent à un mot-clé, plus le mot-clé apparaît grand et central sur le radar.\n\n Le radar à questions te sert de **navigateur** : Si tu cliques sur un mot, tu accèderas aux questions et réponses liées à ce mot-clé. \n\n Les mots-clés sont déterminés en temps réel à l'aide d'une analyse grammaticale des noms ou ont été déterminés par l'auteur. \n\n Le calcul de la taille du texte prend en compte:\n\n* la différence entre les votes ascendants et descendants, si elle est positive,\n* le nombre de questions avec ce mot-clé,\n* le nombre d'auteurs de questions avec ce mot-clé,\n* le rôle : créateur de salle, modérateur ou participant,\n* si une catégorie de questions a été choisie,\n* si le mot-clé a été généré ou attribué,\n* si la question a reçu une réponse,\n* la controversité de la question. \n\nLes créateurs de salle peuvent adapter la visualisation à leurs souhaits. Il est également possible d'expérimenter avec les paramètres de génération de mots-clés afin d'optimiser l'acuité sémantique.",
+    "topic-cloud": "## Radar à questions \n\n Si tu veux garder un œil sur toutes les questions, tu as besoin d'une sorte de « radar ». Notre radar localise les questions et les réponses à l'aide de leurs mots-clés : plus il y a de questions et de réponses qui se rapportent à un mot-clé, plus le mot-clé apparaît grand et central sur le radar.\n\n Le radar à questions te sert de **navigateur** : Si tu cliques sur un mot, tu accèderas aux questions et réponses liées à ce mot-clé. \n\n Les mots-clés sont déterminés en temps réel à l'aide d'une analyse grammaticale des noms ou ont été déterminés par l'auteur. \n\n Le calcul de la taille du texte prend en compte:\n\n* la différence entre les votes ascendants et descendants, si elle est positive,\n* le nombre de questions avec ce mot-clé,\n* le nombre d'auteurs de questions avec ce mot-clé,\n* le rôle : créateur de salle, modérateur ou participant,\n* si une catégorie de questions a été choisie,\n* si le mot-clé a été généré ou attribué,\n* si la question a reçu une réponse,\n* la controversité de la question. \n\nLes créateurs de salle peuvent adapter la visualisation à leurs souhaits. Il est également possible d'expérimenter avec les paramètres de génération de mots-clés afin d'optimiser l'acuité sémantique.",
     "user-bonus": "## Bonus \n\nL'enseignant peut marquer les « bonnes » questions avec un bonus. Tes questions de tous les cours (salles) qui ont reçu une étoile sont listées ici.\n\nSelon l'accord, tu peux envoyer le code bonus par e-mail à l'enseignant pour l'échanger contre un bonus."
   },
   "header": {
@@ -581,7 +581,7 @@
   "spacy-dialog": {
     "add-manually": "Saisis un mot-clé en rapport avec ta question. Sépare plusieurs mots-clés par une virgule.",
     "analysis-bad-spelled": "Aucun mot-clé n'a pu être généré",
-    "analysis-error": "Des erreurs sont survenues pendant l'extraction des mots-clés. Doit-on créer la question sans mots-clés ?",
+    "analysis-error": "Des erreurs sont survenues pendant l'extraction des mots-clés. Doit-on créer la question sans mots-clés ?",
     "auto": "auto",
     "de": "Allemand",
     "edit-keyword-hint": "Éditer un mot",
@@ -710,19 +710,19 @@
     "delete": "Oui",
     "delete-message": "Tu veux vraiment supprimer le mot-clé ?",
     "merge": "Fusionner",
-    "merge-message": "Le mot-clé existe déjà. Veux-tu fusionner les deux sujets ?"
+    "merge-message": "Le mot-clé existe déjà. Veux-tu fusionner les deux sujets ?"
   },
   "topic-cloud-dialog": {
     "Keyword-from-both": "Mot-clé de l'auteur de la question et de l'analyse du texte",
     "add-word": "Ajouter un mot",
-    "blacklist-is-active": "Tu as banni les entrées suivantes du nuage de sujets :",
+    "blacklist-is-active": "Tu as banni les entrées suivantes du nuage de sujets :",
     "blacklist-is-not-active": "La liste noire du nuage de sujets est désactivée.",
     "both": "A partir de mots-clés et du texte intégral",
     "cancel": "Annuler",
     "changes-gone-wrong": "Quelque chose a mal tourné",
     "delete": "Oui",
     "edit": "Modifier",
-    "edit-blacklist-list": "Modifier la liste noire",
+    "edit-blacklist-list": "Ajouter à la Blacklist",
     "edit-keyword-tip": "Nouveau mot-clé",
     "edit-profanity-list": "Modifier la liste des expressions vulgaires",
     "english": "Anglais",
@@ -780,7 +780,7 @@
     "question-count-singular": "Question",
     "save": "Enregistrer",
     "select-all": "Sélectionner tout",
-    "select-choice": "Comment déterminer les mots-clés ?",
+    "select-choice": "Comment déterminer les mots-clés ?",
     "settings": "Paramètres de l'IA",
     "show-blacklist": "Afficher la liste noire",
     "show-profanity-list": "Afficher la liste des expressions vulgaires",
@@ -788,7 +788,7 @@
     "sort-alpha": "Classement alphabétique",
     "sort-count": "Nombre de questions",
     "sort-vote": "Nombre de votes positifs",
-    "spacy-labels": "Quels noms issus de l'analyse de texte doivent être affichés ?",
+    "spacy-labels": "Quels noms issus de l'analyse de texte doivent être affichés ?",
     "test-profanity": "Tester le profane",
     "topic-requirement-begin-datetime": "Début de la période",
     "topic-requirement-end-datetime": "Fin de la période",
@@ -804,14 +804,14 @@
     "words-will-be-overwritten": "Remplacer les mots vulgaires par ★★★★"
   },
   "topic-cloud-filter": {
-    "info-no-keywords": "Notre analyse de texte basée sur l'IA peut déterminer des mots clés. Démarrer l'analyse ?",
+    "info-no-keywords": "Notre analyse de texte basée sur l'IA peut déterminer des mots clés. Démarrer l'analyse ?",
     "label-refresh-keywords-start": "Démarrer"
   },
   "worker-config": {
     "cancel": "Annuler",
     "continue": "Continuer",
     "heading": "Extraire des mots-clés",
-    "label": "Choisis les questions à partir desquelles des mots-clés doivent être extraits :",
+    "label": "Choisis les questions à partir desquelles des mots-clés doivent être extraits :",
     "normal": "Réanalyser toutes les questions de la pièce.",
     "only-failed": "Seulement les questions qui n'ont pas été analysées"
   },
