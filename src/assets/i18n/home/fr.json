@@ -573,13 +573,13 @@
     "valid": "Code bonus valide"
   },
   "topic-cloud": {
-    "add-successful": "L'entrée a été placée sur la liste de blocage.",
-    "changes-gone-wrong": "Quelque chose a mal tourné !",
+    "add-successful": "L'entrée a été bannie de la Blacklist.",
+    "changes-gone-wrong": "Quelque chose a mal tourné !",
     "changes-successful": "Modifications enregistrées",
     "remove-successful": "Mot supprimé"
   },
   "topic-cloud-filter": {
-    "info-no-keywords": "Notre analyse de texte basée sur l'IA peut déterminer des mots clés. Démarrer l'analyse ?",
+    "info-no-keywords": "Notre analyse de texte basée sur l'IA peut déterminer des mots clés. Démarrer l'analyse ?",
     "label-refresh-keywords-start": "Démarrer"
   },
   "unsupported-browser": {
