@@ -277,7 +277,7 @@
   },
   "joyride": {
     "commentFilter": "Es gibt zahlreiche Sortier- und Filteroptionen für die Q&A-Liste. Ein aktiver Filter wird rot angezeigt. Für eine bessere Lesbarkeit bei großer Dynamik kann der Fragenstrom auch angehalten werden.",
-    "commentFilterTitle": "Q&A-Liste verwalten",
+    "commentFilterTitle": "Q&A-Forum verwalten",
     "commentUserNumber": "Ein Klick auf das Pin-Icon und es werden dir alle Fragen dieses Users angezeigt.",
     "commentUserNumberTitle": "Fragen eines Users finden",
     "createQuestion": "Mit dem Plus-Button rufst du den Editor auf. Eine KI schlägt dir Stichwörter für deine Frage vor. Diese dienen dem Erstellen einer Wortwolke aus den Stichwörtern aller Fragen der Veranstaltung.",

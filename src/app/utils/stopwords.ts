@@ -1,5 +1,5 @@
-// all spaces gets replaced with \s* (multiple or none whitespaces)
-// all words are case insensitive
+// All spaces get replaced with \s* (multiple or none whitespaces).
+// All words are case-insensitive.
 export const stopWords = [
   'Hallo',
   'bzw',
@@ -57,6 +57,10 @@ export const stopWords = [
   'mussten',
   'Herr',
   'Wohin',
-  'Wieviel'
+  'Wieviel',
+  'Thank',
+  'Gruß',
+  'Bitte',
+  'Punkt'
 ];
 export const superfluousSpecialCharacters = '“”‘’„‚«»‹›『』﹃﹄「」﹁﹂",《》〈〉\'`#&…\\';
