@@ -8,7 +8,8 @@
          (click)="navToComment(i)">
       <h3 class="token"
           tabindex="1">{{bonusToken.token}}</h3>
-      <h3 class="roomName">&raquo;{{bonusToken.roomName}}&laquo;</h3>
+      <h3
+        class="roomName">{{ 'user-bonus-token.roomName-lq' | translate }}{{bonusToken.roomName}}{{ 'user-bonus-token.roomName-rq' | translate }}</h3>
     </div>
 
     <div fxLayout="column">
@@ -22,7 +23,7 @@
             <mat-option *ngFor="let room of rooms"
                         [value]="room.name"
                         (onSelectionChange)="setCurrentRoom($event, room)">
-              &raquo;{{room.name}}&laquo;
+              {{ 'user-bonus-token.roomName-lq' | translate }}{{room.name}}{{ 'user-bonus-token.roomName-rq' | translate }}
             </mat-option>
           </mat-autocomplete>
         </mat-form-field>
