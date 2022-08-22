@@ -3,7 +3,7 @@
   <mat-card *ngIf="room">
     <mat-card-header>
       <mat-card-title>
-        <h2>&raquo;{{room.name}}&laquo;</h2>
+        <h2>{{ 'room-page.session-id-lq-x' | translate }}{{room.name}}{{ 'room-page.session-id-rq' | translate }}</h2>
         <button mat-icon-button
                 class="inline-icon-button"
                 (click)="editSessionName()"
@@ -16,7 +16,7 @@
       </mat-card-title>
       <mat-card-subtitle>
         <span class="room-short-id">
-          {{ 'room-page.session-id' | translate }}: »{{ room.shortId }}«
+          {{ 'room-page.session-id' | translate }}{{ 'room-page.session-id-lq' | translate }}{{ room.shortId }}{{ 'room-page.session-id-rq' | translate }}
         </span>
         <button mat-icon-button
                 class="subtitle-btn"

@@ -429,6 +429,9 @@
     "live-feedback": "Live Feedback",
     "moderation-enabled": "Alle Fragen werden moderiert.",
     "session-id": "Code",
+    "session-id-lq": ": »",
+    "session-id-lq-x": "»",
+    "session-id-rq": "«",
     "sure": "Bist du sicher?"
   },
   "spacy-dialog": {
@@ -648,7 +651,7 @@
     "redeem-mail-failure": "Auf deine Mail-App konnte nicht zugegriffen werden. Kopiere die Daten in die Zwischenablage und erstelle damit eine Mail an das Veranstaltungsmanagement.",
     "redeem-tokens": "Bonuscode per Mail einlösen",
     "redeem-tokens-clipboard": "Bonuscode in die Zwischenablage",
-    "session-id": "\nRaum-Code",
+    "session-id": "Raum-Code",
     "session-name": "Veranstaltung"
   },
   "worker-config": {

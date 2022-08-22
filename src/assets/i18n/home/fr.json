@@ -169,7 +169,7 @@
     "edit-moderator": "Modérateur",
     "edit-session-description": "Texte de bienvenue",
     "edit-tags": "Catégories de questions",
-    "export-questions": "Enregistrer les Q&R",
+    "export-questions": "Exporter les Q&R",
     "fullscreen": "Plein écran & texte",
     "guest-account-tooltip": "Tu es connecté en tant qu'invité. Tes salles et tes bonus sont supprimés dès que tu te déconnectes. Si tu te connectes avec un compte, tes salles et tes bonus restent conservés pendant 180 jours après ta dernière visite.",
     "home-header": "Q&R en direct",
@@ -253,7 +253,7 @@
     "only-numbers": "Le code de la salle est alphanumérique.",
     "please-enter": "Quelle salle ?",
     "room-name-input": "Saisis ici le nom de la session que tu veux créer.",
-    "session-id": "Code de salle …",
+    "session-id": "Code de la salle …",
     "update-available": "Une nouvelle version est disponible."
   },
   "imprint": {
@@ -371,10 +371,10 @@
     "tooltip-recreate": "Générer un code d'accès pour les modérateurs invités"
   },
   "overlay": {
-    "cancel": "J'ai repensé à tout ça …",
+    "cancel": "J'ai changé d'avis …",
     "cancel-description": "Ouvre la boîte de dialogue pour l'utilisation de la technique de stockage web dans frag.maintenant",
     "message": "En tant qu'invité, tu peux utiliser « frag.jetzt » de manière totalement anonyme.",
-    "title": "Réfléchis encore ?"
+    "title": "Tu en es sûr ?"
   },
   "password-reset": {
     "a11y-new_password1": "Saisis ici ton nouveau mot de passe.",
@@ -485,7 +485,7 @@
     "email-notification": "Notification par e-mail",
     "entry": "Entrée ",
     "executive-moderator-role": "Tu es un modérateur dans cette salle.",
-    "export-comments": "Enregistrer les Q&R",
+    "export-comments": "Exporter les Q&R",
     "filter": "Dans cette zone de texte, tu peux filtrer les sessions visitées par nom ou par code.",
     "filter-message": "Rechercher …",
     "join-message-template": "Participer à la session {{session} avec le code {{id} et dans le rôle {{role}.",
@@ -496,6 +496,8 @@
     "panel-remove-button": "Supprimer l'entrée",
     "panel-session-id": "Salle",
     "panel-session-name": "Événement",
+    "panel-name-lq": "« ",
+    "panel-name-rq": " »",
     "panel-user-role": "Rôle",
     "participant-role": "Tu es un participant dans cette salle.",
     "really-delete": "Tu veux supprimer la salle « ",
@@ -616,7 +618,7 @@
     "redeem-mail-failure": "Ton application de e-mail n'a pas pu être accédée. Copie les données dans le cache du navigateur et utilise-les pour créer un e-mail destiné au service de gestion des événements.",
     "redeem-tokens": "Encaisser le code bonus par mail",
     "redeem-tokens-clipboard": "Code bonus dans le presse-papiers",
-    "session-id": "\nCode de la salle",
+    "session-id": "Code de la salle",
     "session-name": "Événement"
   },
   "worker-dialog": {
