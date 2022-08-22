@@ -429,6 +429,9 @@
     "live-feedback": "Live feedback",
     "moderation-enabled": "All questions will be moderated.",
     "session-id": "Code",
+    "session-id-lq": ": »",
+    "session-id-lq-x": "»",
+    "session-id-rq": "«",
     "sure": "Are you sure?"
   },
   "spacy-dialog": {
@@ -648,7 +651,7 @@
     "redeem-mail-failure": "Your mail app could not be accessed. Copy the data to the clipboard and use it to create a mail to the event management.",
     "redeem-tokens": "Redeem bonus code by mail",
     "redeem-tokens-clipboard": "Bonus code to clipboard",
-    "session-id": "\nKey code",
+    "session-id": "Key code",
     "session-name": "Event"
   },
   "worker-config": {

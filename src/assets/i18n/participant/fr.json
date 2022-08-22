@@ -428,7 +428,10 @@
     "live-announcer": "Tu es maintenant dans la session. Pour obtenir des informations sur les combinaisons de touches, appuie maintenant sur la touche Entrée ou appelle l'annonce ultérieurement avec la touche Échap.",
     "live-feedback": "Feedback en direct",
     "moderation-enabled": "Toutes les questions sont modérées.",
-    "session-id": "Code ",
+    "session-id": "Code",
+    "session-id-lq": " : « ",
+    "session-id-lq-x": "« ",
+    "session-id-rq": " »",
     "sure": "Tu en es sûr ?"
   },
   "spacy-dialog": {
@@ -648,7 +651,7 @@
     "redeem-mail-failure": "Ton application de e-mail n'a pas pu être accédée. Copie les données dans le cache du navigateur et utilise-les pour créer un e-mail destiné au service de gestion des événements.",
     "redeem-tokens": "Encaisser le code bonus par mail",
     "redeem-tokens-clipboard": "Code bonus dans le presse-papiers",
-    "session-id": "\nCode de la salle",
+    "session-id": "Code de la salle",
     "session-name": "Événement"
   },
   "worker-config": {
