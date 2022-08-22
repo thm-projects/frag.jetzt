@@ -632,6 +632,8 @@
     "label-refresh-keywords-start": "Start"
   },
   "user-bonus-token": {
+    "roomName-lq": "»",
+    "roomName-rq": "«",
     "bonus-token-body1": " from ",
     "bonus-token-body2": " with the question number ",
     "bonus-tokens": "\n\nMy bonuses",

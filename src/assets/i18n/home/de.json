@@ -599,6 +599,8 @@
     "cancel-description": "Abbrechen"
   },
   "user-bonus-token": {
+    "roomName-lq": "»",
+    "roomName-rq": "«",
     "bonus-token-body1": " vom ",
     "bonus-token-body2": " mit der Fragennummer ",
     "bonus-tokens": "\n\nMeine Boni",
