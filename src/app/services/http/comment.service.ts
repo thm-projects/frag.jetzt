@@ -8,6 +8,7 @@ import { TSMap } from 'typescript-map';
 import { Vote } from '../../models/vote';
 import { QuillUtils, SerializedDelta } from '../../utils/quill-utils';
 import { JSONString } from '../../utils/ts-utils';
+import { ImportedComment, ImportedCommentFields } from '../../utils/ImportExportMethods';
 
 const httpOptions = {
   // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -37,7 +38,8 @@ export class CommentService extends BaseHttpService {
     comment: '/comment',
     find: '/find',
     count: '/count',
-    vote: '/vote'
+    vote: '/vote',
+    import: '/import',
   };
 
   constructor(private http: HttpClient) {
@@ -107,6 +109,26 @@ export class CommentService extends BaseHttpService {
       map(c => this.parseComment(c)),
       tap(_ => ''),
       catchError(this.handleError<Comment>('addComment'))
+    );
+  }
+
+  importComments(comments: ImportedComment[]): Observable<Comment[]> {
+    const importData = comments.map(comment => {
+      const c = {} as CommentAPI;
+      for (const field of ImportedCommentFields) {
+        // @ts-ignore
+        c[field] = comment[field];
+      }
+      c.body = QuillUtils.serializeDelta(comment.body);
+      c.keywordsFromSpacy = '[]' as JSONString;
+      c.keywordsFromQuestioner = JSON.stringify(comment.keywordsFromQuestioner ?? []) as JSONString;
+      return c;
+    });
+    const connectionUrl = this.apiUrl.base + this.apiUrl.comment + this.apiUrl.import + '/';
+    return this.http.post<CommentAPI[]>(connectionUrl, importData, httpOptions).pipe(
+      map(cApis => cApis.map(c => this.parseComment(c))),
+      tap(_ => ''),
+      catchError(this.handleError<Comment[]>('importComments')),
     );
   }
 
