@@ -123,7 +123,7 @@ export const numberSorter = (a: string, b: string) => {
       return equals;
     }
   }
-  return arrA.length - arrB.length;
+  return arrB.length - arrA.length;
 };
 
 export enum Language {

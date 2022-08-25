@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { CommentService } from '../../../services/http/comment.service';
 import { EventService } from '../../../services/util/event.service';
-import { Observable, of, Subscription } from 'rxjs';
+import { Observable, of, Subscription, tap } from 'rxjs';
 import { UserRole } from '../../../models/user-roles.enum';
 import { Palette } from '../../../../theme/Theme';
 import { ArsObserver } from '../../../../../projects/ars/src/lib/models/util/ars-observer';
@@ -188,9 +188,15 @@ export class RoomPageComponent implements OnInit, OnDestroy {
           this.room.id,
           this.roomService,
           this.commentService,
-          'comment-list',
+          'room-export',
           data);
-      })
+      }),
+      tap(_ => {
+        const url = decodeURI(this.router.url);
+        this.router.navigate(['/']).then(() => {
+          setTimeout(() => this.router.navigate([url]));
+        });
+      }),
     );
   }
 
