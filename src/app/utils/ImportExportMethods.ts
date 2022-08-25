@@ -12,16 +12,47 @@ import { BonusTokenService } from '../services/http/bonus-token.service';
 import { map, mergeMap, switchMap } from 'rxjs/operators';
 import { CommentService } from '../services/http/comment.service';
 import { RoomService } from '../services/http/room.service';
-import { TSMap } from 'typescript-map';
-import { SpacyKeyword } from '../services/http/spacy.service';
 import { ModeratorService } from '../services/http/moderator.service';
-import { ImmutableStandardDelta, QuillUtils, SerializedDelta } from './quill-utils';
+import { QuillUtils, SerializedDelta } from './quill-utils';
 
 const serializeDate = (str: string | number | Date) => {
   if (!str) {
     return '';
   }
   return new Date(str).toLocaleString();
+};
+
+const deserializeDate = (inputStr: string): Date => {
+  if (!inputStr) {
+    return null;
+  }
+  const str = new Date(1234, 4, 6, 7, 8, 9).toLocaleString();
+  const arr = [1234, 4, 6, 7, 8, 9];
+  const mapper = {
+    1234: 0,
+    5: 1,
+    6: 2,
+    7: 3,
+    8: 4,
+    9: 5,
+  };
+  const opts = str.split(/\d+/g);
+  let ptr = opts[0].length;
+  let sourcePtr = ptr;
+  for (let i = 1; i < opts.length - 1; i++) {
+    const next = str.indexOf(opts[i], ptr);
+    const nextSrc = inputStr.indexOf(opts[i], sourcePtr);
+    arr[mapper[+str.substring(ptr, next)]] = +inputStr.substring(sourcePtr, nextSrc);
+    ptr = next + opts[i].length;
+    sourcePtr = nextSrc + opts[i].length;
+  }
+  const len = opts[opts.length - 1].length;
+  arr[mapper[+str.substring(ptr, str.length - len)]] = +inputStr.substring(sourcePtr, inputStr.length - len);
+  const d = new Date(arr[0], arr[1] - 1, arr[2], arr[3], arr[4], arr[5]);
+  if (isNaN(d.getTime())) {
+    return null;
+  }
+  return d;
 };
 
 const serializeStringArray = (arr: string[]) =>
@@ -63,7 +94,11 @@ export const uploadCSV = (): Observable<string> => new Observable<string>(subscr
     });
     reader.readAsText(input.files[0]);
   }, { once: true });
-  window.addEventListener('focus', _ => {
+  const func = e => {
+    if (e.target === window) {
+      window.addEventListener('focus', func, { once: true });
+      return;
+    }
     input.remove();
     setTimeout(() => {
       if (!hadData) {
@@ -71,7 +106,8 @@ export const uploadCSV = (): Observable<string> => new Observable<string>(subscr
         subscriber.complete();
       }
     });
-  }, { once: true });
+  };
+  window.addEventListener('focus', func, { once: true });
 });
 
 export interface BonusArchiveEntry {
@@ -193,6 +229,26 @@ export const exportBonusArchive = (
     })
   );
 
+export const ImportedCommentFields = [
+  'number',
+  'createdAt',
+  'body',
+  'tag',
+  'keywordsFromQuestioner',
+  'questionerName',
+  'creatorId',
+  'upvotes',
+  'downvotes',
+  'score',
+  'ack',
+  'correct',
+  'bookmark',
+  'favorite',
+  'roomId',
+] as const;
+
+export type ImportedComment = Pick<Comment, typeof ImportedCommentFields[number]>;
+
 const roomImportExport = (
   translateService: TranslateService,
   translatePath: string,
@@ -239,9 +295,9 @@ const roomImportExport = (
         {
           languageKey: translatePath + '.timestamp',
           valueMapper: {
-            export: (cfg, c) => serializeDate(c.createdAt as unknown as string),
+            export: (cfg, c) => serializeDate(c.createdAt),
             import: (cfg, val, prev) => {
-              prev.createdAt = (val ? Date.parse(val) : '') as unknown as Date;
+              prev.createdAt = deserializeDate(val);
               return prev;
             }
           }
@@ -272,7 +328,12 @@ const roomImportExport = (
                 serializeStringArray(val.keywordsFromQuestioner.map(word => word.text)) :
                 cfg.additional[0],
             import: (cfg, val, c) => {
-              c.keywordsFromQuestioner = val === cfg.additional[0] ? [] : deserializeStringArray(val);
+              c.keywordsFromQuestioner = val === cfg.additional[0] ? [] : deserializeStringArray(val).map(v => {
+                return {
+                  text: v,
+                  dep: ['ROOT'],
+                };
+              });
               return c;
             }
           }
@@ -520,29 +581,18 @@ const importRoomSettings = (value: ImportQuestionsResult,
   tags: value[4],
 }).pipe(map(_ => value));
 
-const ALLOWED_FIELDS: (keyof Comment)[] = [
-  'favorite', 'bookmark', 'correct', 'ack', 'tag', 'keywordsFromSpacy', 'keywordsFromQuestioner', 'language'
-];
-
-const importComment = (comment: CommentBonusTokenMixin,
-                       roomId: string,
-                       commentService: CommentService): Observable<Comment> => {
-  const { bonusToken, bonusTimeStamp, ...realComment } = comment;
-  realComment.roomId = roomId;
-  if (bonusToken && bonusTimeStamp) {
-    realComment.favorite = true;
-  }
-  return commentService.addComment(realComment).pipe(
-    mergeMap(c => {
-      realComment.id = c.id;
-      const changes = new TSMap<string, any>();
-      realComment.keywordsFromSpacy = JSON.stringify(realComment.keywordsFromSpacy || []) as unknown as SpacyKeyword[];
-      realComment.keywordsFromQuestioner = JSON.stringify(realComment.keywordsFromQuestioner || []) as unknown as SpacyKeyword[];
-      realComment.body = QuillUtils.serializeDelta(realComment.body) as unknown as ImmutableStandardDelta;
-      ALLOWED_FIELDS.forEach(key => changes.set(key, realComment[key]));
-      return commentService.patchComment(realComment, changes);
-    })
-  );
+const importComments = (comments: CommentBonusTokenMixin[],
+                        roomId: string,
+                        commentService: CommentService): Observable<Comment[]> => {
+  const importedComments = comments.map(c => {
+    const { bonusToken, bonusTimeStamp, ...realComment } = c;
+    realComment.roomId = roomId;
+    if (bonusToken && bonusTimeStamp) {
+      realComment.favorite = true;
+    }
+    return realComment;
+  });
+  return commentService.importComments(importedComments);
 };
 
 export const importToRoom = (translateService: TranslateService,
@@ -556,7 +606,7 @@ export const importToRoom = (translateService: TranslateService,
   return generateCommentCreatorIds(result, roomService, roomId)
     .pipe(
       mergeMap(value => importRoomSettings(value, roomService, roomId)),
-      mergeMap(value => forkJoin(value[5].map(c => importComment(c, roomId, commentService)))),
+      mergeMap(value => importComments(value[5], roomId, commentService)),
       mergeMap(_ => result)
     );
 };
