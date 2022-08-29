@@ -3,14 +3,14 @@ import { ThemeMeta } from '../Theme';
 export const arsnova = {
 
   '--primary': 'darkblue',
-  '--primary-variant': 'aliceblue',
+  '--primary-variant': 'blanchedalmond',
 
   '--secondary': 'darkcyan',
   '--secondary-variant': 'lightgreen',
 
   '--background': 'AliceBlue',
   '--surface': 'mintcream',
-  '--dialog': 'aliceblue',
+  '--dialog': 'ivory',
   '--cancel': 'red',
   '--alt-surface': '#eeeeee',
   '--alt-dialog': 'aliceblue',
