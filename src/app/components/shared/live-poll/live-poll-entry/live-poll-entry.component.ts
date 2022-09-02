@@ -1,5 +1,6 @@
 import {Component, ElementRef, Input, OnInit} from '@angular/core';
 import {LivePollEntry} from './LivePollEntry';
+import {DeviceInfoService} from '../../../../services/util/device-info.service';
 
 @Component({
   selector: 'app-live-poll-entry',
@@ -11,7 +12,8 @@ export class LivePollEntryComponent implements OnInit {
   @Input() value: LivePollEntry;
 
   constructor(
-    public ref: ElementRef
+    public ref: ElementRef,
+    public device: DeviceInfoService
   ) {
   }
 

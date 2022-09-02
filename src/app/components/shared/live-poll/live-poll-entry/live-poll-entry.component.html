@@ -1,11 +1,17 @@
-<ars-row ars-flex-box [size]="64" class="livePoll-entry" #entry_w>
-  <ars-col [size]="64">
+<ars-row ars-flex-box [ngStyle]="{
+'height.px':device.isCurrentlyMobile?32:64
+}" class="livePoll-entry" #entry_w>
+  <ars-col>
     <ng-container *ngIf="value.type==='materialIcon'">
       <mat-icon
-        style="color:var(--on-surface);font-size:32px;padding-top:16px;padding-left:16px;">{{value.symbol}}</mat-icon>
+        style="color:var(--on-surface);padding: 16px;" [ngStyle]="{
+      'font-size.px':device.isCurrentlyMobile?16:32
+      }">{{value.symbol}}</mat-icon>
     </ng-container>
     <ng-container *ngIf="value.type==='ascii'">
-      <p style="color:var(--on-surface);font-size:32px;margin:12px 0;padding: 0 0 0 22px;">{{value.symbol}}</p>
+      <p style="color:var(--on-surface);;margin:12px 0;padding: 0 16px 0 16px;" [ngStyle]="{
+      'font-size.px':device.isCurrentlyMobile?16:32
+      }">{{value.symbol}}</p>
     </ng-container>
   </ars-col>
   <ars-fill>

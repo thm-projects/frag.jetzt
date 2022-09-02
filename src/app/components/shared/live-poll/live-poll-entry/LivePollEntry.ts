@@ -4,8 +4,11 @@ import {
   LivePollSymbolType,
   predefinedSymbolSets
 } from '../../../../services/mocks/live-poll-mock.service';
+import {Room} from '../../../../models/room';
+import {User} from '../../../../models/user';
+import {SessionService} from '../../../../services/util/session.service';
 
-export interface LivePollBuildInfo{
+export interface LivePollBuildInfo {
   name: string;
   symbolSet: LivePollSymbolSet;
 }

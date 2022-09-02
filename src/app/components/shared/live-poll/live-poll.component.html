@@ -10,82 +10,111 @@
         <mat-icon class="colors-foreground">arrow_back</mat-icon>
       </button>
     </ars-row>
-    <ars-fill ars-flex-box [align]="'center'">
-      <ars-col ars-flex-box class="fade-in-animation-wrapper" [size]="800" [align]="'flex-start'" [inset]="true">
-        <ars-fill></ars-fill>
-        <ng-container *ngIf="!session"><p>Loading Sessions</p></ng-container>
-        <ng-container *ngIf="session">
-<!--          User is creator-->
-          <ng-container *ngIf="this.user.role">
-<!--            Create new Live Poll-->
-            <ng-container *ngIf="isCreate">
-              <app-live-poll-create (submitEmit)="createNewLivePoll($event);isCreate=false;"></app-live-poll-create>
+    <ars-fill>
+      <ars-row style="display:flex;flex-direction: row;justify-content: center">
+        <ars-col ars-flex-box class="fade-in-animation-wrapper content-wrapper" style="flex-shrink: 0" [size]="800"
+                 [align]="'flex-start'"
+                 [inset]="true">
+          <ars-fill></ars-fill>
+          <ng-container *ngIf="!session"><p>Loading Sessions</p></ng-container>
+          <ng-container *ngIf="session">
+            <!--          User is creator-->
+            <ng-container *ngIf="this.user.role">
+              <!--            Create new Live Poll-->
+              <ng-container *ngIf="isCreate">
+                <app-live-poll-create (submitEmit)="createNewLivePoll($event);isCreate=false;"></app-live-poll-create>
+              </ng-container>
+              <ng-container *ngIf="!isCreate">
+                <ng-container *ngIf="session.hasActiveLivePoll">
+                  <app-live-poll-view [data]="data"></app-live-poll-view>
+                </ng-container>
+                <ng-container *ngIf="!session.hasActiveLivePoll">
+                  <ng-container *ngIf="!session.previousLivePoll&&!session.currentLivePoll">
+                    <ars-row>
+                      <h1 style="padding:16px 0;margin:0;">frag.jetzt - Live-Poll</h1>
+                    </ars-row>
+                    <ars-row>
+                      <h2 style="color:var(--on-surface);padding:0;margin:0;font-size:16px;">
+                        Engage your audience by creating interactive Live-Polls.
+                      </h2>
+                    </ars-row>
+                    <ars-row>
+                      <h2 style="color:var(--on-surface);padding:0;margin:0;font-size:16px;">
+                        You can compare your last 2 Live-Polls.
+                      </h2>
+                    </ars-row>
+                    <ars-row style="margin-bottom:16px;margin-top:16px;background-color:red;">
+                      <p style="text-align: center;padding-bottom:64px;padding-top:64px;">
+                        You have not created a Live-Poll yet. Do you
+                        want to create one?
+                      </p>
+                    </ars-row>
+                    <ars-row style="display:flex;justify-content: center;flex-direction: column">
+                      <button mat-button
+                              class="livePoll-button"
+                              aria-describedby="stop-label" style="padding:0 8px;"
+                              (click)="createLivePoll()"
+                              [matTooltip]="'live-poll.stop-accessibility' | translate">
+                        <mat-icon style="padding-right:4px;">add</mat-icon>
+                        <span *ngIf="device.isCurrentlyDesktop">Create</span>
+                      </button>
+                    </ars-row>
+                  </ng-container>
+                  <ng-container *ngIf="session.currentLivePoll&&!session.currentLivePoll.closed">
+                    <ars-row>
+                      <h1 style="padding:16px 0;margin:0;">
+                        You have created a Live-Poll
+                      </h1>
+                    </ars-row>
+                    <ars-row>
+                      <h2 style="color:var(--on-surface);padding:0;margin:0;font-size:16px;">
+                        Start the Live-Poll
+                      </h2>
+                    </ars-row>
+                    <ars-row style="padding-bottom: 16px;">
+                      <h2 style="color:var(--on-surface);padding:0;margin:0;font-size:16px;">
+                        Every participant in this session will be notified to participate.
+                      </h2>
+                    </ars-row>
+                    <ars-row ars-flex-box>
+                      <ars-col>
+                        <p style="color:var(--on-surface);">{{session.currentLivePoll.name}}</p>
+                      </ars-col>
+                      <ars-fill></ars-fill>
+                      <ars-col style="display:flex;justify-content:center;flex-direction:column">
+                        <ars-row>
+                          <button mat-button
+                                  aria-describedby="stop-label"
+                                  class="livePoll-button"
+                                  style="padding:0 8px;"
+                                  (click)="startLivePoll()"
+                                  [matTooltip]="'live-poll.stop-accessibility' | translate">
+                            <mat-icon style="padding-right:4px;">not_started</mat-icon>
+                            <span *ngIf="device.isCurrentlyDesktop">Start</span>
+                          </button>
+                        </ars-row>
+                      </ars-col>
+                    </ars-row>
+                  </ng-container>
+                </ng-container>
+              </ng-container>
             </ng-container>
-            <ng-container *ngIf="!isCreate">
+            <ng-container *ngIf="!this.user.role">
+              <!--            Participant-->
               <ng-container *ngIf="session.hasActiveLivePoll">
                 <app-live-poll-view [data]="data"></app-live-poll-view>
               </ng-container>
               <ng-container *ngIf="!session.hasActiveLivePoll">
-                <ng-container *ngIf="!session.previousLivePoll&&!session.currentLivePoll">
-                  <ars-row>
-                    <h1>You have not created a Live-Poll yet. Do you want to create one?</h1>
-                  </ars-row>
-                  <ars-row>
-                    <button mat-button
-                            aria-describedby="stop-label" style="color:var(--on-surface);padding:0 8px;"
-                            (click)="createLivePoll()"
-                            [matTooltip]="'live-poll.stop-accessibility' | translate">
-                      <mat-icon style="color:var(--on-surface);padding-right:4px;">face</mat-icon>
-                      <span *ngIf="device.isCurrentlyDesktop">Create</span>
-                    </button>
-                  </ars-row>
-                </ng-container>
-                <ars-row>
-                  <ng-container *ngIf="session.currentLivePoll&&!session.currentLivePoll.closed">
-                    <button mat-button
-                            aria-describedby="stop-label" style="color:var(--on-surface);padding:0 8px;"
-                            (click)="startLivePoll()"
-                            [matTooltip]="'live-poll.stop-accessibility' | translate">
-                      <mat-icon style="color:var(--on-surface);padding-right:4px;">face</mat-icon>
-                      <span *ngIf="device.isCurrentlyDesktop">Start</span>
-                    </button>
-                  </ng-container>
-                </ars-row>
+                <h1>No active Live-Polls. Come back later.</h1>
+                <button (click)="debug_force();">_debug force live-poll</button>
               </ng-container>
             </ng-container>
           </ng-container>
-          <ng-container *ngIf="!this.user.role">
-<!--            Participant-->
-            <ng-container *ngIf="session.hasActiveLivePoll">
-              <app-live-poll-view [data]="data"></app-live-poll-view>
-            </ng-container>
-            <ng-container *ngIf="!session.hasActiveLivePoll">
-              <h1>No active Live-Polls. Come back later.</h1>
-              <button (click)="debug_force();">_debug force live-poll</button>
-            </ng-container>
-          </ng-container>
-        </ng-container>
-        <ars-fill></ars-fill>
-      </ars-col>
+          <ars-fill></ars-fill>
+        </ars-col>
+      </ars-row>
     </ars-fill>
     <ars-row ars-flex-box [borderBox]="true" [padding]="8" [direction]="'row'" [align]="'flex-start'">
-<!--      <ng-container *ngFor="let x of [-->
-<!--        'search','favorite_border',-->
-<!--        'lock','schedule','language','help_outline'-->
-<!--        ]">-->
-<!--        <button mat-icon-button (click)="close()">-->
-<!--          <mat-icon class="colors-foreground">{{x}}</mat-icon>-->
-<!--        </button>-->
-<!--      </ng-container>-->
-<!--      <ars-fill></ars-fill>-->
-<!--      <ng-container *ngFor="let x of [-->
-<!--        'search','favorite_border',-->
-<!--        'lock','schedule','language','help_outline'-->
-<!--        ]">-->
-<!--        <button mat-icon-button (click)="close()">-->
-<!--          <mat-icon class="colors-foreground">{{x}}</mat-icon>-->
-<!--        </button>-->
-<!--      </ng-container>-->
     </ars-row>
   </ars-screen>
 

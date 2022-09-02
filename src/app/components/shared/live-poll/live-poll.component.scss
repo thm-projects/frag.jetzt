@@ -41,6 +41,10 @@
         color: var(--on-secondary);
         padding-right: 4px;
       }
+
+      span{
+        color: var(--on-secondary);
+      }
     }
 
     &-entry {
@@ -69,6 +73,29 @@
 
   .livePoll-main {
     background-color: var(--surface);
+  }
+
+  .live-poll-vote-wrapper{
+    width:800px;
+    max-width: 100%;
+    left:50%;
+    transform:translateX(-50%);
+    position:fixed;
+    bottom:0;
+  }
+
+  .live-poll-view-content-wrapper{
+    width:800px;
+    max-width: 100%;
+    left:50%;
+    transform:translateX(-50%);
+    position:fixed;
+    top:64px;
+  }
+
+  .content-wrapper{
+    padding:16px;
+    box-sizing: border-box;
   }
 
   .fade-in-animation-wrapper {

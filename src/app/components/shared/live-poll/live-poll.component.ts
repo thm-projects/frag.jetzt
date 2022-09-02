@@ -17,6 +17,7 @@ export interface LivePollConfiguration{
   session: LivePollSession;
   user: User;
   room: Room;
+  change: EventEmitter<void>;
 }
 
 @Component({
@@ -51,7 +52,7 @@ export class LivePollComponent extends ArsLifeCycleVisitor {
     this.room=options.room;
     this.livePollSessionService.getSessionData(options.room).subscribe(e => {
       this.session = e;
-      this.data={...options,...{session:this.session}};
+      this.data={...options,...{session:this.session,change:new EventEmitter<void>()}};
     });
   }
 

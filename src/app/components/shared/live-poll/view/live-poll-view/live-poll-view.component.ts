@@ -23,4 +23,8 @@ export class LivePollViewComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  vote(symbol: number) {
+    this.data.session.currentLivePoll.list[symbol].value++;
+    this.data.change.emit();
+  }
 }
