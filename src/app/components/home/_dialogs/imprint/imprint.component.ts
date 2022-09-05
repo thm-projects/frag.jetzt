@@ -21,10 +21,12 @@ export class ImprintComponent implements OnInit {
   }
 
   ngOnInit() {
+    /**
     this.safeURLfrontend = this.sanitizer
       .bypassSecurityTrustResourceUrl('https://www.openhub.net/p/frag-jetzt/widgets/project_partner_badge');
     this.safeURLbackend = this.sanitizer
       .bypassSecurityTrustResourceUrl('https://www.openhub.net/p/frag-jetzt-backend/widgets/project_partner_badge');
+     */
   }
 
   /**
