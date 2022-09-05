@@ -115,7 +115,7 @@ export class RoomCreateComponent implements OnInit {
     newRoom.shortId = this.hasCustomShortId ? this.roomShortIdFormControl.value : undefined;
     newRoom.conversationDepth = 7;
     newRoom.brainstormingActive = true;
-    newRoom.quizActive = true;
+    newRoom.quizActive = false;
     newRoom.bonusArchiveActive = true;
     this.roomService.addRoom(newRoom, () => {
       this.shortIdAlreadyUsed = true;
