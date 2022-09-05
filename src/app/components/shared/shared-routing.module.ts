@@ -3,11 +3,24 @@ import { NgModule } from '@angular/core';
 import { QuestionWallComponent } from './questionwall/question-wall/question-wall.component';
 import { UserRole } from '../../models/user-roles.enum';
 import { TagCloudComponent } from './tag-cloud/tag-cloud.component';
+import {SurveyPageComponent} from './survey/survey-page/survey-page.component';
 
 const routes: Routes = [
   {
     path: 'room/:shortId/comments/questionwall',
     component: QuestionWallComponent,
+    data: {
+      roles: [
+        UserRole.CREATOR,
+        UserRole.EDITING_MODERATOR,
+        UserRole.EXECUTIVE_MODERATOR,
+        UserRole.PARTICIPANT
+      ]
+    }
+  },
+  {
+    path: 'room/:shortId/comments/survey',
+    component: SurveyPageComponent,
     data: {
       roles: [
         UserRole.CREATOR,

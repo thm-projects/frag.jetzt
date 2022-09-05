@@ -1,0 +1,16 @@
+<h1>Survey</h1>
+
+<button mat-button (click)="openCreateSurveyDialog()">
+  <mat-icon>add</mat-icon>
+  <span>Create</span>
+</button>
+
+<mat-list *ngIf="storage&&storage.history&&storage.history.length>0;else surveyListEmpty">
+  <mat-list-item *ngFor="let item of storage.history">
+    <p>{{item.name}}</p>
+  </mat-list-item>
+</mat-list>
+
+<ng-template #surveyListEmpty>
+  <p>No entries at present</p>
+</ng-template>

@@ -39,7 +39,7 @@
 
       <button mat-flat-button
               tabindex="0"
-              (click)="openLivePoll($event)"
+              (click)="navigateToSurvey()"
               *ngIf="!router.url.endsWith('moderator/comments') && router.url.endsWith('/comments') &&
                      room?.quizActive &&
                      deviceInfo.isCurrentlyDesktop">

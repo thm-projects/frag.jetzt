@@ -3,12 +3,12 @@ import {HttpClient} from '@angular/common/http';
 import {Observable, of} from 'rxjs';
 import {UserRole} from '../../../models/user-roles.enum';
 
-export class Announcement {
+class Announcement {
   target: UserRole;
   room: Room;
 }
 
-export class AnnouncementService {
+class AnnouncementService {
   constructor(
     private httpClient: HttpClient
   ) {
@@ -69,7 +69,7 @@ export class AnnouncementService {
  * - 1 answer (order) is correct
  *
  */
-export enum SurveyEntryType {
+enum SurveyEntryType {
   SINGLE_CHOICE,
   MULTPLE_CHOICE,
   BINARY_CHOICE,
@@ -80,7 +80,7 @@ export enum SurveyEntryType {
   SEQUENCE_ORDER
 }
 
-export abstract class SurveyEntry {
+abstract class SurveyEntry {
   protected constructor(
     public readonly type: SurveyEntryType,
     public description: string = ''
@@ -88,7 +88,7 @@ export abstract class SurveyEntry {
   }
 }
 
-export abstract class SurveyOption {
+abstract class SurveyOption {
   constructor(
     public text: string,
     public isSolution: boolean
@@ -96,7 +96,7 @@ export abstract class SurveyOption {
   }
 }
 
-export class SurveyTextOption extends SurveyOption {
+class SurveyTextOption extends SurveyOption {
   constructor(
     text: string,
     isSolution: boolean
@@ -105,16 +105,19 @@ export class SurveyTextOption extends SurveyOption {
   }
 }
 
-export class SingleChoice extends SurveyEntry {
+class SingleChoice extends SurveyEntry {
+  private options: SurveyTextOption[];
+
   constructor() {
     super(SurveyEntryType.SINGLE_CHOICE);
   }
+
 }
 
-export class SurveyStorage {
+class SurveyStorage {
   constructor(
-    public history: Survey[],
-    public current: Survey
+    public history: Survey[] = [],
+    public current: Survey = new Survey()
   ) {
   }
 }
@@ -124,12 +127,15 @@ export class SurveyStorage {
  *  currently entries will only have 1 element,
  *  that element can only be SINGLE_CHOICE
  */
-export class Survey {
-  public name: string;
-  public desc: string;
-  public used: boolean;
-  public active: boolean;
-  public entries: SurveyEntry[];
+class Survey {
+  constructor(
+    public name: string = 'unnamed',
+    public desc: string = '',
+    public used: boolean = false,
+    public active: boolean = false,
+    public entries: SurveyEntry[] = [],
+  ) {
+  }
 }
 
 /**
@@ -159,7 +165,7 @@ class SurveyEvent {
 
 }
 
-export class SurveyService {
+class SurveyService {
 
   constructor(
     private httpClient: HttpClient
@@ -172,7 +178,7 @@ export class SurveyService {
    * @param survey
    */
   updateSurvey(survey: SurveyStorage): Observable<SurveyEvent> {
-    return SurveyEvent.of(SurveyEventType.SUCCESS|SurveyEventType.FAIL, `${survey} has been updatede`);
+    return SurveyEvent.of(SurveyEventType.SUCCESS, `${survey} has been updated`);
   }
 
   /**
@@ -187,7 +193,7 @@ export class SurveyService {
     if (survey.current.active) {
       return SurveyEvent.of(SurveyEventType.UNREACHABLE_STATE, `${survey} already active`);
     }
-    return SurveyEvent.of(SurveyEventType.SUCCESS|SurveyEventType.FAIL, `${survey} stopped`);
+    return SurveyEvent.of(SurveyEventType.SUCCESS | SurveyEventType.FAIL, `${survey} stopped`);
   }
 
   /**
@@ -214,7 +220,7 @@ export class SurveyService {
     if (index < 0 || !survey.history || !survey.history[index]) {
       return SurveyEvent.of(SurveyEventType.UNREACHABLE_STATE, `${survey} out of bound | empty`);
     }
-    return SurveyEvent.of(SurveyEventType.SUCCESS|SurveyEventType.FAIL, `${survey} reset survey`);
+    return SurveyEvent.of(SurveyEventType.SUCCESS, `${survey} reset survey`);
   }
 
 }

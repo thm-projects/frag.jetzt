@@ -1,0 +1,24 @@
+<h1>CreateSurvey</h1>
+<mat-form-field ars-flex-box>
+  <input matInput type="text" [value]="editSurvey.name" [placeholder]="'Name'">
+  <mat-hint #nameHint></mat-hint>
+  <mat-error #nameErr></mat-error>
+</mat-form-field>
+<ars-row [size]="128" ars-flex-box>
+  <ars-row [size]="64">
+    <button mat-raised-button>
+      <mat-icon>face</mat-icon>
+      <span></span>
+    </button>
+  </ars-row>
+  <ars-fill></ars-fill>
+</ars-row>
+<mat-divider></mat-divider>
+<button mat-button>
+  <mat-icon>save</mat-icon>
+  <span>save</span>
+</button>
+<button mat-button>
+  <mat-icon>cancel</mat-icon>
+  <span>cancel</span>
+</button>

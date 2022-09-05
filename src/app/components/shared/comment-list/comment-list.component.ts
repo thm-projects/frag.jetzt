@@ -436,8 +436,14 @@ export class CommentListComponent implements OnInit, OnDestroy {
 
   private initNavigation(): void {
     this._headerSubscription = this.eventService.on<string>('navigate').subscribe(action => {
-      if (action === 'topic-cloud') {
-        this.navigateTopicCloud();
+      if(typeof action === 'string'){
+        switch(action){
+          case 'topic-cloud':
+            this.navigateTopicCloud();
+            break;
+        }
+      } else{
+        console.error(action);
       }
     });
     /* eslint-disable @typescript-eslint/no-shadow */

@@ -145,6 +145,8 @@ import { LivePollComponent } from './live-poll/live-poll.component';
 import { LivePollEntryComponent } from './live-poll/live-poll-entry/live-poll-entry.component';
 import { LivePollCreateComponent } from './live-poll/live-poll-create/live-poll-create.component';
 import { LivePollViewComponent } from './live-poll/view/live-poll-view/live-poll-view.component';
+import { SurveyPageComponent } from './survey/survey-page/survey-page.component';
+import { SurveyCreateComponent } from './_dialogs/survey-create/survey-create.component';
 
 @NgModule({
   imports: [
@@ -243,6 +245,8 @@ import { LivePollViewComponent } from './live-poll/view/live-poll-view/live-poll
     LivePollEntryComponent,
     LivePollCreateComponent,
     LivePollViewComponent,
+    SurveyPageComponent,
+    SurveyCreateComponent,
   ],
     exports: [
         RoomJoinComponent,

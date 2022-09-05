@@ -363,4 +363,8 @@ export class HeaderComponent implements OnInit, AfterViewInit {
       });
     });
   }
+
+  navigateToSurvey() {
+    this.router.navigate([`${decodeURI(this.router.url)}//survey`]);
+  }
 }
