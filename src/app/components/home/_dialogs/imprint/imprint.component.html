@@ -6,18 +6,6 @@
   <app-imprint-en *ngIf="languageService.currentLanguage() === 'en'"></app-imprint-en>
   <app-imprint-de *ngIf="languageService.currentLanguage() === 'de'"></app-imprint-de>
   <app-imprint-fr *ngIf="languageService.currentLanguage() === 'fr'"></app-imprint-fr>
-  <!--
-  <P>{{ 'imprint.frontend' | translate }}</P>
-  <iframe [src]="safeURLfrontend"
-          loading="lazy"
-          title="Project statistic frontent"
-          style="height: 60px; width: 240px; border: none"></iframe>
-  <p>{{ 'imprint.backend' | translate }}</p>
-  <iframe [src]="safeURLbackend"
-          loading="lazy"
-          title="Project statistic backend"
-          style="height: 60px; width: 240px; border: none"></iframe>
-  -->
 </mat-dialog-content>
 
 <app-dialog-action-buttons
