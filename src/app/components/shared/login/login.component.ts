@@ -10,7 +10,6 @@ import { PasswordResetComponent } from '../../home/_dialogs/password-reset/passw
 import { RegisterComponent } from '../../home/_dialogs/register/register.component';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { UserManagementService } from '../../../services/util/user-management.service';
-import { Observable } from 'rxjs';
 
 export class LoginErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {

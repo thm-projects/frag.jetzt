@@ -8,8 +8,6 @@ import {
   HttpRequest,
   HttpResponse
 } from '@angular/common/http';
-
-import { AuthenticationService } from '../services/http/authentication.service';
 import { NotificationService } from '../services/util/notification.service';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';

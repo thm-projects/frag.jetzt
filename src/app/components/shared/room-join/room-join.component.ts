@@ -13,7 +13,6 @@ import { KeyboardUtils } from '../../../utils/keyboard';
 import { KeyboardKey } from '../../../utils/keyboard/keys';
 import { forkJoin } from 'rxjs';
 import { UserManagementService } from '../../../services/util/user-management.service';
-import { StartUpService } from '../../../services/util/start-up.service';
 import { SessionService } from '../../../services/util/session.service';
 
 @Component({
