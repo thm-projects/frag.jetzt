@@ -53,3 +53,5 @@ export const clone = <T>(elem: T): Mutable<T> => {
   }
   return elem as Mutable<T>;
 };
+
+export type TimeoutHelper = Parameters<typeof clearTimeout>[0];

@@ -22,8 +22,8 @@
   </ars-row>
   <ars-row class="message"
            ars-flex-box>
-    <ng-container *ngFor="let message of motdsList.messages">
-      <app-motd-message *ngIf="!message.isRead && message.isNew"
+    <ng-container *ngFor="let message of builtMotds">
+      <app-motd-message *ngIf="!message.isRead"
                         [message]="message"></app-motd-message>
     </ng-container>
   </ars-row>
@@ -32,8 +32,8 @@
   </ars-row>
   <ars-row class="message"
            ars-flex-box>
-    <ng-container *ngFor="let message of motdsList.messages">
-      <app-motd-message *ngIf="message.isRead || !message.isNew"
+    <ng-container *ngFor="let message of builtMotds">
+      <app-motd-message *ngIf="message.isRead"
                         [message]="message"></app-motd-message>
     </ng-container>
   </ars-row>

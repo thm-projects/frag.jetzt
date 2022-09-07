@@ -6,6 +6,7 @@ import {
   ArsDateFormatter
 } from '../../../../../../../projects/ars/src/lib/services/ars-date-formatter.service';
 import { ArsUtil } from '../../../../../../../projects/ars/src/lib/models/util/ars-util';
+import { StartUpService } from '../../../../../services/util/start-up.service';
 
 @Component({
   selector: 'app-motd-message',
@@ -22,7 +23,8 @@ export class MotdMessageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   constructor(
     private languageService: LanguageService,
-    private arsDateFormatter: ArsDateFormatter
+    private arsDateFormatter: ArsDateFormatter,
+    private startUpService: StartUpService,
   ) {
   }
 
@@ -37,7 +39,12 @@ export class MotdMessageComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public setIsRead(isRead: boolean) {
-    this.message.setIsRead(isRead);
+    if (isRead) {
+      this.startUpService.readMOTD([this.message.id]);
+    } else {
+      this.startUpService.setMotdUnread(this.message.id);
+    }
+    this.message.isRead = isRead;
   }
 
   ngAfterViewInit(): void {
