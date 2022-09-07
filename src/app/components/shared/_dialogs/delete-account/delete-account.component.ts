@@ -5,7 +5,7 @@ import { Room } from '../../../../models/room';
 import { DialogConfirmActionButtonType } from '../../dialog/dialog-action-buttons/dialog-action-buttons.component';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { TranslateService } from '@ngx-translate/core';
-import { AuthenticationService } from '../../../../services/http/authentication.service';
+import { UserManagementService } from '../../../../services/util/user-management.service';
 
 @Component({
   selector: 'app-delete-account',
@@ -27,7 +27,7 @@ export class DeleteAccountComponent implements OnInit {
     public dialogRef: MatDialogRef<DeleteAccountComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private roomService: RoomService,
-    private authenticationService: AuthenticationService,
+    private userManagementService: UserManagementService,
     private liveAnnouncer: LiveAnnouncer,
     private translationService: TranslateService
   ) {
@@ -35,7 +35,7 @@ export class DeleteAccountComponent implements OnInit {
 
   ngOnInit() {
     this.announce();
-    this.roomService.getCreatorRooms(this.authenticationService.getUser().id).subscribe(rooms => {
+    this.roomService.getCreatorRooms(this.userManagementService.getCurrentUser().id).subscribe(rooms => {
       rooms.sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: 'base' }));
       this.rooms = rooms;
     });

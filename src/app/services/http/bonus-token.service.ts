@@ -49,7 +49,7 @@ export class BonusTokenService extends BaseHttpService {
 
   deleteToken(commentId: string, userId: string) {
     const connectionUrl = `${this.apiUrl.base + this.apiUrl.bonustoken + this.apiUrl.delete}`
-        + `?&commentid=${commentId}&userid=${userId}`;
+      + `?&commentid=${commentId}&userid=${userId}`;
     return this.http.delete<BonusToken>(connectionUrl, httpOptions).pipe(
       tap(_ => ''),
       catchError(this.handleError<BonusToken>('deleteToken'))

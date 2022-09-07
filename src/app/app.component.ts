@@ -5,19 +5,22 @@ import { NotificationService } from './services/util/notification.service';
 import { Rescale } from './models/rescale';
 import { CustomIconService } from './services/util/custom-icon.service';
 import { filter } from 'rxjs/operators';
-import { SessionService } from './services/util/session.service';
 
 import Quill from 'quill';
 import ImageResize from 'quill-image-resize-module';
 import 'quill-emoji/dist/quill-emoji.js';
-import { LanguageService } from './services/util/language.service';
+import { StartUpService } from './services/util/start-up.service';
+import { EventService } from './services/util/event.service';
 import {
-  NotifyUnsupportedBrowserComponent
-} from './components/home/_dialogs/notify-unsupported-browser/notify-unsupported-browser.component';
+  LoginDialogRequest,
+  LoginDialogResponse, MotdDialogRequest,
+  RescaleRequest,
+  RescaleResponse,
+  sendEvent,
+} from './utils/service-component-events';
 import { MatDialog } from '@angular/material/dialog';
-import { DeviceInfoService } from './services/util/device-info.service';
-import { MatomoTrackingService } from './services/util/matomo-tracking.service';
-import { TitleService } from './services/util/title.service';
+import { LoginComponent } from './components/shared/login/login.component';
+import { MotdDialogComponent } from './components/shared/_dialogs/motd-dialog/motd-dialog.component';
 
 Quill.register('modules/imageResize', ImageResize);
 
@@ -40,19 +43,16 @@ export class AppComponent implements OnInit {
   private _lastScrollTop = 0;
 
   constructor(
+    private _startUp: StartUpService,
     private translationService: TranslateService,
     private update: SwUpdate,
-    private sessionService: SessionService,
     public notification: NotificationService,
     private customIconService: CustomIconService,
-    private languageService: LanguageService,
+    private eventService: EventService,
     private dialog: MatDialog,
-    private deviceInfo: DeviceInfoService,
-    private matomoTrackingService: MatomoTrackingService,
-    private titleService: TitleService,
   ) {
+    this.initDialogsForServices();
     customIconService.init();
-    this.translationService.setDefaultLang(this.languageService.currentLanguage());
   }
 
   public static scrollTop() {
@@ -71,7 +71,7 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.update.versionUpdates.pipe(
       filter(e => e.type === 'VERSION_READY'),
-    ).subscribe(update => {
+    ).subscribe(_ => {
       let install: string;
       this.translationService.get('home-page.install').subscribe(msg => {
         install = msg;
@@ -87,11 +87,6 @@ export class AppComponent implements OnInit {
         }
       });
     });
-    if (this.deviceInfo.isSafari) {
-      this.dialog.open(NotifyUnsupportedBrowserComponent, {
-        width: '600px'
-      });
-    }
   }
 
   public getRescale(): Rescale {
@@ -118,6 +113,40 @@ export class AppComponent implements OnInit {
       footer.style.marginBottom = '0';
     }
     this._lastScrollTop = current;
+  }
+
+  private initDialogsForServices() {
+    this.eventService.on<LoginDialogRequest>(LoginDialogRequest.name).subscribe(request => {
+      const dialogRef = this.dialog.open(LoginComponent, {
+        width: '350px'
+      });
+      dialogRef.componentInstance.redirectUrl = request.redirectUrl;
+      dialogRef.afterClosed().subscribe(() => {
+        sendEvent(this.eventService, new LoginDialogResponse());
+      });
+    });
+    this.eventService.on<RescaleRequest>(RescaleRequest.name).subscribe(request => {
+      let scale;
+      if (request.scale === 'initial') {
+        scale = this.getRescale().getInitialScale();
+      } else {
+        scale = request.scale;
+      }
+      this.getRescale().setScale(scale);
+      sendEvent(this.eventService, new RescaleResponse());
+    });
+    this.eventService.on<MotdDialogRequest>(MotdDialogRequest.name).subscribe(request => {
+      const dialogRef = this.dialog.open(MotdDialogComponent, {
+        width: '80%',
+        maxWidth: '600px',
+        minHeight: '95%',
+        height: '95%',
+      });
+      dialogRef.componentInstance.motds = request.motds;
+      dialogRef.afterClosed().subscribe(() => {
+        sendEvent(this.eventService, new LoginDialogResponse());
+      });
+    });
   }
 
 }

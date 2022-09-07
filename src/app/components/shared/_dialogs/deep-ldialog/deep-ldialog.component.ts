@@ -2,7 +2,6 @@ import { AfterViewInit, Component, Inject, OnInit, ViewChild } from '@angular/co
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ViewCommentDataComponent } from '../../view-comment-data/view-comment-data.component';
 import { NotificationService } from '../../../../services/util/notification.service';
-import { LanguageService } from '../../../../services/util/language.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ExplanationDialogComponent } from '../explanation-dialog/explanation-dialog.component';
 import { DeepLService, FormalityType } from '../../../../services/http/deep-l.service';
@@ -32,14 +31,10 @@ export class DeepLDialogComponent implements OnInit, AfterViewInit {
     private dialogRef: MatDialogRef<DeepLDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private notificationService: NotificationService,
-    private languageService: LanguageService,
     private translateService: TranslateService,
     private deeplService: DeepLService,
     private dialog: MatDialog,
   ) {
-    this.languageService.getLanguage().subscribe(lang => {
-      this.translateService.use(lang);
-    });
     this.supportsFormality = DeepLService.supportsFormality(this.data.target);
   }
 

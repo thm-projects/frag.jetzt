@@ -19,6 +19,8 @@ import { DataStoreService } from '../../../services/util/data-store.service';
 import { ModeratorService } from '../../../services/http/moderator.service';
 import { CommentService } from '../../../services/http/comment.service';
 import { CommentServiceMock } from '../../../services/mocks/comment.service.mock';
+import { NgxIndexedDBModule } from 'ngx-indexed-db';
+import { DB_CONFIG } from '../../../../indexeddb';
 
 describe('WriteCommentComponent', () => {
   let component: WriteCommentComponent;
@@ -32,6 +34,7 @@ describe('WriteCommentComponent', () => {
         MatSnackBarModule,
         HttpClientTestingModule,
         RouterTestingModule,
+        NgxIndexedDBModule.forRoot(DB_CONFIG),
       ],
       providers: [
         {
@@ -52,7 +55,10 @@ describe('WriteCommentComponent', () => {
         DataStoreService,
         ModeratorService,
       ],
-      declarations: [WriteCommentComponent, TranslatePipe]
+      declarations: [
+        WriteCommentComponent,
+        TranslatePipe,
+      ]
     }).compileComponents();
   });
 

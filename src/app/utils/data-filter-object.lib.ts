@@ -45,7 +45,14 @@ export enum SortType {
 
 export type SortTypeKey = keyof typeof SortType;
 
-export type FilterTypes = 'commentList' | 'presentation' | 'tagCloud' | 'brainstorming' | 'moderatorList' | 'children' | 'dummy';
+export type FilterTypes =
+  'commentList'
+  | 'presentation'
+  | 'tagCloud'
+  | 'brainstorming'
+  | 'moderatorList'
+  | 'children'
+  | 'dummy';
 
 type DefaultData = Pick<RoomDataFilter,
   'period' |

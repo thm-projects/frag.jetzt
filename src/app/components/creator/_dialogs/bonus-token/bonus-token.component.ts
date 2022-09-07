@@ -16,7 +16,6 @@ import { CommentService } from '../../../../services/http/comment.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { Sort } from '@angular/material/sort';
 import { SelectionModel } from '@angular/cdk/collections';
-import { AuthenticationService } from '../../../../services/http/authentication.service';
 import { UserRole } from '../../../../models/user-roles.enum';
 import { EventService } from '../../../../services/util/event.service';
 import { BonusTokenDeleted } from '../../../../models/events/bonus-token-deleted';
@@ -24,6 +23,7 @@ import { LanguageService } from '../../../../services/util/language.service';
 import { BonusTokenUtilService } from '../../../../services/util/bonus-token-util.service';
 import { ModeratorService } from '../../../../services/http/moderator.service';
 import { numberSorter } from '../../../../models/comment';
+import { UserManagementService } from '../../../../services/util/user-management.service';
 
 @Component({
   selector: 'app-bonus-token',
@@ -35,7 +35,6 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
   valid = false;
   room: Room;
   bonusTokens: BonusToken[] = [];
-  lang: string;
   isLoading = true;
   sub: Subscription;
 
@@ -62,14 +61,10 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
     private commentService: CommentService,
     private translateService: TranslateService,
     private notificationService: NotificationService,
-    private authenticationService: AuthenticationService,
+    private userManagementService: UserManagementService,
     private languageService: LanguageService,
     private moderatorService: ModeratorService,
   ) {
-    this.languageService.getLanguage().subscribe(lang => {
-      this.translateService.use(lang);
-      this.lang = lang;
-    });
   }
 
   ngOnInit() {
@@ -127,7 +122,7 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
   }
 
   navToComment(commentId: string) {
-    if (this.authenticationService.getRole() === UserRole.CREATOR) {
+    if (this.userManagementService.getCurrentUser()?.role === UserRole.CREATOR) {
       this.dialogRef.close();
       const commentURL = `creator/room/${this.room.shortId}/comment/${commentId}`;
       this.router.navigate([commentURL]);
@@ -265,6 +260,14 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+  }
+
+  getFormattedDate(date: Date) {
+    return new Date(date).toLocaleDateString(this.languageService.currentLanguage(), {
+      day: '2-digit',
+      month: '2-digit',
+      year: '2-digit',
+    });
   }
 
   private isNumeric(msg: string): boolean {

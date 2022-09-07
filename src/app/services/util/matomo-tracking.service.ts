@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { MatomoInjector, MatomoTracker } from 'ngx-matomo-v9';
 import { NavigationEnd, Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
-import { AuthenticationService } from '../http/authentication.service';
 import { User } from '../../models/user';
 import { UserRole } from '../../models/user-roles.enum';
+import { UserManagementService } from './user-management.service';
 
 @Injectable({
   providedIn: 'root'
@@ -65,13 +65,13 @@ export class MatomoTrackingService {
     private matomoInjector: MatomoInjector,
     private matomoTracker: MatomoTracker,
     private router: Router,
-    private authenticationService: AuthenticationService,
+    private userManagementService: UserManagementService,
   ) {
     if (environment.name !== 'prod') {
       return;
     }
     this.matomoInjector.init('/matomo/', 6);
-    this.authenticationService.watchUser.subscribe(user => {
+    this.userManagementService.getUser().subscribe(user => {
       this.currentUser = user;
       if (user?.id) {
         this.matomoTracker.setUserId(user.id);

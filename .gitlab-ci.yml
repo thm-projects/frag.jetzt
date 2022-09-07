@@ -73,6 +73,7 @@ sonar:
   stage: codequality
   only:
     - staging
+    - merge_requests
   tags:
     - sonar-cli
   allow_failure: false

@@ -1,5 +1,4 @@
-
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { HomePageComponent } from './home-page.component';
 import { LanguageService } from '../../../services/util/language.service';
@@ -17,30 +16,45 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { UserHomeComponent } from '../user-home/user-home.component';
 import {
   DocumentService,
-  DomRefService, EventListenerService,
-  JoyrideBackdropService, JoyrideDirective,
+  DomRefService,
+  EventListenerService,
+  JoyrideBackdropService,
+  JoyrideDirective,
   JoyrideOptionsService,
-  JoyrideService, JoyrideStepsContainerService,
-  JoyrideStepService, LoggerService, StepDrawerService, TemplatesService
+  JoyrideService,
+  JoyrideStepsContainerService,
+  JoyrideStepService,
+  LoggerService,
+  StepDrawerService,
+  TemplatesService
 } from 'ngx-joyride';
 import { RatingService } from '../../../services/http/rating.service';
 import { RatingServiceMock } from '../../../services/mocks/rating.service.mock';
+import { LoginComponent } from '../../shared/login/login.component';
+import { NgxIndexedDBModule } from 'ngx-indexed-db';
+import { DB_CONFIG } from '../../../../indexeddb';
+import { MatomoModule } from 'ngx-matomo-v9';
 
 
 describe('HomePageComponent', () => {
   let component: HomePageComponent;
   let fixture: ComponentFixture<HomePageComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ HomePageComponent,
-                      NewLandingComponent,
-                      UserHomeComponent ],
+      declarations: [
+        HomePageComponent,
+        NewLandingComponent,
+        UserHomeComponent,
+        LoginComponent,
+      ],
       imports: [
         EssentialsModule,
         SharedModule,
         AppRoutingModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        NgxIndexedDBModule.forRoot(DB_CONFIG),
+        MatomoModule,
       ],
       providers: [
         LanguageService,
@@ -66,10 +80,9 @@ describe('HomePageComponent', () => {
         {
           provide: RatingService,
           useClass: RatingServiceMock,
-        }
+        },
       ]
-    })
-    .compileComponents();
+    }).compileComponents();
   }));
 
   beforeEach(() => {

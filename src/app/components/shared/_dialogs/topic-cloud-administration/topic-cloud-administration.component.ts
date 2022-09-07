@@ -4,7 +4,6 @@ import { NotificationService } from '../../../../services/util/notification.serv
 import { TopicCloudConfirmDialogComponent } from '../topic-cloud-confirm-dialog/topic-cloud-confirm-dialog.component';
 import { UserRole } from '../../../../models/user-roles.enum';
 import { TranslateService } from '@ngx-translate/core';
-import { LanguageService } from '../../../../services/util/language.service';
 import { TopicCloudAdminService } from '../../../../services/util/topic-cloud-admin.service';
 import { ProfanityFilterService } from '../../../../services/util/profanity-filter.service';
 import {
@@ -90,7 +89,6 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     public confirmDialog: MatDialog,
     private notificationService: NotificationService,
     private translateService: TranslateService,
-    private langService: LanguageService,
     private topicCloudAdminService: TopicCloudAdminService,
     private sessionService: SessionService,
     private commentService: CommentService,
@@ -98,9 +96,6 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     private profanityFilterService: ProfanityFilterService,
     public deviceInfo: DeviceInfoService,
   ) {
-    this.langService.getLanguage().subscribe(lang => {
-      this.translateService.use(lang);
-    });
     const emptyData = {} as TopicCloudAdminData;
     ensureDefaultScorings(emptyData);
     this.defaultScorings = emptyData.scorings;

@@ -1,4 +1,4 @@
-import { Component, ComponentRef, EventEmitter, OnDestroy, OnInit } from '@angular/core';
+import { Component, ComponentRef, EventEmitter, Injector, OnDestroy, OnInit } from '@angular/core';
 import { Room } from '../../../models/room';
 import { RoomPatch, RoomService } from '../../../services/http/room.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -28,7 +28,6 @@ import { BonusTokenComponent } from '../../creator/_dialogs/bonus-token/bonus-to
 import { CommentSettingsComponent } from '../../creator/_dialogs/comment-settings/comment-settings.component';
 import { CommentSettingsDialog } from '../../../models/comment-settings-dialog';
 import { TagsComponent } from '../../creator/_dialogs/tags/tags.component';
-import { AuthenticationService } from '../../../services/http/authentication.service';
 import { ProfanitySettingsComponent } from '../../creator/_dialogs/profanity-settings/profanity-settings.component';
 import { SyncFence } from '../../../utils/SyncFence';
 import {
@@ -46,6 +45,9 @@ import {
 } from '../_dialogs/comment-notification-dialog/comment-notification-dialog.component';
 import { ToggleConversationComponent } from '../../creator/_dialogs/toggle-conversation/toggle-conversation.component';
 import { QuillUtils } from '../../../utils/quill-utils';
+import { TitleService } from '../../../services/util/title.service';
+import { DeviceInfoService } from '../../../services/util/device-info.service';
+import { UserManagementService } from '../../../services/util/user-management.service';
 
 @Component({
   selector: 'app-room-page',
@@ -59,34 +61,53 @@ export class RoomPageComponent implements OnInit, OnDestroy {
   commentCounter: number;
   responseCounter: number;
   urlToCopy = `${window.location.protocol}//${window.location.host}/participant/room/`;
-  commentCounterEmit = new EventEmitter<[commentCount: number, responseCount: number]>();
   onDestroyListener: EventEmitter<void> = new EventEmitter<void>();
   moderatorCommentCounter: number;
   moderatorResponseCounter: number;
   userRole: UserRole;
   moderationEnabled = true;
+  deviceInfo: DeviceInfoService;
   protected listenerFn: () => void;
+  protected roomService: RoomService;
+  protected route: ActivatedRoute;
+  protected location: Location;
+  protected commentService: CommentService;
+  protected eventService: EventService;
+  protected headerService: HeaderService;
+  protected composeService: ArsComposeService;
+  protected dialog: MatDialog;
+  protected bonusTokenService: BonusTokenService;
+  protected translateService: TranslateService;
+  protected notificationService: NotificationService;
+  protected userManagementService: UserManagementService;
+  protected sessionService: SessionService;
+  protected roomDataService: RoomDataService;
+  protected titleService: TitleService;
+  protected router: Router;
   private _navigationBuild = new SyncFence(2, this.initNavigation.bind(this));
   private _sub: Subscription;
   private _list: ComponentRef<any>[];
 
-  public constructor(
-    protected roomService: RoomService,
-    protected route: ActivatedRoute,
-    protected location: Location,
-    protected commentService: CommentService,
-    protected eventService: EventService,
-    protected headerService: HeaderService,
-    protected composeService: ArsComposeService,
-    protected dialog: MatDialog,
-    protected bonusTokenService: BonusTokenService,
-    protected translateService: TranslateService,
-    protected notificationService: NotificationService,
-    protected authenticationService: AuthenticationService,
-    protected sessionService: SessionService,
-    protected roomDataService: RoomDataService,
-    protected router: Router,
+  constructor(
+    protected injector: Injector,
   ) {
+    this.deviceInfo = injector.get(DeviceInfoService);
+    this.roomService = injector.get(RoomService);
+    this.route = injector.get(ActivatedRoute);
+    this.location = injector.get(Location);
+    this.commentService = injector.get(CommentService);
+    this.eventService = injector.get(EventService);
+    this.headerService = injector.get(HeaderService);
+    this.composeService = injector.get(ArsComposeService);
+    this.dialog = injector.get(MatDialog);
+    this.bonusTokenService = injector.get(BonusTokenService);
+    this.translateService = injector.get(TranslateService);
+    this.notificationService = injector.get(NotificationService);
+    this.userManagementService = injector.get(UserManagementService);
+    this.sessionService = injector.get(SessionService);
+    this.roomDataService = injector.get(RoomDataService);
+    this.titleService = injector.get(TitleService);
+    this.router = injector.get(Router);
   }
 
   ngOnInit() {
@@ -98,6 +119,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
     this.eventService.makeFocusOnInputFalse();
     this._list?.forEach(e => e.destroy());
     this._sub?.unsubscribe();
+    this.titleService.resetTitle();
   }
 
   tryInitNavigation() {
@@ -105,7 +127,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
   }
 
   initializeRoom(): void {
-    this.authenticationService.watchUser.subscribe(user => {
+    this.userManagementService.getUser().subscribe(user => {
       this.user = user;
     });
     this.userRole = this.route.snapshot.data.roles[0];
@@ -137,7 +159,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
   setCommentCounter(commentCounter: number, responseCounter: number) {
     this.commentCounter = commentCounter;
     this.responseCounter = responseCounter;
-    this.commentCounterEmit.emit([this.commentCounter, responseCounter]);
+    this.titleService.attachTitle(`(${commentCounter} / ${responseCounter})`);
   }
 
   editSessionName() {
@@ -257,7 +279,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
       next: () => {
         const event = new RoomDeleted(this.room.id);
         this.eventService.broadcast(event.type, event.payload);
-        this.authenticationService.removeAccess(this.room.shortId);
+        this.userManagementService.removeAccess(this.room.shortId);
         this.router.navigate(['/user']).then(() => {
           this.translateService.get('room-page.deleted').subscribe(msg => {
             this.notificationService.show(this.room.name + msg);

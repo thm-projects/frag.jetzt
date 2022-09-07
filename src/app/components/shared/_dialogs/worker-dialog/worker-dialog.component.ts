@@ -6,8 +6,6 @@ import { TSMap } from 'typescript-map';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { WorkerDialogTask } from './worker-dialog-task';
 import { LanguagetoolService } from '../../../../services/http/languagetool.service';
-import { TranslateService } from '@ngx-translate/core';
-import { LanguageService } from '../../../../services/util/language.service';
 import { Comment, Language } from '../../../../models/comment';
 import { RoomDataService } from '../../../../services/util/room-data.service';
 import { DeepLService } from '../../../../services/http/deep-l.service';
@@ -24,14 +22,13 @@ export class WorkerDialogComponent implements OnInit {
 
   @Input() inlined = false;
 
-  constructor(private commentService: CommentService,
-              private languagetoolService: LanguagetoolService,
-              private spacyService: SpacyService,
-              protected langService: LanguageService,
-              private deepLService: DeepLService,
-              private translateService: TranslateService,
-              private roomDataService: RoomDataService) {
-    langService.getLanguage().subscribe(lang => translateService.use(lang));
+  constructor(
+    private commentService: CommentService,
+    private languagetoolService: LanguagetoolService,
+    private spacyService: SpacyService,
+    private deepLService: DeepLService,
+    private roomDataService: RoomDataService
+  ) {
   }
 
   static isWorkingOnRoom(roomId: string) {

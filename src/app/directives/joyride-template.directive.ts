@@ -1,8 +1,4 @@
-import {
-  Directive,
-  OnInit,
-  ViewContainerRef
-} from '@angular/core';
+import { Directive, OnInit, ViewContainerRef } from '@angular/core';
 import { JoyrideDirective } from 'ngx-joyride';
 import { JoyrideTemplateComponent } from '../components/shared/_dialogs/joyride-template/joyride-template.component';
 import { EventService } from '../services/util/event.service';

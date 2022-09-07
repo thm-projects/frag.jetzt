@@ -6,6 +6,9 @@
 </header>
 
 <form (submit)="login(userEmail.value, userPassword.value)">
+  <p id="inactiveInfo" *ngIf="redirectUrl">
+    {{ 'login-dialog.inactive-info' | translate }}
+  </p>
   <div class="login-container">
     <div class="login-system-container">
       <!-- email -->

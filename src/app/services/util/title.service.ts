@@ -15,8 +15,7 @@ export class TitleService {
     private translateService: TranslateService,
     private languageService: LanguageService,
   ) {
-    this.languageService.getLanguage().subscribe(lang => {
-      this.translateService.use(lang);
+    this.languageService.getLanguage().subscribe(_ => {
       this.updateTitle();
     });
   }

@@ -1,9 +1,12 @@
 <h1 tabindex="0" mat-dialog-title>{{ 'introductions.comment-list-title' | translate }} </h1>
 
 <mat-dialog-content tabindex="0">
-  <app-introduction-comment-list-en *ngIf="languageService.currentLanguage() === 'en'"></app-introduction-comment-list-en>
-  <app-introduction-comment-list-de *ngIf="languageService.currentLanguage() === 'de'"></app-introduction-comment-list-de>
-  <app-introduction-comment-list-fr *ngIf="languageService.currentLanguage() === 'fr'"></app-introduction-comment-list-fr>
+  <app-introduction-comment-list-en
+    *ngIf="languageService.currentLanguage() === 'en'"></app-introduction-comment-list-en>
+  <app-introduction-comment-list-de
+    *ngIf="languageService.currentLanguage() === 'de'"></app-introduction-comment-list-de>
+  <app-introduction-comment-list-fr
+    *ngIf="languageService.currentLanguage() === 'fr'"></app-introduction-comment-list-fr>
 </mat-dialog-content>
 
 <app-dialog-action-buttons

@@ -2,8 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Room } from '../../../../models/room';
 import { WorkerDialogComponent } from '../worker-dialog/worker-dialog.component';
-import { LanguageService } from '../../../../services/util/language.service';
-import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-worker-config-dialog',
@@ -14,10 +12,9 @@ export class WorkerConfigDialogComponent implements OnInit {
 
   public selection = 'normal';
 
-  constructor(private dialogRef: MatDialogRef<WorkerConfigDialogComponent>,
-              protected langService: LanguageService,
-              private translateService: TranslateService) {
-    langService.getLanguage().subscribe(lang => translateService.use(lang));
+  constructor(
+    private dialogRef: MatDialogRef<WorkerConfigDialogComponent>,
+  ) {
   }
 
   public static addTask(dialog: MatDialog, room: Room) {

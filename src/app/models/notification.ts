@@ -1,11 +1,12 @@
 import { Room } from './room';
 
-export class Notification{
+export class Notification {
 
-    constructor(
-        private date: Date,
-        private room: Room,
-        private question: Comment
-        ) {}
+  constructor(
+    private date: Date,
+    private room: Room,
+    private question: Comment
+  ) {
+  }
 
 }

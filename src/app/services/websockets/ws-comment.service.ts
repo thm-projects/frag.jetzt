@@ -9,7 +9,10 @@ import { IMessage } from '@stomp/stompjs';
 })
 export class WsCommentService {
 
-  constructor(private wsConnector: WsConnectorService) { }
+  constructor(
+    private wsConnector: WsConnectorService,
+    ) {
+  }
 
   getCommentStream(roomId: string): Observable<IMessage> {
     return this.wsConnector.getWatcher(`/topic/${roomId}.comment.stream`);

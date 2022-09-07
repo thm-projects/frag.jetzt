@@ -1,7 +1,6 @@
 export const disableTour = () => {
   localStorage.setItem('currentLang', 'en');
   localStorage.setItem('onboarding_default', '{"state":"finished"}');
-  localStorage.setItem('dataProtectionConsent', 'true');
   localStorage.setItem('cookieAccepted', 'true');
 };
 

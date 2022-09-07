@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BaseHttpService } from './base-http.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { catchError, map, tap, timeout, mergeMap } from 'rxjs/operators';
+import { catchError, map, mergeMap, tap, timeout } from 'rxjs/operators';
 import { ImmutableStandardDelta, QuillUtils, StandardDelta } from '../../utils/quill-utils';
 import { clone } from '../../utils/ts-utils';
 

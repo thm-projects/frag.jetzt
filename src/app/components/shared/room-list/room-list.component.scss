@@ -115,9 +115,11 @@ th, tr {
 th.mat-header-cell:first-of-type {
   padding-left: 10px;
 }
-.responseCountBadge{
+
+.responseCountBadge {
   width: 0;
-  >.mat-badge-content {
+
+  > .mat-badge-content {
     background-color: var(--primary);
     color: var(--on-primary);
     left: -16px !important;

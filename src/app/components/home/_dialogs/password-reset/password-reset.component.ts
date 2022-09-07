@@ -33,12 +33,14 @@ export class PasswordResetComponent implements OnInit {
 
   matcher = new PasswordResetErrorStateMatcher();
 
-  constructor(private translationService: TranslateService,
-              public authenticationService: AuthenticationService,
-              public notificationService: NotificationService,
-              public dialogRef: MatDialogRef<PasswordResetComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: any,
-              private liveAnnouncer: LiveAnnouncer, ) {
+  constructor(
+    private translationService: TranslateService,
+    public authenticationService: AuthenticationService,
+    public notificationService: NotificationService,
+    public dialogRef: MatDialogRef<PasswordResetComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private liveAnnouncer: LiveAnnouncer,
+  ) {
   }
 
   ngOnInit() {

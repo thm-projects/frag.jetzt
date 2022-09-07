@@ -36,9 +36,9 @@ export const highcontrast = {
   '--black': 'black',
   '--moderator': 'black',
 
-  '--questionwall-intro-primary':'darkorange',
-  '--questionwall-intro-secondary':'#eadabf',
-  '--questionwall-intro-background':'#121212'
+  '--questionwall-intro-primary': 'darkorange',
+  '--questionwall-intro-secondary': '#eadabf',
+  '--questionwall-intro-background': '#121212'
 
 };
 

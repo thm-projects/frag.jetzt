@@ -1,8 +1,7 @@
-import { AuthenticationService } from '../http/authentication.service';
-import { UserRole } from '../../models/user-roles.enum';
 import { DataStoreService } from './data-store.service';
 import { RoomService } from '../http/room.service';
 import { Observable, of, Subject } from 'rxjs';
+import { UserManagementService } from './user-management.service';
 
 export interface OnboardingTourStepInteraction {
   beforeLoad?: (isNext: boolean) => void;
@@ -40,9 +39,11 @@ const roomChecker = (roomService: RoomService, roomUrl: string): Observable<bool
   return sub.asObservable();
 };
 
-export const initDefaultTour = (authenticationService: AuthenticationService,
-                                dataStoreService: DataStoreService,
-                                roomService: RoomService): OnboardingTour => ({
+export const initDefaultTour = (
+  userManagementService: UserManagementService,
+  dataStoreService: DataStoreService,
+  roomService: RoomService
+): OnboardingTour => ({
   name: 'default',
   tour: [
     'greeting@home',
@@ -61,13 +62,13 @@ export const initDefaultTour = (authenticationService: AuthenticationService,
   tourActions: {
     feedbackLink: {
       beforeLoad: (isNext: boolean) => {
-        if (isNext && dataStoreService.get('onboarding-default-meta') === 'false' && !authenticationService.isLoggedIn()) {
-          authenticationService.guestLogin(UserRole.PARTICIPANT).subscribe();
+        if (isNext && dataStoreService.get('onboarding-default-meta') === 'false' && !userManagementService.isLoggedIn()) {
+          userManagementService.loginAsGuest().subscribe();
         }
       },
       beforeUnload: (isNext: boolean) => {
-        if (!isNext && dataStoreService.get('onboarding-default-meta') === 'false' && authenticationService.isLoggedIn()) {
-          authenticationService.logout();
+        if (!isNext && dataStoreService.get('onboarding-default-meta') === 'false' && userManagementService.isLoggedIn()) {
+          userManagementService.logout();
         }
       }
     },
@@ -79,12 +80,12 @@ export const initDefaultTour = (authenticationService: AuthenticationService,
   },
   doneAction: (_) => {
     if (dataStoreService.get('onboarding-default-meta') === 'false') {
-      authenticationService.logout();
+      userManagementService.logout();
     }
     dataStoreService.remove('onboarding-default-meta');
   },
   startupAction: () => {
-    dataStoreService.set('onboarding-default-meta', String(authenticationService.isLoggedIn()));
+    dataStoreService.set('onboarding-default-meta', String(userManagementService.isLoggedIn()));
   },
   checkIfRouteCanBeAccessed: (route: string) => {
     if (route.endsWith('home')) {

@@ -1,11 +1,9 @@
-import { Component, OnInit, OnDestroy, Renderer2, AfterContentInit, ComponentRef } from '@angular/core';
+import { AfterContentInit, Component, ComponentRef, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
-import { LanguageService } from '../../../services/util/language.service';
 import { RoomCreateComponent } from '../../shared/_dialogs/room-create/room-create.component';
 import { UserRole } from '../../../models/user-roles.enum';
 import { User } from '../../../models/user';
-import { AuthenticationService } from '../../../services/http/authentication.service';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { EventService } from '../../../services/util/event.service';
 import { KeyboardUtils } from '../../../utils/keyboard';
@@ -16,6 +14,8 @@ import { RatingResult } from '../../../models/rating-result';
 import { HeaderService } from '../../../services/util/header.service';
 import { ArsComposeService } from '../../../../../projects/ars/src/lib/services/ars-compose.service';
 import { AppRatingComponent } from '../../shared/app-rating/app-rating.component';
+import { UserManagementService } from '../../../services/util/user-management.service';
+import { SessionService } from '../../../services/util/session.service';
 
 @Component({
   selector: 'app-user-home',
@@ -36,16 +36,15 @@ export class UserHomeComponent implements OnInit, OnDestroy, AfterContentInit {
   constructor(
     public dialog: MatDialog,
     private translateService: TranslateService,
-    protected langService: LanguageService,
-    private authenticationService: AuthenticationService,
+    private userManagementService: UserManagementService,
     private eventService: EventService,
     private liveAnnouncer: LiveAnnouncer,
     private _r: Renderer2,
     private readonly ratingService: RatingService,
     protected headerService: HeaderService,
     protected composeService: ArsComposeService,
+    public sessionService: SessionService,
   ) {
-    langService.getLanguage().subscribe(lang => translateService.use(lang));
   }
 
   ngAfterContentInit(): void {
@@ -55,7 +54,7 @@ export class UserHomeComponent implements OnInit, OnDestroy, AfterContentInit {
   }
 
   ngOnInit() {
-    this.authenticationService.watchUser.subscribe(newUser => {
+    this.userManagementService.getUser().subscribe(newUser => {
       this.user = newUser;
       if (this.canRate && this.fetchedRating === undefined && this.user !== undefined && this.user !== null) {
         this.fetchedRating = null;

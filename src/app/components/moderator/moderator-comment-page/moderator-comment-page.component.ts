@@ -1,4 +1,4 @@
-import { Component, OnInit, Renderer2, OnDestroy, AfterContentInit } from '@angular/core';
+import { AfterContentInit, Component, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NotificationService } from '../../../services/util/notification.service';
 import { AuthenticationService } from '../../../services/http/authentication.service';
@@ -16,18 +16,22 @@ export class ModeratorCommentPageComponent implements OnInit, OnDestroy, AfterCo
 
   listenerFn: () => void;
 
-  constructor(private route: ActivatedRoute,
-              private notification: NotificationService,
-              private authenticationService: AuthenticationService,
-              public eventService: EventService,
-              private _r: Renderer2,
-              private liveAnnouncer: LiveAnnouncer) { }
+  constructor(
+    private route: ActivatedRoute,
+    private notification: NotificationService,
+    private authenticationService: AuthenticationService,
+    public eventService: EventService,
+    private _r: Renderer2,
+    private liveAnnouncer: LiveAnnouncer,
+  ) {
+  }
 
   ngAfterContentInit(): void {
-    setTimeout( () => {
+    setTimeout(() => {
       document.getElementById('live_announcer-button').focus();
     }, 500);
   }
+
   ngOnInit(): void {
     this.announce();
     this.listenerFn = this._r.listen(document, 'keyup', (event) => {

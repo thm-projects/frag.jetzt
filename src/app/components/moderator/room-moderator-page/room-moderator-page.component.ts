@@ -1,26 +1,8 @@
-import { Component, OnInit, Renderer2, OnDestroy, AfterContentInit, AfterViewInit } from '@angular/core';
+import { AfterContentInit, AfterViewInit, Component, Injector, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { RoomPageComponent } from '../../shared/room-page/room-page.component';
-import { Location } from '@angular/common';
-import { RoomService } from '../../../services/http/room.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
-import { LanguageService } from '../../../services/util/language.service';
-import { CommentService } from '../../../services/http/comment.service';
-import { NotificationService } from '../../../services/util/notification.service';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { EventService } from '../../../services/util/event.service';
 import { KeyboardUtils } from '../../../utils/keyboard';
 import { KeyboardKey } from '../../../utils/keyboard/keys';
-import { MatDialog } from '@angular/material/dialog';
-import { HeaderService } from '../../../services/util/header.service';
-import { ArsComposeService } from '../../../../../projects/ars/src/lib/services/ars-compose.service';
-import { BonusTokenService } from '../../../services/http/bonus-token.service';
-import { AuthenticationService } from '../../../services/http/authentication.service';
-import { SessionService } from '../../../services/util/session.service';
-import { RoomDataService } from '../../../services/util/room-data.service';
-import { DeviceInfoService } from '../../../services/util/device-info.service';
-import { Subscription } from 'rxjs';
-import { TitleService } from '../../../services/util/title.service';
 
 @Component({
   selector: 'app-room-moderator-page',
@@ -31,37 +13,13 @@ import { TitleService } from '../../../services/util/title.service';
   ]
 })
 export class RoomModeratorPageComponent extends RoomPageComponent implements OnInit, OnDestroy, AfterContentInit, AfterViewInit {
-  commentCounterEmitSubscription: Subscription;
 
   constructor(
-    protected location: Location,
-    protected roomService: RoomService,
-    protected route: ActivatedRoute,
-    protected translateService: TranslateService,
-    protected dialog: MatDialog,
-    protected langService: LanguageService,
-    protected commentService: CommentService,
-    protected notification: NotificationService,
-    protected headerService: HeaderService,
-    protected composeService: ArsComposeService,
-    protected bonusTokenService: BonusTokenService,
-    protected authenticationService: AuthenticationService,
-    public eventService: EventService,
     private liveAnnouncer: LiveAnnouncer,
     private _r: Renderer2,
-    protected sessionService: SessionService,
-    protected roomDataService: RoomDataService,
-    public deviceInfo: DeviceInfoService,
-    private titleService: TitleService,
-    protected router: Router,
+    protected injector: Injector,
   ) {
-    super(roomService, route, location, commentService, eventService, headerService, composeService, dialog,
-      bonusTokenService, translateService, notification, authenticationService, sessionService, roomDataService,
-      router);
-    this.commentCounterEmitSubscription = this.commentCounterEmit.subscribe(e => {
-      this.titleService.attachTitle(`(${e[0]} / ${e[1]})`);
-    });
-    langService.getLanguage().subscribe(lang => translateService.use(lang));
+    super(injector);
   }
 
   ngAfterViewInit() {
@@ -76,8 +34,6 @@ export class RoomModeratorPageComponent extends RoomPageComponent implements OnI
 
   ngOnDestroy() {
     super.ngOnDestroy();
-    this.commentCounterEmitSubscription.unsubscribe();
-    this.titleService.resetTitle();
   }
 
   ngOnInit() {

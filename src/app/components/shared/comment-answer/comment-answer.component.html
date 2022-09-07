@@ -1,8 +1,9 @@
-<div class="fake-header">
+<div class="fake-header" *ngIf="this.backUrl">
   <button mat-button
           (click)="goBack()">
     <mat-icon>arrow_back</mat-icon>
-    <span class="oldtypo" style="color: var(--red) !important;">{{'comment-page.back-to-question-focus' | translate}}</span>
+    <span class="oldtypo"
+          style="color: var(--red) !important;">{{'comment-page.back-to-question-focus' | translate}}</span>
   </button>
 </div>
 <div fxLayout="column"
@@ -17,7 +18,9 @@
                  [comment]="comment"
                  [user]="user"
                  [userRole]="userRole"
-                 [parseVote]="vote"
+                 [parseVote]="votes"
+                 [indentationPossible]="true"
+                 [showResponses]="isConversationView"
                  [moderator]="isModerationComment"
                  [isFromModerator]="mods.has(comment.creatorId)"
                  [isFromOwner]="room.ownerId === comment.creatorId"
@@ -45,25 +48,6 @@
                          [additionalMockOffset]="65">
       </app-write-comment>
     </mat-card>
-  </div>
-  <div *ngIf="isConversationView">
-    <div fxLayout="row"
-         fxLayoutAlign="center"
-         *ngFor="let response of responses; let i = index">
-      <app-comment *ngIf="response?.body"
-                   [comment]="response"
-                   [isRemoved]="response?.removed"
-                   [user]="user"
-                   [userRole]="userRole"
-                   [parseVote]="vote"
-                   [moderator]="isModerationComment"
-                   [isFromModerator]="mods.has(response.creatorId)"
-                   [isFromOwner]="room.ownerId === response.creatorId"
-                   [isResponse]=true
-                   [responseIndex]="i + 1"
-                   [parentDepth]="comment.commentDepth"
-      ></app-comment>
-    </div>
   </div>
 </div>
 

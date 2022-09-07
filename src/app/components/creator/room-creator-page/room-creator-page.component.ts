@@ -1,26 +1,8 @@
-import { AfterContentInit, AfterViewInit, Component, OnDestroy, OnInit, Renderer2 } from '@angular/core';
-import { RoomService } from '../../../services/http/room.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { AfterContentInit, AfterViewInit, Component, Injector, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { RoomPageComponent } from '../../shared/room-page/room-page.component';
-import { Location } from '@angular/common';
-import { NotificationService } from '../../../services/util/notification.service';
-import { MatDialog } from '@angular/material/dialog';
-import { TranslateService } from '@ngx-translate/core';
-import { LanguageService } from '../../../services/util/language.service';
-import { CommentService } from '../../../services/http/comment.service';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { EventService } from '../../../services/util/event.service';
 import { KeyboardUtils } from '../../../utils/keyboard';
 import { KeyboardKey } from '../../../utils/keyboard/keys';
-import { TitleService } from '../../../services/util/title.service';
-import { BonusTokenService } from '../../../services/http/bonus-token.service';
-import { AuthenticationService } from '../../../services/http/authentication.service';
-import { HeaderService } from '../../../services/util/header.service';
-import { ArsComposeService } from '../../../../../projects/ars/src/lib/services/ars-compose.service';
-import { SessionService } from '../../../services/util/session.service';
-import { RoomDataService } from '../../../services/util/room-data.service';
-import { DeviceInfoService } from '../../../services/util/device-info.service';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-room-creator-page',
@@ -28,37 +10,13 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./room-creator-page.component.scss']
 })
 export class RoomCreatorPageComponent extends RoomPageComponent implements OnInit, OnDestroy, AfterContentInit, AfterViewInit {
-  commentCounterEmitSubscription: Subscription;
 
   constructor(
-    protected roomService: RoomService,
-    protected notification: NotificationService,
-    protected route: ActivatedRoute,
-    protected location: Location,
-    public dialog: MatDialog,
-    protected translateService: TranslateService,
-    protected langService: LanguageService,
-    protected commentService: CommentService,
     private liveAnnouncer: LiveAnnouncer,
     private _r: Renderer2,
-    public eventService: EventService,
-    public titleService: TitleService,
-    protected bonusTokenService: BonusTokenService,
-    public router: Router,
-    public authenticationService: AuthenticationService,
-    public headerService: HeaderService,
-    public composeService: ArsComposeService,
-    protected sessionService: SessionService,
-    protected roomDataService: RoomDataService,
-    public deviceInfo: DeviceInfoService,
+    protected injector: Injector,
   ) {
-    super(roomService, route, location, commentService, eventService, headerService, composeService, dialog,
-      bonusTokenService, translateService, notification, authenticationService, sessionService, roomDataService,
-      router);
-    this.commentCounterEmitSubscription = this.commentCounterEmit.subscribe(e => {
-      this.titleService.attachTitle(`(${e[0]} / ${e[1]})`);
-    });
-    langService.getLanguage().subscribe(lang => translateService.use(lang));
+    super(injector);
   }
 
   ngAfterViewInit() {
@@ -67,8 +25,6 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
 
   ngOnDestroy() {
     super.ngOnDestroy();
-    this.commentCounterEmitSubscription.unsubscribe();
-    this.titleService.resetTitle();
   }
 
   ngAfterContentInit(): void {

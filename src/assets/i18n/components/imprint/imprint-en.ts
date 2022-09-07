@@ -6,4 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./imprint.scss']
 })
 
-export class ImprintEnComponent {}
+export class ImprintEnComponent {
+}

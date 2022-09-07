@@ -5,7 +5,7 @@ import { Component } from '@angular/core';
   templateUrl: './dashboard-dialog.component.html',
   styleUrls: ['./dashboard-dialog.component.scss']
 })
-export class DashboardDialogComponent  {
+export class DashboardDialogComponent {
 
   constructor() {
     //intentional

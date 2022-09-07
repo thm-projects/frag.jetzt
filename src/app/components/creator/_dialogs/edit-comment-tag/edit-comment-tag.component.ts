@@ -3,7 +3,6 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { SessionService } from '../../../../services/util/session.service';
 import { TagsComponent } from '../tags/tags.component';
 import { TranslateService } from '@ngx-translate/core';
-import { LanguageService } from '../../../../services/util/language.service';
 import { NotificationService } from '../../../../services/util/notification.service';
 import { RoomService } from '../../../../services/http/room.service';
 
@@ -21,11 +20,9 @@ export class EditCommentTagComponent implements OnInit {
     public sessionInfo: SessionService,
     private dialog: MatDialog,
     private translateService: TranslateService,
-    private langService: LanguageService,
     private notificationService: NotificationService,
     private roomService: RoomService,
   ) {
-    langService.getLanguage().subscribe(lang => this.translateService.use(lang));
   }
 
   ngOnInit(): void {

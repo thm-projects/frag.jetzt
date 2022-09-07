@@ -4,11 +4,11 @@ import { ProfanityFilter, Room } from '../../models/room';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { UserRole } from '../../models/user-roles.enum';
-import { AuthenticationService } from '../http/authentication.service';
 import { generateConsequentlyUUID, generateRandomUUID, generateShortId } from '../../utils/test-utils';
 import { defaultCategories } from '../../utils/defaultCategories';
 import { Router } from '@angular/router';
 import { QuillUtils } from '../../utils/quill-utils';
+import { UserManagementService } from '../util/user-management.service';
 
 interface RoomHistory {
   userId: string;
@@ -53,10 +53,10 @@ export class RoomServiceMock extends RoomService {
   moderators: Map<string, Set<string>> = new Map<string, Set<string>>();
 
   constructor(
-    private authenticationService: AuthenticationService,
+    private managementService: UserManagementService,
     private angularRouter: Router,
   ) {
-    super(null, null, authenticationService, null, null, angularRouter);
+    super(null, null, managementService, null, null, angularRouter);
   }
 
   public static generateMockRoom(
@@ -79,7 +79,7 @@ export class RoomServiceMock extends RoomService {
 
   addRoom(room: Room, exc?: () => void): Observable<Room> {
     this.validateRoom(room);
-    room.ownerId = this.authenticationService.getUser().id;
+    room.ownerId = this.managementService.getCurrentUser().id;
     if (!room.shortId) {
       room.shortId = this.generateNoDuplicateShortId();
     }
@@ -123,7 +123,7 @@ export class RoomServiceMock extends RoomService {
   }
 
   addToHistory(roomId: string): void {
-    const user = this.authenticationService.getUser();
+    const user = this.managementService.getCurrentUser();
     const roomIndex = this.rooms.findIndex(r => r.id === roomId);
     if (roomIndex < 0) {
       throw new Error('Not Found');
@@ -142,7 +142,7 @@ export class RoomServiceMock extends RoomService {
   }
 
   removeFromHistory(roomId: string): Observable<void> {
-    const user = this.authenticationService.getUser();
+    const user = this.managementService.getCurrentUser();
     const index = this.roomHistories.findIndex(history => history.roomId === roomId && history.userId === user.id);
     if (index < 0) {
       return of(null);
@@ -174,7 +174,7 @@ export class RoomServiceMock extends RoomService {
       throw new Error('Not Found');
     }
     const room = this.rooms[roomIndex];
-    if (room.ownerId !== this.authenticationService.getUser().id) {
+    if (room.ownerId !== this.managementService.getCurrentUser().id) {
       throw new Error('Forbidden');
     }
     this.rooms.splice(roomIndex, 1);
@@ -226,7 +226,7 @@ export class RoomServiceMock extends RoomService {
     if (oldRoom.id !== room.id || oldRoom.shortId !== room.shortId || oldRoom.ownerId !== room.ownerId) {
       return false;
     }
-    const id = this.authenticationService.getUser().id;
+    const id = this.managementService.getCurrentUser().id;
     if (id === oldRoom.ownerId) {
       return true;
     }

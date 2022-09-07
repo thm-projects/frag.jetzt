@@ -34,12 +34,20 @@ export class HeaderService {
     this.userActivityListener.forEach(f => f(this.userActivity));
   }
 
+  public getCurrentUserActivity() {
+    return this.userActivity;
+  }
+
   public toggleCurrentUserActivity(e: boolean) {
     if (this.userActivityToggle === e) {
       return;
     }
     this.userActivityToggle = e;
     this.userActivityToggleListener.forEach(f => f(this.userActivityToggle));
+  }
+
+  public isToggleCurrentUserActivity() {
+    return this.userActivityToggle;
   }
 
   public onUserChange(f: (v: string) => void) {

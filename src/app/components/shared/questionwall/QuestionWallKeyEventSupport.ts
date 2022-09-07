@@ -1,4 +1,3 @@
-
 export class QuestionWallKeyEventSupport {
 
   private keyMap: Map<string, () => void> = new Map<string, () => void>();
@@ -11,7 +10,7 @@ export class QuestionWallKeyEventSupport {
         e.cancelBubble = true;
       }
     };
-    window.addEventListener('keyup', this.windowEvent );
+    window.addEventListener('keyup', this.windowEvent);
   }
 
   public addKeyEvent(key: string, evt: () => void) {

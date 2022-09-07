@@ -32,8 +32,8 @@ button:hover {
 }
 
 button.focus_item:focus {
-    background-color: var(--secondary) !important;
-    color: var(--on-secondary) !important;
+  background-color: var(--secondary) !important;
+  color: var(--on-secondary) !important;
 }
 
 mat-icon {
@@ -213,6 +213,7 @@ mat-icon {
   margin-left: 12px;
   margin-top: 10px;
 }
+
 .help-button {
   background-color: transparent;
   color: var(--green);

@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
-import { AuthenticationService } from '../services/http/authentication.service';
 
 import { NotificationService } from '../services/util/notification.service';
 import { UserRole } from '../models/user-roles.enum';
 import { SessionService } from '../services/util/session.service';
+import { UserManagementService } from '../services/util/user-management.service';
 
 @Injectable()
 export class AuthenticationGuard implements CanActivate {
 
   constructor(
-    private authenticationService: AuthenticationService,
+    private userManagementService: UserManagementService,
     private notificationService: NotificationService,
     private router: Router,
     private sessionService: SessionService,
@@ -43,7 +43,7 @@ export class AuthenticationGuard implements CanActivate {
   }
 
   private isSuperAdmin() {
-    if (!this.authenticationService.isSuperAdmin) {
+    if (!this.userManagementService.getCurrentUser()?.isSuperAdmin) {
       this.onNotAllowed();
       return false;
     }

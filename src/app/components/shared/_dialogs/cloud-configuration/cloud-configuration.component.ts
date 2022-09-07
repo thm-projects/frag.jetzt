@@ -1,11 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
 import { TagCloudComponent } from '../../tag-cloud/tag-cloud.component';
 import { WeightClass } from './weight-class.interface';
 import { TagCloudMetaDataCount } from '../../../../services/util/tag-cloud-data.service';
 import { CloudParameters, CloudTextStyle } from '../../../../utils/cloud-parameters';
 import { AppComponent } from '../../../../app.component';
-import { LanguageService } from '../../../../services/util/language.service';
 
 @Component({
   selector: 'app-cloud-configuration',
@@ -101,14 +99,9 @@ export class CloudConfigurationComponent implements OnInit {
   ];
   minFont: number;
   maxFont: number;
-
   isTestCloud = false;
 
-  constructor(
-    private translateService: TranslateService,
-    private languageService: LanguageService,
-  ) {
-    this.languageService.getLanguage().subscribe(lang => this.translateService.use(lang));
+  constructor() {
   }
 
   ngOnInit() {

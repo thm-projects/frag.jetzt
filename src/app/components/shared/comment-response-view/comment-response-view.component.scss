@@ -1,0 +1,38 @@
+.response-container {
+  display: flex;
+  color: var(--on-background);
+  margin: auto;
+  width: 100%;
+  max-width: 800px;
+  justify-content: flex-end;
+
+  .responses {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: calc(100% - 15px);
+  }
+}
+
+.response-arrow-container {
+  width: min-content;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 4rem;
+  min-width: 1em;
+  height: 320px;
+  margin-right: 8px;
+
+  .arrow {
+    font-size: 1em;
+    line-height: 1em;
+  }
+
+  .number {
+    font-size: 0.5em;
+    line-height: 1em;
+    color: var(--red);
+  }
+}

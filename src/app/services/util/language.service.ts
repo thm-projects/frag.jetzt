@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable, ReplaySubject } from 'rxjs';
+import { ConfigurationService } from './configuration.service';
 
 export const AVAILABLE_LANGUAGES = ['en', 'de', 'fr'];
 
@@ -7,14 +8,20 @@ export type Language = (typeof AVAILABLE_LANGUAGES)[number];
 
 @Injectable()
 export class LanguageService {
-  private readonly _language = new BehaviorSubject<Language>(null);
+  private _currentLanguage: Language = null;
+  private readonly _language = new ReplaySubject<Language>(1);
+  private _initialized = false;
 
-  constructor() {
-    const data = localStorage.getItem('currentLang');
-    let lang = null;
-    if (AVAILABLE_LANGUAGES.includes(data)) {
-      lang = data;
+  constructor(
+    private configurationService: ConfigurationService,
+  ) {
+  }
+
+  init(storedLanguage: string) {
+    if (this._initialized) {
+      return;
     }
+    let lang = AVAILABLE_LANGUAGES.includes(storedLanguage) ? storedLanguage : null;
     if (!lang) {
       for (const language of navigator.languages) {
         const langKey = language.split('-')[0].toLowerCase();
@@ -25,10 +32,11 @@ export class LanguageService {
       }
     }
     this.setLanguage(lang || AVAILABLE_LANGUAGES[0]);
+    this._initialized = true;
   }
 
   currentLanguage(): Language {
-    return this._language.value;
+    return this._currentLanguage;
   }
 
   getLanguage(): Observable<Language> {
@@ -36,7 +44,8 @@ export class LanguageService {
   }
 
   setLanguage(language: Language): void {
+    this._currentLanguage = language;
     this._language.next(language);
-    localStorage.setItem('currentLang', language);
+    this.configurationService.put('language', language).subscribe();
   }
 }

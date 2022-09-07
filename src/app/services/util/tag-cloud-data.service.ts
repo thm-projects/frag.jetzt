@@ -193,7 +193,7 @@ export class TagCloudDataService {
   }
 
   unloadCloud() {
-    this._filterObject?.detach();
+    this._filterObject?.detach(true);
   }
 
   blockWord(tag: string, room: Room): void {

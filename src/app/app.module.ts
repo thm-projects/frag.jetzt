@@ -3,7 +3,7 @@ import { AppComponent } from './app.component';
 import { RegisterComponent } from './components/home/_dialogs/register/register.component';
 import { PasswordResetComponent } from './components/home/_dialogs/password-reset/password-reset.component';
 import { AppRoutingModule } from './app-routing.module';
-import { MAT_DIALOG_DATA, MatDialogRef, MatDialogModule } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 import { UserService } from './services/http/user.service';
 import { NotificationService } from './services/util/notification.service';
@@ -32,7 +32,7 @@ import { ThemeModule } from '../theme/theme.module';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { ModeratorService } from './services/http/moderator.service';
-import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { DemoVideoComponent } from './components/home/_dialogs/demo-video/demo-video.component';
 import { HomeCreatorPageComponent } from './components/home/home-creator-page/home-creator-page.component';
@@ -80,6 +80,8 @@ import { DemoFrComponent } from '../assets/i18n/components/demo/demo-fr';
 import { DataProtectionFrComponent } from '../assets/i18n/components/data-protection/data-protection-fr';
 import { CookiesFrComponent } from '../assets/i18n/components/cookies/cookies-fr';
 import { AdminModule } from './components/admin/admin.module';
+import { NgxIndexedDBModule } from 'ngx-indexed-db';
+import { DB_CONFIG } from '../indexeddb';
 
 export const dialogClose = (dialogResult: any) => '';
 
@@ -165,6 +167,7 @@ export const HttpLoaderFactory = (http: HttpClient) => new TranslateHttpLoader(h
     TagCloudModule,
     JoyrideModule.forRoot(),
     QuillModule.forRoot(),
+    NgxIndexedDBModule.forRoot(DB_CONFIG),
     MatNativeDateModule
   ],
   providers: [
@@ -208,9 +211,16 @@ export const HttpLoaderFactory = (http: HttpClient) => new TranslateHttpLoader(h
       provide: MAT_DIALOG_DATA,
       useValue: []
     },
-
   ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
+
+  constructor(
+    private languageService: LanguageService,
+    private translateService: TranslateService,
+  ) {
+    this.languageService.getLanguage().subscribe(lang => this.translateService.use(lang));
+  }
+
 }

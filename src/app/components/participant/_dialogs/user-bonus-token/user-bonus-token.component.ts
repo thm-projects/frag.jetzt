@@ -13,7 +13,6 @@ import { ModeratorService } from '../../../../services/http/moderator.service';
 import { map, switchMap } from 'rxjs/operators';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { CommentService } from '../../../../services/http/comment.service';
-import { LanguageService } from '../../../../services/util/language.service';
 import { BonusTokenUtilService } from '../../../../services/util/bonus-token-util.service';
 import { numberSorter } from '../../../../models/comment';
 
@@ -45,7 +44,6 @@ export class UserBonusTokenComponent implements OnInit {
     private roomService: RoomService,
     private commentService: CommentService,
     private translateService: TranslateService,
-    private langService: LanguageService,
     private dialogRef: MatDialogRef<UserBonusTokenComponent>,
     private bonusTokenUtilService: BonusTokenUtilService,
     private moderatorService: ModeratorService,
@@ -55,7 +53,6 @@ export class UserBonusTokenComponent implements OnInit {
     private notificationService: NotificationService,
     private clipboard: Clipboard
   ) {
-    langService.getLanguage().subscribe(lang => translateService.use(lang));
   }
 
   private static escapeForEmail(text: string): string {

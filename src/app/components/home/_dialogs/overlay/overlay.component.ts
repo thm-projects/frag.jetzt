@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import { DialogConfirmActionButtonType } from '../../../shared/dialog/dialog-action-buttons/dialog-action-buttons.component';
+import {
+  DialogConfirmActionButtonType
+} from '../../../shared/dialog/dialog-action-buttons/dialog-action-buttons.component';
 
 @Component({
   selector: 'app-overlay',
@@ -10,25 +12,20 @@ import { DialogConfirmActionButtonType } from '../../../shared/dialog/dialog-act
 export class OverlayComponent implements OnInit {
   confirmButtonType: DialogConfirmActionButtonType;
 
-  constructor(private dialogRef: MatDialogRef<OverlayComponent>) {
+  constructor(
+    private dialogRef: MatDialogRef<OverlayComponent>
+  ) {
     this.confirmButtonType = DialogConfirmActionButtonType.Primary;
   }
 
   ngOnInit() {
   }
 
-  showCookieModal() {
+  onResume() {
     this.dialogRef.close(true);
   }
 
-  /**
-   * Returns a lambda which closes the dialog on call.
-   */
-  buildDeclineActionCallback(): () => void {
-    return () =>  {
-      this.showCookieModal();
-    };
+  onAbort() {
+    this.dialogRef.close(false);
   }
-
-
 }

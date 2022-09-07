@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { MatDialog } from '@angular/material/dialog';
 import { LanguageService } from '../../../../services/util/language.service';
@@ -14,7 +14,7 @@ import { CommentChangeRole, CommentChangeType } from '../../../../models/comment
 import { NotificationEvent } from '../../../../models/dashboard-notification';
 import { DeleteAllNotificationsComponent } from '../delete-all-notifications/delete-all-notifications.component';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, ReplaySubject, takeUntil } from 'rxjs';
 import { SessionService } from '../../../../services/util/session.service';
 
 const LANG_KEYS = [
@@ -150,7 +150,7 @@ const LANGUAGE_MESSAGES: LanguageMessageObject = {
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
 
   toggleFilter: boolean = false;
   hasFilter: boolean = false;
@@ -215,6 +215,7 @@ export class DashboardComponent implements OnInit {
     },
   };
   private _prefetchedLangKeys: object = {};
+  private _destroyer = new ReplaySubject(1);
 
   constructor(
     private _bottomSheetRef: MatBottomSheetRef<DashboardComponent>,
@@ -227,7 +228,7 @@ export class DashboardComponent implements OnInit {
     private router: Router,
     private session: SessionService,
   ) {
-    this.languageService.getLanguage().subscribe(lang => {
+    this.languageService.getLanguage().pipe(takeUntil(this._destroyer)).subscribe(lang => {
       this.translationService.use(lang);
       this.http.get('/assets/i18n/dashboard/' + lang + '.json')
         .subscribe(translation => {
@@ -239,6 +240,11 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     //intentional
+  }
+
+  ngOnDestroy() {
+    this._destroyer.next(1);
+    this._destroyer.complete();
   }
 
   closeDashboard() {

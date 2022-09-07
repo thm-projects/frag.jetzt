@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RoomCreateComponent } from '../../shared/_dialogs/room-create/room-create.component';
 import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
-import { LanguageService } from '../../../services/util/language.service';
+import { SessionService } from '../../../services/util/session.service';
 
 @Component({
   selector: 'app-new-landing',
@@ -12,11 +10,10 @@ import { LanguageService } from '../../../services/util/language.service';
 })
 export class NewLandingComponent implements OnInit {
 
-  constructor(private router: Router,
-              public dialog: MatDialog,
-              private translateService: TranslateService,
-              protected langService: LanguageService) {
-    langService.getLanguage().subscribe(lang => translateService.use(lang));
+  constructor(
+    public dialog: MatDialog,
+    public sessionService: SessionService,
+  ) {
   }
 
   ngOnInit() {
@@ -26,9 +23,5 @@ export class NewLandingComponent implements OnInit {
     this.dialog.open(RoomCreateComponent, {
       width: '350px'
     });
-  }
-
-  cookiesDisabled(): boolean {
-    return localStorage.getItem('cookieAccepted') === 'false';
   }
 }

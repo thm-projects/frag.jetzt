@@ -287,7 +287,7 @@
                [isRemoved]="current?.removed"
                [comment]="current"
                [userRole]="user.role"
-               [parseVote]="getVote(current)"
+               [parseVote]="{}"
                [moderator]="true"
                [commentsWrittenByUser]="commentsWrittenByUsers.get(current.creatorId).size"
                [isFromModerator]="moderatorAccountIds.has(current.creatorId)"
@@ -322,7 +322,8 @@
      fxLayout="row"
      fxLayoutAlign="center center"
      class="no-comments">
-  <p class="oldtypo-p">{{ (search ? 'comment-page.no-comments-with-search' : 'comment-page.no-comments-with-filter') | translate }}</p>
+  <p
+    class="oldtypo-p">{{ (search ? 'comment-page.no-comments-with-search' : 'comment-page.no-comments-with-filter') | translate }}</p>
 </div>
 
 <div class="visually-hidden">

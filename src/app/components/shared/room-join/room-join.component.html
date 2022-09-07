@@ -26,13 +26,13 @@
         <mat-error *ngIf="sessionCodeFormControl.hasError('required')"
                    aria-hidden="true">{{ 'home-page.please-enter' | translate}}</mat-error>
       </mat-form-field>
-      <button [disabled]="cookiesDisabled()"
+      <button [disabled]="!sessionService.isReady"
               id="session_enter-button"
               mat-flat-button
               type="submit"
               aria-labelledby="join-button-label">
         <mat-icon class="join-room material-icons">groups</mat-icon>
-        {{'home-page.join-room' | translate}}
+        {{ 'home-page.join-room' | translate }}
       </button>
     </div>
   </form>

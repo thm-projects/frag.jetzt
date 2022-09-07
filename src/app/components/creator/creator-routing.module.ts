@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { AuthenticationGuard } from '../../guards/authentication.guard';
 import { UserRole } from '../../models/user-roles.enum';
 import { RoomCreatorPageComponent } from './room-creator-page/room-creator-page.component';

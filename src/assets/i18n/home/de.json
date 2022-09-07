@@ -101,6 +101,20 @@
     "cancel": "Schließen",
     "cancel-description": "Schließt die Einführung"
   },
+  "dsgvo": {
+    "unknown-source": "Der Inhalt bezieht sich entweder auf die jetzige Website (Weiterleitung zu einem Raum, bzw. einer URL) oder verweist auf ein externes Protokoll. Soll <u>{{url}}</u> aufgerufen werden?",
+    "unknown-source-button-text": "Aufrufen",
+    "unknown-source-title": "Unbekannte oder interne Quelle",
+    "youtube-video": "Der Inhalt verweist auf ein Video von YouTube. Der Inhalt wurde zur datenschutzkonformen URL angepasst. Soll das Video <u>{{url}}</u> abgespielt werden?",
+    "youtube-video-button-text": "Abspielen",
+    "youtube-video-title": "Youtube Video",
+    "vimeo-video": "Der Inhalt verweist auf ein Video von Vimeo. Soll das Video <u>{{url}}</u> abgespielt werden?",
+    "vimeo-video-button-text": "Abspielen",
+    "vimeo-video-title": "Vimeo Video",
+    "external-source": "Der Inhalt ist eine externe Quelle. Soll <u>{{url}}</u> aufgerufen werden?",
+    "external-source-button-text": "Aufrufen",
+    "external-source-title": "Externe Quelle"
+  },
   "explanation": {
     "add-moderators": "## Moderator\\*innen \n\nGast- und Dauermoderator\\*innen haben die gleichen Rechte wie der/die Ersteller\\*in des Raums. Sie können aber weder Fragen noch den ganzen Raum löschen. \n\nJeder kann mit seiner **Mailadresse**, mit der er sich bei »frag.jetzt« registriert hat, als **Dauermoderator\\*in** aufgenommen werden. \n\nEin unregistrierter User kann **Gastmoderator\\*in** werden, wenn er oder sie den Raum per **Direktlink** oder 8-stelligen **Zugangscode** betritt.",
     "bonus-archive": "## Bonus-Archiv \n\nHier werden alle Fragen aufgelistet, die du in deinen Räumen mit einem Stern markiert hast. Anhand der Liste kannst du überprüfen, ob der Bonuscode, den dir ein/e Teilnehmer\\*in per Mail geschickt hat, gültig ist. \n\nUm einen Code schnell zu finden, gibt es ein Suchfeld. Ist der Code gültig, kannst du dir die entsprechende Frage direkt über einen Link anzeigen lassen.",
@@ -334,6 +348,7 @@
     "e-mail": "E-Mail",
     "forgot-password": "Passwort zurücksetzen",
     "forgot-password-description": "",
+    "inactive-info": "Du wurdest wegen Inaktivität ausgeloggt.",
     "login": "Anmelden",
     "or": "oder",
     "password": "Passwort",
@@ -371,8 +386,10 @@
     "tooltip-recreate": "Zugangscode für Gastmoderator*innen erzeugen"
   },
   "overlay": {
-    "cancel": "Ich hab's mir überlegt …",
-    "cancel-description": "Öffnet den Dialog zur Verwendung der Web-Storage-Technik in frag.jetzt",
+    "understood": "Ich hab's mir überlegt …",
+    "understood-description": "Kehre zurück zum vorherigen Dialog",
+    "cancel": "App verlassen",
+    "cancel-description": "Verlässt die App",
     "message": "Als Gast kannst du »frag.jetzt« völlig anonym nutzen.",
     "title": "Noch einmal überlegen?"
   },

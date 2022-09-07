@@ -101,6 +101,20 @@
     "cancel": "Close",
     "cancel-description": "Close the introduction dialog"
   },
+  "dsgvo": {
+    "unknown-source": "The content either refers to the current website (redirection to a room, or URL) or refers to an external protocol. Should <u>{{url}}</u> be called?",
+    "unknown-source-button-text": "Call up",
+    "unknown-source-title": "Unknown or internal source",
+    "youtube-video": "The content links to a video from YouTube. The content has been adapted to the privacy-compliant URL. Should the video <u>{{url}}</u> be played?",
+    "youtube-video-button-text": "Play",
+    "youtube-video-title": "Youtube video",
+    "vimeo-video": "The content links to a video from Vimeo. Should the video <u>{{url}}</u> be played?",
+    "vimeo-video-button-text": "Play",
+    "vimeo-video-title": "Vimeo video",
+    "external-source": "The content is an external source. Should <u>{{url}}</u> be called?",
+    "external-source-button-text": "Call up",
+    "external-source-title": "External source"
+  },
   "explanation": {
     "add-moderators": "## Moderators \n\nGuest and permanent moderators have the same rights as the creator of the room. But they can't delete questions or the whole room. \n\nEveryone can be added as a **permanent moderator** with their **mail address** with which they registered at »frag.jetzt«. \n\nAn unregistered user can become a **guest moderator** by entering the room via **direct link** or 8-digit **access code**.",
     "bonus-archive": "## Bonus Archive \n\nAll questions that you have marked with a star in your rooms are listed here. You can use the list to check whether the bonus code that a participant sent you by mail is valid. \n\nTo find a code quickly, there is a search field. If the code is valid, you can display the corresponding question directly via a link.",
@@ -334,6 +348,7 @@
     "e-mail": "E-mail",
     "forgot-password": "Reset password",
     "forgot-password-description": "",
+    "inactive-info": "You have been logged out due to inactivity.",
     "login": "Sign in",
     "or": "or",
     "password": "Password",
@@ -371,8 +386,10 @@
     "tooltip-recreate": "Generate access code for guest moderators"
   },
   "overlay": {
-    "cancel": "I have thought it over again …",
-    "cancel-description": "Opens the web storage setting dialog",
+    "understood": "I have thought it over again …",
+    "understood-description": "Return to the previous dialog",
+    "cancel": "Exit app",
+    "cancel-description": "Exits the app",
     "message": "As a guest, you can use »frag.jetzt« completely anonymously.",
     "title": "Think again?"
   },

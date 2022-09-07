@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { RxStomp } from '@stomp/rx-stomp';
-import { AuthenticationService } from '../http/authentication.service';
 import { User } from '../../models/user';
 import { ARSRxStompConfig } from '../../rx-stomp.config';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { IMessage } from '@stomp/stompjs';
+import { UserManagementService } from '../util/user-management.service';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +22,7 @@ export class WsConnectorService {
   private isConnecting: boolean = false;
 
   constructor(
-    private authService: AuthenticationService
+    private userManagementService: UserManagementService,
   ) {
     this.client = new RxStomp();
     this.client.connectionState$.subscribe(() => {
@@ -31,7 +31,7 @@ export class WsConnectorService {
         this.connected$.next(connected);
       }
     });
-    authService.getUserAsSubject().subscribe((user: User) => {
+    userManagementService.getUser().subscribe((user: User) => {
       this.onUserUpdate(user);
     });
   }

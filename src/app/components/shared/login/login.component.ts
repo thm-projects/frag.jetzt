@@ -1,15 +1,16 @@
 import { Component, Inject, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { AuthenticationService, LoginResult } from '../../../services/http/authentication.service';
+import { LoginResult, LoginResultArray } from '../../../services/http/authentication.service';
 import { Router } from '@angular/router';
 import { NotificationService } from '../../../services/util/notification.service';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
-import { UserRole } from '../../../models/user-roles.enum';
 import { TranslateService } from '@ngx-translate/core';
 import { UserActivationComponent } from '../../home/_dialogs/user-activation/user-activation.component';
 import { PasswordResetComponent } from '../../home/_dialogs/password-reset/password-reset.component';
 import { RegisterComponent } from '../../home/_dialogs/register/register.component';
 import { ErrorStateMatcher } from '@angular/material/core';
+import { UserManagementService } from '../../../services/util/user-management.service';
+import { Observable } from 'rxjs';
 
 export class LoginErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -24,22 +25,17 @@ export class LoginErrorStateMatcher implements ErrorStateMatcher {
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit, OnChanges {
-  role: UserRole;
   username: string;
   password: string;
-  isStandard = true;
-
+  redirectUrl = null;
   usernameFormControl = new FormControl('', [Validators.required, Validators.email]);
   passwordFormControl = new FormControl('', [Validators.required]);
-
   matcher = new LoginErrorStateMatcher();
-
   name = '';
-
   hide = true;
 
   constructor(
-    public authenticationService: AuthenticationService,
+    public userManagementService: UserManagementService,
     public router: Router,
     private translationService: TranslateService,
     public notificationService: NotificationService,
@@ -86,9 +82,8 @@ export class LoginComponent implements OnInit, OnChanges {
 
     if (!this.usernameFormControl.hasError('required') && !this.usernameFormControl.hasError('email') &&
       !this.passwordFormControl.hasError('required')) {
-      this.authenticationService.login(this.username, this.password, this.role).subscribe(loginSuccessful => {
-        this.checkLogin(loginSuccessful);
-      });
+      this.userManagementService.login(this.username, this.password)
+        .subscribe(loginSuccessful => this.checkLogin(loginSuccessful));
     } else {
       this.translationService.get('login.input-incorrect').subscribe(message => {
         this.notificationService.show(message);
@@ -97,7 +92,8 @@ export class LoginComponent implements OnInit, OnChanges {
   }
 
   guestLogin(): void {
-    this.authenticationService.guestLogin(this.role).subscribe(loginSuccessful => this.checkLogin(loginSuccessful));
+    this.userManagementService.loginAsGuest()
+      .subscribe(loginSuccessful => this.checkLogin(loginSuccessful));
   }
 
   openPasswordDialog(initProcess = true): void {
@@ -137,27 +133,22 @@ export class LoginComponent implements OnInit, OnChanges {
     return () => this.login(userEmail.value, userPassword.value);
   }
 
-  private checkLogin(loginResult: LoginResult) {
-    if (loginResult === LoginResult.FailureActivation) {
+  private checkLogin(loginResult: LoginResultArray) {
+    if (loginResult[0] === LoginResult.FailureActivation) {
       this.activateUser();
       return;
     }
-    if (loginResult === LoginResult.FailurePasswordReset) {
+    if (loginResult[0] === LoginResult.FailurePasswordReset) {
       this.openPasswordDialog(false);
       return;
     }
-    if (loginResult !== LoginResult.Success) {
+    if (loginResult[0] !== LoginResult.Success) {
       this.translationService.get('login.login-data-incorrect').subscribe(message => {
         this.notificationService.show(message);
       });
       return;
     }
-    this.translationService.get('login.login-successful').subscribe(message => {
-      this.notificationService.show(message);
-    });
     this.dialog.closeAll();
-    if (this.isStandard) {
-      this.router.navigate(['user']);
-    }
+    this.router.navigate([this.redirectUrl ?? 'user']);
   }
 }

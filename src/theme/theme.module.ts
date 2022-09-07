@@ -9,6 +9,7 @@ import { ThemeDirective } from './theme.directive';
     FormsModule
   ],
   declarations: [ThemeDirective],
-  exports:      [ThemeDirective],
+  exports: [ThemeDirective],
 })
-export class ThemeModule { }
+export class ThemeModule {
+}
