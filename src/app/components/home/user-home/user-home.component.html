@@ -11,6 +11,7 @@
        fxLayoutAlign="center"
        class="button-container">
     <button class="new-session"
+            [disabled]="!this.sessionService.isReady"
             mat-flat-button
             (click)="openCreateRoomDialog()"
             id="create_session-button">

@@ -1,9 +1,12 @@
 <h1 tabindex="0" mat-dialog-title>{{ 'introductions.brainstorming-title' | translate }} </h1>
 
 <mat-dialog-content tabindex="0">
-  <app-introduction-brainstorming-en *ngIf="languageService.currentLanguage() === 'en'"></app-introduction-brainstorming-en>
-  <app-introduction-brainstorming-de *ngIf="languageService.currentLanguage() === 'de'"></app-introduction-brainstorming-de>
-  <app-introduction-brainstorming-fr *ngIf="languageService.currentLanguage() === 'fr'"></app-introduction-brainstorming-fr>
+  <app-introduction-brainstorming-en
+    *ngIf="languageService.currentLanguage() === 'en'"></app-introduction-brainstorming-en>
+  <app-introduction-brainstorming-de
+    *ngIf="languageService.currentLanguage() === 'de'"></app-introduction-brainstorming-de>
+  <app-introduction-brainstorming-fr
+    *ngIf="languageService.currentLanguage() === 'fr'"></app-introduction-brainstorming-fr>
 </mat-dialog-content>
 
 <app-dialog-action-buttons

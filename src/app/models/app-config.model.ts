@@ -1,14 +1,14 @@
 export interface IAppConfig {
-    env: {
-        name: string;
-    };
+  env: {
+    name: string;
+  };
 
-    authentication: {
-        lecturer: {
-            allowGuest: boolean;
-        };
-        student: {
-            allowGuest: boolean;
-        };
+  authentication: {
+    lecturer: {
+      allowGuest: boolean;
     };
+    student: {
+      allowGuest: boolean;
+    };
+  };
 }

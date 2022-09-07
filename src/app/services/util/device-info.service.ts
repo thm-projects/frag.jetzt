@@ -9,6 +9,7 @@ export class DeviceInfoService {
   private readonly _isSafari;
   private readonly _userAgentDeviceType;
   private readonly _isMobile = new BehaviorSubject(false);
+  private readonly _isDark = new BehaviorSubject(true);
 
   constructor() {
     const userAgent = navigator.userAgent;
@@ -34,6 +35,11 @@ export class DeviceInfoService {
     this._isMobile.next(match.matches);
     match.addEventListener('change', (e) => {
       this._isMobile.next(e.matches);
+    });
+    const dark = window.matchMedia('(prefers-color-scheme: dark)');
+    this._isDark.next(dark.matches);
+    dark.addEventListener('change', (e) => {
+      this._isDark.next(e.matches);
     });
   }
 
@@ -61,7 +67,15 @@ export class DeviceInfoService {
     return !this._isMobile.value;
   }
 
+  get isCurrentlyDark(): boolean {
+    return this._isDark.value;
+  }
+
   public isMobile(): Observable<boolean> {
     return this._isMobile.asObservable();
+  }
+
+  public isDark(): Observable<boolean> {
+    return this._isDark.asObservable();
   }
 }

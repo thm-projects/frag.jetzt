@@ -1,8 +1,6 @@
 import { Component, Inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { NotificationService } from '../../../../services/util/notification.service';
-import { TranslateService } from '@ngx-translate/core';
-import { LanguageService } from '../../../../services/util/language.service';
 import { EventService } from '../../../../services/util/event.service';
 import { Router } from '@angular/router';
 import { RoomService } from '../../../../services/http/room.service';
@@ -18,9 +16,9 @@ import { RoomDataService } from '../../../../services/util/room-data.service';
 import { Subscription } from 'rxjs';
 import { SessionService } from '../../../../services/util/session.service';
 import { Period, RoomDataFilter } from '../../../../utils/data-filter-object.lib';
-import { AuthenticationService } from '../../../../services/http/authentication.service';
 import { FilteredDataAccess } from '../../../../utils/filtered-data-access';
 import { take } from 'rxjs/operators';
+import { UserManagementService } from '../../../../services/util/user-management.service';
 
 class CommentsCount {
   comments: number;
@@ -50,8 +48,6 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
     public dialogRef: MatDialogRef<TopicCloudFilterComponent>,
     public dialog: MatDialog,
     public notificationService: NotificationService,
-    public translationService: TranslateService,
-    protected langService: LanguageService,
     private router: Router,
     protected roomService: RoomService,
     @Inject(MAT_DIALOG_DATA) public data: { filterObject: FilteredDataAccess },
@@ -59,9 +55,8 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
     private sessionService: SessionService,
     private topicCloudAdminService: TopicCloudAdminService,
     private roomDataService: RoomDataService,
-    private authenticationService: AuthenticationService,
+    private userManagementService: UserManagementService,
   ) {
-    langService.getLanguage().subscribe(lang => translationService.use(lang));
     this._adminData = TopicCloudAdminService.getDefaultAdminData;
     this.isTopicRequirementActive = !TopicCloudAdminService.isTopicRequirementDisabled(this._adminData);
   }
@@ -119,12 +114,12 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
     const blacklist = room.blacklist ? JSON.parse(room.blacklist) : [];
     const currentComments = [...this.data.filterObject.getCurrentData()];
     const mods = new Set<string>(this.sessionService.currentModerators.map(m => m.accountId));
-    const filter = FilteredDataAccess.buildNormalAccess(this.sessionService, this.roomDataService, true, false, 'dummy');
+    const filter = FilteredDataAccess.buildNormalAccess(this.sessionService, this.roomDataService, false, false, 'dummy');
     const newFilter = filter.dataFilter;
     newFilter.resetToDefault();
     filter.dataFilter = newFilter;
     filter.attach({
-      userId: this.authenticationService.getUser()?.id,
+      userId: this.userManagementService.getCurrentUser()?.id,
       roomId: room.id,
       ownerId: room.ownerId,
       threshold: room.threshold,

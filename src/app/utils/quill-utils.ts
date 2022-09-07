@@ -1,7 +1,4 @@
 import { Immutable, MakeUnique } from './ts-utils';
-import {
-  QuillInputDialogComponent
-} from '../components/shared/_dialogs/quill-input-dialog/quill-input-dialog.component';
 
 export interface DeltaOpInsert {
   insert: string | {
@@ -19,6 +16,12 @@ export interface DeltaOpInsert {
 
 export interface Delta<T> {
   ops: T[];
+}
+
+export enum URLType {
+  NORMAL,
+  YOUTUBE,
+  VIMEO,
 }
 
 export type StandardDelta = Delta<DeltaOpInsert>;
@@ -71,6 +74,21 @@ export class QuillUtils {
     }, 0);
   }
 
+  static getVideoUrl(url): [string, URLType] {
+    let match = url.match(/^(?:(https?):\/\/)?(?:(?:www|m)\.)?youtube\.com\/watch.*v=([a-zA-Z0-9_-]+)/) ||
+      url.match(/^(?:(https?):\/\/)?(?:(?:www|m)\.)?youtu\.be\/([a-zA-Z0-9_-]+)/) ||
+      url.match(/^.*(youtu.be\/|v\/|e\/|u\/\w+\/|embed\/|v=)([^#&?]*).*/) ||
+      url.match(/^(?:(https?):\/\/)?www\.youtube-nocookie\.com\/embed\/([a-zA-Z0-9_-]+)/);
+    if (match && match[2].length === 11) {
+      return ['https://www.youtube-nocookie.com/embed/' + match[2] + '?showinfo=0', URLType.YOUTUBE];
+    }
+    match = url.match(/^(?:(https?):\/\/)?(?:(?:www|player)\.)?vimeo\.com\/(\d+)/);
+    if (match) {
+      return [(match[1] || 'https') + '://player.vimeo.com/video/' + match[2] + '/', URLType.VIMEO];
+    }
+    return [url, URLType.NORMAL];
+  }
+
   static transformURLtoQuillLink(data: StandardDelta, transformToVideo: boolean) {
     data.ops = data.ops.reduce((acc, op) => {
       if (op.attributes?.link || typeof op.insert !== 'string') {
@@ -94,9 +112,9 @@ export class QuillUtils {
       }
       lastIndex = m.index + m[0].length;
       const link = m[1]?.toLowerCase() === 'www.' ? 'https://' + m[0] : m[0];
-      const videoLink = transformToVideo && QuillInputDialogComponent.getVideoUrl(link);
+      const videoLink = transformToVideo && QuillUtils.getVideoUrl(link);
       if (videoLink) {
-        acc.push({ insert: { video: videoLink } });
+        acc.push({ insert: { video: videoLink[0] } });
       } else {
         acc.push({ attributes: { ...currentObject.attributes, link }, insert: link });
       }

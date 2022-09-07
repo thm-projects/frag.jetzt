@@ -6,4 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./data-protection.scss']
 })
 
-export class DataProtectionEnComponent {}
+export class DataProtectionEnComponent {
+}

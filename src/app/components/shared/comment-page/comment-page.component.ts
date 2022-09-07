@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Renderer2, AfterContentInit } from '@angular/core';
+import { AfterContentInit, Component, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NotificationService } from '../../../services/util/notification.service';
 import { AuthenticationService } from '../../../services/http/authentication.service';

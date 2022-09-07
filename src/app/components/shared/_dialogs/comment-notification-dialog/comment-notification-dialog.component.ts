@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Room } from '../../../../models/room';
 import { MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
@@ -6,7 +6,8 @@ import { LanguageService } from '../../../../services/util/language.service';
 import { CommentNotificationService } from '../../../../services/http/comment-notification.service';
 import { NotificationService } from '../../../../services/util/notification.service';
 import { CommentNotification } from '../../../../models/comment-notification';
-import { AuthenticationService } from '../../../../services/http/authentication.service';
+import { ReplaySubject, takeUntil } from 'rxjs';
+import { UserManagementService } from '../../../../services/util/user-management.service';
 
 enum WeekDay {
   Monday,
@@ -23,7 +24,7 @@ enum WeekDay {
   templateUrl: './comment-notification-dialog.component.html',
   styleUrls: ['./comment-notification-dialog.component.scss']
 })
-export class CommentNotificationDialogComponent implements OnInit {
+export class CommentNotificationDialogComponent implements OnInit, OnDestroy {
 
   @Input() room: Room;
   date: Date;
@@ -32,6 +33,7 @@ export class CommentNotificationDialogComponent implements OnInit {
   private notifications: [Date, string][] = [null, null, null, null, null, null, null];
   private lastSetting: string;
   private settingInactive: string;
+  private _destroyer = new ReplaySubject(1);
 
   constructor(
     private dialogRef: MatDialogRef<CommentNotificationDialogComponent>,
@@ -39,10 +41,9 @@ export class CommentNotificationDialogComponent implements OnInit {
     private languageService: LanguageService,
     private commentNotificationService: CommentNotificationService,
     private notificationService: NotificationService,
-    private authenticationService: AuthenticationService,
+    private userManagementService: UserManagementService,
   ) {
-    this.languageService.getLanguage().subscribe(lang => {
-      this.translateService.use(lang);
+    this.languageService.getLanguage().pipe(takeUntil(this._destroyer)).subscribe(_ => {
       this.translateService.get('comment-notification.last-setting')
         .subscribe(text => this.lastSetting = text);
       this.translateService.get('comment-notification.setting-inactive')
@@ -84,7 +85,7 @@ export class CommentNotificationDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (!this.authenticationService.getUser()?.loginId) {
+    if (!this.userManagementService.getCurrentUser()?.loginId) {
       return;
     }
     this.commentNotificationService.findByRoomId(this.room.id).subscribe(settings => {
@@ -92,6 +93,11 @@ export class CommentNotificationDialogComponent implements OnInit {
       this.isLoading = false;
       this.updateDateTo(WeekDay.Monday);
     });
+  }
+
+  ngOnDestroy() {
+    this._destroyer.next(1);
+    this._destroyer.complete();
   }
 
   confirm() {

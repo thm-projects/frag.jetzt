@@ -1,9 +1,12 @@
 <h1 tabindex="0" mat-dialog-title>{{ 'introductions.question-wall-title' | translate }} </h1>
 
 <mat-dialog-content tabindex="0">
-  <app-introduction-question-wall-en *ngIf="languageService.currentLanguage() === 'en'"></app-introduction-question-wall-en>
-  <app-introduction-question-wall-de *ngIf="languageService.currentLanguage() === 'de'"></app-introduction-question-wall-de>
-  <app-introduction-question-wall-fr *ngIf="languageService.currentLanguage() === 'fr'"></app-introduction-question-wall-fr>
+  <app-introduction-question-wall-en
+    *ngIf="languageService.currentLanguage() === 'en'"></app-introduction-question-wall-en>
+  <app-introduction-question-wall-de
+    *ngIf="languageService.currentLanguage() === 'de'"></app-introduction-question-wall-de>
+  <app-introduction-question-wall-fr
+    *ngIf="languageService.currentLanguage() === 'fr'"></app-introduction-question-wall-fr>
 </mat-dialog-content>
 
 <app-dialog-action-buttons

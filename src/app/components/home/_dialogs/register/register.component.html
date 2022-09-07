@@ -1,54 +1,54 @@
 <mat-dialog-content>
-<form (ngSubmit)="register(userName.value, userPassword1.value)" fxLayout="column"
-      fxLayoutAlign="space-around" fxLayoutGap="10px">
-  <mat-form-field class="input-block">
-    <input appAccessibilityEscapedInput
-           matInput type="email" #userName [formControl]="usernameFormControl"
-           [errorStateMatcher]="matcher" aria-labelledby="register-email-description">
-    <mat-placeholder class="placeholder">{{ 'register.email' | translate }}</mat-placeholder>
-    <mat-error *ngIf="usernameFormControl.hasError('email') && !usernameFormControl.hasError('required')">
-      {{ 'register.email-invalid' | translate }}
-    </mat-error>
-    <mat-error *ngIf="usernameFormControl.hasError('required')">
-      {{ 'register.email-required' |translate }}
-    </mat-error>
-  </mat-form-field>
+  <form (ngSubmit)="register(userName.value, userPassword1.value)" fxLayout="column"
+        fxLayoutAlign="space-around" fxLayoutGap="10px">
+    <mat-form-field class="input-block">
+      <input appAccessibilityEscapedInput
+             matInput type="email" #userName [formControl]="usernameFormControl"
+             [errorStateMatcher]="matcher" aria-labelledby="register-email-description">
+      <mat-placeholder class="placeholder">{{ 'register.email' | translate }}</mat-placeholder>
+      <mat-error *ngIf="usernameFormControl.hasError('email') && !usernameFormControl.hasError('required')">
+        {{ 'register.email-invalid' | translate }}
+      </mat-error>
+      <mat-error *ngIf="usernameFormControl.hasError('required')">
+        {{ 'register.email-required' |translate }}
+      </mat-error>
+    </mat-form-field>
 
-  <mat-form-field class="input-block">
-    <input appAccessibilityEscapedInput
-           matInput type="email" #userName2 [formControl]="username2FormControl"
-           [errorStateMatcher]="matcher" aria-labelledby="register-email-description-repeat">
-    <mat-placeholder class="placeholder">{{ 'register.email-verify' | translate }}</mat-placeholder>
-    <mat-error *ngIf="username2FormControl.hasError('emailIsEqual') && !username2FormControl.hasError('required')">
-      {{ 'register.email-unmatch' | translate }}
-    </mat-error>
-  </mat-form-field>
+    <mat-form-field class="input-block">
+      <input appAccessibilityEscapedInput
+             matInput type="email" #userName2 [formControl]="username2FormControl"
+             [errorStateMatcher]="matcher" aria-labelledby="register-email-description-repeat">
+      <mat-placeholder class="placeholder">{{ 'register.email-verify' | translate }}</mat-placeholder>
+      <mat-error *ngIf="username2FormControl.hasError('emailIsEqual') && !username2FormControl.hasError('required')">
+        {{ 'register.email-unmatch' | translate }}
+      </mat-error>
+    </mat-form-field>
 
-  <mat-form-field class="input-block">
-    <input appAccessibilityEscapedInput
-           matInput type="password" #userPassword1
-           [formControl]="password1FormControl" [errorStateMatcher]="matcher"
-           aria-labelledby="register-password-description">
-    <mat-placeholder class="placeholder">{{ 'register.password' | translate }}</mat-placeholder>
-    <mat-error *ngIf="password1FormControl.hasError('required')">
-      {{ 'register.password-required' | translate }}
-    </mat-error>
-  </mat-form-field>
+    <mat-form-field class="input-block">
+      <input appAccessibilityEscapedInput
+             matInput type="password" #userPassword1
+             [formControl]="password1FormControl" [errorStateMatcher]="matcher"
+             aria-labelledby="register-password-description">
+      <mat-placeholder class="placeholder">{{ 'register.password' | translate }}</mat-placeholder>
+      <mat-error *ngIf="password1FormControl.hasError('required')">
+        {{ 'register.password-required' | translate }}
+      </mat-error>
+    </mat-form-field>
 
-  <mat-form-field class="input-block">
-    <input appAccessibilityEscapedInput
-           matInput type="password" #userPassword2
-           [formControl]="password2FormControl" [errorStateMatcher]="matcher"
-           aria-labelledby="register-password-description-repeat">
-    <mat-placeholder class="placeholder">{{ 'register.password-verify' | translate}}</mat-placeholder>
-    <mat-error *ngIf="password2FormControl.hasError('required')">
-      {{ 'register.password-required' | translate }}
-    </mat-error>
-    <mat-error *ngIf="password2FormControl.hasError('passwordIsEqual') && !password2FormControl.hasError('required')">
-      {{ 'register.password-unmatch' | translate }}
-    </mat-error>
-  </mat-form-field>
-</form>
+    <mat-form-field class="input-block">
+      <input appAccessibilityEscapedInput
+             matInput type="password" #userPassword2
+             [formControl]="password2FormControl" [errorStateMatcher]="matcher"
+             aria-labelledby="register-password-description-repeat">
+      <mat-placeholder class="placeholder">{{ 'register.password-verify' | translate}}</mat-placeholder>
+      <mat-error *ngIf="password2FormControl.hasError('required')">
+        {{ 'register.password-required' | translate }}
+      </mat-error>
+      <mat-error *ngIf="password2FormControl.hasError('passwordIsEqual') && !password2FormControl.hasError('required')">
+        {{ 'register.password-unmatch' | translate }}
+      </mat-error>
+    </mat-form-field>
+  </form>
 </mat-dialog-content>
 
 <app-dialog-action-buttons

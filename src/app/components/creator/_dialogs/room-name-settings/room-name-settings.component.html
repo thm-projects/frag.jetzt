@@ -15,7 +15,7 @@
     <mat-error *ngIf="roomNameFormControl.hasError('required')
           || roomNameFormControl.hasError('minlength')
           || roomNameFormControl.hasError('maxlength')">
-      {{ 'room-page.name-length-error' | translate: { min: roomNameLengthMin, max: roomNameLengthMax } }}
+      {{ 'room-page.name-length-error' | translate: {min: roomNameLengthMin, max: roomNameLengthMax} }}
     </mat-error>
   </mat-form-field>
 </div>

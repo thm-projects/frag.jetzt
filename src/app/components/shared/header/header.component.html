@@ -14,6 +14,7 @@
             mat-button
             aria-labelledby="tour-label"
             class="focus_button"
+            [disabled]="!startUpFinished()"
             *ngIf="router.url.endsWith('/home') && !deviceInfo.isSafari"
             (click)="startTour()">
       <mat-icon class="header-icons material-icons-outlined">flag</mat-icon>
@@ -23,7 +24,7 @@
     </button>
 
     <div class="header-content-container"
-         [ngClass]="{'darken': themeService.currentTheme.isDark}">
+         [ngClass]="{'darken': themeService.currentTheme?.isDark}">
 
       <button mat-flat-button
               tabindex="0"
@@ -58,10 +59,10 @@
         <span>{{'header.brainstorming' | translate}}</span>
       </button>
 
-      <div *ngIf="toggleUserActivity">
+      <div *ngIf="headerService.isToggleCurrentUserActivity()">
         <div class="userActivityIcon"
              matTooltip="{{'header.users-online' | translate}}"></div>
-        <p class="userActivityTxt">{{userActivity}}</p>
+        <p class="userActivityTxt">{{headerService.getCurrentUserActivity()}}</p>
       </div>
 
       <div *ngIf="room?.brainstormingSession?.active">
@@ -306,7 +307,7 @@
       </button>
 
       <button mat-menu-item
-              *ngIf="user && !user.isGuest && user.loginId && authenticationService.isSuperAdmin && router.url.endsWith('/user')"
+              *ngIf="user && !user.isGuest && user.loginId && userManagementService.getCurrentUser()?.isSuperAdmin && router.url.endsWith('/user')"
               (click)="routeAdmin()"
               tabindex="0">
         <mat-icon class="color-warn">campaign</mat-icon>
@@ -355,7 +356,7 @@
         </div>
       </ng-template>
 
-      <button [disabled]="cookiesDisabled()"
+      <button [disabled]="!startUpFinished()"
               mat-button
               [joyrideStep]="'optionHeader'"
               [stepPosition]="'center'"
@@ -367,7 +368,7 @@
         <ng-container [ngTemplateOutlet]="optionContent"></ng-container>
       </button>
 
-      <button [disabled]="cookiesDisabled()"
+      <button [disabled]="!startUpFinished()"
               mat-icon-button
               [joyrideStep]="'optionHeader'"
               [stepPosition]="'center'"
@@ -390,24 +391,24 @@
       </ng-template>
 
       <button id="login-button"
-              [disabled]="cookiesDisabled()"
+              [disabled]="!startUpFinished()"
               mat-button
               [joyrideStep]="'loginButtonHeader'"
               [stepPosition]="'center'"
               appJoyrideTemplate
               *ngIf="!user && deviceInfo.isCurrentlyDesktop"
-              (click)=login(false)
+              (click)=login()
               aria-labelledby="login-label">
         <ng-container [ngTemplateOutlet]="loginBtnContent"></ng-container>
       </button>
 
-      <button [disabled]="cookiesDisabled()"
+      <button [disabled]="!startUpFinished()"
               mat-icon-button
               [joyrideStep]="'loginButtonHeader'"
               [stepPosition]="'center'"
               appJoyrideTemplate
               *ngIf="!user && deviceInfo.isCurrentlyMobile"
-              (click)=login(false)
+              (click)=login()
               aria-labelledby="login-label">
         <ng-container [ngTemplateOutlet]="loginBtnContent"></ng-container>
       </button>

@@ -1,17 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { LanguageService } from '../../../services/util/language.service';
 import { TranslateService } from '@ngx-translate/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { DateAdapter } from '@angular/material/core';
 import { MotdService } from '../../../services/http/motd.service';
 import { NotificationService } from '../../../services/util/notification.service';
+import { ReplaySubject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-create-motd',
   templateUrl: './create-motd.component.html',
   styleUrls: ['./create-motd.component.scss']
 })
-export class CreateMotdComponent implements OnInit {
+export class CreateMotdComponent implements OnInit, OnDestroy {
 
   startDate: Date = new Date();
   endDate: Date = new Date(this.startDate.getTime() + 1_000 * 3_600 * 24 * 7);
@@ -21,6 +22,7 @@ export class CreateMotdComponent implements OnInit {
   });
   langEntries = ['', '', ''];
   private isSending = false;
+  private _destroyer = new ReplaySubject(1);
 
   constructor(
     private languageService: LanguageService,
@@ -29,13 +31,17 @@ export class CreateMotdComponent implements OnInit {
     private motdService: MotdService,
     private notification: NotificationService,
   ) {
-    this.languageService.getLanguage().subscribe(lang => {
-      this.translateService.use(lang);
+    this.languageService.getLanguage().pipe(takeUntil(this._destroyer)).subscribe(lang => {
       this._adapter.setLocale(lang);
     });
   }
 
   ngOnInit(): void {
+  }
+
+  ngOnDestroy() {
+    this._destroyer.next(1);
+    this._destroyer.complete();
   }
 
   createEntry() {

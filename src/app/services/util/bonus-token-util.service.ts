@@ -9,17 +9,18 @@ import { BonusToken } from '../../models/bonus-token';
 export class BonusTokenUtilService {
 
   constructor(
-      private commentService: CommentService,
-      private bonusTokenService: BonusTokenService
-  ) {}
+    private commentService: CommentService,
+    private bonusTokenService: BonusTokenService
+  ) {
+  }
 
   setQuestionNumber(bts: BonusToken[]): BonusToken[] {
-        bts.forEach(bt => {
-            this.commentService.getComment(bt.commentId).subscribe(comment => {
-                bt.questionNumber = comment.number;
-            });
-        });
-        return bts;
+    bts.forEach(bt => {
+      this.commentService.getComment(bt.commentId).subscribe(comment => {
+        bt.questionNumber = comment.number;
+      });
+    });
+    return bts;
   }
 }
 

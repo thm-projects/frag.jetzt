@@ -1,6 +1,5 @@
 import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { LanguageService } from '../../../../services/util/language.service';
 import { TagCloudDataService, TagCloudDataTagEntry } from '../../../../services/util/tag-cloud-data.service';
 import { Language, LanguagetoolResult, LanguagetoolService } from '../../../../services/http/languagetool.service';
 import { FormControl } from '@angular/forms';
@@ -45,7 +44,6 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
   private _isSending = false;
 
   constructor(
-    private langService: LanguageService,
     private translateService: TranslateService,
     private tagCloudDataService: TagCloudDataService,
     private languagetoolService: LanguagetoolService,
@@ -55,9 +53,6 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
     private notificationService: NotificationService,
     private brainstormingService: BrainstormingService,
   ) {
-    this.langService.getLanguage().subscribe(lang => {
-      this.translateService.use(lang);
-    });
   }
 
   ngOnInit(): void {

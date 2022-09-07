@@ -1,8 +1,6 @@
 import { AfterViewInit, Component, OnInit, Renderer2, ViewChild } from '@angular/core';
-import { AuthenticationService } from '../../../services/http/authentication.service';
 import { NotificationService } from '../../../services/util/notification.service';
 import { Router } from '@angular/router';
-import { User } from '../../../models/user';
 import { UserRole } from '../../../models/user-roles.enum';
 import { Location } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
@@ -19,7 +17,6 @@ import { UserBonusTokenComponent } from '../../participant/_dialogs/user-bonus-t
 import { RemindOfTokensComponent } from '../../participant/_dialogs/remind-of-tokens/remind-of-tokens.component';
 import { QrCodeDialogComponent } from '../_dialogs/qr-code-dialog/qr-code-dialog.component';
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
-import { MotdService } from '../../../services/http/motd.service';
 import { RoomService } from '../../../services/http/room.service';
 import { Room } from '../../../models/room';
 import { TagCloudDataService } from '../../../services/util/tag-cloud-data.service';
@@ -32,9 +29,10 @@ import {
   TopicCloudBrainstormingComponent
 } from '../_dialogs/topic-cloud-brainstorming/topic-cloud-brainstorming.component';
 import { SessionService } from '../../../services/util/session.service';
-import { LanguageService } from '../../../services/util/language.service';
 import { DeviceInfoService } from '../../../services/util/device-info.service';
 import { CommentNotificationService } from '../../../services/http/comment-notification.service';
+import { ManagedUser, UserManagementService } from '../../../services/util/user-management.service';
+import { StartUpService } from '../../../services/util/start-up.service';
 
 @Component({
   selector: 'app-header',
@@ -43,7 +41,7 @@ import { CommentNotificationService } from '../../../services/http/comment-notif
 })
 export class HeaderComponent implements OnInit, AfterViewInit {
   @ViewChild(ArsComposeHostDirective) host: ArsComposeHostDirective;
-  user: User;
+  user: ManagedUser;
   userRole: UserRole;
   cTime: string;
   motdState = false;
@@ -52,8 +50,6 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   commentsCountUsers = 0;
   commentsCountKeywords = 0;
   isAdminConfigEnabled = false;
-  toggleUserActivity = false;
-  userActivity = '?';
   isInRouteWithRoles = false;
   hasEmailNotifications = false;
   hasKeywords = false;
@@ -61,7 +57,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
 
   constructor(
     public location: Location,
-    public authenticationService: AuthenticationService,
+    public userManagementService: UserManagementService,
     public notificationService: NotificationService,
     public router: Router,
     public translationService: TranslateService,
@@ -70,20 +66,18 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     public eventService: EventService,
     private bonusTokenService: BonusTokenService,
     private _r: Renderer2,
-    private motdService: MotdService,
     private confirmDialog: MatDialog,
     private roomService: RoomService,
     private topicCloudAdminService: TopicCloudAdminService,
-    private headerService: HeaderService,
+    public headerService: HeaderService,
     private onboardingService: OnboardingService,
     public themeService: ThemeService,
     public sessionService: SessionService,
     public tagCloudDataService: TagCloudDataService,
-    private languageService: LanguageService,
     public deviceInfo: DeviceInfoService,
     private commentNotificationService: CommentNotificationService,
+    private startUpService: StartUpService,
   ) {
-    this.languageService.getLanguage().subscribe(lang => this.translationService.use(lang));
   }
 
   ngAfterViewInit() {
@@ -91,6 +85,12 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+    this.sessionService.onReady.subscribe(() => {
+      this.init();
+    });
+  }
+
+  init() {
     this.sessionService.getRole().subscribe(role => {
       this.userRole = role;
       this.isInRouteWithRoles = this.sessionService.canChangeRoleOnRoute;
@@ -106,7 +106,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
       this.commentsCountUsers = data.userCount;
       this.commentsCountKeywords = data.tagCount;
     });
-    this.authenticationService.watchUser.subscribe(newUser => this.user = newUser);
+    this.userManagementService.getUser().subscribe(newUser => this.user = newUser);
 
     let time = new Date();
     this.getTime(time);
@@ -135,15 +135,8 @@ export class HeaderComponent implements OnInit, AfterViewInit {
         }
       }
     });
-    this.motdService.onNewMessage().subscribe(state => {
+    this.startUpService.unreadMotds().subscribe(state => {
       this.motdState = state;
-    });
-
-    this.headerService.onActivityChange(e => {
-      this.toggleUserActivity = e;
-    });
-    this.headerService.onUserChange(e => {
-      this.userActivity = e;
     });
   }
 
@@ -160,7 +153,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   }
 
   showMotdDialog() {
-    this.motdService.requestDialog();
+    this.startUpService.openMotdDialog();
   }
 
   getTime(time: Date) {
@@ -194,13 +187,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   }
 
   logoutUser() {
-    this.authenticationService.logout();
-    this.translationService.get('header.logged-out').subscribe(message => {
-      this.notificationService.show(message);
-    });
-    if (SessionService.needsUser(this.router)) {
-      this.navToHome();
-    }
+    this.userManagementService.logout();
   }
 
   goBack() {
@@ -211,25 +198,10 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     this.onboardingService.startDefaultTour(true);
   }
 
-  login(isLecturer: boolean) {
-    const dialogRef = this.dialog.open(LoginComponent, {
+  login() {
+    this.dialog.open(LoginComponent, {
       width: '350px'
     });
-    dialogRef.componentInstance.role = (isLecturer === true) ? UserRole.CREATOR : UserRole.PARTICIPANT;
-    dialogRef.componentInstance.isStandard = true;
-  }
-
-  navToHome() {
-    this.router.navigate(['/']);
-  }
-
-  deleteAccount(id: string) {
-    this.userService.delete(id).subscribe();
-    this.authenticationService.logout();
-    this.translationService.get('header.account-deleted').subscribe(msg => {
-      this.notificationService.show(msg);
-    });
-    this.navToHome();
   }
 
   routeAdmin() {
@@ -245,7 +217,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
         if (result === 'abort') {
           return;
         } else if (result === 'delete') {
-          this.deleteAccount(this.user.id);
+          this.userManagementService.deleteAccount();
         }
       });
   }
@@ -257,8 +229,8 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     dialogRef.componentInstance.userId = this.user.id;
   }
 
-  cookiesDisabled(): boolean {
-    return localStorage.getItem('cookieAccepted') === 'false';
+  startUpFinished() {
+    return this.sessionService.isReady;
   }
 
   /*Rescale*/
@@ -326,7 +298,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   }
 
   public getCurrentRoleIcon() {
-    if (this.authenticationService.isSuperAdmin) {
+    if (this.user?.isSuperAdmin) {
       return 'manage_accounts';
     } else if (this.user?.role === UserRole.EXECUTIVE_MODERATOR) {
       return 'support_agent';
@@ -337,7 +309,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   }
 
   public getCurrentRoleDescription(): string {
-    if (this.authenticationService.isSuperAdmin) {
+    if (this.user?.isSuperAdmin) {
       return 'tooltip-super-admin';
     } else if (this.user?.role === UserRole.EXECUTIVE_MODERATOR) {
       return 'tooltip-moderator';

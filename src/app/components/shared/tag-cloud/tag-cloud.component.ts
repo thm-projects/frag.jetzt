@@ -2,13 +2,11 @@ import { AfterContentInit, Component, ComponentRef, EventEmitter, OnDestroy, OnI
 
 import { CloudOptions, ZoomOnHoverOptions } from 'angular-tag-cloud-module';
 import { CommentService } from '../../../services/http/comment.service';
-import { LanguageService } from '../../../services/util/language.service';
 import { TranslateService } from '@ngx-translate/core';
 import { MatDialog } from '@angular/material/dialog';
 import { User } from '../../../models/user';
 import { Room } from '../../../models/room';
 import { NotificationService } from '../../../services/util/notification.service';
-import { AuthenticationService } from '../../../services/http/authentication.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserRole } from '../../../models/user-roles.enum';
 import { RoomService } from '../../../services/http/room.service';
@@ -44,6 +42,7 @@ import { FilterType, Period, RoomDataFilter } from '../../../utils/data-filter-o
 import { maskKeyword } from '../../../services/util/tag-cloud-data.util';
 import { FilteredDataAccess } from '../../../utils/filtered-data-access';
 import { forkJoin, Subscription } from 'rxjs';
+import { UserManagementService } from '../../../services/util/user-management.service';
 
 class TagComment implements WordMeta {
 
@@ -100,11 +99,10 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
 
   constructor(
     private commentService: CommentService,
-    private langService: LanguageService,
     private translateService: TranslateService,
     public dialog: MatDialog,
     private notificationService: NotificationService,
-    private authenticationService: AuthenticationService,
+    private userManagementService: UserManagementService,
     private composeService: ArsComposeService,
     private headerService: HeaderService,
     private route: ActivatedRoute,
@@ -118,9 +116,6 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     private deviceInfo: DeviceInfoService,
     private roomDataService: RoomDataService,
   ) {
-    this.langService.getLanguage().subscribe(lang => {
-      this.translateService.use(lang);
-    });
     this._currentSettings = this.getCurrentCloudParameters();
   }
 
@@ -139,7 +134,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
       }
       this.rebuildData();
     });
-    this.authenticationService.watchUser.subscribe(newUser => {
+    this.userManagementService.getUser().subscribe(newUser => {
       if (newUser) {
         this.user = newUser;
       }
