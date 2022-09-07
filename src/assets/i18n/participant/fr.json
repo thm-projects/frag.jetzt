@@ -244,6 +244,20 @@
     "read-less": "Lire moins",
     "read-more": "Lire plus"
   },
+  "dsgvo": {
+    "external-source": "Le contenu est une source externe. Faut-il appeler <u>{{url}}</u> ?",
+    "external-source-button-text": "Consulter",
+    "external-source-title": "Source externe",
+    "unknown-source": "Le contenu se réfère soit au site web actuel (redirection vers une salle, respectivement une URL), soit renvoie à un protocole externe. Est-ce que <u>{{url}}</u> doit être consulté ?",
+    "unknown-source-button-text": "Consulter",
+    "unknown-source-title": "Source inconnue ou interne",
+    "vimeo-video": "Le contenu renvoie à une vidéo de Vimeo. La vidéo <u>{{url}}</u> doit-elle être lue ?",
+    "vimeo-video-button-text": "Lire",
+    "vimeo-video-title": "Vidéo de Vimeo",
+    "youtube-video": "Le contenu renvoie à une vidéo de YouTube. Le contenu a été adapté à l'URL conforme à la protection des données. La vidéo <u>{{url}}</u> doit-elle être lue ?",
+    "youtube-video-button-text": "Lire",
+    "youtube-video-title": "Vidéo de Youtube"
+  },
   "explanation": {
     "brainstorming": "## Lorem ipsum \n\nLorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,\nmolestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum\nnumquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium\noptio, eaque rerum ! Provident similique accusantium nemo autem.",
     "close": "Fermer",
@@ -632,8 +646,6 @@
     "label-refresh-keywords-start": "Démarrer"
   },
   "user-bonus-token": {
-    "roomName-lq": "« ",
-    "roomName-rq": " »",
     "bonus-token-body1": " du ",
     "bonus-token-body2": " avec le numéro de question ",
     "bonus-tokens": "\n\nMes bonus",
@@ -653,6 +665,8 @@
     "redeem-mail-failure": "Ton application de e-mail n'a pas pu être accédée. Copie les données dans le cache du navigateur et utilise-les pour créer un e-mail destiné au service de gestion des événements.",
     "redeem-tokens": "Encaisser le code bonus par mail",
     "redeem-tokens-clipboard": "Code bonus dans le presse-papiers",
+    "roomName-lq": "« ",
+    "roomName-rq": " »",
     "session-id": "Code de la salle",
     "session-name": "Événement"
   },

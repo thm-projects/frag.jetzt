@@ -1,0 +1,30 @@
+<div class="response-container">
+    <span class="response-arrow-container" *ngIf="getDepthLevel() > 1">
+      <span class="arrow">
+        &rdca;
+      </span>
+      <span class="number">
+        {{getDepthLevel()}}
+      </span>
+    </span>
+  <div class="responses" #containerRef (window:resize)="ngAfterViewInit()">
+    <ng-container *ngIf="getData()">
+      <ng-container *ngFor="let response of getData(); let i = index">
+        <app-comment *ngIf="response?.body"
+                     style="width: 100%; max-width: unset"
+                     [comment]="response"
+                     [isRemoved]="response?.removed"
+                     [user]="viewInfo.user"
+                     [userRole]="viewInfo.userRole"
+                     [parseVote]="viewInfo.votes"
+                     [indentationPossible]="canNew()"
+                     [moderator]="viewInfo.isModerationComment"
+                     [isFromModerator]="viewInfo.mods.has(response.creatorId)"
+                     [isFromOwner]="viewInfo.roomOwner === response.creatorId"
+                     [isResponse]="true"
+                     [responseIndex]="i + 1"
+        ></app-comment>
+      </ng-container>
+    </ng-container>
+  </div>
+</div>

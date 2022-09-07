@@ -101,6 +101,20 @@
     "cancel": "Close",
     "cancel-description": "Close the introduction dialog"
   },
+  "dsgvo": {
+    "external-source": "The content is an external source. Should <u>{{url}}</u> be called?",
+    "external-source-button-text": "Call up",
+    "external-source-title": "External source",
+    "unknown-source": "The content either refers to the current website (redirection to a room, or URL) or refers to an external protocol. Should <u>{{url}}</u> be called?",
+    "unknown-source-button-text": "Call up",
+    "unknown-source-title": "Unknown or internal source",
+    "vimeo-video": "The content links to a video from Vimeo. Should the video <u>{{url}}</u> be played?",
+    "vimeo-video-button-text": "Play",
+    "vimeo-video-title": "Vimeo video",
+    "youtube-video": "The content links to a video from YouTube. The content has been adapted to the privacy-compliant URL. Should the video <u>{{url}}</u> be played?",
+    "youtube-video-button-text": "Play",
+    "youtube-video-title": "Youtube video"
+  },
   "explanation": {
     "add-moderators": "## Moderators \n\nGuest and permanent moderators have the same rights as the creator of the room. But they can't delete questions or the whole room. \n\nEveryone can be added as a **permanent moderator** with their **mail address** with which they registered at »frag.jetzt«. \n\nAn unregistered user can become a **guest moderator** by entering the room via **direct link** or 8-digit **access code**.",
     "bonus-archive": "## Bonus Archive \n\nAll questions that you have marked with a star in your rooms are listed here. You can use the list to check whether the bonus code that a participant sent you by mail is valid. \n\nTo find a code quickly, there is a search field. If the code is valid, you can display the corresponding question directly via a link.",
@@ -334,6 +348,7 @@
     "e-mail": "E-mail",
     "forgot-password": "Reset password",
     "forgot-password-description": "",
+    "inactive-info": "You have been logged out due to inactivity.",
     "login": "Sign in",
     "or": "or",
     "password": "Password",
@@ -371,10 +386,12 @@
     "tooltip-recreate": "Generate access code for guest moderators"
   },
   "overlay": {
-    "cancel": "I have thought it over again …",
-    "cancel-description": "Opens the web storage setting dialog",
+    "cancel": "Exit app",
+    "cancel-description": "Exits the app",
     "message": "As a guest, you can use »frag.jetzt« completely anonymously.",
-    "title": "Think again?"
+    "title": "Think again?",
+    "understood": "I have thought it over again …",
+    "understood-description": "Return to the previous dialog"
   },
   "password-reset": {
     "a11y-new_password1": "Enter your new password here",
@@ -407,8 +424,8 @@
     "set-new-password-button": "Set password"
   },
   "qr-dialog": {
-    "url": "URL: frag.jetzt",
-    "session": "Code"
+    "session": "Code",
+    "url": "URL: frag.jetzt"
   },
   "register": {
     "cancel": "Cancel",
@@ -493,11 +510,11 @@
     "no-room-history": "Your room list is empty.",
     "option-menu": "Options",
     "panel-join-button": "",
+    "panel-name-lq": "»",
+    "panel-name-rq": "«",
     "panel-remove-button": "Remove session from list",
     "panel-session-id": "Room",
     "panel-session-name": "Event",
-    "panel-name-lq": "»",
-    "panel-name-rq": "«",
     "panel-user-role": "Role",
     "participant-role": "You are a participant.",
     "really-delete": "Do you really want to delete your session »",
@@ -599,8 +616,6 @@
     "cancel-description": "Cancel"
   },
   "user-bonus-token": {
-    "roomName-lq": "»",
-    "roomName-rq": "«",
     "bonus-token-body1": " from ",
     "bonus-token-body2": " with the question number ",
     "bonus-tokens": "\n\nMy bonuses",
@@ -620,6 +635,8 @@
     "redeem-mail-failure": "Your mail app could not be accessed. Copy the data to the clipboard and use it to create a mail to the event management.",
     "redeem-tokens": "Redeem bonus code by mail",
     "redeem-tokens-clipboard": "Bonus code to clipboard",
+    "roomName-lq": "»",
+    "roomName-rq": "«",
     "session-id": "Key code",
     "session-name": "Event"
   },

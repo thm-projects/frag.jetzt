@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import { TranslateService } from '@ngx-translate/core';
 import { RoomCreatorPageComponent } from '../../room-creator-page/room-creator-page.component';
-import { LanguageService } from '../../../../services/util/language.service';
 import { FormControl, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
@@ -19,28 +17,28 @@ export class TagsComponent {
   ]);
   private _closeSubscription: Subscription;
 
-  constructor(public dialogRef: MatDialogRef<RoomCreatorPageComponent>,
-              public translationService: TranslateService,
-              protected langService: LanguageService) {
-    langService.getLanguage().subscribe(lang => translationService.use(lang));
+  constructor(
+    public dialogRef: MatDialogRef<RoomCreatorPageComponent>,
+  ) {
     this._closeSubscription = this.dialogRef.beforeClosed().subscribe(() => this.closeDialog());
   }
 
-  emptyOnCreate(control: FormControl){
-  if(this.displayEmptyOnCreateWarning && control.value.trim() === ''){
-    return { emptyOnCreate:{
-        valid : false
-      }
-    };
+  emptyOnCreate(control: FormControl) {
+    if (this.displayEmptyOnCreateWarning && control.value.trim() === '') {
+      return {
+        emptyOnCreate: {
+          valid: false
+        }
+      };
+    }
+    return null;
   }
-  return null;
-}
 
-  getErrorMessage(){
-    if(this.tagFormControl.hasError('minlength') || this.tagFormControl.hasError('maxlength')){
+  getErrorMessage() {
+    if (this.tagFormControl.hasError('minlength') || this.tagFormControl.hasError('maxlength')) {
       return 'room-page.tag-error-length';
     }
-    if(this.tagFormControl.hasError('emptyOnCreate')){
+    if (this.tagFormControl.hasError('emptyOnCreate')) {
       return 'room-page.tag-error-empty';
     }
   }

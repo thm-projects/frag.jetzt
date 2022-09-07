@@ -10,9 +10,9 @@ import {
 import { UnloadService } from './unload.service';
 import { Observable, Subscription, tap, throwError } from 'rxjs';
 import { IMessage } from '@stomp/stompjs';
-import { AuthenticationService } from '../http/authentication.service';
 import { filter } from 'rxjs/operators';
 import { SessionService } from './session.service';
+import { UserManagementService } from './user-management.service';
 
 const loadNotifications = (): NotificationEvent[] => {
   const arr = JSON.parse(localStorage.getItem('dashboard-notifications') || '[]') as NotificationEvent[];
@@ -86,15 +86,15 @@ export class DashboardNotificationService {
     private wsCommentChangeService: WsCommentChangeService,
     private commentChangeService: CommentChangeService,
     private unloadService: UnloadService,
-    private authenticationService: AuthenticationService,
+    private userManagementService: UserManagementService,
     private sessionService: SessionService,
   ) {
     unloadService.onUnload().subscribe(() => {
       localStorage.setItem('dashboard-notification-time', String(this._lastChanges.getTime()));
-      localStorage.setItem('dashboard-notification-user', this.authenticationService.getUser()?.id);
+      localStorage.setItem('dashboard-notification-user', this.userManagementService.getCurrentUser()?.id);
       localStorage.setItem('dashboard-notifications', JSON.stringify(this._notifications));
     });
-    this.authenticationService.watchUser.pipe(filter(v => !!v)).subscribe(user => {
+    this.userManagementService.getUser().pipe(filter(v => !!v)).subscribe(user => {
       if (user.id === this._lastUser) {
         if (!this._initialized) {
           this.setup();
@@ -246,7 +246,7 @@ export class DashboardNotificationService {
     if (this.isNotificationBlocked) {
       return;
     }
-    const accountId = this.authenticationService.getUser()?.id;
+    const accountId = this.userManagementService.getCurrentUser()?.id;
     const notification: NotificationEvent = {
       ...commentChange,
       fromSelf: accountId === commentChange.initiatorId,

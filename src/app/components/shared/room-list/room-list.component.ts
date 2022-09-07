@@ -6,7 +6,6 @@ import { UserRole } from '../../../models/user-roles.enum';
 import { Moderator } from '../../../models/moderator';
 import { RoomService } from '../../../services/http/room.service';
 import { EventService } from '../../../services/util/event.service';
-import { AuthenticationService } from '../../../services/http/authentication.service';
 import { ModeratorService } from '../../../services/http/moderator.service';
 import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
@@ -27,6 +26,7 @@ import { CommentNotificationService } from '../../../services/http/comment-notif
 import { BonusTokenComponent } from '../../creator/_dialogs/bonus-token/bonus-token.component';
 import { UserBonusTokenComponent } from '../../participant/_dialogs/user-bonus-token/user-bonus-token.component';
 import { RoomSettingsOverviewComponent } from '../_dialogs/room-settings-overview/room-settings-overview.component';
+import { UserManagementService } from '../../../services/util/user-management.service';
 
 type SortFunc<T> = (a: T, b: T) => number;
 
@@ -70,7 +70,7 @@ export class RoomListComponent implements OnInit, OnDestroy {
   constructor(
     private roomService: RoomService,
     public eventService: EventService,
-    protected authenticationService: AuthenticationService,
+    protected userManagementService: UserManagementService,
     private moderatorService: ModeratorService,
     private commentService: CommentService,
     public notificationService: NotificationService,
@@ -82,7 +82,7 @@ export class RoomListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.authenticationService.watchUser.pipe(
+    this.userManagementService.getUser().pipe(
       filter(user => !!user),
       take(1)
     ).subscribe(user => {
@@ -119,16 +119,16 @@ export class RoomListComponent implements OnInit, OnDestroy {
       const roomWithRole: RoomRoleMixin = room as RoomRoleMixin;
       if (room.ownerId === this.user.id) {
         roomWithRole.role = UserRole.CREATOR;
-        this.authenticationService.setAccess(room.shortId, UserRole.CREATOR);
+        this.userManagementService.setAccess(room.shortId, room.id, UserRole.CREATOR);
         return roomWithRole;
       }
       roomWithRole.role = UserRole.PARTICIPANT;
       this.moderatorService.get(room.id).subscribe((moderators: Moderator[]) => {
         if (moderators.some(m => m.accountId === this.user.id)) {
-          this.authenticationService.setAccess(room.shortId, UserRole.EXECUTIVE_MODERATOR);
+          this.userManagementService.setAccess(room.shortId, room.id, UserRole.EXECUTIVE_MODERATOR);
           roomWithRole.role = UserRole.EXECUTIVE_MODERATOR;
         } else {
-          this.authenticationService.setAccess(room.shortId, UserRole.PARTICIPANT);
+          this.userManagementService.setAccess(room.shortId, room.id, UserRole.PARTICIPANT);
         }
       });
       return roomWithRole;
@@ -153,11 +153,7 @@ export class RoomListComponent implements OnInit, OnDestroy {
   }
 
   setCurrentRoom(shortId: string) {
-    for (const r of this.roomsWithRole) {
-      if (r.shortId === shortId) {
-        this.authenticationService.assignRole(r.role);
-      }
-    }
+    this.userManagementService.setCurrentAccess(shortId);
   }
 
   removeSession(room: RoomRoleMixin) {
@@ -193,6 +189,7 @@ export class RoomListComponent implements OnInit, OnDestroy {
   }
 
   removeFromHistory(room: Room) {
+    this.userManagementService.removeAccess(room.shortId);
     this.roomService.removeFromHistory(room.id).subscribe(() => {
       this.translateService.get('room-list.room-successfully-removed').subscribe(msg => {
         this.notificationService.show(msg);

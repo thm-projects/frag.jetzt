@@ -8,7 +8,7 @@ import { Comment } from '../models/comment';
 import { NotificationService } from '../services/util/notification.service';
 import { CommentService } from '../services/http/comment.service';
 import { Observable, of } from 'rxjs';
-import { tap, mergeMap } from 'rxjs/operators';
+import { mergeMap, tap } from 'rxjs/operators';
 import { MatSnackBarConfig } from '@angular/material/snack-bar';
 import { UserRole } from '../models/user-roles.enum';
 import { BrainstormingSession } from '../models/brainstorming-session';
@@ -30,9 +30,7 @@ export class CreateCommentWrapper {
       maxHeight: 'calc( 100vh - 20px )',
       autoFocus: false,
     });
-    dialogRef.componentInstance.user = user;
     dialogRef.componentInstance.userRole = userRole;
-    dialogRef.componentInstance.roomId = this.room.id;
     dialogRef.componentInstance.tags = (!brainstormingData && this.room.tags) || [];
     dialogRef.componentInstance.brainstormingData = brainstormingData;
     return dialogRef.afterClosed().pipe(

@@ -4,7 +4,6 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import {
   DialogConfirmActionButtonType
 } from '../../../shared/dialog/dialog-action-buttons/dialog-action-buttons.component';
-import { EventService } from '../../../../services/util/event.service';
 import { LanguageService } from '../../../../services/util/language.service';
 
 @Component({
@@ -22,7 +21,6 @@ export class CookiesComponent implements OnInit, AfterViewInit {
     private dialog: MatDialog,
     private dialogRef: MatDialogRef<CookiesComponent>,
     private ref: ElementRef<HTMLElement>,
-    private eventService: EventService,
     public langService: LanguageService,
   ) {
   }
@@ -39,8 +37,6 @@ export class CookiesComponent implements OnInit, AfterViewInit {
   }
 
   acceptCookies() {
-    localStorage.setItem('cookieAccepted', 'true');
-    this.eventService.broadcast('dataProtectionConsentUpdate', true);
     this.dialogRef.close(true);
     setTimeout(() => {
       document.getElementById('live_announcer-button').focus();
@@ -48,7 +44,6 @@ export class CookiesComponent implements OnInit, AfterViewInit {
   }
 
   exitApp() {
-    localStorage.setItem('cookieAccepted', 'false');
     this.dialogRef.close(false);
   }
 

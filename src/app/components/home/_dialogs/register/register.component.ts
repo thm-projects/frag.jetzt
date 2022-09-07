@@ -86,20 +86,19 @@ export class RegisterComponent implements OnInit {
       this.username2FormControl.valid &&
       this.password1FormControl.valid &&
       this.password2FormControl.valid) {
-      this.authenticationService.register(username, password).
-        subscribe({
-          next: () => {
-            this.translationService.get('register.register-successful').subscribe(message => {
-              this.notificationService.show(message);
-            });
-            this.dialogRef.close({ username, password });
-          },
-          error: () => {
-            this.translationService.get('register.register-request-error').subscribe(message => {
-              this.notificationService.show(message);
-            });
-          }
-        });
+      this.authenticationService.register(username, password).subscribe({
+        next: () => {
+          this.translationService.get('register.register-successful').subscribe(message => {
+            this.notificationService.show(message);
+          });
+          this.dialogRef.close({ username, password });
+        },
+        error: () => {
+          this.translationService.get('register.register-request-error').subscribe(message => {
+            this.notificationService.show(message);
+          });
+        }
+      });
     } else {
       this.translationService.get('register.register-unsuccessful').subscribe(message => {
         this.notificationService.show(message);

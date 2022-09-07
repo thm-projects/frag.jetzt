@@ -1,19 +1,19 @@
-import { Component, OnInit, OnDestroy, Renderer2, AfterViewInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { EventService } from '../../../services/util/event.service';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { KeyboardUtils } from '../../../utils/keyboard';
 import { KeyboardKey } from '../../../utils/keyboard/keys';
 import { TranslateService } from '@ngx-translate/core';
-import { OnboardingService } from '../../../services/util/onboarding.service';
 import { RatingService } from '../../../services/http/rating.service';
 import { RatingResult } from '../../../models/rating-result';
+import { SessionService } from '../../../services/util/session.service';
 
 @Component({
   selector: 'app-home-page',
   templateUrl: './home-page.component.html',
   styleUrls: ['./home-page.component.scss']
 })
-export class HomePageComponent implements OnInit, OnDestroy, AfterViewInit {
+export class HomePageComponent implements OnInit, OnDestroy {
   listenerFn: () => void;
   accumulatedRatings: RatingResult;
 
@@ -22,8 +22,8 @@ export class HomePageComponent implements OnInit, OnDestroy, AfterViewInit {
     private eventService: EventService,
     private liveAnnouncer: LiveAnnouncer,
     private _r: Renderer2,
-    private onboardingService: OnboardingService,
     private ratingService: RatingService,
+    private sessionService: SessionService,
   ) {
   }
 
@@ -31,23 +31,9 @@ export class HomePageComponent implements OnInit, OnDestroy, AfterViewInit {
     this.ratingService.getRatings().subscribe(r => {
       this.accumulatedRatings = r;
     });
-    if (localStorage.getItem('cookieAccepted') === 'true') {
+    this.sessionService.onReady.subscribe(() => {
       this.loadListener();
-      return;
-    }
-    const sub = this.eventService.on<boolean>('dataProtectionConsentUpdate').subscribe(consented => {
-      if (consented) {
-        this.loadListener();
-        this.onboardingService.startDefaultTour();
-        sub.unsubscribe();
-      }
     });
-  }
-
-  ngAfterViewInit() {
-    if (localStorage.getItem('cookieAccepted') === 'true') {
-      this.onboardingService.startDefaultTour();
-    }
   }
 
   loadListener() {
@@ -70,7 +56,7 @@ export class HomePageComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnDestroy() {
-    this.listenerFn();
+    this.listenerFn?.();
     this.eventService.makeFocusOnInputFalse();
   }
 

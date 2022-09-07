@@ -14,6 +14,7 @@ import { NotificationService } from '../services/util/notification.service';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
+import { UserManagementService } from '../services/util/user-management.service';
 
 const AUTH_HEADER_KEY = 'Authorization';
 const AUTH_SCHEME = 'Bearer';
@@ -27,12 +28,20 @@ export class AuthenticationInterceptor implements HttpInterceptor {
       blacklist: [
         /^\/api\/ws\/websocket(\/|$)/g,
         /^\/api\/roomsubscription(\/|$)/g,
+        /^\/api\/login\/guest(\/|$)/g,
+        /^\/api\/login\/registered(\/|$)/g,
+        /^\/api\/login(\/|$)/g,
+        /^\/api\/user\/register(\/|$)/g,
+        /^\/api\/user\/[^/]+\/activate(\/|$)/g,
+        /^\/api\/user\/[^/]+\/resetactivation(\/|$)/g,
+        /^\/api\/user\/[^\/]+\/resetpassword(\/|$)/g,
+        /^\/api\/rating\/accumulated(\/|$)/g,
       ]
     }
   ];
 
   constructor(
-    private authenticationService: AuthenticationService,
+    private userManagementService: UserManagementService,
     private notificationService: NotificationService,
     private router: Router,
     private translateService: TranslateService,
@@ -40,17 +49,21 @@ export class AuthenticationInterceptor implements HttpInterceptor {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (!this.authenticationService.isLoggedIn()) {
+    if (!this.userManagementService.isLoggedIn()) {
       return next.handle(req);
     }
+
+    const token = this.userManagementService.getCurrentToken();
+    if (!token) {
+      return next.handle(req);
+    }
+
     const decodedUrl = req.url;
     const needsAuthentication = AuthenticationInterceptor.AUTH_ROUTES.some(route =>
       decodedUrl.match(route.allow) && !route.blacklist.some(entry => decodedUrl.match(entry)));
     if (!needsAuthentication) {
       return next.handle(req);
     }
-
-    const token = this.authenticationService.getToken();
     const cloned = req.clone({
       headers: req.headers.set(AUTH_HEADER_KEY, `${AUTH_SCHEME} ${token}`)
     });
@@ -62,11 +75,8 @@ export class AuthenticationInterceptor implements HttpInterceptor {
         }
       },
       error: (err: any) => {
-        if (err instanceof HttpErrorResponse && err.status === 401) {
-          this.authenticationService.logout();
-          this.router.navigate(['home']).then(() => {
-            this.translateService.get('header.logged-out').subscribe(msg => this.notificationService.show(msg));
-          });
+        if (err instanceof HttpErrorResponse) {
+          // Possible to do something with the response here
         }
       }
     }));

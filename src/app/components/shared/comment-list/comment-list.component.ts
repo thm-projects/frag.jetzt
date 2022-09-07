@@ -5,7 +5,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../services/util/language.service';
 import { MatDialog } from '@angular/material/dialog';
 import { User } from '../../../models/user';
-import { Vote } from '../../../models/vote';
 import { UserRole } from '../../../models/user-roles.enum';
 import { Room } from '../../../models/room';
 import { RoomService } from '../../../services/http/room.service';
@@ -16,7 +15,6 @@ import { EventService } from '../../../services/util/event.service';
 import { forkJoin, Subject, Subscription, takeUntil } from 'rxjs';
 import { AppComponent } from '../../../app.component';
 import { Router } from '@angular/router';
-import { AuthenticationService } from '../../../services/http/authentication.service';
 import { TitleService } from '../../../services/util/title.service';
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
 import { CreateCommentWrapper } from '../../../utils/create-comment-wrapper';
@@ -47,6 +45,7 @@ import {
 import { CommentPatchedKeyInformation, ForumComment } from '../../../utils/data-accessor';
 import { FilteredDataAccess, FilterTypeCounts, PeriodCounts } from '../../../utils/filtered-data-access';
 import { QuillUtils } from '../../../utils/quill-utils';
+import { UserManagementService } from '../../../services/util/user-management.service';
 
 @Component({
   selector: 'app-comment-list',
@@ -63,7 +62,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
   room: Room;
   userRole: UserRole;
   isLoading = true;
-  commentVoteMap = new Map<string, Vote>();
+  commentVoteMap = {};
   scroll = false;
   scrollExtended = false;
   search = false;
@@ -110,7 +109,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
     protected langService: LanguageService,
     protected roomService: RoomService,
     protected voteService: VoteService,
-    private authenticationService: AuthenticationService,
+    private userManagementService: UserManagementService,
     private notificationService: NotificationService,
     public eventService: EventService,
     public liveAnnouncer: LiveAnnouncer,
@@ -126,8 +125,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
     private headerService: HeaderService,
     private cloudDataService: TagCloudDataService,
   ) {
-    langService.getLanguage().subscribe(lang => {
-      translateService.use(lang);
+    langService.getLanguage().pipe(takeUntil(this._destroySubject)).subscribe(_ => {
       this.translateService.get('comment-list.search').subscribe(msg => {
         this.searchPlaceholder = msg;
       });
@@ -154,7 +152,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
     this.initNavigation();
     const data = localStorage.getItem('commentListPageSize');
     this.pageSize = data ? +data || this.pageSize : this.pageSize;
-    this.authenticationService.watchUser.subscribe(newUser => {
+    this.userManagementService.getUser().subscribe(newUser => {
       if (!newUser) {
         return;
       }
@@ -165,7 +163,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
       this.sessionService.getRoomOnce().subscribe(room => {
         this.voteService.getByRoomIdAndUserID(room.id, this.user.id).subscribe(votes => {
           for (const v of votes) {
-            this.commentVoteMap.set(v.commentId, v);
+            this.commentVoteMap[v.commentId] = v;
           }
         });
       });
@@ -214,7 +212,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
     this._destroySubject.next(true);
     this._destroySubject.complete();
     this._cloudFilterObject.detach();
-    this._filterObject.detach();
+    this._filterObject.detach(true);
     this._list?.forEach(e => e.destroy());
     this.commentStream?.unsubscribe();
     this.titleService.resetTitle();
@@ -290,12 +288,6 @@ export class CommentListComponent implements OnInit, OnDestroy {
     this.period = filter.period;
     this.periodCounts = this._filterObject.getPeriodCounts();
     this.filterTypeCounts = this._filterObject.getFilterTypeCounts();
-  }
-
-  getVote(comment: Comment): Vote {
-    if (this.userRole === 0) {
-      return this.commentVoteMap.get(comment.id);
-    }
   }
 
   closeDialog() {

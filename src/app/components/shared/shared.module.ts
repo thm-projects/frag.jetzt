@@ -133,14 +133,13 @@ import {
 import {
   CommentNotificationDialogComponent
 } from './_dialogs/comment-notification-dialog/comment-notification-dialog.component';
-import {
-  NgxMatNativeDateModule,
-  NgxMatTimepickerModule
-} from '@angular-material-components/datetime-picker';
-import {ToggleConversationComponent} from '../creator/_dialogs/toggle-conversation/toggle-conversation.component';
+import { NgxMatNativeDateModule, NgxMatTimepickerModule } from '@angular-material-components/datetime-picker';
+import { ToggleConversationComponent } from '../creator/_dialogs/toggle-conversation/toggle-conversation.component';
 import { DashboardComponent } from './_dialogs/dashboard/dashboard.component';
 import { DashboardDialogComponent } from './_dialogs/dashboard-dialog/dashboard-dialog.component';
-import { DeleteAllNotificationsComponent } from './_dialogs/delete-all-notifications/delete-all-notifications.component';
+import {
+  DeleteAllNotificationsComponent
+} from './_dialogs/delete-all-notifications/delete-all-notifications.component';
 import { RoomSettingsOverviewComponent } from './_dialogs/room-settings-overview/room-settings-overview.component';
 import { AppRatingComponent } from './app-rating/app-rating.component';
 import { AppRatingPopUpComponent } from './_dialogs/app-rating-pop-up/app-rating-pop-up.component';
@@ -166,6 +165,9 @@ import {
 import {
   IntroductionTagCloudFRComponent
 } from '../../../assets/i18n/components/_dialogs/introductions/introduction-tag-cloud/introduction-tag-cloud-fr.component';
+import { CommentResponseViewComponent } from './comment-response-view/comment-response-view.component';
+import { LanguageService } from '../../services/util/language.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
@@ -270,7 +272,8 @@ import {
     RoomSettingsOverviewComponent,
     AppRatingComponent,
     AppRatingPopUpComponent,
-    MinuteJumpClockComponent
+    MinuteJumpClockComponent,
+    CommentResponseViewComponent
   ],
   exports: [
     RoomJoinComponent,
@@ -304,4 +307,14 @@ import {
   ]
 })
 export class SharedModule {
+
+  constructor(
+    private languageService: LanguageService,
+    private translateService: TranslateService,
+  ) {
+    this.languageService.getLanguage().subscribe(lang => {
+      this.translateService.use(lang);
+    });
+  }
+
 }

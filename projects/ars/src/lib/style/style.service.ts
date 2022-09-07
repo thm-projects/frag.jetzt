@@ -11,10 +11,18 @@ export class StyleService {
   public static dark = dark;
 
   private colors: any;
+  private _initialized = false;
 
   constructor(
     private themeService: ThemeService
   ) {
+  }
+
+  public init() {
+    if (this._initialized) {
+      return;
+    }
+    this._initialized = true;
     this.themeService.getTheme().subscribe(theme => this.setColor(theme.isDark));
   }
 

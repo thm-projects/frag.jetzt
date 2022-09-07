@@ -18,6 +18,8 @@ const Quill: any = QuillNamespace;
 import ImageResize from 'quill-image-resize-module';
 import 'quill-emoji/dist/quill-emoji.js';
 import { TranslateServiceMock } from '../../../services/mocks/translate.service.mock';
+import { NgxIndexedDBModule } from 'ngx-indexed-db';
+import { DB_CONFIG } from '../../../../indexeddb';
 
 Quill.register('modules/imageResize', ImageResize);
 
@@ -36,6 +38,7 @@ describe('ViewCommentDataComponent', () => {
         QuillModule,
         ArsModule,
         MatTooltipModule,
+        NgxIndexedDBModule.forRoot(DB_CONFIG),
       ],
       providers: [
         {

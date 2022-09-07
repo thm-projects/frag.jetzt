@@ -363,6 +363,10 @@ blockquote {
   min-width: unset !important;
 }
 
+.mat-dialog-content {
+  padding: 0 24px 1em 24px !important;
+}
+
 @media screen and (min-width: 800px) {
 
   /* Works on Firefox */
@@ -428,4 +432,32 @@ blockquote {
 
 .mat-slider-thumb {
   background-color: darkorange !important;
+}
+
+article.dsgvo-info-article {
+  background-color: var(--surface);
+  color: var(--on-surface);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  h3 {
+    margin: 1em;
+  }
+
+  p {
+    margin: 1em;
+  }
+
+  button {
+    background-color: var(--surface);
+    color: var(--on-surface);
+    width: fit-content;
+    margin: 1em auto;
+
+    &:hover {
+      outline: 3px solid var(--secondary);
+    }
+  }
 }

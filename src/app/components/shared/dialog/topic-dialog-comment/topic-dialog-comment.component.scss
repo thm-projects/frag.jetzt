@@ -7,10 +7,10 @@ mat-icon {
 }
 
 label {
-color: var(--on-surface)
+  color: var(--on-surface)
 }
 
-button{
+button {
   color: var(--primary);
   background: none;
   font-weight: bold;
@@ -18,11 +18,11 @@ button{
   padding: 0%;
 }
 
-button:focus{
+button:focus {
   outline: none;
 }
 
-button:hover{
+button:hover {
   text-decoration: underline;
 }
 

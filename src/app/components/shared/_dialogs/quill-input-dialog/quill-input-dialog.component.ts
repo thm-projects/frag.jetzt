@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { KatexOptions } from 'ngx-markdown';
+import { QuillUtils } from '../../../../utils/quill-utils';
 
 interface DialogData {
   type: string;
@@ -24,20 +25,6 @@ export class QuillInputDialogComponent implements OnInit {
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData,
               private dialogRef: MatDialogRef<QuillInputDialogComponent>) {
-  }
-
-  public static getVideoUrl(url) {
-    let match = url.match(/^(?:(https?):\/\/)?(?:(?:www|m)\.)?youtube\.com\/watch.*v=([a-zA-Z0-9_-]+)/) ||
-      url.match(/^(?:(https?):\/\/)?(?:(?:www|m)\.)?youtu\.be\/([a-zA-Z0-9_-]+)/) ||
-      url.match(/^.*(youtu.be\/|v\/|e\/|u\/\w+\/|embed\/|v=)([^#&?]*).*/);
-    if (match && match[2].length === 11) {
-      return 'https://www.youtube-nocookie.com/embed/' + match[2] + '?showinfo=0';
-    }
-    match = url.match(/^(?:(https?):\/\/)?(?:www\.)?vimeo\.com\/(\d+)/);
-    if (match) {
-      return (match[1] || 'https') + '://player.vimeo.com/video/' + match[2] + '/';
-    }
-    return url;
   }
 
   ngOnInit(): void {
@@ -75,7 +62,7 @@ export class QuillInputDialogComponent implements OnInit {
           }
           break;
         case 'video':
-          const value = QuillInputDialogComponent.getVideoUrl(this.value);
+          const value = QuillUtils.getVideoUrl(this.value)[0];
           if (value) {
             this.data.quill.insertEmbed(this.data.selection.index, 'video', value, 'user');
           }

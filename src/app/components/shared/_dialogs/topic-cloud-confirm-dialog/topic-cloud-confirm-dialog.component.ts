@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { DialogConfirmActionButtonType } from '../../dialog/dialog-action-buttons/dialog-action-buttons.component';
 
 @Component({
@@ -11,9 +11,11 @@ export class TopicCloudConfirmDialogComponent implements OnInit {
 
   confirmButtonType: DialogConfirmActionButtonType = DialogConfirmActionButtonType.Alert;
   confirmLabel = this.data.confirmLabel;
+
   constructor(
     public confirmDialogRef: MatDialogRef<TopicCloudConfirmDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData) { }
+    @Inject(MAT_DIALOG_DATA) public data: DialogData) {
+  }
 
   ngOnInit(): void {
   }

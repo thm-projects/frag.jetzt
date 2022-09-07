@@ -1,4 +1,3 @@
-
 <ars-row class="container" ars-flex-box>
   <ars-row [height]="45" ars-flex-box>
     <ars-col class="align-center-y force-wrap">
@@ -6,7 +5,8 @@
     </ars-col>
     <ars-fill></ars-fill>
     <ars-col class="align-center-y">
-      <mat-checkbox [color]="'accent'" *ngIf="message.isNew && !message.isRead" [checked]="message.isRead"
+      <mat-checkbox [color]="'accent'" *ngIf="!message.isRead"
+                    [checked]="message.isRead"
                     (change)="setIsRead($event.checked)">
         <span>{{ 'footer.motd-mark-read' | translate }}</span>
       </mat-checkbox>

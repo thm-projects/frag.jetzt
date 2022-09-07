@@ -1,11 +1,4 @@
-import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  Input,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild, } from '@angular/core';
 import {
   EditorChangeContent,
   EditorChangeSelection,
@@ -25,13 +18,14 @@ import { AccessibilityEscapedInputDirective } from '../../../directives/accessib
 import { EventService } from '../../../services/util/event.service';
 import { MatTooltip } from '@angular/material/tooltip';
 import { QuillUtils, StandardDelta } from '../../../utils/quill-utils';
+import { ReplaySubject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-view-comment-data',
   templateUrl: './view-comment-data.component.html',
   styleUrls: ['./view-comment-data.component.scss']
 })
-export class ViewCommentDataComponent implements OnInit, AfterViewInit {
+export class ViewCommentDataComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @ViewChild('editor') editor: QuillEditorComponent;
   @ViewChild('quillView') quillView: QuillViewComponent;
@@ -56,6 +50,7 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
   private _initialized = false;
   private _currentData: StandardDelta = null;
   private _marks: Marks;
+  private _destroyer = new ReplaySubject(1);
 
   constructor(
     private languageService: LanguageService,
@@ -64,8 +59,7 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
     private eventService: EventService,
     private dialog: MatDialog
   ) {
-    this.languageService.getLanguage().subscribe(lang => {
-      this.translateService.use(lang);
+    this.languageService.getLanguage().pipe(takeUntil(this._destroyer)).subscribe(_ => {
       if (this.isEditor) {
         this.updateCSSVariables();
       }
@@ -203,6 +197,11 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
     this.editor.onEditorChanged.subscribe(e => {
       wasLastPaste = this.onEditorChange(e, wasLastPaste);
     });
+  }
+
+  ngOnDestroy() {
+    this._destroyer.next(1);
+    this._destroyer.complete();
   }
 
   onDocumentClick(e) {

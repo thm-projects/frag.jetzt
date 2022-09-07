@@ -353,7 +353,10 @@ export class FilteredDataAccess {
     this?._onAttach(this._destroyNotifier);
   }
 
-  detach() {
+  detach(save = false) {
+    if (save) {
+      this._filter?.save();
+    }
     this._settings = null;
     this._dataSubscription?.unsubscribe();
     this._destroyNotifier?.next(true);
