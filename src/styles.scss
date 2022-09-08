@@ -441,6 +441,7 @@ article.dsgvo-info-article {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  word-break: break-word;
 
   h3 {
     margin: 1em;
