@@ -6,4 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./help.scss']
 })
 
-export class HelpEnComponent {}
+export class HelpEnComponent {
+}

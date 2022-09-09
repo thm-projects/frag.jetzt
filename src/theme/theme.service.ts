@@ -1,24 +1,40 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { ReplaySubject } from 'rxjs';
 import { themes, themes_meta } from './arsnova-theme.const';
 import { Theme } from './Theme';
-
-const LOCAL_THEME_KEY = 'currentActiveTheme';
+import { DeviceInfoService } from '../app/services/util/device-info.service';
+import { ConfigurationService } from '../app/services/util/configuration.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ThemeService {
-  private currentThemeSubject = new BehaviorSubject<Theme>(null);
+  private _currentTheme = null;
+  private replaySubject = new ReplaySubject<Theme>(1);
   private themes: Theme[] = [];
   private _activeTheme: Theme = null;
-  private _isSystemDark = false;
+  private _initialized = false;
 
-  constructor() {
-    const isMobile = window.matchMedia && window.matchMedia('(max-width: 499px)').matches;
-    // eslint-disable-next-line guard-for-in
-    for (const k in themes) {
-      if (!themes_meta[k].availableOnMobile && isMobile) {
+  constructor(
+    private deviceInfo: DeviceInfoService,
+    private configurationService: ConfigurationService,
+  ) {
+  }
+
+  get activeTheme(): Theme {
+    return this._activeTheme;
+  }
+
+  get currentTheme(): Theme {
+    return this._currentTheme;
+  }
+
+  init(savedTheme: string) {
+    if (this._initialized) {
+      return;
+    }
+    for (const k of Object.keys(themes)) {
+      if (!themes_meta[k].availableOnMobile && this.deviceInfo.isCurrentlyMobile) {
         continue;
       }
       this.themes.push(new Theme(
@@ -28,47 +44,31 @@ export class ThemeService {
       );
     }
     this.themes.sort((a, b) => a.order - b.order);
-    const darkMatch = window.matchMedia('(prefers-color-scheme: dark)');
-    this._isSystemDark = darkMatch.matches;
-    darkMatch.addEventListener('change', e => {
-      this._isSystemDark = e.matches;
+    this.deviceInfo.isDark().subscribe(() => {
       if (this._activeTheme?.key === 'systemDefault') {
         this.updateBySystem();
       }
     });
-    this.activate(ThemeService.getActiveThemeConfig() || 'dark');
-  }
-
-  get activeTheme(): Theme {
-    return this._activeTheme;
-  }
-
-  get currentTheme(): Theme {
-    return this.currentThemeSubject.value;
-  }
-
-  private static getActiveThemeConfig(): string {
-    return localStorage.getItem(LOCAL_THEME_KEY);
-  }
-
-  private static setActiveThemeConfig(themeKey: string): void {
-    localStorage.setItem(LOCAL_THEME_KEY, themeKey);
+    this.activate(savedTheme || 'dark');
+    this._initialized = true;
   }
 
   public getTheme() {
-    return this.currentThemeSubject.asObservable();
+    return this.replaySubject.asObservable();
   }
 
   public activate(name) {
-    this._activeTheme = this.getThemeByKey(name);
-    if (!this._activeTheme) {
+    const active = this.getThemeByKey(name);
+    if (!active) {
       throw new Error('Theme "' + name + '" does not exist!');
     }
-    ThemeService.setActiveThemeConfig(name);
+    this._activeTheme = active;
+    this.configurationService.put('theme', name).subscribe();
     if (name === 'systemDefault') {
       this.updateBySystem();
     } else {
-      this.currentThemeSubject.next(this._activeTheme);
+      this.replaySubject.next(this._activeTheme);
+      this._currentTheme = this._activeTheme;
     }
   }
 
@@ -86,11 +86,12 @@ export class ThemeService {
   }
 
   private updateBySystem() {
-    const name = this._activeTheme.meta.config[this._isSystemDark ? 'dark' : 'light'];
+    const name = this._activeTheme.meta.config[this.deviceInfo.isCurrentlyDark ? 'dark' : 'light'];
     const theme = this.getThemeByKey(name);
     if (!theme) {
       throw new Error('Theme "' + name + '" does not exist!');
     }
-    this.currentThemeSubject.next(theme);
+    this.replaySubject.next(theme);
+    this._currentTheme = theme;
   }
 }

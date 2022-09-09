@@ -3,7 +3,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { Language, LanguagetoolResult, LanguagetoolService } from '../../../services/http/languagetool.service';
 import { Comment } from '../../../models/comment';
 import { NotificationService } from '../../../services/util/notification.service';
-import { LanguageService } from '../../../services/util/language.service';
 import { ViewCommentDataComponent } from '../view-comment-data/view-comment-data.component';
 import { DeepLService, SourceLang, TargetLang } from '../../../services/http/deep-l.service';
 import { DeepLDialogComponent, ResultValue } from '../_dialogs/deep-ldialog/deep-ldialog.component';
@@ -14,12 +13,12 @@ import { SharedTextFormatting } from '../../../utils/shared-text-formatting';
 import { UserRole } from '../../../models/user-roles.enum';
 import { SessionService } from '../../../services/util/session.service';
 import { User } from '../../../models/user';
-import { AuthenticationService } from '../../../services/http/authentication.service';
 import { StandardDelta } from '../../../utils/quill-utils';
 import { KeywordExtractor } from '../../../utils/keyword-extractor';
 import { RoomDataService } from '../../../services/util/room-data.service';
 import { SpacyService } from '../../../services/http/spacy.service';
 import { ForumComment } from '../../../utils/data-accessor';
+import { UserManagementService } from '../../../services/util/user-management.service';
 
 @Component({
   selector: 'app-write-comment',
@@ -47,6 +46,7 @@ export class WriteCommentComponent implements OnInit, OnDestroy {
   @Input() allowEmpty = false;
   @Input() additionalMockOffset: number = 0;
   @Input() commentReference: string = null;
+  @Input() onlyText = false;
   isSubmittingComment = false;
   selectedTag: string;
   maxTextCharacters = 500;
@@ -74,19 +74,15 @@ export class WriteCommentComponent implements OnInit, OnDestroy {
 
   constructor(
     private notification: NotificationService,
-    private languageService: LanguageService,
     private translateService: TranslateService,
     public languagetoolService: LanguagetoolService,
     private deeplService: DeepLService,
     private dialog: MatDialog,
     private sessionService: SessionService,
-    private authenticationService: AuthenticationService,
+    private userManagementService: UserManagementService,
     private roomDataService: RoomDataService,
     private spacyService: SpacyService,
   ) {
-    this.languageService.getLanguage().subscribe(lang => {
-      this.translateService.use(lang);
-    });
     this._keywordExtractor = new KeywordExtractor(
       dialog, translateService, notification, roomDataService, languagetoolService, spacyService, deeplService
     );
@@ -124,7 +120,7 @@ export class WriteCommentComponent implements OnInit, OnDestroy {
     }
     this.userRole = this.sessionService.currentRole;
     this.maxDataCharacters = this.isModerator ? this.maxTextCharacters * 5 : this.maxTextCharacters * 3;
-    this.authenticationService.watchUser.subscribe(user => this.user = user);
+    this.userManagementService.getUser().subscribe(user => this.user = user);
   }
 
   ngOnDestroy() {
@@ -176,7 +172,12 @@ export class WriteCommentComponent implements OnInit, OnDestroy {
           (selected, submitted) => {
             if (selected.view === this.commentData) {
               this._hadUsedDeepl = false;
-              this.commentData.buildMarks(rawText, wordsCheck);
+              if (wordsCheck.matches.length === 0) {
+                this.translateService.get('deepl.no-optimization')
+                  .subscribe(msg => this.notification.show(msg));
+              } else {
+                this.commentData.buildMarks(rawText, wordsCheck);
+              }
             } else {
               this._hadUsedDeepl = true;
               this.commentData.currentData = selected.body;
@@ -266,8 +267,7 @@ export class WriteCommentComponent implements OnInit, OnDestroy {
     if (this.allowEmpty || (ViewCommentDataComponent.checkInputData(data, text,
       this.translateService, this.notification, this.maxTextCharacters, this.maxDataCharacters) && allowed)) {
       const realData = this.allowEmpty && text.length < 2 ? { ops: [] } : data;
-      this.isSubmittingComment = true;
-      this._keywordExtractor.createCommentInteractive({
+      const options = {
         userId: this.user.id,
         isBrainstorming: !!this.brainstormingData,
         body: realData,
@@ -278,7 +278,13 @@ export class WriteCommentComponent implements OnInit, OnDestroy {
         hadUsedDeepL: this._hadUsedDeepl,
         selectedLanguage: this.selectedLang,
         commentReference: this.commentReference,
-      }).subscribe({
+      };
+      if (this.onlyText) {
+        this.onClose(this._keywordExtractor.createPlainComment(options));
+        return;
+      }
+      this.isSubmittingComment = true;
+      this._keywordExtractor.createCommentInteractive(options).subscribe({
         next: comment => {
           localStorage.setItem('comment-created', String(true));
           this.onClose(comment);

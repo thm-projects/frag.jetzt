@@ -2,10 +2,8 @@ import { Component, ComponentRef, ElementRef, OnDestroy, OnInit, ViewChild } fro
 import { Comment, numberSorter } from '../../../models/comment';
 import { CommentService } from '../../../services/http/comment.service';
 import { TranslateService } from '@ngx-translate/core';
-import { LanguageService } from '../../../services/util/language.service';
 import { MatDialog } from '@angular/material/dialog';
 import { User } from '../../../models/user';
-import { Vote } from '../../../models/vote';
 import { UserRole } from '../../../models/user-roles.enum';
 import { Room } from '../../../models/room';
 import { RoomService } from '../../../services/http/room.service';
@@ -17,7 +15,6 @@ import { BonusTokenService } from '../../../services/http/bonus-token.service';
 import { PageEvent } from '@angular/material/paginator';
 import { copyCSVString, exportRoom } from '../../../utils/ImportExportMethods';
 import { SessionService } from '../../../services/util/session.service';
-import { AuthenticationService } from '../../../services/http/authentication.service';
 import { DeviceInfoService } from '../../../services/util/device-info.service';
 import { forkJoin, Subscription } from 'rxjs';
 import { ArsComposeService } from '../../../../../projects/ars/src/lib/services/ars-compose.service';
@@ -36,6 +33,7 @@ import {
 } from '../../../utils/data-filter-object.lib';
 import { FilteredDataAccess } from '../../../utils/filtered-data-access';
 import { ForumComment } from '../../../utils/data-accessor';
+import { UserManagementService } from '../../../services/util/user-management.service';
 
 
 @Component({
@@ -63,7 +61,6 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
   ack = 'ack';
   bookmark = 'bookmark';
   userNumber = 'userNumber';
-  commentVoteMap = new Map<string, Vote>();
   scroll = false;
   scrollExtended = false;
   search = false;
@@ -93,27 +90,25 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
     private commentService: CommentService,
     private translateService: TranslateService,
     public dialog: MatDialog,
-    protected langService: LanguageService,
     protected roomService: RoomService,
     public eventService: EventService,
     private router: Router,
     private notificationService: NotificationService,
     private bonusTokenService: BonusTokenService,
     private sessionService: SessionService,
-    private authenticationService: AuthenticationService,
+    private userManagementService: UserManagementService,
     public deviceInfo: DeviceInfoService,
     private composeService: ArsComposeService,
     private headerService: HeaderService,
     private roomDataService: RoomDataService,
   ) {
-    langService.getLanguage().subscribe(lang => translateService.use(lang));
     this._deviceSub = this.deviceInfo.isMobile().subscribe(mobile => this.isMobile = mobile);
     this.questionNumberFormControl.valueChanges.subscribe((v) => {
       v = v || '';
       this.questionNumberOptions = this._allQuestionNumberOptions.filter(e => e.startsWith(v));
     });
     this._filterObject = FilteredDataAccess.buildModeratedAccess(
-      sessionService, roomDataService, true, true, 'moderatorList',
+      sessionService, roomDataService, true, 'moderatorList',
     );
   }
 
@@ -123,7 +118,7 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this._filterObject.detach();
+    this._filterObject.detach(true);
     this._list?.forEach(e => e.destroy());
     this.headerInterface?.unsubscribe();
     this._deviceSub?.unsubscribe();
@@ -131,7 +126,7 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.initNavigation();
-    this.authenticationService.watchUser.subscribe(user => {
+    this.userManagementService.getUser().subscribe(user => {
       if (!user) {
         return;
       }
@@ -191,12 +186,6 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
     const filter = this._filterObject.dataFilter;
     filter.currentSearch = '';
     this._filterObject.dataFilter = filter;
-  }
-
-  getVote(comment: Comment): Vote {
-    if (this.userRole === 0) {
-      return this.commentVoteMap.get(comment.id);
-    }
   }
 
   onRefreshFiltering(): void {

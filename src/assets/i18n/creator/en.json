@@ -266,13 +266,6 @@
   "content": {
     "cancel": "Cancel",
     "delete": "Delete",
-    "tag-cloud-create": "Next",
-    "tag-cloud-questions-all": "All questions",
-    "tag-cloud-questions-all-short": "All",
-    "tag-cloud-questions-current-filtered": "Filtered",
-    "tag-cloud-questions-from-now": "Only questions from now on",
-    "tag-cloud-questions-from-now-short": "From now on",
-    "tag-cloud-questions-title": "Which questions do you want on the radar?",
     "yes": "Yes"
   },
   "deepl": {
@@ -293,6 +286,20 @@
     "read-less": "Read less",
     "read-more": "Read more"
   },
+  "dsgvo": {
+    "external-source": "The content is an external source. Should <u>{{url}}</u> be called?",
+    "external-source-button-text": "Call up",
+    "external-source-title": "External source",
+    "unknown-source": "The content either refers to the current website (redirection to a room, or URL) or refers to an external protocol. Should <u>{{url}}</u> be called?",
+    "unknown-source-button-text": "Call up",
+    "unknown-source-title": "Unknown or internal source",
+    "vimeo-video": "The content links to a video from Vimeo. Should the video <u>{{url}}</u> be played?",
+    "vimeo-video-button-text": "Play",
+    "vimeo-video-title": "Vimeo video",
+    "youtube-video": "The content links to a video from YouTube. The content has been adapted to the privacy-compliant URL. Should the video <u>{{url}}</u> be played?",
+    "youtube-video-button-text": "Play",
+    "youtube-video-title": "Youtube video"
+  },
   "explanation": {
     "add-moderators": "## Moderators \n\nGuest and permanent moderators have the same rights as the creator of the room. But they can't delete questions or the whole room. \n\nEveryone can be added as a **permanent moderator** with their **mail address** with which they registered at »frag.jetzt«. \n\nAn unregistered user can become a **guest moderator** by entering the room via **direct link** or 8-digit **access code**.",
     "bonus-archive": "## Bonus Archive \n\nAll questions that you have marked with a star in your rooms are listed here. You can use the list to check whether the bonus code that a participant sent you by mail is valid. \n\nTo find a code quickly, there is a search field. If the code is valid, you can display the corresponding question directly via a link.",
@@ -309,7 +316,8 @@
   "header": {
     "overview-keywords-tooltip": "Number of Keywords",
     "overview-question-tooltip": "Number of questions",
-    "overview-questioners-tooltip": "Number of questioners"
+    "overview-questioners-tooltip": "Number of questioners",
+    "overview-admin-config-enabled": "Thresholds for displaying topics are active."
   },
   "home-page": {
     "create-session": "New session",
@@ -486,9 +494,9 @@
     "language-specific-filter": "Censor in all languages",
     "live-announcer": "You're in the session now. To get information about key combinations press the Enter key or call the announcement later with the Escape key.",
     "live-feedback": "Live feedback",
-    "moderator-key": "Moderator access:",
     "moderating-stream": "To the moderation",
     "moderation-mode": "Moderation mode",
+    "moderator-key": "Moderator access:",
     "name-length-error": "The name must be {{min}} to {{max}} characters long.",
     "nav-to-comment": "Go to question",
     "no-comments": "There are no questions yet.",
@@ -511,10 +519,10 @@
     "room-not-found": "Room not found :(",
     "score": "Score",
     "session-id": "Participant access",
+    "session-id-copied": "Direct link for participants was copied to the clipboard.",
     "session-id-lq": ": »",
     "session-id-lq-x": "»",
     "session-id-rq": "«",
-    "session-id-copied": "Direct link for participants was copied to the clipboard.",
     "session-moderation-board": "",
     "session-question-board": "",
     "session-settings": "Room administration",
@@ -808,7 +816,18 @@
   },
   "topic-cloud-filter": {
     "info-no-keywords": "Our AI-based text analysis can identify keywords. Start analysis?",
-    "label-refresh-keywords-start": "Start"
+    "label-refresh-keywords-start": "Start",
+    "create": "Next",
+    "cancel": "Cancel",
+    "all-questions-and-answers": "All questions ans answers",
+    "all-questions-and-answers-short": "With answers",
+    "only-questions": "All questions",
+    "only-questions-short": "All",
+    "current-filter": "Current Filter",
+    "current-filter-short": "Filtered",
+    "from-now": "Only questions from now on",
+    "from-now-short": "From now on",
+    "questions-title": "Which questions do you want on the radar?"
   },
   "worker-config": {
     "cancel": "Cancel",

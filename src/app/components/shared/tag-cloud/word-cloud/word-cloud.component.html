@@ -1,4 +1,4 @@
-<div [ngClass]="{'brainstorm': !isRadar, 'dark': themeService.currentTheme.isDark}"
+<div [ngClass]="{'brainstorm': !isRadar, 'dark': isDark()}"
      class="word-cloud-image">
 </div>
 <div #wordCloud

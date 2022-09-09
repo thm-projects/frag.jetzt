@@ -3,13 +3,13 @@
 <p *ngIf="!bonusQuestions">{{ 'room-page.really-delete-comments' | translate }}</p>
 <p *ngIf="bonusQuestions">{{ 'room-page.really-delete-comments-hint' | translate }}</p>
 <app-dialog-action-buttons *ngIf="!bonusQuestions"
-  buttonsLabelSection="content"
-  confirmButtonLabel="delete"
-  [confirmButtonType]=confirmButtonType
-  [cancelButtonClickAction]="buildCloseDialogActionCallback()"
-  [confirmButtonClickAction]="buildCommentsDeleteActionCallback()"
+                           buttonsLabelSection="content"
+                           confirmButtonLabel="delete"
+                           [confirmButtonType]=confirmButtonType
+                           [cancelButtonClickAction]="buildCloseDialogActionCallback()"
+                           [confirmButtonClickAction]="buildCommentsDeleteActionCallback()"
 ></app-dialog-action-buttons>
 <app-dialog-action-buttons *ngIf="bonusQuestions"
-  buttonsLabelSection="content"
-  [cancelButtonClickAction]="buildCloseDialogActionCallback()"
+                           buttonsLabelSection="content"
+                           [cancelButtonClickAction]="buildCloseDialogActionCallback()"
 ></app-dialog-action-buttons>

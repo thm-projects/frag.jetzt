@@ -4,20 +4,15 @@ import { NotificationService } from '../../../services/util/notification.service
 import { NavigationEnd, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
-import { AuthenticationService } from '../../../services/http/authentication.service';
 import { User } from '../../../models/user';
 import { Room } from '../../../models/room';
 import { DemoVideoComponent } from '../../home/_dialogs/demo-video/demo-video.component';
 import { ThemeService } from '../../../../theme/theme.service';
-import { CookiesComponent } from '../../home/_dialogs/cookies/cookies.component';
 import { ImprintComponent } from '../../home/_dialogs/imprint/imprint.component';
 import { DataProtectionComponent } from '../../home/_dialogs/data-protection/data-protection.component';
 import { Theme } from '../../../../theme/Theme';
-import { OverlayComponent } from '../../home/_dialogs/overlay/overlay.component';
 import { AppComponent } from '../../../app.component';
 import { StyleService } from '../../../../../projects/ars/src/lib/style/style.service';
-import { MotdService } from '../../../services/http/motd.service';
-import { MotdDialogComponent } from '../_dialogs/motd-dialog/motd-dialog.component';
 import { MatMenu } from '@angular/material/menu';
 import { DeviceInfoService } from '../../../services/util/device-info.service';
 import { ComponentType } from '@angular/cdk/overlay';
@@ -36,6 +31,8 @@ import {
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { DashboardComponent } from '../_dialogs/dashboard/dashboard.component';
 import { DashboardNotificationService } from '../../../services/util/dashboard-notification.service';
+import { UserManagementService } from '../../../services/util/user-management.service';
+import { SessionService } from '../../../services/util/session.service';
 
 @Component({
   selector: 'app-footer',
@@ -58,16 +55,15 @@ export class FooterComponent implements OnInit {
     public dialog: MatDialog,
     private translateService: TranslateService,
     public langService: LanguageService,
-    public authenticationService: AuthenticationService,
+    public userManagementService: UserManagementService,
     public themeService: ThemeService,
     private styleService: StyleService,
-    private motdService: MotdService,
     public deviceInfo: DeviceInfoService,
     public dashboard: MatBottomSheet,
-    public change: DashboardNotificationService
+    public change: DashboardNotificationService,
+    private sessionService: SessionService,
   ) {
-    langService.getLanguage().subscribe(lang => translateService.use(lang));
-    this.authenticationService.watchUser.subscribe(user => this.user = user);
+    this.userManagementService.getUser().subscribe(user => this.user = user);
   }
 
   get tourSite() {
@@ -75,17 +71,10 @@ export class FooterComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.motdService.onDialogRequest().subscribe(() => {
-      this.motdService.getList().subscribe(e => {
-        const dialogRef = this.dialog.open(MotdDialogComponent, {
-          width: '80%',
-          maxWidth: '600px',
-          minHeight: '95%',
-          height: '95%',
-        });
-        dialogRef.componentInstance.motdsList = e;
-      });
-    });
+    this.sessionService.onReady.subscribe(() => this.init());
+  }
+
+  init() {
     this.translateService.get('footer.open').subscribe(message => {
       this.open = message;
     });
@@ -93,25 +82,10 @@ export class FooterComponent implements OnInit {
     this.updateScale(this.themeService.currentTheme.getScale(this.deviceInfo.isCurrentlyMobile ? 'mobile' : 'desktop'));
     this.router.events.subscribe(e => {
       if (e instanceof NavigationEnd) {
-        const url = decodeURI(this.router.url).toLowerCase();
-        const roleRegex = '/(creator|moderator|participant)';
-        const roomRegex = '/room/[^/]{3,}';
-        if (url === '/user') {
-          this._tourSite = IntroductionRoomListComponent;
-        } else if (url.match(new RegExp(`^${roleRegex}${roomRegex}$`))) {
-          this._tourSite = IntroductionRoomPageComponent;
-        } else if (url.match(new RegExp(`^${roleRegex}${roomRegex}/comments$`))) {
-          this._tourSite = IntroductionCommentListComponent;
-        } else if (url.match(new RegExp(`^${roleRegex}${roomRegex}/moderator/comments$`))) {
-          this._tourSite = IntroductionModerationComponent;
-        } else {
-          this._tourSite = null;
-        }
+        this.onEnd();
       }
     });
-    if (localStorage.getItem('cookieAccepted') !== 'true') {
-      this.showCookieModal();
-    }
+    this.onEnd();
   }
 
   showDemo() {
@@ -130,21 +104,6 @@ export class FooterComponent implements OnInit {
     });
   }
 
-  showCookieModal() {
-    const dialogRef = this.dialog.open(CookiesComponent, {
-      width: '80%',
-      maxWidth: '600px',
-      autoFocus: true
-
-    });
-    dialogRef.disableClose = true;
-    dialogRef.afterClosed().subscribe(res => {
-      if (!res) {
-        this.showOverlay();
-      }
-    });
-  }
-
   showImprint() {
     this.dialog.open(ImprintComponent, {
       width: '80%',
@@ -158,16 +117,6 @@ export class FooterComponent implements OnInit {
       maxWidth: '600px'
     });
 
-  }
-
-  showOverlay() {
-    const dialogRef = this.dialog.open(OverlayComponent, {});
-    dialogRef.disableClose = true;
-    dialogRef.afterClosed().subscribe(res => {
-      if (res && localStorage.getItem('cookieAccepted') !== 'true') {
-        this.showCookieModal();
-      }
-    });
   }
 
   useLanguage(language: Language) {
@@ -197,5 +146,22 @@ export class FooterComponent implements OnInit {
 
   openDashboard() {
     this.dashboard.open(DashboardComponent);
+  }
+
+  private onEnd() {
+    const url = decodeURI(this.router.url).toLowerCase();
+    const roleRegex = '/(creator|moderator|participant)';
+    const roomRegex = '/room/[^/]{3,}';
+    if (url === '/user') {
+      this._tourSite = IntroductionRoomListComponent;
+    } else if (url.match(new RegExp(`^${roleRegex}${roomRegex}$`))) {
+      this._tourSite = IntroductionRoomPageComponent;
+    } else if (url.match(new RegExp(`^${roleRegex}${roomRegex}/comments$`))) {
+      this._tourSite = IntroductionCommentListComponent;
+    } else if (url.match(new RegExp(`^${roleRegex}${roomRegex}/moderator/comments$`))) {
+      this._tourSite = IntroductionModerationComponent;
+    } else {
+      this._tourSite = null;
+    }
   }
 }

@@ -266,13 +266,6 @@
   "content": {
     "cancel": "Abbrechen",
     "delete": "Löschen",
-    "tag-cloud-create": "Weiter",
-    "tag-cloud-questions-all": "Alle Fragen",
-    "tag-cloud-questions-all-short": "Alle",
-    "tag-cloud-questions-current-filtered": "Gefiltert",
-    "tag-cloud-questions-from-now": "Nur Fragen ab jetzt",
-    "tag-cloud-questions-from-now-short": "Ab jetzt",
-    "tag-cloud-questions-title": "Welche Fragen willst du auf dem Radar haben?",
     "yes": "Ja"
   },
   "deepl": {
@@ -293,6 +286,20 @@
     "read-less": "Weniger lesen",
     "read-more": "Mehr lesen"
   },
+  "dsgvo": {
+    "external-source": "Der Inhalt ist eine externe Quelle. Soll <u>{{url}}</u> aufgerufen werden?",
+    "external-source-button-text": "Aufrufen",
+    "external-source-title": "Externe Quelle",
+    "unknown-source": "Der Inhalt bezieht sich entweder auf die jetzige Website (Weiterleitung zu einem Raum, bzw. einer URL) oder verweist auf ein externes Protokoll. Soll <u>{{url}}</u> aufgerufen werden?",
+    "unknown-source-button-text": "Aufrufen",
+    "unknown-source-title": "Unbekannte oder interne Quelle",
+    "vimeo-video": "Der Inhalt verweist auf ein Video von Vimeo. Soll das Video <u>{{url}}</u> abgespielt werden?",
+    "vimeo-video-button-text": "Abspielen",
+    "vimeo-video-title": "Vimeo Video",
+    "youtube-video": "Der Inhalt verweist auf ein Video von YouTube. Der Inhalt wurde zur datenschutzkonformen URL angepasst. Soll das Video <u>{{url}}</u> abgespielt werden?",
+    "youtube-video-button-text": "Abspielen",
+    "youtube-video-title": "Youtube Video"
+  },
   "explanation": {
     "add-moderators": "## Moderator\\*innen \n\nGast- und Dauermoderator\\*innen haben die gleichen Rechte wie der/die Ersteller\\*in des Raums. Sie können aber weder Fragen noch den ganzen Raum löschen. \n\nJeder kann mit seiner **Mailadresse**, mit der er sich bei »frag.jetzt« registriert hat, als **Dauermoderator\\*in** aufgenommen werden. \n\nEin unregistrierter User kann **Gastmoderator\\*in** werden, wenn er oder sie den Raum per **Direktlink** oder 8-stelligen **Zugangscode** betritt.",
     "bonus-archive": "## Bonus-Archiv \n\nHier werden alle Fragen aufgelistet, die du in deinen Räumen mit einem Stern markiert hast. Anhand der Liste kannst du überprüfen, ob der Bonuscode, den dir ein/e Teilnehmer\\*in per Mail geschickt hat, gültig ist. \n\nUm einen Code schnell zu finden, gibt es ein Suchfeld. Ist der Code gültig, kannst du dir die entsprechende Frage direkt über einen Link anzeigen lassen.",
@@ -309,7 +316,8 @@
   "header": {
     "overview-keywords-tooltip": "Anzahl Stichwörter",
     "overview-question-tooltip": "Anzahl Fragen",
-    "overview-questioners-tooltip": "Anzahl Fragensteller*innen"
+    "overview-questioners-tooltip": "Anzahl Fragensteller*innen",
+    "overview-admin-config-enabled": "Schwellenwerte für die Anzeige der Themen sind aktiv."
   },
   "home-page": {
     "create-session": "Neue Sitzung",
@@ -486,9 +494,9 @@
     "language-specific-filter": "In allen Sprachen zensieren",
     "live-announcer": "Du befindest dich jetzt in der Sitzung. Um Informationen zu Tastenkombinationen zu erhalten drücke jetzt die Enter-Taste oder rufe die Ansage zu einem späteren Zeitpunkt mit der Escape-Taste auf.",
     "live-feedback": "Live Feedback",
-    "moderator-key": "Moderatorenzugang:",
     "moderating-stream": "Zur Moderation",
     "moderation-mode": "Moderationsmodus",
+    "moderator-key": "Moderatorenzugang:",
     "name-length-error": "Der Name muss {{min}} bis {{max}} Zeichen lang sein.",
     "nav-to-comment": "Gehe zur Frage",
     "no-comments": "Es sind noch keine Fragen vorhanden.",
@@ -511,10 +519,10 @@
     "room-not-found": "Der Raum wurde nicht gefunden (",
     "score": "Score",
     "session-id": "Teilnehmerzugang",
+    "session-id-copied": "Der Direktlink für Teilnehmer*innen wurde in die Zwischenablage kopiert.",
     "session-id-lq": ": »",
     "session-id-lq-x": "»",
     "session-id-rq": "«",
-    "session-id-copied": "Der Direktlink für Teilnehmer*innen wurde in die Zwischenablage kopiert.",
     "session-moderation-board": "",
     "session-question-board": "",
     "session-settings": "Sitzungsverwaltung",
@@ -808,7 +816,18 @@
   },
   "topic-cloud-filter": {
     "info-no-keywords": "Unsere KI-basierte Textanalyse kann Stichwörter ermitteln. Analyse starten?",
-    "label-refresh-keywords-start": "Starten"
+    "label-refresh-keywords-start": "Starten",
+    "all-questions-and-answers": "Alle Fragen und Antworten",
+    "all-questions-and-answers-short": "Mit Antworten",
+    "only-questions": "Alle Fragen",
+    "only-questions-short": "Alle",
+    "current-filter": "Derzeitige Filterung",
+    "current-filter-short": "Gefiltert",
+    "from-now": "Nur Fragen ab jetzt",
+    "from-now-short": "Ab jetzt",
+    "create": "Weiter",
+    "cancel": "Abbrechen",
+    "questions-title": "Welche Fragen willst du auf dem Radar haben?"
   },
   "worker-config": {
     "cancel": "Abbrechen",

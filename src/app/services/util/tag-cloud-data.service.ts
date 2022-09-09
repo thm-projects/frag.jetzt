@@ -193,7 +193,7 @@ export class TagCloudDataService {
   }
 
   unloadCloud() {
-    this._filterObject?.detach();
+    this._filterObject?.detach(true);
   }
 
   blockWord(tag: string, room: Room): void {
@@ -242,7 +242,9 @@ export class TagCloudDataService {
     if (!room) {
       return;
     }
-    this.sessionService.receiveRoomUpdates().subscribe(() => this.rebuildTagData());
+    this.sessionService.receiveRoomUpdates().subscribe(() => {
+      this.rebuildTagData();
+    });
     this._subscriptionAdminData = this._tagCloudAdmin.getAdminData.subscribe(adminData => {
       this.onReceiveAdminData(adminData, true);
     });

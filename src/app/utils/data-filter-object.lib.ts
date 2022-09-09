@@ -45,7 +45,14 @@ export enum SortType {
 
 export type SortTypeKey = keyof typeof SortType;
 
-export type FilterTypes = 'commentList' | 'presentation' | 'tagCloud' | 'brainstorming' | 'moderatorList' | 'children' | 'dummy';
+export type FilterTypes =
+  'commentList'
+  | 'presentation'
+  | 'tagCloud'
+  | 'brainstorming'
+  | 'moderatorList'
+  | 'children'
+  | 'dummy';
 
 type DefaultData = Pick<RoomDataFilter,
   'period' |
@@ -207,6 +214,9 @@ export class RoomDataFilter {
 
   applyOptions(forceOptions: Partial<RoomDataFilter>) {
     for (const key of Object.keys(forceOptions)) {
+      if (key === 'name') {
+        continue;
+      }
       this[key] = forceOptions[key];
     }
   }

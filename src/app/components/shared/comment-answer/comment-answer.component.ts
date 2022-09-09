@@ -9,7 +9,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { DeleteAnswerComponent } from '../../creator/_dialogs/delete-answer/delete-answer.component';
 import { EventService } from '../../../services/util/event.service';
 import { WriteCommentComponent } from '../write-comment/write-comment.component';
-import { AuthenticationService } from '../../../services/http/authentication.service';
 import { User } from '../../../models/user';
 import { KeyboardUtils } from '../../../utils/keyboard';
 import { KeyboardKey } from '../../../utils/keyboard/keys';
@@ -30,6 +29,8 @@ import { ForumComment } from '../../../utils/data-accessor';
 import { KeywordExtractor } from '../../../utils/keyword-extractor';
 import { QuillUtils, StandardDelta } from '../../../utils/quill-utils';
 import { Comment } from '../../../models/comment';
+import { ResponseViewInformation } from '../comment-response-view/comment-response-view.component';
+import { UserManagementService } from '../../../services/util/user-management.service';
 
 @Component({
   selector: 'app-comment-answer',
@@ -51,11 +52,12 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
   edit = false;
   room: Room;
   mods: Set<string>;
-  vote: Vote;
+  votes: { [commentId: string]: Vote };
   isModerationComment = false;
   isConversationView: boolean;
   backUrl: string = null;
   roleString: string;
+  viewInfo: ResponseViewInformation;
   private _commentSubscription;
   private _list: ComponentRef<any>[];
   private _keywordExtractor: KeywordExtractor;
@@ -65,7 +67,7 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
     private notificationService: NotificationService,
     private translateService: TranslateService,
     protected langService: LanguageService,
-    private authenticationService: AuthenticationService,
+    private userManagementService: UserManagementService,
     protected commentService: CommentService,
     private roomDataService: RoomDataService,
     public dialog: MatDialog,
@@ -94,7 +96,7 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
     this.isConversationView = this.router.url.endsWith('conversation');
     this.userRole = this.sessionService.currentRole;
     this.initNavigation();
-    this.authenticationService.watchUser.subscribe(newUser => {
+    this.userManagementService.getUser().subscribe(newUser => {
       if (newUser) {
         this.user = newUser;
       }
@@ -124,8 +126,9 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
         .subscribe(([room, mods]) => {
           this.room = room;
           this.mods = new Set<string>(mods.map(m => m.accountId));
+          this.votes = {};
           this.voteService.getByRoomIdAndUserID(this.sessionService.currentRoom.id, this.user.id).subscribe(votes => {
-            this.vote = votes.find(v => v.commentId === commentId);
+            votes.forEach(v => this.votes[v.commentId] = v);
           });
           this.findComment(commentId).subscribe(result => {
             if (!result) {
@@ -145,8 +148,6 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     sessionStorage.removeItem('conversation-fallback-url');
     document.getElementById('header_rescale').style.display = '';
-    const source = this.isModerationComment ? this.roomDataService.moderatorDataAccessor : this.roomDataService.dataAccessor;
-    source.unregisterUI(true);
     this._list?.forEach(e => e.destroy());
     this._commentSubscription?.unsubscribe();
     if (this.comment && !this.isStudent) {
@@ -239,7 +240,7 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
   }
 
   private findComment(commentId: string): Observable<[ForumComment, boolean]> {
-    return this.roomDataService.dataAccessor.getRawComments(true, true).pipe(
+    return this.roomDataService.dataAccessor.getRawComments(true).pipe(
       map(comments => {
         const foundComment = comments.find(c => c.id === commentId);
         return (foundComment ? [foundComment, false] : null) as [ForumComment, boolean];
@@ -251,7 +252,7 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
         if (!this.roomDataService.canAccessModerator) {
           return of(null);
         }
-        return this.roomDataService.moderatorDataAccessor.getRawComments(true, true).pipe(
+        return this.roomDataService.moderatorDataAccessor.getRawComments(true).pipe(
           map(comments => {
             const foundComment = comments.find(c => c.id === commentId);
             return (foundComment ? [foundComment, true] : null) as [ForumComment, boolean];
@@ -264,10 +265,19 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
   private onCommentReceive(c: ForumComment, isModerationComment: boolean) {
     this.comment = c;
     this.isModerationComment = isModerationComment;
+    this.viewInfo = {
+      isModerationComment,
+      mods: this.mods,
+      roomOwner: this.room.ownerId,
+      roomThreshold: this.room.threshold,
+      roomId: this.room.id,
+      votes: this.votes,
+      userRole: this.userRole,
+      user: this.user,
+    };
     this.edit = !this.answer;
     this.isLoading = false;
     const source = isModerationComment ? this.roomDataService.moderatorDataAccessor : this.roomDataService.dataAccessor;
-    source.registerUI(true);
     this._commentSubscription = source.receiveUpdates([
       { type: 'CommentPatched', finished: true, updates: ['ack'] },
       { type: 'CommentDeleted', finished: true }

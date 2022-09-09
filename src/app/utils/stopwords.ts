@@ -61,6 +61,15 @@ export const stopWords = [
   'Thank',
   'Gruß',
   'Bitte',
-  'Punkt'
+  'Punkt',
+  'Frage',
+  'Antwort',
+  'Réponse',
+  'Question',
+  'Answer',
+  'Thema',
+  'Subject',
+  'Topic',
+  'Sujet'
 ];
 export const superfluousSpecialCharacters = '“”‘’„‚«»‹›『』﹃﹄「」﹁﹂",《》〈〉\'`#&…\\';

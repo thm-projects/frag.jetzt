@@ -6,7 +6,7 @@
   <button [joyrideStep]="'createRoom'"
           appJoyrideTemplate
           [stepPosition]="'top'"
-          [disabled]="cookiesDisabled()"
+          [disabled]="!sessionService.isReady"
           id="new_session-button"
           mat-flat-button
           class="new-session"

@@ -4,7 +4,7 @@ import { CreateMotdComponent } from './create-motd/create-motd.component';
 import { AdminRoutingModule } from './admin-routing.module';
 import { EssentialsModule } from '../essentials/essentials.module';
 import { SharedModule } from '../shared/shared.module';
-import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { MarkdownModule } from 'ngx-markdown';
@@ -13,6 +13,7 @@ import { MatRippleModule } from '@angular/material/core';
 import { QRCodeModule } from 'angularx-qrcode';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { NgxMatTimepickerModule } from '@angular-material-components/datetime-picker';
+import { LanguageService } from '../../services/util/language.service';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export const HttpLoaderFactory = (http: HttpClient) =>
@@ -44,4 +45,14 @@ export const HttpLoaderFactory = (http: HttpClient) =>
   ]
 })
 export class AdminModule {
+
+  constructor(
+    private languageService: LanguageService,
+    private translateService: TranslateService,
+  ) {
+    this.languageService.getLanguage().subscribe(lang => {
+      this.translateService.use(lang);
+    });
+  }
+
 }

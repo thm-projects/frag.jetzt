@@ -93,12 +93,12 @@
           </mat-menu>
           <button ars-btn
                   style="height: 100%; padding: 0 8px 0 16px;"
-                  *ngIf="headerService.getHeaderComponent().toggleUserActivity"
+                  *ngIf="headerService.isToggleCurrentUserActivity()"
                   class="pseudo-button qw-opening-fade-animation"
                   matRipple
                   matTooltip="{{'question-wall.users-online' | translate}}">
             <mat-icon class="userActivityIcon">comment</mat-icon>
-            <p style="margin-left: 0.25em;">{{headerService.getHeaderComponent().userActivity}}</p>
+            <p style="margin-left: 0.25em;">{{headerService.getCurrentUserActivity()}}</p>
           </button>
           <button ars-btn
                   class="pseudo-button qw-opening-fade-animation"

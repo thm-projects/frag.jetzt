@@ -217,13 +217,6 @@
   },
   "content": {
     "cancel": "Cancel",
-    "tag-cloud-create": "Next",
-    "tag-cloud-questions-all": "All questions",
-    "tag-cloud-questions-all-short": "All",
-    "tag-cloud-questions-current-filtered": "Filtered",
-    "tag-cloud-questions-from-now": "Only questions from now on",
-    "tag-cloud-questions-from-now-short": "From now on",
-    "tag-cloud-questions-title": "Which questions do you want on the radar?",
     "yes": "Yes"
   },
   "deepl": {
@@ -244,6 +237,20 @@
     "read-less": "Read less",
     "read-more": "Read more"
   },
+  "dsgvo": {
+    "external-source": "The content is an external source. Should <u>{{url}}</u> be called?",
+    "external-source-button-text": "Call up",
+    "external-source-title": "External source",
+    "unknown-source": "The content either refers to the current website (redirection to a room, or URL) or refers to an external protocol. Should <u>{{url}}</u> be called?",
+    "unknown-source-button-text": "Call up",
+    "unknown-source-title": "Unknown or internal source",
+    "vimeo-video": "The content links to a video from Vimeo. Should the video <u>{{url}}</u> be played?",
+    "vimeo-video-button-text": "Play",
+    "vimeo-video-title": "Vimeo video",
+    "youtube-video": "The content links to a video from YouTube. The content has been adapted to the privacy-compliant URL. Should the video <u>{{url}}</u> be played?",
+    "youtube-video-button-text": "Play",
+    "youtube-video-title": "Youtube video"
+  },
   "explanation": {
     "brainstorming": "## Lorem ipsum \n\nLorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,\nmolestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum\nnumquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium\noptio, eaque rerum! Provident similique accusantium nemo autem.",
     "close": "Close",
@@ -256,7 +263,8 @@
   "header": {
     "overview-keywords-tooltip": "Number of Keywords",
     "overview-question-tooltip": "Number of questions",
-    "overview-questioners-tooltip": "Number of questioners"
+    "overview-questioners-tooltip": "Number of questioners",
+    "overview-admin-config-enabled": "Thresholds for displaying topics are active."
   },
   "home-page": {
     "exactly-8": "A key is a combination of 8 digits.",
@@ -629,11 +637,20 @@
   },
   "topic-cloud-filter": {
     "info-no-keywords": "Our AI-based text analysis can identify keywords. Start analysis?",
-    "label-refresh-keywords-start": "Start"
+    "label-refresh-keywords-start": "Start",
+    "create": "Next",
+    "cancel": "Cancel",
+    "all-questions-and-answers": "All questions ans answers",
+    "all-questions-and-answers-short": "With answers",
+    "only-questions": "All questions",
+    "only-questions-short": "All",
+    "current-filter": "Current Filter",
+    "current-filter-short": "Filtered",
+    "from-now": "Only questions from now on",
+    "from-now-short": "From now on",
+    "questions-title": "Which questions do you want on the radar?"
   },
   "user-bonus-token": {
-    "roomName-lq": "»",
-    "roomName-rq": "«",
     "bonus-token-body1": " from ",
     "bonus-token-body2": " with the question number ",
     "bonus-tokens": "\n\nMy bonuses",
@@ -653,6 +670,8 @@
     "redeem-mail-failure": "Your mail app could not be accessed. Copy the data to the clipboard and use it to create a mail to the event management.",
     "redeem-tokens": "Redeem bonus code by mail",
     "redeem-tokens-clipboard": "Bonus code to clipboard",
+    "roomName-lq": "»",
+    "roomName-rq": "«",
     "session-id": "Key code",
     "session-name": "Event"
   },

@@ -34,8 +34,9 @@ import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MAT_TOOLTIP_DEFAULT_OPTIONS, MatTooltipModule } from '@angular/material/tooltip';
-import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { LanguageService } from '../../services/util/language.service';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export const HttpLoaderFactory = (http: HttpClient) => {
@@ -108,4 +109,14 @@ export const HttpLoaderFactory = (http: HttpClient) => {
   ]
 })
 export class EssentialsModule {
+
+  constructor(
+    private languageService: LanguageService,
+    private translateService: TranslateService,
+  ) {
+    this.languageService.getLanguage().subscribe(lang => {
+      this.translateService.use(lang);
+    });
+  }
+
 }

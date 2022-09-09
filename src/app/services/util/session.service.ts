@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { BehaviorSubject, Observable, PartialObserver, Subject, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, of, ReplaySubject, Subject, Subscription, switchMap } from 'rxjs';
 import { Room } from '../../models/room';
 import { Moderator } from '../../models/moderator';
 import { RoomService } from '../http/room.service';
 import { WsRoomService } from '../websockets/ws-room.service';
 import { ModeratorService } from '../http/moderator.service';
 import { UserRole } from '../../models/user-roles.enum';
-import { filter, mergeMap, take } from 'rxjs/operators';
-import { AuthenticationService, LoginResult } from '../http/authentication.service';
+import { filter, map, mergeMap, take } from 'rxjs/operators';
 import { WsConnectorService } from '../websockets/ws-connector.service';
 import { QuillUtils, SerializedDelta } from '../../utils/quill-utils';
+import { UserManagementService } from './user-management.service';
 
 @Injectable({
   providedIn: 'root'
@@ -26,25 +26,17 @@ export class SessionService {
   private _canChangeRoleOnRoute = false;
   private _currentLoadingShortId = null;
   private _lastShortId = null;
+  private _initialized = false;
+  private _initFinished = new ReplaySubject(1);
 
   constructor(
     private router: Router,
     private roomService: RoomService,
     private wsRoomService: WsRoomService,
     private moderatorService: ModeratorService,
-    private authenticationService: AuthenticationService,
+    private userManagementService: UserManagementService,
     private wsConnectorService: WsConnectorService,
   ) {
-    if (this.authenticationService.wasLoggedIn()) {
-      this.authenticationService.refreshLogin().subscribe(this.loginObserver());
-    }
-    this.onNavigate();
-    this.router.events.subscribe(e => {
-      if (!(e instanceof NavigationEnd)) {
-        return;
-      }
-      this.onNavigate();
-    });
   }
 
   get canChangeRoleOnRoute(): boolean {
@@ -63,9 +55,33 @@ export class SessionService {
     return this._currentModerators.value;
   }
 
+  get isReady() {
+    return this._initialized;
+  }
+
+  get onReady() {
+    return this._initFinished.asObservable();
+  }
+
   public static needsUser(router: Router) {
     const url = decodeURI(router.url);
     return !(url === '/' || url === '/home' || url === '/quiz' || url === '/data-protection' || url === '/imprint');
+  }
+
+  init() {
+    if (this._initialized) {
+      return;
+    }
+    this._initialized = true;
+    this._initFinished.next(true);
+    this._initFinished.complete();
+    this.onNavigate();
+    this.router.events.subscribe(e => {
+      if (!(e instanceof NavigationEnd)) {
+        return;
+      }
+      this.onNavigate();
+    });
   }
 
   getRole(): Observable<UserRole> {
@@ -101,31 +117,46 @@ export class SessionService {
     );
   }
 
-  validateNewRoute(shortId: string, requiredRole: UserRole, onRevalidate: (allowed: boolean) => void): boolean {
+  validateNewRoute(
+    shortId: string,
+    urlRole: UserRole,
+    requiredRoles: UserRole[],
+    onRevalidate: (allowed: boolean, redirect?: UserRole) => void,
+  ): boolean {
+    if (urlRole === null) {
+      onRevalidate(false);
+      return false;
+    }
+    let previous = this.userManagementService.getCurrentUser()?.isSuperAdmin ||
+      !this._initialized ||
+      this.userManagementService.hasAccess(shortId, urlRole);
     this.loadRoom(shortId);
-    requiredRole = requiredRole || UserRole.PARTICIPANT;
-    const userId = this.authenticationService.getUser()?.id;
-    this.getRoomOnce().subscribe(room => {
-      if (room.ownerId === userId) {
-        this.authenticationService.setAccess(shortId, UserRole.CREATOR);
-        onRevalidate(true);
+    this.onReady.subscribe(() => {
+      const user = this.userManagementService.getCurrentUser();
+      if (!user) {
+        previous = false;
+        onRevalidate(previous);
         return;
       }
-      if (requiredRole === UserRole.CREATOR) {
-        onRevalidate(false);
-        return;
-      }
-      this.getModeratorsOnce().subscribe(mods => {
-        if (mods.some(m => m.accountId === userId)) {
-          this.authenticationService.setAccess(shortId, UserRole.EXECUTIVE_MODERATOR);
-          onRevalidate(true);
+      this.ensureRole(user.id).subscribe(role => {
+        if (user.isSuperAdmin) {
+          previous = true;
+          onRevalidate(previous);
           return;
         }
-        this.authenticationService.setAccess(shortId, UserRole.PARTICIPANT);
-        onRevalidate(false);
+        if (role >= urlRole) {
+          previous = true;
+          onRevalidate(previous);
+        } else if (requiredRoles.includes(role)) {
+          previous = undefined;
+          onRevalidate(previous, role);
+        } else {
+          previous = false;
+          onRevalidate(previous);
+        }
       });
     });
-    return this.authenticationService.hasAccess(shortId, requiredRole) || requiredRole === UserRole.PARTICIPANT;
+    return previous;
   }
 
   updateCurrentRoom(room: Partial<Room>): void {
@@ -141,6 +172,27 @@ export class SessionService {
 
   getLastShortId() {
     return this._lastShortId;
+  }
+
+  private ensureRole(userId: string): Observable<UserRole> {
+    return this.getRoomOnce().pipe(
+      switchMap(room => {
+        if (room.ownerId === userId) {
+          this.userManagementService.setAccess(room.shortId, room.id, UserRole.CREATOR);
+          return of(UserRole.CREATOR);
+        }
+        return this.getModeratorsOnce().pipe(
+          map(mods => {
+            if (mods.some(m => m.accountId === userId)) {
+              this.userManagementService.setAccess(room.shortId, room.id, UserRole.EXECUTIVE_MODERATOR);
+              return UserRole.EXECUTIVE_MODERATOR;
+            }
+            this.userManagementService.setAccess(room.shortId, room.id, UserRole.PARTICIPANT);
+            return UserRole.PARTICIPANT;
+          }),
+        );
+      })
+    );
   }
 
   private onNavigate() {
@@ -201,18 +253,21 @@ export class SessionService {
     this._lastShortId = shortId;
     this.clearRoom();
     this._currentLoadingShortId = shortId;
-    this.authenticationService.checkAccess(shortId);
-    this.authenticationService.guestLogin(UserRole.PARTICIPANT).pipe(
-      mergeMap(_ => this.wsConnectorService.connected$.pipe(filter(v => !!v), take(1)))
-    ).subscribe(_ => this.fetchRoom(shortId));
+    this._initFinished.pipe(take(1)).subscribe(() => {
+      this.userManagementService.forceLogin().pipe(
+        map(data => {
+          this.userManagementService.setCurrentAccess(shortId);
+          return data;
+        }),
+        mergeMap(_ => this.wsConnectorService.connected$.pipe(filter(v => !!v), take(1)))
+      ).subscribe(_ => this.fetchRoom(shortId));
+    });
   }
 
   private fetchRoom(shortId: string) {
     this.roomService.getRoomByShortId(shortId).subscribe(room => {
       this.roomService.addToHistory(room.id);
-      if (!this.authenticationService.hasAccess(shortId, UserRole.PARTICIPANT)) {
-        this.authenticationService.setAccess(shortId, UserRole.PARTICIPANT);
-      }
+      this.userManagementService.ensureAccess(shortId, room.id, UserRole.PARTICIPANT);
       this._beforeRoomUpdates = new Subject<Partial<Room>>();
       this._afterRoomUpdates = new Subject<Room>();
       this._roomSubscription = this.wsRoomService.getRoomStream(room.id).subscribe(msg => {
@@ -274,22 +329,6 @@ export class SessionService {
     if (!SessionService.needsUser(this.router)) {
       return;
     }
-    this.authenticationService.guestLogin(UserRole.PARTICIPANT).subscribe(this.loginObserver());
-  }
-
-  private loginObserver(): PartialObserver<LoginResult> {
-    const goHome = () => {
-      if (SessionService.needsUser(this.router)) {
-        this.router.navigate(['/']);
-      }
-    };
-    return {
-      next: value => {
-        if (value !== LoginResult.Success) {
-          goHome();
-        }
-      },
-      error: _ => goHome()
-    };
+    this.userManagementService.forceLogin().subscribe();
   }
 }

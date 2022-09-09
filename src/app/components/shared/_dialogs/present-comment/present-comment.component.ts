@@ -1,10 +1,8 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { TranslateService } from '@ngx-translate/core';
 import { DOCUMENT } from '@angular/common';
 import { KeyboardUtils } from '../../../../utils/keyboard';
 import { KeyboardKey } from '../../../../utils/keyboard/keys';
-import { LanguageService } from '../../../../services/util/language.service';
 import { ImmutableStandardDelta } from '../../../../utils/quill-utils';
 
 @Component({
@@ -20,11 +18,8 @@ export class PresentCommentComponent implements OnInit {
   constructor(
     @Inject(DOCUMENT) private document: Document,
     public dialogRef: MatDialogRef<PresentCommentComponent>,
-    private translateService: TranslateService,
     public dialog: MatDialog,
-    private languageService: LanguageService,
   ) {
-    this.languageService.getLanguage().subscribe(lang => this.translateService.use(lang));
   }
 
   onKeyUp(event: KeyboardEvent) {

@@ -217,13 +217,6 @@
   },
   "content": {
     "cancel": "Abbrechen",
-    "tag-cloud-create": "Weiter",
-    "tag-cloud-questions-all": "Alle Fragen",
-    "tag-cloud-questions-all-short": "Alle",
-    "tag-cloud-questions-current-filtered": "Gefiltert",
-    "tag-cloud-questions-from-now": "Nur Fragen ab jetzt",
-    "tag-cloud-questions-from-now-short": "Ab jetzt",
-    "tag-cloud-questions-title": "Welche Fragen willst du auf dem Radar haben?",
     "yes": "Ja"
   },
   "deepl": {
@@ -244,6 +237,20 @@
     "read-less": "Weniger lesen",
     "read-more": "Mehr lesen"
   },
+  "dsgvo": {
+    "external-source": "Der Inhalt ist eine externe Quelle. Soll <u>{{url}}</u> aufgerufen werden?",
+    "external-source-button-text": "Aufrufen",
+    "external-source-title": "Externe Quelle",
+    "unknown-source": "Der Inhalt bezieht sich entweder auf die jetzige Website (Weiterleitung zu einem Raum, bzw. einer URL) oder verweist auf ein externes Protokoll. Soll <u>{{url}}</u> aufgerufen werden?",
+    "unknown-source-button-text": "Aufrufen",
+    "unknown-source-title": "Unbekannte oder interne Quelle",
+    "vimeo-video": "Der Inhalt verweist auf ein Video von Vimeo. Soll das Video <u>{{url}}</u> abgespielt werden?",
+    "vimeo-video-button-text": "Abspielen",
+    "vimeo-video-title": "Vimeo Video",
+    "youtube-video": "Der Inhalt verweist auf ein Video von YouTube. Der Inhalt wurde zur datenschutzkonformen URL angepasst. Soll das Video <u>{{url}}</u> abgespielt werden?",
+    "youtube-video-button-text": "Abspielen",
+    "youtube-video-title": "Youtube Video"
+  },
   "explanation": {
     "brainstorming": "## Lorem ipsum \n\nLorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,\nmolestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum\nnumquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium\noptio, eaque rerum! Provident similique accusantium nemo autem.",
     "close": "Schließen",
@@ -256,7 +263,8 @@
   "header": {
     "overview-keywords-tooltip": "Anzahl Stichwörter",
     "overview-question-tooltip": "Anzahl Fragen",
-    "overview-questioners-tooltip": "Anzahl Fragensteller*innen"
+    "overview-questioners-tooltip": "Anzahl Fragensteller*innen",
+    "overview-admin-config-enabled": "Schwellenwerte für die Anzeige der Themen sind aktiv."
   },
   "home-page": {
     "exactly-8": "Ein Raum-Code hat genau 8 Ziffern.",
@@ -629,11 +637,20 @@
   },
   "topic-cloud-filter": {
     "info-no-keywords": "Unsere KI-basierte Textanalyse kann Stichwörter ermitteln. Analyse starten?",
-    "label-refresh-keywords-start": "Starten"
+    "label-refresh-keywords-start": "Starten",
+    "all-questions-and-answers": "Alle Fragen und Antworten",
+    "all-questions-and-answers-short": "Mit Antworten",
+    "only-questions": "Alle Fragen",
+    "only-questions-short": "Alle",
+    "current-filter": "Derzeitige Filterung",
+    "current-filter-short": "Gefiltert",
+    "from-now": "Nur Fragen ab jetzt",
+    "from-now-short": "Ab jetzt",
+    "create": "Weiter",
+    "cancel": "Abbrechen",
+    "questions-title": "Welche Fragen willst du auf dem Radar haben?"
   },
   "user-bonus-token": {
-    "roomName-lq": "»",
-    "roomName-rq": "«",
     "bonus-token-body1": " vom ",
     "bonus-token-body2": " mit der Fragennummer ",
     "bonus-tokens": "\n\nMeine Boni",
@@ -653,6 +670,8 @@
     "redeem-mail-failure": "Auf deine Mail-App konnte nicht zugegriffen werden. Kopiere die Daten in die Zwischenablage und erstelle damit eine Mail an das Veranstaltungsmanagement.",
     "redeem-tokens": "Bonuscode per Mail einlösen",
     "redeem-tokens-clipboard": "Bonuscode in die Zwischenablage",
+    "roomName-lq": "»",
+    "roomName-rq": "«",
     "session-id": "Raum-Code",
     "session-name": "Veranstaltung"
   },

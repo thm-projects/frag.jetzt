@@ -1,7 +1,6 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { Comment } from '../../../models/comment';
 import { Vote } from '../../../models/vote';
-import { AuthenticationService } from '../../../services/http/authentication.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { CommentService } from '../../../services/http/comment.service';
@@ -29,6 +28,9 @@ import { Room } from '../../../models/room';
 import { HttpClient } from '@angular/common/http';
 import { ForumComment } from '../../../utils/data-accessor';
 import { QuillUtils } from '../../../utils/quill-utils';
+import { forkJoin, ReplaySubject, takeUntil } from 'rxjs';
+import { ResponseViewInformation } from '../comment-response-view/comment-response-view.component';
+import { UserManagementService } from '../../../services/util/user-management.service';
 
 @Component({
   selector: 'app-comment',
@@ -48,7 +50,7 @@ import { QuillUtils } from '../../../utils/quill-utils';
     ])
   ]
 })
-export class CommentComponent implements OnInit, AfterViewInit {
+export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
 
   static COMMENT_MAX_HEIGHT = 250;
 
@@ -65,7 +67,8 @@ export class CommentComponent implements OnInit, AfterViewInit {
   @Input() isResponse = false;
   @Input() responseIndex = 0;
   @Input() isAnswerView = false;
-  @Input() parentDepth = -1;
+  @Input() indentationPossible = false;
+  @Input() showResponses: boolean = false;
   @Output() clickedOnTag = new EventEmitter<string>();
   @Output() clickedOnKeyword = new EventEmitter<string>();
   @Output() clickedUserNumber = new EventEmitter<string>();
@@ -91,17 +94,17 @@ export class CommentComponent implements OnInit, AfterViewInit {
   roomTags: string[];
   room: Room;
   responses: ForumComment[] = [];
-  showResponses: boolean = false;
   isConversationView: boolean;
   sortMethod = 'Time';
-  indentationPossible: boolean;
   currentDateString = '?';
-  readonly COMMENT_MARGIN = 15;
-  private _responseMatcher: MediaQueryList;
+  viewInfo: ResponseViewInformation;
+  commentRegistrationId: string;
+  private _votes;
   private _commentNumber: string[] = [];
+  private _destroyer = new ReplaySubject(1);
 
   constructor(
-    protected authenticationService: AuthenticationService,
+    protected userManagementService: UserManagementService,
     private route: ActivatedRoute,
     private location: Location,
     protected router: Router,
@@ -116,13 +119,11 @@ export class CommentComponent implements OnInit, AfterViewInit {
     public deviceInfo: DeviceInfoService,
     public notificationService: DashboardNotificationService,
   ) {
-    langService.getLanguage().subscribe(lang => {
-      translateService.use(lang);
+    langService.getLanguage().pipe(takeUntil(this._destroyer)).subscribe(lang => {
       this.language = lang;
-      this.http.get('/assets/i18n/dashboard/' + lang + '.json')
-        .subscribe(translation => {
-          this.translateService.setTranslation(lang, translation, true);
-        });
+      this.http.get('/assets/i18n/dashboard/' + lang + '.json').subscribe(translation => {
+        this.translateService.setTranslation(lang, translation, true);
+      });
       this.generateCommentNumber();
       this.onLanguageChange();
     });
@@ -135,9 +136,9 @@ export class CommentComponent implements OnInit, AfterViewInit {
   }
 
   @Input()
-  set parseVote(vote: Vote) {
-    if (vote) {
-      this.hasVoted = vote.vote;
+  set parseVote(votes: { [commentId: string]: Vote }) {
+    if (votes) {
+      this._votes = votes;
     }
   }
 
@@ -160,12 +161,6 @@ export class CommentComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    this._responseMatcher = window.matchMedia(
-      '(min-width: ' + (this.getMargin() + 375).toString() + 'px)');
-    this.indentationPossible = this._responseMatcher.matches;
-    this._responseMatcher.addEventListener('change', e => {
-      this.indentationPossible = e.matches;
-    });
     this.isConversationView = this.router.url.endsWith('conversation');
     if (this.comment?.created) {
       this.slideAnimationState = 'new';
@@ -174,6 +169,7 @@ export class CommentComponent implements OnInit, AfterViewInit {
       this.slideAnimationState = this.isResponse ? 'child' : 'visible';
     }
     this.readableCommentBody = this.comment?.body ? QuillUtils.getTextFromDelta(this.comment.body) : '';
+    this.commentRegistrationId = this.comment?.id;
     this.checkProfanity();
     switch (this.userRole) {
       case UserRole.PARTICIPANT.valueOf():
@@ -188,7 +184,6 @@ export class CommentComponent implements OnInit, AfterViewInit {
         this.isModerator = true;
         this.roleString = 'moderator';
     }
-    this.translateService.use(this.language);
     this.inAnswerView = !this.router.url.includes('comments');
     this.roomTags = this.sessionService.currentRoom?.tags;
     this.room = this.sessionService.currentRoom;
@@ -229,6 +224,11 @@ export class CommentComponent implements OnInit, AfterViewInit {
     });
   }
 
+  ngOnDestroy() {
+    this._destroyer.next(1);
+    this._destroyer.complete();
+  }
+
   sortKeywords(keywords: SpacyKeyword[]) {
     return keywords.sort((a, b) => a.text.localeCompare(b.text));
   }
@@ -248,7 +248,7 @@ export class CommentComponent implements OnInit, AfterViewInit {
     if (this.slideAnimationState === 'removed') {
       if (this.comment.removed) {
         this.comment.removed = false;
-        this.roomDataService.dataAccessor.removeCommentFully(this.comment.id);
+        this.commentRegistrationId = null;
       }
       return;
     }
@@ -318,7 +318,7 @@ export class CommentComponent implements OnInit, AfterViewInit {
     if (this.isMock) {
       return;
     }
-    const userId = this.authenticationService.getUser().id;
+    const userId = this.userManagementService.getCurrentUser().id;
     if (this.hasVoted !== 1) {
       this.commentService.voteUp(comment, userId).subscribe(_ => this.votedComment.emit(this.comment.id));
       this.hasVoted = 1;
@@ -335,7 +335,7 @@ export class CommentComponent implements OnInit, AfterViewInit {
     if (this.isMock) {
       return;
     }
-    const userId = this.authenticationService.getUser().id;
+    const userId = this.userManagementService.getCurrentUser().id;
     if (this.hasVoted !== -1) {
       this.commentService.voteDown(comment, userId).subscribe(_ => this.votedComment.emit(this.comment.id));
       this.hasVoted = -1;
@@ -397,6 +397,10 @@ export class CommentComponent implements OnInit, AfterViewInit {
   showConversation() {
     if (this.isMock) {
       return;
+    }
+    this.showResponses = true;
+    if (true) {
+      return; //TODO: REMOVE
     }
     if (this.isConversationView && this.indentationPossible) {
       this.showResponses = true;
@@ -522,7 +526,23 @@ export class CommentComponent implements OnInit, AfterViewInit {
   }
 
   getResponses() {
+    this.hasVoted = this._votes[this.comment.id]?.vote;
     this.responses = [...this.comment.children];
+    forkJoin([
+      this.sessionService.getRoomOnce(),
+      this.sessionService.getModeratorsOnce(),
+    ]).subscribe(([room, mods]) => {
+      this.viewInfo = {
+        roomId: room.id,
+        mods: new Set<string>(mods.map(m => m.accountId)),
+        roomThreshold: room.threshold,
+        roomOwner: room.ownerId,
+        user: this.user,
+        userRole: this.userRole,
+        isModerationComment: this.isModerator,
+        votes: this._votes,
+      };
+    });
   }
 
   toggleNotifications() {
@@ -539,10 +559,6 @@ export class CommentComponent implements OnInit, AfterViewInit {
   sortAnswers(value: string) {
     this.sortedAnswers.emit(value);
     this.sortMethod = value;
-  }
-
-  getMargin(): number {
-    return (this.comment.commentDepth - this.parentDepth) * this.COMMENT_MARGIN;
   }
 
   getPrettyCommentNumber(): string[] {
@@ -574,12 +590,12 @@ export class CommentComponent implements OnInit, AfterViewInit {
       return;
     }
     const date = new Date(this.comment.createdAt);
-    const dateString = date.toLocaleDateString(this.langService.currentLanguage(), {
+    const dateString = date.toLocaleDateString(this.langService.currentLanguage() ?? undefined, {
       day: '2-digit',
       month: '2-digit',
       year: 'numeric'
     });
-    const timeString = date.toLocaleTimeString(this.langService.currentLanguage(), {
+    const timeString = date.toLocaleTimeString(this.langService.currentLanguage() ?? undefined, {
       minute: '2-digit',
       hour: '2-digit',
     });

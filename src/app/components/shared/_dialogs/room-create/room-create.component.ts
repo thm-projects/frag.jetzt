@@ -5,7 +5,6 @@ import { UserRole } from '../../../../models/user-roles.enum';
 import { Router } from '@angular/router';
 import { NotificationService } from '../../../../services/util/notification.service';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { AuthenticationService } from '../../../../services/http/authentication.service';
 import { TranslateService } from '@ngx-translate/core';
 import { User } from '../../../../models/user';
 import { defaultCategories } from '../../../../utils/defaultCategories';
@@ -13,6 +12,7 @@ import { FormControl, Validators } from '@angular/forms';
 import { LanguageService } from '../../../../services/util/language.service';
 import { SessionService } from '../../../../services/util/session.service';
 import { RoomSettingsOverviewComponent } from '../room-settings-overview/room-settings-overview.component';
+import { UserManagementService } from '../../../../services/util/user-management.service';
 
 const invalidRegex = /[^A-Z0-9_\-.~]+/gi;
 
@@ -46,17 +46,16 @@ export class RoomCreateComponent implements OnInit {
     private notification: NotificationService,
     public dialogRef: MatDialogRef<RoomCreateComponent>,
     private translateService: TranslateService,
-    private authenticationService: AuthenticationService,
+    private userManagementService: UserManagementService,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private languageService: LanguageService,
     private sessionService: SessionService,
     private dialog: MatDialog,
   ) {
-    this.languageService.getLanguage().subscribe(lang => this.translateService.use(lang));
   }
 
   ngOnInit() {
-    this.authenticationService.watchUser.subscribe(newUser => this.user = newUser);
+    this.userManagementService.getUser().subscribe(newUser => this.user = newUser);
   }
 
   resetInvalidCharacters(): void {
@@ -89,7 +88,7 @@ export class RoomCreateComponent implements OnInit {
     }
     this.isLoading = true;
     if (!this.user) {
-      this.authenticationService.guestLogin(UserRole.CREATOR).subscribe(() => {
+      this.userManagementService.forceLogin().subscribe(() => {
         this.addRoom(this.roomNameFormControl.value);
       });
     } else {
@@ -125,8 +124,8 @@ export class RoomCreateComponent implements OnInit {
       this.room = room;
       this.translateService.get('home-page.created', { longRoomName })
         .subscribe(msg => this.notification.show(msg));
-      this.authenticationService.setAccess(room.shortId, UserRole.CREATOR);
-      this.authenticationService.assignRole(UserRole.CREATOR);
+      this.userManagementService.setAccess(room.shortId, room.id, UserRole.CREATOR);
+      this.userManagementService.setCurrentAccess(room.shortId);
       this.router.navigate(['/creator/room/' + encodeURIComponent(room.shortId)]).then(() => {
         this.sessionService.getRoomOnce().subscribe(enteredRoom => {
           const ref = this.dialog.open(RoomSettingsOverviewComponent, {

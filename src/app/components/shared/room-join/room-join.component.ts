@@ -6,13 +6,14 @@ import { RegisterErrorStateMatcher } from '../../home/_dialogs/register/register
 import { FormControl, Validators } from '@angular/forms';
 import { NotificationService } from '../../../services/util/notification.service';
 import { TranslateService } from '@ngx-translate/core';
-import { AuthenticationService, LoginResult } from '../../../services/http/authentication.service';
 import { UserRole } from '../../../models/user-roles.enum';
 import { User } from '../../../models/user';
 import { ModeratorService } from '../../../services/http/moderator.service';
 import { KeyboardUtils } from '../../../utils/keyboard';
 import { KeyboardKey } from '../../../utils/keyboard/keys';
 import { forkJoin } from 'rxjs';
+import { UserManagementService } from '../../../services/util/user-management.service';
+import { SessionService } from '../../../services/util/session.service';
 
 @Component({
   selector: 'app-room-join',
@@ -33,13 +34,14 @@ export class RoomJoinComponent implements OnInit {
     private router: Router,
     public notificationService: NotificationService,
     private translateService: TranslateService,
-    public authenticationService: AuthenticationService,
-    private moderatorService: ModeratorService
+    public userManagementService: UserManagementService,
+    private moderatorService: ModeratorService,
+    public sessionService: SessionService,
   ) {
   }
 
   ngOnInit() {
-    this.authenticationService.watchUser.subscribe(newUser => this.user = newUser);
+    this.userManagementService.getUser().subscribe(newUser => this.user = newUser);
   }
 
   joinRoom(id: string): void {
@@ -50,13 +52,9 @@ export class RoomJoinComponent implements OnInit {
       this.getRoom(id);
       return;
     }
-    this.authenticationService.guestLogin(UserRole.PARTICIPANT).subscribe(() => {
+    this.userManagementService.forceLogin().subscribe(() => {
       this.getRoom(id);
     });
-  }
-
-  cookiesDisabled(): boolean {
-    return localStorage.getItem('cookieAccepted') === 'false';
   }
 
 
@@ -131,8 +129,8 @@ export class RoomJoinComponent implements OnInit {
   }
 
   private guestLogin(room: Room, mods: Set<string>) {
-    this.authenticationService.guestLogin(UserRole.PARTICIPANT).subscribe(result => {
-      if (result === LoginResult.Success) {
+    this.userManagementService.forceLogin().subscribe(result => {
+      if (result !== null) {
         this.addAndNavigate(room, mods);
       }
     });
@@ -140,16 +138,16 @@ export class RoomJoinComponent implements OnInit {
 
   private addAndNavigate(room: Room, mods: Set<string>) {
     if (this.user.id === room.ownerId) {
-      this.authenticationService.setAccess(room.shortId, UserRole.CREATOR);
+      this.userManagementService.setAccess(room.shortId, room.id, UserRole.CREATOR);
       this.router.navigate([`/creator/room/${room.shortId}/comments`]);
       return;
     }
     if (mods.has(this.user.id)) {
-      this.authenticationService.setAccess(room.shortId, UserRole.EXECUTIVE_MODERATOR);
+      this.userManagementService.setAccess(room.shortId, room.id, UserRole.EXECUTIVE_MODERATOR);
       this.router.navigate([`/moderator/room/${room.shortId}/comments`]);
       return;
     }
-    this.authenticationService.setAccess(room.shortId, UserRole.PARTICIPANT);
+    this.userManagementService.setAccess(room.shortId, room.id, UserRole.PARTICIPANT);
     this.router.navigate([`/participant/room/${room.shortId}/comments`]);
   }
 }

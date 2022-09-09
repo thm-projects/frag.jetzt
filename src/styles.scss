@@ -363,6 +363,10 @@ blockquote {
   min-width: unset !important;
 }
 
+.mat-dialog-content {
+  padding: 0 24px 1em 24px !important;
+}
+
 @media screen and (min-width: 800px) {
 
   /* Works on Firefox */
@@ -428,4 +432,66 @@ blockquote {
 
 .mat-slider-thumb {
   background-color: darkorange !important;
+}
+
+article.dsgvo-info-article {
+  background-color: var(--surface);
+  color: var(--on-surface);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: min-content;
+  width: 100%;
+  word-break: break-word;
+
+  h3 {
+    margin: 1em;
+  }
+
+  p {
+    margin: 1em;
+  }
+
+  button {
+    background-color: var(--surface);
+    color: var(--on-surface);
+    width: fit-content;
+    margin: 1em auto;
+
+    &:hover {
+      outline: 3px solid var(--secondary);
+    }
+  }
+}
+
+iframe {
+  width: 100%;
+  border: none;
+}
+
+.videoWrapper {
+  position: relative;
+  width: 100%;
+  overflow-wrap: break-word;
+
+  iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+  }
+
+  &:after {
+    content: "";
+    display: block;
+    padding-bottom: 56.25%; /* 16:9 */
+    width: 100%;
+  }
+
+  &.dsgvo-inside {
+    &:after {
+      content: unset;
+    }
+  }
 }

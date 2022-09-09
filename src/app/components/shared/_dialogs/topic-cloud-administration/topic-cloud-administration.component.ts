@@ -4,7 +4,6 @@ import { NotificationService } from '../../../../services/util/notification.serv
 import { TopicCloudConfirmDialogComponent } from '../topic-cloud-confirm-dialog/topic-cloud-confirm-dialog.component';
 import { UserRole } from '../../../../models/user-roles.enum';
 import { TranslateService } from '@ngx-translate/core';
-import { LanguageService } from '../../../../services/util/language.service';
 import { TopicCloudAdminService } from '../../../../services/util/topic-cloud-admin.service';
 import { ProfanityFilterService } from '../../../../services/util/profanity-filter.service';
 import {
@@ -61,6 +60,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   wantedLabels: {
     de: string[];
     en: string[];
+    fr: string[];
   };
   spacyLabelsAllSelectedDE = true;
   isLoading = true;
@@ -90,7 +90,6 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     public confirmDialog: MatDialog,
     private notificationService: NotificationService,
     private translateService: TranslateService,
-    private langService: LanguageService,
     private topicCloudAdminService: TopicCloudAdminService,
     private sessionService: SessionService,
     private commentService: CommentService,
@@ -98,9 +97,6 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     private profanityFilterService: ProfanityFilterService,
     public deviceInfo: DeviceInfoService,
   ) {
-    this.langService.getLanguage().subscribe(lang => {
-      this.translateService.use(lang);
-    });
     const emptyData = {} as TopicCloudAdminData;
     ensureDefaultScorings(emptyData);
     this.defaultScorings = emptyData.scorings;
@@ -215,7 +211,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   }
 
   initializeKeywords() {
-    this.roomDataService.dataAccessor.getRawComments(false, true).subscribe(comments => {
+    this.roomDataService.dataAccessor.getRawComments(false).subscribe(comments => {
       this.keywords = new Map<string, Keyword>();
       comments.forEach(comment => {
         this.pushInKeywords(comment);
@@ -283,7 +279,8 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     this.topicCloudAdminData = {
       wantedLabels: {
         de: this.wantedLabels.de,
-        en: this.wantedLabels.en
+        en: this.wantedLabels.en,
+        fr: this.wantedLabels.fr,
       },
       considerVotes: this.considerVotes,
       keywordORfulltext: KeywordOrFulltext[this.keywordORfulltext],
@@ -316,7 +313,8 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     this.keywordORfulltext = KeywordOrFulltext[this.topicCloudAdminData.keywordORfulltext];
     this.wantedLabels = {
       de: this.topicCloudAdminData.wantedLabels.de,
-      en: this.topicCloudAdminData.wantedLabels.en
+      en: this.topicCloudAdminData.wantedLabels.en,
+      fr: this.topicCloudAdminData.wantedLabels.fr ?? TopicCloudAdminService.getDefaultSpacyTags('fr'),
     };
     this.minQuestioners = String(this.topicCloudAdminData.minQuestioners);
     this.minQuestions = String(this.topicCloudAdminData.minQuestions);
@@ -552,6 +550,17 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
       });
     } else {
       this.wantedLabels.en = [];
+    }
+  }
+
+  selectAllFR() {
+    if (this.wantedLabels.fr.length < this.spacyLabels.fr.length) {
+      this.wantedLabels.fr = [];
+      this.spacyLabels.fr.forEach(label => {
+        this.wantedLabels.fr.push(label.tag);
+      });
+    } else {
+      this.wantedLabels.fr = [];
     }
   }
 

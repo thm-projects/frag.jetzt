@@ -1,4 +1,4 @@
-import { Component, Inject, Input, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { NotificationService } from '../../../../services/util/notification.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -10,13 +10,14 @@ import { ModeratorDeleteComponent } from '../moderator-delete/moderator-delete.c
 import { FormControl, Validators } from '@angular/forms';
 import { ExplanationDialogComponent } from '../../../shared/_dialogs/explanation-dialog/explanation-dialog.component';
 import { ModeratorRefreshCodeComponent } from '../moderator-refresh-code/moderator-refresh-code.component';
+import { ReplaySubject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-moderators',
   templateUrl: './moderators.component.html',
   styleUrls: ['./moderators.component.scss']
 })
-export class ModeratorsComponent implements OnInit {
+export class ModeratorsComponent implements OnInit, OnDestroy {
 
   @Input() isCreator: boolean;
   roomId: string;
@@ -26,6 +27,7 @@ export class ModeratorsComponent implements OnInit {
   usernameFormControl = new FormControl('', [Validators.email]);
   private isLoading = true;
   private notGeneratedMessage: string;
+  private _destroyer = new ReplaySubject(1);
 
   constructor(
     public dialogRef: MatDialogRef<RoomCreatorPageComponent>,
@@ -36,8 +38,7 @@ export class ModeratorsComponent implements OnInit {
     protected langService: LanguageService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
-    langService.getLanguage().subscribe(lang => {
-      translationService.use(lang);
+    langService.getLanguage().pipe(takeUntil(this._destroyer)).subscribe(_ => {
       this.translationService.get('moderators-dialog.not-generated')
         .subscribe(msg => this.notGeneratedMessage = msg);
     });
@@ -65,6 +66,11 @@ export class ModeratorsComponent implements OnInit {
     });
 
     this.getModerators();
+  }
+
+  ngOnDestroy() {
+    this._destroyer.next(1);
+    this._destroyer.complete();
   }
 
   openHelp() {

@@ -1,28 +1,11 @@
-import { AfterContentInit, AfterViewInit, Component, OnDestroy, OnInit, Renderer2 } from '@angular/core';
+import { AfterContentInit, AfterViewInit, Component, Injector, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { UserRole } from '../../../models/user-roles.enum';
 import { RoomPageComponent } from '../../shared/room-page/room-page.component';
-import { Location } from '@angular/common';
-import { RoomService } from '../../../services/http/room.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
-import { LanguageService } from '../../../services/util/language.service';
-import { CommentService } from '../../../services/http/comment.service';
-import { AuthenticationService } from '../../../services/http/authentication.service';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { EventService } from '../../../services/util/event.service';
 import { KeyboardUtils } from '../../../utils/keyboard';
 import { KeyboardKey } from '../../../utils/keyboard/keys';
 import { map } from 'rxjs/operators';
-import { Observable, of, Subscription } from 'rxjs';
-import { HeaderService } from '../../../services/util/header.service';
-import { ArsComposeService } from '../../../../../projects/ars/src/lib/services/ars-compose.service';
-import { MatDialog } from '@angular/material/dialog';
-import { BonusTokenService } from '../../../services/http/bonus-token.service';
-import { NotificationService } from '../../../services/util/notification.service';
-import { SessionService } from '../../../services/util/session.service';
-import { RoomDataService } from '../../../services/util/room-data.service';
-import { DeviceInfoService } from '../../../services/util/device-info.service';
-import { TitleService } from '../../../services/util/title.service';
+import { Observable, of } from 'rxjs';
 
 @Component({
   selector: 'app-room-participant-page',
@@ -34,38 +17,12 @@ import { TitleService } from '../../../services/util/title.service';
 })
 export class RoomParticipantPageComponent extends RoomPageComponent implements OnInit, OnDestroy, AfterContentInit, AfterViewInit {
 
-  commentCounterEmitSubscription: Subscription;
-
   constructor(
-    protected location: Location,
-    protected roomService: RoomService,
-    protected route: ActivatedRoute,
-    protected translateService: TranslateService,
-    protected langService: LanguageService,
-    protected commentService: CommentService,
-    protected authenticationService: AuthenticationService,
     private liveAnnouncer: LiveAnnouncer,
-    protected headerService: HeaderService,
-    protected composeService: ArsComposeService,
-    protected bonusTokenService: BonusTokenService,
-    protected notificationService: NotificationService,
-    protected dialog: MatDialog,
     private _r: Renderer2,
-    public eventService: EventService,
-    protected sessionService: SessionService,
-    protected roomDataService: RoomDataService,
-    public deviceInfo: DeviceInfoService,
-    private titleService: TitleService,
-    protected router: Router,
+    protected injector: Injector,
   ) {
-    super(roomService, route, location, commentService, eventService, headerService, composeService, dialog,
-      bonusTokenService, translateService, notificationService, authenticationService, sessionService, roomDataService,
-      router);
-    langService.getLanguage().subscribe(lang => translateService.use(lang));
-    this.commentCounterEmitSubscription = this.commentCounterEmit.subscribe(e => {
-      this.titleService.attachTitle(`(${e[0]} / ${e[1]})`);
-    });
-    langService.getLanguage().subscribe(lang => translateService.use(lang));
+    super(injector);
   }
 
   ngAfterViewInit() {
@@ -100,8 +57,6 @@ export class RoomParticipantPageComponent extends RoomPageComponent implements O
 
   ngOnDestroy() {
     super.ngOnDestroy();
-    this.commentCounterEmitSubscription.unsubscribe();
-    this.titleService.resetTitle();
   }
 
   public announce() {
@@ -124,17 +79,16 @@ export class RoomParticipantPageComponent extends RoomPageComponent implements O
 
   preRoomLoadHook(): Observable<any> {
     if (!this.user) {
-      return this.authenticationService.guestLogin(UserRole.PARTICIPANT).pipe(map((user) => user));
+      return this.userManagementService.forceLogin().pipe(map((user) => user));
     } else {
       return of(this.user);
     }
   }
 
   postRoomLoadHook() {
-    if (!this.authenticationService.hasAccess(this.room.shortId, UserRole.PARTICIPANT)) {
-      this.authenticationService.setAccess(this.room.shortId, UserRole.PARTICIPANT);
+    if (this.userManagementService.ensureAccess(this.room.shortId, this.room.id, UserRole.PARTICIPANT)) {
       this.roomService.addToHistory(this.room.id);
     }
-    this.authenticationService.checkAccess(this.room.shortId);
+    this.userManagementService.setCurrentAccess(this.room.shortId);
   }
 }

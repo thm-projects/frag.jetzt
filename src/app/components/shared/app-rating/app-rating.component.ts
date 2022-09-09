@@ -2,7 +2,6 @@ import { Component, Input, OnChanges, OnInit, QueryList, SimpleChanges, ViewChil
 import { MatIcon } from '@angular/material/icon';
 import { NotificationService } from '../../../services/util/notification.service';
 import { LanguageService } from '../../../services/util/language.service';
-import { AuthenticationService } from '../../../services/http/authentication.service';
 import { RatingService } from '../../../services/http/rating.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Rating } from '../../../models/rating';
@@ -10,6 +9,7 @@ import { RatingResult } from '../../../models/rating-result';
 import { AppRatingPopUpComponent } from '../_dialogs/app-rating-pop-up/app-rating-pop-up.component';
 import { MatDialog } from '@angular/material/dialog';
 import { DeviceInfoService } from '../../../services/util/device-info.service';
+import { UserManagementService } from '../../../services/util/user-management.service';
 
 @Component({
   selector: 'app-app-rating',
@@ -33,12 +33,11 @@ export class AppRatingComponent implements OnInit, OnChanges {
     private languageService: LanguageService,
     private notificationService: NotificationService,
     private translateService: TranslateService,
-    private readonly authenticationService: AuthenticationService,
+    private readonly userManagementService: UserManagementService,
     private readonly ratingService: RatingService,
     private dialog: MatDialog,
     private deviceInfo: DeviceInfoService,
   ) {
-    this.languageService.getLanguage().subscribe(lang => this.translateService.use(lang));
   }
 
   getIcon(index: number) {
@@ -60,7 +59,7 @@ export class AppRatingComponent implements OnInit, OnChanges {
     if (!this.canSubmit()) {
       return;
     }
-    const subscription = this.authenticationService.watchUser.subscribe(user => {
+    const subscription = this.userManagementService.getUser().subscribe(user => {
       this.ratingService.getByAccountId(user.id).subscribe(r => {
         if (r !== undefined && r !== null) {
           this.visibleRating = r.rating;
@@ -128,7 +127,7 @@ export class AppRatingComponent implements OnInit, OnChanges {
       return;
     }
     this.isSaving = true;
-    this.ratingService.create(this.authenticationService.getUser().id, this.visibleRating)
+    this.ratingService.create(this.userManagementService.getCurrentUser().id, this.visibleRating)
       .subscribe({
         next: (r: Rating) => {
           this.translateService.get('app-rating.success')
@@ -152,7 +151,7 @@ export class AppRatingComponent implements OnInit, OnChanges {
     }
     if (this.ratingResults !== undefined) {
       this.visibleRating = this.ratingResults.rating;
-      this.people = this.ratingResults.people.toLocaleString(this.languageService.currentLanguage());
+      this.people = this.ratingResults.people.toLocaleString(this.languageService.currentLanguage() ?? undefined);
       return false;
     }
     return true;
