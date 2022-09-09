@@ -148,8 +148,6 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     sessionStorage.removeItem('conversation-fallback-url');
     document.getElementById('header_rescale').style.display = '';
-    const source = this.isModerationComment ? this.roomDataService.moderatorDataAccessor : this.roomDataService.dataAccessor;
-    source.unregisterUI(true);
     this._list?.forEach(e => e.destroy());
     this._commentSubscription?.unsubscribe();
     if (this.comment && !this.isStudent) {
@@ -242,7 +240,7 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
   }
 
   private findComment(commentId: string): Observable<[ForumComment, boolean]> {
-    return this.roomDataService.dataAccessor.getRawComments(true, true).pipe(
+    return this.roomDataService.dataAccessor.getRawComments(true).pipe(
       map(comments => {
         const foundComment = comments.find(c => c.id === commentId);
         return (foundComment ? [foundComment, false] : null) as [ForumComment, boolean];
@@ -254,7 +252,7 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
         if (!this.roomDataService.canAccessModerator) {
           return of(null);
         }
-        return this.roomDataService.moderatorDataAccessor.getRawComments(true, true).pipe(
+        return this.roomDataService.moderatorDataAccessor.getRawComments(true).pipe(
           map(comments => {
             const foundComment = comments.find(c => c.id === commentId);
             return (foundComment ? [foundComment, true] : null) as [ForumComment, boolean];
@@ -280,7 +278,6 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
     this.edit = !this.answer;
     this.isLoading = false;
     const source = isModerationComment ? this.roomDataService.moderatorDataAccessor : this.roomDataService.dataAccessor;
-    source.registerUI(true);
     this._commentSubscription = source.receiveUpdates([
       { type: 'CommentPatched', finished: true, updates: ['ack'] },
       { type: 'CommentDeleted', finished: true }

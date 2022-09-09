@@ -68,7 +68,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     private _r: Renderer2,
     private confirmDialog: MatDialog,
     private roomService: RoomService,
-    private topicCloudAdminService: TopicCloudAdminService,
+    public topicCloudAdminService: TopicCloudAdminService,
     public headerService: HeaderService,
     private onboardingService: OnboardingService,
     public themeService: ThemeService,

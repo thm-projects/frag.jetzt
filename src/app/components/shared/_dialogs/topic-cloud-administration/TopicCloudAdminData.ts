@@ -15,6 +15,7 @@ export interface TopicCloudAdminData {
   wantedLabels: {
     de: string[];
     en: string[];
+    fr: string[];
   };
   considerVotes: boolean;
   keywordORfulltext: KeywordOrFulltext;
@@ -100,10 +101,12 @@ export interface Label {
 export class Labels {
   readonly de: Label[];
   readonly en: Label[];
+  readonly fr: Label[];
 
-  constructor(_de: Label[], _en: Label[]) {
+  constructor(_de: Label[], _en: Label[], _fr: Label[]) {
     this.de = _de;
     this.en = _en;
+    this.fr = _fr;
   }
 }
 
@@ -137,4 +140,26 @@ const enLabels: Label[] = [
   { tag: 'intj', label: 'Interjection', enabledByDefault: false }
 ];
 
-export const spacyLabels = new Labels(deLabels, enLabels);
+const frLabels: Label[] = [
+  { tag: 'nsubj', label: 'Sujet nominal', enabledByDefault: true },
+  { tag: 'nsubj:pass', label: 'Sujet nominal passif', enabledByDefault: true },
+  { tag: 'obj', label: 'Objet', enabledByDefault: true },
+  { tag: 'obj:mod', label: 'Objet', enabledByDefault: true },
+  { tag: 'obj:agent', label: 'Objet', enabledByDefault: true },
+  { tag: 'ROOT', label: 'Élément du noyau de la phrase', enabledByDefault: true },
+  { tag: 'xcomp', label: 'Complément clausal ouvert', enabledByDefault: true },
+  { tag: 'ccomp', label: 'Complément clausal', enabledByDefault: true },
+  { tag: 'acl', label: 'Modificateur clausal du nom (clause adjectivale)', enabledByDefault: false },
+  { tag: 'acl:relcl', label: 'Modificateur clausal du nom (clause adjectivale)', enabledByDefault: false },
+  { tag: 'amod', label: 'Modificateur adjectival', enabledByDefault: false },
+  { tag: 'advmod', label: 'Modificateur adverbial', enabledByDefault: false },
+  { tag: 'nmod', label: 'Modificateur du nominal', enabledByDefault: false },
+  { tag: 'conj', label: 'Conjonction', enabledByDefault: false },
+  { tag: 'appos', label: 'Modificateur appositionnel', enabledByDefault: false },
+  { tag: 'dep', label: 'Non classifié dépendant', enabledByDefault: false },
+  { tag: 'aux:tense', label: 'Auxiliaire forme temporelle', enabledByDefault: false },
+  { tag: 'flat:name', label: 'Expression plate de plusieurs mots', enabledByDefault: false },
+  { tag: 'obl:arg', label: 'Argument nominal oblique', enabledByDefault: false },
+];
+
+export const spacyLabels = new Labels(deLabels, enLabels, frLabels);

@@ -108,7 +108,7 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
       this.questionNumberOptions = this._allQuestionNumberOptions.filter(e => e.startsWith(v));
     });
     this._filterObject = FilteredDataAccess.buildModeratedAccess(
-      sessionService, roomDataService, true, true, 'moderatorList',
+      sessionService, roomDataService, true, 'moderatorList',
     );
   }
 

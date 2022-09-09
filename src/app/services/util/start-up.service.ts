@@ -180,7 +180,7 @@ export class StartUpService {
     let timeout = 0 as unknown as TimeoutHelper;
     const WAIT_DURATION = 1_800_000;
     const update = () => {
-      if (!this.userManagementService.getCurrentUser()) {
+      if (!this.userManagementService.getCurrentUser() || !this.onboardingService.isFinished()) {
         return;
       }
       const dateNow = Date.now();

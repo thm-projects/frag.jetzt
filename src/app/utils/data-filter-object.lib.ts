@@ -214,6 +214,9 @@ export class RoomDataFilter {
 
   applyOptions(forceOptions: Partial<RoomDataFilter>) {
     for (const key of Object.keys(forceOptions)) {
+      if (key === 'name') {
+        continue;
+      }
       this[key] = forceOptions[key];
     }
   }

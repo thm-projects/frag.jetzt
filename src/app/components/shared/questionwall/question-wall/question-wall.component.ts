@@ -85,7 +85,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     public headerService: HeaderService,
   ) {
     this.keySupport = new QuestionWallKeyEventSupport();
-    this._filterObj = FilteredDataAccess.buildNormalAccess(this.sessionService, this.roomDataService, false, true, 'presentation');
+    this._filterObj = FilteredDataAccess.buildNormalAccess(this.sessionService, this.roomDataService, false, 'presentation');
   }
 
   get hasFilter() {

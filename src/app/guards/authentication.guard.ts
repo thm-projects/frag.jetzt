@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlSegment } from '@angular/router';
 
 import { NotificationService } from '../services/util/notification.service';
 import { UserRole } from '../models/user-roles.enum';
@@ -21,25 +21,58 @@ export class AuthenticationGuard implements CanActivate {
     if (route.data.superAdmin) {
       return this.isSuperAdmin();
     }
-    const requiredRoles = route.data['roles'] as Array<UserRole>;
     const url = decodeURI(state.url);
+    const requiredRoles = (route.data['roles'] ?? []) as UserRole[];
     let wasAllowed = null;
-    wasAllowed = this.sessionService.validateNewRoute(route.params.shortId, requiredRoles[0], allowed => {
-      if (allowed === wasAllowed) {
-        return;
-      }
-      if (!allowed) {
-        this.onNotAllowed();
-        return;
-      }
-      if (wasAllowed !== null) {
-        this.router.navigate([url]);
-      }
-    });
+    wasAllowed = this.sessionService.validateNewRoute(
+      route.params.shortId,
+      this.parseRole(url),
+      requiredRoles,
+      (allowed, redirect) => {
+        if (redirect !== undefined) {
+          this.redirect(redirect, route.url);
+          return;
+        }
+        if (wasAllowed === null) {
+          return;
+        }
+        if (allowed === wasAllowed) {
+          return;
+        }
+        if (!allowed) {
+          this.onNotAllowed();
+          return;
+        }
+        if (wasAllowed !== null) {
+          this.router.navigate([url]);
+        }
+      });
     if (!wasAllowed) {
       this.onNotAllowed();
     }
     return wasAllowed;
+  }
+
+  private redirect(role: UserRole, segments: UrlSegment[]) {
+    let url = '/participant/';
+    if (role === UserRole.CREATOR) {
+      url = '/creator/';
+    } else if (role === UserRole.EXECUTIVE_MODERATOR) {
+      url = '/moderator/';
+    }
+    url += segments.map(segment => segment.path).join('/');
+    this.router.navigate([url]);
+  }
+
+  private parseRole(url: string): UserRole {
+    if (url.startsWith('/creator')) {
+      return UserRole.CREATOR;
+    } else if (url.startsWith('/moderator')) {
+      return UserRole.EXECUTIVE_MODERATOR;
+    } else if (url.startsWith('/participant')) {
+      return UserRole.PARTICIPANT;
+    }
+    return null;
   }
 
   private isSuperAdmin() {

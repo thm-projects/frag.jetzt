@@ -125,8 +125,7 @@ export class FilteredDataAccess {
   private _currentData: BehaviorSubject<Readonly<ForumComment[]>>;
 
   private constructor(
-    public readonly dataAccessFunction: (uiData: boolean, frozen: boolean) => Observable<ForumComment[]>,
-    public readonly uiData: boolean,
+    public readonly dataAccessFunction: (frozen: boolean) => Observable<ForumComment[]>,
     private _filter: RoomDataFilter,
     private _profanityChecker: (comment: ForumComment) => boolean,
     private readonly _onAttach?: (destroyer: Subject<any>) => void,
@@ -159,7 +158,6 @@ export class FilteredDataAccess {
     }
     const access = new FilteredDataAccess(
       () => of([...data.comment.children]),
-      true,
       RoomDataFilter.loadFilter('children'),
       c => dataAccessor.getDataById(c.id).hasProfanity,
       (destroyer) => {
@@ -174,7 +172,6 @@ export class FilteredDataAccess {
     sessionService: SessionService,
     dataService: RoomDataService,
     raw: boolean,
-    uiData: boolean,
     name: FilterTypes
   ): FilteredDataAccess {
     const dataAccessor = dataService.moderatorDataAccessor;
@@ -182,7 +179,6 @@ export class FilteredDataAccess {
       raw ?
         dataAccessor.getRawComments.bind(dataAccessor) :
         dataAccessor.getForumComments.bind(dataAccessor),
-      uiData,
       RoomDataFilter.loadFilter(name),
       comment => dataAccessor.getDataById(comment.id).hasProfanity,
       (destroyer) => this.constructAttachment(destroyer, sessionService, dataAccessor, access),
@@ -194,7 +190,6 @@ export class FilteredDataAccess {
     sessionService: SessionService,
     dataService: RoomDataService,
     raw: boolean,
-    uiData: boolean,
     name: FilterTypes,
     forceOptions?: Partial<RoomDataFilter>,
   ): FilteredDataAccess {
@@ -207,7 +202,6 @@ export class FilteredDataAccess {
       raw ?
         dataAccessor.getRawComments.bind(dataAccessor) :
         dataAccessor.getForumComments.bind(dataAccessor),
-      uiData,
       roomDataFilter,
       comment => dataAccessor.getDataById(comment.id).hasProfanity,
       (destroyer) => this.constructAttachment(destroyer, sessionService, dataAccessor, access),
@@ -404,7 +398,7 @@ export class FilteredDataAccess {
 
   private updateDataSubscription(): void {
     this._dataSubscription?.unsubscribe();
-    this._dataSubscription = this.dataAccessFunction(this.uiData, Boolean(this._filter.frozenAt))
+    this._dataSubscription = this.dataAccessFunction(Boolean(this._filter.frozenAt))
       .subscribe(data => {
         this._tempData = data;
         this.updateStages(UPDATE_ALL);
