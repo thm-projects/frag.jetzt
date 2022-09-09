@@ -435,8 +435,10 @@ blockquote {
 }
 
 article.dsgvo-info-article {
+  margin: 30px 0;
   background-color: var(--surface);
   color: var(--on-surface);
+  outline: thin solid dimgray;
   border-radius: 8px;
   display: flex;
   flex-direction: column;
@@ -450,17 +452,19 @@ article.dsgvo-info-article {
   }
 
   p {
-    margin: 1em;
+    margin: 0 1em;
   }
 
   button {
-    background-color: var(--surface);
-    color: var(--on-surface);
+    background-color: transparent;
+    color: var(--primary);
+    outline: var(--primary) solid 3px;
     width: fit-content;
-    margin: 1em auto;
+    margin: 1.5em auto;
 
     &:hover {
-      outline: 3px solid var(--secondary);
+      background-color: var(--primary);
+      color: var(--on-primary);
     }
   }
 }
