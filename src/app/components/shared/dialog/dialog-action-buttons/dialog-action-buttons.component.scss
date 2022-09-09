@@ -1,11 +1,14 @@
-.dialog-action-buttons:not(.no-spacing), .dialog-action-buttons .buttons {
+.dialog-action-buttons:not(.no-spacing), .buttons {
   margin: 10px;
+  display: flex;
+  flex-direction: row-reverse;
+  flex-wrap: wrap-reverse;
 }
 
-.dialog-action-buttons .cancel-button {
+.cancel-button {
   background-color: transparent;
   color: var(--on-dialog);
-  margin-left: 10px;
+  margin: 10px 0 10px 10px !important;
 
   &:hover {
     outline: var(--cancel) solid 3px;

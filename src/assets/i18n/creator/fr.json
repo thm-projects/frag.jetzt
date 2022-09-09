@@ -266,13 +266,6 @@
   "content": {
     "cancel": "Annuler",
     "delete": "Supprimer",
-    "tag-cloud-create": "Continuer",
-    "tag-cloud-questions-all": "Toutes les questions",
-    "tag-cloud-questions-all-short": "Tous les",
-    "tag-cloud-questions-current-filtered": "Questions filtrées",
-    "tag-cloud-questions-from-now": "Questions à partir de maintenant",
-    "tag-cloud-questions-from-now-short": "À partir de maintenant",
-    "tag-cloud-questions-title": "Quelles sont les questions que tu aimerais avoir sur le radar ?",
     "yes": "Qui"
   },
   "deepl": {
@@ -323,7 +316,8 @@
   "header": {
     "overview-keywords-tooltip": "Nombre de mots-clés",
     "overview-question-tooltip": "Nombre de questions",
-    "overview-questioners-tooltip": "Nombre d'auteurs de questions"
+    "overview-questioners-tooltip": "Nombre d'auteurs de questions",
+    "overview-admin-config-enabled": "Les seuils pour l'affichage des sujets sont actifs."
   },
   "home-page": {
     "create-session": "Nouvelle session",
@@ -822,7 +816,18 @@
   },
   "topic-cloud-filter": {
     "info-no-keywords": "Notre analyse de texte basée sur l'IA peut déterminer des mots clés. Démarrer l'analyse ?",
-    "label-refresh-keywords-start": "Démarrer"
+    "label-refresh-keywords-start": "Démarrer",
+    "all-questions-and-answers": "Toutes les questions et réponses",
+    "all-questions-and-answers-short": "Avec réponses",
+    "only-questions": "Toutes les questions",
+    "only-questions-short": "Tous les",
+    "current-filter": "Filtrage actuel",
+    "current-filter-short": "Questions filtrées",
+    "from-now": "Questions à partir de maintenant",
+    "from-now-short": "À partir de maintenant",
+    "create": "Continuer",
+    "cancel": "Annuler",
+    "questions-title": "Quelles sont les questions que tu aimerais avoir sur le radar ?"
   },
   "worker-config": {
     "cancel": "Annuler",

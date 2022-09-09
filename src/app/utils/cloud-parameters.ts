@@ -27,6 +27,13 @@ export enum CloudTextStyle {
   Uppercase = 'uppercase',
 }
 
+export const TEXT_STYLES = [
+  CloudTextStyle.Normal,
+  CloudTextStyle.Lowercase,
+  CloudTextStyle.Capitalized,
+  CloudTextStyle.Uppercase,
+];
+
 const colorRegex = /rgba?\((\d+), (\d+), (\d+)(?:, (\d(?:\.\d+)?))?\)/;
 
 export class CloudParameters {

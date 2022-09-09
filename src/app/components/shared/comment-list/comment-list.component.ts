@@ -143,9 +143,9 @@ export class CommentListComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this._filterObject = FilteredDataAccess
-      .buildNormalAccess(this.sessionService, this.roomDataService, false, true, 'commentList');
+      .buildNormalAccess(this.sessionService, this.roomDataService, false, 'commentList');
     this._cloudFilterObject = FilteredDataAccess
-      .buildNormalAccess(this.sessionService, this.roomDataService, true, false, 'tagCloud');
+      .buildNormalAccess(this.sessionService, this.roomDataService, true, 'tagCloud');
     const filter = this._cloudFilterObject.dataFilter;
     filter.resetToDefault();
     this._cloudFilterObject.dataFilter = filter;

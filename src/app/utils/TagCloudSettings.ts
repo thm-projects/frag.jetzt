@@ -1,5 +1,4 @@
 import { Room } from '../models/room';
-import { CloudParameters } from './cloud-parameters';
 import { TopicCloudAdminData } from '../components/shared/_dialogs/topic-cloud-administration/TopicCloudAdminData';
 import { TopicCloudAdminService } from '../services/util/topic-cloud-admin.service';
 
@@ -9,7 +8,6 @@ export class TagCloudSettings {
 
   constructor(
     public adminData: TopicCloudAdminData,
-    public settings: CloudParameters,
   ) {
   }
 
@@ -22,20 +20,18 @@ export class TagCloudSettings {
       room.tagCloudSettings = null;
       return null;
     }
-    const { admin, cloud } = object;
-    return new TagCloudSettings(admin as TopicCloudAdminData, new CloudParameters(cloud));
+    const { admin } = object;
+    return new TagCloudSettings(admin as TopicCloudAdminData);
   }
 
-  static getCurrent(isCurrentlyDark: boolean): TagCloudSettings {
-    return new TagCloudSettings(TopicCloudAdminService.getDefaultAdminData,
-      CloudParameters.getCurrentParameters(isCurrentlyDark));
+  static getCurrent(): TagCloudSettings {
+    return new TagCloudSettings(TopicCloudAdminService.getDefaultAdminData);
   }
 
   serialize() {
     return JSON.stringify({
       version: CURRENT_VERSION,
-      admin: this.adminData,
-      cloud: this.settings
+      admin: this.adminData
     });
   }
 }

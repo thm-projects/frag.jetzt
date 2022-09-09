@@ -168,6 +168,7 @@ import {
 import { CommentResponseViewComponent } from './comment-response-view/comment-response-view.component';
 import { LanguageService } from '../../services/util/language.service';
 import { TranslateService } from '@ngx-translate/core';
+import { UIRegistrationComponent } from './uiregistration/uiregistration.component';
 
 @NgModule({
   imports: [
@@ -273,7 +274,8 @@ import { TranslateService } from '@ngx-translate/core';
     AppRatingComponent,
     AppRatingPopUpComponent,
     MinuteJumpClockComponent,
-    CommentResponseViewComponent
+    CommentResponseViewComponent,
+    UIRegistrationComponent
   ],
   exports: [
     RoomJoinComponent,

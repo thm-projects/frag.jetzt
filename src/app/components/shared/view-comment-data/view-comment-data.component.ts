@@ -109,35 +109,6 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit, OnDestro
     return true;
   }
 
-  public static getTextFromData(jsonData: string): string {
-    if (!jsonData) {
-      return null;
-    }
-    return JSON.parse(jsonData)?.reduce((acc, e) => {
-      if (typeof e['insert'] === 'string') {
-        return acc + e['insert'];
-      } else if (typeof e === 'string') {
-        return acc + e;
-      }
-      return acc;
-    }, '') ?? 'Broken reference';
-  }
-
-  private static getContentCount(data: string): number {
-    if (!data) {
-      return 0;
-    }
-    return JSON.parse(data).reduce((acc, k) => {
-      if (typeof k === 'string') {
-        return k.trim().length > 0 ? acc + 1 : acc;
-      }
-      if (k.insert) {
-        return k.insert?.trim?.()?.length ? acc + 1 : acc;
-      }
-      return acc + 1;
-    }, 0);
-  }
-
   ngOnInit(): void {
     const isMobile = this.deviceInfo.isUserAgentMobile;
     if (this.isEditor) {

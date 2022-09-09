@@ -11,7 +11,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { NotificationService } from './notification.service';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { UserRole } from '../../models/user-roles.enum';
-import { CloudParameters } from '../../utils/cloud-parameters';
 import { TagCloudSettings } from '../../utils/TagCloudSettings';
 import { ThemeService } from '../../../theme/theme.service';
 
@@ -37,7 +36,8 @@ export class TopicCloudAdminService {
       data = {
         wantedLabels: {
           de: this.getDefaultSpacyTags('de'),
-          en: this.getDefaultSpacyTags('en')
+          en: this.getDefaultSpacyTags('en'),
+          fr: this.getDefaultSpacyTags('fr'),
         },
         considerVotes: true,
         keywordORfulltext: KeywordOrFulltext.Both,
@@ -55,24 +55,6 @@ export class TopicCloudAdminService {
 
   get getAdminData(): Observable<TopicCloudAdminData> {
     return this.adminData.asObservable();
-  }
-
-  static applySettingsToRoom(room: Room, brainstormingActive: boolean, isCurrentlyDark: boolean) {
-    const settings: any = CloudParameters.getCurrentParameters(isCurrentlyDark);
-    const admin = TopicCloudAdminService.getDefaultAdminData;
-    settings.admin = {
-      considerVotes: admin.considerVotes,
-      keywordORfulltext: brainstormingActive && admin.keywordORfulltext === KeywordOrFulltext.Keyword ?
-        KeywordOrFulltext.Both : admin.keywordORfulltext,
-      wantedLabels: admin.wantedLabels,
-      minQuestioners: admin.minQuestioners,
-      minQuestions: admin.minQuestions,
-      minUpvotes: admin.minUpvotes,
-      startDate: admin.startDate,
-      endDate: admin.endDate,
-      scorings: admin.scorings
-    };
-    room.tagCloudSettings = JSON.stringify(settings);
   }
 
   static isTopicAllowed(config: TopicCloudAdminData, comments: number, users: number,
@@ -99,6 +81,9 @@ export class TopicCloudAdminService {
       case 'en':
         currentSpacyLabels = spacyLabels.en;
         break;
+      case 'fr':
+        currentSpacyLabels = spacyLabels.fr;
+        break;
       default:
     }
     currentSpacyLabels.forEach(label => {
@@ -109,12 +94,21 @@ export class TopicCloudAdminService {
     return tags;
   }
 
+  isTopicRequirementActive() {
+    const value = this.adminData.value;
+    if (!value) {
+      return false;
+    }
+    return !TopicCloudAdminService.isTopicRequirementDisabled(value);
+  }
+
   setAdminData(_adminData: TopicCloudAdminData, id: string, userRole: UserRole, data?: RoomPatch) {
     localStorage.setItem(TopicCloudAdminService.adminKey, JSON.stringify(_adminData));
+    this.adminData.next(_adminData);
     if (!id || !userRole || userRole <= UserRole.PARTICIPANT) {
       return;
     }
-    const tagCloudSettings = TagCloudSettings.getCurrent(this.themeService.currentTheme.isDark).serialize();
+    const tagCloudSettings = TagCloudSettings.getCurrent().serialize();
     this.updateRoom(id, { ...data, tagCloudSettings });
   }
 

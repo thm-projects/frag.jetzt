@@ -60,6 +60,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   wantedLabels: {
     de: string[];
     en: string[];
+    fr: string[];
   };
   spacyLabelsAllSelectedDE = true;
   isLoading = true;
@@ -210,7 +211,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   }
 
   initializeKeywords() {
-    this.roomDataService.dataAccessor.getRawComments(false, true).subscribe(comments => {
+    this.roomDataService.dataAccessor.getRawComments(false).subscribe(comments => {
       this.keywords = new Map<string, Keyword>();
       comments.forEach(comment => {
         this.pushInKeywords(comment);
@@ -278,7 +279,8 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     this.topicCloudAdminData = {
       wantedLabels: {
         de: this.wantedLabels.de,
-        en: this.wantedLabels.en
+        en: this.wantedLabels.en,
+        fr: this.wantedLabels.fr,
       },
       considerVotes: this.considerVotes,
       keywordORfulltext: KeywordOrFulltext[this.keywordORfulltext],
@@ -311,7 +313,8 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     this.keywordORfulltext = KeywordOrFulltext[this.topicCloudAdminData.keywordORfulltext];
     this.wantedLabels = {
       de: this.topicCloudAdminData.wantedLabels.de,
-      en: this.topicCloudAdminData.wantedLabels.en
+      en: this.topicCloudAdminData.wantedLabels.en,
+      fr: this.topicCloudAdminData.wantedLabels.fr ?? TopicCloudAdminService.getDefaultSpacyTags('fr'),
     };
     this.minQuestioners = String(this.topicCloudAdminData.minQuestioners);
     this.minQuestions = String(this.topicCloudAdminData.minQuestions);
@@ -547,6 +550,17 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
       });
     } else {
       this.wantedLabels.en = [];
+    }
+  }
+
+  selectAllFR() {
+    if (this.wantedLabels.fr.length < this.spacyLabels.fr.length) {
+      this.wantedLabels.fr = [];
+      this.spacyLabels.fr.forEach(label => {
+        this.wantedLabels.fr.push(label.tag);
+      });
+    } else {
+      this.wantedLabels.fr = [];
     }
   }
 

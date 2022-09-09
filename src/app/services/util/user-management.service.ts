@@ -177,7 +177,11 @@ export class UserManagementService {
   }
 
   getAccess(shortId: string) {
-    return this.getCurrentUser()?.roomAccess?.[shortId]?.role ?? UserRole.PARTICIPANT;
+    return this.getPlainAccess(shortId) ?? UserRole.PARTICIPANT;
+  }
+
+  getPlainAccess(shortId: string) {
+    return this.getCurrentUser()?.roomAccess?.[shortId]?.role;
   }
 
   ensureAccess(shortId: string, roomId: string, role: UserRole) {

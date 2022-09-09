@@ -217,13 +217,6 @@
   },
   "content": {
     "cancel": "Abbrechen",
-    "tag-cloud-create": "Weiter",
-    "tag-cloud-questions-all": "Alle Fragen",
-    "tag-cloud-questions-all-short": "Alle",
-    "tag-cloud-questions-current-filtered": "Gefiltert",
-    "tag-cloud-questions-from-now": "Nur Fragen ab jetzt",
-    "tag-cloud-questions-from-now-short": "Ab jetzt",
-    "tag-cloud-questions-title": "Welche Fragen willst du auf dem Radar haben?",
     "yes": "Ja"
   },
   "deepl": {
@@ -270,7 +263,8 @@
   "header": {
     "overview-keywords-tooltip": "Anzahl Stichwörter",
     "overview-question-tooltip": "Anzahl Fragen",
-    "overview-questioners-tooltip": "Anzahl Fragensteller*innen"
+    "overview-questioners-tooltip": "Anzahl Fragensteller*innen",
+    "overview-admin-config-enabled": "Schwellenwerte für die Anzeige der Themen sind aktiv."
   },
   "home-page": {
     "exactly-8": "Ein Raum-Code hat genau 8 Ziffern.",
@@ -643,7 +637,18 @@
   },
   "topic-cloud-filter": {
     "info-no-keywords": "Unsere KI-basierte Textanalyse kann Stichwörter ermitteln. Analyse starten?",
-    "label-refresh-keywords-start": "Starten"
+    "label-refresh-keywords-start": "Starten",
+    "all-questions-and-answers": "Alle Fragen und Antworten",
+    "all-questions-and-answers-short": "Mit Antworten",
+    "only-questions": "Alle Fragen",
+    "only-questions-short": "Alle",
+    "current-filter": "Derzeitige Filterung",
+    "current-filter-short": "Gefiltert",
+    "from-now": "Nur Fragen ab jetzt",
+    "from-now-short": "Ab jetzt",
+    "create": "Weiter",
+    "cancel": "Abbrechen",
+    "questions-title": "Welche Fragen willst du auf dem Radar haben?"
   },
   "user-bonus-token": {
     "bonus-token-body1": " vom ",

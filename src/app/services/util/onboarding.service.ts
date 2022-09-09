@@ -38,6 +38,11 @@ export class OnboardingService {
     this._finishedTours = new BehaviorSubject<string[]>([]);
   }
 
+  isFinished(name = 'default') {
+    const obj = JSON.parse(this.dataStoreService.get('onboarding_' + name));
+    return obj && obj.state !== 'running';
+  }
+
   onFinishTour(name = 'default'): Observable<any> {
     const obj = JSON.parse(this.dataStoreService.get('onboarding_' + name));
     if (obj && obj.state !== 'running') {
@@ -92,10 +97,7 @@ export class OnboardingService {
   }
 
   private startOnboardingTour(tour: OnboardingTour, ignoreDone = false): boolean {
-    if (this._activeTour) {
-      this.cleanup();
-      return false;
-    } else if (this.deviceInfo.isSafari) {
+    if (this._activeTour || this.deviceInfo.isSafari) {
       return false;
     }
     if (ignoreDone) {
@@ -105,13 +107,14 @@ export class OnboardingService {
     if (tourInfo && tourInfo.state !== 'running') {
       return false;
     }
+    const url = decodeURI(this.router.url);
     if (!this.dataStoreService.has('onboarding_' + tour.name + '_redirect')) {
-      this.dataStoreService.set('onboarding_' + tour.name + '_redirect', this.router.url);
+      this.dataStoreService.set('onboarding_' + tour.name + '_redirect', url);
     }
     sendEvent(this.eventService, new RescaleRequest(1));
     this._currentStep = tourInfo && tourInfo.step ? tourInfo.step : 1;
     const firstStepRoute = tour.tour[this._currentStep - 1].split('@');
-    if (firstStepRoute.length > 1 && !this.router.url.endsWith('/' + firstStepRoute[1])) {
+    if (firstStepRoute.length > 1 && !url.endsWith('/' + firstStepRoute[1])) {
       this.tryNavigate(tour.name, firstStepRoute[1], tour.checkIfRouteCanBeAccessed);
       return false;
     }
@@ -215,7 +218,7 @@ export class OnboardingService {
       this._tourSubscription.unsubscribe();
       window.removeEventListener('keyup', this._keyUpWrapper);
       this.dataStoreService.remove(redirectKey);
-      this.router.navigate([redirect]);
+      this.userManagementService.forceLogin().subscribe(() => this.router.navigate([redirect]));
     }
   }
 

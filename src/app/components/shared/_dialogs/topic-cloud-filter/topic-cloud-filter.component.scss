@@ -70,12 +70,16 @@ mat-radio-group {
 }
 
 .action-button-container {
+  flex-wrap: wrap;
   @media screen and (max-width: 500px) {
     overflow: auto;
     display: flex;
     justify-content: space-between;
     flex-direction: column !important;
-    flex-wrap: wrap;
     align-items: flex-end;
+  }
+
+  > ars-col {
+    flex-grow: 1;
   }
 }

@@ -41,7 +41,7 @@
     font-style: var(--tag-cloud-font-style, unset);
 
     &.visible {
-      transition: opacity ease var(--fadeInTime, 0ms), transform 1s ease 0.4s;
+      transition: opacity ease var(--fadeInTime, 0ms), transform var(--hover-time, 1s) ease var(--hover-delay, 0.4s);
       opacity: 1;
       border-radius: 20px;
     }

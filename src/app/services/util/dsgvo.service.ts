@@ -70,16 +70,17 @@ export class DSGVOService {
     const computed = window.getComputedStyle(iframe);
     const newElem = document.createElement('article');
     newElem.classList.add('dsgvo-info-article');
-    newElem.style.width = computed.width;
-    newElem.style.height = computed.height;
+    newElem.style.minHeight = computed.height;
     const header = document.createElement('h3');
     const p = document.createElement('p');
     const button = document.createElement('button');
     button.classList.add('mat-flat-button', 'mat-button-base');
     button.addEventListener('click', () => {
+      newElem.parentElement.classList.toggle('dsgvo-inside', false);
       newElem.parentNode.replaceChild(iframe, newElem);
     }, { once: true });
     newElem.append(header, p, button);
+    iframe.parentElement.classList.toggle('dsgvo-inside', true);
     iframe.parentNode.replaceChild(newElem, iframe);
     iframe.src = url;
     const title = messageId + '-title';

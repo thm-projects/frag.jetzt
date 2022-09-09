@@ -262,6 +262,27 @@
                   </mat-list-option>
                 </mat-selection-list>
               </mat-tab>
+              <mat-tab label="{{'topic-cloud-dialog.french' | translate}}">
+                <mat-selection-list *ngIf="wantedLabels"
+                                    [(ngModel)]="wantedLabels.fr">
+
+                  <mat-option class="color-on-surface"
+                              (click)="selectAllFR()">
+                    <mat-label class="color-on-surface">
+                      <mat-icon>checklist_rtl</mat-icon>
+                      {{'topic-cloud-dialog.select-all' | translate}}
+                    </mat-label>
+                    <mat-checkbox style="vertical-align: middle;float: right;"
+                                  [checked]="this.wantedLabels.fr.length===this.spacyLabels.fr.length"></mat-checkbox>
+                  </mat-option>
+
+                  <mat-list-option [value]="label.tag"
+                                   class="color-on-surface"
+                                   *ngFor="let label of spacyLabels.fr">
+                    {{label.label + " (" + label.tag + ")"}}
+                  </mat-list-option>
+                </mat-selection-list>
+              </mat-tab>
             </mat-tab-group>
           </mat-expansion-panel>
         </mat-accordion>

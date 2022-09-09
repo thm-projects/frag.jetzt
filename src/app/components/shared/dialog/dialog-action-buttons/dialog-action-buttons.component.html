@@ -3,9 +3,7 @@
   'no-spacing': (spacing === false)
 }">
   <div fxLayoutAlign="end">
-    <div fxLayout="row-reverse"
-         fxLayoutGap="10px"
-         class="buttons">
+    <div class="buttons">
       <button
         [disabled]="confirmButtonDisabled"
         *ngIf="confirmButtonClickAction !== undefined"
@@ -31,7 +29,6 @@
         attr.aria-labelledby="{{ ariaPrefix + 'cancel' | translate }}"
         (click)="performCancelButtonClickAction()"
       >{{ buttonsLabelSection + '.' + cancelButtonLabel | translate}}</button>
-
     </div>
   </div>
   <!--Hidden Div's for a11y-Descriptions-->

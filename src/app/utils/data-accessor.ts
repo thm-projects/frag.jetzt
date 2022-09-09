@@ -4,7 +4,7 @@ import { UserRole } from '../models/user-roles.enum';
 import { CommentService } from '../services/http/comment.service';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
-import { BookmarkAccess } from '../services/util/room-data.service';
+import { BookmarkAccess, RoomDataService } from '../services/util/room-data.service';
 import { QuillUtils, SerializedDelta } from './quill-utils';
 
 export interface ForumData {
@@ -131,9 +131,7 @@ export class DataAccessor {
   readonly isAcknowledged: boolean;
   private _fastAccess: FastAccess;
   private _rawComments: BehaviorSubject<ForumComment[]>;
-  private _rawCommentUISubscriptionCount = 0;
   private _forumComments: BehaviorSubject<ForumComment[]>;
-  private _forumCommentUISubscriptionCount = 0;
   private _wasReset: boolean;
   private _messageQueue: any[] = [];
   private _currentSubscriptions: DataAccessorUpdateSubscription[] = [];
@@ -145,27 +143,12 @@ export class DataAccessor {
   private _filter: RoomDataProfanityFilter;
 
   constructor(
+    private parent: RoomDataService,
     acknowledged: boolean,
     private commentService: CommentService,
   ) {
     this.isAcknowledged = acknowledged;
     this.reset();
-  }
-
-  registerUI(raw: boolean) {
-    if (raw) {
-      this._rawCommentUISubscriptionCount++;
-    } else {
-      this._forumCommentUISubscriptionCount++;
-    }
-  }
-
-  unregisterUI(raw: boolean) {
-    if (raw) {
-      this._rawCommentUISubscriptionCount--;
-    } else {
-      this._forumCommentUISubscriptionCount--;
-    }
   }
 
   getDataById(commentId: string): CommentProfanityInformation {
@@ -178,16 +161,16 @@ export class DataAccessor {
     return subscription.updateSubject.asObservable();
   }
 
-  getRawComments(uiData: boolean, frozen: boolean): Observable<ForumComment[]> {
-    return this.generateCommentObservable(true, uiData, frozen);
+  getRawComments(frozen: boolean): Observable<ForumComment[]> {
+    return this.generateCommentObservable(true, frozen);
   }
 
   currentRawComments(): Readonly<ForumComment[]> {
     return this._rawComments.value;
   }
 
-  getForumComments(uiData: boolean, frozen: boolean): Observable<ForumComment[]> {
-    return this.generateCommentObservable(false, uiData, frozen);
+  getForumComments(frozen: boolean): Observable<ForumComment[]> {
+    return this.generateCommentObservable(false, frozen);
   }
 
   currentForumComments(): Readonly<ForumComment[]> {
@@ -267,10 +250,8 @@ export class DataAccessor {
     this._wasReset = true;
     this._rawComments?.complete();
     this._rawComments = new BehaviorSubject<ForumComment[]>([]);
-    this._rawCommentUISubscriptionCount = 0;
     this._forumComments?.complete();
     this._forumComments = new BehaviorSubject<ForumComment[]>([]);
-    this._forumCommentUISubscriptionCount = 0;
     this._currentSubscriptions.forEach(sub => sub.updateSubject.complete());
     this._currentSubscriptions.length = 0;
     this._fastAccess = {};
@@ -327,42 +308,26 @@ export class DataAccessor {
     });
   }
 
-  private generateCommentObservable(forRaw: boolean, uiData: boolean, frozen: boolean) {
-    const add = () => {
-      if (uiData) {
-        this.registerUI(forRaw);
-      }
-    };
+  private generateCommentObservable(forRaw: boolean, frozen: boolean) {
     return new Observable<ForumComment[]>(subscriber => {
-      add();
-      let removed = false;
-      const remove = () => {
-        if (!removed) {
-          removed = true;
-          this.unregisterUI(forRaw);
-        }
-      };
       const subscription = (forRaw ? this._rawComments : this._forumComments)
         .pipe(
           filter(() => !this._wasReset),
-          take(frozen ? 1 : Number.MAX_SAFE_INTEGER),
+          take(frozen ? 1 : Number.POSITIVE_INFINITY),
         )
         .subscribe({
           next: value => {
-            const data = uiData ? value : value.filter(c => !c.removed);
+            const data = value;
             subscriber.next(frozen ? [...data] : data);
           },
           error: err => {
-            remove();
             subscriber.error(err);
           },
           complete: () => {
-            remove();
             subscriber.complete();
           }
         });
       return () => {
-        remove();
         setTimeout(() => subscription.unsubscribe());
       };
     });
@@ -509,15 +474,12 @@ export class DataAccessor {
       finished: false,
       comment,
     });
-    if (this._rawCommentUISubscriptionCount < 1 && this._forumCommentUISubscriptionCount < 1) {
-      this.removeCommentFully(id);
+    if (this.parent.isRegistered(id)) {
+      this.parent.onUnregister(id).subscribe(commentId => {
+        this.removeCommentFully(commentId);
+      });
     } else {
-      if (this._rawComments.value.includes(comment)) {
-        this._rawComments.next(this._rawComments.value);
-      }
-      if (this._forumComments.value.includes(comment)) {
-        this._forumComments.next(this._forumComments.value);
-      }
+      this.removeCommentFully(id);
     }
   }
 

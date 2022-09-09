@@ -2,8 +2,9 @@ import { Component, Input, OnInit } from '@angular/core';
 import { TagCloudComponent } from '../../tag-cloud/tag-cloud.component';
 import { WeightClass } from './weight-class.interface';
 import { TagCloudMetaDataCount } from '../../../../services/util/tag-cloud-data.service';
-import { CloudParameters, CloudTextStyle } from '../../../../utils/cloud-parameters';
+import { CloudParameters, CloudTextStyle, TEXT_STYLES } from '../../../../utils/cloud-parameters';
 import { AppComponent } from '../../../../app.component';
+import { SessionService } from '../../../../services/util/session.service';
 
 @Component({
   selector: 'app-cloud-configuration',
@@ -101,29 +102,33 @@ export class CloudConfigurationComponent implements OnInit {
   maxFont: number;
   isTestCloud = false;
 
-  constructor() {
+  constructor(
+    private sessionService: SessionService,
+  ) {
   }
 
   ngOnInit() {
-    this.cloudParameters = new CloudParameters(this.parent.currentCloudParameters);
-    this.defaultCloudParameters = new CloudParameters(this.parent.currentCloudParameters);
-    this.parent.dataManager.getMetaData().subscribe((value) => {
-      if (!value) {
-        return;
-      }
-      this.countPerWeight = value.countPerWeight;
-      this.parseArrayToJsonWeightClasses();
+    this.sessionService.onReady.subscribe(() => {
+      this.cloudParameters = new CloudParameters(this.parent.currentCloudParameters);
+      this.defaultCloudParameters = new CloudParameters(this.parent.currentCloudParameters);
+      this.parent.dataManager.getMetaData().subscribe((value) => {
+        if (!value) {
+          return;
+        }
+        this.countPerWeight = value.countPerWeight;
+        this.parseArrayToJsonWeightClasses();
+      });
+      this.extendedView = false;
+      this.cleanUpView = false;
+      this.automaticSpelling = true;
+      this.lowerCase = true;
+      this.capitalization = false;
+      this.standard = false;
+      this.alphabeticalSorting = true;
+      this.rotation = 360;
+      this.highestWeight = 100;
+      this.readMaxFont();
     });
-    this.extendedView = false;
-    this.cleanUpView = false;
-    this.automaticSpelling = true;
-    this.lowerCase = true;
-    this.capitalization = false;
-    this.standard = false;
-    this.alphabeticalSorting = true;
-    this.rotation = 360;
-    this.highestWeight = 100;
-    this.readMaxFont();
   }
 
   fontColorChanged(value: string) {
@@ -184,7 +189,6 @@ export class CloudConfigurationComponent implements OnInit {
 
   cancel() {
     this.parent.setCloudParameters(this.defaultCloudParameters);
-    this.parent.updateTagCloudSettings();
     this.cloudParameters = new CloudParameters(this.defaultCloudParameters);
     this.setStep(0);
     this.closePanel();
@@ -192,7 +196,6 @@ export class CloudConfigurationComponent implements OnInit {
 
   save() {
     this.parent.setCloudParameters(this.cloudParameters);
-    this.parent.updateTagCloudSettings();
     this.defaultCloudParameters = new CloudParameters(this.cloudParameters);
     this.setStep(0);
     this.closePanel();
@@ -216,6 +219,10 @@ export class CloudConfigurationComponent implements OnInit {
   textStyleChanged(val: CloudTextStyle) {
     this.cloudParameters.textTransform = val;
     this.valueChanged();
+  }
+
+  getTextStyles(index: number) {
+    return TEXT_STYLES[index];
   }
 
   setStep(index: number) {

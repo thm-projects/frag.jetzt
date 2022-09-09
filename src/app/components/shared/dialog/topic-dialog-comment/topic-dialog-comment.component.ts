@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Language } from '../../../../models/comment';
 import { ProfanityFilterService } from '../../../../services/util/profanity-filter.service';
-import { ViewCommentDataComponent } from '../../view-comment-data/view-comment-data.component';
+import { ImmutableStandardDelta, QuillUtils } from '../../../../utils/quill-utils';
 
 @Component({
   selector: 'app-topic-dialog-comment',
@@ -10,13 +10,14 @@ import { ViewCommentDataComponent } from '../../view-comment-data/view-comment-d
 })
 export class TopicDialogCommentComponent implements OnInit {
 
-  @Input() question: string;
+  @Input() question: ImmutableStandardDelta;
   @Input() language: Language;
   @Input() keyword: string;
   @Input() maxShowedCharachters: number;
   @Input() profanityFilter: boolean;
   @Input() languageSpecific;
   @Input() partialWords;
+  questionText: string;
 
   isCollapsed = false;
 
@@ -51,12 +52,12 @@ export class TopicDialogCommentComponent implements OnInit {
     if (!this.language) {
       return;
     }
-    this.question = ViewCommentDataComponent.getTextFromData(this.question);
-    this.questionWithoutProfanity = this.profanityFilterService.filterProfanityWords(this.question,
+    this.questionText = QuillUtils.getTextFromDelta(this.question);
+    this.questionWithoutProfanity = this.profanityFilterService.filterProfanityWords(this.questionText,
       this.partialWords, this.languageSpecific, this.language)[0];
     this.partsWithoutProfanity = this.splitQuestion(this.questionWithoutProfanity);
-    this.parts = this.splitQuestion(this.question);
+    this.parts = this.splitQuestion(this.questionText);
     this.partsWithoutProfanityShort = this.splitShortQuestion(this.questionWithoutProfanity);
-    this.partsShort = this.splitShortQuestion(this.question);
+    this.partsShort = this.splitShortQuestion(this.questionText);
   }
 }

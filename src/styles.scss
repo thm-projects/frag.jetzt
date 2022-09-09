@@ -441,6 +441,8 @@ article.dsgvo-info-article {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  height: min-content;
+  width: 100%;
   word-break: break-word;
 
   h3 {
@@ -459,6 +461,37 @@ article.dsgvo-info-article {
 
     &:hover {
       outline: 3px solid var(--secondary);
+    }
+  }
+}
+
+iframe {
+  width: 100%;
+  border: none;
+}
+
+.videoWrapper {
+  position: relative;
+  width: 100%;
+  overflow-wrap: break-word;
+
+  iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+  }
+
+  &:after {
+    content: "";
+    display: block;
+    padding-bottom: 56.25%; /* 16:9 */
+    width: 100%;
+  }
+
+  &.dsgvo-inside {
+    &:after {
+      content: unset;
     }
   }
 }

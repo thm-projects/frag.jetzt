@@ -7,6 +7,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { RatingService } from '../../../services/http/rating.service';
 import { RatingResult } from '../../../models/rating-result';
 import { SessionService } from '../../../services/util/session.service';
+import { OnboardingService } from '../../../services/util/onboarding.service';
 
 @Component({
   selector: 'app-home-page',
@@ -24,6 +25,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
     private _r: Renderer2,
     private ratingService: RatingService,
     private sessionService: SessionService,
+    private onboardingService: OnboardingService,
   ) {
   }
 
@@ -32,6 +34,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
       this.accumulatedRatings = r;
     });
     this.sessionService.onReady.subscribe(() => {
+      this.onboardingService.startDefaultTour();
       this.loadListener();
     });
   }

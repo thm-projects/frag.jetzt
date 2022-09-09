@@ -9,7 +9,7 @@
       </div>
     </div>
     <br>
-    <mat-accordion id="accordion">
+    <mat-accordion id="accordion" *ngIf="cloudParameters">
       <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" class="matExpansionPanel">
         <mat-expansion-panel-header>
           <mat-panel-title>
@@ -27,20 +27,20 @@
           <mat-radio-group
             aria-label="Notation:"> {{'tag-cloud-config.notation' | translate}}
             <div>
-              <mat-radio-button value="1" (change)="textStyleChanged(1)"
-                                [checked]="cloudParameters.textTransform === 1">{{'tag-cloud-config.lowerCase' | translate}}</mat-radio-button>
+              <mat-radio-button value="1" (change)="textStyleChanged(getTextStyles(1))"
+                                [checked]="cloudParameters.textTransform === getTextStyles(1)">{{'tag-cloud-config.lowerCase' | translate}}</mat-radio-button>
             </div>
             <div>
-              <mat-radio-button value="2" (change)="textStyleChanged(3)"
-                                [checked]="cloudParameters.textTransform === 3">{{'tag-cloud-config.upperCase' | translate}}</mat-radio-button>
+              <mat-radio-button value="2" (change)="textStyleChanged(getTextStyles(3))"
+                                [checked]="cloudParameters.textTransform === getTextStyles(3)">{{'tag-cloud-config.upperCase' | translate}}</mat-radio-button>
             </div>
             <div>
-              <mat-radio-button value="2" (change)="textStyleChanged(2)"
-                                [checked]="cloudParameters.textTransform === 2">{{'tag-cloud-config.capitalization' | translate}}</mat-radio-button>
+              <mat-radio-button value="2" (change)="textStyleChanged(getTextStyles(2))"
+                                [checked]="cloudParameters.textTransform === getTextStyles(2)">{{'tag-cloud-config.capitalization' | translate}}</mat-radio-button>
             </div>
             <div>
-              <mat-radio-button value="0" (change)="textStyleChanged(0)"
-                                [checked]="cloudParameters.textTransform === 0">{{'tag-cloud-config.standard' | translate}}</mat-radio-button>
+              <mat-radio-button value="0" (change)="textStyleChanged(getTextStyles(0))"
+                                [checked]="cloudParameters.textTransform === getTextStyles(0)">{{'tag-cloud-config.standard' | translate}}</mat-radio-button>
             </div>
           </mat-radio-group>
         </div>
@@ -111,18 +111,30 @@
         <div class="input-row" fxLayout="column" fxLayoutGap="5px">
           <mat-form-field fxFlex fxLayout.xs="column">
             <mat-label>{{'tag-cloud-config.font-size-min' | translate}}</mat-label>
-            <input #minFont [value]="cloudParameters.fontSizeMin.toString()" matInput type="number"
-                   [(ngModel)]="cloudParameters.fontSizeMin" [ngModelOptions]="{standalone: true}"
+            <input #minFont
+                   matInput
+                   type="number"
+                   [(ngModel)]="cloudParameters.fontSizeMin"
+                   [ngModelOptions]="{standalone: true}"
                    (change)="calcMaxFont($event,true)"
-                   min="50" max="300" step="10"/>
+                   appAccessibilityEscapedInput
+                   min="50"
+                   max="300"
+                   step="10"/>
           </mat-form-field>
         </div>
         <div class="input-row" fxLayout="column" fxLayoutGap="5px">
           <mat-form-field fxFlex fxLayout.xs="column">
             <mat-label>{{'tag-cloud-config.font-size-max' | translate}}</mat-label>
-            <input matInput type="number" [(ngModel)]="maxFont" [value]="maxFont.toString()"
-                   [ngModelOptions]="{standalone: true}" (change)="calcMaxFont($event,false)" min="1" max="10" step="1"
-            />
+            <input matInput
+                   type="number"
+                   [(ngModel)]="maxFont"
+                   appAccessibilityEscapedInput
+                   [ngModelOptions]="{standalone: true}"
+                   (change)="calcMaxFont($event,false)"
+                   min="1"
+                   max="10"
+                   step="1"/>
           </mat-form-field>
         </div>
         <mat-action-row>
