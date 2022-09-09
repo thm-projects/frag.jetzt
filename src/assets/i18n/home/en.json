@@ -102,16 +102,16 @@
     "cancel-description": "Close the introduction dialog"
   },
   "dsgvo": {
-    "external-source": "The content is an external source. Should <u>{{url}}</u> be called?",
+    "external-source": "The content is an external source. Should <br><br>{{url}}<br><br> be called?",
     "external-source-button-text": "Call up",
     "external-source-title": "External source",
-    "unknown-source": "The content either refers to the current website (redirection to a room, or URL) or refers to an external protocol. Should <u>{{url}}</u> be called?",
+    "unknown-source": "The content either refers to the current website (redirection to a room, or URL) or refers to an external protocol. Should <br><br>{{url}}<br><br> be called?",
     "unknown-source-button-text": "Call up",
     "unknown-source-title": "Unknown or internal source",
-    "vimeo-video": "The content links to a video from Vimeo. Should the video <u>{{url}}</u> be played?",
+    "vimeo-video": "The content links to a video from Vimeo. Should the video <br><br>{{url}}<br><br> be played?",
     "vimeo-video-button-text": "Play",
     "vimeo-video-title": "Vimeo video",
-    "youtube-video": "The content links to a video from YouTube. The content has been adapted to the privacy-compliant URL. Should the video <u>{{url}}</u> be played?",
+    "youtube-video": "The content links to a video from YouTube. The content has been adapted to the privacy-compliant URL. Should the video <br><br>{{url}}<br><br> be played?",
     "youtube-video-button-text": "Play",
     "youtube-video-title": "Youtube video"
   },
