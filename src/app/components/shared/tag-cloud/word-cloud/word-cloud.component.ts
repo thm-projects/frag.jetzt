@@ -73,7 +73,7 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
   @Input() keywords: T[];
   @Input() weightClasses = 10;
   @Input() weightClassType = WeightClassType.Lowest;
-  @Input() parameters: CloudParameters = CloudParameters.currentParameters;
+  @Input() parameters: CloudParameters = null;
   private _elements: ActiveWord<T>[] = [];
   private _cssStyleElement: HTMLStyleElement;
   private _styleIndexes: StyleDeclarations;
@@ -103,11 +103,14 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
   }
 
   ngOnDestroy() {
-    this._cssStyleElement.remove();
+    this._cssStyleElement?.remove();
   }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.parameters) {
+      if (Object.keys(changes.parameters.currentValue).length === 0) {
+        return;
+      }
       this.updateParameters(changes.parameters.previousValue);
     }
     if (changes.keywords) {
@@ -151,6 +154,8 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
   needsStyleUpdate(previous: CloudParameters): boolean {
     const current = this.parameters;
     return (previous.backgroundColor !== current.backgroundColor) ||
+      previous.hoverTime !== current.hoverTime ||
+      previous.hoverDelay !== current.hoverDelay ||
       (previous.fontColor !== current.fontColor) ||
       previous.cloudWeightSettings.some((setting, i) =>
         setting.color !== current.cloudWeightSettings[i].color);
@@ -199,6 +204,14 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
       });
     }
     /* eslint-enable @typescript-eslint/naming-convention */
+    const parent = this.wordCloud.nativeElement;
+    if (!parent) {
+      return;
+    }
+    const hoverTime = this.parameters.hoverTime || 0;
+    const hoverDelay = this.parameters.hoverDelay || 0;
+    parent.style.setProperty('--hover-time', hoverTime + 'ms');
+    parent.style.setProperty('--hover-delay', hoverDelay + 'ms');
   }
 
   transformObjectToCSS(sheet: CSSStyleSheet, index: number, object: any) {
@@ -252,6 +265,10 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
       return;
     }
     this.left.emit(activeWord);
+  }
+
+  isDark() {
+    return this.themeService.currentTheme?.isDark ?? true;
   }
 
   private isAlreadyCreated(obsoleteElements: { word: ActiveWord<T>; index: number }[], dataEntry: T) {

@@ -3,9 +3,9 @@
   <h2 class="oldtypo-h2">{{ 'room-page.description' | translate }}</h2>
   <app-write-comment [isModerator]="true"
                      [allowEmpty]="true"
+                     [onlyText]="true"
                      [placeholder]="''"
-                     [onClose]="buildCloseDialogActionCallback()"
-                     [onSubmit]="buildSaveActionCallback()"
+                     [onClose]="this.save.bind(this)"
                      [i18nSection]="'room-page'"
                      [confirmLabel]="'update'">
   </app-write-comment>

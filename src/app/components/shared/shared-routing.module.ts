@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { QuestionWallComponent } from './questionwall/question-wall/question-wall.component';
 import { UserRole } from '../../models/user-roles.enum';
 import { TagCloudComponent } from './tag-cloud/tag-cloud.component';
+import { AuthenticationGuard } from '../../guards/authentication.guard';
 
 const routes: Routes = [
   {
@@ -15,7 +16,8 @@ const routes: Routes = [
         UserRole.EXECUTIVE_MODERATOR,
         UserRole.PARTICIPANT
       ]
-    }
+    },
+    canActivate: [AuthenticationGuard],
   },
   {
     path: 'room/:shortId/comments/tagcloud',
@@ -27,7 +29,8 @@ const routes: Routes = [
         UserRole.EXECUTIVE_MODERATOR,
         UserRole.PARTICIPANT
       ]
-    }
+    },
+    canActivate: [AuthenticationGuard],
   },
   {
     path: 'room/:shortId/comments/brainstorming',
@@ -40,7 +43,8 @@ const routes: Routes = [
         UserRole.PARTICIPANT
       ],
       brainstorming: true
-    }
+    },
+    canActivate: [AuthenticationGuard],
   }
 ];
 

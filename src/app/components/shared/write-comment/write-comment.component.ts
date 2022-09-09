@@ -46,6 +46,7 @@ export class WriteCommentComponent implements OnInit, OnDestroy {
   @Input() allowEmpty = false;
   @Input() additionalMockOffset: number = 0;
   @Input() commentReference: string = null;
+  @Input() onlyText = false;
   isSubmittingComment = false;
   selectedTag: string;
   maxTextCharacters = 500;
@@ -266,8 +267,7 @@ export class WriteCommentComponent implements OnInit, OnDestroy {
     if (this.allowEmpty || (ViewCommentDataComponent.checkInputData(data, text,
       this.translateService, this.notification, this.maxTextCharacters, this.maxDataCharacters) && allowed)) {
       const realData = this.allowEmpty && text.length < 2 ? { ops: [] } : data;
-      this.isSubmittingComment = true;
-      this._keywordExtractor.createCommentInteractive({
+      const options = {
         userId: this.user.id,
         isBrainstorming: !!this.brainstormingData,
         body: realData,
@@ -278,7 +278,13 @@ export class WriteCommentComponent implements OnInit, OnDestroy {
         hadUsedDeepL: this._hadUsedDeepl,
         selectedLanguage: this.selectedLang,
         commentReference: this.commentReference,
-      }).subscribe({
+      };
+      if (this.onlyText) {
+        this.onClose(this._keywordExtractor.createPlainComment(options));
+        return;
+      }
+      this.isSubmittingComment = true;
+      this._keywordExtractor.createCommentInteractive(options).subscribe({
         next: comment => {
           localStorage.setItem('comment-created', String(true));
           this.onClose(comment);

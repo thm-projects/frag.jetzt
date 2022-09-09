@@ -98,6 +98,7 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
   sortMethod = 'Time';
   currentDateString = '?';
   viewInfo: ResponseViewInformation;
+  commentRegistrationId: string;
   private _votes;
   private _commentNumber: string[] = [];
   private _destroyer = new ReplaySubject(1);
@@ -168,6 +169,7 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
       this.slideAnimationState = this.isResponse ? 'child' : 'visible';
     }
     this.readableCommentBody = this.comment?.body ? QuillUtils.getTextFromDelta(this.comment.body) : '';
+    this.commentRegistrationId = this.comment?.id;
     this.checkProfanity();
     switch (this.userRole) {
       case UserRole.PARTICIPANT.valueOf():
@@ -246,7 +248,7 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.slideAnimationState === 'removed') {
       if (this.comment.removed) {
         this.comment.removed = false;
-        this.roomDataService.dataAccessor.removeCommentFully(this.comment.id);
+        this.commentRegistrationId = null;
       }
       return;
     }

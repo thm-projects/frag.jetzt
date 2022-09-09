@@ -13,6 +13,7 @@ import { BookmarkService } from '../http/bookmark.service';
 import { Bookmark } from '../../models/bookmark';
 import { DataAccessor, ForumComment } from '../../utils/data-accessor';
 import { UserManagementService } from './user-management.service';
+import { filter, take } from 'rxjs/operators';
 
 export interface BookmarkAccess {
   [commentId: string]: Bookmark;
@@ -29,6 +30,8 @@ export class RoomDataService {
   private _currentUserCount = new BehaviorSubject<string>('?');
   private _userBookmarks: BookmarkAccess = {};
   private _destroyer: Subject<any>;
+  private _commentUIRegistrations = new Map<string, Set<any>>();
+  private _commentUISubscriber: Subject<string>;
 
   constructor(
     private wsCommentService: WsCommentService,
@@ -39,8 +42,8 @@ export class RoomDataService {
     private activeUserService: ActiveUserService,
     private bookmarkService: BookmarkService,
   ) {
-    this.dataAccessor = new DataAccessor(true, commentService);
-    this.moderatorDataAccessor = new DataAccessor(false, commentService);
+    this.dataAccessor = new DataAccessor(this, true, commentService);
+    this.moderatorDataAccessor = new DataAccessor(this, false, commentService);
     let lastRoom = null;
     this.sessionService.getRoom().subscribe(room => {
       lastRoom = room;
@@ -111,24 +114,57 @@ export class RoomDataService {
     });
   }
 
+  registerUI(commentId: string, object: any) {
+    if (!this._commentUISubscriber) {
+      throw new Error('Registration error: not initialized');
+    }
+    let prev = this._commentUIRegistrations.get(commentId);
+    if (!prev) {
+      prev = new Set();
+      this._commentUIRegistrations.set(commentId, prev);
+    }
+    prev.add(object);
+  }
+
+  unregisterUI(commentId: string, object: any) {
+    if (!this._commentUISubscriber) {
+      return;
+    }
+    const prev = this._commentUIRegistrations.get(commentId);
+    if (!prev) {
+      return;
+    }
+    prev.delete(object);
+    if (prev.size === 0) {
+      this._commentUISubscriber.next(commentId);
+    }
+  }
+
+  isRegistered(commentId: string) {
+    return Boolean(this._commentUIRegistrations.get(commentId));
+  }
+
+  onUnregister(commentId: string): Observable<string> {
+    return this._commentUISubscriber.pipe(
+      filter(v => v === commentId),
+      take(1),
+    );
+  }
+
   private onRoomUpdate(room: Room) {
-    this._currentUserCount.next('?');
-    this._userBookmarks = {};
-    this.dataAccessor.reset();
-    this.moderatorDataAccessor.reset();
-    this._destroyer?.next(true);
-    this._destroyer?.complete();
-    this._destroyer = null;
+    this.clear();
     if (!room) {
       return;
     }
     this._destroyer = new Subject<any>();
+    const currentDestroyer = this._destroyer;
+    this._commentUISubscriber = new Subject();
     this.activeUserService.getActiveUser(room)
-      .pipe(takeUntil(this._destroyer))
+      .pipe(takeUntil(currentDestroyer))
       .subscribe(([count]) => this._currentUserCount.next(String(count || 0)));
     const userRole = this.userManagementService.getCurrentUser()?.role || UserRole.PARTICIPANT;
     this._canAccessModerator = userRole > UserRole.PARTICIPANT;
-    this.wsCommentService.getCommentStream(room.id).pipe(takeUntil(this._destroyer)).subscribe(message => {
+    this.wsCommentService.getCommentStream(room.id).pipe(takeUntil(currentDestroyer)).subscribe(message => {
       const msg = JSON.parse(message.body);
       const payload = msg.payload;
       if (!payload) {
@@ -138,7 +174,7 @@ export class RoomDataService {
       this.dataAccessor.receiveMessage(msg);
     });
     if (this._canAccessModerator) {
-      this.wsCommentService.getModeratorCommentStream(room.id).pipe(takeUntil(this._destroyer)).subscribe(message => {
+      this.wsCommentService.getModeratorCommentStream(room.id).pipe(takeUntil(currentDestroyer)).subscribe(message => {
         const msg = JSON.parse(message.body);
         const payload = msg.payload;
         if (!payload) {
@@ -155,21 +191,21 @@ export class RoomDataService {
     ]).subscribe(([bookmarks, moderators]) => {
       bookmarks.forEach(b => this._userBookmarks[b.commentId] = b);
       const moderatorIds = new Set(moderators.map(m => m.accountId));
-      this.commentService.getAckComments(room.id).pipe(takeUntil(this._destroyer)).subscribe(comments => {
+      this.commentService.getAckComments(room.id).pipe(takeUntil(currentDestroyer)).subscribe(comments => {
         this.dataAccessor.pushNewRoomComments(comments, filter, moderatorIds, room.ownerId, userRole, this._userBookmarks);
       });
-      this.commentService.getRejectedComments(room.id).pipe(takeUntil(this._destroyer)).subscribe(comments => {
+      this.commentService.getRejectedComments(room.id).pipe(takeUntil(currentDestroyer)).subscribe(comments => {
         this.moderatorDataAccessor.pushNewRoomComments(comments, filter, moderatorIds, room.ownerId, userRole, this._userBookmarks);
       });
     });
     let hasChanges = false;
     this.sessionService.receiveRoomUpdates(true)
-      .pipe(takeUntil(this._destroyer))
+      .pipe(takeUntil(currentDestroyer))
       .subscribe(r => {
         hasChanges = Object.keys(r).includes('profanityFilter');
       });
     this.sessionService.receiveRoomUpdates()
-      .pipe(takeUntil(this._destroyer))
+      .pipe(takeUntil(currentDestroyer))
       .subscribe(() => {
         if (hasChanges) {
           hasChanges = false;
@@ -179,6 +215,26 @@ export class RoomDataService {
           }
         }
       });
+  }
+
+  private clear() {
+    this._currentUserCount.next('?');
+    this._userBookmarks = {};
+    if (this._commentUISubscriber) {
+      this._commentUIRegistrations.forEach((registrations, commentId) => {
+        if (registrations.size > 1) {
+          this._commentUISubscriber.next(commentId);
+        }
+      });
+      this._commentUISubscriber.complete();
+    }
+    this._commentUIRegistrations.clear();
+    this._commentUISubscriber = null;
+    this.dataAccessor.reset();
+    this.moderatorDataAccessor.reset();
+    this._destroyer?.next(true);
+    this._destroyer?.complete();
+    this._destroyer = null;
   }
 }
 

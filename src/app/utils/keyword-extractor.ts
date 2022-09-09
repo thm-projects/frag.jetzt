@@ -78,9 +78,9 @@ export class KeywordExtractor {
     });
   }
 
-  createCommentInteractive(
+  createPlainComment(
     options: CommentCreateOptions,
-  ): Observable<Comment> {
+  ) {
     const comment = new Comment();
     comment.body = QuillUtils.transformURLtoQuillLink(options.body, options.isModerator);
     comment.tag = options.tag;
@@ -90,6 +90,13 @@ export class KeywordExtractor {
     comment.createdFromLecturer = options.isModerator;
     comment.brainstormingQuestion = options.isBrainstorming;
     comment.commentReference = options.commentReference;
+    return comment;
+  }
+
+  createCommentInteractive(
+    options: CommentCreateOptions,
+  ): Observable<Comment> {
+    const comment = this.createPlainComment(options);
     if (options.isBrainstorming) {
       return this.generateBrainstormingTerm(options.body, options.selectedLanguage).pipe(
         switchMap((result) => {

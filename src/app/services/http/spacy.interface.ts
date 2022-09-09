@@ -46,10 +46,6 @@ export type EnglishParserLabels = 'ROOT' | //None
   'relcl' | //relative clause modifier
   'xcomp'; //open clausal complement
 
-export type GermanParserLabels = 'ROOT' | 'ac' | 'adc' | 'ag' | 'ams' | 'app' | 'avc' | 'cc' | 'cd' | 'cj' | 'cm' |
-  'cp' | 'cvc' | 'da' | 'dep' | 'dm' | 'ep' | 'ju' | 'mnr' | 'mo' | 'ng' | 'nk' | 'nmc' | 'oa' | 'oc' | 'og' | 'op' |
-  'par' | 'pd' | 'pg' | 'ph' | 'pm' | 'pnc' | 'punct' | 'rc' | 're' | 'rs' | 'sb' | 'sbp' | 'svp' | 'uc' | 'vo';
-
 export type FrenchParserLabels = 'ROOT' | //None
   'acl' | //clausal modifier of noun (adjectival clause)
   'acl:relcl' | //None
@@ -132,6 +128,8 @@ export const GERMAN_TRANSLATION = {
   uc: 'Einheitskomponente',
   vo: 'Vokativ',
 };
+
+export type GermanParserLabels = keyof typeof GERMAN_TRANSLATION;
 
 export const DEFAULT_NOUN_LABELS = {
   de: ['sb', 'op', 'og', 'da', 'oa'] as GermanParserLabels[],

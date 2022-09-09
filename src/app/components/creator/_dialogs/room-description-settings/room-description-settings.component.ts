@@ -5,8 +5,9 @@ import { TranslateService } from '@ngx-translate/core';
 import { RoomService } from '../../../../services/http/room.service';
 import { Room } from '../../../../models/room';
 import { WriteCommentComponent } from '../../../shared/write-comment/write-comment.component';
-import { QuillUtils, StandardDelta } from '../../../../utils/quill-utils';
+import { QuillUtils } from '../../../../utils/quill-utils';
 import { clone } from '../../../../utils/ts-utils';
+import { Comment } from '../../../../models/comment';
 
 @Component({
   selector: 'app-room-description-settings',
@@ -32,17 +33,13 @@ export class RoomDescriptionSettingsComponent implements AfterViewInit {
     }
   }
 
-  buildCloseDialogActionCallback(): () => void {
-    return () => this.dialogRef.close('abort');
-  }
-
-  buildSaveActionCallback(): (data: StandardDelta) => void {
-    return (data) => this.save(data);
-  }
-
-  save(data: StandardDelta): void {
+  save(data: Comment): void {
+    if (!data) {
+      this.dialogRef.close();
+      return;
+    }
     this.roomService.patchRoom(this.editRoom.id, {
-      description: QuillUtils.serializeDelta(QuillUtils.transformURLtoQuillLink(data, true)),
+      description: QuillUtils.serializeDelta(data.body),
     }).subscribe();
     this.dialogRef.close('update');
   }
