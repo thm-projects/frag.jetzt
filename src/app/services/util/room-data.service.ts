@@ -184,7 +184,7 @@ export class RoomDataService {
         this.moderatorDataAccessor.receiveMessage(msg);
       });
     }
-    const filter = new RoomDataProfanityFilter(this.profanityFilterService, room);
+    const profanityFilter = new RoomDataProfanityFilter(this.profanityFilterService, room);
     forkJoin([
       this.bookmarkService.getByRoomId(this.sessionService.currentRoom.id),
       this.sessionService.getModeratorsOnce(),
@@ -192,10 +192,14 @@ export class RoomDataService {
       bookmarks.forEach(b => this._userBookmarks[b.commentId] = b);
       const moderatorIds = new Set(moderators.map(m => m.accountId));
       this.commentService.getAckComments(room.id).pipe(takeUntil(currentDestroyer)).subscribe(comments => {
-        this.dataAccessor.pushNewRoomComments(comments, filter, moderatorIds, room.ownerId, userRole, this._userBookmarks);
+        this.dataAccessor.pushNewRoomComments(
+          comments, profanityFilter, moderatorIds, room.ownerId, userRole, this._userBookmarks
+        );
       });
       this.commentService.getRejectedComments(room.id).pipe(takeUntil(currentDestroyer)).subscribe(comments => {
-        this.moderatorDataAccessor.pushNewRoomComments(comments, filter, moderatorIds, room.ownerId, userRole, this._userBookmarks);
+        this.moderatorDataAccessor.pushNewRoomComments(
+          comments, profanityFilter, moderatorIds, room.ownerId, userRole, this._userBookmarks
+        );
       });
     });
     let hasChanges = false;
