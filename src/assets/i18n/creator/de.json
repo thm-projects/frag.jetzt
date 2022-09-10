@@ -817,8 +817,8 @@
   "topic-cloud-filter": {
     "info-no-keywords": "Unsere KI-basierte Textanalyse kann Stichwörter ermitteln. Analyse starten?",
     "label-refresh-keywords-start": "Starten",
-    "all-questions-and-answers": "Alle Fragen und Antworten",
-    "all-questions-and-answers-short": "Alle Fragen und Antworten",
+    "all-questions-and-answers": "Alle Fragen mit Antworten",
+    "all-questions-and-answers-short": "Alle Fragen mit Antworten",
     "only-questions": "Nur Fragen",
     "only-questions-short": "Nur Fragen",
     "from-now": "Nur Fragen ab jetzt",
