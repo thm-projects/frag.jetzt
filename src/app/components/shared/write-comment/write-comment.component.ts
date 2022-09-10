@@ -49,8 +49,8 @@ export class WriteCommentComponent implements OnInit, OnDestroy {
   @Input() onlyText = false;
   isSubmittingComment = false;
   selectedTag: string;
-  maxTextCharacters = 500;
-  maxDataCharacters = 2500;
+  maxTextCharacters = 2500;
+  maxDataCharacters = 7500;
   // Grammarheck
   languages: Language[] = ['de-DE', 'en-US', 'fr', 'auto'];
   selectedLang: Language = 'auto';
@@ -114,9 +114,9 @@ export class WriteCommentComponent implements OnInit, OnDestroy {
         .subscribe(msg => this.brainstormingInfo = msg);
     }
     if (this.isCommentAnswer) {
-      this.maxTextCharacters = 2000;
+      this.maxTextCharacters = 5000;
     } else {
-      this.maxTextCharacters = this.isModerator ? 1000 : 500;
+      this.maxTextCharacters = this.isModerator ? 5000 : 2500;
     }
     this.userRole = this.sessionService.currentRole;
     this.maxDataCharacters = this.isModerator ? this.maxTextCharacters * 5 : this.maxTextCharacters * 3;
