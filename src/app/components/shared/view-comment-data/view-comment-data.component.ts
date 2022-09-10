@@ -19,6 +19,13 @@ import { EventService } from '../../../services/util/event.service';
 import { MatTooltip } from '@angular/material/tooltip';
 import { QuillUtils, StandardDelta } from '../../../utils/quill-utils';
 import { ReplaySubject, takeUntil } from 'rxjs';
+import { HighlightLibrary } from 'ngx-highlightjs/lib/highlight.model';
+
+
+import Quill from 'quill';
+import ImageResize from 'quill-image-resize-module';
+
+Quill.register('modules/imageResize', ImageResize);
 
 @Component({
   selector: 'app-view-comment-data',
@@ -51,6 +58,7 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit, OnDestro
   private _currentData: StandardDelta = null;
   private _marks: Marks;
   private _destroyer = new ReplaySubject(1);
+  private _mutateObserver: MutationObserver;
 
   constructor(
     private languageService: LanguageService,
@@ -111,6 +119,10 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit, OnDestro
 
   ngOnInit(): void {
     const isMobile = this.deviceInfo.isUserAgentMobile;
+    const hljs = window['hljs'] as HighlightLibrary;
+    this.quillModules.syntax = {
+      highlight: (text) => hljs ? hljs.highlightAuto(text, undefined).value : text,
+    } as unknown as boolean;
     if (this.isEditor) {
       this.quillModules['emoji-toolbar'] = !isMobile;
       this.quillModules.imageResize = {
@@ -173,6 +185,7 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit, OnDestro
   ngOnDestroy() {
     this._destroyer.next(1);
     this._destroyer.complete();
+    this._mutateObserver?.disconnect?.();
   }
 
   onDocumentClick(e) {
@@ -192,6 +205,13 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit, OnDestro
   }
 
   set(delta: StandardDelta): void {
+    if (!this._mutateObserver) {
+      this._mutateObserver = new MutationObserver(this.onMutate.bind(this));
+      const target = this.isEditor ? this.editor.editorElem : this.quillView.editorElem;
+      this._mutateObserver.observe(target.firstElementChild, {
+        childList: true,
+      });
+    }
     if (this.isEditor) {
       this.editor.quillEditor.setContents(delta);
     } else {
@@ -375,6 +395,16 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit, OnDestro
     for (const variable of variables) {
       this.translateService.get(variable).subscribe(translation => {
         document.body.style.setProperty('--' + variable.replace('.', '-'), JSON.stringify(translation));
+      });
+    }
+  }
+
+  private onMutate(mutations: MutationRecord[], _observer: MutationObserver) {
+    for (const mutation of mutations) {
+      Array.from(mutation.addedNodes).forEach(node => {
+        if (node instanceof HTMLPreElement && node.classList.contains('ql-syntax')) {
+          node.classList.toggle('hljs', true);
+        }
       });
     }
   }

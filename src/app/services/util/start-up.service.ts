@@ -5,7 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from './language.service';
 import { ConfigurationService } from './configuration.service';
 import { ThemeService } from '../../../theme/theme.service';
-import { catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { MatomoTrackingService } from './matomo-tracking.service';
 import { TitleService } from './title.service';
 import {
@@ -264,7 +264,12 @@ export class StartUpService {
   }
 
   private getMotds(): Observable<MotdAPI[]> {
-    return this.indexedDBService.getAll('motd');
+    return this.indexedDBService.getAll('motd').pipe(
+      map((motds: MotdAPI[]) => {
+        motds.sort((a, b) => b.startTimestamp.getTime() - a.startTimestamp.getTime());
+        return motds;
+      }),
+    );
   }
 
   private checkNew(motds: MotdAPI[]) {

@@ -210,8 +210,8 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
     }
     const hoverTime = this.parameters.hoverTime || 0;
     const hoverDelay = this.parameters.hoverDelay || 0;
-    parent.style.setProperty('--hover-time', hoverTime + 'ms');
-    parent.style.setProperty('--hover-delay', hoverDelay + 'ms');
+    parent.style.setProperty('--hover-time', hoverTime + 's');
+    parent.style.setProperty('--hover-delay', hoverDelay + 's');
   }
 
   transformObjectToCSS(sheet: CSSStyleSheet, index: number, object: any) {

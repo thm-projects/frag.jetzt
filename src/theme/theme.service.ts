@@ -1,23 +1,27 @@
 import { Injectable } from '@angular/core';
-import { ReplaySubject } from 'rxjs';
+import { Observable, ReplaySubject, tap } from 'rxjs';
 import { themes, themes_meta } from './arsnova-theme.const';
 import { Theme } from './Theme';
 import { DeviceInfoService } from '../app/services/util/device-info.service';
 import { ConfigurationService } from '../app/services/util/configuration.service';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ThemeService {
-  private _currentTheme = null;
+  private _currentTheme: Theme = null;
   private replaySubject = new ReplaySubject<Theme>(1);
   private themes: Theme[] = [];
   private _activeTheme: Theme = null;
   private _initialized = false;
+  private _style: HTMLStyleElement;
+  private _textNode: Text;
 
   constructor(
     private deviceInfo: DeviceInfoService,
     private configurationService: ConfigurationService,
+    private httpClient: HttpClient,
   ) {
   }
 
@@ -33,6 +37,8 @@ export class ThemeService {
     if (this._initialized) {
       return;
     }
+    this._style = document.createElement('style');
+    document.head.append(this._style);
     for (const k of Object.keys(themes)) {
       if (!themes_meta[k].availableOnMobile && this.deviceInfo.isCurrentlyMobile) {
         continue;
@@ -67,8 +73,7 @@ export class ThemeService {
     if (name === 'systemDefault') {
       this.updateBySystem();
     } else {
-      this.replaySubject.next(this._activeTheme);
-      this._currentTheme = this._activeTheme;
+      this.setCurrentTheme(this._activeTheme);
     }
   }
 
@@ -91,7 +96,24 @@ export class ThemeService {
     if (!theme) {
       throw new Error('Theme "' + name + '" does not exist!');
     }
+    this.setCurrentTheme(theme);
+  }
+
+  private setCurrentTheme(theme: Theme) {
     this.replaySubject.next(theme);
     this._currentTheme = theme;
+    this.get(theme.meta.highlightJsClass).subscribe(data => {
+      this._textNode?.remove();
+      this._textNode = document.createTextNode(data);
+      this._style.append(this._textNode);
+    });
+  }
+
+  private get(name: string): Observable<string> {
+    return this.httpClient.get('/assets/styles/highlight-js/' + name, {
+      responseType: 'text',
+    }).pipe(
+      tap(() => ''),
+    );
   }
 }

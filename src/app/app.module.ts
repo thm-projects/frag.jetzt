@@ -61,13 +61,6 @@ import { TagCloudModule } from 'angular-tag-cloud-module';
 import { SpacyService } from './services/http/spacy.service';
 import { QuizNowComponent } from './components/shared/quiz-now/quiz-now.component';
 import { JoyrideModule } from 'ngx-joyride';
-import { QuillModule } from 'ngx-quill';
-
-import 'prismjs';
-import 'prismjs/plugins/line-numbers/prism-line-numbers.js';
-import 'prismjs/plugins/line-highlight/prism-line-highlight.js';
-import 'katex/dist/katex.min.js';
-import 'emoji-toolkit/lib/js/joypixels.min.js';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { DashboardNotificationService } from './services/util/dashboard-notification.service';
 import { MatNativeDateModule } from '@angular/material/core';
@@ -82,6 +75,16 @@ import { CookiesFrComponent } from '../assets/i18n/components/cookies/cookies-fr
 import { AdminModule } from './components/admin/admin.module';
 import { NgxIndexedDBModule } from 'ngx-indexed-db';
 import { DB_CONFIG } from '../indexeddb';
+import { HIGHLIGHT_OPTIONS, HighlightLoader, HighlightModule } from 'ngx-highlightjs';
+import { HighlightJsDefaults } from './utils/highlight-js-defaults';
+
+import 'prismjs';
+import 'prismjs/plugins/line-numbers/prism-line-numbers.js';
+import 'prismjs/plugins/line-highlight/prism-line-highlight.js';
+import 'katex/dist/katex.min.js';
+import 'emoji-toolkit/lib/js/joypixels.min.js';
+import 'quill-emoji/dist/quill-emoji.js';
+import { QuillModule } from 'ngx-quill';
 
 export const dialogClose = (dialogResult: any) => '';
 
@@ -166,9 +169,10 @@ export const HttpLoaderFactory = (http: HttpClient) => new TranslateHttpLoader(h
     ArsModule,
     TagCloudModule,
     JoyrideModule.forRoot(),
-    QuillModule.forRoot(),
     NgxIndexedDBModule.forRoot(DB_CONFIG),
-    MatNativeDateModule
+    MatNativeDateModule,
+    HighlightModule,
+    QuillModule.forRoot(),
   ],
   providers: [
     /*AppConfig,
@@ -180,6 +184,10 @@ export const HttpLoaderFactory = (http: HttpClient) => new TranslateHttpLoader(h
       provide: HTTP_INTERCEPTORS,
       useClass: AuthenticationInterceptor,
       multi: true
+    },
+    {
+      provide: HIGHLIGHT_OPTIONS,
+      useValue: HighlightJsDefaults,
     },
     WsConnectorService,
     NotificationService,
@@ -219,7 +227,9 @@ export class AppModule {
   constructor(
     private languageService: LanguageService,
     private translateService: TranslateService,
+    private highlightLoader: HighlightLoader,
   ) {
+    this.highlightLoader.ready.subscribe();
     this.languageService.getLanguage().subscribe(lang => this.translateService.use(lang));
   }
 

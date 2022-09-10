@@ -5,10 +5,6 @@ import { NotificationService } from './services/util/notification.service';
 import { Rescale } from './models/rescale';
 import { CustomIconService } from './services/util/custom-icon.service';
 import { filter } from 'rxjs/operators';
-
-import Quill from 'quill';
-import ImageResize from 'quill-image-resize-module';
-import 'quill-emoji/dist/quill-emoji.js';
 import { StartUpService } from './services/util/start-up.service';
 import { EventService } from './services/util/event.service';
 import {
@@ -21,8 +17,6 @@ import {
 import { MatDialog } from '@angular/material/dialog';
 import { LoginComponent } from './components/shared/login/login.component';
 import { MotdDialogComponent } from './components/shared/_dialogs/motd-dialog/motd-dialog.component';
-
-Quill.register('modules/imageResize', ImageResize);
 
 @Component({
   selector: 'app-root',

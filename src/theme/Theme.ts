@@ -60,6 +60,7 @@ export interface ThemeMeta {
   config?: any;
   icon: string;
   isUtility?: boolean;
+  highlightJsClass?: string;
 }
 
 export class Theme {

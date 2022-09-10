@@ -23,8 +23,10 @@ export class QuillInputDialogComponent implements OnInit {
     throwOnError: false
   };
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData,
-              private dialogRef: MatDialogRef<QuillInputDialogComponent>) {
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: DialogData,
+    private dialogRef: MatDialogRef<QuillInputDialogComponent>
+  ) {
   }
 
   ngOnInit(): void {
