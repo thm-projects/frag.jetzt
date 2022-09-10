@@ -57,6 +57,7 @@ export const arsnova_meta: ThemeMeta = {
   scale_desktop: 1,
   scale_mobile: 1,
   previewColor: 'background',
-  icon: 'light'
+  icon: 'light',
+  highlightJsClass: 'a11y-dark.css',
 
 };

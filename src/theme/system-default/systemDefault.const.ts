@@ -1,3 +1,5 @@
+import { ThemeMeta } from '../Theme';
+
 export const system_default = {
 
   '--previewColor': '#052338',
@@ -5,7 +7,7 @@ export const system_default = {
 
 };
 
-export const system_default_meta = {
+export const system_default_meta: ThemeMeta = {
 
   order: 5,
   translation: {
