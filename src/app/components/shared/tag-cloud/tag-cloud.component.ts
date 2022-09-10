@@ -146,10 +146,8 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     if (customTagCloudStyles) {
       customTagCloudStyles.sheet.disabled = true;
     }
-    this.themeSubscription.unsubscribe();
-    if (this._subscriptionRoom) {
-      this._subscriptionRoom.unsubscribe();
-    }
+    this.themeSubscription?.unsubscribe();
+    this._subscriptionRoom?.unsubscribe();
     this.onDestroyListener.emit();
   }
 
@@ -258,7 +256,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     this.popup.leave();
   }
 
-  private init(){
+  private init() {
     this._currentSettings = this.getCurrentCloudParameters();
     this.dataManager.getData().subscribe(data => {
       if (!data) {
@@ -351,11 +349,25 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
       return;
     }
     this.brainstormingData = room.brainstormingSession;
-    if (!settings) {
-      this.resetColorsToTheme();
-      this.setCloudParameters(this.currentCloudParameters);
+    if (settings) {
+      this.topicCloudAdmin.setAdminData(settings.adminData, null, this.userRole);
+      return;
     }
-    this.topicCloudAdmin.setAdminData(settings.adminData, null, this.userRole);
+    if (this.userRole > UserRole.PARTICIPANT) {
+      const tagCloudSettings = TagCloudSettings.getCurrent().serialize();
+      this.roomService.patchRoom(this.room.id, { tagCloudSettings }).subscribe({
+        next: () => {
+          this.translateService.get('tag-cloud.changes-successful').subscribe(msg => {
+            this.notificationService.show(msg);
+          });
+        },
+        error: () => {
+          this.translateService.get('tag-cloud.changes-gone-wrong').subscribe(msg => {
+            this.notificationService.show(msg);
+          });
+        }
+      });
+    }
   }
 
   private initNavigation() {

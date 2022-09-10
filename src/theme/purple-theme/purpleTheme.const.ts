@@ -57,6 +57,7 @@ export const purple_meta: ThemeMeta = {
   scale_desktop: 1.5,
   scale_mobile: 1,
   previewColor: 'background',
-  icon: 'co_present'
+  icon: 'co_present',
+  highlightJsClass: 'a11y-dark.css',
 
 };

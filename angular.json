@@ -27,13 +27,13 @@
             ],
             "styles": [
               "src/styles.scss",
+              "src/assets/styles/quill/quill.bubble.css",
+              "src/assets/styles/quill/quill.snow.css",
               "node_modules/material-icons/iconfont/material-icons.css",
               "node_modules/prismjs/themes/prism-okaidia.css",
               "node_modules/prismjs/plugins/line-highlight/prism-line-highlight.css",
               "node_modules/prismjs/plugins/line-numbers/prism-line-numbers.css",
               "node_modules/quill/dist/quill.core.css",
-              "node_modules/quill/dist/quill.bubble.css",
-              "node_modules/quill/dist/quill.snow.css",
               "node_modules/quill-emoji/dist/quill-emoji.css"
             ],
             "scripts": [
@@ -121,13 +121,13 @@
             ],
             "styles": [
               "src/styles.scss",
+              "src/assets/styles/quill/quill.bubble.css",
+              "src/assets/styles/quill/quill.snow.css",
               "node_modules/material-icons/iconfont/material-icons.css",
               "node_modules/prismjs/themes/prism-okaidia.css",
               "node_modules/prismjs/plugins/line-highlight/prism-line-highlight.css",
               "node_modules/prismjs/plugins/line-numbers/prism-line-numbers.css",
               "node_modules/quill/dist/quill.core.css",
-              "node_modules/quill/dist/quill.bubble.css",
-              "node_modules/quill/dist/quill.snow.css",
               "node_modules/quill-emoji/dist/quill-emoji.css"
             ],
             "assets": [
