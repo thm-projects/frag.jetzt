@@ -44,15 +44,6 @@
             </div>
           </mat-radio-group>
         </div>
-        <div class="input-row special-settings alphabetical-sorting" fxLayout="row" fxLayoutGap="5px"
-             fxLayout.xs="column">
-          <div class="input-row" fxLayout="row" fxLayoutGap="5px" fxLayout.xs="column">
-            <mat-slide-toggle
-              [(ngModel)]="cloudParameters.sortAlphabetically"
-              [checked]="cloudParameters.sortAlphabetically" [ngModelOptions]="{standalone: true}"
-              (change)="valueChanged()">{{'tag-cloud-config.alphabetical-sorting' | translate}}</mat-slide-toggle>
-          </div>
-        </div>
         <div style="margin: 10px;"></div>
         <div class="input-row" fxLayout="column" fxLayoutGap="5px">
           <div class="input-row" fxLayout="column" fxLayoutGap="5px">

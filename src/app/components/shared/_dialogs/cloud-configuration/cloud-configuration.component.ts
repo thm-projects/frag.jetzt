@@ -111,6 +111,8 @@ export class CloudConfigurationComponent implements OnInit {
     this.sessionService.onReady.subscribe(() => {
       this.cloudParameters = new CloudParameters(this.parent.currentCloudParameters);
       this.defaultCloudParameters = new CloudParameters(this.parent.currentCloudParameters);
+      this.defaultCloudParameters.sortAlphabetically = false;
+      this.cloudParameters.sortAlphabetically = false;
       this.parent.dataManager.getMetaData().subscribe((value) => {
         if (!value) {
           return;
