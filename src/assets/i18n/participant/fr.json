@@ -638,8 +638,8 @@
   "topic-cloud-filter": {
     "info-no-keywords": "Notre analyse de texte basée sur l'IA peut déterminer des mots clés. Démarrer l'analyse ?",
     "label-refresh-keywords-start": "Démarrer",
-    "all-questions-and-answers": "Toutes les questions et réponses",
-    "all-questions-and-answers-short": "Toutes les questions et réponses",
+    "all-questions-and-answers": "Toutes les questions avec réponses",
+    "all-questions-and-answers-short": "Toutes les questions avec réponses",
     "only-questions": "Seulement les questions",
     "only-questions-short": "Seulement les questions",
     "from-now": "Questions à partir de maintenant",
