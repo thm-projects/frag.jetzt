@@ -419,7 +419,7 @@ $width-range: $max-width - $min-width;
     position: absolute;
     right: 65px;
     top: 60px;
-    font-size: calc(min(100vw, 800px) - var(--marginLeft));
+    font-size: min(100vw, 800px);
 
     > p {
       font-size: calc(#{$font-range}em / #{$width-range} - #{$max-font-size - math.div($max-width * $font-range, $width-range)}px);
