@@ -11,7 +11,7 @@ if (wsOrigin) {
 
 const PROXY_CONFIG = {
   "/matomo": {
-    "target": "https://arsnova.thm.de/stats",
+    "target": "https://stats.frag.jetzt",
     "secure": true,
     "changeOrigin": false,
     "pathRewrite": {
