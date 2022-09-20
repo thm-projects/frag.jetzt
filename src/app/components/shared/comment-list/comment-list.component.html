@@ -379,7 +379,7 @@
         mat-fab
         mat-icon-button
         [ngClass]="{
-          center_screen: isCommentListEmpty()
+          center_screen: isCommentListEmpty() || isStarting()
          }"
         aria-labelledby="add"
         class="fab_add_comment"

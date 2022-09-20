@@ -101,6 +101,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
   private _filterObject: FilteredDataAccess;
   private _cloudFilterObject: FilteredDataAccess;
   private _destroySubject = new Subject();
+  private _isStarting = true;
 
   constructor(
     private commentService: CommentService,
@@ -168,11 +169,12 @@ export class CommentListComponent implements OnInit, OnDestroy {
         });
       });
     });
-    this.userRole = this.sessionService.currentRole;
     forkJoin([
       this.sessionService.getRoomOnce(),
       this.sessionService.getModeratorsOnce(),
     ]).subscribe(([room, mods]) => {
+      this.userRole = this.sessionService.currentRole;
+      setTimeout(() => this._isStarting = false, 1_500);
       this.receiveRoom(room);
       this.moderatorAccountIds = new Set<string>(mods.map(m => m.accountId));
       this.sessionService.receiveRoomUpdates().subscribe(_room => this.receiveRoom(_room as Room));
@@ -406,6 +408,10 @@ export class CommentListComponent implements OnInit, OnDestroy {
     this.questionNumberFormControl.setValue('');
     menu.closeMenu();
     this.applyFilterByKey('Number', value);
+  }
+
+  isStarting(): boolean {
+    return this._isStarting;
   }
 
   isCommentListEmpty(): boolean {
