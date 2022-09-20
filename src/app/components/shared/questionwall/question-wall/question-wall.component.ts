@@ -25,6 +25,7 @@ import { forkJoin } from 'rxjs';
 import { HeaderService } from '../../../../services/util/header.service';
 import { ForumComment } from '../../../../utils/data-accessor';
 import { UserManagementService } from '../../../../services/util/user-management.service';
+import { RowComponent } from '../../../../../../projects/ars/src/lib/components/layout/frame/row/row.component';
 
 
 interface CommentCache {
@@ -42,6 +43,8 @@ interface CommentCache {
 export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @ViewChild(ColComponent) colComponent: ColComponent;
+  @ViewChild('header') headerComponent: RowComponent;
+  @ViewChild('footer') footerComponent: RowComponent;
   @ViewChild('sidelist') sidelist: ColComponent;
 
   sidelistExpanded = true;
@@ -108,8 +111,16 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     this.sidelistExpanded = !this.sidelistExpanded;
     if (this.sidelistExpanded) {
       this.sidelist.setPx(450);
+      setTimeout(()=>{
+        this.headerComponent.setPx(50);
+        this.footerComponent.setPx(50);
+      },200);
     } else {
       this.sidelist.setPx(0);
+      setTimeout(()=>{
+        this.headerComponent.setPx(0);
+        this.footerComponent.setPx(0);
+      },200);
     }
   }
 
