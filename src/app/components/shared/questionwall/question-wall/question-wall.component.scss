@@ -66,12 +66,14 @@
     &-header {
       background-color: var(--ars-foreground-color);
       border-bottom: solid 1px var(--ars-border-color);
+      transition:all 0.2s ease-in-out;
       z-index: 4;
     }
 
     &-footer {
       background-color: var(--ars-foreground-color);
       border-top: solid 1px var(--ars-border-color);
+      transition:all 0.2s ease-in-out;
       z-index: 54;
 
       > * {
