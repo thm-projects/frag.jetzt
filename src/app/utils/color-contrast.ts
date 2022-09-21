@@ -39,6 +39,29 @@ export class ColorContrast {
     return r * 0.2126 + g * 0.7152 + b * 0.0722;
   }
 
+  static hexFromCSS(str: string) {
+    const regex = /^rgb\((\d+), (\d+), (\d+)\)$/;
+    const match = str.match(regex);
+    return this.rgbToHex([
+      Number(match[1]),
+      Number(match[2]),
+      Number(match[3]),
+    ]);
+  }
+
+  static rgbToHex(color: ColorRGB) {
+    const [r, g, b] = color;
+    return `#${((r * 256 + g) * 256 + b).toString(16).padStart(6, '0')}`;
+  }
+
+  static hexToRgb(hexStr: string) {
+    return [
+      parseInt(hexStr.substring(1, 3), 16),
+      parseInt(hexStr.substring(3, 5), 16),
+      parseInt(hexStr.substring(5, 7), 16)
+    ] as ColorRGB;
+  }
+
   /**
    * Definition after <a href="https://www.w3.org/TR/WCAG21/#dfn-contrast-ratio">W3 - WCAG 2.1</a>
    *
