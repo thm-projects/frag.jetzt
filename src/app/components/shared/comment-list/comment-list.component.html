@@ -14,7 +14,15 @@
      (window:scroll)="checkScroll()"
      fxLayoutAlign="center">
 
-  <app-minute-jump-clock></app-minute-jump-clock>
+  <app-minute-jump-clock *ngIf="canShowURL()"></app-minute-jump-clock>
+  <qrcode [qrdata]="getURL()"
+          *ngIf="canShowURL()"
+          class="comment-qr-code"
+          [colorDark]="'#000000'"
+          [colorLight]="'#F0F8FF'"
+          [width]="600"
+          [errorCorrectionLevel]="'M'">
+  </qrcode>
 
   <button id="filter-close-button"
           mat-icon-button

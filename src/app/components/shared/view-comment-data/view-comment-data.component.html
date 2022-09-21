@@ -17,7 +17,7 @@
       {{textOverwrite}}
     </span>
     <span aria-hidden="true" style="font-size: 75%" *ngIf="!textOverwrite">
-      {{currentText.length}} / {{maxTextCharacters}}
+      {{currentText.trim().length}} / {{maxTextCharacters}}
     </span>
   </div>
 </ars-row>

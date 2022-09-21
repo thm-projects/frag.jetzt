@@ -102,6 +102,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
   private _cloudFilterObject: FilteredDataAccess;
   private _destroySubject = new Subject();
   private _isStarting = true;
+  private _matcher: MediaQueryList;
 
   constructor(
     private commentService: CommentService,
@@ -135,6 +136,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
       v = v || '';
       this.questionNumberOptions = this._allQuestionNumberOptions.filter(e => e.startsWith(v));
     });
+    this._matcher = matchMedia('(min-width: 1320px)');
   }
 
   handlePageEvent(e: PageEvent) {
@@ -445,6 +447,18 @@ export class CommentListComponent implements OnInit, OnDestroy {
       answers,
       moderated: this.roomDataService.moderatorDataAccessor.currentRawComments().length,
     } as const;
+  }
+
+  getURL() {
+    const room = this.sessionService.currentRoom;
+    if (!room) {
+      return window.location.href;
+    }
+    return `${window.location.origin}/participant/room/${room.shortId}`;
+  }
+
+  canShowURL() {
+    return this._matcher.matches && this.userRole > UserRole.PARTICIPANT;
   }
 
   private onCommentPatched(update: CommentPatchedKeyInformation) {

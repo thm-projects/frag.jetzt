@@ -66,7 +66,7 @@ export class UserManagementService {
       return of(null);
     }
     return this.authenticationService.refreshLoginWithToken(currentUser.token).pipe(
-      switchMap(data => this.onReceive(currentUser, data))
+      switchMap(data => this.onReceive(currentUser, data, false, false, false))
     );
   }
 
@@ -226,7 +226,13 @@ export class UserManagementService {
     return this._initialized;
   }
 
-  protected onReceive(previousUser: User, result: LoginResultArray, retry = false, force = false): Observable<ManagedUser> {
+  protected onReceive(
+    previousUser: User,
+    result: LoginResultArray,
+    retry = false,
+    force = false,
+    showMessage = true,
+  ): Observable<ManagedUser> {
     if (result[0] === LoginResult.Success) {
       return forkJoin([
         this.authenticationService.checkSuperAdmin(result[1].token),
@@ -245,9 +251,11 @@ export class UserManagementService {
         }),
         tap(user => {
           this.setUser(user);
-          this.translateService.get('login.login-successful').subscribe(message => {
-            this.notificationService.show(message);
-          });
+          if (showMessage) {
+            this.translateService.get('login.login-successful').subscribe(message => {
+              this.notificationService.show(message);
+            });
+          }
         }),
       );
     }
