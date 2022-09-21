@@ -13,7 +13,7 @@ import {
 } from '@angular/core';
 import { FontInfoService } from '../../../../services/util/font-info.service';
 import { CloudParameters, CloudTextStyle } from '../../../../utils/cloud-parameters';
-import { ColorContrast, ColorRGB } from '../../../../utils/color-contrast';
+import { ColorContrast } from '../../../../utils/color-contrast';
 import { WordCloudDrawFunctions } from './word-cloud-draw-functions';
 import { ThemeService } from '../../../../../theme/theme.service';
 
