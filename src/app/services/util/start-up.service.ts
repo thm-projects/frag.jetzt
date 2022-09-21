@@ -25,7 +25,7 @@ import { StyleService } from '../../../../projects/ars/src/lib/style/style.servi
 import { NgxIndexedDBService } from 'ngx-indexed-db';
 import { MotdDialogRequest, sendEvent } from '../../utils/service-component-events';
 import { EventService } from './event.service';
-import { TimeoutHelper } from '../../utils/ts-utils';
+import { UserRole } from '../../models/user-roles.enum';
 
 @Injectable({
   providedIn: 'root'
@@ -177,22 +177,22 @@ export class StartUpService {
 
   private updateNews() {
     let nextFetch = 0;
-    let timeout = 0 as unknown as TimeoutHelper;
     const WAIT_DURATION = 1_800_000;
+    const SPIN_DURATION = 3_000;
     const update = () => {
-      if (!this.userManagementService.getCurrentUser() || !this.onboardingService.isFinished()) {
+      if (!this.userManagementService.getCurrentUser() ||
+        !this.onboardingService.isFinished() ||
+        this._sessionService.currentRole === UserRole.PARTICIPANT) {
+        setTimeout(update, SPIN_DURATION);
         return;
       }
       const dateNow = Date.now();
       if (nextFetch > dateNow) {
-        if (timeout === 0) {
-          timeout = setTimeout(update, nextFetch - dateNow);
-        }
+        setTimeout(update, nextFetch - dateNow);
         return;
       }
-      clearTimeout(timeout);
       nextFetch = dateNow + WAIT_DURATION;
-      timeout = setTimeout(update, nextFetch - dateNow);
+      setTimeout(update, nextFetch - dateNow);
       this.motdService.getList().subscribe(data => {
         this.saveMotds(data);
         this.checkNew(data);
@@ -201,14 +201,7 @@ export class StartUpService {
         }
       });
     };
-    this.userManagementService.getUser().subscribe(user => {
-      if (user) {
-        update();
-      } else {
-        clearTimeout(timeout);
-        timeout = 0;
-      }
-    });
+    setTimeout(update);
   }
 
   private showOverlay(onSuccess: () => Observable<any>): Observable<any> {
