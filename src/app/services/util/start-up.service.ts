@@ -25,7 +25,6 @@ import { StyleService } from '../../../../projects/ars/src/lib/style/style.servi
 import { NgxIndexedDBService } from 'ngx-indexed-db';
 import { MotdDialogRequest, sendEvent } from '../../utils/service-component-events';
 import { EventService } from './event.service';
-import { UserRole } from '../../models/user-roles.enum';
 
 @Injectable({
   providedIn: 'root'
@@ -180,9 +179,12 @@ export class StartUpService {
     const WAIT_DURATION = 1_800_000;
     const SPIN_DURATION = 3_000;
     const update = () => {
-      if (!this.userManagementService.getCurrentUser() ||
+      const role = this._sessionService.currentRole;
+      if (
+        !this.userManagementService.getCurrentUser() ||
         !this.onboardingService.isFinished() ||
-        this._sessionService.currentRole === UserRole.PARTICIPANT) {
+        !role
+      ) {
         setTimeout(update, SPIN_DURATION);
         return;
       }
