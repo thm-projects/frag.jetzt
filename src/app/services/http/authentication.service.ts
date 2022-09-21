@@ -101,8 +101,10 @@ export class AuthenticationService extends BaseHttpService {
     );
   }
 
-  private checkLogin(clientAuthentication: Observable<ClientAuthentication>,
-                     userRole: UserRole): Observable<LoginResultArray> {
+  private checkLogin(
+    clientAuthentication: Observable<ClientAuthentication>,
+    userRole: UserRole,
+  ): Observable<LoginResultArray> {
     return clientAuthentication.pipe(
       map((result) => {
         if (!result) {
