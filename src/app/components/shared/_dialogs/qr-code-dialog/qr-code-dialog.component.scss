@@ -1,22 +1,22 @@
-::ng-deep .mat-dialog-container {
-  background-color: var(--surface);
-}
-
 .qr-container {
   height: 100%;
-  background-color: var(--background);
+  background-color: white;
 }
 
 .exitButton {
-  background-color: var(--background);
-  color: var(--cancel);
-  outline: var(--cancel) solid 3px;
+  background-color: white;
+  color: red;
+  outline: red solid 3px;
   position: absolute;
   top: 2em;
   right: 2em;
 
   &:hover {
-    background-color: var(--cancel);
-    color: var(--white);
+    background-color: red;
+    color: white;
   }
+}
+
+h2 {
+  color: black;
 }
