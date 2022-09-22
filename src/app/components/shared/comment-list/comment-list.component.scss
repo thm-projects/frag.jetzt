@@ -82,6 +82,11 @@ app-comment {
 
 .red {
   color: var(--red) !important;
+
+  &:hover {
+    outline: var(--red) solid 3px;
+    border-radius: 23px;
+  }
 }
 
 .actionButton {
