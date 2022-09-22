@@ -25,6 +25,7 @@ import { StyleService } from '../../../../projects/ars/src/lib/style/style.servi
 import { NgxIndexedDBService } from 'ngx-indexed-db';
 import { MotdDialogRequest, sendEvent } from '../../utils/service-component-events';
 import { EventService } from './event.service';
+import { TimeoutHelper } from '../../utils/ts-utils';
 
 @Injectable({
   providedIn: 'root'
@@ -175,35 +176,52 @@ export class StartUpService {
   }
 
   private updateNews() {
-    let nextFetch = 0;
     const WAIT_DURATION = 1_800_000;
-    const SPIN_DURATION = 3_000;
+    const SPIN_DURATION = 1_500;
+    let nextFetch = 0;
+    let timeout = 0 as unknown as TimeoutHelper;
+    let requestTimeout = 0 as unknown as TimeoutHelper;
+    let motdData;
+    const request = () => {
+      if (!this.onboardingService.isFinished() || !this._sessionService.currentRole) {
+        requestTimeout = setTimeout(request, SPIN_DURATION);
+        return;
+      }
+      requestTimeout = 0;
+      if (this._hasUnreadMotds) {
+        sendEvent(this.eventService, new MotdDialogRequest(motdData));
+      }
+    };
     const update = () => {
-      const role = this._sessionService.currentRole;
-      if (
-        !this.userManagementService.getCurrentUser() ||
-        !this.onboardingService.isFinished() ||
-        !role
-      ) {
-        setTimeout(update, SPIN_DURATION);
+      if (!this.userManagementService.getCurrentUser()) {
+        clearTimeout(timeout);
+        timeout = 0;
         return;
       }
       const dateNow = Date.now();
       if (nextFetch > dateNow) {
-        setTimeout(update, nextFetch - dateNow);
+        if (timeout === 0) {
+          timeout = setTimeout(update, nextFetch - dateNow);
+        }
         return;
       }
+      clearTimeout(timeout);
       nextFetch = dateNow + WAIT_DURATION;
-      setTimeout(update, nextFetch - dateNow);
+      timeout = setTimeout(update, nextFetch - dateNow);
       this.motdService.getList().subscribe(data => {
         this.saveMotds(data);
         this.checkNew(data);
-        if (this._hasUnreadMotds) {
-          sendEvent(this.eventService, new MotdDialogRequest(data));
+        motdData = data;
+        if (requestTimeout === 0) {
+          request();
         }
       });
     };
-    setTimeout(update);
+    this.userManagementService.getUser().subscribe(_ => {
+      clearTimeout(requestTimeout);
+      requestTimeout = 0;
+      update();
+    });
   }
 
   private showOverlay(onSuccess: () => Observable<any>): Observable<any> {
