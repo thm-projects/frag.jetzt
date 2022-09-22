@@ -143,10 +143,10 @@
     "help": "Aide",
     "imprint": "Mentions légales",
     "language": "Langue",
-    "motd-mark-all-read": "Tout lu",
+    "motd-mark-all-read": "Ne plus afficher",
     "motd-mark-read": "Lu",
     "motd-title-main": "Nouvelles des développeurs",
-    "motd-title-new": "Dernières actualités",
+    "motd-title-new": "Actualités",
     "motd-title-old": "Archive",
     "open": "Ouvert",
     "style": "Affichage"

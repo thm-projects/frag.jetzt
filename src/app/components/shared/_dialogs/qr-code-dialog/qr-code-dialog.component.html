@@ -1,8 +1,6 @@
 <ars-screen>
   <div fxLayout="column" fxLayoutAlign="center center" class="qr-container">
-    <button class="exitButton" mat-raised-button (click)="onCloseClick()">
-      <mat-icon>close</mat-icon>
-    </button>
+    <mat-icon class="exitButton" (click)="onCloseClick()">close</mat-icon>
     <div>
       <h2>{{'qr-dialog.url' | translate}}</h2>
       <h2>{{'qr-dialog.session' | translate}}: {{key}}</h2>
