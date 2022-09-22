@@ -4,16 +4,17 @@
 }
 
 .exitButton {
+  transform: scale(2.5);
   background-color: white;
   color: red;
-  outline: red solid 3px;
   position: absolute;
-  top: 2em;
-  right: 2em;
+  top: 3em;
+  right: 3em;
 
   &:hover {
     background-color: red;
     color: white;
+    border-radius: 15px;
   }
 }
 
