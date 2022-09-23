@@ -1,4 +1,4 @@
-import { Component, ComponentRef, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ComponentRef, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Comment, numberSorter } from '../../../models/comment';
 import { CommentService } from '../../../services/http/comment.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -46,15 +46,18 @@ import { CommentPatchedKeyInformation, ForumComment } from '../../../utils/data-
 import { FilteredDataAccess, FilterTypeCounts, PeriodCounts } from '../../../utils/filtered-data-access';
 import { QuillUtils } from '../../../utils/quill-utils';
 import { UserManagementService } from '../../../services/util/user-management.service';
+import { ThemeService } from '../../../../theme/theme.service';
+import { ColorContrast } from '../../../utils/color-contrast';
 
 @Component({
   selector: 'app-comment-list',
   templateUrl: './comment-list.component.html',
   styleUrls: ['./comment-list.component.scss'],
 })
-export class CommentListComponent implements OnInit, OnDestroy {
+export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('searchBox') searchField: ElementRef;
   @ViewChild('filterMenuTrigger') filterMenuTrigger: MatMenuTrigger;
+  @ViewChild('qrCodeColors') qrCodeColors: ElementRef<HTMLDivElement>;
   user: User;
   AppComponent = AppComponent;
   comments: ForumComment[] = [];
@@ -95,6 +98,8 @@ export class CommentListComponent implements OnInit, OnDestroy {
   periodCounts: PeriodCounts;
   moderatorAccountIds: Set<string>;
   hasGivenJoyride = false;
+  qrDark = '#000000';
+  qrLight = '#F0F8FF';
   private firstReceive = true;
   private _allQuestionNumberOptions: string[] = [];
   private _list: ComponentRef<any>[];
@@ -126,11 +131,15 @@ export class CommentListComponent implements OnInit, OnDestroy {
     private composeService: ArsComposeService,
     private headerService: HeaderService,
     private cloudDataService: TagCloudDataService,
+    private themeService: ThemeService,
   ) {
     langService.getLanguage().pipe(takeUntil(this._destroySubject)).subscribe(_ => {
       this.translateService.get('comment-list.search').subscribe(msg => {
         this.searchPlaceholder = msg;
       });
+    });
+    themeService.getTheme().pipe(takeUntil(this._destroySubject)).subscribe(_ => {
+      this.updateQrCodeColors();
     });
     this.questionNumberFormControl.valueChanges.subscribe((v) => {
       v = v || '';
@@ -210,6 +219,10 @@ export class CommentListComponent implements OnInit, OnDestroy {
     this.translateService.get('comment-list.search').subscribe(msg => {
       this.searchPlaceholder = msg;
     });
+  }
+
+  ngAfterViewInit() {
+    this.updateQrCodeColors();
   }
 
   ngOnDestroy() {
@@ -458,7 +471,31 @@ export class CommentListComponent implements OnInit, OnDestroy {
   }
 
   canShowURL() {
-    return this._matcher.matches && this.userRole > UserRole.PARTICIPANT;
+    return this._matcher.matches && this.userRole > UserRole.PARTICIPANT &&
+      this.themeService.currentTheme?.key !== 'projector';
+  }
+
+  showQR() {
+    this.headerService.getHeaderComponent().showQRDialog();
+  }
+
+  private updateQrCodeColors() {
+    const div = this.qrCodeColors?.nativeElement;
+    if (!div) {
+      return;
+    }
+    const computed = getComputedStyle(div);
+    const color = ColorContrast.rgbFromCSS(computed.color);
+    const color2 = ColorContrast.rgbFromCSS(computed.backgroundColor);
+    const luminance = ColorContrast.getWCAGRelativeLuminance(ColorContrast.rgbToSrgb(color));
+    const luminance2 = ColorContrast.getWCAGRelativeLuminance(ColorContrast.rgbToSrgb(color2));
+    if (luminance > luminance2) {
+      this.qrDark = ColorContrast.rgbToHex(color2);
+      this.qrLight = ColorContrast.rgbToHex(color);
+    } else {
+      this.qrDark = ColorContrast.rgbToHex(color);
+      this.qrLight = ColorContrast.rgbToHex(color2);
+    }
   }
 
   private onCommentPatched(update: CommentPatchedKeyInformation) {
@@ -522,7 +559,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
         icon: 'qr_code',
         class: 'header-icons',
         text: 'header.room-qr',
-        callback: () => this.headerService.getHeaderComponent().showQRDialog(),
+        callback: () => this.showQR(),
         condition: () => this.userRole > 0
       });
       e.menuItem({

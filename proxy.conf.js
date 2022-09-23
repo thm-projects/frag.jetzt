@@ -46,7 +46,7 @@ const PROXY_CONFIG = {
     }
   },
   "/languagetool": {
-    "target": process.env.LT_ADDRESS || "https://lt.frag.jetzt/v2/check",
+    "target": process.env.LT_ADDRESS || "https://frag.jetzt/languagetool",
     "secure": true,
     "changeOrigin": true,
     "pathRewrite": {
@@ -55,7 +55,7 @@ const PROXY_CONFIG = {
     "logLevel": "debug"
   },
   "/spacy": {
-    "target": process.env.SPACY_ADDRESS || "https://spacy.frag.jetzt/spacy",
+    "target": process.env.SPACY_ADDRESS || "https://frag.jetzt/spacy",
     "secure": true,
     "changeOrigin": true,
     "pathRewrite": {

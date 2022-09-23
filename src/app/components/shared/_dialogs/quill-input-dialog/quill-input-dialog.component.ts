@@ -66,7 +66,7 @@ export class QuillInputDialogComponent implements OnInit {
         case 'video':
           const value = QuillUtils.getVideoUrl(this.value)[0];
           if (value) {
-            this.data.quill.insertEmbed(this.data.selection.index, 'video', value, 'user');
+            this.data.quill.insertEmbed(this.data.selection.index, 'dsgvo-video', value, 'user');
           }
           break;
         default:

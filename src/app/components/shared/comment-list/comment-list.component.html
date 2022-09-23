@@ -15,11 +15,13 @@
      fxLayoutAlign="center">
 
   <app-minute-jump-clock></app-minute-jump-clock>
+  <div class="qr-code-colors" #qrCodeColors></div>
   <qrcode [qrdata]="getURL()"
+          (click)="showQR()"
           *ngIf="canShowURL()"
           class="comment-qr-code"
-          [colorDark]="'#000000'"
-          [colorLight]="'#F0F8FF'"
+          [colorDark]="qrDark"
+          [colorLight]="qrLight"
           [width]="600"
           [errorCorrectionLevel]="'M'">
   </qrcode>
