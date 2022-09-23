@@ -339,6 +339,11 @@ h1 {
   color: var(--red);
 }
 
+.qr-code-colors {
+  color: var(--on-background);
+  background: var(--background);
+}
+
 ::ng-deep qrcode.comment-qr-code {
   position: fixed;
   --size: calc(37.5vw - 300px);
@@ -348,5 +353,7 @@ h1 {
   canvas {
     height: var(--size) !important;
     width: var(--size) !important;
+    border-radius: 10px;
+    cursor: pointer;
   }
 }
