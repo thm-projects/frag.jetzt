@@ -39,14 +39,21 @@ export class ColorContrast {
     return r * 0.2126 + g * 0.7152 + b * 0.0722;
   }
 
-  static hexFromCSS(str: string) {
+  static rgbFromCSS(str: string) {
     const regex = /^rgb\((\d+), (\d+), (\d+)\)$/;
-    const match = str.match(regex);
-    return this.rgbToHex([
+    let match = str.match(regex);
+    if (!match) {
+      const rgbaRegex = /^rgba\((\d+), (\d+), (\d+), (\d+)\)$/;
+      match = str.match(rgbaRegex);
+    }
+    if (!match) {
+      console.error('Could not match str!', str);
+    }
+    return [
       Number(match[1]),
       Number(match[2]),
       Number(match[3]),
-    ]);
+    ] as ColorRGB;
   }
 
   static rgbToHex(color: ColorRGB) {

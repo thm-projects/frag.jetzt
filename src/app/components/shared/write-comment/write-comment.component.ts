@@ -28,7 +28,6 @@ import { UserManagementService } from '../../../services/util/user-management.se
 export class WriteCommentComponent implements OnInit, OnDestroy {
 
   @ViewChild(ViewCommentDataComponent) commentData: ViewCommentDataComponent;
-  @ViewChild('langSelect') langSelect: ElementRef<HTMLDivElement>;
   @ViewChild('mobileMock') mobileMock: ElementRef<HTMLDivElement>;
   @Input() isModerator = false;
   @Input() tags: string[];
@@ -52,11 +51,9 @@ export class WriteCommentComponent implements OnInit, OnDestroy {
   maxTextCharacters = 2500;
   maxDataCharacters = 7500;
   // Grammarheck
-  languages: Language[] = ['de-DE', 'en-US', 'fr', 'auto'];
   selectedLang: Language = 'auto';
   isSpellchecking = false;
   hasSpellcheckConfidence = true;
-  newLang = 'auto';
   brainstormingInfo: string;
   userRole: UserRole;
   user: User;
@@ -141,10 +138,10 @@ export class WriteCommentComponent implements OnInit, OnDestroy {
   }
 
   checkGrammar() {
-    this.grammarCheck(this.commentData.currentText, this.langSelect && this.langSelect.nativeElement);
+    this.grammarCheck(this.commentData.currentText);
   }
 
-  grammarCheck(rawText: string, langSelect: HTMLSpanElement): void {
+  grammarCheck(rawText: string): void {
     this.isSpellchecking = true;
     this.hasSpellcheckConfidence = true;
     this.checkSpellings(rawText).subscribe({
@@ -154,18 +151,14 @@ export class WriteCommentComponent implements OnInit, OnDestroy {
           this.isSpellchecking = false;
           return;
         }
-        if (this.selectedLang === 'auto' &&
-          (langSelect.innerText.includes(this.newLang) || langSelect.innerText.includes('auto'))) {
-          if (wordsCheck.language.name.includes('German')) {
-            this.selectedLang = 'de-DE';
-          } else if (wordsCheck.language.name.includes('English')) {
-            this.selectedLang = 'en-US';
-          } else if (wordsCheck.language.name.includes('French')) {
-            this.selectedLang = 'fr';
-          } else {
-            this.newLang = wordsCheck.language.name;
-          }
-          langSelect.innerHTML = this.newLang;
+        if (wordsCheck.language.name.includes('German')) {
+          this.selectedLang = 'de-DE';
+        } else if (wordsCheck.language.name.includes('English')) {
+          this.selectedLang = 'en-US';
+        } else if (wordsCheck.language.name.includes('French')) {
+          this.selectedLang = 'fr';
+        } else {
+          this.selectedLang = 'auto';
         }
         const previous = this.commentData.currentData;
         this.openDeeplDialog(previous, rawText, wordsCheck,

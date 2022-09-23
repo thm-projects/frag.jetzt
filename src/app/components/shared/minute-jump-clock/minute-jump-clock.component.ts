@@ -82,7 +82,7 @@ export class MinuteJumpClockComponent implements OnInit, AfterViewInit, OnDestro
     this.visible = !this.deviceInfo.isCurrentlyMobile &&
       !this._matcher.matches &&
       !this.deviceInfo.isSafari &&
-      this.themeService.currentTheme.key !== 'projector';
+      this.themeService.currentTheme?.key !== 'projector';
     if (!this._initialized) {
       return;
     }

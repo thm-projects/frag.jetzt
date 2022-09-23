@@ -24,8 +24,10 @@ import { HighlightLibrary } from 'ngx-highlightjs/lib/highlight.model';
 
 import Quill from 'quill';
 import ImageResize from 'quill-image-resize-module';
+import { DsgvoVideo } from '../../../quill-extentions/formats/dsgvo-video';
 
 Quill.register('modules/imageResize', ImageResize);
+Quill.register('formats/dsgvo-video', DsgvoVideo);
 
 @Component({
   selector: 'app-view-comment-data',
@@ -67,6 +69,7 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit, OnDestro
     private eventService: EventService,
     private dialog: MatDialog
   ) {
+    DsgvoVideo.translator = translateService;
     this.languageService.getLanguage().pipe(takeUntil(this._destroyer)).subscribe(_ => {
       if (this.isEditor) {
         this.updateCSSVariables();

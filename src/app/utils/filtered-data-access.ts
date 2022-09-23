@@ -383,7 +383,8 @@ export class FilteredDataAccess {
       return () => this.updateStages(STAGE_PERIOD | STAGE_SEARCH | STAGE_FILTER | STAGE_SORT_SEARCH | STAGE_SORT_FILTER);
     }
     if (newFilter.currentSearch !== oldFilter.currentSearch) {
-      return () => this.updateStages(STAGE_SEARCH | STAGE_SORT_SEARCH);
+      const stages = (newFilter.currentSearch ? 0 : STAGE_FILTER | STAGE_SORT_FILTER) | STAGE_SEARCH | STAGE_SORT_SEARCH;
+      return () => this.updateStages(stages);
     }
     if (newFilter.filterType !== oldFilter.filterType ||
       (needFilterCompare.has(newFilter.filterType) && newFilter.filterCompare !== oldFilter.filterCompare)) {
@@ -471,6 +472,10 @@ export class FilteredDataAccess {
 
   private buildSearchCache() {
     const data = this._periodCache[this._filter.period];
+    if (!this._filter.currentSearch) {
+      this._searchData = [...data];
+      return;
+    }
     const search = this._filter.currentSearch.toLowerCase();
     const keywordFinder = (e: SpacyKeyword) => e.text.toLowerCase().includes(search);
     this._searchData = data.filter(c =>

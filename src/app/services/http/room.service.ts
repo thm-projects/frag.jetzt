@@ -184,7 +184,7 @@ export class RoomService extends BaseHttpService {
 
   private parseRoom(room: RoomAPI): Room {
     const newRoom = room as unknown as Room;
-    newRoom.description = QuillUtils.deserializeDelta(room.description);
+    newRoom.description = QuillUtils.deserializeDelta(room.description, true);
     return newRoom;
   }
 

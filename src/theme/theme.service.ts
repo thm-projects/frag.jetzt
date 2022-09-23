@@ -100,8 +100,8 @@ export class ThemeService {
   }
 
   private setCurrentTheme(theme: Theme) {
-    this.replaySubject.next(theme);
     this._currentTheme = theme;
+    this.replaySubject.next(theme);
     this.get(theme.meta.highlightJsClass).subscribe(data => {
       this._textNode?.remove();
       this._textNode = document.createTextNode(data);

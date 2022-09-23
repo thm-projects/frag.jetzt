@@ -163,7 +163,7 @@ export class ImportExportManager {
           arr.push({ image: contentPayload });
           break;
         case 'v':
-          arr.push({ video: contentPayload });
+          arr.push({ 'dsgvo-video': contentPayload });
           break;
         case 'f':
           arr.push({ formula: contentPayload });
@@ -202,6 +202,8 @@ export class ImportExportManager {
         return acc + '{i;' + hardVerify(e.image) + '}';
       } else if (e.video) {
         return acc + '{v;' + hardVerify(e.video) + '}';
+      } else if (e['dsgvo-video']) {
+        return acc + '{v;' + hardVerify(e['dsgvo-video']) + '}';
       } else if (e.formula) {
         return acc + '{f;' + hardVerify(e.formula) + '}';
       } else if (e.emoji) {
