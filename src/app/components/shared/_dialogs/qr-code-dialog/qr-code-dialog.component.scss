@@ -12,8 +12,7 @@
   right: 3em;
 
   &:hover {
-    background-color: red;
-    color: white;
+    outline: red solid 2px;
     border-radius: 15px;
   }
 }

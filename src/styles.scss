@@ -435,8 +435,8 @@ blockquote {
 }
 
 article.dsgvo-info-article {
-  margin: 30px 0;
-  background-color: var(--surface);
+  margin: 20px 0 0 10px;
+  background-color: transparent;
   color: var(--on-surface);
   outline: thin solid dimgray;
   border-radius: 8px;
@@ -444,7 +444,7 @@ article.dsgvo-info-article {
   flex-direction: column;
   justify-content: space-between;
   height: min-content;
-  width: 100%;
+  width: 98.5%;
   word-break: break-word;
 
   h3 {

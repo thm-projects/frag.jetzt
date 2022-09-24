@@ -82,6 +82,7 @@
     "owner": "Questions posées",
     "pause-comments": "Fige l'affichage pour permettre de lire ou de présenter les questions en toute tranquillité. Les questions peuvent toujours être posées et évaluées. L'affichage s'actualise à nouveau en cliquant sur le bouton.",
     "play-comments": "Afficher à nouveau les nouvelles questions et les évaluations",
+    "qr-in-fullscreen": "Afficher le code QR en plein écran",
     "question-number": "Q{{number}}",
     "question-was-marked-with-a-star": "Le questionneur peut échanger l'étoile contre un bonus par e-mail.",
     "read": "Des questions dont le porte-parole a discuté publiquement.",

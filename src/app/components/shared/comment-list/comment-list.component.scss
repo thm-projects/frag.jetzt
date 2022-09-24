@@ -346,14 +346,14 @@ h1 {
 
 ::ng-deep qrcode.comment-qr-code {
   position: fixed;
-  --size: calc(37.5vw - 300px);
+  --size: calc(37.5vw - 370px);
   right: calc((50vw - 400px - var(--size)) / 2);
   top: calc(50vh - var(--size) / 2);
 
   canvas {
     height: var(--size) !important;
     width: var(--size) !important;
-    border-radius: 10px;
+    border-radius: 10%;
     cursor: pointer;
   }
 }
