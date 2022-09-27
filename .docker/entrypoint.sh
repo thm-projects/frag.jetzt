@@ -8,7 +8,7 @@ if [ ! -d node_modules ] || (! sha1sum --check /cache/lock); then
   rm -rf .angular
 
   echo "rebuild dependencies..."
-  npm ci
+  npm ci --legacy-peer-deps
 
   echo "creating hash for cache validation..."
   sha1sum package-lock.json > /cache/lock
