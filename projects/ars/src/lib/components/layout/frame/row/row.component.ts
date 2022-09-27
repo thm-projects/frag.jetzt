@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, Input, OnInit, Renderer2 } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { FrameType } from '../FrameType';
 
 @Component({
@@ -7,12 +7,17 @@ import { FrameType } from '../FrameType';
   styleUrls: ['./row.component.scss'],
   providers: [FrameType.provide(RowComponent)]
 })
-export class RowComponent extends FrameType implements OnInit, AfterViewInit {
+export class RowComponent extends FrameType implements OnInit, AfterViewInit, OnDestroy {
 
   @Input() overflow = 'visible';
   @Input() height: number;
+  @Input() autoHeight: boolean = false;
+  private _addedChildren: MutationObserver;
 
-  constructor(public ref: ElementRef, public render: Renderer2) {
+  constructor(
+    public ref: ElementRef,
+    public render: Renderer2,
+  ) {
     super('row');
   }
 
@@ -20,10 +25,23 @@ export class RowComponent extends FrameType implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    if (this.height) {
-      this.setPx(this.height);
-    }
+    this._addedChildren = new MutationObserver(() => this.resize());
+    this._addedChildren.observe(this.ref.nativeElement, {
+      childList: true,
+      subtree: true,
+    });
+    this.resize();
     this.updateOverflow();
+  }
+
+  ngOnDestroy() {
+    this._addedChildren.disconnect();
+    this._addedChildren = null;
+  }
+
+  public setAutoHeight(autoHeightEnabled: boolean) {
+    this.autoHeight = autoHeightEnabled;
+    this.resize();
   }
 
   /**
@@ -64,7 +82,16 @@ export class RowComponent extends FrameType implements OnInit, AfterViewInit {
   }
 
   public getRenderedHeight(): number {
-    return this.ref.nativeElement.offsetHeight;
+    const native = this.ref.nativeElement;
+    return native.firstElementChild?.offsetHeight || native.offsetHeight;
+  }
+
+  public resize(): void {
+    if (this.autoHeight || !this.height) {
+      this.setPx(this.getRenderedHeight());
+      return;
+    }
+    this.setPx(this.height);
   }
 
   private setDim(style: string) {
