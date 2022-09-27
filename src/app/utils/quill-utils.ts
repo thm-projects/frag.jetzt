@@ -3,7 +3,7 @@ import { Immutable, MakeUnique } from './ts-utils';
 export interface DeltaOpInsert {
   insert: string | {
     image?: string;
-    video?: string;
+    'dsgvo-video'?: string;
   };
   attributes?: {
     link?: string;
@@ -116,7 +116,7 @@ export class QuillUtils {
       const link = m[1]?.toLowerCase() === 'www.' ? 'https://' + m[0] : m[0];
       const videoLink = transformToVideo && QuillUtils.getVideoUrl(link);
       if (videoLink) {
-        acc.push({ insert: { video: videoLink[0] } });
+        acc.push({ insert: { 'dsgvo-video': videoLink[0] } });
       } else {
         acc.push({ attributes: { ...currentObject.attributes, link }, insert: link });
       }
