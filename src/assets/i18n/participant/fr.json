@@ -77,6 +77,7 @@
     "owner": "Questions posées",
     "pause-comments": "Fige l'affichage pour pouvoir lire les questions en toute tranquillité. Les questions peuvent toujours être posées et évaluées. L'affichage s'actualise à nouveau en cliquant sur le bouton.",
     "play-comments": "Afficher à nouveau les nouvelles questions et les évaluations",
+    "qr-in-fullscreen": "Afficher le code QR en plein écran",
     "question-number": "Q{{number}}",
     "question-was-marked-with-a-star": "Hé, tu as reçu une étoile pour une bonne question !",
     "read": "Discuté par le conférencier",

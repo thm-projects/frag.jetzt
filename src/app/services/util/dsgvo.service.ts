@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { QuillUtils, URLType } from '../../utils/quill-utils';
+import { DsgvoBuilder } from '../../utils/dsgvo-builder';
 
 @Injectable({
   providedIn: 'root'
@@ -29,6 +29,10 @@ export class DSGVOService {
           if (!(node instanceof HTMLElement)) {
             return;
           }
+          if (node instanceof HTMLIFrameElement) {
+            this.checkIframe(node);
+            return;
+          }
           node.querySelectorAll('iframe').forEach(elem => {
             this.checkIframe(elem);
           });
@@ -43,53 +47,33 @@ export class DSGVOService {
   }
 
   private checkIframe(elem: HTMLIFrameElement) {
-    const lowercasedSrc = elem.src.toLowerCase();
-    if (!lowercasedSrc.startsWith('http://') && !lowercasedSrc.startsWith('https://')) {
-      this.createMessage('dsgvo.unknown-source', elem.src, elem);
+    if (elem.dataset.verified === 'true' || !elem.parentNode) {
       return;
     }
-    if (lowercasedSrc.startsWith(location.origin.toLowerCase())) {
-      // Same origin, no CORS
+    const parentClass = elem.parentElement.classList;
+    if (parentClass.contains('ql-editor') || parentClass.contains('ql-dsgvo-video')) {
+      // Fix issues with Quill
       return;
     }
-    const [url, type] = QuillUtils.getVideoUrl(elem.src);
-    if (type === URLType.YOUTUBE) {
-      this.createMessage('dsgvo.youtube-video', url, elem);
-    } else if (type === URLType.VIMEO) {
-      this.createMessage('dsgvo.vimeo-video', url, elem);
-    } else {
-      this.createMessage('dsgvo.external-source', url, elem);
+    const [source, url] = DsgvoBuilder.classifyURL(elem.src);
+    const messageId = DsgvoBuilder.getMessageFromSource(source);
+    if (!messageId) {
+      return;
     }
+    this.createMessage(messageId, url, elem);
   }
 
   private createMessage(messageId: string, url: string, iframe: HTMLIFrameElement) {
-    if (!iframe.parentNode) {
-      return;
-    }
     iframe['stop']?.();
     const computed = window.getComputedStyle(iframe);
-    const newElem = document.createElement('article');
-    newElem.classList.add('dsgvo-info-article');
-    newElem.style.minHeight = computed.height;
-    const header = document.createElement('h3');
-    const p = document.createElement('p');
-    const button = document.createElement('button');
-    button.classList.add('mat-flat-button', 'mat-button-base');
-    button.addEventListener('click', () => {
+    const newElem = DsgvoBuilder.buildArticle(computed.height, url, messageId, this.translateService, () => {
+      iframe.dataset.verified = String(true);
       newElem.parentElement.classList.toggle('dsgvo-inside', false);
       newElem.parentNode.replaceChild(iframe, newElem);
-    }, { once: true });
-    newElem.append(header, p, button);
+    });
     iframe.parentElement.classList.toggle('dsgvo-inside', true);
     iframe.parentNode.replaceChild(newElem, iframe);
     iframe.src = url;
-    const title = messageId + '-title';
-    const btnTitle = messageId + '-button-text';
-    this.translateService.get([messageId, title, btnTitle], { url }).subscribe((trans) => {
-      p.innerHTML = trans[messageId];
-      header.innerText = trans[title];
-      button.innerText = trans[btnTitle];
-    });
   }
 
 }

@@ -24,8 +24,10 @@ import { HighlightLibrary } from 'ngx-highlightjs/lib/highlight.model';
 
 import Quill from 'quill';
 import ImageResize from 'quill-image-resize-module';
+import { DsgvoVideo } from '../../../quill-extentions/formats/dsgvo-video';
 
 Quill.register('modules/imageResize', ImageResize);
+Quill.register('formats/dsgvo-video', DsgvoVideo);
 
 @Component({
   selector: 'app-view-comment-data',
@@ -59,6 +61,7 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit, OnDestro
   private _marks: Marks;
   private _destroyer = new ReplaySubject(1);
   private _mutateObserver: MutationObserver;
+  private readonly DEFAULT_VALUE: StandardDelta = { ops: [{ insert: '\n' }] };
 
   constructor(
     private languageService: LanguageService,
@@ -67,6 +70,7 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit, OnDestro
     private eventService: EventService,
     private dialog: MatDialog
   ) {
+    DsgvoVideo.translator = translateService;
     this.languageService.getLanguage().pipe(takeUntil(this._destroyer)).subscribe(_ => {
       if (this.isEditor) {
         this.updateCSSVariables();
@@ -79,7 +83,7 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit, OnDestro
   }
 
   get currentData(): StandardDelta {
-    return this._currentData || { ops: [{ insert: '\n' }] };
+    return this._currentData || this.DEFAULT_VALUE;
   }
 
   @Input() set currentData(data: StandardDelta) {

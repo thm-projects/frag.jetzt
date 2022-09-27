@@ -82,6 +82,7 @@
     "owner": "Questions I have asked",
     "pause-comments": "Freezes the display to read or present the questions at rest. Questions can still be asked and scored. The display is only updated again by clicking the button.",
     "play-comments": "Start the question stream",
+    "qr-in-fullscreen": "Show QR code in full view",
     "question-number": "Q{{number}}",
     "question-was-marked-with-a-star": "The questioner can redeem the star for a bonus by mail.",
     "read": "Discussed",

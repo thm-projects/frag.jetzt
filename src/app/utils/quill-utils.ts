@@ -39,12 +39,14 @@ export class QuillUtils {
     })) as SerializedDelta;
   }
 
-  static deserializeDelta(serialized: SerializedDelta): StandardDelta {
+  static deserializeDelta(serialized: SerializedDelta, ignoreNotDefined = false): StandardDelta {
     let ops;
     try {
       ops = JSON.parse(serialized || null);
       if (ops === null || ops === undefined) {
-        console.error('Ops is not defined.');
+        if (!ignoreNotDefined) {
+          console.error('Ops is not defined.');
+        }
         return { ops: [] };
       }
     } catch (e) {
