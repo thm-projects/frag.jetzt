@@ -236,9 +236,10 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
   toggleExpand(evt: MouseEvent) {
     this.isExpanded = !this.isExpanded;
     if (this.isExpanded) {
-      this.commentBody.setPx(this.commentBodyInner.getRenderedHeight());
+      this.commentBody.setAutoHeight(true);
       this.commentBody.setOverflow('visible');
     } else {
+      this.commentBody.setAutoHeight(false);
       this.commentBody.setPx(CommentComponent.COMMENT_MAX_HEIGHT);
       this.commentBody.setOverflow('hidden');
     }
