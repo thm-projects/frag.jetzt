@@ -355,7 +355,7 @@
 </mat-card>
 
 <app-comment-response-view
-  *ngIf="showResponses && viewInfo"
+  *ngIf="showResponses && viewInfo && !isMock"
   [owningComment]="comment"
   [viewInfo]="viewInfo">
 </app-comment-response-view>

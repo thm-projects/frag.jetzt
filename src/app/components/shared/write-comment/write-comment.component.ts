@@ -68,6 +68,7 @@ export class WriteCommentComponent implements OnInit, OnDestroy {
   private _mobileMockPossible = false;
   private _mockMatcher: MediaQueryList;
   private _keywordExtractor: KeywordExtractor;
+  private _currentData: ForumComment;
 
   constructor(
     private notification: NotificationService,
@@ -205,7 +206,15 @@ export class WriteCommentComponent implements OnInit, OnDestroy {
 
   getContent(): ForumComment {
     const data = this.commentData.currentData;
-    return {
+    if (
+      this._currentData &&
+      this._currentData.body === data &&
+      this._currentData.questionerName === this.questionerNameFormControl.value &&
+      this._currentData.tag === this.selectedTag
+    ) {
+      return this._currentData;
+    }
+    this._currentData = {
       body: data,
       number: '?',
       upvotes: 0,
@@ -214,7 +223,9 @@ export class WriteCommentComponent implements OnInit, OnDestroy {
       createdAt: new Date(),
       questionerName: this.questionerNameFormControl.value,
       tag: this.selectedTag,
+      children: new Set<ForumComment>(),
     } as unknown as ForumComment;
+    return this._currentData;
   }
 
   setMobileMockState(activate: boolean) {

@@ -388,7 +388,7 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     let url: string;
     this.route.params.subscribe(params => {
-      url = `${this.roleString}/room/${params['shortId']}/comment/${this.comment.id}`;
+      url = `${ this.roleString }/room/${ params['shortId'] }/comment/${ this.comment.id }`;
     });
     localStorage.setItem('answeringQuestion', this.comment.id);
     this.router.navigate([url]);
@@ -407,7 +407,7 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
     } else {
       let url: string;
       this.route.params.subscribe(params => {
-        url = `${this.roleString}/room/${params['shortId']}/comment/${this.comment.id}/conversation`;
+        url = `${ this.roleString }/room/${ params['shortId'] }/comment/${ this.comment.id }/conversation`;
       });
       this.router.navigate([url]);
     }
@@ -520,13 +520,13 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
   respondToComment() {
     let url: string;
     this.route.params.subscribe(params => {
-      url = `${this.roleString}/room/${params['shortId']}/comment/${this.comment.id}`;
+      url = `${ this.roleString }/room/${ params['shortId'] }/comment/${ this.comment.id }`;
     });
     this.router.navigate([url]);
   }
 
   getResponses() {
-    this.hasVoted = this._votes[this.comment.id]?.vote;
+    this.hasVoted = this._votes?.[this.comment.id]?.vote || 0;
     this.responses = [...this.comment.children];
     forkJoin([
       this.sessionService.getRoomOnce(),
@@ -566,7 +566,7 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   getTranslationForBonus(message: string) {
-    return `comment-page.${message}${!this.room?.bonusArchiveActive ? '-disabled-bonus' : ''}`;
+    return `comment-page.${ message }${ !this.room?.bonusArchiveActive ? '-disabled-bonus' : '' }`;
   }
 
   ownsComment() {
@@ -579,6 +579,9 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   canInteractWithAction(interaction: 'star' | 'change-tag' | 'delete'): boolean {
+    if (this.isMock) {
+      return false;
+    }
     const hasPrivileges = !this.isStudent || this.ownsComment();
     return (interaction === 'star' && !this.isStudent && !this.comment.favorite) ||
       (interaction === 'change-tag' && this.roomTags?.length && hasPrivileges) ||

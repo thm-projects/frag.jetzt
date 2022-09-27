@@ -47,6 +47,9 @@ export class DSGVOService {
   }
 
   private checkIframe(elem: HTMLIFrameElement) {
+    if (elem.dataset.verified === 'true' || !elem.parentNode) {
+      return;
+    }
     const parentClass = elem.parentElement.classList;
     if (parentClass.contains('ql-editor') || parentClass.contains('ql-dsgvo-video')) {
       // Fix issues with Quill
@@ -57,16 +60,14 @@ export class DSGVOService {
     if (!messageId) {
       return;
     }
-    this.createMessage('dsgvo.youtube-video', url, elem);
+    this.createMessage(messageId, url, elem);
   }
 
   private createMessage(messageId: string, url: string, iframe: HTMLIFrameElement) {
-    if (!iframe.parentNode) {
-      return;
-    }
     iframe['stop']?.();
     const computed = window.getComputedStyle(iframe);
     const newElem = DsgvoBuilder.buildArticle(computed.height, url, messageId, this.translateService, () => {
+      iframe.dataset.verified = String(true);
       newElem.parentElement.classList.toggle('dsgvo-inside', false);
       newElem.parentNode.replaceChild(iframe, newElem);
     });
