@@ -14,6 +14,7 @@ import { SessionService } from './session.service';
 import { UserService } from '../http/user.service';
 import { EventService } from './event.service';
 import { callServiceEvent, LoginDialogRequest, LoginDialogResponse } from '../../utils/service-component-events';
+import { DBRoomAccessService, SavedRoomAccess } from '../persistence/dbroom-access.service';
 
 export interface ManagedUser extends User {
   readonly isSuperAdmin: boolean;
@@ -24,13 +25,6 @@ export interface ManagedUser extends User {
 interface ReadMOTD {
   userId: string;
   motdId: string;
-}
-
-interface SavedRoomAccess {
-  userId: string;
-  roomShortId: string;
-  roomId: string;
-  role: UserRole;
 }
 
 @Injectable({
@@ -52,6 +46,7 @@ export class UserManagementService {
     private userService: UserService,
     private router: Router,
     private eventService: EventService,
+    private dbRoomAccess: DBRoomAccessService,
   ) {
 
   }
@@ -172,7 +167,7 @@ export class UserManagementService {
       role,
       roomId,
     };
-    this.indexedDBService.update<SavedRoomAccess>('roomAccess', value).subscribe();
+    this.dbRoomAccess.updateEntry(value).subscribe();
     (owner.roomAccess as Mutable<ManagedUser['roomAccess']>)[shortId] = value;
   }
 
@@ -237,7 +232,7 @@ export class UserManagementService {
       return forkJoin([
         this.authenticationService.checkSuperAdmin(result[1].token),
         this.loadMOTDs(result[1].id),
-        this.loadRoomAccess(result[1].id),
+        this.dbRoomAccess.getAllByUser(result[1].id),
       ]).pipe(
         map(([admin, motds, access]) => {
           const managedUser = result[1] as Mutable<ManagedUser>;
@@ -308,9 +303,5 @@ export class UserManagementService {
 
   private loadMOTDs(userId: string) {
     return this.indexedDBService.getAllByIndex<ReadMOTD>('motdRead', 'userId', IDBKeyRange.only(userId));
-  }
-
-  private loadRoomAccess(userId: string) {
-    return this.indexedDBService.getAllByIndex<SavedRoomAccess>('roomAccess', 'userId', IDBKeyRange.only(userId));
   }
 }
