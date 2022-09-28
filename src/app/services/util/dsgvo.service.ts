@@ -22,7 +22,7 @@ export class DSGVOService {
     });
   }
 
-  onMutate(mutations: MutationRecord[]) {
+  private onMutate(mutations: MutationRecord[]) {
     mutations.forEach(mutation => {
       if (mutation.type === 'childList') {
         Array.from(mutation.addedNodes).forEach(node => {
@@ -65,7 +65,7 @@ export class DSGVOService {
 
   private createMessage(messageId: string, url: string, iframe: HTMLIFrameElement) {
     iframe['stop']?.();
-    const computed = window.getComputedStyle(iframe);
+    const computed = getComputedStyle(iframe);
     const newElem = DsgvoBuilder.buildArticle(computed.height, url, messageId, this.translateService, () => {
       iframe.dataset.verified = String(true);
       newElem.parentElement.classList.toggle('dsgvo-inside', false);
