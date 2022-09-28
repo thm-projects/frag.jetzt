@@ -3,13 +3,24 @@ import { QuillUtils, URLType } from './quill-utils';
 
 export enum DsgvoSource {
   Unknown,
-  FromOrigin,
+  Trusted,
   YouTube,
   Vimeo,
   External,
 }
 
 export class DsgvoBuilder {
+  private static _trustedURLs = new Set<string>([location.origin.toLowerCase()]);
+
+  static trustURL(url: string) {
+    url = this.verifyURL(url);
+    if (!this.isProtocolHTTP(url)) {
+      console.error('URL for trusting is not HTTP:', url);
+      return;
+    }
+    this._trustedURLs.add(url);
+  }
+
   static buildArticle(
     height: string,
     url: string,
@@ -64,13 +75,19 @@ export class DsgvoBuilder {
   }
 
   static classifyURL(srcURL: string): [type: DsgvoSource, url: string] {
-    const lowercaseSrc = srcURL.toLowerCase();
-    if (!lowercaseSrc.startsWith('http://') && !lowercaseSrc.startsWith('https://')) {
+    const lowercaseSrc = this.verifyURL(srcURL);
+    if (!this.isProtocolHTTP(lowercaseSrc)) {
       return [DsgvoSource.Unknown, srcURL];
     }
-    if (lowercaseSrc.startsWith(location.origin.toLowerCase())) {
-      // Same origin, no CORS
-      return [DsgvoSource.FromOrigin, srcURL];
+    let isTrusted = false;
+    for (const key of this._trustedURLs) {
+      if (lowercaseSrc.startsWith(key)) {
+        isTrusted = true;
+        break;
+      }
+    }
+    if (isTrusted) {
+      return [DsgvoSource.Trusted, srcURL];
     }
     const [url, type] = QuillUtils.getVideoUrl(srcURL);
     if (type === URLType.YOUTUBE) {
@@ -80,5 +97,17 @@ export class DsgvoBuilder {
     } else {
       return [DsgvoSource.External, srcURL];
     }
+  }
+
+  private static isProtocolHTTP(url: string) {
+    return url.startsWith('http://') || url.startsWith('https://');
+  }
+
+  private static verifyURL(url: string) {
+    url = url.toLowerCase();
+    if (!url.endsWith('/')) {
+      url += '/';
+    }
+    return url;
   }
 }
