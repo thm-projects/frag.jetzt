@@ -5,13 +5,14 @@ import { FrameType } from '../FrameType';
   selector: 'ars-row',
   templateUrl: './row.component.html',
   styleUrls: ['./row.component.scss'],
-  providers: [FrameType.provide(RowComponent)]
+  providers: [FrameType.provide(RowComponent)],
 })
 export class RowComponent extends FrameType implements OnInit, AfterViewInit, OnDestroy {
 
   @Input() overflow = 'visible';
   @Input() height: number;
   @Input() autoHeight: boolean = false;
+  private _isDimSet = false;
   private _addedChildren: MutationObserver;
 
   constructor(
@@ -30,7 +31,7 @@ export class RowComponent extends FrameType implements OnInit, AfterViewInit, On
       childList: true,
       subtree: true,
     });
-    this.resize();
+    this.resize(true);
     this.updateOverflow();
   }
 
@@ -86,15 +87,21 @@ export class RowComponent extends FrameType implements OnInit, AfterViewInit, On
     return native.firstElementChild?.offsetHeight || native.offsetHeight;
   }
 
-  public resize(): void {
-    if (this.autoHeight || !this.height) {
+  public resize(force = false): void {
+    if (!this._isDimSet && !force) {
+      return;
+    }
+    if (this.autoHeight) {
       this.setPx(this.getRenderedHeight());
       return;
     }
-    this.setPx(this.height);
+    if (this.height) {
+      this.setPx(this.height);
+    }
   }
 
   private setDim(style: string) {
+    this._isDimSet = Boolean(style);
     this.render.setStyle(this.ref.nativeElement, 'height', style);
   }
 
