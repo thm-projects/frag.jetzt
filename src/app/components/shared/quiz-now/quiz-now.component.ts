@@ -3,6 +3,10 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { EventService } from '../../../services/util/event.service';
 import { Router } from '@angular/router';
 import { SessionService } from '../../../services/util/session.service';
+import { DBRoomAccessService } from '../../../services/persistence/dbroom-access.service';
+import { UserManagementService } from '../../../services/util/user-management.service';
+import { UserRole } from '../../../models/user-roles.enum';
+import { DsgvoBuilder } from '../../../utils/dsgvo-builder';
 
 @Component({
   selector: 'app-quiz-now',
@@ -22,18 +26,24 @@ export class QuizNowComponent implements OnInit, OnDestroy {
     private router: Router,
     private eventService: EventService,
     private sessionService: SessionService,
+    private dbRoomAccess: DBRoomAccessService,
+    private userManagementService: UserManagementService,
   ) {
     this.shortId = this.sessionService.getLastShortId();
-    const access = (JSON.parse(localStorage.getItem('ROOM_ACCESS')) || []) as string[];
-    const roomAccess = access.find(e => e.endsWith('_' + this.shortId)) || '0_' + this.shortId;
-    const role = parseInt(roomAccess.substr(0, 1), 10);
-    if (role === 3) {
-      this.roleString = 'creator';
-    } else if (role > 0) {
-      this.roleString = 'moderator';
-    } else {
+    const id = this.userManagementService.getCurrentUser()?.id;
+    if (!id) {
       this.roleString = 'participant';
+      return;
     }
+    this.dbRoomAccess.getByUserAndShortId(id, this.shortId).subscribe(access => {
+      if (access.role === UserRole.CREATOR) {
+        this.roleString = 'creator';
+      } else if (access.role > UserRole.PARTICIPANT) {
+        this.roleString = 'moderator';
+      } else {
+        this.roleString = 'participant';
+      }
+    });
   }
 
   ngOnInit() {
@@ -53,6 +63,7 @@ export class QuizNowComponent implements OnInit, OnDestroy {
     const xhr = new XMLHttpRequest();
     xhr.onreadystatechange = () => {
       if (xhr.responseURL) {
+        DsgvoBuilder.trustURL(xhr.responseURL);
         this.urlSafe = this.sanitizer.bypassSecurityTrustResourceUrl(xhr.responseURL);
         this.isURLLoading = false;
         xhr.abort();
