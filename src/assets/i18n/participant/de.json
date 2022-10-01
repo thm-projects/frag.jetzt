@@ -679,7 +679,7 @@
     "continue": "Weiter",
     "heading": "Stichwörter extrahieren",
     "label": "Wähle, aus welchen Fragen Stichwörter extrahiert werden sollen:",
-    "normal": "Alle Fragen des Raumes neu analysieren",
+    "normal": "Alle Fragen des Raumes neu analysieren (Blacklist wird gelöscht)",
     "only-failed": "Nur Fragen, die nicht analysiert worden sind"
   },
   "worker-dialog": {

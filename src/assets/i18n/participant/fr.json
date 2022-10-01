@@ -679,7 +679,7 @@
     "continue": "Continuer",
     "heading": "Extraire des mots-clés",
     "label": "Choisis les questions à partir desquelles des mots-clés doivent être extraits :",
-    "normal": "Réanalyser toutes les questions de la salle",
+    "normal": "Réanalyser toutes les questions de la salle (la blacklist sera supprimée)",
     "only-failed": "Uniquement les questions qui n'ont pas été analysées"
   },
   "worker-dialog": {
