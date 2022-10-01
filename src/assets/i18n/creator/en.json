@@ -833,7 +833,7 @@
     "continue": "Continue",
     "heading": "Extract keywords",
     "label": "Choose from which questions to extract keywords:",
-    "normal": "Reanalyze all questions in the room",
+    "normal": "Reanalyze all questions in the room (Blacklist will be deleted)",
     "only-failed": "Only questions that have not been analyzed"
   },
   "worker-dialog": {
