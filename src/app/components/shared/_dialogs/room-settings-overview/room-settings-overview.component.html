@@ -1,4 +1,4 @@
-<h3>{{'room-settings-overview.title' | translate}}</h3>
+<h3>{{'room-settings-overview.moderation' | translate}}</h3>
 
 <mat-dialog-content>
   <div>
@@ -35,6 +35,9 @@
         {{ 'room-settings-overview.profanity-toggle-word' | translate}}
       </mat-slide-toggle>
     </mat-card>
+
+    <h3>{{'room-settings-overview.education' | translate}}</h3>
+
     <mat-slide-toggle [(ngModel)]="bonusArchiveEnabled"
                       aria-labelledby="bonus-archive-enabled"
                       matTooltip="{{ 'room-settings-overview.tooltip-bonus-archive-enabled' | translate }}">
