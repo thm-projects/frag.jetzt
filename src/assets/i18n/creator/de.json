@@ -512,6 +512,7 @@
     "question": "Frage",
     "really-delete-comments": "Willst du wirklich alle Fragen in diesem Raum löschen? Die Aktion kann nicht rückgängig gemacht werden.",
     "really-delete-comments-hint": "Es gibt Fragen in diesem Raum, die du für einen Bonus markiert hast. Entferne die Sterne, um alle Fragen zu löschen.",
+    "really-delete-moderation-comments": "Willst du wirklich alle Fragen in der Moderation löschen? Die Aktion kann nicht rückgängig gemacht werden.",
     "really-delete-token": "Willst du diesen Bonuscode wirklich löschen?",
     "really-delete-tokens": "Willst du wirklich alle Bonuscodes dieser Sitzung löschen?",
     "really2": " wirklich löschen? Die Aktion kann nicht rückgängig gemacht werden. Falls du Boni (Sterne) vergeben hast, exportiere alle Fragen, damit du eingereichte Bonus-Tokens überprüfen kannst.",

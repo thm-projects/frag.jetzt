@@ -178,6 +178,7 @@
     "delete": "Oui",
     "delete-account": "Supprimer le compte",
     "delete-questions": "Supprimer des questions",
+    "delete-moderation-questions": "Supprimer des questions dans la modération",
     "delete-room": "Supprimer la salle",
     "direct-link": "Lien direct",
     "edit-moderator": "Modérateur",

@@ -29,17 +29,21 @@ import {
   Period,
   PeriodKey,
   SortType,
-  SortTypeKey
+  SortTypeKey,
 } from '../../../utils/data-filter-object.lib';
 import { FilteredDataAccess } from '../../../utils/filtered-data-access';
 import { ForumComment } from '../../../utils/data-accessor';
 import { UserManagementService } from '../../../services/util/user-management.service';
+import { Palette } from '../../../../theme/Theme';
+import {
+  DeleteModerationCommentsComponent
+} from '../../creator/_dialogs/delete-moderation-comments/delete-moderation-comments.component';
 
 
 @Component({
   selector: 'app-moderator-comment-list',
   templateUrl: './moderator-comment-list.component.html',
-  styleUrls: ['./moderator-comment-list.component.scss']
+  styleUrls: ['./moderator-comment-list.component.scss'],
 })
 export class ModeratorCommentListComponent implements OnInit, OnDestroy {
   @ViewChild('searchBox') searchField: ElementRef;
@@ -242,7 +246,7 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
     } else if (this.userRole === UserRole.EXECUTIVE_MODERATOR) {
       role = 'moderator';
     }
-    this.router.navigate([`/${role}/room/${this.room.shortId}/comments`]);
+    this.router.navigate([`/${ role }/room/${ this.room.shortId }/comments`]);
   }
 
   setTimePeriod(period?: PeriodKey) {
@@ -266,6 +270,26 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
     this.applyFilterByKey('Number', +questionNumber.value);
   }
 
+  private deleteQuestions() {
+    console.assert(this.userRole > UserRole.PARTICIPANT);
+    const dialogRef = this.dialog.open(DeleteModerationCommentsComponent, {
+      width: '400px',
+    });
+    dialogRef.componentInstance.roomId = this.room.id;
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 'delete') {
+        this.translateService.get('room-page.comments-deleted').subscribe(msg => {
+          this.notificationService.show(msg);
+        });
+        const data = this.roomDataService.moderatorDataAccessor.currentRawComments()?.map(c => c.id);
+        if (!data || data.length === 0) {
+          return;
+        }
+        this.commentService.bulkDeleteComments(data).subscribe();
+      }
+    });
+  }
+
   private initNavigation() {
     this._list = this.composeService.builder(this.headerService.getHost(), e => {
       e.menuItem({
@@ -277,7 +301,7 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
           const role = (this.userRole === 3 ? 'creator' : 'moderator');
           this.router.navigate([role + '/room/' + this.room?.shortId + '/comments']);
         },
-        condition: () => true
+        condition: () => true,
       });
       e.menuItem({
         translate: this.headerService.getTranslate(),
@@ -292,12 +316,21 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
             'room-export',
             this.user,
             this.room,
-            this.moderatorAccountIds
+            this.moderatorAccountIds,
           ).subscribe(text => {
             copyCSVString(text[0], this.room.name + '-' + this.room.shortId + '-' + text[1] + '.csv');
           });
         },
-        condition: () => true
+        condition: () => true,
+      });
+      e.menuItem({
+        translate: this.headerService.getTranslate(),
+        icon: 'delete_sweep',
+        class: 'material-icons-outlined',
+        iconColor: Palette.RED,
+        text: 'header.delete-moderation-questions',
+        callback: () => this.deleteQuestions(),
+        condition: () => this.userRole > UserRole.PARTICIPANT,
       });
     });
   }

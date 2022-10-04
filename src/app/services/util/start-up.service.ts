@@ -9,7 +9,7 @@ import { catchError, map } from 'rxjs/operators';
 import { MatomoTrackingService } from './matomo-tracking.service';
 import { TitleService } from './title.service';
 import {
-  NotifyUnsupportedBrowserComponent
+  NotifyUnsupportedBrowserComponent,
 } from '../../components/home/_dialogs/notify-unsupported-browser/notify-unsupported-browser.component';
 import { MatDialog } from '@angular/material/dialog';
 import { DeviceInfoService } from './device-info.service';
@@ -28,7 +28,7 @@ import { EventService } from './event.service';
 import { TimeoutHelper } from '../../utils/ts-utils';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class StartUpService {
 
@@ -66,7 +66,7 @@ export class StartUpService {
   ) {
     this.measure('Require data');
     configurationService.get(
-      'language', 'theme', 'cookieAccepted', 'guestAccount', 'currentAccount'
+      'language', 'theme', 'cookieAccepted', 'guestAccount', 'currentAccount',
     ).subscribe(([lang, theme, cookie, guest, acc]) => {
       this.measure('Language and Theme');
       this.checkLanguageAndTheme(lang, theme).pipe(
@@ -132,7 +132,7 @@ export class StartUpService {
     }
     return new Observable<any>(subscriber => {
       const ref = this.dialog.open(NotifyUnsupportedBrowserComponent, {
-        width: '600px'
+        width: '600px',
       });
       ref.afterClosed().subscribe(() => {
         subscriber.next(1);
@@ -158,7 +158,7 @@ export class StartUpService {
     const dialogRef = this.dialog.open(CookiesComponent, {
       width: '80%',
       maxWidth: '600px',
-      autoFocus: true
+      autoFocus: true,
     });
     dialogRef.disableClose = true;
     return dialogRef.afterClosed().pipe(
@@ -167,7 +167,7 @@ export class StartUpService {
           return this.showOverlay(() => this.showCookieModal());
         }
         return of(d);
-      })
+      }),
     );
   }
 
@@ -233,7 +233,7 @@ export class StartUpService {
           return onSuccess();
         }
         return this.leaveApp();
-      })
+      }),
     );
   }
 
@@ -273,7 +273,16 @@ export class StartUpService {
   }
 
   private saveMotds(motds: MotdAPI[]) {
-    this.indexedDBService.bulkAdd('motd', motds).subscribe();
+    this.getMotds().subscribe(oldMotds => {
+      const newMotds = motds.filter(m => {
+        if (oldMotds.findIndex(o => o.id === m.id) < 0) {
+          return true;
+        }
+        this.indexedDBService.update('motd', motds).subscribe();
+        return false;
+      });
+      this.indexedDBService.bulkAdd('motd', newMotds).subscribe();
+    });
   }
 
   private getMotds(): Observable<MotdAPI[]> {
@@ -304,7 +313,7 @@ export class StartUpService {
       return;
     }
     performance.mark('startup', {
-      detail: data
+      detail: data,
     });
     const format = (nr: number) => {
       return nr.toFixed(2) + 'ms';
@@ -317,7 +326,7 @@ export class StartUpService {
           prev['duration'] = format(value.startTime - acc[2]);
         }
         prev = { start: format(value.startTime) };
-        acc[1][`${acc[0]++} ${value['detail']}`] = prev;
+        acc[1][`${ acc[0]++ } ${ value['detail'] }`] = prev;
         acc[2] = value.startTime;
         return acc;
       }, [0, {} as any, entries[0].startTime]);

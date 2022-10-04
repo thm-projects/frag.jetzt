@@ -1,0 +1,8 @@
+<h2>{{ 'room-page.sure' | translate }}</h2>
+<p>{{ 'room-page.really-delete-moderation-comments' | translate }}</p>
+<app-dialog-action-buttons buttonsLabelSection="content"
+                           confirmButtonLabel="delete"
+                           [confirmButtonType]=confirmButtonType
+                           [cancelButtonClickAction]="buildCloseDialogActionCallback()"
+                           [confirmButtonClickAction]="buildCommentsDeleteActionCallback()"
+></app-dialog-action-buttons>
