@@ -512,6 +512,7 @@
     "question": "Question",
     "really-delete-comments": "Do you really want to delete all questions in this room? This action cannot be undone.",
     "really-delete-comments-hint": "There are questions in this room that you marked for a bonus. Remove the stars to delete all questions.",
+    "really-delete-moderation-comments": "Do you really want to delete all questions in moderation? This action cannot be undone.",
     "really-delete-token": "Do you really want to delete this token?",
     "really-delete-tokens": "Do you really want to delete all tokens of this session?",
     "really2": "? This action cannot be undone. If you have given bonus stars, export all questions so that you can check submitted bonus codes.",

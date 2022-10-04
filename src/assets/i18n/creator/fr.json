@@ -512,6 +512,7 @@
     "question": "Question",
     "really-delete-comments": "Tu veux vraiment supprimer toutes les questions de cette salle ? Cette action est irréversible.",
     "really-delete-comments-hint": "Il y a des questions dans cette salle que tu as marquées pour obtenir un bonus. Enlève les étoiles pour supprimer toutes les questions.",
+    "really-delete-moderation-comments": "Tu veux vraiment supprimer toutes les questions dans la modération ? Cette action est irréversible.",
     "really-delete-token": "Veux-tu vraiment supprimer ce code bonus ?",
     "really-delete-tokens": "Veux-tu vraiment supprimer tous les codes bonus de cette session ?",
     "really2": " ? Cette action est irréversible. Si tu as attribué des bonus (étoiles), exporte toutes les questions afin de pouvoir vérifier les codes bonus soumis.",
