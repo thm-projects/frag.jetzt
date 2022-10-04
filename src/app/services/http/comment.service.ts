@@ -40,6 +40,8 @@ export class CommentService extends BaseHttpService {
     count: '/count',
     vote: '/vote',
     import: '/import',
+    bulkDelete: '/bulkdelete',
+    byRoom: '/byRoom',
   };
 
   constructor(private http: HttpClient) {
@@ -218,10 +220,18 @@ export class CommentService extends BaseHttpService {
   }
 
   deleteCommentsByRoomId(roomId: string): Observable<Comment> {
-    const connectionUrl = `${this.apiUrl.base + this.apiUrl.comment}/byRoom?roomId=${roomId}`;
+    const connectionUrl = `${this.apiUrl.base + this.apiUrl.comment + this.apiUrl.byRoom}?roomId=${roomId}`;
     return this.http.delete<Comment>(connectionUrl, httpOptions).pipe(
       tap(_ => ''),
       catchError(this.handleError<Comment>('deleteComment'))
+    );
+  }
+
+  bulkDeleteComments(commentIds: string[]): Observable<void> {
+    const connectionUrl = `${this.apiUrl.base + this.apiUrl.comment + this.apiUrl.bulkDelete}`;
+    return this.http.post<void>(connectionUrl, commentIds, httpOptions).pipe(
+      tap(_ => ''),
+      catchError(this.handleError<void>('bulkDeleteComments')),
     );
   }
 
