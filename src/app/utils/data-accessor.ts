@@ -9,6 +9,7 @@ import { QuillUtils, SerializedDelta } from './quill-utils';
 
 export interface ForumData {
   children: Set<ForumComment>;
+  parent: ForumComment;
   totalAnswerFromParticipantCount: number;
   totalAnswerCount: number;
 }
@@ -122,7 +123,7 @@ class DataAccessorUpdateSubscription {
 
 // DataAccessor Specific
 const SIMPLE_PATCH_PROPERTIES: Set<keyof Comment> = new Set([
-  'read', 'correct', 'favorite', 'score', 'upvotes', 'downvotes', 'tag'
+  'read', 'correct', 'favorite', 'score', 'upvotes', 'downvotes', 'tag',
 ]);
 
 export class DataAccessor {
@@ -219,6 +220,7 @@ export class DataAccessor {
       ...c,
       created: false,
       removed: false,
+      parent: null,
       children: new Set<ForumComment>(),
       totalAnswerFromParticipantCount: 0,
       totalAnswerCount: 0,
@@ -325,7 +327,7 @@ export class DataAccessor {
           },
           complete: () => {
             subscriber.complete();
-          }
+          },
         });
       return () => {
         setTimeout(() => subscription.unsubscribe());
@@ -356,6 +358,7 @@ export class DataAccessor {
         ...comment,
         created: true,
         removed: false,
+        parent: null,
         children: new Set<ForumComment>(),
         totalAnswerFromParticipantCount: 0,
         totalAnswerCount: 0,
@@ -378,7 +381,7 @@ export class DataAccessor {
       this.triggerUpdate({
         type: 'CommentCreated',
         finished: true,
-        comment: forumComment
+        comment: forumComment,
       });
     });
   }
@@ -406,7 +409,7 @@ export class DataAccessor {
       type: 'CommentPatched',
       finished: true,
       updates,
-      comment
+      comment,
     });
   }
 
@@ -491,6 +494,7 @@ export class DataAccessor {
     }
     if (add) {
       startParent.children.add(startComment);
+      startComment.parent = startParent;
     }
     const factor = add ? 1 : -1;
     const answerDiff = (comment.totalAnswerCount + 1) * factor;
@@ -504,6 +508,7 @@ export class DataAccessor {
     }
     if (!add) {
       startParent.children.delete(startComment);
+      startComment.parent = null;
     }
   }
 

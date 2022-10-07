@@ -48,8 +48,9 @@ const periodFunctions: PeriodFunctions = {
 // Filter definitions
 type FilterTypeCache = { [key in FilterType]: ForumComment[] };
 export type FilterTypeCounts = { [key in FilterType]: number };
+type FilterFunction = (c: ForumComment, compareValue?: any) => boolean;
 type FilterFunctionObject = {
-  [key in FilterType]?: (c: ForumComment, compareValue?: any) => boolean;
+  [key in FilterType]?: FilterFunction;
 };
 
 const needFilterCompare: Set<FilterType> = new Set<FilterType>([
@@ -85,6 +86,54 @@ const getCommentRoleValue = (comment: Comment, ownerId: string, moderatorIds: Se
   return 0;
 };
 
+export const getChildrenKeywordParent = (
+  parentComment: ForumComment, keyword: string,
+): [level: number, parent: ForumComment] => {
+  const getHighestElement = (comment: ForumComment, i = 1): [level: number, parent: ForumComment] => {
+    for (const child of comment.children) {
+      if (hasKeyword(child, keyword)) {
+        return [i, comment];
+      }
+    }
+    let highestCount = null;
+    let highestCountParent = null;
+    for (const child of comment.children) {
+      const result = getHighestElement(child, i + 1);
+      if (!result) {
+        continue;
+      }
+      if (!highestCount) {
+        highestCount = result[0];
+        highestCountParent = result[1];
+        continue;
+      }
+      if (result[0] > highestCount) {
+        // Already got a higher parent, ignore children
+        continue;
+      }
+      if (result[0] < highestCount) {
+        // found a better parent
+        highestCount = result[0];
+        highestCountParent = result[1];
+        continue;
+      }
+      // found similar parents, step one hierarchy up
+      highestCount = highestCount - 1;
+      highestCountParent = result[1].parent;
+    }
+    if (highestCountParent) {
+      return [highestCount, highestCountParent];
+    }
+    return null;
+  };
+  return getHighestElement(parentComment);
+};
+
+export const hasKeyword: FilterFunction = (c, value) => Boolean(
+  c.keywordsFromQuestioner?.find(keyword => keyword.text === value) ||
+  c.keywordsFromSpacy?.find(keyword => keyword.text === value),
+);
+
 export class FilteredDataAccess {
 
   private readonly filterFunctions: FilterFunctionObject = {
@@ -97,10 +146,8 @@ export class FilteredDataAccess {
     [FilterType.Unread]: c => !c.read,
     [FilterType.Tag]: (c, value) => c.tag === value,
     [FilterType.CreatorId]: (c, value) => c.creatorId === value,
-    [FilterType.Keyword]: (c, value) => Boolean(
-      c.keywordsFromQuestioner?.find(keyword => keyword.text === value) ||
-      c.keywordsFromSpacy?.find(keyword => keyword.text === value)
-    ),
+    [FilterType.Keyword]: (c, value) => hasKeyword(c, value) ||
+      (!this._isRaw ? getChildrenKeywordParent(c, value) !== null : false),
     [FilterType.Answer]: c => c.totalAnswerCount - c.totalAnswerFromParticipantCount > 0,
     [FilterType.Unanswered]: c => c.totalAnswerCount - c.totalAnswerFromParticipantCount < 1,
     [FilterType.Owner]: c => c.creatorId === this._settings.userId,
@@ -126,6 +173,7 @@ export class FilteredDataAccess {
 
   private constructor(
     public readonly dataAccessFunction: (frozen: boolean) => Observable<ForumComment[]>,
+    private _isRaw: boolean,
     private _filter: RoomDataFilter,
     private _profanityChecker: (comment: ForumComment) => boolean,
     private readonly _onAttach?: (destroyer: Subject<any>) => void,
@@ -145,7 +193,7 @@ export class FilteredDataAccess {
   static buildChildrenAccess(
     sessionService: SessionService,
     dataService: RoomDataService,
-    commentId: string
+    commentId: string,
   ): FilteredDataAccess {
     let dataAccessor = dataService.dataAccessor;
     let data = dataAccessor.getDataById(commentId);
@@ -158,6 +206,7 @@ export class FilteredDataAccess {
     }
     const access = new FilteredDataAccess(
       () => of([...data.comment.children]),
+      false,
       RoomDataFilter.loadFilter('children'),
       c => dataAccessor.getDataById(c.id).hasProfanity,
       (destroyer) => {
@@ -172,13 +221,14 @@ export class FilteredDataAccess {
     sessionService: SessionService,
     dataService: RoomDataService,
     raw: boolean,
-    name: FilterTypes
+    name: FilterTypes,
   ): FilteredDataAccess {
     const dataAccessor = dataService.moderatorDataAccessor;
     const access = new FilteredDataAccess(
       raw ?
         dataAccessor.getRawComments.bind(dataAccessor) :
         dataAccessor.getForumComments.bind(dataAccessor),
+      raw,
       RoomDataFilter.loadFilter(name),
       comment => dataAccessor.getDataById(comment.id).hasProfanity,
       (destroyer) => this.constructAttachment(destroyer, sessionService, dataAccessor, access),
@@ -202,6 +252,7 @@ export class FilteredDataAccess {
       raw ?
         dataAccessor.getRawComments.bind(dataAccessor) :
         dataAccessor.getForumComments.bind(dataAccessor),
+      raw,
       roomDataFilter,
       comment => dataAccessor.getDataById(comment.id).hasProfanity,
       (destroyer) => this.constructAttachment(destroyer, sessionService, dataAccessor, access),

@@ -278,7 +278,7 @@ export class StartUpService {
         if (oldMotds.findIndex(o => o.id === m.id) < 0) {
           return true;
         }
-        this.indexedDBService.update('motd', motds).subscribe();
+        this.indexedDBService.update('motd', m).subscribe();
         return false;
       });
       this.indexedDBService.bulkAdd('motd', newMotds).subscribe();

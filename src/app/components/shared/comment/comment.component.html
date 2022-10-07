@@ -357,7 +357,8 @@
 <app-comment-response-view
   *ngIf="showResponses && viewInfo && !isMock"
   [owningComment]="comment"
-  [viewInfo]="viewInfo">
+  [viewInfo]="viewInfo"
+  [keywordFilter]="activeKeywordSearchString">
 </app-comment-response-view>
 
 <!--Hidden Div's for a11y-Descriptions-->

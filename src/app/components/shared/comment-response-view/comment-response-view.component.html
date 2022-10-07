@@ -22,6 +22,7 @@
                      [isFromModerator]="viewInfo.mods.has(response.creatorId)"
                      [isFromOwner]="viewInfo.roomOwner === response.creatorId"
                      [isResponse]="true"
+                     [activeKeywordSearchString]="keywordFilter"
                      [responseIndex]="i + 1"
         ></app-comment>
       </ng-container>
