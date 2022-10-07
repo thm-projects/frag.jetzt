@@ -1,3 +1,16 @@
+<app-minute-jump-clock></app-minute-jump-clock>
+<div class="qr-code-colors" #qrCodeColors></div>
+<qrcode [qrdata]="getURL()"
+        (click)="showQR()"
+        *ngIf="canShowURL()"
+        class="comment-qr-code"
+        [colorDark]="qrDark"
+        [colorLight]="qrLight"
+        [width]="600"
+        [matTooltip]="'comment-list.qr-in-fullscreen' | translate"
+        [errorCorrectionLevel]="'M'">
+</qrcode>
+
 <div *ngIf="comments && (commentsFilteredByTimeLength > 0 || filterType || period !== 'All')">
   <p class="counter"
      *ngIf="!filterType && !search">
@@ -13,19 +26,6 @@
      [ngClass]="{'search-container' : !scroll, 'search-container-fixed' : scroll}"
      (window:scroll)="checkScroll()"
      fxLayoutAlign="center">
-
-  <app-minute-jump-clock></app-minute-jump-clock>
-  <div class="qr-code-colors" #qrCodeColors></div>
-  <qrcode [qrdata]="getURL()"
-          (click)="showQR()"
-          *ngIf="canShowURL()"
-          class="comment-qr-code"
-          [colorDark]="qrDark"
-          [colorLight]="qrLight"
-          [width]="600"
-          [matTooltip]="'comment-list.qr-in-fullscreen' | translate"
-          [errorCorrectionLevel]="'M'">
-  </qrcode>
 
   <button id="filter-close-button"
           mat-icon-button
@@ -418,6 +418,7 @@
     [disabled]="!commentsEnabled"
     [commentsWrittenByUser]="commentsWrittenByUsers.get(current.creatorId).size"
     [indentationPossible]="true"
+    [activeKeywordSearchString]="activeKeyword"
     (clickedOnTag)="applyFilterByKey('Tag', $event)"
     (clickedUserNumber)="applyFilterByKey('CreatorId', $event)"
     (clickedOnKeyword)="applyFilterByKey('Keyword', $event)"

@@ -40,7 +40,7 @@ import {
   Period,
   PeriodKey,
   SortType,
-  SortTypeKey
+  SortTypeKey,
 } from '../../../utils/data-filter-object.lib';
 import { CommentPatchedKeyInformation, ForumComment } from '../../../utils/data-accessor';
 import { FilteredDataAccess, FilterTypeCounts, PeriodCounts } from '../../../utils/filtered-data-access';
@@ -100,6 +100,7 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
   hasGivenJoyride = false;
   qrDark = '#000000';
   qrLight = '#F0F8FF';
+  activeKeyword = null;
   private firstReceive = true;
   private _allQuestionNumberOptions: string[] = [];
   private _list: ComponentRef<any>[];
@@ -191,6 +192,7 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
       this.sessionService.receiveRoomUpdates().subscribe(_room => this.receiveRoom(_room as Room));
       this.createCommentWrapper = new CreateCommentWrapper(this.translateService,
         this.notificationService, this.commentService, this.dialog, this.sessionService.currentRoom);
+      this.updateKeywordMark();
       this._filterObject.attach({
         userId: this.user.id,
         roomId: room.id,
@@ -317,6 +319,7 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
     filter.filterType = FilterType[type];
     filter.filterCompare = compare;
     this._filterObject.dataFilter = filter;
+    this.updateKeywordMark();
   }
 
   applySortingByKey(type: SortTypeKey, reverse = false) {
@@ -353,7 +356,7 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
     this.commentStream = this.roomDataService.dataAccessor.receiveUpdates([
       { type: 'CommentCreated', finished: true },
       { type: 'CommentPatched', subtype: 'favorite' },
-      { finished: true }
+      { finished: true },
     ]).subscribe(update => {
       if (update.type === 'CommentCreated') {
         this.announceNewComment(QuillUtils.getTextFromDelta(update.comment.body));
@@ -371,7 +374,7 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   switchToModerationList(): void {
-    this.router.navigate([`/moderator/room/${this.room.shortId}/moderator/comments`]);
+    this.router.navigate([`/moderator/room/${ this.room.shortId }/moderator/comments`]);
   }
 
   writeComment() {
@@ -467,7 +470,7 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
     if (!room) {
       return window.location.href;
     }
-    return `${window.location.origin}/participant/room/${room.shortId}`;
+    return `${ window.location.origin }/participant/room/${ room.shortId }`;
   }
 
   canShowURL() {
@@ -552,7 +555,7 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
         text: 'header.create-question',
         callback: () => this.writeComment(),
         condition: () => this.deviceInfo.isCurrentlyDesktop &&
-          this.room && !this.room.questionsBlocked
+          this.room && !this.room.questionsBlocked,
       });
       e.menuItem({
         translate: this.headerService.getTranslate(),
@@ -560,7 +563,7 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
         class: 'header-icons',
         text: 'header.room-qr',
         callback: () => this.showQR(),
-        condition: () => this.userRole > 0
+        condition: () => this.userRole > 0,
       });
       e.menuItem({
         translate: this.headerService.getTranslate(),
@@ -571,7 +574,7 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
           const role = (this.userRole === 3 ? 'creator' : 'moderator');
           this.router.navigate([role + '/room/' + this.room?.shortId + '/moderator/comments']);
         },
-        condition: () => this.userRole > 0
+        condition: () => this.userRole > 0,
       });
       e.menuItem({
         translate: this.headerService.getTranslate(),
@@ -579,7 +582,7 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
         class: '',
         text: 'header.tag-cloud',
         callback: () => this.navigateTopicCloud(),
-        condition: () => this.deviceInfo.isCurrentlyMobile && ((this.cloudDataService.currentData?.size || 0) > 0)
+        condition: () => this.deviceInfo.isCurrentlyMobile && ((this.cloudDataService.currentData?.size || 0) > 0),
       });
       e.menuItem({
         translate: this.headerService.getTranslate(),
@@ -588,7 +591,7 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
         text: 'header.brainstorming',
         callback: () => this.headerService.getHeaderComponent().navigateBrainstorming(),
         condition: () => this.deviceInfo.isCurrentlyMobile && this.room?.brainstormingActive &&
-          (!!this.room?.brainstormingSession || this.userRole > UserRole.PARTICIPANT)
+          (!!this.room?.brainstormingSession || this.userRole > UserRole.PARTICIPANT),
       });
       e.menuItem({
         translate: this.headerService.getTranslate(),
@@ -596,7 +599,7 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
         class: 'material-icons-outlined',
         text: 'header.quiz-now',
         callback: () => this.router.navigate(['quiz']),
-        condition: () => this.deviceInfo.isCurrentlyMobile && this.room?.quizActive
+        condition: () => this.deviceInfo.isCurrentlyMobile && this.room?.quizActive,
       });
       e.menuItem({
         translate: this.headerService.getTranslate(),
@@ -605,7 +608,7 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
         iconColor: Palette.YELLOW,
         text: 'header.bonustoken',
         callback: () => this.showBonusTokenDialog(),
-        condition: () => this.userRole > UserRole.PARTICIPANT && this.room?.bonusArchiveActive
+        condition: () => this.userRole > UserRole.PARTICIPANT && this.room?.bonusArchiveActive,
       });
       e.menuItem({
         translate: this.headerService.getTranslate(),
@@ -621,20 +624,29 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
             'room-export',
             this.user,
             room,
-            new Set<string>(this.moderatorAccountIds)
+            new Set<string>(this.moderatorAccountIds),
           ).subscribe(text => {
             copyCSVString(text[0], room.name + '-' + room.shortId + '-' + text[1] + '.csv');
           });
         },
-        condition: () => true
+        condition: () => true,
       });
     });
+  }
+
+  private updateKeywordMark() {
+    const f = this._filterObject.dataFilter;
+    if (f.filterType === FilterType.Keyword) {
+      this.activeKeyword = f.filterCompare;
+    } else {
+      this.activeKeyword = null;
+    }
   }
 
   private showBonusTokenDialog(): void {
     console.assert(this.userRole > UserRole.PARTICIPANT);
     const dialogRef = this.dialog.open(BonusTokenComponent, {
-      width: '400px'
+      width: '400px',
     });
     dialogRef.componentInstance.room = this.room;
   }
@@ -643,8 +655,8 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
     const confirmDialogRef = this.dialog.open(TopicCloudFilterComponent, {
       autoFocus: false,
       data: {
-        filterObject: this._filterObject
-      }
+        filterObject: this._filterObject,
+      },
     });
     confirmDialogRef.componentInstance.target = this.router.url + '/tagcloud';
     confirmDialogRef.componentInstance.userRole = this.userRole;

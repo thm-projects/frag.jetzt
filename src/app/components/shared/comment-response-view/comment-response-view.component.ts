@@ -2,10 +2,11 @@ import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChi
 import { ForumComment } from '../../../utils/data-accessor';
 import { User } from '../../../models/user';
 import { UserRole } from '../../../models/user-roles.enum';
-import { FilteredDataAccess } from '../../../utils/filtered-data-access';
+import { FilteredDataAccess, getChildrenKeywordParent } from '../../../utils/filtered-data-access';
 import { SessionService } from '../../../services/util/session.service';
 import { RoomDataService } from '../../../services/util/room-data.service';
 import { Vote } from '../../../models/vote';
+import { FilterType } from '../../../utils/data-filter-object.lib';
 
 export interface ResponseViewInformation {
   user: User;
@@ -21,7 +22,7 @@ export interface ResponseViewInformation {
 @Component({
   selector: 'app-comment-response-view',
   templateUrl: './comment-response-view.component.html',
-  styleUrls: ['./comment-response-view.component.scss']
+  styleUrls: ['./comment-response-view.component.scss'],
 })
 export class CommentResponseViewComponent implements OnInit, AfterViewInit, OnDestroy {
 
@@ -35,6 +36,8 @@ export class CommentResponseViewComponent implements OnInit, AfterViewInit, OnDe
   private _depthLevel: number;
   private _data: FilteredDataAccess;
   private _canNew = false;
+  private _keywordFilter: string;
+  private EMPTY = [];
 
   constructor(
     private sessionService: SessionService,
@@ -42,17 +45,34 @@ export class CommentResponseViewComponent implements OnInit, AfterViewInit, OnDe
   ) {
   }
 
+  get keywordFilter() {
+    return this._keywordFilter;
+  }
+
+  @Input()
+  set keywordFilter(filterStr: string) {
+    if (!this.viewInfo) {
+      console.error('Place viewInfo before keywordFilter!');
+      return;
+    }
+    const changed = this._keywordFilter !== filterStr;
+    if (!changed) {
+      return;
+    }
+    this._keywordFilter = filterStr;
+    if (!this._keywordFilter) {
+      this.changeParent(this.owningComment.id);
+    } else {
+      this.calculateNewParentForKeywords();
+    }
+  }
+
   ngOnInit(): void {
-    this._rootComment = this.owningComment;
-    this._depthLevel = 1;
-    this._data = FilteredDataAccess.buildChildrenAccess(this.sessionService, this.roomDataService, this._rootComment.id);
-    this._data.attach({
-      userId: this.viewInfo.user.id,
-      ownerId: this.viewInfo.roomOwner,
-      roomId: this.viewInfo.roomId,
-      moderatorIds: this.viewInfo.mods,
-      threshold: this.viewInfo.roomThreshold,
-    });
+    if (!this._rootComment) {
+      this._rootComment = this.owningComment;
+      this._depthLevel = 1;
+      this.attach();
+    }
   }
 
   ngAfterViewInit() {
@@ -61,11 +81,11 @@ export class CommentResponseViewComponent implements OnInit, AfterViewInit, OnDe
   }
 
   ngOnDestroy() {
-    this._data.detach();
+    this.detach();
   }
 
   getData() {
-    return this._data.getCurrentData();
+    return this._data?.getCurrentData() ?? this.EMPTY;
   }
 
   getDepthLevel() {
@@ -74,6 +94,60 @@ export class CommentResponseViewComponent implements OnInit, AfterViewInit, OnDe
 
   canNew() {
     return this._canNew;
+  }
+
+  changeParent(id: string): boolean {
+    const accessor = this.viewInfo.isModerationComment ?
+      this.roomDataService.moderatorDataAccessor : this.roomDataService.dataAccessor;
+    const comment = accessor.getDataById(id)?.comment;
+    if (!comment) {
+      return false;
+    }
+    let loopComment = comment;
+    let level = 1;
+    while (loopComment != null && loopComment.id !== this.owningComment.id) {
+      ++level;
+      loopComment = loopComment.parent;
+    }
+    if (loopComment?.id !== this.owningComment.id) {
+      return false;
+    }
+    this._depthLevel = level;
+    this._rootComment = comment;
+    this.attach();
+    return true;
+  }
+
+  private attach() {
+    this.detach();
+    this._data = FilteredDataAccess.buildChildrenAccess(this.sessionService, this.roomDataService, this._rootComment.id);
+    this._data.attach({
+      userId: this.viewInfo.user.id,
+      ownerId: this.viewInfo.roomOwner,
+      roomId: this.viewInfo.roomId,
+      moderatorIds: this.viewInfo.mods,
+      threshold: this.viewInfo.roomThreshold,
+    });
+    if (this._keywordFilter) {
+      const f = this._data.dataFilter;
+      f.filterType = FilterType.Keyword;
+      f.filterCompare = this._keywordFilter;
+      this._data.dataFilter = f;
+    }
+  }
+
+  private detach() {
+    this._data?.detach();
+    this._data = null;
+  }
+
+  private calculateNewParentForKeywords() {
+    const parent = getChildrenKeywordParent(this.owningComment, this._keywordFilter);
+    console.log(parent[1].body, this.owningComment.body);
+    if (!parent) {
+      return;
+    }
+    this.changeParent(parent[1].id);
   }
 
 }
