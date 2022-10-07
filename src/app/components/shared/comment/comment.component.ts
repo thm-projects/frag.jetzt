@@ -69,6 +69,7 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() isAnswerView = false;
   @Input() indentationPossible = false;
   @Input() showResponses: boolean = false;
+  @Input() activeKeywordSearchString: string = null;
   @Output() clickedOnTag = new EventEmitter<string>();
   @Output() clickedOnKeyword = new EventEmitter<string>();
   @Output() clickedUserNumber = new EventEmitter<string>();
@@ -543,6 +544,7 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
         isModerationComment: this.isModerator,
         votes: this._votes,
       };
+      this.showResponses = Boolean(this.activeKeywordSearchString);
     });
   }
 

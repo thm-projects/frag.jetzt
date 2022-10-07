@@ -64,7 +64,7 @@ export type TagCloudMetaDataCount = [
 ];
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class TagCloudDataService {
   private _isDemoActive: boolean;
@@ -96,7 +96,7 @@ export class TagCloudDataService {
       userCount: 0,
       minWeight: 0,
       maxWeight: 0,
-      countPerWeight: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+      countPerWeight: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     };
     this._metaDataBus = new BehaviorSubject<TagCloudMetaData>(null);
     this.sessionService.getRoom().subscribe(room => this.onRoomUpdate(room));
@@ -128,7 +128,7 @@ export class TagCloudDataService {
       if (this._isDemoActive) {
         this._lastMetaData = {
           ...this._currentMetaData,
-          countPerWeight: [...this._currentMetaData.countPerWeight]
+          countPerWeight: [...this._currentMetaData.countPerWeight],
         };
         this._currentMetaData.minWeight = 1;
         this._currentMetaData.maxWeight = 10;
@@ -149,16 +149,19 @@ export class TagCloudDataService {
     this._lastSubscription = filter?.getFilteredData()?.subscribe(() => this.rebuildTagData());
   }
 
-  static buildDataFromComments(roomOwner: string,
-                               moderators: Set<string>,
-                               blacklist: string[],
-                               blacklistEnabled: boolean,
-                               adminData: TopicCloudAdminData,
-                               roomDataService: RoomDataService,
-                               comments: Comment[],
-                               brainstorming: boolean): [TagCloudData, Set<string>] {
-    const builder = new TagCloudDataBuilder(moderators, brainstorming, roomDataService, adminData, blacklist,
-      blacklistEnabled, roomOwner);
+  static buildDataFromComments(
+    roomOwner: string,
+    moderators: Set<string>,
+    blacklist: string[],
+    blacklistEnabled: boolean,
+    adminData: TopicCloudAdminData,
+    roomDataService: RoomDataService,
+    comments: Comment[],
+    brainstorming: boolean,
+  ): [TagCloudData, Set<string>] {
+    const builder = new TagCloudDataBuilder(
+      moderators, brainstorming, roomDataService, adminData, blacklist, blacklistEnabled, roomOwner
+    );
     builder.addComments(comments as ForumComment[]);
     return [builder.getData(), builder.getUsers()];
   }
