@@ -73,7 +73,7 @@ export class RoomDataService {
 
   isCommentProfane(comment: Comment, isModeration = false): boolean {
     const source = isModeration ? this.moderatorDataAccessor.getDataById(comment.id) : this.dataAccessor.getDataById(comment.id);
-    return source.hasProfanity;
+    return source?.hasProfanity;
   }
 
   checkCommentProfanity(comment: Comment): boolean {
@@ -83,7 +83,7 @@ export class RoomDataService {
 
   isCommentCensored(comment: Comment, isModeration = false): boolean {
     const source = isModeration ? this.moderatorDataAccessor.getDataById(comment.id) : this.dataAccessor.getDataById(comment.id);
-    return source.filtered;
+    return source?.filtered;
   }
 
   getCensoredInformation(comment: Comment, isModeration = false): CommentFilterData {

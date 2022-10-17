@@ -79,6 +79,7 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('commentBodyInner', { static: true }) commentBodyInner: RowComponent;
   @ViewChild('commentExpander', { static: true }) commentExpander: RowComponent;
   readableCommentBody: string;
+  readableCommentDate: string;
   isStudent = false;
   isCreator = false;
   isModerator = false;
@@ -544,7 +545,7 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
         isModerationComment: this.isModerator,
         votes: this._votes,
       };
-      this.showResponses = Boolean(this.activeKeywordSearchString);
+      this.showResponses = this.showResponses || Boolean(this.activeKeywordSearchString);
     });
   }
 
@@ -605,7 +606,7 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
       minute: '2-digit',
       hour: '2-digit',
     });
-    this.readableCommentBody = dateString + ' ' + timeString;
+    this.readableCommentDate = dateString + ' ' + timeString;
   }
 
   private generateCommentNumber() {

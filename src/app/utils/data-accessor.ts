@@ -310,6 +310,38 @@ export class DataAccessor {
     });
   }
 
+  addComment(comment: Comment){
+    const forumComment: ForumComment = {
+      ...comment,
+      created: true,
+      removed: false,
+      parent: null,
+      children: new Set<ForumComment>(),
+      totalAnswerFromParticipantCount: 0,
+      totalAnswerCount: 0,
+    };
+    // apply profanity filtering and register in cache
+    this._fastAccess[forumComment.id] = this._filter.filterComment(forumComment);
+    // calculate references
+    this.updateAnswerCounts(forumComment, true);
+    // update bookmarks
+    if (this._currentRole === UserRole.PARTICIPANT) {
+      forumComment.globalBookmark = forumComment.bookmark;
+      forumComment.bookmark = Boolean(this._userBookmarks[forumComment.id]);
+    }
+    this._rawComments.value.push(forumComment);
+    this._rawComments.next(this._rawComments.value);
+    if (!Boolean(forumComment.commentReference)) {
+      this._forumComments.value.push(forumComment);
+      this._forumComments.next(this._forumComments.value);
+    }
+    this.triggerUpdate({
+      type: 'CommentCreated',
+      finished: true,
+      comment: forumComment,
+    });
+  }
+
   private generateCommentObservable(forRaw: boolean, frozen: boolean) {
     return new Observable<ForumComment[]>(subscriber => {
       const subscription = (forRaw ? this._rawComments : this._forumComments)
@@ -354,35 +386,7 @@ export class DataAccessor {
 
   private onCommentCreate(payload: any) {
     this.commentService.getComment(payload.id).subscribe(comment => {
-      const forumComment: ForumComment = {
-        ...comment,
-        created: true,
-        removed: false,
-        parent: null,
-        children: new Set<ForumComment>(),
-        totalAnswerFromParticipantCount: 0,
-        totalAnswerCount: 0,
-      };
-      // apply profanity filtering and register in cache
-      this._fastAccess[forumComment.id] = this._filter.filterComment(forumComment);
-      // calculate references
-      this.updateAnswerCounts(forumComment, true);
-      // update bookmarks
-      if (this._currentRole === UserRole.PARTICIPANT) {
-        forumComment.globalBookmark = forumComment.bookmark;
-        forumComment.bookmark = Boolean(this._userBookmarks[forumComment.id]);
-      }
-      this._rawComments.value.push(forumComment);
-      this._rawComments.next(this._rawComments.value);
-      if (!Boolean(forumComment.commentReference)) {
-        this._forumComments.value.push(forumComment);
-        this._forumComments.next(this._forumComments.value);
-      }
-      this.triggerUpdate({
-        type: 'CommentCreated',
-        finished: true,
-        comment: forumComment,
-      });
+      this.addComment(comment);
     });
   }
 
