@@ -12,15 +12,15 @@ export class AxisAlignedBoundingBox<T> {
   }
 }
 
-export class QuadTreeSpecifiactions {
+export class QuadTreeSpecifications {
   public readonly divisionSize: usize;
   constructor(
     public readonly maxDepth: usize,
-    public readonly divisonFactor: usize = 2,
+    public readonly divisionFactor: usize = 2,
     public readonly objectCapacity: usize = 4
   ) {
-    assert(divisonFactor > 1 && divisonFactor < 6);
-    this.divisionSize = divisonFactor * divisonFactor;
+    assert(divisionFactor > 1 && divisionFactor < 6);
+    this.divisionSize = divisionFactor * divisionFactor;
   }
 }
 
@@ -39,7 +39,7 @@ export class QuadTree<T, K> {
   constructor(
     private readonly collideFunc: QuadTreeCollideFunction<T, K>,
     private readonly container: AxisAlignedBoundingBox<T>,
-    private readonly configuration: QuadTreeSpecifiactions,
+    private readonly configuration: QuadTreeSpecifications,
     private readonly depth: usize = 0
   ) {
     this.children = new StaticArray(isize(configuration.divisionSize));
@@ -53,7 +53,24 @@ export class QuadTree<T, K> {
     collisionObject: J,
     collideFunc: QuadTreeCollideFunction<T, J>,
     acceptor: QuadTreeQueryAcceptor<K>
-  ): void {}
+  ): bool {
+    if (!acceptor(this.objects)) {
+      return false;
+    }
+    if (!this.hasChildren) {
+      return true;
+    }
+    for (let i = 0; i < this.children.length; i++) {
+      const child = this.children[i];
+      if (
+        collideFunc(child.container, collisionObject) &&
+        !child.queryObjects(collisionObject, collideFunc, acceptor)
+      ) {
+        return false;
+      }
+    }
+    return true;
+  }
 
   collides(object: K): bool {
     return this.collideFunc(this.container, object);
@@ -89,7 +106,7 @@ export class QuadTree<T, K> {
     if (this.hasChildren) {
       return;
     }
-    const size = this.configuration.divisonFactor;
+    const size = this.configuration.divisionFactor;
     const aabb = this.container;
     const newDepth = this.depth + 1;
     let currentY = aabb.y;
