@@ -1,6 +1,6 @@
 # frag.jetzt
 
-Nomen est omen: The app's name says it all: it stands for both the app's main purpose and the web address <https://frag.jetzt>
+Nomen est omen: The app's name says it all: it stands for both the app's main purpose and its web address <https://frag.jetzt>
 
 [![Quality Gate Status](https://scm.thm.de/sonar/api/project_badges/measure?project=de.thm.arsnova%3Afrag-jetzt-frontend&metric=alert_status)](https://scm.thm.de/sonar/dashboard?id=de.thm.arsnova%3Afrag-jetzt-frontend)
 
@@ -10,23 +10,31 @@ With our innovative product "frag.jetzt" we want to conquer the market of audien
 
 ## Features
 
-- There are three roles in the app: "room creator," "moderator," and "participant." The moderator role is assigned by the creator of a room to people who have registered. Also, the moderator role can be temporarily assigned to guests by creating a special room key or link. In each role, questions can be asked anonymously and the questions of others can be read.
+1. There are four roles in the app: "room creator", "moderator", "participant" and "administrator". Each role allows the creation of any number of rooms. The moderator role is assigned by the creator of a room to people who have registered. In addition, the moderator role can be temporarily assigned to guests by creating a special room key or link. In each role, questions can be asked anonymously and others' questions can be read. The administrator can write messages and publish them for all users.
 
-- After entering the room key or by scanning a QR code, participants can ask their questions and rate others' questions +1 or -1. The question board can be moderated. Room creators or moderators can set a threshold for automatically publishing a question, that is, at what rating a question is displayed on the question board. The threshold can be set between -100 and 0 evaluation points.
+1. When creating a room, the room creator can choose whether all questions should be moderated or published directly, whether a profanity filter should be active, whether the quiz app " antworte.jetzt", the bonus option or the brainstorming option should be activated.
 
-- An instructor can award bonus points for questions that are on target and lecture-related. Good questions receive a star and the student will find an 8-digit code ("bonus token") for each star earned on the session account. Tokens can be redeemed for bonus points by emailing the instructor.
+1. After entering the room key or by scanning the QR code, participants can ask their questions and rate others' questions with +1 or -1. The question board can be moderated. Room creators or moderators can set a threshold for automatic publication of a question, i.e., at what rating a question is displayed on the question board. The threshold can be set between -100 and 0 rating points.
 
-- Instructors and moderators can affirm, deny, answer, star, or ban questions to the moderation board. Questions on the moderation board can also be released. Only room creators can delete questions, but only if they do not have a bonus star. All other users can only delete their own questions.
+1. An instructor can award bonus points for questions that are on target and lecture-related. Good questions receive a star and the student will find an 8-digit code ("bonus token") for each star earned on the session account. Tokens can be redeemed for bonus points by emailing the instructor.
 
-- Every user can sort the question board according to the criteria "newest question first" as well as "downward or upward by rating points". The board can be searched and the questions can be filtered. The following filter criteria are available: Questions with a bonus star, commented or uncommented questions, questions with a bookmark and questions that the user has asked. In addition, the question stream can be paused, i.e. new questions are only displayed if the user releases the question stream again.
+1. Instructors and moderators can affirm, deny, answer, star, or ban questions to the moderation board. Questions on the moderation board can also be released. Only room creators can delete questions, but only if they do not have a bonus star. All other users can only delete their own questions.
 
-- Room creators and moderators can define categories ("tags") for questions in the room settings. The person asking the question can then tag their question with one of the predefined categories. Categorized questions can be filtered by clicking on the tag. Room creators and moderators can also tag questions afterwards.
+1. Every user can sort the question board according to the criteria "newest question first", "downward or upward by rating points" and "degree of controversy". The board can be searched and the questions can be filtered. The following filter criteria are available: bonus-awarded, conversations, bookmarked, answered, unanswered, question number, censored, and own questions. In addition, the question stream can be paused, i.e., new questions are only displayed if the user releases the question stream again.
 
-- Room creators and moderators have the option to enable all questions for anonymous commenting. The comments then appear as a conversation offset to the side below the respective question.
+1. Room creators and moderators can define categories ("tags") for questions in the room settings. The person asking the question can then tag their question with one of the predefined categories. Categorized questions can be filtered by clicking on the tag. Room creators and moderators can also tag questions afterwards.
 
-- Each user can call up a message board where their own questions are listed as soon as they have received a reaction: for example, if they have been commented on, answered in the affirmative, denied, banned, published or deleted.
+1. Room creators and moderators have the option to enable all questions for anonymous commenting. The comments then appear as a conversation offset to the side below the respective question.
 
-- Any number of rooms can be created as guest or registered user. Only the rooms of registered users remain permanently. 180 days after the last use of a room it will be deleted automatically. Bonus tokens of unregistered participants are only stored in the browser cache. If the browser cache is deleted, the tokens are lost. Before leaving a session as an unregistered person, they will be asked to export their acquired tokens as a mail draft or save them to the clipboard.
+1. Each user can call up a message board where their own questions are listed as soon as they have received a reaction: for example, if they have been commented on, answered in the affirmative, denied, banned, published or deleted.
+
+1. There is a presentation mode called "Question Focus" that allows each user to view the questions individually in full view. Also, new questions can be displayed automatically in the "Auto Focus" mode.
+
+1. There is a navigation mode called "Question Radar". The radar locates questions based on keywords generated by an AI in real time. The larger and more central a keyword appears on the radar, the more numerous or significant the questions associated with it.
+
+1. Any user can export all questions with their answers, comments, and tags. The room creator and moderators can also export the moderated questions. If bonuses have been awarded, the associated bonus codes are also in the export table.
+
+1. Any number of rooms can be created as guest or registered user. Only the rooms of registered users remain permanently. 180 days after the last use of a room it will be deleted automatically. Bonus tokens of unregistered participants are only stored in the browser cache. If the browser cache is deleted, the tokens are lost. Before leaving a session as an unregistered person, they will be asked to export their acquired tokens as a mail draft or save them to the clipboard.
 
 ## frag.jetzt development with docker
 
