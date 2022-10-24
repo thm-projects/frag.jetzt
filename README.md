@@ -36,6 +36,8 @@ With our innovative product "frag.jetzt" we want to conquer the market of audien
 
 1. Registered users can be informed about new questions and answers by mail. Weekday and time of the mail notification are adjustable.
 
+1. The user interface meets the requirements for readability according to WCAG 2.1 AA. Appropriate display options are available for beamer presentation and for visually impaired persons. In particular, the font size of the questions can be scaled. In addition to the room code, a room can also be entered via an automatically generated direct link.
+
 1. Any number of rooms can be created as guest or registered user. Only the rooms of registered users remain permanently. 180 days after the last use of a room it will be deleted automatically. Bonus tokens of unregistered participants are only stored in the browser cache. If the browser cache is deleted, the tokens are lost. Before leaving a session as an unregistered person, they will be asked to export their acquired tokens as a mail draft or save them to the clipboard.
 
 ## frag.jetzt development with docker
