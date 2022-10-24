@@ -8,15 +8,17 @@ Nomen est omen: The app's name says it all: it stands for both the app's main pu
 
 With our innovative product "frag.jetzt" we want to conquer the market of audience response systems. With "frag.jetzt," we are addressing teachers at schools and universities. With "frag.jetzt," we offer a browser-based, privacy-compliant Q&A app for anonymous, silent questioning. The unique selling point is the option to award "good questions" for earning bonuses. Studies show that active participation in class is significantly boosted by silent questions. Bonuses for good questions as extrinsic learning motivation reinforce this effect.
 
+![Start page](https://arsnova-uploads.mni.thm.de/frag.jetzt_home%28iPad%20Air%29.png)
+
 ## Features
 
-1. There are four roles in the app: "room creator", "moderator", "participant" and "administrator". Each role allows the creation of any number of rooms. The moderator role is assigned by the creator of a room to people who have registered. In addition, the moderator role can be temporarily assigned to guests by creating a special room key or link. In each role, questions can be asked anonymously and others' questions can be read. The administrator can write messages and publish them for all users.
+1. There are four roles in the app: "room creator", "moderator", "participant" and "administrator". Each role allows the creation of any number of rooms. The moderator role is assigned by the creator of a room to people who have registered. In addition, the moderator role can be temporarily assigned to guests by creating a special room key or link. In each role, posts can be written anonymously and the posts of others can be read. The administrator can write messages and publish them for all users.
 
 1. When creating a room, the room creator can choose whether all questions should be moderated or published directly, whether a profanity filter should be active, whether the quiz app "antworte.jetzt", the bonus option or the brainstorming option should be activated.
 
 1. After entering the room key or by scanning the QR code, participants can ask their questions and rate others' questions with +1 or -1. The question board can be moderated. Room creators or moderators can set a threshold for automatic publication of a question, i.e., at what rating a question is displayed on the question board. The threshold can be set between -100 and 0 rating points.
 
-1. To make a question, answer, or comment as readable and understandable as possible, the AI translation program DeepL translates the text into a foreign language and back into the original language at the user's request. The back translation is in almost all cases better than the original in terms of spelling, grammar, punctuation, and language style. The back-translation can be done in two ways: informally (German: Duzen) or formally (German: Siezen). The language of the entered text is automatically determined by the LanguageTool software. 
+1. To make a question, answer, or comment as readable and understandable as possible, the AI translation program DeepL translates the text into a foreign language and back into the original language at the user's request. The back translation is in almost all cases better than the original in terms of spelling, grammar, punctuation, and language style. The back-translation can be done in two ways: informally (German: Duzen) or formally (German: Siezen). The language of the entered text is automatically determined by the LanguageTool software.
 
 1. A lecturer can award bonus points for questions that are goal-oriented and lecture-related. Good questions earn a star, and the student finds an 8-digit code ("bonus token") for each star in their bonus archive. The tokens can be redeemed for bonus points by emailing the instructor. The lecturer or his moderators can validate the submitted bonus tokens with the awarded ones in their bonus archive.
 
