@@ -18,7 +18,7 @@ With our innovative product "frag.jetzt" we want to conquer the market of audien
 
 1. A lecturer can award bonus points for questions that are goal-oriented and lecture-related. Good questions earn a star, and the student finds an 8-digit code ("bonus token") for each star in their bonus archive. The tokens can be redeemed for bonus points by emailing the instructor. The lecturer or his moderators can validate the submitted bonus tokens with the awarded ones in their bonus archive.
 
-1. Instructors and moderators can affirm, deny, answer, star, or ban questions to the moderation board. Questions on the moderation board can also be released. Only room creators can delete questions, but only if they do not have a bonus star. All other users can only delete their own questions.
+1. Instructors and moderators can affirm, deny, answer, star, or ban questions to the moderation board. Questions on the moderation board can be released individually. Only room creators can delete questions, but only if they do not have a bonus star. All other users can only delete their own questions.
 
 1. Every user can sort the question board according to the criteria "newest question first", "downward or upward by rating points" and "degree of controversy". The board can be searched and the questions can be filtered. The following filter criteria are available: bonus-awarded, conversations, bookmarked, answered, unanswered, question number, censored, and own questions. In addition, the question stream can be paused, i.e., new questions are only displayed if the user releases the question stream again.
 
@@ -39,6 +39,8 @@ With our innovative product "frag.jetzt" we want to conquer the market of audien
 1. The user interface meets the requirements for readability according to WCAG 2.1 AA. Appropriate display options are available for beamer presentation and for visually impaired persons. In particular, the font size of the questions can be scaled. In addition to the room code, a room can also be entered via an automatically generated direct link.
 
 1. Any number of rooms can be created as guest or registered user. Only the rooms of registered users remain permanently. 180 days after the last use of a room it will be deleted automatically. Bonus tokens of unregistered participants are only stored in the browser cache. If the browser cache is deleted, the tokens are lost. Before leaving a session as an unregistered person, they will be asked to export their acquired tokens as a mail draft or save them to the clipboard.
+
+1. Although an ordinary website, it behaves like an app from the App Store. It can be installed from the browser: "Add to Home". After that, it launches like a regular app. As a "Progressive Web App" (PWA), it runs on any smartphone, no matter what operating system, no matter what browser. So the audience will always be ready to use "frag.jetzt" on the spot and spontaneously.
 
 ## frag.jetzt development with docker
 
