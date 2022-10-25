@@ -3,7 +3,7 @@ import { User } from './app/models/user';
 
 export const migrator: DBConfig['migrationFactory'] = () => {
   return {
-    // migrate to indexed db
+    // 1: migrate to indexed db
     1: (_, transaction) => {
       // transform user data
       const currentUser = JSON.parse(localStorage.getItem('USER') || null) as User;
@@ -49,13 +49,14 @@ export const migrator: DBConfig['migrationFactory'] = () => {
       const cookie = localStorage.getItem('cookieAccepted') === 'true';
       configStore.put({ key: 'cookieAccepted', value: cookie });
       localStorage.removeItem('cookieAccepted');
-    }
+    },
+    // 2: introduce new room settings
   };
 };
 
 export const DB_CONFIG: DBConfig = {
   name: 'frag.jetzt',
-  version: 1,
+  version: 2,
   migrationFactory: migrator,
   objectStoresMeta: [
     {
@@ -101,6 +102,13 @@ export const DB_CONFIG: DBConfig = {
       storeConfig: { keyPath: ['roomId', 'accountId'], autoIncrement: false },
       storeSchema: [
         { name: 'roomId', keypath: 'roomId', options: { unique: false } },
+      ],
+    },
+    {
+      store: 'localRoomSettings',
+      storeConfig: { keyPath: ['roomId', 'accountId'], autoIncrement: false },
+      storeSchema: [
+        { name: 'accountId', keypath: 'accountId', options: { unique: false } },
       ],
     }
   ]

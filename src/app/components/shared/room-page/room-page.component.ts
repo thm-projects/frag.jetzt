@@ -48,6 +48,7 @@ import { QuillUtils } from '../../../utils/quill-utils';
 import { TitleService } from '../../../services/util/title.service';
 import { DeviceInfoService } from '../../../services/util/device-info.service';
 import { UserManagementService } from '../../../services/util/user-management.service';
+import { PseudonymEditorComponent } from '../_dialogs/pseudonym-editor/pseudonym-editor.component';
 
 @Component({
   selector: 'app-room-page',
@@ -410,6 +411,9 @@ export class RoomPageComponent implements OnInit, OnDestroy {
   }
 
   private initNavigation() {
+    setTimeout(() => {
+      this.dialog.open(PseudonymEditorComponent);
+    });
     this._list = this.composeService.builder(this.headerService.getHost(), e => {
       e.menuItem({
         translate: this.headerService.getTranslate(),
@@ -463,7 +467,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
         callback: () => this.importQuestions().subscribe(),
         condition: () => (this.roomDataService.dataAccessor.currentRawComments()?.length || 0) +
           (this.roomDataService.moderatorDataAccessor.currentRawComments()?.length || 0) === 0 &&
-          this.user.id === this.room.ownerId,
+          this.user.id === this.room.ownerId && this.userRole > UserRole.PARTICIPANT,
       });
       e.menuItem({
         translate: this.headerService.getTranslate(),
