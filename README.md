@@ -12,13 +12,13 @@ With our innovative product "frag.jetzt" we want to conquer the market of audien
 
 ## Features
 
-1. There are four roles in the app: "room creator", "moderator", "participant" and "administrator". Each role allows the creation of any number of rooms. The moderator role is assigned by the creator of a room to people who have registered. In addition, the moderator role can be temporarily assigned to guests by creating a special room key or link. In each role, posts can be written anonymously and the posts of others can be read. The administrator can write messages and publish them for all users.
+1. There are four roles in the app: "Room creator", "Moderator", "Participant" and "Administrator". Each role allows the creation of any number of rooms. The moderator role can be assigned by the creator of a room to people who have registered. In addition, the moderator role can be temporarily assigned to guests by creating a special room key or link. In any role with access to a given room, posts can be made anonymously and others' posts can be read. Only the administrator can compose and publish messages for all users of the app.
 
 1. When creating a room, the room creator can choose whether all questions should be moderated or published directly, whether a profanity filter should be active, whether the quiz app "antworte.jetzt", the bonus option or the brainstorming option should be activated.
 
 1. After entering the room key or by scanning the QR code, participants can ask their questions and rate others' questions with +1 or -1. The question board can be moderated. Room creators or moderators can set a threshold for automatic publication of a question, i.e., at what rating a question is displayed on the question board. The threshold can be set between -100 and 0 rating points.
 
-1. To make a question, answer, or comment as readable and understandable as possible, the AI translation program DeepL translates the text into a foreign language and back into the original language at the user's request. The back translation is in almost all cases better than the original in terms of spelling, grammar, punctuation, and language style. The back-translation can be done in two ways: informally (German: Duzen) or formally (German: Siezen). The language of the entered text is automatically determined by the LanguageTool software.
+1. To make a question, answer, or comment as readable and understandable as possible, the AI translation program [DeepL](https://www.deepl.com/pro-api?cta=header-pro-api) translates the text into a foreign language and back into the original language at the user's request. The back translation is in almost all cases better than the original in terms of spelling, grammar, punctuation, and language style. The back-translation can be done in two ways: informally (German: Duzen) or formally (German: Siezen). The language of the entered text is automatically determined by the [LanguageTool](https://languagetool.org/http-api/#!/default/post_check) software.
 
 1. A lecturer can award bonus points for questions that are goal-oriented and lecture-related. Good questions earn a star, and the student finds an 8-digit code ("bonus token") for each star in their bonus archive. The tokens can be redeemed for bonus points by emailing the instructor. The lecturer or his moderators can validate the submitted bonus tokens with the awarded ones in their bonus archive.
 
@@ -34,13 +34,13 @@ With our innovative product "frag.jetzt" we want to conquer the market of audien
 
 1. There is a presentation mode called "Question Focus" that allows each user to view the questions individually in full view. Also, new questions can be displayed automatically in the "Auto Focus" mode.
 
-1. There is a navigation mode called "Question Radar". The radar locates questions based on keywords generated in real time by the NLP software spaCy using a grammatical analysis of the sentences entered. Afterwards, "frag.jetzt" checks whether the generated keywords are also keyworded on Wikipedia. The larger and more central a keyword appears on the radar, the more numerous or significant the associated questions are.
+1. There is a navigation mode called "Question Radar". The radar locates questions based on keywords generated in real time by the NLP software [spaCy](https://spacy.io/) using a grammatical analysis of the sentences entered. Afterwards, "frag.jetzt" checks whether the generated keywords are also keyworded on [Wikipedia](https://dumps.wikimedia.org/). The larger and more central a keyword appears on the radar, the more numerous or significant the associated questions are.
 
 1. Any user can export all questions with their answers, comments, and tags. The room creator and moderators can also export the moderated questions. If bonuses have been awarded, the associated bonus codes are also in the export table.
 
 1. Registered users can be informed about new questions and answers by mail. Weekday and time of the mail notification are adjustable.
 
-1. The user interface meets the requirements for readability according to WCAG 2.1 AA. Appropriate display options are available for beamer presentation and for visually impaired persons. In particular, the font size of the questions can be scaled. In addition to the room code, a room can also be entered via an automatically generated direct link.
+1. The user interface meets the requirements for readability according to [WCAG 2.1 AA](https://www.w3.org/TR/WCAG21/). Appropriate display options are available for beamer presentation and for visually impaired persons. In particular, the font size of the questions can be scaled. In addition to the room code, a room can also be entered via an automatically generated direct link.
 
 1. Any number of rooms can be created as guest or registered user. Only the rooms of registered users remain permanently. 180 days after the last use of a room, it will be deleted automatically. Bonus tokens of unregistered participants are only stored in the browser cache. If the browser cache is deleted, the tokens are lost. Before leaving a session as an unregistered person, they will be asked to export their acquired tokens as a mail draft or save them to the clipboard.
 
