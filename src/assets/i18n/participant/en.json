@@ -57,7 +57,8 @@
     "counter": "Q {{comments}} | A {{answers}} | M {{moderated}}",
     "counter-description": "Counter for questions (Q), answers (A), questions or answers in moderation (M)",
     "favorite": "Bonus question",
-    "filter-answered": "Answered questions",
+    "filter-answered-creator": "Answered by creator",
+    "filter-answered-moderator": "Answered by moderators",
     "filter-bookmark": "Bookmarked questions",
     "filter-brainstorm": "Brainstorming",
     "filter-censored": "Censored",
@@ -700,6 +701,7 @@
   },
   "pseudonym-editor": {
     "name": "Your pseudonym",
-    "title": "Edit pseudonym"
+    "title": "Room presets",
+    "deepl": "DeepL formality setting"
   }
 }

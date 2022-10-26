@@ -57,7 +57,8 @@
     "counter": "Q {{comments}} | A {{answers}} | M {{moderated}}",
     "counter-description": "Zähler für Fragen (Q), Antworten (A), Fragen oder Antworten in der Moderation (M)",
     "favorite": "Bonus-Frage",
-    "filter-answered": "Beantwortete Fragen",
+    "filter-answered-creator": "Von Ersteller*in beantwortet",
+    "filter-answered-moderator": "Von Moderatoren beantwortet",
     "filter-bookmark": "Lesezeichen",
     "filter-brainstorm": "Brainstorming",
     "filter-censored": "Zensiert",
@@ -700,6 +701,7 @@
   },
   "pseudonym-editor": {
     "name": "Dein Pseudonym",
-    "title": "Pseudonym editieren"
+    "title": "Raum-Voreinstellungen",
+    "deepl": "DeepL Formalitätseinstellung"
   }
 }

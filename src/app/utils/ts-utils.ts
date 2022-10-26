@@ -44,8 +44,10 @@ export type Mutable<T> = IsObject<T> extends true ? {
   -readonly [P in keyof T]: Mutable<T[P]>;
 } : T;
 
-export type Storable<T> = T extends Function ? never : IsObject<T> extends true ? {
-  [P in keyof T as T[P] extends Function ? never : P]: Storable<T[P]>;
+export type GeneralFunction = (...anyArgs: any) => any;
+
+export type Storable<T> = T extends GeneralFunction ? never : IsObject<T> extends true ? {
+  [P in keyof T as T[P] extends GeneralFunction ? never : P]: Storable<T[P]>;
 } : T;
 
 export const clone = <T>(elem: T): Mutable<T> => {

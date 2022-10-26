@@ -190,13 +190,23 @@
       </button>
 
       <button mat-menu-item
-              (click)="applyFilterByKey('Answer')"
+              (click)="applyFilterByKey('AnsweredCreator')"
               aria-labelledby="comment">
         <mat-icon class="answer" style="color: var(--primary)"
-                  [ngClass]="{Answer: 'answered-icon'}[filterType]">co_present
+                  [ngClass]="{AnsweredCreator: 'answered-icon'}[filterType]">co_present
         </mat-icon>
         <span
-          [ngClass]="{Answer: 'answered-icon'}[filterType]">{{ 'comment-list.filter-answered' | translate }}</span>
+          [ngClass]="{AnsweredCreator: 'answered-icon'}[filterType]">{{ 'comment-list.filter-answered-creator' | translate }}</span>
+      </button>
+
+      <button mat-menu-item
+              (click)="applyFilterByKey('AnsweredModerator')"
+              aria-labelledby="comment">
+        <mat-icon class="answer" style="color: var(--primary)"
+                  [ngClass]="{AnsweredModerator: 'answered-icon'}[filterType]">co_present
+        </mat-icon>
+        <span
+          [ngClass]="{AnsweredModerator: 'answered-icon'}[filterType]">{{ 'comment-list.filter-answered-moderator' | translate }}</span>
       </button>
 
       <button mat-menu-item

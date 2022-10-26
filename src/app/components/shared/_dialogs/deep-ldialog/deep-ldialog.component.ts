@@ -26,6 +26,7 @@ export class DeepLDialogComponent implements OnInit, AfterViewInit {
   normalValue: ResultValue;
   improvedValue: ResultValue;
   supportsFormality: boolean;
+  formality: FormalityType;
 
   constructor(
     private dialogRef: MatDialogRef<DeepLDialogComponent>,
@@ -50,6 +51,7 @@ export class DeepLDialogComponent implements OnInit, AfterViewInit {
       view: this.improved
     };
     this.radioButtonValue = this.normalValue;
+    this.formality = this.data.formality;
   }
 
   ngAfterViewInit() {

@@ -62,7 +62,8 @@
     "counter": "Q {{comments}} | R {{answers}} | M {{moderated}}",
     "counter-description": "Compteur de questions (Q), de réponses (A), de questions ou de réponses dans la modération (M)",
     "favorite": "Questions marquées",
-    "filter-answered": "Questions répondues",
+    "filter-answered-creator": "Réponse du créateur",
+    "filter-answered-moderator": "Répondus par les modérateurs",
     "filter-bookmark": "Signet",
     "filter-brainstorm": "Brainstorming",
     "filter-censored": "Censuré",
@@ -856,6 +857,7 @@
   },
   "pseudonym-editor": {
     "name": "Ton pseudonyme",
-    "title": "Éditer le pseudonyme"
+    "title": "Préférences de salle",
+    "deepl": "DeepL Réglage de la formalité"
   }
 }

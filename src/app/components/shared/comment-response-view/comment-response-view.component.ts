@@ -2,7 +2,7 @@ import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChi
 import { ForumComment } from '../../../utils/data-accessor';
 import { User } from '../../../models/user';
 import { UserRole } from '../../../models/user-roles.enum';
-import { FilteredDataAccess, getChildrenKeywordParent } from '../../../utils/filtered-data-access';
+import { FilteredDataAccess, getMultiLevelFilterParent, hasKeyword } from '../../../utils/filtered-data-access';
 import { SessionService } from '../../../services/util/session.service';
 import { RoomDataService } from '../../../services/util/room-data.service';
 import { Vote } from '../../../models/vote';
@@ -142,8 +142,7 @@ export class CommentResponseViewComponent implements OnInit, AfterViewInit, OnDe
   }
 
   private calculateNewParentForKeywords() {
-    const parent = getChildrenKeywordParent(this.owningComment, this._keywordFilter);
-    console.log(parent[1].body, this.owningComment.body);
+    const parent = getMultiLevelFilterParent(this.owningComment, hasKeyword, this._keywordFilter);
     if (!parent) {
       return;
     }

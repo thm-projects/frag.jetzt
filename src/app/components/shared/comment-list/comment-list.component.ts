@@ -48,6 +48,7 @@ import { QuillUtils } from '../../../utils/quill-utils';
 import { UserManagementService } from '../../../services/util/user-management.service';
 import { ThemeService } from '../../../../theme/theme.service';
 import { ColorContrast } from '../../../utils/color-contrast';
+import { PseudonymEditorComponent } from '../_dialogs/pseudonym-editor/pseudonym-editor.component';
 
 @Component({
   selector: 'app-comment-list',
@@ -457,7 +458,7 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   getCommentInfo() {
-    const answers = this.comments.reduce((acc, c) => acc + c.totalAnswerCount, 0);
+    const answers = this.comments.reduce((acc, c) => acc + c.totalAnswerCounts.accumulated, 0);
     return {
       comments: this.comments.length,
       answers,
@@ -600,6 +601,18 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
         text: 'header.quiz-now',
         callback: () => this.router.navigate(['quiz']),
         condition: () => this.deviceInfo.isCurrentlyMobile && this.room?.quizActive,
+      });
+      e.menuItem({
+        translate: this.headerService.getTranslate(),
+        icon: 'settings_applications',
+        class: 'material-icons-outlined',
+        text: 'header.room-presets',
+        callback: () => {
+          const ref = this.dialog.open(PseudonymEditorComponent);
+          ref.componentInstance.accountId = this.user.id;
+          ref.componentInstance.roomId = this.room.id;
+        },
+        condition: () => true,
       });
       e.menuItem({
         translate: this.headerService.getTranslate(),

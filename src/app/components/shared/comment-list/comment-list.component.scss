@@ -1,9 +1,10 @@
 $joyrideElementPadding: 5px;
 
 .inline-count-badge {
-  float: right;
   margin-top: 1.75em;
   width: 1.75em;
+  position: absolute;
+  right: 1.2em;
 }
 
 .number-icon-button {

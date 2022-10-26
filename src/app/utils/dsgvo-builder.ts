@@ -37,6 +37,7 @@ export class DsgvoBuilder {
     isActionOnce = true
   ) {
     const article = document.createElement('article');
+    article.contentEditable = 'false';
     article.classList.add('dsgvo-info-article');
     article.style.minHeight = height;
     const header = document.createElement('h3');

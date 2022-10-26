@@ -5,7 +5,7 @@ export enum Period {
   OneDay = 'OneDay',
   OneWeek = 'OneWeek',
   TwoWeeks = 'TwoWeeks',
-  All = 'All'
+  All = 'All',
 }
 
 export type PeriodKey = keyof typeof Period;
@@ -25,7 +25,8 @@ export enum FilterType {
   Tag = 'Tag',
   CreatorId = 'CreatorId',
   Keyword = 'Keyword',
-  Answer = 'Answer',
+  AnsweredModerator = 'AnsweredModerator',
+  AnsweredCreator = 'AnsweredCreator',
   Unanswered = 'Unanswered',
   Owner = 'Owner',
   Number = 'Number',
@@ -35,6 +36,13 @@ export enum FilterType {
 }
 
 export type FilterTypeKey = keyof typeof FilterType;
+
+export const isMultiLevelFilter = (filter: FilterType) => {
+  const obj = {
+    [FilterType.Keyword]: true,
+  };
+  return Boolean(obj[filter]);
+};
 
 export enum SortType {
   Score = 'Score',
@@ -46,7 +54,7 @@ export enum SortType {
 export type SortTypeKey = keyof typeof SortType;
 
 export type FilterTypes =
-  'commentList'
+  | 'commentList'
   | 'presentation'
   | 'tagCloud'
   | 'brainstorming'
@@ -54,17 +62,19 @@ export type FilterTypes =
   | 'children'
   | 'dummy';
 
-type DefaultData = Pick<RoomDataFilter,
-  'period' |
-  'timeFilterStart' |
-  'frozenAt' |
-  'filterType' |
-  'filterCompare' |
-  'sortType' |
-  'sortReverse' |
-  'ignoreThreshold' |
-  'ignoreRoleSort' |
-  'currentSearch'>;
+type DefaultData = Pick<
+  RoomDataFilter,
+  | 'period'
+  | 'timeFilterStart'
+  | 'frozenAt'
+  | 'filterType'
+  | 'filterCompare'
+  | 'sortType'
+  | 'sortReverse'
+  | 'ignoreThreshold'
+  | 'ignoreRoleSort'
+  | 'currentSearch'
+>;
 
 const DEFAULTS: { [key in FilterTypes]: DefaultData } = {
   commentList: {
@@ -150,11 +160,10 @@ const DEFAULTS: { [key in FilterTypes]: DefaultData } = {
     ignoreThreshold: false,
     ignoreRoleSort: false,
     currentSearch: '',
-  }
+  },
 };
 
 export class RoomDataFilter {
-
   period: Period;
   timeFilterStart: number;
   frozenAt: number;
@@ -227,5 +236,4 @@ export class RoomDataFilter {
       this[key] = obj[key];
     }
   }
-
 }

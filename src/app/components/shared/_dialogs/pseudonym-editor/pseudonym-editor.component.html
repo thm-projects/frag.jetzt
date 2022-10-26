@@ -21,6 +21,16 @@
       {{ 'write-comment.name-length-error' | translate : {min: questionerNameMin, max: questionerNameMax} }}
     </mat-error>
   </mat-form-field>
+  <mat-form-field class="deepl-form-field">
+    <mat-label>
+      {{'pseudonym-editor.deepl' | translate}}
+    </mat-label>
+    <mat-select [(ngModel)]="selectedFormality">
+      <mat-option value="">{{'deepl-formality-select.default' | translate}}</mat-option>
+      <mat-option value="less">{{'deepl-formality-select.less' | translate}}</mat-option>
+      <mat-option value="more">{{'deepl-formality-select.more' | translate}}</mat-option>
+    </mat-select>
+  </mat-form-field>
 </mat-dialog-content>
 
 <ars-row>
