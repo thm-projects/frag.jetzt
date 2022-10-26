@@ -3,17 +3,27 @@ import { SpacyKeyword } from '../http/spacy.service';
 import { RoomDataService } from './room-data.service';
 import {
   KeywordOrFulltext,
-  TopicCloudAdminData
+  TopicCloudAdminData,
 } from '../../components/shared/_dialogs/topic-cloud-administration/TopicCloudAdminData';
 import { stopWords, superfluousSpecialCharacters } from '../../utils/stopwords';
 import { escapeForRegex } from '../../utils/regex-escape';
 import { ForumComment } from '../../utils/data-accessor';
 
-const words = stopWords.map(word => escapeForRegex(word).replace(/\s+/, '\\s*'));
+const words = stopWords.map((word) =>
+  escapeForRegex(word).replace(/\s+/, '\\s*'),
+);
 const httpRegex = /(https?:[^\s]+(\s|$))/;
-const specialCharacters = '[' + escapeForRegex(superfluousSpecialCharacters) + ']+';
-const regexMaskKeyword = new RegExp('\\b(' + words.join('|') + ')\\b|' +
-  httpRegex.source + '|' + specialCharacters, 'gmi');
+const specialCharacters =
+  '[' + escapeForRegex(superfluousSpecialCharacters) + ']+';
+const regexMaskKeyword = new RegExp(
+  '\\b(' +
+    words.join('|') +
+    ')\\b|' +
+    httpRegex.source +
+    '|' +
+    specialCharacters,
+  'gmi',
+);
 export const maskKeyword = (keyword: string): string =>
   keyword.replace(regexMaskKeyword, '').replace(/\s+/, ' ').trim();
 
@@ -36,12 +46,13 @@ export class TagCloudDataBuilder {
     private readonly blacklist: string[],
     private readonly blacklistEnabled: boolean,
     private readonly roomOwner: string,
-  ) {
-  }
+  ) {}
 
   getData() {
     if (!this.brainstormingActive) {
-      return new Map<string, TagCloudDataTagEntry>([...this.data].filter(entry => this.isTopicAllowed(entry[1])));
+      return new Map<string, TagCloudDataTagEntry>(
+        [...this.data].filter((entry) => this.isTopicAllowed(entry[1])),
+      );
     }
     return this.data;
   }
@@ -60,21 +71,28 @@ export class TagCloudDataBuilder {
       if (this.brainstormingActive !== comment.brainstormingQuestion) {
         continue;
       }
-      const wantedLabels = this.adminData.wantedLabels[comment.language.toLowerCase()];
+      const wantedLabels =
+        this.adminData.wantedLabels[comment.language.toLowerCase()];
       this.approveKeywords(this.receiveSource(comment), wantedLabels);
       this.users.add(comment.creatorId);
     }
   }
 
   private isTopicAllowed(data: TagCloudDataTagEntry) {
-    return !((this.adminData.minQuestions > data.comments.length) ||
-      (this.adminData.minQuestioners > data.distinctUsers.size) ||
-      (this.adminData.minUpvotes > data.cachedUpVotes) ||
-      (this.adminData.startDate && new Date(this.adminData.startDate) > data.firstTimeStamp) ||
-      (this.adminData.endDate && new Date(this.adminData.endDate) < data.lastTimeStamp));
+    return !(
+      this.adminData.minQuestions > data.comments.length ||
+      this.adminData.minQuestioners > data.distinctUsers.size ||
+      this.adminData.minUpvotes > data.cachedUpVotes ||
+      (this.adminData.startDate &&
+        new Date(this.adminData.startDate) > data.firstTimeStamp) ||
+      (this.adminData.endDate &&
+        new Date(this.adminData.endDate) < data.lastTimeStamp)
+    );
   }
 
-  private receiveSource(comment: ForumComment): CommentKeywordSourceInformation {
+  private receiveSource(
+    comment: ForumComment,
+  ): CommentKeywordSourceInformation {
     const censoredInfo = this.roomDataService.getCensoredInformation(comment);
     if (!censoredInfo) {
       return null;
@@ -88,7 +106,9 @@ export class TagCloudDataBuilder {
         source = comment.keywordsFromSpacy;
         censored = censoredInfo.keywordsFromSpacyCensored;
       }
-    } else if (this.adminData.keywordORfulltext === KeywordOrFulltext.Fulltext) {
+    } else if (
+      this.adminData.keywordORfulltext === KeywordOrFulltext.Fulltext
+    ) {
       fromQuestioner = false;
       source = comment.keywordsFromSpacy;
       censored = censoredInfo.keywordsFromSpacyCensored;
@@ -99,7 +119,10 @@ export class TagCloudDataBuilder {
     return { source, censored, fromQuestioner, comment };
   }
 
-  private approveKeywords(information: CommentKeywordSourceInformation, wantedLabels: string[]) {
+  private approveKeywords(
+    information: CommentKeywordSourceInformation,
+    wantedLabels: string[],
+  ) {
     if (!information) {
       return;
     }
@@ -108,7 +131,7 @@ export class TagCloudDataBuilder {
       if (maskKeyword(keyword.text).length < 3 || information.censored[index]) {
         return;
       }
-      if (hasLabels && !keyword.dep?.some(e => wantedLabels.includes(e))) {
+      if (hasLabels && !keyword.dep?.some((e) => wantedLabels.includes(e))) {
         return;
       }
       if (!this.passesBlacklist(keyword.text)) {
@@ -118,7 +141,11 @@ export class TagCloudDataBuilder {
     });
   }
 
-  private addToData(keyword: SpacyKeyword, comment: ForumComment, isFromQuestioner: boolean) {
+  private addToData(
+    keyword: SpacyKeyword,
+    comment: ForumComment,
+    isFromQuestioner: boolean,
+  ) {
     let current: TagCloudDataTagEntry = this.data.get(keyword.text);
     const commentDate = new Date(comment.createdAt);
     if (current === undefined) {
@@ -145,7 +172,7 @@ export class TagCloudDataBuilder {
       };
       this.data.set(keyword.text, current);
     }
-    keyword.dep.forEach(dependency => current.dependencies.add(dependency));
+    keyword.dep.forEach((dependency) => current.dependencies.add(dependency));
     current.cachedVoteCount += comment.score;
     current.cachedUpVotes += comment.upvotes;
     current.cachedDownVotes += comment.downvotes;
@@ -170,11 +197,17 @@ export class TagCloudDataBuilder {
     current.comments.push(comment);
   }
 
-  private addResponseAndAnswerCount(data: TagCloudDataTagEntry, comment: ForumComment) {
+  private addResponseAndAnswerCount(
+    data: TagCloudDataTagEntry,
+    comment: ForumComment,
+  ) {
     data.countedComments.add(comment.id);
     let lastCommentId;
-    for (let parentComment = this.roomDataService.getCommentReference(comment.commentReference); parentComment;
-         parentComment = this.roomDataService.getCommentReference(parentComment.commentReference)) {
+    for (
+      let parentComment = comment.parent;
+      parentComment;
+      parentComment = parentComment.parent
+    ) {
       if (data.countedComments.has(parentComment.id)) {
         // when parent counted, this comment already counted.
         return;
@@ -182,19 +215,31 @@ export class TagCloudDataBuilder {
       lastCommentId = parentComment.id;
     }
     this.removeChildrenCounts(data, comment, lastCommentId);
-    data.responseCount += comment.totalAnswerCount;
-    data.answerCount += comment.totalAnswerCount - comment.totalAnswerFromParticipantCount;
+    data.responseCount += comment.totalAnswerCounts.accumulated;
+    data.answerCount +=
+      comment.totalAnswerCounts.fromCreator +
+      comment.totalAnswerCounts.fromModerators;
   }
 
-  private removeChildrenCounts(data: TagCloudDataTagEntry, comment: ForumComment, lastCommentId: string) {
-    const referenced = data.questionChildren.get(lastCommentId) ||
+  private removeChildrenCounts(
+    data: TagCloudDataTagEntry,
+    comment: ForumComment,
+    lastCommentId: string,
+  ) {
+    const referenced =
+      data.questionChildren.get(lastCommentId) ||
       data.questionChildren.set(lastCommentId, []).get(lastCommentId);
-    const filtered = referenced.filter(children => {
-      for (let parentComment = this.roomDataService.getCommentReference(children.commentReference); parentComment;
-           parentComment = this.roomDataService.getCommentReference(parentComment.commentReference)) {
+    const filtered = referenced.filter((children) => {
+      for (
+        let parentComment = children.parent;
+        parentComment;
+        parentComment = parentComment.parent
+      ) {
         if (parentComment.id === comment.id) {
-          data.responseCount += comment.totalAnswerCount;
-          data.answerCount += comment.totalAnswerCount - comment.totalAnswerFromParticipantCount;
+          data.responseCount += comment.totalAnswerCounts.accumulated;
+          data.answerCount +=
+            comment.totalAnswerCounts.fromCreator +
+            comment.totalAnswerCounts.fromModerators;
           return false;
         }
       }
@@ -206,7 +251,9 @@ export class TagCloudDataBuilder {
 
   private passesBlacklist(keyword: string) {
     keyword = keyword.toLowerCase();
-    return !this.blacklistEnabled || this.blacklist.every(profaneWord => !keyword.includes(profaneWord));
+    return (
+      !this.blacklistEnabled ||
+      this.blacklist.every((profaneWord) => !keyword.includes(profaneWord))
+    );
   }
-
 }

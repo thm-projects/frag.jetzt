@@ -1,0 +1,45 @@
+<ars-row>
+  <h2 style="padding: 0; margin: 0 0 20px 0">
+    {{ "pseudonym-editor.title" | translate }}
+  </h2>
+</ars-row>
+
+<mat-dialog-content class="container" ars-flex-box>
+  <mat-form-field class="questioner-name-input">
+    <input appAccessibilityEscapedInput
+           matInput
+           [formControl]="questionerNameFormControl"
+           name="questioner-name"
+           [maxlength]="questionerNameMax"
+           aria-labelledby="questioner-name">
+    <mat-placeholder class="placeholder">{{ 'pseudonym-editor.name' | translate }}</mat-placeholder>
+    <mat-hint align="end">
+      <span aria-hidden="true">{{ questionerNameFormControl.value.length }} / {{questionerNameMax}}</span>
+    </mat-hint>
+    <mat-error *ngIf="questionerNameFormControl.hasError('minlength') ||
+                      questionerNameFormControl.hasError('maxlength')">
+      {{ 'write-comment.name-length-error' | translate : {min: questionerNameMin, max: questionerNameMax} }}
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field class="deepl-form-field">
+    <mat-label>
+      {{'pseudonym-editor.deepl' | translate}}
+    </mat-label>
+    <mat-select [(ngModel)]="selectedFormality">
+      <mat-option value="">{{'deepl-formality-select.default' | translate}}</mat-option>
+      <mat-option value="less">{{'deepl-formality-select.less' | translate}}</mat-option>
+      <mat-option value="more">{{'deepl-formality-select.more' | translate}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+</mat-dialog-content>
+
+<ars-row>
+    <app-dialog-action-buttons
+      buttonsLabelSection="room-page"
+      cancelButtonLabel="cancel"
+      confirmButtonLabel="update"
+      [cancelButtonClickAction]="decline()"
+      [confirmButtonClickAction]="accept()"
+      [spacing]="false">
+    </app-dialog-action-buttons>
+  </ars-row>

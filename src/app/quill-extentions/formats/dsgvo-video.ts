@@ -1,6 +1,6 @@
 import Quill from 'quill';
 import { TranslateService } from '@ngx-translate/core';
-import { DsgvoBuilder } from '../../utils/dsgvo-builder';
+import { DsgvoBuilder, DsgvoSource } from '../../utils/dsgvo-builder';
 
 const BlockEmbed = Quill.import('blots/block/embed');
 const Link = Quill.import('formats/link');
@@ -23,11 +23,25 @@ export class DsgvoVideo extends BlockEmbed {
     if (!messageId) {
       node.append(DsgvoBuilder.buildIframe(url));
     } else {
-      const article = DsgvoBuilder.buildArticle('200px', url, messageId, this.translator, () => {
-        node.replaceChild(DsgvoBuilder.buildIframe(url), article);
-        const width = parseFloat(getComputedStyle(node.firstElementChild).width);
-        (node.firstElementChild as HTMLElement).style.height = (width * 9 / 16) + 'px';
-      });
+      const article = DsgvoBuilder.buildArticle(
+        '200px',
+        url,
+        messageId,
+        this.translator,
+        () => {
+          if (source === DsgvoSource.ExternalUntrusted) {
+            window.open(url, '_blank').focus();
+            return;
+          }
+          node.replaceChild(DsgvoBuilder.buildIframe(url), article);
+          const width = parseFloat(
+            getComputedStyle(node.firstElementChild).width,
+          );
+          (node.firstElementChild as HTMLElement).style.height =
+            (width * 9) / 16 + 'px';
+        },
+        source !== DsgvoSource.ExternalUntrusted,
+      );
       node.append(article);
     }
     return node;

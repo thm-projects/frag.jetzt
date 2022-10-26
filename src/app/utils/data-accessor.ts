@@ -1,17 +1,30 @@
 import { Comment } from '../models/comment';
-import { CommentProfanityInformation, RoomDataProfanityFilter } from '../services/util/room-data.profanity-filter';
+import {
+  CommentProfanityInformation,
+  RoomDataProfanityFilter,
+} from '../services/util/room-data.profanity-filter';
 import { UserRole } from '../models/user-roles.enum';
 import { CommentService } from '../services/http/comment.service';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
-import { BookmarkAccess, RoomDataService } from '../services/util/room-data.service';
+import {
+  BookmarkAccess,
+  RoomDataService,
+} from '../services/util/room-data.service';
 import { QuillUtils, SerializedDelta } from './quill-utils';
+
+interface AnswerCounts {
+  fromParticipants: number;
+  fromModerators: number;
+  fromCreator: number;
+  accumulated: number;
+}
 
 export interface ForumData {
   children: Set<ForumComment>;
   parent: ForumComment;
-  totalAnswerFromParticipantCount: number;
-  totalAnswerCount: number;
+  answerCounts: AnswerCounts;
+  totalAnswerCounts: AnswerCounts;
 }
 
 export interface ForumComment extends Comment, ForumData {
@@ -33,7 +46,7 @@ export interface CommentCreatedInformation {
 export interface CommentPatchedKeyInformation {
   type: 'CommentPatched';
   comment: ForumComment;
-  subtype: (keyof Comment);
+  subtype: keyof Comment;
   finished: false;
 }
 
@@ -57,7 +70,7 @@ export interface CommentDeletedInformation {
 }
 
 export type UpdateInformation =
-  CommentCreatedInformation
+  | CommentCreatedInformation
   | CommentPatchedKeyInformation
   | CommentPatchedEndInformation
   | CommentHighlightedInformation
@@ -123,11 +136,16 @@ class DataAccessorUpdateSubscription {
 
 // DataAccessor Specific
 const SIMPLE_PATCH_PROPERTIES: Set<keyof Comment> = new Set([
-  'read', 'correct', 'favorite', 'score', 'upvotes', 'downvotes', 'tag',
+  'read',
+  'correct',
+  'favorite',
+  'score',
+  'upvotes',
+  'downvotes',
+  'tag',
 ]);
 
 export class DataAccessor {
-
   // Properties
   readonly isAcknowledged: boolean;
   private _fastAccess: FastAccess;
@@ -156,7 +174,9 @@ export class DataAccessor {
     return this._fastAccess[commentId];
   }
 
-  receiveUpdates(updateFilter: Partial<UpdateInformation>[]): Observable<UpdateInformation> {
+  receiveUpdates(
+    updateFilter: Partial<UpdateInformation>[],
+  ): Observable<UpdateInformation> {
     const subscription = new DataAccessorUpdateSubscription(updateFilter);
     this._currentSubscriptions.push(subscription);
     return subscription.updateSubject.asObservable();
@@ -179,7 +199,9 @@ export class DataAccessor {
   }
 
   updateCurrentRole(role: UserRole) {
-    const changedBookmark = (role === UserRole.PARTICIPANT) !== (this._currentRole === UserRole.PARTICIPANT);
+    const changedBookmark =
+      (role === UserRole.PARTICIPANT) !==
+      (this._currentRole === UserRole.PARTICIPANT);
     this._currentRole = role;
     if (!changedBookmark) {
       return;
@@ -216,32 +238,26 @@ export class DataAccessor {
     this._userBookmarks = userBookmarks;
     this._filter = profanityFilter;
     // migrate comments
-    const forumComments: ForumComment[] = comments.map(c => ({
-      ...c,
-      created: false,
-      removed: false,
-      parent: null,
-      children: new Set<ForumComment>(),
-      totalAnswerFromParticipantCount: 0,
-      totalAnswerCount: 0,
-    }));
+    const forumComments: ForumComment[] = comments.map((c) => this.toForumComment(c));
     // apply profanity filtering and register in cache
     for (const comment of forumComments) {
       this._fastAccess[comment.id] = profanityFilter.filterComment(comment);
     }
     // calculate references
-    forumComments.forEach(c => this.updateAnswerCounts(c, true));
+    forumComments.forEach((c) => this.updateAnswerCounts(c, true));
     // update bookmarks
     if (this._currentRole === UserRole.PARTICIPANT) {
-      forumComments.forEach(c => {
+      forumComments.forEach((c) => {
         c.globalBookmark = c.bookmark;
         c.bookmark = Boolean(this._userBookmarks[c.id]);
       });
     }
     this._rawComments.next(forumComments);
-    this._forumComments.next(forumComments.filter(c => !Boolean(c.commentReference)));
+    this._forumComments.next(
+      forumComments.filter((c) => !Boolean(c.commentReference)),
+    );
     // apply missed messages
-    this._messageQueue.forEach(msg => this.onMessageReceive(msg));
+    this._messageQueue.forEach((msg) => this.onMessageReceive(msg));
     this._messageQueue.length = 0;
     this._wasReset = false;
     this._rawComments.next(this._rawComments.value);
@@ -254,7 +270,7 @@ export class DataAccessor {
     this._rawComments = new BehaviorSubject<ForumComment[]>([]);
     this._forumComments?.complete();
     this._forumComments = new BehaviorSubject<ForumComment[]>([]);
-    this._currentSubscriptions.forEach(sub => sub.updateSubject.complete());
+    this._currentSubscriptions.forEach((sub) => sub.updateSubject.complete());
     this._currentSubscriptions.length = 0;
     this._fastAccess = {};
     this._messageQueue.length = 0;
@@ -300,29 +316,60 @@ export class DataAccessor {
   }
 
   updateProfanityFiltering() {
-    this._rawComments.value.forEach(comment => {
+    this._rawComments.value.forEach((comment) => {
       const data = this._fastAccess[comment.id];
       const wasDefault = data.hasProfanity === data.filtered;
       if (data.filtered) {
-        RoomDataProfanityFilter.applyToComment(data.comment, data.beforeFiltering);
+        RoomDataProfanityFilter.applyToComment(
+          data.comment,
+          data.beforeFiltering,
+        );
       }
-      this._fastAccess[comment.id] = this._filter.filterComment(comment, wasDefault);
+      this._fastAccess[comment.id] = this._filter.filterComment(
+        comment,
+        wasDefault,
+      );
+    });
+  }
+
+  addComment(comment: Comment) {
+    const forumComment: ForumComment = this.toForumComment(comment, true);
+    // apply profanity filtering and register in cache
+    this._fastAccess[forumComment.id] =
+      this._filter.filterComment(forumComment);
+    // calculate references
+    this.updateAnswerCounts(forumComment, true);
+    // update bookmarks
+    if (this._currentRole === UserRole.PARTICIPANT) {
+      forumComment.globalBookmark = forumComment.bookmark;
+      forumComment.bookmark = Boolean(this._userBookmarks[forumComment.id]);
+    }
+    this._rawComments.value.push(forumComment);
+    this._rawComments.next(this._rawComments.value);
+    if (!Boolean(forumComment.commentReference)) {
+      this._forumComments.value.push(forumComment);
+      this._forumComments.next(this._forumComments.value);
+    }
+    this.triggerUpdate({
+      type: 'CommentCreated',
+      finished: true,
+      comment: forumComment,
     });
   }
 
   private generateCommentObservable(forRaw: boolean, frozen: boolean) {
-    return new Observable<ForumComment[]>(subscriber => {
+    return new Observable<ForumComment[]>((subscriber) => {
       const subscription = (forRaw ? this._rawComments : this._forumComments)
         .pipe(
           filter(() => !this._wasReset),
           take(frozen ? 1 : Number.POSITIVE_INFINITY),
         )
         .subscribe({
-          next: value => {
+          next: (value) => {
             const data = value;
             subscriber.next(frozen ? [...data] : data);
           },
-          error: err => {
+          error: (err) => {
             subscriber.error(err);
           },
           complete: () => {
@@ -353,36 +400,8 @@ export class DataAccessor {
   }
 
   private onCommentCreate(payload: any) {
-    this.commentService.getComment(payload.id).subscribe(comment => {
-      const forumComment: ForumComment = {
-        ...comment,
-        created: true,
-        removed: false,
-        parent: null,
-        children: new Set<ForumComment>(),
-        totalAnswerFromParticipantCount: 0,
-        totalAnswerCount: 0,
-      };
-      // apply profanity filtering and register in cache
-      this._fastAccess[forumComment.id] = this._filter.filterComment(forumComment);
-      // calculate references
-      this.updateAnswerCounts(forumComment, true);
-      // update bookmarks
-      if (this._currentRole === UserRole.PARTICIPANT) {
-        forumComment.globalBookmark = forumComment.bookmark;
-        forumComment.bookmark = Boolean(this._userBookmarks[forumComment.id]);
-      }
-      this._rawComments.value.push(forumComment);
-      this._rawComments.next(this._rawComments.value);
-      if (!Boolean(forumComment.commentReference)) {
-        this._forumComments.value.push(forumComment);
-        this._forumComments.next(this._forumComments.value);
-      }
-      this.triggerUpdate({
-        type: 'CommentCreated',
-        finished: true,
-        comment: forumComment,
-      });
+    this.commentService.getComment(payload.id).subscribe((comment) => {
+      this.addComment(comment);
     });
   }
 
@@ -413,7 +432,11 @@ export class DataAccessor {
     });
   }
 
-  private patchCommentValue(changeKey: keyof Comment, comment: ForumComment, value: any) {
+  private patchCommentValue(
+    changeKey: keyof Comment,
+    comment: ForumComment,
+    value: any,
+  ) {
     let hadKey = true;
     switch (changeKey) {
       case 'bookmark':
@@ -478,7 +501,7 @@ export class DataAccessor {
       comment,
     });
     if (this.parent.isRegistered(id)) {
-      this.parent.onUnregister(id).subscribe(commentId => {
+      this.parent.onUnregister(id).subscribe((commentId) => {
         this.removeCommentFully(commentId);
       });
     } else {
@@ -492,27 +515,75 @@ export class DataAccessor {
     if (startParent === undefined) {
       return;
     }
+    const isCreator = this._ownerId === comment.creatorId;
+    const isModerator = this._moderatorIds.has(comment.creatorId);
+    let temp: keyof AnswerCounts;
+    if (isCreator) {
+      temp = 'fromCreator';
+    } else if (isModerator) {
+      temp = 'fromModerators';
+    } else {
+      temp = 'fromParticipants';
+    }
+    const countFieldName = temp;
     if (add) {
       startParent.children.add(startComment);
       startComment.parent = startParent;
+      startParent.answerCounts[countFieldName] += 1;
+      startParent.answerCounts.accumulated += 1;
     }
-    const factor = add ? 1 : -1;
-    const answerDiff = (comment.totalAnswerCount + 1) * factor;
-    const isStudent = this._ownerId !== comment.creatorId && !this._moderatorIds.has(comment.creatorId);
-    const answerParticipantDiff = (comment.totalAnswerFromParticipantCount + Number(isStudent)) * factor;
+    const totalDiff: AnswerCounts = { ...comment.totalAnswerCounts };
+    totalDiff[countFieldName] += 1;
+    totalDiff.accumulated += 1;
+    if (!add) {
+      totalDiff.fromCreator = -totalDiff.fromCreator;
+      totalDiff.fromModerators = -totalDiff.fromModerators;
+      totalDiff.fromParticipants = -totalDiff.fromParticipants;
+      totalDiff.accumulated = -totalDiff.accumulated;
+    }
     let parent: ForumComment;
-    while ((parent = this._fastAccess[comment.commentReference]?.comment) !== undefined && parent.children.has(comment)) {
-      parent.totalAnswerCount += answerDiff;
-      parent.totalAnswerFromParticipantCount += answerParticipantDiff;
+    while (
+      (parent = this._fastAccess[comment.commentReference]?.comment) !==
+        undefined &&
+      parent.children.has(comment)
+    ) {
+      parent.totalAnswerCounts.fromCreator += totalDiff.fromCreator;
+      parent.totalAnswerCounts.fromModerators += totalDiff.fromModerators;
+      parent.totalAnswerCounts.fromParticipants += totalDiff.fromParticipants;
+      parent.totalAnswerCounts.accumulated += totalDiff.accumulated;
       comment = parent;
     }
     if (!add) {
       startParent.children.delete(startComment);
       startComment.parent = null;
+      startParent.answerCounts[countFieldName] -= 1;
+      startParent.answerCounts.accumulated -= 1;
     }
   }
 
+  private toForumComment(comment: Comment, created = false) {
+    return {
+      ...comment,
+      created,
+      removed: false,
+      parent: null,
+      children: new Set<ForumComment>(),
+      totalAnswerCounts: {
+        fromCreator: 0,
+        fromModerators: 0,
+        fromParticipants: 0,
+        accumulated: 0,
+      },
+      answerCounts: {
+        fromCreator: 0,
+        fromModerators: 0,
+        fromParticipants: 0,
+        accumulated: 0,
+      },
+    } as ForumComment;
+  }
+
   private triggerUpdate(updateInfo: UpdateInformation): void {
-    this._currentSubscriptions.forEach(sub => sub.onUpdate(updateInfo));
+    this._currentSubscriptions.forEach((sub) => sub.onUpdate(updateInfo));
   }
 }

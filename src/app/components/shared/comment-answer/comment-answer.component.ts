@@ -1,4 +1,10 @@
-import { Component, ComponentRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  ComponentRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../services/util/language.service';
@@ -35,10 +41,9 @@ import { UserManagementService } from '../../../services/util/user-management.se
 @Component({
   selector: 'app-comment-answer',
   templateUrl: './comment-answer.component.html',
-  styleUrls: ['./comment-answer.component.scss']
+  styleUrls: ['./comment-answer.component.scss'],
 })
 export class CommentAnswerComponent implements OnInit, OnDestroy {
-
   @ViewChild(WriteCommentComponent) commentComponent: WriteCommentComponent;
 
   comment: ForumComment;
@@ -83,7 +88,13 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
     private headerService: HeaderService,
   ) {
     this._keywordExtractor = new KeywordExtractor(
-      dialog, translateService, notificationService, roomDataService, languagetoolService, spacyService, deepLService
+      dialog,
+      translateService,
+      notificationService,
+      roomDataService,
+      languagetoolService,
+      spacyService,
+      deepLService,
     );
   }
 
@@ -94,11 +105,26 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.backUrl = sessionStorage.getItem('conversation-fallback-url');
     this.isConversationView = this.router.url.endsWith('conversation');
-    this.userRole = this.sessionService.currentRole;
     this.initNavigation();
-    this.userManagementService.getUser().subscribe(newUser => {
+    this.userManagementService.getUser().subscribe((newUser) => {
       if (newUser) {
         this.user = newUser;
+      }
+    });
+    this.sessionService.getRole().subscribe((role) => {
+      this.userRole = role;
+      switch (this.userRole) {
+        case UserRole.PARTICIPANT.valueOf():
+          this.isStudent = true;
+          this.roleString = 'participant';
+          break;
+        case UserRole.CREATOR.valueOf():
+          this.isCreator = true;
+          this.roleString = 'creator';
+          break;
+        case UserRole.EXECUTIVE_MODERATOR.valueOf():
+          this.isModerator = true;
+          this.roleString = 'moderator';
       }
     });
     if (this.userRole !== UserRole.PARTICIPANT) {
@@ -107,37 +133,31 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
     if (this.backUrl && this.isConversationView) {
       document.getElementById('header_rescale').style.display = 'none';
     }
-    switch (this.userRole) {
-      case UserRole.PARTICIPANT.valueOf():
-        this.isStudent = true;
-        this.roleString = 'participant';
-        break;
-      case UserRole.CREATOR.valueOf():
-        this.isCreator = true;
-        this.roleString = 'creator';
-        break;
-      case UserRole.EXECUTIVE_MODERATOR.valueOf():
-        this.isModerator = true;
-        this.roleString = 'moderator';
-    }
-    this.route.params.subscribe(params => {
+    this.route.params.subscribe((params) => {
       const commentId = params['commentId'];
-      forkJoin([this.sessionService.getRoomOnce(), this.sessionService.getModeratorsOnce()])
-        .subscribe(([room, mods]) => {
-          this.room = room;
-          this.mods = new Set<string>(mods.map(m => m.accountId));
-          this.votes = {};
-          this.voteService.getByRoomIdAndUserID(this.sessionService.currentRoom.id, this.user.id).subscribe(votes => {
-            votes.forEach(v => this.votes[v.commentId] = v);
+      forkJoin([
+        this.sessionService.getRoomOnce(),
+        this.sessionService.getModeratorsOnce(),
+      ]).subscribe(([room, mods]) => {
+        this.room = room;
+        this.mods = new Set<string>(mods.map((m) => m.accountId));
+        this.votes = {};
+        this.voteService
+          .getByRoomIdAndUserID(
+            this.sessionService.currentRoom.id,
+            this.user.id,
+          )
+          .subscribe((votes) => {
+            votes.forEach((v) => (this.votes[v.commentId] = v));
           });
-          this.findComment(commentId).subscribe(result => {
-            if (!result) {
-              this.onNoComment();
-            } else {
-              this.onCommentReceive(...result);
-            }
-          });
+        this.findComment(commentId).subscribe((result) => {
+          if (!result) {
+            this.onNoComment();
+          } else {
+            this.onCommentReceive(...result);
+          }
         });
+      });
     });
   }
 
@@ -148,7 +168,7 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     sessionStorage.removeItem('conversation-fallback-url');
     document.getElementById('header_rescale').style.display = '';
-    this._list?.forEach(e => e.destroy());
+    this._list?.forEach((e) => e.destroy());
     this._commentSubscription?.unsubscribe();
     if (this.comment && !this.isStudent) {
       this.commentService.lowlight(this.comment).subscribe();
@@ -172,7 +192,11 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
     }
     const target = event.target as Node;
     const parent = document.querySelector('.main_container');
-    if (event.target && parent.contains(target) && !elements.some(e => e?.contains(target))) {
+    if (
+      event.target &&
+      parent.contains(target) &&
+      !elements.some((e) => e?.contains(target))
+    ) {
       this.goBackToCommentList();
     }
   }
@@ -188,34 +212,44 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
 
   onSubmit(comment?: Comment): () => void {
     if (comment) {
-      this.commentService.addComment(comment).subscribe(() => {
-        this.translateService.get('comment-list.comment-sent')
-          .subscribe(msg => this.notificationService.show(msg));
-      });
-      this.route.params.subscribe(params => {
-        this.router.navigate([
-          `${this.roleString}/room/${params['shortId']}/comment/${this.comment.id}/conversation`
-        ]);
+      comment.ack = this.room.directSend;
+      this.commentService.addComment(comment).subscribe((newComment) => {
+        this.translateService
+          .get('comment-list.comment-sent')
+          .subscribe((msg) => this.notificationService.show(msg));
+        this.route.params.subscribe((params) => {
+          this.router
+            .navigate([
+              `${this.roleString}/room/${params['shortId']}/comment/${this.comment.id}/conversation`,
+            ])
+            .then(() => {
+              if (!comment.ack) {
+                this.roomDataService.dataAccessor.addComment(newComment);
+                console.log(newComment.createdAt);
+              }
+            });
+        });
       });
       return;
     }
     const dialogRef = this.dialog.open(DeleteAnswerComponent, {
-      width: '400px'
+      width: '400px',
     });
-    dialogRef.afterClosed()
-      .subscribe(result => {
-        if (result === 'delete') {
-          this.deleteAnswer();
-        }
-      });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === 'delete') {
+        this.deleteAnswer();
+      }
+    });
   }
 
   deleteAnswer() {
     this.commentComponent.commentData.clear();
     this.answer = null;
-    this.translateService.get('comment-page.answer-deleted').subscribe(msg => {
-      this.notificationService.show(msg);
-    });
+    this.translateService
+      .get('comment-page.answer-deleted')
+      .subscribe((msg) => {
+        this.notificationService.show(msg);
+      });
   }
 
   onEditClick() {
@@ -226,7 +260,10 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
   applySortAnswers(value: string) {
     switch (value) {
       case 'Time':
-        this.responses.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+        this.responses.sort(
+          (a, b) =>
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+        );
         this.responses.reverse();
         break;
       case 'BestScore':
@@ -241,24 +278,32 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
 
   private findComment(commentId: string): Observable<[ForumComment, boolean]> {
     return this.roomDataService.dataAccessor.getRawComments(true).pipe(
-      map(comments => {
-        const foundComment = comments.find(c => c.id === commentId);
-        return (foundComment ? [foundComment, false] : null) as [ForumComment, boolean];
+      map((comments) => {
+        const foundComment = comments.find((c) => c.id === commentId);
+        return (foundComment ? [foundComment, false] : null) as [
+          ForumComment,
+          boolean,
+        ];
       }),
-      mergeMap(current => {
+      mergeMap((current) => {
         if (current) {
           return of(current);
         }
         if (!this.roomDataService.canAccessModerator) {
           return of(null);
         }
-        return this.roomDataService.moderatorDataAccessor.getRawComments(true).pipe(
-          map(comments => {
-            const foundComment = comments.find(c => c.id === commentId);
-            return (foundComment ? [foundComment, true] : null) as [ForumComment, boolean];
-          })
-        );
-      })
+        return this.roomDataService.moderatorDataAccessor
+          .getRawComments(true)
+          .pipe(
+            map((comments) => {
+              const foundComment = comments.find((c) => c.id === commentId);
+              return (foundComment ? [foundComment, true] : null) as [
+                ForumComment,
+                boolean,
+              ];
+            }),
+          );
+      }),
     );
   }
 
@@ -277,51 +322,64 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
     };
     this.edit = !this.answer;
     this.isLoading = false;
-    const source = isModerationComment ? this.roomDataService.moderatorDataAccessor : this.roomDataService.dataAccessor;
-    this._commentSubscription = source.receiveUpdates([
-      { type: 'CommentPatched', finished: true, updates: ['ack'] },
-      { type: 'CommentDeleted', finished: true }
-    ]).subscribe(update => {
-      if (update.comment.id !== this.comment.id) {
-        return;
-      }
-      if (update.type === 'CommentPatched' && update.finished === true) {
-        if (update.updates.includes('ack') && !this.roomDataService.canAccessModerator) {
+    const source = isModerationComment
+      ? this.roomDataService.moderatorDataAccessor
+      : this.roomDataService.dataAccessor;
+    this._commentSubscription = source
+      .receiveUpdates([
+        { type: 'CommentPatched', finished: true, updates: ['ack'] },
+        { type: 'CommentDeleted', finished: true },
+      ])
+      .subscribe((update) => {
+        if (update.comment.id !== this.comment.id) {
+          return;
+        }
+        if (update.type === 'CommentPatched' && update.finished === true) {
+          if (
+            update.updates.includes('ack') &&
+            !this.roomDataService.canAccessModerator
+          ) {
+            this.onNoComment();
+          }
+        } else if (update.type === 'CommentDeleted') {
           this.onNoComment();
         }
-      } else if (update.type === 'CommentDeleted') {
-        this.onNoComment();
-      }
-    });
+      });
     if (!this.isStudent) {
       this.commentService.highlight(this.comment).subscribe();
     }
   }
 
   private onNoComment() {
-    this.translateService.get('comment-page.no-comment')
-      .subscribe(msg => this.notificationService.show(msg));
+    this.translateService
+      .get('comment-page.no-comment')
+      .subscribe((msg) => this.notificationService.show(msg));
     this.goBackToCommentList();
   }
 
   private initNavigation() {
-    this._list = this.composeService.builder(this.headerService.getHost(), e => {
-      e.menuItem({
-        translate: this.headerService.getTranslate(),
-        icon: 'forum',
-        class: 'material-icons-outlined',
-        text: 'header.back-to-questionboard',
-        callback: () => {
-          let role = 'participant';
-          if (this.userRole === UserRole.CREATOR) {
-            role = 'creator';
-          } else if (this.userRole > UserRole.PARTICIPANT) {
-            role = 'moderator';
-          }
-          this.router.navigate([role + '/room/' + this.room?.shortId + '/comments']);
-        },
-        condition: () => true
-      });
-    });
+    this._list = this.composeService.builder(
+      this.headerService.getHost(),
+      (e) => {
+        e.menuItem({
+          translate: this.headerService.getTranslate(),
+          icon: 'forum',
+          class: 'material-icons-outlined',
+          text: 'header.back-to-questionboard',
+          callback: () => {
+            let role = 'participant';
+            if (this.userRole === UserRole.CREATOR) {
+              role = 'creator';
+            } else if (this.userRole > UserRole.PARTICIPANT) {
+              role = 'moderator';
+            }
+            this.router.navigate([
+              role + '/room/' + this.room?.shortId + '/comments',
+            ]);
+          },
+          condition: () => true,
+        });
+      },
+    );
   }
 }
