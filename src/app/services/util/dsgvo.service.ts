@@ -1,17 +1,14 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { DsgvoBuilder } from '../../utils/dsgvo-builder';
+import { DsgvoBuilder, DsgvoSource } from '../../utils/dsgvo-builder';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class DSGVOService {
-
   private _observer: MutationObserver;
 
-  constructor(
-    private translateService: TranslateService,
-  ) {
+  constructor(private translateService: TranslateService) {
     this._observer = new MutationObserver(this.onMutate.bind(this));
     this._observer.observe(document.body, {
       subtree: true,
@@ -23,9 +20,9 @@ export class DSGVOService {
   }
 
   private onMutate(mutations: MutationRecord[]) {
-    mutations.forEach(mutation => {
+    mutations.forEach((mutation) => {
       if (mutation.type === 'childList') {
-        Array.from(mutation.addedNodes).forEach(node => {
+        Array.from(mutation.addedNodes).forEach((node) => {
           if (!(node instanceof HTMLElement)) {
             return;
           }
@@ -33,13 +30,16 @@ export class DSGVOService {
             this.checkIframe(node);
             return;
           }
-          node.querySelectorAll('iframe').forEach(elem => {
+          node.querySelectorAll('iframe').forEach((elem) => {
             this.checkIframe(elem);
           });
         });
       } else if (mutation.type === 'attributes') {
-        if (mutation.target instanceof HTMLIFrameElement && mutation.attributeName === 'src' &&
-          mutation.oldValue !== mutation.target.src) {
+        if (
+          mutation.target instanceof HTMLIFrameElement &&
+          mutation.attributeName === 'src' &&
+          mutation.oldValue !== mutation.target.src
+        ) {
           this.checkIframe(mutation.target);
         }
       }
@@ -51,7 +51,10 @@ export class DSGVOService {
       return;
     }
     const parentClass = elem.parentElement.classList;
-    if (parentClass.contains('ql-editor') || parentClass.contains('ql-dsgvo-video')) {
+    if (
+      parentClass.contains('ql-editor') ||
+      parentClass.contains('ql-dsgvo-video')
+    ) {
       // Fix issues with Quill
       return;
     }
@@ -60,20 +63,35 @@ export class DSGVOService {
     if (!messageId) {
       return;
     }
-    this.createMessage(messageId, url, elem);
+    this.createMessage(messageId, source, url, elem);
   }
 
-  private createMessage(messageId: string, url: string, iframe: HTMLIFrameElement) {
+  private createMessage(
+    messageId: string,
+    source: DsgvoSource,
+    url: string,
+    iframe: HTMLIFrameElement,
+  ) {
     iframe['stop']?.();
     const computed = getComputedStyle(iframe);
-    const newElem = DsgvoBuilder.buildArticle(computed.height, url, messageId, this.translateService, () => {
-      iframe.dataset.verified = String(true);
-      newElem.parentElement.classList.toggle('dsgvo-inside', false);
-      newElem.parentNode.replaceChild(iframe, newElem);
-    });
+    const newElem = DsgvoBuilder.buildArticle(
+      computed.height,
+      url,
+      messageId,
+      this.translateService,
+      () => {
+        if (source === DsgvoSource.ExternalUntrusted) {
+          window.open(url, '_blank').focus();
+          return;
+        }
+        iframe.dataset.verified = String(true);
+        newElem.parentElement.classList.toggle('dsgvo-inside', false);
+        newElem.parentNode.replaceChild(iframe, newElem);
+      },
+      source !== DsgvoSource.ExternalUntrusted,
+    );
     iframe.parentElement.classList.toggle('dsgvo-inside', true);
     iframe.parentNode.replaceChild(newElem, iframe);
     iframe.src = url;
   }
-
 }
