@@ -406,15 +406,10 @@ export class WriteCommentComponent implements OnInit, OnDestroy {
         switchMap((data) => {
           const formality = data.formality ?? FormalityType.Less;
           return forkJoin([
-            this.deeplService.improveDelta(
-              body,
-              target,
-              formality,
-            ),
+            this.deeplService.improveDelta(body, target, formality),
             of(formality),
-          ])
-        },
-        ),
+          ]);
+        }),
       )
       .subscribe({
         next: ([[improvedBody, improvedText], formality]) => {
