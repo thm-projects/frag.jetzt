@@ -286,6 +286,18 @@ export class WriteCommentComponent implements OnInit, OnDestroy {
       questionerName: this.questionerNameFormControl.value,
       tag: this.selectedTag,
       children: new Set<ForumComment>(),
+      totalAnswerCounts: {
+        accumulated: 0,
+        fromCreator: 0,
+        fromModerators: 0,
+        fromParticipants: 0,
+      },
+      answerCounts: {
+        accumulated: 0,
+        fromCreator: 0,
+        fromModerators: 0,
+        fromParticipants: 0,
+      },
     } as unknown as ForumComment;
     return this._currentData;
   }
