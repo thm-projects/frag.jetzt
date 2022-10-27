@@ -648,6 +648,7 @@
     "create": "Next",
     "cancel": "Cancel",
     "current-filter": "Filtered questions",
+    "current-filter-short": "Filtered questions",
     "all-questions-and-answers": "All questions with answers",
     "all-questions-and-answers-short": "All questions with answers",
     "only-questions": "Questions only",
