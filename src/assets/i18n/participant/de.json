@@ -57,8 +57,8 @@
     "counter": "Q {{comments}} | A {{answers}} | M {{moderated}}",
     "counter-description": "Zähler für Fragen (Q), Antworten (A), Fragen oder Antworten in der Moderation (M)",
     "favorite": "Bonus-Frage",
-    "filter-answered-creator": "Von Ersteller*in beantwortet",
-    "filter-answered-moderator": "Von Moderatoren beantwortet",
+    "filter-answered-creator": "Raumersteller*in",
+    "filter-answered-moderator": "Moderator*in",
     "filter-bookmark": "Lesezeichen",
     "filter-brainstorm": "Brainstorming",
     "filter-censored": "Zensiert",
@@ -73,7 +73,7 @@
     "filter-question-number": "Frage suchen …",
     "filter-read": "Besprochene Fragen",
     "filter-reset": "Zurücksetzen",
-    "filter-unanswered": "Unbeantwortete Fragen",
+    "filter-unanswered": "Unbeantwortet",
     "filter-wrong": "Verneinte Fragen",
     "owner": "Fragen, die ich gestellt habe",
     "pause-comments": "Friert die Anzeige ein, um die Fragen in Ruhe zu lesen. Fragen können weiterhin gestellt und bewertet werden. Die Anzeige aktualisiert sich wieder durch Klicken des Buttons.",
@@ -430,6 +430,7 @@
     "a11y-announcer": "Du befindest dich nun in der Sitzung mit dem von dir eingegebenen Raum-Code.",
     "a11y-question_answer": "Öffnet die Fragen-Seite und bietet dir die Möglichkeit, Fragen zu stellen.",
     "bonus-token": "Tokens für Bonuspunkte",
+    "cancel": "Abbrechen",
     "comments": "Fragen",
     "create-comment": "Stell deine Fragen!",
     "create-comment-and-answer": "Zum Q&A-Forum",
@@ -445,7 +446,8 @@
     "session-id-lq": ": »",
     "session-id-lq-x": "»",
     "session-id-rq": "«",
-    "sure": "Bist du sicher?"
+    "sure": "Bist du sicher?",
+    "update": "Speichern"
   },
   "spacy-dialog": {
     "add-manually": "Gib ein Stichwort zu deiner Frage ein. Trenne mehrere Stichwörter mit einem Komma.",
@@ -700,8 +702,8 @@
     "questioner-name": "Dein Name, wenn du willst …"
   },
   "pseudonym-editor": {
-    "name": "Dein Pseudonym",
-    "title": "Raum-Voreinstellungen",
-    "deepl": "DeepL Formalitätseinstellung"
+    "name": "Wird beim Posten verwendet …",
+    "title": "Dein Name in dieser App",
+    "deepl": "Duzen oder Siezen?"
   }
 }

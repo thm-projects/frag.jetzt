@@ -62,8 +62,8 @@
     "counter": "Q {{comments}} | A {{answers}} | M {{moderated}}",
     "counter-description": "Zähler für Fragen (Q), Antworten (A), Fragen oder Antworten in der Moderation (M)",
     "favorite": "Ausgezeichnete Fragen",
-    "filter-answered-creator": "Von Ersteller*in beantwortet",
-    "filter-answered-moderator": "Von Moderatoren beantwortet",
+    "filter-answered-creator": "Raumersteller*in",
+    "filter-answered-moderator": "Moderator*in",
     "filter-bookmark": "Lesezeichen",
     "filter-brainstorm": "Brainstorming",
     "filter-censored": "Zensiert",
@@ -78,7 +78,7 @@
     "filter-question-number": "Frage suchen …",
     "filter-read": "Besprochene Fragen",
     "filter-reset": "Zurücksetzen",
-    "filter-unanswered": "Unbeantwortete Fragen",
+    "filter-unanswered": "Unbeantwortet",
     "filter-wrong": "Verneinte Fragen",
     "owner": "Fragen, die ich gestellt habe",
     "pause-comments": "Friert die Anzeige ein, um die Fragen in Ruhe zu lesen oder zu präsentieren. Fragen können weiterhin gestellt und bewertet werden. Die Anzeige aktualisiert sich wieder durch Klicken des Buttons.",
@@ -856,8 +856,8 @@
     "questioner-name": "Dein Name, wenn du willst …"
   },
   "pseudonym-editor": {
-    "name": "Dein Pseudonym",
-    "title": "Raum-Voreinstellungen",
-    "deepl": "DeepL Formalitätseinstellung"
+    "name": "Wird beim Posten verwendet …",
+    "title": "Dein Name in dieser App",
+    "deepl": "Duzen oder Siezen?"
   }
 }

@@ -57,8 +57,8 @@
     "counter": "Q {{comments}} | R {{answers}} | M {{moderated}}",
     "counter-description": "Compteur de questions (Q), de réponses (A), de questions ou de réponses dans la modération (M)",
     "favorite": "Question bonus",
-    "filter-answered-creator": "Réponse du créateur",
-    "filter-answered-moderator": "Répondus par les modérateurs",
+    "filter-answered-creator": "Créateur de salle",
+    "filter-answered-moderator": "Modérateur",
     "filter-bookmark": "Signet",
     "filter-brainstorm": "Brainstorming",
     "filter-censored": "Censuré",
@@ -73,7 +73,7 @@
     "filter-question-number": "Rechercher …",
     "filter-read": "Questions discutées",
     "filter-reset": "Réinitialiser",
-    "filter-unanswered": "Questions sans réponse",
+    "filter-unanswered": "Sans réponse",
     "filter-wrong": "Questions négatives",
     "owner": "Questions posées",
     "pause-comments": "Fige l'affichage pour pouvoir lire les questions en toute tranquillité. Les questions peuvent toujours être posées et évaluées. L'affichage s'actualise à nouveau en cliquant sur le bouton.",
@@ -430,6 +430,7 @@
     "a11y-announcer": "Tu te trouves maintenant dans la session avec le code de salle que tu as saisi.",
     "a11y-question_answer": "Ouvre la page des questions et te donne la possibilité de poser des questions.",
     "bonus-token": "Codes bonus pour points bonus",
+    "cancel": "Annuler",
     "comments": "Questions",
     "create-comment": "Pose tes questions !",
     "create-comment-and-answer": "Vers le forum Q&R",
@@ -445,7 +446,8 @@
     "session-id-lq": " : « ",
     "session-id-lq-x": "« ",
     "session-id-rq": " »",
-    "sure": "Tu en es sûr ?"
+    "sure": "Tu en es sûr ?",
+    "update": "Enregistrer"
   },
   "spacy-dialog": {
     "add-manually": "Saisis un mot-clé en rapport avec ta question. Sépare plusieurs mots-clés par une virgule.",
@@ -700,8 +702,8 @@
     "questioner-name": "Ton nom, si tu veux …"
   },
   "pseudonym-editor": {
-    "name": "Ton pseudonyme",
-    "title": "Préférences de salle",
-    "deepl": "DeepL Réglage de la formalité"
+    "name": "Utilisé lors de la post …",
+    "title": "Ton nom dans cette app",
+    "deepl": "Tutoyer ou vouvoyer ?"
   }
 }

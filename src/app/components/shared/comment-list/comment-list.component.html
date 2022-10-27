@@ -286,8 +286,8 @@
       <button mat-menu-item
               (click)="applyFilterByKey('AnsweredModerator')"
               aria-labelledby="comment">
-        <mat-icon class="answer" style="color: var(--secondary)"
-                  [ngClass]="{AnsweredModerator: 'answered-icon'}[filterType]">co_present
+        <mat-icon class="answer" style="color: var(--primary)"
+                  [ngClass]="{AnsweredModerator: 'answered-icon'}[filterType]">support_agent
         </mat-icon>
         <span
           [ngClass]="{AnsweredModerator: 'answered-icon'}[filterType]">{{ 'comment-list.filter-answered-moderator' | translate }}</span>

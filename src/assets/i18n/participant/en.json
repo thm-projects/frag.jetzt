@@ -57,9 +57,9 @@
     "counter": "Q {{comments}} | A {{answers}} | M {{moderated}}",
     "counter-description": "Counter for questions (Q), answers (A), questions or answers in moderation (M)",
     "favorite": "Bonus question",
-    "filter-answered-creator": "Answered by creator",
-    "filter-answered-moderator": "Answered by moderators",
-    "filter-bookmark": "Bookmarked questions",
+    "filter-answered-creator": "Room creator",
+    "filter-answered-moderator": "Moderator",
+    "filter-bookmark": "Bookmarked",
     "filter-brainstorm": "Brainstorming",
     "filter-censored": "Censored",
     "filter-comments": "Filter questions",
@@ -430,6 +430,7 @@
     "a11y-announcer": "You are now in the session with the key you entered.",
     "a11y-question_answer": "Opens the page where you can ask questions and vote up or down other questions.",
     "bonus-token": "Tokens for bonus points",
+    "cancel": "Cancel",
     "comments": "Questions",
     "create-comment": "Ask your questions!",
     "create-comment-and-answer": "To the Q&A forum",
@@ -445,7 +446,8 @@
     "session-id-lq": ": »",
     "session-id-lq-x": "»",
     "session-id-rq": "«",
-    "sure": "Are you sure?"
+    "sure": "Are you sure?",
+    "update": "Save"
   },
   "spacy-dialog": {
     "add-manually": "Enter a keyword for your question. Separate several keywords with a comma.",
@@ -700,8 +702,8 @@
     "questioner-name": "Your name, if you want …"
   },
   "pseudonym-editor": {
-    "name": "Your pseudonym",
-    "title": "Room presets",
-    "deepl": "DeepL formality setting"
+    "name": "Used when posting …",
+    "title": "Your name in this app",
+    "deepl": "Informal or formal?"
   }
 }

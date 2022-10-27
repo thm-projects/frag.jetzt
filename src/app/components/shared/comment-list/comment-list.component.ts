@@ -604,7 +604,7 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
       });
       e.menuItem({
         translate: this.headerService.getTranslate(),
-        icon: 'settings_applications',
+        icon: 'account_circle',
         class: 'material-icons-outlined',
         text: 'header.room-presets',
         callback: () => {

@@ -299,6 +299,10 @@ a {
   color: var(--on-primary) !important;
 }
 
+.mat-select-value {
+  color: var(--on-dialog);
+}
+
 .mat-row:hover .mat-cell {
   border-color: currentColor;
   border-bottom-width: 1px;

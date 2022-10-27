@@ -62,9 +62,9 @@
     "counter": "Q {{comments}} | A {{answers}} | M {{moderated}}",
     "counter-description": "Counter for questions (Q), answers (A), questions or answers in moderation (M)",
     "favorite": "Bonus question",
-    "filter-answered-creator": "Answered by creator",
-    "filter-answered-moderator": "Answered by moderators",
-    "filter-bookmark": "Bookmarked questions",
+    "filter-answered-creator": "Room creator",
+    "filter-answered-moderator": "Moderator",
+    "filter-bookmark": "Bookmarked",
     "filter-brainstorm": "Brainstorming",
     "filter-censored": "Censored",
     "filter-comments": "Filter questions",
@@ -856,8 +856,8 @@
     "questioner-name": "Your name, if you want …"
   },
   "pseudonym-editor": {
-    "name": "Your pseudonym",
-    "title": "Room presets",
-    "deepl": "DeepL formality setting"
+    "name": "Used when posting …",
+    "title": "Your name in this app",
+    "deepl": "Informal or formal?"
   }
 }
