@@ -647,6 +647,7 @@
     "label-refresh-keywords-start": "Start",
     "create": "Next",
     "cancel": "Cancel",
+    "current-filter": "Filtered questions",
     "all-questions-and-answers": "All questions with answers",
     "all-questions-and-answers-short": "All questions with answers",
     "only-questions": "Questions only",
@@ -703,7 +704,7 @@
   },
   "pseudonym-editor": {
     "name": "Used when posting …",
-    "title": "Your name in this app",
+    "title": "My name in this app",
     "deepl": "Informal or formal?"
   }
 }

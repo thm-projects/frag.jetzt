@@ -231,8 +231,8 @@
   "deepl-formality-select": {
     "default": "Voreinstellung",
     "error": "Der Text konnte nicht aktualisiert werden.",
-    "less": "Informell",
-    "more": "Formell",
+    "less": "Duzen",
+    "more": "Siezen",
     "name": "Stil"
   },
   "dialog-comment": {
@@ -645,6 +645,7 @@
   "topic-cloud-filter": {
     "info-no-keywords": "Unsere KI-basierte Textanalyse kann Stichwörter ermitteln. Analyse starten?",
     "label-refresh-keywords-start": "Starten",
+    "current-filter": "Gefilterte Fragen",
     "all-questions-and-answers": "Alle Fragen mit Antworten",
     "all-questions-and-answers-short": "Alle Fragen mit Antworten",
     "only-questions": "Nur Fragen",
@@ -703,7 +704,7 @@
   },
   "pseudonym-editor": {
     "name": "Wird beim Posten verwendet …",
-    "title": "Dein Name in dieser App",
+    "title": "Mein Name in der App",
     "deepl": "Duzen oder Siezen?"
   }
 }

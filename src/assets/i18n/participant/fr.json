@@ -645,6 +645,7 @@
   "topic-cloud-filter": {
     "info-no-keywords": "Notre analyse de texte basée sur l'IA peut déterminer des mots clés. Démarrer l'analyse ?",
     "label-refresh-keywords-start": "Démarrer",
+    "current-filter": "Questions filtrées",
     "all-questions-and-answers": "Toutes les questions avec réponses",
     "all-questions-and-answers-short": "Toutes les questions avec réponses",
     "only-questions": "Seulement les questions",
@@ -703,7 +704,7 @@
   },
   "pseudonym-editor": {
     "name": "Utilisé lors de la post …",
-    "title": "Ton nom dans cette app",
+    "title": "Mon nom dans cette app",
     "deepl": "Tutoyer ou vouvoyer ?"
   }
 }
