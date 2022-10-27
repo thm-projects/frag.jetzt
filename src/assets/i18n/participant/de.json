@@ -231,8 +231,8 @@
   "deepl-formality-select": {
     "default": "Voreinstellung",
     "error": "Der Text konnte nicht aktualisiert werden.",
-    "less": "Informell",
-    "more": "Formell",
+    "less": "Duzen",
+    "more": "Siezen",
     "name": "Stil"
   },
   "dialog-comment": {
@@ -703,7 +703,7 @@
   },
   "pseudonym-editor": {
     "name": "Wird beim Posten verwendet …",
-    "title": "Dein Name in dieser App",
+    "title": "Mein Name in der App",
     "deepl": "Duzen oder Siezen?"
   }
 }
