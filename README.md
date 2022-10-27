@@ -24,13 +24,13 @@ With our innovative product "frag.jetzt" we want to conquer the market of audien
 
 1. Instructors and moderators can affirm, deny, answer, star, or ban questions to the moderation board. Questions on the moderation board can be released individually. Only room creators can delete questions, but only if they do not have a bonus star. All other users can only delete their own questions.
 
-1. Every user can sort the question board according to the criteria "newest question first", "downward or upward by rating points" and "degree of controversy". The board can be searched, and the questions can be filtered. The following filter criteria are available: bonus-awarded, conversations, bookmarked, answered, unanswered, question number, censored, and own questions. In addition, the question stream can be paused, i.e., new questions are only displayed if the user releases the question stream again.
+1. Every user can sort the question board according to the criteria "newest question first", "downward or upward by rating points" and "degree of controversy". The board can be searched, and the questions can be filtered. The following filter criteria are available: bonus-awarded, conversations, bookmarked, answered by the room creator, answered by a moderator, unanswered, question number, censored, and own questions. In addition, the question stream can be paused, i.e., new questions are only displayed if the user releases the question stream again.
 
 1. Room creators and moderators can define categories ("tags") for questions in the room settings. The person asking can then tag their question with one of the predefined categories. Categorized questions can be filtered by clicking on the tag. Room creators and moderators can also tag questions afterwards.
 
 1. Room creators and moderators have the option to enable all questions for anonymous commenting. The comments then appear as a conversation offset to the side below the respective question.
 
-1. Each user can call up a message board where their own questions are listed as soon as they have received a reaction: for example, if they have been commented on, answered in the affirmative, denied, banned, published or deleted.
+1. Each user can call up a notification board where their own questions are listed as soon as they have received a reaction: for example, if they have been commented on, answered in the affirmative, denied, banned, published or deleted.
 
 1. There is a presentation mode called "Question Focus" that allows each user to view the questions individually in full view. Also, new questions can be displayed automatically in the "Auto Focus" mode.
 
@@ -44,7 +44,7 @@ With our innovative product "frag.jetzt" we want to conquer the market of audien
 
 1. Any number of rooms can be created as guest or registered user. Only the rooms of registered users remain permanently. 180 days after the last use of a room, it will be deleted automatically. Bonus tokens of unregistered participants are only stored in the browser cache. If the browser cache is deleted, the tokens are lost. Before leaving a session as an unregistered person, they will be asked to export their acquired tokens as a mail draft or save them to the clipboard.
 
-1. Although an ordinary website, it behaves like an app from the App Store. It can be installed from the browser: "Add to Home". After that, it launches like a regular app. As a "Progressive Web App" (PWA), it runs on any smartphone, no matter what operating system, no matter what browser. So the audience will always be ready to use "frag.jetzt" on the spot and spontaneously.
+1. Although an ordinary website, it behaves like an app from the App Store. It can be installed from the browser: "Add to Home". After that, it launches like a regular app. As a [Progressive Web App (PWA)](https://en.wikipedia.org/wiki/Progressive_web_app), it runs on any smartphone, no matter what operating system, no matter what browser. So the audience will always be ready to use "frag.jetzt" on the spot and spontaneously.
 
 1. Every user who has used "frag.jetzt" interactively, for example by creating a room or asking a question, can rate the app with stars. The rating scheme follows that of Amazon.
 
