@@ -62,8 +62,9 @@
     "counter": "Q {{comments}} | A {{answers}} | M {{moderated}}",
     "counter-description": "Counter for questions (Q), answers (A), questions or answers in moderation (M)",
     "favorite": "Bonus question",
-    "filter-answered": "Answered questions",
-    "filter-bookmark": "Bookmarked questions",
+    "filter-answered-creator": "Room creator",
+    "filter-answered-moderator": "Moderator",
+    "filter-bookmark": "Bookmarked",
     "filter-brainstorm": "Brainstorming",
     "filter-censored": "Censored",
     "filter-comments": "Filter questions",
@@ -289,8 +290,11 @@
   },
   "dsgvo": {
     "external-source": "The content is an external source. <br><br>Should <br><br>{{url}}<br><br> be called?",
-    "external-source-button-text": "Call up",
-    "external-source-title": "External source",
+    "external-source-button-text": "Open here …",
+    "external-source-title": "Embedded External source",
+    "external-source-untrusted": "The content is an external source. <br><br>Do you want <br><br>{{url}}<br><br> to open in a new tab?",
+    "external-source-untrusted-button-text": "Open in new tab …",
+    "external-source-untrusted-title": "External source",
     "unknown-source": "The content either refers to the current website (redirection to a room, or URL) or refers to an external protocol. Should <br><br>{{url}}<br><br> be called?",
     "unknown-source-button-text": "Call up",
     "unknown-source-title": "Unknown or internal source",
@@ -850,5 +854,10 @@
     "a11y-questioner-name": "Here you can enter your name if you want. This is visible for everyone at this comment.",
     "name-length-error": "The name must be {{min}} to {{max}} characters long.",
     "questioner-name": "Your name, if you want …"
+  },
+  "pseudonym-editor": {
+    "name": "Used when posting …",
+    "title": "Your name in this app",
+    "deepl": "Informal or formal?"
   }
 }

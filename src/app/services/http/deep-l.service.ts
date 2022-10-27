@@ -3,12 +3,18 @@ import { BaseHttpService } from './base-http.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { catchError, map, mergeMap, tap, timeout } from 'rxjs/operators';
-import { ImmutableStandardDelta, QuillUtils, StandardDelta } from '../../utils/quill-utils';
+import {
+  ImmutableStandardDelta,
+  QuillUtils,
+  StandardDelta,
+} from '../../utils/quill-utils';
 import { clone } from '../../utils/ts-utils';
 
 /* eslint-disable @typescript-eslint/naming-convention */
 const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' })
+  headers: new HttpHeaders({
+    'Content-Type': 'application/x-www-form-urlencoded',
+  }),
 };
 
 interface DeepLResult {
@@ -42,7 +48,7 @@ export enum SourceLang {
   SK = 'SK',
   SL = 'SL',
   SV = 'SV',
-  ZH = 'ZH'
+  ZH = 'ZH',
 }
 
 export enum TargetLang {
@@ -71,7 +77,7 @@ export enum TargetLang {
   SK = 'SK',
   SL = 'SL',
   SV = 'SV',
-  ZH = 'ZH'
+  ZH = 'ZH',
 }
 
 /* eslint-enable @typescript-eslint/naming-convention */
@@ -79,29 +85,26 @@ export enum TargetLang {
 export enum FormalityType {
   Default = '',
   Less = 'less',
-  More = 'more'
+  More = 'more',
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class DeepLService extends BaseHttpService {
-
-  constructor(
-    private http: HttpClient
-  ) {
+  constructor(private http: HttpClient) {
     super();
     this.checkAPIStatus().subscribe({
-      next: hasQuota => {
+      next: (hasQuota) => {
         if (!hasQuota) {
           this.setTimeout(86_400_000);
         }
       },
-      error: err => {
+      error: (err) => {
         if (err?.status === 403) {
           this.setTimeout(Number.MAX_SAFE_INTEGER);
         }
-      }
+      },
     });
   }
 
@@ -135,17 +138,21 @@ export class DeepLService extends BaseHttpService {
 
   static removeMarkdown(text: string): string {
     // remove emphasis elements before (*_~), heading (#) and quotation (>)
-    return text.replace(/([*_~]+(?=[^*_~\s]))|(^[ \t]*#+ )|(^[ \t]*>[> ]*)/gm, '')
-      // remove code blocks (`)
-      .replace(/(`+)/g, '')
-      // remove emphasis elements after (*_~)
-      .replace(/([^*_~\s])[*_~]+/gm, '$1')
-      // replace links
-      .replace(/\[([^\n\[\]]*)\]\(([^()\n]*)\)/gm, '$1 $2');
+    return (
+      text
+        .replace(/([*_~]+(?=[^*_~\s]))|(^[ \t]*#+ )|(^[ \t]*>[> ]*)/gm, '')
+        // remove code blocks (`)
+        .replace(/(`+)/g, '')
+        // remove emphasis elements after (*_~)
+        .replace(/([^*_~\s])[*_~]+/gm, '$1')
+        // replace links
+        .replace(/\[([^\n\[\]]*)\]\(([^()\n]*)\)/gm, '$1 $2')
+    );
   }
 
   private static encodeHTML(str: string): string {
-    return str.replace(/&/g, '&amp;')
+    return str
+      .replace(/&/g, '&amp;')
       .replace(/</g, '&lt;')
       .replace(/>/g, '&gt;')
       .replace(/"/g, '&quot;')
@@ -153,7 +160,9 @@ export class DeepLService extends BaseHttpService {
   }
 
   private static decodeHTML(str: string): string {
-    return str.replace(/&apos;/g, '\'')
+    return str
+      // eslint-disable-next-line @typescript-eslint/quotes
+      .replace(/&apos;/g, "'")
       .replace(/&quot;/g, '"')
       .replace(/&gt;/g, '>')
       .replace(/&lt;/g, '<')
@@ -163,7 +172,7 @@ export class DeepLService extends BaseHttpService {
   improveDelta(
     body: ImmutableStandardDelta,
     targetLang: TargetLang,
-    formality = FormalityType.Less,
+    formality: FormalityType,
   ): Observable<[StandardDelta, string]> {
     let isMark = false;
     const skipped = [];
@@ -173,14 +182,16 @@ export class DeepLService extends BaseHttpService {
         skipped.push(i);
         return acc;
       }
-      const text = DeepLService.encodeHTML(DeepLService.removeMarkdown(e['insert']));
+      const text = DeepLService.encodeHTML(
+        DeepLService.removeMarkdown(e['insert']),
+      );
       acc += isMark ? '<x>' + text + '</x>' : text;
       e['insert'] = '';
       isMark = !isMark;
       return acc;
     }, '');
     return this.improveTextStyle(xml, targetLang, formality).pipe(
-      map(str => {
+      map((str) => {
         let index = 0;
         const nextStr = (textStr: string) => {
           while (skipped[0] === index) {
@@ -202,45 +213,65 @@ export class DeepLService extends BaseHttpService {
         }
         nextStr(str.substring(start));
         return [newDelta, QuillUtils.getTextFromDelta(newDelta)];
-      })
+      }),
     );
   }
 
-  improveTextStyle(text: string, temTargetLang: TargetLang, formality = FormalityType.Default): Observable<string> {
+  improveTextStyle(
+    text: string,
+    temTargetLang: TargetLang,
+    formality: FormalityType,
+  ): Observable<string> {
     return this.makeXMLTranslateRequest(text, temTargetLang, formality).pipe(
-      mergeMap(result =>
+      mergeMap((result) =>
         this.makeXMLTranslateRequest(
           result.translations[0].text,
-          DeepLService.transformSourceToTarget(result.translations[0].detected_source_language),
-          formality
-        )),
-      map(result => result.translations[0].text)
+          DeepLService.transformSourceToTarget(
+            result.translations[0].detected_source_language,
+          ),
+          formality,
+        ),
+      ),
+      map((result) => result.translations[0].text),
     );
   }
 
   private checkAPIStatus(): Observable<boolean> {
     const url = '/deepl/usage';
-    return this.http.post<any>(url, '', httpOptions)
-      .pipe(
-        tap(_ => ''),
-        timeout(1500),
-        map(obj => obj.character_count < obj.character_limit),
-        catchError(this.handleError<any>('checkAPIStatus')),
-      );
+    return this.http.post<any>(url, '', httpOptions).pipe(
+      tap((_) => ''),
+      timeout(1500),
+      map((obj) => obj.character_count < obj.character_limit),
+      catchError(this.handleError<any>('checkAPIStatus')),
+    );
   }
 
-  private makeXMLTranslateRequest(text: string, targetLang: TargetLang, formality: FormalityType): Observable<DeepLResult> {
+  private makeXMLTranslateRequest(
+    text: string,
+    targetLang: TargetLang,
+    formality: FormalityType,
+  ): Observable<DeepLResult> {
     const url = '/deepl/translate';
-    const tagFormality = DeepLService.supportsFormality(targetLang) && formality !== FormalityType.Default ? '&formality=' + formality : '';
-    const data = 'target_lang=' + encodeURIComponent(targetLang) +
+    const tagFormality =
+      DeepLService.supportsFormality(targetLang) &&
+      formality !== FormalityType.Default
+        ? '&formality=' + formality
+        : '';
+    const data =
+      'target_lang=' +
+      encodeURIComponent(targetLang) +
       '&preserve_formatting=1' +
-      '&tag_handling=xml' + tagFormality +
-      '&text=' + encodeURIComponent(text);
-    return this.checkCanSendRequest('makeXMLTranslateRequest') || this.http.post<DeepLResult>(url, data, httpOptions)
-      .pipe(
-        tap(_ => ''),
+      '&tag_handling=xml' +
+      tagFormality +
+      '&text=' +
+      encodeURIComponent(text);
+    return (
+      this.checkCanSendRequest('makeXMLTranslateRequest') ||
+      this.http.post<DeepLResult>(url, data, httpOptions).pipe(
+        tap((_) => ''),
         timeout(4500),
         catchError(this.handleError<any>('makeXMLTranslateRequest')),
-      );
+      )
+    );
   }
 }

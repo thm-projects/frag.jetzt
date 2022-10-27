@@ -62,7 +62,8 @@
     "counter": "Q {{comments}} | R {{answers}} | M {{moderated}}",
     "counter-description": "Compteur de questions (Q), de réponses (A), de questions ou de réponses dans la modération (M)",
     "favorite": "Questions marquées",
-    "filter-answered": "Questions répondues",
+    "filter-answered-creator": "Créateur de salle",
+    "filter-answered-moderator": "Modérateur",
     "filter-bookmark": "Signet",
     "filter-brainstorm": "Brainstorming",
     "filter-censored": "Censuré",
@@ -77,7 +78,7 @@
     "filter-question-number": "Rechercher …",
     "filter-read": "Questions discutées",
     "filter-reset": "Réinitialiser",
-    "filter-unanswered": "Questions sans réponse",
+    "filter-unanswered": "Sans réponse",
     "filter-wrong": "Questions négatives",
     "owner": "Questions posées",
     "pause-comments": "Fige l'affichage pour permettre de lire ou de présenter les questions en toute tranquillité. Les questions peuvent toujours être posées et évaluées. L'affichage s'actualise à nouveau en cliquant sur le bouton.",
@@ -289,8 +290,11 @@
   },
   "dsgvo": {
     "external-source": "Le contenu est une source externe. <br><br>Le contenu <br><br>{{url}}<br><br> doit-il être affiché ?",
-    "external-source-button-text": "Consulter",
-    "external-source-title": "Source externe",
+    "external-source-button-text": "Ouvrir ici …",
+    "external-source-title": "Source externe intégrée",
+    "external-source-untrusted": "Le contenu est une source externe. <br><br>Le contenu <br><br>{{url}}<br><br> doit-il être affiché dans un nouvel onglet ?",
+    "external-source-untrusted-button-text": "Ouvrir dans un nouvel onglet …",
+    "external-source-untrusted-title": "Source externe",
     "unknown-source": "Le contenu se réfère soit au site web actuel (redirection vers une salle, respectivement une URL), soit renvoie à un protocole externe. Est-ce que <br><br>{{url}}<br><br> doit être consulté ?",
     "unknown-source-button-text": "Consulter",
     "unknown-source-title": "Source inconnue ou interne",
@@ -850,5 +854,10 @@
     "a11y-questioner-name": "Ici, tu peux, si tu le souhaites, entrer ton nom. Celui-ci est visible pour tous les participants à ce commentaire.",
     "name-length-error": "Le nom doit comporter entre {{min}} et {{max}} caractères.",
     "questioner-name": "Ton nom, si tu veux …"
+  },
+  "pseudonym-editor": {
+    "name": "Utilisé lors de la post …",
+    "title": "Ton nom dans cette app",
+    "deepl": "Tutoyer ou vouvoyer ?"
   }
 }

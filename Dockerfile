@@ -25,7 +25,7 @@ FROM node:16 AS BUILD
 WORKDIR /src/app
 
 COPY package*.json ./
-RUN npm ci
+RUN npm ci --legacy-peer-deps
 
 COPY . .
 RUN npm run build --prod

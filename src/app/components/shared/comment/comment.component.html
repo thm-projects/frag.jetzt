@@ -28,7 +28,7 @@
          class="comment-actions">
       <div class="date-container">
         <div class="date">
-          {{ readableCommentBody }}
+          {{ readableCommentDate }}
         </div>
       </div>
       <button mat-icon-button
@@ -309,7 +309,7 @@
          fxLayout="row"
          fxLayoutAlign="start center">
       <button mat-button
-              *ngIf="comment.commentDepth < room.conversationDepth || room.conversationDepth === -1 || isCreator || isModerator "
+              *ngIf="comment.commentDepth < room?.conversationDepth || room?.conversationDepth === -1 || isCreator || isModerator "
               class="replyButton"
               (click)="respondToComment()">
         <mat-icon class="material-icons-outlined">reply</mat-icon>
@@ -317,9 +317,9 @@
       </button>
 
       <button mat-icon-button
-              *ngIf="!isAnswerView && !showResponses && comment.totalAnswerCount > 0 && indentationPossible">
+              *ngIf="!isAnswerView && !showResponses && comment.totalAnswerCounts.accumulated > 0 && indentationPossible">
         <mat-icon class="not-marked material-icons-round"
-                  matBadge="{{comment.totalAnswerCount}}"
+                  matBadge="{{comment.totalAnswerCounts.accumulated}}"
                   matBadgeColor="secondary"
                   matBadgeSize="small"
                   (click)="showConversation()"
