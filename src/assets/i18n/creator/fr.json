@@ -825,6 +825,7 @@
     "info-no-keywords": "Notre analyse de texte basée sur l'IA peut déterminer des mots clés. Démarrer l'analyse ?",
     "label-refresh-keywords-start": "Démarrer",
     "current-filter": "Questions filtrées",
+    "current-filter-short": "Questions filtrées",
     "all-questions-and-answers": "Toutes les questions avec réponses",
     "all-questions-and-answers-short": "Toutes les questions avec réponses",
     "only-questions": "Seulement les questions",
