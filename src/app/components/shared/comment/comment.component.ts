@@ -95,7 +95,7 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
   @Output() clickedOnKeyword = new EventEmitter<string>();
   @Output() clickedUserNumber = new EventEmitter<string>();
   @Output() votedComment = new EventEmitter<string>();
-  @Output() onEditQuestion = new EventEmitter<void>();
+  @Output() editQuestionEmitter = new EventEmitter<void>();
   @ViewChild('commentBody', { static: true }) commentBody: RowComponent;
   @ViewChild('commentBodyInner', { static: true })
   commentBodyInner: RowComponent;
@@ -662,7 +662,7 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   editQuestion() {
-    this.onEditQuestion.emit();
+    this.editQuestionEmitter.emit();
   }
 
   private onLanguageChange() {

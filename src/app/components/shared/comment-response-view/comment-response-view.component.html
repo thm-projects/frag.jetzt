@@ -37,7 +37,7 @@
             [isResponse]="true"
             [activeKeywordSearchString]="keywordFilter"
             [responseIndex]="i + 1"
-            (onEditQuestion)="editQuestion(response)"
+            (editQuestionEmitter)="editQuestion(response)"
           ></app-comment>
         </ng-container>
       </ng-container>

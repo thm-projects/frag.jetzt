@@ -20,7 +20,11 @@ import {
 import { SessionService } from '../../../services/util/session.service';
 import { RoomDataService } from '../../../services/util/room-data.service';
 import { Vote } from '../../../models/vote';
-import { FilterType, SortType, SortTypeKey } from '../../../utils/data-filter-object.lib';
+import {
+  FilterType,
+  SortType,
+  SortTypeKey,
+} from '../../../utils/data-filter-object.lib';
 import { QuillUtils } from 'app/utils/quill-utils';
 import { TSMap } from 'typescript-map';
 import { WriteCommentComponent } from '../write-comment/write-comment.component';
@@ -44,8 +48,7 @@ export interface ResponseViewInformation {
   styleUrls: ['./comment-response-view.component.scss'],
 })
 export class CommentResponseViewComponent
-  implements OnInit, AfterViewInit, OnChanges, OnDestroy
-{
+  implements OnInit, AfterViewInit, OnChanges, OnDestroy {
   @Input()
   owningComment: ForumComment;
   @Input()
