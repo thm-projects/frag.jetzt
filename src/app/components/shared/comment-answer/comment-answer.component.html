@@ -24,7 +24,7 @@
                  [isFromModerator]="mods.has(comment.creatorId)"
                  [isFromOwner]="room.ownerId === comment.creatorId"
                  [isAnswerView]="true"
-                 (sortedAnswers)="applySortAnswers($event)"
+                 (editQuestionEmitter)="editQuestion(comment)"
     ></app-comment>
   </div>
   <div fxLayout="row"

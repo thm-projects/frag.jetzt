@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   Component,
   ElementRef,
   Input,
@@ -41,13 +42,14 @@ import { ForumComment } from '../../../utils/data-accessor';
 import { UserManagementService } from '../../../services/util/user-management.service';
 import { DBLocalRoomSettingsService } from 'app/services/persistence/dblocal-room-settings.service';
 import { forkJoin, of, switchMap, take } from 'rxjs';
+import { clone } from 'app/utils/ts-utils';
 
 @Component({
   selector: 'app-write-comment',
   templateUrl: './write-comment.component.html',
   styleUrls: ['./write-comment.component.scss'],
 })
-export class WriteCommentComponent implements OnInit, OnDestroy {
+export class WriteCommentComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(ViewCommentDataComponent) commentData: ViewCommentDataComponent;
   @ViewChild('mobileMock') mobileMock: ElementRef<HTMLDivElement>;
   @Input() isModerator = false;
@@ -67,6 +69,7 @@ export class WriteCommentComponent implements OnInit, OnDestroy {
   @Input() additionalMockOffset: number = 0;
   @Input() commentReference: string = null;
   @Input() onlyText = false;
+  @Input() rewriteCommentData: ForumComment = null;
   isSubmittingComment = false;
   selectedTag: string;
   maxTextCharacters = 2500;
@@ -161,18 +164,30 @@ export class WriteCommentComponent implements OnInit, OnDestroy {
     this.userManagementService
       .getUser()
       .subscribe((user) => (this.user = user));
-    forkJoin([
-      this.sessionService.getRoomOnce(),
-      this.userManagementService.getUser().pipe(take(1)),
-    ])
-      .pipe(
-        switchMap(([room, user]) =>
-          this.dBLocalRoomSettingsService.getSettings(room.id, user.id),
-        ),
-      )
-      .subscribe((data) => {
-        this.questionerNameFormControl.setValue(data?.pseudonym ?? '');
-      });
+    if (this.rewriteCommentData) {
+      this.questionerNameFormControl.setValue(
+        this.rewriteCommentData?.questionerName,
+      );
+    } else {
+      forkJoin([
+        this.sessionService.getRoomOnce(),
+        this.userManagementService.getUser().pipe(take(1)),
+      ])
+        .pipe(
+          switchMap(([room, user]) =>
+            this.dBLocalRoomSettingsService.getSettings(room.id, user.id),
+          ),
+        )
+        .subscribe((data) => {
+          this.questionerNameFormControl.setValue(data?.pseudonym ?? '');
+        });
+    }
+  }
+
+  ngAfterViewInit(): void {
+    if (this.rewriteCommentData) {
+      this.commentData.currentData = clone(this.rewriteCommentData.body);
+    }
   }
 
   ngOnDestroy() {
@@ -286,6 +301,18 @@ export class WriteCommentComponent implements OnInit, OnDestroy {
       questionerName: this.questionerNameFormControl.value,
       tag: this.selectedTag,
       children: new Set<ForumComment>(),
+      totalAnswerCounts: {
+        accumulated: 0,
+        fromCreator: 0,
+        fromModerators: 0,
+        fromParticipants: 0,
+      },
+      answerCounts: {
+        accumulated: 0,
+        fromCreator: 0,
+        fromModerators: 0,
+        fromParticipants: 0,
+      },
     } as unknown as ForumComment;
     return this._currentData;
   }

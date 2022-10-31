@@ -120,7 +120,8 @@
                 *ngIf="(comment.favorite && isStudent && !(comment.creatorId && user && comment.creatorId === user.id))"
                 tabindex="0"
                 attr.aria-labelledby="comment_grade{{ comment.id }}">
-          <mat-icon class="material-icons-round favorite-icon">
+          <mat-icon class="material-icons-round favorite-icon"
+                    [matTooltip]="getTranslationForBonus('mark-not-favorite') | translate">
             grade
           </mat-icon>
         </button>
@@ -326,10 +327,20 @@
                   [matTooltip]="('comment-page.show-conversation-tooltip' | translate)">forum
         </mat-icon>
       </button>
-      <button mat-icon-button *ngIf="!isAnswerView && showResponses && responses.length >0">
+      <button mat-icon-button *ngIf="!isAnswerView && showResponses && responses.length > 0">
         <mat-icon class="wrong-icon material-icons-round"
                   (click)="hideConversation()"
                   [matTooltip]="('comment-page.hide-conversation-tooltip' | translate)">forum
+        </mat-icon>
+      </button>
+      <button mat-icon-button
+              *ngIf="comment.totalAnswerCounts.accumulated > 0">
+        <mat-icon class="not-marked material-icons-round"
+                  matBadge="{{comment.totalAnswerCounts.accumulated}}"
+                  matBadgeColor="secondary"
+                  matBadgeSize="small"
+                  (click)="navigateConversation()"
+                  [matTooltip]="('comment-page.show-conversation-full-tooltip' | translate)">fit_screen
         </mat-icon>
       </button>
       <button mat-icon-button
@@ -340,15 +351,6 @@
           matTooltip="{{ notificationService.hasCommentSubscription(comment?.id) ? ('notification.notification-off' | translate) : ('notification.notification-on' | translate) }}">
           {{notificationService.hasCommentSubscription(comment?.id) ? 'notifications' : 'notifications_off'}}
         </mat-icon>
-      </button>
-      <span class="fill-remaining-space"></span>
-      <button mat-icon-button
-              *ngIf="responses.length>2 && isConversationView"
-              id="sort-button"
-              [matMenuTriggerFor]="sortAnswersMenu"
-              aria-labelledby="swap_vert_answers"
-              matTooltip="{{ 'comment-list.sort-answers' | translate }}">
-        <mat-icon class="searchBarIcon">swap_vert</mat-icon>
       </button>
     </div>
   </div>
@@ -414,40 +416,6 @@
   </button>
 </ng-template>
 
-<mat-menu #sortAnswersMenu="matMenu" xPosition="before">
-  <button mat-menu-item
-          (click)="sortAnswers('Time')">
-    <mat-icon [ngClass]="(sortMethod==='Time')?'answered-icon':''">
-      update
-    </mat-icon>
-    <span [ngClass]="(sortMethod==='Time')?'answered-icon':''">
-      {{ 'comment-list.sort-answers-time' | translate }}</span>
-  </button>
-
-  <button mat-menu-item
-          (click)="sortAnswers('BestScore')">
-    <mat-icon class="material-icons-outlined"
-              [ngClass]="(sortMethod==='BestScore')?'correct-icon':''">
-      thumb_up
-    </mat-icon>
-    <span [ngClass]="(sortMethod==='BestScore')?'correct-icon':''">
-        {{ 'comment-list.sort-vote-asc' | translate }}
-      </span>
-  </button>
-
-  <button mat-menu-item
-          (click)="sortAnswers('WorstScore')">
-    <mat-icon class="material-icons-outlined"
-              [ngClass]="(sortMethod==='WorstScore')?'wrong-icon':''">
-      thumb_down
-    </mat-icon>
-    <span [ngClass]="(sortMethod==='WorstScore')?'wrong-icon':''">
-        {{ 'comment-list.sort-vote-desc' | translate }}
-      </span>
-  </button>
-
-</mat-menu>
-
 <mat-menu #actionButtonMenu="matMenu">
   <div fxLayout="column" class="action-menu-content">
     <button mat-icon-button
@@ -459,6 +427,16 @@
                 [matTooltip]="getTranslationForBonus('mark-favorite') | translate"
                 [matTooltipPosition]="'right'">
         grade
+      </mat-icon>
+    </button>
+    <button mat-icon-button
+            *ngIf="canEditQuestion()"
+            (click)="editQuestion()"
+            tabindex="0">
+      <mat-icon class="material-icons not-marked"
+                [matTooltip]="'comment-page.edit-comment' | translate"
+                [matTooltipPosition]="'right'">
+        edit
       </mat-icon>
     </button>
     <button mat-icon-button
