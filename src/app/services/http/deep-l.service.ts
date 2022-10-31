@@ -255,7 +255,7 @@ export class DeepLService extends BaseHttpService {
     const tagFormality =
       DeepLService.supportsFormality(targetLang) &&
       formality !== FormalityType.Default
-        ? '&formality=' + formality
+        ? '&formality=prefer_' + formality
         : '';
     const data =
       'target_lang=' +
