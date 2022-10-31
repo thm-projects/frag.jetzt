@@ -1,4 +1,8 @@
 :host {
+  display: flex;
+  height: inherit;
+  flex-direction: column;
+
   .align-center-y {
     display: flex;
     justify-content: center;
@@ -7,7 +11,8 @@
 
   .container {
     width: 100%;
-    height: calc(100% - 115px) !important;
+    height: 100%;
+    max-height: unset; // Fix for current settings
 
     .message {
       app-motd-message {
@@ -25,8 +30,6 @@
   }
 
   mat-dialog-content {
-    height: 100% !important;
-    max-height: 100% !important;
     hyphens: auto;
   }
 
@@ -39,7 +42,7 @@
   background-color: transparent;
   color: var(--primary);
   outline: var(--primary) solid 3px;
-  margin: 10px;
+  margin: 20px 10px 10px 10px;
 
   &:hover {
     background-color: var(--primary);

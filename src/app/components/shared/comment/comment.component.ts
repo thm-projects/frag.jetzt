@@ -1,4 +1,13 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { Comment } from '../../../models/comment';
 import { Vote } from '../../../models/vote';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -9,7 +18,13 @@ import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../services/util/language.service';
 import { PresentCommentComponent } from '../_dialogs/present-comment/present-comment.component';
 import { MatDialog } from '@angular/material/dialog';
-import { animate, state, style, transition, trigger } from '@angular/animations';
+import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
 import { DeleteCommentComponent } from '../../creator/_dialogs/delete-comment/delete-comment.component';
 import { CorrectWrong } from '../../../models/correct-wrong.enum';
 import { UserRole } from '../../../models/user-roles.enum';
@@ -42,16 +57,22 @@ import { UserManagementService } from '../../../services/util/user-management.se
       state('hidden', style({ opacity: 0, transform: 'translate(0, -10px)' })),
       state('visible', style({ opacity: 1, transform: 'translate(0, 0)' })),
       state('removed', style({ opacity: 0, transform: 'translate(100%, 0)' })),
-      state('child', style({ opacity: 0, transform: 'translate(0, calc((-100% - 32px) * var(--i, 1)))', zIndex: -1 })),
+      state(
+        'child',
+        style({
+          opacity: 0,
+          transform: 'translate(0, calc((-100% - 32px) * var(--i, 1)))',
+          zIndex: -1,
+        }),
+      ),
       transition('hidden <=> visible', animate(700)),
       transition('new => visible', animate('700ms ease-in')),
       transition('child => visible', animate('700ms ease-in')),
-      transition('visible => removed', animate('700ms ease-out'))
-    ])
-  ]
+      transition('visible => removed', animate('700ms ease-out')),
+    ]),
+  ],
 })
 export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
-
   static COMMENT_MAX_HEIGHT = 250;
 
   @Input() comment: ForumComment;
@@ -74,9 +95,10 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
   @Output() clickedOnKeyword = new EventEmitter<string>();
   @Output() clickedUserNumber = new EventEmitter<string>();
   @Output() votedComment = new EventEmitter<string>();
-  @Output() sortedAnswers = new EventEmitter<string>();
+  @Output() editQuestionEmitter = new EventEmitter<void>();
   @ViewChild('commentBody', { static: true }) commentBody: RowComponent;
-  @ViewChild('commentBodyInner', { static: true }) commentBodyInner: RowComponent;
+  @ViewChild('commentBodyInner', { static: true })
+  commentBodyInner: RowComponent;
   @ViewChild('commentExpander', { static: true }) commentExpander: RowComponent;
   readableCommentBody: string;
   readableCommentDate: string;
@@ -97,7 +119,6 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
   room: Room;
   responses: ForumComment[] = [];
   isConversationView: boolean;
-  sortMethod = 'Time';
   currentDateString = '?';
   viewInfo: ResponseViewInformation;
   commentRegistrationId: string;
@@ -121,14 +142,19 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
     public deviceInfo: DeviceInfoService,
     public notificationService: DashboardNotificationService,
   ) {
-    langService.getLanguage().pipe(takeUntil(this._destroyer)).subscribe(lang => {
-      this.language = lang;
-      this.http.get('/assets/i18n/dashboard/' + lang + '.json').subscribe(translation => {
-        this.translateService.setTranslation(lang, translation, true);
+    langService
+      .getLanguage()
+      .pipe(takeUntil(this._destroyer))
+      .subscribe((lang) => {
+        this.language = lang;
+        this.http
+          .get('/assets/i18n/dashboard/' + lang + '.json')
+          .subscribe((translation) => {
+            this.translateService.setTranslation(lang, translation, true);
+          });
+        this.generateCommentNumber();
+        this.onLanguageChange();
       });
-      this.generateCommentNumber();
-      this.onLanguageChange();
-    });
   }
 
   @Input() set isRemoved(value: boolean) {
@@ -156,7 +182,11 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   getCommentIconClass(): string {
-    if (this.comment?.brainstormingQuestion || this.isFromOwner || this.isFromModerator) {
+    if (
+      this.comment?.brainstormingQuestion ||
+      this.isFromOwner ||
+      this.isFromModerator
+    ) {
       return '';
     }
     return 'material-icons-outlined';
@@ -170,7 +200,9 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.isConversationView) {
       this.slideAnimationState = this.isResponse ? 'child' : 'visible';
     }
-    this.readableCommentBody = this.comment?.body ? QuillUtils.getTextFromDelta(this.comment.body) : '';
+    this.readableCommentBody = this.comment?.body
+      ? QuillUtils.getTextFromDelta(this.comment.body)
+      : '';
     this.commentRegistrationId = this.comment?.id;
     this.checkProfanity();
     switch (this.userRole) {
@@ -199,12 +231,22 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
       this.filterProfanityForModerators = false;
       return;
     }
-    this.isProfanity = this.roomDataService.isCommentProfane(this.comment, !this.comment.ack);
-    this.filterProfanityForModerators = !this.roomDataService.isCommentCensored(this.comment, !this.comment.ack);
+    this.isProfanity = this.roomDataService.isCommentProfane(
+      this.comment,
+      !this.comment.ack,
+    );
+    this.filterProfanityForModerators = !this.roomDataService.isCommentCensored(
+      this.comment,
+      !this.comment.ack,
+    );
   }
 
   changeProfanityShowForModerators(comment: Comment) {
-    this.roomDataService.applyStateToComment(comment, !this.filterProfanityForModerators, !comment.ack);
+    this.roomDataService.applyStateToComment(
+      comment,
+      !this.filterProfanityForModerators,
+      !comment.ack,
+    );
     this.filterProfanityForModerators = !this.filterProfanityForModerators;
   }
 
@@ -216,7 +258,9 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
         this.commentExpander.ref.nativeElement.style.display = 'none';
         return;
       }
-      this.isExpandable = this.commentBody.getRenderedHeight() > CommentComponent.COMMENT_MAX_HEIGHT;
+      this.isExpandable =
+        this.commentBody.getRenderedHeight() >
+        CommentComponent.COMMENT_MAX_HEIGHT;
       if (!this.isExpandable) {
         this.commentExpander.ref.nativeElement.style.display = 'none';
       } else {
@@ -264,7 +308,7 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   setRead(comment: Comment): void {
-    this.commentService.toggleRead(comment).subscribe(c => {
+    this.commentService.toggleRead(comment).subscribe((c) => {
       this.comment.read = c.read;
       this.checkProfanity();
     });
@@ -276,7 +320,7 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
     } else {
       comment.correct = type;
     }
-    this.commentService.markCorrect(comment).subscribe(c => {
+    this.commentService.markCorrect(comment).subscribe((c) => {
       this.comment.correct = c.correct;
       this.checkProfanity();
     });
@@ -289,19 +333,18 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
         return;
       }
       const dialogRef = this.dialog.open(BonusDeleteComponent, {
-        width: '400px'
+        width: '400px',
       });
       dialogRef.componentInstance.multipleBonuses = false;
-      dialogRef.afterClosed()
-        .subscribe(result => {
-          if (result === 'delete') {
-            this.commentService.toggleFavorite(comment).subscribe(c => {
-              this.notifyFavorite(c);
-            });
-          }
-        });
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result === 'delete') {
+          this.commentService.toggleFavorite(comment).subscribe((c) => {
+            this.notifyFavorite(c);
+          });
+        }
+      });
     } else {
-      this.commentService.toggleFavorite(comment).subscribe(c => {
+      this.commentService.toggleFavorite(comment).subscribe((c) => {
         if (this.room?.bonusArchiveActive) {
           this.notifyFavorite(c);
         }
@@ -312,9 +355,12 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
   notifyFavorite(comment: Comment) {
     this.comment.favorite = comment.favorite;
     this.checkProfanity();
-    const text = this.comment.favorite ? 'comment-list.question-was-marked-with-a-star' :
-      'comment-list.star-was-withdrawn-from-the-question';
-    this.translateService.get(text).subscribe(ret => this.notification.show(ret));
+    const text = this.comment.favorite
+      ? 'comment-list.question-was-marked-with-a-star'
+      : 'comment-list.star-was-withdrawn-from-the-question';
+    this.translateService
+      .get(text)
+      .subscribe((ret) => this.notification.show(ret));
   }
 
   voteUp(comment: Comment): void {
@@ -323,11 +369,15 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     const userId = this.userManagementService.getCurrentUser().id;
     if (this.hasVoted !== 1) {
-      this.commentService.voteUp(comment, userId).subscribe(_ => this.votedComment.emit(this.comment.id));
+      this.commentService
+        .voteUp(comment, userId)
+        .subscribe((_) => this.votedComment.emit(this.comment.id));
       this.hasVoted = 1;
       this.currentVote = '1';
     } else {
-      this.commentService.resetVote(comment, userId).subscribe(_ => this.votedComment.emit(this.comment.id));
+      this.commentService
+        .resetVote(comment, userId)
+        .subscribe((_) => this.votedComment.emit(this.comment.id));
       this.hasVoted = 0;
       this.currentVote = '0';
     }
@@ -340,11 +390,15 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     const userId = this.userManagementService.getCurrentUser().id;
     if (this.hasVoted !== -1) {
-      this.commentService.voteDown(comment, userId).subscribe(_ => this.votedComment.emit(this.comment.id));
+      this.commentService
+        .voteDown(comment, userId)
+        .subscribe((_) => this.votedComment.emit(this.comment.id));
       this.hasVoted = -1;
       this.currentVote = '-1';
     } else {
-      this.commentService.resetVote(comment, userId).subscribe(_ => this.votedComment.emit(this.comment.id));
+      this.commentService
+        .resetVote(comment, userId)
+        .subscribe((_) => this.votedComment.emit(this.comment.id));
       this.hasVoted = 0;
       this.currentVote = '0';
     }
@@ -353,22 +407,21 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
 
   openDeleteCommentDialog(): void {
     const dialogRef = this.dialog.open(DeleteCommentComponent, {
-      width: '400px'
+      width: '400px',
     });
-    dialogRef.afterClosed()
-      .subscribe(result => {
-        if (result === 'delete') {
-          this.delete();
-        }
-      });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === 'delete') {
+        this.delete();
+      }
+    });
   }
 
   openChangeCommentTagDialog(): void {
     const dialogRef = this.dialog.open(EditCommentTagComponent, {
-      minWidth: '80%'
+      minWidth: '80%',
     });
     dialogRef.componentInstance.selectedTag = this.comment.tag;
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result !== undefined) {
         this.updateCommentTag(result);
       }
@@ -377,21 +430,23 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
 
   resetVotingAnimation() {
     setTimeout(() => {
-        this.currentVote = '';
-      },
-      1000);
+      this.currentVote = '';
+    }, 1000);
   }
 
   answerComment() {
     if (this.isMock) {
       return;
     }
-    if (this.isStudent && this.room.conversationDepth <= this.comment.commentDepth) {
+    if (
+      this.isStudent &&
+      this.room.conversationDepth <= this.comment.commentDepth
+    ) {
       return;
     }
     let url: string;
-    this.route.params.subscribe(params => {
-      url = `${ this.roleString }/room/${ params['shortId'] }/comment/${ this.comment.id }`;
+    this.route.params.subscribe((params) => {
+      url = `${this.roleString}/room/${params['shortId']}/comment/${this.comment.id}`;
     });
     localStorage.setItem('answeringQuestion', this.comment.id);
     this.router.navigate([url]);
@@ -402,18 +457,14 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
       return;
     }
     this.showResponses = true;
-    if (true) {
-      return; //TODO: REMOVE
-    }
-    if (this.isConversationView && this.indentationPossible) {
-      this.showResponses = true;
-    } else {
-      let url: string;
-      this.route.params.subscribe(params => {
-        url = `${ this.roleString }/room/${ params['shortId'] }/comment/${ this.comment.id }/conversation`;
-      });
-      this.router.navigate([url]);
-    }
+  }
+
+  navigateConversation() {
+    let url: string;
+    this.route.params.subscribe((params) => {
+      url = `${this.roleString}/room/${params['shortId']}/comment/${this.comment.id}/conversation`;
+    });
+    this.router.navigate([url]);
   }
 
   hideConversation() {
@@ -424,22 +475,26 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   delete(): void {
-    this.commentService.deleteComment(this.comment.id).subscribe(room => {
-      this.translateService.get('comment-list.comment-deleted').subscribe(msg => {
-        this.notification.show(msg);
-      });
+    this.commentService.deleteComment(this.comment.id).subscribe((room) => {
+      this.translateService
+        .get('comment-list.comment-deleted')
+        .subscribe((msg) => {
+          this.notification.show(msg);
+        });
     });
   }
 
   updateCommentTag(tag: string) {
-    this.commentService.updateCommentTag(this.comment, tag).subscribe(comment => {
-      this.comment.tag = comment.tag;
-      this.checkProfanity();
-    });
+    this.commentService
+      .updateCommentTag(this.comment, tag)
+      .subscribe((comment) => {
+        this.comment.tag = comment.tag;
+        this.checkProfanity();
+      });
   }
 
   setAck(comment: Comment): void {
-    this.commentService.toggleAck(comment).subscribe(c => {
+    this.commentService.toggleAck(comment).subscribe((c) => {
       this.comment.ack = c.ack;
     });
   }
@@ -452,7 +507,7 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
       this.roomDataService.toggleBookmark(comment);
       return;
     }
-    this.commentService.toggleBookmark(comment).subscribe(c => {
+    this.commentService.toggleBookmark(comment).subscribe((c) => {
       this.comment.bookmark = c.bookmark;
       this.checkProfanity();
     });
@@ -476,25 +531,23 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
     const dialogRef = this.dialog.open(PresentCommentComponent, {
       position: {
         left: '10px',
-        right: '10px'
+        right: '10px',
       },
       maxWidth: '100vw',
       maxHeight: '100vh',
       height: '100%',
-      width: '100%'
+      width: '100%',
     });
     dialogRef.componentInstance.body = comment.body;
-    dialogRef.afterClosed()
-      .subscribe(result => {
-        this.commentService.lowlight(comment).subscribe();
-        this.exitFullScreen();
-
-      });
+    dialogRef.afterClosed().subscribe((result) => {
+      this.commentService.lowlight(comment).subscribe();
+      this.exitFullScreen();
+    });
   }
 
   openBonusStarDialog() {
     const dialogRef = this.dialog.open(UserBonusTokenComponent, {
-      width: '600px'
+      width: '600px',
     });
     dialogRef.componentInstance.userId = this.user.id;
   }
@@ -522,8 +575,8 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
 
   respondToComment() {
     let url: string;
-    this.route.params.subscribe(params => {
-      url = `${ this.roleString }/room/${ params['shortId'] }/comment/${ this.comment.id }`;
+    this.route.params.subscribe((params) => {
+      url = `${this.roleString}/room/${params['shortId']}/comment/${this.comment.id}`;
     });
     this.router.navigate([url]);
   }
@@ -537,7 +590,7 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
     ]).subscribe(([room, mods]) => {
       this.viewInfo = {
         roomId: room.id,
-        mods: new Set<string>(mods.map(m => m.accountId)),
+        mods: new Set<string>(mods.map((m) => m.accountId)),
         roomThreshold: room.threshold,
         roomOwner: room.ownerId,
         user: this.user,
@@ -545,7 +598,8 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
         isModerationComment: this.isModerator,
         votes: this._votes,
       };
-      this.showResponses = this.showResponses || Boolean(this.activeKeywordSearchString);
+      this.showResponses =
+        this.showResponses || Boolean(this.activeKeywordSearchString);
     });
   }
 
@@ -554,15 +608,14 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
       return true;
     }
     if (this.notificationService.hasCommentSubscription(this.comment.id)) {
-      this.notificationService.deleteCommentSubscription(this.comment.id).subscribe();
+      this.notificationService
+        .deleteCommentSubscription(this.comment.id)
+        .subscribe();
     } else {
-      this.notificationService.addCommentSubscription(this.comment.roomId, this.comment.id).subscribe();
+      this.notificationService
+        .addCommentSubscription(this.comment.roomId, this.comment.id)
+        .subscribe();
     }
-  }
-
-  sortAnswers(value: string) {
-    this.sortedAnswers.emit(value);
-    this.sortMethod = value;
   }
 
   getPrettyCommentNumber(): string[] {
@@ -570,7 +623,9 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   getTranslationForBonus(message: string) {
-    return `comment-page.${ message }${ !this.room?.bonusArchiveActive ? '-disabled-bonus' : '' }`;
+    return `comment-page.${message}${
+      !this.room?.bonusArchiveActive ? '-disabled-bonus' : ''
+    }`;
   }
 
   ownsComment() {
@@ -579,17 +634,35 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
 
   hasOneAction(): boolean {
     const keys = ['star', 'change-tag', 'delete'] as const;
-    return keys.some(key => this.canInteractWithAction(key));
+    return keys.some((key) => this.canInteractWithAction(key));
   }
 
-  canInteractWithAction(interaction: 'star' | 'change-tag' | 'delete'): boolean {
+  canInteractWithAction(
+    interaction: 'star' | 'change-tag' | 'delete',
+  ): boolean {
     if (this.isMock) {
       return false;
     }
     const hasPrivileges = !this.isStudent || this.ownsComment();
-    return (interaction === 'star' && !this.isStudent && !this.comment.favorite) ||
-      (interaction === 'change-tag' && this.roomTags?.length && hasPrivileges) ||
-      (interaction === 'delete' && hasPrivileges && !this.comment.favorite);
+    return (
+      (interaction === 'star' && !this.isStudent && !this.comment.favorite) ||
+      (interaction === 'change-tag' &&
+        this.roomTags?.length &&
+        hasPrivileges) ||
+      (interaction === 'delete' && hasPrivileges && !this.comment.favorite)
+    );
+  }
+
+  canEditQuestion(): boolean {
+    if (this.isMock) {
+      return false;
+    }
+    const hasPrivileges = !this.isStudent || this.ownsComment();
+    return hasPrivileges;
+  }
+
+  editQuestion() {
+    this.editQuestionEmitter.emit();
   }
 
   private onLanguageChange() {
@@ -597,15 +670,21 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
       return;
     }
     const date = new Date(this.comment.createdAt);
-    const dateString = date.toLocaleDateString(this.langService.currentLanguage() ?? undefined, {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric'
-    });
-    const timeString = date.toLocaleTimeString(this.langService.currentLanguage() ?? undefined, {
-      minute: '2-digit',
-      hour: '2-digit',
-    });
+    const dateString = date.toLocaleDateString(
+      this.langService.currentLanguage() ?? undefined,
+      {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+      },
+    );
+    const timeString = date.toLocaleTimeString(
+      this.langService.currentLanguage() ?? undefined,
+      {
+        minute: '2-digit',
+        hour: '2-digit',
+      },
+    );
     this.readableCommentDate = dateString + ' ' + timeString;
   }
 
@@ -613,6 +692,9 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
     if (!this.comment?.number) {
       return;
     }
-    this._commentNumber = Comment.computePrettyCommentNumber(this.translateService, this.comment);
+    this._commentNumber = Comment.computePrettyCommentNumber(
+      this.translateService,
+      this.comment,
+    );
   }
 }

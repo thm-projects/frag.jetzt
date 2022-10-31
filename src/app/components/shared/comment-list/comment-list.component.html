@@ -434,6 +434,7 @@
     [commentsWrittenByUser]="commentsWrittenByUsers.get(current.creatorId).size"
     [indentationPossible]="true"
     [activeKeywordSearchString]="activeKeyword"
+    (editQuestionEmitter)="editQuestion(current)"
     (clickedOnTag)="applyFilterByKey('Tag', $event)"
     (clickedUserNumber)="applyFilterByKey('CreatorId', $event)"
     (clickedOnKeyword)="applyFilterByKey('Keyword', $event)"

@@ -1,31 +1,133 @@
-<div class="response-container">
+<div class="main-container">
+  <div class="button-bar" fxLayoutAlign="end center" *ngIf="getData()?.length > 1">
+    <button
+      id="sort-button"
+      mat-icon-button
+      class="searchBarButton"
+      aria-labelledby="swap_vert"
+      *ngIf="getData()"
+      [matMenuTriggerFor]="sortMenu"
+      matTooltip="{{ 'comment-list.sort-comments' | translate }}"
+    >
+      <mat-icon class="searchBarIcon">swap_vert</mat-icon>
+    </button>
+  </div>
+  <div class="response-container">
     <span class="response-arrow-container" *ngIf="getDepthLevel() > 1">
-      <span class="arrow">
-        &rdca;
-      </span>
+      <span class="arrow"> &rdca; </span>
       <span class="number">
-        {{getDepthLevel()}}
+        {{ getDepthLevel() }}
       </span>
     </span>
-  <div class="responses" #containerRef (window:resize)="ngAfterViewInit()">
-    <ng-container *ngIf="getData()">
-      <ng-container *ngFor="let response of getData(); let i = index">
-        <app-comment *ngIf="response?.body"
-                     style="width: 100%; max-width: unset"
-                     [comment]="response"
-                     [isRemoved]="response?.removed"
-                     [user]="viewInfo.user"
-                     [userRole]="viewInfo.userRole"
-                     [parseVote]="viewInfo.votes"
-                     [indentationPossible]="canNew()"
-                     [moderator]="viewInfo.isModerationComment"
-                     [isFromModerator]="viewInfo.mods.has(response.creatorId)"
-                     [isFromOwner]="viewInfo.roomOwner === response.creatorId"
-                     [isResponse]="true"
-                     [activeKeywordSearchString]="keywordFilter"
-                     [responseIndex]="i + 1"
-        ></app-comment>
+    <div class="responses" #containerRef (window:resize)="ngAfterViewInit()">
+      <ng-container *ngIf="getData()">
+        <ng-container *ngFor="let response of getData(); let i = index">
+          <app-comment
+            *ngIf="response?.body"
+            style="width: 100%; max-width: unset"
+            [comment]="response"
+            [isRemoved]="response?.removed"
+            [user]="viewInfo.user"
+            [userRole]="viewInfo.userRole"
+            [parseVote]="viewInfo.votes"
+            [indentationPossible]="canNew()"
+            [moderator]="viewInfo.isModerationComment"
+            [isFromModerator]="viewInfo.mods.has(response.creatorId)"
+            [isFromOwner]="viewInfo.roomOwner === response.creatorId"
+            [isResponse]="true"
+            [activeKeywordSearchString]="keywordFilter"
+            [responseIndex]="i + 1"
+            (editQuestionEmitter)="editQuestion(response)"
+          ></app-comment>
+        </ng-container>
       </ng-container>
-    </ng-container>
+    </div>
   </div>
 </div>
+
+<mat-menu #sortMenu="matMenu" xPosition="before">
+  <button
+    mat-menu-item
+    (click)="applySortingByKey('Time')"
+    aria-labelledby="access_time"
+  >
+    <mat-icon [ngClass]="{ Time: 'timesort' }[!sortReverse && sortType]">update</mat-icon>
+    <span [ngClass]="{ Time: 'timesort' }[!sortReverse && sortType]">{{
+      "comment-list.sort-list-time" | translate
+    }}</span>
+  </button>
+  <button
+    mat-menu-item
+    (click)="applySortingByKey('Time', true)"
+    aria-labelledby="access_time"
+  >
+    <mat-icon [ngClass]="{ Time: 'timesort-reverse' }[sortReverse && sortType]">history</mat-icon>
+    <span [ngClass]="{ Time: 'timesort-reverse' }[sortReverse && sortType]">{{
+      "comment-list.sort-list-time-reverse" | translate
+    }}</span>
+  </button>
+
+  <button
+    mat-menu-item
+    (click)="applySortingByKey('Score')"
+    aria-labelledby="keyboard_arrow_up"
+  >
+    <mat-icon
+      class="material-icons-outlined"
+      [ngClass]="{ Score: 'up' }[!sortReverse && sortType]"
+    >
+      thumb_up
+    </mat-icon>
+    <span [ngClass]="{ Score: 'up' }[!sortReverse && sortType]">
+      {{ "comment-list.sort-vote-asc" | translate }}
+    </span>
+  </button>
+
+  <button
+    mat-menu-item
+    (click)="applySortingByKey('Score', true)"
+    aria-labelledby="keyboard_arrow_down"
+  >
+    <mat-icon
+      [ngClass]="{ Score: 'down' }[sortReverse && sortType]"
+      class="material-icons-outlined"
+    >
+      thumb_down
+    </mat-icon>
+    <span [ngClass]="{ Score: 'down' }[sortReverse && sortType]">
+      {{ "comment-list.sort-vote-desc" | translate }}
+    </span>
+  </button>
+
+  <button
+    mat-menu-item
+    (click)="applySortingByKey('Controversy')"
+    aria-labelledby="controversy"
+  >
+    <mat-icon
+      class="material-icons-outlined"
+      [ngClass]="{ Controversy: 'controversy' }[sortType]"
+    >
+      quickreply
+    </mat-icon>
+    <span [ngClass]="{ Controversy: 'controversy' }[sortType]">
+      {{ "comment-list.sort-controversy" | translate }}
+    </span>
+  </button>
+
+  <button
+    mat-menu-item
+    (click)="applySortingByKey('Commented')"
+    aria-labelledby="commented"
+  >
+    <mat-icon
+      class="material-icons-outlined"
+      [ngClass]="{ Commented: 'commented' }[sortType]"
+    >
+      forum
+    </mat-icon>
+    <span [ngClass]="{ Commented: 'commented' }[sortType]">
+      {{ "comment-list.sort-commented" | translate }}
+    </span>
+  </button>
+</mat-menu>

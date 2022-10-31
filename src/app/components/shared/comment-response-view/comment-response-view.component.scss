@@ -1,3 +1,46 @@
+@use "sass:math";
+@import "src/layout/layout-variables";
+
+$responseShadowOff: math.ceil($responseShadowWidth + $responseShadowYOffset);
+
+.main-container {
+  width: 100%;
+  max-width: 800px;
+  box-shadow: 0 -#{$responseShadowOff} var(--background),
+    -#{$responseShadowWidth} -#{$responseShadowYOffset} 0 #{$responseShadowWidth}
+      var(--on-background),
+    -#{$responseShadowWidth} #{$responseShadowWidth} 0 #{$responseShadowWidth} var(--on-background);
+  border-radius: 0 0 0 $responseBorderRadius;
+}
+
+#sort-button {
+  color: var(--secondary);
+}
+
+.timesort {
+  color: var(--primary);
+}
+
+.timesort-reverse {
+  color: var(--secondary);
+}
+
+.up {
+  color: var(--green);
+}
+
+.down {
+  color: var(--red);
+}
+
+.controversy {
+  color: var(--primary);
+}
+
+.commented {
+  color: var(--primary);
+}
+
 .response-container {
   display: flex;
   color: var(--on-background);
@@ -10,7 +53,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: calc(100% - 15px);
+    width: calc(100% - #{$responseLevelShift});
   }
 }
 
