@@ -37,6 +37,7 @@ import { QuillUtils, StandardDelta } from '../../../utils/quill-utils';
 import { Comment } from '../../../models/comment';
 import { ResponseViewInformation } from '../comment-response-view/comment-response-view.component';
 import { UserManagementService } from '../../../services/util/user-management.service';
+import { TSMap } from 'typescript-map';
 
 @Component({
   selector: 'app-comment-answer',
@@ -257,23 +258,45 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
     setTimeout(() => this.commentComponent.commentData.set(this.answer));
   }
 
-  applySortAnswers(value: string) {
-    switch (value) {
-      case 'Time':
-        this.responses.sort(
-          (a, b) =>
-            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
-        );
-        this.responses.reverse();
-        break;
-      case 'BestScore':
-        this.responses.sort((a, b) => b.score - a.score);
-        break;
-      case 'WorstScore':
-        this.responses.sort((a, b) => b.score - a.score);
-        this.responses.reverse();
-        break;
-    }
+  editQuestion(comment: ForumComment) {
+    const ref = this.dialog.open(WriteCommentComponent, {
+      autoFocus: false,
+    });
+    const instance = ref.componentInstance;
+    instance.confirmLabel = 'send';
+    instance.brainstormingData = this.sessionService.currentRoom.brainstormingSession;
+    instance.tags = this.sessionService.currentRoom.tags;
+    instance.isQuestionerNameEnabled = false;
+    instance.isModerator = this.sessionService.currentRole > 0;
+    instance.rewriteCommentData = comment;
+    instance.onClose = (newComment) => {
+      ref.close();
+      if (!newComment) {
+        return;
+      }
+      const changes = new TSMap<keyof ForumComment, any>();
+      const newBody = QuillUtils.serializeDelta(newComment.body);
+      if (newBody !== QuillUtils.serializeDelta(comment.body)) {
+        changes.set('body', newBody);
+      }
+      if (newComment.language !== comment.language) {
+        changes.set('language', newComment.language);
+      }
+      const newKeyQuestioner = JSON.stringify(
+        newComment.keywordsFromQuestioner,
+      );
+      if (newKeyQuestioner !== JSON.stringify(comment.keywordsFromQuestioner)) {
+        changes.set('keywordsFromQuestioner', newKeyQuestioner);
+      }
+      const newKeySpaCy = JSON.stringify(newComment.keywordsFromSpacy);
+      if (newKeyQuestioner !== JSON.stringify(comment.keywordsFromSpacy)) {
+        changes.set('keywordsFromSpacy', newKeySpaCy);
+      }
+      if (changes.size() === 0) {
+        return;
+      }
+      this.commentService.patchComment(comment, changes).subscribe();
+    };
   }
 
   private findComment(commentId: string): Observable<[ForumComment, boolean]> {
