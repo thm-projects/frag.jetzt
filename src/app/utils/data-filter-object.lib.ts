@@ -144,7 +144,7 @@ const DEFAULTS: { [key in FilterTypes]: DefaultData } = {
     filterType: null,
     filterCompare: null,
     sortType: SortType.Time,
-    sortReverse: false,
+    sortReverse: true,
     ignoreThreshold: false,
     ignoreRoleSort: false,
     currentSearch: '',
