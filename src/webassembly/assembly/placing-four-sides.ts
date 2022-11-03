@@ -30,16 +30,12 @@ export function mergeTRanges(
   staticRange: Range,
   tRange: Range,
   tProjectedOnRange: f32
-): Range | null {
+): bool {
   if (isZero(tProjectedOnRange)) {
-    if (staticRange.isInvalid) {
-      return baseRange;
+    if (staticRange.isInvalid || staticRange.collides(tRange)) {
+      return true;
     }
-    if (staticRange.collides(tRange)) {
-      baseRange.setInvalid();
-      return baseRange;
-    }
-    return null;
+    return false;
   }
   const t1 = (tRange.getStart() - staticRange.getEnd()) / -tProjectedOnRange;
   const t2 = (staticRange.getStart() - tRange.getEnd()) / tProjectedOnRange;
@@ -48,7 +44,7 @@ export function mergeTRanges(
   } else {
     baseRange.collapse(t1, t2);
   }
-  return baseRange;
+  return true;
 }
 
 class SimpleCollisionBox {
@@ -59,6 +55,7 @@ class SimpleCollisionBox {
   private readonly xRange: Range;
   private readonly yRange: Range;
   private readonly tRange: Array<Range> = new Array<Range>();
+  private readonly baseTRange: Range;
 
   /**
    * @param midPoint Currently testing mid point
@@ -102,7 +99,8 @@ class SimpleCollisionBox {
       this.moveRange.getEnd() + moveTSize
     );
     this.collRange = calcMinMax(this.addCollDir, this.points);
-    this.tRange.push(new Range(-moveTSize, moveTSize));
+    this.baseTRange = new Range(-moveTSize, moveTSize);
+    this.tRange.push(this.baseTRange.clone());
     // calculate for sat
     const edgePoints = new StaticArray<Vector2>(4);
     {
@@ -193,40 +191,47 @@ class SimpleCollisionBox {
    */
   collideTRange(topic: WordCloudTopic): bool {
     const pos = topic.position!;
-    let currentRange: Range | null = this.completeMoveRange.clone();
+    const currentRange: Range = this.baseTRange.clone();
     // self move dir
-    currentRange = mergeTRanges(
-      currentRange!,
-      calcMinMax(this.moveDir, pos.points),
-      this.moveRange,
-      1
-    );
-    // No collision can occur, continue
-    if (currentRange === null) return true;
+    if (
+      !mergeTRanges(
+        currentRange,
+        calcMinMax(this.moveDir, pos.points),
+        this.moveRange,
+        1
+      )
+    )
+      return true;
     // self additional dir
-    currentRange = mergeTRanges(
-      currentRange,
-      calcMinMax(this.addCollDir, pos.points),
-      this.collRange,
-      0
-    );
-    if (currentRange === null) return true;
+    if (
+      !mergeTRanges(
+        currentRange,
+        calcMinMax(this.addCollDir, pos.points),
+        this.collRange,
+        0
+      )
+    )
+      return true;
     // other up
-    currentRange = mergeTRanges(
-      currentRange,
-      pos.normal1Range,
-      calcMinMax(pos.normal1, this.points),
-      pos.normal1.dot(this.moveDir)
-    );
-    if (currentRange === null) return true;
+    if (
+      !mergeTRanges(
+        currentRange,
+        pos.normal1Range,
+        calcMinMax(pos.normal1, this.points),
+        pos.normal1.dot(this.moveDir)
+      )
+    )
+      return true;
     // other right
-    currentRange = mergeTRanges(
-      currentRange,
-      pos.normal2Range,
-      calcMinMax(pos.normal2, this.points),
-      pos.normal2.dot(this.moveDir)
-    );
-    if (currentRange === null) return true;
+    if (
+      !mergeTRanges(
+        currentRange,
+        pos.normal2Range,
+        calcMinMax(pos.normal2, this.points),
+        pos.normal2.dot(this.moveDir)
+      )
+    )
+      return true;
     if (currentRange.isInvalid) {
       // Checks only at end, a object is only colliding if all normals on each polygon collide.
       //  -> Invalid can be ignored till end

@@ -284,7 +284,10 @@ export class WordCloudComponent<T extends WordMeta>
           const elem = this._elements[i];
           elem.visible = true;
           const buildInfo = elem.buildInformation;
-          buildInfo.origin = [arr[i * 3 + 2] - buildInfo.position.width / 2, arr[i * 3 + 3] - buildInfo.position.height / 2];
+          buildInfo.origin = [
+            arr[i * 3 + 2] - buildInfo.position.width / 2,
+            arr[i * 3 + 3] - buildInfo.position.height / 2,
+          ];
         }
         for (let i = length; i < this._elements.length; i++) {
           const elem = this._elements[i];

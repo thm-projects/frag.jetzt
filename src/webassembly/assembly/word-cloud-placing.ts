@@ -48,7 +48,7 @@ export class Range {
     if (otherRange.start <= this.start) {
       if (otherRange.end >= this.end) {
         rangeList.splice(currentIndex, 1);
-      } else {
+      } else if (otherRange.end > this.start) {
         this.start = otherRange.end;
       }
       return false;

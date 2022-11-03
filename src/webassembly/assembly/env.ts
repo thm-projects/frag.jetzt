@@ -1,1 +1,1 @@
-export declare function debugLog(str: String): void;
+ export declare function debugLog(str: String): void;
