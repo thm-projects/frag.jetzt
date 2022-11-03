@@ -1,0 +1,1 @@
+export declare function debugLog(str: String): void;

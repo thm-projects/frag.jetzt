@@ -4,9 +4,9 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build --configuration production",
-    "test": "ng test --watch=false --browsers=ChromeHeadlessCustom --source-map=false --code-coverage",
+    "start": "npm run build:wasm && ng serve",
+    "build": "npm run build:wasm && ng build --configuration production",
+    "test": "npm run build:wasm && ng test --watch=false --browsers=ChromeHeadlessCustom --source-map=false --code-coverage",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "extract": "ngx-translate-extract -m _ --input ./src --output ./src/assets/i18n/de.json ./src/assets/i18n/en.json --clean --sort --format namespaced-json",
@@ -17,7 +17,10 @@
     "i18n:find-missing": "node ./src/assets/i18n/i18nUpdater.js missing",
     "i18n:count-untranslated": "node ./src/assets/i18n/i18nUpdater.js untranslated",
     "i18n:find-untranslated": "node ./src/assets/i18n/i18nUpdater.js untranslated --show-all",
-    "i18n:find-unused": "node ./src/assets/i18n/i18nUpdater.js project-unused"
+    "i18n:find-unused": "node ./src/assets/i18n/i18nUpdater.js project-unused",
+    "build:wasm": "npm run assembly:build && npm run assembly:copy",
+    "assembly:build": "cd ./src/webassembly && npm run asbuild:release",
+    "assembly:copy": "mkdir -p ./src/assets/wasm && cp ./src/webassembly/build/release.wasm ./src/assets/wasm/ && cp ./src/webassembly/build/release.wasm.map ./src/assets/wasm/"
   },
   "private": true,
   "dependencies": {
