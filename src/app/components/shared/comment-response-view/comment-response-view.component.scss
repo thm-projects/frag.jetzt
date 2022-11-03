@@ -10,7 +10,7 @@ $responseShadowOff: math.ceil($responseShadowWidth + $responseShadowYOffset);
     -#{$responseShadowWidth} -#{$responseShadowYOffset} 0 #{$responseShadowWidth}
       var(--on-background),
     -#{$responseShadowWidth} #{$responseShadowWidth} 0 #{$responseShadowWidth} var(--on-background);
-  border-radius: 0 0 0 $responseBorderRadius;
+  border-radius: 0 0 $responseBorderRadius $responseBorderRadius;
 }
 
 #sort-button {
