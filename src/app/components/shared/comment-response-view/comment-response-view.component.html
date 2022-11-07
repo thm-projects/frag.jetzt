@@ -1,4 +1,4 @@
-<div class="main-container">
+<div class="main-container" [ngClass]="{'marker': getData()?.length > 0}">
   <div class="button-bar" fxLayoutAlign="flex-start" *ngIf="getData()?.length > 2">
     <button
       id="sort-button"
