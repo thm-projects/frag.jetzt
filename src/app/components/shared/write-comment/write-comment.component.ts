@@ -431,7 +431,7 @@ export class WriteCommentComponent implements OnInit, AfterViewInit, OnDestroy {
       .getSettings(this.sessionService.currentRoom?.id, this.user?.id)
       .pipe(
         switchMap((data) => {
-          const formality = data.formality ?? FormalityType.Less;
+          const formality = data?.formality ?? FormalityType.Less;
           return forkJoin([
             this.deeplService.improveDelta(body, target, formality),
             of(formality),
@@ -472,7 +472,8 @@ export class WriteCommentComponent implements OnInit, AfterViewInit, OnDestroy {
             }
           });
         },
-        error: () => {
+        error: (err) => {
+          console.error(err);
           this.isSpellchecking = false;
           onClose({ body, text, view: this.commentData });
         },

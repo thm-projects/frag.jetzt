@@ -1,17 +1,20 @@
 <app-minute-jump-clock></app-minute-jump-clock>
 <div class="qr-code-colors" #qrCodeColors></div>
-<qrcode [qrdata]="getURL()"
-        (click)="showQR()"
-        *ngIf="canShowURL()"
-        class="comment-qr-code"
-        [colorDark]="qrDark"
-        [colorLight]="qrLight"
-        [width]="600"
-        [matTooltip]="'comment-list.qr-in-fullscreen' | translate"
-        [errorCorrectionLevel]="'M'">
-</qrcode>
+<div class="qr-code-container" *ngIf="canShowURL()">
+  <qrcode [qrdata]="getURL()"
+    (click)="showQR()"
+    [colorDark]="qrDark"
+    [colorLight]="qrLight"
+    [width]="600"
+    [matTooltip]="'comment-list.qr-in-fullscreen' | translate"
+    [errorCorrectionLevel]="'M'">
+  </qrcode>
+  <p>&raquo;{{ room?.name }}&laquo;</p>
+</div>
+
 
 <div *ngIf="comments && (commentsFilteredByTimeLength > 0 || filterType || period !== 'All')">
+  <p *ngIf="!canShowURL()">&raquo;{{ room?.name }}&laquo;</p>
   <p class="counter"
      *ngIf="!filterType && !search">
      <span matTooltip="{{ 'comment-list.counter-description' | translate }}">
@@ -320,11 +323,6 @@
         </mat-icon>
         <span [ngClass]="{BrainstormingQuestion: 'brainstorm-icon'}[filterType]">
           {{ 'comment-list.filter-brainstorm' | translate }}
-        </span>
-        <span class="inline-count-badge"
-              [matBadge]="filterTypeCounts?.['BrainstormingQuestion'] || 0"
-              matBadgeColor="secondary"
-              matBadgeSize="medium">
         </span>
       </button>
 

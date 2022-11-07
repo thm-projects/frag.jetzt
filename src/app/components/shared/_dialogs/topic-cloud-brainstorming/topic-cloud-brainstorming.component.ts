@@ -129,7 +129,7 @@ export class TopicCloudBrainstormingComponent implements OnInit, OnDestroy {
   }
 
   canCreate() {
-    return !this.brainstormingData?.active && this.question && this.maxWordCount.valid && this.maxWordLength.valid;
+    return !this.brainstormingData && this.question && this.maxWordCount.valid && this.maxWordLength.valid;
   }
 
   closeSession() {
