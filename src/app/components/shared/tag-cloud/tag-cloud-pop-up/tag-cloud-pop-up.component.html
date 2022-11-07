@@ -40,7 +40,7 @@
         </mat-icon>
       </button>
     </div>
-    <div style="margin-top: 10px">
+    <div style="margin-top: 10px" *ngIf="isBrainstorming && isBrainstormingActive || !isBrainstorming">
       <button *ngIf="isBrainstorming"
               mat-flat-button
               class="vote-button"

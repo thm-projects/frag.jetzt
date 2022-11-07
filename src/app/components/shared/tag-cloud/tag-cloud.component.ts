@@ -247,7 +247,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
   }
 
   enter(word: ActiveWord<TagComment>) {
-    this.popup.enter(word.element, word.meta.text, this.brainstormingActive, word.meta.tagData,
+    this.popup.enter(word.element, word.meta.text, this.brainstormingActive, this.brainstormingData?.active, word.meta.tagData,
       (this._currentSettings.hoverTime + this._currentSettings.hoverDelay) * 1_000,
       this.room && this.room.blacklistActive);
   }
