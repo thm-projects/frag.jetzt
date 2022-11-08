@@ -2,19 +2,17 @@
 <div class="qr-code-colors" #qrCodeColors></div>
 <div class="qr-code-container" *ngIf="canShowURL()">
   <qrcode [qrdata]="getURL()"
-    (click)="showQR()"
-    [colorDark]="qrDark"
-    [colorLight]="qrLight"
-    [width]="600"
-    [matTooltip]="'comment-list.qr-in-fullscreen' | translate"
-    [errorCorrectionLevel]="'M'">
+          (click)="showQR()"
+          [colorDark]="qrDark"
+          [colorLight]="qrLight"
+          [width]="600"
+          [matTooltip]="'comment-list.qr-in-fullscreen' | translate"
+          [errorCorrectionLevel]="'M'">
   </qrcode>
-  <p>&raquo;{{ room?.name }}&laquo;</p>
 </div>
 
-
+<p style="font-size: 18px; hyphens: auto">&raquo;{{ room?.name }}&laquo;</p>
 <div *ngIf="comments && (commentsFilteredByTimeLength > 0 || filterType || period !== 'All')">
-  <p *ngIf="!canShowURL()">&raquo;{{ room?.name }}&laquo;</p>
   <p class="counter"
      *ngIf="!filterType && !search">
      <span matTooltip="{{ 'comment-list.counter-description' | translate }}">
@@ -25,7 +23,7 @@
 </div>
 
 <div fxLayout="row"
-     *ngIf="comments.length > 0 || filterType || period !== 'All' || search"
+     *ngIf="comments.length > 2 || filterType || period !== 'All' || search"
      [ngClass]="{'search-container' : !scroll, 'search-container-fixed' : scroll}"
      (window:scroll)="checkScroll()"
      fxLayoutAlign="center">
