@@ -350,7 +350,7 @@ h1 {
   --size: calc(37.5vw - 370px);
   right: calc((50vw - 400px - var(--size)) / 2);
   font-size: 2em;
-  top: calc(50vh - (var(--size) + 1.25em) / 2);
+  top: calc(50vh - (var(--size)) / 2);
 
   ::ng-deep qrcode canvas {
     height: var(--size) !important;
