@@ -225,6 +225,7 @@
     "sure": "Tu en es sûr ?",
     "tag-cloud": "Radar à questions",
     "tag-cloud-administration": "Paramètres de l'IA",
+    "brainstorming-blacklist": "Brainstorming Liste noire",
     "tag-cloud-config": "Apparence & animation",
     "tag-cloud-screenshot": "Imprimer le nuage de mots",
     "tooltip-creator": "Tu as créé la salle.",
@@ -430,7 +431,7 @@
   },
   "qr-dialog": {
     "session": "Code ",
-    "url": "URL : frag.jetzt"
+    "url": "URL : {{url}}"
   },
   "register": {
     "cancel": "Annuler",

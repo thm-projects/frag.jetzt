@@ -75,7 +75,7 @@
     </div>
     <div class="replacementContainer"
          *ngIf="userRole > 0">
-      <mat-form-field>
+      <mat-form-field *ngIf="!isBrainstorming">
         <mat-label>{{'tag-cloud-popup.tag-correction-placeholder' | translate}}</mat-label>
         <input type="text"
                aria-label="{{'tag-cloud-popup.tag-correction-placeholder' | translate}}"

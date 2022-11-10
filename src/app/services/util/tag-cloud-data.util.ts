@@ -126,9 +126,10 @@ export class TagCloudDataBuilder {
     if (!information) {
       return;
     }
+    const limit = this.brainstormingActive ? 0 : 3;
     const hasLabels = !this.brainstormingActive && wantedLabels?.length;
     information.source.forEach((keyword, index) => {
-      if (maskKeyword(keyword.text).length < 3 || information.censored[index]) {
+      if (maskKeyword(keyword.text).length < limit || information.censored[index]) {
         return;
       }
       if (hasLabels && !keyword.dep?.some((e) => wantedLabels.includes(e))) {

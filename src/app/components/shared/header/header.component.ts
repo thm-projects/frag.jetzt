@@ -246,7 +246,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   /*QR*/
 
   public getURL(): string {
-    return `${window.location.protocol}//${window.location.hostname}/participant/room/${this.room?.shortId}`;
+    return `${location.origin}/participant/room/${this.room?.shortId}`;
   }
 
   public showQRDialog() {

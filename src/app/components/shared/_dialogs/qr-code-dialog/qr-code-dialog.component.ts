@@ -12,6 +12,7 @@ export class QrCodeDialogComponent implements OnInit, AfterViewInit {
   data: string;
   qrWidth: number;
   key: string;
+  readonly url = location.host;
 
   constructor(
     private dialog: MatDialog,
