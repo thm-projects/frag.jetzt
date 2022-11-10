@@ -38,8 +38,7 @@ const CLOSE_TIME = 1500;
   styleUrls: ['./tag-cloud-pop-up.component.scss'],
 })
 export class TagCloudPopUpComponent
-  implements OnInit, AfterViewInit, OnDestroy
-{
+  implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('popupContainer') popupContainer: ElementRef;
   @ViewChild(MatAutocompleteTrigger) trigger: MatAutocompleteTrigger;
   @Input() room: Room;

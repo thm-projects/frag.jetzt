@@ -12,9 +12,13 @@ export class TagCloudSettings {
 
   static getFromRoom(room: Room): TagCloudSettings {
     let object = JSON.parse(room.tagCloudSettings || null);
-    if (!object) return null;
+    if (!object) {
+      return null;
+    }
     let version = object.version || 0;
-    if (version === 0) return null;
+    if (version === 0) {
+      return null;
+    }
     while (version < CURRENT_VERSION) {
       object = this.migrate(object, version);
       version += 1;
@@ -22,6 +26,13 @@ export class TagCloudSettings {
     const { admin, brainstormingBlacklist } = object;
     return new TagCloudSettings(
       admin as TopicCloudAdminData,
+      brainstormingBlacklist,
+    );
+  }
+
+  static getCurrent(brainstormingBlacklist: string[]): TagCloudSettings {
+    return new TagCloudSettings(
+      TopicCloudAdminService.getDefaultAdminData,
       brainstormingBlacklist,
     );
   }
@@ -35,13 +46,6 @@ export class TagCloudSettings {
       };
     }
     return null;
-  }
-
-  static getCurrent(brainstormingBlacklist: string[]): TagCloudSettings {
-    return new TagCloudSettings(
-      TopicCloudAdminService.getDefaultAdminData,
-      brainstormingBlacklist,
-    );
   }
 
   serialize() {

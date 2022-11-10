@@ -21,9 +21,8 @@ export class BrainstormingBlacklistEditComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.blacklist = TagCloudSettings.getFromRoom(
-      this.room,
-    )?.brainstormingBlacklist || [];
+    this.blacklist =
+      TagCloudSettings.getFromRoom(this.room)?.brainstormingBlacklist || [];
     this.blacklist.sort();
   }
 
@@ -35,7 +34,9 @@ export class BrainstormingBlacklistEditComponent implements OnInit {
 
   removeWordFromBlacklist(tag) {
     const index = this.blacklist.indexOf(tag);
-    if (index < 0) return;
+    if (index < 0) {
+      return;
+    }
     this.blacklist.splice(index, 1);
   }
 

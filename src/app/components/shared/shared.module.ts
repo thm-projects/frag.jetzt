@@ -171,6 +171,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { UIRegistrationComponent } from './uiregistration/uiregistration.component';
 import { PseudonymEditorComponent } from './_dialogs/pseudonym-editor/pseudonym-editor.component';
 import { BrainstormingBlacklistEditComponent } from './_dialogs/brainstorming-blacklist-edit/brainstorming-blacklist-edit.component';
+import { EditQuestionComponent } from './_dialogs/edit-question/edit-question.component';
 
 @NgModule({
   imports: [
@@ -279,7 +280,8 @@ import { BrainstormingBlacklistEditComponent } from './_dialogs/brainstorming-bl
     CommentResponseViewComponent,
     UIRegistrationComponent,
     PseudonymEditorComponent,
-    BrainstormingBlacklistEditComponent
+    BrainstormingBlacklistEditComponent,
+    EditQuestionComponent
   ],
   exports: [
     RoomJoinComponent,
