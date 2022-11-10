@@ -179,6 +179,7 @@
     "grammar-check": "Optimiser le texte avec l'IA",
     "has-answer": "La question a été commentée. Clique ici pour lire le commentaire.",
     "hide-conversation-tooltip": "Cacher les réponses à ce post",
+    "move-conversation-up": "Remonter d'un niveau",
     "keywords": "Radar à questions",
     "keywords-per-answer": "Clique sur le signe # pour afficher les mots-clés que la personne qui a répondu a déterminés ou choisis dans une liste générée par l'IA.",
     "keywords-per-question": "Clique sur le signe # pour afficher les mots-clés que l'auteur de la question a déterminés ou choisis dans une liste générée par l'IA.",

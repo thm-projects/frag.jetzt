@@ -64,8 +64,7 @@ import { UserManagementService } from '../../../services/util/user-management.se
 import { ThemeService } from '../../../../theme/theme.service';
 import { ColorContrast } from '../../../utils/color-contrast';
 import { PseudonymEditorComponent } from '../_dialogs/pseudonym-editor/pseudonym-editor.component';
-import { WriteCommentComponent } from '../write-comment/write-comment.component';
-import { TSMap } from 'typescript-map';
+import { EditQuestionComponent } from '../_dialogs/edit-question/edit-question.component';
 
 @Component({
   selector: 'app-comment-list',
@@ -541,9 +540,9 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
   getURL() {
     const room = this.sessionService.currentRoom;
     if (!room) {
-      return window.location.href;
+      return location.href;
     }
-    return `${window.location.origin}/participant/room/${room.shortId}`;
+    return `${location.origin}/participant/room/${room.shortId}`;
   }
 
   canShowURL() {
@@ -559,44 +558,15 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   editQuestion(comment: ForumComment) {
-    const ref = this.dialog.open(WriteCommentComponent, {
+    const ref = this.dialog.open(EditQuestionComponent, {
+      width: '900px',
+      maxWidth: '100%',
+      maxHeight: 'calc( 100vh - 20px )',
       autoFocus: false,
     });
-    const instance = ref.componentInstance;
-    instance.confirmLabel = 'send';
-    instance.brainstormingData = this.room.brainstormingSession;
-    instance.tags = this.room.tags;
-    instance.isQuestionerNameEnabled = false;
-    instance.isModerator = this.userRole > 0;
-    instance.rewriteCommentData = comment;
-    instance.onClose = (newComment) => {
-      ref.close();
-      if (!newComment) {
-        return;
-      }
-      const changes = new TSMap<keyof Comment, any>();
-      const newBody = QuillUtils.serializeDelta(newComment.body);
-      if (newBody !== QuillUtils.serializeDelta(comment.body)) {
-        changes.set('body', newBody);
-      }
-      if (newComment.language !== comment.language) {
-        changes.set('language', newComment.language);
-      }
-      const newKeyQuestioner = JSON.stringify(
-        newComment.keywordsFromQuestioner,
-      );
-      if (newKeyQuestioner !== JSON.stringify(comment.keywordsFromQuestioner)) {
-        changes.set('keywordsFromQuestioner', newKeyQuestioner);
-      }
-      const newKeySpaCy = JSON.stringify(newComment.keywordsFromSpacy);
-      if (newKeyQuestioner !== JSON.stringify(comment.keywordsFromSpacy)) {
-        changes.set('keywordsFromSpacy', newKeySpaCy);
-      }
-      if (changes.size() === 0) {
-        return;
-      }
-      this.commentService.patchComment(comment, changes).subscribe();
-    };
+    ref.componentInstance.comment = comment;
+    ref.componentInstance.tags = this.room.tags;
+    ref.componentInstance.userRole = this.userRole;
   }
 
   private updateQrCodeColors() {
