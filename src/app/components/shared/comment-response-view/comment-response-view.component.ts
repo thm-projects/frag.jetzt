@@ -25,11 +25,9 @@ import {
   SortType,
   SortTypeKey,
 } from '../../../utils/data-filter-object.lib';
-import { QuillUtils } from 'app/utils/quill-utils';
-import { TSMap } from 'typescript-map';
-import { WriteCommentComponent } from '../write-comment/write-comment.component';
 import { MatDialog } from '@angular/material/dialog';
 import { CommentService } from 'app/services/http/comment.service';
+import { EditQuestionComponent } from '../_dialogs/edit-question/edit-question.component';
 
 export interface ResponseViewInformation {
   user: User;
@@ -162,45 +160,15 @@ export class CommentResponseViewComponent
   }
 
   editQuestion(comment: ForumComment) {
-    const ref = this.dialog.open(WriteCommentComponent, {
+    const ref = this.dialog.open(EditQuestionComponent, {
+      width: '900px',
+      maxWidth: '100%',
+      maxHeight: 'calc( 100vh - 20px )',
       autoFocus: false,
     });
-    const instance = ref.componentInstance;
-    instance.confirmLabel = 'send';
-    instance.brainstormingData =
-      this.sessionService.currentRoom.brainstormingSession;
-    instance.tags = this.sessionService.currentRoom.tags;
-    instance.isQuestionerNameEnabled = false;
-    instance.isModerator = this.sessionService.currentRole > 0;
-    instance.rewriteCommentData = comment;
-    instance.onClose = (newComment) => {
-      ref.close();
-      if (!newComment) {
-        return;
-      }
-      const changes = new TSMap<keyof ForumComment, any>();
-      const newBody = QuillUtils.serializeDelta(newComment.body);
-      if (newBody !== QuillUtils.serializeDelta(comment.body)) {
-        changes.set('body', newBody);
-      }
-      if (newComment.language !== comment.language) {
-        changes.set('language', newComment.language);
-      }
-      const newKeyQuestioner = JSON.stringify(
-        newComment.keywordsFromQuestioner,
-      );
-      if (newKeyQuestioner !== JSON.stringify(comment.keywordsFromQuestioner)) {
-        changes.set('keywordsFromQuestioner', newKeyQuestioner);
-      }
-      const newKeySpaCy = JSON.stringify(newComment.keywordsFromSpacy);
-      if (newKeyQuestioner !== JSON.stringify(comment.keywordsFromSpacy)) {
-        changes.set('keywordsFromSpacy', newKeySpaCy);
-      }
-      if (changes.size() === 0) {
-        return;
-      }
-      this.commentService.patchComment(comment, changes).subscribe();
-    };
+    ref.componentInstance.comment = comment;
+    ref.componentInstance.tags = this.sessionService.currentRoom.tags;
+    ref.componentInstance.userRole = this.sessionService.currentRole;
   }
 
   private attach() {

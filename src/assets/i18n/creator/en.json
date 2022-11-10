@@ -15,6 +15,15 @@
     "user-anonym": "anonymous",
     "user-name": "User"
   },
+  "brainstorming-blacklist": {
+    "title": "Brainstorming Blacklist",
+    "placeholder-add": "Enter word",
+    "add-button": "Add word",
+    "show-button": "Show Blacklist",
+    "hide-button": "Hide Blacklist",
+    "cancel": "Cancel",
+    "update": "Save"
+  },
   "comment-list": {
     "a11y-access_time": "Sorts questions by time",
     "a11y-add": "Option to ask a question or to write a message to the audience",
@@ -215,6 +224,7 @@
     "grammar-check": "Optimize text with AI",
     "has-answer": "You have answered the question. Click here to view or change your answer.",
     "hide-conversation-tooltip": "Hide replies to this post",
+    "move-conversation-up": "One level up",
     "keywords": "Question radar",
     "keywords-per-answer": "Click on the # sign to display the keywords that the answerer has determined or selected from an AI-generated list.",
     "keywords-per-question": "Click on the # sign to display the keywords that the questioner has determined or selected from an AI-generated list.",

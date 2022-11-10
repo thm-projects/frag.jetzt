@@ -15,6 +15,15 @@
     "user-anonym": "anonym",
     "user-name": "User"
   },
+  "brainstorming-blacklist": {
+    "title": "Brainstorming Blacklist",
+    "placeholder-add": "Wort eingeben",
+    "add-button": "Wort hinzufügen",
+    "show-button": "Zeige Blacklist",
+    "hide-button": "Verberge Blacklist",
+    "cancel": "Verwerfen",
+    "update": "Speichern"
+  },
   "comment-list": {
     "a11y-access_time": "Sortiert Fragen nach der Uhrzeit",
     "a11y-add": "Option eine Frage zu stellen",
@@ -215,6 +224,7 @@
     "grammar-check": "Text optimieren mit KI",
     "has-answer": "Du hast die Frage beantwortet. Klick hier, um deine Antwort zu sehen oder zu ändern.",
     "hide-conversation-tooltip": "Antworten auf diesen Beitrag verbergen",
+    "move-conversation-up": "Ein Level nach oben",
     "keywords": "Fragen-Radar",
     "keywords-per-answer": "Klick auf das #-Zeichen, um die Stichwörter anzuzeigen, die der Beantworter bestimmt oder aus einer KI-generierten Liste ausgewählt hat.",
     "keywords-per-question": "Klick auf das #-Zeichen, um die Stichwörter anzuzeigen, die der Fragensteller oder die Fragenstellerin bestimmt oder aus einer KI-generierten Liste ausgewählt hat.",

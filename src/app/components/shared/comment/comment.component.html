@@ -327,10 +327,26 @@
                   [matTooltip]="('comment-page.show-conversation-tooltip' | translate)">forum
         </mat-icon>
       </button>
+      <button mat-icon-button
+              *ngIf="!isAnswerView && !showResponses && comment.totalAnswerCounts.accumulated > 0 && !indentationPossible">
+        <mat-icon class="not-marked material-icons-round"
+                  matBadge="{{comment.totalAnswerCounts.accumulated}}"
+                  matBadgeColor="secondary"
+                  matBadgeSize="small"
+                  (click)="navigateConversation()"
+                  [matTooltip]="('comment-page.show-conversation-full-tooltip' | translate)">unfold_more_double
+        </mat-icon>
+      </button>
       <button mat-icon-button *ngIf="!isAnswerView && showResponses && responses.length > 0">
         <mat-icon class="wrong-icon material-icons-round"
                   (click)="hideConversation()"
                   [matTooltip]="('comment-page.hide-conversation-tooltip' | translate)">unfold_less
+        </mat-icon>
+      </button>
+      <button mat-icon-button *ngIf="isConversationViewOwner">
+        <mat-icon class="wrong-icon material-icons-round"
+                  (click)="navigateConversationUp()"
+                  [matTooltip]="('comment-page.move-conversation-up' | translate)">unfold_less_double
         </mat-icon>
       </button>
       <button mat-icon-button

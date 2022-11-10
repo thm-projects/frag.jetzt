@@ -1,7 +1,22 @@
-import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  Input,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { TagCloudDataService, TagCloudDataTagEntry } from '../../../../services/util/tag-cloud-data.service';
-import { Language, LanguagetoolResult, LanguagetoolService } from '../../../../services/http/languagetool.service';
+import {
+  TagCloudDataService,
+  TagCloudDataTagEntry,
+} from '../../../../services/util/tag-cloud-data.service';
+import {
+  Language,
+  LanguagetoolResult,
+  LanguagetoolService,
+} from '../../../../services/http/languagetool.service';
 import { FormControl } from '@angular/forms';
 import { TSMap } from 'typescript-map';
 import { CommentService } from '../../../../services/http/comment.service';
@@ -13,16 +28,17 @@ import { Router } from '@angular/router';
 import { Room } from '../../../../models/room';
 import { SessionService } from '../../../../services/util/session.service';
 import { BrainstormingService } from '../../../../services/http/brainstorming.service';
+import { ReplaySubject, takeUntil } from 'rxjs';
 
 const CLOSE_TIME = 1500;
 
 @Component({
   selector: 'app-tag-cloud-pop-up',
   templateUrl: './tag-cloud-pop-up.component.html',
-  styleUrls: ['./tag-cloud-pop-up.component.scss']
+  styleUrls: ['./tag-cloud-pop-up.component.scss'],
 })
-export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
-
+export class TagCloudPopUpComponent
+  implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('popupContainer') popupContainer: ElementRef;
   @ViewChild(MatAutocompleteTrigger) trigger: MatAutocompleteTrigger;
   @Input() room: Room;
@@ -43,6 +59,7 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
   private _popupCloseTimer;
   private _hasLeft = true;
   private _isSending = false;
+  private _destroyer = new ReplaySubject(1);
 
   constructor(
     private translateService: TranslateService,
@@ -53,11 +70,13 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
     private router: Router,
     private notificationService: NotificationService,
     private brainstormingService: BrainstormingService,
-  ) {
-  }
+  ) {}
 
   ngOnInit(): void {
-    this.userRole = this.sessionService.currentRole;
+    this.sessionService
+      .getRole()
+      .pipe(takeUntil(this._destroyer))
+      .subscribe((role) => (this.userRole = role));
     this.timePeriodText = '...';
   }
 
@@ -71,6 +90,11 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
       this._hasLeft = true;
       this.close();
     });
+  }
+
+  ngOnDestroy(): void {
+    this._destroyer.next(true);
+    this._destroyer.complete();
   }
 
   onFocusOut() {
@@ -91,31 +115,42 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
   }
 
   getOwnVote(): number {
-    const vote = this.room.brainstormingSession.votesForWords?.[this.tag]?.ownHasUpvoted;
+    const vote =
+      this.room.brainstormingSession.votesForWords?.[this.tag]?.ownHasUpvoted;
     if (vote === true) {
       return 1;
     } else if (vote === false) {
       return -1;
-    } else { //undefined or null
+    } else {
+      //undefined or null
       return 0;
     }
   }
 
-  enter(elem: HTMLElement, tag: string, isBrainstorming: boolean, isBrainstormingActive: boolean,
-        tagData: TagCloudDataTagEntry, hoverDelayInMs: number, isBlacklistActive: boolean): void {
+  enter(
+    elem: HTMLElement,
+    tag: string,
+    isBrainstorming: boolean,
+    isBrainstormingActive: boolean,
+    tagData: TagCloudDataTagEntry,
+    hoverDelayInMs: number,
+    isBlacklistActive: boolean,
+  ): void {
     if (!elem) {
       return;
     }
     this.isBrainstormingActive = isBrainstormingActive;
     this.spellingData = [];
     if (this.userRole > UserRole.PARTICIPANT) {
-      this.languagetoolService.checkSpellings(tag, 'auto').subscribe(correction => {
-        const langKey = correction.language.code.split('-')[0].toUpperCase();
-        if (['DE', 'FR', 'EN'].indexOf(langKey) < 0) {
-          return;
-        }
-        this.fillSpellingData(correction);
-      });
+      this.languagetoolService
+        .checkSpellings(tag, 'auto')
+        .subscribe((correction) => {
+          const langKey = correction.language.code.split('-')[0].toUpperCase();
+          if (['DE', 'FR', 'EN'].indexOf(langKey) < 0) {
+            return;
+          }
+          this.fillSpellingData(correction);
+        });
     }
     clearTimeout(this._popupCloseTimer);
     clearTimeout(this._popupHoverTimer);
@@ -129,7 +164,9 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
       }
       this.isBrainstorming = isBrainstorming;
       this.tagData = tagData;
-      this.categories = isBrainstorming ? [] : Array.from(tagData.categories.keys());
+      this.categories = isBrainstorming
+        ? []
+        : Array.from(tagData.categories.keys());
       this.calculateDateText(() => {
         this.position(elem);
         this.isBlacklistActive = isBlacklistActive;
@@ -138,7 +175,11 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
   }
 
   addBlacklistWord(): void {
-    this.tagCloudDataService.blockWord(this.tag, this.room);
+    this.tagCloudDataService.blockWord(
+      this.tag,
+      this.room,
+      this.isBrainstorming,
+    );
     this.close(false);
   }
 
@@ -146,11 +187,18 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
     const html = this.popupContainer.nativeElement as HTMLDivElement;
     clearTimeout(this._popupCloseTimer);
     if (addDelay) {
-      if (!this._hasLeft || (html.contains(document.activeElement) && html !== document.activeElement)) {
+      if (
+        !this._hasLeft ||
+        (html.contains(document.activeElement) &&
+          html !== document.activeElement)
+      ) {
         return;
       }
       this._popupCloseTimer = setTimeout(() => {
-        if (html.contains(document.activeElement) && html !== document.activeElement) {
+        if (
+          html.contains(document.activeElement) &&
+          html !== document.activeElement
+        ) {
           return;
         }
         html.classList.remove('up', 'down', 'right', 'left');
@@ -179,32 +227,54 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
       }
     };
     const tagReplacementInputLower = tagReplacementInput.toLowerCase();
-    this.tagData.comments.forEach(comment => {
+    this.tagData.comments.forEach((comment) => {
       const changes = new TSMap<string, any>();
-      if (comment.keywordsFromQuestioner.findIndex(e => e.text.toLowerCase() === tagReplacementInputLower) >= 0) {
-        comment.keywordsFromQuestioner = comment.keywordsFromQuestioner.filter(e => e.text !== this.tag);
+      if (
+        comment.keywordsFromQuestioner.findIndex(
+          (e) => e.text.toLowerCase() === tagReplacementInputLower,
+        ) >= 0
+      ) {
+        comment.keywordsFromQuestioner = comment.keywordsFromQuestioner.filter(
+          (e) => e.text !== this.tag,
+        );
       } else {
         comment.keywordsFromQuestioner.forEach(renameKeyword);
       }
-      changes.set('keywordsFromQuestioner', JSON.stringify(comment.keywordsFromQuestioner));
-      if (comment.keywordsFromSpacy.findIndex(e => e.text.toLowerCase() === tagReplacementInputLower) >= 0) {
-        comment.keywordsFromSpacy = comment.keywordsFromSpacy.filter(e => e.text !== this.tag);
+      changes.set(
+        'keywordsFromQuestioner',
+        JSON.stringify(comment.keywordsFromQuestioner),
+      );
+      if (
+        comment.keywordsFromSpacy.findIndex(
+          (e) => e.text.toLowerCase() === tagReplacementInputLower,
+        ) >= 0
+      ) {
+        comment.keywordsFromSpacy = comment.keywordsFromSpacy.filter(
+          (e) => e.text !== this.tag,
+        );
       } else {
         comment.keywordsFromSpacy.forEach(renameKeyword);
       }
-      changes.set('keywordsFromSpacy', JSON.stringify(comment.keywordsFromSpacy));
+      changes.set(
+        'keywordsFromSpacy',
+        JSON.stringify(comment.keywordsFromSpacy),
+      );
 
       this.commentService.patchComment(comment, changes).subscribe({
         next: () => {
-          this.translateService.get('topic-cloud-dialog.keyword-edit').subscribe(msg => {
-            this.notificationService.show(msg);
-          });
+          this.translateService
+            .get('topic-cloud-dialog.keyword-edit')
+            .subscribe((msg) => {
+              this.notificationService.show(msg);
+            });
         },
         error: () => {
-          this.translateService.get('topic-cloud-dialog.changes-gone-wrong').subscribe(msg => {
-            this.notificationService.show(msg);
-          });
-        }
+          this.translateService
+            .get('topic-cloud-dialog.changes-gone-wrong')
+            .subscribe((msg) => {
+              this.notificationService.show(msg);
+            });
+        },
       });
     });
     this.close(false);
@@ -231,24 +301,26 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
     const lastVote = this.getOwnVote();
     if (currentVote === lastVote) {
       this.setOwnVote(0);
-      this.brainstormingService.deleteVote(this.room.brainstormingSession.id, this.tag)
+      this.brainstormingService
+        .deleteVote(this.room.brainstormingSession.id, this.tag)
         .subscribe({
-          next: _ => this._isSending = false,
-          error: _ => {
+          next: (_) => (this._isSending = false),
+          error: (_) => {
             this.setOwnVote(lastVote);
             this._isSending = false;
-          }
+          },
         });
       return;
     }
     this.setOwnVote(currentVote);
-    this.brainstormingService.createVote(this.room.brainstormingSession.id, this.tag, upvote)
+    this.brainstormingService
+      .createVote(this.room.brainstormingSession.id, this.tag, upvote)
       .subscribe({
-        next: _ => this._isSending = false,
-        error: _ => {
+        next: (_) => (this._isSending = false),
+        error: (_) => {
           this.setOwnVote(lastVote);
           this._isSending = false;
-        }
+        },
       });
   }
 
@@ -274,8 +346,8 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
         [this.tag]: {
           upvotes: 0,
           downvotes: 0,
-          ownHasUpvoted: upvote
-        }
+          ownHasUpvoted: upvote,
+        },
       };
       return;
     }
@@ -284,7 +356,7 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
       this.room.brainstormingSession.votesForWords[this.tag] = {
         upvotes: 0,
         downvotes: 0,
-        ownHasUpvoted: upvote
+        ownHasUpvoted: upvote,
       };
       return;
     }
@@ -312,7 +384,7 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
       Top,
       Bottom,
       Left,
-      Right
+      Right,
     }
 
     let dockingPosition;
@@ -374,61 +446,81 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
     const seconds = Math.floor(diffMs / 1_000);
     if (seconds < 60) {
       // few seconds
-      this.translateService.get('tag-cloud-popup.few-seconds').subscribe(subscriber);
+      this.translateService
+        .get('tag-cloud-popup.few-seconds')
+        .subscribe(subscriber);
       return;
     }
     const minutes = Math.floor(seconds / 60);
     if (minutes < 5) {
       // few minutes
-      this.translateService.get('tag-cloud-popup.few-minutes').subscribe(subscriber);
+      this.translateService
+        .get('tag-cloud-popup.few-minutes')
+        .subscribe(subscriber);
       return;
     } else if (minutes < 60) {
       // x minutes
-      this.translateService.get('tag-cloud-popup.some-minutes', {
-        minutes
-      }).subscribe(subscriber);
+      this.translateService
+        .get('tag-cloud-popup.some-minutes', {
+          minutes,
+        })
+        .subscribe(subscriber);
       return;
     }
     const hours = Math.floor(minutes / 60);
     if (hours === 1) {
       // 1 hour
-      this.translateService.get('tag-cloud-popup.one-hour').subscribe(subscriber);
+      this.translateService
+        .get('tag-cloud-popup.one-hour')
+        .subscribe(subscriber);
       return;
     } else if (hours < 24) {
       // x hours
-      this.translateService.get('tag-cloud-popup.some-hours', {
-        hours
-      }).subscribe(subscriber);
+      this.translateService
+        .get('tag-cloud-popup.some-hours', {
+          hours,
+        })
+        .subscribe(subscriber);
       return;
     }
     const days = Math.floor(hours / 24);
     if (days === 1) {
       // 1 day
-      this.translateService.get('tag-cloud-popup.one-day').subscribe(subscriber);
+      this.translateService
+        .get('tag-cloud-popup.one-day')
+        .subscribe(subscriber);
       return;
     } else if (days < 7) {
       // x days
-      this.translateService.get('tag-cloud-popup.some-days', {
-        days
-      }).subscribe(subscriber);
+      this.translateService
+        .get('tag-cloud-popup.some-days', {
+          days,
+        })
+        .subscribe(subscriber);
       return;
     }
     const weeks = Math.floor(days / 7);
     if (weeks === 1) {
       // 1 week
-      this.translateService.get('tag-cloud-popup.one-week').subscribe(subscriber);
+      this.translateService
+        .get('tag-cloud-popup.one-week')
+        .subscribe(subscriber);
       return;
     } else if (weeks < 12) {
       // x weeks
-      this.translateService.get('tag-cloud-popup.some-weeks', {
-        weeks
-      }).subscribe(subscriber);
+      this.translateService
+        .get('tag-cloud-popup.some-weeks', {
+          weeks,
+        })
+        .subscribe(subscriber);
       return;
     }
     const months = Math.floor(weeks / 4);
     // x months
-    this.translateService.get('tag-cloud-popup.some-months', {
-      months
-    }).subscribe(subscriber);
+    this.translateService
+      .get('tag-cloud-popup.some-months', {
+        months,
+      })
+      .subscribe(subscriber);
   }
 }
