@@ -220,16 +220,6 @@
       </button>
 
       <button mat-menu-item
-              (click)="applyFilterByKey('BrainstormingQuestion')">
-        <mat-icon class="material-icons" [ngClass]="{BrainstormingQuestion: 'brainstorm-icon'}[filterType]">
-          psychology_alt
-        </mat-icon>
-        <span [ngClass]="{BrainstormingQuestion: 'brainstorm-icon'}[filterType]">
-          {{ 'comment-list.filter-brainstorm' | translate }}
-        </span>
-      </button>
-
-      <button mat-menu-item
               (click)="applyFilterByKey('Censored')">
         <mat-icon class="material-icons-outlined" [ngClass]="{Censored: 'censored-icon'}[filterType]">
           password

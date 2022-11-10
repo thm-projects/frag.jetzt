@@ -179,6 +179,7 @@
     "grammar-check": "Text optimieren mit KI",
     "has-answer": "Die Frage wurde kommentiert. Klick hier, um den Kommentar zu lesen.",
     "hide-conversation-tooltip": "Antworten auf diesen Beitrag verbergen",
+    "move-conversation-up": "Ein Level nach oben",
     "keywords": "Fragen-Radar",
     "keywords-per-answer": "Klick auf das #-Zeichen, um die Stichwörter anzuzeigen, die der Beantworter oder die Beantworterin bestimmt oder aus einer KI-generierten Liste ausgewählt hat.",
     "keywords-per-question": "Klick auf das #-Zeichen, um die Stichwörter anzuzeigen, die der Fragensteller oder die Fragenstellerin bestimmt oder aus einer KI-generierten Liste ausgewählt hat.",

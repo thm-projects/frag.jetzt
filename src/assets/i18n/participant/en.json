@@ -179,6 +179,7 @@
     "grammar-check": "Optimize text with AI",
     "has-answer": "The question was answered. Click for full view.",
     "hide-conversation-tooltip": "Hide replies to this post",
+    "move-conversation-up": "One level up",
     "keywords": "Question radar",
     "keywords-per-answer": "Click on the # sign to display the keywords that the answerer has determined or selected from an AI-generated list.",
     "keywords-per-question": "Click on the # sign to display the keywords that the questioner has determined or selected from an AI-generated list.",

@@ -541,9 +541,9 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
   getURL() {
     const room = this.sessionService.currentRoom;
     if (!room) {
-      return window.location.href;
+      return location.href;
     }
-    return `${window.location.origin}/participant/room/${room.shortId}`;
+    return `${location.origin}/participant/room/${room.shortId}`;
   }
 
   canShowURL() {

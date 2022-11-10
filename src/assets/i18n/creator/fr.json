@@ -15,6 +15,15 @@
     "user-anonym": "anonyme",
     "user-name": "Utilisateur"
   },
+  "brainstorming-blacklist": {
+    "title": "Brainstorming Liste noire",
+    "placeholder-add": "Entrer un mot",
+    "add-button": "Ajouter le mot",
+    "show-button": "Afficher liste noire",
+    "hide-button": "Cacher liste noire",
+    "cancel": "Rejeter",
+    "update": "Enregistrer"
+  },
   "comment-list": {
     "a11y-access_time": "Trier les questions par heure",
     "a11y-add": "Option pour poser une question",
@@ -215,6 +224,7 @@
     "grammar-check": "Optimiser le texte avec l'IA",
     "has-answer": "Tu as répondu à la question. Clique ici pour voir ou modifier ta réponse.",
     "hide-conversation-tooltip": "Cacher les réponses à ce post",
+    "move-conversation-up": "Remonter d'un niveau",
     "keywords": "Radar à questions",
     "keywords-per-answer": "Clique sur le signe # pour afficher les mots-clés que la personne qui a répondu a déterminés ou choisis dans une liste générée par l'IA.",
     "keywords-per-question": "Clique sur le signe # pour afficher les mots-clés que l'auteur de la question a déterminés ou choisis dans une liste générée par l'IA.",

@@ -225,6 +225,7 @@
     "sure": "Bist du sicher?",
     "tag-cloud": "Fragen-Radar",
     "tag-cloud-administration": "KI-Einstellungen",
+    "brainstorming-blacklist": "Brainstorming-Blacklist",
     "tag-cloud-config": "Aussehen & Animation",
     "tag-cloud-screenshot": "Stichwort-Wolke drucken",
     "tooltip-creator": "Du hast den Raum erstellt.",
@@ -430,7 +431,7 @@
   },
   "qr-dialog": {
     "session": "Code",
-    "url": "URL: frag.jetzt"
+    "url": "URL: {{url}}"
   },
   "register": {
     "cancel": "Abbrechen",

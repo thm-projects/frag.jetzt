@@ -1,0 +1,31 @@
+mat-dialog-content {
+    background: var(--surface);
+    color: var(--on-surface);
+    margin: 1em 0;
+    border-radius: 10px;
+    padding: 1em !important;
+
+    ::ng-deep mat-list-item {
+        border-radius: 10px;
+
+        &:nth-child(odd) {
+            background: var(--alt-dialog);
+            color: var(--on-dialog);
+        }
+
+        &:nth-child(even) {
+            background: var(--alt-surface);
+            color: var(--on-surface);
+        }
+    }
+}
+
+.edit-button {
+    margin-left: 1em;
+    background: unset;
+    color: var(--on-dialog);
+
+    &:hover {
+        outline: var(--secondary) solid 3px;
+    }
+}

@@ -119,6 +119,7 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
   room: Room;
   responses: ForumComment[] = [];
   isConversationView: boolean;
+  isConversationViewOwner: boolean;
   currentDateString = '?';
   viewInfo: ResponseViewInformation;
   commentRegistrationId: string;
@@ -194,6 +195,7 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit() {
     this.isConversationView = this.router.url.endsWith('conversation');
+    this.isConversationViewOwner = this.router.url.endsWith(this.comment.id + '/conversation');
     if (this.comment?.created) {
       this.slideAnimationState = 'new';
     }
@@ -457,6 +459,16 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
       return;
     }
     this.showResponses = true;
+  }
+
+  navigateConversationUp() {
+    let url: string;
+    this.route.params.subscribe((params) => {
+      url = `${this.roleString}/room/${params['shortId']}/comment`;
+      const ref = this.comment.commentReference;
+      url = ref ? url + '/' + ref + '/conversation' : url + 's';
+    });
+    this.router.navigate([url]);
   }
 
   navigateConversation() {
