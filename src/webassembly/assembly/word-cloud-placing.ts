@@ -1,4 +1,5 @@
-import { calcMinMax, tryPlaceOnFourSides } from './placing-four-sides';
+import { debugLog } from './env';
+import { calcMinMax, isDebug, tryPlaceOnFourSides } from './placing-four-sides';
 import { AxisAlignedBoundingBox, QuadTree, Vector2 } from './quadtree';
 
 export function isZero(t: f32): bool {
@@ -284,6 +285,7 @@ export function findBestPlace(
   }
   let posInfo: PositionInfo | null = null;
   for (let i = 0; i < index; i++) {
+    if (isDebug()) debugLog('\n  - ' + i.toString());
     const nearestPos = elements[i].tryPlace(tree, newTopic, aspectRatio);
     if (nearestPos === null) continue;
     if (posInfo === null) {

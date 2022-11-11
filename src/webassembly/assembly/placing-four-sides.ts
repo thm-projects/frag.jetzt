@@ -1,3 +1,4 @@
+import { debugLog } from './env';
 import { AxisAlignedBoundingBox, QuadTree, Vector2 } from './quadtree';
 import {
   isZero,
@@ -5,6 +6,8 @@ import {
   Range,
   WordCloudTopic,
 } from './word-cloud-placing';
+
+let debug = false;
 
 export function calcMinMax(dir: Vector2, points: StaticArray<Vector2>): Range {
   let max = f32.MIN_VALUE;
@@ -192,6 +195,7 @@ class SimpleCollisionBox {
   collideTRange(topic: WordCloudTopic): bool {
     const pos = topic.position!;
     const currentRange: Range = this.baseTRange.clone();
+    if (debug) debugLog(currentRange.toString());
     // self move dir
     if (
       !mergeTRanges(
@@ -202,6 +206,7 @@ class SimpleCollisionBox {
       )
     )
       return true;
+    if (debug) debugLog(currentRange.toString());
     // self additional dir
     if (
       !mergeTRanges(
@@ -212,6 +217,7 @@ class SimpleCollisionBox {
       )
     )
       return true;
+    if (debug) debugLog(currentRange.toString());
     // other up
     if (
       !mergeTRanges(
@@ -222,6 +228,8 @@ class SimpleCollisionBox {
       )
     )
       return true;
+    if (debug) debugLog(currentRange.toString());
+    // TODO: check same direction
     // other right
     if (
       !mergeTRanges(
@@ -232,6 +240,7 @@ class SimpleCollisionBox {
       )
     )
       return true;
+    if (debug) debugLog(currentRange.toString());
     if (currentRange.isInvalid) {
       // Checks only at end, a object is only colliding if all normals on each polygon collide.
       //  -> Invalid can be ignored till end
@@ -268,6 +277,10 @@ class SimpleCollisionBox {
   }
 }
 
+export const setDebug = (debugActive: bool): void => (debug = debugActive);
+
+export const isDebug = (): bool => debug;
+
 export const tryPlaceOnFourSides = (
   topic: WordCloudTopic,
   newTopic: WordCloudTopic,
@@ -281,6 +294,7 @@ export const tryPlaceOnFourSides = (
   let newSideIndex = (rotIndex + 2) % 4;
   let minimal: PositionInfo | null = null;
   for (let i = 0; i < 4; ++i, newSideIndex = (newSideIndex + 1) % 4) {
+
     const newSide = newTopic.buildInfo.sides[newSideIndex];
     const side = topic.buildInfo.sides[i];
     const currentMid = topic.position!.mid;
@@ -296,11 +310,19 @@ export const tryPlaceOnFourSides = (
       newSide.distToMid,
       side.otherDirMidDist + newSide.otherDirMidDist
     );
+    if(debug) {
+      if(i === 0) debugLog('UP');
+      if(i === 1) debugLog('RIGHT');
+      if(i === 2) debugLog('DOWN');
+      if(i === 3) debugLog('LEFT');
+    }
+    if (debug) debugLog('MOVE DIR: ' + side.perpendicularNormal.toString());
     quadTree.queryObjects(
       collisionBox,
       (alignedBox, box) => box.collideSAT(alignedBox),
       (object, topics) => {
         for (let j = 0; j < topics.length; j++) {
+          if (debug) debugLog('next ' + topics[j].position!.mid.toString());
           if (!object.collideTRange(topics[j])) {
             return false;
           }
