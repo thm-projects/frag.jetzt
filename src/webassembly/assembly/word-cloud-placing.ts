@@ -1,5 +1,8 @@
 import { debugLog } from './env';
-import { calcMinMax, isDebug, tryPlaceOnFourSides } from './placing-four-sides';
+import {
+  calcMinMax,
+  tryPlaceOnFourSides,
+} from './placing-four-sides';
 import { AxisAlignedBoundingBox, QuadTree, Vector2 } from './quadtree';
 
 export function isZero(t: f32): bool {
@@ -13,76 +16,117 @@ export function pushAt<T>(array: Array<T>, index: i32, element: T): void {
   array[index] = element;
 }
 
-export class Range {
-  public isInvalid: bool;
-  constructor(private start: f32, private end: f32) {
-    this.isInvalid = start > end;
-    assert(!this.isInvalid, 'Cant create invalid range!');
+export class TRangeSet {
+  public readonly tRanges: Array<Range> = new Array<Range>();
+
+  constructor(tRangeSize: f32) {
+    if (tRangeSize !== 0) {
+      this.tRanges.push(new Range(-tRangeSize, tRangeSize));
+    }
   }
 
-  clone(): Range {
-    return new Range(this.start, this.end);
+  clone(): TRangeSet {
+    const newRange = new TRangeSet(0);
+    for (let i = 0; i < this.tRanges.length; i++) {
+      newRange.tRanges.push(this.tRanges[i]);
+    }
+    return newRange;
   }
 
-  getEnd(): f32 {
-    return this.end;
+  isEmpty(): bool {
+    return this.tRanges.length === 0;
   }
 
-  getStart(): f32 {
-    return this.start;
-  }
-
-  collapse(start: f32, end: f32): void {
-    this.start = f32(Math.max(this.start, start));
-    this.end = f32(Math.min(this.end, end));
-    this.isInvalid = this.start > this.end;
+  getBestTValue(optimalT: f32): f32 {
+    let distance = f32.MAX_VALUE;
+    let t = optimalT;
+    for (let i = 0; i < this.tRanges.length; i++) {
+      const range = this.tRanges[i];
+      if (optimalT > range.end) {
+        const dist = f32(Math.abs(optimalT - range.end));
+        if (dist < distance) {
+          distance = dist;
+          t = range.end;
+        }
+      } else if (optimalT < range.start) {
+        const dist = f32(Math.abs(optimalT - range.start));
+        if (dist < distance) {
+          distance = dist;
+          t = range.start;
+        }
+        break; // sorted ascending -> break if before
+      } else {
+        t = optimalT;
+        distance = 0;
+        break;
+      }
+    }
+    return t;
   }
 
   /**
-   * When trying to execute this method, begin from end
+   * @returns if ranges collide
    */
-  splitIfNecessary(
-    otherRange: Range,
-    rangeList: Array<Range>,
-    currentIndex: i32
-  ): bool {
-    if (otherRange.start <= this.start) {
-      if (otherRange.end >= this.end) {
-        rangeList.splice(currentIndex, 1);
-      } else if (otherRange.end > this.start) {
-        this.start = otherRange.end;
-      }
-      return false;
+  mergeTRange(staticRange: Range, tRange: Range, tProjectedOnRange: f32): bool {
+    if (isZero(tProjectedOnRange)) {
+      return staticRange.collides(tRange);
     }
-    if (otherRange.start >= this.end) {
+    if (this.tRanges.length < 1) {
       return true;
     }
-    if (otherRange.end < this.end) {
-      assert(
-        currentIndex + 1 <= rangeList.length,
-        rangeList.length.toString() + ' ' + currentIndex.toString()
-      );
-      pushAt(rangeList, currentIndex + 1, new Range(otherRange.end, this.end));
+    let tmin = (tRange.start - staticRange.end) / -tProjectedOnRange;
+    let tmax = (staticRange.start - tRange.end) / tProjectedOnRange;
+    if (tmax < tmin) {
+      const temp = tmax;
+      tmax = tmin;
+      tmin = temp;
     }
-    this.end = otherRange.start;
+    if (
+      tmax <= this.tRanges[0].start ||
+      tmin >= this.tRanges[this.tRanges.length - 1].end
+    ) {
+      return false;
+    }
+    this.splitByRange(tmin, tmax);
     return true;
   }
 
-  setInvalid(): void {
-    this.isInvalid = true;
-    this.end = this.start - 1;
+  private splitByRange(start: f32, end: f32): void {
+    for (let i = this.tRanges.length - 1; i >= 0; i--) {
+      const currentRange = this.tRanges[i];
+      if (start <= currentRange.start) {
+        if (end >= currentRange.end) {
+          this.tRanges.splice(i, 1);
+        } else if (end > currentRange.start) {
+          this.tRanges[i] = new Range(end, currentRange.end);
+        }
+        continue;
+      }
+      // From here: No more collisions possible, always break
+      if (start >= currentRange.end) {
+        break;
+      }
+      if (end < currentRange.end) {
+        pushAt(this.tRanges, i + 1, new Range(end, currentRange.end));
+      }
+
+      this.tRanges[i] = new Range(currentRange.start, start);
+      break;
+    }
+  }
+}
+
+export class Range {
+  constructor(public readonly start: f32, public readonly end: f32) {
+    assert(start <= end, 'Cant create invalid range!');
   }
 
   collides(other: Range): bool {
-    assert(!this.isInvalid, 'Range is invalid');
     // no equality, touching should not be colliding
     return other.start < this.end && other.end > this.start;
   }
 
   toString(): string {
-    if (this.isInvalid) {
-      return '[INVALID]';
-    }
     return '[' + this.start.toString() + ',' + this.end.toString() + ']';
   }
 }
@@ -226,13 +270,13 @@ export class WordCloudTopic {
   collideSAT(box: AxisAlignedBoundingBox<f32>): bool {
     const pos = this.position!;
     if (
-      pos.yRange.getStart() >= box.y + box.height ||
-      pos.yRange.getEnd() <= box.y
+      pos.yRange.start >= box.y + box.height ||
+      pos.yRange.end <= box.y
     )
       return false;
     if (
-      pos.xRange.getStart() >= box.x + box.width ||
-      pos.xRange.getEnd() <= box.x
+      pos.xRange.start >= box.x + box.width ||
+      pos.xRange.end <= box.x
     )
       return false;
     if (!pos.normal1Range.collides(calcMinMax(pos.normal1, box.points)))
@@ -285,7 +329,6 @@ export function findBestPlace(
   }
   let posInfo: PositionInfo | null = null;
   for (let i = 0; i < index; i++) {
-    if (isDebug()) debugLog('\n  - ' + i.toString());
     const nearestPos = elements[i].tryPlace(tree, newTopic, aspectRatio);
     if (nearestPos === null) continue;
     if (posInfo === null) {

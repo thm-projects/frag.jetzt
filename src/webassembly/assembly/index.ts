@@ -1,7 +1,5 @@
 // The entry file of your WebAssembly module.
 
-import { debugLog } from './env';
-import { setDebug } from './placing-four-sides';
 import {
   AxisAlignedBoundingBox,
   QuadTree,
@@ -31,12 +29,6 @@ export function calculateWordCloudPlacing(
       boundsArray[k + 1],
       boundsArray[k + 2]
     );
-    debugLog(i.toString());
-    if (i === 17) {
-      setDebug(true);
-    } else if (i === 18) {
-      setDebug(false);
-    }
     findBestPlace(placeIndex, newTopic, placed, tree, aspectRatio);
     const pos = newTopic.position;
     if (pos === null) {

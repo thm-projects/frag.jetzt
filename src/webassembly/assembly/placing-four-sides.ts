@@ -1,16 +1,14 @@
-import { debugLog } from './env';
 import { AxisAlignedBoundingBox, QuadTree, Vector2 } from './quadtree';
 import {
   isZero,
   PositionInfo,
   Range,
+  TRangeSet,
   WordCloudTopic,
 } from './word-cloud-placing';
 
-let debug = false;
-
 export function calcMinMax(dir: Vector2, points: StaticArray<Vector2>): Range {
-  let max = f32.MIN_VALUE;
+  let max = -f32.MAX_VALUE;
   let min = f32.MAX_VALUE;
   for (let i = 0; i < points.length; i++) {
     const v = dir.dot(points[i]);
@@ -20,36 +18,6 @@ export function calcMinMax(dir: Vector2, points: StaticArray<Vector2>): Range {
   return new Range(min, max);
 }
 
-/**
- * @returns
- * null, if no collision can occur
- *
- * a valid range, if the ranges can be merged
- *
- * an invalid range, if there is always a collision
- */
-export function mergeTRanges(
-  baseRange: Range,
-  staticRange: Range,
-  tRange: Range,
-  tProjectedOnRange: f32
-): bool {
-  if (isZero(tProjectedOnRange)) {
-    if (staticRange.isInvalid || staticRange.collides(tRange)) {
-      return true;
-    }
-    return false;
-  }
-  const t1 = (tRange.getStart() - staticRange.getEnd()) / -tProjectedOnRange;
-  const t2 = (staticRange.getStart() - tRange.getEnd()) / tProjectedOnRange;
-  if (t1 > t2) {
-    baseRange.collapse(t2, t1);
-  } else {
-    baseRange.collapse(t1, t2);
-  }
-  return true;
-}
-
 class SimpleCollisionBox {
   private readonly points: StaticArray<Vector2> = new StaticArray<Vector2>(4);
   private readonly completeMoveRange: Range;
@@ -57,8 +25,7 @@ class SimpleCollisionBox {
   private readonly moveRange: Range;
   private readonly xRange: Range;
   private readonly yRange: Range;
-  private readonly tRange: Array<Range> = new Array<Range>();
-  private readonly baseTRange: Range;
+  private resultTRange: TRangeSet;
 
   /**
    * @param midPoint Currently testing mid point
@@ -74,6 +41,7 @@ class SimpleCollisionBox {
     public readonly addCollDir: Vector2,
     private readonly moveSize: f32,
     private readonly addCollSize: f32,
+    private readonly rotation: f32,
     moveTSize: f32
   ) {
     this.points[0] = moveDir
@@ -98,12 +66,11 @@ class SimpleCollisionBox {
       .add(midPoint);
     this.moveRange = calcMinMax(this.moveDir, this.points);
     this.completeMoveRange = new Range(
-      this.moveRange.getStart() - moveTSize,
-      this.moveRange.getEnd() + moveTSize
+      this.moveRange.start - moveTSize,
+      this.moveRange.end + moveTSize
     );
     this.collRange = calcMinMax(this.addCollDir, this.points);
-    this.baseTRange = new Range(-moveTSize, moveTSize);
-    this.tRange.push(this.baseTRange.clone());
+    this.resultTRange = new TRangeSet(moveTSize);
     // calculate for sat
     const edgePoints = new StaticArray<Vector2>(4);
     {
@@ -137,43 +104,21 @@ class SimpleCollisionBox {
    * @param aspectRatio width / height from screen
    */
   constructPosition(aspectRatio: f32): PositionInfo | null {
-    if (this.tRange.length < 1) return null;
+    if (this.resultTRange.isEmpty()) return null;
     /*
     get minimal distance with using perpendicular side
     from equality (distance to center):
      (0 0) + k * (c1 c2) = (m1 m2) + t * (move1 move2)
     */
-    const c1 = this.addCollDir.getDirectionX();
+    const c1 = this.addCollDir.getDirectionX() / aspectRatio;
     const c2 = this.addCollDir.getDirectionY();
-    const m1 = this.midPoint.getDirectionX();
+    const m1 = this.midPoint.getDirectionX() / aspectRatio;
     const m2 = this.midPoint.getDirectionY();
-    const move1 = this.moveDir.getDirectionX();
+    const move1 = this.moveDir.getDirectionX() / aspectRatio;
     const move2 = this.moveDir.getDirectionY();
     const optimalT = (c2 * m1 - c1 * m2) / (c1 * move2 - c2 * move1);
     // find possible t
-    let distance = f32.MAX_VALUE;
-    let t = optimalT;
-    for (let i = 0; i < this.tRange.length; i++) {
-      const range = this.tRange[i];
-      if (optimalT > range.getEnd()) {
-        const dist = f32(Math.abs(optimalT - range.getEnd()));
-        if (dist < distance) {
-          distance = dist;
-          t = range.getEnd();
-        }
-      } else if (optimalT < range.getStart()) {
-        const dist = f32(Math.abs(optimalT - range.getStart()));
-        if (dist < distance) {
-          distance = dist;
-          t = range.getStart();
-        }
-        break; // sorted ascending -> break if before
-      } else {
-        t = optimalT;
-        distance = 0;
-        break;
-      }
-    }
+    const t = this.resultTRange.getBestTValue(optimalT);
     // construct position
     const midPoint = this.moveDir.clone().scale(t).add(this.midPoint);
     return new PositionInfo(
@@ -194,77 +139,66 @@ class SimpleCollisionBox {
    */
   collideTRange(topic: WordCloudTopic): bool {
     const pos = topic.position!;
-    const currentRange: Range = this.baseTRange.clone();
-    if (debug) debugLog(currentRange.toString());
+    const currentRange = this.resultTRange.clone();
     // self move dir
     if (
-      !mergeTRanges(
-        currentRange,
+      !currentRange.mergeTRange(
         calcMinMax(this.moveDir, pos.points),
         this.moveRange,
         1
       )
-    )
+    ) {
       return true;
-    if (debug) debugLog(currentRange.toString());
+    }
     // self additional dir
     if (
-      !mergeTRanges(
-        currentRange,
+      !currentRange.mergeTRange(
         calcMinMax(this.addCollDir, pos.points),
         this.collRange,
         0
       )
-    )
+    ) {
       return true;
-    if (debug) debugLog(currentRange.toString());
-    // other up
-    if (
-      !mergeTRanges(
-        currentRange,
-        pos.normal1Range,
-        calcMinMax(pos.normal1, this.points),
-        pos.normal1.dot(this.moveDir)
-      )
-    )
-      return true;
-    if (debug) debugLog(currentRange.toString());
-    // TODO: check same direction
-    // other right
-    if (
-      !mergeTRanges(
-        currentRange,
-        pos.normal2Range,
-        calcMinMax(pos.normal2, this.points),
-        pos.normal2.dot(this.moveDir)
-      )
-    )
-      return true;
-    if (debug) debugLog(currentRange.toString());
-    if (currentRange.isInvalid) {
-      // Checks only at end, a object is only colliding if all normals on each polygon collide.
-      //  -> Invalid can be ignored till end
-      this.tRange.length = 0;
-      return false;
+    }
+    const rotation = this.rotation - topic.rotation;
+    if (!isZero(rotation % 90)) {
+      // other up
+      if (
+        !currentRange.mergeTRange(
+          pos.normal1Range,
+          calcMinMax(pos.normal1, this.points),
+          pos.normal1.dot(this.moveDir)
+        )
+      ) {
+        return true;
+      }
+      // other right
+      if (
+        !currentRange.mergeTRange(
+          pos.normal2Range,
+          calcMinMax(pos.normal2, this.points),
+          pos.normal2.dot(this.moveDir)
+        )
+      ) {
+        return true;
+      }
     }
     // update possible t ranges
-    for (let i = this.tRange.length - 1; i >= 0; --i) {
-      if (this.tRange[i].splitIfNecessary(currentRange, this.tRange, i)) break;
-    }
-    return this.tRange.length > 0;
+    this.resultTRange = currentRange;
+    return !this.resultTRange.isEmpty();
   }
 
   collideSAT(box: AxisAlignedBoundingBox<f32>): bool {
     // box up
     if (
-      this.yRange.getStart() >= box.y + box.height ||
-      this.yRange.getEnd() <= box.y
+      this.yRange.start >= box.y + box.height ||
+      this.yRange.end <= box.y
     )
       return false;
     // box right
     if (
-      this.xRange.getStart() >= box.x + box.width ||
-      this.xRange.getEnd() <= box.x
+      this.xRange.start >= box.x + box.width ||
+      this.xRange.end <= box.x
     )
       return false;
     // self up
@@ -276,10 +210,6 @@ class SimpleCollisionBox {
     return true;
   }
 }
-
-export const setDebug = (debugActive: bool): void => (debug = debugActive);
-
-export const isDebug = (): bool => debug;
 
 export const tryPlaceOnFourSides = (
   topic: WordCloudTopic,
@@ -294,7 +224,6 @@ export const tryPlaceOnFourSides = (
   let newSideIndex = (rotIndex + 2) % 4;
   let minimal: PositionInfo | null = null;
   for (let i = 0; i < 4; ++i, newSideIndex = (newSideIndex + 1) % 4) {
-
     const newSide = newTopic.buildInfo.sides[newSideIndex];
     const side = topic.buildInfo.sides[i];
     const currentMid = topic.position!.mid;
@@ -308,21 +237,14 @@ export const tryPlaceOnFourSides = (
       side.sideNormal.clone(),
       newSide.otherDirMidDist,
       newSide.distToMid,
+      newTopic.rotation,
       side.otherDirMidDist + newSide.otherDirMidDist
     );
-    if(debug) {
-      if(i === 0) debugLog('UP');
-      if(i === 1) debugLog('RIGHT');
-      if(i === 2) debugLog('DOWN');
-      if(i === 3) debugLog('LEFT');
-    }
-    if (debug) debugLog('MOVE DIR: ' + side.perpendicularNormal.toString());
     quadTree.queryObjects(
       collisionBox,
       (alignedBox, box) => box.collideSAT(alignedBox),
       (object, topics) => {
         for (let j = 0; j < topics.length; j++) {
-          if (debug) debugLog('next ' + topics[j].position!.mid.toString());
           if (!object.collideTRange(topics[j])) {
             return false;
           }
