@@ -1,8 +1,8 @@
 User-Agent: *
 Allow: /
-Sitemap: /sitemap.xml
 Disallow: /admin/
 Disallow: /user/
 Disallow: /creator/
 Disallow: /participant/
 Disallow: /moderator/
+Sitemap: https://frag.jetzt/sitemap.xml
