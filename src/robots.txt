@@ -1,10 +1,8 @@
-User-agent: *
-Allow: /data-protection/
-Allow: /home/
-Allow: /imprint/
-Allow: /introduction/
+User-Agent: *
+Allow: /
+Sitemap: /sitemap.xml
 Disallow: /admin/
-Disallow: /frag.jetzt/user/
-Disallow: /frag.jetzt/creator/
-Disallow: /frag.jetzt/participant/
-Disallow: /frag.jetzt/moderator/
+Disallow: /user/
+Disallow: /creator/
+Disallow: /participant/
+Disallow: /moderator/
