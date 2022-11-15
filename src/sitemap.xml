@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
    <url>
-      <loc>https://frag.jetzt/home/</loc>
+      <loc>/home/</loc>
       <changefreq>always</changefreq>
       <priority>1.0</priority>
    </url>
    <url>
-      <loc>https://frag.jetzt/introduction/</loc>
+      <loc>/introduction/</loc>
       <changefreq>always</changefreq>
       <priority>1.0</priority>
    </url>
    <url>
-      <loc>https://frag.jetzt/imprint/</loc>
+      <loc>/imprint/</loc>
       <changefreq>always</changefreq>
       <priority>0.2</priority>
    </url>
    <url>
-      <loc>https://frag.jetzt/data-protection/</loc>
+      <loc>/data-protection/</loc>
       <changefreq>always</changefreq>
       <priority>0.2</priority>
    </url>
-</urlset> 
+</urlset>
