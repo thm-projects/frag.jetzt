@@ -1,6 +1,7 @@
 import { AxisAlignedBoundingBox, QuadTree, Vector2 } from './quadtree';
 import {
   isZero,
+  NULL_RANGE,
   PositionInfo,
   Range,
   TRangeSet,
@@ -139,74 +140,87 @@ class SimpleCollisionBox {
    */
   collideTRange(topic: WordCloudTopic): bool {
     const pos = topic.position!;
-    const currentRange = this.resultTRange.clone();
     // self move dir
-    if (
-      !currentRange.mergeTRange(
-        calcMinMax(this.moveDir, pos.points),
-        this.moveRange,
-        1
-      )
-    ) {
+    const selfDir1 = this.resultTRange.mergeTRange(
+      calcMinMax(this.moveDir, pos.points),
+      this.moveRange,
+      1
+    );
+    if (selfDir1 === NULL_RANGE) {
       return true;
     }
     // self additional dir
-    if (
-      !currentRange.mergeTRange(
-        calcMinMax(this.addCollDir, pos.points),
-        this.collRange,
-        0
-      )
-    ) {
+    const selfDir2 = this.resultTRange.mergeTRange(
+      calcMinMax(this.addCollDir, pos.points),
+      this.collRange,
+      0
+    );
+    if (selfDir2 === NULL_RANGE) {
       return true;
     }
     const rotation = this.rotation - topic.rotation;
-    if (!isZero(rotation % 90)) {
-      // other up
-      if (
-        !currentRange.mergeTRange(
-          pos.normal1Range,
-          calcMinMax(pos.normal1, this.points),
-          pos.normal1.dot(this.moveDir)
-        )
-      ) {
-        return true;
+    if (isZero(rotation % 90)) {
+      if (selfDir1 !== null) {
+        this.resultTRange.splitByRange(selfDir1.start, selfDir1.end);
       }
-      // other right
-      if (
-        !currentRange.mergeTRange(
-          pos.normal2Range,
-          calcMinMax(pos.normal2, this.points),
-          pos.normal2.dot(this.moveDir)
-        )
-      ) {
-        return true;
+      if (selfDir2 !== null) {
+        this.resultTRange.splitByRange(selfDir2.start, selfDir2.end);
       }
+      return !this.resultTRange.isEmpty();
+    }
+    // other up
+    const otherDir1 = this.resultTRange.mergeTRange(
+      pos.normal1Range,
+      calcMinMax(pos.normal1, this.points),
+      pos.normal1.dot(this.moveDir)
+    );
+    if (otherDir1 === NULL_RANGE) {
+      return true;
+    }
+    // other right
+    const otherDir2 = this.resultTRange.mergeTRange(
+      pos.normal2Range,
+      calcMinMax(pos.normal2, this.points),
+      pos.normal2.dot(this.moveDir)
+    );
+    if (otherDir2 === NULL_RANGE) {
+      return true;
     }
     // update possible t ranges
-    this.resultTRange = currentRange;
+    if (selfDir1 !== null) {
+      this.resultTRange.splitByRange(selfDir1.start, selfDir1.end);
+    }
+    if (selfDir2 !== null) {
+      this.resultTRange.splitByRange(selfDir2.start, selfDir2.end);
+    }
+    if (otherDir1 !== null) {
+      this.resultTRange.splitByRange(otherDir1.start, otherDir1.end);
+    }
+    if (otherDir2 !== null) {
+      this.resultTRange.splitByRange(otherDir2.start, otherDir2.end);
+    }
     return !this.resultTRange.isEmpty();
   }
 
   collideSAT(box: AxisAlignedBoundingBox<f32>): bool {
     // box up
-    if (
-      this.yRange.start >= box.y + box.height ||
-      this.yRange.end <= box.y
-    )
+    if (this.yRange.start >= box.y + box.height || this.yRange.end <= box.y) {
       return false;
+    }
     // box right
-    if (
-      this.xRange.start >= box.x + box.width ||
-      this.xRange.end <= box.x
-    )
+    if (this.xRange.start >= box.x + box.width || this.xRange.end <= box.x) {
       return false;
+    }
     // self up
-    if (!this.completeMoveRange.collides(calcMinMax(this.moveDir, box.points)))
+    if (
+      !this.completeMoveRange.collides(calcMinMax(this.moveDir, box.points))
+    ) {
       return false;
+    }
     // self right
-    if (!this.collRange.collides(calcMinMax(this.addCollDir, box.points)))
+    if (!this.collRange.collides(calcMinMax(this.addCollDir, box.points))) {
       return false;
+    }
     return true;
   }
 }

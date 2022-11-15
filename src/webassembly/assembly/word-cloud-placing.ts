@@ -1,8 +1,4 @@
-import { debugLog } from './env';
-import {
-  calcMinMax,
-  tryPlaceOnFourSides,
-} from './placing-four-sides';
+import { calcMinMax, tryPlaceOnFourSides } from './placing-four-sides';
 import { AxisAlignedBoundingBox, QuadTree, Vector2 } from './quadtree';
 
 export function isZero(t: f32): bool {
@@ -15,6 +11,23 @@ export function pushAt<T>(array: Array<T>, index: i32, element: T): void {
   array.copyWithin(index + 1, index, array.length - 1);
   array[index] = element;
 }
+
+export class Range {
+  constructor(public readonly start: f32, public readonly end: f32) {
+    assert(start <= end, 'Cant create invalid range!');
+  }
+
+  collides(other: Range): bool {
+    // no equality, touching should not be colliding
+    return other.start < this.end && other.end > this.start;
+  }
+
+  toString(): string {
+    return '[' + this.start.toString() + ',' + this.end.toString() + ']';
+  }
+}
+
+export const NULL_RANGE = new Range(0, 0);
 
 export class TRangeSet {
   public readonly tRanges: Array<Range> = new Array<Range>();
@@ -65,14 +78,22 @@ export class TRangeSet {
   }
 
   /**
-   * @returns if ranges collide
+   * @returns the possible range, where it collides
+   *
+   * returns null if it always collides
+   *
+   * returns NULL_RANGE if there is never a collision
    */
-  mergeTRange(staticRange: Range, tRange: Range, tProjectedOnRange: f32): bool {
-    if (isZero(tProjectedOnRange)) {
-      return staticRange.collides(tRange);
-    }
+  mergeTRange(
+    staticRange: Range,
+    tRange: Range,
+    tProjectedOnRange: f32
+  ): Range | null {
     if (this.tRanges.length < 1) {
-      return true;
+      return null;
+    }
+    if (isZero(tProjectedOnRange)) {
+      return staticRange.collides(tRange) ? null : NULL_RANGE;
     }
     let tmin = (tRange.start - staticRange.end) / -tProjectedOnRange;
     let tmax = (staticRange.start - tRange.end) / tProjectedOnRange;
@@ -85,13 +106,12 @@ export class TRangeSet {
       tmax <= this.tRanges[0].start ||
       tmin >= this.tRanges[this.tRanges.length - 1].end
     ) {
-      return false;
+      return NULL_RANGE;
     }
-    this.splitByRange(tmin, tmax);
-    return true;
+    return new Range(tmin, tmax);
   }
 
-  private splitByRange(start: f32, end: f32): void {
+  splitByRange(start: f32, end: f32): void {
     for (let i = this.tRanges.length - 1; i >= 0; i--) {
       const currentRange = this.tRanges[i];
       if (start <= currentRange.start) {
@@ -113,21 +133,6 @@ export class TRangeSet {
       this.tRanges[i] = new Range(currentRange.start, start);
       break;
     }
-  }
-}
-
-export class Range {
-  constructor(public readonly start: f32, public readonly end: f32) {
-    assert(start <= end, 'Cant create invalid range!');
-  }
-
-  collides(other: Range): bool {
-    // no equality, touching should not be colliding
-    return other.start < this.end && other.end > this.start;
-  }
-
-  toString(): string {
-    return '[' + this.start.toString() + ',' + this.end.toString() + ']';
   }
 }
 
@@ -269,15 +274,9 @@ export class WordCloudTopic {
 
   collideSAT(box: AxisAlignedBoundingBox<f32>): bool {
     const pos = this.position!;
-    if (
-      pos.yRange.start >= box.y + box.height ||
-      pos.yRange.end <= box.y
-    )
+    if (pos.yRange.start >= box.y + box.height || pos.yRange.end <= box.y)
       return false;
-    if (
-      pos.xRange.start >= box.x + box.width ||
-      pos.xRange.end <= box.x
-    )
+    if (pos.xRange.start >= box.x + box.width || pos.xRange.end <= box.x)
       return false;
     if (!pos.normal1Range.collides(calcMinMax(pos.normal1, box.points)))
       return false;
