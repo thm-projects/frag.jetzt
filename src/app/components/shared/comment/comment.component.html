@@ -328,7 +328,8 @@
         </mat-icon>
       </button>
       <button mat-icon-button
-              *ngIf="!isAnswerView && !showResponses && comment.totalAnswerCounts.accumulated > 0 && !indentationPossible">
+              *ngIf="(!isAnswerView && !showResponses && comment.totalAnswerCounts.accumulated > 0 && !indentationPossible) ||
+              (isAnswerView && !showResponses && comment.totalAnswerCounts.accumulated > 0)">
         <mat-icon class="not-marked material-icons-round"
                   matBadge="{{comment.totalAnswerCounts.accumulated}}"
                   matBadgeColor="secondary"
