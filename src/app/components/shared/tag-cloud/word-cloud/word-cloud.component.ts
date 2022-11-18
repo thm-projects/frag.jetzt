@@ -28,16 +28,11 @@ export interface WordMeta {
 }
 
 interface PositionInformation<K = any> {
-  position: {
-    width: number;
-    height: number;
-    rotation: number;
-    normalizedHorizontalLine: [mx: number, my: number];
-    offsetHorizontalLine: [bx: number, by: number];
-    normalizedVerticalLine: [mx: number, my: number];
-    offsetVerticalLine: [bx: number, by: number];
-  };
-  origin: [x: number, y: number];
+  width: number;
+  height: number;
+  rotation: number;
+  radius: number;
+  phi: number;
   additional?: K;
 }
 
@@ -273,26 +268,22 @@ export class WordCloudComponent<T extends WordMeta>
       arr[0] = parentRect.width;
       arr[1] = parentRect.height;
       for (let i = 0; i < length; i++) {
-        const elem = this._elements[i];
-        arr[i * 3 + 2] = elem.buildInformation.position.width;
-        arr[i * 3 + 3] = elem.buildInformation.position.height;
-        arr[i * 3 + 4] = 0; //elem.meta.rotate;
+        const elem = this._elements[i].buildInformation;
+        arr[i * 3 + 2] = elem.width;
+        arr[i * 3 + 3] = elem.height;
+        arr[i * 3 + 4] = elem.rotation;
       }
-      console.log(arr);
       this.webAssemblyService.getWordCloudPlacing(arr).subscribe((arr) => {
         for (let i = 0; i < length; i++) {
           const elem = this._elements[i];
+          if (arr[i * 3 + 2] < 0) {
+            elem.visible = false;
+            continue;
+          }
           elem.visible = true;
           const buildInfo = elem.buildInformation;
-          buildInfo.origin = [
-            arr[i * 3 + 2] - buildInfo.position.width / 2,
-            arr[i * 3 + 3] - buildInfo.position.height / 2,
-          ];
-        }
-        for (let i = length; i < this._elements.length; i++) {
-          const elem = this._elements[i];
-          elem.visible = false;
-          elem.buildInformation.origin = [0, 0];
+          buildInfo.radius = arr[i * 3 + 2];
+          buildInfo.phi = arr[i * 3 + 3];
         }
         this.fontInfoService
           .waitTillFontLoaded(this.parameters.fontFamily)
@@ -385,8 +376,11 @@ export class WordCloudComponent<T extends WordMeta>
         meta: dataEntry,
         weightClass: null,
         buildInformation: {
-          position: null,
-          origin: null,
+          height: null,
+          width: null,
+          radius: null,
+          phi: 0,
+          rotation: 0,
         },
       });
     }
@@ -462,26 +456,9 @@ export class WordCloudComponent<T extends WordMeta>
         this._minHeight === null || this._minHeight > height
           ? height
           : this._minHeight;
-      const rot = word.meta.rotate * TO_RAD;
-      const cos = Math.cos(rot);
-      const sin = Math.sin(rot);
-      const halfW = width / 2;
-      const halfH = height / 2;
-      word.buildInformation.position = {
-        width,
-        height,
-        rotation: word.meta.rotate,
-        normalizedHorizontalLine: [cos, sin],
-        offsetHorizontalLine: [
-          -halfW * cos + halfH * sin,
-          -halfW * sin - halfH * cos,
-        ],
-        normalizedVerticalLine: [-sin, cos],
-        offsetVerticalLine: [
-          halfW * cos + halfH * sin,
-          halfW * sin - halfH * cos,
-        ],
-      };
+      word.buildInformation.height = height;
+      word.buildInformation.width = width;
+      word.buildInformation.rotation = word.meta.rotate;
     });
   }
 
@@ -590,15 +567,33 @@ export class WordCloudComponent<T extends WordMeta>
     const interval = this.parameters.delayWord;
     parentElement.style.setProperty('--fadeInTime', timeInMs + 'ms');
     this._elements.forEach((e, i) => {
-      const [x, y] = e.buildInformation.origin;
       e.element.style.display = e.visible ? '' : 'none';
-      e.element.style.setProperty('--pos-x', x + 'px');
-      e.element.style.setProperty('--pos-y', y + 'px');
+      e.element.style.setProperty(
+        '--radius',
+        String(e.buildInformation.radius) + 'px',
+      );
+      const previous = e.element.style.getPropertyValue('--phi');
+      const previousPhi = previous
+        ? Number(previous.substring(0, previous.length - 3))
+        : 0;
+      const adjustedPrevPhi = previousPhi % (Math.PI * 2);
+      const currentPhi =
+        e.buildInformation.phi < 0
+          ? Math.PI * 2 + e.buildInformation.phi
+          : e.buildInformation.phi;
+      const diff = currentPhi - adjustedPrevPhi;
+      const newPhi = previousPhi + diff + (diff < 0 ? Math.PI * 2 : 0);
+      e.element.style.setProperty('--phi', String(newPhi) + 'rad');
+      e.element.style.setProperty('--neg-phi', String(-newPhi) + 'rad');
       e.element.dataset.index = String(i);
     });
     const newElements = this._elements.filter(
       (e) => !e.element.classList.contains('visible') && e.visible,
     );
+    setTimeout(() =>
+      newElements.forEach((e) => e.element.classList.add('visible')),
+    );
+    /*
     let index = 0;
     const intervalId = setInterval(() => {
       if (index >= newElements.length) {
@@ -606,6 +601,6 @@ export class WordCloudComponent<T extends WordMeta>
         return;
       }
       newElements[index++].element.classList.add('visible');
-    }, interval);
+    }, interval);*/
   }
 }

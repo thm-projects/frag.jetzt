@@ -29,6 +29,10 @@ export class Vector2 {
     return (this._directionX / aspectRatio) ** 2 + this._directionY ** 2;
   }
 
+  length(): f32 {
+    return f32(Math.sqrt(this._directionX ** 2 + this._directionY ** 2));
+  }
+
   clone(): Vector2 {
     return new Vector2(this._directionX, this._directionY);
   }

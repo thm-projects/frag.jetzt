@@ -4,6 +4,7 @@ import {
   AxisAlignedBoundingBox,
   QuadTree,
   QuadTreeSpecifications,
+  Vector2,
 } from './quadtree';
 import { findBestPlace, WordCloudTopic } from './word-cloud-placing';
 
@@ -32,16 +33,19 @@ export function calculateWordCloudPlacing(
     findBestPlace(placeIndex, newTopic, placed, tree, aspectRatio);
     const pos = newTopic.position;
     if (pos === null) {
-      boundsArray[k] = 0;
-      boundsArray[k + 1] = 0;
+      boundsArray[k] = -1;
       continue;
     }
     placed[placeIndex++] = newTopic;
     const mid = pos.mid;
-    boundsArray[k] = mid.getDirectionX() + halfWidth;
-    boundsArray[k + 1] = -mid.getDirectionY() + halfHeight;
+    boundsArray[k] = mid.length();
+    boundsArray[k + 1] = getAngle(mid);
   }
   return boundsArray;
+}
+
+function getAngle(vec2: Vector2): f32 {
+  return f32(Math.atan2(-vec2.getDirectionY(), vec2.getDirectionX()));
 }
 
 export const Float32Array_ID = idof<Float32Array>();
