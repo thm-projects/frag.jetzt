@@ -107,7 +107,6 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.backUrl = sessionStorage.getItem('conversation-fallback-url');
     this.isConversationView = this.router.url.endsWith('conversation');
-    this.userRole = this.sessionService.currentRole;
     this.initNavigation();
     this.userManagementService.getUser().subscribe((newUser) => {
       if (newUser) {
@@ -160,6 +159,7 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
             this.onCommentReceive(...result);
           }
         });
+      });
     });
   }
 
@@ -257,25 +257,6 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
   onEditClick() {
     this.edit = true;
     setTimeout(() => this.commentComponent.commentData.set(this.answer));
-  }
-
-  applySortAnswers(value: string) {
-    switch (value) {
-      case 'Time':
-        this.responses.sort(
-          (a, b) =>
-            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
-        );
-        this.responses.reverse();
-        break;
-      case 'BestScore':
-        this.responses.sort((a, b) => b.score - a.score);
-        break;
-      case 'WorstScore':
-        this.responses.sort((a, b) => b.score - a.score);
-        this.responses.reverse();
-        break;
-    }
   }
 
   editQuestion(comment: ForumComment) {

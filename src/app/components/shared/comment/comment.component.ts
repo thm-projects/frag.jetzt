@@ -102,6 +102,7 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
   commentBodyInner: RowComponent;
   @ViewChild('commentExpander', { static: true }) commentExpander: RowComponent;
   readableCommentBody: string;
+  readableCommentDate: string;
   isStudent = false;
   isCreator = false;
   isModerator = false;
