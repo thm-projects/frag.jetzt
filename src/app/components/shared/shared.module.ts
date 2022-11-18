@@ -169,6 +169,9 @@ import { CommentResponseViewComponent } from './comment-response-view/comment-re
 import { LanguageService } from '../../services/util/language.service';
 import { TranslateService } from '@ngx-translate/core';
 import { UIRegistrationComponent } from './uiregistration/uiregistration.component';
+import { PseudonymEditorComponent } from './_dialogs/pseudonym-editor/pseudonym-editor.component';
+import { BrainstormingBlacklistEditComponent } from './_dialogs/brainstorming-blacklist-edit/brainstorming-blacklist-edit.component';
+import { EditQuestionComponent } from './_dialogs/edit-question/edit-question.component';
 
 @NgModule({
   imports: [
@@ -275,7 +278,10 @@ import { UIRegistrationComponent } from './uiregistration/uiregistration.compone
     AppRatingPopUpComponent,
     MinuteJumpClockComponent,
     CommentResponseViewComponent,
-    UIRegistrationComponent
+    UIRegistrationComponent,
+    PseudonymEditorComponent,
+    BrainstormingBlacklistEditComponent,
+    EditQuestionComponent
   ],
   exports: [
     RoomJoinComponent,

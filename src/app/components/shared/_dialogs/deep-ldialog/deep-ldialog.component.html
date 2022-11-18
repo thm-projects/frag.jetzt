@@ -24,9 +24,9 @@
                            [isModerator]="data.isModerator"
                            [isEditor]="true"
                            [currentData]="improvedValue.body"
-                           [usesFormality]="true"
+                           [usesFormality]="supportsFormality"
                            [formalityEmitter]="onFormalityChange.bind(this)"
-                           [selectedFormality]="'less'"></app-view-comment-data>
+                           [selectedFormality]="formality"></app-view-comment-data>
   </mat-radio-group>
 </div>
 

@@ -1,5 +1,6 @@
 @use "sass:math";
-@import "src/layout/laout-util";
+@import "src/layout/layout-util";
+@import "src/layout/layout-variables";
 
 @mixin card-box-shadow($color: transparent, $x: -8px) {
   box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2),
@@ -14,7 +15,7 @@
   transition: background-color 0.5s linear,
   box-shadow 0.15s ease-in-out;
   touch-action: auto !important;
-  margin: 16px 0 16px 0;
+  margin: $commentMarginTopBottom 0;
 }
 
 .color-tooltip {
@@ -483,5 +484,5 @@ $width-range: $max-width - $min-width;
 }
 
 .mat-card {
-  border-radius: 40px !important;
+  border-radius: $commentBorderRadius !important;
 }

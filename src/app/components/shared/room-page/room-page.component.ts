@@ -463,7 +463,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
         callback: () => this.importQuestions().subscribe(),
         condition: () => (this.roomDataService.dataAccessor.currentRawComments()?.length || 0) +
           (this.roomDataService.moderatorDataAccessor.currentRawComments()?.length || 0) === 0 &&
-          this.user.id === this.room.ownerId,
+          this.user.id === this.room.ownerId && this.userRole > UserRole.PARTICIPANT,
       });
       e.menuItem({
         translate: this.headerService.getTranslate(),

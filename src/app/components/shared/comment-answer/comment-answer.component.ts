@@ -37,6 +37,7 @@ import { QuillUtils, StandardDelta } from '../../../utils/quill-utils';
 import { Comment } from '../../../models/comment';
 import { ResponseViewInformation } from '../comment-response-view/comment-response-view.component';
 import { UserManagementService } from '../../../services/util/user-management.service';
+import { EditQuestionComponent } from '../_dialogs/edit-question/edit-question.component';
 
 @Component({
   selector: 'app-comment-answer',
@@ -44,6 +45,7 @@ import { UserManagementService } from '../../../services/util/user-management.se
   styleUrls: ['./comment-answer.component.scss'],
 })
 export class CommentAnswerComponent implements OnInit, OnDestroy {
+
   @ViewChild(WriteCommentComponent) commentComponent: WriteCommentComponent;
 
   comment: ForumComment;
@@ -105,6 +107,7 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.backUrl = sessionStorage.getItem('conversation-fallback-url');
     this.isConversationView = this.router.url.endsWith('conversation');
+    this.userRole = this.sessionService.currentRole;
     this.initNavigation();
     this.userManagementService.getUser().subscribe((newUser) => {
       if (newUser) {
@@ -157,7 +160,6 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
             this.onCommentReceive(...result);
           }
         });
-      });
     });
   }
 
@@ -274,6 +276,18 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
         this.responses.reverse();
         break;
     }
+  }
+
+  editQuestion(comment: ForumComment) {
+    const ref = this.dialog.open(EditQuestionComponent, {
+      width: '900px',
+      maxWidth: '100%',
+      maxHeight: 'calc( 100vh - 20px )',
+      autoFocus: false,
+    });
+    ref.componentInstance.comment = comment;
+    ref.componentInstance.tags = this.sessionService.currentRoom.tags;
+    ref.componentInstance.userRole = this.sessionService.currentRole;
   }
 
   private findComment(commentId: string): Observable<[ForumComment, boolean]> {

@@ -7,10 +7,17 @@ export enum DsgvoSource {
   YouTube,
   Vimeo,
   External,
+  ExternalUntrusted,
 }
 
+const EXTERNAL_TRUSTED = new Set([
+  // Audio podcasts
+]);
+
 export class DsgvoBuilder {
-  private static _trustedURLs = new Set<string>([location.origin.toLowerCase()]);
+  private static _trustedURLs = new Set<string>([
+    location.origin.toLowerCase(),
+  ]);
 
   static trustURL(url: string) {
     url = this.verifyURL(url);
@@ -27,19 +34,25 @@ export class DsgvoBuilder {
     messageId: string,
     translator: TranslateService,
     action: () => void,
+    isActionOnce = true
   ) {
     const article = document.createElement('article');
+    article.contentEditable = 'false';
     article.classList.add('dsgvo-info-article');
     article.style.minHeight = height;
     const header = document.createElement('h3');
     const p = document.createElement('p');
     const button = document.createElement('button');
     button.classList.add('mat-flat-button', 'mat-button-base');
-    button.addEventListener('click', e => {
-      e.preventDefault();
-      e.stopImmediatePropagation();
-      action();
-    }, { once: true });
+    button.addEventListener(
+      'click',
+      (e) => {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        action();
+      },
+      { once: isActionOnce },
+    );
     article.append(header, p, button);
     const title = messageId + '-title';
     const btnTitle = messageId + '-button-text';
@@ -70,6 +83,8 @@ export class DsgvoBuilder {
         return 'dsgvo.vimeo-video';
       case DsgvoSource.External:
         return 'dsgvo.external-source';
+      case DsgvoSource.ExternalUntrusted:
+        return 'dsgvo.external-source-untrusted';
     }
     return null;
   }
@@ -94,8 +109,10 @@ export class DsgvoBuilder {
       return [DsgvoSource.YouTube, url];
     } else if (type === URLType.VIMEO) {
       return [DsgvoSource.Vimeo, url];
-    } else {
+    } else if (EXTERNAL_TRUSTED.has(lowercaseSrc)) {
       return [DsgvoSource.External, srcURL];
+    } else {
+      return [DsgvoSource.ExternalUntrusted, srcURL];
     }
   }
 

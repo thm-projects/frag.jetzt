@@ -2,36 +2,57 @@ import { Room } from '../models/room';
 import { TopicCloudAdminData } from '../components/shared/_dialogs/topic-cloud-administration/TopicCloudAdminData';
 import { TopicCloudAdminService } from '../services/util/topic-cloud-admin.service';
 
-const CURRENT_VERSION = 1;
+const CURRENT_VERSION = 2;
 
 export class TagCloudSettings {
-
   constructor(
     public adminData: TopicCloudAdminData,
-  ) {
-  }
+    public brainstormingBlacklist: string[],
+  ) {}
 
   static getFromRoom(room: Room): TagCloudSettings {
-    const object = JSON.parse(room.tagCloudSettings || null);
+    let object = JSON.parse(room.tagCloudSettings || null);
     if (!object) {
       return null;
     }
-    if ((object.version || 0) !== CURRENT_VERSION) {
-      room.tagCloudSettings = null;
+    let version = object.version || 0;
+    if (version === 0) {
       return null;
     }
-    const { admin } = object;
-    return new TagCloudSettings(admin as TopicCloudAdminData);
+    while (version < CURRENT_VERSION) {
+      object = this.migrate(object, version);
+      version += 1;
+    }
+    const { admin, brainstormingBlacklist } = object;
+    return new TagCloudSettings(
+      admin as TopicCloudAdminData,
+      brainstormingBlacklist,
+    );
   }
 
-  static getCurrent(): TagCloudSettings {
-    return new TagCloudSettings(TopicCloudAdminService.getDefaultAdminData);
+  static getCurrent(brainstormingBlacklist: string[]): TagCloudSettings {
+    return new TagCloudSettings(
+      TopicCloudAdminService.getDefaultAdminData,
+      brainstormingBlacklist,
+    );
+  }
+
+  private static migrate(object: unknown, currentVersion: number): any {
+    switch (currentVersion) {
+      case 1: return {
+        admin: object['admin'],
+        brainstormingBlacklist: [],
+        version: 2,
+      };
+    }
+    return null;
   }
 
   serialize() {
     return JSON.stringify({
       version: CURRENT_VERSION,
-      admin: this.adminData
+      admin: this.adminData,
+      brainstormingBlacklist: this.brainstormingBlacklist,
     });
   }
 }

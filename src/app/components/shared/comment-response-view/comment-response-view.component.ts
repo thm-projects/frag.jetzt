@@ -1,12 +1,33 @@
-import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  SimpleChanges,
+  ViewChild,
+} from '@angular/core';
 import { ForumComment } from '../../../utils/data-accessor';
 import { User } from '../../../models/user';
 import { UserRole } from '../../../models/user-roles.enum';
-import { FilteredDataAccess, getChildrenKeywordParent } from '../../../utils/filtered-data-access';
+import {
+  FilteredDataAccess,
+  getMultiLevelFilterParent,
+  hasKeyword,
+} from '../../../utils/filtered-data-access';
 import { SessionService } from '../../../services/util/session.service';
 import { RoomDataService } from '../../../services/util/room-data.service';
 import { Vote } from '../../../models/vote';
-import { FilterType } from '../../../utils/data-filter-object.lib';
+import {
+  FilterType,
+  SortType,
+  SortTypeKey,
+} from '../../../utils/data-filter-object.lib';
+import { MatDialog } from '@angular/material/dialog';
+import { CommentService } from 'app/services/http/comment.service';
+import { EditQuestionComponent } from '../_dialogs/edit-question/edit-question.component';
 
 export interface ResponseViewInformation {
   user: User;
@@ -24,14 +45,16 @@ export interface ResponseViewInformation {
   templateUrl: './comment-response-view.component.html',
   styleUrls: ['./comment-response-view.component.scss'],
 })
-export class CommentResponseViewComponent implements OnInit, AfterViewInit, OnDestroy {
-
+export class CommentResponseViewComponent
+  implements OnInit, AfterViewInit, OnChanges, OnDestroy {
   @Input()
   owningComment: ForumComment;
   @Input()
   viewInfo: ResponseViewInformation;
   @ViewChild('containerRef')
   containerRef: ElementRef<HTMLDivElement>;
+  sortType: SortTypeKey;
+  sortReverse: boolean;
   private _rootComment: ForumComment;
   private _depthLevel: number;
   private _data: FilteredDataAccess;
@@ -42,8 +65,9 @@ export class CommentResponseViewComponent implements OnInit, AfterViewInit, OnDe
   constructor(
     private sessionService: SessionService,
     private roomDataService: RoomDataService,
-  ) {
-  }
+    private dialog: MatDialog,
+    private commentService: CommentService,
+  ) {}
 
   get keywordFilter() {
     return this._keywordFilter;
@@ -80,6 +104,14 @@ export class CommentResponseViewComponent implements OnInit, AfterViewInit, OnDe
     this._canNew = width >= 400;
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (!this._keywordFilter) {
+      this.changeParent(this.owningComment.id);
+    } else {
+      this.calculateNewParentForKeywords();
+    }
+  }
+
   ngOnDestroy() {
     this.detach();
   }
@@ -97,8 +129,9 @@ export class CommentResponseViewComponent implements OnInit, AfterViewInit, OnDe
   }
 
   changeParent(id: string): boolean {
-    const accessor = this.viewInfo.isModerationComment ?
-      this.roomDataService.moderatorDataAccessor : this.roomDataService.dataAccessor;
+    const accessor = this.viewInfo.isModerationComment
+      ? this.roomDataService.moderatorDataAccessor
+      : this.roomDataService.dataAccessor;
     const comment = accessor.getDataById(id)?.comment;
     if (!comment) {
       return false;
@@ -118,9 +151,33 @@ export class CommentResponseViewComponent implements OnInit, AfterViewInit, OnDe
     return true;
   }
 
+  applySortingByKey(type: SortTypeKey, reverse = false) {
+    const filter = this._data.dataFilter;
+    filter.sortType = SortType[type];
+    filter.sortReverse = reverse;
+    this._data.dataFilter = filter;
+    this.refresh();
+  }
+
+  editQuestion(comment: ForumComment) {
+    const ref = this.dialog.open(EditQuestionComponent, {
+      width: '900px',
+      maxWidth: '100%',
+      maxHeight: 'calc( 100vh - 20px )',
+      autoFocus: false,
+    });
+    ref.componentInstance.comment = comment;
+    ref.componentInstance.tags = this.sessionService.currentRoom.tags;
+    ref.componentInstance.userRole = this.sessionService.currentRole;
+  }
+
   private attach() {
     this.detach();
-    this._data = FilteredDataAccess.buildChildrenAccess(this.sessionService, this.roomDataService, this._rootComment.id);
+    this._data = FilteredDataAccess.buildChildrenAccess(
+      this.sessionService,
+      this.roomDataService,
+      this._rootComment.id,
+    );
     this._data.attach({
       userId: this.viewInfo.user.id,
       ownerId: this.viewInfo.roomOwner,
@@ -134,6 +191,13 @@ export class CommentResponseViewComponent implements OnInit, AfterViewInit, OnDe
       f.filterCompare = this._keywordFilter;
       this._data.dataFilter = f;
     }
+    this.refresh();
+  }
+
+  private refresh() {
+    const f = this._data.dataFilter;
+    this.sortType = SortType[f.sortType];
+    this.sortReverse = f.sortReverse;
   }
 
   private detach() {
@@ -142,12 +206,14 @@ export class CommentResponseViewComponent implements OnInit, AfterViewInit, OnDe
   }
 
   private calculateNewParentForKeywords() {
-    const parent = getChildrenKeywordParent(this.owningComment, this._keywordFilter);
-    console.log(parent[1].body, this.owningComment.body);
+    const parent = getMultiLevelFilterParent(
+      this.owningComment,
+      hasKeyword,
+      this._keywordFilter,
+    );
     if (!parent) {
       return;
     }
     this.changeParent(parent[1].id);
   }
-
 }

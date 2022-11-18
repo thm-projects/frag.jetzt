@@ -132,6 +132,22 @@ deploy_production:
     - ssh-add <(echo "$SSH_PRIVATE_KEY")
     - scp -r "$BUILD_DIR"* "$SSH_URL"
 
+deploy_frag_thm:
+  stage: deploy
+  only:
+    - master
+  tags:
+    - ssh
+  needs:
+    - job: build_image
+      artifacts: false
+  script:
+    - eval $(ssh-agent -s)
+    - mkdir ~/.ssh
+    - ssh-keyscan "$SSH_FRAG_THM_SERVER_URL" >> ~/.ssh/known_hosts
+    - ssh-add <(echo "$SSH_FRAG_THM_PRIVATE_KEY")
+    - ssh "$SSH_FRAG_THM_USER"
+
 .build_image_template:
   stage: deploy
   image:

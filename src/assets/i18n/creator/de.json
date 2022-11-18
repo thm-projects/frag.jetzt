@@ -15,6 +15,15 @@
     "user-anonym": "anonym",
     "user-name": "User"
   },
+  "brainstorming-blacklist": {
+    "title": "Brainstorming Blacklist",
+    "placeholder-add": "Wort eingeben",
+    "add-button": "Wort hinzufügen",
+    "show-button": "Zeige Blacklist",
+    "hide-button": "Verberge Blacklist",
+    "cancel": "Verwerfen",
+    "update": "Speichern"
+  },
   "comment-list": {
     "a11y-access_time": "Sortiert Fragen nach der Uhrzeit",
     "a11y-add": "Option eine Frage zu stellen",
@@ -62,7 +71,8 @@
     "counter": "Q {{comments}} | A {{answers}} | M {{moderated}}",
     "counter-description": "Zähler für Fragen (Q), Antworten (A), Fragen oder Antworten in der Moderation (M)",
     "favorite": "Ausgezeichnete Fragen",
-    "filter-answered": "Beantwortete Fragen",
+    "filter-answered-creator": "Raumersteller*in",
+    "filter-answered-moderator": "Moderator*in",
     "filter-bookmark": "Lesezeichen",
     "filter-brainstorm": "Brainstorming",
     "filter-censored": "Zensiert",
@@ -77,7 +87,7 @@
     "filter-question-number": "Frage suchen …",
     "filter-read": "Besprochene Fragen",
     "filter-reset": "Zurücksetzen",
-    "filter-unanswered": "Unbeantwortete Fragen",
+    "filter-unanswered": "Unbeantwortet",
     "filter-wrong": "Verneinte Fragen",
     "owner": "Fragen, die ich gestellt habe",
     "pause-comments": "Friert die Anzeige ein, um die Fragen in Ruhe zu lesen oder zu präsentieren. Fragen können weiterhin gestellt und bewertet werden. Die Anzeige aktualisiert sich wieder durch Klicken des Buttons.",
@@ -102,6 +112,7 @@
     "sort-comments": "Fragen sortieren",
     "sort-controversy": "Kontroverse Fragen zuerst",
     "sort-list-time": "Neueste Frage zuerst",
+    "sort-list-time-reverse": "Älteste Frage zuerst",
     "sort-vote-asc": "Höchste Bewertung zuerst",
     "sort-vote-desc": "Niedrigste Bewertung zuerst",
     "star-was-withdrawn-from-the-question": "Der Stern wurde entfernt.",
@@ -188,6 +199,7 @@
     "edit-bookmark": "Lesezeichen setzen",
     "edit-bookmark-reset": "Markierung zurücksetzen",
     "edit-change-tag": "Kategorie wählen oder ändern",
+    "edit-comment": "Bearbeiten",
     "edit-correct": "Als richtig markieren",
     "edit-correct-reset": "Markierung zurücksetzen",
     "edit-delete": "Frage löschen",
@@ -211,14 +223,15 @@
     "fullscreen": "Frage beantworten",
     "grammar-check": "Text optimieren mit KI",
     "has-answer": "Du hast die Frage beantwortet. Klick hier, um deine Antwort zu sehen oder zu ändern.",
-    "hide-conversation-tooltip": "Verstecke Konversation",
+    "hide-conversation-tooltip": "Antworten auf diesen Beitrag verbergen",
+    "move-conversation-up": "Ein Level nach oben",
     "keywords": "Fragen-Radar",
     "keywords-per-answer": "Klick auf das #-Zeichen, um die Stichwörter anzuzeigen, die der Beantworter bestimmt oder aus einer KI-generierten Liste ausgewählt hat.",
     "keywords-per-question": "Klick auf das #-Zeichen, um die Stichwörter anzuzeigen, die der Fragensteller oder die Fragenstellerin bestimmt oder aus einer KI-generierten Liste ausgewählt hat.",
     "live-announcer": "Du befindest dich jetzt auf der Fragen-Seite. Um Informationen zu Tastenkombinationen zu erhalten drücke jetzt die Enter-Taste oder rufe die Ansage zu einem späteren Zeitpunkt mit der Escape-Taste auf.",
     "live-announcer-moderation": "Du befindest dich jetzt auf der Moderations-Seite. Um Informationen zu Tastenkombinationen zu erhalten drücke jetzt die Enter-Taste oder rufe die Ansage zu einem späteren Zeitpunkt mit der Escape-Taste auf.",
     "mark-bookmark": "Lesezeichen setzen",
-    "mark-correct": "Frage bejahen",
+    "mark-correct": "Frage mit »ja« beantworten oder als »erledigt« markieren",
     "mark-favorite": "Frage für einen Bonus markieren",
     "mark-favorite-disabled-bonus": "Mit einem Stern auszeichnen",
     "mark-not-bookmark": "Markierung zurücknehmen",
@@ -227,7 +240,7 @@
     "mark-not-favorite-disabled-bonus": "Stern zurücknehmen",
     "mark-not-wrong": "Markierung zurücknehmen",
     "mark-read": "Die Frage wurde präsentiert.",
-    "mark-wrong": "Frage verneinen",
+    "mark-wrong": "Frage verneinen oder als irrelevant markieren",
     "new-comment": "Eine neue Frage mit dem Inhalt, {{ comment }}, wurde soeben gestellt.",
     "no-comment": "Der Kommentar existiert nicht!",
     "no-comments": "Keine Einträge zurzeit",
@@ -248,7 +261,8 @@
     "send-description": "Abschicken",
     "show-comment-with-filter": "Vulgäre Ausdrücke zensieren",
     "show-comment-without-filter": "Vulgäre Wörter anzeigen",
-    "show-conversation-tooltip": "Zeige Konversation",
+    "show-conversation-tooltip": "Antworten auf diesen Beitrag anzeigen",
+    "show-conversation-full-tooltip": "Konversation anzeigen",
     "show-less": "Weniger anzeigen ↑",
     "show-more": "Mehr anzeigen ↓",
     "tag": "Kategorie",
@@ -279,8 +293,8 @@
   "deepl-formality-select": {
     "default": "Voreinstellung",
     "error": "Der Text konnte nicht aktualisiert werden.",
-    "less": "Informell",
-    "more": "Formell",
+    "less": "Duzen",
+    "more": "Siezen",
     "name": "Stil"
   },
   "dialog-comment": {
@@ -288,9 +302,12 @@
     "read-more": "Mehr lesen"
   },
   "dsgvo": {
-    "external-source": "Der Inhalt ist eine externe Quelle. Soll <br><br>{{url}}<br><br> aufgerufen werden?",
-    "external-source-button-text": "Aufrufen",
-    "external-source-title": "Externe Quelle",
+    "external-source": "Soll der externe Inhalt <br><br>{{url}}<br><br> aufgerufen werden?",
+    "external-source-button-text": "Hier öffnen …",
+    "external-source-title": "Eingebetteter externer Inhalt",
+    "external-source-untrusted": "Soll der externe Inhalt <br><br>{{url}}<br><br> im neuen Tab aufgerufen werden?",
+    "external-source-untrusted-button-text": "In neuem Tab öffnen …",
+    "external-source-untrusted-title": "Externer Inhalt",
     "unknown-source": "Der Inhalt bezieht sich entweder auf die jetzige Website (Weiterleitung zu einem Raum, bzw. einer URL) oder verweist auf ein externes Protokoll. Soll <br><br>{{url}}<br><br> aufgerufen werden?",
     "unknown-source-button-text": "Aufrufen",
     "unknown-source-title": "Unbekannte oder interne Quelle",
@@ -820,6 +837,8 @@
   "topic-cloud-filter": {
     "info-no-keywords": "Unsere KI-basierte Textanalyse kann Stichwörter ermitteln. Analyse starten?",
     "label-refresh-keywords-start": "Starten",
+    "current-filter": "Gefilterte Fragen",
+    "current-filter-short": "Gefilterte Fragen",
     "all-questions-and-answers": "Alle Fragen mit Antworten",
     "all-questions-and-answers-short": "Alle Fragen mit Antworten",
     "only-questions": "Nur Fragen",
@@ -850,5 +869,10 @@
     "a11y-questioner-name": "Hier kannst du, wenn du willst, deinen Namen eingeben. Dieser ist für alle an diesem Kommentar sichtbar.",
     "name-length-error": "Der Name muss {{min}} bis {{max}} Zeichen lang sein.",
     "questioner-name": "Dein Name, wenn du willst …"
+  },
+  "pseudonym-editor": {
+    "name": "Wird beim Posten verwendet …",
+    "title": "Mein Forumsname",
+    "deepl": "Duzen oder Siezen?"
   }
 }

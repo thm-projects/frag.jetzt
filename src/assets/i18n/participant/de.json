@@ -57,7 +57,8 @@
     "counter": "Q {{comments}} | A {{answers}} | M {{moderated}}",
     "counter-description": "Zähler für Fragen (Q), Antworten (A), Fragen oder Antworten in der Moderation (M)",
     "favorite": "Bonus-Frage",
-    "filter-answered": "Beantwortete Fragen",
+    "filter-answered-creator": "Raumersteller*in",
+    "filter-answered-moderator": "Moderator*in",
     "filter-bookmark": "Lesezeichen",
     "filter-brainstorm": "Brainstorming",
     "filter-censored": "Zensiert",
@@ -72,7 +73,7 @@
     "filter-question-number": "Frage suchen …",
     "filter-read": "Besprochene Fragen",
     "filter-reset": "Zurücksetzen",
-    "filter-unanswered": "Unbeantwortete Fragen",
+    "filter-unanswered": "Unbeantwortet",
     "filter-wrong": "Verneinte Fragen",
     "owner": "Fragen, die ich gestellt habe",
     "pause-comments": "Friert die Anzeige ein, um die Fragen in Ruhe zu lesen. Fragen können weiterhin gestellt und bewertet werden. Die Anzeige aktualisiert sich wieder durch Klicken des Buttons.",
@@ -97,6 +98,7 @@
     "sort-comments": "Fragen sortieren",
     "sort-controversy": "Kontroverse Fragen zuerst",
     "sort-list-time": "Neueste Frage zuerst",
+    "sort-list-time-reverse": "Älteste Frage zuerst",
     "sort-vote-asc": "Höchste Bewertung zuerst",
     "sort-vote-desc": "Niedrigste Bewertung zuerst",
     "star-was-withdrawn-from-the-question": "Sorry, einer deiner Sterne wurde wieder entfernt.",
@@ -162,6 +164,7 @@
     "delete-question": "Löschen",
     "downvote": " ┇ negativ:",
     "edit-change-tag": "Kategorie ändern",
+    "edit-comment": "Bearbeiten",
     "enter-comment": "Gib deine Frage ein …",
     "enter-title": "Titel",
     "error-both-fields": "Bitte fülle alle Felder aus.",
@@ -175,17 +178,18 @@
     "fullscreen": "Die Frage wurde beantwortet oder kommentiert. Klick auf das Symbol für die Ansicht.",
     "grammar-check": "Text optimieren mit KI",
     "has-answer": "Die Frage wurde kommentiert. Klick hier, um den Kommentar zu lesen.",
-    "hide-conversation-tooltip": "Verstecke Konversation",
+    "hide-conversation-tooltip": "Antworten auf diesen Beitrag verbergen",
+    "move-conversation-up": "Ein Level nach oben",
     "keywords": "Fragen-Radar",
     "keywords-per-answer": "Klick auf das #-Zeichen, um die Stichwörter anzuzeigen, die der Beantworter oder die Beantworterin bestimmt oder aus einer KI-generierten Liste ausgewählt hat.",
     "keywords-per-question": "Klick auf das #-Zeichen, um die Stichwörter anzuzeigen, die der Fragensteller oder die Fragenstellerin bestimmt oder aus einer KI-generierten Liste ausgewählt hat.",
     "live-announcer": "Du befindest dich jetzt auf der Fragen-Seite. Um Informationen zu Tastenkombinationen zu erhalten drücke jetzt die Enter-Taste oder rufe die Ansage zu einem späteren Zeitpunkt mit der Escape-Taste auf.",
     "mark-bookmark": "Lesezeichen setzen",
     "mark-not-bookmark": "Lesezeichen",
-    "mark-not-correct": "Die Frage wurde bejaht.",
+    "mark-not-correct": "Die Frage wurde bejaht oder als erledigt markiert.",
     "mark-not-favorite": "Der Beitrag wurde für gut befunden. Wenn es dein Beitrag ist, klicke auf den Stern, um einen Bonus zu erhalten.",
     "mark-not-favorite-disabled-bonus": "Die Frage ist mit einem Sternchen gekennzeichnet, damit jeder sie bemerkt.",
-    "mark-not-wrong": "Die Frage wurde verneint.",
+    "mark-not-wrong": "Die Frage wurde verneint oder als irrelevant markiert.",
     "mark-read": "Die Frage wurde öffentlich besprochen.",
     "new-comment": "Eine neue Frage mit dem Inhalt, {{ comment }}, wurde soeben gestellt.",
     "no-comment": "Der Kommentar existiert nicht!",
@@ -200,7 +204,8 @@
     "search-box-input-description": "Hier kannst du nach Fragen suchen.",
     "send": "Abschicken",
     "send-description": "Abschicken",
-    "show-conversation-tooltip": "Zeige Konversation",
+    "show-conversation-tooltip": "Antworten auf diesen Beitrag anzeigen",
+    "show-conversation-full-tooltip": "Konversation anzeigen",
     "show-less": "Weniger anzeigen ↑",
     "show-more": "Mehr anzeigen ↓",
     "sure": "Bist du sicher?",
@@ -230,8 +235,8 @@
   "deepl-formality-select": {
     "default": "Voreinstellung",
     "error": "Der Text konnte nicht aktualisiert werden.",
-    "less": "Informell",
-    "more": "Formell",
+    "less": "Duzen",
+    "more": "Siezen",
     "name": "Stil"
   },
   "dialog-comment": {
@@ -239,9 +244,12 @@
     "read-more": "Mehr lesen"
   },
   "dsgvo": {
-    "external-source": "Der Inhalt ist eine externe Quelle. Soll <br><br>{{url}}<br><br> aufgerufen werden?",
-    "external-source-button-text": "Aufrufen",
-    "external-source-title": "Externe Quelle",
+    "external-source": "Soll der externe Inhalt <br><br>{{url}}<br><br> aufgerufen werden?",
+    "external-source-button-text": "Hier öffnen …",
+    "external-source-title": "Eingebetteter externer Inhalt",
+    "external-source-untrusted": "Soll der externe Inhalt <br><br>{{url}}<br><br> im neuen Tab aufgerufen werden?",
+    "external-source-untrusted-button-text": "In neuem Tab öffnen …",
+    "external-source-untrusted-title": "Externer Inhalt",
     "unknown-source": "Der Inhalt bezieht sich entweder auf die jetzige Website (Weiterleitung zu einem Raum, bzw. einer URL) oder verweist auf ein externes Protokoll. Soll <br><br>{{url}}<br><br> aufgerufen werden?",
     "unknown-source-button-text": "Aufrufen",
     "unknown-source-title": "Unbekannte oder interne Quelle",
@@ -426,6 +434,7 @@
     "a11y-announcer": "Du befindest dich nun in der Sitzung mit dem von dir eingegebenen Raum-Code.",
     "a11y-question_answer": "Öffnet die Fragen-Seite und bietet dir die Möglichkeit, Fragen zu stellen.",
     "bonus-token": "Tokens für Bonuspunkte",
+    "cancel": "Abbrechen",
     "comments": "Fragen",
     "create-comment": "Stell deine Fragen!",
     "create-comment-and-answer": "Zum Q&A-Forum",
@@ -441,7 +450,8 @@
     "session-id-lq": ": »",
     "session-id-lq-x": "»",
     "session-id-rq": "«",
-    "sure": "Bist du sicher?"
+    "sure": "Bist du sicher?",
+    "update": "Speichern"
   },
   "spacy-dialog": {
     "add-manually": "Gib ein Stichwort zu deiner Frage ein. Trenne mehrere Stichwörter mit einem Komma.",
@@ -639,6 +649,8 @@
   "topic-cloud-filter": {
     "info-no-keywords": "Unsere KI-basierte Textanalyse kann Stichwörter ermitteln. Analyse starten?",
     "label-refresh-keywords-start": "Starten",
+    "current-filter": "Gefilterte Fragen",
+    "current-filter-short": "Gefilterte Fragen",
     "all-questions-and-answers": "Alle Fragen mit Antworten",
     "all-questions-and-answers-short": "Alle Fragen mit Antworten",
     "only-questions": "Nur Fragen",
@@ -694,5 +706,10 @@
     "a11y-questioner-name": "Hier kannst du, wenn du willst, deinen Namen eingeben. Dieser ist für alle an diesem Kommentar sichtbar.",
     "name-length-error": "Der Name muss {{min}} bis {{max}} Zeichen lang sein.",
     "questioner-name": "Dein Name, wenn du willst …"
+  },
+  "pseudonym-editor": {
+    "name": "Wird beim Posten verwendet …",
+    "title": "Mein Forumsname",
+    "deepl": "Duzen oder Siezen?"
   }
 }

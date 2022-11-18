@@ -1,16 +1,17 @@
 <app-minute-jump-clock></app-minute-jump-clock>
 <div class="qr-code-colors" #qrCodeColors></div>
-<qrcode [qrdata]="getURL()"
-        (click)="showQR()"
-        *ngIf="canShowURL()"
-        class="comment-qr-code"
-        [colorDark]="qrDark"
-        [colorLight]="qrLight"
-        [width]="600"
-        [matTooltip]="'comment-list.qr-in-fullscreen' | translate"
-        [errorCorrectionLevel]="'M'">
-</qrcode>
+<div class="qr-code-container" *ngIf="canShowURL()">
+  <qrcode [qrdata]="getURL()"
+          (click)="showQR()"
+          [colorDark]="qrDark"
+          [colorLight]="qrLight"
+          [width]="600"
+          [matTooltip]="'comment-list.qr-in-fullscreen' | translate"
+          [errorCorrectionLevel]="'M'">
+  </qrcode>
+</div>
 
+<p style="font-size: 18px; hyphens: auto">&raquo;{{ room?.name }}&laquo;</p>
 <div *ngIf="comments && (commentsFilteredByTimeLength > 0 || filterType || period !== 'All')">
   <p class="counter"
      *ngIf="!filterType && !search">
@@ -22,7 +23,7 @@
 </div>
 
 <div fxLayout="row"
-     *ngIf="comments.length > 0 || filterType || period !== 'All' || search"
+     *ngIf="comments.length > 2 || filterType || period !== 'All' || search"
      [ngClass]="{'search-container' : !scroll, 'search-container-fixed' : scroll}"
      (window:scroll)="checkScroll()"
      fxLayoutAlign="center">
@@ -269,15 +270,30 @@
       </button>
 
       <button mat-menu-item
-              (click)="applyFilterByKey('Answer')"
+              (click)="applyFilterByKey('AnsweredCreator')"
               aria-labelledby="comment">
         <mat-icon class="answer" style="color: var(--primary)"
-                  [ngClass]="{Answer: 'answered-icon'}[filterType]">co_present
+                  [ngClass]="{AnsweredCreator: 'answered-icon'}[filterType]">co_present
         </mat-icon>
         <span
-          [ngClass]="{Answer: 'answered-icon'}[filterType]">{{ 'comment-list.filter-answered' | translate }}</span>
+          [ngClass]="{AnsweredCreator: 'answered-icon'}[filterType]">{{ 'comment-list.filter-answered-creator' | translate }}</span>
         <span class="inline-count-badge"
-              [matBadge]="filterTypeCounts?.['Answer'] || 0"
+              [matBadge]="filterTypeCounts?.['AnsweredCreator'] || 0"
+              matBadgeColor="secondary"
+              matBadgeSize="medium">
+        </span>
+      </button>
+
+      <button mat-menu-item
+              (click)="applyFilterByKey('AnsweredModerator')"
+              aria-labelledby="comment">
+        <mat-icon class="answer" style="color: var(--primary)"
+                  [ngClass]="{AnsweredModerator: 'answered-icon'}[filterType]">support_agent
+        </mat-icon>
+        <span
+          [ngClass]="{AnsweredModerator: 'answered-icon'}[filterType]">{{ 'comment-list.filter-answered-moderator' | translate }}</span>
+        <span class="inline-count-badge"
+              [matBadge]="filterTypeCounts?.['AnsweredModerator'] || 0"
               matBadgeColor="secondary"
               matBadgeSize="medium">
         </span>
@@ -299,21 +315,6 @@
       </button>
 
       <button mat-menu-item
-              (click)="applyFilterByKey('BrainstormingQuestion')">
-        <mat-icon class="material-icons" [ngClass]="{BrainstormingQuestion: 'brainstorm-icon'}[filterType]">
-          psychology_alt
-        </mat-icon>
-        <span [ngClass]="{BrainstormingQuestion: 'brainstorm-icon'}[filterType]">
-          {{ 'comment-list.filter-brainstorm' | translate }}
-        </span>
-        <span class="inline-count-badge"
-              [matBadge]="filterTypeCounts?.['BrainstormingQuestion'] || 0"
-              matBadgeColor="secondary"
-              matBadgeSize="medium">
-        </span>
-      </button>
-
-      <button mat-menu-item
               (click)="applyFilterByKey('Censored')">
         <mat-icon class="material-icons-outlined" [ngClass]="{Censored: 'censored-icon'}[filterType]">
           password
@@ -325,6 +326,16 @@
               [matBadge]="filterTypeCounts?.['Censored'] || 0"
               matBadgeColor="secondary"
               matBadgeSize="medium">
+        </span>
+      </button>
+
+      <button mat-menu-item
+              (click)="applyFilterByKey('BrainstormingQuestion')">
+        <mat-icon class="material-icons" [ngClass]="{BrainstormingQuestion: 'brainstorm-icon'}[filterType]">
+          psychology_alt
+        </mat-icon>
+        <span [ngClass]="{BrainstormingQuestion: 'brainstorm-icon'}[filterType]">
+          {{ 'comment-list.filter-brainstorm' | translate }}
         </span>
       </button>
 
@@ -419,6 +430,7 @@
     [commentsWrittenByUser]="commentsWrittenByUsers.get(current.creatorId).size"
     [indentationPossible]="true"
     [activeKeywordSearchString]="activeKeyword"
+    (editQuestionEmitter)="editQuestion(current)"
     (clickedOnTag)="applyFilterByKey('Tag', $event)"
     (clickedUserNumber)="applyFilterByKey('CreatorId', $event)"
     (clickedOnKeyword)="applyFilterByKey('Keyword', $event)"

@@ -40,7 +40,7 @@
         </mat-icon>
       </button>
     </div>
-    <div style="margin-top: 10px">
+    <div style="margin-top: 10px" *ngIf="isBrainstorming && isBrainstormingActive || !isBrainstorming">
       <button *ngIf="isBrainstorming"
               mat-flat-button
               class="vote-button"
@@ -75,7 +75,7 @@
     </div>
     <div class="replacementContainer"
          *ngIf="userRole > 0">
-      <mat-form-field>
+      <mat-form-field *ngIf="!isBrainstorming">
         <mat-label>{{'tag-cloud-popup.tag-correction-placeholder' | translate}}</mat-label>
         <input type="text"
                aria-label="{{'tag-cloud-popup.tag-correction-placeholder' | translate}}"
