@@ -1,0 +1,191 @@
+@startuml
+skinparam class {
+	BackgroundColor PaleGreen
+	BorderColor Green
+	ArrowColor black
+	FontSize 28
+	BackgroundColor<<USP>> Pink
+	BorderColor<<USP>> HotPink
+}
+
+skinparam backgroundColor Linen
+skinparam linetype ortho
+skinparam shadowing true
+skinparam minClassWidth 200
+skinparam ArrowThickness 1
+skinparam LegendBackgroundColor Strategy
+skinparam LegendBorderThickness 0
+skinparam LegendFontSize 20
+skinparam defaultFontSize 20
+skinparam Padding 8
+skinparam Nodesep 150
+skinparam ArrowColor DarkSlateGray
+
+hide methods
+hide empty members
+hide circle
+
+package "frag.jetzt | domain diagram" <<Rectangle>> {
+
+class Conversation {
+keywords
+threads
+searching
+sorting
+filtering
+questionStreaming
+export
+}
+
+class Room {
+welcomeText
+creator
+eventName
+key
+directLink
+qrCode
+displayOptions
+profanityFilter
+settings
+}
+
+class KeywordExtraction <<USP>> {
+languageDetection
+backTranslation
+nounAnalysis
+keywordCheck
+}
+
+class Post {
+postNumber
+questionCategory
+assessmentByModerator
+ratingByParticipant
+controversyScore
+textOptimization
+}
+
+class Moderation {
+publicationThreshold
+}
+
+class QuestionFocus <<USP>> {
+autoFocus
+}
+
+class QuestionRadar <<USP>> {
+keywordCloud
+}
+
+class RoomList {
+appRating
+}
+
+class Brainstorming <<USP>> {
+keywordCloud
+}
+
+class QuizRallye <<webService>> {
+[[https://antworte.jetzt {game-based quiz app} Link to Website]]
+}
+
+class User {
+}
+
+class AnonymousUser {
+moderationLink
+}
+
+class RegisteredUser {
+eMailVerification
+}
+
+
+class BonusArchive <<USP>> {
+bonusCode
+}
+
+class Notification {
+}
+
+class MailNotification <<USP>> {
+newConversations
+bonusRedemption
+}
+
+class OnlineNotification {
+newReactionsToPosts
+}
+
+class SpaCy <<installedService>> {
+[[https://spacy.io/ {NLP} Link to Website]]
+}
+
+
+class DeepL <<webService>> {
+[[https://deepl.com {Translator} Link to Website]]
+}
+
+
+class LanguageTool <<installedService>> {
+[[https://languagetool.org {used for language detection} Link to Website]]
+}
+
+
+class Wikipedia <<installedService>> {
+[[https://dumps.wikimedia.org/ {complete copy of Wikimedia wikis} Link to Website]]
+}
+
+
+AnonymousUser -up-|> User
+RegisteredUser -up-|> User
+RegisteredUser -- MailNotification
+
+User -- Room
+
+BonusArchive o--- "*" Post
+BonusArchive ---  User
+
+
+OnlineNotification -up-|> Notification
+MailNotification -|> Notification
+
+KeywordExtraction  ..> SpaCy : <<use>>
+KeywordExtraction  ..> LanguageTool : <<use>>
+KeywordExtraction  ..> DeepL : <<use>>
+KeywordExtraction  ..> Wikipedia : <<use>>
+
+
+Moderation "0..1" ---- "1" Room
+Moderation *--- "*" Post
+
+Post "*" ----o Conversation
+Post --- Notification
+Post -right..> DeepL : <<use>>
+QuestionRadar -[#red]-> Post : > navigates to
+
+Conversation  ---  KeywordExtraction
+Conversation -left--  QuestionFocus
+Conversation ----* Room
+Conversation <-[#red]right-- QuestionRadar
+
+Room "*" -right---- "1" RoomList
+Room "1" ---- "0..1" BonusArchive
+Room "1" -- "0..1" Brainstorming
+Room ..> QuizRallye : <<use>> 
+
+}
+
+legend left
+  |<img:https://git.thm.de/arsnova/frag.jetzt/-/raw/staging/src/assets/icons/Logo_frag_jetzt_128x128.png> |= \n\n »frag.jetzt« |
+  | Domain-Glossar | [[https://git.thm.de/arsnova/frag.jetzt/-/blob/staging/Glossary.md]] |
+  | Produktion | [[https://frag.jetzt]] |
+  | Repository | [[https://git.thm.de/arsnova/frag.jetzt]] |
+  | Staging Server | [[https://staging.frag.jetzt]] |
+  | UML-Tool| PlantUML-Server Version 1202202|
+  | Ersteller| Klaus Quibeldey-Cirkel|
+  | Kontakt| [[mailto:klaus.quibeldey-cirkel@mni.thm.de]] |
+  | Erstellt| 10.11.2022 |
+  | Letzte Änderung| 13.11.2022 |
+end legend
+@enduml
