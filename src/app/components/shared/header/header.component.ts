@@ -1,38 +1,40 @@
-import { AfterViewInit, Component, OnInit, Renderer2, ViewChild } from '@angular/core';
-import { NotificationService } from '../../../services/util/notification.service';
-import { Router } from '@angular/router';
-import { UserRole } from '../../../models/user-roles.enum';
-import { Location } from '@angular/common';
-import { TranslateService } from '@ngx-translate/core';
-import { MatDialog } from '@angular/material/dialog';
-import { LoginComponent } from '../login/login.component';
-import { DeleteAccountComponent } from '../_dialogs/delete-account/delete-account.component';
-import { UserService } from '../../../services/http/user.service';
-import { EventService } from '../../../services/util/event.service';
-import { AppComponent } from '../../../app.component';
-import { Rescale } from '../../../models/rescale';
-import { KeyboardUtils } from '../../../utils/keyboard';
-import { KeyboardKey } from '../../../utils/keyboard/keys';
-import { UserBonusTokenComponent } from '../../participant/_dialogs/user-bonus-token/user-bonus-token.component';
-import { RemindOfTokensComponent } from '../../participant/_dialogs/remind-of-tokens/remind-of-tokens.component';
-import { QrCodeDialogComponent } from '../_dialogs/qr-code-dialog/qr-code-dialog.component';
-import { BonusTokenService } from '../../../services/http/bonus-token.service';
-import { RoomService } from '../../../services/http/room.service';
-import { Room } from '../../../models/room';
-import { TagCloudDataService } from '../../../services/util/tag-cloud-data.service';
-import { TopicCloudAdminService } from '../../../services/util/topic-cloud-admin.service';
-import { HeaderService } from '../../../services/util/header.service';
-import { OnboardingService } from '../../../services/util/onboarding.service';
-import { ArsComposeHostDirective } from '../../../../../projects/ars/src/lib/compose/ars-compose-host.directive';
-import { ThemeService } from '../../../../theme/theme.service';
+import {AfterViewInit, Component, OnInit, Renderer2, ViewChild} from '@angular/core';
+import {NotificationService} from '../../../services/util/notification.service';
+import {Router} from '@angular/router';
+import {UserRole} from '../../../models/user-roles.enum';
+import {Location} from '@angular/common';
+import {TranslateService} from '@ngx-translate/core';
+import {MatDialog} from '@angular/material/dialog';
+import {LoginComponent} from '../login/login.component';
+import {DeleteAccountComponent} from '../_dialogs/delete-account/delete-account.component';
+import {UserService} from '../../../services/http/user.service';
+import {EventService} from '../../../services/util/event.service';
+import {AppComponent} from '../../../app.component';
+import {Rescale} from '../../../models/rescale';
+import {KeyboardUtils} from '../../../utils/keyboard';
+import {KeyboardKey} from '../../../utils/keyboard/keys';
+import {UserBonusTokenComponent} from '../../participant/_dialogs/user-bonus-token/user-bonus-token.component';
+import {RemindOfTokensComponent} from '../../participant/_dialogs/remind-of-tokens/remind-of-tokens.component';
+import {QrCodeDialogComponent} from '../_dialogs/qr-code-dialog/qr-code-dialog.component';
+import {BonusTokenService} from '../../../services/http/bonus-token.service';
+import {RoomService} from '../../../services/http/room.service';
+import {Room} from '../../../models/room';
+import {TagCloudDataService} from '../../../services/util/tag-cloud-data.service';
+import {TopicCloudAdminService} from '../../../services/util/topic-cloud-admin.service';
+import {HeaderService} from '../../../services/util/header.service';
+import {OnboardingService} from '../../../services/util/onboarding.service';
+import {ArsComposeHostDirective} from '../../../../../projects/ars/src/lib/compose/ars-compose-host.directive';
+import {ThemeService} from '../../../../theme/theme.service';
 import {
   TopicCloudBrainstormingComponent
 } from '../_dialogs/topic-cloud-brainstorming/topic-cloud-brainstorming.component';
-import { SessionService } from '../../../services/util/session.service';
-import { DeviceInfoService } from '../../../services/util/device-info.service';
-import { CommentNotificationService } from '../../../services/http/comment-notification.service';
-import { ManagedUser, UserManagementService } from '../../../services/util/user-management.service';
-import { StartUpService } from '../../../services/util/start-up.service';
+import {SessionService} from '../../../services/util/session.service';
+import {DeviceInfoService} from '../../../services/util/device-info.service';
+import {CommentNotificationService} from '../../../services/http/comment-notification.service';
+import {ManagedUser, UserManagementService} from '../../../services/util/user-management.service';
+import {StartUpService} from '../../../services/util/start-up.service';
+import {CreateLivepollComponent} from '../../creator/_dialogs/create-livepoll/create-livepoll.component';
+import {LivepollDialogComponent} from '../_dialogs/livepoll-dialog/livepoll-dialog.component';
 
 @Component({
   selector: 'app-header',
@@ -317,5 +319,26 @@ export class HeaderComponent implements OnInit, AfterViewInit {
       return 'tooltip-creator';
     }
     return 'tooltip-participant';
+  }
+
+  openLivepollDialog() {
+    const ref = this.dialog.open(LivepollDialogComponent, {});
+    ref.componentInstance.data = {
+      user: this.user,
+      options: {
+        names: ['A', 'B', 'C', 'D'],
+        icons: ['sentiment_very_satisfied', 'sentiment_satisfied', 'sentiment_neutral', 'sentiment_very_dissatisfied']
+      }
+    };
+  }
+
+  openCreateLivepollDialog() {
+
+    const ref = this.dialog.open(CreateLivepollComponent, {});
+
+    ref.componentInstance.onAccept = () => {
+      ref.close(1);
+      this.openLivepollDialog();
+    };
   }
 }

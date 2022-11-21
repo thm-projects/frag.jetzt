@@ -172,25 +172,29 @@ import { UIRegistrationComponent } from './uiregistration/uiregistration.compone
 import { PseudonymEditorComponent } from './_dialogs/pseudonym-editor/pseudonym-editor.component';
 import { BrainstormingBlacklistEditComponent } from './_dialogs/brainstorming-blacklist-edit/brainstorming-blacklist-edit.component';
 import { EditQuestionComponent } from './_dialogs/edit-question/edit-question.component';
+import { LivepollDialogComponent } from './_dialogs/livepoll-dialog/livepoll-dialog.component';
+import {
+  LivepollDialogExtensionComponent
+} from './_dialogs/livepoll-dialog/livepoll-dialog-extension/livepoll-dialog-extension.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    EssentialsModule,
-    SharedRoutingModule,
-    MatRippleModule,
-    ArsModule,
-    MarkdownModule,
-    QRCodeModule,
-    TagCloudModule,
-    ColorPickerModule,
-    DragDropModule,
-    JoyrideModule.forChild(),
-    QuillModule,
-    NgxMatTimepickerModule,
-    NgxMatNativeDateModule,
+    imports: [
+        CommonModule,
+        EssentialsModule,
+        SharedRoutingModule,
+        MatRippleModule,
+        ArsModule,
+        MarkdownModule,
+        QRCodeModule,
+        TagCloudModule,
+        ColorPickerModule,
+        DragDropModule,
+        JoyrideModule.forChild(),
+        QuillModule,
+        NgxMatTimepickerModule,
+        NgxMatNativeDateModule,
 
-  ],
+    ],
   declarations: [
     RoomJoinComponent,
     PageNotFoundComponent,
@@ -281,7 +285,9 @@ import { EditQuestionComponent } from './_dialogs/edit-question/edit-question.co
     UIRegistrationComponent,
     PseudonymEditorComponent,
     BrainstormingBlacklistEditComponent,
-    EditQuestionComponent
+    EditQuestionComponent,
+    LivepollDialogComponent,
+    LivepollDialogExtensionComponent
   ],
   exports: [
     RoomJoinComponent,

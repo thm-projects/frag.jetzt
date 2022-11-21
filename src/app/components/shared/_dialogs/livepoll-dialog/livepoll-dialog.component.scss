@@ -1,0 +1,27 @@
+.contains-result{
+  display:flex;
+  flex-direction: column;
+  .result{
+    display:flex;
+    flex-direction: row;
+    margin-bottom: 4px;
+  }
+  margin-top: 4px;
+}
+
+.contains-header{
+  min-width: 48px;
+  display:flex;
+  flex-direction: row;
+  box-sizing: border-box;
+  .name{
+    margin-left:4px;
+  }
+}
+
+.contains-bar{
+  background-color: orange;
+  flex-grow: 1;
+  .bar{
+  }
+}

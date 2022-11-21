@@ -150,6 +150,19 @@
         <span>{{'header.questionwall' | translate}}</span>
       </button>
 
+
+      <button mat-flat-button
+              tabindex="0"
+              *ngIf="deviceInfo.isCurrentlyDesktop
+              && !router.url.endsWith('moderator/comments')
+              && router.url.endsWith('/comments')
+              && !deviceInfo.isSafari"
+              (click)="openCreateLivepollDialog()">
+        <mat-icon class="beamer-icon"
+                  svgIcon="beamer"></mat-icon>
+        <span>{{'header.livepoll' | translate}}</span>
+      </button>
+
       <h2 class="oldtypo-h2"
           *ngIf="deviceInfo.isCurrentlyDesktop && router.url !== '/home' && getClockCount() < 1">
         {{cTime}}

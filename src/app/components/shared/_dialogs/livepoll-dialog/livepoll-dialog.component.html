@@ -1,0 +1,15 @@
+<h1>Live Poll</h1>
+<div class="contains-result" style="transform:scale(4);">
+  <div *ngFor="let item of [].constructor(4);index as i" class="result" role="button" (click)="vote(i)">
+    <div class="contains-header">
+      <div class="icon" *ngIf="isIcon">
+        <mat-icon class="material-icons-outlined">{{data.options.icons[i]}}</mat-icon>
+      </div>
+      <div class="name" *ngIf="!isIcon">{{data.options.names[i]}}</div>
+    </div>
+    <div class="contains-bar">
+      <div class="bar"></div>
+    </div>
+  </div>
+</div>
+<app-livepoll-dialog-extension *ngIf="isCreator" [parent]="this"></app-livepoll-dialog-extension>

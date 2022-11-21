@@ -32,6 +32,7 @@ import { EditCommentTagComponent } from './_dialogs/edit-comment-tag/edit-commen
 import { ModeratorRefreshCodeComponent } from './_dialogs/moderator-refresh-code/moderator-refresh-code.component';
 import { LanguageService } from '../../services/util/language.service';
 import { DeleteModerationCommentsComponent } from './_dialogs/delete-moderation-comments/delete-moderation-comments.component';
+import { CreateLivepollComponent } from './_dialogs/create-livepoll/create-livepoll.component';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export const HttpLoaderFactory = (http: HttpClient) => new TranslateHttpLoader(http, '../../assets/i18n/creator/', '.json');
@@ -74,9 +75,11 @@ export const HttpLoaderFactory = (http: HttpClient) => new TranslateHttpLoader(h
     RoomNameSettingsComponent,
     EditCommentTagComponent,
     ModeratorRefreshCodeComponent,
-    DeleteModerationCommentsComponent
+    DeleteModerationCommentsComponent,
+    CreateLivepollComponent,
   ],
-  exports: []
+    exports: [
+    ]
 })
 export class CreatorModule {
 
