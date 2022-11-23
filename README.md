@@ -48,6 +48,18 @@ With our innovative product "frag.jetzt" we want to conquer the market of audien
 
 1. Every user who has used "frag.jetzt" interactively, for example by creating a room or asking a question, can rate the app with stars. The rating scheme follows that of Amazon.
 
+## Glossary
+
+See [PDF](https://git.thm.de/arsnova/frag.jetzt/-/blob/staging/docs/diagrams/Glossary.pdf)
+
+## Use Case Diagram
+
+See [SVG](https://git.thm.de/arsnova/frag.jetzt/-/blob/staging/docs/diagrams/Use-Case-Diagram.svg)
+
+## Domain Diagram
+
+See [SVG](https://git.thm.de/arsnova/frag.jetzt/-/blob/staging/docs/diagrams/Domain_Diagram.svg)
+
 ## frag.jetzt development with docker
 
 frag.jetzt consists of a variety of backend services. Starting them all individually or installing them on the computer is complex, which is why there is a docker compose solution for this.
