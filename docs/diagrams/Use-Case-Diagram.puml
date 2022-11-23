@@ -1,0 +1,177 @@
+@startuml
+scale 1.0
+
+skinparam backgroundColor Linen
+skinparam LegendBackgroundColor Strategy
+skinparam LegendBorderThickness 0
+skinparam LegendFontSize 12
+skinparam Padding 5
+skinparam defaultFontSize 14
+skinparam ArrowThickness 2
+skinparam shadowing true
+
+
+skinparam rectangle {
+    BackgroundColor #fdf6e0
+}
+
+skinparam usecase {
+    BackgroundColor LightGreen
+    BorderColor Green
+    BackgroundColor<<USP>> Pink
+    BorderColor<<USP>> HotPink
+    BorderThickness 2
+    ArrowThickness 2
+}
+
+rectangle "frag.jetzt | Use Case Diagram" {
+
+left to right direction
+
+actor "Anonymous User" as AU #linen;line:black;line.bold;text:black
+actor "Participant" as P #lightgreen;line:green;line.bold;text:green
+actor "Moderator" as M #lightblue;line:blue;line.bold;text:blue
+actor "Room Creator" as RC #pink;line:red;line.bold;text:red
+actor "Registered User" as RU #pink;line:red;line.bold;text:red
+actor "Admin" as A
+
+P -|> AU
+RU -|> AU
+M --|> P
+RC -left-|> M
+
+rectangle "frag.jetzt" <<webService>> {
+
+together {
+usecase "Enter a room" as UC1 #white;line:black;line.bold;text:black
+usecase "Book a room temporarily" as UC2 #white;line:black;line.bold;text:black
+usecase "Create an account" as UC3 #white;line:black;line.bold;text:black
+}
+
+together {
+usecase "Write a post" as UC4
+usecase "Write a brainstorming idea" as UC5
+usecase "Create keywords for a post" as UC6
+usecase "Tag a post with a question category" as UC7
+usecase "Rate posts of others" as UC8
+usecase "Delete own post" as UC9
+usecase UC10 as "Present posts
+using Question Focus"
+usecase UC11 as "Present keywords
+using Question Radar"
+usecase "Navigate to  posts of interest" as UC12
+usecase UC13 as "Optimize post text
+using DeepL, LanguageTool, spaCy"
+usecase "Rate the app" as UC14
+usecase UC15 as "Create a quiz rally
+using antworte.jetzt"
+usecase UC16 as "Participate in a quiz rally
+using antworte.jetzt"
+usecase "Export all published posts" as UC17
+usecase "Redeem bonus token" as UC18
+}
+
+usecase "Create app messages" as UC19 #lightgray;line:gray;line.bold;text:black
+
+usecase "Delete spam posts" as UC32 #pink;line:red;line.bold;text:red
+usecase "Delete room" as UC33 #pink;line:red;line.bold;text:red
+usecase "Book a room for at least 180 days" as UC34 #pink;line:red;line.bold;text:red
+usecase "Keep bonus tokens" as UC35 #pink;line:red;line.bold;text:red
+
+together {
+usecase "Block new posts" as UC26 #lightblue;line:blue;line.bold
+usecase "Delete moderated posts" as UC27 #lightblue;line:blue;line.bold
+usecase "Delete all posts" as UC28 #lightblue;line:blue;line.bold
+usecase "Evaluate a post" as UC23 #lightblue;line:blue;line.bold
+usecase "Mark a post for bonus" as UC24 #lightblue;line:blue;line.bold
+usecase "Create question categories" as UC20 #lightblue;line:blue;line.bold
+usecase "Check bonus token" as UC25 #lightblue;line:blue;line.bold
+usecase "Ban a post" as UC21 #lightblue;line:blue;line.bold
+usecase "Publish a post" as UC22 #lightblue;line:blue;line.bold
+usecase "Appoint the role of moderator" as UC29 #lightblue;line:blue;line.bold
+usecase "Export all published and moderated posts" as UC30 #lightblue;line:blue;line.bold
+usecase "Open and manage brainstorming session" as UC31 #lightblue;line:blue;line.bold
+}
+
+}
+
+AU --> UC1
+note right of (UC1)
+  «postCondition»
+  Anonymous User becomes a Participant.
+end note
+AU --> UC2
+note right of (UC2)
+  «postCondition»
+  Anonymous User becomes a Room Creator.
+end note
+AU --> UC3
+note right of (UC3)
+  «postCondition»
+  Anonymous User becomes a Registered User.
+end note
+P --> UC14
+note right of (UC14)
+«preCondition»
+User has visited a room and written a post.
+end note
+M --> UC29
+note right of (UC29)
+«preCondition»
+User is registered or has received a moderation link.
+end note
+RC --> UC33
+note right of (UC33)
+«preCondition» 
+The bonus archive is empty.
+end note
+
+P --> UC4
+P --> UC5
+P --> UC6
+P --> UC7
+P --> UC8
+P --> UC9
+P --> UC10
+P --> UC11
+P --> UC13
+P --> UC15
+P --> UC16
+P --> UC17
+P --> UC18
+
+M --> UC20
+M --> UC21
+M --> UC22
+M --> UC23
+M --> UC24
+M --> UC25
+M --> UC26
+M --> UC27
+M --> UC28
+M --> UC30
+M --> UC31
+
+RU --> UC34
+RU --> UC35
+RC ---> UC32
+
+UC19 <-- A
+
+(UC12) .> (UC11) : <<extends>>
+
+}
+
+legend left
+  |<img:https://git.thm.de/arsnova/frag.jetzt/-/raw/staging/src/assets/icons/Logo_frag_jetzt_128x128.png> |= \n\n »frag.jetzt« |
+  | Domain-Glossar | [[https://git.thm.de/arsnova/frag.jetzt/-/blob/staging/Glossary.md]] |
+  | Produktion | [[https://frag.jetzt]] |
+  | Repository | [[https://git.thm.de/arsnova/frag.jetzt]] |
+  | Staging Server | [[https://staging.frag.jetzt]] |
+  | UML-Tool| PlantUML-Server Version 1202202|
+  | Ersteller| Klaus Quibeldey-Cirkel|
+  | Kontakt| [[mailto:klaus.quibeldey-cirkel@mni.thm.de]] |
+  | Erstellt| 20.11.2022 |
+  | Letzte Änderung| 21.11.2022 |
+end legend
+@enduml

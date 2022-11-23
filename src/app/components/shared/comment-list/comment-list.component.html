@@ -11,7 +11,9 @@
   </qrcode>
 </div>
 
-<p style="font-size: 18px; hyphens: auto">&raquo;{{ room?.name }}&laquo;</p>
+<p
+  style="font-size: 18px; hyphens: auto">{{ 'room-page.session-id-lq-x' | translate }}{{room?.name}}{{ 'room-page.session-id-rq' | translate }}
+</p>
 <div *ngIf="comments && (commentsFilteredByTimeLength > 0 || filterType || period !== 'All')">
   <p class="counter"
      *ngIf="!filterType && !search">

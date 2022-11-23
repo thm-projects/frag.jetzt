@@ -64,7 +64,7 @@
     "brainstorm-title": "Brainstorming",
     "brainstorming-action-went-wrong": "Quelque chose a mal tourné !",
     "brainstorming-direct-send-disabled": "Une session de brainstorming ne peut pas être lancée si la modération est active.",
-    "brainstorming-question": "Sujet …",
+    "brainstorming-question": "Sujet ou question focus …",
     "brainstorming-word-count": "Nombre maximal de mots",
     "brainstorming-word-length": "Nombre maximum de caractères",
     "cancel": "Annuler",
