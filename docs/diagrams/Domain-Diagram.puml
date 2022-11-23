@@ -34,7 +34,6 @@ searching
 sorting
 filtering
 questionStreaming
-export
 }
 
 class Room {
@@ -51,6 +50,7 @@ settings
 
 class KeywordExtraction <<USP>> {
 languageDetection
+errorPercentage
 backTranslation
 nounAnalysis
 keywordCheck
@@ -172,13 +172,13 @@ Conversation <-[#red]right-- QuestionRadar
 Room "*" -right---- "1" RoomList
 Room "1" ---- "0..1" BonusArchive
 Room "1" -- "0..1" Brainstorming
-Room ..> QuizRallye : <<use>> 
+Room ..> QuizRallye : <<use>>
 
 }
 
 legend left
   |<img:https://git.thm.de/arsnova/frag.jetzt/-/raw/staging/src/assets/icons/Logo_frag_jetzt_128x128.png> |= \n\n »frag.jetzt« |
-  | Domain-Glossar | [[https://git.thm.de/arsnova/frag.jetzt/-/blob/staging/Glossary.md]] |
+  | Domain-Glossar | [[https://git.thm.de/arsnova/frag.jetzt/-/blob/staging/docs/diagrams/Glossary.pdf]] |
   | Produktion | [[https://frag.jetzt]] |
   | Repository | [[https://git.thm.de/arsnova/frag.jetzt]] |
   | Staging Server | [[https://staging.frag.jetzt]] |

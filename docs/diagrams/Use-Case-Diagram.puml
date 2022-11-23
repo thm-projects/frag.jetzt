@@ -10,6 +10,7 @@ skinparam defaultFontSize 14
 skinparam ArrowThickness 2
 skinparam shadowing true
 
+
 skinparam rectangle {
     BackgroundColor #fdf6e0
 }
@@ -60,7 +61,7 @@ usecase UC11 as "Present keywords
 using Question Radar"
 usecase "Navigate to  posts of interest" as UC12
 usecase UC13 as "Optimize post text
-using DeepL, LangaugeTool, spaCy"
+using DeepL, LanguageTool, spaCy"
 usecase "Rate the app" as UC14
 usecase UC15 as "Create a quiz rally
 using antworte.jetzt"
@@ -74,7 +75,7 @@ usecase "Create app messages" as UC19 #lightgray;line:gray;line.bold;text:black
 
 usecase "Delete spam posts" as UC32 #pink;line:red;line.bold;text:red
 usecase "Delete room" as UC33 #pink;line:red;line.bold;text:red
-usecase "Book a room for 180 days" as UC34 #pink;line:red;line.bold;text:red
+usecase "Book a room for at least 180 days" as UC34 #pink;line:red;line.bold;text:red
 usecase "Keep bonus tokens" as UC35 #pink;line:red;line.bold;text:red
 
 together {
@@ -96,18 +97,33 @@ usecase "Open and manage brainstorming session" as UC31 #lightblue;line:blue;lin
 
 AU --> UC1
 note right of (UC1)
-  Anonymous User
-  becomes a Participant
+  «postCondition»
+  Anonymous User becomes a Participant.
 end note
 AU --> UC2
 note right of (UC2)
-  Anonymous User
-  becomes a Room Creator
+  «postCondition»
+  Anonymous User becomes a Room Creator.
 end note
 AU --> UC3
 note right of (UC3)
-  Anonymous User
-  becomes a Registered User
+  «postCondition»
+  Anonymous User becomes a Registered User.
+end note
+P --> UC14
+note right of (UC14)
+«preCondition»
+User has visited a room and written a post.
+end note
+M --> UC29
+note right of (UC29)
+«preCondition»
+User is registered or has received a moderation link.
+end note
+RC --> UC33
+note right of (UC33)
+«preCondition» 
+The bonus archive is empty.
 end note
 
 P --> UC4
@@ -119,7 +135,6 @@ P --> UC9
 P --> UC10
 P --> UC11
 P --> UC13
-P --> UC14
 P --> UC15
 P --> UC16
 P --> UC17
@@ -134,15 +149,12 @@ M --> UC25
 M --> UC26
 M --> UC27
 M --> UC28
-M --> UC29
 M --> UC30
 M --> UC31
 
 RU --> UC34
 RU --> UC35
-
 RC ---> UC32
-RC ---> UC33
 
 UC19 <-- A
 
