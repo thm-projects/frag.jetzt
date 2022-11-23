@@ -58,7 +58,7 @@ See [SVG](https://git.thm.de/arsnova/frag.jetzt/-/blob/staging/docs/diagrams/Use
 
 ## Domain Diagram
 
-See [SVG](https://git.thm.de/arsnova/frag.jetzt/-/blob/staging/docs/diagrams/Domain-Diagram.svg)
+See [SVG](https://git.thm.de/arsnova/frag.jetzt/-/blob/staging/docs/diagrams/Domain_Diagram.svg)
 
 ## frag.jetzt development with docker
 
