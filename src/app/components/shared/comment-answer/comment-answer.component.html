@@ -28,20 +28,16 @@
     ></app-comment>
   </div>
   <div fxLayout="row"
-       *ngIf="room.conversationDepth || !isStudent"
+       *ngIf="(room.conversationDepth || !isStudent) && !isConversationView"
        fxLayoutAlign="center">
-    <mat-card class="answer border-answer"
-              *ngIf="((userRole > 0 || room.conversationDepth) || answer) && !isConversationView">
-      <app-write-comment [isModerator]="userRole > 0"
+    <mat-card class="answer border-answer">
+      <app-write-comment [isModerator]="!isStudent"
                          [isCommentAnswer]="true"
                          [placeholder]="'comment-page.your-answer'"
                          [onClose]="onSubmit.bind(this)"
                          [commentReference]="comment.id"
-                         [disableCancelButton]="!answer && commentComponent && commentComponent.commentData.currentText.length > 0"
                          [confirmLabel]="'save-answer'"
-                         [cancelLabel]="'delete-answer'"
-                         [additionalTemplate]="editAnswer"
-                         [enabled]="(userRole > 0 || room.conversationDepth !== 0) && (edit || !answer)"
+                         [cancelLabel]="'abort'"
                          [tags]="room.tags"
                          [isQuestionerNameEnabled]="true"
                          [additionalMockOffset]="65">
@@ -49,19 +45,3 @@
     </mat-card>
   </div>
 </div>
-
-<ng-template #editAnswer>
-  <div *ngIf="(isStudent || !edit) && answer">
-    <app-view-comment-data [currentData]="answer"></app-view-comment-data>
-    <div fxLayout="row"
-         fxLayoutAlign="end">
-      <button mat-raised-button
-              *ngIf="!isStudent && !edit"
-              class="save"
-              (click)="onEditClick()">
-        <mat-icon>edit</mat-icon>
-        {{'comment-page.edit-answer' | translate}}
-      </button>
-    </div>
-  </div>
-</ng-template>

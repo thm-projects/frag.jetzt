@@ -30,12 +30,21 @@ export enum FilterType {
   Unanswered = 'Unanswered',
   Owner = 'Owner',
   Number = 'Number',
-  BrainstormingQuestion = 'BrainstormingQuestion',
   Censored = 'Censored',
   Conversation = 'Conversation',
 }
 
 export type FilterTypeKey = keyof typeof FilterType;
+
+export enum BrainstormingFilter {
+  OnlyBrainstorming = 'OnlyBrainstorming',
+  ExceptBrainstorming = 'ExceptBrainstorming',
+}
+
+export enum AcknowledgementFilter {
+  OnlyAcknowledged = 'OnlyAcknowledged',
+  ExceptAcknowledged = 'ExceptAcknowledged',
+}
 
 export const isMultiLevelFilter = (filter: FilterType) => {
   const obj = {
@@ -74,6 +83,8 @@ type DefaultData = Pick<
   | 'ignoreThreshold'
   | 'ignoreRoleSort'
   | 'currentSearch'
+  | 'sourceFilterBrainstorming'
+  | 'sourceFilterAcknowledgement'
 >;
 
 const DEFAULTS: { [key in FilterTypes]: DefaultData } = {
@@ -88,6 +99,8 @@ const DEFAULTS: { [key in FilterTypes]: DefaultData } = {
     ignoreThreshold: false,
     ignoreRoleSort: false,
     currentSearch: '',
+    sourceFilterAcknowledgement: null,
+    sourceFilterBrainstorming: BrainstormingFilter.ExceptBrainstorming,
   },
   moderatorList: {
     period: Period.All,
@@ -100,6 +113,8 @@ const DEFAULTS: { [key in FilterTypes]: DefaultData } = {
     ignoreThreshold: true,
     ignoreRoleSort: false,
     currentSearch: '',
+    sourceFilterAcknowledgement: AcknowledgementFilter.ExceptAcknowledged,
+    sourceFilterBrainstorming: null,
   },
   presentation: {
     period: Period.All,
@@ -112,6 +127,8 @@ const DEFAULTS: { [key in FilterTypes]: DefaultData } = {
     ignoreThreshold: false,
     ignoreRoleSort: true,
     currentSearch: '',
+    sourceFilterAcknowledgement: null,
+    sourceFilterBrainstorming: BrainstormingFilter.ExceptBrainstorming,
   },
   tagCloud: {
     period: Period.All,
@@ -124,18 +141,22 @@ const DEFAULTS: { [key in FilterTypes]: DefaultData } = {
     ignoreThreshold: false,
     ignoreRoleSort: false,
     currentSearch: '',
+    sourceFilterAcknowledgement: null,
+    sourceFilterBrainstorming: BrainstormingFilter.ExceptBrainstorming,
   },
   brainstorming: {
     period: Period.FromNow,
     timeFilterStart: Date.now(),
     frozenAt: null,
-    filterType: FilterType.BrainstormingQuestion,
+    filterType: null,
     filterCompare: null,
     sortType: SortType.Time,
     sortReverse: false,
     ignoreThreshold: false,
     ignoreRoleSort: false,
     currentSearch: '',
+    sourceFilterAcknowledgement: null,
+    sourceFilterBrainstorming: BrainstormingFilter.OnlyBrainstorming,
   },
   children: {
     period: Period.All,
@@ -148,6 +169,8 @@ const DEFAULTS: { [key in FilterTypes]: DefaultData } = {
     ignoreThreshold: false,
     ignoreRoleSort: false,
     currentSearch: '',
+    sourceFilterAcknowledgement: null,
+    sourceFilterBrainstorming: BrainstormingFilter.ExceptBrainstorming,
   },
   dummy: {
     period: Period.All,
@@ -160,6 +183,8 @@ const DEFAULTS: { [key in FilterTypes]: DefaultData } = {
     ignoreThreshold: false,
     ignoreRoleSort: false,
     currentSearch: '',
+    sourceFilterAcknowledgement: null,
+    sourceFilterBrainstorming: BrainstormingFilter.ExceptBrainstorming,
   },
 };
 
@@ -175,6 +200,8 @@ export class RoomDataFilter {
   ignoreRoleSort: boolean;
   currentSearch: string;
   lastRoomId: string;
+  sourceFilterBrainstorming: BrainstormingFilter;
+  sourceFilterAcknowledgement: AcknowledgementFilter;
 
   private constructor(
     public readonly name: FilterTypes,
@@ -195,6 +222,8 @@ export class RoomDataFilter {
     this.ignoreRoleSort = obj.ignoreRoleSort;
     this.currentSearch = obj.currentSearch;
     this.lastRoomId = obj.lastRoomId;
+    this.sourceFilterBrainstorming = obj.sourceFilterBrainstorming;
+    this.sourceFilterAcknowledgement = obj.sourceFilterAcknowledgement;
   }
 
   static clone(filter: RoomDataFilter): RoomDataFilter {

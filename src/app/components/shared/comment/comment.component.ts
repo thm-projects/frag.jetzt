@@ -670,7 +670,7 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
       return false;
     }
     const hasPrivileges = !this.isStudent || this.ownsComment();
-    return hasPrivileges;
+    return hasPrivileges && !this.comment.brainstormingQuestion;
   }
 
   editQuestion() {

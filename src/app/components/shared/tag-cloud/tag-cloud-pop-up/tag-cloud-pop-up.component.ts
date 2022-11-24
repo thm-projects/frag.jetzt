@@ -109,6 +109,14 @@ export class TagCloudPopUpComponent
     this.close();
   }
 
+  getBrainstormingUpvotes(): number {
+    return this.room.brainstormingSession.votesForWords?.[this.tag]?.upvotes || 0;
+  }
+
+  getBrainstormingDownvotes(): number {
+    return this.room.brainstormingSession.votesForWords?.[this.tag]?.downvotes || 0;
+  }
+
   getBrainstormingVotes(): number {
     const votes = this.room.brainstormingSession.votesForWords?.[this.tag];
     return (votes?.upvotes || 0) - (votes?.downvotes || 0);
@@ -164,9 +172,7 @@ export class TagCloudPopUpComponent
       }
       this.isBrainstorming = isBrainstorming;
       this.tagData = tagData;
-      this.categories = isBrainstorming
-        ? []
-        : Array.from(tagData.categories.keys());
+      this.categories = Array.from(tagData.categories.keys());
       this.calculateDateText(() => {
         this.position(elem);
         this.isBlacklistActive = isBlacklistActive;

@@ -335,7 +335,9 @@
     "overview-keywords-tooltip": "Anzahl Stichwörter",
     "overview-question-tooltip": "Anzahl Fragen",
     "overview-questioners-tooltip": "Anzahl Fragensteller*innen",
-    "overview-admin-config-enabled": "Schwellenwerte für die Anzeige der Themen sind aktiv."
+    "overview-admin-config-enabled": "Schwellenwerte für die Anzeige der Themen sind aktiv.",
+    "overview-brainstormers-tooltip": "Anzahl Brainstormende",
+    "overview-ideas-tooltip": "Anzahl Ideen"
   },
   "home-page": {
     "create-session": "Neue Sitzung",
@@ -641,7 +643,7 @@
     "period-since-first-comment": "Zeit seit dem ersten Beitrag",
     "print-title": "Wortwolke aus dem Raum »{{roomName}}«",
     "responses-to-keyword": "Anzahl aller Antworten zu diesem Stichwort",
-    "ups-downs-difference": "Bewertungsdifferenz",
+    "ups-downs-difference": "Bewertungsdifferenz | {{upvotes}} 👍  {{downvotes}} 👎",
     "upvote-topic": "Up-Votes für dieses Stichwort",
     "upvote-topic-brainstorming": "Gefällt mir"
   },

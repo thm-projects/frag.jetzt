@@ -210,6 +210,8 @@
     "overview-keywords-tooltip": "Number of Keywords",
     "overview-question-tooltip": "Number of questions",
     "overview-questioners-tooltip": "Number of questioners",
+    "overview-brainstormers-tooltip": "Number of brainstormers",
+    "overview-ideas-tooltip": "Number of ideas",
     "own-view": "Back to own view",
     "profanity-filter": "Profanity filter",
     "question-board": "Q&A forum",

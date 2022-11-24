@@ -53,9 +53,6 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
   userRole: UserRole;
   user: User;
   isStudent = true;
-  isCreator: boolean = false;
-  isModerator: boolean = false;
-  edit = false;
   room: Room;
   mods: Set<string>;
   votes: { [commentId: string]: Vote };
@@ -120,17 +117,14 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
           this.roleString = 'participant';
           break;
         case UserRole.CREATOR.valueOf():
-          this.isCreator = true;
+          this.isStudent = false;
           this.roleString = 'creator';
           break;
         case UserRole.EXECUTIVE_MODERATOR.valueOf():
-          this.isModerator = true;
+          this.isStudent = false;
           this.roleString = 'moderator';
       }
     });
-    if (this.userRole !== UserRole.PARTICIPANT) {
-      this.isStudent = false;
-    }
     if (this.backUrl && this.isConversationView) {
       document.getElementById('header_rescale').style.display = 'none';
     }
@@ -206,56 +200,33 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
     this.location.back();
   }
 
-  _saveAnswer(data: StandardDelta, _forward = false): void {
-    this.answer = QuillUtils.transformURLtoQuillLink(data, true);
-    this.edit = !this.answer;
-  }
-
   onSubmit(comment?: Comment): () => void {
-    if (comment) {
-      comment.ack = this.room.directSend;
-      this.commentService.addComment(comment).subscribe((newComment) => {
-        this.translateService
-          .get('comment-list.comment-sent')
-          .subscribe((msg) => this.notificationService.show(msg));
-        this.route.params.subscribe((params) => {
-          this.router
-            .navigate([
-              `${this.roleString}/room/${params['shortId']}/comment/${this.comment.id}/conversation`,
-            ])
-            .then(() => {
-              if (!comment.ack) {
-                this.roomDataService.dataAccessor.addComment(newComment);
-                console.log(newComment.createdAt);
-              }
-            });
-        });
-      });
+    if (!comment) {
+      if (this.backUrl) {
+        this.goBack();
+      } else {
+        this.goBackToCommentList();
+      }
       return;
     }
-    const dialogRef = this.dialog.open(DeleteAnswerComponent, {
-      width: '400px',
-    });
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result === 'delete') {
-        this.deleteAnswer();
-      }
-    });
-  }
-
-  deleteAnswer() {
-    this.commentComponent.commentData.clear();
-    this.answer = null;
-    this.translateService
-      .get('comment-page.answer-deleted')
-      .subscribe((msg) => {
-        this.notificationService.show(msg);
+    comment.ack = this.room.directSend;
+    this.commentService.addComment(comment).subscribe((newComment) => {
+      this.translateService
+        .get('comment-list.comment-sent')
+        .subscribe((msg) => this.notificationService.show(msg));
+      this.route.params.subscribe((params) => {
+        this.router
+          .navigate([
+            `${this.roleString}/room/${params['shortId']}/comment/${this.comment.id}/conversation`,
+          ])
+          .then(() => {
+            if (!comment.ack) {
+              this.roomDataService.dataAccessor.addComment(newComment);
+              console.log(newComment.createdAt);
+            }
+          });
       });
-  }
-
-  onEditClick() {
-    this.edit = true;
-    setTimeout(() => this.commentComponent.commentData.set(this.answer));
+    });
   }
 
   editQuestion(comment: ForumComment) {
@@ -314,7 +285,6 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
       userRole: this.userRole,
       user: this.user,
     };
-    this.edit = !this.answer;
     this.isLoading = false;
     const source = isModerationComment
       ? this.roomDataService.moderatorDataAccessor

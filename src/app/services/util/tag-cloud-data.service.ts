@@ -9,7 +9,7 @@ import { CloudParameters } from '../../utils/cloud-parameters';
 import { SmartDebounce } from '../../utils/smart-debounce';
 import { Room } from '../../models/room';
 import { SessionService } from './session.service';
-import { FilterType } from '../../utils/data-filter-object.lib';
+import { BrainstormingFilter } from '../../utils/data-filter-object.lib';
 import { TagCloudDataBuilder } from './tag-cloud-data.util';
 import {
   calculateControversy,
@@ -118,8 +118,8 @@ export class TagCloudDataService {
 
   get isBrainstorming(): boolean {
     return (
-      this._filterObject?.dataFilter?.filterType ===
-      FilterType.BrainstormingQuestion
+      this._filterObject?.dataFilter?.sourceFilterBrainstorming ===
+      BrainstormingFilter.OnlyBrainstorming
     );
   }
 

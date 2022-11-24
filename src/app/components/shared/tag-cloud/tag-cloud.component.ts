@@ -44,12 +44,11 @@ import { TagCloudSettings } from '../../../utils/TagCloudSettings';
 import { SessionService } from '../../../services/util/session.service';
 import { BrainstormingSession } from '../../../models/brainstorming-session';
 import { IntroductionTagCloudComponent } from '../_dialogs/introductions/introduction-tag-cloud/introduction-tag-cloud.component';
-import {
-  IntroductionBrainstormingComponent,
-} from '../_dialogs/introductions/introduction-brainstorming/introduction-brainstorming.component';
+import { IntroductionBrainstormingComponent } from '../_dialogs/introductions/introduction-brainstorming/introduction-brainstorming.component';
 import { ComponentType } from '@angular/cdk/overlay';
 import { RoomDataService } from '../../../services/util/room-data.service';
 import {
+  BrainstormingFilter,
   FilterType,
   Period,
   RoomDataFilter,
@@ -257,7 +256,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
   }
 
   openTags(tag: WordMeta): void {
-    if (this.brainstormingActive || this.dataManager.demoActive) {
+    if (this.dataManager.demoActive) {
       return;
     }
     //Room filter
@@ -267,6 +266,9 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     filter.period = Period.All;
     filter.filterType = FilterType.Keyword;
     filter.filterCompare = (tag as TagComment).realText;
+    if (this.brainstormingActive) {
+      filter.sourceFilterBrainstorming = BrainstormingFilter.OnlyBrainstorming;
+    }
     filter.save();
     this.router.navigate(['../'], { relativeTo: this.route });
   }

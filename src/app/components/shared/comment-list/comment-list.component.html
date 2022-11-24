@@ -25,7 +25,7 @@
 </div>
 
 <div fxLayout="row"
-     *ngIf="comments.length > 2 || filterType || period !== 'All' || search"
+     *ngIf="comments.length > 2 || filterType || period !== 'All' || search || filterBrainstorming"
      [ngClass]="{'search-container' : !scroll, 'search-container-fixed' : scroll}"
      (window:scroll)="checkScroll()"
      fxLayoutAlign="center">
@@ -33,8 +33,8 @@
   <button id="filter-close-button"
           mat-icon-button
           class="searchBarButton"
-          *ngIf="filterType"
-          (click)="applyFilterByKey(null)"
+          *ngIf="filterType || filterBrainstorming"
+          (click)="resetFiltering()"
           aria-labelledby="close_filter">
     <mat-icon class="searchBarIcon red">close</mat-icon>
   </button>
@@ -70,7 +70,7 @@
 
     <button mat-icon-button
             class="searchBarButton"
-            (click)="activateSearch(); applyFilterByKey(null)"
+            (click)="resetFiltering(); activateSearch();"
             *ngIf="deviceInfo.isCurrentlyMobile && !search && comments && comments.length > 0">
       <mat-icon class="searchBarIcon">search</mat-icon>
     </button>
@@ -90,7 +90,7 @@
             class="searchBarButton"
             aria-labelledby="filter_list"
             #filterMenuTrigger="matMenuTrigger"
-            *ngIf="comments && commentsFilteredByTimeLength > 2 && !search"
+            *ngIf="(comments && commentsFilteredByTimeLength > 2 || filterBrainstorming) && !search"
             [matMenuTriggerFor]="filterMenu"
             [ngClass]="{'active-filter': !!filterType}"
             matTooltip="{{ 'comment-list.filter-comments' | translate }}">
@@ -332,11 +332,11 @@
       </button>
 
       <button mat-menu-item
-              (click)="applyFilterByKey('BrainstormingQuestion')">
-        <mat-icon class="material-icons" [ngClass]="{BrainstormingQuestion: 'brainstorm-icon'}[filterType]">
+              (click)="filterByBrainstorming()">
+        <mat-icon class="material-icons" [ngClass]="{'brainstorm-icon': filterBrainstorming}">
           psychology_alt
         </mat-icon>
-        <span [ngClass]="{BrainstormingQuestion: 'brainstorm-icon'}[filterType]">
+        <span [ngClass]="{'brainstorm-icon': filterBrainstorming}">
           {{ 'comment-list.filter-brainstorm' | translate }}
         </span>
       </button>

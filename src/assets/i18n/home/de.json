@@ -210,6 +210,8 @@
     "overview-keywords-tooltip": "Anzahl Stichwörter",
     "overview-question-tooltip": "Anzahl Fragen",
     "overview-questioners-tooltip": "Anzahl Fragensteller*innen",
+    "overview-brainstormers-tooltip": "Anzahl Brainstormende",
+    "overview-ideas-tooltip": "Anzahl Ideen",
     "own-view": "Zurück zur eigenen Ansicht",
     "profanity-filter": "Profanitätsfilter",
     "question-board": "Q&A-Forum",
