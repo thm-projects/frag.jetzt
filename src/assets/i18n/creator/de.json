@@ -343,7 +343,7 @@
     "no-empty-name": "Gib einen Namen ein. Der Raum-Code wird generiert."
   },
   "introductions": {
-    "brainstorming-title": "Use Cases der Brainstorming-Session",
+    "brainstorming-title": "Brainstorming",
     "cancel": "Schließen",
     "question-wall-title": "Use Cases des Präsentationsmodus",
     "tag-cloud-title": "Use Cases des Fragen-Radars"
