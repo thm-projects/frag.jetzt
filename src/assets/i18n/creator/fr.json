@@ -343,7 +343,7 @@
     "no-empty-name": "Saisissez un nom. Le code de la salle est généré."
   },
   "introductions": {
-    "brainstorming-title": "Les cas d'utilisation du brainstorming",
+    "brainstorming-title": "Brainstorming",
     "cancel": "Fermer",
     "question-wall-title": "Les cas d'utilisation du mode de présentation",
     "tag-cloud-title": "Cas d'utilisation du radar à questions"
