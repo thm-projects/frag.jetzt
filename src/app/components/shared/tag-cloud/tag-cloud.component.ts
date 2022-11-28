@@ -59,6 +59,7 @@ import { FilteredDataAccess } from '../../../utils/filtered-data-access';
 import { forkJoin, Subscription } from 'rxjs';
 import { UserManagementService } from '../../../services/util/user-management.service';
 import { BrainstormingBlacklistEditComponent } from '../_dialogs/brainstorming-blacklist-edit/brainstorming-blacklist-edit.component';
+import { ArsObserver } from '../../../../../projects/ars/src/lib/models/util/ars-observer';
 
 class TagComment implements WordMeta {
   constructor(
@@ -110,6 +111,10 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
   private _subscriptionRoom = null;
   private readonly _smartDebounce = new SmartDebounce(50, 1_000);
   private themeSubscription: Subscription;
+  private dummy = {
+    freezedIdeas: false,
+    freezedSession: false,
+  };
 
   constructor(
     private commentService: CommentService,
@@ -462,6 +467,14 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
   }
 
   private initNavigation() {
+    if (this.brainstormingActive) {
+      this.initBrainstormingNavigation();
+    } else {
+      this.initNormalNavigation();
+    }
+  }
+
+  private initNormalNavigation() {
     const list: ComponentRef<any>[] = this.composeService.builder(
       this.headerService.getHost(),
       (e) => {
@@ -495,14 +508,124 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
                 userRole: this.userRole,
               },
             }),
-          condition: () =>
-            this.userRole > UserRole.PARTICIPANT && !this.brainstormingActive,
+          condition: () => this.userRole > UserRole.PARTICIPANT,
         });
+        e.menuItem({
+          translate: this.headerService.getTranslate(),
+          icon: 'auto_fix_high',
+          class: 'material-icons-outlined',
+          text: 'header.update-spacy-keywords',
+          callback: () =>
+            WorkerConfigDialogComponent.addTask(this.dialog, this.room),
+          condition: () => this.userRole > UserRole.PARTICIPANT,
+        });
+      },
+    );
+    this.onDestroyListener.subscribe(() => {
+      list.forEach((e) => e.destroy());
+    });
+  }
+
+  private initBrainstormingNavigation() {
+    const list: ComponentRef<any>[] = this.composeService.builder(
+      this.headerService.getHost(),
+      (e) => {
+        e.menuItem({
+          translate: this.headerService.getTranslate(),
+          icon: 'forum',
+          class: 'material-icons-outlined',
+          text: 'header.brainstorm-back-to-questionboard',
+          callback: () =>
+            this.router.navigate(['../'], { relativeTo: this.route }),
+          condition: () => true,
+        });
+        e.menuItem({
+          translate: this.headerService.getTranslate(),
+          icon: 'psychology_alt',
+          class: 'material-icons-outlined',
+          text: 'header.brainstorm-info',
+          callback: () => true,
+          condition: () => true,
+        });
+        e.altToggle(
+          {
+            translate: this.headerService.getTranslate(),
+            icon: 'lightbulb_circle',
+            class: 'material-icons-outlined',
+            text: 'header.brainstorm-freeze-ideas',
+          },
+          {
+            translate: this.headerService.getTranslate(),
+            icon: 'lightbulb_circle',
+            class: 'material-icons',
+            text: 'header.brainstorm-unfreeze-ideas',
+          },
+          ArsObserver.build<boolean>((emitter) => {
+            emitter.set(this.dummy.freezedIdeas);
+            emitter.onChange(
+              (observer) => (this.dummy.freezedIdeas = observer.get()),
+            );
+          }),
+          () => this.userRole > UserRole.PARTICIPANT,
+        );
+        e.menuItem({
+          translate: this.headerService.getTranslate(),
+          icon: 'emoji_objects',
+          class: 'material-icons-outlined',
+          text: 'header.brainstorm-question-focus',
+          callback: () => true,
+          condition: () => true,
+        });
+        e.menuItem({
+          translate: this.headerService.getTranslate(),
+          icon: 'batch_prediction',
+          class: 'material-icons-outlined',
+          text: 'header.brainstorm-q-and-a',
+          callback: () => true,
+          condition: () => true,
+        });
+        e.menuItem({
+          translate: this.headerService.getTranslate(),
+          icon: 'category',
+          class: 'material-icons-outlined',
+          text: 'header.brainstorm-categories',
+          callback: () => true,
+          condition: () => this.userRole > UserRole.PARTICIPANT,
+        });
+        e.menuItem({
+          translate: this.headerService.getTranslate(),
+          icon: 'model_training',
+          class: 'material-icons-outlined',
+          text: 'header.brainstorm-reset-rating',
+          callback: () => true,
+          condition: () => this.userRole > UserRole.PARTICIPANT,
+        });
+        e.altToggle(
+          {
+            translate: this.headerService.getTranslate(),
+            icon: 'lock_clock',
+            class: 'material-icons-outlined',
+            text: 'header.brainstorm-freeze-session',
+          },
+          {
+            translate: this.headerService.getTranslate(),
+            icon: 'lock_open',
+            class: 'material-icons',
+            text: 'header.brainstorm-unfreeze-session',
+          },
+          ArsObserver.build<boolean>((emitter) => {
+            emitter.set(this.dummy.freezedSession);
+            emitter.onChange(
+              (observer) => (this.dummy.freezedSession = observer.get()),
+            );
+          }),
+          () => this.userRole > UserRole.PARTICIPANT,
+        );
         e.menuItem({
           translate: this.headerService.getTranslate(),
           icon: 'handyman',
           class: 'material-icons-outlined',
-          text: 'header.brainstorming-blacklist',
+          text: 'header.brainstorm-blacklist',
           callback: () => {
             const ref = this.dialog.open(BrainstormingBlacklistEditComponent, {
               minWidth: '50%',
@@ -513,18 +636,23 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
             });
             ref.componentInstance.room = this.room;
           },
-          condition: () =>
-            this.userRole > UserRole.PARTICIPANT && this.brainstormingActive,
+          condition: () => this.userRole > UserRole.PARTICIPANT,
         });
         e.menuItem({
           translate: this.headerService.getTranslate(),
-          icon: 'auto_fix_high',
+          icon: 'psychology',
           class: 'material-icons-outlined',
-          text: 'header.update-spacy-keywords',
-          callback: () =>
-            WorkerConfigDialogComponent.addTask(this.dialog, this.room),
-          condition: () =>
-            this.userRole > UserRole.PARTICIPANT && !this.brainstormingActive,
+          text: 'header.brainstorm-settings',
+          callback: () => true,
+          condition: () => this.userRole > UserRole.PARTICIPANT,
+        });
+        e.menuItem({
+          translate: this.headerService.getTranslate(),
+          icon: 'cloud',
+          class: 'material-icons-outlined',
+          text: 'header.brainstorm-look-and-feel',
+          callback: () => this.drawer.toggle(),
+          condition: () => true,
         });
       },
     );
