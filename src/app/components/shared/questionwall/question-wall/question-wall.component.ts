@@ -439,7 +439,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     let isFromModerator = false;
     this.sessionService.getModeratorsOnce()
       .subscribe(mods => isFromModerator = mods.some(mod => mod.accountId === comment?.creatorId));
-    if (comment?.brainstormingQuestion) {
+    if ((comment?.brainstormingSessionId || null) !== null) {
       return 'psychology_alt';
     } else if (isFromOwner) {
       return 'co_present';
@@ -454,7 +454,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     let isFromModerator = false;
     this.sessionService.getModeratorsOnce()
       .subscribe(mods => isFromModerator = mods.some(mod => mod.accountId === comment?.creatorId));
-    if (comment?.brainstormingQuestion || isFromOwner || isFromModerator) {
+    if ((comment?.brainstormingSessionId || null) !== null || isFromOwner || isFromModerator) {
       return '';
     }
     return 'material-icons-outlined';

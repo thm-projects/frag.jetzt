@@ -49,7 +49,7 @@ export interface CommentCreateOptions {
   userId: string;
   commentReference?: string;
   isModerator: boolean;
-  isBrainstorming: boolean;
+  brainstormingSessionId: string;
   selectedLanguage: Language;
   hadUsedDeepL: boolean;
   callbackFinished?: () => void;
@@ -101,21 +101,22 @@ export class KeywordExtractor {
     comment.roomId = this.roomDataService.sessionService.currentRoom.id;
     comment.creatorId = options.userId;
     comment.createdFromLecturer = options.isModerator;
-    comment.brainstormingQuestion = options.isBrainstorming;
+    comment.brainstormingSessionId = options.brainstormingSessionId;
     comment.commentReference = options.commentReference;
+    // ToDo: generate word id 
     return comment;
   }
 
   createCommentInteractive(options: CommentCreateOptions): Observable<Comment> {
     const comment = this.createPlainComment(options);
-    if (options.isBrainstorming) {
+    if (options.brainstormingSessionId !== null) {
       return this.generateBrainstormingTerm(
         options.body,
         options.selectedLanguage,
       ).pipe(
         switchMap((result) => {
           options.callbackFinished?.();
-          if (this.wasWritten(result.keywords[0].text, options.userId)) {
+          if (this.wasWritten(result.keywords[0].text, options.userId, options.brainstormingSessionId)) {
             this.translateService
               .get('comment-page.error-brainstorm-duplicate')
               .subscribe((msg) => this.notification.show(msg));
@@ -375,7 +376,7 @@ export class KeywordExtractor {
     );
   }
 
-  private wasWritten(term: string, userId: string): boolean {
+  private wasWritten(term: string, userId: string, sessionId: string): boolean {
     if (!this.roomDataService.dataAccessor.currentRawComments()) {
       return true;
     }
@@ -385,7 +386,7 @@ export class KeywordExtractor {
       .currentRawComments()
       .some(
         (comment) =>
-          comment.brainstormingQuestion &&
+          comment.brainstormingSessionId === sessionId &&
           comment.creatorId === userId &&
           comment.keywordsFromSpacy?.some((kw) => areEqual(kw.text, term)),
       );

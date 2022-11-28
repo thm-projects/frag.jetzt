@@ -670,7 +670,7 @@ export class FilteredDataAccess {
       const onlyBrain =
         this._filter.sourceFilterBrainstorming ===
         BrainstormingFilter.OnlyBrainstorming;
-      data = data.filter((c) => c.brainstormingQuestion === onlyBrain);
+      data = data.filter((c) => (c.brainstormingSessionId !== null) === onlyBrain);
     }
     if (this._filter.ignoreThreshold) {
       this._preFilteredData = [...data];

@@ -19,8 +19,10 @@ export class BrainstormingSession {
   maxWordCount: number;
   votesForWords: WordVotes;
   updatedAt: Date;
-  language: Language;
-  votingAllowed: boolean;
+  language: string;
+  ratingAllowed: boolean;
+  ideasFrozen: boolean;
+  ideasEndTimestamp: Date;
 
   constructor(
     roomId: string = '',
@@ -30,8 +32,10 @@ export class BrainstormingSession {
     maxWordLength: number = 20,
     maxWordCount: number = 1,
     votesForWords: WordVotes = null,
-    language: Language = '',
-    votingAllowed: boolean = false,
+    language: string = '',
+    ratingAllowed: boolean = false,
+    ideasFrozen: boolean = true,
+    ideasEndTimestamp: Date = null,
   ) {
     this.id = '';
     this.roomId = roomId;
@@ -43,6 +47,8 @@ export class BrainstormingSession {
     this.votesForWords = votesForWords;
     this.updatedAt = null;
     this.language = language;
-    this.votingAllowed = votingAllowed;
+    this.ratingAllowed = ratingAllowed;
+    this.ideasFrozen = ideasFrozen;
+    this.ideasEndTimestamp = ideasEndTimestamp;
   }
 }

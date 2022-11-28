@@ -66,6 +66,12 @@
         {{'content.field-too-high' | translate: {max: maxWordLengthMax} }}
       </mat-error>
     </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Sprache</mat-label>
+      <mat-select [formControl]="language">
+        <mat-option *ngFor="let lang of languages" [value]="lang">{{ lang }}</mat-option>
+      </mat-select>
+    </mat-form-field>
     <button mat-flat-button
             class="primary-btn"
             [disabled]="!canCreate()"

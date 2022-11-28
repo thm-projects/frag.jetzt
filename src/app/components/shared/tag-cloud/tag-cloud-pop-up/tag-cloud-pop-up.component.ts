@@ -302,7 +302,8 @@ export class TagCloudPopUpComponent
     if (this._isSending) {
       return;
     }
-    this._isSending = true;
+    console.error('To be implemented');
+    /*this._isSending = true;
     const currentVote = upvote ? 1 : -1;
     const lastVote = this.getOwnVote();
     if (currentVote === lastVote) {
@@ -327,7 +328,7 @@ export class TagCloudPopUpComponent
           this.setOwnVote(lastVote);
           this._isSending = false;
         },
-      });
+      });*/
   }
 
   private fillSpellingData(correction: LanguagetoolResult): void {

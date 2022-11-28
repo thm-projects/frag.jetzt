@@ -60,7 +60,7 @@ export class WorkerDialogTask {
     }
     const currentComment = this._comments[currentIndex];
     const selectedLang = currentComment.language.toLowerCase() as Lang;
-    if (currentComment.brainstormingQuestion) {
+    if (currentComment.brainstormingSessionId !== null) {
       this._keywordExtractor.generateBrainstormingTerm(currentComment.body, selectedLang)
         .subscribe((result) => this.finishSpacyCall(currentIndex, result));
       return;

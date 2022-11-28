@@ -35,7 +35,7 @@ import { UserRole } from '../../../models/user-roles.enum';
 import { SessionService } from '../../../services/util/session.service';
 import { User } from '../../../models/user';
 import { StandardDelta } from '../../../utils/quill-utils';
-import { KeywordExtractor } from '../../../utils/keyword-extractor';
+import { CommentCreateOptions, KeywordExtractor } from '../../../utils/keyword-extractor';
 import { RoomDataService } from '../../../services/util/room-data.service';
 import { SpacyService } from '../../../services/http/spacy.service';
 import { ForumComment } from '../../../utils/data-accessor';
@@ -384,9 +384,9 @@ export class WriteCommentComponent implements OnInit, AfterViewInit, OnDestroy {
         allowed)
     ) {
       const realData = this.allowEmpty && text.length < 2 ? { ops: [] } : data;
-      const options = {
+      const options: CommentCreateOptions = {
         userId: this.user.id,
-        isBrainstorming: !!this.brainstormingData,
+        brainstormingSessionId: this.brainstormingData?.id || null,
         body: realData,
         tag: this.selectedTag,
         questionerName: this.questionerNameFormControl.value,

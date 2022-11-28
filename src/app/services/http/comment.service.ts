@@ -106,7 +106,8 @@ export class CommentService extends BaseHttpService {
         tag: comment.tag, keywordsFromSpacy: JSON.stringify(comment.keywordsFromSpacy),
         keywordsFromQuestioner: JSON.stringify(comment.keywordsFromQuestioner),
         language: comment.language, questionerName: comment.questionerName,
-        brainstormingQuestion: comment.brainstormingQuestion, commentReference: comment.commentReference
+        brainstormingSessionId: comment.brainstormingSessionId, brainstormingWordId: comment.brainstormingWordId,
+        commentReference: comment.commentReference
       }, httpOptions).pipe(
       map(c => this.parseComment(c)),
       tap(_ => ''),

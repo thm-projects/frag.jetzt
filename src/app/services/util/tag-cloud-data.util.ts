@@ -68,7 +68,7 @@ export class TagCloudDataBuilder {
 
   addComments(comments: ForumComment[]): void {
     for (const comment of comments) {
-      if (this.brainstormingActive !== comment.brainstormingQuestion) {
+      if (this.brainstormingActive !== (comment.brainstormingSessionId !== null)) {
         continue;
       }
       const wantedLabels =
