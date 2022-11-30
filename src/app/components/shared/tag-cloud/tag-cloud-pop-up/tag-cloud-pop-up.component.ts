@@ -159,7 +159,7 @@ export class TagCloudPopUpComponent
     clearTimeout(this._popupCloseTimer);
     clearTimeout(this._popupHoverTimer);
     this._hasLeft = true;
-    setTimeout(() => {
+    this._popupHoverTimer = setTimeout(() => {
       this.wordId = wordId;
       this.isBlacklistActive = true;
       this.isBrainstorming = true;

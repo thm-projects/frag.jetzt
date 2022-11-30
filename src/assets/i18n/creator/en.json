@@ -21,8 +21,7 @@
     "add-button": "Add word",
     "show-button": "Show Blacklist",
     "hide-button": "Hide Blacklist",
-    "cancel": "Cancel",
-    "update": "Save"
+    "update": "Close"
   },
   "comment-list": {
     "a11y-access_time": "Sorts questions by time",

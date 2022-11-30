@@ -21,8 +21,7 @@
     "add-button": "Wort hinzufügen",
     "show-button": "Zeige Blacklist",
     "hide-button": "Verberge Blacklist",
-    "cancel": "Verwerfen",
-    "update": "Speichern"
+    "update": "Schließen"
   },
   "comment-list": {
     "a11y-access_time": "Sortiert Fragen nach der Uhrzeit",

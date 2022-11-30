@@ -21,8 +21,7 @@
     "add-button": "Ajouter le mot",
     "show-button": "Afficher liste noire",
     "hide-button": "Cacher liste noire",
-    "cancel": "Rejeter",
-    "update": "Enregistrer"
+    "update": "Fermer"
   },
   "comment-list": {
     "a11y-access_time": "Trier les questions par heure",

@@ -46,6 +46,7 @@ export class BrainstormingService extends BaseHttpService {
     word: '/word',
     patchWord: '/patch-word',
     category: '/category',
+    resetRating: '/reset-rating',
   };
 
   constructor(private http: HttpClient) {
@@ -69,7 +70,7 @@ export class BrainstormingService extends BaseHttpService {
     sessionChanges: Partial<BrainstormingSessionAPI>,
   ) {
     const connectionUrl =
-      this.apiUrl.base + this.apiUrl.brainstorming + '/' + sessionId;
+      this.apiUrl.base + this.apiUrl.brainstorming + '/' + sessionId + '/';
     return this.http
       .patch<BrainstormingSession>(connectionUrl, sessionChanges, httpOptions)
       .pipe(
@@ -158,6 +159,7 @@ export class BrainstormingService extends BaseHttpService {
       this.apiUrl.base +
       this.apiUrl.brainstorming +
       this.apiUrl.category +
+      '/' +
       roomId;
     return this.http
       .get<BrainstormingCategory[]>(connectionUrl, httpOptions)
@@ -169,12 +171,13 @@ export class BrainstormingService extends BaseHttpService {
 
   updateCategories(
     roomId: string,
-    categories: BrainstormingCategory[],
+    categories: string[],
   ): Observable<BrainstormingCategory[]> {
     const connectionUrl =
       this.apiUrl.base +
       this.apiUrl.brainstorming +
       this.apiUrl.category +
+      '/' +
       roomId +
       '/';
     return this.http
@@ -183,6 +186,25 @@ export class BrainstormingService extends BaseHttpService {
         tap((_) => ''),
         catchError(
           this.handleError<BrainstormingCategory[]>('updateCategories'),
+        ),
+      );
+  }
+
+  deleteAllVotes(
+    sessionId: string,
+  ): Observable<any> {
+    const connectionUrl =
+      this.apiUrl.base +
+      this.apiUrl.brainstorming +
+      '/' +
+      sessionId +
+      this.apiUrl.resetRating;
+    return this.http
+      .post<any>(connectionUrl, null, httpOptions)
+      .pipe(
+        tap((_) => ''),
+        catchError(
+          this.handleError<any>('deleteAllVotes'),
         ),
       );
   }

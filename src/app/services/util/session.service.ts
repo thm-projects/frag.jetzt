@@ -21,6 +21,8 @@ import { QuillUtils, SerializedDelta } from '../../utils/quill-utils';
 import { UserManagementService } from './user-management.service';
 import { environment } from 'environments/environment';
 import { BrainstormingWord } from 'app/models/brainstorming-word';
+import { BrainstormingCategory } from 'app/models/brainstorming-category';
+import { BrainstormingService } from '../http/brainstorming.service';
 
 @Injectable({
   providedIn: 'root',
@@ -29,6 +31,9 @@ export class SessionService {
   private readonly _currentRole = new BehaviorSubject<UserRole>(null);
   private readonly _currentRoom = new BehaviorSubject<Room>(null);
   private readonly _currentModerators = new BehaviorSubject<Moderator[]>(null);
+  private readonly _currentBrainstormingCategories = new BehaviorSubject<
+    BrainstormingCategory[]
+  >(null);
   private _beforeRoomUpdates: Subject<Partial<Room>>;
   private _afterRoomUpdates: Subject<Room>;
   private _roomSubscription: Subscription;
@@ -45,6 +50,7 @@ export class SessionService {
     private moderatorService: ModeratorService,
     private userManagementService: UserManagementService,
     private wsConnectorService: WsConnectorService,
+    private brainstormingService: BrainstormingService,
   ) {}
 
   get canChangeRoleOnRoute(): boolean {
@@ -128,6 +134,17 @@ export class SessionService {
 
   getModeratorsOnce(): Observable<Moderator[]> {
     return this._currentModerators.pipe(
+      filter((v) => !!v),
+      take(1),
+    );
+  }
+
+  getCategories(): Observable<BrainstormingCategory[]> {
+    return this._currentBrainstormingCategories.asObservable();
+  }
+
+  getCategoriesOnce(): Observable<BrainstormingCategory[]> {
+    return this._currentBrainstormingCategories.pipe(
       filter((v) => !!v),
       take(1),
     );
@@ -277,6 +294,9 @@ export class SessionService {
     if (this._currentModerators.value) {
       this._currentModerators.next(null);
     }
+    if (this._currentBrainstormingCategories.value) {
+      this._currentBrainstormingCategories.next(null);
+    }
   }
 
   private loadRoom(shortId: string) {
@@ -341,24 +361,39 @@ export class SessionService {
             });
             room.brainstormingSession = message.payload;
             this._afterRoomUpdates.next(room);
-          } else if (
-            message.type === 'BrainstormingClosed' &&
-            room.brainstormingSession?.id === message.payload.id
-          ) {
-            this._beforeRoomUpdates.next({
-              brainstormingSession: {
-                ...room.brainstormingSession,
-                active: false,
-              },
-            });
-            room.brainstormingSession.active = false;
-            this._afterRoomUpdates.next(room);
           } else if (message.type === 'BrainstormingVoteUpdated') {
             this.onBrainstormingVoteUpdated(message, room);
           } else if (message.type === 'BrainstormingWordCreated') {
             this.onBrainstormingWordCreated(message, room);
           } else if (message.type === 'BrainstormingWordPatched') {
             this.onBrainstormingWordPatched(message, room);
+          } else if (message.type === 'BrainstormingCategoriesUpdated') {
+            this._currentBrainstormingCategories.next(
+              message.payload.categoryList,
+            );
+          } else if (message.type === 'BrainstormingVotesReset') {
+            const id = room.brainstormingSession?.id;
+            if (id !== message.payload.sessionId) {
+              return;
+            }
+            this._beforeRoomUpdates.next(room);
+            const obj = room.brainstormingSession.wordsWithMeta;
+            Object.keys(obj).forEach((key) => {
+              obj[key].ownHasUpvoted = null;
+              obj[key].word.downvotes = 0;
+              obj[key].word.upvotes = 0;
+            });
+            this._afterRoomUpdates.next(room);
+          } else if (message.type === 'BrainstormingPatched') {
+            const id = room.brainstormingSession?.id;
+            if (id !== message.payload.id) {
+              return;
+            }
+            this._beforeRoomUpdates.next(room);
+            Object.keys(message.payload.changes).forEach((key) => {
+              room.brainstormingSession[key] = message.payload.changes[key];
+            });
+            this._afterRoomUpdates.next(room);
           } else if (!environment.production) {
             console.log('Ignored: ', message);
           }
@@ -367,6 +402,10 @@ export class SessionService {
       this.moderatorService
         .get(room.id)
         .subscribe((moderators) => this._currentModerators.next(moderators));
+      this.brainstormingService.getCategories(room.id).subscribe({
+        next: (categories) =>
+          this._currentBrainstormingCategories.next(categories),
+      });
     });
   }
 
@@ -378,7 +417,7 @@ export class SessionService {
     }
     this._beforeRoomUpdates.next(room);
     const changes = message.payload.changes;
-    Object.keys(changes).forEach(key => {
+    Object.keys(changes).forEach((key) => {
       entry.word[key] = changes[key];
     });
     this._afterRoomUpdates.next(room);

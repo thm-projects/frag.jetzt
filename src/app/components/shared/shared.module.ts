@@ -174,6 +174,8 @@ import { BrainstormingBlacklistEditComponent } from './_dialogs/brainstorming-bl
 import { EditQuestionComponent } from './_dialogs/edit-question/edit-question.component';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { BrainstormingCategoryEditorComponent } from './_dialogs/brainstorming-category-editor/brainstorming-category-editor.component';
+import { BrainstormingEditComponent } from './_dialogs/brainstorming-edit/brainstorming-edit.component';
 
 @NgModule({
   imports: [
@@ -284,7 +286,9 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     UIRegistrationComponent,
     PseudonymEditorComponent,
     BrainstormingBlacklistEditComponent,
-    EditQuestionComponent
+    EditQuestionComponent,
+    BrainstormingCategoryEditorComponent,
+    BrainstormingEditComponent
   ],
   exports: [
     RoomJoinComponent,
