@@ -1,5 +1,5 @@
 <ars-screen ars-flex-box>
-  <app-minute-jump-clock *ngIf="brainstormingData?.ideasEndTimestamp"
+  <app-minute-jump-clock *ngIf="brainstormingActive && brainstormingData?.ideasEndTimestamp"
                        [minWidth]="880"
                        [offsetTop]="140"
                        [withBackground]="true"
