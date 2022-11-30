@@ -172,6 +172,8 @@ import { UIRegistrationComponent } from './uiregistration/uiregistration.compone
 import { PseudonymEditorComponent } from './_dialogs/pseudonym-editor/pseudonym-editor.component';
 import { BrainstormingBlacklistEditComponent } from './_dialogs/brainstorming-blacklist-edit/brainstorming-blacklist-edit.component';
 import { EditQuestionComponent } from './_dialogs/edit-question/edit-question.component';
+import { MatSliderModule } from '@angular/material/slider';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @NgModule({
   imports: [
@@ -189,7 +191,8 @@ import { EditQuestionComponent } from './_dialogs/edit-question/edit-question.co
     QuillModule,
     NgxMatTimepickerModule,
     NgxMatNativeDateModule,
-
+    MatSliderModule,
+    MatSlideToggleModule,
   ],
   declarations: [
     RoomJoinComponent,

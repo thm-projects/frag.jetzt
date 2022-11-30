@@ -47,7 +47,7 @@
       <ng-container *ngIf="!isBrainstorming" [ngTemplateOutlet]="downvotes">
       </ng-container>
     </div>
-    <div style="margin-top: 15px">
+    <div style="margin-top: 15px" *ngIf="timePeriodText">
       <span>
         <mat-icon
           class="material-icons-outlined"
@@ -169,7 +169,7 @@
       comment
     </mat-icon>
     <p>
-      {{ tagData && tagData.comments.length }}
+      {{ brainstormingData && brainstormingData.comments.length }}
     </p>
   </span>
   <span>

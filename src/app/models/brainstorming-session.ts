@@ -1,10 +1,11 @@
+import { BrainstormingWord } from "./brainstorming-word";
+
 // https://datatracker.ietf.org/doc/html/rfc5646#section-2
 type Language = string;
 
-export interface WordVotes {
+export interface WordsWithMeta {
   [key: string]: {
-    upvotes: number;
-    downvotes: number;
+    word: BrainstormingWord;
     ownHasUpvoted: boolean;
   };
 }
@@ -17,11 +18,12 @@ export class BrainstormingSession {
   createdAt: Date;
   maxWordLength: number;
   maxWordCount: number;
-  votesForWords: WordVotes;
+  wordsWithMeta: WordsWithMeta;
   updatedAt: Date;
-  language: string;
+  language: Language;
   ratingAllowed: boolean;
   ideasFrozen: boolean;
+  ideasTimeDuration: number;
   ideasEndTimestamp: Date;
 
   constructor(
@@ -31,10 +33,11 @@ export class BrainstormingSession {
     createdAt: Date = null,
     maxWordLength: number = 20,
     maxWordCount: number = 1,
-    votesForWords: WordVotes = null,
+    wordsWithMeta: WordsWithMeta = null,
     language: string = '',
     ratingAllowed: boolean = false,
     ideasFrozen: boolean = true,
+    ideasTimeDuration: number = null,
     ideasEndTimestamp: Date = null,
   ) {
     this.id = '';
@@ -44,11 +47,12 @@ export class BrainstormingSession {
     this.createdAt = createdAt;
     this.maxWordLength = maxWordLength;
     this.maxWordCount = maxWordCount;
-    this.votesForWords = votesForWords;
+    this.wordsWithMeta = wordsWithMeta;
     this.updatedAt = null;
     this.language = language;
     this.ratingAllowed = ratingAllowed;
     this.ideasFrozen = ideasFrozen;
+    this.ideasTimeDuration = ideasTimeDuration;
     this.ideasEndTimestamp = ideasEndTimestamp;
   }
 }

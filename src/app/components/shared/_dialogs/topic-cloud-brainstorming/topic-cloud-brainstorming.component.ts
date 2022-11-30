@@ -14,7 +14,7 @@ import { CommentService } from '../../../../services/http/comment.service';
 import { ExplanationDialogComponent } from '../explanation-dialog/explanation-dialog.component';
 import { BrainstormingService } from '../../../../services/http/brainstorming.service';
 import { BrainstormingSession } from '../../../../models/brainstorming-session';
-import { AVAILABLE_LANGUAGES } from 'app/services/util/language.service';
+import { AVAILABLE_LANGUAGES, LanguageService } from 'app/services/util/language.service';
 
 @Component({
   selector: 'app-topic-cloud-brainstorming',
@@ -40,6 +40,9 @@ export class TopicCloudBrainstormingComponent implements OnInit, OnDestroy {
     Validators.max(this.maxWordLengthMax),
   ]);
   question = '';
+  brainstormingDuration = 5;
+  brainstormingAllowIdeas = false;
+  brainstormingAllowRating = false;
   roomSubscription: Subscription;
   brainstormingData: BrainstormingSession;
   isLoading = true;
@@ -47,11 +50,7 @@ export class TopicCloudBrainstormingComponent implements OnInit, OnDestroy {
   isClosing = false;
   isCreating = false;
   readonly languages = [...AVAILABLE_LANGUAGES];
-  language = new FormControl(this.languages[0], [
-    Validators.required,
-    Validators.min(this.maxWordLengthMin),
-    Validators.max(this.maxWordLengthMax),
-  ]);
+  language: FormControl;
   private _room: Room;
 
   constructor(
@@ -65,7 +64,12 @@ export class TopicCloudBrainstormingComponent implements OnInit, OnDestroy {
     private notificationService: NotificationService,
     private router: Router,
     private brainstormingService: BrainstormingService,
-  ) {}
+    private languageService: LanguageService,
+  ) {
+    this.language = new FormControl(languageService.currentLanguage() || this.languages[0], [
+      Validators.required,
+    ]);
+  }
 
   cancelButtonActionCallback(): () => void {
     return () => this.dialogRef.close('abort');
@@ -104,6 +108,10 @@ export class TopicCloudBrainstormingComponent implements OnInit, OnDestroy {
         maxWordCount: this.maxWordCount.value,
         maxWordLength: this.maxWordLength.value,
         language: this.language.value,
+        ideasEndTimestamp: null,
+        ideasTimeDuration: this.brainstormingDuration,
+        ratingAllowed: this.brainstormingAllowRating,
+        ideasFrozen: !this.brainstormingAllowIdeas,
       })
       .subscribe({
         next: (session) => {
@@ -116,6 +124,10 @@ export class TopicCloudBrainstormingComponent implements OnInit, OnDestroy {
           this.showSomethingWentWrong();
         },
       });
+  }
+
+  getDuration(): string {
+    return this.brainstormingDuration.toString().padStart(2, '0');
   }
 
   checkForEnter(e: KeyboardEvent) {
@@ -135,6 +147,10 @@ export class TopicCloudBrainstormingComponent implements OnInit, OnDestroy {
           this.brainstormingData = room.brainstormingSession;
         });
     });
+  }
+
+  displayMin(v) {
+    return v + 'min';
   }
 
   ngOnDestroy() {

@@ -29,6 +29,8 @@ import { Room } from '../../../../models/room';
 import { SessionService } from '../../../../services/util/session.service';
 import { BrainstormingService } from '../../../../services/http/brainstorming.service';
 import { ReplaySubject, takeUntil } from 'rxjs';
+import { BrainstormingDataService } from 'app/services/util/brainstorming-data.service';
+import { BrainstormingTopic } from 'app/services/util/brainstorming-data-builder';
 
 const CLOSE_TIME = 1500;
 
@@ -38,23 +40,28 @@ const CLOSE_TIME = 1500;
   styleUrls: ['./tag-cloud-pop-up.component.scss'],
 })
 export class TagCloudPopUpComponent
-  implements OnInit, AfterViewInit, OnDestroy {
+  implements OnInit, AfterViewInit, OnDestroy
+{
   @ViewChild('popupContainer') popupContainer: ElementRef;
   @ViewChild(MatAutocompleteTrigger) trigger: MatAutocompleteTrigger;
   @Input() room: Room;
   replacementInput = new FormControl();
+  userRole: UserRole;
+  // Both
   tag: string;
   previousTag: string;
   elem: HTMLElement;
-  tagData: TagCloudDataTagEntry;
-  categories: string[];
   timePeriodText: string;
-  userRole: UserRole;
-  selectedLang: Language = 'en-US';
+  categories: string[];
+  // Normal
+  tagData: TagCloudDataTagEntry;
   spellingData: string[] = [];
   isBlacklistActive = true;
+  // Brainstorming
+  wordId: string;
   isBrainstorming = false;
   isBrainstormingActive = false;
+  brainstormingData: BrainstormingTopic;
   private _popupHoverTimer;
   private _popupCloseTimer;
   private _hasLeft = true;
@@ -70,6 +77,7 @@ export class TagCloudPopUpComponent
     private router: Router,
     private notificationService: NotificationService,
     private brainstormingService: BrainstormingService,
+    private brainstormingDataService: BrainstormingDataService,
   ) {}
 
   ngOnInit(): void {
@@ -110,21 +118,22 @@ export class TagCloudPopUpComponent
   }
 
   getBrainstormingUpvotes(): number {
-    return this.room.brainstormingSession.votesForWords?.[this.tag]?.upvotes || 0;
+    return this.room.brainstormingSession.wordsWithMeta[this.wordId].word.upvotes;
   }
 
   getBrainstormingDownvotes(): number {
-    return this.room.brainstormingSession.votesForWords?.[this.tag]?.downvotes || 0;
+    return this.room.brainstormingSession.wordsWithMeta[this.wordId].word.downvotes;
   }
 
   getBrainstormingVotes(): number {
-    const votes = this.room.brainstormingSession.votesForWords?.[this.tag];
-    return (votes?.upvotes || 0) - (votes?.downvotes || 0);
+    const word = this.room.brainstormingSession.wordsWithMeta[this.wordId].word;
+    return word.upvotes - word.downvotes;
   }
 
   getOwnVote(): number {
     const vote =
-      this.room.brainstormingSession.votesForWords?.[this.tag]?.ownHasUpvoted;
+      this.room.brainstormingSession.wordsWithMeta?.[this.wordId]
+        ?.ownHasUpvoted;
     if (vote === true) {
       return 1;
     } else if (vote === false) {
@@ -135,11 +144,40 @@ export class TagCloudPopUpComponent
     }
   }
 
+  enterBrainstorming(
+    elem: HTMLElement,
+    tag: string,
+    isBrainstormingActive: boolean,
+    hoverDelayInMs: number,
+    brainstormingData: BrainstormingTopic,
+    wordId: string,
+  ) {
+    if (!elem) {
+      return;
+    }
+    this.spellingData = [];
+    clearTimeout(this._popupCloseTimer);
+    clearTimeout(this._popupHoverTimer);
+    this._hasLeft = true;
+    setTimeout(() => {
+      this.wordId = wordId;
+      this.isBlacklistActive = true;
+      this.isBrainstorming = true;
+      this.isBrainstormingActive = isBrainstormingActive;
+      this.tag = tag;
+      this.previousTag = elem.innerText;
+      elem.innerText = this.tag;
+      this.elem = elem;
+      this.brainstormingData = brainstormingData;
+      this.categories = Array.from(brainstormingData.categories.keys());
+      this.timePeriodText = '';
+      this.position(elem);
+    }, hoverDelayInMs);
+  }
+
   enter(
     elem: HTMLElement,
     tag: string,
-    isBrainstorming: boolean,
-    isBrainstormingActive: boolean,
     tagData: TagCloudDataTagEntry,
     hoverDelayInMs: number,
     isBlacklistActive: boolean,
@@ -147,7 +185,6 @@ export class TagCloudPopUpComponent
     if (!elem) {
       return;
     }
-    this.isBrainstormingActive = isBrainstormingActive;
     this.spellingData = [];
     if (this.userRole > UserRole.PARTICIPANT) {
       this.languagetoolService
@@ -164,13 +201,10 @@ export class TagCloudPopUpComponent
     clearTimeout(this._popupHoverTimer);
     this._hasLeft = true;
     this._popupHoverTimer = setTimeout(() => {
+      this.isBrainstorming = false;
       this.tag = tag;
-      this.previousTag = isBrainstorming && elem.innerText;
-      this.elem = isBrainstorming && elem;
-      if (isBrainstorming) {
-        elem.innerText = this.tag;
-      }
-      this.isBrainstorming = isBrainstorming;
+      this.previousTag = null; // dont allow modification of tag key
+      this.elem = null; // dont allow modification of tag key
       this.tagData = tagData;
       this.categories = Array.from(tagData.categories.keys());
       this.calculateDateText(() => {
@@ -181,11 +215,11 @@ export class TagCloudPopUpComponent
   }
 
   addBlacklistWord(): void {
-    this.tagCloudDataService.blockWord(
-      this.tag,
-      this.room,
-      this.isBrainstorming,
-    );
+    if (this.isBrainstorming) {
+      this.brainstormingDataService.blockWord(this.wordId);
+    } else {
+      this.tagCloudDataService.blockWord(this.tag, this.room);
+    }
     this.close(false);
   }
 
@@ -215,7 +249,7 @@ export class TagCloudPopUpComponent
   }
 
   isNewTagReady(): boolean {
-    if (!this.replacementInput.value) {
+    if (!this.replacementInput.value || this.isBrainstorming) {
       return false;
     }
     const tag = this.replacementInput.value.trim();
@@ -302,14 +336,13 @@ export class TagCloudPopUpComponent
     if (this._isSending) {
       return;
     }
-    console.error('To be implemented');
-    /*this._isSending = true;
+    this._isSending = true;
     const currentVote = upvote ? 1 : -1;
     const lastVote = this.getOwnVote();
     if (currentVote === lastVote) {
       this.setOwnVote(0);
       this.brainstormingService
-        .deleteVote(this.room.brainstormingSession.id, this.tag)
+        .deleteVote(this.wordId)
         .subscribe({
           next: (_) => (this._isSending = false),
           error: (_) => {
@@ -321,14 +354,14 @@ export class TagCloudPopUpComponent
     }
     this.setOwnVote(currentVote);
     this.brainstormingService
-      .createVote(this.room.brainstormingSession.id, this.tag, upvote)
+      .createVote(this.wordId, upvote)
       .subscribe({
         next: (_) => (this._isSending = false),
         error: (_) => {
           this.setOwnVote(lastVote);
           this._isSending = false;
         },
-      });*/
+      });
   }
 
   private fillSpellingData(correction: LanguagetoolResult): void {
@@ -344,30 +377,11 @@ export class TagCloudPopUpComponent
   private setOwnVote(vote: number) {
     let upvote = true;
     if (vote === 0) {
-      upvote = undefined;
+      upvote = null;
     } else if (vote === -1) {
       upvote = false;
     }
-    if (!this.room.brainstormingSession.votesForWords) {
-      this.room.brainstormingSession.votesForWords = {
-        [this.tag]: {
-          upvotes: 0,
-          downvotes: 0,
-          ownHasUpvoted: upvote,
-        },
-      };
-      return;
-    }
-    const previous = this.room.brainstormingSession.votesForWords[this.tag];
-    if (!previous) {
-      this.room.brainstormingSession.votesForWords[this.tag] = {
-        upvotes: 0,
-        downvotes: 0,
-        ownHasUpvoted: upvote,
-      };
-      return;
-    }
-    previous.ownHasUpvoted = upvote;
+    this.room.brainstormingSession.wordsWithMeta[this.wordId].ownHasUpvoted = upvote;
   }
 
   private position(elem: HTMLElement) {

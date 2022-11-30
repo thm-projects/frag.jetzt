@@ -65,6 +65,15 @@
     "brainstorming-action-went-wrong": "Something went wrong!",
     "brainstorming-direct-send-disabled": "Brainstorming cannot be started when moderation is active.",
     "brainstorming-question": "Topic or focus question …",
+    "brainstormin-language-title": "Language",
+    "brainstormin-language": {
+      "de": "German",
+      "en": "English",
+      "fr": "French"
+    },
+    "brainstorming-duration": "Duration after start - {{duration}} minutes: ",
+    "brainstorming-allow-ideas": "Allow continuous idea input",
+    "brainstorming-allow-rating": "Allow rating from start",
     "brainstorming-word-count": "Maximum number of words",
     "brainstorming-word-length": "Maximum number of characters",
     "cancel": "Cancel",

@@ -9,5 +9,6 @@ export class BrainstormingWord {
     public updatedAt: Date = null,
     public banned: boolean = false,
     public categoryId: string = '',
+    public correctedWord: string = null,
   ) {}
 }

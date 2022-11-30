@@ -326,13 +326,10 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
       scorings: this.scorings,
     };
     const room = this.sessionService.currentRoom;
-    const brainstormingBlacklist =
-      TagCloudSettings.getFromRoom(room)?.brainstormingBlacklist || [];
     this.topicCloudAdminService.setAdminData(
       this.topicCloudAdminData,
       room.id,
       this.sessionService.currentRole,
-      brainstormingBlacklist,
       {
         blacklistActive: this.blacklistIsActive,
         blacklist: JSON.stringify(this.blacklist),

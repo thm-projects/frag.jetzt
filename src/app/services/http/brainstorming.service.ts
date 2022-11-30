@@ -29,6 +29,7 @@ type BrainstormingSessionAPI = Pick<
   | 'language'
   | 'ratingAllowed'
   | 'ideasFrozen'
+  | 'ideasTimeDuration'
   | 'ideasEndTimestamp'
 >;
 
@@ -43,6 +44,7 @@ export class BrainstormingService extends BaseHttpService {
     downvote: '/downvote',
     resetVote: '/reset-vote',
     word: '/word',
+    patchWord: '/patch-word',
     category: '/category',
   };
 
@@ -51,10 +53,7 @@ export class BrainstormingService extends BaseHttpService {
   }
 
   createSession(
-    session: Omit<
-      BrainstormingSessionAPI,
-      'active' | 'ratingAllowed' | 'ideasFrozen' | 'ideasEndTimestamp'
-    >,
+    session: Omit<BrainstormingSessionAPI, 'active'>,
   ): Observable<BrainstormingSession> {
     const connectionUrl = this.apiUrl.base + this.apiUrl.brainstorming + '/';
     return this.http
@@ -96,13 +95,33 @@ export class BrainstormingService extends BaseHttpService {
       sessionId +
       this.apiUrl.word +
       '/' +
-      word +
+      word.toLowerCase() +
       '/';
     return this.http
       .post<BrainstormingWord>(connectionUrl, null, httpOptions)
       .pipe(
         tap((_) => ''),
         catchError(this.handleError<BrainstormingWord>('createWord')),
+      );
+  }
+
+  patchWord(
+    wordId: string,
+    changes: Partial<
+      Pick<BrainstormingWord, 'correctedWord' | 'banned' | 'categoryId'>
+    >,
+  ): Observable<BrainstormingWord> {
+    const connectionUrl =
+      this.apiUrl.base +
+      this.apiUrl.brainstorming +
+      this.apiUrl.patchWord +
+      '/' +
+      wordId;
+    return this.http
+      .patch<BrainstormingWord>(connectionUrl, changes, httpOptions)
+      .pipe(
+        tap((_) => ''),
+        catchError(this.handleError<BrainstormingWord>('patchWord')),
       );
   }
 

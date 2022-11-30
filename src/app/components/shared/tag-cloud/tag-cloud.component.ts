@@ -44,7 +44,9 @@ import { TagCloudSettings } from '../../../utils/TagCloudSettings';
 import { SessionService } from '../../../services/util/session.service';
 import { BrainstormingSession } from '../../../models/brainstorming-session';
 import { IntroductionTagCloudComponent } from '../_dialogs/introductions/introduction-tag-cloud/introduction-tag-cloud.component';
-import { IntroductionBrainstormingComponent } from '../_dialogs/introductions/introduction-brainstorming/introduction-brainstorming.component';
+import {
+  IntroductionBrainstormingComponent,
+} from '../_dialogs/introductions/introduction-brainstorming/introduction-brainstorming.component';
 import { ComponentType } from '@angular/cdk/overlay';
 import { RoomDataService } from '../../../services/util/room-data.service';
 import {
@@ -58,6 +60,8 @@ import { FilteredDataAccess } from '../../../utils/filtered-data-access';
 import { forkJoin, Subscription } from 'rxjs';
 import { UserManagementService } from '../../../services/util/user-management.service';
 import { BrainstormingBlacklistEditComponent } from '../_dialogs/brainstorming-blacklist-edit/brainstorming-blacklist-edit.component';
+import { BrainstormingTopic } from 'app/services/util/brainstorming-data-builder';
+import { BrainstormingDataService } from 'app/services/util/brainstorming-data.service';
 
 class TagComment implements WordMeta {
   constructor(
@@ -67,6 +71,18 @@ class TagComment implements WordMeta {
     public weight: number,
     public tagData: TagCloudDataTagEntry,
     public index: number,
+  ) {}
+}
+
+class BrainstormComment implements WordMeta {
+  constructor(
+    public text: string,
+    public realText: string,
+    public rotate: number,
+    public weight: number,
+    public brainData: BrainstormingTopic,
+    public index: number,
+    public wordId: string,
   ) {}
 }
 
@@ -100,7 +116,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     delay: 0.4,
   };
   userRole: UserRole;
-  data: TagComment[] = [];
+  data: (TagComment | BrainstormComment)[] = [];
   isLoading = true;
   createCommentWrapper: CreateCommentWrapper = null;
   brainstormingData: BrainstormingSession;
@@ -126,6 +142,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     private sessionService: SessionService,
     private router: Router,
     public dataManager: TagCloudDataService,
+    public brainDataManager: BrainstormingDataService,
     private deviceInfo: DeviceInfoService,
     private roomDataService: RoomDataService,
   ) {}
@@ -140,7 +157,14 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
 
   ngOnInit(): void {
     this.sessionService.onReady.subscribe(() => {
-      this.init();
+      this.route.data.subscribe((d) => {
+        this.brainstormingActive = Boolean(d.brainstorming);
+        if (this.brainstormingActive) {
+          this.initBrainstorming();
+        } else {
+          this.init();
+        }
+      });
     });
   }
 
@@ -174,7 +198,11 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     this.zoomOnHoverOptions.transitionTime = parameters.hoverTime;
     if (updateIntensity >= 2) {
       if (!this.dataManager.updateConfig(parameters)) {
-        this.rebuildData();
+        if (this.brainstormingActive) {
+          this.rebuildBrainstormingData();
+        } else {
+          this.rebuildData();
+        }
       }
     }
     if (save) {
@@ -223,6 +251,21 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
         this.brainstormingActive && this.brainstormingData,
       )
       .subscribe();
+  }
+
+  rebuildBrainstormingData() {
+    if (!this.cloud || !this.brainDataManager.currentData) {
+      return;
+    }
+    const newElements = [];
+    const data = this.brainDataManager.currentData;
+    for (const [word, topic] of data) {
+      this.createBrainTagElement(topic, word.id, word.word, newElements);
+    }
+    this.data = newElements;
+    setTimeout(() => {
+      this.updateTagCloud(true);
+    }, 2);
   }
 
   rebuildData() {
@@ -277,16 +320,27 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     return !this.data?.length;
   }
 
-  enter(word: ActiveWord<TagComment>) {
+  enter(word: ActiveWord<TagComment | BrainstormComment>) {
+    const hoverDelay =
+      (this._currentSettings.hoverTime + this._currentSettings.hoverDelay) *
+      1_000;
+    if (this.brainstormingActive) {
+      this.popup.enterBrainstorming(
+        word.element,
+        word.meta.text,
+        this.brainstormingData?.active,
+        hoverDelay,
+        (word.meta as BrainstormComment).brainData,
+        (word.meta as BrainstormComment).wordId,
+      );
+      return;
+    }
     this.popup.enter(
       word.element,
       word.meta.text,
-      this.brainstormingActive,
-      this.brainstormingData?.active,
-      word.meta.tagData,
-      (this._currentSettings.hoverTime + this._currentSettings.hoverDelay) *
-        1_000,
-      Boolean(this.room?.blacklistActive) || this.brainstormingActive,
+      (word.meta as TagComment).tagData,
+      hoverDelay,
+      Boolean(this.room?.blacklistActive),
     );
   }
 
@@ -295,6 +349,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
   }
 
   private init() {
+    this.brainstormingActive = false;
     this._currentSettings = this.getCurrentCloudParameters();
     this.dataManager.getData().subscribe((data) => {
       if (!data) {
@@ -307,9 +362,6 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
         this.user = newUser;
       }
     });
-    this.route.data.subscribe(
-      (d) => (this.brainstormingActive = !!d.brainstorming),
-    );
     forkJoin([
       this.sessionService.getRoomOnce(),
       this.sessionService.getModeratorsOnce(),
@@ -331,22 +383,13 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
         this.room,
       );
       let filterObj: FilteredDataAccess;
-      if (this.brainstormingActive) {
-        filterObj = FilteredDataAccess.buildNormalAccess(
-          this.sessionService,
-          this.roomDataService,
-          true,
-          'brainstorming',
-        );
-      } else {
-        const raw = sessionStorage.getItem('tagCloudOnlyQuestions') !== 'true';
-        filterObj = FilteredDataAccess.buildNormalAccess(
-          this.sessionService,
-          this.roomDataService,
-          raw,
-          'tagCloud',
-        );
-      }
+      const raw = sessionStorage.getItem('tagCloudOnlyQuestions') !== 'true';
+      filterObj = FilteredDataAccess.buildNormalAccess(
+        this.sessionService,
+        this.roomDataService,
+        raw,
+        'tagCloud',
+      );
       filterObj.attach({
         moderatorIds: new Set<string>(mods.map((m) => m.accountId)),
         threshold: room.threshold,
@@ -354,16 +397,72 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
         roomId: room.id,
         userId: this.user.id,
       });
-      if (this.brainstormingActive) {
-        const filter = filterObj.dataFilter;
-        filter.resetToDefault();
-        filter.timeFilterStart = new Date(
-          room.brainstormingSession.createdAt,
-        ).getTime();
-        filter.save();
-        filterObj.dataFilter = filter;
-      }
       this.dataManager.filterObject = filterObj;
+    });
+    this.themeSubscription = this.themeService.getTheme().subscribe((_) => {
+      if (this.cloud) {
+        setTimeout(() => {
+          this.setCloudParameters(this.getCurrentCloudParameters(), false);
+        }, 1);
+      }
+    });
+  }
+
+  private initBrainstorming() {
+    this.brainstormingActive = true;
+    this._currentSettings = this.getCurrentCloudParameters();
+    this.brainDataManager.getData().subscribe((data) => {
+      if (!data) {
+        return;
+      }
+      this.rebuildBrainstormingData();
+    });
+    this.userManagementService.getUser().subscribe((newUser) => {
+      if (newUser) {
+        this.user = newUser;
+      }
+    });
+    forkJoin([
+      this.sessionService.getRoomOnce(),
+      this.sessionService.getModeratorsOnce(),
+    ]).subscribe(([room, mods]) => {
+      this.userRole = this.sessionService.currentRole;
+      this.shortId = room.shortId;
+      this.roomId = room.id;
+      this.room = room;
+      this.sessionService.receiveRoomUpdates().subscribe(() => {
+        this.retrieveTagCloudSettings(room);
+      });
+      this.retrieveTagCloudSettings(room);
+      this.directSend = this.room.directSend;
+      this.createCommentWrapper = new CreateCommentWrapper(
+        this.translateService,
+        this.notificationService,
+        this.commentService,
+        this.dialog,
+        this.room,
+      );
+      const filterObj = FilteredDataAccess.buildNormalAccess(
+        this.sessionService,
+        this.roomDataService,
+        true,
+        'brainstorming',
+      );
+      filterObj.attach({
+        moderatorIds: new Set<string>(mods.map((m) => m.accountId)),
+        threshold: room.threshold,
+        ownerId: room.ownerId,
+        roomId: room.id,
+        userId: this.user.id,
+      });
+      const filter = filterObj.dataFilter;
+      filter.resetToDefault();
+      filter.timeFilterStart = new Date(
+        room.brainstormingSession.createdAt,
+      ).getTime();
+      filter.save();
+      filterObj.dataFilter = filter;
+      this.brainDataManager.filterObject = filterObj;
     });
     this.themeSubscription = this.themeService.getTheme().subscribe((_) => {
       if (this.cloud) {
@@ -391,16 +490,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
       if (rotation === null || this._currentSettings.randomAngles) {
         rotation = Math.floor(Math.random() * 30 - 15);
       }
-      let filteredTag = tag;
-      if (this.brainstormingActive) {
-        if (filteredTag.length > this.brainstormingData.maxWordLength) {
-          filteredTag =
-            filteredTag.substring(0, this.brainstormingData.maxWordLength - 1) +
-            '…';
-        }
-      } else {
-        filteredTag = maskKeyword(filteredTag);
-      }
+      const filteredTag = maskKeyword(tag);
       newElements.push(
         new TagComment(
           filteredTag,
@@ -412,6 +502,37 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
         ),
       );
     }
+  }
+
+  private createBrainTagElement(
+    topicData: BrainstormingTopic,
+    wordId: string,
+    tag: string,
+    newElements: BrainstormComment[],
+  ) {
+    let rotation =
+      this._currentSettings.cloudWeightSettings[topicData.adjustedWeight]
+        .rotation;
+    if (rotation === null || this._currentSettings.randomAngles) {
+      rotation = Math.floor(Math.random() * 30 - 15);
+    }
+    let filteredTag = tag;
+    if (filteredTag.length > this.brainstormingData.maxWordLength) {
+      filteredTag =
+        filteredTag.substring(0, this.brainstormingData.maxWordLength - 1) +
+        '…';
+    }
+    newElements.push(
+      new BrainstormComment(
+        filteredTag,
+        tag,
+        rotation,
+        topicData.weight,
+        topicData,
+        newElements.length,
+        wordId,
+      ),
+    );
   }
 
   private getCurrentCloudParameters(): CloudParameters {
@@ -443,7 +564,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
       return;
     }
     if (this.userRole > UserRole.PARTICIPANT) {
-      const tagCloudSettings = TagCloudSettings.getCurrent([]).serialize();
+      const tagCloudSettings = TagCloudSettings.getCurrent().serialize();
       this.roomService.patchRoom(this.room.id, { tagCloudSettings }).subscribe({
         next: () => {
           this.translateService
