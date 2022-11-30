@@ -138,7 +138,10 @@ export class BrainstormingDataService {
     const currentMeta = this._currentMetaData;
     currentMeta.commentCount = filteredComments.length;
     const room = this.sessionService.currentRoom;
-    const session = this.sessionService.currentRoom.brainstormingSession;
+    const session = room.brainstormingSession;
+    if (!session) {
+      return;
+    }
     const builder = new BrainstormingDataBuilder(
       new Set<string>(
         this.sessionService.currentModerators.map((m) => m.accountId),

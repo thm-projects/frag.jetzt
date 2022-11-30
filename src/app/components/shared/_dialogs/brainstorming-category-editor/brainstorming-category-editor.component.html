@@ -1,6 +1,6 @@
 <div mat-dialog-content>
     <!--Tags-->
-    <h2 class="oldtypo-h2">{{'room-page.tags' | translate }}</h2>
+    <h2 class="oldtypo-h2">{{'brainstorming-category.title' | translate }}</h2>
   
     <div fxLayout="column">
       <div fxLayout="row">
@@ -12,11 +12,18 @@
                  aria-labelledby="tag-new"
                  [formControl]="tagFormControl"
                  name="taginput"
-                 maxlength="40"/>
-          <mat-placeholder class="placeholder">{{ 'room-page.tag-new' | translate }}</mat-placeholder>
-          <mat-hint align="end"><span aria-hidden="true">{{tag.value.length}} / 40</span></mat-hint>
-          <mat-error *ngIf="!tagFormControl.valid">
-            {{ getErrorMessage() | translate }}
+                 minlength="min"
+                 maxlength="max"/>
+          <mat-placeholder class="placeholder">{{ 'brainstorming-category.tag-placeholder' | translate }}</mat-placeholder>
+          <mat-hint align="end"><span aria-hidden="true">{{tag.value.length}} / {{max}}</span></mat-hint>
+          <mat-error *ngIf="this.tagFormControl.hasError('minlength')">
+            {{ 'brainstorming-edit.field-too-low' | translate: {min: min} }}
+          </mat-error>
+          <mat-error *ngIf="this.tagFormControl.hasError('maxlength')">
+            {{ 'brainstorming-edit.field-too-high' | translate: {max: max} }}
+          </mat-error>
+          <mat-error *ngIf="this.tagFormControl.hasError('emptyOnCreate')">
+            {{ 'brainstorming-edit.field-required' | translate }}
           </mat-error>
         </mat-form-field>
         <span class="fill-remaining-space"></span>

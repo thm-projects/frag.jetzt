@@ -1,3 +1,4 @@
+import { DialogRef } from '@angular/cdk/dialog';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { BrainstormingSession } from 'app/models/brainstorming-session';
@@ -36,12 +37,14 @@ export class BrainstormingEditComponent implements OnInit {
   brainstormingAllowIdeas = false;
   brainstormingAllowRating = false;
   roomSubscription: Subscription;
-  brainstormingData: BrainstormingSession;
   isCreating = false;
   readonly languages = [...AVAILABLE_LANGUAGES];
   language = new FormControl('en', [Validators.required]);
 
-  constructor(private brainstormingService: BrainstormingService) {}
+  constructor(
+    private brainstormingService: BrainstormingService,
+    private dialogRef: DialogRef<BrainstormingEditComponent>,
+  ) {}
 
   ngOnInit(): void {
     this.question = this.session.title;
@@ -51,6 +54,10 @@ export class BrainstormingEditComponent implements OnInit {
     this.brainstormingDuration = this.session.ideasTimeDuration;
     this.brainstormingAllowIdeas = !this.session.ideasFrozen;
     this.brainstormingAllowRating = this.session.ratingAllowed;
+  }
+
+  canCreate() {
+    return this.question && this.maxWordCount.valid && this.maxWordLength.valid;
   }
 
   checkForEnter(e: KeyboardEvent) {
@@ -68,6 +75,9 @@ export class BrainstormingEditComponent implements OnInit {
   }
 
   update() {
+    if (!this.canCreate()) {
+      return;
+    }
     if (this.isCreating) {
       return;
     }
@@ -98,9 +108,18 @@ export class BrainstormingEditComponent implements OnInit {
       this.isCreating = false;
       return;
     }
+    if (this.session.ideasEndTimestamp) {
+      changes.ideasEndTimestamp = null;
+    }
     this.brainstormingService.patchSession(this.session.id, changes).subscribe({
-      next: () => (this.isCreating = false),
-      error: () => (this.isCreating = false),
+      next: () => {
+        this.isCreating = false;
+        this.dialogRef.close();
+      },
+      error: () => {
+        this.isCreating = false;
+        this.dialogRef.close();
+      },
     });
   }
 }

@@ -391,7 +391,12 @@ export class SessionService {
             }
             this._beforeRoomUpdates.next(room);
             Object.keys(message.payload.changes).forEach((key) => {
-              room.brainstormingSession[key] = message.payload.changes[key];
+              const change = message.payload.changes[key];
+              if (key === 'ideasEndTimestamp' && change) {
+                room.brainstormingSession[key] = new Date(change);
+              } else {
+                room.brainstormingSession[key] = change;
+              }
             });
             this._afterRoomUpdates.next(room);
           } else if (!environment.production) {

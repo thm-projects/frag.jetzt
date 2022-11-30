@@ -9,10 +9,12 @@ import { MatDialogRef } from '@angular/material/dialog';
 })
 export class BrainstormingCategoryEditorComponent implements OnInit {
 
+  readonly max = 40;
+  readonly min = 3;
   displayEmptyOnCreateWarning = false;
   tags: string[];
   tagFormControl = new FormControl('', [
-    Validators.minLength(3), Validators.maxLength(40), this.emptyOnCreate.bind(this)
+    Validators.minLength(this.min), Validators.maxLength(this.max), this.emptyOnCreate.bind(this)
   ]);
 
   constructor(
@@ -31,15 +33,6 @@ export class BrainstormingCategoryEditorComponent implements OnInit {
       };
     }
     return null;
-  }
-
-  getErrorMessage() {
-    if (this.tagFormControl.hasError('minlength') || this.tagFormControl.hasError('maxlength')) {
-      return 'room-page.tag-error-length';
-    }
-    if (this.tagFormControl.hasError('emptyOnCreate')) {
-      return 'room-page.tag-error-empty';
-    }
   }
 
   addTag(tag: string) {

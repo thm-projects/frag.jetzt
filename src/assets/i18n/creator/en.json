@@ -23,6 +23,30 @@
     "hide-button": "Hide Blacklist",
     "update": "Close"
   },
+  "brainstorming-category": {
+    "title": "Brainstorm categories",
+    "tag-placeholder": "New category:"
+  },
+  "brainstorming-edit": {
+    "title": "Edit Brainstorming",
+    "question": "Topic or focus question …",
+    "word-count": "Maximum number of words",
+    "word-length": "Maximum number of characters",
+    "field-hint-number": "Value: {{min}} - {{max}}",
+    "field-required": "This field is required",
+    "field-too-high": "Your input is too long. It may be at most {{max}}.",
+    "field-too-low": "Your input is too short. It must be at least {{min}}.",
+    "language-title": "Language",
+    "language": {
+      "de": "German",
+      "en": "English",
+      "fr": "French"
+    },
+    "duration": "Duration after start - {{duration}} minutes: ",
+    "allow-ideas": "Allow continuous idea input",
+    "allow-rating": "Allow rating from start",
+    "update": "Update"
+  },
   "comment-list": {
     "a11y-access_time": "Sorts questions by time",
     "a11y-add": "Option to ask a question or to write a message to the audience",
@@ -183,6 +207,8 @@
     "cancel": "Cancel",
     "cancel-description": "Cancel",
     "category": "Category:",
+    "select-brainstorm-category": "Choose brainstorming category:",
+    "select-brainstorm-category-none": "None",
     "comma": "Excel format (.xls)",
     "comment": "Question {{ comment }} was asked at {{ time }} and has currently {{ votes }}. {{correct}} {{wrong}} {{bonus}} {{beamer}}",
     "comment-answered": "Answer has been sent.",

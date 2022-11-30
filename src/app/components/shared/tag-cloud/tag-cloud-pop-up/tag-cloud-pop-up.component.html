@@ -7,7 +7,7 @@
   <div>
     <div>
       <ng-container [ngTemplateOutlet]="brainstormingFirstRow" *ngIf="isBrainstorming"></ng-container>
-      <ng-container [ngTemplateOutlet]="brainstormingFirstRow" *ngIf="!normalFirstRow"></ng-container>
+      <ng-container [ngTemplateOutlet]="normalFirstRow" *ngIf="!isBrainstorming"></ng-container>
       <button
         *ngIf="userRole > 0 && isBlacklistActive"
         mat-button
@@ -59,8 +59,8 @@
         </p>
       </span>
     </div>
-    <div class="replacementContainer" *ngIf="userRole > 0">
-      <mat-form-field *ngIf="!isBrainstorming">
+    <div class="replacementContainer" *ngIf="userRole > 0 && !isBrainstorming">
+      <mat-form-field>
         <mat-label>{{
           "tag-cloud-popup.tag-correction-placeholder" | translate
         }}</mat-label>
@@ -87,6 +87,23 @@
         class="replace-button"
         [disabled]="!isNewTagReady()"
         (click)="updateTag()"
+      >
+        {{ "comment-page.send" | translate }}
+      </button>
+    </div>
+    <div class="selectContainer" *ngIf="userRole > 0 && isBrainstorming">
+      <mat-form-field appearance="fill">
+        <mat-label>{{ "comment-page.select-brainstorm-category" | translate }}</mat-label>
+        <mat-select [(value)]="selectedCategory">
+          <mat-option><em>{{ "comment-page.select-brainstorm-category-none" | translate }}</em></mat-option>
+          <mat-option *ngFor="let item of possibleCategories" [value]="item.id">{{ item.name }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <br />
+      <button
+        mat-flat-button
+        class="select-button"
+        (click)="updateCategory()"
       >
         {{ "comment-page.send" | translate }}
       </button>

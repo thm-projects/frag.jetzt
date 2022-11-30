@@ -23,6 +23,30 @@
     "hide-button": "Cacher liste noire",
     "update": "Fermer"
   },
+  "brainstorming-category": {
+    "title": "Catégories de brainstorming",
+    "tag-placeholder": "Nouvelle catégorie :"
+  },
+  "brainstorming-edit": {
+    "title": "Editer le brainstorming",
+    "question": "Sujet ou question focus …",
+    "word-count": "Nombre maximal de mots",
+    "word-length": "Nombre maximum de caractères",
+    "field-hint-number": "Valeur : {{min}} - {{max}}",
+    "field-required": "Ce champ est nécessaire.",
+    "field-too-high": "Ton entrée est trop longue, elle doit être au maximum de {{max}}.",
+    "field-too-low": "Ta saisie est trop courte, elle doit être au moins {{min}}.",
+    "language-title": "Langue",
+    "language": {
+      "de": "Allemand",
+      "en": "Anglais",
+      "fr": "Français"
+    },
+    "duration": "Durée après le démarrage - {{duration}} minutes : ",
+    "allow-ideas": "Permettre la saisie d'idées en continu",
+    "allow-rating": "Autoriser l'évaluation à partir du début",
+    "update": "Mise à jour"
+  },
   "comment-list": {
     "a11y-access_time": "Trier les questions par heure",
     "a11y-add": "Option pour poser une question",
@@ -183,6 +207,8 @@
     "cancel": "Annuler",
     "cancel-description": "Annuler",
     "category": "Catégorie:",
+    "select-brainstorm-category": "Choisir la catégorie de brainstorming:",
+    "select-brainstorm-category-none": "Aucun",
     "comma": "Format Excel (.xls)",
     "comment": "La question {{ comment }} a été posée à {{ time }} heure et a actuellement {{ votes }}. {{correct}} {{wrong}} {{bonus}} {{beamer}}",
     "comment-answered": "La réponse a été enregistrée.",
