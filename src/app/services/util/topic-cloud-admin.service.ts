@@ -102,13 +102,13 @@ export class TopicCloudAdminService {
     return !TopicCloudAdminService.isTopicRequirementDisabled(value);
   }
 
-  setAdminData(_adminData: TopicCloudAdminData, id: string, userRole: UserRole, brainstormingBlacklist?: string[], data?: RoomPatch) {
+  setAdminData(_adminData: TopicCloudAdminData, id: string, userRole: UserRole, data?: RoomPatch) {
     localStorage.setItem(TopicCloudAdminService.adminKey, JSON.stringify(_adminData));
     this.adminData.next(_adminData);
     if (!id || !userRole || userRole <= UserRole.PARTICIPANT) {
       return;
     }
-    const tagCloudSettings = TagCloudSettings.getCurrent(brainstormingBlacklist).serialize();
+    const tagCloudSettings = TagCloudSettings.getCurrent().serialize();
     this.updateRoom(id, { ...data, tagCloudSettings });
   }
 

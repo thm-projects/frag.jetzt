@@ -43,6 +43,7 @@ import { TagCloudDataService } from '../../../services/util/tag-cloud-data.servi
 import { Palette } from '../../../../theme/Theme';
 import { BonusTokenComponent } from '../../creator/_dialogs/bonus-token/bonus-token.component';
 import {
+  BrainstormingFilter,
   FilterType,
   FilterTypeKey,
   Period,
@@ -112,6 +113,7 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
   searchString: string;
   filterType: FilterType;
   filterTypeCounts: FilterTypeCounts;
+  filterBrainstorming: boolean;
   sortType: SortType;
   sortReverse: boolean;
   period: Period;
@@ -356,12 +358,30 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
     this.sortType = filter.sortType;
     this.sortReverse = filter.sortReverse;
     this.period = filter.period;
+    this.filterBrainstorming = filter.sourceFilterBrainstorming === BrainstormingFilter.OnlyBrainstorming;
     this.periodCounts = this._filterObject.getPeriodCounts();
     this.filterTypeCounts = this._filterObject.getFilterTypeCounts();
   }
 
   closeDialog() {
     this.dialog.closeAll();
+  }
+
+  resetFiltering() {
+    this.pageIndex = 0;
+    const filter = this._filterObject.dataFilter;
+    filter.filterType = null;
+    filter.filterCompare = undefined;
+    filter.sourceFilterBrainstorming = BrainstormingFilter.ExceptBrainstorming;
+    this._filterObject.dataFilter = filter;
+    this.updateKeywordMark();
+  }
+
+  filterByBrainstorming() {
+    this.pageIndex = 0;
+    const filter = this._filterObject.dataFilter;
+    filter.sourceFilterBrainstorming = BrainstormingFilter.OnlyBrainstorming;
+    this._filterObject.dataFilter = filter;
   }
 
   applyFilterByKey(type: FilterTypeKey, compare?: any): void {

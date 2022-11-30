@@ -1,106 +1,119 @@
-<div #popupContainer
-     class="popupContainer"
-     (focusout)="onFocusOut()"
-     tabindex="0">
+<div
+  #popupContainer
+  class="popupContainer"
+  (focusout)="onFocusOut()"
+  tabindex="0"
+>
   <div>
     <div>
-      <span>
-        <mat-icon class="material-icons-outlined"
-                  matTooltip="{{'tag-cloud.overview-question-topic-tooltip' | translate}}">comment</mat-icon>
-        <p>
-          {{tagData && tagData.comments.length}}
-        </p>
-      </span>
-      <span *ngIf="isBrainstorming">
-        <mat-icon class="material-icons-outlined"
-                  matTooltip="{{'tag-cloud.ups-downs-difference' | translate}}">thumbs_up_down</mat-icon>
-        <p>
-          {{getBrainstormingVotes()}}
-        </p>
-      </span>
-      <span *ngIf="!isBrainstorming">
-        <mat-icon class="material-icons-outlined"
-                  matTooltip="{{'tag-cloud.responses-to-keyword' | translate}}">forum</mat-icon>
-        <p>
-          {{tagData && tagData.responseCount}}
-        </p>
-      </span>
-      <span>
-        <mat-icon class="material-icons-outlined"
-                  matTooltip="{{'tag-cloud.overview-questioners-topic-tooltip' | translate}}">person</mat-icon>
-        <p>
-          {{tagData && tagData.distinctUsers.size}}
-        </p>
-      </span>
-      <button *ngIf="userRole > 0 && isBlacklistActive"
-              mat-button
-              (click)="addBlacklistWord()">
-        <mat-icon class="material-icons-round"
-                  matTooltip="{{'tag-cloud.blacklist-topic' | translate}}">gavel
+      <ng-container [ngTemplateOutlet]="brainstormingFirstRow" *ngIf="isBrainstorming"></ng-container>
+      <ng-container [ngTemplateOutlet]="normalFirstRow" *ngIf="!isBrainstorming"></ng-container>
+      <button
+        *ngIf="userRole > 0 && isBlacklistActive"
+        mat-button
+        (click)="addBlacklistWord()"
+      >
+        <mat-icon
+          class="material-icons-round"
+          matTooltip="{{ 'tag-cloud.blacklist-topic' | translate }}"
+          >gavel
         </mat-icon>
       </button>
     </div>
-    <div style="margin-top: 10px" *ngIf="isBrainstorming && isBrainstormingActive || !isBrainstorming">
-      <button *ngIf="isBrainstorming"
-              mat-flat-button
-              class="vote-button"
-              [class.active]="getOwnVote() === 1"
-              (click)="onBrainstormVote(true)">
-        <ng-container [ngTemplateOutlet]="upvotes">
-        </ng-container>
+    <div
+      style="margin-top: 10px"
+      *ngIf="(isBrainstorming && isBrainstormingActive) || !isBrainstorming"
+    >
+      <button
+        *ngIf="isBrainstorming"
+        mat-flat-button
+        class="vote-button"
+        [class.active]="getOwnVote() === 1"
+        (click)="onBrainstormVote(true)"
+      >
+        <ng-container [ngTemplateOutlet]="upvotes"> </ng-container>
       </button>
-      <ng-container *ngIf="!isBrainstorming"
-                    [ngTemplateOutlet]="upvotes">
+      <ng-container *ngIf="!isBrainstorming" [ngTemplateOutlet]="upvotes">
       </ng-container>
-      <button *ngIf="isBrainstorming"
-              mat-flat-button
-              class="vote-button downvote"
-              [class.active]="getOwnVote() === -1"
-              (click)="onBrainstormVote(false)">
-        <ng-container [ngTemplateOutlet]="downvotes">
-        </ng-container>
+      <button
+        *ngIf="isBrainstorming"
+        mat-flat-button
+        class="vote-button downvote"
+        [class.active]="getOwnVote() === -1"
+        (click)="onBrainstormVote(false)"
+      >
+        <ng-container [ngTemplateOutlet]="downvotes"> </ng-container>
       </button>
-      <ng-container *ngIf="!isBrainstorming"
-                    [ngTemplateOutlet]="downvotes">
+      <ng-container *ngIf="!isBrainstorming" [ngTemplateOutlet]="downvotes">
       </ng-container>
     </div>
-    <div style="margin-top: 15px">
+    <div style="margin-top: 15px" *ngIf="timePeriodText">
       <span>
-        <mat-icon class="material-icons-outlined"
-                  matTooltip="{{'tag-cloud.period-since-first-comment' | translate}}">date_range</mat-icon>
+        <mat-icon
+          class="material-icons-outlined"
+          matTooltip="{{ 'tag-cloud.period-since-first-comment' | translate }}"
+          >date_range</mat-icon
+        >
         <p>
-          {{timePeriodText}}
+          {{ timePeriodText }}
         </p>
       </span>
     </div>
-    <div class="replacementContainer"
-         *ngIf="userRole > 0">
-      <mat-form-field *ngIf="!isBrainstorming">
-        <mat-label>{{'tag-cloud-popup.tag-correction-placeholder' | translate}}</mat-label>
-        <input type="text"
-               aria-label="{{'tag-cloud-popup.tag-correction-placeholder' | translate}}"
-               matInput
-               appAccessibilityEscapedInput
-               (keyup)="checkEnter($event)"
-               [formControl]="replacementInput"
-               [matAutocomplete]="auto">
+    <div class="replacementContainer" *ngIf="userRole > 0 && !isBrainstorming">
+      <mat-form-field>
+        <mat-label>{{
+          "tag-cloud-popup.tag-correction-placeholder" | translate
+        }}</mat-label>
+        <input
+          type="text"
+          aria-label="{{
+            'tag-cloud-popup.tag-correction-placeholder' | translate
+          }}"
+          matInput
+          appAccessibilityEscapedInput
+          (keyup)="checkEnter($event)"
+          [formControl]="replacementInput"
+          [matAutocomplete]="auto"
+        />
         <mat-autocomplete #auto="matAutocomplete">
-          <mat-option *ngFor="let data of spellingData"
-                      [value]="data">
-            {{data}}
+          <mat-option *ngFor="let data of spellingData" [value]="data">
+            {{ data }}
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
-      <br>
-      <button mat-flat-button
-              class="replace-button"
-              [disabled]="!isNewTagReady()"
-              (click)="updateTag()">{{"comment-page.send" | translate}}</button>
+      <br />
+      <button
+        mat-flat-button
+        class="replace-button"
+        [disabled]="!isNewTagReady()"
+        (click)="updateTag()"
+      >
+        {{ "comment-page.send" | translate }}
+      </button>
+    </div>
+    <div class="selectContainer" *ngIf="userRole > 0 && isBrainstorming">
+      <mat-form-field appearance="fill">
+        <mat-label>{{ "comment-page.select-brainstorm-category" | translate }}</mat-label>
+        <mat-select [(value)]="selectedCategory">
+          <mat-option><em>{{ "comment-page.select-brainstorm-category-none" | translate }}</em></mat-option>
+          <mat-option *ngFor="let item of possibleCategories" [value]="item.id">{{ item.name }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <br />
+      <button
+        mat-flat-button
+        class="select-button"
+        (click)="updateCategory()"
+      >
+        {{ "comment-page.send" | translate }}
+      </button>
     </div>
     <div *ngIf="categories && categories.length">
-      <p style="padding-bottom: 8px">{{"comment-page.category" | translate}}</p>
+      <p style="padding-bottom: 8px">
+        {{ "comment-page.category" | translate }}
+      </p>
       <ul>
-        <li *ngFor="let category of categories">{{category}}</li>
+        <li *ngFor="let category of categories">{{ category }}</li>
       </ul>
     </div>
   </div>
@@ -108,18 +121,89 @@
 
 <ng-template #upvotes>
   <span>
-    <mat-icon class="material-icons-outlined"
-              matTooltip="{{getTooltip('tag-cloud.upvote-topic') | translate}}">thumb_up</mat-icon>
-    <p *ngIf="!isBrainstorming">{{tagData?.cachedUpVotes}}</p>
+    <mat-icon
+      class="material-icons-outlined"
+      matTooltip="{{ getTooltip('tag-cloud.upvote-topic') | translate }}"
+      >thumb_up</mat-icon
+    >
+    <p *ngIf="!isBrainstorming">{{ tagData?.cachedUpVotes }}</p>
   </span>
 </ng-template>
 
 <ng-template #downvotes>
   <span>
-    <mat-icon class="material-icons-outlined"
-              matTooltip="{{getTooltip('tag-cloud.downvote-topic') | translate}}">thumb_down</mat-icon>
+    <mat-icon
+      class="material-icons-outlined"
+      matTooltip="{{ getTooltip('tag-cloud.downvote-topic') | translate }}"
+      >thumb_down</mat-icon
+    >
     <p *ngIf="!isBrainstorming">
-      {{tagData?.cachedDownVotes}}
+      {{ tagData?.cachedDownVotes }}
+    </p>
+  </span>
+</ng-template>
+
+<ng-template #normalFirstRow>
+  <span>
+    <mat-icon
+      class="material-icons-outlined"
+      matTooltip="{{ 'tag-cloud.overview-question-topic-tooltip' | translate }}">
+      comment
+    </mat-icon>
+    <p>
+      {{ tagData && tagData.comments.length }}
+    </p>
+  </span>
+  <span>
+    <mat-icon
+      class="material-icons-outlined"
+      matTooltip="{{ 'tag-cloud.responses-to-keyword' | translate }}"
+      >forum</mat-icon
+    >
+    <p>
+      {{ tagData && tagData.responseCount }}
+    </p>
+  </span>
+  <span>
+    <mat-icon
+      class="material-icons-outlined"
+      matTooltip="{{
+        'tag-cloud.overview-questioners-topic-tooltip' | translate
+      }}"
+      >person</mat-icon
+    >
+    <p>
+      {{ tagData && tagData.distinctUsers.size }}
+    </p>
+  </span>
+</ng-template>
+
+<ng-template #brainstormingFirstRow>
+  <span>
+    <mat-icon
+      class="material-icons-outlined"
+      matTooltip="{{ 'tag-cloud.overview-question-topic-tooltip' | translate }}">
+      comment
+    </mat-icon>
+    <p>
+      {{ brainstormingData && brainstormingData.comments.length }}
+    </p>
+  </span>
+  <span>
+    <mat-icon
+      class="material-icons-outlined"
+      matTooltip="{{
+        'tag-cloud.ups-downs-difference'
+          | translate
+            : {
+                upvotes: getBrainstormingUpvotes(),
+                downvotes: getBrainstormingDownvotes()
+              }
+      }}"
+      >thumbs_up_down</mat-icon
+    >
+    <p>
+      {{ getBrainstormingVotes() }}
     </p>
   </span>
 </ng-template>

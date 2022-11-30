@@ -4,6 +4,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BrainstormingSession } from '../../models/brainstorming-session';
 import { Observable } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
+import { BrainstormingWord } from 'app/models/brainstorming-word';
+import { BrainstormingCategory } from 'app/models/brainstorming-category';
 
 export interface BrainstormingVote {
   id: string;
@@ -14,65 +16,196 @@ export interface BrainstormingVote {
 
 const httpOptions = {
   // eslint-disable-next-line @typescript-eslint/naming-convention
-  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+  headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
 };
 
+type BrainstormingSessionAPI = Pick<
+  BrainstormingSession,
+  | 'active'
+  | 'roomId'
+  | 'title'
+  | 'maxWordLength'
+  | 'maxWordCount'
+  | 'language'
+  | 'ratingAllowed'
+  | 'ideasFrozen'
+  | 'ideasTimeDuration'
+  | 'ideasEndTimestamp'
+>;
+
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class BrainstormingService extends BaseHttpService {
   private apiUrl = {
     base: '/api',
     brainstorming: '/brainstorming',
-    close: '/close',
     upvote: '/upvote',
     downvote: '/downvote',
-    vote: '/vote'
+    resetVote: '/reset-vote',
+    word: '/word',
+    patchWord: '/patch-word',
+    category: '/category',
+    resetRating: '/reset-rating',
   };
 
   constructor(private http: HttpClient) {
     super();
   }
 
-  createSession(session: Partial<BrainstormingSession>): Observable<BrainstormingSession> {
+  createSession(
+    session: Omit<BrainstormingSessionAPI, 'active'>,
+  ): Observable<BrainstormingSession> {
     const connectionUrl = this.apiUrl.base + this.apiUrl.brainstorming + '/';
-    return this.http.post<BrainstormingSession>(connectionUrl, session, httpOptions).pipe(
-      tap(_ => ''),
-      catchError(this.handleError<BrainstormingSession>('createSession'))
-    );
+    return this.http
+      .post<BrainstormingSession>(connectionUrl, session, httpOptions)
+      .pipe(
+        tap((_) => ''),
+        catchError(this.handleError<BrainstormingSession>('createSession')),
+      );
   }
 
-  closeSession(sessionId: string): Observable<BrainstormingSession> {
-    const connectionUrl = this.apiUrl.base + this.apiUrl.brainstorming + '/' + sessionId + this.apiUrl.close;
-    return this.http.post<BrainstormingSession>(connectionUrl, null, httpOptions).pipe(
-      tap(_ => ''),
-      catchError(this.handleError<BrainstormingSession>('closeSession'))
-    );
+  patchSession(
+    sessionId: string,
+    sessionChanges: Partial<BrainstormingSessionAPI>,
+  ) {
+    const connectionUrl =
+      this.apiUrl.base + this.apiUrl.brainstorming + '/' + sessionId + '/';
+    return this.http
+      .patch<BrainstormingSession>(connectionUrl, sessionChanges, httpOptions)
+      .pipe(
+        tap(() => ''),
+        catchError(this.handleError<BrainstormingSession>('patchSession')),
+      );
   }
 
   deleteSession(sessionId: string): Observable<any> {
-    const connectionUrl = this.apiUrl.base + this.apiUrl.brainstorming + '/' + sessionId;
+    const connectionUrl =
+      this.apiUrl.base + this.apiUrl.brainstorming + '/' + sessionId;
     return this.http.delete(connectionUrl, httpOptions).pipe(
-      tap(_ => ''),
-      catchError(this.handleError('deleteSession'))
+      tap((_) => ''),
+      catchError(this.handleError('deleteSession')),
     );
   }
 
-  createVote(sessionId: string, word: string, upvote: boolean): Observable<BrainstormingVote> {
-    const connectionUrl = this.apiUrl.base + this.apiUrl.brainstorming + '/' +
-      sessionId + (upvote ? this.apiUrl.upvote : this.apiUrl.downvote);
-    return this.http.post<BrainstormingVote>(connectionUrl, word, httpOptions).pipe(
-      tap(_ => ''),
-      catchError(this.handleError<BrainstormingVote>('createVote'))
+  createWord(sessionId: string, word: string): Observable<BrainstormingWord> {
+    const connectionUrl =
+      this.apiUrl.base +
+      this.apiUrl.brainstorming +
+      '/' +
+      sessionId +
+      this.apiUrl.word +
+      '/' +
+      word.toLowerCase() +
+      '/';
+    return this.http
+      .post<BrainstormingWord>(connectionUrl, null, httpOptions)
+      .pipe(
+        tap((_) => ''),
+        catchError(this.handleError<BrainstormingWord>('createWord')),
+      );
+  }
+
+  patchWord(
+    wordId: string,
+    changes: Partial<
+      Pick<BrainstormingWord, 'correctedWord' | 'banned' | 'categoryId'>
+    >,
+  ): Observable<BrainstormingWord> {
+    const connectionUrl =
+      this.apiUrl.base +
+      this.apiUrl.brainstorming +
+      this.apiUrl.patchWord +
+      '/' +
+      wordId;
+    return this.http
+      .patch<BrainstormingWord>(connectionUrl, changes, httpOptions)
+      .pipe(
+        tap((_) => ''),
+        catchError(this.handleError<BrainstormingWord>('patchWord')),
+      );
+  }
+
+  createVote(wordId: string, upvote: boolean): Observable<BrainstormingVote> {
+    const connectionUrl =
+      this.apiUrl.base +
+      this.apiUrl.brainstorming +
+      '/' +
+      wordId +
+      (upvote ? this.apiUrl.upvote : this.apiUrl.downvote);
+    return this.http
+      .post<BrainstormingVote>(connectionUrl, null, httpOptions)
+      .pipe(
+        tap((_) => ''),
+        catchError(this.handleError<BrainstormingVote>('createVote')),
+      );
+  }
+
+  deleteVote(wordId: string): Observable<any> {
+    const connectionUrl =
+      this.apiUrl.base +
+      this.apiUrl.brainstorming +
+      '/' +
+      wordId +
+      this.apiUrl.resetVote;
+    return this.http.delete(connectionUrl, httpOptions).pipe(
+      tap((_) => ''),
+      catchError(this.handleError('deleteVote')),
     );
   }
 
-  deleteVote(sessionId: string, word: string): Observable<any> {
-    const connectionUrl = this.apiUrl.base + this.apiUrl.brainstorming + '/' + sessionId + this.apiUrl.vote + '/' +
-      encodeURIComponent(word);
-    return this.http.delete(connectionUrl, httpOptions).pipe(
-      tap(_ => ''),
-      catchError(this.handleError('deleteVote'))
-    );
+  getCategories(roomId: string): Observable<BrainstormingCategory[]> {
+    const connectionUrl =
+      this.apiUrl.base +
+      this.apiUrl.brainstorming +
+      this.apiUrl.category +
+      '/' +
+      roomId;
+    return this.http
+      .get<BrainstormingCategory[]>(connectionUrl, httpOptions)
+      .pipe(
+        tap((_) => ''),
+        catchError(this.handleError<BrainstormingCategory[]>('getCategories')),
+      );
+  }
+
+  updateCategories(
+    roomId: string,
+    categories: string[],
+  ): Observable<BrainstormingCategory[]> {
+    const connectionUrl =
+      this.apiUrl.base +
+      this.apiUrl.brainstorming +
+      this.apiUrl.category +
+      '/' +
+      roomId +
+      '/';
+    return this.http
+      .post<BrainstormingCategory[]>(connectionUrl, categories, httpOptions)
+      .pipe(
+        tap((_) => ''),
+        catchError(
+          this.handleError<BrainstormingCategory[]>('updateCategories'),
+        ),
+      );
+  }
+
+  deleteAllVotes(
+    sessionId: string,
+  ): Observable<any> {
+    const connectionUrl =
+      this.apiUrl.base +
+      this.apiUrl.brainstorming +
+      '/' +
+      sessionId +
+      this.apiUrl.resetRating;
+    return this.http
+      .post<any>(connectionUrl, null, httpOptions)
+      .pipe(
+        tap((_) => ''),
+        catchError(
+          this.handleError<any>('deleteAllVotes'),
+        ),
+      );
   }
 }
