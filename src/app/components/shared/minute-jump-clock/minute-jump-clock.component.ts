@@ -105,12 +105,12 @@ export class MinuteJumpClockComponent implements OnInit, AfterViewInit, OnDestro
       if (startAngle > endAngle) {
         const temp = endAngle;
         endAngle = startAngle;
-        endAngle = temp;
+        startAngle = temp;
       }
     }
-    const calculate = (radius: number, angle: number) => {
+    const calculate = (r: number, angle: number) => {
       const rad = (angle * Math.PI) / 180;
-      return [Math.cos(rad) * radius, Math.sin(rad) * radius];
+      return [Math.cos(rad) * r, Math.sin(rad) * r];
     };
     const [startX, startY] = calculate(radius, startAngle);
     const [endX, endY] = calculate(radius, endAngle);

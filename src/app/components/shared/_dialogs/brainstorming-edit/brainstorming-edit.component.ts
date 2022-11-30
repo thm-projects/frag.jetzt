@@ -2,7 +2,6 @@ import { DialogRef } from '@angular/cdk/dialog';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { BrainstormingSession } from 'app/models/brainstorming-session';
-import { Room } from 'app/models/room';
 import { UserRole } from 'app/models/user-roles.enum';
 import { BrainstormingService } from 'app/services/http/brainstorming.service';
 import { AVAILABLE_LANGUAGES } from 'app/services/util/language.service';
