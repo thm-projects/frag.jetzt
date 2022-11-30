@@ -172,7 +172,7 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   getCommentIcon(): string {
-    if (this.comment?.brainstormingQuestion) {
+    if ((this.comment?.brainstormingSessionId || null) !== null) {
       return 'psychology_alt';
     } else if (this.isFromOwner) {
       return 'co_present';
@@ -184,7 +184,7 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
 
   getCommentIconClass(): string {
     if (
-      this.comment?.brainstormingQuestion ||
+      (this.comment?.brainstormingSessionId || null) !== null ||
       this.isFromOwner ||
       this.isFromModerator
     ) {
@@ -195,7 +195,9 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit() {
     this.isConversationView = this.router.url.endsWith('conversation');
-    this.isConversationViewOwner = this.router.url.endsWith(this.comment.id + '/conversation');
+    this.isConversationViewOwner = this.router.url.endsWith(
+      this.comment.id + '/conversation',
+    );
     if (this.comment?.created) {
       this.slideAnimationState = 'new';
     }
@@ -670,7 +672,7 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
       return false;
     }
     const hasPrivileges = !this.isStudent || this.ownsComment();
-    return hasPrivileges;
+    return hasPrivileges && (this.comment.brainstormingSessionId === null);
   }
 
   editQuestion() {

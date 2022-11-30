@@ -1,4 +1,12 @@
 <ars-screen ars-flex-box>
+  <app-minute-jump-clock *ngIf="brainstormingActive && brainstormingData?.ideasEndTimestamp"
+                       [minWidth]="880"
+                       [offsetTop]="140"
+                       [withBackground]="true"
+                       [arcEnd]="brainstormingData.ideasEndTimestamp"
+                       [arcDuration]="brainstormingData.ideasTimeDuration || 0"
+                       [zIndex]="3"
+                       [fixedSize]="200"></app-minute-jump-clock>
   <mat-drawer-container class="spacyTagCloudContainer" [hasBackdrop]="true">
     <mat-drawer position="end" mode="over" (closed)="cloudComponent.closePanel()" (opened)="cloudComponent.openPanel()">
       <app-cloud-configuration #cloudComponent [parent]="this"></app-cloud-configuration>

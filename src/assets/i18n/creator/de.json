@@ -21,8 +21,31 @@
     "add-button": "Wort hinzufügen",
     "show-button": "Zeige Blacklist",
     "hide-button": "Verberge Blacklist",
-    "cancel": "Verwerfen",
-    "update": "Speichern"
+    "update": "Schließen"
+  },
+  "brainstorming-category": {
+    "title": "Brainstorming-Kategorien",
+    "tag-placeholder": "Neue Kategorie:"
+  },
+  "brainstorming-edit": {
+    "title": "Brainstorming bearbeiten",
+    "question": "Thema oder Fokus-Frage …",
+    "word-count": "Maximale Anzahl Wörter",
+    "word-length": "Maximale Anzahl Zeichen",
+    "field-hint-number": "Wert: {{min}} - {{max}}",
+    "field-required": "Dieses Feld wird benötigt",
+    "field-too-high": "Deine Eingabe ist zu lang, sie darf maximal {{max}} sein.",
+    "field-too-low": "Deine Eingabe ist zu kurz, sie muss mindestens {{min}} sein.",
+    "language-title": "Sprache",
+    "language": {
+      "de": "Deutsch",
+      "en": "Englisch",
+      "fr": "Französisch"
+    },
+    "duration": "Dauer nach Start - {{duration}} Minuten: ",
+    "allow-ideas": "Erlaube durchgehende Ideeneingabe",
+    "allow-rating": "Erlaube Bewertung ab Start",
+    "update": "Update"
   },
   "comment-list": {
     "a11y-access_time": "Sortiert Fragen nach der Uhrzeit",
@@ -184,6 +207,8 @@
     "cancel": "Verwerfen",
     "cancel-description": "Verwerfen",
     "category": "Kategorie:",
+    "select-brainstorm-category": "Brainstorming-Kategorie wählen:",
+    "select-brainstorm-category-none": "Keine",
     "comma": "Excel-Format (.xls)",
     "comment": "Die Frage {{ comment }} wurde um {{ time }} Uhr gestellt und hat derzeitig {{ votes }}. {{correct}} {{wrong}} {{bonus}} {{beamer}}",
     "comment-answered": "Antwort wurde gespeichert.",
@@ -335,7 +360,9 @@
     "overview-keywords-tooltip": "Anzahl Stichwörter",
     "overview-question-tooltip": "Anzahl Fragen",
     "overview-questioners-tooltip": "Anzahl Fragensteller*innen",
-    "overview-admin-config-enabled": "Schwellenwerte für die Anzeige der Themen sind aktiv."
+    "overview-admin-config-enabled": "Schwellenwerte für die Anzeige der Themen sind aktiv.",
+    "overview-brainstormers-tooltip": "Anzahl Brainstormende",
+    "overview-ideas-tooltip": "Anzahl Ideen"
   },
   "home-page": {
     "create-session": "Neue Sitzung",
@@ -632,6 +659,7 @@
     "blacklist-topic": "Auf die Sperrliste setzen",
     "changes-gone-wrong": "Etwas ist schiefgelaufen!",
     "changes-successful": "Änderungen gespeichert",
+    "write-last-idea": "Schreibe die letzte Brainstorming-Idee!",
     "demo-data-topic": "Stichwort %d",
     "downvote-topic": "Down-Votes für dieses Stichwort",
     "downvote-topic-brainstorming": "Gefällt mir nicht",
@@ -641,7 +669,7 @@
     "period-since-first-comment": "Zeit seit dem ersten Beitrag",
     "print-title": "Wortwolke aus dem Raum »{{roomName}}«",
     "responses-to-keyword": "Anzahl aller Antworten zu diesem Stichwort",
-    "ups-downs-difference": "Bewertungsdifferenz",
+    "ups-downs-difference": "Bewertungsdifferenz | {{upvotes}} 👍  {{downvotes}} 👎",
     "upvote-topic": "Up-Votes für dieses Stichwort",
     "upvote-topic-brainstorming": "Gefällt mir"
   },
