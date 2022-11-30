@@ -1,63 +1,73 @@
 @startuml
-title frag.jetzt
+title frag.jetzt | Workflow for Bonus awarding
+
+skinparam backgroundColor Linen
+skinparam shadowing true
+skinparam defaultFontSize 14
+skinparam Padding 6
+
 |#CE93D8|Lecturer|
+
 start
-:open frag.jetzt;
-if(lecturer has an account) then (yes)
+
+:go to frag.jetzt;
+if(lecturer has an account?) then (yes)
     :login;
-    if(session already exists?) then (yes)
-        :access session as lecturer;
+    if(room already exists?) then (yes)
+        :access room;
     else (no)
-        :create session;
+        :create room;
     endif
 else (no)
-    if()
     :login as guest;
-    :create session;
-    else ()
-    :create session;
-    endif
+    :create room;
 endif
 
 fork
     :wait for questions;
 fork again
-partition "Share session" {
-    :give students and moderators the opportunity to access session;
+partition "Share room" {
+    :give students and moderators 
+    the opportunity to access room;
 }
+
 |#90CAF9|Student|
+
 fork
-    :open frag.jetzt;
+    :go to frag.jetzt;
     if(participant has an account?) then (yes)
         :login;
-        :access session as student;
+        :access room;
     else (no)
-        :access session as guest;
+        :access room as guest;
     endif
-    :open question list;
+    :go to »Q&A forum«;
     partition "Ask a question" {
     repeat
-        :open "Ask a question!" window;
+        :open editor;
         :write question;
         :post question;
     repeat while (want to ask more questions?)
     }
+
 fork again
     |#FFAF49|Moderator|
-    :open frag.jetzt;
+    :go to frag.jetzt;
     :login;
-    :access session as moderator;
+    :access room;
     |Student|
 end fork
 |Lecturer|
 end fork
-if () then
-    :open question list;
-    partition "Highlight question" {
+
+if (proceed according to role) then (lecturer)
+    :go to »Q&A forum«;
+    
+    partition "Mark question" {
     (A)
     :review question;
-    if(question is particularly interesting?) then (yes)
-        :mark question with star;
+    if(question is particularly good?) then (yes)
+        :mark question with a star;
     else (no)
         if(unreviewed questions exist?) then (yes)
            (A)
@@ -67,14 +77,14 @@ if () then
         endif
     endif
     }
-    else
+    else (moderator)
         |Moderator|
-        :open question list;
-        partition "Highlight question" {
+        :go to »Q&A forum«;
+        partition "Mark question" {
         (B)
         :review question;
-        if(question is particularly interesting?) then (yes)
-            :mark question with star;
+        if(question is particularly good?) then (yes)
+            :mark question with a star;
         else (no)
             if(unreviewed questions exist?) then (yes)
                (B)
@@ -85,32 +95,27 @@ if () then
         endif
         }
 endif
--[#black,bold]->
+
+
 |Student|
+
 partition "Redeem bonus code" {
-:select "Account";
-note right
-PlantUML doesn't support pins.
-The black arrow only transmits the information
-that a question has been awarded a star.
-end note
-:select "Your bonus stars";
-:choose a session;
+:select »My rooms«;
+:select »My bonus stars«;
+:choose a room;
 :redeem token;
-:send email with token to lecturer;
+:send mail with token to lecturer;
 }
--[#black,dashed]->
+
 |Lecturer|
+
 partition "Award bonus points" {
 :receive email with token from student;
-note left
-PlantUML doesn't support pins.
-The dashed black arrow only transmits the email.
-end note
-:navigate to comprehensive view of the session;
-:select "Session administration";
-:select "Tokens for bonus stars";
-if(token from email and token in session is identical?) then (yes)
+:navigate to »Room management«;
+:select »Bonus archive«;
+:check the validity of token";
+if(token from email and token in 
+bonus archive are identical?) then (yes)
     :review question again;
     if(question is worth bonus points?) then (yes)
         :award student bonus points;
@@ -126,39 +131,16 @@ Stop
 
 
 legend right
-  |= \n          |= \n [[https://frag.jetzt/home frag.jetzt]] \n\n Technische Hochschule Mittelhessen – THM \n University of Applied Sciences |
-  | Projekt-Website | [[https://frag.jetzt/home]] |
-  | «USP» | Anonymity, Accessibility, Audience Response System |
+  |<img:https://git.thm.de/arsnova/frag.jetzt/-/raw/staging/src/assets/icons/Logo_frag_jetzt_128x128.png> |= \n\n »frag.jetzt« |
+  | Domain-Glossar | [[https://git.thm.de/arsnova/frag.jetzt/-/blob/staging/docs/diagrams/Glossary.pdf]] |
+  | Produktion | [[https://frag.jetzt]] |
   | Repository | [[https://git.thm.de/arsnova/frag.jetzt]] |
-  | Version | v1.3.0 |
-  | Staging Server | [[]] |
-  | RUP-Phase| |
-  | UML-Tool| PlantUML 4.1.1|
-  | Modellversion| 1.0 |
-  | Erstelldatum| 09.01.2021 |
+  | Staging Server | [[https://staging.frag.jetzt]] |
+  | UML-Tool| PlantUML-Server Version 1202202|
   | Ersteller| Tim Lennard Debre|
-  | Mail| tim.lennard.debre@mni.thm.de |
-  | Letzte Änderung| 30.01.2021 |
-  | Letzter Bearbeiter| Tim Lennard Debre |
-  | Mail| tim.lennard.debre@mni.thm.de |
-
-  Used use cases:
-        Lecturer:
-            - create session / access session as lecturer
-            - highlight question / mark question with star
-            - login
-            - share session
-            - view questions
-        Student:
-            - login
-            - join session as student / guest
-            - ask question
-            - redeem token
-            - view questions
-        Moderator:
-            - login
-            - join session as moderator
-            - highlight question / mark question with star
-            - view questions
+  | Letzter Bearbeiter| Klaus Quibeldey-Cirkel|
+  | Kontakt| [[mailto:klaus.quibeldey-cirkel@mni.thm.de]] |
+  | Erstellt| 09.01.2021 |
+  | Letzte Überarbeitung| 29.11.2022 |
 end legend
 @enduml
