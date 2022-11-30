@@ -42,14 +42,6 @@ export class BrainstormingDataService {
   private _commentSubscription = null;
   private _adminData: TopicCloudAdminData = null;
 
-  get metaData(): TagCloudMetaData {
-    return this._currentMetaData;
-  }
-
-  get currentData(): Data {
-    return this._dataBus.value;
-  }
-
   constructor(
     private roomDataService: RoomDataService,
     private brainstormingService: BrainstormingService,
@@ -59,6 +51,14 @@ export class BrainstormingDataService {
     this._dataBus = new BehaviorSubject<Data>(null);
     this._metaDataBus = new BehaviorSubject<TagCloudMetaData>(null);
     this.sessionService.getRoom().subscribe((room) => this.onRoomUpdate(room));
+  }
+
+  get metaData(): TagCloudMetaData {
+    return this._currentMetaData;
+  }
+
+  get currentData(): Data {
+    return this._dataBus.value;
   }
 
   set filterObject(filter: FilteredDataAccess) {
@@ -193,15 +193,15 @@ export class BrainstormingDataService {
     this.reformatData();
   }
 
-  reformatData(): void {
+  private reformatData(): void {
     const current = this._lastFetchedData;
     if (!current) {
       console.error('Got no data for tag cloud!');
       return;
     }
     const newData: Data = [...current];
-    newData.sort((arrA, arrB) => arrB[1].weight - arrA[1].weight),
-      this._smartDebounce.call(() => this._dataBus.next(newData));
+    newData.sort((arrA, arrB) => arrB[1].weight - arrA[1].weight);
+    this._smartDebounce.call(() => this._dataBus.next(newData));
   }
 
   private calculateWeight(topic: BrainstormingTopic) {

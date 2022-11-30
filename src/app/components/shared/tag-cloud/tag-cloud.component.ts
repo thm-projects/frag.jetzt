@@ -66,6 +66,7 @@ import { ArsObserver } from '../../../../../projects/ars/src/lib/models/util/ars
 import { BrainstormingCategoryEditorComponent } from '../_dialogs/brainstorming-category-editor/brainstorming-category-editor.component';
 import { BrainstormingService } from 'app/services/http/brainstorming.service';
 import { BrainstormingEditComponent } from '../_dialogs/brainstorming-edit/brainstorming-edit.component';
+import { TimeoutHelper } from 'app/utils/ts-utils';
 
 class TagComment implements WordMeta {
   constructor(
@@ -128,6 +129,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
   private _currentSettings: CloudParameters;
   private _subscriptionRoom = null;
   private readonly _smartDebounce = new SmartDebounce(50, 1_000);
+  private intervalWriteChecker: TimeoutHelper;
   private themeSubscription: Subscription;
 
   constructor(
@@ -192,6 +194,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     this.themeSubscription?.unsubscribe();
     this._subscriptionRoom?.unsubscribe();
     this.onDestroyListener.emit();
+    clearInterval(this.intervalWriteChecker);
   }
 
   setCloudParameters(parameters: CloudParameters, save = true): void {
@@ -226,18 +229,22 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     this.updateTagCloud();
   }
 
-  canWriteComment(): boolean {
+  canWriteComment(ignoreInternal = false): boolean {
     if (
       (!this.room || this.room.questionsBlocked) &&
       this.userRole === UserRole.PARTICIPANT
     ) {
       return false;
     }
+    const canWrite =
+      !this.brainstormingData?.ideasFrozen &&
+      (ignoreInternal ||
+        this.brainstormingData?.ideasEndTimestamp === null ||
+        this.brainstormingData?.ideasEndTimestamp?.getTime() >= Date.now());
     return (
       this.brainstormingActive &&
       Boolean(this.brainstormingData?.active) &&
-      (!this.brainstormingData.ideasFrozen ||
-        this.userRole > UserRole.PARTICIPANT)
+      (canWrite || this.userRole > UserRole.PARTICIPANT)
     );
   }
 
@@ -251,7 +258,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
   }
 
   writeComment() {
-    if (!this.canWriteComment()) {
+    if (!this.canWriteComment(true)) {
       return;
     }
     this.createCommentWrapper
@@ -395,9 +402,8 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
         this.dialog,
         this.room,
       );
-      let filterObj: FilteredDataAccess;
       const raw = sessionStorage.getItem('tagCloudOnlyQuestions') !== 'true';
-      filterObj = FilteredDataAccess.buildNormalAccess(
+      const filterObj = FilteredDataAccess.buildNormalAccess(
         this.sessionService,
         this.roomDataService,
         raw,
@@ -567,7 +573,23 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
       });
       return;
     }
+    clearInterval(this.intervalWriteChecker);
     this.brainstormingData = room.brainstormingSession;
+    if (this.brainstormingData.ideasEndTimestamp) {
+      const isBefore = () =>
+        this.brainstormingData.ideasEndTimestamp.getTime() >= Date.now();
+      if (isBefore()) {
+        this.intervalWriteChecker = setInterval(() => {
+          if (!isBefore()) {
+            clearInterval(this.intervalWriteChecker);
+            this.writeComment();
+            this.translateService
+              .get('tag-cloud.write-last-idea')
+              .subscribe((msg) => this.notificationService.show(msg));
+          }
+        }, 1_000);
+      }
+    }
     if (settings) {
       this.topicCloudAdmin.setAdminData(
         settings.adminData,

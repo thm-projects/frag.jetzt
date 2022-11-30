@@ -1,4 +1,4 @@
-import { BrainstormingWord } from "./brainstorming-word";
+import { BrainstormingWord } from './brainstorming-word';
 
 // https://datatracker.ietf.org/doc/html/rfc5646#section-2
 type Language = string;

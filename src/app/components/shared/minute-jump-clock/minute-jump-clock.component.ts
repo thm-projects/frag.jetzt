@@ -17,9 +17,7 @@ import { ThemeService } from '../../../../theme/theme.service';
   templateUrl: './minute-jump-clock.component.html',
   styleUrls: ['./minute-jump-clock.component.scss'],
 })
-export class MinuteJumpClockComponent
-  implements OnInit, AfterViewInit, OnDestroy
-{
+export class MinuteJumpClockComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input()
   minWidth: number = 1320;
   @Input()
@@ -85,7 +83,8 @@ export class MinuteJumpClockComponent
       return;
     }
     const radius = 210;
-    let startAngle, endAngle;
+    let startAngle;
+    let endAngle;
     {
       let min = this.arcEnd.getMinutes();
       endAngle = (min * 360) / 60;
