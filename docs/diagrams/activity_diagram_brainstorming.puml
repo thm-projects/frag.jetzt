@@ -42,7 +42,6 @@ repeat while (Still time for brainstorming?) is (yes) not (no)
 #pink: Stop brainstorming;
 
 partition "Idea presentation" {
-#pink: Freeze ideas;
 #pink: Go to Question focus;
 :Present & discuss ideas;
 }
