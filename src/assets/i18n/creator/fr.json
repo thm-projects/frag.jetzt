@@ -27,6 +27,14 @@
     "title": "Catégories de brainstorming",
     "tag-placeholder": "Nouvelle catégorie :"
   },
+  "brainstorming-delete": {
+    "title-rating": "Réinitialiser les évaluations",
+    "you-sure-rating": "Faut-il vraiment réinitialiser toutes les évaluations ? Cela réinitialise également la pondération.",
+    "succeed": "Réinitialiser",
+    "cancel": "Annuler",
+    "title-category": "Réinitialisation de la catégorisation",
+    "you-sure-category": "Faut-il vraiment réinitialiser toutes les affectations de catégories ?"
+  },
   "brainstorming-edit": {
     "title": "Editer le brainstorming",
     "question": "Sujet ou question focus …",

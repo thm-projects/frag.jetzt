@@ -57,7 +57,7 @@ import {
 } from '../../../utils/data-filter-object.lib';
 import { maskKeyword } from '../../../services/util/tag-cloud-data.util';
 import { FilteredDataAccess } from '../../../utils/filtered-data-access';
-import { forkJoin, Subscription } from 'rxjs';
+import { forkJoin, Subscription, switchMap } from 'rxjs';
 import { UserManagementService } from '../../../services/util/user-management.service';
 import { BrainstormingBlacklistEditComponent } from '../_dialogs/brainstorming-blacklist-edit/brainstorming-blacklist-edit.component';
 import { BrainstormingTopic } from 'app/services/util/brainstorming-data-builder';
@@ -67,6 +67,12 @@ import { BrainstormingCategoryEditorComponent } from '../_dialogs/brainstorming-
 import { BrainstormingService } from 'app/services/http/brainstorming.service';
 import { BrainstormingEditComponent } from '../_dialogs/brainstorming-edit/brainstorming-edit.component';
 import { TimeoutHelper } from 'app/utils/ts-utils';
+import { BrainstormingDeleteConfirmComponent } from '../_dialogs/brainstorming-delete-confirm/brainstorming-delete-confirm.component';
+import {
+  copyCSVString,
+  exportBrainstorming,
+} from 'app/utils/ImportExportMethods';
+import { BonusTokenService } from 'app/services/http/bonus-token.service';
 
 class TagComment implements WordMeta {
   constructor(
@@ -152,6 +158,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     private deviceInfo: DeviceInfoService,
     private roomDataService: RoomDataService,
     private brainstormingService: BrainstormingService,
+    private bonusTokenService: BonusTokenService,
   ) {}
 
   get tagCloudDataManager(): TagCloudDataService {
@@ -324,10 +331,13 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     filter.resetToDefault();
     filter.lastRoomId = this.room.id;
     filter.period = Period.All;
-    filter.filterType = FilterType.Keyword;
-    filter.filterCompare = (tag as TagComment).realText;
     if (this.brainstormingActive) {
       filter.sourceFilterBrainstorming = BrainstormingFilter.OnlyBrainstorming;
+      filter.filterType = FilterType.BrainstormingIdea;
+      filter.filterCompare = (tag as BrainstormComment).wordId;
+    } else {
+      filter.filterType = FilterType.Keyword;
+      filter.filterCompare = (tag as TagComment).realText;
     }
     filter.save();
     this.router.navigate(['../'], { relativeTo: this.route });
@@ -850,24 +860,31 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
           class: 'material-icons-outlined',
           text: 'header.brainstorm-reset-rating',
           callback: () => {
-            this.brainstormingService
-              .deleteAllVotes(this.brainstormingData.id)
-              .subscribe({
-                next: () => {
-                  this.translateService
-                    .get('room-page.changes-successful')
-                    .subscribe((msg) => {
-                      this.notificationService.show(msg);
-                    });
-                },
-                error: () => {
-                  this.translateService
-                    .get('room-page.changes-gone-wrong')
-                    .subscribe((msg) => {
-                      this.notificationService.show(msg);
-                    });
-                },
-              });
+            const dialogRef = this.dialog.open(
+              BrainstormingDeleteConfirmComponent,
+              {
+                autoFocus: true,
+              },
+            );
+            dialogRef.componentInstance.type = 'rating';
+            dialogRef.componentInstance.sessionId = this.brainstormingData.id;
+          },
+          condition: () => this.userRole > UserRole.PARTICIPANT,
+        });
+        e.menuItem({
+          translate: this.headerService.getTranslate(),
+          icon: 'restart_alt',
+          class: 'material-icons-outlined',
+          text: 'header.brainstorm-reset-categorization',
+          callback: () => {
+            const dialogRef = this.dialog.open(
+              BrainstormingDeleteConfirmComponent,
+              {
+                autoFocus: true,
+              },
+            );
+            dialogRef.componentInstance.type = 'category';
+            dialogRef.componentInstance.sessionId = this.brainstormingData.id;
           },
           condition: () => this.userRole > UserRole.PARTICIPANT,
         });
@@ -940,6 +957,43 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
           class: 'material-icons-outlined',
           text: 'header.brainstorm-look-and-feel',
           callback: () => this.drawer.toggle(),
+          condition: () => true,
+        });
+        e.menuItem({
+          translate: this.headerService.getTranslate(),
+          icon: 'file_download',
+          class: 'material-icons-outlined',
+          text: 'header.brainstorm-export',
+          callback: () => {
+            this.sessionService
+              .getModeratorsOnce()
+              .pipe(
+                switchMap((mods) =>
+                  exportBrainstorming(
+                    this.translateService,
+                    this.notificationService,
+                    this.bonusTokenService,
+                    this.commentService,
+                    'room-export',
+                    this.user,
+                    this.room,
+                    new Set(mods.map((m) => m.accountId)),
+                  ),
+                ),
+              )
+              .subscribe((text) => {
+                copyCSVString(
+                  text[0],
+                  'brainstorming-' +
+                    this.room.name +
+                    '-' +
+                    this.room.shortId +
+                    '-' +
+                    text[1] +
+                    '.csv',
+                );
+              });
+          },
           condition: () => true,
         });
       },

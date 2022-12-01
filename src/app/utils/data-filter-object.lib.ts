@@ -32,6 +32,7 @@ export enum FilterType {
   Number = 'Number',
   Censored = 'Censored',
   Conversation = 'Conversation',
+  BrainstormingIdea = 'BrainstormingIdea',
 }
 
 export type FilterTypeKey = keyof typeof FilterType;

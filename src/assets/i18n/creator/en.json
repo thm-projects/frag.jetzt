@@ -27,6 +27,14 @@
     "title": "Brainstorm categories",
     "tag-placeholder": "New category:"
   },
+  "brainstorming-delete": {
+    "title-rating": "Reset ratings",
+    "you-sure-rating": "Should all ratings really be reset? This also resets the weighting.",
+    "succeed": "Reset",
+    "cancel": "Cancel",
+    "title-category": "Reset categorization",
+    "you-sure-category": "Should all category assignments really be reset?"
+  },
   "brainstorming-edit": {
     "title": "Edit Brainstorming",
     "question": "Topic or focus question …",

@@ -217,6 +217,7 @@ export class FilteredDataAccess {
     [FilterType.Number]: (c, value) => c.number === value,
     [FilterType.Censored]: (c) => this._profanityChecker(c),
     [FilterType.Conversation]: (c) => c.totalAnswerCounts.accumulated > 0,
+    [FilterType.BrainstormingIdea]: (c, value) => c.brainstormingWordId === value,
   } as const;
   // general properties
   private _settings: AttachOptions = null;

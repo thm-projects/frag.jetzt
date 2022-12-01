@@ -123,6 +123,7 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
   currentDateString = '?';
   viewInfo: ResponseViewInformation;
   commentRegistrationId: string;
+  brainstormingCategory: string;
   private _votes;
   private _commentNumber: string[] = [];
   private _destroyer = new ReplaySubject(1);
@@ -614,6 +615,7 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
       };
       this.showResponses =
         this.showResponses || Boolean(this.activeKeywordSearchString);
+      this.updateBrainstormingCategory(room);
     });
   }
 
@@ -672,11 +674,32 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
       return false;
     }
     const hasPrivileges = !this.isStudent || this.ownsComment();
-    return hasPrivileges && (this.comment.brainstormingSessionId === null);
+    return hasPrivileges && this.comment.brainstormingSessionId === null;
   }
 
   editQuestion() {
     this.editQuestionEmitter.emit();
+  }
+
+  private updateBrainstormingCategory(room: Room) {
+    if (!this.comment.brainstormingWordId) {
+      return;
+    }
+    const id =
+      room.brainstormingSession?.wordsWithMeta?.[
+        this.comment.brainstormingWordId
+      ]?.word?.categoryId;
+    if (!id) {
+      return;
+    }
+    this.sessionService
+      .getCategoriesOnce()
+      .subscribe(
+        (categories) =>
+          (this.brainstormingCategory = categories.find(
+            (c) => c.id === id,
+          )?.name),
+      );
   }
 
   private onLanguageChange() {

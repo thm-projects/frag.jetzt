@@ -47,6 +47,7 @@ export class BrainstormingService extends BaseHttpService {
     patchWord: '/patch-word',
     category: '/category',
     resetRating: '/reset-rating',
+    resetCategorization: '/reset-categorization',
   };
 
   constructor(private http: HttpClient) {
@@ -205,6 +206,25 @@ export class BrainstormingService extends BaseHttpService {
         tap((_) => ''),
         catchError(
           this.handleError<any>('deleteAllVotes'),
+        ),
+      );
+  }
+
+  deleteAllCategoryAssignments(
+    sessionId: string,
+  ): Observable<any> {
+    const connectionUrl =
+      this.apiUrl.base +
+      this.apiUrl.brainstorming +
+      '/' +
+      sessionId +
+      this.apiUrl.resetCategorization;
+    return this.http
+      .post<any>(connectionUrl, null, httpOptions)
+      .pipe(
+        tap((_) => ''),
+        catchError(
+          this.handleError<any>('deleteAllCategoryAssignments'),
         ),
       );
   }

@@ -27,6 +27,14 @@
     "title": "Brainstorming-Kategorien",
     "tag-placeholder": "Neue Kategorie:"
   },
+  "brainstorming-delete": {
+    "title-rating": "Bewertungen zurücksetzen",
+    "you-sure-rating": "Sollen wirklich alle Bewertungen zurückgesetzt werden? Dies setzt auch die Gewichtung zurück.",
+    "succeed": "Zurücksetzen",
+    "cancel": "Abbrechen",
+    "title-category": "Kategorisierung zurücksetzen",
+    "you-sure-category": "Sollen wirklich alle Kategoriezuordnungen zurückgesetzt werden?"
+  },
   "brainstorming-edit": {
     "title": "Brainstorming bearbeiten",
     "question": "Thema oder Fokus-Frage …",

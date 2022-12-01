@@ -337,72 +337,7 @@ export class SessionService {
       this._afterRoomUpdates = new Subject<Room>();
       this._roomSubscription = this.wsRoomService
         .getRoomStream(room.id)
-        .subscribe((msg) => {
-          const message = JSON.parse(msg.body);
-          if (message.roomId && message.roomId !== room.id) {
-            console.error('Wrong room!', message);
-            return;
-          }
-          if (message.type === 'RoomPatched') {
-            const updatedRoom: Partial<Room> = message.payload.changes;
-            this._beforeRoomUpdates.next(updatedRoom);
-            this.updateCurrentRoom(updatedRoom);
-            this._afterRoomUpdates.next(room);
-          } else if (
-            message.type === 'BrainstormingDeleted' &&
-            room.brainstormingSession?.id === message.payload.id
-          ) {
-            this._beforeRoomUpdates.next({ brainstormingSession: null });
-            room.brainstormingSession = null;
-            this._afterRoomUpdates.next(room);
-          } else if (message.type === 'BrainstormingCreated') {
-            this._beforeRoomUpdates.next({
-              brainstormingSession: message.payload,
-            });
-            room.brainstormingSession = message.payload;
-            this._afterRoomUpdates.next(room);
-          } else if (message.type === 'BrainstormingVoteUpdated') {
-            this.onBrainstormingVoteUpdated(message, room);
-          } else if (message.type === 'BrainstormingWordCreated') {
-            this.onBrainstormingWordCreated(message, room);
-          } else if (message.type === 'BrainstormingWordPatched') {
-            this.onBrainstormingWordPatched(message, room);
-          } else if (message.type === 'BrainstormingCategoriesUpdated') {
-            this._currentBrainstormingCategories.next(
-              message.payload.categoryList,
-            );
-          } else if (message.type === 'BrainstormingVotesReset') {
-            const id = room.brainstormingSession?.id;
-            if (id !== message.payload.sessionId) {
-              return;
-            }
-            this._beforeRoomUpdates.next(room);
-            const obj = room.brainstormingSession.wordsWithMeta;
-            Object.keys(obj).forEach((key) => {
-              obj[key].ownHasUpvoted = null;
-              obj[key].word.downvotes = 0;
-              obj[key].word.upvotes = 0;
-            });
-            this._afterRoomUpdates.next(room);
-          } else if (message.type === 'BrainstormingPatched') {
-            const id = room.brainstormingSession?.id;
-            if (id !== message.payload.id) {
-              return;
-            }
-            this._beforeRoomUpdates.next(room);
-            Object.keys(message.payload.changes).forEach((key) => {
-              const change = message.payload.changes[key];
-              if (key === 'ideasEndTimestamp' && change) {
-                room.brainstormingSession[key] = new Date(change);
-              } else {
-                room.brainstormingSession[key] = change;
-              }
-            });
-            this._afterRoomUpdates.next(room);
-          } else if (!environment.production) {
-            console.log('Ignored: ', message);
-          }
-        });
+        .subscribe((msg) => this.receiveMessage(msg, room));
       this._currentRoom.next(room);
       this.moderatorService
         .get(room.id)
@@ -412,6 +347,92 @@ export class SessionService {
           this._currentBrainstormingCategories.next(categories),
       });
     });
+  }
+
+  private receiveMessage(msg: any, room: Room) {
+    const message = JSON.parse(msg.body);
+    if (message.roomId && message.roomId !== room.id) {
+      console.error('Wrong room!', message);
+      return;
+    }
+    if (message.type === 'RoomPatched') {
+      const updatedRoom: Partial<Room> = message.payload.changes;
+      this._beforeRoomUpdates.next(updatedRoom);
+      this.updateCurrentRoom(updatedRoom);
+      this._afterRoomUpdates.next(room);
+    } else if (
+      message.type === 'BrainstormingDeleted' &&
+      room.brainstormingSession?.id === message.payload.id
+    ) {
+      this._beforeRoomUpdates.next({ brainstormingSession: null });
+      room.brainstormingSession = null;
+      this._afterRoomUpdates.next(room);
+    } else if (message.type === 'BrainstormingCreated') {
+      this._beforeRoomUpdates.next({
+        brainstormingSession: message.payload,
+      });
+      room.brainstormingSession = message.payload;
+      this._afterRoomUpdates.next(room);
+    } else if (message.type === 'BrainstormingVoteUpdated') {
+      this.onBrainstormingVoteUpdated(message, room);
+    } else if (message.type === 'BrainstormingWordCreated') {
+      this.onBrainstormingWordCreated(message, room);
+    } else if (message.type === 'BrainstormingWordPatched') {
+      this.onBrainstormingWordPatched(message, room);
+    } else if (message.type === 'BrainstormingCategoriesUpdated') {
+      this._currentBrainstormingCategories.next(message.payload.categoryList);
+    } else if (message.type === 'BrainstormingVotesReset') {
+      this.onBrainstormingVoteReset(message, room);
+    } else if (message.type === 'BrainstormingPatched') {
+      this.onBrainstormingPatched(message, room);
+    } else if (message.type === 'BrainstormingCategorizationReset') {
+      this.onBrainstormingCategorizationReset(message, room);
+    } else if (!environment.production) {
+      console.log('Ignored: ', message);
+    }
+  }
+
+  private onBrainstormingCategorizationReset(message: any, room: Room) {
+    const id = room.brainstormingSession?.id;
+    if (id !== message.payload.sessionId) {
+      return;
+    }
+    this._beforeRoomUpdates.next(room);
+    const obj = room.brainstormingSession.wordsWithMeta;
+    Object.keys(obj).forEach((key) => (obj[key].word.categoryId = null));
+    this._afterRoomUpdates.next(room);
+  }
+
+  private onBrainstormingPatched(message: any, room: Room) {
+    const id = room.brainstormingSession?.id;
+    if (id !== message.payload.id) {
+      return;
+    }
+    this._beforeRoomUpdates.next(room);
+    Object.keys(message.payload.changes).forEach((key) => {
+      const change = message.payload.changes[key];
+      if (key === 'ideasEndTimestamp' && change) {
+        room.brainstormingSession[key] = new Date(change);
+      } else {
+        room.brainstormingSession[key] = change;
+      }
+    });
+    this._afterRoomUpdates.next(room);
+  }
+
+  private onBrainstormingVoteReset(message: any, room: Room) {
+    const id = room.brainstormingSession?.id;
+    if (id !== message.payload.sessionId) {
+      return;
+    }
+    this._beforeRoomUpdates.next(room);
+    const obj = room.brainstormingSession.wordsWithMeta;
+    Object.keys(obj).forEach((key) => {
+      obj[key].ownHasUpvoted = null;
+      obj[key].word.downvotes = 0;
+      obj[key].word.upvotes = 0;
+    });
+    this._afterRoomUpdates.next(room);
   }
 
   private onBrainstormingWordPatched(message: any, room: Room) {

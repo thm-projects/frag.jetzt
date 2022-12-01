@@ -89,7 +89,7 @@ export class MinuteJumpClockComponent implements OnInit, AfterViewInit, OnDestro
       let min = this.arcEnd.getMinutes();
       endAngle = (min * 360) / 60;
       min -= this.arcDuration;
-      if (min < 60) {
+      if (min < 0) {
         min = (min % 60) + 60;
       }
       startAngle = (min * 360) / 60;
@@ -101,11 +101,6 @@ export class MinuteJumpClockComponent implements OnInit, AfterViewInit, OnDestro
       }
       if (startAngle < 0) {
         startAngle += 360;
-      }
-      if (startAngle > endAngle) {
-        const temp = endAngle;
-        endAngle = startAngle;
-        startAngle = temp;
       }
     }
     const calculate = (r: number, angle: number) => {
