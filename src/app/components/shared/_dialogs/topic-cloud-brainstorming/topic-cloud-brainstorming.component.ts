@@ -116,7 +116,7 @@ export class TopicCloudBrainstormingComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (session) => {
           this.isCreating = false;
-          this._room.brainstormingSession = session;
+          this._room.brainstormingSession = new BrainstormingSession(session);
           this.open();
         },
         error: (_) => {

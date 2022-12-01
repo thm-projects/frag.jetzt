@@ -35,6 +35,7 @@ import { Comment } from '../../../models/comment';
 import { ResponseViewInformation } from '../comment-response-view/comment-response-view.component';
 import { UserManagementService } from '../../../services/util/user-management.service';
 import { EditQuestionComponent } from '../_dialogs/edit-question/edit-question.component';
+import { CreateCommentWrapper } from 'app/utils/create-comment-wrapper';
 
 @Component({
   selector: 'app-comment-answer',
@@ -56,8 +57,10 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
   isModerationComment = false;
   isConversationView: boolean;
   backUrl: string = null;
+  commentsEnabled = false;
   roleString: string;
   viewInfo: ResponseViewInformation;
+  private createCommentWrapper: CreateCommentWrapper = null;
   private _commentSubscription;
   private _list: ComponentRef<any>[];
   private _keywordExtractor: KeywordExtractor;
@@ -122,6 +125,15 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
         this.sessionService.getModeratorsOnce(),
       ]).subscribe(([room, mods]) => {
         this.room = room;
+        this.commentsEnabled =
+          this.userRole > UserRole.PARTICIPANT || !room.questionsBlocked;
+        this.createCommentWrapper = new CreateCommentWrapper(
+          this.translateService,
+          this.notificationService,
+          this.commentService,
+          this.dialog,
+          this.room,
+        );
         this.mods = new Set<string>(mods.map((m) => m.accountId));
         this.votes = {};
         this.voteService
@@ -141,6 +153,16 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
         });
       });
     });
+  }
+
+  writeComment() {
+    this.createCommentWrapper
+      .openCreateDialog(this.user, this.userRole)
+      .subscribe((c) => {
+        if (c) {
+          this.goBackToCommentList();
+        }
+      });
   }
 
   goBack() {
@@ -169,7 +191,7 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
   }
 
   checkForBackDropClick(event: PointerEvent, ...elements: Node[]) {
-    if (this.isConversationView) {
+    if (this.isConversationView || !this.isConversationView) {
       return;
     }
     const target = event.target as Node;
@@ -184,7 +206,9 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
   }
 
   goBackToCommentList() {
-    this.location.back();
+    this.router.navigate([
+      this.router.url.split('/', 4).join('/') + '/comments',
+    ]);
   }
 
   onSubmit(comment?: Comment): () => void {

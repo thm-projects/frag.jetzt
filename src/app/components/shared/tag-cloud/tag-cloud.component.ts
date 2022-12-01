@@ -585,7 +585,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     }
     clearInterval(this.intervalWriteChecker);
     this.brainstormingData = room.brainstormingSession;
-    if (this.brainstormingData.ideasEndTimestamp) {
+    if (this.brainstormingData?.ideasEndTimestamp) {
       const isBefore = () =>
         this.brainstormingData.ideasEndTimestamp.getTime() >= Date.now();
       if (isBefore()) {
