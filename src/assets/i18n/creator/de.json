@@ -215,7 +215,7 @@
     "cancel": "Verwerfen",
     "cancel-description": "Verwerfen",
     "category": "Kategorie:",
-    "select-brainstorm-category": "Brainstorming-Kategorie wählen:",
+    "select-brainstorm-category": "Kategorie wählen:",
     "select-brainstorm-category-none": "Keine",
     "comma": "Excel-Format (.xls)",
     "comment": "Die Frage {{ comment }} wurde um {{ time }} Uhr gestellt und hat derzeitig {{ votes }}. {{correct}} {{wrong}} {{bonus}} {{beamer}}",

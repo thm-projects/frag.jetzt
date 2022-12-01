@@ -1,0 +1,84 @@
+@startuml
+title Workflow of a brainstorming session with »frag.jetzt«
+
+caption Note: The actions highlighted in pink are items of the »Options« menu.   
+
+skinparam backgroundColor Linen
+skinparam shadowing true
+skinparam defaultFontSize 14
+skinparam Padding 6
+
+|#CE93D8|Moderator|
+
+start
+
+partition "Setup" {
+:Activate brainstorming option in
+room settings → »My rooms«;
+:Click on »Brainstorming« 
+in the header of the Q&A forum;
+: Enter focus question or topic;
+: Set input length for ideas;
+: Set duration of brainstorming;
+}
+
+partition "Warm up" {
+#pink: Explain brainstorming technique;
+:Act out a brainstorming session;
+}
+
+#pink: Start brainstorming;
+
+|#90CAF9|Participant|
+
+partition "Idea finding" {
+repeat
+:Click the + button to enter idea;
+repeat while (Still time for brainstorming?) is (yes) not (no)
+}
+
+|Moderator|
+
+#pink: Stop brainstorming;
+
+partition "Idea presentation" {
+#pink: Freeze ideas;
+#pink: Go to Question focus;
+:Present & discuss ideas;
+}
+
+|Participant|
+
+partition "Idea elaboration" {
+#pink: Go to Q&A forum;
+:Further elaborate on ideas;
+}
+
+|Moderator|
+
+partition "Idea sorting" {
+#pink: Create topic catalog;
+:Hover over the word cloud;
+:Assign topics to ideas;
+:Blacklist inappropriate ideas;
+}
+
+#pink: Reset idea rating;
+
+|Participant|
+
+partition "Idea evaluation" {
+:Hover over the word cloud;
+:Rate ideas;
+}
+
+|Moderator|
+
+partition "Record session" {
+#pink: Freeze session;
+:Create screenshot of word cloud;
+#pink: Export ideas;
+}
+
+stop
+@enduml
