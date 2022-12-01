@@ -332,6 +332,7 @@
       </button>
 
       <button mat-menu-item
+              *ngIf="room?.brainstormingActive"
               (click)="filterByBrainstorming()">
         <mat-icon class="material-icons" [ngClass]="{'brainstorm-icon': filterBrainstorming}">
           psychology_alt
