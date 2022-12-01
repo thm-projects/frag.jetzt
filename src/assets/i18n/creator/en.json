@@ -215,7 +215,7 @@
     "cancel": "Cancel",
     "cancel-description": "Cancel",
     "category": "Category:",
-    "select-brainstorm-category": "Choose brainstorming category:",
+    "select-brainstorm-category": "Choose category:",
     "select-brainstorm-category-none": "None",
     "comma": "Excel format (.xls)",
     "comment": "Question {{ comment }} was asked at {{ time }} and has currently {{ votes }}. {{correct}} {{wrong}} {{bonus}} {{beamer}}",
