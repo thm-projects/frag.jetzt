@@ -5,6 +5,16 @@
     <span class="oldtypo">{{'comment-page.back-to-question-focus' | translate}}</span>
   </button>
 </div>
+
+<button *ngIf="commentsEnabled"
+        mat-fab
+        mat-icon-button
+        class="fab_add_comment"
+        (click)="writeComment()"
+        matTooltip="{{ 'comment-list.add-comment' | translate }}" [matTooltipPosition]="'above'">
+  <mat-icon>add</mat-icon>
+</button>
+
 <div fxLayout="column"
      fxLayoutAlign="center"
      *ngIf="!isLoading"
