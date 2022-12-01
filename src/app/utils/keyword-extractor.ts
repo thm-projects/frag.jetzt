@@ -25,6 +25,9 @@ import { TranslateService } from '@ngx-translate/core';
 import { NotificationService } from '../services/util/notification.service';
 import { SpacyDialogComponent } from '../components/shared/_dialogs/spacy-dialog/spacy-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { BrainstormingWord } from 'app/models/brainstorming-word';
+import { BrainstormingService } from 'app/services/http/brainstorming.service';
+import { Injector } from '@angular/core';
 
 export enum KeywordsResultType {
   Successful,
@@ -49,7 +52,8 @@ export interface CommentCreateOptions {
   userId: string;
   commentReference?: string;
   isModerator: boolean;
-  isBrainstorming: boolean;
+  brainstormingSessionId: string;
+  brainstormingLanguage: string;
   selectedLanguage: Language;
   hadUsedDeepL: boolean;
   callbackFinished?: () => void;
@@ -60,13 +64,15 @@ const ERROR_QUOTIENT_USE_DEEPL = 75;
 
 export class KeywordExtractor {
   constructor(
-    private dialog: MatDialog,
-    private translateService: TranslateService,
-    private notification: NotificationService,
-    private roomDataService: RoomDataService,
-    private languagetoolService: LanguagetoolService,
-    private spacyService: SpacyService,
-    private deeplService: DeepLService,
+    injector: Injector,
+    private dialog: MatDialog = injector.get(MatDialog),
+    private translateService: TranslateService = injector.get(TranslateService),
+    private notification: NotificationService = injector.get(NotificationService),
+    private roomDataService: RoomDataService = injector.get(RoomDataService),
+    private languagetoolService: LanguagetoolService = injector.get(LanguagetoolService),
+    private spacyService: SpacyService = injector.get(SpacyService),
+    private deeplService: DeepLService = injector.get(DeepLService),
+    private brainstormingService: BrainstormingService = injector.get(BrainstormingService),
   ) {}
 
   static isKeywordAcceptable(keyword: string): boolean {
@@ -101,21 +107,23 @@ export class KeywordExtractor {
     comment.roomId = this.roomDataService.sessionService.currentRoom.id;
     comment.creatorId = options.userId;
     comment.createdFromLecturer = options.isModerator;
-    comment.brainstormingQuestion = options.isBrainstorming;
+    comment.brainstormingSessionId = options.brainstormingSessionId;
     comment.commentReference = options.commentReference;
+    comment.brainstormingSessionId = options.brainstormingSessionId || null;
     return comment;
   }
 
   createCommentInteractive(options: CommentCreateOptions): Observable<Comment> {
     const comment = this.createPlainComment(options);
-    if (options.isBrainstorming) {
+    if (options.brainstormingSessionId !== null) {
       return this.generateBrainstormingTerm(
         options.body,
+        options.brainstormingSessionId,
         options.selectedLanguage,
       ).pipe(
         switchMap((result) => {
           options.callbackFinished?.();
-          if (this.wasWritten(result.keywords[0].text, options.userId)) {
+          if (this.wasWritten(result.id, options.userId, options.brainstormingSessionId)) {
             this.translateService
               .get('comment-page.error-brainstorm-duplicate')
               .subscribe((msg) => this.notification.show(msg));
@@ -123,9 +131,10 @@ export class KeywordExtractor {
               () => new Error('Brainstorming idea already written'),
             );
           }
-          comment.language = result.language;
-          comment.keywordsFromSpacy = result.keywords;
+          comment.language = options.selectedLanguage.toUpperCase() as CommentLanguage;
+          comment.keywordsFromSpacy = [];
           comment.keywordsFromQuestioner = [];
+          comment.brainstormingWordId = result.id;
           return of(comment);
         }),
       );
@@ -147,91 +156,12 @@ export class KeywordExtractor {
 
   generateBrainstormingTerm(
     body: ImmutableStandardDelta,
-    language: Language = 'auto',
-  ): Observable<KeywordsResult> {
+    sessionId: string,
+    language: string,
+  ): Observable<BrainstormingWord> {
     const text = QuillUtils.getTextFromDelta(body);
-    const term = SharedTextFormatting.getTerm(text);
-    return this.languagetoolService.checkSpellings(text, language).pipe(
-      switchMap((result) => {
-        const lang = result.language.code as Language;
-        const isSupported = this.languagetoolService.isSupportedLanguage(lang);
-        const commentModel =
-          this.languagetoolService.mapLanguageToSpacyModel(lang);
-        const finalLanguage = Comment.mapModelToLanguage(commentModel);
-        const hasConfidence =
-          language === 'auto'
-            ? result.language.detectedLanguage.confidence >= 0.5
-            : true;
-        //TO-DO: Adapt spacy service
-        const spacyNotUpdated = true;
-        if (!isSupported || spacyNotUpdated) {
-          return of({
-            keywords: [
-              {
-                text: term,
-                dep: ['ROOT'],
-              },
-            ],
-            language: hasConfidence ? finalLanguage : CommentLanguage.AUTO,
-            resultType: KeywordsResultType.LanguageNotSupported,
-          });
-        }
-        if (!hasConfidence) {
-          return of({
-            keywords: [
-              {
-                text: term,
-                dep: ['ROOT'],
-              },
-            ],
-            language: finalLanguage,
-            resultType: KeywordsResultType.BadSpelled,
-          });
-        }
-        return this.spacyService.getKeywords(term, commentModel, true).pipe(
-          map(
-            (keywords) =>
-              ({
-                keywords: [
-                  {
-                    text: keywords.map((kw) => kw.text).join(' '),
-                    dep: ['ROOT'],
-                  },
-                ],
-                language: finalLanguage,
-                resultType: KeywordsResultType.Successful,
-              } as KeywordsResult),
-          ),
-          catchError((err) =>
-            of({
-              keywords: [
-                {
-                  text: term,
-                  dep: ['ROOT'],
-                },
-              ],
-              language: finalLanguage,
-              resultType: KeywordsResultType.Failure,
-              error: err,
-              wasSpacyError: true,
-            } as KeywordsResult),
-          ),
-        );
-      }),
-      catchError((err) =>
-        of({
-          keywords: [
-            {
-              text: term,
-              dep: ['ROOT'],
-            },
-          ],
-          language: CommentLanguage.AUTO,
-          resultType: KeywordsResultType.Failure,
-          error: err,
-        } as KeywordsResult),
-      ),
-    );
+    const term = SharedTextFormatting.getTerm(text).toLowerCase();
+    return this.brainstormingService.createWord(sessionId, term);
   }
 
   generateKeywords(
@@ -375,19 +305,17 @@ export class KeywordExtractor {
     );
   }
 
-  private wasWritten(term: string, userId: string): boolean {
+  private wasWritten(wordId: string, userId: string, sessionId: string): boolean {
     if (!this.roomDataService.dataAccessor.currentRawComments()) {
       return true;
     }
-    const areEqual = (str1: string, str2: string): boolean =>
-      str1.localeCompare(str2, undefined, { sensitivity: 'base' }) === 0;
     return this.roomDataService.dataAccessor
       .currentRawComments()
       .some(
         (comment) =>
-          comment.brainstormingQuestion &&
+          comment.brainstormingSessionId === sessionId &&
           comment.creatorId === userId &&
-          comment.keywordsFromSpacy?.some((kw) => areEqual(kw.text, term)),
+          comment.brainstormingWordId === wordId,
       );
   }
 }

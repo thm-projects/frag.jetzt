@@ -1,0 +1,64 @@
+<div mat-dialog-content>
+    <!--Tags-->
+    <h2 class="oldtypo-h2">{{'brainstorming-category.title' | translate }}</h2>
+  
+    <div fxLayout="column">
+      <div fxLayout="row">
+        <mat-form-field class="input-block">
+          <input appAccessibilityEscapedInput
+                 matInput
+                 type="text"
+                 #tag
+                 aria-labelledby="tag-new"
+                 [formControl]="tagFormControl"
+                 name="taginput"
+                 minlength="min"
+                 maxlength="max"/>
+          <mat-placeholder class="placeholder">{{ 'brainstorming-category.tag-placeholder' | translate }}</mat-placeholder>
+          <mat-hint align="end"><span aria-hidden="true">{{tag.value.length}} / {{max}}</span></mat-hint>
+          <mat-error *ngIf="this.tagFormControl.hasError('minlength')">
+            {{ 'brainstorming-edit.field-too-low' | translate: {min: min} }}
+          </mat-error>
+          <mat-error *ngIf="this.tagFormControl.hasError('maxlength')">
+            {{ 'brainstorming-edit.field-too-high' | translate: {max: max} }}
+          </mat-error>
+          <mat-error *ngIf="this.tagFormControl.hasError('emptyOnCreate')">
+            {{ 'brainstorming-edit.field-required' | translate }}
+          </mat-error>
+        </mat-form-field>
+        <span class="fill-remaining-space"></span>
+        <button mat-icon-button
+                class="add"
+                (click)="addTag(tag.value);"
+                aria-labelledby="add-tag">
+          <mat-icon class="add-icon">add</mat-icon>
+        </button>
+        <span class="fill-remaining-space"></span>
+      </div>
+      <div *ngIf="tags.length > 0">
+        <div
+          fxLayout="row"
+          *ngFor="let tag of tags"
+          class="tags">
+          <!--tag list-->
+          <p class="oldtypo-p">
+            {{tag}}
+          </p>
+          <span class="fill-remaining-space"></span>
+          <button mat-icon-button
+                  class="close"
+                  (click)="deleteTag(tag)"
+                  aria-labelledby="delete-tag">
+            <mat-icon class="close-icon">close</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <app-dialog-action-buttons
+    buttonsLabelSection="room-page"
+    confirmButtonLabel="close"
+    [confirmButtonClickAction]="buildSaveActionCallback()"
+  ></app-dialog-action-buttons>
+  
+  

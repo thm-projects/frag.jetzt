@@ -42,6 +42,7 @@
     "angular-tag-cloud-module": "^13.0.0",
     "angularx-qrcode": "^14.0.0",
     "badwords-list": "^1.0.0",
+    "caniuse-lite": "^1.0.30001434",
     "chart.js": "^3.8.0",
     "ci": "^2.2.0",
     "emoji-toolkit": "^6.5.1",

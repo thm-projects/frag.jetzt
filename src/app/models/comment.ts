@@ -28,7 +28,8 @@ export class Comment {
   language: Language;
   questionerName: string;
   createdBy;
-  brainstormingQuestion: boolean;
+  brainstormingSessionId: string;
+  brainstormingWordId: string;
   updatedAt: Date;
   commentReference: string;
   commentDepth: number;
@@ -54,7 +55,8 @@ export class Comment {
     downvotes = 0,
     language = Language.AUTO,
     questionerName: string = null,
-    brainstormingQuestion = false,
+    brainstormingSessionId = null,
+    brainstormingWordId = null,
     createdBy: any = undefined,
     commentReference: string = null,
     commentDepth: number = 0
@@ -81,7 +83,8 @@ export class Comment {
     this.language = language;
     this.createdBy = createdBy;
     this.questionerName = questionerName;
-    this.brainstormingQuestion = brainstormingQuestion;
+    this.brainstormingSessionId = brainstormingSessionId;
+    this.brainstormingWordId = brainstormingWordId;
     this.updatedAt = null;
     this.commentReference = commentReference;
     this.commentDepth = commentDepth;

@@ -1,4 +1,12 @@
-import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  Input,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { HeaderService } from '../../../services/util/header.service';
 import { DeviceInfoService } from '../../../services/util/device-info.service';
 import { Subject, takeUntil } from 'rxjs';
@@ -7,10 +15,9 @@ import { ThemeService } from '../../../../theme/theme.service';
 @Component({
   selector: 'app-minute-jump-clock',
   templateUrl: './minute-jump-clock.component.html',
-  styleUrls: ['./minute-jump-clock.component.scss']
+  styleUrls: ['./minute-jump-clock.component.scss'],
 })
 export class MinuteJumpClockComponent implements OnInit, AfterViewInit, OnDestroy {
-
   @Input()
   minWidth: number = 1320;
   @Input()
@@ -23,6 +30,12 @@ export class MinuteJumpClockComponent implements OnInit, AfterViewInit, OnDestro
   zIndex: number = null;
   @Input()
   questionWallColor: boolean = false;
+  @Input()
+  withBackground: boolean = false;
+  @Input()
+  arcEnd: Date = null;
+  @Input()
+  arcDuration: number = 30;
   @ViewChild('clock')
   svgClock: ElementRef<HTMLElement>;
   visible: boolean = false;
@@ -35,8 +48,7 @@ export class MinuteJumpClockComponent implements OnInit, AfterViewInit, OnDestro
     private readonly headerService: HeaderService,
     private readonly deviceInfo: DeviceInfoService,
     private readonly themeService: ThemeService,
-  ) {
-  }
+  ) {}
 
   ngOnInit(): void {
     this._matcher = window.matchMedia('(max-width: ' + this.minWidth + 'px)');
@@ -45,10 +57,14 @@ export class MinuteJumpClockComponent implements OnInit, AfterViewInit, OnDestro
     };
     this.deviceInfo.isMobile().pipe(takeUntil(this._destroyer)).subscribe(func);
     this._matcher.addEventListener('change', func);
-    this._destroyer.subscribe(() => this._matcher.removeEventListener('change', func));
-    this.themeService.getTheme().pipe(takeUntil(this._destroyer)).subscribe(func);
+    this._destroyer.subscribe(() =>
+      this._matcher.removeEventListener('change', func),
+    );
+    this.themeService
+      .getTheme()
+      .pipe(takeUntil(this._destroyer))
+      .subscribe(func);
   }
-
 
   ngAfterViewInit() {
     this._initialized = true;
@@ -62,24 +78,74 @@ export class MinuteJumpClockComponent implements OnInit, AfterViewInit, OnDestro
     this._destroyer.complete();
   }
 
+  calculateArc(): string {
+    if (this.arcEnd === null) {
+      return;
+    }
+    const radius = 210;
+    let startAngle;
+    let endAngle;
+    {
+      let min = this.arcEnd.getMinutes();
+      endAngle = (min * 360) / 60;
+      min -= this.arcDuration;
+      if (min < 0) {
+        min = (min % 60) + 60;
+      }
+      startAngle = (min * 360) / 60;
+      // transform origin
+      endAngle -= 90;
+      startAngle -= 90;
+      if (endAngle < 0) {
+        endAngle += 360;
+      }
+      if (startAngle < 0) {
+        startAngle += 360;
+      }
+    }
+    const calculate = (r: number, angle: number) => {
+      const rad = (angle * Math.PI) / 180;
+      return [Math.cos(rad) * r, Math.sin(rad) * r];
+    };
+    const [startX, startY] = calculate(radius, startAngle);
+    const [endX, endY] = calculate(radius, endAngle);
+    return `M ${startX} ${startY} A ${radius} ${radius} 0 0 1 ${endX} ${endY}`;
+  }
+
   private updatePresentationClock() {
     const date = new Date();
     const hr = date.getHours();
     const min = date.getMinutes();
     const sec = date.getSeconds();
-    const hrPosition = hr * 360 / 12 + ((min * 360 / 60) / 12);
-    const minPosition = min * 360 / 60;
-    const secPosition = sec * 360 / 60;
-    this.svgClock.nativeElement.querySelectorAll('.hour')
-      .forEach(e => (e as HTMLElement).style.transform = 'rotate(' + hrPosition + 'deg)');
-    this.svgClock.nativeElement.querySelectorAll('.minute')
-      .forEach(e => (e as HTMLElement).style.transform = 'rotate(' + minPosition + 'deg)');
-    this.svgClock.nativeElement.querySelectorAll('.second')
-      .forEach(e => (e as HTMLElement).style.transform = 'rotate(' + secPosition + 'deg)');
+    const hrPosition = (hr * 360) / 12 + (min * 360) / 60 / 12;
+    const minPosition = (min * 360) / 60;
+    const secPosition = (sec * 360) / 60;
+    this.svgClock.nativeElement
+      .querySelectorAll('.hour')
+      .forEach(
+        (e) =>
+          ((e as HTMLElement).style.transform =
+            'rotate(' + hrPosition + 'deg)'),
+      );
+    this.svgClock.nativeElement
+      .querySelectorAll('.minute')
+      .forEach(
+        (e) =>
+          ((e as HTMLElement).style.transform =
+            'rotate(' + minPosition + 'deg)'),
+      );
+    this.svgClock.nativeElement
+      .querySelectorAll('.second')
+      .forEach(
+        (e) =>
+          ((e as HTMLElement).style.transform =
+            'rotate(' + secPosition + 'deg)'),
+      );
   }
 
   private update() {
-    this.visible = !this.deviceInfo.isCurrentlyMobile &&
+    this.visible =
+      !this.deviceInfo.isCurrentlyMobile &&
       !this._matcher.matches &&
       !this.deviceInfo.isSafari &&
       this.themeService.currentTheme?.key !== 'projector';
@@ -118,7 +184,9 @@ export class MinuteJumpClockComponent implements OnInit, AfterViewInit, OnDestro
     if (!this.visible) {
       style.display = 'none';
     }
-    style.width = this.fixedSize ? this.fixedSize + 'px' : 'calc(100vw / 2 - 400px - 8px)';
+    style.width = this.fixedSize
+      ? this.fixedSize + 'px'
+      : 'calc(100vw / 2 - 400px - 8px)';
     style.height = this.fixedSize ? this.fixedSize + 'px' : '100%';
     style.left = this.offsetLeft + 'px';
     style.top = this.offsetTop + 'px';
@@ -130,5 +198,4 @@ export class MinuteJumpClockComponent implements OnInit, AfterViewInit, OnDestro
       style.setProperty('--accent-color', 'darkorange');
     }
   }
-
 }

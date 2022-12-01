@@ -7,7 +7,6 @@ const CURRENT_VERSION = 2;
 export class TagCloudSettings {
   constructor(
     public adminData: TopicCloudAdminData,
-    public brainstormingBlacklist: string[],
   ) {}
 
   static getFromRoom(room: Room): TagCloudSettings {
@@ -23,17 +22,15 @@ export class TagCloudSettings {
       object = this.migrate(object, version);
       version += 1;
     }
-    const { admin, brainstormingBlacklist } = object;
+    const { admin } = object;
     return new TagCloudSettings(
       admin as TopicCloudAdminData,
-      brainstormingBlacklist,
     );
   }
 
-  static getCurrent(brainstormingBlacklist: string[]): TagCloudSettings {
+  static getCurrent(): TagCloudSettings {
     return new TagCloudSettings(
       TopicCloudAdminService.getDefaultAdminData,
-      brainstormingBlacklist,
     );
   }
 
@@ -41,7 +38,6 @@ export class TagCloudSettings {
     switch (currentVersion) {
       case 1: return {
         admin: object['admin'],
-        brainstormingBlacklist: [],
         version: 2,
       };
     }
@@ -52,7 +48,6 @@ export class TagCloudSettings {
     return JSON.stringify({
       version: CURRENT_VERSION,
       admin: this.adminData,
-      brainstormingBlacklist: this.brainstormingBlacklist,
     });
   }
 }

@@ -14,34 +14,43 @@ import { CommentService } from '../../../../services/http/comment.service';
 import { ExplanationDialogComponent } from '../explanation-dialog/explanation-dialog.component';
 import { BrainstormingService } from '../../../../services/http/brainstorming.service';
 import { BrainstormingSession } from '../../../../models/brainstorming-session';
+import { AVAILABLE_LANGUAGES, LanguageService } from 'app/services/util/language.service';
 
 @Component({
   selector: 'app-topic-cloud-brainstorming',
   templateUrl: './topic-cloud-brainstorming.component.html',
-  styleUrls: ['./topic-cloud-brainstorming.component.scss']
+  styleUrls: ['./topic-cloud-brainstorming.component.scss'],
 })
 export class TopicCloudBrainstormingComponent implements OnInit, OnDestroy {
-
   @Input() target: string;
   @Input() userRole: UserRole;
 
   maxWordCountMin = 1;
   maxWordCountMax = 5;
   maxWordCount = new FormControl(1, [
-    Validators.required, Validators.min(this.maxWordCountMin), Validators.max(this.maxWordCountMax),
+    Validators.required,
+    Validators.min(this.maxWordCountMin),
+    Validators.max(this.maxWordCountMax),
   ]);
   maxWordLengthMin = 2;
   maxWordLengthMax = 30;
   maxWordLength = new FormControl(20, [
-    Validators.required, Validators.min(this.maxWordLengthMin), Validators.max(this.maxWordLengthMax)
+    Validators.required,
+    Validators.min(this.maxWordLengthMin),
+    Validators.max(this.maxWordLengthMax),
   ]);
   question = '';
+  brainstormingDuration = 5;
+  brainstormingAllowIdeas = false;
+  brainstormingAllowRating = false;
   roomSubscription: Subscription;
   brainstormingData: BrainstormingSession;
   isLoading = true;
   isDeleting = false;
   isClosing = false;
   isCreating = false;
+  readonly languages = [...AVAILABLE_LANGUAGES];
+  language: FormControl;
   private _room: Room;
 
   constructor(
@@ -55,7 +64,11 @@ export class TopicCloudBrainstormingComponent implements OnInit, OnDestroy {
     private notificationService: NotificationService,
     private router: Router,
     private brainstormingService: BrainstormingService,
+    private languageService: LanguageService,
   ) {
+    this.language = new FormControl(languageService.currentLanguage() || this.languages[0], [
+      Validators.required,
+    ]);
   }
 
   cancelButtonActionCallback(): () => void {
@@ -64,7 +77,7 @@ export class TopicCloudBrainstormingComponent implements OnInit, OnDestroy {
 
   openHelp() {
     const ref = this.dialog.open(ExplanationDialogComponent, {
-      autoFocus: false
+      autoFocus: false,
     });
     ref.componentInstance.translateKey = 'explanation.brainstorming';
   }
@@ -82,29 +95,39 @@ export class TopicCloudBrainstormingComponent implements OnInit, OnDestroy {
       return;
     }
     if (!this._room.directSend) {
-      this.translateService.get('content.brainstorming-direct-send-disabled')
-        .subscribe(msg => this.notificationService.show(msg));
+      this.translateService
+        .get('content.brainstorming-direct-send-disabled')
+        .subscribe((msg) => this.notificationService.show(msg));
       return;
     }
     this.isCreating = true;
-    this.brainstormingService.createSession({
-      roomId: this._room.id,
-      active: true,
-      createdAt: new Date(),
-      title: this.question,
-      maxWordCount: this.maxWordCount.value,
-      maxWordLength: this.maxWordLength.value
-    }).subscribe({
-      next: session => {
-        this.isCreating = false;
-        this._room.brainstormingSession = session;
-        this.open();
-      },
-      error: _ => {
-        this.isCreating = false;
-        this.showSomethingWentWrong();
-      }
-    });
+    this.brainstormingService
+      .createSession({
+        roomId: this._room.id,
+        title: this.question,
+        maxWordCount: this.maxWordCount.value,
+        maxWordLength: this.maxWordLength.value,
+        language: this.language.value,
+        ideasEndTimestamp: null,
+        ideasTimeDuration: this.brainstormingDuration,
+        ratingAllowed: this.brainstormingAllowRating,
+        ideasFrozen: !this.brainstormingAllowIdeas,
+      })
+      .subscribe({
+        next: (session) => {
+          this.isCreating = false;
+          this._room.brainstormingSession = session;
+          this.open();
+        },
+        error: (_) => {
+          this.isCreating = false;
+          this.showSomethingWentWrong();
+        },
+      });
+  }
+
+  getDuration(): string {
+    return this.brainstormingDuration.toString().padStart(2, '0');
   }
 
   checkForEnter(e: KeyboardEvent) {
@@ -114,14 +137,20 @@ export class TopicCloudBrainstormingComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.sessionService.getRoomOnce().subscribe(room => {
+    this.sessionService.getRoomOnce().subscribe((room) => {
       this._room = room;
       this.isLoading = false;
       this.brainstormingData = room.brainstormingSession;
-      this.roomSubscription = this.sessionService.receiveRoomUpdates().subscribe(() => {
-        this.brainstormingData = room.brainstormingSession;
-      });
+      this.roomSubscription = this.sessionService
+        .receiveRoomUpdates()
+        .subscribe(() => {
+          this.brainstormingData = room.brainstormingSession;
+        });
     });
+  }
+
+  displayMin(v) {
+    return v + 'min';
   }
 
   ngOnDestroy() {
@@ -129,7 +158,12 @@ export class TopicCloudBrainstormingComponent implements OnInit, OnDestroy {
   }
 
   canCreate() {
-    return !this.brainstormingData && this.question && this.maxWordCount.valid && this.maxWordLength.valid;
+    return (
+      !this.brainstormingData &&
+      this.question &&
+      this.maxWordCount.valid &&
+      this.maxWordLength.valid
+    );
   }
 
   closeSession() {
@@ -137,13 +171,14 @@ export class TopicCloudBrainstormingComponent implements OnInit, OnDestroy {
       return;
     }
     this.isClosing = true;
-    this.brainstormingService.closeSession(this.brainstormingData.id)
+    this.brainstormingService
+      .patchSession(this.brainstormingData.id, { active: false })
       .subscribe({
-        next: _ => this.isClosing = false,
+        next: (_) => (this.isClosing = false),
         error: () => {
           this.isClosing = false;
           this.showSomethingWentWrong();
-        }
+        },
       });
   }
 
@@ -153,18 +188,20 @@ export class TopicCloudBrainstormingComponent implements OnInit, OnDestroy {
     }
     this.isDeleting = true;
     this.deleteOld().subscribe({
-      next: _ => this.isDeleting = false,
+      next: (_) => (this.isDeleting = false),
       error: () => {
         this.isDeleting = false;
         this.showSomethingWentWrong();
-      }
+      },
     });
   }
 
   private deleteOld() {
     return forkJoin([
       this.deleteOldBrainstormingQuestions(),
-      this.brainstormingService.deleteSession(this._room.brainstormingSession.id)
+      this.brainstormingService.deleteSession(
+        this._room.brainstormingSession.id,
+      ),
     ]);
   }
 
@@ -173,18 +210,27 @@ export class TopicCloudBrainstormingComponent implements OnInit, OnDestroy {
     if (!comments) {
       return of(null);
     }
+    const sessionId = this._room.brainstormingSession.id;
     const toBeRemoved = comments
-      .filter(comment => comment.brainstormingQuestion && comment.id)
-      .concat((this.roomDataService.moderatorDataAccessor.currentRawComments() ?? []).filter(c => c.brainstormingQuestion && c.id));
+      .filter(
+        (comment) => comment.brainstormingSessionId === sessionId && comment.id,
+      )
+      .concat(
+        (
+          this.roomDataService.moderatorDataAccessor.currentRawComments() ?? []
+        ).filter((c) => c.brainstormingSessionId === sessionId && c.id),
+      );
     if (toBeRemoved.length < 1) {
       return of(null);
     }
-    return forkJoin(toBeRemoved.map(c => this.commentService.deleteComment(c.id)));
+    return forkJoin(
+      toBeRemoved.map((c) => this.commentService.deleteComment(c.id)),
+    );
   }
 
   private showSomethingWentWrong() {
-    this.translateService.get('content.brainstorming-action-went-wrong')
-      .subscribe(msg => this.notificationService.show(msg));
+    this.translateService
+      .get('content.brainstorming-action-went-wrong')
+      .subscribe((msg) => this.notificationService.show(msg));
   }
-
 }

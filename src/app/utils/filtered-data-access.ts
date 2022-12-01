@@ -1,4 +1,6 @@
 import {
+  AcknowledgementFilter,
+  BrainstormingFilter,
   FilterType,
   FilterTypes,
   Period,
@@ -215,6 +217,7 @@ export class FilteredDataAccess {
     [FilterType.Number]: (c, value) => c.number === value,
     [FilterType.Censored]: (c) => this._profanityChecker(c),
     [FilterType.Conversation]: (c) => c.totalAnswerCounts.accumulated > 0,
+    [FilterType.BrainstormingIdea]: (c, value) => c.brainstormingWordId === value,
   } as const;
   // general properties
   private _settings: AttachOptions = null;
@@ -554,9 +557,8 @@ export class FilteredDataAccess {
       return () => this.updateDataSubscription();
     }
     if (
-      (newFilter.filterType === FilterType.BrainstormingQuestion &&
-        newFilter.filterType !== oldFilter.filterType) ||
-      oldFilter.filterType === FilterType.BrainstormingQuestion ||
+      oldFilter.sourceFilterAcknowledgement !== newFilter.sourceFilterAcknowledgement ||
+      oldFilter.sourceFilterBrainstorming !== newFilter.sourceFilterBrainstorming ||
       oldFilter.ignoreThreshold !== newFilter.ignoreThreshold
     ) {
       return () => this.updateStages(UPDATE_ALL);
@@ -659,18 +661,25 @@ export class FilteredDataAccess {
   }
 
   private preFilterData(data: ForumComment[]) {
+    if (this._filter.sourceFilterAcknowledgement !== null) {
+      const onlyAck =
+        this._filter.sourceFilterAcknowledgement ===
+        AcknowledgementFilter.OnlyAcknowledged;
+      data = data.filter((c) => c.ack === onlyAck);
+    }
+    if (this._filter.sourceFilterBrainstorming !== null) {
+      const onlyBrain =
+        this._filter.sourceFilterBrainstorming ===
+        BrainstormingFilter.OnlyBrainstorming;
+      data = data.filter((c) => (c.brainstormingSessionId !== null) === onlyBrain);
+    }
     if (this._filter.ignoreThreshold) {
       this._preFilteredData = [...data];
       return;
     }
     const threshold = this._settings.threshold;
-    const isBrainstormingActive =
-      this._filter.filterType === FilterType.BrainstormingQuestion;
-    const comments = data.filter(
-      (c) => c.brainstormingQuestion === isBrainstormingActive,
-    );
     this._preFilteredData =
-      threshold !== 0 ? comments.filter((c) => c.score >= threshold) : comments;
+      threshold !== 0 ? data.filter((c) => c.score >= threshold) : [...data];
   }
 
   private buildPeriodCache(data: ForumComment[]) {

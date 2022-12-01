@@ -42,12 +42,18 @@ const deserializeDate = (inputStr: string): Date => {
   for (let i = 1; i < opts.length - 1; i++) {
     const next = str.indexOf(opts[i], ptr);
     const nextSrc = inputStr.indexOf(opts[i], sourcePtr);
-    arr[mapper[+str.substring(ptr, next)]] = +inputStr.substring(sourcePtr, nextSrc);
+    arr[mapper[+str.substring(ptr, next)]] = +inputStr.substring(
+      sourcePtr,
+      nextSrc,
+    );
     ptr = next + opts[i].length;
     sourcePtr = nextSrc + opts[i].length;
   }
   const len = opts[opts.length - 1].length;
-  arr[mapper[+str.substring(ptr, str.length - len)]] = +inputStr.substring(sourcePtr, inputStr.length - len);
+  arr[mapper[+str.substring(ptr, str.length - len)]] = +inputStr.substring(
+    sourcePtr,
+    inputStr.length - len,
+  );
   const d = new Date(arr[0], arr[1] - 1, arr[2], arr[3], arr[4], arr[5]);
   if (isNaN(d.getTime())) {
     return null;
@@ -56,7 +62,7 @@ const deserializeDate = (inputStr: string): Date => {
 };
 
 const serializeStringArray = (arr: string[]) =>
-  arr.map(str => str.replace(/\\/g, '\\\\').replace(/,/g, '\\,')).join(',');
+  arr.map((str) => str.replace(/\\/g, '\\\\').replace(/,/g, '\\,')).join(',');
 
 const deserializeStringArray = (str: string) => {
   const regex = /([^\\]|^),/g;
@@ -64,10 +70,17 @@ const deserializeStringArray = (str: string) => {
   let lastIndex = 0;
   const result = [];
   while ((m = regex.exec(str)) !== null) {
-    result.push(str.substring(lastIndex, m.index + 1).replace(/\\,/g, ',').replace(/\\\\/g, '\\'));
+    result.push(
+      str
+        .substring(lastIndex, m.index + 1)
+        .replace(/\\,/g, ',')
+        .replace(/\\\\/g, '\\'),
+    );
     lastIndex = m.index + m[0].length;
   }
-  result.push(str.substring(lastIndex).replace(/\\,/g, ',').replace(/\\\\/g, '\\'));
+  result.push(
+    str.substring(lastIndex).replace(/\\,/g, ',').replace(/\\\\/g, '\\'),
+  );
   return result;
 };
 
@@ -79,36 +92,41 @@ export const copyCSVString = (value: string, fileName: string) => {
   link.click();
 };
 
-export const uploadCSV = (): Observable<string> => new Observable<string>(subscriber => {
-  const input = document.createElement('input');
-  input.type = 'file';
-  input.style.display = 'none';
-  input.click();
-  let hadData = false;
-  input.addEventListener('change', _ => {
-    hadData = true;
-    const reader = new FileReader();
-    reader.addEventListener('load', (event) => {
-      subscriber.next(event.target.result as string);
-      subscriber.complete();
-    });
-    reader.readAsText(input.files[0]);
-  }, { once: true });
-  const func = e => {
-    if (e.target === window) {
-      window.addEventListener('focus', func, { once: true });
-      return;
-    }
-    input.remove();
-    setTimeout(() => {
-      if (!hadData) {
-        subscriber.next(null);
-        subscriber.complete();
+export const uploadCSV = (): Observable<string> =>
+  new Observable<string>((subscriber) => {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.style.display = 'none';
+    input.click();
+    let hadData = false;
+    input.addEventListener(
+      'change',
+      (_) => {
+        hadData = true;
+        const reader = new FileReader();
+        reader.addEventListener('load', (event) => {
+          subscriber.next(event.target.result as string);
+          subscriber.complete();
+        });
+        reader.readAsText(input.files[0]);
+      },
+      { once: true },
+    );
+    const func = (e) => {
+      if (e.target === window) {
+        window.addEventListener('focus', func, { once: true });
+        return;
       }
-    });
-  };
-  window.addEventListener('focus', func, { once: true });
-});
+      input.remove();
+      setTimeout(() => {
+        if (!hadData) {
+          subscriber.next(null);
+          subscriber.complete();
+        }
+      });
+    };
+    window.addEventListener('focus', func, { once: true });
+  });
 
 export interface BonusArchiveEntry {
   bonusToken: string;
@@ -125,13 +143,15 @@ const bonusArchiveImportExport = (translateService: TranslateService) =>
     { type: 'value', languageKey: 'bonus-archive-export.code' },
     null,
     {
-      type: 'table', columns: [
+      type: 'table',
+      columns: [
         {
           languageKey: 'bonus-archive-export.entry-commentNumber',
           valueMapper: {
             export: (config, k) => k.bonusQuestionNumber,
-            import: (config, val) => ({ bonusQuestionNumber: val } as BonusArchiveEntry)
-          }
+            import: (config, val) =>
+              ({ bonusQuestionNumber: val } as BonusArchiveEntry),
+          },
         },
         {
           languageKey: 'bonus-archive-export.entry-token',
@@ -140,16 +160,19 @@ const bonusArchiveImportExport = (translateService: TranslateService) =>
             import: (config, val, prev) => {
               prev.bonusToken = val || null;
               return prev;
-            }
-          }
+            },
+          },
         },
         {
           languageKey: 'bonus-archive-export.entry-question',
-          ...ImportExportManager.createQuillMapper<BonusArchiveEntry>('bonus-archive-export.empty',
-            (c) => c.question, (val, c) => {
+          ...ImportExportManager.createQuillMapper<BonusArchiveEntry>(
+            'bonus-archive-export.empty',
+            (c) => c.question,
+            (val, c) => {
               c.question = val as SerializedDelta;
               return c;
-            })
+            },
+          ),
         },
         {
           languageKey: 'bonus-archive-export.entry-date',
@@ -158,22 +181,24 @@ const bonusArchiveImportExport = (translateService: TranslateService) =>
             import: (config, val, prev) => {
               prev.bonusTimestamp = val ? new Date(val) : null;
               return prev;
-            }
-          }
+            },
+          },
         },
         {
           languageKey: 'bonus-archive-export.user-name',
           additionalLanguageKeys: ['bonus-archive-export.user-anonym'],
           valueMapper: {
-            export: (config, k) => k.userLoginId ? k.userLoginId : config.additional[0],
+            export: (config, k) =>
+              k.userLoginId ? k.userLoginId : config.additional[0],
             import: (config, val, prev) => {
-              prev.userLoginId = val && val !== config.additional[0] ? val : null;
+              prev.userLoginId =
+                val && val !== config.additional[0] ? val : null;
               return prev;
-            }
-          }
-        }
-      ]
-    } as ExportTable<BonusArchiveEntry>
+            },
+          },
+        },
+      ],
+    } as ExportTable<BonusArchiveEntry>,
   ]);
 
 export const exportBonusArchive = (
@@ -182,28 +207,35 @@ export const exportBonusArchive = (
   notificationService: NotificationService,
   bonusTokenService: BonusTokenService,
   moderatorService: ModeratorService,
-  room: Room
+  room: Room,
 ): Observable<[string, string]> =>
   bonusTokenService.getTokensByRoomId(room.id).pipe(
-    switchMap(tokens => {
+    switchMap((tokens) => {
       if (tokens.length < 1) {
-        translateService.get('bonus-archive-export.no-data')
-          .subscribe(text => notificationService.show(text));
+        translateService
+          .get('bonus-archive-export.no-data')
+          .subscribe((text) => notificationService.show(text));
         return null;
       }
-      return forkJoin(tokens.map(token => commentService.getComment(token.commentId))).pipe(
-        switchMap(comments => {
-          const filteredComments = new Set(comments.filter(v => v?.creatorId).map(comment => comment.creatorId));
+      return forkJoin(
+        tokens.map((token) => commentService.getComment(token.commentId)),
+      ).pipe(
+        switchMap((comments) => {
+          const filteredComments = new Set(
+            comments
+              .filter((v) => v?.creatorId)
+              .map((comment) => comment.creatorId),
+          );
           return moderatorService.getUserData([...filteredComments]).pipe(
-            map(users => {
+            map((users) => {
               const fastAccess = {} as any;
-              users.forEach(user => {
+              users.forEach((user) => {
                 if (user) {
                   fastAccess[user.id] = user['email'];
                 }
               });
-              return comments.map(c => [fastAccess[c?.creatorId], c]);
-            })
+              return comments.map((c) => [fastAccess[c?.creatorId], c]);
+            }),
           );
         }),
         switchMap((arr: [userId: string, c: Comment][]) => {
@@ -213,20 +245,19 @@ export const exportBonusArchive = (
             bonusToken: tokens[i].token,
             bonusTimestamp: tokens[i].createdAt,
             bonusQuestionNumber: c?.number,
-            userLoginId: loginId
+            userLoginId: loginId,
           }));
           const date = new Date();
-          return bonusArchiveImportExport(translateService).exportToCSV([
-            date.toLocaleString(),
-            room.name,
-            room.shortId,
-            data
-          ]).pipe(
-            map(text => [text, date.toLocaleDateString()] as [string, string])
-          );
-        })
+          return bonusArchiveImportExport(translateService)
+            .exportToCSV([date.toLocaleString(), room.name, room.shortId, data])
+            .pipe(
+              map(
+                (text) => [text, date.toLocaleDateString()] as [string, string],
+              ),
+            );
+        }),
       );
-    })
+    }),
   );
 
 export const ImportedCommentFields = [
@@ -247,14 +278,17 @@ export const ImportedCommentFields = [
   'roomId',
 ] as const;
 
-export type ImportedComment = Pick<Comment, typeof ImportedCommentFields[number]>;
+export type ImportedComment = Pick<
+  Comment,
+  typeof ImportedCommentFields[number]
+>;
 
 const roomImportExport = (
   translateService: TranslateService,
   translatePath: string,
   user?: User,
   room?: Room,
-  moderatorIds?: Set<string>
+  moderatorIds?: Set<string>,
 ) => {
   const empty = translatePath + '.export-empty';
   const bufferedIds = [];
@@ -266,16 +300,22 @@ const roomImportExport = (
     {
       type: 'value',
       languageKey: translatePath + '.room-welcome',
-      ...ImportExportManager.createQuillMapper<SerializedDelta>(empty, e => e, e => e as SerializedDelta)
+      ...ImportExportManager.createQuillMapper<SerializedDelta>(
+        empty,
+        (e) => e,
+        (e) => e as SerializedDelta,
+      ),
     },
     {
       type: 'value',
       languageKey: translatePath + '.room-categories',
       additionalLanguageKeys: [empty],
       valueMapper: {
-        export: (cfg, val) => val?.length ? serializeStringArray(val) : cfg.additional[0],
-        import: (cfg, val) => val === cfg.additional[0] ? [] : deserializeStringArray(val)
-      }
+        export: (cfg, val) =>
+          val?.length ? serializeStringArray(val) : cfg.additional[0],
+        import: (cfg, val) =>
+          val === cfg.additional[0] ? [] : deserializeStringArray(val),
+      },
     },
     null,
     {
@@ -289,8 +329,8 @@ const roomImportExport = (
               const c = new Comment();
               c.number = val;
               return c;
-            }
-          }
+            },
+          },
         },
         {
           languageKey: translatePath + '.timestamp',
@@ -299,15 +339,19 @@ const roomImportExport = (
             import: (cfg, val, prev) => {
               prev.createdAt = deserializeDate(val);
               return prev;
-            }
-          }
+            },
+          },
         },
         {
           languageKey: translatePath + '.question',
-          ...ImportExportManager.createQuillMapper<Comment>(empty, c => QuillUtils.serializeDelta(c.body), (str, c) => {
-            c.body = QuillUtils.deserializeDelta(str as SerializedDelta);
-            return c;
-          })
+          ...ImportExportManager.createQuillMapper<Comment>(
+            empty,
+            (c) => QuillUtils.serializeDelta(c.body),
+            (str, c) => {
+              c.body = QuillUtils.deserializeDelta(str as SerializedDelta);
+              return c;
+            },
+          ),
         },
         {
           languageKey: translatePath + '.chosen-category',
@@ -316,27 +360,32 @@ const roomImportExport = (
             import: (cfg, val, c) => {
               c.tag = val ? val : null;
               return c;
-            }
-          }
+            },
+          },
         },
         {
           languageKey: translatePath + '.chosen-keywords',
           additionalLanguageKeys: [empty],
           valueMapper: {
             export: (cfg, val) =>
-              val.keywordsFromQuestioner?.length ?
-                serializeStringArray(val.keywordsFromQuestioner.map(word => word.text)) :
-                cfg.additional[0],
+              val.keywordsFromQuestioner?.length
+                ? serializeStringArray(
+                    val.keywordsFromQuestioner.map((word) => word.text),
+                  )
+                : cfg.additional[0],
             import: (cfg, val, c) => {
-              c.keywordsFromQuestioner = val === cfg.additional[0] ? [] : deserializeStringArray(val).map(v => {
-                return {
-                  text: v,
-                  dep: ['ROOT'],
-                };
-              });
+              c.keywordsFromQuestioner =
+                val === cfg.additional[0]
+                  ? []
+                  : deserializeStringArray(val).map((v) => {
+                      return {
+                        text: v,
+                        dep: ['ROOT'],
+                      };
+                    });
               return c;
-            }
-          }
+            },
+          },
         },
         {
           languageKey: translatePath + '.author-role',
@@ -355,8 +404,8 @@ const roomImportExport = (
               }
               return cfg.additional[0];
             },
-            import: (cfg, val, c) => c
-          }
+            import: (cfg, val, c) => c,
+          },
         },
         {
           languageKey: translatePath + '.user-name',
@@ -365,8 +414,8 @@ const roomImportExport = (
             import: (cfg, val, c) => {
               c.questionerName = val;
               return c;
-            }
-          }
+            },
+          },
         },
         {
           languageKey: translatePath + '.user-number',
@@ -381,8 +430,8 @@ const roomImportExport = (
             import: (cfg, val, c) => {
               c.creatorId = val;
               return c;
-            }
-          }
+            },
+          },
         },
         {
           languageKey: translatePath + '.upvotes',
@@ -391,8 +440,8 @@ const roomImportExport = (
             import: (cfg, val, c) => {
               c.upvotes = parseInt(val, 10);
               return c;
-            }
-          }
+            },
+          },
         },
         {
           languageKey: translatePath + '.downvotes',
@@ -401,8 +450,8 @@ const roomImportExport = (
             import: (cfg, val, c) => {
               c.downvotes = parseInt(val, 10);
               return c;
-            }
-          }
+            },
+          },
         },
         {
           languageKey: translatePath + '.score',
@@ -411,8 +460,8 @@ const roomImportExport = (
             import: (cfg, val, c) => {
               c.score = parseInt(val, 10);
               return c;
-            }
-          }
+            },
+          },
         },
         {
           languageKey: translatePath + '.public/moderated',
@@ -421,13 +470,12 @@ const roomImportExport = (
             translatePath + '.comment-refused',
           ],
           valueMapper: {
-            export: (cfg, c) =>
-              cfg.additional[c.ack ? 0 : 1],
+            export: (cfg, c) => cfg.additional[c.ack ? 0 : 1],
             import: (cfg, val, c) => {
               c.ack = val === cfg.additional[0];
               return c;
-            }
-          }
+            },
+          },
         },
         {
           languageKey: translatePath + '.correct/wrong',
@@ -445,14 +493,16 @@ const roomImportExport = (
             import: (cfg, val, c) => {
               if (val === cfg.additional[translatePath + '.comment-correct']) {
                 c.correct = CorrectWrong.CORRECT;
-              } else if (val === cfg.additional[translatePath + '.comment-wrong']) {
+              } else if (
+                val === cfg.additional[translatePath + '.comment-wrong']
+              ) {
                 c.correct = CorrectWrong.WRONG;
               } else {
                 c.correct = CorrectWrong.NULL;
               }
               return c;
-            }
-          }
+            },
+          },
         },
         {
           languageKey: translatePath + '.bookmark',
@@ -461,88 +511,172 @@ const roomImportExport = (
             translatePath + '.comment-not_bookmarked',
           ],
           valueMapper: {
-            export: (cfg, c) =>
-              cfg.additional[c.bookmark ? 0 : 1],
+            export: (cfg, c) => cfg.additional[c.bookmark ? 0 : 1],
             import: (cfg, val, c) => {
               c.bookmark = val === cfg.additional[0];
               return c;
-            }
-          }
+            },
+          },
         },
         {
           languageKey: translatePath + '.token',
           valueMapper: {
             export: (cfg, c) =>
-              c.bonusToken && (isMod || c.creatorId === user?.id) ? c.bonusToken : '',
+              c.bonusToken && (isMod || c.creatorId === user?.id)
+                ? c.bonusToken
+                : '',
             import: (cfg, val, c) => {
               c.bonusToken = val;
               return c;
-            }
-          }
+            },
+          },
         },
         {
           languageKey: translatePath + '.token-time',
           valueMapper: {
             export: (cfg, c) =>
-              c.bonusTimeStamp && (isMod || c.creatorId === user?.id) ?
-                serializeDate(c.bonusTimeStamp as unknown as string) : '',
+              c.bonusTimeStamp && (isMod || c.creatorId === user?.id)
+                ? serializeDate(c.bonusTimeStamp as unknown as string)
+                : '',
             import: (cfg, val, c) => {
-              c.bonusTimeStamp = (val ? Date.parse(val) : '') as unknown as Date;
+              c.bonusTimeStamp = (val
+                ? Date.parse(val)
+                : '') as unknown as Date;
               return c;
-            }
-          }
-        }
-      ]
+            },
+          },
+        },
+      ],
     } as ExportTable<CommentBonusTokenMixin>,
   ]);
 };
 
-export const exportRoom = (translateService: TranslateService,
-                           notificationService: NotificationService,
-                           bonusTokenService: BonusTokenService,
-                           commentService: CommentService,
-                           translatePath: string,
-                           user: User,
-                           room: Room,
-                           moderatorIds: Set<string>): Observable<[string, string]> =>
+export const exportBrainstorming = (
+  translateService: TranslateService,
+  notificationService: NotificationService,
+  bonusTokenService: BonusTokenService,
+  commentService: CommentService,
+  translatePath: string,
+  user: User,
+  room: Room,
+  moderatorIds: Set<string>,
+): Observable<[string, string]> =>
   commentService.getAckComments(room.id).pipe(
-    switchMap(res => {
+    switchMap((res) => {
       if ((user?.role || UserRole.PARTICIPANT) > UserRole.PARTICIPANT) {
-        return commentService.getRejectedComments(room.id).pipe(
-          map(comments => [res, comments])
-        );
+        return commentService
+          .getRejectedComments(room.id)
+          .pipe(map((comments) => [res, comments]));
       }
       return of([res, []]);
     }),
-    switchMap(res => {
-      const comments = [...res[0], ...res[1]] as CommentBonusTokenMixin[];
+    switchMap((res) => {
+      const comments = [...res[0], ...res[1]].filter(c => c.brainstormingSessionId !== null) as CommentBonusTokenMixin[];
       if (comments.length < 1) {
-        translateService.get(translatePath + '.no-comments').subscribe(msg => {
-          notificationService.show(msg);
-        });
+        translateService
+          .get(translatePath + '.no-comments')
+          .subscribe((msg) => {
+            notificationService.show(msg);
+          });
         return null;
       }
       comments.sort((a, b) => numberSorter(a.number, b.number));
-      return bonusTokenService.getTokensByRoomId(room.id)
-        .pipe(switchMap(value => {
+      return bonusTokenService.getTokensByRoomId(room.id).pipe(
+        switchMap((value) => {
           for (const comment of comments) {
-            const bonusToken = value.find(v => v.accountId === comment.creatorId && v.commentId === comment.id);
+            const bonusToken = value.find(
+              (v) =>
+                v.accountId === comment.creatorId && v.commentId === comment.id,
+            );
             if (bonusToken) {
               comment.bonusToken = bonusToken.token;
               comment.bonusTimeStamp = bonusToken.createdAt;
             }
           }
           const dateString = new Date().toLocaleDateString();
-          return roomImportExport(translateService, translatePath, user, room, moderatorIds).exportToCSV([
-            room.name,
-            room.shortId,
-            dateString,
-            QuillUtils.serializeDelta(room.description),
-            room.tags,
-            comments
-          ]).pipe(map(data => [data, dateString] as [string, string]));
-        }));
-    })
+          return roomImportExport(
+            translateService,
+            translatePath,
+            user,
+            room,
+            moderatorIds,
+          )
+            .exportToCSV([
+              room.name,
+              room.shortId,
+              dateString,
+              QuillUtils.serializeDelta(room.description),
+              room.tags,
+              comments,
+            ])
+            .pipe(map((data) => [data, dateString] as [string, string]));
+        }),
+      );
+    }),
+  );
+
+export const exportRoom = (
+  translateService: TranslateService,
+  notificationService: NotificationService,
+  bonusTokenService: BonusTokenService,
+  commentService: CommentService,
+  translatePath: string,
+  user: User,
+  room: Room,
+  moderatorIds: Set<string>,
+): Observable<[string, string]> =>
+  commentService.getAckComments(room.id).pipe(
+    switchMap((res) => {
+      if ((user?.role || UserRole.PARTICIPANT) > UserRole.PARTICIPANT) {
+        return commentService
+          .getRejectedComments(room.id)
+          .pipe(map((comments) => [res, comments]));
+      }
+      return of([res, []]);
+    }),
+    switchMap((res) => {
+      const comments = [...res[0], ...res[1]] as CommentBonusTokenMixin[];
+      if (comments.length < 1) {
+        translateService
+          .get(translatePath + '.no-comments')
+          .subscribe((msg) => {
+            notificationService.show(msg);
+          });
+        return null;
+      }
+      comments.sort((a, b) => numberSorter(a.number, b.number));
+      return bonusTokenService.getTokensByRoomId(room.id).pipe(
+        switchMap((value) => {
+          for (const comment of comments) {
+            const bonusToken = value.find(
+              (v) =>
+                v.accountId === comment.creatorId && v.commentId === comment.id,
+            );
+            if (bonusToken) {
+              comment.bonusToken = bonusToken.token;
+              comment.bonusTimeStamp = bonusToken.createdAt;
+            }
+          }
+          const dateString = new Date().toLocaleDateString();
+          return roomImportExport(
+            translateService,
+            translatePath,
+            user,
+            room,
+            moderatorIds,
+          )
+            .exportToCSV([
+              room.name,
+              room.shortId,
+              dateString,
+              QuillUtils.serializeDelta(room.description),
+              room.tags,
+              comments,
+            ])
+            .pipe(map((data) => [data, dateString] as [string, string]));
+        }),
+      );
+    }),
   );
 
 export type ImportQuestionsResult = [
@@ -551,40 +685,50 @@ export type ImportQuestionsResult = [
   exportDate: string,
   roomDescription: SerializedDelta,
   roomTags: string[],
-  comments: CommentBonusTokenMixin[]
+  comments: CommentBonusTokenMixin[],
 ];
 
-const generateCommentCreatorIds = (observer: Observable<ImportQuestionsResult>,
-                                   roomService: RoomService,
-                                   roomId: string): Observable<ImportQuestionsResult> => observer.pipe(
-  mergeMap(value => {
-    value[5] = value[5].filter(c => c.creatorId);
-    const userSet = new Set<string>(value[5].map(c => c.creatorId));
-    const fastAccess = {} as any;
-    [...userSet].forEach((user, index) => fastAccess[user] = index);
-    return roomService.createGuestsForImport(roomId, userSet.size).pipe(
-      map(guestIds => {
-        value[5].forEach(c => {
-          c.creatorId = guestIds[fastAccess[c.creatorId]];
-        });
-        return value;
-      })
-    );
-  })
-);
+const generateCommentCreatorIds = (
+  observer: Observable<ImportQuestionsResult>,
+  roomService: RoomService,
+  roomId: string,
+): Observable<ImportQuestionsResult> =>
+  observer.pipe(
+    mergeMap((value) => {
+      value[5] = value[5].filter((c) => c.creatorId);
+      const userSet = new Set<string>(value[5].map((c) => c.creatorId));
+      const fastAccess = {} as any;
+      [...userSet].forEach((user, index) => (fastAccess[user] = index));
+      return roomService.createGuestsForImport(roomId, userSet.size).pipe(
+        map((guestIds) => {
+          value[5].forEach((c) => {
+            c.creatorId = guestIds[fastAccess[c.creatorId]];
+          });
+          return value;
+        }),
+      );
+    }),
+  );
 
-const importRoomSettings = (value: ImportQuestionsResult,
-                            roomService: RoomService,
-                            roomId: string): Observable<ImportQuestionsResult> => roomService.patchRoom(roomId, {
-  name: value[0],
-  description: value[3],
-  tags: value[4],
-}).pipe(map(_ => value));
+const importRoomSettings = (
+  value: ImportQuestionsResult,
+  roomService: RoomService,
+  roomId: string,
+): Observable<ImportQuestionsResult> =>
+  roomService
+    .patchRoom(roomId, {
+      name: value[0],
+      description: value[3],
+      tags: value[4],
+    })
+    .pipe(map((_) => value));
 
-const importComments = (comments: CommentBonusTokenMixin[],
-                        roomId: string,
-                        commentService: CommentService): Observable<Comment[]> => {
-  const importedComments = comments.map(c => {
+const importComments = (
+  comments: CommentBonusTokenMixin[],
+  roomId: string,
+  commentService: CommentService,
+): Observable<Comment[]> => {
+  const importedComments = comments.map((c) => {
     const { bonusToken, bonusTimeStamp, ...realComment } = c;
     realComment.roomId = roomId;
     if (bonusToken && bonusTimeStamp) {
@@ -595,18 +739,21 @@ const importComments = (comments: CommentBonusTokenMixin[],
   return commentService.importComments(importedComments);
 };
 
-export const importToRoom = (translateService: TranslateService,
-                             roomId: string,
-                             roomService: RoomService,
-                             commentService: CommentService,
-                             translatePath: string,
-                             csv: string): Observable<ImportQuestionsResult> => {
-  const result = roomImportExport(translateService, translatePath)
-    .importFromCSV(csv) as Observable<ImportQuestionsResult>;
-  return generateCommentCreatorIds(result, roomService, roomId)
-    .pipe(
-      mergeMap(value => importRoomSettings(value, roomService, roomId)),
-      mergeMap(value => importComments(value[5], roomId, commentService)),
-      mergeMap(_ => result)
-    );
+export const importToRoom = (
+  translateService: TranslateService,
+  roomId: string,
+  roomService: RoomService,
+  commentService: CommentService,
+  translatePath: string,
+  csv: string,
+): Observable<ImportQuestionsResult> => {
+  const result = roomImportExport(
+    translateService,
+    translatePath,
+  ).importFromCSV(csv) as Observable<ImportQuestionsResult>;
+  return generateCommentCreatorIds(result, roomService, roomId).pipe(
+    mergeMap((value) => importRoomSettings(value, roomService, roomId)),
+    mergeMap((value) => importComments(value[5], roomId, commentService)),
+    mergeMap((_) => result),
+  );
 };
