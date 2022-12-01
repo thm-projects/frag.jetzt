@@ -1,8 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
+import { BrainstormingWord } from 'app/models/brainstorming-word';
 import { Room } from 'app/models/room';
-import { RoomService } from 'app/services/http/room.service';
-import { TagCloudSettings } from 'app/utils/TagCloudSettings';
+import { BrainstormingService } from 'app/services/http/brainstorming.service';
+import { switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-brainstorming-blacklist-edit',
@@ -11,33 +12,54 @@ import { TagCloudSettings } from 'app/utils/TagCloudSettings';
 })
 export class BrainstormingBlacklistEditComponent implements OnInit {
   @Input() room: Room;
-  blacklist: string[];
+  blacklist: BrainstormingWord[];
   showBlacklistWordList = false;
   newBlacklistWord: string;
 
   constructor(
-    private _roomService: RoomService,
     private _dialogRef: MatDialogRef<BrainstormingBlacklistEditComponent>,
+    private _brainstormingService: BrainstormingService,
   ) {}
 
   ngOnInit(): void {
-    this.blacklist =
-      TagCloudSettings.getFromRoom(this.room)?.brainstormingBlacklist || [];
-    this.blacklist.sort();
+    const obj = this.room.brainstormingSession.wordsWithMeta;
+    this.blacklist = Object.keys(obj)
+      .map((key) => obj[key].word)
+      .filter((w) => w.banned);
+    this.sort();
   }
 
   addBlacklistWord() {
-    this.blacklist.push(this.newBlacklistWord.toLowerCase());
+    this._brainstormingService
+      .createWord(
+        this.room.brainstormingSession.id,
+        this.newBlacklistWord.toLowerCase(),
+      )
+      .pipe(
+        switchMap((word) =>
+          this._brainstormingService.patchWord(word.id, { banned: true }),
+        ),
+      )
+      .subscribe((word) => {
+        if (this.blacklist.findIndex((w) => w.id === word.id) >= 0) {
+          return;
+        }
+        this.blacklist.push(word);
+        this.sort();
+      });
     this.newBlacklistWord = '';
-    this.blacklist.sort();
   }
 
-  removeWordFromBlacklist(tag) {
-    const index = this.blacklist.indexOf(tag);
+  removeWordFromBlacklist(wordId: string) {
+    const index = this.blacklist.findIndex((w) => w.id === wordId);
     if (index < 0) {
       return;
     }
-    this.blacklist.splice(index, 1);
+    this._brainstormingService
+      .patchWord(wordId, { banned: false })
+      .subscribe(() => {
+        this.blacklist.splice(index, 1);
+      });
   }
 
   buildCloseDialogActionCallback() {
@@ -48,14 +70,13 @@ export class BrainstormingBlacklistEditComponent implements OnInit {
 
   buildSaveActionCallback() {
     return () => {
-      const settings = TagCloudSettings.getFromRoom(this.room);
-      settings.brainstormingBlacklist = this.blacklist;
-      this._roomService
-        .patchRoom(this.room.id, {
-          tagCloudSettings: settings.serialize(),
-        })
-        .subscribe();
       this._dialogRef.close(this.blacklist);
     };
+  }
+
+  private sort() {
+    this.blacklist.sort((a, b) =>
+      a.word.localeCompare(b.word, undefined, { sensitivity: 'base' }),
+    );
   }
 }

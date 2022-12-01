@@ -157,7 +157,7 @@
 
       <!--Topic Cloud-->
       <div class="topic-cloud-btns"
-           *ngIf="router.url.includes('tagcloud')"
+           *ngIf="router.url.endsWith('tagcloud')"
            ars-flex-box>
         <ars-col>
           <button mat-icon-button
@@ -188,6 +188,30 @@
                   disableRipple="true"
                   class="pseudo-button"
                   matTooltip="{{'header.overview-keywords-tooltip' | translate}}">
+            <mat-icon
+              class="oldtypo-h2 comment_tag-icon">tag
+            </mat-icon>
+            <span style="margin-left: 0.1em;">{{commentsCountKeywords}}</span>
+          </button>
+        </ars-col>
+      </div>
+
+      <!--Brainstorming-->
+      <div class="topic-cloud-btns"
+           *ngIf="router.url.includes('brainstorming')"
+           ars-flex-box>
+        <ars-col>
+          <button mat-icon-button
+                  disableRipple="true"
+                  class="pseudo-button"
+                  matTooltip="{{'header.overview-brainstormers-tooltip' | translate}}">
+            <mat-icon class="oldtypo-h2 comment_tag-icon">person</mat-icon>
+            <span style="margin-left: 0.1em;">{{commentsCountUsers}}</span>
+          </button>
+          <button mat-icon-button
+                  disableRipple="true"
+                  class="pseudo-button"
+                  matTooltip="{{'header.overview-ideas-tooltip' | translate}}">
             <mat-icon
               class="oldtypo-h2 comment_tag-icon">tag
             </mat-icon>

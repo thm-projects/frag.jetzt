@@ -123,6 +123,7 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
   currentDateString = '?';
   viewInfo: ResponseViewInformation;
   commentRegistrationId: string;
+  brainstormingCategory: string;
   private _votes;
   private _commentNumber: string[] = [];
   private _destroyer = new ReplaySubject(1);
@@ -172,7 +173,7 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   getCommentIcon(): string {
-    if (this.comment?.brainstormingQuestion) {
+    if ((this.comment?.brainstormingSessionId || null) !== null) {
       return 'psychology_alt';
     } else if (this.isFromOwner) {
       return 'co_present';
@@ -184,7 +185,7 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
 
   getCommentIconClass(): string {
     if (
-      this.comment?.brainstormingQuestion ||
+      (this.comment?.brainstormingSessionId || null) !== null ||
       this.isFromOwner ||
       this.isFromModerator
     ) {
@@ -195,7 +196,9 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit() {
     this.isConversationView = this.router.url.endsWith('conversation');
-    this.isConversationViewOwner = this.router.url.endsWith(this.comment.id + '/conversation');
+    this.isConversationViewOwner = this.router.url.endsWith(
+      this.comment.id + '/conversation',
+    );
     if (this.comment?.created) {
       this.slideAnimationState = 'new';
     }
@@ -612,6 +615,7 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
       };
       this.showResponses =
         this.showResponses || Boolean(this.activeKeywordSearchString);
+      this.updateBrainstormingCategory(room);
     });
   }
 
@@ -670,11 +674,32 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
       return false;
     }
     const hasPrivileges = !this.isStudent || this.ownsComment();
-    return hasPrivileges;
+    return hasPrivileges && this.comment.brainstormingSessionId === null;
   }
 
   editQuestion() {
     this.editQuestionEmitter.emit();
+  }
+
+  private updateBrainstormingCategory(room: Room) {
+    if (!this.comment.brainstormingWordId) {
+      return;
+    }
+    const id =
+      room.brainstormingSession?.wordsWithMeta?.[
+        this.comment.brainstormingWordId
+      ]?.word?.categoryId;
+    if (!id) {
+      return;
+    }
+    this.sessionService
+      .getCategoriesOnce()
+      .subscribe(
+        (categories) =>
+          (this.brainstormingCategory = categories.find(
+            (c) => c.id === id,
+          )?.name),
+      );
   }
 
   private onLanguageChange() {

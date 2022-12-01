@@ -273,7 +273,9 @@
     "overview-keywords-tooltip": "Nombre de mots-clés",
     "overview-question-tooltip": "Nombre de questions",
     "overview-questioners-tooltip": "Nombre d'auteurs de questions",
-    "overview-admin-config-enabled": "Les seuils pour l'affichage des sujets sont actifs."
+    "overview-admin-config-enabled": "Les seuils pour l'affichage des sujets sont actifs.",
+    "overview-brainstormers-tooltip": "Nombre de brainstormers",
+    "overview-ideas-tooltip": "Nombre d'idées"
   },
   "home-page": {
     "exactly-8": "Un code de salle comporte exactement 8 chiffres.",
@@ -476,6 +478,7 @@
     "blacklist-topic": "Ajouter à la liste de blocage",
     "changes-gone-wrong": "Quelque chose a mal tourné !",
     "changes-successful": "Modifications enregistrées",
+    "write-last-idea": "Écrire la dernière idée de brainstorming!",
     "demo-data-topic": "Mot-clé %d",
     "downvote-topic": "Votes descendants pour ce mot-clé",
     "downvote-topic-brainstorming": "Je n'aime pas",
@@ -485,7 +488,7 @@
     "period-since-first-comment": "Temps écoulé depuis la première contribution",
     "print-title": "Nuage de mots de la salle « {{roomName}} »",
     "responses-to-keyword": "Nombre de toutes les réponses à ce mot-clé",
-    "ups-downs-difference": "Différence d'évaluation",
+    "ups-downs-difference": "Différence d'évaluation | {{upvotes}} 👍  {{downvotes}} 👎",
     "upvote-topic": "Votes positifs pour ce mot-clé",
     "upvote-topic-brainstorming": "J'aime"
   },

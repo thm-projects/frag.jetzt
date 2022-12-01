@@ -4,12 +4,25 @@
   position: fixed;
   transform: scale(0.75);
 
+  &.background {
+    border-radius: 100%;
+    background: var(--background);
+  }
+
   /* Clock styles */
   .circle {
     stroke-width: 9px;
     stroke-miterlimit: 10;
     fill: transparent;
     stroke: transparent;
+  }
+
+  .duration {
+    transform-origin: 300px 300px;
+    transform: translate(300px, 300px);
+    fill: none;
+    stroke-width: 15px;
+    stroke: var(--green);
   }
 
   .mid-circle {

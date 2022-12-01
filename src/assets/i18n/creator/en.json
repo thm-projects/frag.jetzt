@@ -21,8 +21,39 @@
     "add-button": "Add word",
     "show-button": "Show Blacklist",
     "hide-button": "Hide Blacklist",
+    "update": "Close"
+  },
+  "brainstorming-category": {
+    "title": "Brainstorm categories",
+    "tag-placeholder": "New category:"
+  },
+  "brainstorming-delete": {
+    "title-rating": "Reset ratings",
+    "you-sure-rating": "Should all ratings really be reset? This also resets the weighting.",
+    "succeed": "Reset",
     "cancel": "Cancel",
-    "update": "Save"
+    "title-category": "Reset categorization",
+    "you-sure-category": "Should all category assignments really be reset?"
+  },
+  "brainstorming-edit": {
+    "title": "Edit Brainstorming",
+    "question": "Topic or focus question …",
+    "word-count": "Maximum number of words",
+    "word-length": "Maximum number of characters",
+    "field-hint-number": "Value: {{min}} - {{max}}",
+    "field-required": "This field is required",
+    "field-too-high": "Your input is too long. It may be at most {{max}}.",
+    "field-too-low": "Your input is too short. It must be at least {{min}}.",
+    "language-title": "Language",
+    "language": {
+      "de": "German",
+      "en": "English",
+      "fr": "French"
+    },
+    "duration": "Duration after start - {{duration}} minutes: ",
+    "allow-ideas": "Allow continuous idea input",
+    "allow-rating": "Allow rating from start",
+    "update": "Update"
   },
   "comment-list": {
     "a11y-access_time": "Sorts questions by time",
@@ -184,6 +215,8 @@
     "cancel": "Cancel",
     "cancel-description": "Cancel",
     "category": "Category:",
+    "select-brainstorm-category": "Choose brainstorming category:",
+    "select-brainstorm-category-none": "None",
     "comma": "Excel format (.xls)",
     "comment": "Question {{ comment }} was asked at {{ time }} and has currently {{ votes }}. {{correct}} {{wrong}} {{bonus}} {{beamer}}",
     "comment-answered": "Answer has been sent.",
@@ -335,7 +368,9 @@
     "overview-keywords-tooltip": "Number of Keywords",
     "overview-question-tooltip": "Number of questions",
     "overview-questioners-tooltip": "Number of questioners",
-    "overview-admin-config-enabled": "Thresholds for displaying topics are active."
+    "overview-admin-config-enabled": "Thresholds for displaying topics are active.",
+    "overview-brainstormers-tooltip": "Number of brainstormers",
+    "overview-ideas-tooltip": "Number of ideas"
   },
   "home-page": {
     "create-session": "New session",
@@ -632,6 +667,7 @@
     "blacklist-topic": "Add to blacklist",
     "changes-gone-wrong": "Something has gone wrong!",
     "changes-successful": "Successfully updated.",
+    "write-last-idea": "Write the last brainstorm idea!",
     "demo-data-topic": "Keyword %d",
     "downvote-topic": "Down-votes for this keyword",
     "downvote-topic-brainstorming": "Don't like",
@@ -641,7 +677,7 @@
     "period-since-first-comment": "Time since the first contribution",
     "print-title": "Word cloud from room »{{roomName}}«",
     "responses-to-keyword": "Number of all responses to this keyword",
-    "ups-downs-difference": "Evaluation difference",
+    "ups-downs-difference": "Evaluation difference | {{upvotes}} 👍  {{downvotes}} 👎",
     "upvote-topic": "Up-votes for this keyword",
     "upvote-topic-brainstorming": "I like"
   },
