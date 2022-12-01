@@ -48,6 +48,7 @@ import { QuillUtils } from '../../../utils/quill-utils';
 import { TitleService } from '../../../services/util/title.service';
 import { DeviceInfoService } from '../../../services/util/device-info.service';
 import { UserManagementService } from '../../../services/util/user-management.service';
+import { RoomSettingsOverviewComponent } from '../_dialogs/room-settings-overview/room-settings-overview.component';
 
 @Component({
   selector: 'app-room-page',
@@ -489,7 +490,20 @@ export class RoomPageComponent implements OnInit, OnDestroy {
         class: 'material-icons-outlined',
         text: 'header.profanity-filter',
         callback: () => this.toggleProfanityFilter(),
-        condition: () => this.userRole > UserRole.PARTICIPANT
+        condition: () => this.userRole > UserRole.PARTICIPANT,
+      });
+      e.menuItem({
+        translate: this.headerService.getTranslate(),
+        icon: 'room_preferences',
+        class: 'material-icons-round settings',
+        text: 'room-list.settings-overview',
+        callback: () => {
+          const ref = this.dialog.open(RoomSettingsOverviewComponent, {
+            width: '600px',
+          });
+          ref.componentInstance.room = this.room;
+        },
+        condition: () => this.userRole > UserRole.PARTICIPANT,
       });
       e.altToggle(
         {

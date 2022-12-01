@@ -26,33 +26,35 @@ export class BrainstormingSession {
   ideasTimeDuration: number;
   ideasEndTimestamp: Date;
 
-  constructor(
-    roomId: string = '',
-    title: string = '',
-    active: boolean = true,
-    createdAt: Date = null,
-    maxWordLength: number = 20,
-    maxWordCount: number = 1,
-    wordsWithMeta: WordsWithMeta = null,
-    language: string = '',
-    ratingAllowed: boolean = false,
-    ideasFrozen: boolean = true,
-    ideasTimeDuration: number = null,
-    ideasEndTimestamp: Date = null,
-  ) {
-    this.id = '';
+  constructor({
+    id = '',
+    roomId = '',
+    title = '',
+    active = true,
+    createdAt = null,
+    maxWordLength = 20,
+    maxWordCount = 1,
+    wordsWithMeta = {},
+    language = '',
+    ratingAllowed = false,
+    ideasFrozen = true,
+    ideasTimeDuration = null,
+    ideasEndTimestamp = null,
+    updatedAt = null
+  }: BrainstormingSession) {
+    this.id = id;
     this.roomId = roomId;
     this.title = title;
     this.active = active;
     this.createdAt = createdAt;
     this.maxWordLength = maxWordLength;
     this.maxWordCount = maxWordCount;
-    this.wordsWithMeta = wordsWithMeta;
-    this.updatedAt = null;
+    this.wordsWithMeta = wordsWithMeta ?? {};
     this.language = language;
     this.ratingAllowed = ratingAllowed;
     this.ideasFrozen = ideasFrozen;
     this.ideasTimeDuration = ideasTimeDuration;
     this.ideasEndTimestamp = ideasEndTimestamp;
+    this.updatedAt = updatedAt;
   }
 }

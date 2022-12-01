@@ -23,6 +23,7 @@ import { environment } from 'environments/environment';
 import { BrainstormingWord } from 'app/models/brainstorming-word';
 import { BrainstormingCategory } from 'app/models/brainstorming-category';
 import { BrainstormingService } from '../http/brainstorming.service';
+import { BrainstormingSession } from 'app/models/brainstorming-session';
 
 @Injectable({
   providedIn: 'root',
@@ -368,10 +369,11 @@ export class SessionService {
       room.brainstormingSession = null;
       this._afterRoomUpdates.next(room);
     } else if (message.type === 'BrainstormingCreated') {
+      const newSession = new BrainstormingSession(message.payload.session);
       this._beforeRoomUpdates.next({
-        brainstormingSession: message.payload,
+        brainstormingSession: newSession,
       });
-      room.brainstormingSession = message.payload;
+      room.brainstormingSession = newSession;
       this._afterRoomUpdates.next(room);
     } else if (message.type === 'BrainstormingVoteUpdated') {
       this.onBrainstormingVoteUpdated(message, room);
