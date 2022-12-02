@@ -67,12 +67,18 @@ export class KeywordExtractor {
     injector: Injector,
     private dialog: MatDialog = injector.get(MatDialog),
     private translateService: TranslateService = injector.get(TranslateService),
-    private notification: NotificationService = injector.get(NotificationService),
+    private notification: NotificationService = injector.get(
+      NotificationService,
+    ),
     private roomDataService: RoomDataService = injector.get(RoomDataService),
-    private languagetoolService: LanguagetoolService = injector.get(LanguagetoolService),
+    private languagetoolService: LanguagetoolService = injector.get(
+      LanguagetoolService,
+    ),
     private spacyService: SpacyService = injector.get(SpacyService),
     private deeplService: DeepLService = injector.get(DeepLService),
-    private brainstormingService: BrainstormingService = injector.get(BrainstormingService),
+    private brainstormingService: BrainstormingService = injector.get(
+      BrainstormingService,
+    ),
   ) {}
 
   static isKeywordAcceptable(keyword: string): boolean {
@@ -107,7 +113,6 @@ export class KeywordExtractor {
     comment.roomId = this.roomDataService.sessionService.currentRoom.id;
     comment.creatorId = options.userId;
     comment.createdFromLecturer = options.isModerator;
-    comment.brainstormingSessionId = options.brainstormingSessionId;
     comment.commentReference = options.commentReference;
     comment.brainstormingSessionId = options.brainstormingSessionId || null;
     return comment;
@@ -119,11 +124,17 @@ export class KeywordExtractor {
       return this.generateBrainstormingTerm(
         options.body,
         options.brainstormingSessionId,
-        options.selectedLanguage,
+        options.brainstormingLanguage,
       ).pipe(
         switchMap((result) => {
           options.callbackFinished?.();
-          if (this.wasWritten(result.id, options.userId, options.brainstormingSessionId)) {
+          if (
+            this.wasWritten(
+              result.id,
+              options.userId,
+              options.brainstormingSessionId,
+            )
+          ) {
             this.translateService
               .get('comment-page.error-brainstorm-duplicate')
               .subscribe((msg) => this.notification.show(msg));
@@ -131,7 +142,8 @@ export class KeywordExtractor {
               () => new Error('Brainstorming idea already written'),
             );
           }
-          comment.language = options.selectedLanguage.toUpperCase() as CommentLanguage;
+          comment.language =
+            (options.brainstormingLanguage || 'AUTO').toUpperCase() as CommentLanguage;
           comment.keywordsFromSpacy = [];
           comment.keywordsFromQuestioner = [];
           comment.brainstormingWordId = result.id;
@@ -160,8 +172,16 @@ export class KeywordExtractor {
     language: string,
   ): Observable<BrainstormingWord> {
     const text = QuillUtils.getTextFromDelta(body);
-    const term = SharedTextFormatting.getTerm(text).toLowerCase();
-    return this.brainstormingService.createWord(sessionId, term);
+    const term = SharedTextFormatting.getTerm(text);
+    return this.spacyService.getLemma(term, language as Model).pipe(
+      catchError((err) => {
+        console.error(err);
+        return of({ text: term } as const);
+      }),
+      switchMap((obj) =>
+        this.brainstormingService.createWord(sessionId, obj.text),
+      ),
+    );
   }
 
   generateKeywords(
@@ -242,20 +262,22 @@ export class KeywordExtractor {
     if (code === SourceLang.EN) {
       target = TargetLang.DE;
     }
-    return this.deeplService.improveDelta(body, target, FormalityType.Less).pipe(
-      switchMap(([_, improvedText]) =>
-        this.callSpacy(improvedText.trim(), finalLanguage, commentModel),
-      ),
-      catchError((err) =>
-        of({
-          keywords: [],
-          language: finalLanguage,
-          resultType: KeywordsResultType.Failure,
-          error: err,
-          wasDeepLError: true,
-        } as KeywordsResult),
-      ),
-    );
+    return this.deeplService
+      .improveDelta(body, target, FormalityType.Less)
+      .pipe(
+        switchMap(([_, improvedText]) =>
+          this.callSpacy(improvedText.trim(), finalLanguage, commentModel),
+        ),
+        catchError((err) =>
+          of({
+            keywords: [],
+            language: finalLanguage,
+            resultType: KeywordsResultType.Failure,
+            error: err,
+            wasDeepLError: true,
+          } as KeywordsResult),
+        ),
+      );
   }
 
   private callSpacy(
@@ -305,7 +327,11 @@ export class KeywordExtractor {
     );
   }
 
-  private wasWritten(wordId: string, userId: string, sessionId: string): boolean {
+  private wasWritten(
+    wordId: string,
+    userId: string,
+    sessionId: string,
+  ): boolean {
     if (!this.roomDataService.dataAccessor.currentRawComments()) {
       return true;
     }
