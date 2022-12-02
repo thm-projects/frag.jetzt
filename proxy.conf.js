@@ -64,7 +64,7 @@ const PROXY_CONFIG = {
     "logLevel": "debug"
   },
   "/lemmatize": {
-    "target": process.env.SPACY_ADDRESS || "https://frag.jetzt/lemmatize",
+    "target": process.env.LEMMATIZE_ADDRESS || "https://frag.jetzt/lemmatize",
     "secure": true,
     "changeOrigin": true,
     "pathRewrite": {
