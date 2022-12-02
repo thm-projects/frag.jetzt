@@ -1,7 +1,5 @@
 import { BrainstormingSession } from 'app/models/brainstorming-session';
 import { ForumComment } from 'app/utils/data-accessor';
-import { QuillUtils } from 'app/utils/quill-utils';
-import { SharedTextFormatting } from 'app/utils/shared-text-formatting';
 
 export class BrainstormingTopic {
   constructor(
@@ -15,7 +13,6 @@ export class BrainstormingTopic {
     public comments = [],
     public commentsByCreator = 0,
     public commentsByModerators = 0,
-    public firstTopicName = null,
   ) {}
 }
 
@@ -69,11 +66,6 @@ export class BrainstormingDataBuilder {
       topic.comments.push(comment);
       topic.commentsByCreator += Number(comment.creatorId === this.roomOwner);
       topic.commentsByModerators += Number(this.mods.has(comment.creatorId));
-      if (topic.firstTopicName === null) {
-        topic.firstTopicName = SharedTextFormatting.getTerm(
-          QuillUtils.getTextFromDelta(comment.body),
-        );
-      }
       this.users.add(comment.creatorId);
     }
   }

@@ -33,7 +33,7 @@ export class BrainstormingBlacklistEditComponent implements OnInit {
     this._brainstormingService
       .createWord(
         this.room.brainstormingSession.id,
-        this.newBlacklistWord.toLowerCase(),
+        this.newBlacklistWord,
       )
       .pipe(
         switchMap((word) =>
