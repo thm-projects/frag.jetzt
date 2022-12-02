@@ -63,6 +63,15 @@ const PROXY_CONFIG = {
     },
     "logLevel": "debug"
   },
+  "/lemmatize": {
+    "target": process.env.LEMMATIZE_ADDRESS || "https://frag.jetzt/lemmatize",
+    "secure": true,
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/lemmatize": ""
+    },
+    "logLevel": "debug"
+  },
   "/api/ws/websocket": {
     "target": process.env.WS_GATEWAY_WS_ADDRESS || "ws://localhost:8080",
     "secure": process.env.BACKEND_SECURE || false,

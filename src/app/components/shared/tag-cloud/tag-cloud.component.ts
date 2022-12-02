@@ -284,7 +284,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     const newElements = [];
     const data = this.brainDataManager.currentData;
     for (const [word, topic] of data) {
-      this.createBrainTagElement(topic, word.id, word.word, newElements);
+      this.createBrainTagElement(topic, word.id, word.correctedWord || word.word, newElements);
     }
     this.data = newElements;
     setTimeout(() => {

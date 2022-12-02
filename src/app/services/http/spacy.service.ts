@@ -13,14 +13,13 @@ export interface SpacyKeyword {
 
 const httpOptions = {
   // eslint-disable-next-line @typescript-eslint/naming-convention
-  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+  headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
 };
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SpacyService extends BaseHttpService {
-
   constructor(private http: HttpClient) {
     super();
   }
@@ -29,15 +28,40 @@ export class SpacyService extends BaseHttpService {
     return DEFAULT_NOUN_LABELS[model];
   }
 
-  getKeywords(text: string, model: Model, brainstorming: boolean): Observable<SpacyKeyword[]> {
+  getKeywords(
+    text: string,
+    model: Model,
+    brainstorming: boolean,
+  ): Observable<SpacyKeyword[]> {
     const url = '/spacy';
-    return this.checkCanSendRequest('getKeywords') || this.http
-      .post<SpacyKeyword[]>(url, { text, model, brainstorming: String(brainstorming) }, httpOptions)
-      .pipe(
-        tap(_ => ''),
+    return (
+      this.checkCanSendRequest('getKeywords') ||
+      this.http
+        .post<SpacyKeyword[]>(
+          url,
+          { text, model, brainstorming: String(brainstorming) },
+          httpOptions,
+        )
+        .pipe(
+          tap((_) => ''),
+          timeout(2500),
+          catchError(this.handleError<any>('getKeywords')),
+          map((elem: SpacyKeyword[]) =>
+            elem.filter((e) => KeywordExtractor.isKeywordAcceptable(e.text)),
+          ),
+        )
+    );
+  }
+
+  getLemma(text: string, model: Model): Observable<{ text: string }> {
+    const url = '/lemmatize';
+    return (
+      this.checkCanSendRequest('getLemma') ||
+      this.http.post<{ text: string }>(url, { text, model }, httpOptions).pipe(
+        tap((_) => ''),
         timeout(2500),
-        catchError(this.handleError<any>('getKeywords')),
-        map((elem: SpacyKeyword[]) => elem.filter(e => KeywordExtractor.isKeywordAcceptable(e.text)))
-      );
+        catchError(this.handleError<any>('getLemma')),
+      )
+    );
   }
 }
