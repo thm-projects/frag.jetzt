@@ -109,7 +109,7 @@ export class MinuteJumpClockComponent implements OnInit, AfterViewInit, OnDestro
     };
     const [startX, startY] = calculate(radius, startAngle);
     const [endX, endY] = calculate(radius, endAngle);
-    return `M ${startX} ${startY} A ${radius} ${radius} 0 0 1 ${endX} ${endY}`;
+    return `M ${startX} ${startY} A ${radius} ${radius} 0 ${Number(Math.abs(startAngle - endAngle) >= 180)} 1 ${endX} ${endY}`;
   }
 
   private updatePresentationClock() {

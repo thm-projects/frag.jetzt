@@ -779,7 +779,8 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
         );
         e.menuItem({
           translate: this.headerService.getTranslate(),
-          icon: 'emoji_objects',
+          isSVGIcon: true,
+          icon: 'beamer',
           class: 'material-icons-outlined',
           text: 'header.brainstorm-question-focus',
           callback: () => {
