@@ -22,18 +22,12 @@ else (no)
     :login as guest;
     :create room;
 endif
-
-fork
-    :wait for questions;
-fork again
-partition "Share room" {
-    :give students and moderators 
-    the opportunity to access room;
-}
+:wait for questions;
+end
 
 |#90CAF9|Student|
 
-fork
+start
     :go to frag.jetzt;
     if(participant has an account?) then (yes)
         :login;
@@ -42,62 +36,73 @@ fork
         :access room as guest;
     endif
     :go to »Q&A forum«;
-    partition "Ask a question" {
-    repeat
+    partition "Ask questions" {
+    	(Q)
         :open editor;
         :write question;
         :post question;
-    repeat while (want to ask more questions?)
+    	if (want to ask more questions?) then (yes)
+        (Q)
+        detach
+    	else (no)
+        stop
+        endif
     }
 
-fork again
-    |#FFAF49|Moderator|
-    :go to frag.jetzt;
-    :login;
-    :access room;
-    |Student|
-end fork
-|Lecturer|
-end fork
+|#FFAF49|Moderator|
 
-if (proceed according to role) then (lecturer)
-    :go to »Q&A forum«;
-    
-    partition "Mark question" {
-    (A)
-    :review question;
+start
+:go to frag.jetzt;
+:login;
+:access room;
+note
+either the lecturer has added him or her
+as a moderator in the room with his or her
+mail address or he or she has received
+a temporary moderation link
+endnote
+:go to »Q&A forum«;
+
+partition "Mark questions" {
+(M)
+if (are there unreviewed questions?) then (yes)
+	:review question;
     if(question is particularly good?) then (yes)
-        :mark question with a star;
+    	:mark question with a star;
+        (M)
+        detach
     else (no)
-        if(unreviewed questions exist?) then (yes)
-           (A)
-           detach
-        else (no)
-            stop
-        endif
+    	(M)
+        detach
     endif
-    }
-    else (moderator)
-        |Moderator|
-        :go to »Q&A forum«;
-        partition "Mark question" {
-        (B)
-        :review question;
-        if(question is particularly good?) then (yes)
-            :mark question with a star;
-        else (no)
-            if(unreviewed questions exist?) then (yes)
-               (B)
-               detach
-            else (no)
-                stop
-            endif
-        endif
-        }
+else (no)
+	stop
 endif
+    }
+
+|Lecturer|
+        start
+        partition "Mark questions" {
+(M)
+if (are there unreviewed questions?) then (yes)
+	:review question;
+    if(question is particularly good?) then (yes)
+    	:mark question with a star;
+        (M)
+        detach
+    else (no)
+    	(M)
+        detach
+    endif
+else (no)
+	stop
+endif
+    }
 
 
 |Student|
+
+start
 
 partition "Redeem bonus code" {
 :select »My rooms«;
@@ -105,30 +110,45 @@ partition "Redeem bonus code" {
 :choose a room;
 :redeem token;
 :send mail with token to lecturer;
+stop
 }
 
 |Lecturer|
 
 partition "Award bonus points" {
-:receive email with token from student;
+start
 :navigate to »Room management«;
 :select »Bonus archive«;
-:check the validity of token";
-if(token from email and token in 
-bonus archive are identical?) then (yes)
-    :review question again;
-    if(question is worth bonus points?) then (yes)
-        :award student bonus points;
-    else (no)
-        :send email back with answer;
-        stop
-    endif
-else (no)
-    stop
-endif
-Stop
-}
+(A)
+if(is closing date for tokens) then (yes)
+	stop
+	else (no)
+		:check e-mails for tokens from students;
+		if(e-mail found?) then (yes)
+			:check validity of token;
 
+                  if(token is registered?) then (yes)
+                      :review associated question again;
+                              if(question is worth bonus point?) then (yes)
+                                  :award student bonus point;
+                                  (A)
+                              else (no)
+                                  :send rejection notice to student;
+                                  (A)
+                                  detach
+                              endif
+                  else (no)
+                      :send rejection notice to student;
+                      (A)
+                      detach
+                  endif
+    else (no)
+            (A)
+            detach
+    endif
+        detach
+endif
+}
 
 legend right
   |<img:https://git.thm.de/arsnova/frag.jetzt/-/raw/staging/src/assets/icons/Logo_frag_jetzt_128x128.png> |= \n\n »frag.jetzt« |
@@ -141,6 +161,6 @@ legend right
   | Letzter Bearbeiter| Klaus Quibeldey-Cirkel|
   | Kontakt| [[mailto:klaus.quibeldey-cirkel@mni.thm.de]] |
   | Erstellt| 09.01.2021 |
-  | Letzte Überarbeitung| 29.11.2022 |
+  | Letzte Überarbeitung| 03.12.2022 |
 end legend
 @enduml
