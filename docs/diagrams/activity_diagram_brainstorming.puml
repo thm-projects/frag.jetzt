@@ -1,7 +1,7 @@
 @startuml
 title Workflow of a brainstorming session with »frag.jetzt«
 
-caption Note: The actions highlighted in pink are items of the »Options« menu.   
+caption <b>Note: The actions <color: hotpink>highlighted in pink</color> are items of the »Options« menu.</b>   
 
 skinparam backgroundColor Linen
 skinparam shadowing true
@@ -10,74 +10,134 @@ skinparam Padding 6
 
 |#CE93D8|Moderator|
 
-start
+  partition "Book a room for a brainstorming session" {
 
-partition "Setup" {
-:Activate brainstorming option in
-room settings → »My rooms«;
-:Click on »Brainstorming« 
+  start
+
+  :go to frag.jetzt;
+  if(you have an account?) then (yes)
+      :sign in;
+      if(room already exists?) then (yes)
+          :go to the room;
+      else (no)
+          :book a room;
+      endif
+  else (no)
+      :log in as guest;
+      :book a room;
+  endif
+  :select »My rooms« in the options menu;
+  :select »Room settings« in the options menu;
+  :activate brainstorming option;
+:go to your room;
+:copy and share key code or direct link for participant access;
+:go to Q&A forum;
+  end
+
+  }
+
+  |#90CAF9|Participant|
+  
+  partition "Join event" {
+        floating note left: The moderator has given you either \nthe key code of or the direct link \nto the event room.
+  start
+      :go to frag.jetzt;
+      :join event;
+      :go to Q&A forum; 
+      end
+ }
+
+|#CE93D8|Moderator|
+
+partition "Set up brainstorming session" {
+  floating note left: You are in the \nQ&A forum of your room.
+
+:click on »Brainstorming« 
 in the header of the Q&A forum;
-: Enter focus question or topic;
-: Set input length for ideas;
-: Set duration of brainstorming;
+: enter focus question or topic;
+: set input length for ideas;
+: set duration of brainstorming;
 }
 
 partition "Warm up" {
-#pink: Explain brainstorming technique;
-:Act out a brainstorming session;
+floating note left: <b>Phase 1 of brainstorming method</b>
+#pink: explain brainstorming technique;
+:act out a brainstorming session;
 }
 
-#pink: Start brainstorming;
+#pink: start brainstorming;
 
 |#90CAF9|Participant|
 
 partition "Idea finding" {
+floating note left: <b>Phase 2 of brainstorming method</b>
+:click on »Brainstorming« 
+in the header of the Q&A forum;
+:join session;
 repeat
-:Click the + button to enter idea;
-repeat while (Still time for brainstorming?) is (yes) not (no)
+:click the + button to enter idea;
+repeat while (still time for brainstorming?) is (yes) not (no)
 }
 
 |Moderator|
 
-#pink: Stop brainstorming;
+#pink: stop brainstorming;
 
 partition "Idea presentation" {
-#pink: Go to Question focus;
-:Present & discuss ideas;
+floating note left: <b>Phase 3 of brainstorming method</b>
+#pink: go to Question focus;
+:present & discuss ideas;
 }
 
 |Participant|
 
 partition "Idea elaboration" {
-#pink: Go to Q&A forum;
-:Further elaborate on ideas;
+floating note left: <b>Phase 4 of brainstorming method</b>
+#pink: go to Q&A forum;
+:further elaborate on ideas;
+:go back to Brainstorming;
 }
 
 |Moderator|
 
 partition "Idea sorting" {
-#pink: Create topic catalog;
-:Hover over the word cloud;
-:Assign topics to ideas;
-:Blacklist inappropriate ideas;
+floating note left: <b>Phase 5 of brainstorming method</b>
+:go back to Brainstorming;
+#pink: create topic catalog;
+:hover over the word cloud;
+:assign topics to ideas;
+:blacklist inappropriate ideas;
 }
 
-#pink: Reset idea rating;
+#pink: reset idea rating;
 
 |Participant|
 
 partition "Idea evaluation" {
-:Hover over the word cloud;
-:Rate ideas;
+floating note left: <b>Phase 6 of brainstorming method</b>
+:hover over the word cloud;
+:rate your favorite ideas;
 }
 
 |Moderator|
 
 partition "Record session" {
-#pink: Freeze session;
-:Create screenshot of word cloud;
-#pink: Export ideas;
+#pink: freeze session;
+:create screenshot of word cloud;
+#pink: export ideas;
 }
 
 stop
+
+  legend right
+    |<img:https://git.thm.de/arsnova/frag.jetzt/-/raw/staging/src/assets/icons/Logo_frag_jetzt_128x128.png> |= \n\n »frag.jetzt« |
+    | Domain glossary | [[https://git.thm.de/arsnova/frag.jetzt/-/blob/staging/docs/diagrams/Glossary.pdf]] |
+    | Production server | [[https://frag.jetzt]] |
+    | Repository | [[https://git.thm.de/arsnova/frag.jetzt/-/blob/staging/README.md]] |
+    | Staging server | [[https://staging.frag.jetzt]] |
+    | UML tool| PlantUML-Server Version 1202202|
+    | Author| Klaus Quibeldey-Cirkel|
+    | Contact| [[mailto:klaus.quibeldey-cirkel@mni.thm.de]] |
+    | Last revision| 04.12.2022 |
+  end legend
 @enduml

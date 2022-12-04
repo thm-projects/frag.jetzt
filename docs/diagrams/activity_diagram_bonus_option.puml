@@ -1,166 +1,160 @@
 @startuml
 title frag.jetzt | Workflow for Bonus awarding
 
-skinparam backgroundColor Linen
-skinparam shadowing true
-skinparam defaultFontSize 14
-skinparam Padding 6
+  skinparam backgroundColor Linen
+  skinparam shadowing true
+  skinparam defaultFontSize 14
+  skinparam Padding 6
 
-|#CE93D8|Lecturer|
+  |#CE93D8|Lecturer|
 
-start
+  partition "Book a room" {
 
-:go to frag.jetzt;
-if(lecturer has an account?) then (yes)
-    :login;
-    if(room already exists?) then (yes)
-        :access room;
-    else (no)
-        :create room;
-    endif
-else (no)
-    :login as guest;
-    :create room;
-endif
-:wait for questions;
-end
+  start
 
-|#90CAF9|Student|
+  :go to frag.jetzt;
+  if(you have an account?) then (yes)
+      :sign in;
+      if(room already exists?) then (yes)
+          :go to the room;
+      else (no)
+          :book a room;
+      endif
+  else (no)
+      :log in as guest;
+      :book a room;
+  endif
+  stop
 
-start
-    :go to frag.jetzt;
-    if(participant has an account?) then (yes)
-        :login;
-        :access room;
-    else (no)
-        :access room as guest;
-    endif
-    :go to »Q&A forum«;
-    partition "Ask questions" {
-    	(Q)
-        :open editor;
-        :write question;
-        :post question;
-    	if (want to ask more questions?) then (yes)
-        (Q)
-        detach
-    	else (no)
-        stop
-        endif
-    }
+  }
+
+  |#90CAF9|Student|
+  
+  partition "Join event" {
+  start
+      :go to frag.jetzt;
+      floating note left: The lecturer or a moderator has given you either \nthe key code, the direct link or the QR code.
+      if(you have an account?) then (yes)
+          :sign in;
+          :go to the room;
+      else (no)
+          :join event as guest;
+      endif
+      stop
+ }
+
+  partition "Ask questions" {
+
+  start
+      floating note left: You are in the event room.
+      :go to »Q&A forum«;
+          (Q)
+          :open editor;
+          :write question;
+          :post question;
+          if (want to ask more questions?) then (yes)
+          (Q)
+          detach
+          else (no)
+          stop
+          endif
+      }
+
 
 |#FFAF49|Moderator|
-
-start
-:go to frag.jetzt;
-:login;
-:access room;
-note
-either the lecturer has added him or her
-as a moderator in the room with his or her
-mail address or he or she has received
-a temporary moderation link
-endnote
-:go to »Q&A forum«;
-
-partition "Mark questions" {
-(M)
-if (are there unreviewed questions?) then (yes)
-	:review question;
-    if(question is particularly good?) then (yes)
-    	:mark question with a star;
-        (M)
-        detach
-    else (no)
-    	(M)
-        detach
-    endif
-else (no)
-	stop
-endif
-    }
-
-|Lecturer|
-        start
-        partition "Mark questions" {
-(M)
-if (are there unreviewed questions?) then (yes)
-	:review question;
-    if(question is particularly good?) then (yes)
-    	:mark question with a star;
-        (M)
-        detach
-    else (no)
-    	(M)
-        detach
-    endif
-else (no)
-	stop
-endif
-    }
-
-
-|Student|
-
-start
-
-partition "Redeem bonus code" {
-:select »My rooms«;
-:select »My bonus stars«;
-:choose a room;
-:redeem token;
-:send mail with token to lecturer;
-stop
+  
+  partition "Join event" {
+  start
+  :go to frag.jetzt;
+   floating note left: Either the lecturer has added you\nas a moderator in the room with your e-mail address\nor you have received a temporary moderation link.
+  if(you have an account?) then (yes)
+          :sign in;
+          :go to the room;
+      else (no)
+          :join event with moderation link;
+      endif
+      stop
 }
 
-|Lecturer|
+  partition "Mark questions for bonus awarding" {
+  start
+ floating note left: You are in the event room.
+  :go to »Q&A forum«;
 
-partition "Award bonus points" {
-start
-:navigate to »Room management«;
-:select »Bonus archive«;
-(A)
-if(is closing date for tokens) then (yes)
-	stop
-	else (no)
-		:check e-mails for tokens from students;
-		if(e-mail found?) then (yes)
-			:check validity of token;
+  (M)
+  if (are there unreviewed questions?) then (yes)
+      :review question;
+      if(question is particularly good?) then (yes)
+          :mark question with a star;
+          (M)
+          detach
+      else (no)
+          (M)
+          detach
+      endif
+  else (no)
+      stop
+  endif
+      }
 
-                  if(token is registered?) then (yes)
-                      :review associated question again;
-                              if(question is worth bonus point?) then (yes)
-                                  :award student bonus point;
-                                  (A)
-                              else (no)
-                                  :send rejection notice to student;
-                                  (A)
-                                  detach
-                              endif
-                  else (no)
-                      :send rejection notice to student;
-                      (A)
-                      detach
-                  endif
-    else (no)
-            (A)
-            detach
-    endif
-        detach
-endif
-}
+  |Student|
 
-legend right
-  |<img:https://git.thm.de/arsnova/frag.jetzt/-/raw/staging/src/assets/icons/Logo_frag_jetzt_128x128.png> |= \n\n »frag.jetzt« |
-  | Domain-Glossar | [[https://git.thm.de/arsnova/frag.jetzt/-/blob/staging/docs/diagrams/Glossary.pdf]] |
-  | Produktion | [[https://frag.jetzt]] |
-  | Repository | [[https://git.thm.de/arsnova/frag.jetzt]] |
-  | Staging Server | [[https://staging.frag.jetzt]] |
-  | UML-Tool| PlantUML-Server Version 1202202|
-  | Ersteller| Tim Lennard Debre|
-  | Letzter Bearbeiter| Klaus Quibeldey-Cirkel|
-  | Kontakt| [[mailto:klaus.quibeldey-cirkel@mni.thm.de]] |
-  | Erstellt| 09.01.2021 |
-  | Letzte Überarbeitung| 03.12.2022 |
-end legend
+  partition "Redeem bonus code" {
+  start
+  floating note left: You are in the room \nwhere you asked questions.
+  :select »My bonus stars«;
+  :choose a room;
+  :redeem token;
+  :send e-mail with token to lecturer;
+  stop
+  }
+
+  |Lecturer|
+
+  partition "Award bonus points" {
+  start
+  floating note left: You are in your room.
+  :select »Bonus archive«;
+  (A)
+  if(is closing date for tokens) then (yes)
+      stop
+      else (no)
+          :check e-mails from frag.jetzt for tokens;
+          if(e-mail found?) then (yes)
+              :check validity of token;
+
+                    if(token is registered?) then (yes)
+                        :review associated question again;
+                                if(question is worth a bonus point?) then (yes)
+                                    :award student bonus point;
+                                    (A)
+                                else (no)
+                                    :send rejection notice to student;
+                                    (A)
+                                    detach
+                                endif
+                    else (no)
+                        :send rejection notice to student;
+                        (A)
+                        detach
+                    endif
+      else (no)
+              (A)
+              detach
+      endif
+          detach
+  endif
+  }
+
+  legend right
+    |<img:https://git.thm.de/arsnova/frag.jetzt/-/raw/staging/src/assets/icons/Logo_frag_jetzt_128x128.png> |= \n\n »frag.jetzt« |
+    | Domain glossary | [[https://git.thm.de/arsnova/frag.jetzt/-/blob/staging/docs/diagrams/Glossary.pdf]] |
+    | Production server | [[https://frag.jetzt]] |
+    | Repository | [[https://git.thm.de/arsnova/frag.jetzt/-/blob/staging/README.md]] |
+    | Staging server | [[https://staging.frag.jetzt]] |
+    | UML tool| PlantUML-Server Version 1202202|
+    | Author| Klaus Quibeldey-Cirkel|
+    | Contact| [[mailto:klaus.quibeldey-cirkel@mni.thm.de]] |
+    | Last revision| 04.12.2022 |
+  end legend
 @enduml

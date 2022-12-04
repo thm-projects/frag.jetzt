@@ -122,7 +122,7 @@ User is registered or has received a moderation link.
 end note
 RC --> UC33
 note right of (UC33)
-«preCondition» 
+«preCondition»
 The bonus archive is empty.
 end note
 
@@ -162,16 +162,15 @@ UC19 <-- A
 
 }
 
-legend left
-  |<img:https://git.thm.de/arsnova/frag.jetzt/-/raw/staging/src/assets/icons/Logo_frag_jetzt_128x128.png> |= \n\n »frag.jetzt« |
-  | Domain-Glossar | [[https://git.thm.de/arsnova/frag.jetzt/-/blob/staging/Glossary.md]] |
-  | Produktion | [[https://frag.jetzt]] |
-  | Repository | [[https://git.thm.de/arsnova/frag.jetzt]] |
-  | Staging Server | [[https://staging.frag.jetzt]] |
-  | UML-Tool| PlantUML-Server Version 1202202|
-  | Ersteller| Klaus Quibeldey-Cirkel|
-  | Kontakt| [[mailto:klaus.quibeldey-cirkel@mni.thm.de]] |
-  | Erstellt| 20.11.2022 |
-  | Letzte Änderung| 21.11.2022 |
-end legend
+legend right
+    |<img:https://git.thm.de/arsnova/frag.jetzt/-/raw/staging/src/assets/icons/Logo_frag_jetzt_128x128.png> |= \n\n »frag.jetzt« |
+    | Domain glossary | [[https://git.thm.de/arsnova/frag.jetzt/-/blob/staging/docs/diagrams/Glossary.pdf]] |
+    | Production server | [[https://frag.jetzt]] |
+    | Repository | [[https://git.thm.de/arsnova/frag.jetzt/-/blob/staging/README.md]] |
+    | Staging server | [[https://staging.frag.jetzt]] |
+    | UML tool| PlantUML-Server Version 1202202|
+    | Author| Klaus Quibeldey-Cirkel|
+    | Contact| [[mailto:klaus.quibeldey-cirkel@mni.thm.de]] |
+    | Last revision| 04.12.2022 |
+  end legend
 @enduml
