@@ -1,0 +1,19 @@
+[package]
+name = "frag-jetzt-wasm"
+version = "0.1.0"
+authors = ["Ruben Bimberg <ruben.bimberg@mni.thm.de>"]
+description = "A project for frag.jetzt including native Rust functionality"
+license = "MIT"
+repository = "https://git.thm.de/arsnova/frag.jetzt"
+homepage = "https://frag.jetzt"
+edition = "2021"
+keywords = ["frag-jetzt", "arsonva", "ars", "feedback", "pwa"]
+categories = ["visualization", "wasm", "web-programming", "mathematics"]
+
+[lib]
+crate-type = ["cdylib"]
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+wasm-bindgen = "0.2"
