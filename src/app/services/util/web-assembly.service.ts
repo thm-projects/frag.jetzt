@@ -22,7 +22,6 @@ export class WebAssemblyService {
     return this.instantiate().pipe(
       map(() => {
         const t = this.createWasmFloat32Array(data);
-        this.exports.__pin(t);
         const start = performance.now();
         this.exports.calculateWordCloudPlacing(t);
         console.info('[WASM] Needed time: ', performance.now() - start);
@@ -32,7 +31,6 @@ export class WebAssemblyService {
           2,
           this.exports.memory,
         );
-        this.exports.__unpin(t);
         this.exports.__collect();
         return result;
       }),

@@ -150,8 +150,7 @@ const DEG_TO_RAD = Math.PI / 180;
 
 class PreparedBuildInformation {
   // topLeft, rightTop, bottomRight, leftBottom
-  public readonly sides: StaticArray<SideAccessInformation> =
-    new StaticArray<SideAccessInformation>(4);
+  public readonly sides: StaticArray<SideAccessInformation>;
   public readonly normal1: Vector2;
   public readonly normal2: Vector2;
 
@@ -164,39 +163,41 @@ class PreparedBuildInformation {
     const normalRight = new Vector2(cos, sin);
     this.normal1 = normalUp;
     this.normal2 = normalRight;
-    this.sides[0] = new SideAccessInformation(
-      normalUp.clone(),
-      normalRight.clone().scale(-1),
-      normalUp.clone().scale(height).add(normalRight.clone().scale(-width)),
-      height,
-      width
-    );
-    this.sides[1] = new SideAccessInformation(
-      normalRight.clone(),
-      normalUp.clone(),
-      normalRight.clone().scale(width).add(normalUp.clone().scale(height)),
-      width,
-      height
-    );
-    this.sides[2] = new SideAccessInformation(
-      normalUp.clone().scale(-1),
-      normalRight.clone(),
-      normalUp.clone().scale(-height).add(normalRight.clone().scale(width)),
-      height,
-      width
-    );
-    this.sides[3] = new SideAccessInformation(
-      normalRight.clone().scale(-1),
-      normalUp.clone().scale(-1),
-      normalRight.clone().scale(-width).add(normalUp.clone().scale(-height)),
-      width,
-      height
-    );
+    this.sides = StaticArray.fromArray([
+      new SideAccessInformation(
+        normalUp.clone(),
+        normalRight.clone().scale(-1),
+        normalUp.clone().scale(height).add(normalRight.clone().scale(-width)),
+        height,
+        width
+      ),
+      new SideAccessInformation(
+        normalRight.clone(),
+        normalUp.clone(),
+        normalRight.clone().scale(width).add(normalUp.clone().scale(height)),
+        width,
+        height
+      ),
+      new SideAccessInformation(
+        normalUp.clone().scale(-1),
+        normalRight.clone(),
+        normalUp.clone().scale(-height).add(normalRight.clone().scale(width)),
+        height,
+        width
+      ),
+      new SideAccessInformation(
+        normalRight.clone().scale(-1),
+        normalUp.clone().scale(-1),
+        normalRight.clone().scale(-width).add(normalUp.clone().scale(-height)),
+        width,
+        height
+      ),
+    ]);
   }
 }
 
 class PlacedTopic {
-  public readonly points: StaticArray<Vector2> = new StaticArray<Vector2>(4);
+  public readonly points: StaticArray<Vector2>;
   public readonly normal1Range: Range;
   public readonly normal2Range: Range;
   public readonly xRange: Range;
@@ -210,26 +211,28 @@ class PlacedTopic {
     public readonly normal2Size: f32,
     public readonly distance: f32
   ) {
-    this.points[0] = normal1
-      .clone()
-      .scale(normal1Size)
-      .add(normal2.clone().scale(-normal2Size))
-      .add(mid);
-    this.points[1] = normal1
-      .clone()
-      .scale(normal1Size)
-      .add(normal2.clone().scale(normal2Size))
-      .add(mid);
-    this.points[2] = normal1
-      .clone()
-      .scale(-normal1Size)
-      .add(normal2.clone().scale(normal2Size))
-      .add(mid);
-    this.points[3] = normal1
-      .clone()
-      .scale(-normal1Size)
-      .add(normal2.clone().scale(-normal2Size))
-      .add(mid);
+    this.points = StaticArray.fromArray([
+      normal1
+        .clone()
+        .scale(normal1Size)
+        .add(normal2.clone().scale(-normal2Size))
+        .add(mid),
+      normal1
+        .clone()
+        .scale(normal1Size)
+        .add(normal2.clone().scale(normal2Size))
+        .add(mid),
+      normal1
+        .clone()
+        .scale(-normal1Size)
+        .add(normal2.clone().scale(normal2Size))
+        .add(mid),
+      normal1
+        .clone()
+        .scale(-normal1Size)
+        .add(normal2.clone().scale(-normal2Size))
+        .add(mid),
+    ]);
     const n1Dot = mid.dot(normal1);
     this.normal1Range = new Range(n1Dot - normal1Size, n1Dot + normal1Size);
     const n2Dot = mid.dot(normal2);
@@ -261,7 +264,35 @@ export class PositionInfo {
   }
 }
 
-export class WordCloudTopic {
+export abstract class WordCloudElement<T> {
+  constructor() {}
+
+  abstract collideSAT(box: AxisAlignedBoundingBox<T>): bool;
+}
+
+export class WordCloudObstacle extends WordCloudElement<f32> {
+  public readonly box: AxisAlignedBoundingBox<f32>;
+  public readonly xRange: Range;
+  public readonly yRange: Range;
+
+  constructor(x: f32, y: f32, width: f32, height: f32) {
+    super();
+    this.xRange = new Range(x, x + width);
+    this.yRange = new Range(y, y + height);
+    this.box = new AxisAlignedBoundingBox(x, y, width, height);
+  }
+
+  collideSAT(box: AxisAlignedBoundingBox<f32>): bool {
+    return (
+      this.yRange.start < box.y + box.height &&
+      this.yRange.end > box.y &&
+      this.xRange.start < box.x + box.width &&
+      this.xRange.end > box.x
+    );
+  }
+}
+
+export class WordCloudTopic extends WordCloudElement<f32> {
   public readonly buildInfo: PreparedBuildInformation;
   public position: PlacedTopic | null = null;
   constructor(
@@ -269,6 +300,7 @@ export class WordCloudTopic {
     public readonly height: f32,
     public readonly rotation: f32
   ) {
+    super();
     this.buildInfo = new PreparedBuildInformation(width, height, rotation);
   }
 
@@ -291,7 +323,7 @@ export class WordCloudTopic {
    * @returns minimal distance with position
    */
   tryPlace(
-    quadTree: QuadTree<f32, WordCloudTopic>,
+    quadTree: QuadTree<f32, WordCloudElement<f32>>,
     otherTopic: WordCloudTopic,
     aspectRatio: f32
   ): PositionInfo | null {
@@ -310,7 +342,7 @@ export function findBestPlace(
   index: i32,
   newTopic: WordCloudTopic,
   elements: StaticArray<WordCloudTopic>,
-  tree: QuadTree<f32, WordCloudTopic>,
+  tree: QuadTree<f32, WordCloudElement<f32>>,
   aspectRatio: f32
 ): void {
   if (index === 0) {

@@ -4,8 +4,10 @@
       "outFile": "build/debug.wasm",
       "textFile": "build/debug.wat",
       "sourceMap": true,
+      "trace": true,
       "debug": true,
-      "runtime": "minimal"
+      "noUnsafe": true,
+      "pendantic": true
     },
     "release": {
       "outFile": "build/release.wasm",
@@ -15,7 +17,8 @@
       "shrinkLevel": 0,
       "converge": false,
       "noAssert": false,
-      "runtime": "minimal"
+      "noUnsafe": true,
+      "pendantic": true
     }
   },
   "options": {

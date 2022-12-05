@@ -264,26 +264,27 @@ export class WordCloudComponent<T extends WordMeta>
     } else {
       //WordCloudDrawFunctions.calculateCloud(this._elements, parentWidth, parentHeight, this._minHeight);
       const length = this._elements.length;
-      const arr = new Array(length * 3 + 2);
+      const arr = new Array(length * 3 + 3);
       arr[0] = parentRect.width;
       arr[1] = parentRect.height;
+      arr[2] = 0;
       for (let i = 0; i < length; i++) {
         const elem = this._elements[i].buildInformation;
-        arr[i * 3 + 2] = elem.width;
-        arr[i * 3 + 3] = elem.height;
-        arr[i * 3 + 4] = elem.rotation;
+        arr[i * 3 + 3] = elem.width;
+        arr[i * 3 + 4] = elem.height;
+        arr[i * 3 + 5] = elem.rotation;
       }
       this.webAssemblyService.getWordCloudPlacing(arr).subscribe((arr) => {
         for (let i = 0; i < length; i++) {
           const elem = this._elements[i];
-          if (arr[i * 3 + 2] < 0) {
+          if (arr[i * 3 + 3] < 0) {
             elem.visible = false;
             continue;
           }
           elem.visible = true;
           const buildInfo = elem.buildInformation;
-          buildInfo.radius = arr[i * 3 + 2];
-          buildInfo.phi = arr[i * 3 + 3];
+          buildInfo.radius = arr[i * 3 + 3];
+          buildInfo.phi = arr[i * 3 + 4];
         }
         this.fontInfoService
           .waitTillFontLoaded(this.parameters.fontFamily)

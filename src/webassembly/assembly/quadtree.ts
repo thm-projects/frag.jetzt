@@ -10,6 +10,9 @@ export class Vector2 {
     this._directionY = directionY;
   }
 
+  static readonly X: Vector2 = new Vector2(1, 0);
+  static readonly Y: Vector2 = new Vector2(0, 1);
+
   getDirectionX(): f32 {
     return this._directionX;
   }
@@ -67,7 +70,7 @@ export class Vector2 {
 }
 
 export class AxisAlignedBoundingBox<T> {
-  public readonly points: StaticArray<Vector2> = new StaticArray<Vector2>(4);
+  public readonly points: StaticArray<Vector2>;
   constructor(
     public readonly x: T,
     public readonly y: T,
@@ -78,10 +81,12 @@ export class AxisAlignedBoundingBox<T> {
       isFloat<T>() || isInteger<T>(),
       'QuadTree needs type float or integer!'
     );
-    this.points[0] = new Vector2(x, y + height);
-    this.points[1] = new Vector2(x + width, y + height);
-    this.points[2] = new Vector2(x + width, y);
-    this.points[3] = new Vector2(x, y);
+    this.points = StaticArray.fromArray([
+      new Vector2(x, y + height),
+      new Vector2(x + width, y + height),
+      new Vector2(x + width, y),
+      new Vector2(x, y)
+    ]);
   }
 }
 
@@ -108,9 +113,8 @@ type QuadTreeQueryAcceptor<J, K> = (
 ) => bool;
 
 export class QuadTree<T, K> {
-  private readonly objects: Array<K> = new Array();
-  private readonly children: StaticArray<QuadTree<T, K>>;
-  private hasChildren: bool = false;
+  private readonly objects: Array<K> = [];
+  private children: StaticArray<QuadTree<T, K>> | null = null;
 
   constructor(
     private readonly collideFunc: QuadTreeCollideFunction<T, K>,
@@ -118,11 +122,10 @@ export class QuadTree<T, K> {
     private readonly configuration: QuadTreeSpecifications,
     private readonly depth: usize = 0
   ) {
-    this.children = new StaticArray(i32(configuration.divisionSize));
   }
 
   isEmpty(): bool {
-    return !this.hasChildren && this.objects.length === 0;
+    return this.children === null && this.objects.length === 0;
   }
 
   queryObjects<J>(
@@ -133,11 +136,12 @@ export class QuadTree<T, K> {
     if (!acceptor(collisionObject, this.objects)) {
       return false;
     }
-    if (!this.hasChildren) {
+    if (this.children === null) {
       return true;
     }
-    for (let i = 0; i < this.children.length; i++) {
-      const child = this.children[i];
+    const childs = this.children!;
+    for (let i = 0; i < childs.length; i++) {
+      const child = childs[i];
       if (
         collideFunc(child.container, collisionObject) &&
         !child.queryObjects(collisionObject, collideFunc, acceptor)
@@ -153,10 +157,11 @@ export class QuadTree<T, K> {
   }
 
   addElement(object: K): void {
-    if (this.hasChildren) {
+    if (this.children !== null) {
+      const childs = this.children!;
       let collideIndex: i32 = -1;
-      for (let i = 0; i < this.children.length; i++) {
-        if (this.children[i].collides(object)) {
+      for (let i = 0; i < childs.length; i++) {
+        if (childs[i].collides(object)) {
           if (collideIndex !== -1) {
             this.objects.push(object);
             return;
@@ -168,7 +173,7 @@ export class QuadTree<T, K> {
       if (collideIndex === -1) {
         this.objects.push(object);
       } else {
-        this.children[collideIndex].addElement(object);
+        childs[collideIndex].addElement(object);
       }
       return;
     }
@@ -184,20 +189,21 @@ export class QuadTree<T, K> {
   }
 
   private divide(): void {
-    if (this.hasChildren) {
+    if (this.children !== null) {
       return;
     }
     const size = i32(this.configuration.divisionFactor);
     const aabb = this.container;
     const newDepth = this.depth + 1;
     let currentY = aabb.y;
+    const newChilds = new Array<QuadTree<T, K>>();
     for (let y: i32 = 0, i = 0; y < size; ) {
       let currentX = aabb.x;
       const nextY = aabb.y + (aabb.height * (++y as T)) / (size as T);
       const height = nextY - currentY;
       for (let x: i32 = 0; x < size; ) {
         const nextX = aabb.x + (aabb.width * (++x as T)) / (size as T);
-        this.children[i++] = new QuadTree(
+        newChilds.push(new QuadTree(
           this.collideFunc,
           new AxisAlignedBoundingBox(
             currentX,
@@ -207,12 +213,12 @@ export class QuadTree<T, K> {
           ),
           this.configuration,
           newDepth
-        );
+        ));
         currentX = nextX;
       }
       currentY = nextY;
     }
-    this.hasChildren = true;
+    this.children = StaticArray.fromArray(newChilds);
     const cloned = StaticArray.fromArray(this.objects);
     this.objects.length = 0;
     for (let i = 0; i < cloned.length; i++) {

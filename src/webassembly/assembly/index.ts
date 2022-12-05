@@ -6,7 +6,12 @@ import {
   QuadTreeSpecifications,
   Vector2,
 } from './quadtree';
-import { findBestPlace, WordCloudTopic } from './word-cloud-placing';
+import {
+  findBestPlace,
+  WordCloudElement,
+  WordCloudObstacle,
+  WordCloudTopic,
+} from './word-cloud-placing';
 
 export function calculateWordCloudPlacing(
   boundsArray: Float32Array
@@ -16,15 +21,27 @@ export function calculateWordCloudPlacing(
   const halfWidth = width / 2;
   const halfHeight = height / 2;
   const aspectRatio = width / height;
-  const tree = new QuadTree<f32, WordCloudTopic>(
+  const tree = new QuadTree<f32, WordCloudElement<f32>>(
     (box, topic) => topic.collideSAT(box),
     new AxisAlignedBoundingBox(-halfWidth, -halfHeight, width, height),
     new QuadTreeSpecifications(3)
   );
-  const length = (boundsArray.length - 2) / 3;
+  const collObjectsSize = i32(boundsArray[2]);
+  for (let i = 0; i < collObjectsSize; i++) {
+    tree.addElement(
+      new WordCloudObstacle(
+        boundsArray[i * 4 + 3],
+        boundsArray[i * 4 + 4],
+        boundsArray[i * 4 + 5],
+        boundsArray[i * 4 + 6]
+      )
+    );
+  }
+  const offset = 3 + collObjectsSize * 4;
+  const length = (boundsArray.length - offset) / 3;
   const placed = new StaticArray<WordCloudTopic>(length);
   for (let i = 0, placeIndex = 0; i < length; i++) {
-    const k = i * 3 + 2;
+    const k = i * 3 + offset;
     const newTopic = new WordCloudTopic(
       boundsArray[k],
       boundsArray[k + 1],

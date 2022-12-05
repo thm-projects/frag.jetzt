@@ -5,6 +5,8 @@ import {
   PositionInfo,
   Range,
   TRangeSet,
+  WordCloudElement,
+  WordCloudObstacle,
   WordCloudTopic,
 } from './word-cloud-placing';
 
@@ -20,7 +22,7 @@ export function calcMinMax(dir: Vector2, points: StaticArray<Vector2>): Range {
 }
 
 class SimpleCollisionBox {
-  private readonly points: StaticArray<Vector2> = new StaticArray<Vector2>(4);
+  private readonly points: StaticArray<Vector2>;
   private readonly completeMoveRange: Range;
   private readonly collRange: Range;
   private readonly moveRange: Range;
@@ -45,26 +47,28 @@ class SimpleCollisionBox {
     private readonly rotation: f32,
     moveTSize: f32
   ) {
-    this.points[0] = moveDir
-      .clone()
-      .scale(moveSize)
-      .add(addCollDir.clone().scale(addCollSize))
-      .add(midPoint);
-    this.points[1] = moveDir
-      .clone()
-      .scale(moveSize)
-      .add(addCollDir.clone().scale(-addCollSize))
-      .add(midPoint);
-    this.points[2] = moveDir
-      .clone()
-      .scale(-moveSize)
-      .add(addCollDir.clone().scale(addCollSize))
-      .add(midPoint);
-    this.points[3] = moveDir
-      .clone()
-      .scale(-moveSize)
-      .add(addCollDir.clone().scale(-addCollSize))
-      .add(midPoint);
+    this.points = StaticArray.fromArray([
+      moveDir
+        .clone()
+        .scale(moveSize)
+        .add(addCollDir.clone().scale(addCollSize))
+        .add(midPoint),
+      moveDir
+        .clone()
+        .scale(moveSize)
+        .add(addCollDir.clone().scale(-addCollSize))
+        .add(midPoint),
+      moveDir
+        .clone()
+        .scale(-moveSize)
+        .add(addCollDir.clone().scale(addCollSize))
+        .add(midPoint),
+      moveDir
+        .clone()
+        .scale(-moveSize)
+        .add(addCollDir.clone().scale(-addCollSize))
+        .add(midPoint),
+    ]);
     this.moveRange = calcMinMax(this.moveDir, this.points);
     this.completeMoveRange = new Range(
       this.moveRange.start - moveTSize,
@@ -73,32 +77,33 @@ class SimpleCollisionBox {
     this.collRange = calcMinMax(this.addCollDir, this.points);
     this.resultTRange = new TRangeSet(moveTSize);
     // calculate for sat
-    const edgePoints = new StaticArray<Vector2>(4);
     {
       const fullyLength = moveSize + moveTSize;
-      edgePoints[0] = this.moveDir
-        .clone()
-        .scale(fullyLength)
-        .add(this.addCollDir.clone().scale(addCollSize))
-        .add(this.midPoint);
-      edgePoints[1] = this.moveDir
-        .clone()
-        .scale(fullyLength)
-        .add(this.addCollDir.clone().scale(-addCollSize))
-        .add(this.midPoint);
-      edgePoints[2] = this.moveDir
-        .clone()
-        .scale(-fullyLength)
-        .add(this.addCollDir.clone().scale(addCollSize))
-        .add(this.midPoint);
-      edgePoints[3] = this.moveDir
-        .clone()
-        .scale(-fullyLength)
-        .add(this.addCollDir.clone().scale(-addCollSize))
-        .add(this.midPoint);
+      const edgePoints = StaticArray.fromArray([
+        this.moveDir
+          .clone()
+          .scale(fullyLength)
+          .add(this.addCollDir.clone().scale(addCollSize))
+          .add(this.midPoint),
+        this.moveDir
+          .clone()
+          .scale(fullyLength)
+          .add(this.addCollDir.clone().scale(-addCollSize))
+          .add(this.midPoint),
+        this.moveDir
+          .clone()
+          .scale(-fullyLength)
+          .add(this.addCollDir.clone().scale(addCollSize))
+          .add(this.midPoint),
+        this.moveDir
+          .clone()
+          .scale(-fullyLength)
+          .add(this.addCollDir.clone().scale(-addCollSize))
+          .add(this.midPoint),
+      ]);
+      this.xRange = calcMinMax(new Vector2(1, 0), edgePoints);
+      this.yRange = calcMinMax(new Vector2(0, 1), edgePoints);
     }
-    this.xRange = calcMinMax(new Vector2(1, 0), edgePoints);
-    this.yRange = calcMinMax(new Vector2(0, 1), edgePoints);
   }
 
   /**
@@ -138,11 +143,36 @@ class SimpleCollisionBox {
    *
    * false, if it has no space, collision checks can be aborted
    */
-  collideTRange(topic: WordCloudTopic): bool {
-    const pos = topic.position!;
+  collideTRange(topic: WordCloudElement<f32>): bool {
+    const isTopic = topic instanceof WordCloudTopic;
+    let points: StaticArray<Vector2>;
+    let topicRotation: f32;
+    let normal1: Vector2;
+    let normal1Range: Range;
+    let normal2: Vector2;
+    let normal2Range: Range;
+    if (isTopic) {
+      const t = topic as WordCloudTopic;
+      const pos = t.position!;
+      points = pos.points;
+      topicRotation = t.rotation;
+      normal1 = pos.normal1;
+      normal1Range = pos.normal1Range;
+      normal2 = pos.normal2;
+      normal2Range = pos.normal2Range;
+    } else {
+      const t = topic as WordCloudObstacle;
+      points = t.box.points;
+      topicRotation = 0;
+      normal1 = Vector2.Y;
+      normal1Range = t.yRange;
+      normal2 = Vector2.X;
+      normal2Range = t.xRange;
+    }
+
     // self move dir
     const selfDir1 = this.resultTRange.mergeTRange(
-      calcMinMax(this.moveDir, pos.points),
+      calcMinMax(this.moveDir, points),
       this.moveRange,
       1
     );
@@ -151,14 +181,14 @@ class SimpleCollisionBox {
     }
     // self additional dir
     const selfDir2 = this.resultTRange.mergeTRange(
-      calcMinMax(this.addCollDir, pos.points),
+      calcMinMax(this.addCollDir, points),
       this.collRange,
       0
     );
     if (selfDir2 === NULL_RANGE) {
       return true;
     }
-    const rotation = this.rotation - topic.rotation;
+    const rotation = this.rotation - topicRotation;
     if (isZero(rotation % 90)) {
       if (selfDir1 !== null) {
         this.resultTRange.splitByRange(selfDir1.start, selfDir1.end);
@@ -170,18 +200,18 @@ class SimpleCollisionBox {
     }
     // other up
     const otherDir1 = this.resultTRange.mergeTRange(
-      pos.normal1Range,
-      calcMinMax(pos.normal1, this.points),
-      pos.normal1.dot(this.moveDir)
+      normal1Range,
+      calcMinMax(normal1, this.points),
+      normal1.dot(this.moveDir)
     );
     if (otherDir1 === NULL_RANGE) {
       return true;
     }
     // other right
     const otherDir2 = this.resultTRange.mergeTRange(
-      pos.normal2Range,
-      calcMinMax(pos.normal2, this.points),
-      pos.normal2.dot(this.moveDir)
+      normal2Range,
+      calcMinMax(normal2, this.points),
+      normal2.dot(this.moveDir)
     );
     if (otherDir2 === NULL_RANGE) {
       return true;
@@ -228,7 +258,7 @@ class SimpleCollisionBox {
 export const tryPlaceOnFourSides = (
   topic: WordCloudTopic,
   newTopic: WordCloudTopic,
-  quadTree: QuadTree<f32, WordCloudTopic>,
+  quadTree: QuadTree<f32, WordCloudElement<f32>>,
   aspectRatio: f32
 ): PositionInfo | null => {
   const rotation: f32 = newTopic.rotation - topic.rotation;
