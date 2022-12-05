@@ -40,7 +40,6 @@ export class TagCloudDataBuilder {
 
   constructor(
     private readonly mods: Set<string>,
-    private readonly brainstormingActive: boolean,
     private readonly roomDataService: RoomDataService,
     private readonly adminData: TopicCloudAdminData,
     private readonly blacklist: string[],
@@ -49,12 +48,9 @@ export class TagCloudDataBuilder {
   ) {}
 
   getData() {
-    if (!this.brainstormingActive) {
-      return new Map<string, TagCloudDataTagEntry>(
-        [...this.data].filter((entry) => this.isTopicAllowed(entry[1])),
-      );
-    }
-    return this.data;
+    return new Map<string, TagCloudDataTagEntry>(
+      [...this.data].filter((entry) => this.isTopicAllowed(entry[1])),
+    );
   }
 
   getUsers() {
@@ -68,7 +64,7 @@ export class TagCloudDataBuilder {
 
   addComments(comments: ForumComment[]): void {
     for (const comment of comments) {
-      if (this.brainstormingActive !== comment.brainstormingQuestion) {
+      if (comment.brainstormingSessionId !== null) {
         continue;
       }
       const wantedLabels =
@@ -126,13 +122,11 @@ export class TagCloudDataBuilder {
     if (!information) {
       return;
     }
-    const limit = this.brainstormingActive ? 0 : 3;
-    const hasLabels = !this.brainstormingActive && wantedLabels?.length;
     information.source.forEach((keyword, index) => {
-      if (maskKeyword(keyword.text).length < limit || information.censored[index]) {
+      if (maskKeyword(keyword.text).length < 3 || information.censored[index]) {
         return;
       }
-      if (hasLabels && !keyword.dep?.some((e) => wantedLabels.includes(e))) {
+      if (wantedLabels?.length && !keyword.dep?.some((e) => wantedLabels.includes(e))) {
         return;
       }
       if (!this.passesBlacklist(keyword.text)) {

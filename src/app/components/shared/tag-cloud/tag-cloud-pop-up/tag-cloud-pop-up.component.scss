@@ -159,7 +159,7 @@ button {
   }
 }
 
-.replace-button {
+.replace-button, .select-button {
   background-color: transparent;
   color: var(--primary);
   outline: var(--primary) solid 3px;
@@ -176,7 +176,7 @@ button {
   }
 }
 
-::ng-deep .replacementContainer {
+::ng-deep .replacementContainer, ::ng-deep .selectContainer {
   align-self: center;
 
   .mat-form-field-infix {

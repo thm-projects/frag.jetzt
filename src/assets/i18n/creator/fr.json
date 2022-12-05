@@ -21,8 +21,39 @@
     "add-button": "Ajouter le mot",
     "show-button": "Afficher liste noire",
     "hide-button": "Cacher liste noire",
-    "cancel": "Rejeter",
-    "update": "Enregistrer"
+    "update": "Fermer"
+  },
+  "brainstorming-category": {
+    "title": "Catégories de brainstorming",
+    "tag-placeholder": "Nouvelle catégorie :"
+  },
+  "brainstorming-delete": {
+    "title-rating": "Réinitialiser les évaluations",
+    "you-sure-rating": "Faut-il vraiment réinitialiser toutes les évaluations ? Cela réinitialise également la pondération.",
+    "succeed": "Réinitialiser",
+    "cancel": "Annuler",
+    "title-category": "Réinitialisation de la catégorisation",
+    "you-sure-category": "Faut-il vraiment réinitialiser toutes les affectations de catégories ?"
+  },
+  "brainstorming-edit": {
+    "title": "Editer le brainstorming",
+    "question": "Sujet ou question focus …",
+    "word-count": "Nombre maximal de mots",
+    "word-length": "Nombre maximum de caractères",
+    "field-hint-number": "Valeur : {{min}} - {{max}}",
+    "field-required": "Ce champ est nécessaire.",
+    "field-too-high": "Ton entrée est trop longue, elle doit être au maximum de {{max}}.",
+    "field-too-low": "Ta saisie est trop courte, elle doit être au moins {{min}}.",
+    "language-title": "Langue",
+    "language": {
+      "de": "Allemand",
+      "en": "Anglais",
+      "fr": "Français"
+    },
+    "duration": "Durée après le démarrage - {{duration}} minutes : ",
+    "allow-ideas": "Permettre la saisie d'idées en continu",
+    "allow-rating": "Autoriser l'évaluation à partir du début",
+    "update": "Mise à jour"
   },
   "comment-list": {
     "a11y-access_time": "Trier les questions par heure",
@@ -184,6 +215,8 @@
     "cancel": "Annuler",
     "cancel-description": "Annuler",
     "category": "Catégorie:",
+    "select-brainstorm-category": "Choisir la catégorie:",
+    "select-brainstorm-category-none": "Aucun",
     "comma": "Format Excel (.xls)",
     "comment": "La question {{ comment }} a été posée à {{ time }} heure et a actuellement {{ votes }}. {{correct}} {{wrong}} {{bonus}} {{beamer}}",
     "comment-answered": "La réponse a été enregistrée.",
@@ -335,7 +368,9 @@
     "overview-keywords-tooltip": "Nombre de mots-clés",
     "overview-question-tooltip": "Nombre de questions",
     "overview-questioners-tooltip": "Nombre d'auteurs de questions",
-    "overview-admin-config-enabled": "Les seuils pour l'affichage des sujets sont actifs."
+    "overview-admin-config-enabled": "Les seuils pour l'affichage des sujets sont actifs.",
+    "overview-brainstormers-tooltip": "Nombre de brainstormers",
+    "overview-ideas-tooltip": "Nombre d'idées"
   },
   "home-page": {
     "create-session": "Nouvelle session",
@@ -343,7 +378,7 @@
     "no-empty-name": "Saisissez un nom. Le code de la salle est généré."
   },
   "introductions": {
-    "brainstorming-title": "Les cas d'utilisation du brainstorming",
+    "brainstorming-title": "Brainstorming",
     "cancel": "Fermer",
     "question-wall-title": "Les cas d'utilisation du mode de présentation",
     "tag-cloud-title": "Cas d'utilisation du radar à questions"
@@ -632,6 +667,7 @@
     "blacklist-topic": "Ajouter à la liste de blocage",
     "changes-gone-wrong": "Quelque chose a mal tourné !",
     "changes-successful": "Modifications enregistrées",
+    "write-last-idea": "Écrire la dernière idée de brainstorming!",
     "demo-data-topic": "Mot-clé %d",
     "downvote-topic": "Votes descendants pour ce mot-clé",
     "downvote-topic-brainstorming": "Je n'aime pas",
@@ -641,7 +677,7 @@
     "period-since-first-comment": "Temps écoulé depuis la première contribution",
     "print-title": "Nuage de mots de la salle « {{roomName}} »",
     "responses-to-keyword": "Nombre de toutes les réponses à ce mot-clé",
-    "ups-downs-difference": "Différence d'évaluation",
+    "ups-downs-difference": "Différence d'évaluation | {{upvotes}} 👍  {{downvotes}} 👎",
     "upvote-topic": "Votes positifs pour ce mot-clé",
     "upvote-topic-brainstorming": "J'aime"
   },

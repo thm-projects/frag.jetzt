@@ -67,7 +67,7 @@
   </ars-col>
 </ars-row>
 
-<div>
+<div *ngIf="!brainstormingData">
   <button mat-flat-button
           class="preview-btn"
           *ngIf="isMobileMockPossible"

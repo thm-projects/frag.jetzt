@@ -25,7 +25,6 @@ import { SessionService } from '../../../../services/util/session.service';
 import { DeviceInfoService } from '../../../../services/util/device-info.service';
 import { SpacyKeyword } from '../../../../services/http/spacy.service';
 import { ExplanationDialogComponent } from '../explanation-dialog/explanation-dialog.component';
-import { TagCloudSettings } from 'app/utils/TagCloudSettings';
 
 @Component({
   selector: 'app-topic-cloud-administration',
@@ -326,13 +325,10 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
       scorings: this.scorings,
     };
     const room = this.sessionService.currentRoom;
-    const brainstormingBlacklist =
-      TagCloudSettings.getFromRoom(room)?.brainstormingBlacklist || [];
     this.topicCloudAdminService.setAdminData(
       this.topicCloudAdminData,
       room.id,
       this.sessionService.currentRole,
-      brainstormingBlacklist,
       {
         blacklistActive: this.blacklistIsActive,
         blacklist: JSON.stringify(this.blacklist),

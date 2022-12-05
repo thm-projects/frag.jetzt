@@ -66,6 +66,36 @@
         {{'content.field-too-high' | translate: {max: maxWordLengthMax} }}
       </mat-error>
     </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>{{ 'content.brainstormin-language-title' | translate }}</mat-label>
+      <mat-select [formControl]="language">
+        <mat-option *ngFor="let lang of languages" [value]="lang">{{ 'content.brainstormin-language.' + lang | translate }}</mat-option>
+      </mat-select>
+      <mat-error *ngIf="language.hasError('required')">
+        {{ 'content.field-required' | translate }}
+      </mat-error>
+    </mat-form-field>
+    <mat-label>{{ 'content.brainstorming-duration' | translate: {duration: getDuration()} }}</mat-label>
+    <mat-slider
+        [max]="45"
+        [min]="5"
+        [step]="5"
+        discrete
+        [(ngModel)]="brainstormingDuration"
+        [displayWith]="displayMin"
+        showTickMarks>
+      <input matSliderThumb>
+    </mat-slider>
+    <br>
+    <mat-slide-toggle
+        [(ngModel)]="brainstormingAllowIdeas">
+        {{ 'content.brainstorming-allow-ideas' | translate }}
+    </mat-slide-toggle>
+    <br>
+    <mat-slide-toggle
+        [(ngModel)]="brainstormingAllowRating">
+        {{ 'content.brainstorming-allow-rating' | translate }}
+    </mat-slide-toggle>
     <button mat-flat-button
             class="primary-btn"
             [disabled]="!canCreate()"

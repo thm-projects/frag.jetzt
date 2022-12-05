@@ -9,14 +9,12 @@ import { CloudParameters } from '../../utils/cloud-parameters';
 import { SmartDebounce } from '../../utils/smart-debounce';
 import { Room } from '../../models/room';
 import { SessionService } from './session.service';
-import { FilterType } from '../../utils/data-filter-object.lib';
 import { TagCloudDataBuilder } from './tag-cloud-data.util';
 import {
   calculateControversy,
   FilteredDataAccess,
 } from '../../utils/filtered-data-access';
 import { ForumComment } from '../../utils/data-accessor';
-import { TagCloudSettings } from 'app/utils/TagCloudSettings';
 import { RoomService } from '../http/room.service';
 
 export interface TagCloudDataTagEntry {
@@ -116,13 +114,6 @@ export class TagCloudDataService {
     return this._dataBus.value;
   }
 
-  get isBrainstorming(): boolean {
-    return (
-      this._filterObject?.dataFilter?.filterType ===
-      FilterType.BrainstormingQuestion
-    );
-  }
-
   get alphabeticallySorted(): boolean {
     return this._isAlphabeticallySorted;
   }
@@ -168,11 +159,9 @@ export class TagCloudDataService {
     adminData: TopicCloudAdminData,
     roomDataService: RoomDataService,
     comments: Comment[],
-    brainstorming: boolean,
   ): [TagCloudData, Set<string>] {
     const builder = new TagCloudDataBuilder(
       moderators,
-      brainstorming,
       roomDataService,
       adminData,
       blacklist,
@@ -216,20 +205,8 @@ export class TagCloudDataService {
     this._filterObject?.detach(true);
   }
 
-  blockWord(tag: string, room: Room, isBrainstorming: boolean): void {
-    if (!isBrainstorming) {
-      this._tagCloudAdmin.addWordToBlacklist(tag.toLowerCase(), room);
-    } else {
-      const settings = TagCloudSettings.getFromRoom(room);
-      tag = tag.toLowerCase();
-      if (settings.brainstormingBlacklist.includes(tag)) {
-        return;
-      }
-      settings.brainstormingBlacklist.push(tag);
-      this._roomService
-        .patchRoom(room.id, { tagCloudSettings: settings.serialize() })
-        .subscribe();
-    }
+  blockWord(tag: string, room: Room): void {
+    this._tagCloudAdmin.addWordToBlacklist(tag.toLowerCase(), room);
   }
 
   updateConfig(parameters: CloudParameters): boolean {
@@ -331,26 +308,6 @@ export class TagCloudDataService {
 
   private calculateWeight(tagData: TagCloudDataTagEntry, tag: string): number {
     const scorings = this._adminData.scorings;
-    if (this.isBrainstorming) {
-      const value =
-        this.sessionService.currentRoom.brainstormingSession?.votesForWords?.[
-          tag
-        ];
-      const upvotes = value?.upvotes || 0;
-      const downvotes = value?.downvotes || 0;
-      const score = upvotes - downvotes;
-      return (
-        tagData.distinctUsers.size * scorings.countUsers.score +
-        tagData.commentsByModerators * scorings.countKeywordByModerator.score +
-        tagData.commentsByCreator * scorings.countKeywordByCreator.score +
-        upvotes * scorings.summedUpvotes.score +
-        downvotes * scorings.summedDownvotes.score +
-        score * scorings.summedVotes.score +
-        calculateControversy(upvotes, downvotes, 0) *
-          scorings.controversy.score +
-        Math.max(score, 0) * scorings.cappedSummedVotes.score
-      );
-    }
     return (
       tagData.comments.length * scorings.countComments.score +
       tagData.distinctUsers.size * scorings.countUsers.score +
@@ -388,13 +345,7 @@ export class TagCloudDataService {
       : this._currentMetaData;
     currentMeta.commentCount = filteredComments.length;
     const room = this.sessionService.currentRoom;
-    let currentBlacklist: string[];
-    if (this.isBrainstorming) {
-      currentBlacklist =
-        TagCloudSettings.getFromRoom(room).brainstormingBlacklist;
-    } else {
-      currentBlacklist = room.blacklist ? JSON.parse(room.blacklist) : [];
-    }
+    const currentBlacklist = room.blacklist ? JSON.parse(room.blacklist) : [];
     const [data, users] = TagCloudDataService.buildDataFromComments(
       room.ownerId,
       new Set<string>(
@@ -405,7 +356,6 @@ export class TagCloudDataService {
       this._adminData,
       this._roomDataService,
       [...filteredComments],
-      this.isBrainstorming,
     );
     let minWeight = null;
     let maxWeight = null;

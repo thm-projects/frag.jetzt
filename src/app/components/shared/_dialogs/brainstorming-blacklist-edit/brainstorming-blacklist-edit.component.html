@@ -32,11 +32,11 @@
       class="color-on-surface"
       *ngFor="let word of blacklist"
       role="listitem"
-      >{{ word }}
+      >{{ word.word }}
       <button
         style="margin-left: auto; color: var(--red)"
         mat-icon-button
-        (click)="removeWordFromBlacklist(word)"
+        (click)="removeWordFromBlacklist(word.id)"
       >
         <mat-icon
           class="material-icons-outlined"
@@ -53,6 +53,5 @@
   buttonsLabelSection="brainstorming-blacklist"
   confirmButtonLabel="update"
   [spacing]="true"
-  [cancelButtonClickAction]="buildCloseDialogActionCallback()"
   [confirmButtonClickAction]="buildSaveActionCallback()"
 ></app-dialog-action-buttons>

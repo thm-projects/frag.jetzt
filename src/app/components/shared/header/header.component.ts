@@ -1,4 +1,10 @@
-import { AfterViewInit, Component, OnInit, Renderer2, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  OnInit,
+  Renderer2,
+  ViewChild,
+} from '@angular/core';
 import { NotificationService } from '../../../services/util/notification.service';
 import { Router } from '@angular/router';
 import { UserRole } from '../../../models/user-roles.enum';
@@ -25,19 +31,21 @@ import { HeaderService } from '../../../services/util/header.service';
 import { OnboardingService } from '../../../services/util/onboarding.service';
 import { ArsComposeHostDirective } from '../../../../../projects/ars/src/lib/compose/ars-compose-host.directive';
 import { ThemeService } from '../../../../theme/theme.service';
-import {
-  TopicCloudBrainstormingComponent
-} from '../_dialogs/topic-cloud-brainstorming/topic-cloud-brainstorming.component';
+import { TopicCloudBrainstormingComponent } from '../_dialogs/topic-cloud-brainstorming/topic-cloud-brainstorming.component';
 import { SessionService } from '../../../services/util/session.service';
 import { DeviceInfoService } from '../../../services/util/device-info.service';
 import { CommentNotificationService } from '../../../services/http/comment-notification.service';
-import { ManagedUser, UserManagementService } from '../../../services/util/user-management.service';
+import {
+  ManagedUser,
+  UserManagementService,
+} from '../../../services/util/user-management.service';
 import { StartUpService } from '../../../services/util/start-up.service';
+import { BrainstormingDataService } from 'app/services/util/brainstorming-data.service';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+  styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit, AfterViewInit {
   @ViewChild(ArsComposeHostDirective) host: ArsComposeHostDirective;
@@ -77,8 +85,8 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     public deviceInfo: DeviceInfoService,
     private commentNotificationService: CommentNotificationService,
     private startUpService: StartUpService,
-  ) {
-  }
+    private brainstormingDataService: BrainstormingDataService,
+  ) {}
 
   ngAfterViewInit() {
     this.headerService.initHeader(() => this);
@@ -91,14 +99,15 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   }
 
   init() {
-    this.sessionService.getRole().subscribe(role => {
+    this.sessionService.getRole().subscribe((role) => {
       this.userRole = role;
       this.isInRouteWithRoles = this.sessionService.canChangeRoleOnRoute;
     });
-    this.topicCloudAdminService.getAdminData.subscribe(data => {
-      this.isAdminConfigEnabled = !TopicCloudAdminService.isTopicRequirementDisabled(data);
+    this.topicCloudAdminService.getAdminData.subscribe((data) => {
+      this.isAdminConfigEnabled =
+        !TopicCloudAdminService.isTopicRequirementDisabled(data);
     });
-    this.tagCloudDataService.getMetaData().subscribe(data => {
+    this.tagCloudDataService.getMetaData().subscribe((data) => {
       if (!data) {
         return;
       }
@@ -106,7 +115,17 @@ export class HeaderComponent implements OnInit, AfterViewInit {
       this.commentsCountUsers = data.userCount;
       this.commentsCountKeywords = data.tagCount;
     });
-    this.userManagementService.getUser().subscribe(newUser => this.user = newUser);
+    this.brainstormingDataService.getMetaData().subscribe((data) => {
+      if (!data) {
+        return;
+      }
+      this.commentsCountQuestions = data.commentCount;
+      this.commentsCountUsers = data.userCount;
+      this.commentsCountKeywords = data.tagCount;
+    });
+    this.userManagementService
+      .getUser()
+      .subscribe((newUser) => (this.user = newUser));
 
     let time = new Date();
     this.getTime(time);
@@ -115,7 +134,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
       this.getTime(time);
     }, 1000);
 
-    this.sessionService.getRoom().subscribe(room => {
+    this.sessionService.getRoom().subscribe((room) => {
       this.room = room;
       this.refreshNotifications();
     });
@@ -127,7 +146,10 @@ export class HeaderComponent implements OnInit, AfterViewInit {
         this.eventService.focusOnInput === false
       ) {
         document.getElementById('back-button').focus();
-      } else if (KeyboardUtils.isKeyEvent(event, KeyboardKey.Digit2) === true && this.eventService.focusOnInput === false) {
+      } else if (
+        KeyboardUtils.isKeyEvent(event, KeyboardKey.Digit2) === true &&
+        this.eventService.focusOnInput === false
+      ) {
         if (this.user) {
           document.getElementById('session-button').focus();
         } else {
@@ -135,7 +157,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
         }
       }
     });
-    this.startUpService.unreadMotds().subscribe(state => {
+    this.startUpService.unreadMotds().subscribe((state) => {
       this.motdState = state;
     });
   }
@@ -167,22 +189,21 @@ export class HeaderComponent implements OnInit, AfterViewInit {
       this.logoutUser();
       return;
     }
-    this.bonusTokenService.getTokensByUserId(this.user.id).subscribe(list => {
+    this.bonusTokenService.getTokensByUserId(this.user.id).subscribe((list) => {
       if (!list || list.length < 1) {
         this.logoutUser();
         return;
       }
       const dialogRef = this.dialog.open(RemindOfTokensComponent, {
-        width: '600px'
+        width: '600px',
       });
-      dialogRef.afterClosed()
-        .subscribe(result => {
-          if (result === 'abort') {
-            this.openUserBonusTokenDialog();
-          } else if (result === 'logout') {
-            this.logoutUser();
-          }
-        });
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result === 'abort') {
+          this.openUserBonusTokenDialog();
+        } else if (result === 'logout') {
+          this.logoutUser();
+        }
+      });
     });
   }
 
@@ -200,7 +221,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
 
   login() {
     this.dialog.open(LoginComponent, {
-      width: '350px'
+      width: '350px',
     });
   }
 
@@ -210,21 +231,20 @@ export class HeaderComponent implements OnInit, AfterViewInit {
 
   openDeleteUserDialog() {
     const dialogRef = this.dialog.open(DeleteAccountComponent, {
-      width: '600px'
+      width: '600px',
     });
-    dialogRef.afterClosed()
-      .subscribe(result => {
-        if (result === 'abort') {
-          return;
-        } else if (result === 'delete') {
-          this.userManagementService.deleteAccount();
-        }
-      });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === 'abort') {
+        return;
+      } else if (result === 'delete') {
+        this.userManagementService.deleteAccount();
+      }
+    });
   }
 
   openUserBonusTokenDialog() {
     const dialogRef = this.dialog.open(UserBonusTokenComponent, {
-      width: '600px'
+      width: '600px',
     });
     dialogRef.componentInstance.userId = this.user.id;
   }
@@ -252,11 +272,11 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   public showQRDialog() {
     Rescale.requestFullscreen();
     const dialogRef = this.dialog.open(QrCodeDialogComponent, {
-      panelClass: 'screenDialog'
+      panelClass: 'screenDialog',
     });
     dialogRef.componentInstance.data = this.getURL();
     dialogRef.componentInstance.key = this.room?.shortId;
-    dialogRef.afterClosed().subscribe(res => {
+    dialogRef.afterClosed().subscribe((res) => {
       Rescale.exitFullscreen();
     });
   }
@@ -272,7 +292,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
       return;
     }
     this.commentNotificationService.findByRoomId(id).subscribe({
-      next: value => this.hasEmailNotifications = !!value?.length
+      next: (value) => (this.hasEmailNotifications = !!value?.length),
     });
   }
 
@@ -280,9 +300,10 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     const url = decodeURI(this.router.url);
     let newRoute = '/participant/';
     if (this.userRole !== this.user.role) {
-      newRoute = this.user.role === UserRole.CREATOR ? '/creator/' : '/moderator/';
+      newRoute =
+        this.user.role === UserRole.CREATOR ? '/creator/' : '/moderator/';
     }
-    this.router.navigate([url.replace(/^\/[^\/]+\//gmi, newRoute)]);
+    this.router.navigate([url.replace(/^\/[^\/]+\//gim, newRoute)]);
   }
 
   public navigateTopicCloud() {
@@ -290,10 +311,14 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   }
 
   public navigateBrainstorming() {
-    const confirmDialogRef = this.confirmDialog.open(TopicCloudBrainstormingComponent, {
-      autoFocus: false
-    });
-    confirmDialogRef.componentInstance.target = this.router.url + '/brainstorming';
+    const confirmDialogRef = this.confirmDialog.open(
+      TopicCloudBrainstormingComponent,
+      {
+        autoFocus: false,
+      },
+    );
+    confirmDialogRef.componentInstance.target =
+      this.router.url + '/brainstorming';
     confirmDialogRef.componentInstance.userRole = this.userRole;
   }
 

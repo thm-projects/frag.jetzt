@@ -1,24 +1,31 @@
 import { Room } from '../../../../models/room';
-import { SpacyKeyword, SpacyService } from '../../../../services/http/spacy.service';
+import {
+  SpacyKeyword,
+} from '../../../../services/http/spacy.service';
 import { CommentService } from '../../../../services/http/comment.service';
 import { Comment, Language } from '../../../../models/comment';
-import { Language as Lang, LanguagetoolService } from '../../../../services/http/languagetool.service';
+import {
+  Language as Lang,
+} from '../../../../services/http/languagetool.service';
 import { TSMap } from 'typescript-map';
 import { HttpErrorResponse } from '@angular/common/http';
-import { DeepLService } from '../../../../services/http/deep-l.service';
-import { KeywordExtractor, KeywordsResult, KeywordsResultType } from '../../../../utils/keyword-extractor';
+import {
+  KeywordExtractor,
+  KeywordsResult,
+  KeywordsResultType,
+} from '../../../../utils/keyword-extractor';
+import { Injector } from '@angular/core';
 
 const concurrentCallsPerTask = 4;
 
 export class WorkerDialogTask {
-
   error: string = null;
   readonly statistics = {
     succeeded: 0,
     badSpelled: 0,
     notSupported: 0,
     failed: 0,
-    length: 0
+    length: 0,
   };
   private readonly _comments: Comment[] = null;
   private readonly _running: boolean[] = null;
@@ -26,14 +33,12 @@ export class WorkerDialogTask {
 
   constructor(
     public readonly room: Room,
-    private comments: Comment[],
-    private spacyService: SpacyService,
-    private deeplService: DeepLService,
-    private commentService: CommentService,
-    private languagetoolService: LanguagetoolService,
-    private finished: () => void
+    comments: Comment[],
+    private finished: () => void,
+    injector: Injector,
+    private commentService: CommentService = injector.get(CommentService),
   ) {
-    this._keywordExtractor = new KeywordExtractor(null, null, null, null, languagetoolService, spacyService, deeplService);
+    this._keywordExtractor = new KeywordExtractor(injector);
     this._comments = comments;
     this.statistics.length = comments.length;
     this._running = new Array(concurrentCallsPerTask);
@@ -44,13 +49,13 @@ export class WorkerDialogTask {
   }
 
   isRunning(): boolean {
-    return this._running.some(e => e === true);
+    return this._running.some((e) => e === true);
   }
 
   private callSpacy(currentIndex: number) {
     if (this.error || currentIndex >= this._comments.length) {
       this._running[currentIndex % concurrentCallsPerTask] = false;
-      if (this._running.every(e => e === false)) {
+      if (this._running.every((e) => e === false)) {
         if (this.finished) {
           this.finished();
           this.finished = null;
@@ -59,15 +64,17 @@ export class WorkerDialogTask {
       return;
     }
     const currentComment = this._comments[currentIndex];
-    const selectedLang = currentComment.language.toLowerCase() as Lang;
-    if (currentComment.brainstormingQuestion) {
-      this._keywordExtractor.generateBrainstormingTerm(currentComment.body, selectedLang)
-        .subscribe((result) => this.finishSpacyCall(currentIndex, result));
+    if (currentComment.brainstormingSessionId !== null) {
+      this.statistics.succeeded++;
+      this.callSpacy(currentIndex + concurrentCallsPerTask);
       return;
     }
-    this._keywordExtractor.generateKeywords(currentComment.body,
-      false,
-      currentComment.language.toLowerCase() as Lang)
+    this._keywordExtractor
+      .generateKeywords(
+        currentComment.body,
+        false,
+        currentComment.language.toLowerCase() as Lang,
+      )
       .subscribe((result) => this.finishSpacyCall(currentIndex, result));
   }
 
@@ -89,7 +96,12 @@ export class WorkerDialogTask {
     this.patchToServer(result.keywords, index, result.language, undo);
   }
 
-  private patchToServer(tags: SpacyKeyword[], index: number, language: Language, undo: () => any) {
+  private patchToServer(
+    tags: SpacyKeyword[],
+    index: number,
+    language: Language,
+    undo: () => any,
+  ) {
     const changes = new TSMap<string, string>();
     changes.set('keywordsFromSpacy', JSON.stringify(tags));
     if (language !== null) {
@@ -101,15 +113,17 @@ export class WorkerDialogTask {
         this.statistics.succeeded++;
         this.callSpacy(index + concurrentCallsPerTask);
       },
-      error: patchError => {
+      error: (patchError) => {
         undo();
         this.statistics.failed++;
-        if (patchError instanceof HttpErrorResponse && patchError.status === 403) {
+        if (
+          patchError instanceof HttpErrorResponse &&
+          patchError.status === 403
+        ) {
           this.error = 'forbidden';
         }
         this.callSpacy(index + concurrentCallsPerTask);
-      }
+      },
     });
   }
-
 }

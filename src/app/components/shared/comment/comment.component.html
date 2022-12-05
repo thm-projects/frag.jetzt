@@ -225,6 +225,14 @@
           {{comment.tag}}
         </span>
       </div>
+      <div fxLayoutAlign="center center"
+           *ngIf="brainstormingCategory"
+           class="comment-brainstorm-tags">
+        <mat-icon>category</mat-icon>
+        <span style="padding-left: 5px">
+          {{brainstormingCategory}}
+        </span>
+      </div>
       <ng-template #userNumberContent>
         <mat-icon class="user-icon material-icons-outlined">person_pin_circle</mat-icon>
         <span matBadge="{{commentsWrittenByUser}}"

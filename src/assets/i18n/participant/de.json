@@ -273,7 +273,9 @@
     "overview-keywords-tooltip": "Anzahl Stichwörter",
     "overview-question-tooltip": "Anzahl Fragen",
     "overview-questioners-tooltip": "Anzahl Fragensteller*innen",
-    "overview-admin-config-enabled": "Schwellenwerte für die Anzeige der Themen sind aktiv."
+    "overview-admin-config-enabled": "Schwellenwerte für die Anzeige der Themen sind aktiv.",
+    "overview-brainstormers-tooltip": "Anzahl Brainstormende",
+    "overview-ideas-tooltip": "Anzahl Ideen"
   },
   "home-page": {
     "exactly-8": "Ein Raum-Code hat genau 8 Ziffern.",
@@ -287,7 +289,7 @@
     "title": ""
   },
   "introductions": {
-    "brainstorming-title": "Use Cases der Brainstorming-Session",
+    "brainstorming-title": "Brainstorming",
     "cancel": "Schließen",
     "question-wall-title": "Use Cases des Präsentationsmodus",
     "tag-cloud-title": "Use Cases des Fragen-Radars"
@@ -476,6 +478,7 @@
     "blacklist-topic": "Auf die Sperrliste setzen",
     "changes-gone-wrong": "Etwas ist schiefgelaufen!",
     "changes-successful": "Änderungen gespeichert",
+    "write-last-idea": "Schreibe die letzte Brainstorming-Idee!",
     "demo-data-topic": "Stichwort %d",
     "downvote-topic": "Down-Votes für dieses Stichwort",
     "downvote-topic-brainstorming": "Gefällt mir nicht",
@@ -485,7 +488,7 @@
     "period-since-first-comment": "Zeit seit dem ersten Beitrag",
     "print-title": "Wortwolke aus dem Raum »{{roomName}}«",
     "responses-to-keyword": "Anzahl aller Antworten mit diesem Stichwort",
-    "ups-downs-difference": "Bewertungsdifferenz",
+    "ups-downs-difference": "Bewertungsdifferenz | {{upvotes}} 👍  {{downvotes}} 👎",
     "upvote-topic": "Up-Votes für dieses Stichwort",
     "upvote-topic-brainstorming": "Gefällt mir"
   },

@@ -2,6 +2,7 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
+  Injector,
   Input,
   OnDestroy,
   OnInit,
@@ -35,9 +36,7 @@ import { UserRole } from '../../../models/user-roles.enum';
 import { SessionService } from '../../../services/util/session.service';
 import { User } from '../../../models/user';
 import { StandardDelta } from '../../../utils/quill-utils';
-import { KeywordExtractor } from '../../../utils/keyword-extractor';
-import { RoomDataService } from '../../../services/util/room-data.service';
-import { SpacyService } from '../../../services/http/spacy.service';
+import { CommentCreateOptions, KeywordExtractor } from '../../../utils/keyword-extractor';
 import { ForumComment } from '../../../utils/data-accessor';
 import { UserManagementService } from '../../../services/util/user-management.service';
 import { DBLocalRoomSettingsService } from 'app/services/persistence/dblocal-room-settings.service';
@@ -103,19 +102,10 @@ export class WriteCommentComponent implements OnInit, AfterViewInit, OnDestroy {
     private dialog: MatDialog,
     private sessionService: SessionService,
     private userManagementService: UserManagementService,
-    private roomDataService: RoomDataService,
-    private spacyService: SpacyService,
     private dBLocalRoomSettingsService: DBLocalRoomSettingsService,
+    injector: Injector,
   ) {
-    this._keywordExtractor = new KeywordExtractor(
-      dialog,
-      translateService,
-      notification,
-      roomDataService,
-      languagetoolService,
-      spacyService,
-      deeplService,
-    );
+    this._keywordExtractor = new KeywordExtractor(injector);
   }
 
   get isMobileMockActive() {
@@ -384,9 +374,10 @@ export class WriteCommentComponent implements OnInit, AfterViewInit, OnDestroy {
         allowed)
     ) {
       const realData = this.allowEmpty && text.length < 2 ? { ops: [] } : data;
-      const options = {
+      const options: CommentCreateOptions = {
         userId: this.user.id,
-        isBrainstorming: !!this.brainstormingData,
+        brainstormingSessionId: this.brainstormingData?.id || null,
+        brainstormingLanguage: this.brainstormingData?.language || 'en',
         body: realData,
         tag: this.selectedTag,
         questionerName: this.questionerNameFormControl.value,
