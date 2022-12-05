@@ -64,7 +64,7 @@ See [SVG](https://staging.frag.jetzt/assets/images/Domain_Diagram.svg)
 
 See [SVG](https://staging.frag.jetzt/assets/images/activity_diagram_bonus_option.svg)
 
-## Activity Duagram for Brainstorming
+## Activity Diagram for Brainstorming
 
 See [SVG](https://staging.frag.jetzt/assets/images/activity_diagram_brainstorming.svg)
 
