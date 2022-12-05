@@ -164,7 +164,7 @@ UC19 <-- A
 
 legend right
     |<img:https://git.thm.de/arsnova/frag.jetzt/-/raw/staging/src/assets/icons/Logo_frag_jetzt_128x128.png> |= \n\n »frag.jetzt« |
-    | Domain glossary | [[https://git.thm.de/arsnova/frag.jetzt/-/blob/staging/docs/diagrams/Glossary.pdf]] |
+    | Domain glossary | [[https://git.thm.de/arsnova/frag.jetzt/-/raw/staging/docs/diagrams/Glossary.pdf]] |
     | Production server | [[https://frag.jetzt]] |
     | Repository | [[https://git.thm.de/arsnova/frag.jetzt/-/blob/staging/README.md]] |
     | Staging server | [[https://staging.frag.jetzt]] |

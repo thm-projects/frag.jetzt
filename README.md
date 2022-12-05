@@ -50,7 +50,7 @@ With our innovative product "frag.jetzt" we want to conquer the market of audien
 
 ## Glossary
 
-See [PDF](https://git.thm.de/arsnova/frag.jetzt/-/blob/staging/docs/diagrams/Glossary.pdf)
+See [PDF](https://git.thm.de/arsnova/frag.jetzt/-/raw/staging/docs/diagrams/Glossary.pdf)
 
 ## Use Case Diagram
 

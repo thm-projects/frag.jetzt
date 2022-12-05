@@ -1,7 +1,7 @@
 @startuml
 title Workflow of a brainstorming session with »frag.jetzt«
 
-caption <b>Note: The actions <color: hotpink>highlighted in pink</color> are items of the »Options« menu.</b>   
+caption <b>Note: The actions <color: hotpink>highlighted in pink</color> are items of the »Options« menu.</b>
 
 skinparam backgroundColor Linen
 skinparam shadowing true
@@ -37,13 +37,13 @@ skinparam Padding 6
   }
 
   |#90CAF9|Participant|
-  
+
   partition "Join event" {
         floating note left: The moderator has given you either \nthe key code of or the direct link \nto the event room.
   start
       :go to frag.jetzt;
       :join event;
-      :go to Q&A forum; 
+      :go to Q&A forum;
       end
  }
 
@@ -52,7 +52,7 @@ skinparam Padding 6
 partition "Set up brainstorming session" {
   floating note left: You are in the \nQ&A forum of your room.
 
-:click on »Brainstorming« 
+:click on »Brainstorming«
 in the header of the Q&A forum;
 : enter focus question or topic;
 : set input length for ideas;
@@ -71,7 +71,7 @@ floating note left: <b>Phase 1 of brainstorming method</b>
 
 partition "Idea finding" {
 floating note left: <b>Phase 2 of brainstorming method</b>
-:click on »Brainstorming« 
+:click on »Brainstorming«
 in the header of the Q&A forum;
 :join session;
 repeat
@@ -131,7 +131,7 @@ stop
 
   legend right
     |<img:https://git.thm.de/arsnova/frag.jetzt/-/raw/staging/src/assets/icons/Logo_frag_jetzt_128x128.png> |= \n\n »frag.jetzt« |
-    | Domain glossary | [[https://git.thm.de/arsnova/frag.jetzt/-/blob/staging/docs/diagrams/Glossary.pdf]] |
+    | Domain glossary | [[https://git.thm.de/arsnova/frag.jetzt/-/raw/staging/docs/diagrams/Glossary.pdf]] |
     | Production server | [[https://frag.jetzt]] |
     | Repository | [[https://git.thm.de/arsnova/frag.jetzt/-/blob/staging/README.md]] |
     | Staging server | [[https://staging.frag.jetzt]] |
