@@ -1,4 +1,4 @@
-@startuml
+@startuml Brainstorming
 title Workflow of a brainstorming session with »frag.jetzt«
 
 caption <b>Note: The actions <color: hotpink>highlighted in pink</color> are items of the »Options« menu.</b>
@@ -10,59 +10,59 @@ skinparam Padding 6
 
 |#CE93D8|Moderator|
 
-  partition "Book a room for a brainstorming session" {
+partition "Book a room for a brainstorming session" {
 
   start
 
   :go to frag.jetzt;
   if(you have an account?) then (yes)
-      :sign in;
-      if(room already exists?) then (yes)
-          :go to the room;
-      else (no)
-          :book a room;
-      endif
-  else (no)
-      :log in as guest;
+    :sign in;
+    if(room already exists?) then (yes)
+      :go to the room;
+    else (no)
       :book a room;
+    endif
+  else (no)
+    :log in as guest;
+    :book a room;
   endif
   :select »My rooms« in the options menu;
   :select »Room settings« in the options menu;
   :activate brainstorming option;
-:go to your room;
-:copy and share key code or direct link for participant access;
-:go to Q&A forum;
+  :go to your room;
+  :copy and share key code or direct link for participant access;
+  :go to Q&A forum;
   end
 
-  }
+}
 
-  |#90CAF9|Participant|
+|#90CAF9|Participant|
 
-  partition "Join event" {
-        floating note left: The moderator has given you either \nthe key code of or the direct link \nto the event room.
+partition "Join event" {
+  floating note left: The moderator has given you either \nthe key code of or the direct link \nto the event room.
   start
-      :go to frag.jetzt;
-      :join event;
-      :go to Q&A forum;
-      end
- }
+  :go to frag.jetzt;
+  :join event;
+  :go to Q&A forum;
+  end
+}
 
 |#CE93D8|Moderator|
 
 partition "Set up brainstorming session" {
   floating note left: You are in the \nQ&A forum of your room.
 
-:click on »Brainstorming«
-in the header of the Q&A forum;
-: enter focus question or topic;
-: set input length for ideas;
-: set duration of brainstorming;
+  :click on »Brainstorming«
+  in the header of the Q&A forum;
+  : enter focus question or topic;
+  : set input length for ideas;
+  : set duration of brainstorming;
 }
 
 partition "Warm up" {
-floating note left: <b>Phase 1 of brainstorming method</b>
-#pink: explain brainstorming technique;
-:act out a brainstorming session;
+  floating note left: <b>Phase 1 of brainstorming method</b>
+  #pink: explain brainstorming technique;
+  :act out a brainstorming session;
 }
 
 #pink: start brainstorming;
@@ -70,13 +70,13 @@ floating note left: <b>Phase 1 of brainstorming method</b>
 |#90CAF9|Participant|
 
 partition "Idea finding" {
-floating note left: <b>Phase 2 of brainstorming method</b>
-:click on »Brainstorming«
-in the header of the Q&A forum;
-:join session;
-repeat
-:click the + button to enter idea;
-repeat while (still time for brainstorming?) is (yes) not (no)
+  floating note left: <b>Phase 2 of brainstorming method</b>
+  :click on »Brainstorming«
+  in the header of the Q&A forum;
+  :join session;
+  repeat
+    :click the + button to enter idea;
+  repeat while (still time for brainstorming?) is (yes) not (no)
 }
 
 |Moderator|
@@ -84,29 +84,29 @@ repeat while (still time for brainstorming?) is (yes) not (no)
 #pink: stop brainstorming;
 
 partition "Idea presentation" {
-floating note left: <b>Phase 3 of brainstorming method</b>
-#pink: go to Question focus;
-:present & discuss ideas;
+  floating note left: <b>Phase 3 of brainstorming method</b>
+  #pink: go to Question focus;
+  :present & discuss ideas;
 }
 
 |Participant|
 
 partition "Idea elaboration" {
-floating note left: <b>Phase 4 of brainstorming method</b>
-#pink: go to Q&A forum;
-:further elaborate on ideas;
-:go back to Brainstorming;
+  floating note left: <b>Phase 4 of brainstorming method</b>
+  #pink: go to Q&A forum;
+  :further elaborate on ideas;
+  :go back to Brainstorming;
 }
 
 |Moderator|
 
 partition "Idea sorting" {
-floating note left: <b>Phase 5 of brainstorming method</b>
-:go back to Brainstorming;
-#pink: create topic catalog;
-:hover over the word cloud;
-:assign topics to ideas;
-:blacklist inappropriate ideas;
+  floating note left: <b>Phase 5 of brainstorming method</b>
+  :go back to Brainstorming;
+  #pink: create topic catalog;
+  :hover over the word cloud;
+  :assign topics to ideas;
+  :blacklist inappropriate ideas;
 }
 
 #pink: reset idea rating;
@@ -114,30 +114,30 @@ floating note left: <b>Phase 5 of brainstorming method</b>
 |Participant|
 
 partition "Idea evaluation" {
-floating note left: <b>Phase 6 of brainstorming method</b>
-:hover over the word cloud;
-:rate your favorite ideas;
+  floating note left: <b>Phase 6 of brainstorming method</b>
+  :hover over the word cloud;
+  :rate your favorite ideas;
 }
 
 |Moderator|
 
 partition "Record session" {
-#pink: freeze session;
-:create screenshot of word cloud;
-#pink: export ideas;
+  #pink: freeze session;
+  :create screenshot of word cloud;
+  #pink: export ideas;
 }
 
 stop
 
-  legend right
-    |<img:https://git.thm.de/arsnova/frag.jetzt/-/raw/staging/src/assets/icons/Logo_frag_jetzt_128x128.png> |= \n\n »frag.jetzt« |
-    | Domain glossary | [[https://git.thm.de/arsnova/frag.jetzt/-/raw/staging/docs/diagrams/Glossary.pdf]] |
-    | Production server | [[https://frag.jetzt]] |
-    | Repository | [[https://git.thm.de/arsnova/frag.jetzt/-/blob/staging/README.md]] |
-    | Staging server | [[https://staging.frag.jetzt]] |
-    | UML tool| PlantUML-Server Version 1202202|
-    | Author| Klaus Quibeldey-Cirkel|
-    | Contact| [[mailto:klaus.quibeldey-cirkel@mni.thm.de]] |
-    | Last revision| 04.12.2022 |
-  end legend
+legend right
+|<img:https://git.thm.de/arsnova/frag.jetzt/-/raw/staging/src/assets/icons/Logo_frag_jetzt_128x128.png> |= \n\n »frag.jetzt« |
+| Domain glossary | [[https://git.thm.de/arsnova/frag.jetzt/-/raw/staging/docs/diagrams/Glossary.pdf]] |
+| Production server | [[https://frag.jetzt]] |
+| Repository | [[https://git.thm.de/arsnova/frag.jetzt/-/blob/staging/README.md]] |
+| Staging server | [[https://staging.frag.jetzt]] |
+| UML tool| PlantUML-Server Version 1202202|
+| Author| Klaus Quibeldey-Cirkel|
+| Contact| [[mailto:klaus.quibeldey-cirkel@mni.thm.de]] |
+| Last revision| 04.12.2022 |
+end legend
 @enduml

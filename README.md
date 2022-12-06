@@ -54,11 +54,19 @@ See [PDF](https://git.thm.de/arsnova/frag.jetzt/-/raw/staging/docs/diagrams/Glos
 
 ## Use Case Diagram
 
-See [SVG](https://git.thm.de/arsnova/frag.jetzt/-/blob/staging/docs/diagrams/Use-Case-Diagram.svg)
+See [SVG](https://staging.frag.jetzt/assets/images/Use_Case_Diagram.svg)
 
 ## Domain Diagram
 
-See [SVG](https://git.thm.de/arsnova/frag.jetzt/-/blob/staging/docs/diagrams/Domain_Diagram.svg)
+See [SVG](https://staging.frag.jetzt/assets/images/Domain_Diagram.svg)
+
+## Activity Diagram for Bonus Awarding
+
+See [SVG](https://staging.frag.jetzt/assets/images/activity_diagram_bonus_option.svg)
+
+## Activity Diagram for Brainstorming
+
+See [SVG](https://staging.frag.jetzt/assets/images/activity_diagram_brainstorming.svg)
 
 ## frag.jetzt development with docker
 

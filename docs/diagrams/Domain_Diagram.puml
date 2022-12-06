@@ -1,11 +1,11 @@
-@startuml
+@startuml Domain diagram
 skinparam class {
-	BackgroundColor PaleGreen
-	BorderColor Green
-	ArrowColor black
-	FontSize 28
-	BackgroundColor<<USP>> Pink
-	BorderColor<<USP>> HotPink
+  BackgroundColor PaleGreen
+  BorderColor Green
+  ArrowColor black
+  FontSize 28
+  BackgroundColor<<USP>> Pink
+  BorderColor<<USP>> HotPink
 }
 
 skinparam backgroundColor Linen
@@ -27,164 +27,164 @@ hide circle
 
 package "frag.jetzt | domain diagram" <<Rectangle>> {
 
-class Conversation {
-keywords
-threads
-searching
-sorting
-filtering
-questionStreaming
-}
+  class Conversation {
+    keywords
+    threads
+    searching
+    sorting
+    filtering
+    questionStreaming
+  }
 
-class Room {
-welcomeText
-creator
-eventName
-key
-directLink
-qrCode
-displayOptions
-profanityFilter
-settings
-}
+  class Room {
+    welcomeText
+    creator
+    eventName
+    key
+    directLink
+    qrCode
+    displayOptions
+    profanityFilter
+    settings
+  }
 
-class KeywordExtraction <<USP>> {
-languageDetection
-errorPercentage
-backTranslation
-nounAnalysis
-keywordCheck
-}
+  class KeywordExtraction <<USP>> {
+    languageDetection
+    errorPercentage
+    backTranslation
+    nounAnalysis
+    keywordCheck
+  }
 
-class Post {
-postNumber
-questionCategory
-assessmentByModerator
-ratingByParticipant
-controversyScore
-textOptimization
-}
+  class Post {
+    postNumber
+    questionCategory
+    assessmentByModerator
+    ratingByParticipant
+    controversyScore
+    textOptimization
+  }
 
-class Moderation {
-publicationThreshold
-}
+  class Moderation {
+    publicationThreshold
+  }
 
-class QuestionFocus <<USP>> {
-autoFocus
-}
+  class QuestionFocus <<USP>> {
+    autoFocus
+  }
 
-class QuestionRadar <<USP>> {
-keywordCloud
-}
+  class QuestionRadar <<USP>> {
+    keywordCloud
+  }
 
-class RoomList {
-appRating
-}
+  class RoomList {
+    appRating
+  }
 
-class Brainstorming <<USP>> {
-keywordCloud
-}
+  class Brainstorming <<USP>> {
+    keywordCloud
+  }
 
-class QuizRallye <<webService>> {
-[[https://antworte.jetzt {game-based quiz app} Link to Website]]
-}
+  class QuizRallye <<webService>> {
+    [[https://antworte.jetzt {game-based quiz app} Link to Website]]
+  }
 
-class User {
-}
+  class User {
+  }
 
-class AnonymousUser {
-moderationLink
-}
+  class AnonymousUser {
+    moderationLink
+  }
 
-class RegisteredUser {
-eMailVerification
-}
-
-
-class BonusArchive <<USP>> {
-bonusCode
-}
-
-class Notification {
-}
-
-class MailNotification <<USP>> {
-newConversations
-bonusRedemption
-}
-
-class OnlineNotification {
-newReactionsToPosts
-}
-
-class SpaCy <<installedService>> {
-[[https://spacy.io/ {NLP} Link to Website]]
-}
+  class RegisteredUser {
+    eMailVerification
+  }
 
 
-class DeepL <<webService>> {
-[[https://deepl.com {Translator} Link to Website]]
-}
+  class BonusArchive <<USP>> {
+    bonusCode
+  }
+
+  class Notification {
+  }
+
+  class MailNotification <<USP>> {
+    newConversations
+    bonusRedemption
+  }
+
+  class OnlineNotification {
+    newReactionsToPosts
+  }
+
+  class SpaCy <<installedService>> {
+    [[https://spacy.io/ {NLP} Link to Website]]
+  }
 
 
-class LanguageTool <<installedService>> {
-[[https://languagetool.org {used for language detection} Link to Website]]
-}
+  class DeepL <<webService>> {
+    [[https://deepl.com {Translator} Link to Website]]
+  }
 
 
-class Wikipedia <<installedService>> {
-[[https://dumps.wikimedia.org/ {complete copy of Wikimedia wikis} Link to Website]]
-}
+  class LanguageTool <<installedService>> {
+    [[https://languagetool.org {used for language detection} Link to Website]]
+  }
 
 
-AnonymousUser -up-|> User
-RegisteredUser -up-|> User
-RegisteredUser -- MailNotification
-
-User -- Room
-
-BonusArchive o--- "*" Post
-BonusArchive ---  User
+  class Wikipedia <<installedService>> {
+    [[https://dumps.wikimedia.org/ {complete copy of Wikimedia wikis} Link to Website]]
+  }
 
 
-OnlineNotification -up-|> Notification
-MailNotification -|> Notification
+  AnonymousUser -up-|> User
+  RegisteredUser -up-|> User
+  RegisteredUser -- MailNotification
 
-KeywordExtraction  ..> SpaCy : <<use>>
-KeywordExtraction  ..> LanguageTool : <<use>>
-KeywordExtraction  ..> DeepL : <<use>>
-KeywordExtraction  ..> Wikipedia : <<use>>
+  User -- Room
+
+  BonusArchive o--- "*" Post
+  BonusArchive ---  User
 
 
-Moderation "0..1" ---- "1" Room
-Moderation *--- "*" Post
+  OnlineNotification -up-|> Notification
+  MailNotification -|> Notification
 
-Post "*" ----o Conversation
-Post --- Notification
-Post -right..> DeepL : <<use>>
-QuestionRadar -[#red]-> Post : > navigates to
+  KeywordExtraction  ..> SpaCy : <<use>>
+  KeywordExtraction  ..> LanguageTool : <<use>>
+  KeywordExtraction  ..> DeepL : <<use>>
+  KeywordExtraction  ..> Wikipedia : <<use>>
 
-Conversation  ---  KeywordExtraction
-Conversation -left--  QuestionFocus
-Conversation ----* Room
-Conversation <-[#red]right-- QuestionRadar
 
-Room "*" -right---- "1" RoomList
-Room "1" ---- "0..1" BonusArchive
-Room "1" -- "0..1" Brainstorming
-Room ..> QuizRallye : <<use>>
+  Moderation "0..1" ---- "1" Room
+  Moderation *--- "*" Post
+
+  Post "*" ----o Conversation
+  Post --- Notification
+  Post -right..> DeepL : <<use>>
+  QuestionRadar -[#red]-> Post : > navigates to
+
+  Conversation  ---  KeywordExtraction
+  Conversation -left--  QuestionFocus
+  Conversation ----* Room
+  Conversation <-[#red]right-- QuestionRadar
+
+  Room "*" -right---- "1" RoomList
+  Room "1" ---- "0..1" BonusArchive
+  Room "1" -- "0..1" Brainstorming
+  Room ..> QuizRallye : <<use>>
 
 }
 
 legend right
-    |<img:https://git.thm.de/arsnova/frag.jetzt/-/raw/staging/src/assets/icons/Logo_frag_jetzt_128x128.png> |= \n\n »frag.jetzt« |
-    | Domain glossary | [[https://git.thm.de/arsnova/frag.jetzt/-/raw/staging/docs/diagrams/Glossary.pdf]] |
-    | Production server | [[https://frag.jetzt]] |
-    | Repository | [[https://git.thm.de/arsnova/frag.jetzt/-/blob/staging/README.md]] |
-    | Staging server | [[https://staging.frag.jetzt]] |
-    | UML tool| PlantUML-Server Version 1202202|
-    | Author| Klaus Quibeldey-Cirkel|
-    | Contact| [[mailto:klaus.quibeldey-cirkel@mni.thm.de]] |
-    | Last revision| 04.12.2022 |
-  end legend
+|<img:https://git.thm.de/arsnova/frag.jetzt/-/raw/staging/src/assets/icons/Logo_frag_jetzt_128x128.png> |= \n\n »frag.jetzt« |
+| Domain glossary | [[https://git.thm.de/arsnova/frag.jetzt/-/raw/staging/docs/diagrams/Glossary.pdf]] |
+| Production server | [[https://frag.jetzt]] |
+| Repository | [[https://git.thm.de/arsnova/frag.jetzt/-/blob/staging/README.md]] |
+| Staging server | [[https://staging.frag.jetzt]] |
+| UML tool| PlantUML-Server Version 1202202|
+| Author| Klaus Quibeldey-Cirkel|
+| Contact| [[mailto:klaus.quibeldey-cirkel@mni.thm.de]] |
+| Last revision| 04.12.2022 |
+end legend
 @enduml
