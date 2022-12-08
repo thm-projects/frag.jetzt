@@ -50,7 +50,7 @@
       "en": "Englisch",
       "fr": "Französisch"
     },
-    "duration": "Dauer nach Start - {{duration}} Minuten: ",
+    "duration": "Dauer nach Start: {{duration}} Minuten ",
     "allow-ideas": "Erlaube durchgehende Ideeneingabe",
     "allow-rating": "Erlaube Bewertung ab Start",
     "update": "Update"

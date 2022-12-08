@@ -71,7 +71,7 @@
       "en": "English",
       "fr": "French"
     },
-    "brainstorming-duration": "Duration after start - {{duration}} minutes: ",
+    "brainstorming-duration": "Duration after start: {{duration}} minutes ",
     "brainstorming-allow-ideas": "Allow continuous idea input",
     "brainstorming-allow-rating": "Allow rating from start",
     "brainstorming-word-count": "Maximum number of words",
