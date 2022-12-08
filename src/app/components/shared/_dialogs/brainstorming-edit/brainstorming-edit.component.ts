@@ -32,7 +32,7 @@ export class BrainstormingEditComponent implements OnInit {
     Validators.max(this.maxWordLengthMax),
   ]);
   question = '';
-  brainstormingDuration = 5;
+  brainstormingDuration = 15;
   brainstormingAllowIdeas = false;
   brainstormingAllowRating = false;
   roomSubscription: Subscription;

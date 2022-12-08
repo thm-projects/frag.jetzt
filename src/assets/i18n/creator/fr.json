@@ -50,7 +50,7 @@
       "en": "Anglais",
       "fr": "Français"
     },
-    "duration": "Durée après le démarrage - {{duration}} minutes : ",
+    "duration": "Durée après le démarrage : {{duration}} minutes ",
     "allow-ideas": "Permettre la saisie d'idées en continu",
     "allow-rating": "Autoriser l'évaluation à partir du début",
     "update": "Mise à jour"

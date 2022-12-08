@@ -707,7 +707,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
         });
         e.menuItem({
           translate: this.headerService.getTranslate(),
-          icon: 'psychology_alt',
+          icon: 'help',
           class: 'material-icons-outlined',
           text: 'header.brainstorm-info',
           callback: () => {
@@ -720,13 +720,13 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
         e.altToggle(
           {
             translate: this.headerService.getTranslate(),
-            icon: 'start',
+            icon: 'timer',
             class: 'material-icons-outlined',
             text: 'header.brainstorm-start',
           },
           {
             translate: this.headerService.getTranslate(),
-            icon: 'stop',
+            icon: 'timer_off',
             class: 'material-icons-outlined',
             text: 'header.brainstorm-stop',
           },
@@ -924,7 +924,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
         e.menuItem({
           translate: this.headerService.getTranslate(),
           icon: 'handyman',
-          class: 'material-icons-outlined',
+          class: 'material-icons-filled',
           text: 'header.brainstorm-blacklist',
           callback: () => {
             const ref = this.dialog.open(BrainstormingBlacklistEditComponent, {
@@ -941,7 +941,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
         e.menuItem({
           translate: this.headerService.getTranslate(),
           icon: 'psychology',
-          class: 'material-icons-outlined',
+          class: 'material-icons-filled',
           text: 'header.brainstorm-settings',
           callback: () => {
             const dialogRef = this.dialog.open(BrainstormingEditComponent, {

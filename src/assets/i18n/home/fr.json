@@ -71,7 +71,7 @@
       "en": "Anglais",
       "fr": "Français"
     },
-    "brainstorming-duration": "Durée après le démarrage - {{duration}} minutes : ",
+    "brainstorming-duration": "Durée après le démarrage : {{duration}} minutes ",
     "brainstorming-allow-ideas": "Permettre la saisie d'idées en continu",
     "brainstorming-allow-rating": "Autoriser l'évaluation à partir du début",
     "brainstorming-word-count": "Nombre maximal de mots",
