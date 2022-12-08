@@ -817,7 +817,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
         e.menuItem({
           translate: this.headerService.getTranslate(),
           icon: 'category',
-          class: 'material-icons-outlined',
+          class: 'material-icons-filled',
           text: 'header.brainstorm-categories',
           callback: () => {
             this.sessionService.getCategoriesOnce().subscribe((categories) => {
@@ -923,7 +923,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
         );
         e.menuItem({
           translate: this.headerService.getTranslate(),
-          icon: 'handyman',
+          icon: 'gavel',
           class: 'material-icons-filled',
           text: 'header.brainstorm-blacklist',
           callback: () => {
