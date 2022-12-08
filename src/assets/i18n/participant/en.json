@@ -475,7 +475,7 @@
     "tag-button-hint": "Select the most appropriate category for your question."
   },
   "tag-cloud": {
-    "blacklist-topic": "Add keyword to blacklist",
+    "blacklist-topic": "Add to blacklist",
     "changes-gone-wrong": "Something has gone wrong!",
     "changes-successful": "Successfully updated",
     "write-last-idea": "Write the last brainstorm idea!",
