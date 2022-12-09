@@ -357,6 +357,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
           word.element,
           word.meta.text,
           this.brainstormingData?.active,
+          this.brainstormingData?.ratingAllowed || this.userRole > UserRole.PARTICIPANT,
           hoverDelay,
           (word.meta as BrainstormComment).brainData,
           (word.meta as BrainstormComment).wordId,
