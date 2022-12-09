@@ -59,6 +59,7 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit, OnDestroy 
   wordId: string;
   isBrainstorming = false;
   isBrainstormingActive = false;
+  isRatingAllowed = false;
   brainstormingData: BrainstormingTopic;
   possibleCategories: BrainstormingCategory[];
   selectedCategory: string;
@@ -150,6 +151,7 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit, OnDestroy 
     elem: HTMLElement,
     tag: string,
     isBrainstormingActive: boolean,
+    isRatingAllowed: boolean,
     hoverDelayInMs: number,
     brainstormingData: BrainstormingTopic,
     wordId: string,
@@ -168,6 +170,7 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit, OnDestroy 
       this.isBlacklistActive = true;
       this.isBrainstorming = true;
       this.isBrainstormingActive = isBrainstormingActive;
+      this.isRatingAllowed = isRatingAllowed;
       this.tag = tag;
       this.previousTag = elem.innerText;
       elem.innerText = this.tag;

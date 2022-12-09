@@ -452,11 +452,7 @@ export class SessionService {
   }
 
   private onBrainstormingWordCreated(message: any, room: Room) {
-    const word = new BrainstormingWord(
-      message.payload.id,
-      message.payload.sessionId,
-      message.payload.name,
-    );
+    const word = new BrainstormingWord(message.payload);
     if (word.sessionId !== room.brainstormingSession?.id) {
       console.error('Wrong session');
       return;
