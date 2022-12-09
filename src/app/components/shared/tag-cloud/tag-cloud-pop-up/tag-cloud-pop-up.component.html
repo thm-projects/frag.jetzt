@@ -22,7 +22,7 @@
     </div>
     <div
       style="margin-top: 10px"
-      *ngIf="(isBrainstorming && isBrainstormingActive) || !isBrainstorming"
+      *ngIf="(isBrainstorming && isBrainstormingActive && isRatingAllowed) || !isBrainstorming"
     >
       <button
         *ngIf="isBrainstorming"
