@@ -322,6 +322,12 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     confirmDialogRef.componentInstance.userRole = this.userRole;
   }
 
+  public navigateBrainstormingDirectly() {
+    this.router.navigate([
+      this.router.url.split('/', 4).join('/') + '/comments/brainstorming',
+    ]);
+  }
+
   public getCurrentRoleIcon() {
     if (this.user?.isSuperAdmin) {
       return 'manage_accounts';

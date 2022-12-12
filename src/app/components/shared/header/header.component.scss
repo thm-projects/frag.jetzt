@@ -4,6 +4,10 @@
   color: var(--on-surface);
 }
 
+.brainstorming-action-icon.clickable {
+  cursor: pointer;
+}
+
 mat-toolbar {
   background-color: var(--background);
   position: relative;

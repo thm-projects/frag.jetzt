@@ -673,6 +673,7 @@
     "downvote-topic-brainstorming": "Don't like",
     "no-elements": "The word cloud is empty.",
     "overview-question-topic-tooltip": "Multiple entries",
+    "open-in-q-and-a": "Show in Q&A",
     "overview-questioners-topic-tooltip": "Authors",
     "period-since-first-comment": "Time since the first contribution",
     "print-title": "Word cloud from room »{{roomName}}«",

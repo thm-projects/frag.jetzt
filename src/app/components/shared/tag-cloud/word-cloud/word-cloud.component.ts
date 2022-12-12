@@ -69,6 +69,7 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
   @Output() clicked = new EventEmitter<T>();
   @Output() entered = new EventEmitter<ActiveWord<T>>();
   @Output() left = new EventEmitter<ActiveWord<T>>();
+  @Output() requested = new EventEmitter<T>();
   @Input() isRadar = false;
   @Input() keywords: T[];
   @Input() weightClasses = 10;
@@ -234,6 +235,10 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
     this.fontInfoService.waitTillFontLoaded(this.parameters.fontFamily).subscribe(_ => {
       this.doDraw(parentElement, parentWidth, parentHeight);
     });
+  }
+
+  requestEntry(index: number) {
+    this.requested.emit(this._elements[index].meta);
   }
 
   onMouseEvent(event: MouseEvent) {

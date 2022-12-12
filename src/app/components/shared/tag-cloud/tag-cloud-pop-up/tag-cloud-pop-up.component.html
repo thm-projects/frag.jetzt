@@ -59,6 +59,15 @@
         </p>
       </span>
     </div>
+    <div style="margin-top: 10px" *ngIf="isBrainstorming">
+      <button
+        mat-flat-button
+        class="open-button"
+        (click)="openTag()"
+      >
+        {{ "tag-cloud.open-in-q-and-a" | translate }}
+      </button>
+    </div>
     <div class="replacementContainer" *ngIf="userRole > 0 && !isBrainstorming">
       <mat-form-field>
         <mat-label>{{

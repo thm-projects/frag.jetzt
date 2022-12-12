@@ -66,9 +66,11 @@
       </div>
 
       <div *ngIf="room?.brainstormingSession?.active">
-        <mat-icon class="material-icons"
+        <mat-icon class="material-icons brainstorming-action-icon"
+                  [ngClass]="{'clickable': !router.url.endsWith('/brainstorming')}"
+                  (click)="navigateBrainstormingDirectly()"
                   style="transform: scale(1.4); color: green; margin-top: 8px"
-                  [matTooltip]="'header.brainstorm-active' | translate">
+                  [matTooltip]="'header.brainstorm-active' + (!router.url.endsWith('/brainstorming') ? '-clickable' : '') | translate">
           psychology_alt
         </mat-icon>
       </div>

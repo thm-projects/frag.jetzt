@@ -40,7 +40,7 @@ export class BrainstormingSession {
     ideasFrozen = true,
     ideasTimeDuration = null,
     ideasEndTimestamp = null,
-    updatedAt = null
+    updatedAt = null,
   }: BrainstormingSession) {
     this.id = id;
     this.roomId = roomId;
@@ -49,7 +49,14 @@ export class BrainstormingSession {
     this.createdAt = createdAt;
     this.maxWordLength = maxWordLength;
     this.maxWordCount = maxWordCount;
-    this.wordsWithMeta = wordsWithMeta ?? {};
+    this.wordsWithMeta = {};
+    if (wordsWithMeta) {
+      Object.keys(wordsWithMeta).forEach((key) => {
+        const entry = wordsWithMeta[key];
+        entry.word = new BrainstormingWord(entry.word);
+        this.wordsWithMeta[key] = entry;
+      });
+    }
     this.language = language;
     this.ratingAllowed = ratingAllowed;
     this.ideasFrozen = ideasFrozen;

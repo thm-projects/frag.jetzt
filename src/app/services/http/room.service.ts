@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { QuillUtils, SerializedDelta } from '../../utils/quill-utils';
 import { UserManagementService } from '../util/user-management.service';
+import { BrainstormingSession } from 'app/models/brainstorming-session';
 
 const httpOptions = {
   headers: new HttpHeaders({})
@@ -188,6 +189,7 @@ export class RoomService extends BaseHttpService {
     if (newRoom.brainstormingSession?.ideasEndTimestamp) {
       newRoom.brainstormingSession.ideasEndTimestamp = new Date(newRoom.brainstormingSession.ideasEndTimestamp);
     }
+    newRoom.brainstormingSession = new BrainstormingSession(newRoom.brainstormingSession);
     return newRoom;
   }
 
