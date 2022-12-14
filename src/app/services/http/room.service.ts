@@ -14,13 +14,25 @@ import { UserManagementService } from '../util/user-management.service';
 import { BrainstormingSession } from 'app/models/brainstorming-session';
 
 const httpOptions = {
-  headers: new HttpHeaders({})
+  headers: new HttpHeaders({}),
 };
 
-export type RoomAPI = Omit<Room, 'description'> & { description: SerializedDelta };
+export type RoomAPI = Omit<Room, 'description'> & {
+  description: SerializedDelta;
+};
 
-export type RoomPatch = Partial<Omit<RoomAPI, 'id' | 'shortId' | 'createdAt' | 'updatedAt' | 'lastVisitCreator' |
-  'brainstormingSession' | 'moderatorRoomReference'>>;
+export type RoomPatch = Partial<
+  Omit<
+    RoomAPI,
+    | 'id'
+    | 'shortId'
+    | 'createdAt'
+    | 'updatedAt'
+    | 'lastVisitCreator'
+    | 'brainstormingSession'
+    | 'moderatorRoomReference'
+  >
+>;
 
 @Injectable()
 export class RoomService extends BaseHttpService {
@@ -29,7 +41,7 @@ export class RoomService extends BaseHttpService {
     rooms: '/room',
     user: '/user',
     import: '/import',
-    findRooms: '/find'
+    findRooms: '/find',
   };
 
   constructor(
@@ -38,135 +50,186 @@ export class RoomService extends BaseHttpService {
     private userManagementService: UserManagementService,
     private translateService: TranslateService,
     private notificationService: NotificationService,
-    private router: Router
+    private router: Router,
   ) {
     super();
   }
 
   getCreatorRooms(userId: string): Observable<Room[]> {
-    const connectionUrl = this.apiUrl.base + this.apiUrl.rooms + this.apiUrl.findRooms;
-    return this.http.post<RoomAPI[]>(connectionUrl, {
-      properties: { ownerId: userId },
-      externalFilters: {}
-    }).pipe(
-      map(rooms => rooms.map(r => this.parseRoom(r))),
-      tap((rooms) => {
-        for (const r of rooms) {
-          this.userManagementService.setAccess(r.shortId, r.id, UserRole.CREATOR);
-        }
-      }),
-      catchError(this.handleError('getCreatorRooms', []))
-    );
+    const connectionUrl =
+      this.apiUrl.base + this.apiUrl.rooms + this.apiUrl.findRooms;
+    return this.http
+      .post<RoomAPI[]>(connectionUrl, {
+        properties: { ownerId: userId },
+        externalFilters: {},
+      })
+      .pipe(
+        map((rooms) => rooms.map((r) => this.parseRoom(r))),
+        tap((rooms) => {
+          for (const r of rooms) {
+            this.userManagementService.setAccess(
+              r.shortId,
+              r.id,
+              UserRole.CREATOR,
+            );
+          }
+        }),
+        catchError(this.handleError('getCreatorRooms', [])),
+      );
   }
 
   getParticipantRooms(userId: string): Observable<Room[]> {
-    const connectionUrl = this.apiUrl.base + this.apiUrl.rooms + this.apiUrl.findRooms;
-    return this.http.post<RoomAPI[]>(connectionUrl, {
-      properties: {},
-      externalFilters: { inHistoryOfUserId: userId }
-    }).pipe(
-      map(rooms => rooms.map(r => this.parseRoom(r))),
-      tap((rooms) => {
-        for (const r of rooms) {
-          this.userManagementService.setAccess(r.shortId, r.id, UserRole.PARTICIPANT);
-        }
-      }),
-      catchError(this.handleError('getParticipantRooms', []))
-    );
+    const connectionUrl =
+      this.apiUrl.base + this.apiUrl.rooms + this.apiUrl.findRooms;
+    return this.http
+      .post<RoomAPI[]>(connectionUrl, {
+        properties: {},
+        externalFilters: { inHistoryOfUserId: userId },
+      })
+      .pipe(
+        map((rooms) => rooms.map((r) => this.parseRoom(r))),
+        tap((rooms) => {
+          for (const r of rooms) {
+            this.userManagementService.setAccess(
+              r.shortId,
+              r.id,
+              UserRole.PARTICIPANT,
+            );
+          }
+        }),
+        catchError(this.handleError('getParticipantRooms', [])),
+      );
   }
 
   addRoom(room: Room, exc?: () => void): Observable<Room> {
     delete room.id;
     const connectionUrl = this.apiUrl.base + this.apiUrl.rooms + '/';
     room.ownerId = this.userManagementService.getCurrentUser().id;
-    return this.http.post<RoomAPI>(connectionUrl, {
-      ...room,
-      description: QuillUtils.serializeDelta(room.description)
-    }, httpOptions).pipe(
-      map(r => this.parseRoom(r)),
-      tap(returnedRoom => {
-        this.userManagementService.setAccess(returnedRoom.shortId, returnedRoom.id, UserRole.PARTICIPANT);
-      }),
-      catchError(this.buildErrorExecutionCallback(`add Room ${room}`, exc))
-    );
+    return this.http
+      .post<RoomAPI>(
+        connectionUrl,
+        {
+          ...room,
+          description: QuillUtils.serializeDelta(room.description),
+        },
+        httpOptions,
+      )
+      .pipe(
+        map((r) => this.parseRoom(r)),
+        tap((returnedRoom) => {
+          this.userManagementService.setAccess(
+            returnedRoom.shortId,
+            returnedRoom.id,
+            UserRole.PARTICIPANT,
+          );
+        }),
+        catchError(this.buildErrorExecutionCallback(`add Room ${room}`, exc)),
+      );
   }
 
   getRoom(id: string): Observable<Room> {
     const connectionUrl = `${this.apiUrl.base + this.apiUrl.rooms}/${id}`;
     return this.http.get<RoomAPI>(connectionUrl).pipe(
-      map(r => this.parseRoom(r)),
-      tap(_ => ''),
-      catchError(this.handleRoomError<Room>(`getRoom keyword=${id}`))
+      map((r) => this.parseRoom(r)),
+      tap((_) => ''),
+      catchError(this.handleRoomError<Room>(`getRoom keyword=${id}`)),
     );
   }
 
   getRoomByShortId(shortId: string): Observable<Room> {
     const connectionUrl = `${this.apiUrl.base + this.apiUrl.rooms}/~${shortId}`;
     return this.http.get<RoomAPI>(connectionUrl).pipe(
-      map(r => this.parseRoom(r)),
-      tap(_ => ''),
-      catchError(this.handleRoomError<Room>(`getRoom shortId=${shortId}`))
+      map((r) => this.parseRoom(r)),
+      tap((_) => ''),
+      catchError(this.handleRoomError<Room>(`getRoom shortId=${shortId}`)),
     );
   }
 
-  getErrorHandledRoomByShortId(shortId: string, err: () => void): Observable<Room> {
+  getErrorHandledRoomByShortId(
+    shortId: string,
+    err: () => void,
+  ): Observable<Room> {
     const connectionUrl = `${this.apiUrl.base + this.apiUrl.rooms}/~${shortId}`;
     return this.http.get<RoomAPI>(connectionUrl).pipe(
-      map(r => this.parseRoom(r)),
-      tap(_ => ''),
-      catchError(this.buildErrorExecutionCallback(`getRoom shortId=${shortId}`, err))
+      map((r) => this.parseRoom(r)),
+      tap((_) => ''),
+      catchError(
+        this.buildErrorExecutionCallback(`getRoom shortId=${shortId}`, err),
+      ),
     );
   }
 
   addToHistory(roomId: string): void {
-    const connectionUrl = `${this.apiUrl.base + this.apiUrl.user}/${this.userManagementService.getCurrentUser().id}/roomHistory`;
+    const connectionUrl = `${this.apiUrl.base + this.apiUrl.user}/${
+      this.userManagementService.getCurrentUser().id
+    }/roomHistory`;
     this.http.post(connectionUrl, { roomId }, httpOptions).subscribe();
   }
 
   removeFromHistory(roomId: string): Observable<void> {
-    const connectionUrl = `${this.apiUrl.base + this.apiUrl.user}/${this.userManagementService.getCurrentUser().id}/roomHistory/${roomId}`;
+    const connectionUrl = `${this.apiUrl.base + this.apiUrl.user}/${
+      this.userManagementService.getCurrentUser().id
+    }/roomHistory/${roomId}`;
     return this.http.delete<void>(connectionUrl, httpOptions).pipe(
       tap(() => ''),
-      catchError(this.handleError<void>('deleteRoom'))
+      catchError(this.handleError<void>('deleteRoom')),
     );
   }
 
   patchRoom(id: string, data: RoomPatch): Observable<Room> {
     const connectionUrl = `${this.apiUrl.base + this.apiUrl.rooms}/${id}`;
     return this.http.patch<RoomAPI>(connectionUrl, data, httpOptions).pipe(
-      map(r => this.parseRoom(r)),
+      map((r) => this.parseRoom(r)),
       tap(() => ''),
       catchError(this.handleError<Room>('patchRoom')),
     );
   }
 
   updateRoom(updatedRoom: Room): Observable<Room> {
-    const connectionUrl = `${this.apiUrl.base + this.apiUrl.rooms}/~${updatedRoom.shortId}`;
-    return this.http.put<RoomAPI>(connectionUrl, {
-      ...updatedRoom,
-      description: QuillUtils.serializeDelta(updatedRoom.description),
-    }, httpOptions).pipe(
-      tap(() => ''),
-      catchError(this.handleError<any>('updateRoom'))
-    );
+    const connectionUrl = `${this.apiUrl.base + this.apiUrl.rooms}/~${
+      updatedRoom.shortId
+    }`;
+    return this.http
+      .put<RoomAPI>(
+        connectionUrl,
+        {
+          ...updatedRoom,
+          description: QuillUtils.serializeDelta(updatedRoom.description),
+        },
+        httpOptions,
+      )
+      .pipe(
+        tap(() => ''),
+        catchError(this.handleError<any>('updateRoom')),
+      );
   }
 
   deleteRoom(roomId: string): Observable<void> {
     const connectionUrl = `${this.apiUrl.base + this.apiUrl.rooms}/${roomId}`;
     return this.http.delete<void>(connectionUrl, httpOptions).pipe(
       tap(() => ''),
-      catchError(this.handleError<void>('deleteRoom'))
+      catchError(this.handleError<void>('deleteRoom')),
     );
   }
 
-  createGuestsForImport(roomId: string, guestCount: number): Observable<string[]> {
+  createGuestsForImport(
+    roomId: string,
+    guestCount: number,
+  ): Observable<string[]> {
     if (guestCount < 1) {
       return of([]);
     }
-    const connectionUrl = this.apiUrl.base + this.apiUrl.rooms + '/' + roomId + this.apiUrl.import + '/' + guestCount;
+    const connectionUrl =
+      this.apiUrl.base +
+      this.apiUrl.rooms +
+      '/' +
+      roomId +
+      this.apiUrl.import +
+      '/' +
+      guestCount;
     return this.http.post<string[]>(connectionUrl, null, httpOptions).pipe(
       tap(() => ''),
-      catchError(this.handleError<string[]>('createGuestsForImport'))
+      catchError(this.handleError<string[]>('createGuestsForImport')),
     );
   }
 
@@ -174,10 +237,12 @@ export class RoomService extends BaseHttpService {
     return (error: any): Observable<T> => {
       console.error(error);
       if (error.status === 404) {
-        this.translateService.get('room-list.room-not-exist').subscribe(msg => {
-          this.notificationService.show(msg);
-          this.router.navigateByUrl('');
-        });
+        this.translateService
+          .get('room-list.room-not-exist')
+          .subscribe((msg) => {
+            this.notificationService.show(msg);
+            this.router.navigateByUrl('');
+          });
       }
       return throwError(() => error);
     };
@@ -187,9 +252,13 @@ export class RoomService extends BaseHttpService {
     const newRoom = room as unknown as Room;
     newRoom.description = QuillUtils.deserializeDelta(room.description, true);
     if (newRoom.brainstormingSession?.ideasEndTimestamp) {
-      newRoom.brainstormingSession.ideasEndTimestamp = new Date(newRoom.brainstormingSession.ideasEndTimestamp);
+      newRoom.brainstormingSession.ideasEndTimestamp = new Date(
+        newRoom.brainstormingSession.ideasEndTimestamp,
+      );
     }
-    newRoom.brainstormingSession = new BrainstormingSession(newRoom.brainstormingSession);
+    newRoom.brainstormingSession = newRoom.brainstormingSession
+      ? new BrainstormingSession(newRoom.brainstormingSession)
+      : newRoom.brainstormingSession;
     return newRoom;
   }
 
@@ -201,5 +270,4 @@ export class RoomService extends BaseHttpService {
       return this.handleError<Room>(data)(error);
     };
   }
-
 }
