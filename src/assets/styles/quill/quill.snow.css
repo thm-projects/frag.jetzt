@@ -617,6 +617,7 @@
   margin-bottom: 5px;
   margin-top: 5px;
   padding-left: 16px;
+  font-style: italic;
 }
 .ql-snow .ql-editor code,
 .ql-snow .ql-editor pre {
