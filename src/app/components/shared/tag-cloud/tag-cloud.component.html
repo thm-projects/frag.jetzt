@@ -6,6 +6,7 @@
                        [arcEnd]="brainstormingData.ideasEndTimestamp"
                        [arcDuration]="brainstormingData.ideasTimeDuration || 0"
                        [zIndex]="3"
+                       [ignoreTooLessSpace]="false"
                        [fixedSize]="200"></app-minute-jump-clock>
   <mat-drawer-container class="spacyTagCloudContainer" [hasBackdrop]="true">
     <mat-drawer position="end" mode="over" (closed)="cloudComponent.closePanel()" (opened)="cloudComponent.openPanel()">

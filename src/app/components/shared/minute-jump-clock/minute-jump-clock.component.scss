@@ -22,7 +22,14 @@
     transform: translate(300px, 300px);
     fill: none;
     stroke-width: 15px;
-    stroke: var(--green);
+
+    .duration-arc-passed {
+      stroke: var(--red);
+    }
+
+    .duration-arc {
+      stroke: var(--green);
+    }
   }
 
   .mid-circle {
