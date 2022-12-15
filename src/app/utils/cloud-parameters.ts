@@ -36,9 +36,19 @@ export const TEXT_STYLES = [
 
 const colorRegex = /rgba?\((\d+), (\d+), (\d+)(?:, (\d(?:\.\d+)?))?\)/;
 
+const POSSIBLE_FONT_FAMILIES = [
+  'sans-serif',
+  'Abril Fatface',
+  'Dancing Script',
+  'Indie Flower',
+  'Permanent Marker',
+] as const;
+
+type SupportedFonts = typeof POSSIBLE_FONT_FAMILIES[number];
+
 export class CloudParameters {
 
-  fontFamily: string;
+  fontFamily: SupportedFonts;
   fontStyle: string;
   fontWeight: string;
   fontSize: string;
@@ -133,7 +143,7 @@ export class CloudParameters {
     const minValue = window.innerWidth < window.innerHeight ? window.innerWidth : window.innerHeight;
     const isMobile = minValue < 700;
     const elements = isMobile ? 7 : 10;
-    this.fontFamily = 'sans-serif';
+    this.fontFamily = 'Indie Flower';
     this.fontStyle = 'normal';
     this.fontWeight = 'normal';
     this.fontSize = '16px';
@@ -142,9 +152,9 @@ export class CloudParameters {
     this.fontSizeMin = CloudParameters.mapValue(minValue, 375, 750, 125, 200);
     this.fontSizeMax = CloudParameters.mapValue(minValue, 375, 1500, 300, 900);
     this.hoverScale = CloudParameters.mapValue(minValue, 375, 1500, 1.4, 2);
-    this.hoverTime = 1;
-    this.hoverDelay = 0.4;
-    this.delayWord = 800;
+    this.hoverTime = 0;
+    this.hoverDelay = 0;
+    this.delayWord = 80;
     this.randomAngles = false;
     this.sortAlphabetically = false;
     this.textTransform = CloudTextStyle.Capitalized;

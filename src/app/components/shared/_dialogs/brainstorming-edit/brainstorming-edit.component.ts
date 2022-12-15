@@ -100,7 +100,7 @@ export class BrainstormingEditComponent implements OnInit {
     if (this.brainstormingAllowIdeas === this.session.ideasFrozen) {
       changes.ideasFrozen = !this.brainstormingAllowIdeas;
     }
-    if (this.brainstormingAllowRating === this.session.ratingAllowed) {
+    if (this.brainstormingAllowRating !== this.session.ratingAllowed) {
       changes.ratingAllowed = this.brainstormingAllowRating;
     }
     if (Object.keys(changes).length < 1) {
