@@ -810,7 +810,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
                 '/comments/questionwall',
             ]);
           },
-          condition: () => true,
+          condition: () => this.userRole > UserRole.PARTICIPANT,
         });
         e.menuItem({
           translate: this.headerService.getTranslate(),
