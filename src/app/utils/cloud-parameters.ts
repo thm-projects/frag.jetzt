@@ -152,9 +152,9 @@ export class CloudParameters {
     this.fontSizeMin = CloudParameters.mapValue(minValue, 375, 750, 125, 200);
     this.fontSizeMax = CloudParameters.mapValue(minValue, 375, 1500, 300, 900);
     this.hoverScale = CloudParameters.mapValue(minValue, 375, 1500, 1.4, 2);
-    this.hoverTime = 0;
-    this.hoverDelay = 0;
-    this.delayWord = 80;
+    this.hoverTime = 1.0;
+    this.hoverDelay = 0.3;
+    this.delayWord = 700;
     this.randomAngles = false;
     this.sortAlphabetically = false;
     this.textTransform = CloudTextStyle.Capitalized;
