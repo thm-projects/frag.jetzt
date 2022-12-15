@@ -43,6 +43,7 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit, OnDestroy 
   @ViewChild('popupContainer') popupContainer: ElementRef;
   @ViewChild(MatAutocompleteTrigger) trigger: MatAutocompleteTrigger;
   @Input() room: Room;
+  @Input() requester: (index: number) => void;
   replacementInput = new FormControl();
   userRole: UserRole;
   // Both
@@ -145,6 +146,10 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit, OnDestroy 
       //undefined or null
       return 0;
     }
+  }
+
+  openTag() {
+    this.requester?.(Number(this.elem.dataset.index));
   }
 
   enterBrainstorming(

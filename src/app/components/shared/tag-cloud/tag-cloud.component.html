@@ -17,12 +17,13 @@
         {{brainstormingData?.title}}
       </h1>
       <ars-fill ars-flex-box>
-        <app-tag-cloud-pop-up [room]="room"></app-tag-cloud-pop-up>
+        <app-tag-cloud-pop-up [room]="room" [requester]="request()"></app-tag-cloud-pop-up>
         <app-mat-spinner-overlay *ngIf="isLoading" overlay="true"></app-mat-spinner-overlay>
         <app-word-cloud [keywords]="data"
                         [isRadar]="!brainstormingActive"
                         [parameters]="currentCloudParameters"
                         style="flex-grow: 1"
+                        (requested)="openTags($event, true)"
                         (clicked)="openTags($event)"
                         (entered)="enter($event)"
                         (left)="leave()"></app-word-cloud>

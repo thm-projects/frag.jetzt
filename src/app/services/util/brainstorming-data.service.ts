@@ -207,12 +207,8 @@ export class BrainstormingDataService {
   private calculateWeight(topic: BrainstormingTopic) {
     return (
       topic.distinctUsers.size +
-      topic.commentsByModerators * 0.5 +
-      topic.commentsByCreator * 0.75 +
-      topic.cachedUpVotes * 0.15 +
-      topic.cachedDownVotes * 0.15 +
-      topic.cachedVoteCount * 0.15 +
-      calculateControversy(topic.cachedUpVotes, topic.cachedDownVotes, 0) * 0.15
+      topic.cachedVoteCount * 0.5 +
+      calculateControversy(topic.cachedUpVotes, topic.cachedDownVotes, 0) * 0.25
     );
   }
 }

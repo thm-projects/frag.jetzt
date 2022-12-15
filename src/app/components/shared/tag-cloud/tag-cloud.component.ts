@@ -284,7 +284,12 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     const newElements = [];
     const data = this.brainDataManager.currentData;
     for (const [word, topic] of data) {
-      this.createBrainTagElement(topic, word.id, word.correctedWord || word.word, newElements);
+      this.createBrainTagElement(
+        topic,
+        word.id,
+        word.correctedWord || word.word,
+        newElements,
+      );
     }
     this.data = newElements;
     setTimeout(() => {
@@ -322,7 +327,11 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     this._smartDebounce.call(() => this.redraw(dataUpdated));
   }
 
-  openTags(tag: WordMeta): void {
+  request() {
+    return (i: number) => this.cloud.requestEntry(i);
+  }
+
+  openTags(tag: WordMeta, isRequested = false): void {
     if (this.dataManager.demoActive) {
       return;
     }
@@ -332,6 +341,9 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     filter.lastRoomId = this.room.id;
     filter.period = Period.All;
     if (this.brainstormingActive) {
+      if (!isRequested) {
+        return;
+      }
       filter.sourceFilterBrainstorming = BrainstormingFilter.OnlyBrainstorming;
       filter.filterType = FilterType.BrainstormingIdea;
       filter.filterCompare = (tag as BrainstormComment).wordId;
@@ -355,9 +367,10 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
       this.sessionService.getCategoriesOnce().subscribe((categories) => {
         this.popup.enterBrainstorming(
           word.element,
-          word.meta.text,
+          (word.meta as BrainstormComment).realText,
           this.brainstormingData?.active,
-          this.brainstormingData?.ratingAllowed || this.userRole > UserRole.PARTICIPANT,
+          this.brainstormingData?.ratingAllowed ||
+            this.userRole > UserRole.PARTICIPANT,
           hoverDelay,
           (word.meta as BrainstormComment).brainData,
           (word.meta as BrainstormComment).wordId,
@@ -554,7 +567,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     }
     newElements.push(
       new BrainstormComment(
-        filteredTag,
+        tag,
         tag,
         rotation,
         topicData.weight,

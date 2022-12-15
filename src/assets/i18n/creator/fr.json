@@ -673,6 +673,7 @@
     "downvote-topic-brainstorming": "Je n'aime pas",
     "no-elements": "Le nuage de mots est vide.",
     "overview-question-topic-tooltip": "Mentions multiples",
+    "open-in-q-and-a": "Afficher dans Q&R",
     "overview-questioners-topic-tooltip": "Auteurs de la contribution",
     "period-since-first-comment": "Temps écoulé depuis la première contribution",
     "print-title": "Nuage de mots de la salle « {{roomName}} »",

@@ -32,6 +32,7 @@ export class MotdDialogComponent implements OnInit {
       return acc;
     }, []);
     this.startUpService.readMOTD(newRead);
+    this.dialogRef.close();
   }
 
   ngOnInit(): void {
