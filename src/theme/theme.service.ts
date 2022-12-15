@@ -55,7 +55,7 @@ export class ThemeService {
         this.updateBySystem();
       }
     });
-    this.activate(savedTheme || 'dark');
+    this.activate(savedTheme || 'systemDefault');
     this._initialized = true;
   }
 

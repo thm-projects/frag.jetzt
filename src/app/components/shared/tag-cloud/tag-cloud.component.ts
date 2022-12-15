@@ -567,7 +567,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     }
     newElements.push(
       new BrainstormComment(
-        tag,
+        filteredTag,
         tag,
         rotation,
         topicData.weight,
