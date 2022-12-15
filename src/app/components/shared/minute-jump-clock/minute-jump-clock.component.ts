@@ -36,6 +36,8 @@ export class MinuteJumpClockComponent implements OnInit, AfterViewInit, OnDestro
   arcEnd: Date = null;
   @Input()
   arcDuration: number = 30;
+  @Input()
+  ignoreTooLessSpace = false;
   @ViewChild('clock')
   svgClock: ElementRef<HTMLElement>;
   visible: boolean = false;
@@ -78,7 +80,7 @@ export class MinuteJumpClockComponent implements OnInit, AfterViewInit, OnDestro
     this._destroyer.complete();
   }
 
-  calculateArc(): string {
+  calculateArc(): [string, string] {
     if (this.arcEnd === null) {
       return;
     }
@@ -103,14 +105,36 @@ export class MinuteJumpClockComponent implements OnInit, AfterViewInit, OnDestro
         startAngle += 360;
       }
     }
+    const diff = endAngle - startAngle + (endAngle < startAngle ? 360 : 0);
+    let midAngle;
+    {
+      const start = this.arcEnd.getTime() - this.arcDuration * 60_000;
+      const current = Date.now() - start;
+      const duration = this.arcEnd.getTime() - start;
+      const progress = Math.max(0, Math.min(current / duration, 1));
+      midAngle = startAngle + diff * progress;
+      midAngle = Math.trunc(midAngle * 4) / 4; // rasterize to 0.25
+      if (midAngle > 360) {
+        midAngle -= 360;
+      }
+    }
     const calculate = (r: number, angle: number) => {
       const rad = (angle * Math.PI) / 180;
       return [Math.cos(rad) * r, Math.sin(rad) * r];
     };
     const [startX, startY] = calculate(radius, startAngle);
+    const [midX, midY] = calculate(radius, midAngle);
     const [endX, endY] = calculate(radius, endAngle);
-    const diff = endAngle - startAngle + (endAngle < startAngle ? 360 : 0);
-    return `M ${startX} ${startY} A ${radius} ${radius} 0 ${Number(diff >= 180)} 1 ${endX} ${endY}`;
+    const diff1 = midAngle - startAngle + (midAngle < startAngle ? 360 : 0);
+    const diff2 = endAngle - midAngle + (endAngle < midAngle ? 360 : 0);
+    return [
+      `M ${startX} ${startY} A ${radius} ${radius} 0 ${Number(
+        diff1 > 180,
+      )} 1 ${midX} ${midY}`,
+      `M ${midX} ${midY} A ${radius} ${radius} 0 ${Number(
+        diff2 > 180,
+      )} 1 ${endX} ${endY}`,
+    ];
   }
 
   private updatePresentationClock() {
@@ -146,8 +170,8 @@ export class MinuteJumpClockComponent implements OnInit, AfterViewInit, OnDestro
 
   private update() {
     this.visible =
-      !this.deviceInfo.isCurrentlyMobile &&
-      !this._matcher.matches &&
+      (this.ignoreTooLessSpace ||
+        (!this.deviceInfo.isCurrentlyMobile && !this._matcher.matches)) &&
       !this.deviceInfo.isSafari &&
       this.themeService.currentTheme?.key !== 'projector';
     if (!this._initialized) {
