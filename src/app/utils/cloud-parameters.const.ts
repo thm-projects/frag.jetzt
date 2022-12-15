@@ -29,7 +29,7 @@ export const LIGHT_THEME: DefaultCloudParameters = {
 };
 
 export const DARK_THEME: DefaultCloudParameters = {
-  w1: 'dimgray',
+  w1: 'white',
   w2: 'brown',
   w3: 'olive',
   w4: 'seagreen',
