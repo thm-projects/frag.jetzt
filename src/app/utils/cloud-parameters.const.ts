@@ -29,15 +29,15 @@ export const LIGHT_THEME: DefaultCloudParameters = {
 };
 
 export const DARK_THEME: DefaultCloudParameters = {
-  w1: 'white',
-  w2: 'brown',
+  w1: 'gray',
+  w2: 'SlateGray',
   w3: 'olive',
   w4: 'seagreen',
   w5: 'teal',
   w6: 'green',
-  w7: 'orange',
-  w8: 'magenta',
-  w9: 'greenyellow',
+  w7: 'darkorange',
+  w8: 'FireBrick',
+  w9: 'Tomato',
   w10: 'red',
   backgroundColor: 'var(--background, #121212)',
   hoverColor: 'var(--white, white)'
