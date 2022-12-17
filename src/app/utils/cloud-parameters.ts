@@ -146,7 +146,7 @@ export class CloudParameters {
     this.fontFamily = 'Indie Flower';
     this.fontStyle = 'normal';
     this.fontWeight = 'normal';
-    this.fontSize = '16px';
+    this.fontSize = '18px';
     this.backgroundColor = CloudParameters.resolveColor(p, theme.backgroundColor);
     this.fontColor = CloudParameters.resolveColor(p, theme.hoverColor);
     this.fontSizeMin = CloudParameters.mapValue(minValue, 375, 750, 125, 200);
@@ -157,7 +157,7 @@ export class CloudParameters {
     this.delayWord = 700;
     this.randomAngles = false;
     this.sortAlphabetically = false;
-    this.textTransform = CloudTextStyle.Capitalized;
+    this.textTransform = CloudTextStyle.Normal;
     this.cloudWeightSettings = [
       {
         maxVisibleElements: elements,
