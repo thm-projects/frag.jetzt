@@ -669,8 +669,8 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
         });
         e.menuItem({
           translate: this.headerService.getTranslate(),
-          icon: 'cloud',
-          class: 'material-icons-outlined',
+          icon: 'format_paint',
+          class: 'material-icons-filled',
           text: 'header.tag-cloud-config',
           callback: () => this.drawer.toggle(),
           condition: () => true,
@@ -729,7 +729,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
               autoFocus: false,
             });
           },
-          condition: () => true,
+          condition: () => this.userRole > UserRole.PARTICIPANT,
         });
         e.altToggle(
           {
@@ -968,8 +968,8 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
         });
         e.menuItem({
           translate: this.headerService.getTranslate(),
-          icon: 'cloud',
-          class: 'material-icons-outlined',
+          icon: 'format_paint',
+          class: 'material-icons-filled',
           text: 'header.brainstorm-look-and-feel',
           callback: () => this.drawer.toggle(),
           condition: () => true,

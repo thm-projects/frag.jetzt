@@ -274,7 +274,7 @@
     "overview-question-tooltip": "Anzahl Fragen",
     "overview-questioners-tooltip": "Anzahl Fragensteller*innen",
     "overview-admin-config-enabled": "Schwellenwerte für die Anzeige der Themen sind aktiv.",
-    "overview-brainstormers-tooltip": "Anzahl Brainstormende",
+    "overview-brainstormers-tooltip": "Brainstormer",
     "overview-ideas-tooltip": "Anzahl Ideen"
   },
   "home-page": {
@@ -390,6 +390,7 @@
     "tooltip-remove": "Ja",
     "tooltip-toolbar-blockquote": "Zitieren",
     "tooltip-toolbar-bold": "Fett",
+    "tooltip-toolbar-italic": "Kursiv",
     "tooltip-toolbar-code": "Als Quellcode auszeichnen",
     "tooltip-toolbar-emote": "Emoji einfügen",
     "tooltip-toolbar-formula": "Formel einfügen",

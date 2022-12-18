@@ -369,7 +369,7 @@
     "overview-question-tooltip": "Number of questions",
     "overview-questioners-tooltip": "Number of questioners",
     "overview-admin-config-enabled": "Thresholds for displaying topics are active.",
-    "overview-brainstormers-tooltip": "Number of brainstormers",
+    "overview-brainstormers-tooltip": "Brainstormers",
     "overview-ideas-tooltip": "Number of ideas"
   },
   "home-page": {
@@ -450,6 +450,7 @@
     "tooltip-remove": "Yes",
     "tooltip-toolbar-blockquote": "Cite",
     "tooltip-toolbar-bold": "Bold",
+    "tooltip-toolbar-italic": "Italic",
     "tooltip-toolbar-code": "Mark as source code",
     "tooltip-toolbar-color": "Font color",
     "tooltip-toolbar-emote": "Insert emoji",

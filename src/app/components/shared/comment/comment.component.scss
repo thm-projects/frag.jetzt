@@ -73,6 +73,7 @@ mat-card-content > :first-child {
 
 .wrong-icon {
   color: var(--red);
+  transform: scale(2.0) !important;
 }
 
 .beamer-icon {

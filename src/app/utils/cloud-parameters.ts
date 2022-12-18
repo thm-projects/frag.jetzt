@@ -157,7 +157,7 @@ export class CloudParameters {
     this.delayWord = 700;
     this.randomAngles = false;
     this.sortAlphabetically = false;
-    this.textTransform = CloudTextStyle.Normal;
+    this.textTransform = CloudTextStyle.Capitalized;
     this.cloudWeightSettings = [
       {
         maxVisibleElements: elements,

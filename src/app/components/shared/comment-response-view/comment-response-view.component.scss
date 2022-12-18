@@ -19,6 +19,7 @@ $responseShadowOff: math.ceil($responseShadowWidth + $responseShadowYOffset);
 
 #sort-button {
   color: var(--secondary);
+  transform: scale(2.5);
 }
 
 .timesort {

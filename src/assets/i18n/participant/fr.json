@@ -274,7 +274,7 @@
     "overview-question-tooltip": "Nombre de questions",
     "overview-questioners-tooltip": "Nombre d'auteurs de questions",
     "overview-admin-config-enabled": "Les seuils pour l'affichage des sujets sont actifs.",
-    "overview-brainstormers-tooltip": "Nombre de brainstormers",
+    "overview-brainstormers-tooltip": "Brainstormers",
     "overview-ideas-tooltip": "Nombre d'idées"
   },
   "home-page": {
@@ -390,6 +390,7 @@
     "tooltip-remove": "Oui",
     "tooltip-toolbar-blockquote": "Citer",
     "tooltip-toolbar-bold": "En gras",
+    "tooltip-toolbar-italic": "En italique",
     "tooltip-toolbar-code": "Marquer comme code source",
     "tooltip-toolbar-emote": "Insérer un emoji",
     "tooltip-toolbar-formula": "Insérer une formule",
