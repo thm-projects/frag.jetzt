@@ -621,7 +621,8 @@
 }
 .ql-snow .ql-editor code,
 .ql-snow .ql-editor pre {
-  border-radius: 3px;
+  border-radius: 15px;
+  background-color: slategray;
 }
 .ql-snow .ql-editor pre {
   white-space: pre-wrap;

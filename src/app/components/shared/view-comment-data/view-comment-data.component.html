@@ -68,13 +68,17 @@
   <span class="ql-formats">
     <button type="button" class="ql-bold"
             [matTooltip]="'quill.tooltip-toolbar-bold' | translate" [matTooltipPosition]="'above'"></button>
-    <span class="ql-select-wrapper">
-      <select class="ql-color"
-              #moderatorToolbarFontColor></select>
-    </span>
+    <button type="button" class="ql-italic"
+            [matTooltip]="'quill.tooltip-toolbar-italic' | translate" [matTooltipPosition]="'above'"></button>
     <button type="button" class="ql-strike"
             [matTooltip]="'quill.tooltip-toolbar-strike' | translate"
             [matTooltipPosition]="'above'"></button>
+    <span class="ql-select-wrapper"
+          [matTooltip]="'quill.tooltip-toolbar-textcolor' | translate"
+          [matTooltipPosition]="'above'">
+      <select class="ql-color"
+              #moderatorToolbarFontColor></select>
+    </span>
     <button type="button" class="ql-list" value="bullet"
             [matTooltip]="'quill.tooltip-toolbar-unordered-list' | translate"
             [matTooltipPosition]="'above'"></button>
