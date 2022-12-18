@@ -29,9 +29,9 @@ export class QuestionWallIntroComponent implements OnInit, AfterViewInit {
         screen.style.display = 'none';
         setTimeout(() => {
           this.resolved = true;
-        }, 1);
-      }, 2000);
-    }, 2500);
+        }, 0);
+      }, 0);
+    }, 0);
   }
 
   toArray(str: string): string[] {
@@ -43,7 +43,7 @@ export class QuestionWallIntroComponent implements OnInit, AfterViewInit {
     background.style.transition = 'all 5s ease-in-out, opacity 3s ease-in-out';
     setTimeout(() => {
       background.style.filter = 'grayscale(1) brightness(1)';
-    }, 1);
+    }, 0);
   }
 
   private particleAnimation() {
@@ -68,12 +68,12 @@ export class QuestionWallIntroComponent implements OnInit, AfterViewInit {
         e.style.width = 10 + 'px';
         e.style.height = 10 + 'px';
       });
-    }, 900);
+    }, 0);
     setTimeout(() => {
       particleList.forEach(e => {
         e.style.opacity = '0';
       });
-    }, 1200);
+    }, 0);
   }
 
 }
