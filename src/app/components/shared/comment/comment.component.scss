@@ -61,19 +61,27 @@ mat-card-content > :first-child {
 
 .correct-icon {
   color: var(--green);
+  transform: scale(1.5) !important;
 }
 
 .favorite-icon {
   color: var(--yellow);
+  transform: scale(1.5) !important;
 }
 
 .bookmark-icon {
   color: var(--purple);
+  transform: scale(1.3) !important;
+}
+
+.unfold-icon {
+  color: var(--red);
+  transform: scale(1.8) !important;
 }
 
 .wrong-icon {
   color: var(--red);
-  transform: scale(2.0) !important;
+  transform: scale(1.5) !important;
 }
 
 .beamer-icon {

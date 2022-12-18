@@ -338,7 +338,7 @@
       <button mat-icon-button
               *ngIf="(!isAnswerView && !showResponses && comment.totalAnswerCounts.accumulated > 0 && !indentationPossible) ||
               (isAnswerView && !showResponses && comment.totalAnswerCounts.accumulated > 0)">
-        <mat-icon class="not-marked material-icons-round"
+        <mat-icon class="unfold-icon material-icons-round"
                   matBadge="{{comment.totalAnswerCounts.accumulated}}"
                   matBadgeColor="secondary"
                   matBadgeSize="small"
@@ -347,13 +347,13 @@
         </mat-icon>
       </button>
       <button mat-icon-button *ngIf="!isAnswerView && showResponses && responses.length > 0">
-        <mat-icon class="wrong-icon material-icons-round"
+        <mat-icon class="unfold-icon material-icons-round"
                   (click)="hideConversation()"
                   [matTooltip]="('comment-page.hide-conversation-tooltip' | translate)">unfold_less
         </mat-icon>
       </button>
       <button mat-icon-button *ngIf="isConversationViewOwner">
-        <mat-icon class="wrong-icon material-icons-round"
+        <mat-icon class="unfold-icon material-icons-round"
                   (click)="navigateConversationUp()"
                   [matTooltip]="('comment-page.move-conversation-up' | translate)">unfold_less_double
         </mat-icon>
