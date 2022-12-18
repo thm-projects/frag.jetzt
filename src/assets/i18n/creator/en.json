@@ -141,6 +141,7 @@
     "sort-answers-time": "Sort chronologically",
     "sort-commented": "Long conversations first",
     "sort-comments": "Sort questions",
+    "sort-answers": "Sort answers",
     "sort-controversy": "Controversial questions first",
     "sort-list-time": "Newest question first",
     "sort-list-time-reverse": "Oldest question first",
@@ -459,6 +460,7 @@
     "tooltip-toolbar-link": "Link selected text",
     "tooltip-toolbar-ordered-list": "Numbered list",
     "tooltip-toolbar-strike": "Strike through",
+    "tooltip-toolbar-textcolor": "Text color",
     "tooltip-toolbar-unordered-list": "Bullet list",
     "tooltip-toolbar-video": "Insert video"
   },
