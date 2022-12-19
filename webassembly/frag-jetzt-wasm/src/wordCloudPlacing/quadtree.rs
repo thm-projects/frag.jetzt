@@ -1,6 +1,6 @@
 use std::{
     fmt,
-    ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Rem, RemAssign, Sub, SubAssign}, rc::Rc,
+    ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Rem, RemAssign, Sub, SubAssign}, rc::Rc, cell::RefCell,
 };
 
 use super::WordCloudElement;
@@ -265,13 +265,13 @@ pub struct QuadTree<T: Number> {
     container: AxisAlignedBoundingBox<T>,
     configuration: Rc<QuadTreeSpecifications>,
     depth: usize,
-    objects: Vec<Box<dyn WordCloudElement<T>>>,
+    objects: Vec<Rc<RefCell<dyn WordCloudElement<T>>>>,
     children: Option<Vec<QuadTree<T>>>,
 }
 
 pub trait QuadTreeQuery<T: Number> {
     fn collidesWithTree(&self, container: &AxisAlignedBoundingBox<T>) -> bool;
-    fn shouldContinueColliding(&mut self, objects: &[Box<dyn WordCloudElement<T>>]) -> bool;
+    fn shouldContinueColliding(&mut self, objects: &[Rc<RefCell<dyn WordCloudElement<T>>>]) -> bool;
 }
 
 impl<T: Number> QuadTree<T> {
@@ -310,16 +310,16 @@ impl<T: Number> QuadTree<T> {
         return true;
     }
 
-    pub fn collides(&self, object: &Box<dyn WordCloudElement<T>>) -> bool {
-        object.collidesWithTree(&self.container)
+    pub fn collides(&self, object: Rc<RefCell<dyn WordCloudElement<T>>>) -> bool {
+        object.borrow().collidesWithTree(&self.container)
     }
 
-    pub fn addElement(&mut self, object: Box<dyn WordCloudElement<T>>) {
+    pub fn addElement(&mut self, object: Rc<RefCell<dyn WordCloudElement<T>>>) {
         if self.children.is_some() {
             let mut collideIndex: usize = usize::MAX;
             let childs = self.children.as_mut().unwrap();
             for i in 0..childs.len() {
-                if childs[i].collides(&object) {
+                if childs[i].collides(Rc::clone(&object)) {
                     if collideIndex != usize::MAX {
                         self.objects.push(object);
                         return;
@@ -374,10 +374,9 @@ impl<T: Number> QuadTree<T> {
             currentY = nextY;
         }
         self.children = Some(newChilds);
-        let length = self.objects.len();
-        for i in 0..length {
-            self.addElement(self.objects[i]);
+        let old_elements: Vec<Rc<RefCell<dyn WordCloudElement<T>>>> = self.objects.drain(..).collect();
+        for elem in old_elements {
+            self.addElement(elem);
         }
-        self.objects.drain(0..length);
     }
 }

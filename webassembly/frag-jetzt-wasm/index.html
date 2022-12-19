@@ -6,9 +6,43 @@
   </head>
   <body>
     <script type="module">
-      import init, { greet } from "./pkg/frag_jetzt_wasm.js";
+      import init, { greet, calc_word_cloud } from "./pkg/frag_jetzt_wasm.js";
+      globalThis.log = (text) => console.log("[WASM]: " + text);
       init().then(() => {
         greet("WebAssembly");
+        const arr = new Float32Array([
+          1920, 1080,
+          0,
+          150, 80, 0,
+          120, 80, 0,
+          90, 80, 0,
+          90, 80, 0,
+          91, 80, 0,
+          //90, 80, 0,
+          //90, 80, 0,
+          //90, 80, 0,
+          //90, 80, 0,
+          //90, 80, 0,
+          //90, 80, 0,
+          //90, 80, 0,
+          //90, 80, 0,
+          //90, 80, 0,
+          //90, 80, 0,
+          //90, 80, 0,
+          //90, 80, 0,
+          //90, 80, 0,
+          //90, 80, 0,
+          //90, 80, 0,
+          //90, 80, 0,
+          //90, 80, 0,
+          //90, 80, 0,
+          //90, 80, 0,
+        ]);
+        const start = performance.now();
+        calc_word_cloud(arr);
+        const end = performance.now();
+        console.log(end - start);
+        console.log(arr);
       });
     </script>
   </body>

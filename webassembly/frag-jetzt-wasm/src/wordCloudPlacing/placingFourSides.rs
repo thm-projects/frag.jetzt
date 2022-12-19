@@ -1,4 +1,11 @@
-use super::{quadtree::{Number, Vector2, Range, calcMinMax, QuadTreeQuery, AxisAlignedBoundingBox, QuadTree}, TRangeSet, PositionInfo, WordCloudElement, MergeRangeResult, WordCloudTopic};
+use std::{cell::RefCell, rc::Rc};
+
+use super::{
+    quadtree::{
+        calcMinMax, AxisAlignedBoundingBox, Number, QuadTree, QuadTreeQuery, Range, Vector2,
+    },
+    MergeRangeResult, PositionInfo, TRangeSet, WordCloudElement, WordCloudTopic,
+};
 
 struct SimpleCollisionBox<T: Number> {
     midPoint: Vector2<T>,
@@ -84,7 +91,7 @@ impl<T: Number> SimpleCollisionBox<T> {
                     .clone(),
             ];
             xRange = calcMinMax(&Vector2::dir_x(), &edgePoints);
-            yRange = calcMinMax(&Vector2::dir_y(),&edgePoints);
+            yRange = calcMinMax(&Vector2::dir_y(), &edgePoints);
         }
         SimpleCollisionBox {
             midPoint: midPoint.clone(),
@@ -145,9 +152,10 @@ impl<T: Number> SimpleCollisionBox<T> {
      *
      * false, if it has no space, collision checks can be aborted
      */
-    fn collideTRange(&mut self, object: &Box<dyn WordCloudElement<T>>) -> bool {
+    fn collideTRange(&mut self, object: &Rc<RefCell<dyn WordCloudElement<T>>>) -> bool {
+        let borrow = object.borrow();
         let (points, topicRotation, normal1, normal1Range, normal2, normal2Range) =
-            object.get_collison_info();
+            borrow.get_collison_info();
 
         // self move dir
         let selfDir1 = self.resultTRange.mergeTRange(
@@ -232,7 +240,10 @@ impl<T: Number> QuadTreeQuery<T> for SimpleCollisionBox<T> {
                 .collides(&calcMinMax(&self.addCollDir, &aabb.points))
     }
 
-    fn shouldContinueColliding(&mut self, objects: &[Box<dyn WordCloudElement<T>>]) -> bool {
+    fn shouldContinueColliding(
+        &mut self,
+        objects: &[Rc<RefCell<dyn WordCloudElement<T>>>],
+    ) -> bool {
         for object in objects {
             if !self.collideTRange(object) {
                 return false;
@@ -261,7 +272,8 @@ pub fn tryPlaceOnFourSides<T: Number>(
             .sideNormal
             .clone()
             .scale(side.distToMid + newSide.distToMid)
-            .add(&currentMid).clone();
+            .add(&currentMid)
+            .clone();
         let mut collisionBox = SimpleCollisionBox::new(
             &newMid,
             &side.perpendicularNormal,

@@ -1,11 +1,13 @@
+use std::{cell::RefCell, rc::Rc};
+
 use crate::wordCloudPlacing::placingFourSides::tryPlaceOnFourSides;
 
 use self::quadtree::{
     calcMinMax, AxisAlignedBoundingBox, Number, QuadTree, QuadTreeElement, Range, Vector2,
 };
 
-pub mod quadtree;
 mod placingFourSides;
+pub mod quadtree;
 
 // Orderd increasing
 pub struct TRangeSet<T: Number> {
@@ -15,7 +17,7 @@ pub struct TRangeSet<T: Number> {
 pub enum MergeRangeResult<T: Number> {
     AlwaysCollides,
     NoCollision,
-    CollisionRange(Range<T>)
+    CollisionRange(Range<T>),
 }
 
 impl<T: Number> MergeRangeResult<T> {
@@ -151,7 +153,7 @@ struct PreparedBuildInformation<T: Number> {
 impl<T: Number> PreparedBuildInformation<T> {
     pub fn new(width: T, height: T, rotation: T) -> Self {
         let width = width / T::Two();
-        let height =  height / T::Two();
+        let height = height / T::Two();
         let (sin, cos) = T::SinCos(rotation);
         let normalUp = Vector2::new(-sin, cos);
         let normalRight = Vector2::new(cos, sin);
@@ -204,7 +206,7 @@ impl<T: Number> PreparedBuildInformation<T> {
     }
 }
 
-struct PlacedTopic<T: Number> {
+pub struct PlacedTopic<T: Number> {
     pub mid: Vector2<T>,
     normal1: Vector2<T>,
     normal2: Vector2<T>,
@@ -265,7 +267,7 @@ impl<T: Number> PlacedTopic<T> {
     }
 }
 
-struct PositionInfo<T: Number> {
+pub struct PositionInfo<T: Number> {
     position: Vector2<T>,
     distanceSquared: T,
     normal1: Vector2<T>,
@@ -305,8 +307,10 @@ impl<T: Number> PositionInfo<T> {
     }
 }
 
-pub trait WordCloudElement<T: Number> : QuadTreeElement<T> {
-    fn get_collison_info(&self) -> (
+pub trait WordCloudElement<T: Number>: QuadTreeElement<T> {
+    fn get_collison_info(
+        &self,
+    ) -> (
         &[Vector2<T>],
         T,
         Vector2<T>,
@@ -342,15 +346,24 @@ impl<T: Number> QuadTreeElement<T> for WordCloudObstacle<T> {
 }
 
 impl<T: Number> WordCloudElement<T> for WordCloudObstacle<T> {
-    fn get_collison_info(&self) -> (
-            &[Vector2<T>],
-            T,
-            Vector2<T>,
-            &Range<T>,
-            Vector2<T>,
-            &Range<T>,
-        ) {
-        (&self.aabb.points, T::Zero(), Vector2::dir_y(), &self.yRange, Vector2::dir_x(), &self.xRange)
+    fn get_collison_info(
+        &self,
+    ) -> (
+        &[Vector2<T>],
+        T,
+        Vector2<T>,
+        &Range<T>,
+        Vector2<T>,
+        &Range<T>,
+    ) {
+        (
+            &self.aabb.points,
+            T::Zero(),
+            Vector2::dir_y(),
+            &self.yRange,
+            Vector2::dir_x(),
+            &self.xRange,
+        )
     }
 }
 
@@ -385,7 +398,7 @@ impl<T: Number> WordCloudTopic<T> {
         let diffAngle = (self.rotation - otherTopic.rotation) % T::Ninety();
         if T::isZero(diffAngle) || T::isZero(diffAngle - T::Ninety()) {
             // perpendicular or colinear
-            return tryPlaceOnFourSides(self,otherTopic, quadTree, aspectRatio);
+            return tryPlaceOnFourSides(self, otherTopic, quadTree, aspectRatio);
         }
         panic!("For testing purpose, should not happen.");
     }
@@ -408,33 +421,42 @@ impl<T: Number> QuadTreeElement<T> for WordCloudTopic<T> {
 }
 
 impl<T: Number> WordCloudElement<T> for WordCloudTopic<T> {
-    fn get_collison_info(&self) -> (
-            &[Vector2<T>],
-            T,
-            Vector2<T>,
-            &Range<T>,
-            Vector2<T>,
-            &Range<T>,
-        ) {
+    fn get_collison_info(
+        &self,
+    ) -> (
+        &[Vector2<T>],
+        T,
+        Vector2<T>,
+        &Range<T>,
+        Vector2<T>,
+        &Range<T>,
+    ) {
         let pos = self.place.as_ref().unwrap();
-        (&pos.points, self.rotation, pos.normal1.clone(), &pos.normal1Range, pos.normal2.clone(), &pos.normal2Range)
+        (
+            &pos.points,
+            self.rotation,
+            pos.normal1.clone(),
+            &pos.normal1Range,
+            pos.normal2.clone(),
+            &pos.normal2Range,
+        )
     }
 }
 
-pub fn findBestPlace<T: Number>(
-    index: usize,
-    newTopic: WordCloudTopic<T>,
-    elements: &Vec<WordCloudTopic<T>>,
-    tree: &QuadTree<T>,
+pub fn findBestPlace<T: Number + 'static>(
+    new_topic: Rc<RefCell<WordCloudTopic<T>>>,
+    elements: &Vec<Rc<RefCell<WordCloudTopic<T>>>>,
+    tree: &mut QuadTree<T>,
     aspectRatio: T,
 ) {
-    let newTopic = Box::new(newTopic);
-    if index == 0 {
-        let side = &newTopic.buildInfo.sides[0];
-        newTopic.place = Some(PlacedTopic::new(
+    let newTopic = Rc::clone(&new_topic);
+    let mut topic = new_topic.borrow_mut();
+    if elements.len() == 0 {
+        let side = &topic.buildInfo.sides[0];
+        topic.place = Some(PlacedTopic::new(
             Vector2::new(T::Zero(), T::Zero()),
-            side.sideNormal,
-            side.perpendicularNormal,
+            side.sideNormal.clone(),
+            side.perpendicularNormal.clone(),
             side.distToMid,
             side.otherDirMidDist,
             T::Zero(),
@@ -443,19 +465,21 @@ pub fn findBestPlace<T: Number>(
         return;
     }
     let mut posInfo: Option<PositionInfo<T>> = None;
-    for i in 0..index {
-        let nearestPos = elements[i].tryPlace(tree, &newTopic, aspectRatio);
-        if nearestPos.is_none() {
-            continue;
-        }
-        if posInfo.is_none()
-            || posInfo.unwrap().distanceSquared > nearestPos.unwrap().distanceSquared
-        {
-            posInfo = nearestPos;
+    for i in 0..elements.len() {
+        let nearestPos = elements[i].borrow().tryPlace(tree, &topic, aspectRatio);
+        if let Some(ref pos1) = nearestPos {
+            if let Some(ref pos2) = posInfo {
+                if pos2.distanceSquared > pos1.distanceSquared {
+                    posInfo = nearestPos;
+                }
+            }else{
+                posInfo = nearestPos;
+            }
         }
     }
     if posInfo.is_some() {
-        newTopic.place = Some(posInfo.unwrap().toPlacedPos());
+        topic.place = Some(posInfo.unwrap().toPlacedPos());
         tree.addElement(newTopic);
     }
+    return;
 }
