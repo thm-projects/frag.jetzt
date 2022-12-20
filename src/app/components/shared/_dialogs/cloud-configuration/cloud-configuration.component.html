@@ -46,19 +46,6 @@
         </div>
         <div style="margin: 10px;"></div>
         <div class="input-row" fxLayout="column" fxLayoutGap="5px">
-          <div class="input-row" fxLayout="column" fxLayoutGap="5px">
-            <div fxLayout="column" fxLayoutGap="5px">
-              <mat-label>{{'tag-cloud-config.background' | translate}}</mat-label>
-              <input [value]="cloudParameters.backgroundColor"
-                     [colorPicker]="cloudParameters.backgroundColor"
-                     (colorPickerChange)="backgroundColorChanged($event)"
-                     class="custom-color-picker"
-                     [cpToggle]="true"
-                     [cpDialogDisplay]="'inline'"/>
-            </div>
-          </div>
-        </div>
-        <div class="input-row" fxLayout="column" fxLayoutGap="5px">
           <mat-label class="label-text">{{'tag-cloud-config.word-delay' | translate}}</mat-label>
           <mat-slider #delaySlider min="0" max="1000" step="50" [(ngModel)]="cloudParameters.delayWord"
                       [ngModelOptions]="{standalone: true}" (change)="valueChanged()" [thumbLabel]="true"

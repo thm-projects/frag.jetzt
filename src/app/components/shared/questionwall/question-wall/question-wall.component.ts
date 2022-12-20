@@ -215,7 +215,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     document.getElementById('footer_rescale').style.display = 'none';
     setTimeout(() => {
       Rescale.requestFullscreen();
-    }, 10);
+    }, 0);
     setTimeout(() => {
       Array.from(
         document
