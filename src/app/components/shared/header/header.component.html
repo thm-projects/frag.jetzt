@@ -65,9 +65,9 @@
         <p class="userActivityTxt">{{headerService.getCurrentUserActivity()}}</p>
       </div>
 
-      <div *ngIf="room?.brainstormingSession?.active">
+      <div *ngIf="room?.brainstormingSession?.active && !router.url.endsWith('/brainstorming')">
         <mat-icon class="material-icons brainstorming-action-icon"
-                  [ngClass]="{'clickable': !router.url.endsWith('/brainstorming')}"
+                  [ngClass]="'clickable'"
                   (click)="navigateBrainstormingDirectly()"
                   style="transform: scale(1.4); color: green; margin-top: 8px"
                   [matTooltip]="'header.brainstorm-active' + (!router.url.endsWith('/brainstorming') ? '-clickable' : '') | translate">

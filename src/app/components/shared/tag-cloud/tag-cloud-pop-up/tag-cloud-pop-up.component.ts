@@ -32,7 +32,7 @@ import { BrainstormingDataService } from 'app/services/util/brainstorming-data.s
 import { BrainstormingTopic } from 'app/services/util/brainstorming-data-builder';
 import { BrainstormingCategory } from 'app/models/brainstorming-category';
 
-const CLOSE_TIME = 1500;
+const CLOSE_TIME = 100;
 
 @Component({
   selector: 'app-tag-cloud-pop-up',

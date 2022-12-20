@@ -340,7 +340,7 @@ blockquote {
 
 .mat-tooltip {
   white-space: pre-line;
-  color: var(--on-secondary);
+  color: var(--on-secondary) !important;
   background-color: var(--secondary);
   border-radius: 10px !important;
   font-size: 14px;
