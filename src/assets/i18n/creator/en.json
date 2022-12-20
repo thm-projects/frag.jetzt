@@ -16,11 +16,12 @@
     "user-name": "User"
   },
   "brainstorming-blacklist": {
-    "title": "Brainstorming Blacklist",
-    "placeholder-add": "Enter word",
-    "add-button": "Add word",
-    "show-button": "Show Blacklist",
-    "hide-button": "Hide Blacklist",
+    "back": "Put the idea back in place",
+    "title": "List of discarded ideas",
+    "placeholder-add": "Idea to be discarded…",
+    "add-button": "Add",
+    "show-button": "Show list",
+    "hide-button": "Hide list",
     "update": "Close"
   },
   "brainstorming-category": {
@@ -667,7 +668,7 @@
     "tag-button-hint": "Select the most appropriate category for your question."
   },
   "tag-cloud": {
-    "blacklist-topic": "Add to blacklist",
+    "blacklist-topic": "Discard idea",
     "changes-gone-wrong": "Something has gone wrong!",
     "changes-successful": "Successfully updated.",
     "write-last-idea": "Write the last brainstorm idea!",

@@ -16,11 +16,12 @@
     "user-name": "Utilisateur"
   },
   "brainstorming-blacklist": {
-    "title": "Brainstorming Liste noire",
-    "placeholder-add": "Entrer un mot",
-    "add-button": "Ajouter le mot",
-    "show-button": "Afficher liste noire",
-    "hide-button": "Cacher liste noire",
+    "back": "Remettre l'idée en place",
+    "title": "Liste d'idées rejetées",
+    "placeholder-add": "Idée à rejeter…",
+    "add-button": "Ajouter",
+    "show-button": "Afficher la liste",
+    "hide-button": "Cacher la liste",
     "update": "Fermer"
   },
   "brainstorming-category": {
@@ -667,7 +668,7 @@
     "tag-button-hint": "Choisis la catégorie la plus pertinente pour ta question"
   },
   "tag-cloud": {
-    "blacklist-topic": "Ajouter à la blacklist",
+    "blacklist-topic": "Rejeter l'idée",
     "changes-gone-wrong": "Quelque chose a mal tourné !",
     "changes-successful": "Modifications enregistrées",
     "write-last-idea": "Écrire la dernière idée de brainstorming!",

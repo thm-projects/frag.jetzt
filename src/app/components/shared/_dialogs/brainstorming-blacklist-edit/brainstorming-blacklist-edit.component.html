@@ -36,13 +36,14 @@
       <button
         style="margin-left: auto; color: var(--red)"
         mat-icon-button
+        matTooltip="{{ 'brainstorming-blacklist.back' | translate }}"
         (click)="removeWordFromBlacklist(word.id)"
       >
         <mat-icon
           class="material-icons-outlined"
           mat-list-icon
           style="margin-bottom: 6px"
-          >delete_sweep
+          >undo
         </mat-icon>
       </button>
     </mat-list-item>
