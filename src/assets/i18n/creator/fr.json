@@ -668,7 +668,7 @@
     "tag-button-hint": "Choisis la catégorie la plus pertinente pour ta question"
   },
   "tag-cloud": {
-    "blacklist-topic": "Rejeter l'idée",
+    "blacklist-topic": "Enlever",
     "changes-gone-wrong": "Quelque chose a mal tourné !",
     "changes-successful": "Modifications enregistrées",
     "write-last-idea": "Écrire la dernière idée de brainstorming!",
