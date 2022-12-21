@@ -46,7 +46,7 @@
     "add-idea": "Enter your idea!",
     "answered": "Answered questions",
     "ask-brainstorm-empty": "Enter your idea!",
-    "ask-question-empty": "Here you can ask your question.",
+    "ask-question-empty": "",
     "comment-deleted": "The contribution has been deleted.",
     "comment-number": "Q{{topLevelNumber}}/L{{level}}/A{{number}}",
     "comment-sent": "Your contribution has been published.",
