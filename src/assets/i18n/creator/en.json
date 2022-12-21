@@ -278,7 +278,7 @@
     "mark-wrong": "Deny question or mark as irrelevant",
     "new-comment": "A new question with the content, {{ comment }}, has been asked.",
     "no-comment": "The comment doesn't exist!",
-    "no-comments": "No entries at present",
+    "no-comments": "",
     "no-comments-with-filter": "No entries with selected filter settings",
     "no-comments-with-search": "No questions with your search",
     "notification-on-off": "Enable / disable notifications",
