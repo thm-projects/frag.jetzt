@@ -365,3 +365,14 @@ h1 {
     text-align: center;
   }
 }
+
+.screenshot {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 60px;
+  margin-bottom: 80px;
+  max-width: 100%;
+  height: auto;
+  outline: none;
+}

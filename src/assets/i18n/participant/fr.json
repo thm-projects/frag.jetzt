@@ -194,7 +194,7 @@
     "mark-read": "La question a été discutée publiquement.",
     "new-comment": "Une nouvelle question avec le contenu, {{ comment }, vient d'être posée.",
     "no-comment": "Le commentaire n'existe pas !",
-    "no-comments": "Aucune entrée pour le moment",
+    "no-comments": "",
     "no-comments-with-filter": "Aucune entrée avec le filtre sélectionné",
     "no-comments-with-search": "Pas de questions sur ta recherche",
     "preview-comment": "Aperçu",
@@ -477,7 +477,7 @@
     "tag-button-hint": "Choisis la catégorie la plus pertinente pour ta question"
   },
   "tag-cloud": {
-    "blacklist-topic": "Rejeter l'idée",
+    "blacklist-topic": "Enlever",
     "changes-gone-wrong": "Quelque chose a mal tourné !",
     "changes-successful": "Modifications enregistrées",
     "write-last-idea": "Écrire la dernière idée de brainstorming!",

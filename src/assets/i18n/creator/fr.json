@@ -278,7 +278,7 @@
     "mark-wrong": "Nier la question ou la marquer comme non pertinente",
     "new-comment": "Une nouvelle question avec le contenu, {{ comment }, vient d'être posée.",
     "no-comment": "Le commentaire n'existe pas !",
-    "no-comments": "Aucune entrée actuellement",
+    "no-comments": "",
     "no-comments-with-filter": "Aucune entrée avec le filtre sélectionné",
     "no-comments-with-search": "Pas de questions lors de ta recherche",
     "notification-on-off": "Toggle notifications",
@@ -668,7 +668,7 @@
     "tag-button-hint": "Choisis la catégorie la plus pertinente pour ta question"
   },
   "tag-cloud": {
-    "blacklist-topic": "Rejeter l'idée",
+    "blacklist-topic": "Enlever",
     "changes-gone-wrong": "Quelque chose a mal tourné !",
     "changes-successful": "Modifications enregistrées",
     "write-last-idea": "Écrire la dernière idée de brainstorming!",

@@ -721,7 +721,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
         });
         e.menuItem({
           translate: this.headerService.getTranslate(),
-          icon: 'help',
+          icon: 'question_mark',
           class: 'material-icons-outlined',
           text: 'header.brainstorm-info',
           callback: () => {
@@ -938,7 +938,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
         e.menuItem({
           translate: this.headerService.getTranslate(),
           icon: 'summarize',
-          class: 'material-icons-filled',
+          class: 'material-icons-outlined',
           text: 'header.brainstorm-blacklist',
           callback: () => {
             const ref = this.dialog.open(BrainstormingBlacklistEditComponent, {

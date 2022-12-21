@@ -194,7 +194,7 @@
     "mark-read": "Already discussed by the presenter",
     "new-comment": "A new question with the content, {{ comment }}, has been asked.",
     "no-comment": "The comment doesn't exist!",
-    "no-comments": "No entries at present",
+    "no-comments": "",
     "no-comments-with-filter": "No entries with selected filter settings",
     "no-comments-with-search": "No questions with your search",
     "preview-comment": "Preview",
@@ -477,7 +477,7 @@
     "tag-button-hint": "Select the most appropriate category for your question."
   },
   "tag-cloud": {
-    "blacklist-topic": "Discard idea",
+    "blacklist-topic": "Remove",
     "changes-gone-wrong": "Something has gone wrong!",
     "changes-successful": "Successfully updated",
     "write-last-idea": "Write the last brainstorm idea!",
