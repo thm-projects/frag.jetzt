@@ -1,19 +1,10 @@
-<app-minute-jump-clock></app-minute-jump-clock>
-<div class="qr-code-colors" #qrCodeColors></div>
-<div class="qr-code-container" *ngIf="canShowURL()">
-  <qrcode [qrdata]="getURL()"
-          (click)="showQR()"
-          [colorDark]="qrDark"
-          [colorLight]="qrLight"
-          [width]="600"
-          [matTooltip]="'comment-list.qr-in-fullscreen' | translate"
-          [errorCorrectionLevel]="'M'">
-  </qrcode>
-</div>
+<div class="bg-object" style="top: 20%; left: 20%; animation-delay: 3s;">?</div>
+<div class="bg-object" style="top: 30%; left: 80%; animation-delay: 5s;">?</div>
 
 <p
   style="font-size: 18px; hyphens: auto">{{ 'room-page.session-id-lq-x' | translate }}{{room?.name}}{{ 'room-page.session-id-rq' | translate }}
 </p>
+
 <div *ngIf="comments && (commentsFilteredByTimeLength > 0 || filterType || period !== 'All')">
   <p class="counter"
      *ngIf="!filterType && !search">
@@ -507,12 +498,3 @@
   <div id="activity">{{ 'comment-list.a11y-activity' | translate }} {{activeUsers}}</div>
   <div id="conversation">{{'comment-list.a11y-conversation' | translate}}</div>
 </div>
-
-<img tabindex="-1"
-     loading="lazy"
-     src="/assets/background/auditorium.webp"
-     srcset="/assets/background/auditorium.webp 1x, /assets/background/Auditorium-original-bw.webp 2x"
-     class="screenshot"
-     width="811"
-     height="185"
-     alt="Auditorium">
