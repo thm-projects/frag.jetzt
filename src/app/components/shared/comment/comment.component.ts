@@ -180,7 +180,7 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
     } else if (this.isFromModerator) {
       return 'support_agent';
     }
-    return 'person';
+    return '';
   }
 
   getCommentIconClass(): string {

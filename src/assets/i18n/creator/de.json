@@ -278,7 +278,7 @@
     "mark-wrong": "Frage verneinen oder als irrelevant markieren",
     "new-comment": "Eine neue Frage mit dem Inhalt, {{ comment }}, wurde soeben gestellt.",
     "no-comment": "Der Kommentar existiert nicht!",
-    "no-comments": "Keine Einträge zurzeit",
+    "no-comments": "",
     "no-comments-with-filter": "Keine Einträge mit dem ausgewählten Filter",
     "no-comments-with-search": "Keine Fragen mit deiner Suche",
     "notification-on-off": "Benachrichtigungen toggeln",
@@ -668,7 +668,7 @@
     "tag-button-hint": "Wähle die treffende Kategorie für deine Frage."
   },
   "tag-cloud": {
-    "blacklist-topic": "Idee verwerfen",
+    "blacklist-topic": "Entfernen",
     "changes-gone-wrong": "Etwas ist schiefgelaufen!",
     "changes-successful": "Änderungen gespeichert",
     "write-last-idea": "Schreibe die letzte Brainstorming-Idee!",
