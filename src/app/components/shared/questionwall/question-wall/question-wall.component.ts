@@ -505,7 +505,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     } else if (isFromModerator) {
       return 'support_agent';
     }
-    return 'person';
+    return '';
   }
 
   getCommentIconClass(comment: Comment): string {
