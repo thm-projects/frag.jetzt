@@ -82,7 +82,8 @@
     "field-required": "Dieses Feld wird benötigt",
     "field-too-high": "Deine Eingabe ist zu lang, sie darf maximal {{max}} sein.",
     "field-too-low": "Deine Eingabe ist zu kurz, sie muss mindestens {{min}} sein.",
-    "reset": "Zurücksetzen"
+    "reset": "Zurücksetzen",
+    "note-on-changing-settings": "Hinweis: Du kannst alle Einstellungen später noch unter »Optionen« ändern."
   },
   "cookies": {
     "accept": "Onboarding …",
@@ -542,8 +543,9 @@
     "join-message-template": "An der Sitzung {{session}} mit dem Code {{id}} und in der Rolle {{role}} teilnehmen",
     "moderator-role": "Du bist Moderator*in in diesem Raum.",
     "no-room-history": "Deine Raumliste ist leer.",
-    "option-menu": "Optionen",
-    "panel-join-button": "",
+    "option-menu": "Raumoptionen",
+    "panel-join-button": "Optionen",
+    "panel-access-button": "Zugang",
     "panel-name-lq": "»",
     "panel-name-rq": "«",
     "panel-remove-button": "Eintrag entfernen",
@@ -573,7 +575,9 @@
     "a11y-quiz-enabled": "Schieberegler, um die integrierte Quiz-Option anzuzeigen.",
     "a11y-settings-direct-send": "Schieberegler, um Fragen sofort sichtbar zu machen.",
     "bonus-archive-enabled": "Bonus-Archiv aktivieren",
+    "note-on-changing-settings": "Hinweis: Du kannst alle Raumeinstellungen später noch unter »Optionen ➝ Meine Räume« ändern.",
     "brainstorming-enabled": "Brainstorming aktivieren",
+    "note-on-changing-settings": "Hinweis: Du kannst alle Raumeinstellungen später noch unter »Optionen ➝ Meine Räume« ändern.",
     "cancel": "Abbrechen",
     "changes-gone-wrong": "Etwas ist schief gelaufen!",
     "changes-successful": "Änderungen gespeichert",

@@ -50,7 +50,7 @@
               mat-sort-header="name"
               sortActionDescription="Sort by name"
               *matHeaderCellDef
-              style="width: 41%; padding-right: 0">
+              style="width: 35%; padding-right: 10px">
             {{ 'room-list.panel-session-name' | translate }}
           </th>
           <td mat-cell
@@ -81,7 +81,7 @@
               sortActionDescription="Sort by shortId"
               *matHeaderCellDef
               scope="col"
-              style="width: 41%">
+              style="width: 25%">
             {{ 'room-list.panel-session-id' | translate }}
           </th>
           <td mat-cell
@@ -119,7 +119,7 @@
               sortActionDescription="Sort by role"
               *matHeaderCellDef
               scope="col"
-              style="width: 17%">
+              style="width: 20%; text-align: center">
             {{ 'room-list.panel-user-role' | translate }}
           </th>
           <td mat-cell
@@ -154,12 +154,12 @@
           <th mat-header-cell
               *matHeaderCellDef
               scope="col"
-              style="width: 1%; text-align: end">
-            {{ 'room-list.panel-join-button' | translate }}
+              style="width: 15%; text-align: center">
+            {{ 'room-list.panel-access-button' | translate }}
           </th>
           <td mat-cell
               *matCellDef="let room"
-              style="text-align: end; padding-right: 0"
+              style="text-align: center; padding-right: 0"
               attr.aria-labelledby="empty">
             <button mat-icon-button
                     [matTooltip]="'moderators-dialog.tooltip-moderators' | translate"
@@ -174,12 +174,12 @@
           <th mat-header-cell
               *matHeaderCellDef
               scope="col"
-              style="width: 1%; text-align: end">
+              style="width: 20%; padding-right: 10px; text-align: center">
             {{ 'room-list.panel-join-button' | translate }}
           </th>
           <td mat-cell
               *matCellDef="let room"
-              style="text-align: end; padding-right: 0"
+              style="text-align: center; padding-right: 10px"
               attr.aria-labelledby="empty">
             <button mat-icon-button
                     [matMenuTriggerFor]="moreActions"
