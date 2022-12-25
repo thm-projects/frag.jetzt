@@ -65,7 +65,7 @@
     "brainstorming-action-went-wrong": "Something went wrong!",
     "brainstorming-direct-send-disabled": "Brainstorming cannot be started when moderation is active.",
     "brainstorming-question": "Topic or focus question …",
-    "brainstormin-language-title": "Language",
+    "brainstormin-language-title": "Language of participants",
     "brainstormin-language": {
       "de": "German",
       "en": "English",
@@ -82,7 +82,8 @@
     "field-required": "This field is required",
     "field-too-high": "Your input is too long. It may be at most {{max}}.",
     "field-too-low": "Your input is too short. It must be at least {{min}}.",
-    "reset": "Reset"
+    "reset": "Reset",
+    "note-on-changing-settings": "Note: You can still change all settings later under »Options«."
   },
   "cookies": {
     "accept": "Onboarding …",

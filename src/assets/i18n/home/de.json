@@ -82,7 +82,8 @@
     "field-required": "Dieses Feld wird benötigt",
     "field-too-high": "Deine Eingabe ist zu lang, sie darf maximal {{max}} sein.",
     "field-too-low": "Deine Eingabe ist zu kurz, sie muss mindestens {{min}} sein.",
-    "reset": "Zurücksetzen"
+    "reset": "Zurücksetzen",
+    "note-on-changing-settings": "Hinweis: Du kannst alle Einstellungen später noch unter »Optionen« ändern."
   },
   "cookies": {
     "accept": "Onboarding …",
