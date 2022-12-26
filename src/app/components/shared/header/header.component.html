@@ -14,6 +14,7 @@
             mat-button
             aria-labelledby="tour-label"
             class="focus_button"
+            [matTooltip]="'header.tour-button' | translate"
             [disabled]="!startUpFinished()"
             *ngIf="router.url.endsWith('/home') && !deviceInfo.isSafari"
             (click)="startTour()">
@@ -28,6 +29,7 @@
 
       <button mat-flat-button
               tabindex="0"
+              [matTooltip]="'header.quiz-rally-button' | translate"
               *ngIf="!router.url.endsWith('moderator/comments') && router.url.endsWith('/comments') &&
                      room?.quizActive &&
                      deviceInfo.isCurrentlyDesktop"
@@ -40,6 +42,7 @@
 
       <button mat-flat-button
               tabindex="0"
+              [matTooltip]="'header.question-radar-button' | translate"
               *ngIf="!router.url.endsWith('moderator/comments') && router.url.endsWith('/comments') &&
                      deviceInfo.isCurrentlyDesktop && (((tagCloudDataService.currentData?.size || 0) > 0) || topicCloudAdminService.isTopicRequirementActive())"
               (click)="navigateTopicCloud()">
@@ -49,6 +52,7 @@
 
       <button mat-flat-button
               tabindex="0"
+              [matTooltip]="'header.brainstorming-button' | translate"
               *ngIf="!router.url.endsWith('moderator/comments') && router.url.endsWith('/comments') &&
                      room?.brainstormingActive &&
                      deviceInfo.isCurrentlyDesktop && (!!room?.brainstormingSession || userRole > 0)"
@@ -142,6 +146,7 @@
 
       <button mat-flat-button
               tabindex="0"
+              [matTooltip]="'header.question-focus-button' | translate"
               *ngIf="deviceInfo.isCurrentlyDesktop &&
               !router.url.endsWith('moderator/comments') &&
               router.url.endsWith('/comments') &&
@@ -373,7 +378,8 @@
       </mat-icon>
 
       <ng-template #optionContent>
-        <div class="label-icon">
+        <div class="label-icon"
+             [matTooltip]="'header.options-button' | translate">
           <h2 style="margin-left: 5px"
               *ngIf="deviceInfo.isCurrentlyDesktop">{{'header.my-account' | translate}}</h2>
           <mat-icon class="header-icons">
@@ -406,7 +412,8 @@
       </button>
 
       <ng-template #loginBtnContent>
-        <div class="label-icon">
+        <div class="label-icon"
+             [matTooltip]="'header.sign-in-button' | translate">
           <mat-icon class="header-icons"
                     style="padding-right: 10px">
             login

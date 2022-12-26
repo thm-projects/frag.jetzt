@@ -15,6 +15,7 @@
         mat-button>
           <span
             class="material-icons-outlined"
+            [matTooltip]="'footer.notifications-button' | translate"
             matBadgeSize="small"
             matBadgePosition="above after"
             [matBadge]="change.getList().length || 0"
@@ -30,6 +31,7 @@
 
     <ng-container *ngIf="!this.tourSite && (!this.user || this.deviceInfo.isCurrentlyDesktop)">
       <button
+        [matTooltip]="'footer.introduction-button' | translate"
         (click)="showDemo()"
         [joyrideStep]="'introduction'"
         [stepPosition]="'center'"
@@ -47,6 +49,7 @@
 
     <ng-container *ngIf="this.tourSite && (!this.user?.loginId || this.deviceInfo.isCurrentlyDesktop)">
       <button
+        [matTooltip]="'footer.help-button' | translate"
         (click)="showCurrentTour()"
         aria-labelledby="site-tour-label"
         class="focus_button"
@@ -58,6 +61,7 @@
 
     <ng-container>
       <button
+        [matTooltip]="'footer.display-button' | translate"
         [matMenuTriggerFor]="themeMenu"
         aria-labelledby="style-label"
         class="focus_button"
@@ -72,6 +76,7 @@
 
     <ng-container>
       <button
+        [matTooltip]="'footer.language-button' | translate"
         [matMenuTriggerFor]="langMenu"
         (menuOpened)="openMenu()"
         aria-labelledby="language-label"
@@ -87,6 +92,7 @@
 
     <ng-container *ngIf="deviceInfo.isCurrentlyDesktop">
       <button
+        [matTooltip]="'footer.gdpr-button' | translate"
         (click)="showDataProtection()"
         aria-labelledby="data-protection-label"
         class="focus_button"
@@ -99,6 +105,7 @@
 
     <ng-container *ngIf="deviceInfo.isCurrentlyDesktop">
       <button
+        [matTooltip]="'footer.imprint-button' | translate"
         (click)="showImprint()"
         aria-labelledby="imprint-label"
         class="focus_button"
@@ -112,6 +119,7 @@
 
     <ng-container *ngIf="!deviceInfo.isCurrentlyDesktop">
       <button
+        [matTooltip]="'footer.options-button' | translate"
         class="focus_button"
         [matMenuTriggerFor]="menu"
         mat-button>
