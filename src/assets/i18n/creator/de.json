@@ -373,7 +373,8 @@
     "overview-questioners-tooltip": "Anzahl Fragensteller*innen",
     "overview-admin-config-enabled": "Schwellenwerte für die Anzeige der Themen sind aktiv.",
     "overview-brainstormers-tooltip": "Brainstormer",
-    "overview-ideas-tooltip": "Ideen"
+    "overview-ideas-tooltip": "Ideen",
+    "brainstorming-button": "Was ist das?"
   },
   "home-page": {
     "create-session": "Neue Sitzung",
