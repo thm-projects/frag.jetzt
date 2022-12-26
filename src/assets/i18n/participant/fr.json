@@ -46,7 +46,7 @@
     "add-idea": "Écris ton idée !",
     "answered": "Questions répondues",
     "ask-brainstorm-empty": "Écris ton idée !",
-    "ask-question-empty": "",
+    "ask-question-empty": "Sois le premier, pose la première question !",
     "comment-deleted": "Le message a été supprimé.",
     "comment-number": "Q{{topLevelNumber}}/N{{level}}/R{{number}}",
     "comment-sent": "Ton message a été publié.",
