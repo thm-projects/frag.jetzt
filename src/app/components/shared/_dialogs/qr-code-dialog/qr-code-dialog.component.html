@@ -2,7 +2,7 @@
   <div fxLayout="column" fxLayoutAlign="center center" class="qr-container">
     <mat-icon class="exitButton" (click)="onCloseClick()">close</mat-icon>
     <div>
-      <h2>{{'qr-dialog.url' | translate: { url } }}</h2>
+      <h2>{{'qr-dialog.url' | translate: {url} }}</h2>
       <h2>{{'qr-dialog.session' | translate}}: {{key}}</h2>
     </div>
     <qrcode [qrdata]="data" [width]="qrWidth" [errorCorrectionLevel]="'M'"></qrcode>
