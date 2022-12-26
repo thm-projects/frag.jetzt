@@ -1,5 +1,5 @@
-import { AfterViewInit, Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import {AfterViewInit, Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-qr-code-dialog',
