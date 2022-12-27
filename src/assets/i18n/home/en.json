@@ -173,6 +173,7 @@
     "style": "Display"
   },
   "header": {
+    "back-button": "Back",
     "tour-button": "2-minute introduction",
     "sign-in-button": "Sign in with account",
     "brainstorming-button": "Develop ideas together",
@@ -275,7 +276,7 @@
     "tooltip-creator": "You created the room.",
     "tooltip-moderator": "You are a moderator in this room.",
     "tooltip-participant": "You are a participant in this room.",
-    "tooltip-super-admin": "You are an administrator of »frag.jetzt«.",
+    "tooltip-super-admin": "You manage the platform.",
     "tour": "Tour",
     "unlock": "Release for new questions",
     "update-spacy-keywords": "Extract keywords",

@@ -173,6 +173,7 @@
     "style": "Affichage"
   },
   "header": {
+    "back-button": "Retour",
     "tour-button": "Introduction de 2 minutes",
     "sign-in-button": "Se connecter avec un compte",
     "brainstorming-button": "Développer des idées ensemble",
@@ -275,7 +276,7 @@
     "tooltip-creator": "Tu as créé la salle.",
     "tooltip-moderator": "Tu es un modérateur.",
     "tooltip-participant": "Tu es un participant.",
-    "tooltip-super-admin": "Tu es l'administrateur de «&nbsp;frag.jetzt&nbsp;».",
+    "tooltip-super-admin": "Tu gères la plateforme.",
     "tour": "Tour",
     "unlock": "Permettre des questions",
     "update-spacy-keywords": "Extraire des mots-clés",
