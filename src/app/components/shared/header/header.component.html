@@ -59,7 +59,14 @@
                      deviceInfo.isCurrentlyDesktop && (!!room?.brainstormingSession || userRole > 0)"
               (click)="navigateBrainstorming()">
         <mat-icon class="material-icons"
-                  style="transform: scale(1.4); margin-right: 5px">psychology_alt
+                  *ngIf="room?.brainstormingSession?.active"
+                  style="transform: scale(1.4); color: green; margin-right: 5px">
+          psychology_alt
+        </mat-icon>
+        <mat-icon class="material-icons"
+                  *ngIf="!room?.brainstormingSession?.active"
+                  style="transform: scale(1.4); margin-right: 5px">
+          psychology_alt
         </mat-icon>
         <span>{{'header.brainstorming' | translate}}</span>
       </button>
@@ -76,7 +83,7 @@
                   (click)="navigateBrainstormingDirectly()"
                   style="transform: scale(1.4); color: green; margin-top: 8px"
                   [matTooltip]="'header.brainstorm-active' + (!router.url.endsWith('/brainstorming') ? '-clickable' : '') | translate">
-          psychology_alt
+          tips_and_updates
         </mat-icon>
       </div>
 
