@@ -37,24 +37,24 @@
     "you-sure-category": "Sollen wirklich alle Kategoriezuordnungen zurückgesetzt werden?"
   },
   "brainstorming-edit": {
-    "title": "Brainstorming bearbeiten",
+    "title": "Brainstorming-Einstellungen",
     "question": "Thema oder Fokus-Frage …",
-    "word-count": "Maximale Anzahl Wörter",
-    "word-length": "Maximale Anzahl Zeichen",
+    "word-count": "Maximale Anzahl Wörter pro Idee",
+    "word-length": "Maximale Anzahl Zeichen pro Idee",
     "field-hint-number": "Wert: {{min}} - {{max}}",
     "field-required": "Dieses Feld wird benötigt",
     "field-too-high": "Deine Eingabe ist zu lang, sie darf maximal {{max}} sein.",
     "field-too-low": "Deine Eingabe ist zu kurz, sie muss mindestens {{min}} sein.",
-    "language-title": "Sprache",
+    "language-title": "Sprache der Teilnehmer*innen",
     "language": {
       "de": "Deutsch",
       "en": "Englisch",
       "fr": "Französisch"
     },
     "duration": "Dauer nach Start: {{duration}} Minuten ",
-    "allow-ideas": "Erlaube durchgehende Ideeneingabe",
-    "allow-rating": "Erlaube Bewertung ab Start",
-    "update": "Update"
+    "allow-ideas": "Ideeneingabe von Anfang an zulassen",
+    "allow-rating": "Ideenbewertung von Anfang an zulassen",
+    "update": "Aktualisieren"
   },
   "comment-list": {
     "a11y-access_time": "Sortiert Fragen nach der Uhrzeit",

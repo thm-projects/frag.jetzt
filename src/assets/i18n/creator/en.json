@@ -37,23 +37,23 @@
     "you-sure-category": "Should all category assignments really be reset?"
   },
   "brainstorming-edit": {
-    "title": "Edit Brainstorming",
-    "question": "Topic or focus question …",
-    "word-count": "Maximum number of words",
-    "word-length": "Maximum number of characters",
+    "title": "Brainstorming settings",
+    "question": "Topic or focus question ...",
+    "word-count": "Maximum number of words per idea",
+    "word-length": "Maximum number of characters per idea",
     "field-hint-number": "Value: {{min}} - {{max}}",
     "field-required": "This field is required",
     "field-too-high": "Your input is too long. It may be at most {{max}}.",
     "field-too-low": "Your input is too short. It must be at least {{min}}.",
-    "language-title": "Language",
+    "language-title": "Language of participants",
     "language": {
       "de": "German",
       "en": "English",
       "fr": "French"
     },
     "duration": "Duration after start: {{duration}} minutes ",
-    "allow-ideas": "Allow continuous idea input",
-    "allow-rating": "Allow rating from start",
+    "allow-ideas": "Allow idea input from the beginning",
+    "allow-rating": "Allow for the evaluation of ideas from the beginning",
     "update": "Update"
   },
   "comment-list": {

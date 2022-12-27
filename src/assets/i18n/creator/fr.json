@@ -37,23 +37,23 @@
     "you-sure-category": "Faut-il vraiment réinitialiser toutes les affectations de catégories ?"
   },
   "brainstorming-edit": {
-    "title": "Editer le brainstorming",
-    "question": "Sujet ou question focus …",
-    "word-count": "Nombre maximal de mots",
-    "word-length": "Nombre maximum de caractères",
+    "title" : "Paramètres de brainstorming",
+    "question" : "Thème ou question de focalisation …",
+    "word-count" : "Nombre maximum de mots par idée",
+    "word-length" : "Nombre maximal de caractères par idée",
     "field-hint-number": "Valeur : {{min}} - {{max}}",
     "field-required": "Ce champ est nécessaire.",
     "field-too-high": "Ton entrée est trop longue, elle doit être au maximum de {{max}}.",
     "field-too-low": "Ta saisie est trop courte, elle doit être au moins {{min}}.",
-    "language-title": "Langue",
+    "language-title": "Langue des participants",
     "language": {
       "de": "Allemand",
       "en": "Anglais",
       "fr": "Français"
     },
     "duration": "Durée après le démarrage : {{duration}} minutes ",
-    "allow-ideas": "Permettre la saisie d'idées en continu",
-    "allow-rating": "Autoriser l'évaluation à partir du début",
+    "allow-ideas": "Permettre l'entrée d'idées dès le début",
+    "allow-rating": "Permettre l'évaluation des idées dès le début",
     "update": "Mise à jour"
   },
   "comment-list": {
