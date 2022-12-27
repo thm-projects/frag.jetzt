@@ -41,8 +41,8 @@ export class TopicCloudBrainstormingComponent implements OnInit, OnDestroy {
   ]);
   question = '';
   brainstormingDuration = 15;
-  brainstormingAllowIdeas = false;
-  brainstormingAllowRating = false;
+  brainstormingAllowIdeas = true;
+  brainstormingAllowRating = true;
   roomSubscription: Subscription;
   brainstormingData: BrainstormingSession;
   isLoading = true;

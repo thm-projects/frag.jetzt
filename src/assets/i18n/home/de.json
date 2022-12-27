@@ -83,7 +83,7 @@
     "field-too-high": "Deine Eingabe ist zu lang, sie darf maximal {{max}} sein.",
     "field-too-low": "Deine Eingabe ist zu kurz, sie muss mindestens {{min}} sein.",
     "reset": "Zurücksetzen",
-    "note-on-changing-settings": "Hinweis: Du kannst alle Einstellungen später noch unter »Optionen« ändern."
+    "note-on-changing-settings": "Du kannst alle Einstellungen später noch unter »Optionen« ändern."
   },
   "cookies": {
     "accept": "Onboarding …",
@@ -241,7 +241,7 @@
     "logged-out": "Du bist jetzt abgemeldet.",
     "login": "Anmelden",
     "logout": "Abmelden",
-    "moderation-enabled": "Alle Fragen werden moderiert.",
+    "moderation-enabled": "Das Forum wird moderiert.",
     "moderation-mode": "Moderationsmodus",
     "moderation-warning": "Moderationsboard mit nicht freigegebenen Fragen",
     "moderationboard": "Moderation",
@@ -591,9 +591,9 @@
     "a11y-quiz-enabled": "Schieberegler, um die integrierte Quiz-Option anzuzeigen.",
     "a11y-settings-direct-send": "Schieberegler, um Fragen sofort sichtbar zu machen.",
     "bonus-archive-enabled": "Bonus-Archiv aktivieren",
-    "note-on-changing-settings": "Hinweis: Du kannst alle Raumeinstellungen später noch unter »Optionen ➝ Meine Räume« ändern.",
+    "note-on-changing-settings": "Du kannst alle Raumeinstellungen später noch unter »Optionen ➝ Meine Räume« ändern.",
     "brainstorming-enabled": "Brainstorming aktivieren",
-    "note-on-changing-settings": "Hinweis: Du kannst alle Raumeinstellungen später noch unter »Optionen ➝ Meine Räume« ändern.",
+    "note-on-changing-settings": "Du kannst alle Raumeinstellungen später noch unter »Optionen ➝ Meine Räume« ändern.",
     "cancel": "Abbrechen",
     "changes-gone-wrong": "Etwas ist schief gelaufen!",
     "changes-successful": "Änderungen gespeichert",
