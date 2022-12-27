@@ -123,9 +123,13 @@ th.mat-header-cell:first-of-type {
   > .mat-badge-content {
     background-color: var(--primary);
     color: var(--on-primary);
-    left: -16px !important;
+    left: -20px !important;
     top: 14px !important;
   }
+}
+
+.mat-badge-small.mat-badge-before .mat-badge-content {
+  left: -20px !important;
 }
 
 .mat-sort-header-content {

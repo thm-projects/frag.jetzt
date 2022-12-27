@@ -145,8 +145,8 @@ export class CloudParameters {
     const elements = isMobile ? 7 : 10;
     this.fontFamily = 'Indie Flower';
     this.fontStyle = 'normal';
-    this.fontWeight = 'normal';
-    this.fontSize = '18px';
+    this.fontWeight = 'bold';
+    this.fontSize = '14px';
     this.backgroundColor = CloudParameters.resolveColor(p, theme.backgroundColor);
     this.fontColor = CloudParameters.resolveColor(p, theme.hoverColor);
     this.fontSizeMin = CloudParameters.mapValue(minValue, 375, 750, 125, 200);
