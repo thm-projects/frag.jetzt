@@ -4,6 +4,7 @@
 
     <button id="back-button"
             mat-icon-button
+            [matTooltip]="'header.back-button' | translate"
             aria-labelledby="back-label"
             *ngIf="router.url !== '/home'"
             (click)="goBack()">

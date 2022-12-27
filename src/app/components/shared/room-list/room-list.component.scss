@@ -100,6 +100,8 @@ th, tr {
 
 .clickable {
   cursor: pointer;
+  overflow-wrap: anywhere;
+  padding-right: 10px;
 }
 
 .list-entries {

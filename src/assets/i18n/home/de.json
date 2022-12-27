@@ -173,6 +173,7 @@
     "style": "Display"
   },
   "header": {
+    "back-button": "Zurück",
     "tour-button": "2-Minuten-Einführung",
     "sign-in-button": "Mit Konto anmelden",
     "brainstorming-button": "Gemeinsam Ideen entwickeln",
@@ -275,7 +276,7 @@
     "tooltip-creator": "Du hast den Raum erstellt.",
     "tooltip-moderator": "Du bist Moderator*in.",
     "tooltip-participant": "Du bist Teilnehmer*in.",
-    "tooltip-super-admin": "Du bist Administrator*in von »frag.jetzt«.",
+    "tooltip-super-admin": "Du verwaltest die Plattform.",
     "tour": "Tour",
     "unlock": "Fragenstellen freigeben",
     "update-spacy-keywords": "Stichwörter extrahieren",
