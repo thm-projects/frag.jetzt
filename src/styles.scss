@@ -317,6 +317,15 @@ a {
   color: var(--on-secondary) !important;
 }
 
+.mat-sort-header-content {
+  text-align: left !important;
+  margin: 6px 0;
+}
+
+.mat-sort-header-arrow {
+  margin: 0 6px 0 6px !important;
+}
+
 .mat-pseudo-checkbox-checked, .mat-pseudo-checkbox-indeterminate, .mat-accent .mat-pseudo-checkbox-checked, .mat-accent .mat-pseudo-checkbox-indeterminate {
   background: var(--green) !important;
 }

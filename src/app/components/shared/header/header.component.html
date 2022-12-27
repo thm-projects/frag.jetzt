@@ -61,12 +61,12 @@
         <mat-icon class="material-icons"
                   *ngIf="room?.brainstormingSession?.active"
                   style="transform: scale(1.4); color: green; margin-right: 5px">
-          psychology_alt
+          tips_and_updates
         </mat-icon>
         <mat-icon class="material-icons"
                   *ngIf="!room?.brainstormingSession?.active"
                   style="transform: scale(1.4); margin-right: 5px">
-          psychology_alt
+          tips_and_updates
         </mat-icon>
         <span>{{'header.brainstorming' | translate}}</span>
       </button>
@@ -77,7 +77,8 @@
         <p class="userActivityTxt">{{headerService.getCurrentUserActivity()}}</p>
       </div>
 
-      <div *ngIf="room?.brainstormingSession?.active && !router.url.endsWith('/brainstorming')">
+      <div *ngIf="room?.brainstormingSession?.active && (!router.url.endsWith('/brainstorming')
+      && !deviceInfo.isCurrentlyDesktop || router.url.endsWith('/room/' + sessionService.currentRoom?.shortId))">
         <mat-icon class="material-icons brainstorming-action-icon"
                   [ngClass]="'clickable'"
                   (click)="navigateBrainstormingDirectly()"
