@@ -7,14 +7,22 @@
 
     "icons": [
                 {
-                    "src": "android-chrome-192x192.png?v=2bAj838RBp",
-                    "sizes": "192x192",
-                    "type": "image/png"
+                    "src": "maskable_icon_x144.png",
+                    "sizes": "144x144",
+                    "type": "image/png",
+                    "purpose": "any"
                 },
                 {
-                    "src": "android-chrome-512x512.png?v=2bAj838RBp",
+                    "src": "maskable_icon_x192.png",
+                    "sizes": "192x192",
+                    "type": "image/png",
+                    "purpose": "any"
+                },
+                {
+                    "src": "maskable_icon_x512.png",
                     "sizes": "512x512",
-                    "type": "image/png"
+                    "type": "image/png",
+                    "purpose": "any"
                 },
                 {
                     "src": "maskable_icon.png",
@@ -24,8 +32,8 @@
                 }
     ],
 
-    "theme_color": "#121212",
-        "background_color": "#121212",
+    "theme_color": "#000000",
+        "background_color": "#000000",
         "scope": "/",
         "start_url": "/home",
         "id": "/home",
