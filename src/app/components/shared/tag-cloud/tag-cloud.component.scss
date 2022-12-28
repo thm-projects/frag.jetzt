@@ -91,16 +91,16 @@ app-tag-cloud-pop-up {
 
 .tag-cloud-brainstorming-question {
   position: fixed;
-  top: 50px;
+  top: 60px;
   left: 20px;
   z-index: 2;
-  color: var(--secondary) !important;
-  font-weight: normal;
+  color: var(--primary) !important;
+  font-weight: bold;
   font-style: var(--tag-cloud-font-style, normal);
   font-family: var(--tag-cloud-font-family, 'sans-serif');
-  font-size: 40px !important;
+  font-size: 30px !important;
   line-height: unset;
-  padding-right: 20px;
+  padding-right: 15px;
   hyphens: unset;
 }
 
