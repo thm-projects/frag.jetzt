@@ -206,12 +206,27 @@
       <button mat-menu-item
               (click)="applyFilterByKey('Owner')"
               aria-labelledby="comment">
-        <mat-icon class="owner-icon material-icons-outlined">
+        <mat-icon class="owner-icon material-icons-filled">
           person
         </mat-icon>
         <span [ngClass]="{Owner: 'owner-icon'}[filterType]">{{ 'comment-list.filter-owner' | translate }}</span>
         <span class="inline-count-badge"
               [matBadge]="filterTypeCounts?.['Owner'] || 0"
+              matBadgeColor="secondary"
+              matBadgeSize="medium">
+        </span>
+      </button>
+
+      <button mat-menu-item
+              (click)="applyFilterByKey('Bookmark')"
+              aria-labelledby="bookmark">
+        <mat-icon class="bookmark" style="color: hotpink"
+                  [ngClass]="{Bookmark: 'bookmark-icon'}[filterType]">bookmarks
+        </mat-icon>
+        <span
+          [ngClass]="{Bookmark: 'bookmark-icon'}[filterType]">{{ 'comment-list.filter-bookmark' | translate }}</span>
+        <span class="inline-count-badge"
+              [matBadge]="filterTypeCounts?.['Bookmark'] || 0"
               matBadgeColor="secondary"
               matBadgeSize="medium">
         </span>
@@ -227,21 +242,6 @@
           [ngClass]="{Favorite: 'favorite-icon'}[filterType]">{{ 'comment-list.filter-favorite' | translate }}</span>
         <span class="inline-count-badge"
               [matBadge]="filterTypeCounts?.['Favorite'] || 0"
-              matBadgeColor="secondary"
-              matBadgeSize="medium">
-        </span>
-      </button>
-
-      <button mat-menu-item
-              (click)="applyFilterByKey('Bookmark')"
-              aria-labelledby="bookmark">
-        <mat-icon class="bookmark" style="color: purple"
-                  [ngClass]="{Bookmark: 'bookmark-icon'}[filterType]">bookmarks
-        </mat-icon>
-        <span
-          [ngClass]="{Bookmark: 'bookmark-icon'}[filterType]">{{ 'comment-list.filter-bookmark' | translate }}</span>
-        <span class="inline-count-badge"
-              [matBadge]="filterTypeCounts?.['Bookmark'] || 0"
               matBadgeColor="secondary"
               matBadgeSize="medium">
         </span>
@@ -309,7 +309,7 @@
 
       <button mat-menu-item
               (click)="applyFilterByKey('Censored')">
-        <mat-icon class="material-icons-outlined" [ngClass]="{Censored: 'censored-icon'}[filterType]">
+        <mat-icon class="material-icons-outlined" style="color: red" [ngClass]="{Censored: 'censored-icon'}[filterType]">
           password
         </mat-icon>
         <span [ngClass]="{Censored: 'censored-icon'}[filterType]">
@@ -325,7 +325,7 @@
       <button mat-menu-item
               *ngIf="room?.brainstormingActive"
               (click)="filterByBrainstorming()">
-        <mat-icon class="material-icons" [ngClass]="{'brainstorm-icon': filterBrainstorming}">
+        <mat-icon class="material-icons" style="color: green" [ngClass]="{'brainstorm-icon': filterBrainstorming}">
            tips_and_updates
         </mat-icon>
         <span [ngClass]="{'brainstorm-icon': filterBrainstorming}">

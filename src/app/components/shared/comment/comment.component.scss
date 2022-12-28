@@ -70,7 +70,7 @@ mat-card-content > :first-child {
 }
 
 .bookmark-icon {
-  color: var(--purple);
+  color: hotpink;
   transform: scale(1.3) !important;
 }
 
@@ -183,7 +183,7 @@ mat-card-content > :first-child {
   }
 
   &-bookmark {
-    @include card-box-shadow(var(--purple));
+    @include card-box-shadow(hotpink);
   }
 
   &-favorite {
@@ -195,11 +195,11 @@ mat-card-content > :first-child {
   }
 
   &-answer {
-    @include card-box-shadow(var(--primary));
+    @include card-box-shadow(var(--white));
   }
 
   &-ownQuestion {
-    @include card-box-shadow(mediumslateblue);
+    @include card-box-shadow(hotpink);
   }
 
   &-bonus {
@@ -219,11 +219,11 @@ mat-card-content > :first-child {
   }
 
   &-fromModerator {
-    @include card-box-shadow(orange);
+    @include card-box-shadow(var(--primary));
   }
 
   &-fromOwner {
-    @include card-box-shadow(var(--red));
+    @include card-box-shadow(var(--primary));
   }
 
   &-moderated {
