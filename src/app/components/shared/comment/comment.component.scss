@@ -149,17 +149,6 @@ mat-card-content > :first-child {
   background: var(--dialog);
 }
 
-/*
-.highlighted {
-  background-color: var(--secondary) !important;
-  transition: background-color 1s linear;
-}
-
-.highlighted * {
-  color: var(--on-secondary) !important;
-}
-*/
-
 .gavel {
   color: var(--primary) !important;
   margin: 0 10px 0 10px;
@@ -194,10 +183,6 @@ mat-card-content > :first-child {
     @include card-box-shadow(var(--grey));
   }
 
-  &-answer {
-    @include card-box-shadow(var(--white));
-  }
-
   &-ownQuestion {
     @include card-box-shadow(hotpink);
   }
@@ -206,16 +191,8 @@ mat-card-content > :first-child {
     @include card-box-shadow(var(--yellow));
   }
 
-  &-merged {
-    @include card-box-shadow(var(--magenta));
-  }
-
   &-discussed {
     @include card-box-shadow(var(--gray));
-  }
-
-  &-mergeSelect {
-    @include card-box-shadow(var(--cyan));
   }
 
   &-fromModerator {

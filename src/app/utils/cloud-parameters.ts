@@ -146,7 +146,7 @@ export class CloudParameters {
     this.fontFamily = 'Indie Flower';
     this.fontStyle = 'normal';
     this.fontWeight = 'bold';
-    this.fontSize = '14px';
+    this.fontSize = '12px';
     this.backgroundColor = CloudParameters.resolveColor(p, theme.backgroundColor);
     this.fontColor = CloudParameters.resolveColor(p, theme.hoverColor);
     this.fontSizeMin = CloudParameters.mapValue(minValue, 375, 750, 125, 200);
