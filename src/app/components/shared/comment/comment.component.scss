@@ -75,6 +75,11 @@ mat-card-content > :first-child {
 }
 
 .unfold-icon {
+  color: var(--primary);
+  transform: scale(1.8) !important;
+}
+
+.fold-icon {
   color: var(--red);
   transform: scale(1.8) !important;
 }
