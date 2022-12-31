@@ -142,7 +142,7 @@ export class CloudParameters {
     document.body.appendChild(p);
     const minValue = window.innerWidth < window.innerHeight ? window.innerWidth : window.innerHeight;
     const isMobile = minValue < 700;
-    const elements = isMobile ? 7 : 10;
+    const elements = isMobile ? 10 : 20;
     this.fontFamily = 'Indie Flower';
     this.fontStyle = 'normal';
     this.fontWeight = 'bold';
