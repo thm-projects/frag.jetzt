@@ -108,7 +108,7 @@
 .ql-editor ol li:not(.ql-direction-rtl),
 .ql-editor ul li:not(.ql-direction-rtl) {
   padding-left: 1.5em;
-  padding-bottom: 8px;
+  padding: 4px 0;
 }
 .ql-editor ol li.ql-direction-rtl,
 .ql-editor ul li.ql-direction-rtl {
