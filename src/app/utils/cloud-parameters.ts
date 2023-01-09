@@ -142,11 +142,11 @@ export class CloudParameters {
     document.body.appendChild(p);
     const minValue = window.innerWidth < window.innerHeight ? window.innerWidth : window.innerHeight;
     const isMobile = minValue < 700;
-    const elements = isMobile ? 7 : 10;
+    const elements = isMobile ? 10 : 20;
     this.fontFamily = 'Indie Flower';
     this.fontStyle = 'normal';
-    this.fontWeight = 'normal';
-    this.fontSize = '18px';
+    this.fontWeight = 'bold';
+    this.fontSize = '12px';
     this.backgroundColor = CloudParameters.resolveColor(p, theme.backgroundColor);
     this.fontColor = CloudParameters.resolveColor(p, theme.hoverColor);
     this.fontSizeMin = CloudParameters.mapValue(minValue, 375, 750, 125, 200);
@@ -157,7 +157,7 @@ export class CloudParameters {
     this.delayWord = 700;
     this.randomAngles = false;
     this.sortAlphabetically = false;
-    this.textTransform = CloudTextStyle.Capitalized;
+    this.textTransform = CloudTextStyle.Normal;
     this.cloudWeightSettings = [
       {
         maxVisibleElements: elements,

@@ -33,8 +33,8 @@ export class BrainstormingEditComponent implements OnInit {
   ]);
   question = '';
   brainstormingDuration = 15;
-  brainstormingAllowIdeas = false;
-  brainstormingAllowRating = false;
+  brainstormingAllowIdeas = true;
+  brainstormingAllowRating = true;
   roomSubscription: Subscription;
   isCreating = false;
   readonly languages = [...AVAILABLE_LANGUAGES];

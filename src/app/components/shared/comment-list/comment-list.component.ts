@@ -719,7 +719,7 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
         });
         e.menuItem({
           translate: this.headerService.getTranslate(),
-          icon: 'psychology_alt',
+          icon: ' tips_and_updates',
           class: 'material-icons-outlined',
           text: 'header.brainstorming',
           callback: () =>

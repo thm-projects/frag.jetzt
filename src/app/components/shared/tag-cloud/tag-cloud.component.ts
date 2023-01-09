@@ -840,7 +840,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
                 '/comments/questionwall',
             ]);
           },
-          condition: () => this.userRole > UserRole.PARTICIPANT,
+          condition: () => this.userRole > UserRole.PARTICIPANT && !this.deviceInfo.isCurrentlyMobile,
         });
         e.menuItem({
           translate: this.headerService.getTranslate(),
@@ -984,7 +984,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
         });
         e.menuItem({
           translate: this.headerService.getTranslate(),
-          icon: 'psychology',
+          icon: 'handyman',
           class: 'material-icons-filled',
           text: 'header.brainstorm-settings',
           callback: () => {

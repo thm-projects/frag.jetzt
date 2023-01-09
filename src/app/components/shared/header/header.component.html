@@ -4,6 +4,7 @@
 
     <button id="back-button"
             mat-icon-button
+            [matTooltip]="'header.back-button' | translate"
             aria-labelledby="back-label"
             *ngIf="router.url !== '/home'"
             (click)="goBack()">
@@ -14,6 +15,7 @@
             mat-button
             aria-labelledby="tour-label"
             class="focus_button"
+            [matTooltip]="'header.tour-button' | translate"
             [disabled]="!startUpFinished()"
             *ngIf="router.url.endsWith('/home') && !deviceInfo.isSafari"
             (click)="startTour()">
@@ -28,6 +30,7 @@
 
       <button mat-flat-button
               tabindex="0"
+              [matTooltip]="'header.quiz-rally-button' | translate"
               *ngIf="!router.url.endsWith('moderator/comments') && router.url.endsWith('/comments') &&
                      room?.quizActive &&
                      deviceInfo.isCurrentlyDesktop"
@@ -40,6 +43,7 @@
 
       <button mat-flat-button
               tabindex="0"
+              [matTooltip]="'header.question-radar-button' | translate"
               *ngIf="!router.url.endsWith('moderator/comments') && router.url.endsWith('/comments') &&
                      deviceInfo.isCurrentlyDesktop && (((tagCloudDataService.currentData?.size || 0) > 0) || topicCloudAdminService.isTopicRequirementActive())"
               (click)="navigateTopicCloud()">
@@ -49,12 +53,20 @@
 
       <button mat-flat-button
               tabindex="0"
+              [matTooltip]="'header.brainstorming-button' | translate"
               *ngIf="!router.url.endsWith('moderator/comments') && router.url.endsWith('/comments') &&
                      room?.brainstormingActive &&
                      deviceInfo.isCurrentlyDesktop && (!!room?.brainstormingSession || userRole > 0)"
               (click)="navigateBrainstorming()">
         <mat-icon class="material-icons"
-                  style="transform: scale(1.4); margin-right: 5px">psychology_alt
+                  *ngIf="room?.brainstormingSession?.active"
+                  style="transform: scale(1.4); color: green; margin-right: 5px">
+          tips_and_updates
+        </mat-icon>
+        <mat-icon class="material-icons"
+                  *ngIf="!room?.brainstormingSession?.active"
+                  style="transform: scale(1.4); margin-right: 5px">
+          tips_and_updates
         </mat-icon>
         <span>{{'header.brainstorming' | translate}}</span>
       </button>
@@ -65,13 +77,14 @@
         <p class="userActivityTxt">{{headerService.getCurrentUserActivity()}}</p>
       </div>
 
-      <div *ngIf="room?.brainstormingSession?.active && !router.url.endsWith('/brainstorming')">
+      <div *ngIf="room?.brainstormingSession?.active && (!router.url.endsWith('/brainstorming')
+      && !deviceInfo.isCurrentlyDesktop || router.url.endsWith('/room/' + sessionService.currentRoom?.shortId))">
         <mat-icon class="material-icons brainstorming-action-icon"
                   [ngClass]="'clickable'"
                   (click)="navigateBrainstormingDirectly()"
                   style="transform: scale(1.4); color: green; margin-top: 8px"
                   [matTooltip]="'header.brainstorm-active' + (!router.url.endsWith('/brainstorming') ? '-clickable' : '') | translate">
-          psychology_alt
+          tips_and_updates
         </mat-icon>
       </div>
 
@@ -142,6 +155,7 @@
 
       <button mat-flat-button
               tabindex="0"
+              [matTooltip]="'header.question-focus-button' | translate"
               *ngIf="deviceInfo.isCurrentlyDesktop &&
               !router.url.endsWith('moderator/comments') &&
               router.url.endsWith('/comments') &&
@@ -373,7 +387,8 @@
       </mat-icon>
 
       <ng-template #optionContent>
-        <div class="label-icon">
+        <div class="label-icon"
+             [matTooltip]="'header.options-button' | translate">
           <h2 style="margin-left: 5px"
               *ngIf="deviceInfo.isCurrentlyDesktop">{{'header.my-account' | translate}}</h2>
           <mat-icon class="header-icons">
@@ -406,7 +421,8 @@
       </button>
 
       <ng-template #loginBtnContent>
-        <div class="label-icon">
+        <div class="label-icon"
+             [matTooltip]="'header.sign-in-button' | translate">
           <mat-icon class="header-icons"
                     style="padding-right: 10px">
             login

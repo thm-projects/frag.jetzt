@@ -499,7 +499,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
           )),
       );
     if ((comment?.brainstormingSessionId || null) !== null) {
-      return 'psychology_alt';
+      return ' tips_and_updates';
     } else if (isFromOwner) {
       return 'co_present';
     } else if (isFromModerator) {

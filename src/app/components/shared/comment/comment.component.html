@@ -329,30 +329,30 @@
                   matBadgeColor="secondary"
                   matBadgeSize="small"
                   (click)="showConversation()"
-                  [matTooltip]="('comment-page.show-conversation-tooltip' | translate)">forum
+                  [matTooltip]="('comment-page.show-conversation-tooltip' | translate)">comment
         </mat-icon>
       </button>
       <button mat-icon-button
               *ngIf="(!isAnswerView && !showResponses && comment.totalAnswerCounts.accumulated > 0 && !indentationPossible) ||
               (isAnswerView && !showResponses && comment.totalAnswerCounts.accumulated > 0)">
-        <mat-icon class="unfold-icon material-icons-round"
+        <mat-icon class="unfold-icon material-icons-outlined"
                   matBadge="{{comment.totalAnswerCounts.accumulated}}"
                   matBadgeColor="secondary"
                   matBadgeSize="small"
                   (click)="navigateConversation()"
-                  [matTooltip]="('comment-page.show-conversation-full-tooltip' | translate)">unfold_more_double
+                  [matTooltip]="('comment-page.show-conversation-full-tooltip' | translate)">comment
         </mat-icon>
       </button>
       <button mat-icon-button *ngIf="!isAnswerView && showResponses && responses.length > 0">
-        <mat-icon class="unfold-icon material-icons-round"
+        <mat-icon class="fold-icon material-icons-round"
                   (click)="hideConversation()"
                   [matTooltip]="('comment-page.hide-conversation-tooltip' | translate)">unfold_less
         </mat-icon>
       </button>
       <button mat-icon-button *ngIf="isConversationViewOwner">
-        <mat-icon class="unfold-icon material-icons-round"
+        <mat-icon class="fold-icon material-icons-round"
                   (click)="navigateConversationUp()"
-                  [matTooltip]="('comment-page.move-conversation-up' | translate)">unfold_less_double
+                  [matTooltip]="('comment-page.move-conversation-up' | translate)">unfold_less
         </mat-icon>
       </button>
       <button mat-icon-button

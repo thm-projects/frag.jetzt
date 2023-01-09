@@ -174,7 +174,7 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
 
   getCommentIcon(): string {
     if ((this.comment?.brainstormingSessionId || null) !== null) {
-      return 'psychology_alt';
+      return ' tips_and_updates';
     } else if (this.isFromOwner) {
       return 'co_present';
     } else if (this.isFromModerator) {

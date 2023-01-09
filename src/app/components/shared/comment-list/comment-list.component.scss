@@ -160,7 +160,7 @@ app-comment {
 }
 
 .bookmark-icon {
-  color: var(--purple);
+  color: hotpink;
 }
 
 .not_bookmarked-icon {
@@ -168,15 +168,15 @@ app-comment {
 }
 
 .owner-icon {
-  color: slateblue;
+  color: hotpink;
 }
 
 .conversation-icon {
-  color: mediumslateblue;
+  color: green;
 }
 
 .brainstorm-icon {
-  color: var(--primary);
+  color: green;
 }
 
 .censored-icon {
@@ -253,7 +253,7 @@ app-comment {
 
 .scrollTop {
   position: fixed;
-  left: 35px;
+  left: 20px;
   bottom: 65px;
   transform: scale(0);
   z-index: 1;
@@ -270,7 +270,7 @@ app-comment {
 
 .fab_add_comment {
   position: fixed;
-  right: 35px;
+  right: 20px;
   bottom: 65px;
   z-index: 1;
   background-color: var(--primary);

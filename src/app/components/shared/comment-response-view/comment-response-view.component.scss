@@ -50,6 +50,7 @@ $responseShadowOff: math.ceil($responseShadowWidth + $responseShadowYOffset);
   display: flex;
   color: var(--on-background);
   margin: auto;
+  margin-bottom: 30px;
   width: 100%;
   max-width: 800px;
   justify-content: flex-end;

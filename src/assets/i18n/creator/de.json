@@ -37,24 +37,24 @@
     "you-sure-category": "Sollen wirklich alle Kategoriezuordnungen zurückgesetzt werden?"
   },
   "brainstorming-edit": {
-    "title": "Brainstorming bearbeiten",
+    "title": "Brainstorming-Einstellungen",
     "question": "Thema oder Fokus-Frage …",
-    "word-count": "Maximale Anzahl Wörter",
-    "word-length": "Maximale Anzahl Zeichen",
+    "word-count": "Maximale Anzahl Wörter pro Idee",
+    "word-length": "Maximale Anzahl Zeichen pro Idee",
     "field-hint-number": "Wert: {{min}} - {{max}}",
     "field-required": "Dieses Feld wird benötigt",
     "field-too-high": "Deine Eingabe ist zu lang, sie darf maximal {{max}} sein.",
     "field-too-low": "Deine Eingabe ist zu kurz, sie muss mindestens {{min}} sein.",
-    "language-title": "Sprache",
+    "language-title": "Sprache der Teilnehmer*innen",
     "language": {
       "de": "Deutsch",
       "en": "Englisch",
       "fr": "Französisch"
     },
     "duration": "Dauer nach Start: {{duration}} Minuten ",
-    "allow-ideas": "Erlaube durchgehende Ideeneingabe",
-    "allow-rating": "Erlaube Bewertung ab Start",
-    "update": "Update"
+    "allow-ideas": "Ideeneingabe von Anfang an zulassen",
+    "allow-rating": "Ideenbewertung von Anfang an zulassen",
+    "update": "Aktualisieren"
   },
   "comment-list": {
     "a11y-access_time": "Sortiert Fragen nach der Uhrzeit",
@@ -92,7 +92,7 @@
     "add-idea": "Gib deine Idee ein!",
     "answered": "Beantwortete Fragen",
     "ask-brainstorm-empty": "Gib deine Idee ein!",
-    "ask-question-empty": "",
+    "ask-question-empty": "Motiviere dein Publikum, Fragen zu stellen!",
     "comment-deleted": "Der Beitrag wurde gelöscht.",
     "comment-number": "Q{{topLevelNumber}}/L{{level}}/A{{number}}",
     "comment-sent": "Dein Beitrag wurde veröffentlicht.",
@@ -285,7 +285,7 @@
     "notification-on-off": "Benachrichtigungen toggeln",
     "option-menue": "Weitere Optionen",
     "preview-comment": "Vorschau",
-    "preview-in-mock": "Vorschau auf einem Smartphone",
+    "preview-in-mock": "Smartphone-Vorschau",
     "questioner-name": "Selbst vergebener Name",
     "really-delete-answer": "Willst du deine Antwort wirklich löschen?",
     "reject": "In die Moderation verschieben",
@@ -373,7 +373,8 @@
     "overview-questioners-tooltip": "Anzahl Fragensteller*innen",
     "overview-admin-config-enabled": "Schwellenwerte für die Anzeige der Themen sind aktiv.",
     "overview-brainstormers-tooltip": "Brainstormer",
-    "overview-ideas-tooltip": "Ideen"
+    "overview-ideas-tooltip": "Ideen",
+    "brainstorming-button": "Was ist das?"
   },
   "home-page": {
     "create-session": "Neue Sitzung",
@@ -618,6 +619,7 @@
     "a11y-settings-direct-send": "Schieberegler, um Fragen sofort sichtbar zu machen.",
     "bonus-archive-enabled": "Bonus-Archiv aktivieren",
     "brainstorming-enabled": "Brainstorming aktivieren",
+    "note-on-changing-settings": "Du kannst alle Raumeinstellungen später noch unter »Optionen ➝ Meine Räume« ändern.",
     "cancel": "Abbrechen",
     "changes-gone-wrong": "Etwas ist schief gelaufen!",
     "changes-successful": "Änderungen gespeichert",
@@ -678,7 +680,7 @@
     "downvote-topic-brainstorming": "Gefällt mir nicht",
     "no-elements": "Die Wortwolke ist leer.",
     "overview-question-topic-tooltip": "Mehrfachnennungen",
-    "open-in-q-and-a": "Im Forum anzeigen",
+    "open-in-q-and-a": "Im Forum diskutieren",
     "overview-questioners-topic-tooltip": "Autor*innen",
     "period-since-first-comment": "Zeit seit dem ersten Beitrag",
     "print-title": "Wortwolke aus dem Raum »{{roomName}}«",
