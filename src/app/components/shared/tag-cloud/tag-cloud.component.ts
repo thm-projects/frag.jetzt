@@ -475,7 +475,12 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     this.sessionService
       .getCategories()
       .pipe(takeUntil(this.destroyer))
-      .subscribe((categories) => (this.brainstormingCategories = categories));
+      .subscribe((categories) => {
+        this.brainstormingCategories = categories;
+        this.brainstormingCategories.sort((a, b) =>
+          a.name.localeCompare(b.name, undefined, { sensitivity: 'base' }),
+        );
+      });
     forkJoin([
       this.sessionService.getRoomOnce(),
       this.sessionService.getModeratorsOnce(),
@@ -822,7 +827,9 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
                 '/comments/questionwall',
             ]);
           },
-          condition: () => this.userRole > UserRole.PARTICIPANT && !this.deviceInfo.isCurrentlyMobile,
+          condition: () =>
+            this.userRole > UserRole.PARTICIPANT &&
+            !this.deviceInfo.isCurrentlyMobile,
         });
         e.menuItem({
           translate: this.headerService.getTranslate(),
