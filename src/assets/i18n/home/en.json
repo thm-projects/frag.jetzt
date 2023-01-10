@@ -248,6 +248,8 @@
     "motd": "News",
     "my-account": "Options",
     "my-sessions": "My rooms",
+    "navigation": "Navigation [{{loc}}]",
+    "navigation-no-target": "Navigation",
     "not-in-own-view": "You are currently in the participant view. In the options you can switch back to your view.",
     "open-admin": "Create a message",
     "overview-admin-config-enabled": "Thresholds for displaying topics are active.",
