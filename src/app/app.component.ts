@@ -17,6 +17,8 @@ import {
 import { MatDialog } from '@angular/material/dialog';
 import { LoginComponent } from './components/shared/login/login.component';
 import { MotdDialogComponent } from './components/shared/_dialogs/motd-dialog/motd-dialog.component';
+import { Router } from '@angular/router';
+import { DeviceInfoService } from './services/util/device-info.service';
 
 @Component({
   selector: 'app-root',
@@ -26,6 +28,7 @@ import { MotdDialogComponent } from './components/shared/_dialogs/motd-dialog/mo
 export class AppComponent implements OnInit {
 
   public static rescale: Rescale = new Rescale();
+  public static instance: AppComponent;
   private static scrollAnimation = true;
   @ViewChild('headerElement')
   headerElement: ElementRef<HTMLElement>;
@@ -34,6 +37,7 @@ export class AppComponent implements OnInit {
   @ViewChild('scrollElement')
   scrollElement: ElementRef<HTMLElement>;
   title = 'frag.jetzt';
+  rescaleActive: boolean = false;
   private _lastScrollTop = 0;
 
   constructor(
@@ -44,7 +48,10 @@ export class AppComponent implements OnInit {
     private customIconService: CustomIconService,
     private eventService: EventService,
     private dialog: MatDialog,
+    public router: Router,
+    public deviceInfo: DeviceInfoService,
   ) {
+    AppComponent.instance = this;
     this.initDialogsForServices();
     customIconService.init();
   }

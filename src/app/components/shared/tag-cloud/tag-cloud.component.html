@@ -1,9 +1,23 @@
 <ars-screen ars-flex-box>
-  <mat-form-field id="idea-select">
-    <mat-label>Ideen-Filter:</mat-label>
+  <mat-form-field
+    id="idea-select"
+    *ngIf="
+      brainstormingActive &&
+      brainstormingData?.ideasFrozen &&
+      brainstormingData?.active
+    ">
+    <mat-label>
+      {{ "tag-cloud.brainstorming-idea-filter" | translate }}
+    </mat-label>
     <mat-select (selectionChange)="setIdeaFiltering($event.value)">
-      <mat-option [value]="null"><em>Alle</em></mat-option>
-      <mat-option [value]="''"><em>Ohne Kategorie</em></mat-option>
+      <mat-option [value]="null">
+        <em>{{ "tag-cloud.brainstorming-idea-all" | translate }}</em>
+      </mat-option>
+      <mat-option [value]="''">
+        <em>
+          {{ "tag-cloud.brainstorming-idea-without-category" | translate }}
+        </em>
+      </mat-option>
       <mat-option
         *ngFor="let category of brainstormingCategories"
         [value]="category.id">

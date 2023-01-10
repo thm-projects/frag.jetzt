@@ -53,6 +53,7 @@ main {
 }
 
 .rescale_overlay {
+  display: block;
   width: 180px;
   height: 50px;
   background-color: transparent;
@@ -60,11 +61,27 @@ main {
   outline: var(--primary) solid 3px;
   border-radius: 15px;
   position: fixed;
-  left: 50px !important;
-  top: 8px !important;
   z-index: 2;
-  display: none;
-  transition: all 0.2s ease-in-out;
+  transition: inset 0.2s ease-in-out, transform 0.2s ease-in-out;
+  left: 15px;
+  top: -200px;
+
+  &.above {
+    left: 15px;
+    top: 15px;
+  }
+
+  &.bottom-before {
+    left: 50%;
+    top: 100%;
+    transform: translate(-50%, 100%);
+  }
+
+  &.bottom {
+    left: 50%;
+    top: 100%;
+    transform: translate(-50%, -125%);
+  }
 }
 
 .rescale_overlay > button {

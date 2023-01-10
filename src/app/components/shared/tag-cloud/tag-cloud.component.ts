@@ -671,15 +671,6 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
       (e) => {
         e.menuItem({
           translate: this.headerService.getTranslate(),
-          icon: 'forum',
-          class: 'material-icons-outlined',
-          text: 'header.back-to-questionboard',
-          callback: () =>
-            this.router.navigate(['../'], { relativeTo: this.route }),
-          condition: () => true,
-        });
-        e.menuItem({
-          translate: this.headerService.getTranslate(),
           icon: 'format_paint',
           class: 'material-icons-filled',
           text: 'header.tag-cloud-config',
@@ -721,15 +712,6 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     const list: ComponentRef<any>[] = this.composeService.builder(
       this.headerService.getHost(),
       (e) => {
-        e.menuItem({
-          translate: this.headerService.getTranslate(),
-          icon: 'forum',
-          class: 'material-icons-outlined',
-          text: 'header.brainstorm-back-to-questionboard',
-          callback: () =>
-            this.router.navigate(['../'], { relativeTo: this.route }),
-          condition: () => true,
-        });
         e.menuItem({
           translate: this.headerService.getTranslate(),
           icon: 'question_mark',
