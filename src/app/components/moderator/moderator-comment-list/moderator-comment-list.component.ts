@@ -138,7 +138,7 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
     });
     this.sessionService.getRole().subscribe(role => {
       this.userRole = role;
-    })
+    });
     forkJoin([
       this.sessionService.getRoomOnce(),
       this.sessionService.getModeratorsOnce(),

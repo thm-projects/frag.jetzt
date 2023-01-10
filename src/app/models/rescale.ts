@@ -1,4 +1,4 @@
-import { AppComponent } from "app/app.component";
+import { AppComponent } from 'app/app.component';
 
 export class Rescale {
   private static isFullscreen: boolean;
@@ -154,10 +154,5 @@ export class Rescale {
 
   private getElem(name: string): HTMLElement {
     return document.getElementById(name);
-  }
-
-  private setOffsetRescaler(x: number, y: number) {
-    document.getElementById('overlay_rescale').style.left = x + 'px';
-    document.getElementById('overlay_rescale').style.top = y + 'px';
   }
 }
