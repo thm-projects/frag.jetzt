@@ -24,6 +24,7 @@ type Data = [BrainstormingWord, BrainstormingTopic][];
   providedIn: 'root',
 })
 export class BrainstormingDataService {
+  private ideaFilter: string | null = null;
   private readonly _currentMetaData: TagCloudMetaData = {
     tagCount: 0,
     commentCount: 0,
@@ -61,6 +62,17 @@ export class BrainstormingDataService {
     return this._dataBus.value;
   }
 
+  get ideaFiltering(): string | null {
+    return this.ideaFilter;
+  }
+
+  set ideaFiltering(filter: string | null) {
+    if (this.ideaFilter !== filter) {
+      this.ideaFilter = filter;
+      this.rebuildData();
+    }
+  }
+
   set filterObject(filter: FilteredDataAccess) {
     this._filterObject = filter;
     this._lastSubscription?.unsubscribe();
@@ -71,6 +83,7 @@ export class BrainstormingDataService {
 
   unloadCloud() {
     this._filterObject?.detach(true);
+    this.ideaFiltering = null;
   }
 
   blockWord(wordId: string) {
@@ -148,6 +161,7 @@ export class BrainstormingDataService {
       ),
       room.ownerId,
       session,
+      this.ideaFilter,
     );
     builder.addComments([...filteredComments]);
     const preData = builder.getData();

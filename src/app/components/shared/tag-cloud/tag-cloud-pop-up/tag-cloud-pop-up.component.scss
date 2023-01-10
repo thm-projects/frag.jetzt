@@ -159,7 +159,7 @@ button {
   }
 }
 
-.replace-button, .select-button, .open-button {
+.replace-button, .open-button {
   background-color: transparent;
   color: var(--primary);
   outline: var(--primary) solid 3px;
@@ -193,7 +193,7 @@ mat-form-field {
   border-radius: 5px;
   line-height: 80%;
   caret-color: var(--on-surface);
-  -webkit-appearance: textarea;
+  appearance: textarea;
   min-height: 30px;
   min-width: 140px;
   cursor: text;

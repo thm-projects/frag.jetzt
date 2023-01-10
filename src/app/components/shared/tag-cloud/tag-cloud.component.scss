@@ -1,6 +1,20 @@
 $header-size: 56px;
 $margin: 15px;
 
+#idea-select {
+  z-index: 2;
+  width: 90vw;
+  max-width: 20rem;
+  left: 50%;
+  top: $header-size;
+  transform: translate(-50%, 0);
+  background: var(--background);
+  border-radius: 5px;
+  outline: 5px solid var(--primary);
+  outline-offset: 0.2em;
+  font-size: 0.75em;
+}
+
 mat-drawer,
 .mat-drawer {
   background-color: var(--background);
@@ -102,6 +116,11 @@ app-tag-cloud-pop-up {
   line-height: unset;
   padding-right: 15px;
   hyphens: unset;
+  transition: inset 0.5s ease;
+
+  &.active {
+    top: calc(90px + 0.75em);
+  }
 }
 
 /* abril-fatface-regular - latin-ext */

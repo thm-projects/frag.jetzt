@@ -1,5 +1,6 @@
-export class Rescale {
+import { AppComponent } from 'app/app.component';
 
+export class Rescale {
   private static isFullscreen: boolean;
   private static isRescaleFullscreen: boolean;
 
@@ -115,7 +116,8 @@ export class Rescale {
   }
 
   private scaleUpdate() {
-    (document.getElementById('rescale_screen').style as any).zoom = this.scale + '';
+    (document.getElementById('rescale_screen').style as any).zoom =
+      this.scale + '';
   }
 
   private toggleHeader(b: boolean) {
@@ -147,25 +149,10 @@ export class Rescale {
   }
 
   private toggleRescaler(b: boolean) {
-    if (b) {
-      this.getElem('overlay_rescale').style.display = 'block';
-      setTimeout(() => {
-        this.setOffsetRescaler(15, 15);
-      }, 1);
-    } else {
-      this.setOffsetRescaler(15, -200);
-      setTimeout(() => {
-        this.getElem('overlay_rescale').style.display = 'none';
-      }, 200);
-    }
+    AppComponent.instance.rescaleActive = b;
   }
 
   private getElem(name: string): HTMLElement {
     return document.getElementById(name);
-  }
-
-  private setOffsetRescaler(x: number, y: number) {
-    document.getElementById('overlay_rescale').style.left = x + 'px';
-    document.getElementById('overlay_rescale').style.top = y + 'px';
   }
 }

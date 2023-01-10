@@ -27,6 +27,7 @@ export class BrainstormingDataBuilder {
     private readonly mods: Set<string>,
     private readonly roomOwner: string,
     private readonly session: BrainstormingSession,
+    private readonly ideaFilter: string | null,
   ) {}
 
   getData() {
@@ -53,6 +54,9 @@ export class BrainstormingDataBuilder {
         console.error('Unknown brainstorming entry:', comment);
         continue;
       }
+      if (!this.isAllowed(word.categoryId)) {
+        continue;
+      }
       const topic =
         this.data.get(word.id) ||
         this.data.set(word.id, new BrainstormingTopic()).get(word.id);
@@ -68,5 +72,15 @@ export class BrainstormingDataBuilder {
       topic.commentsByModerators += Number(this.mods.has(comment.creatorId));
       this.users.add(comment.creatorId);
     }
+  }
+
+  private isAllowed(categoryId: string) {
+    if (this.ideaFilter === null) {
+      return true;
+    }
+    if (!this.ideaFilter && !categoryId) {
+      return true;
+    }
+    return this.ideaFilter === categoryId;
   }
 }

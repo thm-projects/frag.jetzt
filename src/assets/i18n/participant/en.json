@@ -493,7 +493,10 @@
     "responses-to-keyword": "Number of all responses to this keyword",
     "ups-downs-difference": "Evaluation difference | {{upvotes}} 👍  {{downvotes}} 👎",
     "upvote-topic": "Up-votes for this keyword",
-    "upvote-topic-brainstorming": "I like"
+    "upvote-topic-brainstorming": "I like",
+    "brainstorming-idea-filter": "Ideas filter:",
+    "brainstorming-idea-all": "All",
+    "brainstorming-idea-without-category": "Without category"
   },
   "tag-cloud-config": {
     "alphabetical-sorting": "Alphabetical sorting",
@@ -651,21 +654,6 @@
     "word-is-not-profanity": "Word is not profane",
     "word-is-profanity": "Word is profane",
     "words-in-profanity": "Words in profanity filter"
-  },
-  "topic-cloud-filter": {
-    "info-no-keywords": "Our AI-based text analysis can identify keywords. Start analysis?",
-    "label-refresh-keywords-start": "Start",
-    "create": "Next",
-    "cancel": "Cancel",
-    "current-filter": "Filtered questions",
-    "current-filter-short": "Filtered questions",
-    "all-questions-and-answers": "All questions with answers",
-    "all-questions-and-answers-short": "All questions with answers",
-    "only-questions": "Questions only",
-    "only-questions-short": "Questions only",
-    "from-now": "Only questions from now on",
-    "from-now-short": "Only questions from now on",
-    "questions-title": "Which questions do you want on the radar?"
   },
   "user-bonus-token": {
     "bonus-token-body1": " from ",

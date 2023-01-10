@@ -272,10 +272,10 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit, OnDestroy 
     return !(tag.length < 1 || tag === this.tag);
   }
 
-  updateCategory(): void {
+  updateCategory(value: string): void {
     this.brainstormingService
       .patchWord(this.wordId, {
-        categoryId: this.selectedCategory || null,
+        categoryId: value || null,
       })
       .subscribe({
         complete: () => this.close(false),

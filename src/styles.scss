@@ -294,7 +294,7 @@ a {
   }
 }
 
-.mat-select-panel .mat-option.mat-selected:not(.mat-option-multiple) {
+.mat-select-panel .mat-option.mat-active:not(.mat-option-multiple) {
   background-color: var(--primary);
   color: var(--on-primary) !important;
 }
