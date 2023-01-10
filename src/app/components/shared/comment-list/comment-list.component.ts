@@ -40,8 +40,6 @@ import { DeviceInfoService } from '../../../services/util/device-info.service';
 import { ArsComposeService } from '../../../../../projects/ars/src/lib/services/ars-compose.service';
 import { HeaderService } from '../../../services/util/header.service';
 import { TagCloudDataService } from '../../../services/util/tag-cloud-data.service';
-import { Palette } from '../../../../theme/Theme';
-import { BonusTokenComponent } from '../../creator/_dialogs/bonus-token/bonus-token.component';
 import {
   BrainstormingFilter,
   FilterType,
