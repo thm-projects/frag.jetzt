@@ -8,6 +8,12 @@
   cursor: pointer;
 }
 
+#page-navigation {
+  color: var(--on-background);
+  margin-bottom: -1.25em;
+  margin-left: 0.5em;
+}
+
 mat-toolbar {
   background-color: var(--background);
   position: relative;
@@ -177,6 +183,25 @@ svg {
   > ::ng-deep button, ::ng-deep ars-mat-menu-item > button {
     background-color: transparent !important;
 
+    &.outside {
+      background-color: var(--dialog) !important;
+      color: var(--on-dialog) !important;
+    }
+
+    &.active-nav-button {
+      color: var(--on-primary) !important;
+      background-color: var(--primary) !important;
+
+      .mat-icon-no-color {
+        color: currentColor !important;
+      }
+
+      svg {
+        stroke: currentColor;
+        fill: currentColor;
+      }
+    }
+
     &:hover {
       color: var(--on-secondary) !important;
       background-color: var(--secondary) !important;
@@ -221,4 +246,28 @@ h1 {
   min-height: 28px;
   font-size: 14px;
   color: var(--on-surface);
+}
+
+.btn-red {
+  color: var(--red);
+  stroke: var(--red);
+  fill: var(--red);
+}
+
+.btn-green {
+  color: green;
+  stroke: green;
+  fill: green;
+}
+
+.btn-primary {
+  color: var(--primary);
+  stroke: var(--primary);
+  fill: var(--primary);
+}
+
+.btn-yellow {
+  color: var(--yellow);
+  stroke: var(--yellow);
+  fill: var(--yellow);
 }

@@ -57,7 +57,7 @@ import {
 } from '../../../utils/data-filter-object.lib';
 import { maskKeyword } from '../../../services/util/tag-cloud-data.util';
 import { FilteredDataAccess } from '../../../utils/filtered-data-access';
-import { forkJoin, Subscription, switchMap } from 'rxjs';
+import { forkJoin, Subject, Subscription, switchMap, takeUntil } from 'rxjs';
 import { UserManagementService } from '../../../services/util/user-management.service';
 import { BrainstormingBlacklistEditComponent } from '../_dialogs/brainstorming-blacklist-edit/brainstorming-blacklist-edit.component';
 import { BrainstormingTopic } from 'app/services/util/brainstorming-data-builder';
@@ -73,6 +73,7 @@ import {
   exportBrainstorming,
 } from 'app/utils/ImportExportMethods';
 import { BonusTokenService } from 'app/services/http/bonus-token.service';
+import { BrainstormingCategory } from 'app/models/brainstorming-category';
 
 class TagComment implements WordMeta {
   constructor(
@@ -132,6 +133,8 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
   createCommentWrapper: CreateCommentWrapper = null;
   brainstormingData: BrainstormingSession;
   brainstormingActive: boolean;
+  brainstormingCategories: BrainstormingCategory[];
+  private destroyer = new Subject();
   private _currentSettings: CloudParameters;
   private _subscriptionRoom = null;
   private readonly _smartDebounce = new SmartDebounce(50, 1_000);
@@ -191,6 +194,8 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
   }
 
   ngOnDestroy() {
+    this.destroyer.next(true);
+    this.destroyer.complete();
     this.dataManager.unloadCloud();
     const customTagCloudStyles = document.getElementById(
       'tagCloudStyles',
@@ -234,6 +239,10 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
 
   onResize(event: UIEvent): any {
     this.updateTagCloud();
+  }
+
+  setIdeaFiltering(value: string | null) {
+    this.brainDataManager.ideaFiltering = value;
   }
 
   canWriteComment(ignoreInternal = false): boolean {
@@ -364,19 +373,17 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
       (this._currentSettings.hoverTime + this._currentSettings.hoverDelay) *
       1_000;
     if (this.brainstormingActive) {
-      this.sessionService.getCategoriesOnce().subscribe((categories) => {
-        this.popup.enterBrainstorming(
-          word.element,
-          (word.meta as BrainstormComment).realText,
-          this.brainstormingData?.active,
-          this.brainstormingData?.ratingAllowed ||
-            this.userRole > UserRole.PARTICIPANT,
-          hoverDelay,
-          (word.meta as BrainstormComment).brainData,
-          (word.meta as BrainstormComment).wordId,
-          categories,
-        );
-      });
+      this.popup.enterBrainstorming(
+        word.element,
+        (word.meta as BrainstormComment).realText,
+        this.brainstormingData?.active,
+        this.brainstormingData?.ratingAllowed ||
+          this.userRole > UserRole.PARTICIPANT,
+        hoverDelay,
+        (word.meta as BrainstormComment).brainData,
+        (word.meta as BrainstormComment).wordId,
+        this.brainstormingCategories,
+      );
       return;
     }
     this.popup.enter(
@@ -465,6 +472,15 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
         this.user = newUser;
       }
     });
+    this.sessionService
+      .getCategories()
+      .pipe(takeUntil(this.destroyer))
+      .subscribe((categories) => {
+        this.brainstormingCategories = categories;
+        this.brainstormingCategories.sort((a, b) =>
+          a.name.localeCompare(b.name, undefined, { sensitivity: 'base' }),
+        );
+      });
     forkJoin([
       this.sessionService.getRoomOnce(),
       this.sessionService.getModeratorsOnce(),
@@ -660,15 +676,6 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
       (e) => {
         e.menuItem({
           translate: this.headerService.getTranslate(),
-          icon: 'forum',
-          class: 'material-icons-outlined',
-          text: 'header.back-to-questionboard',
-          callback: () =>
-            this.router.navigate(['../'], { relativeTo: this.route }),
-          condition: () => true,
-        });
-        e.menuItem({
-          translate: this.headerService.getTranslate(),
           icon: 'format_paint',
           class: 'material-icons-filled',
           text: 'header.tag-cloud-config',
@@ -712,15 +719,6 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
       (e) => {
         e.menuItem({
           translate: this.headerService.getTranslate(),
-          icon: 'forum',
-          class: 'material-icons-outlined',
-          text: 'header.brainstorm-back-to-questionboard',
-          callback: () =>
-            this.router.navigate(['../'], { relativeTo: this.route }),
-          condition: () => true,
-        });
-        e.menuItem({
-          translate: this.headerService.getTranslate(),
           icon: 'question_mark',
           class: 'material-icons-outlined',
           text: 'header.brainstorm-info',
@@ -745,7 +743,18 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
             text: 'header.brainstorm-stop',
           },
           ArsObserver.build<boolean>((emitter) => {
-            emitter.set(this.brainstormingData.ideasEndTimestamp !== null);
+            emitter.internalSet(
+              this.brainstormingData.ideasEndTimestamp !== null,
+            );
+            this.sessionService
+              .receiveRoomUpdates()
+              .pipe(takeUntil(this.destroyer))
+              .subscribe((room) => {
+                emitter.internalSet(
+                  (room.brainstormingSession?.ideasEndTimestamp ?? null) !==
+                    null,
+                );
+              });
             emitter.onChange((observer) => {
               this.brainstormingService
                 .patchSession(this.brainstormingData.id, {
@@ -777,7 +786,15 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
             text: 'header.brainstorm-unfreeze-ideas',
           },
           ArsObserver.build<boolean>((emitter) => {
-            emitter.set(this.brainstormingData.ideasFrozen ?? true);
+            emitter.internalSet(this.brainstormingData.ideasFrozen ?? true);
+            this.sessionService
+              .receiveRoomUpdates()
+              .pipe(takeUntil(this.destroyer))
+              .subscribe((room) => {
+                emitter.internalSet(
+                  room.brainstormingSession?.ideasFrozen ?? true,
+                );
+              });
             emitter.onChange((observer) => {
               this.brainstormingService
                 .patchSession(this.brainstormingData.id, {
@@ -810,7 +827,9 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
                 '/comments/questionwall',
             ]);
           },
-          condition: () => this.userRole > UserRole.PARTICIPANT && !this.deviceInfo.isCurrentlyMobile,
+          condition: () =>
+            this.userRole > UserRole.PARTICIPANT &&
+            !this.deviceInfo.isCurrentlyMobile,
         });
         e.menuItem({
           translate: this.headerService.getTranslate(),
@@ -834,37 +853,37 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
           class: 'material-icons-filled',
           text: 'header.brainstorm-categories',
           callback: () => {
-            this.sessionService.getCategoriesOnce().subscribe((categories) => {
-              const dialogRef = this.dialog.open(
-                BrainstormingCategoryEditorComponent,
-                {
-                  width: '400px',
-                },
-              );
-              dialogRef.componentInstance.tags = categories.map((c) => c.name);
-              dialogRef.afterClosed().subscribe((result) => {
-                if (!result || result === 'abort') {
-                  return;
-                }
-                this.brainstormingService
-                  .updateCategories(this.sessionService.currentRoom.id, result)
-                  .subscribe({
-                    next: () => {
-                      this.translateService
-                        .get('room-page.changes-successful')
-                        .subscribe((msg) => {
-                          this.notificationService.show(msg);
-                        });
-                    },
-                    error: () => {
-                      this.translateService
-                        .get('room-page.changes-gone-wrong')
-                        .subscribe((msg) => {
-                          this.notificationService.show(msg);
-                        });
-                    },
-                  });
-              });
+            const dialogRef = this.dialog.open(
+              BrainstormingCategoryEditorComponent,
+              {
+                width: '400px',
+              },
+            );
+            dialogRef.componentInstance.tags = this.brainstormingCategories.map(
+              (c) => c.name,
+            );
+            dialogRef.afterClosed().subscribe((result) => {
+              if (!result || result === 'abort') {
+                return;
+              }
+              this.brainstormingService
+                .updateCategories(this.sessionService.currentRoom.id, result)
+                .subscribe({
+                  next: () => {
+                    this.translateService
+                      .get('room-page.changes-successful')
+                      .subscribe((msg) => {
+                        this.notificationService.show(msg);
+                      });
+                  },
+                  error: () => {
+                    this.translateService
+                      .get('room-page.changes-gone-wrong')
+                      .subscribe((msg) => {
+                        this.notificationService.show(msg);
+                      });
+                  },
+                });
             });
           },
           condition: () => this.userRole > UserRole.PARTICIPANT,
