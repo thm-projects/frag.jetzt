@@ -161,7 +161,9 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     private roomDataService: RoomDataService,
     private brainstormingService: BrainstormingService,
     private bonusTokenService: BonusTokenService,
-  ) {}
+  ) {
+    this.brainstormingActive = this.router.url.endsWith('/brainstorming');
+  }
 
   get tagCloudDataManager(): TagCloudDataService {
     return this.dataManager;
@@ -292,10 +294,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     const newElements = [];
     const data = this.brainDataManager.currentData;
     for (const topic of data) {
-      this.createBrainTagElement(
-        topic,
-        newElements,
-      );
+      this.createBrainTagElement(topic, newElements);
     }
     this.data = newElements;
     setTimeout(() => {
@@ -618,7 +617,12 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
             this.writeComment();
             this.translateService
               .get('tag-cloud.write-last-idea')
-              .subscribe((msg) => this.notificationService.show(msg));
+              .subscribe((msg) =>
+                this.notificationService.show(msg, undefined, {
+                  duration: 12_500,
+                  panelClass: ['snackbar', 'important'],
+                }),
+              );
           }
         }, 1_000);
       }
