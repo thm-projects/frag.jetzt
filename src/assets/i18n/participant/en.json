@@ -277,6 +277,7 @@
     "overview-admin-config-enabled": "Thresholds for displaying topics are active.",
     "overview-brainstormers-tooltip": "Brainstormers",
     "overview-ideas-tooltip": "Number of ideas",
+    "navigation": "Navigation [{{loc}}]",
     "back-button": "Back",
     "back-to-questionboard": "Q&A forum",
     "questionwall": "Question focus",
