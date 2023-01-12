@@ -1,30 +1,38 @@
-import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild, } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  Input,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import {
   EditorChangeContent,
   EditorChangeSelection,
   QuillEditorComponent,
   QuillModules,
-  QuillViewComponent
+  QuillViewComponent,
 } from 'ngx-quill';
-import { LanguageService } from '../../../services/util/language.service';
-import { TranslateService } from '@ngx-translate/core';
-import { DeviceInfoService } from '../../../services/util/device-info.service';
-import { MatDialog } from '@angular/material/dialog';
-import { QuillInputDialogComponent } from '../_dialogs/quill-input-dialog/quill-input-dialog.component';
-import { Marks } from './view-comment-data.marks';
-import { LanguagetoolResult } from '../../../services/http/languagetool.service';
-import { NotificationService } from '../../../services/util/notification.service';
-import { AccessibilityEscapedInputDirective } from '../../../directives/accessibility-escaped-input.directive';
-import { EventService } from '../../../services/util/event.service';
-import { MatTooltip } from '@angular/material/tooltip';
-import { QuillUtils, StandardDelta } from '../../../utils/quill-utils';
-import { ReplaySubject, takeUntil } from 'rxjs';
-import { HighlightLibrary } from 'ngx-highlightjs/lib/highlight.model';
-
+import {LanguageService} from '../../../services/util/language.service';
+import {TranslateService} from '@ngx-translate/core';
+import {DeviceInfoService} from '../../../services/util/device-info.service';
+import {MatDialog} from '@angular/material/dialog';
+import {QuillInputDialogComponent} from '../_dialogs/quill-input-dialog/quill-input-dialog.component';
+import {Marks} from './view-comment-data.marks';
+import {LanguagetoolResult} from '../../../services/http/languagetool.service';
+import {NotificationService} from '../../../services/util/notification.service';
+import {AccessibilityEscapedInputDirective} from '../../../directives/accessibility-escaped-input.directive';
+import {EventService} from '../../../services/util/event.service';
+import {MatTooltip} from '@angular/material/tooltip';
+import {QuillUtils, StandardDelta} from '../../../utils/quill-utils';
+import {ReplaySubject, takeUntil} from 'rxjs';
+import {HighlightLibrary} from 'ngx-highlightjs/lib/highlight.model';
 
 import Quill from 'quill';
 import ImageResize from 'quill-image-resize-module';
-import { DsgvoVideo } from '../../../quill-extentions/formats/dsgvo-video';
+import {DsgvoVideo} from '../../../quill-extentions/formats/dsgvo-video';
+import {FullscreenImageDialogComponent} from '../_dialogs/fullscreen-image-dialog/fullscreen-image-dialog.component';
 
 Quill.register('modules/imageResize', ImageResize);
 Quill.register('formats/dsgvo-video', DsgvoVideo);
@@ -32,16 +40,18 @@ Quill.register('formats/dsgvo-video', DsgvoVideo);
 @Component({
   selector: 'app-view-comment-data',
   templateUrl: './view-comment-data.component.html',
-  styleUrls: ['./view-comment-data.component.scss']
+  styleUrls: ['./view-comment-data.component.scss'],
 })
-export class ViewCommentDataComponent implements OnInit, AfterViewInit, OnDestroy {
-
+export class ViewCommentDataComponent
+  implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('editor') editor: QuillEditorComponent;
   @ViewChild('quillView') quillView: QuillViewComponent;
   @ViewChild('editorErrorLayer') editorErrorLayer: ElementRef<HTMLDivElement>;
   @ViewChild('tooltipContainer') tooltipContainer: ElementRef<HTMLDivElement>;
-  @ViewChild('moderatorToolbarFontColor') moderatorToolbarFontColor: ElementRef<HTMLSelectElement>;
-  @ViewChild('moderatorToolbarFontColorTooltip') moderatorToolbarFontColorTooltip: MatTooltip;
+  @ViewChild('moderatorToolbarFontColor')
+  moderatorToolbarFontColor: ElementRef<HTMLSelectElement>;
+  @ViewChild('moderatorToolbarFontColorTooltip')
+  moderatorToolbarFontColorTooltip: MatTooltip;
   @Input() textOverwrite: string = null;
   @Input() isEditor = false;
   @Input() isBrainstorming = false;
@@ -61,21 +71,24 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit, OnDestro
   private _marks: Marks;
   private _destroyer = new ReplaySubject(1);
   private _mutateObserver: MutationObserver;
-  private readonly DEFAULT_VALUE: StandardDelta = { ops: [{ insert: '\n' }] };
+  private readonly DEFAULT_VALUE: StandardDelta = {ops: [{insert: '\n'}]};
 
   constructor(
     private languageService: LanguageService,
     private translateService: TranslateService,
     private deviceInfo: DeviceInfoService,
     private eventService: EventService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
   ) {
     DsgvoVideo.translator = translateService;
-    this.languageService.getLanguage().pipe(takeUntil(this._destroyer)).subscribe(_ => {
-      if (this.isEditor) {
-        this.updateCSSVariables();
-      }
-    });
+    this.languageService
+      .getLanguage()
+      .pipe(takeUntil(this._destroyer))
+      .subscribe((_) => {
+        if (this.isEditor) {
+          this.updateCSSVariables();
+        }
+      });
   }
 
   get initialized(): boolean {
@@ -99,23 +112,29 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit, OnDestro
     translateService: TranslateService,
     notificationService: NotificationService,
     maxTextCharacters: number,
-    maxDataCharacters: number
+    maxDataCharacters: number,
   ): boolean {
     text = text.trim();
     if (QuillUtils.getContentCount(data) < 1) {
-      translateService.get('comment-page.error-comment').subscribe(message => {
-        notificationService.show(message);
-      });
+      translateService
+        .get('comment-page.error-comment')
+        .subscribe((message) => {
+          notificationService.show(message);
+        });
       return false;
     } else if (text.length > maxTextCharacters) {
-      translateService.get('comment-page.error-comment-text').subscribe(message => {
-        notificationService.show(message);
-      });
+      translateService
+        .get('comment-page.error-comment-text')
+        .subscribe((message) => {
+          notificationService.show(message);
+        });
       return false;
     } else if (QuillUtils.serializeDelta(data).length > maxDataCharacters) {
-      translateService.get('comment-page.error-comment-data').subscribe(message => {
-        notificationService.show(message);
-      });
+      translateService
+        .get('comment-page.error-comment-data')
+        .subscribe((message) => {
+          notificationService.show(message);
+        });
       return false;
     }
     return true;
@@ -125,12 +144,13 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit, OnDestro
     const isMobile = this.deviceInfo.isUserAgentMobile;
     const hljs = window['hljs'] as HighlightLibrary;
     this.quillModules.syntax = {
-      highlight: (text) => hljs ? hljs.highlightAuto(text, undefined).value : text,
+      highlight: (text) =>
+        hljs ? hljs.highlightAuto(text, undefined).value : text,
     } as unknown as boolean;
     if (this.isEditor) {
       this.quillModules['emoji-toolbar'] = !isMobile;
       this.quillModules.imageResize = {
-        modules: ['Resize', 'DisplaySize']
+        modules: ['Resize', 'DisplaySize'],
       };
       this.hasEmoji = !isMobile;
     }
@@ -141,18 +161,38 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit, OnDestro
 
   ngAfterViewInit() {
     if (!this.isEditor) {
-      if (this.quillView.editorElem) {
+      const startup = () => {
         this.set(this._currentData);
+        this.quillView.editorElem.addEventListener('click', (e) => {
+          const target = e.target;
+          if (target instanceof HTMLImageElement && target?.['__blot']?.blot) {
+            const ref = this.dialog.open(FullscreenImageDialogComponent);
+            ref.componentInstance.src = target.src;
+            document.body.requestFullscreen();
+            ref.afterClosed().subscribe({
+              next: () => {
+                document.exitFullscreen();
+              }
+            });
+          }
+        });
+      };
+      if (this.quillView.editorElem) {
+        startup();
         return;
       }
-      this.quillView.onEditorCreated.subscribe(_ => {
-        this.set(this._currentData);
+      this.quillView.onEditorCreated.subscribe((_) => {
+        startup();
       });
       return;
     }
     let wasLastPaste = false;
     const initEditor = () => {
-      this._marks = new Marks(this.editorErrorLayer.nativeElement, this.tooltipContainer.nativeElement, this.editor);
+      this._marks = new Marks(
+        this.editorErrorLayer.nativeElement,
+        this.tooltipContainer.nativeElement,
+        this.editor,
+      );
       if (this._currentData) {
         this.set(this._currentData);
       }
@@ -163,7 +203,7 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit, OnDestro
       });
       new AccessibilityEscapedInputDirective(
         new ElementRef(this.editor.editorElem.firstElementChild as HTMLElement),
-        this.eventService
+        this.eventService,
       ).ngAfterViewInit();
       this.initMaterialTooltip();
       this.overrideQuillTooltip();
@@ -174,14 +214,14 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit, OnDestro
     if (this.editor.editorElem) {
       initEditor();
     } else {
-      this.editor.onEditorCreated.subscribe(_ => initEditor());
+      this.editor.onEditorCreated.subscribe((_) => initEditor());
     }
-    this.editor.onContentChanged.subscribe(e => {
+    this.editor.onContentChanged.subscribe((e) => {
       this._marks.onDataChange(e.delta);
       this._currentData = e.content;
       this.currentText = e.text;
     });
-    this.editor.onEditorChanged.subscribe(e => {
+    this.editor.onEditorChanged.subscribe((e) => {
       wasLastPaste = this.onEditorChange(e, wasLastPaste);
     });
   }
@@ -202,16 +242,18 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit, OnDestro
 
   clear(): void {
     if (this.isEditor) {
-      this.editor.quillEditor.setContents({ ops: [] });
+      this.editor.quillEditor.setContents({ops: []});
     } else {
-      this.quillView.quillEditor.setContents({ ops: [] });
+      this.quillView.quillEditor.setContents({ops: []});
     }
   }
 
   set(delta: StandardDelta): void {
     if (!this._mutateObserver) {
       this._mutateObserver = new MutationObserver(this.onMutate.bind(this));
-      const target = this.isEditor ? this.editor.editorElem : this.quillView.editorElem;
+      const target = this.isEditor
+        ? this.editor.editorElem
+        : this.quillView.editorElem;
       this._mutateObserver.observe(target.firstElementChild, {
         childList: true,
       });
@@ -225,10 +267,12 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit, OnDestro
   }
 
   recalcAspectRatio() {
-    const elem = this.isEditor ? this.editor.editorElem.firstElementChild : this.quillView.editorElem.firstElementChild;
+    const elem = this.isEditor
+      ? this.editor.editorElem.firstElementChild
+      : this.quillView.editorElem.firstElementChild;
     elem.querySelectorAll('.images .ql-video').forEach((e: HTMLElement) => {
       const width = parseFloat(window.getComputedStyle(e).width);
-      e.style.height = (width * 9 / 16) + 'px';
+      e.style.height = (width * 9) / 16 + 'px';
     });
   }
 
@@ -251,15 +295,20 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit, OnDestro
   }
 
   private initMaterialTooltip() {
-    const tooltip = this.moderatorToolbarFontColor?.nativeElement?.previousElementSibling;
+    const tooltip =
+      this.moderatorToolbarFontColor?.nativeElement?.previousElementSibling;
     if (!tooltip) {
       return;
     }
     this.moderatorToolbarFontColor.nativeElement.style.opacity = '0';
-    tooltip.addEventListener('mouseenter', () => this.moderatorToolbarFontColorTooltip?.show());
-    tooltip.addEventListener('mouseleave', () => this.moderatorToolbarFontColorTooltip?.hide());
+    tooltip.addEventListener('mouseenter', () =>
+      this.moderatorToolbarFontColorTooltip?.show(),
+    );
+    tooltip.addEventListener('mouseleave', () =>
+      this.moderatorToolbarFontColorTooltip?.hide(),
+    );
     const picker = tooltip.querySelector('.ql-picker-options');
-    tooltip.addEventListener('mouseover', e => {
+    tooltip.addEventListener('mouseover', (e) => {
       if (picker.contains(e.target as Node)) {
         this.moderatorToolbarFontColorTooltip?.hide();
       } else {
@@ -268,7 +317,10 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit, OnDestro
     });
   }
 
-  private onEditorChange(e: EditorChangeContent | EditorChangeSelection, wasLastPaste: boolean): boolean {
+  private onEditorChange(
+    e: EditorChangeContent | EditorChangeSelection,
+    wasLastPaste: boolean,
+  ): boolean {
     if (e.event === 'text-change' && wasLastPaste) {
       wasLastPaste = false;
       this.cleanContentOnPaste(e);
@@ -279,14 +331,15 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit, OnDestro
     if (tooltip) {
       setTimeout(() => {
         let left = parseFloat(tooltip.style.left);
-        const containerWidth = this.editor.editorElem.getBoundingClientRect().width;
+        const containerWidth =
+          this.editor.editorElem.getBoundingClientRect().width;
         if (left < 0) {
           tooltip.style.left = '0';
           left = 0;
         }
         const right = left + tooltip.getBoundingClientRect().width;
         if (right > containerWidth) {
-          tooltip.style.left = (containerWidth - right + left) + 'px';
+          tooltip.style.left = containerWidth - right + left + 'px';
         }
       });
     }
@@ -297,14 +350,14 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit, OnDestro
     if (event.source !== 'user') {
       return;
     }
-    const newDelta = { ops: [] };
+    const newDelta = {ops: []};
     for (const deltaObj of event.delta.ops) {
       if (deltaObj.retain) {
-        newDelta.ops.push({ retain: deltaObj.retain });
+        newDelta.ops.push({retain: deltaObj.retain});
         continue;
       }
       if (deltaObj.delete) {
-        newDelta.ops.push({ delete: deltaObj.delete });
+        newDelta.ops.push({delete: deltaObj.delete});
         continue;
       }
       if (!deltaObj.insert) {
@@ -314,7 +367,7 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit, OnDestro
       if (lastObj?.insert) {
         lastObj.insert += deltaObj.insert;
       } else {
-        newDelta.ops.push({ insert: deltaObj.insert });
+        newDelta.ops.push({insert: deltaObj.insert});
       }
     }
     this.editor.quillEditor.setContents(event.oldDelta, 'silent');
@@ -335,7 +388,7 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit, OnDestro
           const len = op['insert'].length;
           currentSize += len;
           if (sel.index < currentSize) {
-            range = { index: start, length: len };
+            range = {index: start, length: len};
             break;
           }
         } else {
@@ -349,13 +402,13 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit, OnDestro
         const ops = [];
         const startIndex = range.index;
         if (startIndex > 0) {
-          ops.push({ retain: startIndex });
+          ops.push({retain: startIndex});
         }
         ops.push({
           retain: range.length,
-          attributes: { link: val },
+          attributes: {link: val},
         });
-        this.editor.quillEditor.updateContents({ ops });
+        this.editor.quillEditor.updateContents({ops});
       });
     };
   }
@@ -381,8 +434,8 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit, OnDestro
         selection,
         quill,
         meta,
-        overrideAction
-      }
+        overrideAction,
+      },
     });
   }
 
@@ -395,22 +448,31 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit, OnDestro
   }
 
   private updateCSSVariables() {
-    const variables = ['quill.tooltip-remove', 'quill.tooltip-action', 'quill.tooltip-label'];
+    const variables = [
+      'quill.tooltip-remove',
+      'quill.tooltip-action',
+      'quill.tooltip-label',
+    ];
     for (const variable of variables) {
-      this.translateService.get(variable).subscribe(translation => {
-        document.body.style.setProperty('--' + variable.replace('.', '-'), JSON.stringify(translation));
+      this.translateService.get(variable).subscribe((translation) => {
+        document.body.style.setProperty(
+          '--' + variable.replace('.', '-'),
+          JSON.stringify(translation),
+        );
       });
     }
   }
 
   private onMutate(mutations: MutationRecord[], _observer: MutationObserver) {
     for (const mutation of mutations) {
-      Array.from(mutation.addedNodes).forEach(node => {
-        if (node instanceof HTMLPreElement && node.classList.contains('ql-syntax')) {
+      Array.from(mutation.addedNodes).forEach((node) => {
+        if (
+          node instanceof HTMLPreElement &&
+          node.classList.contains('ql-syntax')
+        ) {
           node.classList.toggle('hljs', true);
         }
       });
     }
   }
-
 }

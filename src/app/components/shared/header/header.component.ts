@@ -46,6 +46,9 @@ import { RoomSettingsOverviewComponent } from '../_dialogs/room-settings-overvie
 import { BonusTokenComponent } from 'app/components/creator/_dialogs/bonus-token/bonus-token.component';
 import { TopicCloudFilterComponent } from '../_dialogs/topic-cloud-filter/topic-cloud-filter.component';
 import { RoomDataFilter } from 'app/utils/data-filter-object.lib';
+import { Theme } from 'theme/Theme';
+import { MatMenu } from '@angular/material/menu';
+import { LanguageService } from 'app/services/util/language.service';
 
 interface LocationData {
   id: string;
@@ -89,6 +92,7 @@ const USER_REGEX = /^\/user\/?$/i;
 })
 export class HeaderComponent implements OnInit, AfterViewInit {
   @ViewChild(ArsComposeHostDirective) host: ArsComposeHostDirective;
+  @ViewChild('themeMenu') themeMenu: MatMenu;
   user: ManagedUser;
   userRole: UserRole;
   cTime: string;
@@ -102,6 +106,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   hasEmailNotifications = false;
   hasKeywords = false;
   possibleLocationsEmpty = false;
+  themes: Theme[];
   readonly possibleLocations: AppLocation[] = [
     {
       id: 'back',
@@ -385,6 +390,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     private commentNotificationService: CommentNotificationService,
     private startUpService: StartUpService,
     private brainstormingDataService: BrainstormingDataService,
+    public langService: LanguageService,
   ) {}
 
   ngAfterViewInit() {
@@ -394,6 +400,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     this.router.events
       .pipe(filter((e) => e instanceof NavigationEnd))
       .subscribe(observer);
+    this.themes = this.themeService.getThemes();
   }
 
   ngOnInit() {
@@ -684,5 +691,24 @@ export class HeaderComponent implements OnInit, AfterViewInit {
       }
     });
     this.possibleLocationsEmpty = !anyTrue;
+  }
+
+  openMenu() {
+    const active = this.themeService.activeTheme.key;
+    const index = this.themes.findIndex((theme) => theme.key === active);
+    if (index < 0) {
+      return;
+    }
+    this.themeMenu._allItems.get(index).focus();
+  }
+
+  changeTheme(theme: Theme) {
+    this.themeService.activate(theme.key);
+    this.updateScale(theme.getScale(this.deviceInfo.isCurrentlyMobile ? 'mobile' : 'desktop'));
+  }
+
+  updateScale(scale: number) {
+    AppComponent.rescale.setInitialScale(scale);
+    AppComponent.rescale.setDefaultScale(scale);
   }
 }

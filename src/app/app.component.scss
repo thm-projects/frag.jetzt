@@ -56,31 +56,35 @@ main {
   display: block;
   width: 180px;
   height: 50px;
-  background-color: transparent;
+  background-color: var(--background);
   color: var(--primary);
-  outline: var(--primary) solid 3px;
+  outline: var(--primary) solid 2px;
   border-radius: 15px;
   position: fixed;
   z-index: 2;
-  transition: inset 0.2s ease-in-out, transform 0.2s ease-in-out;
+  transition: inset 1.0s ease-in-out, transform 0.2s ease-in-out;
   left: 15px;
   top: -200px;
+  display: none;
 
   &.above {
     left: 15px;
-    top: 15px;
+    top: 70px;
+    display: block;
   }
 
   &.bottom-before {
     left: 50%;
     top: 100%;
     transform: translate(-50%, 100%);
+    display: block;
   }
 
   &.bottom {
     left: 50%;
-    top: 100%;
+    top: 80%;
     transform: translate(-50%, -125%);
+    display: block;
   }
 }
 

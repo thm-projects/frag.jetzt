@@ -94,7 +94,6 @@ class BrainstormComment implements WordMeta {
     public weight: number,
     public brainData: BrainstormingTopic,
     public index: number,
-    public wordId: string,
   ) {}
 }
 
@@ -162,7 +161,9 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     private roomDataService: RoomDataService,
     private brainstormingService: BrainstormingService,
     private bonusTokenService: BonusTokenService,
-  ) {}
+  ) {
+    this.brainstormingActive = this.router.url.endsWith('/brainstorming');
+  }
 
   get tagCloudDataManager(): TagCloudDataService {
     return this.dataManager;
@@ -292,13 +293,8 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     }
     const newElements = [];
     const data = this.brainDataManager.currentData;
-    for (const [word, topic] of data) {
-      this.createBrainTagElement(
-        topic,
-        word.id,
-        word.correctedWord || word.word,
-        newElements,
-      );
+    for (const topic of data) {
+      this.createBrainTagElement(topic, newElements);
     }
     this.data = newElements;
     setTimeout(() => {
@@ -355,7 +351,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
       }
       filter.sourceFilterBrainstorming = BrainstormingFilter.OnlyBrainstorming;
       filter.filterType = FilterType.BrainstormingIdea;
-      filter.filterCompare = (tag as BrainstormComment).wordId;
+      filter.filterCompare = [...(tag as BrainstormComment).brainData.words];
     } else {
       filter.filterType = FilterType.Keyword;
       filter.filterCompare = (tag as TagComment).realText;
@@ -381,7 +377,6 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
           this.userRole > UserRole.PARTICIPANT,
         hoverDelay,
         (word.meta as BrainstormComment).brainData,
-        (word.meta as BrainstormComment).wordId,
         this.brainstormingCategories,
       );
       return;
@@ -476,7 +471,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
       .getCategories()
       .pipe(takeUntil(this.destroyer))
       .subscribe((categories) => {
-        this.brainstormingCategories = categories;
+        this.brainstormingCategories = categories || [];
         this.brainstormingCategories.sort((a, b) =>
           a.name.localeCompare(b.name, undefined, { sensitivity: 'base' }),
         );
@@ -565,8 +560,6 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
 
   private createBrainTagElement(
     topicData: BrainstormingTopic,
-    wordId: string,
-    tag: string,
     newElements: BrainstormComment[],
   ) {
     let rotation =
@@ -575,7 +568,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     if (rotation === null || this._currentSettings.randomAngles) {
       rotation = Math.floor(Math.random() * 30 - 15);
     }
-    let filteredTag = tag;
+    let filteredTag = topicData.preview;
     if (filteredTag.length > this.brainstormingData.maxWordLength) {
       filteredTag =
         filteredTag.substring(0, this.brainstormingData.maxWordLength - 1) +
@@ -584,12 +577,11 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     newElements.push(
       new BrainstormComment(
         filteredTag,
-        tag,
+        topicData.preview,
         rotation,
         topicData.weight,
         topicData,
         newElements.length,
-        wordId,
       ),
     );
   }
@@ -625,7 +617,12 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
             this.writeComment();
             this.translateService
               .get('tag-cloud.write-last-idea')
-              .subscribe((msg) => this.notificationService.show(msg));
+              .subscribe((msg) =>
+                this.notificationService.show(msg, undefined, {
+                  duration: 12_500,
+                  panelClass: ['snackbar', 'important'],
+                }),
+              );
           }
         }, 1_000);
       }
