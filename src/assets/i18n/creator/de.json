@@ -173,7 +173,8 @@
     "thursday": "Donnerstag",
     "title": "Mail-Benachrichtigung",
     "tuesday": "Dienstag",
-    "wednesday": "Mittwoch"
+    "wednesday": "Mittwoch",
+    "needs-user-account": "Du benötigst ein Konto mit einer E-Mail-Adresse, um Benachrichtigungen zu erhalten!"
   },
   "comment-page": {
     "a11y-comment-answer": "Antwort dieser Frage ansehen",
@@ -681,6 +682,7 @@
     "no-elements": "Die Wortwolke ist leer.",
     "overview-question-topic-tooltip": "Mehrfachnennungen",
     "open-in-q-and-a": "Im Forum diskutieren",
+    "show-comments-by-topic": "Zu den Fragen mit diesem Stichwort …",
     "overview-questioners-topic-tooltip": "Autor*innen",
     "period-since-first-comment": "Zeit seit dem ersten Beitrag",
     "print-title": "Wortwolke aus dem Raum »{{roomName}}«",

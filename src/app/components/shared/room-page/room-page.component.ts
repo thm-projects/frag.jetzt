@@ -268,10 +268,18 @@ export class RoomPageComponent implements OnInit, OnDestroy {
   }
 
   openEmailNotification(): void {
-    const dialogRef = this.dialog.open(CommentNotificationDialogComponent, {
-      minWidth: '80%'
-    });
-    dialogRef.componentInstance.room = this.room;
+    if (!this.user?.loginId) {
+      this.translateService
+        .get('comment-notification.needs-user-account')
+        .subscribe((msg) =>
+          this.notificationService.show(msg, undefined, {
+            duration: 7000,
+            panelClass: ['snackbar', 'important'],
+          }),
+        );
+      return;
+    }
+    CommentNotificationDialogComponent.openDialog(this.dialog, this.room);
   }
 
   deleteRoom(): void {
@@ -474,7 +482,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
         isSVGIcon: false,
         text: 'room-list.email-notification',
         callback: () => this.openEmailNotification(),
-        condition: () => !!this.user?.loginId
+        condition: () => !!this.user
       });
       e.menuItem({
         translate: this.headerService.getTranslate(),

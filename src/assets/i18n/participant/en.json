@@ -126,7 +126,8 @@
     "thursday": "Thursday",
     "title": "Email notification",
     "tuesday": "Tuesday",
-    "wednesday": "Wednesday"
+    "wednesday": "Wednesday",
+    "needs-user-account": "You need an account with an email address to receive notifications!"
   },
   "comment-page": {
     "a11y-comment-answer": "View Answer",
@@ -499,6 +500,7 @@
     "no-elements": "The word cloud is empty.",
     "overview-question-topic-tooltip": "Multiple entries",
     "open-in-q-and-a": "Discuss in the forum",
+    "show-comments-by-topic": "To the questions with this keyword …",
     "overview-questioners-topic-tooltip": "Authors",
     "period-since-first-comment": "Time since the first contribution",
     "print-title": "Word cloud from room »{{roomName}}«",

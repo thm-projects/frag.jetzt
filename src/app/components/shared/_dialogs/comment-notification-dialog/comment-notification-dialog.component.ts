@@ -1,6 +1,6 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Room } from '../../../../models/room';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../../services/util/language.service';
 import { CommentNotificationService } from '../../../../services/http/comment-notification.service';
@@ -49,6 +49,14 @@ export class CommentNotificationDialogComponent implements OnInit, OnDestroy {
       this.translateService.get('comment-notification.setting-inactive')
         .subscribe(text => this.settingInactive = text);
     });
+  }
+
+  static openDialog(dialog: MatDialog, room: Room): MatDialogRef<CommentNotificationDialogComponent> {
+    const dialogRef = dialog.open(CommentNotificationDialogComponent, {
+      minWidth: '80%'
+    });
+    dialogRef.componentInstance.room = room;
+    return dialogRef;
   }
 
   private static notificationSettingToDate(notificationSetting: number): Date {

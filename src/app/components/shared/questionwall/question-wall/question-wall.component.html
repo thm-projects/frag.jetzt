@@ -209,11 +209,11 @@
                                       ars-flex-box>
                 <ars-col ars-btn-wrp
                          [xp]="32"
-                         *ngIf="commentFocus.creatorId !== user?.id || commentFocus.totalAnswerCounts.accumulated > 0"
+                         *ngIf="(commentFocus.creatorId !== user?.id && !commentFocus.brainstormingWordId) || commentFocus.totalAnswerCounts.accumulated > 0"
                          [extra]="true"
                          class="questionwall-comment-btn">
                   <button ars-btn
-                          *ngIf="commentFocus.creatorId !== user?.id"
+                          *ngIf="commentFocus.creatorId !== user?.id && !commentFocus.brainstormingWordId"
                           (click)="likeComment(commentFocus)"
                           class="qw-fade-animation"
                           matRipple>
@@ -221,7 +221,7 @@
                     <p style="padding-left: 4px;">{{commentFocus.upvotes}}</p>
                   </button>
                   <button ars-btn
-                          *ngIf="commentFocus.creatorId !== user?.id"
+                          *ngIf="commentFocus.creatorId !== user?.id && !commentFocus.brainstormingWordId"
                           (click)="dislikeComment(commentFocus)"
                           class="qw-fade-animation"
                           matRipple>
@@ -470,17 +470,17 @@
                           <ars-col ars-btn-wrp
                                    [xp]="16"
                                    [extra]="true"
-                                   *ngIf="comment.creatorId !== user?.id || comment.totalAnswerCounts.accumulated > 0"
+                                   *ngIf="(comment.creatorId !== user?.id && !comment.brainstormingWordId) || comment.totalAnswerCounts.accumulated > 0"
                                    class="questionwall-comment-btn">
                             <button ars-btn
-                                    *ngIf="comment.creatorId !== user?.id"
+                                    *ngIf="comment.creatorId !== user?.id && !comment.brainstormingWordId"
                                     (click)="likeComment(comment)"
                                     matRipple>
                               <mat-icon>thumb_up</mat-icon>
                               <p style="padding-left:4px;">{{comment.upvotes}}</p>
                             </button>
                             <button ars-btn
-                                    *ngIf="comment.creatorId !== user?.id"
+                                    *ngIf="comment.creatorId !== user?.id && !comment.brainstormingWordId"
                                     (click)="dislikeComment(comment)"
                                     matRipple>
                               <mat-icon>thumb_down</mat-icon>

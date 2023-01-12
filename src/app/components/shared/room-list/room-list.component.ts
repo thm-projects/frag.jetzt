@@ -9,7 +9,10 @@ import { EventService } from '../../../services/util/event.service';
 import { ModeratorService } from '../../../services/http/moderator.service';
 import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
-import { CommentService, RoomQuestionCounts } from '../../../services/http/comment.service';
+import {
+  CommentService,
+  RoomQuestionCounts,
+} from '../../../services/http/comment.service';
 import { NotificationService } from '../../../services/util/notification.service';
 import { TranslateService } from '@ngx-translate/core';
 import { RemoveFromHistoryComponent } from '../_dialogs/remove-from-history/remove-from-history.component';
@@ -30,16 +33,18 @@ import { UserManagementService } from '../../../services/util/user-management.se
 
 type SortFunc<T> = (a: T, b: T) => number;
 
-const generateMultiSortFunc = <T>(...funcs: SortFunc<T>[]): SortFunc<T> => (a, b) => {
-  let value = 0;
-  for (const func of funcs) {
-    value = func(a, b);
-    if (value !== 0) {
-      break;
+const generateMultiSortFunc =
+  <T>(...funcs: SortFunc<T>[]): SortFunc<T> =>
+  (a, b) => {
+    let value = 0;
+    for (const func of funcs) {
+      value = func(a, b);
+      if (value !== 0) {
+        break;
+      }
     }
-  }
-  return value;
-};
+    return value;
+  };
 
 @Component({
   selector: 'app-room-list',
@@ -62,9 +67,8 @@ export class RoomListComponent implements OnInit, OnDestroy {
 
   currentSort: Sort = {
     direction: 'asc',
-    active: 'name'
+    active: 'name',
   };
-  hasEmail = false;
   private urlToCopy = `${window.location.protocol}//${window.location.host}/participant/room/`;
 
   constructor(
@@ -78,21 +82,24 @@ export class RoomListComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     private bonusTokenService: BonusTokenService,
     private commentNotificationService: CommentNotificationService,
-  ) {
-  }
+  ) {}
 
   ngOnInit() {
-    this.userManagementService.getUser().pipe(
-      filter(user => !!user),
-      take(1)
-    ).subscribe(user => {
-      this.user = user;
-      this.hasEmail = !!user.loginId;
-      this.getRooms();
-    });
-    this.sub = this.eventService.on<any>('RoomDeleted').subscribe(payload => {
-      this.rooms = this.rooms.filter(r => r.id !== payload.id);
-      this.roomsWithRole = this.roomsWithRole.filter(r => r.id !== payload.id);
+    this.userManagementService
+      .getUser()
+      .pipe(
+        filter((user) => !!user),
+        take(1),
+      )
+      .subscribe((user) => {
+        this.user = user;
+        this.getRooms();
+      });
+    this.sub = this.eventService.on<any>('RoomDeleted').subscribe((payload) => {
+      this.rooms = this.rooms.filter((r) => r.id !== payload.id);
+      this.roomsWithRole = this.roomsWithRole.filter(
+        (r) => r.id !== payload.id,
+      );
     });
   }
 
@@ -102,52 +109,74 @@ export class RoomListComponent implements OnInit, OnDestroy {
 
   showModeratorsDialog(room: Room): void {
     const dialogRef = this.dialog.open(ModeratorsComponent, {
-      width: '400px'
+      width: '400px',
     });
     dialogRef.componentInstance.roomId = room.id;
     dialogRef.componentInstance.isCreator = room['role'] === 3;
   }
 
   getRooms(): void {
-    this.roomService.getParticipantRooms(this.user.id).subscribe(rooms => this.updateRoomList(rooms));
-    this.roomService.getCreatorRooms(this.user.id).subscribe(rooms => this.updateRoomList(rooms));
+    this.roomService
+      .getParticipantRooms(this.user.id)
+      .subscribe((rooms) => this.updateRoomList(rooms));
+    this.roomService
+      .getCreatorRooms(this.user.id)
+      .subscribe((rooms) => this.updateRoomList(rooms));
   }
 
   updateRoomList(rooms: Room[]) {
     this.rooms = this.rooms.concat(rooms);
-    const newRooms = rooms.map(room => {
+    const newRooms = rooms.map((room) => {
       const roomWithRole: RoomRoleMixin = room as RoomRoleMixin;
       if (room.ownerId === this.user.id) {
         roomWithRole.role = UserRole.CREATOR;
-        this.userManagementService.setAccess(room.shortId, room.id, UserRole.CREATOR);
+        this.userManagementService.setAccess(
+          room.shortId,
+          room.id,
+          UserRole.CREATOR,
+        );
         return roomWithRole;
       }
       roomWithRole.role = UserRole.PARTICIPANT;
-      this.moderatorService.get(room.id).subscribe((moderators: Moderator[]) => {
-        if (moderators.some(m => m.accountId === this.user.id)) {
-          this.userManagementService.setAccess(room.shortId, room.id, UserRole.EXECUTIVE_MODERATOR);
-          roomWithRole.role = UserRole.EXECUTIVE_MODERATOR;
-        } else {
-          this.userManagementService.setAccess(room.shortId, room.id, UserRole.PARTICIPANT);
-        }
-      });
+      this.moderatorService
+        .get(room.id)
+        .subscribe((moderators: Moderator[]) => {
+          if (moderators.some((m) => m.accountId === this.user.id)) {
+            this.userManagementService.setAccess(
+              room.shortId,
+              room.id,
+              UserRole.EXECUTIVE_MODERATOR,
+            );
+            roomWithRole.role = UserRole.EXECUTIVE_MODERATOR;
+          } else {
+            this.userManagementService.setAccess(
+              room.shortId,
+              room.id,
+              UserRole.PARTICIPANT,
+            );
+          }
+        });
       return roomWithRole;
     });
     this.roomsWithRole = this.roomsWithRole.concat(newRooms);
     this.isLoading = false;
-    const ids = newRooms.map(r => r.id);
-    this.commentService.countByRoomId(ids.map(id => ({ roomId: id, ack: true }))).subscribe(counts => {
-      const cache = {} as { [key in string]: RoomQuestionCounts };
-      counts.forEach((count, i) => cache[ids[i]] = count);
-      newRooms.forEach(r => {
-        r.commentCount = cache[r.id]?.questionCount || 0;
-        r.responseCount = cache[r.id]?.responseCount || 0;
+    const ids = newRooms.map((r) => r.id);
+    this.commentService
+      .countByRoomId(ids.map((id) => ({ roomId: id, ack: true })))
+      .subscribe((counts) => {
+        const cache = {} as { [key in string]: RoomQuestionCounts };
+        counts.forEach((count, i) => (cache[ids[i]] = count));
+        newRooms.forEach((r) => {
+          r.commentCount = cache[r.id]?.questionCount || 0;
+          r.responseCount = cache[r.id]?.responseCount || 0;
+        });
       });
-    });
     for (const room of newRooms) {
-      this.commentNotificationService.findByRoomId(room.id).subscribe(value => {
-        room.hasNotifications = !!value?.length;
-      });
+      this.commentNotificationService
+        .findByRoomId(room.id)
+        .subscribe((value) => {
+          room.hasNotifications = !!value?.length;
+        });
     }
     this.updateTable();
   }
@@ -162,38 +191,44 @@ export class RoomListComponent implements OnInit, OnDestroy {
     });
     dialogRef.componentInstance.roomName = room.name;
     dialogRef.componentInstance.role = room.role;
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result === 'remove') {
         if (room.role < 3) {
           this.removeFromHistory(room);
         } else {
           this.deleteRoom(room);
         }
-        this.rooms = this.rooms.filter(r => r.id !== room.id);
-        this.roomsWithRole = this.roomsWithRole.filter(r => r.id !== room.id);
+        this.rooms = this.rooms.filter((r) => r.id !== room.id);
+        this.roomsWithRole = this.roomsWithRole.filter((r) => r.id !== room.id);
         this.updateTable();
       } else {
-        this.translateService.get('room-list.canceled-remove').subscribe(msg => {
-          this.notificationService.show(msg);
-        });
+        this.translateService
+          .get('room-list.canceled-remove')
+          .subscribe((msg) => {
+            this.notificationService.show(msg);
+          });
       }
     });
   }
 
   deleteRoom(room: Room) {
     this.roomService.deleteRoom(room.id).subscribe(() => {
-      this.translateService.get('room-list.room-successfully-deleted').subscribe(msg => {
-        this.notificationService.show(msg);
-      });
+      this.translateService
+        .get('room-list.room-successfully-deleted')
+        .subscribe((msg) => {
+          this.notificationService.show(msg);
+        });
     });
   }
 
   removeFromHistory(room: Room) {
     this.userManagementService.removeAccess(room.shortId);
     this.roomService.removeFromHistory(room.id).subscribe(() => {
-      this.translateService.get('room-list.room-successfully-removed').subscribe(msg => {
-        this.notificationService.show(msg);
-      });
+      this.translateService
+        .get('room-list.room-successfully-removed')
+        .subscribe((msg) => {
+          this.notificationService.show(msg);
+        });
     });
   }
 
@@ -213,24 +248,44 @@ export class RoomListComponent implements OnInit, OnDestroy {
     if (this.currentSort?.direction) {
       switch (this.currentSort.active) {
         case 'name':
-          data.sort(this.generateSortFunc('name', this.currentSort.direction === 'desc'));
+          data.sort(
+            this.generateSortFunc(
+              'name',
+              this.currentSort.direction === 'desc',
+            ),
+          );
           break;
         case 'shortId':
-          data.sort(this.generateSortFunc('shortId', this.currentSort.direction === 'desc'));
+          data.sort(
+            this.generateSortFunc(
+              'shortId',
+              this.currentSort.direction === 'desc',
+            ),
+          );
           break;
         case 'role':
-          data.sort(generateMultiSortFunc(
-            this.generateSortFunc('role', this.currentSort.direction === 'desc'),
-            this.generateSortFunc('name', false)
-          ));
+          data.sort(
+            generateMultiSortFunc(
+              this.generateSortFunc(
+                'role',
+                this.currentSort.direction === 'desc',
+              ),
+              this.generateSortFunc('name', false),
+            ),
+          );
           break;
       }
     }
     const previousFilter = this.tableDataSource?.filter;
-    this.tableDataSource = new MatTableDataSource(previousFilter ? data.filter(elem =>
-      elem.name.toLowerCase().includes(previousFilter) ||
-      elem.shortId.toLowerCase().includes(previousFilter)
-    ) : data);
+    this.tableDataSource = new MatTableDataSource(
+      previousFilter
+        ? data.filter(
+            (elem) =>
+              elem.name.toLowerCase().includes(previousFilter) ||
+              elem.shortId.toLowerCase().includes(previousFilter),
+          )
+        : data,
+    );
   }
 
   sortData(sort: Sort): void {
@@ -244,24 +299,36 @@ export class RoomListComponent implements OnInit, OnDestroy {
   }
 
   openNotifications(room: Room) {
-    const dialogRef = this.dialog.open(CommentNotificationDialogComponent, {
-      minWidth: '80%'
-    });
-    dialogRef.componentInstance.room = room;
+    if (!this.user?.loginId) {
+      this.translateService
+        .get('comment-notification.needs-user-account')
+        .subscribe((msg) =>
+          this.notificationService.show(msg, undefined, {
+            duration: 7000,
+            panelClass: ['snackbar', 'important'],
+          }),
+        );
+      return;
+    }
+    CommentNotificationDialogComponent.openDialog(this.dialog, room);
   }
 
   exportCsv(room: Room) {
-    this.moderatorService.get(room.id).subscribe(mods => {
-      exportRoom(this.translateService,
+    this.moderatorService.get(room.id).subscribe((mods) => {
+      exportRoom(
+        this.translateService,
         this.notificationService,
         this.bonusTokenService,
         this.commentService,
         'room-export',
         this.user,
         room,
-        new Set<string>(mods.map(mod => mod.accountId))
-      ).subscribe(text => {
-        copyCSVString(text[0], room.name + '-' + room.shortId + '-' + text[1] + '.csv');
+        new Set<string>(mods.map((mod) => mod.accountId)),
+      ).subscribe((text) => {
+        copyCSVString(
+          text[0],
+          room.name + '-' + room.shortId + '-' + text[1] + '.csv',
+        );
       });
     });
   }
@@ -269,7 +336,7 @@ export class RoomListComponent implements OnInit, OnDestroy {
   openBonusTokens(room: Room) {
     console.assert(room['role'] > UserRole.PARTICIPANT);
     const dialogRef = this.dialog.open(BonusTokenComponent, {
-      width: '400px'
+      width: '400px',
     });
     dialogRef.componentInstance.room = room;
   }
@@ -281,7 +348,7 @@ export class RoomListComponent implements OnInit, OnDestroy {
     });
     ref.componentInstance.room = room;
     ref.componentInstance.awaitComplete = true;
-    ref.afterClosed().subscribe(data => {
+    ref.afterClosed().subscribe((data) => {
       if (typeof data === 'object') {
         for (const key of Object.keys(data)) {
           room[key] = data[key];
@@ -292,30 +359,42 @@ export class RoomListComponent implements OnInit, OnDestroy {
 
   openMyBonusTokens() {
     const dialogRef = this.dialog.open(UserBonusTokenComponent, {
-      width: '600px'
+      width: '600px',
     });
     dialogRef.componentInstance.userId = this.user.id;
   }
 
   copyShortId(room: Room): void {
-    navigator.clipboard.writeText(`${this.urlToCopy}${room.shortId}`).then(() => {
-      this.translateService.get('header.session-id-copied').subscribe(msg => {
-        this.notificationService.show(msg, '', { duration: 2000 });
-      });
-    }, () => {
-      console.log('Clipboard write failed.');
-    });
+    navigator.clipboard.writeText(`${this.urlToCopy}${room.shortId}`).then(
+      () => {
+        this.translateService
+          .get('header.session-id-copied')
+          .subscribe((msg) => {
+            this.notificationService.show(msg, '', { duration: 2000 });
+          });
+      },
+      () => {
+        console.log('Clipboard write failed.');
+      },
+    );
   }
 
-  private generateSortFunc(name: string, reverse: boolean): SortFunc<RoomRoleMixin> {
+  private generateSortFunc(
+    name: string,
+    reverse: boolean,
+  ): SortFunc<RoomRoleMixin> {
     const factor = reverse ? -1 : 1;
     switch (name) {
       case 'name':
         return (a, b) =>
-          factor * a.name.localeCompare(b.name, undefined, { sensitivity: 'base' });
+          factor *
+          a.name.localeCompare(b.name, undefined, { sensitivity: 'base' });
       case 'shortId':
         return (a, b) =>
-          factor * a.shortId.localeCompare(b.shortId, undefined, { sensitivity: 'base' });
+          factor *
+          a.shortId.localeCompare(b.shortId, undefined, {
+            sensitivity: 'base',
+          });
       case 'role':
         return (a, b) => factor * (a.role - b.role);
     }

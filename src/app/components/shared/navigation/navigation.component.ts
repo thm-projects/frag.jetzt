@@ -19,7 +19,7 @@ import { SessionService } from 'app/services/util/session.service';
 import { StartUpService } from 'app/services/util/start-up.service';
 import { UserManagementService } from 'app/services/util/user-management.service';
 import { RoomDataFilter } from 'app/utils/data-filter-object.lib';
-import { filter, ReplaySubject, Subject, takeUntil } from 'rxjs';
+import { filter, ReplaySubject, takeUntil } from 'rxjs';
 import { QrCodeDialogComponent } from '../_dialogs/qr-code-dialog/qr-code-dialog.component';
 import { RoomSettingsOverviewComponent } from '../_dialogs/room-settings-overview/room-settings-overview.component';
 import { TopicCloudBrainstormingComponent } from '../_dialogs/topic-cloud-brainstorming/topic-cloud-brainstorming.component';
