@@ -19,7 +19,6 @@ import { DeleteCommentsComponent } from './_dialogs/delete-comments/delete-comme
 import { BonusDeleteComponent } from './_dialogs/bonus-delete/bonus-delete.component';
 import { MarkdownModule } from 'ngx-markdown';
 import { DeleteAnswerComponent } from './_dialogs/delete-answer/delete-answer.component';
-import { QuestionWallComponent } from '../shared/questionwall/question-wall/question-wall.component';
 import { ArsModule } from '../../../../projects/ars/src/lib/ars.module';
 import { MatRippleModule } from '@angular/material/core';
 import { ProfanitySettingsComponent } from './_dialogs/profanity-settings/profanity-settings.component';
@@ -68,7 +67,6 @@ export const HttpLoaderFactory = (http: HttpClient) => new TranslateHttpLoader(h
     DeleteCommentComponent,
     BonusDeleteComponent,
     DeleteAnswerComponent,
-    QuestionWallComponent,
     ProfanitySettingsComponent,
     RoomDescriptionSettingsComponent,
     RoomNameSettingsComponent,

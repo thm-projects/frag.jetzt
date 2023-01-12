@@ -6,9 +6,8 @@ import {
   ViewChild,
 } from '@angular/core';
 import { NotificationService } from '../../../services/util/notification.service';
-import { NavigationEnd, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { UserRole } from '../../../models/user-roles.enum';
-import { Location } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
 import { MatDialog } from '@angular/material/dialog';
 import { LoginComponent } from '../login/login.component';
@@ -21,7 +20,6 @@ import { KeyboardUtils } from '../../../utils/keyboard';
 import { KeyboardKey } from '../../../utils/keyboard/keys';
 import { UserBonusTokenComponent } from '../../participant/_dialogs/user-bonus-token/user-bonus-token.component';
 import { RemindOfTokensComponent } from '../../participant/_dialogs/remind-of-tokens/remind-of-tokens.component';
-import { QrCodeDialogComponent } from '../_dialogs/qr-code-dialog/qr-code-dialog.component';
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
 import { RoomService } from '../../../services/http/room.service';
 import { Room } from '../../../models/room';
@@ -41,49 +39,14 @@ import {
 } from '../../../services/util/user-management.service';
 import { StartUpService } from '../../../services/util/start-up.service';
 import { BrainstormingDataService } from 'app/services/util/brainstorming-data.service';
-import { filter } from 'rxjs';
-import { RoomSettingsOverviewComponent } from '../_dialogs/room-settings-overview/room-settings-overview.component';
-import { BonusTokenComponent } from 'app/components/creator/_dialogs/bonus-token/bonus-token.component';
-import { TopicCloudFilterComponent } from '../_dialogs/topic-cloud-filter/topic-cloud-filter.component';
-import { RoomDataFilter } from 'app/utils/data-filter-object.lib';
 import { Theme } from 'theme/Theme';
 import { MatMenu } from '@angular/material/menu';
 import { LanguageService } from 'app/services/util/language.service';
-
-interface LocationData {
-  id: string;
-  accessible: boolean;
-  active: boolean;
-}
-
-interface PossibleLocation {
-  i18n: string;
-  icon?: string;
-  svgIcon?: string;
-  class?: string;
-  outside?: boolean;
-  isCurrentRoute: (route: string) => boolean;
-  canBeAccessedOnRoute: (route: string) => boolean;
-  navigate: (route: string) => void;
-}
-
-type AppLocation = PossibleLocation & LocationData;
-
-const ROOM_REGEX = /^\/(creator|moderator|participant)\/room\/([^/]*)\/?/i;
-const COMMENTS_REGEX =
-  /^\/(creator|moderator|participant)\/room\/[^/]*\/comments\/?$/i;
-const MODERATION_REGEX =
-  /^\/(creator|moderator|participant)\/room\/[^/]*\/moderator\/comments\/?$/i;
-const FOCUS_REGEX =
-  /^\/(creator|moderator|participant)\/room\/[^/]*\/comments\/questionwall\/?$/i;
-const RADAR_REGEX =
-  /^\/(creator|moderator|participant)\/room\/[^/]*\/comments\/tagcloud\/?$/i;
-const BRAINSTORMING_REGEX =
-  /^\/(creator|moderator|participant)\/room\/[^/]*\/comments\/brainstorming\/?$/i;
-const QUIZ_REGEX = /^\/quiz\/?$/i;
-const RECEPTION_REGEX =
-  /^\/(creator|moderator|participant)\/room\/([^/]*)\/?$/i;
-const USER_REGEX = /^\/user\/?$/i;
+import {
+  getBrainstormingURL,
+  navigateBrainstorming,
+  navigateTopicCloud,
+} from '../navigation/navigation.component';
 
 @Component({
   selector: 'app-header',
@@ -105,270 +68,10 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   isInRouteWithRoles = false;
   hasEmailNotifications = false;
   hasKeywords = false;
-  possibleLocationsEmpty = false;
   themes: Theme[];
-  readonly possibleLocations: AppLocation[] = [
-    {
-      id: 'back',
-      accessible: true,
-      active: false,
-      i18n: 'header.back-button',
-      icon: 'arrow_back',
-      isCurrentRoute: () => false,
-      canBeAccessedOnRoute: (route) => route !== '/home',
-      navigate: () => {
-        this.goBack();
-      },
-    },
-    {
-      id: 'forum',
-      accessible: false,
-      active: false,
-      i18n: 'header.back-to-questionboard',
-      icon: 'forum',
-      class: 'material-icons-outlined',
-      isCurrentRoute: (route) => COMMENTS_REGEX.test(route),
-      canBeAccessedOnRoute: (route) => ROOM_REGEX.test(route),
-      navigate: (route) => {
-        const data = route.match(ROOM_REGEX);
-        this.router.navigate([`${data[1]}/room/${data[2]}/comments`]);
-      },
-    },
-    {
-      id: 'moderation',
-      accessible: false,
-      active: false,
-      i18n: 'header.moderationboard',
-      icon: 'gavel',
-      class: 'material-icons-round',
-      isCurrentRoute: (route) => MODERATION_REGEX.test(route),
-      canBeAccessedOnRoute: (route) =>
-        ROOM_REGEX.test(route) &&
-        this.sessionService.currentRole > UserRole.PARTICIPANT,
-      navigate: (route) => {
-        const data = route.match(ROOM_REGEX);
-        this.router.navigate([`${data[1]}/room/${data[2]}/moderator/comments`]);
-      },
-    },
-    {
-      id: 'focus',
-      accessible: false,
-      active: false,
-      i18n: 'header.questionwall',
-      svgIcon: 'beamer',
-      isCurrentRoute: (route) => FOCUS_REGEX.test(route),
-      canBeAccessedOnRoute: (route) => ROOM_REGEX.test(route),
-      navigate: (route) => {
-        const data = route.match(ROOM_REGEX);
-        this.router.navigate([
-          `participant/room/${data[2]}/comments/questionwall`,
-        ]);
-      },
-    },
-    {
-      id: 'radar',
-      accessible: false,
-      active: false,
-      i18n: 'header.tag-cloud',
-      icon: 'radar',
-      isCurrentRoute: (route) => RADAR_REGEX.test(route),
-      canBeAccessedOnRoute: (route) => ROOM_REGEX.test(route),
-      navigate: () => {
-        this.navigateTopicCloud();
-      },
-    },
-    {
-      id: 'brainstorming',
-      accessible: false,
-      active: false,
-      i18n: 'header.brainstorming',
-      icon: 'tips_and_updates',
-      class: 'btn-green',
-      isCurrentRoute: (route) => BRAINSTORMING_REGEX.test(route),
-      canBeAccessedOnRoute: (route) =>
-        ROOM_REGEX.test(route) && this.room?.brainstormingActive,
-      navigate: (route) => {
-        if (BRAINSTORMING_REGEX.test(route)) {
-          return;
-        }
-        if (this.sessionService.currentRole > UserRole.PARTICIPANT) {
-          this.navigateBrainstorming();
-          return;
-        }
-        const data = route.match(ROOM_REGEX);
-        this.router.navigate([
-          `${data[1]}/room/${data[2]}/comments/brainstorming`,
-        ]);
-      },
-    },
-    {
-      id: 'quiz',
-      accessible: false,
-      active: false,
-      i18n: 'header.quiz-now',
-      icon: 'rocket_launch',
-      isCurrentRoute: (route) => QUIZ_REGEX.test(route),
-      canBeAccessedOnRoute: () => this.room?.quizActive,
-      navigate: () => {
-        this.router.navigate(['/quiz']);
-      },
-    },
-    {
-      id: 'reception',
-      accessible: false,
-      active: false,
-      i18n: 'header.back-to-room',
-      icon: 'checkroom',
-      class: 'material-icons-outlined',
-      isCurrentRoute: (route) =>
-        RECEPTION_REGEX.test(route) &&
-        this.sessionService.currentRole === UserRole.PARTICIPANT,
-      canBeAccessedOnRoute: (route) =>
-        ROOM_REGEX.test(route) &&
-        this.sessionService.currentRole === UserRole.PARTICIPANT,
-      navigate: (route) => {
-        const data = route.match(ROOM_REGEX);
-        this.router.navigate([`${data[1]}/room/${data[2]}`]);
-      },
-    },
-    {
-      id: 'room management',
-      accessible: false,
-      active: false,
-      i18n: 'header.back-to-room-moderator',
-      icon: 'settings',
-      class: 'material-icons-outlined',
-      isCurrentRoute: (route) =>
-        RECEPTION_REGEX.test(route) &&
-        this.sessionService.currentRole > UserRole.PARTICIPANT,
-      canBeAccessedOnRoute: (route) =>
-        ROOM_REGEX.test(route) &&
-        this.sessionService.currentRole > UserRole.PARTICIPANT,
-      navigate: (route) => {
-        const data = route.match(ROOM_REGEX);
-        this.router.navigate([`${data[1]}/room/${data[2]}`]);
-      },
-    },
-    {
-      id: 'rooms',
-      accessible: false,
-      active: false,
-      i18n: 'header.my-sessions',
-      icon: 'meeting_room',
-      class: 'material-icons-outlined',
-      outside: true,
-      isCurrentRoute: (route) => USER_REGEX.test(route),
-      canBeAccessedOnRoute: () =>
-        Boolean(this.userManagementService.getCurrentUser()),
-      navigate: () => {
-        this.router.navigate(['/user']);
-      },
-    },
-    {
-      id: 'user stars',
-      accessible: false,
-      active: false,
-      i18n: 'header.user-bonus-token',
-      icon: 'grade',
-      class: 'btn-yellow',
-      outside: true,
-      isCurrentRoute: () => false,
-      canBeAccessedOnRoute: (route) =>
-        Boolean(this.userManagementService.getCurrentUser()) &&
-        (!ROOM_REGEX.test(route) ||
-          this.sessionService.currentRole === UserRole.PARTICIPANT),
-      navigate: () => {
-        this.openUserBonusTokenDialog();
-      },
-    },
-    {
-      id: 'bonus archive',
-      accessible: false,
-      active: false,
-      i18n: 'header.bonustoken',
-      icon: 'grade',
-      class: 'btn-yellow',
-      outside: true,
-      isCurrentRoute: () => false,
-      canBeAccessedOnRoute: (route) =>
-        ROOM_REGEX.test(route) &&
-        this.sessionService.currentRole > UserRole.PARTICIPANT &&
-        this.room?.bonusArchiveActive,
-      navigate: () => {
-        const dialogRef = this.dialog.open(BonusTokenComponent, {
-          width: '400px',
-        });
-        dialogRef.componentInstance.room = this.room;
-      },
-    },
-    {
-      id: 'qr code',
-      accessible: false,
-      active: false,
-      i18n: 'header.room-qr',
-      icon: 'qr_code',
-      outside: true,
-      isCurrentRoute: () => false,
-      canBeAccessedOnRoute: (route) => ROOM_REGEX.test(route),
-      navigate: () => {
-        this.showQRDialog();
-      },
-    },
-    {
-      id: 'room settings',
-      accessible: false,
-      active: false,
-      i18n: 'room-list.settings-overview',
-      icon: 'room_preferences',
-      class: 'btn-primary',
-      outside: true,
-      isCurrentRoute: () => false,
-      canBeAccessedOnRoute: (route) =>
-        ROOM_REGEX.test(route) &&
-        this.sessionService.currentRole > UserRole.PARTICIPANT,
-      navigate: () => {
-        const ref = this.dialog.open(RoomSettingsOverviewComponent, {
-          width: '600px',
-        });
-        ref.componentInstance.room = this.room;
-      },
-    },
-    {
-      id: 'news',
-      accessible: false,
-      active: false,
-      i18n: 'header.motd',
-      icon: 'campaign',
-      class: 'material-icons-outlined',
-      outside: true,
-      isCurrentRoute: () => false,
-      canBeAccessedOnRoute: () =>
-        Boolean(this.userManagementService.getCurrentUser()),
-      navigate: () => {
-        this.startUpService.openMotdDialog();
-      },
-    },
-    {
-      id: 'logout',
-      accessible: false,
-      active: false,
-      i18n: 'header.logout',
-      icon: 'logout',
-      class: 'btn-red',
-      outside: true,
-      isCurrentRoute: () => false,
-      canBeAccessedOnRoute: () =>
-        Boolean(this.userManagementService.getCurrentUser()),
-      navigate: () => {
-        this.userManagementService.logout();
-      },
-    },
-  ];
-  currentLocation: PossibleLocation;
   private _clockCount = 0;
 
   constructor(
-    public location: Location,
     public userManagementService: UserManagementService,
     public notificationService: NotificationService,
     public router: Router,
@@ -378,7 +81,6 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     public eventService: EventService,
     private bonusTokenService: BonusTokenService,
     private _r: Renderer2,
-    private confirmDialog: MatDialog,
     private roomService: RoomService,
     public topicCloudAdminService: TopicCloudAdminService,
     public headerService: HeaderService,
@@ -395,11 +97,6 @@ export class HeaderComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.headerService.initHeader(() => this);
-    const observer = { next: () => this.refreshLocations() };
-    this.sessionService.getRole().subscribe(observer);
-    this.router.events
-      .pipe(filter((e) => e instanceof NavigationEnd))
-      .subscribe(observer);
     this.themes = this.themeService.getThemes();
   }
 
@@ -436,7 +133,6 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     });
     this.userManagementService.getUser().subscribe((newUser) => {
       this.user = newUser;
-      this.refreshLocations();
     });
 
     let time = new Date();
@@ -507,7 +203,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
       });
       dialogRef.afterClosed().subscribe((result) => {
         if (result === 'abort') {
-          this.openUserBonusTokenDialog();
+          UserBonusTokenComponent.openDialog(this.dialog, this.user?.id);
         } else if (result === 'logout') {
           this.logoutUser();
         }
@@ -517,10 +213,6 @@ export class HeaderComponent implements OnInit, AfterViewInit {
 
   logoutUser() {
     this.userManagementService.logout();
-  }
-
-  goBack() {
-    this.location.back();
   }
 
   startTour() {
@@ -550,15 +242,12 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     });
   }
 
-  openUserBonusTokenDialog() {
-    const dialogRef = this.dialog.open(UserBonusTokenComponent, {
-      width: '600px',
-    });
-    dialogRef.componentInstance.userId = this.user.id;
-  }
-
   startUpFinished() {
     return this.sessionService.isReady;
+  }
+
+  openUserBonusTokenDialog() {
+    UserBonusTokenComponent.openDialog(this.dialog, this.user?.id);
   }
 
   /*Rescale*/
@@ -569,24 +258,6 @@ export class HeaderComponent implements OnInit, AfterViewInit {
    */
   public getRescale(): Rescale {
     return AppComponent.rescale;
-  }
-
-  /*QR*/
-
-  public getURL(): string {
-    return `${location.origin}/participant/room/${this.room?.shortId}`;
-  }
-
-  public showQRDialog() {
-    Rescale.requestFullscreen();
-    const dialogRef = this.dialog.open(QrCodeDialogComponent, {
-      panelClass: 'screenDialog',
-    });
-    dialogRef.componentInstance.data = this.getURL();
-    dialogRef.componentInstance.key = this.room?.shortId;
-    dialogRef.afterClosed().subscribe((res) => {
-      Rescale.exitFullscreen();
-    });
   }
 
   public navigateQuestionBoard() {
@@ -614,39 +285,22 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     this.router.navigate([url.replace(/^\/[^\/]+\//gim, newRoute)]);
   }
 
-  public navigateTopicCloud() {
-    const url = decodeURI(this.router.url);
-    if (RADAR_REGEX.test(url)) {
-      return;
-    }
-    const data = url.match(ROOM_REGEX);
-    this.eventService.broadcast('save-comment-filter');
-    const confirmDialogRef = this.dialog.open(TopicCloudFilterComponent, {
-      autoFocus: false,
-      data: {
-        filterObject: RoomDataFilter.loadFilter('commentList'),
-      },
-    });
-    confirmDialogRef.componentInstance.target = `${data[1]}/room/${data[2]}/comments/tagcloud`;
-    confirmDialogRef.componentInstance.userRole = this.userRole;
+  navigateCloud() {
+    navigateTopicCloud(
+      this.router,
+      this.eventService,
+      this.dialog,
+      this.userRole,
+    );
   }
 
-  public navigateBrainstorming() {
-    const confirmDialogRef = this.confirmDialog.open(
-      TopicCloudBrainstormingComponent,
-      {
-        autoFocus: false,
-      },
-    );
-
-    const data = decodeURI(this.router.url).match(ROOM_REGEX);
-    confirmDialogRef.componentInstance.target = `${data[1]}/room/${data[2]}/comments/brainstorming`;
-    confirmDialogRef.componentInstance.userRole = this.userRole;
+  public navigateBrainstormingDialog() {
+    navigateBrainstorming(this.dialog, this.router, this.userRole);
   }
 
   public navigateBrainstormingDirectly() {
     this.router.navigate([
-      this.router.url.split('/', 4).join('/') + '/comments/brainstorming',
+      getBrainstormingURL(decodeURI(this.router.url)),
     ]);
   }
 
@@ -672,27 +326,6 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     return 'tooltip-participant';
   }
 
-  public navigateToPage(location: PossibleLocation) {
-    location.navigate(decodeURI(this.router.url));
-  }
-
-  refreshLocations() {
-    const url = decodeURI(this.router.url);
-    this.currentLocation = null;
-    let anyTrue = false;
-    this.possibleLocations.forEach((loc) => {
-      loc.accessible = loc.canBeAccessedOnRoute(url);
-      loc.active = loc.isCurrentRoute(url);
-      if (loc.active) {
-        this.currentLocation = loc;
-      }
-      if (loc.accessible) {
-        anyTrue = true;
-      }
-    });
-    this.possibleLocationsEmpty = !anyTrue;
-  }
-
   openMenu() {
     const active = this.themeService.activeTheme.key;
     const index = this.themes.findIndex((theme) => theme.key === active);
@@ -704,7 +337,9 @@ export class HeaderComponent implements OnInit, AfterViewInit {
 
   changeTheme(theme: Theme) {
     this.themeService.activate(theme.key);
-    this.updateScale(theme.getScale(this.deviceInfo.isCurrentlyMobile ? 'mobile' : 'desktop'));
+    this.updateScale(
+      theme.getScale(this.deviceInfo.isCurrentlyMobile ? 'mobile' : 'desktop'),
+    );
   }
 
   updateScale(scale: number) {
