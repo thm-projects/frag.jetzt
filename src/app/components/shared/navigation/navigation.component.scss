@@ -13,8 +13,8 @@ button:hover {
     justify-content: center;
 
     > mat-icon {
-      transform: scale(1.2);
-      color: var(--on-surface);
+      transform: scale(1.5);
+      color: var(--secondary);
     }
 
     > h2 {
@@ -23,14 +23,15 @@ button:hover {
       color: var(--on-surface);
     }
   }
-  
+
   &.question-wall {
     * {
       color: darkorange !important;
     }
 
     mat-icon {
-      transform: none !important;
+      transform: scale(1.3);
+      padding-right: 5px;
     }
 
     h2 {
