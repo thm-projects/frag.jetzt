@@ -277,7 +277,20 @@
     "overview-questioners-tooltip": "Anzahl Fragensteller*innen",
     "overview-admin-config-enabled": "Schwellenwerte für die Anzeige der Themen sind aktiv.",
     "overview-brainstormers-tooltip": "Brainstormer",
-    "overview-ideas-tooltip": "Anzahl Ideen"
+    "overview-ideas-tooltip": "Anzahl Ideen",
+    "navigation": "Navigation [{{loc}}]",
+    "back-button": "Zurück",
+    "back-to-questionboard": "Q&A-Forum",
+    "questionwall": "Fragen-Fokus",
+    "tag-cloud": "Fragen-Radar",
+    "brainstorming": "Brainstorming",
+    "quiz-now": "Quiz-Rallye",
+    "back-to-room": "Empfang",
+    "my-sessions": "Meine Räume",
+    "user-bonus-token": "Meine Bonus-Sterne",
+    "room-qr": "QR-Code",
+    "motd": "News",
+    "logout": "Abmelden"
   },
   "home-page": {
     "exactly-8": "Ein Raum-Code hat genau 8 Ziffern.",

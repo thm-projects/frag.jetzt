@@ -276,7 +276,19 @@
     "overview-questioners-tooltip": "Number of questioners",
     "overview-admin-config-enabled": "Thresholds for displaying topics are active.",
     "overview-brainstormers-tooltip": "Brainstormers",
-    "overview-ideas-tooltip": "Number of ideas"
+    "overview-ideas-tooltip": "Number of ideas",
+    "back-button": "Back",
+    "back-to-questionboard": "Q&A forum",
+    "questionwall": "Question focus",
+    "tag-cloud": "Question radar",
+    "brainstorming": "Brainstorming",
+    "quiz-now": "Quiz rally",
+    "back-to-room": "Reception",
+    "my-sessions": "My rooms",
+    "user-bonus-token": "My bonus stars",
+    "room-qr": "QR code",
+    "motd": "News",
+    "logout": "Log out"
   },
   "home-page": {
     "exactly-8": "A key is a combination of 8 digits.",
