@@ -3,6 +3,7 @@ import { CorrectWrong } from './correct-wrong.enum';
 import { Model } from '../services/http/spacy.interface';
 import { TranslateService } from '@ngx-translate/core';
 import { ImmutableStandardDelta, StandardDelta } from '../utils/quill-utils';
+import { map, Observable, of } from 'rxjs';
 
 export class Comment {
   id: string;
@@ -59,7 +60,7 @@ export class Comment {
     brainstormingWordId = null,
     createdBy: any = undefined,
     commentReference: string = null,
-    commentDepth: number = 0
+    commentDepth: number = 0,
   ) {
     this.id = '';
     this.roomId = roomId;
@@ -94,7 +95,37 @@ export class Comment {
     return Language[model.toUpperCase()] || Language.AUTO;
   }
 
-  static computePrettyCommentNumber(translateService: TranslateService, comment: Comment): string[] {
+  static getPrettyCommentNumber(
+    translateService: TranslateService,
+    comment: Comment,
+  ): Observable<string[]> {
+    if (!comment?.number) {
+      return of([]);
+    }
+    const meta = comment.number.split('/');
+    const topLevelNumber = meta[0];
+    const number = meta[meta.length - 1];
+    if (meta.length === 1) {
+      const str = comment.brainstormingWordId
+        ? 'brainstorming-number'
+        : 'question-number';
+      return translateService
+        .get('comment-list.' + str, { number })
+        .pipe(map((msg) => msg.split('/')));
+    }
+    return translateService
+      .get('comment-list.comment-number', {
+        topLevelNumber,
+        number,
+        level: meta.length - 1,
+      })
+      .pipe(map((msg) => msg.split('/')));
+  }
+
+  static computePrettyCommentNumber(
+    translateService: TranslateService,
+    comment: Comment,
+  ): string[] {
     if (!comment?.number) {
       return [];
     }
@@ -103,15 +134,18 @@ export class Comment {
     const number = meta[meta.length - 1];
     let commentNumber: string[] = [];
     if (meta.length === 1) {
-      translateService.get('comment-list.question-number', { number })
-        .subscribe(msg => commentNumber = msg.split('/'));
+      translateService
+        .get('comment-list.question-number', { number })
+        .subscribe((msg) => (commentNumber = msg.split('/')));
       return commentNumber;
     }
-    translateService.get('comment-list.comment-number', {
-      topLevelNumber,
-      number,
-      level: meta.length - 1,
-    }).subscribe(msg => commentNumber = msg.split('/'));
+    translateService
+      .get('comment-list.comment-number', {
+        topLevelNumber,
+        number,
+        level: meta.length - 1,
+      })
+      .subscribe((msg) => (commentNumber = msg.split('/')));
     return commentNumber;
   }
 }
@@ -137,6 +171,5 @@ export enum Language {
   IT = 'IT',
   NL = 'NL',
   PT = 'PT',
-  AUTO = 'AUTO'
+  AUTO = 'AUTO',
 }
-

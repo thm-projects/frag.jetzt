@@ -729,9 +729,11 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
     if (!this.comment?.number) {
       return;
     }
-    this._commentNumber = Comment.computePrettyCommentNumber(
+    Comment.getPrettyCommentNumber(
       this.translateService,
       this.comment,
-    );
+    ).subscribe((msg) => {
+      this._commentNumber = msg;
+    });
   }
 }

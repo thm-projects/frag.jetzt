@@ -97,7 +97,7 @@ export class BrainstormingService extends BaseHttpService {
       sessionId +
       this.apiUrl.word +
       '/' +
-      word.toLowerCase() +
+      encodeURIComponent(word.toLowerCase()) +
       '/';
     return this.http
       .post<BrainstormingWord>(connectionUrl, { text: word }, httpOptions)

@@ -68,8 +68,32 @@
         {{ "tag-cloud.open-in-q-and-a" | translate }}
       </button>
     </div>
-    <div class="replacementContainer" *ngIf="userRole > 0 && !isBrainstorming">
-      <mat-form-field>
+    <div class="selectContainer" *ngIf="userRole > 0 && isBrainstorming">
+      <mat-form-field appearance="fill">
+        <mat-label>{{ "comment-page.select-brainstorm-category" | translate }}</mat-label>
+        <mat-select [(value)]="selectedCategory" (selectionChange)="updateCategory($event.value)">
+          <mat-option><em>{{ "comment-page.select-brainstorm-category-none" | translate }}</em></mat-option>
+          <mat-option *ngFor="let item of possibleCategories" [value]="item.id">{{ item.name }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="replacementContainer" *ngIf="userRole > 0">
+      <mat-form-field *ngIf="isBrainstorming">
+        <mat-label>{{
+          "tag-cloud-popup.tag-correction-placeholder" | translate
+        }}</mat-label>
+        <input
+          type="text"
+          aria-label="{{
+            'tag-cloud-popup.tag-correction-placeholder' | translate
+          }}"
+          matInput
+          appAccessibilityEscapedInput
+          (keyup)="checkEnter($event)"
+          [formControl]="replacementInput"
+        />
+      </mat-form-field>
+      <mat-form-field *ngIf="!isBrainstorming">
         <mat-label>{{
           "tag-cloud-popup.tag-correction-placeholder" | translate
         }}</mat-label>
@@ -99,15 +123,6 @@
       >
         {{ "comment-page.send" | translate }}
       </button>
-    </div>
-    <div class="selectContainer" *ngIf="userRole > 0 && isBrainstorming">
-      <mat-form-field appearance="fill">
-        <mat-label>{{ "comment-page.select-brainstorm-category" | translate }}</mat-label>
-        <mat-select [(value)]="selectedCategory" (selectionChange)="updateCategory($event.value)">
-          <mat-option><em>{{ "comment-page.select-brainstorm-category-none" | translate }}</em></mat-option>
-          <mat-option *ngFor="let item of possibleCategories" [value]="item.id">{{ item.name }}</mat-option>
-        </mat-select>
-      </mat-form-field>
     </div>
     <div *ngIf="categories && categories.length">
       <p style="padding-bottom: 8px">
