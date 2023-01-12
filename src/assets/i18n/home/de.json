@@ -142,7 +142,7 @@
   },
   "footer": {
     "introduction-button": "Worum geht es hier?",
-    "display-button": "Design-Auswahl",
+    "display-button": "Designauswahl",
     "language-button": "Sprachauswahl",
     "gdpr-button": "Datenschutzerklärung (DSGVO)",
     "imprint-button": "Impressum und Betreiber",
@@ -170,7 +170,7 @@
     "motd-title-new": "Aktuell",
     "motd-title-old": "Archiv",
     "open": "Offen",
-    "style": "Display"
+    "style": "Designauswahl"
   },
   "header": {
     "back-button": "Zurück",
@@ -232,7 +232,7 @@
     "edit-session-description": "Begrüßungstext",
     "edit-tags": "Fragenkategorien",
     "export-questions": "Q&A exportieren",
-    "fullscreen": "Vollbild & Text",
+    "fullscreen": "Vollbild & Textgröße",
     "guest-account-tooltip": "Du bist als Gast eingeloggt. Deine Räume und Boni werden gelöscht, wenn du den Browser zurücksetzt. Wenn du dich mit einem Konto anmeldest, werden deine Räume und Boni für 180 Tage gespeichert. Diese Frist verlängert sich um 180 Tage mit jedem weiteren Besuch deiner Räume.",
     "home-header": "Q&A live",
     "home-header-mobile": "Q&A live",
