@@ -4,15 +4,14 @@ $margin: 15px;
 #idea-select {
   z-index: 2;
   width: 90vw;
-  max-width: 20rem;
+  max-width: 10rem;
   left: 50%;
-  top: $header-size;
+  top: 88%;
   transform: translate(-50%, 0);
-  background: var(--background);
+  background: transparent;
   border-radius: 5px;
-  outline: 5px solid var(--primary);
-  outline-offset: 0.2em;
-  font-size: 0.75em;
+  outline: 2px solid var(--primary);
+  outline-offset: 1.0em;
 }
 
 mat-drawer,

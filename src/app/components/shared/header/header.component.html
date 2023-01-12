@@ -9,7 +9,7 @@
       (click)="refreshLocations()"
       [matMenuTriggerFor]="locationMenu">
       <div class="label-icon">
-        <mat-icon class="header-icons">apps</mat-icon>
+        <mat-icon class="header-icons" style="transform: scale(1.2)">place</mat-icon>
         <h2
           style="margin-left: 5px"
           *ngIf="deviceInfo.isCurrentlyDesktop">
@@ -443,7 +443,7 @@
         (menuOpened)="openMenu()"
         class="focus_button"
         (click)="$event.stopImmediatePropagation()">
-        <mat-icon>language</mat-icon>
+        <mat-icon>format_color_fill</mat-icon>
         <span>{{ "footer.style" | translate }}</span>
       </button>
 
@@ -459,7 +459,7 @@
         <mat-icon
           class="fullscreen"
           (click)="getRescale().toggleState()">
-          text_increase
+          screenshot_monitor
         </mat-icon>
         <span>{{ "header.fullscreen" | translate }}</span>
       </button>
