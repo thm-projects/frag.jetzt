@@ -301,12 +301,16 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     const filter = this._filterObject.dataFilter;
     filter.currentSearch = this.searchString;
+    filter.sourceFilterBrainstorming = null;
     this._filterObject.dataFilter = filter;
   }
 
   activateSearch() {
     this.search = true;
     this.searchField.nativeElement.focus();
+    const filter = this._filterObject.dataFilter;
+    filter.sourceFilterBrainstorming = null;
+    this._filterObject.dataFilter = filter;
   }
 
   abortSearch() {
@@ -314,6 +318,7 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
     this.searchString = '';
     const filter = this._filterObject.dataFilter;
     filter.currentSearch = '';
+    filter.sourceFilterBrainstorming = BrainstormingFilter.ExceptBrainstorming;
     this._filterObject.dataFilter = filter;
   }
 

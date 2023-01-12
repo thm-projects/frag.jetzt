@@ -177,6 +177,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { BrainstormingCategoryEditorComponent } from './_dialogs/brainstorming-category-editor/brainstorming-category-editor.component';
 import { BrainstormingEditComponent } from './_dialogs/brainstorming-edit/brainstorming-edit.component';
 import { BrainstormingDeleteConfirmComponent } from './_dialogs/brainstorming-delete-confirm/brainstorming-delete-confirm.component';
+import { FullscreenImageDialogComponent } from './_dialogs/fullscreen-image-dialog/fullscreen-image-dialog.component';
 
 @NgModule({
   imports: [
@@ -290,7 +291,8 @@ import { BrainstormingDeleteConfirmComponent } from './_dialogs/brainstorming-de
     EditQuestionComponent,
     BrainstormingCategoryEditorComponent,
     BrainstormingEditComponent,
-    BrainstormingDeleteConfirmComponent
+    BrainstormingDeleteConfirmComponent,
+    FullscreenImageDialogComponent
   ],
   exports: [
     RoomJoinComponent,

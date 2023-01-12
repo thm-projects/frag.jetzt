@@ -30,7 +30,10 @@
         <ng-container *ngFor="let location of possibleLocations">
           <button
             *ngIf="location.accessible"
-            [ngClass]="{ 'active-nav-button': location.active, 'outside': location.outside }"
+            [ngClass]="{
+              'active-nav-button': location.active,
+              outside: location.outside
+            }"
             (click)="navigateToPage(location)"
             mat-menu-item
             tabindex="0">
@@ -435,6 +438,17 @@
 
       <button
         mat-menu-item
+        [matTooltip]="'footer.display-button' | translate"
+        [matMenuTriggerFor]="themeMenu"
+        (menuOpened)="openMenu()"
+        class="focus_button"
+        (click)="$event.stopImmediatePropagation()">
+        <mat-icon>language</mat-icon>
+        <span>{{ "footer.style" | translate }}</span>
+      </button>
+
+      <button
+        mat-menu-item
         aria-hidden="true"
         *ngIf="
           !deviceInfo.isSafari &&
@@ -558,8 +572,7 @@
         *ngIf="!user && deviceInfo.isCurrentlyDesktop"
         (click)="login()"
         aria-labelledby="login-label">
-        <ng-container
-          [ngTemplateOutlet]="loginBtnContent"></ng-container>
+        <ng-container [ngTemplateOutlet]="loginBtnContent"></ng-container>
       </button>
       <button
         [disabled]="!startUpFinished()"
@@ -582,3 +595,47 @@
   <div id="tour-label">{{ "header.accessibility-tour" | translate }}</div>
   <div id="session-label">{{ "header.accessibility-session" | translate }}</div>
 </div>
+
+<mat-menu
+  #themeMenu="matMenu"
+  [overlapTrigger]="false"
+  cdkTrapFocus
+  class="color-menu">
+  <button
+    (click)="changeTheme(theme)"
+    *ngFor="let theme of themes"
+    mat-menu-item
+    class="theme-btn"
+    style="height: 50px">
+    <div class="btnContent">
+      <div
+        [ngStyle]="{ 'background-color': theme.getPreviewColor() }"
+        class="btnColorIcon">
+        <div
+          [ngClass]="{
+            checked_true: theme.key === themeService.activeTheme.key,
+            checked_false: theme.key !== themeService.activeTheme.key
+          }"
+          class="checked">
+          <mat-icon
+            class="theme-icon"
+            [ngStyle]="{ color: theme.getOnPreviewColor() }">
+            {{ theme.icon }}
+          </mat-icon>
+          <mat-icon
+            class="theme-icon-checked"
+            [ngStyle]="{ color: theme.getOnPreviewColor() }">
+            checked
+          </mat-icon>
+        </div>
+      </div>
+      <div class="btnAppend">
+        <div class="title">
+          <p class="title_bold">
+            {{ theme.getName(langService.currentLanguage()) }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </button>
+</mat-menu>

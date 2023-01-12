@@ -106,8 +106,11 @@ export class Comment {
     const topLevelNumber = meta[0];
     const number = meta[meta.length - 1];
     if (meta.length === 1) {
+      const str = comment.brainstormingWordId
+        ? 'brainstorming-number'
+        : 'question-number';
       return translateService
-        .get('comment-list.question-number', { number })
+        .get('comment-list.' + str, { number })
         .pipe(map((msg) => msg.split('/')));
     }
     return translateService
