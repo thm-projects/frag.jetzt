@@ -170,7 +170,7 @@
     "motd-title-new": "Latest",
     "motd-title-old": "Archive",
     "open": "Open",
-    "style": "Display"
+    "style": "Design selection"
   },
   "header": {
     "back-button": "Back",
@@ -232,7 +232,7 @@
     "edit-session-description": "Welcome text",
     "edit-tags": "Question categories",
     "export-questions": "Export Q&A",
-    "fullscreen": "Fullscreen & Text",
+    "fullscreen": "Fullscreen & Text size",
     "guest-account-tooltip": "You are logged in as a guest. Your rooms and bonuses will be deleted when you reset your browser. If you sign in with an account, your rooms and bonuses will be saved for 180 days. This period is extended by 180 days with each additional visit to your rooms.",
     "home-header": "Q&A live",
     "home-header-mobile": "Q&A live",

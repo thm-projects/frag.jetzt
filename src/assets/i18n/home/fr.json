@@ -170,7 +170,7 @@
     "motd-title-new": "Actualités",
     "motd-title-old": "Archive",
     "open": "Ouvert",
-    "style": "Affichage"
+    "style": "Choix du design"
   },
   "header": {
     "back-button": "Retour",
@@ -232,7 +232,7 @@
     "edit-session-description": "Texte de bienvenue",
     "edit-tags": "Catégories de questions",
     "export-questions": "Exporter les Q&R",
-    "fullscreen": "Plein écran & texte",
+    "fullscreen": "Plein écran & taille du texte",
     "guest-account-tooltip": "Tu es connecté en tant qu'invité. Tes salles et tes bonus sont supprimés lorsque tu réinitialises ton navigateur. Si tu te connectes avec un compte, tes salles et tes bonus sont conservés pendant 180 jours. Ce délai est prolongé de 180 jours à chaque nouvelle visite de tes salles.",
     "home-header": "Q&R en direct",
     "home-header-mobile": "Q&R en direct",
