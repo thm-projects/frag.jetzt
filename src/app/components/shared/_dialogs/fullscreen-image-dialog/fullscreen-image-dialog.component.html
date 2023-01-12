@@ -1,0 +1,15 @@
+<ars-screen (click)="changeClick()">
+  <div
+    fxLayout="column"
+    fxLayoutAlign="center center"
+    class="qr-container">
+    <mat-icon
+      class="exitButton"
+      (click)="onCloseClick()">
+      close
+    </mat-icon>
+    <img alt="Fullscreen"
+      [class]="clicked"
+      [src]="src" />
+  </div>
+</ars-screen>

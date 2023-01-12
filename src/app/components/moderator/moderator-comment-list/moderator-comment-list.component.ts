@@ -136,7 +136,9 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
       }
       this.user = user;
     });
-    this.userRole = this.user.role;
+    this.sessionService.getRole().subscribe(role => {
+      this.userRole = role;
+    });
     forkJoin([
       this.sessionService.getRoomOnce(),
       this.sessionService.getModeratorsOnce(),
@@ -292,17 +294,6 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
 
   private initNavigation() {
     this._list = this.composeService.builder(this.headerService.getHost(), e => {
-      e.menuItem({
-        translate: this.headerService.getTranslate(),
-        icon: 'forum',
-        class: 'material-icons-outlined',
-        text: 'header.back-to-questionboard',
-        callback: () => {
-          const role = (this.userRole === 3 ? 'creator' : 'moderator');
-          this.router.navigate([role + '/room/' + this.room?.shortId + '/comments']);
-        },
-        condition: () => true,
-      });
       e.menuItem({
         translate: this.headerService.getTranslate(),
         icon: 'file_download',

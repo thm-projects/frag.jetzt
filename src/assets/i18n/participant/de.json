@@ -80,6 +80,7 @@
     "play-comments": "Neue Fragen und Bewertungen wieder anzeigen",
     "qr-in-fullscreen": "QR-Code in Vollansicht anzeigen",
     "question-number": "Q{{number}}",
+    "brainstorming-number": "I{{number}}",
     "question-was-marked-with-a-star": "Hey, du hast einen Stern für eine gute Frage bekommen!",
     "read": "Vom Vortragenden besprochen",
     "really-delete": "Willst du den Beitrag wirklich löschen?",
@@ -96,7 +97,6 @@
     "sort-answers-time": "Zeitliche Reihenfolge",
     "sort-commented": "Lange Konversationen zuerst",
     "sort-comments": "Fragen sortieren",
-    "sort-answers": "Antworten sortieren",
     "sort-controversy": "Kontroverse Fragen zuerst",
     "sort-list-time": "Neueste Frage zuerst",
     "sort-list-time-reverse": "Älteste Frage zuerst",
@@ -494,7 +494,10 @@
     "responses-to-keyword": "Anzahl aller Antworten mit diesem Stichwort",
     "ups-downs-difference": "Bewertungsdifferenz | {{upvotes}} 👍  {{downvotes}} 👎",
     "upvote-topic": "Up-Votes für dieses Stichwort",
-    "upvote-topic-brainstorming": "Gefällt mir"
+    "upvote-topic-brainstorming": "Gefällt mir",
+    "brainstorming-idea-filter": "Ideenfilter:",
+    "brainstorming-idea-all": "Alle",
+    "brainstorming-idea-without-category": "Ohne Kategorie"
   },
   "tag-cloud-config": {
     "alphabetical-sorting": "Alphabetisch sortieren",
@@ -652,21 +655,6 @@
     "word-is-not-profanity": "Wort ist nicht profan.",
     "word-is-profanity": "Wort ist profan.",
     "words-in-profanity": "Profane Wörter"
-  },
-  "topic-cloud-filter": {
-    "info-no-keywords": "Unsere KI-basierte Textanalyse kann Stichwörter ermitteln. Analyse starten?",
-    "label-refresh-keywords-start": "Starten",
-    "current-filter": "Gefilterte Fragen",
-    "current-filter-short": "Gefilterte Fragen",
-    "all-questions-and-answers": "Alle Fragen mit Antworten",
-    "all-questions-and-answers-short": "Alle Fragen mit Antworten",
-    "only-questions": "Nur Fragen",
-    "only-questions-short": "Nur Fragen",
-    "from-now": "Nur Fragen ab jetzt",
-    "from-now-short": "Nur Fragen ab jetzt",
-    "create": "Weiter",
-    "cancel": "Abbrechen",
-    "questions-title": "Welche Fragen willst du auf dem Radar haben?"
   },
   "user-bonus-token": {
     "bonus-token-body1": " vom ",

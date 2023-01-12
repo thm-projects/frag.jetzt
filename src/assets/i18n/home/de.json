@@ -142,7 +142,7 @@
   },
   "footer": {
     "introduction-button": "Worum geht es hier?",
-    "display-button": "Design-Auswahl",
+    "display-button": "Designauswahl",
     "language-button": "Sprachauswahl",
     "gdpr-button": "Datenschutzerklärung (DSGVO)",
     "imprint-button": "Impressum und Betreiber",
@@ -170,7 +170,7 @@
     "motd-title-new": "Aktuell",
     "motd-title-old": "Archiv",
     "open": "Offen",
-    "style": "Display"
+    "style": "Designauswahl"
   },
   "header": {
     "back-button": "Zurück",
@@ -232,7 +232,7 @@
     "edit-session-description": "Begrüßungstext",
     "edit-tags": "Fragenkategorien",
     "export-questions": "Q&A exportieren",
-    "fullscreen": "Vollbild & Text",
+    "fullscreen": "Vollbild & Textgröße",
     "guest-account-tooltip": "Du bist als Gast eingeloggt. Deine Räume und Boni werden gelöscht, wenn du den Browser zurücksetzt. Wenn du dich mit einem Konto anmeldest, werden deine Räume und Boni für 180 Tage gespeichert. Diese Frist verlängert sich um 180 Tage mit jedem weiteren Besuch deiner Räume.",
     "home-header": "Q&A live",
     "home-header-mobile": "Q&A live",
@@ -248,6 +248,8 @@
     "motd": "News",
     "my-account": "Optionen",
     "my-sessions": "Meine Räume",
+    "navigation": "Navigation [{{loc}}]",
+    "navigation-no-target": "Navigation",
     "not-in-own-view": "Du befindest dich gerade in der Teilnehmeransicht. In den Optionen kannst du zurück zu deiner Ansicht wechseln.",
     "open-admin": "Mitteilung erstellen",
     "overview-admin-config-enabled": "Schwellenwerte für die Anzeige der Themen sind aktiv.",
@@ -593,7 +595,6 @@
     "bonus-archive-enabled": "Bonus-Archiv aktivieren",
     "note-on-changing-settings": "Du kannst alle Raumeinstellungen später noch unter »Optionen ➝ Meine Räume« ändern.",
     "brainstorming-enabled": "Brainstorming aktivieren",
-    "note-on-changing-settings": "Du kannst alle Raumeinstellungen später noch unter »Optionen ➝ Meine Räume« ändern.",
     "cancel": "Abbrechen",
     "changes-gone-wrong": "Etwas ist schief gelaufen!",
     "changes-successful": "Änderungen gespeichert",
@@ -653,7 +654,18 @@
   },
   "topic-cloud-filter": {
     "info-no-keywords": "Unsere KI-basierte Textanalyse kann Stichwörter ermitteln. Analyse starten?",
-    "label-refresh-keywords-start": "Starten"
+    "label-refresh-keywords-start": "Starten",
+    "current-filter": "Gefilterte Fragen",
+    "current-filter-short": "Gefilterte Fragen",
+    "all-questions-and-answers": "Alle Fragen mit Antworten",
+    "all-questions-and-answers-short": "Alle Fragen mit Antworten",
+    "only-questions": "Nur Fragen",
+    "only-questions-short": "Nur Fragen",
+    "from-now": "Nur Fragen ab jetzt",
+    "from-now-short": "Nur Fragen ab jetzt",
+    "create": "Weiter",
+    "cancel": "Abbrechen",
+    "questions-title": "Welche Fragen willst du auf dem Radar haben?"
   },
   "unsupported-browser": {
     "body": "Die Features »Onboarding Tour«, »Fragen-Fokus«, »Minutensprunguhr«, »Vollbild & Text-Skalierung« und einige Display-Optionen sind im Safari-Browser nicht verfügbar. Bitte verwende Google Chrome, Mozilla Firefox oder Microsoft Edge.",

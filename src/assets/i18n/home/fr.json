@@ -170,7 +170,7 @@
     "motd-title-new": "Actualités",
     "motd-title-old": "Archive",
     "open": "Ouvert",
-    "style": "Affichage"
+    "style": "Choix du design"
   },
   "header": {
     "back-button": "Retour",
@@ -232,7 +232,7 @@
     "edit-session-description": "Texte de bienvenue",
     "edit-tags": "Catégories de questions",
     "export-questions": "Exporter les Q&R",
-    "fullscreen": "Plein écran & texte",
+    "fullscreen": "Plein écran & taille du texte",
     "guest-account-tooltip": "Tu es connecté en tant qu'invité. Tes salles et tes bonus sont supprimés lorsque tu réinitialises ton navigateur. Si tu te connectes avec un compte, tes salles et tes bonus sont conservés pendant 180 jours. Ce délai est prolongé de 180 jours à chaque nouvelle visite de tes salles.",
     "home-header": "Q&R en direct",
     "home-header-mobile": "Q&R en direct",
@@ -248,6 +248,8 @@
     "motd": "Actualités",
     "my-account": "Options",
     "my-sessions": "Mes salles",
+    "navigation": "Navigation [{{loc}}]",
+    "navigation-no-target": "Navigation",
     "not-in-own-view": "Tu te trouves actuellement dans la vue des participants. Dans les options, tu peux revenir à ta vue.",
     "open-admin": "Créer un message",
     "overview-admin-config-enabled": "Les seuils pour l'affichage des sujets sont actifs.",
@@ -652,7 +654,18 @@
   },
   "topic-cloud-filter": {
     "info-no-keywords": "Notre analyse de texte basée sur l'IA peut déterminer des mots clés. Démarrer l'analyse ?",
-    "label-refresh-keywords-start": "Démarrer"
+    "label-refresh-keywords-start": "Démarrer",
+    "current-filter": "Questions filtrées",
+    "current-filter-short": "Questions filtrées",
+    "all-questions-and-answers": "Toutes les questions avec réponses",
+    "all-questions-and-answers-short": "Toutes les questions avec réponses",
+    "only-questions": "Seulement les questions",
+    "only-questions-short": "Seulement les questions",
+    "from-now": "Questions à partir de maintenant",
+    "from-now-short": "Questions à partir de maintenant",
+    "create": "Continuer",
+    "cancel": "Annuler",
+    "questions-title": "Quelles sont les questions que tu aimerais avoir sur le radar ?"
   },
   "unsupported-browser": {
     "body": "Les fonctionnalités « Tour de l'onboarding », « Focus sur les questions », « Horloge à saut de minutes », « Plein écran et mise à l'échelle du texte » ainsi que certaines options d'affichage ne sont pas disponibles dans le navigateur Safari. S'il te plaît, utilise Google Chrome, Mozilla Firefox ou Microsoft Edge.",

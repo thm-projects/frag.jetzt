@@ -939,3 +939,5242 @@
 .ql-container.ql-snow {
   border: 1px solid #ccc;
 }
+
+.ql-emojiblot {
+  font-size: 1.25em;
+  margin-top: -0.275em;
+}
+
+/* Emoji */
+#emoji-palette {
+  font-size: 2em;
+  max-width: min(80vw, 800px) !important;
+  width: calc(8em + 1rem);
+}
+
+#tab-toolbar {
+  background-color: #f7f7f7 !important;
+  border-bottom: 0.0625rem solid rgba(0,0,0,.15) !important;
+  padding: 0.25rem 0.25rem 0 !important;
+  line-height: 1 !important;
+}
+
+#tab-toolbar > ul > li > div {
+  background-size: 1em;
+  width: 1em;
+  height: 1em;
+}
+
+.emoji-tab {
+  width: 1em !important;
+  height: 1em !important;
+  min-height: 1em !important;
+  display: inline-flex !important;
+}
+
+/* -- sub emojis */
+.ap {
+  font-size: 1em !important;
+  width: 1em !important;
+  height: 1em !important;
+  background-size: 41em !important;
+  /* text-indent: -3px; */
+}
+.ap-copyright {
+  background-position: 0 0 !important;
+}
+
+.ap-registered {
+  background-position: 0 -1em !important;
+}
+
+.ap-bangbang {
+  background-position: 0 -2em !important;
+}
+
+.ap-interrobang {
+  background-position: 0 -3em !important;
+}
+
+.ap-tm {
+  background-position: 0 -4em !important;
+}
+
+.ap-information_source {
+  background-position: 0 -5em !important;
+}
+
+.ap-left_right_arrow {
+  background-position: 0 -6em !important;
+}
+
+.ap-arrow_up_down {
+  background-position: 0 -7em !important;
+}
+
+.ap-arrow_upper_left {
+  background-position: 0 -8em !important;
+}
+
+.ap-arrow_upper_right {
+  background-position: 0 -9em !important;
+}
+
+.ap-arrow_lower_right {
+  background-position: 0 -10em !important;
+}
+
+.ap-arrow_lower_left {
+  background-position: 0 -11em !important;
+}
+
+.ap-leftwards_arrow_with_hook {
+  background-position: 0 -12em !important;
+}
+
+.ap-arrow_right_hook {
+  background-position: 0 -13em !important;
+}
+
+.ap-watch {
+  background-position: 0 -14em !important;
+}
+
+.ap-hourglass {
+  background-position: 0 -15em !important;
+}
+
+.ap-keyboard {
+  background-position: 0 -16em !important;
+}
+
+.ap-fast_forward {
+  background-position: 0 -18em !important;
+}
+
+.ap-rewind {
+  background-position: 0 -19em !important;
+}
+
+.ap-arrow_double_up {
+  background-position: 0 -20em !important;
+}
+
+.ap-arrow_double_down {
+  background-position: 0 -21em !important;
+}
+
+.ap-black_right_pointing_double_triangle_with_vertical_bar {
+  background-position: 0 -22em !important;
+}
+
+.ap-black_left_pointing_double_triangle_with_vertical_bar {
+  background-position: 0 -23em !important;
+}
+
+.ap-black_right_pointing_triangle_with_double_vertical_bar {
+  background-position: 0 -24em !important;
+}
+
+.ap-alarm_clock {
+  background-position: 0 -25em !important;
+}
+
+.ap-stopwatch {
+  background-position: 0 -26em !important;
+}
+
+.ap-timer_clock {
+  background-position: 0 -27em !important;
+}
+
+.ap-hourglass_flowing_sand {
+  background-position: 0 -28em !important;
+}
+
+.ap-double_vertical_bar {
+  background-position: 0 -29em !important;
+}
+
+.ap-black_square_for_stop {
+  background-position: 0 -30em !important;
+}
+
+.ap-black_circle_for_record {
+  background-position: 0 -31em !important;
+}
+
+.ap-m {
+  background-position: 0 -32em !important;
+}
+
+.ap-black_small_square {
+  background-position: 0 -33em !important;
+}
+
+.ap-white_small_square {
+  background-position: 0 -34em !important;
+}
+
+.ap-arrow_forward {
+  background-position: 0 -35em !important;
+}
+
+.ap-arrow_backward {
+  background-position: 0 -36em !important;
+}
+
+.ap-white_medium_square {
+  background-position: 0 -37em !important;
+}
+
+.ap-black_medium_square {
+  background-position: 0 -38em !important;
+}
+
+.ap-white_medium_small_square {
+  background-position: 0 -39em !important;
+}
+
+.ap-black_medium_small_square {
+  background-position: 0 -40em !important;
+}
+
+.ap-sunny {
+  background-position: -1em 0 !important;
+}
+
+.ap-cloud {
+  background-position: -1em -1em !important;
+}
+
+.ap-umbrella {
+  background-position: -1em -2em !important;
+}
+
+.ap-snowman {
+  background-position: -1em -3em !important;
+}
+
+.ap-comet {
+  background-position: -1em -4em !important;
+}
+
+.ap-phone,
+.ap-telephone {
+  background-position: -1em -5em !important;
+}
+
+.ap-ballot_box_with_check {
+  background-position: -1em -6em !important;
+}
+
+.ap-umbrella_with_rain_drops {
+  background-position: -1em -7em !important;
+}
+
+.ap-coffee {
+  background-position: -1em -8em !important;
+}
+
+.ap-shamrock {
+  background-position: -1em -9em !important;
+}
+
+.ap-point_up {
+  background-position: -1em -10em !important;
+}
+
+.ap-skull_and_crossbones {
+  background-position: -1em -16em !important;
+}
+
+.ap-radioactive_sign {
+  background-position: -1em -17em !important;
+}
+
+.ap-biohazard_sign {
+  background-position: -1em -18em !important;
+}
+
+.ap-orthodox_cross {
+  background-position: -1em -19em !important;
+}
+
+.ap-star_and_crescent {
+  background-position: -1em -20em !important;
+}
+
+.ap-peace_symbol {
+  background-position: -1em -21em !important;
+}
+
+.ap-yin_yang {
+  background-position: -1em -22em !important;
+}
+
+.ap-wheel_of_dharma {
+  background-position: -1em -23em !important;
+}
+
+.ap-white_frowning_face {
+  background-position: -1em -24em !important;
+}
+
+.ap-relaxed {
+  background-position: -1em -25em !important;
+}
+
+.ap-aries {
+  background-position: -1em -26em !important;
+}
+
+.ap-taurus {
+  background-position: -1em -27em !important;
+}
+
+.ap-gemini {
+  background-position: -1em -28em !important;
+}
+
+.ap-cancer {
+  background-position: -1em -29em !important;
+}
+
+.ap-leo {
+  background-position: -1em -30em !important;
+}
+
+.ap-virgo {
+  background-position: -1em -31em !important;
+}
+
+.ap-libra {
+  background-position: -1em -32em !important;
+}
+
+.ap-scorpius {
+  background-position: -1em -33em !important;
+}
+
+.ap-sagittarius {
+  background-position: -1em -34em !important;
+}
+
+.ap-capricorn {
+  background-position: -1em -35em !important;
+}
+
+.ap-aquarius {
+  background-position: -1em -36em !important;
+}
+
+.ap-pisces {
+  background-position: -1em -37em !important;
+}
+
+.ap-spades {
+  background-position: -1em -38em !important;
+}
+
+.ap-clubs {
+  background-position: -1em -39em !important;
+}
+
+.ap-hearts {
+  background-position: -1em -40em !important;
+}
+
+.ap-diamonds {
+  background-position: -2em 0 !important;
+}
+
+.ap-hotsprings {
+  background-position: -2em -1em !important;
+}
+
+.ap-recycle {
+  background-position: -2em -2em !important;
+}
+
+.ap-wheelchair {
+  background-position: -2em -3em !important;
+}
+
+.ap-hammer_and_pick {
+  background-position: -2em -4em !important;
+}
+
+.ap-anchor {
+  background-position: -2em -5em !important;
+}
+
+.ap-crossed_swords {
+  background-position: -2em -6em !important;
+}
+
+.ap-scales {
+  background-position: -2em -7em !important;
+}
+
+.ap-alembic {
+  background-position: -2em -8em !important;
+}
+
+.ap-gear {
+  background-position: -2em -9em !important;
+}
+
+.ap-atom_symbol {
+  background-position: -2em -10em !important;
+}
+
+.ap-fleur_de_lis {
+  background-position: -2em -11em !important;
+}
+
+.ap-warning {
+  background-position: -2em -12em !important;
+}
+
+.ap-zap {
+  background-position: -2em -13em !important;
+}
+
+.ap-white_circle {
+  background-position: -2em -14em !important;
+}
+
+.ap-black_circle {
+  background-position: -2em -15em !important;
+}
+
+.ap-coffin {
+  background-position: -2em -16em !important;
+}
+
+.ap-funeral_urn {
+  background-position: -2em -17em !important;
+}
+
+.ap-soccer {
+  background-position: -2em -18em !important;
+}
+
+.ap-baseball {
+  background-position: -2em -19em !important;
+}
+
+.ap-snowman_without_snow {
+  background-position: -2em -20em !important;
+}
+
+.ap-partly_sunny {
+  background-position: -2em -21em !important;
+}
+
+.ap-thunder_cloud_and_rain {
+  background-position: -2em -22em !important;
+}
+
+.ap-ophiuchus {
+  background-position: -2em -23em !important;
+}
+
+.ap-pick {
+  background-position: -2em -24em !important;
+}
+
+.ap-helmet_with_white_cross {
+  background-position: -2em -25em !important;
+}
+
+.ap-chains {
+  background-position: -2em -26em !important;
+}
+
+.ap-no_entry {
+  background-position: -2em -27em !important;
+}
+
+.ap-shinto_shrine {
+  background-position: -2em -28em !important;
+}
+
+.ap-church {
+  background-position: -2em -29em !important;
+}
+
+.ap-mountain {
+  background-position: -2em -30em !important;
+}
+
+.ap-beach_umbrella,
+.ap-umbrella_on_ground {
+  background-position: -2em -31em !important;
+}
+
+.ap-fountain {
+  background-position: -2em -32em !important;
+}
+
+.ap-golf {
+  background-position: -2em -33em !important;
+}
+
+.ap-ferry {
+  background-position: -2em -34em !important;
+}
+
+.ap-boat {
+  background-position: -2em -35em !important;
+}
+
+.ap-skier {
+  background-position: -2em -36em !important;
+}
+
+.ap-ice_skate {
+  background-position: -2em -37em !important;
+}
+
+.ap-person_with_ball {
+  background-position: -2em -38em !important;
+}
+
+.ap-tent {
+  background-position: -3em -3em !important;
+}
+
+.ap-fuelpump {
+  background-position: -3em -4em !important;
+}
+
+.ap-scissors {
+  background-position: -3em -5em !important;
+}
+
+.ap-white_check_mark {
+  background-position: -3em -6em !important;
+}
+
+.ap-airplane {
+  background-position: -3em -7em !important;
+}
+
+.ap-email {
+  background-position: -3em -8em !important;
+}
+
+.ap-fist {
+  background-position: -3em -9em !important;
+}
+
+.ap-hand {
+  background-position: -3em -15em !important;
+}
+
+.ap-v {
+  background-position: -3em -21em !important;
+}
+
+.ap-writing_hand {
+  background-position: -3em -27em !important;
+}
+
+.ap-pencil2 {
+  background-position: -3em -33em !important;
+}
+
+.ap-black_nib {
+  background-position: -3em -34em !important;
+}
+
+.ap-heavy_check_mark {
+  background-position: -3em -35em !important;
+}
+
+.ap-heavy_multiplication_x {
+  background-position: -3em -36em !important;
+}
+
+.ap-latin_cross {
+  background-position: -3em -37em !important;
+}
+
+.ap-star_of_david {
+  background-position: -3em -38em !important;
+}
+
+.ap-sparkles {
+  background-position: -3em -39em !important;
+}
+
+.ap-eight_spoked_asterisk {
+  background-position: -3em -40em !important;
+}
+
+.ap-eight_pointed_black_star {
+  background-position: -4em 0 !important;
+}
+
+.ap-snowflake {
+  background-position: -4em -1em !important;
+}
+
+.ap-sparkle {
+  background-position: -4em -2em !important;
+}
+
+.ap-x {
+  background-position: -4em -3em !important;
+}
+
+.ap-negative_squared_cross_mark {
+  background-position: -4em -4em !important;
+}
+
+.ap-question {
+  background-position: -4em -5em !important;
+}
+
+.ap-grey_question {
+  background-position: -4em -6em !important;
+}
+
+.ap-grey_exclamation {
+  background-position: -4em -7em !important;
+}
+
+.ap-exclamation {
+  background-position: -4em -8em !important;
+}
+
+.ap-heavy_heart_exclamation_mark_ornament {
+  background-position: -4em -9em !important;
+}
+
+.ap-heart {
+  background-position: -4em -10em !important;
+}
+
+.ap-heavy_plus_sign {
+  background-position: -4em -11em !important;
+}
+
+.ap-heavy_minus_sign {
+  background-position: -4em -12em !important;
+}
+
+.ap-heavy_division_sign {
+  background-position: -4em -13em !important;
+}
+
+.ap-arrow_right {
+  background-position: -4em -14em !important;
+}
+
+.ap-curly_loop {
+  background-position: -4em -15em !important;
+}
+
+.ap-loop {
+  background-position: -4em -16em !important;
+}
+
+.ap-arrow_heading_up {
+  background-position: -4em -17em !important;
+}
+
+.ap-arrow_heading_down {
+  background-position: -4em -18em !important;
+}
+
+.ap-arrow_left {
+  background-position: -4em -19em !important;
+}
+
+.ap-arrow_up {
+  background-position: -4em -20em !important;
+}
+
+.ap-arrow_down {
+  background-position: -4em -21em !important;
+}
+
+.ap-black_large_square {
+  background-position: -4em -22em !important;
+}
+
+.ap-white_large_square {
+  background-position: -4em -23em !important;
+}
+
+.ap-star {
+  background-position: -4em -24em !important;
+}
+
+.ap-o {
+  background-position: -4em -25em !important;
+}
+
+.ap-wavy_dash {
+  background-position: -4em -26em !important;
+}
+
+.ap-part_alternation_mark {
+  background-position: -4em -27em !important;
+}
+
+.ap-congratulations {
+  background-position: -4em -28em !important;
+}
+
+.ap-secret {
+  background-position: -4em -29em !important;
+}
+
+.ap-mahjong {
+  background-position: -4em -30em !important;
+}
+
+.ap-black_joker {
+  background-position: -4em -31em !important;
+}
+
+.ap-a {
+  background-position: -4em -32em !important;
+}
+
+.ap-b {
+  background-position: -4em -33em !important;
+}
+
+.ap-o2 {
+  background-position: -4em -34em !important;
+}
+
+.ap-parking {
+  background-position: -4em -35em !important;
+}
+
+.ap-ab {
+  background-position: -4em -36em !important;
+}
+
+.ap-cl {
+  background-position: -4em -37em !important;
+}
+
+.ap-cool {
+  background-position: -4em -38em !important;
+}
+
+.ap-free {
+  background-position: -4em -39em !important;
+}
+
+.ap-id {
+  background-position: -4em -40em !important;
+}
+
+.ap-new {
+  background-position: -5em 0 !important;
+}
+
+.ap-ng {
+  background-position: -5em -1em !important;
+}
+
+.ap-ok {
+  background-position: -5em -2em !important;
+}
+
+.ap-sos {
+  background-position: -5em -3em !important;
+}
+
+.ap-up {
+  background-position: -5em -4em !important;
+}
+
+.ap-vs {
+  background-position: -5em -5em !important;
+}
+
+.ap-koko {
+  background-position: -5em -6em !important;
+}
+
+.ap-sa {
+  background-position: -5em -7em !important;
+}
+
+.ap-u7121 {
+  background-position: -5em -8em !important;
+}
+
+.ap-u6307 {
+  background-position: -5em -9em !important;
+}
+
+.ap-u7981 {
+  background-position: -5em -10em !important;
+}
+
+.ap-u7a7a {
+  background-position: -5em -11em !important;
+}
+
+.ap-u5408 {
+  background-position: -5em -12em !important;
+}
+
+.ap-u6e80 {
+  background-position: -5em -13em !important;
+}
+
+.ap-u6709 {
+  background-position: -5em -14em !important;
+}
+
+.ap-u6708 {
+  background-position: -5em -15em !important;
+}
+
+.ap-u7533 {
+  background-position: -5em -16em !important;
+}
+
+.ap-u5272 {
+  background-position: -5em -17em !important;
+}
+
+.ap-u55b6 {
+  background-position: -5em -18em !important;
+}
+
+.ap-ideograph_advantage {
+  background-position: -5em -19em !important;
+}
+
+.ap-accept {
+  background-position: -5em -20em !important;
+}
+
+.ap-cyclone {
+  background-position: -5em -21em !important;
+}
+
+.ap-foggy {
+  background-position: -5em -22em !important;
+}
+
+.ap-closed_umbrella {
+  background-position: -5em -23em !important;
+}
+
+.ap-night_with_stars {
+  background-position: -5em -24em !important;
+}
+
+.ap-sunrise_over_mountains {
+  background-position: -5em -25em !important;
+}
+
+.ap-sunrise {
+  background-position: -5em -26em !important;
+}
+
+.ap-city_sunset {
+  background-position: -5em -27em !important;
+}
+
+.ap-city_sunrise {
+  background-position: -5em -28em !important;
+}
+
+.ap-rainbow {
+  background-position: -5em -29em !important;
+}
+
+.ap-bridge_at_night {
+  background-position: -5em -30em !important;
+}
+
+.ap-ocean {
+  background-position: -5em -31em !important;
+}
+
+.ap-volcano {
+  background-position: -5em -32em !important;
+}
+
+.ap-milky_way {
+  background-position: -5em -33em !important;
+}
+
+.ap-earth_africa {
+  background-position: -5em -34em !important;
+}
+
+.ap-earth_americas {
+  background-position: -5em -35em !important;
+}
+
+.ap-earth_asia {
+  background-position: -5em -36em !important;
+}
+
+.ap-globe_with_meridians {
+  background-position: -5em -37em !important;
+}
+
+.ap-new_moon {
+  background-position: -5em -38em !important;
+}
+
+.ap-waxing_crescent_moon {
+  background-position: -5em -39em !important;
+}
+
+.ap-first_quarter_moon {
+  background-position: -5em -40em !important;
+}
+
+.ap-moon {
+  background-position: -6em 0 !important;
+}
+
+.ap-full_moon {
+  background-position: -6em -1em !important;
+}
+
+.ap-waning_gibbous_moon {
+  background-position: -6em -2em !important;
+}
+
+.ap-last_quarter_moon {
+  background-position: -6em -3em !important;
+}
+
+.ap-waning_crescent_moon {
+  background-position: -6em -4em !important;
+}
+
+.ap-crescent_moon {
+  background-position: -6em -5em !important;
+}
+
+.ap-new_moon_with_face {
+  background-position: -6em -6em !important;
+}
+
+.ap-first_quarter_moon_with_face {
+  background-position: -6em -7em !important;
+}
+
+.ap-last_quarter_moon_with_face {
+  background-position: -6em -8em !important;
+}
+
+.ap-full_moon_with_face {
+  background-position: -6em -9em !important;
+}
+
+.ap-sun_with_face {
+  background-position: -6em -10em !important;
+}
+
+.ap-star2 {
+  background-position: -6em -11em !important;
+}
+
+.ap-stars {
+  background-position: -6em -12em !important;
+}
+
+.ap-thermometer {
+  background-position: -6em -13em !important;
+}
+
+.ap-mostly_sunny {
+  background-position: -6em -14em !important;
+}
+
+.ap-barely_sunny {
+  background-position: -6em -15em !important;
+}
+
+.ap-partly_sunny_rain {
+  background-position: -6em -16em !important;
+}
+
+.ap-rain_cloud {
+  background-position: -6em -17em !important;
+}
+
+.ap-snow_cloud {
+  background-position: -6em -18em !important;
+}
+
+.ap-lightning {
+  background-position: -6em -19em !important;
+}
+
+.ap-tornado {
+  background-position: -6em -20em !important;
+}
+
+.ap-fog {
+  background-position: -6em -21em !important;
+}
+
+.ap-wind_blowing_face {
+  background-position: -6em -22em !important;
+}
+
+.ap-hotdog {
+  background-position: -6em -23em !important;
+}
+
+.ap-taco {
+  background-position: -6em -24em !important;
+}
+
+.ap-burrito {
+  background-position: -6em -25em !important;
+}
+
+.ap-chestnut {
+  background-position: -6em -26em !important;
+}
+
+.ap-seedling {
+  background-position: -6em -27em !important;
+}
+
+.ap-evergreen_tree {
+  background-position: -6em -28em !important;
+}
+
+.ap-deciduous_tree {
+  background-position: -6em -29em !important;
+}
+
+.ap-palm_tree {
+  background-position: -6em -30em !important;
+}
+
+.ap-cactus {
+  background-position: -6em -31em !important;
+}
+
+.ap-hot_pepper {
+  background-position: -6em -32em !important;
+}
+
+.ap-tulip {
+  background-position: -6em -33em !important;
+}
+
+.ap-cherry_blossom {
+  background-position: -6em -34em !important;
+}
+
+.ap-rose {
+  background-position: -6em -35em !important;
+}
+
+.ap-hibiscus {
+  background-position: -6em -36em !important;
+}
+
+.ap-sunflower {
+  background-position: -6em -37em !important;
+}
+
+.ap-blossom {
+  background-position: -6em -38em !important;
+}
+
+.ap-corn {
+  background-position: -6em -39em !important;
+}
+
+.ap-ear_of_rice {
+  background-position: -6em -40em !important;
+}
+
+.ap-herb {
+  background-position: -7em 0 !important;
+}
+
+.ap-four_leaf_clover {
+  background-position: -7em -1em !important;
+}
+
+.ap-maple_leaf {
+  background-position: -7em -2em !important;
+}
+
+.ap-fallen_leaf {
+  background-position: -7em -3em !important;
+}
+
+.ap-leaves {
+  background-position: -7em -4em !important;
+}
+
+.ap-mushroom {
+  background-position: -7em -5em !important;
+}
+
+.ap-tomato {
+  background-position: -7em -6em !important;
+}
+
+.ap-eggplant {
+  background-position: -7em -7em !important;
+}
+
+.ap-grapes {
+  background-position: -7em -8em !important;
+}
+
+.ap-melon {
+  background-position: -7em -9em !important;
+}
+
+.ap-watermelon {
+  background-position: -7em -10em !important;
+}
+
+.ap-tangerine {
+  background-position: -7em -11em !important;
+}
+
+.ap-lemon {
+  background-position: -7em -12em !important;
+}
+
+.ap-banana {
+  background-position: -7em -13em !important;
+}
+
+.ap-pineapple {
+  background-position: -7em -14em !important;
+}
+
+.ap-apple {
+  background-position: -7em -15em !important;
+}
+
+.ap-green_apple {
+  background-position: -7em -16em !important;
+}
+
+.ap-pear {
+  background-position: -7em -17em !important;
+}
+
+.ap-peach {
+  background-position: -7em -18em !important;
+}
+
+.ap-cherries {
+  background-position: -7em -19em !important;
+}
+
+.ap-strawberry {
+  background-position: -7em -20em !important;
+}
+
+.ap-hamburger {
+  background-position: -7em -21em !important;
+}
+
+.ap-pizza {
+  background-position: -7em -22em !important;
+}
+
+.ap-meat_on_bone {
+  background-position: -7em -23em !important;
+}
+
+.ap-poultry_leg {
+  background-position: -7em -24em !important;
+}
+
+.ap-rice_cracker {
+  background-position: -7em -25em !important;
+}
+
+.ap-rice_ball {
+  background-position: -7em -26em !important;
+}
+
+.ap-rice {
+  background-position: -7em -27em !important;
+}
+
+.ap-curry {
+  background-position: -7em -28em !important;
+}
+
+.ap-ramen {
+  background-position: -7em -29em !important;
+}
+
+.ap-spaghetti {
+  background-position: -7em -30em !important;
+}
+
+.ap-bread {
+  background-position: -7em -31em !important;
+}
+
+.ap-fries {
+  background-position: -7em -32em !important;
+}
+
+.ap-sweet_potato {
+  background-position: -7em -33em !important;
+}
+
+.ap-dango {
+  background-position: -7em -34em !important;
+}
+
+.ap-oden {
+  background-position: -7em -35em !important;
+}
+
+.ap-sushi {
+  background-position: -7em -36em !important;
+}
+
+.ap-fried_shrimp {
+  background-position: -7em -37em !important;
+}
+
+.ap-fish_cake {
+  background-position: -7em -38em !important;
+}
+
+.ap-icecream {
+  background-position: -7em -39em !important;
+}
+
+.ap-shaved_ice {
+  background-position: -7em -40em !important;
+}
+
+.ap-ice_cream {
+  background-position: -8em 0 !important;
+}
+
+.ap-doughnut {
+  background-position: -8em -1em !important;
+}
+
+.ap-cookie {
+  background-position: -8em -2em !important;
+}
+
+.ap-chocolate_bar {
+  background-position: -8em -3em !important;
+}
+
+.ap-candy {
+  background-position: -8em -4em !important;
+}
+
+.ap-lollipop {
+  background-position: -8em -5em !important;
+}
+
+.ap-custard {
+  background-position: -8em -6em !important;
+}
+
+.ap-honey_pot {
+  background-position: -8em -7em !important;
+}
+
+.ap-cake {
+  background-position: -8em -8em !important;
+}
+
+.ap-bento {
+  background-position: -8em -9em !important;
+}
+
+.ap-stew {
+  background-position: -8em -10em !important;
+}
+
+.ap-egg {
+  background-position: -8em -11em !important;
+}
+
+.ap-fork_and_knife {
+  background-position: -8em -12em !important;
+}
+
+.ap-tea {
+  background-position: -8em -13em !important;
+}
+
+.ap-sake {
+  background-position: -8em -14em !important;
+}
+
+.ap-wine_glass {
+  background-position: -8em -15em !important;
+}
+
+.ap-cocktail {
+  background-position: -8em -16em !important;
+}
+
+.ap-tropical_drink {
+  background-position: -8em -17em !important;
+}
+
+.ap-beer {
+  background-position: -8em -18em !important;
+}
+
+.ap-beers {
+  background-position: -8em -19em !important;
+}
+
+.ap-baby_bottle {
+  background-position: -8em -20em !important;
+}
+
+.ap-knife_fork_plate {
+  background-position: -8em -21em !important;
+}
+
+.ap-champagne {
+  background-position: -8em -22em !important;
+}
+
+.ap-popcorn {
+  background-position: -8em -23em !important;
+}
+
+.ap-ribbon {
+  background-position: -8em -24em !important;
+}
+
+.ap-gift {
+  background-position: -8em -25em !important;
+}
+
+.ap-birthday {
+  background-position: -8em -26em !important;
+}
+
+.ap-jack_o_lantern {
+  background-position: -8em -27em !important;
+}
+
+.ap-christmas_tree {
+  background-position: -8em -28em !important;
+}
+
+.ap-santa {
+  background-position: -8em -29em !important;
+}
+
+.ap-fireworks {
+  background-position: -8em -35em !important;
+}
+
+.ap-sparkler {
+  background-position: -8em -36em !important;
+}
+
+.ap-balloon {
+  background-position: -8em -37em !important;
+}
+
+.ap-tada {
+  background-position: -8em -38em !important;
+}
+
+.ap-confetti_ball {
+  background-position: -8em -39em !important;
+}
+
+.ap-tanabata_tree {
+  background-position: -8em -40em !important;
+}
+
+.ap-crossed_flags {
+  background-position: -9em 0 !important;
+}
+
+.ap-bamboo {
+  background-position: -9em -1em !important;
+}
+
+.ap-dolls {
+  background-position: -9em -2em !important;
+}
+
+.ap-flags {
+  background-position: -9em -3em !important;
+}
+
+.ap-wind_chime {
+  background-position: -9em -4em !important;
+}
+
+.ap-rice_scene {
+  background-position: -9em -5em !important;
+}
+
+.ap-school_satchel {
+  background-position: -9em -6em !important;
+}
+
+.ap-mortar_board {
+  background-position: -9em -7em !important;
+}
+
+.ap-medal {
+  background-position: -9em -8em !important;
+}
+
+.ap-reminder_ribbon {
+  background-position: -9em -9em !important;
+}
+
+.ap-studio_microphone {
+  background-position: -9em -10em !important;
+}
+
+.ap-level_slider {
+  background-position: -9em -11em !important;
+}
+
+.ap-control_knobs {
+  background-position: -9em -12em !important;
+}
+
+.ap-film_frames {
+  background-position: -9em -13em !important;
+}
+
+.ap-admission_tickets {
+  background-position: -9em -14em !important;
+}
+
+.ap-carousel_horse {
+  background-position: -9em -15em !important;
+}
+
+.ap-ferris_wheel {
+  background-position: -9em -16em !important;
+}
+
+.ap-roller_coaster {
+  background-position: -9em -17em !important;
+}
+
+.ap-fishing_pole_and_fish {
+  background-position: -9em -18em !important;
+}
+
+.ap-microphone {
+  background-position: -9em -19em !important;
+}
+
+.ap-movie_camera {
+  background-position: -9em -20em !important;
+}
+
+.ap-cinema {
+  background-position: -9em -21em !important;
+}
+
+.ap-headphones {
+  background-position: -9em -22em !important;
+}
+
+.ap-art {
+  background-position: -9em -23em !important;
+}
+
+.ap-tophat {
+  background-position: -9em -24em !important;
+}
+
+.ap-circus_tent {
+  background-position: -9em -25em !important;
+}
+
+.ap-ticket {
+  background-position: -9em -26em !important;
+}
+
+.ap-clapper {
+  background-position: -9em -27em !important;
+}
+
+.ap-performing_arts {
+  background-position: -9em -28em !important;
+}
+
+.ap-video_game {
+  background-position: -9em -29em !important;
+}
+
+.ap-dart {
+  background-position: -9em -30em !important;
+}
+
+.ap-slot_machine {
+  background-position: -9em -31em !important;
+}
+
+.ap-8ball {
+  background-position: -9em -32em !important;
+}
+
+.ap-game_die {
+  background-position: -9em -33em !important;
+}
+
+.ap-bowling {
+  background-position: -9em -34em !important;
+}
+
+.ap-flower_playing_cards {
+  background-position: -9em -35em !important;
+}
+
+.ap-musical_note {
+  background-position: -9em -36em !important;
+}
+
+.ap-notes {
+  background-position: -9em -37em !important;
+}
+
+.ap-saxophone {
+  background-position: -9em -38em !important;
+}
+
+.ap-guitar {
+  background-position: -9em -39em !important;
+}
+
+.ap-musical_keyboard {
+  background-position: -9em -40em !important;
+}
+
+.ap-trumpet {
+  background-position: -10em 0 !important;
+}
+
+.ap-violin {
+  background-position: -10em -1em !important;
+}
+
+.ap-musical_score {
+  background-position: -10em -2em !important;
+}
+
+.ap-running_shirt_with_sash {
+  background-position: -10em -3em !important;
+}
+
+.ap-tennis {
+  background-position: -10em -4em !important;
+}
+
+.ap-ski {
+  background-position: -10em -5em !important;
+}
+
+.ap-basketball {
+  background-position: -10em -6em !important;
+}
+
+.ap-checkered_flag {
+  background-position: -10em -7em !important;
+}
+
+.ap-snowboarder {
+  background-position: -10em -8em !important;
+}
+
+.ap-runner {
+  background-position: -10em -9em !important;
+}
+
+.ap-surfer {
+  background-position: -10em -15em !important;
+}
+
+.ap-sports_medal {
+  background-position: -10em -21em !important;
+}
+
+.ap-trophy {
+  background-position: -10em -22em !important;
+}
+
+.ap-horse_racing {
+  background-position: -10em -23em !important;
+}
+
+.ap-football {
+  background-position: -10em -24em !important;
+}
+
+.ap-rugby_football {
+  background-position: -10em -25em !important;
+}
+
+.ap-swimmer {
+  background-position: -10em -26em !important;
+}
+
+.ap-weight_lifter {
+  background-position: -10em -32em !important;
+}
+
+.ap-golfer {
+  background-position: -10em -38em !important;
+}
+
+.ap-racing_motorcycle {
+  background-position: -10em -39em !important;
+}
+
+.ap-racing_car {
+  background-position: -10em -40em !important;
+}
+
+.ap-cricket_bat_and_ball {
+  background-position: -11em 0 !important;
+}
+
+.ap-volleyball {
+  background-position: -11em -1em !important;
+}
+
+.ap-field_hockey_stick_and_ball {
+  background-position: -11em -2em !important;
+}
+
+.ap-ice_hockey_stick_and_puck {
+  background-position: -11em -3em !important;
+}
+
+.ap-table_tennis_paddle_and_ball {
+  background-position: -11em -4em !important;
+}
+
+.ap-snow_capped_mountain {
+  background-position: -11em -5em !important;
+}
+
+.ap-camping {
+  background-position: -11em -6em !important;
+}
+
+.ap-beach_with_umbrella {
+  background-position: -11em -7em !important;
+}
+
+.ap-building_construction {
+  background-position: -11em -8em !important;
+}
+
+.ap-house_buildings {
+  background-position: -11em -9em !important;
+}
+
+.ap-cityscape {
+  background-position: -11em -10em !important;
+}
+
+.ap-derelict_house_building {
+  background-position: -11em -11em !important;
+}
+
+.ap-classical_building {
+  background-position: -11em -12em !important;
+}
+
+.ap-desert {
+  background-position: -11em -13em !important;
+}
+
+.ap-desert_island {
+  background-position: -11em -14em !important;
+}
+
+.ap-national_park {
+  background-position: -11em -15em !important;
+}
+
+.ap-stadium {
+  background-position: -11em -16em !important;
+}
+
+.ap-house {
+  background-position: -11em -17em !important;
+}
+
+.ap-house_with_garden {
+  background-position: -11em -18em !important;
+}
+
+.ap-office {
+  background-position: -11em -19em !important;
+}
+
+.ap-post_office {
+  background-position: -11em -20em !important;
+}
+
+.ap-european_post_office {
+  background-position: -11em -21em !important;
+}
+
+.ap-hospital {
+  background-position: -11em -22em !important;
+}
+
+.ap-bank {
+  background-position: -11em -23em !important;
+}
+
+.ap-atm {
+  background-position: -11em -24em !important;
+}
+
+.ap-hotel {
+  background-position: -11em -25em !important;
+}
+
+.ap-love_hotel {
+  background-position: -11em -26em !important;
+}
+
+.ap-convenience_store {
+  background-position: -11em -27em !important;
+}
+
+.ap-school {
+  background-position: -11em -28em !important;
+}
+
+.ap-department_store {
+  background-position: -11em -29em !important;
+}
+
+.ap-factory {
+  background-position: -11em -30em !important;
+}
+
+.ap-izakaya_lantern {
+  background-position: -11em -31em !important;
+}
+
+.ap-japanese_castle {
+  background-position: -11em -32em !important;
+}
+
+.ap-european_castle {
+  background-position: -11em -33em !important;
+}
+
+.ap-waving_white_flag {
+  background-position: -11em -34em !important;
+}
+
+.ap-waving_black_flag {
+  background-position: -11em -35em !important;
+}
+
+.ap-rosette {
+  background-position: -11em -36em !important;
+}
+
+.ap-label {
+  background-position: -11em -37em !important;
+}
+
+.ap-badminton_racquet_and_shuttlecock {
+  background-position: -11em -38em !important;
+}
+
+.ap-bow_and_arrow {
+  background-position: -11em -39em !important;
+}
+
+.ap-amphora {
+  background-position: -11em -40em !important;
+}
+
+.ap-skin-tone-2 {
+  background-position: -12em 0 !important;
+}
+
+.ap-skin-tone-3 {
+  background-position: -12em -1em !important;
+}
+
+.ap-skin-tone-4 {
+  background-position: -12em -2em !important;
+}
+
+.ap-skin-tone-5 {
+  background-position: -12em -3em !important;
+}
+
+.ap-skin-tone-6 {
+  background-position: -12em -4em !important;
+}
+
+.ap-rat {
+  background-position: -12em -5em !important;
+}
+
+.ap-mouse2 {
+  background-position: -12em -6em !important;
+}
+
+.ap-ox {
+  background-position: -12em -7em !important;
+}
+
+.ap-water_buffalo {
+  background-position: -12em -8em !important;
+}
+
+.ap-cow2 {
+  background-position: -12em -9em !important;
+}
+
+.ap-tiger2 {
+  background-position: -12em -10em !important;
+}
+
+.ap-leopard {
+  background-position: -12em -11em !important;
+}
+
+.ap-rabbit2 {
+  background-position: -12em -12em !important;
+}
+
+.ap-cat2 {
+  background-position: -12em -13em !important;
+}
+
+.ap-dragon {
+  background-position: -12em -14em !important;
+}
+
+.ap-crocodile {
+  background-position: -12em -15em !important;
+}
+
+.ap-whale2 {
+  background-position: -12em -16em !important;
+}
+
+.ap-snail {
+  background-position: -12em -17em !important;
+}
+
+.ap-snake {
+  background-position: -12em -18em !important;
+}
+
+.ap-racehorse {
+  background-position: -12em -19em !important;
+}
+
+.ap-ram {
+  background-position: -12em -20em !important;
+}
+
+.ap-goat {
+  background-position: -12em -21em !important;
+}
+
+.ap-sheep {
+  background-position: -12em -22em !important;
+}
+
+.ap-monkey {
+  background-position: -12em -23em !important;
+}
+
+.ap-rooster {
+  background-position: -12em -24em !important;
+}
+
+.ap-chicken {
+  background-position: -12em -25em !important;
+}
+
+.ap-dog2 {
+  background-position: -12em -26em !important;
+}
+
+.ap-pig2 {
+  background-position: -12em -27em !important;
+}
+
+.ap-boar {
+  background-position: -12em -28em !important;
+}
+
+.ap-elephant {
+  background-position: -12em -29em !important;
+}
+
+.ap-octopus {
+  background-position: -12em -30em !important;
+}
+
+.ap-shell {
+  background-position: -12em -31em !important;
+}
+
+.ap-bug {
+  background-position: -12em -32em !important;
+}
+
+.ap-ant {
+  background-position: -12em -33em !important;
+}
+
+.ap-bee {
+  background-position: -12em -34em !important;
+}
+
+.ap-beetle {
+  background-position: -12em -35em !important;
+}
+
+.ap-fish {
+  background-position: -12em -36em !important;
+}
+
+.ap-tropical_fish {
+  background-position: -12em -37em !important;
+}
+
+.ap-blowfish {
+  background-position: -12em -38em !important;
+}
+
+.ap-turtle {
+  background-position: -12em -39em !important;
+}
+
+.ap-hatching_chick {
+  background-position: -12em -40em !important;
+}
+
+.ap-baby_chick {
+  background-position: -13em 0 !important;
+}
+
+.ap-hatched_chick {
+  background-position: -13em -1em !important;
+}
+
+.ap-bird {
+  background-position: -13em -2em !important;
+}
+
+.ap-penguin {
+  background-position: -13em -3em !important;
+}
+
+.ap-koala {
+  background-position: -13em -4em !important;
+}
+
+.ap-poodle {
+  background-position: -13em -5em !important;
+}
+
+.ap-dromedary_camel {
+  background-position: -13em -6em !important;
+}
+
+.ap-camel {
+  background-position: -13em -7em !important;
+}
+
+.ap-dolphin {
+  background-position: -13em -8em !important;
+}
+
+.ap-mouse {
+  background-position: -13em -9em !important;
+}
+
+.ap-cow {
+  background-position: -13em -10em !important;
+}
+
+.ap-tiger {
+  background-position: -13em -11em !important;
+}
+
+.ap-rabbit {
+  background-position: -13em -12em !important;
+}
+
+.ap-cat {
+  background-position: -13em -13em !important;
+}
+
+.ap-dragon_face {
+  background-position: -13em -14em !important;
+}
+
+.ap-whale {
+  background-position: -13em -15em !important;
+}
+
+.ap-horse {
+  background-position: -13em -16em !important;
+}
+
+.ap-monkey_face {
+  background-position: -13em -17em !important;
+}
+
+.ap-dog {
+  background-position: -13em -18em !important;
+}
+
+.ap-pig {
+  background-position: -13em -19em !important;
+}
+
+.ap-frog {
+  background-position: -13em -20em !important;
+}
+
+.ap-hamster {
+  background-position: -13em -21em !important;
+}
+
+.ap-wolf {
+  background-position: -13em -22em !important;
+}
+
+.ap-bear {
+  background-position: -13em -23em !important;
+}
+
+.ap-panda_face {
+  background-position: -13em -24em !important;
+}
+
+.ap-pig_nose {
+  background-position: -13em -25em !important;
+}
+
+.ap-feet {
+  background-position: -13em -26em !important;
+}
+
+.ap-chipmunk {
+  background-position: -13em -27em !important;
+}
+
+.ap-eyes {
+  background-position: -13em -28em !important;
+}
+
+.ap-eye {
+  background-position: -13em -29em !important;
+}
+
+.ap-ear {
+  background-position: -13em -30em !important;
+}
+
+.ap-nose {
+  background-position: -13em -36em !important;
+}
+
+.ap-lips {
+  background-position: -14em -1em !important;
+}
+
+.ap-tongue {
+  background-position: -14em -2em !important;
+}
+
+.ap-point_up_2 {
+  background-position: -14em -3em !important;
+}
+
+.ap-point_down {
+  background-position: -14em -9em !important;
+}
+
+.ap-point_left {
+  background-position: -14em -15em !important;
+}
+
+.ap-point_right {
+  background-position: -14em -21em !important;
+}
+
+.ap-facepunch {
+  background-position: -14em -27em !important;
+}
+
+.ap-wave {
+  background-position: -14em -33em !important;
+}
+
+.ap-ok_hand {
+  background-position: -14em -39em !important;
+}
+
+.ap-thumbsup {
+  background-position: -15em -4em !important;
+}
+
+.ap--1,
+.ap-thumbsdown {
+  background-position: -15em -10em !important;
+}
+
+.ap-clap {
+  background-position: -15em -16em !important;
+}
+
+.ap-open_hands {
+  background-position: -15em -22em !important;
+}
+
+.ap-crown {
+  background-position: -15em -28em !important;
+}
+
+.ap-womans_hat {
+  background-position: -15em -29em !important;
+}
+
+.ap-eyeglasses {
+  background-position: -15em -30em !important;
+}
+
+.ap-necktie {
+  background-position: -15em -31em !important;
+}
+
+.ap-shirt {
+  background-position: -15em -32em !important;
+}
+
+.ap-jeans {
+  background-position: -15em -33em !important;
+}
+
+.ap-dress {
+  background-position: -15em -34em !important;
+}
+
+.ap-kimono {
+  background-position: -15em -35em !important;
+}
+
+.ap-bikini {
+  background-position: -15em -36em !important;
+}
+
+.ap-womans_clothes {
+  background-position: -15em -37em !important;
+}
+
+.ap-purse {
+  background-position: -15em -38em !important;
+}
+
+.ap-handbag {
+  background-position: -15em -39em !important;
+}
+
+.ap-pouch {
+  background-position: -15em -40em !important;
+}
+
+.ap-mans_shoe {
+  background-position: -16em 0 !important;
+}
+
+.ap-athletic_shoe {
+  background-position: -16em -1em !important;
+}
+
+.ap-high_heel {
+  background-position: -16em -2em !important;
+}
+
+.ap-sandal {
+  background-position: -16em -3em !important;
+}
+
+.ap-boot {
+  background-position: -16em -4em !important;
+}
+
+.ap-footprints {
+  background-position: -16em -5em !important;
+}
+
+.ap-bust_in_silhouette {
+  background-position: -16em -6em !important;
+}
+
+.ap-busts_in_silhouette {
+  background-position: -16em -7em !important;
+}
+
+.ap-boy {
+  background-position: -16em -8em !important;
+}
+
+.ap-girl {
+  background-position: -16em -14em !important;
+}
+
+.ap-man {
+  background-position: -16em -20em !important;
+}
+
+.ap-woman {
+  background-position: -16em -26em !important;
+}
+
+.ap-family {
+  background-position: -16em -32em !important;
+}
+
+.ap-couple {
+  background-position: -16em -33em !important;
+}
+
+.ap-two_men_holding_hands {
+  background-position: -16em -34em !important;
+}
+
+.ap-two_women_holding_hands {
+  background-position: -16em -35em !important;
+}
+
+.ap-cop {
+  background-position: -16em -36em !important;
+}
+
+.ap-dancers {
+  background-position: -17em -1em !important;
+}
+
+.ap-bride_with_veil {
+  background-position: -17em -2em !important;
+}
+
+.ap-person_with_blond_hair {
+  background-position: -17em -8em !important;
+}
+
+.ap-man_with_gua_pi_mao {
+  background-position: -17em -14em !important;
+}
+
+.ap-man_with_turban {
+  background-position: -17em -20em !important;
+}
+
+.ap-older_man {
+  background-position: -17em -26em !important;
+}
+
+.ap-older_woman {
+  background-position: -17em -32em !important;
+}
+
+.ap-baby {
+  background-position: -17em -38em !important;
+}
+
+.ap-construction_worker {
+  background-position: -18em -3em !important;
+}
+
+.ap-princess {
+  background-position: -18em -9em !important;
+}
+
+.ap-japanese_ogre {
+  background-position: -18em -15em !important;
+}
+
+.ap-japanese_goblin {
+  background-position: -18em -16em !important;
+}
+
+.ap-ghost {
+  background-position: -18em -17em !important;
+}
+
+.ap-angel {
+  background-position: -18em -18em !important;
+}
+
+.ap-alien {
+  background-position: -18em -24em !important;
+}
+
+.ap-space_invader {
+  background-position: -18em -25em !important;
+}
+
+.ap-imp {
+  background-position: -18em -26em !important;
+}
+
+.ap-skull {
+  background-position: -18em -27em !important;
+}
+
+.ap-information_desk_person {
+  background-position: -18em -28em !important;
+}
+
+.ap-guardsman {
+  background-position: -18em -34em !important;
+}
+
+.ap-dancer {
+  background-position: -18em -40em !important;
+}
+
+.ap-lipstick {
+  background-position: -19em -5em !important;
+}
+
+.ap-nail_care {
+  background-position: -19em -6em !important;
+}
+
+.ap-massage {
+  background-position: -19em -12em !important;
+}
+
+.ap-haircut {
+  background-position: -19em -18em !important;
+}
+
+.ap-barber {
+  background-position: -19em -24em !important;
+}
+
+.ap-syringe {
+  background-position: -19em -25em !important;
+}
+
+.ap-pill {
+  background-position: -19em -26em !important;
+}
+
+.ap-kiss {
+  background-position: -19em -27em !important;
+}
+
+.ap-love_letter {
+  background-position: -19em -28em !important;
+}
+
+.ap-ring {
+  background-position: -19em -29em !important;
+}
+
+.ap-gem {
+  background-position: -19em -30em !important;
+}
+
+.ap-couplekiss {
+  background-position: -19em -31em !important;
+}
+
+.ap-bouquet {
+  background-position: -19em -32em !important;
+}
+
+.ap-couple_with_heart {
+  background-position: -19em -33em !important;
+}
+
+.ap-wedding {
+  background-position: -19em -34em !important;
+}
+
+.ap-heartbeat {
+  background-position: -19em -35em !important;
+}
+
+.ap-broken_heart {
+  background-position: -19em -36em !important;
+}
+
+.ap-two_hearts {
+  background-position: -19em -37em !important;
+}
+
+.ap-sparkling_heart {
+  background-position: -19em -38em !important;
+}
+
+.ap-heartpulse {
+  background-position: -19em -39em !important;
+}
+
+.ap-cupid {
+  background-position: -19em -40em !important;
+}
+
+.ap-blue_heart {
+  background-position: -20em 0 !important;
+}
+
+.ap-green_heart {
+  background-position: -20em -1em !important;
+}
+
+.ap-yellow_heart {
+  background-position: -20em -2em !important;
+}
+
+.ap-purple_heart {
+  background-position: -20em -3em !important;
+}
+
+.ap-gift_heart {
+  background-position: -20em -4em !important;
+}
+
+.ap-revolving_hearts {
+  background-position: -20em -5em !important;
+}
+
+.ap-heart_decoration {
+  background-position: -20em -6em !important;
+}
+
+.ap-diamond_shape_with_a_dot_inside {
+  background-position: -20em -7em !important;
+}
+
+.ap-bulb {
+  background-position: -20em -8em !important;
+}
+
+.ap-anger {
+  background-position: -20em -9em !important;
+}
+
+.ap-bomb {
+  background-position: -20em -10em !important;
+}
+
+.ap-zzz {
+  background-position: -20em -11em !important;
+}
+
+.ap-boom {
+  background-position: -20em -12em !important;
+}
+
+.ap-sweat_drops {
+  background-position: -20em -13em !important;
+}
+
+.ap-droplet {
+  background-position: -20em -14em !important;
+}
+
+.ap-dash {
+  background-position: -20em -15em !important;
+}
+
+.ap-hankey {
+  background-position: -20em -16em !important;
+}
+
+.ap-muscle {
+  background-position: -20em -17em !important;
+}
+
+.ap-dizzy {
+  background-position: -20em -23em !important;
+}
+
+.ap-speech {
+  background-position: -20em -24em !important;
+}
+
+.ap-thought_balloon {
+  background-position: -20em -25em !important;
+}
+
+.ap-white_flower {
+  background-position: -20em -26em !important;
+}
+
+.ap-100 {
+  background-position: -20em -27em !important;
+}
+
+.ap-moneybag {
+  background-position: -20em -28em !important;
+}
+
+.ap-currency_exchange {
+  background-position: -20em -29em !important;
+}
+
+.ap-heavy_dollar_sign {
+  background-position: -20em -30em !important;
+}
+
+.ap-credit_card {
+  background-position: -20em -31em !important;
+}
+
+.ap-yen {
+  background-position: -20em -32em !important;
+}
+
+.ap-dollar {
+  background-position: -20em -33em !important;
+}
+
+.ap-euro {
+  background-position: -20em -34em !important;
+}
+
+.ap-pound {
+  background-position: -20em -35em !important;
+}
+
+.ap-money_with_wings {
+  background-position: -20em -36em !important;
+}
+
+.ap-chart {
+  background-position: -20em -37em !important;
+}
+
+.ap-seat {
+  background-position: -20em -38em !important;
+}
+
+.ap-computer {
+  background-position: -20em -39em !important;
+}
+
+.ap-briefcase {
+  background-position: -20em -40em !important;
+}
+
+.ap-minidisc {
+  background-position: -21em 0 !important;
+}
+
+.ap-floppy_disk {
+  background-position: -21em -1em !important;
+}
+
+.ap-cd {
+  background-position: -21em -2em !important;
+}
+
+.ap-dvd {
+  background-position: -21em -3em !important;
+}
+
+.ap-file_folder {
+  background-position: -21em -4em !important;
+}
+
+.ap-open_file_folder {
+  background-position: -21em -5em !important;
+}
+
+.ap-page_with_curl {
+  background-position: -21em -6em !important;
+}
+
+.ap-page_facing_up {
+  background-position: -21em -7em !important;
+}
+
+.ap-date {
+  background-position: -21em -8em !important;
+}
+
+.ap-calendar {
+  background-position: -21em -9em !important;
+}
+
+.ap-card_index {
+  background-position: -21em -10em !important;
+}
+
+.ap-chart_with_upwards_trend {
+  background-position: -21em -11em !important;
+}
+
+.ap-chart_with_downwards_trend {
+  background-position: -21em -12em !important;
+}
+
+.ap-bar_chart {
+  background-position: -21em -13em !important;
+}
+
+.ap-clipboard {
+  background-position: -21em -14em !important;
+}
+
+.ap-pushpin {
+  background-position: -21em -15em !important;
+}
+
+.ap-round_pushpin {
+  background-position: -21em -16em !important;
+}
+
+.ap-paperclip {
+  background-position: -21em -17em !important;
+}
+
+.ap-straight_ruler {
+  background-position: -21em -18em !important;
+}
+
+.ap-triangular_ruler {
+  background-position: -21em -19em !important;
+}
+
+.ap-bookmark_tabs {
+  background-position: -21em -20em !important;
+}
+
+.ap-ledger {
+  background-position: -21em -21em !important;
+}
+
+.ap-notebook {
+  background-position: -21em -22em !important;
+}
+
+.ap-notebook_with_decorative_cover {
+  background-position: -21em -23em !important;
+}
+
+.ap-closed_book {
+  background-position: -21em -24em !important;
+}
+
+.ap-book {
+  background-position: -21em -25em !important;
+}
+
+.ap-green_book {
+  background-position: -21em -26em !important;
+}
+
+.ap-blue_book {
+  background-position: -21em -27em !important;
+}
+
+.ap-orange_book {
+  background-position: -21em -28em !important;
+}
+
+.ap-books {
+  background-position: -21em -29em !important;
+}
+
+.ap-name_badge {
+  background-position: -21em -30em !important;
+}
+
+.ap-scroll {
+  background-position: -21em -31em !important;
+}
+
+.ap-memo {
+  background-position: -21em -32em !important;
+}
+
+.ap-telephone_receiver {
+  background-position: -21em -33em !important;
+}
+
+.ap-pager {
+  background-position: -21em -34em !important;
+}
+
+.ap-fax {
+  background-position: -21em -35em !important;
+}
+
+.ap-satellite_antenna {
+  background-position: -21em -36em !important;
+}
+
+.ap-loudspeaker {
+  background-position: -21em -37em !important;
+}
+
+.ap-mega {
+  background-position: -21em -38em !important;
+}
+
+.ap-outbox_tray {
+  background-position: -21em -39em !important;
+}
+
+.ap-inbox_tray {
+  background-position: -21em -40em !important;
+}
+
+.ap-package {
+  background-position: -22em 0 !important;
+}
+
+.ap-e-mail {
+  background-position: -22em -1em !important;
+}
+
+.ap-incoming_envelope {
+  background-position: -22em -2em !important;
+}
+
+.ap-envelope_with_arrow {
+  background-position: -22em -3em !important;
+}
+
+.ap-mailbox_closed {
+  background-position: -22em -4em !important;
+}
+
+.ap-mailbox {
+  background-position: -22em -5em !important;
+}
+
+.ap-mailbox_with_mail {
+  background-position: -22em -6em !important;
+}
+
+.ap-mailbox_with_no_mail {
+  background-position: -22em -7em !important;
+}
+
+.ap-postbox {
+  background-position: -22em -8em !important;
+}
+
+.ap-postal_horn {
+  background-position: -22em -9em !important;
+}
+
+.ap-newspaper {
+  background-position: -22em -10em !important;
+}
+
+.ap-iphone {
+  background-position: -22em -11em !important;
+}
+
+.ap-calling {
+  background-position: -22em -12em !important;
+}
+
+.ap-vibration_mode {
+  background-position: -22em -13em !important;
+}
+
+.ap-mobile_phone_off {
+  background-position: -22em -14em !important;
+}
+
+.ap-no_mobile_phones {
+  background-position: -22em -15em !important;
+}
+
+.ap-signal_strength {
+  background-position: -22em -16em !important;
+}
+
+.ap-camera {
+  background-position: -22em -17em !important;
+}
+
+.ap-camera_with_flash {
+  background-position: -22em -18em !important;
+}
+
+.ap-video_camera {
+  background-position: -22em -19em !important;
+}
+
+.ap-tv {
+  background-position: -22em -20em !important;
+}
+
+.ap-radio {
+  background-position: -22em -21em !important;
+}
+
+.ap-vhs {
+  background-position: -22em -22em !important;
+}
+
+.ap-film_projector {
+  background-position: -22em -23em !important;
+}
+
+.ap-prayer_beads {
+  background-position: -22em -24em !important;
+}
+
+.ap-twisted_rightwards_arrows {
+  background-position: -22em -25em !important;
+}
+
+.ap-repeat {
+  background-position: -22em -26em !important;
+}
+
+.ap-repeat_one {
+  background-position: -22em -27em !important;
+}
+
+.ap-arrows_clockwise {
+  background-position: -22em -28em !important;
+}
+
+.ap-arrows_counterclockwise {
+  background-position: -22em -29em !important;
+}
+
+.ap-low_brightness {
+  background-position: -22em -30em !important;
+}
+
+.ap-high_brightness {
+  background-position: -22em -31em !important;
+}
+
+.ap-mute {
+  background-position: -22em -32em !important;
+}
+
+.ap-speaker {
+  background-position: -22em -33em !important;
+}
+
+.ap-sound {
+  background-position: -22em -34em !important;
+}
+
+.ap-loud_sound {
+  background-position: -22em -35em !important;
+}
+
+.ap-battery {
+  background-position: -22em -36em !important;
+}
+
+.ap-electric_plug {
+  background-position: -22em -37em !important;
+}
+
+.ap-mag {
+  background-position: -22em -38em !important;
+}
+
+.ap-mag_right {
+  background-position: -22em -39em !important;
+}
+
+.ap-lock_with_ink_pen {
+  background-position: -22em -40em !important;
+}
+
+.ap-closed_lock_with_key {
+  background-position: -23em 0 !important;
+}
+
+.ap-key {
+  background-position: -23em -1em !important;
+}
+
+.ap-lock {
+  background-position: -23em -2em !important;
+}
+
+.ap-unlock {
+  background-position: -23em -3em !important;
+}
+
+.ap-bell {
+  background-position: -23em -4em !important;
+}
+
+.ap-no_bell {
+  background-position: -23em -5em !important;
+}
+
+.ap-bookmark {
+  background-position: -23em -6em !important;
+}
+
+.ap-link {
+  background-position: -23em -7em !important;
+}
+
+.ap-radio_button {
+  background-position: -23em -8em !important;
+}
+
+.ap-back {
+  background-position: -23em -9em !important;
+}
+
+.ap-end {
+  background-position: -23em -10em !important;
+}
+
+.ap-on {
+  background-position: -23em -11em !important;
+}
+
+.ap-soon {
+  background-position: -23em -12em !important;
+}
+
+.ap-top {
+  background-position: -23em -13em !important;
+}
+
+.ap-underage {
+  background-position: -23em -14em !important;
+}
+
+.ap-keycap_ten {
+  background-position: -23em -15em !important;
+}
+
+.ap-capital_abcd {
+  background-position: -23em -16em !important;
+}
+
+.ap-abcd {
+  background-position: -23em -17em !important;
+}
+
+.ap-1234 {
+  background-position: -23em -18em !important;
+}
+
+.ap-symbols {
+  background-position: -23em -19em !important;
+}
+
+.ap-abc {
+  background-position: -23em -20em !important;
+}
+
+.ap-fire {
+  background-position: -23em -21em !important;
+}
+
+.ap-flashlight {
+  background-position: -23em -22em !important;
+}
+
+.ap-wrench {
+  background-position: -23em -23em !important;
+}
+
+.ap-hammer {
+  background-position: -23em -24em !important;
+}
+
+.ap-nut_and_bolt {
+  background-position: -23em -25em !important;
+}
+
+.ap-hocho {
+  background-position: -23em -26em !important;
+}
+
+.ap-gun {
+  background-position: -23em -27em !important;
+}
+
+.ap-microscope {
+  background-position: -23em -28em !important;
+}
+
+.ap-telescope {
+  background-position: -23em -29em !important;
+}
+
+.ap-crystal_ball {
+  background-position: -23em -30em !important;
+}
+
+.ap-six_pointed_star {
+  background-position: -23em -31em !important;
+}
+
+.ap-beginner {
+  background-position: -23em -32em !important;
+}
+
+.ap-trident {
+  background-position: -23em -33em !important;
+}
+
+.ap-black_square_button {
+  background-position: -23em -34em !important;
+}
+
+.ap-white_square_button {
+  background-position: -23em -35em !important;
+}
+
+.ap-red_circle {
+  background-position: -23em -36em !important;
+}
+
+.ap-large_blue_circle {
+  background-position: -23em -37em !important;
+}
+
+.ap-large_orange_diamond {
+  background-position: -23em -38em !important;
+}
+
+.ap-large_blue_diamond {
+  background-position: -23em -39em !important;
+}
+
+.ap-small_orange_diamond {
+  background-position: -23em -40em !important;
+}
+
+.ap-small_blue_diamond {
+  background-position: -24em 0 !important;
+}
+
+.ap-small_red_triangle {
+  background-position: -24em -1em !important;
+}
+
+.ap-small_red_triangle_down {
+  background-position: -24em -2em !important;
+}
+
+.ap-arrow_up_small {
+  background-position: -24em -3em !important;
+}
+
+.ap-arrow_down_small {
+  background-position: -24em -4em !important;
+}
+
+.ap-om_symbol {
+  background-position: -24em -5em !important;
+}
+
+.ap-dove_of_peace {
+  background-position: -24em -6em !important;
+}
+
+.ap-kaaba {
+  background-position: -24em -7em !important;
+}
+
+.ap-mosque {
+  background-position: -24em -8em !important;
+}
+
+.ap-synagogue {
+  background-position: -24em -9em !important;
+}
+
+.ap-menorah_with_nine_branches {
+  background-position: -24em -10em !important;
+}
+
+.ap-clock1 {
+  background-position: -24em -11em !important;
+}
+
+.ap-clock2 {
+  background-position: -24em -12em !important;
+}
+
+.ap-clock3 {
+  background-position: -24em -13em !important;
+}
+
+.ap-clock4 {
+  background-position: -24em -14em !important;
+}
+
+.ap-clock5 {
+  background-position: -24em -15em !important;
+}
+
+.ap-clock6 {
+  background-position: -24em -16em !important;
+}
+
+.ap-clock7 {
+  background-position: -24em -17em !important;
+}
+
+.ap-clock8 {
+  background-position: -24em -18em !important;
+}
+
+.ap-clock9 {
+  background-position: -24em -19em !important;
+}
+
+.ap-clock10 {
+  background-position: -24em -20em !important;
+}
+
+.ap-clock11 {
+  background-position: -24em -21em !important;
+}
+
+.ap-clock12 {
+  background-position: -24em -22em !important;
+}
+
+.ap-clock130 {
+  background-position: -24em -23em !important;
+}
+
+.ap-clock230 {
+  background-position: -24em -24em !important;
+}
+
+.ap-clock330 {
+  background-position: -24em -25em !important;
+}
+
+.ap-clock430 {
+  background-position: -24em -26em !important;
+}
+
+.ap-clock530 {
+  background-position: -24em -27em !important;
+}
+
+.ap-clock630 {
+  background-position: -24em -28em !important;
+}
+
+.ap-clock730 {
+  background-position: -24em -29em !important;
+}
+
+.ap-clock830 {
+  background-position: -24em -30em !important;
+}
+
+.ap-clock930 {
+  background-position: -24em -31em !important;
+}
+
+.ap-clock1030 {
+  background-position: -24em -32em !important;
+}
+
+.ap-clock1130 {
+  background-position: -24em -33em !important;
+}
+
+.ap-clock1230 {
+  background-position: -24em -34em !important;
+}
+
+.ap-candle {
+  background-position: -24em -35em !important;
+}
+
+.ap-mantelpiece_clock {
+  background-position: -24em -36em !important;
+}
+
+.ap-hole {
+  background-position: -24em -37em !important;
+}
+
+.ap-man_in_business_suit_levitating {
+  background-position: -24em -38em !important;
+}
+
+.ap-sleuth_or_spy {
+  background-position: -24em -39em !important;
+}
+
+.ap-dark_sunglasses {
+  background-position: -25em -4em !important;
+}
+
+.ap-spider {
+  background-position: -25em -5em !important;
+}
+
+.ap-spider_web {
+  background-position: -25em -6em !important;
+}
+
+.ap-joystick {
+  background-position: -25em -7em !important;
+}
+
+.ap-linked_paperclips {
+  background-position: -25em -8em !important;
+}
+
+.ap-lower_left_ballpoint_pen {
+  background-position: -25em -9em !important;
+}
+
+.ap-lower_left_fountain_pen {
+  background-position: -25em -10em !important;
+}
+
+.ap-lower_left_paintbrush {
+  background-position: -25em -11em !important;
+}
+
+.ap-lower_left_crayon {
+  background-position: -25em -12em !important;
+}
+
+.ap-raised_hand_with_fingers_splayed {
+  background-position: -25em -13em !important;
+}
+
+.ap-middle_finger {
+  background-position: -25em -19em !important;
+}
+
+.ap-spock-hand {
+  background-position: -25em -25em !important;
+}
+
+.ap-desktop_computer {
+  background-position: -25em -31em !important;
+}
+
+.ap-printer {
+  background-position: -25em -32em !important;
+}
+
+.ap-three_button_mouse {
+  background-position: -25em -33em !important;
+}
+
+.ap-trackball {
+  background-position: -25em -34em !important;
+}
+
+.ap-frame_with_picture {
+  background-position: -25em -35em !important;
+}
+
+.ap-card_index_dividers {
+  background-position: -25em -36em !important;
+}
+
+.ap-card_file_box {
+  background-position: -25em -37em !important;
+}
+
+.ap-file_cabinet {
+  background-position: -25em -38em !important;
+}
+
+.ap-wastebasket {
+  background-position: -25em -39em !important;
+}
+
+.ap-spiral_note_pad {
+  background-position: -25em -40em !important;
+}
+
+.ap-spiral_calendar_pad {
+  background-position: -26em 0 !important;
+}
+
+.ap-compression {
+  background-position: -26em -1em !important;
+}
+
+.ap-old_key {
+  background-position: -26em -2em !important;
+}
+
+.ap-rolled_up_newspaper {
+  background-position: -26em -3em !important;
+}
+
+.ap-dagger_knife {
+  background-position: -26em -4em !important;
+}
+
+.ap-speaking_head_in_silhouette {
+  background-position: -26em -5em !important;
+}
+
+.ap-left_speech_bubble {
+  background-position: -26em -6em !important;
+}
+
+.ap-right_anger_bubble {
+  background-position: -26em -7em !important;
+}
+
+.ap-ballot_box_with_ballot {
+  background-position: -26em -8em !important;
+}
+
+.ap-world_map {
+  background-position: -26em -9em !important;
+}
+
+.ap-mount_fuji {
+  background-position: -26em -10em !important;
+}
+
+.ap-tokyo_tower {
+  background-position: -26em -11em !important;
+}
+
+.ap-statue_of_liberty {
+  background-position: -26em -12em !important;
+}
+
+.ap-japan {
+  background-position: -26em -13em !important;
+}
+
+.ap-moyai {
+  background-position: -26em -14em !important;
+}
+
+.ap-grinning {
+  background-position: -26em -15em !important;
+}
+
+.ap-grin {
+  background-position: -26em -16em !important;
+}
+
+.ap-joy {
+  background-position: -26em -17em !important;
+}
+
+.ap-smiley {
+  background-position: -26em -18em !important;
+}
+
+.ap-smile {
+  background-position: -26em -19em !important;
+}
+
+.ap-sweat_smile {
+  background-position: -26em -20em !important;
+}
+
+.ap-laughing {
+  background-position: -26em -21em !important;
+}
+
+.ap-innocent {
+  background-position: -26em -22em !important;
+}
+
+.ap-smiling_imp {
+  background-position: -26em -23em !important;
+}
+
+.ap-wink {
+  background-position: -26em -24em !important;
+}
+
+.ap-blush {
+  background-position: -26em -25em !important;
+}
+
+.ap-yum {
+  background-position: -26em -26em !important;
+}
+
+.ap-relieved {
+  background-position: -26em -27em !important;
+}
+
+.ap-heart_eyes {
+  background-position: -26em -28em !important;
+}
+
+.ap-sunglasses {
+  background-position: -26em -29em !important;
+}
+
+.ap-smirk {
+  background-position: -26em -30em !important;
+}
+
+.ap-neutral_face {
+  background-position: -26em -31em !important;
+}
+
+.ap-expressionless {
+  background-position: -26em -32em !important;
+}
+
+.ap-unamused {
+  background-position: -26em -33em !important;
+}
+
+.ap-sweat {
+  background-position: -26em -34em !important;
+}
+
+.ap-pensive {
+  background-position: -26em -35em !important;
+}
+
+.ap-confused {
+  background-position: -26em -36em !important;
+}
+
+.ap-confounded {
+  background-position: -26em -37em !important;
+}
+
+.ap-kissing {
+  background-position: -26em -38em !important;
+}
+
+.ap-kissing_heart {
+  background-position: -26em -39em !important;
+}
+
+.ap-kissing_smiling_eyes {
+  background-position: -26em -40em !important;
+}
+
+.ap-kissing_closed_eyes {
+  background-position: -27em 0 !important;
+}
+
+.ap-stuck_out_tongue {
+  background-position: -27em -1em !important;
+}
+
+.ap-stuck_out_tongue_winking_eye {
+  background-position: -27em -2em !important;
+}
+
+.ap-stuck_out_tongue_closed_eyes {
+  background-position: -27em -3em !important;
+}
+
+.ap-disappointed {
+  background-position: -27em -4em !important;
+}
+
+.ap-worried {
+  background-position: -27em -5em !important;
+}
+
+.ap-angry {
+  background-position: -27em -6em !important;
+}
+
+.ap-rage {
+  background-position: -27em -7em !important;
+}
+
+.ap-cry {
+  background-position: -27em -8em !important;
+}
+
+.ap-persevere {
+  background-position: -27em -9em !important;
+}
+
+.ap-triumph {
+  background-position: -27em -10em !important;
+}
+
+.ap-disappointed_relieved {
+  background-position: -27em -11em !important;
+}
+
+.ap-frowning {
+  background-position: -27em -12em !important;
+}
+
+.ap-anguished {
+  background-position: -27em -13em !important;
+}
+
+.ap-fearful {
+  background-position: -27em -14em !important;
+}
+
+.ap-weary {
+  background-position: -27em -15em !important;
+}
+
+.ap-sleepy {
+  background-position: -27em -16em !important;
+}
+
+.ap-tired_face {
+  background-position: -27em -17em !important;
+}
+
+.ap-grimacing {
+  background-position: -27em -18em !important;
+}
+
+.ap-sob {
+  background-position: -27em -19em !important;
+}
+
+.ap-open_mouth {
+  background-position: -27em -20em !important;
+}
+
+.ap-hushed {
+  background-position: -27em -21em !important;
+}
+
+.ap-cold_sweat {
+  background-position: -27em -22em !important;
+}
+
+.ap-scream {
+  background-position: -27em -23em !important;
+}
+
+.ap-astonished {
+  background-position: -27em -24em !important;
+}
+
+.ap-flushed {
+  background-position: -27em -25em !important;
+}
+
+.ap-sleeping {
+  background-position: -27em -26em !important;
+}
+
+.ap-dizzy_face {
+  background-position: -27em -27em !important;
+}
+
+.ap-no_mouth {
+  background-position: -27em -28em !important;
+}
+
+.ap-mask {
+  background-position: -27em -29em !important;
+}
+
+.ap-smile_cat {
+  background-position: -27em -30em !important;
+}
+
+.ap-joy_cat {
+  background-position: -27em -31em !important;
+}
+
+.ap-smiley_cat {
+  background-position: -27em -32em !important;
+}
+
+.ap-heart_eyes_cat {
+  background-position: -27em -33em !important;
+}
+
+.ap-smirk_cat {
+  background-position: -27em -34em !important;
+}
+
+.ap-kissing_cat {
+  background-position: -27em -35em !important;
+}
+
+.ap-pouting_cat {
+  background-position: -27em -36em !important;
+}
+
+.ap-crying_cat_face {
+  background-position: -27em -37em !important;
+}
+
+.ap-scream_cat {
+  background-position: -27em -38em !important;
+}
+
+.ap-slightly_frowning_face {
+  background-position: -27em -39em !important;
+}
+
+.ap-slightly_smiling_face {
+  background-position: -27em -40em !important;
+}
+
+.ap-upside_down_face {
+  background-position: -28em 0 !important;
+}
+
+.ap-face_with_rolling_eyes {
+  background-position: -28em -1em !important;
+}
+
+.ap-no_good {
+  background-position: -28em -2em !important;
+}
+
+.ap-ok_woman {
+  background-position: -28em -8em !important;
+}
+
+.ap-bow {
+  background-position: -28em -14em !important;
+}
+
+.ap-see_no_evil {
+  background-position: -28em -20em !important;
+}
+
+.ap-hear_no_evil {
+  background-position: -28em -21em !important;
+}
+
+.ap-speak_no_evil {
+  background-position: -28em -22em !important;
+}
+
+.ap-raising_hand {
+  background-position: -28em -23em !important;
+}
+
+.ap-raised_hands {
+  background-position: -28em -29em !important;
+}
+
+.ap-person_frowning {
+  background-position: -28em -35em !important;
+}
+
+.ap-person_with_pouting_face {
+  background-position: -29em 0 !important;
+}
+
+.ap-pray {
+  background-position: -29em -6em !important;
+}
+
+.ap-rocket {
+  background-position: -29em -12em !important;
+}
+
+.ap-helicopter {
+  background-position: -29em -13em !important;
+}
+
+.ap-steam_locomotive {
+  background-position: -29em -14em !important;
+}
+
+.ap-railway_car {
+  background-position: -29em -15em !important;
+}
+
+.ap-bullettrain_side {
+  background-position: -29em -16em !important;
+}
+
+.ap-bullettrain_front {
+  background-position: -29em -17em !important;
+}
+
+.ap-train2 {
+  background-position: -29em -18em !important;
+}
+
+.ap-metro {
+  background-position: -29em -19em !important;
+}
+
+.ap-light_rail {
+  background-position: -29em -20em !important;
+}
+
+.ap-station {
+  background-position: -29em -21em !important;
+}
+
+.ap-tram {
+  background-position: -29em -22em !important;
+}
+
+.ap-train {
+  background-position: -29em -23em !important;
+}
+
+.ap-bus {
+  background-position: -29em -24em !important;
+}
+
+.ap-oncoming_bus {
+  background-position: -29em -25em !important;
+}
+
+.ap-trolleybus {
+  background-position: -29em -26em !important;
+}
+
+.ap-busstop {
+  background-position: -29em -27em !important;
+}
+
+.ap-minibus {
+  background-position: -29em -28em !important;
+}
+
+.ap-ambulance {
+  background-position: -29em -29em !important;
+}
+
+.ap-fire_engine {
+  background-position: -29em -30em !important;
+}
+
+.ap-police_car {
+  background-position: -29em -31em !important;
+}
+
+.ap-oncoming_police_car {
+  background-position: -29em -32em !important;
+}
+
+.ap-taxi {
+  background-position: -29em -33em !important;
+}
+
+.ap-oncoming_taxi {
+  background-position: -29em -34em !important;
+}
+
+.ap-car {
+  background-position: -29em -35em !important;
+}
+
+.ap-oncoming_automobile {
+  background-position: -29em -36em !important;
+}
+
+.ap-blue_car {
+  background-position: -29em -37em !important;
+}
+
+.ap-truck {
+  background-position: -29em -38em !important;
+}
+
+.ap-articulated_lorry {
+  background-position: -29em -39em !important;
+}
+
+.ap-tractor {
+  background-position: -29em -40em !important;
+}
+
+.ap-monorail {
+  background-position: -30em 0 !important;
+}
+
+.ap-mountain_railway {
+  background-position: -30em -1em !important;
+}
+
+.ap-suspension_railway {
+  background-position: -30em -2em !important;
+}
+
+.ap-mountain_cableway {
+  background-position: -30em -3em !important;
+}
+
+.ap-aerial_tramway {
+  background-position: -30em -4em !important;
+}
+
+.ap-ship {
+  background-position: -30em -5em !important;
+}
+
+.ap-rowboat {
+  background-position: -30em -6em !important;
+}
+
+.ap-speedboat {
+  background-position: -30em -12em !important;
+}
+
+.ap-traffic_light {
+  background-position: -30em -13em !important;
+}
+
+.ap-vertical_traffic_light {
+  background-position: -30em -14em !important;
+}
+
+.ap-construction {
+  background-position: -30em -15em !important;
+}
+
+.ap-rotating_light {
+  background-position: -30em -16em !important;
+}
+
+.ap-triangular_flag_on_post {
+  background-position: -30em -17em !important;
+}
+
+.ap-door {
+  background-position: -30em -18em !important;
+}
+
+.ap-no_entry_sign {
+  background-position: -30em -19em !important;
+}
+
+.ap-smoking {
+  background-position: -30em -20em !important;
+}
+
+.ap-no_smoking {
+  background-position: -30em -21em !important;
+}
+
+.ap-put_litter_in_its_place {
+  background-position: -30em -22em !important;
+}
+
+.ap-do_not_litter {
+  background-position: -30em -23em !important;
+}
+
+.ap-potable_water {
+  background-position: -30em -24em !important;
+}
+
+.ap-non-potable_water {
+  background-position: -30em -25em !important;
+}
+
+.ap-bike {
+  background-position: -30em -26em !important;
+}
+
+.ap-no_bicycles {
+  background-position: -30em -27em !important;
+}
+
+.ap-bicyclist {
+  background-position: -30em -28em !important;
+}
+
+.ap-mountain_bicyclist {
+  background-position: -30em -34em !important;
+}
+
+.ap-walking {
+  background-position: -30em -40em !important;
+}
+
+.ap-no_pedestrians {
+  background-position: -31em -5em !important;
+}
+
+.ap-children_crossing {
+  background-position: -31em -6em !important;
+}
+
+.ap-mens {
+  background-position: -31em -7em !important;
+}
+
+.ap-womens {
+  background-position: -31em -8em !important;
+}
+
+.ap-restroom {
+  background-position: -31em -9em !important;
+}
+
+.ap-baby_symbol {
+  background-position: -31em -10em !important;
+}
+
+.ap-toilet {
+  background-position: -31em -11em !important;
+}
+
+.ap-wc {
+  background-position: -31em -12em !important;
+}
+
+.ap-shower {
+  background-position: -31em -13em !important;
+}
+
+.ap-bath {
+  background-position: -31em -14em !important;
+}
+
+.ap-bathtub {
+  background-position: -31em -20em !important;
+}
+
+.ap-passport_control {
+  background-position: -31em -21em !important;
+}
+
+.ap-customs {
+  background-position: -31em -22em !important;
+}
+
+.ap-baggage_claim {
+  background-position: -31em -23em !important;
+}
+
+.ap-left_luggage {
+  background-position: -31em -24em !important;
+}
+
+.ap-couch_and_lamp {
+  background-position: -31em -25em !important;
+}
+
+.ap-sleeping_accommodation {
+  background-position: -31em -26em !important;
+}
+
+.ap-shopping_bags {
+  background-position: -31em -27em !important;
+}
+
+.ap-bellhop_bell {
+  background-position: -31em -28em !important;
+}
+
+.ap-bed {
+  background-position: -31em -29em !important;
+}
+
+.ap-place_of_worship {
+  background-position: -31em -30em !important;
+}
+
+.ap-hammer_and_wrench {
+  background-position: -31em -31em !important;
+}
+
+.ap-shield {
+  background-position: -31em -32em !important;
+}
+
+.ap-oil_drum {
+  background-position: -31em -33em !important;
+}
+
+.ap-motorway {
+  background-position: -31em -34em !important;
+}
+
+.ap-railway_track {
+  background-position: -31em -35em !important;
+}
+
+.ap-motor_boat {
+  background-position: -31em -36em !important;
+}
+
+.ap-small_airplane {
+  background-position: -31em -37em !important;
+}
+
+.ap-airplane_departure {
+  background-position: -31em -38em !important;
+}
+
+.ap-airplane_arriving {
+  background-position: -31em -39em !important;
+}
+
+.ap-satellite {
+  background-position: -31em -40em !important;
+}
+
+.ap-passenger_ship {
+  background-position: -32em 0 !important;
+}
+
+.ap-zipper_mouth_face {
+  background-position: -32em -1em !important;
+}
+
+.ap-money_mouth_face {
+  background-position: -32em -2em !important;
+}
+
+.ap-face_with_thermometer {
+  background-position: -32em -3em !important;
+}
+
+.ap-nerd_face {
+  background-position: -32em -4em !important;
+}
+
+.ap-thinking_face {
+  background-position: -32em -5em !important;
+}
+
+.ap-face_with_head_bandage {
+  background-position: -32em -6em !important;
+}
+
+.ap-robot_face {
+  background-position: -32em -7em !important;
+}
+
+.ap-hugging_face {
+  background-position: -32em -8em !important;
+}
+
+.ap-the_horns {
+  background-position: -32em -9em !important;
+}
+
+.ap-crab {
+  background-position: -32em -15em !important;
+}
+
+.ap-lion_face {
+  background-position: -32em -16em !important;
+}
+
+.ap-scorpion {
+  background-position: -32em -17em !important;
+}
+
+.ap-turkey {
+  background-position: -32em -18em !important;
+}
+
+.ap-unicorn_face {
+  background-position: -32em -19em !important;
+}
+
+.ap-cheese_wedge {
+  background-position: -32em -20em !important;
+}
+
+.ap-hash {
+  background-position: -32em -21em !important;
+}
+
+.ap-keycap_star {
+  background-position: -32em -22em !important;
+}
+
+.ap-zero {
+  background-position: -32em -23em !important;
+}
+
+.ap-one {
+  background-position: -32em -24em !important;
+}
+
+.ap-two {
+  background-position: -32em -25em !important;
+}
+
+.ap-three {
+  background-position: -32em -26em !important;
+}
+
+.ap-four {
+  background-position: -32em -27em !important;
+}
+
+.ap-five {
+  background-position: -32em -28em !important;
+}
+
+.ap-six {
+  background-position: -32em -29em !important;
+}
+
+.ap-seven {
+  background-position: -32em -30em !important;
+}
+
+.ap-eight {
+  background-position: -32em -31em !important;
+}
+
+.ap-nine {
+  background-position: -32em -32em !important;
+}
+
+.ap-flag-ac {
+  background-position: -32em -33em !important;
+}
+
+.ap-flag-ad {
+  background-position: -32em -34em !important;
+}
+
+.ap-flag-ae {
+  background-position: -32em -35em !important;
+}
+
+.ap-flag-af {
+  background-position: -32em -36em !important;
+}
+
+.ap-flag-ag {
+  background-position: -32em -37em !important;
+}
+
+.ap-flag-ai {
+  background-position: -32em -38em !important;
+}
+
+.ap-flag-al {
+  background-position: -32em -39em !important;
+}
+
+.ap-flag-am {
+  background-position: -32em -40em !important;
+}
+
+.ap-flag-ao {
+  background-position: -33em 0 !important;
+}
+
+.ap-flag-aq {
+  background-position: -33em -1em !important;
+}
+
+.ap-flag-ar {
+  background-position: -33em -2em !important;
+}
+
+.ap-flag-as {
+  background-position: -33em -3em !important;
+}
+
+.ap-flag-at {
+  background-position: -33em -4em !important;
+}
+
+.ap-flag-au {
+  background-position: -33em -5em !important;
+}
+
+.ap-flag-aw {
+  background-position: -33em -6em !important;
+}
+
+.ap-flag-ax {
+  background-position: -33em -7em !important;
+}
+
+.ap-flag-az {
+  background-position: -33em -8em !important;
+}
+
+.ap-flag-ba {
+  background-position: -33em -9em !important;
+}
+
+.ap-flag-bb {
+  background-position: -33em -10em !important;
+}
+
+.ap-flag-bd {
+  background-position: -33em -11em !important;
+}
+
+.ap-flag-be {
+  background-position: -33em -12em !important;
+}
+
+.ap-flag-bf {
+  background-position: -33em -13em !important;
+}
+
+.ap-flag-bg {
+  background-position: -33em -14em !important;
+}
+
+.ap-flag-bh {
+  background-position: -33em -15em !important;
+}
+
+.ap-flag-bi {
+  background-position: -33em -16em !important;
+}
+
+.ap-flag-bj {
+  background-position: -33em -17em !important;
+}
+
+.ap-flag-bl {
+  background-position: -33em -18em !important;
+}
+
+.ap-flag-bm {
+  background-position: -33em -19em !important;
+}
+
+.ap-flag-bn {
+  background-position: -33em -20em !important;
+}
+
+.ap-flag-bo {
+  background-position: -33em -21em !important;
+}
+
+.ap-flag-bq {
+  background-position: -33em -22em !important;
+}
+
+.ap-flag-br {
+  background-position: -33em -23em !important;
+}
+
+.ap-flag-bs {
+  background-position: -33em -24em !important;
+}
+
+.ap-flag-bt {
+  background-position: -33em -25em !important;
+}
+
+.ap-flag-bv {
+  background-position: -33em -26em !important;
+}
+
+.ap-flag-bw {
+  background-position: -33em -27em !important;
+}
+
+.ap-flag-by {
+  background-position: -33em -28em !important;
+}
+
+.ap-flag-bz {
+  background-position: -33em -29em !important;
+}
+
+.ap-flag-ca {
+  background-position: -33em -30em !important;
+}
+
+.ap-flag-cc {
+  background-position: -33em -31em !important;
+}
+
+.ap-flag-cd {
+  background-position: -33em -32em !important;
+}
+
+.ap-flag-cf {
+  background-position: -33em -33em !important;
+}
+
+.ap-flag-cg {
+  background-position: -33em -34em !important;
+}
+
+.ap-flag-ch {
+  background-position: -33em -35em !important;
+}
+
+.ap-flag-ci {
+  background-position: -33em -36em !important;
+}
+
+.ap-flag-ck {
+  background-position: -33em -37em !important;
+}
+
+.ap-flag-cl {
+  background-position: -33em -38em !important;
+}
+
+.ap-flag-cm {
+  background-position: -33em -39em !important;
+}
+
+.ap-flag-cn {
+  background-position: -33em -40em !important;
+}
+
+.ap-flag-co {
+  background-position: -34em 0 !important;
+}
+
+.ap-flag-cp {
+  background-position: -34em -1em !important;
+}
+
+.ap-flag-cr {
+  background-position: -34em -2em !important;
+}
+
+.ap-flag-cu {
+  background-position: -34em -3em !important;
+}
+
+.ap-flag-cv {
+  background-position: -34em -4em !important;
+}
+
+.ap-flag-cw {
+  background-position: -34em -5em !important;
+}
+
+.ap-flag-cx {
+  background-position: -34em -6em !important;
+}
+
+.ap-flag-cy {
+  background-position: -34em -7em !important;
+}
+
+.ap-flag-cz {
+  background-position: -34em -8em !important;
+}
+
+.ap-flag-de {
+  background-position: -34em -9em !important;
+}
+
+.ap-flag-dg {
+  background-position: -34em -10em !important;
+}
+
+.ap-flag-dj {
+  background-position: -34em -11em !important;
+}
+
+.ap-flag-dk {
+  background-position: -34em -12em !important;
+}
+
+.ap-flag-dm {
+  background-position: -34em -13em !important;
+}
+
+.ap-flag-do {
+  background-position: -34em -14em !important;
+}
+
+.ap-flag-dz {
+  background-position: -34em -15em !important;
+}
+
+.ap-flag-ea {
+  background-position: -34em -16em !important;
+}
+
+.ap-flag-ec {
+  background-position: -34em -17em !important;
+}
+
+.ap-flag-ee {
+  background-position: -34em -18em !important;
+}
+
+.ap-flag-eg {
+  background-position: -34em -19em !important;
+}
+
+.ap-flag-eh {
+  background-position: -34em -20em !important;
+}
+
+.ap-flag-er {
+  background-position: -34em -21em !important;
+}
+
+.ap-flag-es {
+  background-position: -34em -22em !important;
+}
+
+.ap-flag-et {
+  background-position: -34em -23em !important;
+}
+
+.ap-flag-eu {
+  background-position: -34em -24em !important;
+}
+
+.ap-flag-fi {
+  background-position: -34em -25em !important;
+}
+
+.ap-flag-fj {
+  background-position: -34em -26em !important;
+}
+
+.ap-flag-fk {
+  background-position: -34em -27em !important;
+}
+
+.ap-flag-fm {
+  background-position: -34em -28em !important;
+}
+
+.ap-flag-fo {
+  background-position: -34em -29em !important;
+}
+
+.ap-flag-fr {
+  background-position: -34em -30em !important;
+}
+
+.ap-flag-ga {
+  background-position: -34em -31em !important;
+}
+
+.ap-flag-gb {
+  background-position: -34em -32em !important;
+}
+
+.ap-flag-gd {
+  background-position: -34em -33em !important;
+}
+
+.ap-flag-ge {
+  background-position: -34em -34em !important;
+}
+
+.ap-flag-gf {
+  background-position: -34em -35em !important;
+}
+
+.ap-flag-gg {
+  background-position: -34em -36em !important;
+}
+
+.ap-flag-gh {
+  background-position: -34em -37em !important;
+}
+
+.ap-flag-gi {
+  background-position: -34em -38em !important;
+}
+
+.ap-flag-gl {
+  background-position: -34em -39em !important;
+}
+
+.ap-flag-gm {
+  background-position: -34em -40em !important;
+}
+
+.ap-flag-gn {
+  background-position: -35em 0 !important;
+}
+
+.ap-flag-gp {
+  background-position: -35em -1em !important;
+}
+
+.ap-flag-gq {
+  background-position: -35em -2em !important;
+}
+
+.ap-flag-gr {
+  background-position: -35em -3em !important;
+}
+
+.ap-flag-gs {
+  background-position: -35em -4em !important;
+}
+
+.ap-flag-gt {
+  background-position: -35em -5em !important;
+}
+
+.ap-flag-gu {
+  background-position: -35em -6em !important;
+}
+
+.ap-flag-gw {
+  background-position: -35em -7em !important;
+}
+
+.ap-flag-gy {
+  background-position: -35em -8em !important;
+}
+
+.ap-flag-hk {
+  background-position: -35em -9em !important;
+}
+
+.ap-flag-hm {
+  background-position: -35em -10em !important;
+}
+
+.ap-flag-hn {
+  background-position: -35em -11em !important;
+}
+
+.ap-flag-hr {
+  background-position: -35em -12em !important;
+}
+
+.ap-flag-ht {
+  background-position: -35em -13em !important;
+}
+
+.ap-flag-hu {
+  background-position: -35em -14em !important;
+}
+
+.ap-flag-ic {
+  background-position: -35em -15em !important;
+}
+
+.ap-flag-id {
+  background-position: -35em -16em !important;
+}
+
+.ap-flag-ie {
+  background-position: -35em -17em !important;
+}
+
+.ap-flag-il {
+  background-position: -35em -18em !important;
+}
+
+.ap-flag-im {
+  background-position: -35em -19em !important;
+}
+
+.ap-flag-in {
+  background-position: -35em -20em !important;
+}
+
+.ap-flag-io {
+  background-position: -35em -21em !important;
+}
+
+.ap-flag-iq {
+  background-position: -35em -22em !important;
+}
+
+.ap-flag-ir {
+  background-position: -35em -23em !important;
+}
+
+.ap-flag-is {
+  background-position: -35em -24em !important;
+}
+
+.ap-flag-it {
+  background-position: -35em -25em !important;
+}
+
+.ap-flag-je {
+  background-position: -35em -26em !important;
+}
+
+.ap-flag-jm {
+  background-position: -35em -27em !important;
+}
+
+.ap-flag-jo {
+  background-position: -35em -28em !important;
+}
+
+.ap-flag-jp {
+  background-position: -35em -29em !important;
+}
+
+.ap-flag-ke {
+  background-position: -35em -30em !important;
+}
+
+.ap-flag-kg {
+  background-position: -35em -31em !important;
+}
+
+.ap-flag-kh {
+  background-position: -35em -32em !important;
+}
+
+.ap-flag-ki {
+  background-position: -35em -33em !important;
+}
+
+.ap-flag-km {
+  background-position: -35em -34em !important;
+}
+
+.ap-flag-kn {
+  background-position: -35em -35em !important;
+}
+
+.ap-flag-kp {
+  background-position: -35em -36em !important;
+}
+
+.ap-flag-kr {
+  background-position: -35em -37em !important;
+}
+
+.ap-flag-kw {
+  background-position: -35em -38em !important;
+}
+
+.ap-flag-ky {
+  background-position: -35em -39em !important;
+}
+
+.ap-flag-kz {
+  background-position: -35em -40em !important;
+}
+
+.ap-flag-la {
+  background-position: -36em 0 !important;
+}
+
+.ap-flag-lb {
+  background-position: -36em -1em !important;
+}
+
+.ap-flag-lc {
+  background-position: -36em -2em !important;
+}
+
+.ap-flag-li {
+  background-position: -36em -3em !important;
+}
+
+.ap-flag-lk {
+  background-position: -36em -4em !important;
+}
+
+.ap-flag-lr {
+  background-position: -36em -5em !important;
+}
+
+.ap-flag-ls {
+  background-position: -36em -6em !important;
+}
+
+.ap-flag-lt {
+  background-position: -36em -7em !important;
+}
+
+.ap-flag-lu {
+  background-position: -36em -8em !important;
+}
+
+.ap-flag-lv {
+  background-position: -36em -9em !important;
+}
+
+.ap-flag-ly {
+  background-position: -36em -10em !important;
+}
+
+.ap-flag-ma {
+  background-position: -36em -11em !important;
+}
+
+.ap-flag-mc {
+  background-position: -36em -12em !important;
+}
+
+.ap-flag-md {
+  background-position: -36em -13em !important;
+}
+
+.ap-flag-me {
+  background-position: -36em -14em !important;
+}
+
+.ap-flag-mf {
+  background-position: -36em -15em !important;
+}
+
+.ap-flag-mg {
+  background-position: -36em -16em !important;
+}
+
+.ap-flag-mh {
+  background-position: -36em -17em !important;
+}
+
+.ap-flag-mk {
+  background-position: -36em -18em !important;
+}
+
+.ap-flag-ml {
+  background-position: -36em -19em !important;
+}
+
+.ap-flag-mm {
+  background-position: -36em -20em !important;
+}
+
+.ap-flag-mn {
+  background-position: -36em -21em !important;
+}
+
+.ap-flag-mo {
+  background-position: -36em -22em !important;
+}
+
+.ap-flag-mp {
+  background-position: -36em -23em !important;
+}
+
+.ap-flag-mq {
+  background-position: -36em -24em !important;
+}
+
+.ap-flag-mr {
+  background-position: -36em -25em !important;
+}
+
+.ap-flag-ms {
+  background-position: -36em -26em !important;
+}
+
+.ap-flag-mt {
+  background-position: -36em -27em !important;
+}
+
+.ap-flag-mu {
+  background-position: -36em -28em !important;
+}
+
+.ap-flag-mv {
+  background-position: -36em -29em !important;
+}
+
+.ap-flag-mw {
+  background-position: -36em -30em !important;
+}
+
+.ap-flag-mx {
+  background-position: -36em -31em !important;
+}
+
+.ap-flag-my {
+  background-position: -36em -32em !important;
+}
+
+.ap-flag-mz {
+  background-position: -36em -33em !important;
+}
+
+.ap-flag-na {
+  background-position: -36em -34em !important;
+}
+
+.ap-flag-nc {
+  background-position: -36em -35em !important;
+}
+
+.ap-flag-ne {
+  background-position: -36em -36em !important;
+}
+
+.ap-flag-nf {
+  background-position: -36em -37em !important;
+}
+
+.ap-flag-ng {
+  background-position: -36em -38em !important;
+}
+
+.ap-flag-ni {
+  background-position: -36em -39em !important;
+}
+
+.ap-flag-nl {
+  background-position: -36em -40em !important;
+}
+
+.ap-flag-no {
+  background-position: -37em 0 !important;
+}
+
+.ap-flag-np {
+  background-position: -37em -1em !important;
+}
+
+.ap-flag-nr {
+  background-position: -37em -2em !important;
+}
+
+.ap-flag-nu {
+  background-position: -37em -3em !important;
+}
+
+.ap-flag-nz {
+  background-position: -37em -4em !important;
+}
+
+.ap-flag-om {
+  background-position: -37em -5em !important;
+}
+
+.ap-flag-pa {
+  background-position: -37em -6em !important;
+}
+
+.ap-flag-pe {
+  background-position: -37em -7em !important;
+}
+
+.ap-flag-pf {
+  background-position: -37em -8em !important;
+}
+
+.ap-flag-pg {
+  background-position: -37em -9em !important;
+}
+
+.ap-flag-ph {
+  background-position: -37em -10em !important;
+}
+
+.ap-flag-pk {
+  background-position: -37em -11em !important;
+}
+
+.ap-flag-pl {
+  background-position: -37em -12em !important;
+}
+
+.ap-flag-pm {
+  background-position: -37em -13em !important;
+}
+
+.ap-flag-pn {
+  background-position: -37em -14em !important;
+}
+
+.ap-flag-pr {
+  background-position: -37em -15em !important;
+}
+
+.ap-flag-ps {
+  background-position: -37em -16em !important;
+}
+
+.ap-flag-pt {
+  background-position: -37em -17em !important;
+}
+
+.ap-flag-pw {
+  background-position: -37em -18em !important;
+}
+
+.ap-flag-py {
+  background-position: -37em -19em !important;
+}
+
+.ap-flag-qa {
+  background-position: -37em -20em !important;
+}
+
+.ap-flag-re {
+  background-position: -37em -21em !important;
+}
+
+.ap-flag-ro {
+  background-position: -37em -22em !important;
+}
+
+.ap-flag-rs {
+  background-position: -37em -23em !important;
+}
+
+.ap-flag-ru {
+  background-position: -37em -24em !important;
+}
+
+.ap-flag-rw {
+  background-position: -37em -25em !important;
+}
+
+.ap-flag-sa {
+  background-position: -37em -26em !important;
+}
+
+.ap-flag-sb {
+  background-position: -37em -27em !important;
+}
+
+.ap-flag-sc {
+  background-position: -37em -28em !important;
+}
+
+.ap-flag-sd {
+  background-position: -37em -29em !important;
+}
+
+.ap-flag-se {
+  background-position: -37em -30em !important;
+}
+
+.ap-flag-sg {
+  background-position: -37em -31em !important;
+}
+
+.ap-flag-sh {
+  background-position: -37em -32em !important;
+}
+
+.ap-flag-si {
+  background-position: -37em -33em !important;
+}
+
+.ap-flag-sj {
+  background-position: -37em -34em !important;
+}
+
+.ap-flag-sk {
+  background-position: -37em -35em !important;
+}
+
+.ap-flag-sl {
+  background-position: -37em -36em !important;
+}
+
+.ap-flag-sm {
+  background-position: -37em -37em !important;
+}
+
+.ap-flag-sn {
+  background-position: -37em -38em !important;
+}
+
+.ap-flag-so {
+  background-position: -37em -39em !important;
+}
+
+.ap-flag-sr {
+  background-position: -37em -40em !important;
+}
+
+.ap-flag-ss {
+  background-position: -38em 0 !important;
+}
+
+.ap-flag-st {
+  background-position: -38em -1em !important;
+}
+
+.ap-flag-sv {
+  background-position: -38em -2em !important;
+}
+
+.ap-flag-sx {
+  background-position: -38em -3em !important;
+}
+
+.ap-flag-sy {
+  background-position: -38em -4em !important;
+}
+
+.ap-flag-sz {
+  background-position: -38em -5em !important;
+}
+
+.ap-flag-ta {
+  background-position: -38em -6em !important;
+}
+
+.ap-flag-tc {
+  background-position: -38em -7em !important;
+}
+
+.ap-flag-td {
+  background-position: -38em -8em !important;
+}
+
+.ap-flag-tf {
+  background-position: -38em -9em !important;
+}
+
+.ap-flag-tg {
+  background-position: -38em -10em !important;
+}
+
+.ap-flag-th {
+  background-position: -38em -11em !important;
+}
+
+.ap-flag-tj {
+  background-position: -38em -12em !important;
+}
+
+.ap-flag-tk {
+  background-position: -38em -13em !important;
+}
+
+.ap-flag-tl {
+  background-position: -38em -14em !important;
+}
+
+.ap-flag-tm {
+  background-position: -38em -15em !important;
+}
+
+.ap-flag-tn {
+  background-position: -38em -16em !important;
+}
+
+.ap-flag-to {
+  background-position: -38em -17em !important;
+}
+
+.ap-flag-tr {
+  background-position: -38em -18em !important;
+}
+
+.ap-flag-tt {
+  background-position: -38em -19em !important;
+}
+
+.ap-flag-tv {
+  background-position: -38em -20em !important;
+}
+
+.ap-flag-tw {
+  background-position: -38em -21em !important;
+}
+
+.ap-flag-tz {
+  background-position: -38em -22em !important;
+}
+
+.ap-flag-ua {
+  background-position: -38em -23em !important;
+}
+
+.ap-flag-ug {
+  background-position: -38em -24em !important;
+}
+
+.ap-flag-um {
+  background-position: -38em -25em !important;
+}
+
+.ap-flag-us {
+  background-position: -38em -26em !important;
+}
+
+.ap-flag-uy {
+  background-position: -38em -27em !important;
+}
+
+.ap-flag-uz {
+  background-position: -38em -28em !important;
+}
+
+.ap-flag-va {
+  background-position: -38em -29em !important;
+}
+
+.ap-flag-vc {
+  background-position: -38em -30em !important;
+}
+
+.ap-flag-ve {
+  background-position: -38em -31em !important;
+}
+
+.ap-flag-vg {
+  background-position: -38em -32em !important;
+}
+
+.ap-flag-vi {
+  background-position: -38em -33em !important;
+}
+
+.ap-flag-vn {
+  background-position: -38em -34em !important;
+}
+
+.ap-flag-vu {
+  background-position: -38em -35em !important;
+}
+
+.ap-flag-wf {
+  background-position: -38em -36em !important;
+}
+
+.ap-flag-ws {
+  background-position: -38em -37em !important;
+}
+
+.ap-flag-xk {
+  background-position: -38em -38em !important;
+}
+
+.ap-flag-ye {
+  background-position: -38em -39em !important;
+}
+
+.ap-flag-yt {
+  background-position: -38em -40em !important;
+}
+
+.ap-flag-za {
+  background-position: -39em 0 !important;
+}
+
+.ap-flag-zm {
+  background-position: -39em -1em !important;
+}
+
+.ap-flag-zw {
+  background-position: -39em -2em !important;
+}
+
+.ap-man-man-boy {
+  background-position: -39em -3em !important;
+}
+
+.ap-man-man-boy-boy {
+  background-position: -39em -4em !important;
+}
+
+.ap-man-man-girl {
+  background-position: -39em -5em !important;
+}
+
+.ap-man-man-girl-boy {
+  background-position: -39em -6em !important;
+}
+
+.ap-man-man-girl-girl {
+  background-position: -39em -7em !important;
+}
+
+.ap-man-woman-boy-boy {
+  background-position: -39em -8em !important;
+}
+
+.ap-man-woman-girl {
+  background-position: -39em -9em !important;
+}
+
+.ap-man-woman-girl-boy {
+  background-position: -39em -10em !important;
+}
+
+.ap-man-woman-girl-girl {
+  background-position: -39em -11em !important;
+}
+
+.ap-man-heart-man {
+  background-position: -39em -12em !important;
+}
+
+.ap-man-kiss-man {
+  background-position: -39em -13em !important;
+}
+
+.ap-woman-woman-boy {
+  background-position: -39em -14em !important;
+}
+
+.ap-woman-woman-boy-boy {
+  background-position: -39em -15em !important;
+}
+
+.ap-woman-woman-girl {
+  background-position: -39em -16em !important;
+}
+
+.ap-woman-woman-girl-boy {
+  background-position: -39em -17em !important;
+}
+
+.ap-woman-woman-girl-girl {
+  background-position: -39em -18em !important;
+}
+
+.ap-woman-heart-woman {
+  background-position: -39em -19em !important;
+}
+
+.ap-woman-kiss-woman {
+  background-position: -39em -20em !important;
+}

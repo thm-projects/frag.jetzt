@@ -170,7 +170,7 @@
     "motd-title-new": "Latest",
     "motd-title-old": "Archive",
     "open": "Open",
-    "style": "Display"
+    "style": "Design selection"
   },
   "header": {
     "back-button": "Back",
@@ -232,7 +232,7 @@
     "edit-session-description": "Welcome text",
     "edit-tags": "Question categories",
     "export-questions": "Export Q&A",
-    "fullscreen": "Fullscreen & Text",
+    "fullscreen": "Fullscreen & Text size",
     "guest-account-tooltip": "You are logged in as a guest. Your rooms and bonuses will be deleted when you reset your browser. If you sign in with an account, your rooms and bonuses will be saved for 180 days. This period is extended by 180 days with each additional visit to your rooms.",
     "home-header": "Q&A live",
     "home-header-mobile": "Q&A live",
@@ -248,6 +248,8 @@
     "motd": "News",
     "my-account": "Options",
     "my-sessions": "My rooms",
+    "navigation": "Navigation [{{loc}}]",
+    "navigation-no-target": "Navigation",
     "not-in-own-view": "You are currently in the participant view. In the options you can switch back to your view.",
     "open-admin": "Create a message",
     "overview-admin-config-enabled": "Thresholds for displaying topics are active.",
@@ -652,7 +654,18 @@
   },
   "topic-cloud-filter": {
     "info-no-keywords": "Our AI-based text analysis can identify keywords. Start analysis?",
-    "label-refresh-keywords-start": "Start"
+    "label-refresh-keywords-start": "Start",
+    "create": "Next",
+    "cancel": "Cancel",
+    "current-filter": "Filtered questions",
+    "current-filter-short": "Filtered questions",
+    "all-questions-and-answers": "All questions with answers",
+    "all-questions-and-answers-short": "All questions with answers",
+    "only-questions": "Questions only",
+    "only-questions-short": "Questions only",
+    "from-now": "Only questions from now on",
+    "from-now-short": "Only questions from now on",
+    "questions-title": "Which questions do you want on the radar?"
   },
   "unsupported-browser": {
     "body": "The features »Onboarding tour«, »Question focus«, »Minute jump clock«, »Fullscreen & Text«, and some display tools are not available in the Safari browser. Please use Google Chrome, Mozilla Firefox, or Microsoft Edge.",

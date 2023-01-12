@@ -40,8 +40,6 @@ import { DeviceInfoService } from '../../../services/util/device-info.service';
 import { ArsComposeService } from '../../../../../projects/ars/src/lib/services/ars-compose.service';
 import { HeaderService } from '../../../services/util/header.service';
 import { TagCloudDataService } from '../../../services/util/tag-cloud-data.service';
-import { Palette } from '../../../../theme/Theme';
-import { BonusTokenComponent } from '../../creator/_dialogs/bonus-token/bonus-token.component';
 import {
   BrainstormingFilter,
   FilterType,
@@ -303,12 +301,16 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     const filter = this._filterObject.dataFilter;
     filter.currentSearch = this.searchString;
+    filter.sourceFilterBrainstorming = null;
     this._filterObject.dataFilter = filter;
   }
 
   activateSearch() {
     this.search = true;
     this.searchField.nativeElement.focus();
+    const filter = this._filterObject.dataFilter;
+    filter.sourceFilterBrainstorming = null;
+    this._filterObject.dataFilter = filter;
   }
 
   abortSearch() {
@@ -316,6 +318,7 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
     this.searchString = '';
     const filter = this._filterObject.dataFilter;
     filter.currentSearch = '';
+    filter.sourceFilterBrainstorming = BrainstormingFilter.ExceptBrainstorming;
     this._filterObject.dataFilter = filter;
   }
 
@@ -573,10 +576,6 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
     );
   }
 
-  showQR() {
-    this.headerService.getHeaderComponent().showQRDialog();
-  }
-
   editQuestion(comment: ForumComment) {
     const ref = this.dialog.open(EditQuestionComponent, {
       width: '900px',
@@ -663,14 +662,11 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private initNavigation(): void {
-    this.eventService
-      .on<string>('navigate')
-      .pipe(takeUntil(this._destroySubject))
-      .subscribe((action) => {
-        if (action === 'topic-cloud') {
-          this.navigateTopicCloud();
-        }
-      });
+    this.eventService.on<unknown>('save-comment-filter')
+    .pipe(takeUntil(this._destroySubject))
+    .subscribe(() => {
+      this._filterObject.dataFilter.save();
+    });
     /* eslint-disable @typescript-eslint/no-shadow */
     this._list = this.composeService.builder(
       this.headerService.getHost(),
@@ -688,59 +684,6 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
         });
         e.menuItem({
           translate: this.headerService.getTranslate(),
-          icon: 'qr_code',
-          class: 'header-icons',
-          text: 'header.room-qr',
-          callback: () => this.showQR(),
-          condition: () => this.userRole > 0,
-        });
-        e.menuItem({
-          translate: this.headerService.getTranslate(),
-          icon: 'gavel',
-          class: 'material-icons-round',
-          text: 'header.moderationboard',
-          callback: () => {
-            const role = this.userRole === 3 ? 'creator' : 'moderator';
-            this.router.navigate([
-              role + '/room/' + this.room?.shortId + '/moderator/comments',
-            ]);
-          },
-          condition: () => this.userRole > 0,
-        });
-        e.menuItem({
-          translate: this.headerService.getTranslate(),
-          icon: 'radar',
-          class: '',
-          text: 'header.tag-cloud',
-          callback: () => this.navigateTopicCloud(),
-          condition: () =>
-            this.deviceInfo.isCurrentlyMobile &&
-            (this.cloudDataService.currentData?.size || 0) > 0,
-        });
-        e.menuItem({
-          translate: this.headerService.getTranslate(),
-          icon: ' tips_and_updates',
-          class: 'material-icons-outlined',
-          text: 'header.brainstorming',
-          callback: () =>
-            this.headerService.getHeaderComponent().navigateBrainstorming(),
-          condition: () =>
-            this.deviceInfo.isCurrentlyMobile &&
-            this.room?.brainstormingActive &&
-            (!!this.room?.brainstormingSession ||
-              this.userRole > UserRole.PARTICIPANT),
-        });
-        e.menuItem({
-          translate: this.headerService.getTranslate(),
-          icon: 'rocket_launch',
-          class: 'material-icons-outlined',
-          text: 'header.quiz-now',
-          callback: () => this.router.navigate(['quiz']),
-          condition: () =>
-            this.deviceInfo.isCurrentlyMobile && this.room?.quizActive,
-        });
-        e.menuItem({
-          translate: this.headerService.getTranslate(),
           icon: 'account_circle',
           class: 'material-icons-outlined',
           text: 'header.room-presets',
@@ -750,17 +693,6 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
             ref.componentInstance.roomId = this.room.id;
           },
           condition: () => true,
-        });
-        e.menuItem({
-          translate: this.headerService.getTranslate(),
-          icon: 'grade',
-          class: 'material-icons-round',
-          iconColor: Palette.YELLOW,
-          text: 'header.bonustoken',
-          callback: () => this.showBonusTokenDialog(),
-          condition: () =>
-            this.userRole > UserRole.PARTICIPANT &&
-            this.room?.bonusArchiveActive,
         });
         e.menuItem({
           translate: this.headerService.getTranslate(),
@@ -798,24 +730,5 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
     } else {
       this.activeKeyword = null;
     }
-  }
-
-  private showBonusTokenDialog(): void {
-    console.assert(this.userRole > UserRole.PARTICIPANT);
-    const dialogRef = this.dialog.open(BonusTokenComponent, {
-      width: '400px',
-    });
-    dialogRef.componentInstance.room = this.room;
-  }
-
-  private navigateTopicCloud() {
-    const confirmDialogRef = this.dialog.open(TopicCloudFilterComponent, {
-      autoFocus: false,
-      data: {
-        filterObject: this._filterObject,
-      },
-    });
-    confirmDialogRef.componentInstance.target = this.router.url + '/tagcloud';
-    confirmDialogRef.componentInstance.userRole = this.userRole;
   }
 }

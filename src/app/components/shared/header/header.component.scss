@@ -8,6 +8,12 @@
   cursor: pointer;
 }
 
+#page-navigation {
+  color: var(--on-background);
+  margin-bottom: -1.25em;
+  margin-left: 0.5em;
+}
+
 mat-toolbar {
   background-color: var(--background);
   position: relative;
@@ -177,6 +183,25 @@ svg {
   > ::ng-deep button, ::ng-deep ars-mat-menu-item > button {
     background-color: transparent !important;
 
+    &.outside {
+      background-color: var(--dialog) !important;
+      color: var(--on-dialog) !important;
+    }
+
+    &.active-nav-button {
+      color: var(--on-primary) !important;
+      background-color: var(--primary) !important;
+
+      .mat-icon-no-color {
+        color: currentColor !important;
+      }
+
+      svg {
+        stroke: currentColor;
+        fill: currentColor;
+      }
+    }
+
     &:hover {
       color: var(--on-secondary) !important;
       background-color: var(--secondary) !important;
@@ -221,4 +246,135 @@ h1 {
   min-height: 28px;
   font-size: 14px;
   color: var(--on-surface);
+}
+
+.btn-red {
+  color: var(--red);
+  stroke: var(--red);
+  fill: var(--red);
+}
+
+.btn-green {
+  color: green;
+  stroke: green;
+  fill: green;
+}
+
+.btn-primary {
+  color: var(--primary);
+  stroke: var(--primary);
+  fill: var(--primary);
+}
+
+.btn-yellow {
+  color: var(--yellow);
+  stroke: var(--yellow);
+  fill: var(--yellow);
+}
+
+
+.theme-btn {
+  &:focus {
+    background-color: var(--primary) !important;
+    color: var(--on-primary) !important;
+  }
+
+  &:hover {
+    background-color: var(--secondary) !important;
+    color: var(--on-secondary) !important;
+  }
+}
+
+.btnContent {
+  width: 100%;
+  height: 50px;
+  float: left;
+  margin-bottom: 5px;
+}
+
+.btnContent > .btnColorIcon {
+  width: 40px;
+  height: 40px;
+  float: left;
+  margin: 5px;
+  padding: 0px;
+  border-radius: 20px;
+}
+
+.checked {
+  width: calc(100% - 10px);
+  height: calc(100% - 10px);
+  margin: 5px;
+  float: left;
+  border-radius: 100%;
+  transition: all 0.1s;
+  border-color: var(--red) !important;
+  border-width: thick !important;
+
+  &.checked_true {
+    transform: scale(1);
+    opacity: 1;
+    background-color: transparent;
+
+    > .theme-icon {
+      display: none;
+    }
+
+    > .theme-icon-checked {
+      opacity: 1;
+    }
+  }
+
+  &.checked_false {
+    opacity: 1;
+
+    > .theme-icon {
+      opacity: 1;
+    }
+
+    > .theme-icon-checked {
+      display: none;
+    }
+  }
+
+  > mat-icon {
+    float: left;
+    position: relative;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    color: #FFFFFF;
+    border-radius: 100%;
+  }
+}
+
+.btnContent > .btnAppend {
+  width: calc(100% - 50px);
+  float: right;
+  position: relative;
+  top: -10px;
+}
+
+.btnContent > .btnAppend > .title {
+  width: 100%;
+  height: 15px;
+  float: left;
+  margin-bottom: 5px;
+}
+
+.btnContent > .btnAppend > .title:last-child {
+  margin-bottom: 0px;
+}
+
+.title > * {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  float: left;
+  padding: 0px;
+  margin-left: 12px;
+  margin-top: 10px;
+}
+
+.title_bold {
+  font-weight: 500;
 }

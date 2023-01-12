@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { TopicCloudAdminData } from 'app/components/shared/_dialogs/topic-cloud-administration/TopicCloudAdminData';
-import { BrainstormingWord } from 'app/models/brainstorming-word';
 import { Room } from 'app/models/room';
 import {
   calculateControversy,
@@ -18,12 +17,11 @@ import { SessionService } from './session.service';
 import { TagCloudMetaData } from './tag-cloud-data.service';
 import { TopicCloudAdminService } from './topic-cloud-admin.service';
 
-type Data = [BrainstormingWord, BrainstormingTopic][];
-
 @Injectable({
   providedIn: 'root',
 })
 export class BrainstormingDataService {
+  private ideaFilter: string | null = null;
   private readonly _currentMetaData: TagCloudMetaData = {
     tagCount: 0,
     commentCount: 0,
@@ -34,9 +32,9 @@ export class BrainstormingDataService {
   };
   private _lastSubscription: Subscription;
   private _filterObject: FilteredDataAccess;
-  private _dataBus: BehaviorSubject<Data>;
+  private _dataBus: BehaviorSubject<BrainstormingTopic[]>;
   private _metaDataBus: BehaviorSubject<TagCloudMetaData>;
-  private _lastFetchedData: Data = null;
+  private _lastFetchedData: BrainstormingTopic[] = null;
   private readonly _smartDebounce = new SmartDebounce(200, 1_000);
   private _subscriptionAdminData: Subscription;
   private _commentSubscription = null;
@@ -48,7 +46,7 @@ export class BrainstormingDataService {
     private sessionService: SessionService,
     private tagCloudAdmin: TopicCloudAdminService,
   ) {
-    this._dataBus = new BehaviorSubject<Data>(null);
+    this._dataBus = new BehaviorSubject<BrainstormingTopic[]>(null);
     this._metaDataBus = new BehaviorSubject<TagCloudMetaData>(null);
     this.sessionService.getRoom().subscribe((room) => this.onRoomUpdate(room));
   }
@@ -57,8 +55,19 @@ export class BrainstormingDataService {
     return this._currentMetaData;
   }
 
-  get currentData(): Data {
+  get currentData(): BrainstormingTopic[] {
     return this._dataBus.value;
+  }
+
+  get ideaFiltering(): string | null {
+    return this.ideaFilter;
+  }
+
+  set ideaFiltering(filter: string | null) {
+    if (this.ideaFilter !== filter) {
+      this.ideaFilter = filter;
+      this.rebuildData();
+    }
   }
 
   set filterObject(filter: FilteredDataAccess) {
@@ -71,6 +80,7 @@ export class BrainstormingDataService {
 
   unloadCloud() {
     this._filterObject?.detach(true);
+    this.ideaFiltering = null;
   }
 
   blockWord(wordId: string) {
@@ -81,7 +91,7 @@ export class BrainstormingDataService {
       .subscribe();
   }
 
-  getData(): Observable<Data> {
+  getData(): Observable<BrainstormingTopic[]> {
     return this._dataBus.asObservable();
   }
 
@@ -148,22 +158,14 @@ export class BrainstormingDataService {
       ),
       room.ownerId,
       session,
+      this.ideaFilter,
     );
     builder.addComments([...filteredComments]);
-    const preData = builder.getData();
-    const data = Object.keys(session.wordsWithMeta)
-      .map(
-        (wordId) =>
-          [
-            session.wordsWithMeta[wordId].word,
-            preData.get(wordId),
-          ] as Data[number],
-      )
-      .filter((arr) => Boolean(arr[1]) && !arr[0].banned);
+    const data: BrainstormingTopic[] = [...builder.getData().values()];
     const users = builder.getUsers();
     let minWeight = null;
     let maxWeight = null;
-    data.forEach(([_, topic]) => {
+    data.forEach((topic) => {
       topic.weight = this.calculateWeight(topic);
       minWeight = Math.min(
         topic.weight,
@@ -178,7 +180,7 @@ export class BrainstormingDataService {
     const same = minWeight === maxWeight;
     const span = maxWeight - minWeight;
     currentMeta.countPerWeight = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-    for (const [_, topic] of data.values()) {
+    for (const topic of data) {
       topic.adjustedWeight = same
         ? 4
         : Math.round(((topic.weight - minWeight) * 9.0) / span);
@@ -199,8 +201,8 @@ export class BrainstormingDataService {
       console.error('Got no data for tag cloud!');
       return;
     }
-    const newData: Data = [...current];
-    newData.sort((arrA, arrB) => arrB[1].weight - arrA[1].weight);
+    const newData: BrainstormingTopic[] = [...current];
+    newData.sort((arrA, arrB) => arrB.weight - arrA.weight);
     this._smartDebounce.call(() => this._dataBus.next(newData));
   }
 

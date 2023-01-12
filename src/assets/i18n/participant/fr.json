@@ -80,6 +80,7 @@
     "play-comments": "Afficher à nouveau les nouvelles questions et les évaluations",
     "qr-in-fullscreen": "Afficher le code QR en plein écran",
     "question-number": "Q{{number}}",
+    "brainstorming-number": "I{{number}}",
     "question-was-marked-with-a-star": "Hé, tu as reçu une étoile pour une bonne question !",
     "read": "Discuté par le conférencier",
     "really-delete": "Tu veux vraiment supprimer ce post ?",
@@ -96,7 +97,6 @@
     "sort-answers-time": "Ordre chronologique",
     "sort-commented": "Conversations longues",
     "sort-comments": "Trier les questions",
-    "sort-answers": "Trier les réponses",
     "sort-controversy": "Questions controversées",
     "sort-list-time": "Question la plus récente",
     "sort-list-time-reverse": "Question la plus ancienne",
@@ -493,7 +493,10 @@
     "responses-to-keyword": "Nombre de toutes les réponses à ce mot-clé",
     "ups-downs-difference": "Différence d'évaluation | {{upvotes}} 👍  {{downvotes}} 👎",
     "upvote-topic": "Votes positifs pour ce mot-clé",
-    "upvote-topic-brainstorming": "J'aime"
+    "upvote-topic-brainstorming": "J'aime",
+    "brainstorming-idea-filter": "Filtre à idées :",
+    "brainstorming-idea-all": "Tous les",
+    "brainstorming-idea-without-category": "Sans catégorie"
   },
   "tag-cloud-config": {
     "alphabetical-sorting": "Trier par ordre alphabétique",
@@ -651,21 +654,6 @@
     "word-is-not-profanity": "Le mot n'est pas profane.",
     "word-is-profanity": "Le mot est profane.",
     "words-in-profanity": "Mots profanes"
-  },
-  "topic-cloud-filter": {
-    "info-no-keywords": "Notre analyse de texte basée sur l'IA peut déterminer des mots clés. Démarrer l'analyse ?",
-    "label-refresh-keywords-start": "Démarrer",
-    "current-filter": "Questions filtrées",
-    "current-filter-short": "Questions filtrées",
-    "all-questions-and-answers": "Toutes les questions avec réponses",
-    "all-questions-and-answers-short": "Toutes les questions avec réponses",
-    "only-questions": "Seulement les questions",
-    "only-questions-short": "Seulement les questions",
-    "from-now": "Questions à partir de maintenant",
-    "from-now-short": "Questions à partir de maintenant",
-    "create": "Continuer",
-    "cancel": "Annuler",
-    "questions-title": "Quelles sont les questions que tu aimerais avoir sur le radar ?"
   },
   "user-bonus-token": {
     "bonus-token-body1": " du ",
