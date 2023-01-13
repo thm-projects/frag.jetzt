@@ -33,7 +33,7 @@
     line-height: math.div(1, 1.2);
     opacity: 0;
     z-index: 0;
-    transform: translate(var(--pos-x, 0px), var(--pos-y, 0px)) rotate(var(--rot, 0deg)) scale(var(--scale, 1));
+    transform: translate(var(--pos-x, 0px), var(--pos-y, 0px)) rotate(var(--rot, 0deg)) scale(var(--scale, 1)) scale(var(--offset-scale, 1));
     user-select: none;
     text-transform: var(--tag-cloud-transform, unset);
     font-family: var(--tag-cloud-font-family, unset);

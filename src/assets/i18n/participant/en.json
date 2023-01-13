@@ -714,7 +714,8 @@
   "write-comment": {
     "a11y-questioner-name": "Here you can enter your name if you want. This is visible for everyone at this comment.",
     "name-length-error": "The name must be {{min}} to {{max}} characters long.",
-    "questioner-name": "Your name, if you want …"
+    "questioner-name": "Your name, if you want …",
+    "brainstorming-hint": "Please avoid the use of special characters or punctuation. This increases the recognition for similar topics."
   },
   "pseudonym-editor": {
     "name": "Used when posting …",
