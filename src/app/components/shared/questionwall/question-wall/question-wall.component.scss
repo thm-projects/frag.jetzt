@@ -508,3 +508,13 @@ button > mat-icon {
   color: darkorange;
   height: unset;
 }
+
+ars-mat-paginator {
+  display: block;
+  float: left;
+  ::ng-deep {
+    * {
+      color: var(--ars-paragraph-color);
+    }
+  }
+}
