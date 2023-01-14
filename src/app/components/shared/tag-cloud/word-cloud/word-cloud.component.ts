@@ -602,7 +602,6 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
       parentHeight / Math.abs(minY),
       parentHeight / Math.abs(maxY),
     );
-    console.log(scalar);
-    return scalar;
+    return scalar * 0.85;
   }
 }

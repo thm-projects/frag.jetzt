@@ -32,6 +32,7 @@ ars-screen {
   z-index: 1;
   line-height: 1;
   border-radius: 10px;
+  width: max-content;
 
   .mat-icon {
     font-size: 1em;
@@ -49,6 +50,7 @@ ars-screen {
 }
 
 img {
+  object-fit: scale-down;
   top: var(--pos-y, 0px);
   left: var(--pos-x, 0px);
   position: absolute;
