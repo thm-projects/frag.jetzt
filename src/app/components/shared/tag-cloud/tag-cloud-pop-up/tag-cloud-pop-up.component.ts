@@ -218,7 +218,7 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit, OnDestroy 
       this.isBrainstorming = false;
       this.tag = tag;
       this.previousTag = null; // dont allow modification of tag key
-      this.elem = null; // dont allow modification of tag key
+      this.elem = elem;
       this.tagData = tagData;
       this.categories = Array.from(tagData.categories.keys());
       this.calculateDateText(() => {

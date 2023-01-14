@@ -55,6 +55,14 @@ export class UserBonusTokenComponent implements OnInit {
   ) {
   }
 
+  static openDialog(dialog: MatDialog, userId: string): MatDialogRef<UserBonusTokenComponent> {
+    const dialogRef = dialog.open(UserBonusTokenComponent, {
+      width: '600px',
+    });
+    dialogRef.componentInstance.userId = userId;
+    return dialogRef;
+  }
+
   private static escapeForEmail(text: string): string {
     return encodeURIComponent(text.replace(/(\r\n)|\n/gm, '\r\n'));
   }

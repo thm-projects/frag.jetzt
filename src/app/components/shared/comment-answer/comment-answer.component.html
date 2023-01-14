@@ -40,18 +40,20 @@
   <div fxLayout="row"
        *ngIf="(room.conversationDepth || !isStudent) && !isConversationView"
        fxLayoutAlign="center">
-    <mat-card class="answer border-answer">
-      <app-write-comment [isModerator]="!isStudent"
-                         [isCommentAnswer]="true"
-                         [placeholder]="'comment-page.your-answer'"
-                         [onClose]="onSubmit.bind(this)"
-                         [commentReference]="comment.id"
-                         [confirmLabel]="'save-answer'"
-                         [cancelLabel]="'abort'"
-                         [tags]="room.tags"
-                         [isQuestionerNameEnabled]="true"
-                         [additionalMockOffset]="65">
-      </app-write-comment>
-    </mat-card>
+       <div class="main-container">
+        <mat-card class="answer border-answer">
+          <app-write-comment [isModerator]="!isStudent"
+                             [isCommentAnswer]="true"
+                             [placeholder]="'comment-page.your-answer'"
+                             [onClose]="onSubmit.bind(this)"
+                             [commentReference]="comment.id"
+                             [confirmLabel]="'save-answer'"
+                             [cancelLabel]="'abort'"
+                             [tags]="room.tags"
+                             [isQuestionerNameEnabled]="true"
+                             [additionalMockOffset]="65">
+          </app-write-comment>
+        </mat-card>
+       </div>
   </div>
 </div>

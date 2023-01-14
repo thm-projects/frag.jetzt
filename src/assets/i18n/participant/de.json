@@ -126,7 +126,8 @@
     "thursday": "Donnerstag",
     "title": "Mail-Benachrichtigung",
     "tuesday": "Dienstag",
-    "wednesday": "Mittwoch"
+    "wednesday": "Mittwoch",
+    "needs-user-account": "Du benötigst ein Konto mit einer E-Mail-Adresse, um Benachrichtigungen zu erhalten!"
   },
   "comment-page": {
     "a11y-comment-answer": "Antwort dieser Frage ansehen",
@@ -277,7 +278,20 @@
     "overview-questioners-tooltip": "Anzahl Fragensteller*innen",
     "overview-admin-config-enabled": "Schwellenwerte für die Anzeige der Themen sind aktiv.",
     "overview-brainstormers-tooltip": "Brainstormer",
-    "overview-ideas-tooltip": "Anzahl Ideen"
+    "overview-ideas-tooltip": "Anzahl Ideen",
+    "navigation": "Navigation [{{loc}}]",
+    "back-button": "Zurück",
+    "back-to-questionboard": "Q&A-Forum",
+    "questionwall": "Fragen-Fokus",
+    "tag-cloud": "Fragen-Radar",
+    "brainstorming": "Brainstorming",
+    "quiz-now": "Quiz-Rallye",
+    "back-to-room": "Empfang",
+    "my-sessions": "Meine Räume",
+    "user-bonus-token": "Meine Bonus-Sterne",
+    "room-qr": "QR-Code",
+    "motd": "News",
+    "logout": "Abmelden"
   },
   "home-page": {
     "exactly-8": "Ein Raum-Code hat genau 8 Ziffern.",
@@ -488,6 +502,7 @@
     "no-elements": "Die Wortwolke ist leer.",
     "overview-question-topic-tooltip": "Mehrfachnennungen",
     "open-in-q-and-a": "Im Forum diskutieren",
+    "show-comments-by-topic": "Zu den Fragen mit diesem Stichwort …",
     "overview-questioners-topic-tooltip": "Autor*innen",
     "period-since-first-comment": "Zeit seit dem ersten Beitrag",
     "print-title": "Wortwolke aus dem Raum »{{roomName}}«",
@@ -700,7 +715,8 @@
   "write-comment": {
     "a11y-questioner-name": "Hier kannst du, wenn du willst, deinen Namen eingeben. Dieser ist für alle an diesem Kommentar sichtbar.",
     "name-length-error": "Der Name muss {{min}} bis {{max}} Zeichen lang sein.",
-    "questioner-name": "Dein Name, wenn du willst …"
+    "questioner-name": "Dein Name, wenn du willst …",
+    "brainstorming-hint": "Bitte vermeide die Verwendung von Sonder- oder Satzzeichen. Dies erhöht die Erkennung für ähnliche Themen."
   },
   "pseudonym-editor": {
     "name": "Wird beim Posten verwendet …",

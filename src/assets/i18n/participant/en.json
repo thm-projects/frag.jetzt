@@ -126,7 +126,8 @@
     "thursday": "Thursday",
     "title": "Email notification",
     "tuesday": "Tuesday",
-    "wednesday": "Wednesday"
+    "wednesday": "Wednesday",
+    "needs-user-account": "You need an account with an email address to receive notifications!"
   },
   "comment-page": {
     "a11y-comment-answer": "View Answer",
@@ -276,7 +277,20 @@
     "overview-questioners-tooltip": "Number of questioners",
     "overview-admin-config-enabled": "Thresholds for displaying topics are active.",
     "overview-brainstormers-tooltip": "Brainstormers",
-    "overview-ideas-tooltip": "Number of ideas"
+    "overview-ideas-tooltip": "Number of ideas",
+    "navigation": "Navigation [{{loc}}]",
+    "back-button": "Back",
+    "back-to-questionboard": "Q&A forum",
+    "questionwall": "Question focus",
+    "tag-cloud": "Question radar",
+    "brainstorming": "Brainstorming",
+    "quiz-now": "Quiz rally",
+    "back-to-room": "Reception",
+    "my-sessions": "My rooms",
+    "user-bonus-token": "My bonus stars",
+    "room-qr": "QR code",
+    "motd": "News",
+    "logout": "Log out"
   },
   "home-page": {
     "exactly-8": "A key is a combination of 8 digits.",
@@ -487,6 +501,7 @@
     "no-elements": "The word cloud is empty.",
     "overview-question-topic-tooltip": "Multiple entries",
     "open-in-q-and-a": "Discuss in the forum",
+    "show-comments-by-topic": "To the questions with this keyword …",
     "overview-questioners-topic-tooltip": "Authors",
     "period-since-first-comment": "Time since the first contribution",
     "print-title": "Word cloud from room »{{roomName}}«",
@@ -699,7 +714,8 @@
   "write-comment": {
     "a11y-questioner-name": "Here you can enter your name if you want. This is visible for everyone at this comment.",
     "name-length-error": "The name must be {{min}} to {{max}} characters long.",
-    "questioner-name": "Your name, if you want …"
+    "questioner-name": "Your name, if you want …",
+    "brainstorming-hint": "Please avoid the use of special characters or punctuation. This increases the recognition for similar topics."
   },
   "pseudonym-editor": {
     "name": "Used when posting …",

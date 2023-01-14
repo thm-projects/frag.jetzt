@@ -217,11 +217,6 @@ h1 {
   color: var(--red);
 }
 
-::ng-deep #cdk-overlay-0 .mat-menu-content > button:hover mat-icon {
-  color: white !important;
-  background-color: gray !important;
-}
-
 .userActivityIcon {
   display: inline-block;
   width: 25px;
@@ -246,30 +241,6 @@ h1 {
   min-height: 28px;
   font-size: 14px;
   color: var(--on-surface);
-}
-
-.btn-red {
-  color: var(--red);
-  stroke: var(--red);
-  fill: var(--red);
-}
-
-.btn-green {
-  color: green;
-  stroke: green;
-  fill: green;
-}
-
-.btn-primary {
-  color: var(--primary);
-  stroke: var(--primary);
-  fill: var(--primary);
-}
-
-.btn-yellow {
-  color: var(--yellow);
-  stroke: var(--yellow);
-  fill: var(--yellow);
 }
 
 

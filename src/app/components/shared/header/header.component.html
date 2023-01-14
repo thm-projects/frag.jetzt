@@ -3,54 +3,7 @@
     [ngClass]="{
       'mat-toolbar-moderation': router.url.endsWith('/moderator/comments')
     }">
-    <button
-      mat-button
-      *ngIf="!possibleLocationsEmpty"
-      (click)="refreshLocations()"
-      [matMenuTriggerFor]="locationMenu">
-      <div class="label-icon">
-        <mat-icon class="header-icons" style="transform: scale(1.2)">place</mat-icon>
-        <h2
-          style="margin-left: 5px"
-          *ngIf="deviceInfo.isCurrentlyDesktop">
-          {{
-            (currentLocation?.i18n
-              ? "header.navigation"
-              : "header.navigation-no-target"
-            ) | translate : { loc: currentLocation?.i18n || "" | translate }
-          }}
-        </h2>
-      </div>
-    </button>
-
-    <mat-menu
-      #locationMenu="matMenu"
-      [overlapTrigger]="false">
-      <div class="mat-menu-inner-box">
-        <ng-container *ngFor="let location of possibleLocations">
-          <button
-            *ngIf="location.accessible"
-            [ngClass]="{
-              'active-nav-button': location.active,
-              outside: location.outside
-            }"
-            (click)="navigateToPage(location)"
-            mat-menu-item
-            tabindex="0">
-            <mat-icon
-              *ngIf="location.icon"
-              [ngClass]="location.class">
-              {{ location.icon }}
-            </mat-icon>
-            <mat-icon
-              *ngIf="location.svgIcon"
-              [ngClass]="location.class"
-              [svgIcon]="location.svgIcon"></mat-icon>
-            <span>{{ location.i18n | translate }}</span>
-          </button>
-        </ng-container>
-      </div>
-    </mat-menu>
+    <app-navigation></app-navigation>
 
     <button
       id="tour-button"
@@ -100,7 +53,7 @@
           ((tagCloudDataService.currentData?.size || 0) > 0 ||
             topicCloudAdminService.isTopicRequirementActive())
         "
-        (click)="navigateTopicCloud()">
+        (click)="navigateCloud()">
         <mat-icon style="transform: scale(1.3); margin-right: 7px">
           radar
         </mat-icon>
@@ -118,7 +71,7 @@
           deviceInfo.isCurrentlyDesktop &&
           (!!room?.brainstormingSession || userRole > 0)
         "
-        (click)="navigateBrainstorming()">
+        (click)="navigateBrainstormingDialog()">
         <mat-icon
           class="material-icons"
           *ngIf="room?.brainstormingSession?.active"

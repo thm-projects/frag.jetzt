@@ -44,7 +44,8 @@
     "thursday": "Donnerstag",
     "title": "Mail-Benachrichtigung",
     "tuesday": "Dienstag",
-    "wednesday": "Mittwoch"
+    "wednesday": "Mittwoch",
+    "needs-user-account": "Du benötigst ein Konto mit einer E-Mail-Adresse, um Benachrichtigungen zu erhalten!"
   },
   "content": {
     "brainstorm-join-session-close": "Schließen",
