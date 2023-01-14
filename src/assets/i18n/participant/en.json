@@ -156,7 +156,7 @@
     "border-tooltip-border-wrong": "This question was marked as wrong.",
     "brainstorming-info-multiple": "{{maxWordCount}} words / {{maxWordLength}} characters",
     "brainstorming-info-single": "{{maxWordCount}} word / {{maxWordLength}} characters",
-    "brainstorming-placeholder": "Every idea is welcome!\nCreate a separate entry for each new idea.",
+    "brainstorming-placeholder": "Every idea is welcome!\nCreate a separate entry for each new idea.\nDon't use special or punctuation marks.",
     "cancel": "Cancel",
     "cancel-description": "Cancel",
     "category": "Category:",
@@ -714,8 +714,7 @@
   "write-comment": {
     "a11y-questioner-name": "Here you can enter your name if you want. This is visible for everyone at this comment.",
     "name-length-error": "The name must be {{min}} to {{max}} characters long.",
-    "questioner-name": "Your name, if you want …",
-    "brainstorming-hint": "Please avoid the use of special characters or punctuation. This increases the recognition for similar topics."
+    "questioner-name": "Your name, if you want …"
   },
   "pseudonym-editor": {
     "name": "Used when posting …",

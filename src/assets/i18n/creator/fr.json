@@ -214,7 +214,7 @@
     "border-tooltip-border-wrong": "Ce message a été marqué comme étant incorrect.",
     "brainstorming-info-multiple": "{{maxWordCount}} mots / {{maxWordLength}} caractères",
     "brainstorming-info-single": "{{maxWordCount}} mot / {{maxWordLength}} caractères",
-    "brainstorming-placeholder": "Chaque idée est la bienvenue !\nCrée une entrée séparée pour chaque nouvelle idée.",
+    "brainstorming-placeholder": "Chaque idée est la bienvenue !\nCrée une entrée séparée pour chaque nouvelle idée.\nN'utilise pas de caractères spéciaux ou de ponctuation.",
     "cancel": "Annuler",
     "cancel-description": "Annuler",
     "category": "Catégorie:",
@@ -900,8 +900,7 @@
   "write-comment": {
     "a11y-questioner-name": "Ici, tu peux, si tu le souhaites, entrer ton nom. Celui-ci est visible pour tous les participants à ce commentaire.",
     "name-length-error": "Le nom doit comporter entre {{min}} et {{max}} caractères.",
-    "questioner-name": "Ton nom, si tu veux …",
-    "brainstorming-hint": "Évite d'utiliser des caractères spéciaux ou des signes de ponctuation. Cela augmente la reconnaissance pour des sujets similaires."
+    "questioner-name": "Ton nom, si tu veux …"
   },
   "pseudonym-editor": {
     "name": "Utilisé lors de la post …",

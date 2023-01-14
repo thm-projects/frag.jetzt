@@ -38,11 +38,7 @@
   [maxTextCharacters]="maxTextCharacters"
   [maxDataCharacters]="maxDataCharacters"
   [placeHolderText]="placeholder"></app-view-comment-data>
-<mat-hint
-  *ngIf="!!brainstormingData"
-  style="display: block">
-  {{ "write-comment.brainstorming-hint" | translate }}
-</mat-hint>
+
 <mat-form-field
   class="questioner-name-input"
   *ngIf="isQuestionerNameEnabled && enabled">
