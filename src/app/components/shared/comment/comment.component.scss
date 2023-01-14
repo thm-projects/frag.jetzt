@@ -454,7 +454,7 @@ $width-range: $max-width - $min-width;
 :host ::ng-deep {
   .images img {
     max-width: 100% !important;
-    cursor: pointer;
+    cursor: zoom-in;
   }
 }
 
