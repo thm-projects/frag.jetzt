@@ -170,32 +170,34 @@
         }
           }}</span>
       </div>
-      <div
-        [joyrideStep]="'voting'"
-        [stepPosition]="'left'"
-        appJoyrideTemplate
-        fxLayout="column"
-        fxLayoutAlign="center"
-        *ngIf="isStudent && usesJoyride"
-        [ngClass]="{ '1': 'voteUp', '-1': 'voteDown', '0': 'reset'}[currentVote]">
-        <ng-container [ngTemplateOutlet]="voting"></ng-container>
-      </div>
-      <div
-        fxLayout="column"
-        fxLayoutAlign="center"
-        *ngIf="isStudent && !usesJoyride"
-        [ngClass]="{ '1': 'voteUp', '-1': 'voteDown', '0': 'reset'}[currentVote]">
-        <ng-container [ngTemplateOutlet]="voting"></ng-container>
-      </div>
-      <div *ngIf="!isStudent"
-           fxLayout="column"
-           fxLayoutAlign="center">
-        <span class="scoreCreator"
-              matTooltip="{{
-        ('comment-page.upvote' | translate) + ' ' + comment.upvotes + ' ' +
-        ('comment-page.downvote' | translate) + ' ' + comment.downvotes
-        }}" [matTooltipPosition]="'right'">{{comment.score}}</span>
-      </div>
+      <ng-container *ngIf="!comment?.brainstormingWordId">
+        <div
+          [joyrideStep]="'voting'"
+          [stepPosition]="'left'"
+          appJoyrideTemplate
+          fxLayout="column"
+          fxLayoutAlign="center"
+          *ngIf="isStudent && usesJoyride"
+          [ngClass]="{ '1': 'voteUp', '-1': 'voteDown', '0': 'reset'}[currentVote]">
+          <ng-container [ngTemplateOutlet]="voting"></ng-container>
+        </div>
+        <div
+          fxLayout="column"
+          fxLayoutAlign="center"
+          *ngIf="isStudent && !usesJoyride"
+          [ngClass]="{ '1': 'voteUp', '-1': 'voteDown', '0': 'reset'}[currentVote]">
+          <ng-container [ngTemplateOutlet]="voting"></ng-container>
+        </div>
+        <div *ngIf="!isStudent"
+             fxLayout="column"
+             fxLayoutAlign="center">
+          <span class="scoreCreator"
+                matTooltip="{{
+          ('comment-page.upvote' | translate) + ' ' + comment.upvotes + ' ' +
+          ('comment-page.downvote' | translate) + ' ' + comment.downvotes
+          }}" [matTooltipPosition]="'right'">{{comment.score}}</span>
+        </div>
+      </ng-container>
     </div>
     <ars-row ars-flex-box
              #commentExpander>

@@ -1,55 +1,95 @@
 <ars-row>
   <ng-container [ngTemplateOutlet]="additionalTemplate"></ng-container>
 
-  <button mat-button
-          *ngIf="enabled && tags && tags.length"
-          (click)="tagSelect.open()"
-          matTooltip="{{ 'spacy-dialog.tag-button-hint' | translate }}">
+  <button
+    mat-button
+    *ngIf="enabled && tags && tags.length"
+    (click)="tagSelect.open()"
+    matTooltip="{{ 'spacy-dialog.tag-button-hint' | translate }}">
     <mat-icon class="btn-icon">sell</mat-icon>
-    <label for="tagSelect" *ngIf="!selectedTag"><em>{{'comment-page.tag' | translate}}</em></label>
-    <mat-select class="select-list" id="tagSelect" #tagSelect [(ngModel)]="selectedTag">
-      <mat-option [value]="null"><em>{{'comment-page.tag-reset' | translate}}</em></mat-option>
-      <mat-option *ngFor="let tag of tags" [value]="tag">{{tag}}</mat-option>
+    <label
+      for="tagSelect"
+      *ngIf="!selectedTag">
+      <em>{{ "comment-page.tag" | translate }}</em>
+    </label>
+    <mat-select
+      class="select-list"
+      id="tagSelect"
+      #tagSelect
+      [(ngModel)]="selectedTag">
+      <mat-option [value]="null">
+        <em>{{ "comment-page.tag-reset" | translate }}</em>
+      </mat-option>
+      <mat-option
+        *ngFor="let tag of tags"
+        [value]="tag">
+        {{ tag }}
+      </mat-option>
     </mat-select>
   </button>
-
 </ars-row>
 <ars-row [height]="12"></ars-row>
-<app-view-comment-data *ngIf="enabled"
-                       [isModerator]="isModerator"
-                       [isBrainstorming]="!!brainstormingData"
-                       [textOverwrite]="brainstormingInfo"
-                       [isEditor]="true"
-                       [maxTextCharacters]="maxTextCharacters"
-                       [maxDataCharacters]="maxDataCharacters"
-                       [placeHolderText]="placeholder">
-</app-view-comment-data>
-<mat-form-field class="questioner-name-input" *ngIf="isQuestionerNameEnabled && enabled">
-  <input appAccessibilityEscapedInput
-         matInput
-         [formControl]="questionerNameFormControl"
-         name="questioner-name"
-         [maxlength]="questionerNameMax"
-         aria-labelledby="questioner-name">
-  <mat-placeholder class="placeholder">{{ 'write-comment.questioner-name' | translate }}</mat-placeholder>
+<app-view-comment-data
+  *ngIf="enabled"
+  [isModerator]="isModerator"
+  [isBrainstorming]="!!brainstormingData"
+  [textOverwrite]="brainstormingInfo"
+  [isEditor]="true"
+  [maxTextCharacters]="maxTextCharacters"
+  [maxDataCharacters]="maxDataCharacters"
+  [placeHolderText]="placeholder"></app-view-comment-data>
+<mat-hint
+  *ngIf="!!brainstormingData"
+  style="display: block">
+  {{ "write-comment.brainstorming-hint" | translate }}
+</mat-hint>
+<mat-form-field
+  class="questioner-name-input"
+  *ngIf="isQuestionerNameEnabled && enabled">
+  <input
+    appAccessibilityEscapedInput
+    matInput
+    [formControl]="questionerNameFormControl"
+    name="questioner-name"
+    [maxlength]="questionerNameMax"
+    aria-labelledby="questioner-name" />
+  <mat-placeholder class="placeholder">
+    {{ "write-comment.questioner-name" | translate }}
+  </mat-placeholder>
   <mat-hint align="end">
-    <span aria-hidden="true">{{ questionerNameFormControl.value.length }} / {{questionerNameMax}}</span>
+    <span aria-hidden="true">
+      {{ questionerNameFormControl.value.length }} / {{ questionerNameMax }}
+    </span>
   </mat-hint>
-  <mat-error *ngIf="questionerNameFormControl.hasError('minlength') ||
-                    questionerNameFormControl.hasError('maxlength')">
-    {{ 'write-comment.name-length-error' | translate : {min: questionerNameMin, max: questionerNameMax} }}
+  <mat-error
+    *ngIf="
+      questionerNameFormControl.hasError('minlength') ||
+      questionerNameFormControl.hasError('maxlength')
+    ">
+    {{
+      "write-comment.name-length-error"
+        | translate : { min: questionerNameMin, max: questionerNameMax }
+    }}
   </mat-error>
 </mat-form-field>
-<ars-row ars-flex-box *ngIf="enabled" class="spellcheck">
+<ars-row
+  ars-flex-box
+  *ngIf="enabled"
+  class="spellcheck">
   <ars-col>
     <button
       [disabled]="isSpellcheckingButtonDisabled()"
       mat-flat-button
       class="spell-button"
       (click)="checkGrammar()">
-      {{ 'comment-page.grammar-check' | translate}}
-      <mat-icon *ngIf="isSpellchecking" class="spinner-container">
-        <app-mat-spinner-overlay diameter="20" strokeWidth="2" [color]="'on-primary'"></app-mat-spinner-overlay>
+      {{ "comment-page.grammar-check" | translate }}
+      <mat-icon
+        *ngIf="isSpellchecking"
+        class="spinner-container">
+        <app-mat-spinner-overlay
+          diameter="20"
+          strokeWidth="2"
+          [color]="'on-primary'"></app-mat-spinner-overlay>
       </mat-icon>
     </button>
   </ars-col>
@@ -62,36 +102,45 @@
       [showDivider]="false"
       [spacing]="false"
       [cancelButtonClickAction]="buildCloseDialogActionCallback()"
-      [confirmButtonClickAction]="buildCreateCommentActionCallback()"
-    ></app-dialog-action-buttons>
+      [confirmButtonClickAction]="
+        buildCreateCommentActionCallback()
+      "></app-dialog-action-buttons>
   </ars-col>
 </ars-row>
 
 <div *ngIf="!brainstormingData">
-  <button mat-flat-button
-          class="preview-btn"
-          *ngIf="isMobileMockPossible"
-          (click)="setMobileMockState(!isMobileMockActive)">
-    {{'comment-page.preview-in-mock' | translate}}
+  <button
+    mat-flat-button
+    class="preview-btn"
+    *ngIf="isMobileMockPossible"
+    (click)="setMobileMockState(!isMobileMockActive)">
+    {{ "comment-page.preview-in-mock" | translate }}
   </button>
 </div>
-<div *ngIf="isMobileMockActive"
-     class="mobile-mock-wrapper"
-     #mobileMock>
+<div
+  *ngIf="isMobileMockActive"
+  class="mobile-mock-wrapper"
+  #mobileMock>
   <div>
     <div>
-      <app-comment [comment]="getContent()"
-                   [isMock]="true"
-                   [userRole]="0"
-                   [moderator]="false"
-                   [isFromModerator]="userRole === 2"
-                   [isFromOwner]="userRole === 3"
-                   [user]="user"></app-comment>
+      <app-comment
+        [comment]="getContent()"
+        [isMock]="true"
+        [userRole]="0"
+        [moderator]="false"
+        [isFromModerator]="userRole === 2"
+        [isFromOwner]="userRole === 3"
+        [user]="user"></app-comment>
     </div>
   </div>
-  <img src="/assets/images/Iphone-X-Mock.png" loading="lazy" alt="Phone preview">
+  <img
+    src="/assets/images/Iphone-X-Mock.png"
+    loading="lazy"
+    alt="Phone preview" />
 </div>
 
 <div class="visually-hidden">
-  <div id="questioner-name">{{ 'write-comment.a11y-questioner-name' | translate }}</div>
+  <div id="questioner-name">
+    {{ "write-comment.a11y-questioner-name" | translate }}
+  </div>
 </div>

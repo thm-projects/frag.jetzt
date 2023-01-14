@@ -1,4 +1,9 @@
-<ars-screen (click)="changeClick()">
+<ars-screen
+  (mousemove)="move($event)"
+  (wheel)="wheelEvent($event)"
+  (touchend)="touchEnd($event)"
+  (touchmove)="touchMove($event)"
+  (touchstart)="touchStart($event)">
   <div
     fxLayout="column"
     fxLayoutAlign="center center"
@@ -8,8 +13,14 @@
       (click)="onCloseClick()">
       close
     </mat-icon>
-    <img alt="Fullscreen"
-      [class]="clicked"
+    <div class="action-buttons">
+      <mat-icon class="material-icons-outlined" (click)="scalePicture(0.2)">zoom_in</mat-icon>
+      <mat-icon class="material-icons-outlined" (click)="scalePicture(-0.2)">zoom_out</mat-icon>
+      <mat-icon class="material-icons-outlined" (click)="reset()">crop_free</mat-icon>
+    </div>
+    <img
+      alt="Fullscreen"
+      #image
       [src]="src" />
   </div>
 </ars-screen>
