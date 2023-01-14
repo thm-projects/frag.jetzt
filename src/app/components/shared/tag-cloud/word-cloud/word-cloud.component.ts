@@ -9,10 +9,13 @@ import {
   Output,
   Renderer2,
   SimpleChanges,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 import { FontInfoService } from '../../../../services/util/font-info.service';
-import { CloudParameters, CloudTextStyle } from '../../../../utils/cloud-parameters';
+import {
+  CloudParameters,
+  CloudTextStyle,
+} from '../../../../utils/cloud-parameters';
 import { ColorContrast } from '../../../../utils/color-contrast';
 import { WordCloudDrawFunctions } from './word-cloud-draw-functions';
 import { ThemeService } from '../../../../../theme/theme.service';
@@ -48,7 +51,7 @@ export interface ActiveWord<T extends WordMeta, K = any> {
 export enum WeightClassType {
   Lowest,
   Middle,
-  Highest
+  Highest,
 }
 
 interface StyleDeclarations {
@@ -56,16 +59,16 @@ interface StyleDeclarations {
   weights: number[];
 }
 
-const TO_RAD = 2 * Math.PI / 360;
+const TO_RAD = (2 * Math.PI) / 360;
 
 @Component({
   selector: 'app-word-cloud',
   templateUrl: './word-cloud.component.html',
-  styleUrls: ['./word-cloud.component.scss']
+  styleUrls: ['./word-cloud.component.scss'],
 })
 export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges, OnDestroy {
-
-  @ViewChild('wordCloud', { static: true }) wordCloud: ElementRef<HTMLDivElement>;
+  @ViewChild('wordCloud', { static: true })
+  wordCloud: ElementRef<HTMLDivElement>;
   @Output() clicked = new EventEmitter<T>();
   @Output() entered = new EventEmitter<ActiveWord<T>>();
   @Output() left = new EventEmitter<ActiveWord<T>>();
@@ -84,11 +87,9 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
     private renderer2: Renderer2,
     private fontInfoService: FontInfoService,
     public themeService: ThemeService,
-  ) {
-  }
+  ) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   ngOnDestroy() {
     this._cssStyleElement?.remove();
@@ -123,30 +124,37 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
       return true;
     }
     const current = this.parameters;
-    return (previous.randomAngles !== current.randomAngles) ||
-      (previous.sortAlphabetically !== current.sortAlphabetically) ||
-      (previous.fontSizeMin !== current.fontSizeMin) ||
-      (previous.fontSizeMax !== current.fontSizeMax) ||
-      (previous.textTransform !== current.textTransform) ||
-      (previous.fontStyle !== current.fontStyle) ||
-      (previous.fontWeight !== current.fontWeight) ||
-      (previous.fontFamily !== current.fontFamily) ||
-      (previous.fontSize !== current.fontSize) ||
+    return (
+      previous.randomAngles !== current.randomAngles ||
+      previous.sortAlphabetically !== current.sortAlphabetically ||
+      previous.fontSizeMin !== current.fontSizeMin ||
+      previous.fontSizeMax !== current.fontSizeMax ||
+      previous.textTransform !== current.textTransform ||
+      previous.fontStyle !== current.fontStyle ||
+      previous.fontWeight !== current.fontWeight ||
+      previous.fontFamily !== current.fontFamily ||
+      previous.fontSize !== current.fontSize ||
       previous.cloudWeightSettings.some((setting, i) => {
         const currentSetting = current.cloudWeightSettings[i];
-        return (setting.maxVisibleElements !== currentSetting.maxVisibleElements) ||
-          (setting.rotation !== currentSetting.rotation);
-      });
+        return (
+          setting.maxVisibleElements !== currentSetting.maxVisibleElements ||
+          setting.rotation !== currentSetting.rotation
+        );
+      })
+    );
   }
 
   needsStyleUpdate(previous: CloudParameters): boolean {
     const current = this.parameters;
-    return (previous.backgroundColor !== current.backgroundColor) ||
+    return (
+      previous.backgroundColor !== current.backgroundColor ||
       previous.hoverTime !== current.hoverTime ||
       previous.hoverDelay !== current.hoverDelay ||
-      (previous.fontColor !== current.fontColor) ||
-      previous.cloudWeightSettings.some((setting, i) =>
-        setting.color !== current.cloudWeightSettings[i].color);
+      previous.fontColor !== current.fontColor ||
+      previous.cloudWeightSettings.some(
+        (setting, i) => setting.color !== current.cloudWeightSettings[i].color,
+      )
+    );
   }
 
   updateStyles() {
@@ -167,10 +175,14 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
       rot += 360;
     }
     const invertedFont = ColorContrast.rgbToHex(
-      ColorContrast.getInvertedColor(ColorContrast.hexToRgb(this.parameters.fontColor))
+      ColorContrast.getInvertedColor(
+        ColorContrast.hexToRgb(this.parameters.fontColor),
+      ),
     );
     this.transformObjectToCSS(sheet, root, {
-      WordCloudImage: `hue-rotate(${rot + 'deg'}) grayscale(${grayscale}) opacity(0.5)`,
+      WordCloudImage: `hue-rotate(${
+        rot + 'deg'
+      }) grayscale(${grayscale}) opacity(0.5)`,
       TagCloudFontColor: this.parameters.fontColor,
       TagCloudInvertedFontColor: invertedFont,
       TagCloudBackgroundColor: this.parameters.backgroundColor,
@@ -181,14 +193,26 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
       TagCloudFontWeight: this.parameters.fontWeight,
       TagCloudFontStyle: this.parameters.fontStyle,
     });
-    for (let i = this._styleIndexes.weights.length; i < this.weightClasses; i++) {
-      weights.push(sheet.insertRule('.word-cloud > .weight-class-' + i + ' {}', sheet.cssRules.length));
+    for (
+      let i = this._styleIndexes.weights.length;
+      i < this.weightClasses;
+      i++
+    ) {
+      weights.push(
+        sheet.insertRule(
+          '.word-cloud > .weight-class-' + i + ' {}',
+          sheet.cssRules.length,
+        ),
+      );
     }
-    const fontRange = (this.parameters.fontSizeMax - this.parameters.fontSizeMin) / this.weightClasses;
+    const fontRange =
+      (this.parameters.fontSizeMax - this.parameters.fontSizeMin) /
+      this.weightClasses;
     for (let i = 0; i < this.weightClasses; i++) {
       this.transformObjectToCSS(sheet, weights[i], {
         color: this.parameters.cloudWeightSettings[i].color,
-        fontSize: (this.parameters.fontSizeMin + fontRange * i).toFixed(0) + '%'
+        fontSize:
+          (this.parameters.fontSizeMin + fontRange * i).toFixed(0) + '%',
       });
     }
     /* eslint-enable @typescript-eslint/naming-convention */
@@ -204,7 +228,8 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
 
   transformObjectToCSS(sheet: CSSStyleSheet, index: number, object: any) {
     const upper = /[A-Z]/gm;
-    const replacer = (x: string, ...args: any) => (args[0] === 0 ? '--' : '-') + x.toLowerCase();
+    const replacer = (x: string, ...args: any) =>
+      (args[0] === 0 ? '--' : '-') + x.toLowerCase();
     let str = '{';
     for (const key of Object.keys(object)) {
       str += `\n${key.replace(upper, replacer)}: ${object[key]};`;
@@ -228,13 +253,24 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
     const parentWidth = parentRect.width / 2;
     const parentHeight = parentRect.height / 2;
     if (this.parameters.sortAlphabetically) {
-      WordCloudDrawFunctions.calculateGridStructure(this._elements, parentWidth, parentHeight);
+      WordCloudDrawFunctions.calculateGridStructure(
+        this._elements,
+        parentWidth,
+        parentHeight,
+      );
     } else {
-      WordCloudDrawFunctions.calculateCloud(this._elements, parentWidth, parentHeight, this._minHeight);
+      WordCloudDrawFunctions.calculateCloud(
+        this._elements,
+        parentWidth,
+        parentHeight,
+        this._minHeight,
+      );
     }
-    this.fontInfoService.waitTillFontLoaded(this.parameters.fontFamily).subscribe(_ => {
-      this.doDraw(parentElement, parentWidth, parentHeight);
-    });
+    this.fontInfoService
+      .waitTillFontLoaded(this.parameters.fontFamily)
+      .subscribe((_) => {
+        this.doDraw(parentElement, parentWidth, parentHeight);
+      });
   }
 
   requestEntry(index: number) {
@@ -263,7 +299,10 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
     return this.themeService.currentTheme?.isDark ?? true;
   }
 
-  private isAlreadyCreated(obsoleteElements: { word: ActiveWord<T>; index: number }[], dataEntry: T) {
+  private isAlreadyCreated(
+    obsoleteElements: { word: ActiveWord<T>; index: number }[],
+    dataEntry: T,
+  ) {
     let fallback = null;
     const index = obsoleteElements.findIndex((buildElem, wordIndex) => {
       if (buildElem.word.meta === dataEntry) {
@@ -287,13 +326,21 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
     return false;
   }
 
-  private calculateObsoleteAndNewElements(data: T[]): [
-    min: number, max: number, obsolete: { word: ActiveWord<T>; index: number }[], newElements: ActiveWord<T>[]
+  private calculateObsoleteAndNewElements(
+    data: T[],
+  ): [
+    min: number,
+    max: number,
+    obsolete: { word: ActiveWord<T>; index: number }[],
+    newElements: ActiveWord<T>[],
   ] {
     let min = null;
     let max = null;
     let first = true;
-    const obsoleteElements = this._elements.map((word, index) => ({ word, index }));
+    const obsoleteElements = this._elements.map((word, index) => ({
+      word,
+      index,
+    }));
     const newElements: ActiveWord<T>[] = [];
     for (const dataEntry of data) {
       if (!first) {
@@ -321,7 +368,7 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
   }
 
   private calculateDeleted(
-    obsoleteElements: { word: ActiveWord<T>; index: number }[]
+    obsoleteElements: { word: ActiveWord<T>; index: number }[],
   ) {
     const toDeleteElement = [] as HTMLSpanElement[];
     this._elements = this._elements.filter((word, index) => {
@@ -335,7 +382,10 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
     return toDeleteElement;
   }
 
-  private addNewElements(newElements: ActiveWord<T>[], toDeleteElement: HTMLSpanElement[]) {
+  private addNewElements(
+    newElements: ActiveWord<T>[],
+    toDeleteElement: HTMLSpanElement[],
+  ) {
     newElements.forEach((word) => {
       word.element = toDeleteElement.pop();
       if (!word.element) {
@@ -354,9 +404,11 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
     defaultWeightClass: number,
   ) {
     this._elements.forEach((word) => {
-      const weightClass = isSame ?
-        defaultWeightClass :
-        Math.round((word.meta.weight - min) * (this.weightClasses - 1) / (max - min));
+      const weightClass = isSame
+        ? defaultWeightClass
+        : Math.round(
+            ((word.meta.weight - min) * (this.weightClasses - 1)) / (max - min),
+          );
       const newClass = 'weight-class-' + weightClass;
       const regex = /(^|\s)weight-class-\d+(?=$|\s)/g;
       const matches = word.element.classList.value.match(regex);
@@ -372,9 +424,18 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
     this._minHeight = null;
     this._elements.forEach((word) => {
       const computedElem = getComputedStyle(word.element);
-      const width = parseFloat(computedElem.width) + parseFloat(computedElem.paddingLeft) + parseFloat(computedElem.paddingRight);
-      const height = parseFloat(computedElem.height) + parseFloat(computedElem.paddingTop) + parseFloat(computedElem.paddingBottom);
-      this._minHeight = this._minHeight === null || this._minHeight > height ? height : this._minHeight;
+      const width =
+        parseFloat(computedElem.width) +
+        parseFloat(computedElem.paddingLeft) +
+        parseFloat(computedElem.paddingRight);
+      const height =
+        parseFloat(computedElem.height) +
+        parseFloat(computedElem.paddingTop) +
+        parseFloat(computedElem.paddingBottom);
+      this._minHeight =
+        this._minHeight === null || this._minHeight > height
+          ? height
+          : this._minHeight;
       const rot = word.meta.rotate * TO_RAD;
       const cos = Math.cos(rot);
       const sin = Math.sin(rot);
@@ -393,13 +454,14 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
         offsetVerticalLine: [
           halfW * cos + halfH * sin,
           halfW * sin - halfH * cos,
-        ]
+        ],
       };
     });
   }
 
   private calculateChanges(data: T[]) {
-    const [min, max, obsoleteElements, newElements] = this.calculateObsoleteAndNewElements(data);
+    const [min, max, obsoleteElements, newElements] =
+      this.calculateObsoleteAndNewElements(data);
     const isSame = Math.abs(max - min) <= Number.EPSILON;
     let defaultWeightClass;
     if (this.weightClassType === WeightClassType.Lowest) {
@@ -413,7 +475,11 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
     this.addNewElements(newElements, toDeleteElement);
     this.updateBuildInformation(isSame, max, min, defaultWeightClass);
     if (this.parameters.sortAlphabetically) {
-      this._elements.sort((a, b) => a.meta.text.localeCompare(b.meta.text, undefined, { sensitivity: 'base' }));
+      this._elements.sort((a, b) =>
+        a.meta.text.localeCompare(b.meta.text, undefined, {
+          sensitivity: 'base',
+        }),
+      );
     } else {
       this._elements.sort((a, b) => b.meta.weight - a.meta.weight);
     }
@@ -431,48 +497,83 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
       root: sheet.insertRule(':root {}', sheet.cssRules.length),
       weights: [],
     };
-    sheet.insertRule('.spacyTagCloudContainer, body, #rescale_screen {' +
-      ' background-color: var(--tag-cloud-background-color, unset);' +
-      ' }', sheet.cssRules.length);
-    sheet.insertRule('.header-content-container > div > mat-icon {' +
-      ' margin-top: 0 !important;' +
-      ' }', sheet.cssRules.length);
-    sheet.insertRule('.header-content-container > *, #options-login-box, #back-button {' +
-      ' padding-left: 0.25rem;' +
-      ' padding-right: 0.25rem;' +
-      ' border-radius: 16px;' +
-      ' height: 2.5rem;' +
-      ' display: flex;' +
-      ' justify-content: center;' +
-      ' align-items: center;' +
-      ' }', sheet.cssRules.length);
-    sheet.insertRule('.userActivityIcon {' +
-      ' margin-top: -0.5rem;' +
-      ' }', sheet.cssRules.length);
-    sheet.insertRule('.header .oldtypo-h2, .header .oldtypo-h2 + span {' +
-      ' }', sheet.cssRules.length);
-    sheet.insertRule('#footer_rescale {' +
-      ' display: none !important;' +
-      ' }', sheet.cssRules.length);
-    sheet.insertRule('div.main_container, app-header > .mat-toolbar {' +
-      ' background-color: unset !important;' +
-      ' box-shadow: none; !important;' +
-      ' color: var(--tag-cloud-inverted-background) !important;' +
-      ' }', sheet.cssRules.length);
+    sheet.insertRule(
+      '.spacyTagCloudContainer, body, #rescale_screen {' +
+        ' background-color: var(--tag-cloud-background-color, unset);' +
+        ' }',
+      sheet.cssRules.length,
+    );
+    sheet.insertRule(
+      '.header-content-container > div > mat-icon {' +
+        ' margin-top: 0 !important;' +
+        ' }',
+      sheet.cssRules.length,
+    );
+    sheet.insertRule(
+      '.header-content-container > *, #options-login-box, #back-button {' +
+        ' padding-left: 0.25rem;' +
+        ' padding-right: 0.25rem;' +
+        ' border-radius: 16px;' +
+        ' height: 2.5rem;' +
+        ' display: flex;' +
+        ' justify-content: center;' +
+        ' align-items: center;' +
+        ' }',
+      sheet.cssRules.length,
+    );
+    sheet.insertRule(
+      '.userActivityIcon {' + ' margin-top: -0.5rem;' + ' }',
+      sheet.cssRules.length,
+    );
+    sheet.insertRule(
+      '.header .oldtypo-h2, .header .oldtypo-h2 + span {' + ' }',
+      sheet.cssRules.length,
+    );
+    sheet.insertRule(
+      '#footer_rescale {' + ' display: none !important;' + ' }',
+      sheet.cssRules.length,
+    );
+    sheet.insertRule(
+      'div.main_container, app-header > .mat-toolbar {' +
+        ' background-color: unset !important;' +
+        ' box-shadow: none; !important;' +
+        ' color: var(--tag-cloud-inverted-background) !important;' +
+        ' }',
+      sheet.cssRules.length,
+    );
   }
 
-  private doDraw(parentElement: HTMLDivElement, parentWidth: number, parentHeight: number) {
+  private doDraw(
+    parentElement: HTMLDivElement,
+    parentWidth: number,
+    parentHeight: number,
+  ) {
     const timeInMs = 500;
-    const interval = this.parameters.delayWord;
+    const interval = 1; //this.parameters.delayWord;
     parentElement.style.setProperty('--fadeInTime', timeInMs + 'ms');
+    const scalar = this.createMapper(parentWidth, parentHeight);
+    const mapper = (info: PositionInformation, op: 'x' | 'y'): number => {
+      let v: number;
+      let half: number;
+      if (op === 'x') {
+        v = info.origin[0];
+        half = info.position.width / 2;
+      } else {
+        v = info.origin[1];
+        half = info.position.height / 2;
+      }
+      return (v + half) * scalar - half;
+    };
     this._elements.forEach((e, i) => {
-      const [x, y] = e.buildInformation.origin;
       e.element.style.display = e.visible ? '' : 'none';
-      e.element.style.setProperty('--pos-x', (x + parentWidth) + 'px');
-      e.element.style.setProperty('--pos-y', (y + parentHeight) + 'px');
+      e.element.style.setProperty('--offset-scale', scalar.toFixed(2));
+      e.element.style.setProperty('--pos-x', mapper(e.buildInformation, 'x') + parentWidth + 'px');
+      e.element.style.setProperty('--pos-y', mapper(e.buildInformation, 'y') + parentHeight + 'px');
       e.element.dataset.index = String(i);
     });
-    const newElements = this._elements.filter(e => !e.element.classList.contains('visible') && e.visible);
+    const newElements = this._elements.filter(
+      (e) => !e.element.classList.contains('visible') && e.visible,
+    );
     let index = 0;
     const intervalId = setInterval(() => {
       if (index >= newElements.length) {
@@ -483,4 +584,24 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
     }, interval);
   }
 
+  private createMapper(parentWidth: number, parentHeight: number): number {
+    let minX = parentWidth;
+    let minY = parentHeight;
+    let maxX = -parentWidth;
+    let maxY = -parentHeight;
+    this._elements.forEach((e) => {
+      const [x, y] = e.buildInformation.origin;
+      minX = Math.min(minX, x);
+      maxX = Math.max(maxX, x);
+      minY = Math.min(minY, y);
+      maxY = Math.max(maxY, y);
+    });
+    const scalar = Math.min(
+      parentWidth / Math.abs(minX),
+      parentWidth / Math.abs(maxX),
+      parentHeight / Math.abs(minY),
+      parentHeight / Math.abs(maxY),
+    );
+    return scalar * 0.85;
+  }
 }

@@ -126,7 +126,8 @@
     "thursday": "Jeudi",
     "title": "Notification par e-mail",
     "tuesday": "Mardi",
-    "wednesday": "Mercredi"
+    "wednesday": "Mercredi",
+    "needs-user-account": "Tu as besoin d'un compte avec une adresse e-mail pour recevoir des notifications !"
   },
   "comment-page": {
     "a11y-comment-answer": "Voir la réponse à cette question",
@@ -277,6 +278,7 @@
     "overview-admin-config-enabled": "Les seuils pour l'affichage des sujets sont actifs.",
     "overview-brainstormers-tooltip": "Brainstormers",
     "overview-ideas-tooltip": "Nombre d'idées",
+    "navigation": "Navigation [{{loc}}]",
     "back-button": "Retour",
     "back-to-questionboard": "Forum Q&R",
     "questionwall": "Focus sur les questions",
@@ -499,6 +501,7 @@
     "no-elements": "Le nuage de mots est vide.",
     "overview-question-topic-tooltip": "Mentions multiples",
     "open-in-q-and-a": "Discuter dans le forum",
+    "show-comments-by-topic": "Aux questions avec ce mot clé …",
     "overview-questioners-topic-tooltip": "Auteurs de la contribution",
     "period-since-first-comment": "Temps écoulé depuis la première contribution",
     "print-title": "Nuage de mots de la salle « {{roomName}} »",
@@ -711,7 +714,8 @@
   "write-comment": {
     "a11y-questioner-name": "Ici, tu peux, si tu le souhaites, entrer ton nom. Celui-ci est visible pour tous les participants à ce commentaire.",
     "name-length-error": "Le nom doit comporter entre {{min}} et {{max}} caractères.",
-    "questioner-name": "Ton nom, si tu veux …"
+    "questioner-name": "Ton nom, si tu veux …",
+    "brainstorming-hint": "Évite d'utiliser des caractères spéciaux ou des signes de ponctuation. Cela augmente la reconnaissance pour des sujets similaires."
   },
   "pseudonym-editor": {
     "name": "Utilisé lors de la post …",

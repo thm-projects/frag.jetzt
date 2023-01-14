@@ -12,9 +12,12 @@ export class BrainstormingTopic {
     public distinctUsers = new Set<string>(),
     public categories = new Set<string>(),
     public words = new Set<string>(),
-    public comments = [],
+    public countedComments = new Set<string>(),
     public commentsByCreator = 0,
     public commentsByModerators = 0,
+    public responseCount = 0,
+    public answerCount = 0,
+    public questionChildren = new Map<string, ForumComment[]>(),
   ) {}
 }
 
@@ -77,7 +80,7 @@ export class BrainstormingDataBuilder {
         }
       }
       topic.distinctUsers.add(comment.creatorId);
-      topic.comments.push(comment);
+      this.addResponseAndAnswerCount(topic, comment);
       topic.commentsByCreator += Number(comment.creatorId === this.roomOwner);
       topic.commentsByModerators += Number(this.mods.has(comment.creatorId));
       this.users.add(comment.creatorId);
@@ -92,5 +95,57 @@ export class BrainstormingDataBuilder {
       return true;
     }
     return this.ideaFilter === categoryId;
+  }
+
+  private addResponseAndAnswerCount(
+    data: BrainstormingTopic,
+    comment: ForumComment,
+  ) {
+    data.countedComments.add(comment.id);
+    let lastCommentId;
+    for (
+      let parentComment = comment.parent;
+      parentComment;
+      parentComment = parentComment.parent
+    ) {
+      if (data.countedComments.has(parentComment.id)) {
+        // when parent counted, this comment already counted.
+        return;
+      }
+      lastCommentId = parentComment.id;
+    }
+    this.removeChildrenCounts(data, comment, lastCommentId);
+    data.responseCount += comment.totalAnswerCounts.accumulated;
+    data.answerCount +=
+      comment.totalAnswerCounts.fromCreator +
+      comment.totalAnswerCounts.fromModerators;
+  }
+
+  private removeChildrenCounts(
+    data: BrainstormingTopic,
+    comment: ForumComment,
+    lastCommentId: string,
+  ) {
+    const referenced =
+      data.questionChildren.get(lastCommentId) ||
+      data.questionChildren.set(lastCommentId, []).get(lastCommentId);
+    const filtered = referenced.filter((children) => {
+      for (
+        let parentComment = children.parent;
+        parentComment;
+        parentComment = parentComment.parent
+      ) {
+        if (parentComment.id === comment.id) {
+          data.responseCount += comment.totalAnswerCounts.accumulated;
+          data.answerCount +=
+            comment.totalAnswerCounts.fromCreator +
+            comment.totalAnswerCounts.fromModerators;
+          return false;
+        }
+      }
+      return true;
+    });
+    filtered.push(comment);
+    data.questionChildren.set(lastCommentId, filtered);
   }
 }
