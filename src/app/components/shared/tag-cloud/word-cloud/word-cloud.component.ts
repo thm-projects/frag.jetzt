@@ -549,7 +549,7 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
     parentHeight: number,
   ) {
     const timeInMs = 500;
-    const interval = 1; //this.parameters.delayWord;
+    const interval = this.parameters.delayWord;
     parentElement.style.setProperty('--fadeInTime', timeInMs + 'ms');
     const scalar = this.createMapper(parentWidth, parentHeight);
     const mapper = (info: PositionInformation, op: 'x' | 'y'): number => {
