@@ -1,6 +1,7 @@
 .qr-container {
   height: 100%;
   background-color: var(--background);
+  cursor: move;
 }
 
 ars-screen {
@@ -28,7 +29,7 @@ ars-screen {
   bottom: 1em;
   left: 50%;
   transform: translate(-50%, 0);
-  background-color: rgba(0, 0, 0, 0.75);
+  background-color: transparent;
   z-index: 1;
   line-height: 1;
   border-radius: 10px;
