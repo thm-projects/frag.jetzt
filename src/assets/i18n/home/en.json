@@ -84,7 +84,7 @@
     "field-too-high": "Your input is too long. It may be at most {{max}}.",
     "field-too-low": "Your input is too short. It must be at least {{min}}.",
     "reset": "Reset",
-    "note-on-changing-settings": "You can still change all settings later under »Options«."
+    "note-on-changing-settings": "You can still change all settings later under »Navigation«."
   },
   "cookies": {
     "accept": "Onboarding …",
@@ -595,7 +595,7 @@
     "a11y-settings-direct-send": "Slider to send Questions directly to participant",
     "bonus-archive-enabled": "Enable bonus archive",
     "brainstorming-enabled": "Enable brainstorming",
-    "note-on-changing-settings": "You can still change all room settings later under »Options ➝ My rooms«.",
+    "note-on-changing-settings": "You can still change all room settings later under »Navigation«.",
     "cancel": "Cancel",
     "changes-gone-wrong": "Something has gone wrong!",
     "changes-successful": "Successfully updated",
