@@ -14,7 +14,7 @@
   filter: var(--word-cloud-image, hue-rotate(0deg) grayscale(0) opacity(0.5));
 
   &.brainstorm {
-    background-image: url('/assets/images/normal-themes-brainstorm.jpeg');
+    background-image: url('/assets/images/clouds.svg');
     filter: unset;
 
     &.dark {

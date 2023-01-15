@@ -84,7 +84,7 @@
     "field-too-high": "Deine Eingabe ist zu lang, sie darf maximal {{max}} sein.",
     "field-too-low": "Deine Eingabe ist zu kurz, sie muss mindestens {{min}} sein.",
     "reset": "Zurücksetzen",
-    "note-on-changing-settings": "Du kannst alle Einstellungen später noch unter »Optionen« ändern."
+    "note-on-changing-settings": "Du kannst alle Einstellungen später noch unter »Navigation« ändern."
   },
   "cookies": {
     "accept": "Onboarding …",
@@ -594,7 +594,7 @@
     "a11y-quiz-enabled": "Schieberegler, um die integrierte Quiz-Option anzuzeigen.",
     "a11y-settings-direct-send": "Schieberegler, um Fragen sofort sichtbar zu machen.",
     "bonus-archive-enabled": "Bonus-Archiv aktivieren",
-    "note-on-changing-settings": "Du kannst alle Raumeinstellungen später noch unter »Optionen ➝ Meine Räume« ändern.",
+    "note-on-changing-settings": "Du kannst alle Raumeinstellungen später noch unter »Navigation« ändern.",
     "brainstorming-enabled": "Brainstorming aktivieren",
     "cancel": "Abbrechen",
     "changes-gone-wrong": "Etwas ist schief gelaufen!",

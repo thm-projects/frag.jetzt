@@ -238,16 +238,6 @@
         <span>{{ "header.questionwall" | translate }}</span>
       </button>
 
-      <h2
-        class="oldtypo-h2"
-        *ngIf="
-          deviceInfo.isCurrentlyDesktop &&
-          router.url !== '/home' &&
-          getClockCount() < 1
-        ">
-        {{ cTime }}
-      </h2>
-
       <!--Topic Cloud-->
       <div
         class="topic-cloud-btns"
@@ -468,7 +458,7 @@
             *ngIf="deviceInfo.isCurrentlyDesktop">
             {{ "header.my-account" | translate }}
           </h2>
-          <mat-icon class="header-icons">more_vert</mat-icon>
+          <mat-icon class="header-icons" style="color: var(--secondary); transform: scale(1.5)">more_vert</mat-icon>
         </div>
       </ng-template>
 

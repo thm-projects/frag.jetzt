@@ -501,7 +501,7 @@
     "no-elements": "Le nuage de mots est vide.",
     "overview-question-topic-tooltip": "Mentions multiples",
     "open-in-q-and-a": "Discuter dans le forum",
-    "show-comments-by-topic": "Aux questions avec ce mot clé …",
+    "show-comments-by-topic": "Vers les questions …",
     "overview-questioners-topic-tooltip": "Auteurs de la contribution",
     "period-since-first-comment": "Temps écoulé depuis la première contribution",
     "print-title": "Nuage de mots de la salle « {{roomName}} »",
