@@ -141,7 +141,6 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
   private themeSubscription: Subscription;
   private demoDataKeys: [string, TagCloudDataTagEntry][] = [];
   private _demoActive = false;
-  
 
   constructor(
     private commentService: CommentService,
