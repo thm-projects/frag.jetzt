@@ -141,7 +141,7 @@
       }
 
       &-number {
-        font-size: 35px;
+        font-size: 30px;
         padding-right: 20px;
         font-weight: bold;
         color: rgba(255, 255, 255, 0.2);
@@ -214,14 +214,15 @@
         &-outer {
           display: flex;
           flex-direction: row;
-          justify-content: center;
+          justify-content: left;
           hyphens: auto;
           word-break: break-word;
           color: darkorange;
         }
 
         &-inner {
-          width: 1000px;
+          width: 80%;
+          margin-left: 200px;
           flex-shrink: 1;
         }
       }
@@ -255,14 +256,14 @@
         }
 
         &-number {
-          font-size: 110px;
+          font-size: 50px;
           padding-left: 16px;
           font-weight: bold;
           color: rgba(255, 255, 255, 0.2);
 
           > mat-icon {
-            font-size: 135px;
-            width: 135px;
+            font-size: 70px;
+            width: 70px;
             height: 100%;
             vertical-align: text-bottom;
           }
