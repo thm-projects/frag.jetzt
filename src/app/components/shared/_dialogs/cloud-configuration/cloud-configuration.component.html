@@ -2,8 +2,8 @@
   <div class="cloud-configuration-form" fxLayout="column" *ngIf="!extendedView && !cleanUpView">
     <div class="input-row special-settings demo-cloud-settings" fxLayout="row" fxLayoutGap="5px" fxLayout.xs="column">
       <div class="input-row" fxLayout="row" fxLayoutGap="5px" fxLayout.xs="column">
-        <mat-slide-toggle fxFlex (change)="parent.dataManager.demoActive = !parent.dataManager.demoActive"
-                          [checked]="parent.dataManager.demoActive"
+        <mat-slide-toggle fxFlex (change)="parent.demoActive = !parent.demoActive"
+                          [checked]="parent.demoActive"
                           [ngModelOptions]="{standalone: true}">Demo
         </mat-slide-toggle>
       </div>
@@ -200,14 +200,14 @@
                   </div>
                 </div>
                 <div class="input-row firstElementOfWeightClass" fxLayout="row" fxLayoutGap="5px" fxLayout.xs="column"
-                     *ngIf="weightClass.actualTagNumber > 0 && !parent.dataManager.demoActive">
+                     *ngIf="weightClass.actualTagNumber > 0 && !parent.demoActive">
                   <mat-slide-toggle
                     (change)="valueChanged()" fxFlex [(ngModel)]=" weightClass.allowManualTagNumber"
                     [ngModelOptions]="{standalone: true}">{{'tag-cloud-config.manual-weight-number' | translate}}</mat-slide-toggle>
                   <mat-icon matTooltip="{{'tag-cloud-config.manual-weight-number-note' | translate}}">help</mat-icon>
                 </div>
                 <div class="input-row" fxLayout="column" fxLayoutGap="5px"
-                     *ngIf="weightClass.actualTagNumber > 0 && !parent.dataManager.demoActive && weightClass.allowManualTagNumber">
+                     *ngIf="weightClass.actualTagNumber > 0 && !parent.demoActive && weightClass.allowManualTagNumber">
                   <div class="input-row" fxLayout="column" fxLayoutGap="5px">
                     <mat-label class="label-text">{{'tag-cloud-config.weight-number' | translate}}</mat-label>
                     <mat-slider [value]="weightClass.maxTagNumber" min="1" [max]="weightClass.actualTagNumber" step="1"

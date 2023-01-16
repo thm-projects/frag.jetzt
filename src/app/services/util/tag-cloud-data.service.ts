@@ -70,7 +70,6 @@ export type TagCloudMetaDataCount = [
   providedIn: 'root',
 })
 export class TagCloudDataService {
-  private _isDemoActive: boolean;
   private _isAlphabeticallySorted: boolean;
   private _dataBus: BehaviorSubject<TagCloudData>;
   private _metaDataBus: BehaviorSubject<TagCloudMetaData>;
@@ -78,7 +77,6 @@ export class TagCloudDataService {
   private _lastFetchedData: TagCloudData = null;
   private _lastMetaData: TagCloudMetaData = null;
   private readonly _currentMetaData: TagCloudMetaData;
-  private _demoData: TagCloudData = null;
   private _adminData: TopicCloudAdminData = null;
   private _subscriptionAdminData: Subscription;
   private readonly _smartDebounce = new SmartDebounce(200, 3_000);
@@ -91,7 +89,6 @@ export class TagCloudDataService {
     private _roomService: RoomService,
     private sessionService: SessionService,
   ) {
-    this._isDemoActive = false;
     this._isAlphabeticallySorted = false;
     this._dataBus = new BehaviorSubject<TagCloudData>(null);
     this._currentMetaData = {
@@ -116,31 +113,6 @@ export class TagCloudDataService {
 
   get alphabeticallySorted(): boolean {
     return this._isAlphabeticallySorted;
-  }
-
-  get demoActive(): boolean {
-    return this._isDemoActive;
-  }
-
-  set demoActive(active: boolean) {
-    if (active !== this._isDemoActive) {
-      this._isDemoActive = active;
-      if (this._isDemoActive) {
-        this._lastMetaData = {
-          ...this._currentMetaData,
-          countPerWeight: [...this._currentMetaData.countPerWeight],
-        };
-        this._currentMetaData.minWeight = 1;
-        this._currentMetaData.maxWeight = 10;
-        this._currentMetaData.countPerWeight = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1];
-      } else if (this._lastMetaData !== null) {
-        for (const key of Object.keys(this._lastMetaData)) {
-          this._currentMetaData[key] = this._lastMetaData[key];
-        }
-        this._lastMetaData = null;
-      }
-      this.reformatData();
-    }
   }
 
   set filterObject(filter: FilteredDataAccess) {
@@ -170,35 +142,6 @@ export class TagCloudDataService {
     );
     builder.addComments(comments as ForumComment[]);
     return [builder.getData(), builder.getUsers()];
-  }
-
-  updateDemoData(translate: TranslateService): void {
-    translate.get('tag-cloud.demo-data-topic').subscribe((text) => {
-      this._demoData = new Map<string, TagCloudDataTagEntry>();
-      for (let i = 10; i >= 1; i--) {
-        this._demoData.set(text.replace('%d', '' + i), {
-          cachedVoteCount: 0,
-          cachedUpVotes: 0,
-          cachedDownVotes: 0,
-          comments: [],
-          weight: i,
-          adjustedWeight: i - 1,
-          categories: new Set<string>(),
-          distinctUsers: new Set<string>(),
-          dependencies: new Set<string>(),
-          firstTimeStamp: new Date(),
-          lastTimeStamp: new Date(),
-          generatedByQuestionerCount: 0,
-          taggedCommentsCount: 0,
-          commentsByCreator: 0,
-          commentsByModerators: 0,
-          countedComments: new Set<string>(),
-          questionChildren: new Map<string, ForumComment[]>(),
-          answerCount: 0,
-          responseCount: 0,
-        });
-      }
-    });
   }
 
   unloadCloud() {
@@ -300,9 +243,6 @@ export class TagCloudDataService {
   }
 
   private getCurrentData(): TagCloudData {
-    if (this._isDemoActive) {
-      return this._demoData;
-    }
     return this._lastFetchedData;
   }
 
@@ -340,9 +280,7 @@ export class TagCloudDataService {
     if (!filteredComments) {
       return;
     }
-    const currentMeta = this._isDemoActive
-      ? this._lastMetaData
-      : this._currentMetaData;
+    const currentMeta = this._currentMetaData;
     currentMeta.commentCount = filteredComments.length;
     const room = this.sessionService.currentRoom;
     const currentBlacklist = room.blacklist ? JSON.parse(room.blacklist) : [];
@@ -386,8 +324,6 @@ export class TagCloudDataService {
     currentMeta.minWeight = minWeight;
     currentMeta.maxWeight = maxWeight;
     this._metaDataBus.next(currentMeta);
-    if (!this._isDemoActive) {
-      this.reformatData();
-    }
+    this.reformatData();
   }
 }

@@ -159,7 +159,8 @@ export class NavigationComponent implements OnInit, OnDestroy {
       i18n: 'header.questionwall',
       svgIcon: 'beamer',
       isCurrentRoute: (route) => FOCUS_REGEX.test(route),
-      canBeAccessedOnRoute: (route) => ROOM_REGEX.test(route),
+      canBeAccessedOnRoute: (route) => ROOM_REGEX.test(route) &&
+        this.deviceInfo.isCurrentlyDesktop,
       navigate: (route) => {
         const data = route.match(ROOM_REGEX);
         this.router.navigate([
@@ -194,7 +195,8 @@ export class NavigationComponent implements OnInit, OnDestroy {
       isCurrentRoute: (route) => BRAINSTORMING_REGEX.test(route),
       canBeAccessedOnRoute: (route) =>
         ROOM_REGEX.test(route) &&
-        this.sessionService.currentRoom?.brainstormingActive,
+        this.sessionService.currentRoom?.brainstormingActive &&
+        this.canMakeOrAccessSession(),
       navigate: (route) => {
         if (BRAINSTORMING_REGEX.test(route)) {
           return;
@@ -414,10 +416,10 @@ export class NavigationComponent implements OnInit, OnDestroy {
     this.userManagementService
       .getUser()
       .pipe(takeUntil(this.destroyer))
-      .subscribe(() => {
-        this.refreshLocations();
-      });
-    setInterval(() => this.detector.detectChanges(), 2000);
+      .subscribe(observer);
+    this.deviceInfo.isMobile()
+      .pipe(takeUntil(this.destroyer))
+      .subscribe(observer);
   }
 
   ngOnDestroy(): void {
@@ -445,6 +447,13 @@ export class NavigationComponent implements OnInit, OnDestroy {
     });
     this.possibleLocationsEmpty = !anyTrue;
     this.detector.detectChanges();
+  }
+
+  private canMakeOrAccessSession() {
+    if (this.sessionService.currentRole > UserRole.PARTICIPANT) {
+      return true;
+    }
+    return Boolean(this.sessionService.currentRoom?.brainstormingSession);
   }
 
   private showQRDialog() {

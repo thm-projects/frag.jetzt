@@ -173,7 +173,7 @@ export class CloudConfigurationComponent implements OnInit {
   }
 
   closePanel() {
-    this.parent.tagCloudDataManager.demoActive = false;
+    this.parent.demoActive = false;
     this.parent.drawer.close();
     this.readMaxFont();
     const defaultScale = AppComponent.rescale.getInitialScale();
