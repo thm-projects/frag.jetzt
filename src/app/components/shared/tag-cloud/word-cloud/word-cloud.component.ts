@@ -566,6 +566,9 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
     };
     this._elements.forEach((e, i) => {
       e.element.style.display = e.visible ? '' : 'none';
+      if (!e.visible) {
+        return;
+      }
       e.element.style.setProperty('--offset-scale', scalar.toFixed(2));
       e.element.style.setProperty('--pos-x', mapper(e.buildInformation, 'x') + parentWidth + 'px');
       e.element.style.setProperty('--pos-y', mapper(e.buildInformation, 'y') + parentHeight + 'px');
@@ -590,6 +593,9 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
     let maxX = -parentWidth;
     let maxY = -parentHeight;
     this._elements.forEach((e) => {
+      if (!e.visible) {
+        return;
+      }
       const [x, y] = e.buildInformation.origin;
       minX = Math.min(minX, x);
       maxX = Math.max(maxX, x);

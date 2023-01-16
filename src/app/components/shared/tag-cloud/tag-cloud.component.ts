@@ -139,6 +139,8 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
   private readonly _smartDebounce = new SmartDebounce(50, 1_000);
   private intervalWriteChecker: TimeoutHelper;
   private themeSubscription: Subscription;
+  private demoDataKeys: [string, TagCloudDataTagEntry][] = [];
+  private _demoActive = false;
 
   constructor(
     private commentService: CommentService,
@@ -163,6 +165,29 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     private bonusTokenService: BonusTokenService,
   ) {
     this.brainstormingActive = this.router.url.endsWith('/brainstorming');
+    for (let i = 0; i < 10; i++) {
+      this.demoDataKeys.push(['', {
+        weight: i,
+        adjustedWeight: i,
+        answerCount: 0,
+        cachedDownVotes: 0,
+        cachedUpVotes: 0,
+        cachedVoteCount: 0,
+        categories: new Set(),
+        comments: [],
+        commentsByCreator: 0,
+        commentsByModerators: 0,
+        countedComments: new Set(),
+        dependencies: new Set(),
+        distinctUsers: new Set(),
+        firstTimeStamp: new Date(),
+        generatedByQuestionerCount: 0,
+        lastTimeStamp: new Date(),
+        questionChildren: new Map(),
+        responseCount: 0,
+        taggedCommentsCount: 0,
+      }]);
+    }
   }
 
   get tagCloudDataManager(): TagCloudDataService {
@@ -171,6 +196,18 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
 
   get currentCloudParameters(): CloudParameters {
     return new CloudParameters(this._currentSettings);
+  }
+
+  get demoActive(): boolean {
+    return this._demoActive;
+  }
+
+  set demoActive(value: boolean) {
+    if (value === this._demoActive) {
+      return;
+    }
+    this._demoActive = value;
+    this.rebuildDemoData();
   }
 
   ngOnInit(): void {
@@ -189,7 +226,11 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
   ngAfterContentInit() {
     this.sessionService.onReady.subscribe(() => {
       this.initNavigation();
-      this.dataManager.updateDemoData(this.translateService);
+      this.translateService.get('tag-cloud.demo-data-topic').subscribe((text) => {
+        for (let i = 0; i < 10; i++) {
+          this.demoDataKeys[i][0] = text.replace('%d', String(i + 1));
+        }
+      });
       this.setCloudParameters(this.getCurrentCloudParameters(), false);
     });
   }
@@ -288,6 +329,10 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
   }
 
   rebuildBrainstormingData() {
+    if (this.demoActive) {
+      this.rebuildDemoData();
+      return;
+    }
     if (!this.cloud || !this.brainDataManager.currentData) {
       return;
     }
@@ -303,6 +348,10 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
   }
 
   rebuildData() {
+    if (this.demoActive) {
+      this.rebuildDemoData();
+      return;
+    }
     if (!this.cloud || !this.dataManager.currentData) {
       return;
     }
@@ -315,12 +364,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
       );
     }
     for (const [tag, tagData] of data) {
-      const amount = this.dataManager.demoActive
-        ? 10 - tagData.adjustedWeight
-        : 1;
-      for (let i = 0; i < amount; i++) {
-        this.createTagElement(countFiler, tagData, tag, newElements);
-      }
+      this.createTagElement(countFiler, tagData, tag, newElements);
     }
     this.data = newElements;
     setTimeout(() => {
@@ -337,7 +381,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
   }
 
   openTags(tag: WordMeta, isRequested = false): void {
-    if (this.dataManager.demoActive) {
+    if (this.demoActive) {
       return;
     }
     //Room filter
@@ -451,6 +495,30 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
         }, 1);
       }
     });
+  }
+
+  private rebuildDemoData(){
+    if (!this.cloud) {
+      return;
+    }
+    const newElements = [];
+    const countFiler = [];
+    for (let i = 0; i < 10; i++) {
+      countFiler.push(
+        this._currentSettings.cloudWeightSettings[i].maxVisibleElements,
+      );
+    }
+    for (let i = 0; i < this.demoDataKeys.length; i++) {
+      const amount = 10 - i;
+      for (let i = 0; i < amount; i++) {
+        const [tag, tagData] = this.demoDataKeys[i];
+        this.createTagElement(countFiler, tagData, tag, newElements);
+      }
+    }
+    this.data = newElements;
+    setTimeout(() => {
+      this.updateTagCloud(true);
+    }, 2);
   }
 
   private initBrainstorming() {
