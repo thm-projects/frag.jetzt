@@ -191,7 +191,6 @@ export class NavigationComponent implements OnInit, OnDestroy {
       active: false,
       i18n: 'header.brainstorming',
       icon: 'tips_and_updates',
-      class: 'btn-green',
       isCurrentRoute: (route) => BRAINSTORMING_REGEX.test(route),
       canBeAccessedOnRoute: (route) =>
         ROOM_REGEX.test(route) &&
