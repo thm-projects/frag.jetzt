@@ -11,8 +11,8 @@ h1 {
 
 .main-heading-primary {
   display: block;
-  font-size: 200%;
-  font-weight: 200;
+  font-size: 3.5vh;
+  font-weight: 100;
   text-align: center;
   letter-spacing: 7px;
   color: var(--primary);
@@ -33,6 +33,7 @@ h1 {
 .main-heading-secondary {
   display: block;
   margin-top: 4vh;
+  font-size: 1.6vh;
   font-weight: normal;
   text-align: center;
   color: var(--secondary);
@@ -102,6 +103,7 @@ mat-card-header {
   margin-left: auto;
   margin-right: auto;
   max-width: 100%;
+  min-width: 50%;
   height: auto;
   outline: none;
 }

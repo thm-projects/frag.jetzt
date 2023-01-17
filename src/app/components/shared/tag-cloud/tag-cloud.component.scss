@@ -111,14 +111,14 @@ app-tag-cloud-pop-up {
   font-weight: bold;
   font-style: var(--tag-cloud-font-style, normal);
   font-family: var(--tag-cloud-font-family, 'sans-serif');
-  font-size: 30px !important;
+  font-size: 2.0em !important;
   line-height: unset;
   padding-right: 15px;
   hyphens: unset;
   transition: inset 0.5s ease;
 
   &.active {
-    top: calc(90px + 0.75em);
+    top: 70px;
   }
 }
 
