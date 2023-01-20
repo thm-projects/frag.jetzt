@@ -19,6 +19,8 @@ enum ArsTimeSecConversion {
   SECOND = 1
 }
 
+type ArsTimeSecConversionKey = keyof typeof ArsTimeSecConversion;
+
 export const arsTimeTranslation = {
   de:{
     time:{
@@ -299,10 +301,9 @@ export class ArsDateFormatter implements OnDestroy{
    * @see ArsTimeUnit
    */
   public approximateDate(date: Date): ArsApproximateDate{
-    const s = Math.floor((new Date().getTime() - date.getTime()) / 1000);
-    const toTime = b => Math.floor(s / b);
-    const test = ['YEAR', 'MONTH', 'DAY', 'HOUR', 'MINUTE', 'SECOND']
-      .map<[string, number]>(x => [x, toTime(ArsTimeSecConversion[x])])
+    const current = new Date();
+    const test = (['YEAR', 'MONTH', 'DAY', 'HOUR', 'MINUTE', 'SECOND'] as ArsTimeSecConversionKey[])
+      .map<[string, number]>(x => this.formatToString(current, date, x))
       .filter(x => x[1] > 0)
       .sort((a, b) => a[1] - b[1]);
     if (!test || !test.length) {
@@ -342,5 +343,33 @@ export class ArsDateFormatter implements OnDestroy{
     str = str.replace(Token.VAL, time.time + '');
     return str;
   }
+
+  private formatToString(currentDate: Date, previousDate: Date, conversion: ArsTimeSecConversionKey): [string, number] {
+    const defaultConversion = (d1: Date, d2: Date) => [
+      conversion,
+      Math.floor((d1.getTime() - d2.getTime()) / (1000 * ArsTimeSecConversion[conversion])),
+    ] as [string, number];
+    type ConversionObject = {
+      [key in ArsTimeSecConversionKey]: (d1: Date, d2: Date) => [string, number];
+    };
+    const conversionObject: ConversionObject = {
+      SECOND: defaultConversion,
+      MINUTE: defaultConversion,
+      HOUR: defaultConversion,
+      DAY: (curr: Date, prev: Date) => {
+        const FACTOR = 1000 * ArsTimeSecConversion.DAY;
+        const currentDay = new Date(curr.getFullYear(), curr.getMonth(), curr.getDate(), 0, -curr.getTimezoneOffset());
+        const previousDay = new Date(prev.getFullYear(), prev.getMonth(), prev.getDate(), 0, -prev.getTimezoneOffset());
+        return [
+          'DAY',
+          (currentDay.getTime() - previousDay.getTime()) / FACTOR,
+        ] as [string, number];
+      },
+      MONTH: defaultConversion,
+      YEAR: defaultConversion,
+    };
+    return conversionObject[conversion](currentDate, previousDate);
+  }
+
 
 }
