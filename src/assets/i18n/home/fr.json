@@ -252,7 +252,7 @@
     "navigation": "Navigation [{{loc}}]",
     "navigation-no-target": "Navigation",
     "not-in-own-view": "Tu te trouves actuellement dans la vue des participants. Dans les options, tu peux revenir à ta vue.",
-    "open-admin": "Créer un message",
+    "open-admin": "Administration",
     "overview-admin-config-enabled": "Les seuils pour l'affichage des sujets sont actifs.",
     "overview-keywords-tooltip": "Nombre de mots-clés",
     "overview-question-tooltip": "Nombre de questions",
@@ -367,6 +367,7 @@
     "step": "{{step}} / {{total}}"
   },
   "login": {
+    "not-authorized": "Tu n'es pas autorisé à voir cette page.",
     "activation-key": "Clé d'activation",
     "cancel": "Annuler",
     "cancel-description": "Annuler",

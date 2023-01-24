@@ -14,6 +14,8 @@ import { QRCodeModule } from 'angularx-qrcode';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { NgxMatTimepickerModule } from '@angular-material-components/datetime-picker';
 import { LanguageService } from '../../services/util/language.service';
+import { GptConfigurationComponent } from './gpt-configuration/gpt-configuration.component';
+import { AdminOverviewComponent } from './admin-overview/admin-overview.component';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export const HttpLoaderFactory = (http: HttpClient) =>
@@ -21,7 +23,9 @@ export const HttpLoaderFactory = (http: HttpClient) =>
 
 @NgModule({
   declarations: [
-    CreateMotdComponent
+    CreateMotdComponent,
+    GptConfigurationComponent,
+    AdminOverviewComponent,
   ],
   imports: [
     CommonModule,

@@ -1,0 +1,61 @@
+<mat-card>
+  <h1>{{ "gpt-config.title" | translate }}</h1>
+  <!-- API Key -->
+  <mat-form-field>
+    <mat-label>{{ "gpt-config.api-key" | translate }}</mat-label>
+    <input
+      matInput
+      type="password"
+      [(ngModel)]="apiKey" />
+    <button
+      *ngIf="apiKey"
+      matSuffix
+      mat-icon-button
+      aria-label="Clear"
+      (click)="apiKey = ''">
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-form-field>
+  <!-- Organization -->
+  <mat-form-field>
+    <mat-label>{{ "gpt-config.organization" | translate }}</mat-label>
+    <input
+      matInput
+      type="text"
+      [(ngModel)]="organization" />
+    <button
+      *ngIf="organization"
+      matSuffix
+      mat-icon-button
+      aria-label="Clear"
+      (click)="organization = ''">
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-form-field>
+  <!-- Model -->
+  <mat-form-field>
+    <mat-label>{{ "gpt-config.model" | translate }}</mat-label>
+    <input
+      matInput
+      type="text"
+      [(ngModel)]="model"
+      [matAutocomplete]="modelAutocomplete" />
+    <button
+      *ngIf="model"
+      matSuffix
+      mat-icon-button
+      aria-label="Clear"
+      (click)="model = ''">
+      <mat-icon>close</mat-icon>
+    </button>
+    <mat-autocomplete #modelAutocomplete="matAutocomplete">
+      <ng-container *ngIf="models">
+        <mat-option
+          *ngFor="let option of models.data"
+          [value]="option.id">
+          {{ option.id }}
+        </mat-option>
+      </ng-container>
+    </mat-autocomplete>
+  </mat-form-field>
+</mat-card>

@@ -1,4 +1,8 @@
 {
+  "overview": {
+    "motd": "Globale Ankündigungen",
+    "gpt": "GPT Einstellungen"
+  },
   "create-motd": {
     "create": "Erstellen",
     "english": "Englischer Text",
@@ -15,5 +19,12 @@
     "placeholder-time-start": "Anfangszeit",
     "success": "News erfolgreich erstellt",
     "title": "Aktuelle News erstellen"
+  },
+  "gpt-config": {
+    "title": "GPT Einstellungen & API Test",
+    "api-key": "API Key",
+    "organization": "Organisation",
+    "model": "API Sprachmodell",
+    "model-fetch-error": "API Key oder Organisation nicht korrekt konfiguriert, Sprach-Modelle sind nicht verfügbar."
   }
 }

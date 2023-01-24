@@ -1,4 +1,8 @@
 {
+  "overview": {
+    "motd": "Global announcements",
+    "gpt": "GPT settings"
+  },
   "create-motd": {
     "create": "Create",
     "english": "English text",

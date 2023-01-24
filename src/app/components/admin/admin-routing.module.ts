@@ -2,11 +2,25 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthenticationGuard } from '../../guards/authentication.guard';
 import { NgModule } from '@angular/core';
 import { CreateMotdComponent } from './create-motd/create-motd.component';
+import { GptConfigurationComponent } from './gpt-configuration/gpt-configuration.component';
+import { AdminOverviewComponent } from './admin-overview/admin-overview.component';
 
 const routes: Routes = [
   {
+    path: 'overview',
+    component: AdminOverviewComponent,
+    canActivate: [AuthenticationGuard],
+    data: { superAdmin: true }
+  },
+  {
     path: 'create-motd',
     component: CreateMotdComponent,
+    canActivate: [AuthenticationGuard],
+    data: { superAdmin: true }
+  },
+  {
+    path: 'gpt-config',
+    component: GptConfigurationComponent,
     canActivate: [AuthenticationGuard],
     data: { superAdmin: true }
   },

@@ -252,7 +252,7 @@
     "navigation": "Navigation [{{loc}}]",
     "navigation-no-target": "Navigation",
     "not-in-own-view": "Du befindest dich gerade in der Teilnehmeransicht. In den Optionen kannst du zurück zu deiner Ansicht wechseln.",
-    "open-admin": "Mitteilung erstellen",
+    "open-admin": "Administration",
     "overview-admin-config-enabled": "Schwellenwerte für die Anzeige der Themen sind aktiv.",
     "overview-keywords-tooltip": "Anzahl Stichwörter",
     "overview-question-tooltip": "Anzahl Fragen",
@@ -367,6 +367,7 @@
     "step": "{{step}} / {{total}}"
   },
   "login": {
+    "not-authorized": "Du bist nicht berechtigt, diese Seite zu sehen.",
     "activation-key": "Aktivierungs-Schlüssel",
     "cancel": "Abbrechen",
     "cancel-description": "Abbrechen",

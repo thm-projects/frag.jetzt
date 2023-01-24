@@ -1,0 +1,33 @@
+:host {
+  display: flex;
+  justify-content: space-evenly;
+  min-height: calc(90vh - 6rem);
+  margin: 3rem 0;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+mat-card {
+  width: 24rem;
+  height: 24rem;
+  max-width: 80vw;
+  max-height: 80vw;
+  background-color: var(--surface);
+  color: var(--on-surface);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 0.25s ease-in-out;
+
+  > mat-icon {
+    font-size: 10em;
+    width: 1em;
+    height: 1em;
+  }
+  
+  &:hover {
+    transform: scale(1.1);
+  }
+}
