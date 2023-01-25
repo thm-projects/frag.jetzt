@@ -119,7 +119,15 @@ export const clone = <T>(elem: T): Mutable<T> => {
 
 export type TimeoutHelper = Parameters<typeof clearTimeout>[0];
 
-export const verifyInstance = <T>(clazz: { new (parameterObject: object): T }, obj: object): T => {
+export type ClassType<T> = new (parameterObject: object) => T;
+
+export const verifyInstance = <T>(clazz: ClassType<T>, obj: object): T => {
+  if (obj === null) {
+    return null;
+  }
+  if (obj === undefined) {
+    return undefined;
+  }
   if (obj instanceof clazz) {
     return obj;
   }

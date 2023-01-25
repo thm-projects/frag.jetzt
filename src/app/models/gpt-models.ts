@@ -1,4 +1,4 @@
-import { verifyInstance } from "app/utils/ts-utils";
+import { verifyInstance } from 'app/utils/ts-utils';
 
 export class GPTModelPermission {
   id: string;
@@ -65,7 +65,9 @@ export class GPTModel {
     this.created = created ? new Date(created) : null;
     this.object = object;
     this.ownedBy = ownedBy;
-    this.permission = permission.map(e => verifyInstance(GPTModelPermission, e));
+    this.permission = permission.map((e) =>
+      verifyInstance(GPTModelPermission, e),
+    );
     this.root = root;
     this.parent = parent;
   }
@@ -77,6 +79,6 @@ export class GPTModels {
 
   constructor({ object = null, data = [] }: GPTModels) {
     this.object = object;
-    this.data = data.map(e => verifyInstance(GPTModel, e));
+    this.data = data.map((e) => verifyInstance(GPTModel, e));
   }
 }

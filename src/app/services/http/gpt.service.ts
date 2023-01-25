@@ -1,11 +1,13 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { GPTModels } from 'app/models/GPTModels';
+import { GPTConfiguration } from 'app/models/gpt-configuration';
+import { GPTModels } from 'app/models/gpt-models';
+import { verifyInstance } from 'app/utils/ts-utils';
 import {
   catchError,
   filter,
+  map,
   Observable,
-  of,
   ReplaySubject,
   take,
   tap,
@@ -16,9 +18,20 @@ import { BaseHttpService } from './base-http.service';
 /* eslint-disable @typescript-eslint/naming-convention */
 const httpOptions = {
   headers: new HttpHeaders({
-    'Content-Type': 'application/x-www-form-urlencoded',
+    'Content-Type': 'application/json',
   }),
 };
+
+export enum GPTUsage {
+  REGISTERED_MODERATORS = 'REGISTERED_MODERATORS',
+  REGISTERED_USERS = 'REGISTERED_USERS',
+  USERS = 'USERS',
+}
+
+export class GPTStatus {
+  restricted: boolean;
+  usage: GPTUsage;
+}
 
 @Injectable({
   providedIn: 'root',
@@ -54,10 +67,35 @@ export class GptService extends BaseHttpService {
     });
   }
 
+  getStatus(): Observable<GPTStatus> {
+    const url = '/api/gpt/status';
+    return this.httpClient.get<GPTStatus>(url, httpOptions).pipe(
+      tap((_) => console.log(_)),
+      catchError(this.handleError<GPTStatus>('getStatus')),
+    );
+  }
+
+  getConfiguration(): Observable<GPTConfiguration> {
+    const url = '/api/gpt/config';
+    return this.httpClient.get<GPTConfiguration>(url, httpOptions).pipe(
+      tap((_) => ''),
+      map((v) => verifyInstance(GPTConfiguration, v['config'])),
+      catchError(this.handleError<GPTConfiguration>('getConfiguration')),
+    );
+  }
+
+  patchConfiguration(changes: Partial<GPTConfiguration>): Observable<void> {
+    const url = '/api/gpt/config';
+    return this.httpClient.patch<void>(url, { changes }, httpOptions).pipe(
+      tap((_) => ''),
+      catchError(this.handleError<void>('patchConfiguration')),
+    );
+  }
+
   private getModels(): Observable<GPTModels> {
     const url = '/api/gpt/models';
     return this.httpClient.get<GPTModels>(url, httpOptions).pipe(
-      tap((_) => console.log(_)),
+      tap((_) => ''),
       catchError(this.handleError<GPTModels>('getModels')),
     );
   }
