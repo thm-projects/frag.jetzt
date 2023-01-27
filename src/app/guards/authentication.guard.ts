@@ -1,19 +1,19 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlSegment } from '@angular/router';
 
-import { NotificationService } from '../services/util/notification.service';
 import { UserRole } from '../models/user-roles.enum';
 import { SessionService } from '../services/util/session.service';
 import { UserManagementService } from '../services/util/user-management.service';
+import { EventService } from 'app/services/util/event.service';
 
 @Injectable()
 export class AuthenticationGuard implements CanActivate {
 
   constructor(
     private userManagementService: UserManagementService,
-    private notificationService: NotificationService,
     private router: Router,
     private sessionService: SessionService,
+    private eventService: EventService,
   ) {
   }
 
@@ -84,7 +84,8 @@ export class AuthenticationGuard implements CanActivate {
   }
 
   private onNotAllowed() {
-    this.notificationService.show(`You're not authorized to view this page.`);
-    this.router.navigate(['/']);
+    this.router.navigate(['/']).then(() => {
+      setTimeout(() => this.eventService.broadcast('not-authorized'));
+    });
   }
 }

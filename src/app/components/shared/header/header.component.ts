@@ -226,7 +226,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   }
 
   routeAdmin() {
-    this.router.navigate(['/admin/create-motd']);
+    this.router.navigate(['/admin/overview']);
   }
 
   openDeleteUserDialog() {

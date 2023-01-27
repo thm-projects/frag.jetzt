@@ -26,25 +26,4 @@ mat-progress-spinner.inline-spinner {
   display: inline;
   margin-left: 0.25em;
   top: 0.115em;
-  color: var(--on-primary) !important;
-}
-
-mat-progress-spinner.primary-spinner, mat-progress-spinner.secondary-spinner {
-  color: var(--secondary) !important;
-}
-
-mat-progress-spinner.on-primary-spinner {
-  color: var(--on-primary) !important;
-}
-
-mat-progress-spinner.primary-spinner.inline-spinner {
-  color: var(--on-primary) !important;
-}
-
-mat-progress-spinner.on-secondary-spinner {
-  color: var(--on-secondary) !important;
-}
-
-mat-progress-spinner.secondary-spinner.inline-spinner {
-  color: var(--on-secondary) !important;
 }

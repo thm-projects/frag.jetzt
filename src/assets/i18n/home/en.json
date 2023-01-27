@@ -252,7 +252,7 @@
     "navigation": "Navigation [{{loc}}]",
     "navigation-no-target": "Navigation",
     "not-in-own-view": "You are currently in the participant view. In the options you can switch back to your view.",
-    "open-admin": "Create a message",
+    "open-admin": "Administration",
     "overview-admin-config-enabled": "Thresholds for displaying topics are active.",
     "overview-keywords-tooltip": "Number of Keywords",
     "overview-question-tooltip": "Number of questions",
@@ -367,6 +367,7 @@
     "step": "{{step}} / {{total}}"
   },
   "login": {
+    "not-authorized": "You're not authorized to view this page.",
     "activation-key": "Activation key",
     "cancel": "Cancel",
     "cancel-description": "Cancel",

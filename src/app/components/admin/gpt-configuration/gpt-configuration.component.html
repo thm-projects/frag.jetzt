@@ -1,0 +1,826 @@
+<mat-card>
+  <h1>{{ "gpt-config.title" | translate }}</h1>
+  <mat-accordion *ngIf="!isLoading; else loading">
+    <!-- GPT Settings -->
+    <mat-expansion-panel
+      [expanded]="step === 0"
+      (opened)="step = 0"
+      hideToggle>
+      <mat-expansion-panel-header>
+        {{ "gpt-config.header-settings" | translate }}
+      </mat-expansion-panel-header>
+
+      <div class="panel-content-container">
+        <!-- API Key -->
+        <mat-form-field>
+          <mat-label>{{ "gpt-config.api-key" | translate }}</mat-label>
+          <input
+            matInput
+            appAccessibilityEscapedInput
+            type="password"
+            [(ngModel)]="apiKey" />
+          <button
+            *ngIf="apiKey !== null"
+            matSuffix
+            mat-icon-button
+            aria-label="Clear"
+            (click)="apiKey = null">
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
+        <!-- Organization -->
+        <mat-form-field>
+          <mat-label>{{ "gpt-config.organization" | translate }}</mat-label>
+          <input
+            matInput
+            appAccessibilityEscapedInput
+            type="text"
+            [(ngModel)]="organization" />
+          <button
+            *ngIf="organization !== null"
+            matSuffix
+            mat-icon-button
+            aria-label="Clear"
+            (click)="organization = null">
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
+        <!-- Model -->
+        <mat-form-field>
+          <mat-label>{{ "gpt-config.model" | translate }}</mat-label>
+          <input
+            matInput
+            appAccessibilityEscapedInput
+            type="text"
+            [(ngModel)]="model"
+            [matAutocomplete]="modelAutocomplete" />
+          <button
+            *ngIf="model !== null"
+            matSuffix
+            mat-icon-button
+            aria-label="Clear"
+            (click)="model = null">
+            <mat-icon>close</mat-icon>
+          </button>
+          <mat-autocomplete #modelAutocomplete="matAutocomplete">
+            <ng-container *ngIf="models">
+              <mat-option
+                *ngFor="let option of models.data"
+                [value]="option.id">
+                {{ option.id }}
+              </mat-option>
+            </ng-container>
+          </mat-autocomplete>
+        </mat-form-field>
+        <!-- Suffix -->
+        <mat-form-field>
+          <mat-label>{{ "gpt-config.suffix" | translate }}</mat-label>
+          <input
+            matInput
+            appAccessibilityEscapedInput
+            type="text"
+            [(ngModel)]="suffix" />
+          <button
+            *ngIf="suffix !== null"
+            matSuffix
+            mat-icon-button
+            aria-label="Clear"
+            (click)="suffix = null">
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
+        <!-- Max Tokens -->
+        <div class="panel-sub-item">
+          <mat-form-field>
+            <mat-label>{{ "gpt-config.max-tokens" | translate }}</mat-label>
+            <input
+              matInput
+              appAccessibilityEscapedInput
+              min="1"
+              max="4096"
+              step="1"
+              type="number"
+              [(ngModel)]="maxTokens" />
+            <button
+              *ngIf="maxTokens !== null"
+              matSuffix
+              mat-icon-button
+              aria-label="Clear"
+              (click)="maxTokens = null">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+          <mat-slider
+            min="1"
+            max="4096"
+            step="1"
+            [(ngModel)]="maxTokens"
+            discrete
+            (input)="maxTokens = $event.value">
+            <input matSliderThumb />
+          </mat-slider>
+        </div>
+        <!-- Temperature -->
+        <div class="panel-sub-item">
+          <mat-form-field>
+            <mat-label>{{ "gpt-config.temperature" | translate }}</mat-label>
+            <input
+              matInput
+              appAccessibilityEscapedInput
+              min="0"
+              max="1"
+              step="0.01"
+              type="number"
+              [(ngModel)]="temperature" />
+            <button
+              *ngIf="temperature !== null"
+              matSuffix
+              mat-icon-button
+              aria-label="Clear"
+              (click)="temperature = null">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+          <mat-slider
+            min="0"
+            max="1"
+            step="0.01"
+            [(ngModel)]="temperature"
+            (input)="temperature = $event.value">
+            <input matSliderThumb />
+          </mat-slider>
+        </div>
+        <!-- Top P -->
+        <div class="panel-sub-item">
+          <mat-form-field>
+            <mat-label>{{ "gpt-config.top-percentage" | translate }}</mat-label>
+            <input
+              matInput
+              appAccessibilityEscapedInput
+              min="0"
+              max="1"
+              step="0.01"
+              type="number"
+              [(ngModel)]="topP" />
+            <button
+              *ngIf="topP !== null"
+              matSuffix
+              mat-icon-button
+              aria-label="Clear"
+              (click)="topP = null">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+          <mat-slider
+            min="0"
+            max="1"
+            step="0.01"
+            [(ngModel)]="topP"
+            (input)="topP = $event.value">
+            <input matSliderThumb />
+          </mat-slider>
+        </div>
+        <!-- n -->
+        <div class="panel-sub-item">
+          <mat-form-field>
+            <mat-label>{{ "gpt-config.count" | translate }}</mat-label>
+            <input
+              matInput
+              appAccessibilityEscapedInput
+              min="1"
+              max="5"
+              step="1"
+              type="number"
+              [(ngModel)]="n" />
+            <button
+              *ngIf="n !== null"
+              matSuffix
+              mat-icon-button
+              aria-label="Clear"
+              (click)="n = null">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+          <mat-slider
+            min="1"
+            max="5"
+            step="1"
+            [(ngModel)]="n"
+            discrete
+            (input)="n = $event.value">
+            <input matSliderThumb />
+          </mat-slider>
+        </div>
+        <!-- Stream -->
+        <mat-form-field>
+          <mat-label>{{ "gpt-config.stream" | translate }}</mat-label>
+          <mat-select [(ngModel)]="stream">
+            <mat-option [value]="null">
+              <em>{{ "gpt-config.default" | translate }}</em>
+            </mat-option>
+            <mat-option [value]="true">
+              {{ "gpt-config.active" | translate }}
+            </mat-option>
+            <mat-option [value]="false">
+              {{ "gpt-config.inactive" | translate }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <!-- Logprobs -->
+        <div class="panel-sub-item">
+          <mat-form-field>
+            <mat-label>{{ "gpt-config.logprobs" | translate }}</mat-label>
+            <input
+              matInput
+              appAccessibilityEscapedInput
+              min="0"
+              max="5"
+              step="1"
+              type="number"
+              [(ngModel)]="logprobs" />
+            <button
+              *ngIf="logprobs !== null"
+              matSuffix
+              mat-icon-button
+              aria-label="Clear"
+              (click)="logprobs = null">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+          <mat-slider
+            min="0"
+            max="5"
+            step="1"
+            [(ngModel)]="logprobs"
+            discrete
+            (input)="logprobs = $event.value">
+            <input matSliderThumb />
+          </mat-slider>
+        </div>
+        <!-- Echo -->
+        <mat-form-field>
+          <mat-label>{{ "gpt-config.echo" | translate }}</mat-label>
+          <mat-select [(ngModel)]="echo">
+            <mat-option [value]="null">
+              <em>{{ "gpt-config.default" | translate }}</em>
+            </mat-option>
+            <mat-option [value]="true">
+              {{ "gpt-config.active" | translate }}
+            </mat-option>
+            <mat-option [value]="false">
+              {{ "gpt-config.inactive" | translate }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <!-- Stop -->
+        <div>
+          <mat-label>{{ "gpt-config.stop" | translate }}</mat-label>
+          <mat-list>
+            <mat-list-item
+              class="stop-item"
+              *ngFor="let item of stop; let i = index">
+              <div matListItemTitle>{{ item }}</div>
+              <button mat-icon-button>
+                <mat-icon (click)="stop.splice(i, 1)">close</mat-icon>
+              </button>
+            </mat-list-item>
+            <mat-list-item *ngIf="stop.length < 4">
+              <mat-form-field>
+                <mat-label>{{ "gpt-config.add-stop" | translate }}</mat-label>
+                <input
+                  matInput
+                  appAccessibilityEscapedInput
+                  type="text"
+                  (keyup)="checkEnter($event, addStopWord)"
+                  [(ngModel)]="addStop" />
+                <button
+                  *ngIf="addStop"
+                  matSuffix
+                  mat-icon-button
+                  (click)="addStopWord()">
+                  <mat-icon>check</mat-icon>
+                </button>
+              </mat-form-field>
+            </mat-list-item>
+          </mat-list>
+        </div>
+        <!-- Presence Penalty -->
+        <div class="panel-sub-item">
+          <mat-form-field>
+            <mat-label>
+              {{ "gpt-config.presence-penalty" | translate }}
+            </mat-label>
+            <input
+              matInput
+              appAccessibilityEscapedInput
+              min="-2"
+              max="2"
+              step="0.01"
+              type="number"
+              [(ngModel)]="presencePenalty" />
+            <button
+              *ngIf="presencePenalty !== null"
+              matSuffix
+              mat-icon-button
+              aria-label="Clear"
+              (click)="presencePenalty = null">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+          <mat-slider
+            min="-2"
+            max="2"
+            step="0.01"
+            [(ngModel)]="presencePenalty"
+            (input)="presencePenalty = $event.value">
+            <input matSliderThumb />
+          </mat-slider>
+        </div>
+        <!-- Frequency Penalty -->
+        <div class="panel-sub-item">
+          <mat-form-field>
+            <mat-label>
+              {{ "gpt-config.frequence-penalty" | translate }}
+            </mat-label>
+            <input
+              matInput
+              appAccessibilityEscapedInput
+              min="-2"
+              max="2"
+              step="0.01"
+              type="number"
+              [(ngModel)]="frequencyPenalty" />
+            <button
+              *ngIf="frequencyPenalty !== null"
+              matSuffix
+              mat-icon-button
+              aria-label="Clear"
+              (click)="frequencyPenalty = null">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+          <mat-slider
+            min="-2"
+            max="2"
+            step="0.01"
+            [(ngModel)]="frequencyPenalty"
+            (input)="frequencyPenalty = $event.value">
+            <input matSliderThumb />
+          </mat-slider>
+        </div>
+        <!-- Best Of -->
+        <div class="panel-sub-item">
+          <mat-form-field>
+            <mat-label>{{ "gpt-config.best-of" | translate }}</mat-label>
+            <input
+              matInput
+              appAccessibilityEscapedInput
+              min="1"
+              max="5"
+              step="1"
+              type="number"
+              [(ngModel)]="bestOf" />
+            <button
+              *ngIf="bestOf !== null"
+              matSuffix
+              mat-icon-button
+              aria-label="Clear"
+              (click)="bestOf = null">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+          <mat-slider
+            min="1"
+            max="5"
+            step="1"
+            [(ngModel)]="bestOf"
+            discrete
+            (input)="bestOf = $event.value">
+            <input matSliderThumb />
+          </mat-slider>
+        </div>
+        <!-- Logit Bias -->
+        <div>
+          <mat-label>{{ "gpt-config.logit-bias" | translate }}</mat-label>
+          <mat-list>
+            <mat-list-item
+              class="logit-item"
+              *ngFor="let item of logitBias | keyvalue">
+              <div matListItemTitle>{{ item.key }}</div>
+              <div>
+                <mat-form-field>
+                  <mat-label>
+                    {{ "gpt-config.logit-value" | translate }}
+                  </mat-label>
+                  <input
+                    matInput
+                    appAccessibilityEscapedInput
+                    required
+                    min="-100"
+                    max="100"
+                    step="0.01"
+                    type="number"
+                    [(ngModel)]="logitBias[item.key]" />
+                </mat-form-field>
+                <mat-slider
+                  min="-100"
+                  max="100"
+                  step="0.01"
+                  required="true"
+                  [value]="item.value"
+                  (input)="logitBias[item.key] = $event.value">
+                  <input matSliderThumb />
+                </mat-slider>
+              </div>
+              <button mat-icon-button>
+                <mat-icon (click)="deleteLogitBias(item.key)">close</mat-icon>
+              </button>
+            </mat-list-item>
+            <mat-list-item>
+              <mat-form-field>
+                <mat-label>
+                  {{ "gpt-config.add-logit-bias" | translate }}
+                </mat-label>
+                <input
+                  matInput
+                  appAccessibilityEscapedInput
+                  type="text"
+                  (keyup)="checkEnter($event, addLogit)"
+                  [(ngModel)]="addLogitBias" />
+                <button
+                  *ngIf="addLogitBias"
+                  matSuffix
+                  mat-icon-button
+                  (click)="addLogit()">
+                  <mat-icon>check</mat-icon>
+                </button>
+              </mat-form-field>
+            </mat-list-item>
+          </mat-list>
+        </div>
+      </div>
+
+      <button
+        mat-button
+        class="secondary-btn"
+        (click)="saveProperties()">
+        {{ "gpt-config.save" | translate }}
+      </button>
+
+      <mat-action-row>
+        <button
+          mat-button
+          (click)="step = 1">
+          {{ "gpt-config.next" | translate }}
+        </button>
+      </mat-action-row>
+    </mat-expansion-panel>
+    <!-- GPT Restrictions -->
+    <mat-expansion-panel
+      [expanded]="step === 1"
+      (opened)="step = 1"
+      hideToggle>
+      <mat-expansion-panel-header>
+        {{ "gpt-config.header-restrictions" | translate }}
+      </mat-expansion-panel-header>
+
+      <div class="panel-content-container">
+        <!-- Active -->
+        <mat-slide-toggle [(ngModel)]="active">
+          {{ "gpt-config.restrict-active" | translate }}
+        </mat-slide-toggle>
+        <!-- Usage -->
+        <mat-form-field>
+          <mat-label>{{ "gpt-config.restrict-usage" | translate }}</mat-label>
+          <mat-select [(ngModel)]="usage">
+            <mat-option [value]="'REGISTERED_MODERATORS'">
+              {{ "gpt-config.restrict-usage-registered-mods" | translate }}
+            </mat-option>
+            <mat-option [value]="'REGISTERED_USERS'">
+              {{ "gpt-config.restrict-usage-registered-users" | translate }}
+            </mat-option>
+            <mat-option [value]="'USERS'">
+              {{ "gpt-config.restrict-usage-all" | translate }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <!-- IP-Filter -->
+        <div>
+          <mat-label>
+            {{ "gpt-config.restrict-ip-filter" | translate }}
+          </mat-label>
+          <mat-list>
+            <mat-list-item
+              class="stop-item"
+              *ngFor="let item of ipFilter; let i = index">
+              <div matListItemTitle>{{ item }}</div>
+              <button mat-icon-button>
+                <mat-icon (click)="ipFilter.splice(i, 1)">close</mat-icon>
+              </button>
+            </mat-list-item>
+            <mat-list-item>
+              <mat-form-field>
+                <mat-label>
+                  {{ "gpt-config.restrict-add-ip-filter" | translate }}
+                </mat-label>
+                <input
+                  matInput
+                  appAccessibilityEscapedInput
+                  type="text"
+                  (keyup)="checkEnter($event, addSubnet)"
+                  [(ngModel)]="addIpFilter" />
+                <button
+                  *ngIf="addIpFilter"
+                  matSuffix
+                  mat-icon-button
+                  (click)="addSubnet()">
+                  <mat-icon>check</mat-icon>
+                </button>
+              </mat-form-field>
+            </mat-list-item>
+          </mat-list>
+        </div>
+        <!-- End Date -->
+        <div class="panel-sub-item">
+          <mat-form-field>
+            <mat-label>
+              {{ "gpt-config.restrict-end-date" | translate }}
+            </mat-label>
+            <input
+              matInput
+              [matDatepicker]="picker"
+              [formControl]="endDateControl" />
+            <mat-hint>{{ getDateFormatString() }}</mat-hint>
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+            <button
+              *ngIf="endDateControl.value !== null"
+              matSuffix
+              mat-icon-button
+              aria-label="Clear"
+              (click)="endDateControl.setValue(null)">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+          <span class="time-select">
+            <mat-label>
+              {{ "gpt-config.restrict-end-date" | translate }}
+            </mat-label>
+            <ngx-mat-timepicker [(ngModel)]="endDate"></ngx-mat-timepicker>
+          </span>
+        </div>
+        <!-- Accumulated Platform Quota -->
+        <mat-form-field>
+          <mat-label>
+            {{ "gpt-config.restrict-platform-accumulated" | translate }}
+          </mat-label>
+          <input
+            matInput
+            appAccessibilityEscapedInput
+            min="1"
+            step="1"
+            type="number"
+            [(ngModel)]="accumulatedPlatformQuota" />
+          <button
+            *ngIf="accumulatedPlatformQuota !== null"
+            matSuffix
+            mat-icon-button
+            aria-label="Clear"
+            (click)="accumulatedPlatformQuota = null">
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
+        <!-- Weekly Platform Quota -->
+        <mat-form-field>
+          <mat-label>
+            {{ "gpt-config.restrict-platform-week" | translate }}
+          </mat-label>
+          <input
+            matInput
+            appAccessibilityEscapedInput
+            min="1"
+            step="1"
+            type="number"
+            [(ngModel)]="weeklyPlatformQuota" />
+          <button
+            *ngIf="weeklyPlatformQuota !== null"
+            matSuffix
+            mat-icon-button
+            aria-label="Clear"
+            (click)="weeklyPlatformQuota = null">
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
+        <!-- Daily Platform Quota -->
+        <mat-form-field>
+          <mat-label>
+            {{ "gpt-config.restrict-platform-day" | translate }}
+          </mat-label>
+          <input
+            matInput
+            appAccessibilityEscapedInput
+            min="1"
+            step="1"
+            type="number"
+            [(ngModel)]="dailyPlatformQuota" />
+          <button
+            *ngIf="dailyPlatformQuota !== null"
+            matSuffix
+            mat-icon-button
+            aria-label="Clear"
+            (click)="dailyPlatformQuota = null">
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
+        <!-- Accumulated User Quota -->
+        <mat-form-field>
+          <mat-label>
+            {{ "gpt-config.restrict-user-accumulated" | translate }}
+          </mat-label>
+          <input
+            matInput
+            appAccessibilityEscapedInput
+            min="1"
+            step="1"
+            type="number"
+            [(ngModel)]="accumulatedUserQuota" />
+          <button
+            *ngIf="accumulatedUserQuota !== null"
+            matSuffix
+            mat-icon-button
+            aria-label="Clear"
+            (click)="accumulatedUserQuota = null">
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
+        <!-- Weekly User Quota -->
+        <mat-form-field>
+          <mat-label>
+            {{ "gpt-config.restrict-user-week" | translate }}
+          </mat-label>
+          <input
+            matInput
+            appAccessibilityEscapedInput
+            min="1"
+            step="1"
+            type="number"
+            [(ngModel)]="weeklyUserQuota" />
+          <button
+            *ngIf="weeklyUserQuota !== null"
+            matSuffix
+            mat-icon-button
+            aria-label="Clear"
+            (click)="weeklyUserQuota = null">
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
+        <!-- Daily User Quota -->
+        <mat-form-field>
+          <mat-label>
+            {{ "gpt-config.restrict-user-day" | translate }}
+          </mat-label>
+          <input
+            matInput
+            appAccessibilityEscapedInput
+            min="1"
+            step="1"
+            type="number"
+            [(ngModel)]="dailyUserQuota" />
+          <button
+            *ngIf="dailyUserQuota !== null"
+            matSuffix
+            mat-icon-button
+            aria-label="Clear"
+            (click)="dailyUserQuota = null">
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+
+      <button
+        mat-button
+        class="secondary-btn"
+        (click)="saveRestrictions()">
+        {{ "gpt-config.save" | translate }}
+      </button>
+
+      <mat-action-row>
+        <button
+          mat-button
+          (click)="step = 0">
+          {{ "gpt-config.previous" | translate }}
+        </button>
+        <button
+          mat-button
+          (click)="step = 2">
+          {{ "gpt-config.next" | translate }}
+        </button>
+      </mat-action-row>
+    </mat-expansion-panel>
+    <!-- GPT Metrics -->
+    <mat-expansion-panel
+      [expanded]="step === 2"
+      (opened)="step = 2; updateStatistics()"
+      hideToggle>
+      <mat-expansion-panel-header>
+        {{ "gpt-config.header-metrics" | translate }}
+      </mat-expansion-panel-header>
+
+      <div *ngIf="statistics; else loading">
+        {{
+          "gpt-config.stats-message"
+            | translate
+              : {
+                  all: statistics.accumulatedQuota,
+                  week: statistics.weeklyQuota,
+                  day: statistics.dailyQuota,
+                  date: prettyDate(statistics.lastUsed)
+                }
+        }}
+        <br />
+        <br />
+        {{
+          "gpt-config.boxplot-message"
+            | translate
+              : {
+                  median: statistics.promptTokens.percentiles[5],
+                  type: "gpt-config.prompt-type" | translate,
+                  lower: statistics.promptTokens.lowerQuartile,
+                  upper: statistics.promptTokens.upperQuartile,
+                  count: statistics.promptTokens.count,
+                  lowerStray: statistics.promptTokens.strayBulletsLower,
+                  upperStray: statistics.promptTokens.strayBulletsUpper
+                }
+        }}
+        <br />
+        <br />
+        {{
+          "gpt-config.boxplot-message"
+            | translate
+              : {
+                  median: statistics.completionTokens.percentiles[5],
+                  type: "gpt-config.completion-type" | translate,
+                  lower: statistics.completionTokens.lowerQuartile,
+                  upper: statistics.completionTokens.upperQuartile,
+                  count: statistics.completionTokens.count,
+                  lowerStray: statistics.completionTokens.strayBulletsLower,
+                  upperStray: statistics.completionTokens.strayBulletsUpper
+                }
+        }}
+      </div>
+
+      <mat-action-row>
+        <button
+          mat-button
+          (click)="step = 1">
+          {{ "gpt-config.previous" | translate }}
+        </button>
+        <button
+          mat-button
+          (click)="step = 3">
+          {{ "gpt-config.end" | translate }}
+        </button>
+      </mat-action-row>
+    </mat-expansion-panel>
+  </mat-accordion>
+
+  <div class="gpt-requester">
+    <div *ngFor="let item of conversation" [class]="item.type">
+      {{ item.message }}
+    </div>
+
+    <mat-form-field>
+      <mat-label>
+        {{ "gpt-config.enter-conversation-text" | translate }}
+      </mat-label>
+      <textarea
+        matInput
+        appAccessibilityEscapedInput
+        [(ngModel)]="sendGPTContent"></textarea>
+    </mat-form-field>
+
+    <button
+      *ngIf="!isSending; else loading"
+      mat-button
+      class="secondary-btn"
+      (click)="sendGPTMessage()">
+      {{ "gpt-config.send" | translate }}
+    </button>
+    <button
+      *ngIf="!isSending"
+      mat-button
+      class="danger-btn"
+      (click)="clearMessages()">
+      {{ "gpt-config.empty-conversation" | translate }}
+    </button>
+  </div>
+</mat-card>
+
+<ng-template #loading>
+  <app-mat-spinner-overlay
+    color="on-surface"
+    diameter="40"
+    strokeWidth="5"></app-mat-spinner-overlay>
+</ng-template>
