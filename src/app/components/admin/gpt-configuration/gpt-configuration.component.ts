@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { DateAdapter } from '@angular/material/core';
 import { TranslateService } from '@ngx-translate/core';
@@ -23,7 +23,7 @@ interface ConversationEntry {
   templateUrl: './gpt-configuration.component.html',
   styleUrls: ['./gpt-configuration.component.scss'],
 })
-export class GptConfigurationComponent implements OnInit {
+export class GptConfigurationComponent implements OnInit, OnDestroy {
   // config members
   apiKey: string = null;
   organization: string = null;

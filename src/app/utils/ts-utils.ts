@@ -50,7 +50,7 @@ export const verifyFixedSize = <T, L extends number>(arr: T[], length: L): Fixed
     return null as never;
   }
   return arr as FixedSizeArray<T, L>;
-}
+};
 
 export type StringOfLength<Min, Max> = string & {
   readonly __TYPE__: unique symbol;
