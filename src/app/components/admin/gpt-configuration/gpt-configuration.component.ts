@@ -7,10 +7,16 @@ import {
   GPTRestrictions,
 } from 'app/models/gpt-configuration';
 import { GPTModels } from 'app/models/gpt-models';
+import { GPTStatistics } from 'app/models/gpt-statistics';
 import { GptService, GPTUsage } from 'app/services/http/gpt.service';
 import { LanguageService } from 'app/services/util/language.service';
 import { NotificationService } from 'app/services/util/notification.service';
 import { ReplaySubject, takeUntil } from 'rxjs';
+
+interface ConversationEntry {
+  type: 'human' | 'gpt';
+  message: string;
+}
 
 @Component({
   selector: 'app-gpt-configuration',
@@ -46,15 +52,20 @@ export class GptConfigurationComponent implements OnInit {
   accumulatedUserQuota: number = null;
   weeklyUserQuota: number = null;
   dailyUserQuota: number = null;
+  // stats
+  statistics: GPTStatistics = null;
   // additional
   models: GPTModels = null;
   addStop: string = null;
   addLogitBias: string = null;
   addIpFilter: string = null;
+  sendGPTContent: string = '';
   // ui
   step = -1;
   isLoading = true;
+  isSending = false;
   endDateControl = new FormControl(null);
+  conversation: ConversationEntry[] = [];
   private destroyer = new ReplaySubject(1);
   private configuration: GPTConfiguration;
 
@@ -143,6 +154,52 @@ export class GptConfigurationComponent implements OnInit {
       .replace(/(\D|^)2345(\D|$)/, '$1YYYY$2')
       .replace(/(\D|^)11(\D|$)/, '$1MM$2')
       .replace(/(\D|^)\d*1(\D|$)/, '$1DD$2');
+  }
+
+  prettyDate(date: Date) {
+    return date.toLocaleString(this.languageService.currentLanguage(), {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: false,
+    });
+  }
+
+  clearMessages() {
+    this.conversation = [];
+  }
+
+  sendGPTMessage() {
+    this.isSending = true;
+    this.conversation.push({
+      message: this.sendGPTContent,
+      type: 'human',
+    });
+    this.sendGPTContent = '';
+    this.gptService
+      .requestCompletion({
+        prompt: this.conversation.map((entry) => entry.message),
+      })
+      .subscribe({
+        next: (d) => {
+          this.conversation.push({
+            message: d.choices[0].text,
+            type: 'gpt',
+          });
+          this.isSending = false;
+        },
+        error: (e) => {
+          console.error(e);
+          this.conversation.push({
+            message: 'ERROR: ' + (e?.message ? e.message : e),
+            type: 'gpt',
+          });
+          this.isSending = false;
+        },
+      });
   }
 
   saveProperties() {
@@ -271,6 +328,20 @@ export class GptConfigurationComponent implements OnInit {
     this.updateGPT({ restrictions: changes as GPTRestrictions });
   }
 
+  updateStatistics() {
+    this.gptService.getStats().subscribe({
+      next: (s) => {
+        this.statistics = s;
+      },
+      error: (e) => {
+        console.error(e);
+        this.translateService
+          .get('gpt-config.load-stats-error')
+          .subscribe((msg) => this.notificationService.show(msg));
+      },
+    });
+  }
+
   private reloadConfig(): void {
     this.isLoading = true;
     this.gptService.getConfiguration().subscribe({
@@ -282,6 +353,9 @@ export class GptConfigurationComponent implements OnInit {
       },
       error: (e) => {
         console.error(e);
+        this.translateService
+          .get('gpt-config.load-error')
+          .subscribe((msg) => this.notificationService.show(msg));
       },
     });
   }

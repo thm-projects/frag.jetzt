@@ -45,6 +45,13 @@ export type FixedSizeArray<T, L extends number> = L extends
   ? []
   : FixedSizeArrayBuilder<[T], L>;
 
+export const verifyFixedSize = <T, L extends number>(arr: T[], length: L): FixedSizeArray<T, L> => {
+  if (arr?.length !== length) {
+    return null as never;
+  }
+  return arr as FixedSizeArray<T, L>;
+}
+
 export type StringOfLength<Min, Max> = string & {
   readonly __TYPE__: unique symbol;
   readonly __MIN__: Min;

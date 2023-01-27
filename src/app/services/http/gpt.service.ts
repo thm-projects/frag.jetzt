@@ -1,7 +1,9 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { GPTCompletion } from 'app/models/gpt-completion';
 import { GPTConfiguration } from 'app/models/gpt-configuration';
 import { GPTModels } from 'app/models/gpt-models';
+import { GPTStatistics } from 'app/models/gpt-statistics';
 import { verifyInstance } from 'app/utils/ts-utils';
 import {
   catchError,
@@ -31,6 +33,18 @@ export enum GPTUsage {
 export class GPTStatus {
   restricted: boolean;
   usage: GPTUsage;
+
+  constructor({
+    restricted = true,
+    usage = GPTUsage.REGISTERED_MODERATORS,
+  }: GPTStatus) {
+    this.restricted = restricted;
+    this.usage = usage;
+  }
+}
+
+interface GPTPrompt {
+  prompt: null | string | string[];
 }
 
 @Injectable({
@@ -70,8 +84,27 @@ export class GptService extends BaseHttpService {
   getStatus(): Observable<GPTStatus> {
     const url = '/api/gpt/status';
     return this.httpClient.get<GPTStatus>(url, httpOptions).pipe(
-      tap((_) => console.log(_)),
+      tap((_) => ''),
+      map((v) => verifyInstance(GPTStatus, v)),
       catchError(this.handleError<GPTStatus>('getStatus')),
+    );
+  }
+
+  getStats(): Observable<GPTStatistics> {
+    const url = '/api/gpt/stats';
+    return this.httpClient.get<GPTStatistics>(url, httpOptions).pipe(
+      tap((_) => ''),
+      map((v) => verifyInstance(GPTStatistics, v)),
+      catchError(this.handleError<GPTStatistics>('getStats')),
+    );
+  }
+
+  requestCompletion(prompt: GPTPrompt): Observable<GPTCompletion> {
+    const url = '/api/gpt/completion';
+    return this.httpClient.post<GPTCompletion>(url, prompt, httpOptions).pipe(
+      tap((_) => ''),
+      map((v) => verifyInstance(GPTCompletion, v)),
+      catchError(this.handleError<GPTCompletion>('requestCompletion')),
     );
   }
 

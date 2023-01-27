@@ -48,8 +48,10 @@
     "next": "Weiter",
     "previous": "Zurück",
     "save": "Speichern",
+    "end": "Ende",
     "header-settings": "GPT API Einstellungen",
     "header-restrictions": "GPT API Beschränkung",
+    "header-metrics": "GPT API Statistiken",
     "restrict-active": "API aktiviert",
     "restrict-usage": "Benutzergruppe",
     "restrict-usage-registered-mods": "Registrierte Moderatoren",
@@ -64,6 +66,15 @@
     "restrict-user-accumulated": "Nutzer: Max. Token",
     "restrict-user-week": "Nutzer: Max. Token / Woche",
     "restrict-user-day": "Nutzer: Max. Token / Tag",
-    "save-error": "Konnte Daten nicht speichern!"
+    "save-error": "Konnte Daten nicht speichern!",
+    "load-error": "Konnte Konfiguration nicht laden!",
+    "load-stats-error": "Konnte Statistiken nicht laden!",
+    "stats-message": "Die Plattform hat insgesamt {{all}} Tokens verbraucht.\nDavon {{week}} diese Woche und {{day}} Tokens an diesem Tag.\nDie letzte Nutzung fand am {{date}} statt.",
+    "prompt-type": "Token für die Anfrage",
+    "completion-type": "Token für die Ausgabe",
+    "boxplot-message": "Es wurden im Median {{median}} {{type}} pro Request verbraucht, dabei befanden sich 50% der Daten zwischen {{lower}} Tokens und {{upper}} Tokens. Von {{count}} Requests sind {{lowerStray}} unterhalb und {{upperStray}} oberhalb ausgerissen.",
+    "enter-conversation-text": "Rede mit GPT",
+    "send": "Senden",
+    "empty-conversation": "Verlauf leeren"
   }
 }

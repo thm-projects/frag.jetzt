@@ -1,10 +1,13 @@
 <mat-card>
   <h1>{{ "gpt-config.title" | translate }}</h1>
-  <mat-accordion *ngIf="!isLoading else loading">
+  <mat-accordion *ngIf="!isLoading; else loading">
     <!-- GPT Settings -->
-    <mat-expansion-panel [expanded]="step === 0" (opened)="step = 0" hideToggle>
+    <mat-expansion-panel
+      [expanded]="step === 0"
+      (opened)="step = 0"
+      hideToggle>
       <mat-expansion-panel-header>
-        {{ 'gpt-config.header-settings' | translate }}
+        {{ "gpt-config.header-settings" | translate }}
       </mat-expansion-panel-header>
 
       <div class="panel-content-container">
@@ -304,7 +307,9 @@
         <!-- Presence Penalty -->
         <div class="panel-sub-item">
           <mat-form-field>
-            <mat-label>{{ "gpt-config.presence-penalty" | translate }}</mat-label>
+            <mat-label>
+              {{ "gpt-config.presence-penalty" | translate }}
+            </mat-label>
             <input
               matInput
               appAccessibilityEscapedInput
@@ -334,7 +339,9 @@
         <!-- Frequency Penalty -->
         <div class="panel-sub-item">
           <mat-form-field>
-            <mat-label>{{ "gpt-config.frequence-penalty" | translate }}</mat-label>
+            <mat-label>
+              {{ "gpt-config.frequence-penalty" | translate }}
+            </mat-label>
             <input
               matInput
               appAccessibilityEscapedInput
@@ -368,7 +375,7 @@
             <input
               matInput
               appAccessibilityEscapedInput
-              min="0"
+              min="1"
               max="5"
               step="1"
               type="number"
@@ -383,7 +390,7 @@
             </button>
           </mat-form-field>
           <mat-slider
-            min="0"
+            min="1"
             max="5"
             step="1"
             [(ngModel)]="bestOf"
@@ -402,7 +409,9 @@
               <div matListItemTitle>{{ item.key }}</div>
               <div>
                 <mat-form-field>
-                  <mat-label>{{ "gpt-config.logit-value" | translate }}</mat-label>
+                  <mat-label>
+                    {{ "gpt-config.logit-value" | translate }}
+                  </mat-label>
                   <input
                     matInput
                     appAccessibilityEscapedInput
@@ -429,7 +438,9 @@
             </mat-list-item>
             <mat-list-item>
               <mat-form-field>
-                <mat-label>{{ "gpt-config.add-logit-bias" | translate }}</mat-label>
+                <mat-label>
+                  {{ "gpt-config.add-logit-bias" | translate }}
+                </mat-label>
                 <input
                   matInput
                   appAccessibilityEscapedInput
@@ -449,24 +460,34 @@
         </div>
       </div>
 
-      <button mat-button class="secondary-btn" (click)="saveProperties()">
-        {{ 'gpt-config.save' | translate }}
+      <button
+        mat-button
+        class="secondary-btn"
+        (click)="saveProperties()">
+        {{ "gpt-config.save" | translate }}
       </button>
 
       <mat-action-row>
-        <button mat-button (click)="step = 1">{{ 'gpt-config.next' | translate }}</button>
+        <button
+          mat-button
+          (click)="step = 1">
+          {{ "gpt-config.next" | translate }}
+        </button>
       </mat-action-row>
     </mat-expansion-panel>
     <!-- GPT Restrictions -->
-    <mat-expansion-panel [expanded]="step === 1" (opened)="step = 1" hideToggle>
+    <mat-expansion-panel
+      [expanded]="step === 1"
+      (opened)="step = 1"
+      hideToggle>
       <mat-expansion-panel-header>
-        {{ 'gpt-config.header-restrictions' | translate }}
+        {{ "gpt-config.header-restrictions" | translate }}
       </mat-expansion-panel-header>
 
       <div class="panel-content-container">
         <!-- Active -->
         <mat-slide-toggle [(ngModel)]="active">
-          {{ 'gpt-config.restrict-active' | translate }}
+          {{ "gpt-config.restrict-active" | translate }}
         </mat-slide-toggle>
         <!-- Usage -->
         <mat-form-field>
@@ -485,7 +506,9 @@
         </mat-form-field>
         <!-- IP-Filter -->
         <div>
-          <mat-label>{{ "gpt-config.restrict-ip-filter" | translate }}</mat-label>
+          <mat-label>
+            {{ "gpt-config.restrict-ip-filter" | translate }}
+          </mat-label>
           <mat-list>
             <mat-list-item
               class="stop-item"
@@ -497,7 +520,9 @@
             </mat-list-item>
             <mat-list-item>
               <mat-form-field>
-                <mat-label>{{ "gpt-config.restrict-add-ip-filter" | translate }}</mat-label>
+                <mat-label>
+                  {{ "gpt-config.restrict-add-ip-filter" | translate }}
+                </mat-label>
                 <input
                   matInput
                   appAccessibilityEscapedInput
@@ -518,10 +543,17 @@
         <!-- End Date -->
         <div class="panel-sub-item">
           <mat-form-field>
-            <mat-label>{{ 'gpt-config.restrict-end-date' | translate }}</mat-label>
-            <input matInput [matDatepicker]="picker" [formControl]="endDateControl">
+            <mat-label>
+              {{ "gpt-config.restrict-end-date" | translate }}
+            </mat-label>
+            <input
+              matInput
+              [matDatepicker]="picker"
+              [formControl]="endDateControl" />
             <mat-hint>{{ getDateFormatString() }}</mat-hint>
-            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
             <button
               *ngIf="endDateControl.value !== null"
@@ -533,14 +565,17 @@
             </button>
           </mat-form-field>
           <span class="time-select">
-            <mat-label>{{ 'gpt-config.restrict-end-date' | translate }}</mat-label>
-            <ngx-mat-timepicker [(ngModel)]="endDate">
-            </ngx-mat-timepicker>
+            <mat-label>
+              {{ "gpt-config.restrict-end-date" | translate }}
+            </mat-label>
+            <ngx-mat-timepicker [(ngModel)]="endDate"></ngx-mat-timepicker>
           </span>
         </div>
         <!-- Accumulated Platform Quota -->
         <mat-form-field>
-          <mat-label>{{ "gpt-config.restrict-platform-accumulated" | translate }}</mat-label>
+          <mat-label>
+            {{ "gpt-config.restrict-platform-accumulated" | translate }}
+          </mat-label>
           <input
             matInput
             appAccessibilityEscapedInput
@@ -559,7 +594,9 @@
         </mat-form-field>
         <!-- Weekly Platform Quota -->
         <mat-form-field>
-          <mat-label>{{ "gpt-config.restrict-platform-week" | translate }}</mat-label>
+          <mat-label>
+            {{ "gpt-config.restrict-platform-week" | translate }}
+          </mat-label>
           <input
             matInput
             appAccessibilityEscapedInput
@@ -578,7 +615,9 @@
         </mat-form-field>
         <!-- Daily Platform Quota -->
         <mat-form-field>
-          <mat-label>{{ "gpt-config.restrict-platform-day" | translate }}</mat-label>
+          <mat-label>
+            {{ "gpt-config.restrict-platform-day" | translate }}
+          </mat-label>
           <input
             matInput
             appAccessibilityEscapedInput
@@ -597,7 +636,9 @@
         </mat-form-field>
         <!-- Accumulated User Quota -->
         <mat-form-field>
-          <mat-label>{{ "gpt-config.restrict-user-accumulated" | translate }}</mat-label>
+          <mat-label>
+            {{ "gpt-config.restrict-user-accumulated" | translate }}
+          </mat-label>
           <input
             matInput
             appAccessibilityEscapedInput
@@ -616,7 +657,9 @@
         </mat-form-field>
         <!-- Weekly User Quota -->
         <mat-form-field>
-          <mat-label>{{ "gpt-config.restrict-user-week" | translate }}</mat-label>
+          <mat-label>
+            {{ "gpt-config.restrict-user-week" | translate }}
+          </mat-label>
           <input
             matInput
             appAccessibilityEscapedInput
@@ -635,7 +678,9 @@
         </mat-form-field>
         <!-- Daily User Quota -->
         <mat-form-field>
-          <mat-label>{{ "gpt-config.restrict-user-day" | translate }}</mat-label>
+          <mat-label>
+            {{ "gpt-config.restrict-user-day" | translate }}
+          </mat-label>
           <input
             matInput
             appAccessibilityEscapedInput
@@ -654,24 +699,128 @@
         </mat-form-field>
       </div>
 
-      <button mat-button class="secondary-btn" (click)="saveRestrictions()">
-        {{ 'gpt-config.save' | translate }}
+      <button
+        mat-button
+        class="secondary-btn"
+        (click)="saveRestrictions()">
+        {{ "gpt-config.save" | translate }}
       </button>
 
       <mat-action-row>
-        <button mat-button (click)="step = 0">{{ 'gpt-config.previous' | translate }}</button>
-        <button mat-button (click)="step = 2">{{ 'gpt-config.next' | translate }}</button>
+        <button
+          mat-button
+          (click)="step = 0">
+          {{ "gpt-config.previous" | translate }}
+        </button>
+        <button
+          mat-button
+          (click)="step = 2">
+          {{ "gpt-config.next" | translate }}
+        </button>
       </mat-action-row>
     </mat-expansion-panel>
     <!-- GPT Metrics -->
+    <mat-expansion-panel
+      [expanded]="step === 2"
+      (opened)="step = 2; updateStatistics()"
+      hideToggle>
+      <mat-expansion-panel-header>
+        {{ "gpt-config.header-metrics" | translate }}
+      </mat-expansion-panel-header>
+
+      <div *ngIf="statistics; else loading">
+        {{
+          "gpt-config.stats-message"
+            | translate
+              : {
+                  all: statistics.accumulatedQuota,
+                  week: statistics.weeklyQuota,
+                  day: statistics.dailyQuota,
+                  date: prettyDate(statistics.lastUsed)
+                }
+        }}
+        <br />
+        <br />
+        {{
+          "gpt-config.boxplot-message"
+            | translate
+              : {
+                  median: statistics.promptTokens.percentiles[5],
+                  type: "gpt-config.prompt-type" | translate,
+                  lower: statistics.promptTokens.lowerQuartile,
+                  upper: statistics.promptTokens.upperQuartile,
+                  count: statistics.promptTokens.count,
+                  lowerStray: statistics.promptTokens.strayBulletsLower,
+                  upperStray: statistics.promptTokens.strayBulletsUpper
+                }
+        }}
+        <br />
+        <br />
+        {{
+          "gpt-config.boxplot-message"
+            | translate
+              : {
+                  median: statistics.completionTokens.percentiles[5],
+                  type: "gpt-config.completion-type" | translate,
+                  lower: statistics.completionTokens.lowerQuartile,
+                  upper: statistics.completionTokens.upperQuartile,
+                  count: statistics.completionTokens.count,
+                  lowerStray: statistics.completionTokens.strayBulletsLower,
+                  upperStray: statistics.completionTokens.strayBulletsUpper
+                }
+        }}
+      </div>
+
+      <mat-action-row>
+        <button
+          mat-button
+          (click)="step = 1">
+          {{ "gpt-config.previous" | translate }}
+        </button>
+        <button
+          mat-button
+          (click)="step = 3">
+          {{ "gpt-config.end" | translate }}
+        </button>
+      </mat-action-row>
+    </mat-expansion-panel>
   </mat-accordion>
-  
-  <!-- TODO: API Test -->
-  <!--  cloned.restrictions = restrictions.clone(); -->
+
+  <div class="gpt-requester">
+    <div *ngFor="let item of conversation" [class]="item.type">
+      {{ item.message }}
+    </div>
+
+    <mat-form-field>
+      <mat-label>
+        {{ "gpt-config.enter-conversation-text" | translate }}
+      </mat-label>
+      <textarea
+        matInput
+        appAccessibilityEscapedInput
+        [(ngModel)]="sendGPTContent"></textarea>
+    </mat-form-field>
+
+    <button
+      *ngIf="!isSending; else loading"
+      mat-button
+      class="secondary-btn"
+      (click)="sendGPTMessage()">
+      {{ "gpt-config.send" | translate }}
+    </button>
+    <button
+      *ngIf="!isSending"
+      mat-button
+      class="danger-btn"
+      (click)="clearMessages()">
+      {{ "gpt-config.empty-conversation" | translate }}
+    </button>
+  </div>
 </mat-card>
 
-
 <ng-template #loading>
-  <app-mat-spinner-overlay color="on-surface" diameter="40" strokeWidth="5">
-  </app-mat-spinner-overlay>
+  <app-mat-spinner-overlay
+    color="on-surface"
+    diameter="40"
+    strokeWidth="5"></app-mat-spinner-overlay>
 </ng-template>
