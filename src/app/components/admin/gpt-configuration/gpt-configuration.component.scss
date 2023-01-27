@@ -118,6 +118,10 @@ mat-list {
       height: 1rem;
       position: absolute;
     }
+
+    &::after {
+      background-color: var(--surface);
+    }
   }
 
   > .human {
@@ -133,7 +137,6 @@ mat-list {
     }
 
     &::after {
-      background-color: var(--on-primary);
       border-bottom-left-radius: 0.5rem;
       right: -40px;
       transform: translate(-30px, -2px);
@@ -154,7 +157,6 @@ mat-list {
     }
 
     &::after {
-      background-color: var(--on-secondary);
       border-bottom-right-radius: 0.5rem;
       left: 20px;
       transform: translate(-30px, -2px);
