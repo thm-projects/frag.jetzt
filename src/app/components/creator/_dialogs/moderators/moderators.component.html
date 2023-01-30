@@ -24,11 +24,12 @@
       <input appAccessibilityEscapedInput
              matInput
              type="email"
+             class="placeholder"
              #loginId
              aria-labelledby="moderator-email"
+             [placeholder]="'moderators-dialog.email' | translate"
              [formControl]="usernameFormControl"
              name="username"/>
-      <mat-placeholder class="placeholder">{{ 'moderators-dialog.email' | translate }}</mat-placeholder>
       <mat-error *ngIf="usernameFormControl.hasError('email')">
         {{ 'moderators-dialog.email-error' | translate }}
       </mat-error>

@@ -6,9 +6,10 @@
            matInput
            [formControl]="roomNameFormControl"
            name="room-name"
+           class="placeholder"
+           [placeholder]="'session.session-name' | translate"
            [maxlength]="roomNameLengthMax"
            aria-labelledby="room-name">
-    <mat-placeholder class="placeholder">{{ 'session.session-name' | translate }}</mat-placeholder>
     <mat-hint align="end">
       <span aria-hidden="true">{{ roomNameFormControl.value.length }} / {{roomNameLengthMax}}</span>
     </mat-hint>

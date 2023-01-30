@@ -28,7 +28,6 @@ import { MatRippleModule } from '@angular/material/core';
 import { QRCodeModule } from 'angularx-qrcode';
 import { MotdDialogComponent } from './_dialogs/motd-dialog/motd-dialog.component';
 import { MotdMessageComponent } from './_dialogs/motd-dialog/motd-message/motd-message.component';
-import { TagCloudModule } from 'angular-tag-cloud-module';
 import { CloudConfigurationComponent } from './_dialogs/cloud-configuration/cloud-configuration.component';
 import { ColorPickerModule } from 'ngx-color-picker';
 import {
@@ -51,7 +50,6 @@ import { JoyrideTemplateComponent } from './_dialogs/joyride-template/joyride-te
 import { JoyrideTemplateDirective } from '../../directives/joyride-template.directive';
 import { MatSpinnerOverlayComponent } from './mat-spinner-overlay/mat-spinner-overlay.component';
 import { WriteCommentComponent } from './write-comment/write-comment.component';
-import { CustomMarkdownComponent } from './custom-markdown/custom-markdown.component';
 import { ScrollIntoViewDirective } from '../../directives/scroll-into-view.directive';
 import { QuillModule } from 'ngx-quill';
 import { ViewCommentDataComponent } from './view-comment-data/view-comment-data.component';
@@ -190,7 +188,6 @@ import { QuestionWallComponent } from './questionwall/question-wall/question-wal
     ArsModule,
     MarkdownModule,
     QRCodeModule,
-    TagCloudModule,
     ColorPickerModule,
     DragDropModule,
     JoyrideModule.forChild(),
@@ -238,7 +235,6 @@ import { QuestionWallComponent } from './questionwall/question-wall/question-wal
     JoyrideTemplateDirective,
     MatSpinnerOverlayComponent,
     WriteCommentComponent,
-    CustomMarkdownComponent,
     ScrollIntoViewDirective,
     ViewCommentDataComponent,
     DeepLDialogComponent,
@@ -318,7 +314,6 @@ import { QuestionWallComponent } from './questionwall/question-wall/question-wal
     MatSpinnerOverlayComponent,
     JoyrideTemplateDirective,
     AutofocusDirective,
-    CustomMarkdownComponent,
     ScrollIntoViewDirective,
     ViewCommentDataComponent,
     WriteCommentComponent,

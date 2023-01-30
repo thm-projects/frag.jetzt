@@ -13,9 +13,9 @@
   <ng-container *ngIf="data.type === 'formula'">
     <h3>{{'quill.preview' | translate}}</h3>
 
-    <app-custom-markdown [data]="getKatex()"
+    <markdown katex [data]="getKatex()"
                          [katexOptions]="katexOptions">
-    </app-custom-markdown>
+    </markdown>
   </ng-container>
 </mat-dialog-content>
 <app-dialog-action-buttons

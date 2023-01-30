@@ -10,10 +10,11 @@
                type="text"
                #tag
                aria-labelledby="tag-new"
+               [placeholder]="'room-page.tag-new' | translate"
                [formControl]="tagFormControl"
+               class="placeholder"
                name="taginput"
                maxlength="20"/>
-        <mat-placeholder class="placeholder">{{ 'room-page.tag-new' | translate }}</mat-placeholder>
         <mat-hint align="end"><span aria-hidden="true">{{tag.value.length}} / 20</span></mat-hint>
         <mat-error *ngIf="!tagFormControl.valid">
           {{ getErrorMessage() | translate }}

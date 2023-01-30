@@ -26,7 +26,8 @@
                    (keyup)="inputChanged($event)"
                    (input)="inputChanged($event)"
                    matInput
-                   class="input-block"
+                   class="input-block placeholder"
+                   [placeholder]="'token-validator.hint' | translate"
                    type="text"
                    maxlength="20"
                    name="roomName"
