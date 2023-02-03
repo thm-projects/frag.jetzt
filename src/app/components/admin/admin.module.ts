@@ -16,6 +16,7 @@ import { NgxMatTimepickerModule } from '@angular-material-components/datetime-pi
 import { LanguageService } from '../../services/util/language.service';
 import { GptConfigurationComponent } from './gpt-configuration/gpt-configuration.component';
 import { AdminOverviewComponent } from './admin-overview/admin-overview.component';
+import { GptChatComponent } from './gpt-chat/gpt-chat.component';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export const HttpLoaderFactory = (http: HttpClient) =>
@@ -26,6 +27,7 @@ export const HttpLoaderFactory = (http: HttpClient) =>
     CreateMotdComponent,
     GptConfigurationComponent,
     AdminOverviewComponent,
+    GptChatComponent,
   ],
   imports: [
     CommonModule,

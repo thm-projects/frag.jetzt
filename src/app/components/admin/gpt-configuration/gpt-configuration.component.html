@@ -1,5 +1,6 @@
 <mat-card>
   <h1>{{ "gpt-config.title" | translate }}</h1>
+  <p>{{ "gpt-config.help-general" | translate }}</p>
   <mat-accordion *ngIf="!isLoading; else loading">
     <!-- GPT Settings -->
     <mat-expansion-panel
@@ -12,8 +13,13 @@
 
       <div class="panel-content-container">
         <!-- API Key -->
+        <mat-icon [matTooltip]="'gpt-config.help-api-key' | translate">
+          help
+        </mat-icon>
         <mat-form-field>
-          <mat-label>{{ "gpt-config.api-key" | translate }}</mat-label>
+          <mat-label>
+            {{ "gpt-config.api-key" | translate }}
+          </mat-label>
           <input
             matInput
             appAccessibilityEscapedInput
@@ -27,8 +33,14 @@
             (click)="apiKey = null">
             <mat-icon>close</mat-icon>
           </button>
+          <mat-hint>
+            {{ "gpt-config.api-key-and-model-required" | translate }}
+          </mat-hint>
         </mat-form-field>
         <!-- Organization -->
+        <mat-icon [matTooltip]="'gpt-config.help-organization' | translate">
+          help
+        </mat-icon>
         <mat-form-field>
           <mat-label>{{ "gpt-config.organization" | translate }}</mat-label>
           <input
@@ -46,6 +58,9 @@
           </button>
         </mat-form-field>
         <!-- Model -->
+        <mat-icon [matTooltip]="'gpt-config.help-model' | translate">
+          help
+        </mat-icon>
         <mat-form-field>
           <mat-label>{{ "gpt-config.model" | translate }}</mat-label>
           <input
@@ -62,6 +77,9 @@
             (click)="model = null">
             <mat-icon>close</mat-icon>
           </button>
+          <mat-hint>
+            {{ "gpt-config.api-key-and-model-required" | translate }}
+          </mat-hint>
           <mat-autocomplete #modelAutocomplete="matAutocomplete">
             <ng-container *ngIf="models">
               <mat-option
@@ -73,6 +91,9 @@
           </mat-autocomplete>
         </mat-form-field>
         <!-- Suffix -->
+        <mat-icon [matTooltip]="'gpt-config.help-suffix' | translate">
+          help
+        </mat-icon>
         <mat-form-field>
           <mat-label>{{ "gpt-config.suffix" | translate }}</mat-label>
           <input
@@ -90,6 +111,9 @@
           </button>
         </mat-form-field>
         <!-- Max Tokens -->
+        <mat-icon [matTooltip]="'gpt-config.help-max-tokens' | translate">
+          help
+        </mat-icon>
         <div class="panel-sub-item">
           <mat-form-field>
             <mat-label>{{ "gpt-config.max-tokens" | translate }}</mat-label>
@@ -109,6 +133,9 @@
               (click)="maxTokens = null">
               <mat-icon>close</mat-icon>
             </button>
+            <mat-hint>
+              {{ "gpt-config.max-tokens-cap" | translate }}
+            </mat-hint>
           </mat-form-field>
           <mat-slider
             min="1"
@@ -121,6 +148,9 @@
           </mat-slider>
         </div>
         <!-- Temperature -->
+        <mat-icon [matTooltip]="'gpt-config.help-temperature' | translate">
+          help
+        </mat-icon>
         <div class="panel-sub-item">
           <mat-form-field>
             <mat-label>{{ "gpt-config.temperature" | translate }}</mat-label>
@@ -140,6 +170,11 @@
               (click)="temperature = null">
               <mat-icon>close</mat-icon>
             </button>
+            <mat-hint>
+              {{ "gpt-config.temperature-and-top-p-exclusive" | translate }}
+              <br />
+              {{ "gpt-config.temperature-determinism" | translate }}
+            </mat-hint>
           </mat-form-field>
           <mat-slider
             min="0"
@@ -151,6 +186,9 @@
           </mat-slider>
         </div>
         <!-- Top P -->
+        <mat-icon [matTooltip]="'gpt-config.help-top-percentage' | translate">
+          help
+        </mat-icon>
         <div class="panel-sub-item">
           <mat-form-field>
             <mat-label>{{ "gpt-config.top-percentage" | translate }}</mat-label>
@@ -170,6 +208,9 @@
               (click)="topP = null">
               <mat-icon>close</mat-icon>
             </button>
+            <mat-hint>
+              {{ "gpt-config.temperature-and-top-p-exclusive" | translate }}
+            </mat-hint>
           </mat-form-field>
           <mat-slider
             min="0"
@@ -181,6 +222,7 @@
           </mat-slider>
         </div>
         <!-- n -->
+        <mat-icon [matTooltip]="'gpt-config.help-n' | translate">help</mat-icon>
         <div class="panel-sub-item">
           <mat-form-field>
             <mat-label>{{ "gpt-config.count" | translate }}</mat-label>
@@ -200,6 +242,9 @@
               (click)="n = null">
               <mat-icon>close</mat-icon>
             </button>
+            <mat-hint>
+              {{ "gpt-config.n-danger" | translate }}
+            </mat-hint>
           </mat-form-field>
           <mat-slider
             min="1"
@@ -212,6 +257,9 @@
           </mat-slider>
         </div>
         <!-- Stream -->
+        <mat-icon [matTooltip]="'gpt-config.help-stream' | translate">
+          help
+        </mat-icon>
         <mat-form-field>
           <mat-label>{{ "gpt-config.stream" | translate }}</mat-label>
           <mat-select [(ngModel)]="stream">
@@ -225,8 +273,14 @@
               {{ "gpt-config.inactive" | translate }}
             </mat-option>
           </mat-select>
+          <mat-hint>
+            {{ "gpt-config.stream-info" | translate }}
+          </mat-hint>
         </mat-form-field>
         <!-- Logprobs -->
+        <mat-icon [matTooltip]="'gpt-config.help-logprobs' | translate">
+          help
+        </mat-icon>
         <div class="panel-sub-item">
           <mat-form-field>
             <mat-label>{{ "gpt-config.logprobs" | translate }}</mat-label>
@@ -258,6 +312,9 @@
           </mat-slider>
         </div>
         <!-- Echo -->
+        <mat-icon [matTooltip]="'gpt-config.help-echo' | translate">
+          help
+        </mat-icon>
         <mat-form-field>
           <mat-label>{{ "gpt-config.echo" | translate }}</mat-label>
           <mat-select [(ngModel)]="echo">
@@ -273,6 +330,9 @@
           </mat-select>
         </mat-form-field>
         <!-- Stop -->
+        <mat-icon [matTooltip]="'gpt-config.help-stop' | translate">
+          help
+        </mat-icon>
         <div>
           <mat-label>{{ "gpt-config.stop" | translate }}</mat-label>
           <mat-list>
@@ -305,6 +365,9 @@
           </mat-list>
         </div>
         <!-- Presence Penalty -->
+        <mat-icon [matTooltip]="'gpt-config.help-presence-penalty' | translate">
+          help
+        </mat-icon>
         <div class="panel-sub-item">
           <mat-form-field>
             <mat-label>
@@ -326,6 +389,7 @@
               (click)="presencePenalty = null">
               <mat-icon>close</mat-icon>
             </button>
+            <mat-hint>{{ "gpt-config.penalty-info" | translate }}</mat-hint>
           </mat-form-field>
           <mat-slider
             min="-2"
@@ -337,6 +401,10 @@
           </mat-slider>
         </div>
         <!-- Frequency Penalty -->
+        <mat-icon
+          [matTooltip]="'gpt-config.help-frequency-penalty' | translate">
+          help
+        </mat-icon>
         <div class="panel-sub-item">
           <mat-form-field>
             <mat-label>
@@ -358,6 +426,7 @@
               (click)="frequencyPenalty = null">
               <mat-icon>close</mat-icon>
             </button>
+            <mat-hint>{{ "gpt-config.penalty-info" | translate }}</mat-hint>
           </mat-form-field>
           <mat-slider
             min="-2"
@@ -369,6 +438,9 @@
           </mat-slider>
         </div>
         <!-- Best Of -->
+        <mat-icon [matTooltip]="'gpt-config.help-best-of' | translate">
+          help
+        </mat-icon>
         <div class="panel-sub-item">
           <mat-form-field>
             <mat-label>{{ "gpt-config.best-of" | translate }}</mat-label>
@@ -388,6 +460,9 @@
               (click)="bestOf = null">
               <mat-icon>close</mat-icon>
             </button>
+            <mat-hint>
+              {{ "gpt-config.best-of-danger" | translate }}
+            </mat-hint>
           </mat-form-field>
           <mat-slider
             min="1"
@@ -400,6 +475,9 @@
           </mat-slider>
         </div>
         <!-- Logit Bias -->
+        <mat-icon [matTooltip]="'gpt-config.help-logit-bias' | translate">
+          help
+        </mat-icon>
         <div>
           <mat-label>{{ "gpt-config.logit-bias" | translate }}</mat-label>
           <mat-list>
@@ -785,37 +863,6 @@
       </mat-action-row>
     </mat-expansion-panel>
   </mat-accordion>
-
-  <div class="gpt-requester">
-    <div *ngFor="let item of conversation" [class]="item.type">
-      {{ item.message }}
-    </div>
-
-    <mat-form-field>
-      <mat-label>
-        {{ "gpt-config.enter-conversation-text" | translate }}
-      </mat-label>
-      <textarea
-        matInput
-        appAccessibilityEscapedInput
-        [(ngModel)]="sendGPTContent"></textarea>
-    </mat-form-field>
-
-    <button
-      *ngIf="!isSending; else loading"
-      mat-button
-      class="secondary-btn"
-      (click)="sendGPTMessage()">
-      {{ "gpt-config.send" | translate }}
-    </button>
-    <button
-      *ngIf="!isSending"
-      mat-button
-      class="danger-btn"
-      (click)="clearMessages()">
-      {{ "gpt-config.empty-conversation" | translate }}
-    </button>
-  </div>
 </mat-card>
 
 <ng-template #loading>

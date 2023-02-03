@@ -13,11 +13,6 @@ import { LanguageService } from 'app/services/util/language.service';
 import { NotificationService } from 'app/services/util/notification.service';
 import { ReplaySubject, takeUntil } from 'rxjs';
 
-interface ConversationEntry {
-  type: 'human' | 'gpt';
-  message: string;
-}
-
 @Component({
   selector: 'app-gpt-configuration',
   templateUrl: './gpt-configuration.component.html',
@@ -59,13 +54,10 @@ export class GptConfigurationComponent implements OnInit, OnDestroy {
   addStop: string = null;
   addLogitBias: string = null;
   addIpFilter: string = null;
-  sendGPTContent: string = '';
   // ui
   step = -1;
   isLoading = true;
-  isSending = false;
   endDateControl = new FormControl(null);
-  conversation: ConversationEntry[] = [];
   private destroyer = new ReplaySubject(1);
   private configuration: GPTConfiguration;
 
@@ -166,40 +158,6 @@ export class GptConfigurationComponent implements OnInit, OnDestroy {
       second: '2-digit',
       hour12: false,
     });
-  }
-
-  clearMessages() {
-    this.conversation = [];
-  }
-
-  sendGPTMessage() {
-    this.isSending = true;
-    this.conversation.push({
-      message: this.sendGPTContent,
-      type: 'human',
-    });
-    this.sendGPTContent = '';
-    this.gptService
-      .requestCompletion({
-        prompt: this.conversation.map((entry) => entry.message),
-      })
-      .subscribe({
-        next: (d) => {
-          this.conversation.push({
-            message: d.choices[0].text,
-            type: 'gpt',
-          });
-          this.isSending = false;
-        },
-        error: (e) => {
-          console.error(e);
-          this.conversation.push({
-            message: 'ERROR: ' + (e?.message ? e.message : e),
-            type: 'gpt',
-          });
-          this.isSending = false;
-        },
-      });
   }
 
   saveProperties() {

@@ -1,7 +1,8 @@
 {
   "overview": {
     "motd": "Global announcements",
-    "gpt": "GPT settings"
+    "gpt": "GPT settings",
+    "gpt-chat": "Speech with GPT"
   },
   "create-motd": {
     "create": "Create",
@@ -73,8 +74,51 @@
     "prompt-type": "Token for the request",
     "completion-type": "Token for output",
     "boxplot-message": "The median {{median}} {{type}} per request was consumed, with 50% of the data between {{lower}} tokens and {{upper}} Tokens. Of {{count}} Requests, {{lowerStray}} below and {{upperStray}} above are torn out.",
+    "api-key-and-model-required": "* The API key and language model is required for the API to be fundamentally supported. 'text-davinci-003' (language model) currently provides the best results.",
+    "temperature-and-top-p-exclusive": "* Either the temperature or the nucleus sampling should be adjusted. However, not both.",
+    "temperature-determinism": "** Even if the value is 0, other responses can be generated!",
+    "max-tokens-cap": "* The maximum tokens depend on the language model, the newest ones can generate 4096 while the old ones can only generate 2048 tokens.",
+    "n-danger": "* Many outputs can use up the maximum number of tokens very quickly!",
+    "stream-info": "* Stream is not currently supported and will receive a separate endpoint in the future.",
+    "penalty-info": "* Penalties from 0.1 to 1.0 suppress similar topics / tokens. Values above 1 suppress similar tokens almost completely, but the quality suffers.",
+    "best-of-danger": "* A high value can also use up the maximum number of tokens very quickly here!",
+    "help-general": "The GPT API provides an artificial intelligence that performs text completion. In doing so, the AI answers classification, knowledge, and other questions. The AI has one input and provides at least one output.",
+    "help-api-key": "The API key assigns the requests to an account. So consumption and costs can be calculated and displayed in the OpenAI account",
+    "help-organization": "Organization is an optional way to have consumption billed through an organization instead of directly through your own OpenAI account.",
+    "help-model": "The language model decides how certain tasks are best solved. Furthermore, it gives you the possibility to choose less expensive models.",
+    "help-suffix": "A suffix is a trailing or appended text to any output.",
+    "help-max-tokens": "The maximum number of tokens to use to generate *all* outputs. The input will be omitted.",
+    "help-temperature": "The temperature allows setting whether high risk is allowed or almost deterministic outputs are desired. 1 means high risk, 0 means almost no risk.",
+    "help-top-percentage": "Restricts the tokens so that only the tokens with the top probabilities are selected. If the value is 0.1, the top 10% will be selected.",
+    "help-n": "Number of outputs to generate per input.",
+    "help-stream": "Returns the outputs in server sent events so that outputs build up gradually.",
+    "help-logprobs": "Outputs all tokens that were most likely as well as the selected ones. However, the number of most probable is limited to 5.",
+    "help-echo": "The input is appended as the preceding text of each output.",
+    "help-stop": "Stop words are an additional possibility to limit inputs. Furthermore, they can be used as structuring elements during input.",
+    "help-presence-penalty": "Suppresses or increases the repetition of tokens. Higher values promote new themes.",
+    "help-frequency-penalty": "Suppresses or strengthens the repetition of tokens. Higher values suppress similar sentence positions.",
+    "help-best-of": "Generates multiple outputs for each output and takes from them the one most likely to match the input.",
+    "help-logit-bias": "Changes the probabilities for tokens. Values from -1 to 1 decrease or increase the probability, while -100 and 100 banish the tokens or select them exclusively if they occur."
+  },
+  "gpt-chat": {
     "enter-conversation-text": "Speech with GPT",
     "send": "Send",
-    "empty-conversation": "Clear history"
+    "empty-conversation": "Clear history",
+    "input-forbidden": "Input forbidden, please check the GPT API settings.",
+    "greetings": [
+      {
+        "key": "Elementary school",
+        "value": "You are in the chat room called \"English\" and the topic is poetry. Explain the following question at the level of an elementary school student.\nStudent: What are haikus?\nYou: "
+      },
+      {
+        "key": "High school",
+        "value": "You are in the chat room called \"History\" and the topic is the golden twenties. Explain the following question at the level of a high school student.\nStudent: What does the Dawes Plan say?\nYou: "
+      },
+      {
+        "key": "University",
+        "value": "You are in the chat room called \"Algorithms and Data Structures\" and the topic is simple data structures. Explain at the level of a 2nd semester computer science student the following question.\nStudent: Is there a performance gain when you combine a linked list and an array list? Surely it would be conceivable to link arrays, or am I wrong there?\nYou: "
+      }
+    ],
+    "refresh": "Generate output again"
   }
 }

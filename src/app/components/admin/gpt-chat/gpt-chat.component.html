@@ -1,0 +1,76 @@
+<mat-card>
+  <div
+    class="gpt-requester"
+    *ngIf="!isLoading; else loading">
+    <mat-chip-list *ngIf="conversation.length < 1">
+      <mat-chip
+        *ngFor="let greeting of greetings"
+        (click)="sendGPTContent = greeting.value; autoGrow(autoGrowElement)">
+        {{ greeting.key }}
+      </mat-chip>
+    </mat-chip-list>
+    <div
+      *ngFor="let item of conversation; let i = index"
+      [class]="item.type">
+      <div
+        markdown
+        emoji
+        katex>
+        {{ formatText(item.message) }}
+      </div>
+      <button
+        class="refresh-indicator"
+        [matTooltip]="'gpt-chat.refresh' | translate"
+        mat-icon-button
+        *ngIf="!isSending && item.type === 'gpt'"
+        (click)="refreshGPTMessage(i)">
+        <mat-icon class="material-icons-round">autorenew</mat-icon>
+      </button>
+      <span
+        *ngIf="isSending && renewIndex === i"
+        class="refresh-indicator">
+        <app-mat-spinner-overlay
+          color="on-surface"
+          diameter="40"
+          strokeWidth="5"></app-mat-spinner-overlay>
+      </span>
+    </div>
+
+    <mat-form-field>
+      <mat-label>
+        {{ "gpt-chat.enter-conversation-text" | translate }}
+      </mat-label>
+      <textarea
+        (input)="autoGrow(autoGrowElement)"
+        #autoGrowElement
+        matInput
+        appAccessibilityEscapedInput
+        [(ngModel)]="sendGPTContent"></textarea>
+    </mat-form-field>
+
+    <button
+      *ngIf="!isSending; else loading"
+      mat-button
+      class="secondary-btn"
+      (click)="sendGPTMessage()">
+      {{ "gpt-chat.send" | translate }}
+    </button>
+    <button
+      *ngIf="!isSending"
+      mat-button
+      class="danger-btn"
+      (click)="clearMessages()">
+      {{ "gpt-chat.empty-conversation" | translate }}
+    </button>
+  </div>
+  <div *ngIf="error">
+    {{ error }}
+  </div>
+</mat-card>
+
+<ng-template #loading>
+  <app-mat-spinner-overlay
+    color="on-surface"
+    diameter="40"
+    strokeWidth="5"></app-mat-spinner-overlay>
+</ng-template>

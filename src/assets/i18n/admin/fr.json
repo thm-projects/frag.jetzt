@@ -1,7 +1,8 @@
 {
   "overview": {
     "motd": "Annonces globales",
-    "gpt": "Paramètres GPT"
+    "gpt": "Paramètres GPT",
+    "gpt-chat": "Parle à GPT"
   },
   "create-motd": {
     "create": "Créer",
@@ -73,8 +74,51 @@
     "prompt-type": "Jeton pour la demande",
     "completion-type": "Jeton pour la distribution",
     "boxplot-message": "La médiane {{médiane}} {{type}} par requête a été consommée, avec 50% des données entre les jetons {{inférieurs}} et {{supérieurs}}. tokens. Parmi les {{comptes}} Requêtes, {{lowerStray}} en bas et {{upperStray}} en haut sont arrachées.",
+    "api-key-and-model-required": "* La clé API et le modèle de langue sont nécessaires pour que l'API soit prise en charge de manière basique. Le 'text-davinci-003' (modèle de langue) donne actuellement les meilleurs résultats.",
+    "temperature-and-top-p-exclusive": "* Il convient d'adapter soit la température, soit le prélèvement des noyaux. Mais pas les deux.",
+    "temperature-determinism": "** Même si la valeur est à 0, d'autres réponses peuvent être générées !",
+    "max-tokens-cap": "* Le nombre maximum de jetons dépend du modèle de langage, les plus récents peuvent en générer 4096, alors que les anciens ne peuvent en générer que 2048.",
+    "n-danger": "* De nombreuses sorties peuvent très vite épuiser le nombre maximum de tokens !",
+    "stream-info": "* Le flux n'est actuellement pas pris en charge et fera l'objet d'un point final distinct à l'avenir.",
+    "penalty-info": "* Les pénalités de 0,1 à 1,0 suppriment les sujets / tokens similaires. Les valeurs supérieures à 1 suppriment presque totalement les tokens similaires, mais la qualité en pâtit.",
+    "best-of-danger": "* Une valeur élevée peut ici aussi très vite épuiser le nombre maximal de jetons !",
+    "help-general": "L'API GPT met à disposition une intelligence artificielle qui effectue la complétion de texte. L'IA répond à des questions de classification, de connaissance et autres. L'IA possède une entrée et fournit au moins une sortie.",
+    "help-api-key": "La clé API attribue les demandes à un compte. Ainsi, la consommation et les coûts peuvent être calculés et affichés dans le compte OpenAI.",
+    "help-organization": "L'organisation est une possibilité optionnelle de faire facturer la consommation par une organisation plutôt que directement par son propre compte OpenAI.",
+    "help-model": "Le modèle linguistique détermine la meilleure façon d'accomplir certaines tâches. En outre, il permet de choisir des modèles moins coûteux.",
+    "help-suffix": "Un suffixe est un texte qui suit ou qui est ajouté à chaque édition.",
+    "help-max-tokens": "Le nombre maximal de jetons à utiliser pour générer *toutes* les dépenses. L'entrée est alors omise.",
+    "help-temperature": "La température permet de définir si un risque élevé est autorisé ou si des dépenses presque déterministes sont souhaitées. 1 signifie un risque élevé, 0 signifie presque aucun risque.",
+    "help-top-percentage": "Limite les jetons de sorte que seuls les jetons avec les meilleures probabilités soient sélectionnés. Si la valeur est de 0.1, les 10 % les plus élevés seront sélectionnés.",
+    "help-n": "Nombre de sorties à générer par entrée.",
+    "help-stream": "Renvoie les sorties dans des événements sentinelles du serveur, de sorte que les sorties se construisent au fur et à mesure.",
+    "help-logprobs": "Donne tous les tokens qui étaient les plus probables, ainsi que ceux qui ont été sélectionnés. Le nombre des plus probables est toutefois limité à 5.",
+    "help-echo": "L'entrée est jointe en tant que texte précédant chaque sortie.",
+    "help-stop": "Les mots d'arrêt sont une possibilité supplémentaire de limiter les entrées. De plus, ils peuvent être utilisés comme éléments de structuration lors de la saisie.",
+    "help-presence-penalty": "Supprime ou renforce la répétition des jetons. Les valeurs plus élevées favorisent les nouveaux thèmes.",
+    "help-frequency-penalty": "Supprime ou renforce la répétition des jetons. Des valeurs plus élevées suppriment les phrases similaires.",
+    "help-best-of": "Génère plusieurs sorties pour chaque sortie et prend celle qui est la plus susceptible de correspondre à l'entrée.",
+    "help-logit-bias": "Modifie les probabilités des tokens. Les valeurs de -1 à 1 diminuent ou augmentent la probabilité, tandis que -100 et 100 bannissent les tokens ou les sélectionnent de manière exclusive lorsqu'ils apparaissent."
+  },
+  "gpt-chat": {
     "enter-conversation-text": "Parle à GPT",
     "send": "Envoyer",
-    "empty-conversation": "Vider l'historique"
+    "empty-conversation": "Vider l'historique",
+    "input-forbidden": "Saisie interdite, veuillez vérifier les paramètres de l'API GPT.",
+    "greetings": [
+      {
+        "key": "École primaire",
+        "value": "Tu es dans la salle de chat appelée \"Français\" et le sujet est la poésie. Explique la question suivante au niveau d'un élève d'une école primaire.\nElève : Qu'est-ce que les haïkus?\nTu : "
+      },
+      {
+        "key": "École secondaire",
+        "value": "Tu es dans la salle de chat appelée \"Histoire\" et le sujet est les années folles. Explique, au niveau d'un élève de terminale, la question suivante.\nElève : Que dit le plan Dawes?\nTu : "
+      },
+      {
+        "key": "Université",
+        "value": "Tu es dans la salle de chat appelée \"Algorithmes et structures de données\" et le sujet est les structures de données simples. Explique la question suivante au niveau d'un étudiant en informatique de deuxième année.\nEtudiant : Y a-t-il un gain de performance si l'on combine une liste liée et une liste de tableaux ? Il serait en effet imaginable de pouvoir lier des tableaux, ou est-ce que je me trompe?\nTu : "
+      }
+    ],
+    "refresh": "Générer à nouveau la sortie"
   }
 }
