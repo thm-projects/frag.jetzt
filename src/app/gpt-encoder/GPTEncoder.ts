@@ -151,7 +151,7 @@ export class GPTEncoder {
         minPairs[
           Math.min(
             ...Object.keys(minPairs).map((x) => {
-              return parseInt(x);
+              return parseInt(x, 10);
             }),
           )
         ];
