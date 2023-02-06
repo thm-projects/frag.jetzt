@@ -11,10 +11,6 @@ export class KeyboardUtils {
    * @see https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent
    */
   public static isKeyEvent(event: KeyboardEvent, ...keys: KeyboardKey[]): boolean {
-    return keys.filter(key => {
-      const keyDefinition: IKeyboardKey = KEYBOARD_KEYS.get(key);
-
-      return keyDefinition.key.indexOf(event.key) !== -1;
-    }).length > 0;
+    return keys.some(key => KEYBOARD_KEYS[KeyboardKey[key]].key.includes(event.key));
   }
 }

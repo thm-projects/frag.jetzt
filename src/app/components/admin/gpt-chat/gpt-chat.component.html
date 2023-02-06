@@ -12,6 +12,7 @@
     <div
       *ngFor="let item of conversation; let i = index"
       [class]="item.type">
+      <img *ngIf="item.type === 'gpt'" src="/assets/images/ChatGPT.png">
       <div
         markdown
         emoji
@@ -42,10 +43,14 @@
       </mat-label>
       <textarea
         (input)="autoGrow(autoGrowElement)"
+        (keydown)="onKeyDown($event)"
         #autoGrowElement
         matInput
         appAccessibilityEscapedInput
         [(ngModel)]="sendGPTContent"></textarea>
+      <mat-hint>
+        {{ "gpt-chat.token-info" | translate : tokenInfo }}
+      </mat-hint>
     </mat-form-field>
 
     <button

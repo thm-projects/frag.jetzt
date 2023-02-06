@@ -290,7 +290,8 @@
     "zoom-exit": "Exit full view",
     "zoom-minus": "Decrease text size",
     "zoom-plus": "Increase text size",
-    "zoom-reset": "Reset zoom level"
+    "zoom-reset": "Reset zoom level",
+    "gpt-chat": "Speech with GPT"
   },
   "help": {
     "cancel": "Close",

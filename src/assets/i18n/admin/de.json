@@ -119,6 +119,7 @@
         "value": "Du bist im Chat-Raum namens \"Algorithmen und Datenstrukturen\" und es geht um das Thema simple Datenstrukturen. Erkläre auf dem Niveau eines Informatik-Studenten im 2. Semester folgende Frage.\nStudent: Gibt es ein Performance-Gewinn, wenn man eine verlinkte Liste und eine Array Liste kombiniert? Es wäre doch vorstellbar, dass man Arrays verlinken könnte, oder liege ich dort falsch?\nDu: "
       }
     ],
-    "refresh": "Ausgabe erneut generieren"
+    "refresh": "Ausgabe erneut generieren",
+    "token-info": "Tokens (Eingabe/Chat/Gesamt): {{promptTokens}}/{{conversationTokens}}/{{allTokens}}"
   }
 }

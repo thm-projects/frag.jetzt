@@ -119,6 +119,7 @@
         "value": "You are in the chat room called \"Algorithms and Data Structures\" and the topic is simple data structures. Explain at the level of a 2nd semester computer science student the following question.\nStudent: Is there a performance gain when you combine a linked list and an array list? Surely it would be conceivable to link arrays, or am I wrong there?\nYou: "
       }
     ],
-    "refresh": "Generate output again"
+    "refresh": "Generate output again",
+    "token-info": "Tokens (input/chat/total): {{promptTokens}}/{conversationTokens}}/{allTokens}}"
   }
 }

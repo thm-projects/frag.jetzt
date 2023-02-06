@@ -119,6 +119,7 @@
         "value": "Tu es dans la salle de chat appelée \"Algorithmes et structures de données\" et le sujet est les structures de données simples. Explique la question suivante au niveau d'un étudiant en informatique de deuxième année.\nEtudiant : Y a-t-il un gain de performance si l'on combine une liste liée et une liste de tableaux ? Il serait en effet imaginable de pouvoir lier des tableaux, ou est-ce que je me trompe?\nTu : "
       }
     ],
-    "refresh": "Générer à nouveau la sortie"
+    "refresh": "Générer à nouveau la sortie",
+    "token-info": "Tokens (saisie/conversation/total) : {{promptTokens}}/{{conversationTokens}}/{{allTokens}}"
   }
 }

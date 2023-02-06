@@ -52,33 +52,18 @@ interface GPTPrompt {
 })
 export class GptService extends BaseHttpService {
   private models = new ReplaySubject<GPTModels>(1);
+  private needsRequest = true;
 
   constructor(
     private httpClient: HttpClient,
     private userManagementService: UserManagementService,
   ) {
     super();
-    userManagementService
-      .getUser()
-      .pipe(
-        filter((u) => u?.isSuperAdmin),
-        take(1),
-      )
-      .subscribe(() => this.refreshModels());
   }
 
   getModelsOnce(): Observable<GPTModels> {
+    this.refreshModels();
     return this.models.pipe(take(1));
-  }
-
-  refreshModels(): void {
-    if (!this.userManagementService.getCurrentUser()?.isSuperAdmin) {
-      return;
-    }
-    this.getModels().subscribe({
-      next: (m) => this.models.next(m),
-      error: (e) => this.models.error(e),
-    });
   }
 
   getStatus(): Observable<GPTStatus> {
@@ -123,6 +108,23 @@ export class GptService extends BaseHttpService {
       tap((_) => ''),
       catchError(this.handleError<void>('patchConfiguration')),
     );
+  }
+
+  private refreshModels(): void {
+    if (
+      !this.userManagementService.getCurrentUser()?.isSuperAdmin ||
+      !this.needsRequest
+    ) {
+      return;
+    }
+    this.needsRequest = false;
+    this.getModels().subscribe({
+      next: (m) => this.models.next(m),
+      error: (e) => {
+        this.needsRequest = true;
+        this.models.error(e);
+      },
+    });
   }
 
   private getModels(): Observable<GPTModels> {
