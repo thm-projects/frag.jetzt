@@ -12,7 +12,9 @@
     <div
       *ngFor="let item of conversation; let i = index"
       [class]="item.type">
-      <img *ngIf="item.type === 'gpt'" src="/assets/images/ChatGPT.png">
+      <img
+        *ngIf="item.type === 'gpt'"
+        src="/assets/images/ChatGPT.png" />
       <div
         markdown
         emoji
@@ -27,14 +29,13 @@
         (click)="refreshGPTMessage(i)">
         <mat-icon class="material-icons-round">autorenew</mat-icon>
       </button>
-      <span
+      <button
         *ngIf="isSending && renewIndex === i"
+        mat-icon-button
+        (mousedown)="stopper.next(true)"
         class="refresh-indicator">
-        <app-mat-spinner-overlay
-          color="on-surface"
-          diameter="40"
-          strokeWidth="5"></app-mat-spinner-overlay>
-      </span>
+        <mat-icon class="material-icons-outlined">cancel</mat-icon>
+      </button>
     </div>
 
     <mat-form-field>

@@ -6,9 +6,8 @@ import {
   GPTConfiguration,
   GPTRestrictions,
 } from 'app/models/gpt-configuration';
-import { GPTModels } from 'app/models/gpt-models';
 import { GPTStatistics } from 'app/models/gpt-statistics';
-import { GptService, GPTUsage } from 'app/services/http/gpt.service';
+import { CachedModel, GptService, GPTUsage } from 'app/services/http/gpt.service';
 import { LanguageService } from 'app/services/util/language.service';
 import { NotificationService } from 'app/services/util/notification.service';
 import { ReplaySubject, takeUntil } from 'rxjs';
@@ -23,12 +22,10 @@ export class GptConfigurationComponent implements OnInit, OnDestroy {
   apiKey: string = null;
   organization: string = null;
   model: string = null;
-  suffix: string = null;
   maxTokens: number = null;
   temperature: number = null;
   topP: number = null;
   n: number = null;
-  stream: boolean = null;
   logprobs: number = null;
   echo: boolean = null;
   stop: string[] = [];
@@ -50,7 +47,7 @@ export class GptConfigurationComponent implements OnInit, OnDestroy {
   // stats
   statistics: GPTStatistics = null;
   // additional
-  models: GPTModels = null;
+  models: CachedModel[] = null;
   addStop: string = null;
   addLogitBias: string = null;
   addIpFilter: string = null;
@@ -76,7 +73,7 @@ export class GptConfigurationComponent implements OnInit, OnDestroy {
       .subscribe((lang) => {
         this.adapter.setLocale(lang);
       });
-    this.gptService.getModelsOnce().subscribe({
+    this.gptService.getCompletionModelsOnce().subscribe({
       next: (m) => (this.models = m),
       error: () => {
         this.translateService
@@ -172,9 +169,6 @@ export class GptConfigurationComponent implements OnInit, OnDestroy {
     if (this.model !== obj.model) {
       changes.model = this.model;
     }
-    if (this.suffix !== obj.suffix) {
-      changes.suffix = this.suffix;
-    }
     if (this.maxTokens !== obj.maxTokens) {
       changes.maxTokens = this.maxTokens;
     }
@@ -186,9 +180,6 @@ export class GptConfigurationComponent implements OnInit, OnDestroy {
     }
     if (this.n !== obj.n) {
       changes.n = this.n;
-    }
-    if (this.stream !== obj.stream) {
-      changes.stream = this.stream;
     }
     if (this.logprobs !== obj.logprobs) {
       changes.logprobs = this.logprobs;
@@ -323,12 +314,10 @@ export class GptConfigurationComponent implements OnInit, OnDestroy {
     this.apiKey = obj.apiKey;
     this.organization = obj.organization;
     this.model = obj.model;
-    this.suffix = obj.suffix;
     this.maxTokens = obj.maxTokens;
     this.temperature = obj.temperature;
     this.topP = obj.topP;
     this.n = obj.n;
-    this.stream = obj.stream;
     this.logprobs = obj.logprobs;
     this.echo = obj.echo;
     if (Array.isArray(obj.stop)) {

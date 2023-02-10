@@ -12,7 +12,7 @@ import { DeviceInfoService } from 'app/services/util/device-info.service';
 import { GptEncoderService } from 'app/services/util/gpt-encoder.service';
 import { KeyboardUtils } from 'app/utils/keyboard';
 import { KeyboardKey } from 'app/utils/keyboard/keys';
-import { ReplaySubject, takeUntil } from 'rxjs';
+import { ReplaySubject, Subject, takeUntil } from 'rxjs';
 
 interface ConversationEntry {
   type: 'human' | 'gpt';
@@ -39,6 +39,7 @@ export class GptChatComponent implements OnInit, OnDestroy {
     promptTokens: '?' as string | number,
     allTokens: '?' as string | number,
   };
+  stopper = new Subject<boolean>();
   private destroyer = new ReplaySubject(1);
   private encoder: GPTEncoder = null;
 
@@ -118,9 +119,47 @@ export class GptChatComponent implements OnInit, OnDestroy {
 
   clearMessages() {
     this.conversation = [];
+    this.calculateTokens();
+    this.saveConversation();
   }
 
   refreshGPTMessage(index: number) {
+    if (this.isSending) {
+      return;
+    }
+    this.isSending = true;
+    this.renewIndex = index;
+    const messages = this.conversation.slice(0, index).map((e) => e.message);
+    this.conversation[index] = {
+      message: '',
+      type: 'gpt',
+    };
+    this.gptService
+      .requestStreamCompletion({
+        prompt: messages,
+      })
+      .pipe(takeUntil(this.stopper))
+      .subscribe((msg) => {
+        if ('text' in msg) {
+          if (msg.index !== 0) {
+            return;
+          }
+          this.conversation[index] = {
+            message: this.conversation[index].message + msg.text,
+            type: 'gpt',
+          };
+          this.calculateTokens();
+        } else {
+          console.log(msg);
+          this.calculateTokens();
+          this.saveConversation();
+          this.isSending = false;
+          this.autoGrowElement.nativeElement.focus();
+        }
+      });
+  }
+
+  refreshWaitingGPTMessage(index: number) {
     if (this.isSending) {
       return;
     }
@@ -134,7 +173,7 @@ export class GptChatComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (d) => {
           this.updateConversationEntry(index, {
-            message: d.choices[0].text,
+            message: d.completion.choices[0].text,
             type: 'gpt',
           });
           this.isSending = false;
@@ -162,6 +201,47 @@ export class GptChatComponent implements OnInit, OnDestroy {
     });
     this.sendGPTContent = '';
     this.calculateTokens();
+    const index = this.conversation.length;
+    const prompt = this.conversation.map((entry) => entry.message);
+    this.conversation.push({
+      message: '',
+      type: 'gpt',
+    });
+    this.gptService
+      .requestStreamCompletion({
+        prompt,
+      })
+      .subscribe((msg) => {
+        if ('text' in msg) {
+          if (msg.index !== 0) {
+            return;
+          }
+          this.conversation[index] = {
+            message: this.conversation[index].message + msg.text,
+            type: 'gpt',
+          };
+          this.calculateTokens();
+        } else {
+          this.calculateTokens();
+          this.saveConversation();
+          this.isSending = false;
+          this.autoGrowElement.nativeElement.focus();
+        }
+      });
+  }
+
+  sendWaitingGPTMessage() {
+    if (this.isSending) {
+      return;
+    }
+    this.isSending = true;
+    this.renewIndex = -1;
+    this.addToConversation({
+      message: this.sendGPTContent,
+      type: 'human',
+    });
+    this.sendGPTContent = '';
+    this.calculateTokens();
     this.gptService
       .requestCompletion({
         prompt: this.conversation.map((entry) => entry.message),
@@ -169,7 +249,7 @@ export class GptChatComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (d) => {
           this.addToConversation({
-            message: d.choices[0].text,
+            message: d.completion.choices[0].text,
             type: 'gpt',
           });
           this.calculateTokens();
@@ -194,20 +274,21 @@ export class GptChatComponent implements OnInit, OnDestroy {
     );
   }
 
-  private updateConversationEntry(index: number, entry: ConversationEntry) {
-    this.conversation[index] = entry;
+  private saveConversation() {
     sessionStorage.setItem(
       'gpt-conversation',
       JSON.stringify(this.conversation),
     );
   }
 
+  private updateConversationEntry(index: number, entry: ConversationEntry) {
+    this.conversation[index] = entry;
+    this.saveConversation();
+  }
+
   private addToConversation(entry: ConversationEntry) {
     this.conversation.push(entry);
-    sessionStorage.setItem(
-      'gpt-conversation',
-      JSON.stringify(this.conversation),
-    );
+    this.saveConversation();
   }
 
   private calculateTokens() {

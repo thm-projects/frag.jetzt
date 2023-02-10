@@ -42,12 +42,10 @@ export class GPTConfiguration {
   apiKey: string;
   organization: string;
   model: string;
-  suffix: string;
   maxTokens: number;
   temperature: number;
   topP: number;
   n: number;
-  stream: boolean;
   logprobs: number;
   echo: boolean;
   stop: string | string[];
@@ -61,12 +59,10 @@ export class GPTConfiguration {
     apiKey = null,
     organization = null,
     model = null,
-    suffix = null,
     maxTokens = null,
     temperature = null,
     topP = null,
     n = null,
-    stream = null,
     logprobs = null,
     echo = null,
     stop = null,
@@ -79,12 +75,10 @@ export class GPTConfiguration {
     this.apiKey = apiKey;
     this.organization = organization;
     this.model = model;
-    this.suffix = suffix;
     this.maxTokens = maxTokens;
     this.temperature = temperature;
     this.topP = topP;
     this.n = n;
-    this.stream = stream;
     this.logprobs = logprobs;
     this.echo = echo;
     this.stop = stop;

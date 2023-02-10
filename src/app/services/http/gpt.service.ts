@@ -1,4 +1,9 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpHeaders,
+  HttpRequest,
+  HttpEventType,
+} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { GPTCompletion } from 'app/models/gpt-completion';
 import { GPTConfiguration } from 'app/models/gpt-configuration';
@@ -7,10 +12,11 @@ import { GPTStatistics } from 'app/models/gpt-statistics';
 import { verifyInstance } from 'app/utils/ts-utils';
 import {
   catchError,
-  filter,
   map,
   Observable,
+  of,
   ReplaySubject,
+  switchMap,
   take,
   tap,
 } from 'rxjs';
@@ -27,24 +33,80 @@ const httpOptions = {
 export enum GPTUsage {
   REGISTERED_MODERATORS = 'REGISTERED_MODERATORS',
   REGISTERED_USERS = 'REGISTERED_USERS',
-  USERS = 'USERS',
 }
 
 export class GPTStatus {
   restricted: boolean;
+  apiSetup: boolean;
   usage: GPTUsage;
+  // suggestion
+  maxTokens?: number;
+  contextTokens: number;
+  availableTokens: number;
 
   constructor({
     restricted = true,
+    apiSetup = false,
     usage = GPTUsage.REGISTERED_MODERATORS,
+    maxTokens = null,
+    contextTokens = 2048,
+    availableTokens = 0,
   }: GPTStatus) {
     this.restricted = restricted;
+    this.apiSetup = apiSetup;
     this.usage = usage;
+    this.maxTokens = maxTokens;
+    this.contextTokens = contextTokens;
+    this.availableTokens = availableTokens;
   }
 }
 
 interface GPTPrompt {
   prompt: null | string | string[];
+}
+
+interface GPTModerationResult {
+  flagged: boolean;
+  flaggedCategories: string[];
+}
+
+interface GPTEndStreamEntry {
+  finished: true;
+  moderationResults: GPTModerationResult[];
+}
+
+interface GPTDataStreamEntry {
+  text: string;
+  index: number;
+}
+
+type GPTStreamResult = GPTEndStreamEntry | GPTDataStreamEntry;
+
+interface BlockingCompletion {
+  completion: GPTCompletion;
+  moderationResults: GPTModerationResult[];
+}
+
+interface CachedModelData {
+  categories: string[];
+  costPerToken: number;
+  endpoint: string;
+  betterEndpoint: string;
+  reference: string;
+  betterModel: string;
+  deprecated: boolean;
+  allowSuffix: boolean;
+  alpha: boolean;
+  common: boolean;
+  preferred: boolean;
+  maxInputTokens: number;
+  embeddingOutputDimension: number;
+  contextTokens: number;
+}
+
+export interface CachedModel {
+  name: string;
+  model: CachedModelData;
 }
 
 @Injectable({
@@ -59,6 +121,14 @@ export class GptService extends BaseHttpService {
     private userManagementService: UserManagementService,
   ) {
     super();
+  }
+
+  getCompletionModelsOnce(): Observable<CachedModel[]> {
+    const url = '/api/gpt/completion-models';
+    return this.httpClient.get<CachedModel[]>(url, httpOptions).pipe(
+      tap((_) => ''),
+      catchError(this.handleError<CachedModel[]>('getCompletionModelsOnce')),
+    );
   }
 
   getModelsOnce(): Observable<GPTModels> {
@@ -84,12 +154,54 @@ export class GptService extends BaseHttpService {
     );
   }
 
-  requestCompletion(prompt: GPTPrompt): Observable<GPTCompletion> {
+  requestCompletion(prompt: GPTPrompt): Observable<BlockingCompletion> {
     const url = '/api/gpt/completion';
-    return this.httpClient.post<GPTCompletion>(url, prompt, httpOptions).pipe(
+    return this.httpClient
+      .post<BlockingCompletion>(url, prompt, httpOptions)
+      .pipe(
+        tap((_) => ''),
+        map((v) => {
+          v.completion = verifyInstance(GPTCompletion, v.completion);
+          return v;
+        }),
+        catchError(this.handleError<BlockingCompletion>('requestCompletion')),
+      );
+  }
+
+  requestStreamCompletion(prompt: GPTPrompt): Observable<GPTStreamResult> {
+    const url = '/api/gpt/stream-completion';
+    const request = new HttpRequest('POST', url, prompt, {
+      reportProgress: true,
+      headers: httpOptions.headers,
+      responseType: 'text',
+    });
+    let lastSize = 0;
+    let remainingString = '';
+    return this.httpClient.request(request).pipe(
       tap((_) => ''),
-      map((v) => verifyInstance(GPTCompletion, v)),
-      catchError(this.handleError<GPTCompletion>('requestCompletion')),
+      switchMap((event) => {
+        if (event.type === HttpEventType.DownloadProgress) {
+          const text = event['partialText'] as string;
+          if (!Boolean(text)) {
+            return of();
+          }
+          remainingString += text.slice(lastSize);
+          lastSize = text.length;
+          return this.extractData(
+            remainingString,
+            (s) => (remainingString = s),
+          );
+        } else if (event.type === HttpEventType.Response) {
+          const text = event.body as string;
+          remainingString += text.slice(lastSize);
+          return this.extractData(
+            remainingString,
+            (s) => (remainingString = s),
+          );
+        }
+        return of();
+      }),
+      catchError(this.handleError<GPTStreamResult>('requestStreamCompletion')),
     );
   }
 
@@ -133,5 +245,22 @@ export class GptService extends BaseHttpService {
       tap((_) => ''),
       catchError(this.handleError<GPTModels>('getModels')),
     );
+  }
+
+  private extractData(
+    data: string,
+    updater: (str: string) => void,
+  ): Observable<GPTStreamResult> {
+    let lastIndex = 0;
+    let currentIndex = 0;
+    const resultArr = [];
+    while ((currentIndex = data.indexOf('\n\n', lastIndex)) >= 0) {
+      resultArr.push(JSON.parse(data.slice(lastIndex + 5, currentIndex)));
+      lastIndex = currentIndex + 2;
+    }
+    if (lastIndex > 0) {
+      updater(data.slice(lastIndex));
+    }
+    return of(...resultArr);
   }
 }
