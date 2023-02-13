@@ -45,6 +45,12 @@
     }
   }
 
+  > .error {
+    margin-inline: auto;
+    background-color: var(--red);
+    color: #000;
+  }
+
   > .gpt {
     align-items: flex-start;
     background-color: var(--secondary);

@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import {
   Component,
   ElementRef,
@@ -7,15 +8,15 @@ import {
 } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { GPTEncoder } from 'app/gpt-encoder/GPTEncoder';
-import { GptService } from 'app/services/http/gpt.service';
+import { GptService, GPTStreamResult } from 'app/services/http/gpt.service';
 import { DeviceInfoService } from 'app/services/util/device-info.service';
 import { GptEncoderService } from 'app/services/util/gpt-encoder.service';
 import { KeyboardUtils } from 'app/utils/keyboard';
 import { KeyboardKey } from 'app/utils/keyboard/keys';
-import { ReplaySubject, Subject, takeUntil } from 'rxjs';
+import { finalize, Observer, ReplaySubject, Subject, takeUntil } from 'rxjs';
 
 interface ConversationEntry {
-  type: 'human' | 'gpt';
+  type: 'human' | 'gpt' | 'error';
   message: string;
 }
 
@@ -129,34 +130,23 @@ export class GptChatComponent implements OnInit, OnDestroy {
     }
     this.isSending = true;
     this.renewIndex = index;
-    const messages = this.conversation.slice(0, index).map((e) => e.message);
     this.conversation[index] = {
       message: '',
       type: 'gpt',
     };
     this.gptService
       .requestStreamCompletion({
-        prompt: messages,
+        prompt: this.generatePrompt(index),
       })
-      .pipe(takeUntil(this.stopper))
-      .subscribe((msg) => {
-        if ('text' in msg) {
-          if (msg.index !== 0) {
-            return;
-          }
-          this.conversation[index] = {
-            message: this.conversation[index].message + msg.text,
-            type: 'gpt',
-          };
-          this.calculateTokens();
-        } else {
-          console.log(msg);
-          this.calculateTokens();
-          this.saveConversation();
+      .pipe(
+        takeUntil(this.stopper),
+        finalize(() => {
           this.isSending = false;
-          this.autoGrowElement.nativeElement.focus();
-        }
-      });
+          this.renewIndex = -1;
+          this.saveConversation();
+        }),
+      )
+      .subscribe(this.generateObserver(index));
   }
 
   refreshWaitingGPTMessage(index: number) {
@@ -202,32 +192,15 @@ export class GptChatComponent implements OnInit, OnDestroy {
     this.sendGPTContent = '';
     this.calculateTokens();
     const index = this.conversation.length;
-    const prompt = this.conversation.map((entry) => entry.message);
     this.conversation.push({
       message: '',
       type: 'gpt',
     });
     this.gptService
       .requestStreamCompletion({
-        prompt,
+        prompt: this.generatePrompt(index),
       })
-      .subscribe((msg) => {
-        if ('text' in msg) {
-          if (msg.index !== 0) {
-            return;
-          }
-          this.conversation[index] = {
-            message: this.conversation[index].message + msg.text,
-            type: 'gpt',
-          };
-          this.calculateTokens();
-        } else {
-          this.calculateTokens();
-          this.saveConversation();
-          this.isSending = false;
-          this.autoGrowElement.nativeElement.focus();
-        }
-      });
+      .subscribe(this.generateObserver(index));
   }
 
   sendWaitingGPTMessage() {
@@ -268,6 +241,73 @@ export class GptChatComponent implements OnInit, OnDestroy {
       });
   }
 
+  private generatePrompt(length: number = this.conversation.length): string[] {
+    let wasHuman = false;
+    let wasEmpty = false;
+    const arr = this.conversation
+      .slice(0, length)
+      .filter((e) => e.type !== 'error')
+      .reduce((acc, current, i) => {
+        if (wasEmpty) {
+          wasEmpty = false;
+          return;
+        }
+        if (current.message.trim().length < 1) {
+          if ((this.conversation[i + 1]?.message?.trim()?.length || 1) < 1) {
+            wasEmpty = true;
+            return;
+          }
+        }
+        const isHuman = current.type === 'human';
+        if (isHuman === wasHuman) {
+          acc.push('');
+        }
+        acc.push(current.message);
+        wasHuman = isHuman;
+        return acc;
+      }, []);
+    console.log(arr);
+    return arr;
+  }
+
+  private generateObserver(index: number): Partial<Observer<GPTStreamResult>> {
+    return {
+      next: (msg) => {
+        if ('text' in msg) {
+          if (msg.index !== 0) {
+            return;
+          }
+          this.conversation[index] = {
+            message: this.conversation[index].message + msg.text,
+            type: 'gpt',
+          };
+          this.calculateTokens();
+        } else {
+          this.calculateTokens();
+          this.saveConversation();
+          this.isSending = false;
+          this.autoGrowElement.nativeElement.focus();
+        }
+      },
+      error: (e) => {
+        const errorIndex = index + 1;
+        const error = this.conversation[errorIndex];
+        let errorMessage = e.message ? e.message : e;
+        if (e instanceof HttpErrorResponse) {
+          const data = JSON.parse(e.error || null);
+          errorMessage = data?.message ? data.message : errorMessage;
+        }
+        const isError = error?.type === 'error';
+        const pre = isError ? error.message + '\n\n' : '';
+        this.conversation.splice(errorIndex, Number(isError), {
+          type: 'error',
+          message: pre + 'ERROR: ' + errorMessage,
+        });
+        this.isSending = false;
+      },
+    };
+  }
+
   private loadConversation() {
     this.conversation = JSON.parse(
       sessionStorage.getItem('gpt-conversation') ?? '[]',
@@ -277,7 +317,7 @@ export class GptChatComponent implements OnInit, OnDestroy {
   private saveConversation() {
     sessionStorage.setItem(
       'gpt-conversation',
-      JSON.stringify(this.conversation),
+      JSON.stringify(this.conversation.filter(e => e.type !== 'error')),
     );
   }
 

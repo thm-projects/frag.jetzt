@@ -12,6 +12,7 @@ import { GPTStatistics } from 'app/models/gpt-statistics';
 import { verifyInstance } from 'app/utils/ts-utils';
 import {
   catchError,
+  finalize,
   map,
   Observable,
   of,
@@ -80,7 +81,7 @@ interface GPTDataStreamEntry {
   index: number;
 }
 
-type GPTStreamResult = GPTEndStreamEntry | GPTDataStreamEntry;
+export type GPTStreamResult = GPTEndStreamEntry | GPTDataStreamEntry;
 
 interface BlockingCompletion {
   completion: GPTCompletion;
@@ -202,6 +203,17 @@ export class GptService extends BaseHttpService {
         return of();
       }),
       catchError(this.handleError<GPTStreamResult>('requestStreamCompletion')),
+      finalize(() => {
+        this.abortStreamCompletion().subscribe();
+      }),
+    );
+  }
+
+  abortStreamCompletion(): Observable<boolean> {
+    const url = '/api/gpt/interrupt-stream';
+    return this.httpClient.post<boolean>(url, httpOptions).pipe(
+      tap((_) => ''),
+      catchError(this.handleError<boolean>('abortStreamCompletion')),
     );
   }
 
