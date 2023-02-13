@@ -53,6 +53,11 @@
                       matTooltip="{{ 'room-settings-overview.tooltip-brainstorming-enabled' | translate }}">
       {{ 'room-settings-overview.brainstorming-enabled' | translate}}
     </mat-slide-toggle>
+    <mat-slide-toggle [(ngModel)]="livepollEnabled"
+                      aria-labelledby="livepoll-enabled"
+                      matTooltip="{{ 'room-settings-overview.tooltip-livepoll-enabled' | translate }}">
+      {{ 'room-settings-overview.livepoll-enabled' | translate}}
+    </mat-slide-toggle>
     <p>{{ 'room-settings-overview.note-on-changing-settings' | translate }}</p>
   </div>
 </mat-dialog-content>
@@ -81,6 +86,7 @@
 
 <div class="visually-hidden">
   <div id="settings-direct-send">{{'room-settings-overview.a11y-settings-direct-send' | translate}}</div>
+  <div id="livepoll-enabled">{{'room-settings-overview.a11y-livepoll-enabled' | translate}}</div>
   <div id="conversation-enabled">{{'room-settings-overview.a11y-conversation-enabled' | translate}}</div>
   <div id="profanity-toggle-active">{{'room-settings-overview.a11y-profanity-toggle-active' | translate}}</div>
   <div id="profanity-toggle-all">{{'room-settings-overview.a11y-profanity-toggle-all' | translate}}</div>

@@ -27,6 +27,7 @@ export class Room {
   quizActive: boolean;
   brainstormingActive: boolean;
   language: string;
+  livepollActive: boolean;
 
   constructor(
     ownerId: string = '',
@@ -50,6 +51,7 @@ export class Room {
     quizActive: boolean = true,
     brainstormingActive: boolean = true,
     language: string = null,
+    livepollActive: boolean = true
   ) {
     this.id = '';
     this.ownerId = ownerId;
@@ -76,6 +78,7 @@ export class Room {
     this.quizActive = quizActive;
     this.brainstormingActive = brainstormingActive;
     this.language = language;
+    this.livepollActive = livepollActive;
   }
 }
 

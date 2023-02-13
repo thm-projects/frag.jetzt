@@ -47,6 +47,7 @@ import {
   navigateBrainstorming,
   navigateTopicCloud,
 } from '../navigation/navigation.component';
+import { LivepollDialogComponent } from '../_dialogs/livepoll-dialog/livepoll-dialog.component';
 
 @Component({
   selector: 'app-header',
@@ -345,5 +346,11 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   updateScale(scale: number) {
     AppComponent.rescale.setInitialScale(scale);
     AppComponent.rescale.setDefaultScale(scale);
+  }
+
+  openLivepoll() {
+    const dialog = this.dialog.open(LivepollDialogComponent,{
+      width: '500px'
+    });
   }
 }
