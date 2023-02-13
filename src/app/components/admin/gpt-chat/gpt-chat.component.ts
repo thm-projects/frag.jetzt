@@ -244,7 +244,7 @@ export class GptChatComponent implements OnInit, OnDestroy {
   private generatePrompt(length: number = this.conversation.length): string[] {
     let wasHuman = false;
     let wasEmpty = false;
-    const arr = this.conversation
+    return this.conversation
       .slice(0, length)
       .filter((e) => e.type !== 'error')
       .reduce((acc, current, i) => {
@@ -266,8 +266,6 @@ export class GptChatComponent implements OnInit, OnDestroy {
         wasHuman = isHuman;
         return acc;
       }, []);
-    console.log(arr);
-    return arr;
   }
 
   private generateObserver(index: number): Partial<Observer<GPTStreamResult>> {
