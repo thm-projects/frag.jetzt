@@ -24,6 +24,8 @@ import { QrCodeDialogComponent } from '../_dialogs/qr-code-dialog/qr-code-dialog
 import { RoomSettingsOverviewComponent } from '../_dialogs/room-settings-overview/room-settings-overview.component';
 import { TopicCloudBrainstormingComponent } from '../_dialogs/topic-cloud-brainstorming/topic-cloud-brainstorming.component';
 import { TopicCloudFilterComponent } from '../_dialogs/topic-cloud-filter/topic-cloud-filter.component';
+import { Room } from '../../../models/room';
+import { LivepollSessionList } from '../../../models/livepoll-session-list';
 
 interface LocationData {
   id: string;
@@ -101,6 +103,25 @@ export const navigateBrainstorming = (
   confirmDialogRef.componentInstance.userRole = userRole;
 };
 
+export const livepollNavigationAccessOnRoute = (
+  route: string,
+  userRole: UserRole,
+  room: Room | undefined,
+  pollList: LivepollSessionList
+) => {
+    if(room && room.livepollActive){
+      if(ROOM_REGEX.test(route)|| COMMENTS_REGEX.test(route)){
+        if(userRole){
+          return true;
+        } else {
+          return pollList.hasActiveLivepoll();
+        }
+      }
+    } else {
+      return false;
+    }
+};
+
 @Component({
   selector: 'app-navigation',
   templateUrl: './navigation.component.html',
@@ -167,6 +188,20 @@ export class NavigationComponent implements OnInit, OnDestroy {
           `participant/room/${data[2]}/comments/questionwall`,
         ]);
       },
+    },
+    {
+      id: 'livepoll',
+      accessible: true,
+      active: true,
+      i18n: 'header.livepoll',
+      icon: 'poll',
+      canBeAccessedOnRoute: (route) => livepollNavigationAccessOnRoute(
+        route,
+        this.userManagementService.getCurrentUser()?.role,
+        this.sessionService.currentRoom,
+        this.sessionService.currentLivepoll),
+      navigate: (route) => {},
+      isCurrentRoute: (route) => false
     },
     {
       id: 'radar',

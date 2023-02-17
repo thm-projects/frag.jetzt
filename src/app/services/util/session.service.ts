@@ -24,6 +24,7 @@ import { BrainstormingWord } from 'app/models/brainstorming-word';
 import { BrainstormingCategory } from 'app/models/brainstorming-category';
 import { BrainstormingService } from '../http/brainstorming.service';
 import { BrainstormingSession } from 'app/models/brainstorming-session';
+import { LivepollSessionList } from '../../models/livepoll-session-list';
 
 @Injectable({
   providedIn: 'root',
@@ -35,6 +36,7 @@ export class SessionService {
   private readonly _currentBrainstormingCategories = new BehaviorSubject<
     BrainstormingCategory[]
   >(null);
+  private readonly _livepoll_mock: LivepollSessionList = new LivepollSessionList([]);
   private _beforeRoomUpdates: Subject<Partial<Room>>;
   private _afterRoomUpdates: Subject<Room>;
   private _roomSubscription: Subscription;
@@ -53,6 +55,10 @@ export class SessionService {
     private wsConnectorService: WsConnectorService,
     private brainstormingService: BrainstormingService,
   ) {}
+
+  get currentLivepoll(): LivepollSessionList {
+    return this._livepoll_mock;
+  }
 
   get canChangeRoleOnRoute(): boolean {
     return this._canChangeRoleOnRoute;
