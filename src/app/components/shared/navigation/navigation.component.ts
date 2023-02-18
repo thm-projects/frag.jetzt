@@ -110,7 +110,7 @@ export const livepollNavigationAccessOnRoute = (
   pollList: LivepollSessionList
 ) => {
     if(room && room.livepollActive){
-      if(ROOM_REGEX.test(route)|| COMMENTS_REGEX.test(route)){
+      if(ROOM_REGEX.test(route) || COMMENTS_REGEX.test(route)){
         if(userRole){
           return true;
         } else {
