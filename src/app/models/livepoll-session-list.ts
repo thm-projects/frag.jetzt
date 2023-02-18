@@ -6,10 +6,15 @@ export class LivepollSessionList {
   ) {
   }
   hasActiveLivepoll(): boolean {
-    for (const poll of this.polls) {
-      if(poll.config.isLive){
-        return true;
+    if(this.polls.length === 0){
+      return false;
+    } else {
+      for (const poll of this.polls) {
+        if(poll.config.isLive){
+          return true;
+        }
       }
+      return false;
     }
   }
 }
