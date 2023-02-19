@@ -43,9 +43,9 @@ import { Theme } from 'theme/Theme';
 import { MatMenu } from '@angular/material/menu';
 import { LanguageService } from 'app/services/util/language.service';
 import {
-  getBrainstormingURL,
+  getBrainstormingURL, livepollNavigationAccessOnRoute,
   navigateBrainstorming,
-  navigateTopicCloud,
+  navigateTopicCloud
 } from '../navigation/navigation.component';
 
 @Component({
@@ -69,6 +69,9 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   hasEmailNotifications = false;
   hasKeywords = false;
   themes: Theme[];
+  public readonly navigationAccess = {
+    livepoll: livepollNavigationAccessOnRoute
+  };
   private _clockCount = 0;
 
   constructor(

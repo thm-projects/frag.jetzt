@@ -116,6 +116,7 @@ export class RoomCreateComponent implements OnInit {
     newRoom.brainstormingActive = false;
     newRoom.quizActive = false;
     newRoom.bonusArchiveActive = false;
+    newRoom.livepollActive = true;
     this.roomService.addRoom(newRoom, () => {
       this.shortIdAlreadyUsed = true;
       this.roomShortIdFormControl.updateValueAndValidity();
