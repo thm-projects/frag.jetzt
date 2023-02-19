@@ -45,6 +45,20 @@
       <button
         mat-flat-button
         tabindex="0"
+        [matTooltip]="'header.livepoll-button' | translate"
+        *ngIf="navigationAccess.livepoll(router.url, room, sessionService.currentLivepoll)
+              && deviceInfo.isCurrentlyDesktop">
+        <mat-icon
+          class="material-icons"
+          style="transform: scale(1.2); margin-right: 5px">
+          poll
+        </mat-icon>
+        <span>{{ "header.livepoll" | translate }}</span>
+      </button>
+
+      <button
+        mat-flat-button
+        tabindex="0"
         [matTooltip]="'header.question-radar-button' | translate"
         *ngIf="
           !router.url.endsWith('moderator/comments') &&

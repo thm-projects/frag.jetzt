@@ -1,16 +1,11 @@
 import { Location } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  Input,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { NavigationEnd, Router } from '@angular/router';
 import { BonusTokenComponent } from 'app/components/creator/_dialogs/bonus-token/bonus-token.component';
-import { UserBonusTokenComponent } from 'app/components/participant/_dialogs/user-bonus-token/user-bonus-token.component';
+import {
+  UserBonusTokenComponent
+} from 'app/components/participant/_dialogs/user-bonus-token/user-bonus-token.component';
 import { Rescale } from 'app/models/rescale';
 import { UserRole } from 'app/models/user-roles.enum';
 import { DeviceInfoService } from 'app/services/util/device-info.service';
@@ -22,8 +17,12 @@ import { RoomDataFilter } from 'app/utils/data-filter-object.lib';
 import { filter, ReplaySubject, takeUntil } from 'rxjs';
 import { QrCodeDialogComponent } from '../_dialogs/qr-code-dialog/qr-code-dialog.component';
 import { RoomSettingsOverviewComponent } from '../_dialogs/room-settings-overview/room-settings-overview.component';
-import { TopicCloudBrainstormingComponent } from '../_dialogs/topic-cloud-brainstorming/topic-cloud-brainstorming.component';
+import {
+  TopicCloudBrainstormingComponent
+} from '../_dialogs/topic-cloud-brainstorming/topic-cloud-brainstorming.component';
 import { TopicCloudFilterComponent } from '../_dialogs/topic-cloud-filter/topic-cloud-filter.component';
+import { Room } from '../../../models/room';
+import { LivepollSessionList } from '../../../models/livepoll-session-list';
 
 interface LocationData {
   id: string;
@@ -101,6 +100,23 @@ export const navigateBrainstorming = (
   confirmDialogRef.componentInstance.userRole = userRole;
 };
 
+export const livepollNavigationAccessOnRoute = (
+  route: string,
+  room: Room | undefined,
+  pollList: LivepollSessionList
+) => {
+  if (room && room.livepollActive) {
+    if (ROOM_REGEX.test(route) || COMMENTS_REGEX.test(route)) {
+      if (!route.includes('participant')) {
+        return true;
+      } else {
+        return pollList.hasActiveLivepoll();
+      }
+    }
+  }
+  return false;
+};
+
 @Component({
   selector: 'app-navigation',
   templateUrl: './navigation.component.html',
@@ -167,6 +183,19 @@ export class NavigationComponent implements OnInit, OnDestroy {
           `participant/room/${data[2]}/comments/questionwall`,
         ]);
       },
+    },
+    {
+      id: 'livepoll',
+      accessible: false,
+      active: false,
+      i18n: 'header.livepoll',
+      icon: 'poll',
+      canBeAccessedOnRoute: (route) => livepollNavigationAccessOnRoute(
+        route,
+        this.sessionService.currentRoom,
+        this.sessionService.currentLivepoll),
+      navigate: (route) => {},
+      isCurrentRoute: (route) => false
     },
     {
       id: 'radar',
