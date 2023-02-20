@@ -175,7 +175,7 @@
   },
   "header": {
     "livepoll": "Poll en direct",
-    "tooltip-livepoll-enabled": "Créer des sondages et notifier automatiquement tous les participants. Les résultats de deux sondages peuvent être comparés ultérieurement",
+    "livepoll-button": "Créer des sondages et notifier automatiquement tous les participants. Les résultats de deux sondages peuvent être comparés ultérieurement",
     "back-button": "Retour",
     "tour-button": "Introduction de 2 minutes",
     "sign-in-button": "Se connecter avec un compte",

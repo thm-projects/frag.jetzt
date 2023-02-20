@@ -189,7 +189,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
       accessible: false,
       active: false,
       i18n: 'header.livepoll',
-      icon: 'poll',
+      icon: 'quiz',
       canBeAccessedOnRoute: (route) => livepollNavigationAccessOnRoute(
         route,
         this.sessionService.currentRoom,
