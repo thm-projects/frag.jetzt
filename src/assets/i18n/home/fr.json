@@ -588,8 +588,8 @@
     "settings-overview": "Réglages de la salle"
   },
   "room-settings-overview": {
-    "livepoll-enabled": "Activer l'enquête en direct",
-    "tooltip-livepoll-enabled": "Créer des enquêtes interactives et informer automatiquement tous les participants. Les résultats des enquêtes peuvent être comparés ultérieurement.",
+    "livepoll-enabled": "Activer poll en direct",
+    "tooltip-livepoll-enabled": "Créer des sondages et informer automatiquement tous les participants. Les résultats des deux sondages peuvent être comparés ultérieurement.",
     "a11y-bonus-archive-enabled": "Curseur pour activer l'archive de bonus.",
     "a11y-brainstorming-enabled": "Curseur pour autoriser le brainstorming.",
     "a11y-conversation-enabled": "Curseur pour débloquer les conversations dans cette salle.",

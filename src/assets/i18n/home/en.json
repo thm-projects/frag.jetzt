@@ -175,7 +175,7 @@
   },
   "header": {
     "livepoll": "Live Poll",
-    "livepoll-button": "Create surveys and automatically notify all participants. The results of two surveys can be compared later.",
+    "tooltip-livepoll-enabled": "Create surveys and automatically notify all participants. The results of two surveys can be compared later.",
     "back-button": "Back",
     "tour-button": "2-minute introduction",
     "sign-in-button": "Sign in with account",
@@ -589,7 +589,7 @@
   },
   "room-settings-overview": {
     "livepoll-enabled": "Enable live poll",
-    "tooltip-livepoll-enabled": "Create interactive surveys and automatically notify all participants. The results of the surveys can be compared later.",
+    "tooltip-livepoll-enabled": "Create surveys and automatically notify all participants. The results of two surveys can be compared later.",
     "a11y-bonus-archive-enabled": "Slider to enable the bonus archive",
     "a11y-brainstorming-enabled": "Slider to allow brainstorming",
     "a11y-conversation-enabled": "Slider to enable conversations inside this room",
