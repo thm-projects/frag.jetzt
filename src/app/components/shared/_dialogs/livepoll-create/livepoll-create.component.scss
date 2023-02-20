@@ -1,0 +1,27 @@
+.content {
+  display: flex;
+  flex-direction: column;
+}
+
+.previewOption {
+  margin-bottom: 8px;
+}
+
+.split {
+  display: flex;
+  flex-direction: row;
+  justify-content: right;
+  padding-top: 32px;
+}
+
+.fill {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  padding-right: 16px;
+}
+
+.adjust {
+  display:flex;
+  flex-direction: column;
+}
