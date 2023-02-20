@@ -174,8 +174,8 @@
     "style": "Choix du design"
   },
   "header": {
-    "livepoll": "Live Poll",
-    "livepoll-button": "Créer des enquêtes interactives et informer automatiquement tous les participants. Les résultats des enquêtes peuvent être comparés ultérieurement.",
+    "livepoll": "Poll en direct",
+    "tooltip-livepoll-enabled": "Créer des sondages et notifier automatiquement tous les participants. Les résultats de deux sondages peuvent être comparés ultérieurement",
     "back-button": "Retour",
     "tour-button": "Introduction de 2 minutes",
     "sign-in-button": "Se connecter avec un compte",

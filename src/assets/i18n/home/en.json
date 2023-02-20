@@ -175,7 +175,7 @@
   },
   "header": {
     "livepoll": "Live Poll",
-    "livepoll-button": "Create interactive surveys and automatically notify all participants. The results of the surveys can be compared later.",
+    "livepoll-button": "Create surveys and automatically notify all participants. The results of two surveys can be compared later.",
     "back-button": "Back",
     "tour-button": "2-minute introduction",
     "sign-in-button": "Sign in with account",
