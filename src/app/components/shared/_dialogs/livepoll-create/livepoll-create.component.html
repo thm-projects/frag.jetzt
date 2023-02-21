@@ -1,13 +1,13 @@
-<h1 mat-dialog-title>{{translateKey + '.livepoll-dialog-title' | translate}}</h1>
+<h1 mat-dialog-title>{{translateKey + '.dialog-title' | translate}}</h1>
 <mat-dialog-content class="content">
   <mat-form-field>
-    <mat-label>{{translateKey + '.livepoll-option-select-title' | translate}}</mat-label>
+    <mat-label>{{translateKey + '.option-select-title' | translate}}</mat-label>
     <input matInput [(ngModel)]="titleSelection">
-    <mat-hint>{{translateKey + '.livepoll-option-select-title-hint' | translate}}</mat-hint>
+    <mat-hint>{{translateKey + '.option-select-title-hint' | translate}}</mat-hint>
   </mat-form-field>
   <div class="split">
     <div class="fill">
-      <p>{{translateKey + '.livepoll-dialog-preview-title' | translate}}</p>
+      <p>{{translateKey + '.dialog-preview-title' | translate}}</p>
       <ng-container *ngIf="templateSelection.value">
         <ng-container *ngFor="let symbol of templateSelection.value?.symbols; index as i">
           <button class="previewOption" mat-flat-button [color]="selectedPreviewOption===i?'accent':'primary'" (click)="selectedPreviewOption = i">
@@ -23,16 +23,18 @@
     </div>
     <div class="adjust">
       <mat-form-field>
-        <mat-label>{{translateKey + '.livepoll-option-select-template' | translate}}</mat-label>
+        <mat-label>{{translateKey + '.option-select-template' | translate}}</mat-label>
         <mat-select [formControl]="templateSelection">
           <mat-select-trigger>
-            {{translateKey + '.livepoll-template-name-' + (templateSelection.value?.name || '') | translate}}
+            {{translateKey + '.template-name-' + (templateSelection.value?.name || '') | translate}}
           </mat-select-trigger>
-          <mat-option *ngFor="let template of templateContext" [value]="template">{{translateKey + '.livepoll-template-name-' + template.name | translate}}</mat-option>
+          <mat-option *ngFor="let template of templateContext" [value]="template">{{translateKey + '.template-name-' + template.name | translate}}</mat-option>
         </mat-select>
       </mat-form-field>
-      <mat-checkbox [(ngModel)]="isResultVisible">{{translateKey + '.livepoll-option-select-isResultVisible' | translate}}</mat-checkbox>
-      <mat-checkbox [(ngModel)]="isViewsVisible">{{translateKey + '.livepoll-option-select-isViewsVisible' | translate}}</mat-checkbox>
+      <mat-checkbox [matTooltip]="'create.tooltip-option-select-result-visibility' | translate"
+                    [(ngModel)]="isResultVisible">{{translateKey + '.option-select-result-visibility' | translate}}</mat-checkbox>
+      <mat-checkbox [matTooltip]="'create.tooltip-option-select-views-visibility' | translate"
+                    [(ngModel)]="isViewsVisible">{{translateKey + '.option-select-views-visibility' | translate}}</mat-checkbox>
     </div>
   </div>
 </mat-dialog-content>
@@ -43,6 +45,6 @@
     [spacing]="false">
   </app-dialog-action-buttons>
   <button mat-flat-button color="accent">
-    <span>{{translateKey + '.livepoll-create' | translate}}</span>
+    <span>{{translateKey + '.create' | translate}}</span>
   </button>
 </mat-dialog-actions>

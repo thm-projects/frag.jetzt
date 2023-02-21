@@ -1,0 +1,16 @@
+{
+  "create": {
+    "dialog-title" : "Create Live Poll",
+    "option-select-title" : "Titre",
+    "option-select-title-hint" : "Ex : 'Comment vous sentez-vous aujourd'hui ?' - non requis",
+    "dialog-preview-title" : "Preview",
+    "create" : "Create",
+    "template-name-character" : "ABCD",
+    "template-name-symbol" : "Mood",
+    "option-select-result-visibility" : "Résultat visible",
+    "tooltip-option-select-result-visibility" : "Afficher les résultats du sondage en direct en temps réel à tous les participants",
+    "option-select-views-visibility" : "Vues visibles",
+    "tooltip-option-select-views-visibility" : "Afficher le nombre de personnes qui participent au sondage en direct",
+    "option-select-template" : "Sélectionnez un modèle de sondage en direct"
+  }
+}

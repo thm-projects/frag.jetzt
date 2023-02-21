@@ -1,0 +1,16 @@
+{
+  "create": {
+    "dialog-title": "Create Live Poll",
+    "option-select-title": "Title",
+    "option-select-title-hint": "e.g.:'How do you feel today?' - not required",
+    "dialog-preview-title": "Preview",
+    "create": "Create",
+    "template-name-character": "ABCD",
+    "template-name-symbol": "Mood",
+    "option-select-result-visibility": "Result visible",
+    "tooltip-option-select-result-visibility": "Show  Live Poll results in real time to all participants",
+    "option-select-views-visibility": "Views visible",
+    "tooltip-option-select-views-visibility": "Show how many people are engaging with the Live Poll",
+    "option-select-template": "Select a Live Poll template"
+  }
+}

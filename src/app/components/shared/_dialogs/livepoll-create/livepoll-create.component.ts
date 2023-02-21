@@ -4,6 +4,10 @@ import { FormControl } from '@angular/forms';
 import { DialogRef } from '@angular/cdk/dialog';
 import { LivepollConfiguration } from '../../../../models/livepoll-configuration';
 import { DeviceInfoService } from '../../../../services/util/device-info.service';
+import { TranslateService } from '@ngx-translate/core';
+import { HttpClient } from '@angular/common/http';
+import { LanguageService } from '../../../../services/util/language.service';
+import { ReplaySubject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-livepoll-create',
@@ -13,17 +17,27 @@ import { DeviceInfoService } from '../../../../services/util/device-info.service
 export class LivepollCreateComponent implements OnInit {
 
   public readonly templateContext = templateContext;
-  public readonly translateKey = 'header';
+  public readonly translateKey = 'create';
   public titleSelection: string;
   public templateSelection = new FormControl<LivepollTemplateContext>(templateContext[0]);
   public selectedPreviewOption: number = -1;
   public isResultVisible: boolean = false;
   public isViewsVisible: boolean = false;
+  private _destroyer = new ReplaySubject(1);
 
   constructor(
     public readonly dialogRef: DialogRef<LivepollConfiguration>,
-    public readonly deviceService: DeviceInfoService
+    public readonly translationService: TranslateService,
+    public readonly languageService: LanguageService,
+    public readonly http: HttpClient
   ) {
+    this.languageService.getLanguage().pipe(takeUntil(this._destroyer)).subscribe(lang => {
+      this.translationService.use(lang);
+      this.http.get('/assets/i18n/livepoll/' + lang + '.json')
+        .subscribe(translation => {
+          this.translationService.setTranslation(lang, translation, true);
+        });
+    });
   }
 
   create() {

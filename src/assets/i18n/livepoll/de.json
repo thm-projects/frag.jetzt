@@ -1,0 +1,16 @@
+{
+  "create": {
+    "dialog-title": "Live-Umfrage erstellen",
+    "option-select-title": "Titel",
+    "option-select-title-hint": "z.B.:'Wie fühlen Sie sich heute?' - nicht erforderlich",
+    "dialog-preview-title": "Vorschau",
+    "create": "Erstellen",
+    "template-name-character": "ABCD",
+    "template-name-symbol": "Laune",
+    "option-select-result-visibility": "Ergebnis sichtbar",
+    "tooltip-option-select-result-visibility": "Live-Umfrageergebnisse in Echtzeit für alle Teilnehmer anzeigen",
+    "option-select-views-visibility": "Ansichten sichtbar",
+    "tooltip-option-select-views-visibility": "Zeigt an, wie viele Personen sich an der Live-Umfrage beteiligen",
+    "option-select-template": "Wählen Sie eine Live-Umfragevorlage"
+  }
+}
