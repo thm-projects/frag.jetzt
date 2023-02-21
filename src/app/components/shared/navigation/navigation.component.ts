@@ -23,6 +23,7 @@ import {
 import { TopicCloudFilterComponent } from '../_dialogs/topic-cloud-filter/topic-cloud-filter.component';
 import { Room } from '../../../models/room';
 import { LivepollSessionList } from '../../../models/livepoll-session-list';
+import { LivepollCreateComponent } from '../_dialogs/livepoll-create/livepoll-create.component';
 
 interface LocationData {
   id: string;
@@ -194,7 +195,12 @@ export class NavigationComponent implements OnInit, OnDestroy {
         route,
         this.sessionService.currentRoom,
         this.sessionService.currentLivepoll),
-      navigate: (route) => {},
+      navigate: (route) => {
+        const dialog = this.dialog.open(LivepollCreateComponent,{
+          width:'600px'
+        });
+        console.log(dialog);
+      },
       isCurrentRoute: (route) => false
     },
     {
