@@ -11,6 +11,14 @@
     "tooltip-option-select-result-visibility": "Show  Live Poll results in real time to all participants",
     "option-select-views-visibility": "Views visible",
     "tooltip-option-select-views-visibility": "Show how many people are engaging with the Live Poll",
-    "option-select-template": "Select a Live Poll template"
+    "option-select-template": "Select a Live Poll template",
+    "template-name-agree": "Agreement",
+    "option-agree": [
+      "Strongly Disagree",
+      "Disagree",
+      "Undecided",
+      "Agree",
+      "Strongly Agree"
+    ]
   }
 }

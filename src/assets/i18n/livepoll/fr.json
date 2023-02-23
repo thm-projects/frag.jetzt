@@ -11,6 +11,14 @@
     "tooltip-option-select-result-visibility" : "Afficher les résultats du sondage en direct en temps réel à tous les participants",
     "option-select-views-visibility" : "Vues visibles",
     "tooltip-option-select-views-visibility" : "Afficher le nombre de personnes qui participent au sondage en direct",
-    "option-select-template" : "Sélectionnez un modèle de sondage en direct"
+    "option-select-template" : "Sélectionnez un modèle de sondage en direct",
+    "template-name-agree": "Approbation",
+    "option-agree": [
+      "fortement en désaccord",
+      "désaccord",
+      "indécis",
+      "d'accord",
+      "fortement d'accord"
+    ]
   }
 }

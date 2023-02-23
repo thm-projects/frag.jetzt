@@ -24,6 +24,17 @@
   }
 }
 
+.preview {
+  display: flex;
+  flex-direction: column;
+}
+
+.reverse{
+  &-true{
+    flex-direction: column-reverse;
+  }
+}
+
 .adjust {
   width: 200px;
   display: flex;

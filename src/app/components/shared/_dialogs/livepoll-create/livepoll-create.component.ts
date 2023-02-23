@@ -3,7 +3,6 @@ import { LivepollTemplate, LivepollTemplateContext, templateContext } from '../.
 import { FormControl } from '@angular/forms';
 import { DialogRef } from '@angular/cdk/dialog';
 import { LivepollConfiguration } from '../../../../models/livepoll-configuration';
-import { DeviceInfoService } from '../../../../services/util/device-info.service';
 import { TranslateService } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
 import { LanguageService } from '../../../../services/util/language.service';

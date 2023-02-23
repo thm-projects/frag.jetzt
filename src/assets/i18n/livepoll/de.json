@@ -11,6 +11,14 @@
     "tooltip-option-select-result-visibility": "Live-Umfrageergebnisse in Echtzeit für alle Teilnehmer anzeigen",
     "option-select-views-visibility": "Ansichten sichtbar",
     "tooltip-option-select-views-visibility": "Zeigt an, wie viele Personen sich an der Live-Umfrage beteiligen",
-    "option-select-template": "Wählen Sie eine Live-Umfragevorlage"
+    "option-select-template": "Wählen Sie eine Live-Umfragevorlage",
+    "template-name-agree": "Zustimmung",
+    "option-agree": [
+      "Starke Ablehnung",
+      "Ablehnung",
+      "Unentschlossen",
+      "Zustimmung",
+      "Starke Zustimmung"
+    ]
   }
 }

@@ -1,5 +1,6 @@
 <h1 mat-dialog-title>{{translateKey + '.dialog-title' | translate}}</h1>
 <mat-dialog-content class="content">
+
   <div class="split">
     <div class="fill">
       <mat-form-field>
@@ -29,23 +30,28 @@
   </div>
 
   <p>{{translateKey + '.dialog-preview-title' | translate}}</p>
-  <ng-container *ngIf="templateSelection.value">
-    <ng-container *ngFor="let symbol of templateSelection.value?.symbols; index as i">
-      <button class="previewOption" mat-flat-button [color]="selectedPreviewOption===i?'accent':'primary'"
-              (click)="selectedPreviewOption = i">
-        <ng-container *ngIf="templateSelection.value.isPlain">
-          <span>{{ templateSelection.value.translate ? (translateKey + '.' + templateSelection.value.translatePrefix! + symbol | translate) : symbol }}</span>
+
+  <div class="preview" [ngClass]="'reverse-' + !!templateSelection.value.reverse" *ngIf="templateSelection.value">
+      <ng-container *ngIf="templateSelection.value.symbols">
+        <ng-container *ngFor="let symbol of templateSelection.value.symbols; index as i">
+          <ng-container *ngTemplateOutlet="option;context:{
+          i: i,
+          symbol: symbol
+        }"></ng-container>
         </ng-container>
-        <ng-container *ngIf="!templateSelection.value.isPlain">
-          <mat-icon>
-            {{symbol}}
-          </mat-icon>
+      </ng-container>
+      <ng-container *ngIf="templateSelection.value.length">
+        <ng-container *ngFor="let symbol of [].constructor(templateSelection.value.length); index as i">
+          <ng-container *ngTemplateOutlet="option; context: {
+          i: i,
+          symbol: i
+        }"></ng-container>
         </ng-container>
-      </button>
-    </ng-container>
-  </ng-container>
+      </ng-container>
+  </div>
 
 </mat-dialog-content>
+
 <mat-dialog-actions>
   <app-dialog-action-buttons
     buttonsLabelSection="imprint"
@@ -56,3 +62,19 @@
     <span>{{translateKey + '.create' | translate}}</span>
   </button>
 </mat-dialog-actions>
+
+<ng-template #option let-i="i" let-symbol="symbol">
+  <button class="previewOption" mat-flat-button [color]="selectedPreviewOption === i ? 'accent' : 'primary'"
+          (click)="selectedPreviewOption = i">
+    <ng-container *ngIf="templateSelection.value.isPlain">
+          <span>{{ templateSelection.value.translate
+            ? (translateKey + '.' + 'option-' + templateSelection.value.name! | translate)[i]
+            : symbol }}</span>
+    </ng-container>
+    <ng-container *ngIf="!templateSelection.value.isPlain">
+      <mat-icon>
+        {{symbol}}
+      </mat-icon>
+    </ng-container>
+  </button>
+</ng-template>
