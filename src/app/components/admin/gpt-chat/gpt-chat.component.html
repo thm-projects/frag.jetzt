@@ -12,6 +12,9 @@
     <div
       *ngFor="let item of conversation; let i = index"
       [class]="item.type">
+      <img
+        *ngIf="item.type === 'gpt'"
+        src="/assets/images/ChatGPT.png" />
       <div
         markdown
         emoji
@@ -26,14 +29,13 @@
         (click)="refreshGPTMessage(i)">
         <mat-icon class="material-icons-round">autorenew</mat-icon>
       </button>
-      <span
+      <button
         *ngIf="isSending && renewIndex === i"
+        mat-icon-button
+        (mousedown)="stopper.next(true)"
         class="refresh-indicator">
-        <app-mat-spinner-overlay
-          color="on-surface"
-          diameter="40"
-          strokeWidth="5"></app-mat-spinner-overlay>
-      </span>
+        <mat-icon class="material-icons-outlined">cancel</mat-icon>
+      </button>
     </div>
 
     <mat-form-field>
@@ -42,10 +44,14 @@
       </mat-label>
       <textarea
         (input)="autoGrow(autoGrowElement)"
+        (keydown)="onKeyDown($event)"
         #autoGrowElement
         matInput
         appAccessibilityEscapedInput
         [(ngModel)]="sendGPTContent"></textarea>
+      <mat-hint>
+        {{ "gpt-chat.token-info" | translate : tokenInfo }}
+      </mat-hint>
     </mat-form-field>
 
     <button
@@ -64,7 +70,7 @@
     </button>
   </div>
   <div *ngIf="error">
-    {{ error }}
+    {{ getError() }}
   </div>
 </mat-card>
 

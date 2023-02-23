@@ -30,19 +30,15 @@
     "organization": "Organisation",
     "model": "API Sprachmodell",
     "model-fetch-error": "API Key oder Organisation nicht korrekt konfiguriert, Sprach-Modelle sind nicht verfügbar.",
-    "suffix": "Suffix",
     "max-tokens": "Maximaler Tokenverbrauch",
     "temperature": "Temperatur",
     "top-percentage": "Nucleus Sampling",
-    "count": "Anzahl Antworten",
-    "stream": "Teilantworten zulassen",
     "logprobs": "Anzahl Wahrscheinlichkeiten",
     "echo": "Eingabe wiederholen",
     "stop": "Stopwörter",
     "add-stop": "Stoppwort hinzufügen",
     "presence-penalty": "Faktor für Themenwechsel",
     "frequence-penalty": "Faktor für Wiederholungen",
-    "best-of": "Antwort-Durchläufe",
     "logit-bias": "Tokengewichtung verändern",
     "add-logit-bias": "Tokenid hinzufügen",
     "logit-value": "Gewichtung ändern",
@@ -78,27 +74,23 @@
     "temperature-and-top-p-exclusive": "* Entweder sollte die Temperatur oder das Nucleus Sampling angepasst werden. Jedoch nicht beides.",
     "temperature-determinism": "** Selbst wenn der Wert auf 0 ist, können andere Antworten generiert werden!",
     "max-tokens-cap": "* Die maximalen Tokens hängen von dem Sprachmodell ab, die neusten können 4096, während die alten nur 2048 Tokens erzeugen können.",
-    "n-danger": "* Viele Ausgaben können die maximale Anzahl an Tokens sehr schnell aufbrauchen!",
-    "stream-info": "* Stream wird derzeit nicht unterstützt und wird in der Zukunft einen separaten Endpunkt erhalten.",
     "penalty-info": "* Strafen von 0.1 bis 1.0 unterdrücken ähnliche Themen / Tokens. Werte über 1 unterdrücken ähnliche Tokens fast völlig, jedoch leidet darunter die Qualität.",
-    "best-of-danger": "* Ein hoher Wert kann auch hier sehr schnell die maximale Anzahl der Tokens aufbrauchen!",
     "help-general": "Die GPT API stellt eine künstliche Intelligenz bereit, die Text-Vervollständigung durchführt. Dabei beantwortet die KI Klassifizierungs-, Wissens- und weitere Fragen. Die KI besitzt eine Eingabe und liefert mindestens eine Ausgabe.",
     "help-api-key": "Der API Schlüssel ordnet die Anfragen einem Account zu. So können Verbrauch und Kosten im OpenAI Konto berechnet und angezeigt werden",
     "help-organization": "Die Organisation ist eine optionale Möglichkeit den Verbrauch über eine Organisation abrechnen zu lassen, anstatt direkt über den eigenen OpenAI-Account.",
     "help-model": "Das Sprachmodell entscheidet darüber wie bestimmte Aufgaben am besten gelöst werden. Des Weiteren gibt es einem die Möglichkeit kostengünstigere Modelle auszuwählen.",
-    "help-suffix": "Ein Suffix ist ein nachgestellter bzw. angehangener Text an jeder Ausgabe.",
     "help-max-tokens": "Die maximale Anzahl an Tokens die verwendet werden soll um *alle* Ausgaben zu generieren. Die Eingabe wird dabei ausgelassen.",
     "help-temperature": "Die Temperatur erlaubt die Einstellung, ob ein hohes Risiko erlaubt ist oder ob nahezu deterministische Ausgaben gewünscht sind. 1 meint hohes Risiko, 0 fast kein Risiko.",
     "help-top-percentage": "Schränkt die Tokens ein, sodass nur die Tokens mit den Top-Wahrscheinlichkeiten ausgewählt werden. Bei einem Wert von 0.1 werden die Top 10% ausgewählt.",
-    "help-n": "Anzahl der zu generierenden Ausgaben pro Eingabe.",
-    "help-stream": "Gibt die Ausgaben in Server-Sent-Events zurück, sodass Ausgaben sich nach und nach aufbauen.",
     "help-logprobs": "Gibt alle Tokens aus, die am wahrscheinlichsten waren, sowie die ausgewählten. Die Anzahl der wahrscheinlichsten ist jedoch auf 5 begrenzt.",
     "help-echo": "Die Eingabe wird als vorausgehender Text einer jeden Ausgabe angehangen.",
     "help-stop": "Stopwörter sind eine zusätzliche Möglichkeit Eingaben zu begrenzen. Des Weiteren können sie als Strukturierungelemente bei der Eingabe verwendet werden.",
     "help-presence-penalty": "Unterdrückt oder verstärkt die Wiederholung von Tokens. Höhere Werte fördern neue Themen.",
     "help-frequency-penalty": "Unterdrückt oder verstärkt die Wiederholung von Tokens. Höhere Werte unterdrücken ähnliche Satzstellungen.",
     "help-best-of": "Generiert für jede Ausgabe mehrere Ausgaben und nimmt davon die, die am wahrscheinlichsten zu der Eingabe passt.",
-    "help-logit-bias": "Verändert die Wahrscheinlichkeiten für Tokens. Werte von -1 bis 1  erniedrigen oder erhöhen die Wahrscheinlichkeit, während -100 und 100 die Tokens bannen oder wenn sie vorkommen, exklusiv selektieren."
+    "help-logit-bias": "Verändert die Wahrscheinlichkeiten für Tokens. Werte von -1 bis 1  erniedrigen oder erhöhen die Wahrscheinlichkeit, während -100 und 100 die Tokens bannen oder wenn sie vorkommen, exklusiv selektieren.",
+    "help-trial-code": "Code für die Aktivierung der globalen API für Räume.",
+    "trial-code": "Studien-Aktivierungscode"
   },
   "gpt-chat": {
     "enter-conversation-text": "Rede mit GPT",
@@ -119,6 +111,7 @@
         "value": "Du bist im Chat-Raum namens \"Algorithmen und Datenstrukturen\" und es geht um das Thema simple Datenstrukturen. Erkläre auf dem Niveau eines Informatik-Studenten im 2. Semester folgende Frage.\nStudent: Gibt es ein Performance-Gewinn, wenn man eine verlinkte Liste und eine Array Liste kombiniert? Es wäre doch vorstellbar, dass man Arrays verlinken könnte, oder liege ich dort falsch?\nDu: "
       }
     ],
-    "refresh": "Ausgabe erneut generieren"
+    "refresh": "Ausgabe erneut generieren",
+    "token-info": "Tokens (Eingabe/Chat/Gesamt): {{promptTokens}}/{{conversationTokens}}/{{allTokens}}"
   }
 }

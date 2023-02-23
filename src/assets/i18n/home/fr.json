@@ -233,6 +233,7 @@
     "direct-link": "Lien direct",
     "edit-moderator": "Modérateur",
     "edit-session-description": "Texte de bienvenue",
+    "gpt-settings": "Paramètres GPT",
     "edit-tags": "Catégories de questions",
     "export-questions": "Exporter les Q&R",
     "fullscreen": "Plein écran & taille du texte",
@@ -292,7 +293,8 @@
     "zoom-exit": "Quitter la vue complète",
     "zoom-minus": "Réduire la taille du texte",
     "zoom-plus": "Agrandir la taille du texte",
-    "zoom-reset": "Réinitialiser le niveau de zoom"
+    "zoom-reset": "Réinitialiser le niveau de zoom",
+    "gpt-chat": "Parle à GPT"
   },
   "help": {
     "cancel": "Fermer",

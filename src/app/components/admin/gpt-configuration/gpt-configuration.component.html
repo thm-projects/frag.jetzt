@@ -83,32 +83,12 @@
           <mat-autocomplete #modelAutocomplete="matAutocomplete">
             <ng-container *ngIf="models">
               <mat-option
-                *ngFor="let option of models.data"
-                [value]="option.id">
-                {{ option.id }}
+                *ngFor="let option of models"
+                [value]="option.name">
+                {{ option.name }}
               </mat-option>
             </ng-container>
           </mat-autocomplete>
-        </mat-form-field>
-        <!-- Suffix -->
-        <mat-icon [matTooltip]="'gpt-config.help-suffix' | translate">
-          help
-        </mat-icon>
-        <mat-form-field>
-          <mat-label>{{ "gpt-config.suffix" | translate }}</mat-label>
-          <input
-            matInput
-            appAccessibilityEscapedInput
-            type="text"
-            [(ngModel)]="suffix" />
-          <button
-            *ngIf="suffix !== null"
-            matSuffix
-            mat-icon-button
-            aria-label="Clear"
-            (click)="suffix = null">
-            <mat-icon>close</mat-icon>
-          </button>
         </mat-form-field>
         <!-- Max Tokens -->
         <mat-icon [matTooltip]="'gpt-config.help-max-tokens' | translate">
@@ -221,62 +201,6 @@
             <input matSliderThumb />
           </mat-slider>
         </div>
-        <!-- n -->
-        <mat-icon [matTooltip]="'gpt-config.help-n' | translate">help</mat-icon>
-        <div class="panel-sub-item">
-          <mat-form-field>
-            <mat-label>{{ "gpt-config.count" | translate }}</mat-label>
-            <input
-              matInput
-              appAccessibilityEscapedInput
-              min="1"
-              max="5"
-              step="1"
-              type="number"
-              [(ngModel)]="n" />
-            <button
-              *ngIf="n !== null"
-              matSuffix
-              mat-icon-button
-              aria-label="Clear"
-              (click)="n = null">
-              <mat-icon>close</mat-icon>
-            </button>
-            <mat-hint>
-              {{ "gpt-config.n-danger" | translate }}
-            </mat-hint>
-          </mat-form-field>
-          <mat-slider
-            min="1"
-            max="5"
-            step="1"
-            [(ngModel)]="n"
-            discrete
-            (input)="n = $event.value">
-            <input matSliderThumb />
-          </mat-slider>
-        </div>
-        <!-- Stream -->
-        <mat-icon [matTooltip]="'gpt-config.help-stream' | translate">
-          help
-        </mat-icon>
-        <mat-form-field>
-          <mat-label>{{ "gpt-config.stream" | translate }}</mat-label>
-          <mat-select [(ngModel)]="stream">
-            <mat-option [value]="null">
-              <em>{{ "gpt-config.default" | translate }}</em>
-            </mat-option>
-            <mat-option [value]="true">
-              {{ "gpt-config.active" | translate }}
-            </mat-option>
-            <mat-option [value]="false">
-              {{ "gpt-config.inactive" | translate }}
-            </mat-option>
-          </mat-select>
-          <mat-hint>
-            {{ "gpt-config.stream-info" | translate }}
-          </mat-hint>
-        </mat-form-field>
         <!-- Logprobs -->
         <mat-icon [matTooltip]="'gpt-config.help-logprobs' | translate">
           help
@@ -437,43 +361,6 @@
             <input matSliderThumb />
           </mat-slider>
         </div>
-        <!-- Best Of -->
-        <mat-icon [matTooltip]="'gpt-config.help-best-of' | translate">
-          help
-        </mat-icon>
-        <div class="panel-sub-item">
-          <mat-form-field>
-            <mat-label>{{ "gpt-config.best-of" | translate }}</mat-label>
-            <input
-              matInput
-              appAccessibilityEscapedInput
-              min="1"
-              max="5"
-              step="1"
-              type="number"
-              [(ngModel)]="bestOf" />
-            <button
-              *ngIf="bestOf !== null"
-              matSuffix
-              mat-icon-button
-              aria-label="Clear"
-              (click)="bestOf = null">
-              <mat-icon>close</mat-icon>
-            </button>
-            <mat-hint>
-              {{ "gpt-config.best-of-danger" | translate }}
-            </mat-hint>
-          </mat-form-field>
-          <mat-slider
-            min="1"
-            max="5"
-            step="1"
-            [(ngModel)]="bestOf"
-            discrete
-            (input)="bestOf = $event.value">
-            <input matSliderThumb />
-          </mat-slider>
-        </div>
         <!-- Logit Bias -->
         <mat-icon [matTooltip]="'gpt-config.help-logit-bias' | translate">
           help
@@ -536,6 +423,28 @@
             </mat-list-item>
           </mat-list>
         </div>
+        <!-- trial code -->
+        <mat-icon [matTooltip]="'gpt-config.help-trial-code' | translate">
+          help
+        </mat-icon>
+        <mat-form-field>
+          <mat-label>
+            {{ "gpt-config.trial-code" | translate }}
+          </mat-label>
+          <input
+            matInput
+            appAccessibilityEscapedInput
+            type="password"
+            [(ngModel)]="trialCode" />
+          <button
+            *ngIf="trialCode !== null"
+            matSuffix
+            mat-icon-button
+            aria-label="Clear"
+            (click)="trialCode = null">
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
       </div>
 
       <button
