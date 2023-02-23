@@ -180,6 +180,7 @@ import { BrainstormingDeleteConfirmComponent } from './_dialogs/brainstorming-de
 import { FullscreenImageDialogComponent } from './_dialogs/fullscreen-image-dialog/fullscreen-image-dialog.component';
 import { NavigationComponent } from './navigation/navigation.component';
 import { QuestionWallComponent } from './questionwall/question-wall/question-wall.component';
+import { GptRoomSettingsComponent } from './_dialogs/gpt-room-settings/gpt-room-settings.component';
 
 @NgModule({
   imports: [
@@ -297,6 +298,7 @@ import { QuestionWallComponent } from './questionwall/question-wall/question-wal
     FullscreenImageDialogComponent,
     NavigationComponent,
     QuestionWallComponent,
+    GptRoomSettingsComponent,
   ],
   exports: [
     RoomJoinComponent,

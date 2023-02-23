@@ -203,6 +203,10 @@ export class GptChatComponent implements OnInit, OnDestroy {
       .subscribe(this.generateObserver(index));
   }
 
+  getError() {
+    return this.error instanceof String ? this.error : JSON.stringify(this.error);
+  }
+
   sendWaitingGPTMessage() {
     if (this.isSending) {
       return;

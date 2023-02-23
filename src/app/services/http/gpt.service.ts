@@ -8,7 +8,13 @@ import { Injectable } from '@angular/core';
 import { GPTCompletion } from 'app/models/gpt-completion';
 import { GPTConfiguration } from 'app/models/gpt-configuration';
 import { GPTModels } from 'app/models/gpt-models';
+import {
+  GPTRoomSetting,
+  GPTRoomUsageTime,
+  UsageRepeatUnit,
+} from 'app/models/gpt-room-setting';
 import { GPTStatistics } from 'app/models/gpt-statistics';
+import { GPTPlatformStatus, GPTRoomStatus } from 'app/models/gpt-status';
 import { verifyInstance } from 'app/utils/ts-utils';
 import {
   catchError,
@@ -28,42 +34,21 @@ import { BaseHttpService } from './base-http.service';
 const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type': 'application/json',
+    Accept: 'application/json',
   }),
 };
 
-export enum GPTUsage {
-  REGISTERED_MODERATORS = 'REGISTERED_MODERATORS',
-  REGISTERED_USERS = 'REGISTERED_USERS',
-}
-
-export class GPTStatus {
-  restricted: boolean;
-  apiSetup: boolean;
-  usage: GPTUsage;
-  // suggestion
-  maxTokens?: number;
-  contextTokens: number;
-  availableTokens: number;
-
-  constructor({
-    restricted = true,
-    apiSetup = false,
-    usage = GPTUsage.REGISTERED_MODERATORS,
-    maxTokens = null,
-    contextTokens = 2048,
-    availableTokens = 0,
-  }: GPTStatus) {
-    this.restricted = restricted;
-    this.apiSetup = apiSetup;
-    this.usage = usage;
-    this.maxTokens = maxTokens;
-    this.contextTokens = contextTokens;
-    this.availableTokens = availableTokens;
-  }
-}
-
 interface GPTPrompt {
-  prompt: null | string | string[];
+  roomId?: string;
+  prompt: string[];
+  model?: string;
+  maxTokens?: number;
+  temperature?: number;
+  topP?: number;
+  logprobs?: number;
+  echo?: boolean;
+  presencePenalty?: number;
+  frequencyPenalty?: number;
 }
 
 interface GPTModerationResult {
@@ -74,6 +59,7 @@ interface GPTModerationResult {
 interface GPTEndStreamEntry {
   finished: true;
   moderationResults: GPTModerationResult[];
+  finishReasons: string[];
 }
 
 interface GPTDataStreamEntry {
@@ -105,10 +91,39 @@ interface CachedModelData {
   contextTokens: number;
 }
 
+export type GPTRoomSettingAPI = Pick<
+  GPTRoomSetting,
+  | 'apiKey'
+  | 'apiOrganization'
+  | 'maxDailyRoomQuota'
+  | 'maxMonthlyRoomQuota'
+  | 'maxAccumulatedRoomQuota'
+  | 'maxDailyParticipantQuota'
+  | 'maxMonthlyParticipantQuota'
+  | 'maxAccumulatedParticipantQuota'
+  | 'maxDailyModeratorQuota'
+  | 'maxMonthlyModeratorQuota'
+  | 'maxAccumulatedModeratorQuota'
+  | 'rightsBitset'
+>;
+
 export interface CachedModel {
   name: string;
   model: CachedModelData;
 }
+
+interface UsageTimeActionDelete {
+  deleteId: string;
+}
+
+interface UsageTimeActionAdd {
+  repeatDuration: number | null;
+  repeatUnit: UsageRepeatUnit | null;
+  startDate: Date;
+  endDate: Date;
+}
+
+export type UsageTimeAction = UsageTimeActionDelete | UsageTimeActionAdd;
 
 @Injectable({
   providedIn: 'root',
@@ -137,21 +152,102 @@ export class GptService extends BaseHttpService {
     return this.models.pipe(take(1));
   }
 
-  getStatus(): Observable<GPTStatus> {
-    const url = '/api/gpt/status';
-    return this.httpClient.get<GPTStatus>(url, httpOptions).pipe(
+  getRoomSetting(roomId: string): Observable<GPTRoomSetting> {
+    const url = '/api/gpt/room-setting/' + roomId;
+    return this.httpClient.get<GPTRoomSetting>(url, httpOptions).pipe(
       tap((_) => ''),
-      map((v) => verifyInstance(GPTStatus, v)),
-      catchError(this.handleError<GPTStatus>('getStatus')),
+      map((v) => verifyInstance(GPTRoomSetting, v)),
+      catchError(this.handleError<GPTRoomSetting>('getRoomSetting')),
     );
   }
 
-  getStats(): Observable<GPTStatistics> {
-    const url = '/api/gpt/stats';
-    return this.httpClient.get<GPTStatistics>(url, httpOptions).pipe(
+  patchRoomSetting(
+    roomId: string,
+    patch: Partial<GPTRoomSettingAPI>,
+  ): Observable<GPTRoomSetting> {
+    const url = '/api/gpt/room-setting/' + roomId;
+    return this.httpClient
+      .patch<GPTRoomSetting>(url, { changes: patch }, httpOptions)
+      .pipe(
+        tap((_) => ''),
+        map((v) => verifyInstance(GPTRoomSetting, v)),
+        catchError(this.handleError<GPTRoomSetting>('patchRoomSetting')),
+      );
+  }
+
+  getKeywords(roomId: string): Observable<string[]> {
+    const url = '/api/gpt/room-keywords/' + roomId;
+    return this.httpClient.get<string[]>(url, httpOptions).pipe(
       tap((_) => ''),
-      map((v) => verifyInstance(GPTStatistics, v)),
-      catchError(this.handleError<GPTStatistics>('getStats')),
+      catchError(this.handleError<string[]>('getKeywords')),
+    );
+  }
+
+  updateKeywords(roomId: string, keywords: string[]): Observable<string[]> {
+    const url = '/api/gpt/room-keywords/' + roomId;
+    return this.httpClient.post<string[]>(url, keywords, httpOptions).pipe(
+      tap((_) => ''),
+      catchError(this.handleError<string[]>('updateKeywords')),
+    );
+  }
+
+  updateUsageTimes(
+    roomId: string,
+    usageTimes: UsageTimeAction[],
+  ): Observable<GPTRoomUsageTime[]> {
+    const url = '/api/gpt/room-usage-times/' + roomId;
+    return this.httpClient
+      .post<GPTRoomUsageTime[]>(url, usageTimes, httpOptions)
+      .pipe(
+        tap((_) => ''),
+        map((data) =>
+          data.map((datum) => verifyInstance(GPTRoomUsageTime, datum)),
+        ),
+        catchError(this.handleError<GPTRoomUsageTime[]>('updateUsageTimes')),
+      );
+  }
+
+  getUserDescription(roomId: string): Observable<string> {
+    const url = '/api/gpt/user-description/' + roomId;
+    return this.httpClient.get<string>(url, httpOptions).pipe(
+      tap((_) => ''),
+      catchError(this.handleError<string>('getUserDescription')),
+    );
+  }
+
+  updateUserDescription(
+    roomId: string,
+    description: string,
+  ): Observable<string> {
+    const url = '/api/gpt/user-description/' + roomId;
+    return this.httpClient.post<string>(url, { description }, httpOptions).pipe(
+      tap((_) => ''),
+      catchError(this.handleError<string>('updateUserDescription')),
+    );
+  }
+
+  activateTrial(roomId: string, trialCode: string): Observable<boolean> {
+    const url = '/api/gpt/activate-trial/' + roomId;
+    return this.httpClient.post<boolean>(url, { trialCode }, httpOptions).pipe(
+      tap((_) => ''),
+      catchError(this.handleError<boolean>('activateTrial')),
+    );
+  }
+
+  getConfiguration(): Observable<GPTConfiguration> {
+    const url = '/api/gpt/config';
+    return this.httpClient.get<GPTConfiguration>(url, httpOptions).pipe(
+      tap((_) => ''),
+      map((v) => verifyInstance(GPTConfiguration, v['config'])),
+      catchError(this.handleError<GPTConfiguration>('getConfiguration')),
+    );
+  }
+
+  patchConfiguration(changes: Partial<GPTConfiguration>): Observable<void> {
+    const url = '/api/gpt/config';
+    return this.httpClient.patch<void>(url, { changes }, httpOptions).pipe(
+      tap((_) => ''),
+      catchError(this.handleError<void>('patchConfiguration')),
     );
   }
 
@@ -173,7 +269,6 @@ export class GptService extends BaseHttpService {
     const url = '/api/gpt/stream-completion';
     const request = new HttpRequest('POST', url, prompt, {
       reportProgress: true,
-      headers: httpOptions.headers,
       responseType: 'text',
     });
     let lastSize = 0;
@@ -217,20 +312,30 @@ export class GptService extends BaseHttpService {
     );
   }
 
-  getConfiguration(): Observable<GPTConfiguration> {
-    const url = '/api/gpt/config';
-    return this.httpClient.get<GPTConfiguration>(url, httpOptions).pipe(
+  getStatusForRoom(roomId: string): Observable<GPTRoomStatus> {
+    const url = '/api/gpt/status/' + roomId;
+    return this.httpClient.get<GPTRoomStatus>(url, httpOptions).pipe(
       tap((_) => ''),
-      map((v) => verifyInstance(GPTConfiguration, v['config'])),
-      catchError(this.handleError<GPTConfiguration>('getConfiguration')),
+      map((v) => verifyInstance(GPTRoomStatus, v)),
+      catchError(this.handleError<GPTRoomStatus>('getStatusForRoom')),
     );
   }
 
-  patchConfiguration(changes: Partial<GPTConfiguration>): Observable<void> {
-    const url = '/api/gpt/config';
-    return this.httpClient.patch<void>(url, { changes }, httpOptions).pipe(
+  getStatus(): Observable<GPTPlatformStatus> {
+    const url = '/api/gpt/plain-status';
+    return this.httpClient.get<GPTPlatformStatus>(url, httpOptions).pipe(
       tap((_) => ''),
-      catchError(this.handleError<void>('patchConfiguration')),
+      map((v) => verifyInstance(GPTPlatformStatus, v)),
+      catchError(this.handleError<GPTPlatformStatus>('getStatus')),
+    );
+  }
+
+  getStats(): Observable<GPTStatistics> {
+    const url = '/api/gpt/stats';
+    return this.httpClient.get<GPTStatistics>(url, httpOptions).pipe(
+      tap((_) => ''),
+      map((v) => verifyInstance(GPTStatistics, v)),
+      catchError(this.handleError<GPTStatistics>('getStats')),
     );
   }
 

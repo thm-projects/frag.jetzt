@@ -10,10 +10,9 @@ import { ReplaySubject, takeUntil } from 'rxjs';
 @Component({
   selector: 'app-create-motd',
   templateUrl: './create-motd.component.html',
-  styleUrls: ['./create-motd.component.scss']
+  styleUrls: ['./create-motd.component.scss'],
 })
 export class CreateMotdComponent implements OnInit, OnDestroy {
-
   startDate: Date = new Date();
   endDate: Date = new Date(this.startDate.getTime() + 1_000 * 3_600 * 24 * 7);
   dateRange = new FormGroup({
@@ -31,13 +30,15 @@ export class CreateMotdComponent implements OnInit, OnDestroy {
     private motdService: MotdService,
     private notification: NotificationService,
   ) {
-    this.languageService.getLanguage().pipe(takeUntil(this._destroyer)).subscribe(lang => {
-      this._adapter.setLocale(lang);
-    });
+    this.languageService
+      .getLanguage()
+      .pipe(takeUntil(this._destroyer))
+      .subscribe((lang) => {
+        this._adapter.setLocale(lang);
+      });
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   ngOnDestroy() {
     this._destroyer.next(1);
@@ -49,37 +50,50 @@ export class CreateMotdComponent implements OnInit, OnDestroy {
       return;
     }
     this.isSending = true;
-    this.motdService.createMOTD({
-      startTimestamp: this.dateRange.value.start,
-      endTimestamp: this.dateRange.value.end,
-      messages: {
-        de: {
-          language: 'de',
-          message: this.langEntries[1],
+    const startDate = this.dateRange.value.start as Date;
+    const endDate = this.dateRange.value.end as Date;
+    startDate.setHours(
+      this.startDate.getHours(),
+      this.startDate.getMinutes(),
+      0,
+      0,
+    );
+    endDate.setHours(this.endDate.getHours(), this.endDate.getMinutes(), 0, 0);
+    this.motdService
+      .createMOTD({
+        startTimestamp: startDate,
+        endTimestamp: endDate,
+        messages: {
+          de: {
+            language: 'de',
+            message: this.langEntries[1],
+          },
+          en: {
+            language: 'en',
+            message: this.langEntries[0],
+          },
+          fr: {
+            language: 'fr',
+            message: this.langEntries[2],
+          },
         },
-        en: {
-          language: 'en',
-          message: this.langEntries[0],
+      })
+      .subscribe({
+        next: () => {
+          this.translateService
+            .get('create-motd.success')
+            .subscribe((msg) => this.notification.show(msg));
+          this.isSending = false;
+          this.langEntries = ['', '', ''];
+          this.recreateTime();
         },
-        fr: {
-          language: 'fr',
-          message: this.langEntries[2],
+        error: () => {
+          this.translateService
+            .get('create-motd.error')
+            .subscribe((msg) => this.notification.show(msg));
+          this.isSending = false;
         },
-      }
-    }).subscribe({
-      next: () => {
-        this.translateService.get('create-motd.success')
-          .subscribe(msg => this.notification.show(msg));
-        this.isSending = false;
-        this.langEntries = ['', '', ''];
-        this.recreateTime();
-      },
-      error: () => {
-        this.translateService.get('create-motd.error')
-          .subscribe(msg => this.notification.show(msg));
-        this.isSending = false;
-      }
-    });
+      });
   }
 
   recreateTime() {
@@ -92,10 +106,12 @@ export class CreateMotdComponent implements OnInit, OnDestroy {
   }
 
   getDateFormatString() {
-    const str = new Date(2345, 0, 11).toLocaleDateString(this.languageService.currentLanguage());
-    return str.replace(/(\D|^)2345(\D|$)/, '$1YYYY$2')
+    const str = new Date(2345, 0, 11).toLocaleDateString(
+      this.languageService.currentLanguage(),
+    );
+    return str
+      .replace(/(\D|^)2345(\D|$)/, '$1YYYY$2')
       .replace(/(\D|^)11(\D|$)/, '$1MM$2')
       .replace(/(\D|^)\d*1(\D|$)/, '$1DD$2');
   }
-
 }
