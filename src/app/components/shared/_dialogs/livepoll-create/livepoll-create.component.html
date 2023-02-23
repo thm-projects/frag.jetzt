@@ -1,42 +1,50 @@
 <h1 mat-dialog-title>{{translateKey + '.dialog-title' | translate}}</h1>
 <mat-dialog-content class="content">
-  <mat-form-field>
-    <mat-label>{{translateKey + '.option-select-title' | translate}}</mat-label>
-    <input matInput [(ngModel)]="titleSelection">
-    <mat-hint>{{translateKey + '.option-select-title-hint' | translate}}</mat-hint>
-  </mat-form-field>
   <div class="split">
-    <div class="adjust">
-      <p>{{translateKey + '.dialog-preview-title' | translate}}</p>
-      <ng-container *ngIf="templateSelection.value">
-        <ng-container *ngFor="let symbol of templateSelection.value?.symbols; index as i">
-          <button class="previewOption" mat-flat-button [color]="selectedPreviewOption===i?'accent':'primary'" (click)="selectedPreviewOption = i">
-            <ng-container *ngIf="templateSelection.value.isPlain">
-              <span>{{symbol}}</span>
-            </ng-container>
-            <ng-container *ngIf="!templateSelection.value.isPlain">
-              <mat-icon>{{symbol}}</mat-icon>
-            </ng-container>
-          </button>
-        </ng-container>
-      </ng-container>
-    </div>
     <div class="fill">
+      <mat-form-field>
+        <mat-label>{{translateKey + '.option-select-title' | translate}}</mat-label>
+        <input matInput [(ngModel)]="titleSelection">
+        <mat-hint>{{translateKey + '.option-select-title-hint' | translate}}</mat-hint>
+      </mat-form-field>
+    </div>
+    <div class="adjust">
       <mat-form-field>
         <mat-label>{{translateKey + '.option-select-template' | translate}}</mat-label>
         <mat-select [formControl]="templateSelection">
           <mat-select-trigger>
             {{translateKey + '.template-name-' + (templateSelection.value?.name || '') | translate}}
           </mat-select-trigger>
-          <mat-option *ngFor="let template of templateContext" [value]="template">{{translateKey + '.template-name-' + template.name | translate}}</mat-option>
+          <mat-option *ngFor="let template of templateContext"
+                      [value]="template">{{translateKey + '.template-name-' + template.name | translate}}</mat-option>
         </mat-select>
       </mat-form-field>
       <mat-slide-toggle [matTooltip]="'create.tooltip-option-select-result-visibility' | translate"
-                    [(ngModel)]="isResultVisible">{{translateKey + '.option-select-result-visibility' | translate}}</mat-slide-toggle>
+                        [(ngModel)]="isResultVisible">{{translateKey + '.option-select-result-visibility' | translate}}
+      </mat-slide-toggle>
       <mat-slide-toggle [matTooltip]="'create.tooltip-option-select-views-visibility' | translate"
-                    [(ngModel)]="isViewsVisible">{{translateKey + '.option-select-views-visibility' | translate}}</mat-slide-toggle>
+                        [(ngModel)]="isViewsVisible">{{translateKey + '.option-select-views-visibility' | translate}}
+      </mat-slide-toggle>
     </div>
   </div>
+
+  <p>{{translateKey + '.dialog-preview-title' | translate}}</p>
+  <ng-container *ngIf="templateSelection.value">
+    <ng-container *ngFor="let symbol of templateSelection.value?.symbols; index as i">
+      <button class="previewOption" mat-flat-button [color]="selectedPreviewOption===i?'accent':'primary'"
+              (click)="selectedPreviewOption = i">
+        <ng-container *ngIf="templateSelection.value.isPlain">
+          <span>{{ templateSelection.value.translate ? (translateKey + '.' + templateSelection.value.translatePrefix! + symbol | translate) : symbol }}</span>
+        </ng-container>
+        <ng-container *ngIf="!templateSelection.value.isPlain">
+          <mat-icon>
+            {{symbol}}
+          </mat-icon>
+        </ng-container>
+      </button>
+    </ng-container>
+  </ng-container>
+
 </mat-dialog-content>
 <mat-dialog-actions>
   <app-dialog-action-buttons
