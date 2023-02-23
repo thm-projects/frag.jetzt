@@ -12,13 +12,23 @@
     "option-select-views-visibility": "Ansichten sichtbar",
     "tooltip-option-select-views-visibility": "Zeigt an, wie viele Personen sich an der Live-Umfrage beteiligen",
     "option-select-template": "Wählen Sie eine Live-Umfragevorlage",
-    "template-name-agree": "Zustimmung",
-    "option-agree": [
+    "template-name-agree-multi": "Zustimmung",
+    "option-agree-multi": [
       "Starke Ablehnung",
       "Ablehnung",
       "Unentschlossen",
       "Zustimmung",
       "Starke Zustimmung"
-    ]
+    ],
+    "template-name-frequency-multi": "Frequenz (6 Optionen)",
+    "option-frequency-multi": [
+      "Nie",
+      "Sehr selten",
+      "Selten",
+      "Gelegentlich",
+      "Häufig",
+      "Sehr häufig"
+    ],
+    "template-name-agree-binary": "Ja oder Nein"
   }
 }

@@ -12,13 +12,23 @@
     "option-select-views-visibility" : "Vues visibles",
     "tooltip-option-select-views-visibility" : "Afficher le nombre de personnes qui participent au sondage en direct",
     "option-select-template" : "Sélectionnez un modèle de sondage en direct",
-    "template-name-agree": "Approbation",
-    "option-agree": [
+    "template-name-agree-multi": "Approbation",
+    "option-agree-multi": [
       "fortement en désaccord",
       "désaccord",
       "indécis",
       "d'accord",
       "fortement d'accord"
-    ]
+    ],
+    "template-name-frequency-multi": "Fréquence (6 options)",
+    "option-frequency-multi": [
+      "Jamais",
+      "Très rarement",
+      "Rarement",
+      "Occasionnellement",
+      "Fréquemment",
+      "très souvent"
+    ],
+    "template-name-agree-binary": "J'aime ou je n'aime pas"
   }
 }

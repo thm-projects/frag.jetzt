@@ -12,13 +12,23 @@
     "option-select-views-visibility": "Views visible",
     "tooltip-option-select-views-visibility": "Show how many people are engaging with the Live Poll",
     "option-select-template": "Select a Live Poll template",
-    "template-name-agree": "Agreement",
-    "option-agree": [
+    "template-name-agree-multi": "Agreement",
+    "option-agree-multi": [
       "Strongly Disagree",
       "Disagree",
       "Undecided",
       "Agree",
       "Strongly Agree"
-    ]
+    ],
+    "template-name-frequency-multi": "Frequency (6 Options)",
+    "option-frequency-multi": [
+      "Never",
+      "Very Rarely",
+      "Rarely",
+      "Occasionally",
+      "Frequently",
+      "Very Frequently"
+    ],
+    "template-name-agree-binary": "Yes or No"
   }
 }
