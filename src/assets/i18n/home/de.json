@@ -233,6 +233,7 @@
     "direct-link": "Direktlink",
     "edit-moderator": "Moderator*in",
     "edit-session-description": "Begrüßungstext",
+    "gpt-settings": "GPT Einstellungen",
     "edit-tags": "Fragenkategorien",
     "export-questions": "Q&A exportieren",
     "fullscreen": "Vollbild & Textgröße",
@@ -292,7 +293,8 @@
     "zoom-exit": "Vollansicht verlassen",
     "zoom-minus": "Text verkleinern",
     "zoom-plus": "Text vergrößern",
-    "zoom-reset": "Zoomstufe zurücksetzen"
+    "zoom-reset": "Zoomstufe zurücksetzen",
+    "gpt-chat": "Rede mit GPT"
   },
   "help": {
     "cancel": "Schließen",

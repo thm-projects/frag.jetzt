@@ -394,6 +394,21 @@ export class NavigationComponent implements OnInit, OnDestroy {
       },
     },
     {
+      id: 'chat',
+      accessible: false,
+      active: false,
+      i18n: 'header.gpt-chat',
+      icon: 'chat',
+      class: 'material-icons-round',
+      outside: true,
+      isCurrentRoute: () => false,
+      canBeAccessedOnRoute: () =>
+        Boolean(this.userManagementService.getCurrentUser()?.isSuperAdmin),
+      navigate: () => {
+        this.router.navigate(['/admin/gpt-chat']);
+      },
+    },
+    {
       id: 'logout',
       accessible: false,
       active: false,

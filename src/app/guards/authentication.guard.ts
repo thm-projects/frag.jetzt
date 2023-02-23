@@ -1,27 +1,52 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlSegment } from '@angular/router';
+import {
+  ActivatedRouteSnapshot,
+  CanActivate,
+  Router,
+  RouterStateSnapshot,
+  UrlSegment,
+} from '@angular/router';
 
 import { UserRole } from '../models/user-roles.enum';
 import { SessionService } from '../services/util/session.service';
 import { UserManagementService } from '../services/util/user-management.service';
 import { EventService } from 'app/services/util/event.service';
+import { filter, take } from 'rxjs';
 
 @Injectable()
 export class AuthenticationGuard implements CanActivate {
-
   constructor(
     private userManagementService: UserManagementService,
     private router: Router,
     private sessionService: SessionService,
     private eventService: EventService,
-  ) {
-  }
+  ) {}
 
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    if (route.data.superAdmin) {
-      return this.isSuperAdmin();
-    }
+  canActivate(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot,
+  ): boolean {
     const url = decodeURI(state.url);
+    if (route.data.superAdmin) {
+      const wasAdmin = this.isSuperAdmin();
+      this.userManagementService
+        .getUser()
+        .pipe(
+          filter((v) => Boolean(v)),
+          take(1),
+        )
+        .subscribe((user) => {
+          if (user.isSuperAdmin === wasAdmin) {
+            return;
+          }
+          if (user.isSuperAdmin) {
+            this.router.navigate([url]);
+          } else {
+            this.onNotAllowed();
+          }
+        });
+      return wasAdmin;
+    }
     const requiredRoles = (route.data['roles'] ?? []) as UserRole[];
     let wasAllowed = null;
     wasAllowed = this.sessionService.validateNewRoute(
@@ -46,7 +71,8 @@ export class AuthenticationGuard implements CanActivate {
         if (wasAllowed !== null) {
           this.router.navigate([url]);
         }
-      });
+      },
+    );
     if (!wasAllowed) {
       this.onNotAllowed();
     }
@@ -60,7 +86,7 @@ export class AuthenticationGuard implements CanActivate {
     } else if (role === UserRole.EXECUTIVE_MODERATOR) {
       url = '/moderator/';
     }
-    url += segments.map(segment => segment.path).join('/');
+    url += segments.map((segment) => segment.path).join('/');
     this.router.navigate([url]);
   }
 
@@ -76,11 +102,7 @@ export class AuthenticationGuard implements CanActivate {
   }
 
   private isSuperAdmin() {
-    if (!this.userManagementService.getCurrentUser()?.isSuperAdmin) {
-      this.onNotAllowed();
-      return false;
-    }
-    return true;
+    return this.userManagementService.getCurrentUser()?.isSuperAdmin;
   }
 
   private onNotAllowed() {
