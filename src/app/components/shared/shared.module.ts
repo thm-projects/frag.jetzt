@@ -181,6 +181,7 @@ import { FullscreenImageDialogComponent } from './_dialogs/fullscreen-image-dial
 import { NavigationComponent } from './navigation/navigation.component';
 import { QuestionWallComponent } from './questionwall/question-wall/question-wall.component';
 import { GptRoomSettingsComponent } from './_dialogs/gpt-room-settings/gpt-room-settings.component';
+import { GptChatComponent } from './gpt-chat/gpt-chat.component';
 
 @NgModule({
   imports: [
@@ -299,6 +300,7 @@ import { GptRoomSettingsComponent } from './_dialogs/gpt-room-settings/gpt-room-
     NavigationComponent,
     QuestionWallComponent,
     GptRoomSettingsComponent,
+    GptChatComponent,
   ],
   exports: [
     RoomJoinComponent,

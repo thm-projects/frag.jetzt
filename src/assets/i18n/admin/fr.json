@@ -96,6 +96,7 @@
     "send": "Envoyer",
     "empty-conversation": "Vider l'historique",
     "input-forbidden": "Saisie interdite, veuillez vérifier les paramètres de l'API GPT.",
+    "no-api-setup": "La clé d'API ou le modèle de langage n'a pas été défini.",
     "greetings": [
       {
         "key": "École primaire",

@@ -96,6 +96,7 @@
     "send": "Send",
     "empty-conversation": "Clear history",
     "input-forbidden": "Input forbidden, please check the GPT API settings.",
+    "no-api-setup": "The API key or language model was not set.",
     "greetings": [
       {
         "key": "Elementary school",
