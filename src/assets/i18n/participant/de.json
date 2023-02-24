@@ -291,7 +291,9 @@
     "user-bonus-token": "Meine Bonus-Sterne",
     "room-qr": "QR-Code",
     "motd": "News",
-    "logout": "Abmelden"
+    "logout": "Abmelden",
+    "livepoll": "Live-Umfrage",
+    "livepoll-button": "Umfragen erstellen und alle Teilnehmer*innen automatisch benachrichtigen. Die Ergebnisse zweier Umfragen können später verglichen werden."
   },
   "home-page": {
     "exactly-8": "Ein Raum-Code hat genau 8 Ziffern.",
