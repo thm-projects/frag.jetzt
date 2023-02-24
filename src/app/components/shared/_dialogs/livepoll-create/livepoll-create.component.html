@@ -53,7 +53,7 @@
 </mat-dialog-content>
 
 <mat-dialog-actions style="display: flex; justify-content: space-between">
-  <button mat-flat-button color="warn" class="previewOption">
+  <button mat-flat-button color="warn" class="previewOption" (click)="dialogRef.close()">
     <span>{{translateKey + '.close' | translate}}</span>
   </button>
   <button mat-flat-button color="primary" class="previewOption">

@@ -58,8 +58,4 @@ export class LivepollCreateComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  buildDeclineActionCallback(): () => void {
-    return () => this.dialogRef.close();
-  }
-
 }
