@@ -7,3 +7,8 @@
 5. The feature is translated into all three languages of the platform: English, French and German. The translation must be done with [DeepL](https://www.deepl.com/translator).
 6. All buttons have a tooltip.
 7. The feature looks good in all offered themes.
+8. The feature branch was merged with the staging branch.
+9. A merge request has been made to the staging branch for the feature branch.
+10. The merge request is conflict free. 
+11. A developer from outside the team has performed a review of the code.
+12. The product owner has been assigned as a reviewer of the merge request. 
