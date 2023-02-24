@@ -1,7 +1,7 @@
 <h1 mat-dialog-title>{{translateKey + '.dialog-title' | translate}}</h1>
 <mat-dialog-content class="content">
 
-  <div class="split">
+  <div class="split" [ngClass]="device.isCurrentlyDesktop ? 'desktop' : 'mobile'">
     <div class="fill">
       <mat-form-field>
         <mat-label>{{translateKey + '.option-select-title' | translate}}</mat-label>
@@ -32,22 +32,22 @@
   <p>{{translateKey + '.dialog-preview-title' | translate}}</p>
 
   <div class="preview" [ngClass]="'reverse-' + !!templateSelection.value.reverse" *ngIf="templateSelection.value">
-      <ng-container *ngIf="templateSelection.value.symbols">
-        <ng-container *ngFor="let symbol of templateSelection.value.symbols; index as i">
-          <ng-container *ngTemplateOutlet="option;context:{
+    <ng-container *ngIf="templateSelection.value.symbols">
+      <ng-container *ngFor="let symbol of templateSelection.value.symbols; index as i">
+        <ng-container *ngTemplateOutlet="option;context:{
           i: i,
           symbol: symbol
         }"></ng-container>
-        </ng-container>
       </ng-container>
-      <ng-container *ngIf="templateSelection.value.length">
-        <ng-container *ngFor="let symbol of [].constructor(templateSelection.value.length); index as i">
-          <ng-container *ngTemplateOutlet="option; context: {
+    </ng-container>
+    <ng-container *ngIf="templateSelection.value.length">
+      <ng-container *ngFor="let symbol of [].constructor(templateSelection.value.length); index as i">
+        <ng-container *ngTemplateOutlet="option; context: {
           i: i,
           symbol: i
         }"></ng-container>
-        </ng-container>
       </ng-container>
+    </ng-container>
   </div>
 
 </mat-dialog-content>

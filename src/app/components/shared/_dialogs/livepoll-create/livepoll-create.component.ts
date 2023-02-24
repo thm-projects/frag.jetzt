@@ -7,6 +7,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
 import { LanguageService } from '../../../../services/util/language.service';
 import { ReplaySubject, takeUntil } from 'rxjs';
+import { DeviceInfoService } from '../../../../services/util/device-info.service';
 
 @Component({
   selector: 'app-livepoll-create',
@@ -28,7 +29,8 @@ export class LivepollCreateComponent implements OnInit {
     public readonly dialogRef: DialogRef<LivepollConfiguration>,
     public readonly translationService: TranslateService,
     public readonly languageService: LanguageService,
-    public readonly http: HttpClient
+    public readonly http: HttpClient,
+    public readonly device: DeviceInfoService
   ) {
     this.languageService.getLanguage().pipe(takeUntil(this._destroyer)).subscribe(lang => {
       this.translationService.use(lang);
