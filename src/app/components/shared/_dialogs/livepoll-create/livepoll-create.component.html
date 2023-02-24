@@ -3,7 +3,7 @@
 
   <div class="split" [ngClass]="device.isCurrentlyDesktop ? 'desktop' : 'mobile'">
     <div class="fill">
-      <mat-form-field appearance="outline" class="form">
+      <mat-form-field appearance="outline">
         <mat-label>{{translateKey + '.option-select-title' | translate}}</mat-label>
         <input matInput [(ngModel)]="titleSelection">
         <mat-hint>{{translateKey + '.option-select-title-hint' | translate}}</mat-hint>
