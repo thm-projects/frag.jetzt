@@ -30,6 +30,20 @@
       "Frequently",
       "Very Frequently"
     ],
-    "template-name-agree-binary": "Yes or No"
+    "template-name-scale-multi": "Scale",
+    "option-scale-multi": [
+      "None",
+      "Low",
+      "Moderate",
+      "High"
+    ],
+    "template-name-agree-binary": "Yes or No",
+    "group-label": {
+      "agreement": "Understanding",
+      "value": "Values",
+      "frequency": "Frequency",
+      "importance": "Importance",
+      "misc": "Other"
+    }
   }
 }

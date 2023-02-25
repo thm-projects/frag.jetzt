@@ -30,6 +30,20 @@
       "Fréquemment",
       "très souvent"
     ],
-    "template-name-agree-binary": "J'aime ou je n'aime pas"
+    "template-name-scale-multi": "Échelle",
+    "option-scale-multi": [
+      "Aucun",
+      "Faible",
+      "Modérée",
+      "Haute"
+    ],
+    "template-name-agree-binary": "J'aime ou je n'aime pas",
+    "group-label": {
+      "agreement": "compréhension",
+      "value": "valeurs",
+      "frequency": "fréquence",
+      "importance": "importance",
+      "misc": "Autre"
+    }
   }
 }

@@ -30,6 +30,20 @@
       "Häufig",
       "Sehr häufig"
     ],
-    "template-name-agree-binary": "Ja oder Nein"
+    "template-name-scale-multi": "Skalierung",
+    "option-scale-multi": [
+      "Nichts",
+      "Wenig",
+      "Ausgeglichen",
+      "Viel"
+    ],
+    "template-name-agree-binary": "Ja oder Nein",
+    "group-label": {
+      "agreement": "Verständnis",
+      "value": "Werte",
+      "frequency": "Häufigkeit",
+      "importance": "Wichtigkeit",
+      "misc": "Anderes"
+    }
   }
 }

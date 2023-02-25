@@ -7,3 +7,11 @@ export interface LivepollConfiguration {
   isViewsVisible: boolean;
   isLive: boolean;
 }
+
+export const defaultLivepollConfiguration: LivepollConfiguration = {
+  title: undefined,
+  isViewsVisible: true,
+  isResultVisible: true,
+  isLive: false,
+  template: LivepollTemplate.Symbol
+};

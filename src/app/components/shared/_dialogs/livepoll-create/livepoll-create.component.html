@@ -5,26 +5,28 @@
     <div class="fill">
       <mat-form-field appearance="outline">
         <mat-label>{{translateKey + '.option-select-title' | translate}}</mat-label>
-        <input matInput [(ngModel)]="titleSelection">
+        <input matInput [(ngModel)]="livepollConfiguration.title">
         <mat-hint>{{translateKey + '.option-select-title-hint' | translate}}</mat-hint>
       </mat-form-field>
     </div>
     <div class="adjust">
+
       <mat-form-field appearance="outline">
         <mat-label>{{translateKey + '.option-select-template' | translate}}</mat-label>
         <mat-select [formControl]="templateSelection">
-          <mat-select-trigger>
-            {{translateKey + '.template-name-' + (templateSelection.value?.name || '') | translate}}
-          </mat-select-trigger>
-          <mat-option *ngFor="let template of templateContext"
-                      [value]="template">{{translateKey + '.template-name-' + template.name | translate}}</mat-option>
+          <mat-optgroup *ngFor="let group of templateGroups" [label]="(translateKey + '.group-label' | translate)[group[0]]">
+            <mat-option *ngFor="let template of group[1]" [value]="template">
+              {{translateKey + '.template-name-' + template.name | translate}}
+            </mat-option>
+          </mat-optgroup>
         </mat-select>
       </mat-form-field>
-      <mat-slide-toggle [matTooltip]="'create.tooltip-option-select-result-visibility' | translate"
-                        [(ngModel)]="isResultVisible">{{translateKey + '.option-select-result-visibility' | translate}}
+
+      <mat-slide-toggle [matTooltip]="translateKey + '.tooltip-option-select-result-visibility' | translate"
+                        [(ngModel)]="livepollConfiguration.isResultVisible">{{translateKey + '.option-select-result-visibility' | translate}}
       </mat-slide-toggle>
-      <mat-slide-toggle [matTooltip]="'create.tooltip-option-select-views-visibility' | translate"
-                        [(ngModel)]="isViewsVisible">{{translateKey + '.option-select-views-visibility' | translate}}
+      <mat-slide-toggle [matTooltip]="translateKey + '.tooltip-option-select-views-visibility' | translate"
+                        [(ngModel)]="livepollConfiguration.isViewsVisible">{{translateKey + '.option-select-views-visibility' | translate}}
       </mat-slide-toggle>
     </div>
   </div>

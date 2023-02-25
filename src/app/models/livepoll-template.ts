@@ -4,13 +4,13 @@ export enum LivepollTemplate {
   Agree,
   Frequency,
   YesNo,
+  Scale,
 }
 
 export enum LivepollGroupKind {
   Agreement,
   Value,
   Frequency,
-  Importance,
   Misc
 }
 
@@ -68,6 +68,14 @@ export const templateEntries: EachOfTemplate<LivepollTemplate, LivepollNode<Live
     translate: false,
     reverse: true,
     symbols: ['thumb_down', 'thumb_up']
+  },
+  [LivepollTemplate.Scale]:{
+    kind: LivepollTemplate.Scale,
+    isPlain: true,
+    name: 'scale-multi',
+    translate: true,
+    reverse: true,
+    length: 4
   }
 };
 
@@ -75,14 +83,21 @@ export const groupEntries: EachOfGroup<LivepollGroupKind> = {
   [LivepollGroupKind.Frequency]: [
     templateEntries[LivepollTemplate.Frequency]
   ],
-  [LivepollGroupKind.Value]: [],
-  [LivepollGroupKind.Importance]: [],
+  [LivepollGroupKind.Value]: [
+    templateEntries[LivepollTemplate.Scale]
+  ],
   [LivepollGroupKind.Agreement]: [
     templateEntries[LivepollTemplate.Agree]
   ],
-  [LivepollGroupKind.Misc]: []
+  [LivepollGroupKind.Misc]: [
+    templateEntries[LivepollTemplate.Symbol],
+    templateEntries[LivepollTemplate.Character],
+    templateEntries[LivepollTemplate.YesNo],
+  ]
 };
 
-export const templateContext: LivepollTemplateContext[] = Object.keys(templateEntries).map(entry => templateEntries[entry]);
+export const templateContext: LivepollTemplateContext[] =
+  Object.keys(templateEntries).map(entry => templateEntries[entry]);
 
-
+export const templateGroups: [string, LivepollTemplateContext[]][] =
+  Object.keys(groupEntries).map(entry => [LivepollGroupKind[entry].toLowerCase(), groupEntries[entry]]);

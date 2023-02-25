@@ -352,9 +352,6 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   }
 
   openLivepollDialog() {
-    const dialog = this.dialog.open(LivepollCreateComponent,{
-      width:'600px'
-    });
-    console.log(dialog);
+    LivepollCreateComponent.create(this.dialog);
   }
 }

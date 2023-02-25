@@ -199,12 +199,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
         this.sessionService.currentRoom,
         this.userManagementService.getCurrentUser(),
         this.sessionService.currentLivepoll),
-      navigate: (route) => {
-        const dialog = this.dialog.open(LivepollCreateComponent,{
-          width:'600px'
-        });
-        console.log(dialog);
-      },
+      navigate: (route) => LivepollCreateComponent.create(this.dialog),
       isCurrentRoute: (route) => false
     },
     {

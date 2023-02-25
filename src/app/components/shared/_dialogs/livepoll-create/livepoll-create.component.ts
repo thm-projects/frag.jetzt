@@ -1,28 +1,29 @@
-import { Component, OnInit } from '@angular/core';
-import { LivepollTemplate, LivepollTemplateContext, templateContext } from '../../../../models/livepoll-template';
+import { Component, OnDestroy } from '@angular/core';
+import { LivepollTemplateContext, templateContext, templateGroups } from '../../../../models/livepoll-template';
 import { FormControl } from '@angular/forms';
 import { DialogRef } from '@angular/cdk/dialog';
-import { LivepollConfiguration } from '../../../../models/livepoll-configuration';
+import { defaultLivepollConfiguration, LivepollConfiguration } from '../../../../models/livepoll-configuration';
 import { TranslateService } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
 import { LanguageService } from '../../../../services/util/language.service';
 import { ReplaySubject, takeUntil } from 'rxjs';
 import { DeviceInfoService } from '../../../../services/util/device-info.service';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-livepoll-create',
   templateUrl: './livepoll-create.component.html',
   styleUrls: ['./livepoll-create.component.scss']
 })
-export class LivepollCreateComponent implements OnInit {
+export class LivepollCreateComponent implements OnDestroy {
 
-  public readonly templateContext = templateContext;
+  public readonly templateGroups = templateGroups;
+
   public readonly translateKey = 'create';
-  public titleSelection: string;
   public templateSelection = new FormControl<LivepollTemplateContext>(templateContext[0]);
+
   public selectedPreviewOption: number = -1;
-  public isResultVisible: boolean = false;
-  public isViewsVisible: boolean = false;
+  public livepollConfiguration: LivepollConfiguration = defaultLivepollConfiguration;
   private _destroyer = new ReplaySubject(1);
 
   constructor(
@@ -41,21 +42,18 @@ export class LivepollCreateComponent implements OnInit {
     });
   }
 
-  create() {
-    let templateKind: LivepollTemplate = LivepollTemplate.Symbol;
-    if (this.templateSelection && this.templateSelection.value) {
-      templateKind = this.templateSelection.value.kind;
-    }
-    this.dialogRef.close({
-      template: templateKind,
-      isLive: false,
-      isResultVisible: this.isResultVisible,
-      isViewsVisible: this.isViewsVisible,
-      title: this.titleSelection
-    });
+  public static create(
+    dialog: MatDialog
+  ){
+    dialog.open(LivepollCreateComponent,{});
   }
 
-  ngOnInit(): void {
+  create() {
+    this.dialogRef.close(this.livepollConfiguration);
+  }
+
+  ngOnDestroy(): void {
+    this._destroyer.next(0);
   }
 
 }
