@@ -6,9 +6,9 @@ import {
   GPTConfiguration,
   GPTRestrictions,
 } from 'app/models/gpt-configuration';
-import { GPTModels } from 'app/models/gpt-models';
 import { GPTStatistics } from 'app/models/gpt-statistics';
-import { GptService, GPTUsage } from 'app/services/http/gpt.service';
+import { GPTUsage } from 'app/models/gpt-status';
+import { CachedModel, GptService } from 'app/services/http/gpt.service';
 import { LanguageService } from 'app/services/util/language.service';
 import { NotificationService } from 'app/services/util/notification.service';
 import { ReplaySubject, takeUntil } from 'rxjs';
@@ -23,19 +23,16 @@ export class GptConfigurationComponent implements OnInit, OnDestroy {
   apiKey: string = null;
   organization: string = null;
   model: string = null;
-  suffix: string = null;
   maxTokens: number = null;
   temperature: number = null;
   topP: number = null;
-  n: number = null;
-  stream: boolean = null;
   logprobs: number = null;
   echo: boolean = null;
   stop: string[] = [];
   presencePenalty: number = null;
   frequencyPenalty: number = null;
-  bestOf: number = null;
   logitBias: { [key: string]: number } = {};
+  trialCode: string = null;
   // restriction members
   active: boolean = null;
   usage: GPTUsage = null;
@@ -50,7 +47,7 @@ export class GptConfigurationComponent implements OnInit, OnDestroy {
   // stats
   statistics: GPTStatistics = null;
   // additional
-  models: GPTModels = null;
+  models: CachedModel[] = null;
   addStop: string = null;
   addLogitBias: string = null;
   addIpFilter: string = null;
@@ -76,7 +73,7 @@ export class GptConfigurationComponent implements OnInit, OnDestroy {
       .subscribe((lang) => {
         this.adapter.setLocale(lang);
       });
-    this.gptService.getModelsOnce().subscribe({
+    this.gptService.getCompletionModelsOnce().subscribe({
       next: (m) => (this.models = m),
       error: () => {
         this.translateService
@@ -172,9 +169,6 @@ export class GptConfigurationComponent implements OnInit, OnDestroy {
     if (this.model !== obj.model) {
       changes.model = this.model;
     }
-    if (this.suffix !== obj.suffix) {
-      changes.suffix = this.suffix;
-    }
     if (this.maxTokens !== obj.maxTokens) {
       changes.maxTokens = this.maxTokens;
     }
@@ -183,12 +177,6 @@ export class GptConfigurationComponent implements OnInit, OnDestroy {
     }
     if (this.topP !== obj.topP) {
       changes.topP = this.topP;
-    }
-    if (this.n !== obj.n) {
-      changes.n = this.n;
-    }
-    if (this.stream !== obj.stream) {
-      changes.stream = this.stream;
     }
     if (this.logprobs !== obj.logprobs) {
       changes.logprobs = this.logprobs;
@@ -219,9 +207,6 @@ export class GptConfigurationComponent implements OnInit, OnDestroy {
     if (this.frequencyPenalty !== obj.frequencyPenalty) {
       changes.frequencyPenalty = this.frequencyPenalty;
     }
-    if (this.bestOf !== obj.bestOf) {
-      changes.bestOf = this.bestOf;
-    }
     const keys = Object.keys(this.logitBias);
     const objKeys = Object.keys(obj.logitBias || {});
     if (
@@ -229,6 +214,9 @@ export class GptConfigurationComponent implements OnInit, OnDestroy {
       !keys.every((k) => this.logitBias[k] === obj.logitBias[k])
     ) {
       changes.logitBias = keys.length > 0 ? { ...this.logitBias } : null;
+    }
+    if (this.trialCode !== obj.trialCode) {
+      changes.trialCode = this.trialCode;
     }
     if (Object.keys(changes).length < 1) {
       return;
@@ -323,12 +311,9 @@ export class GptConfigurationComponent implements OnInit, OnDestroy {
     this.apiKey = obj.apiKey;
     this.organization = obj.organization;
     this.model = obj.model;
-    this.suffix = obj.suffix;
     this.maxTokens = obj.maxTokens;
     this.temperature = obj.temperature;
     this.topP = obj.topP;
-    this.n = obj.n;
-    this.stream = obj.stream;
     this.logprobs = obj.logprobs;
     this.echo = obj.echo;
     if (Array.isArray(obj.stop)) {
@@ -338,8 +323,8 @@ export class GptConfigurationComponent implements OnInit, OnDestroy {
     }
     this.presencePenalty = obj.presencePenalty;
     this.frequencyPenalty = obj.frequencyPenalty;
-    this.bestOf = obj.bestOf;
     this.logitBias = { ...obj.logitBias };
+    this.trialCode = obj.trialCode;
   }
 
   private loadRestrictions() {

@@ -181,6 +181,7 @@ import { FullscreenImageDialogComponent } from './_dialogs/fullscreen-image-dial
 import { NavigationComponent } from './navigation/navigation.component';
 import { QuestionWallComponent } from './questionwall/question-wall/question-wall.component';
 import { LivepollCreateComponent } from './_dialogs/livepoll-create/livepoll-create.component';
+import { GptRoomSettingsComponent } from './_dialogs/gpt-room-settings/gpt-room-settings.component';
 
 @NgModule({
   imports: [
@@ -299,6 +300,7 @@ import { LivepollCreateComponent } from './_dialogs/livepoll-create/livepoll-cre
     NavigationComponent,
     QuestionWallComponent,
     LivepollCreateComponent,
+    GptRoomSettingsComponent
   ],
   exports: [
     RoomJoinComponent,

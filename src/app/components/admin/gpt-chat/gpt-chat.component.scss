@@ -10,7 +10,7 @@
     position: relative;
     word-wrap: break-word;
     margin: 0.5rem 0;
-    width: fit-content;
+    width: 75%;
 
     &::before,
     &::after {
@@ -45,10 +45,26 @@
     }
   }
 
+  > .error {
+    margin-inline: auto;
+    background-color: var(--red);
+    color: #000;
+  }
+
   > .gpt {
     align-items: flex-start;
     background-color: var(--secondary);
     color: var(--on-secondary);
+    margin-left: 3em;
+
+    > img {
+      width: 3em;
+      height: 3em;
+      position: absolute;
+      bottom: 0;
+      left: -3.5em;
+      z-index: 1;
+    }
 
     &::before {
       border-bottom-right-radius: 0.8rem 0.7rem;
