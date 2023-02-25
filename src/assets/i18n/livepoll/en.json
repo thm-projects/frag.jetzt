@@ -1,34 +1,34 @@
 {
   "create": {
     "dialog-title": "Create Live Poll",
-    "option-select-title": "Title",
-    "option-select-title-hint": "e.g.:'How do you feel today?' - not required",
+    "option-select-title": "Title of the poll …",
+    "option-select-title-hint": "may be omitted",
     "dialog-preview-title": "Preview",
     "create": "Create",
-    "close": "Close",
+    "close": "Cancel",
     "template-name-character": "ABCD",
     "template-name-symbol": "Mood",
     "option-select-result-visibility": "Result visible",
-    "tooltip-option-select-result-visibility": "Show  Live Poll results in real time to all participants",
-    "option-select-views-visibility": "Views visible",
-    "tooltip-option-select-views-visibility": "Show how many people are engaging with the Live Poll",
-    "option-select-template": "Select a Live Poll template",
+    "tooltip-option-select-result-visibility": "Show vote for all in real time",
+    "option-select-views-visibility": "Participation visible",
+    "tooltip-option-select-views-visibility": "Show participation for all in real time",
+    "option-select-template": "Select a template …",
     "template-name-agree-multi": "Agreement",
     "option-agree-multi": [
-      "Strongly Disagree",
+      "Strongly disagree",
       "Disagree",
       "Undecided",
       "Agree",
-      "Strongly Agree"
+      "Strongly agree"
     ],
-    "template-name-frequency-multi": "Frequency (6 Options)",
+    "template-name-frequency-multi": "Frequency",
     "option-frequency-multi": [
       "Never",
-      "Very Rarely",
+      "Very rarely",
       "Rarely",
       "Occasionally",
       "Frequently",
-      "Very Frequently"
+      "Very frequently"
     ],
     "template-name-scale-multi": "Scale",
     "option-scale-multi": [

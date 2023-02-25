@@ -1,18 +1,18 @@
 {
   "create": {
-    "dialog-title": "Create Live Poll",
-    "option-select-title": "Titre",
-    "option-select-title-hint": "Ex : 'Comment vous sentez-vous aujourd'hui ?' - non requis",
-    "dialog-preview-title": "Preview",
-    "create": "Create",
+    "dialog-title": "Créer un sondage en direct",
+    "option-select-title": "Titre du sondage …",
+    "option-select-title-hint": "peut être omis",
+    "dialog-preview-title": "Prévisualisation",
+    "create": "Créer",
     "close": "Annuler",
     "template-name-character": "ABCD",
-    "template-name-symbol": "Mood",
+    "template-name-symbol": "Humeur",
     "option-select-result-visibility": "Résultat visible",
-    "tooltip-option-select-result-visibility": "Afficher les résultats du sondage en direct en temps réel à tous les participants",
-    "option-select-views-visibility": "Vues visibles",
-    "tooltip-option-select-views-visibility": "Afficher le nombre de personnes qui participent au sondage en direct",
-    "option-select-template": "Sélectionnez un modèle de sondage en direct",
+    "tooltip-option-select-result-visibility": "Afficher le vote de tous en temps réel",
+    "option-select-views-visibility": "Participation visible",
+    "tooltip-option-select-views-visibility": "Afficher la participation pour tous en temps réel",
+    "option-select-template": "Choisir un modèle …",
     "template-name-agree-multi": "Approbation",
     "option-agree-multi": [
       "fortement en désaccord",
@@ -21,7 +21,7 @@
       "d'accord",
       "fortement d'accord"
     ],
-    "template-name-frequency-multi": "Fréquence (6 options)",
+    "template-name-frequency-multi": "Fréquence",
     "option-frequency-multi": [
       "Jamais",
       "Très rarement",
@@ -37,12 +37,12 @@
       "Modérée",
       "Haute"
     ],
-    "template-name-agree-binary": "J'aime ou je n'aime pas",
+    "template-name-agree-binary": "Oui ou non",
     "group-label": {
-      "agreement": "compréhension",
-      "value": "valeurs",
-      "frequency": "fréquence",
-      "importance": "importance",
+      "agreement": "Compréhension",
+      "value": "Valeurs",
+      "frequency": "Fréquence",
+      "importance": "Importance",
       "misc": "Autre"
     }
   }

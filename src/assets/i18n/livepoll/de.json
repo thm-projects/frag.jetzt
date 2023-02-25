@@ -1,18 +1,18 @@
 {
   "create": {
     "dialog-title": "Live-Umfrage erstellen",
-    "option-select-title": "Titel",
-    "option-select-title-hint": "z.B.:'Wie fühlen Sie sich heute?' - nicht erforderlich",
+    "option-select-title": "Titel der Umfrage …",
+    "option-select-title-hint": "kann entfallen",
     "dialog-preview-title": "Vorschau",
     "create": "Erstellen",
-    "close": "Schließen",
+    "close": "Abbrechen",
     "template-name-character": "ABCD",
-    "template-name-symbol": "Laune",
+    "template-name-symbol": "Stimmung",
     "option-select-result-visibility": "Ergebnis sichtbar",
-    "tooltip-option-select-result-visibility": "Live-Umfrageergebnisse in Echtzeit für alle Teilnehmer anzeigen",
-    "option-select-views-visibility": "Ansichten sichtbar",
-    "tooltip-option-select-views-visibility": "Zeigt an, wie viele Personen sich an der Live-Umfrage beteiligen",
-    "option-select-template": "Wählen Sie eine Live-Umfragevorlage",
+    "tooltip-option-select-result-visibility": "Abstimmung für alle in Echtzeit anzeigen",
+    "option-select-views-visibility": "Beteiligung sichtbar",
+    "tooltip-option-select-views-visibility": "Beteiligung für alle in Echtzeit anzeigen",
+    "option-select-template": "Wählen Sie eine Vorlage …",
     "template-name-agree-multi": "Zustimmung",
     "option-agree-multi": [
       "Starke Ablehnung",
@@ -21,7 +21,7 @@
       "Zustimmung",
       "Starke Zustimmung"
     ],
-    "template-name-frequency-multi": "Frequenz (6 Optionen)",
+    "template-name-frequency-multi": "Frequenz",
     "option-frequency-multi": [
       "Nie",
       "Sehr selten",
