@@ -1,0 +1,49 @@
+{
+  "create": {
+    "dialog-title": "Live-Umfrage erstellen",
+    "option-select-title": "Titel der Umfrage …",
+    "option-select-title-hint": "kann entfallen",
+    "dialog-preview-title": "Vorschau",
+    "create": "Erstellen",
+    "close": "Abbrechen",
+    "template-name-character": "ABCD",
+    "template-name-symbol": "Stimmung",
+    "option-select-result-visibility": "Ergebnis sichtbar",
+    "tooltip-option-select-result-visibility": "Abstimmung für alle in Echtzeit anzeigen",
+    "option-select-views-visibility": "Beteiligung sichtbar",
+    "tooltip-option-select-views-visibility": "Beteiligung für alle in Echtzeit anzeigen",
+    "option-select-template": "Wählen Sie eine Vorlage …",
+    "template-name-agree-multi": "Zustimmung",
+    "option-agree-multi": [
+      "Starke Ablehnung",
+      "Ablehnung",
+      "Unentschlossen",
+      "Zustimmung",
+      "Starke Zustimmung"
+    ],
+    "template-name-frequency-multi": "Frequenz",
+    "option-frequency-multi": [
+      "Nie",
+      "Sehr selten",
+      "Selten",
+      "Gelegentlich",
+      "Häufig",
+      "Sehr häufig"
+    ],
+    "template-name-scale-multi": "Skalierung",
+    "option-scale-multi": [
+      "Nichts",
+      "Wenig",
+      "Ausgeglichen",
+      "Viel"
+    ],
+    "template-name-agree-binary": "Ja oder Nein",
+    "group-label": {
+      "agreement": "Verständnis",
+      "value": "Werte",
+      "frequency": "Häufigkeit",
+      "importance": "Wichtigkeit",
+      "misc": "Anderes"
+    }
+  }
+}
