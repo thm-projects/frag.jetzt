@@ -112,6 +112,6 @@
       }
     ],
     "refresh": "Ausgabe erneut generieren",
-    "token-info": "Tokens (Eingabe/Chat/Gesamt): {{promptTokens}}/{{conversationTokens}}/{{allTokens}}"
+    "token-info": "Tokens (Eingabe / Chat / Gesamt): {{promptTokens}} / {{conversationTokens}} / {{allTokens}}"
   }
 }

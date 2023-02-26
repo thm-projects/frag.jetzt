@@ -403,8 +403,8 @@ export class NavigationComponent implements OnInit, OnDestroy {
       accessible: false,
       active: false,
       i18n: 'header.gpt-chat',
-      icon: 'chat',
-      class: 'material-icons-round',
+      icon: 'smart_toy',
+      class: 'material-icons-outlined',
       outside: true,
       isCurrentRoute: () => false,
       canBeAccessedOnRoute: () =>

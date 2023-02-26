@@ -111,6 +111,6 @@
       }
     ],
     "refresh": "Générer à nouveau la sortie",
-    "token-info": "Tokens (saisie/conversation/total) : {{promptTokens}}/{{conversationTokens}}/{{allTokens}}"
+    "token-info": "Tokens (saisie / conversation / total) : {{promptTokens}} / {{conversationTokens}} / {{allTokens}}"
   }
 }
