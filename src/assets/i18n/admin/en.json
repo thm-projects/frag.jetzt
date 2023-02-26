@@ -2,7 +2,7 @@
   "overview": {
     "motd": "Global announcements",
     "gpt": "GPT settings",
-    "gpt-chat": "Speech with GPT"
+    "gpt-chat": "Chat with GPT"
   },
   "create-motd": {
     "create": "Create",
@@ -92,7 +92,7 @@
     "trial-code": "Study activation code"
   },
   "gpt-chat": {
-    "enter-conversation-text": "Speech with GPT",
+    "enter-conversation-text": "Chat with GPT …",
     "send": "Send",
     "empty-conversation": "Clear history",
     "input-forbidden": "Input forbidden, please check the GPT API settings.",

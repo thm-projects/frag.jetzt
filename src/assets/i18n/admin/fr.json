@@ -2,7 +2,7 @@
   "overview": {
     "motd": "Annonces globales",
     "gpt": "Paramètres GPT",
-    "gpt-chat": "Parle à GPT"
+    "gpt-chat": "Chat avec GPT"
   },
   "create-motd": {
     "create": "Créer",
@@ -92,7 +92,7 @@
     "trial-code": "Code d'activation de l'étude"
   },
   "gpt-chat": {
-    "enter-conversation-text": "Parle à GPT",
+    "enter-conversation-text": "Chat avec GPT …",
     "send": "Envoyer",
     "empty-conversation": "Vider l'historique",
     "input-forbidden": "Saisie interdite, veuillez vérifier les paramètres de l'API GPT.",

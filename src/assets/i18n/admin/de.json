@@ -1,8 +1,8 @@
 {
   "overview": {
     "motd": "Globale Ankündigungen",
-    "gpt": "GPT Einstellungen",
-    "gpt-chat": "Rede mit GPT"
+    "gpt": "GPT-Einstellungen",
+    "gpt-chat": "Chat mit GPT"
   },
   "create-motd": {
     "create": "Erstellen",
@@ -25,22 +25,22 @@
     "default": "Standard",
     "active": "Ja",
     "inactive": "Nein",
-    "title": "GPT Einstellungen & API Test",
+    "title": "GPT-Einstellungen & API-Test",
     "api-key": "API Key",
     "organization": "Organisation",
-    "model": "API Sprachmodell",
+    "model": "API-Sprachmodell",
     "model-fetch-error": "API Key oder Organisation nicht korrekt konfiguriert, Sprach-Modelle sind nicht verfügbar.",
     "max-tokens": "Maximaler Tokenverbrauch",
     "temperature": "Temperatur",
     "top-percentage": "Nucleus Sampling",
     "logprobs": "Anzahl Wahrscheinlichkeiten",
     "echo": "Eingabe wiederholen",
-    "stop": "Stopwörter",
+    "stop": "Stoppwörter",
     "add-stop": "Stoppwort hinzufügen",
     "presence-penalty": "Faktor für Themenwechsel",
     "frequence-penalty": "Faktor für Wiederholungen",
     "logit-bias": "Tokengewichtung verändern",
-    "add-logit-bias": "Tokenid hinzufügen",
+    "add-logit-bias": "Token-ID hinzufügen",
     "logit-value": "Gewichtung ändern",
     "next": "Weiter",
     "previous": "Zurück",
@@ -93,7 +93,7 @@
     "trial-code": "Studien-Aktivierungscode"
   },
   "gpt-chat": {
-    "enter-conversation-text": "Rede mit GPT",
+    "enter-conversation-text": "Chat mit GPT …",
     "send": "Senden",
     "empty-conversation": "Verlauf leeren",
     "input-forbidden": "Eingabe verboten, bitte prüfe die GPT API Einstellungen.",
