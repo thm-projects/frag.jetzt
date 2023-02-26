@@ -182,6 +182,7 @@ import { NavigationComponent } from './navigation/navigation.component';
 import { QuestionWallComponent } from './questionwall/question-wall/question-wall.component';
 import { LivepollCreateComponent } from './_dialogs/livepoll-create/livepoll-create.component';
 import { GptRoomSettingsComponent } from './_dialogs/gpt-room-settings/gpt-room-settings.component';
+import { LivepollVoteComponent } from './_dialogs/livepoll-vote/livepoll-vote.component';
 
 @NgModule({
   imports: [
@@ -300,7 +301,8 @@ import { GptRoomSettingsComponent } from './_dialogs/gpt-room-settings/gpt-room-
     NavigationComponent,
     QuestionWallComponent,
     LivepollCreateComponent,
-    GptRoomSettingsComponent
+    GptRoomSettingsComponent,
+    LivepollVoteComponent
   ],
   exports: [
     RoomJoinComponent,
