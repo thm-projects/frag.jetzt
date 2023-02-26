@@ -290,7 +290,9 @@
     "user-bonus-token": "My bonus stars",
     "room-qr": "QR code",
     "motd": "News",
-    "logout": "Log out"
+    "logout": "Log out",
+    "livepoll": "Live Poll",
+    "livepoll-button": "Create surveys and automatically notify all participants. The results of two surveys can be compared later."
   },
   "home-page": {
     "exactly-8": "A key is a combination of 8 digits.",

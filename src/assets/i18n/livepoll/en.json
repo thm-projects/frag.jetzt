@@ -1,0 +1,49 @@
+{
+  "create": {
+    "dialog-title": "Create Live Poll",
+    "option-select-title": "Title of the poll …",
+    "option-select-title-hint": "may be omitted",
+    "dialog-preview-title": "Preview",
+    "create": "Create",
+    "close": "Cancel",
+    "template-name-character": "ABCD",
+    "template-name-symbol": "Mood",
+    "option-select-result-visibility": "Result visible",
+    "tooltip-option-select-result-visibility": "Show vote for all in real time",
+    "option-select-views-visibility": "Participation visible",
+    "tooltip-option-select-views-visibility": "Show participation for all in real time",
+    "option-select-template": "Select a template …",
+    "template-name-agree-multi": "Agreement",
+    "option-agree-multi": [
+      "Strongly disagree",
+      "Disagree",
+      "Undecided",
+      "Agree",
+      "Strongly agree"
+    ],
+    "template-name-frequency-multi": "Frequency",
+    "option-frequency-multi": [
+      "Never",
+      "Very rarely",
+      "Rarely",
+      "Occasionally",
+      "Frequently",
+      "Very frequently"
+    ],
+    "template-name-scale-multi": "Scale",
+    "option-scale-multi": [
+      "None",
+      "Low",
+      "Moderate",
+      "High"
+    ],
+    "template-name-agree-binary": "Yes or No",
+    "group-label": {
+      "agreement": "Understanding",
+      "value": "Values",
+      "frequency": "Frequency",
+      "importance": "Importance",
+      "misc": "Other"
+    }
+  }
+}

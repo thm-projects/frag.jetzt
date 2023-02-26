@@ -673,6 +673,8 @@
     "send": "Abschicken"
   },
   "room-settings-overview": {
+    "livepoll-enabled": "Live-Umfragen aktivieren",
+    "tooltip-livepoll-enabled": "Umfragen erstellen und alle Teilnehmer*innen automatisch benachrichtigen. Die Ergebnisse zweier Umfragen können später verglichen werden.",
     "a11y-bonus-archive-enabled": "Schieberegler, um das Bonus-Archiv zu aktivieren.",
     "a11y-brainstorming-enabled": "Schieberegler, um Brainstorming zu erlauben.",
     "a11y-conversation-enabled": "Schieberegler, um Konversationen in diesem Raum freizuschalten.",

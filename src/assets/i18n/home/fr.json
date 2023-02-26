@@ -174,7 +174,7 @@
     "style": "Choix du design"
   },
   "header": {
-    "livepoll": "Poll en direct",
+    "livepoll": "Sondage en direct",
     "livepoll-button": "Créer des sondages et notifier automatiquement tous les participants. Les résultats de deux sondages peuvent être comparés ultérieurement",
     "back-button": "Retour",
     "tour-button": "Introduction de 2 minutes",
@@ -590,7 +590,7 @@
     "settings-overview": "Réglages de la salle"
   },
   "room-settings-overview": {
-    "livepoll-enabled": "Activer poll en direct",
+    "livepoll-enabled": "Activer sondage en direct",
     "tooltip-livepoll-enabled": "Créer des sondages et informer automatiquement tous les participants. Les résultats des deux sondages peuvent être comparés ultérieurement.",
     "a11y-bonus-archive-enabled": "Curseur pour activer l'archive de bonus.",
     "a11y-brainstorming-enabled": "Curseur pour autoriser le brainstorming.",

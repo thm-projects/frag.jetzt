@@ -23,6 +23,8 @@ import {
 import { TopicCloudFilterComponent } from '../_dialogs/topic-cloud-filter/topic-cloud-filter.component';
 import { Room } from '../../../models/room';
 import { LivepollSessionList } from '../../../models/livepoll-session-list';
+import { LivepollCreateComponent } from '../_dialogs/livepoll-create/livepoll-create.component';
+import { User } from '../../../models/user';
 
 interface LocationData {
   id: string;
@@ -103,11 +105,13 @@ export const navigateBrainstorming = (
 export const livepollNavigationAccessOnRoute = (
   route: string,
   room: Room | undefined,
+  user: User | undefined,
   pollList: LivepollSessionList
 ) => {
   if (room && room.livepollActive) {
     if (ROOM_REGEX.test(route) || COMMENTS_REGEX.test(route)) {
-      if (!route.includes('participant')) {
+      if (!route.includes('participant')
+        || (route.endsWith('comments/questionwall') && user && user.role > UserRole.PARTICIPANT)) {
         return true;
       } else {
         return pollList.hasActiveLivepoll();
@@ -193,8 +197,9 @@ export class NavigationComponent implements OnInit, OnDestroy {
       canBeAccessedOnRoute: (route) => livepollNavigationAccessOnRoute(
         route,
         this.sessionService.currentRoom,
+        this.userManagementService.getCurrentUser(),
         this.sessionService.currentLivepoll),
-      navigate: (route) => {},
+      navigate: (route) => LivepollCreateComponent.create(this.dialog),
       isCurrentRoute: (route) => false
     },
     {
