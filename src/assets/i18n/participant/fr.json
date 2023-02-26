@@ -292,7 +292,7 @@
     "motd": "Actualités",
     "logout": "Se déconnecter",
     "livepoll": "Sondage en direct",
-    "livepoll-button": "Créer des sondages et notifier automatiquement tous les participants. Les résultats de deux sondages peuvent être comparés ultérieurement"
+    "livepoll-button": "Créer des sondages et notifier automatiquement tous les participants. Les résultats de deux sondages peuvent être comparés ultérieurement."
   },
   "home-page": {
     "exactly-8": "Un code de salle comporte exactement 8 chiffres.",
