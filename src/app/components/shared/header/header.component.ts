@@ -48,6 +48,7 @@ import {
   navigateTopicCloud
 } from '../navigation/navigation.component';
 import { LivepollCreateComponent } from '../_dialogs/livepoll-create/livepoll-create.component';
+import { LivepollService } from '../../../services/http/livepoll.service';
 
 @Component({
   selector: 'app-header',
@@ -97,6 +98,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     private startUpService: StartUpService,
     private brainstormingDataService: BrainstormingDataService,
     public langService: LanguageService,
+    public readonly livepollService: LivepollService
   ) {}
 
   ngAfterViewInit() {
@@ -352,6 +354,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   }
 
   openLivepollDialog() {
-    LivepollCreateComponent.create(this.dialog);
+    // LivepollCreateComponent.create(this.dialog);
+    this.livepollService.create();
   }
 }

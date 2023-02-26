@@ -36,7 +36,7 @@ export class SessionService {
   private readonly _currentBrainstormingCategories = new BehaviorSubject<
     BrainstormingCategory[]
   >(null);
-  private readonly _livepoll_mock: LivepollSessionList = new LivepollSessionList([]);
+  private readonly _livepoll_mock =new BehaviorSubject<LivepollSessionList>(null);
   private _beforeRoomUpdates: Subject<Partial<Room>>;
   private _afterRoomUpdates: Subject<Room>;
   private _roomSubscription: Subscription;
@@ -57,7 +57,7 @@ export class SessionService {
   ) {}
 
   get currentLivepoll(): LivepollSessionList {
-    return this._livepoll_mock;
+    return this._livepoll_mock.value;
   }
 
   get canChangeRoleOnRoute(): boolean {

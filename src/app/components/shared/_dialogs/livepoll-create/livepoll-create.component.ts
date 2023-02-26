@@ -8,7 +8,6 @@ import { HttpClient } from '@angular/common/http';
 import { LanguageService } from '../../../../services/util/language.service';
 import { ReplaySubject, takeUntil } from 'rxjs';
 import { DeviceInfoService } from '../../../../services/util/device-info.service';
-import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-livepoll-create',
@@ -40,16 +39,6 @@ export class LivepollCreateComponent implements OnDestroy {
           this.translationService.setTranslation(lang, translation, true);
         });
     });
-  }
-
-  public static create(
-    dialog: MatDialog
-  ){
-    dialog.open(LivepollCreateComponent,{});
-  }
-
-  create() {
-    this.dialogRef.close(this.livepollConfiguration);
   }
 
   ngOnDestroy(): void {

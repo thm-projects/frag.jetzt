@@ -58,7 +58,7 @@
   <button mat-flat-button color="warn" class="previewOption" (click)="dialogRef.close()">
     <span>{{translateKey + '.close' | translate}}</span>
   </button>
-  <button mat-flat-button color="accent" class="previewOption">
+  <button mat-flat-button color="accent" class="previewOption" [mat-dialog-close]="livepollConfiguration">
     <span>{{translateKey + '.create' | translate}}</span>
   </button>
 </mat-dialog-actions>

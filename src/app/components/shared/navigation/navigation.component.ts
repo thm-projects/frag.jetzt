@@ -23,8 +23,8 @@ import {
 import { TopicCloudFilterComponent } from '../_dialogs/topic-cloud-filter/topic-cloud-filter.component';
 import { Room } from '../../../models/room';
 import { LivepollSessionList } from '../../../models/livepoll-session-list';
-import { LivepollCreateComponent } from '../_dialogs/livepoll-create/livepoll-create.component';
 import { User } from '../../../models/user';
+import { LivepollService } from '../../../services/http/livepoll.service';
 
 interface LocationData {
   id: string;
@@ -199,7 +199,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
         this.sessionService.currentRoom,
         this.userManagementService.getCurrentUser(),
         this.sessionService.currentLivepoll),
-      navigate: (route) => LivepollCreateComponent.create(this.dialog),
+      navigate: (route) => this.livepollService.create(),
       isCurrentRoute: (route) => false
     },
     {
@@ -443,6 +443,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
     private location: Location,
     private eventService: EventService,
     public deviceInfo: DeviceInfoService,
+    public readonly livepollService: LivepollService
   ) {}
 
   ngOnInit(): void {
