@@ -4,6 +4,7 @@ import { QuestionWallComponent } from './questionwall/question-wall/question-wal
 import { UserRole } from '../../models/user-roles.enum';
 import { TagCloudComponent } from './tag-cloud/tag-cloud.component';
 import { AuthenticationGuard } from '../../guards/authentication.guard';
+import { GptChatComponent } from './gpt-chat/gpt-chat.component';
 
 const routes: Routes = [
   {
@@ -43,6 +44,19 @@ const routes: Routes = [
         UserRole.PARTICIPANT
       ],
       brainstorming: true
+    },
+    canActivate: [AuthenticationGuard],
+  },
+  {
+    path: 'room/:shortId/gpt-chat',
+    component: GptChatComponent,
+    data: {
+      roles: [
+        UserRole.CREATOR,
+        UserRole.EDITING_MODERATOR,
+        UserRole.EXECUTIVE_MODERATOR,
+        UserRole.PARTICIPANT
+      ],
     },
     canActivate: [AuthenticationGuard],
   }

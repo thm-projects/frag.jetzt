@@ -6,11 +6,14 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
+import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { GPTEncoder } from 'app/gpt-encoder/GPTEncoder';
+import { Room } from 'app/models/room';
 import { GptService, GPTStreamResult } from 'app/services/http/gpt.service';
 import { DeviceInfoService } from 'app/services/util/device-info.service';
 import { GptEncoderService } from 'app/services/util/gpt-encoder.service';
+import { SessionService } from 'app/services/util/session.service';
 import { KeyboardUtils } from 'app/utils/keyboard';
 import { KeyboardKey } from 'app/utils/keyboard/keys';
 import { finalize, Observer, ReplaySubject, Subject, takeUntil } from 'rxjs';
@@ -40,16 +43,23 @@ export class GptChatComponent implements OnInit, OnDestroy {
     promptTokens: '?' as string | number,
     allTokens: '?' as string | number,
   };
+  model: string = 'text-davinci-003';
   stopper = new Subject<boolean>();
+  private isAdmin = false;
   private destroyer = new ReplaySubject(1);
   private encoder: GPTEncoder = null;
+  private room: Room = null;
 
   constructor(
     private gptService: GptService,
     private translateService: TranslateService,
     private deviceInfo: DeviceInfoService,
     private gptEncoderService: GptEncoderService,
-  ) {}
+    private router: Router,
+    private sessionService: SessionService,
+  ) {
+    this.isAdmin = router.url.toLowerCase().startsWith('/admin/gpt-chat');
+  }
 
   ngOnInit(): void {
     this.loadConversation();
@@ -57,21 +67,12 @@ export class GptChatComponent implements OnInit, OnDestroy {
       .stream('gpt-chat.greetings')
       .pipe(takeUntil(this.destroyer))
       .subscribe((data) => (this.greetings = data));
-    this.gptService.getStatus().subscribe({
-      next: (data) => {
-        if (data.restricted) {
-          this.error = 'Restricted';
-          this.translateService
-            .get('gpt-chat.input-forbidden')
-            .subscribe((msg) => (this.error = msg));
-        }
-        this.isLoading = false;
-      },
-      error: (err) => {
-        console.error(err);
-        this.error = err;
-      },
-    });
+    if (this.isAdmin) {
+      this.initAdmin();
+    } else {
+      this.initNormal();
+      this.sendGPTContent = sessionStorage.getItem('temp-gpt-text') || '';
+    }
     this.gptEncoderService.getEncoderOnce().subscribe((e) => {
       this.encoder = e;
       this.calculateTokens();
@@ -84,6 +85,9 @@ export class GptChatComponent implements OnInit, OnDestroy {
   }
 
   formatText(text: string) {
+    if (this.model === 'code-davinci-002') {
+      return '``\n' + text + '\n``';
+    }
     return text.replace(/\n/g, '<br>');
   }
 
@@ -137,6 +141,8 @@ export class GptChatComponent implements OnInit, OnDestroy {
     this.gptService
       .requestStreamCompletion({
         prompt: this.generatePrompt(index),
+        roomId: this.room?.id || null,
+        model: this.model,
       })
       .pipe(
         takeUntil(this.stopper),
@@ -159,6 +165,8 @@ export class GptChatComponent implements OnInit, OnDestroy {
     this.gptService
       .requestCompletion({
         prompt: messages,
+        roomId: this.room?.id || null,
+        model: this.model,
       })
       .subscribe({
         next: (d) => {
@@ -185,10 +193,26 @@ export class GptChatComponent implements OnInit, OnDestroy {
     }
     this.isSending = true;
     this.renewIndex = -1;
-    this.addToConversation({
-      message: this.sendGPTContent,
-      type: 'human',
-    });
+    const lastType =
+      this.conversation[this.conversation.length - 1]?.type || 'error';
+    const hasContent = this.sendGPTContent.trim().length > 0;
+    if (lastType === 'human') {
+      if (hasContent) {
+        this.conversation.push({
+          message: '',
+          type: 'gpt',
+        });
+        this.addToConversation({
+          message: this.sendGPTContent,
+          type: 'human',
+        });
+      }
+    } else {
+      this.addToConversation({
+        message: this.sendGPTContent,
+        type: 'human',
+      });
+    }
     this.sendGPTContent = '';
     this.calculateTokens();
     const index = this.conversation.length;
@@ -199,12 +223,16 @@ export class GptChatComponent implements OnInit, OnDestroy {
     this.gptService
       .requestStreamCompletion({
         prompt: this.generatePrompt(index),
+        roomId: this.room?.id || null,
+        model: this.model,
       })
       .subscribe(this.generateObserver(index));
   }
 
   getError() {
-    return this.error instanceof String ? this.error : JSON.stringify(this.error);
+    return this.error instanceof String
+      ? this.error
+      : JSON.stringify(this.error);
   }
 
   sendWaitingGPTMessage() {
@@ -222,6 +250,8 @@ export class GptChatComponent implements OnInit, OnDestroy {
     this.gptService
       .requestCompletion({
         prompt: this.conversation.map((entry) => entry.message),
+        roomId: this.room?.id || null,
+        model: this.model,
       })
       .subscribe({
         next: (d) => {
@@ -243,6 +273,53 @@ export class GptChatComponent implements OnInit, OnDestroy {
           this.isSending = false;
         },
       });
+  }
+
+  private initAdmin() {
+    this.gptService.getStatus().subscribe({
+      next: (data) => {
+        if (data.restricted) {
+          this.error = 'Restricted';
+          this.translateService
+            .get('gpt-chat.input-forbidden')
+            .subscribe((msg) => (this.error = msg));
+        } else if (!data.apiKeyPresent) {
+          this.error = 'No API Key';
+          this.translateService
+            .get('gpt-chat.no-api-setup')
+            .subscribe((msg) => (this.error = msg));
+        }
+        this.isLoading = false;
+      },
+      error: (err) => {
+        console.error(err);
+        this.error = err;
+      },
+    });
+  }
+
+  private initNormal() {
+    this.sessionService.getRoomOnce().subscribe((r) => (this.room = r));
+    this.sessionService.getGPTStatusOnce().subscribe({
+      next: (data) => {
+        if (data.restricted) {
+          this.error = 'Restricted';
+          this.translateService
+            .get('gpt-chat.input-forbidden')
+            .subscribe((msg) => (this.error = msg));
+        } else if (!data.hasAPI) {
+          this.error = 'No API Key';
+          this.translateService
+            .get('gpt-chat.no-api-setup')
+            .subscribe((msg) => (this.error = msg));
+        }
+        this.isLoading = false;
+      },
+      error: (err) => {
+        console.error(err);
+        this.error = err;
+      },
+    });
   }
 
   private generatePrompt(length: number = this.conversation.length): string[] {
@@ -319,7 +396,7 @@ export class GptChatComponent implements OnInit, OnDestroy {
   private saveConversation() {
     sessionStorage.setItem(
       'gpt-conversation',
-      JSON.stringify(this.conversation.filter(e => e.type !== 'error')),
+      JSON.stringify(this.conversation.filter((e) => e.type !== 'error')),
     );
   }
 

@@ -121,6 +121,7 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
   qrDark = '#000000';
   qrLight = '#F0F8FF';
   activeKeyword = null;
+  canOpenGPT = false;
   private firstReceive = true;
   private _allQuestionNumberOptions: string[] = [];
   private _list: ComponentRef<any>[];
@@ -175,6 +176,9 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
       );
     });
     this._matcher = matchMedia('(min-width: 1320px)');
+    this.sessionService
+      .getGPTStatusOnce()
+      .subscribe((data) => (this.canOpenGPT = data.hasAPI && !data.restricted));
   }
 
   handlePageEvent(e: PageEvent) {
@@ -361,7 +365,9 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
     this.sortType = filter.sortType;
     this.sortReverse = filter.sortReverse;
     this.period = filter.period;
-    this.filterBrainstorming = filter.sourceFilterBrainstorming === BrainstormingFilter.OnlyBrainstorming;
+    this.filterBrainstorming =
+      filter.sourceFilterBrainstorming ===
+      BrainstormingFilter.OnlyBrainstorming;
     this.periodCounts = this._filterObject.getPeriodCounts();
     this.filterTypeCounts = this._filterObject.getFilterTypeCounts();
   }
@@ -662,11 +668,12 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private initNavigation(): void {
-    this.eventService.on<unknown>('save-comment-filter')
-    .pipe(takeUntil(this._destroySubject))
-    .subscribe(() => {
-      this._filterObject.dataFilter.save();
-    });
+    this.eventService
+      .on<unknown>('save-comment-filter')
+      .pipe(takeUntil(this._destroySubject))
+      .subscribe(() => {
+        this._filterObject.dataFilter.save();
+      });
     /* eslint-disable @typescript-eslint/no-shadow */
     this._list = this.composeService.builder(
       this.headerService.getHost(),

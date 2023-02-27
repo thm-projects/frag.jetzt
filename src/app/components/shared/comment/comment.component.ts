@@ -91,6 +91,7 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() indentationPossible = false;
   @Input() showResponses: boolean = false;
   @Input() activeKeywordSearchString: string = null;
+  @Input() canOpenGPT = false;
   @Output() clickedOnTag = new EventEmitter<string>();
   @Output() clickedOnKeyword = new EventEmitter<string>();
   @Output() clickedUserNumber = new EventEmitter<string>();
@@ -593,6 +594,15 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
     this.route.params.subscribe((params) => {
       url = `${this.roleString}/room/${params['shortId']}/comment/${this.comment.id}`;
     });
+    this.router.navigate([url]);
+  }
+
+  openGPT() {
+    let url: string;
+    this.route.params.subscribe((params) => {
+      url = `${this.roleString}/room/${params['shortId']}/gpt-chat`;
+    });
+    sessionStorage.setItem('temp-gpt-text', QuillUtils.getTextFromDelta(this.comment.body));
     this.router.navigate([url]);
   }
 
