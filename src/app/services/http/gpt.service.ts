@@ -38,6 +38,14 @@ const httpOptions = {
   }),
 };
 
+const httpOptionsPlainString = {
+  headers: new HttpHeaders({
+    'Content-Type': 'application/json',
+    Accept: 'application/json',
+  }),
+  responseType: 'text',
+} as const;
+
 interface GPTPrompt {
   roomId?: string;
   prompt: string[];
@@ -209,7 +217,7 @@ export class GptService extends BaseHttpService {
 
   getUserDescription(roomId: string): Observable<string> {
     const url = '/api/gpt/user-description/' + roomId;
-    return this.httpClient.get<string>(url, httpOptions).pipe(
+    return this.httpClient.get(url, httpOptionsPlainString).pipe(
       tap((_) => ''),
       catchError(this.handleError<string>('getUserDescription')),
     );
@@ -220,10 +228,12 @@ export class GptService extends BaseHttpService {
     description: string,
   ): Observable<string> {
     const url = '/api/gpt/user-description/' + roomId;
-    return this.httpClient.post<string>(url, { description }, httpOptions).pipe(
-      tap((_) => ''),
-      catchError(this.handleError<string>('updateUserDescription')),
-    );
+    return this.httpClient
+      .post(url, { description }, httpOptionsPlainString)
+      .pipe(
+        tap((_) => ''),
+        catchError(this.handleError<string>('updateUserDescription')),
+      );
   }
 
   activateTrial(roomId: string, trialCode: string): Observable<boolean> {
