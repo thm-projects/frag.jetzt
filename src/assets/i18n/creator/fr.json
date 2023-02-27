@@ -290,6 +290,7 @@
     "really-delete-answer": "Tu veux vraiment supprimer ta réponse ?",
     "reject": "Déplacer vers la modération",
     "reply-comment-button": "Écrire une réponse",
+    "reply-AI": "Laisser l'IA répondre",
     "save-answer": "Enregistrer",
     "search-box-input-description": "Ici, tu peux rechercher des questions.",
     "semicolon": "Format CSV (.csv)",
@@ -366,6 +367,51 @@
     "spacy": "## Mots-clés \n\nAu moyen du NLP (Natural Language Processing), ta question est analysée grammaticalement. Les substantifs reconnus sont transformés en leur forme de base, c'est-à-dire lemmatisés, et te sont proposés comme mots-clés. Pour l'analyse de texte, nous utilisons le logiciel libre NLP [spaCy](https://spacy.io/). \n\nLes mots-clés peuvent être utilisés pour filtrer la liste des questions ou pour créer un nuage de mots.",
     "topic-cloud": "## Radar à questions \n\n Si tu veux garder un œil sur toutes les questions, tu as besoin d'une sorte de « radar ». Notre radar localise les questions et les réponses à l'aide de leurs mots-clés : plus il y a de questions et de réponses qui se rapportent à un mot-clé, plus le mot-clé apparaît grand et central sur le radar.\n\n Le radar à questions te sert de **navigateur** : Si tu cliques sur un mot, tu accèderas aux questions et réponses liées à ce mot-clé. \n\n Les mots-clés sont déterminés en temps réel à l'aide d'une analyse grammaticale des noms ou ont été déterminés par l'auteur. \n\n Le calcul de la taille du texte prend en compte:\n\n* la différence entre les votes ascendants et descendants, si elle est positive,\n* le nombre de questions avec ce mot-clé,\n* le nombre d'auteurs de questions avec ce mot-clé,\n* le rôle : créateur de salle, modérateur ou participant,\n* si une catégorie de questions a été choisie,\n* si le mot-clé a été généré ou attribué,\n* si la question a reçu une réponse,\n* la controversité de la question. \n\nTu peux personnaliser la visualisation à ton goût.  Dans le rôle de créateur ou de modérateur de salle, tu peux expérimenter avec les paramètres de la génération de mots-clés pour améliorer la **sélectivité sémantique**.",
     "user-bonus": "## Bonus \n\nL'enseignant peut marquer les « bonnes » questions avec un bonus. Tes questions de tous les cours (salles) qui ont reçu une étoile sont listées ici.\n\nSelon l'accord, tu peux envoyer le code bonus par e-mail à l'enseignant pour l'échanger contre un bonus."
+  },
+  "gpt-chat": {
+    "enter-conversation-text": "Parle à GPT",
+    "send": "Envoyer",
+    "empty-conversation": "Vider l'historique",
+    "input-forbidden": "Saisie interdite, veuillez vérifier les paramètres de l'API GPT.",
+    "no-api-setup": "La clé d'API ou le modèle de langage n'a pas été défini.",
+    "greetings": {
+      "text-davinci-003": [
+        {
+          "key": "École primaire",
+          "value": "Tu es dans la salle de chat appelée \"Français\" et le sujet est la poésie. Explique la question suivante au niveau d'un élève d'une école primaire.\nElève : Qu'est-ce que les haïkus?\nTu : "
+        },
+        {
+          "key": "École secondaire",
+          "value": "Tu es dans la salle de chat appelée \"Histoire\" et le sujet est les années folles. Explique, au niveau d'un élève de terminale, la question suivante.\nElève : Que dit le plan Dawes?\nTu : "
+        },
+        {
+          "key": "Université",
+          "value": "Tu es dans la salle de chat appelée \"Algorithmes et structures de données\" et le sujet est les structures de données simples. Explique la question suivante au niveau d'un étudiant en informatique de deuxième année.\nEtudiant : Y a-t-il un gain de performance si l'on combine une liste liée et une liste de tableaux ? Il serait en effet imaginable de pouvoir lier des tableaux, ou est-ce que je me trompe?\nTu : "
+        }
+      ],
+      "code-davinci-002": [
+        {
+          "key": "Web",
+          "value": "<|endoftext|>/* I start with a blank HTML page, and incrementally modify it via <script> injection. Written for Chrome. */\n/* Command: Add \"Hello World\", by adding an HTML DOM node */\nvar helloWorld = document.createElement('div');\nhelloWorld.innerHTML = 'Hello World';\ndocument.body.appendChild(helloWorld);\n/* Command: Clear the page. */\nwhile (document.body.firstChild) {\n  document.body.removeChild(document.body.firstChild);\n}\n\n/* Command: Display this image of a cat: https://bit.ly/3fsc0rH */\n"
+        }
+      ],
+      "davinci-instruct-beta:2.0.0": [
+        {
+          "key": "Smalltalk",
+          "value": "Cette matière est démotivante. As-tu des astuces pour encourager et être plus actif ?"
+        }
+      ]
+    },
+    "refresh": "Générer à nouveau la sortie",
+    "token-info": "Tokens (saisie/conversation/total) : {{promptTokens}}/{{conversationTokens}}/{{allTokens}}",
+    "use-case": "Cas d'utilisation",
+    "use-case-tooltip": "Sélection d'un cas d'utilisation spécifique pour de meilleures réponses.",
+    "use-case-answer-questions": "Réponse aux questions",
+    "use-case-tooltip-answer-questions": "Très efficace si de bonnes questions ou tâches (par ex. traduction et résumé) sont posées. Fournit généralement les meilleures réponses textuelles.",
+    "use-case-code": "Compréhension du code & génération",
+    "use-case-tooltip-code": "Très bon dans le domaine de la compréhension et de la génération de code. A un contexte plus large que les modèles de langage.",
+    "use-case-chat": "Chat/Conversations",
+    "use-case-tooltip-chat": "Efficace pour les questions ouvertes, où des demandes de précisions sont nécessaires. N'offre pas de résultats aussi précis que les réponses aux questions."
   },
   "header": {
     "overview-keywords-tooltip": "Nombre de mots-clés",

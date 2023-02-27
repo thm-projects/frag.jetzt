@@ -96,21 +96,44 @@
     "send": "Send",
     "empty-conversation": "Clear history",
     "input-forbidden": "Input forbidden, please check the GPT API settings.",
-    "greetings": [
-      {
-        "key": "Elementary school",
-        "value": "You are in the chat room called \"English\" and the topic is poetry. Explain the following question at the level of an elementary school student.\nStudent: What are haikus?\nYou: "
-      },
-      {
-        "key": "High school",
-        "value": "You are in the chat room called \"History\" and the topic is the golden twenties. Explain the following question at the level of a high school student.\nStudent: What does the Dawes Plan say?\nYou: "
-      },
-      {
-        "key": "University",
-        "value": "You are in the chat room called \"Algorithms and Data Structures\" and the topic is simple data structures. Explain at the level of a 2nd semester computer science student the following question.\nStudent: Is there a performance gain when you combine a linked list and an array list? Surely it would be conceivable to link arrays, or am I wrong there?\nYou: "
-      }
-    ],
+    "no-api-setup": "The API key or language model was not set.",
+    "greetings": {
+      "text-davinci-003": [
+        {
+          "key": "Elementary school",
+          "value": "You are in the chat room called \"English\" and the topic is poetry. Explain the following question at the level of an elementary school student.\nStudent: What are haikus?\nYou: "
+        },
+        {
+          "key": "High school",
+          "value": "You are in the chat room called \"History\" and the topic is the golden twenties. Explain the following question at the level of a high school student.\nStudent: What does the Dawes Plan say?\nYou: "
+        },
+        {
+          "key": "University",
+          "value": "You are in the chat room called \"Algorithms and Data Structures\" and the topic is simple data structures. Explain at the level of a 2nd semester computer science student the following question.\nStudent: Is there a performance gain when you combine a linked list and an array list? Surely it would be conceivable to link arrays, or am I wrong there?\nYou: "
+        }
+      ],
+      "code-davinci-002": [
+        {
+          "key": "Web",
+          "value": "<|endoftext|>/* I start with a blank HTML page, and incrementally modify it via <script> injection. Written for Chrome. */\n/* Command: Add \"Hello World\", by adding an HTML DOM node */\nvar helloWorld = document.createElement('div');\nhelloWorld.innerHTML = 'Hello World';\ndocument.body.appendChild(helloWorld);\n/* Command: Clear the page. */\nwhile (document.body.firstChild) {\n  document.body.removeChild(document.body.firstChild);\n}\n\n/* Command: Display this image of a cat: https://bit.ly/3fsc0rH */\n"
+        }
+      ],
+      "davinci-instruct-beta:2.0.0": [
+        {
+          "key": "Smalltalk",
+          "value": "The subject is demotivating. Do you have any tricks to cheer up and get more active?"
+        }
+      ]
+    },
     "refresh": "Generate output again",
-    "token-info": "Tokens (input / chat / total): {{promptTokens}} / {{conversationTokens}} / {{allTokens}}"
+    "token-info": "Tokens (input / chat / total): {{promptTokens}} / {{conversationTokens}} / {{allTokens}}",
+    "use-case": "Use case",
+    "use-case-tooltip": "Selecting a specific use case for better answers.",
+    "use-case-answer-questions": "Answering questions",
+    "use-case-tooltip-answer-questions": "Very effective when given good questions or tasks (e.g. translation and summary). Usually provides the best text answers.",
+    "use-case-code": "Code Understanding & Generation",
+    "use-case-tooltip-code": "Very good at code understanding and generation. Has a wider context than language models.",
+    "use-case-chat": "Chat/Conversations",
+    "use-case-tooltip-chat": "Effective for open-ended questions where follow-up questions are needed. Does not provide as accurate results as answering questions."
   }
 }

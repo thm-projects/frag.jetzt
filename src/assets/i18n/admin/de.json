@@ -97,21 +97,44 @@
     "send": "Senden",
     "empty-conversation": "Verlauf leeren",
     "input-forbidden": "Eingabe verboten, bitte prüfe die GPT API Einstellungen.",
-    "greetings": [
-      {
-        "key": "Grundschule",
-        "value": "Du bist im Chat-Raum namens \"Deutsch\" und es geht um das Thema Gedichte. Erkläre auf dem Niveau eines Schülers einer Grundschule folgende Frage.\nSchüler: Was sind Haikus?\nDu: "
-      },
-      {
-        "key": "Gymnasium",
-        "value": "Du bist im Chat-Raum namens \"Geschichte\" und es geht um das Thema der goldenen Zwanziger. Erkläre auf dem Niveau eines Abitur-Schülers folgende Frage.\nSchüler: Was besagt der Dawes-Plan?\nDu: "
-      },
-      {
-        "key": "Hochschule",
-        "value": "Du bist im Chat-Raum namens \"Algorithmen und Datenstrukturen\" und es geht um das Thema simple Datenstrukturen. Erkläre auf dem Niveau eines Informatik-Studenten im 2. Semester folgende Frage.\nStudent: Gibt es ein Performance-Gewinn, wenn man eine verlinkte Liste und eine Array Liste kombiniert? Es wäre doch vorstellbar, dass man Arrays verlinken könnte, oder liege ich dort falsch?\nDu: "
-      }
-    ],
+    "no-api-setup": "Der API Schlüssel oder das Sprachmodell wurden nicht gesetzt.",
+    "greetings": {
+      "text-davinci-003": [
+        {
+          "key": "Grundschule",
+          "value": "Du bist im Chat-Raum namens \"Deutsch\" und es geht um das Thema Gedichte. Erkläre auf dem Niveau eines Schülers einer Grundschule folgende Frage.\nSchüler: Was sind Haikus?\nDu: "
+        },
+        {
+          "key": "Gymnasium",
+          "value": "Du bist im Chat-Raum namens \"Geschichte\" und es geht um das Thema der goldenen Zwanziger. Erkläre auf dem Niveau eines Abitur-Schülers folgende Frage.\nSchüler: Was besagt der Dawes-Plan?\nDu: "
+        },
+        {
+          "key": "Hochschule",
+          "value": "Du bist im Chat-Raum namens \"Algorithmen und Datenstrukturen\" und es geht um das Thema simple Datenstrukturen. Erkläre auf dem Niveau eines Informatik-Studenten im 2. Semester folgende Frage.\nStudent: Gibt es ein Performance-Gewinn, wenn man eine verlinkte Liste und eine Array Liste kombiniert? Es wäre doch vorstellbar, dass man Arrays verlinken könnte, oder liege ich dort falsch?\nDu: "
+        }
+      ],
+      "code-davinci-002": [
+        {
+          "key": "Web",
+          "value": "<|endoftext|>/* I start with a blank HTML page, and incrementally modify it via <script> injection. Written for Chrome. */\n/* Command: Add \"Hello World\", by adding an HTML DOM node */\nvar helloWorld = document.createElement('div');\nhelloWorld.innerHTML = 'Hello World';\ndocument.body.appendChild(helloWorld);\n/* Command: Clear the page. */\nwhile (document.body.firstChild) {\n  document.body.removeChild(document.body.firstChild);\n}\n\n/* Command: Display this image of a cat: https://bit.ly/3fsc0rH */\n"
+        }
+      ],
+      "davinci-instruct-beta:2.0.0": [
+        {
+          "key": "Smalltalk",
+          "value": "Das Fach ist demotivierend. Hast du Tricks zum aufmuntern und aktiver werden?"
+        }
+      ]
+    },
     "refresh": "Ausgabe erneut generieren",
-    "token-info": "Tokens (Eingabe / Chat / Gesamt): {{promptTokens}} / {{conversationTokens}} / {{allTokens}}"
+    "token-info": "Tokens (Eingabe / Chat / Gesamt): {{promptTokens}} / {{conversationTokens}} / {{allTokens}}",
+    "use-case": "Anwendungsfall",
+    "use-case-tooltip": "Auswahl eines speziellen Anwendungsfalles für bessere Antworten.",
+    "use-case-answer-questions": "Beantwortung von Fragen",
+    "use-case-tooltip-answer-questions": "Sehr effektiv, wenn gute Fragen oder Aufgaben (z. B. Übersetzung und Zusammenfassung) gestellt werden. Liefert meist die besten Text-Antworten.",
+    "use-case-code": "Code-Verständnis & Generierung",
+    "use-case-tooltip-code": "Sehr gut im Bereich von Code-Verständnis und Generierung. Hat einen größeren Kontext als Sprachmodelle.",
+    "use-case-chat": "Chat/Konversationen",
+    "use-case-tooltip-chat": "Effektiv für offene Fragen, wo nachfragen benötigt werden. Bietet nicht so genaue Ergebnisse, wie die Beantwortung von Fragen."
   }
 }
