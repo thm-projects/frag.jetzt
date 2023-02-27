@@ -57,7 +57,6 @@ const routes: Routes = [
         UserRole.EXECUTIVE_MODERATOR,
         UserRole.PARTICIPANT
       ],
-      brainstorming: true
     },
     canActivate: [AuthenticationGuard],
   }
