@@ -46,14 +46,14 @@
         mat-flat-button
         tabindex="0"
         [matTooltip]="'header.livepoll-button' | translate"
-        *ngIf="navigationAccess.livepoll(router.url, room, sessionService.currentLivepoll)
-              && deviceInfo.isCurrentlyDesktop">
+        (click)="openLivepollDialog()"
+        *ngIf="navigationAccess.livepoll(router.url, room, user, sessionService.currentLivepoll)">
         <mat-icon
-          class="material-icons"
-          style="transform: scale(1.2); margin-right: 5px">
+          class="material-icons header-icons material-icons-outlined"
+          style="transform: scale(1.2); margin-right: 5px;">
           quiz
         </mat-icon>
-        <span>{{ "header.livepoll" | translate }}</span>
+        <span *ngIf="deviceInfo.isCurrentlyDesktop">{{ "header.livepoll" | translate }}</span>
       </button>
 
       <button

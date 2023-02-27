@@ -2,7 +2,7 @@
   "overview": {
     "motd": "Annonces globales",
     "gpt": "Paramètres GPT",
-    "gpt-chat": "Parle à GPT"
+    "gpt-chat": "Chat avec GPT"
   },
   "create-motd": {
     "create": "Créer",
@@ -92,7 +92,7 @@
     "trial-code": "Code d'activation de l'étude"
   },
   "gpt-chat": {
-    "enter-conversation-text": "Parle à GPT",
+    "enter-conversation-text": "Chat avec GPT …",
     "send": "Envoyer",
     "empty-conversation": "Vider l'historique",
     "input-forbidden": "Saisie interdite, veuillez vérifier les paramètres de l'API GPT.",
@@ -126,7 +126,7 @@
       ]
     },
     "refresh": "Générer à nouveau la sortie",
-    "token-info": "Tokens (saisie/conversation/total) : {{promptTokens}}/{{conversationTokens}}/{{allTokens}}",
+    "token-info": "Tokens (saisie / conversation / total) : {{promptTokens}} / {{conversationTokens}} / {{allTokens}}",
     "use-case": "Cas d'utilisation",
     "use-case-tooltip": "Sélection d'un cas d'utilisation spécifique pour de meilleures réponses.",
     "use-case-answer-questions": "Réponse aux questions",

@@ -180,6 +180,7 @@ import { BrainstormingDeleteConfirmComponent } from './_dialogs/brainstorming-de
 import { FullscreenImageDialogComponent } from './_dialogs/fullscreen-image-dialog/fullscreen-image-dialog.component';
 import { NavigationComponent } from './navigation/navigation.component';
 import { QuestionWallComponent } from './questionwall/question-wall/question-wall.component';
+import { LivepollCreateComponent } from './_dialogs/livepoll-create/livepoll-create.component';
 import { GptRoomSettingsComponent } from './_dialogs/gpt-room-settings/gpt-room-settings.component';
 import { GptChatComponent } from './gpt-chat/gpt-chat.component';
 
@@ -299,6 +300,7 @@ import { GptChatComponent } from './gpt-chat/gpt-chat.component';
     FullscreenImageDialogComponent,
     NavigationComponent,
     QuestionWallComponent,
+    LivepollCreateComponent,
     GptRoomSettingsComponent,
     GptChatComponent,
   ],
