@@ -25,6 +25,8 @@ import { BrainstormingCategory } from 'app/models/brainstorming-category';
 import { BrainstormingService } from '../http/brainstorming.service';
 import { BrainstormingSession } from 'app/models/brainstorming-session';
 import { LivepollSessionList } from '../../models/livepoll-session-list';
+import { GptService } from '../http/gpt.service';
+import { GPTRoomStatus } from 'app/models/gpt-status';
 
 @Injectable({
   providedIn: 'root',
@@ -36,7 +38,11 @@ export class SessionService {
   private readonly _currentBrainstormingCategories = new BehaviorSubject<
     BrainstormingCategory[]
   >(null);
-  private readonly _livepoll_mock: LivepollSessionList = new LivepollSessionList([]);
+  private readonly _currentGPTRoomStatus = new BehaviorSubject<GPTRoomStatus>(
+    null,
+  );
+  private readonly _livepoll_mock: LivepollSessionList =
+    new LivepollSessionList([]);
   private _beforeRoomUpdates: Subject<Partial<Room>>;
   private _afterRoomUpdates: Subject<Room>;
   private _roomSubscription: Subscription;
@@ -54,6 +60,7 @@ export class SessionService {
     private userManagementService: UserManagementService,
     private wsConnectorService: WsConnectorService,
     private brainstormingService: BrainstormingService,
+    private gptService: GptService,
   ) {}
 
   get currentLivepoll(): LivepollSessionList {
@@ -153,6 +160,13 @@ export class SessionService {
   getCategoriesOnce(): Observable<BrainstormingCategory[]> {
     return this._currentBrainstormingCategories.pipe(
       filter((v) => !!v),
+      take(1),
+    );
+  }
+
+  getGPTStatusOnce(): Observable<GPTRoomStatus> {
+    return this._currentGPTRoomStatus.pipe(
+      filter((v) => Boolean(v)),
       take(1),
     );
   }
@@ -301,6 +315,9 @@ export class SessionService {
     if (this._currentModerators.value) {
       this._currentModerators.next(null);
     }
+    if (this._currentGPTRoomStatus.value) {
+      this._currentGPTRoomStatus.next(null);
+    }
     if (this._currentBrainstormingCategories.value) {
       this._currentBrainstormingCategories.next(null);
     }
@@ -346,6 +363,9 @@ export class SessionService {
         .getRoomStream(room.id)
         .subscribe((msg) => this.receiveMessage(msg, room));
       this._currentRoom.next(room);
+      this.gptService
+        .getStatusForRoom(room.id)
+        .subscribe((roomStatus) => this._currentGPTRoomStatus.next(roomStatus));
       this.moderatorService
         .get(room.id)
         .subscribe((moderators) => this._currentModerators.next(moderators));

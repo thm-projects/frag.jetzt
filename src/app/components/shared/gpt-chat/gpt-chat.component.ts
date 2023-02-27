@@ -16,7 +16,7 @@ import { GptEncoderService } from 'app/services/util/gpt-encoder.service';
 import { SessionService } from 'app/services/util/session.service';
 import { KeyboardUtils } from 'app/utils/keyboard';
 import { KeyboardKey } from 'app/utils/keyboard/keys';
-import { finalize, Observer, ReplaySubject, Subject, switchMap, takeUntil } from 'rxjs';
+import { finalize, Observer, ReplaySubject, Subject, takeUntil } from 'rxjs';
 
 interface ConversationEntry {
   type: 'human' | 'gpt' | 'error';
@@ -43,6 +43,7 @@ export class GptChatComponent implements OnInit, OnDestroy {
     promptTokens: '?' as string | number,
     allTokens: '?' as string | number,
   };
+  model: string = 'text-davinci-003';
   stopper = new Subject<boolean>();
   private isAdmin = false;
   private destroyer = new ReplaySubject(1);
@@ -66,11 +67,12 @@ export class GptChatComponent implements OnInit, OnDestroy {
       .stream('gpt-chat.greetings')
       .pipe(takeUntil(this.destroyer))
       .subscribe((data) => (this.greetings = data));
-      if(this.isAdmin) {
-        this.initAdmin();
-      }else{
-        this.initNormal();
-      }
+    if (this.isAdmin) {
+      this.initAdmin();
+    } else {
+      this.initNormal();
+      this.sendGPTContent = sessionStorage.getItem('temp-gpt-text') || '';
+    }
     this.gptEncoderService.getEncoderOnce().subscribe((e) => {
       this.encoder = e;
       this.calculateTokens();
@@ -83,6 +85,9 @@ export class GptChatComponent implements OnInit, OnDestroy {
   }
 
   formatText(text: string) {
+    if (this.model === 'code-davinci-002') {
+      return '``\n' + text + '\n``';
+    }
     return text.replace(/\n/g, '<br>');
   }
 
@@ -136,7 +141,8 @@ export class GptChatComponent implements OnInit, OnDestroy {
     this.gptService
       .requestStreamCompletion({
         prompt: this.generatePrompt(index),
-        roomId: this.room.id || null,
+        roomId: this.room?.id || null,
+        model: this.model,
       })
       .pipe(
         takeUntil(this.stopper),
@@ -159,7 +165,8 @@ export class GptChatComponent implements OnInit, OnDestroy {
     this.gptService
       .requestCompletion({
         prompt: messages,
-        roomId: this.room.id || null,
+        roomId: this.room?.id || null,
+        model: this.model,
       })
       .subscribe({
         next: (d) => {
@@ -186,10 +193,26 @@ export class GptChatComponent implements OnInit, OnDestroy {
     }
     this.isSending = true;
     this.renewIndex = -1;
-    this.addToConversation({
-      message: this.sendGPTContent,
-      type: 'human',
-    });
+    const lastType =
+      this.conversation[this.conversation.length - 1]?.type || 'error';
+    const hasContent = this.sendGPTContent.trim().length > 0;
+    if (lastType === 'human') {
+      if (hasContent) {
+        this.conversation.push({
+          message: '',
+          type: 'gpt',
+        });
+        this.addToConversation({
+          message: this.sendGPTContent,
+          type: 'human',
+        });
+      }
+    } else {
+      this.addToConversation({
+        message: this.sendGPTContent,
+        type: 'human',
+      });
+    }
     this.sendGPTContent = '';
     this.calculateTokens();
     const index = this.conversation.length;
@@ -200,13 +223,16 @@ export class GptChatComponent implements OnInit, OnDestroy {
     this.gptService
       .requestStreamCompletion({
         prompt: this.generatePrompt(index),
-        roomId: this.room.id || null,
+        roomId: this.room?.id || null,
+        model: this.model,
       })
       .subscribe(this.generateObserver(index));
   }
 
   getError() {
-    return this.error instanceof String ? this.error : JSON.stringify(this.error);
+    return this.error instanceof String
+      ? this.error
+      : JSON.stringify(this.error);
   }
 
   sendWaitingGPTMessage() {
@@ -224,7 +250,8 @@ export class GptChatComponent implements OnInit, OnDestroy {
     this.gptService
       .requestCompletion({
         prompt: this.conversation.map((entry) => entry.message),
-        roomId: this.room.id || null,
+        roomId: this.room?.id || null,
+        model: this.model,
       })
       .subscribe({
         next: (d) => {
@@ -256,8 +283,8 @@ export class GptChatComponent implements OnInit, OnDestroy {
           this.translateService
             .get('gpt-chat.input-forbidden')
             .subscribe((msg) => (this.error = msg));
-        } else if(!data.apiKeyPresent || !data.modelPresent) {
-          this.error = 'No API Key or model';
+        } else if (!data.apiKeyPresent) {
+          this.error = 'No API Key';
           this.translateService
             .get('gpt-chat.no-api-setup')
             .subscribe((msg) => (this.error = msg));
@@ -272,20 +299,16 @@ export class GptChatComponent implements OnInit, OnDestroy {
   }
 
   private initNormal() {
-    this.sessionService.getRoomOnce()
-    .pipe(switchMap(room => {
-      this.room = room;
-      return this.gptService.getStatusForRoom(this.room.id);
-    }))
-    .subscribe({
+    this.sessionService.getRoomOnce().subscribe((r) => (this.room = r));
+    this.sessionService.getGPTStatusOnce().subscribe({
       next: (data) => {
         if (data.restricted) {
           this.error = 'Restricted';
           this.translateService
             .get('gpt-chat.input-forbidden')
             .subscribe((msg) => (this.error = msg));
-        } else if(!data.hasAPI) {
-          this.error = 'No API Key or model';
+        } else if (!data.hasAPI) {
+          this.error = 'No API Key';
           this.translateService
             .get('gpt-chat.no-api-setup')
             .subscribe((msg) => (this.error = msg));
@@ -373,7 +396,7 @@ export class GptChatComponent implements OnInit, OnDestroy {
   private saveConversation() {
     sessionStorage.setItem(
       'gpt-conversation',
-      JSON.stringify(this.conversation.filter(e => e.type !== 'error')),
+      JSON.stringify(this.conversation.filter((e) => e.type !== 'error')),
     );
   }
 

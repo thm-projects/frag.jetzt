@@ -424,6 +424,7 @@
     [commentsWrittenByUser]="commentsWrittenByUsers.get(current.creatorId).size"
     [indentationPossible]="true"
     [activeKeywordSearchString]="activeKeyword"
+    [canOpenGPT]="canOpenGPT"
     (editQuestionEmitter)="editQuestion(current)"
     (clickedOnTag)="applyFilterByKey('Tag', $event)"
     (clickedUserNumber)="applyFilterByKey('CreatorId', $event)"

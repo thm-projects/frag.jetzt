@@ -4,7 +4,7 @@
     *ngIf="!isLoading; else loading">
     <mat-chip-list *ngIf="conversation.length < 1">
       <mat-chip
-        *ngFor="let greeting of greetings"
+        *ngFor="let greeting of greetings[model]"
         (click)="sendGPTContent = greeting.value; autoGrow(autoGrowElement)">
         {{ greeting.key }}
       </mat-chip>
@@ -37,6 +37,31 @@
         <mat-icon class="material-icons-outlined">cancel</mat-icon>
       </button>
     </div>
+
+    <mat-form-field>
+      <mat-label>{{ "gpt-chat.use-case" | translate }}</mat-label>
+      <mat-select
+        [(value)]="model"
+        [matTooltip]="'gpt-chat.use-case-tooltip' | translate">
+        <mat-option
+          value="text-davinci-003"
+          [matTooltip]="
+            'gpt-chat.use-case-tooltip-answer-questions' | translate
+          ">
+          {{ "gpt-chat.use-case-answer-questions" | translate }}
+        </mat-option>
+        <mat-option
+          value="code-davinci-002"
+          [matTooltip]="'gpt-chat.use-case-tooltip-code' | translate">
+          {{ "gpt-chat.use-case-code" | translate }}
+        </mat-option>
+        <mat-option
+          value="davinci-instruct-beta:2.0.0"
+          [matTooltip]="'gpt-chat.use-case-tooltip-chat' | translate">
+          {{ "gpt-chat.use-case-chat" | translate }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
 
     <mat-form-field>
       <mat-label>
