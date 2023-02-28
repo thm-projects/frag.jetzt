@@ -764,10 +764,5 @@
     "a11y-questioner-name": "Hier kannst du, wenn du willst, deinen Namen eingeben. Dieser ist für alle an diesem Kommentar sichtbar.",
     "name-length-error": "Der Name muss {{min}} bis {{max}} Zeichen lang sein.",
     "questioner-name": "Dein Name, wenn du willst …"
-  },
-  "pseudonym-editor": {
-    "name": "Wird beim Posten verwendet …",
-    "title": "Mein Forumsname",
-    "deepl": "Duzen oder Siezen?"
   }
 }

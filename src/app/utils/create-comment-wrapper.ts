@@ -20,42 +20,54 @@ export class CreateCommentWrapper {
     private commentService: CommentService,
     private dialog: MatDialog,
     private room: Room,
-  ) {
-  }
+  ) {}
 
-  openCreateDialog(user: User, userRole: UserRole, brainstormingData: BrainstormingSession = undefined): Observable<Comment> {
+  openCreateDialog(
+    user: User,
+    userRole: UserRole,
+    brainstormingData: BrainstormingSession = undefined,
+  ): Observable<Comment> {
     const dialogRef = this.dialog.open(CreateCommentComponent, {
-      width: '900px',
+      width: '650px',
       maxWidth: '100%',
       maxHeight: 'calc( 100vh - 20px )',
       autoFocus: false,
     });
     dialogRef.componentInstance.userRole = userRole;
-    dialogRef.componentInstance.tags = (!brainstormingData && this.room.tags) || [];
+    dialogRef.componentInstance.tags =
+      (!brainstormingData && this.room.tags) || [];
     dialogRef.componentInstance.brainstormingData = brainstormingData;
-    return dialogRef.afterClosed().pipe(
-      mergeMap((comment: Comment) => comment ? this.send(comment) : of<Comment>(null))
-    );
+    return dialogRef
+      .afterClosed()
+      .pipe(
+        mergeMap((comment: Comment) =>
+          comment ? this.send(comment) : of<Comment>(null),
+        ),
+      );
   }
 
   send(comment: Comment): Observable<Comment> {
     let message;
     const config: MatSnackBarConfig = {
-      panelClass: ['snackbar']
+      panelClass: ['snackbar'],
     };
     if (this.room.directSend) {
-      this.translateService.get('comment-list.comment-sent').subscribe(msg => {
-        message = msg;
-      });
+      this.translateService
+        .get('comment-list.comment-sent')
+        .subscribe((msg) => {
+          message = msg;
+        });
       comment.ack = true;
     } else {
-      this.translateService.get('comment-list.comment-sent-to-moderator').subscribe(msg => {
-        message = msg;
-        (config.panelClass as string[]).push('important');
-      });
+      this.translateService
+        .get('comment-list.comment-sent-to-moderator')
+        .subscribe((msg) => {
+          message = msg;
+          (config.panelClass as string[]).push('important');
+        });
     }
-    return this.commentService.addComment(comment).pipe(
-      tap(() => this.notificationService.show(message, null, config))
-    );
+    return this.commentService
+      .addComment(comment)
+      .pipe(tap(() => this.notificationService.show(message, null, config)));
   }
 }

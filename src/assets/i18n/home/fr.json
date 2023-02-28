@@ -273,6 +273,8 @@
     "regular-user-view": "Vue des participants",
     "room-qr": "Code QR",
     "room-presets": "Mon nom de forum",
+    "gpt-user-description": "Description personnelle pour GPT",
+    "my-profile": "Mon profil",
     "session-id-copied": "Le lien direct pour les participants a été copié dans le cache du navigateur.",
     "sure": "Tu en es sûr ?",
     "tag-cloud": "Radar à questions",
@@ -723,5 +725,26 @@
     "inline-header": "Mises à jour des mots-clés en cours",
     "room-name": "Salle",
     "running": "Mots clés …"
+  },
+  "pseudonym-editor": {
+    "name": "Utilisé lors de la post …",
+    "title": "Mon nom de forum",
+    "deepl": "Tutoyer ou vouvoyer ?",
+    "update": "Enregistrer",
+    "cancel": "Annuler"
+  },
+  "gpt-user-description": {
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "title": "Description personnelle pour GPT",
+    "user-description": "Description personnelle",
+    "token-info": "{{tokens}} / {{maxLength}} Tokens"
+  },
+  "deepl-formality-select": {
+    "default": "Préréglage",
+    "error": "Le texte n'a pas pu être mis à jour.",
+    "less": "Informel",
+    "more": "Formel",
+    "name": "Style"
   }
 }

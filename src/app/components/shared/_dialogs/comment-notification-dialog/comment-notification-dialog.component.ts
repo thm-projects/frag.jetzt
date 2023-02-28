@@ -16,21 +16,28 @@ enum WeekDay {
   Thursday,
   Friday,
   Saturday,
-  Sunday
+  Sunday,
 }
 
 @Component({
   selector: 'app-comment-notification-dialog',
   templateUrl: './comment-notification-dialog.component.html',
-  styleUrls: ['./comment-notification-dialog.component.scss']
+  styleUrls: ['./comment-notification-dialog.component.scss'],
 })
 export class CommentNotificationDialogComponent implements OnInit, OnDestroy {
-
   @Input() room: Room;
   date: Date;
   currentIndex = 0;
   isLoading = true;
-  private notifications: [Date, string][] = [null, null, null, null, null, null, null];
+  private notifications: [Date, string][] = [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+  ];
   private lastSetting: string;
   private settingInactive: string;
   private _destroyer = new ReplaySubject(1);
@@ -43,18 +50,24 @@ export class CommentNotificationDialogComponent implements OnInit, OnDestroy {
     private notificationService: NotificationService,
     private userManagementService: UserManagementService,
   ) {
-    this.languageService.getLanguage().pipe(takeUntil(this._destroyer)).subscribe(_ => {
-      this.translateService.get('comment-notification.last-setting')
-        .subscribe(text => this.lastSetting = text);
-      this.translateService.get('comment-notification.setting-inactive')
-        .subscribe(text => this.settingInactive = text);
-    });
+    this.languageService
+      .getLanguage()
+      .pipe(takeUntil(this._destroyer))
+      .subscribe((_) => {
+        this.translateService
+          .get('comment-notification.last-setting')
+          .subscribe((text) => (this.lastSetting = text));
+        this.translateService
+          .get('comment-notification.setting-inactive')
+          .subscribe((text) => (this.settingInactive = text));
+      });
   }
 
-  static openDialog(dialog: MatDialog, room: Room): MatDialogRef<CommentNotificationDialogComponent> {
-    const dialogRef = dialog.open(CommentNotificationDialogComponent, {
-      minWidth: '80%'
-    });
+  static openDialog(
+    dialog: MatDialog,
+    room: Room,
+  ): MatDialogRef<CommentNotificationDialogComponent> {
+    const dialogRef = dialog.open(CommentNotificationDialogComponent);
     dialogRef.componentInstance.room = room;
     return dialogRef;
   }
@@ -76,7 +89,9 @@ export class CommentNotificationDialogComponent implements OnInit, OnDestroy {
     const date = this.notifications[this.currentIndex]?.[0];
     let str = this.settingInactive;
     if (date) {
-      str = date.getHours().toString().padStart(2, '0') + ':' +
+      str =
+        date.getHours().toString().padStart(2, '0') +
+        ':' +
         date.getMinutes().toString().padStart(2, '0');
     }
     return this.lastSetting.replace('%s', str);
@@ -87,7 +102,9 @@ export class CommentNotificationDialogComponent implements OnInit, OnDestroy {
     this.date = this.notifications[weekDay]?.[0];
     if (!this.date) {
       this.date = new Date();
-      this.date.setUTCDate(this.date.getUTCDate() + weekDay - this.date.getUTCDay());
+      this.date.setUTCDate(
+        this.date.getUTCDate() + weekDay - this.date.getUTCDay(),
+      );
       this.date.setHours(0, 0, 0, 0);
     }
   }
@@ -96,11 +113,13 @@ export class CommentNotificationDialogComponent implements OnInit, OnDestroy {
     if (!this.userManagementService.getCurrentUser()?.loginId) {
       return;
     }
-    this.commentNotificationService.findByRoomId(this.room.id).subscribe(settings => {
-      settings.forEach(not => this.setNotification(not));
-      this.isLoading = false;
-      this.updateDateTo(WeekDay.Monday);
-    });
+    this.commentNotificationService
+      .findByRoomId(this.room.id)
+      .subscribe((settings) => {
+        settings.forEach((not) => this.setNotification(not));
+        this.isLoading = false;
+        this.updateDateTo(WeekDay.Monday);
+      });
   }
 
   ngOnDestroy() {
@@ -109,14 +128,17 @@ export class CommentNotificationDialogComponent implements OnInit, OnDestroy {
   }
 
   confirm() {
-    const notificationSetting = (this.date.getUTCDay() << 11) |
+    const notificationSetting =
+      (this.date.getUTCDay() << 11) |
       (this.date.getUTCHours() * 60 + this.date.getUTCMinutes());
     const dataArr = this.notifications[this.currentIndex];
     const creator = () => {
-      this.commentNotificationService.createNotification(this.room.id, notificationSetting).subscribe({
-        error: () => this.showSomethingWentWrong(),
-        next: (not) => this.setNotification(not),
-      });
+      this.commentNotificationService
+        .createNotification(this.room.id, notificationSetting)
+        .subscribe({
+          error: () => this.showSomethingWentWrong(),
+          next: (not) => this.setNotification(not),
+        });
     };
     if (!dataArr) {
       creator();
@@ -127,7 +149,7 @@ export class CommentNotificationDialogComponent implements OnInit, OnDestroy {
       next: () => {
         this.notifications[this.currentIndex] = null;
         creator();
-      }
+      },
     });
   }
 
@@ -135,7 +157,7 @@ export class CommentNotificationDialogComponent implements OnInit, OnDestroy {
     const dataArr = this.notifications[this.currentIndex];
     this.commentNotificationService.deleteNotification(dataArr[1]).subscribe({
       error: () => this.showSomethingWentWrong(),
-      next: () => this.notifications[this.currentIndex] = null,
+      next: () => (this.notifications[this.currentIndex] = null),
     });
   }
 
@@ -144,7 +166,9 @@ export class CommentNotificationDialogComponent implements OnInit, OnDestroy {
   }
 
   private setNotification(c: CommentNotification) {
-    const date = CommentNotificationDialogComponent.notificationSettingToDate(c.notificationSetting);
+    const date = CommentNotificationDialogComponent.notificationSettingToDate(
+      c.notificationSetting,
+    );
     if (!!this.notifications[date.getDay()]) {
       console.warn('Notifications should never be overridden!');
     }
@@ -152,8 +176,8 @@ export class CommentNotificationDialogComponent implements OnInit, OnDestroy {
   }
 
   private showSomethingWentWrong() {
-    this.translateService.get('comment-notification.something-went-wrong')
-      .subscribe(msg => this.notificationService.show(msg));
+    this.translateService
+      .get('comment-notification.something-went-wrong')
+      .subscribe((msg) => this.notificationService.show(msg));
   }
-
 }
