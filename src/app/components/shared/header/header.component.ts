@@ -43,11 +43,15 @@ import { Theme } from 'theme/Theme';
 import { MatMenu } from '@angular/material/menu';
 import { LanguageService } from 'app/services/util/language.service';
 import {
-  getBrainstormingURL, livepollNavigationAccessOnRoute,
+  getBrainstormingURL,
+  livepollNavigationAccessOnRoute,
   navigateBrainstorming,
-  navigateTopicCloud
+  navigateTopicCloud,
 } from '../navigation/navigation.component';
 import { LivepollCreateComponent } from '../_dialogs/livepoll-create/livepoll-create.component';
+import { PseudonymEditorComponent } from '../_dialogs/pseudonym-editor/pseudonym-editor.component';
+import { CommentNotificationDialogComponent } from '../_dialogs/comment-notification-dialog/comment-notification-dialog.component';
+import { GPTUserDescriptionDialogComponent } from '../_dialogs/gptuser-description-dialog/gptuser-description-dialog.component';
 
 @Component({
   selector: 'app-header',
@@ -71,7 +75,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   hasKeywords = false;
   themes: Theme[];
   public readonly navigationAccess = {
-    livepoll: livepollNavigationAccessOnRoute
+    livepoll: livepollNavigationAccessOnRoute,
   };
   private _clockCount = 0;
 
@@ -303,9 +307,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   }
 
   public navigateBrainstormingDirectly() {
-    this.router.navigate([
-      getBrainstormingURL(decodeURI(this.router.url)),
-    ]);
+    this.router.navigate([getBrainstormingURL(decodeURI(this.router.url))]);
   }
 
   public getCurrentRoleIcon() {
@@ -337,6 +339,29 @@ export class HeaderComponent implements OnInit, AfterViewInit {
       return;
     }
     this.themeMenu._allItems.get(index).focus();
+  }
+
+  openPseudoEditor() {
+    PseudonymEditorComponent.open(this.dialog, this.user.id, this.room.id);
+  }
+
+  openEmailNotification(): void {
+    if (!this.user?.loginId) {
+      this.translationService
+        .get('comment-notification.needs-user-account')
+        .subscribe((msg) =>
+          this.notificationService.show(msg, undefined, {
+            duration: 7000,
+            panelClass: ['snackbar', 'important'],
+          }),
+        );
+      return;
+    }
+    CommentNotificationDialogComponent.openDialog(this.dialog, this.room);
+  }
+
+  openGPTUser() {
+    GPTUserDescriptionDialogComponent.open(this.dialog, this.room.id);
   }
 
   changeTheme(theme: Theme) {
