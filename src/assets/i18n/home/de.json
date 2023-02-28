@@ -273,6 +273,8 @@
     "regular-user-view": "Teilnehmeransicht",
     "room-qr": "QR-Code",
     "room-presets": "Mein Forumsname",
+    "gpt-user-description": "Selbstbeschreibung für GPT",
+    "my-profile": "Mein Profil",
     "session-id-copied": "Der Direktlink für Teilnehmer*innen wurde in die Zwischenablage kopiert.",
     "sure": "Bist du sicher?",
     "tag-cloud": "Fragen-Radar",
@@ -723,5 +725,26 @@
     "inline-header": "Laufende Stichwort-Aktualisierungen",
     "room-name": "Raum",
     "running": "Stichwörter …"
+  },
+  "pseudonym-editor": {
+    "name": "Wird beim Posten verwendet …",
+    "title": "Mein Forumsname",
+    "deepl": "Duzen oder Siezen?",
+    "update": "Speichern",
+    "cancel": "Abbrechen"
+  },
+  "gpt-user-description": {
+    "save": "Speichern",
+    "cancel": "Abbrechen",
+    "title": "Selbstbeschreibung für GPT",
+    "user-description": "Selbstbeschreibung",
+    "token-info": "{{tokens}} / {{maxLength}} Tokens"
+  },
+  "deepl-formality-select": {
+    "default": "Voreinstellung",
+    "error": "Der Text konnte nicht aktualisiert werden.",
+    "less": "Duzen",
+    "more": "Siezen",
+    "name": "Stil"
   }
 }

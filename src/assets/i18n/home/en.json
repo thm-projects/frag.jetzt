@@ -273,6 +273,8 @@
     "regular-user-view": "Participant view",
     "room-qr": "QR code",
     "room-presets": "My forum name",
+    "gpt-user-description": "Self description for GPT",
+    "my-profile": "My profile",
     "session-id-copied": "Direct link for participants was copied to the clipboard.",
     "sure": "Are you sure?",
     "tag-cloud": "Question radar",
@@ -723,5 +725,26 @@
     "inline-header": "Running keyword updates",
     "room-name": "Room",
     "running": "Keywords …"
+  },
+  "pseudonym-editor": {
+    "name": "Used when posting …",
+    "title": "My forum name",
+    "deepl": "Informal or formal?",
+    "update": "Save",
+    "cancel": "Cancel"
+  },
+  "gpt-user-description": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "title": "Self description for GPT",
+    "user-description": "Self description",
+    "token-info": "{{tokens}} / {{maxLength}} Tokens"
+  },
+  "deepl-formality-select": {
+    "default": "Default",
+    "error": "The text could not be updated.",
+    "less": "Informal",
+    "more": "Formal",
+    "name": "Style"
   }
 }

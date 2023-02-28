@@ -1012,10 +1012,5 @@
     "a11y-questioner-name": "Here you can enter your name if you want. This is visible for everyone at this comment.",
     "name-length-error": "The name must be {{min}} to {{max}} characters long.",
     "questioner-name": "Your name, if you want …"
-  },
-  "pseudonym-editor": {
-    "name": "Used when posting …",
-    "title": "My forum name",
-    "deepl": "Informal or formal?"
   }
 }

@@ -62,7 +62,6 @@ import { QuillUtils } from '../../../utils/quill-utils';
 import { UserManagementService } from '../../../services/util/user-management.service';
 import { ThemeService } from '../../../../theme/theme.service';
 import { ColorContrast } from '../../../utils/color-contrast';
-import { PseudonymEditorComponent } from '../_dialogs/pseudonym-editor/pseudonym-editor.component';
 import { EditQuestionComponent } from '../_dialogs/edit-question/edit-question.component';
 
 @Component({
@@ -688,18 +687,6 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
             this.deviceInfo.isCurrentlyDesktop &&
             this.room &&
             !this.room.questionsBlocked,
-        });
-        e.menuItem({
-          translate: this.headerService.getTranslate(),
-          icon: 'account_circle',
-          class: 'material-icons-outlined',
-          text: 'header.room-presets',
-          callback: () => {
-            const ref = this.dialog.open(PseudonymEditorComponent);
-            ref.componentInstance.accountId = this.user.id;
-            ref.componentInstance.roomId = this.room.id;
-          },
-          condition: () => true,
         });
         e.menuItem({
           translate: this.headerService.getTranslate(),

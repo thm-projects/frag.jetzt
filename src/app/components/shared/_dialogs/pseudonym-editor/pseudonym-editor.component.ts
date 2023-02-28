@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { FormalityType } from 'app/services/http/deep-l.service';
 import { switchMap } from 'rxjs';
 import { DBLocalRoomSettingsService } from '../../../../services/persistence/dblocal-room-settings.service';
@@ -28,13 +28,20 @@ export class PseudonymEditorComponent implements OnInit {
     private dBLocalRoomSettingsService: DBLocalRoomSettingsService,
   ) {}
 
+  public static open(dialog: MatDialog, accountId: string, roomId: string) {
+    const ref = dialog.open(PseudonymEditorComponent);
+    ref.componentInstance.accountId = accountId;
+    ref.componentInstance.roomId = roomId;
+    return ref;
+  }
+
   ngOnInit(): void {
     this.dBLocalRoomSettingsService
-        .getSettings(this.roomId, this.accountId)
-        .subscribe(data => {
-          this.selectedFormality = data?.formality ?? FormalityType.Default;
-          this.questionerNameFormControl.setValue(data?.pseudonym ?? '');
-        });
+      .getSettings(this.roomId, this.accountId)
+      .subscribe((data) => {
+        this.selectedFormality = data?.formality ?? FormalityType.Default;
+        this.questionerNameFormControl.setValue(data?.pseudonym ?? '');
+      });
   }
 
   accept() {
