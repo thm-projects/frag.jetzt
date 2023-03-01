@@ -1,51 +1,203 @@
+<h1>Guide to use the Chatbot</h1>
+
 <p>
-  This is a guide to how prompts for chatbots should be worded to get the best
-  possible responses.
+  This guide provides tips for creating effective prompts for chatbot, which can
+  help users get the best possible answers. The chatbot is trained with English
+  data and for better results, it is good to write prompts in English
 </p>
 
-<ol>
-  <li>Ask one clear question or make one request</li>
-  <li>Use proper language without technical terms or complex words</li>
-  <li>Make sure the prompt is related to the chatbot's purpose</li>
-  <li>Provide enough information for the chatbot to understand</li>
-  <li>Don't ask multiple things in one prompt</li>
-  <li>Use proper grammar and spelling</li>
-  <li>Avoid slang, abbreviations, or emojis</li>
-</ol>
+<h3>Clarity and simplicity:</h3>
+<p>
+  Write prompts that are easy for the chatbot to understand. Use simple
+  language, avoid complex words or technical terms, and be concise. Ask one
+  clear question or request at a time.
+</p>
+<ul>
+  <li>
+    <strong>Better ✅:</strong>
+    "What is the temperature in Berlin?"
+  </li>
+  <li>
+    <strong>Less effective ❌:</strong>
+    "What's the weather like in Berlin? Is it cold or hot?"
+  </li>
+</ul>
+<p>
+  In this example, the good prompt is clear, to the point and asks for a
+  specific piece of information. The bad prompt is less clear and includes
+  unnecessary details.
+</p>
 
-<h2>Good vs. Bad Prompts for Asking Questions to the chatbot</h2>
+<h3>Relevance:</h3>
+<p>
+  Write prompts that are relevant to the purpose of the chatbot. This will
+  ensure that the chatbot provides accurate and helpful answers.
+</p>
+<ul>
+  <li>
+    <strong>Better ✅:</strong>
+    "What is the price of bitcoin today?"
+  </li>
+  <li>
+    <strong>Less effective ❌:</strong>
+    "What is the population of China?"
+  </li>
+</ul>
+<p>
+  In this example, the good prompt is relevant to a chatbot providing
+  information about cryptocurrencies. The bad prompt is not relevant to the
+  purpose of the chatbot.
+</p>
+
+<h3>Context:</h3>
+<p>
+  Provide enough information in your prompt for the chatbot to understand what
+  you're asking. This can include relevant details such as names, dates or
+  locations.
+</p>
+<ul>
+  <li>
+    <strong>Better ✅:</strong>
+    "Can you recommend a restaurant in Hamburg that serves Italian food?"
+  </li>
+  <li>
+    <strong>Less effective ❌:</strong>
+    "What's good to eat in Hamburg?"
+  </li>
+</ul>
+<p>
+  In this example, the good prompt provides context by specifying the type of
+  restaurant and location. The bad prompt is too vague and doesn't provide
+  enough information for the chatbot to understand.
+</p>
+
+<h3>Avoid ambiguity:</h3>
+<p>
+  Ask one clear question or make one request at a time. Avoid asking multiple
+  questions or making multiple requests in one prompt. This can cause confusion
+  and lead to inaccurate or unhelpful responses.
+</p>
+<ul>
+  <li>
+    <strong>Better ✅:</strong>
+    "What is the capital of Germany?"
+  </li>
+  <li>
+    <strong>Less effective ❌:</strong>
+    "What is the capital of Germany and what is the population of Germany?"
+  </li>
+</ul>
+<p>
+  In this example, the good prompt asks one clear question, whereas the bad
+  prompt contains multiple questions.
+</p>
+
+<h3>Grammar and spelling:</h3>
+<p>
+  Use correct grammar and spelling when writing your prompts. This will help the
+  chatbot understand what you are asking and provide accurate answers.
+</p>
+<ul>
+  <li>
+    <strong>Better ✅:</strong>
+    "How do I reset my password?"
+  </li>
+  <li>
+    <strong>Less effective ❌:</strong>
+    "How I rest my pasword?"
+  </li>
+</ul>
+<p>
+  In this example, the good prompt uses correct grammar and spelling, while the
+  bad prompt contains grammatical errors.
+</p>
+
+<h3>Avoid slang and abbreviations:</h3>
+<p>
+  Avoid using slang, abbreviations, or emoticons in your prompts. These can be
+  difficult for the chatbot to understand and can lead to inaccurate or
+  unhelpful responses.
+</p>
+<ul>
+  <li>
+    <strong>Better ✅:</strong>
+    "What does 'zeitgeist' mean?"
+  </li>
+  <li>
+    <strong>Less effective ❌:</strong>
+    "Wut does zeitgeist mean?"
+  </li>
+</ul>
+<p>
+  In this example, the good prompt uses correct language, while the bad prompt
+  uses slang and abbreviations.
+</p>
+
+<h2>Code Generation Specific-Use:</h2>
 <ol>
   <li>
-    <strong>
-      What is the mathematical equation for calculating the maximum flow in a
-      network using the Ford-Fulkerson algorithm?
-    </strong>
-    <br />
-    <em>
-      "How does the Ford-Fulkerson algorithm work?" (Too broad and lacks
-      specific details)
-    </em>
+    Use clear and concise language without technical jargon or complex
+    terminology
   </li>
   <li>
-    <strong>
-      Can you provide a list of important machine learning algorithms used in
-      computer vision and explain their use cases?
-    </strong>
-    <br />
-    <em>
-      "What are some cool computer vision things?" (Too vague and lacks academic
-      relevance)
-    </em>
+    Make sure the prompt is related to the desired code pattern or language
   </li>
   <li>
-    <strong>
-      What is the difference between the stochastic gradient descent and batch
-      gradient descent optimization algorithms?
-    </strong>
-    <br />
-    <em>
-      "Which one is better, SGD or BGD?" (Too simplistic and lacks the need for
-      explanation)
-    </em>
+    Provide specific hints or "leading words" to guide the model towards the
+    desired code pattern or language
   </li>
+  <li>Use proper syntax and formatting for the desired code language</li>
+  <li>Avoid using multiple prompts in one code example</li>
+</ol>
+<ul>
+  <li>
+    <strong>Better ✅:</strong>
+    "Write a Python function that takes in a list of integers and returns the
+    sum of all even numbers."
+  </li>
+  <li>
+    <strong>Less effective ❌:</strong>
+    "Create a function that adds up even integers in a list of numbers"
+  </li>
+</ul>
+<p>
+  In this example, the good prompt is clear and specific, and provides a hint to
+  the model to start coding in Python, while the bad prompt lacks specific
+  details and doesn't provide any hints for the model to start coding in Python.
+</p>
+
+<h2>
+  Other examples for Good vs. Bad Prompts for Asking Questions to the chatbot
+</h2>
+<ol>
+  <li>
+    <strong>Better ✅:</strong>
+    What is the mathematical equation for calculating the maximum flow in a
+    network using the Ford-Fulkerson algorithm?
+  </li>
+  <em>
+    <strong>Less effective ❌:</strong>
+    "How does the Ford-Fulkerson algorithm work?" (Too broad and lacks specific
+    details)
+  </em>
+  <li>
+    <strong>Better ✅:</strong>
+    Can you provide a list of important machine learning algorithms used in
+    computer vision and explain their use cases?
+  </li>
+  <em>
+    <strong>Less effective ❌:</strong>
+    ""What are some cool computer vision things?" (Too vague and lacks academic
+    relevance)
+  </em>
+  <li>
+    <strong>Better ✅:</strong>
+    What is the difference between the stochastic gradient descent and batch
+    gradient descent optimization algorithms?
+  </li>
+  <em>
+    <strong>Less effective ❌:</strong>
+    "Which one is better, SGD or BGD?" (Too simplistic and lacks the need for
+    explanation)
+  </em>
 </ol>
