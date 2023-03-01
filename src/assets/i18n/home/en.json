@@ -503,6 +503,7 @@
     "password-description": "Enter the password you want to register with here.",
     "password-description-repeat": "Please enter the password you want to register with again to make sure that you have not mistyped it.",
     "password-required": "Password required",
+    "password-length-invalid": "Passwords must be within 8 - 64 characters long.",
     "password-unmatch": "Passwords do not match.",
     "password-verify": "Verify password",
     "register": "Register",
