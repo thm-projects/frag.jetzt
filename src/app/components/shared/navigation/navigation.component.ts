@@ -1,11 +1,16 @@
 import { Location } from '@angular/common';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { NavigationEnd, Router } from '@angular/router';
 import { BonusTokenComponent } from 'app/components/creator/_dialogs/bonus-token/bonus-token.component';
-import {
-  UserBonusTokenComponent
-} from 'app/components/participant/_dialogs/user-bonus-token/user-bonus-token.component';
+import { UserBonusTokenComponent } from 'app/components/participant/_dialogs/user-bonus-token/user-bonus-token.component';
 import { Rescale } from 'app/models/rescale';
 import { UserRole } from 'app/models/user-roles.enum';
 import { DeviceInfoService } from 'app/services/util/device-info.service';
@@ -17,9 +22,7 @@ import { RoomDataFilter } from 'app/utils/data-filter-object.lib';
 import { filter, ReplaySubject, takeUntil } from 'rxjs';
 import { QrCodeDialogComponent } from '../_dialogs/qr-code-dialog/qr-code-dialog.component';
 import { RoomSettingsOverviewComponent } from '../_dialogs/room-settings-overview/room-settings-overview.component';
-import {
-  TopicCloudBrainstormingComponent
-} from '../_dialogs/topic-cloud-brainstorming/topic-cloud-brainstorming.component';
+import { TopicCloudBrainstormingComponent } from '../_dialogs/topic-cloud-brainstorming/topic-cloud-brainstorming.component';
 import { TopicCloudFilterComponent } from '../_dialogs/topic-cloud-filter/topic-cloud-filter.component';
 import { Room } from '../../../models/room';
 import { LivepollSessionList } from '../../../models/livepoll-session-list';
@@ -48,6 +51,8 @@ type AppLocation = PossibleLocation & LocationData;
 const ROOM_REGEX = /^\/(creator|moderator|participant)\/room\/([^/]*)\/?/i;
 const COMMENTS_REGEX =
   /^\/(creator|moderator|participant)\/room\/[^/]*\/comments\/?$/i;
+const GPT_CHAT_REGEX =
+  /^\/(creator|moderator|participant)\/room\/[^/]*\/gpt-chat\/?$/i;
 const MODERATION_REGEX =
   /^\/(creator|moderator|participant)\/room\/[^/]*\/moderator\/comments\/?$/i;
 const FOCUS_REGEX =
@@ -106,12 +111,16 @@ export const livepollNavigationAccessOnRoute = (
   route: string,
   room: Room | undefined,
   user: User | undefined,
-  pollList: LivepollSessionList
+  pollList: LivepollSessionList,
 ) => {
   if (room && room.livepollActive) {
     if (ROOM_REGEX.test(route) || COMMENTS_REGEX.test(route)) {
-      if (!route.includes('participant')
-        || (route.endsWith('comments/questionwall') && user && user.role > UserRole.PARTICIPANT)) {
+      if (
+        !route.includes('participant') ||
+        (route.endsWith('comments/questionwall') &&
+          user &&
+          user.role > UserRole.PARTICIPANT)
+      ) {
         return true;
       } else {
         return pollList.hasActiveLivepoll();
@@ -179,8 +188,8 @@ export class NavigationComponent implements OnInit, OnDestroy {
       i18n: 'header.questionwall',
       svgIcon: 'beamer',
       isCurrentRoute: (route) => FOCUS_REGEX.test(route),
-      canBeAccessedOnRoute: (route) => ROOM_REGEX.test(route) &&
-        this.deviceInfo.isCurrentlyDesktop,
+      canBeAccessedOnRoute: (route) =>
+        ROOM_REGEX.test(route) && this.deviceInfo.isCurrentlyDesktop,
       navigate: (route) => {
         const data = route.match(ROOM_REGEX);
         this.router.navigate([
@@ -194,13 +203,15 @@ export class NavigationComponent implements OnInit, OnDestroy {
       active: false,
       i18n: 'header.livepoll',
       icon: 'quiz',
-      canBeAccessedOnRoute: (route) => livepollNavigationAccessOnRoute(
-        route,
-        this.sessionService.currentRoom,
-        this.userManagementService.getCurrentUser(),
-        this.sessionService.currentLivepoll),
+      canBeAccessedOnRoute: (route) =>
+        livepollNavigationAccessOnRoute(
+          route,
+          this.sessionService.currentRoom,
+          this.userManagementService.getCurrentUser(),
+          this.sessionService.currentLivepoll,
+        ),
       navigate: (route) => LivepollCreateComponent.create(this.dialog),
-      isCurrentRoute: (route) => false
+      isCurrentRoute: (route) => false,
     },
     {
       id: 'radar',
@@ -258,6 +269,20 @@ export class NavigationComponent implements OnInit, OnDestroy {
       canBeAccessedOnRoute: () => this.sessionService.currentRoom?.quizActive,
       navigate: () => {
         this.router.navigate(['/quiz']);
+      },
+    },
+    {
+      id: 'chat',
+      accessible: false,
+      active: false,
+      i18n: 'header.gpt-chat',
+      icon: 'smart_toy',
+      class: 'material-icons-outlined',
+      isCurrentRoute: (route) => GPT_CHAT_REGEX.test(route),
+      canBeAccessedOnRoute: () => Boolean(this.sessionService.currentRoom),
+      navigate: (route) => {
+        const data = route.match(ROOM_REGEX);
+        this.router.navigate([`${data[1]}/room/${data[2]}/gpt-chat`]);
       },
     },
     {
@@ -399,21 +424,6 @@ export class NavigationComponent implements OnInit, OnDestroy {
       },
     },
     {
-      id: 'chat',
-      accessible: false,
-      active: false,
-      i18n: 'header.gpt-chat',
-      icon: 'smart_toy',
-      class: 'material-icons-outlined',
-      outside: true,
-      isCurrentRoute: () => false,
-      canBeAccessedOnRoute: () =>
-        Boolean(this.userManagementService.getCurrentUser()?.isSuperAdmin),
-      navigate: () => {
-        this.router.navigate(['/admin/gpt-chat']);
-      },
-    },
-    {
       id: 'logout',
       accessible: false,
       active: false,
@@ -465,7 +475,8 @@ export class NavigationComponent implements OnInit, OnDestroy {
       .getUser()
       .pipe(takeUntil(this.destroyer))
       .subscribe(observer);
-    this.deviceInfo.isMobile()
+    this.deviceInfo
+      .isMobile()
       .pipe(takeUntil(this.destroyer))
       .subscribe(observer);
   }
