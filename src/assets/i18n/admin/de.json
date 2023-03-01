@@ -96,6 +96,8 @@
     "enter-conversation-text": "Chat mit GPT …",
     "send": "Senden",
     "empty-conversation": "Verlauf leeren",
+    "optin-accept": "Akzeptieren",
+    "optin-reject": "Ablehnen",
     "input-forbidden": "Eingabe verboten, bitte prüfe die GPT API Einstellungen.",
     "no-api-setup": "Der API Schlüssel oder das Sprachmodell wurden nicht gesetzt.",
     "greetings": {

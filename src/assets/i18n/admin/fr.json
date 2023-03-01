@@ -92,6 +92,8 @@
     "trial-code": "Code d'activation de l'étude"
   },
   "gpt-chat": {
+    "optin-accept": "Accepter",
+    "optin-reject": "Refuser",
     "enter-conversation-text": "Chat avec GPT …",
     "send": "Envoyer",
     "empty-conversation": "Vider l'historique",

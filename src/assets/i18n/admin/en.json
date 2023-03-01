@@ -92,6 +92,8 @@
     "trial-code": "Study activation code"
   },
   "gpt-chat": {
+    "optin-accept": "Accept",
+    "optin-reject": "Reject",
     "enter-conversation-text": "Chat with GPT …",
     "send": "Send",
     "empty-conversation": "Clear history",

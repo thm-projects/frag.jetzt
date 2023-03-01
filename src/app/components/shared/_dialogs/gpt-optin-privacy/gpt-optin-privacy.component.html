@@ -1,26 +1,21 @@
-<!-- <div>
-    <h1 mat-dialog-title>ChatGPT Privacy Policy</h1>
-    <div mat-dialog-content>
-        <p>What's your favorite animal?</p>
-        <mat-form-field appearance="fill">
-        <mat-label>Favorite Animal</mat-label>
-        <input matInput>
-        </mat-form-field>
-    </div>
+<div>
+  <h1 mat-dialog-title>ChatGPT Privacy Policy</h1>
+  <div mat-dialog-content>
+    <p>Hier steht die Datenschutz Bestimmung</p>
+  </div>
 
+  <button
+    mat-button
+    class="secondary-btn"
+    [mat-dialog-close]="true"
+    onclick="onAccept()">
+    {{ "gpt-chat.optin-accept" | translate }}
+  </button>
 
-    
-
-    
-
-    
-
-        <app-dialog-action-buttons
-    buttonsLabelSection="cookies"
-    confirmButtonLabel="accept"
-    [confirmButtonType]=confirmButtonType
-    [cancelButtonClickAction]="buildDeclineActionCallback()"
-    [confirmButtonClickAction]="buildConfirmActionCallback()">
-    </app-dialog-action-buttons>
-    
-</div> -->
+  <button
+    mat-button
+    class="danger-btn"
+    onclick="onDecline()">
+    {{ "gpt-chat.optin-reject" | translate }}
+  </button>
+</div>

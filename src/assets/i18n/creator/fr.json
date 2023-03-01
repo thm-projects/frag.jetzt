@@ -369,6 +369,8 @@
     "user-bonus": "## Bonus \n\nL'enseignant peut marquer les « bonnes » questions avec un bonus. Tes questions de tous les cours (salles) qui ont reçu une étoile sont listées ici.\n\nSelon l'accord, tu peux envoyer le code bonus par e-mail à l'enseignant pour l'échanger contre un bonus."
   },
   "gpt-chat": {
+    "optin-accept": "Accepter",
+    "optin-reject": "Refuser",
     "enter-conversation-text": "Parle à GPT",
     "send": "Envoyer",
     "empty-conversation": "Vider l'historique",
