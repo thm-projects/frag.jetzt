@@ -6,6 +6,7 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { GPTEncoder } from 'app/gpt-encoder/GPTEncoder';
@@ -17,6 +18,7 @@ import { SessionService } from 'app/services/util/session.service';
 import { KeyboardUtils } from 'app/utils/keyboard';
 import { KeyboardKey } from 'app/utils/keyboard/keys';
 import { finalize, Observer, ReplaySubject, Subject, takeUntil } from 'rxjs';
+import { GptOptinPrivacyComponent } from '../_dialogs/gpt-optin-privacy/gpt-optin-privacy.component';
 
 interface ConversationEntry {
   type: 'human' | 'gpt' | 'error';
@@ -57,11 +59,13 @@ export class GptChatComponent implements OnInit, OnDestroy {
     private gptEncoderService: GptEncoderService,
     private router: Router,
     private sessionService: SessionService,
+    public dialog: MatDialog,
   ) {
     this.isAdmin = router.url.toLowerCase().startsWith('/admin/gpt-chat');
   }
 
   ngOnInit(): void {
+    this.optinprivacydialog();
     this.loadConversation();
     this.translateService
       .stream('gpt-chat.greetings')
@@ -77,6 +81,10 @@ export class GptChatComponent implements OnInit, OnDestroy {
       this.encoder = e;
       this.calculateTokens();
     });
+  }
+
+  optinprivacydialog() {
+    const dialogRef = this.dialog.open(GptOptinPrivacyComponent);
   }
 
   ngOnDestroy(): void {

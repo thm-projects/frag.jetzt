@@ -119,6 +119,7 @@ import { LivepollCreateComponent } from './_dialogs/livepoll-create/livepoll-cre
 import { GptRoomSettingsComponent } from './_dialogs/gpt-room-settings/gpt-room-settings.component';
 import { GptChatComponent } from './gpt-chat/gpt-chat.component';
 import { GPTUserDescriptionDialogComponent } from './_dialogs/gptuser-description-dialog/gptuser-description-dialog.component';
+import { GptOptinPrivacyComponent } from './_dialogs/gpt-optin-privacy/gpt-optin-privacy.component';
 
 @NgModule({
   imports: [
@@ -240,6 +241,7 @@ import { GPTUserDescriptionDialogComponent } from './_dialogs/gptuser-descriptio
     GptRoomSettingsComponent,
     GptChatComponent,
     GPTUserDescriptionDialogComponent,
+    GptOptinPrivacyComponent,
   ],
   exports: [
     RoomJoinComponent,
