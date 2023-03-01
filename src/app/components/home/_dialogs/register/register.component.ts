@@ -26,12 +26,8 @@ export class RegisterErrorStateMatcher implements ErrorStateMatcher {
 }
 
 export const checkForEquality =
-  (fieldOne: FormControl) => (fieldTwo: FormControl) => {
-    const fieldOneValue = fieldOne.value;
-    const fieldTwoValue = fieldTwo.value;
-
-    return fieldOneValue !== fieldTwoValue ? { isEqual: { _: false } } : null;
-  };
+  (fieldOne: FormControl) => (fieldTwo: FormControl) =>
+    fieldOne.value !== fieldTwo.value ? { isEqual: { _: false } } : null;
 
 export const checkForLength =
   (minimumLength: number = 8, maximumLength: number = 64) =>
@@ -39,6 +35,20 @@ export const checkForLength =
     field.value.length < minimumLength || field.value.length > maximumLength
       ? { validLength: { _: false } }
       : null;
+
+export const containsNumber = () => (field: FormControl) =>
+  !/\d/.test(field.value) ? { containsNumber: { _: false } } : null;
+
+export const containsLowercase = () => (field: FormControl) =>
+  !/[a-z]/.test(field.value) ? { containsLowercase: { _: false } } : null;
+
+export const containsUppercase = () => (field: FormControl) =>
+  !/[A-Z]/.test(field.value) ? { containsUppercase: { _: false } } : null;
+
+export const containsSpecialCharacter = () => (field: FormControl) =>
+  !/[!@#$%^&*()_+\-=]/.test(field.value)
+    ? { containsSpecialCharacter: { _: false } }
+    : null;
 
 @Component({
   selector: 'app-register',
@@ -57,6 +67,10 @@ export class RegisterComponent implements OnInit {
   password1FormControl = new FormControl('', [
     Validators.required,
     checkForLength(),
+    containsNumber(),
+    containsLowercase(),
+    containsUppercase(),
+    containsSpecialCharacter(),
   ]);
   password2FormControl = new FormControl('', [
     Validators.required,
