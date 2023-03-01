@@ -504,6 +504,7 @@
     "password-description-repeat": "Gib hier bitte erneut das Passwort, mit dem du dich registrieren möchtest, ein, um sicherzustellen, dass du dich nicht vertippt hast.",
     "password-required": "Passwort erforderlich",
     "password-unmatch": "Passwörter stimmen nicht überein.",
+    "password-length-invalid": "Passwörter müssen zwischen 8 - 64 Charakter lang sein.",
     "password-verify": "Passwort wiederholen",
     "register": "Registrieren",
     "register-description": "Registrierung abschließen",
