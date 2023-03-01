@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-gpt-optin-privacy',
@@ -6,7 +7,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./gpt-optin-privacy.component.scss'],
 })
 export class GptOptinPrivacyComponent implements OnInit {
-  constructor() {}
+  constructor(private location: Location) {}
 
   ngOnInit(): void {}
+
+  onDecline(): void {
+    console.log('onDecline');
+    this.location.back();
+  }
+
+  onAccept(): void {
+    console.log('onAccept');
+  }
 }

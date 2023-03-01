@@ -7,15 +7,16 @@
   <button
     mat-button
     class="secondary-btn"
-    [mat-dialog-close]="true"
-    onclick="onAccept()">
+    (click)="onAccept()"
+    [mat-dialog-close]="true">
     {{ "gpt-chat.optin-accept" | translate }}
   </button>
 
   <button
     mat-button
     class="danger-btn"
-    onclick="onDecline()">
+    (click)="onDecline()"
+    [mat-dialog-close]="true">
     {{ "gpt-chat.optin-reject" | translate }}
   </button>
 </div>
