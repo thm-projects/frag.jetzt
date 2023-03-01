@@ -18,7 +18,7 @@ import { SessionService } from 'app/services/util/session.service';
 import { KeyboardUtils } from 'app/utils/keyboard';
 import { KeyboardKey } from 'app/utils/keyboard/keys';
 import { finalize, Observer, ReplaySubject, Subject, takeUntil } from 'rxjs';
-import { GptOptinPrivacyComponent } from '../_dialogs/gpt-optin-privacy/gpt-optin-privacy.component';
+import { GptOptInPrivacyComponent } from '../_dialogs/gpt-optin-privacy/gpt-optin-privacy.component';
 
 interface ConversationEntry {
   type: 'human' | 'gpt' | 'error';
@@ -65,7 +65,8 @@ export class GptChatComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.optinprivacydialog();
+    // give the method a more understandable name
+    this.openPrivacyDialog();
     this.loadConversation();
     this.translateService
       .stream('gpt-chat.greetings')
@@ -83,8 +84,8 @@ export class GptChatComponent implements OnInit, OnDestroy {
     });
   }
 
-  optinprivacydialog() {
-    const dialogRef = this.dialog.open(GptOptinPrivacyComponent);
+  openPrivacyDialog() {
+    const dialogRef = this.dialog.open(GptOptInPrivacyComponent);
   }
 
   ngOnDestroy(): void {

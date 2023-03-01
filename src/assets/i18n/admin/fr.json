@@ -94,6 +94,7 @@
   "gpt-chat": {
     "optin-accept": "Accepter",
     "optin-reject": "Refuser",
+    "privacy-policy": "Politique de confidentialité de ChatGPT",
     "enter-conversation-text": "Chat avec GPT …",
     "send": "Envoyer",
     "empty-conversation": "Vider l'historique",

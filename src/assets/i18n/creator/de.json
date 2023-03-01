@@ -372,6 +372,7 @@
   "gpt-chat": {
     "optin-accept": "Akzeptieren",
     "optin-reject": "Ablehnen",
+    "privacy-policy": "ChatGPT Datenschutzrichtlinie",
     "enter-conversation-text": "Rede mit GPT",
     "send": "Senden",
     "empty-conversation": "Verlauf leeren",

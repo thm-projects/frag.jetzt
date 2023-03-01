@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { GptOptinPrivacyComponent } from './gpt-optin-privacy.component';
+import { GptOptInPrivacyComponent } from './gpt-optin-privacy.component';
 
-describe('GptOptinPrivacyComponent', () => {
-  let component: GptOptinPrivacyComponent;
-  let fixture: ComponentFixture<GptOptinPrivacyComponent>;
+describe('GptOptInPrivacyComponent', () => {
+  let component: GptOptInPrivacyComponent;
+  let fixture: ComponentFixture<GptOptInPrivacyComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [GptOptinPrivacyComponent],
+      declarations: [GptOptInPrivacyComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(GptOptinPrivacyComponent);
+    fixture = TestBed.createComponent(GptOptInPrivacyComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

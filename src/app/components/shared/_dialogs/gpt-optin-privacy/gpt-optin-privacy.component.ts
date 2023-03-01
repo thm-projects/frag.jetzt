@@ -6,7 +6,7 @@ import { GptService } from 'app/services/http/gpt.service';
   templateUrl: './gpt-optin-privacy.component.html',
   styleUrls: ['./gpt-optin-privacy.component.scss'],
 })
-export class GptOptinPrivacyComponent implements OnInit {
+export class GptOptInPrivacyComponent implements OnInit {
   constructor() {}
 
   // accepted: boolean = false;
