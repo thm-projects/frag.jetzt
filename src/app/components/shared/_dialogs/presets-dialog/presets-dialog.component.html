@@ -8,10 +8,8 @@
     <textarea
       style="min-height: 10em"
       matInput
+      placeholder="{{ placeholder | translate }}"
       [formControl]="control"></textarea>
-    <mat-placeholder class="placeholder">
-      {{ placeholder | translate }}
-    </mat-placeholder>
     <mat-hint align="end">
       <span aria-hidden="true">
         {{ control.value.length }} /
@@ -21,11 +19,23 @@
   </mat-form-field>
 </mat-dialog-content>
 
-<app-dialog-action-buttons
-  [buttonsLabelSection]="'gpt-user-description'"
-  [confirmButtonLabel]="'save'"
-  [cancelButtonClickAction]="buildCancelAction()"
-  [confirmButtonClickAction]="buildConfirmAction()"></app-dialog-action-buttons>
+<ars-row ars-flex-box class="action-button-container">
+  <ars-col>
+    <button
+      mat-flat-button
+      class="help-button"
+      (click)="clearAll()">
+      {{ 'presets-dialog.clear' | translate}}
+    </button>
+  </ars-col>
+  <ars-col>
+    <app-dialog-action-buttons
+      [buttonsLabelSection]="'presets-dialog'"
+      [confirmButtonLabel]="'save'"
+      [cancelButtonClickAction]="buildCancelAction()"
+      [confirmButtonClickAction]="buildConfirmAction()"></app-dialog-action-buttons>
+  </ars-col>
+</ars-row>
 
 <ng-template #loading>
   <app-mat-spinner-overlay

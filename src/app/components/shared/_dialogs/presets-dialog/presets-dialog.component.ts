@@ -84,4 +84,7 @@ export class PresetsDialogComponent implements OnInit {
       this.dialogRef.close();
     };
   }
+  clearAll() {
+    this.formControls.forEach((control) => (control.setValue('')));
+  }
 }

@@ -1025,6 +1025,9 @@
     "persona-label": "Personne",
     "context-placeholder": "Cours WPW",
     "topic-placeholder": "Angular",
-    "persona-placeholder": "Modérateur"
+    "persona-placeholder": "Modérateur",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "delete": "Supprimer"
     }
 }
