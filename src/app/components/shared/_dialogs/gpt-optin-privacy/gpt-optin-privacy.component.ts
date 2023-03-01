@@ -10,7 +10,7 @@ import { GptService } from 'app/services/http/gpt.service';
 export class GptOptinPrivacyComponent implements OnInit {
   constructor(private location: Location) {}
 
-  // this.accepted = true
+  // accepted: boolean = false;
 
   ngOnInit(): void {}
 
@@ -21,5 +21,6 @@ export class GptOptinPrivacyComponent implements OnInit {
 
   onAccept(): void {
     console.log('onAccept');
+    //this.accepted = true;
   }
 }
