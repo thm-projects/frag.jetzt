@@ -67,6 +67,19 @@
       <mat-error *ngIf="password1FormControl.hasError('validLength')">
         {{ "register.password-length-invalid" | translate }}
       </mat-error>
+      <mat-error *ngIf="password1FormControl.hasError('containsNumber')">
+        {{ "register.password-no-number" | translate }}
+      </mat-error>
+      <mat-error *ngIf="password1FormControl.hasError('containsLowercase')">
+        {{ "register.password-no-lowercase" | translate }}
+      </mat-error>
+      <mat-error *ngIf="password1FormControl.hasError('containsUppercase')">
+        {{ "register.password-no-uppercase" | translate }}
+      </mat-error>
+      <mat-error
+        *ngIf="password1FormControl.hasError('containsSpecialCharacter')">
+        {{ "register.password-no-special-character" | translate }}
+      </mat-error>
     </mat-form-field>
 
     <mat-form-field class="input-block">
