@@ -120,6 +120,9 @@ import { GptRoomSettingsComponent } from './_dialogs/gpt-room-settings/gpt-room-
 import { GptChatComponent } from './gpt-chat/gpt-chat.component';
 import { GPTUserDescriptionDialogComponent } from './_dialogs/gptuser-description-dialog/gptuser-description-dialog.component';
 import { GptOptInPrivacyComponent } from './_dialogs/gpt-optin-privacy/gpt-optin-privacy.component';
+import { GptPrivacyPolicyDeComponent } from '../../../assets/i18n/components/gpt-privacy-policy/gpt-privacy-policy-de';
+import { GptPrivacyPolicyEnComponent } from '../../../assets/i18n/components/gpt-privacy-policy/gpt-privacy-policy-en';
+import { GptPrivacyPolicyFrComponent } from '../../../assets/i18n/components/gpt-privacy-policy/gpt-privacy-policy-fr';
 
 @NgModule({
   imports: [
@@ -242,6 +245,9 @@ import { GptOptInPrivacyComponent } from './_dialogs/gpt-optin-privacy/gpt-optin
     GptChatComponent,
     GPTUserDescriptionDialogComponent,
     GptOptInPrivacyComponent,
+    GptPrivacyPolicyDeComponent,
+    GptPrivacyPolicyEnComponent,
+    GptPrivacyPolicyFrComponent,
   ],
   exports: [
     RoomJoinComponent,
