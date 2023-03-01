@@ -347,8 +347,8 @@
     "comment-list-title": "Use Cases des Q&A-Forums",
     "moderation-title": "Use Cases der Moderation",
     "room-list-title": "Use Cases der Raumliste",
-    "room-page-title": "Use Cases des Chatbots",
-    "prompt-guide-chatbot": "Use cases der Chatbot"
+    "room-page-title": "Use Cases des Raums",
+    "prompt-guide-chatbot": "Use Cases des Chatbots"
   },
   "joyride": {
     "cantAccessRoute": "Diese Route ist nicht verfügbar. Die Tour wird abgebrochen.",
