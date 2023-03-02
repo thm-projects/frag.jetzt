@@ -47,6 +47,7 @@ import { forkJoin, ReplaySubject, takeUntil } from 'rxjs';
 import { ResponseViewInformation } from '../comment-response-view/comment-response-view.component';
 import { UserManagementService } from '../../../services/util/user-management.service';
 import { GptOptInPrivacyComponent } from '../_dialogs/gpt-optin-privacy/gpt-optin-privacy.component';
+import { GptService } from '../../../services/http/gpt.service';
 
 @Component({
   selector: 'app-comment',
@@ -146,6 +147,7 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
     protected langService: LanguageService,
     public deviceInfo: DeviceInfoService,
     public notificationService: DashboardNotificationService,
+    private gptService: GptService,
   ) {
     langService
       .getLanguage()
@@ -160,6 +162,9 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
         this.generateCommentNumber();
         this.onLanguageChange();
       });
+    gptService.getConsentState().subscribe((state) => {
+      this.isGPTPrivacyPolicyAccepted = state;
+    });
   }
 
   @Input() set isRemoved(value: boolean) {
@@ -600,13 +605,15 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   checkPrivacyPolicy() {
-    console.log('checkPrivacyPolicy' + this.isGPTPrivacyPolicyAccepted);
+    console.log('checkPrivacyPolicy started' + this.isGPTPrivacyPolicyAccepted);
     if (this.isGPTPrivacyPolicyAccepted) {
       this.openGPT();
-      console.log('checkPrivacyPolicy' + this.isGPTPrivacyPolicyAccepted);
+      console.log(
+        'checkPrivacyPolicy accepted' + this.isGPTPrivacyPolicyAccepted,
+      );
       return;
     } else {
-      console.log('checkPrivacyPolicy' + this.isGPTPrivacyPolicyAccepted);
+      console.log('checkPrivacyPolicy else' + this.isGPTPrivacyPolicyAccepted);
       const ref = this.dialog.open(GptOptInPrivacyComponent);
       ref.afterClosed().subscribe((result) => {
         if (result) {
@@ -618,6 +625,7 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   openGPT() {
+    console.log('openGPT started with ' + this.isGPTPrivacyPolicyAccepted);
     let url: string;
     this.route.params.subscribe((params) => {
       url = `${this.roleString}/room/${params['shortId']}/gpt-chat`;

@@ -605,11 +605,11 @@
     {{ "header.gpt-user-description" | translate }}
   </button>
   <button
-    mat-menu-item
-    (click)="openGPTUser()"
-    tabindex="0">
-    <mat-icon class="material-icons-outlined">account_circle</mat-icon>
-    {{ "header.gpt-user-description" | translate }}
+    mat-button
+    class="replyButton"
+    (click)="checkPrivacyPolicy()">
+    <mat-icon class="material-icons-outlined">smart_toy</mat-icon>
+    {{ "comment-page.reply-AI" | translate }}
   </button>
 </mat-menu>
 

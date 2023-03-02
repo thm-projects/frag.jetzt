@@ -52,6 +52,7 @@ import { LivepollCreateComponent } from '../_dialogs/livepoll-create/livepoll-cr
 import { PseudonymEditorComponent } from '../_dialogs/pseudonym-editor/pseudonym-editor.component';
 import { CommentNotificationDialogComponent } from '../_dialogs/comment-notification-dialog/comment-notification-dialog.component';
 import { GPTUserDescriptionDialogComponent } from '../_dialogs/gptuser-description-dialog/gptuser-description-dialog.component';
+import { GptOptInPrivacyComponent } from '../_dialogs/gpt-optin-privacy/gpt-optin-privacy.component';
 
 @Component({
   selector: 'app-header',
@@ -378,5 +379,9 @@ export class HeaderComponent implements OnInit, AfterViewInit {
 
   openLivepollDialog() {
     LivepollCreateComponent.create(this.dialog);
+  }
+
+  openGPTPrivacyDialog() {
+    const dialogRef = this.dialog.open(GptOptInPrivacyComponent);
   }
 }

@@ -87,6 +87,9 @@ export class GptChatComponent implements OnInit, OnDestroy {
   }
 
   openPrivacyDialog() {
+    // prüfen ob bereits zugestimmt wurde
+    // abfrage kommt aus dem backend
+    console.log('openPrivacyDialog');
     const dialogRef = this.dialog.open(GptOptInPrivacyComponent);
     dialogRef.afterClosed().subscribe((result) => {
       if (!result) {
