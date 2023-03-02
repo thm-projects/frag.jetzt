@@ -98,11 +98,12 @@ export class FooterComponent implements OnInit {
 
   showCurrentTour() {
     if (!this._tourSite) {
-      this.dialog.open(IntroductionPromptGuideChatbotComponent);
       return;
     }
     this.dialog.open(this._tourSite, {
       autoFocus: false,
+      width: '80%',
+      maxWidth: '600px',
     });
   }
 
@@ -166,7 +167,7 @@ export class FooterComponent implements OnInit {
       url.match(new RegExp(`^${roleRegex}${roomRegex}/moderator/comments$`))
     ) {
       this._tourSite = IntroductionModerationComponent;
-    } else if (url.match(new RegExp(`^${roleRegex}${roomRegex}/gpt-chat$`))) {
+    } else if (url.endsWith('/gpt-chat')) {
       this._tourSite = IntroductionPromptGuideChatbotComponent;
     } else {
       this._tourSite = null;
