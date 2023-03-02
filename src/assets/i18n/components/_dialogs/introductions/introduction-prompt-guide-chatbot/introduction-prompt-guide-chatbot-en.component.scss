@@ -1,18 +1,18 @@
 $good-color: #4CAF50;
 $bad-color: #F44336;
 
+.good-icon {
+  color: $good-color;
+}
+
+.bad-icon {
+  color: $bad-color;
+}
+
 .good-icon, .bad-icon {
   font-size: 1.2rem;
   vertical-align: middle;
   padding-right: 5px;
-
-  &.good-icon {
-    color: $good-color;
-  }
-
-  &.bad-icon {
-    color: $bad-color;
-  }
 }
 
 ul {
