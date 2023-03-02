@@ -74,7 +74,6 @@
       <mat-error
         *ngIf="
           !password1FormControl.hasError('required') &&
-          !password1FormControl.hasError('validLength') &&
           password1FormControl.hasError('containsNumber')
         ">
         {{ "register.password-no-number" | translate }}
@@ -82,8 +81,6 @@
       <mat-error
         *ngIf="
           !password1FormControl.hasError('required') &&
-          !password1FormControl.hasError('validLength') &&
-          !password1FormControl.hasError('containsNumber') &&
           password1FormControl.hasError('containsLowercase')
         ">
         {{ "register.password-no-lowercase" | translate }}
@@ -91,9 +88,6 @@
       <mat-error
         *ngIf="
           !password1FormControl.hasError('required') &&
-          !password1FormControl.hasError('validLength') &&
-          !password1FormControl.hasError('containsNumber') &&
-          !password1FormControl.hasError('containsLowercase') &&
           password1FormControl.hasError('containsUppercase')
         ">
         {{ "register.password-no-uppercase" | translate }}
@@ -101,10 +95,6 @@
       <mat-error
         *ngIf="
           !password1FormControl.hasError('required') &&
-          !password1FormControl.hasError('validLength') &&
-          !password1FormControl.hasError('containsNumber') &&
-          !password1FormControl.hasError('containsLowercase') &&
-          !password1FormControl.hasError('containsUppercase') &&
           password1FormControl.hasError('containsSpecialCharacter')
         ">
         {{ "register.password-no-special-character" | translate }}

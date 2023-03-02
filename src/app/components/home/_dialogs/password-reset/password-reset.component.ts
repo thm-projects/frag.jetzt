@@ -8,11 +8,7 @@ import {
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import {
   checkForEquality,
-  checkForLength,
-  containsLowercase,
-  containsNumber,
-  containsSpecialCharacter,
-  containsUppercase,
+  checkForPasswordValidity,
 } from '../register/register.component';
 import { AuthenticationService } from '../../../../services/http/authentication.service';
 import { NotificationService } from '../../../../services/util/notification.service';
@@ -52,11 +48,7 @@ export class PasswordResetComponent implements OnInit {
   ]);
   passwordFormControl = new FormControl('', [
     Validators.required,
-    checkForLength(),
-    containsNumber(),
-    containsLowercase(),
-    containsUppercase(),
-    containsSpecialCharacter(),
+    checkForPasswordValidity(),
   ]);
   passwordFormControl2 = new FormControl('', [
     Validators.required,

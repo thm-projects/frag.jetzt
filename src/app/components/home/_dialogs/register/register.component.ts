@@ -25,30 +25,21 @@ export class RegisterErrorStateMatcher implements ErrorStateMatcher {
   }
 }
 
+export const checkForPasswordValidity = () => (field: FormControl) => {
+  if (field.value.length < 8 || field.value.length > 64)
+    return { validLength: { _: false } };
+  if (!/\d/.test(field.value)) return { containsNumber: { _: false } };
+  if (!/[a-z]/.test(field.value)) return { containsLowercase: { _: false } };
+  if (!/[A-Z]/.test(field.value)) return { containsUppercase: { _: false } };
+  if (!/[!@#$%^&*()_+\-=]/.test(field.value))
+    return { containsSpecialCharacter: { _: false } };
+
+  return null;
+};
+
 export const checkForEquality =
   (fieldOne: FormControl) => (fieldTwo: FormControl) =>
     fieldOne.value !== fieldTwo.value ? { isEqual: { _: false } } : null;
-
-export const checkForLength =
-  (minimumLength: number = 8, maximumLength: number = 64) =>
-  (field: FormControl) =>
-    field.value.length < minimumLength || field.value.length > maximumLength
-      ? { validLength: { _: false } }
-      : null;
-
-export const containsNumber = () => (field: FormControl) =>
-  !/\d/.test(field.value) ? { containsNumber: { _: false } } : null;
-
-export const containsLowercase = () => (field: FormControl) =>
-  !/[a-z]/.test(field.value) ? { containsLowercase: { _: false } } : null;
-
-export const containsUppercase = () => (field: FormControl) =>
-  !/[A-Z]/.test(field.value) ? { containsUppercase: { _: false } } : null;
-
-export const containsSpecialCharacter = () => (field: FormControl) =>
-  !/[!@#$%^&*()_+\-=]/.test(field.value)
-    ? { containsSpecialCharacter: { _: false } }
-    : null;
 
 @Component({
   selector: 'app-register',
@@ -66,11 +57,7 @@ export class RegisterComponent implements OnInit {
   ]);
   password1FormControl = new FormControl('', [
     Validators.required,
-    checkForLength(),
-    containsNumber(),
-    containsLowercase(),
-    containsUppercase(),
-    containsSpecialCharacter(),
+    checkForPasswordValidity(),
   ]);
   password2FormControl = new FormControl('', [
     Validators.required,
