@@ -115,7 +115,10 @@
     "stepDefinitions": "cypress/e2e"
   },
   "lint-staged": {
-    "*.{js,ts}": "eslint --cache --fix",
-    "*.{js,ts,scss,md,component.html}": "prettier --write"
+    "*.{js,ts}": [
+      "eslint --cache --fix",
+      "prettier --write"
+    ],
+    "*.{scss,md,component.html}": "prettier --write"
   }
 }
