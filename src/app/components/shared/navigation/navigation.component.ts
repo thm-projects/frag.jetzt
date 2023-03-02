@@ -1,11 +1,16 @@
 import { Location } from '@angular/common';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { NavigationEnd, Router } from '@angular/router';
 import { BonusTokenComponent } from 'app/components/creator/_dialogs/bonus-token/bonus-token.component';
-import {
-  UserBonusTokenComponent
-} from 'app/components/participant/_dialogs/user-bonus-token/user-bonus-token.component';
+import { UserBonusTokenComponent } from 'app/components/participant/_dialogs/user-bonus-token/user-bonus-token.component';
 import { Rescale } from 'app/models/rescale';
 import { UserRole } from 'app/models/user-roles.enum';
 import { DeviceInfoService } from 'app/services/util/device-info.service';
@@ -17,9 +22,7 @@ import { RoomDataFilter } from 'app/utils/data-filter-object.lib';
 import { filter, ReplaySubject, takeUntil } from 'rxjs';
 import { QrCodeDialogComponent } from '../_dialogs/qr-code-dialog/qr-code-dialog.component';
 import { RoomSettingsOverviewComponent } from '../_dialogs/room-settings-overview/room-settings-overview.component';
-import {
-  TopicCloudBrainstormingComponent
-} from '../_dialogs/topic-cloud-brainstorming/topic-cloud-brainstorming.component';
+import { TopicCloudBrainstormingComponent } from '../_dialogs/topic-cloud-brainstorming/topic-cloud-brainstorming.component';
 import { TopicCloudFilterComponent } from '../_dialogs/topic-cloud-filter/topic-cloud-filter.component';
 import { Room } from '../../../models/room';
 import { LivepollSessionList } from '../../../models/livepoll-session-list';
@@ -106,12 +109,16 @@ export const livepollNavigationAccessOnRoute = (
   route: string,
   room: Room | undefined,
   user: User | undefined,
-  pollList: LivepollSessionList
+  pollList: LivepollSessionList,
 ) => {
   if (room && room.livepollActive) {
     if (ROOM_REGEX.test(route) || COMMENTS_REGEX.test(route)) {
-      if (!route.includes('participant')
-        || (route.endsWith('comments/questionwall') && user && user.role > UserRole.PARTICIPANT)) {
+      if (
+        !route.includes('participant') ||
+        (route.endsWith('comments/questionwall') &&
+          user &&
+          user.role > UserRole.PARTICIPANT)
+      ) {
         return true;
       } else {
         return pollList.hasActiveLivepoll();
@@ -129,6 +136,7 @@ export const livepollNavigationAccessOnRoute = (
 })
 export class NavigationComponent implements OnInit, OnDestroy {
   @Input() isQuestionWall = false;
+  @Input() showText = true;
   readonly possibleLocations: AppLocation[] = [
     {
       id: 'back',
@@ -179,8 +187,8 @@ export class NavigationComponent implements OnInit, OnDestroy {
       i18n: 'header.questionwall',
       svgIcon: 'beamer',
       isCurrentRoute: (route) => FOCUS_REGEX.test(route),
-      canBeAccessedOnRoute: (route) => ROOM_REGEX.test(route) &&
-        this.deviceInfo.isCurrentlyDesktop,
+      canBeAccessedOnRoute: (route) =>
+        ROOM_REGEX.test(route) && this.deviceInfo.isCurrentlyDesktop,
       navigate: (route) => {
         const data = route.match(ROOM_REGEX);
         this.router.navigate([
@@ -194,13 +202,15 @@ export class NavigationComponent implements OnInit, OnDestroy {
       active: false,
       i18n: 'header.livepoll',
       icon: 'quiz',
-      canBeAccessedOnRoute: (route) => livepollNavigationAccessOnRoute(
-        route,
-        this.sessionService.currentRoom,
-        this.userManagementService.getCurrentUser(),
-        this.sessionService.currentLivepoll),
+      canBeAccessedOnRoute: (route) =>
+        livepollNavigationAccessOnRoute(
+          route,
+          this.sessionService.currentRoom,
+          this.userManagementService.getCurrentUser(),
+          this.sessionService.currentLivepoll,
+        ),
       navigate: (route) => LivepollCreateComponent.create(this.dialog),
-      isCurrentRoute: (route) => false
+      isCurrentRoute: (route) => false,
     },
     {
       id: 'radar',
@@ -465,7 +475,8 @@ export class NavigationComponent implements OnInit, OnDestroy {
       .getUser()
       .pipe(takeUntil(this.destroyer))
       .subscribe(observer);
-    this.deviceInfo.isMobile()
+    this.deviceInfo
+      .isMobile()
       .pipe(takeUntil(this.destroyer))
       .subscribe(observer);
   }

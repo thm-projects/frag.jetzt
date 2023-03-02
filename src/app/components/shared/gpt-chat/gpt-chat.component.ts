@@ -164,7 +164,7 @@ export class GptChatComponent implements OnInit, OnDestroy {
     const messages = this.conversation.slice(0, index).map((e) => e.message);
     this.gptService
       .requestCompletion({
-        prompt: messages,
+        prompt: messages.join('\u0003') + '\u0003',
         roomId: this.room?.id || null,
         model: this.model,
       })
@@ -249,7 +249,9 @@ export class GptChatComponent implements OnInit, OnDestroy {
     this.calculateTokens();
     this.gptService
       .requestCompletion({
-        prompt: this.conversation.map((entry) => entry.message),
+        prompt:
+          this.conversation.map((entry) => entry.message).join('\u0003') +
+          '\u0003',
         roomId: this.room?.id || null,
         model: this.model,
       })
@@ -322,31 +324,34 @@ export class GptChatComponent implements OnInit, OnDestroy {
     });
   }
 
-  private generatePrompt(length: number = this.conversation.length): string[] {
+  private generatePrompt(length: number = this.conversation.length): string {
     let wasHuman = false;
     let wasEmpty = false;
-    return this.conversation
-      .slice(0, length)
-      .filter((e) => e.type !== 'error')
-      .reduce((acc, current, i) => {
-        if (wasEmpty) {
-          wasEmpty = false;
-          return;
-        }
-        if (current.message.trim().length < 1) {
-          if ((this.conversation[i + 1]?.message?.trim()?.length || 1) < 1) {
-            wasEmpty = true;
+    return (
+      this.conversation
+        .slice(0, length)
+        .filter((e) => e.type !== 'error')
+        .reduce((acc, current, i) => {
+          if (wasEmpty) {
+            wasEmpty = false;
             return;
           }
-        }
-        const isHuman = current.type === 'human';
-        if (isHuman === wasHuman) {
-          acc.push('');
-        }
-        acc.push(current.message);
-        wasHuman = isHuman;
-        return acc;
-      }, []);
+          if (current.message.trim().length < 1) {
+            if ((this.conversation[i + 1]?.message?.trim()?.length || 1) < 1) {
+              wasEmpty = true;
+              return;
+            }
+          }
+          const isHuman = current.type === 'human';
+          if (isHuman === wasHuman) {
+            acc.push('');
+          }
+          acc.push(current.message);
+          wasHuman = isHuman;
+          return acc;
+        }, [])
+        .join('\u0003') + '\u0003'
+    );
   }
 
   private generateObserver(index: number): Partial<Observer<GPTStreamResult>> {
