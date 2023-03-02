@@ -1,0 +1,25 @@
+<h1
+  tabindex="0"
+  mat-dialog-title>
+  {{ "introductions.prompt-guide-chatbot" | translate }}
+</h1>
+
+<mat-dialog-content tabindex="0">
+  <app-introduction-prompt-guide-chatbot-en
+    *ngIf="
+      languageService.currentLanguage() === 'en'
+    "></app-introduction-prompt-guide-chatbot-en>
+  <app-introduction-prompt-guide-chatbot-de
+    *ngIf="
+      languageService.currentLanguage() === 'de'
+    "></app-introduction-prompt-guide-chatbot-de>
+  <app-introduction-prompt-guide-chatbot-fr
+    *ngIf="
+      languageService.currentLanguage() === 'fr'
+    "></app-introduction-prompt-guide-chatbot-fr>
+</mat-dialog-content>
+
+<app-dialog-action-buttons
+  confirmButtonLabel="cancel"
+  buttonsLabelSection="introductions"
+  [confirmButtonClickAction]="onClose.bind(this)"></app-dialog-action-buttons>
