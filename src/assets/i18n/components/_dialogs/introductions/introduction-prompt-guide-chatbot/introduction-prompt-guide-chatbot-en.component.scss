@@ -1,0 +1,30 @@
+.good-icon {
+    color: #4CAF50;
+    font-size: 1.2rem;
+    vertical-align: middle;
+    padding-right: 5px;
+}
+
+.bad-icon {
+    color: #F44336;
+    font-size: 1.2rem;
+    vertical-align: middle;
+    padding-right: 5px;
+}
+
+ul {
+    list-style-type: none;
+}
+
+ul,
+li {
+    padding-left: 0;
+}
+
+ol {
+    padding-left: 24px;
+}
+
+li:last-child {
+    margin-bottom: 20px;
+}
