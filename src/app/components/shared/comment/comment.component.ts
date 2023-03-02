@@ -46,6 +46,7 @@ import { QuillUtils } from '../../../utils/quill-utils';
 import { forkJoin, ReplaySubject, takeUntil } from 'rxjs';
 import { ResponseViewInformation } from '../comment-response-view/comment-response-view.component';
 import { UserManagementService } from '../../../services/util/user-management.service';
+import { GptOptInPrivacyComponent } from '../_dialogs/gpt-optin-privacy/gpt-optin-privacy.component';
 
 @Component({
   selector: 'app-comment',
@@ -125,6 +126,7 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
   viewInfo: ResponseViewInformation;
   commentRegistrationId: string;
   brainstormingCategory: string;
+  isGPTPrivacyPolicyAccepted: boolean = false;
   private _votes;
   private _commentNumber: string[] = [];
   private _destroyer = new ReplaySubject(1);
@@ -597,12 +599,34 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
     this.router.navigate([url]);
   }
 
+  checkPrivacyPolicy() {
+    console.log('checkPrivacyPolicy' + this.isGPTPrivacyPolicyAccepted);
+    if (this.isGPTPrivacyPolicyAccepted) {
+      this.openGPT();
+      console.log('checkPrivacyPolicy' + this.isGPTPrivacyPolicyAccepted);
+      return;
+    } else {
+      console.log('checkPrivacyPolicy' + this.isGPTPrivacyPolicyAccepted);
+      const ref = this.dialog.open(GptOptInPrivacyComponent);
+      ref.afterClosed().subscribe((result) => {
+        if (result) {
+          this.isGPTPrivacyPolicyAccepted = true;
+          this.openGPT();
+        }
+      });
+    }
+  }
+
   openGPT() {
     let url: string;
     this.route.params.subscribe((params) => {
       url = `${this.roleString}/room/${params['shortId']}/gpt-chat`;
     });
-    sessionStorage.setItem('temp-gpt-text', QuillUtils.getTextFromDelta(this.comment.body));
+
+    sessionStorage.setItem(
+      'temp-gpt-text',
+      QuillUtils.getTextFromDelta(this.comment.body),
+    );
     this.router.navigate([url]);
   }
 

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { GptService } from 'app/services/http/gpt.service';
 import { LanguageService } from '../../../../services/util/language.service';
+import { Location } from '@angular/common';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-gpt-optin-privacy',
@@ -8,7 +10,11 @@ import { LanguageService } from '../../../../services/util/language.service';
   styleUrls: ['./gpt-optin-privacy.component.scss'],
 })
 export class GptOptInPrivacyComponent implements OnInit {
-  constructor(public langService: LanguageService) {}
+  constructor(
+    public langService: LanguageService,
+    private location: Location,
+    private dialogRef: MatDialogRef<GptOptInPrivacyComponent>,
+  ) {}
 
   // accepted: boolean = false;
 
@@ -16,10 +22,11 @@ export class GptOptInPrivacyComponent implements OnInit {
 
   onDecline(): void {
     console.log('onDecline');
+    this.dialogRef.close(false);
   }
 
   onAccept(): void {
     console.log('onAccept');
-    //this.accepted = true;
+    this.dialogRef.close(true);
   }
 }

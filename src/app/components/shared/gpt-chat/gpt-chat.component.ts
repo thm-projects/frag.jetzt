@@ -19,6 +19,7 @@ import { KeyboardUtils } from 'app/utils/keyboard';
 import { KeyboardKey } from 'app/utils/keyboard/keys';
 import { finalize, Observer, ReplaySubject, Subject, takeUntil } from 'rxjs';
 import { GptOptInPrivacyComponent } from '../_dialogs/gpt-optin-privacy/gpt-optin-privacy.component';
+import { Location } from '@angular/common';
 
 interface ConversationEntry {
   type: 'human' | 'gpt' | 'error';
@@ -60,6 +61,7 @@ export class GptChatComponent implements OnInit, OnDestroy {
     private router: Router,
     private sessionService: SessionService,
     public dialog: MatDialog,
+    private location: Location,
   ) {
     this.isAdmin = router.url.toLowerCase().startsWith('/admin/gpt-chat');
   }
@@ -86,6 +88,11 @@ export class GptChatComponent implements OnInit, OnDestroy {
 
   openPrivacyDialog() {
     const dialogRef = this.dialog.open(GptOptInPrivacyComponent);
+    dialogRef.afterClosed().subscribe((result) => {
+      if (!result) {
+        this.location.back();
+      }
+    });
   }
 
   ngOnDestroy(): void {
