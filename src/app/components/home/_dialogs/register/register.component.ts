@@ -66,6 +66,8 @@ export class RegisterComponent implements OnInit {
 
   matcher = new RegisterErrorStateMatcher();
 
+  isPasswordVisible = false;
+
   constructor(
     private translationService: TranslateService,
     public authenticationService: AuthenticationService,
@@ -136,5 +138,9 @@ export class RegisterComponent implements OnInit {
     password: HTMLInputElement,
   ): () => void {
     return () => this.register(userName.value, password.value);
+  }
+
+  togglePasswordVisibility(): void {
+    this.isPasswordVisible = !this.isPasswordVisible;
   }
 }
