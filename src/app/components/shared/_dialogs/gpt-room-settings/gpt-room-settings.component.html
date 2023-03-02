@@ -10,7 +10,7 @@
         <input
           matInput
           type="password"
-          (keydown)="isEnter($event) && activateTrial() || true"
+          (keydown)="(isEnter($event) && activateTrial()) || true"
           appAccessibilityEscapedInput
           [(ngModel)]="trialCode" />
       </mat-form-field>
@@ -75,13 +75,13 @@
         type="number"
         inputmode="numeric"
         pattern="[0-9]*"
-        [(ngModel)]="maxAccumulatedRoomQuota" />
+        [(ngModel)]="maxAccumulatedRoomCost" />
       <button
-        *ngIf="maxAccumulatedRoomQuota !== null"
+        *ngIf="maxAccumulatedRoomCost !== null"
         matSuffix
         mat-icon-button
         aria-label="Clear"
-        (click)="maxAccumulatedRoomQuota = null">
+        (click)="maxAccumulatedRoomCost = null">
         <mat-icon>close</mat-icon>
       </button>
     </mat-form-field>
@@ -95,13 +95,13 @@
         type="number"
         inputmode="numeric"
         pattern="[0-9]*"
-        [(ngModel)]="maxMonthlyRoomQuota" />
+        [(ngModel)]="maxMonthlyRoomCost" />
       <button
-        *ngIf="maxMonthlyRoomQuota !== null"
+        *ngIf="maxMonthlyRoomCost !== null"
         matSuffix
         mat-icon-button
         aria-label="Clear"
-        (click)="maxMonthlyRoomQuota = null">
+        (click)="maxMonthlyRoomCost = null">
         <mat-icon>close</mat-icon>
       </button>
     </mat-form-field>
@@ -113,13 +113,13 @@
         type="number"
         inputmode="numeric"
         pattern="[0-9]*"
-        [(ngModel)]="maxDailyRoomQuota" />
+        [(ngModel)]="maxDailyRoomCost" />
       <button
-        *ngIf="maxDailyRoomQuota !== null"
+        *ngIf="maxDailyRoomCost !== null"
         matSuffix
         mat-icon-button
         aria-label="Clear"
-        (click)="maxDailyRoomQuota = null">
+        (click)="maxDailyRoomCost = null">
         <mat-icon>close</mat-icon>
       </button>
     </mat-form-field>
@@ -136,13 +136,13 @@
         type="number"
         inputmode="numeric"
         pattern="[0-9]*"
-        [(ngModel)]="maxAccumulatedModeratorQuota" />
+        [(ngModel)]="maxAccumulatedModeratorCost" />
       <button
-        *ngIf="maxAccumulatedModeratorQuota !== null"
+        *ngIf="maxAccumulatedModeratorCost !== null"
         matSuffix
         mat-icon-button
         aria-label="Clear"
-        (click)="maxAccumulatedModeratorQuota = null">
+        (click)="maxAccumulatedModeratorCost = null">
         <mat-icon>close</mat-icon>
       </button>
     </mat-form-field>
@@ -156,13 +156,13 @@
         type="number"
         inputmode="numeric"
         pattern="[0-9]*"
-        [(ngModel)]="maxMonthlyModeratorQuota" />
+        [(ngModel)]="maxMonthlyModeratorCost" />
       <button
-        *ngIf="maxMonthlyModeratorQuota !== null"
+        *ngIf="maxMonthlyModeratorCost !== null"
         matSuffix
         mat-icon-button
         aria-label="Clear"
-        (click)="maxMonthlyModeratorQuota = null">
+        (click)="maxMonthlyModeratorCost = null">
         <mat-icon>close</mat-icon>
       </button>
     </mat-form-field>
@@ -174,13 +174,13 @@
         type="number"
         inputmode="numeric"
         pattern="[0-9]*"
-        [(ngModel)]="maxDailyModeratorQuota" />
+        [(ngModel)]="maxDailyModeratorCost" />
       <button
-        *ngIf="maxDailyModeratorQuota !== null"
+        *ngIf="maxDailyModeratorCost !== null"
         matSuffix
         mat-icon-button
         aria-label="Clear"
-        (click)="maxDailyModeratorQuota = null">
+        (click)="maxDailyModeratorCost = null">
         <mat-icon>close</mat-icon>
       </button>
     </mat-form-field>
@@ -197,13 +197,13 @@
         type="number"
         inputmode="numeric"
         pattern="[0-9]*"
-        [(ngModel)]="maxAccumulatedParticipantQuota" />
+        [(ngModel)]="maxAccumulatedParticipantCost" />
       <button
-        *ngIf="maxAccumulatedParticipantQuota !== null"
+        *ngIf="maxAccumulatedParticipantCost !== null"
         matSuffix
         mat-icon-button
         aria-label="Clear"
-        (click)="maxAccumulatedParticipantQuota = null">
+        (click)="maxAccumulatedParticipantCost = null">
         <mat-icon>close</mat-icon>
       </button>
     </mat-form-field>
@@ -217,13 +217,13 @@
         type="number"
         inputmode="numeric"
         pattern="[0-9]*"
-        [(ngModel)]="maxMonthlyParticipantQuota" />
+        [(ngModel)]="maxMonthlyParticipantCost" />
       <button
-        *ngIf="maxMonthlyParticipantQuota !== null"
+        *ngIf="maxMonthlyParticipantCost !== null"
         matSuffix
         mat-icon-button
         aria-label="Clear"
-        (click)="maxMonthlyParticipantQuota = null">
+        (click)="maxMonthlyParticipantCost = null">
         <mat-icon>close</mat-icon>
       </button>
     </mat-form-field>
@@ -235,13 +235,13 @@
         type="number"
         inputmode="numeric"
         pattern="[0-9]*"
-        [(ngModel)]="maxDailyParticipantQuota" />
+        [(ngModel)]="maxDailyParticipantCost" />
       <button
-        *ngIf="maxDailyParticipantQuota !== null"
+        *ngIf="maxDailyParticipantCost !== null"
         matSuffix
         mat-icon-button
         aria-label="Clear"
-        (click)="maxDailyParticipantQuota = null">
+        (click)="maxDailyParticipantCost = null">
         <mat-icon>close</mat-icon>
       </button>
     </mat-form-field>
@@ -255,7 +255,7 @@
       <input
         matInput
         appAccessibilityEscapedInput
-        (keydown)="isEnter($event) && addKeyword() || true"
+        (keydown)="(isEnter($event) && addKeyword()) || true"
         [(ngModel)]="keywordAdd" />
       <button
         *ngIf="keywordAdd"

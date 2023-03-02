@@ -46,15 +46,15 @@ export class GPTRoomSetting {
   apiKey: string | null;
   apiOrganization: string | null;
   trialEnabled: boolean;
-  maxDailyRoomQuota: number | null;
-  maxMonthlyRoomQuota: number | null;
-  maxAccumulatedRoomQuota: number | null;
-  maxDailyParticipantQuota: number | null;
-  maxMonthlyParticipantQuota: number | null;
-  maxAccumulatedParticipantQuota: number | null;
-  maxDailyModeratorQuota: number | null;
-  maxMonthlyModeratorQuota: number | null;
-  maxAccumulatedModeratorQuota: number | null;
+  maxDailyRoomCost: number | null;
+  maxMonthlyRoomCost: number | null;
+  maxAccumulatedRoomCost: number | null;
+  maxDailyParticipantCost: number | null;
+  maxMonthlyParticipantCost: number | null;
+  maxAccumulatedParticipantCost: number | null;
+  maxDailyModeratorCost: number | null;
+  maxMonthlyModeratorCost: number | null;
+  maxAccumulatedModeratorCost: number | null;
   // stats
   dailyQuotaCounter: number;
   monthlyQuotaCounter: number;
@@ -80,15 +80,15 @@ export class GPTRoomSetting {
     apiKey = null,
     apiOrganization = null,
     trialEnabled = false,
-    maxDailyRoomQuota = null,
-    maxMonthlyRoomQuota = null,
-    maxAccumulatedRoomQuota = null,
-    maxDailyParticipantQuota = null,
-    maxMonthlyParticipantQuota = null,
-    maxAccumulatedParticipantQuota = null,
-    maxDailyModeratorQuota = null,
-    maxMonthlyModeratorQuota = null,
-    maxAccumulatedModeratorQuota = null,
+    maxDailyRoomCost = null,
+    maxMonthlyRoomCost = null,
+    maxAccumulatedRoomCost = null,
+    maxDailyParticipantCost = null,
+    maxMonthlyParticipantCost = null,
+    maxAccumulatedParticipantCost = null,
+    maxDailyModeratorCost = null,
+    maxMonthlyModeratorCost = null,
+    maxAccumulatedModeratorCost = null,
     dailyQuotaCounter = 0,
     monthlyQuotaCounter = 0,
     accumulatedQuotaCounter = 0,
@@ -108,15 +108,15 @@ export class GPTRoomSetting {
     this.apiKey = apiKey;
     this.apiOrganization = apiOrganization;
     this.trialEnabled = trialEnabled;
-    this.maxDailyRoomQuota = maxDailyRoomQuota;
-    this.maxMonthlyRoomQuota = maxMonthlyRoomQuota;
-    this.maxAccumulatedRoomQuota = maxAccumulatedRoomQuota;
-    this.maxDailyParticipantQuota = maxDailyParticipantQuota;
-    this.maxMonthlyParticipantQuota = maxMonthlyParticipantQuota;
-    this.maxAccumulatedParticipantQuota = maxAccumulatedParticipantQuota;
-    this.maxDailyModeratorQuota = maxDailyModeratorQuota;
-    this.maxMonthlyModeratorQuota = maxMonthlyModeratorQuota;
-    this.maxAccumulatedModeratorQuota = maxAccumulatedModeratorQuota;
+    this.maxDailyRoomCost = maxDailyRoomCost;
+    this.maxMonthlyRoomCost = maxMonthlyRoomCost;
+    this.maxAccumulatedRoomCost = maxAccumulatedRoomCost;
+    this.maxDailyParticipantCost = maxDailyParticipantCost;
+    this.maxMonthlyParticipantCost = maxMonthlyParticipantCost;
+    this.maxAccumulatedParticipantCost = maxAccumulatedParticipantCost;
+    this.maxDailyModeratorCost = maxDailyModeratorCost;
+    this.maxMonthlyModeratorCost = maxMonthlyModeratorCost;
+    this.maxAccumulatedModeratorCost = maxAccumulatedModeratorCost;
     this.dailyQuotaCounter = dailyQuotaCounter;
     this.monthlyQuotaCounter = monthlyQuotaCounter;
     this.accumulatedQuotaCounter = accumulatedQuotaCounter;

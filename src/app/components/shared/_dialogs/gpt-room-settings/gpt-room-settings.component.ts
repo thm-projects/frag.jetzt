@@ -45,15 +45,15 @@ export class GptRoomSettingsComponent implements OnInit, OnDestroy {
   trialEnabled: boolean = false;
   apiKey: string = null;
   apiOrganization: string = null;
-  maxDailyRoomQuota: number = null;
-  maxMonthlyRoomQuota: number = null;
-  maxAccumulatedRoomQuota: number = null;
-  maxDailyParticipantQuota: number = null;
-  maxMonthlyParticipantQuota: number = null;
-  maxAccumulatedParticipantQuota: number = null;
-  maxDailyModeratorQuota: number = null;
-  maxMonthlyModeratorQuota: number = null;
-  maxAccumulatedModeratorQuota: number = null;
+  maxDailyRoomCost: number = null;
+  maxMonthlyRoomCost: number = null;
+  maxAccumulatedRoomCost: number = null;
+  maxDailyParticipantCost: number = null;
+  maxMonthlyParticipantCost: number = null;
+  maxAccumulatedParticipantCost: number = null;
+  maxDailyModeratorCost: number = null;
+  maxMonthlyModeratorCost: number = null;
+  maxAccumulatedModeratorCost: number = null;
   canChangeParticipantQuota: boolean = false;
   canChangeModeratorQuota: boolean = false;
   canChangeRoomQuota: boolean = false;
@@ -129,17 +129,16 @@ export class GptRoomSettingsComponent implements OnInit, OnDestroy {
         this.trialEnabled = setting.trialEnabled;
         this.apiKey = setting.apiKey;
         this.apiOrganization = setting.apiOrganization;
-        this.maxDailyRoomQuota = setting.maxDailyRoomQuota;
-        this.maxMonthlyRoomQuota = setting.maxMonthlyRoomQuota;
-        this.maxAccumulatedRoomQuota = setting.maxAccumulatedRoomQuota;
-        this.maxDailyParticipantQuota = setting.maxDailyParticipantQuota;
-        this.maxMonthlyParticipantQuota = setting.maxMonthlyParticipantQuota;
-        this.maxAccumulatedParticipantQuota =
-          setting.maxAccumulatedParticipantQuota;
-        this.maxDailyModeratorQuota = setting.maxDailyModeratorQuota;
-        this.maxMonthlyModeratorQuota = setting.maxMonthlyModeratorQuota;
-        this.maxAccumulatedModeratorQuota =
-          setting.maxAccumulatedModeratorQuota;
+        this.maxDailyRoomCost = setting.maxDailyRoomCost;
+        this.maxMonthlyRoomCost = setting.maxMonthlyRoomCost;
+        this.maxAccumulatedRoomCost = setting.maxAccumulatedRoomCost;
+        this.maxDailyParticipantCost = setting.maxDailyParticipantCost;
+        this.maxMonthlyParticipantCost = setting.maxMonthlyParticipantCost;
+        this.maxAccumulatedParticipantCost =
+          setting.maxAccumulatedParticipantCost;
+        this.maxDailyModeratorCost = setting.maxDailyModeratorCost;
+        this.maxMonthlyModeratorCost = setting.maxMonthlyModeratorCost;
+        this.maxAccumulatedModeratorCost = setting.maxAccumulatedModeratorCost;
         this.canChangeParticipantQuota = setting.canChangeParticipantQuota();
         this.canChangeModeratorQuota = setting.canChangeModeratorQuota();
         this.canChangeRoomQuota = setting.canChangeRoomQuota();
@@ -188,8 +187,8 @@ export class GptRoomSettingsComponent implements OnInit, OnDestroy {
       repeatDur = this.repeatDuration;
       repeatUni = this.repeatUnit;
     }
-    const startDate = this.dateRange.value.start as Date;
-    const endDate = this.dateRange.value.end as Date;
+    const startDate = new Date(this.dateRange.value.start);
+    const endDate = new Date(this.dateRange.value.end);
     startDate.setHours(
       this.startDate.getHours(),
       this.startDate.getMinutes(),
@@ -264,57 +263,56 @@ export class GptRoomSettingsComponent implements OnInit, OnDestroy {
         if (this.apiOrganization !== this.previousSetting.apiOrganization) {
           patch.apiOrganization = this.apiOrganization;
         }
-        if (this.maxDailyRoomQuota !== this.previousSetting.maxDailyRoomQuota) {
-          patch.maxDailyRoomQuota = this.maxDailyRoomQuota;
+        if (this.maxDailyRoomCost !== this.previousSetting.maxDailyRoomCost) {
+          patch.maxDailyRoomCost = this.maxDailyRoomCost;
         }
         if (
-          this.maxMonthlyRoomQuota !== this.previousSetting.maxMonthlyRoomQuota
+          this.maxMonthlyRoomCost !== this.previousSetting.maxMonthlyRoomCost
         ) {
-          patch.maxMonthlyRoomQuota = this.maxMonthlyRoomQuota;
+          patch.maxMonthlyRoomCost = this.maxMonthlyRoomCost;
         }
         if (
-          this.maxAccumulatedRoomQuota !==
-          this.previousSetting.maxAccumulatedRoomQuota
+          this.maxAccumulatedRoomCost !==
+          this.previousSetting.maxAccumulatedRoomCost
         ) {
-          patch.maxAccumulatedRoomQuota = this.maxAccumulatedRoomQuota;
+          patch.maxAccumulatedRoomCost = this.maxAccumulatedRoomCost;
         }
         if (
-          this.maxDailyParticipantQuota !==
-          this.previousSetting.maxDailyParticipantQuota
+          this.maxDailyParticipantCost !==
+          this.previousSetting.maxDailyParticipantCost
         ) {
-          patch.maxDailyParticipantQuota = this.maxDailyParticipantQuota;
+          patch.maxDailyParticipantCost = this.maxDailyParticipantCost;
         }
         if (
-          this.maxMonthlyParticipantQuota !==
-          this.previousSetting.maxMonthlyParticipantQuota
+          this.maxMonthlyParticipantCost !==
+          this.previousSetting.maxMonthlyParticipantCost
         ) {
-          patch.maxMonthlyParticipantQuota = this.maxMonthlyParticipantQuota;
+          patch.maxMonthlyParticipantCost = this.maxMonthlyParticipantCost;
         }
         if (
-          this.maxAccumulatedParticipantQuota !==
-          this.previousSetting.maxAccumulatedParticipantQuota
+          this.maxAccumulatedParticipantCost !==
+          this.previousSetting.maxAccumulatedParticipantCost
         ) {
-          patch.maxAccumulatedParticipantQuota =
-            this.maxAccumulatedParticipantQuota;
+          patch.maxAccumulatedParticipantCost =
+            this.maxAccumulatedParticipantCost;
         }
         if (
-          this.maxDailyModeratorQuota !==
-          this.previousSetting.maxDailyModeratorQuota
+          this.maxDailyModeratorCost !==
+          this.previousSetting.maxDailyModeratorCost
         ) {
-          patch.maxDailyModeratorQuota = this.maxDailyModeratorQuota;
+          patch.maxDailyModeratorCost = this.maxDailyModeratorCost;
         }
         if (
-          this.maxMonthlyModeratorQuota !==
-          this.previousSetting.maxMonthlyModeratorQuota
+          this.maxMonthlyModeratorCost !==
+          this.previousSetting.maxMonthlyModeratorCost
         ) {
-          patch.maxMonthlyModeratorQuota = this.maxMonthlyModeratorQuota;
+          patch.maxMonthlyModeratorCost = this.maxMonthlyModeratorCost;
         }
         if (
-          this.maxAccumulatedModeratorQuota !==
-          this.previousSetting.maxAccumulatedModeratorQuota
+          this.maxAccumulatedModeratorCost !==
+          this.previousSetting.maxAccumulatedModeratorCost
         ) {
-          patch.maxAccumulatedModeratorQuota =
-            this.maxAccumulatedModeratorQuota;
+          patch.maxAccumulatedModeratorCost = this.maxAccumulatedModeratorCost;
         }
         let rights = 0;
         if (this.canChangeParticipantQuota) {

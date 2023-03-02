@@ -389,6 +389,8 @@
     "input-incorrect": "Bitte prüfe deine Eingaben.",
     "login": "Anmelden mit Konto",
     "login-data-incorrect": "E-Mail oder Passwort falsch",
+    "login-data-expired": "Die Zugangsdaten sind abgelaufen, bitte fordere ein neues Passwort an.",
+    "login-error-unknown": "Unbekannter Fehler: {{code}}",
     "login-description": "Mit den eingegebenen Kontodaten anmelden",
     "login-successful": "Du bist jetzt angemeldet.",
     "login-tooltip": "Die Session wird für 180 Tage gespeichert.",

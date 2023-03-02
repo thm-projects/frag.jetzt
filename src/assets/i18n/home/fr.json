@@ -389,6 +389,8 @@
     "input-incorrect": "Vérifie tes données, s'il te plaît.",
     "login": "Se connecter avec un compte",
     "login-data-incorrect": "E-mail ou mot de passe incorrect",
+    "login-data-expired": "Les données d'accès ont expiré, veuillez demander un nouveau mot de passe.",
+    "login-error-unknown": "Erreur inconnue: {{code}}",
     "login-description": "Se connecter avec les données de compte saisies",
     "login-successful": "Tu es maintenant connecté.",
     "login-tooltip": "La session est enregistrée pendant 180 jours.",
