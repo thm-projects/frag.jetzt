@@ -98,6 +98,7 @@ export class FooterComponent implements OnInit {
 
   showCurrentTour() {
     if (!this._tourSite) {
+      this.dialog.open(IntroductionPromptGuideChatbotComponent);
       return;
     }
     this.dialog.open(this._tourSite, {
