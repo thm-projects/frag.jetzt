@@ -21,6 +21,11 @@ export enum LoginResult {
 
 export type LoginResultArray = [LoginResult, User];
 
+export interface FoundRange {
+  start: number;
+  end: number;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -47,7 +52,7 @@ export class AuthenticationService extends BaseHttpService {
     super();
   }
 
-  checkPasswordInDictionary(password: string): Observable<boolean> {
+  checkPasswordInDictionary(password: string): Observable<FoundRange[]> {
     const connectionUrl: string =
       this.apiUrl.base +
       this.apiUrl.auth +
@@ -55,13 +60,10 @@ export class AuthenticationService extends BaseHttpService {
       '/' +
       encodeURIComponent(password);
     return this.http
-      .post(connectionUrl, null, {
-        responseType: 'text',
-      })
+      .post<FoundRange[]>(connectionUrl, null, this.httpOptions)
       .pipe(
         tap(() => ''),
-        map((str) => str === 'true'),
-        catchError(this.handleError<boolean>('checkPasswordInDictionary')),
+        catchError(this.handleError<FoundRange[]>('checkPasswordInDictionary')),
       );
   }
 

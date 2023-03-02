@@ -61,7 +61,7 @@ interface GPTPrompt {
   presencePenalty?: number;
   frequencyPenalty?: number;
   bestOf?: number;
-  logitBias: { [key: string]: number };
+  logitBias?: { [key: string]: number };
 }
 
 interface GPTModerationResult {

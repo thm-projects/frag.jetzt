@@ -1,4 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { DateAdapter } from '@angular/material/core';
 import { TranslateService } from '@ngx-translate/core';
@@ -31,6 +37,7 @@ type ActivationCodeAction = AddActivationCode | DeleteActivationCode;
   styleUrls: ['./gpt-configuration.component.scss'],
 })
 export class GptConfigurationComponent implements OnInit, OnDestroy {
+  @ViewChild('inputCheck') inputCheck: ElementRef<HTMLInputElement>;
   // config members
   apiKey: string = null;
   organization: string = null;
@@ -78,8 +85,16 @@ export class GptConfigurationComponent implements OnInit, OnDestroy {
     }
   }
 
+  isValid() {
+    return (
+      this.activationMaxCost >= 0 &&
+      this.activationCode.length >= 8 &&
+      this.inputCheck?.nativeElement?.checkValidity?.()
+    );
+  }
+
   addActivationCode() {
-    if (this.activationMaxCost < 0 || this.activationCode.length < 8) {
+    if (!this.isValid()) {
       return;
     }
     const newCode = this.activationCode.trim();

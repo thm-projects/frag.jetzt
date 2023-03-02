@@ -129,7 +129,7 @@
             type="text"
             [(ngModel)]="activationCode" />
           <button
-            *ngIf="activationCode.length > 8 && activationMaxCost >= 0"
+            *ngIf="isValid()"
             matSuffix
             mat-icon-button
             aria-label="Submit"
@@ -142,6 +142,7 @@
             {{ "gpt-config.activation-max-cost" | translate }}
           </mat-label>
           <input
+            #inputCheck
             matInput
             appAccessibilityEscapedInput
             min="0"
