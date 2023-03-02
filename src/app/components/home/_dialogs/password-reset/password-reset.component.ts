@@ -58,6 +58,8 @@ export class PasswordResetComponent implements OnInit {
 
   matcher = new PasswordResetErrorStateMatcher();
 
+  isPasswordVisible = false;
+
   constructor(
     private translationService: TranslateService,
     public authenticationService: AuthenticationService,
@@ -197,5 +199,9 @@ export class PasswordResetComponent implements OnInit {
    */
   buildPasswordResetActionCallback(email: HTMLInputElement): () => void {
     return () => this.resetPassword(email.value);
+  }
+
+  togglePasswordVisibility(): void {
+    this.isPasswordVisible = !this.isPasswordVisible;
   }
 }
