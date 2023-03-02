@@ -180,7 +180,7 @@ export class GptConfigurationComponent implements OnInit, OnDestroy {
         if (!obj.platformCodes.includes(code)) {
           arr.push({
             code: code.code,
-            maximalCost: code.maximalCost,
+            maximalCost: Math.round(code.maximalCost * 100),
           });
         }
       }
@@ -237,7 +237,10 @@ export class GptConfigurationComponent implements OnInit, OnDestroy {
     this.active = obj.active;
     this.endDate = obj.endDate ? new Date(obj.endDate) : null;
     this.endDateControl.setValue(this.endDate);
-    this.platformCodes = [...obj.platformCodes];
+    this.platformCodes = obj.platformCodes.map((e) => {
+      e.maximalCost = e.maximalCost / 100;
+      return e;
+    });
   }
 
   private updateGPT(changes: Partial<GPTConfiguration>) {

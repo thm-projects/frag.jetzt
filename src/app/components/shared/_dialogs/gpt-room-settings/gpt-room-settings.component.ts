@@ -281,7 +281,7 @@ export class GptRoomSettingsComponent implements OnInit, OnDestroy {
         }
       }
       {
-        const verify = (v: number) => (v ? v * 100 : v);
+        const verify = (v: number) => (v ? Math.round(v * 100) : v);
         const patch: Partial<GPTRoomSettingAPI> = {};
         if (this.apiKey !== this.previousSetting.apiKey) {
           patch.apiKey = this.apiKey;
