@@ -101,6 +101,13 @@
         <br />
         (!, @, #, $, %, ^, &, *, (, ), _, +, -, =)
       </mat-error>
+      <mat-error
+        *ngIf="
+          !password1FormControl.hasError('required') &&
+          password1FormControl.hasError('containsEmailElements')
+        ">
+        {{ "register.password-too-similar" | translate }}
+      </mat-error>
     </mat-form-field>
 
     <mat-form-field class="input-block">

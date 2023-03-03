@@ -25,17 +25,70 @@ export class RegisterErrorStateMatcher implements ErrorStateMatcher {
   }
 }
 
-export const checkForPasswordValidity = () => (field: FormControl) => {
-  if (field.value.length < 8 || field.value.length > 64)
-    return { validLength: { _: false } };
-  if (!/\d/.test(field.value)) return { containsNumber: { _: false } };
-  if (!/[a-z]/.test(field.value)) return { containsLowercase: { _: false } };
-  if (!/[A-Z]/.test(field.value)) return { containsUppercase: { _: false } };
-  if (!/[!@#$%^&*()_+\-=]/.test(field.value))
-    return { containsSpecialCharacter: { _: false } };
+const levenshteinDistance = (stringOne: string, stringTwo: string) => {
+  const wordOne = stringOne.toLowerCase();
+  const wordTwo = stringTwo.toLowerCase();
 
-  return null;
+  if (wordOne.length === 0 && wordOne.length === 0) return 0;
+  if (wordOne.length === 0) return wordTwo.length;
+  if (wordTwo.length === 0) return wordOne.length;
+  if (wordOne === wordTwo) return 0;
+
+  const matrix = Array(wordOne.length + 1)
+    .fill(null)
+    .map(() => Array(wordTwo.length + 1).fill(null));
+
+  for (let i = 0; i <= wordOne.length; i++) matrix[i][0] = i;
+  for (let i = 0; i <= wordTwo.length; i++) matrix[0][i] = i;
+
+  for (let i = 1; i <= wordOne.length; i++) {
+    for (let j = 1; j <= wordTwo.length; j++) {
+      const indicator = wordOne[i - 1] === wordTwo[j - 1] ? 0 : 1;
+      matrix[i][j] = Math.min(
+        matrix[i - 1][j] + indicator,
+        matrix[i][j - 1] + indicator,
+        matrix[i - 1][j - 1] + indicator,
+      );
+    }
+  }
+
+  return matrix[wordOne.length][wordTwo.length];
 };
+
+const splitString = (word: string) => word.split('@')[0].split(/[.\-_]/);
+
+export const checkForPasswordValidity =
+  (usernameField: FormControl) => (passwordField: FormControl) => {
+    if (passwordField.value.length < 8 || passwordField.value.length > 64)
+      return { validLength: { _: false } };
+    if (!/\d/.test(passwordField.value))
+      return { containsNumber: { _: false } };
+    if (!/[a-z]/.test(passwordField.value))
+      return { containsLowercase: { _: false } };
+    if (!/[A-Z]/.test(passwordField.value))
+      return { containsUppercase: { _: false } };
+    if (!/[!@#$%^&*()_+\-=]/.test(passwordField.value))
+      return { containsSpecialCharacter: { _: false } };
+
+    if (usernameField.value.trim().length <= 0) return null;
+
+    // Password Similarity
+    const emailSubstrings = splitString(usernameField.value);
+
+    for (const substring of emailSubstrings) {
+      if (passwordField.value.toLowerCase().includes(substring.toLowerCase()))
+        return { containsEmailElements: { _: false } };
+      if (
+        levenshteinDistance(
+          substring.toLowerCase(),
+          passwordField.value.toLowerCase(),
+        ) < 3
+      )
+        return { containsEmailElements: { _: false } };
+    }
+
+    return null;
+  };
 
 export const checkForEquality =
   (fieldOne: FormControl) => (fieldTwo: FormControl) =>
@@ -57,7 +110,7 @@ export class RegisterComponent implements OnInit {
   ]);
   password1FormControl = new FormControl('', [
     Validators.required,
-    checkForPasswordValidity(),
+    checkForPasswordValidity(this.usernameFormControl),
   ]);
   password2FormControl = new FormControl('', [
     Validators.required,

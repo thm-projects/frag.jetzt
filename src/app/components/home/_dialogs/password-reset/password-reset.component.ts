@@ -48,7 +48,7 @@ export class PasswordResetComponent implements OnInit {
   ]);
   passwordFormControl = new FormControl('', [
     Validators.required,
-    checkForPasswordValidity(),
+    checkForPasswordValidity(this.usernameFormControl),
   ]);
   passwordFormControl2 = new FormControl('', [
     Validators.required,
