@@ -389,6 +389,8 @@
     "input-incorrect": "Please check your data.",
     "login": "Sign in with account",
     "login-data-incorrect": "E-mail or password incorrect",
+    "login-data-expired": "The access data has expired, please request a new password.",
+    "login-error-unknown": "Unknown error: {{code}}",
     "login-description": "Sign in with the entered account data",
     "login-successful": "You are logged in now.",
     "login-tooltip": "Sessions will be stored for 180 days.",

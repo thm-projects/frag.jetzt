@@ -1,6 +1,7 @@
 import {
   AfterViewInit,
   Component,
+  ElementRef,
   OnInit,
   Renderer2,
   ViewChild,
@@ -29,7 +30,6 @@ import { HeaderService } from '../../../services/util/header.service';
 import { OnboardingService } from '../../../services/util/onboarding.service';
 import { ArsComposeHostDirective } from '../../../../../projects/ars/src/lib/compose/ars-compose-host.directive';
 import { ThemeService } from '../../../../theme/theme.service';
-import { TopicCloudBrainstormingComponent } from '../_dialogs/topic-cloud-brainstorming/topic-cloud-brainstorming.component';
 import { SessionService } from '../../../services/util/session.service';
 import { DeviceInfoService } from '../../../services/util/device-info.service';
 import { CommentNotificationService } from '../../../services/http/comment-notification.service';
@@ -53,6 +53,7 @@ import { PseudonymEditorComponent } from '../_dialogs/pseudonym-editor/pseudonym
 import { CommentNotificationDialogComponent } from '../_dialogs/comment-notification-dialog/comment-notification-dialog.component';
 import { GPTUserDescriptionDialogComponent } from '../_dialogs/gptuser-description-dialog/gptuser-description-dialog.component';
 import { GptOptInPrivacyComponent } from '../_dialogs/gpt-optin-privacy/gpt-optin-privacy.component';
+import { ShrinkObserver } from 'app/utils/shrink-observer';
 
 @Component({
   selector: 'app-header',
@@ -61,6 +62,7 @@ import { GptOptInPrivacyComponent } from '../_dialogs/gpt-optin-privacy/gpt-opti
 })
 export class HeaderComponent implements OnInit, AfterViewInit {
   @ViewChild(ArsComposeHostDirective) host: ArsComposeHostDirective;
+  @ViewChild('toolbarRow') toolbarRow: ElementRef<HTMLElement>;
   @ViewChild('themeMenu') themeMenu: MatMenu;
   user: ManagedUser;
   userRole: UserRole;
@@ -75,10 +77,12 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   hasEmailNotifications = false;
   hasKeywords = false;
   themes: Theme[];
+  showSmallButtons = false;
   public readonly navigationAccess = {
     livepoll: livepollNavigationAccessOnRoute,
   };
   private _clockCount = 0;
+  private shrinkObserver: ShrinkObserver;
 
   constructor(
     public userManagementService: UserManagementService,
@@ -107,6 +111,10 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     this.headerService.initHeader(() => this);
     this.themes = this.themeService.getThemes();
+    this.shrinkObserver = new ShrinkObserver(this.toolbarRow.nativeElement);
+    this.shrinkObserver
+      .observeShrink()
+      .subscribe((shrinked) => (this.showSmallButtons = shrinked));
   }
 
   ngOnInit() {

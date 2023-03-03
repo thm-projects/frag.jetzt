@@ -1,17 +1,35 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { DateAdapter } from '@angular/material/core';
 import { TranslateService } from '@ngx-translate/core';
 import {
+  GPTActivationCode,
   GPTConfiguration,
   GPTRestrictions,
 } from 'app/models/gpt-configuration';
 import { GPTStatistics } from 'app/models/gpt-statistics';
-import { GPTUsage } from 'app/models/gpt-status';
-import { CachedModel, GptService } from 'app/services/http/gpt.service';
+import { GptService } from 'app/services/http/gpt.service';
 import { LanguageService } from 'app/services/util/language.service';
 import { NotificationService } from 'app/services/util/notification.service';
 import { ReplaySubject, takeUntil } from 'rxjs';
+
+interface AddActivationCode {
+  code: string;
+  maximalCost: number;
+}
+
+interface DeleteActivationCode {
+  code: string;
+  delete: true;
+}
+
+type ActivationCodeAction = AddActivationCode | DeleteActivationCode;
 
 @Component({
   selector: 'app-gpt-configuration',
@@ -19,39 +37,19 @@ import { ReplaySubject, takeUntil } from 'rxjs';
   styleUrls: ['./gpt-configuration.component.scss'],
 })
 export class GptConfigurationComponent implements OnInit, OnDestroy {
+  @ViewChild('inputCheck') inputCheck: ElementRef<HTMLInputElement>;
   // config members
   apiKey: string = null;
   organization: string = null;
-  model: string = null;
-  maxTokens: number = null;
-  temperature: number = null;
-  topP: number = null;
-  logprobs: number = null;
-  echo: boolean = null;
-  stop: string[] = [];
-  presencePenalty: number = null;
-  frequencyPenalty: number = null;
-  logitBias: { [key: string]: number } = {};
-  trialCode: string = null;
   // restriction members
   active: boolean = null;
-  usage: GPTUsage = null;
-  ipFilter: string[] = [];
   endDate: Date = null;
-  accumulatedPlatformQuota: number = null;
-  weeklyPlatformQuota: number = null;
-  dailyPlatformQuota: number = null;
-  accumulatedUserQuota: number = null;
-  weeklyUserQuota: number = null;
-  dailyUserQuota: number = null;
+  platformCodes: GPTActivationCode[] = [];
   // stats
   statistics: GPTStatistics = null;
-  // additional
-  models: CachedModel[] = null;
-  addStop: string = null;
-  addLogitBias: string = null;
-  addIpFilter: string = null;
   // ui
+  activationCode: string = '';
+  activationMaxCost: number = 0;
   step = -1;
   isLoading = true;
   endDateControl = new FormControl(null);
@@ -73,14 +71,6 @@ export class GptConfigurationComponent implements OnInit, OnDestroy {
       .subscribe((lang) => {
         this.adapter.setLocale(lang);
       });
-    this.gptService.getCompletionModelsOnce().subscribe({
-      next: (m) => (this.models = m),
-      error: () => {
-        this.translateService
-          .get('gpt-config.model-fetch-error')
-          .subscribe((msg) => this.notificationService.show(msg));
-      },
-    });
     this.reloadConfig();
   }
 
@@ -95,44 +85,30 @@ export class GptConfigurationComponent implements OnInit, OnDestroy {
     }
   }
 
-  addStopWord() {
-    if (this.addStop === null || this.addStop.length === 0) {
-      return;
-    }
-    if (this.stop.indexOf(this.addStop) >= 0) {
-      return;
-    }
-    this.stop.push(this.addStop);
-    this.addStop = null;
+  isValid() {
+    return (
+      this.activationMaxCost >= 0 &&
+      this.activationCode.length >= 8 &&
+      this.inputCheck?.nativeElement?.checkValidity?.()
+    );
   }
 
-  addLogit() {
-    if (this.addLogitBias === null || this.addLogitBias.length === 0) {
+  addActivationCode() {
+    if (!this.isValid()) {
       return;
     }
-    if (Object.keys(this.logitBias).indexOf(this.addLogitBias) >= 0) {
+    const newCode = this.activationCode.trim();
+    if (this.platformCodes.findIndex((code) => code.code === newCode) >= 0) {
       return;
     }
-    this.logitBias[this.addLogitBias] = 0.0;
-    this.addLogitBias = null;
-  }
-
-  addSubnet() {
-    if (this.addIpFilter === null || this.addIpFilter.length === 0) {
-      return;
-    }
-    const newSubnet = this.addIpFilter.includes('/')
-      ? this.addIpFilter
-      : this.addIpFilter + '/0';
-    if (this.ipFilter.indexOf(newSubnet) >= 0) {
-      return;
-    }
-    this.ipFilter.push(newSubnet);
-    this.addIpFilter = null;
-  }
-
-  deleteLogitBias(element: string) {
-    delete this.logitBias[element];
+    this.platformCodes.push(
+      new GPTActivationCode({
+        code: newCode,
+        maximalCost: this.activationMaxCost,
+      }),
+    );
+    this.activationCode = '';
+    this.activationMaxCost = 0;
   }
 
   getDateFormatString() {
@@ -166,58 +142,6 @@ export class GptConfigurationComponent implements OnInit, OnDestroy {
     if (this.organization !== obj.organization) {
       changes.organization = this.organization;
     }
-    if (this.model !== obj.model) {
-      changes.model = this.model;
-    }
-    if (this.maxTokens !== obj.maxTokens) {
-      changes.maxTokens = this.maxTokens;
-    }
-    if (this.temperature !== obj.temperature) {
-      changes.temperature = this.temperature;
-    }
-    if (this.topP !== obj.topP) {
-      changes.topP = this.topP;
-    }
-    if (this.logprobs !== obj.logprobs) {
-      changes.logprobs = this.logprobs;
-    }
-    if (this.echo !== obj.echo) {
-      changes.echo = this.echo;
-    }
-    if (this.stop.length < 1) {
-      if (null !== obj.stop) {
-        changes.stop = null;
-      }
-    } else if (this.stop.length === 1) {
-      if (this.stop[0] !== obj.stop) {
-        changes.stop = this.stop[0];
-      }
-    } else {
-      if (
-        !Array.isArray(obj.stop) ||
-        obj.stop.length !== this.stop.length ||
-        !this.stop.every((v, i) => obj.stop[i] === v)
-      ) {
-        changes.stop = [...this.stop];
-      }
-    }
-    if (this.presencePenalty !== obj.presencePenalty) {
-      changes.presencePenalty = this.presencePenalty;
-    }
-    if (this.frequencyPenalty !== obj.frequencyPenalty) {
-      changes.frequencyPenalty = this.frequencyPenalty;
-    }
-    const keys = Object.keys(this.logitBias);
-    const objKeys = Object.keys(obj.logitBias || {});
-    if (
-      keys.length !== objKeys.length ||
-      !keys.every((k) => this.logitBias[k] === obj.logitBias[k])
-    ) {
-      changes.logitBias = keys.length > 0 ? { ...this.logitBias } : null;
-    }
-    if (this.trialCode !== obj.trialCode) {
-      changes.trialCode = this.trialCode;
-    }
     if (Object.keys(changes).length < 1) {
       return;
     }
@@ -229,13 +153,6 @@ export class GptConfigurationComponent implements OnInit, OnDestroy {
     const changes: Partial<GPTRestrictions> = {};
     if (this.active !== obj.active) {
       changes.active = this.active;
-    }
-    if (this.usage !== obj.usage) {
-      changes.usage = this.usage;
-    }
-    const mergedIpFilter = this.ipFilter.join('|');
-    if (mergedIpFilter !== obj.ipFilter) {
-      changes.ipFilter = mergedIpFilter;
     }
     const endDate = this.endDateControl.value as Date;
     if (endDate !== null) {
@@ -249,25 +166,28 @@ export class GptConfigurationComponent implements OnInit, OnDestroy {
     if (endDate?.getTime() !== obj.endDate?.getTime()) {
       changes.endDate = endDate;
     }
-    if (this.accumulatedPlatformQuota !== obj.accumulatedPlatformQuota) {
-      changes.accumulatedPlatformQuota = this.accumulatedPlatformQuota;
+    {
+      const arr: ActivationCodeAction[] = [];
+      for (const code of obj.platformCodes) {
+        if (!this.platformCodes.includes(code)) {
+          arr.push({
+            code: code.code,
+            delete: true,
+          });
+        }
+      }
+      for (const code of this.platformCodes) {
+        if (!obj.platformCodes.includes(code)) {
+          arr.push({
+            code: code.code,
+            maximalCost: Math.round(code.maximalCost * 100),
+          });
+        }
+      }
+      if (arr.length > 0) {
+        changes.platformCodes = arr as any;
+      }
     }
-    if (this.weeklyPlatformQuota !== obj.weeklyPlatformQuota) {
-      changes.weeklyPlatformQuota = this.weeklyPlatformQuota;
-    }
-    if (this.dailyPlatformQuota !== obj.dailyPlatformQuota) {
-      changes.dailyPlatformQuota = this.dailyPlatformQuota;
-    }
-    if (this.accumulatedUserQuota !== obj.accumulatedUserQuota) {
-      changes.accumulatedUserQuota = this.accumulatedUserQuota;
-    }
-    if (this.weeklyUserQuota !== obj.weeklyUserQuota) {
-      changes.weeklyUserQuota = this.weeklyUserQuota;
-    }
-    if (this.dailyUserQuota !== obj.dailyUserQuota) {
-      changes.dailyUserQuota = this.dailyUserQuota;
-    }
-    console.log(changes);
     if (Object.keys(changes).length < 1) {
       return;
     }
@@ -310,36 +230,17 @@ export class GptConfigurationComponent implements OnInit, OnDestroy {
     const obj = this.configuration;
     this.apiKey = obj.apiKey;
     this.organization = obj.organization;
-    this.model = obj.model;
-    this.maxTokens = obj.maxTokens;
-    this.temperature = obj.temperature;
-    this.topP = obj.topP;
-    this.logprobs = obj.logprobs;
-    this.echo = obj.echo;
-    if (Array.isArray(obj.stop)) {
-      this.stop = [...obj.stop];
-    } else {
-      this.stop = obj.stop ? [obj.stop] : [];
-    }
-    this.presencePenalty = obj.presencePenalty;
-    this.frequencyPenalty = obj.frequencyPenalty;
-    this.logitBias = { ...obj.logitBias };
-    this.trialCode = obj.trialCode;
   }
 
   private loadRestrictions() {
     const obj = this.configuration.restrictions;
     this.active = obj.active;
-    this.usage = obj.usage;
-    this.ipFilter = obj.ipFilter.split('|');
     this.endDate = obj.endDate ? new Date(obj.endDate) : null;
     this.endDateControl.setValue(this.endDate);
-    this.accumulatedPlatformQuota = obj.accumulatedPlatformQuota;
-    this.weeklyPlatformQuota = obj.weeklyPlatformQuota;
-    this.dailyPlatformQuota = obj.dailyPlatformQuota;
-    this.accumulatedUserQuota = obj.accumulatedUserQuota;
-    this.weeklyUserQuota = obj.weeklyUserQuota;
-    this.dailyUserQuota = obj.dailyUserQuota;
+    this.platformCodes = obj.platformCodes.map((e) => {
+      e.maximalCost = e.maximalCost / 100;
+      return e;
+    });
   }
 
   private updateGPT(changes: Partial<GPTConfiguration>) {
