@@ -609,8 +609,10 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
 
   checkPrivacyPolicy() {
     this.gptService.getConsentState().subscribe((state) => {
+      // git wollte hier 3 = sehen
       if (state === false) {
-        this.canOpenGPT = false;
+        console.log('color test checkPrivacyPolicy: ' + state);
+        // this.canOpenGPT = false;
       }
     });
   }

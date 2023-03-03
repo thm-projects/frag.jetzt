@@ -381,7 +381,11 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   }
 
   openPrivacyDialog() {
-    const dialogRef = this.dialog.open(GptOptInPrivacyComponent);
+    const dialogRef = this.dialog.open(GptOptInPrivacyComponent, {
+      autoFocus: false,
+      width: '80%',
+      maxWidth: '600px',
+    });
     dialogRef.afterClosed().subscribe((result) => {
       this.gptService.updateConsentState(result).subscribe();
       this.gptService.getConsentState().subscribe((state) => {
