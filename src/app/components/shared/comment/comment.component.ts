@@ -93,7 +93,7 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() indentationPossible = false;
   @Input() showResponses: boolean = false;
   @Input() activeKeywordSearchString: string = null;
-  @Input() canOpenGPT = false;
+  @Input() canOpenGPT = true;
   @Output() clickedOnTag = new EventEmitter<string>();
   @Output() clickedOnKeyword = new EventEmitter<string>();
   @Output() clickedUserNumber = new EventEmitter<string>();
@@ -200,6 +200,7 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.checkPrivacyPolicy();
     this.isConversationView = this.router.url.endsWith('conversation');
     this.isConversationViewOwner = this.router.url.endsWith(
       this.comment.id + '/conversation',
@@ -606,25 +607,13 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
     this.router.navigate([url]);
   }
 
-  // checkPrivacyPolicy() {
-  //   console.log('checkPrivacyPolicy started' + this.isGPTPrivacyPolicyAccepted);
-  //   if (this.isGPTPrivacyPolicyAccepted) {
-  //     this.openGPT();
-  //     console.log(
-  //       'checkPrivacyPolicy accepted' + this.isGPTPrivacyPolicyAccepted,
-  //     );
-  //     return;
-  //   } else {
-  //     console.log('checkPrivacyPolicy else' + this.isGPTPrivacyPolicyAccepted);
-  //     const ref = this.dialog.open(GptOptInPrivacyComponent);
-  //     ref.afterClosed().subscribe((result) => {
-  //       this.gptService.updateConsentState(result);
-  //       if (result) {
-  //         this.openGPT();
-  //       }
-  //     });
-  //   }
-  // }
+  checkPrivacyPolicy() {
+    this.gptService.getConsentState().subscribe((state) => {
+      if (state === false) {
+        this.canOpenGPT = false;
+      }
+    });
+  }
 
   openGPT() {
     console.log('openGPT started with ' + this.isGPTPrivacyPolicyAccepted);

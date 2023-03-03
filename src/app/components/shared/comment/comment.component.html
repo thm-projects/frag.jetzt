@@ -482,10 +482,14 @@
 
       <!-- *ngIf="canOpenGPT" -->
       <!-- (click)="checkPrivacyPolicy()"> -->
+      <!-- 
+        [disabled]="canOpenGPT == false" -->
+      <!-- [ngStyle]="{ 'gray-button': !canOpenGPT}" -->
 
       <button
         mat-button
         class="replyButton"
+        [ngClass]="{ replyButton: canOpenGPT, 'gray-button': !canOpenGPT }"
         (click)="openGPT()">
         <mat-icon class="material-icons-outlined">smart_toy</mat-icon>
         {{ "comment-page.reply-AI" | translate }}
