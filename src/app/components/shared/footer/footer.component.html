@@ -1,10 +1,8 @@
 <div>
-
   <mat-toolbar
     class="mat-elevation-z24"
     id="footer-toolbar"
     *ngIf="!router.url.endsWith('/quiz')">
-
     <ng-container *ngIf="router.url.includes('/room/')">
       <button
         class="focus_button"
@@ -13,23 +11,27 @@
         [stepPosition]="'center'"
         appJoyrideTemplate
         mat-button>
-          <span
-            class="material-icons-outlined"
-            [matTooltip]="'footer.notifications-button' | translate"
-            matBadgeSize="small"
-            matBadgePosition="above after"
-            [matBadge]="change.getList().length || 0"
-            [matBadgeHidden]="+change.getList().length < 1">
-              <mat-icon>
-              notifications
-              </mat-icon>
-          </span>
-        <span *ngIf="deviceInfo.isCurrentlyDesktop && router.url.endsWith('/home')">{{ "Dashboard" | translate }}</span>
+        <span
+          class="material-icons-outlined"
+          [matTooltip]="'footer.notifications-button' | translate"
+          matBadgeSize="small"
+          matBadgePosition="above after"
+          [matBadge]="change.getList().length || 0"
+          [matBadgeHidden]="+change.getList().length < 1">
+          <mat-icon>notifications</mat-icon>
+        </span>
+        <span
+          *ngIf="deviceInfo.isCurrentlyDesktop && router.url.endsWith('/home')">
+          {{ "Dashboard" | translate }}
+        </span>
       </button>
       <span class="fill-remaining-space"></span>
     </ng-container>
 
-    <ng-container *ngIf="!this.tourSite && (!this.user || this.deviceInfo.isCurrentlyDesktop)">
+    <ng-container
+      *ngIf="
+        !this.tourSite && (!this.user || this.deviceInfo.isCurrentlyDesktop)
+      ">
       <button
         [matTooltip]="'footer.introduction-button' | translate"
         (click)="showDemo()"
@@ -40,14 +42,21 @@
         class="focus_button"
         mat-button>
         <mat-icon class="material-icons-outlined">description</mat-icon>
-        <span *ngIf="deviceInfo.isCurrentlyDesktop && router.url.endsWith('/home')">
-          {{ 'footer.demo' | translate }}
+        <span
+          *ngIf="deviceInfo.isCurrentlyDesktop && router.url.endsWith('/home')">
+          {{ "footer.demo" | translate }}
         </span>
       </button>
       <span class="fill-remaining-space"></span>
     </ng-container>
 
-    <ng-container *ngIf="this.tourSite && (!this.user?.loginId || this.deviceInfo.isCurrentlyDesktop)">
+    <ng-container
+      *ngIf="
+        this.tourSite &&
+        (!this.user?.loginId ||
+          this.deviceInfo.isCurrentlyDesktop ||
+          router.url.endsWith('/gpt-chat'))
+      ">
       <button
         [matTooltip]="'footer.help-button' | translate"
         (click)="showCurrentTour()"
@@ -67,8 +76,9 @@
         class="focus_button"
         mat-button>
         <mat-icon>format_color_fill</mat-icon>
-        <span *ngIf="deviceInfo.isCurrentlyDesktop && router.url.endsWith('/home')">
-          {{'footer.style' | translate}}
+        <span
+          *ngIf="deviceInfo.isCurrentlyDesktop && router.url.endsWith('/home')">
+          {{ "footer.style" | translate }}
         </span>
       </button>
       <span class="fill-remaining-space"></span>
@@ -85,7 +95,9 @@
         mat-button>
         <mat-icon>language</mat-icon>
         <span
-          *ngIf="deviceInfo.isCurrentlyDesktop && router.url.endsWith('/home')">{{'footer.language' | translate}}</span>
+          *ngIf="deviceInfo.isCurrentlyDesktop && router.url.endsWith('/home')">
+          {{ "footer.language" | translate }}
+        </span>
       </button>
       <span class="fill-remaining-space"></span>
     </ng-container>
@@ -98,7 +110,9 @@
         class="focus_button"
         mat-button>
         <mat-icon class="material-icons-outlined">security</mat-icon>
-        <span *ngIf="router.url.endsWith('/home')">{{'footer.dsgvo' | translate}}</span>
+        <span *ngIf="router.url.endsWith('/home')">
+          {{ "footer.dsgvo" | translate }}
+        </span>
       </button>
       <span class="fill-remaining-space"></span>
     </ng-container>
@@ -112,7 +126,7 @@
         mat-button>
         <mat-icon class="material-icons-outlined">privacy_tip</mat-icon>
         <span *ngIf="router.url.endsWith('/home')">
-          {{'footer.imprint' | translate}}
+          {{ "footer.imprint" | translate }}
         </span>
       </button>
     </ng-container>
@@ -126,36 +140,35 @@
         <mat-icon class="material-icons-outlined">more_vert</mat-icon>
       </button>
     </ng-container>
-
   </mat-toolbar>
 </div>
 
 <div class="visually-hidden">
   <div id="help-label">
-    {{'footer.accessibility-help' | translate}}
+    {{ "footer.accessibility-help" | translate }}
   </div>
   <div id="demo-label">
-    {{'footer.accessibility-demo' | translate}}
+    {{ "footer.accessibility-demo" | translate }}
   </div>
   <div id="site-tour-label">
-    {{'footer.accessibility-site-tour' | translate}}
+    {{ "footer.accessibility-site-tour" | translate }}
   </div>
   <div id="style-label">
-    {{'footer.accessibility-style' | translate}}
+    {{ "footer.accessibility-style" | translate }}
   </div>
   <div id="language-label">
-    {{'footer.accessibility-language' | translate}}
+    {{ "footer.accessibility-language" | translate }}
   </div>
   <div id="data-protection-label">
-    {{'footer.accessibility-data_protection' | translate}}
+    {{ "footer.accessibility-data_protection" | translate }}
   </div>
   <div id="imprint-label">
-    {{'footer.accessibility-imprint' | translate}}
+    {{ "footer.accessibility-imprint" | translate }}
   </div>
-  <div id="style-default-label">{{'footer.style-default' | translate}}</div>
-  <div id="style-dark-label">{{'footer.style-dark' | translate}}</div>
-  <div id="style-purple-label">{{'footer.style-purple' | translate}}</div>
-  <div id="style-blue-label">{{'footer.style-blue' | translate}}</div>
+  <div id="style-default-label">{{ "footer.style-default" | translate }}</div>
+  <div id="style-dark-label">{{ "footer.style-dark" | translate }}</div>
+  <div id="style-purple-label">{{ "footer.style-purple" | translate }}</div>
+  <div id="style-blue-label">{{ "footer.style-blue" | translate }}</div>
 </div>
 
 <mat-menu
@@ -165,19 +178,19 @@
     (click)="useLanguage('de')"
     class="focus_item"
     mat-menu-item>
-    {{ 'footer.german' | translate }}
+    {{ "footer.german" | translate }}
   </button>
   <button
     (click)="useLanguage('en')"
     class="focus_item"
     mat-menu-item>
-    {{ 'footer.english' | translate }}
+    {{ "footer.english" | translate }}
   </button>
   <button
     (click)="useLanguage('fr')"
     class="focus_item"
     mat-menu-item>
-    {{ 'footer.french' | translate }}
+    {{ "footer.french" | translate }}
   </button>
 </mat-menu>
 
@@ -185,11 +198,13 @@
   <button
     mat-menu-item
     (click)="showCurrentTour()"
-    *ngIf="this.tourSite && this.user?.loginId"
+    *ngIf="
+      this.tourSite && this.user?.loginId && !router.url.endsWith('/gpt-chat')
+    "
     aria-labelledby="site-tour-label"
     class="focus_button">
     <mat-icon class="material-icons-outlined">question_mark</mat-icon>
-    <span>{{ 'footer.demo' | translate }}</span>
+    <span>{{ "footer.demo" | translate }}</span>
   </button>
   <button
     mat-menu-item
@@ -198,46 +213,50 @@
     aria-labelledby="demo-label"
     class="focus_button">
     <mat-icon class="material-icons-outlined">info</mat-icon>
-    <span>{{ 'footer.demo' | translate }}</span>
+    <span>{{ "footer.demo" | translate }}</span>
   </button>
   <button
     mat-menu-item
     (click)="showDataProtection()">
     <mat-icon class="material-icons-outlined">security</mat-icon>
-    <span>{{'footer.dsgvo' | translate}}</span>
+    <span>{{ "footer.dsgvo" | translate }}</span>
   </button>
   <button
     mat-menu-item
     (click)="showImprint()">
     <mat-icon class="material-icons-outlined">privacy_tip</mat-icon>
-    <span>{{'footer.imprint' | translate}}</span>
+    <span>{{ "footer.imprint" | translate }}</span>
   </button>
 </mat-menu>
 
-<mat-menu #themeMenu="matMenu"
-          [overlapTrigger]="false"
-          cdkTrapFocus
-          class="color-menu">
-  <button (click)="changeTheme(theme)"
-          *ngFor="let theme of themes"
-          mat-menu-item
-          style="height:50px;">
+<mat-menu
+  #themeMenu="matMenu"
+  [overlapTrigger]="false"
+  cdkTrapFocus
+  class="color-menu">
+  <button
+    (click)="changeTheme(theme)"
+    *ngFor="let theme of themes"
+    mat-menu-item
+    style="height: 50px">
     <div class="btnContent">
-      <div [ngStyle]="{'background-color': theme.getPreviewColor()}"
-           class="btnColorIcon">
-        <div [ngClass]="{
-                   'checked_true': theme.key === themeService.activeTheme.key,
-                   'checked_false': theme.key !== themeService.activeTheme.key
-                 }"
-             class="checked">
+      <div
+        [ngStyle]="{ 'background-color': theme.getPreviewColor() }"
+        class="btnColorIcon">
+        <div
+          [ngClass]="{
+            checked_true: theme.key === themeService.activeTheme.key,
+            checked_false: theme.key !== themeService.activeTheme.key
+          }"
+          class="checked">
           <mat-icon
             class="theme-icon"
-            [ngStyle]="{'color': theme.getOnPreviewColor()}">
-            {{theme.icon}}
+            [ngStyle]="{ color: theme.getOnPreviewColor() }">
+            {{ theme.icon }}
           </mat-icon>
           <mat-icon
             class="theme-icon-checked"
-            [ngStyle]="{'color': theme.getOnPreviewColor()}">
+            [ngStyle]="{ color: theme.getOnPreviewColor() }">
             checked
           </mat-icon>
         </div>
@@ -245,7 +264,7 @@
       <div class="btnAppend">
         <div class="title">
           <p class="title_bold">
-            {{theme.getName(langService.currentLanguage())}}
+            {{ theme.getName(langService.currentLanguage()) }}
           </p>
         </div>
       </div>

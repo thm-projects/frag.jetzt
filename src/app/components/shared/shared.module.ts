@@ -123,6 +123,10 @@ import { GptOptInPrivacyComponent } from './_dialogs/gpt-optin-privacy/gpt-optin
 import { GptPrivacyPolicyDeComponent } from '../../../assets/i18n/components/gpt-privacy-policy/gpt-privacy-policy-de';
 import { GptPrivacyPolicyEnComponent } from '../../../assets/i18n/components/gpt-privacy-policy/gpt-privacy-policy-en';
 import { GptPrivacyPolicyFrComponent } from '../../../assets/i18n/components/gpt-privacy-policy/gpt-privacy-policy-fr';
+import { IntroductionPromptGuideChatbotComponent } from './_dialogs/introductions/introduction-prompt-guide-chatbot/introduction-prompt-guide-chatbot.component';
+import { IntroductionPromptGuideChatbotDeComponent } from '../../../assets/i18n/components/_dialogs/introductions/introduction-prompt-guide-chatbot/introduction-prompt-guide-chatbot-de.component';
+import { IntroductionPromptGuideChatbotEnComponent } from '../../../assets/i18n/components/_dialogs/introductions/introduction-prompt-guide-chatbot/introduction-prompt-guide-chatbot-en.component';
+import { IntroductionPromptGuideChatbotFrComponent } from '../../../assets/i18n/components/_dialogs/introductions/introduction-prompt-guide-chatbot/introduction-prompt-guide-chatbot-fr.component';
 
 @NgModule({
   imports: [
@@ -244,6 +248,10 @@ import { GptPrivacyPolicyFrComponent } from '../../../assets/i18n/components/gpt
     GptRoomSettingsComponent,
     GptChatComponent,
     GPTUserDescriptionDialogComponent,
+    IntroductionPromptGuideChatbotComponent,
+    IntroductionPromptGuideChatbotDeComponent,
+    IntroductionPromptGuideChatbotEnComponent,
+    IntroductionPromptGuideChatbotFrComponent,
     GptOptInPrivacyComponent,
     GptPrivacyPolicyDeComponent,
     GptPrivacyPolicyEnComponent,

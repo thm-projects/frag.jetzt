@@ -353,7 +353,8 @@
     "comment-list-title": "Use Cases des Q&A-Forums",
     "moderation-title": "Use Cases der Moderation",
     "room-list-title": "Use Cases der Raumliste",
-    "room-page-title": "Use Cases des Raums"
+    "room-page-title": "Use Cases des Raums",
+    "prompt-guide-chatbot": "Effektiv kommunizieren mit ChatGPT"
   },
   "joyride": {
     "cantAccessRoute": "Diese Route ist nicht verfügbar. Die Tour wird abgebrochen.",

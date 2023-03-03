@@ -353,7 +353,8 @@
     "comment-list-title": "Les cas d'utilisation du forum Q&R",
     "moderation-title": "Les cas d'utilisation de la modération",
     "room-list-title": "Les cas d'utilisation de la liste des salles",
-    "room-page-title": "Les cas d'utilisation de la salle"
+    "room-page-title": "Les cas d'utilisation de la salle",
+    "prompt-guide-chatbot": "Communiquer efficacement avec ChatGPT"
   },
   "joyride": {
     "cantAccessRoute": "Cet itinéraire n'est pas disponible. La visite est annulée.",
