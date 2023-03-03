@@ -1,0 +1,98 @@
+{
+  "overview": {
+    "motd": "Anuncios globales",
+    "gpt": "Configuración de GPT",
+    "gpt-chat": "Charla con GPT"
+  },
+  "create-motd": {
+    "create": "Crear",
+    "english": "Texto en inglés",
+    "error": "¡Ha ocurrido un error!",
+    "french": "Texto en francés",
+    "german": "Texto en alemán",
+    "label": "Fecha de inicio y finalización",
+    "placeholder-date-end": "Fecha de finalización",
+    "placeholder-date-start": "Fecha de inicio",
+    "placeholder-english": "Ingresa aquí...",
+    "placeholder-french": "Ingresa aquí...",
+    "placeholder-german": "Ingresa aquí...",
+    "placeholder-time-end": "Hora de finalización",
+    "placeholder-time-start": "Hora de inicio",
+    "success": "Noticia creada exitosamente",
+    "title": "Crear la última noticia"
+  },
+  "gpt-config": {
+    "title": "Configuración y prueba de API de GPT",
+    "api-key": "Clave de API",
+    "organization": "Organización",
+    "next": "Siguiente",
+    "previous": "Anterior",
+    "save": "Guardar",
+    "end": "Finalizar",
+    "header-settings": "Configuración de API de GPT",
+    "header-restrictions": "Restricciones de API de GPT",
+    "header-metrics": "Estadísticas de API de GPT",
+    "restrict-active": "API habilitada",
+    "restrict-end-date": "Fin de API",
+    "save-error": "¡No se pudo guardar los datos!",
+    "load-error": "¡No se pudo cargar la configuración!",
+    "load-stats-error": "¡No se pudo cargar las estadísticas!",
+    "stats-message": "La plataforma ha utilizado un total de {{all}} tokens.\nDe los cuales {{week}} fueron usados esta semana y {{day}} tokens fueron usados hoy.\nLa última vez que se utilizó fue el {{date}}.",
+    "prompt-type": "Token para la solicitud",
+    "completion-type": "Token para la salida",
+    "boxplot-message": "Se consumió la mediana de {{median}} {{type}} por solicitud, con el 50% de los datos entre {{lower}} tokens y {{upper}} tokens. De {{count}} solicitudes, {{lowerStray}} se quedaron por debajo y {{upperStray}} por encima.",
+    "help-general": "La API de GPT proporciona una inteligencia artificial que realiza completado de texto. En el proceso, la IA responde preguntas de clasificación, conocimiento y otras. La IA tiene una entrada y proporciona al menos una salida.",
+    "help-api-key": "La clave de API asigna las solicitudes a una cuenta. Por lo tanto, el consumo y los costos se pueden calcular y mostrar en la cuenta de OpenAI.",
+    "help-organization": "La organización es una forma opcional de facturar el consumo a través de una organización en lugar de directamente a través de su propia cuenta de OpenAI.",
+    "activation-code": "Código de activación de estudio",
+    "activation-max-cost": "Costo máximo de estudio por mes",
+    "activation-used": "El código fue canjeado",
+    "activation-info": "{{code}}: ({{maxCost}}$ / Mes)",
+    "help-activation-codes": "Aquí se pueden ver, crear y eliminar los códigos de activación para el estudio."
+  },
+  "gpt-chat": {
+    "enter-conversation-text": "Chatea con GPT ...",
+    "send": "Enviar",
+    "empty-conversation": "Borrar historial",
+    "input-forbidden": "Entrada prohibida, por favor revisa la configuración de la API de GPT.",
+    "no-api-setup": "La clave de la API o el modelo de lenguaje no fueron establecidos.",
+    "greetings": {
+      "text-davinci-003": [
+        {
+          "key": "Primaria",
+          "value": "Estás en la sala de chat llamada \"Inglés\" y el tema es poesía. Explica la siguiente pregunta al nivel de un estudiante de primaria.\nEstudiante: ¿Qué son los haikus?\nTú: "
+        },
+        {
+          "key": "Preparatoria",
+          "value": "Estás en la sala de chat llamada \"Historia\" y el tema es los años dorados. Explica la siguiente pregunta al nivel de un estudiante de preparatoria.\nEstudiante: ¿Qué dice el Plan Dawes?\nTú: "
+        },
+        {
+          "key": "Universidad",
+          "value": "Estás en la sala de chat llamada \"Algoritmos y Estructuras de Datos\" y el tema son estructuras de datos simples. Explica al nivel de un estudiante de segundo semestre de ciencias de la computación la siguiente pregunta.\nEstudiante: ¿Hay una mejora de rendimiento cuando combinas una lista enlazada y una lista de arreglos? Seguramente sería concebible vincular arreglos, ¿o me equivoco allí?\nTú: "
+        }
+      ],
+      "code-davinci-002": [
+        {
+          "key": "Web",
+          "value": "<|endoftext|>/* I start with a blank HTML page, and incrementally modify it via <script> injection. Written for Chrome. */\n/* Command: Add \"Hello World\", by adding an HTML DOM node */\nvar helloWorld = document.createElement('div');\nhelloWorld.innerHTML = 'Hello World';\ndocument.body.appendChild(helloWorld);\n/* Command: Clear the page. */\nwhile (document.body.firstChild) {\n  document.body.removeChild(document.body.firstChild);\n}\n\n/* Command: Display this image of a cat: https://bit.ly/3fsc0rH */\n"
+        }
+      ],
+      "davinci-instruct-beta:2.0.0": [
+        {
+          "key": "Charla casual",
+          "value": "El tema es desmotivador. ¿Tienes algún truco para animarse y ser más activo?"
+        }
+      ]
+    },
+    "refresh": "Generar salida de nuevo",
+    "token-info": "Tokens (entrada / chat / total): {{promptTokens}} / {{conversationTokens}} / {{allTokens}}",
+    "use-case": "Caso de uso",
+    "use-case-tooltip": "Seleccionar un caso de uso específico para respuestas más precisas.",
+    "use-case-answer-questions": "Responder preguntas",
+    "use-case-tooltip-answer-questions": "Muy efectivo al recibir buenas preguntas o tareas (por ejemplo, traducción y resumen). Por lo general, proporciona las mejores respuestas de texto.",
+    "use-case-code": "Comprensión y generación de código",
+    "use-case-tooltip-code": "Muy bueno en la comprensión y generación de código. Tiene un contexto más amplio que los modelos de lenguaje.",
+    "use-case-chat": "Chat/Conversaciones",
+    "use-case-tooltip-chat": "Efectivo para preguntas abiertas donde se necesitan preguntas de seguimiento. No proporciona resultados tan precisos como al responder preguntas."
+  }
+}
