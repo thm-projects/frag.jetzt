@@ -11,3 +11,14 @@ mat-form-field {
 input {
   caret-color: var(--on-surface);
 }
+
+.visibility-icon {
+  visibility: hidden;
+}
+
+.input-block:hover {
+  .visibility-icon {
+    visibility: visible;
+    cursor: pointer;
+  }
+}
