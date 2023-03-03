@@ -162,9 +162,6 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
         this.generateCommentNumber();
         this.onLanguageChange();
       });
-    gptService.getConsentState().subscribe((state) => {
-      this.isGPTPrivacyPolicyAccepted = state;
-    });
   }
 
   @Input() set isRemoved(value: boolean) {
@@ -236,6 +233,11 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
     this.room = this.sessionService.currentRoom;
     this.onLanguageChange();
     this.getResponses();
+
+    this.gptService.getConsentState().subscribe((state) => {
+      console.log('comment constructor - GPT consent state: ', state);
+      this.isGPTPrivacyPolicyAccepted = state;
+    });
   }
 
   checkProfanity() {
@@ -604,25 +606,25 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
     this.router.navigate([url]);
   }
 
-  checkPrivacyPolicy() {
-    console.log('checkPrivacyPolicy started' + this.isGPTPrivacyPolicyAccepted);
-    if (this.isGPTPrivacyPolicyAccepted) {
-      this.openGPT();
-      console.log(
-        'checkPrivacyPolicy accepted' + this.isGPTPrivacyPolicyAccepted,
-      );
-      return;
-    } else {
-      console.log('checkPrivacyPolicy else' + this.isGPTPrivacyPolicyAccepted);
-      const ref = this.dialog.open(GptOptInPrivacyComponent);
-      ref.afterClosed().subscribe((result) => {
-        if (result) {
-          this.isGPTPrivacyPolicyAccepted = true;
-          this.openGPT();
-        }
-      });
-    }
-  }
+  // checkPrivacyPolicy() {
+  //   console.log('checkPrivacyPolicy started' + this.isGPTPrivacyPolicyAccepted);
+  //   if (this.isGPTPrivacyPolicyAccepted) {
+  //     this.openGPT();
+  //     console.log(
+  //       'checkPrivacyPolicy accepted' + this.isGPTPrivacyPolicyAccepted,
+  //     );
+  //     return;
+  //   } else {
+  //     console.log('checkPrivacyPolicy else' + this.isGPTPrivacyPolicyAccepted);
+  //     const ref = this.dialog.open(GptOptInPrivacyComponent);
+  //     ref.afterClosed().subscribe((result) => {
+  //       this.gptService.updateConsentState(result);
+  //       if (result) {
+  //         this.openGPT();
+  //       }
+  //     });
+  //   }
+  // }
 
   openGPT() {
     console.log('openGPT started with ' + this.isGPTPrivacyPolicyAccepted);

@@ -78,6 +78,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   hasKeywords = false;
   themes: Theme[];
   showSmallButtons = false;
+  isGPTPrivacyPolicyAccepted: boolean = false;
   public readonly navigationAccess = {
     livepoll: livepollNavigationAccessOnRoute,
   };
@@ -106,7 +107,11 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     private startUpService: StartUpService,
     private brainstormingDataService: BrainstormingDataService,
     public langService: LanguageService,
-  ) {}
+  ) {
+    // gptService.getConsentState().subscribe((state) => {
+    //   this.isGPTPrivacyPolicyAccepted = state;
+    // });
+  }
 
   ngAfterViewInit() {
     this.headerService.initHeader(() => this);
@@ -373,7 +378,23 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     GPTUserDescriptionDialogComponent.open(this.dialog, this.room.id);
   }
 
-  checkPrivacyPolicy() {}
+  // checkPrivacyPolicy() {
+  //   console.log('checkPrivacyPolicy started' + this.isGPTPrivacyPolicyAccepted);
+  //   if (this.isGPTPrivacyPolicyAccepted) {
+  //     console.log(
+  //       'checkPrivacyPolicy accepted' + this.isGPTPrivacyPolicyAccepted,
+  //     );
+  //     return;
+  //   } else {
+  //     console.log('checkPrivacyPolicy else' + this.isGPTPrivacyPolicyAccepted);
+  //     const ref = this.dialog.open(GptOptInPrivacyComponent);
+  //     ref.afterClosed().subscribe((result) => {
+  //       if (result) {
+  //         this.isGPTPrivacyPolicyAccepted = true;
+  //       }
+  //     });
+  //   }
+  // }
 
   changeTheme(theme: Theme) {
     this.themeService.activate(theme.key);
@@ -391,7 +412,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     LivepollCreateComponent.create(this.dialog);
   }
 
-  openGPTPrivacyDialog() {
-    const dialogRef = this.dialog.open(GptOptInPrivacyComponent);
-  }
+  // openGPTPrivacyDialog() {
+  //   const dialogRef = this.dialog.open(GptOptInPrivacyComponent);
+  // }
 }
