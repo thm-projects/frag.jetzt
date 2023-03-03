@@ -296,7 +296,13 @@
     "zoom-minus": "Decrease text size",
     "zoom-plus": "Increase text size",
     "zoom-reset": "Reset zoom level",
-    "gpt-chat": "Chat with GPT"
+    "gpt-chat": "Chat with GPT",
+    "gpt-privacy-policy": "ChatGPT Privacy Policy"
+  },
+  "gpt-chat": {
+    "optin-accept": "Accept",
+    "optin-reject": "Decline",
+    "privacy-policy": "ChatGPT  Privacy Policy"
   },
   "help": {
     "cancel": "Close",

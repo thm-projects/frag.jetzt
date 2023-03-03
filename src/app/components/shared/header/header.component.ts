@@ -54,6 +54,7 @@ import { CommentNotificationDialogComponent } from '../_dialogs/comment-notifica
 import { GPTUserDescriptionDialogComponent } from '../_dialogs/gptuser-description-dialog/gptuser-description-dialog.component';
 import { GptOptInPrivacyComponent } from '../_dialogs/gpt-optin-privacy/gpt-optin-privacy.component';
 import { ShrinkObserver } from 'app/utils/shrink-observer';
+import { GptService, GPTStreamResult } from 'app/services/http/gpt.service';
 
 @Component({
   selector: 'app-header',
@@ -107,6 +108,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     private startUpService: StartUpService,
     private brainstormingDataService: BrainstormingDataService,
     public langService: LanguageService,
+    private gptService: GptService,
   ) {
     // gptService.getConsentState().subscribe((state) => {
     //   this.isGPTPrivacyPolicyAccepted = state;
@@ -378,23 +380,24 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     GPTUserDescriptionDialogComponent.open(this.dialog, this.room.id);
   }
 
-  // checkPrivacyPolicy() {
-  //   console.log('checkPrivacyPolicy started' + this.isGPTPrivacyPolicyAccepted);
-  //   if (this.isGPTPrivacyPolicyAccepted) {
-  //     console.log(
-  //       'checkPrivacyPolicy accepted' + this.isGPTPrivacyPolicyAccepted,
-  //     );
-  //     return;
-  //   } else {
-  //     console.log('checkPrivacyPolicy else' + this.isGPTPrivacyPolicyAccepted);
-  //     const ref = this.dialog.open(GptOptInPrivacyComponent);
-  //     ref.afterClosed().subscribe((result) => {
-  //       if (result) {
-  //         this.isGPTPrivacyPolicyAccepted = true;
-  //       }
-  //     });
-  //   }
-  // }
+  openPrivacyDialog() {
+    const dialogRef = this.dialog.open(GptOptInPrivacyComponent);
+    dialogRef.afterClosed().subscribe((result) => {
+      this.gptService.updateConsentState(result).subscribe();
+      this.gptService.getConsentState().subscribe((state) => {
+        console.log(
+          'hier startet gptService nach openDialog -> ' +
+            state +
+            ' <- state-Wert',
+        );
+        console.log(
+          'hier startet gptService nach openDialog -> ' +
+            result +
+            ' <- result-Wert',
+        );
+      });
+    });
+  }
 
   changeTheme(theme: Theme) {
     this.themeService.activate(theme.key);
