@@ -1,9 +1,11 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   Inject,
   OnChanges,
   OnInit,
   SimpleChanges,
+  ViewEncapsulation,
 } from '@angular/core';
 import {
   LoginResult,
@@ -24,6 +26,7 @@ import { PasswordResetComponent } from '../../home/_dialogs/password-reset/passw
 import { RegisterComponent } from '../../home/_dialogs/register/register.component';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { UserManagementService } from '../../../services/util/user-management.service';
+import { MatPasswordStrengthModule } from '@angular-material-extensions/password-strength';
 
 export class LoginErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(
@@ -43,6 +46,8 @@ export class LoginErrorStateMatcher implements ErrorStateMatcher {
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginComponent implements OnInit, OnChanges {
   username: string;
