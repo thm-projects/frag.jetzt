@@ -480,16 +480,20 @@
         {{ "comment-page.reply-comment-button" | translate }}
       </button>
 
-      <!-- *ngIf="canOpenGPT" -->
-      <!-- (click)="checkPrivacyPolicy()"> -->
-      <!-- 
-        [disabled]="canOpenGPT == false" -->
-      <!-- [ngStyle]="{ 'gray-button': !canOpenGPT}" -->
+      <button
+        mat-button
+        class="replyButton"
+        *ngIf="gpt_privacy_policy_accepted"
+        (click)="openGPT()">
+        <mat-icon class="material-icons-outlined">smart_toy</mat-icon>
+        {{ "comment-page.reply-AI" | translate }}
+      </button>
 
       <button
         mat-button
         class="replyButton"
-        [ngClass]="{ replyButton: canOpenGPT, 'gray-button': !canOpenGPT }"
+        *ngIf="!gpt_privacy_policy_accepted"
+        [ngClass]="{ 'gray-button': !canOpenGPT }"
         (click)="openGPT()">
         <mat-icon class="material-icons-outlined">smart_toy</mat-icon>
         {{ "comment-page.reply-AI" | translate }}

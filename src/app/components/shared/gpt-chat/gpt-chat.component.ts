@@ -101,7 +101,7 @@ export class GptChatComponent implements OnInit, OnDestroy {
   }
 
   openPrivacyDialog() {
-    this.gptService.updateConsentState(false).subscribe();
+    // this.gptService.updateConsentState(false).subscribe();
 
     console.log('openPrivacyDialog methode at start');
     if (this.isGPTPrivacyPolicyAccepted) {

@@ -128,6 +128,7 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
   commentRegistrationId: string;
   brainstormingCategory: string;
   isGPTPrivacyPolicyAccepted: boolean = false;
+  gpt_privacy_policy_accepted: boolean = true;
   private _votes;
   private _commentNumber: string[] = [];
   private _destroyer = new ReplaySubject(1);
@@ -237,7 +238,7 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.gptService.getConsentState().subscribe((state) => {
       console.log('comment constructor - GPT consent state: ', state);
-      this.isGPTPrivacyPolicyAccepted = state;
+      this.gpt_privacy_policy_accepted = state;
     });
   }
 
@@ -609,16 +610,14 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
 
   checkPrivacyPolicy() {
     this.gptService.getConsentState().subscribe((state) => {
-      // git wollte hier 3 = sehen
       if (state === false) {
-        console.log('color test checkPrivacyPolicy: ' + state);
-        // this.canOpenGPT = false;
+        this.gpt_privacy_policy_accepted = false;
       }
     });
   }
 
   openGPT() {
-    console.log('openGPT started with ' + this.isGPTPrivacyPolicyAccepted);
+    console.log('openGPT started with ' + this.gpt_privacy_policy_accepted);
     let url: string;
     this.route.params.subscribe((params) => {
       url = `${this.roleString}/room/${params['shortId']}/gpt-chat`;
