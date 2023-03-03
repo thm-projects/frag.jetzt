@@ -373,6 +373,8 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     GPTUserDescriptionDialogComponent.open(this.dialog, this.room.id);
   }
 
+  checkPrivacyPolicy() {}
+
   changeTheme(theme: Theme) {
     this.themeService.activate(theme.key);
     this.updateScale(
