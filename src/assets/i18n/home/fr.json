@@ -347,7 +347,8 @@
     "comment-list-title": "Les cas d'utilisation du forum Q&R",
     "moderation-title": "Les cas d'utilisation de la modération",
     "room-list-title": "Les cas d'utilisation de la liste des salles",
-    "room-page-title": "Les cas d'utilisation de la salle"
+    "room-page-title": "Les cas d'utilisation de la salle",
+    "prompt-guide-chatbot": "Communiquer efficacement avec ChatGPT"
   },
   "joyride": {
     "cantAccessRoute": "Cet itinéraire n'est pas disponible. La visite est annulée.",
@@ -389,6 +390,8 @@
     "input-incorrect": "Vérifie tes données, s'il te plaît.",
     "login": "Se connecter avec un compte",
     "login-data-incorrect": "E-mail ou mot de passe incorrect",
+    "login-data-expired": "Les données d'accès ont expiré, veuillez demander un nouveau mot de passe.",
+    "login-error-unknown": "Erreur inconnue: {{code}}",
     "login-description": "Se connecter avec les données de compte saisies",
     "login-successful": "Tu es maintenant connecté.",
     "login-tooltip": "La session est enregistrée pendant 180 jours.",

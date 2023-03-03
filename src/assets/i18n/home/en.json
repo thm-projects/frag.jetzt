@@ -347,7 +347,8 @@
     "comment-list-title": "Use cases of the Q&A forum",
     "moderation-title": "Use cases of the moderation",
     "room-list-title": "Use cases of the room list",
-    "room-page-title": "Use cases of the room"
+    "room-page-title": "Use cases of the room",
+    "prompt-guide-chatbot": "Communicating Effectively with ChatGPT"
   },
   "joyride": {
     "cantAccessRoute": "This route is not available. The tour will be cancelled.",
@@ -389,6 +390,8 @@
     "input-incorrect": "Please check your data.",
     "login": "Sign in with account",
     "login-data-incorrect": "E-mail or password incorrect",
+    "login-data-expired": "The access data has expired, please request a new password.",
+    "login-error-unknown": "Unknown error: {{code}}",
     "login-description": "Sign in with the entered account data",
     "login-successful": "You are logged in now.",
     "login-tooltip": "Sessions will be stored for 180 days.",

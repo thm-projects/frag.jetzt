@@ -1,36 +1,18 @@
 import { verifyInstance } from 'app/utils/ts-utils';
 
-export enum GPTUsage {
-  REGISTERED_MODERATORS = 'REGISTERED_MODERATORS',
-  REGISTERED_USERS = 'REGISTERED_USERS',
-}
-
 export class GPTPlatformStatus {
   restricted: boolean;
+  enabled: boolean;
   apiKeyPresent: boolean;
-  modelPresent: boolean;
-  usage: GPTUsage;
-  // suggestion
-  defaultMaxTokens?: number;
-  contextTokens: number;
-  availableTokens: number;
 
   constructor({
     restricted = true,
     apiKeyPresent = false,
-    modelPresent = false,
-    usage = GPTUsage.REGISTERED_MODERATORS,
-    defaultMaxTokens = null,
-    contextTokens = 2048,
-    availableTokens = 0,
+    enabled = false,
   }: GPTPlatformStatus) {
     this.restricted = restricted;
     this.apiKeyPresent = apiKeyPresent;
-    this.modelPresent = modelPresent;
-    this.usage = usage;
-    this.defaultMaxTokens = defaultMaxTokens;
-    this.contextTokens = contextTokens;
-    this.availableTokens = availableTokens;
+    this.enabled = enabled;
   }
 }
 

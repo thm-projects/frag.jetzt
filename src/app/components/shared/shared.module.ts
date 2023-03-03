@@ -119,6 +119,10 @@ import { LivepollCreateComponent } from './_dialogs/livepoll-create/livepoll-cre
 import { GptRoomSettingsComponent } from './_dialogs/gpt-room-settings/gpt-room-settings.component';
 import { GptChatComponent } from './gpt-chat/gpt-chat.component';
 import { GPTUserDescriptionDialogComponent } from './_dialogs/gptuser-description-dialog/gptuser-description-dialog.component';
+import { IntroductionPromptGuideChatbotComponent } from './_dialogs/introductions/introduction-prompt-guide-chatbot/introduction-prompt-guide-chatbot.component';
+import { IntroductionPromptGuideChatbotDeComponent } from '../../../assets/i18n/components/_dialogs/introductions/introduction-prompt-guide-chatbot/introduction-prompt-guide-chatbot-de.component';
+import { IntroductionPromptGuideChatbotEnComponent } from '../../../assets/i18n/components/_dialogs/introductions/introduction-prompt-guide-chatbot/introduction-prompt-guide-chatbot-en.component';
+import { IntroductionPromptGuideChatbotFrComponent } from '../../../assets/i18n/components/_dialogs/introductions/introduction-prompt-guide-chatbot/introduction-prompt-guide-chatbot-fr.component';
 
 @NgModule({
   imports: [
@@ -240,6 +244,10 @@ import { GPTUserDescriptionDialogComponent } from './_dialogs/gptuser-descriptio
     GptRoomSettingsComponent,
     GptChatComponent,
     GPTUserDescriptionDialogComponent,
+    IntroductionPromptGuideChatbotComponent,
+    IntroductionPromptGuideChatbotDeComponent,
+    IntroductionPromptGuideChatbotEnComponent,
+    IntroductionPromptGuideChatbotFrComponent,
   ],
   exports: [
     RoomJoinComponent,

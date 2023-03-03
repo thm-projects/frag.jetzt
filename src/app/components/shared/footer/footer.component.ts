@@ -1,4 +1,7 @@
-import { Language, LanguageService } from '../../../services/util/language.service';
+import {
+  Language,
+  LanguageService,
+} from '../../../services/util/language.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NotificationService } from '../../../services/util/notification.service';
 import { NavigationEnd, Router } from '@angular/router';
@@ -16,31 +19,23 @@ import { StyleService } from '../../../../../projects/ars/src/lib/style/style.se
 import { MatMenu } from '@angular/material/menu';
 import { DeviceInfoService } from '../../../services/util/device-info.service';
 import { ComponentType } from '@angular/cdk/overlay';
-import {
-  IntroductionRoomListComponent
-} from '../_dialogs/introductions/introduction-room-list/introduction-room-list.component';
-import {
-  IntroductionRoomPageComponent
-} from '../_dialogs/introductions/introduction-room-page/introduction-room-page.component';
-import {
-  IntroductionCommentListComponent
-} from '../_dialogs/introductions/introduction-comment-list/introduction-comment-list.component';
-import {
-  IntroductionModerationComponent
-} from '../_dialogs/introductions/introduction-moderation/introduction-moderation.component';
+import { IntroductionRoomListComponent } from '../_dialogs/introductions/introduction-room-list/introduction-room-list.component';
+import { IntroductionRoomPageComponent } from '../_dialogs/introductions/introduction-room-page/introduction-room-page.component';
+import { IntroductionCommentListComponent } from '../_dialogs/introductions/introduction-comment-list/introduction-comment-list.component';
+import { IntroductionModerationComponent } from '../_dialogs/introductions/introduction-moderation/introduction-moderation.component';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { DashboardComponent } from '../_dialogs/dashboard/dashboard.component';
 import { DashboardNotificationService } from '../../../services/util/dashboard-notification.service';
 import { UserManagementService } from '../../../services/util/user-management.service';
 import { SessionService } from '../../../services/util/session.service';
+import { IntroductionPromptGuideChatbotComponent } from '../_dialogs/introductions/introduction-prompt-guide-chatbot/introduction-prompt-guide-chatbot.component';
 
 @Component({
   selector: 'app-footer',
   templateUrl: './footer.component.html',
-  styleUrls: ['./footer.component.scss']
+  styleUrls: ['./footer.component.scss'],
 })
 export class FooterComponent implements OnInit {
-
   @ViewChild('langMenu') langaugeMenu: MatMenu;
   public demoId = 'Feedback';
   public room: Room;
@@ -63,7 +58,9 @@ export class FooterComponent implements OnInit {
     public change: DashboardNotificationService,
     private sessionService: SessionService,
   ) {
-    this.userManagementService.getUser().subscribe(user => this.user = user);
+    this.userManagementService
+      .getUser()
+      .subscribe((user) => (this.user = user));
   }
 
   get tourSite() {
@@ -75,12 +72,16 @@ export class FooterComponent implements OnInit {
   }
 
   init() {
-    this.translateService.get('footer.open').subscribe(message => {
+    this.translateService.get('footer.open').subscribe((message) => {
       this.open = message;
     });
     this.themes = this.themeService.getThemes();
-    this.updateScale(this.themeService.currentTheme.getScale(this.deviceInfo.isCurrentlyMobile ? 'mobile' : 'desktop'));
-    this.router.events.subscribe(e => {
+    this.updateScale(
+      this.themeService.currentTheme.getScale(
+        this.deviceInfo.isCurrentlyMobile ? 'mobile' : 'desktop',
+      ),
+    );
+    this.router.events.subscribe((e) => {
       if (e instanceof NavigationEnd) {
         this.onEnd();
       }
@@ -91,7 +92,7 @@ export class FooterComponent implements OnInit {
   showDemo() {
     this.dialog.open(DemoVideoComponent, {
       width: '80%',
-      maxWidth: '600px'
+      maxWidth: '600px',
     });
   }
 
@@ -100,23 +101,24 @@ export class FooterComponent implements OnInit {
       return;
     }
     this.dialog.open(this._tourSite, {
-      autoFocus: false
+      autoFocus: false,
+      width: '80%',
+      maxWidth: '600px',
     });
   }
 
   showImprint() {
     this.dialog.open(ImprintComponent, {
       width: '80%',
-      maxWidth: '600px'
+      maxWidth: '600px',
     });
   }
 
   showDataProtection() {
     this.dialog.open(DataProtectionComponent, {
       width: '80%',
-      maxWidth: '600px'
+      maxWidth: '600px',
     });
-
   }
 
   useLanguage(language: Language) {
@@ -126,7 +128,9 @@ export class FooterComponent implements OnInit {
 
   changeTheme(theme: Theme) {
     this.themeService.activate(theme.key);
-    this.updateScale(theme.getScale(this.deviceInfo.isCurrentlyMobile ? 'mobile' : 'desktop'));
+    this.updateScale(
+      theme.getScale(this.deviceInfo.isCurrentlyMobile ? 'mobile' : 'desktop'),
+    );
   }
 
   updateScale(scale: number) {
@@ -152,14 +156,19 @@ export class FooterComponent implements OnInit {
     const url = decodeURI(this.router.url).toLowerCase();
     const roleRegex = '/(creator|moderator|participant)';
     const roomRegex = '/room/[^/]{3,}';
+    console.log(url);
     if (url === '/user') {
       this._tourSite = IntroductionRoomListComponent;
     } else if (url.match(new RegExp(`^${roleRegex}${roomRegex}$`))) {
       this._tourSite = IntroductionRoomPageComponent;
     } else if (url.match(new RegExp(`^${roleRegex}${roomRegex}/comments$`))) {
       this._tourSite = IntroductionCommentListComponent;
-    } else if (url.match(new RegExp(`^${roleRegex}${roomRegex}/moderator/comments$`))) {
+    } else if (
+      url.match(new RegExp(`^${roleRegex}${roomRegex}/moderator/comments$`))
+    ) {
       this._tourSite = IntroductionModerationComponent;
+    } else if (url.endsWith('/gpt-chat')) {
+      this._tourSite = IntroductionPromptGuideChatbotComponent;
     } else {
       this._tourSite = null;
     }

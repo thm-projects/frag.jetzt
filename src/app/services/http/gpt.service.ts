@@ -48,15 +48,20 @@ const httpOptionsPlainString = {
 
 interface GPTPrompt {
   roomId?: string;
-  prompt: string[];
-  model?: string;
+  model: string;
+  prompt: string;
+  suffix?: string;
   maxTokens?: number;
   temperature?: number;
   topP?: number;
+  n?: number;
   logprobs?: number;
   echo?: boolean;
+  stop?: string[];
   presencePenalty?: number;
   frequencyPenalty?: number;
+  bestOf?: number;
+  logitBias?: { [key: string]: number };
 }
 
 interface GPTModerationResult {
@@ -103,15 +108,15 @@ export type GPTRoomSettingAPI = Pick<
   GPTRoomSetting,
   | 'apiKey'
   | 'apiOrganization'
-  | 'maxDailyRoomQuota'
-  | 'maxMonthlyRoomQuota'
-  | 'maxAccumulatedRoomQuota'
-  | 'maxDailyParticipantQuota'
-  | 'maxMonthlyParticipantQuota'
-  | 'maxAccumulatedParticipantQuota'
-  | 'maxDailyModeratorQuota'
-  | 'maxMonthlyModeratorQuota'
-  | 'maxAccumulatedModeratorQuota'
+  | 'maxDailyRoomCost'
+  | 'maxMonthlyRoomCost'
+  | 'maxAccumulatedRoomCost'
+  | 'maxDailyParticipantCost'
+  | 'maxMonthlyParticipantCost'
+  | 'maxAccumulatedParticipantCost'
+  | 'maxDailyModeratorCost'
+  | 'maxMonthlyModeratorCost'
+  | 'maxAccumulatedModeratorCost'
   | 'rightsBitset'
 >;
 
@@ -233,6 +238,42 @@ export class GptService extends BaseHttpService {
       .pipe(
         tap((_) => ''),
         catchError(this.handleError<string>('updateUserDescription')),
+      );
+  }
+
+  getConsentState(): Observable<boolean | null> {
+    const url = '/api/gpt/gdpr';
+    return this.httpClient.get(url, httpOptionsPlainString).pipe(
+      tap((_) => ''),
+      map((str) => {
+        if (str === 'null') {
+          return null;
+        } else if (str === 'false') {
+          return false;
+        } else {
+          return true;
+        }
+      }),
+      catchError(this.handleError<boolean>('getConsentState')),
+    );
+  }
+
+  updateConsentState(consented: boolean): Observable<boolean | null> {
+    const url = '/api/gpt/gdpr';
+    return this.httpClient
+      .post(url, { consentState: consented }, httpOptionsPlainString)
+      .pipe(
+        tap((_) => ''),
+        map((str) => {
+          if (str === 'null') {
+            return null;
+          } else if (str === 'false') {
+            return false;
+          } else {
+            return true;
+          }
+        }),
+        catchError(this.handleError<boolean>('updateConsentState')),
       );
   }
 

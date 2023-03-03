@@ -347,7 +347,8 @@
     "comment-list-title": "Use Cases des Q&A-Forums",
     "moderation-title": "Use Cases der Moderation",
     "room-list-title": "Use Cases der Raumliste",
-    "room-page-title": "Use Cases des Raums"
+    "room-page-title": "Use Cases des Raums",
+    "prompt-guide-chatbot": "Effektiv kommunizieren mit ChatGPT"
   },
   "joyride": {
     "cantAccessRoute": "Diese Route ist nicht verfügbar. Die Tour wird abgebrochen.",
@@ -389,6 +390,8 @@
     "input-incorrect": "Bitte prüfe deine Eingaben.",
     "login": "Anmelden mit Konto",
     "login-data-incorrect": "E-Mail oder Passwort falsch",
+    "login-data-expired": "Die Zugangsdaten sind abgelaufen, bitte fordere ein neues Passwort an.",
+    "login-error-unknown": "Unbekannter Fehler: {{code}}",
     "login-description": "Mit den eingegebenen Kontodaten anmelden",
     "login-successful": "Du bist jetzt angemeldet.",
     "login-tooltip": "Die Session wird für 180 Tage gespeichert.",

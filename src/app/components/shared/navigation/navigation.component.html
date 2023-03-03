@@ -1,16 +1,13 @@
 <button
   class="navigation-button"
-  [ngClass]="{'question-wall': isQuestionWall}"
+  [ngClass]="{ 'question-wall': isQuestionWall }"
   mat-button
   *ngIf="!possibleLocationsEmpty"
   (click)="refreshLocations()"
   [matMenuTriggerFor]="locationMenu">
   <div class="label-icon">
-    <mat-icon>
-      place
-    </mat-icon>
-    <h2
-      *ngIf="deviceInfo.isCurrentlyDesktop">
+    <mat-icon>place</mat-icon>
+    <h2 *ngIf="deviceInfo.isCurrentlyDesktop && showText">
       {{
         (currentLocation?.i18n
           ? "header.navigation"
