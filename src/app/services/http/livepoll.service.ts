@@ -1,35 +1,46 @@
 import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { SessionService } from '../util/session.service';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { BaseHttpService } from './base-http.service';
+import { LivepollSession } from '../../models/livepoll-session';
 import { LivepollCreateComponent } from '../../components/shared/_dialogs/livepoll-create/livepoll-create.component';
 import { LivepollConfiguration } from '../../models/livepoll-configuration';
-import { SessionService } from '../util/session.service';
-import { Livepoll } from '../../models/livepoll';
-import { LivepollVoteComponent } from '../../components/shared/_dialogs/livepoll-vote/livepoll-vote.component';
+import { Observable } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
+
+const httpOptions = {
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+};
+
+type LivepollSessionAPI = Pick<
+  LivepollSession,
+  | 'active'
+  | 'title'
+  | 'resultVisible'
+  | 'viewsVisible'
+  | 'id'
+  | 'roomId'
+  | 'template'
+  | 'createdAt'
+>;
 
 @Injectable({
   providedIn: 'root'
 })
-export class LivepollService {
+export class LivepollService extends BaseHttpService {
+  private apiUrl = {
+    base: '/api',
+    livepoll: '/livepoll'
+  };
 
   constructor(
     public readonly dialog: MatDialog,
-    public readonly sessionService: SessionService
+    public readonly sessionService: SessionService,
+    public readonly http: HttpClient
   ) {
-    let pollTrigger: boolean = false;
-    setInterval(() => {
-      if (this.sessionService.currentRole === 0) {
-        if (sessionService.currentLivepoll.hasActiveLivepoll()) {
-          if (!pollTrigger) {
-            pollTrigger = true;
-            this.openVoteDialog();
-          }
-        }
-      }
-    }, 1000);
-  }
-
-  openVoteDialog() {
-    const dialogInstance: MatDialogRef<LivepollVoteComponent> = this.dialog.open(LivepollVoteComponent, {});
+    super();
   }
 
   create() {
@@ -37,11 +48,29 @@ export class LivepollService {
       .open(LivepollCreateComponent, {});
     dialogInstance.afterClosed().subscribe(event => {
       if (event) {
-        event.isLive = true;
-        this.sessionService.currentLivepoll.polls.push(new Livepoll(event, [], new Date()));
-        // Live Poll got created. Send via HTTP
+        this.createSession({
+          title: event.title,
+          viewsVisible: event.isViewsVisible,
+          resultVisible: event.isResultVisible,
+          roomId: this.sessionService.currentRoom.id,
+          template: event.template + ''
+        }).subscribe(response => {
+          console.log(response);
+        });
       }
     });
+  }
+
+  createSession(
+    session: Omit<LivepollSessionAPI, any>
+  ): Observable<LivepollSession> {
+    const connectionUrl = this.apiUrl.base + this.apiUrl.livepoll + '/';
+    return this.http
+      .post<LivepollSession>(connectionUrl, session, httpOptions)
+      .pipe(
+        tap((_) => ''),
+        catchError(this.handleError<LivepollSession>('createSession'))
+      );
   }
 
 }

@@ -30,6 +30,7 @@ export type RoomPatch = Partial<
     | 'updatedAt'
     | 'lastVisitCreator'
     | 'brainstormingSession'
+    | 'livepollSession'
     | 'moderatorRoomReference'
   >
 >;
