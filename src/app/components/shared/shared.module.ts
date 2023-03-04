@@ -123,6 +123,7 @@ import { IntroductionPromptGuideChatbotComponent } from './_dialogs/introduction
 import { IntroductionPromptGuideChatbotDeComponent } from '../../../assets/i18n/components/_dialogs/introductions/introduction-prompt-guide-chatbot/introduction-prompt-guide-chatbot-de.component';
 import { IntroductionPromptGuideChatbotEnComponent } from '../../../assets/i18n/components/_dialogs/introductions/introduction-prompt-guide-chatbot/introduction-prompt-guide-chatbot-en.component';
 import { IntroductionPromptGuideChatbotFrComponent } from '../../../assets/i18n/components/_dialogs/introductions/introduction-prompt-guide-chatbot/introduction-prompt-guide-chatbot-fr.component';
+import { LivepollDialogComponent } from './_dialogs/livepoll-dialog/livepoll-dialog.component';
 
 @NgModule({
   imports: [
@@ -248,6 +249,7 @@ import { IntroductionPromptGuideChatbotFrComponent } from '../../../assets/i18n/
     IntroductionPromptGuideChatbotDeComponent,
     IntroductionPromptGuideChatbotEnComponent,
     IntroductionPromptGuideChatbotFrComponent,
+    LivepollDialogComponent,
   ],
   exports: [
     RoomJoinComponent,
