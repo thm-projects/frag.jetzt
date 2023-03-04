@@ -1,0 +1,35 @@
+.title {
+  display: flex;
+  justify-content: space-between;
+
+  > h5 {
+    font-size: 12px;
+    text-transform: uppercase;
+  }
+}
+
+.accordion {
+  color: black;
+}
+
+.vote-container {
+  display: flex;
+  flex-direction: column;
+  margin-top: 16px;
+}
+
+.grid-true {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  grid-column-gap: 8px;
+  grid-row-gap: 8px;
+  > button {
+    height: 64px;
+  }
+}
+
+.grid-false {
+  display: flex;
+  flex-direction: column;
+}

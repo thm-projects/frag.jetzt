@@ -66,11 +66,18 @@ export class LivepollCreateComponent implements OnDestroy {
   /**
    * only for mockup, remove when no.3 works
    */
-  public static createMockup(dialog: MatDialog, asParticipant: boolean) {
+  public static createMockup(
+    dialog: MatDialog,
+    asParticipant: boolean,
+    config: LivepollConfiguration,
+    template: LivepollTemplateContext,
+  ) {
     const ref = dialog.open(LivepollDialogComponent, {});
     ref.componentInstance.userRole = asParticipant
       ? UserRole.PARTICIPANT
       : UserRole.CREATOR;
+    ref.componentInstance.livepollConfiguration = config;
+    ref.componentInstance.template = template;
   }
 
   create() {
@@ -85,6 +92,13 @@ export class LivepollCreateComponent implements OnDestroy {
    * only for mockup, remove when no.3 works
    */
   openMockup(asParticipant: boolean) {
-    LivepollCreateComponent.createMockup(this._dialog, asParticipant);
+    if (this.templateSelection) {
+      LivepollCreateComponent.createMockup(
+        this._dialog,
+        asParticipant,
+        this.livepollConfiguration,
+        this.templateSelection.value,
+      );
+    }
   }
 }

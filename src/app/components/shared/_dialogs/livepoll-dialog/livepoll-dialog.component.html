@@ -1,0 +1,124 @@
+<div class="title">
+  <h1 mat-dialog-title>{{ translateKey + ".dialog-title" | translate }}</h1>
+  <h5
+    (click)="userRole = userRole ? 0 : 3"
+    mat-dialog-title>
+    {{ userRole ? "as creator" : "as participant" }}
+  </h5>
+</div>
+<mat-dialog-content class="content">
+  <ng-container *ngIf="userRole">
+    <mat-accordion class="accordion">
+      <mat-expansion-panel style="box-shadow: none">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            {{ translateKey + ".creator-settings" | translate }}
+          </mat-panel-title>
+          <mat-panel-description>
+            {{ translateKey + ".creator-settings-description" | translate }}
+            <mat-icon>
+              {{ translateKey + ".creator-settings-icon" | translate }}
+            </mat-icon>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <div
+          class="split"
+          [ngClass]="device.isCurrentlyDesktop ? 'desktop' : 'mobile'">
+          <div class="fill">
+            <mat-form-field appearance="outline">
+              <mat-label>
+                {{ translateKey + ".option-select-title" | translate }}
+              </mat-label>
+              <input
+                matInput
+                [(ngModel)]="livepollConfiguration.title" />
+              <mat-hint>
+                {{ translateKey + ".option-select-title-hint" | translate }}
+              </mat-hint>
+            </mat-form-field>
+          </div>
+          <div class="adjust">
+            <mat-slide-toggle
+              [matTooltip]="
+                translateKey + '.tooltip-option-select-result-visibility'
+                  | translate
+              "
+              [(ngModel)]="livepollConfiguration.resultVisible">
+              {{
+                translateKey + ".option-select-result-visibility" | translate
+              }}
+            </mat-slide-toggle>
+            <mat-slide-toggle
+              [matTooltip]="
+                translateKey + '.tooltip-option-select-views-visibility'
+                  | translate
+              "
+              [(ngModel)]="livepollConfiguration.viewsVisible">
+              {{ translateKey + ".option-select-views-visibility" | translate }}
+            </mat-slide-toggle>
+          </div>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </ng-container>
+
+  <div class="vote-container">
+    <div
+      [ngClass]="'reverse-' + !!template.reverse + ' grid-' + template.isGrid"
+      *ngIf="template">
+      <ng-container *ngIf="template.symbols">
+        <ng-container *ngFor="let symbol of template.symbols; index as i">
+          <ng-container
+            *ngTemplateOutlet="
+              option;
+              context: {
+                i: i,
+                symbol: symbol
+              }
+            "></ng-container>
+        </ng-container>
+      </ng-container>
+      <ng-container *ngIf="template.length">
+        <ng-container
+          *ngFor="let symbol of [].constructor(template.length); index as i">
+          <ng-container
+            *ngTemplateOutlet="
+              option;
+              context: {
+                i: i,
+                symbol: i
+              }
+            "></ng-container>
+        </ng-container>
+      </ng-container>
+    </div>
+  </div>
+
+  <ng-container *ngIf="!userRole"></ng-container>
+</mat-dialog-content>
+
+<ng-template
+  #option
+  let-i="i"
+  let-symbol="symbol">
+  <button
+    class="previewOption"
+    mat-flat-button
+    [color]="selectedPreviewOption === i ? 'accent' : 'primary'"
+    (click)="selectedPreviewOption = i">
+    <ng-container *ngIf="template.isPlain">
+      <span>
+        {{
+          template.translate
+            ? (translateKey + "." + "option-" + template.name! | translate)[i]
+            : symbol
+        }}
+      </span>
+    </ng-container>
+    <ng-container *ngIf="!template.isPlain">
+      <mat-icon>
+        {{ symbol }}
+      </mat-icon>
+    </ng-container>
+  </button>
+</ng-template>
