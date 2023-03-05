@@ -1,4 +1,11 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { UserRole } from '../../../../models/user-roles.enum';
 import {
   defaultLivepollConfiguration,
@@ -9,7 +16,7 @@ import {
   LivepollTemplateContext,
   templateEntries,
 } from '../../../../models/livepoll-template';
-import { ReplaySubject, takeUntil } from 'rxjs';
+import { Observable, ReplaySubject, takeUntil } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../../services/util/language.service';
 import { HttpClient } from '@angular/common/http';
@@ -23,9 +30,11 @@ import { HttpClient } from '@angular/common/http';
   ],
 })
 export class LivepollDialogComponent implements OnInit, OnDestroy {
-  public userRole: UserRole;
-  public livepollConfiguration!: LivepollConfiguration;
-  public template: LivepollTemplateContext;
+  @Input() public livepollConfiguration!: LivepollConfiguration;
+  @Input() public template: LivepollTemplateContext;
+  @Input() public valueChange:
+    | Observable<LivepollTemplateContext | null>
+    | undefined;
   public translateKey: string = 'create';
   public selectedPreviewOption: number = -1;
   public options:
@@ -56,6 +65,17 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.valueChange.subscribe((changedValue) => {
+      this.template = changedValue;
+      this.init();
+    });
+    this.init();
+  }
+  ngOnDestroy(): void {
+    this._destroyer.next(0);
+  }
+
+  private init() {
     if (this.template) {
       if (typeof this.template.length === 'undefined') {
         this.options = this.template.symbols.map((option, index) => ({
@@ -76,8 +96,5 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
         this.options = options;
       }
     }
-  }
-  ngOnDestroy(): void {
-    this._destroyer.next(0);
   }
 }

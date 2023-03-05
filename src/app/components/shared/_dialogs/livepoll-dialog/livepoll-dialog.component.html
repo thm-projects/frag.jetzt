@@ -1,13 +1,13 @@
-<div class="title">
-  <h1 mat-dialog-title>{{ translateKey + ".dialog-title" | translate }}</h1>
-  <h5
-    (click)="userRole = userRole ? 0 : 3"
-    mat-dialog-title>
-    {{ userRole ? "as creator" : "as participant" }}
-  </h5>
-</div>
+<!--<div class="title">-->
+<!--  <h1 mat-dialog-title>{{ translateKey + ".dialog-title" | translate }}</h1>-->
+<!--  <h5-->
+<!--    (click)="userRole = userRole ? 0 : 3"-->
+<!--    mat-dialog-title>-->
+<!--    {{ userRole ? "as creator" : "as participant" }}-->
+<!--  </h5>-->
+<!--</div>-->
 <mat-dialog-content class="content">
-  <ng-container *ngIf="userRole">
+  <ng-container *ngIf="5">
     <mat-accordion class="accordion">
       <mat-expansion-panel style="box-shadow: none">
         <mat-expansion-panel-header>
@@ -64,17 +64,44 @@
 
   <div
     class="result-container"
-    *ngIf="options">
-    <ng-container *ngFor="let option of options">
-      <div class="container">
-        <div class="background">
-          <div class="bar"></div>
+    *ngIf="options && livepollConfiguration.resultVisible">
+    <div class="left">
+      <ng-container *ngFor="let option of options">
+        <div class="container">
+          <ng-container *ngIf="template.isPlain">
+            <ng-container *ngIf="template.translate">
+              <span class="option-plain-translate">
+                {{
+                  (translateKey + "." + option.symbol | translate)[option.index]
+                }}
+              </span>
+            </ng-container>
+            <ng-container *ngIf="!template.translate">
+              <span class="option-plain">{{ option.symbol }}</span>
+            </ng-container>
+          </ng-container>
+          <ng-container *ngIf="!template.isPlain">
+            <mat-icon class="option-icon">{{ option.symbol }}</mat-icon>
+          </ng-container>
         </div>
-        <div class="foreground">
-          <span>{{ option.symbol }}</span>
+      </ng-container>
+    </div>
+    <div class="right">
+      <ng-container *ngFor="let option of options">
+        <div class="container">
+          <div class="background">
+            <div class="bar"></div>
+          </div>
+          <div class="foreground"></div>
         </div>
-      </div>
-    </ng-container>
+      </ng-container>
+    </div>
+  </div>
+
+  <div class="info-container">
+    <div *ngIf="livepollConfiguration.viewsVisible">
+      <p>Participants: 123</p>
+    </div>
   </div>
 
   <div class="vote-container">
@@ -108,8 +135,6 @@
       </ng-container>
     </div>
   </div>
-
-  <ng-container *ngIf="!userRole"></ng-container>
 </mat-dialog-content>
 
 <ng-template
@@ -121,19 +146,30 @@
     mat-flat-button
     [color]="selectedPreviewOption === i ? 'accent' : 'primary'"
     (click)="selectedPreviewOption = i">
-    <ng-container *ngIf="template.isPlain">
-      <span>
-        {{
-          template.translate
-            ? (translateKey + "." + "option-" + template.name! | translate)[i]
-            : symbol
-        }}
-      </span>
-    </ng-container>
-    <ng-container *ngIf="!template.isPlain">
-      <mat-icon>
-        {{ symbol }}
-      </mat-icon>
-    </ng-container>
+    <ng-container
+      *ngTemplateOutlet="
+        optionEntry;
+        context: { i: i, symbol: symbol }
+      "></ng-container>
   </button>
+</ng-template>
+
+<ng-template
+  #optionEntry
+  let-i="i"
+  let-symbol="symbol">
+  <ng-container *ngIf="template.isPlain">
+    <span>
+      {{
+        template.translate
+          ? (translateKey + "." + "option-" + template.name! | translate)[i]
+          : symbol
+      }}
+    </span>
+  </ng-container>
+  <ng-container *ngIf="!template.isPlain">
+    <mat-icon>
+      {{ symbol }}
+    </mat-icon>
+  </ng-container>
 </ng-template>

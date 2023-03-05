@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, EventEmitter, OnDestroy } from '@angular/core';
 import {
   LivepollTemplate,
   LivepollTemplateContext,
@@ -46,8 +46,6 @@ export class LivepollCreateComponent implements OnDestroy {
     public readonly languageService: LanguageService,
     public readonly http: HttpClient,
     public readonly device: DeviceInfoService,
-    // only for mockup, remove when no.3 works
-    public readonly _dialog: MatDialog,
     public readonly livepollService: LivepollService,
     private readonly sessionService: SessionService,
   ) {
@@ -66,23 +64,6 @@ export class LivepollCreateComponent implements OnDestroy {
 
   public static create(dialog: MatDialog) {
     dialog.open(LivepollCreateComponent, {});
-  }
-
-  /**
-   * only for mockup, remove when no.3 works
-   */
-  public static createMockup(
-    dialog: MatDialog,
-    asParticipant: boolean,
-    config: LivepollConfiguration,
-    template: LivepollTemplateContext,
-  ) {
-    const ref = dialog.open(LivepollDialogComponent, {});
-    ref.componentInstance.userRole = asParticipant
-      ? UserRole.PARTICIPANT
-      : UserRole.CREATOR;
-    ref.componentInstance.livepollConfiguration = config;
-    ref.componentInstance.template = template;
   }
 
   create() {
@@ -104,17 +85,7 @@ export class LivepollCreateComponent implements OnDestroy {
     this._destroyer.next(0);
   }
 
-  /**
-   * only for mockup, remove when no.3 works
-   */
-  openMockup(asParticipant: boolean) {
-    if (this.templateSelection) {
-      LivepollCreateComponent.createMockup(
-        this._dialog,
-        asParticipant,
-        this.livepollConfiguration,
-        this.templateSelection.value,
-      );
-    }
+  test() {
+    console.log('yeet');
   }
 }
