@@ -11,7 +11,7 @@ export class LivepollService {
   create(livepollConfiguration: LivepollConfiguration) {
     this.http
       .post(
-        'api/livepoll/session',
+        '/api/livepoll/session',
         {
           viewsVisible: livepollConfiguration.viewsVisible,
           resultsVisible: livepollConfiguration.resultVisible,
