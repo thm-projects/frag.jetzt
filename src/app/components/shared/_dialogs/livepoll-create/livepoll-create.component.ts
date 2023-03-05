@@ -20,6 +20,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { LivepollDialogComponent } from '../livepoll-dialog/livepoll-dialog.component';
 import { UserRole } from '../../../../models/user-roles.enum';
 import { LivepollService } from '../../../../services/http/livepoll.service';
+import { SessionService } from 'app/services/util/session.service';
 
 @Component({
   selector: 'app-livepoll-create',
@@ -48,6 +49,7 @@ export class LivepollCreateComponent implements OnDestroy {
     // only for mockup, remove when no.3 works
     public readonly _dialog: MatDialog,
     public readonly livepollService: LivepollService,
+    private readonly sessionService: SessionService,
   ) {
     this.languageService
       .getLanguage()
@@ -85,7 +87,16 @@ export class LivepollCreateComponent implements OnDestroy {
 
   create() {
     this.dialogRef.close(this.livepollConfiguration);
-    this.livepollService.create(this.livepollConfiguration);
+  }
+
+  testIt() {
+    this.livepollService.create({
+      roomId: this.sessionService.currentRoom?.id,
+      resultVisible: this.livepollConfiguration.resultVisible,
+      viewsVisible: this.livepollConfiguration.viewsVisible,
+      template: this.templateSelection.value.kind as any,
+      title: this.livepollConfiguration.title || null,
+    });
   }
 
   ngOnDestroy(): void {

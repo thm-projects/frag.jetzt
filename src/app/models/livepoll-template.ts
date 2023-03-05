@@ -1,10 +1,10 @@
 export enum LivepollTemplate {
-  Character,
-  Symbol,
-  Agree,
-  Frequency,
-  YesNo,
-  Scale,
+  Character = 'Character',
+  Symbol = 'Symbol',
+  Agree = 'Agree',
+  Frequency = 'Frequency',
+  YesNo = 'YesNo',
+  Scale = 'Scale',
 }
 
 export enum LivepollGroupKind {

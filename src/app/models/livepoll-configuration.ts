@@ -6,6 +6,7 @@ export interface LivepollConfiguration {
   resultVisible: boolean;
   viewsVisible: boolean;
   isLive: boolean;
+  roomId?: string;
 }
 
 export const defaultLivepollConfiguration: LivepollConfiguration = {

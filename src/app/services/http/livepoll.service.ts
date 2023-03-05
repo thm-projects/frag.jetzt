@@ -1,6 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { LivepollConfiguration } from '../../models/livepoll-configuration';
+
+export interface LivepollSessionCreateAPI  {
+  template: string;
+  title: string | null;
+  resultVisible: boolean;
+  viewsVisible: boolean;
+  roomId: string;
+}
 
 @Injectable({
   providedIn: 'root',
@@ -8,17 +15,10 @@ import { LivepollConfiguration } from '../../models/livepoll-configuration';
 export class LivepollService {
   constructor(public readonly http: HttpClient) {}
 
-  create(livepollConfiguration: LivepollConfiguration) {
-    this.http
-      .post(
-        'api/livepoll/session',
-        {
-          viewsVisible: livepollConfiguration.viewsVisible,
-          resultsVisible: livepollConfiguration.resultVisible,
-          title: 'test',
-          template: livepollConfiguration.template + '',
-          active: true,
-        },
+  create(livepoll: LivepollSessionCreateAPI) {
+    this.http.post(
+        '/api/livepoll/session',
+        livepoll,
         { headers: { 'Content-Type': 'application/json' } },
       )
       .subscribe((x) => {
