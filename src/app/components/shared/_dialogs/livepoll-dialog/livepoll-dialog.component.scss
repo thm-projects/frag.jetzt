@@ -24,6 +24,7 @@
   grid-template-rows: repeat(2, 1fr);
   grid-column-gap: 8px;
   grid-row-gap: 8px;
+
   > button {
     height: 64px;
   }
@@ -32,4 +33,40 @@
 .grid-false {
   display: flex;
   flex-direction: column;
+}
+
+.result-container {
+  display: flex;
+  flex-direction: column;
+  $height: 32px;
+  $border-radius: 4;
+
+  > .container {
+    height: $height;
+    padding: 4px 0;
+
+    > .background {
+      display: flex;
+      height: $height;
+      flex-direction: row;
+      justify-content: flex-start;
+      box-shadow: inset 0 0 0 0.5px var(--on-surface);
+      border-radius: #{$border-radius}px;
+      box-sizing: border-box;
+      padding: 4px;
+
+      > .bar {
+        width: 10px;
+        background-color: var(--on-surface);
+        border-radius: #{$border-radius - ($border-radius / 2)}px;
+      }
+    }
+
+    > .foreground {
+      height: $height;
+      display: flex;
+      position: relative;
+      top: -$height;
+    }
+  }
 }

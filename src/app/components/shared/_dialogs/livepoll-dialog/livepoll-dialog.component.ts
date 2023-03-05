@@ -23,11 +23,17 @@ import { HttpClient } from '@angular/common/http';
   ],
 })
 export class LivepollDialogComponent implements OnInit, OnDestroy {
-  userRole: UserRole;
-  livepollConfiguration!: LivepollConfiguration;
-  template: LivepollTemplateContext;
-  translateKey: string = 'create';
-  selectedPreviewOption: number = -1;
+  public userRole: UserRole;
+  public livepollConfiguration!: LivepollConfiguration;
+  public template: LivepollTemplateContext;
+  public translateKey: string = 'create';
+  public selectedPreviewOption: number = -1;
+  public options:
+    | {
+        index: number;
+        symbol: string;
+      }[]
+    | undefined;
   private _destroyer = new ReplaySubject(1);
 
   constructor(
@@ -49,7 +55,28 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
       });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    if (this.template) {
+      if (typeof this.template.length === 'undefined') {
+        this.options = this.template.symbols.map((option, index) => ({
+          index,
+          symbol: option,
+        }));
+      } else {
+        const options: {
+          index: number;
+          symbol: string;
+        }[] = [];
+        for (let index = 0; index < this.template.length; index++) {
+          options.push({
+            index,
+            symbol: 'option-' + this.template.name,
+          });
+        }
+        this.options = options;
+      }
+    }
+  }
   ngOnDestroy(): void {
     this._destroyer.next(0);
   }

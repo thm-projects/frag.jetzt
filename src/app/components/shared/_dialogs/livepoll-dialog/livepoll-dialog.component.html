@@ -62,6 +62,21 @@
     </mat-accordion>
   </ng-container>
 
+  <div
+    class="result-container"
+    *ngIf="options">
+    <ng-container *ngFor="let option of options">
+      <div class="container">
+        <div class="background">
+          <div class="bar"></div>
+        </div>
+        <div class="foreground">
+          <span>{{ option.symbol }}</span>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+
   <div class="vote-container">
     <div
       [ngClass]="'reverse-' + !!template.reverse + ' grid-' + template.isGrid"

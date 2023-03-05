@@ -1,5 +1,6 @@
 import { Component, OnDestroy } from '@angular/core';
 import {
+  LivepollTemplate,
   LivepollTemplateContext,
   templateContext,
   templateGroups,
@@ -18,6 +19,7 @@ import { DeviceInfoService } from '../../../../services/util/device-info.service
 import { MatDialog } from '@angular/material/dialog';
 import { LivepollDialogComponent } from '../livepoll-dialog/livepoll-dialog.component';
 import { UserRole } from '../../../../models/user-roles.enum';
+import { LivepollService } from '../../../../services/http/livepoll.service';
 
 @Component({
   selector: 'app-livepoll-create',
@@ -45,6 +47,7 @@ export class LivepollCreateComponent implements OnDestroy {
     public readonly device: DeviceInfoService,
     // only for mockup, remove when no.3 works
     public readonly _dialog: MatDialog,
+    public readonly livepollService: LivepollService,
   ) {
     this.languageService
       .getLanguage()
@@ -82,6 +85,7 @@ export class LivepollCreateComponent implements OnDestroy {
 
   create() {
     this.dialogRef.close(this.livepollConfiguration);
+    this.livepollService.create(this.livepollConfiguration);
   }
 
   ngOnDestroy(): void {
