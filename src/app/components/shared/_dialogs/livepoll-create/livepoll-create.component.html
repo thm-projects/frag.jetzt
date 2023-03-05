@@ -98,8 +98,8 @@
     <span>{{ translateKey + ".close" | translate }}</span>
   </button>
   <button
+    (click)="create()"
     mat-flat-button
-    (click)="testIt()"
     color="accent"
     class="previewOption">
     <span>{{ translateKey + ".create" | translate }}</span>
