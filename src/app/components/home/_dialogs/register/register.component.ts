@@ -6,7 +6,10 @@ import {
   NgForm,
   Validators,
 } from '@angular/forms';
-import { AuthenticationService } from '../../../../services/http/authentication.service';
+import {
+  AuthenticationService,
+  LoginResult,
+} from '../../../../services/http/authentication.service';
 import { NotificationService } from '../../../../services/util/notification.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ErrorStateMatcher } from '@angular/material/core';
@@ -159,12 +162,20 @@ export class RegisterComponent implements OnInit {
             });
           this.dialogRef.close({ username, password });
         },
-        error: () => {
-          this.translationService
-            .get('register.register-request-error')
-            .subscribe((message) => {
-              this.notificationService.show(message);
-            });
+        error: (errorCode: LoginResult) => {
+          if (errorCode === LoginResult.PasswordTooCommon) {
+            this.translationService
+              .get('register.register-error-password-too-common')
+              .subscribe((message) => {
+                this.notificationService.show(message);
+              });
+          } else {
+            this.translationService
+              .get('register.register-request-error')
+              .subscribe((message) => {
+                this.notificationService.show(message);
+              });
+          }
         },
       });
     } else {

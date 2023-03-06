@@ -153,32 +153,42 @@ export class PasswordResetComponent implements OnInit {
         this.authenticationService
           .setNewPassword(email, key, password)
           .subscribe({
-            next: (result) => {
-              if (result === 'Key expired') {
+            next: () => {
+              this.translationService
+                .get('password-reset.new-password-successful')
+                .subscribe((message) => {
+                  this.notificationService.show(message);
+                });
+              this.closeDialog();
+            },
+            error: (errorCode: any) => {
+              if (errorCode === 'Key expired') {
                 this.translationService
                   .get('password-reset.new-password-key-expired')
                   .subscribe((message) => {
                     this.notificationService.show(message);
                   });
-              } else if (result === 'Invalid Key') {
+              } else if (errorCode === 'Invalid Key') {
                 this.translationService
                   .get('password-reset.new-password-key-invalid')
                   .subscribe((message) => {
                     this.notificationService.show(message);
                   });
-              } else {
+              } else if (errorCode === LoginResult.PasswordTooCommon) {
                 this.translationService
-                  .get('password-reset.new-password-successful')
+                  .get('register.register-error-password-too-common')
                   .subscribe((message) => {
                     this.notificationService.show(message);
                   });
-                this.closeDialog();
-              }
-            },
-            error: (error) => {
-              if (error === LoginResult.NewPasswordIsOldPassword) {
+              } else if (errorCode === LoginResult.NewPasswordIsOldPassword) {
                 this.translationService
                   .get('password-reset.new-password-is-old')
+                  .subscribe((message) => {
+                    this.notificationService.show(message);
+                  });
+              } else {
+                this.translationService
+                  .get('register.register-request-error')
                   .subscribe((message) => {
                     this.notificationService.show(message);
                   });

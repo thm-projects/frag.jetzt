@@ -296,7 +296,13 @@
     "zoom-minus": "Réduire la taille du texte",
     "zoom-plus": "Agrandir la taille du texte",
     "zoom-reset": "Réinitialiser le niveau de zoom",
-    "gpt-chat": "Chat avec GPT"
+    "gpt-chat": "Chat avec GPT",
+    "gpt-privacy-policy": "ChatGPT Politique de confidentialité"
+  },
+  "gpt-chat": {
+    "optin-accept": "Accepter",
+    "optin-reject": "Refuser",
+    "privacy-policy": "ChatGPT Politique de confidentialité"
   },
   "help": {
     "cancel": "Fermer",
@@ -519,6 +525,7 @@
     "register-description": "Terminer l'enregistrement",
     "register-request-error": "Quelque chose s'est mal passé lors de l'enregistrement. Tu t'es peut-être déjà enregistré ?",
     "register-successful": "Enregistré avec succès. Vérifie ta boîte de réception !",
+    "register-error-password-too-common": "Le mot de passe est composé en grande partie de chaînes de caractères faciles à deviner. Veuillez choisir un autre mot de passe.",
     "register-unsuccessful": "Vérifie tes données, s'il te plaît."
   },
   "remind-of-tokens": {

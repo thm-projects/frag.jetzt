@@ -296,7 +296,13 @@
     "zoom-minus": "Text verkleinern",
     "zoom-plus": "Text vergrößern",
     "zoom-reset": "Zoomstufe zurücksetzen",
-    "gpt-chat": "Chat mit GPT"
+    "gpt-chat": "Chat mit GPT",
+    "gpt-privacy-policy": "ChatGPT Datenschutzrichtlinie"
+  },
+  "gpt-chat": {
+    "optin-accept": "Akzeptieren",
+    "optin-reject": "Ablehnen",
+    "privacy-policy": "ChatGPT Datenschutzrichtlinie"
   },
   "help": {
     "cancel": "Schließen",
@@ -519,6 +525,7 @@
     "register-description": "Registrierung abschließen",
     "register-request-error": "Etwas ist bei der Registrierung schiefgelaufen. Hast du dich vielleicht schon registriert?",
     "register-successful": "Erfolgreich registriert. Bitte prüfe dein Postfach!",
+    "register-error-password-too-common": "Das Passwort besteht zu einem großteil aus einfach zu erratenden Zeichenfolgen. Bitte wähle ein anderes Passwort.",
     "register-unsuccessful": "Bitte prüfe deine Eingaben."
   },
   "remind-of-tokens": {
