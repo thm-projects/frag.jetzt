@@ -70,10 +70,10 @@ export const checkForPasswordValidity =
       return { containsLowercase: { _: false } };
     if (!/[A-Z]/.test(passwordField.value))
       return { containsUppercase: { _: false } };
-    if (!/[!@#$%^&*()_+\-=]/.test(passwordField.value))
+    if (!/[!@#$%^&*()_+\-=\?]/.test(passwordField.value))
       return { containsSpecialCharacter: { _: false } };
 
-    if (usernameField.value.trim().length <= 0) return null;
+    if ((usernameField.value || '').trim().length <= 0) return null;
 
     // Password Similarity
     const emailSubstrings = splitString(usernameField.value);
