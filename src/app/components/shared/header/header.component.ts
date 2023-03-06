@@ -400,6 +400,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
             ' <- result-Wert',
         );
       });
+      window.location.reload();
     });
   }
 
