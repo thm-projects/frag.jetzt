@@ -116,6 +116,9 @@
         {{ "register.password-too-similar" | translate }}
       </mat-error>
     </mat-form-field>
+    <mat-password-strength
+      #passwordComponentWithValidation
+      [password]="password1FormControl.value"></mat-password-strength>
 
     <mat-form-field class="input-block">
       <input
