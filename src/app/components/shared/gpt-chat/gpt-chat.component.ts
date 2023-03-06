@@ -17,6 +17,8 @@ import { SessionService } from 'app/services/util/session.service';
 import { KeyboardUtils } from 'app/utils/keyboard';
 import { KeyboardKey } from 'app/utils/keyboard/keys';
 import { finalize, Observer, ReplaySubject, Subject, takeUntil } from 'rxjs';
+import { IntroductionPromptGuideChatbotComponent } from '../_dialogs/introductions/introduction-prompt-guide-chatbot/introduction-prompt-guide-chatbot.component';
+import { MatDialog } from '@angular/material/dialog';
 
 interface ConversationEntry {
   type: 'human' | 'gpt' | 'error';
@@ -57,6 +59,7 @@ export class GptChatComponent implements OnInit, OnDestroy {
     private gptEncoderService: GptEncoderService,
     private router: Router,
     private sessionService: SessionService,
+    public dialog: MatDialog,
   ) {
     this.isAdmin = router.url.toLowerCase().startsWith('/admin/gpt-chat');
   }
@@ -275,6 +278,14 @@ export class GptChatComponent implements OnInit, OnDestroy {
           this.isSending = false;
         },
       });
+  }
+
+  showPromptGuide() {
+    this.dialog.open(IntroductionPromptGuideChatbotComponent, {
+      autoFocus: false,
+      width: '80%',
+      maxWidth: '600px',
+    });
   }
 
   private initAdmin() {

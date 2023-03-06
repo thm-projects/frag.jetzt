@@ -21,6 +21,11 @@
     "success": "Créé avec succès",
     "title": "Créer des news"
   },
+  "introductions": {
+    "prompt-guide-chatbot": "Communiquer efficacement avec ChatGPT",
+    "cancel": "Fermer",
+    "tooltip-button" : "Prompt Guide"
+  },
   "gpt-config": {
     "title": "Paramètres GPT & test API",
     "api-key": "API Key",
