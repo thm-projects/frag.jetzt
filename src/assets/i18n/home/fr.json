@@ -524,6 +524,7 @@
     "register-description": "Terminer l'enregistrement",
     "register-request-error": "Quelque chose s'est mal passé lors de l'enregistrement. Tu t'es peut-être déjà enregistré ?",
     "register-successful": "Enregistré avec succès. Vérifie ta boîte de réception !",
+    "register-error-password-too-common": "Le mot de passe est composé en grande partie de chaînes de caractères faciles à deviner. Veuillez choisir un autre mot de passe.",
     "register-unsuccessful": "Vérifie tes données, s'il te plaît."
   },
   "remind-of-tokens": {
