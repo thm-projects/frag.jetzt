@@ -464,8 +464,7 @@
     </div>
     <div
       style="margin-top: 10px"
-      fxLayout="row"
-      fxLayoutAlign="start center">
+      class="comment-buttons">
       <button
         mat-button
         *ngIf="
@@ -483,18 +482,8 @@
       <button
         mat-button
         class="replyButton"
-        *ngIf="gpt_privacy_policy_accepted"
-        (click)="openGPT()">
-        <mat-icon class="material-icons-outlined">smart_toy</mat-icon>
-        {{ "comment-page.reply-AI" | translate }}
-      </button>
-
-      <!-- *ngIf="canOpenGPT" -->
-      <button
-        mat-button
-        class="replyButton"
-        *ngIf="!gpt_privacy_policy_accepted"
-        [ngClass]="{ 'gray-button': !canOpenGPT }"
+        *ngIf="canOpenGPT"
+        [ngClass]="{ 'gray-button': !gpt_privacy_policy_accepted }"
         (click)="openGPT()">
         <mat-icon class="material-icons-outlined">smart_toy</mat-icon>
         {{ "comment-page.reply-AI" | translate }}

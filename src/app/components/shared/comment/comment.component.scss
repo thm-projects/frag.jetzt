@@ -465,6 +465,11 @@ $width-range: $max-width - $min-width;
   font-size: 12px;
 }
 
+.comment-buttons {
+  display: flex;
+  flex-wrap: wrap;
+}
+
 .replyButton {
   color: var(--primary);
   background-color: transparent;
