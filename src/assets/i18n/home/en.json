@@ -491,7 +491,8 @@
     "reset-successful": "If an account with this mail address exists, a message was sent.",
     "set-button-description": "Set the new password for the account",
     "set-new-password": "Set a new password with the key code that was sent to you:",
-    "set-new-password-button": "Set password"
+    "set-new-password-button": "Set password",
+    "new-password-is-old" : "The new password must be different from the old one."
   },
   "qr-dialog": {
     "session": "Code",

@@ -180,6 +180,12 @@ export class PasswordResetComponent implements OnInit {
                   .subscribe((message) => {
                     this.notificationService.show(message);
                   });
+              } else if (errorCode === LoginResult.NewPasswordIsOldPassword) {
+                this.translationService
+                  .get('password-reset.new-password-is-old')
+                  .subscribe((message) => {
+                    this.notificationService.show(message);
+                  });
               } else {
                 this.translationService
                   .get('register.register-request-error')
