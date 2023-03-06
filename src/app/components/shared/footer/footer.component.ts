@@ -28,7 +28,6 @@ import { DashboardComponent } from '../_dialogs/dashboard/dashboard.component';
 import { DashboardNotificationService } from '../../../services/util/dashboard-notification.service';
 import { UserManagementService } from '../../../services/util/user-management.service';
 import { SessionService } from '../../../services/util/session.service';
-import { IntroductionPromptGuideChatbotComponent } from '../_dialogs/introductions/introduction-prompt-guide-chatbot/introduction-prompt-guide-chatbot.component';
 
 @Component({
   selector: 'app-footer',
@@ -167,8 +166,6 @@ export class FooterComponent implements OnInit {
       url.match(new RegExp(`^${roleRegex}${roomRegex}/moderator/comments$`))
     ) {
       this._tourSite = IntroductionModerationComponent;
-    } else if (url.endsWith('/gpt-chat')) {
-      this._tourSite = IntroductionPromptGuideChatbotComponent;
     } else {
       this._tourSite = null;
     }
