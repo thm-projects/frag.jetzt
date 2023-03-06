@@ -41,8 +41,8 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
   @Input() public valueChange:
     | Observable<LivepollTemplateContext | null>
     | undefined;
-  @Input() public offerSave: boolean = false;
-  public translateKey: string = 'create';
+  @Input() public isProduction: boolean = false;
+  public translateKey: string = 'common';
   public selectedPreviewOption: number = -1;
   public options:
     | {
@@ -73,6 +73,9 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
       });
   }
 
+  get isActive(): boolean {
+    return this.livepollSession?.active;
+  }
   ngOnInit(): void {
     if (this.valueChange) {
       this.valueChange.subscribe((changedValue) => {
@@ -82,6 +85,7 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
     }
     this.init();
   }
+
   ngOnDestroy(): void {
     this._destroyer.next(0);
   }
@@ -89,14 +93,24 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
   public initFromSession() {
     this.livepollSession = this.session.currentLivepoll;
     this.template = templateEntries[this.livepollSession.template];
-    this.offerSave = true;
+    this.isProduction = true;
   }
 
   public save() {
+    // todo: patch save
     this.livepollService.patch(this.livepollSession);
     this.session.updateCurrentRoom({
       livepollSession: this.livepollSession,
     });
+  }
+
+  delete() {
+    // todo: patch delete
+  }
+
+  setActive(active: boolean) {
+    // todo: patch active
+    this.livepollSession.active = active;
   }
 
   private init() {

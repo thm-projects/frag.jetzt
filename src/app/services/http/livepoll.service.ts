@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { SessionService } from '../util/session.service';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { UserRole } from '../../models/user-roles.enum';
 import { LivepollCreateComponent } from '../../components/shared/_dialogs/livepoll-create/livepoll-create.component';
 import { LivepollDialogComponent } from '../../components/shared/_dialogs/livepoll-dialog/livepoll-dialog.component';
+import { DialogConfig } from '@angular/cdk/dialog';
 
 export interface LivepollSessionPatchAPI {
   template: string;
@@ -18,6 +19,9 @@ export interface LivepollSessionPatchAPI {
   providedIn: 'root',
 })
 export class LivepollService {
+  public static readonly dialogDefaults: MatDialogConfig = {
+    width: '700px',
+  };
   constructor(
     public readonly http: HttpClient,
     public readonly sessionService: SessionService,
@@ -43,16 +47,25 @@ export class LivepollService {
     console.log(this.sessionService.currentLivepoll);
     switch (this.sessionService.currentRole) {
       case UserRole.PARTICIPANT:
-        const instance = this.dialog.open(LivepollDialogComponent, {});
+        const instance = this.dialog.open(
+          LivepollDialogComponent,
+          LivepollService.dialogDefaults,
+        );
         instance.componentInstance.initFromSession();
         break;
       case UserRole.EDITING_MODERATOR:
       case UserRole.EXECUTIVE_MODERATOR:
       case UserRole.CREATOR:
         if (!this.sessionService.currentLivepoll) {
-          this.dialog.open(LivepollCreateComponent, {});
+          this.dialog.open(
+            LivepollCreateComponent,
+            LivepollService.dialogDefaults,
+          );
         } else {
-          const instance = this.dialog.open(LivepollDialogComponent, {});
+          const instance = this.dialog.open(
+            LivepollDialogComponent,
+            LivepollService.dialogDefaults,
+          );
           instance.componentInstance.initFromSession();
         }
         break;

@@ -34,7 +34,7 @@ import { LivepollSession } from '../../../../models/livepoll-session';
 export class LivepollCreateComponent implements OnDestroy {
   public readonly templateGroups = templateGroups;
 
-  public readonly translateKey = 'create';
+  public readonly translateKey = 'common';
   public templateSelection = new FormControl<LivepollTemplateContext>(
     templateContext[0],
   );

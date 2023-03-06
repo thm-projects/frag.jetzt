@@ -9,61 +9,97 @@
 <mat-dialog-content class="content">
   <ng-container *ngIf="session.currentRole">
     <mat-accordion class="accordion">
-      <mat-expansion-panel style="box-shadow: none">
+      <mat-expansion-panel class="settings-expansion-panel">
         <mat-expansion-panel-header>
-          <mat-panel-title>
+          <mat-panel-title class="settings-panel-title">
             {{ translateKey + ".creator-settings" | translate }}
           </mat-panel-title>
-          <mat-panel-description>
-            {{ translateKey + ".creator-settings-description" | translate }}
+          <mat-panel-description
+            [ngClass]="
+              'settings-panel-description-' +
+              (device.isCurrentlyDesktop ? 'desktop' : 'mobile')
+            ">
+            <span>
+              {{
+                device.isCurrentlyDesktop
+                  ? (translateKey + ".creator-settings-description" | translate)
+                  : ""
+              }}
+            </span>
             <mat-icon>
               {{ translateKey + ".creator-settings-icon" | translate }}
             </mat-icon>
           </mat-panel-description>
         </mat-expansion-panel-header>
-        <div
-          class="split"
-          [ngClass]="device.isCurrentlyDesktop ? 'desktop' : 'mobile'">
-          <div class="fill">
-            <mat-form-field appearance="outline">
-              <mat-label>
-                {{ translateKey + ".option-select-title" | translate }}
-              </mat-label>
-              <input
-                matInput
-                [(ngModel)]="livepollSession.title" />
-              <mat-hint>
-                {{ translateKey + ".option-select-title-hint" | translate }}
-              </mat-hint>
-            </mat-form-field>
-          </div>
-          <div class="adjust">
-            <mat-slide-toggle
+        <div class="settings-panel-container">
+          <div
+            class="row settings-panel-container-top"
+            *ngIf="isProduction">
+            <button
+              mat-flat-button
+              color="accent"
               [matTooltip]="
-                translateKey + '.tooltip-option-select-result-visibility'
-                  | translate
+                translateKey +
+                  '.creator-settings-' +
+                  (isActive ? 'pause' : 'continue') | translate
               "
-              [(ngModel)]="livepollSession.resultVisible">
-              {{
-                translateKey + ".option-select-result-visibility" | translate
-              }}
-            </mat-slide-toggle>
-            <mat-slide-toggle
+              (click)="setActive(!isActive)">
+              <mat-icon>{{ isActive ? "pause" : "play_arrow" }}</mat-icon>
+              <span>
+                {{
+                  translateKey +
+                    ".creator-settings-" +
+                    (isActive ? "pause" : "continue") | translate
+                }}
+              </span>
+            </button>
+            <button
+              mat-flat-button
+              color="warn"
               [matTooltip]="
-                translateKey + '.tooltip-option-select-views-visibility'
-                  | translate
+                translateKey + '.creator-settings-delete-tooltip' | translate
               "
-              [(ngModel)]="livepollSession.viewsVisible">
-              {{ translateKey + ".option-select-views-visibility" | translate }}
-            </mat-slide-toggle>
+              (click)="delete()">
+              <mat-icon>delete</mat-icon>
+              <span>
+                {{ translateKey + ".creator-settings-delete" | translate }}
+              </span>
+            </button>
           </div>
+          <mat-form-field appearance="outline">
+            <mat-label>
+              {{ translateKey + ".option-select-title" | translate }}
+            </mat-label>
+            <input
+              matInput
+              [(ngModel)]="livepollSession.title" />
+            <mat-hint>
+              {{ translateKey + ".option-select-title-hint" | translate }}
+            </mat-hint>
+          </mat-form-field>
+          <mat-slide-toggle
+            [matTooltip]="
+              translateKey + '.tooltip-option-select-result-visibility'
+                | translate
+            "
+            [(ngModel)]="livepollSession.resultVisible">
+            {{ translateKey + ".option-select-result-visibility" | translate }}
+          </mat-slide-toggle>
+          <mat-slide-toggle
+            [matTooltip]="
+              translateKey + '.tooltip-option-select-views-visibility'
+                | translate
+            "
+            [(ngModel)]="livepollSession.viewsVisible">
+            {{ translateKey + ".option-select-views-visibility" | translate }}
+          </mat-slide-toggle>
         </div>
         <div class="expansion-action-list">
-          <div class="fg-1"></div>
           <button
-            mat-raised-button
+            mat-flat-button
+            color="accent"
             (click)="save()">
-            <span>{{ "save" }}</span>
+            <span>{{ translateKey + ".save" | translate }}</span>
           </button>
         </div>
       </mat-expansion-panel>
