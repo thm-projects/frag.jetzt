@@ -21,6 +21,11 @@
     "success": "Créé avec succès",
     "title": "Créer des news"
   },
+  "introductions": {
+    "prompt-guide-chatbot": "Communiquer efficacement avec ChatGPT",
+    "cancel": "Fermer",
+    "tooltip-button" : "Guide de prompt"
+  },
   "gpt-config": {
     "title": "Paramètres GPT & test API",
     "api-key": "API Key",
@@ -51,6 +56,9 @@
     "help-activation-codes": "Ici, les codes d'activation pour l'étude peuvent être consultés, créés et supprimés."
   },
   "gpt-chat": {
+    "optin-accept": "Accepter",
+    "optin-reject": "Refuser",
+    "privacy-policy": "Déclaration de confidentialité pour l'utilisation de l'API OpenAI",
     "enter-conversation-text": "Chat avec GPT …",
     "send": "Envoyer",
     "empty-conversation": "Vider l'historique",

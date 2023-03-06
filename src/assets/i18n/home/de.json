@@ -296,7 +296,13 @@
     "zoom-minus": "Text verkleinern",
     "zoom-plus": "Text vergrößern",
     "zoom-reset": "Zoomstufe zurücksetzen",
-    "gpt-chat": "Chat mit GPT"
+    "gpt-chat": "Chat mit GPT",
+    "gpt-privacy-policy": "ChatGPT Datenschutzrichtlinie"
+  },
+  "gpt-chat": {
+    "optin-accept": "Akzeptieren",
+    "optin-reject": "Ablehnen",
+    "privacy-policy": "ChatGPT Datenschutzrichtlinie"
   },
   "help": {
     "cancel": "Schließen",
@@ -507,11 +513,18 @@
     "password-description-repeat": "Gib hier bitte erneut das Passwort, mit dem du dich registrieren möchtest, ein, um sicherzustellen, dass du dich nicht vertippt hast.",
     "password-required": "Passwort erforderlich",
     "password-unmatch": "Passwörter stimmen nicht überein.",
+    "password-length-invalid": "Muss zwischen 8 - 64 Zeichen lang sein",
+    "password-no-number": "Muss eine Zahl enthalten",
+    "password-no-lowercase": "Muss einen Kleinbuchstaben enthalten",
+    "password-no-uppercase": "Muss einen Großbuchstaben enthalten",
+    "password-no-special-character": "Muss eines der Sonderzeichen enthalten",
+    "password-too-similar": "Ähnelt der E-Mail zu sehr",
     "password-verify": "Passwort wiederholen",
     "register": "Registrieren",
     "register-description": "Registrierung abschließen",
     "register-request-error": "Etwas ist bei der Registrierung schiefgelaufen. Hast du dich vielleicht schon registriert?",
     "register-successful": "Erfolgreich registriert. Bitte prüfe dein Postfach!",
+    "register-error-password-too-common": "Das Passwort besteht zu einem großteil aus einfach zu erratenden Zeichenfolgen. Bitte wähle ein anderes Passwort.",
     "register-unsuccessful": "Bitte prüfe deine Eingaben."
   },
   "remind-of-tokens": {

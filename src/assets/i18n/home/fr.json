@@ -296,7 +296,13 @@
     "zoom-minus": "Réduire la taille du texte",
     "zoom-plus": "Agrandir la taille du texte",
     "zoom-reset": "Réinitialiser le niveau de zoom",
-    "gpt-chat": "Chat avec GPT"
+    "gpt-chat": "Chat avec GPT",
+    "gpt-privacy-policy": "ChatGPT Politique de confidentialité"
+  },
+  "gpt-chat": {
+    "optin-accept": "Accepter",
+    "optin-reject": "Refuser",
+    "privacy-policy": "ChatGPT Politique de confidentialité"
   },
   "help": {
     "cancel": "Fermer",
@@ -506,12 +512,19 @@
     "password-description": "Saisis ici le mot de passe que tu souhaites utiliser pour t'inscrire.",
     "password-description-repeat": "Saisis à nouveau le mot de passe que tu souhaites utiliser pour t'inscrire, afin de t'assurer que tu n'as pas fait de faute de frappe.",
     "password-required": "Mot de passe nécessaire",
+    "password-length-invalid": "Doit comporter 8 à 64 caractères",
+    "password-no-number": "Doit contenir un nombre",
+    "password-no-lowercase": "Doit contenir une lettre minuscule",
+    "password-no-uppercase": "Doit contenir une majuscule",
+    "password-no-special-character": "Doit contenir l'un des caractères spéciaux",
+    "password-too-similar": "Ressemble trop à l'e-mail",
     "password-unmatch": "Les mots de passe ne correspondent pas.",
     "password-verify": "Répéter le mot de passe",
     "register": "S'inscrire",
     "register-description": "Terminer l'enregistrement",
     "register-request-error": "Quelque chose s'est mal passé lors de l'enregistrement. Tu t'es peut-être déjà enregistré ?",
     "register-successful": "Enregistré avec succès. Vérifie ta boîte de réception !",
+    "register-error-password-too-common": "Le mot de passe est composé en grande partie de chaînes de caractères faciles à deviner. Veuillez choisir un autre mot de passe.",
     "register-unsuccessful": "Vérifie tes données, s'il te plaît."
   },
   "remind-of-tokens": {

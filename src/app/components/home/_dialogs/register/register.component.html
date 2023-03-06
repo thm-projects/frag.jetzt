@@ -42,7 +42,7 @@
       </mat-placeholder>
       <mat-error
         *ngIf="
-          username2FormControl.hasError('emailIsEqual') &&
+          username2FormControl.hasError('isEqual') &&
           !username2FormControl.hasError('required')
         ">
         {{ "register.email-unmatch" | translate }}
@@ -53,7 +53,7 @@
       <input
         appAccessibilityEscapedInput
         matInput
-        type="password"
+        [type]="isPasswordVisible ? 'text' : 'password'"
         #userPassword1
         [formControl]="password1FormControl"
         [errorStateMatcher]="matcher"
@@ -61,8 +61,59 @@
       <mat-placeholder class="placeholder">
         {{ "register.password" | translate }}
       </mat-placeholder>
+      <mat-icon
+        matSuffix
+        (click)="togglePasswordVisibility()"
+        class="visibility-icon">
+        {{ isPasswordVisible ? "visibility" : "visibility_off" }}
+      </mat-icon>
+
       <mat-error *ngIf="password1FormControl.hasError('required')">
         {{ "register.password-required" | translate }}
+      </mat-error>
+      <mat-error
+        *ngIf="
+          !password1FormControl.hasError('required') &&
+          password1FormControl.hasError('validLength')
+        ">
+        {{ "register.password-length-invalid" | translate }}
+      </mat-error>
+      <mat-error
+        *ngIf="
+          !password1FormControl.hasError('required') &&
+          password1FormControl.hasError('containsNumber')
+        ">
+        {{ "register.password-no-number" | translate }}
+      </mat-error>
+      <mat-error
+        *ngIf="
+          !password1FormControl.hasError('required') &&
+          password1FormControl.hasError('containsLowercase')
+        ">
+        {{ "register.password-no-lowercase" | translate }}
+      </mat-error>
+      <mat-error
+        *ngIf="
+          !password1FormControl.hasError('required') &&
+          password1FormControl.hasError('containsUppercase')
+        ">
+        {{ "register.password-no-uppercase" | translate }}
+      </mat-error>
+      <mat-error
+        *ngIf="
+          !password1FormControl.hasError('required') &&
+          password1FormControl.hasError('containsSpecialCharacter')
+        ">
+        {{ "register.password-no-special-character" | translate }}
+        <br />
+        (!, @, #, $, %, ^, &, *, (, ), _, +, -, =)
+      </mat-error>
+      <mat-error
+        *ngIf="
+          !password1FormControl.hasError('required') &&
+          password1FormControl.hasError('containsEmailElements')
+        ">
+        {{ "register.password-too-similar" | translate }}
       </mat-error>
     </mat-form-field>
     <mat-password-strength
@@ -73,7 +124,7 @@
       <input
         appAccessibilityEscapedInput
         matInput
-        type="password"
+        [type]="isPasswordVisible ? 'text' : 'password'"
         #userPassword2
         [formControl]="password2FormControl"
         [errorStateMatcher]="matcher"
@@ -81,12 +132,19 @@
       <mat-placeholder class="placeholder">
         {{ "register.password-verify" | translate }}
       </mat-placeholder>
+      <mat-icon
+        matSuffix
+        (click)="togglePasswordVisibility()"
+        class="visibility-icon">
+        {{ isPasswordVisible ? "visibility" : "visibility_off" }}
+      </mat-icon>
+
       <mat-error *ngIf="password2FormControl.hasError('required')">
         {{ "register.password-required" | translate }}
       </mat-error>
       <mat-error
         *ngIf="
-          password2FormControl.hasError('passwordIsEqual') &&
+          password2FormControl.hasError('isEqual') &&
           !password2FormControl.hasError('required')
         ">
         {{ "register.password-unmatch" | translate }}
