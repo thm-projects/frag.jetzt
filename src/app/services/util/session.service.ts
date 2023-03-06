@@ -27,6 +27,7 @@ import { BrainstormingSession } from 'app/models/brainstorming-session';
 import { LivepollSessionList } from '../../models/livepoll-session-list';
 import { GptService } from '../http/gpt.service';
 import { GPTRoomStatus } from 'app/models/gpt-status';
+import { LivepollSession } from '../../models/livepoll-session';
 
 @Injectable({
   providedIn: 'root',
@@ -41,8 +42,8 @@ export class SessionService {
   private readonly _currentGPTRoomStatus = new BehaviorSubject<GPTRoomStatus>(
     null,
   );
-  private readonly _livepoll_mock: LivepollSessionList =
-    new LivepollSessionList([]);
+  private readonly _currentLivepollSession =
+    new BehaviorSubject<LivepollSession>(null);
   private _beforeRoomUpdates: Subject<Partial<Room>>;
   private _afterRoomUpdates: Subject<Room>;
   private _roomSubscription: Subscription;
@@ -63,8 +64,8 @@ export class SessionService {
     private gptService: GptService,
   ) {}
 
-  get currentLivepoll(): LivepollSessionList {
-    return this._livepoll_mock;
+  get currentLivepoll(): LivepollSession {
+    return this._currentLivepollSession.value;
   }
 
   get canChangeRoleOnRoute(): boolean {
@@ -321,6 +322,9 @@ export class SessionService {
     if (this._currentBrainstormingCategories.value) {
       this._currentBrainstormingCategories.next(null);
     }
+    if (this._currentLivepollSession.value) {
+      this._currentLivepollSession.next(null);
+    }
   }
 
   private loadRoom(shortId: string) {
@@ -363,6 +367,7 @@ export class SessionService {
         .getRoomStream(room.id)
         .subscribe((msg) => this.receiveMessage(msg, room));
       this._currentRoom.next(room);
+      this._currentLivepollSession.next(room.livepollSession);
       this.gptService
         .getStatusForRoom(room.id)
         .subscribe((roomStatus) => this._currentGPTRoomStatus.next(roomStatus));
@@ -378,6 +383,7 @@ export class SessionService {
 
   private receiveMessage(msg: any, room: Room) {
     const message = JSON.parse(msg.body);
+    console.log(message, room);
     if (message.roomId && message.roomId !== room.id) {
       console.error('Wrong room!', message);
       return;

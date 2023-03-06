@@ -20,6 +20,12 @@ import { Observable, ReplaySubject, takeUntil } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../../services/util/language.service';
 import { HttpClient } from '@angular/common/http';
+import { SessionService } from '../../../../services/util/session.service';
+import {
+  LivepollService,
+  LivepollSessionPatchAPI,
+} from '../../../../services/http/livepoll.service';
+import { LivepollSession } from '../../../../models/livepoll-session';
 
 @Component({
   selector: 'app-livepoll-dialog',
@@ -30,11 +36,12 @@ import { HttpClient } from '@angular/common/http';
   ],
 })
 export class LivepollDialogComponent implements OnInit, OnDestroy {
-  @Input() public livepollConfiguration!: LivepollConfiguration;
+  @Input() public livepollSession!: LivepollSession;
   @Input() public template: LivepollTemplateContext;
   @Input() public valueChange:
     | Observable<LivepollTemplateContext | null>
     | undefined;
+  @Input() public offerSave: boolean = false;
   public translateKey: string = 'create';
   public selectedPreviewOption: number = -1;
   public options:
@@ -50,6 +57,8 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
     public readonly languageService: LanguageService,
     public readonly translationService: TranslateService,
     public readonly http: HttpClient,
+    public readonly session: SessionService,
+    public readonly livepollService: LivepollService,
   ) {
     this.languageService
       .getLanguage()
@@ -65,14 +74,29 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.valueChange.subscribe((changedValue) => {
-      this.template = changedValue;
-      this.init();
-    });
+    if (this.valueChange) {
+      this.valueChange.subscribe((changedValue) => {
+        this.template = changedValue;
+        this.init();
+      });
+    }
     this.init();
   }
   ngOnDestroy(): void {
     this._destroyer.next(0);
+  }
+
+  public initFromSession() {
+    this.livepollSession = this.session.currentLivepoll;
+    this.template = templateEntries[this.livepollSession.template];
+    this.offerSave = true;
+  }
+
+  public save() {
+    this.livepollService.patch(this.livepollSession);
+    this.session.updateCurrentRoom({
+      livepollSession: this.livepollSession,
+    });
   }
 
   private init() {

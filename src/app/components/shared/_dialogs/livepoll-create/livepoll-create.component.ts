@@ -19,8 +19,12 @@ import { DeviceInfoService } from '../../../../services/util/device-info.service
 import { MatDialog } from '@angular/material/dialog';
 import { LivepollDialogComponent } from '../livepoll-dialog/livepoll-dialog.component';
 import { UserRole } from '../../../../models/user-roles.enum';
-import { LivepollService } from '../../../../services/http/livepoll.service';
+import {
+  LivepollService,
+  LivepollSessionPatchAPI,
+} from '../../../../services/http/livepoll.service';
 import { SessionService } from 'app/services/util/session.service';
+import { LivepollSession } from '../../../../models/livepoll-session';
 
 @Component({
   selector: 'app-livepoll-create',
@@ -35,13 +39,11 @@ export class LivepollCreateComponent implements OnDestroy {
     templateContext[0],
   );
 
-  public selectedPreviewOption: number = -1;
-  public livepollConfiguration: LivepollConfiguration =
-    defaultLivepollConfiguration;
+  public livepollConfiguration: LivepollSession = new LivepollSession();
   private _destroyer = new ReplaySubject(1);
 
   constructor(
-    public readonly dialogRef: DialogRef<LivepollConfiguration>,
+    public readonly dialogRef: DialogRef<LivepollSessionPatchAPI>,
     public readonly translationService: TranslateService,
     public readonly languageService: LanguageService,
     public readonly http: HttpClient,
@@ -62,23 +64,13 @@ export class LivepollCreateComponent implements OnDestroy {
       });
   }
 
-  public static create(dialog: MatDialog) {
-    dialog.open(LivepollCreateComponent, {});
-  }
-
   create() {
     this.dialogRef.close(this.livepollConfiguration);
     this.createAPI();
   }
 
   createAPI() {
-    this.livepollService.create({
-      roomId: this.sessionService.currentRoom?.id,
-      resultVisible: this.livepollConfiguration.resultVisible,
-      viewsVisible: this.livepollConfiguration.viewsVisible,
-      template: this.templateSelection.value.kind as any,
-      title: this.livepollConfiguration.title || null,
-    });
+    this.livepollService.create(this.livepollConfiguration);
   }
 
   ngOnDestroy(): void {

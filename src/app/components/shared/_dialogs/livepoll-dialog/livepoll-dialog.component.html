@@ -7,7 +7,7 @@
 <!--  </h5>-->
 <!--</div>-->
 <mat-dialog-content class="content">
-  <ng-container *ngIf="5">
+  <ng-container *ngIf="session.currentRole">
     <mat-accordion class="accordion">
       <mat-expansion-panel style="box-shadow: none">
         <mat-expansion-panel-header>
@@ -31,7 +31,7 @@
               </mat-label>
               <input
                 matInput
-                [(ngModel)]="livepollConfiguration.title" />
+                [(ngModel)]="livepollSession.title" />
               <mat-hint>
                 {{ translateKey + ".option-select-title-hint" | translate }}
               </mat-hint>
@@ -43,7 +43,7 @@
                 translateKey + '.tooltip-option-select-result-visibility'
                   | translate
               "
-              [(ngModel)]="livepollConfiguration.resultVisible">
+              [(ngModel)]="livepollSession.resultVisible">
               {{
                 translateKey + ".option-select-result-visibility" | translate
               }}
@@ -53,10 +53,18 @@
                 translateKey + '.tooltip-option-select-views-visibility'
                   | translate
               "
-              [(ngModel)]="livepollConfiguration.viewsVisible">
+              [(ngModel)]="livepollSession.viewsVisible">
               {{ translateKey + ".option-select-views-visibility" | translate }}
             </mat-slide-toggle>
           </div>
+        </div>
+        <div class="expansion-action-list">
+          <div class="fg-1"></div>
+          <button
+            mat-raised-button
+            (click)="save()">
+            <span>{{ "save" }}</span>
+          </button>
         </div>
       </mat-expansion-panel>
     </mat-accordion>
@@ -64,7 +72,7 @@
 
   <div
     class="result-container"
-    *ngIf="options && livepollConfiguration.resultVisible">
+    *ngIf="options && livepollSession.resultVisible">
     <div class="left">
       <ng-container *ngFor="let option of options">
         <div class="container">
@@ -99,7 +107,7 @@
   </div>
 
   <div class="info-container">
-    <div *ngIf="livepollConfiguration.viewsVisible">
+    <div *ngIf="livepollSession.viewsVisible">
       <p>Participants: 123</p>
     </div>
   </div>

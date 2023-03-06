@@ -111,3 +111,13 @@
   @include mixinOption;
   margin-top: 5px;
 }
+
+.expansion-action-list {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+fg-1 {
+  flex-grow: 1;
+}

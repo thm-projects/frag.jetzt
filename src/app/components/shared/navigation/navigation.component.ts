@@ -28,6 +28,7 @@ import { Room } from '../../../models/room';
 import { LivepollSessionList } from '../../../models/livepoll-session-list';
 import { LivepollCreateComponent } from '../_dialogs/livepoll-create/livepoll-create.component';
 import { User } from '../../../models/user';
+import { LivepollService } from '../../../services/http/livepoll.service';
 
 interface LocationData {
   id: string;
@@ -109,7 +110,6 @@ export const livepollNavigationAccessOnRoute = (
   route: string,
   room: Room | undefined,
   user: User | undefined,
-  pollList: LivepollSessionList,
 ) => {
   if (room && room.livepollActive) {
     if (ROOM_REGEX.test(route) || COMMENTS_REGEX.test(route)) {
@@ -121,7 +121,7 @@ export const livepollNavigationAccessOnRoute = (
       ) {
         return true;
       } else {
-        return pollList.hasActiveLivepoll();
+        return !!room.livepollSession;
       }
     }
   }
@@ -207,9 +207,8 @@ export class NavigationComponent implements OnInit, OnDestroy {
           route,
           this.sessionService.currentRoom,
           this.userManagementService.getCurrentUser(),
-          this.sessionService.currentLivepoll,
         ),
-      navigate: (route) => LivepollCreateComponent.create(this.dialog),
+      navigate: (route) => this.livepollService.open(),
       isCurrentRoute: (route) => false,
     },
     {
@@ -453,6 +452,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
     private location: Location,
     private eventService: EventService,
     public deviceInfo: DeviceInfoService,
+    public readonly livepollService: LivepollService,
   ) {}
 
   ngOnInit(): void {

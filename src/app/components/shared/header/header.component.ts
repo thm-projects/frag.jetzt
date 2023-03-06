@@ -48,11 +48,11 @@ import {
   navigateBrainstorming,
   navigateTopicCloud,
 } from '../navigation/navigation.component';
-import { LivepollCreateComponent } from '../_dialogs/livepoll-create/livepoll-create.component';
 import { PseudonymEditorComponent } from '../_dialogs/pseudonym-editor/pseudonym-editor.component';
 import { CommentNotificationDialogComponent } from '../_dialogs/comment-notification-dialog/comment-notification-dialog.component';
 import { GPTUserDescriptionDialogComponent } from '../_dialogs/gptuser-description-dialog/gptuser-description-dialog.component';
 import { ShrinkObserver } from 'app/utils/shrink-observer';
+import { LivepollService } from '../../../services/http/livepoll.service';
 
 @Component({
   selector: 'app-header',
@@ -105,6 +105,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     private startUpService: StartUpService,
     private brainstormingDataService: BrainstormingDataService,
     public langService: LanguageService,
+    public readonly livepollService: LivepollService,
   ) {}
 
   ngAfterViewInit() {
@@ -114,6 +115,9 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     this.shrinkObserver
       .observeShrink()
       .subscribe((shrinked) => (this.showSmallButtons = shrinked));
+    this.sessionService.receiveRoomUpdates(false).subscribe((update) => {
+      console.log(update);
+    });
   }
 
   ngOnInit() {
@@ -385,6 +389,6 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   }
 
   openLivepollDialog() {
-    LivepollCreateComponent.create(this.dialog);
+    this.livepollService.open();
   }
 }
