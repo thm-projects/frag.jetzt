@@ -19,6 +19,9 @@ import { KeyboardKey } from 'app/utils/keyboard/keys';
 import { finalize, Observer, ReplaySubject, Subject, takeUntil } from 'rxjs';
 import { IntroductionPromptGuideChatbotComponent } from '../_dialogs/introductions/introduction-prompt-guide-chatbot/introduction-prompt-guide-chatbot.component';
 import { MatDialog } from '@angular/material/dialog';
+import { GptOptInPrivacyComponent } from '../_dialogs/gpt-optin-privacy/gpt-optin-privacy.component';
+import { Location } from '@angular/common';
+import { collapseTextChangeRangesAcrossMultipleVersions } from 'typescript';
 
 interface ConversationEntry {
   type: 'human' | 'gpt' | 'error';
@@ -47,6 +50,10 @@ export class GptChatComponent implements OnInit, OnDestroy {
   };
   model: string = 'text-davinci-003';
   stopper = new Subject<boolean>();
+
+  // Hier mit false initialisiert
+  isGPTPrivacyPolicyAccepted: boolean = false;
+
   private isAdmin = false;
   private destroyer = new ReplaySubject(1);
   private encoder: GPTEncoder = null;
@@ -60,8 +67,14 @@ export class GptChatComponent implements OnInit, OnDestroy {
     private router: Router,
     private sessionService: SessionService,
     public dialog: MatDialog,
+    private location: Location,
   ) {
     this.isAdmin = router.url.toLowerCase().startsWith('/admin/gpt-chat');
+
+    // gptService.getConsentState().subscribe((state) => {
+    //   this.isGPTPrivacyPolicyAccepted = state;
+    //   console.log('hier startet gptService ' + this.isGPTPrivacyPolicyAccepted)
+    // });
   }
 
   ngOnInit(): void {
@@ -80,6 +93,49 @@ export class GptChatComponent implements OnInit, OnDestroy {
       this.encoder = e;
       this.calculateTokens();
     });
+
+    this.gptService.getConsentState().subscribe((state) => {
+      this.isGPTPrivacyPolicyAccepted = state;
+      this.openPrivacyDialog();
+      console.log('hier startet gptService ' + this.isGPTPrivacyPolicyAccepted);
+    });
+  }
+
+  openPrivacyDialog() {
+    // this.gptService.updateConsentState(false).subscribe();
+
+    console.log('openPrivacyDialog methode at start');
+    if (this.isGPTPrivacyPolicyAccepted) {
+      console.log('openPrivacyDialog bereits akzeptiert');
+    }
+    if (!this.isGPTPrivacyPolicyAccepted) {
+      // prüfen ob bereits zugestimmt wurde
+      // abfrage kommt aus dem backend
+      console.log('openPrivacyDialog');
+      const dialogRef = this.dialog.open(GptOptInPrivacyComponent, {
+        autoFocus: false,
+        width: '80%',
+        maxWidth: '600px',
+      });
+      dialogRef.afterClosed().subscribe((result) => {
+        this.gptService.updateConsentState(result).subscribe();
+        this.gptService.getConsentState().subscribe((state) => {
+          console.log(
+            'hier startet gptService nach openDialog -> ' +
+              state +
+              ' <- state-Wert',
+          );
+          console.log(
+            'hier startet gptService nach openDialog -> ' +
+              result +
+              ' <- result-Wert',
+          );
+        });
+        if (!result) {
+          this.location.back();
+        }
+      });
+    }
   }
 
   ngOnDestroy(): void {

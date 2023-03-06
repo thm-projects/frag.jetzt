@@ -274,6 +274,9 @@
     "user-bonus": "Die Lehrperson kann »gute« Fragen für einen Bonus markieren. Deine Fragen aus allen Kursen (Räumen), die einen Stern erhalten haben, werden hier aufgelistet.\n\nJe nach Vereinbarung kannst du den Bonuscode per E-Mail an die Lehrperson schicken, um ihn gegen einen Bonus einzulösen."
   },
   "gpt-chat": {
+    "optin-accept": "Akzeptieren",
+    "optin-reject": "Ablehnen",
+    "privacy-policy": "Datenschutzerklärung für die Nutzung der OpenAI API",
     "enter-conversation-text": "Rede mit GPT",
     "send": "Senden",
     "empty-conversation": "Verlauf leeren",

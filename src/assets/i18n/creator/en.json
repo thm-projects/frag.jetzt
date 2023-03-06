@@ -369,6 +369,9 @@
     "user-bonus": "## Bonus \n\nThe teacher can mark »good« questions for a bonus. Your questions from all courses (rooms) that have received a star will be listed here.\n\nDepending on the agreement, you can email the code of the star to the teacher to redeem it for a bonus."
   },
   "gpt-chat": {
+    "optin-accept": "Accept",
+    "optin-reject": "Reject",
+    "privacy-policy": "Privacy Policy for the Use of OpenAI API",
     "enter-conversation-text": "Speech with GPT",
     "send": "Send",
     "empty-conversation": "Clear history",

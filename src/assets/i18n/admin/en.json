@@ -56,6 +56,9 @@
     "help-activation-codes": "Here activation codes for the study can be viewed, created and deleted."
   },
   "gpt-chat": {
+    "optin-accept": "Accept",
+    "optin-reject": "Reject",
+    "privacy-policy": "Privacy Policy for the Use of OpenAI API",
     "enter-conversation-text": "Chat with GPT …",
     "send": "Send",
     "empty-conversation": "Clear history",

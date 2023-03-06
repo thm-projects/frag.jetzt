@@ -52,7 +52,9 @@ import { LivepollCreateComponent } from '../_dialogs/livepoll-create/livepoll-cr
 import { PseudonymEditorComponent } from '../_dialogs/pseudonym-editor/pseudonym-editor.component';
 import { CommentNotificationDialogComponent } from '../_dialogs/comment-notification-dialog/comment-notification-dialog.component';
 import { GPTUserDescriptionDialogComponent } from '../_dialogs/gptuser-description-dialog/gptuser-description-dialog.component';
+import { GptOptInPrivacyComponent } from '../_dialogs/gpt-optin-privacy/gpt-optin-privacy.component';
 import { ShrinkObserver } from 'app/utils/shrink-observer';
+import { GptService, GPTStreamResult } from 'app/services/http/gpt.service';
 
 @Component({
   selector: 'app-header',
@@ -77,6 +79,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   hasKeywords = false;
   themes: Theme[];
   showSmallButtons = false;
+  isGPTPrivacyPolicyAccepted: boolean = false;
   public readonly navigationAccess = {
     livepoll: livepollNavigationAccessOnRoute,
   };
@@ -105,7 +108,12 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     private startUpService: StartUpService,
     private brainstormingDataService: BrainstormingDataService,
     public langService: LanguageService,
-  ) {}
+    private gptService: GptService,
+  ) {
+    // gptService.getConsentState().subscribe((state) => {
+    //   this.isGPTPrivacyPolicyAccepted = state;
+    // });
+  }
 
   ngAfterViewInit() {
     this.headerService.initHeader(() => this);
@@ -372,6 +380,30 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     GPTUserDescriptionDialogComponent.open(this.dialog, this.room.id);
   }
 
+  openPrivacyDialog() {
+    const dialogRef = this.dialog.open(GptOptInPrivacyComponent, {
+      autoFocus: false,
+      width: '80%',
+      maxWidth: '600px',
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      this.gptService.updateConsentState(result).subscribe();
+      this.gptService.getConsentState().subscribe((state) => {
+        console.log(
+          'hier startet gptService nach openDialog -> ' +
+            state +
+            ' <- state-Wert',
+        );
+        console.log(
+          'hier startet gptService nach openDialog -> ' +
+            result +
+            ' <- result-Wert',
+        );
+      });
+      window.location.reload();
+    });
+  }
+
   changeTheme(theme: Theme) {
     this.themeService.activate(theme.key);
     this.updateScale(
@@ -387,4 +419,8 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   openLivepollDialog() {
     LivepollCreateComponent.create(this.dialog);
   }
+
+  // openGPTPrivacyDialog() {
+  //   const dialogRef = this.dialog.open(GptOptInPrivacyComponent);
+  // }
 }
