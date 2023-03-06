@@ -60,6 +60,8 @@ export class PasswordResetComponent implements OnInit {
   keyFormControl = new FormControl('', [Validators.required]);
 
   matcher = new PasswordResetErrorStateMatcher();
+  passwordStrength: number;
+  passwordColor = 'warn';
 
   isPasswordVisible = false;
 
@@ -221,5 +223,17 @@ export class PasswordResetComponent implements OnInit {
 
   togglePasswordVisibility(): void {
     this.isPasswordVisible = !this.isPasswordVisible;
+  }
+  checkPasswordStrength() {
+    if (this.passwordFormControl.errors) {
+      this.passwordStrength = 5;
+      this.passwordColor = 'warn';
+    } else {
+      this.passwordStrength = Math.min(
+        this.passwordFormControl.value.length * 10,
+        100,
+      );
+      this.passwordColor = this.passwordStrength > 50 ? 'green' : 'yellow';
+    }
   }
 }
