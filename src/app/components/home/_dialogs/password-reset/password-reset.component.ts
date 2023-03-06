@@ -10,7 +10,10 @@ import {
   checkForEquality,
   checkForPasswordValidity,
 } from '../register/register.component';
-import { AuthenticationService } from '../../../../services/http/authentication.service';
+import {
+  AuthenticationService,
+  LoginResult,
+} from '../../../../services/http/authentication.service';
 import { NotificationService } from '../../../../services/util/notification.service';
 import { TranslateService } from '@ngx-translate/core';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
@@ -149,27 +152,42 @@ export class PasswordResetComponent implements OnInit {
       if (email !== '' && key !== '' && password !== '') {
         this.authenticationService
           .setNewPassword(email, key, password)
-          .subscribe((result) => {
-            if (result === 'Key expired') {
-              this.translationService
-                .get('password-reset.new-password-key-expired')
-                .subscribe((message) => {
-                  this.notificationService.show(message);
-                });
-            } else if (result === 'Invalid Key') {
-              this.translationService
-                .get('password-reset.new-password-key-invalid')
-                .subscribe((message) => {
-                  this.notificationService.show(message);
-                });
-            } else {
+          .subscribe({
+            next: () => {
               this.translationService
                 .get('password-reset.new-password-successful')
                 .subscribe((message) => {
                   this.notificationService.show(message);
                 });
               this.closeDialog();
-            }
+            },
+            error: (errorCode: any) => {
+              if (errorCode === 'Key expired') {
+                this.translationService
+                  .get('password-reset.new-password-key-expired')
+                  .subscribe((message) => {
+                    this.notificationService.show(message);
+                  });
+              } else if (errorCode === 'Invalid Key') {
+                this.translationService
+                  .get('password-reset.new-password-key-invalid')
+                  .subscribe((message) => {
+                    this.notificationService.show(message);
+                  });
+              } else if (errorCode === LoginResult.PasswordTooCommon) {
+                this.translationService
+                  .get('register.register-error-password-too-common')
+                  .subscribe((message) => {
+                    this.notificationService.show(message);
+                  });
+              } else {
+                this.translationService
+                  .get('register.register-request-error')
+                  .subscribe((message) => {
+                    this.notificationService.show(message);
+                  });
+              }
+            },
           });
       } else {
         this.translationService
