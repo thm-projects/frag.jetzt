@@ -383,7 +383,6 @@ export class SessionService {
 
   private receiveMessage(msg: any, room: Room) {
     const message = JSON.parse(msg.body);
-    console.log(message, room);
     if (message.roomId && message.roomId !== room.id) {
       console.error('Wrong room!', message);
       return;
