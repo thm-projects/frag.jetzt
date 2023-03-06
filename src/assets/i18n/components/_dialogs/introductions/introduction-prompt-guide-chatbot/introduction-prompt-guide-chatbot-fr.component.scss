@@ -1,5 +1,5 @@
-$good-color: #4CAF50;
-$bad-color: #F44336;
+$good-color: #4caf50;
+$bad-color: #f44336;
 
 .good-icon {
   color: $good-color;
@@ -9,7 +9,8 @@ $bad-color: #F44336;
   color: $bad-color;
 }
 
-.good-icon, .bad-icon {
+.good-icon,
+.bad-icon {
   font-size: 1.2rem;
   vertical-align: middle;
   padding-right: 5px;

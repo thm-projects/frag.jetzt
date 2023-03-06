@@ -119,6 +119,10 @@ import { LivepollCreateComponent } from './_dialogs/livepoll-create/livepoll-cre
 import { GptRoomSettingsComponent } from './_dialogs/gpt-room-settings/gpt-room-settings.component';
 import { GptChatComponent } from './gpt-chat/gpt-chat.component';
 import { GPTUserDescriptionDialogComponent } from './_dialogs/gptuser-description-dialog/gptuser-description-dialog.component';
+import { GptOptInPrivacyComponent } from './_dialogs/gpt-optin-privacy/gpt-optin-privacy.component';
+import { GptPrivacyPolicyDeComponent } from '../../../assets/i18n/components/gpt-privacy-policy/gpt-privacy-policy-de';
+import { GptPrivacyPolicyEnComponent } from '../../../assets/i18n/components/gpt-privacy-policy/gpt-privacy-policy-en';
+import { GptPrivacyPolicyFrComponent } from '../../../assets/i18n/components/gpt-privacy-policy/gpt-privacy-policy-fr';
 import { IntroductionPromptGuideChatbotComponent } from './_dialogs/introductions/introduction-prompt-guide-chatbot/introduction-prompt-guide-chatbot.component';
 import { IntroductionPromptGuideChatbotDeComponent } from '../../../assets/i18n/components/_dialogs/introductions/introduction-prompt-guide-chatbot/introduction-prompt-guide-chatbot-de.component';
 import { IntroductionPromptGuideChatbotEnComponent } from '../../../assets/i18n/components/_dialogs/introductions/introduction-prompt-guide-chatbot/introduction-prompt-guide-chatbot-en.component';
@@ -248,6 +252,10 @@ import { IntroductionPromptGuideChatbotFrComponent } from '../../../assets/i18n/
     IntroductionPromptGuideChatbotDeComponent,
     IntroductionPromptGuideChatbotEnComponent,
     IntroductionPromptGuideChatbotFrComponent,
+    GptOptInPrivacyComponent,
+    GptPrivacyPolicyDeComponent,
+    GptPrivacyPolicyEnComponent,
+    GptPrivacyPolicyFrComponent,
   ],
   exports: [
     RoomJoinComponent,

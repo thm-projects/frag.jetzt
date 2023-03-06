@@ -11,7 +11,7 @@ h1 {
 
 .main-heading-primary {
   display: block;
-  font-size: 4.0vh;
+  font-size: 4vh;
   font-weight: 100;
   text-align: center;
   letter-spacing: 5px;
@@ -37,7 +37,7 @@ h1 {
   font-weight: normal;
   text-align: center;
   color: var(--secondary);
-  animation: moveInRight 3.0s ease;
+  animation: moveInRight 3s ease;
 }
 
 .feedback {
@@ -125,7 +125,7 @@ mat-card-header {
 @keyframes bg-object-anim {
   from {
     color: var(--secondary);
-    opacity: 1.0;
+    opacity: 1;
     transform: scale(0) translate(-50%, -50%);
   }
   to {

@@ -21,6 +21,11 @@
     "success": "News erfolgreich erstellt",
     "title": "Aktuelle News erstellen"
   },
+  "introductions": {
+    "prompt-guide-chatbot": "Effektiv kommunizieren mit ChatGPT",
+    "cancel": "Schließen",
+    "tooltip-button" : "Prompt Guide"
+  },
   "gpt-config": {
     "title": "GPT-Einstellungen & API-Test",
     "api-key": "API Key",
@@ -54,6 +59,11 @@
     "enter-conversation-text": "Chat mit GPT …",
     "send": "Senden",
     "empty-conversation": "Verlauf leeren",
+    
+    "optin-accept": "Akzeptieren",
+    "optin-reject": "Ablehnen",
+    "privacy-policy": "Datenschutzerklärung für die Nutzung der OpenAI API",
+    
     "input-forbidden": "Eingabe verboten, bitte prüfe die GPT API Einstellungen.",
     "no-api-setup": "Der API Schlüssel oder das Sprachmodell wurden nicht gesetzt.",
     "greetings": {
