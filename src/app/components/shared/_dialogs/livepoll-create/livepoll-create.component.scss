@@ -59,16 +59,6 @@
   flex-direction: column;
 }
 
-.fill {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-
-  > * {
-    margin-bottom: 8px;
-  }
-}
-
 .preview {
   display: flex;
   flex-direction: column;
@@ -77,15 +67,5 @@
 .reverse {
   &-true {
     flex-direction: column-reverse;
-  }
-}
-
-.adjust {
-  width: 200px;
-  display: flex;
-  flex-direction: column;
-
-  > .mat-slide-toggle {
-    padding: 8px 0;
   }
 }
