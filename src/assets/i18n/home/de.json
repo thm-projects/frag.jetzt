@@ -411,7 +411,7 @@
     "restart-account-activation-correct": "Der Aktivierungs-Schlüssel wurde gesendet.",
     "restart-account-activation-tooltip": "Sendet einen neuen Aktivierungs-Schlüssel an deine Adresse.",
     "welcome": "Noch Fragen?",
-    "welcome-feedback": "➤ Schreib den »frag.jetzt«-Entwicklern",
+    "welcome-feedback": "➤ Schreib dem »frag.jetzt«-Team",
     "welcome-subtitle": "Anonym | innerhalb des Browsers | kostenlos"
   },
   "login-dialog": {
