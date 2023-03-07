@@ -28,22 +28,7 @@ export class LivepollService {
     public readonly sessionService: SessionService,
     public readonly roomService: RoomService,
     public readonly dialog: MatDialog,
-  ) {
-    sessionService.onReady.subscribe(() => {
-      sessionService.receiveRoomUpdates(false).subscribe((x) => {
-        console.log('UPDATE', x);
-      });
-    });
-    // mockup, remove when backend implemented
-    // let ref: string | undefined
-    // setInterval(()=>{
-    //   const currentLivepoll = this.sessionService.currentLivepoll;
-    //   if (!ref || ref !== JSON.stringify(currentLivepoll)) {
-    //     console.log(currentLivepoll);
-    //     ref = JSON.stringify(currentLivepoll);
-    //   }
-    // },100)
-  }
+  ) {}
 
   create(livepoll: LivepollSessionPatchAPI) {
     this.http
