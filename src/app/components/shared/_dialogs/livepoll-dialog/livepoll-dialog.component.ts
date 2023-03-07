@@ -1,16 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnDestroy,
-  OnInit,
-  Output,
-} from '@angular/core';
-import { UserRole } from '../../../../models/user-roles.enum';
-import {
-  defaultLivepollConfiguration,
-  LivepollConfiguration,
-} from '../../../../models/livepoll-configuration';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { DeviceInfoService } from '../../../../services/util/device-info.service';
 import {
   LivepollTemplateContext,
@@ -21,11 +9,25 @@ import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../../services/util/language.service';
 import { HttpClient } from '@angular/common/http';
 import { SessionService } from '../../../../services/util/session.service';
-import {
-  LivepollService,
-  LivepollSessionPatchAPI,
-} from '../../../../services/http/livepoll.service';
+import { LivepollService } from '../../../../services/http/livepoll.service';
 import { LivepollSession } from '../../../../models/livepoll-session';
+import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
+
+const animateOpen = {
+  opacity: 1,
+  height: '*',
+};
+
+const animateClosed = {
+  opacity: 0,
+  height: '0px',
+};
 
 @Component({
   selector: 'app-livepoll-dialog',
@@ -33,6 +35,17 @@ import { LivepollSession } from '../../../../models/livepoll-session';
   styleUrls: [
     './livepoll-dialog.component.scss',
     '../livepoll-create/livepoll-create.component.scss',
+  ],
+  animations: [
+    trigger('AnimateInOut', [
+      transition(':enter', [
+        style(animateClosed),
+        animate('200ms ease-in-out', style(animateOpen)),
+      ]),
+      transition(':leave', [
+        animate('200ms ease-in-out', style(animateClosed)),
+      ]),
+    ]),
   ],
 })
 export class LivepollDialogComponent implements OnInit, OnDestroy {
@@ -98,7 +111,7 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
 
   public save() {
     // todo: patch save
-    this.livepollService.patch(this.livepollSession);
+    this.livepollService.update(this.livepollSession);
     this.session.updateCurrentRoom({
       livepollSession: this.livepollSession,
     });

@@ -1,10 +1,12 @@
 {
   "common": {
     "create-dialog-title": "Créer un sondage en direct",
+    "dialog-title": "Sondage en direct",
     "option-select-title": "Titre du sondage …",
     "option-select-title-hint": "peut être omis",
     "dialog-preview-title": "Prévisualisation",
     "create": "Lancer le sondage",
+    "participants": "Participants",
     "close": "Annuler",
     "save": "Enregistrer",
     "creator-settings": "Paramètres",

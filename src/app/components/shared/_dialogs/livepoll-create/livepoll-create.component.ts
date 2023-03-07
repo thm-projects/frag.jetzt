@@ -39,7 +39,7 @@ export class LivepollCreateComponent implements OnDestroy {
     templateContext[0],
   );
 
-  public livepollConfiguration: LivepollSession = new LivepollSession();
+  public livepollConfiguration: LivepollSession;
   private _destroyer = new ReplaySubject(1);
 
   constructor(
@@ -62,22 +62,21 @@ export class LivepollCreateComponent implements OnDestroy {
             this.translationService.setTranslation(lang, translation, true);
           });
       });
+    this.livepollConfiguration = new LivepollSession();
   }
 
   create() {
     this.dialogRef.close(this.livepollConfiguration);
-    this.createAPI();
-  }
-
-  createAPI() {
-    this.livepollService.create(this.livepollConfiguration);
+    this.livepollService.create({
+      roomId: this.sessionService.currentRoom.id,
+      template: this.livepollConfiguration.template,
+      title: this.livepollConfiguration.title,
+      resultVisible: this.livepollConfiguration.resultVisible,
+      viewsVisible: this.livepollConfiguration.viewsVisible,
+    });
   }
 
   ngOnDestroy(): void {
     this._destroyer.next(0);
-  }
-
-  test() {
-    console.log('yeet');
   }
 }

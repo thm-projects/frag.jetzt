@@ -1,8 +1,7 @@
 import { LivepollTemplate } from './livepoll-template';
-import { LivepollSessionPatchAPI } from '../services/http/livepoll.service';
 import { defaultLivepollConfiguration } from './livepoll-configuration';
 
-export class LivepollSession implements LivepollSessionPatchAPI {
+export class LivepollSession {
   id: string;
   roomId: string;
   active: boolean;

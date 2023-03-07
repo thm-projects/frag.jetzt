@@ -6,6 +6,7 @@ import { UserRole } from '../../models/user-roles.enum';
 import { LivepollCreateComponent } from '../../components/shared/_dialogs/livepoll-create/livepoll-create.component';
 import { LivepollDialogComponent } from '../../components/shared/_dialogs/livepoll-dialog/livepoll-dialog.component';
 import { DialogConfig } from '@angular/cdk/dialog';
+import { RoomService } from './room.service';
 
 export interface LivepollSessionPatchAPI {
   template: string;
@@ -25,26 +26,56 @@ export class LivepollService {
   constructor(
     public readonly http: HttpClient,
     public readonly sessionService: SessionService,
+    public readonly roomService: RoomService,
     public readonly dialog: MatDialog,
-  ) {}
+  ) {
+    sessionService.onReady.subscribe(() => {
+      sessionService.receiveRoomUpdates(false).subscribe((x) => {
+        console.log('UPDATE', x);
+      });
+    });
+    // mockup, remove when backend implemented
+    // let ref: string | undefined
+    // setInterval(()=>{
+    //   const currentLivepoll = this.sessionService.currentLivepoll;
+    //   if (!ref || ref !== JSON.stringify(currentLivepoll)) {
+    //     console.log(currentLivepoll);
+    //     ref = JSON.stringify(currentLivepoll);
+    //   }
+    // },100)
+  }
 
   create(livepoll: LivepollSessionPatchAPI) {
     this.http
-      .post('/api/livepoll/session', livepoll, {
-        headers: { 'Content-Type': 'application/json' },
-      })
-      .subscribe((x) => {});
+      .post(
+        '/api/livepoll/session',
+        {
+          viewsVisible: livepoll.viewsVisible,
+          resultVisible: livepoll.resultVisible,
+          title: livepoll.title,
+          roomId: livepoll.roomId,
+          template: livepoll.template,
+        },
+        {
+          headers: { 'Content-Type': 'application/json' },
+        },
+      )
+      .subscribe((x) => {
+        console.log('create', x);
+      });
   }
 
-  patch(livepoll: LivepollSessionPatchAPI) {
-    this.http.post('/api/livepoll/session', livepoll, {
-      headers: { 'Content-Type': 'application/json' },
-    });
+  update(livepoll: LivepollSessionPatchAPI) {
+    this.roomService
+      .patchRoom(this.sessionService.currentRoom.id, {
+        livepollSession: this.sessionService.currentLivepoll,
+      })
+      .subscribe((x) => {
+        console.log('upt', x);
+      });
   }
 
   open() {
-    console.log(this.sessionService.currentRole);
-    console.log(this.sessionService.currentLivepoll);
     switch (this.sessionService.currentRole) {
       case UserRole.PARTICIPANT:
         const instance = this.dialog.open(

@@ -1,11 +1,6 @@
-<!--<div class="title">-->
-<!--  <h1 mat-dialog-title>{{ translateKey + ".dialog-title" | translate }}</h1>-->
-<!--  <h5-->
-<!--    (click)="userRole = userRole ? 0 : 3"-->
-<!--    mat-dialog-title>-->
-<!--    {{ userRole ? "as creator" : "as participant" }}-->
-<!--  </h5>-->
-<!--</div>-->
+<div class="title">
+  <h1 mat-dialog-title>{{ translateKey + ".dialog-title" | translate }}</h1>
+</div>
 <mat-dialog-content class="content">
   <ng-container *ngIf="session.currentRole">
     <mat-accordion class="accordion">
@@ -106,8 +101,22 @@
     </mat-accordion>
   </ng-container>
 
+  <div class="info-container">
+    <div
+      @AnimateInOut
+      *ngIf="livepollSession.viewsVisible">
+      <span>{{ translateKey + ".participants" | translate }}</span>
+      <span>0</span>
+    </div>
+  </div>
+
+  <div class="result-settings-container">
+    <!-- relative / absolute settings -->
+  </div>
+
   <div
     class="result-container"
+    @AnimateInOut
     *ngIf="options && livepollSession.resultVisible">
     <div class="left">
       <ng-container *ngFor="let option of options">
@@ -139,12 +148,6 @@
           <div class="foreground"></div>
         </div>
       </ng-container>
-    </div>
-  </div>
-
-  <div class="info-container">
-    <div *ngIf="livepollSession.viewsVisible">
-      <p>Participants: 123</p>
     </div>
   </div>
 

@@ -115,9 +115,6 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     this.shrinkObserver
       .observeShrink()
       .subscribe((shrinked) => (this.showSmallButtons = shrinked));
-    this.sessionService.receiveRoomUpdates(false).subscribe((update) => {
-      console.log(update);
-    });
   }
 
   ngOnInit() {

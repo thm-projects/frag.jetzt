@@ -1,10 +1,12 @@
 {
   "common": {
     "create-dialog-title": "Create Live Poll",
+    "dialog-title": "Live Poll",
     "option-select-title": "Title of the poll …",
     "option-select-title-hint": "may be omitted",
     "dialog-preview-title": "Preview",
     "create": "Start poll",
+    "participants": "Participants",
     "close": "Cancel",
     "save": "Save",
     "creator-settings": "Settings",

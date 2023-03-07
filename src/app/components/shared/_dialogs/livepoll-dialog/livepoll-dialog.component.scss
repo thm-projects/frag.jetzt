@@ -205,3 +205,56 @@ fg-1 {
     flex-direction: row;
   }
 }
+
+.info-container {
+  display: flex;
+  justify-content: flex-end;
+  > div {
+    :first-child {
+      margin-right: 4px;
+    }
+  }
+}
+
+.result-settings-container {
+}
+
+.mat-expansion-panel {
+  background-color: var(--surface);
+  color: var(--on-surface);
+  :active {
+    background-color: var(--surface);
+    color: var(--on-surface);
+  }
+  :focus {
+    background-color: var(--surface);
+    color: var(--on-surface);
+  }
+  :hover {
+    background-color: var(--surface);
+    color: var(--on-surface);
+  }
+}
+
+.mat-expansion-panel-content {
+}
+
+.mat-expansion-panel-header-title {
+  color: var(--on-surface);
+}
+
+.mat-expansion-panel-header {
+  @extend .mat-expansion-panel;
+}
+
+.mat-expansion-panel:not(.mat-expanded):not([aria-disabled="true"])
+  .mat-expansion-panel-header:hover {
+  background-color: var(--surface);
+  color: var(--on-surface);
+}
+
+.mat-expansion-panel-header-description,
+.mat-expansion-indicator::after {
+  background-color: var(--surface);
+  color: var(--on-surface);
+}
