@@ -1,0 +1,49 @@
+{
+  "create": {
+    "dialog-title": "Crea una encuesta en vivo",
+    "option-select-title": "Título de la encuesta...",
+    "option-select-title-hint": "Puede ser omitido",
+    "dialog-preview-title": "Vista previa",
+    "create": "Iniciar encuesta",
+    "close": "Cancelar",
+    "template-name-character": "ABCD",
+    "template-name-symbol": "Estado de ánimo",
+    "option-select-result-visibility": "Resultados visibles",
+    "tooltip-option-select-result-visibility": "Mostrar votos en tiempo real para todos",
+    "option-select-views-visibility": "Participación visible",
+    "tooltip-option-select-views-visibility": "Mostrar participación en tiempo real para todos",
+    "option-select-template": "Selecciona una plantilla...",
+    "template-name-agree-multi": "Acuerdo",
+    "option-agree-multi": [
+      "Totalmente en desacuerdo",
+      "En desacuerdo",
+      "Indeciso",
+      "De acuerdo",
+      "Totalmente de acuerdo"
+    ],
+    "template-name-frequency-multi": "Frecuencia",
+    "option-frequency-multi": [
+      "Nunca",
+      "Muy raramente",
+      "Raramente",
+      "Ocasionalmente",
+      "Frecuentemente",
+      "Muy frecuentemente"
+    ],
+    "template-name-scale-multi": "Escala",
+    "option-scale-multi": [
+      "Ninguno",
+      "Bajo",
+      "Moderado",
+      "Alto"
+    ],
+    "template-name-agree-binary": "Sí o No",
+    "group-label": {
+      "agreement": "Comprensión",
+      "value": "Valores",
+      "frequency": "Frecuencia",
+      "importance": "Importancia",
+      "misc": "Otro"
+    }
+  }
+}

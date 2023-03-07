@@ -45,7 +45,10 @@ export type FixedSizeArray<T, L extends number> = L extends
   ? []
   : FixedSizeArrayBuilder<[T], L>;
 
-export const verifyFixedSize = <T, L extends number>(arr: T[], length: L): FixedSizeArray<T, L> => {
+export const verifyFixedSize = <T, L extends number>(
+  arr: T[],
+  length: L,
+): FixedSizeArray<T, L> => {
   if (arr?.length !== length) {
     return null as never;
   }
@@ -87,6 +90,14 @@ export type JSONString = MakeUnique<string>;
 export type IsObject<T> = T extends { [key: string | number | symbol]: any }
   ? true
   : false;
+
+export interface PlainObject<Value> {
+  [key: string | number | symbol]: Value;
+}
+
+export interface StringObject<Value> {
+  [key: string]: Value;
+}
 
 export type Immutable<T> = IsObject<T> extends true
   ? {

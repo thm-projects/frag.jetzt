@@ -1,0 +1,98 @@
+{
+  "overview": {
+    "motd": "Anúncios globais",
+    "gpt": "Configurações do GPT",
+    "gpt-chat": "Conversar com o GPT"
+  },
+  "create-motd": {
+    "create": "Criar",
+    "english": "Texto em inglês",
+    "error": "Ocorreu um erro!",
+    "french": "Texto em francês",
+    "german": "Texto em alemão",
+    "label": "Data de início e fim",
+    "placeholder-date-end": "Data de fim",
+    "placeholder-date-start": "Data de início",
+    "placeholder-english": "Digite aqui...",
+    "placeholder-french": "Digite aqui...",
+    "placeholder-german": "Digite aqui...",
+    "placeholder-time-end": "Hora de término",
+    "placeholder-time-start": "Hora de início",
+    "success": "Notícias criadas com sucesso",
+    "title": "Criar últimas notícias"
+  },
+  "gpt-config": {
+    "title": "Configurações do GPT e teste da API",
+    "api-key": "Chave da API",
+    "organization": "Organização",
+    "next": "Próximo",
+    "previous": "Voltar",
+    "save": "Salvar",
+    "end": "Fim",
+    "header-settings": "Configurações da API do GPT",
+    "header-restrictions": "Restrição da API do GPT",
+    "header-metrics": "Estatísticas da API do GPT",
+    "restrict-active": "API habilitada",
+    "restrict-end-date": "API final",
+    "save-error": "Não foi possível salvar os dados!",
+    "load-error": "Não foi possível carregar a configuração!",
+    "load-stats-error": "Não foi possível carregar as estatísticas!",
+    "stats-message": "A plataforma usou um total de {{all}} Tokens.\nDesses, {{week}} foram usados esta semana e {{day}} Tokens hoje.\nO último uso foi em {{date}}.",
+    "prompt-type": "Token para a solicitação",
+    "completion-type": "Token para a saída",
+    "boxplot-message": "A mediana de {{median}} {{type}} por solicitação foi consumida, com 50% dos dados entre {{lower}} tokens e {{upper}} Tokens. De {{count}} solicitações, {{lowerStray}} abaixo e {{upperStray}} acima foram descartados.",
+    "help-general": "A API do GPT fornece uma inteligência artificial que realiza a conclusão de texto. Ao fazer isso, a IA responde a perguntas de classificação, conhecimento e outras. A IA tem uma entrada e fornece pelo menos uma saída.",
+    "help-api-key": "A chave da API atribui as solicitações a uma conta. Assim, o consumo e os custos podem ser calculados e exibidos na conta OpenAI.",
+    "help-organization": "A organização é uma maneira opcional de ter o consumo faturado por meio de uma organização em vez de diretamente por meio de sua própria conta OpenAI.",
+    "activation-code": "Código de ativação do estudo",
+    "activation-max-cost": "Custo do estudo por mês",
+    "activation-used": "Código foi resgatado",
+    "activation-info": "{{code}}: ({{maxCost}}$ / Mês)",
+    "help-activation-codes": "Aqui você pode visualizar, criar e excluir códigos de ativação para o estudo."
+  },
+  "gpt-chat": {
+    "enter-conversation-text": "Conversar com o GPT...",
+    "send": "Enviar",
+    "empty-conversation": "Limpar histórico",
+    "input-forbidden": "Entrada proibida, verifique as configurações da API do GPT.",
+    "no-api-setup": "A chave da API ou o modelo de idioma não foi definido.",
+    "greetings": {
+      "text-davinci-003": [
+        {
+          "key": "Ensino fundamental",
+          "value": "Você está na sala de bate-papo chamada \"Inglês\" e o tópico é poesia. Explique a seguinte pergunta no nível de um aluno do ensino fundamental.\nAluno: O que são haikus?\nVocê: "
+        },
+        {
+          "key": "Ensino médio",
+          "value": "Você está na sala de bate-papo chamada \"História\" e o tópico é os anos dourados. Explique a seguinte pergunta no nível de um aluno do ensino médio.\nAluno: O que diz o Plano Dawes?\nVocê: "
+        },
+        {
+          "key": "Universidade",
+          "value": "Você está na sala de bate-papo chamada \"Algoritmos e Estruturas de Dados\" e o tópico é estruturas de dados simples. Explique no nível de um aluno de 2º semestre de ciência da computação a seguinte pergunta.\nAluno: Existe um ganho de desempenho quando você combina uma lista vinculada e uma lista de matriz? Certamente seria concebível vincular matrizes, ou estou errado nisso?\nVocê: "
+        }
+      ],
+      "code-davinci-002": [
+        {
+          "key": "Web",
+          "value": "<|endoftext|>/* I start with a blank HTML page, and incrementally modify it via <script> injection. Written for Chrome. */\n/* Command: Add \"Hello World\", by adding an HTML DOM node */\nvar helloWorld = document.createElement('div');\nhelloWorld.innerHTML = 'Hello World';\ndocument.body.appendChild(helloWorld);\n/* Command: Clear the page. */\nwhile (document.body.firstChild) {\n  document.body.removeChild(document.body.firstChild);\n}\n\n/* Command: Display this image of a cat: https://bit.ly/3fsc0rH */\n"
+        }
+      ],
+      "davinci-instruct-beta:2.0.0": [
+        {
+          "key": "Conversa informal",
+          "value": "O assunto é desmotivador. Você tem alguma dica para animar e ficar mais ativo?"
+        }
+      ]
+    },
+    "refresh": "Gerar saída novamente",
+    "token-info": "Tokens (entrada / conversa / total): {{promptTokens}} / {{conversationTokens}} / {{allTokens}}",
+    "use-case": "Caso de uso",
+    "use-case-tooltip": "Selecionando um caso de uso específico para melhores respostas.",
+    "use-case-answer-questions": "Respondendo perguntas",
+    "use-case-tooltip-answer-questions": "Muito eficaz quando são dadas boas perguntas ou tarefas (por exemplo, tradução e resumo). Geralmente fornece as melhores respostas de texto.",
+    "use-case-code": "Compreensão e geração de código",
+    "use-case-tooltip-code": "Muito bom em compreensão e geração de código. Tem um contexto mais amplo do que os modelos de linguagem.",
+    "use-case-chat": "Conversas",
+    "use-case-tooltip-chat": "Efetivo para perguntas abertas onde são necessárias perguntas de acompanhamento. Não fornece resultados tão precisos quanto responder perguntas."
+  }
+}

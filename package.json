@@ -20,7 +20,6 @@
     "i18n:find-unused": "node ./src/assets/i18n/i18nUpdater.js project-unused",
     "prepare": "husky install"
   },
-  "type": "module",
   "private": true,
   "dependencies": {
     "@angular-devkit/architect": "^0.1400.1",
@@ -107,7 +106,6 @@
     "karma-jasmine": "^5.0.1",
     "karma-jasmine-html-reporter": "^2.0.0",
     "lint-staged": "13.1.2",
-    "openai": "^3.2.1",
     "prettier": "2.8.4",
     "ts-node": "^10.8.1",
     "typescript": "^4.7.3"
