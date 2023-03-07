@@ -101,6 +101,10 @@
     </mat-accordion>
   </ng-container>
 
+  <p *ngIf="!isProduction">
+    {{ translateKey + ".dialog-preview-title" | translate }}
+  </p>
+
   <div class="info-container">
     <div
       @AnimateInOut
