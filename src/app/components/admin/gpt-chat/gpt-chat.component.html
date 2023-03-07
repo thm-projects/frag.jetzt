@@ -97,17 +97,6 @@
   <div *ngIf="error">
     {{ getError() }}
   </div>
-  <div>
-    <button
-      class="start_introduction"
-      mat-fab
-      mat-icon-button
-      (click)="showPromptGuide()"
-      matTooltip="{{ 'introductions.tooltip-button' | translate }}"
-      [matTooltipPosition]="'above'">
-      <mat-icon>question_mark</mat-icon>
-    </button>
-  </div>
 </mat-card>
 
 <ng-template #loading>

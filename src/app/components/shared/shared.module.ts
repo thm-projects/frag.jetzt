@@ -117,7 +117,6 @@ import { NavigationComponent } from './navigation/navigation.component';
 import { QuestionWallComponent } from './questionwall/question-wall/question-wall.component';
 import { LivepollCreateComponent } from './_dialogs/livepoll-create/livepoll-create.component';
 import { GptRoomSettingsComponent } from './_dialogs/gpt-room-settings/gpt-room-settings.component';
-import { GptChatComponent } from './gpt-chat/gpt-chat.component';
 import { GPTUserDescriptionDialogComponent } from './_dialogs/gptuser-description-dialog/gptuser-description-dialog.component';
 import { GptOptInPrivacyComponent } from './_dialogs/gpt-optin-privacy/gpt-optin-privacy.component';
 import { GptPrivacyPolicyDeComponent } from '../../../assets/i18n/components/gpt-privacy-policy/gpt-privacy-policy-de';
@@ -128,6 +127,7 @@ import { IntroductionPromptGuideChatbotDeComponent } from '../../../assets/i18n/
 import { IntroductionPromptGuideChatbotEnComponent } from '../../../assets/i18n/components/_dialogs/introductions/introduction-prompt-guide-chatbot/introduction-prompt-guide-chatbot-en.component';
 import { IntroductionPromptGuideChatbotFrComponent } from '../../../assets/i18n/components/_dialogs/introductions/introduction-prompt-guide-chatbot/introduction-prompt-guide-chatbot-fr.component';
 import { MatPasswordStrengthModule } from '@angular-material-extensions/password-strength';
+import { GPTChatRoomComponent } from './gptchat-room/gptchat-room.component';
 
 @NgModule({
   imports: [
@@ -248,7 +248,6 @@ import { MatPasswordStrengthModule } from '@angular-material-extensions/password
     QuestionWallComponent,
     LivepollCreateComponent,
     GptRoomSettingsComponent,
-    GptChatComponent,
     GPTUserDescriptionDialogComponent,
     IntroductionPromptGuideChatbotComponent,
     IntroductionPromptGuideChatbotDeComponent,
@@ -258,6 +257,7 @@ import { MatPasswordStrengthModule } from '@angular-material-extensions/password
     GptPrivacyPolicyDeComponent,
     GptPrivacyPolicyEnComponent,
     GptPrivacyPolicyFrComponent,
+    GPTChatRoomComponent,
   ],
   exports: [
     RoomJoinComponent,

@@ -483,7 +483,7 @@
         mat-button
         class="replyButton"
         *ngIf="canOpenGPT"
-        [ngClass]="{ 'gray-button': !gpt_privacy_policy_accepted }"
+        [ngClass]="{ 'gray-button': !consentGPT }"
         (click)="openGPT()">
         <mat-icon class="material-icons-outlined">smart_toy</mat-icon>
         {{ "comment-page.reply-AI" | translate }}
@@ -574,6 +574,8 @@
 
 <app-comment-response-view
   *ngIf="showResponses && viewInfo && !isMock"
+  [canOpenGPT]="canOpenGPT"
+  [consentGPT]="consentGPT"
   [owningComment]="comment"
   [viewInfo]="viewInfo"
   [keywordFilter]="activeKeywordSearchString"></app-comment-response-view>

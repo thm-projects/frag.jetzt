@@ -46,13 +46,18 @@ export interface ResponseViewInformation {
   styleUrls: ['./comment-response-view.component.scss'],
 })
 export class CommentResponseViewComponent
-  implements OnInit, AfterViewInit, OnChanges, OnDestroy {
+  implements OnInit, AfterViewInit, OnChanges, OnDestroy
+{
   @Input()
   owningComment: ForumComment;
   @Input()
   viewInfo: ResponseViewInformation;
   @ViewChild('containerRef')
   containerRef: ElementRef<HTMLDivElement>;
+  @Input()
+  canOpenGPT = false;
+  @Input()
+  consentGPT = false;
   sortType: SortTypeKey;
   sortReverse: boolean;
   private _rootComment: ForumComment;
