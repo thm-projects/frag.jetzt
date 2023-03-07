@@ -526,11 +526,7 @@ iframe {
   border-color: var(--primary);
 }
 
-//*{
-//  $opacity:0.5;
-//  $offset_inner:0.5;
-//  box-shadow:
-//    inset #{$offset_inner}px #{$offset_inner}px 0 0 rgba(255,0,0,$opacity),
-//    inset -#{$offset_inner}px -#{$offset_inner}px 0 0 rgba(0,0,255,$opacity)
-//;
-//}
+.mat-optgroup-label {
+  background-color: var(--surface);
+  color: var(--on-surface);
+}
