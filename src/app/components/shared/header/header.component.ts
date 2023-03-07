@@ -55,6 +55,7 @@ import { GPTUserDescriptionDialogComponent } from '../_dialogs/gptuser-descripti
 import { GptOptInPrivacyComponent } from '../_dialogs/gpt-optin-privacy/gpt-optin-privacy.component';
 import { ShrinkObserver } from 'app/utils/shrink-observer';
 import { GptService, GPTStreamResult } from 'app/services/http/gpt.service';
+import { PresetsDialogComponent } from '../_dialogs/presets-dialog/presets-dialog.component';
 
 @Component({
   selector: 'app-header',
@@ -355,6 +356,18 @@ export class HeaderComponent implements OnInit, AfterViewInit {
       return;
     }
     this.themeMenu._allItems.get(index).focus();
+  }
+
+  public showPresetsDefinition() {
+    const dialogRef = this.dialog.open(PresetsDialogComponent, {
+      autoFocus: false,
+      width: '80%',
+      maxWidth: '600px',
+    });
+    /*Dialog parameter*/
+    dialogRef.componentInstance.title = 'gpt-chat.privacy-policy';
+    dialogRef.componentInstance.label = 'presets-context.label';
+    dialogRef.componentInstance.placeholder = 'presets-context.placeholder';
   }
 
   openPseudoEditor() {

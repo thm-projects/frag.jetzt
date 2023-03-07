@@ -128,6 +128,7 @@ import { IntroductionPromptGuideChatbotDeComponent } from '../../../assets/i18n/
 import { IntroductionPromptGuideChatbotEnComponent } from '../../../assets/i18n/components/_dialogs/introductions/introduction-prompt-guide-chatbot/introduction-prompt-guide-chatbot-en.component';
 import { IntroductionPromptGuideChatbotFrComponent } from '../../../assets/i18n/components/_dialogs/introductions/introduction-prompt-guide-chatbot/introduction-prompt-guide-chatbot-fr.component';
 import { MatPasswordStrengthModule } from '@angular-material-extensions/password-strength';
+import { PresetsDialogComponent } from './_dialogs/presets-dialog/presets-dialog.component';
 
 @NgModule({
   imports: [
@@ -258,6 +259,7 @@ import { MatPasswordStrengthModule } from '@angular-material-extensions/password
     GptPrivacyPolicyDeComponent,
     GptPrivacyPolicyEnComponent,
     GptPrivacyPolicyFrComponent,
+    PresetsDialogComponent,
   ],
   exports: [
     RoomJoinComponent,
