@@ -93,7 +93,7 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() indentationPossible = false;
   @Input() showResponses: boolean = false;
   @Input() activeKeywordSearchString: string = null;
-  @Input() canOpenGPT = true;
+  @Input() canOpenGPT = false;
   @Output() clickedOnTag = new EventEmitter<string>();
   @Output() clickedOnKeyword = new EventEmitter<string>();
   @Output() clickedUserNumber = new EventEmitter<string>();
