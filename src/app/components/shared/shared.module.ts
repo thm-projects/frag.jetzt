@@ -126,7 +126,6 @@ import { IntroductionPromptGuideChatbotComponent } from './_dialogs/introduction
 import { IntroductionPromptGuideChatbotDeComponent } from '../../../assets/i18n/components/_dialogs/introductions/introduction-prompt-guide-chatbot/introduction-prompt-guide-chatbot-de.component';
 import { IntroductionPromptGuideChatbotEnComponent } from '../../../assets/i18n/components/_dialogs/introductions/introduction-prompt-guide-chatbot/introduction-prompt-guide-chatbot-en.component';
 import { IntroductionPromptGuideChatbotFrComponent } from '../../../assets/i18n/components/_dialogs/introductions/introduction-prompt-guide-chatbot/introduction-prompt-guide-chatbot-fr.component';
-import { MatPasswordStrengthModule } from '@angular-material-extensions/password-strength';
 import { GPTChatRoomComponent } from './gptchat-room/gptchat-room.component';
 
 @NgModule({
@@ -147,7 +146,6 @@ import { GPTChatRoomComponent } from './gptchat-room/gptchat-room.component';
     NgxMatNativeDateModule,
     MatSliderModule,
     MatSlideToggleModule,
-    MatPasswordStrengthModule,
   ],
   declarations: [
     RoomJoinComponent,
