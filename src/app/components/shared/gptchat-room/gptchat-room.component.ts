@@ -36,6 +36,10 @@ import { IntroductionPromptGuideChatbotComponent } from '../_dialogs/introductio
 import { ArsComposeService } from '../../../../../projects/ars/src/lib/services/ars-compose.service';
 import { HeaderService } from '../../../services/util/header.service';
 import { GPTUserDescriptionDialogComponent } from '../_dialogs/gptuser-description-dialog/gptuser-description-dialog.component';
+import {
+  PresetsDialogComponent,
+  PresetsDialogType,
+} from '../_dialogs/presets-dialog/presets-dialog.component';
 
 interface ConversationEntry {
   type: 'human' | 'gpt' | 'error';
@@ -307,7 +311,7 @@ export class GPTChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
           icon: 'assignment',
           class: 'material-icons-outlined',
           text: 'header.preset-context',
-          callback: () => console.log('context'),
+          callback: () => this.showContextPresetsDefinition(),
           condition: () => {
             return this.sessionService.currentRole > 0;
           },
@@ -317,7 +321,7 @@ export class GPTChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
           icon: 'bookmark',
           class: 'material-icons-outlined',
           text: 'header.preset-topic',
-          callback: () => console.log('topic'),
+          callback: () => this.showTopicPresetsDefinition(),
           condition: () => {
             return this.sessionService.currentRole > 0;
           },
@@ -327,7 +331,7 @@ export class GPTChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
           icon: 'person',
           class: 'material-icons-outlined',
           text: 'header.preset-persona',
-          callback: () => console.log('persona'),
+          callback: () => this.showPersonaPresetsDefinition(),
           condition: () => {
             return this.sessionService.currentRole > 0;
           },
@@ -510,5 +514,40 @@ export class GPTChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
       return '';
     }
     return QuillUtils.getMarkdownFromDelta(data);
+  }
+
+  private showContextPresetsDefinition() {
+    const dialogRef = this.dialog.open(PresetsDialogComponent, {
+      autoFocus: false,
+      width: '80%',
+      maxWidth: '600px',
+    });
+    dialogRef.componentInstance.type = PresetsDialogType.CONTEXT;
+    dialogRef.componentInstance.data = [''];
+    dialogRef.afterClosed().subscribe((result) => {});
+  }
+  private showTopicPresetsDefinition() {
+    const dialogRef = this.dialog.open(PresetsDialogComponent, {
+      autoFocus: false,
+      width: '80%',
+      maxWidth: '600px',
+    });
+    dialogRef.componentInstance.type = PresetsDialogType.TOPIC;
+    dialogRef.componentInstance.data = [''];
+    dialogRef.afterClosed().subscribe((result) => {});
+  }
+  private showPersonaPresetsDefinition() {
+    const dialogRef = this.dialog.open(PresetsDialogComponent, {
+      autoFocus: false,
+      width: '80%',
+      maxWidth: '600px',
+    });
+    dialogRef.componentInstance.type = PresetsDialogType.PERSONA;
+    dialogRef.componentInstance.data = ['', '', ''];
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        console.log('Result', result);
+      }
+    });
   }
 }

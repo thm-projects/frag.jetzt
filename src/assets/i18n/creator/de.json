@@ -1019,5 +1019,14 @@
     "a11y-questioner-name": "Hier kannst du, wenn du willst, deinen Namen eingeben. Dieser ist für alle an diesem Kommentar sichtbar.",
     "name-length-error": "Der Name muss {{min}} bis {{max}} Zeichen lang sein.",
     "questioner-name": "Dein Name, wenn du willst …"
+  },
+  "presets-dialog": {
+    "title": "Vordefinierte presets",
+    "context-label": "Kontext",
+    "topic-label": "Thema",
+    "persona-label": "Persona",
+    "context-placeholder": "WPW Kurs",
+    "topic-placeholder": "Angular",
+    "persona-placeholder": "Moderator"
   }
 }

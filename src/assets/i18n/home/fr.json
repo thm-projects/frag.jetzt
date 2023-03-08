@@ -774,14 +774,5 @@
     "less": "Informel",
     "more": "Formel",
     "name": "Style"
-  },
-  "presets-dialog": {
-    "title": "Préréglages prédéfinis",
-    "context-label": "Contexte",
-    "topic-label": "Sujet",
-    "persona-label": "Personne",
-    "context-placeholder": "Cours WPW",
-    "topic-placeholder": "Angular",
-    "persona-placeholder": "Modérateur"
-    }
+  }
 }

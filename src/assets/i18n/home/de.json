@@ -774,14 +774,5 @@
     "less": "Duzen",
     "more": "Siezen",
     "name": "Stil"
-  },
-  "presets-dialog": {
-    "title": "Vordefinierte presets",
-    "context-label": "Kontext",
-    "topic-label": "Thema",
-    "persona-label": "Persona",
-    "context-placeholder": "WPW Kurs",
-    "topic-placeholder": "Angular",
-    "persona-placeholder": "Moderator"
   }
 }

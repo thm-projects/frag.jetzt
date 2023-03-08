@@ -1017,5 +1017,14 @@
     "a11y-questioner-name": "Ici, tu peux, si tu le souhaites, entrer ton nom. Celui-ci est visible pour tous les participants à ce commentaire.",
     "name-length-error": "Le nom doit comporter entre {{min}} et {{max}} caractères.",
     "questioner-name": "Ton nom, si tu veux …"
-  }
+  },
+  "presets-dialog": {
+    "title": "Préréglages prédéfinis",
+    "context-label": "Contexte",
+    "topic-label": "Sujet",
+    "persona-label": "Personne",
+    "context-placeholder": "Cours WPW",
+    "topic-placeholder": "Angular",
+    "persona-placeholder": "Modérateur"
+    }
 }

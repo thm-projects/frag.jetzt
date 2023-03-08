@@ -1017,5 +1017,14 @@
     "a11y-questioner-name": "Here you can enter your name if you want. This is visible for everyone at this comment.",
     "name-length-error": "The name must be {{min}} to {{max}} characters long.",
     "questioner-name": "Your name, if you want …"
+  },
+  "presets-dialog": {
+    "title": "Predefined presets",
+    "context-label": "Context",
+    "topic-label": "Topic",
+    "persona-label": "Persona",
+    "context-placeholder": "WPW Course",
+    "topic-placeholder": "Angular",
+    "persona-placeholder": "Moderator"
   }
 }
