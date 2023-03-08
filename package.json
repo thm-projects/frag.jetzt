@@ -24,7 +24,6 @@
   "dependencies": {
     "@angular-devkit/architect": "^0.1400.1",
     "@angular-material-components/datetime-picker": "^7.0.1",
-    "@angular-material-extensions/password-strength": "^11.0.0",
     "@angular/animations": "^14.0.1",
     "@angular/cdk": "^14.0.1",
     "@angular/common": "^14.0.1",
@@ -117,8 +116,8 @@
   },
   "lint-staged": {
     "*.{js,ts}": [
-      "eslint --cache --fix",
-      "prettier --write"
+      "prettier --write",
+      "eslint --cache --fix"
     ],
     "*.{scss,md,component.html}": "prettier --write"
   }

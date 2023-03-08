@@ -53,9 +53,7 @@
     <ng-container
       *ngIf="
         this.tourSite &&
-        (!this.user?.loginId ||
-          this.deviceInfo.isCurrentlyDesktop ||
-          router.url.endsWith('/gpt-chat'))
+        (!this.user?.loginId || this.deviceInfo.isCurrentlyDesktop)
       ">
       <button
         [matTooltip]="'footer.help-button' | translate"
@@ -198,9 +196,7 @@
   <button
     mat-menu-item
     (click)="showCurrentTour()"
-    *ngIf="
-      this.tourSite && this.user?.loginId && !router.url.endsWith('/gpt-chat')
-    "
+    *ngIf="this.tourSite && this.user?.loginId"
     aria-labelledby="site-tour-label"
     class="focus_button">
     <mat-icon class="material-icons-outlined">question_mark</mat-icon>

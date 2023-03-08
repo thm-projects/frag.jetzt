@@ -68,7 +68,7 @@ export class PasswordResetComponent implements OnInit, AfterViewInit {
   keyFormControl = new FormControl('', [Validators.required]);
 
   matcher = new PasswordResetErrorStateMatcher();
-  passwordStrength: number;
+  passwordStrength: number = 5;
 
   isPasswordVisible = false;
 
@@ -80,6 +80,32 @@ export class PasswordResetComponent implements OnInit, AfterViewInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private liveAnnouncer: LiveAnnouncer,
   ) {}
+
+  public static calculateStrength(passwordControl: FormControl): number {
+    if (passwordControl.errors) {
+      return 5;
+    }
+    let permutation = 1;
+    for (const c of passwordControl.value.split('')) {
+      if (
+        (c >= 'a' && c <= 'z') ||
+        (c >= 'A' && c <= 'Z') ||
+        (c >= '0' && c <= '9')
+      ) {
+        permutation *= 36;
+      } else if ('!@#$%^&*()_+-=?'.includes(c)) {
+        permutation *= 51;
+      } else {
+        permutation *= 2097152;
+      }
+    }
+
+    const oneYearFourCores = 2052e13;
+    return Math.max(
+      5,
+      Math.min(100, (Math.log(permutation) * 100) / Math.log(oneYearFourCores)),
+    );
+  }
 
   ngOnInit() {
     this.announce();
@@ -243,29 +269,8 @@ export class PasswordResetComponent implements OnInit, AfterViewInit {
   }
 
   checkPasswordStrength() {
-    if (this.passwordFormControl.errors) {
-      this.passwordStrength = 5;
-      return;
-    }
-    let permutation = 1;
-    for (const c of this.passwordFormControl.value.split('')) {
-      if (
-        (c >= 'a' && c <= 'z') ||
-        (c >= 'A' && c <= 'Z') ||
-        (c >= '0' && c <= '9')
-      ) {
-        permutation *= 36;
-      } else if ('!@#$%^&*()_+-=?'.includes(c)) {
-        permutation *= 51;
-      } else {
-        permutation *= 2097152;
-      }
-    }
-
-    const oneYearFourCores = 2052e13;
-    this.passwordStrength = Math.max(
-      5,
-      Math.min(100, (Math.log(permutation) * 100) / Math.log(oneYearFourCores)),
+    this.passwordStrength = PasswordResetComponent.calculateStrength(
+      this.passwordFormControl,
     );
     const color =
       'rgb(' +

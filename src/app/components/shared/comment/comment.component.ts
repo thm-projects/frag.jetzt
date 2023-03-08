@@ -94,6 +94,7 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() showResponses: boolean = false;
   @Input() activeKeywordSearchString: string = null;
   @Input() canOpenGPT = false;
+  @Input() consentGPT = false;
   @Output() clickedOnTag = new EventEmitter<string>();
   @Output() clickedOnKeyword = new EventEmitter<string>();
   @Output() clickedUserNumber = new EventEmitter<string>();
@@ -127,8 +128,6 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
   viewInfo: ResponseViewInformation;
   commentRegistrationId: string;
   brainstormingCategory: string;
-  isGPTPrivacyPolicyAccepted: boolean = false;
-  gpt_privacy_policy_accepted: boolean = true;
   private _votes;
   private _commentNumber: string[] = [];
   private _destroyer = new ReplaySubject(1);
@@ -148,7 +147,6 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
     protected langService: LanguageService,
     public deviceInfo: DeviceInfoService,
     public notificationService: DashboardNotificationService,
-    private gptService: GptService,
   ) {
     langService
       .getLanguage()
@@ -201,7 +199,6 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.checkPrivacyPolicy();
     this.isConversationView = this.router.url.endsWith('conversation');
     this.isConversationViewOwner = this.router.url.endsWith(
       this.comment.id + '/conversation',
@@ -235,11 +232,6 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
     this.room = this.sessionService.currentRoom;
     this.onLanguageChange();
     this.getResponses();
-
-    this.gptService.getConsentState().subscribe((state) => {
-      console.log('comment constructor - GPT consent state: ', state);
-      this.gpt_privacy_policy_accepted = state;
-    });
   }
 
   checkProfanity() {
@@ -608,24 +600,15 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
     this.router.navigate([url]);
   }
 
-  checkPrivacyPolicy() {
-    this.gptService.getConsentState().subscribe((state) => {
-      if (state === false) {
-        this.gpt_privacy_policy_accepted = false;
-      }
-    });
-  }
-
   openGPT() {
-    console.log('openGPT started with ' + this.gpt_privacy_policy_accepted);
     let url: string;
     this.route.params.subscribe((params) => {
-      url = `${this.roleString}/room/${params['shortId']}/gpt-chat`;
+      url = `${this.roleString}/room/${params['shortId']}/gpt-chat-room`;
     });
 
     sessionStorage.setItem(
       'temp-gpt-text',
-      QuillUtils.getTextFromDelta(this.comment.body),
+      QuillUtils.serializeDelta(this.comment.body),
     );
     this.router.navigate([url]);
   }

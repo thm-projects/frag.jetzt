@@ -5,7 +5,7 @@
     <mat-chip-list *ngIf="conversation.length < 1">
       <mat-chip
         *ngFor="let greeting of greetings[model]"
-        (click)="sendGPTContent = greeting.value; autoGrow(autoGrowElement)">
+        (click)="setValue(greeting.value)">
         {{ greeting.key }}
       </mat-chip>
     </mat-chip-list>
@@ -63,21 +63,17 @@
       </mat-select>
     </mat-form-field>
 
-    <mat-form-field>
-      <mat-label>
-        {{ "gpt-chat.enter-conversation-text" | translate }}
-      </mat-label>
-      <textarea
-        (input)="autoGrow(autoGrowElement)"
-        (keydown)="onKeyDown($event)"
-        #autoGrowElement
-        matInput
-        appAccessibilityEscapedInput
-        [(ngModel)]="sendGPTContent"></textarea>
-      <mat-hint>
-        {{ "gpt-chat.token-info" | translate : tokenInfo }}
-      </mat-hint>
-    </mat-form-field>
+    <app-view-comment-data
+      [textOverwrite]="'gpt-chat.token-info' | translate : tokenInfo"
+      (changeContent)="calculateTokens(getCurrentText())"
+      [isModerator]="(sessionService.currentRole || 0) > 0"
+      [isBrainstorming]="false"
+      [isEditor]="true"
+      [maxTextCharacters]="1000"
+      [maxDataCharacters]="2000"
+      [placeHolderText]="
+        'gpt-chat.enter-conversation-text' | translate
+      "></app-view-comment-data>
 
     <button
       *ngIf="!isSending; else loading"
