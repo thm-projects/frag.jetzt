@@ -1,4 +1,10 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  Inject,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import {
   FormControl,
@@ -13,6 +19,8 @@ import {
 import { NotificationService } from '../../../../services/util/notification.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ErrorStateMatcher } from '@angular/material/core';
+import { PasswordResetComponent } from '../password-reset/password-reset.component';
+import { MatProgressBar } from '@angular/material/progress-bar';
 
 export class RegisterErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(
@@ -102,7 +110,8 @@ export const checkForEquality =
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss'],
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent implements OnInit, AfterViewInit {
+  @ViewChild('customProgressBar') customProgressBar: MatProgressBar;
   usernameFormControl = new FormControl('', [
     Validators.required,
     Validators.email,
@@ -121,6 +130,7 @@ export class RegisterComponent implements OnInit {
   ]);
 
   matcher = new RegisterErrorStateMatcher();
+  passwordStrength: number = 5;
 
   isPasswordVisible = false;
 
@@ -144,6 +154,10 @@ export class RegisterComponent implements OnInit {
    */
   ngOnInit() {
     // nothing special yet
+  }
+
+  ngAfterViewInit(): void {
+    this.checkPasswordStrength();
   }
 
   register(username: string, password: string): void {
@@ -206,5 +220,21 @@ export class RegisterComponent implements OnInit {
 
   togglePasswordVisibility(): void {
     this.isPasswordVisible = !this.isPasswordVisible;
+  }
+
+  checkPasswordStrength() {
+    this.passwordStrength = PasswordResetComponent.calculateStrength(
+      this.password1FormControl,
+    );
+    const color =
+      'rgb(' +
+      Math.round((255 * (100 - this.passwordStrength)) / 100) +
+      ', ' +
+      Math.round((255 * this.passwordStrength) / 100) +
+      ', 0)';
+    this.customProgressBar._elementRef.nativeElement.style.setProperty(
+      '--line-color',
+      color,
+    );
   }
 }

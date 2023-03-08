@@ -55,6 +55,7 @@
         matInput
         [type]="isPasswordVisible ? 'text' : 'password'"
         #userPassword1
+        (input)="checkPasswordStrength()"
         [formControl]="password1FormControl"
         [errorStateMatcher]="matcher"
         aria-labelledby="register-password-description" />
@@ -116,9 +117,13 @@
         {{ "register.password-too-similar" | translate }}
       </mat-error>
     </mat-form-field>
-    <mat-password-strength
-      #passwordComponentWithValidation
-      [password]="password1FormControl.value"></mat-password-strength>
+
+    <!--password strength-->
+    <mat-progress-bar
+      #customProgressBar
+      class="custom-progress-bar"
+      mode="determinate"
+      [value]="passwordStrength"></mat-progress-bar>
 
     <mat-form-field class="input-block">
       <input

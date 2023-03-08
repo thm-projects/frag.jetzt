@@ -22,3 +22,7 @@ input {
     cursor: pointer;
   }
 }
+
+.custom-progress-bar ::ng-deep .mat-progress-bar-element::after {
+  background-color: var(--line-color, #f00) !important;
+}
