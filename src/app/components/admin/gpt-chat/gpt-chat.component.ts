@@ -1,4 +1,4 @@
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import {
   Component,
   ElementRef,
@@ -19,10 +19,16 @@ import { MatDialog } from '@angular/material/dialog';
 import { Location } from '@angular/common';
 import { GptOptInPrivacyComponent } from 'app/components/shared/_dialogs/gpt-optin-privacy/gpt-optin-privacy.component';
 import { UserManagementService } from 'app/services/util/user-management.service';
+import { LanguageService } from 'app/services/util/language.service';
 
 interface ConversationEntry {
   type: 'human' | 'gpt' | 'error';
   message: string;
+}
+
+interface promptType {
+  act: string;
+  prompt: string;
 }
 
 @Component({
@@ -48,19 +54,36 @@ export class GptChatComponent implements OnInit, OnDestroy {
   model: string = 'text-davinci-003';
   stopper = new Subject<boolean>();
   isGPTPrivacyPolicyAccepted: boolean = false;
+
+  prompts: promptType[] = [];
+
   private destroyer = new ReplaySubject(1);
   private encoder: GPTEncoder = null;
   private room: Room = null;
+  private _destroyer = new ReplaySubject(1);
 
   constructor(
     private gptService: GptService,
     private translateService: TranslateService,
+    private languageService: LanguageService,
+    private http: HttpClient,
     private deviceInfo: DeviceInfoService,
     private gptEncoderService: GptEncoderService,
     public dialog: MatDialog,
     private location: Location,
     private userManagementService: UserManagementService,
-  ) {}
+  ) {
+    this.languageService
+      .getLanguage()
+      .pipe(takeUntil(this._destroyer))
+      .subscribe((lang) => {
+        this.http
+          .get<promptType[]>('/assets/i18n/prompts/' + lang + '.json')
+          .subscribe((promptsArray) => {
+            this.prompts = promptsArray;
+          });
+      });
+  }
 
   ngOnInit(): void {
     this.loadConversation();
