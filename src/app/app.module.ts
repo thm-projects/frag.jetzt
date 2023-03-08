@@ -102,7 +102,6 @@ import 'katex/dist/katex.min.js';
 import 'emoji-toolkit/lib/js/joypixels.min.js';
 import 'quill-emoji/dist/quill-emoji.js';
 import { QuillModule } from 'ngx-quill';
-import { MatPasswordStrengthModule } from '@angular-material-extensions/password-strength';
 
 export const dialogClose = (dialogResult: any) => '';
 
@@ -161,7 +160,6 @@ export const HttpLoaderFactory = (http: HttpClient) =>
     AdminModule,
     CreatorModule,
     ModeratorModule,
-    MatPasswordStrengthModule.forRoot(),
     MarkdownModule.forRoot({
       loader: HttpClient,
       markedOptions: {
