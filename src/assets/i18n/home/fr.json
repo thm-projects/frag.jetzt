@@ -411,7 +411,7 @@
     "restart-account-activation-correct": "La clé d'activation a été envoyée.",
     "restart-account-activation-tooltip": "Envoie une nouvelle clé d'activation à ton adresse.",
     "welcome": "Des questions ?",
-    "welcome-feedback": "➤ Écris aux développeurs de « frag.jetzt »",
+    "welcome-feedback": "➤ Écris à l'équipe de « frag.jetzt »",
     "welcome-subtitle": "Anonyme | à l'intérieur du navigateur | gratuit"
   },
   "login-dialog": {
