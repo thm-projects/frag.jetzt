@@ -46,8 +46,7 @@ export interface ResponseViewInformation {
   styleUrls: ['./comment-response-view.component.scss'],
 })
 export class CommentResponseViewComponent
-  implements OnInit, AfterViewInit, OnChanges, OnDestroy
-{
+  implements OnInit, AfterViewInit, OnChanges, OnDestroy {
   @Input()
   owningComment: ForumComment;
   @Input()
