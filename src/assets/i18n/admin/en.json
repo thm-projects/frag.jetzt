@@ -102,18 +102,5 @@
     "use-case-tooltip-code": "Very good at code understanding and generation. Has a wider context than language models.",
     "use-case-chat": "Chat/Conversations",
     "use-case-tooltip-chat": "Effective for open-ended questions where follow-up questions are needed. Does not provide as accurate results as answering questions."
-  },
-  "presets-dialog-title": "Presets definitions",
-  "presets-context": {
-    "label": "Context presets",
-    "placeholder": "Enter a context here …"
-  },
-  "presets-topic": {
-    "label": "Vordefinierte Kontexte",
-    "placeholder": "Vordefinierte Kontexte"
-  },
-  "presets-persona": {
-    "label": "Vordefinierte Kontexte",
-    "placeholder": "Vordefinierte Kontexte"
   }
 }

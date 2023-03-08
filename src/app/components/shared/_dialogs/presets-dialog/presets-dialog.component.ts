@@ -23,10 +23,7 @@ export class PresetsDialogComponent implements OnInit {
   placeholder: string;
   readonly presetsDefinitionMin = 2;
   readonly presetsDefinitionMax = 100;
-  presetsDefinitionFormControl = new FormControl('', [
-    Validators.minLength(this.presetsDefinitionMin),
-    Validators.maxLength(this.presetsDefinitionMax),
-  ]);
+  formControls = [];
   constructor(private dialogRef: MatDialogRef<PresetsDialogComponent>) {}
 
   public static open(dialog: MatDialog, type: PresetsDialogType) {
@@ -40,6 +37,14 @@ export class PresetsDialogComponent implements OnInit {
   ngOnInit(): void {
     this.isLoading = false;
     this.setPresetsStrings();
+    this.data.forEach((item) => {
+      this.formControls.push(
+        new FormControl(item, [
+          Validators.minLength(this.presetsDefinitionMin),
+          Validators.maxLength(this.presetsDefinitionMax),
+        ]),
+      );
+    });
   }
 
   setPresetsStrings() {
@@ -65,9 +70,12 @@ export class PresetsDialogComponent implements OnInit {
       return undefined;
     }
     return () => {
-      if (!this.presetsDefinitionFormControl.valid) {
+      if (!this.formControls.every((control) => control.valid)) {
         return;
       }
+      this.formControls.forEach(
+        (control, index) => (this.data[index] = control.value),
+      );
       this.dialogRef.close(this.data);
     };
   }

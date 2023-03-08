@@ -1,20 +1,20 @@
 <h3>{{ title | translate }}</h3>
 
 <mat-dialog-content *ngIf="!isLoading; else loading">
-  <mat-form-field>
+  <mat-form-field *ngFor="let control of formControls">
     <mat-label>
       {{ label | translate }}
     </mat-label>
     <textarea
       style="min-height: 10em"
       matInput
-      [formControl]="presetsDefinitionFormControl"></textarea>
+      [formControl]="control"></textarea>
     <mat-placeholder class="placeholder">
       {{ placeholder | translate }}
     </mat-placeholder>
     <mat-hint align="end">
       <span aria-hidden="true">
-        {{ presetsDefinitionFormControl.value.length }} /
+        {{ control.value.length }} /
         {{ presetsDefinitionMax }}
       </span>
     </mat-hint>

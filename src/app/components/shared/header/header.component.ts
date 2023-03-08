@@ -55,10 +55,6 @@ import { GPTUserDescriptionDialogComponent } from '../_dialogs/gptuser-descripti
 import { GptOptInPrivacyComponent } from '../_dialogs/gpt-optin-privacy/gpt-optin-privacy.component';
 import { ShrinkObserver } from 'app/utils/shrink-observer';
 import { GptService, GPTStreamResult } from 'app/services/http/gpt.service';
-import {
-  PresetsDialogComponent,
-  PresetsDialogType,
-} from '../_dialogs/presets-dialog/presets-dialog.component';
 
 @Component({
   selector: 'app-header',
@@ -359,34 +355,6 @@ export class HeaderComponent implements OnInit, AfterViewInit {
       return;
     }
     this.themeMenu._allItems.get(index).focus();
-  }
-
-  public showContextPresetsDefinition() {
-    const dialogRef = this.dialog.open(PresetsDialogComponent, {
-      autoFocus: false,
-      width: '80%',
-      maxWidth: '600px',
-    });
-    dialogRef.componentInstance.type = PresetsDialogType.CONTEXT;
-    dialogRef.afterClosed().subscribe((result) => {});
-  }
-  public showTopicPresetsDefinition() {
-    const dialogRef = this.dialog.open(PresetsDialogComponent, {
-      autoFocus: false,
-      width: '80%',
-      maxWidth: '600px',
-    });
-    dialogRef.componentInstance.type = PresetsDialogType.TOPIC;
-    dialogRef.afterClosed().subscribe((result) => {});
-  }
-  public showPersonaPresetsDefinition() {
-    const dialogRef = this.dialog.open(PresetsDialogComponent, {
-      autoFocus: false,
-      width: '80%',
-      maxWidth: '600px',
-    });
-    dialogRef.componentInstance.type = PresetsDialogType.PERSONA;
-    dialogRef.afterClosed().subscribe((result) => {});
   }
 
   openPseudoEditor() {

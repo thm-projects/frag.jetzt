@@ -763,5 +763,14 @@
     "less": "Informal",
     "more": "Formal",
     "name": "Style"
+  },
+  "presets-dialog": {
+    "title": "Predefined presets",
+    "context-label": "Context",
+    "topic-label": "Topic",
+    "persona-label": "Persona",
+    "context-placeholder": "WPW Course",
+    "topic-placeholder": "Angular",
+    "persona-placeholder": "Moderator"
   }
 }

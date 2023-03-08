@@ -420,33 +420,6 @@
 
       <button
         mat-menu-item
-        *ngIf="user && router.url.endsWith('/gpt-chat')"
-        tabindex="0"
-        (click)="showContextPresetsDefinition()">
-        <mat-icon class="header-icons material-icons-outlined">forum</mat-icon>
-        <span>{{ "header.back-to-questionboard" | translate }}</span>
-      </button>
-
-      <button
-        mat-menu-item
-        *ngIf="user && router.url.endsWith('/gpt-chat')"
-        tabindex="0"
-        (click)="showPersonaPresetsDefinition()">
-        <mat-icon class="header-icons material-icons-outlined">forum</mat-icon>
-        <span>{{ "header.back-to-questionboard" | translate }}</span>
-      </button>
-
-      <button
-        mat-menu-item
-        *ngIf="user && router.url.endsWith('/gpt-chat')"
-        tabindex="0"
-        (click)="showTopicPresetsDefinition()">
-        <mat-icon class="header-icons material-icons-outlined">forum</mat-icon>
-        <span>{{ "header.back-to-questionboard" | translate }}</span>
-      </button>
-
-      <button
-        mat-menu-item
         [matMenuTriggerFor]="themeMenu"
         (menuOpened)="openMenu()"
         class="focus_button"
