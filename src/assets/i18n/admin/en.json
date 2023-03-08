@@ -59,7 +59,10 @@
   "gpt-chat": {
     "optin-accept": "Accept",
     "optin-reject": "Reject",
+<<<<<<< HEAD
     "privacy-policy": "Privacy Policy for the Use of OpenAI API",
+=======
+>>>>>>> 69a870377 (Create buttons and translation)
     "enter-conversation-text": "Chat with GPT …",
     "send": "Send",
     "empty-conversation": "Clear history",

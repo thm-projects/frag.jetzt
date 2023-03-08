@@ -60,11 +60,16 @@
     "enter-conversation-text": "Chat mit GPT …",
     "send": "Senden",
     "empty-conversation": "Verlauf leeren",
+<<<<<<< HEAD
 
     "optin-accept": "Akzeptieren",
     "optin-reject": "Ablehnen",
     "privacy-policy": "Datenschutzerklärung für die Nutzung der OpenAI API",
 
+=======
+    "optin-accept": "Akzeptieren",
+    "optin-reject": "Ablehnen",
+>>>>>>> 69a870377 (Create buttons and translation)
     "input-forbidden": "Eingabe verboten, bitte prüfe die GPT API Einstellungen.",
     "no-api-setup": "Der API Schlüssel oder das Sprachmodell wurden nicht gesetzt.",
     "greetings": {
