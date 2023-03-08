@@ -2,9 +2,11 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
+  EventEmitter,
   Input,
   OnDestroy,
   OnInit,
+  Output,
   ViewChild,
 } from '@angular/core';
 import {
@@ -14,25 +16,29 @@ import {
   QuillModules,
   QuillViewComponent,
 } from 'ngx-quill';
-import {LanguageService} from '../../../services/util/language.service';
-import {TranslateService} from '@ngx-translate/core';
-import {DeviceInfoService} from '../../../services/util/device-info.service';
-import {MatDialog} from '@angular/material/dialog';
-import {QuillInputDialogComponent} from '../_dialogs/quill-input-dialog/quill-input-dialog.component';
-import {Marks} from './view-comment-data.marks';
-import {LanguagetoolResult} from '../../../services/http/languagetool.service';
-import {NotificationService} from '../../../services/util/notification.service';
-import {AccessibilityEscapedInputDirective} from '../../../directives/accessibility-escaped-input.directive';
-import {EventService} from '../../../services/util/event.service';
-import {MatTooltip} from '@angular/material/tooltip';
-import {QuillUtils, StandardDelta} from '../../../utils/quill-utils';
-import {ReplaySubject, takeUntil} from 'rxjs';
-import {HighlightLibrary} from 'ngx-highlightjs/lib/highlight.model';
+import { LanguageService } from '../../../services/util/language.service';
+import { TranslateService } from '@ngx-translate/core';
+import { DeviceInfoService } from '../../../services/util/device-info.service';
+import { MatDialog } from '@angular/material/dialog';
+import { QuillInputDialogComponent } from '../_dialogs/quill-input-dialog/quill-input-dialog.component';
+import { Marks } from './view-comment-data.marks';
+import { LanguagetoolResult } from '../../../services/http/languagetool.service';
+import { NotificationService } from '../../../services/util/notification.service';
+import { AccessibilityEscapedInputDirective } from '../../../directives/accessibility-escaped-input.directive';
+import { EventService } from '../../../services/util/event.service';
+import { MatTooltip } from '@angular/material/tooltip';
+import {
+  ImmutableStandardDelta,
+  QuillUtils,
+  StandardDelta,
+} from '../../../utils/quill-utils';
+import { ReplaySubject, takeUntil } from 'rxjs';
+import { HighlightLibrary } from 'ngx-highlightjs/lib/highlight.model';
 
 import Quill from 'quill';
 import ImageResize from 'quill-image-resize-module';
-import {DsgvoVideo} from '../../../quill-extentions/formats/dsgvo-video';
-import {FullscreenImageDialogComponent} from '../_dialogs/fullscreen-image-dialog/fullscreen-image-dialog.component';
+import { DsgvoVideo } from '../../../quill-extentions/formats/dsgvo-video';
+import { FullscreenImageDialogComponent } from '../_dialogs/fullscreen-image-dialog/fullscreen-image-dialog.component';
 
 Quill.register('modules/imageResize', ImageResize);
 Quill.register('formats/dsgvo-video', DsgvoVideo);
@@ -63,6 +69,9 @@ export class ViewCommentDataComponent
   @Input() usesFormality = false;
   @Input() formalityEmitter: (string) => void;
   @Input() selectedFormality = 'default';
+  @Output() changeContent = new EventEmitter<
+    [ImmutableStandardDelta, string]
+  >();
   currentText = '\n';
   quillModules: QuillModules = {};
   hasEmoji = true;
@@ -71,7 +80,7 @@ export class ViewCommentDataComponent
   private _marks: Marks;
   private _destroyer = new ReplaySubject(1);
   private _mutateObserver: MutationObserver;
-  private readonly DEFAULT_VALUE: StandardDelta = {ops: [{insert: '\n'}]};
+  private readonly DEFAULT_VALUE: StandardDelta = { ops: [{ insert: '\n' }] };
 
   constructor(
     private languageService: LanguageService,
@@ -172,7 +181,7 @@ export class ViewCommentDataComponent
             ref.afterClosed().subscribe({
               next: () => {
                 document.exitFullscreen();
-              }
+              },
             });
           }
         });
@@ -220,6 +229,7 @@ export class ViewCommentDataComponent
       this._marks.onDataChange(e.delta);
       this._currentData = e.content;
       this.currentText = e.text;
+      this.changeContent.emit([e.content, e.text]);
     });
     this.editor.onEditorChanged.subscribe((e) => {
       wasLastPaste = this.onEditorChange(e, wasLastPaste);
@@ -242,9 +252,9 @@ export class ViewCommentDataComponent
 
   clear(): void {
     if (this.isEditor) {
-      this.editor.quillEditor.setContents({ops: []});
+      this.editor.quillEditor.setContents({ ops: [] });
     } else {
-      this.quillView.quillEditor.setContents({ops: []});
+      this.quillView.quillEditor.setContents({ ops: [] });
     }
   }
 
@@ -350,14 +360,14 @@ export class ViewCommentDataComponent
     if (event.source !== 'user') {
       return;
     }
-    const newDelta = {ops: []};
+    const newDelta = { ops: [] };
     for (const deltaObj of event.delta.ops) {
       if (deltaObj.retain) {
-        newDelta.ops.push({retain: deltaObj.retain});
+        newDelta.ops.push({ retain: deltaObj.retain });
         continue;
       }
       if (deltaObj.delete) {
-        newDelta.ops.push({delete: deltaObj.delete});
+        newDelta.ops.push({ delete: deltaObj.delete });
         continue;
       }
       if (!deltaObj.insert) {
@@ -367,7 +377,7 @@ export class ViewCommentDataComponent
       if (lastObj?.insert) {
         lastObj.insert += deltaObj.insert;
       } else {
-        newDelta.ops.push({insert: deltaObj.insert});
+        newDelta.ops.push({ insert: deltaObj.insert });
       }
     }
     this.editor.quillEditor.setContents(event.oldDelta, 'silent');
@@ -388,7 +398,7 @@ export class ViewCommentDataComponent
           const len = op['insert'].length;
           currentSize += len;
           if (sel.index < currentSize) {
-            range = {index: start, length: len};
+            range = { index: start, length: len };
             break;
           }
         } else {
@@ -402,13 +412,13 @@ export class ViewCommentDataComponent
         const ops = [];
         const startIndex = range.index;
         if (startIndex > 0) {
-          ops.push({retain: startIndex});
+          ops.push({ retain: startIndex });
         }
         ops.push({
           retain: range.length,
-          attributes: {link: val},
+          attributes: { link: val },
         });
-        this.editor.quillEditor.updateContents({ops});
+        this.editor.quillEditor.updateContents({ ops });
       });
     };
   }

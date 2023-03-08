@@ -64,19 +64,16 @@
     </mat-form-field>
 
     <app-view-comment-data
+      [textOverwrite]="'gpt-chat.token-info' | translate : tokenInfo"
+      (changeContent)="calculateTokens(getCurrentText())"
       [isModerator]="(sessionService.currentRole || 0) > 0"
       [isBrainstorming]="false"
-      [textOverwrite]="null"
       [isEditor]="true"
       [maxTextCharacters]="1000"
       [maxDataCharacters]="2000"
       [placeHolderText]="
         'gpt-chat.enter-conversation-text' | translate
       "></app-view-comment-data>
-    <!-- (keydown)="onKeyDown($event)" -->
-    <mat-hint>
-      {{ "gpt-chat.token-info" | translate : tokenInfo }}
-    </mat-hint>
 
     <button
       *ngIf="!isSending; else loading"

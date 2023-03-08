@@ -1,29 +1,49 @@
-<ars-row *ngIf="isEditor" id="editorRow">
-  <div #editorErrorLayer id="editorErrorLayer"></div>
-  <quill-editor #editor
-                placeholder="{{ placeHolderText | translate }}"
-                [modules]="quillModules"
-                (document:click)="onDocumentClick($event)"
-                (window:resize)="recalcAspectRatio()">
+<ars-row
+  *ngIf="isEditor"
+  id="editorRow">
+  <div
+    #editorErrorLayer
+    id="editorErrorLayer"></div>
+  <quill-editor
+    #editor
+    placeholder="{{ placeHolderText | translate }}"
+    [modules]="quillModules"
+    (document:click)="onDocumentClick($event)"
+    (window:resize)="recalcAspectRatio()">
     <div quill-editor-toolbar>
       <ng-container
-        [ngTemplateOutlet]="isBrainstorming ? brainstormingToolbar : (isModerator ? moderatorToolbar : participantToolbar)">
-      </ng-container>
+        [ngTemplateOutlet]="
+          isBrainstorming
+            ? brainstormingToolbar
+            : isModerator
+            ? moderatorToolbar
+            : participantToolbar
+        "></ng-container>
     </div>
   </quill-editor>
   <div #tooltipContainer></div>
-  <div fxLayout="row" style="justify-content: flex-end; padding: 0 5px">
-    <span aria-hidden="true" style="font-size: 75%" *ngIf="textOverwrite">
-      {{textOverwrite}}
+  <div
+    fxLayout="row"
+    style="justify-content: flex-end; padding: 0 5px">
+    <span
+      aria-hidden="true"
+      style="font-size: 75%"
+      *ngIf="textOverwrite">
+      {{ textOverwrite }}
     </span>
-    <span aria-hidden="true" style="font-size: 75%" *ngIf="!textOverwrite">
-      {{currentText.trim().length}} / {{maxTextCharacters}}
+    <span
+      aria-hidden="true"
+      style="font-size: 75%"
+      *ngIf="!textOverwrite">
+      {{ currentText.trim().length }} / {{ maxTextCharacters }}
     </span>
   </div>
 </ars-row>
 <div *ngIf="!isEditor">
-  <quill-view #quillView [modules]="quillModules" (window:resize)="recalcAspectRatio()">
-  </quill-view>
+  <quill-view
+    #quillView
+    [modules]="quillModules"
+    (window:resize)="recalcAspectRatio()"></quill-view>
 </div>
 
 <ng-template #brainstormingToolbar>
@@ -32,33 +52,77 @@
 
 <ng-template #participantToolbar>
   <span class="ql-formats">
-    <button type="button" class="ql-bold"
-            [matTooltip]="'quill.tooltip-toolbar-bold' | translate" [matTooltipPosition]="'above'"></button>
-    <button type="button" class="ql-italic"
-            [matTooltip]="'quill.tooltip-toolbar-italic' | translate" [matTooltipPosition]="'above'"></button>
-    <button type="button" class="ql-list" value="bullet"
-            [matTooltip]="'quill.tooltip-toolbar-unordered-list' | translate" [matTooltipPosition]="'above'"></button>
-    <button type="button" class="ql-list" value="ordered"
-            [matTooltip]="'quill.tooltip-toolbar-ordered-list' | translate" [matTooltipPosition]="'above'"></button>
-    <button type="button" class="ql-blockquote"
-            [matTooltip]="'quill.tooltip-toolbar-blockquote' | translate" [matTooltipPosition]="'above'"></button>
-    <button type="button" class="ql-link" (click)="onClick($event, 'link')"
-            [matTooltip]="'quill.tooltip-toolbar-link' | translate" [matTooltipPosition]="'above'"></button>
-    <button type="button" class="ql-code-block"
-            [matTooltip]="'quill.tooltip-toolbar-code' | translate" [matTooltipPosition]="'above'"></button>
-    <button type="button" class="ql-formula" (click)="onClick($event, 'formula')"
-            [matTooltip]="'quill.tooltip-toolbar-formula' | translate" [matTooltipPosition]="'above'"></button>
-    <button type="button" class="ql-emoji" *ngIf="hasEmoji"
-            [matTooltip]="'quill.tooltip-toolbar-emote' | translate" [matTooltipPosition]="'above'"></button>
-    <mat-form-field class="deepl-form-field" *ngIf="usesFormality">
+    <button
+      type="button"
+      class="ql-bold"
+      [matTooltip]="'quill.tooltip-toolbar-bold' | translate"
+      [matTooltipPosition]="'above'"></button>
+    <button
+      type="button"
+      class="ql-italic"
+      [matTooltip]="'quill.tooltip-toolbar-italic' | translate"
+      [matTooltipPosition]="'above'"></button>
+    <button
+      type="button"
+      class="ql-list"
+      value="bullet"
+      [matTooltip]="'quill.tooltip-toolbar-unordered-list' | translate"
+      [matTooltipPosition]="'above'"></button>
+    <button
+      type="button"
+      class="ql-list"
+      value="ordered"
+      [matTooltip]="'quill.tooltip-toolbar-ordered-list' | translate"
+      [matTooltipPosition]="'above'"></button>
+    <button
+      type="button"
+      class="ql-blockquote"
+      [matTooltip]="'quill.tooltip-toolbar-blockquote' | translate"
+      [matTooltipPosition]="'above'"></button>
+    <button
+      type="button"
+      class="ql-link"
+      (click)="onClick($event, 'link')"
+      [matTooltip]="'quill.tooltip-toolbar-link' | translate"
+      [matTooltipPosition]="'above'"></button>
+    <button
+      type="button"
+      class="ql-code-block"
+      [matTooltip]="'quill.tooltip-toolbar-code' | translate"
+      [matTooltipPosition]="'above'"></button>
+    <button
+      type="button"
+      class="ql-formula"
+      (click)="onClick($event, 'formula')"
+      [matTooltip]="'quill.tooltip-toolbar-formula' | translate"
+      [matTooltipPosition]="'above'"></button>
+    <button
+      type="button"
+      class="ql-emoji"
+      *ngIf="hasEmoji"
+      [matTooltip]="'quill.tooltip-toolbar-emote' | translate"
+      [matTooltipPosition]="'above'"></button>
+    <mat-form-field
+      class="deepl-form-field"
+      *ngIf="usesFormality">
       <mat-label>
-        {{'deepl-formality-select.name' | translate}}
+        {{ "deepl-formality-select.name" | translate }}
       </mat-label>
-      <mat-select id="deeplFormality" [(ngModel)]="selectedFormality"
-                  (selectionChange)="formalityEmitter && formalityEmitter(selectedFormality)">
-        <mat-option value="default">{{'deepl-formality-select.default' | translate}}</mat-option>
-        <mat-option value="less">{{'deepl-formality-select.less' | translate}}</mat-option>
-        <mat-option value="more">{{'deepl-formality-select.more' | translate}}</mat-option>
+      <mat-select
+        id="deeplFormality"
+        [(ngModel)]="selectedFormality"
+        (selectionChange)="
+          formalityEmitter && formalityEmitter(selectedFormality)
+        ">
+        <mat-option value="default">
+          {{ "deepl-formality-select.default" | translate }}
+        </mat-option>
+        <mat-option value="less">
+          {{ "deepl-formality-select.less" | translate }}
+        </mat-option>
+        <mat-option value="more">
+          {{ "deepl-formality-select.more" | translate }}
+        </mat-option>
       </mat-select>
     </mat-form-field>
   </span>
@@ -66,47 +130,101 @@
 
 <ng-template #moderatorToolbar>
   <span class="ql-formats">
-    <button type="button" class="ql-bold"
-            [matTooltip]="'quill.tooltip-toolbar-bold' | translate" [matTooltipPosition]="'above'"></button>
-    <button type="button" class="ql-italic"
-            [matTooltip]="'quill.tooltip-toolbar-italic' | translate" [matTooltipPosition]="'above'"></button>
-    <button type="button" class="ql-strike"
-            [matTooltip]="'quill.tooltip-toolbar-strike' | translate"
-            [matTooltipPosition]="'above'"></button>
-    <span class="ql-select-wrapper"
-          [matTooltip]="'quill.tooltip-toolbar-textcolor' | translate"
-          [matTooltipPosition]="'above'">
-      <select class="ql-color"
-              #moderatorToolbarFontColor></select>
+    <button
+      type="button"
+      class="ql-bold"
+      [matTooltip]="'quill.tooltip-toolbar-bold' | translate"
+      [matTooltipPosition]="'above'"></button>
+    <button
+      type="button"
+      class="ql-italic"
+      [matTooltip]="'quill.tooltip-toolbar-italic' | translate"
+      [matTooltipPosition]="'above'"></button>
+    <button
+      type="button"
+      class="ql-strike"
+      [matTooltip]="'quill.tooltip-toolbar-strike' | translate"
+      [matTooltipPosition]="'above'"></button>
+    <span
+      class="ql-select-wrapper"
+      [matTooltip]="'quill.tooltip-toolbar-textcolor' | translate"
+      [matTooltipPosition]="'above'">
+      <select
+        class="ql-color"
+        #moderatorToolbarFontColor></select>
     </span>
-    <button type="button" class="ql-list" value="bullet"
-            [matTooltip]="'quill.tooltip-toolbar-unordered-list' | translate"
-            [matTooltipPosition]="'above'"></button>
-    <button type="button" class="ql-list" value="ordered"
-            [matTooltip]="'quill.tooltip-toolbar-ordered-list' | translate" [matTooltipPosition]="'above'"></button>
-    <button type="button" class="ql-blockquote"
-            [matTooltip]="'quill.tooltip-toolbar-blockquote' | translate" [matTooltipPosition]="'above'"></button>
-    <button type="button" class="ql-link" (click)="onClick($event, 'link')"
-            [matTooltip]="'quill.tooltip-toolbar-link' | translate" [matTooltipPosition]="'above'"></button>
-    <button type="button" class="ql-image" (click)="onClick($event, 'image')"
-            [matTooltip]="'quill.tooltip-toolbar-image' | translate" [matTooltipPosition]="'above'"></button>
-    <button type="button" class="ql-video" (click)="onClick($event, 'video')"
-            [matTooltip]="'quill.tooltip-toolbar-video' | translate" [matTooltipPosition]="'above'"></button>
-    <button type="button" class="ql-code-block"
-            [matTooltip]="'quill.tooltip-toolbar-code' | translate" [matTooltipPosition]="'above'"></button>
-    <button type="button" class="ql-formula" (click)="onClick($event, 'formula')"
-            [matTooltip]="'quill.tooltip-toolbar-formula' | translate" [matTooltipPosition]="'above'"></button>
-    <button type="button" class="ql-emoji" *ngIf="hasEmoji"
-            [matTooltip]="'quill.tooltip-toolbar-emote' | translate" [matTooltipPosition]="'above'"></button>
-    <mat-form-field class="deepl-form-field" *ngIf="usesFormality">
+    <button
+      type="button"
+      class="ql-list"
+      value="bullet"
+      [matTooltip]="'quill.tooltip-toolbar-unordered-list' | translate"
+      [matTooltipPosition]="'above'"></button>
+    <button
+      type="button"
+      class="ql-list"
+      value="ordered"
+      [matTooltip]="'quill.tooltip-toolbar-ordered-list' | translate"
+      [matTooltipPosition]="'above'"></button>
+    <button
+      type="button"
+      class="ql-blockquote"
+      [matTooltip]="'quill.tooltip-toolbar-blockquote' | translate"
+      [matTooltipPosition]="'above'"></button>
+    <button
+      type="button"
+      class="ql-link"
+      (click)="onClick($event, 'link')"
+      [matTooltip]="'quill.tooltip-toolbar-link' | translate"
+      [matTooltipPosition]="'above'"></button>
+    <button
+      type="button"
+      class="ql-image"
+      (click)="onClick($event, 'image')"
+      [matTooltip]="'quill.tooltip-toolbar-image' | translate"
+      [matTooltipPosition]="'above'"></button>
+    <button
+      type="button"
+      class="ql-video"
+      (click)="onClick($event, 'video')"
+      [matTooltip]="'quill.tooltip-toolbar-video' | translate"
+      [matTooltipPosition]="'above'"></button>
+    <button
+      type="button"
+      class="ql-code-block"
+      [matTooltip]="'quill.tooltip-toolbar-code' | translate"
+      [matTooltipPosition]="'above'"></button>
+    <button
+      type="button"
+      class="ql-formula"
+      (click)="onClick($event, 'formula')"
+      [matTooltip]="'quill.tooltip-toolbar-formula' | translate"
+      [matTooltipPosition]="'above'"></button>
+    <button
+      type="button"
+      class="ql-emoji"
+      *ngIf="hasEmoji"
+      [matTooltip]="'quill.tooltip-toolbar-emote' | translate"
+      [matTooltipPosition]="'above'"></button>
+    <mat-form-field
+      class="deepl-form-field"
+      *ngIf="usesFormality">
       <mat-label>
-        {{'deepl-formality-select.name' | translate}}
+        {{ "deepl-formality-select.name" | translate }}
       </mat-label>
-      <mat-select [(ngModel)]="selectedFormality"
-                  (selectionChange)="formalityEmitter && formalityEmitter(selectedFormality)">
-        <mat-option value="">{{'deepl-formality-select.default' | translate}}</mat-option>
-        <mat-option value="less">{{'deepl-formality-select.less' | translate}}</mat-option>
-        <mat-option value="more">{{'deepl-formality-select.more' | translate}}</mat-option>
+      <mat-select
+        [(ngModel)]="selectedFormality"
+        (selectionChange)="
+          formalityEmitter && formalityEmitter(selectedFormality)
+        ">
+        <mat-option value="">
+          {{ "deepl-formality-select.default" | translate }}
+        </mat-option>
+        <mat-option value="less">
+          {{ "deepl-formality-select.less" | translate }}
+        </mat-option>
+        <mat-option value="more">
+          {{ "deepl-formality-select.more" | translate }}
+        </mat-option>
       </mat-select>
     </mat-form-field>
   </span>

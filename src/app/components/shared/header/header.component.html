@@ -351,127 +351,6 @@
       </div>
     </div>
 
-    <mat-menu
-      #userMenu="matMenu"
-      [overlapTrigger]="false">
-      <div class="mat-menu-inner-box">
-        <ng-container arsComposeHost></ng-container>
-      </div>
-
-      <!-- General Options -->
-
-      <button
-        mat-menu-item
-        *ngIf="isInRouteWithRoles && user && user.role > 0"
-        (click)="navigateToOtherView()"
-        tabindex="0">
-        <mat-icon
-          *ngIf="user && user.role === 3 && userRole !== user.role"
-          class="material-icons-outlined">
-          co_present
-        </mat-icon>
-        <mat-icon
-          *ngIf="user && user.role === 2 && userRole !== user.role"
-          class="material-icons-round">
-          support_agent
-        </mat-icon>
-        <mat-icon
-          *ngIf="userRole === user.role"
-          class="material-icons-outlined">
-          groups_3
-        </mat-icon>
-        <span *ngIf="userRole === user.role">
-          {{ "header.regular-user-view" | translate }}
-        </span>
-        <span *ngIf="userRole !== user.role">
-          {{ "header.own-view" | translate }}
-        </span>
-      </button>
-
-      <button
-        mat-menu-item
-        *ngIf="isInRouteWithRoles"
-        [matMenuTriggerFor]="profileMenu"
-        class="focus_button"
-        (click)="$event.stopImmediatePropagation()">
-        <mat-icon>badge</mat-icon>
-        <span>{{ "header.my-profile" | translate }}</span>
-      </button>
-
-      <button
-        mat-menu-item
-        *ngIf="
-          userRole === 0 && !router.url.endsWith('/quiz') && !isInRouteWithRoles
-        "
-        (click)="openUserBonusTokenDialog()"
-        tabindex="0">
-        <mat-icon class="star material-icons-round">grade</mat-icon>
-        <span>{{ "header.user-bonus-token" | translate }}</span>
-      </button>
-
-      <button
-        mat-menu-item
-        *ngIf="user && router.url.endsWith('/quiz')"
-        tabindex="0"
-        (click)="navigateQuestionBoard()">
-        <mat-icon class="header-icons material-icons-outlined">forum</mat-icon>
-        <span>{{ "header.back-to-questionboard" | translate }}</span>
-      </button>
-
-      <button
-        mat-menu-item
-        [matMenuTriggerFor]="themeMenu"
-        (menuOpened)="openMenu()"
-        class="focus_button"
-        (click)="$event.stopImmediatePropagation()">
-        <mat-icon>format_color_fill</mat-icon>
-        <span>{{ "footer.style" | translate }}</span>
-      </button>
-
-      <button
-        mat-menu-item
-        aria-hidden="true"
-        *ngIf="
-          !deviceInfo.isSafari &&
-          !router.url.includes('home') &&
-          !router.url.endsWith('/quiz')
-        "
-        (click)="getRescale().toggleState()">
-        <mat-icon
-          class="fullscreen"
-          (click)="getRescale().toggleState()">
-          screenshot_monitor
-        </mat-icon>
-        <span>{{ "header.fullscreen" | translate }}</span>
-      </button>
-
-      <button
-        mat-menu-item
-        *ngIf="
-          user &&
-          !user.isGuest &&
-          user.loginId &&
-          userManagementService.getCurrentUser()?.isSuperAdmin &&
-          router.url.endsWith('/user')
-        "
-        (click)="routeAdmin()"
-        tabindex="0">
-        <mat-icon class="color-warn">key</mat-icon>
-        <span>{{ "header.open-admin" | translate }}</span>
-      </button>
-
-      <button
-        mat-menu-item
-        *ngIf="
-          user && !user.isGuest && user.loginId && router.url.endsWith('/user')
-        "
-        (click)="openDeleteUserDialog()"
-        tabindex="0">
-        <mat-icon class="color-warn material-icons-outlined">delete</mat-icon>
-        <span>{{ "header.delete-account" | translate }}</span>
-      </button>
-    </mat-menu>
-
     <div id="options-login-box">
       <mat-icon
         *ngIf="user?.isGuest"
@@ -664,5 +543,126 @@
         </div>
       </div>
     </div>
+  </button>
+</mat-menu>
+
+<mat-menu
+  #userMenu="matMenu"
+  [overlapTrigger]="false">
+  <div class="mat-menu-inner-box">
+    <ng-container arsComposeHost></ng-container>
+  </div>
+
+  <!-- General Options -->
+
+  <button
+    mat-menu-item
+    *ngIf="isInRouteWithRoles && user && user.role > 0"
+    (click)="navigateToOtherView()"
+    tabindex="0">
+    <mat-icon
+      *ngIf="user && user.role === 3 && userRole !== user.role"
+      class="material-icons-outlined">
+      co_present
+    </mat-icon>
+    <mat-icon
+      *ngIf="user && user.role === 2 && userRole !== user.role"
+      class="material-icons-round">
+      support_agent
+    </mat-icon>
+    <mat-icon
+      *ngIf="userRole === user.role"
+      class="material-icons-outlined">
+      groups_3
+    </mat-icon>
+    <span *ngIf="userRole === user.role">
+      {{ "header.regular-user-view" | translate }}
+    </span>
+    <span *ngIf="userRole !== user.role">
+      {{ "header.own-view" | translate }}
+    </span>
+  </button>
+
+  <button
+    mat-menu-item
+    *ngIf="isInRouteWithRoles"
+    [matMenuTriggerFor]="profileMenu"
+    class="focus_button"
+    (click)="$event.stopImmediatePropagation()">
+    <mat-icon>badge</mat-icon>
+    <span>{{ "header.my-profile" | translate }}</span>
+  </button>
+
+  <button
+    mat-menu-item
+    *ngIf="
+      userRole === 0 && !router.url.endsWith('/quiz') && !isInRouteWithRoles
+    "
+    (click)="openUserBonusTokenDialog()"
+    tabindex="0">
+    <mat-icon class="star material-icons-round">grade</mat-icon>
+    <span>{{ "header.user-bonus-token" | translate }}</span>
+  </button>
+
+  <button
+    mat-menu-item
+    *ngIf="user && router.url.endsWith('/quiz')"
+    tabindex="0"
+    (click)="navigateQuestionBoard()">
+    <mat-icon class="header-icons material-icons-outlined">forum</mat-icon>
+    <span>{{ "header.back-to-questionboard" | translate }}</span>
+  </button>
+
+  <button
+    mat-menu-item
+    [matMenuTriggerFor]="themeMenu"
+    (menuOpened)="openMenu()"
+    class="focus_button"
+    (click)="$event.stopImmediatePropagation()">
+    <mat-icon>format_color_fill</mat-icon>
+    <span>{{ "footer.style" | translate }}</span>
+  </button>
+
+  <button
+    mat-menu-item
+    aria-hidden="true"
+    *ngIf="
+      !deviceInfo.isSafari &&
+      !router.url.includes('home') &&
+      !router.url.endsWith('/quiz')
+    "
+    (click)="getRescale().toggleState()">
+    <mat-icon
+      class="fullscreen"
+      (click)="getRescale().toggleState()">
+      screenshot_monitor
+    </mat-icon>
+    <span>{{ "header.fullscreen" | translate }}</span>
+  </button>
+
+  <button
+    mat-menu-item
+    *ngIf="
+      user &&
+      !user.isGuest &&
+      user.loginId &&
+      userManagementService.getCurrentUser()?.isSuperAdmin &&
+      router.url.endsWith('/user')
+    "
+    (click)="routeAdmin()"
+    tabindex="0">
+    <mat-icon class="color-warn">key</mat-icon>
+    <span>{{ "header.open-admin" | translate }}</span>
+  </button>
+
+  <button
+    mat-menu-item
+    *ngIf="
+      user && !user.isGuest && user.loginId && router.url.endsWith('/user')
+    "
+    (click)="openDeleteUserDialog()"
+    tabindex="0">
+    <mat-icon class="color-warn material-icons-outlined">delete</mat-icon>
+    <span>{{ "header.delete-account" | translate }}</span>
   </button>
 </mat-menu>

@@ -157,8 +157,7 @@ export class GPTChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
         this.sendGPTMessage();
         return;
       }
-      //TODO
-      // this.sendGPTContent += '\n';
+      // do this on view comment data this.sendGPTContent += '\n';
     }
   }
 
