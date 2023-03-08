@@ -371,10 +371,7 @@
   "gpt-chat": {
     "optin-accept": "Accepter",
     "optin-reject": "Refuser",
-<<<<<<< HEAD
     "privacy-policy": "Déclaration de confidentialité pour l'utilisation de l'API OpenAI",
-=======
->>>>>>> 69a870377 (Create buttons and translation)
     "enter-conversation-text": "Parle à GPT",
     "send": "Envoyer",
     "empty-conversation": "Vider l'historique",
@@ -1025,10 +1022,14 @@
     "title": "Préréglages prédéfinis",
     "context-label": "Contexte",
     "topic-label": "Sujet",
-    "persona-label": "Personne",
+    "persona-moderator-label": "Persona (Présentateur)",
+    "persona-user-label": "Persona (Utilisateur)",
+    "persona-creator-label": "Persona (Créateur)",
     "context-placeholder": "Cours WPW",
     "topic-placeholder": "Angular",
-    "persona-placeholder": "Modérateur",
+    "persona-moderator-placeholder": "Modérateur",
+    "persona-user-placeholder": "Utilisateur",
+    "persona-creator-placeholder": "Créateur",
     "save": "Enregistrer",
     "cancel": "Annuler",
     "delete": "Supprimer"

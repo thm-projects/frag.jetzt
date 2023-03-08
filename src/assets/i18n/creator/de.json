@@ -372,10 +372,7 @@
   "gpt-chat": {
     "optin-accept": "Akzeptieren",
     "optin-reject": "Ablehnen",
-<<<<<<< HEAD
     "privacy-policy": "Datenschutzerklärung für die Nutzung der OpenAI API",
-=======
->>>>>>> 69a870377 (Create buttons and translation)
     "enter-conversation-text": "Rede mit GPT",
     "send": "Senden",
     "empty-conversation": "Verlauf leeren",
@@ -1027,10 +1024,14 @@
     "title": "Vordefinierte presets",
     "context-label": "Kontext",
     "topic-label": "Thema",
-    "persona-label": "Persona",
+    "persona-moderator-label": "Persona (Moderator)",
+    "persona-user-label": "Persona (User)",
+    "persona-creator-label": "Persona (Ersteller)",
     "context-placeholder": "WPW Kurs",
     "topic-placeholder": "Angular",
-    "persona-placeholder": "Moderator",
+    "persona-moderator-placeholder": "Moderator",
+    "persona-user-placeholder": "User",
+    "persona-creator-placeholder": "Ersteller",
     "save": "Speichern",
     "cancel": "Abbrechen",
     "clear": "Löschen"

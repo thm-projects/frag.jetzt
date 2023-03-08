@@ -19,8 +19,8 @@ export class PresetsDialogComponent implements OnInit {
   presetsDefinitionLength: number = 0;
   isLoading = true;
   title: string;
-  label: string;
-  placeholder: string;
+  labels: string[] = [];
+  placeholders: string[] = [];
   readonly presetsDefinitionMin = 2;
   readonly presetsDefinitionMax = 100;
   formControls = [];
@@ -44,6 +44,8 @@ export class PresetsDialogComponent implements OnInit {
           Validators.maxLength(this.presetsDefinitionMax),
         ]),
       );
+      this.labels.push('');
+      this.placeholders.push('');
     });
   }
 
@@ -51,16 +53,20 @@ export class PresetsDialogComponent implements OnInit {
     this.title = 'presets-dialog.title';
     switch (this.type) {
       case PresetsDialogType.CONTEXT:
-        this.label = 'presets-dialog.context-label';
-        this.placeholder = 'presets-dialog.context-placeholder';
+        this.labels[0] = 'presets-dialog.context-label';
+        this.placeholders[0] = 'presets-dialog.context-placeholder';
         break;
       case PresetsDialogType.PERSONA:
-        this.label = 'presets-dialog.persona-label';
-        this.placeholder = 'presets-dialog.persona-placeholder';
+        this.labels[0] = 'presets-dialog.persona-moderator-label';
+        this.labels[1] = 'presets-dialog.persona-user-label';
+        this.labels[2] = 'presets-dialog.persona-creator-label';
+        this.placeholders[0] = 'presets-dialog.persona-moderator-placeholder';
+        this.placeholders[1] = 'presets-dialog.persona-user-placeholder';
+        this.placeholders[2] = 'presets-dialog.persona-creator-placeholder';
         break;
       case PresetsDialogType.TOPIC:
-        this.label = 'presets-dialog.topic-label';
-        this.placeholder = 'presets-dialog.topic-placeholder';
+        this.labels[0] = 'presets-dialog.topic-label';
+        this.placeholders[0] = 'presets-dialog.topic-placeholder';
         break;
     }
   }
@@ -85,6 +91,6 @@ export class PresetsDialogComponent implements OnInit {
     };
   }
   clearAll() {
-    this.formControls.forEach((control) => (control.setValue('')));
+    this.formControls.forEach((control) => control.setValue(''));
   }
 }
