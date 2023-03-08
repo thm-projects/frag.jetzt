@@ -112,3 +112,182 @@
     diameter="40"
     strokeWidth="5"></app-mat-spinner-overlay>
 </ng-template>
+
+<mat-menu
+  #languageSubMenu="matMenu"
+  [overlapTrigger]="false"
+  cdkTrapFocus>
+  <button
+    mat-menu-item
+    (click)="this.setLanguagePreset('')"
+    tabindex="0">
+    <mat-icon class="material-icons-outlined">do_not_disturb</mat-icon>
+    {{ "gpt-chat.presets.disabled" | translate }}
+  </button>
+  <button
+    mat-menu-item
+    (click)="this.setLanguagePreset('de')"
+    tabindex="0">
+    <mat-icon class="material-icons-outlined">work</mat-icon>
+    {{ "gpt-chat.presets.language.de" | translate }}
+  </button>
+  <button
+    mat-menu-item
+    (click)="this.setLanguagePreset('en')"
+    tabindex="0">
+    <mat-icon class="material-icons-outlined">sports_football</mat-icon>
+    {{ "gpt-chat.presets.language.en" | translate }}
+  </button>
+  <button
+    mat-menu-item
+    (click)="this.setLanguagePreset('fr')"
+    tabindex="0">
+    <mat-icon class="material-icons-outlined">bakery_dining</mat-icon>
+    {{ "gpt-chat.presets.language.fr" | translate }}
+  </button>
+  <button
+    mat-menu-item
+    (click)="this.setLanguagePreset('*')"
+    tabindex="0">
+    <mat-icon class="material-icons-outlined">question_answer</mat-icon>
+    {{ "gpt-chat.presets.language.*" | translate }}
+  </button>
+</mat-menu>
+
+<mat-menu
+  #toneSubMenu="matMenu"
+  [overlapTrigger]="false"
+  cdkTrapFocus>
+  <button
+    mat-menu-item
+    (click)="this.setTonePreset('')"
+    tabindex="0">
+    <mat-icon class="material-icons-outlined">do_not_disturb</mat-icon>
+    {{ "gpt-chat.presets.disabled" | translate }}
+  </button>
+  <button
+    mat-menu-item
+    (click)="this.setTonePreset('neutral')"
+    tabindex="0">
+    <mat-icon class="material-icons-outlined">sentiment_neutral</mat-icon>
+    {{ "gpt-chat.presets.tone.neutral" | translate }}
+  </button>
+  <button
+    mat-menu-item
+    (click)="this.setTonePreset('friendly')"
+    tabindex="0">
+    <mat-icon class="material-icons-outlined">sentiment_satisfied</mat-icon>
+    {{ "gpt-chat.presets.tone.friendly" | translate }}
+  </button>
+  <button
+    mat-menu-item
+    (click)="this.setTonePreset('professional')"
+    tabindex="0">
+    <mat-icon class="material-icons-outlined">work</mat-icon>
+    {{ "gpt-chat.presets.tone.professional" | translate }}
+  </button>
+  <button
+    mat-menu-item
+    (click)="this.setTonePreset('humorous')"
+    tabindex="0">
+    <mat-icon class="material-icons-outlined">
+      sentiment_very_satisfied
+    </mat-icon>
+    {{ "gpt-chat.presets.tone.humorous" | translate }}
+  </button>
+</mat-menu>
+
+<mat-menu
+  #formalitySubMenu="matMenu"
+  [overlapTrigger]="false"
+  cdkTrapFocus>
+  <button
+    mat-menu-item
+    (click)="this.setFormalityPreset('')"
+    tabindex="0">
+    <mat-icon class="material-icons-outlined">do_not_disturb</mat-icon>
+    {{ "gpt-chat.presets.disabled" | translate }}
+  </button>
+  <button
+    mat-menu-item
+    (click)="this.setFormalityPreset('informal')"
+    tabindex="0">
+    <mat-icon class="material-icons-outlined">sports_football</mat-icon>
+    {{ "gpt-chat.presets.formality.informal" | translate }}
+  </button>
+  <button
+    mat-menu-item
+    (click)="this.setFormalityPreset('polite')"
+    tabindex="0">
+    <mat-icon class="material-icons-outlined">work</mat-icon>
+    {{ "gpt-chat.presets.formality.polite" | translate }}
+  </button>
+</mat-menu>
+
+<mat-menu
+  #lengthSubMenu="matMenu"
+  [overlapTrigger]="false"
+  cdkTrapFocus>
+  <button
+    mat-menu-item
+    (click)="this.setLengthPreset('')"
+    tabindex="0">
+    <mat-icon class="material-icons-outlined">do_not_disturb</mat-icon>
+    {{ "gpt-chat.presets.disabled" | translate }}
+  </button>
+  <button
+    mat-menu-item
+    (click)="this.setLengthPreset('short')"
+    tabindex="0">
+    <mat-icon class="material-icons-outlined">short_text</mat-icon>
+    {{ "gpt-chat.presets.length.short" | translate }}
+  </button>
+  <button
+    mat-menu-item
+    (click)="this.setLengthPreset('detailed')"
+    tabindex="0">
+    <mat-icon class="material-icons-outlined">notes</mat-icon>
+    {{ "gpt-chat.presets.length.detailed" | translate }}
+  </button>
+  <button
+    mat-menu-item
+    (click)="this.setLengthPreset('extensive')"
+    tabindex="0">
+    <mat-icon class="material-icons-outlined">format_align_left</mat-icon>
+    {{ "gpt-chat.presets.length.extensive" | translate }}
+  </button>
+</mat-menu>
+
+<mat-menu
+  #answerFormatSubMenu="matMenu"
+  [overlapTrigger]="false"
+  cdkTrapFocus>
+  <button
+    mat-menu-item
+    (click)="this.setAnswerFormat('')"
+    tabindex="0">
+    <mat-icon class="material-icons-outlined">do_not_disturb</mat-icon>
+    {{ "gpt-chat.answer-format.disabled" | translate }}
+  </button>
+  <button
+    mat-menu-item
+    (click)="this.setAnswerFormat('summary')"
+    tabindex="0">
+    <mat-icon class="material-icons-outlined">summarize</mat-icon>
+    {{ "gpt-chat.answer-format.summary" | translate }}
+  </button>
+  <button
+    mat-menu-item
+    (click)="this.setAnswerFormat('definition')"
+    tabindex="0">
+    <mat-icon class="material-icons-outlined">menu_book</mat-icon>
+    {{ "gpt-chat.answer-format.definition" | translate }}
+  </button>
+  <button
+    mat-menu-item
+    (click)="this.setAnswerFormat('flashcard')"
+    tabindex="0">
+    <mat-icon class="material-icons-outlined">style</mat-icon>
+    {{ "gpt-chat.answer-format.flashcard" | translate }}
+  </button>
+</mat-menu>

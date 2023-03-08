@@ -73,7 +73,8 @@ mat-toolbar-row {
     cursor: default;
     width: auto;
 
-    &:hover, &:focus {
+    &:hover,
+    &:focus {
       border: none;
       cursor: default;
     }
@@ -180,7 +181,9 @@ svg {
   background-color: var(--primary-variant);
   border-radius: 5px;
 
-  > ::ng-deep button, ::ng-deep ars-mat-menu-item > button {
+  > ::ng-deep button,
+  ::ng-deep ars-mat-menu-item > button,
+  ::ng-deep .ars-mat-sub-menu > button {
     background-color: transparent !important;
 
     &.outside {
@@ -242,7 +245,6 @@ h1 {
   font-size: 14px;
   color: var(--on-surface);
 }
-
 
 .theme-btn {
   &:focus {
@@ -314,7 +316,7 @@ h1 {
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    color: #FFFFFF;
+    color: #ffffff;
     border-radius: 100%;
   }
 }
