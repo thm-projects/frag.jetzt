@@ -4,6 +4,18 @@ mat-form-field {
   width: 100%;
 }
 
+.danger-btn {
+  background-color: transparent;
+  color: var(--red);
+  outline: var(--red) solid 3px;
+  margin: 1.5em;
+
+  &:hover {
+    background-color: var(--red);
+    color: var(--white);
+  }
+}
+
 .action-button-container {
   margin-top: 25px;
 

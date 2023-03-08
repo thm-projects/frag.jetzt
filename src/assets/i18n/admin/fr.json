@@ -24,8 +24,7 @@
   "introductions": {
     "prompt-guide-chatbot": "Communiquer efficacement avec ChatGPT",
     "cancel": "Fermer",
-    "tooltip-button" : "Guide de prompt",
-    "prompt-guide-chatbot": "Communiquer efficacement avec ChatGPT"
+    "tooltip-button" : "Guide de prompt"
   },
   "gpt-config": {
     "title": "Paramètres GPT & test API",
@@ -59,10 +58,7 @@
   "gpt-chat": {
     "optin-accept": "Accepter",
     "optin-reject": "Refuser",
-<<<<<<< HEAD
     "privacy-policy": "Déclaration de confidentialité pour l'utilisation de l'API OpenAI",
-=======
->>>>>>> 69a870377 (Create buttons and translation)
     "enter-conversation-text": "Chat avec GPT …",
     "send": "Envoyer",
     "empty-conversation": "Vider l'historique",

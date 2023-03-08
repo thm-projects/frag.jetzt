@@ -1,14 +1,14 @@
 <h3>{{ title | translate }}</h3>
 
 <mat-dialog-content *ngIf="!isLoading; else loading">
-  <mat-form-field *ngFor="let control of formControls; let i = index">
+  <mat-form-field *ngFor="let control of formControls">
     <mat-label>
-      {{ labels[i] | translate }}
+      {{ label | translate }}
     </mat-label>
     <textarea
       style="min-height: 10em"
       matInput
-      placeholder="{{ placeholders[i] | translate }}"
+      placeholder="{{ placeholder | translate }}"
       [formControl]="control"></textarea>
     <mat-hint align="end">
       <span aria-hidden="true">
@@ -22,14 +22,13 @@
 <ars-row
   ars-flex-box
   class="action-button-container">
-  <ars-col>
-    <button
-      mat-flat-button
-      class="help-button"
-      (click)="clearAll()">
-      {{ "presets-dialog.clear" | translate }}
-    </button>
-  </ars-col>
+  <button
+    mat-button
+    class="danger-btn"
+    (click)="clearAll()">
+    {{ "presets-dialog.clear" | translate }}
+  </button>
+
   <ars-col>
     <app-dialog-action-buttons
       [buttonsLabelSection]="'presets-dialog'"
