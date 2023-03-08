@@ -3,6 +3,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import {
   AfterViewInit,
   Component,
+  ComponentRef,
   ElementRef,
   OnDestroy,
   OnInit,
@@ -32,6 +33,9 @@ import {
 import { ViewCommentDataComponent } from '../view-comment-data/view-comment-data.component';
 import { GptOptInPrivacyComponent } from '../_dialogs/gpt-optin-privacy/gpt-optin-privacy.component';
 import { IntroductionPromptGuideChatbotComponent } from '../_dialogs/introductions/introduction-prompt-guide-chatbot/introduction-prompt-guide-chatbot.component';
+import { ArsComposeService } from '../../../../../projects/ars/src/lib/services/ars-compose.service';
+import { HeaderService } from '../../../services/util/header.service';
+import { GPTUserDescriptionDialogComponent } from '../_dialogs/gptuser-description-dialog/gptuser-description-dialog.component';
 
 interface ConversationEntry {
   type: 'human' | 'gpt' | 'error';
@@ -64,6 +68,7 @@ export class GPTChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
   private encoder: GPTEncoder = null;
   private room: Room = null;
   private init = new BehaviorSubject(0);
+  private _list: ComponentRef<any>[];
 
   constructor(
     private gptService: GptService,
@@ -74,6 +79,8 @@ export class GPTChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
     public sessionService: SessionService,
     public dialog: MatDialog,
     private location: Location,
+    private composeService: ArsComposeService,
+    private headerService: HeaderService,
   ) {}
 
   ngOnInit(): void {
@@ -83,6 +90,7 @@ export class GPTChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
       .pipe(takeUntil(this.destroyer))
       .subscribe((data) => (this.greetings = data));
     this.initNormal();
+    this.initNavigation();
     this.gptEncoderService.getEncoderOnce().subscribe((e) => {
       this.encoder = e;
       this.calculateTokens(this.getCurrentText());
@@ -130,6 +138,7 @@ export class GPTChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this._list?.forEach((e) => e.destroy());
     this.destroyer.next(true);
     this.destroyer.complete();
   }
@@ -278,6 +287,114 @@ export class GPTChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
         this.error = err;
       },
     });
+  }
+
+  private initNavigation(): void {
+    /* eslint-disable @typescript-eslint/no-shadow */
+    this._list = this.composeService.builder(
+      this.headerService.getHost(),
+      (e) => {
+        e.menuItem({
+          translate: this.headerService.getTranslate(),
+          icon: 'info',
+          class: 'header-icons material-icons-outlined',
+          text: 'header.prompt-guide',
+          callback: () => this.showPromptGuide(),
+          condition: () => true,
+        });
+        e.menuItem({
+          translate: this.headerService.getTranslate(),
+          icon: 'assignment',
+          class: 'material-icons-outlined',
+          text: 'header.preset-context',
+          callback: () => console.log('context'),
+          condition: () => {
+            return this.sessionService.currentRole > 0;
+          },
+        });
+        e.menuItem({
+          translate: this.headerService.getTranslate(),
+          icon: 'bookmark',
+          class: 'material-icons-outlined',
+          text: 'header.preset-topic',
+          callback: () => console.log('topic'),
+          condition: () => {
+            return this.sessionService.currentRole > 0;
+          },
+        });
+        e.menuItem({
+          translate: this.headerService.getTranslate(),
+          icon: 'person',
+          class: 'material-icons-outlined',
+          text: 'header.preset-persona',
+          callback: () => console.log('persona'),
+          condition: () => {
+            return this.sessionService.currentRole > 0;
+          },
+        });
+        e.menuItem({
+          translate: this.headerService.getTranslate(),
+          icon: 'language',
+          class: 'material-icons-outlined',
+          text: 'header.preset-language',
+          callback: () => console.log('language'),
+          condition: () => {
+            return this.sessionService.currentRole > 0;
+          },
+        });
+        e.menuItem({
+          translate: this.headerService.getTranslate(),
+          icon: 'sentiment_satisfied',
+          class: 'material-icons-outlined',
+          text: 'header.preset-tone',
+          callback: () => console.log('tone'),
+          condition: () => {
+            return this.sessionService.currentRole > 0;
+          },
+        });
+        e.menuItem({
+          translate: this.headerService.getTranslate(),
+          icon: 'work',
+          class: 'material-icons-outlined',
+          text: 'header.preset-formality',
+          callback: () => console.log('formality'),
+          condition: () => {
+            return this.sessionService.currentRole > 0;
+          },
+        });
+        e.menuItem({
+          translate: this.headerService.getTranslate(),
+          icon: 'straighten',
+          class: 'material-icons-outlined',
+          text: 'header.preset-length',
+          callback: () => console.log('length'),
+          condition: () => {
+            return this.sessionService.currentRole > 0;
+          },
+        });
+        e.menuItem({
+          translate: this.headerService.getTranslate(),
+          icon: 'description',
+          class: 'material-icons-outlined',
+          text: 'header.chat-self-description',
+          callback: () =>
+            GPTUserDescriptionDialogComponent.open(this.dialog, this.room.id),
+          condition: () => {
+            return this.sessionService.currentRole === 0;
+          },
+        });
+        e.menuItem({
+          translate: this.headerService.getTranslate(),
+          icon: 'format_align_justify',
+          class: 'material-icons-outlined',
+          text: 'header.chat-answer-format',
+          callback: () => console.log('answer format'),
+          condition: () => {
+            return this.sessionService.currentRole === 0;
+          },
+        });
+      },
+    );
   }
 
   private generatePrompt(length: number = this.conversation.length): string {

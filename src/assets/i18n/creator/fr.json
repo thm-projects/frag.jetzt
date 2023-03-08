@@ -433,7 +433,8 @@
     "brainstorming-title": "Brainstorming",
     "cancel": "Fermer",
     "question-wall-title": "Les cas d'utilisation du mode de présentation",
-    "tag-cloud-title": "Cas d'utilisation du radar à questions"
+    "tag-cloud-title": "Cas d'utilisation du radar à questions",
+    "prompt-guide-chatbot": "Communiquer efficacement avec ChatGPT"
   },
   "joyride": {
     "commentFilter": "Il existe de nombreuses options de tri et de filtrage pour la liste des questions-réponses. Un filtre actif est affiché en rouge. Pour une meilleure lisibilité en cas de grande dynamique, le flux de questions peut également être mis en pause.",
