@@ -1,7 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { title } from 'process';
+
+export enum PresetsDialogType {
+  CONTEXT = 'CONTEXT',
+  PERSONA = 'PERSONA',
+  TOPIC = 'TOPIC',
+}
 
 @Component({
   selector: 'app-presets-dialog',
@@ -9,34 +14,50 @@ import { title } from 'process';
   styleUrls: ['./presets-dialog.component.scss'],
 })
 export class PresetsDialogComponent implements OnInit {
-  @Input() title: string;
-  @Input() label: string;
-  @Input() placeholder: string;
-  presetsDefinitionFormControl = new FormControl('', [
-    this.validateTextLength.bind(this),
-  ]);
+  @Input() type: PresetsDialogType;
+  @Input() data: string[];
   presetsDefinitionLength: number = 0;
   isLoading = true;
-  readonly maxLength = 100;
+  title: string;
+  label: string;
+  placeholder: string;
+  readonly presetsDefinitionMin = 2;
+  readonly presetsDefinitionMax = 100;
+  presetsDefinitionFormControl = new FormControl('', [
+    Validators.minLength(this.presetsDefinitionMin),
+    Validators.maxLength(this.presetsDefinitionMax),
+  ]);
   constructor(private dialogRef: MatDialogRef<PresetsDialogComponent>) {}
 
-  public static open(
-    dialog: MatDialog,
-    title: string,
-    label: string,
-    placeholder,
-  ) {
+  public static open(dialog: MatDialog, type: PresetsDialogType) {
     const ref = dialog.open(PresetsDialogComponent, {
       minWidth: '500px',
     });
-    ref.componentInstance.title = title;
-    ref.componentInstance.label = label;
-    ref.componentInstance.placeholder = placeholder;
+    ref.componentInstance.type = type;
     return ref;
   }
 
   ngOnInit(): void {
     this.isLoading = false;
+    this.setPresetsStrings();
+  }
+
+  setPresetsStrings() {
+    this.title = 'presets-dialog.title';
+    switch (this.type) {
+      case PresetsDialogType.CONTEXT:
+        this.label = 'presets-dialog.context-label';
+        this.placeholder = 'presets-dialog.context-placeholder';
+        break;
+      case PresetsDialogType.PERSONA:
+        this.label = 'presets-dialog.persona-label';
+        this.placeholder = 'presets-dialog.persona-placeholder';
+        break;
+      case PresetsDialogType.TOPIC:
+        this.label = 'presets-dialog.topic-label';
+        this.placeholder = 'presets-dialog.topic-placeholder';
+        break;
+    }
   }
 
   buildConfirmAction() {
@@ -47,15 +68,12 @@ export class PresetsDialogComponent implements OnInit {
       if (!this.presetsDefinitionFormControl.valid) {
         return;
       }
-      this.dialogRef.close();
+      this.dialogRef.close(this.data);
     };
   }
   buildCancelAction() {
     return () => {
       this.dialogRef.close();
     };
-  }
-  validateTextLength(): any {
-    //return this.presetsDefinitionFormControl.value.length
   }
 }

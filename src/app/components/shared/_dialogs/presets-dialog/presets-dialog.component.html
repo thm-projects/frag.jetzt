@@ -14,11 +14,8 @@
     </mat-placeholder>
     <mat-hint align="end">
       <span aria-hidden="true">
-        {{
-          "gpt-user-description.token-info"
-            | translate
-              : { maxLength: maxLength, tokens: presetsDefinitionLength }
-        }}
+        {{ presetsDefinitionFormControl.value.length }} /
+        {{ presetsDefinitionMax }}
       </span>
     </mat-hint>
   </mat-form-field>
