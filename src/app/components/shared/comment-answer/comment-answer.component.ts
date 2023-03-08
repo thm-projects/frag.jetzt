@@ -19,8 +19,8 @@ import { User } from '../../../models/user';
 import { KeyboardUtils } from '../../../utils/keyboard';
 import { KeyboardKey } from '../../../utils/keyboard/keys';
 import { RoomDataService } from '../../../services/util/room-data.service';
-import { forkJoin, Observable, of } from 'rxjs';
-import { map, mergeMap } from 'rxjs/operators';
+import { forkJoin, Observable, of, ReplaySubject } from 'rxjs';
+import { map, mergeMap, takeUntil } from 'rxjs/operators';
 import { SessionService } from '../../../services/util/session.service';
 import { Room } from '../../../models/room';
 import { VoteService } from '../../../services/http/vote.service';
@@ -45,6 +45,8 @@ import { CreateCommentWrapper } from 'app/utils/create-comment-wrapper';
 export class CommentAnswerComponent implements OnInit, OnDestroy {
   @ViewChild(WriteCommentComponent) commentComponent: WriteCommentComponent;
 
+  canOpenGPT = false;
+  consentGPT = false;
   comment: ForumComment;
   answer: StandardDelta;
   isLoading = true;
@@ -62,6 +64,7 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
   viewInfo: ResponseViewInformation;
   private createCommentWrapper: CreateCommentWrapper = null;
   private _commentSubscription;
+  private destroyer = new ReplaySubject(1);
   private _list: ComponentRef<any>[];
   private _keywordExtractor: KeywordExtractor;
 
@@ -91,6 +94,15 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.userManagementService
+      .getGPTConsentState()
+      .pipe(takeUntil(this.destroyer))
+      .subscribe((state) => {
+        this.consentGPT = state;
+      });
+    this.sessionService
+      .getGPTStatusOnce()
+      .subscribe((data) => (this.canOpenGPT = data.hasAPI && !data.restricted));
     this.backUrl = sessionStorage.getItem('conversation-fallback-url');
     this.isConversationView = this.router.url.endsWith('conversation');
     this.initNavigation();
@@ -170,6 +182,8 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.destroyer.next(true);
+    this.destroyer.complete();
     sessionStorage.removeItem('conversation-fallback-url');
     document.getElementById('header_rescale').style.display = '';
     this._list?.forEach((e) => e.destroy());

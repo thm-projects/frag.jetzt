@@ -155,7 +155,6 @@ export class FooterComponent implements OnInit {
     const url = decodeURI(this.router.url).toLowerCase();
     const roleRegex = '/(creator|moderator|participant)';
     const roomRegex = '/room/[^/]{3,}';
-    console.log(url);
     if (url === '/user') {
       this._tourSite = IntroductionRoomListComponent;
     } else if (url.match(new RegExp(`^${roleRegex}${roomRegex}$`))) {

@@ -109,11 +109,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     private brainstormingDataService: BrainstormingDataService,
     public langService: LanguageService,
     private gptService: GptService,
-  ) {
-    // gptService.getConsentState().subscribe((state) => {
-    //   this.isGPTPrivacyPolicyAccepted = state;
-    // });
-  }
+  ) {}
 
   ngAfterViewInit() {
     this.headerService.initHeader(() => this);
@@ -387,20 +383,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
       maxWidth: '600px',
     });
     dialogRef.afterClosed().subscribe((result) => {
-      this.gptService.updateConsentState(result).subscribe();
-      this.gptService.getConsentState().subscribe((state) => {
-        console.log(
-          'hier startet gptService nach openDialog -> ' +
-            state +
-            ' <- state-Wert',
-        );
-        console.log(
-          'hier startet gptService nach openDialog -> ' +
-            result +
-            ' <- result-Wert',
-        );
-      });
-      window.location.reload();
+      this.userManagementService.updateGPTConsentState(result).subscribe();
     });
   }
 

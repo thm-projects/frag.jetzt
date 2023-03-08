@@ -121,6 +121,7 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
   qrLight = '#F0F8FF';
   activeKeyword = null;
   canOpenGPT = false;
+  consentGPT = false;
   private firstReceive = true;
   private _allQuestionNumberOptions: string[] = [];
   private _list: ComponentRef<any>[];
@@ -186,6 +187,12 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.userManagementService
+      .getGPTConsentState()
+      .pipe(takeUntil(this._destroySubject))
+      .subscribe((state) => {
+        this.consentGPT = state;
+      });
     this._filterObject = FilteredDataAccess.buildNormalAccess(
       this.sessionService,
       this.roomDataService,
