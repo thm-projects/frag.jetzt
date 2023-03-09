@@ -14,9 +14,13 @@
       <mat-autocomplete #auto="matAutocomplete">
         <mat-option
           *ngFor="let prompt of filteredPrompts"
-          [value]="prompt.prompt"
-          (click)="setValue(prompt.prompt)">
-          {{ prompt.act }}
+          [value]="prompt.act"
+          (click)="setValue(prompt.prompt)"
+          [disabled]="!prompt.prompt">
+          <ng-container *ngIf="prompt.act !== '------'">
+            {{ prompt.act }}
+          </ng-container>
+          <hr *ngIf="prompt.act === '------'" />
         </mat-option>
       </mat-autocomplete>
     </mat-form-field>
