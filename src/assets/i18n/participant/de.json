@@ -277,7 +277,7 @@
     "optin-accept": "Akzeptieren",
     "optin-reject": "Ablehnen",
     "privacy-policy": "Datenschutzerklärung für die Nutzung der OpenAI API",
-    "enter-conversation-text": "Rede mit GPT",
+    "enter-conversation-text": "Chat mit ChatGPT",
     "send": "Senden",
     "empty-conversation": "Verlauf leeren",
     "input-forbidden": "Eingabe verboten, bitte prüfe die GPT API Einstellungen.",

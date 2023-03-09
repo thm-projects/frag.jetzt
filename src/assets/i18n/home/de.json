@@ -183,6 +183,7 @@
     "question-radar-button": "Interessante Fragen entdecken",
     "question-focus-button": "Fragen einzeln in Vollansicht zeigen",
     "quiz-rally-button": "Zum spielbasierten Quizzen …",
+    "chat-gpt-button": "Chat mit ChatGPT",
     "options-button": "Was kann ich hier machen?",
     "QR": "QR-Code der Sitzung in Vollansicht",
     "abort": "Abbrechen",
@@ -296,7 +297,7 @@
     "zoom-minus": "Text verkleinern",
     "zoom-plus": "Text vergrößern",
     "zoom-reset": "Zoomstufe zurücksetzen",
-    "gpt-chat": "Chat mit GPT",
+    "gpt-chat": "ChatGPT",
     "gpt-privacy-policy": "ChatGPT Datenschutzrichtlinie"
   },
   "gpt-chat": {
