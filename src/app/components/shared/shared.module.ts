@@ -127,6 +127,7 @@ import { IntroductionPromptGuideChatbotDeComponent } from '../../../assets/i18n/
 import { IntroductionPromptGuideChatbotEnComponent } from '../../../assets/i18n/components/_dialogs/introductions/introduction-prompt-guide-chatbot/introduction-prompt-guide-chatbot-en.component';
 import { IntroductionPromptGuideChatbotFrComponent } from '../../../assets/i18n/components/_dialogs/introductions/introduction-prompt-guide-chatbot/introduction-prompt-guide-chatbot-fr.component';
 import { GPTChatRoomComponent } from './gptchat-room/gptchat-room.component';
+import { PresetsDialogComponent } from './_dialogs/presets-dialog/presets-dialog.component';
 
 @NgModule({
   imports: [
@@ -256,6 +257,7 @@ import { GPTChatRoomComponent } from './gptchat-room/gptchat-room.component';
     GptPrivacyPolicyEnComponent,
     GptPrivacyPolicyFrComponent,
     GPTChatRoomComponent,
+    PresetsDialogComponent,
   ],
   exports: [
     RoomJoinComponent,

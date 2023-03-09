@@ -32,6 +32,12 @@ import { ArsComposeService } from '../../../../../projects/ars/src/lib/services/
 import { HeaderService } from '../../../services/util/header.service';
 import { GPTUserDescriptionDialogComponent } from '../_dialogs/gptuser-description-dialog/gptuser-description-dialog.component';
 import { MatMenu } from '@angular/material/menu';
+import {
+  PresetsDialogComponent,
+  PresetsDialogType,
+} from '../_dialogs/presets-dialog/presets-dialog.component';
+import { sys } from 'typescript';
+import { GPTRoomPreset } from 'app/models/gpt-room-preset';
 
 interface ConversationEntry {
   type: 'human' | 'gpt' | 'error';
@@ -70,6 +76,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
   private encoder: GPTEncoder = null;
   private room: Room = null;
   private _list: ComponentRef<any>[];
+  private preset: GPTRoomPreset;
 
   constructor(
     private gptService: GptService,
@@ -280,6 +287,9 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
   private initNormal() {
     this.sessionService.getRoomOnce().subscribe((r) => {
       this.room = r;
+      this.gptService.getPreset(this.room.id).subscribe((preset) => {
+        this.preset = preset;
+      });
     });
     this.sessionService.getGPTStatusOnce().subscribe({
       next: (data) => {
@@ -321,7 +331,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
           icon: 'assignment',
           class: 'material-icons-outlined',
           text: 'header.preset-context',
-          callback: () => console.log('context'),
+          callback: () => this.showContextPresetsDefinition(),
           condition: () => {
             return this.sessionService.currentRole > 0;
           },
@@ -331,7 +341,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
           icon: 'bookmark',
           class: 'material-icons-outlined',
           text: 'header.preset-topic',
-          callback: () => console.log('topic'),
+          callback: () => this.showTopicPresetsDefinition(),
           condition: () => {
             return this.sessionService.currentRole > 0;
           },
@@ -341,7 +351,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
           icon: 'person',
           class: 'material-icons-outlined',
           text: 'header.preset-persona',
-          callback: () => console.log('persona'),
+          callback: () => this.showPersonaPresetsDefinition(),
           condition: () => {
             return this.sessionService.currentRole > 0;
           },
@@ -524,5 +534,77 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
       return '';
     }
     return QuillUtils.getMarkdownFromDelta(data);
+  }
+
+  private showContextPresetsDefinition() {
+    const dialogRef = this.dialog.open(PresetsDialogComponent, {
+      autoFocus: false,
+      width: '80%',
+      maxWidth: '600px',
+    });
+    dialogRef.componentInstance.type = PresetsDialogType.CONTEXT;
+    dialogRef.componentInstance.data = [this.preset.context];
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === undefined) {
+        return;
+      }
+      this.gptService
+        .patchPreset(this.room.id, {
+          context: result[0],
+        })
+        .subscribe((preset) => {
+          this.preset = preset;
+        });
+    });
+  }
+  private showTopicPresetsDefinition() {
+    const dialogRef = this.dialog.open(PresetsDialogComponent, {
+      autoFocus: false,
+      width: '80%',
+      maxWidth: '600px',
+    });
+    dialogRef.componentInstance.type = PresetsDialogType.TOPIC;
+    dialogRef.componentInstance.data = [
+      this.preset.topics?.[0]?.description || '',
+    ];
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === undefined) {
+        return;
+      }
+      this.gptService
+        .patchPreset(this.room.id, {
+          topics: [{ description: result[0], active: true }],
+        })
+        .subscribe((preset) => {
+          this.preset = preset;
+        });
+    });
+  }
+  private showPersonaPresetsDefinition() {
+    const dialogRef = this.dialog.open(PresetsDialogComponent, {
+      autoFocus: false,
+      width: '80%',
+      maxWidth: '600px',
+    });
+    dialogRef.componentInstance.type = PresetsDialogType.PERSONA;
+    dialogRef.componentInstance.data = [
+      this.preset.personaModerator,
+      this.preset.personaParticipant,
+      this.preset.personaCreator,
+    ];
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === undefined) {
+        return;
+      }
+      this.gptService
+        .patchPreset(this.room.id, {
+          personaModerator: result[0],
+          personaParticipant: result[1],
+          personaCreator: result[2],
+        })
+        .subscribe((preset) => {
+          this.preset = preset;
+        });
+    });
   }
 }
