@@ -7,6 +7,7 @@ import {
 import { Injectable } from '@angular/core';
 import { GPTCompletion } from 'app/models/gpt-completion';
 import { GPTConfiguration } from 'app/models/gpt-configuration';
+import { GPTRoomPreset } from 'app/models/gpt-room-preset';
 import {
   GPTRoomSetting,
   GPTRoomUsageTime,
@@ -173,19 +174,24 @@ export class GptService extends BaseHttpService {
       );
   }
 
-  getKeywords(roomId: string): Observable<string[]> {
-    const url = '/api/gpt/room-keywords/' + roomId;
-    return this.httpClient.get<string[]>(url, httpOptions).pipe(
+  getPreset(roomId: string): Observable<GPTRoomPreset> {
+    const url = '/api/gpt/room-preset/' + roomId;
+    return this.httpClient.get<GPTRoomPreset>(url, httpOptions).pipe(
       tap((_) => ''),
-      catchError(this.handleError<string[]>('getKeywords')),
+      map((data) => verifyInstance(GPTRoomPreset, data)),
+      catchError(this.handleError<GPTRoomPreset>('getPreset')),
     );
   }
 
-  updateKeywords(roomId: string, keywords: string[]): Observable<string[]> {
-    const url = '/api/gpt/room-keywords/' + roomId;
-    return this.httpClient.post<string[]>(url, keywords, httpOptions).pipe(
+  patchPreset(
+    roomId: string,
+    changes: Partial<GPTRoomPreset>,
+  ): Observable<GPTRoomPreset> {
+    const url = '/api/gpt/room-preset/' + roomId;
+    return this.httpClient.patch<GPTRoomPreset>(url, changes, httpOptions).pipe(
       tap((_) => ''),
-      catchError(this.handleError<string[]>('updateKeywords')),
+      map((data) => verifyInstance(GPTRoomPreset, data)),
+      catchError(this.handleError<GPTRoomPreset>('patchPreset')),
     );
   }
 
