@@ -2,13 +2,18 @@
   <div
     class="gpt-requester"
     *ngIf="!isLoading; else loading">
-    <mat-chip-list *ngIf="conversation.length < 1">
-      <mat-chip
-        *ngFor="let greeting of greetings[model]"
-        (click)="setValue(greeting.value)">
-        {{ greeting.key }}
-      </mat-chip>
-    </mat-chip-list>
+    <mat-form-field *ngIf="conversation.length < 1">
+      <mat-label>Prompt</mat-label>
+      <mat-select>
+        <mat-option
+          *ngFor="let prompt of prompts"
+          [value]="prompt.prompt"
+          (click)="setValue(prompt.prompt)">
+          {{ prompt.act }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
     <div
       *ngFor="let item of conversation; let i = index"
       [class]="item.type">

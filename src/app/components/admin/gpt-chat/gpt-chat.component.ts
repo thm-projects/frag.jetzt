@@ -40,7 +40,6 @@ export class GptChatComponent implements OnInit, OnDestroy {
   @ViewChild('autoGrowElement')
   autoGrowElement: ElementRef<HTMLTextAreaElement>;
   conversation: ConversationEntry[] = [];
-  greetings: { [key: string]: string } = {};
   sendGPTContent: string = '';
   isSending = false;
   renewIndex = null;
@@ -90,7 +89,7 @@ export class GptChatComponent implements OnInit, OnDestroy {
     this.translateService
       .stream('gpt-chat.greetings')
       .pipe(takeUntil(this.destroyer))
-      .subscribe((data) => (this.greetings = data));
+      .subscribe((data) => (this.prompts = data));
     this.initAdmin();
     this.gptEncoderService.getEncoderOnce().subscribe((e) => {
       this.encoder = e;
