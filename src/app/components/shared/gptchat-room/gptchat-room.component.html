@@ -2,7 +2,7 @@
   <div
     class="gpt-requester"
     *ngIf="!isLoading; else loading">
-    <mat-form-field>
+    <mat-form-field *ngIf="conversation.length < 1">
       <mat-label>Prompt</mat-label>
       <input
         type="text"

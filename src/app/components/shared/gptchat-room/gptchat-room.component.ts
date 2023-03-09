@@ -44,7 +44,7 @@ interface ConversationEntry {
   message: string;
 }
 
-interface promptType {
+interface PromptType {
   act: string;
   prompt: string;
 }
@@ -71,9 +71,9 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
   stopper = new Subject<boolean>();
   isGPTPrivacyPolicyAccepted: boolean = false;
   initDelta: StandardDelta;
-  prompts: promptType[] = [];
+  prompts: PromptType[] = [];
   promptFormControl = new FormControl('');
-  filteredPrompts: promptType[];
+  filteredPrompts: PromptType[];
   searchTerm: string = '';
   private destroyer = new ReplaySubject(1);
   private encoder: GPTEncoder = null;
@@ -96,7 +96,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroyer))
       .subscribe((lang) => {
         this.http
-          .get<promptType[]>('/assets/i18n/prompts/' + lang + '.json')
+          .get<PromptType[]>('/assets/i18n/prompts/' + lang + '.json')
           .subscribe((promptsArray) => {
             console.log(promptsArray);
             this.prompts = promptsArray;
