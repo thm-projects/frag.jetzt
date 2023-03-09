@@ -696,24 +696,4 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
         });
     });
   }
-
-  private filterPrompts() {
-    this.filteredPrompts = this.prompts.filter((prompt) => {
-      return (
-        prompt.act.toLowerCase().indexOf(this.searchTerm.toLowerCase()) > -1
-      );
-    });
-    if (!this.searchTerm.trim()) {
-      return;
-    }
-    this.filteredPrompts.push({ act: '------', prompt: null });
-    this.filteredPrompts.push(
-      ...this.prompts.filter((prompt) => {
-        return (
-          prompt.prompt.toLowerCase().indexOf(this.searchTerm.toLowerCase()) >
-          -1
-        );
-      }),
-    );
-  }
 }

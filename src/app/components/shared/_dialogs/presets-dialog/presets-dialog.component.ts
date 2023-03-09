@@ -18,7 +18,7 @@ export class PresetsDialogComponent implements OnInit {
   @Input() data: string[];
   presetsDefinitionLength: number = 0;
   isLoading = true;
-  title: string;
+  title: string[] = [];
   labels: string[] = [];
   placeholders: string[] = [];
   readonly presetsDefinitionMin = 2;
@@ -46,17 +46,21 @@ export class PresetsDialogComponent implements OnInit {
       );
       this.labels.push('');
       this.placeholders.push('');
+      this.title.push('');
     });
   }
 
   setPresetsStrings() {
-    this.title = 'presets-dialog.title';
+    // this.title = 'presets-dialog.title';
+
     switch (this.type) {
       case PresetsDialogType.CONTEXT:
+        this.title[0] = 'presets-dialog.context-title';
         this.labels[0] = 'presets-dialog.context-label';
         this.placeholders[0] = 'presets-dialog.context-placeholder';
         break;
       case PresetsDialogType.PERSONA:
+        this.title[0] = 'presets-dialog.persona-title';
         this.labels[0] = 'presets-dialog.persona-moderator-label';
         this.labels[1] = 'presets-dialog.persona-user-label';
         this.labels[2] = 'presets-dialog.persona-creator-label';
@@ -65,6 +69,7 @@ export class PresetsDialogComponent implements OnInit {
         this.placeholders[2] = 'presets-dialog.persona-creator-placeholder';
         break;
       case PresetsDialogType.TOPIC:
+        this.title[0] = 'presets-dialog.topic-title';
         this.labels[0] = 'presets-dialog.topic-label';
         this.placeholders[0] = 'presets-dialog.topic-placeholder';
         break;
