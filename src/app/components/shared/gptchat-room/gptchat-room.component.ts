@@ -4,7 +4,6 @@ import {
   AfterViewInit,
   Component,
   ComponentRef,
-  ElementRef,
   OnDestroy,
   OnInit,
   ViewChild,
@@ -20,16 +19,12 @@ import { SessionService } from 'app/services/util/session.service';
 import { UserManagementService } from 'app/services/util/user-management.service';
 import { KeyboardUtils } from 'app/utils/keyboard';
 import { KeyboardKey } from 'app/utils/keyboard/keys';
-import { QuillUtils, SerializedDelta } from 'app/utils/quill-utils';
 import {
-  BehaviorSubject,
-  filter,
-  finalize,
-  Observer,
-  ReplaySubject,
-  Subject,
-  takeUntil,
-} from 'rxjs';
+  QuillUtils,
+  SerializedDelta,
+  StandardDelta,
+} from 'app/utils/quill-utils';
+import { finalize, Observer, ReplaySubject, Subject, takeUntil } from 'rxjs';
 import { ViewCommentDataComponent } from '../view-comment-data/view-comment-data.component';
 import { GptOptInPrivacyComponent } from '../_dialogs/gpt-optin-privacy/gpt-optin-privacy.component';
 import { IntroductionPromptGuideChatbotComponent } from '../_dialogs/introductions/introduction-prompt-guide-chatbot/introduction-prompt-guide-chatbot.component';
@@ -48,7 +43,7 @@ interface ConversationEntry {
   templateUrl: './gptchat-room.component.html',
   styleUrls: ['./gptchat-room.component.scss'],
 })
-export class GPTChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
+export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild(ViewCommentDataComponent)
   commentData: ViewCommentDataComponent;
   @ViewChild('languageSubMenu') languageSubMenu: MatMenu;
@@ -70,10 +65,10 @@ export class GPTChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
   model: string = 'text-davinci-003';
   stopper = new Subject<boolean>();
   isGPTPrivacyPolicyAccepted: boolean = false;
+  initDelta: StandardDelta;
   private destroyer = new ReplaySubject(1);
   private encoder: GPTEncoder = null;
   private room: Room = null;
-  private init = new BehaviorSubject(0);
   private _list: ComponentRef<any>[];
 
   constructor(
@@ -90,6 +85,8 @@ export class GPTChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    const str = sessionStorage.getItem('temp-gpt-text') || '[]';
+    this.initDelta = QuillUtils.deserializeDelta(str as SerializedDelta);
     this.loadConversation();
     this.translateService
       .stream('gpt-chat.greetings')
@@ -104,25 +101,19 @@ export class GPTChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
       .getGPTConsentState()
       .pipe(takeUntil(this.destroyer))
       .subscribe((state) => {
-        setTimeout(() => this.init.next(this.init.value + 1), 500);
         this.isGPTPrivacyPolicyAccepted = state;
         this.openPrivacyDialog();
       });
-    this.init.pipe(filter((state) => state === 3)).subscribe(() => {
-      const str = sessionStorage.getItem('temp-gpt-text') || '[]';
-      this.commentData.set(QuillUtils.deserializeDelta(str as SerializedDelta));
-    });
   }
 
   setValue(msg: string) {
     if (!msg.endsWith('\n')) {
       msg += '\n';
     }
-    this.commentData.set({ ops: [{ insert: msg }] });
+    this.initDelta = { ops: [{ insert: msg }] };
   }
 
   ngAfterViewInit(): void {
-    this.init.next(this.init.value + 1);
     this.initNavigation();
   }
 
@@ -236,7 +227,7 @@ export class GPTChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
         type: 'human',
       });
     }
-    this.commentData.clear();
+    this.initDelta = { ops: [] };
     this.calculateTokens(currentText);
     const index = this.conversation.length;
     this.conversation.push({
@@ -287,9 +278,6 @@ export class GPTChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private initNormal() {
-    this.sessionService.onReady.subscribe(() => {
-      this.init.next(this.init.value + 1);
-    });
     this.sessionService.getRoomOnce().subscribe((r) => {
       this.room = r;
     });

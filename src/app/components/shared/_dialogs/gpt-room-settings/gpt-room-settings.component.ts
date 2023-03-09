@@ -68,14 +68,12 @@ export class GptRoomSettingsComponent implements OnInit, OnDestroy {
   canChangeParticipantQuota: boolean = false;
   canChangeModeratorQuota: boolean = false;
   canChangeRoomQuota: boolean = false;
-  canChangeKeywords: boolean = false;
+  canChangePreset: boolean = false;
   canChangeUsageTimes: boolean = false;
   canChangeApiSettings: boolean = false;
-  keywords: string[] = [];
   usageTimes: UsageTime[] = [];
   // only ng model variables
   trialCode: string = '';
-  keywordAdd: string = '';
   repeatUnit: UsageRepeatUnit = UsageRepeatUnit.WEEK;
   repeatDuration: number = 1;
   // overview
@@ -138,7 +136,6 @@ export class GptRoomSettingsComponent implements OnInit, OnDestroy {
       next: (setting) => {
         this.isLoading = false;
         this.previousSetting = setting;
-        this.keywords = [...setting.keywords];
         this.usageTimes = [...setting.usageTimes];
         this.trialEnabled = setting.trialEnabled;
         this.apiKey = setting.apiKey;
@@ -161,7 +158,7 @@ export class GptRoomSettingsComponent implements OnInit, OnDestroy {
         this.canChangeParticipantQuota = setting.canChangeParticipantQuota();
         this.canChangeModeratorQuota = setting.canChangeModeratorQuota();
         this.canChangeRoomQuota = setting.canChangeRoomQuota();
-        this.canChangeKeywords = setting.canChangeKeywords();
+        this.canChangePreset = setting.canChangePreset();
         this.canChangeUsageTimes = setting.canChangeUsageTimes();
         this.canChangeApiSettings = setting.canChangeApiSettings();
       },
@@ -186,11 +183,6 @@ export class GptRoomSettingsComponent implements OnInit, OnDestroy {
     this.gptService
       .activateTrial(this.room.id, code)
       .subscribe(() => (this.trialEnabled = true));
-  }
-
-  addKeyword() {
-    this.keywords.push(this.keywordAdd);
-    this.keywordAdd = '';
   }
 
   addUsageTime() {
@@ -237,22 +229,7 @@ export class GptRoomSettingsComponent implements OnInit, OnDestroy {
           .subscribe((msg) => this.notificationService.show(msg));
         return;
       }
-      const operations = [
-        of<string[]>([]),
-        of<GPTRoomUsageTime[]>([]),
-        of<GPTRoomSetting>(null),
-      ];
-      if (
-        this.previousSetting.keywords.length !== this.keywords.length ||
-        this.keywords.some(
-          (key, index) => this.previousSetting.keywords[index] !== key,
-        )
-      ) {
-        operations[0] = this.gptService.updateKeywords(
-          this.room.id,
-          this.keywords,
-        );
-      }
+      const operations = [of<GPTRoomUsageTime[]>([]), of<GPTRoomSetting>(null)];
       {
         const usageOps: UsageTimeAction[] = [];
         this.previousSetting.usageTimes.forEach((elem) => {
@@ -273,8 +250,7 @@ export class GptRoomSettingsComponent implements OnInit, OnDestroy {
           }
         });
         if (usageOps.length > 0) {
-          console.log(usageOps);
-          operations[1] = this.gptService.updateUsageTimes(
+          operations[0] = this.gptService.updateUsageTimes(
             this.room.id,
             usageOps,
           );
@@ -335,7 +311,7 @@ export class GptRoomSettingsComponent implements OnInit, OnDestroy {
         if (this.canChangeRoomQuota) {
           rights |= 0x1 << 2;
         }
-        if (this.canChangeKeywords) {
+        if (this.canChangePreset) {
           rights |= 0x1 << 3;
         }
         if (this.canChangeUsageTimes) {
@@ -348,7 +324,7 @@ export class GptRoomSettingsComponent implements OnInit, OnDestroy {
           patch.rightsBitset = rights;
         }
         if (Object.keys(patch).length > 0) {
-          operations[2] = this.gptService.patchRoomSetting(this.room.id, patch);
+          operations[1] = this.gptService.patchRoomSetting(this.room.id, patch);
         }
       }
       forkJoin(operations).subscribe({
