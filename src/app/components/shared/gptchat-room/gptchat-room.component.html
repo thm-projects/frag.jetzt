@@ -2,16 +2,23 @@
   <div
     class="gpt-requester"
     *ngIf="!isLoading; else loading">
-    <mat-form-field *ngIf="conversation.length < 1">
+    <mat-form-field>
       <mat-label>Prompt</mat-label>
-      <mat-select>
+      <input
+        type="text"
+        aria-label="Prompt"
+        matInput
+        [matAutocomplete]="auto"
+        [(ngModel)]="searchTerm"
+        (input)="filterPrompts()" />
+      <mat-autocomplete #auto="matAutocomplete">
         <mat-option
-          *ngFor="let prompt of prompts"
+          *ngFor="let prompt of filteredPrompts"
           [value]="prompt.prompt"
           (click)="setValue(prompt.prompt)">
           {{ prompt.act }}
         </mat-option>
-      </mat-select>
+      </mat-autocomplete>
     </mat-form-field>
 
     <div

@@ -8,6 +8,7 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { GPTEncoder } from 'app/gpt-encoder/GPTEncoder';
@@ -66,6 +67,9 @@ export class GPTChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
   stopper = new Subject<boolean>();
   isGPTPrivacyPolicyAccepted: boolean = false;
   prompts: promptType[] = [];
+  promptFormControl = new FormControl('');
+  filteredPrompts: promptType[];
+  searchTerm: string = '';
   private destroyer = new ReplaySubject(1);
   private encoder: GPTEncoder = null;
   private room: Room = null;
@@ -414,5 +418,25 @@ export class GPTChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
       return '';
     }
     return QuillUtils.getMarkdownFromDelta(data);
+  }
+
+  private filterPrompts() {
+    this.filteredPrompts = this.prompts.filter((prompt) => {
+      return (
+        prompt.act.toLowerCase().indexOf(this.searchTerm.toLowerCase()) > -1
+      );
+    });
+    if (!this.searchTerm.trim()) {
+      return;
+    }
+    this.filteredPrompts.push({ act: '------', prompt: null });
+    this.filteredPrompts.push(
+      ...this.prompts.filter((prompt) => {
+        return (
+          prompt.prompt.toLowerCase().indexOf(this.searchTerm.toLowerCase()) >
+          -1
+        );
+      }),
+    );
   }
 }
