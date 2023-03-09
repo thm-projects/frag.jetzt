@@ -3,16 +3,15 @@
     class="gpt-requester"
     *ngIf="!isLoading; else loading">
     <div fxLayout="row">
-      <mat-label
-        *ngIf="deviceInfo.isCurrentlyDesktop"
-        fxLayoutAlign="center center">
-        <mat-icon class="search-icon">search</mat-icon>
-      </mat-label>
       <mat-form-field
         style="width: 100%; padding: 0 24px"
         *ngIf="conversation.length < 1">
-        <mat-label>{{ "gpt-chat.prompt-label" | translate }}</mat-label>
+        <mat-label fxLayoutAlign="start center">
+          <mat-icon class="search-icon">search</mat-icon>
+          {{ "gpt-chat.prompt-label" | translate }}
+        </mat-label>
         <input
+          autofocus
           type="text"
           aria-label="Prompt"
           matInput
