@@ -27,6 +27,26 @@
       <button
         mat-flat-button
         tabindex="0"
+        [matTooltip]="'header.chat-gpt-button' | translate"
+        *ngIf="
+          !router.url.endsWith('moderator/comments') &&
+          router.url.endsWith('/comments') &&
+          userRole > 0
+        "
+        (click)="openGPT()">
+        <mat-icon
+          class="material-icons"
+          style="transform: scale(1.2); margin-right: 5px">
+          smart_toy
+        </mat-icon>
+        <span *ngIf="!showSmallButtons">
+          {{ "header.gpt-chat" | translate }}
+        </span>
+      </button>
+
+      <button
+        mat-flat-button
+        tabindex="0"
         [matTooltip]="'header.quiz-rally-button' | translate"
         *ngIf="
           !router.url.endsWith('moderator/comments') &&

@@ -7,7 +7,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { NotificationService } from '../../../services/util/notification.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserRole } from '../../../models/user-roles.enum';
 import { TranslateService } from '@ngx-translate/core';
 import { MatDialog } from '@angular/material/dialog';
@@ -109,6 +109,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     private brainstormingDataService: BrainstormingDataService,
     public langService: LanguageService,
     private gptService: GptService,
+    private route: ActivatedRoute,
   ) {}
 
   ngAfterViewInit() {
@@ -374,6 +375,14 @@ export class HeaderComponent implements OnInit, AfterViewInit {
 
   openGPTUser() {
     GPTUserDescriptionDialogComponent.open(this.dialog, this.room.id);
+  }
+
+  openGPT() {
+    const roleString =
+      this.userRole === UserRole.CREATOR ? 'creator' : 'moderator';
+    const url = `/${roleString}/room/${this.room.shortId}/gpt-chat-room`;
+    console.log(url);
+    this.router.navigate([url]);
   }
 
   openPrivacyDialog() {
