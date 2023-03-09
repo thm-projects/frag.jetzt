@@ -274,10 +274,10 @@
   },
   "gpt-chat": {
     "answer-format": {
-      "disabled": "désactivé",
-      "summary": "résumé",
-      "definition": "définition",
-      "flashcard": "carte éclair"
+      "disabled": "Désactivé",
+      "summary": "Résumé",
+      "definition": "Définition",
+      "flashcard": "Carte éclair"
     },
     "optin-accept": "Accepter",
     "optin-reject": "Refuser",
