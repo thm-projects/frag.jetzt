@@ -5,12 +5,11 @@
   > div {
     border-radius: 1.15rem;
     line-height: 1.25;
-    max-width: 75%;
-    padding: 0.5rem 0.875rem;
+    max-width: 100%;
+    margin: 0.5rem 0.875rem;
     position: relative;
     word-wrap: break-word;
     margin: 0.5rem 0;
-    width: 75%;
 
     &::before,
     &::after {
