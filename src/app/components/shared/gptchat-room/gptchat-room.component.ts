@@ -1,5 +1,5 @@
 import { Location } from '@angular/common';
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import {
   AfterViewInit,
   Component,
@@ -15,6 +15,7 @@ import { Room } from 'app/models/room';
 import { GptService, GPTStreamResult } from 'app/services/http/gpt.service';
 import { DeviceInfoService } from 'app/services/util/device-info.service';
 import { GptEncoderService } from 'app/services/util/gpt-encoder.service';
+import { LanguageService } from 'app/services/util/language.service';
 import { SessionService } from 'app/services/util/session.service';
 import { UserManagementService } from 'app/services/util/user-management.service';
 import { KeyboardUtils } from 'app/utils/keyboard';
@@ -38,6 +39,11 @@ interface ConversationEntry {
   message: string;
 }
 
+interface promptType {
+  act: string;
+  prompt: string;
+}
+
 @Component({
   selector: 'app-gptchat-room',
   templateUrl: './gptchat-room.component.html',
@@ -47,7 +53,6 @@ export class GPTChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(ViewCommentDataComponent)
   commentData: ViewCommentDataComponent;
   conversation: ConversationEntry[] = [];
-  greetings: { [key: string]: string } = {};
   isSending = false;
   renewIndex = null;
   isLoading = true;
@@ -60,28 +65,44 @@ export class GPTChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
   model: string = 'text-davinci-003';
   stopper = new Subject<boolean>();
   isGPTPrivacyPolicyAccepted: boolean = false;
+  prompts: promptType[] = [];
   private destroyer = new ReplaySubject(1);
   private encoder: GPTEncoder = null;
   private room: Room = null;
   private init = new BehaviorSubject(0);
+  private _destroyer = new ReplaySubject(1);
 
   constructor(
     private gptService: GptService,
     private userManagementService: UserManagementService,
     private translateService: TranslateService,
+    private languageService: LanguageService,
+    private http: HttpClient,
     private deviceInfo: DeviceInfoService,
     private gptEncoderService: GptEncoderService,
     public sessionService: SessionService,
     public dialog: MatDialog,
     private location: Location,
-  ) {}
+  ) {
+    this.languageService
+      .getLanguage()
+      .pipe(takeUntil(this._destroyer))
+      .subscribe((lang) => {
+        this.http
+          .get<promptType[]>('/assets/i18n/prompts/' + lang + '.json')
+          .subscribe((promptsArray) => {
+            console.log(promptsArray);
+            this.prompts = promptsArray;
+          });
+      });
+  }
 
   ngOnInit(): void {
     this.loadConversation();
     this.translateService
       .stream('gpt-chat.greetings')
       .pipe(takeUntil(this.destroyer))
-      .subscribe((data) => (this.greetings = data));
+      .subscribe((data) => (this.prompts = data));
     this.initNormal();
     this.gptEncoderService.getEncoderOnce().subscribe((e) => {
       this.encoder = e;

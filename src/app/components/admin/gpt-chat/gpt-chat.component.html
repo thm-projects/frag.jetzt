@@ -14,7 +14,8 @@
       <mat-autocomplete #auto="matAutocomplete">
         <mat-option
           *ngFor="let prompt of filteredPrompts"
-          [value]="prompt.prompt">
+          [value]="prompt.prompt"
+          (click)="sendGPTContent = prompt.prompt; autoGrow(autoGrowElement)">
           {{ prompt.act }}
         </mat-option>
       </mat-autocomplete>
