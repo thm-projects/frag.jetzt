@@ -135,7 +135,9 @@
     (click)="this.setLanguagePreset(GPTRoomPresetLanguage.DISABLED)"
     class="preset-btn"
     tabindex="0">
-    <mat-icon class="material-icons-outlined">do_not_disturb</mat-icon>
+    <mat-icon class="material-icons-outlined submenu-icon">
+      do_not_disturb
+    </mat-icon>
     {{ "gpt-chat.presets.disabled" | translate }}
   </button>
   <button
@@ -143,7 +145,7 @@
     (click)="this.setLanguagePreset(GPTRoomPresetLanguage.GERMAN)"
     class="preset-btn"
     tabindex="0">
-    <mat-icon class="material-icons-outlined">work</mat-icon>
+    <mat-icon class="material-icons-outlined submenu-icon">sports_bar</mat-icon>
     {{ "gpt-chat.presets.language.de" | translate }}
   </button>
   <button
@@ -151,7 +153,9 @@
     (click)="this.setLanguagePreset(GPTRoomPresetLanguage.ENGLISH)"
     class="preset-btn"
     tabindex="0">
-    <mat-icon class="material-icons-outlined">sports_football</mat-icon>
+    <mat-icon class="material-icons-outlined submenu-icon">
+      lunch_dining
+    </mat-icon>
     {{ "gpt-chat.presets.language.en" | translate }}
   </button>
   <button
@@ -159,7 +163,9 @@
     (click)="this.setLanguagePreset(GPTRoomPresetLanguage.FRENCH)"
     class="preset-btn"
     tabindex="0">
-    <mat-icon class="material-icons-outlined">bakery_dining</mat-icon>
+    <mat-icon class="material-icons-outlined submenu-icon">
+      bakery_dining
+    </mat-icon>
     {{ "gpt-chat.presets.language.fr" | translate }}
   </button>
   <button
@@ -167,7 +173,9 @@
     (click)="this.setLanguagePreset(GPTRoomPresetLanguage.LIKE_QUESTION)"
     class="preset-btn"
     tabindex="0">
-    <mat-icon class="material-icons-outlined">question_answer</mat-icon>
+    <mat-icon class="material-icons-outlined submenu-icon">
+      question_answer
+    </mat-icon>
     {{ "gpt-chat.presets.language.*" | translate }}
   </button>
 </mat-menu>
@@ -181,7 +189,9 @@
     (click)="this.setTonePreset(GPTRoomPresetTone.DISABLED)"
     class="preset-btn"
     tabindex="0">
-    <mat-icon class="material-icons-outlined">do_not_disturb</mat-icon>
+    <mat-icon class="material-icons-outlined submenu-icon">
+      do_not_disturb
+    </mat-icon>
     {{ "gpt-chat.presets.disabled" | translate }}
   </button>
   <button
@@ -189,7 +199,9 @@
     (click)="this.setTonePreset(GPTRoomPresetTone.NEUTRAL)"
     class="preset-btn"
     tabindex="0">
-    <mat-icon class="material-icons-outlined">sentiment_neutral</mat-icon>
+    <mat-icon class="material-icons-outlined submenu-icon">
+      sentiment_neutral
+    </mat-icon>
     {{ "gpt-chat.presets.tone.neutral" | translate }}
   </button>
   <button
@@ -197,7 +209,9 @@
     (click)="this.setTonePreset(GPTRoomPresetTone.FRIENDLY)"
     class="preset-btn"
     tabindex="0">
-    <mat-icon class="material-icons-outlined">sentiment_satisfied</mat-icon>
+    <mat-icon class="material-icons-outlined submenu-icon">
+      sentiment_satisfied
+    </mat-icon>
     {{ "gpt-chat.presets.tone.friendly" | translate }}
   </button>
   <button
@@ -205,7 +219,7 @@
     (click)="this.setTonePreset(GPTRoomPresetTone.PROFESSIONAL)"
     class="preset-btn"
     tabindex="0">
-    <mat-icon class="material-icons-outlined">work</mat-icon>
+    <mat-icon class="material-icons-outlined submenu-icon">work</mat-icon>
     {{ "gpt-chat.presets.tone.professional" | translate }}
   </button>
   <button
@@ -213,7 +227,7 @@
     (click)="this.setTonePreset(GPTRoomPresetTone.HUMOROUS)"
     class="preset-btn"
     tabindex="0">
-    <mat-icon class="material-icons-outlined">
+    <mat-icon class="material-icons-outlined submenu-icon">
       sentiment_very_satisfied
     </mat-icon>
     {{ "gpt-chat.presets.tone.humorous" | translate }}
@@ -229,7 +243,9 @@
     (click)="this.setFormalityPreset(null)"
     class="preset-btn"
     tabindex="0">
-    <mat-icon class="material-icons-outlined">do_not_disturb</mat-icon>
+    <mat-icon class="material-icons-outlined submenu-icon">
+      do_not_disturb
+    </mat-icon>
     {{ "gpt-chat.presets.disabled" | translate }}
   </button>
   <button
@@ -237,7 +253,9 @@
     (click)="this.setFormalityPreset(false)"
     class="preset-btn"
     tabindex="0">
-    <mat-icon class="material-icons-outlined">sports_football</mat-icon>
+    <mat-icon class="material-icons-outlined submenu-icon">
+      sports_football
+    </mat-icon>
     {{ "gpt-chat.presets.formality.informal" | translate }}
   </button>
   <button
@@ -245,7 +263,7 @@
     (click)="this.setFormalityPreset(true)"
     class="preset-btn"
     tabindex="0">
-    <mat-icon class="material-icons-outlined">work</mat-icon>
+    <mat-icon class="material-icons-outlined submenu-icon">work</mat-icon>
     {{ "gpt-chat.presets.formality.polite" | translate }}
   </button>
 </mat-menu>
@@ -259,7 +277,9 @@
     (click)="this.setLengthPreset(GPTRoomPresetLength.DISABLED)"
     class="preset-btn"
     tabindex="0">
-    <mat-icon class="material-icons-outlined">do_not_disturb</mat-icon>
+    <mat-icon class="material-icons-outlined submenu-icon">
+      do_not_disturb
+    </mat-icon>
     {{ "gpt-chat.presets.disabled" | translate }}
   </button>
   <button
@@ -267,14 +287,14 @@
     (click)="this.setLengthPreset(GPTRoomPresetLength.SHORT)"
     class="preset-btn"
     tabindex="0">
-    <mat-icon class="material-icons-outlined">short_text</mat-icon>
+    <mat-icon class="material-icons-outlined submenu-icon">short_text</mat-icon>
     {{ "gpt-chat.presets.length.short" | translate }}
   </button>
   <button
     mat-menu-item
     (click)="this.setLengthPreset(GPTRoomPresetLength.DETAILED)"
     tabindex="0">
-    <mat-icon class="material-icons-outlined">notes</mat-icon>
+    <mat-icon class="material-icons-outlined submenu-icon">notes</mat-icon>
     {{ "gpt-chat.presets.length.detailed" | translate }}
   </button>
   <button
@@ -282,7 +302,9 @@
     (click)="this.setLengthPreset(GPTRoomPresetLength.EXTENSIVE)"
     class="preset-btn"
     tabindex="0">
-    <mat-icon class="material-icons-outlined">format_align_left</mat-icon>
+    <mat-icon class="material-icons-outlined submenu-icon">
+      format_align_left
+    </mat-icon>
     {{ "gpt-chat.presets.length.extensive" | translate }}
   </button>
 </mat-menu>
@@ -296,7 +318,9 @@
     (click)="this.setAnswerFormat(GPTRoomAnswerFormat.DISABLED)"
     class="preset-btn"
     tabindex="0">
-    <mat-icon class="material-icons-outlined">do_not_disturb</mat-icon>
+    <mat-icon class="material-icons-outlined submenu-icon">
+      do_not_disturb
+    </mat-icon>
     {{ "gpt-chat.answer-format.disabled" | translate }}
   </button>
   <button
@@ -304,7 +328,7 @@
     (click)="this.setAnswerFormat(GPTRoomAnswerFormat.SUMMARY)"
     class="preset-btn"
     tabindex="0">
-    <mat-icon class="material-icons-outlined">summarize</mat-icon>
+    <mat-icon class="material-icons-outlined submenu-icon">summarize</mat-icon>
     {{ "gpt-chat.answer-format.summary" | translate }}
   </button>
   <button
@@ -312,7 +336,7 @@
     (click)="this.setAnswerFormat(GPTRoomAnswerFormat.DEFINITION)"
     class="preset-btn"
     tabindex="0">
-    <mat-icon class="material-icons-outlined">menu_book</mat-icon>
+    <mat-icon class="material-icons-outlined submenu-icon">menu_book</mat-icon>
     {{ "gpt-chat.answer-format.definition" | translate }}
   </button>
   <button
@@ -320,7 +344,7 @@
     (click)="this.setAnswerFormat(GPTRoomAnswerFormat.FLASHCARD)"
     class="preset-btn"
     tabindex="0">
-    <mat-icon class="material-icons-outlined">style</mat-icon>
+    <mat-icon class="material-icons-outlined submenu-icon">style</mat-icon>
     {{ "gpt-chat.answer-format.flashcard" | translate }}
   </button>
 </mat-menu>
