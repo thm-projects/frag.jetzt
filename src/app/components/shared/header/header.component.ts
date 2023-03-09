@@ -54,7 +54,7 @@ import { CommentNotificationDialogComponent } from '../_dialogs/comment-notifica
 import { GPTUserDescriptionDialogComponent } from '../_dialogs/gptuser-description-dialog/gptuser-description-dialog.component';
 import { GptOptInPrivacyComponent } from '../_dialogs/gpt-optin-privacy/gpt-optin-privacy.component';
 import { ShrinkObserver } from 'app/utils/shrink-observer';
-import { GptService, GPTStreamResult } from 'app/services/http/gpt.service';
+import { GptService } from 'app/services/http/gpt.service';
 
 @Component({
   selector: 'app-header',

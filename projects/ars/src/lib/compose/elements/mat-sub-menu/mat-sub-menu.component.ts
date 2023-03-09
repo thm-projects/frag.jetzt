@@ -27,6 +27,14 @@ export class MatSubMenuComponent implements OnInit {
 
   public action(e: MouseEvent) {
     e.stopImmediatePropagation();
+    this.open();
+  }
+
+  public open() {
     this.component?.openMenu?.();
+  }
+
+  public close() {
+    this.component?.closeMenu?.();
   }
 }

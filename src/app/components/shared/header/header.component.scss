@@ -183,7 +183,7 @@ svg {
 
   > ::ng-deep button,
   ::ng-deep ars-mat-menu-item > button,
-  ::ng-deep .ars-mat-sub-menu > button {
+  ::ng-deep ars-mat-sub-menu > button {
     background-color: transparent !important;
 
     &.outside {
