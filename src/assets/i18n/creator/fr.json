@@ -1046,7 +1046,9 @@
     "questioner-name": "Ton nom, si tu veux …"
   },
   "presets-dialog": {
-    "title": "Préréglages prédéfinis",
+    "context-title" : "contexte de l'événement",
+    "persona-title" : "Presets pour chaque personne",
+    "topic-title" : "thèmes de l'événement",
     "context-label": "Contexte",
     "topic-label": "Sujet",
     "persona-moderator-label": "Persona (Présentateur)",
