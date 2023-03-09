@@ -7,7 +7,8 @@
       <mat-select>
         <mat-option
           *ngFor="let prompt of prompts"
-          [value]="prompt.prompt">
+          [value]="prompt.prompt"
+          (click)="sendGPTContent = prompt.prompt; autoGrow(autoGrowElement)">
           {{ prompt.act }}
         </mat-option>
       </mat-select>
