@@ -108,10 +108,6 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy {
     const str = sessionStorage.getItem('temp-gpt-text') || '[]';
     this.initDelta = QuillUtils.deserializeDelta(str as SerializedDelta);
     this.loadConversation();
-    this.translateService
-      .stream('gpt-chat.greetings')
-      .pipe(takeUntil(this.destroyer))
-      .subscribe((data) => (this.prompts = data));
     this.initNormal();
     this.gptEncoderService.getEncoderOnce().subscribe((e) => {
       this.encoder = e;

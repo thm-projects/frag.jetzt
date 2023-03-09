@@ -90,10 +90,6 @@ export class GptChatComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.loadConversation();
-    this.translateService
-      .stream('gpt-chat.greetings')
-      .pipe(takeUntil(this.destroyer))
-      .subscribe((data) => (this.prompts = data));
     this.initAdmin();
     this.gptEncoderService.getEncoderOnce().subscribe((e) => {
       this.encoder = e;
