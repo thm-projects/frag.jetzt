@@ -7,6 +7,7 @@ import {
 import { Injectable } from '@angular/core';
 import { GPTCompletion } from 'app/models/gpt-completion';
 import { GPTConfiguration } from 'app/models/gpt-configuration';
+import { GPTRating } from 'app/models/gpt-rating';
 import { GPTRoomPreset } from 'app/models/gpt-room-preset';
 import {
   GPTRoomSetting,
@@ -15,6 +16,7 @@ import {
 } from 'app/models/gpt-room-setting';
 import { GPTStatistics } from 'app/models/gpt-statistics';
 import { GPTPlatformStatus, GPTRoomStatus } from 'app/models/gpt-status';
+import { RatingResult } from 'app/models/rating-result';
 import { verifyInstance } from 'app/utils/ts-utils';
 import {
   catchError,
@@ -369,6 +371,42 @@ export class GptService extends BaseHttpService {
       tap((_) => ''),
       map((v) => verifyInstance(GPTPlatformStatus, v)),
       catchError(this.handleError<GPTPlatformStatus>('getStatus')),
+    );
+  }
+
+  makeRating(rating: number, ratingText: string): Observable<GPTRating> {
+    const url = '/api/gpt/rating';
+    return this.httpClient
+      .post<GPTRating>(url, { rating, ratingText }, httpOptions)
+      .pipe(
+        tap((_) => ''),
+        map((v) => verifyInstance(GPTRating, v)),
+        catchError(this.handleError<GPTRating>('makeRating')),
+      );
+  }
+
+  getRating(): Observable<GPTRating> {
+    const url = '/api/gpt/rating';
+    return this.httpClient.get<GPTRating>(url, httpOptions).pipe(
+      tap((_) => ''),
+      map((v) => verifyInstance(GPTRating, v)),
+      catchError(this.handleError<GPTRating>('getRating')),
+    );
+  }
+
+  getRatingTexts(): Observable<string[]> {
+    const url = '/api/gpt/rating-texts';
+    return this.httpClient.get<string[]>(url, httpOptions).pipe(
+      tap((_) => ''),
+      catchError(this.handleError<string[]>('getRatingTexts')),
+    );
+  }
+
+  getRatingInfo(): Observable<RatingResult> {
+    const url = '/api/gpt/rating-info';
+    return this.httpClient.get<RatingResult>(url, httpOptions).pipe(
+      tap((_) => ''),
+      catchError(this.handleError<RatingResult>('getRatingInfo')),
     );
   }
 
