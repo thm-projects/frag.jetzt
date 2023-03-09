@@ -1,14 +1,14 @@
 <h3>{{ title | translate }}</h3>
 
 <mat-dialog-content *ngIf="!isLoading; else loading">
-  <mat-form-field *ngFor="let control of formControls">
+  <mat-form-field *ngFor="let control of formControls; let i = index">
     <mat-label>
-      {{ label | translate }}
+      {{ labels[i] | translate }}
     </mat-label>
     <textarea
       style="min-height: 10em"
       matInput
-      placeholder="{{ placeholder | translate }}"
+      placeholder="{{ placeholders[i] | translate }}"
       [formControl]="control"></textarea>
     <mat-hint align="end">
       <span aria-hidden="true">
