@@ -1041,5 +1041,21 @@
     "a11y-questioner-name": "Hier kannst du, wenn du willst, deinen Namen eingeben. Dieser ist für alle an diesem Kommentar sichtbar.",
     "name-length-error": "Der Name muss {{min}} bis {{max}} Zeichen lang sein.",
     "questioner-name": "Dein Name, wenn du willst …"
+  },
+  "presets-dialog": {
+    "title": "Vordefinierte presets",
+    "context-label": "Kontext",
+    "topic-label": "Thema",
+    "persona-moderator-label": "Persona (Moderator)",
+    "persona-user-label": "Persona (User)",
+    "persona-creator-label": "Persona (Ersteller)",
+    "context-placeholder": "WPW Kurs",
+    "topic-placeholder": "Angular",
+    "persona-moderator-placeholder": "Moderator",
+    "persona-user-placeholder": "User",
+    "persona-creator-placeholder": "Ersteller",
+    "save": "Speichern",
+    "cancel": "Abbrechen",
+    "clear": "Löschen"
   }
 }

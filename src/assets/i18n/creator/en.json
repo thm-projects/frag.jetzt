@@ -1044,5 +1044,21 @@
     "a11y-questioner-name": "Here you can enter your name if you want. This is visible for everyone at this comment.",
     "name-length-error": "The name must be {{min}} to {{max}} characters long.",
     "questioner-name": "Your name, if you want …"
+  },
+  "presets-dialog": {
+    "title": "Predefined presets",
+    "context-label": "Context",
+    "topic-label": "Topic",
+    "persona-moderator-label": "Persona (Moderator)",
+    "persona-user-label": "Persona (User)",
+    "persona-creator-label": "Persona (Creator)",
+    "context-placeholder": "WPW Course",
+    "topic-placeholder": "Angular",
+    "persona-moderator-placeholder": "Moderator",
+    "persona-user-placeholder": "User",
+    "persona-creator-placeholder": "Creator",
+    "save": "Save",
+    "cancel": "Cancel",
+    "clear": "Clear"
   }
 }

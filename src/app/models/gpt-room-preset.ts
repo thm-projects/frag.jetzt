@@ -1,8 +1,8 @@
 import { verifyInstance } from 'app/utils/ts-utils';
 
 export class GPTRoomPresetTopic {
-  private description: string;
-  private active: boolean;
+  description: string;
+  active: boolean;
 
   constructor({ description = null, active = true }: GPTRoomPresetTopic) {
     this.description = description;
@@ -19,8 +19,8 @@ export enum GPTRoomPresetLanguage {
 }
 
 export class GPTRoomPresetTone {
-  private description: string;
-  private active: boolean;
+  description: string;
+  active: boolean;
 
   constructor({ description = null, active = true }: GPTRoomPresetTone) {
     this.description = description;
@@ -36,15 +36,15 @@ export enum GPTRoomPresetLength {
 }
 
 export class GPTRoomPreset {
-  private context: string;
-  private personaCreator: string;
-  private personaModerator: string;
-  private personaParticipant: string;
-  private topics: GPTRoomPresetTopic[];
-  private language: GPTRoomPresetLanguage;
-  private tones: GPTRoomPresetTone[];
-  private formal: boolean | null;
-  private length: GPTRoomPresetLength;
+  context: string;
+  personaCreator: string;
+  personaModerator: string;
+  personaParticipant: string;
+  topics: GPTRoomPresetTopic[];
+  language: string;
+  tones: GPTRoomPresetTone[];
+  formal: boolean | null;
+  length: string;
 
   constructor({
     context = '',
