@@ -1,4 +1,4 @@
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import {
   Component,
   ElementRef,
@@ -19,10 +19,19 @@ import { MatDialog } from '@angular/material/dialog';
 import { Location } from '@angular/common';
 import { GptOptInPrivacyComponent } from 'app/components/shared/_dialogs/gpt-optin-privacy/gpt-optin-privacy.component';
 import { UserManagementService } from 'app/services/util/user-management.service';
+import { LanguageService } from 'app/services/util/language.service';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
+import { FormControl } from '@angular/forms';
 
 interface ConversationEntry {
   type: 'human' | 'gpt' | 'error';
   message: string;
+}
+
+interface promptType {
+  act: string;
+  prompt: string;
 }
 
 @Component({
@@ -34,7 +43,6 @@ export class GptChatComponent implements OnInit, OnDestroy {
   @ViewChild('autoGrowElement')
   autoGrowElement: ElementRef<HTMLTextAreaElement>;
   conversation: ConversationEntry[] = [];
-  greetings: { [key: string]: string } = {};
   sendGPTContent: string = '';
   isSending = false;
   renewIndex = null;
@@ -48,26 +56,46 @@ export class GptChatComponent implements OnInit, OnDestroy {
   model: string = 'text-davinci-003';
   stopper = new Subject<boolean>();
   isGPTPrivacyPolicyAccepted: boolean = false;
+
+  prompts: promptType[] = [];
+  promptFormControl = new FormControl('');
+  filteredPrompts: promptType[];
+  searchTerm: string = '';
+
   private destroyer = new ReplaySubject(1);
   private encoder: GPTEncoder = null;
   private room: Room = null;
+  private _destroyer = new ReplaySubject(1);
 
   constructor(
     private gptService: GptService,
     private translateService: TranslateService,
+    private languageService: LanguageService,
+    private http: HttpClient,
     private deviceInfo: DeviceInfoService,
     private gptEncoderService: GptEncoderService,
     public dialog: MatDialog,
     private location: Location,
     private userManagementService: UserManagementService,
-  ) {}
+  ) {
+    this.languageService
+      .getLanguage()
+      .pipe(takeUntil(this._destroyer))
+      .subscribe((lang) => {
+        this.http
+          .get<promptType[]>('/assets/i18n/prompts/' + lang + '.json')
+          .subscribe((promptsArray) => {
+            this.prompts = promptsArray;
+          });
+      });
+  }
 
   ngOnInit(): void {
     this.loadConversation();
     this.translateService
       .stream('gpt-chat.greetings')
       .pipe(takeUntil(this.destroyer))
-      .subscribe((data) => (this.greetings = data));
+      .subscribe((data) => (this.prompts = data));
     this.initAdmin();
     this.gptEncoderService.getEncoderOnce().subscribe((e) => {
       this.encoder = e;
@@ -431,5 +459,25 @@ export class GptChatComponent implements OnInit, OnDestroy {
       promptTokens: pToken,
       allTokens: pToken + cToken,
     };
+  }
+
+  private filterPrompts() {
+    this.filteredPrompts = this.prompts.filter((prompt) => {
+      return (
+        prompt.act.toLowerCase().indexOf(this.searchTerm.toLowerCase()) > -1
+      );
+    });
+    if (!this.searchTerm.trim()) {
+      return;
+    }
+    this.filteredPrompts.push({ act: '------', prompt: null });
+    this.filteredPrompts.push(
+      ...this.prompts.filter((prompt) => {
+        return (
+          prompt.prompt.toLowerCase().indexOf(this.searchTerm.toLowerCase()) >
+          -1
+        );
+      }),
+    );
   }
 }
