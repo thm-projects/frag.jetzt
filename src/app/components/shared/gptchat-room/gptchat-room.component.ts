@@ -36,6 +36,7 @@ import { IntroductionPromptGuideChatbotComponent } from '../_dialogs/introductio
 import { ArsComposeService } from '../../../../../projects/ars/src/lib/services/ars-compose.service';
 import { HeaderService } from '../../../services/util/header.service';
 import { GPTUserDescriptionDialogComponent } from '../_dialogs/gptuser-description-dialog/gptuser-description-dialog.component';
+import { MatMenu } from '@angular/material/menu';
 
 interface ConversationEntry {
   type: 'human' | 'gpt' | 'error';
@@ -50,6 +51,11 @@ interface ConversationEntry {
 export class GPTChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(ViewCommentDataComponent)
   commentData: ViewCommentDataComponent;
+  @ViewChild('languageSubMenu') languageSubMenu: MatMenu;
+  @ViewChild('toneSubMenu') toneSubMenu: MatMenu;
+  @ViewChild('formalitySubMenu') formalitySubMenu: MatMenu;
+  @ViewChild('lengthSubMenu') lengthSubMenu: MatMenu;
+  @ViewChild('answerFormatSubMenu') answerFormatSubMenu: MatMenu;
   conversation: ConversationEntry[] = [];
   greetings: { [key: string]: string } = {};
   isSending = false;
@@ -90,7 +96,6 @@ export class GPTChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
       .pipe(takeUntil(this.destroyer))
       .subscribe((data) => (this.greetings = data));
     this.initNormal();
-    this.initNavigation();
     this.gptEncoderService.getEncoderOnce().subscribe((e) => {
       this.encoder = e;
       this.calculateTokens(this.getCurrentText());
@@ -118,6 +123,7 @@ export class GPTChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit(): void {
     this.init.next(this.init.value + 1);
+    this.initNavigation();
   }
 
   openPrivacyDialog() {
@@ -260,6 +266,26 @@ export class GPTChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
+  protected setLanguagePreset(language: string): void {
+    console.log('set language', language);
+  }
+
+  protected setTonePreset(tone: string): void {
+    console.log('set tone', tone);
+  }
+
+  protected setFormalityPreset(formality: string): void {
+    console.log('set formality', formality);
+  }
+
+  protected setLengthPreset(length: string): void {
+    console.log('set length', length);
+  }
+
+  protected setAnswerFormat(answerFormat: string): void {
+    console.log('set answer format', answerFormat);
+  }
+
   private initNormal() {
     this.sessionService.onReady.subscribe(() => {
       this.init.next(this.init.value + 1);
@@ -332,42 +358,42 @@ export class GPTChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
             return this.sessionService.currentRole > 0;
           },
         });
-        e.menuItem({
+        e.subMenu({
           translate: this.headerService.getTranslate(),
           icon: 'language',
           class: 'material-icons-outlined',
+          menu: this.languageSubMenu,
           text: 'header.preset-language',
-          callback: () => console.log('language'),
           condition: () => {
             return this.sessionService.currentRole > 0;
           },
         });
-        e.menuItem({
+        e.subMenu({
           translate: this.headerService.getTranslate(),
           icon: 'sentiment_satisfied',
           class: 'material-icons-outlined',
+          menu: this.toneSubMenu,
           text: 'header.preset-tone',
-          callback: () => console.log('tone'),
           condition: () => {
             return this.sessionService.currentRole > 0;
           },
         });
-        e.menuItem({
+        e.subMenu({
           translate: this.headerService.getTranslate(),
           icon: 'work',
           class: 'material-icons-outlined',
+          menu: this.formalitySubMenu,
           text: 'header.preset-formality',
-          callback: () => console.log('formality'),
           condition: () => {
             return this.sessionService.currentRole > 0;
           },
         });
-        e.menuItem({
+        e.subMenu({
           translate: this.headerService.getTranslate(),
           icon: 'straighten',
           class: 'material-icons-outlined',
+          menu: this.lengthSubMenu,
           text: 'header.preset-length',
-          callback: () => console.log('length'),
           condition: () => {
             return this.sessionService.currentRole > 0;
           },
@@ -383,12 +409,12 @@ export class GPTChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
             return this.sessionService.currentRole === 0;
           },
         });
-        e.menuItem({
+        e.subMenu({
           translate: this.headerService.getTranslate(),
           icon: 'format_align_justify',
           class: 'material-icons-outlined',
+          menu: this.answerFormatSubMenu,
           text: 'header.chat-answer-format',
-          callback: () => console.log('answer format'),
           condition: () => {
             return this.sessionService.currentRole === 0;
           },

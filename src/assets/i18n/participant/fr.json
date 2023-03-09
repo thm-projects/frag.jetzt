@@ -273,6 +273,12 @@
     "user-bonus": "L'enseignant peut marquer les « bonnes » questions avec un bonus. Tes questions de tous les cours (salles) qui ont reçu une étoile sont listées ici.\n\nSelon l'accord, tu peux envoyer le code bonus par e-mail à l'enseignant pour l'échanger contre un bonus."
   },
   "gpt-chat": {
+    "answer-format": {
+      "disabled": "désactivé",
+      "summary": "résumé",
+      "definition": "définition",
+      "flashcard": "carte éclair"
+    },
     "optin-accept": "Accepter",
     "optin-reject": "Refuser",
     "privacy-policy": "Déclaration de confidentialité pour l'utilisation de l'API OpenAI",
