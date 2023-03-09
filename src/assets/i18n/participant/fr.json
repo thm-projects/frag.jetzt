@@ -281,10 +281,7 @@
     },
     "optin-accept": "Accepter",
     "optin-reject": "Refuser",
-<<<<<<< HEAD
     "privacy-policy": "Déclaration de confidentialité pour l'utilisation de l'API OpenAI",
-=======
->>>>>>> 69a870377 (Create buttons and translation)
     "enter-conversation-text": "Parle à GPT",
     "send": "Envoyer",
     "empty-conversation": "Vider l'historique",

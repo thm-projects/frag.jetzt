@@ -18,11 +18,26 @@ export enum GPTRoomPresetLanguage {
   LIKE_QUESTION = 'like_question',
 }
 
-export class GPTRoomPresetTone {
+export enum GPTRoomPresetTone {
+  DISABLED = '',
+  NEUTRAL = 'neutral',
+  FRIENDLY = 'friendly',
+  PROFESSIONAL = 'professional',
+  HUMOROUS = 'humorous',
+}
+
+export enum GPTRoomAnswerFormat {
+  DISABLED = '',
+  SUMMARY = 'summary',
+  DEFINITION = 'definition',
+  FLASHCARD = 'flashcard',
+}
+
+export class GPTRoomPresetToneDTO {
   description: string;
   active: boolean;
 
-  constructor({ description = null, active = true }: GPTRoomPresetTone) {
+  constructor({ description = null, active = true }: GPTRoomPresetToneDTO) {
     this.description = description;
     this.active = active;
   }
@@ -42,7 +57,7 @@ export class GPTRoomPreset {
   personaParticipant: string;
   topics: GPTRoomPresetTopic[];
   language: string;
-  tones: GPTRoomPresetTone[];
+  tones: GPTRoomPresetToneDTO[];
   formal: boolean | null;
   length: string;
 
@@ -63,7 +78,7 @@ export class GPTRoomPreset {
     this.personaParticipant = personaParticipant;
     this.topics = topics.map((e) => verifyInstance(GPTRoomPresetTopic, e));
     this.language = language;
-    this.tones = tones.map((e) => verifyInstance(GPTRoomPresetTone, e));
+    this.tones = tones.map((e) => verifyInstance(GPTRoomPresetToneDTO, e));
     this.formal = formal;
     this.length = length;
   }

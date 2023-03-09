@@ -24,14 +24,7 @@ import {
   SerializedDelta,
   StandardDelta,
 } from 'app/utils/quill-utils';
-import {
-  finalize,
-  Observer,
-  ReplaySubject,
-  Subject,
-  takeUntil,
-  tap,
-} from 'rxjs';
+import { finalize, Observer, ReplaySubject, Subject, takeUntil } from 'rxjs';
 import { ViewCommentDataComponent } from '../view-comment-data/view-comment-data.component';
 import { GptOptInPrivacyComponent } from '../_dialogs/gpt-optin-privacy/gpt-optin-privacy.component';
 import { IntroductionPromptGuideChatbotComponent } from '../_dialogs/introductions/introduction-prompt-guide-chatbot/introduction-prompt-guide-chatbot.component';
@@ -43,12 +36,14 @@ import {
   PresetsDialogComponent,
   PresetsDialogType,
 } from '../_dialogs/presets-dialog/presets-dialog.component';
-import { sys } from 'typescript';
-import { GPTRoomPreset } from 'app/models/gpt-room-preset';
+import {
+  GPTRoomAnswerFormat,
+  GPTRoomPreset,
+  GPTRoomPresetTone,
+} from 'app/models/gpt-room-preset';
 import {
   GPTRoomPresetLanguage,
   GPTRoomPresetLength,
-  GPTRoomPresetTone,
 } from '../../../models/gpt-room-preset';
 
 interface ConversationEntry {
@@ -84,8 +79,11 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
   stopper = new Subject<boolean>();
   isGPTPrivacyPolicyAccepted: boolean = false;
   initDelta: StandardDelta;
+  answerFormat: GPTRoomAnswerFormat = GPTRoomAnswerFormat.DISABLED;
   GPTRoomPresetLanguage = GPTRoomPresetLanguage;
   GPTRoomPresetLength = GPTRoomPresetLength;
+  GPTRoomPresetTone = GPTRoomPresetTone;
+  GPTRoomAnswerFormat = GPTRoomAnswerFormat;
   private destroyer = new ReplaySubject(1);
   private encoder: GPTEncoder = null;
   private room: Room = null;
@@ -280,35 +278,32 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
 
   protected setLanguagePreset(language: GPTRoomPresetLanguage): void {
     this.gptService
-      .getPreset(this.room.id)
-      .pipe(tap((preset) => console.log(preset)));
-    this.gptService.patchPreset(this.room.id, { language });
+      .patchPreset(this.room.id, { language })
+      .subscribe((newPreset) => (this.preset = newPreset));
   }
 
-  protected setTonePreset(tone: string): void {
+  protected setTonePreset(tone: GPTRoomPresetTone): void {
     this.gptService
-      .getPreset(this.room.id)
-      .pipe(tap((preset) => console.log(preset)));
-    const newTone = new GPTRoomPresetTone({ description: tone, active: true });
-    this.gptService.patchPreset(this.room.id, { newTone });
+      .patchPreset(this.room.id, {
+        tones: [{ description: tone, active: true }],
+      })
+      .subscribe((newPreset) => (this.preset = newPreset));
   }
 
   protected setFormalityPreset(formality?: boolean): void {
     this.gptService
-      .getPreset(this.room.id)
-      .pipe(tap((preset) => console.log(preset)));
-    this.gptService.patchPreset(this.room.id, { formality });
+      .patchPreset(this.room.id, { formal: formality })
+      .subscribe((newPreset) => (this.preset = newPreset));
   }
 
   protected setLengthPreset(length: GPTRoomPresetLength): void {
     this.gptService
-      .getPreset(this.room.id)
-      .pipe(tap((preset) => console.log(preset)));
-    this.gptService.patchPreset(this.room.id, { length });
+      .patchPreset(this.room.id, { length })
+      .subscribe((newPreset) => (this.preset = newPreset));
   }
 
-  protected setAnswerFormat(answerFormat: string): void {
-    console.log('set answer format', answerFormat);
+  protected setAnswerFormat(answerFormat: GPTRoomAnswerFormat): void {
+    this.answerFormat = answerFormat;
   }
 
   private initNormal() {
@@ -392,6 +387,17 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
           condition: () => {
             return this.sessionService.currentRole > 0;
           },
+          menuOpened: () => {
+            const active = this.preset.language;
+            const languages = Object.values(GPTRoomPresetLanguage);
+            const index = languages.findIndex(
+              (language) => language === active,
+            );
+            if (index < 0) {
+              return;
+            }
+            this.languageSubMenu._allItems.get(index).focus();
+          },
         });
         e.subMenu({
           translate: this.headerService.getTranslate(),
@@ -401,6 +407,15 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
           text: 'header.preset-tone',
           condition: () => {
             return this.sessionService.currentRole > 0;
+          },
+          menuOpened: () => {
+            const active = this.preset.tones[0].description;
+            const tones = Object.values(GPTRoomPresetTone);
+            const index = tones.findIndex((tone) => tone === active);
+            if (index < 0) {
+              return;
+            }
+            this.toneSubMenu._allItems.get(index).focus();
           },
         });
         e.subMenu({
@@ -412,6 +427,14 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
           condition: () => {
             return this.sessionService.currentRole > 0;
           },
+          menuOpened: () => {
+            const active = this.preset.formal;
+            const index = active === null ? 0 : active ? 2 : 1;
+            if (index < 0) {
+              return;
+            }
+            this.formalitySubMenu._allItems.get(index).focus();
+          },
         });
         e.subMenu({
           translate: this.headerService.getTranslate(),
@@ -421,6 +444,15 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
           text: 'header.preset-length',
           condition: () => {
             return this.sessionService.currentRole > 0;
+          },
+          menuOpened: () => {
+            const active = this.preset.length;
+            const lengths = Object.values(GPTRoomPresetLength);
+            const index = lengths.findIndex((length) => length === active);
+            if (index < 0) {
+              return;
+            }
+            this.lengthSubMenu._allItems.get(index).focus();
           },
         });
         e.menuItem({
@@ -442,6 +474,17 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
           text: 'header.chat-answer-format',
           condition: () => {
             return this.sessionService.currentRole === 0;
+          },
+          menuOpened: () => {
+            const active = this.answerFormat;
+            const answerFormats = Object.values(GPTRoomAnswerFormat);
+            const index = answerFormats.findIndex(
+              (answerFormat) => answerFormat === active,
+            );
+            if (index < 0) {
+              return;
+            }
+            this.answerFormatSubMenu._allItems.get(index).focus();
           },
         });
       },

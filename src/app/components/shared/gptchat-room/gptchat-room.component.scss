@@ -82,6 +82,18 @@
   }
 }
 
+.preset-btn {
+  &:focus {
+    background-color: var(--primary) !important;
+    color: var(--on-primary) !important;
+  }
+
+  &:hover {
+    background-color: var(--secondary) !important;
+    color: var(--on-secondary) !important;
+  }
+}
+
 mat-card {
   background-color: var(--surface);
   color: var(--on-surface);
