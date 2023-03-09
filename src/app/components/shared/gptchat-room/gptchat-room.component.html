@@ -64,6 +64,7 @@
     </mat-form-field>
 
     <app-view-comment-data
+      [currentData]="initDelta"
       [textOverwrite]="'gpt-chat.token-info' | translate : tokenInfo"
       (changeContent)="calculateTokens(getCurrentText())"
       [isModerator]="(sessionService.currentRole || 0) > 0"
