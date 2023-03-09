@@ -54,7 +54,6 @@ import {
 } from '../../../services/util/user-management.service';
 import { RoomSettingsOverviewComponent } from '../_dialogs/room-settings-overview/room-settings-overview.component';
 import { GptRoomSettingsComponent } from '../_dialogs/gpt-room-settings/gpt-room-settings.component';
-import { GptService } from 'app/services/http/gpt.service';
 
 @Component({
   selector: 'app-room-page',
@@ -94,7 +93,6 @@ export class RoomPageComponent implements OnInit, OnDestroy {
   private _navigationBuild = new SyncFence(2, this.initNavigation.bind(this));
   private _sub: Subscription;
   private _list: ComponentRef<any>[];
-  private gpt: GptService;
 
   constructor(protected injector: Injector) {
     this.deviceInfo = injector.get(DeviceInfoService);
@@ -114,7 +112,6 @@ export class RoomPageComponent implements OnInit, OnDestroy {
     this.roomDataService = injector.get(RoomDataService);
     this.titleService = injector.get(TitleService);
     this.router = injector.get(Router);
-    this.gpt = injector.get(GptService);
   }
 
   ngOnInit() {
@@ -141,40 +138,6 @@ export class RoomPageComponent implements OnInit, OnDestroy {
     this.preRoomLoadHook().subscribe(() => {
       this.sessionService.getRoomOnce().subscribe((room) => {
         this.room = room;
-        this.gpt.getPreset(room.id).subscribe((data) => {
-          console.log(data);
-          this.gpt
-            .patchPreset(room.id, {
-              context: 'Test Context',
-              personaCreator: 'Test Creator',
-              personaModerator: 'Test Moderator',
-              personaParticipant: 'Test Participant',
-              topics: [
-                {
-                  active: true,
-                  description: 'Aktiv',
-                },
-                {
-                  active: false,
-                  description: 'Inaktiv',
-                },
-              ],
-              language: 'Test Language',
-              tones: [
-                {
-                  active: true,
-                  description: 'Gutartig',
-                },
-                {
-                  active: false,
-                  description: 'Bösartig',
-                },
-              ],
-              formal: true,
-              length: 'Test Length',
-            })
-            .subscribe();
-        });
         this.isLoading = false;
         this.moderationEnabled = !this.room.directSend;
         const roomSub = this.sessionService
