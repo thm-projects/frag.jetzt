@@ -377,6 +377,35 @@
     "empty-conversation": "Clear history",
     "input-forbidden": "Input forbidden, please check the GPT API settings.",
     "no-api-setup": "The API key or language model was not set.",
+    "presets": {
+      "disabled": "disabled",
+      "language": {
+        "de": "german",
+        "en": "english",
+        "fr": "french",
+        "*": "like question"
+      },
+      "tone": {
+        "neutral": "neutral",
+        "friendly": "friendly",
+        "professional": "professional",
+        "humorous": "humorous"
+      },
+      "formality": {
+        "informal": "informal",
+        "polite": "polite"
+      },
+      "length": {
+        "short": "short",
+        "detailed": "detailed",
+        "extensive": "extensive"
+      }
+    },
+    "answer-format": {
+      "summary": "summary",
+      "definition": "definition",
+      "flashcard": "flashcard"
+    },
     "greetings": {
       "text-davinci-003": [
         {

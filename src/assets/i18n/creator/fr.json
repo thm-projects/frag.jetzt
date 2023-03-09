@@ -377,6 +377,35 @@
     "empty-conversation": "Vider l'historique",
     "input-forbidden": "Saisie interdite, veuillez vérifier les paramètres de l'API GPT.",
     "no-api-setup": "La clé d'API ou le modèle de langage n'a pas été défini.",
+    "presets" : {
+      "disabled": "désactivé",
+      "langue" : {
+        "de" : "german",
+        "en" : "english",
+        "fr" : "french",
+        "*" : "comme la question"
+      },
+      "tone": {
+        "neutral": "neutre",
+        "friendly": "amical",
+        "professional": "professionnel",
+        "humorous": "humoristique"
+      },
+      "formality": {
+        "informal": "informel",
+        "polite": "poli"
+      },
+      "length": {
+        "short": "court",
+        "detailed": "détaillé",
+        "extensive": "extensive"
+      }
+    },
+    "answer-format": {
+      "summary": "résumé",
+      "definition": "définition",
+      "flashcard": "carte éclair"
+    },
     "greetings": {
       "text-davinci-003": [
         {

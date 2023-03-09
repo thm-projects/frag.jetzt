@@ -285,6 +285,12 @@
     "empty-conversation": "Verlauf leeren",
     "input-forbidden": "Eingabe verboten, bitte prüfe die GPT API Einstellungen.",
     "no-api-setup": "Der API Schlüssel oder das Sprachmodell wurden nicht gesetzt.",
+    "answer-format": {
+      "disabled": "Deaktiviert",
+      "summary": "Zusammenfassung",
+      "definition": "Definition",
+      "flashcard": "Lernkarte"
+    },
     "greetings": {
       "text-davinci-003": [
         {
