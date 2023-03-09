@@ -265,37 +265,6 @@
     </mat-form-field>
   </ng-container>
 
-  <!-- Keywords -->
-  <h3>{{ "gpt-room-settings.keywords" | translate }}</h3>
-  <ng-container *ngIf="isOwner || canChangeKeywords; else deactivated">
-    <mat-form-field>
-      <mat-label>{{ "gpt-room-settings.add-keyword" | translate }}</mat-label>
-      <input
-        matInput
-        appAccessibilityEscapedInput
-        (keydown)="(isEnter($event) && addKeyword()) || true"
-        [(ngModel)]="keywordAdd" />
-      <button
-        *ngIf="keywordAdd"
-        matSuffix
-        mat-icon-button
-        aria-label="Add"
-        (click)="addKeyword()">
-        <mat-icon>check</mat-icon>
-      </button>
-    </mat-form-field>
-    <mat-list>
-      <mat-list-item
-        class="keyword-item"
-        *ngFor="let item of keywords; let i = index">
-        <div matListItemTitle>{{ item }}</div>
-        <button mat-icon-button>
-          <mat-icon (click)="keywords.splice(i, 1)">close</mat-icon>
-        </button>
-      </mat-list-item>
-    </mat-list>
-  </ng-container>
-
   <!-- Usage times -->
   <h3>{{ "gpt-room-settings.usage-times" | translate }}</h3>
   <ng-container *ngIf="isOwner || canChangeUsageTimes; else deactivated">
@@ -408,8 +377,8 @@
     <mat-slide-toggle [(ngModel)]="canChangeRoomQuota">
       {{ "gpt-room-settings.mod-right-room-quota" | translate }}
     </mat-slide-toggle>
-    <mat-slide-toggle [(ngModel)]="canChangeKeywords">
-      {{ "gpt-room-settings.mod-right-keywords" | translate }}
+    <mat-slide-toggle [(ngModel)]="canChangePreset">
+      {{ "gpt-room-settings.mod-right-preset" | translate }}
     </mat-slide-toggle>
     <mat-slide-toggle [(ngModel)]="canChangeUsageTimes">
       {{ "gpt-room-settings.mod-right-usage-times" | translate }}
