@@ -273,6 +273,12 @@
     "user-bonus": "L'enseignant peut marquer les « bonnes » questions avec un bonus. Tes questions de tous les cours (salles) qui ont reçu une étoile sont listées ici.\n\nSelon l'accord, tu peux envoyer le code bonus par e-mail à l'enseignant pour l'échanger contre un bonus."
   },
   "gpt-chat": {
+    "answer-format": {
+      "disabled": "Désactivé",
+      "summary": "Résumé",
+      "definition": "Définition",
+      "flashcard": "Carte éclair"
+    },
     "optin-accept": "Accepter",
     "optin-reject": "Refuser",
     "privacy-policy": "Déclaration de confidentialité pour l'utilisation de l'API OpenAI",
@@ -358,7 +364,8 @@
     "brainstorming-title": "Brainstorming",
     "cancel": "Fermer",
     "question-wall-title": "Les cas d'utilisation du mode de présentation",
-    "tag-cloud-title": "Cas d'utilisation du radar à questions"
+    "tag-cloud-title": "Cas d'utilisation du radar à questions",
+    "prompt-guide-chatbot": "Communiquer efficacement avec ChatGPT"
   },
   "joyride": {
     "commentFilter": "Il existe de nombreuses options de tri et de filtrage pour la liste des questions-réponses. Un filtre actif est affiché en rouge. Pour une meilleure lisibilité en cas de grande dynamique, le flux de questions peut également être mis en pause.",
@@ -766,5 +773,12 @@
     "a11y-questioner-name": "Ici, tu peux, si tu le souhaites, entrer ton nom. Celui-ci est visible pour tous les participants à ce commentaire.",
     "name-length-error": "Le nom doit comporter entre {{min}} et {{max}} caractères.",
     "questioner-name": "Ton nom, si tu veux …"
+  },
+  "gpt-user-description": {
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "title": "Description personnelle pour GPT",
+    "user-description": "Description personnelle",
+    "token-info": "{{tokens}} / {{maxLength}} Tokens"
   }
 }

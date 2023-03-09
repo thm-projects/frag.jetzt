@@ -1,8 +1,10 @@
 <button
   mat-menu-item
   tabindex="0"
+  [matMenuTriggerFor]="data.menu"
   (click)="action($event)"
   (menuOpened)="openMenu()"
+  class="mat-menu-item-submenu-trigger"
   *ngIf="data.condition()">
   <ng-container *ngIf="data.isSVGIcon">
     <mat-icon svgIcon="{{ data.icon }}"></mat-icon>
@@ -15,4 +17,10 @@
     </mat-icon>
   </ng-container>
   <span>{{ data.text | translate }}</span>
+  <svg
+    viewBox="0 0 5 10"
+    focusable="false"
+    class="mat-menu-submenu-icon ng-star-inserted">
+    <polygon points="0,0 5,5 0,10"></polygon>
+  </svg>
 </button>

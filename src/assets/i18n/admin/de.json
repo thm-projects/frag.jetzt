@@ -59,11 +59,11 @@
     "enter-conversation-text": "Chat mit ChatGPT …",
     "send": "Senden",
     "empty-conversation": "Verlauf leeren",
-    
+
     "optin-accept": "Akzeptieren",
     "optin-reject": "Ablehnen",
     "privacy-policy": "Datenschutzerklärung für die Nutzung der OpenAI API",
-    
+
     "input-forbidden": "Eingabe verboten, bitte prüfe die GPT API Einstellungen.",
     "no-api-setup": "Der API Schlüssel oder das Sprachmodell wurden nicht gesetzt.",
     "greetings": {

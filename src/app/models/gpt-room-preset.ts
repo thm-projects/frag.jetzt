@@ -1,8 +1,8 @@
 import { verifyInstance } from 'app/utils/ts-utils';
 
 export class GPTRoomPresetTopic {
-  private description: string;
-  private active: boolean;
+  description: string;
+  active: boolean;
 
   constructor({ description = null, active = true }: GPTRoomPresetTopic) {
     this.description = description;
@@ -10,26 +10,56 @@ export class GPTRoomPresetTopic {
   }
 }
 
-export class GPTRoomPresetTone {
-  private description: string;
-  private active: boolean;
+export enum GPTRoomPresetLanguage {
+  DISABLED = '',
+  GERMAN = 'de',
+  ENGLISH = 'en',
+  FRENCH = 'fr',
+  LIKE_QUESTION = 'like_question',
+}
 
-  constructor({ description = null, active = true }: GPTRoomPresetTone) {
+export enum GPTRoomPresetTone {
+  DISABLED = '',
+  NEUTRAL = 'neutral',
+  FRIENDLY = 'friendly',
+  PROFESSIONAL = 'professional',
+  HUMOROUS = 'humorous',
+}
+
+export enum GPTRoomAnswerFormat {
+  DISABLED = '',
+  SUMMARY = 'summary',
+  DEFINITION = 'definition',
+  FLASHCARD = 'flashcard',
+}
+
+export class GPTRoomPresetToneDTO {
+  description: string;
+  active: boolean;
+
+  constructor({ description = null, active = true }: GPTRoomPresetToneDTO) {
     this.description = description;
     this.active = active;
   }
 }
 
+export enum GPTRoomPresetLength {
+  DISABLED = '',
+  SHORT = 'short',
+  DETAILED = 'detailed',
+  EXTENSIVE = 'extensive',
+}
+
 export class GPTRoomPreset {
-  private context: string;
-  private personaCreator: string;
-  private personaModerator: string;
-  private personaParticipant: string;
-  private topics: GPTRoomPresetTopic[];
-  private language: string;
-  private tones: GPTRoomPresetTone[];
-  private formal: boolean | null;
-  private length: string;
+  context: string;
+  personaCreator: string;
+  personaModerator: string;
+  personaParticipant: string;
+  topics: GPTRoomPresetTopic[];
+  language: string;
+  tones: GPTRoomPresetToneDTO[];
+  formal: boolean | null;
+  length: string;
 
   constructor({
     context = '',
@@ -37,10 +67,10 @@ export class GPTRoomPreset {
     personaModerator = '',
     personaParticipant = '',
     topics = [],
-    language = '',
+    language = GPTRoomPresetLanguage.DISABLED,
     tones = [],
     formal = null,
-    length = '',
+    length = GPTRoomPresetLength.DISABLED,
   }: GPTRoomPreset) {
     this.context = context;
     this.personaCreator = personaCreator;
@@ -48,7 +78,7 @@ export class GPTRoomPreset {
     this.personaParticipant = personaParticipant;
     this.topics = topics.map((e) => verifyInstance(GPTRoomPresetTopic, e));
     this.language = language;
-    this.tones = tones.map((e) => verifyInstance(GPTRoomPresetTone, e));
+    this.tones = tones.map((e) => verifyInstance(GPTRoomPresetToneDTO, e));
     this.formal = formal;
     this.length = length;
   }

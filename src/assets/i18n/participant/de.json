@@ -282,6 +282,12 @@
     "empty-conversation": "Verlauf leeren",
     "input-forbidden": "Eingabe verboten, bitte prüfe die GPT API Einstellungen.",
     "no-api-setup": "Der API Schlüssel oder das Sprachmodell wurden nicht gesetzt.",
+    "answer-format": {
+      "disabled": "Deaktiviert",
+      "summary": "Zusammenfassung",
+      "definition": "Definition",
+      "flashcard": "Lernkarte"
+    },
     "greetings": {
       "text-davinci-003": [
         {
@@ -359,7 +365,8 @@
     "brainstorming-title": "Brainstorming",
     "cancel": "Schließen",
     "question-wall-title": "Use Cases des Präsentationsmodus",
-    "tag-cloud-title": "Use Cases des Fragen-Radars"
+    "tag-cloud-title": "Use Cases des Fragen-Radars",
+    "prompt-guide-chatbot": "Effektiv kommunizieren mit ChatGPT"
   },
   "joyride": {
     "commentFilter": "Es gibt zahlreiche Sortier- und Filteroptionen für die Q&A-Liste. Ein aktiver Filter wird rot angezeigt. Für eine bessere Lesbarkeit bei großer Dynamik kann der Fragenstrom auch angehalten werden.",
@@ -767,5 +774,12 @@
     "a11y-questioner-name": "Hier kannst du, wenn du willst, deinen Namen eingeben. Dieser ist für alle an diesem Kommentar sichtbar.",
     "name-length-error": "Der Name muss {{min}} bis {{max}} Zeichen lang sein.",
     "questioner-name": "Dein Name, wenn du willst …"
+  },
+  "gpt-user-description": {
+    "save": "Speichern",
+    "cancel": "Abbrechen",
+    "title": "Selbstbeschreibung für GPT",
+    "user-description": "Selbstbeschreibung",
+    "token-info": "{{tokens}} / {{maxLength}} Tokens"
   }
 }

@@ -394,7 +394,12 @@
           <h2
             style="margin-left: 5px"
             *ngIf="deviceInfo.isCurrentlyDesktop && !showSmallButtons">
-            {{ "header.my-account" | translate }}
+            <div *ngIf="this.router.url.includes('/gpt-chat-room')">
+              {{ "header.chatroom-options-menu" | translate }}
+            </div>
+            <div *ngIf="!this.router.url.includes('/gpt-chat-room')">
+              {{ "header.my-account" | translate }}
+            </div>
           </h2>
           <mat-icon
             class="header-icons"
@@ -480,10 +485,7 @@
   <div id="session-label">{{ "header.accessibility-session" | translate }}</div>
 </div>
 
-<mat-menu
-  #profileMenu="matMenu"
-  [overlapTrigger]="false"
-  cdkTrapFocus>
+<mat-menu #profileMenu="matMenu">
   <button
     mat-menu-item
     (click)="openPseudoEditor()"
@@ -524,8 +526,6 @@
 
 <mat-menu
   #themeMenu="matMenu"
-  [overlapTrigger]="false"
-  cdkTrapFocus
   class="color-menu">
   <button
     (click)="changeTheme(theme)"

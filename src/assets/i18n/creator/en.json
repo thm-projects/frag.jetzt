@@ -377,6 +377,35 @@
     "empty-conversation": "Clear history",
     "input-forbidden": "Input forbidden, please check the GPT API settings.",
     "no-api-setup": "The API key or language model was not set.",
+    "presets": {
+      "disabled": "Disabled",
+      "language": {
+        "de": "German",
+        "en": "English",
+        "fr": "French",
+        "*": "Like question"
+      },
+      "tone": {
+        "neutral": "Neutral",
+        "friendly": "Friendly",
+        "professional": "Professional",
+        "humorous": "Humorous"
+      },
+      "formality": {
+        "informal": "Informal",
+        "polite": "Polite"
+      },
+      "length": {
+        "short": "Short",
+        "detailed": "Detailed",
+        "extensive": "Extensive"
+      }
+    },
+    "answer-format": {
+      "summary": "Summary",
+      "definition": "Definition",
+      "flashcard": "Flashcard"
+    },
     "greetings": {
       "text-davinci-003": [
         {
@@ -433,7 +462,8 @@
     "brainstorming-title": "Brainstorming",
     "cancel": "Close",
     "question-wall-title": "Use cases of the presentation mode",
-    "tag-cloud-title": "Use cases of the question radar"
+    "tag-cloud-title": "Use cases of the question radar",
+    "prompt-guide-chatbot": "Communicate effectively with ChatGPT"
   },
   "joyride": {
     "commentFilter": "There are numerous sorting and filtering options for the Q&A list. An active filter is shown in red. For better readability, the question stream can also be paused if it is very dynamic.",
@@ -1014,5 +1044,23 @@
     "a11y-questioner-name": "Here you can enter your name if you want. This is visible for everyone at this comment.",
     "name-length-error": "The name must be {{min}} to {{max}} characters long.",
     "questioner-name": "Your name, if you want …"
+  },
+  "presets-dialog": {
+    "context-title": "Context of the event",
+    "persona-title": "Presets for each person",
+    "topic-title": "Topics of the event",
+    "context-label": "Context",
+    "topic-label": "Topic",
+    "persona-moderator-label": "Persona (Moderator)",
+    "persona-user-label": "Persona (User)",
+    "persona-creator-label": "Persona (Creator)",
+    "context-placeholder": "WPW Course",
+    "topic-placeholder": "Angular",
+    "persona-moderator-placeholder": "Moderator",
+    "persona-user-placeholder": "User",
+    "persona-creator-placeholder": "Creator",
+    "save": "Save",
+    "cancel": "Cancel",
+    "clear": "Clear"
   }
 }

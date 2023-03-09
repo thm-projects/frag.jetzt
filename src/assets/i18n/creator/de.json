@@ -378,6 +378,30 @@
     "empty-conversation": "Verlauf leeren",
     "input-forbidden": "Eingabe verboten, bitte prüfe die GPT API Einstellungen.",
     "no-api-setup": "Der API Schlüssel oder das Sprachmodell wurden nicht gesetzt.",
+    "presets": {
+      "disabled": "Deaktiviert",
+      "language": {
+        "de": "Deutsch",
+        "en": "Englisch",
+        "fr": "Französisch",
+        "*": "Wie Frage"
+      },
+      "tone": {
+        "neutral": "Neutral",
+        "friendly": "Freundlich",
+        "professional": "Professionell",
+        "humorous": "Humorvoll"
+      },
+      "formality": {
+        "informal": "Formlos",
+        "polite": "Höflich"
+      },
+      "length": {
+        "short": "Kurz",
+        "detailed": "Detailliert",
+        "extensive": "Umfangreich"
+      }
+    },
     "greetings": {
       "text-davinci-003": [
         {
@@ -435,7 +459,8 @@
     "brainstorming-title": "Brainstorming",
     "cancel": "Schließen",
     "question-wall-title": "Use Cases des Präsentationsmodus",
-    "tag-cloud-title": "Use Cases des Fragen-Radars"
+    "tag-cloud-title": "Use Cases des Fragen-Radars",
+    "prompt-guide-chatbot": "Effektiv kommunizieren mit ChatGPT"
   },
   "joyride": {
     "commentFilter": "Es gibt zahlreiche Sortier- und Filteroptionen für das Q&A-Forum. Ein aktiver Filter wird rot angezeigt. Für eine bessere Lesbarkeit bei großer Dynamik kann der Fragenstrom auch angehalten werden.",
@@ -1016,5 +1041,23 @@
     "a11y-questioner-name": "Hier kannst du, wenn du willst, deinen Namen eingeben. Dieser ist für alle an diesem Kommentar sichtbar.",
     "name-length-error": "Der Name muss {{min}} bis {{max}} Zeichen lang sein.",
     "questioner-name": "Dein Name, wenn du willst …"
+  },
+  "presets-dialog": {
+    "context-title": "Kontext der Veranstalltung",
+    "persona-title": "Presets für jede Person",
+    "topic-title": "Themen der Veranstaltung",
+    "context-label": "Kontext",
+    "topic-label": "Thema",
+    "persona-moderator-label": "Persona (Moderator)",
+    "persona-user-label": "Persona (User)",
+    "persona-creator-label": "Persona (Ersteller)",
+    "context-placeholder": "WPW Kurs",
+    "topic-placeholder": "Angular",
+    "persona-moderator-placeholder": "Moderator",
+    "persona-user-placeholder": "User",
+    "persona-creator-placeholder": "Ersteller",
+    "save": "Speichern",
+    "cancel": "Abbrechen",
+    "clear": "Löschen"
   }
 }
