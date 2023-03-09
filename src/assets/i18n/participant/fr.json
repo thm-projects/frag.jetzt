@@ -274,17 +274,14 @@
   },
   "gpt-chat": {
     "answer-format": {
-      "disabled": "désactivé",
-      "summary": "résumé",
-      "definition": "définition",
-      "flashcard": "carte éclair"
+      "disabled": "Désactivé",
+      "summary": "Résumé",
+      "definition": "Définition",
+      "flashcard": "Carte éclair"
     },
     "optin-accept": "Accepter",
     "optin-reject": "Refuser",
-<<<<<<< HEAD
     "privacy-policy": "Déclaration de confidentialité pour l'utilisation de l'API OpenAI",
-=======
->>>>>>> 69a870377 (Create buttons and translation)
     "enter-conversation-text": "Parle à GPT",
     "send": "Envoyer",
     "empty-conversation": "Vider l'historique",
