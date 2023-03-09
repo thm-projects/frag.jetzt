@@ -435,6 +435,8 @@
       ]
     },
     "refresh": "Generate output again",
+    "edit": "Edit output as editable answer to question.",
+    "paste": "Publish output directly in response to question.",
     "token-info": "Tokens (input/chat/total): {{promptTokens}}/{{conversationTokens}}/{{allTokens}}",
     "use-case": "Use case",
     "use-case-tooltip": "Selecting a specific use case for better answers.",

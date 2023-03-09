@@ -431,6 +431,8 @@
       ]
     },
     "refresh": "Ausgabe erneut generieren",
+    "edit": "Ausgabe als editierbare Antwort auf Frage bearbeiten.",
+    "paste": "Ausgabe direkt als Antwort auf Frage veröffentlichen.",
     "token-info": "Tokens (Eingabe/Chat/Gesamt): {{promptTokens}}/{{conversationTokens}}/{{allTokens}}",
     "use-case": "Anwendungsfall",
     "use-case-tooltip": "Auswahl eines speziellen Anwendungsfalles für bessere Antworten.",

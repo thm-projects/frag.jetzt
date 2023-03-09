@@ -22,6 +22,7 @@ import { UserManagementService } from 'app/services/util/user-management.service
 import { KeyboardUtils } from 'app/utils/keyboard';
 import { KeyboardKey } from 'app/utils/keyboard/keys';
 import {
+  MarkdownDelta,
   QuillUtils,
   SerializedDelta,
   StandardDelta,
@@ -209,6 +210,24 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
     this.conversation = [];
     this.calculateTokens(this.getCurrentText());
     this.saveConversation();
+  }
+
+  forwardGPTMessage(index: number) {
+    if (this.isSending) {
+      return;
+    }
+    const text = this.conversation[index].message;
+    const data = QuillUtils.getDeltaFromMarkdown(text as MarkdownDelta);
+    console.log(data);
+  }
+
+  openEditGPTMessage(index: number) {
+    if (this.isSending) {
+      return;
+    }
+    const text = this.conversation[index].message;
+    const data = QuillUtils.getDeltaFromMarkdown(text as MarkdownDelta);
+    console.log(data);
   }
 
   refreshGPTMessage(index: number) {

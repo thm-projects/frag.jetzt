@@ -33,14 +33,29 @@
         katex>
         {{ formatText(item.message) }}
       </div>
-      <button
-        class="refresh-indicator"
-        [matTooltip]="'gpt-chat.refresh' | translate"
-        mat-icon-button
-        *ngIf="!isSending && item.type === 'gpt'"
-        (click)="refreshGPTMessage(i)">
-        <mat-icon class="material-icons-round">autorenew</mat-icon>
-      </button>
+      <ng-container *ngIf="!isSending && item.type === 'gpt'">
+        <button
+          class="refresh-indicator"
+          [matTooltip]="'gpt-chat.paste' | translate"
+          mat-icon-button
+          (click)="forwardGPTMessage(i)">
+          <mat-icon class="material-icons-outlined">content_paste_go</mat-icon>
+        </button>
+        <button
+          class="refresh-indicator"
+          [matTooltip]="'gpt-chat.edit' | translate"
+          mat-icon-button
+          (click)="openEditGPTMessage(i)">
+          <mat-icon class="material-icons-outlined">rate_review</mat-icon>
+        </button>
+        <button
+          class="refresh-indicator"
+          [matTooltip]="'gpt-chat.refresh' | translate"
+          mat-icon-button
+          (click)="refreshGPTMessage(i)">
+          <mat-icon class="material-icons-round">autorenew</mat-icon>
+        </button>
+      </ng-container>
       <button
         *ngIf="isSending && renewIndex === i"
         mat-icon-button
