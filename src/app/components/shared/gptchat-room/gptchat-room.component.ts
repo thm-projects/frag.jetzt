@@ -1,5 +1,5 @@
 import { Location } from '@angular/common';
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import {
   AfterViewInit,
   Component,
@@ -8,6 +8,7 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { GPTEncoder } from 'app/gpt-encoder/GPTEncoder';
@@ -15,6 +16,7 @@ import { Room } from 'app/models/room';
 import { GptService, GPTStreamResult } from 'app/services/http/gpt.service';
 import { DeviceInfoService } from 'app/services/util/device-info.service';
 import { GptEncoderService } from 'app/services/util/gpt-encoder.service';
+import { LanguageService } from 'app/services/util/language.service';
 import { SessionService } from 'app/services/util/session.service';
 import { UserManagementService } from 'app/services/util/user-management.service';
 import { KeyboardUtils } from 'app/utils/keyboard';
@@ -44,6 +46,11 @@ interface ConversationEntry {
   message: string;
 }
 
+interface PromptType {
+  act: string;
+  prompt: string;
+}
+
 @Component({
   selector: 'app-gptchat-room',
   templateUrl: './gptchat-room.component.html',
@@ -58,7 +65,6 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('lengthSubMenu') lengthSubMenu: MatMenu;
   @ViewChild('answerFormatSubMenu') answerFormatSubMenu: MatMenu;
   conversation: ConversationEntry[] = [];
-  greetings: { [key: string]: string } = {};
   isSending = false;
   renewIndex = null;
   isLoading = true;
@@ -72,6 +78,10 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
   stopper = new Subject<boolean>();
   isGPTPrivacyPolicyAccepted: boolean = false;
   initDelta: StandardDelta;
+  prompts: PromptType[] = [];
+  promptFormControl = new FormControl('');
+  filteredPrompts: PromptType[];
+  searchTerm: string = '';
   private destroyer = new ReplaySubject(1);
   private encoder: GPTEncoder = null;
   private room: Room = null;
@@ -82,6 +92,8 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
     private gptService: GptService,
     private userManagementService: UserManagementService,
     private translateService: TranslateService,
+    private languageService: LanguageService,
+    private http: HttpClient,
     private deviceInfo: DeviceInfoService,
     private gptEncoderService: GptEncoderService,
     public sessionService: SessionService,
@@ -89,16 +101,23 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
     private location: Location,
     private composeService: ArsComposeService,
     private headerService: HeaderService,
-  ) {}
+  ) {
+    this.languageService
+      .getLanguage()
+      .pipe(takeUntil(this.destroyer))
+      .subscribe((lang) => {
+        this.http
+          .get<PromptType[]>('/assets/i18n/prompts/' + lang + '.json')
+          .subscribe((promptsArray) => {
+            this.prompts = promptsArray;
+          });
+      });
+  }
 
   ngOnInit(): void {
     const str = sessionStorage.getItem('temp-gpt-text') || '[]';
     this.initDelta = QuillUtils.deserializeDelta(str as SerializedDelta);
     this.loadConversation();
-    this.translateService
-      .stream('gpt-chat.greetings')
-      .pipe(takeUntil(this.destroyer))
-      .subscribe((data) => (this.greetings = data));
     this.initNormal();
     this.gptEncoderService.getEncoderOnce().subscribe((e) => {
       this.encoder = e;
@@ -606,5 +625,24 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
           this.preset = preset;
         });
     });
+
+  private filterPrompts() {
+    this.filteredPrompts = this.prompts.filter((prompt) => {
+      return (
+        prompt.act.toLowerCase().indexOf(this.searchTerm.toLowerCase()) > -1
+      );
+    });
+    if (!this.searchTerm.trim()) {
+      return;
+    }
+    this.filteredPrompts.push({ act: '------', prompt: null });
+    this.filteredPrompts.push(
+      ...this.prompts.filter((prompt) => {
+        return (
+          prompt.prompt.toLowerCase().indexOf(this.searchTerm.toLowerCase()) >
+          -1
+        );
+      }),
+    );
   }
 }
