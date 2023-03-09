@@ -20,6 +20,9 @@ import { Location } from '@angular/common';
 import { GptOptInPrivacyComponent } from 'app/components/shared/_dialogs/gpt-optin-privacy/gpt-optin-privacy.component';
 import { UserManagementService } from 'app/services/util/user-management.service';
 import { LanguageService } from 'app/services/util/language.service';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
+import { FormControl } from '@angular/forms';
 
 interface ConversationEntry {
   type: 'human' | 'gpt' | 'error';
@@ -56,6 +59,9 @@ export class GptChatComponent implements OnInit, OnDestroy {
   isGPTPrivacyPolicyAccepted: boolean = false;
 
   prompts: promptType[] = [];
+  promptFormControl = new FormControl('');
+  filteredPrompts: promptType[];
+  searchTerm: string = '';
 
   private destroyer = new ReplaySubject(1);
   private encoder: GPTEncoder = null;
@@ -454,5 +460,25 @@ export class GptChatComponent implements OnInit, OnDestroy {
       promptTokens: pToken,
       allTokens: pToken + cToken,
     };
+  }
+
+  private filterPrompts() {
+    this.filteredPrompts = this.prompts.filter((prompt) => {
+      return (
+        prompt.act.toLowerCase().indexOf(this.searchTerm.toLowerCase()) > -1
+      );
+    });
+    if (!this.searchTerm.trim()) {
+      return;
+    }
+    this.filteredPrompts.push({ act: '------', prompt: null });
+    this.filteredPrompts.push(
+      ...this.prompts.filter((prompt) => {
+        return (
+          prompt.prompt.toLowerCase().indexOf(this.searchTerm.toLowerCase()) >
+          -1
+        );
+      }),
+    );
   }
 }
