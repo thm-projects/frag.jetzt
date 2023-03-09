@@ -96,6 +96,7 @@
     },
     "refresh": "Ausgabe erneut generieren",
     "token-info": "Tokens (Eingabe / Chat / Gesamt): {{promptTokens}} / {{conversationTokens}} / {{allTokens}}",
+    "prompt-label": "Prompt Suche",
     "use-case": "Anwendungsfall",
     "use-case-tooltip": "Auswahl eines speziellen Anwendungsfalles für bessere Antworten.",
     "use-case-answer-questions": "Beantwortung von Fragen",

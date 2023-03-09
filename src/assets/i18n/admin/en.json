@@ -94,6 +94,7 @@
     },
     "refresh": "Generate output again",
     "token-info": "Tokens (input / chat / total): {{promptTokens}} / {{conversationTokens}} / {{allTokens}}",
+    "prompt-label": "Prompt search",
     "use-case": "Use case",
     "use-case-tooltip": "Selecting a specific use case for better answers.",
     "use-case-answer-questions": "Answering questions",
