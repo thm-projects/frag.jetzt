@@ -24,7 +24,14 @@ import {
   SerializedDelta,
   StandardDelta,
 } from 'app/utils/quill-utils';
-import { finalize, Observer, ReplaySubject, Subject, takeUntil } from 'rxjs';
+import {
+  finalize,
+  Observer,
+  ReplaySubject,
+  Subject,
+  takeUntil,
+  tap,
+} from 'rxjs';
 import { ViewCommentDataComponent } from '../view-comment-data/view-comment-data.component';
 import { GptOptInPrivacyComponent } from '../_dialogs/gpt-optin-privacy/gpt-optin-privacy.component';
 import { IntroductionPromptGuideChatbotComponent } from '../_dialogs/introductions/introduction-prompt-guide-chatbot/introduction-prompt-guide-chatbot.component';
@@ -32,6 +39,11 @@ import { ArsComposeService } from '../../../../../projects/ars/src/lib/services/
 import { HeaderService } from '../../../services/util/header.service';
 import { GPTUserDescriptionDialogComponent } from '../_dialogs/gptuser-description-dialog/gptuser-description-dialog.component';
 import { MatMenu } from '@angular/material/menu';
+import {
+  GPTRoomPresetLanguage,
+  GPTRoomPresetLength,
+  GPTRoomPresetTone,
+} from '../../../models/gpt-room-preset';
 
 interface ConversationEntry {
   type: 'human' | 'gpt' | 'error';
@@ -66,6 +78,8 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
   stopper = new Subject<boolean>();
   isGPTPrivacyPolicyAccepted: boolean = false;
   initDelta: StandardDelta;
+  GPTRoomPresetLanguage = GPTRoomPresetLanguage;
+  GPTRoomPresetLength = GPTRoomPresetLength;
   private destroyer = new ReplaySubject(1);
   private encoder: GPTEncoder = null;
   private room: Room = null;
@@ -257,20 +271,33 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-  protected setLanguagePreset(language: string): void {
-    console.log('set language', language);
+  protected setLanguagePreset(language: GPTRoomPresetLanguage): void {
+    this.gptService
+      .getPreset(this.room.id)
+      .pipe(tap((preset) => console.log(preset)));
+    this.gptService.patchPreset(this.room.id, { language });
   }
 
   protected setTonePreset(tone: string): void {
-    console.log('set tone', tone);
+    this.gptService
+      .getPreset(this.room.id)
+      .pipe(tap((preset) => console.log(preset)));
+    const newTone = new GPTRoomPresetTone({ description: tone, active: true });
+    this.gptService.patchPreset(this.room.id, { newTone });
   }
 
-  protected setFormalityPreset(formality: string): void {
-    console.log('set formality', formality);
+  protected setFormalityPreset(formality?: boolean): void {
+    this.gptService
+      .getPreset(this.room.id)
+      .pipe(tap((preset) => console.log(preset)));
+    this.gptService.patchPreset(this.room.id, { formality });
   }
 
-  protected setLengthPreset(length: string): void {
-    console.log('set length', length);
+  protected setLengthPreset(length: GPTRoomPresetLength): void {
+    this.gptService
+      .getPreset(this.room.id)
+      .pipe(tap((preset) => console.log(preset)));
+    this.gptService.patchPreset(this.room.id, { length });
   }
 
   protected setAnswerFormat(answerFormat: string): void {

@@ -120,35 +120,35 @@
   cdkTrapFocus>
   <button
     mat-menu-item
-    (click)="this.setLanguagePreset('')"
+    (click)="this.setLanguagePreset(GPTRoomPresetLanguage.DISABLED)"
     tabindex="0">
     <mat-icon class="material-icons-outlined">do_not_disturb</mat-icon>
     {{ "gpt-chat.presets.disabled" | translate }}
   </button>
   <button
     mat-menu-item
-    (click)="this.setLanguagePreset('de')"
+    (click)="this.setLanguagePreset(GPTRoomPresetLanguage.GERMAN)"
     tabindex="0">
     <mat-icon class="material-icons-outlined">work</mat-icon>
     {{ "gpt-chat.presets.language.de" | translate }}
   </button>
   <button
     mat-menu-item
-    (click)="this.setLanguagePreset('en')"
+    (click)="this.setLanguagePreset(GPTRoomPresetLanguage.ENGLISH)"
     tabindex="0">
     <mat-icon class="material-icons-outlined">sports_football</mat-icon>
     {{ "gpt-chat.presets.language.en" | translate }}
   </button>
   <button
     mat-menu-item
-    (click)="this.setLanguagePreset('fr')"
+    (click)="this.setLanguagePreset(GPTRoomPresetLanguage.FRENCH)"
     tabindex="0">
     <mat-icon class="material-icons-outlined">bakery_dining</mat-icon>
     {{ "gpt-chat.presets.language.fr" | translate }}
   </button>
   <button
     mat-menu-item
-    (click)="this.setLanguagePreset('*')"
+    (click)="this.setLanguagePreset(GPTRoomPresetLanguage.LIKE_QUESTION)"
     tabindex="0">
     <mat-icon class="material-icons-outlined">question_answer</mat-icon>
     {{ "gpt-chat.presets.language.*" | translate }}
@@ -161,7 +161,7 @@
   cdkTrapFocus>
   <button
     mat-menu-item
-    (click)="this.setTonePreset('')"
+    (click)="this.setTonePreset()"
     tabindex="0">
     <mat-icon class="material-icons-outlined">do_not_disturb</mat-icon>
     {{ "gpt-chat.presets.disabled" | translate }}
@@ -204,21 +204,21 @@
   cdkTrapFocus>
   <button
     mat-menu-item
-    (click)="this.setFormalityPreset('')"
+    (click)="this.setFormalityPreset(null)"
     tabindex="0">
     <mat-icon class="material-icons-outlined">do_not_disturb</mat-icon>
     {{ "gpt-chat.presets.disabled" | translate }}
   </button>
   <button
     mat-menu-item
-    (click)="this.setFormalityPreset('informal')"
+    (click)="this.setFormalityPreset(false)"
     tabindex="0">
     <mat-icon class="material-icons-outlined">sports_football</mat-icon>
     {{ "gpt-chat.presets.formality.informal" | translate }}
   </button>
   <button
     mat-menu-item
-    (click)="this.setFormalityPreset('polite')"
+    (click)="this.setFormalityPreset(true)"
     tabindex="0">
     <mat-icon class="material-icons-outlined">work</mat-icon>
     {{ "gpt-chat.presets.formality.polite" | translate }}
@@ -231,28 +231,28 @@
   cdkTrapFocus>
   <button
     mat-menu-item
-    (click)="this.setLengthPreset('')"
+    (click)="this.setLengthPreset(GPTRoomPresetLength.DISABLED)"
     tabindex="0">
     <mat-icon class="material-icons-outlined">do_not_disturb</mat-icon>
     {{ "gpt-chat.presets.disabled" | translate }}
   </button>
   <button
     mat-menu-item
-    (click)="this.setLengthPreset('short')"
+    (click)="this.setLengthPreset(GPTRoomPresetLength.SHORT)"
     tabindex="0">
     <mat-icon class="material-icons-outlined">short_text</mat-icon>
     {{ "gpt-chat.presets.length.short" | translate }}
   </button>
   <button
     mat-menu-item
-    (click)="this.setLengthPreset('detailed')"
+    (click)="this.setLengthPreset(GPTRoomPresetLength.DETAILED)"
     tabindex="0">
     <mat-icon class="material-icons-outlined">notes</mat-icon>
     {{ "gpt-chat.presets.length.detailed" | translate }}
   </button>
   <button
     mat-menu-item
-    (click)="this.setLengthPreset('extensive')"
+    (click)="this.setLengthPreset(GPTRoomPresetLength.EXTENSIVE)"
     tabindex="0">
     <mat-icon class="material-icons-outlined">format_align_left</mat-icon>
     {{ "gpt-chat.presets.length.extensive" | translate }}

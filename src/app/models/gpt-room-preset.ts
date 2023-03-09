@@ -10,6 +10,14 @@ export class GPTRoomPresetTopic {
   }
 }
 
+export enum GPTRoomPresetLanguage {
+  DISABLED = '',
+  GERMAN = 'de',
+  ENGLISH = 'en',
+  FRENCH = 'fr',
+  LIKE_QUESTION = 'like_question',
+}
+
 export class GPTRoomPresetTone {
   private description: string;
   private active: boolean;
@@ -20,16 +28,23 @@ export class GPTRoomPresetTone {
   }
 }
 
+export enum GPTRoomPresetLength {
+  DISABLED = '',
+  SHORT = 'short',
+  DETAILED = 'detailed',
+  EXTENSIVE = 'extensive',
+}
+
 export class GPTRoomPreset {
   private context: string;
   private personaCreator: string;
   private personaModerator: string;
   private personaParticipant: string;
   private topics: GPTRoomPresetTopic[];
-  private language: string;
+  private language: GPTRoomPresetLanguage;
   private tones: GPTRoomPresetTone[];
   private formal: boolean | null;
-  private length: string;
+  private length: GPTRoomPresetLength;
 
   constructor({
     context = '',
@@ -37,10 +52,10 @@ export class GPTRoomPreset {
     personaModerator = '',
     personaParticipant = '',
     topics = [],
-    language = '',
+    language = GPTRoomPresetLanguage.DISABLED,
     tones = [],
     formal = null,
-    length = '',
+    length = GPTRoomPresetLength.DISABLED,
   }: GPTRoomPreset) {
     this.context = context;
     this.personaCreator = personaCreator;
