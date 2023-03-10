@@ -264,6 +264,12 @@ a {
   color: var(--on-dialog) !important;
 }
 
+.mat-form-field .mat-form-field-flex {
+  background-color: var(--form-background) !important;
+  border-radius: 5px !important;
+  padding: 10px !important;
+}
+
 .mat-tab-label-active,
 .mat-tab-label {
   color: var(--on-dialog) !important;
