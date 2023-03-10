@@ -121,7 +121,7 @@
     "filter-reset": "Zurücksetzen",
     "filter-unanswered": "Unbeantwortet",
     "filter-wrong": "Verneinte Fragen",
-    "filter-approved": "Genehmigte Fragen",
+    "filter-approved": "Geprüfte Fragen",
     "filter-gpt-answered": "Von GPT beantwortet",
     "owner": "Fragen, die ich gestellt habe",
     "pause-comments": "Friert die Anzeige ein, um die Fragen in Ruhe zu lesen oder zu präsentieren. Fragen können weiterhin gestellt und bewertet werden. Die Anzeige aktualisiert sich wieder durch Klicken des Buttons.",
