@@ -75,6 +75,8 @@
     "filter-reset": "Réinitialiser",
     "filter-unanswered": "Sans réponse",
     "filter-wrong": "Questions négatives",
+    "filter-approved" : "Questions approuvées",
+    "filter-gpt-answered" : "Répondu par GPT",
     "owner": "Questions posées",
     "pause-comments": "Fige l'affichage pour pouvoir lire les questions en toute tranquillité. Les questions peuvent toujours être posées et évaluées. L'affichage s'actualise à nouveau en cliquant sur le bouton.",
     "play-comments": "Afficher à nouveau les nouvelles questions et les évaluations",

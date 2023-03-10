@@ -121,6 +121,8 @@
     "filter-reset": "Reset",
     "filter-unanswered": "Not answered",
     "filter-wrong": "Negated questions",
+    "filter-approved": "Approved questions",
+    "filter-gpt-answered": "Answered by GPT",
     "owner": "Questions I have asked",
     "pause-comments": "Freezes the display to read or present the questions at rest. Questions can still be asked and scored. The display is only updated again by clicking the button.",
     "play-comments": "Start the question stream",

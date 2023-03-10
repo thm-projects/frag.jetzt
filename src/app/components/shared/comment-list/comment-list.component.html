@@ -318,7 +318,6 @@
           matBadgeSize="medium"></span>
       </button>
 
-      <!-- Here is thenew Button for Moderator Approved filter -->
       <button
         mat-menu-item
         (click)="applyFilterByKey('Unanswered')"
@@ -326,10 +325,10 @@
         <mat-icon
           class="material-icons-outlined"
           [ngClass]="{ Check: 'check-icon' }[filterType]">
-          check
+          verified
         </mat-icon>
         <span [ngClass]="{ Check: 'check-icon' }[filterType]">
-          {{ "comment-list.filter-unanswered" | translate }}
+          {{ "comment-list.filter-approved" | translate }}
         </span>
         <span
           class="inline-count-badge"
@@ -338,7 +337,6 @@
           matBadgeSize="medium"></span>
       </button>
 
-      <!-- Here is thenew Button for Moderator gpt answered -->
       <button
         mat-menu-item
         (click)="applyFilterByKey('Unanswered')"
@@ -349,7 +347,7 @@
           smart_toy
         </mat-icon>
         <span [ngClass]="{ Check: 'smart-toy-icon' }[filterType]">
-          {{ "comment-list.filter-unanswered" | translate }}
+          {{ "comment-list.filter-gpt-answered" | translate }}
         </span>
         <span
           class="inline-count-badge"
