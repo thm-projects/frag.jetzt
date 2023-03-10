@@ -318,6 +318,46 @@
           matBadgeSize="medium"></span>
       </button>
 
+      <!-- Here is thenew Button for Moderator Approved filter -->
+      <button
+        mat-menu-item
+        (click)="applyFilterByKey('Unanswered')"
+        aria-labelledby="comment">
+        <mat-icon
+          class="material-icons-outlined"
+          [ngClass]="{ Check: 'check-icon' }[filterType]">
+          check
+        </mat-icon>
+        <span [ngClass]="{ Check: 'check-icon' }[filterType]">
+          {{ "comment-list.filter-unanswered" | translate }}
+        </span>
+        <span
+          class="inline-count-badge"
+          [matBadge]="filterTypeCounts?.['Unanswered'] || 0"
+          matBadgeColor="secondary"
+          matBadgeSize="medium"></span>
+      </button>
+
+      <!-- Here is thenew Button for Moderator gpt answered -->
+      <button
+        mat-menu-item
+        (click)="applyFilterByKey('Unanswered')"
+        aria-labelledby="comment">
+        <mat-icon
+          class="material-icons-outlined"
+          [ngClass]="{ Check: 'smart-toy-icon' }[filterType]">
+          smart_toy
+        </mat-icon>
+        <span [ngClass]="{ Check: 'smart-toy-icon' }[filterType]">
+          {{ "comment-list.filter-unanswered" | translate }}
+        </span>
+        <span
+          class="inline-count-badge"
+          [matBadge]="filterTypeCounts?.['Unanswered'] || 0"
+          matBadgeColor="secondary"
+          matBadgeSize="medium"></span>
+      </button>
+
       <button
         mat-menu-item
         (click)="applyFilterByKey('Conversation')"
