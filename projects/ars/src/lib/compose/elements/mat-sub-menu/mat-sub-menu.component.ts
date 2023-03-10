@@ -7,7 +7,7 @@ import {
 } from './ars-mat-sub-menu-config';
 
 @Component({
-  selector: 'app-mat-sub-menu',
+  selector: 'ars-mat-sub-menu',
   templateUrl: './mat-sub-menu.component.html',
   styleUrls: ['./mat-sub-menu.component.scss'],
 })
@@ -27,6 +27,14 @@ export class MatSubMenuComponent implements OnInit {
 
   public action(e: MouseEvent) {
     e.stopImmediatePropagation();
+    this.open();
+  }
+
+  public open() {
     this.component?.openMenu?.();
+  }
+
+  public close() {
+    this.component?.closeMenu?.();
   }
 }

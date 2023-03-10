@@ -59,7 +59,7 @@
     "optin-accept": "Accepter",
     "optin-reject": "Refuser",
     "privacy-policy": "Déclaration de confidentialité pour l'utilisation de l'API OpenAI",
-    "enter-conversation-text": "Chat avec GPT …",
+    "enter-conversation-text": "Chat avec ChatGPT …",
     "send": "Envoyer",
     "empty-conversation": "Vider l'historique",
     "input-forbidden": "Saisie interdite, veuillez vérifier les paramètres de l'API GPT.",

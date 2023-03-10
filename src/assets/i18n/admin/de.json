@@ -2,7 +2,7 @@
   "overview": {
     "motd": "Globale Ankündigungen",
     "gpt": "GPT-Einstellungen",
-    "gpt-chat": "Chat mit GPT"
+    "gpt-chat": "Chat mit ChatGPT"
   },
   "create-motd": {
     "create": "Erstellen",
@@ -56,14 +56,14 @@
     "help-activation-codes": "Hier können Aktivierungscodes für die Studie angesehen, erstellt und gelöscht werden."
   },
   "gpt-chat": {
-    "enter-conversation-text": "Chat mit GPT …",
+    "enter-conversation-text": "Chat mit ChatGPT …",
     "send": "Senden",
     "empty-conversation": "Verlauf leeren",
-    
+
     "optin-accept": "Akzeptieren",
     "optin-reject": "Ablehnen",
     "privacy-policy": "Datenschutzerklärung für die Nutzung der OpenAI API",
-    
+
     "input-forbidden": "Eingabe verboten, bitte prüfe die GPT API Einstellungen.",
     "no-api-setup": "Der API Schlüssel oder das Sprachmodell wurden nicht gesetzt.",
     "greetings": {

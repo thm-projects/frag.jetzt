@@ -1,0 +1,43 @@
+<h3 *ngIf="type == 'CONTEXT'">{{ title[0] | translate }}</h3>
+<h3 *ngIf="type == 'PERSONA'">{{ title[0] | translate }}</h3>
+<h3 *ngIf="type == 'TOPIC'">{{ title[0] | translate }}</h3>
+
+<mat-dialog-content *ngIf="!isLoading; else loading">
+  <div *ngFor="let control of formControls; let i = index">
+    <mat-form-field>
+      <mat-label>
+        {{ labels[i] | translate }}
+      </mat-label>
+      <textarea
+        style="min-height: 10em"
+        matInput
+        placeholder="{{ placeholders[i] | translate }}"
+        [formControl]="control"></textarea>
+      <mat-hint align="end">
+        <span aria-hidden="true">
+          {{ control.value.length }} /
+          {{ presetsDefinitionMax }}
+        </span>
+      </mat-hint>
+    </mat-form-field>
+    <button
+      mat-button
+      class="danger-btn"
+      (click)="clear(i)">
+      {{ "presets-dialog.clear" | translate }}
+    </button>
+  </div>
+</mat-dialog-content>
+
+<app-dialog-action-buttons
+  [buttonsLabelSection]="'presets-dialog'"
+  [confirmButtonLabel]="'save'"
+  [cancelButtonClickAction]="buildCancelAction()"
+  [confirmButtonClickAction]="buildConfirmAction()"></app-dialog-action-buttons>
+
+<ng-template #loading>
+  <app-mat-spinner-overlay
+    color="on-surface"
+    diameter="40"
+    strokeWidth="5"></app-mat-spinner-overlay>
+</ng-template>

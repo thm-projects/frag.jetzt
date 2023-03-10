@@ -273,10 +273,16 @@
     "user-bonus": "The teacher can mark »good« questions for a bonus. Your questions from all courses (rooms) that have received a star will be listed here.\n\nDepending on the agreement, you can email the code of the star to the teacher to redeem it for a bonus."
   },
   "gpt-chat": {
+    "answer-format": {
+      "disabled": "Disabled",
+      "summary": "Summary",
+      "definition": "Definition",
+      "flashcard": "Flashcard"
+    },
     "optin-accept": "Accept",
     "optin-reject": "Reject",
     "privacy-policy": "Privacy Policy for the Use of OpenAI API",
-    "enter-conversation-text": "Speech with GPT",
+    "enter-conversation-text": "Chat with ChatGPT",
     "send": "Send",
     "empty-conversation": "Clear history",
     "input-forbidden": "Input forbidden, please check the GPT API settings.",
@@ -310,6 +316,8 @@
       ]
     },
     "refresh": "Generate output again",
+    "edit": "Edit output as editable answer to question.",
+    "paste": "Publish output directly in response to question.",
     "token-info": "Tokens (input/chat/total): {{promptTokens}}/{{conversationTokens}}/{{allTokens}}",
     "prompt-label": "Prompt search",
     "option-total-acts": "Hits in »Act as …«",
@@ -361,7 +369,8 @@
     "brainstorming-title": "Brainstorming",
     "cancel": "Schließen",
     "question-wall-title": "Use cases of the presentation mode",
-    "tag-cloud-title": "Use cases of the question radar"
+    "tag-cloud-title": "Use cases of the question radar",
+    "prompt-guide-chatbot": "Communicate effectively with ChatGPT"
   },
   "joyride": {
     "commentFilter": "There are numerous sorting and filtering options for the Q&A list. An active filter is shown in red. For better readability, the question stream can also be paused if it is very dynamic.",
@@ -769,5 +778,12 @@
     "a11y-questioner-name": "Here you can enter your name if you want. This is visible for everyone at this comment.",
     "name-length-error": "The name must be {{min}} to {{max}} characters long.",
     "questioner-name": "Your name, if you want …"
+  },
+  "gpt-user-description": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "title": "Self description for GPT",
+    "user-description": "Self description",
+    "token-info": "{{tokens}} / {{maxLength}} Tokens"
   }
 }

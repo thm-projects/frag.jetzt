@@ -7,7 +7,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { NotificationService } from '../../../services/util/notification.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserRole } from '../../../models/user-roles.enum';
 import { TranslateService } from '@ngx-translate/core';
 import { MatDialog } from '@angular/material/dialog';
@@ -54,7 +54,7 @@ import { CommentNotificationDialogComponent } from '../_dialogs/comment-notifica
 import { GPTUserDescriptionDialogComponent } from '../_dialogs/gptuser-description-dialog/gptuser-description-dialog.component';
 import { GptOptInPrivacyComponent } from '../_dialogs/gpt-optin-privacy/gpt-optin-privacy.component';
 import { ShrinkObserver } from 'app/utils/shrink-observer';
-import { GptService, GPTStreamResult } from 'app/services/http/gpt.service';
+import { GptService } from 'app/services/http/gpt.service';
 
 @Component({
   selector: 'app-header',
@@ -109,6 +109,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     private brainstormingDataService: BrainstormingDataService,
     public langService: LanguageService,
     private gptService: GptService,
+    private route: ActivatedRoute,
   ) {}
 
   ngAfterViewInit() {
@@ -374,6 +375,14 @@ export class HeaderComponent implements OnInit, AfterViewInit {
 
   openGPTUser() {
     GPTUserDescriptionDialogComponent.open(this.dialog, this.room.id);
+  }
+
+  openGPT() {
+    const roleString =
+      this.userRole === UserRole.CREATOR ? 'creator' : 'moderator';
+    const url = `/${roleString}/room/${this.room.shortId}/gpt-chat-room`;
+    console.log(url);
+    this.router.navigate([url]);
   }
 
   openPrivacyDialog() {

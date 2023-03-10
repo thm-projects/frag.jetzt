@@ -372,11 +372,40 @@
     "optin-accept": "Accepter",
     "optin-reject": "Refuser",
     "privacy-policy": "Déclaration de confidentialité pour l'utilisation de l'API OpenAI",
-    "enter-conversation-text": "Parle à GPT",
+    "enter-conversation-text": "Parle à ChatGPT",
     "send": "Envoyer",
     "empty-conversation": "Vider l'historique",
     "input-forbidden": "Saisie interdite, veuillez vérifier les paramètres de l'API GPT.",
     "no-api-setup": "La clé d'API ou le modèle de langage n'a pas été défini.",
+    "presets" : {
+      "disabled": "Désactivé",
+      "language" : {
+        "de" : "Allemand",
+        "en" : "Anglais",
+        "fr" : "Français",
+        "*" : "Comme la question"
+      },
+      "tone": {
+        "neutral": "Neutre",
+        "friendly": "Amical",
+        "professional": "Professionnel",
+        "humorous": "Humoristique"
+      },
+      "formality": {
+        "informal": "Informel",
+        "polite": "Poli"
+      },
+      "length": {
+        "short": "Court",
+        "detailed": "Détaillé",
+        "extensive": "Extensive"
+      }
+    },
+    "answer-format": {
+      "summary": "Résumé",
+      "definition": "Définition",
+      "flashcard": "Carte éclair"
+    },
     "greetings": {
       "text-davinci-003": [
         {
@@ -406,6 +435,8 @@
       ]
     },
     "refresh": "Générer à nouveau la sortie",
+    "edit": "Modifier la sortie en tant que réponse modifiable à la question.",
+    "paste": "Publier le numéro directement en réponse à la question.",
     "token-info": "Tokens (saisie/conversation/total) : {{promptTokens}}/{{conversationTokens}}/{{allTokens}}",
     "prompt-label": "Recherche du prompt",
     "option-total-acts": "Hits dans « Agir comme … »",
@@ -436,7 +467,8 @@
     "brainstorming-title": "Brainstorming",
     "cancel": "Fermer",
     "question-wall-title": "Les cas d'utilisation du mode de présentation",
-    "tag-cloud-title": "Cas d'utilisation du radar à questions"
+    "tag-cloud-title": "Cas d'utilisation du radar à questions",
+    "prompt-guide-chatbot": "Communiquer efficacement avec ChatGPT"
   },
   "joyride": {
     "commentFilter": "Il existe de nombreuses options de tri et de filtrage pour la liste des questions-réponses. Un filtre actif est affiché en rouge. Pour une meilleure lisibilité en cas de grande dynamique, le flux de questions peut également être mis en pause.",
@@ -1017,5 +1049,23 @@
     "a11y-questioner-name": "Ici, tu peux, si tu le souhaites, entrer ton nom. Celui-ci est visible pour tous les participants à ce commentaire.",
     "name-length-error": "Le nom doit comporter entre {{min}} et {{max}} caractères.",
     "questioner-name": "Ton nom, si tu veux …"
-  }
+  },
+  "presets-dialog": {
+    "context-title" : "contexte de l'événement",
+    "persona-title" : "Presets pour chaque personne",
+    "topic-title" : "thèmes de l'événement",
+    "context-label": "Contexte",
+    "topic-label": "Sujet",
+    "persona-moderator-label": "Persona (Présentateur)",
+    "persona-user-label": "Persona (Utilisateur)",
+    "persona-creator-label": "Persona (Créateur)",
+    "context-placeholder": "Cours WPW",
+    "topic-placeholder": "Angular",
+    "persona-moderator-placeholder": "Modérateur",
+    "persona-user-placeholder": "Utilisateur",
+    "persona-creator-placeholder": "Créateur",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "delete": "Supprimer"
+    }
 }

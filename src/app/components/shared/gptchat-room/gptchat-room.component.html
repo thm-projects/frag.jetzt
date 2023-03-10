@@ -76,14 +76,29 @@
         katex>
         {{ formatText(item.message) }}
       </div>
-      <button
-        class="refresh-indicator"
-        [matTooltip]="'gpt-chat.refresh' | translate"
-        mat-icon-button
-        *ngIf="!isSending && item.type === 'gpt'"
-        (click)="refreshGPTMessage(i)">
-        <mat-icon class="material-icons-round">autorenew</mat-icon>
-      </button>
+      <ng-container *ngIf="!isSending && item.type === 'gpt'">
+        <button
+          class="refresh-indicator"
+          [matTooltip]="'gpt-chat.paste' | translate"
+          mat-icon-button
+          (click)="forwardGPTMessage(i)">
+          <mat-icon class="material-icons-outlined">content_paste_go</mat-icon>
+        </button>
+        <button
+          class="refresh-indicator"
+          [matTooltip]="'gpt-chat.edit' | translate"
+          mat-icon-button
+          (click)="openEditGPTMessage(i)">
+          <mat-icon class="material-icons-outlined">rate_review</mat-icon>
+        </button>
+        <button
+          class="refresh-indicator"
+          [matTooltip]="'gpt-chat.refresh' | translate"
+          mat-icon-button
+          (click)="refreshGPTMessage(i)">
+          <mat-icon class="material-icons-round">autorenew</mat-icon>
+        </button>
+      </ng-container>
       <button
         *ngIf="isSending && renewIndex === i"
         mat-icon-button
@@ -168,3 +183,226 @@
     diameter="40"
     strokeWidth="5"></app-mat-spinner-overlay>
 </ng-template>
+
+<mat-menu
+  #languageSubMenu="matMenu"
+  [overlapTrigger]="false"
+  cdkTrapFocus>
+  <button
+    mat-menu-item
+    (click)="this.setLanguagePreset(GPTRoomPresetLanguage.DISABLED)"
+    class="preset-btn"
+    tabindex="0">
+    <mat-icon class="material-icons-outlined submenu-icon">
+      do_not_disturb
+    </mat-icon>
+    {{ "gpt-chat.presets.disabled" | translate }}
+  </button>
+  <button
+    mat-menu-item
+    (click)="this.setLanguagePreset(GPTRoomPresetLanguage.GERMAN)"
+    class="preset-btn"
+    tabindex="0">
+    <mat-icon class="material-icons-outlined submenu-icon">sports_bar</mat-icon>
+    {{ "gpt-chat.presets.language.de" | translate }}
+  </button>
+  <button
+    mat-menu-item
+    (click)="this.setLanguagePreset(GPTRoomPresetLanguage.ENGLISH)"
+    class="preset-btn"
+    tabindex="0">
+    <mat-icon class="material-icons-outlined submenu-icon">
+      lunch_dining
+    </mat-icon>
+    {{ "gpt-chat.presets.language.en" | translate }}
+  </button>
+  <button
+    mat-menu-item
+    (click)="this.setLanguagePreset(GPTRoomPresetLanguage.FRENCH)"
+    class="preset-btn"
+    tabindex="0">
+    <mat-icon class="material-icons-outlined submenu-icon">
+      bakery_dining
+    </mat-icon>
+    {{ "gpt-chat.presets.language.fr" | translate }}
+  </button>
+  <button
+    mat-menu-item
+    (click)="this.setLanguagePreset(GPTRoomPresetLanguage.LIKE_QUESTION)"
+    class="preset-btn"
+    tabindex="0">
+    <mat-icon class="material-icons-outlined submenu-icon">
+      question_answer
+    </mat-icon>
+    {{ "gpt-chat.presets.language.*" | translate }}
+  </button>
+</mat-menu>
+
+<mat-menu
+  #toneSubMenu="matMenu"
+  [overlapTrigger]="false"
+  cdkTrapFocus>
+  <button
+    mat-menu-item
+    (click)="this.setTonePreset(GPTRoomPresetTone.DISABLED)"
+    class="preset-btn"
+    tabindex="0">
+    <mat-icon class="material-icons-outlined submenu-icon">
+      do_not_disturb
+    </mat-icon>
+    {{ "gpt-chat.presets.disabled" | translate }}
+  </button>
+  <button
+    mat-menu-item
+    (click)="this.setTonePreset(GPTRoomPresetTone.NEUTRAL)"
+    class="preset-btn"
+    tabindex="0">
+    <mat-icon class="material-icons-outlined submenu-icon">
+      sentiment_neutral
+    </mat-icon>
+    {{ "gpt-chat.presets.tone.neutral" | translate }}
+  </button>
+  <button
+    mat-menu-item
+    (click)="this.setTonePreset(GPTRoomPresetTone.FRIENDLY)"
+    class="preset-btn"
+    tabindex="0">
+    <mat-icon class="material-icons-outlined submenu-icon">
+      sentiment_satisfied
+    </mat-icon>
+    {{ "gpt-chat.presets.tone.friendly" | translate }}
+  </button>
+  <button
+    mat-menu-item
+    (click)="this.setTonePreset(GPTRoomPresetTone.PROFESSIONAL)"
+    class="preset-btn"
+    tabindex="0">
+    <mat-icon class="material-icons-outlined submenu-icon">work</mat-icon>
+    {{ "gpt-chat.presets.tone.professional" | translate }}
+  </button>
+  <button
+    mat-menu-item
+    (click)="this.setTonePreset(GPTRoomPresetTone.HUMOROUS)"
+    class="preset-btn"
+    tabindex="0">
+    <mat-icon class="material-icons-outlined submenu-icon">
+      sentiment_very_satisfied
+    </mat-icon>
+    {{ "gpt-chat.presets.tone.humorous" | translate }}
+  </button>
+</mat-menu>
+
+<mat-menu
+  #formalitySubMenu="matMenu"
+  [overlapTrigger]="false"
+  cdkTrapFocus>
+  <button
+    mat-menu-item
+    (click)="this.setFormalityPreset(null)"
+    class="preset-btn"
+    tabindex="0">
+    <mat-icon class="material-icons-outlined submenu-icon">
+      do_not_disturb
+    </mat-icon>
+    {{ "gpt-chat.presets.disabled" | translate }}
+  </button>
+  <button
+    mat-menu-item
+    (click)="this.setFormalityPreset(false)"
+    class="preset-btn"
+    tabindex="0">
+    <mat-icon class="material-icons-outlined submenu-icon">
+      sports_football
+    </mat-icon>
+    {{ "gpt-chat.presets.formality.informal" | translate }}
+  </button>
+  <button
+    mat-menu-item
+    (click)="this.setFormalityPreset(true)"
+    class="preset-btn"
+    tabindex="0">
+    <mat-icon class="material-icons-outlined submenu-icon">work</mat-icon>
+    {{ "gpt-chat.presets.formality.polite" | translate }}
+  </button>
+</mat-menu>
+
+<mat-menu
+  #lengthSubMenu="matMenu"
+  [overlapTrigger]="false"
+  cdkTrapFocus>
+  <button
+    mat-menu-item
+    (click)="this.setLengthPreset(GPTRoomPresetLength.DISABLED)"
+    class="preset-btn"
+    tabindex="0">
+    <mat-icon class="material-icons-outlined submenu-icon">
+      do_not_disturb
+    </mat-icon>
+    {{ "gpt-chat.presets.disabled" | translate }}
+  </button>
+  <button
+    mat-menu-item
+    (click)="this.setLengthPreset(GPTRoomPresetLength.SHORT)"
+    class="preset-btn"
+    tabindex="0">
+    <mat-icon class="material-icons-outlined submenu-icon">short_text</mat-icon>
+    {{ "gpt-chat.presets.length.short" | translate }}
+  </button>
+  <button
+    mat-menu-item
+    (click)="this.setLengthPreset(GPTRoomPresetLength.DETAILED)"
+    tabindex="0">
+    <mat-icon class="material-icons-outlined submenu-icon">notes</mat-icon>
+    {{ "gpt-chat.presets.length.detailed" | translate }}
+  </button>
+  <button
+    mat-menu-item
+    (click)="this.setLengthPreset(GPTRoomPresetLength.EXTENSIVE)"
+    class="preset-btn"
+    tabindex="0">
+    <mat-icon class="material-icons-outlined submenu-icon">
+      format_align_left
+    </mat-icon>
+    {{ "gpt-chat.presets.length.extensive" | translate }}
+  </button>
+</mat-menu>
+
+<mat-menu
+  #answerFormatSubMenu="matMenu"
+  [overlapTrigger]="false"
+  cdkTrapFocus>
+  <button
+    mat-menu-item
+    (click)="this.setAnswerFormat(GPTRoomAnswerFormat.DISABLED)"
+    class="preset-btn"
+    tabindex="0">
+    <mat-icon class="material-icons-outlined submenu-icon">
+      do_not_disturb
+    </mat-icon>
+    {{ "gpt-chat.answer-format.disabled" | translate }}
+  </button>
+  <button
+    mat-menu-item
+    (click)="this.setAnswerFormat(GPTRoomAnswerFormat.SUMMARY)"
+    class="preset-btn"
+    tabindex="0">
+    <mat-icon class="material-icons-outlined submenu-icon">summarize</mat-icon>
+    {{ "gpt-chat.answer-format.summary" | translate }}
+  </button>
+  <button
+    mat-menu-item
+    (click)="this.setAnswerFormat(GPTRoomAnswerFormat.DEFINITION)"
+    class="preset-btn"
+    tabindex="0">
+    <mat-icon class="material-icons-outlined submenu-icon">menu_book</mat-icon>
+    {{ "gpt-chat.answer-format.definition" | translate }}
+  </button>
+  <button
+    mat-menu-item
+    (click)="this.setAnswerFormat(GPTRoomAnswerFormat.FLASHCARD)"
+    class="preset-btn"
+    tabindex="0">
+    <mat-icon class="material-icons-outlined submenu-icon">style</mat-icon>
+    {{ "gpt-chat.answer-format.flashcard" | translate }}
+  </button>
+</mat-menu>

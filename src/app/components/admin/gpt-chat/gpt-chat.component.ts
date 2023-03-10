@@ -20,8 +20,6 @@ import { Location } from '@angular/common';
 import { GptOptInPrivacyComponent } from 'app/components/shared/_dialogs/gpt-optin-privacy/gpt-optin-privacy.component';
 import { UserManagementService } from 'app/services/util/user-management.service';
 import { LanguageService } from 'app/services/util/language.service';
-import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
 
 interface ConversationEntry {
