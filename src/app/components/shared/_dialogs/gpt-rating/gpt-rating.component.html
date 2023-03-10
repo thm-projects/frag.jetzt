@@ -1,0 +1,59 @@
+<div *ngIf="!isLoading; else loading">
+  <ng-container *ngIf="!ratingResults; else stars">
+    <h2 class="oldtypo-h2">{{ "gpt-chat.gpt-rating" | translate }}</h2>
+    <div
+      fxLayoutAlign="center"
+      (mouseleave)="onMouseLeave()">
+      <mat-icon
+        *ngFor="let index of [0, 1, 2, 3, 4]"
+        class="material-icons-outlined interactive"
+        [ngClass]="getIcon(index)"
+        (click)="onClick(index, $event)"
+        (mousemove)="onMouseMove(index, $event)">
+        {{ getIcon(index) }}
+      </mat-icon>
+    </div>
+    <mat-form-field>
+      <textarea
+        style="min-height: 10em"
+        matInput
+        placeholder="{{ 'gpt-chat.gpt-rating-input-label' | translate }}"
+        [formControl]="ratingTextFormControl"></textarea>
+      <mat-hint align="end">
+        <span aria-hidden="true">
+          {{ ratingTextFormControl.value.length }} /
+          {{ ratingTextMax }}
+        </span>
+      </mat-hint>
+    </mat-form-field>
+    <button
+      mat-flat-button
+      (click)="save()">
+      {{ "gpt-chat.gpt-rating-save-button" | translate }}
+    </button>
+  </ng-container>
+
+  <ng-template #stars>
+    <span
+      #spanRef
+      (mouseenter)="openPerMouse(spanRef)"
+      (click)="openPopup(spanRef)"
+      class="star-preview">
+      <mat-icon
+        *ngFor="let index of [0, 1, 2, 3, 4]"
+        class="material-icons-outlined star"
+        [ngClass]="getIconAccumulated(index)">
+        {{ getIconAccumulated(index) }}
+      </mat-icon>
+      <mat-icon style="cursor: pointer">expand_more</mat-icon>
+      {{ people }}
+    </span>
+  </ng-template>
+</div>
+
+<ng-template #loading>
+  <app-mat-spinner-overlay
+    color="primary"
+    diameter="40"
+    strokeWidth="5"></app-mat-spinner-overlay>
+</ng-template>
