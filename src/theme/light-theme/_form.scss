@@ -53,3 +53,9 @@ mat-form-field.input-block {
 .mat-input-element {
   caret-color: var(--on-surface);
 }
+
+.mat-form-field .mat-form-field-flex {
+  background-color: #f0f0f0 !important;
+  border-radius: 5px !important;
+  padding: 10px !important;
+}
