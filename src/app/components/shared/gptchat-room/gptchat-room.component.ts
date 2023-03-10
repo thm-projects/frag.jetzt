@@ -737,24 +737,18 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.filteredPrompts.push({ act: 'prompts', prompt: null });
 
+    const regex = new RegExp('\\s?' + this.searchTerm.toLowerCase() + '\\-?');
+
     this.filteredPrompts.push(
       ...this.prompts
         .filter((prompt) => {
-          return (
-            (
-              prompt.prompt
-                .toLowerCase()
-                .match(this.searchTerm.toLowerCase()) || []
-            ).length > 0
-          );
+          return (prompt.prompt.toLowerCase().match(regex) || []).length > 0;
         })
         .sort(
           (a, b) =>
-            b.prompt.toLowerCase().split(this.searchTerm.toLowerCase()).length -
+            b.prompt.toLowerCase().split(regex).length -
             1 -
-            (a.prompt.toLowerCase().split(this.searchTerm.toLowerCase())
-              .length -
-              1),
+            (a.prompt.toLowerCase().split(regex).length - 1),
         ),
     );
     this.amountOfFoundPrompts =
