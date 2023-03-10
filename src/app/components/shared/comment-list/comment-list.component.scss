@@ -151,6 +151,14 @@ app-comment {
   transform: scale(1.5);
 }
 
+.check-icon {
+  color: #1da1f2;
+}
+
+.smart-toy-icon {
+  color: #00a67e;
+}
+
 .unanswered-icon {
   color: slategray;
 }
@@ -315,7 +323,7 @@ app-comment {
   animation-timing-function: ease-in;
   animation-duration: 2s;
   animation-iteration-count: 1;
-  opacity: 1.0 !important;
+  opacity: 1 !important;
 }
 
 @keyframes animation_blink_5s {
@@ -330,7 +338,7 @@ app-comment {
   animation-timing-function: ease-in;
   animation-duration: 2s;
   animation-iteration-count: 2;
-  opacity: 1.0 !important;
+  opacity: 1 !important;
 }
 
 h1 {
@@ -354,7 +362,7 @@ h1 {
 @keyframes bg-object-anim {
   from {
     color: var(--secondary);
-    opacity: 1.0;
+    opacity: 1;
     transform: scale(0) translate(-50%, -50%);
   }
   to {
