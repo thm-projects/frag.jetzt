@@ -2,15 +2,22 @@
   <div
     class="gpt-requester"
     *ngIf="!isLoading; else loading">
-    <div fxLayout="row">
+    <div
+      fxLayout="row"
+      style="padding: 0">
       <mat-form-field
-        style="width: 100%; padding: 0 24px"
+        style="width: 100%"
+        floatLabel="always"
         *ngIf="conversation.length < 1">
-        <mat-label fxLayoutAlign="start center">
-          <mat-icon class="search-icon">search</mat-icon>
-          {{ "gpt-chat.prompt-label" | translate }}
-        </mat-label>
+        <mat-icon
+          matPrefix
+          class="search-icon"
+          style="margin-right: 0.1em">
+          search
+        </mat-icon>
+        <mat-label></mat-label>
         <input
+          placeholder="{{ 'gpt-chat.prompt-label' | translate }}"
           autofocus
           type="text"
           aria-label="Prompt"
@@ -22,12 +29,36 @@
           <mat-option
             *ngFor="let prompt of filteredPrompts"
             [value]="prompt.act"
-            (click)="setValue(prompt.prompt)"
+            (click)="sendGPTContent = prompt.prompt; autoGrow(autoGrowElement)"
+            class="mat-option"
+            [ngClass]="{
+              'mat-option-header':
+                prompt.act === 'acts' || prompt.act === 'prompts'
+            }"
             [disabled]="!prompt.prompt">
-            <ng-container *ngIf="prompt.act !== '------'">
+            <ng-container *ngIf="prompt.act !== null && prompt.prompt !== null">
               {{ prompt.act }}
             </ng-container>
-            <hr *ngIf="prompt.act === '------'" />
+            <ng-container
+              *ngIf="prompt.act === 'acts' && prompt.prompt === null">
+              <div class="counter-container">
+                <span>
+                  {{ "gpt-chat.option-total-acts" | translate }} ({{
+                    amountOfFoundActs
+                  }})
+                </span>
+              </div>
+            </ng-container>
+            <ng-container
+              *ngIf="prompt.act === 'prompts' && prompt.prompt === null">
+              <div class="counter-container">
+                <span>
+                  {{ "gpt-chat.option-total-prompts" | translate }} ({{
+                    amountOfFoundPrompts
+                  }})
+                </span>
+              </div>
+            </ng-container>
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>

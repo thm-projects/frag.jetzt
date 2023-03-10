@@ -97,6 +97,8 @@
     "refresh": "Ausgabe erneut generieren",
     "token-info": "Tokens (Eingabe / Chat / Gesamt): {{promptTokens}} / {{conversationTokens}} / {{allTokens}}",
     "prompt-label": "Prompt Suche",
+    "option-total-acts": "Gefundene Acts",
+    "option-total-prompts": "Gefundene Prompts",
     "use-case": "Anwendungsfall",
     "use-case-tooltip": "Auswahl eines speziellen Anwendungsfalles für bessere Antworten.",
     "use-case-answer-questions": "Beantwortung von Fragen",

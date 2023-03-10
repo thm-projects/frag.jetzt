@@ -1,3 +1,54 @@
+.mat-option {
+  border-bottom: 1px solid var(--dialog);
+
+  &:nth-child(even) {
+    background-color: var(--surface);
+    color: var(--on-surface);
+  }
+
+  &:nth-child(odd) {
+    background-color: var(--alt-surface);
+    color: var(--on-surface);
+  }
+
+  &.mat-option-header {
+    background-color: var(--primary);
+    color: var(--on-primary);
+  }
+}
+
+.counter-container {
+  display: block;
+  text-align: center;
+  overflow: hidden;
+  white-space: nowrap;
+
+  span {
+    position: relative;
+    display: inline-block;
+  }
+
+  span:before,
+  span:after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 9999px;
+    height: 1px;
+    background-color: var(--on-primary);
+  }
+
+  span:before {
+    right: 100%;
+    margin-right: 15px;
+  }
+
+  span:after {
+    left: 100%;
+    margin-left: 15px;
+  }
+}
+
 .gpt-requester {
   display: flex;
   flex-direction: column;

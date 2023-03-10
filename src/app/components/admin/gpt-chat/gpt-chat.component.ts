@@ -59,6 +59,8 @@ export class GptChatComponent implements OnInit, OnDestroy {
   prompts: PromptType[] = [];
   promptFormControl = new FormControl('');
   filteredPrompts: PromptType[];
+  amountOfFoundActs: number = 0;
+  amountOfFoundPrompts: number = 0;
   searchTerm: string = '';
   private destroyer = new ReplaySubject(1);
   private encoder: GPTEncoder = null;
@@ -456,22 +458,45 @@ export class GptChatComponent implements OnInit, OnDestroy {
   }
 
   private filterPrompts() {
-    this.filteredPrompts = this.prompts.filter((prompt) => {
-      return (
-        prompt.act.toLowerCase().indexOf(this.searchTerm.toLowerCase()) > -1
-      );
-    });
-    if (!this.searchTerm.trim()) {
-      return;
-    }
-    this.filteredPrompts.push({ act: '------', prompt: null });
+    this.filteredPrompts = [];
+
+    this.filteredPrompts.push({ act: 'acts', prompt: null });
     this.filteredPrompts.push(
       ...this.prompts.filter((prompt) => {
         return (
-          prompt.prompt.toLowerCase().indexOf(this.searchTerm.toLowerCase()) >
-          -1
+          prompt.act.toLowerCase().indexOf(this.searchTerm.toLowerCase()) > -1
         );
       }),
     );
+    this.amountOfFoundActs = this.filteredPrompts.length - 1;
+
+    if (!this.searchTerm.trim()) {
+      return;
+    }
+
+    this.filteredPrompts.push({ act: 'prompts', prompt: null });
+
+    this.filteredPrompts.push(
+      ...this.prompts
+        .filter((prompt) => {
+          return (
+            (
+              prompt.prompt
+                .toLowerCase()
+                .match(this.searchTerm.toLowerCase()) || []
+            ).length > 0
+          );
+        })
+        .sort(
+          (a, b) =>
+            b.prompt.toLowerCase().split(this.searchTerm.toLowerCase()).length -
+            1 -
+            (a.prompt.toLowerCase().split(this.searchTerm.toLowerCase())
+              .length -
+              1),
+        ),
+    );
+    this.amountOfFoundPrompts =
+      this.filteredPrompts.length - this.amountOfFoundActs - 2;
   }
 }
