@@ -423,12 +423,9 @@ export class SessionService {
     } else if (message.type === 'BrainstormingCategorizationReset') {
       this.onBrainstormingCategorizationReset(message, room);
     } else if (message.type === 'LivepollSessionCreated') {
-      this._beforeRoomUpdates.next(room);
-      this.updateCurrentRoom({
-        livepollSession: message.payload.livepoll,
-      });
-      this._afterRoomUpdates.next(room);
-      this.livepollService.open(this.currentRole, true);
+      this.onLivepollCreated(message, room);
+    } else if (message.type === 'LivepollSessionPatched') {
+      this.onLivepollPatched(message, room);
     } else if (!environment.production) {
       console.log('Ignored: ', message);
     }
@@ -539,5 +536,31 @@ export class SessionService {
       return;
     }
     this.userManagementService.forceLogin().subscribe();
+  }
+
+  private onLivepollCreated(message: any, room: Room) {
+    this.receiveRoomUpdates(false)
+      .pipe(take(1))
+      .subscribe((sub) => {
+        this.livepollService.open(this.currentRole, true, sub.livepollSession);
+      });
+    this._beforeRoomUpdates.next(room);
+    this.updateCurrentRoom({
+      livepollSession: message.payload.livepoll,
+    });
+    this._afterRoomUpdates.next(room);
+  }
+
+  private onLivepollPatched(message: any, room: Room) {
+    const id = room.livepollSession?.id;
+    if (id !== message.payload.id) {
+      return;
+    }
+    const changes = message.payload.changes;
+    this._beforeRoomUpdates.next(room);
+    for (const key of Object.keys(changes)) {
+      room.livepollSession[key] = changes[key];
+    }
+    this._afterRoomUpdates.next(room);
   }
 }

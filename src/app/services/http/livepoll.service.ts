@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { UserRole } from '../../models/user-roles.enum';
@@ -69,7 +69,11 @@ export class LivepollService extends BaseHttpService {
       );
   }
 
-  open(userRole: UserRole, hasActiveLivepoll: boolean) {
+  open(
+    userRole: UserRole,
+    hasActiveLivepoll: boolean,
+    session: LivepollSession,
+  ) {
     switch (userRole) {
       case UserRole.PARTICIPANT:
         if (hasActiveLivepoll) {
@@ -77,7 +81,7 @@ export class LivepollService extends BaseHttpService {
             LivepollDialogComponent,
             LivepollService.dialogDefaults,
           );
-          instance.componentInstance.initFromSession();
+          instance.componentInstance.initFrom(session);
         }
         break;
       case UserRole.EDITING_MODERATOR:
@@ -88,7 +92,7 @@ export class LivepollService extends BaseHttpService {
             LivepollDialogComponent,
             LivepollService.dialogDefaults,
           );
-          instance.componentInstance.initFromSession();
+          instance.componentInstance.initFrom(session);
         } else {
           this.dialog.open(
             LivepollCreateComponent,

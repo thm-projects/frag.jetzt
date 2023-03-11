@@ -1,7 +1,9 @@
 <div class="title">
   <h1 mat-dialog-title>{{ translateKey + ".dialog-title" | translate }}</h1>
 </div>
-<mat-dialog-content class="content">
+<mat-dialog-content
+  class="content"
+  *ngIf="livepollSession">
   <ng-container *ngIf="session.currentRole">
     <mat-accordion class="accordion">
       <mat-expansion-panel class="settings-expansion-panel">

@@ -389,6 +389,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     this.livepollService.open(
       this.sessionService.currentRole,
       !!this.sessionService.currentRoom.livepollSession?.active,
+      this.sessionService.currentLivepoll,
     );
   }
 }
