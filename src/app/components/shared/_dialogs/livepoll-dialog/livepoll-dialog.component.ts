@@ -9,7 +9,10 @@ import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../../services/util/language.service';
 import { HttpClient } from '@angular/common/http';
 import { SessionService } from '../../../../services/util/session.service';
-import { LivepollService } from '../../../../services/http/livepoll.service';
+import {
+  LivepollService,
+  LivepollSessionPatchAPI,
+} from '../../../../services/http/livepoll.service';
 import { LivepollSession } from '../../../../models/livepoll-session';
 import {
   animate,
@@ -18,6 +21,7 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
+import { clone } from 'app/utils/ts-utils';
 
 const animateOpen = {
   opacity: 1,
@@ -64,6 +68,7 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
       }[]
     | undefined;
   private _destroyer = new ReplaySubject(1);
+  private lastSession: LivepollSession;
 
   constructor(
     public readonly device: DeviceInfoService,
@@ -105,15 +110,31 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
 
   public initFromSession() {
     this.livepollSession = this.session.currentLivepoll;
+    this.lastSession = clone(this.livepollSession) as LivepollSession;
     this.template = templateEntries[this.livepollSession.template];
     this.isProduction = true;
   }
 
   public save() {
-    this.livepollService.update(this.livepollSession);
-    this.session.updateCurrentRoom({
-      livepollSession: this.livepollSession,
-    });
+    const data: Partial<LivepollSessionPatchAPI> = {};
+    if (this.lastSession.active !== this.livepollSession.active) {
+      data.active = this.livepollSession.active;
+    }
+    if (this.lastSession.title !== this.livepollSession.title) {
+      data.title = this.livepollSession.title;
+    }
+    if (this.lastSession.resultVisible !== this.livepollSession.resultVisible) {
+      data.resultVisible = this.livepollSession.resultVisible;
+    }
+    if (this.lastSession.viewsVisible !== this.livepollSession.viewsVisible) {
+      data.viewsVisible = this.livepollSession.viewsVisible;
+    }
+    if (Object.keys(data).length < 1) {
+      return;
+    }
+    this.livepollService
+      .update(this.livepollSession.id, data)
+      .subscribe((d) => (this.lastSession = d));
   }
 
   delete() {

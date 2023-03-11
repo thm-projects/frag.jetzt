@@ -1,24 +1,16 @@
-import { Component, EventEmitter, OnDestroy } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import {
-  LivepollTemplate,
   LivepollTemplateContext,
   templateContext,
   templateGroups,
 } from '../../../../models/livepoll-template';
 import { FormControl } from '@angular/forms';
 import { DialogRef } from '@angular/cdk/dialog';
-import {
-  defaultLivepollConfiguration,
-  LivepollConfiguration,
-} from '../../../../models/livepoll-configuration';
 import { TranslateService } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
 import { LanguageService } from '../../../../services/util/language.service';
 import { ReplaySubject, takeUntil } from 'rxjs';
 import { DeviceInfoService } from '../../../../services/util/device-info.service';
-import { MatDialog } from '@angular/material/dialog';
-import { LivepollDialogComponent } from '../livepoll-dialog/livepoll-dialog.component';
-import { UserRole } from '../../../../models/user-roles.enum';
 import {
   LivepollService,
   LivepollSessionPatchAPI,
@@ -62,18 +54,20 @@ export class LivepollCreateComponent implements OnDestroy {
             this.translationService.setTranslation(lang, translation, true);
           });
       });
-    this.livepollConfiguration = new LivepollSession();
+    this.livepollConfiguration = new LivepollSession({} as LivepollSession);
   }
 
   create() {
     this.dialogRef.close(this.livepollConfiguration);
-    this.livepollService.create({
-      roomId: this.sessionService.currentRoom.id,
-      template: this.livepollConfiguration.template,
-      title: this.livepollConfiguration.title,
-      resultVisible: this.livepollConfiguration.resultVisible,
-      viewsVisible: this.livepollConfiguration.viewsVisible,
-    });
+    this.livepollService
+      .create({
+        roomId: this.sessionService.currentRoom.id,
+        template: this.livepollConfiguration.template,
+        title: this.livepollConfiguration.title,
+        resultVisible: this.livepollConfiguration.resultVisible,
+        viewsVisible: this.livepollConfiguration.viewsVisible,
+      })
+      .subscribe();
   }
 
   ngOnDestroy(): void {

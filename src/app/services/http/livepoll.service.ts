@@ -1,14 +1,16 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { SessionService } from '../util/session.service';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { UserRole } from '../../models/user-roles.enum';
 import { LivepollCreateComponent } from '../../components/shared/_dialogs/livepoll-create/livepoll-create.component';
 import { LivepollDialogComponent } from '../../components/shared/_dialogs/livepoll-dialog/livepoll-dialog.component';
-import { DialogConfig } from '@angular/cdk/dialog';
 import { RoomService } from './room.service';
+import { catchError, map, Observable, tap } from 'rxjs';
+import { LivepollSession } from 'app/models/livepoll-session';
+import { verifyInstance } from 'app/utils/ts-utils';
+import { BaseHttpService } from './base-http.service';
 
-export interface LivepollSessionPatchAPI {
+export interface LivepollSessionCreateAPI {
   template: string;
   title: string | null;
   resultVisible: boolean;
@@ -16,10 +18,22 @@ export interface LivepollSessionPatchAPI {
   roomId: string;
 }
 
+export interface LivepollSessionPatchAPI {
+  active: boolean;
+  title: string | null;
+  resultVisible: boolean;
+  viewsVisible: boolean;
+}
+
+const httpOptions = {
+  headers: new HttpHeaders({
+    'Content-Type': 'application/json',
+  }),
+};
 @Injectable({
   providedIn: 'root',
 })
-export class LivepollService {
+export class LivepollService extends BaseHttpService {
   public static readonly dialogDefaults: MatDialogConfig = {
     width: '700px',
   };
@@ -27,29 +41,33 @@ export class LivepollService {
     public readonly http: HttpClient,
     public readonly roomService: RoomService,
     public readonly dialog: MatDialog,
-  ) {}
-
-  create(livepoll: LivepollSessionPatchAPI) {
-    this.http
-      .post(
-        '/api/livepoll/session',
-        {
-          viewsVisible: livepoll.viewsVisible,
-          resultVisible: livepoll.resultVisible,
-          title: livepoll.title,
-          roomId: livepoll.roomId,
-          template: livepoll.template,
-        },
-        {
-          headers: { 'Content-Type': 'application/json' },
-        },
-      )
-      .subscribe((x) => {
-        console.log('create', x);
-      });
+  ) {
+    super();
   }
 
-  update(livepoll: LivepollSessionPatchAPI) {}
+  create(livepoll: LivepollSessionCreateAPI): Observable<LivepollSession> {
+    return this.http
+      .post<LivepollSession>('/api/livepoll/session', livepoll, httpOptions)
+      .pipe(
+        tap(() => ''),
+        map((e) => verifyInstance(LivepollSession, e)),
+        catchError(this.handleError<LivepollSession>('create')),
+      );
+  }
+
+  update(id: string, livepoll: Partial<LivepollSessionPatchAPI>) {
+    return this.http
+      .patch<LivepollSession>(
+        '/api/livepoll/session/' + id,
+        livepoll,
+        httpOptions,
+      )
+      .pipe(
+        tap(() => ''),
+        map((e) => verifyInstance(LivepollSession, e)),
+        catchError(this.handleError<LivepollSession>('update')),
+      );
+  }
 
   open(userRole: UserRole, hasActiveLivepoll: boolean) {
     switch (userRole) {

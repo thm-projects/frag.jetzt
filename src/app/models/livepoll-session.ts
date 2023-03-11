@@ -1,5 +1,6 @@
 import { LivepollTemplate } from './livepoll-template';
 import { defaultLivepollConfiguration } from './livepoll-configuration';
+import { verifyInstance } from 'app/utils/ts-utils';
 
 export class LivepollSession {
   id: string;
@@ -11,20 +12,18 @@ export class LivepollSession {
   viewsVisible: boolean;
   createdAt: Date;
   updatedAt: Date | null;
-  new: boolean;
 
-  constructor(
-    id: string = '',
-    roomId: string = '',
-    active: boolean = true,
-    template: LivepollTemplate = defaultLivepollConfiguration.template,
-    title: string | null = null,
-    resultVisible: boolean = defaultLivepollConfiguration.resultVisible,
-    viewsVisible: boolean = defaultLivepollConfiguration.viewsVisible,
-    createdAt: Date | null = null,
-    updatedAt: Date | null = null,
-    _new: boolean = false,
-  ) {
+  constructor({
+    id = '',
+    roomId = '',
+    active = true,
+    template = defaultLivepollConfiguration.template,
+    title = null,
+    resultVisible = defaultLivepollConfiguration.resultVisible,
+    viewsVisible = defaultLivepollConfiguration.viewsVisible,
+    createdAt = new Date(),
+    updatedAt = null,
+  }: LivepollSession) {
     this.id = id;
     this.roomId = roomId;
     this.active = active;
@@ -32,8 +31,7 @@ export class LivepollSession {
     this.title = title;
     this.resultVisible = resultVisible;
     this.viewsVisible = viewsVisible;
-    this.createdAt = new Date(createdAt);
-    this.updatedAt = new Date(updatedAt);
-    this.new = _new;
+    this.createdAt = verifyInstance(Date, createdAt);
+    this.updatedAt = verifyInstance(Date, updatedAt);
   }
 }
