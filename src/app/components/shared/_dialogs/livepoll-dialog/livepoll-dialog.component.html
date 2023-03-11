@@ -91,6 +91,7 @@
         </div>
         <div class="expansion-action-list">
           <button
+            *ngIf="isProduction"
             mat-flat-button
             color="accent"
             (click)="save()">
