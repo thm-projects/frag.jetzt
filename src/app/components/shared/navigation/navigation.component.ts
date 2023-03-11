@@ -208,7 +208,11 @@ export class NavigationComponent implements OnInit, OnDestroy {
           this.sessionService.currentRoom,
           this.userManagementService.getCurrentUser(),
         ),
-      navigate: (route) => this.livepollService.open(),
+      navigate: (route) =>
+        this.livepollService.open(
+          this.sessionService.currentRole,
+          !!this.sessionService.currentRoom.livepollSession?.active,
+        ),
       isCurrentRoute: (route) => false,
     },
     {

@@ -25,7 +25,6 @@ export class LivepollService {
   };
   constructor(
     public readonly http: HttpClient,
-    public readonly sessionService: SessionService,
     public readonly roomService: RoomService,
     public readonly dialog: MatDialog,
   ) {}
@@ -50,39 +49,33 @@ export class LivepollService {
       });
   }
 
-  update(livepoll: LivepollSessionPatchAPI) {
-    this.roomService
-      .patchRoom(this.sessionService.currentRoom.id, {
-        livepollSession: this.sessionService.currentLivepoll,
-      })
-      .subscribe((x) => {
-        console.log('upt', x);
-      });
-  }
+  update(livepoll: LivepollSessionPatchAPI) {}
 
-  open() {
-    switch (this.sessionService.currentRole) {
+  open(userRole: UserRole, hasActiveLivepoll: boolean) {
+    switch (userRole) {
       case UserRole.PARTICIPANT:
-        const instance = this.dialog.open(
-          LivepollDialogComponent,
-          LivepollService.dialogDefaults,
-        );
-        instance.componentInstance.initFromSession();
-        break;
-      case UserRole.EDITING_MODERATOR:
-      case UserRole.EXECUTIVE_MODERATOR:
-      case UserRole.CREATOR:
-        if (!this.sessionService.currentLivepoll) {
-          this.dialog.open(
-            LivepollCreateComponent,
-            LivepollService.dialogDefaults,
-          );
-        } else {
+        if (hasActiveLivepoll) {
           const instance = this.dialog.open(
             LivepollDialogComponent,
             LivepollService.dialogDefaults,
           );
           instance.componentInstance.initFromSession();
+        }
+        break;
+      case UserRole.EDITING_MODERATOR:
+      case UserRole.EXECUTIVE_MODERATOR:
+      case UserRole.CREATOR:
+        if (hasActiveLivepoll) {
+          const instance = this.dialog.open(
+            LivepollDialogComponent,
+            LivepollService.dialogDefaults,
+          );
+          instance.componentInstance.initFromSession();
+        } else {
+          this.dialog.open(
+            LivepollCreateComponent,
+            LivepollService.dialogDefaults,
+          );
         }
         break;
     }

@@ -28,6 +28,7 @@ import { LivepollSessionList } from '../../models/livepoll-session-list';
 import { GptService } from '../http/gpt.service';
 import { GPTRoomStatus } from 'app/models/gpt-status';
 import { LivepollSession } from '../../models/livepoll-session';
+import { LivepollService } from '../http/livepoll.service';
 
 @Injectable({
   providedIn: 'root',
@@ -62,6 +63,7 @@ export class SessionService {
     private wsConnectorService: WsConnectorService,
     private brainstormingService: BrainstormingService,
     private gptService: GptService,
+    private livepollService: LivepollService,
   ) {}
 
   get currentLivepoll(): LivepollSession {
@@ -382,7 +384,6 @@ export class SessionService {
   }
 
   private receiveMessage(msg: any, room: Room) {
-    console.log('msg' + msg, room);
     const message = JSON.parse(msg.body);
     if (message.roomId && message.roomId !== room.id) {
       console.error('Wrong room!', message);
@@ -421,6 +422,13 @@ export class SessionService {
       this.onBrainstormingPatched(message, room);
     } else if (message.type === 'BrainstormingCategorizationReset') {
       this.onBrainstormingCategorizationReset(message, room);
+    } else if (message.type === 'LivepollSessionCreated') {
+      this._beforeRoomUpdates.next(room);
+      this.updateCurrentRoom({
+        livepollSession: message.payload.livepoll,
+      });
+      this._afterRoomUpdates.next(room);
+      this.livepollService.open(this.currentRole, true);
     } else if (!environment.production) {
       console.log('Ignored: ', message);
     }

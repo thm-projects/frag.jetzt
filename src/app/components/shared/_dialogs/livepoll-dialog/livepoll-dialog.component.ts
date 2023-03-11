@@ -110,7 +110,6 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
   }
 
   public save() {
-    // todo: patch save
     this.livepollService.update(this.livepollSession);
     this.session.updateCurrentRoom({
       livepollSession: this.livepollSession,
@@ -122,7 +121,6 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
   }
 
   setActive(active: boolean) {
-    // todo: patch active
     this.livepollSession.active = active;
   }
 
