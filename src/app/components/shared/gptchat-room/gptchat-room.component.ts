@@ -69,7 +69,7 @@ import {
 } from '../../../utils/keyword-extractor';
 import { CommentService } from '../../../services/http/comment.service';
 import { CanComponentDeactivate } from './can-component-deactivate';
-import {GptChatConfirmLeaveComponent} from "../_dialogs/gpt-chat-confirm-leave/gpt-chat-confirm-leave.component";
+import { GptChatConfirmLeaveComponent } from '../_dialogs/gpt-chat-confirm-leave/gpt-chat-confirm-leave.component';
 
 interface ConversationEntry {
   type: 'human' | 'gpt' | 'error';
@@ -127,7 +127,7 @@ export class GPTChatRoomComponent
   private _list: ComponentRef<any>[];
   private preset: GPTRoomPreset;
   private keywordExtractor: KeywordExtractor;
-  private confirmLeave:any=false
+  private confirmLeave: any = false;
 
   constructor(
     private gptService: GptService,
@@ -201,21 +201,25 @@ export class GPTChatRoomComponent
   }
 
   canDeactivate(): Observable<boolean> | Promise<boolean> | boolean | any {
-    if (this.confirmLeave == true) {
-      return true
+    if (this.confirmLeave) {
+      return true;
     }
     const dialogRef = this.dialog.open(GptChatConfirmLeaveComponent, {
       autoFocus: false,
       width: '80%',
       maxWidth: '600px',
     });
-    return dialogRef.afterClosed().toPromise().then((result) => {
-      console.log("return: ", result)
-      return result;
-    }).catch((error) => {
-      console.log("error: ", error)
-      return false;
-    });
+    return dialogRef
+      .afterClosed()
+      .toPromise()
+      .then((result) => {
+        console.log('return: ', result);
+        return result;
+      })
+      .catch((error) => {
+        console.log('error: ', error);
+        return false;
+      });
   }
 
   setValue(msg: string) {
