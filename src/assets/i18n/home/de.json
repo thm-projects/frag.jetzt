@@ -262,7 +262,7 @@
     "moderationboard": "Moderation",
     "motd": "News",
     "my-account": "Optionen",
-    "chatroom-options-menu": "Prompt Vorgaben",
+    "chatroom-options-menu": "Prompt-Vorgaben",
     "my-sessions": "Meine Räume",
     "navigation": "Navigation [{{loc}}]",
     "navigation-no-target": "Navigation",
@@ -767,7 +767,7 @@
     "cancel": "Abbrechen",
     "title": "Selbstbeschreibung für GPT",
     "user-description": "Selbstbeschreibung",
-    "token-info": "{{tokens}} / {{maxLength}} Tokens"
+    "token-info": "{{tokens}} / {{maxLength}} Token"
   },
   "deepl-formality-select": {
     "default": "Voreinstellung",

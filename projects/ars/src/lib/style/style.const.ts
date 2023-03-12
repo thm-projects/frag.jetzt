@@ -6,7 +6,7 @@ export const light = {
   'ars-background-color': '#121212',
   'ars-foreground-color': '#121212',
   'ars-border-color': '#121212',
-  'form-background': '#F0F0F0',
+  'form-background': 'PowderBlue',
 };
 
 export const dark = {

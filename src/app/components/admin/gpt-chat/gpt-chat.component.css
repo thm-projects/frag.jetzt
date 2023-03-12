@@ -48,7 +48,7 @@
 .gpt-requester > .error {
   margin-inline: auto;
   background-color: var(--red);
-  color: #000;
+  color: #fff;
 }
 
 .gpt-requester > .gpt {

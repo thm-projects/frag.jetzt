@@ -266,7 +266,7 @@ a {
 
 .mat-form-field .mat-form-field-flex {
   background-color: var(--form-background) !important;
-  border-radius: 5px !important;
+  border-radius: 15px !important;
   padding: 10px !important;
 }
 
@@ -315,6 +315,10 @@ a {
 }
 
 .mat-select-value {
+  color: var(--on-dialog);
+}
+
+.mat-select-arrow {
   color: var(--on-dialog);
 }
 

@@ -56,7 +56,7 @@
     "help-activation-codes": "Hier können Aktivierungscodes für die Studie angesehen, erstellt und gelöscht werden."
   },
   "gpt-chat": {
-    "enter-conversation-text": "Chat mit ChatGPT …",
+    "enter-conversation-text": "Deine Eingabe …",
     "send": "Senden",
     "empty-conversation": "Verlauf leeren",
 
@@ -64,8 +64,8 @@
     "optin-reject": "Ablehnen",
     "privacy-policy": "Datenschutzerklärung für die Nutzung der OpenAI API",
 
-    "input-forbidden": "Eingabe verboten, bitte prüfe die GPT API Einstellungen.",
-    "no-api-setup": "Der API Schlüssel oder das Sprachmodell wurden nicht gesetzt.",
+    "input-forbidden": "Bitte prüfe die GPT-Einstellungen.",
+    "no-api-setup": "Der API-Schlüssel oder das Sprachmodell wurden nicht gesetzt.",
     "greetings": {
       "text-davinci-003": [
         {
@@ -95,12 +95,12 @@
       ]
     },
     "refresh": "Ausgabe erneut generieren",
-    "token-info": "Tokens (Eingabe / Chat / Gesamt): {{promptTokens}} / {{conversationTokens}} / {{allTokens}}",
+    "token-info": "Token (Eingabe / Chat / Gesamt): {{promptTokens}} / {{conversationTokens}} / {{allTokens}}",
     "prompt-label": "Prompt-Suche",
     "option-total-acts": "Treffer in »Agiere als …«",
     "option-total-prompts": "Treffer in Prompts",
-    "use-case": "Anwendungsfall",
-    "use-case-tooltip": "Auswahl eines speziellen Anwendungsfalles für bessere Antworten.",
+    "use-case": "Sprachmodell",
+    "use-case-tooltip": "Auswahl eines speziellen Sprachmodells für bessere Antworten.",
     "use-case-answer-questions": "Beantwortung von Fragen",
     "use-case-tooltip-answer-questions": "Sehr effektiv, wenn gute Fragen oder Aufgaben (z. B. Übersetzung und Zusammenfassung) gestellt werden. Liefert meist die besten Text-Antworten.",
     "use-case-code": "Code-Verständnis & Generierung",

@@ -492,15 +492,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
       (e) => {
         e.menuItem({
           translate: this.headerService.getTranslate(),
-          icon: 'info',
-          class: 'header-icons material-icons-outlined',
-          text: 'header.prompt-guide',
-          callback: () => this.showPromptGuide(),
-          condition: () => true,
-        });
-        e.menuItem({
-          translate: this.headerService.getTranslate(),
-          icon: 'assignment',
+          icon: 'architecture',
           class: 'material-icons-outlined',
           text: 'header.preset-context',
           callback: () => this.showContextPresetsDefinition(),
@@ -510,7 +502,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
         });
         e.menuItem({
           translate: this.headerService.getTranslate(),
-          icon: 'bookmark',
+          icon: 'topic',
           class: 'material-icons-outlined',
           text: 'header.preset-topic',
           callback: () => this.showTopicPresetsDefinition(),
@@ -607,7 +599,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
         });
         e.menuItem({
           translate: this.headerService.getTranslate(),
-          icon: 'description',
+          icon: 'person',
           class: 'material-icons-outlined',
           text: 'header.chat-self-description',
           callback: () =>
