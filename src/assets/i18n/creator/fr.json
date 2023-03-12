@@ -377,6 +377,9 @@
     "empty-conversation": "Vider l'historique",
     "input-forbidden": "Saisie interdite, veuillez vérifier les paramètres de l'API GPT.",
     "no-api-setup": "La clé d'API ou le modèle de langage n'a pas été défini.",
+    "gpt-rating-title": "Évaluation de la réponse",
+    "gpt-rating-input-label": "Comment évaluerais-tu la réponse ?",
+    "gpt-rating-save-button": "Enregistrer",
     "presets" : {
       "disabled": "Désactivé",
       "language" : {

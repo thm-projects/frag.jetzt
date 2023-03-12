@@ -377,6 +377,9 @@
     "empty-conversation": "Clear history",
     "input-forbidden": "Input forbidden, please check the GPT API settings.",
     "no-api-setup": "The API key or language model was not set.",
+    "gpt-rating-title": "GPT Rating",
+    "gpt-rating-input-label": "Please rate the quality of the answer.",
+    "gpt-rating-save-button": "Save",
     "presets": {
       "disabled": "Disabled",
       "language": {

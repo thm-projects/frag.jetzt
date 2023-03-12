@@ -48,6 +48,7 @@ import {
   GPTRoomPresetLanguage,
   GPTRoomPresetLength,
 } from '../../../models/gpt-room-preset';
+import { GptRatingComponent } from '../_dialogs/gpt-rating/gpt-rating.component';
 
 interface ConversationEntry {
   type: 'human' | 'gpt' | 'error';
@@ -179,6 +180,11 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
     this._list?.forEach((e) => e.destroy());
     this.destroyer.next(true);
     this.destroyer.complete();
+    const dialogRef = this.dialog.open(GptRatingComponent, {
+      autoFocus: false,
+      width: '80%',
+      maxWidth: '600px',
+    });
   }
 
   formatText(text: string) {

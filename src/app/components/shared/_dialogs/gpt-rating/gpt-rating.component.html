@@ -1,6 +1,6 @@
 <div *ngIf="!isLoading; else loading">
   <ng-container *ngIf="!ratingResults; else stars">
-    <h2 class="oldtypo-h2">{{ "gpt-chat.gpt-rating" | translate }}</h2>
+    <h2 class="oldtypo-h2">{{ "gpt-chat.gpt-rating-title" | translate }}</h2>
     <div
       fxLayoutAlign="center"
       (mouseleave)="onMouseLeave()">

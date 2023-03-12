@@ -378,6 +378,9 @@
     "empty-conversation": "Verlauf leeren",
     "input-forbidden": "Eingabe verboten, bitte prüfe die GPT API Einstellungen.",
     "no-api-setup": "Der API Schlüssel oder das Sprachmodell wurden nicht gesetzt.",
+    "gpt-rating-title": "GPT Rating",
+    "gpt-rating-input-label": "Wie gut war die Antwort?",
+    "gpt-rating-save-button": "Speichern",
     "presets": {
       "disabled": "Deaktiviert",
       "language": {
