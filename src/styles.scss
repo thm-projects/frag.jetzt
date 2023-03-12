@@ -266,8 +266,22 @@ a {
 
 .mat-form-field .mat-form-field-flex {
   background-color: var(--form-background) !important;
-  border-radius: 15px !important;
-  padding: 10px !important;
+  border-radius: 10px !important;
+  padding: 5px !important;
+}
+
+.mat-form-field-appearance-legacy
+  .mat-form-field-prefix
+  .mat-datepicker-toggle-default-icon,
+.mat-form-field-appearance-legacy
+  .mat-form-field-suffix
+  .mat-datepicker-toggle-default-icon {
+  width: unset !important;
+  color: var(--on-dialog) !important;
+}
+
+.ngx-mat-timepicker {
+  font-size: 9px !important;
 }
 
 .mat-tab-label-active,
