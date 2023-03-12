@@ -199,12 +199,11 @@ export class GPTChatRoomComponent
   }
 
   canDeactivate(): Observable<boolean> | Promise<boolean> | boolean {
-    // Hier kannst du deine Logik einfügen, die überprüft, ob der Benutzer die Seite verlassen darf oder nicht.
-    // Wenn der Benutzer die Seite verlassen darf, gib einfach true zurück.
-    // Wenn der Benutzer die Seite nicht verlassen darf, gib ein Observable, Promise oder einfach false zurück.
-    // Das kann in diesem Fall ein Modal-Dialog zur Bestätigung des Verlassens sein.
+    // Here you can insert your logic that checks whether the user is allowed to leave the page or not.
+    // If the user is allowed to leave the page, simply return true.
+    // If the user is not allowed to leave the page, return an Observable, Promise or simply false.
+    // In this case, this can be a modal dialogue to confirm leaving.
 
-    // Beispiel:
     return confirm('Wollen Sie den Chatbot wirklich verlassen?');
     /*if (this.userIsLeaving) {
 
