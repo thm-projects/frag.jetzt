@@ -1,4 +1,5 @@
 import { Location } from '@angular/common';
+import { CanDeactivate } from '@angular/router';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import {
   AfterViewInit,
@@ -29,6 +30,7 @@ import {
 } from 'app/utils/quill-utils';
 import {
   finalize,
+  Observable,
   Observer,
   ReplaySubject,
   Subject,
@@ -66,6 +68,7 @@ import {
   KeywordExtractor,
 } from '../../../utils/keyword-extractor';
 import { CommentService } from '../../../services/http/comment.service';
+import { CanComponentDeactivate } from './can-component-deactivate';
 
 interface ConversationEntry {
   type: 'human' | 'gpt' | 'error';
@@ -82,7 +85,8 @@ interface PromptType {
   templateUrl: './gptchat-room.component.html',
   styleUrls: ['./gptchat-room.component.scss'],
 })
-export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
+export class GPTChatRoomComponent
+  implements OnInit, OnDestroy, AfterViewInit, CanComponentDeactivate {
   @ViewChild(ViewCommentDataComponent)
   commentData: ViewCommentDataComponent;
   @ViewChild('languageSubMenu') languageSubMenu: MatMenu;
@@ -192,6 +196,21 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
             this.roleString = 'moderator';
         }
       });
+  }
+
+  canDeactivate(): Observable<boolean> | Promise<boolean> | boolean {
+    // Hier kannst du deine Logik einfügen, die überprüft, ob der Benutzer die Seite verlassen darf oder nicht.
+    // Wenn der Benutzer die Seite verlassen darf, gib einfach true zurück.
+    // Wenn der Benutzer die Seite nicht verlassen darf, gib ein Observable, Promise oder einfach false zurück.
+    // Das kann in diesem Fall ein Modal-Dialog zur Bestätigung des Verlassens sein.
+
+    // Beispiel:
+    return confirm('Wollen Sie den Chatbot wirklich verlassen?');
+    /*if (this.userIsLeaving) {
+
+    } else {
+      return true;
+    }*/
   }
 
   setValue(msg: string) {

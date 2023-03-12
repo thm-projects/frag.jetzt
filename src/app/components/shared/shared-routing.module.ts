@@ -5,6 +5,7 @@ import { UserRole } from '../../models/user-roles.enum';
 import { TagCloudComponent } from './tag-cloud/tag-cloud.component';
 import { AuthenticationGuard } from '../../guards/authentication.guard';
 import { GPTChatRoomComponent } from './gptchat-room/gptchat-room.component';
+import { ConfirmLeaveChatbotGuard } from './gptchat-room/confirm-leave.guard';
 
 const routes: Routes = [
   {
@@ -59,6 +60,7 @@ const routes: Routes = [
       ],
     },
     canActivate: [AuthenticationGuard],
+    canDeactivate: [ConfirmLeaveChatbotGuard],
   },
 ];
 
