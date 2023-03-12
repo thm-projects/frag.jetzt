@@ -610,7 +610,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
         });
         e.subMenu({
           translate: this.headerService.getTranslate(),
-          icon: 'format_align_justify',
+          icon: 'sms',
           class: 'material-icons-outlined',
           menu: this.answerFormatSubMenu,
           text: 'header.chat-answer-format',
