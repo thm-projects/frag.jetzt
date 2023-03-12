@@ -14,13 +14,16 @@ import { DeviceInfoService } from 'app/services/util/device-info.service';
 import { GptEncoderService } from 'app/services/util/gpt-encoder.service';
 import { KeyboardUtils } from 'app/utils/keyboard';
 import { KeyboardKey } from 'app/utils/keyboard/keys';
-import { finalize, Observer, ReplaySubject, Subject, takeUntil } from 'rxjs';
+import {finalize, Observable, Observer, ReplaySubject, Subject, takeUntil} from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { Location } from '@angular/common';
 import { GptOptInPrivacyComponent } from 'app/components/shared/_dialogs/gpt-optin-privacy/gpt-optin-privacy.component';
 import { UserManagementService } from 'app/services/util/user-management.service';
 import { LanguageService } from 'app/services/util/language.service';
 import { FormControl } from '@angular/forms';
+import {
+  GptChatConfirmLeaveComponent
+} from "../../shared/_dialogs/gpt-chat-confirm-leave/gpt-chat-confirm-leave.component";
 
 interface ConversationEntry {
   type: 'human' | 'gpt' | 'error';
@@ -103,6 +106,21 @@ export class GptChatComponent implements OnInit, OnDestroy {
         this.isGPTPrivacyPolicyAccepted = state;
         this.openPrivacyDialog();
       });
+  }
+
+  canDeactivate(): Observable<boolean> | Promise<boolean> | boolean | any {
+    const dialogRef = this.dialog.open(GptChatConfirmLeaveComponent, {
+      autoFocus: false,
+      width: '80%',
+      maxWidth: '600px',
+    });
+    return dialogRef.afterClosed().toPromise().then((result) => {
+      console.log("return: ", result)
+      return result;
+    }).catch((error) => {
+      console.log("error: ", error)
+      return false;
+    });
   }
 
   openPrivacyDialog() {

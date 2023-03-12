@@ -56,6 +56,9 @@
     "help-activation-codes": "Hier können Aktivierungscodes für die Studie angesehen, erstellt und gelöscht werden."
   },
   "gpt-chat": {
+    "leave-chatbot": "Willst du den Chatbot wirklich verlassen?",
+    "yes": "Ja",
+    "no": "Nein",
     "enter-conversation-text": "Deine Eingabe …",
     "send": "Senden",
     "empty-conversation": "Verlauf leeren",

@@ -5,6 +5,7 @@ import { CreateMotdComponent } from './create-motd/create-motd.component';
 import { GptConfigurationComponent } from './gpt-configuration/gpt-configuration.component';
 import { AdminOverviewComponent } from './admin-overview/admin-overview.component';
 import { GptChatComponent } from './gpt-chat/gpt-chat.component';
+import {ConfirmLeaveChatbotGuard} from "./gpt-chat/confirm-leave.guard";
 
 const routes: Routes = [
   {
@@ -29,6 +30,7 @@ const routes: Routes = [
     path: 'gpt-chat',
     component: GptChatComponent,
     canActivate: [AuthenticationGuard],
+    canDeactivate: [ConfirmLeaveChatbotGuard],
     data: { superAdmin: true },
   },
 ];

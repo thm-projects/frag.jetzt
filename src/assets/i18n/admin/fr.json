@@ -56,6 +56,9 @@
     "help-activation-codes": "Ici, les codes d'activation pour l'étude peuvent être consultés, créés et supprimés."
   },
   "gpt-chat": {
+    "leave-chatbot": "Voulez-vous vraiment quitter le chatbot?",
+    "yes": "Oui",
+    "no": "Non",
     "optin-accept": "Accepter",
     "optin-reject": "Refuser",
     "privacy-policy": "Déclaration de confidentialité pour l'utilisation de l'API OpenAI",

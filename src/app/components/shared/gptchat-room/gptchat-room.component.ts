@@ -69,6 +69,7 @@ import {
 } from '../../../utils/keyword-extractor';
 import { CommentService } from '../../../services/http/comment.service';
 import { CanComponentDeactivate } from './can-component-deactivate';
+import {GptChatConfirmLeaveComponent} from "../_dialogs/gpt-chat-confirm-leave/gpt-chat-confirm-leave.component";
 
 interface ConversationEntry {
   type: 'human' | 'gpt' | 'error';
@@ -126,6 +127,7 @@ export class GPTChatRoomComponent
   private _list: ComponentRef<any>[];
   private preset: GPTRoomPreset;
   private keywordExtractor: KeywordExtractor;
+  private confirmLeave:any=false
 
   constructor(
     private gptService: GptService,
@@ -198,18 +200,22 @@ export class GPTChatRoomComponent
       });
   }
 
-  canDeactivate(): Observable<boolean> | Promise<boolean> | boolean {
-    // Here you can insert your logic that checks whether the user is allowed to leave the page or not.
-    // If the user is allowed to leave the page, simply return true.
-    // If the user is not allowed to leave the page, return an Observable, Promise or simply false.
-    // In this case, this can be a modal dialogue to confirm leaving.
-
-    return confirm('Wollen Sie den Chatbot wirklich verlassen?');
-    /*if (this.userIsLeaving) {
-
-    } else {
-      return true;
-    }*/
+  canDeactivate(): Observable<boolean> | Promise<boolean> | boolean | any {
+    if (this.confirmLeave == true) {
+      return true
+    }
+    const dialogRef = this.dialog.open(GptChatConfirmLeaveComponent, {
+      autoFocus: false,
+      width: '80%',
+      maxWidth: '600px',
+    });
+    return dialogRef.afterClosed().toPromise().then((result) => {
+      console.log("return: ", result)
+      return result;
+    }).catch((error) => {
+      console.log("error: ", error)
+      return false;
+    });
   }
 
   setValue(msg: string) {
@@ -280,6 +286,7 @@ export class GPTChatRoomComponent
   }
 
   forwardGPTMessage(index: number) {
+    this.confirmLeave = true;
     if (this.isSending) {
       return;
     }

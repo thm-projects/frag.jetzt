@@ -1,0 +1,20 @@
+<div>
+  <h1>{{ "gpt-chat.leave-chatbot" | translate }}</h1>
+
+
+  <button
+    mat-button
+    class="secondary-btn"
+    (click)="onAccept()"
+    [mat-dialog-close]="true">
+    {{ "gpt-chat.yes" | translate }}
+  </button>
+
+  <button
+    mat-button
+    class="danger-btn"
+    (click)="onDecline()"
+    [mat-dialog-close]="true">
+    {{ "gpt-chat.no" | translate }}
+  </button>
+</div>

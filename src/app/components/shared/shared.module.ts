@@ -119,6 +119,7 @@ import { LivepollCreateComponent } from './_dialogs/livepoll-create/livepoll-cre
 import { GptRoomSettingsComponent } from './_dialogs/gpt-room-settings/gpt-room-settings.component';
 import { GPTUserDescriptionDialogComponent } from './_dialogs/gptuser-description-dialog/gptuser-description-dialog.component';
 import { GptOptInPrivacyComponent } from './_dialogs/gpt-optin-privacy/gpt-optin-privacy.component';
+import { GptChatConfirmLeaveComponent} from "./_dialogs/gpt-chat-confirm-leave/gpt-chat-confirm-leave.component";
 import { GptPrivacyPolicyDeComponent } from '../../../assets/i18n/components/gpt-privacy-policy/gpt-privacy-policy-de';
 import { GptPrivacyPolicyEnComponent } from '../../../assets/i18n/components/gpt-privacy-policy/gpt-privacy-policy-en';
 import { GptPrivacyPolicyFrComponent } from '../../../assets/i18n/components/gpt-privacy-policy/gpt-privacy-policy-fr';
@@ -253,6 +254,7 @@ import { PresetsDialogComponent } from './_dialogs/presets-dialog/presets-dialog
     IntroductionPromptGuideChatbotEnComponent,
     IntroductionPromptGuideChatbotFrComponent,
     GptOptInPrivacyComponent,
+    GptChatConfirmLeaveComponent,
     GptPrivacyPolicyDeComponent,
     GptPrivacyPolicyEnComponent,
     GptPrivacyPolicyFrComponent,
