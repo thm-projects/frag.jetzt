@@ -146,7 +146,8 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
   }
 
   setActive(active: boolean) {
-    this.livepollSession.active = active;
+    // this.livepollSession.active = active;
+    // livepoll is still active even, when paused. this might need a new entry in livepoll-session
   }
 
   private init() {

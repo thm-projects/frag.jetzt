@@ -53,6 +53,7 @@ import { CommentNotificationDialogComponent } from '../_dialogs/comment-notifica
 import { GPTUserDescriptionDialogComponent } from '../_dialogs/gptuser-description-dialog/gptuser-description-dialog.component';
 import { ShrinkObserver } from 'app/utils/shrink-observer';
 import { LivepollService } from '../../../services/http/livepoll.service';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-header',
@@ -162,6 +163,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     this.sessionService.getRoom().subscribe((room) => {
       this.room = room;
       this.refreshNotifications();
+      this.refreshLivepollNotification();
     });
 
     this._r.listen(document, 'keyup', (event) => {
@@ -391,5 +393,17 @@ export class HeaderComponent implements OnInit, AfterViewInit {
       !!this.sessionService.currentRoom.livepollSession?.active,
       this.sessionService.currentLivepoll,
     );
+  }
+
+  private refreshLivepollNotification() {
+    this.sessionService.getRoomOnce().subscribe((room) => {
+      if (room.livepollSession) {
+        this.livepollService.open(
+          this.sessionService.currentRole,
+          true,
+          this.room.livepollSession,
+        );
+      }
+    });
   }
 }

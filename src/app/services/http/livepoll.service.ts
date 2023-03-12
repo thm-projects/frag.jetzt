@@ -9,6 +9,7 @@ import { catchError, map, Observable, tap } from 'rxjs';
 import { LivepollSession } from 'app/models/livepoll-session';
 import { verifyInstance } from 'app/utils/ts-utils';
 import { BaseHttpService } from './base-http.service';
+import { take } from 'rxjs/operators';
 
 export interface LivepollSessionCreateAPI {
   template: string;
@@ -37,6 +38,7 @@ export class LivepollService extends BaseHttpService {
   public static readonly dialogDefaults: MatDialogConfig = {
     width: '700px',
   };
+  public isOpen: boolean = false;
   constructor(
     public readonly http: HttpClient,
     public readonly roomService: RoomService,
@@ -74,6 +76,9 @@ export class LivepollService extends BaseHttpService {
     hasActiveLivepoll: boolean,
     session: LivepollSession,
   ) {
+    if (this.isOpen) {
+      return;
+    }
     switch (userRole) {
       case UserRole.PARTICIPANT:
         if (hasActiveLivepoll) {
@@ -81,7 +86,12 @@ export class LivepollService extends BaseHttpService {
             LivepollDialogComponent,
             LivepollService.dialogDefaults,
           );
+          this.isOpen = true;
           instance.componentInstance.initFrom(session);
+          instance
+            .afterClosed()
+            .pipe(take(1))
+            .subscribe(() => (this.isOpen = false));
         }
         break;
       case UserRole.EDITING_MODERATOR:
@@ -92,12 +102,22 @@ export class LivepollService extends BaseHttpService {
             LivepollDialogComponent,
             LivepollService.dialogDefaults,
           );
+          this.isOpen = true;
           instance.componentInstance.initFrom(session);
+          instance
+            .afterClosed()
+            .pipe(take(1))
+            .subscribe(() => (this.isOpen = false));
         } else {
-          this.dialog.open(
+          const instance = this.dialog.open(
             LivepollCreateComponent,
             LivepollService.dialogDefaults,
           );
+          this.isOpen = true;
+          instance
+            .afterClosed()
+            .pipe(take(1))
+            .subscribe(() => (this.isOpen = false));
         }
         break;
     }
