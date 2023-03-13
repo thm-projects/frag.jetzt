@@ -549,3 +549,8 @@ iframe {
 .mat-tab-header-pagination-chevron {
   border-color: var(--primary);
 }
+
+.mat-optgroup-label {
+  background-color: var(--surface);
+  color: var(--on-surface);
+}

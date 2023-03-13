@@ -3,15 +3,16 @@ import { LivepollTemplate } from './livepoll-template';
 export interface LivepollConfiguration {
   template: LivepollTemplate;
   title?: string;
-  isResultVisible: boolean;
-  isViewsVisible: boolean;
+  resultVisible: boolean;
+  viewsVisible: boolean;
   isLive: boolean;
+  roomId?: string;
 }
 
 export const defaultLivepollConfiguration: LivepollConfiguration = {
   title: undefined,
-  isViewsVisible: true,
-  isResultVisible: true,
+  viewsVisible: true,
+  resultVisible: true,
   isLive: false,
-  template: LivepollTemplate.Symbol
+  template: LivepollTemplate.Symbol,
 };

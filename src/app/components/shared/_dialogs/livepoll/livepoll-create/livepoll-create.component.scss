@@ -7,32 +7,32 @@
   margin-bottom: 8px;
   background-color: var(--secondary);
   color: var(--on-secondary);
-  transition:box-shadow 0.2s ease-in-out;
+  transition: box-shadow 0.2s ease-in-out;
 
-  &[ng-reflect-color='primary'] {
+  &[ng-reflect-color="primary"] {
     background-color: transparent;
-    box-shadow: inset 0 0 0 1px rgba(128,128,128,0.5);
-    &:hover{
+    box-shadow: inset 0 0 0 1px rgba(128, 128, 128, 0.5);
+    &:hover {
       box-shadow: inset 0 0 0 3px var(--primary);
     }
-    &:focus{
+    &:focus {
       outline: solid 3px var(--secondary);
     }
     color: var(--on-surface);
   }
 
-  &[ng-reflect-color='accent'] {
+  &[ng-reflect-color="accent"] {
     background-color: transparent;
     box-shadow: inset 0 0 0 3px var(--primary);
     color: var(--on-surface);
   }
 
-  &[ng-reflect-color='warn'] {
+  &[ng-reflect-color="warn"] {
     background-color: transparent;
-    &:hover{
+    &:hover {
       box-shadow: inset 0 0 0 3px var(--red);
     }
-    &:focus{
+    &:focus {
       box-shadow: inset 0 0 0 3px var(--red);
     }
     color: var(--on-surface);
@@ -52,26 +52,11 @@
   > .adjust {
     width: auto;
     padding: 0;
-    margin-top: 26px;
-  }
-
-  .fill {
-    margin-top: -16px;
   }
 }
 
 .desktop {
-  flex-direction: row;
-}
-
-.fill {
-  display: flex;
   flex-direction: column;
-  flex-grow: 1;
-
-  > * {
-    margin-bottom: 8px;
-  }
 }
 
 .preview {
@@ -82,16 +67,5 @@
 .reverse {
   &-true {
     flex-direction: column-reverse;
-  }
-}
-
-.adjust {
-  width: 200px;
-  display: flex;
-  flex-direction: column;
-  padding-left: 16px;
-
-  > .mat-slide-toggle {
-    padding: 8px 0;
   }
 }

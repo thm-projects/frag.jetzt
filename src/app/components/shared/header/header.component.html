@@ -78,14 +78,7 @@
         tabindex="0"
         [matTooltip]="'header.livepoll-button' | translate"
         (click)="openLivepollDialog()"
-        *ngIf="
-          navigationAccess.livepoll(
-            router.url,
-            room,
-            user,
-            sessionService.currentLivepoll
-          )
-        ">
+        *ngIf="navigationAccess.livepoll(router.url, room, user)">
         <mat-icon
           class="material-icons header-icons material-icons-outlined"
           style="transform: scale(1.2); margin-right: 5px">
