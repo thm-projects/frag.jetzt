@@ -1,0 +1,43 @@
+<h1 mat-dialog-title>
+  {{ translateKey + ".create-dialog-title" | translate }}
+</h1>
+<mat-dialog-content class="content">
+  <mat-form-field appearance="outline">
+    <mat-label>
+      {{ translateKey + ".option-select-template" | translate }}
+    </mat-label>
+    <mat-select [formControl]="templateSelection">
+      <mat-optgroup
+        *ngFor="let group of templateGroups"
+        [label]="(translateKey + '.group-label' | translate)[group[0]]">
+        <mat-option
+          *ngFor="let template of group[1]"
+          [value]="template">
+          {{ translateKey + ".template-name-" + template.name | translate }}
+        </mat-option>
+      </mat-optgroup>
+    </mat-select>
+  </mat-form-field>
+
+  <app-livepoll-dialog
+    [template]="templateSelection.value"
+    [livepollSession]="livepollConfiguration"
+    [valueChange]="templateSelection.valueChanges"></app-livepoll-dialog>
+</mat-dialog-content>
+
+<mat-dialog-actions style="display: flex; justify-content: space-between">
+  <button
+    mat-flat-button
+    color="warn"
+    class="previewOption"
+    (click)="dialogRef.close()">
+    <span>{{ translateKey + ".close" | translate }}</span>
+  </button>
+  <button
+    (click)="create()"
+    mat-flat-button
+    color="accent"
+    class="previewOption">
+    <span>{{ translateKey + ".create" | translate }}</span>
+  </button>
+</mat-dialog-actions>

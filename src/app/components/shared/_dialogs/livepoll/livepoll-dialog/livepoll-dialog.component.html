@@ -1,0 +1,163 @@
+<div class="title">
+  <h1 mat-dialog-title>{{ translateKey + ".dialog-title" | translate }}</h1>
+</div>
+<mat-dialog-content
+  class="content"
+  *ngIf="livepollSession">
+  <ng-container *ngIf="session.currentRole">
+    <app-livepoll-settings [parent]="this"></app-livepoll-settings>
+  </ng-container>
+
+  <p *ngIf="!isProduction">
+    {{ translateKey + ".dialog-preview-title" | translate }}
+  </p>
+
+  <h1 *ngIf="livepollSession.title">{{ livepollSession.title }}</h1>
+
+  <div class="info-container">
+    <div
+      @AnimateInOut
+      *ngIf="livepollSession.viewsVisible">
+      <span>{{ translateKey + ".participants" | translate }}</span>
+      <span>0</span>
+    </div>
+  </div>
+
+  <div class="result-settings-container">
+    <!-- relative / absolute settings -->
+  </div>
+
+  <div
+    class="result-container"
+    @AnimateInOut
+    *ngIf="options && livepollSession.resultVisible">
+    <div class="left">
+      <ng-container *ngFor="let option of options">
+        <div class="container">
+          <ng-container *ngIf="template.isPlain">
+            <ng-container *ngIf="template.translate">
+              <span class="option-plain-translate">
+                {{
+                  (translateKey + "." + option.symbol | translate)[option.index]
+                }}
+              </span>
+            </ng-container>
+            <ng-container *ngIf="!template.translate">
+              <span class="option-plain">{{ option.symbol }}</span>
+            </ng-container>
+          </ng-container>
+          <ng-container *ngIf="!template.isPlain">
+            <mat-icon class="option-icon">{{ option.symbol }}</mat-icon>
+          </ng-container>
+        </div>
+      </ng-container>
+    </div>
+    <div class="right">
+      <ng-container *ngFor="let option of options">
+        <div class="container">
+          <div class="background">
+            <div class="bar"></div>
+          </div>
+          <div class="foreground"></div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+
+  <div class="vote-container">
+    <div
+      [ngClass]="'reverse-' + !!template.reverse + ' grid-' + template.isGrid"
+      *ngIf="template">
+      <ng-container *ngIf="template.symbols">
+        <ng-container *ngFor="let symbol of template.symbols; index as i">
+          <ng-container
+            *ngTemplateOutlet="
+              option;
+              context: {
+                i: i,
+                symbol: symbol
+              }
+            "></ng-container>
+        </ng-container>
+      </ng-container>
+      <ng-container *ngIf="template.length">
+        <ng-container
+          *ngFor="let symbol of [].constructor(template.length); index as i">
+          <ng-container
+            *ngTemplateOutlet="
+              option;
+              context: {
+                i: i,
+                symbol: i
+              }
+            "></ng-container>
+        </ng-container>
+      </ng-container>
+    </div>
+  </div>
+  <ng-container *ngIf="session.currentRole">
+    <ng-container *ngTemplateOutlet="callToActionContainer"></ng-container>
+  </ng-container>
+</mat-dialog-content>
+
+<ng-template #callToActionContainer>
+  <div class="settings-panel-container">
+    <div class="row settings-panel-container-top">
+      <button
+        mat-flat-button
+        color="accent"
+        [matTooltip]="
+          translateKey +
+            '.creator-settings-' +
+            (isActive ? 'pause' : 'continue') | translate
+        "
+        (click)="setActive(!isActive)">
+        <mat-icon>{{ isActive ? "pause" : "play_arrow" }}</mat-icon>
+        <span *ngIf="device.isCurrentlyDesktop">
+          {{
+            translateKey +
+              ".creator-settings-" +
+              (isActive ? "pause" : "continue") | translate
+          }}
+        </span>
+      </button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template
+  #option
+  let-i="i"
+  let-symbol="symbol">
+  <button
+    class="previewOption"
+    mat-flat-button
+    [color]="selectedPreviewOption === i ? 'accent' : 'primary'"
+    (click)="selectedPreviewOption = i">
+    <ng-container
+      *ngTemplateOutlet="
+        optionEntry;
+        context: { i: i, symbol: symbol }
+      "></ng-container>
+  </button>
+</ng-template>
+
+<ng-template
+  #optionEntry
+  let-i="i"
+  let-symbol="symbol">
+  <ng-container *ngIf="template.isPlain">
+    <span>
+      {{
+        template.translate
+          ? (translateKey + "." + "option-" + template.name! | translate)[i]
+          : symbol
+      }}
+    </span>
+  </ng-container>
+  <ng-container *ngIf="!template.isPlain">
+    <mat-icon>
+      {{ symbol }}
+    </mat-icon>
+  </ng-container>
+</ng-template>

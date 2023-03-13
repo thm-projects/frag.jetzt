@@ -1,0 +1,254 @@
+.title {
+  display: flex;
+  justify-content: space-between;
+
+  > h5 {
+    font-size: 12px;
+    text-transform: uppercase;
+  }
+}
+
+.accordion {
+  color: black;
+  margin-bottom: 16px;
+}
+
+.vote-container {
+  display: flex;
+  flex-direction: column;
+  margin-top: 16px;
+}
+
+.grid-true {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  grid-column-gap: 8px;
+  grid-row-gap: 8px;
+
+  > button {
+    height: 64px;
+  }
+}
+
+.grid-false {
+  display: flex;
+  flex-direction: column;
+}
+
+.result-container {
+  display: flex;
+  flex-direction: row;
+  $height: 32px;
+  $border-radius: 4;
+
+  .left {
+    display: flex;
+    flex-direction: column;
+
+    .container {
+      height: $height;
+      padding: 4px 0;
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+    }
+  }
+
+  .right {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+
+    > .container {
+      height: $height;
+      padding: 4px 0;
+
+      > .background {
+        display: flex;
+        height: $height;
+        flex-direction: row;
+        justify-content: flex-start;
+        box-shadow: inset 0 0 0 0.5px var(--on-surface);
+        border-radius: #{$border-radius}px;
+        box-sizing: border-box;
+        padding: 4px;
+
+        > .bar {
+          width: 10px;
+          background-color: var(--on-surface);
+          border-radius: #{$border-radius - ($border-radius / 2)}px;
+        }
+      }
+
+      > .foreground {
+        height: $height;
+        display: flex;
+        justify-content: flex-start;
+        position: relative;
+        top: -$height;
+
+        > span {
+          padding: 8px;
+        }
+      }
+    }
+  }
+}
+
+@mixin mixinOption {
+  padding: 0 8px;
+}
+
+.option-plain {
+  @include mixinOption;
+}
+
+.option-plain-translate {
+  @include mixinOption;
+}
+
+.option-icon {
+  @include mixinOption;
+  margin-top: 5px;
+}
+
+@mixin button-config(
+  $border,
+  $foreground: var(--on-surface),
+  $background: transparent
+) {
+  background-color: $background;
+  box-shadow: inset 0 0 0 1px rgba(128, 128, 128, 0.5);
+  &:hover {
+    box-shadow: inset 0 0 0 1px $border;
+  }
+  &:focus {
+    box-shadow: inset 0 0 0 3px $border;
+  }
+  color: $foreground;
+  span {
+    margin-left: 4px;
+  }
+}
+
+@mixin button-color-config(
+  $attribute,
+  $border: var(--primary),
+  $foreground: var(--on-surface),
+  $background: transparent
+) {
+  > *[ng-reflect-color="#{$attribute}"] {
+    @include button-config(
+      $border: $border,
+      $foreground: $foreground,
+      $background: $background
+    );
+  }
+}
+
+.expansion-action-list {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  @include button-color-config($attribute: accent);
+}
+
+fg-1 {
+  flex-grow: 1;
+}
+
+.settings-panel-title {
+  flex-grow: 0;
+}
+
+.settings-panel-description {
+  display: flex;
+  flex-direction: row;
+
+  &-desktop {
+    @extend .settings-panel-description;
+    justify-content: space-between;
+  }
+
+  &-mobile {
+    @extend .settings-panel-description;
+    justify-content: flex-end;
+  }
+}
+
+.settings-expansion-panel {
+  box-shadow: none;
+}
+
+.settings-panel-container {
+  display: flex;
+  flex-direction: column;
+
+  > mat-slide-toggle {
+    padding: 8px 0;
+  }
+
+  &-top {
+    margin: 8px 0;
+    justify-content: space-between;
+    @include button-color-config(
+      $attribute: warn,
+      $border: red,
+      $foreground: red
+    );
+    @include button-color-config($attribute: accent);
+  }
+
+  > .row {
+    display: flex;
+    flex-direction: row;
+  }
+}
+
+.info-container {
+  display: flex;
+  justify-content: flex-end;
+  > div {
+    :first-child {
+      margin-right: 4px;
+    }
+  }
+}
+
+.mat-expansion-panel {
+  background-color: var(--surface);
+  color: var(--on-surface);
+  :active {
+    background-color: var(--surface);
+    color: var(--on-surface);
+  }
+  :focus {
+    background-color: var(--surface);
+    color: var(--on-surface);
+  }
+  :hover {
+    background-color: var(--surface);
+    color: var(--on-surface);
+  }
+}
+
+.mat-expansion-panel-header-title {
+  color: var(--on-surface);
+}
+
+.mat-expansion-panel-header {
+  @extend .mat-expansion-panel;
+}
+
+.mat-expansion-panel:not(.mat-expanded):not([aria-disabled="true"])
+  .mat-expansion-panel-header:hover {
+  background-color: var(--surface);
+  color: var(--on-surface);
+}
+
+.mat-expansion-panel-header-description,
+.mat-expansion-indicator::after {
+  background-color: var(--surface);
+  color: var(--on-surface);
+}

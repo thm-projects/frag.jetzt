@@ -45,7 +45,10 @@ export type FixedSizeArray<T, L extends number> = L extends
   ? []
   : FixedSizeArrayBuilder<[T], L>;
 
-export const verifyFixedSize = <T, L extends number>(arr: T[], length: L): FixedSizeArray<T, L> => {
+export const verifyFixedSize = <T, L extends number>(
+  arr: T[],
+  length: L,
+): FixedSizeArray<T, L> => {
   if (arr?.length !== length) {
     return null as never;
   }
@@ -115,7 +118,7 @@ export type Storable<T> = T extends GeneralFunction
 export const clone = <T>(elem: T): Mutable<T> => {
   if (Array.isArray(elem)) {
     return elem.map((e) => clone(e)) as unknown as Mutable<T>;
-  } else if (typeof elem === 'object') {
+  } else if (typeof elem === 'object' && elem !== null) {
     return Object.keys(elem).reduce((acc, e) => {
       acc[e] = clone(elem[e]);
       return acc;

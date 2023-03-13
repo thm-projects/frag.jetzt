@@ -1,5 +1,6 @@
 import { BrainstormingSession } from './brainstorming-session';
 import { ImmutableStandardDelta } from '../utils/quill-utils';
+import { LivepollSession } from './livepoll-session';
 
 export class Room {
   id: string;
@@ -17,6 +18,7 @@ export class Room {
   profanityFilter: ProfanityFilter;
   blacklistActive: boolean;
   brainstormingSession: BrainstormingSession;
+  livepollSession: LivepollSession;
   tagCloudSettings: string;
   moderatorRoomReference: string;
   conversationDepth: number;
@@ -44,6 +46,7 @@ export class Room {
     profanityFilter: ProfanityFilter = ProfanityFilter.NONE,
     blacklistActive: boolean = true,
     brainstormingSession: BrainstormingSession = null,
+    livepollSession: LivepollSession = null,
     tagCloudSettings: string = null,
     moderatorRoomReference: string = null,
     conversationDepth: number = 0,
@@ -68,6 +71,7 @@ export class Room {
     this.profanityFilter = profanityFilter;
     this.blacklistActive = blacklistActive;
     this.brainstormingSession = brainstormingSession;
+    this.livepollSession = livepollSession;
     this.tagCloudSettings = tagCloudSettings;
     this.moderatorRoomReference = moderatorRoomReference;
     this.createdAt = new Date();
@@ -87,5 +91,5 @@ export enum ProfanityFilter {
   LANGUAGE_SPECIFIC = 'LANGUAGE_SPECIFIC',
   PARTIAL_WORDS = 'PARTIAL_WORDS',
   NONE = 'NONE',
-  DEACTIVATED = 'DEACTIVATED'
+  DEACTIVATED = 'DEACTIVATED',
 }

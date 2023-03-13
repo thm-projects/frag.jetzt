@@ -48,12 +48,13 @@ import {
   navigateBrainstorming,
   navigateTopicCloud,
 } from '../navigation/navigation.component';
-import { LivepollCreateComponent } from '../_dialogs/livepoll-create/livepoll-create.component';
 import { PseudonymEditorComponent } from '../_dialogs/pseudonym-editor/pseudonym-editor.component';
 import { CommentNotificationDialogComponent } from '../_dialogs/comment-notification-dialog/comment-notification-dialog.component';
 import { GPTUserDescriptionDialogComponent } from '../_dialogs/gptuser-description-dialog/gptuser-description-dialog.component';
 import { GptOptInPrivacyComponent } from '../_dialogs/gpt-optin-privacy/gpt-optin-privacy.component';
 import { ShrinkObserver } from 'app/utils/shrink-observer';
+import { LivepollService } from '../../../services/http/livepoll.service';
+import { take } from 'rxjs/operators';
 import { GptService } from 'app/services/http/gpt.service';
 
 @Component({
@@ -108,6 +109,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     private startUpService: StartUpService,
     private brainstormingDataService: BrainstormingDataService,
     public langService: LanguageService,
+    public readonly livepollService: LivepollService,
     private gptService: GptService,
     private route: ActivatedRoute,
   ) {}
@@ -166,6 +168,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     this.sessionService.getRoom().subscribe((room) => {
       this.room = room;
       this.refreshNotifications();
+      this.refreshLivepollNotification();
     });
 
     this._r.listen(document, 'keyup', (event) => {
@@ -409,7 +412,23 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   }
 
   openLivepollDialog() {
-    LivepollCreateComponent.create(this.dialog);
+    this.livepollService.open(
+      this.sessionService.currentRole,
+      !!this.sessionService.currentRoom.livepollSession?.active,
+      this.sessionService.currentLivepoll,
+    );
+  }
+
+  private refreshLivepollNotification() {
+    this.sessionService.getRoomOnce().subscribe((room) => {
+      if (room.livepollSession) {
+        this.livepollService.open(
+          this.sessionService.currentRole,
+          true,
+          this.room.livepollSession,
+        );
+      }
+    });
   }
 
   // openGPTPrivacyDialog() {
