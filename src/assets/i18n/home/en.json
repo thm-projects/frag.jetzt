@@ -666,7 +666,7 @@
   },
   "title": {
     "attach-title": "frag.jetzt {{attachment}}",
-    "default-title": "frag.jetzt: Collect, evaluate and present questions"
+    "default-title": "frag.jetzt & ChatGPT: Where Questions Turn into Answers!"
   },
   "token-validator": {
     "bonus-token-header": "Bonus archive",
