@@ -547,7 +547,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
         e.menuItem({
           translate: this.headerService.getTranslate(),
           icon: 'smart_toy',
-          class: 'material-icons-outlined',
+          class: 'material-icons-outlined settings',
           text: 'header.gpt-settings',
           callback: () => {
             GptRoomSettingsComponent.open(
