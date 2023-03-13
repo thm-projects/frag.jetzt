@@ -71,8 +71,15 @@ export class GPTRoomSetting {
   createdAt: Date;
   updatedAt: Date | null;
   // additional transient
-  keywords: string[];
   usageTimes: GPTRoomUsageTime[];
+  // presets
+  presetContext: string;
+  presetPersonaCreator: string;
+  presetPersonaModerator: string;
+  presetPersonaParticipant: string;
+  presetLanguage: string;
+  presetFormal: boolean | null;
+  presetLength: string;
 
   constructor({
     id = null,
@@ -100,8 +107,14 @@ export class GPTRoomSetting {
     paymentCounter = 0,
     createdAt = new Date(),
     updatedAt = null,
-    keywords = [],
     usageTimes = [],
+    presetContext = '',
+    presetPersonaCreator = '',
+    presetPersonaModerator = '',
+    presetPersonaParticipant = '',
+    presetLanguage = '',
+    presetFormal = null,
+    presetLength = '',
   }: GPTRoomSetting) {
     this.id = id;
     this.roomId = roomId;
@@ -128,10 +141,16 @@ export class GPTRoomSetting {
     this.paymentCounter = paymentCounter;
     this.createdAt = verifyInstance(Date, createdAt);
     this.updatedAt = verifyInstance(Date, updatedAt);
-    this.keywords = keywords;
     this.usageTimes = usageTimes.map((time) =>
       verifyInstance(GPTRoomUsageTime, time),
     );
+    this.presetContext = presetContext;
+    this.presetPersonaCreator = presetPersonaCreator;
+    this.presetPersonaModerator = presetPersonaModerator;
+    this.presetPersonaParticipant = presetPersonaParticipant;
+    this.presetLanguage = presetLanguage;
+    this.presetFormal = presetFormal;
+    this.presetLength = presetLength;
   }
 
   canChangeParticipantQuota(): boolean {
@@ -146,7 +165,7 @@ export class GPTRoomSetting {
     return ((this.rightsBitset >>> 2) & 1) > 0;
   }
 
-  canChangeKeywords(): boolean {
+  canChangePreset(): boolean {
     return ((this.rightsBitset >>> 3) & 1) > 0;
   }
 

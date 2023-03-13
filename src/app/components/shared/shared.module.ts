@@ -117,14 +117,19 @@ import { NavigationComponent } from './navigation/navigation.component';
 import { QuestionWallComponent } from './questionwall/question-wall/question-wall.component';
 import { LivepollCreateComponent } from './_dialogs/livepoll/livepoll-create/livepoll-create.component';
 import { GptRoomSettingsComponent } from './_dialogs/gpt-room-settings/gpt-room-settings.component';
-import { GptChatComponent } from './gpt-chat/gpt-chat.component';
 import { GPTUserDescriptionDialogComponent } from './_dialogs/gptuser-description-dialog/gptuser-description-dialog.component';
+import { GptOptInPrivacyComponent } from './_dialogs/gpt-optin-privacy/gpt-optin-privacy.component';
+import { GptPrivacyPolicyDeComponent } from '../../../assets/i18n/components/gpt-privacy-policy/gpt-privacy-policy-de';
+import { GptPrivacyPolicyEnComponent } from '../../../assets/i18n/components/gpt-privacy-policy/gpt-privacy-policy-en';
+import { GptPrivacyPolicyFrComponent } from '../../../assets/i18n/components/gpt-privacy-policy/gpt-privacy-policy-fr';
 import { IntroductionPromptGuideChatbotComponent } from './_dialogs/introductions/introduction-prompt-guide-chatbot/introduction-prompt-guide-chatbot.component';
 import { IntroductionPromptGuideChatbotDeComponent } from '../../../assets/i18n/components/_dialogs/introductions/introduction-prompt-guide-chatbot/introduction-prompt-guide-chatbot-de.component';
 import { IntroductionPromptGuideChatbotEnComponent } from '../../../assets/i18n/components/_dialogs/introductions/introduction-prompt-guide-chatbot/introduction-prompt-guide-chatbot-en.component';
 import { IntroductionPromptGuideChatbotFrComponent } from '../../../assets/i18n/components/_dialogs/introductions/introduction-prompt-guide-chatbot/introduction-prompt-guide-chatbot-fr.component';
 import { LivepollDialogComponent } from './_dialogs/livepoll/livepoll-dialog/livepoll-dialog.component';
 import { LivepollSettingsComponent } from './_dialogs/livepoll/livepoll-settings/livepoll-settings.component';
+import { GPTChatRoomComponent } from './gptchat-room/gptchat-room.component';
+import { PresetsDialogComponent } from './_dialogs/presets-dialog/presets-dialog.component';
 
 @NgModule({
   imports: [
@@ -244,7 +249,6 @@ import { LivepollSettingsComponent } from './_dialogs/livepoll/livepoll-settings
     QuestionWallComponent,
     LivepollCreateComponent,
     GptRoomSettingsComponent,
-    GptChatComponent,
     GPTUserDescriptionDialogComponent,
     IntroductionPromptGuideChatbotComponent,
     IntroductionPromptGuideChatbotDeComponent,
@@ -252,6 +256,12 @@ import { LivepollSettingsComponent } from './_dialogs/livepoll/livepoll-settings
     IntroductionPromptGuideChatbotFrComponent,
     LivepollDialogComponent,
     LivepollSettingsComponent,
+    GptOptInPrivacyComponent,
+    GptPrivacyPolicyDeComponent,
+    GptPrivacyPolicyEnComponent,
+    GptPrivacyPolicyFrComponent,
+    GPTChatRoomComponent,
+    PresetsDialogComponent,
   ],
   exports: [
     RoomJoinComponent,

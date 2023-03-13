@@ -1,4 +1,4 @@
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import {
   Component,
   ElementRef,
@@ -6,21 +6,30 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { GPTEncoder } from 'app/gpt-encoder/GPTEncoder';
 import { Room } from 'app/models/room';
 import { GptService, GPTStreamResult } from 'app/services/http/gpt.service';
 import { DeviceInfoService } from 'app/services/util/device-info.service';
 import { GptEncoderService } from 'app/services/util/gpt-encoder.service';
-import { SessionService } from 'app/services/util/session.service';
 import { KeyboardUtils } from 'app/utils/keyboard';
 import { KeyboardKey } from 'app/utils/keyboard/keys';
 import { finalize, Observer, ReplaySubject, Subject, takeUntil } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
+import { Location } from '@angular/common';
+import { GptOptInPrivacyComponent } from 'app/components/shared/_dialogs/gpt-optin-privacy/gpt-optin-privacy.component';
+import { UserManagementService } from 'app/services/util/user-management.service';
+import { LanguageService } from 'app/services/util/language.service';
+import { FormControl } from '@angular/forms';
 
 interface ConversationEntry {
   type: 'human' | 'gpt' | 'error';
   message: string;
+}
+
+interface PromptType {
+  act: string;
+  prompt: string;
 }
 
 @Component({
@@ -32,7 +41,6 @@ export class GptChatComponent implements OnInit, OnDestroy {
   @ViewChild('autoGrowElement')
   autoGrowElement: ElementRef<HTMLTextAreaElement>;
   conversation: ConversationEntry[] = [];
-  greetings: { [key: string]: string } = {};
   sendGPTContent: string = '';
   isSending = false;
   renewIndex = null;
@@ -45,37 +53,72 @@ export class GptChatComponent implements OnInit, OnDestroy {
   };
   model: string = 'text-davinci-003';
   stopper = new Subject<boolean>();
-  private isAdmin = false;
+  isGPTPrivacyPolicyAccepted: boolean = false;
+  prompts: PromptType[] = [];
+  promptFormControl = new FormControl('');
+  filteredPrompts: PromptType[];
+  amountOfFoundActs: number = 0;
+  amountOfFoundPrompts: number = 0;
+  searchTerm: string = '';
   private destroyer = new ReplaySubject(1);
   private encoder: GPTEncoder = null;
   private room: Room = null;
+  private _destroyer = new ReplaySubject(1);
 
   constructor(
     private gptService: GptService,
     private translateService: TranslateService,
+    private languageService: LanguageService,
+    private http: HttpClient,
     private deviceInfo: DeviceInfoService,
     private gptEncoderService: GptEncoderService,
-    private router: Router,
-    private sessionService: SessionService,
+    public dialog: MatDialog,
+    private location: Location,
+    private userManagementService: UserManagementService,
   ) {
-    this.isAdmin = router.url.toLowerCase().startsWith('/admin/gpt-chat');
+    this.languageService
+      .getLanguage()
+      .pipe(takeUntil(this._destroyer))
+      .subscribe((lang) => {
+        this.http
+          .get<PromptType[]>('/assets/i18n/prompts/' + lang + '.json')
+          .subscribe((promptsArray) => {
+            this.prompts = promptsArray;
+          });
+      });
   }
 
   ngOnInit(): void {
     this.loadConversation();
-    this.translateService
-      .stream('gpt-chat.greetings')
-      .pipe(takeUntil(this.destroyer))
-      .subscribe((data) => (this.greetings = data));
-    if (this.isAdmin) {
-      this.initAdmin();
-    } else {
-      this.initNormal();
-      this.sendGPTContent = sessionStorage.getItem('temp-gpt-text') || '';
-    }
+    this.initAdmin();
     this.gptEncoderService.getEncoderOnce().subscribe((e) => {
       this.encoder = e;
       this.calculateTokens();
+    });
+
+    this.userManagementService
+      .getGPTConsentState()
+      .pipe(takeUntil(this.destroyer))
+      .subscribe((state) => {
+        this.isGPTPrivacyPolicyAccepted = state;
+        this.openPrivacyDialog();
+      });
+  }
+
+  openPrivacyDialog() {
+    if (this.isGPTPrivacyPolicyAccepted) {
+      return;
+    }
+    const dialogRef = this.dialog.open(GptOptInPrivacyComponent, {
+      autoFocus: false,
+      width: '80%',
+      maxWidth: '600px',
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      this.userManagementService.updateGPTConsentState(result).subscribe();
+      if (!result) {
+        this.location.back();
+      }
     });
   }
 
@@ -300,30 +343,6 @@ export class GptChatComponent implements OnInit, OnDestroy {
     });
   }
 
-  private initNormal() {
-    this.sessionService.getRoomOnce().subscribe((r) => (this.room = r));
-    this.sessionService.getGPTStatusOnce().subscribe({
-      next: (data) => {
-        if (data.restricted) {
-          this.error = 'Restricted';
-          this.translateService
-            .get('gpt-chat.input-forbidden')
-            .subscribe((msg) => (this.error = msg));
-        } else if (!data.hasAPI) {
-          this.error = 'No API Key';
-          this.translateService
-            .get('gpt-chat.no-api-setup')
-            .subscribe((msg) => (this.error = msg));
-        }
-        this.isLoading = false;
-      },
-      error: (err) => {
-        console.error(err);
-        this.error = err;
-      },
-    });
-  }
-
   private generatePrompt(length: number = this.conversation.length): string {
     let wasHuman = false;
     let wasEmpty = false;
@@ -394,13 +413,13 @@ export class GptChatComponent implements OnInit, OnDestroy {
 
   private loadConversation() {
     this.conversation = JSON.parse(
-      sessionStorage.getItem('gpt-conversation') ?? '[]',
+      sessionStorage.getItem('gpt-conversation-admin') ?? '[]',
     );
   }
 
   private saveConversation() {
     sessionStorage.setItem(
-      'gpt-conversation',
+      'gpt-conversation-admin',
       JSON.stringify(this.conversation.filter((e) => e.type !== 'error')),
     );
   }
@@ -434,5 +453,48 @@ export class GptChatComponent implements OnInit, OnDestroy {
       promptTokens: pToken,
       allTokens: pToken + cToken,
     };
+  }
+
+  private filterPrompts() {
+    this.filteredPrompts = [];
+
+    this.filteredPrompts.push({ act: 'acts', prompt: null });
+    this.filteredPrompts.push(
+      ...this.prompts.filter((prompt) => {
+        return (
+          prompt.act.toLowerCase().indexOf(this.searchTerm.toLowerCase()) > -1
+        );
+      }),
+    );
+    this.amountOfFoundActs = this.filteredPrompts.length - 1;
+
+    if (!this.searchTerm.trim()) {
+      return;
+    }
+
+    this.filteredPrompts.push({ act: 'prompts', prompt: null });
+
+    this.filteredPrompts.push(
+      ...this.prompts
+        .filter((prompt) => {
+          return (
+            (
+              prompt.prompt
+                .toLowerCase()
+                .match(this.searchTerm.toLowerCase()) || []
+            ).length > 0
+          );
+        })
+        .sort(
+          (a, b) =>
+            b.prompt.toLowerCase().split(this.searchTerm.toLowerCase()).length -
+            1 -
+            (a.prompt.toLowerCase().split(this.searchTerm.toLowerCase())
+              .length -
+              1),
+        ),
+    );
+    this.amountOfFoundPrompts =
+      this.filteredPrompts.length - this.amountOfFoundActs - 2;
   }
 }

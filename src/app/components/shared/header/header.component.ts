@@ -7,7 +7,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { NotificationService } from '../../../services/util/notification.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserRole } from '../../../models/user-roles.enum';
 import { TranslateService } from '@ngx-translate/core';
 import { MatDialog } from '@angular/material/dialog';
@@ -51,9 +51,11 @@ import {
 import { PseudonymEditorComponent } from '../_dialogs/pseudonym-editor/pseudonym-editor.component';
 import { CommentNotificationDialogComponent } from '../_dialogs/comment-notification-dialog/comment-notification-dialog.component';
 import { GPTUserDescriptionDialogComponent } from '../_dialogs/gptuser-description-dialog/gptuser-description-dialog.component';
+import { GptOptInPrivacyComponent } from '../_dialogs/gpt-optin-privacy/gpt-optin-privacy.component';
 import { ShrinkObserver } from 'app/utils/shrink-observer';
 import { LivepollService } from '../../../services/http/livepoll.service';
 import { take } from 'rxjs/operators';
+import { GptService } from 'app/services/http/gpt.service';
 
 @Component({
   selector: 'app-header',
@@ -78,6 +80,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   hasKeywords = false;
   themes: Theme[];
   showSmallButtons = false;
+  isGPTPrivacyPolicyAccepted: boolean = false;
   public readonly navigationAccess = {
     livepoll: livepollNavigationAccessOnRoute,
   };
@@ -107,6 +110,8 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     private brainstormingDataService: BrainstormingDataService,
     public langService: LanguageService,
     public readonly livepollService: LivepollService,
+    private gptService: GptService,
+    private route: ActivatedRoute,
   ) {}
 
   ngAfterViewInit() {
@@ -375,6 +380,25 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     GPTUserDescriptionDialogComponent.open(this.dialog, this.room.id);
   }
 
+  openGPT() {
+    const roleString =
+      this.userRole === UserRole.CREATOR ? 'creator' : 'moderator';
+    const url = `/${roleString}/room/${this.room.shortId}/gpt-chat-room`;
+    console.log(url);
+    this.router.navigate([url]);
+  }
+
+  openPrivacyDialog() {
+    const dialogRef = this.dialog.open(GptOptInPrivacyComponent, {
+      autoFocus: false,
+      width: '80%',
+      maxWidth: '600px',
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      this.userManagementService.updateGPTConsentState(result).subscribe();
+    });
+  }
+
   changeTheme(theme: Theme) {
     this.themeService.activate(theme.key);
     this.updateScale(
@@ -406,4 +430,8 @@ export class HeaderComponent implements OnInit, AfterViewInit {
       }
     });
   }
+
+  // openGPTPrivacyDialog() {
+  //   const dialogRef = this.dialog.open(GptOptInPrivacyComponent);
+  // }
 }

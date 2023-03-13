@@ -21,6 +21,11 @@
     "success": "Créé avec succès",
     "title": "Créer des news"
   },
+  "introductions": {
+    "prompt-guide-chatbot": "Communiquer efficacement avec ChatGPT",
+    "cancel": "Fermer",
+    "tooltip-button" : "Guide de prompt"
+  },
   "gpt-config": {
     "title": "Paramètres GPT & test API",
     "api-key": "API Key",
@@ -51,7 +56,10 @@
     "help-activation-codes": "Ici, les codes d'activation pour l'étude peuvent être consultés, créés et supprimés."
   },
   "gpt-chat": {
-    "enter-conversation-text": "Chat avec GPT …",
+    "optin-accept": "Accepter",
+    "optin-reject": "Refuser",
+    "privacy-policy": "Déclaration de confidentialité pour l'utilisation de l'API OpenAI",
+    "enter-conversation-text": "Chat avec ChatGPT …",
     "send": "Envoyer",
     "empty-conversation": "Vider l'historique",
     "input-forbidden": "Saisie interdite, veuillez vérifier les paramètres de l'API GPT.",
@@ -86,6 +94,9 @@
     },
     "refresh": "Générer à nouveau la sortie",
     "token-info": "Tokens (saisie / conversation / total) : {{promptTokens}} / {{conversationTokens}} / {{allTokens}}",
+    "prompt-label": "Recherche du prompt",
+    "option-total-acts": "Hits dans « Agir comme … »",
+    "option-total-prompts": "Hits dans prompts",
     "use-case": "Cas d'utilisation",
     "use-case-tooltip": "Sélection d'un cas d'utilisation spécifique pour de meilleures réponses.",
     "use-case-answer-questions": "Réponse aux questions",

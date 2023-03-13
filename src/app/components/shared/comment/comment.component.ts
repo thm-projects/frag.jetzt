@@ -46,6 +46,10 @@ import { QuillUtils } from '../../../utils/quill-utils';
 import { forkJoin, ReplaySubject, takeUntil } from 'rxjs';
 import { ResponseViewInformation } from '../comment-response-view/comment-response-view.component';
 import { UserManagementService } from '../../../services/util/user-management.service';
+import { GptOptInPrivacyComponent } from '../_dialogs/gpt-optin-privacy/gpt-optin-privacy.component';
+import { GptService } from '../../../services/http/gpt.service';
+import { EventService } from '../../../services/util/event.service';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-comment',
@@ -92,6 +96,7 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() showResponses: boolean = false;
   @Input() activeKeywordSearchString: string = null;
   @Input() canOpenGPT = false;
+  @Input() consentGPT = false;
   @Output() clickedOnTag = new EventEmitter<string>();
   @Output() clickedOnKeyword = new EventEmitter<string>();
   @Output() clickedUserNumber = new EventEmitter<string>();
@@ -144,6 +149,7 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
     protected langService: LanguageService,
     public deviceInfo: DeviceInfoService,
     public notificationService: DashboardNotificationService,
+    protected eventService: EventService,
   ) {
     langService
       .getLanguage()
@@ -600,9 +606,16 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
   openGPT() {
     let url: string;
     this.route.params.subscribe((params) => {
-      url = `${this.roleString}/room/${params['shortId']}/gpt-chat`;
+      url = `${this.roleString}/room/${params['shortId']}/gpt-chat-room`;
     });
-    sessionStorage.setItem('temp-gpt-text', QuillUtils.getTextFromDelta(this.comment.body));
+
+    this.eventService
+      .on('gptchat-room.init')
+      .pipe(take(1))
+      .subscribe(() => {
+        this.eventService.broadcast('gptchat-room.data', this.comment);
+      });
+
     this.router.navigate([url]);
   }
 

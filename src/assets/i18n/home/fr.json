@@ -183,6 +183,7 @@
     "question-radar-button": "Découvrir des questions intéressantes",
     "question-focus-button": "Afficher les questions une par une",
     "quiz-rally-button": "Aller au quiz du jeu …",
+    "chat-gpt-button": "Chat avec ChatGPT",
     "options-button": "Qu'est-ce que je peux faire ici ?",
     "QR": "Code QR de la session en plein écran",
     "abort": "Annuler",
@@ -251,6 +252,7 @@
     "moderationboard": "Modération",
     "motd": "Actualités",
     "my-account": "Options",
+    "chatroom-options-menu": "Prompt à l'emploi",
     "my-sessions": "Mes salles",
     "navigation": "Navigation [{{loc}}]",
     "navigation-no-target": "Navigation",
@@ -264,6 +266,16 @@
     "overview-ideas-tooltip": "Nombre d'idées",
     "own-view": "Retourner à ta vue",
     "profanity-filter": "Filtre de profanation",
+    "prompt-guide": "Prompt guide",
+    "preset-context": "Contexte",
+    "preset-topic": "Sujet",
+    "preset-persona": "Persona",
+    "preset-language": "Langue",
+    "preset-formality": "Type de salutation",
+    "preset-tone": "Ton de la voix",
+    "preset-length": "Longueur",
+    "chat-self-description": "Description de soi",
+    "chat-answer-format": "Format de réponse",
     "question-board": "Forum de questions-réponses",
     "question-wall": "Présenter les questions",
     "questions-blocked": "Questions bloquées",
@@ -296,7 +308,13 @@
     "zoom-minus": "Réduire la taille du texte",
     "zoom-plus": "Agrandir la taille du texte",
     "zoom-reset": "Réinitialiser le niveau de zoom",
-    "gpt-chat": "Chat avec GPT"
+    "gpt-chat": "Chat avec GPT",
+    "gpt-privacy-policy": "ChatGPT Politique de confidentialité"
+  },
+  "gpt-chat": {
+    "optin-accept": "Accepter",
+    "optin-reject": "Refuser",
+    "privacy-policy": "ChatGPT Politique de confidentialité"
   },
   "help": {
     "cancel": "Fermer",
@@ -405,7 +423,7 @@
     "restart-account-activation-correct": "La clé d'activation a été envoyée.",
     "restart-account-activation-tooltip": "Envoie une nouvelle clé d'activation à ton adresse.",
     "welcome": "Des questions ?",
-    "welcome-feedback": "➤ Écris aux développeurs de « frag.jetzt »",
+    "welcome-feedback": "➤ Écris à l'équipe de « frag.jetzt »",
     "welcome-subtitle": "Anonyme | à l'intérieur du navigateur | gratuit"
   },
   "login-dialog": {
@@ -485,7 +503,8 @@
     "reset-successful": "Si un compte existe avec cette adresse mail, un message a été envoyé.",
     "set-button-description": "Crée le nouveau mot de passe pour le compte",
     "set-new-password": "Crée un nouveau mot de passe à l'aide du code clé qui t'a été envoyé :",
-    "set-new-password-button": "Créer le mot de passe"
+    "set-new-password-button": "Créer le mot de passe",
+    "new-password-is-old" : "Le nouveau mot de passe doit être différent de l'ancien."
   },
   "qr-dialog": {
     "session": "Code ",
@@ -506,12 +525,19 @@
     "password-description": "Saisis ici le mot de passe que tu souhaites utiliser pour t'inscrire.",
     "password-description-repeat": "Saisis à nouveau le mot de passe que tu souhaites utiliser pour t'inscrire, afin de t'assurer que tu n'as pas fait de faute de frappe.",
     "password-required": "Mot de passe nécessaire",
+    "password-length-invalid": "Doit comporter 8 à 64 caractères",
+    "password-no-number": "Doit contenir un nombre",
+    "password-no-lowercase": "Doit contenir une lettre minuscule",
+    "password-no-uppercase": "Doit contenir une majuscule",
+    "password-no-special-character": "Doit contenir l'un des caractères spéciaux",
+    "password-too-similar": "Ressemble trop à l'e-mail",
     "password-unmatch": "Les mots de passe ne correspondent pas.",
     "password-verify": "Répéter le mot de passe",
     "register": "S'inscrire",
     "register-description": "Terminer l'enregistrement",
     "register-request-error": "Quelque chose s'est mal passé lors de l'enregistrement. Tu t'es peut-être déjà enregistré ?",
     "register-successful": "Enregistré avec succès. Vérifie ta boîte de réception !",
+    "register-error-password-too-common": "Le mot de passe est composé en grande partie de chaînes de caractères faciles à deviner. Veuillez choisir un autre mot de passe.",
     "register-unsuccessful": "Vérifie tes données, s'il te plaît."
   },
   "remind-of-tokens": {
@@ -640,7 +666,7 @@
   },
   "title": {
     "attach-title": "frag.jetzt {{attachment}}",
-    "default-title": "frag.jetzt : Collecter, évaluer et présenter des questions"
+    "default-title": "frag.jetzt & ChatGPT : où les questions trouvent leurs réponses !"
   },
   "token-validator": {
     "bonus-token-header": "Archive de bonus",

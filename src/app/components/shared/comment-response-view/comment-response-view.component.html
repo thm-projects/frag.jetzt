@@ -1,5 +1,10 @@
-<div class="main-container" [ngClass]="{'marker': getData()?.length > 0}">
-  <div class="button-bar" fxLayoutAlign="flex-start" *ngIf="getData()?.length > 2">
+<div
+  class="main-container"
+  [ngClass]="{ marker: getData()?.length > 0 }">
+  <div
+    class="button-bar"
+    fxLayoutAlign="flex-start"
+    *ngIf="getData()?.length > 2">
     <button
       id="sort-button"
       mat-icon-button
@@ -7,19 +12,23 @@
       aria-labelledby="swap_vert"
       *ngIf="getData()"
       [matMenuTriggerFor]="sortMenu"
-      matTooltip="{{ 'comment-list.sort-answers' | translate }}"
-    >
+      matTooltip="{{ 'comment-list.sort-answers' | translate }}">
       <mat-icon class="searchBarIcon">swap_vert</mat-icon>
     </button>
   </div>
   <div class="response-container">
-    <span class="response-arrow-container" *ngIf="getDepthLevel() > 1">
-      <span class="arrow"> &rdca; </span>
+    <span
+      class="response-arrow-container"
+      *ngIf="getDepthLevel() > 1">
+      <span class="arrow">&rdca;</span>
       <span class="number">
         {{ getDepthLevel() }}
       </span>
     </span>
-    <div class="responses" #containerRef (window:resize)="ngAfterViewInit()">
+    <div
+      class="responses"
+      #containerRef
+      (window:resize)="ngAfterViewInit()">
       <ng-container *ngIf="getData()">
         <ng-container *ngFor="let response of getData(); let i = index">
           <app-comment
@@ -35,47 +44,50 @@
             [isFromModerator]="viewInfo.mods.has(response.creatorId)"
             [isFromOwner]="viewInfo.roomOwner === response.creatorId"
             [isResponse]="true"
+            [canOpenGPT]="canOpenGPT"
+            [consentGPT]="consentGPT"
             [activeKeywordSearchString]="keywordFilter"
             [responseIndex]="i + 1"
-            (editQuestionEmitter)="editQuestion(response)"
-          ></app-comment>
+            (editQuestionEmitter)="editQuestion(response)"></app-comment>
         </ng-container>
       </ng-container>
     </div>
   </div>
 </div>
 
-<mat-menu #sortMenu="matMenu" xPosition="before">
+<mat-menu
+  #sortMenu="matMenu"
+  xPosition="before">
   <button
     mat-menu-item
     (click)="applySortingByKey('Time')"
-    aria-labelledby="access_time"
-  >
-    <mat-icon [ngClass]="{ Time: 'timesort' }[!sortReverse && sortType]">update</mat-icon>
-    <span [ngClass]="{ Time: 'timesort' }[!sortReverse && sortType]">{{
-      "comment-list.sort-list-time" | translate
-    }}</span>
+    aria-labelledby="access_time">
+    <mat-icon [ngClass]="{ Time: 'timesort' }[!sortReverse && sortType]">
+      update
+    </mat-icon>
+    <span [ngClass]="{ Time: 'timesort' }[!sortReverse && sortType]">
+      {{ "comment-list.sort-list-time" | translate }}
+    </span>
   </button>
   <button
     mat-menu-item
     (click)="applySortingByKey('Time', true)"
-    aria-labelledby="access_time"
-  >
-    <mat-icon [ngClass]="{ Time: 'timesort-reverse' }[sortReverse && sortType]">history</mat-icon>
-    <span [ngClass]="{ Time: 'timesort-reverse' }[sortReverse && sortType]">{{
-      "comment-list.sort-list-time-reverse" | translate
-    }}</span>
+    aria-labelledby="access_time">
+    <mat-icon [ngClass]="{ Time: 'timesort-reverse' }[sortReverse && sortType]">
+      history
+    </mat-icon>
+    <span [ngClass]="{ Time: 'timesort-reverse' }[sortReverse && sortType]">
+      {{ "comment-list.sort-list-time-reverse" | translate }}
+    </span>
   </button>
 
   <button
     mat-menu-item
     (click)="applySortingByKey('Score')"
-    aria-labelledby="keyboard_arrow_up"
-  >
+    aria-labelledby="keyboard_arrow_up">
     <mat-icon
       class="material-icons-outlined"
-      [ngClass]="{ Score: 'up' }[!sortReverse && sortType]"
-    >
+      [ngClass]="{ Score: 'up' }[!sortReverse && sortType]">
       thumb_up
     </mat-icon>
     <span [ngClass]="{ Score: 'up' }[!sortReverse && sortType]">
@@ -86,12 +98,10 @@
   <button
     mat-menu-item
     (click)="applySortingByKey('Score', true)"
-    aria-labelledby="keyboard_arrow_down"
-  >
+    aria-labelledby="keyboard_arrow_down">
     <mat-icon
       [ngClass]="{ Score: 'down' }[sortReverse && sortType]"
-      class="material-icons-outlined"
-    >
+      class="material-icons-outlined">
       thumb_down
     </mat-icon>
     <span [ngClass]="{ Score: 'down' }[sortReverse && sortType]">
@@ -102,12 +112,10 @@
   <button
     mat-menu-item
     (click)="applySortingByKey('Controversy')"
-    aria-labelledby="controversy"
-  >
+    aria-labelledby="controversy">
     <mat-icon
       class="material-icons-outlined"
-      [ngClass]="{ Controversy: 'controversy' }[sortType]"
-    >
+      [ngClass]="{ Controversy: 'controversy' }[sortType]">
       quickreply
     </mat-icon>
     <span [ngClass]="{ Controversy: 'controversy' }[sortType]">
@@ -118,12 +126,10 @@
   <button
     mat-menu-item
     (click)="applySortingByKey('Commented')"
-    aria-labelledby="commented"
-  >
+    aria-labelledby="commented">
     <mat-icon
       class="material-icons-outlined"
-      [ngClass]="{ Commented: 'commented' }[sortType]"
-    >
+      [ngClass]="{ Commented: 'commented' }[sortType]">
       forum
     </mat-icon>
     <span [ngClass]="{ Commented: 'commented' }[sortType]">

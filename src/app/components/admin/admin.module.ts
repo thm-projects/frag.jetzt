@@ -4,7 +4,11 @@ import { CreateMotdComponent } from './create-motd/create-motd.component';
 import { AdminRoutingModule } from './admin-routing.module';
 import { EssentialsModule } from '../essentials/essentials.module';
 import { SharedModule } from '../shared/shared.module';
-import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import {
+  TranslateLoader,
+  TranslateModule,
+  TranslateService,
+} from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { MarkdownModule } from 'ngx-markdown';
@@ -16,6 +20,7 @@ import { NgxMatTimepickerModule } from '@angular-material-components/datetime-pi
 import { LanguageService } from '../../services/util/language.service';
 import { GptConfigurationComponent } from './gpt-configuration/gpt-configuration.component';
 import { AdminOverviewComponent } from './admin-overview/admin-overview.component';
+import { GptChatComponent } from './gpt-chat/gpt-chat.component';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export const HttpLoaderFactory = (http: HttpClient) =>
@@ -26,6 +31,7 @@ export const HttpLoaderFactory = (http: HttpClient) =>
     CreateMotdComponent,
     GptConfigurationComponent,
     AdminOverviewComponent,
+    GptChatComponent,
   ],
   imports: [
     CommonModule,
@@ -36,9 +42,9 @@ export const HttpLoaderFactory = (http: HttpClient) =>
       loader: {
         provide: TranslateLoader,
         useFactory: HttpLoaderFactory,
-        deps: [HttpClient]
+        deps: [HttpClient],
       },
-      isolate: true
+      isolate: true,
     }),
     MarkdownModule,
     ArsModule,
@@ -46,17 +52,15 @@ export const HttpLoaderFactory = (http: HttpClient) =>
     QRCodeModule,
     MatDatepickerModule,
     NgxMatTimepickerModule,
-  ]
+  ],
 })
 export class AdminModule {
-
   constructor(
     private languageService: LanguageService,
     private translateService: TranslateService,
   ) {
-    this.languageService.getLanguage().subscribe(lang => {
+    this.languageService.getLanguage().subscribe((lang) => {
       this.translateService.use(lang);
     });
   }
-
 }

@@ -183,6 +183,7 @@
     "question-radar-button": "Discover interesting questions",
     "question-focus-button": "Display questions one by one",
     "quiz-rally-button": "Go to game-based quizzing …",
+    "chat-gpt-button": "Chat with ChatGPT",
     "options-button": "What can I do here?",
     "QR": "QR code of the session in full view",
     "abort": "Cancel",
@@ -251,6 +252,7 @@
     "moderationboard": "Moderation",
     "motd": "News",
     "my-account": "Options",
+    "chatroom-options-menu": "Prompt specifications",
     "my-sessions": "My rooms",
     "navigation": "Navigation [{{loc}}]",
     "navigation-no-target": "Navigation",
@@ -264,6 +266,16 @@
     "overview-ideas-tooltip": "Number of ideas",
     "own-view": "Back to own view",
     "profanity-filter": "Profanity filter",
+    "prompt-guide": "Prompt guide",
+    "preset-context": "Context",
+    "preset-topic": "Topic",
+    "preset-persona": "Persona",
+    "preset-language": "Language",
+    "preset-tone": "Tone of voice",
+    "preset-formality": "Type of salutation",
+    "preset-length": "Length",
+    "chat-self-description": "Self description",
+    "chat-answer-format": "Response format",
     "question-board": "Q&A forum",
     "question-wall": "Present questions",
     "questions-blocked": "New questions blocked",
@@ -296,7 +308,13 @@
     "zoom-minus": "Decrease text size",
     "zoom-plus": "Increase text size",
     "zoom-reset": "Reset zoom level",
-    "gpt-chat": "Chat with GPT"
+    "gpt-chat": "Chat with GPT",
+    "gpt-privacy-policy": "ChatGPT Privacy Policy"
+  },
+  "gpt-chat": {
+    "optin-accept": "Accept",
+    "optin-reject": "Decline",
+    "privacy-policy": "ChatGPT  Privacy Policy"
   },
   "help": {
     "cancel": "Close",
@@ -405,7 +423,7 @@
     "restart-account-activation-correct": "New activation key sent.",
     "restart-account-activation-tooltip": "Sends a new activation key to your address.",
     "welcome": "Any questions?",
-    "welcome-feedback": "➤ Write to the »frag.jetzt« developers",
+    "welcome-feedback": "➤ Write to the »frag.jetzt« team",
     "welcome-subtitle": "anonymous | in your browser | for free"
   },
   "login-dialog": {
@@ -485,7 +503,8 @@
     "reset-successful": "If an account with this mail address exists, a message was sent.",
     "set-button-description": "Set the new password for the account",
     "set-new-password": "Set a new password with the key code that was sent to you:",
-    "set-new-password-button": "Set password"
+    "set-new-password-button": "Set password",
+    "new-password-is-old" : "The new password must be different from the old one."
   },
   "qr-dialog": {
     "session": "Code",
@@ -506,12 +525,19 @@
     "password-description": "Enter the password you want to register with here.",
     "password-description-repeat": "Please enter the password you want to register with again to make sure that you have not mistyped it.",
     "password-required": "Password required",
+    "password-length-invalid": "Must consist of 8 - 64 characters",
+    "password-no-number": "Must contain at least one number",
+    "password-no-lowercase": "Must contain at least one lower case letter",
+    "password-no-uppercase": "Must contain at least one upper case letter",
+    "password-no-special-character": "Must contain one of the special characters",
+    "password-too-similar": "Too similar to the email",
     "password-unmatch": "Passwords do not match.",
     "password-verify": "Verify password",
     "register": "Register",
     "register-description": "Register User",
     "register-request-error": "Something went wrong during registration. Maybe you have already created the account?",
     "register-successful": "Successfully registered. Please check your mails.",
+    "register-error-password-too-common": "The password consists mainly of easy to guess strings. Please choose another password.",
     "register-unsuccessful": "Please check your data."
   },
   "remind-of-tokens": {
@@ -640,7 +666,7 @@
   },
   "title": {
     "attach-title": "frag.jetzt {{attachment}}",
-    "default-title": "frag.jetzt: Collect, evaluate and present questions"
+    "default-title": "frag.jetzt & ChatGPT: Where Questions Turn into Answers!"
   },
   "token-validator": {
     "bonus-token-header": "Bonus archive",

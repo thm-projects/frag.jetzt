@@ -1,59 +1,79 @@
-<div class="fake-header" *ngIf="this.backUrl">
-  <button mat-button
-          (click)="goBack()">
+<div
+  class="fake-header"
+  *ngIf="this.backUrl">
+  <button
+    mat-button
+    (click)="goBack()">
     <mat-icon>arrow_back</mat-icon>
-    <span class="oldtypo">{{'comment-page.back-to-question-focus' | translate}}</span>
+    <span class="oldtypo">
+      {{ "comment-page.back-to-question-focus" | translate }}
+    </span>
   </button>
 </div>
 
-<button *ngIf="commentsEnabled"
-        mat-fab
-        mat-icon-button
-        class="fab_add_comment"
-        (click)="writeComment()"
-        matTooltip="{{ 'comment-list.add-comment' | translate }}" [matTooltipPosition]="'above'">
+<button
+  *ngIf="commentsEnabled"
+  mat-fab
+  mat-icon-button
+  class="fab_add_comment"
+  (click)="writeComment()"
+  matTooltip="{{ 'comment-list.add-comment' | translate }}"
+  [matTooltipPosition]="'above'">
   <mat-icon>add</mat-icon>
 </button>
 
-<div fxLayout="column"
-     fxLayoutAlign="center"
-     *ngIf="!isLoading"
-     (document:keyup)="checkForEscape($event)"
-     (document:click)="checkForBackDropClick($event, container.firstChild, this.container.nextElementSibling?.firstChild)">
-  <div fxLayout="row"
-       #container
-       fxLayoutAlign="center">
-    <app-comment *ngIf="comment?.body"
-                 [comment]="comment"
-                 [user]="user"
-                 [userRole]="userRole"
-                 [parseVote]="votes"
-                 [indentationPossible]="true"
-                 [showResponses]="isConversationView"
-                 [moderator]="isModerationComment"
-                 [isFromModerator]="mods.has(comment.creatorId)"
-                 [isFromOwner]="room.ownerId === comment.creatorId"
-                 [isAnswerView]="true"
-                 (editQuestionEmitter)="editQuestion(comment)"
-    ></app-comment>
+<div
+  fxLayout="column"
+  fxLayoutAlign="center"
+  *ngIf="!isLoading"
+  (document:keyup)="checkForEscape($event)"
+  (document:click)="
+    checkForBackDropClick(
+      $event,
+      container.firstChild,
+      this.container.nextElementSibling?.firstChild
+    )
+  ">
+  <div
+    fxLayout="row"
+    #container
+    fxLayoutAlign="center">
+    <app-comment
+      *ngIf="comment?.body"
+      [comment]="comment"
+      [user]="user"
+      [userRole]="userRole"
+      [parseVote]="votes"
+      [indentationPossible]="true"
+      [showResponses]="isConversationView"
+      [moderator]="isModerationComment"
+      [isFromModerator]="mods.has(comment.creatorId)"
+      [isFromOwner]="room.ownerId === comment.creatorId"
+      [isAnswerView]="true"
+      [canOpenGPT]="canOpenGPT"
+      [consentGPT]="consentGPT"
+      (editQuestionEmitter)="editQuestion(comment)"></app-comment>
   </div>
-  <div fxLayout="row"
-       *ngIf="(room.conversationDepth || !isStudent) && !isConversationView"
-       fxLayoutAlign="center">
-       <div class="main-container" style="margin-bottom: 50px">
-        <mat-card class="answer border-answer">
-          <app-write-comment [isModerator]="!isStudent"
-                             [isCommentAnswer]="true"
-                             [placeholder]="'comment-page.your-answer'"
-                             [onClose]="onSubmit.bind(this)"
-                             [commentReference]="comment.id"
-                             [confirmLabel]="'save-answer'"
-                             [cancelLabel]="'abort'"
-                             [tags]="room.tags"
-                             [isQuestionerNameEnabled]="true"
-                             [additionalMockOffset]="65">
-          </app-write-comment>
-        </mat-card>
-       </div>
+  <div
+    fxLayout="row"
+    *ngIf="(room.conversationDepth || !isStudent) && !isConversationView"
+    fxLayoutAlign="center">
+    <div
+      class="main-container"
+      style="margin-bottom: 50px">
+      <mat-card class="answer border-answer">
+        <app-write-comment
+          [isModerator]="!isStudent"
+          [isCommentAnswer]="true"
+          [placeholder]="'comment-page.your-answer'"
+          [onClose]="onSubmit.bind(this)"
+          [commentReference]="comment.id"
+          [confirmLabel]="'save-answer'"
+          [cancelLabel]="'abort'"
+          [tags]="room.tags"
+          [isQuestionerNameEnabled]="true"
+          [additionalMockOffset]="65"></app-write-comment>
+      </mat-card>
+    </div>
   </div>
 </div>

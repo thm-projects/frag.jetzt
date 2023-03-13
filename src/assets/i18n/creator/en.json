@@ -369,11 +369,43 @@
     "user-bonus": "## Bonus \n\nThe teacher can mark »good« questions for a bonus. Your questions from all courses (rooms) that have received a star will be listed here.\n\nDepending on the agreement, you can email the code of the star to the teacher to redeem it for a bonus."
   },
   "gpt-chat": {
-    "enter-conversation-text": "Speech with GPT",
+    "optin-accept": "Accept",
+    "optin-reject": "Reject",
+    "privacy-policy": "Privacy Policy for the Use of OpenAI API",
+    "enter-conversation-text": "Chat with ChatGPT",
     "send": "Send",
     "empty-conversation": "Clear history",
     "input-forbidden": "Input forbidden, please check the GPT API settings.",
     "no-api-setup": "The API key or language model was not set.",
+    "presets": {
+      "disabled": "Disabled",
+      "language": {
+        "de": "German",
+        "en": "English",
+        "fr": "French",
+        "*": "Like question"
+      },
+      "tone": {
+        "neutral": "Neutral",
+        "friendly": "Friendly",
+        "professional": "Professional",
+        "humorous": "Humorous"
+      },
+      "formality": {
+        "informal": "Informal",
+        "polite": "Polite"
+      },
+      "length": {
+        "short": "Short",
+        "detailed": "Detailed",
+        "extensive": "Extensive"
+      }
+    },
+    "answer-format": {
+      "summary": "Summary",
+      "definition": "Definition",
+      "flashcard": "Flashcard"
+    },
     "greetings": {
       "text-davinci-003": [
         {
@@ -403,7 +435,12 @@
       ]
     },
     "refresh": "Generate output again",
+    "edit": "Edit output as editable answer to question.",
+    "paste": "Publish output directly in response to question.",
     "token-info": "Tokens (input/chat/total): {{promptTokens}}/{{conversationTokens}}/{{allTokens}}",
+    "prompt-label": "Prompt search",
+    "option-total-acts": "Hits in »Act as …«",
+    "option-total-prompts": "Hits in prompts",
     "use-case": "Use case",
     "use-case-tooltip": "Selecting a specific use case for better answers.",
     "use-case-answer-questions": "Answering questions",
@@ -430,7 +467,8 @@
     "brainstorming-title": "Brainstorming",
     "cancel": "Close",
     "question-wall-title": "Use cases of the presentation mode",
-    "tag-cloud-title": "Use cases of the question radar"
+    "tag-cloud-title": "Use cases of the question radar",
+    "prompt-guide-chatbot": "Communicate effectively with ChatGPT"
   },
   "joyride": {
     "commentFilter": "There are numerous sorting and filtering options for the Q&A list. An active filter is shown in red. For better readability, the question stream can also be paused if it is very dynamic.",
@@ -680,11 +718,9 @@
     "mod-right-part-quota": "Change participant quota",
     "mod-right-mod-quota": "Change moderators quota",
     "mod-right-room-quota": "Change room quota",
-    "mod-right-keywords": "Change the keywords",
+    "mod-right-preset": "Change the GPT prompt settings",
     "mod-right-usage-times": "Changing the periods of use",
     "mod-right-api-settings": "Changing the API settings",
-    "keywords": "Room keywords",
-    "add-keyword": "Add keyword",
     "usage-times": "Periods of use",
     "usage-time-info": "If no usage period is created, the API is continuously accessible.",
     "start-time": "Starting time",
@@ -1013,5 +1049,23 @@
     "a11y-questioner-name": "Here you can enter your name if you want. This is visible for everyone at this comment.",
     "name-length-error": "The name must be {{min}} to {{max}} characters long.",
     "questioner-name": "Your name, if you want …"
+  },
+  "presets-dialog": {
+    "context-title": "Context of the event",
+    "persona-title": "Presets for each person",
+    "topic-title": "Topics of the event",
+    "context-label": "Context",
+    "topic-label": "Topic",
+    "persona-moderator-label": "Persona (Moderator)",
+    "persona-user-label": "Persona (User)",
+    "persona-creator-label": "Persona (Creator)",
+    "context-placeholder": "WPW Course",
+    "topic-placeholder": "Angular",
+    "persona-moderator-placeholder": "Moderator",
+    "persona-user-placeholder": "User",
+    "persona-creator-placeholder": "Creator",
+    "save": "Save",
+    "cancel": "Cancel",
+    "clear": "Clear"
   }
 }

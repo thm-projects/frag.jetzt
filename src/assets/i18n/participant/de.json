@@ -158,8 +158,8 @@
     "brainstorming-info-multiple": "{{maxWordCount}} Wörter / {{maxWordLength}} Zeichen",
     "brainstorming-info-single": "{{maxWordCount}} Wort / {{maxWordLength}} Zeichen",
     "brainstorming-placeholder": "Jede Idee ist willkommen!\nErstelle für jede neue Idee einen eigenen Eintrag.\nVerwende keine Sonder- oder Satzzeichen.",
-    "cancel": "Verwerfen",
-    "cancel-description": "Verwerfen",
+    "cancel": "Abbrechen",
+    "cancel-description": "Abbrechen",
     "category": "Kategorie:",
     "comment": "Die Frage {{ comment }} wurde um {{ time }} Uhr gestellt und hat derzeitig {{ votes }}. {{correct}} {{wrong}} {{bonus}} {{beamer}}",
     "continue": "Weiter",
@@ -274,11 +274,20 @@
     "user-bonus": "Die Lehrperson kann »gute« Fragen für einen Bonus markieren. Deine Fragen aus allen Kursen (Räumen), die einen Stern erhalten haben, werden hier aufgelistet.\n\nJe nach Vereinbarung kannst du den Bonuscode per E-Mail an die Lehrperson schicken, um ihn gegen einen Bonus einzulösen."
   },
   "gpt-chat": {
-    "enter-conversation-text": "Rede mit GPT",
+    "optin-accept": "Akzeptieren",
+    "optin-reject": "Ablehnen",
+    "privacy-policy": "Datenschutzerklärung für die Nutzung der OpenAI API",
+    "enter-conversation-text": "Deine Eingabe …",
     "send": "Senden",
     "empty-conversation": "Verlauf leeren",
-    "input-forbidden": "Eingabe verboten, bitte prüfe die GPT API Einstellungen.",
-    "no-api-setup": "Der API Schlüssel oder das Sprachmodell wurden nicht gesetzt.",
+    "input-forbidden": "Bitte prüfe die GPT-Einstellungen.",
+    "no-api-setup": "Der API-Schlüssel oder das Sprachmodell wurden nicht gesetzt.",
+    "answer-format": {
+      "disabled": "Deaktiviert",
+      "summary": "Zusammenfassung",
+      "definition": "Definition",
+      "flashcard": "Lernkarte"
+    },
     "greetings": {
       "text-davinci-003": [
         {
@@ -308,9 +317,14 @@
       ]
     },
     "refresh": "Ausgabe erneut generieren",
-    "token-info": "Tokens (Eingabe/Chat/Gesamt): {{promptTokens}}/{{conversationTokens}}/{{allTokens}}",
-    "use-case": "Anwendungsfall",
-    "use-case-tooltip": "Auswahl eines speziellen Anwendungsfalles für bessere Antworten.",
+    "edit": "Ausgabe als editierbare Antwort auf Frage bearbeiten.",
+    "paste": "Ausgabe direkt als Antwort auf Frage veröffentlichen.",
+    "token-info": "Token (Eingabe / Chat / Gesamt): {{promptTokens}} / {{conversationTokens}} / {{allTokens}}",
+    "prompt-label": "Prompt-Suche",
+    "option-total-acts": "Treffer in »Agiere als …«",
+    "option-total-prompts": "Treffer in Prompts",
+    "use-case": "Sprachmodell",
+    "use-case-tooltip": "Auswahl eines speziellen Sprachmodells für bessere Antworten.",
     "use-case-answer-questions": "Beantwortung von Fragen",
     "use-case-tooltip-answer-questions": "Sehr effektiv, wenn gute Fragen oder Aufgaben (z. B. Übersetzung und Zusammenfassung) gestellt werden. Liefert meist die besten Text-Antworten.",
     "use-case-code": "Code-Verständnis & Generierung",
@@ -356,7 +370,8 @@
     "brainstorming-title": "Brainstorming",
     "cancel": "Schließen",
     "question-wall-title": "Use Cases des Präsentationsmodus",
-    "tag-cloud-title": "Use Cases des Fragen-Radars"
+    "tag-cloud-title": "Use Cases des Fragen-Radars",
+    "prompt-guide-chatbot": "Effektiv kommunizieren mit ChatGPT"
   },
   "joyride": {
     "commentFilter": "Es gibt zahlreiche Sortier- und Filteroptionen für die Q&A-Liste. Ein aktiver Filter wird rot angezeigt. Für eine bessere Lesbarkeit bei großer Dynamik kann der Fragenstrom auch angehalten werden.",
@@ -764,5 +779,12 @@
     "a11y-questioner-name": "Hier kannst du, wenn du willst, deinen Namen eingeben. Dieser ist für alle an diesem Kommentar sichtbar.",
     "name-length-error": "Der Name muss {{min}} bis {{max}} Zeichen lang sein.",
     "questioner-name": "Dein Name, wenn du willst …"
+  },
+  "gpt-user-description": {
+    "save": "Speichern",
+    "cancel": "Abbrechen",
+    "title": "Selbstbeschreibung für GPT",
+    "user-description": "Selbstbeschreibung",
+    "token-info": "{{tokens}} / {{maxLength}} Token"
   }
 }

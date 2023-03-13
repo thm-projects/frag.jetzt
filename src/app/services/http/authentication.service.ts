@@ -1,4 +1,4 @@
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError, map, switchMap, tap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { User } from '../../models/user';
 import { Observable, of, throwError } from 'rxjs';
@@ -16,6 +16,7 @@ export enum LoginResult {
   FailureException,
   SessionExpired,
   NewPasswordIsOldPassword,
+  PasswordTooCommon,
   InvalidKey,
 }
 
@@ -52,7 +53,7 @@ export class AuthenticationService extends BaseHttpService {
     super();
   }
 
-  checkPasswordInDictionary(password: string): Observable<FoundRange[]> {
+  checkPasswordInDictionary(password: string): Observable<number> {
     const connectionUrl: string =
       this.apiUrl.base +
       this.apiUrl.auth +
@@ -63,7 +64,13 @@ export class AuthenticationService extends BaseHttpService {
       .post<FoundRange[]>(connectionUrl, null, this.httpOptions)
       .pipe(
         tap(() => ''),
-        catchError(this.handleError<FoundRange[]>('checkPasswordInDictionary')),
+        map((arr: FoundRange[]) =>
+          arr.reduce(
+            (acc: number, range: FoundRange) => acc + range.end - range.start,
+            0,
+          ),
+        ),
+        catchError(this.handleError<number>('checkPasswordInDictionary')),
       );
   }
 
@@ -112,19 +119,25 @@ export class AuthenticationService extends BaseHttpService {
     );
   }
 
-  register(email: string, password: string): Observable<boolean> {
+  register(email: string, password: string): Observable<LoginResult> {
     const connectionUrl: string =
       this.apiUrl.base + this.apiUrl.user + this.apiUrl.register;
-    return this.http
-      .post<boolean>(
-        connectionUrl,
-        { loginId: email, password },
-        this.httpOptions,
-      )
-      .pipe(
-        tap((_) => ''),
-        map(() => true),
-      );
+
+    return this.checkPasswordInDictionary(password).pipe(
+      map((compromisedLength) => password.length - compromisedLength >= 6),
+      tap((_) => ''),
+      switchMap((isPasswordUncommonEnough: boolean) => {
+        if (!isPasswordUncommonEnough) {
+          return throwError(() => LoginResult.PasswordTooCommon);
+        }
+        return this.http.post<boolean>(
+          connectionUrl,
+          { loginId: email, password },
+          this.httpOptions,
+        );
+      }),
+      map(() => LoginResult.Success),
+    );
   }
 
   resetPassword(email: string): Observable<string> {
@@ -153,20 +166,30 @@ export class AuthenticationService extends BaseHttpService {
       '/' +
       email +
       this.apiUrl.resetPassword;
-    return this.http
-      .post<string>(connectionUrl, { key, password }, this.httpOptions)
-      .pipe(
-        tap((_) => ''),
-        catchError((err) => {
-          const msg = err.error.message;
-          if (msg === 'New password is old password') {
-            return throwError(() => LoginResult.NewPasswordIsOldPassword);
-          } else if (msg === 'InvalidKey') {
-            return throwError(() => LoginResult.InvalidKey);
-          }
-          return throwError(() => msg);
-        }),
-      );
+
+    return this.checkPasswordInDictionary(password).pipe(
+      map((compromisedLength) => password.length - compromisedLength >= 6),
+      tap(() => ''),
+      switchMap((isPasswordUncommonEnough: boolean) => {
+        if (!isPasswordUncommonEnough) {
+          return throwError(() => LoginResult.PasswordTooCommon);
+        }
+        return this.http
+          .post<string>(connectionUrl, { key, password }, this.httpOptions)
+          .pipe(
+            tap((_) => ''),
+            catchError((err) => {
+              const msg = err.error.message;
+              if (msg === 'New password is old password') {
+                return throwError(() => LoginResult.NewPasswordIsOldPassword);
+              } else if (msg === 'InvalidKey') {
+                return throwError(() => LoginResult.InvalidKey);
+              }
+              return throwError(() => msg);
+            }),
+          );
+      }),
+    );
   }
 
   checkSuperAdmin(token: string): Observable<boolean> {

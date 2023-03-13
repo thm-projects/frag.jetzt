@@ -7,7 +7,8 @@ import {
 import { Injectable } from '@angular/core';
 import { GPTCompletion } from 'app/models/gpt-completion';
 import { GPTConfiguration } from 'app/models/gpt-configuration';
-import { GPTModels } from 'app/models/gpt-models';
+import { GPTRating } from 'app/models/gpt-rating';
+import { GPTRoomPreset } from 'app/models/gpt-room-preset';
 import {
   GPTRoomSetting,
   GPTRoomUsageTime,
@@ -15,6 +16,7 @@ import {
 } from 'app/models/gpt-room-setting';
 import { GPTStatistics } from 'app/models/gpt-statistics';
 import { GPTPlatformStatus, GPTRoomStatus } from 'app/models/gpt-status';
+import { RatingResult } from 'app/models/rating-result';
 import { verifyInstance } from 'app/utils/ts-utils';
 import {
   catchError,
@@ -22,12 +24,9 @@ import {
   map,
   Observable,
   of,
-  ReplaySubject,
   switchMap,
-  take,
   tap,
 } from 'rxjs';
-import { UserManagementService } from '../util/user-management.service';
 import { BaseHttpService } from './base-http.service';
 
 /* eslint-disable @typescript-eslint/naming-convention */
@@ -142,13 +141,7 @@ export type UsageTimeAction = UsageTimeActionDelete | UsageTimeActionAdd;
   providedIn: 'root',
 })
 export class GptService extends BaseHttpService {
-  private models = new ReplaySubject<GPTModels>(1);
-  private needsRequest = true;
-
-  constructor(
-    private httpClient: HttpClient,
-    private userManagementService: UserManagementService,
-  ) {
+  constructor(private httpClient: HttpClient) {
     super();
   }
 
@@ -158,11 +151,6 @@ export class GptService extends BaseHttpService {
       tap((_) => ''),
       catchError(this.handleError<CachedModel[]>('getCompletionModelsOnce')),
     );
-  }
-
-  getModelsOnce(): Observable<GPTModels> {
-    this.refreshModels();
-    return this.models.pipe(take(1));
   }
 
   getRoomSetting(roomId: string): Observable<GPTRoomSetting> {
@@ -188,19 +176,24 @@ export class GptService extends BaseHttpService {
       );
   }
 
-  getKeywords(roomId: string): Observable<string[]> {
-    const url = '/api/gpt/room-keywords/' + roomId;
-    return this.httpClient.get<string[]>(url, httpOptions).pipe(
+  getPreset(roomId: string): Observable<GPTRoomPreset> {
+    const url = '/api/gpt/room-preset/' + roomId;
+    return this.httpClient.get<GPTRoomPreset>(url, httpOptions).pipe(
       tap((_) => ''),
-      catchError(this.handleError<string[]>('getKeywords')),
+      map((data) => verifyInstance(GPTRoomPreset, data)),
+      catchError(this.handleError<GPTRoomPreset>('getPreset')),
     );
   }
 
-  updateKeywords(roomId: string, keywords: string[]): Observable<string[]> {
-    const url = '/api/gpt/room-keywords/' + roomId;
-    return this.httpClient.post<string[]>(url, keywords, httpOptions).pipe(
+  patchPreset(
+    roomId: string,
+    changes: Partial<GPTRoomPreset>,
+  ): Observable<GPTRoomPreset> {
+    const url = '/api/gpt/room-preset/' + roomId;
+    return this.httpClient.patch<GPTRoomPreset>(url, changes, httpOptions).pipe(
       tap((_) => ''),
-      catchError(this.handleError<string[]>('updateKeywords')),
+      map((data) => verifyInstance(GPTRoomPreset, data)),
+      catchError(this.handleError<GPTRoomPreset>('patchPreset')),
     );
   }
 
@@ -381,37 +374,48 @@ export class GptService extends BaseHttpService {
     );
   }
 
+  makeRating(rating: number, ratingText: string): Observable<GPTRating> {
+    const url = '/api/gpt/rating';
+    return this.httpClient
+      .post<GPTRating>(url, { rating, ratingText }, httpOptions)
+      .pipe(
+        tap((_) => ''),
+        map((v) => verifyInstance(GPTRating, v)),
+        catchError(this.handleError<GPTRating>('makeRating')),
+      );
+  }
+
+  getRating(): Observable<GPTRating> {
+    const url = '/api/gpt/rating';
+    return this.httpClient.get<GPTRating>(url, httpOptions).pipe(
+      tap((_) => ''),
+      map((v) => verifyInstance(GPTRating, v)),
+      catchError(this.handleError<GPTRating>('getRating')),
+    );
+  }
+
+  getRatingTexts(): Observable<string[]> {
+    const url = '/api/gpt/rating-texts';
+    return this.httpClient.get<string[]>(url, httpOptions).pipe(
+      tap((_) => ''),
+      catchError(this.handleError<string[]>('getRatingTexts')),
+    );
+  }
+
+  getRatingInfo(): Observable<RatingResult> {
+    const url = '/api/gpt/rating-info';
+    return this.httpClient.get<RatingResult>(url, httpOptions).pipe(
+      tap((_) => ''),
+      catchError(this.handleError<RatingResult>('getRatingInfo')),
+    );
+  }
+
   getStats(): Observable<GPTStatistics> {
     const url = '/api/gpt/stats';
     return this.httpClient.get<GPTStatistics>(url, httpOptions).pipe(
       tap((_) => ''),
       map((v) => verifyInstance(GPTStatistics, v)),
       catchError(this.handleError<GPTStatistics>('getStats')),
-    );
-  }
-
-  private refreshModels(): void {
-    if (
-      !this.userManagementService.getCurrentUser()?.isSuperAdmin ||
-      !this.needsRequest
-    ) {
-      return;
-    }
-    this.needsRequest = false;
-    this.getModels().subscribe({
-      next: (m) => this.models.next(m),
-      error: (e) => {
-        this.needsRequest = true;
-        this.models.error(e);
-      },
-    });
-  }
-
-  private getModels(): Observable<GPTModels> {
-    const url = '/api/gpt/models';
-    return this.httpClient.get<GPTModels>(url, httpOptions).pipe(
-      tap((_) => ''),
-      catchError(this.handleError<GPTModels>('getModels')),
     );
   }
 

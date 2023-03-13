@@ -21,6 +21,11 @@
     "success": "News successfully created",
     "title": "Create latest news"
   },
+  "introductions": {
+    "prompt-guide-chatbot": "Communicating Effectively with ChatGPT",
+    "cancel": "Close",
+    "tooltip-button" : "Prompt Guide"
+  },
   "gpt-config": {
     "title": "GPT Settings & API Test",
     "api-key": "API Key",
@@ -51,7 +56,10 @@
     "help-activation-codes": "Here activation codes for the study can be viewed, created and deleted."
   },
   "gpt-chat": {
-    "enter-conversation-text": "Chat with GPT …",
+    "optin-accept": "Accept",
+    "optin-reject": "Reject",
+    "privacy-policy": "Privacy Policy for the Use of OpenAI API",
+    "enter-conversation-text": "Chat with ChatGPT …",
     "send": "Send",
     "empty-conversation": "Clear history",
     "input-forbidden": "Input forbidden, please check the GPT API settings.",
@@ -86,6 +94,9 @@
     },
     "refresh": "Generate output again",
     "token-info": "Tokens (input / chat / total): {{promptTokens}} / {{conversationTokens}} / {{allTokens}}",
+    "prompt-label": "Prompt search",
+    "option-total-acts": "Founds acts",
+    "option-total-prompts": "Hits in prompts",
     "use-case": "Use case",
     "use-case-tooltip": "Selecting a specific use case for better answers.",
     "use-case-answer-questions": "Answering questions",
