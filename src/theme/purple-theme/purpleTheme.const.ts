@@ -1,7 +1,6 @@
 import { ThemeMeta } from '../Theme';
 
 export const purple = {
-
   '--primary': '#00324a',
   '--primary-variant': 'white',
 
@@ -36,14 +35,14 @@ export const purple = {
   '--black': 'black',
   '--moderator': 'lightsalmon',
 
-  '--questionwall-intro-primary':'darkorange',
-  '--questionwall-intro-secondary':'#eadabf',
-  '--questionwall-intro-background':'#121212'
+  '--questionwall-intro-primary': 'darkorange',
+  '--questionwall-intro-secondary': '#eadabf',
+  '--questionwall-intro-background': '#121212',
 
+  '--form-background': 'PowderBlue',
 };
 
 export const purple_meta: ThemeMeta = {
-
   translation: {
     name: {
       en: 'Presentation',
@@ -59,5 +58,4 @@ export const purple_meta: ThemeMeta = {
   previewColor: 'background',
   icon: 'co_present',
   highlightJsClass: 'a11y-dark.css',
-
 };

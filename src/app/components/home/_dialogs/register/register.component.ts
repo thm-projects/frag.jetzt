@@ -5,7 +5,11 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogRef,
+  MatDialog,
+} from '@angular/material/dialog';
 import {
   FormControl,
   FormGroupDirective,
@@ -21,6 +25,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { PasswordResetComponent } from '../password-reset/password-reset.component';
 import { MatProgressBar } from '@angular/material/progress-bar';
+import { PasswordGeneratorComponent } from '../password-generator/password-generator.component';
 
 export class RegisterErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(
@@ -140,6 +145,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     public notificationService: NotificationService,
     public dialogRef: MatDialogRef<RegisterComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
+    private dialog: MatDialog,
   ) {}
 
   /**
@@ -199,6 +205,18 @@ export class RegisterComponent implements OnInit, AfterViewInit {
           this.notificationService.show(message);
         });
     }
+  }
+
+  openPasswordGenerator(event: MouseEvent) {
+    event.preventDefault();
+    const ref = PasswordGeneratorComponent.open(this.dialog);
+    ref.afterClosed().subscribe((data) => {
+      if (data) {
+        this.password1FormControl.setValue(data);
+        this.password2FormControl.setValue(data);
+        this.checkPasswordStrength();
+      }
+    });
   }
 
   /**

@@ -102,6 +102,7 @@ import 'katex/dist/katex.min.js';
 import 'emoji-toolkit/lib/js/joypixels.min.js';
 import 'quill-emoji/dist/quill-emoji.js';
 import { QuillModule } from 'ngx-quill';
+import { PasswordGeneratorComponent } from './components/home/_dialogs/password-generator/password-generator.component';
 
 export const dialogClose = (dialogResult: any) => '';
 
@@ -145,6 +146,7 @@ export const HttpLoaderFactory = (http: HttpClient) =>
     OverlayComponent,
     QuizNowComponent,
     NotifyUnsupportedBrowserComponent,
+    PasswordGeneratorComponent,
   ],
   imports: [
     MatomoModule,

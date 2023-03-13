@@ -164,6 +164,10 @@ export class SessionService {
     );
   }
 
+  getGPTStatus(): Observable<GPTRoomStatus> {
+    return this._currentGPTRoomStatus;
+  }
+
   getGPTStatusOnce(): Observable<GPTRoomStatus> {
     return this._currentGPTRoomStatus.pipe(
       filter((v) => Boolean(v)),

@@ -49,6 +49,14 @@
       </mat-error>
     </mat-form-field>
 
+    <button
+      mat-button
+      class="secondary-btn"
+      (click)="openPasswordGenerator($event)">
+      <mat-icon class="material-icons-filled">pin</mat-icon>
+      {{ "register.password-generator" | translate }}
+    </button>
+
     <mat-form-field class="input-block">
       <input
         appAccessibilityEscapedInput

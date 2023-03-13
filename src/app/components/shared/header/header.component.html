@@ -24,7 +24,6 @@
     <div
       class="header-content-container"
       [ngClass]="{ darken: themeService.currentTheme?.isDark }">
-
       <div *ngIf="headerService.isToggleCurrentUserActivity()">
         <div
           class="userActivityIcon"
@@ -39,7 +38,7 @@
         tabindex="0"
         [matTooltip]="'header.chat-gpt-button' | translate"
         *ngIf="
-          userRole > 0
+          userRole > 0 && canOpenGPT && !router.url.endsWith('/gpt-chat-room')
         "
         (click)="openGPT()">
         <mat-icon
@@ -47,7 +46,7 @@
           style="transform: scale(1.2); margin-right: 5px">
           smart_toy
         </mat-icon>
-        <span *ngIf="!showSmallButtons">
+        <span *ngIf="!showSmallButtons && deviceInfo.isCurrentlyDesktop">
           {{ "header.gpt-chat" | translate }}
         </span>
       </button>

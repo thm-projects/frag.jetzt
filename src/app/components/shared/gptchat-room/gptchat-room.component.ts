@@ -326,8 +326,12 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
       .subscribe(this.generateObserver(index));
   }
 
+  cancel() {
+    this.location.back();
+  }
+
   sendGPTMessage() {
-    if (this.isSending) {
+    if (this.isSending || this.error) {
       return;
     }
     this.isSending = true;

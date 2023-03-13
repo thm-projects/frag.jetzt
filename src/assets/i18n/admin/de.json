@@ -59,11 +59,9 @@
     "enter-conversation-text": "Deine Eingabe …",
     "send": "Senden",
     "empty-conversation": "Verlauf leeren",
-
     "optin-accept": "Akzeptieren",
     "optin-reject": "Ablehnen",
     "privacy-policy": "Datenschutzerklärung für die Nutzung der OpenAI API",
-
     "input-forbidden": "Bitte prüfe die GPT-Einstellungen.",
     "no-api-setup": "Der API-Schlüssel oder das Sprachmodell wurden nicht gesetzt.",
     "greetings": {
@@ -94,6 +92,7 @@
         }
       ]
     },
+    "cancel": "Schließen",
     "refresh": "Ausgabe erneut generieren",
     "token-info": "Token (Eingabe / Chat / Gesamt): {{promptTokens}} / {{conversationTokens}} / {{allTokens}}",
     "prompt-label": "Prompt-Suche",
