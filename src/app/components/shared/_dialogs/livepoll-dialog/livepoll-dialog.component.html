@@ -42,7 +42,7 @@
               "
               (click)="setActive(!isActive)">
               <mat-icon>{{ isActive ? "pause" : "play_arrow" }}</mat-icon>
-              <span>
+              <span *ngIf="device.isCurrentlyDesktop">
                 {{
                   translateKey +
                     ".creator-settings-" +
@@ -58,7 +58,7 @@
               "
               (click)="delete()">
               <mat-icon>delete</mat-icon>
-              <span>
+              <span *ngIf="device.isCurrentlyDesktop">
                 {{ translateKey + ".creator-settings-delete" | translate }}
               </span>
             </button>

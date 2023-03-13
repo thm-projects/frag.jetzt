@@ -127,8 +127,8 @@
     box-shadow: inset 0 0 0 3px $border;
   }
   color: $foreground;
-  mat-icon {
-    margin-right: 4px;
+  span {
+    margin-left: 4px;
   }
 }
 
