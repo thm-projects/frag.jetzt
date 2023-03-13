@@ -216,8 +216,8 @@
     "brainstorming-info-multiple": "{{maxWordCount}} Wörter / {{maxWordLength}} Zeichen",
     "brainstorming-info-single": "{{maxWordCount}} Wort / {{maxWordLength}} Zeichen",
     "brainstorming-placeholder": "Jede Idee ist willkommen!\nErstelle für jede neue Idee einen eigenen Eintrag.\nVerwende keine Sonder- oder Satzzeichen.",
-    "cancel": "Verwerfen",
-    "cancel-description": "Verwerfen",
+    "cancel": "Abbrechen",
+    "cancel-description": "Abbrechen",
     "category": "Kategorie:",
     "select-brainstorm-category": "Kategorie wählen:",
     "select-brainstorm-category-none": "Keine",
@@ -747,7 +747,7 @@
     },
     "reset": "Zurücksetzen",
     "save": "Speichern",
-    "cancel": "Verwerfen",
+    "cancel": "Abbrechen",
     "send": "Abschicken"
   },
   "room-settings-overview": {

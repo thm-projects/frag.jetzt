@@ -271,6 +271,18 @@ export class NavigationComponent implements OnInit, OnDestroy {
       },
     },
     {
+      id: 'qr code',
+      accessible: false,
+      active: false,
+      i18n: 'header.room-qr',
+      icon: 'qr_code',
+      isCurrentRoute: (route) => false,
+      canBeAccessedOnRoute: (route) => ROOM_REGEX.test(route),
+      navigate: () => {
+        this.showQRDialog();
+      },
+    },
+    {
       id: 'reception',
       accessible: false,
       active: false,
@@ -361,38 +373,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
         dialogRef.componentInstance.room = this.sessionService.currentRoom;
       },
     },
-    {
-      id: 'qr code',
-      accessible: false,
-      active: false,
-      i18n: 'header.room-qr',
-      icon: 'qr_code',
-      outside: true,
-      isCurrentRoute: () => false,
-      canBeAccessedOnRoute: (route) => ROOM_REGEX.test(route),
-      navigate: () => {
-        this.showQRDialog();
-      },
-    },
-    {
-      id: 'room settings',
-      accessible: false,
-      active: false,
-      i18n: 'room-list.settings-overview',
-      icon: 'room_preferences',
-      class: 'btn-primary',
-      outside: true,
-      isCurrentRoute: () => false,
-      canBeAccessedOnRoute: (route) =>
-        ROOM_REGEX.test(route) &&
-        this.sessionService.currentRole > UserRole.PARTICIPANT,
-      navigate: () => {
-        const ref = this.dialog.open(RoomSettingsOverviewComponent, {
-          width: '600px',
-        });
-        ref.componentInstance.room = this.sessionService.currentRoom;
-      },
-    },
+   
     {
       id: 'news',
       accessible: false,
@@ -406,21 +387,6 @@ export class NavigationComponent implements OnInit, OnDestroy {
         Boolean(this.userManagementService.getCurrentUser()),
       navigate: () => {
         this.startUpService.openMotdDialog();
-      },
-    },
-    {
-      id: 'chat',
-      accessible: false,
-      active: false,
-      i18n: 'header.gpt-chat',
-      icon: 'smart_toy',
-      class: 'material-icons-outlined',
-      outside: true,
-      isCurrentRoute: () => false,
-      canBeAccessedOnRoute: () =>
-        Boolean(this.userManagementService.getCurrentUser()?.isSuperAdmin),
-      navigate: () => {
-        this.router.navigate(['/admin/gpt-chat']);
       },
     },
     {
