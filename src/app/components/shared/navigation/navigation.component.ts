@@ -26,7 +26,7 @@ import { TopicCloudBrainstormingComponent } from '../_dialogs/topic-cloud-brains
 import { TopicCloudFilterComponent } from '../_dialogs/topic-cloud-filter/topic-cloud-filter.component';
 import { Room } from '../../../models/room';
 import { LivepollSessionList } from '../../../models/livepoll-session-list';
-import { LivepollCreateComponent } from '../_dialogs/livepoll-create/livepoll-create.component';
+import { LivepollCreateComponent } from '../_dialogs/livepoll/livepoll-create/livepoll-create.component';
 import { User } from '../../../models/user';
 import { LivepollService } from '../../../services/http/livepoll.service';
 

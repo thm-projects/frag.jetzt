@@ -8,9 +8,8 @@ describe('LivepollCreateComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ LivepollCreateComponent ]
-    })
-    .compileComponents();
+      declarations: [LivepollCreateComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(LivepollCreateComponent);
     component = fixture.componentInstance;

@@ -1,19 +1,19 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { DeviceInfoService } from '../../../../services/util/device-info.service';
+import { DeviceInfoService } from '../../../../../services/util/device-info.service';
 import {
   LivepollTemplateContext,
   templateEntries,
-} from '../../../../models/livepoll-template';
+} from '../../../../../models/livepoll-template';
 import { Observable, ReplaySubject, takeUntil } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
-import { LanguageService } from '../../../../services/util/language.service';
+import { LanguageService } from '../../../../../services/util/language.service';
 import { HttpClient } from '@angular/common/http';
-import { SessionService } from '../../../../services/util/session.service';
+import { SessionService } from '../../../../../services/util/session.service';
 import {
   LivepollService,
   LivepollSessionPatchAPI,
-} from '../../../../services/http/livepoll.service';
-import { LivepollSession } from '../../../../models/livepoll-session';
+} from '../../../../../services/http/livepoll.service';
+import { LivepollSession } from '../../../../../models/livepoll-session';
 import {
   animate,
   state,

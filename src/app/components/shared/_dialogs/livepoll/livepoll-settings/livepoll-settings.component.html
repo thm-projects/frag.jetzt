@@ -1,0 +1,85 @@
+<mat-accordion class="accordion">
+  <mat-expansion-panel class="settings-expansion-panel">
+    <mat-expansion-panel-header>
+      <mat-panel-title class="settings-panel-title">
+        {{ parent.translateKey + ".creator-settings" | translate }}
+      </mat-panel-title>
+      <mat-panel-description
+        [ngClass]="
+          'settings-panel-description-' +
+          (parent.device.isCurrentlyDesktop ? 'desktop' : 'mobile')
+        ">
+        <span>
+          {{
+            parent.device.isCurrentlyDesktop
+              ? (parent.translateKey + ".creator-settings-description"
+                | translate)
+              : ""
+          }}
+        </span>
+        <mat-icon>
+          {{ parent.translateKey + ".creator-settings-icon" | translate }}
+        </mat-icon>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <div class="settings-panel-container">
+      <div
+        class="row settings-panel-container-top"
+        *ngIf="parent.isProduction"
+        style="justify-content: flex-end">
+        <button
+          mat-flat-button
+          color="warn"
+          [matTooltip]="
+            parent.translateKey + '.creator-settings-delete-tooltip' | translate
+          "
+          (click)="parent.delete()">
+          <mat-icon>delete</mat-icon>
+          <span *ngIf="parent.device.isCurrentlyDesktop">
+            {{ parent.translateKey + ".creator-settings-delete" | translate }}
+          </span>
+        </button>
+      </div>
+      <mat-form-field appearance="outline">
+        <mat-label>
+          {{ parent.translateKey + ".option-select-title" | translate }}
+        </mat-label>
+        <input
+          matInput
+          [(ngModel)]="parent.livepollSession.title" />
+        <mat-hint>
+          {{ parent.translateKey + ".option-select-title-hint" | translate }}
+        </mat-hint>
+      </mat-form-field>
+      <mat-slide-toggle
+        [matTooltip]="
+          parent.translateKey + '.tooltip-option-select-result-visibility'
+            | translate
+        "
+        [(ngModel)]="parent.livepollSession.resultVisible">
+        {{
+          parent.translateKey + ".option-select-result-visibility" | translate
+        }}
+      </mat-slide-toggle>
+      <mat-slide-toggle
+        [matTooltip]="
+          parent.translateKey + '.tooltip-option-select-views-visibility'
+            | translate
+        "
+        [(ngModel)]="parent.livepollSession.viewsVisible">
+        {{
+          parent.translateKey + ".option-select-views-visibility" | translate
+        }}
+      </mat-slide-toggle>
+    </div>
+    <div class="expansion-action-list">
+      <button
+        *ngIf="parent.isProduction"
+        mat-flat-button
+        color="accent"
+        (click)="parent.save()">
+        <span>{{ parent.translateKey + ".save" | translate }}</span>
+      </button>
+    </div>
+  </mat-expansion-panel>
+</mat-accordion>

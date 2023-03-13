@@ -3,20 +3,20 @@ import {
   LivepollTemplateContext,
   templateContext,
   templateGroups,
-} from '../../../../models/livepoll-template';
+} from '../../../../../models/livepoll-template';
 import { FormControl } from '@angular/forms';
 import { DialogRef } from '@angular/cdk/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
-import { LanguageService } from '../../../../services/util/language.service';
+import { LanguageService } from '../../../../../services/util/language.service';
 import { ReplaySubject, takeUntil } from 'rxjs';
-import { DeviceInfoService } from '../../../../services/util/device-info.service';
+import { DeviceInfoService } from '../../../../../services/util/device-info.service';
 import {
   LivepollService,
   LivepollSessionPatchAPI,
-} from '../../../../services/http/livepoll.service';
+} from '../../../../../services/http/livepoll.service';
 import { SessionService } from 'app/services/util/session.service';
-import { LivepollSession } from '../../../../models/livepoll-session';
+import { LivepollSession } from '../../../../../models/livepoll-session';
 
 @Component({
   selector: 'app-livepoll-create',
