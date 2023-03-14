@@ -202,6 +202,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
       active: false,
       i18n: 'header.livepoll',
       icon: 'ballot',
+      class: 'material-icons-outlined',
       canBeAccessedOnRoute: (route) =>
         livepollNavigationAccessOnRoute(
           route,
