@@ -315,6 +315,7 @@
         }
       ]
     },
+    "cancel": "Fermer",
     "refresh": "Générer à nouveau la sortie",
     "edit": "Modifier la sortie en tant que réponse modifiable à la question.",
     "paste": "Publier le numéro directement en réponse à la question.",

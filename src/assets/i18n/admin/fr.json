@@ -92,6 +92,7 @@
         }
       ]
     },
+    "cancel": "Fermer",
     "refresh": "Générer à nouveau la sortie",
     "token-info": "Tokens (saisie / conversation / total) : {{promptTokens}} / {{conversationTokens}} / {{allTokens}}",
     "prompt-label": "Recherche du prompt",

@@ -538,7 +538,24 @@
     "register-request-error": "Bei der Registrierung ist etwas schief gelaufen. Hast du dich bereits registriert?",
     "register-successful": "Erfolgreich registriert. Bitte prüfe deine Mailbox!",
     "register-error-password-too-common": "Das Passwort besteht größtenteils aus leicht zu erratenden Zeichenfolgen. Bitte wähle ein anderes Passwort.",
-    "register-unsuccessful": "Bitte prüfe deine Eingaben."
+    "register-unsuccessful": "Bitte prüfe deine Eingaben.",
+    "password-generator": "Passwortgenerator"
+  },
+  "password-generator": {
+    "title": "Passwortgenerator",
+    "password-length": "Länge des Passworts",
+    "password-input": "Passworteingabe",
+    "regenerate": "Passwort generieren",
+    "cancel": "Abbrechen",
+    "copy-and-confirm": "Kopieren und Übernehmen",
+    "eternity": "Dein Passwort ist sehr sehr sicher.",
+    "duration": "Dein Passwort wird frühstens {{text}} geknackt worden sein.",
+    "copy-password": "Passwort kopieren",
+    "err-required": "Du musst eine Zahl eingeben",
+    "err-min": "Das Passwort muss eine Mindestlänge von 8 Zeichen besitzen",
+    "err-max": "Das Passwort darf nicht länger als 64 Zeichen sein",
+    "copy-success": "Passwort kopiert",
+    "copy-fail": "Passwort konnte nicht kopiert werden"
   },
   "remind-of-tokens": {
     "cancel": "Zu meinen Tokens",

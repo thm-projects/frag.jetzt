@@ -430,6 +430,7 @@
         }
       ]
     },
+    "cancel": "Schließen",
     "refresh": "Ausgabe erneut generieren",
     "edit": "Ausgabe als editierbare Antwort auf Frage bearbeiten.",
     "paste": "Ausgabe direkt als Antwort auf Frage veröffentlichen.",

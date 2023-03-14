@@ -81,6 +81,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   themes: Theme[];
   showSmallButtons = false;
   isGPTPrivacyPolicyAccepted: boolean = false;
+  canOpenGPT = false;
   public readonly navigationAccess = {
     livepoll: livepollNavigationAccessOnRoute,
   };
@@ -133,6 +134,9 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     this.sessionService.getRole().subscribe((role) => {
       this.userRole = role;
       this.isInRouteWithRoles = this.sessionService.canChangeRoleOnRoute;
+    });
+    this.sessionService.getGPTStatus().subscribe((status) => {
+      this.canOpenGPT = status?.hasAPI && !status?.restricted;
     });
     this.topicCloudAdminService.getAdminData.subscribe((data) => {
       this.isAdminConfigEnabled =

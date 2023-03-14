@@ -538,7 +538,24 @@
     "register-request-error": "Something went wrong during registration. Maybe you have already created the account?",
     "register-successful": "Successfully registered. Please check your mails.",
     "register-error-password-too-common": "The password consists mainly of easy to guess strings. Please choose another password.",
-    "register-unsuccessful": "Please check your data."
+    "register-unsuccessful": "Please check your data.",
+    "password-generator": "Password generator"
+  },
+  "password-generator": {
+    "title": "Password generator",
+    "password-length": "Password length",
+    "password-input": "Password input",
+    "regenerate": "Generate password",
+    "cancel": "Cancel",
+    "copy-and-confirm": "Copy and Apply",
+    "eternity": "Your password is very very secure.",
+    "duration": "Your password will have been cracked no sooner than {{text}}.",
+    "copy-password": "Copy password",
+    "err-required": "You must enter a number",
+    "err-min": "The password must have a minimum length of 8 characters",
+    "err-max": "The password must not be longer than 64 characters",
+    "copy-success": "Password copied",
+    "copy-fail": "Password could not be copied"
   },
   "remind-of-tokens": {
     "cancel": "To my tokens",

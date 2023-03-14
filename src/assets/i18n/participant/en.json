@@ -315,6 +315,7 @@
         }
       ]
     },
+    "cancel": "Schließen",
     "refresh": "Generate output again",
     "edit": "Edit output as editable answer to question.",
     "paste": "Publish output directly in response to question.",

@@ -538,7 +538,24 @@
     "register-request-error": "Quelque chose s'est mal passé lors de l'enregistrement. Tu t'es peut-être déjà enregistré ?",
     "register-successful": "Enregistré avec succès. Vérifie ta boîte de réception !",
     "register-error-password-too-common": "Le mot de passe est composé en grande partie de chaînes de caractères faciles à deviner. Veuillez choisir un autre mot de passe.",
-    "register-unsuccessful": "Vérifie tes données, s'il te plaît."
+    "register-unsuccessful": "Vérifie tes données, s'il te plaît.",
+    "password-generator": "Générateur de mots de passe"
+  },
+  "password-generator": {
+    "title": "Générateur de mots de passe",
+    "password-length": "Longueur du mot de passe",
+    "password-input": "Saisie du mot de passe",
+    "regenerate": "Générer un mot de passe",
+    "cancel": "Annuler",
+    "copy-and-confirm": "Copier et reprendre",
+    "eternity": "Ton mot de passe est très très sûr.",
+    "duration": "Ton mot de passe aura été craqué au plus tôt {{text}}.",
+    "copy-password": "Copier le mot de passe",
+    "err-required": "Tu dois saisir un chiffre",
+    "err-min": "Le mot de passe doit avoir une longueur minimale de 8 caractères",
+    "err-max": "Le mot de passe ne doit pas dépasser 64 caractères",
+    "copy-success": "Mot de passe copié",
+    "copy-fail": "Le mot de passe n'a pas pu être copié"
   },
   "remind-of-tokens": {
     "cancel": "Vers mes tokens",

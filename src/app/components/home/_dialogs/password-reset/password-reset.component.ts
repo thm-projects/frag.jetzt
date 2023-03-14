@@ -11,7 +11,11 @@ import {
   NgForm,
   Validators,
 } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogRef,
+  MatDialog,
+} from '@angular/material/dialog';
 import {
   checkForEquality,
   checkForPasswordValidity,
@@ -25,6 +29,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { MatProgressBar } from '@angular/material/progress-bar';
+import { PasswordGeneratorComponent } from '../password-generator/password-generator.component';
 
 export class PasswordResetErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(
@@ -79,6 +84,7 @@ export class PasswordResetComponent implements OnInit, AfterViewInit {
     public dialogRef: MatDialogRef<PasswordResetComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private liveAnnouncer: LiveAnnouncer,
+    private dialog: MatDialog,
   ) {}
 
   public static calculateStrength(passwordControl: FormControl): number {
@@ -113,6 +119,18 @@ export class PasswordResetComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.checkPasswordStrength();
+  }
+
+  openPasswordGenerator(event: MouseEvent) {
+    event.preventDefault();
+    const ref = PasswordGeneratorComponent.open(this.dialog);
+    ref.afterClosed().subscribe((data) => {
+      if (data) {
+        this.passwordFormControl.setValue(data);
+        this.passwordFormControl2.setValue(data);
+        this.checkPasswordStrength();
+      }
+    });
   }
 
   public announce() {

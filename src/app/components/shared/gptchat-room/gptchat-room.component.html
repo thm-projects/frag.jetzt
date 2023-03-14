@@ -29,7 +29,7 @@
           <mat-option
             *ngFor="let prompt of filteredPrompts"
             [value]="prompt.act"
-            (click)="sendGPTContent = prompt.prompt; autoGrow(autoGrowElement)"
+            (click)="setValue(prompt.prompt)"
             class="mat-option"
             [ngClass]="{
               'mat-option-header':
@@ -67,9 +67,11 @@
     <div
       *ngFor="let item of conversation; let i = index"
       [class]="item.type">
-      <img
-        *ngIf="item.type === 'gpt'"
-        src="/assets/images/ChatGPT.png" />
+      <mat-icon
+        class="material-icons-outlined"
+        *ngIf="item.type === 'gpt'">
+        smart_toy
+      </mat-icon>
       <div
         markdown
         emoji
@@ -146,20 +148,30 @@
         'gpt-chat.enter-conversation-text' | translate
       "></app-view-comment-data>
 
-    <button
-      *ngIf="!isSending; else loading"
-      mat-button
-      class="secondary-btn"
-      (click)="sendGPTMessage()">
-      {{ "gpt-chat.send" | translate }}
-    </button>
-    <button
-      *ngIf="!isSending"
-      mat-button
-      class="danger-btn"
-      (click)="clearMessages()">
-      {{ "gpt-chat.empty-conversation" | translate }}
-    </button>
+    <ng-container *ngIf="!error">
+      <div *ngIf="!isSending; else loading">
+        <button
+          mat-button
+          class="secondary-btn"
+          (click)="cancel()">
+          {{ "gpt-chat.cancel" | translate }}
+        </button>
+        <button
+          mat-button
+          style="float: right"
+          class="secondary-btn"
+          (click)="sendGPTMessage()">
+          {{ "gpt-chat.send" | translate }}
+        </button>
+        <button
+          mat-button
+          style="float: right"
+          class="danger-btn"
+          (click)="clearMessages()">
+          {{ "gpt-chat.empty-conversation" | translate }}
+        </button>
+      </div>
+    </ng-container>
   </div>
   <div *ngIf="error">
     {{ getError() }}
