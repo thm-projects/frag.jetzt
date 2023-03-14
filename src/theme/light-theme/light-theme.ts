@@ -1,7 +1,6 @@
 import { ThemeMeta } from '../Theme';
 
 export const arsnova = {
-
   '--primary': 'darkblue',
   '--primary-variant': 'blanchedalmond',
 
@@ -38,12 +37,12 @@ export const arsnova = {
 
   '--questionwall-intro-primary': 'darkorange',
   '--questionwall-intro-secondary': 'white',
-  '--questionwall-intro-background': '#121212'
+  '--questionwall-intro-background': '#121212',
 
+  '--form-background': 'PowderBlue',
 };
 
 export const arsnova_meta: ThemeMeta = {
-
   translation: {
     name: {
       en: 'Light mode',
@@ -59,5 +58,4 @@ export const arsnova_meta: ThemeMeta = {
   previewColor: 'background',
   icon: 'light',
   highlightJsClass: 'a11y-dark.css',
-
 };

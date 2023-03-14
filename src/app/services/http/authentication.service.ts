@@ -53,7 +53,7 @@ export class AuthenticationService extends BaseHttpService {
     super();
   }
 
-  checkPasswordInDictionary(password: string): Observable<number> {
+  checkPasswordInDictionary(password: string): Observable<FoundRange[]> {
     const connectionUrl: string =
       this.apiUrl.base +
       this.apiUrl.auth +
@@ -64,13 +64,7 @@ export class AuthenticationService extends BaseHttpService {
       .post<FoundRange[]>(connectionUrl, null, this.httpOptions)
       .pipe(
         tap(() => ''),
-        map((arr: FoundRange[]) =>
-          arr.reduce(
-            (acc: number, range: FoundRange) => acc + range.end - range.start,
-            0,
-          ),
-        ),
-        catchError(this.handleError<number>('checkPasswordInDictionary')),
+        catchError(this.handleError<FoundRange[]>('checkPasswordInDictionary')),
       );
   }
 
@@ -123,7 +117,7 @@ export class AuthenticationService extends BaseHttpService {
     const connectionUrl: string =
       this.apiUrl.base + this.apiUrl.user + this.apiUrl.register;
 
-    return this.checkPasswordInDictionary(password).pipe(
+    return this.checkCompromised(password).pipe(
       map((compromisedLength) => password.length - compromisedLength >= 6),
       tap((_) => ''),
       switchMap((isPasswordUncommonEnough: boolean) => {
@@ -155,6 +149,17 @@ export class AuthenticationService extends BaseHttpService {
       );
   }
 
+  checkCompromised(password: string) {
+    return this.checkPasswordInDictionary(password).pipe(
+      map((arr: FoundRange[]) =>
+        arr.reduce(
+          (acc: number, range: FoundRange) => acc + range.end - range.start,
+          0,
+        ),
+      ),
+    );
+  }
+
   setNewPassword(
     email: string,
     key: string,
@@ -167,7 +172,7 @@ export class AuthenticationService extends BaseHttpService {
       email +
       this.apiUrl.resetPassword;
 
-    return this.checkPasswordInDictionary(password).pipe(
+    return this.checkCompromised(password).pipe(
       map((compromisedLength) => password.length - compromisedLength >= 6),
       tap(() => ''),
       switchMap((isPasswordUncommonEnough: boolean) => {

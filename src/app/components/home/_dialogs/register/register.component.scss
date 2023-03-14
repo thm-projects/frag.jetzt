@@ -26,3 +26,16 @@ input {
 .custom-progress-bar ::ng-deep .mat-progress-bar-element::after {
   background-color: var(--line-color, #f00) !important;
 }
+
+.secondary-btn {
+  background-color: transparent;
+  color: var(--secondary);
+  outline: var(--secondary) solid 3px;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.secondary-btn:hover {
+  background-color: var(--secondary);
+  color: var(--on-secondary);
+}
