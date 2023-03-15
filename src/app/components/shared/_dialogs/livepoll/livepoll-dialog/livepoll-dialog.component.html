@@ -149,7 +149,10 @@
   let-i="i"
   let-symbol="symbol">
   <ng-container *ngIf="template.isPlain">
-    <span>
+    <span
+      [ngStyle]="
+        template.translate ? template.style?.text : template.style?.plainIcon
+      ">
       {{
         template.translate
           ? (translateKey + "." + "option-" + template.name! | translate)[i]
@@ -158,7 +161,7 @@
     </span>
   </ng-container>
   <ng-container *ngIf="!template.isPlain">
-    <mat-icon [ngStyle]="template.style?.icons">
+    <mat-icon [ngStyle]="template.style?.matIcon">
       {{ symbol }}
     </mat-icon>
   </ng-container>

@@ -18,6 +18,12 @@ export type StyleProperties = {
   [key in keyof Partial<CSSStyleDeclaration>]: any;
 };
 
+export interface LivepollStyleProperties {
+  matIcon?: StyleProperties;
+  plainIcon?: StyleProperties;
+  text?: StyleProperties;
+}
+
 export interface LivepollNode<E extends LivepollTemplate> {
   isGrid: boolean;
   kind: E;
@@ -27,9 +33,7 @@ export interface LivepollNode<E extends LivepollTemplate> {
   symbols?: string[];
   length?: number;
   reverse?: boolean;
-  style?: {
-    icons?: StyleProperties;
-  };
+  style?: LivepollStyleProperties;
 }
 
 export type LivepollTemplateContext = LivepollNode<LivepollTemplate>;
@@ -39,6 +43,18 @@ type EachOfTemplate<E extends LivepollTemplate, T extends LivepollNode<E>> = {
 };
 type EachOfGroup<E extends LivepollGroupKind> = {
   [E in LivepollGroupKind]: LivepollTemplateContext[];
+};
+
+const defaultTemplateStyle: LivepollStyleProperties = {
+  matIcon: {
+    transform: 'scale(1.5)',
+  },
+  plainIcon: {
+    fontSize: '32px',
+  },
+  text: {
+    fontSize: '32px',
+  },
 };
 
 export const templateEntries: EachOfTemplate<
@@ -51,6 +67,7 @@ export const templateEntries: EachOfTemplate<
     name: 'character',
     translate: false,
     symbols: ['A', 'B', 'C', 'D'],
+    style: defaultTemplateStyle,
     isGrid: true,
   },
   [LivepollTemplate.Symbol]: {
@@ -65,11 +82,7 @@ export const templateEntries: EachOfTemplate<
       'sentiment_satisfied',
       'sentiment_very_satisfied',
     ],
-    style: {
-      icons: {
-        transform: 'scale(1.5)',
-      },
-    },
+    style: defaultTemplateStyle,
     isGrid: true,
   },
   [LivepollTemplate.Agree]: {
@@ -79,6 +92,7 @@ export const templateEntries: EachOfTemplate<
     translate: true,
     reverse: true,
     length: 5,
+    style: defaultTemplateStyle,
     isGrid: true,
   },
   [LivepollTemplate.Frequency]: {
@@ -88,6 +102,7 @@ export const templateEntries: EachOfTemplate<
     translate: true,
     reverse: true,
     length: 5,
+    style: defaultTemplateStyle,
     isGrid: true,
   },
   [LivepollTemplate.YesNo]: {
@@ -97,11 +112,7 @@ export const templateEntries: EachOfTemplate<
     translate: false,
     reverse: true,
     symbols: ['thumb_down', 'thumb_up'],
-    style: {
-      icons: {
-        transform: 'scale(1.5)',
-      },
-    },
+    style: defaultTemplateStyle,
     isGrid: true,
   },
   [LivepollTemplate.Scale]: {
@@ -111,6 +122,7 @@ export const templateEntries: EachOfTemplate<
     translate: true,
     reverse: true,
     length: 4,
+    style: defaultTemplateStyle,
     isGrid: true,
   },
 };
