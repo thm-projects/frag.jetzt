@@ -14,6 +14,10 @@ export enum LivepollGroupKind {
   Misc,
 }
 
+export type StyleProperties = {
+  [key in keyof Partial<CSSStyleDeclaration>]: any;
+};
+
 export interface LivepollNode<E extends LivepollTemplate> {
   isGrid: boolean;
   kind: E;
@@ -23,6 +27,9 @@ export interface LivepollNode<E extends LivepollTemplate> {
   symbols?: string[];
   length?: number;
   reverse?: boolean;
+  style?: {
+    icons?: StyleProperties;
+  };
 }
 
 export type LivepollTemplateContext = LivepollNode<LivepollTemplate>;
@@ -58,6 +65,11 @@ export const templateEntries: EachOfTemplate<
       'sentiment_satisfied',
       'sentiment_very_satisfied',
     ],
+    style: {
+      icons: {
+        transform: 'scale(1.5)',
+      },
+    },
     isGrid: true,
   },
   [LivepollTemplate.Agree]: {
@@ -85,6 +97,11 @@ export const templateEntries: EachOfTemplate<
     translate: false,
     reverse: true,
     symbols: ['thumb_down', 'thumb_up'],
+    style: {
+      icons: {
+        transform: 'scale(1.5)',
+      },
+    },
     isGrid: true,
   },
   [LivepollTemplate.Scale]: {

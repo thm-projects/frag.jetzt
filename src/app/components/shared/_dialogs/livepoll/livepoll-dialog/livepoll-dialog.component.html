@@ -158,7 +158,7 @@
     </span>
   </ng-container>
   <ng-container *ngIf="!template.isPlain">
-    <mat-icon>
+    <mat-icon [ngStyle]="template.style?.icons">
       {{ symbol }}
     </mat-icon>
   </ng-container>
