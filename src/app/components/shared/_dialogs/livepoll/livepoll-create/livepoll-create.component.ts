@@ -22,7 +22,7 @@ import { LivepollSession } from '../../../../../models/livepoll-session';
 @Component({
   selector: 'app-livepoll-create',
   templateUrl: './livepoll-create.component.html',
-  styleUrls: ['./livepoll-create.component.scss'],
+  styleUrls: ['./livepoll-create.component.scss', '../livepoll-common.scss'],
 })
 export class LivepollCreateComponent implements OnDestroy {
   public readonly templateGroups: LivepollGroupContext[] = templateGroups;

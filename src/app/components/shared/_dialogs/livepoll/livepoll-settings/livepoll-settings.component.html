@@ -21,7 +21,7 @@
         style="justify-content: flex-end">
         <button
           mat-flat-button
-          color="warn"
+          class="button-cancel"
           [matTooltip]="
             parent.translateKey + '.creator-settings-delete-tooltip' | translate
           "
@@ -64,8 +64,8 @@
     <div class="expansion-action-list">
       <button
         *ngIf="parent.isProduction"
+        class="button-primary"
         mat-flat-button
-        color="accent"
         (click)="parent.save()">
         <span>{{ parent.translateKey + ".save" | translate }}</span>
       </button>

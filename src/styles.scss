@@ -548,3 +548,11 @@ iframe {
   background-color: var(--surface);
   color: var(--on-surface);
 }
+
+.mat-expansion-indicator::after {
+  color: var(--on-surface);
+}
+
+.mat-form-field-appearance-outline .mat-form-field-outline {
+  color: var(--on-surface);
+}

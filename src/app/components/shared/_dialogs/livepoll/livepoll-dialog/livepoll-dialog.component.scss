@@ -113,45 +113,10 @@
   margin-top: 5px;
 }
 
-@mixin button-config(
-  $border,
-  $foreground: var(--on-surface),
-  $background: transparent
-) {
-  background-color: $background;
-  box-shadow: inset 0 0 0 1px rgba(128, 128, 128, 0.5);
-  &:hover {
-    box-shadow: inset 0 0 0 1px $border;
-  }
-  &:focus {
-    box-shadow: inset 0 0 0 3px $border;
-  }
-  color: $foreground;
-  span {
-    margin-left: 4px;
-  }
-}
-
-@mixin button-color-config(
-  $attribute,
-  $border: var(--primary),
-  $foreground: var(--on-surface),
-  $background: transparent
-) {
-  > *[ng-reflect-color="#{$attribute}"] {
-    @include button-config(
-      $border: $border,
-      $foreground: $foreground,
-      $background: $background
-    );
-  }
-}
-
 .expansion-action-list {
   margin-top: 16px;
   display: flex;
   flex-direction: column;
-  @include button-color-config($attribute: accent);
 }
 
 fg-1 {
@@ -192,12 +157,6 @@ fg-1 {
   &-top {
     margin: 8px 0;
     justify-content: space-between;
-    @include button-color-config(
-      $attribute: warn,
-      $border: red,
-      $foreground: red
-    );
-    @include button-color-config($attribute: accent);
   }
 
   > .row {
@@ -209,6 +168,7 @@ fg-1 {
 .info-container {
   display: flex;
   justify-content: flex-end;
+  margin-top: 16px;
   > div {
     :first-child {
       margin-right: 4px;

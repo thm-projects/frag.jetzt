@@ -1,4 +1,4 @@
-import { EventEmitter, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { UserRole } from '../../models/user-roles.enum';
@@ -92,6 +92,12 @@ export class LivepollService extends BaseHttpService {
             .afterClosed()
             .pipe(take(1))
             .subscribe(() => (this.isOpen = false));
+          instance.componentInstance.closeEmitter
+            .pipe(take(1))
+            .subscribe(() => {
+              instance.close();
+              this.isOpen = false;
+            });
         }
         break;
       case UserRole.EDITING_MODERATOR:
@@ -108,6 +114,12 @@ export class LivepollService extends BaseHttpService {
             .afterClosed()
             .pipe(take(1))
             .subscribe(() => (this.isOpen = false));
+          instance.componentInstance.closeEmitter
+            .pipe(take(1))
+            .subscribe(() => {
+              instance.close();
+              this.isOpen = false;
+            });
         } else {
           const instance = this.dialog.open(
             LivepollCreateComponent,

@@ -7,6 +7,7 @@ import { LivepollDialogComponent } from '../livepoll-dialog/livepoll-dialog.comp
   styleUrls: [
     '../livepoll-dialog/livepoll-dialog.component.scss',
     './livepoll-settings.component.scss',
+    '../livepoll-common.scss',
   ],
 })
 export class LivepollSettingsComponent {
