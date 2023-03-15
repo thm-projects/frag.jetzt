@@ -67,7 +67,7 @@ export const templateEntries: EachOfTemplate<
     translate: true,
     reverse: true,
     length: 5,
-    isGrid: false,
+    isGrid: true,
   },
   [LivepollTemplate.Frequency]: {
     kind: LivepollTemplate.Frequency,
@@ -76,7 +76,7 @@ export const templateEntries: EachOfTemplate<
     translate: true,
     reverse: true,
     length: 5,
-    isGrid: false,
+    isGrid: true,
   },
   [LivepollTemplate.YesNo]: {
     kind: LivepollTemplate.YesNo,
