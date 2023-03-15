@@ -113,6 +113,7 @@
             '.creator-settings-' +
             (isActive ? 'pause' : 'continue') | translate
         "
+        *ngIf="isProduction"
         (click)="setActive(!isActive)">
         <mat-icon>{{ isActive ? "pause" : "play_arrow" }}</mat-icon>
         <span *ngIf="device.isCurrentlyDesktop">
