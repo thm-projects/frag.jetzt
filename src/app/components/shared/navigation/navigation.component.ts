@@ -21,12 +21,9 @@ import { UserManagementService } from 'app/services/util/user-management.service
 import { RoomDataFilter } from 'app/utils/data-filter-object.lib';
 import { filter, ReplaySubject, takeUntil } from 'rxjs';
 import { QrCodeDialogComponent } from '../_dialogs/qr-code-dialog/qr-code-dialog.component';
-import { RoomSettingsOverviewComponent } from '../_dialogs/room-settings-overview/room-settings-overview.component';
 import { TopicCloudBrainstormingComponent } from '../_dialogs/topic-cloud-brainstorming/topic-cloud-brainstorming.component';
 import { TopicCloudFilterComponent } from '../_dialogs/topic-cloud-filter/topic-cloud-filter.component';
 import { Room } from '../../../models/room';
-import { LivepollSessionList } from '../../../models/livepoll-session-list';
-import { LivepollCreateComponent } from '../_dialogs/livepoll/livepoll-create/livepoll-create.component';
 import { User } from '../../../models/user';
 import { LivepollService } from '../../../services/http/livepoll.service';
 

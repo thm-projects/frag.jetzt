@@ -9,7 +9,6 @@
     "close": "Annuler",
     "save": "Enregistrer",
     "creator-settings": "Paramètres",
-    "creator-settings-description": "Modifier les propriétés de votre sondage",
     "creator-settings-icon": "edit",
     "creator-settings-delete": "Supprimer le sondage",
     "creator-settings-delete-tooltip": "Lorsque vous supprimez une enquête, elle s'arrête automatiquement. Vous pouvez récupérer et comparer les résultats ultérieurement. Les participants ne peuvent pas accéder à l'enquête après sa suppression. Cela inclut les vues et les résultats.",

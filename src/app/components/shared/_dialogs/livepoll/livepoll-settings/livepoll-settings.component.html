@@ -9,14 +9,6 @@
           'settings-panel-description-' +
           (parent.device.isCurrentlyDesktop ? 'desktop' : 'mobile')
         ">
-        <span>
-          {{
-            parent.device.isCurrentlyDesktop
-              ? (parent.translateKey + ".creator-settings-description"
-                | translate)
-              : ""
-          }}
-        </span>
         <mat-icon>
           {{ parent.translateKey + ".creator-settings-icon" | translate }}
         </mat-icon>

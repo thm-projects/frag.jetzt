@@ -9,7 +9,6 @@
     "close": "Abbrechen",
     "save": "Speichern",
     "creator-settings": "Einstellungen",
-    "creator-settings-description": "Bearbeiten Sie Eigenschaften Ihrer Umfrage",
     "creator-settings-icon": "edit",
     "creator-settings-delete": "Umfrage löschen",
     "creator-settings-delete-tooltip": "Wenn Sie eine Umfrage löschen, wird sie automatisch beendet. Sie können die Ergebnisse später abrufen und vergleichen. Die Teilnehmer können nach dem Löschen nicht mehr auf die Umfrage zugreifen. Dies gilt auch für Ansichten und Ergebnisse.",

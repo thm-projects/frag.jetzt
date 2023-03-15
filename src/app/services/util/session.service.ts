@@ -24,7 +24,6 @@ import { BrainstormingWord } from 'app/models/brainstorming-word';
 import { BrainstormingCategory } from 'app/models/brainstorming-category';
 import { BrainstormingService } from '../http/brainstorming.service';
 import { BrainstormingSession } from 'app/models/brainstorming-session';
-import { LivepollSessionList } from '../../models/livepoll-session-list';
 import { GptService } from '../http/gpt.service';
 import { GPTRoomStatus } from 'app/models/gpt-status';
 import { LivepollSession } from '../../models/livepoll-session';
