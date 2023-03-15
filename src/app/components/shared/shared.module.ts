@@ -130,6 +130,7 @@ import { LivepollDialogComponent } from './_dialogs/livepoll/livepoll-dialog/liv
 import { LivepollSettingsComponent } from './_dialogs/livepoll/livepoll-settings/livepoll-settings.component';
 import { GPTChatRoomComponent } from './gptchat-room/gptchat-room.component';
 import { PresetsDialogComponent } from './_dialogs/presets-dialog/presets-dialog.component';
+import { LivepollTemplateBuilderComponent } from './_dialogs/livepoll/livepoll-template-builder/livepoll-template-builder.component';
 
 @NgModule({
   imports: [
@@ -262,6 +263,7 @@ import { PresetsDialogComponent } from './_dialogs/presets-dialog/presets-dialog
     GptPrivacyPolicyFrComponent,
     GPTChatRoomComponent,
     PresetsDialogComponent,
+    LivepollTemplateBuilderComponent,
   ],
   exports: [
     RoomJoinComponent,

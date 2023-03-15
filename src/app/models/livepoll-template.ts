@@ -5,7 +5,16 @@ export enum LivepollTemplate {
   Frequency = 'Frequency',
   YesNo = 'YesNo',
   Scale = 'Scale',
+  Custom = 'Custom',
 }
+
+export type PredefinedLivepollTemplateKind =
+  | LivepollTemplate.Character
+  | LivepollTemplate.Symbol
+  | LivepollTemplate.Agree
+  | LivepollTemplate.Frequency
+  | LivepollTemplate.YesNo
+  | LivepollTemplate.Scale;
 
 export enum LivepollGroupKind {
   Agreement,
@@ -37,10 +46,28 @@ export interface LivepollNode<E extends LivepollTemplate> {
   order?: number;
 }
 
-export type LivepollTemplateContext = LivepollNode<LivepollTemplate>;
+export interface LivepollCustomTemplateOption {
+  text: string;
+}
+
+export interface LivepollCustomTemplateConfiguration
+  extends LivepollNode<LivepollTemplate.Custom> {
+  kind: LivepollTemplate.Custom;
+  name: 'custom-template';
+  translate: false;
+  options: LivepollCustomTemplateOption[];
+  length: -1;
+}
+
+export type LivepollTemplateContext =
+  | LivepollNode<PredefinedLivepollTemplateKind>
+  | LivepollCustomTemplateConfiguration;
 export type LivepollGroupContext = LivepollGroupNode<LivepollGroupKind>;
 
-type EachOfTemplate<E extends LivepollTemplate, T extends LivepollNode<E>> = {
+type EachOfTemplate<
+  E extends PredefinedLivepollTemplateKind,
+  T extends LivepollNode<E>,
+> = {
   [E in T['kind']]: LivepollNode<E>;
 };
 type EachOfGroup<E extends LivepollGroupKind> = {
@@ -67,8 +94,8 @@ const defaultTemplateStyle: LivepollStyleProperties = {
 };
 
 export const templateEntries: EachOfTemplate<
-  LivepollTemplate,
-  LivepollNode<LivepollTemplate>
+  PredefinedLivepollTemplateKind,
+  LivepollNode<PredefinedLivepollTemplateKind>
 > = {
   [LivepollTemplate.Character]: {
     kind: LivepollTemplate.Character,
@@ -168,3 +195,13 @@ export const templateGroups: LivepollGroupContext[] = Object.keys(groupEntries)
     ),
   }))
   .sort((a, b) => b.order - a.order);
+
+export const defaultCustomTemplate: LivepollCustomTemplateConfiguration = {
+  kind: LivepollTemplate.Custom,
+  length: -1,
+  isPlain: false,
+  translate: false,
+  name: 'custom-template',
+  isGrid: true,
+  options: [],
+};

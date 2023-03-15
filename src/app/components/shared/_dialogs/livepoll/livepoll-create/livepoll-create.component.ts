@@ -1,9 +1,7 @@
 import { Component, OnDestroy } from '@angular/core';
 import {
-  LivepollGroupContext,
   LivepollTemplateContext,
   templateContext,
-  templateGroups,
 } from '../../../../../models/livepoll-template';
 import { FormControl } from '@angular/forms';
 import { DialogRef } from '@angular/cdk/dialog';
@@ -25,9 +23,8 @@ import { LivepollSession } from '../../../../../models/livepoll-session';
   styleUrls: ['./livepoll-create.component.scss'],
 })
 export class LivepollCreateComponent implements OnDestroy {
-  public readonly templateGroups: LivepollGroupContext[] = templateGroups;
-
   public readonly translateKey = 'common';
+  public readonly template: LivepollTemplateContext = templateContext[0];
   public templateSelection = new FormControl<LivepollTemplateContext>(
     templateContext[0],
   );
@@ -56,7 +53,6 @@ export class LivepollCreateComponent implements OnDestroy {
           });
       });
     this.livepollConfiguration = new LivepollSession({} as LivepollSession);
-    console.log(this.templateGroups);
   }
 
   create() {

@@ -1,0 +1,48 @@
+<mat-tab-group
+  (selectedIndexChange)="onSelectedIndexChange()"
+  [(selectedIndex)]="selectedIndex">
+  <mat-tab label="predefined">
+    <ng-container *ngTemplateOutlet="predefinedTab"></ng-container>
+  </mat-tab>
+  <mat-tab label="custom">
+    <ng-container *ngTemplateOutlet="customTab"></ng-container>
+  </mat-tab>
+</mat-tab-group>
+
+<ng-template #predefinedTab>
+  <mat-form-field
+    *ngIf="predefinedSelection"
+    appearance="outline">
+    <mat-label>
+      {{ translateKey + ".option-select-template" | translate }}
+    </mat-label>
+    <mat-select [formControl]="templateSelection">
+      <mat-optgroup
+        *ngFor="let group of templateGroups"
+        [label]="(translateKey + '.group-label' | translate)[group.key]">
+        <mat-option
+          *ngFor="let template of group.templates"
+          [value]="template">
+          {{ translateKey + ".template-name-" + template.name | translate }}
+        </mat-option>
+      </mat-optgroup>
+    </mat-select>
+  </mat-form-field>
+</ng-template>
+<ng-template #customTab>
+  <ng-container *ngIf="customTemplate">
+    <ng-container *ngFor="let option of customTemplate.options; index as i">
+      <div>
+        <mat-form-field>
+          <input
+            [(ngModel)]="option.text"
+            matInput />
+        </mat-form-field>
+        <button (click)="removeOption(i)">delete</button>
+        <button (click)="moveOption(i, i - 1)">up</button>
+        <button (click)="moveOption(i, i + 1)">down</button>
+      </div>
+    </ng-container>
+  </ng-container>
+  <button (click)="addOption()">add option</button>
+</ng-template>

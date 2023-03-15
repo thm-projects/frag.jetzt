@@ -82,7 +82,7 @@
             "></ng-container>
         </ng-container>
       </ng-container>
-      <ng-container *ngIf="template.length">
+      <ng-container *ngIf="template.length && template.kind !== 'Custom'">
         <ng-container
           *ngFor="let symbol of [].constructor(template.length); index as i">
           <ng-container
@@ -93,6 +93,11 @@
                 symbol: i
               }
             "></ng-container>
+        </ng-container>
+      </ng-container>
+      <ng-container *ngIf="template.kind === 'Custom'">
+        <ng-container *ngFor="let symbol of options">
+          <p>{{ symbol }}</p>
         </ng-container>
       </ng-container>
     </div>

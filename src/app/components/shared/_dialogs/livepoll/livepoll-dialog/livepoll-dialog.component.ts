@@ -1,6 +1,7 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { DeviceInfoService } from '../../../../../services/util/device-info.service';
 import {
+  LivepollTemplate,
   LivepollTemplateContext,
   templateEntries,
 } from '../../../../../models/livepoll-template';
@@ -14,13 +15,7 @@ import {
   LivepollSessionPatchAPI,
 } from '../../../../../services/http/livepoll.service';
 import { LivepollSession } from '../../../../../models/livepoll-session';
-import {
-  animate,
-  state,
-  style,
-  transition,
-  trigger,
-} from '@angular/animations';
+import { animate, style, transition, trigger } from '@angular/animations';
 import { clone } from 'app/utils/ts-utils';
 
 const animateOpen = {
@@ -152,23 +147,32 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
 
   private init() {
     if (this.template) {
-      if (typeof this.template.length === 'undefined') {
-        this.options = this.template.symbols.map((option, index) => ({
-          index,
-          symbol: option,
-        }));
-      } else {
+      if (typeof this.template.length !== 'undefined') {
         const options: {
           index: number;
           symbol: string;
         }[] = [];
-        for (let index = 0; index < this.template.length; index++) {
-          options.push({
-            index,
-            symbol: 'option-' + this.template.name,
-          });
+        if (this.template.kind === LivepollTemplate.Custom) {
+          for (let index = 0; index < this.template.options.length; index++) {
+            options.push({
+              index,
+              symbol: this.template.options[index].text,
+            });
+          }
+        } else {
+          for (let index = 0; index < this.template.length; index++) {
+            options.push({
+              index,
+              symbol: 'option-' + this.template.name,
+            });
+          }
         }
         this.options = options;
+      } else {
+        this.options = this.template.symbols.map((option, index) => ({
+          index,
+          symbol: option,
+        }));
       }
     }
   }
