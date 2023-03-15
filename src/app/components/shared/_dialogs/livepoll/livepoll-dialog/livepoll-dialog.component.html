@@ -102,28 +102,35 @@
   </ng-container>
 </mat-dialog-content>
 
+<mat-dialog-actions *ngIf="isProduction">
+  <button
+    mat-flat-button
+    class="button-cancel"
+    (click)="closeEmitter.emit()">
+    <span>{{ translateKey + ".close" | translate }}</span>
+  </button>
+</mat-dialog-actions>
+
 <ng-template #callToActionContainer>
-  <div class="settings-panel-container">
-    <div class="row settings-panel-container-top">
-      <button
-        mat-flat-button
-        color="accent"
-        [matTooltip]="
+  <div class="cta-container">
+    <button
+      mat-flat-button
+      class="button-primary-filled"
+      [matTooltip]="
+        translateKey + '.creator-settings-' + (isActive ? 'pause' : 'continue')
+          | translate
+      "
+      *ngIf="isProduction"
+      (click)="setActive(!isActive)">
+      <mat-icon>{{ isActive ? "pause" : "play_arrow" }}</mat-icon>
+      <span *ngIf="device.isCurrentlyDesktop">
+        {{
           translateKey +
-            '.creator-settings-' +
-            (isActive ? 'pause' : 'continue') | translate
-        "
-        (click)="setActive(!isActive)">
-        <mat-icon>{{ isActive ? "pause" : "play_arrow" }}</mat-icon>
-        <span *ngIf="device.isCurrentlyDesktop">
-          {{
-            translateKey +
-              ".creator-settings-" +
-              (isActive ? "pause" : "continue") | translate
-          }}
-        </span>
-      </button>
-    </div>
+            ".creator-settings-" +
+            (isActive ? "pause" : "continue") | translate
+        }}
+      </span>
+    </button>
   </div>
 </ng-template>
 
@@ -132,9 +139,10 @@
   let-i="i"
   let-symbol="symbol">
   <button
-    class="previewOption"
+    [ngClass]="
+      selectedPreviewOption === i ? 'button-vote-active' : 'button-vote-default'
+    "
     mat-flat-button
-    [color]="selectedPreviewOption === i ? 'accent' : 'primary'"
     (click)="selectedPreviewOption = i">
     <ng-container
       *ngTemplateOutlet="

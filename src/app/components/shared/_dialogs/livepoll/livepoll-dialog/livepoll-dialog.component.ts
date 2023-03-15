@@ -1,4 +1,11 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { DeviceInfoService } from '../../../../../services/util/device-info.service';
 import {
   LivepollTemplateContext,
@@ -39,6 +46,7 @@ const animateClosed = {
   styleUrls: [
     './livepoll-dialog.component.scss',
     '../livepoll-create/livepoll-create.component.scss',
+    '../livepoll-common.scss',
   ],
   animations: [
     trigger('AnimateInOut', [
@@ -59,6 +67,7 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
     | Observable<LivepollTemplateContext | null>
     | undefined;
   @Input() public isProduction: boolean = false;
+  @Output() closeEmitter: EventEmitter<void> = new EventEmitter();
   public translateKey: string = 'common';
   public selectedPreviewOption: number = -1;
   public options:
