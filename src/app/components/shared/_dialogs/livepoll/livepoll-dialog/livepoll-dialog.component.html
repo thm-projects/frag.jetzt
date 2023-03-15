@@ -1,4 +1,6 @@
-<div class="title">
+<div
+  class="title"
+  *ngIf="isProduction">
   <h1 mat-dialog-title>{{ translateKey + ".dialog-title" | translate }}</h1>
 </div>
 <mat-dialog-content
@@ -19,7 +21,7 @@
       @AnimateInOut
       *ngIf="livepollSession.viewsVisible">
       <span>{{ translateKey + ".participants" | translate }}</span>
-      <span>0</span>
+      <span>1</span>
     </div>
   </div>
 
@@ -147,7 +149,10 @@
   let-i="i"
   let-symbol="symbol">
   <ng-container *ngIf="template.isPlain">
-    <span>
+    <span
+      [ngStyle]="
+        template.translate ? template.style?.text : template.style?.plainIcon
+      ">
       {{
         template.translate
           ? (translateKey + "." + "option-" + template.name! | translate)[i]
@@ -156,7 +161,7 @@
     </span>
   </ng-container>
   <ng-container *ngIf="!template.isPlain">
-    <mat-icon>
+    <mat-icon [ngStyle]="template.style?.matIcon">
       {{ symbol }}
     </mat-icon>
   </ng-container>

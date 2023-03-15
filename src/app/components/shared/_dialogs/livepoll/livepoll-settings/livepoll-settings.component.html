@@ -9,14 +9,6 @@
           'settings-panel-description-' +
           (parent.device.isCurrentlyDesktop ? 'desktop' : 'mobile')
         ">
-        <span>
-          {{
-            parent.device.isCurrentlyDesktop
-              ? (parent.translateKey + ".creator-settings-description"
-                | translate)
-              : ""
-          }}
-        </span>
         <mat-icon>
           {{ parent.translateKey + ".creator-settings-icon" | translate }}
         </mat-icon>
@@ -47,9 +39,6 @@
         <input
           matInput
           [(ngModel)]="parent.livepollSession.title" />
-        <mat-hint>
-          {{ parent.translateKey + ".option-select-title-hint" | translate }}
-        </mat-hint>
       </mat-form-field>
       <mat-slide-toggle
         [matTooltip]="
