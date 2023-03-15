@@ -108,6 +108,7 @@
       <button
         mat-flat-button
         color="accent"
+        *ngIf="isProduction"
         [matTooltip]="
           translateKey +
             '.creator-settings-' +
