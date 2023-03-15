@@ -9,9 +9,9 @@
     <mat-select [formControl]="templateSelection">
       <mat-optgroup
         *ngFor="let group of templateGroups"
-        [label]="(translateKey + '.group-label' | translate)[group[0]]">
+        [label]="(translateKey + '.group-label' | translate)[group.key]">
         <mat-option
-          *ngFor="let template of group[1]"
+          *ngFor="let template of group.templates"
           [value]="template">
           {{ translateKey + ".template-name-" + template.name | translate }}
         </mat-option>
