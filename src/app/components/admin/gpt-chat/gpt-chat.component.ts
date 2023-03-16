@@ -1,4 +1,4 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse } from '@angular/common/http';
 import {
   Component,
   ElementRef,
@@ -21,15 +21,11 @@ import { GptOptInPrivacyComponent } from 'app/components/shared/_dialogs/gpt-opt
 import { UserManagementService } from 'app/services/util/user-management.service';
 import { LanguageService } from 'app/services/util/language.service';
 import { FormControl } from '@angular/forms';
+import { GPTPromptPreset } from 'app/models/gpt-prompt-preset';
 
 interface ConversationEntry {
   type: 'human' | 'gpt' | 'error';
   message: string;
-}
-
-interface PromptType {
-  act: string;
-  prompt: string;
 }
 
 @Component({
@@ -54,9 +50,9 @@ export class GptChatComponent implements OnInit, OnDestroy {
   model: string = 'text-davinci-003';
   stopper = new Subject<boolean>();
   isGPTPrivacyPolicyAccepted: boolean = false;
-  prompts: PromptType[] = [];
+  prompts: GPTPromptPreset[] = [];
   promptFormControl = new FormControl('');
-  filteredPrompts: PromptType[];
+  filteredPrompts: GPTPromptPreset[];
   amountOfFoundActs: number = 0;
   amountOfFoundPrompts: number = 0;
   searchTerm: string = '';
@@ -69,24 +65,12 @@ export class GptChatComponent implements OnInit, OnDestroy {
     private gptService: GptService,
     private translateService: TranslateService,
     private languageService: LanguageService,
-    private http: HttpClient,
     private deviceInfo: DeviceInfoService,
     private gptEncoderService: GptEncoderService,
     public dialog: MatDialog,
     private location: Location,
     private userManagementService: UserManagementService,
-  ) {
-    this.languageService
-      .getLanguage()
-      .pipe(takeUntil(this._destroyer))
-      .subscribe((lang) => {
-        this.http
-          .get<PromptType[]>('/assets/i18n/prompts/' + lang + '.json')
-          .subscribe((promptsArray) => {
-            this.prompts = promptsArray;
-          });
-      });
-  }
+  ) {}
 
   ngOnInit(): void {
     this.loadConversation();
@@ -335,6 +319,10 @@ export class GptChatComponent implements OnInit, OnDestroy {
             .subscribe((msg) => (this.error = msg));
         }
         this.isLoading = false;
+        this.gptService.getGlobalPrompts().subscribe((data) => {
+          this.prompts = data;
+          this.filterPrompts();
+        });
       },
       error: (err) => {
         console.error(err);
@@ -458,7 +446,7 @@ export class GptChatComponent implements OnInit, OnDestroy {
   private filterPrompts() {
     this.filteredPrompts = [];
 
-    this.filteredPrompts.push({ act: 'acts', prompt: null });
+    this.filteredPrompts.push({ act: 'acts', prompt: null } as GPTPromptPreset);
     this.filteredPrompts.push(
       ...this.prompts.filter((prompt) => {
         return (
@@ -472,7 +460,10 @@ export class GptChatComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.filteredPrompts.push({ act: 'prompts', prompt: null });
+    this.filteredPrompts.push({
+      act: 'prompts',
+      prompt: null,
+    } as GPTPromptPreset);
 
     this.filteredPrompts.push(
       ...this.prompts

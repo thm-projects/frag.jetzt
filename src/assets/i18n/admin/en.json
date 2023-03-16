@@ -2,7 +2,8 @@
   "overview": {
     "motd": "Global announcements",
     "gpt": "GPT settings",
-    "gpt-chat": "Chat with GPT"
+    "gpt-chat": "Chat with GPT",
+    "gpt-prompts": "Global Prompts"
   },
   "create-motd": {
     "create": "Create",
@@ -106,5 +107,54 @@
     "use-case-tooltip-code": "Very good at code understanding and generation. Has a wider context than language models.",
     "use-case-chat": "Chat/Conversations",
     "use-case-tooltip-chat": "Effective for open-ended questions where follow-up questions are needed. Does not provide as accurate results as answering questions."
+  },
+  "quill": {
+    "cancel": "Cancel",
+    "heading": "Input",
+    "preview": "Preview",
+    "tooltip-action": "Edit",
+    "tooltip-action-save": "Save",
+    "tooltip-label": "Visit link …",
+    "tooltip-label-formula": "Enter a KaTeX formula, for example …",
+    "tooltip-label-image": "Enter image URL …",
+    "tooltip-label-link": "Enter link …",
+    "tooltip-label-video": "Enter video URL …",
+    "tooltip-placeholder-formula": "We support the KaTeX formula set.",
+    "tooltip-placeholder-image": "Image address must begin with https:// …",
+    "tooltip-placeholder-link": "Address must begin with https:// …",
+    "tooltip-placeholder-video": "Video address must begin with https:// …",
+    "tooltip-remove": "Yes",
+    "tooltip-toolbar-blockquote": "Cite",
+    "tooltip-toolbar-bold": "Bold",
+    "tooltip-toolbar-italic": "Italic",
+    "tooltip-toolbar-code": "Mark as source code",
+    "tooltip-toolbar-color": "Font color",
+    "tooltip-toolbar-emote": "Insert emoji",
+    "tooltip-toolbar-formula": "Insert formula",
+    "tooltip-toolbar-image": "Insert image",
+    "tooltip-toolbar-link": "Link selected text",
+    "tooltip-toolbar-ordered-list": "Numbered list",
+    "tooltip-toolbar-strike": "Strike through",
+    "tooltip-toolbar-textcolor": "Text color",
+    "tooltip-toolbar-unordered-list": "Bullet list",
+    "tooltip-toolbar-video": "Insert video"
+  },
+  "chat-gptprompt-preset": {
+    "title": "Prompts for ChatGPT",
+    "search-prompt": "Prompt search or new prompt",
+    "found-acts": "Hits in »Act as ...« ({{count}})",
+    "found-prompts": "Hits in prompts ({{count}})",
+    "token-info": "Tokens: {{promptTokens}}",
+    "placeholder-edit-preset": "Edit your prompt here",
+    "save": "Save",
+    "delete": "Delete",
+    "an-error-occured": "Something has gone wrong!",
+    "delete-success": "Prompt was removed.",
+    "add-success": "Prompt was added.",
+    "already-present": "Prompt already exists, please change the name. Or select the appropriate prompt.",
+    "patch-success": "Changes have been saved.",
+    "no-patch-needed": "No changes have been made.",
+    "no-prompt-selected": "No prompt was selected.",
+    "enter-prompt-name": "Please enter a name."
   }
 }

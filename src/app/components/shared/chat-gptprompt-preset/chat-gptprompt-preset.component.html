@@ -1,0 +1,79 @@
+<mat-card>
+  <h3>{{ "chat-gptprompt-preset.title" | translate }}</h3>
+
+  <mat-form-field
+    style="width: 100%"
+    floatLabel="always">
+    <mat-icon
+      matPrefix
+      class="search-icon"
+      style="margin-right: 0.1em">
+      search
+    </mat-icon>
+    <mat-label></mat-label>
+    <input
+      placeholder="{{ 'chat-gptprompt-preset.search-prompt' | translate }}"
+      autofocus
+      type="text"
+      matInput
+      [matAutocomplete]="auto"
+      [(ngModel)]="searchTerm"
+      (input)="filterPrompts()" />
+    <mat-autocomplete #auto="matAutocomplete">
+      <mat-option
+        *ngFor="let prompt of filteredPrompts"
+        [value]="prompt.act"
+        (click)="setValue(prompt)"
+        class="mat-option"
+        [ngClass]="{
+          'mat-option-header': prompt.act === 'acts' || prompt.act === 'prompts'
+        }"
+        [disabled]="prompt.prompt === null">
+        <ng-container *ngIf="prompt.act !== null && prompt.prompt !== null">
+          {{ prompt.act }}
+        </ng-container>
+        <ng-container *ngIf="prompt.act === 'acts' && prompt.prompt === null">
+          <div class="counter-container">
+            <span>
+              {{
+                "chat-gptprompt-preset.found-acts"
+                  | translate : { count: amountOfFoundActs }
+              }}
+            </span>
+          </div>
+        </ng-container>
+        <ng-container
+          *ngIf="prompt.act === 'prompts' && prompt.prompt === null">
+          <div class="counter-container">
+            <span>
+              {{
+                "chat-gptprompt-preset.found-prompts"
+                  | translate : { count: amountOfFoundPrompts }
+              }}
+            </span>
+          </div>
+        </ng-container>
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+
+  <app-view-comment-data
+    [currentData]="initDelta"
+    [textOverwrite]="'chat-gptprompt-preset.token-info' | translate : tokenInfo"
+    (changeContent)="calculateTokens(getCurrentText())"
+    [isModerator]="false"
+    [isBrainstorming]="false"
+    [isEditor]="true"
+    [maxTextCharacters]="1000"
+    [maxDataCharacters]="2000"
+    [placeHolderText]="
+      'chat-gptprompt-preset.placeholder-edit-preset' | translate
+    "></app-view-comment-data>
+
+  <app-dialog-action-buttons
+    buttonsLabelSection="chat-gptprompt-preset"
+    confirmButtonLabel="save"
+    cancelButtonLabel="delete"
+    [cancelButtonClickAction]="onDelete"
+    [confirmButtonClickAction]="onSave"></app-dialog-action-buttons>
+</mat-card>

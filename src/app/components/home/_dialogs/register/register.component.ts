@@ -152,7 +152,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
    * Closes the register dialog on call.
    */
   closeDialog(): void {
-    this.dialogRef.close([]);
+    this.dialogRef.close();
   }
 
   /**
@@ -168,43 +168,43 @@ export class RegisterComponent implements OnInit, AfterViewInit {
 
   register(username: string, password: string): void {
     if (
-      this.usernameFormControl.valid &&
-      this.username2FormControl.valid &&
-      this.password1FormControl.valid &&
-      this.password2FormControl.valid
+      !this.usernameFormControl.valid ||
+      !this.username2FormControl.valid ||
+      !this.password1FormControl.valid ||
+      !this.password2FormControl.valid
     ) {
-      this.authenticationService.register(username, password).subscribe({
-        next: () => {
-          this.translationService
-            .get('register.register-successful')
-            .subscribe((message) => {
-              this.notificationService.show(message);
-            });
-          this.dialogRef.close({ username, password });
-        },
-        error: (errorCode: LoginResult) => {
-          if (errorCode === LoginResult.PasswordTooCommon) {
-            this.translationService
-              .get('register.register-error-password-too-common')
-              .subscribe((message) => {
-                this.notificationService.show(message);
-              });
-          } else {
-            this.translationService
-              .get('register.register-request-error')
-              .subscribe((message) => {
-                this.notificationService.show(message);
-              });
-          }
-        },
-      });
-    } else {
       this.translationService
         .get('register.register-unsuccessful')
         .subscribe((message) => {
           this.notificationService.show(message);
         });
+      return;
     }
+    this.authenticationService.register(username, password).subscribe({
+      next: () => {
+        this.translationService
+          .get('register.register-successful')
+          .subscribe((message) => {
+            this.notificationService.show(message);
+          });
+        this.dialogRef.close({ username, password });
+      },
+      error: (errorCode: LoginResult) => {
+        if (errorCode === LoginResult.PasswordTooCommon) {
+          this.translationService
+            .get('register.register-error-password-too-common')
+            .subscribe((message) => {
+              this.notificationService.show(message);
+            });
+        } else {
+          this.translationService
+            .get('register.register-request-error')
+            .subscribe((message) => {
+              this.notificationService.show(message);
+            });
+        }
+      },
+    });
   }
 
   openPasswordGenerator(event: MouseEvent) {

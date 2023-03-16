@@ -1,3 +1,4 @@
+import { UUID } from 'app/utils/ts-utils';
 import { BrainstormingWord } from './brainstorming-word';
 
 // https://datatracker.ietf.org/doc/html/rfc5646#section-2
@@ -11,8 +12,8 @@ export interface WordsWithMeta {
 }
 
 export class BrainstormingSession {
-  id: string;
-  roomId: string;
+  id: UUID;
+  roomId: UUID;
   title: string;
   active: boolean;
   createdAt: Date;
@@ -27,8 +28,8 @@ export class BrainstormingSession {
   ideasEndTimestamp: Date;
 
   constructor({
-    id = '',
-    roomId = '',
+    id = null,
+    roomId = null,
     title = '',
     active = true,
     createdAt = null,

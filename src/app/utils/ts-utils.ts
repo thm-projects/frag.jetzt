@@ -45,7 +45,10 @@ export type FixedSizeArray<T, L extends number> = L extends
   ? []
   : FixedSizeArrayBuilder<[T], L>;
 
-export const verifyFixedSize = <T, L extends number>(arr: T[], length: L): FixedSizeArray<T, L> => {
+export const verifyFixedSize = <T, L extends number>(
+  arr: T[],
+  length: L,
+): FixedSizeArray<T, L> => {
   if (arr?.length !== length) {
     return null as never;
   }
@@ -83,6 +86,7 @@ export type HasStringLength<
 export type MakeUnique<T> = T & { readonly __TYPE__: unique symbol };
 
 export type JSONString = MakeUnique<string>;
+export type UUID = MakeUnique<string>;
 
 export type IsObject<T> = T extends { [key: string | number | symbol]: any }
   ? true

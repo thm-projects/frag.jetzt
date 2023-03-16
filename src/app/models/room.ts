@@ -1,84 +1,91 @@
 import { BrainstormingSession } from './brainstorming-session';
 import { ImmutableStandardDelta } from '../utils/quill-utils';
+import { UUID, verifyInstance } from 'app/utils/ts-utils';
 
 export class Room {
-  id: string;
-  ownerId: string;
+  id: UUID;
+  ownerId: UUID;
   shortId: string;
-  abbreviation: string;
   name: string;
   description: ImmutableStandardDelta;
-  blacklist: string;
   closed: boolean;
+  bonusArchiveActive: boolean;
   directSend: boolean;
   threshold: number;
-  tags: string[];
   questionsBlocked: boolean;
+  blacklist: string;
   profanityFilter: ProfanityFilter;
   blacklistActive: boolean;
-  brainstormingSession: BrainstormingSession;
   tagCloudSettings: string;
-  moderatorRoomReference: string;
-  conversationDepth: number;
+  moderatorRoomReference: UUID;
   createdAt: Date;
   updatedAt: Date;
   lastVisitCreator: Date;
-  bonusArchiveActive: boolean;
+  conversationDepth: number;
   quizActive: boolean;
   brainstormingActive: boolean;
-  livepollActive: boolean;
   language: string;
+  livepollActive: boolean;
+  // transient fields
+  tags: string[];
+  brainstormingSession: BrainstormingSession;
 
-  constructor(
-    ownerId: string = '',
-    shortId: string = '',
-    abbreviation: string = '',
-    name: string = '',
-    description: ImmutableStandardDelta = { ops: [] },
-    blacklist: string = '[]',
-    closed: boolean = false,
-    directSend: boolean = true,
-    threshold: number = null,
-    tags: string[] = [],
-    questionsBlocked: boolean = false,
-    profanityFilter: ProfanityFilter = ProfanityFilter.NONE,
-    blacklistActive: boolean = true,
-    brainstormingSession: BrainstormingSession = null,
-    tagCloudSettings: string = null,
-    moderatorRoomReference: string = null,
-    conversationDepth: number = 0,
-    bonusArchiveActive: boolean = true,
-    quizActive: boolean = true,
-    brainstormingActive: boolean = true,
-    livepollActive: boolean = true,
-    language: string = null,
-  ) {
-    this.id = '';
+  constructor({
+    id = null,
+    ownerId = null,
+    shortId = null,
+    name = null,
+    description = { ops: [] },
+    closed = false,
+    bonusArchiveActive = false,
+    directSend = false,
+    threshold = 0,
+    questionsBlocked = false,
+    blacklist = '[]',
+    profanityFilter = ProfanityFilter.NONE,
+    blacklistActive = false,
+    tagCloudSettings = null,
+    moderatorRoomReference = null,
+    createdAt = new Date(),
+    updatedAt = null,
+    lastVisitCreator = null,
+    conversationDepth = 7,
+    quizActive = false,
+    brainstormingActive = false,
+    language = null,
+    livepollActive = true,
+    // transient fields
+    tags = [],
+    brainstormingSession = null,
+  }: Partial<Room>) {
+    this.id = id;
     this.ownerId = ownerId;
     this.shortId = shortId;
-    this.abbreviation = abbreviation;
     this.name = name;
     this.description = description;
-    this.blacklist = blacklist;
     this.closed = closed;
+    this.bonusArchiveActive = bonusArchiveActive;
     this.directSend = directSend;
     this.threshold = threshold;
-    this.tags = tags;
     this.questionsBlocked = questionsBlocked;
+    this.blacklist = blacklist;
     this.profanityFilter = profanityFilter;
     this.blacklistActive = blacklistActive;
-    this.brainstormingSession = brainstormingSession;
     this.tagCloudSettings = tagCloudSettings;
     this.moderatorRoomReference = moderatorRoomReference;
-    this.createdAt = new Date();
-    this.updatedAt = null;
-    this.lastVisitCreator = new Date();
+    this.createdAt = verifyInstance(Date, createdAt);
+    this.updatedAt = verifyInstance(Date, updatedAt);
+    this.lastVisitCreator = verifyInstance(Date, lastVisitCreator);
     this.conversationDepth = conversationDepth;
-    this.bonusArchiveActive = bonusArchiveActive;
     this.quizActive = quizActive;
     this.brainstormingActive = brainstormingActive;
-    this.livepollActive = livepollActive;
     this.language = language;
+    this.livepollActive = livepollActive;
+    this.tags = [...tags];
+    this.brainstormingSession = verifyInstance(
+      BrainstormingSession,
+      brainstormingSession,
+    );
   }
 }
 
@@ -87,5 +94,5 @@ export enum ProfanityFilter {
   LANGUAGE_SPECIFIC = 'LANGUAGE_SPECIFIC',
   PARTIAL_WORDS = 'PARTIAL_WORDS',
   NONE = 'NONE',
-  DEACTIVATED = 'DEACTIVATED'
+  DEACTIVATED = 'DEACTIVATED',
 }

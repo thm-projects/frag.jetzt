@@ -1068,5 +1068,10 @@
     "save": "Save",
     "cancel": "Cancel",
     "clear": "Clear"
+  },
+  "gptchat-info": {
+    "title": "Your ChatGPT",
+    "content": "# Few more steps!\n\nIf you are not registered yet, sign up with an account and create your own room. Within the room, you can use an [API Key](https://platform.openai.com/account/) from OpenAI to activate the chatbot in the room.\n\n## Already registered?\n\nAsk the room owner about using ChatGPT in your room. You may not be enabled for it in other rooms.",
+    "cancel": "Close"
   }
 }

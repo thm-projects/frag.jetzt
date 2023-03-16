@@ -786,5 +786,10 @@
     "title": "Description personnelle pour GPT",
     "user-description": "Description personnelle",
     "token-info": "{{tokens}} / {{maxLength}} Tokens"
+  },
+  "gptchat-info": {
+    "title": "Ton chatGPT",
+    "content": "# Encore quelques étapes à franchir !\n\nSi tu n'es pas encore enregistré, connecte-toi avec un compte et crée ta propre salle. Dans la salle, tu peux activer le chatbot à l'aide d'une [clé API](https://platform.openai.com/account/) d'OpenAI.\n\n## Tu es déjà inscrit ?\n\nDemande au propriétaire de la salle s'il peut utiliser ChatGPT dans ta salle. Il se peut que tu ne sois pas activé pour cela dans d'autres salles.",
+    "cancel": "Fermer"
   }
 }

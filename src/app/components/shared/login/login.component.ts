@@ -139,6 +139,12 @@ export class LoginComponent implements OnInit, OnChanges {
     });
     ref.componentInstance.initProcess = initProcess;
     ref.componentInstance.setUsername(this.username);
+    ref.afterClosed().subscribe((result) => {
+      this.usernameFormControl.setValue(result.username);
+      this.passwordFormControl.setValue(result.password);
+      this.username = result.username;
+      this.password = result.password;
+    });
   }
 
   openRegisterDialog(): void {
@@ -183,7 +189,11 @@ export class LoginComponent implements OnInit, OnChanges {
       this.openPasswordDialog(false);
       return;
     }
-    if (loginResult[0] === LoginResult.SessionExpired) {
+    if (
+      [LoginResult.SessionExpired, LoginResult.FailureException].includes(
+        loginResult[0],
+      )
+    ) {
       this.translationService
         .get('login.login-data-incorrect')
         .subscribe((message) => {

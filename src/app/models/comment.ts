@@ -4,91 +4,93 @@ import { Model } from '../services/http/spacy.interface';
 import { TranslateService } from '@ngx-translate/core';
 import { ImmutableStandardDelta, StandardDelta } from '../utils/quill-utils';
 import { map, Observable, of } from 'rxjs';
+import { UUID, verifyInstance } from 'app/utils/ts-utils';
 
 export class Comment {
-  id: string;
-  roomId: string;
-  creatorId: string;
-  revision: string;
+  id: UUID;
+  roomId: UUID;
+  creatorId: UUID;
+  number: string;
+  ack: boolean;
   body: ImmutableStandardDelta;
-  read: boolean;
   correct: CorrectWrong;
   favorite: boolean;
+  read: boolean;
+  tag: string;
   createdAt: Date;
   bookmark: boolean;
-  score: number;
-  createdFromLecturer: boolean;
-  highlighted: boolean;
-  ack: boolean;
-  tag: string;
-  number: string;
   keywordsFromQuestioner: SpacyKeyword[];
   keywordsFromSpacy: SpacyKeyword[];
+  score: number;
   upvotes: number;
   downvotes: number;
   language: Language;
   questionerName: string;
-  createdBy;
-  brainstormingSessionId: string;
-  brainstormingWordId: string;
   updatedAt: Date;
-  commentReference: string;
-  commentDepth: number;
+  commentReference: UUID;
   deletedAt: Date;
+  commentDepth: number;
+  brainstormingSessionId: UUID;
+  brainstormingWordId: UUID;
+  approved: boolean;
+  gptWriterState: number;
 
-  constructor(
-    roomId: string = '',
-    creatorId: string = '',
-    body: StandardDelta = { ops: [] },
-    read: boolean = false,
-    correct: CorrectWrong = CorrectWrong.NULL,
-    favorite: boolean = false,
-    creationTimestamp: Date = null,
-    bookmark: boolean = false,
-    score: number = 0,
-    createdFromLecturer = false,
-    highlighted: boolean = false,
-    ack: boolean = true,
-    tag: string = '',
-    keywordsFromQuestioner: SpacyKeyword[] = [],
-    keywordsFromSpacy: SpacyKeyword[] = [],
+  constructor({
+    id = null,
+    roomId = null,
+    creatorId = null,
+    number = '?',
+    ack = false,
+    body = { ops: [] },
+    correct = CorrectWrong.NULL,
+    favorite = false,
+    read = false,
+    tag = null,
+    createdAt = new Date(),
+    bookmark = false,
+    keywordsFromQuestioner = [],
+    keywordsFromSpacy = [],
+    score = 0,
     upvotes = 0,
     downvotes = 0,
     language = Language.AUTO,
-    questionerName: string = null,
+    questionerName = null,
+    updatedAt = null,
+    commentReference = null,
+    deletedAt = null,
+    commentDepth = 0,
     brainstormingSessionId = null,
     brainstormingWordId = null,
-    createdBy: any = undefined,
-    commentReference: string = null,
-    commentDepth: number = 0,
-  ) {
-    this.id = '';
+    approved = false,
+    gptWriterState = 0,
+  }: Partial<Comment>) {
+    this.id = id;
     this.roomId = roomId;
     this.creatorId = creatorId;
-    this.revision = '';
+    this.number = number;
+    this.ack = ack;
     this.body = body;
-    this.read = read;
     this.correct = correct;
     this.favorite = favorite;
-    this.bookmark = bookmark;
-    this.createdAt = creationTimestamp;
-    this.score = score;
-    this.createdFromLecturer = createdFromLecturer;
-    this.highlighted = highlighted;
-    this.ack = ack;
+    this.read = read;
     this.tag = tag;
+    this.createdAt = verifyInstance(Date, createdAt);
+    this.bookmark = bookmark;
     this.keywordsFromQuestioner = keywordsFromQuestioner;
     this.keywordsFromSpacy = keywordsFromSpacy;
+    this.score = score;
     this.upvotes = upvotes;
     this.downvotes = downvotes;
     this.language = language;
-    this.createdBy = createdBy;
     this.questionerName = questionerName;
+    this.updatedAt = verifyInstance(Date, updatedAt);
+    this.commentReference = commentReference;
+    this.deletedAt = verifyInstance(Date, deletedAt);
+    this.commentDepth = commentDepth;
     this.brainstormingSessionId = brainstormingSessionId;
     this.brainstormingWordId = brainstormingWordId;
-    this.updatedAt = null;
-    this.commentReference = commentReference;
-    this.commentDepth = commentDepth;
+    this.approved = approved;
+    this.gptWriterState = gptWriterState;
   }
 
   static mapModelToLanguage(model: Model): Language {

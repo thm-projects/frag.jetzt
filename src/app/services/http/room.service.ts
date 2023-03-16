@@ -12,6 +12,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { QuillUtils, SerializedDelta } from '../../utils/quill-utils';
 import { UserManagementService } from '../util/user-management.service';
 import { BrainstormingSession } from 'app/models/brainstorming-session';
+import { UUID } from 'app/utils/ts-utils';
 
 const httpOptions = {
   headers: new HttpHeaders({}),
@@ -213,7 +214,7 @@ export class RoomService extends BaseHttpService {
   }
 
   createGuestsForImport(
-    roomId: string,
+    roomId: UUID,
     guestCount: number,
   ): Observable<string[]> {
     if (guestCount < 1) {

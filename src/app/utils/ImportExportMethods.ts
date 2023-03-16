@@ -14,6 +14,7 @@ import { CommentService } from '../services/http/comment.service';
 import { RoomService } from '../services/http/room.service';
 import { ModeratorService } from '../services/http/moderator.service';
 import { QuillUtils, SerializedDelta } from './quill-utils';
+import { UUID } from './ts-utils';
 
 const serializeDate = (str: string | number | Date) => {
   if (!str) {
@@ -280,7 +281,7 @@ export const ImportedCommentFields = [
 
 export type ImportedComment = Pick<
   Comment,
-  typeof ImportedCommentFields[number]
+  (typeof ImportedCommentFields)[number]
 >;
 
 const roomImportExport = (
@@ -326,9 +327,7 @@ const roomImportExport = (
           valueMapper: {
             export: (cfg, c) => c.number,
             import: (cfg, val) => {
-              const c = new Comment();
-              c.number = val;
-              return c;
+              return new Comment({ number: val });
             },
           },
         },
@@ -428,7 +427,7 @@ const roomImportExport = (
               return String(index);
             },
             import: (cfg, val, c) => {
-              c.creatorId = val;
+              c.creatorId = val as UUID;
               return c;
             },
           },
@@ -571,7 +570,9 @@ export const exportBrainstorming = (
       return of([res, []]);
     }),
     switchMap((res) => {
-      const comments = [...res[0], ...res[1]].filter(c => c.brainstormingSessionId !== null) as CommentBonusTokenMixin[];
+      const comments = [...res[0], ...res[1]].filter(
+        (c) => c.brainstormingSessionId !== null,
+      ) as CommentBonusTokenMixin[];
       if (comments.length < 1) {
         translateService
           .get(translatePath + '.no-comments')
@@ -691,7 +692,7 @@ export type ImportQuestionsResult = [
 const generateCommentCreatorIds = (
   observer: Observable<ImportQuestionsResult>,
   roomService: RoomService,
-  roomId: string,
+  roomId: UUID,
 ): Observable<ImportQuestionsResult> =>
   observer.pipe(
     mergeMap((value) => {
@@ -702,7 +703,7 @@ const generateCommentCreatorIds = (
       return roomService.createGuestsForImport(roomId, userSet.size).pipe(
         map((guestIds) => {
           value[5].forEach((c) => {
-            c.creatorId = guestIds[fastAccess[c.creatorId]];
+            c.creatorId = guestIds[fastAccess[c.creatorId]] as UUID;
           });
           return value;
         }),
@@ -725,7 +726,7 @@ const importRoomSettings = (
 
 const importComments = (
   comments: CommentBonusTokenMixin[],
-  roomId: string,
+  roomId: UUID,
   commentService: CommentService,
 ): Observable<Comment[]> => {
   const importedComments = comments.map((c) => {
@@ -741,7 +742,7 @@ const importComments = (
 
 export const importToRoom = (
   translateService: TranslateService,
-  roomId: string,
+  roomId: UUID,
   roomService: RoomService,
   commentService: CommentService,
   translatePath: string,

@@ -1,5 +1,4 @@
 import { Location } from '@angular/common';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import {
   AfterViewInit,
   Component,
@@ -66,15 +65,14 @@ import {
   KeywordExtractor,
 } from '../../../utils/keyword-extractor';
 import { CommentService } from '../../../services/http/comment.service';
+import { NotificationService } from 'app/services/util/notification.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { GPTPromptPreset } from 'app/models/gpt-prompt-preset';
+import { escapeForRegex } from 'app/utils/regex-escape';
 
 interface ConversationEntry {
   type: 'human' | 'gpt' | 'error';
   message: string;
-}
-
-interface PromptType {
-  act: string;
-  prompt: string;
 }
 
 @Component({
@@ -110,12 +108,11 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
   GPTRoomPresetLength = GPTRoomPresetLength;
   GPTRoomPresetTone = GPTRoomPresetTone;
   GPTRoomAnswerFormat = GPTRoomAnswerFormat;
-  prompts: PromptType[] = [];
+  prompts: GPTPromptPreset[] = [];
   amountOfFoundActs: number = 0;
   amountOfFoundPrompts: number = 0;
-  filteredPrompts: PromptType[];
+  filteredPrompts: GPTPromptPreset[] = [];
   searchTerm: string = '';
-  roleString: string;
   private destroyer = new ReplaySubject(1);
   private encoder: GPTEncoder = null;
   private room: Room = null;
@@ -128,7 +125,6 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
     private userManagementService: UserManagementService,
     private translateService: TranslateService,
     private languageService: LanguageService,
-    private http: HttpClient,
     private deviceInfo: DeviceInfoService,
     private gptEncoderService: GptEncoderService,
     public sessionService: SessionService,
@@ -141,17 +137,8 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
     protected router: Router,
     private injector: Injector,
     private commentService: CommentService,
+    private notificationService: NotificationService,
   ) {
-    this.languageService
-      .getLanguage()
-      .pipe(takeUntil(this.destroyer))
-      .subscribe((lang) => {
-        this.http
-          .get<PromptType[]>('/assets/i18n/prompts/' + lang + '.json')
-          .subscribe((promptsArray) => {
-            this.prompts = promptsArray;
-          });
-      });
     this.keywordExtractor = new KeywordExtractor(injector);
   }
 
@@ -180,18 +167,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
     this.sessionService
       .getRole()
       .pipe(takeUntil(this.destroyer), take(1))
-      .subscribe((role) => {
-        switch (role) {
-          case UserRole.PARTICIPANT:
-            this.roleString = 'participant';
-            break;
-          case UserRole.CREATOR:
-            this.roleString = 'creator';
-            break;
-          case UserRole.EXECUTIVE_MODERATOR:
-            this.roleString = 'moderator';
-        }
-      });
+      .subscribe((role) => {});
   }
 
   setValue(msg: string) {
@@ -269,8 +245,24 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
     const data = QuillUtils.getDeltaFromMarkdown(text as MarkdownDelta);
 
     let url: string;
+    let roleString = 'participant';
+    switch (this.sessionService.currentRole) {
+      case UserRole.PARTICIPANT:
+        roleString = 'participant';
+        break;
+      case UserRole.CREATOR:
+        roleString = 'creator';
+        break;
+      case UserRole.EXECUTIVE_MODERATOR:
+        roleString = 'moderator';
+    }
     this.route.params.subscribe((params) => {
-      url = `${this.roleString}/room/${params['shortId']}/comment/${this.owningComment.id}/conversation`;
+      url = `${roleString}/room/${params['shortId']}/`;
+      if (this.owningComment) {
+        url += `comment/${this.owningComment.id}/conversation`;
+      } else {
+        url += `comments`;
+      }
     });
     const options: CommentCreateOptions = {
       userId: this.userManagementService.getCurrentUser().id,
@@ -282,7 +274,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
       isModerator: this.sessionService.currentRole > 0,
       hadUsedDeepL: false,
       selectedLanguage: 'auto',
-      commentReference: this.owningComment.id,
+      commentReference: this.owningComment?.id || null,
     };
     this.keywordExtractor
       .createCommentInteractive(options)
@@ -314,6 +306,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
         prompt: this.generatePrompt(index),
         roomId: this.room?.id || null,
         model: this.model,
+        maxTokens: 1024,
       })
       .pipe(
         takeUntil(this.stopper),
@@ -369,12 +362,13 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
         prompt: this.generatePrompt(index),
         roomId: this.room?.id || null,
         model: this.model,
+        maxTokens: 1024,
       })
       .subscribe(this.generateObserver(index));
   }
 
   getError() {
-    return this.error instanceof String
+    return typeof this.error === 'string'
       ? this.error
       : JSON.stringify(this.error);
   }
@@ -384,6 +378,13 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
       autoFocus: false,
       width: '80%',
       maxWidth: '600px',
+    });
+  }
+
+  showError(message: string) {
+    this.notificationService.show(message, undefined, {
+      duration: 12_500,
+      panelClass: ['snackbar', 'important'],
     });
   }
 
@@ -418,44 +419,43 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   protected filterPrompts() {
-    this.filteredPrompts = [];
-
-    this.filteredPrompts.push({ act: 'acts', prompt: null });
-    this.filteredPrompts.push(
-      ...this.prompts.filter((prompt) => {
-        return (
-          prompt.act.toLowerCase().indexOf(this.searchTerm.toLowerCase()) > -1
-        );
-      }),
-    );
-    this.amountOfFoundActs = this.filteredPrompts.length - 1;
-
     if (!this.searchTerm.trim()) {
+      this.filteredPrompts = [...this.prompts];
       return;
     }
-
-    this.filteredPrompts.push({ act: 'prompts', prompt: null });
-
-    this.filteredPrompts.push(
-      ...this.prompts
-        .filter((prompt) => {
-          return (
-            (
-              prompt.prompt
-                .toLowerCase()
-                .match(this.searchTerm.toLowerCase()) || []
-            ).length > 0
-          );
-        })
-        .sort(
-          (a, b) =>
-            b.prompt.toLowerCase().split(this.searchTerm.toLowerCase()).length -
-            1 -
-            (a.prompt.toLowerCase().split(this.searchTerm.toLowerCase())
-              .length -
-              1),
-        ),
+    this.filteredPrompts.length = 0;
+    const searchRegex = new RegExp(
+      '\\b' + escapeForRegex(this.searchTerm),
+      'gi',
     );
+    this.filteredPrompts.push({ act: 'acts', prompt: null } as GPTPromptPreset);
+    const data = this.prompts
+      .map(
+        (x) =>
+          [[...x.act.matchAll(searchRegex)].length, x] as [
+            number,
+            GPTPromptPreset,
+          ],
+      )
+      .filter((x) => x[0] > 0);
+    data.sort((a, b) => b[0] - a[0]);
+    this.filteredPrompts.push(...data.map((x) => x[1]));
+    this.amountOfFoundActs = this.filteredPrompts.length - 1;
+    this.filteredPrompts.push({
+      act: 'prompts',
+      prompt: null,
+    } as GPTPromptPreset);
+    const promptData = this.prompts
+      .map(
+        (x) =>
+          [[...x.prompt.matchAll(searchRegex)].length, x] as [
+            number,
+            GPTPromptPreset,
+          ],
+      )
+      .filter((x) => x[0] > 0);
+    promptData.sort((a, b) => b[0] - a[0]);
+    this.filteredPrompts.push(...promptData.map((x) => x[1]));
     this.amountOfFoundPrompts =
       this.filteredPrompts.length - this.amountOfFoundActs - 2;
   }
@@ -466,6 +466,9 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
       this.gptService.getPreset(this.room.id).subscribe((preset) => {
         this.preset = preset;
       });
+      this.gptService.getPrompts().subscribe((prompts) => {
+        this.prompts = prompts;
+      });
     });
     this.sessionService.getGPTStatusOnce().subscribe({
       next: (data) => {
@@ -473,18 +476,25 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
           this.error = 'Restricted';
           this.translateService
             .get('gpt-chat.input-forbidden')
-            .subscribe((msg) => (this.error = msg));
+            .subscribe((msg) => {
+              this.error = msg;
+              this.showError(msg);
+            });
         } else if (!data.hasAPI) {
           this.error = 'No API Key';
           this.translateService
             .get('gpt-chat.no-api-setup')
-            .subscribe((msg) => (this.error = msg));
+            .subscribe((msg) => {
+              this.error = msg;
+              this.showError(msg);
+            });
         }
         this.isLoading = false;
       },
       error: (err) => {
         console.error(err);
         this.error = err;
+        this.showError(this.getError());
       },
     });
   }
@@ -694,12 +704,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
           const data = JSON.parse(e.error || null);
           errorMessage = data?.message ? data.message : errorMessage;
         }
-        const isError = error?.type === 'error';
-        const pre = isError ? error.message + '\n\n' : '';
-        this.conversation.splice(errorIndex, Number(isError), {
-          type: 'error',
-          message: pre + 'ERROR: ' + errorMessage,
-        });
+        this.showError(errorMessage);
         this.isSending = false;
       },
     };

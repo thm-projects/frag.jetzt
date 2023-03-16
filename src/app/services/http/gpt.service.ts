@@ -7,6 +7,7 @@ import {
 import { Injectable } from '@angular/core';
 import { GPTCompletion } from 'app/models/gpt-completion';
 import { GPTConfiguration } from 'app/models/gpt-configuration';
+import { GPTPromptPreset } from 'app/models/gpt-prompt-preset';
 import { GPTRating } from 'app/models/gpt-rating';
 import { GPTRoomPreset } from 'app/models/gpt-room-preset';
 import {
@@ -136,6 +137,11 @@ interface UsageTimeActionAdd {
 }
 
 export type UsageTimeAction = UsageTimeActionDelete | UsageTimeActionAdd;
+
+interface PropmtPresetAdd {
+  act: string;
+  prompt: string;
+}
 
 @Injectable({
   providedIn: 'root',
@@ -416,6 +422,64 @@ export class GptService extends BaseHttpService {
       tap((_) => ''),
       map((v) => verifyInstance(GPTStatistics, v)),
       catchError(this.handleError<GPTStatistics>('getStats')),
+    );
+  }
+
+  getPrompts(): Observable<GPTPromptPreset[]> {
+    const url = '/api/gpt/prompt-presets';
+    return this.httpClient.get<GPTPromptPreset[]>(url, httpOptions).pipe(
+      tap((_) => ''),
+      map((v) => v.map((e) => verifyInstance(GPTPromptPreset, e))),
+      catchError(this.handleError<GPTPromptPreset[]>('getPrompts')),
+    );
+  }
+
+  getGlobalPrompts(): Observable<GPTPromptPreset[]> {
+    const url = '/api/gpt/global-prompt-presets';
+    return this.httpClient.get<GPTPromptPreset[]>(url, httpOptions).pipe(
+      tap((_) => ''),
+      map((v) => v.map((e) => verifyInstance(GPTPromptPreset, e))),
+      catchError(this.handleError<GPTPromptPreset[]>('getGlobalPrompts')),
+    );
+  }
+
+  addPrompt(prompt: PropmtPresetAdd): Observable<GPTPromptPreset> {
+    const url = '/api/gpt/prompt-preset';
+    return this.httpClient.post<GPTPromptPreset>(url, prompt, httpOptions).pipe(
+      tap((_) => ''),
+      map((v) => verifyInstance(GPTPromptPreset, v)),
+      catchError(this.handleError<GPTPromptPreset>('addPrompt')),
+    );
+  }
+
+  addGlobalPrompt(prompt: PropmtPresetAdd): Observable<GPTPromptPreset> {
+    const url = '/api/gpt/global-prompt-preset';
+    return this.httpClient.post<GPTPromptPreset>(url, prompt, httpOptions).pipe(
+      tap((_) => ''),
+      map((v) => verifyInstance(GPTPromptPreset, v)),
+      catchError(this.handleError<GPTPromptPreset>('addGlobalPrompt')),
+    );
+  }
+
+  patchPrompt(
+    id: string,
+    prompt: Partial<PropmtPresetAdd>,
+  ): Observable<GPTPromptPreset> {
+    const url = '/api/gpt/prompt-preset/' + id;
+    return this.httpClient
+      .patch<GPTPromptPreset>(url, prompt, httpOptions)
+      .pipe(
+        tap((_) => ''),
+        map((v) => verifyInstance(GPTPromptPreset, v)),
+        catchError(this.handleError<GPTPromptPreset>('patchPrompt')),
+      );
+  }
+
+  deletePrompt(id: string): Observable<void> {
+    const url = '/api/gpt/prompt-preset/' + id;
+    return this.httpClient.delete<void>(url, httpOptions).pipe(
+      tap((_) => ''),
+      catchError(this.handleError<void>('deletePrompt')),
     );
   }
 

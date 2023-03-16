@@ -28,6 +28,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { BrainstormingWord } from 'app/models/brainstorming-word';
 import { BrainstormingService } from 'app/services/http/brainstorming.service';
 import { Injector } from '@angular/core';
+import { UUID } from './ts-utils';
 
 export enum KeywordsResultType {
   Successful,
@@ -49,10 +50,10 @@ export interface CommentCreateOptions {
   body: StandardDelta;
   tag: string;
   questionerName: string;
-  userId: string;
-  commentReference?: string;
+  userId: UUID;
+  commentReference?: UUID;
   isModerator: boolean;
-  brainstormingSessionId: string;
+  brainstormingSessionId: UUID;
   brainstormingLanguage: string;
   selectedLanguage: Language;
   hadUsedDeepL: boolean;
@@ -103,19 +104,18 @@ export class KeywordExtractor {
   }
 
   createPlainComment(options: CommentCreateOptions) {
-    const comment = new Comment();
-    comment.body = QuillUtils.transformURLtoQuillLink(
-      options.body,
-      options.isModerator,
-    );
-    comment.tag = options.tag;
-    comment.questionerName = options.questionerName;
-    comment.roomId = this.roomDataService.sessionService.currentRoom.id;
-    comment.creatorId = options.userId;
-    comment.createdFromLecturer = options.isModerator;
-    comment.commentReference = options.commentReference;
-    comment.brainstormingSessionId = options.brainstormingSessionId || null;
-    return comment;
+    return new Comment({
+      body: QuillUtils.transformURLtoQuillLink(
+        options.body,
+        options.isModerator,
+      ),
+      tag: options.tag,
+      questionerName: options.questionerName,
+      roomId: this.roomDataService.sessionService.currentRoom.id,
+      creatorId: options.userId,
+      commentReference: options.commentReference,
+      brainstormingSessionId: options.brainstormingSessionId || null,
+    });
   }
 
   createCommentInteractive(options: CommentCreateOptions): Observable<Comment> {
@@ -142,8 +142,9 @@ export class KeywordExtractor {
               () => new Error('Brainstorming idea already written'),
             );
           }
-          comment.language =
-            (options.brainstormingLanguage || 'AUTO').toUpperCase() as CommentLanguage;
+          comment.language = (
+            options.brainstormingLanguage || 'AUTO'
+          ).toUpperCase() as CommentLanguage;
           comment.keywordsFromSpacy = [];
           comment.keywordsFromQuestioner = [];
           comment.brainstormingWordId = result.id;

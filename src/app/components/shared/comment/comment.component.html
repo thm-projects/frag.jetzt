@@ -482,8 +482,7 @@
       <button
         mat-button
         class="replyButton"
-        *ngIf="canOpenGPT"
-        [ngClass]="{ 'gray-button': !consentGPT }"
+        [ngClass]="{ 'gray-button': !consentGPT || !canOpenGPT }"
         (click)="openGPT()">
         <mat-icon class="material-icons-outlined">smart_toy</mat-icon>
         {{ "comment-page.reply-AI" | translate }}
