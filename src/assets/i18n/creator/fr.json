@@ -974,7 +974,7 @@
     "keyword-scoring-controversy-info": "Ce paramètre forme un score qui dépend des votes positifs et négatifs.",
     "keyword-scoring-countComments": "Nombre de questions",
     "keyword-scoring-countComments-info": "Nombre de questions à partir desquelles les mots-clés ont été extraits",
-    "keyword-scoring-countKeywordByCreator": "Nombre de mots-clés du créateur d'une pièce",
+    "keyword-scoring-countKeywordByCreator": "Nombre de mots-clés du créateur d'une salle",
     "keyword-scoring-countKeywordByCreator-info": "Nombre d'utilisations de ce mot-clé par le créateur",
     "keyword-scoring-countKeywordByModerator": "Nombre de mots-clés utilisés par les modérateurs",
     "keyword-scoring-countKeywordByModerator-info": "Nombre d'utilisations de ce mot-clé par les modérateurs",
@@ -1070,8 +1070,8 @@
     "delete": "Supprimer"
   },
   "gptchat-info": {
-    "title": "Ton chatGPT",
-    "content": "# Encore quelques étapes à franchir !\n\nSi tu n'es pas encore enregistré, connecte-toi avec un compte et crée ta propre salle. Dans la salle, tu peux activer le chatbot à l'aide d'une [clé API](https://platform.openai.com/account/) d'OpenAI.\n\n## Tu es déjà inscrit ?\n\nDemande au propriétaire de la salle s'il peut utiliser ChatGPT dans ta salle. Il se peut que tu ne sois pas activé pour cela dans d'autres salles.",
+    "title": "ChatGPT",
+    "content": "### Plus que quelques étapes !\n\nSi t'es pas encore inscrit, crée-toi un compte. Pour activer le chatbot dans ta propre salle, tu as besoin d'une clé API d'OpenAI. Tu peux commencer avec un crédit gratuit de 5 $, valable pendant les 3 premiers mois. Selon le modèle de langage, tu peux consommer entre 250 000 et 2,5 millions de tokens avec ça.\n\n### T'es connecté dans une salle que t'as pas créée toi-même ?\n\nDemande à la propriétaire ou au propriétaire de la salle s'ils veulent activer ChatGPT avec une clé API.",
     "cancel": "Fermer"
   }
 }

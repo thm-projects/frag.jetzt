@@ -845,8 +845,8 @@
     "enter-prompt-name": "Please enter a name."
   },
   "gptchat-info": {
-    "title": "Your ChatGPT",
-    "content": "# Few more steps!\n\nIf you are not registered yet, sign up with an account and create your own room. Within the room, you can use an [API Key](https://platform.openai.com/account/) from OpenAI to activate the chatbot in the room.\n\n## Already registered?\n\nAsk the room owner about using ChatGPT in your room. You may not be enabled for it in other rooms.",
+    "title": "ChatGPT",
+    "content": "### Just a few more steps!\n\nIf you haven't registered yet, sign up with an account. In your own room, you can activate the chatbot using an API key from OpenAI. Start with a free credit of $5, which you can use within the first 3 months. Depending on the language model, you can consume between 250,000 and 2.5 million tokens with it.\n\n### Are you signed in and in a room that you didn't create yourself?\n\nAsk the room owner if they want to activate ChatGPT with an API key.",
     "cancel": "Close"
   }
 }

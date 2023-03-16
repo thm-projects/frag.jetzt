@@ -789,8 +789,8 @@
     "token-info": "{{tokens}} / {{maxLength}} Token"
   },
   "gptchat-info": {
-    "title": "Dein ChatGPT",
-    "content": "## Noch wenige Schritte!\n\nFalls du noch nicht registriert bist, melde dich mit einem Konto an. In einem eigenen Raum kannst du mithilfe eines [API Keys](https://platform.openai.com/account/) von OpenAI den Chatbot aktivieren. Starte mit einem kostenlosen Guthaben von 5 $, das du in den ersten 3 Monaten nutzen kannst. Je nach Sprachmodell kannst du damit zwischen 250 Tausend und 2,5 Millionen Token verbrauchen.\n\n## Du bist angemeldet und in einem Raum, den du nicht selbst erstellt hast?\n\nFrage die Rauminhaberin oder den Rauminhaber, ob sie den ChatGPT mit einem API Key aktivieren will.",
+    "title": "ChatGPT",
+    "content": "*### Noch wenige Schritte!\n\nFalls du noch nicht registriert bist, melde dich mit einem Konto an. In einem eigenen Raum kannst du mithilfe eines [API Keys](https://platform.openai.com/account/) von OpenAI den Chatbot aktivieren. Starte mit einem kostenlosen Guthaben von 5 $, das du in den ersten 3 Monaten nutzen kannst. Je nach Sprachmodell kannst du damit zwischen 250 Tausend und 2,5 Millionen Token verbrauchen.\n\n### Du bist angemeldet und in einem Raum, den du nicht selbst erstellt hast?\n\nFrage die Rauminhaberin oder den Rauminhaber, ob sie den ChatGPT mit einem API Key aktivieren will.",
     "cancel": "Schließen"
   }
 }
