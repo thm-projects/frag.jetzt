@@ -127,6 +127,22 @@ export class LoginComponent implements OnInit, OnChanges {
     }
   }
 
+  copyPassword() {
+    navigator.clipboard.writeText(this.passwordFormControl.value).then(
+      () => {
+        this.translationService
+          .get('password-generator.copy-success')
+          .subscribe((msg) => this.notificationService.show(msg));
+      },
+      (err) => {
+        console.error(err);
+        this.translationService
+          .get('password-generator.copy-fail')
+          .subscribe((msg) => this.notificationService.show(msg));
+      },
+    );
+  }
+
   guestLogin(): void {
     this.userManagementService
       .loginAsGuest()
@@ -138,8 +154,11 @@ export class LoginComponent implements OnInit, OnChanges {
       width: '350px',
     });
     ref.componentInstance.initProcess = initProcess;
-    ref.componentInstance.setUsername(this.username);
+    ref.componentInstance.setUsername(this.usernameFormControl.value);
     ref.afterClosed().subscribe((result) => {
+      if (!result) {
+        return;
+      }
       this.usernameFormControl.setValue(result.username);
       this.passwordFormControl.setValue(result.password);
       this.username = result.username;

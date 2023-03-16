@@ -47,15 +47,24 @@
           #userPassword
           required />
         <label>{{ "login-dialog.password" | translate }}</label>
-        <span
+        <button
           (click)="hide = !hide"
-          class="material-icons-outlined"
-          style="margin: 0 7px; cursor: pointer; user-select: none">
-          {{ hide ? "visibility_off" : "visibility" }}
-        </span>
+          type="button"
+          mat-icon-button
+          matSuffix>
+          <mat-icon class="material-icons-outlined">
+            {{ hide ? "visibility_off" : "visibility" }}
+          </mat-icon>
+        </button>
+        <button
+          (click)="copyPassword()"
+          type="button"
+          mat-icon-button
+          matSuffix>
+          <mat-icon class="material-icons-outlined">content_copy</mat-icon>
+        </button>
       </div>
     </div>
-
     <!-- reset-password -->
     <div class="forgot-password-container">
       <p>

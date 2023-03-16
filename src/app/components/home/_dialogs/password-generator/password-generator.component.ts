@@ -25,7 +25,7 @@ export class PasswordGeneratorComponent implements OnInit {
   password: string = '';
   passwordCount = new FormControl(8, [
     Validators.required,
-    Validators.min(8),
+    Validators.min(12),
     Validators.max(64),
   ]);
   securityValue = new BehaviorSubject('');

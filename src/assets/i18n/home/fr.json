@@ -526,7 +526,7 @@
     "password-description": "Saisis ici le mot de passe que tu souhaites utiliser pour t'inscrire.",
     "password-description-repeat": "Saisis à nouveau le mot de passe que tu souhaites utiliser pour t'inscrire, afin de t'assurer que tu n'as pas fait de faute de frappe.",
     "password-required": "Mot de passe nécessaire",
-    "password-length-invalid": "Doit comporter 8 à 64 caractères",
+    "password-length-invalid": "Doit comporter 12 à 64 caractères",
     "password-no-number": "Doit contenir un nombre",
     "password-no-lowercase": "Doit contenir une lettre minuscule",
     "password-no-uppercase": "Doit contenir une majuscule",
@@ -553,7 +553,7 @@
     "duration": "Ton mot de passe aura été craqué au plus tôt {{text}}.",
     "copy-password": "Copier le mot de passe",
     "err-required": "Tu dois saisir un chiffre",
-    "err-min": "Le mot de passe doit avoir une longueur minimale de 8 caractères",
+    "err-min": "Le mot de passe doit avoir une longueur minimale de 12 caractères",
     "err-max": "Le mot de passe ne doit pas dépasser 64 caractères",
     "copy-success": "Mot de passe copié",
     "copy-fail": "Le mot de passe n'a pas pu être copié"

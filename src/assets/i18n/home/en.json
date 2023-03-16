@@ -526,7 +526,7 @@
     "password-description": "Enter the password you want to register with here.",
     "password-description-repeat": "Please enter the password you want to register with again to make sure that you have not mistyped it.",
     "password-required": "Password required",
-    "password-length-invalid": "Must consist of 8 - 64 characters",
+    "password-length-invalid": "Must consist of 12 - 64 characters",
     "password-no-number": "Must contain at least one number",
     "password-no-lowercase": "Must contain at least one lower case letter",
     "password-no-uppercase": "Must contain at least one upper case letter",
@@ -553,7 +553,7 @@
     "duration": "Your password will have been cracked no sooner than {{text}}.",
     "copy-password": "Copy password",
     "err-required": "You must enter a number",
-    "err-min": "The password must have a minimum length of 8 characters",
+    "err-min": "The password must have a minimum length of 12 characters",
     "err-max": "The password must not be longer than 64 characters",
     "copy-success": "Password copied",
     "copy-fail": "Password could not be copied"

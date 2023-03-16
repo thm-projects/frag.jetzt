@@ -155,6 +155,7 @@ export class PasswordResetComponent implements OnInit, AfterViewInit {
   }
 
   setUsername(username: string) {
+    this.usernameFormControl.setValue(username);
     this.usernameFormControl2.setValue(username);
   }
 
@@ -198,6 +199,22 @@ export class PasswordResetComponent implements OnInit, AfterViewInit {
           this.notificationService.show(message);
         });
     }
+  }
+
+  copyPassword() {
+    navigator.clipboard.writeText(this.passwordFormControl.value).then(
+      () => {
+        this.translationService
+          .get('password-generator.copy-success')
+          .subscribe((msg) => this.notificationService.show(msg));
+      },
+      (err) => {
+        console.error(err);
+        this.translationService
+          .get('password-generator.copy-fail')
+          .subscribe((msg) => this.notificationService.show(msg));
+      },
+    );
   }
 
   setNewPassword(email: string, key: string, password: string) {

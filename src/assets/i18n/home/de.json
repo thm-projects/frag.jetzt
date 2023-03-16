@@ -527,7 +527,7 @@
     "password-description-repeat": "Bitte gib hier noch einmal das Passwort ein, mit dem du dich registrieren möchtest, um sicherzugehen, dass du dich nicht vertippt hast.",
     "password-required": "Passwort erforderlich",
     "password-unmatch": "Passwörter stimmen nicht überein.",
-    "password-length-invalid": "Muss zwischen 8 und 64 Zeichen lang sein",
+    "password-length-invalid": "Muss zwischen 12 und 64 Zeichen lang sein",
     "password-no-number": "Muss eine Zahl enthalten",
     "password-no-lowercase": "Muss einen Kleinbuchstaben enthalten",
     "password-no-uppercase": "Muss einen Großbuchstaben enthalten",
@@ -553,7 +553,7 @@
     "duration": "Dein Passwort wird frühstens {{text}} geknackt worden sein.",
     "copy-password": "Passwort kopieren",
     "err-required": "Du musst eine Zahl eingeben",
-    "err-min": "Das Passwort muss eine Mindestlänge von 8 Zeichen besitzen",
+    "err-min": "Das Passwort muss eine Mindestlänge von 12 Zeichen besitzen",
     "err-max": "Das Passwort darf nicht länger als 64 Zeichen sein",
     "copy-success": "Passwort kopiert",
     "copy-fail": "Passwort konnte nicht kopiert werden"

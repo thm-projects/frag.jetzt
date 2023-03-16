@@ -75,7 +75,7 @@ const splitString = (word: string) => word.split('@')[0].split(/[.\-_]/);
 
 export const checkForPasswordValidity =
   (usernameField: FormControl) => (passwordField: FormControl) => {
-    if (passwordField.value.length < 8 || passwordField.value.length > 64)
+    if (passwordField.value.length < 12 || passwordField.value.length > 64)
       return { validLength: { _: false } };
     if (!/\d/.test(passwordField.value))
       return { containsNumber: { _: false } };
@@ -224,6 +224,22 @@ export class RegisterComponent implements OnInit, AfterViewInit {
    */
   buildCloseDialogActionCallback(): () => void {
     return () => this.closeDialog();
+  }
+
+  copyPassword() {
+    navigator.clipboard.writeText(this.password1FormControl.value).then(
+      () => {
+        this.translationService
+          .get('password-generator.copy-success')
+          .subscribe((msg) => this.notificationService.show(msg));
+      },
+      (err) => {
+        console.error(err);
+        this.translationService
+          .get('password-generator.copy-fail')
+          .subscribe((msg) => this.notificationService.show(msg));
+      },
+    );
   }
 
   /**

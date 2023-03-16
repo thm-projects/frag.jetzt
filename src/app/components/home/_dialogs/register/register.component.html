@@ -70,12 +70,23 @@
       <mat-placeholder class="placeholder">
         {{ "register.password" | translate }}
       </mat-placeholder>
-      <mat-icon
-        matSuffix
+      <button
         (click)="togglePasswordVisibility()"
-        class="visibility-icon">
-        {{ isPasswordVisible ? "visibility" : "visibility_off" }}
-      </mat-icon>
+        type="button"
+        class="visibility-icon"
+        mat-icon-button
+        matSuffix>
+        <mat-icon class="material-icons-outlined">
+          {{ isPasswordVisible ? "visibility" : "visibility_off" }}
+        </mat-icon>
+      </button>
+      <button
+        (click)="copyPassword()"
+        type="button"
+        mat-icon-button
+        matSuffix>
+        <mat-icon class="material-icons-outlined">content_copy</mat-icon>
+      </button>
 
       <mat-error *ngIf="password1FormControl.hasError('required')">
         {{ "register.password-required" | translate }}
@@ -145,12 +156,23 @@
       <mat-placeholder class="placeholder">
         {{ "register.password-verify" | translate }}
       </mat-placeholder>
-      <mat-icon
-        matSuffix
+      <button
         (click)="togglePasswordVisibility()"
-        class="visibility-icon">
-        {{ isPasswordVisible ? "visibility" : "visibility_off" }}
-      </mat-icon>
+        type="button"
+        class="visibility-icon"
+        mat-icon-button
+        matSuffix>
+        <mat-icon class="material-icons-outlined">
+          {{ isPasswordVisible ? "visibility" : "visibility_off" }}
+        </mat-icon>
+      </button>
+      <button
+        (click)="copyPassword()"
+        type="button"
+        mat-icon-button
+        matSuffix>
+        <mat-icon class="material-icons-outlined">content_copy</mat-icon>
+      </button>
 
       <mat-error *ngIf="password2FormControl.hasError('required')">
         {{ "register.password-required" | translate }}
