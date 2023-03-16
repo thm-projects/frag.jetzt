@@ -394,7 +394,7 @@
   },
   "login": {
     "not-authorized": "Du bist nicht berechtigt, diese Seite zu sehen.",
-    "activation-key": "Aktivierungs-Schlüssel",
+    "activation-key": "Bestätigungscode",
     "cancel": "Abbrechen",
     "cancel-description": "Abbrechen",
     "email": "E-Mail",
@@ -409,7 +409,7 @@
     "input-incorrect": "Bitte prüfe deine Eingaben.",
     "login": "Anmelden mit Konto",
     "login-data-incorrect": "E-Mail oder Passwort falsch",
-    "login-data-expired": "Die Zugangsdaten sind abgelaufen, bitte fordere ein neues Passwort an.",
+    "login-data-expired": "Dein Passwort ist abgelaufen, bitte fordere ein neues an.",
     "login-error-unknown": "Unbekannter Fehler: {{code}}",
     "login-description": "Mit den eingegebenen Kontodaten anmelden",
     "login-successful": "Du bist jetzt angemeldet.",
@@ -421,8 +421,8 @@
     "password-reset": "Neues Passwort",
     "register": "Registrieren",
     "restart-account-activation-button": "Neuen Schlüssel anfordern",
-    "restart-account-activation-correct": "Der Aktivierungs-Schlüssel wurde gesendet.",
-    "restart-account-activation-tooltip": "Sendet einen neuen Aktivierungs-Schlüssel an deine Adresse.",
+    "restart-account-activation-correct": "Der Bestätigungscode wurde gesendet.",
+    "restart-account-activation-tooltip": "Sendet einen neuen Bestätigungscode an deine Adresse.",
     "welcome": "Noch Fragen?",
     "welcome-feedback": "➤ Schreib dem »frag.jetzt«-Team",
     "welcome-subtitle": "Anonym | innerhalb des Browsers | kostenlos"
@@ -733,10 +733,10 @@
   "user-activation": {
     "activate": "Konto aktivieren",
     "activate-description": "Aktiviert den Account",
-    "activation-key": "Aktivierungs-Schlüssel",
-    "activation-key-incorrect": "Aktivierungs-Schlüssel falsch",
-    "activation-key-input-description": "Gib hier den Aktivierungs-Schlüssel ein, den du per E-Mail erhalten hast.",
-    "activation-key-required": "Aktivierungs-Schlüssel erforderlich",
+    "activation-key": "Bestätigungscode",
+    "activation-key-incorrect": "Bestätigungscode falsch",
+    "activation-key-input-description": "Gib hier den Bestätigungscode ein, den du per E-Mail erhalten hast.",
+    "activation-key-required": "Bestätigungscode erforderlich",
     "cancel": "Abbrechen",
     "cancel-description": "Abbrechen"
   },
