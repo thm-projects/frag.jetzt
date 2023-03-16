@@ -69,7 +69,8 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
   @Input() public isProduction: boolean = false;
   @Output() closeEmitter: EventEmitter<void> = new EventEmitter();
   public translateKey: string = 'common';
-  public selectedPreviewOption: number = -1;
+  public activeVote: number = -1;
+  public votes: number[] = [];
   public options:
     | {
         index: number;
@@ -98,6 +99,12 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
             this.translationService.setTranslation(lang, translation, true);
           });
       });
+  }
+
+  get totalVotes(): number {
+    return this.votes && this.votes.length > 0
+      ? this.votes.reduce((p, c) => p + c)
+      : 1;
   }
 
   get isActive(): boolean {
@@ -159,8 +166,43 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
     // livepoll is still active even, when paused. this might need a new entry in livepoll-session
   }
 
+  vote(i: number) {
+    this.activeVote = i;
+    if (this.isProduction) {
+      //todo remove after backend implementation
+      // this.emitVote(i);
+      ++this.votes[i];
+    } else {
+      ++this.votes[i];
+    }
+  }
+
+  getVotePercentage(i: number) {
+    return Math.floor(
+      this.votes[i] ? (this.votes[i] / this.totalVotes) * 100 : 0,
+    );
+  }
+
+  getVoteBarSize(i: number) {
+    return Math.floor(
+      this.votes[i]
+        ? (this.votes[i] /
+            ((this.votes.reduce((a, b) => Math.max(a, b)) + this.totalVotes) /
+              2)) *
+            100
+        : 0,
+    );
+  }
+
+  private emitVote(i: number) {
+    // todo
+  }
+
   private init() {
     if (this.template) {
+      this.votes = new Array(
+        this.template.symbols?.length || this.template.length,
+      ).fill(0);
       if (typeof this.template.length === 'undefined') {
         this.options = this.template.symbols.map((option, index) => ({
           index,

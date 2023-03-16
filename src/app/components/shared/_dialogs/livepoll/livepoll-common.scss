@@ -1,4 +1,13 @@
-@import "src/layout/layout-util";
+$vote-foreground: var(--livepoll-vote-foreground);
+$vote-background: var(--livepoll-vote-background);
+$vote-foreground-active: var(--livepoll-vote-foreground-active);
+$vote-background-active: var(--livepoll-vote-background-active);
+$vote-foreground-hover: var(--livepoll-vote-foreground-hover);
+$vote-background-hover: var(--livepoll-vote-background-hover);
+$vote-foreground-active-hover: var(--livepoll-vote-foreground-active-hover);
+$vote-background-active-hover: var(--livepoll-vote-background-active-hover);
+$bar-foreground: var(--livepoll-bar-foreground);
+$bar-background: var(--livepoll-bar-background);
 
 .button {
   &-cancel {
@@ -48,22 +57,22 @@
 
   &-vote {
     &-active {
-      background-color: var(--blue);
-      color: var(--white);
+      background-color: $vote-background-active;
+      color: $vote-foreground-active;
 
       &:hover {
-        background-color: var(--blue);
-        color: var(--white);
+        background-color: $vote-background-active-hover;
+        color: $vote-foreground-active-hover;
       }
     }
 
     &-default {
-      background-color: var(--magenta);
-      color: var(--white);
+      background-color: $vote-background;
+      color: $vote-foreground;
 
       &:hover {
-        background-color: var(--blue);
-        color: var(--white);
+        background-color: $vote-background-hover;
+        color: $vote-foreground-hover;
       }
     }
   }

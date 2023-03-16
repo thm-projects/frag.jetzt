@@ -1,3 +1,5 @@
+@import "../livepoll-common";
+
 .title {
   display: flex;
   justify-content: space-between;
@@ -69,15 +71,17 @@
         height: $height;
         flex-direction: row;
         justify-content: flex-start;
-        box-shadow: inset 0 0 0 0.5px var(--on-surface);
+        box-shadow: inset 0 0 0 2px var(--surface);
         border-radius: #{$border-radius}px;
         box-sizing: border-box;
         padding: 4px;
 
         > .bar {
+          min-width: 40px;
           width: 10px;
-          background-color: var(--on-surface);
+          background-color: $bar-background;
           border-radius: #{$border-radius - ($border-radius / 2)}px;
+          transition: width 100ms ease-in-out;
         }
       }
 
@@ -89,7 +93,11 @@
         top: -$height;
 
         > span {
-          padding: 8px;
+          position: relative;
+          top: 4px;
+          left: 13px;
+          font-weight: bold;
+          color: $bar-foreground;
         }
       }
     }
@@ -169,9 +177,18 @@ fg-1 {
   display: flex;
   justify-content: flex-end;
   margin-top: 16px;
+
+  > div ~ div {
+    margin-left: 16px;
+  }
+
   > div {
     :first-child {
       margin-right: 4px;
+      font-weight: bold;
+    }
+
+    :last-child {
     }
   }
 }
