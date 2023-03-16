@@ -523,6 +523,7 @@
     "email-verify": "Répéter l'adresse mail",
     "forgot-password": "Mot de passe oublié ?",
     "password": "Mot de passe",
+    "new-password": "Nouveau mot de passe",
     "password-description": "Saisis ici le mot de passe que tu souhaites utiliser pour t'inscrire.",
     "password-description-repeat": "Saisis à nouveau le mot de passe que tu souhaites utiliser pour t'inscrire, afin de t'assurer que tu n'as pas fait de faute de frappe.",
     "password-required": "Mot de passe nécessaire",
