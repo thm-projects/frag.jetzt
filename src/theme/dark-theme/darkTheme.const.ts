@@ -38,8 +38,6 @@ export const dark = {
   '--questionwall-intro-primary': 'darkorange',
   '--questionwall-intro-secondary': '#eadabf',
   '--questionwall-intro-background': '#121212',
-
-  '--form-background': 'rgba(255, 255, 255, 0.1)',
 };
 
 export const dark_meta: ThemeMeta = {
