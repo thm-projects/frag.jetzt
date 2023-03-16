@@ -84,7 +84,8 @@
         (click)="copyPassword()"
         type="button"
         mat-icon-button
-        matSuffix>
+        matSuffix
+        [matTooltip]="'password-generator.copy-password' | translate">
         <mat-icon class="material-icons-outlined">content_copy</mat-icon>
       </button>
 
@@ -170,7 +171,8 @@
         (click)="copyPassword()"
         type="button"
         mat-icon-button
-        matSuffix>
+        matSuffix
+        [matTooltip]="'password-generator.copy-password' | translate">
         <mat-icon class="material-icons-outlined">content_copy</mat-icon>
       </button>
 

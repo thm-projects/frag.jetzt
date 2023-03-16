@@ -23,7 +23,7 @@ import {
 })
 export class PasswordGeneratorComponent implements OnInit {
   password: string = '';
-  passwordCount = new FormControl(8, [
+  passwordCount = new FormControl(12, [
     Validators.required,
     Validators.min(12),
     Validators.max(64),
