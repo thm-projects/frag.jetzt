@@ -38,6 +38,8 @@ export const arsnova = {
   '--questionwall-intro-primary': 'darkorange',
   '--questionwall-intro-secondary': 'white',
   '--questionwall-intro-background': '#121212',
+
+  '--form-background': 'PowderBlue',
 };
 
 export const arsnova_meta: ThemeMeta = {

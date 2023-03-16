@@ -37,9 +37,7 @@
         mat-flat-button
         tabindex="0"
         [matTooltip]="'header.chat-gpt-button' | translate"
-        *ngIf="
-          userRole > 0 && canOpenGPT && !router.url.endsWith('/gpt-chat-room')
-        "
+        *ngIf="!router.url.endsWith('/gpt-chat-room') && isInRouteWithRoles"
         (click)="openGPT()">
         <mat-icon
           class="material-icons material-icons-outlined"
@@ -505,13 +503,18 @@
     <mat-icon class="material-icons-outlined">account_circle</mat-icon>
     {{ "header.gpt-user-description" | translate }}
   </button>
-
   <button
     mat-menu-item
     class="replyButton"
     (click)="openPrivacyDialog()">
     <mat-icon class="material-icons-outlined">smart_toy</mat-icon>
     {{ "header.gpt-privacy-policy" | translate }}
+  </button>
+  <button
+    mat-menu-item
+    routerLink="/gpt-prompts">
+    <mat-icon class="material-icons-outlined">speaker_notes</mat-icon>
+    {{ "header.gpt-prompts" | translate }}
   </button>
 </mat-menu>
 

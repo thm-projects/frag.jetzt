@@ -2,7 +2,8 @@
   "overview": {
     "motd": "Annonces globales",
     "gpt": "Paramètres GPT",
-    "gpt-chat": "Chat avec GPT"
+    "gpt-chat": "Chat avec GPT",
+    "gpt-prompts": "Prompts globaux"
   },
   "create-motd": {
     "create": "Créer",
@@ -106,5 +107,54 @@
     "use-case-tooltip-code": "Très bon dans le domaine de la compréhension et de la génération de code. A un contexte plus large que les modèles de langage.",
     "use-case-chat": "Chat/Conversations",
     "use-case-tooltip-chat": "Efficace pour les questions ouvertes, où des demandes de précisions sont nécessaires. N'offre pas de résultats aussi précis que les réponses aux questions."
+  },
+  "quill": {
+    "cancel": "Annuler",
+    "heading": "Saisie",
+    "preview": "Aperçu",
+    "tooltip-action": "Éditer",
+    "tooltip-action-save": "Enregistrer",
+    "tooltip-label": "Visiter le lien …",
+    "tooltip-label-formula": "Saisir une formule KaTeX, par exemple …",
+    "tooltip-label-image": "Saisir l'URL de l'image …",
+    "tooltip-label-link": "Saisir le lien …",
+    "tooltip-label-video": "Saisir l'URL d'une vidéo …",
+    "tooltip-placeholder-formula": "Nous soutenons le jeu de formules KaTeX.",
+    "tooltip-placeholder-image": "L'adresse de l'image doit commencer par https:// …",
+    "tooltip-placeholder-link": "L'adresse doit commencer par https://. …",
+    "tooltip-placeholder-video": "L'adresse de la vidéo doit commencer par https:// …",
+    "tooltip-remove": "Oui",
+    "tooltip-toolbar-blockquote": "Citer",
+    "tooltip-toolbar-bold": "En gras",
+    "tooltip-toolbar-italic": "En italique",
+    "tooltip-toolbar-code": "Marquer comme code source",
+    "tooltip-toolbar-color": "Couleur du texte",
+    "tooltip-toolbar-emote": "Insérer un emoji",
+    "tooltip-toolbar-formula": "Insérer une formule",
+    "tooltip-toolbar-image": "Insérer une image",
+    "tooltip-toolbar-link": "Lier le texte sélectionné",
+    "tooltip-toolbar-ordered-list": "Liste numérotée",
+    "tooltip-toolbar-strike": "Barrer",
+    "tooltip-toolbar-textcolor": "Couleur du texte",
+    "tooltip-toolbar-unordered-list": "Liste à puces",
+    "tooltip-toolbar-video": "Insérer une vidéo"
+  },
+  "chat-gptprompt-preset": {
+    "title": "Prompts pour ChatGPT",
+    "search-prompt": "Recherche de prompt ou nouvelle prompt",
+    "found-acts": "Résultats trouvés dans »Agir en tant que ...« ({{count}})",
+    "found-prompts": "Hits dans Prompts ({{count}})",
+    "token-info": "Jetons : {{promptTokens}}",
+    "placeholder-edit-preset": "Modifie ici ton prompt",
+    "save": "Enregistrer",
+    "delete": "Supprimer",
+    "an-error-occured": "Quelque chose a mal tourné !",
+    "delete-success": "Prompt a été supprimé.",
+    "add-success": "Prompt a été ajouté.",
+    "already-present": "Le prompt existe déjà, modifie son nom. Ou sélectionne le prompt correspondant.",
+    "patch-success": "Les modifications ont été enregistrées.",
+    "no-patch-needed": "Aucune modification n'a été apportée.",
+    "no-prompt-selected": "Aucune invite n'a été sélectionnée.",
+    "enter-prompt-name": "Veuillez saisir un nom."
   }
 }

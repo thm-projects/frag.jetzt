@@ -309,7 +309,8 @@
     "zoom-plus": "Text vergrößern",
     "zoom-reset": "Zoomstufe zurücksetzen",
     "gpt-chat": "ChatGPT",
-    "gpt-privacy-policy": "ChatGPT Datenschutzrichtlinie"
+    "gpt-privacy-policy": "ChatGPT Datenschutzrichtlinie",
+    "gpt-prompts": "Vordefinierte GPT Prompts"
   },
   "gpt-chat": {
     "optin-accept": "Akzeptieren",
@@ -504,7 +505,7 @@
     "set-button-description": "Setzt für den Account das neue Passwort",
     "set-new-password": "Setze ein neues Passwort mit dem Schlüssel-Code, der dir zugesandt wurde:",
     "set-new-password-button": "Setze Passwort",
-    "new-password-is-old" : "Das neue Passwort darf nicht mit dem alten Passwort übereinstimmen."
+    "new-password-is-old": "Das neue Passwort darf nicht mit dem alten Passwort übereinstimmen."
   },
   "qr-dialog": {
     "session": "Code",
@@ -526,7 +527,7 @@
     "password-description-repeat": "Bitte gib hier noch einmal das Passwort ein, mit dem du dich registrieren möchtest, um sicherzugehen, dass du dich nicht vertippt hast.",
     "password-required": "Passwort erforderlich",
     "password-unmatch": "Passwörter stimmen nicht überein.",
-    "password-length-invalid": "Muss zwischen 8 und 64 Zeichen lang sein",
+    "password-length-invalid": "Muss zwischen 12 und 64 Zeichen lang sein",
     "password-no-number": "Muss eine Zahl enthalten",
     "password-no-lowercase": "Muss einen Kleinbuchstaben enthalten",
     "password-no-uppercase": "Muss einen Großbuchstaben enthalten",
@@ -552,7 +553,7 @@
     "duration": "Dein Passwort wird frühstens {{text}} geknackt worden sein.",
     "copy-password": "Passwort kopieren",
     "err-required": "Du musst eine Zahl eingeben",
-    "err-min": "Das Passwort muss eine Mindestlänge von 8 Zeichen besitzen",
+    "err-min": "Das Passwort muss eine Mindestlänge von 12 Zeichen besitzen",
     "err-max": "Das Passwort darf nicht länger als 64 Zeichen sein",
     "copy-success": "Passwort kopiert",
     "copy-fail": "Passwort konnte nicht kopiert werden"
@@ -792,5 +793,59 @@
     "less": "Duzen",
     "more": "Siezen",
     "name": "Stil"
+  },
+  "quill": {
+    "cancel": "Abbrechen",
+    "heading": "Eingabe",
+    "preview": "Vorschau",
+    "tooltip-action": "Editieren",
+    "tooltip-action-save": "Speichern",
+    "tooltip-label": "Link besuchen …",
+    "tooltip-label-formula": "Gib eine KaTeX-Formel ein, zum Beispiel …",
+    "tooltip-label-image": "Bild-URL eingeben …",
+    "tooltip-label-link": "Link eingeben …",
+    "tooltip-label-video": "Video-URL eingeben …",
+    "tooltip-placeholder-formula": "Wir unterstützen den KaTeX-Formelsatz.",
+    "tooltip-placeholder-image": "Die Bild-Adresse muss mit https://… beginnen.",
+    "tooltip-placeholder-link": "Die Adresse muss mit https://… beginnen.",
+    "tooltip-placeholder-video": "Die Video-Adresse muss mit https://… beginnen.",
+    "tooltip-remove": "Ja",
+    "tooltip-toolbar-blockquote": "Zitieren",
+    "tooltip-toolbar-bold": "Fett",
+    "tooltip-toolbar-italic": "Kursiv",
+    "tooltip-toolbar-code": "Als Quellcode auszeichnen",
+    "tooltip-toolbar-color": "Schriftfarbe",
+    "tooltip-toolbar-emote": "Emoji einfügen",
+    "tooltip-toolbar-formula": "Formel einfügen",
+    "tooltip-toolbar-image": "Bild einfügen",
+    "tooltip-toolbar-link": "Markierten Text verlinken",
+    "tooltip-toolbar-ordered-list": "Nummerierte Liste",
+    "tooltip-toolbar-strike": "Durchstreichen",
+    "tooltip-toolbar-textcolor": "Textfarbe",
+    "tooltip-toolbar-unordered-list": "Aufzählungsliste",
+    "tooltip-toolbar-video": "Video einfügen"
+  },
+  "chat-gptprompt-preset": {
+    "title": "Prompts für ChatGPT",
+    "search-prompt": "Prompt-Suche oder neuer Prompt",
+    "found-acts": "Treffer in »Agiere als …« ({{count}})",
+    "found-prompts": "Treffer in Prompts ({{count}})",
+    "token-info": "Tokens: {{promptTokens}}",
+    "placeholder-edit-preset": "Bearbeite hier dein Prompt",
+    "save": "Speichern",
+    "delete": "Löschen",
+    "an-error-occured": "Etwas ist schiefgelaufen!",
+    "delete-success": "Prompt wurde entfernt.",
+    "add-success": "Prompt wurde hinzugefügt.",
+    "already-present": "Prompt existiert bereits, bitte ändere den Namen. Oder wähle den entsprechenden Prompt aus.",
+    "patch-success": "Änderungen wurden gespeichert.",
+    "no-patch-needed": "Es wurden keine Änderungen vorgenommen.",
+    "no-prompt-selected": "Es wurde kein Prompt ausgewählt.",
+    "enter-prompt-name": "Bitte gib einen Namen ein."
+  },
+  "gptchat-info": {
+    "title": "Dein ChatGPT",
+    "content": "# Noch wenige Schritte!\n\nFalls du noch nicht registriert bist, melde dich mit einem Konto an und erstelle einen eigenen Raum. Innerhalb des Raumes kannst du mithilfe eines [API Keys](https://platform.openai.com/account/) von OpenAI den Chatbot im Raum aktivieren.\n\n## Du bist schon registriert?\n\nFrage den Rauminhaber nach der Verwendung von ChatGPT in deinem Raum. Es kann sein, dass du in anderen Räumen nicht dafür freigeschaltet wirst.",
+    "cancel": "Schließen"
   }
 }

@@ -5,6 +5,7 @@ import { CreateMotdComponent } from './create-motd/create-motd.component';
 import { GptConfigurationComponent } from './gpt-configuration/gpt-configuration.component';
 import { AdminOverviewComponent } from './admin-overview/admin-overview.component';
 import { GptChatComponent } from './gpt-chat/gpt-chat.component';
+import { ChatGPTPromptPresetComponent } from '../shared/chat-gptprompt-preset/chat-gptprompt-preset.component';
 
 const routes: Routes = [
   {
@@ -28,6 +29,12 @@ const routes: Routes = [
   {
     path: 'gpt-chat',
     component: GptChatComponent,
+    canActivate: [AuthenticationGuard],
+    data: { superAdmin: true },
+  },
+  {
+    path: 'gpt-prompts',
+    component: ChatGPTPromptPresetComponent,
     canActivate: [AuthenticationGuard],
     data: { superAdmin: true },
   },

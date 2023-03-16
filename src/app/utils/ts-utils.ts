@@ -86,6 +86,7 @@ export type HasStringLength<
 export type MakeUnique<T> = T & { readonly __TYPE__: unique symbol };
 
 export type JSONString = MakeUnique<string>;
+export type UUID = MakeUnique<string>;
 
 export type IsObject<T> = T extends { [key: string | number | symbol]: any }
   ? true

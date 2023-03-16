@@ -46,10 +46,9 @@ import { QuillUtils } from '../../../utils/quill-utils';
 import { forkJoin, ReplaySubject, takeUntil } from 'rxjs';
 import { ResponseViewInformation } from '../comment-response-view/comment-response-view.component';
 import { UserManagementService } from '../../../services/util/user-management.service';
-import { GptOptInPrivacyComponent } from '../_dialogs/gpt-optin-privacy/gpt-optin-privacy.component';
-import { GptService } from '../../../services/http/gpt.service';
 import { EventService } from '../../../services/util/event.service';
 import { take } from 'rxjs/operators';
+import { GPTChatInfoComponent } from '../_dialogs/gptchat-info/gptchat-info.component';
 
 @Component({
   selector: 'app-comment',
@@ -604,6 +603,10 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   openGPT() {
+    if (!this.canOpenGPT) {
+      GPTChatInfoComponent.open(this.dialog);
+      return;
+    }
     let url: string;
     this.route.params.subscribe((params) => {
       url = `${this.roleString}/room/${params['shortId']}/gpt-chat-room`;

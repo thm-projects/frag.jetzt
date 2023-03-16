@@ -36,12 +36,15 @@ import { UserRole } from '../../../models/user-roles.enum';
 import { SessionService } from '../../../services/util/session.service';
 import { User } from '../../../models/user';
 import { StandardDelta } from '../../../utils/quill-utils';
-import { CommentCreateOptions, KeywordExtractor } from '../../../utils/keyword-extractor';
+import {
+  CommentCreateOptions,
+  KeywordExtractor,
+} from '../../../utils/keyword-extractor';
 import { ForumComment } from '../../../utils/data-accessor';
 import { UserManagementService } from '../../../services/util/user-management.service';
 import { DBLocalRoomSettingsService } from 'app/services/persistence/dblocal-room-settings.service';
 import { forkJoin, of, switchMap, take } from 'rxjs';
-import { clone } from 'app/utils/ts-utils';
+import { clone, UUID } from 'app/utils/ts-utils';
 
 @Component({
   selector: 'app-write-comment',
@@ -66,7 +69,7 @@ export class WriteCommentComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() brainstormingData: BrainstormingSession;
   @Input() allowEmpty = false;
   @Input() additionalMockOffset: number = 0;
-  @Input() commentReference: string = null;
+  @Input() commentReference: UUID = null;
   @Input() onlyText = false;
   @Input() rewriteCommentData: ForumComment = null;
   isSubmittingComment = false;

@@ -75,7 +75,7 @@ const splitString = (word: string) => word.split('@')[0].split(/[.\-_]/);
 
 export const checkForPasswordValidity =
   (usernameField: FormControl) => (passwordField: FormControl) => {
-    if (passwordField.value.length < 8 || passwordField.value.length > 64)
+    if (passwordField.value.length < 12 || passwordField.value.length > 64)
       return { validLength: { _: false } };
     if (!/\d/.test(passwordField.value))
       return { containsNumber: { _: false } };
@@ -152,7 +152,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
    * Closes the register dialog on call.
    */
   closeDialog(): void {
-    this.dialogRef.close([]);
+    this.dialogRef.close();
   }
 
   /**
@@ -168,43 +168,43 @@ export class RegisterComponent implements OnInit, AfterViewInit {
 
   register(username: string, password: string): void {
     if (
-      this.usernameFormControl.valid &&
-      this.username2FormControl.valid &&
-      this.password1FormControl.valid &&
-      this.password2FormControl.valid
+      !this.usernameFormControl.valid ||
+      !this.username2FormControl.valid ||
+      !this.password1FormControl.valid ||
+      !this.password2FormControl.valid
     ) {
-      this.authenticationService.register(username, password).subscribe({
-        next: () => {
-          this.translationService
-            .get('register.register-successful')
-            .subscribe((message) => {
-              this.notificationService.show(message);
-            });
-          this.dialogRef.close({ username, password });
-        },
-        error: (errorCode: LoginResult) => {
-          if (errorCode === LoginResult.PasswordTooCommon) {
-            this.translationService
-              .get('register.register-error-password-too-common')
-              .subscribe((message) => {
-                this.notificationService.show(message);
-              });
-          } else {
-            this.translationService
-              .get('register.register-request-error')
-              .subscribe((message) => {
-                this.notificationService.show(message);
-              });
-          }
-        },
-      });
-    } else {
       this.translationService
         .get('register.register-unsuccessful')
         .subscribe((message) => {
           this.notificationService.show(message);
         });
+      return;
     }
+    this.authenticationService.register(username, password).subscribe({
+      next: () => {
+        this.translationService
+          .get('register.register-successful')
+          .subscribe((message) => {
+            this.notificationService.show(message);
+          });
+        this.dialogRef.close({ username, password });
+      },
+      error: (errorCode: LoginResult) => {
+        if (errorCode === LoginResult.PasswordTooCommon) {
+          this.translationService
+            .get('register.register-error-password-too-common')
+            .subscribe((message) => {
+              this.notificationService.show(message);
+            });
+        } else {
+          this.translationService
+            .get('register.register-request-error')
+            .subscribe((message) => {
+              this.notificationService.show(message);
+            });
+        }
+      },
+    });
   }
 
   openPasswordGenerator(event: MouseEvent) {
@@ -224,6 +224,22 @@ export class RegisterComponent implements OnInit, AfterViewInit {
    */
   buildCloseDialogActionCallback(): () => void {
     return () => this.closeDialog();
+  }
+
+  copyPassword() {
+    navigator.clipboard.writeText(this.password1FormControl.value).then(
+      () => {
+        this.translationService
+          .get('password-generator.copy-success')
+          .subscribe((msg) => this.notificationService.show(msg));
+      },
+      (err) => {
+        console.error(err);
+        this.translationService
+          .get('password-generator.copy-fail')
+          .subscribe((msg) => this.notificationService.show(msg));
+      },
+    );
   }
 
   /**

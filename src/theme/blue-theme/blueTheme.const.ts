@@ -32,6 +32,8 @@ export const blue = {
   '--questionwall-intro-primary': 'red',
   '--questionwall-intro-secondary': 'red',
   '--questionwall-intro-background': 'red',
+
+  '--form-background': 'PowderBlue',
 };
 
 export const blue_meta = {

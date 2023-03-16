@@ -6,6 +6,7 @@ import { UserRole } from '../../models/user-roles.enum';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ClientAuthentication } from '../../models/client-authentication';
 import { BaseHttpService } from './base-http.service';
+import { UUID } from 'app/utils/ts-utils';
 
 export enum LoginResult {
   Success,
@@ -18,7 +19,17 @@ export enum LoginResult {
   NewPasswordIsOldPassword,
   PasswordTooCommon,
   InvalidKey,
+  KeyExpired,
 }
+
+const ERROR_TABLE = {
+  'Activation in process': LoginResult.FailureActivation,
+  'Password reset in process': LoginResult.FailurePasswordReset,
+  'Password expired': LoginResult.FailurePasswordExpired,
+  'Key expired': LoginResult.KeyExpired,
+  'Invalid Key': LoginResult.InvalidKey,
+  'New password is old password': LoginResult.NewPasswordIsOldPassword,
+} as const;
 
 export type LoginResultArray = [LoginResult, User];
 
@@ -131,6 +142,14 @@ export class AuthenticationService extends BaseHttpService {
         );
       }),
       map(() => LoginResult.Success),
+      catchError((err) => {
+        const msg = err.error?.message;
+        const errVal = ERROR_TABLE[msg];
+        if (errVal) {
+          return throwError(() => errVal);
+        }
+        return throwError(() => msg);
+      }),
     );
   }
 
@@ -185,10 +204,9 @@ export class AuthenticationService extends BaseHttpService {
             tap((_) => ''),
             catchError((err) => {
               const msg = err.error.message;
-              if (msg === 'New password is old password') {
-                return throwError(() => LoginResult.NewPasswordIsOldPassword);
-              } else if (msg === 'InvalidKey') {
-                return throwError(() => LoginResult.InvalidKey);
+              const errVal = ERROR_TABLE[msg];
+              if (errVal) {
+                return throwError(() => errVal);
               }
               return throwError(() => msg);
             }),
@@ -217,44 +235,35 @@ export class AuthenticationService extends BaseHttpService {
         }
         return [
           LoginResult.Success,
-          new User(
-            result.credentials,
-            result.name,
-            result.type,
-            result.details,
-            userRole,
-            result.type === 'guest',
-          ),
+          new User({
+            id: result.credentials as UUID,
+            loginId: result.name,
+            type: result.type,
+            token: result.details,
+            role: userRole,
+            isGuest: result.type === 'guest',
+          }),
         ] as LoginResultArray;
       }),
       catchError((e) => {
         // check if user needs activation
         console.log(e.status, e.error?.message, e);
-        if (e.status === 401 && e.statusText === 'Unauthorized') {
-          return of([LoginResult.SessionExpired, null] as LoginResultArray);
-        } else if (e.error?.status === 403) {
-          const msg = e.error?.message;
-          if (msg === 'Activation in process') {
-            return of([
-              LoginResult.FailureActivation,
-              null,
-            ] as LoginResultArray);
-          } else if (msg === 'Password reset in process') {
-            return of([
-              LoginResult.FailurePasswordReset,
-              null,
-            ] as LoginResultArray);
-          } else if (msg === 'Password expired') {
-            return of([
-              LoginResult.FailurePasswordExpired,
-              null,
-            ] as LoginResultArray);
-          }
-        }
-        console.error(e);
-        return of([LoginResult.FailureException, null] as LoginResultArray);
+        return this.catchErrors(e);
       }),
     );
+  }
+
+  private catchErrors(e: any): Observable<LoginResultArray> {
+    if (e.status === 401 && e.statusText === 'Unauthorized') {
+      return of([LoginResult.SessionExpired, null] as LoginResultArray);
+    }
+    const msg = e.error?.message;
+    const err = ERROR_TABLE[msg];
+    if (!err) {
+      return of([err, null] as LoginResultArray);
+    }
+    console.error(e);
+    return of([LoginResult.FailureException, null] as LoginResultArray);
   }
 
   private getTokenHeader(token: string) {

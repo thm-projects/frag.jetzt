@@ -309,7 +309,8 @@
     "zoom-plus": "Increase text size",
     "zoom-reset": "Reset zoom level",
     "gpt-chat": "Chat with GPT",
-    "gpt-privacy-policy": "ChatGPT Privacy Policy"
+    "gpt-privacy-policy": "ChatGPT Privacy Policy",
+    "gpt-prompts": "Predefined GPT Prompts"
   },
   "gpt-chat": {
     "optin-accept": "Accept",
@@ -525,7 +526,7 @@
     "password-description": "Enter the password you want to register with here.",
     "password-description-repeat": "Please enter the password you want to register with again to make sure that you have not mistyped it.",
     "password-required": "Password required",
-    "password-length-invalid": "Must consist of 8 - 64 characters",
+    "password-length-invalid": "Must consist of 12 - 64 characters",
     "password-no-number": "Must contain at least one number",
     "password-no-lowercase": "Must contain at least one lower case letter",
     "password-no-uppercase": "Must contain at least one upper case letter",
@@ -552,7 +553,7 @@
     "duration": "Your password will have been cracked no sooner than {{text}}.",
     "copy-password": "Copy password",
     "err-required": "You must enter a number",
-    "err-min": "The password must have a minimum length of 8 characters",
+    "err-min": "The password must have a minimum length of 12 characters",
     "err-max": "The password must not be longer than 64 characters",
     "copy-success": "Password copied",
     "copy-fail": "Password could not be copied"
@@ -792,5 +793,59 @@
     "less": "Informal",
     "more": "Formal",
     "name": "Style"
+  },
+  "quill": {
+    "cancel": "Cancel",
+    "heading": "Input",
+    "preview": "Preview",
+    "tooltip-action": "Edit",
+    "tooltip-action-save": "Save",
+    "tooltip-label": "Visit link …",
+    "tooltip-label-formula": "Enter a KaTeX formula, for example …",
+    "tooltip-label-image": "Enter image URL …",
+    "tooltip-label-link": "Enter link …",
+    "tooltip-label-video": "Enter video URL …",
+    "tooltip-placeholder-formula": "We support the KaTeX formula set.",
+    "tooltip-placeholder-image": "Image address must begin with https:// …",
+    "tooltip-placeholder-link": "Address must begin with https:// …",
+    "tooltip-placeholder-video": "Video address must begin with https:// …",
+    "tooltip-remove": "Yes",
+    "tooltip-toolbar-blockquote": "Cite",
+    "tooltip-toolbar-bold": "Bold",
+    "tooltip-toolbar-italic": "Italic",
+    "tooltip-toolbar-code": "Mark as source code",
+    "tooltip-toolbar-color": "Font color",
+    "tooltip-toolbar-emote": "Insert emoji",
+    "tooltip-toolbar-formula": "Insert formula",
+    "tooltip-toolbar-image": "Insert image",
+    "tooltip-toolbar-link": "Link selected text",
+    "tooltip-toolbar-ordered-list": "Numbered list",
+    "tooltip-toolbar-strike": "Strike through",
+    "tooltip-toolbar-textcolor": "Text color",
+    "tooltip-toolbar-unordered-list": "Bullet list",
+    "tooltip-toolbar-video": "Insert video"
+  },
+  "chat-gptprompt-preset": {
+    "title": "Prompts for ChatGPT",
+    "search-prompt": "Prompt search or new prompt",
+    "found-acts": "Hits in »Act as ...« ({{count}})",
+    "found-prompts": "Hits in prompts ({{count}})",
+    "token-info": "Tokens: {{promptTokens}}",
+    "placeholder-edit-preset": "Edit your prompt here",
+    "save": "Save",
+    "delete": "Delete",
+    "an-error-occured": "Something has gone wrong!",
+    "delete-success": "Prompt was removed.",
+    "add-success": "Prompt was added.",
+    "already-present": "Prompt already exists, please change the name. Or select the appropriate prompt.",
+    "patch-success": "Changes have been saved.",
+    "no-patch-needed": "No changes have been made.",
+    "no-prompt-selected": "No prompt was selected.",
+    "enter-prompt-name": "Please enter a name."
+  },
+  "gptchat-info": {
+    "title": "Your ChatGPT",
+    "content": "# Few more steps!\n\nIf you are not registered yet, sign up with an account and create your own room. Within the room, you can use an [API Key](https://platform.openai.com/account/) from OpenAI to activate the chatbot in the room.\n\n## Already registered?\n\nAsk the room owner about using ChatGPT in your room. You may not be enabled for it in other rooms.",
+    "cancel": "Close"
   }
 }

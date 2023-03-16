@@ -284,7 +284,7 @@ export class UserManagementService {
         this.dbRoomAccess.getAllByUser(result[1].id),
       ]).pipe(
         map(([admin, motds, access]) => {
-          const managedUser = result[1] as Mutable<ManagedUser>;
+          const managedUser = result[1] as unknown as Mutable<ManagedUser>;
           managedUser.isSuperAdmin = admin;
           managedUser.readMotds = new Set(motds.map((m) => m.motdId));
           managedUser.roomAccess = access.reduce((acc, value) => {

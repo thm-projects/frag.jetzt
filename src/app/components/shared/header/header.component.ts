@@ -56,6 +56,7 @@ import { ShrinkObserver } from 'app/utils/shrink-observer';
 import { LivepollService } from '../../../services/http/livepoll.service';
 import { take } from 'rxjs/operators';
 import { GptService } from 'app/services/http/gpt.service';
+import { GPTChatInfoComponent } from '../_dialogs/gptchat-info/gptchat-info.component';
 
 @Component({
   selector: 'app-header',
@@ -385,10 +386,17 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   }
 
   openGPT() {
-    const roleString =
-      this.userRole === UserRole.CREATOR ? 'creator' : 'moderator';
+    if (!this.canOpenGPT) {
+      GPTChatInfoComponent.open(this.dialog);
+      return;
+    }
+    let roleString = 'participant';
+    if (this.userRole === UserRole.CREATOR) {
+      roleString = 'creator';
+    } else if (this.userRole > UserRole.PARTICIPANT) {
+      roleString = 'moderator';
+    }
     const url = `/${roleString}/room/${this.room.shortId}/gpt-chat-room`;
-    console.log(url);
     this.router.navigate([url]);
   }
 
