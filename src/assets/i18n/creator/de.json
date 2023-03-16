@@ -1050,25 +1050,25 @@
   },
   "presets-dialog": {
     "context-title": "Kontext der Veranstalltung",
-    "persona-title": "Presets für jede Person",
-    "topic-title": "Themen der Veranstaltung",
+    "persona-title": "Presets für jede Rolle",
+    "topic-title": "Thema der Veranstaltung",
     "context-label": "Kontext",
     "topic-label": "Thema",
-    "persona-moderator-label": "Persona (Moderator)",
-    "persona-user-label": "Persona (User)",
-    "persona-creator-label": "Persona (Ersteller)",
-    "context-placeholder": "WPW Kurs",
-    "topic-placeholder": "Angular",
-    "persona-moderator-placeholder": "Moderator",
-    "persona-user-placeholder": "User",
-    "persona-creator-placeholder": "Ersteller",
+    "persona-moderator-label": "Persona (Moderator*in)",
+    "persona-user-label": "Persona (Teilnehmer*in)",
+    "persona-creator-label": "Persona (Raumersteller*in)",
+    "context-placeholder": "Beschreibe die Inhalte der Veranstaltung …",
+    "topic-placeholder": "Beschreibe das aktuelle Thema der Veranstaltung …",
+    "persona-moderator-placeholder": "Beschreibe die Kompetenz dieser Roole …",
+    "persona-user-placeholder": "Beschreibe die Kompetenz dieser Roole …",
+    "persona-creator-placeholder": "Beschreibe die Kompetenz dieser Roole …",
     "save": "Speichern",
     "cancel": "Abbrechen",
     "clear": "Löschen"
   },
   "gptchat-info": {
     "title": "Dein ChatGPT",
-    "content": "# Noch wenige Schritte!\n\nFalls du noch nicht registriert bist, melde dich mit einem Konto an und erstelle einen eigenen Raum. Innerhalb des Raumes kannst du mithilfe eines [API Keys](https://platform.openai.com/account/) von OpenAI den Chatbot im Raum aktivieren.\n\n## Du bist schon registriert?\n\nFrage den Rauminhaber nach der Verwendung von ChatGPT in deinem Raum. Es kann sein, dass du in anderen Räumen nicht dafür freigeschaltet wirst.",
+    "content": "## Noch wenige Schritte!\n\nFalls du noch nicht registriert bist, melde dich mit einem Konto an. In einem eigenen Raum kannst du mithilfe eines [API Keys](https://platform.openai.com/account/) von OpenAI den Chatbot aktivieren. Starte mit einem kostenlosen Guthaben von 5 $, das du in den ersten 3 Monaten nutzen kannst. Je nach Sprachmodell kannst du damit zwischen 250 Tausend und 2,5 Millionen Token verbrauchen.\n\n## Du bist angemeldet und in einem Raum, den du nicht selbst erstellt hast?\n\nFrage die Rauminhaberin oder den Rauminhaber, ob sie den ChatGPT mit einem API Key aktivieren will.",
     "cancel": "Schließen"
   }
 }
