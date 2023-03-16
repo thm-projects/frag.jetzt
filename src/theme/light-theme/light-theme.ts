@@ -38,6 +38,17 @@ export const arsnova = {
   '--questionwall-intro-primary': 'darkorange',
   '--questionwall-intro-secondary': 'white',
   '--questionwall-intro-background': '#121212',
+
+  '--livepoll-vote-foreground': '#FFFFFF',
+  '--livepoll-vote-background': '#58E315',
+  '--livepoll-vote-foreground-hover': '#FFFFFF',
+  '--livepoll-vote-background-hover': '#BFE315',
+  '--livepoll-vote-foreground-active': '#FFFFFF',
+  '--livepoll-vote-background-active': '#E3A015',
+  '--livepoll-vote-foreground-active-hover': '#FFFFFF',
+  '--livepoll-vote-background-active-hover': '#E33915',
+  '--livepoll-bar-foreground': '#FFFFFF',
+  '--livepoll-bar-background': '#B315E3',
 };
 
 export const arsnova_meta: ThemeMeta = {

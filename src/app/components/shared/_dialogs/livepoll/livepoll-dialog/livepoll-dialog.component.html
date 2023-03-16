@@ -20,8 +20,14 @@
     <div
       @AnimateInOut
       *ngIf="livepollSession.viewsVisible">
-      <span>{{ translateKey + ".participants" | translate }}</span>
       <span>1</span>
+      <span>{{ translateKey + ".participants" | translate }}</span>
+    </div>
+    <div
+      @AnimateInOut
+      *ngIf="livepollSession.resultVisible">
+      <span>{{ totalVotes }}</span>
+      <span>{{ translateKey + ".votes" | translate }}</span>
     </div>
   </div>
 
@@ -55,12 +61,19 @@
       </ng-container>
     </div>
     <div class="right">
-      <ng-container *ngFor="let option of options">
+      <ng-container *ngFor="let option of options; index as i">
         <div class="container">
           <div class="background">
-            <div class="bar"></div>
+            <div
+              class="bar"
+              *ngIf="votes"
+              [ngStyle]="{
+                width: getVoteBarSize(i) + '%'
+              }"></div>
           </div>
-          <div class="foreground"></div>
+          <div class="foreground">
+            <span>{{ getVotePercentage(i) }}%</span>
+          </div>
         </div>
       </ng-container>
     </div>
@@ -139,11 +152,9 @@
   let-i="i"
   let-symbol="symbol">
   <button
-    [ngClass]="
-      selectedPreviewOption === i ? 'button-vote-active' : 'button-vote-default'
-    "
+    [ngClass]="activeVote === i ? 'button-vote-active' : 'button-vote-default'"
     mat-flat-button
-    (click)="selectedPreviewOption = i">
+    (click)="vote(i)">
     <ng-container
       *ngTemplateOutlet="
         optionEntry;
