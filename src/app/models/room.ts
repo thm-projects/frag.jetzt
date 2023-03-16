@@ -17,7 +17,6 @@ export class Room {
   blacklist: string;
   profanityFilter: ProfanityFilter;
   blacklistActive: boolean;
-  brainstormingSession: BrainstormingSession;
   tagCloudSettings: string;
   moderatorRoomReference: UUID;
   createdAt: Date;
