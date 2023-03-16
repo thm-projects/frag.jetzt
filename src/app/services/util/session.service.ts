@@ -24,9 +24,10 @@ import { BrainstormingWord } from 'app/models/brainstorming-word';
 import { BrainstormingCategory } from 'app/models/brainstorming-category';
 import { BrainstormingService } from '../http/brainstorming.service';
 import { BrainstormingSession } from 'app/models/brainstorming-session';
-import { LivepollSessionList } from '../../models/livepoll-session-list';
 import { GptService } from '../http/gpt.service';
 import { GPTRoomStatus } from 'app/models/gpt-status';
+import { LivepollSession } from '../../models/livepoll-session';
+import { LivepollService } from '../http/livepoll.service';
 
 @Injectable({
   providedIn: 'root',
@@ -41,8 +42,8 @@ export class SessionService {
   private readonly _currentGPTRoomStatus = new BehaviorSubject<GPTRoomStatus>(
     null,
   );
-  private readonly _livepoll_mock: LivepollSessionList =
-    new LivepollSessionList([]);
+  private readonly _currentLivepollSession =
+    new BehaviorSubject<LivepollSession>(null);
   private _beforeRoomUpdates: Subject<Partial<Room>>;
   private _afterRoomUpdates: Subject<Room>;
   private _roomSubscription: Subscription;
@@ -61,10 +62,11 @@ export class SessionService {
     private wsConnectorService: WsConnectorService,
     private brainstormingService: BrainstormingService,
     private gptService: GptService,
+    private livepollService: LivepollService,
   ) {}
 
-  get currentLivepoll(): LivepollSessionList {
-    return this._livepoll_mock;
+  get currentLivepoll(): LivepollSession {
+    return this._currentLivepollSession.value;
   }
 
   get canChangeRoleOnRoute(): boolean {
@@ -331,6 +333,9 @@ export class SessionService {
     if (this._currentBrainstormingCategories.value) {
       this._currentBrainstormingCategories.next(null);
     }
+    if (this._currentLivepollSession.value) {
+      this._currentLivepollSession.next(null);
+    }
   }
 
   private loadRoom(shortId: string) {
@@ -373,6 +378,7 @@ export class SessionService {
         .getRoomStream(room.id)
         .subscribe((msg) => this.receiveMessage(msg, room));
       this._currentRoom.next(room);
+      this._currentLivepollSession.next(room.livepollSession);
       this.updateStatus();
       this.moderatorService
         .get(room.id)
@@ -423,6 +429,10 @@ export class SessionService {
       this.onBrainstormingPatched(message, room);
     } else if (message.type === 'BrainstormingCategorizationReset') {
       this.onBrainstormingCategorizationReset(message, room);
+    } else if (message.type === 'LivepollSessionCreated') {
+      this.onLivepollCreated(message, room);
+    } else if (message.type === 'LivepollSessionPatched') {
+      this.onLivepollPatched(message, room);
     } else if (!environment.production) {
       console.log('Ignored: ', message);
     }
@@ -533,5 +543,31 @@ export class SessionService {
       return;
     }
     this.userManagementService.forceLogin().subscribe();
+  }
+
+  private onLivepollCreated(message: any, room: Room) {
+    this.receiveRoomUpdates(false)
+      .pipe(take(1))
+      .subscribe((sub) => {
+        this.livepollService.open(this.currentRole, true, sub.livepollSession);
+      });
+    this._beforeRoomUpdates.next(room);
+    this.updateCurrentRoom({
+      livepollSession: message.payload.livepoll,
+    });
+    this._afterRoomUpdates.next(room);
+  }
+
+  private onLivepollPatched(message: any, room: Room) {
+    const id = room.livepollSession?.id;
+    if (id !== message.payload.id) {
+      return;
+    }
+    const changes = message.payload.changes;
+    this._beforeRoomUpdates.next(room);
+    for (const key of Object.keys(changes)) {
+      room.livepollSession[key] = changes[key];
+    }
+    this._afterRoomUpdates.next(room);
   }
 }

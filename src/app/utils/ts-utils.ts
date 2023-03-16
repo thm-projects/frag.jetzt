@@ -119,7 +119,7 @@ export type Storable<T> = T extends GeneralFunction
 export const clone = <T>(elem: T): Mutable<T> => {
   if (Array.isArray(elem)) {
     return elem.map((e) => clone(e)) as unknown as Mutable<T>;
-  } else if (typeof elem === 'object') {
+  } else if (typeof elem === 'object' && elem !== null) {
     return Object.keys(elem).reduce((acc, e) => {
       acc[e] = clone(elem[e]);
       return acc;

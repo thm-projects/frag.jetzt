@@ -1,6 +1,7 @@
 import { BrainstormingSession } from './brainstorming-session';
 import { ImmutableStandardDelta } from '../utils/quill-utils';
 import { UUID, verifyInstance } from 'app/utils/ts-utils';
+import { LivepollSession } from './livepoll-session';
 
 export class Room {
   id: UUID;
@@ -16,6 +17,7 @@ export class Room {
   blacklist: string;
   profanityFilter: ProfanityFilter;
   blacklistActive: boolean;
+  brainstormingSession: BrainstormingSession;
   tagCloudSettings: string;
   moderatorRoomReference: UUID;
   createdAt: Date;
@@ -29,6 +31,7 @@ export class Room {
   // transient fields
   tags: string[];
   brainstormingSession: BrainstormingSession;
+  livepollSession: LivepollSession;
 
   constructor({
     id = null,
@@ -57,6 +60,7 @@ export class Room {
     // transient fields
     tags = [],
     brainstormingSession = null,
+    livepollSession = null,
   }: Partial<Room>) {
     this.id = id;
     this.ownerId = ownerId;
@@ -71,6 +75,7 @@ export class Room {
     this.blacklist = blacklist;
     this.profanityFilter = profanityFilter;
     this.blacklistActive = blacklistActive;
+    this.brainstormingSession = brainstormingSession;
     this.tagCloudSettings = tagCloudSettings;
     this.moderatorRoomReference = moderatorRoomReference;
     this.createdAt = verifyInstance(Date, createdAt);
@@ -86,6 +91,7 @@ export class Room {
       BrainstormingSession,
       brainstormingSession,
     );
+    this.livepollSession = verifyInstance(LivepollSession, livepollSession);
   }
 }
 

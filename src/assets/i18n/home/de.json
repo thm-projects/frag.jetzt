@@ -684,7 +684,7 @@
   },
   "title": {
     "attach-title": "frag.jetzt {{attachment}}",
-    "default-title": "frag.jetzt: Fragen sammeln, bewerten und präsentieren"
+    "default-title": "frag.jetzt & ChatGPT: Wo Fragen zu Antworten werden!"
   },
   "token-validator": {
     "bonus-token-header": "Bonus-Archiv",

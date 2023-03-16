@@ -1,0 +1,75 @@
+@import "src/layout/layout-util";
+
+.button {
+  &-cancel {
+    background-color: transparent;
+    color: var(--on-dialog);
+
+    &:hover {
+      outline: var(--cancel) solid 3px;
+    }
+  }
+
+  &-secondary {
+    background-color: transparent;
+    color: var(--green);
+    outline: var(--green) solid 3px;
+
+    &:hover {
+      background-color: var(--green);
+      color: var(--black);
+    }
+
+    .mat-icon {
+      font-size: 18px;
+    }
+  }
+
+  &-primary {
+    background-color: transparent;
+    color: var(--primary);
+    outline: var(--primary) solid 3px;
+
+    &:hover {
+      background-color: var(--primary);
+      color: var(--on-primary);
+    }
+
+    &-filled {
+      background-color: var(--primary);
+      color: var(--on-primary);
+
+      &:hover {
+        background-color: var(--primary);
+        color: var(--on-primary);
+      }
+    }
+  }
+
+  &-vote {
+    &-active {
+      background-color: var(--blue);
+      color: var(--white);
+
+      &:hover {
+        background-color: var(--blue);
+        color: var(--white);
+      }
+    }
+
+    &-default {
+      background-color: var(--magenta);
+      color: var(--white);
+
+      &:hover {
+        background-color: var(--blue);
+        color: var(--white);
+      }
+    }
+  }
+}
+
+.cta-container {
+  margin-top: 16px;
+  padding-bottom: 16px;
+}

@@ -219,6 +219,18 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     });
   }
 
+  openPasswordGenerator(event: MouseEvent) {
+    event.preventDefault();
+    const ref = PasswordGeneratorComponent.open(this.dialog);
+    ref.afterClosed().subscribe((data) => {
+      if (data) {
+        this.password1FormControl.setValue(data);
+        this.password2FormControl.setValue(data);
+        this.checkPasswordStrength();
+      }
+    });
+  }
+
   /**
    * Returns a lambda which closes the dialog on call.
    */

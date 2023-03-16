@@ -115,7 +115,7 @@ import { BrainstormingDeleteConfirmComponent } from './_dialogs/brainstorming-de
 import { FullscreenImageDialogComponent } from './_dialogs/fullscreen-image-dialog/fullscreen-image-dialog.component';
 import { NavigationComponent } from './navigation/navigation.component';
 import { QuestionWallComponent } from './questionwall/question-wall/question-wall.component';
-import { LivepollCreateComponent } from './_dialogs/livepoll-create/livepoll-create.component';
+import { LivepollCreateComponent } from './_dialogs/livepoll/livepoll-create/livepoll-create.component';
 import { GptRoomSettingsComponent } from './_dialogs/gpt-room-settings/gpt-room-settings.component';
 import { GPTUserDescriptionDialogComponent } from './_dialogs/gptuser-description-dialog/gptuser-description-dialog.component';
 import { GptOptInPrivacyComponent } from './_dialogs/gpt-optin-privacy/gpt-optin-privacy.component';
@@ -126,6 +126,8 @@ import { IntroductionPromptGuideChatbotComponent } from './_dialogs/introduction
 import { IntroductionPromptGuideChatbotDeComponent } from '../../../assets/i18n/components/_dialogs/introductions/introduction-prompt-guide-chatbot/introduction-prompt-guide-chatbot-de.component';
 import { IntroductionPromptGuideChatbotEnComponent } from '../../../assets/i18n/components/_dialogs/introductions/introduction-prompt-guide-chatbot/introduction-prompt-guide-chatbot-en.component';
 import { IntroductionPromptGuideChatbotFrComponent } from '../../../assets/i18n/components/_dialogs/introductions/introduction-prompt-guide-chatbot/introduction-prompt-guide-chatbot-fr.component';
+import { LivepollDialogComponent } from './_dialogs/livepoll/livepoll-dialog/livepoll-dialog.component';
+import { LivepollSettingsComponent } from './_dialogs/livepoll/livepoll-settings/livepoll-settings.component';
 import { GPTChatRoomComponent } from './gptchat-room/gptchat-room.component';
 import { PresetsDialogComponent } from './_dialogs/presets-dialog/presets-dialog.component';
 import { GPTChatInfoComponent } from './_dialogs/gptchat-info/gptchat-info.component';
@@ -254,6 +256,8 @@ import { ChatGPTPromptPresetComponent } from './chat-gptprompt-preset/chat-gptpr
     IntroductionPromptGuideChatbotDeComponent,
     IntroductionPromptGuideChatbotEnComponent,
     IntroductionPromptGuideChatbotFrComponent,
+    LivepollDialogComponent,
+    LivepollSettingsComponent,
     GptOptInPrivacyComponent,
     GptPrivacyPolicyDeComponent,
     GptPrivacyPolicyEnComponent,

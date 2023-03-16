@@ -21,13 +21,11 @@ import { UserManagementService } from 'app/services/util/user-management.service
 import { RoomDataFilter } from 'app/utils/data-filter-object.lib';
 import { filter, ReplaySubject, takeUntil } from 'rxjs';
 import { QrCodeDialogComponent } from '../_dialogs/qr-code-dialog/qr-code-dialog.component';
-import { RoomSettingsOverviewComponent } from '../_dialogs/room-settings-overview/room-settings-overview.component';
 import { TopicCloudBrainstormingComponent } from '../_dialogs/topic-cloud-brainstorming/topic-cloud-brainstorming.component';
 import { TopicCloudFilterComponent } from '../_dialogs/topic-cloud-filter/topic-cloud-filter.component';
 import { Room } from '../../../models/room';
-import { LivepollSessionList } from '../../../models/livepoll-session-list';
-import { LivepollCreateComponent } from '../_dialogs/livepoll-create/livepoll-create.component';
 import { User } from '../../../models/user';
+import { LivepollService } from '../../../services/http/livepoll.service';
 
 interface LocationData {
   id: string;
@@ -109,7 +107,6 @@ export const livepollNavigationAccessOnRoute = (
   route: string,
   room: Room | undefined,
   user: User | undefined,
-  pollList: LivepollSessionList,
 ) => {
   if (room && room.livepollActive) {
     if (ROOM_REGEX.test(route) || COMMENTS_REGEX.test(route)) {
@@ -121,7 +118,7 @@ export const livepollNavigationAccessOnRoute = (
       ) {
         return true;
       } else {
-        return pollList.hasActiveLivepoll();
+        return !!room.livepollSession;
       }
     }
   }
@@ -201,15 +198,20 @@ export class NavigationComponent implements OnInit, OnDestroy {
       accessible: false,
       active: false,
       i18n: 'header.livepoll',
-      icon: 'quiz',
+      icon: 'ballot',
+      class: 'material-icons-filled',
       canBeAccessedOnRoute: (route) =>
         livepollNavigationAccessOnRoute(
           route,
           this.sessionService.currentRoom,
           this.userManagementService.getCurrentUser(),
+        ),
+      navigate: (route) =>
+        this.livepollService.open(
+          this.sessionService.currentRole,
+          !!this.sessionService.currentRoom.livepollSession?.active,
           this.sessionService.currentLivepoll,
         ),
-      navigate: (route) => LivepollCreateComponent.create(this.dialog),
       isCurrentRoute: (route) => false,
     },
     {
@@ -373,7 +375,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
         dialogRef.componentInstance.room = this.sessionService.currentRoom;
       },
     },
-   
+
     {
       id: 'news',
       accessible: false,
@@ -419,6 +421,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
     private location: Location,
     private eventService: EventService,
     public deviceInfo: DeviceInfoService,
+    public readonly livepollService: LivepollService,
   ) {}
 
   ngOnInit(): void {
