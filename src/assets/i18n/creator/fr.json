@@ -37,10 +37,10 @@
     "you-sure-category": "Faut-il vraiment réinitialiser toutes les affectations de catégories ?"
   },
   "brainstorming-edit": {
-    "title" : "Paramètres de brainstorming",
-    "question" : "Thème ou question de focalisation …",
-    "word-count" : "Nombre maximum de mots par idée",
-    "word-length" : "Nombre maximal de caractères par idée",
+    "title": "Paramètres de brainstorming",
+    "question": "Thème ou question de focalisation …",
+    "word-count": "Nombre maximum de mots par idée",
+    "word-length": "Nombre maximal de caractères par idée",
     "field-hint-number": "Valeur : {{min}} - {{max}}",
     "field-required": "Ce champ est nécessaire.",
     "field-too-high": "Ton entrée est trop longue, elle doit être au maximum de {{max}}.",
@@ -377,13 +377,13 @@
     "empty-conversation": "Vider l'historique",
     "input-forbidden": "Saisie interdite, veuillez vérifier les paramètres de l'API GPT.",
     "no-api-setup": "La clé d'API ou le modèle de langage n'a pas été défini.",
-    "presets" : {
+    "presets": {
       "disabled": "Désactivé",
-      "language" : {
-        "de" : "Allemand",
-        "en" : "Anglais",
-        "fr" : "Français",
-        "*" : "Comme la question"
+      "language": {
+        "de": "Allemand",
+        "en": "Anglais",
+        "fr": "Français",
+        "*": "Comme la question"
       },
       "tone": {
         "neutral": "Neutre",
@@ -1052,9 +1052,9 @@
     "questioner-name": "Ton nom, si tu veux …"
   },
   "presets-dialog": {
-    "context-title" : "contexte de l'événement",
-    "persona-title" : "Presets pour chaque personne",
-    "topic-title" : "thèmes de l'événement",
+    "context-title": "contexte de l'événement",
+    "persona-title": "Presets pour chaque personne",
+    "topic-title": "thèmes de l'événement",
     "context-label": "Contexte",
     "topic-label": "Sujet",
     "persona-moderator-label": "Persona (Présentateur)",
@@ -1068,5 +1068,10 @@
     "save": "Enregistrer",
     "cancel": "Annuler",
     "delete": "Supprimer"
-    }
+  },
+  "gptchat-info": {
+    "title": "Ton chatGPT",
+    "content": "# Encore quelques étapes à franchir !\n\nSi tu n'es pas encore enregistré, connecte-toi avec un compte et crée ta propre salle. Dans la salle, tu peux activer le chatbot à l'aide d'une [clé API](https://platform.openai.com/account/) d'OpenAI.\n\n## Tu es déjà inscrit ?\n\nDemande au propriétaire de la salle s'il peut utiliser ChatGPT dans ta salle. Il se peut que tu ne sois pas activé pour cela dans d'autres salles.",
+    "cancel": "Fermer"
+  }
 }

@@ -21,9 +21,10 @@ import {
 } from 'app/services/http/gpt.service';
 import { LanguageService } from 'app/services/util/language.service';
 import { NotificationService } from 'app/services/util/notification.service';
+import { SessionService } from 'app/services/util/session.service';
 import { KeyboardUtils } from 'app/utils/keyboard';
 import { KeyboardKey } from 'app/utils/keyboard/keys';
-import { forkJoin, of, ReplaySubject, takeUntil } from 'rxjs';
+import { forkJoin, Observable, of, ReplaySubject, takeUntil } from 'rxjs';
 
 enum UsageRepeatUnit {
   HOUR = 'HOUR',
@@ -95,6 +96,7 @@ export class GptRoomSettingsComponent implements OnInit, OnDestroy {
     private languageService: LanguageService,
     private translateService: TranslateService,
     private notificationService: NotificationService,
+    private sessionService: SessionService,
   ) {
     this.startDate = new Date();
     this.startDate.setSeconds(0, 0);
@@ -229,7 +231,10 @@ export class GptRoomSettingsComponent implements OnInit, OnDestroy {
           .subscribe((msg) => this.notificationService.show(msg));
         return;
       }
-      const operations = [of<GPTRoomUsageTime[]>([]), of<GPTRoomSetting>(null)];
+      const operations = [
+        of<GPTRoomUsageTime[]>([]),
+        of<GPTRoomSetting>(null),
+      ] as [Observable<GPTRoomUsageTime[]>, Observable<GPTRoomSetting>];
       {
         const usageOps: UsageTimeAction[] = [];
         this.previousSetting.usageTimes.forEach((elem) => {
@@ -328,6 +333,9 @@ export class GptRoomSettingsComponent implements OnInit, OnDestroy {
         }
       }
       forkJoin(operations).subscribe({
+        next: () => {
+          this.sessionService.updateStatus();
+        },
         complete: () => this.dialogRef.close(),
       });
     };

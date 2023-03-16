@@ -177,6 +177,12 @@ export class SessionService {
     );
   }
 
+  updateStatus() {
+    this.gptService
+      .getStatusForRoom(this._currentRoom.value?.id)
+      .subscribe((roomStatus) => this._currentGPTRoomStatus.next(roomStatus));
+  }
+
   validateNewRoute(
     shortId: string,
     urlRole: UserRole,
@@ -373,9 +379,7 @@ export class SessionService {
         .subscribe((msg) => this.receiveMessage(msg, room));
       this._currentRoom.next(room);
       this._currentLivepollSession.next(room.livepollSession);
-      this.gptService
-        .getStatusForRoom(room.id)
-        .subscribe((roomStatus) => this._currentGPTRoomStatus.next(roomStatus));
+      this.updateStatus();
       this.moderatorService
         .get(room.id)
         .subscribe((moderators) => this._currentModerators.next(moderators));

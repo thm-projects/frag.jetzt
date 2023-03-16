@@ -1,0 +1,10 @@
+<h3>{{ "gptchat-info.title" | translate }}</h3>
+
+<mat-dialog-content>
+  <app-custom-markdown
+    [data]="'gptchat-info.content' | translate"></app-custom-markdown>
+</mat-dialog-content>
+
+<app-dialog-action-buttons
+  [buttonsLabelSection]="'gptchat-info'"
+  [cancelButtonClickAction]="onCancel"></app-dialog-action-buttons>

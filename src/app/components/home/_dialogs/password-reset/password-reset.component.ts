@@ -155,6 +155,7 @@ export class PasswordResetComponent implements OnInit, AfterViewInit {
   }
 
   setUsername(username: string) {
+    this.usernameFormControl.setValue(username);
     this.usernameFormControl2.setValue(username);
   }
 
@@ -200,72 +201,82 @@ export class PasswordResetComponent implements OnInit, AfterViewInit {
     }
   }
 
-  setNewPassword(email: string, key: string, password: string) {
-    if (
-      !this.usernameFormControl2.hasError('required') &&
-      !this.usernameFormControl2.hasError('email') &&
-      !this.passwordFormControl2.hasError('passwordIsEqual')
-    ) {
-      if (email !== '' && key !== '' && password !== '') {
-        this.authenticationService
-          .setNewPassword(email, key, password)
-          .subscribe({
-            next: () => {
-              this.translationService
-                .get('password-reset.new-password-successful')
-                .subscribe((message) => {
-                  this.notificationService.show(message);
-                });
-              this.closeDialog();
-            },
-            error: (errorCode: any) => {
-              if (errorCode === 'Key expired') {
-                this.translationService
-                  .get('password-reset.new-password-key-expired')
-                  .subscribe((message) => {
-                    this.notificationService.show(message);
-                  });
-              } else if (errorCode === 'Invalid Key') {
-                this.translationService
-                  .get('password-reset.new-password-key-invalid')
-                  .subscribe((message) => {
-                    this.notificationService.show(message);
-                  });
-              } else if (errorCode === LoginResult.PasswordTooCommon) {
-                this.translationService
-                  .get('register.register-error-password-too-common')
-                  .subscribe((message) => {
-                    this.notificationService.show(message);
-                  });
-              } else if (errorCode === LoginResult.NewPasswordIsOldPassword) {
-                this.translationService
-                  .get('password-reset.new-password-is-old')
-                  .subscribe((message) => {
-                    this.notificationService.show(message);
-                  });
-              } else {
-                this.translationService
-                  .get('register.register-request-error')
-                  .subscribe((message) => {
-                    this.notificationService.show(message);
-                  });
-              }
-            },
-          });
-      } else {
+  copyPassword() {
+    navigator.clipboard.writeText(this.passwordFormControl.value).then(
+      () => {
         this.translationService
-          .get('password-reset.input-incorrect')
-          .subscribe((message) => {
-            this.notificationService.show(message);
-          });
-      }
-    } else {
+          .get('password-generator.copy-success')
+          .subscribe((msg) => this.notificationService.show(msg));
+      },
+      (err) => {
+        console.error(err);
+        this.translationService
+          .get('password-generator.copy-fail')
+          .subscribe((msg) => this.notificationService.show(msg));
+      },
+    );
+  }
+
+  setNewPassword(email: string, key: string, password: string) {
+    if (!this.usernameFormControl2.valid) {
       this.translationService
         .get('password-reset.input-incorrect')
         .subscribe((message) => {
           this.notificationService.show(message);
         });
+      return;
     }
+    if (!email.trim() || !key.trim() || !password.trim()) {
+      this.translationService
+        .get('password-reset.input-incorrect')
+        .subscribe((message) => {
+          this.notificationService.show(message);
+        });
+      return;
+    }
+    this.authenticationService.setNewPassword(email, key, password).subscribe({
+      next: () => {
+        this.translationService
+          .get('password-reset.new-password-successful')
+          .subscribe((message) => {
+            this.notificationService.show(message);
+          });
+        this.dialogRef.close({ username: email, password });
+      },
+      error: (errorCode: any) => {
+        if (errorCode === LoginResult.KeyExpired) {
+          this.translationService
+            .get('password-reset.new-password-key-expired')
+            .subscribe((message) => {
+              this.notificationService.show(message);
+            });
+        } else if (errorCode === LoginResult.InvalidKey) {
+          this.translationService
+            .get('password-reset.new-password-key-invalid')
+            .subscribe((message) => {
+              this.notificationService.show(message);
+            });
+        } else if (errorCode === LoginResult.PasswordTooCommon) {
+          this.translationService
+            .get('register.register-error-password-too-common')
+            .subscribe((message) => {
+              this.notificationService.show(message);
+            });
+        } else if (errorCode === LoginResult.NewPasswordIsOldPassword) {
+          this.translationService
+            .get('password-reset.new-password-is-old')
+            .subscribe((message) => {
+              this.notificationService.show(message);
+            });
+        } else {
+          this.translationService
+            .get('register.register-request-error')
+            .subscribe((message) => {
+              this.notificationService.show(message);
+            });
+        }
+      },
+    });
   }
 
   /**

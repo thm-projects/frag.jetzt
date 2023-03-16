@@ -309,7 +309,8 @@
     "zoom-plus": "Agrandir la taille du texte",
     "zoom-reset": "Réinitialiser le niveau de zoom",
     "gpt-chat": "Chat avec GPT",
-    "gpt-privacy-policy": "ChatGPT Politique de confidentialité"
+    "gpt-privacy-policy": "ChatGPT Politique de confidentialité",
+    "gpt-prompts": "Prompts GPT prédéfinis"
   },
   "gpt-chat": {
     "optin-accept": "Accepter",
@@ -525,7 +526,7 @@
     "password-description": "Saisis ici le mot de passe que tu souhaites utiliser pour t'inscrire.",
     "password-description-repeat": "Saisis à nouveau le mot de passe que tu souhaites utiliser pour t'inscrire, afin de t'assurer que tu n'as pas fait de faute de frappe.",
     "password-required": "Mot de passe nécessaire",
-    "password-length-invalid": "Doit comporter 8 à 64 caractères",
+    "password-length-invalid": "Doit comporter 12 à 64 caractères",
     "password-no-number": "Doit contenir un nombre",
     "password-no-lowercase": "Doit contenir une lettre minuscule",
     "password-no-uppercase": "Doit contenir une majuscule",
@@ -552,7 +553,7 @@
     "duration": "Ton mot de passe aura été craqué au plus tôt {{text}}.",
     "copy-password": "Copier le mot de passe",
     "err-required": "Tu dois saisir un chiffre",
-    "err-min": "Le mot de passe doit avoir une longueur minimale de 8 caractères",
+    "err-min": "Le mot de passe doit avoir une longueur minimale de 12 caractères",
     "err-max": "Le mot de passe ne doit pas dépasser 64 caractères",
     "copy-success": "Mot de passe copié",
     "copy-fail": "Le mot de passe n'a pas pu être copié"
@@ -792,5 +793,59 @@
     "less": "Informel",
     "more": "Formel",
     "name": "Style"
+  },
+  "quill": {
+    "cancel": "Annuler",
+    "heading": "Saisie",
+    "preview": "Aperçu",
+    "tooltip-action": "Éditer",
+    "tooltip-action-save": "Enregistrer",
+    "tooltip-label": "Visiter le lien …",
+    "tooltip-label-formula": "Saisir une formule KaTeX, par exemple …",
+    "tooltip-label-image": "Saisir l'URL de l'image …",
+    "tooltip-label-link": "Saisir le lien …",
+    "tooltip-label-video": "Saisir l'URL d'une vidéo …",
+    "tooltip-placeholder-formula": "Nous soutenons le jeu de formules KaTeX.",
+    "tooltip-placeholder-image": "L'adresse de l'image doit commencer par https:// …",
+    "tooltip-placeholder-link": "L'adresse doit commencer par https://. …",
+    "tooltip-placeholder-video": "L'adresse de la vidéo doit commencer par https:// …",
+    "tooltip-remove": "Oui",
+    "tooltip-toolbar-blockquote": "Citer",
+    "tooltip-toolbar-bold": "En gras",
+    "tooltip-toolbar-italic": "En italique",
+    "tooltip-toolbar-code": "Marquer comme code source",
+    "tooltip-toolbar-color": "Couleur du texte",
+    "tooltip-toolbar-emote": "Insérer un emoji",
+    "tooltip-toolbar-formula": "Insérer une formule",
+    "tooltip-toolbar-image": "Insérer une image",
+    "tooltip-toolbar-link": "Lier le texte sélectionné",
+    "tooltip-toolbar-ordered-list": "Liste numérotée",
+    "tooltip-toolbar-strike": "Barrer",
+    "tooltip-toolbar-textcolor": "Couleur du texte",
+    "tooltip-toolbar-unordered-list": "Liste à puces",
+    "tooltip-toolbar-video": "Insérer une vidéo"
+  },
+  "chat-gptprompt-preset": {
+    "title": "Prompts pour ChatGPT",
+    "search-prompt": "Recherche de prompt ou nouvelle prompt",
+    "found-acts": "Résultats trouvés dans »Agir en tant que ...« ({{count}})",
+    "found-prompts": "Hits dans Prompts ({{count}})",
+    "token-info": "Jetons : {{promptTokens}}",
+    "placeholder-edit-preset": "Modifie ici ton prompt",
+    "save": "Enregistrer",
+    "delete": "Supprimer",
+    "an-error-occured": "Quelque chose a mal tourné !",
+    "delete-success": "Prompt a été supprimé.",
+    "add-success": "Prompt a été ajouté.",
+    "already-present": "Le prompt existe déjà, modifie son nom. Ou sélectionne le prompt correspondant.",
+    "patch-success": "Les modifications ont été enregistrées.",
+    "no-patch-needed": "Aucune modification n'a été apportée.",
+    "no-prompt-selected": "Aucune invite n'a été sélectionnée.",
+    "enter-prompt-name": "Veuillez saisir un nom."
+  },
+  "gptchat-info": {
+    "title": "Ton chatGPT",
+    "content": "# Encore quelques étapes à franchir !\n\nSi tu n'es pas encore enregistré, connecte-toi avec un compte et crée ta propre salle. Dans la salle, tu peux activer le chatbot à l'aide d'une [clé API](https://platform.openai.com/account/) d'OpenAI.\n\n## Tu es déjà inscrit ?\n\nDemande au propriétaire de la salle s'il peut utiliser ChatGPT dans ta salle. Il se peut que tu ne sois pas activé pour cela dans d'autres salles.",
+    "cancel": "Fermer"
   }
 }

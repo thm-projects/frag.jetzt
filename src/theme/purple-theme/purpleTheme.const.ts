@@ -38,6 +38,8 @@ export const purple = {
   '--questionwall-intro-primary': 'darkorange',
   '--questionwall-intro-secondary': '#eadabf',
   '--questionwall-intro-background': '#121212',
+
+  '--form-background': 'PowderBlue',
 };
 
 export const purple_meta: ThemeMeta = {

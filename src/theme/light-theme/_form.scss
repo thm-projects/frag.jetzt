@@ -32,6 +32,12 @@ mat-form-field.input-block {
   margin-bottom: 50px !important;
 }
 
+.snackbar-warn {
+  background-color: var(--yellow);
+  color: var(--black);
+  margin-bottom: 50px !important;
+}
+
 .snackbar.important {
   background-color: var(--red);
   color: var(--white);

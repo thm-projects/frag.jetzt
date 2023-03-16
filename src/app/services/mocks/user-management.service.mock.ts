@@ -11,10 +11,9 @@ import { AuthenticationServiceMock } from './authentication.service.mock';
 import { LoginResult, LoginResultArray } from '../http/authentication.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UserManagementServiceMock extends UserManagementService {
-
   constructor(
     private indexddb: NgxIndexedDBService,
     private config: ConfigurationService,
@@ -22,11 +21,24 @@ export class UserManagementServiceMock extends UserManagementService {
     private not: NotificationService,
     private auth: AuthenticationServiceMock,
   ) {
-    super(auth, indexddb, config, trans, not, null, null, null);
+    super(auth, indexddb, config, trans, not, null, null, null, null, null);
     this.setInitialized();
-    const user = new User(generateConsequentlyUUID(), 'test@test.de', 'registered', '', UserRole.PARTICIPANT, false);
-    this._guestUser = new User(generateConsequentlyUUID(), '', 'guest', '', UserRole.PARTICIPANT, false);
-    this.onReceive(user, [LoginResult.Success, user] as LoginResultArray).subscribe();
+    const user = new User({
+      id: generateConsequentlyUUID(),
+      loginId: 'test@test.de',
+      type: 'registered',
+      role: UserRole.PARTICIPANT,
+      isGuest: false,
+    });
+    this._guestUser = new User({
+      id: generateConsequentlyUUID(),
+      type: 'guest',
+      role: UserRole.PARTICIPANT,
+      isGuest: true,
+    });
+    this.onReceive(user, [
+      LoginResult.Success,
+      user,
+    ] as LoginResultArray).subscribe();
   }
-
 }

@@ -212,6 +212,7 @@ a {
 
 .mat-dialog-container {
   max-width: 95vw !important;
+  max-height: 95vh !important;
   width: 650px;
   line-height: 1.5 !important;
   border: thin solid dimgray;
@@ -262,6 +263,12 @@ a {
 .mat-form-field-label,
 .mat-hint {
   color: var(--on-dialog) !important;
+}
+
+.mat-form-field .mat-form-field-flex {
+  background-color: var(--form-background) !important;
+  border-radius: 10px 10px 0 0 !important;
+  padding: 5px !important;
 }
 
 .mat-form-field-appearance-legacy
@@ -408,6 +415,8 @@ blockquote {
 
 .mat-dialog-content {
   padding: 0 24px 1em 24px !important;
+  overflow-y: scroll !important;
+  max-height: 50vh !important;
 }
 
 @media screen and (min-width: 800px) {
@@ -436,10 +445,6 @@ blockquote {
     -ms-overflow-style: none; /* for Internet Explorer, Edge */
     scrollbar-width: none; /* for Firefox */
     overflow-y: scroll;
-  }
-
-  ::-webkit-scrollbar {
-    display: none; /* for Chrome, Safari, and Opera */
   }
 }
 

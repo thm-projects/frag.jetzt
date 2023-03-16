@@ -1,6 +1,8 @@
+import { UUID } from 'app/utils/ts-utils';
+
 export class BrainstormingWord {
-  id: string;
-  sessionId: string;
+  id: UUID;
+  sessionId: UUID;
   word: string;
   upvotes: number;
   downvotes: number;
@@ -11,8 +13,8 @@ export class BrainstormingWord {
   correctedWord: string;
 
   constructor({
-    id = '',
-    sessionId = '',
+    id = null,
+    sessionId = null,
     word = '',
     upvotes = 0,
     downvotes = 0,
