@@ -10,6 +10,7 @@ import { LivepollSession } from 'app/models/livepoll-session';
 import { verifyInstance } from 'app/utils/ts-utils';
 import { BaseHttpService } from './base-http.service';
 import { take } from 'rxjs/operators';
+import { LivepollVote } from 'app/models/livepoll-vote';
 
 export interface LivepollSessionCreateAPI {
   template: string;
@@ -17,6 +18,10 @@ export interface LivepollSessionCreateAPI {
   resultVisible: boolean;
   viewsVisible: boolean;
   roomId: string;
+  customEntries: {
+    icon: string;
+    text: string;
+  }[];
 }
 
 export interface LivepollSessionPatchAPI {
@@ -24,6 +29,11 @@ export interface LivepollSessionPatchAPI {
   title: string | null;
   resultVisible: boolean;
   viewsVisible: boolean;
+  paused: boolean;
+  customEntries: {
+    icon: string;
+    text: string;
+  }[];
 }
 
 const httpOptions = {
@@ -68,6 +78,47 @@ export class LivepollService extends BaseHttpService {
         tap(() => ''),
         map((e) => verifyInstance(LivepollSession, e)),
         catchError(this.handleError<LivepollSession>('update')),
+      );
+  }
+
+  getVote(livepollId: string): Observable<LivepollVote> {
+    return this.http
+      .get<LivepollVote>('/api/livepoll/vote/' + livepollId, httpOptions)
+      .pipe(
+        tap(() => ''),
+        map((e) => verifyInstance(LivepollVote, e)),
+        catchError(this.handleError<LivepollVote>('getVote')),
+      );
+  }
+
+  makeVote(livepollId: string, voteIndex: number): Observable<void> {
+    return this.http
+      .post<never>(
+        '/api/livepoll/vote/' + livepollId,
+        { voteIndex },
+        httpOptions,
+      )
+      .pipe(
+        tap(() => ''),
+        catchError(this.handleError<void>('makeVote')),
+      );
+  }
+
+  deleteVote(livepollId: string): Observable<void> {
+    return this.http
+      .delete<never>('/api/livepoll/vote/' + livepollId, httpOptions)
+      .pipe(
+        tap(() => ''),
+        catchError(this.handleError<void>('deleteVote')),
+      );
+  }
+
+  getResults(livepollId: string): Observable<number[]> {
+    return this.http
+      .get<number[]>('/api/livepoll/votes/' + livepollId, httpOptions)
+      .pipe(
+        tap(() => ''),
+        catchError(this.handleError<number[]>('getVote')),
       );
   }
 

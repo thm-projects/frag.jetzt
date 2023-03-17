@@ -6,7 +6,7 @@ import {
   HttpHandler,
   HttpInterceptor,
   HttpRequest,
-  HttpResponse
+  HttpResponse,
 } from '@angular/common/http';
 import { NotificationService } from '../services/util/notification.service';
 import { Router } from '@angular/router';
@@ -19,13 +19,14 @@ const AUTH_SCHEME = 'Bearer';
 
 @Injectable()
 export class AuthenticationInterceptor implements HttpInterceptor {
-
   static readonly AUTH_ROUTES = [
     {
       allow: /^\/api(\/|$)/g,
       blacklist: [
         /^\/api\/ws\/websocket(\/|$)/g,
         /^\/api\/roomsubscription(\/|$)/g,
+        /^\/api\/livepollsubscription(\/|$)/g,
+        /^\/api\/stats(\/|$)/g,
         /^\/api\/login\/guest(\/|$)/g,
         /^\/api\/login\/registered(\/|$)/g,
         /^\/api\/login(\/|$)/g,
@@ -34,8 +35,8 @@ export class AuthenticationInterceptor implements HttpInterceptor {
         /^\/api\/user\/[^/]+\/resetactivation(\/|$)/g,
         /^\/api\/user\/[^\/]+\/resetpassword(\/|$)/g,
         /^\/api\/rating\/accumulated(\/|$)/g,
-      ]
-    }
+      ],
+    },
   ];
 
   constructor(
@@ -43,10 +44,12 @@ export class AuthenticationInterceptor implements HttpInterceptor {
     private notificationService: NotificationService,
     private router: Router,
     private translateService: TranslateService,
-  ) {
-  }
+  ) {}
 
-  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+  intercept(
+    req: HttpRequest<any>,
+    next: HttpHandler,
+  ): Observable<HttpEvent<any>> {
     if (!this.userManagementService.isLoggedIn()) {
       return next.handle(req);
     }
@@ -57,26 +60,31 @@ export class AuthenticationInterceptor implements HttpInterceptor {
     }
 
     const decodedUrl = req.url;
-    const needsAuthentication = AuthenticationInterceptor.AUTH_ROUTES.some(route =>
-      decodedUrl.match(route.allow) && !route.blacklist.some(entry => decodedUrl.match(entry)));
+    const needsAuthentication = AuthenticationInterceptor.AUTH_ROUTES.some(
+      (route) =>
+        decodedUrl.match(route.allow) &&
+        !route.blacklist.some((entry) => decodedUrl.match(entry)),
+    );
     if (!needsAuthentication) {
       return next.handle(req);
     }
     const cloned = req.clone({
-      headers: req.headers.set(AUTH_HEADER_KEY, `${AUTH_SCHEME} ${token}`)
+      headers: req.headers.set(AUTH_HEADER_KEY, `${AUTH_SCHEME} ${token}`),
     });
 
-    return next.handle(cloned).pipe(tap({
-      next: (event: HttpEvent<any>) => {
-        if (event instanceof HttpResponse) {
-          // Possible to do something with the response here
-        }
-      },
-      error: (err: any) => {
-        if (err instanceof HttpErrorResponse) {
-          // Possible to do something with the response here
-        }
-      }
-    }));
+    return next.handle(cloned).pipe(
+      tap({
+        next: (event: HttpEvent<any>) => {
+          if (event instanceof HttpResponse) {
+            // Possible to do something with the response here
+          }
+        },
+        error: (err: any) => {
+          if (err instanceof HttpErrorResponse) {
+            // Possible to do something with the response here
+          }
+        },
+      }),
+    );
   }
 }
