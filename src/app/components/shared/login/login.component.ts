@@ -209,9 +209,11 @@ export class LoginComponent implements OnInit, OnChanges {
       return;
     }
     if (
-      [LoginResult.SessionExpired, LoginResult.FailureException].includes(
-        loginResult[0],
-      )
+      [
+        LoginResult.SessionExpired,
+        LoginResult.FailureException,
+        LoginResult.DisabledException,
+      ].includes(loginResult[0])
     ) {
       this.translationService
         .get('login.login-data-incorrect')

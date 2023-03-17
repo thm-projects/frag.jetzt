@@ -789,7 +789,7 @@
   },
   "gptchat-info": {
     "title": "ChatGPT",
-    "content": "### Plus que quelques étapes !\n\nSi t'es pas encore inscrit, crée-toi un compte. Pour activer le chatbot dans ta propre salle, tu as besoin d'une clé API d'OpenAI. Tu peux commencer avec un crédit gratuit de 5 $, valable pendant les 3 premiers mois. Selon le modèle de langage, tu peux consommer entre 250 000 et 2,5 millions de tokens avec ça.\n\n### T'es connecté dans une salle que t'as pas créée toi-même ?\n\nDemande à la propriétaire ou au propriétaire de la salle s'ils veulent activer ChatGPT avec une clé API.",
+    "content": "ChatGPT est la solution parfaite pour répondre automatiquement à toutes les questions du forum Q&R. Tu peux facilement créer tes propres prompts ou choisir le prompt qui te convient parmi des centaines de prompts prédéfinis. Pour utiliser ChatGPT, tu as seulement besoin d'un compte chez frag.jetzt et d'une clé API de OpenAI.\n\nC'est aussi simple que ça, en deux étapes seulement:\n\n1. Inscris-toi sur frag.jetzt, crée un compte et réserve une salle.\n\n2. Dépose la clé API d'OpenAI dans le menu d'options de ta salle et c'est parti!\n\nTa clé API est stockée en toute sécurité sur notre serveur et ton mot de passe frag.jetzt est également sécurisé. De plus, tu peux limiter dans le temps le contingent de tokens et tes coûts API si tu veux autoriser ChatGPT à être utilisé dans ta salle. Tu trouveras tous les paramètres nécessaires dans le menu d'options de ta salle.\n\nDémarre maintenant avec un crédit gratuit de 5 $ que tu peux utiliser pendant les 3 premiers mois. Selon le modèle linguistique, tu peux ainsi consommer entre 250 000 et 12,5 millions de tokens.",
     "cancel": "Fermer"
   }
 }
