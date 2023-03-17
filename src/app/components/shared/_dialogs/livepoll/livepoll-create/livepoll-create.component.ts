@@ -68,6 +68,7 @@ export class LivepollCreateComponent implements OnDestroy {
         title: this.livepollConfiguration.title,
         resultVisible: this.livepollConfiguration.resultVisible,
         viewsVisible: this.livepollConfiguration.viewsVisible,
+        customEntries: [],
       })
       .subscribe();
   }
