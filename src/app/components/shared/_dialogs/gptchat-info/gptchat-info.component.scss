@@ -1,3 +1,5 @@
-app-custom-markdown ::ng-deep h1 {
-  font-size: 2em !important;
+app-custom-markdown ::ng-deep {
+  ol {
+    padding-inline-start: 1.5em;
+  }
 }
