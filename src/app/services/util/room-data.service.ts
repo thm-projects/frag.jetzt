@@ -1,5 +1,11 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, forkJoin, Observable, Subject, takeUntil } from 'rxjs';
+import {
+  BehaviorSubject,
+  forkJoin,
+  Observable,
+  Subject,
+  takeUntil,
+} from 'rxjs';
 import { WsCommentService } from '../websockets/ws-comment.service';
 import { Comment } from '../../models/comment';
 import { CommentService } from '../http/comment.service';
@@ -7,7 +13,10 @@ import { ProfanityFilterService } from './profanity-filter.service';
 import { Room } from '../../models/room';
 import { SessionService } from './session.service';
 import { UserRole } from '../../models/user-roles.enum';
-import { CommentFilterData, RoomDataProfanityFilter } from './room-data.profanity-filter';
+import {
+  CommentFilterData,
+  RoomDataProfanityFilter,
+} from './room-data.profanity-filter';
 import { ActiveUserService } from '../http/active-user.service';
 import { BookmarkService } from '../http/bookmark.service';
 import { Bookmark } from '../../models/bookmark';
@@ -20,10 +29,9 @@ export interface BookmarkAccess {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class RoomDataService {
-
   public readonly dataAccessor: DataAccessor;
   public readonly moderatorDataAccessor: DataAccessor;
   private _canAccessModerator = false;
@@ -45,12 +53,14 @@ export class RoomDataService {
     this.dataAccessor = new DataAccessor(this, true, commentService);
     this.moderatorDataAccessor = new DataAccessor(this, false, commentService);
     let lastRoom = null;
-    this.sessionService.getRoom().subscribe(room => {
+    this.sessionService.getRoom().subscribe((room) => {
       lastRoom = room;
       this.onRoomUpdate(room);
     });
-    this.userManagementService.getUser().subscribe(_ => this.onRoomUpdate(lastRoom));
-    this.sessionService.getRole().subscribe(role => {
+    this.userManagementService
+      .getUser()
+      .subscribe((_) => this.onRoomUpdate(lastRoom));
+    this.sessionService.getRole().subscribe((role) => {
       this.dataAccessor.updateCurrentRole(role);
       this.moderatorDataAccessor.updateCurrentRole(role);
     });
@@ -64,43 +74,66 @@ export class RoomDataService {
     return this._currentUserCount.asObservable();
   }
 
-  applyStateToComment(comment: Comment, beforeFilter: boolean, isModeration = false) {
-    const source = isModeration ? this.moderatorDataAccessor.getDataById(comment.id) : this.dataAccessor.getDataById(comment.id);
+  applyStateToComment(
+    comment: Comment,
+    beforeFilter: boolean,
+    isModeration = false,
+  ) {
+    const source = isModeration
+      ? this.moderatorDataAccessor.getDataById(comment.id)
+      : this.dataAccessor.getDataById(comment.id);
     const data = beforeFilter ? source.beforeFiltering : source.afterFiltering;
     RoomDataProfanityFilter.applyToComment(comment as ForumComment, data);
     source.filtered = !beforeFilter;
   }
 
   isCommentProfane(comment: Comment, isModeration = false): boolean {
-    const source = isModeration ? this.moderatorDataAccessor.getDataById(comment.id) : this.dataAccessor.getDataById(comment.id);
+    const source = isModeration
+      ? this.moderatorDataAccessor.getDataById(comment.id)
+      : this.dataAccessor.getDataById(comment.id);
     return source?.hasProfanity;
   }
 
   checkCommentProfanity(comment: Comment): boolean {
     const id = comment.id;
-    return Boolean((this.dataAccessor.getDataById(id) || this.moderatorDataAccessor.getDataById(id))?.hasProfanity);
+    return Boolean(
+      (
+        this.dataAccessor.getDataById(id) ||
+        this.moderatorDataAccessor.getDataById(id)
+      )?.hasProfanity,
+    );
   }
 
   isCommentCensored(comment: Comment, isModeration = false): boolean {
-    const source = isModeration ? this.moderatorDataAccessor.getDataById(comment.id) : this.dataAccessor.getDataById(comment.id);
+    const source = isModeration
+      ? this.moderatorDataAccessor.getDataById(comment.id)
+      : this.dataAccessor.getDataById(comment.id);
     return source?.filtered;
   }
 
-  getCensoredInformation(comment: Comment, isModeration = false): CommentFilterData {
-    const source = isModeration ? this.moderatorDataAccessor.getDataById(comment.id) : this.dataAccessor.getDataById(comment.id);
+  getCensoredInformation(
+    comment: Comment,
+    isModeration = false,
+  ): CommentFilterData {
+    const source = isModeration
+      ? this.moderatorDataAccessor.getDataById(comment.id)
+      : this.dataAccessor.getDataById(comment.id);
     return source?.afterFiltering;
   }
 
   getCommentReference(id: string): ForumComment {
-    return (this.dataAccessor.getDataById(id) || this.moderatorDataAccessor.getDataById(id))?.comment;
+    return (
+      this.dataAccessor.getDataById(id) ||
+      this.moderatorDataAccessor.getDataById(id)
+    )?.comment;
   }
 
   toggleBookmark(comment: Comment) {
     comment.bookmark = !comment.bookmark;
     if (comment.bookmark) {
       this.bookmarkService.create({ commentId: comment.id }).subscribe({
-        next: bookmark => this._userBookmarks[comment.id] = bookmark,
-        error: _ => comment.bookmark = !comment.bookmark
+        next: (bookmark) => (this._userBookmarks[comment.id] = bookmark),
+        error: (_) => (comment.bookmark = !comment.bookmark),
       });
       return;
     }
@@ -109,8 +142,8 @@ export class RoomDataService {
       return;
     }
     this.bookmarkService.delete(id).subscribe({
-      next: _ => this._userBookmarks[comment.id] = undefined,
-      error: _ => comment.bookmark = !comment.bookmark
+      next: (_) => (this._userBookmarks[comment.id] = undefined),
+      error: (_) => (comment.bookmark = !comment.bookmark),
     });
   }
 
@@ -146,7 +179,7 @@ export class RoomDataService {
 
   onUnregister(commentId: string): Observable<string> {
     return this._commentUISubscriber.pipe(
-      filter(v => v === commentId),
+      filter((v) => v === commentId),
       take(1),
     );
   }
@@ -159,56 +192,89 @@ export class RoomDataService {
     this._destroyer = new Subject<any>();
     const currentDestroyer = this._destroyer;
     this._commentUISubscriber = new Subject();
-    this.activeUserService.getActiveUser(room)
+    this.activeUserService
+      .getActiveUser(room)
       .pipe(takeUntil(currentDestroyer))
       .subscribe(([count]) => this._currentUserCount.next(String(count || 0)));
-    const userRole = this.userManagementService.getCurrentUser()?.role || UserRole.PARTICIPANT;
+    const userRole =
+      this.userManagementService.getCurrentUser()?.role || UserRole.PARTICIPANT;
     this._canAccessModerator = userRole > UserRole.PARTICIPANT;
-    this.wsCommentService.getCommentStream(room.id).pipe(takeUntil(currentDestroyer)).subscribe(message => {
-      const msg = JSON.parse(message.body);
-      const payload = msg.payload;
-      if (!payload) {
-        this._currentUserCount.next(String(msg['UserCountChanged'].userCount));
-        return;
-      }
-      this.dataAccessor.receiveMessage(msg);
-    });
-    if (this._canAccessModerator) {
-      this.wsCommentService.getModeratorCommentStream(room.id).pipe(takeUntil(currentDestroyer)).subscribe(message => {
+    this.wsCommentService
+      .getCommentStream(room.id, userRole)
+      .pipe(takeUntil(currentDestroyer))
+      .subscribe((message) => {
         const msg = JSON.parse(message.body);
         const payload = msg.payload;
         if (!payload) {
-          this._currentUserCount.next(String(msg['UserCountChanged'].userCount));
+          this._currentUserCount.next(
+            String(msg['UserCountChanged'].userCount),
+          );
           return;
         }
-        this.moderatorDataAccessor.receiveMessage(msg);
+        this.dataAccessor.receiveMessage(msg);
       });
+    if (this._canAccessModerator) {
+      this.wsCommentService
+        .getModeratorCommentStream(room.id)
+        .pipe(takeUntil(currentDestroyer))
+        .subscribe((message) => {
+          const msg = JSON.parse(message.body);
+          const payload = msg.payload;
+          if (!payload) {
+            this._currentUserCount.next(
+              String(msg['UserCountChanged'].userCount),
+            );
+            return;
+          }
+          this.moderatorDataAccessor.receiveMessage(msg);
+        });
     }
-    const profanityFilter = new RoomDataProfanityFilter(this.profanityFilterService, room);
+    const profanityFilter = new RoomDataProfanityFilter(
+      this.profanityFilterService,
+      room,
+    );
     forkJoin([
       this.bookmarkService.getByRoomId(this.sessionService.currentRoom.id),
       this.sessionService.getModeratorsOnce(),
     ]).subscribe(([bookmarks, moderators]) => {
-      bookmarks.forEach(b => this._userBookmarks[b.commentId] = b);
-      const moderatorIds = new Set(moderators.map(m => m.accountId));
-      this.commentService.getAckComments(room.id).pipe(takeUntil(currentDestroyer)).subscribe(comments => {
-        this.dataAccessor.pushNewRoomComments(
-          comments, profanityFilter, moderatorIds, room.ownerId, userRole, this._userBookmarks
-        );
-      });
-      this.commentService.getRejectedComments(room.id).pipe(takeUntil(currentDestroyer)).subscribe(comments => {
-        this.moderatorDataAccessor.pushNewRoomComments(
-          comments, profanityFilter, moderatorIds, room.ownerId, userRole, this._userBookmarks
-        );
-      });
+      bookmarks.forEach((b) => (this._userBookmarks[b.commentId] = b));
+      const moderatorIds = new Set(moderators.map((m) => m.accountId));
+      this.commentService
+        .getAckComments(room.id)
+        .pipe(takeUntil(currentDestroyer))
+        .subscribe((comments) => {
+          this.dataAccessor.pushNewRoomComments(
+            comments,
+            profanityFilter,
+            moderatorIds,
+            room.ownerId,
+            userRole,
+            this._userBookmarks,
+          );
+        });
+      this.commentService
+        .getRejectedComments(room.id)
+        .pipe(takeUntil(currentDestroyer))
+        .subscribe((comments) => {
+          this.moderatorDataAccessor.pushNewRoomComments(
+            comments,
+            profanityFilter,
+            moderatorIds,
+            room.ownerId,
+            userRole,
+            this._userBookmarks,
+          );
+        });
     });
     let hasChanges = false;
-    this.sessionService.receiveRoomUpdates(true)
+    this.sessionService
+      .receiveRoomUpdates(true)
       .pipe(takeUntil(currentDestroyer))
-      .subscribe(r => {
+      .subscribe((r) => {
         hasChanges = Object.keys(r).includes('profanityFilter');
       });
-    this.sessionService.receiveRoomUpdates()
+    this.sessionService
+      .receiveRoomUpdates()
       .pipe(takeUntil(currentDestroyer))
       .subscribe(() => {
         if (hasChanges) {
@@ -241,5 +307,3 @@ export class RoomDataService {
     this._destroyer = null;
   }
 }
-
-

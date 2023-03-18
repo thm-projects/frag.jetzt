@@ -20,6 +20,8 @@ export enum LoginResult {
   PasswordTooCommon,
   InvalidKey,
   KeyExpired,
+  AccessDenied,
+  DisabledException,
 }
 
 const ERROR_TABLE = {
@@ -29,6 +31,8 @@ const ERROR_TABLE = {
   'Key expired': LoginResult.KeyExpired,
   'Invalid Key': LoginResult.InvalidKey,
   'New password is old password': LoginResult.NewPasswordIsOldPassword,
+  'Access denied': LoginResult.AccessDenied,
+  DisabledException: LoginResult.DisabledException,
 } as const;
 
 export type LoginResultArray = [LoginResult, User];
@@ -247,7 +251,7 @@ export class AuthenticationService extends BaseHttpService {
       }),
       catchError((e) => {
         // check if user needs activation
-        console.log(e.status, e.error?.message, e);
+        console.error(e.status, e.error?.message, e);
         return this.catchErrors(e);
       }),
     );
@@ -259,7 +263,7 @@ export class AuthenticationService extends BaseHttpService {
     }
     const msg = e.error?.message;
     const err = ERROR_TABLE[msg];
-    if (!err) {
+    if (err !== undefined && err !== null) {
       return of([err, null] as LoginResultArray);
     }
     console.error(e);
