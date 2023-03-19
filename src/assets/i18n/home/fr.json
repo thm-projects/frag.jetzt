@@ -175,7 +175,7 @@
   },
   "header": {
     "livepoll": "Sondage en direct",
-    "livepoll-button": "Créer des sondages et notifier automatiquement tous les participants. Les résultats de deux sondages peuvent être comparés ultérieurement",
+    "livepoll-button": "Créer des sondages et notifier automatiquement tous les participants.",
     "back-button": "Retour",
     "tour-button": "Introduction de 2 minutes",
     "sign-in-button": "Se connecter avec un compte",
@@ -234,7 +234,7 @@
     "direct-link": "Lien direct",
     "edit-moderator": "Modérateur",
     "edit-session-description": "Texte de bienvenue",
-    "gpt-settings": "Paramètres GPT",
+    "gpt-settings": "Paramètres ChatGPT",
     "edit-tags": "Catégories de questions",
     "export-questions": "Exporter les Q&R",
     "fullscreen": "Plein écran & taille du texte",
@@ -308,7 +308,7 @@
     "zoom-minus": "Réduire la taille du texte",
     "zoom-plus": "Agrandir la taille du texte",
     "zoom-reset": "Réinitialiser le niveau de zoom",
-    "gpt-chat": "Chat avec GPT",
+    "gpt-chat": "Chat avec ChatGPT",
     "gpt-privacy-policy": "ChatGPT Politique de confidentialité",
     "gpt-prompts": "Prompts GPT prédéfinis"
   },
@@ -726,7 +726,7 @@
     "questions-title": "Quelles sont les questions que tu aimerais avoir sur le radar ?"
   },
   "unsupported-browser": {
-    "body": "Les fonctionnalités « Tour de l'onboarding », « Focus sur les questions », « Horloge à saut de minutes », « Plein écran et mise à l'échelle du texte » ainsi que certaines options d'affichage ne sont pas disponibles dans le navigateur Safari. S'il te plaît, utilise Google Chrome, Mozilla Firefox ou Microsoft Edge.",
+    "body": "Malheureusement, le navigateur Safari ne prend pas en charge toutes les fonctionnalités de la norme CSS nécessaires aux fonctions « Focalisation des questions » et « Plein écran et mise à l'échelle du texte ». Nous vous recommandons donc d'utiliser Google Chrome ou Microsoft Edge.",
     "close": "Continuer quand même",
     "title": "Remarque Safari"
   },
@@ -846,7 +846,7 @@
   },
   "gptchat-info": {
     "title": "ChatGPT",
-    "content": "ChatGPT est la solution parfaite pour répondre automatiquement à toutes les questions du forum Q&R. Tu peux facilement créer tes propres prompts ou choisir le prompt qui te convient parmi des centaines de prompts prédéfinis. Pour utiliser ChatGPT, tu as seulement besoin d'un compte chez frag.jetzt et d'une clé API de OpenAI.\n\nC'est aussi simple que ça, en deux étapes seulement:\n\n1. Inscris-toi sur frag.jetzt, crée un compte et réserve une salle.\n\n2. Dépose la clé API d'OpenAI dans le menu d'options de ta salle et c'est parti!\n\nTa clé API est stockée en toute sécurité sur notre serveur et ton mot de passe frag.jetzt est également sécurisé. De plus, tu peux limiter dans le temps le contingent de tokens et tes coûts API si tu veux autoriser ChatGPT à être utilisé dans ta salle. Tu trouveras tous les paramètres nécessaires dans le menu d'options de ta salle.\n\nDémarre maintenant avec un crédit gratuit de 5 $ que tu peux utiliser pendant les 3 premiers mois. Selon le modèle linguistique, tu peux ainsi consommer entre 250 000 et 12,5 millions de tokens.",
+    "content": "ChatGPT est la solution parfaite pour répondre automatiquement à une question dans le forum Q&A. Tu peux même créer tes propres prompts ou choisir parmi des centaines de prompts prédéfinis celui qui convient le mieux. Pour utiliser ChatGPT, tu n'as besoin que d'un compte sur frag.jetzt et d'une [clé API d'OpenAI](https://platform.openai.com).\n\nVoici comment ça marche en seulement deux étapes:\n\n1. Inscris-toi sur frag.jetzt, connecte-toi et réserve une salle.\n\n2. Ajoute la [clé API d'OpenAI](https://platform.openai.com) dans le menu Options de ta salle et c'est parti !\n\nTa clé API est stockée en sécurité sur notre serveur et ton mot de passe frag.jetzt est également en sécurité. De plus, tu peux limiter le nombre de tokens et les coûts de ton API sur une durée limitée si tu veux utiliser ChatGPT dans ta salle. Tu trouveras toutes les options dans le menu Options de ta salle.\n\nCommence dès maintenant avec un crédit de 5 $ que tu peux utiliser pendant les trois premiers mois. Selon le modèle de langue que tu choisis, tu peux utiliser ce crédit pour des millions de tokens (1 token correspond à environ 5-7 caractères) pour des demandes ChatGPT.",    
     "cancel": "Fermer"
   }
 }

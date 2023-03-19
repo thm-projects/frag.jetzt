@@ -1,8 +1,8 @@
 {
   "overview": {
     "motd": "Annonces globales",
-    "gpt": "Paramètres GPT",
-    "gpt-chat": "Chat avec GPT",
+    "gpt": "Paramètres ChatGPT",
+    "gpt-chat": "Chat avec ChatGPT",
     "gpt-prompts": "Prompts globaux"
   },
   "create-motd": {
@@ -28,7 +28,7 @@
     "tooltip-button" : "Guide de prompt"
   },
   "gpt-config": {
-    "title": "Paramètres GPT & test API",
+    "title": "Paramètres ChatGPT & test API",
     "api-key": "API Key",
     "organization": "Organisation",
     "next": "Continuer",

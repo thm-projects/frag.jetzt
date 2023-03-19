@@ -1,7 +1,7 @@
 {
   "overview": {
     "motd": "Globale Ankündigungen",
-    "gpt": "GPT-Einstellungen",
+    "gpt": "ChatGPT-Einstellungen",
     "gpt-chat": "Chat mit ChatGPT",
     "gpt-prompts": "Globale Prompts"
   },
@@ -28,7 +28,7 @@
     "tooltip-button" : "Prompt Guide"
   },
   "gpt-config": {
-    "title": "GPT-Einstellungen & API-Test",
+    "title": "ChatGPT-Einstellungen & API-Test",
     "api-key": "API Key",
     "organization": "Organisation",
     "next": "Weiter",
@@ -63,7 +63,7 @@
     "optin-accept": "Akzeptieren",
     "optin-reject": "Ablehnen",
     "privacy-policy": "Datenschutzerklärung für die Nutzung der OpenAI API",
-    "input-forbidden": "Bitte prüfe die GPT-Einstellungen.",
+    "input-forbidden": "Bitte prüfe die ChatGPT-Einstellungen.",
     "no-api-setup": "Der API-Schlüssel oder das Sprachmodell wurden nicht gesetzt.",
     "greetings": {
       "text-davinci-003": [

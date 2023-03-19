@@ -202,7 +202,7 @@
     "preview-in-mock": "Smartphone preview",
     "questioner-name": "Self assigned name",
     "reply-comment-button": "Write reply",
-    "reply-AI": "Let AI respond",
+    "reply-AI": "Let ChatGPT answer",
     "save-answer": "Save",
     "search-box-input-description": "Here you can search for questions.",
     "send": "Send",
@@ -353,7 +353,7 @@
     "motd": "News",
     "logout": "Log out",
     "livepoll": "Live Poll",
-    "livepoll-button": "Create surveys and automatically notify all participants. The results of two surveys can be compared later."
+    "livepoll-button": "Create surveys and automatically notify all participants."
   },
   "home-page": {
     "exactly-8": "A key is a combination of 8 digits.",
@@ -789,7 +789,7 @@
   },
   "gptchat-info": {
     "title": "ChatGPT",
-    "content": "ChatGPT is the perfect solution for automatically answering all your Q&A forum questions. You can easily create your own prompts or choose from hundreds of predefined prompts. All you need to use ChatGPT is an account at frag.jetzt and an API key from OpenAI.\n\nIt's as easy as two steps:\n\n1. Register with frag.jetzt, create an account and book a room.\n\n2. Enter the OpenAI API key in the options menu of your room and you are ready to go!\n\nYour API key is securely stored on our server, as is your frag.jetzt password. You can also set a time limit on your token quota and your API cost if you want to enable ChatGPT for use in your room. All these settings can be found in the options menu of your room.\n\nStart now with a free $5 credit that you can use for the first 3 months. Depending on the language model, you can use between 250,000 and 12.5 million tokens.",
+    "content": "ChatGPT is the perfect solution to automatically answer a question in the Q&A forum. You can also create your own prompts or choose from hundreds of predefined prompts that best fit your needs. To use ChatGPT, you only need an account on frag.jetzt and an [API key from OpenAI](https://platform.openai.com).\n\nHere's how it works in just two steps:\n\n1. Register on frag.jetzt, sign in, and book a room.\n\n2. Add the OpenAI API key in the options menu of your room and you're good to go!\n\nYour API key is securely stored on our server and your frag.jetzt password is also secure. Additionally, you can limit the token quota and API costs for a limited time if you want to make ChatGPT available for use in your room. You can find all the settings in the options menu of your room.\n\nStart now with a $5 credit that you can use for the first 3 months. Depending on the language model you choose, you can consume several million tokens (1 token is approximately 5-7 characters) for ChatGPT requests with this credit.",    
     "cancel": "Close"
   }
 }

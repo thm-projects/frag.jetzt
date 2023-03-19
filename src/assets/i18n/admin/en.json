@@ -1,8 +1,8 @@
 {
   "overview": {
     "motd": "Global announcements",
-    "gpt": "GPT settings",
-    "gpt-chat": "Chat with GPT",
+    "gpt": "ChatGPT settings",
+    "gpt-chat": "Chat with ChatGPT",
     "gpt-prompts": "Global Prompts"
   },
   "create-motd": {
