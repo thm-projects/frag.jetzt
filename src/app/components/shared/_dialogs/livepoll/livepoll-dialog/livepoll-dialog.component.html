@@ -110,42 +110,46 @@
       </ng-container>
     </div>
   </div>
-  <ng-container *ngIf="session.currentRole">
-    <ng-container *ngTemplateOutlet="callToActionContainer"></ng-container>
-  </ng-container>
 </mat-dialog-content>
 
 <mat-dialog-actions *ngIf="isProduction">
   <button
     mat-flat-button
     class="button-cancel"
+    *ngIf="isProduction"
     (click)="closeEmitter.emit()">
     <span>{{ translateKey + ".close" | translate }}</span>
   </button>
-</mat-dialog-actions>
-
-<ng-template #callToActionContainer>
-  <div class="cta-container">
-    <button
-      mat-flat-button
-      class="button-primary-filled"
-      [matTooltip]="
-        translateKey + '.creator-settings-' + (isActive ? 'pause' : 'continue')
+  <div style="flex-grow: 1"></div>
+  <button
+    mat-flat-button
+    class="button-cancel"
+    *ngIf="session.currentRole && isProduction"
+    [matTooltip]="translateKey + '.creator-settings-delete-tooltip' | translate"
+    (click)="delete()">
+    <mat-icon>stop</mat-icon>
+    <span *ngIf="device.isCurrentlyDesktop">
+      {{ translateKey + ".creator-settings-delete" | translate }}
+    </span>
+  </button>
+  <button
+    mat-flat-button
+    class="button-primary-filled"
+    [matTooltip]="
+      translateKey + '.creator-settings-' + (isActive ? 'pause' : 'continue')
+        | translate
+    "
+    *ngIf="session.currentRole"
+    (click)="setActive(!isActive)">
+    <mat-icon>{{ isActive ? "pause" : "play_arrow" }}</mat-icon>
+    <span *ngIf="device.isCurrentlyDesktop">
+      {{
+        translateKey + ".creator-settings-" + (isActive ? "pause" : "continue")
           | translate
-      "
-      *ngIf="isProduction"
-      (click)="setActive(!isActive)">
-      <mat-icon>{{ isActive ? "pause" : "play_arrow" }}</mat-icon>
-      <span *ngIf="device.isCurrentlyDesktop">
-        {{
-          translateKey +
-            ".creator-settings-" +
-            (isActive ? "pause" : "continue") | translate
-        }}
-      </span>
-    </button>
-  </div>
-</ng-template>
+      }}
+    </span>
+  </button>
+</mat-dialog-actions>
 
 <ng-template
   #option
@@ -154,6 +158,7 @@
   <button
     [ngClass]="activeVote === i ? 'button-vote-active' : 'button-vote-default'"
     mat-flat-button
+    class="vote-text"
     (click)="vote(i)">
     <ng-container
       *ngTemplateOutlet="

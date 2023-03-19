@@ -82,3 +82,10 @@ $bar-background: var(--livepoll-bar-background);
   margin-top: 16px;
   padding-bottom: 16px;
 }
+
+.vote-text {
+  font-size: 200%;
+  @media only screen and (max-width: 600px) {
+    font-size: 100%;
+  }
+}

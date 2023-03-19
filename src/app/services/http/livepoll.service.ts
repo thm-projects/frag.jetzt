@@ -134,4 +134,8 @@ export class LivepollService extends BaseHttpService {
         break;
     }
   }
+
+  delete(id: string) {}
+
+  setActive(id: string, active: boolean) {}
 }
