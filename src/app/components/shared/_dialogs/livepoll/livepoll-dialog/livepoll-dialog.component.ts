@@ -21,14 +21,11 @@ import {
   LivepollSessionPatchAPI,
 } from '../../../../../services/http/livepoll.service';
 import { LivepollSession } from '../../../../../models/livepoll-session';
-import {
-  animate,
-  state,
-  style,
-  transition,
-  trigger,
-} from '@angular/animations';
+import { animate, style, transition, trigger } from '@angular/animations';
 import { clone } from 'app/utils/ts-utils';
+import { MatDialog } from '@angular/material/dialog';
+import { LivepollConfirmationDialogComponent } from '../livepoll-confirmation-dialog/livepoll-confirmation-dialog.component';
+import { take } from 'rxjs/operators';
 
 const animateOpen = {
   opacity: 1,
@@ -87,6 +84,7 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
     public readonly http: HttpClient,
     public readonly session: SessionService,
     public readonly livepollService: LivepollService,
+    public readonly dialog: MatDialog,
   ) {
     this.languageService
       .getLanguage()
@@ -158,12 +156,21 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
   }
 
   delete() {
-    // todo: patch delete
+    const dialog = this.dialog.open(LivepollConfirmationDialogComponent, {
+      width: '500px',
+    });
+    dialog
+      .afterClosed()
+      .pipe(take(1))
+      .subscribe((x) => {
+        if (x) {
+          this.livepollService.delete(this.livepollSession.id);
+        }
+      });
   }
 
   setActive(active: boolean) {
-    // this.livepollSession.active = active;
-    // livepoll is still active even, when paused. this might need a new entry in livepoll-session
+    this.livepollService.setActive(this.livepollSession.id, active);
   }
 
   vote(i: number) {

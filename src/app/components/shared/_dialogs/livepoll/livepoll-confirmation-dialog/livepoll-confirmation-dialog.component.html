@@ -1,0 +1,25 @@
+<h1 mat-dialog-title>
+  {{ "common.creator-settings-delete" | translate }}
+</h1>
+<mat-dialog-content>
+  <span>{{ "common.creator-settings-delete-tooltip" | translate }}</span>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button
+    mat-flat-button
+    class="button-cancel"
+    (click)="cancel()">
+    <span *ngIf="device.isCurrentlyDesktop">
+      {{ "common.cancel" | translate }}
+    </span>
+  </button>
+  <div style="flex-grow: 1"></div>
+  <button
+    mat-flat-button
+    class="button-primary-filled"
+    (click)="accept()">
+    <span *ngIf="device.isCurrentlyDesktop">
+      {{ "common.confirm-yes" | translate }}
+    </span>
+  </button>
+</mat-dialog-actions>

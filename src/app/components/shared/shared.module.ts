@@ -132,6 +132,7 @@ import { GPTChatRoomComponent } from './gptchat-room/gptchat-room.component';
 import { PresetsDialogComponent } from './_dialogs/presets-dialog/presets-dialog.component';
 import { GPTChatInfoComponent } from './_dialogs/gptchat-info/gptchat-info.component';
 import { ChatGPTPromptPresetComponent } from './chat-gptprompt-preset/chat-gptprompt-preset.component';
+import { LivepollConfirmationDialogComponent } from './_dialogs/livepoll/livepoll-confirmation-dialog/livepoll-confirmation-dialog.component';
 
 @NgModule({
   imports: [
@@ -266,6 +267,7 @@ import { ChatGPTPromptPresetComponent } from './chat-gptprompt-preset/chat-gptpr
     PresetsDialogComponent,
     GPTChatInfoComponent,
     ChatGPTPromptPresetComponent,
+    LivepollConfirmationDialogComponent,
   ],
   exports: [
     RoomJoinComponent,

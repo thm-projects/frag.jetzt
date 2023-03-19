@@ -59,10 +59,10 @@ const defaultTemplateStyle: LivepollStyleProperties = {
     transform: 'scale(1.5)',
   },
   plainIcon: {
-    fontSize: '32px',
+    fontSize: '1em',
   },
   text: {
-    fontSize: '32px',
+    fontSize: '1em',
   },
 };
 
