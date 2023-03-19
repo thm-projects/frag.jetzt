@@ -284,9 +284,9 @@
     "really-delete-account": "Veux-tu supprimer irrévocablement ton compte avec toutes les salles ? Si tu as attribué des bonus (étoiles), exporte les questions afin de pouvoir vérifier les codes bonus soumis.",
     "regular-user-view": "Vue des participants",
     "room-qr": "Code QR",
-    "room-presets": "Mon nom de forum",
-    "gpt-user-description": "Description personnelle pour GPT",
-    "my-profile": "Mon profil",
+    "room-presets": "Mon pseudonyme Q&R",
+    "gpt-user-description": "Profile personnel ChatGPT",
+    "my-profile": "Mon profile",
     "session-id-copied": "Le lien direct pour les participants a été copié dans le cache du navigateur.",
     "sure": "Tu en es sûr ?",
     "tag-cloud": "Radar à questions",
@@ -309,8 +309,8 @@
     "zoom-plus": "Agrandir la taille du texte",
     "zoom-reset": "Réinitialiser le niveau de zoom",
     "gpt-chat": "Chat avec ChatGPT",
-    "gpt-privacy-policy": "ChatGPT Politique de confidentialité",
-    "gpt-prompts": "Prompts GPT prédéfinis"
+    "gpt-privacy-policy": "Protection des données",
+    "gpt-prompts": "Mes prompts ChatGPT"
   },
   "gpt-chat": {
     "optin-accept": "Accepter",

@@ -274,7 +274,7 @@
     "preset-tone": "Tone of voice",
     "preset-formality": "Type of salutation",
     "preset-length": "Length",
-    "chat-self-description": "Self description",
+    "chat-self-description": "Self-description",
     "chat-answer-format": "Response format",
     "question-board": "Q&A forum",
     "question-wall": "Present questions",
@@ -284,8 +284,8 @@
     "really-delete-account": "Do you want to irrevocably delete your account with all rooms? If you have given bonus stars, export the questions so that you can check submitted bonus codes.",
     "regular-user-view": "Participant view",
     "room-qr": "QR code",
-    "room-presets": "My forum name",
-    "gpt-user-description": "Self description for GPT",
+    "room-presets": "My Q&A pseudonym",
+    "gpt-user-description": "Self-description for GPT",
     "my-profile": "My profile",
     "session-id-copied": "Direct link for participants was copied to the clipboard.",
     "sure": "Are you sure?",
@@ -310,7 +310,7 @@
     "zoom-reset": "Reset zoom level",
     "gpt-chat": "Chat with ChatGPT",
     "gpt-privacy-policy": "ChatGPT Privacy Policy",
-    "gpt-prompts": "Predefined GPT Prompts"
+    "gpt-prompts": "My ChatGPT prompts"
   },
   "gpt-chat": {
     "optin-accept": "Accept",

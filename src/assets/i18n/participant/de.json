@@ -784,7 +784,7 @@
   "gpt-user-description": {
     "save": "Speichern",
     "cancel": "Abbrechen",
-    "title": "Selbstbeschreibung für GPT",
+    "title": "Selbstbeschreibung für ChatGPT",
     "user-description": "Selbstbeschreibung",
     "token-info": "{{tokens}} / {{maxLength}} Token"
   },

@@ -500,8 +500,14 @@
     mat-menu-item
     (click)="openGPTUser()"
     tabindex="0">
-    <mat-icon class="material-icons-outlined">account_circle</mat-icon>
+    <mat-icon class="material-icons-outlined">smart_toy</mat-icon>
     {{ "header.gpt-user-description" | translate }}
+  </button>
+  <button
+    mat-menu-item
+    routerLink="/gpt-prompts">
+    <mat-icon class="material-icons-outlined">smart_toy</mat-icon>
+    {{ "header.gpt-prompts" | translate }}
   </button>
   <button
     mat-menu-item
@@ -509,12 +515,6 @@
     (click)="openPrivacyDialog()">
     <mat-icon class="material-icons-outlined">smart_toy</mat-icon>
     {{ "header.gpt-privacy-policy" | translate }}
-  </button>
-  <button
-    mat-menu-item
-    routerLink="/gpt-prompts">
-    <mat-icon class="material-icons-outlined">speaker_notes</mat-icon>
-    {{ "header.gpt-prompts" | translate }}
   </button>
 </mat-menu>
 

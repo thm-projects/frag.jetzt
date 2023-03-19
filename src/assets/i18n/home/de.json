@@ -284,8 +284,8 @@
     "really-delete-account": "Willst du dein Konto mit allen Räumen unwiderruflich löschen? Falls du Boni vergeben hast (Sterne), exportiere die Fragen, damit du eingereichte Bonus-Tokens überprüfen kannst.",
     "regular-user-view": "Teilnehmeransicht",
     "room-qr": "QR-Code",
-    "room-presets": "Mein Forumsname",
-    "gpt-user-description": "Selbstbeschreibung für GPT",
+    "room-presets": "Mein Q&A-Pseudonym",
+    "gpt-user-description": "Mein ChatGPT-Profil",
     "my-profile": "Mein Profil",
     "session-id-copied": "Der Direktlink für Teilnehmer*innen wurde in die Zwischenablage kopiert.",
     "sure": "Bist du sicher?",
@@ -309,13 +309,13 @@
     "zoom-plus": "Text vergrößern",
     "zoom-reset": "Zoomstufe zurücksetzen",
     "gpt-chat": "ChatGPT",
-    "gpt-privacy-policy": "ChatGPT Datenschutzrichtlinie",
-    "gpt-prompts": "Vordefinierte GPT Prompts"
+    "gpt-privacy-policy": "ChatGPT-Datenschutzrichtlinie",
+    "gpt-prompts": "Meine ChatGPT-Prompts"
   },
   "gpt-chat": {
     "optin-accept": "Akzeptieren",
     "optin-reject": "Ablehnen",
-    "privacy-policy": "ChatGPT Datenschutzrichtlinie"
+    "privacy-policy": "ChatGPT-Datenschutzrichtlinie"
   },
   "help": {
     "cancel": "Schließen",
