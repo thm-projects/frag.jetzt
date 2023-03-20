@@ -135,10 +135,6 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
       this.wsLivepollService
         .getLivepollUserCountStream(this.livepollSession.id)
         .subscribe((userCount) => {
-          console.log(
-            'this.wsLivepollService.getLivepollUserCountStream(this.livepollSession.id)',
-            userCount,
-          );
           this.livepollService
             .getResults(this.livepollSession.id)
             .pipe(take(1))
