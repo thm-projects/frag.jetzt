@@ -352,7 +352,7 @@
     "room-qr": "Code QR",
     "motd": "Actualités",
     "logout": "Se déconnecter",
-    "livepoll": "Sondage en direct",
+    "livepoll": "Sondage flash",
     "livepoll-button": "Créer des sondages et notifier automatiquement tous les participants."
   },
   "home-page": {

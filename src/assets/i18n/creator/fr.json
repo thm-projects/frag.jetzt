@@ -755,7 +755,7 @@
     "send": "Envoyer"
   },
   "room-settings-overview": {
-    "livepoll-enabled": "Activer sondage en direct",
+    "livepoll-enabled": "Activer sondage flash",
     "tooltip-livepoll-enabled": "Créer des sondages et informer automatiquement tous les participants. Les résultats des deux sondages peuvent être comparés ultérieurement.",
     "a11y-bonus-archive-enabled": "Curseur pour activer l'archive de bonus.",
     "a11y-brainstorming-enabled": "Curseur pour autoriser le brainstorming.",

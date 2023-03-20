@@ -174,7 +174,7 @@
     "style": "Designauswahl"
   },
   "header": {
-    "livepoll": "Live-Umfrage",
+    "livepoll": "Blitz-Umfrage",
     "livepoll-button": "Umfragen erstellen und alle Teilnehmer*innen automatisch benachrichtigen.",
     "back-button": "Zurück",
     "tour-button": "2-Minuten-Einführung",
@@ -640,7 +640,7 @@
     "settings-overview": "Raumeinstellungen"
   },
   "room-settings-overview": {
-    "livepoll-enabled": "Live-Umfragen aktivieren",
+    "livepoll-enabled": "Blitz-Umfragen aktivieren",
     "tooltip-livepoll-enabled": "Umfragen erstellen und alle Teilnehmer*innen automatisch benachrichtigen.",
     "a11y-bonus-archive-enabled": "Schieberegler, um das Bonus-Archiv zu aktivieren.",
     "a11y-brainstorming-enabled": "Schieberegler, um Brainstorming zu erlauben.",

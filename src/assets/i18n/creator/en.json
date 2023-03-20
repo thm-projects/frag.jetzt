@@ -755,7 +755,7 @@
     "send": "Submit"
   },
   "room-settings-overview": {
-    "livepoll-enabled": "Enable live poll",
+    "livepoll-enabled": "Enable flash poll",
     "tooltip-livepoll-enabled": "Create surveys and automatically notify all participants. The results of two surveys can be compared later.",
     "a11y-bonus-archive-enabled": "Slider to enable the bonus archive",
     "a11y-brainstorming-enabled": "Slider to allow brainstorming",

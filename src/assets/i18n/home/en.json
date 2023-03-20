@@ -174,7 +174,7 @@
     "style": "Design selection"
   },
   "header": {
-    "livepoll": "Live Poll",
+    "livepoll": "Flash Poll",
     "livepoll-button": "Create surveys and automatically notify all participants.",
     "back-button": "Back",
     "tour-button": "2-minute introduction",
@@ -640,7 +640,7 @@
     "settings-overview": "Room settings"
   },
   "room-settings-overview": {
-    "livepoll-enabled": "Enable live poll",
+    "livepoll-enabled": "Enable flash poll",
     "tooltip-livepoll-enabled": "Create surveys and automatically notify all participants. The results of two surveys can be compared later.",
     "a11y-bonus-archive-enabled": "Slider to enable the bonus archive",
     "a11y-brainstorming-enabled": "Slider to allow brainstorming",
