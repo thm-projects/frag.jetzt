@@ -56,7 +56,6 @@ export class LivepollCreateComponent implements OnDestroy {
           });
       });
     this.livepollConfiguration = new LivepollSession({} as LivepollSession);
-    console.log(this.templateGroups);
   }
 
   create() {
