@@ -91,6 +91,24 @@ const PROXY_CONFIG = {
     },
     "logLevel": "debug"
   },
+  "/api/livepollsubscription": {
+    "target": process.env.WS_GATEWAY_HTTP_ADDRESS || "http://localhost:8080",
+    "secure": process.env.BACKEND_SECURE || false,
+    "changeOrigin": process.env.BACKEND_CHANGE_ORIGIN || false,
+    "pathRewrite": {
+      [process.env.WS_GATEWAY_HTTP_REWRITE || "^/api"]: ""
+    },
+    "logLevel": "debug"
+  },
+  "/api/stats": {
+    "target": process.env.WS_GATEWAY_HTTP_ADDRESS || "http://localhost:8080",
+    "secure": process.env.BACKEND_SECURE || false,
+    "changeOrigin": process.env.BACKEND_CHANGE_ORIGIN || false,
+    "pathRewrite": {
+      [process.env.WS_GATEWAY_HTTP_REWRITE || "^/api"]: ""
+    },
+    "logLevel": "debug"
+  },
   "/api": {
     "target": process.env.BACKEND_ADDRESS || "http://localhost:8888",
     "secure": process.env.BACKEND_SECURE || false,
