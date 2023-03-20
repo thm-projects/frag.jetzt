@@ -61,6 +61,7 @@ export class LivepollCreateComponent implements OnDestroy {
 
   create() {
     this.dialogRef.close(this.livepollConfiguration);
+    console.log('CREATE', this.livepollConfiguration.template);
     this.livepollService
       .create({
         roomId: this.sessionService.currentRoom.id,

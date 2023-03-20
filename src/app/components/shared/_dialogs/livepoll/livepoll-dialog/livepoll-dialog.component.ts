@@ -31,6 +31,7 @@ import { LivepollConfirmationDialogComponent } from '../livepoll-confirmation-di
 import { take } from 'rxjs/operators';
 import { LivepollVote } from '../../../../../models/livepoll-vote';
 import { WsLivepollService } from '../../../../../services/websockets/ws-livepoll.service';
+import { NotificationService } from '../../../../../services/util/notification.service';
 
 const animateOpen = {
   opacity: 1,
@@ -71,7 +72,6 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
   @Input() public isProduction: boolean = false;
   @Output() closeEmitter: EventEmitter<void> = new EventEmitter();
   public translateKey: string = 'common';
-  public activeVote: number = -1;
   public votes: number[] = [];
   public livepollVote: LivepollVote;
   public userCount: number = 1;
@@ -93,6 +93,7 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
     public readonly livepollService: LivepollService,
     public readonly wsLivepollService: WsLivepollService,
     public readonly dialog: MatDialog,
+    public readonly notification: NotificationService,
   ) {
     this.languageService
       .getLanguage()
@@ -116,6 +117,7 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
   get isPaused(): boolean {
     return this.livepollSession?.paused;
   }
+
   ngOnInit(): void {
     if (this.valueChange) {
       this.valueChange.subscribe((changedValue) => {
@@ -129,12 +131,6 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
         .getVote(this.livepollSession.id)
         .subscribe((vote) => {
           this.livepollVote = vote;
-          if (vote) {
-            this.activeVote = vote.voteIndex;
-          } else {
-            this.activeVote = -1;
-            // user has not voted yet
-          }
         });
       this.wsLivepollService
         .getLivepollUserCountStream(this.livepollSession.id)
@@ -143,21 +139,15 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
             'this.wsLivepollService.getLivepollUserCountStream(this.livepollSession.id)',
             userCount,
           );
+          this.livepollService
+            .getResults(this.livepollSession.id)
+            .pipe(take(1))
+            .subscribe((result) => {
+              for (let i = 0; i < this.votes.length; i++) {
+                this.votes[i] = result[i] || 0;
+              }
+            });
         });
-      const interval = setInterval(() => {
-        this.livepollService
-          .getResults(this.livepollSession.id)
-          .pipe(take(1))
-          .subscribe((result) => {
-            console.log(
-              'this.livepollService.getResults(this.livepollSession.id)',
-              result,
-            );
-          });
-      }, 1000);
-      this._destroyer.subscribe(() => {
-        clearInterval(interval);
-      });
     }
   }
 
@@ -214,7 +204,7 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
 
   pause() {
     this.livepollService
-      .setActive(this.livepollSession.id, true)
+      .setPaused(this.livepollSession.id, true)
       .subscribe((livepollSession) => {
         this.livepollSession = livepollSession;
       });
@@ -222,7 +212,7 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
 
   play() {
     this.livepollService
-      .setActive(this.livepollSession.id, false)
+      .setPaused(this.livepollSession.id, false)
       .subscribe((livepollSession) => {
         this.livepollSession = livepollSession;
       });
@@ -230,14 +220,38 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
 
   vote(i: number) {
     if (this.isProduction) {
-      if (this.activeVote === i) {
-        this.livepollService.deleteVote(this.livepollSession.id);
+      if (this.livepollVote && this.livepollVote.voteIndex === i) {
+        this.livepollService
+          .deleteVote(this.livepollSession.id)
+          .subscribe((x) => {
+            this.emitNotification('vote-delete');
+            this.onVoteChange();
+          });
       } else {
-        this.livepollService.makeVote(this.livepollSession.id, i);
+        this.livepollService
+          .makeVote(this.livepollSession.id, i)
+          .subscribe((x) => {
+            this.emitNotification('vote-make');
+            this.onVoteChange();
+          });
       }
     } else {
       ++this.votes[i];
     }
+  }
+
+  onVoteChange() {
+    this.livepollService.getVote(this.livepollSession.id).subscribe((vote) => {
+      if (vote) {
+      } else {
+      }
+      this.livepollVote = vote;
+    });
+  }
+
+  emitNotification(type: string) {
+    console.log(type);
+    this.notification.show(type);
   }
 
   getVotePercentage(i: number) {
@@ -258,6 +272,9 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
   }
 
   private init() {
+    if (!this.isProduction) {
+      this.livepollSession.template = this.template.kind;
+    }
     if (this.template) {
       this.votes = new Array(
         this.template.symbols?.length || this.template.length,

@@ -29,8 +29,14 @@ $bar-background: var(--livepoll-bar-background);
       color: var(--black);
     }
 
-    .mat-icon {
-      font-size: 18px;
+    &-filled {
+      background-color: var(--green);
+      color: var(--on-primary);
+
+      &:hover {
+        background-color: var(--green);
+        color: var(--on-primary);
+      }
     }
   }
 

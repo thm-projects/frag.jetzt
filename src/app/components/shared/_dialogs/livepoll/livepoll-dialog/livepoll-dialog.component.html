@@ -120,6 +120,12 @@
     (click)="closeEmitter.emit()">
     <span>{{ translateKey + ".close" | translate }}</span>
   </button>
+  <button
+    mat-flat-button
+    class="button-secondary">
+    <mat-icon style="margin-right: 4px">add</mat-icon>
+    <span>{{ translateKey + ".new" | translate }}</span>
+  </button>
   <div style="flex-grow: 1"></div>
   <button
     mat-flat-button
@@ -134,7 +140,7 @@
   </button>
   <button
     mat-flat-button
-    class="button-primary-filled"
+    class="button-primary"
     [matTooltip]="
       translateKey + '.creator-settings-' + (isPaused ? 'continue' : 'pause')
         | translate
@@ -156,7 +162,11 @@
   let-i="i"
   let-symbol="symbol">
   <button
-    [ngClass]="activeVote === i ? 'button-vote-active' : 'button-vote-default'"
+    [ngClass]="
+      livepollVote?.voteIndex === i
+        ? 'button-vote-active'
+        : 'button-vote-default'
+    "
     mat-flat-button
     class="vote-text"
     [disabled]="isPaused"
