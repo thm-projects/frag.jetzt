@@ -136,15 +136,15 @@
     mat-flat-button
     class="button-primary-filled"
     [matTooltip]="
-      translateKey + '.creator-settings-' + (isActive ? 'pause' : 'continue')
+      translateKey + '.creator-settings-' + (isPaused ? 'continue' : 'pause')
         | translate
     "
     *ngIf="session.currentRole"
-    (click)="setActive(!isActive)">
-    <mat-icon>{{ isActive ? "pause" : "play_arrow" }}</mat-icon>
+    (click)="isPaused ? play() : pause()">
+    <mat-icon>{{ isPaused ? "play_arrow" : "pause" }}</mat-icon>
     <span *ngIf="device.isCurrentlyDesktop">
       {{
-        translateKey + ".creator-settings-" + (isActive ? "pause" : "continue")
+        translateKey + ".creator-settings-" + (isPaused ? "continue" : "pause")
           | translate
       }}
     </span>
@@ -159,6 +159,7 @@
     [ngClass]="activeVote === i ? 'button-vote-active' : 'button-vote-default'"
     mat-flat-button
     class="vote-text"
+    [disabled]="isPaused"
     (click)="vote(i)">
     <ng-container
       *ngTemplateOutlet="

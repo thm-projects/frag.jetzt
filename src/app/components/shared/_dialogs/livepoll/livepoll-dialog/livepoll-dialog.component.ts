@@ -20,12 +20,17 @@ import {
   LivepollService,
   LivepollSessionPatchAPI,
 } from '../../../../../services/http/livepoll.service';
-import { LivepollSession } from '../../../../../models/livepoll-session';
+import {
+  LivepollCustomTemplateEntry,
+  LivepollSession,
+} from '../../../../../models/livepoll-session';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { clone } from 'app/utils/ts-utils';
 import { MatDialog } from '@angular/material/dialog';
 import { LivepollConfirmationDialogComponent } from '../livepoll-confirmation-dialog/livepoll-confirmation-dialog.component';
 import { take } from 'rxjs/operators';
+import { LivepollVote } from '../../../../../models/livepoll-vote';
+import { WsLivepollService } from '../../../../../services/websockets/ws-livepoll.service';
 
 const animateOpen = {
   opacity: 1,
@@ -68,6 +73,8 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
   public translateKey: string = 'common';
   public activeVote: number = -1;
   public votes: number[] = [];
+  public livepollVote: LivepollVote;
+  public userCount: number = 1;
   public options:
     | {
         index: number;
@@ -84,6 +91,7 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
     public readonly http: HttpClient,
     public readonly session: SessionService,
     public readonly livepollService: LivepollService,
+    public readonly wsLivepollService: WsLivepollService,
     public readonly dialog: MatDialog,
   ) {
     this.languageService
@@ -105,8 +113,8 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
       : 1;
   }
 
-  get isActive(): boolean {
-    return this.livepollSession?.active;
+  get isPaused(): boolean {
+    return this.livepollSession?.paused;
   }
   ngOnInit(): void {
     if (this.valueChange) {
@@ -116,6 +124,41 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
       });
     }
     this.init();
+    if (this.isProduction) {
+      this.livepollService
+        .getVote(this.livepollSession.id)
+        .subscribe((vote) => {
+          this.livepollVote = vote;
+          if (vote) {
+            this.activeVote = vote.voteIndex;
+          } else {
+            this.activeVote = -1;
+            // user has not voted yet
+          }
+        });
+      this.wsLivepollService
+        .getLivepollUserCountStream(this.livepollSession.id)
+        .subscribe((userCount) => {
+          console.log(
+            'this.wsLivepollService.getLivepollUserCountStream(this.livepollSession.id)',
+            userCount,
+          );
+        });
+      const interval = setInterval(() => {
+        this.livepollService
+          .getResults(this.livepollSession.id)
+          .pipe(take(1))
+          .subscribe((result) => {
+            console.log(
+              'this.livepollService.getResults(this.livepollSession.id)',
+              result,
+            );
+          });
+      }, 1000);
+      this._destroyer.subscribe(() => {
+        clearInterval(interval);
+      });
+    }
   }
 
   ngOnDestroy(): void {
@@ -169,16 +212,29 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
       });
   }
 
-  setActive(active: boolean) {
-    this.livepollService.setActive(this.livepollSession.id, active);
+  pause() {
+    this.livepollService
+      .setActive(this.livepollSession.id, true)
+      .subscribe((livepollSession) => {
+        this.livepollSession = livepollSession;
+      });
+  }
+
+  play() {
+    this.livepollService
+      .setActive(this.livepollSession.id, false)
+      .subscribe((livepollSession) => {
+        this.livepollSession = livepollSession;
+      });
   }
 
   vote(i: number) {
-    this.activeVote = i;
     if (this.isProduction) {
-      //todo remove after backend implementation
-      // this.emitVote(i);
-      ++this.votes[i];
+      if (this.activeVote === i) {
+        this.livepollService.deleteVote(this.livepollSession.id);
+      } else {
+        this.livepollService.makeVote(this.livepollSession.id, i);
+      }
     } else {
       ++this.votes[i];
     }
@@ -199,10 +255,6 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
             100
         : 0,
     );
-  }
-
-  private emitVote(i: number) {
-    // todo
   }
 
   private init() {

@@ -188,5 +188,9 @@ export class LivepollService extends BaseHttpService {
 
   delete(id: string) {}
 
-  setActive(id: string, active: boolean) {}
+  setActive(id: string, active: boolean): Observable<LivepollSession> {
+    return this.update(id, {
+      paused: active,
+    });
+  }
 }
