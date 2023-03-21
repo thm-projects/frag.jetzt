@@ -239,19 +239,25 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
   }
 
   delete() {
+    this.createConfirmationDialog(
+      'creator-settings-delete-tooltip',
+      'creator-settings-delete',
+    ).subscribe((x) => {
+      if (x) {
+        this.livepollService
+          .delete(this.livepollSession.id)
+          .subscribe((x) => {});
+      }
+    });
+  }
+
+  createConfirmationDialog(title: string, text: string): Observable<boolean> {
     const dialog = this.dialog.open(LivepollConfirmationDialogComponent, {
       width: '500px',
     });
-    dialog
-      .afterClosed()
-      .pipe(take(1))
-      .subscribe((x) => {
-        if (x) {
-          this.livepollService
-            .delete(this.livepollSession.id)
-            .subscribe((x) => {});
-        }
-      });
+    dialog.componentInstance.titleRef = title;
+    dialog.componentInstance.textRef = text;
+    return dialog.afterClosed().pipe(take(1));
   }
 
   pause() {
@@ -312,9 +318,14 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
   }
 
   createNewLivepoll() {
-    this.livepollService.delete(this.livepollSession.id).subscribe((x) => {
-      this.closeEmitter.emit();
-      this.livepollService.open(this.session.currentRole, false, null);
+    this.createConfirmationDialog(
+      'creator-create-new-title',
+      'creator-create-new-text',
+    ).subscribe((x) => {
+      this.livepollService.delete(this.livepollSession.id).subscribe((x) => {
+        this.closeEmitter.emit();
+        this.livepollService.open(this.session.currentRole, false, null);
+      });
     });
   }
 

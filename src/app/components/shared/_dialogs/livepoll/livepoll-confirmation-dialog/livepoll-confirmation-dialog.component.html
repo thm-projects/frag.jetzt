@@ -1,8 +1,10 @@
-<h1 mat-dialog-title>
-  {{ "common.creator-settings-delete" | translate }}
+<h1
+  mat-dialog-title
+  *ngIf="titleRef">
+  {{ "common." + titleRef | translate }}
 </h1>
-<mat-dialog-content>
-  <span>{{ "common.creator-settings-delete-tooltip" | translate }}</span>
+<mat-dialog-content *ngIf="textRef">
+  <span>{{ "common." + textRef | translate }}</span>
 </mat-dialog-content>
 <mat-dialog-actions>
   <button
