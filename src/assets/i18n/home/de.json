@@ -420,9 +420,9 @@
     "password-required": "Passwort erforderlich",
     "password-reset": "Neues Passwort …",
     "register": "Registrieren",
-    "restart-account-activation-button": "Neuen Schlüssel anfordern",
-    "restart-account-activation-correct": "Der Bestätigungscode wurde gesendet.",
-    "restart-account-activation-tooltip": "Sendet einen neuen Bestätigungscode an deine Adresse.",
+    "restart-account-activation-button": "Neuen Aktivierungscode anfordern",
+    "restart-account-activation-correct": "Der Aktivierungscode wurde gesendet.",
+    "restart-account-activation-tooltip": "Sendet einen neuen Aktivierungscode an deine Adresse.",
     "welcome": "Noch Fragen?",
     "welcome-feedback": "➤ Schreib dem »frag.jetzt«-Team",
     "welcome-subtitle": "Anonym | innerhalb des Browsers | kostenlos"
