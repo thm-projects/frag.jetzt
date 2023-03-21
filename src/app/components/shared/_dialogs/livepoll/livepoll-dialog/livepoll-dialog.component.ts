@@ -297,7 +297,11 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
   }
 
   emitNotification(type: string) {
-    this.notification.show(type);
+    this.translationService
+      .get(this.translateKey + '.' + type)
+      .subscribe((x) => {
+        this.notification.show(x);
+      });
   }
 
   getVotePercentage(i: number) {
