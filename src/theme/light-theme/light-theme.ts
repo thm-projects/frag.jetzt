@@ -40,15 +40,15 @@ export const arsnova = {
   '--questionwall-intro-background': '#121212',
 
   '--livepoll-vote-foreground': '#FFFFFF',
-  '--livepoll-vote-background': '#58E315',
+  '--livepoll-vote-background': '#8a2be2',
   '--livepoll-vote-foreground-hover': '#FFFFFF',
-  '--livepoll-vote-background-hover': '#BFE315',
+  '--livepoll-vote-background-hover': '#ff0000',
   '--livepoll-vote-foreground-active': '#FFFFFF',
-  '--livepoll-vote-background-active': '#E3A015',
+  '--livepoll-vote-background-active': '#ff8c00',
   '--livepoll-vote-foreground-active-hover': '#FFFFFF',
-  '--livepoll-vote-background-active-hover': '#E33915',
+  '--livepoll-vote-background-active-hover': '#ff0000',
   '--livepoll-bar-foreground': '#FFFFFF',
-  '--livepoll-bar-background': '#B315E3',
+  '--livepoll-bar-background': '#ff8c00',
 };
 
 export const arsnova_meta: ThemeMeta = {
