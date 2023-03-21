@@ -240,8 +240,8 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
 
   delete() {
     this.createConfirmationDialog(
-      'creator-settings-delete-tooltip',
       'creator-settings-delete',
+      'creator-settings-delete-tooltip',
     ).subscribe((x) => {
       if (x) {
         this.livepollService
