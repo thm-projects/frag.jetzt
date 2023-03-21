@@ -13,6 +13,8 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class LivepollConfirmationDialogComponent implements OnInit {
   public readonly translateKey: string = 'common';
+  public textRef: string;
+  public titleRef: string;
 
   constructor(
     public readonly device: DeviceInfoService,

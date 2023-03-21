@@ -9,6 +9,13 @@
     "close": "Close",
     "cancel": "Cancel",
     "save": "Save",
+    "new": "New Poll",
+    "vote-make": "You have voted",
+    "vote-delete": "Vote withdrawn",
+    "dialog-confirm-create-new-description": "Do you really want to end the Live Poll and start a new one?",
+    "dialog-confirm-create-new-title": "New Flash Poll",
+    "dialog-confirm-delete-description": "Do you really want to end the Live Poll?",
+    "dialog-confirm-delete-title": "End Flash Poll",
     "votes": "Votes",
     "confirm-yes": "Accept",
     "creator-settings": "Settings",
@@ -43,15 +50,12 @@
       "Frequently",
       "Very frequently"
     ],
-    "template-name-scale-multi": "Scale",
-    "option-scale-multi": ["Nothing", "Little", "Balanced", "A lot"],
     "template-name-agree-binary": "Yes or No",
     "group-label": {
-      "agreement": "Understanding",
-      "value": "Values",
-      "frequency": "Frequency",
-      "importance": "Importance",
-      "misc": "Other"
+      "multiplechoice": "Multiple Choice",
+      "likertscale": "Likert Scale",
+      "mood": "Mood",
+      "custom": "Custom"
     }
   }
 }

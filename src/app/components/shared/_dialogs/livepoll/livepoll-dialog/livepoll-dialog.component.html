@@ -6,7 +6,8 @@
 <mat-dialog-content
   class="content"
   *ngIf="livepollSession">
-  <ng-container *ngIf="session.currentRole">
+  <ng-container
+    *ngIf="session.currentRole && livepollSession.active && !isConclusion">
     <app-livepoll-settings [parent]="this"></app-livepoll-settings>
   </ng-container>
 
@@ -72,14 +73,21 @@
               }"></div>
           </div>
           <div class="foreground">
-            <span>{{ getVotePercentage(i) }}%</span>
+            <span>
+              {{
+                getVotePercentage(i) +
+                  (languageService.currentLanguage() === "de" ? " " : "")
+              }}%
+            </span>
           </div>
         </div>
       </ng-container>
     </div>
   </div>
 
-  <div class="vote-container">
+  <div
+    class="vote-container"
+    *ngIf="!isConclusion && livepollSession.active">
     <div
       [ngClass]="'reverse-' + !!template.reverse + ' grid-' + template.isGrid"
       *ngIf="template">
@@ -112,48 +120,67 @@
   </div>
 </mat-dialog-content>
 
-<mat-dialog-actions *ngIf="isProduction">
+<mat-dialog-actions
+  *ngIf="isProduction"
+  #dialogActions>
   <button
     mat-flat-button
-    class="button-cancel"
-    *ngIf="isProduction"
-    (click)="closeEmitter.emit()">
-    <span>{{ translateKey + ".close" | translate }}</span>
-  </button>
-  <button
-    mat-flat-button
-    class="button-secondary">
+    *ngIf="
+      session.currentRole && (dialogActions.offsetWidth > 310 || isConclusion)
+    "
+    (click)="createNewLivepoll()"
+    class="button-secondary action-button">
     <mat-icon style="margin-right: 4px">add</mat-icon>
-    <span>{{ translateKey + ".new" | translate }}</span>
-  </button>
-  <div style="flex-grow: 1"></div>
-  <button
-    mat-flat-button
-    class="button-cancel"
-    *ngIf="session.currentRole && isProduction"
-    [matTooltip]="translateKey + '.creator-settings-delete-tooltip' | translate"
-    (click)="delete()">
-    <mat-icon>stop</mat-icon>
-    <span *ngIf="device.isCurrentlyDesktop">
-      {{ translateKey + ".creator-settings-delete" | translate }}
+    <span
+      *ngIf="device.isCurrentlyDesktop"
+      class="on-desktop">
+      {{ translateKey + ".new" | translate }}
     </span>
   </button>
+  <div
+    style="flex-grow: 1"
+    *ngIf="isConclusion"></div>
   <button
     mat-flat-button
-    class="button-primary"
+    class="button-primary action-button"
     [matTooltip]="
       translateKey + '.creator-settings-' + (isPaused ? 'continue' : 'pause')
         | translate
     "
-    *ngIf="session.currentRole"
+    *ngIf="session.currentRole && !isConclusion"
     (click)="isPaused ? play() : pause()">
     <mat-icon>{{ isPaused ? "play_arrow" : "pause" }}</mat-icon>
-    <span *ngIf="device.isCurrentlyDesktop">
+    <span
+      *ngIf="device.isCurrentlyDesktop"
+      class="on-desktop">
       {{
         translateKey + ".creator-settings-" + (isPaused ? "continue" : "pause")
           | translate
       }}
     </span>
+  </button>
+  <button
+    mat-flat-button
+    class="button-cancel action-button"
+    *ngIf="session.currentRole && isProduction && !isConclusion"
+    [matTooltip]="translateKey + '.creator-settings-delete-tooltip' | translate"
+    (click)="delete()">
+    <mat-icon>stop</mat-icon>
+    <span
+      *ngIf="device.isCurrentlyDesktop"
+      class="on-desktop">
+      {{ translateKey + ".creator-settings-delete" | translate }}
+    </span>
+  </button>
+  <div
+    style="flex-grow: 1"
+    *ngIf="!isConclusion"></div>
+  <button
+    mat-flat-button
+    class="button-cancel action-button"
+    *ngIf="isProduction"
+    (click)="closeEmitter.emit()">
+    <span>{{ translateKey + ".close" | translate }}</span>
   </button>
 </mat-dialog-actions>
 
