@@ -73,7 +73,12 @@
               }"></div>
           </div>
           <div class="foreground">
-            <span>{{ getVotePercentage(i) }}%</span>
+            <span>
+              {{
+                getVotePercentage(i) +
+                  (languageService.currentLanguage() === "de" ? " " : "")
+              }}%
+            </span>
           </div>
         </div>
       </ng-container>
