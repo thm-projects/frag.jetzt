@@ -6,7 +6,8 @@
 <mat-dialog-content
   class="content"
   *ngIf="livepollSession">
-  <ng-container *ngIf="session.currentRole && livepollSession.active">
+  <ng-container
+    *ngIf="session.currentRole && livepollSession.active && !isConclusion">
     <app-livepoll-settings [parent]="this"></app-livepoll-settings>
   </ng-container>
 
@@ -81,7 +82,7 @@
 
   <div
     class="vote-container"
-    *ngIf="livepollSession.active">
+    *ngIf="!isConclusion && livepollSession.active">
     <div
       [ngClass]="'reverse-' + !!template.reverse + ' grid-' + template.isGrid"
       *ngIf="template">
@@ -119,19 +120,8 @@
   #dialogActions>
   <button
     mat-flat-button
-    class="button-cancel action-button"
-    *ngIf="isProduction"
-    (click)="closeEmitter.emit()">
-    <span>{{ translateKey + ".close" | translate }}</span>
-  </button>
-  <div
-    style="flex-grow: 1"
-    *ngIf="!livepollSession.active"></div>
-  <button
-    mat-flat-button
     *ngIf="
-      session.currentRole &&
-      (dialogActions.offsetWidth > 310 || !livepollSession.active)
+      session.currentRole && (dialogActions.offsetWidth > 310 || isConclusion)
     "
     class="button-secondary action-button">
     <mat-icon style="margin-right: 4px">add</mat-icon>
@@ -143,20 +133,7 @@
   </button>
   <div
     style="flex-grow: 1"
-    *ngIf="livepollSession.active"></div>
-  <button
-    mat-flat-button
-    class="button-cancel action-button"
-    *ngIf="session.currentRole && isProduction && livepollSession.active"
-    [matTooltip]="translateKey + '.creator-settings-delete-tooltip' | translate"
-    (click)="delete()">
-    <mat-icon>stop</mat-icon>
-    <span
-      *ngIf="device.isCurrentlyDesktop"
-      class="on-desktop">
-      {{ translateKey + ".creator-settings-delete" | translate }}
-    </span>
-  </button>
+    *ngIf="isConclusion"></div>
   <button
     mat-flat-button
     class="button-primary action-button"
@@ -164,7 +141,7 @@
       translateKey + '.creator-settings-' + (isPaused ? 'continue' : 'pause')
         | translate
     "
-    *ngIf="session.currentRole && livepollSession.active"
+    *ngIf="session.currentRole && !isConclusion"
     (click)="isPaused ? play() : pause()">
     <mat-icon>{{ isPaused ? "play_arrow" : "pause" }}</mat-icon>
     <span
@@ -175,6 +152,29 @@
           | translate
       }}
     </span>
+  </button>
+  <button
+    mat-flat-button
+    class="button-cancel action-button"
+    *ngIf="session.currentRole && isProduction && !isConclusion"
+    [matTooltip]="translateKey + '.creator-settings-delete-tooltip' | translate"
+    (click)="delete()">
+    <mat-icon>stop</mat-icon>
+    <span
+      *ngIf="device.isCurrentlyDesktop"
+      class="on-desktop">
+      {{ translateKey + ".creator-settings-delete" | translate }}
+    </span>
+  </button>
+  <div
+    style="flex-grow: 1"
+    *ngIf="!isConclusion"></div>
+  <button
+    mat-flat-button
+    class="button-cancel action-button"
+    *ngIf="isProduction"
+    (click)="closeEmitter.emit()">
+    <span>{{ translateKey + ".close" | translate }}</span>
   </button>
 </mat-dialog-actions>
 

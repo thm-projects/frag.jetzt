@@ -7,19 +7,19 @@
 <mat-dialog-actions>
   <button
     mat-flat-button
-    class="button-cancel"
-    (click)="cancel()">
+    class="button-primary-filled"
+    (click)="accept()">
     <span>
-      {{ "common.cancel" | translate }}
+      {{ "common.confirm-yes" | translate }}
     </span>
   </button>
   <div style="flex-grow: 1"></div>
   <button
     mat-flat-button
-    class="button-primary-filled"
-    (click)="accept()">
+    class="button-cancel"
+    (click)="cancel()">
     <span>
-      {{ "common.confirm-yes" | translate }}
+      {{ "common.cancel" | translate }}
     </span>
   </button>
 </mat-dialog-actions>

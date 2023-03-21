@@ -120,7 +120,7 @@ export const templateEntries: EachOfTemplate<
     name: 'agree-binary',
     translate: false,
     reverse: true,
-    symbols: ['thumb_down', 'thumb_up'],
+    symbols: ['thumb_up', 'thumb_down'],
     style: defaultTemplateStyle,
     isGrid: true,
   },

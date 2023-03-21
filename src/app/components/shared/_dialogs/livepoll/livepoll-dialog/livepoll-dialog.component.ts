@@ -79,6 +79,7 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
         symbol: string;
       }[]
     | undefined;
+  public isConclusion: boolean = false;
   private _destroyer = new ReplaySubject(1);
   private lastSession: LivepollSession;
 
@@ -128,8 +129,9 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
     if (this.isProduction) {
       this.livepollService.listener
         .pipe(takeUntil(this._destroyer))
-        .subscribe(() => {
-          if (!this.livepollSession.active) {
+        .subscribe((changes) => {
+          if (typeof changes.active !== 'undefined' && !changes.active) {
+            this.isConclusion = true;
             this.onDeleteLivepoll();
           }
         });
@@ -161,7 +163,6 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this._destroyer))
       .subscribe((userCount) => {
         const parsed = JSON.parse(userCount.body);
-        console.log(parsed);
         if (parsed.hasOwnProperty('UserCountChanged')) {
           this.parseWebSocketStream(
             'UserCountChanged',
