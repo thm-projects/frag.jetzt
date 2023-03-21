@@ -27,16 +27,16 @@
 
 <mat-dialog-actions style="display: flex; justify-content: space-between">
   <button
-    mat-flat-button
-    class="button-cancel"
-    (click)="dialogRef.close()">
-    <span>{{ translateKey + ".cancel" | translate }}</span>
-  </button>
-  <button
     (click)="create()"
     mat-flat-button
     class="button-primary">
     <mat-icon style="margin-right: 4px">send</mat-icon>
     <span>{{ translateKey + ".create" | translate }}</span>
+  </button>
+  <button
+    mat-flat-button
+    class="button-cancel"
+    (click)="dialogRef.close()">
+    <span>{{ translateKey + ".cancel" | translate }}</span>
   </button>
 </mat-dialog-actions>
