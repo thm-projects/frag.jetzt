@@ -9,6 +9,9 @@
     "close": "Schließen",
     "cancel": "Abbrechen",
     "save": "Speichern",
+    "new": "Neue Umfrage",
+    "vote-make": "Bestätigung der Abstimmung",
+    "vote-delete": "Abstimmung zurückgenommen",
     "votes": "Abstimmungen",
     "confirm-yes": "Akzeptieren",
     "creator-settings": "Einstellungen",
@@ -43,20 +46,12 @@
       "Häufig",
       "Sehr häufig"
     ],
-    "template-name-scale-multi": "Skalierung",
-    "option-scale-multi": [
-      "Nichts",
-      "Wenig",
-      "Ausgeglichen",
-      "Viel"
-    ],
     "template-name-agree-binary": "Ja oder Nein",
     "group-label": {
-      "agreement": "Verständnis",
-      "value": "Werte",
-      "frequency": "Häufigkeit",
-      "importance": "Wichtigkeit",
-      "misc": "Anderes"
+      "multiplechoice": "Multiple Choice",
+      "likertscale": "Likert-Skala",
+      "mood": "Stimmung",
+      "custom": "Benutzerdefiniert"
     }
   }
 }

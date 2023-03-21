@@ -9,6 +9,9 @@
     "close": "Close",
     "cancel": "Cancel",
     "save": "Save",
+    "new": "New Poll",
+    "vote-make": "You have voted",
+    "vote-delete": "Vote withdrawn",
     "votes": "Votes",
     "confirm-yes": "Accept",
     "creator-settings": "Settings",
@@ -35,23 +38,13 @@
       "Strongly agree"
     ],
     "template-name-frequency-multi": "Frequency",
-    "option-frequency-multi": [
-      "Never",
-      "Very rarely",
-      "Rarely",
-      "Occasionally",
-      "Frequently",
-      "Very frequently"
-    ],
-    "template-name-scale-multi": "Scale",
     "option-scale-multi": ["Nothing", "Little", "Balanced", "A lot"],
     "template-name-agree-binary": "Yes or No",
     "group-label": {
-      "agreement": "Understanding",
-      "value": "Values",
-      "frequency": "Frequency",
-      "importance": "Importance",
-      "misc": "Other"
+      "multiplechoice": "Multiple Choice",
+      "likertscale": "Likert Scale",
+      "mood": "Mood",
+      "custom": "Custom"
     }
   }
 }
