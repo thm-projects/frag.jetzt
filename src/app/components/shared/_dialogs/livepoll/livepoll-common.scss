@@ -95,3 +95,12 @@ $bar-background: var(--livepoll-bar-background);
     font-size: 100%;
   }
 }
+
+.on-desktop {
+  @media only screen and (max-width: 700px) {
+    display: none;
+  }
+}
+
+.action-button {
+}

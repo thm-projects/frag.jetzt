@@ -9,7 +9,7 @@
     mat-flat-button
     class="button-cancel"
     (click)="cancel()">
-    <span *ngIf="device.isCurrentlyDesktop">
+    <span>
       {{ "common.cancel" | translate }}
     </span>
   </button>
@@ -18,7 +18,7 @@
     mat-flat-button
     class="button-primary-filled"
     (click)="accept()">
-    <span *ngIf="device.isCurrentlyDesktop">
+    <span>
       {{ "common.confirm-yes" | translate }}
     </span>
   </button>
