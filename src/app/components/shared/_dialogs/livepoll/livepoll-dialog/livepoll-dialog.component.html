@@ -79,7 +79,9 @@
     </div>
   </div>
 
-  <div class="vote-container">
+  <div
+    class="vote-container"
+    *ngIf="livepollSession.active">
     <div
       [ngClass]="'reverse-' + !!template.reverse + ' grid-' + template.isGrid"
       *ngIf="template">

@@ -569,5 +569,6 @@ export class SessionService {
       room.livepollSession[key] = changes[key];
     }
     this._afterRoomUpdates.next(room);
+    this.livepollService.emitEvent(changes);
   }
 }

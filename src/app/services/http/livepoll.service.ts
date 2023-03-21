@@ -1,15 +1,22 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { UserRole } from '../../models/user-roles.enum';
 import { LivepollCreateComponent } from '../../components/shared/_dialogs/livepoll/livepoll-create/livepoll-create.component';
 import { LivepollDialogComponent } from '../../components/shared/_dialogs/livepoll/livepoll-dialog/livepoll-dialog.component';
 import { RoomService } from './room.service';
-import { catchError, map, Observable, tap } from 'rxjs';
+import {
+  catchError,
+  map,
+  Observable,
+  ReplaySubject,
+  takeUntil,
+  tap,
+} from 'rxjs';
 import { LivepollSession } from 'app/models/livepoll-session';
 import { verifyInstance } from 'app/utils/ts-utils';
 import { BaseHttpService } from './base-http.service';
-import { take } from 'rxjs/operators';
+import { filter, take } from 'rxjs/operators';
 import { LivepollVote } from 'app/models/livepoll-vote';
 
 export interface LivepollSessionCreateAPI {
@@ -48,6 +55,8 @@ export class LivepollService extends BaseHttpService {
   public static readonly dialogDefaults: MatDialogConfig = {
     width: '700px',
   };
+  private static readonly livepollEventEmitter: EventEmitter<any> =
+    new EventEmitter<any>();
   public isOpen: boolean = false;
   constructor(
     public readonly http: HttpClient,
@@ -55,6 +64,10 @@ export class LivepollService extends BaseHttpService {
     public readonly dialog: MatDialog,
   ) {
     super();
+  }
+
+  get listener(): Observable<any> {
+    return LivepollService.livepollEventEmitter;
   }
 
   create(livepoll: LivepollSessionCreateAPI): Observable<LivepollSession> {
@@ -65,6 +78,13 @@ export class LivepollService extends BaseHttpService {
         map((e) => verifyInstance(LivepollSession, e)),
         catchError(this.handleError<LivepollSession>('create')),
       );
+  }
+
+  delete(id: string): Observable<LivepollSession> {
+    return this.update(id, {
+      active: false,
+      paused: true,
+    });
   }
 
   update(id: string, livepoll: Partial<LivepollSessionPatchAPI>) {
@@ -120,6 +140,12 @@ export class LivepollService extends BaseHttpService {
         tap(() => ''),
         catchError(this.handleError<number[]>('getVote')),
       );
+  }
+
+  setPaused(id: string, paused: boolean): Observable<LivepollSession> {
+    return this.update(id, {
+      paused,
+    });
   }
 
   open(
@@ -186,11 +212,7 @@ export class LivepollService extends BaseHttpService {
     }
   }
 
-  delete(id: string) {}
-
-  setPaused(id: string, paused: boolean): Observable<LivepollSession> {
-    return this.update(id, {
-      paused,
-    });
+  emitEvent(changes: Partial<LivepollSession>) {
+    LivepollService.livepollEventEmitter.emit(changes);
   }
 }

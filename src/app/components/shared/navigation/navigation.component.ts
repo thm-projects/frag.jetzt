@@ -118,7 +118,7 @@ export const livepollNavigationAccessOnRoute = (
       ) {
         return true;
       } else {
-        return !!room.livepollSession;
+        return !!room.livepollSession && room.livepollSession.active;
       }
     }
   }
@@ -448,6 +448,11 @@ export class NavigationComponent implements OnInit, OnDestroy {
       .isMobile()
       .pipe(takeUntil(this.destroyer))
       .subscribe(observer);
+    this.livepollService.listener
+      .pipe(takeUntil(this.destroyer))
+      .subscribe(() => {
+        this.refreshLocations();
+      });
   }
 
   ngOnDestroy(): void {
