@@ -123,6 +123,7 @@
     *ngIf="
       session.currentRole && (dialogActions.offsetWidth > 310 || isConclusion)
     "
+    (click)="createNewLivepoll()"
     class="button-secondary action-button">
     <mat-icon style="margin-right: 4px">add</mat-icon>
     <span

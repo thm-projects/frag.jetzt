@@ -311,6 +311,13 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
     );
   }
 
+  createNewLivepoll() {
+    this.livepollService.delete(this.livepollSession.id).subscribe((x) => {
+      this.closeEmitter.emit();
+      this.livepollService.open(this.session.currentRole, false, null);
+    });
+  }
+
   private initTemplate() {
     if (!this.isProduction) {
       this.livepollSession.template = this.template.kind;
