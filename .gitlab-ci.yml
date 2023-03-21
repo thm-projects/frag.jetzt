@@ -12,8 +12,4 @@ test:
     - docker-compose
   allow_failure: true
   script:
-    - which docker
-    - which docker-compose
-    - command docker-compose
-    - docker
     - docker compose
