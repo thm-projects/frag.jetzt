@@ -9,6 +9,13 @@
     "close": "Fermer",
     "cancel": "Annuler",
     "save": "Enregistrer",
+    "new": "nouveau sondage",
+    "vote-make": "Vous avez voté avec succès",
+    "vote-delete": "Vous avez supprimé votre vote avec succès",
+    "dialog-confirm-create-new-description": "Vous voulez vraiment arrêter le Live Poll et en commencer un autre ?",
+    "dialog-confirm-create-new-title": "Nouveau sondage",
+    "dialog-confirm-delete-description": "Vous voulez vraiment arrêter le Live Poll ?",
+    "dialog-confirm-delete-title": "Terminer le sondage",
     "votes": "Votes",
     "confirm-yes": "Accepter",
     "creator-settings": "Paramètres",
@@ -43,15 +50,12 @@
       "Fréquemment",
       "Très fréquemment"
     ],
-    "template-name-scale-multi": "Échelle",
-    "option-scale-multi": ["Pas du tout", "Un peu", "Moyennement", "Beaucoup"],
     "template-name-agree-binary": "Oui ou Non",
     "group-label": {
-      "agreement": "Compréhension",
-      "value": "Valeurs",
-      "frequency": "Fréquence",
-      "importance": "Importance",
-      "misc": "Autre"
+      "multiplechoice": "Choix multiple",
+      "likertscale": "Échelle de Likert",
+      "mood": "Mood",
+      "custom": "Personnalisé"
     }
   }
 }

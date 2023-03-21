@@ -77,7 +77,7 @@
         padding: 4px;
 
         > .bar {
-          min-width: 40px;
+          min-width: 1px;
           width: 10px;
           background-color: $bar-background;
           border-radius: #{$border-radius - ($border-radius / 2)}px;
