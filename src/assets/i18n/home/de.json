@@ -394,7 +394,7 @@
   },
   "login": {
     "not-authorized": "Du bist nicht berechtigt, diese Seite zu sehen.",
-    "activation-key": "Bestätigungscode",
+    "activation-key": "Aktivierungscode …",
     "cancel": "Abbrechen",
     "cancel-description": "Abbrechen",
     "email": "E-Mail …",

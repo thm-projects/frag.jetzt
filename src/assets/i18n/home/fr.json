@@ -394,7 +394,7 @@
   },
   "login": {
     "not-authorized": "Tu n'es pas autorisé à voir cette page.",
-    "activation-key": "Clé d'activation",
+    "activation-key": "Code d'activation …",
     "cancel": "Annuler",
     "cancel-description": "Annuler",
     "email": "E-mail",
@@ -420,9 +420,9 @@
     "password-required": "Mot de passe nécessaire",
     "password-reset": "Nouveau mot de passe …",
     "register": "S'inscrire",
-    "restart-account-activation-button": "Demander une nouvelle clé",
-    "restart-account-activation-correct": "Le code de confirmation a été envoyée.",
-    "restart-account-activation-tooltip": "Envoie une nouvelle clé d'activation à ton adresse.",
+    "restart-account-activation-button": "Demander un nouveau code",
+    "restart-account-activation-correct": "Le code d'activation a été envoyée.",
+    "restart-account-activation-tooltip": "Envoie un nouveau code d'activation à ton adresse.",
     "welcome": "Des questions ?",
     "welcome-feedback": "➤ Écris à l'équipe de « frag.jetzt »",
     "welcome-subtitle": "Anonyme | à l'intérieur du navigateur | gratuit"
