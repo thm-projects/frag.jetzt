@@ -12,4 +12,5 @@ test:
     - docker-compose
   allow_failure: true
   script:
-    - docker compose
+    - alias docker-compose='docker compose'
+    - docker-compose
