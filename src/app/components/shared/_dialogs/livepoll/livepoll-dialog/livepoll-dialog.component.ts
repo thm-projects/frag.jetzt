@@ -32,6 +32,7 @@ import { take } from 'rxjs/operators';
 import { LivepollVote } from '../../../../../models/livepoll-vote';
 import { WsLivepollService } from '../../../../../services/websockets/ws-livepoll.service';
 import { NotificationService } from '../../../../../services/util/notification.service';
+import { ActiveUserService } from 'app/services/http/active-user.service';
 
 const animateOpen = {
   opacity: 1,
@@ -74,7 +75,7 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
   public translateKey: string = 'common';
   public votes: number[] = [];
   public livepollVote: LivepollVote;
-  public userCount: number = 1;
+  public userCount: number | string = '?';
   public options:
     | {
         index: number;
@@ -94,6 +95,7 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
     public readonly wsLivepollService: WsLivepollService,
     public readonly dialog: MatDialog,
     public readonly notification: NotificationService,
+    private readonly activeUser: ActiveUserService,
   ) {
     this.languageService
       .getLanguage()
@@ -132,9 +134,23 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
         .subscribe((vote) => {
           this.livepollVote = vote;
         });
+      this.activeUser
+        .getActiveLivepollUser(this.livepollSession)
+        .subscribe((value) => {
+          if (this.userCount === '?') {
+            this.userCount = value[0];
+          }
+        });
       this.wsLivepollService
-        .getLivepollUserCountStream(this.livepollSession.id)
+        .getLivepollUserCountStream(
+          this.livepollSession.id,
+          this.session.currentRole,
+        )
+        .pipe(takeUntil(this._destroyer))
         .subscribe((userCount) => {
+          this.userCount = JSON.parse(userCount.body)['UserCountChanged'][
+            'userCount'
+          ];
           this.livepollService
             .getResults(this.livepollSession.id)
             .pipe(take(1))

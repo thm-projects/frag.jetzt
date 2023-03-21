@@ -27,7 +27,7 @@ export class ActiveUserService extends BaseHttpService {
   }
 
   public getActiveUser(room: Room): Observable<any> {
-    const url = '/api/roomsubscription/usercount?ids=' + room.id;
+    const url = '/gateway-api/roomsubscription/usercount?ids=' + room.id;
     return this.http.get(url, httpOptions).pipe(
       tap((_) => ''),
       catchError(this.handleError<any>('getActiveUser')),
@@ -35,7 +35,8 @@ export class ActiveUserService extends BaseHttpService {
   }
 
   public getActiveLivepollUser(livepoll: LivepollSession): Observable<any> {
-    const url = '/api/livepollsubscription/usercount?ids=' + livepoll.id;
+    const url =
+      '/gateway-api/livepollsubscription/usercount?ids=' + livepoll.id;
     return this.http.get(url, httpOptions).pipe(
       tap((_) => ''),
       catchError(this.handleError<any>('getActiveLivepollUser')),
@@ -43,7 +44,7 @@ export class ActiveUserService extends BaseHttpService {
   }
 
   public getGlobal(): Observable<GlobalCount> {
-    const url = '/api/stats';
+    const url = '/gateway-api/stats';
     return this.http.get<GlobalCount>(url, httpOptions).pipe(
       tap((_) => ''),
       catchError(this.handleError<GlobalCount>('getGlobal')),
