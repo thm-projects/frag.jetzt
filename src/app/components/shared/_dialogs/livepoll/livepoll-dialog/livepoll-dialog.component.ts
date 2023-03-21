@@ -240,8 +240,8 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
 
   delete() {
     this.createConfirmationDialog(
-      'creator-settings-delete',
-      'creator-settings-delete-tooltip',
+      'dialog-confirm-delete-title',
+      'dialog-confirm-delete-description',
     ).subscribe((x) => {
       if (x) {
         this.livepollService
@@ -323,13 +323,15 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
 
   createNewLivepoll() {
     this.createConfirmationDialog(
-      'creator-create-new-title',
-      'creator-create-new-text',
+      'dialog-confirm-create-new-title',
+      'dialog-confirm-create-new-description',
     ).subscribe((x) => {
-      this.livepollService.delete(this.livepollSession.id).subscribe((x) => {
-        this.closeEmitter.emit();
-        this.livepollService.open(this.session.currentRole, false, null);
-      });
+      if (x) {
+        this.livepollService.delete(this.livepollSession.id).subscribe((x) => {
+          this.closeEmitter.emit();
+          this.livepollService.open(this.session.currentRole, false, null);
+        });
+      }
     });
   }
 
