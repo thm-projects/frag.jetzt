@@ -38,7 +38,14 @@
       "Strongly agree"
     ],
     "template-name-frequency-multi": "Frequency",
-    "option-scale-multi": ["Nothing", "Little", "Balanced", "A lot"],
+    "option-frequency-multi": [
+      "Never",
+      "Very rarely",
+      "Rarely",
+      "Occasionally",
+      "Frequently",
+      "Very frequently"
+    ],
     "template-name-agree-binary": "Yes or No",
     "group-label": {
       "multiplechoice": "Multiple Choice",

@@ -38,7 +38,14 @@
       "Fort accord "
     ],
     "template-name-frequency-multi": "Fréquence",
-    "option-scale-multi": ["Pas du tout", "Un peu", "Moyennement", "Beaucoup"],
+    "option-frequency-multi": [
+      "Jamais",
+      "Très rarement",
+      "Rarement",
+      "Occasionnellement",
+      "Fréquemment",
+      "Très fréquemment"
+    ],
     "template-name-agree-binary": "Oui ou Non",
     "group-label": {
       "multiplechoice": "Choix multiple",
