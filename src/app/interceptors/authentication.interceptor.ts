@@ -23,10 +23,6 @@ export class AuthenticationInterceptor implements HttpInterceptor {
     {
       allow: /^\/api(\/|$)/g,
       blacklist: [
-        /^\/api\/ws\/websocket(\/|$)/g,
-        /^\/api\/roomsubscription(\/|$)/g,
-        /^\/api\/livepollsubscription(\/|$)/g,
-        /^\/api\/stats(\/|$)/g,
         /^\/api\/login\/guest(\/|$)/g,
         /^\/api\/login\/registered(\/|$)/g,
         /^\/api\/login(\/|$)/g,
