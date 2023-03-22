@@ -363,6 +363,25 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
         }
         this.options = options;
       }
+      setTimeout(() => {
+        for (const element of Array.from(
+          document.getElementsByClassName('vote-text'),
+        ) as HTMLElement[]) {
+          const target = element.childNodes[0].childNodes[0] as HTMLElement;
+          if (target.getBoundingClientRect().height > element.offsetHeight) {
+            target.style.fontSize = '55%';
+            setTimeout(() => {
+              if (
+                target.getBoundingClientRect().height > element.offsetHeight
+              ) {
+                target.style.fontSize = '25%';
+              }
+            }, 100);
+          }
+          console.log('---', target);
+          console.log(element.offsetWidth + ' - ' + element.offsetHeight);
+        }
+      }, 100);
     }
   }
 
