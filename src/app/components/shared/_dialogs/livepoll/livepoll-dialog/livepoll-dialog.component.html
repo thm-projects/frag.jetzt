@@ -192,11 +192,7 @@
   let-i="i"
   let-symbol="symbol">
   <button
-    [ngClass]="
-      livepollVote?.voteIndex === i
-        ? 'button-vote-active'
-        : 'button-vote-default'
-    "
+    [ngClass]="getVoteButtonClass(i)"
     mat-flat-button
     class="vote-text"
     [disabled]="isPaused"

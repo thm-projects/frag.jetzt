@@ -89,12 +89,67 @@ $bar-background: var(--livepoll-bar-background);
   padding-bottom: 16px;
 }
 
-.vote-text {
-  font-size: 200%;
-  line-height: 16px;
-  @media only screen and (max-width: 600px) {
-    font-size: 100%;
+.button-vote-translated-text {
+  font-size: 1.4em;
+  @media only screen and (max-width: 900px) {
+    font-size: 1.2em;
+    line-height: 4px;
   }
+  @media only screen and (max-width: 800px) {
+    font-size: 1em;
+    line-height: 4px;
+  }
+  @media only screen and (max-width: 700px) {
+    font-size: 0.8em;
+    line-height: 4px;
+  }
+  @media only screen and (max-width: 600px) {
+    font-size: 0.7em;
+    line-height: 4px;
+  }
+  @media only screen and (max-width: 500px) {
+    font-size: 0.6em;
+    line-height: 4px;
+  }
+  @media only screen and (max-width: 400px) {
+    font-size: 0.5em;
+    line-height: 4px;
+  }
+  @media only screen and (max-width: 300px) {
+    font-size: 0.4em;
+    line-height: 4px;
+  }
+}
+
+.button-vote-text-as-icon {
+  font-size: 3em;
+  @media only screen and (max-width: 900px) {
+    font-size: 2.5em;
+    line-height: 4px;
+  }
+  @media only screen and (max-width: 800px) {
+    line-height: 4px;
+  }
+  @media only screen and (max-width: 700px) {
+    line-height: 4px;
+  }
+  @media only screen and (max-width: 600px) {
+    line-height: 4px;
+  }
+  @media only screen and (max-width: 500px) {
+    line-height: 4px;
+  }
+  @media only screen and (max-width: 400px) {
+    font-size: 1em;
+    line-height: 4px;
+  }
+  @media only screen and (max-width: 300px) {
+    line-height: 4px;
+  }
+}
+
+.button-vote-material-icons {
+  font-size: inherit;
 }
 
 .on-desktop {
