@@ -47,6 +47,7 @@
   .left {
     display: flex;
     flex-direction: column;
+    max-width: 50%;
 
     .container {
       height: $height;
@@ -102,6 +103,10 @@
       }
     }
   }
+}
+
+.vote-text {
+  white-space: pre-wrap !important;
 }
 
 @mixin mixinOption {
