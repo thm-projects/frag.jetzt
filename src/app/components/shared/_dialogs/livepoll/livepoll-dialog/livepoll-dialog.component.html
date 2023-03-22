@@ -90,6 +90,7 @@
     *ngIf="!isConclusion && livepollSession.active">
     <div
       [ngClass]="'reverse-' + !!template.reverse + ' grid-' + template.isGrid"
+      [ngStyle]="{ 'grid-template-rows': 'repeat(' + rowHeight + ',1fr)' }"
       *ngIf="template">
       <ng-container *ngIf="template.symbols">
         <ng-container *ngFor="let symbol of template.symbols; index as i">
