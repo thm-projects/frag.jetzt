@@ -82,6 +82,7 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
   public isConclusion: boolean = false;
   private _destroyer = new ReplaySubject(1);
   private lastSession: LivepollSession;
+  private rowHeight: number;
 
   constructor(
     public readonly device: DeviceInfoService,
@@ -343,6 +344,7 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
       this.votes = new Array(
         this.template.symbols?.length || this.template.length,
       ).fill(0);
+      this.rowHeight = Math.ceil(this.votes.length / 2);
       if (typeof this.template.length === 'undefined') {
         this.options = this.template.symbols.map((option, index) => ({
           index,
