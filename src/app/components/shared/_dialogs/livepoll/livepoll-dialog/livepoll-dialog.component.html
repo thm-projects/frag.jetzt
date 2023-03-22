@@ -122,66 +122,68 @@
 
 <mat-dialog-actions
   *ngIf="isProduction"
+  class="actions-container"
   #dialogActions>
-  <button
-    mat-flat-button
-    *ngIf="
-      session.currentRole && (dialogActions.offsetWidth > 310 || isConclusion)
-    "
-    (click)="createNewLivepoll()"
-    class="button-secondary action-button">
-    <mat-icon style="margin-right: 4px">add</mat-icon>
-    <span
-      *ngIf="device.isCurrentlyDesktop"
-      class="on-desktop">
-      {{ translateKey + ".new" | translate }}
-    </span>
-  </button>
-  <div
-    style="flex-grow: 1"
-    *ngIf="isConclusion"></div>
-  <button
-    mat-flat-button
-    class="button-primary action-button"
-    [matTooltip]="
-      translateKey + '.creator-settings-' + (isPaused ? 'continue' : 'pause')
-        | translate
-    "
-    *ngIf="session.currentRole && !isConclusion"
-    (click)="isPaused ? play() : pause()">
-    <mat-icon>{{ isPaused ? "play_arrow" : "pause" }}</mat-icon>
-    <span
-      *ngIf="device.isCurrentlyDesktop"
-      class="on-desktop">
-      {{
-        translateKey + ".creator-settings-" + (isPaused ? "continue" : "pause")
+  <div class="left-container">
+    <button
+      mat-flat-button
+      class="button-primary action-button"
+      [matTooltip]="
+        translateKey + '.creator-settings-' + (isPaused ? 'continue' : 'pause')
           | translate
-      }}
-    </span>
-  </button>
-  <button
-    mat-flat-button
-    class="button-cancel action-button"
-    *ngIf="session.currentRole && isProduction && !isConclusion"
-    [matTooltip]="translateKey + '.creator-settings-delete-tooltip' | translate"
-    (click)="delete()">
-    <mat-icon>stop</mat-icon>
-    <span
-      *ngIf="device.isCurrentlyDesktop"
-      class="on-desktop">
-      {{ translateKey + ".creator-settings-delete" | translate }}
-    </span>
-  </button>
-  <div
-    style="flex-grow: 1"
-    *ngIf="!isConclusion"></div>
-  <button
-    mat-flat-button
-    class="button-cancel action-button"
-    *ngIf="isProduction"
-    (click)="closeEmitter.emit()">
-    <span>{{ translateKey + ".close" | translate }}</span>
-  </button>
+      "
+      *ngIf="session.currentRole && !isConclusion"
+      (click)="isPaused ? play() : pause()">
+      <mat-icon>{{ isPaused ? "play_arrow" : "pause" }}</mat-icon>
+      <span
+        *ngIf="device.isCurrentlyDesktop"
+        class="on-desktop">
+        {{
+          translateKey +
+            ".creator-settings-" +
+            (isPaused ? "continue" : "pause") | translate
+        }}
+      </span>
+    </button>
+    <button
+      mat-flat-button
+      class="button-cancel action-button"
+      *ngIf="session.currentRole && isProduction && !isConclusion"
+      [matTooltip]="
+        translateKey + '.creator-settings-delete-tooltip' | translate
+      "
+      (click)="delete()">
+      <mat-icon>stop</mat-icon>
+      <span
+        *ngIf="device.isCurrentlyDesktop"
+        class="on-desktop">
+        {{ translateKey + ".creator-settings-delete" | translate }}
+      </span>
+    </button>
+  </div>
+  <div class="right-container">
+    <button
+      mat-flat-button
+      class="button-cancel action-button"
+      *ngIf="isProduction"
+      (click)="closeEmitter.emit()">
+      <span>{{ translateKey + ".close" | translate }}</span>
+    </button>
+    <button
+      mat-flat-button
+      *ngIf="
+        session.currentRole && (dialogActions.offsetWidth > 310 || isConclusion)
+      "
+      (click)="createNewLivepoll()"
+      class="button-secondary action-button">
+      <mat-icon style="margin-right: 4px">add</mat-icon>
+      <span
+        *ngIf="device.isCurrentlyDesktop"
+        class="on-desktop">
+        {{ translateKey + ".new" | translate }}
+      </span>
+    </button>
+  </div>
 </mat-dialog-actions>
 
 <ng-template

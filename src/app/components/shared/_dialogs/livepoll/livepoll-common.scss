@@ -97,7 +97,19 @@ $bar-background: var(--livepoll-bar-background);
 }
 
 .on-desktop {
-  @media only screen and (max-width: 700px) {
+  @media only screen and (max-width: 900px) {
     display: none;
+  }
+}
+
+.actions-container {
+  display: flex;
+  justify-content: space-between;
+  > .left-container {
+    display: flex;
+  }
+
+  > .right-container {
+    display: flex;
   }
 }

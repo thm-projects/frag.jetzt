@@ -7,14 +7,6 @@
   <span>{{ "common." + textRef | translate }}</span>
 </mat-dialog-content>
 <mat-dialog-actions>
-  <button
-    mat-flat-button
-    class="button-primary-filled"
-    (click)="accept()">
-    <span>
-      {{ "common.confirm-yes" | translate }}
-    </span>
-  </button>
   <div style="flex-grow: 1"></div>
   <button
     mat-flat-button
@@ -22,6 +14,14 @@
     (click)="cancel()">
     <span>
       {{ "common.cancel" | translate }}
+    </span>
+  </button>
+  <button
+    mat-flat-button
+    class="button-primary-filled"
+    (click)="accept()">
+    <span>
+      {{ "common.confirm-yes" | translate }}
     </span>
   </button>
 </mat-dialog-actions>
