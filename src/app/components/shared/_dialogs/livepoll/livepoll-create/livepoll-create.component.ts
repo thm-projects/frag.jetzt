@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, Renderer2 } from '@angular/core';
 import {
   LivepollGroupContext,
   LivepollTemplateContext,
@@ -18,6 +18,7 @@ import {
 } from '../../../../../services/http/livepoll.service';
 import { SessionService } from 'app/services/util/session.service';
 import { LivepollSession } from '../../../../../models/livepoll-session';
+import { MatSelect } from '@angular/material/select';
 
 @Component({
   selector: 'app-livepoll-create',
@@ -43,6 +44,7 @@ export class LivepollCreateComponent implements OnDestroy {
     public readonly device: DeviceInfoService,
     public readonly livepollService: LivepollService,
     private readonly sessionService: SessionService,
+    private readonly renderer: Renderer2,
   ) {
     this.languageService
       .getLanguage()
@@ -74,5 +76,20 @@ export class LivepollCreateComponent implements OnDestroy {
 
   ngOnDestroy(): void {
     this._destroyer.next(0);
+  }
+
+  overrideHeight($event: boolean, matSelect: MatSelect) {
+    const height =
+      window.innerHeight ||
+      document.documentElement.clientHeight ||
+      document.body.clientHeight;
+    this.renderer.setStyle(
+      matSelect.panel.nativeElement,
+      'max-height',
+      height -
+        10 -
+        matSelect.panel.nativeElement.getBoundingClientRect().y +
+        'px',
+    );
   }
 }

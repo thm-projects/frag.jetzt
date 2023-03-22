@@ -6,7 +6,10 @@
     <mat-label>
       {{ translateKey + ".option-select-template" | translate }}
     </mat-label>
-    <mat-select [formControl]="templateSelection">
+    <mat-select
+      [formControl]="templateSelection"
+      #matSelect
+      (openedChange)="overrideHeight($event, matSelect)">
       <mat-optgroup
         *ngFor="let group of templateGroups"
         [label]="(translateKey + '.group-label' | translate)[group.key]">
