@@ -139,7 +139,7 @@
   <div class="left-container">
     <button
       mat-flat-button
-      class="button-primary action-button"
+      class="button-primary"
       *ngIf="session.currentRole && !isConclusion"
       (click)="isPaused ? play() : pause()">
       <mat-icon>{{ isPaused ? "play_circle" : "pause_circle" }}</mat-icon>
@@ -155,7 +155,7 @@
     </button>
     <button
       mat-flat-button
-      class="button-cancel action-button"
+      class="button-cancel"
       *ngIf="session.currentRole && isProduction && !isConclusion"
       (click)="delete()">
       <mat-icon style="color: var(--red)">stop_circle</mat-icon>
@@ -169,7 +169,7 @@
   <div class="right-container">
     <button
       mat-flat-button
-      class="button-cancel action-button"
+      class="button-cancel"
       *ngIf="isProduction"
       (click)="closeEmitter.emit()">
       <span>{{ translateKey + ".close" | translate }}</span>
@@ -180,7 +180,7 @@
         session.currentRole && (dialogActions.offsetWidth > 310 || isConclusion)
       "
       (click)="createNewLivepoll()"
-      class="button-secondary action-button">
+      class="button-secondary">
       <mat-icon style="margin-right: 4px">add_circle</mat-icon>
       <span
         *ngIf="device.isCurrentlyDesktop"

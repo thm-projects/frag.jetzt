@@ -26,11 +26,11 @@ export class LivepollConfirmationDialogComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  accept() {
+  public accept() {
     this.matDialogRef.close(true);
   }
 
-  cancel() {
+  public cancel() {
     this.matDialogRef.close(false);
   }
 }

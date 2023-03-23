@@ -30,6 +30,7 @@ import { LivepollVote } from '../../../../../models/livepoll-vote';
 import { WsLivepollService } from '../../../../../services/websockets/ws-livepoll.service';
 import { NotificationService } from '../../../../../services/util/notification.service';
 import { ActiveUserService } from 'app/services/http/active-user.service';
+import { LivepollComponentUtility } from '../livepoll-component-utility';
 
 const animateOpen = {
   opacity: 1,
@@ -80,7 +81,9 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
       }[]
     | undefined;
   public isConclusion: boolean = false;
+  public waitForSocket: boolean = false;
   public rowHeight: number;
+  private voteQuery: number = -1;
   private _destroyer = new ReplaySubject(1);
   private lastSession: LivepollSession;
 
@@ -96,17 +99,12 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
     public readonly notification: NotificationService,
     private readonly activeUser: ActiveUserService,
   ) {
-    this.languageService
-      .getLanguage()
-      .pipe(takeUntil(this._destroyer))
-      .subscribe((lang) => {
-        this.translationService.use(lang);
-        this.http
-          .get('/assets/i18n/livepoll/' + lang + '.json')
-          .subscribe((translation) => {
-            this.translationService.setTranslation(lang, translation, true);
-          });
-      });
+    LivepollComponentUtility.initLanguage(
+      this.languageService,
+      this.translationService,
+      this.http,
+      this._destroyer,
+    );
   }
 
   get totalVotes(): number {
@@ -153,71 +151,20 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
       this.livepollService
         .getResults(this.livepollSession.id)
         .subscribe((results) => {
-          this.setVotes(results);
+          this.updateVotes(results);
         });
     }
-  }
-
-  initWebSocketStream() {
-    this.wsLivepollService
-      .getLivepollUserCountStream(
-        this.livepollSession.id,
-        this.session.currentRole,
-      )
-      .pipe(takeUntil(this._destroyer))
-      .subscribe((userCount) => {
-        const parsed = JSON.parse(userCount.body);
-        if (parsed.hasOwnProperty('UserCountChanged')) {
-          this.parseWebSocketStream(
-            'UserCountChanged',
-            parsed['UserCountChanged'],
-          );
-        } else {
-          this.parseWebSocketStream(
-            parsed.type,
-            parsed.payload,
-            parsed.livepollId,
-          );
-        }
-      });
-  }
-
-  parseWebSocketStream(type: string, payload: any, id?: UUID) {
-    switch (type) {
-      case 'LivepollResult':
-        this.setVotes(payload.votes);
-        break;
-      case 'UserCountChanged':
-        this.setUserCount(payload.userCount);
-        break;
-      default:
-        console.error('Ignored [ type, payload, id ]', { type, payload, id });
-    }
-  }
-
-  setVotes(votes: number[]) {
-    for (let i = 0; i < this.votes.length; i++) {
-      this.votes[i] = votes[i] || 0;
-    }
-  }
-
-  setUserCount(userCount: number) {
-    this.userCount = userCount;
   }
 
   ngOnDestroy(): void {
     this._destroyer.next(0);
   }
 
-  public initFrom(livepollSession?: LivepollSession) {
-    if (livepollSession) {
-      this.livepollSession = livepollSession;
-      this.lastSession = clone(this.livepollSession) as LivepollSession;
-      this.template = templateEntries[this.livepollSession.template];
-      this.isProduction = true;
-    } else {
-      this.initFrom(this.session.currentLivepoll);
-    }
+  public initFrom(livepollSession: LivepollSession) {
+    this.livepollSession = livepollSession;
+    this.lastSession = clone(this.livepollSession) as LivepollSession;
+    this.template = templateEntries[this.livepollSession.template];
+    this.isProduction = true;
   }
 
   public save() {
@@ -242,7 +189,7 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
       .subscribe((d) => (this.lastSession = d));
   }
 
-  delete() {
+  public delete() {
     this.createConfirmationDialog(
       'dialog-confirm-delete-title',
       'dialog-confirm-delete-description',
@@ -250,21 +197,12 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
       if (x) {
         this.livepollService
           .delete(this.livepollSession.id)
-          .subscribe((x) => {});
+          .subscribe(() => {});
       }
     });
   }
 
-  createConfirmationDialog(title: string, text: string): Observable<boolean> {
-    const dialog = this.dialog.open(LivepollConfirmationDialogComponent, {
-      width: '500px',
-    });
-    dialog.componentInstance.titleRef = title;
-    dialog.componentInstance.textRef = text;
-    return dialog.afterClosed().pipe(take(1));
-  }
-
-  pause() {
+  public pause() {
     this.livepollService
       .setPaused(this.livepollSession.id, true)
       .subscribe((livepollSession) => {
@@ -272,7 +210,7 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
       });
   }
 
-  play() {
+  public play() {
     this.livepollService
       .setPaused(this.livepollSession.id, false)
       .subscribe((livepollSession) => {
@@ -280,41 +218,39 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
       });
   }
 
-  vote(i: number) {
-    if (this.isProduction) {
-      if (this.livepollVote && this.livepollVote.voteIndex === i) {
-        this.livepollService
-          .deleteVote(this.livepollSession.id)
-          .subscribe((x) => {
-            this.emitNotification('vote-delete');
-          });
-      } else {
-        this.livepollService
-          .makeVote(this.livepollSession.id, i)
-          .subscribe((x) => {
-            this.emitNotification('vote-make');
-          });
-      }
+  public vote(i: number) {
+    if (this.waitForSocket) {
+      this.voteQuery = i;
     } else {
-      ++this.votes[i];
+      if (this.isProduction) {
+        if (this.livepollVote && this.livepollVote.voteIndex === i) {
+          this.livepollService
+            .deleteVote(this.livepollSession.id)
+            .subscribe(() => {
+              this.emitNotification('vote-delete');
+              this.waitForSocket = true;
+            });
+        } else {
+          this.livepollService
+            .makeVote(this.livepollSession.id, i)
+            .subscribe(() => {
+              this.emitNotification('vote-make');
+              this.waitForSocket = true;
+            });
+        }
+      } else {
+        ++this.votes[i];
+      }
     }
   }
 
-  emitNotification(type: string) {
-    this.translationService
-      .get(this.translateKey + '.' + type)
-      .subscribe((x) => {
-        this.notification.show(x);
-      });
-  }
-
-  getVotePercentage(i: number) {
+  public getVotePercentage(i: number) {
     return Math.floor(
       this.votes[i] ? (this.votes[i] / this.totalVotes) * 100 : 0,
     );
   }
 
-  getVoteBarSize(i: number) {
+  public getVoteBarSize(i: number) {
     return Math.floor(
       this.votes[i]
         ? (this.votes[i] /
@@ -325,13 +261,13 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
     );
   }
 
-  createNewLivepoll() {
+  public createNewLivepoll() {
     this.createConfirmationDialog(
       'dialog-confirm-create-new-title',
       'dialog-confirm-create-new-description',
     ).subscribe((x) => {
       if (x) {
-        this.livepollService.delete(this.livepollSession.id).subscribe((x) => {
+        this.livepollService.delete(this.livepollSession.id).subscribe(() => {
           this.closeEmitter.emit();
           this.livepollService.open(this.session.currentRole, false, null);
         });
@@ -339,7 +275,7 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
     });
   }
 
-  getVoteButtonClass(index: number) {
+  public getVoteButtonClass(index: number) {
     const collect: string[] = [];
     if (index === this.livepollVote?.voteIndex) {
       collect.push('active');
@@ -354,6 +290,89 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
       collect.push('material-icons');
     }
     return collect.map((x) => `button-vote-${x}`).join(' ');
+  }
+
+  private initWebSocketStream() {
+    this.wsLivepollService
+      .getLivepollUserCountStream(
+        this.livepollSession.id,
+        this.session.currentRole,
+      )
+      .pipe(takeUntil(this._destroyer))
+      .subscribe((userCount) => {
+        const parsed = JSON.parse(userCount.body);
+        if (parsed.hasOwnProperty('UserCountChanged')) {
+          this.parseWebSocketStream(
+            'UserCountChanged',
+            parsed['UserCountChanged'],
+          );
+        } else {
+          this.parseWebSocketStream(
+            parsed.type,
+            parsed.payload,
+            parsed.livepollId,
+          );
+        }
+      });
+  }
+
+  private parseWebSocketStream(type: string, payload: any, id?: UUID) {
+    switch (type) {
+      case 'LivepollResult':
+        this.updateVotes(payload.votes);
+        this.livepollService
+          .getVote(this.livepollSession.id)
+          .subscribe((vote) => {
+            this.livepollVote = vote;
+            this.waitForSocket = false;
+            if (this.livepollVote) {
+              if (
+                this.voteQuery !== this.livepollVote.voteIndex &&
+                this.voteQuery !== -1
+              ) {
+                const query = this.voteQuery;
+                this.voteQuery = -1;
+                this.vote(query);
+              }
+            }
+          });
+        break;
+      case 'UserCountChanged':
+        this.setUserCount(payload.userCount);
+        break;
+      default:
+        console.error('Ignored [ type, payload, id ]', { type, payload, id });
+    }
+  }
+
+  private updateVotes(votes: number[]) {
+    for (let i = 0; i < this.votes.length; i++) {
+      this.votes[i] = votes[i] || 0;
+    }
+  }
+
+  private setUserCount(userCount: number) {
+    this.userCount = userCount;
+  }
+
+  private createConfirmationDialog(
+    title: string,
+    text: string,
+  ): Observable<boolean> {
+    const dialog = this.dialog.open(LivepollConfirmationDialogComponent, {
+      width: '500px',
+    });
+    dialog.componentInstance.titleRef = title;
+    dialog.componentInstance.textRef = text;
+    return dialog.afterClosed().pipe(take(1));
+  }
+
+  private emitNotification(type: string) {
+    this.translationService
+      .get(this.translateKey + '.' + type)
+      .subscribe((x) => {
+        this.notification.show(x);
+      });
   }
 
   private initTemplate() {
@@ -387,8 +406,7 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
   }
 
   private onDeleteLivepoll() {
-    if (this.session.currentRole) {
-    } else {
+    if (!this.session.currentRole) {
       this.closeEmitter.emit();
     }
   }
