@@ -75,6 +75,19 @@
 }
 
 .info-container {
+  display: flex;
+  justify-content: flex-end;
+
+  > div ~ div {
+    margin-left: 16px;
+  }
+
+  > div {
+    :first-child {
+      margin-right: 4px;
+      font-weight: normal;
+    }
+  }
   @media only screen and (max-width: 900px) {
     font-size: 100%;
     line-height: 16px;
@@ -244,22 +257,6 @@ fg-1 {
   > .row {
     display: flex;
     flex-direction: row;
-  }
-}
-
-.info-container {
-  display: flex;
-  justify-content: flex-end;
-
-  > div ~ div {
-    margin-left: 16px;
-  }
-
-  > div {
-    :first-child {
-      margin-right: 4px;
-      font-weight: normal;
-    }
   }
 }
 
