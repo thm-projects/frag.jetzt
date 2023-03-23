@@ -122,8 +122,11 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     if (this.valueChange) {
       this.valueChange.subscribe((changedValue) => {
-        this.template = changedValue;
-        this.initTemplate();
+        this.template = null;
+        setTimeout(() => {
+          this.template = changedValue;
+          this.initTemplate();
+        }, 0);
       });
     }
     this.initTemplate();
@@ -336,6 +339,23 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
     });
   }
 
+  getVoteButtonClass(index: number) {
+    const collect: string[] = [];
+    if (index === this.livepollVote?.voteIndex) {
+      collect.push('active');
+    } else {
+      collect.push('default');
+    }
+    if (this.template.translate) {
+      collect.push('translated-text');
+    } else if (!this.template.translate && this.template.isPlain) {
+      collect.push('text-as-icon');
+    } else if (!!this.template.symbols) {
+      collect.push('material-icons');
+    }
+    return collect.map((x) => `button-vote-${x}`).join(' ');
+  }
+
   private initTemplate() {
     if (!this.isProduction) {
       this.livepollSession.template = this.template.kind;
@@ -363,25 +383,6 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
         }
         this.options = options;
       }
-      setTimeout(() => {
-        for (const element of Array.from(
-          document.getElementsByClassName('vote-text'),
-        ) as HTMLElement[]) {
-          const target = element.childNodes[0].childNodes[0] as HTMLElement;
-          if (target.getBoundingClientRect().height > element.offsetHeight) {
-            target.style.fontSize = '55%';
-            setTimeout(() => {
-              if (
-                target.getBoundingClientRect().height > element.offsetHeight
-              ) {
-                target.style.fontSize = '25%';
-              }
-            }, 100);
-          }
-          console.log('---', target);
-          console.log(element.offsetWidth + ' - ' + element.offsetHeight);
-        }
-      }, 100);
     }
   }
 

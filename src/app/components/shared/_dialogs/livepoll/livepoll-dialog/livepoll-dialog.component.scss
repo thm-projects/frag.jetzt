@@ -33,6 +33,17 @@
   }
 }
 
+.info-container {
+  @media only screen and (max-width: 900px) {
+    font-size: 100%;
+    line-height: 16px;
+  }
+  @media only screen and (max-width: 700px) {
+    font-size: 80%;
+    line-height: 16px;
+  }
+}
+
 .grid-false {
   display: flex;
   flex-direction: column;
@@ -56,6 +67,18 @@
       display: flex;
       justify-content: center;
       flex-direction: column;
+      @media only screen and (max-width: 900px) {
+        font-size: 100%;
+        line-height: 16px;
+      }
+      @media only screen and (max-width: 700px) {
+        font-size: 80%;
+        line-height: 16px;
+      }
+      @media only screen and (max-width: 400px) {
+        font-size: 70%;
+        line-height: 16px;
+      }
     }
   }
 
