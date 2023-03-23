@@ -1,5 +1,6 @@
 import { Component, OnDestroy, Renderer2 } from '@angular/core';
 import {
+  defaultLivepollTemplate,
   LivepollGroupContext,
   LivepollTemplateContext,
   templateContext,
@@ -30,7 +31,7 @@ export class LivepollCreateComponent implements OnDestroy {
 
   public readonly translateKey = 'common';
   public templateSelection = new FormControl<LivepollTemplateContext>(
-    templateContext[0],
+    defaultLivepollTemplate,
   );
 
   public livepollConfiguration: LivepollSession;

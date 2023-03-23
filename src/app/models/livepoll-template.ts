@@ -148,6 +148,14 @@ export const templateContext: LivepollTemplateContext[] = Object.keys(
   templateEntries,
 ).map((entry) => templateEntries[entry]);
 
+/**
+ * e.g.: Frequency
+ *    templateEntries['Frequency']
+ * or templateEntries[LivepollTemplate.Frequency]
+ */
+export const defaultLivepollTemplate: LivepollTemplateContext =
+  templateEntries['Frequency'];
+
 export const templateGroups: LivepollGroupContext[] = Object.keys(groupEntries)
   .map((entry) => ({
     key: LivepollGroupKind[entry].toLowerCase(),
