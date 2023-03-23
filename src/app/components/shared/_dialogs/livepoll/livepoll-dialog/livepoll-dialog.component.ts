@@ -81,7 +81,9 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
       }[]
     | undefined;
   public isConclusion: boolean = false;
+  public waitForSocket: boolean = false;
   public rowHeight: number;
+  private voteQuery: number = -1;
   private _destroyer = new ReplaySubject(1);
   private lastSession: LivepollSession;
 
@@ -195,7 +197,7 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
       if (x) {
         this.livepollService
           .delete(this.livepollSession.id)
-          .subscribe((x) => {});
+          .subscribe(() => {});
       }
     });
   }
@@ -217,22 +219,28 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
   }
 
   public vote(i: number) {
-    if (this.isProduction) {
-      if (this.livepollVote && this.livepollVote.voteIndex === i) {
-        this.livepollService
-          .deleteVote(this.livepollSession.id)
-          .subscribe((x) => {
-            this.emitNotification('vote-delete');
-          });
-      } else {
-        this.livepollService
-          .makeVote(this.livepollSession.id, i)
-          .subscribe((x) => {
-            this.emitNotification('vote-make');
-          });
-      }
+    if (this.waitForSocket) {
+      this.voteQuery = i;
     } else {
-      ++this.votes[i];
+      if (this.isProduction) {
+        if (this.livepollVote && this.livepollVote.voteIndex === i) {
+          this.livepollService
+            .deleteVote(this.livepollSession.id)
+            .subscribe(() => {
+              this.emitNotification('vote-delete');
+              this.waitForSocket = true;
+            });
+        } else {
+          this.livepollService
+            .makeVote(this.livepollSession.id, i)
+            .subscribe(() => {
+              this.emitNotification('vote-make');
+              this.waitForSocket = true;
+            });
+        }
+      } else {
+        ++this.votes[i];
+      }
     }
   }
 
@@ -259,7 +267,7 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
       'dialog-confirm-create-new-description',
     ).subscribe((x) => {
       if (x) {
-        this.livepollService.delete(this.livepollSession.id).subscribe((x) => {
+        this.livepollService.delete(this.livepollSession.id).subscribe(() => {
           this.closeEmitter.emit();
           this.livepollService.open(this.session.currentRole, false, null);
         });
@@ -312,6 +320,22 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
     switch (type) {
       case 'LivepollResult':
         this.updateVotes(payload.votes);
+        this.livepollService
+          .getVote(this.livepollSession.id)
+          .subscribe((vote) => {
+            this.livepollVote = vote;
+            this.waitForSocket = false;
+            if (this.livepollVote) {
+              if (
+                this.voteQuery !== this.livepollVote.voteIndex &&
+                this.voteQuery !== -1
+              ) {
+                const query = this.voteQuery;
+                this.voteQuery = -1;
+                this.vote(query);
+              }
+            }
+          });
         break;
       case 'UserCountChanged':
         this.setUserCount(payload.userCount);
