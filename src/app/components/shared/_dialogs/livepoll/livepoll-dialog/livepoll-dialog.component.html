@@ -1,5 +1,5 @@
 <div
-  class="title"
+  class="dialog-title"
   *ngIf="isProduction">
   <p mat-dialog-title>{{ translateKey + ".dialog-title" | translate }}</p>
 </div>
@@ -11,11 +11,18 @@
     <app-livepoll-settings [parent]="this"></app-livepoll-settings>
   </ng-container>
 
-  <p style="margin-top: 30px">
-    {{ translateKey + ".dialog-preview-title" | translate }}
-  </p>
-
-  <p *ngIf="livepollSession.title">{{ livepollSession.title }}</p>
+  <div class="title-container">
+    <p
+      class="preview-title"
+      *ngIf="!isProduction">
+      {{ translateKey + ".dialog-preview-title" | translate }}
+    </p>
+    <p
+      class="custom-title"
+      *ngIf="livepollSession.title">
+      {{ livepollSession.title }}
+    </p>
+  </div>
 
   <div class="info-container">
     <div

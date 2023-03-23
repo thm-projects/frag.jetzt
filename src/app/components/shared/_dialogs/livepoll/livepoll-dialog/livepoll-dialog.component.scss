@@ -1,12 +1,30 @@
 @import "../livepoll-common";
 
-.title {
+.dialog-title {
   display: flex;
   justify-content: space-between;
 
   > h5 {
     font-size: 12px;
     text-transform: uppercase;
+  }
+}
+
+.title-container {
+  display: flex;
+  flex-direction: column;
+  margin: 30px 0 0;
+
+  > .preview-title {
+    font-weight: inherit;
+    padding: 0;
+    margin: 0;
+  }
+
+  > .custom-title {
+    padding: 0;
+    margin: 0;
+    font-weight: bold;
   }
 }
 
