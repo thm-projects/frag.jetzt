@@ -153,7 +153,7 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
       this.livepollService
         .getResults(this.livepollSession.id)
         .subscribe((results) => {
-          this.setVotes(results);
+          this.updateVotes(results);
         });
     }
   }
@@ -185,7 +185,7 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
   parseWebSocketStream(type: string, payload: any, id?: UUID) {
     switch (type) {
       case 'LivepollResult':
-        this.setVotes(payload.votes);
+        this.updateVotes(payload.votes);
         break;
       case 'UserCountChanged':
         this.setUserCount(payload.userCount);
@@ -195,7 +195,7 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
     }
   }
 
-  setVotes(votes: number[]) {
+  updateVotes(votes: number[]) {
     for (let i = 0; i < this.votes.length; i++) {
       this.votes[i] = votes[i] || 0;
     }
