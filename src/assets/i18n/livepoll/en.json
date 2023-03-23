@@ -2,7 +2,7 @@
   "common": {
   "create-dialog-title": "Create poll",
   "dialog-title": "Flash poll",
-  "option-select-title": "Your question...",
+  "option-select-title": "Your question…",
   "dialog-preview-title": "Preview from participant view:",
   "create": "Start poll",
   "participants": "Participants:",
@@ -18,7 +18,7 @@
   "dialog-confirm-delete-title": "End poll",
   "votes": "Votes:",
   "confirm-yes": "Yes, end poll",
-  "creator-settings": "Question & options...",
+  "creator-settings": "Question text & options…",
   "creator-settings-icon": "edit",
   "creator-settings-delete": "End poll",
   "creator-settings-pause": "Pause poll",
@@ -33,7 +33,7 @@
   "tooltip-option-select-result-visibility": "Show poll results in real-time for everyone in the room",
   "option-select-views-visibility": "Participation visible",
   "tooltip-option-select-views-visibility": "Show participation in real-time for everyone in the room",
-  "option-select-template": "Select a template...",
+  "option-select-template": "Select a template…",
   "template-name-agree-multi": "Agreement",
   "option-agree-multi": [
   "Strongly agree",

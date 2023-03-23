@@ -24,7 +24,7 @@
   > .custom-title {
     padding: 0;
     margin: 0;
-    font-weight: bold;
+    font-weight: normal;
   }
 }
 
@@ -176,7 +176,7 @@
 
         > span {
           position: relative;
-          top: 4px;
+          top: 8px;
           left: 13px;
           font-weight: normal;
           color: $bar-foreground;
