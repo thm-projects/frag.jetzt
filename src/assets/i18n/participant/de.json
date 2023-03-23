@@ -353,8 +353,8 @@
     "room-qr": "QR-Code",
     "motd": "News",
     "logout": "Abmelden",
-    "livepoll": "Blitz-Umfrage",
-    "livepoll-button": "Umfragen erstellen und alle Teilnehmer*innen automatisch benachrichtigen."
+    "livepoll": "Blitzumfrage",
+    "livepoll-button": "Umfrage erstellen und alle Personen im Raum automatisch benachrichtigen."
   },
   "home-page": {
     "exactly-8": "Ein Raum-Code hat genau 8 Ziffern.",

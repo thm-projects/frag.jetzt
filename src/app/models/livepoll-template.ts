@@ -54,7 +54,7 @@ export interface LivepollGroupNode<E extends LivepollGroupKind> {
 
 const defaultTemplateStyle: LivepollStyleProperties = {
   matIcon: {
-    transform: 'scale(1.5)',
+    transform: 'scale(1.7)',
   },
   plainIcon: {
     fontSize: '1em',
@@ -100,7 +100,7 @@ export const templateEntries: EachOfTemplate<
     reverse: true,
     length: 5,
     style: defaultTemplateStyle,
-    isGrid: true,
+    isGrid: false,
   },
   [LivepollTemplate.Frequency]: {
     kind: LivepollTemplate.Frequency,
@@ -108,7 +108,7 @@ export const templateEntries: EachOfTemplate<
     name: 'frequency-multi',
     translate: true,
     reverse: true,
-    length: 5,
+    length: 4,
     style: defaultTemplateStyle,
     isGrid: true,
   },
@@ -127,13 +127,15 @@ export const templateEntries: EachOfTemplate<
 export const groupEntries: EachOfGroup<LivepollGroupKind> = {
   [LivepollGroupKind.MultipleChoice]: [
     templateEntries[LivepollTemplate.Character],
-    templateEntries[LivepollTemplate.YesNo],
   ],
   [LivepollGroupKind.LikertScale]: [
     templateEntries[LivepollTemplate.Agree],
     templateEntries[LivepollTemplate.Frequency],
   ],
-  [LivepollGroupKind.Mood]: [templateEntries[LivepollTemplate.Symbol]],
+  [LivepollGroupKind.Mood]: [
+    templateEntries[LivepollTemplate.Symbol],
+    templateEntries[LivepollTemplate.YesNo],
+  ],
 };
 
 export const livepollTemplateOrder: { [key in LivepollGroupKind]: number } = {

@@ -752,8 +752,8 @@
     "send": "Abschicken"
   },
   "room-settings-overview": {
-    "livepoll-enabled": "Blitz-Umfragen aktivieren",
-    "tooltip-livepoll-enabled": "Umfragen erstellen und alle Teilnehmer*innen automatisch benachrichtigen.",
+    "livepoll-enabled": "Blitzumfragen aktivieren",
+    "tooltip-livepoll-enabled": "Umfragen erstellen und alle Personen im Raum automatisch benachrichtigen.",
     "a11y-bonus-archive-enabled": "Schieberegler, um das Bonus-Archiv zu aktivieren.",
     "a11y-brainstorming-enabled": "Schieberegler, um Brainstorming zu erlauben.",
     "a11y-conversation-enabled": "Schieberegler, um Konversationen in diesem Raum freizuschalten.",

@@ -43,6 +43,7 @@
   flex-direction: row;
   $height: 32px;
   $border-radius: 4;
+  line-height: 120%;
 
   .left {
     display: flex;
@@ -51,7 +52,7 @@
 
     .container {
       height: $height;
-      padding: 4px 0;
+      padding: 10px 0;
       display: flex;
       justify-content: center;
       flex-direction: column;
@@ -65,7 +66,7 @@
 
     > .container {
       height: $height;
-      padding: 4px 0;
+      padding: 10px 0;
 
       > .background {
         display: flex;
@@ -182,7 +183,6 @@ fg-1 {
 .info-container {
   display: flex;
   justify-content: flex-end;
-  margin-top: 16px;
 
   > div ~ div {
     margin-left: 16px;
