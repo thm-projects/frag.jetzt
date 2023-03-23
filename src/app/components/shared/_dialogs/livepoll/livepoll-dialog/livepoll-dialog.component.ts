@@ -209,15 +209,11 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
     this._destroyer.next(0);
   }
 
-  public initFrom(livepollSession?: LivepollSession) {
-    if (livepollSession) {
-      this.livepollSession = livepollSession;
-      this.lastSession = clone(this.livepollSession) as LivepollSession;
-      this.template = templateEntries[this.livepollSession.template];
-      this.isProduction = true;
-    } else {
-      this.initFrom(this.session.currentLivepoll);
-    }
+  public initFrom(livepollSession: LivepollSession) {
+    this.livepollSession = livepollSession;
+    this.lastSession = clone(this.livepollSession) as LivepollSession;
+    this.template = templateEntries[this.livepollSession.template];
+    this.isProduction = true;
   }
 
   public save() {
