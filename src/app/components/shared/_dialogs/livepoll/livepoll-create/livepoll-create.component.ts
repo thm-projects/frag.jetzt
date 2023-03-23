@@ -20,6 +20,7 @@ import {
 import { SessionService } from 'app/services/util/session.service';
 import { LivepollSession } from '../../../../../models/livepoll-session';
 import { MatSelect } from '@angular/material/select';
+import { LivepollComponentUtility } from '../livepoll-component-utility';
 
 @Component({
   selector: 'app-livepoll-create',
@@ -47,21 +48,16 @@ export class LivepollCreateComponent implements OnDestroy {
     private readonly sessionService: SessionService,
     private readonly renderer: Renderer2,
   ) {
-    this.languageService
-      .getLanguage()
-      .pipe(takeUntil(this._destroyer))
-      .subscribe((lang) => {
-        this.translationService.use(lang);
-        this.http
-          .get('/assets/i18n/livepoll/' + lang + '.json')
-          .subscribe((translation) => {
-            this.translationService.setTranslation(lang, translation, true);
-          });
-      });
+    LivepollComponentUtility.initLanguage(
+      this.languageService,
+      this.translationService,
+      this.http,
+      this._destroyer,
+    );
     this.livepollConfiguration = new LivepollSession({} as LivepollSession);
   }
 
-  create() {
+  public create() {
     this.dialogRef.close(this.livepollConfiguration);
     this.livepollService
       .create({
@@ -79,7 +75,7 @@ export class LivepollCreateComponent implements OnDestroy {
     this._destroyer.next(0);
   }
 
-  overrideHeight($event: boolean, matSelect: MatSelect) {
+  public overrideHeight($event: boolean, matSelect: MatSelect) {
     const height =
       window.innerHeight ||
       document.documentElement.clientHeight ||

@@ -30,6 +30,7 @@ import { LivepollVote } from '../../../../../models/livepoll-vote';
 import { WsLivepollService } from '../../../../../services/websockets/ws-livepoll.service';
 import { NotificationService } from '../../../../../services/util/notification.service';
 import { ActiveUserService } from 'app/services/http/active-user.service';
+import { LivepollComponentUtility } from '../livepoll-component-utility';
 
 const animateOpen = {
   opacity: 1,
@@ -96,17 +97,12 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
     public readonly notification: NotificationService,
     private readonly activeUser: ActiveUserService,
   ) {
-    this.languageService
-      .getLanguage()
-      .pipe(takeUntil(this._destroyer))
-      .subscribe((lang) => {
-        this.translationService.use(lang);
-        this.http
-          .get('/assets/i18n/livepoll/' + lang + '.json')
-          .subscribe((translation) => {
-            this.translationService.setTranslation(lang, translation, true);
-          });
-      });
+    LivepollComponentUtility.initLanguage(
+      this.languageService,
+      this.translationService,
+      this.http,
+      this._destroyer,
+    );
   }
 
   get totalVotes(): number {
