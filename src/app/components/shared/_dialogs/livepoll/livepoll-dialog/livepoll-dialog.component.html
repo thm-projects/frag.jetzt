@@ -47,7 +47,9 @@
     class="result-container"
     @AnimateInOut
     *ngIf="options && livepollSession.resultVisible">
-    <div class="left">
+    <div
+      class="left"
+      [ngClass]="!!template.reverse ? 'reverse-true' : 'reverse-false'">
       <ng-container *ngFor="let option of options">
         <div class="container">
           <ng-container *ngIf="template.isPlain">
@@ -68,7 +70,9 @@
         </div>
       </ng-container>
     </div>
-    <div class="right">
+    <div
+      class="right"
+      [ngClass]="!!template.reverse ? 'reverse-true' : 'reverse-false'">
       <ng-container *ngFor="let option of options; index as i">
         <div class="container">
           <div class="background">
@@ -196,6 +200,9 @@
     mat-flat-button
     class="vote-text"
     [disabled]="isPaused"
+    [ngStyle]="{
+      order: i * (template.reverse ? -1 : 1)
+    }"
     (click)="vote(i)">
     <ng-container
       *ngTemplateOutlet="

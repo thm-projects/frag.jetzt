@@ -97,7 +97,7 @@ export const templateEntries: EachOfTemplate<
     isPlain: true,
     name: 'agree-multi',
     translate: true,
-    reverse: true,
+    reverse: false,
     length: 5,
     style: defaultTemplateStyle,
     isGrid: false,
