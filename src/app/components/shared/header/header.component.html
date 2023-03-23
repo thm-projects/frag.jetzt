@@ -77,9 +77,9 @@
         (click)="openLivepollDialog()"
         *ngIf="navigationAccess.livepoll(router.url, room, user)">
         <mat-icon
-          class="material-icons header-icons material-icons-outlined"
+          class="material-icons header-icons material-icons-filled"
           style="transform: scale(1.2); margin-right: 5px">
-          ballot
+          mic_external_on
         </mat-icon>
         <span *ngIf="deviceInfo.isCurrentlyDesktop && !showSmallButtons">
           {{ "header.livepoll" | translate }}

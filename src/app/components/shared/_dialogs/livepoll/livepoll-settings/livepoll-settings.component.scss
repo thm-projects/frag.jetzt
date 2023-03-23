@@ -1,0 +1,12 @@
+.button {
+  &-primary {
+    background-color: transparent;
+    color: var(--primary);
+    outline: var(--primary) solid 3px;
+
+    &:hover {
+      background-color: var(--primary) !important;
+      color: var(--on-primary) !important;
+    }
+  }
+}

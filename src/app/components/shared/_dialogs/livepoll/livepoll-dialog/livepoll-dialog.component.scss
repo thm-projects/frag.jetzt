@@ -97,7 +97,7 @@
           position: relative;
           top: 4px;
           left: 13px;
-          font-weight: bold;
+          font-weight: normal;
           color: $bar-foreground;
         }
       }
@@ -191,7 +191,7 @@ fg-1 {
   > div {
     :first-child {
       margin-right: 4px;
-      font-weight: bold;
+      font-weight: normal;
     }
   }
 }

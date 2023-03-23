@@ -21,21 +21,21 @@ $bar-background: var(--livepoll-bar-background);
 
   &-secondary {
     background-color: transparent;
-    color: var(--primary);
-    outline: var(--primary) solid 3px;
+    color: var(--secondary);
+    outline: var(--secondary) solid 3px;
 
     &:hover {
-      background-color: var(--primary);
-      color: var(--on-primary);
+      background-color: var(--secondary);
+      color: var(--on-secondary);
     }
 
     &-filled {
-      background-color: var(--primary);
-      color: var(--on-primary);
+      background-color: var(--secondary);
+      color: var(--on-secondary);
 
       &:hover {
-        background-color: var(--primary);
-        color: var(--on-primary);
+        background-color: var(--secondary);
+        color: var(--on-secondary);
       }
     }
   }
