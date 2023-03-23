@@ -80,9 +80,9 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
       }[]
     | undefined;
   public isConclusion: boolean = false;
+  public rowHeight: number;
   private _destroyer = new ReplaySubject(1);
   private lastSession: LivepollSession;
-  private rowHeight: number;
 
   constructor(
     public readonly device: DeviceInfoService,

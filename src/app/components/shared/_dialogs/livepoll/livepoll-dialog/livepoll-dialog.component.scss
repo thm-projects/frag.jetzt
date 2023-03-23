@@ -1,12 +1,30 @@
 @import "../livepoll-common";
 
-.title {
+.dialog-title {
   display: flex;
   justify-content: space-between;
 
   > h5 {
     font-size: 12px;
     text-transform: uppercase;
+  }
+}
+
+.title-container {
+  display: flex;
+  flex-direction: column;
+  margin: 30px 0 0;
+
+  > .preview-title {
+    font-weight: inherit;
+    padding: 0;
+    margin: 0;
+  }
+
+  > .custom-title {
+    padding: 0;
+    margin: 0;
+    font-weight: bold;
   }
 }
 
@@ -19,21 +37,57 @@
   display: flex;
   flex-direction: column;
   margin-top: 16px;
-}
 
-.grid-true {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(2, 1fr);
-  grid-column-gap: 8px;
-  grid-row-gap: 8px;
+  .grid {
+    &-true {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: repeat(2, 1fr);
+      grid-column-gap: 8px;
+      grid-row-gap: 8px;
+      grid-auto-flow: column dense;
 
-  > button {
-    height: 64px;
+      > button {
+        height: 64px;
+      }
+    }
+
+    &-false {
+      display: flex;
+      flex-direction: column;
+
+      > button {
+        height: 64px;
+        margin-bottom: 8px;
+      }
+    }
+  }
+
+  .reverse {
+    &-true {
+      flex-direction: column;
+    }
+
+    &-false {
+      flex-direction: column;
+    }
   }
 }
 
 .info-container {
+  display: flex;
+  justify-content: flex-end;
+
+  > div ~ div {
+    margin-left: 16px;
+  }
+
+  > div {
+    :first-child {
+      margin-right: 4px;
+      font-weight: normal;
+    }
+  }
   @media only screen and (max-width: 900px) {
     font-size: 100%;
     line-height: 16px;
@@ -44,11 +98,6 @@
   }
 }
 
-.grid-false {
-  display: flex;
-  flex-direction: column;
-}
-
 .result-container {
   display: flex;
   flex-direction: row;
@@ -56,9 +105,18 @@
   $border-radius: 4;
   line-height: 120%;
 
+  .reverse {
+    &-true {
+      flex-direction: column-reverse;
+    }
+
+    &-false {
+      flex-direction: column;
+    }
+  }
+
   .left {
     display: flex;
-    flex-direction: column;
     max-width: 50%;
 
     .container {
@@ -84,7 +142,6 @@
 
   .right {
     display: flex;
-    flex-direction: column;
     flex-grow: 1;
 
     > .container {
@@ -200,22 +257,6 @@ fg-1 {
   > .row {
     display: flex;
     flex-direction: row;
-  }
-}
-
-.info-container {
-  display: flex;
-  justify-content: flex-end;
-
-  > div ~ div {
-    margin-left: 16px;
-  }
-
-  > div {
-    :first-child {
-      margin-right: 4px;
-      font-weight: normal;
-    }
   }
 }
 

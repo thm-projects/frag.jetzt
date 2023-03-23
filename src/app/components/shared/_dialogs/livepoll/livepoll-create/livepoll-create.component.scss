@@ -28,9 +28,3 @@
   display: flex;
   flex-direction: column;
 }
-
-.reverse {
-  &-true {
-    flex-direction: column-reverse;
-  }
-}
