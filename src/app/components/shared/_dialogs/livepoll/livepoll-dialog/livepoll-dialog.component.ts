@@ -383,8 +383,7 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
   }
 
   private onDeleteLivepoll() {
-    if (this.session.currentRole) {
-    } else {
+    if (!this.session.currentRole) {
       this.closeEmitter.emit();
     }
   }
