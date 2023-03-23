@@ -111,6 +111,7 @@
 
 @mixin mixinOption {
   padding: 0 8px;
+  hyphens: auto;
 }
 
 .option-plain {
