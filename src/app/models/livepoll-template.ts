@@ -1,8 +1,13 @@
 export enum LivepollTemplate {
-  Character = 'Character',
+  AB = 'AB',
+  ABC = 'ABC',
+  ABCD = 'ABCD',
+  ABCDE = 'ABCDE',
+  ABCDEF = 'ABCDEF',
   Symbol = 'Symbol',
   Agree = 'Agree',
   Frequency = 'Frequency',
+  Quality = 'Quality',
   YesNo = 'YesNo',
 }
 
@@ -68,12 +73,48 @@ export const templateEntries: EachOfTemplate<
   LivepollTemplate,
   LivepollNode<LivepollTemplate>
 > = {
-  [LivepollTemplate.Character]: {
-    kind: LivepollTemplate.Character,
+  [LivepollTemplate.AB]: {
+    kind: LivepollTemplate.AB,
     isPlain: true,
-    name: 'character',
+    name: 'AB',
+    translate: false,
+    symbols: ['A', 'B'],
+    style: defaultTemplateStyle,
+    isGrid: true,
+  },
+  [LivepollTemplate.ABC]: {
+    kind: LivepollTemplate.ABC,
+    isPlain: true,
+    name: 'ABC',
+    translate: false,
+    symbols: ['A', 'B', 'C'],
+    style: defaultTemplateStyle,
+    isGrid: true,
+  },
+  [LivepollTemplate.ABCD]: {
+    kind: LivepollTemplate.ABCD,
+    isPlain: true,
+    name: 'ABCD',
     translate: false,
     symbols: ['A', 'B', 'C', 'D'],
+    style: defaultTemplateStyle,
+    isGrid: true,
+  },
+  [LivepollTemplate.ABCDE]: {
+    kind: LivepollTemplate.ABCDE,
+    isPlain: true,
+    name: 'ABCDE',
+    translate: false,
+    symbols: ['A', 'B', 'C', 'D', 'E'],
+    style: defaultTemplateStyle,
+    isGrid: true,
+  },
+  [LivepollTemplate.ABCDEF]: {
+    kind: LivepollTemplate.ABCDEF,
+    isPlain: true,
+    name: 'ABCDEF',
+    translate: false,
+    symbols: ['A', 'B', 'C', 'D', 'E', 'F'],
     style: defaultTemplateStyle,
     isGrid: true,
   },
@@ -112,6 +153,16 @@ export const templateEntries: EachOfTemplate<
     style: defaultTemplateStyle,
     isGrid: true,
   },
+  [LivepollTemplate.Quality]: {
+    kind: LivepollTemplate.Quality,
+    isPlain: true,
+    name: 'quality-multi',
+    translate: true,
+    reverse: true,
+    length: 6,
+    style: defaultTemplateStyle,
+    isGrid: true,
+  },
   [LivepollTemplate.YesNo]: {
     kind: LivepollTemplate.YesNo,
     isPlain: false,
@@ -126,11 +177,16 @@ export const templateEntries: EachOfTemplate<
 
 export const groupEntries: EachOfGroup<LivepollGroupKind> = {
   [LivepollGroupKind.MultipleChoice]: [
-    templateEntries[LivepollTemplate.Character],
+    templateEntries[LivepollTemplate.AB],
+    templateEntries[LivepollTemplate.ABC],
+    templateEntries[LivepollTemplate.ABCD],
+    templateEntries[LivepollTemplate.ABCDE],
+    templateEntries[LivepollTemplate.ABCDEF],
   ],
   [LivepollGroupKind.LikertScale]: [
     templateEntries[LivepollTemplate.Agree],
     templateEntries[LivepollTemplate.Frequency],
+    templateEntries[LivepollTemplate.Quality],
   ],
   [LivepollGroupKind.Mood]: [
     templateEntries[LivepollTemplate.Symbol],
@@ -139,9 +195,9 @@ export const groupEntries: EachOfGroup<LivepollGroupKind> = {
 };
 
 export const livepollTemplateOrder: { [key in LivepollGroupKind]: number } = {
-  [LivepollGroupKind.MultipleChoice]: 2,
+  [LivepollGroupKind.MultipleChoice]: 0,
   [LivepollGroupKind.LikertScale]: 1,
-  [LivepollGroupKind.Mood]: 0,
+  [LivepollGroupKind.Mood]: 2,
 };
 
 export const templateContext: LivepollTemplateContext[] = Object.keys(

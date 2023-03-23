@@ -23,20 +23,24 @@
     "creator-settings-delete": "Umfrage beenden",
     "creator-settings-pause": "Umfrage pausieren",
     "creator-settings-continue": "Umfrage fortsetzen",
-    "template-name-character": "ABCD",
+    "template-name-AB": "AB",
+    "template-name-ABC": "ABC",
+    "template-name-ABCD": "ABCD",
+    "template-name-ABCDE": "ABCDE",
+    "template-name-ABCDEF": "ABCDEF",
     "template-name-symbol": "Stimmung",
     "option-select-result-visibility": "Abstimmung sichtbar",
     "tooltip-option-select-result-visibility": "Abstimmung für alle im Raum in Echtzeit anzeigen",
     "option-select-views-visibility": "Beteiligung sichtbar",
     "tooltip-option-select-views-visibility": "Beteiligung für alle im Raum in Echtzeit anzeigen",
     "option-select-template": "Wähle eine Vorlage …",
-    "template-name-agree-multi": "Grad der Zustimmung",
+    "template-name-agree-multi": "Zustimmung",
     "option-agree-multi": [
-      "stimme voll und ganz zu",
-      "stimme eher zu",
-      "weiß nicht",
-      "bin eher dagegen",
-      "bin entschieden dagegen"
+      "ich stimme voll und ganz zu",
+      "ich stimme eher zu",
+      "ich bin mir nicht sicher",
+      "ich bin eher dagegen",
+      "ich bin entschieden dagegen"
     ],
     "template-name-frequency-multi": "Häufigkeit",
     "option-frequency-multi": [
@@ -45,11 +49,20 @@
       "öfters",
       "immer"
     ],
-    "template-name-agree-binary": "Ja oder Nein",
+    "template-name-quality-multi": "Qualität",
+    "option-quality-multi": [
+      "sehr gut",
+      "gut",
+      "befriedigend",
+      "ausreichend",
+      "mangelhaft",
+      "ungenügend"
+    ],
+    "template-name-agree-binary": "Daumen hoch | Daumen runter",
     "group-label": {
-      "multiplechoice": "Einfachauswahl: ABCD …",
+      "multiplechoice": "Einfachauswahl: AB …",
       "likertscale": "Likert-Skalen",
-      "mood": "Einfachauswahl mit Emojis",
+      "mood": "Einfachauswahl: Emojis",
       "custom": "Benutzerdefiniert"
     }
   }
