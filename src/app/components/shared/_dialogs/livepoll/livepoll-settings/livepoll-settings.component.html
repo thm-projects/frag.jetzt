@@ -47,10 +47,16 @@
     <div class="expansion-action-list">
       <button
         *ngIf="parent.isProduction"
-        class="button-primary action-button"
+        class="button-save"
         mat-flat-button
         (click)="parent.save()">
-        <span>{{ parent.translateKey + ".save" | translate }}</span>
+        <mat-icon class="force-corporate-design">save</mat-icon>
+        <span
+          class="force-corporate-design"
+          style="margin-left: 4px"
+          *ngIf="parent.device.isCurrentlyDesktop">
+          {{ parent.translateKey + ".save" | translate }}
+        </span>
       </button>
     </div>
   </mat-expansion-panel>
