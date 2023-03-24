@@ -14,7 +14,7 @@
     "vote-delete": "Ton vote a été supprimé.",
     "dialog-confirm-create-new-description": "Veux-tu vraiment arrêter le sondage en cours et en lancer un nouveau ?",
     "dialog-confirm-create-new-title": "Nouveau sondage",
-    "dialog-confirm-delete-description": "Veux-tu vraiment arrêter le sondage ? Les résultats des votes seront toujours affichés.",
+    "dialog-confirm-delete-description": "Veux-tu vraiment arrêter le sondage ? Le résultat du sondage reste affiché. Toutefois, il sera supprimé lorsque tu quitteras le sondage.",
     "dialog-confirm-delete-title": "Arrêter le sondage",
     "votes": "Votes :",
     "confirm-yes": "Oui, arrêter",

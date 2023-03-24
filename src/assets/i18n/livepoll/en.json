@@ -14,7 +14,7 @@
   "vote-delete": "Your vote has been reset.",
   "dialog-confirm-create-new-description": "Are you sure you want to end the current poll and start a new one?",
   "dialog-confirm-create-new-title": "New poll",
-  "dialog-confirm-delete-description": "Are you sure you want to end the poll? The results will still be displayed.",
+  "dialog-confirm-delete-description": "Are you sure you want to end the poll? The poll result will still be displayed. However, it will be deleted when you exit the poll.",
   "dialog-confirm-delete-title": "End poll",
   "votes": "Votes:",
   "confirm-yes": "Yes, end poll",
