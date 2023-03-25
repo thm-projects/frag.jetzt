@@ -1,6 +1,6 @@
 {
   "common": {
-  "create-dialog-title": "Create poll",
+  "create-dialog-title": "Create flash poll",
   "dialog-title": "Flash poll",
   "option-select-title": "Your question…",
   "dialog-preview-title": "Preview from participant view:",
@@ -61,7 +61,7 @@
   "template-name-agree-binary": "Thumbs up | Thumbs down",
   "group-label": {
   "multiplechoice": "Multiple choice: AB...",
-  "likertscale": "Likert scales",
+  "likertscale": "Rating scale",
       "mood": "Mood",
       "custom": "Custom"
     }

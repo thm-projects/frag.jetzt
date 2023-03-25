@@ -1,6 +1,6 @@
 {
   "common": {
-    "create-dialog-title": "Créer un sondage",
+    "create-dialog-title": "Créer un sondage rapide",
     "dialog-title": "Sondage rapide",
     "option-select-title": "Ta question …",
     "dialog-preview-title": "Aperçu du participant :",
@@ -56,7 +56,7 @@
     "template-name-agree-binary": "Pouce en haut | Pouce en bas",
     "group-label": {
       "multiplechoice": "Choix simple : AB ...",
-      "likertscale": "Échelle de Likert",
+      "likertscale": "Échelle d'évaluation",
       "mood": "Choix simple : Emojis",
       "custom": "Personnalisé"
     }

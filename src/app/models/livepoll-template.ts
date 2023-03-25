@@ -125,9 +125,9 @@ export const templateEntries: EachOfTemplate<
     translate: false,
     reverse: true,
     symbols: [
+      'mood_bad',
       'sentiment_very_dissatisfied',
-      'sentiment_neutral',
-      'sentiment_satisfied',
+      'sentiment_satisfied_alt',
       'sentiment_very_satisfied',
     ],
     style: defaultTemplateStyle,

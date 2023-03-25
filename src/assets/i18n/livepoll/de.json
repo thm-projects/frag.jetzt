@@ -1,6 +1,6 @@
 {
   "common": {
-    "create-dialog-title": "Umfrage erstellen",
+    "create-dialog-title": "Blitzumfrage erstellen",
     "dialog-title": "Blitzumfrage",
     "option-select-title": "Deine Frage …",
     "dialog-preview-title": "Vorschau aus Teilnehmersicht:",
@@ -61,7 +61,7 @@
     "template-name-agree-binary": "Daumen hoch | Daumen runter",
     "group-label": {
       "multiplechoice": "Einfachauswahl: AB …",
-      "likertscale": "Likert-Skalen",
+      "likertscale": "Bewertungsskala",
       "mood": "Einfachauswahl: Emojis",
       "custom": "Benutzerdefiniert"
     }
