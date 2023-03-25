@@ -204,7 +204,6 @@ export const groupEntries: EachOfGroup<LivepollGroupKind> = {
     templateEntries[LivepollTemplate.ABC],
     templateEntries[LivepollTemplate.ABCD],
     templateEntries[LivepollTemplate.ABCDE],
-    templateEntries[LivepollTemplate.ABCDEF],
   ],
   [LivepollGroupKind.LikertScale]: [
     templateEntries[LivepollTemplate.Agree],

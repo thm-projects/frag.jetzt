@@ -27,7 +27,6 @@
     "template-name-ABC": "ABC",
     "template-name-ABCD": "ABCD",
     "template-name-ABCDE": "ABCDE",
-    "template-name-ABCDEF": "ABCDEF",
     "template-name-symbol": "Stimmung",
     "option-select-result-visibility": "Abstimmung sichtbar",
     "tooltip-option-select-result-visibility": "Abstimmung für alle im Raum in Echtzeit anzeigen",
@@ -65,11 +64,11 @@
     "template-name-feedback-multi-2": "Erwartungserfüllung",
     "option-feedback-multi-2": [
       "Erwartungen voll und ganz erfüllt",
-      "Erwartungen weitestgehend erfüllt",
-      "Erwartungen teilweise erfüllt",
-      "Erwartungen teilweise nicht erfüllt",
-      "Erwartungen weitestgehend nicht erfüllt",
-      "Erwartungen ganz und gar nicht erfüllt"
+      "… weitestgehend erfüllt",
+      "… teilweise erfüllt",
+      "… teilweise nicht erfüllt",
+      "… weitestgehend nicht erfüllt",
+      "… ganz und gar nicht erfüllt"
     ],
     "template-name-agree-binary": "Daumen hoch | Daumen runter",
     "group-label": {

@@ -27,7 +27,6 @@
     "template-name-ABC": "ABC",
     "template-name-ABCD": "ABCD",
     "template-name-ABCDE": "ABCDE",
-    "template-name-ABCDEF": "ABCDEF",
     "template-name-symbol": "Humeur",
     "option-select-result-visibility": "Rendre le vote visible",
     "tooltip-option-select-result-visibility": "Afficher les votes en temps réel pour tous les participants",
@@ -65,11 +64,11 @@
     "template-name-feedback-multi-2": "Satisfaction des attentes",
     "option-feedback-multi-2": [
       "Attentes pleinement satisfaites",
-      "Attentes en grande partie satisfaites",
-      "Attentes partiellement satisfaites",
-      "Attentes partiellement non satisfaites",
-      "Attentes en grande partie non satisfaites",
-      "Attentes pas du tout satisfaites"
+      "… en grande partie satisfaites",
+      "… partiellement satisfaites",
+      "… partiellement non satisfaites",
+      "… en grande partie non satisfaites",
+      "… pas du tout satisfaites"
     ],
     "template-name-agree-binary": "Pouce en haut | Pouce en bas",
     "group-label": {

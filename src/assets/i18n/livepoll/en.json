@@ -27,7 +27,6 @@
     "template-name-ABC": "ABC",
     "template-name-ABCD": "ABCD",
     "template-name-ABCDE": "ABCDE",
-    "template-name-ABCDEF": "ABCDEF",
     "template-name-symbol": "Mood",
     "option-select-result-visibility": "Poll results visible",
     "tooltip-option-select-result-visibility": "Show poll results in real-time for everyone in the room",
@@ -65,11 +64,11 @@
     "template-name-feedback-multi-2": "Expectation fulfillment",
     "option-feedback-multi-2": [
       "Expectations fully met",
-      "Expectations largely met",
-      "Expectations partially met",
-      "Expectations partially not met",
-      "Expectations largely not met",
-      "Expectations not met at all"
+      "… largely met",
+      "… partially met",
+      "… partially not met",
+      "… largely not met",
+      "… not met at all"
     ],
     "template-name-agree-binary": "Thumbs up | Thumbs down",
     "group-label": {
