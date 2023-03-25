@@ -53,12 +53,31 @@
       "Insuffisant",
       "Très insuffisant"
     ],
+    "template-name-feedback-multi": "Compréhension de la présentation",
+    "option-feedback-multi": [
+      "Très facile à suivre",
+      "Facile à suivre",
+      "Assez facile à suivre",
+      "Assez difficile à suivre",
+      "Difficile à suivre",
+      "Très difficile à suivre"
+    ],
+    "template-name-feedback-multi-2": "Satisfaction des attentes",
+    "option-feedback-multi-2": [
+      "Attentes pleinement satisfaites",
+      "Attentes en grande partie satisfaites",
+      "Attentes partiellement satisfaites",
+      "Attentes partiellement non satisfaites",
+      "Attentes en grande partie non satisfaites",
+      "Attentes pas du tout satisfaites"
+    ],
     "template-name-agree-binary": "Pouce en haut | Pouce en bas",
     "group-label": {
-      "multiplechoice": "Choix simple : AB ...",
-      "likertscale": "Échelle d'évaluation",
-      "mood": "Choix simple : Emojis",
-      "custom": "Personnalisé"
+      "multiplechoice": "AB …",
+      "likertscale": "Évaluation",
+      "mood": "Emojis",
+      "custom": "Personnalisé",
+      "feedback": "Feedback sur la présentation"
     }
   }
 }

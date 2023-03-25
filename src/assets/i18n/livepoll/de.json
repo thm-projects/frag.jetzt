@@ -43,12 +43,7 @@
       "ich bin entschieden dagegen"
     ],
     "template-name-frequency-multi": "Häufigkeit",
-    "option-frequency-multi": [
-      "nie",
-      "selten",
-      "öfters",
-      "immer"
-    ],
+    "option-frequency-multi": ["nie", "selten", "öfters", "immer"],
     "template-name-quality-multi": "Qualität",
     "option-quality-multi": [
       "sehr gut",
@@ -58,11 +53,30 @@
       "mangelhaft",
       "ungenügend"
     ],
+    "template-name-feedback-multi": "Verständlichkeit der Präsentation",
+    "option-feedback-multi": [
+      "Sehr leicht verständlich",
+      "Leicht verständlich",
+      "Ziemlich leicht verständlich",
+      "Ziemlich schwer verständlich",
+      "Schwer verständlich",
+      "Sehr schwer verständlich"
+    ],
+    "template-name-feedback-multi-2": "Erwartungserfüllung",
+    "option-feedback-multi-2": [
+      "Erwartungen voll und ganz erfüllt",
+      "Erwartungen weitestgehend erfüllt",
+      "Erwartungen teilweise erfüllt",
+      "Erwartungen teilweise nicht erfüllt",
+      "Erwartungen weitestgehend nicht erfüllt",
+      "Erwartungen ganz und gar nicht erfüllt"
+    ],
     "template-name-agree-binary": "Daumen hoch | Daumen runter",
     "group-label": {
-      "multiplechoice": "Einfachauswahl: AB …",
-      "likertscale": "Bewertungsskala",
-      "mood": "Einfachauswahl: Emojis",
+      "multiplechoice": "AB …",
+      "likertscale": "Bewertung",
+      "mood": "Emojis",
+      "feedback": "Feedback zur Präsentation",
       "custom": "Benutzerdefiniert"
     }
   }

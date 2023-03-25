@@ -8,13 +8,16 @@ export enum LivepollTemplate {
   Agree = 'Agree',
   Frequency = 'Frequency',
   Quality = 'Quality',
+  Feedback = 'Feedback',
   YesNo = 'YesNo',
+  Feedback2 = 'Feedback2',
 }
 
 export enum LivepollGroupKind {
   MultipleChoice,
   LikertScale,
   Mood,
+  Feedback,
 }
 
 export type StyleProperties = {
@@ -163,6 +166,26 @@ export const templateEntries: EachOfTemplate<
     style: defaultTemplateStyle,
     isGrid: true,
   },
+  [LivepollTemplate.Feedback]: {
+    kind: LivepollTemplate.Feedback,
+    isPlain: true,
+    name: 'feedback-multi',
+    translate: true,
+    reverse: false,
+    length: 6,
+    style: defaultTemplateStyle,
+    isGrid: false,
+  },
+  [LivepollTemplate.Feedback2]: {
+    kind: LivepollTemplate.Feedback2,
+    isPlain: true,
+    name: 'feedback-multi-2',
+    translate: true,
+    reverse: false,
+    length: 6,
+    style: defaultTemplateStyle,
+    isGrid: false,
+  },
   [LivepollTemplate.YesNo]: {
     kind: LivepollTemplate.YesNo,
     isPlain: false,
@@ -192,12 +215,17 @@ export const groupEntries: EachOfGroup<LivepollGroupKind> = {
     templateEntries[LivepollTemplate.Symbol],
     templateEntries[LivepollTemplate.YesNo],
   ],
+  [LivepollGroupKind.Feedback]: [
+    templateEntries[LivepollTemplate.Feedback],
+    templateEntries[LivepollTemplate.Feedback2],
+  ],
 };
 
 export const livepollTemplateOrder: { [key in LivepollGroupKind]: number } = {
   [LivepollGroupKind.MultipleChoice]: 0,
   [LivepollGroupKind.LikertScale]: 1,
-  [LivepollGroupKind.Mood]: 2,
+  [LivepollGroupKind.Mood]: 3,
+  [LivepollGroupKind.Feedback]: 2,
 };
 
 export const templateContext: LivepollTemplateContext[] = Object.keys(
