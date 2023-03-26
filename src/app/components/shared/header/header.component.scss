@@ -52,7 +52,7 @@ mat-toolbar-row {
   overflow: visible;
 
   > button {
-    background-color: var(--background);
+    background-color: transparent;
     color: var(--on-background);
   }
 }
