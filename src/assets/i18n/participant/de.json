@@ -538,7 +538,7 @@
   },
   "spacy-dialog": {
     "add-manually": "Gib ein Stichwort zu deiner Frage ein. Trenne mehrere Stichwörter mit einem Komma.",
-    "analysis-bad-spelled": "Es konnten keine Stichwörter generiert werden.",
+    "analysis-bad-spelled": "Hinweis: Der Text eignet sich nicht zur Generierung von Stichwörtern.",
     "analysis-error": "Während der Extraktion von Stichwörtern sind Fehler aufgetreten. Soll die Frage ohne Stichwörter erstellt werden?",
     "auto": "auto",
     "de": "Deutsch",

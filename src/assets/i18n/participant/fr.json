@@ -537,7 +537,7 @@
   },
   "spacy-dialog": {
     "add-manually": "Saisis un mot-clé en rapport avec ta question. Sépare plusieurs mots-clés par une virgule.",
-    "analysis-bad-spelled": "Aucun mot-clé n'a pu être généré",
+    "analysis-bad-spelled": "Remarque : Le texte n'est pas adapté à la génération de mots-clés.",
     "analysis-error": "Des erreurs sont survenues pendant l'extraction des mots-clés. Doit-on créer la question sans mots-clés ?",
     "auto": "auto",
     "de": "Allemand",
