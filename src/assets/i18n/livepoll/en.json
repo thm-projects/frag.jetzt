@@ -70,6 +70,13 @@
       "… largely not met",
       "… not met at all"
     ],
+    "template-name-feedback-multi-3": "Presentation style",
+    "option-feedback-multi-3": [
+      "too quiet",
+      "too fast",
+      "too slow",
+      "keep it up"
+    ],
     "template-name-agree-binary": "Thumbs up | Thumbs down",
     "group-label": {
       "multiplechoice": "AB…",

@@ -70,6 +70,13 @@
       "… weitestgehend nicht erfüllt",
       "… ganz und gar nicht erfüllt"
     ],
+    "template-name-feedback-multi-3": "Vortragsstil",
+    "option-feedback-multi-3": [
+      "zu leise",
+      "zu schnell",
+      "zu langsam",
+      "weiter so"
+    ],
     "template-name-agree-binary": "Daumen hoch | Daumen runter",
     "group-label": {
       "multiplechoice": "AB …",

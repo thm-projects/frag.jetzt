@@ -11,6 +11,7 @@ export enum LivepollTemplate {
   Feedback = 'Feedback',
   YesNo = 'YesNo',
   Feedback2 = 'Feedback2',
+  Feedback3 = 'Feedback3',
 }
 
 export enum LivepollGroupKind {
@@ -186,6 +187,16 @@ export const templateEntries: EachOfTemplate<
     style: defaultTemplateStyle,
     isGrid: false,
   },
+  [LivepollTemplate.Feedback3]: {
+    kind: LivepollTemplate.Feedback3,
+    isPlain: true,
+    name: 'feedback-multi-3',
+    translate: true,
+    reverse: false,
+    length: 4,
+    style: defaultTemplateStyle,
+    isGrid: true,
+  },
   [LivepollTemplate.YesNo]: {
     kind: LivepollTemplate.YesNo,
     isPlain: false,
@@ -217,6 +228,7 @@ export const groupEntries: EachOfGroup<LivepollGroupKind> = {
   [LivepollGroupKind.Feedback]: [
     templateEntries[LivepollTemplate.Feedback],
     templateEntries[LivepollTemplate.Feedback2],
+    templateEntries[LivepollTemplate.Feedback3],
   ],
 };
 

@@ -70,6 +70,13 @@
       "… en grande partie non satisfaites",
       "… pas du tout satisfaites"
     ],
+    "template-name-feedback-multi-3": "Style de présentation",
+    "option-feedback-multi-3": [
+      "trop calme",
+      "trop rapide",
+      "trop lent",
+      "continuer ainsi"
+      ],
     "template-name-agree-binary": "Pouce en haut | Pouce en bas",
     "group-label": {
       "multiplechoice": "AB …",
