@@ -33,31 +33,31 @@
     "option-select-template": "Select a template…",
     "template-name-agree-multi": "Agreement",
     "option-agree-multi": [
-      "Strongly agree",
-      "Somewhat agree",
-      "Neutral",
-      "Somewhat disagree",
-      "Strongly disagree"
+      "strongly agree",
+      "somewhat agree",
+      "neutral",
+      "somewhat disagree",
+      "strongly disagree"
     ],
     "template-name-frequency-multi": "Frequency",
-    "option-frequency-multi": ["Never", "Rarely", "Sometimes", "Always"],
+    "option-frequency-multi": ["never", "rarely", "sometimes", "always"],
     "template-name-quality-multi": "Quality",
     "option-quality-multi": [
-      "Excellent",
-      "Good",
-      "Fair",
-      "Poor",
-      "Very poor",
-      "Unacceptable"
+      "excellent",
+      "good",
+      "fair",
+      "poor",
+      "very poor",
+      "unacceptable"
     ],
     "template-name-feedback-multi": "Comprehensibility of presentation",
     "option-feedback-multi": [
-      "Very easy to follow",
-      "Easy to follow",
-      "Fairly easy to follow",
-      "Fairly hard to follow",
-      "Hard to follow",
-      "Very hard to follow"
+      "very easy to follow",
+      "easy to follow",
+      "fairly easy to follow",
+      "fairly hard to follow",
+      "hard to follow",
+      "very hard to follow"
     ],
     "template-name-feedback-multi-2": "Expectation fulfillment",
     "option-feedback-multi-2": [

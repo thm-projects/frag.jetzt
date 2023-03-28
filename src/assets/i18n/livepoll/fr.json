@@ -40,24 +40,24 @@
       "Je suis totalement en désaccord"
     ],
     "template-name-frequency-multi": "Fréquence",
-    "option-frequency-multi": ["Jamais", "Rarement", "Souvent", "Toujours"],
+    "option-frequency-multi": ["jamais", "rarement", "souvent", "toujours"],
     "template-name-quality-multi": "Qualité",
     "option-quality-multi": [
-      "Très bien",
-      "Bien",
-      "Satisfaisant",
-      "Suffisant",
-      "Insuffisant",
-      "Très insuffisant"
+      "très bien",
+      "bien",
+      "satisfaisant",
+      "suffisant",
+      "insuffisant",
+      "très insuffisant"
     ],
     "template-name-feedback-multi": "Compréhension de la présentation",
     "option-feedback-multi": [
-      "Très facile à suivre",
-      "Facile à suivre",
-      "Assez facile à suivre",
-      "Assez difficile à suivre",
-      "Difficile à suivre",
-      "Très difficile à suivre"
+      "très facile à suivre",
+      "facile à suivre",
+      "assez facile à suivre",
+      "assez difficile à suivre",
+      "difficile à suivre",
+      "très difficile à suivre"
     ],
     "template-name-feedback-multi-2": "Satisfaction des attentes",
     "option-feedback-multi-2": [
@@ -70,7 +70,7 @@
     ],
     "template-name-feedback-multi-3": "Style de présentation",
     "option-feedback-multi-3": [
-      "trop calme",
+      "trop faible",
       "trop rapide",
       "trop lent",
       "continuer ainsi"
