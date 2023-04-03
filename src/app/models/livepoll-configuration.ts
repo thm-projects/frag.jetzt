@@ -11,8 +11,8 @@ export interface LivepollConfiguration {
 
 export const defaultLivepollConfiguration: LivepollConfiguration = {
   title: undefined,
-  viewsVisible: true,
-  resultVisible: true,
+  viewsVisible: false,
+  resultVisible: false,
   isLive: false,
   template: LivepollTemplate.Symbol,
 };
