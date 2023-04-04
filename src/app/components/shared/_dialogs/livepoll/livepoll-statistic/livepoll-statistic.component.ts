@@ -5,6 +5,7 @@ import { LivepollComponentUtility } from '../livepoll-component-utility';
 import { TranslateService } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
 import { ReplaySubject } from 'rxjs';
+import { LivepollOptionEntry } from '../livepoll-dialog/livepoll-dialog.component';
 
 @Component({
   selector: 'app-livepoll-statistic',
@@ -13,12 +14,7 @@ import { ReplaySubject } from 'rxjs';
   animations: [...LivepollComponentUtility.animation],
 })
 export class LivepollStatisticComponent implements OnInit, OnDestroy {
-  @Input() options:
-    | {
-        index: number;
-        symbol: string;
-      }[]
-    | undefined;
+  @Input() options: LivepollOptionEntry[] | undefined;
 
   @Input() template: LivepollTemplateContext;
   @Input() translateKey: string;

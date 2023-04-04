@@ -19,6 +19,7 @@ import {
   LivepollDialogResponseData,
 } from '../../components/shared/_dialogs/livepoll/livepoll-dialog/livepoll-dialog.component';
 import { LivepollCreateComponent } from '../../components/shared/_dialogs/livepoll/livepoll-create/livepoll-create.component';
+import { LivepollSummaryComponent } from '../../components/shared/_dialogs/livepoll/livepoll-summary/livepoll-summary.component';
 
 export interface LivepollSessionCreateAPI {
   template: string;
@@ -216,17 +217,23 @@ export class LivepollService extends BaseHttpService {
       );
       dialogRef.afterClosed().subscribe((result) => {
         switch (result?.reason) {
-          // user wants to delete live poll
           case 'delete':
             this.delete(session.currentLivepoll.id).subscribe((res) => {
-              console.log('deleted', session.currentLivepoll, result);
+              this._dialogState.next(LivepollDialogState.Closed);
+              this.openSummary(session, result.session);
             });
             break;
-          // user wants to create a new live poll
           case 'reset':
-            this.delete(session.currentLivepoll.id).subscribe(() => {});
+            this.delete(session.currentLivepoll.id).subscribe(() => {
+              this._dialogState.next(LivepollDialogState.Closed);
+              this.open(session);
+            });
             break;
-          // 'close' or 'undefined', user just closed dialog
+          case 'closedAsCreator':
+            this._dialogState.next(LivepollDialogState.Closed);
+            this.openSummary(session, result.session);
+            break;
+          case 'closedAsParticipant':
           case 'close':
           default:
             break;
@@ -275,5 +282,19 @@ export class LivepollService extends BaseHttpService {
     dialogRef.afterOpened().subscribe(() => {
       this._dialogState.next(LivepollDialogState.Open);
     });
+  }
+
+  private openSummary(
+    session: SessionService,
+    livepollSession: LivepollSession,
+  ) {
+    const config = {
+      ...{ data: livepollSession },
+      ...LivepollService.dialogDefaults,
+    };
+    const dialogRef: MatDialogRef<LivepollSummaryComponent> = this.dialog.open(
+      LivepollSummaryComponent,
+      config,
+    );
   }
 }

@@ -41,7 +41,13 @@ export type LivepollDialogResponseReason =
   | 'closedAsCreator';
 
 export interface LivepollDialogResponseData {
+  session: LivepollSession;
   reason: LivepollDialogResponseReason;
+}
+
+export interface LivepollOptionEntry {
+  index: number;
+  symbol: string;
 }
 
 @Component({
@@ -62,12 +68,7 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
   public votes: number[] = [];
   public livepollVote: LivepollVote;
   public userCount: number = 1;
-  public options:
-    | {
-        index: number;
-        symbol: string;
-      }[]
-    | undefined;
+  public options: LivepollOptionEntry[] | undefined;
   public isConclusion: boolean = false;
   public waitForSocket: boolean = false;
   public rowHeight: number;
@@ -253,6 +254,7 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
         ).subscribe((x) => {
           if (x) {
             this.dialogRef.close({
+              session: this.livepollSession,
               reason,
             });
           }
@@ -265,6 +267,7 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
         ).subscribe((x) => {
           if (x) {
             this.dialogRef.close({
+              session: this.livepollSession,
               reason,
             });
           }
@@ -283,6 +286,7 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
       case 'closedAsParticipant':
       default:
         this.dialogRef.close({
+          session: this.livepollSession,
           reason,
         });
         break;
@@ -370,28 +374,7 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
       this.livepollSession.template = this.template.kind;
     }
     if (this.template) {
-      this.votes = new Array(
-        this.template.symbols?.length || this.template.length,
-      ).fill(0);
-      this.rowHeight = Math.ceil(this.votes.length / 2);
-      if (typeof this.template.length === 'undefined') {
-        this.options = this.template.symbols.map((option, index) => ({
-          index,
-          symbol: option,
-        }));
-      } else {
-        const options: {
-          index: number;
-          symbol: string;
-        }[] = [];
-        for (let index = 0; index < this.template.length; index++) {
-          options.push({
-            index,
-            symbol: 'option-' + this.template.name,
-          });
-        }
-        this.options = options;
-      }
+      LivepollComponentUtility.initTemplate(this);
     }
   }
 }
