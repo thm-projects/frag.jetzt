@@ -24,7 +24,11 @@ import {
 import { LivepollSession } from '../../../../../models/livepoll-session';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { clone, UUID } from 'app/utils/ts-utils';
-import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import {
+  MAT_DIALOG_DATA,
+  MatDialog,
+  MatDialogRef,
+} from '@angular/material/dialog';
 import { LivepollConfirmationDialogComponent } from '../livepoll-confirmation-dialog/livepoll-confirmation-dialog.component';
 import { take } from 'rxjs/operators';
 import { LivepollVote } from '../../../../../models/livepoll-vote';
@@ -33,19 +37,15 @@ import { NotificationService } from '../../../../../services/util/notification.s
 import { ActiveUserService } from 'app/services/http/active-user.service';
 import { LivepollComponentUtility } from '../livepoll-component-utility';
 
-const animateOpen = {
-  opacity: 1,
-  height: '*',
-};
-
-const animateClosed = {
-  opacity: 0,
-  height: '0px',
-};
-
-export interface LivepollDialogData {
+export interface LivepollDialogInjectionData {
   session: LivepollSession;
   isProduction: boolean;
+}
+
+export type LivepollDialogResponseReason = 'close' | 'delete' | 'reset';
+
+export interface LivepollDialogResponseData {
+  reason: LivepollDialogResponseReason;
 }
 
 @Component({
@@ -56,23 +56,12 @@ export interface LivepollDialogData {
     '../livepoll-create/livepoll-create.component.scss',
     '../livepoll-common.scss',
   ],
-  animations: [
-    trigger('AnimateInOut', [
-      transition(':enter', [
-        style(animateClosed),
-        animate('200ms ease-in-out', style(animateOpen)),
-      ]),
-      transition(':leave', [
-        animate('200ms ease-in-out', style(animateClosed)),
-      ]),
-    ]),
-  ],
+  animations: [...LivepollComponentUtility.animation],
 })
 export class LivepollDialogComponent implements OnInit, OnDestroy {
   @Input() public livepollSession: LivepollSession | undefined;
   @Input() public template: LivepollTemplateContext;
   @Input() public isProduction: boolean = false;
-  @Output() closeEmitter: EventEmitter<void> = new EventEmitter();
   public translateKey: string = 'common';
   public votes: number[] = [];
   public livepollVote: LivepollVote;
@@ -99,12 +88,12 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
     public readonly livepollService: LivepollService,
     public readonly wsLivepollService: WsLivepollService,
     public readonly dialog: MatDialog,
+    public readonly dialogRef: MatDialogRef<LivepollDialogResponseData>,
     public readonly notification: NotificationService,
     private readonly activeUser: ActiveUserService,
-    @Inject(MAT_DIALOG_DATA) data: LivepollDialogData,
+    @Inject(MAT_DIALOG_DATA) data: LivepollDialogInjectionData,
   ) {
     if (data) {
-      console.log('yeet');
       this.livepollSession = data.session;
       this.isProduction = data.isProduction;
       this.lastSession = clone(this.livepollSession) as LivepollSession;
@@ -139,7 +128,7 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
           .subscribe((changes) => {
             if (typeof changes.active !== 'undefined' && !changes.active) {
               this.isConclusion = true;
-              this.onDeleteLivepoll();
+              this.close('delete');
             }
           });
         // init ws.service
@@ -214,19 +203,6 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
       .subscribe((d) => (this.lastSession = d));
   }
 
-  public delete() {
-    this.createConfirmationDialog(
-      'dialog-confirm-delete-title',
-      'dialog-confirm-delete-description',
-    ).subscribe((x) => {
-      if (x) {
-        this.livepollService
-          .delete(this.livepollSession.id)
-          .subscribe(() => {});
-      }
-    });
-  }
-
   public pause() {
     this.livepollService
       .setPaused(this.livepollSession.id, true)
@@ -269,35 +245,39 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
     }
   }
 
-  public getVotePercentage(i: number) {
-    return Math.floor(
-      this.votes[i] ? (this.votes[i] / this.totalVotes) * 100 : 0,
-    );
-  }
-
-  public getVoteBarSize(i: number) {
-    return Math.floor(
-      this.votes[i]
-        ? (this.votes[i] /
-            ((this.votes.reduce((a, b) => Math.max(a, b)) + this.totalVotes) /
-              2)) *
-            100
-        : 0,
-    );
-  }
-
-  public createNewLivepoll() {
-    this.createConfirmationDialog(
-      'dialog-confirm-create-new-title',
-      'dialog-confirm-create-new-description',
-    ).subscribe((x) => {
-      if (x) {
-        this.livepollService.delete(this.livepollSession.id).subscribe(() => {
-          this.closeEmitter.emit();
-          this.livepollService.open(this.session);
+  public close(reason: LivepollDialogResponseReason) {
+    switch (reason) {
+      case 'delete':
+        this.createConfirmationDialog(
+          'dialog-confirm-delete-title',
+          'dialog-confirm-delete-description',
+        ).subscribe((x) => {
+          if (x) {
+            this.dialogRef.close({
+              reason,
+            });
+          }
         });
-      }
-    });
+        break;
+      case 'reset':
+        this.createConfirmationDialog(
+          'dialog-confirm-create-new-title',
+          'dialog-confirm-create-new-description',
+        ).subscribe((x) => {
+          if (x) {
+            this.dialogRef.close({
+              reason,
+            });
+          }
+        });
+        break;
+      case 'close':
+      default:
+        this.dialogRef.close({
+          reason,
+        });
+        break;
+    }
   }
 
   public getVoteButtonClass(index: number) {
@@ -403,12 +383,6 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
         }
         this.options = options;
       }
-    }
-  }
-
-  private onDeleteLivepoll() {
-    if (!this.session.currentRole) {
-      this.closeEmitter.emit();
     }
   }
 }

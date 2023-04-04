@@ -27,7 +27,7 @@ import { LivepollComponentUtility } from '../livepoll-component-utility';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import {
   LivepollDialogComponent,
-  LivepollDialogData,
+  LivepollDialogInjectionData,
 } from '../livepoll-dialog/livepoll-dialog.component';
 import { LivepollSessionCreateAPI } from '../../../../../services/http/livepoll.service';
 
@@ -128,7 +128,7 @@ export class LivepollCreateComponent implements OnDestroy, AfterViewInit {
             useValue: {
               isProduction: false,
               session: this.livepollConfiguration,
-            } as LivepollDialogData,
+            } as LivepollDialogInjectionData,
           },
         ],
       }),

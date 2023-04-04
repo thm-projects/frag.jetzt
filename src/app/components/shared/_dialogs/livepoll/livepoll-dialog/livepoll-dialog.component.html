@@ -43,58 +43,15 @@
     <!-- relative / absolute settings -->
   </div>
 
-  <div
-    class="result-container"
-    @AnimateInOut
-    *ngIf="options && livepollSession.resultVisible">
-    <div
-      class="left"
-      [ngClass]="!!template.reverse ? 'reverse-true' : 'reverse-false'">
-      <ng-container *ngFor="let option of options">
-        <div class="container">
-          <ng-container *ngIf="template.isPlain">
-            <ng-container *ngIf="template.translate">
-              <span class="option-plain-translate">
-                {{
-                  (translateKey + "." + option.symbol | translate)[option.index]
-                }}
-              </span>
-            </ng-container>
-            <ng-container *ngIf="!template.translate">
-              <span class="option-plain">{{ option.symbol }}</span>
-            </ng-container>
-          </ng-container>
-          <ng-container *ngIf="!template.isPlain">
-            <mat-icon class="option-icon">{{ option.symbol }}</mat-icon>
-          </ng-container>
-        </div>
-      </ng-container>
-    </div>
-    <div
-      class="right"
-      [ngClass]="!!template.reverse ? 'reverse-true' : 'reverse-false'">
-      <ng-container *ngFor="let option of options; index as i">
-        <div class="container">
-          <div class="background">
-            <div
-              class="bar"
-              *ngIf="votes"
-              [ngStyle]="{
-                width: getVoteBarSize(i) + '%'
-              }"></div>
-          </div>
-          <div class="foreground">
-            <span>
-              {{
-                getVotePercentage(i) +
-                  (languageService.currentLanguage() === "de" ? " " : "")
-              }}%
-            </span>
-          </div>
-        </div>
-      </ng-container>
-    </div>
-  </div>
+  <ng-container *ngIf="options && livepollSession.resultVisible">
+    <app-livepoll-statistic
+      @AnimateInOut
+      [options]="this.options"
+      [template]="this.template"
+      [translateKey]="this.translateKey"
+      [votes]="this.votes"
+      [totalVotes]="this.totalVotes"></app-livepoll-statistic>
+  </ng-container>
 
   <div
     class="vote-container"
@@ -157,7 +114,7 @@
       mat-flat-button
       class="button-cancel"
       *ngIf="session.currentRole && isProduction && !isConclusion"
-      (click)="delete()">
+      (click)="close('delete')">
       <mat-icon style="color: var(--red)">stop_circle</mat-icon>
       <span
         *ngIf="device.isCurrentlyDesktop"
@@ -171,7 +128,7 @@
       mat-flat-button
       class="button-cancel"
       *ngIf="isProduction"
-      (click)="closeEmitter.emit()">
+      (click)="close('close')">
       <span>{{ translateKey + ".close" | translate }}</span>
     </button>
     <button
@@ -179,7 +136,7 @@
       *ngIf="
         session.currentRole && (dialogActions.offsetWidth > 310 || isConclusion)
       "
-      (click)="createNewLivepoll()"
+      (click)="close('reset')"
       class="button-secondary">
       <mat-icon style="margin-right: 4px">add_circle</mat-icon>
       <span

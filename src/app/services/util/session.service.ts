@@ -558,12 +558,20 @@ export class SessionService {
   private onLivepollPatched(message: any, room: Room) {
     const id = room.livepollSession?.id;
     if (id !== message.payload.id) {
+      console.warn(`return from mismatching live poll session ID's`);
       return;
     }
-    const changes = message.payload.changes;
     this._beforeRoomUpdates.next(room);
-    for (const key of Object.keys(changes)) {
-      room.livepollSession[key] = changes[key];
+    const changes = message.payload.changes;
+    if (typeof changes.active !== 'undefined') {
+      if (!changes.active) {
+        room.livepollSession = null;
+        this._currentLivepollSession.next(null);
+      }
+    } else {
+      for (const key of Object.keys(changes)) {
+        room.livepollSession[key] = changes[key];
+      }
     }
     this._afterRoomUpdates.next(room);
     this.livepollService.emitEvent(changes);

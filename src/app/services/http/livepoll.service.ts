@@ -15,7 +15,8 @@ import { SessionService } from '../util/session.service';
 import { UserRole } from '../../models/user-roles.enum';
 import {
   LivepollDialogComponent,
-  LivepollDialogData,
+  LivepollDialogInjectionData,
+  LivepollDialogResponseData,
 } from '../../components/shared/_dialogs/livepoll/livepoll-dialog/livepoll-dialog.component';
 import { LivepollCreateComponent } from '../../components/shared/_dialogs/livepoll/livepoll-create/livepoll-create.component';
 
@@ -199,14 +200,30 @@ export class LivepollService extends BaseHttpService {
     if (session.currentLivepoll) {
       const dialogRef: MatDialogRef<
         LivepollDialogComponent,
-        LivepollDialogData
+        LivepollDialogResponseData
       > = this.dialog.open<LivepollDialogComponent>(LivepollDialogComponent, {
         data: {
           session: session.currentLivepoll,
           isProduction: true,
-        } as LivepollDialogData,
+        } as LivepollDialogInjectionData,
       });
-      dialogRef.afterClosed().subscribe(() => {
+      dialogRef.afterClosed().subscribe((result) => {
+        switch (result?.reason) {
+          // user wants to delete live poll
+          case 'delete':
+            this.delete(session.currentLivepoll.id).subscribe((res) => {
+              console.log('deleted', session.currentLivepoll, result);
+            });
+            break;
+          // user wants to create a new live poll
+          case 'reset':
+            this.delete(session.currentLivepoll.id).subscribe(() => {});
+            break;
+          // 'close' or 'undefined', user just closed dialog
+          case 'close':
+          default:
+            break;
+        }
         this._dialogState.next(LivepollDialogState.Closed);
       });
       dialogRef.afterOpened().subscribe(() => {
@@ -227,7 +244,14 @@ export class LivepollService extends BaseHttpService {
     });
     dialogRef.afterClosed().subscribe((data) => {
       if (data) {
-        this.create(data).subscribe((result) => {});
+        this.create(data).subscribe((result) => {
+          if (result.id !== session.currentLivepoll.id) {
+            console.error(
+              `ID of live poll in session and ID of live poll in response to create don't match`,
+            );
+          }
+          console.log(result.id, session.currentLivepoll.id);
+        });
       }
       this._dialogState.next(LivepollDialogState.Closed);
     });
