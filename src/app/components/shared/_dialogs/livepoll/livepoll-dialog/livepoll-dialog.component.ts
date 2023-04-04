@@ -1,12 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  Inject,
-  Input,
-  OnDestroy,
-  OnInit,
-  Output,
-} from '@angular/core';
+import { Component, Inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { DeviceInfoService } from '../../../../../services/util/device-info.service';
 import {
   LivepollTemplateContext,
@@ -22,7 +14,6 @@ import {
   LivepollSessionPatchAPI,
 } from '../../../../../services/http/livepoll.service';
 import { LivepollSession } from '../../../../../models/livepoll-session';
-import { animate, style, transition, trigger } from '@angular/animations';
 import { clone, UUID } from 'app/utils/ts-utils';
 import {
   MAT_DIALOG_DATA,
@@ -42,7 +33,12 @@ export interface LivepollDialogInjectionData {
   isProduction: boolean;
 }
 
-export type LivepollDialogResponseReason = 'close' | 'delete' | 'reset';
+export type LivepollDialogResponseReason =
+  | 'close'
+  | 'delete'
+  | 'reset'
+  | 'closedAsParticipant'
+  | 'closedAsCreator';
 
 export interface LivepollDialogResponseData {
   reason: LivepollDialogResponseReason;
@@ -122,13 +118,15 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
       // Template can't change, only needs to be initialized once
       this.initTemplate();
       if (this.isProduction) {
-        // Currently, the Live Poll results are visible after closing. This might change in later.
         this.livepollService.listener
           .pipe(takeUntil(this._destroyer))
           .subscribe((changes) => {
-            if (typeof changes.active !== 'undefined' && !changes.active) {
-              this.isConclusion = true;
-              this.close('delete');
+            if (!this.session.currentLivepoll) {
+              if (this.session.currentRole) {
+                this.close('closedAsCreator');
+              } else {
+                this.close('closedAsParticipant');
+              }
             }
           });
         // init ws.service
@@ -246,6 +244,7 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
   }
 
   public close(reason: LivepollDialogResponseReason) {
+    console.error('trace-close');
     switch (reason) {
       case 'delete':
         this.createConfirmationDialog(
@@ -271,7 +270,17 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
           }
         });
         break;
+      case 'closedAsCreator':
+        // when a creator closes a livepoll,
+        // where the action for closing the live poll has not been made on this instance,
+        // this will be called. Meaning:
+        //    If there are moderators or more creators (e.g.: on different devices),
+        //    the summary dialog can be opened for those roles.
+        break;
+      // close: user closed dialog
+      // closedAsParticipant: creator closed live poll, but role of this instance is participant.
       case 'close':
+      case 'closedAsParticipant':
       default:
         this.dialogRef.close({
           reason,
