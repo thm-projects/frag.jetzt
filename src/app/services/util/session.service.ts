@@ -387,6 +387,24 @@ export class SessionService {
         next: (categories) =>
           this._currentBrainstormingCategories.next(categories),
       });
+      const _beforeActive = new BehaviorSubject<boolean>(false);
+      _beforeActive.subscribe((x) => {
+        if (!this.currentRole) {
+          if (!this.livepollService.isOpen) {
+            this.livepollService.open(this);
+          }
+        }
+      });
+      this.receiveRoomUpdates().subscribe((x) => {
+        if (_beforeActive.value !== !!this.currentLivepoll?.active) {
+          _beforeActive.next(!!this.currentLivepoll?.active);
+        }
+      });
+      if (this._currentLivepollSession.value?.active) {
+        if (!this.livepollService.isOpen) {
+          this.livepollService.open(this);
+        }
+      }
     });
   }
 
@@ -546,14 +564,11 @@ export class SessionService {
   }
 
   private onLivepollCreated(message: any, room: Room) {
-    this.receiveRoomUpdates(false)
-      .pipe(take(1))
-      .subscribe((sub) => {
-        this.livepollService.open(this.currentRole, true, sub.livepollSession);
-      });
     this._beforeRoomUpdates.next(room);
+    const livepollSessionObject = new LivepollSession(message.payload.livepoll);
+    this._currentLivepollSession.next(livepollSessionObject);
     this.updateCurrentRoom({
-      livepollSession: message.payload.livepoll,
+      livepollSession: livepollSessionObject,
     });
     this._afterRoomUpdates.next(room);
   }
@@ -561,12 +576,20 @@ export class SessionService {
   private onLivepollPatched(message: any, room: Room) {
     const id = room.livepollSession?.id;
     if (id !== message.payload.id) {
+      console.warn(`return from mismatching live poll session ID's`);
       return;
     }
-    const changes = message.payload.changes;
     this._beforeRoomUpdates.next(room);
-    for (const key of Object.keys(changes)) {
-      room.livepollSession[key] = changes[key];
+    const changes = message.payload.changes;
+    if (typeof changes.active !== 'undefined') {
+      if (!changes.active) {
+        room.livepollSession = null;
+        this._currentLivepollSession.next(null);
+      }
+    } else {
+      for (const key of Object.keys(changes)) {
+        room.livepollSession[key] = changes[key];
+      }
     }
     this._afterRoomUpdates.next(room);
     this.livepollService.emitEvent(changes);

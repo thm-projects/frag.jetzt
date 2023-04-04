@@ -424,23 +424,16 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   }
 
   openLivepollDialog() {
-    this.livepollService.open(
-      this.sessionService.currentRole,
-      !!this.sessionService.currentRoom.livepollSession?.active,
-      this.sessionService.currentLivepoll,
-    );
+    this.livepollService.open(this.sessionService);
   }
 
   private refreshLivepollNotification() {
-    this.sessionService.getRoomOnce().subscribe((room) => {
-      if (room.livepollSession) {
-        this.livepollService.open(
-          this.sessionService.currentRole,
-          true,
-          this.room.livepollSession,
-        );
-      }
-    });
+    if (this.livepollService.isOpen)
+      this.sessionService.getRoomOnce().subscribe((room) => {
+        if (room.livepollSession) {
+          this.livepollService.open(this.sessionService);
+        }
+      });
   }
 
   // openGPTPrivacyDialog() {
