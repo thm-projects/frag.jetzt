@@ -6,6 +6,7 @@ import { GptConfigurationComponent } from './gpt-configuration/gpt-configuration
 import { AdminOverviewComponent } from './admin-overview/admin-overview.component';
 import { GptChatComponent } from './gpt-chat/gpt-chat.component';
 import { ChatGPTPromptPresetComponent } from '../shared/chat-gptprompt-preset/chat-gptprompt-preset.component';
+import { AdminMailingComponent } from './admin-mailing/admin-mailing.component';
 
 const routes: Routes = [
   {
@@ -35,6 +36,12 @@ const routes: Routes = [
   {
     path: 'gpt-prompts',
     component: ChatGPTPromptPresetComponent,
+    canActivate: [AuthenticationGuard],
+    data: { superAdmin: true },
+  },
+  {
+    path: 'mailing',
+    component: AdminMailingComponent,
     canActivate: [AuthenticationGuard],
     data: { superAdmin: true },
   },

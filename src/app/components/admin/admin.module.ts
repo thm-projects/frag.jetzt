@@ -21,6 +21,7 @@ import { LanguageService } from '../../services/util/language.service';
 import { GptConfigurationComponent } from './gpt-configuration/gpt-configuration.component';
 import { AdminOverviewComponent } from './admin-overview/admin-overview.component';
 import { GptChatComponent } from './gpt-chat/gpt-chat.component';
+import { AdminMailingComponent } from './admin-mailing/admin-mailing.component';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export const HttpLoaderFactory = (http: HttpClient) =>
@@ -32,6 +33,7 @@ export const HttpLoaderFactory = (http: HttpClient) =>
     GptConfigurationComponent,
     AdminOverviewComponent,
     GptChatComponent,
+    AdminMailingComponent,
   ],
   imports: [
     CommonModule,

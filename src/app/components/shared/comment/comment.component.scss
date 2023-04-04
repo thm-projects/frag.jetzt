@@ -62,6 +62,11 @@ mat-card-content > :first-child {
   transform: scale(1.5) !important;
 }
 
+.approved-icon {
+  color: var(--primary);
+  transform: scale(1.5) !important;
+}
+
 .favorite-icon {
   color: var(--yellow);
   transform: scale(1.5) !important;

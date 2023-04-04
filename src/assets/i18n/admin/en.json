@@ -3,7 +3,8 @@
     "motd": "Announcements",
     "gpt": "ChatGPT settings",
     "gpt-chat": "Chat with ChatGPT",
-    "gpt-prompts": "Global Prompts"
+    "gpt-prompts": "Global Prompts",
+    "mailing": "Mailing"
   },
   "create-motd": {
     "create": "Create",
@@ -99,14 +100,8 @@
     "prompt-label": "Prompt search",
     "option-total-acts": "Founds acts",
     "option-total-prompts": "Hits in prompts",
-    "use-case": "Use case",
-    "use-case-tooltip": "Selecting a specific use case for better answers.",
-    "use-case-answer-questions": "Answering questions",
-    "use-case-tooltip-answer-questions": "Very effective when given good questions or tasks (e.g. translation and summary). Usually provides the best text answers.",
-    "use-case-code": "Code Understanding & Generation",
-    "use-case-tooltip-code": "Very good at code understanding and generation. Has a wider context than language models.",
-    "use-case-chat": "Chat/Conversations",
-    "use-case-tooltip-chat": "Effective for open-ended questions where follow-up questions are needed. Does not provide as accurate results as answering questions."
+    "temperature": "Temperature",
+    "temperature-tooltip": "Setting of creativity and determinism of answers"
   },
   "quill": {
     "cancel": "Cancel",
@@ -156,5 +151,15 @@
     "no-patch-needed": "No changes have been made.",
     "no-prompt-selected": "No prompt was selected.",
     "enter-prompt-name": "Please enter a name."
+  },
+  "mailing": {
+    "title": "Mail to all",
+    "subject": "Subject",
+    "placeholder-subject": "Enter your subject here …",
+    "body": "Message",
+    "placeholder-body": "Enter your message here …",
+    "send": "Send to all registered users",
+    "start-sending": "Messages are sent …",
+    "finish-sending": "Messages have all been sent."
   }
 }

@@ -24,8 +24,7 @@ import { BrainstormingWord } from 'app/models/brainstorming-word';
 import { BrainstormingCategory } from 'app/models/brainstorming-category';
 import { BrainstormingService } from '../http/brainstorming.service';
 import { BrainstormingSession } from 'app/models/brainstorming-session';
-import { GptService } from '../http/gpt.service';
-import { GPTRoomStatus } from 'app/models/gpt-status';
+import { GptService, RoomAccessInfo } from '../http/gpt.service';
 import { LivepollSession } from '../../models/livepoll-session';
 import { LivepollService } from '../http/livepoll.service';
 
@@ -39,7 +38,7 @@ export class SessionService {
   private readonly _currentBrainstormingCategories = new BehaviorSubject<
     BrainstormingCategory[]
   >(null);
-  private readonly _currentGPTRoomStatus = new BehaviorSubject<GPTRoomStatus>(
+  private readonly _currentGPTRoomStatus = new BehaviorSubject<RoomAccessInfo>(
     null,
   );
   private readonly _currentLivepollSession =
@@ -166,11 +165,11 @@ export class SessionService {
     );
   }
 
-  getGPTStatus(): Observable<GPTRoomStatus> {
+  getGPTStatus(): Observable<RoomAccessInfo> {
     return this._currentGPTRoomStatus;
   }
 
-  getGPTStatusOnce(): Observable<GPTRoomStatus> {
+  getGPTStatusOnce(): Observable<RoomAccessInfo> {
     return this._currentGPTRoomStatus.pipe(
       filter((v) => Boolean(v)),
       take(1),

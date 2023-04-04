@@ -1,11 +1,5 @@
-import {
-  HttpClient,
-  HttpHeaders,
-  HttpRequest,
-  HttpEventType,
-} from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { GPTCompletion } from 'app/models/gpt-completion';
 import { GPTConfiguration } from 'app/models/gpt-configuration';
 import { GPTPromptPreset } from 'app/models/gpt-prompt-preset';
 import { GPTRating } from 'app/models/gpt-rating';
@@ -16,19 +10,11 @@ import {
   UsageRepeatUnit,
 } from 'app/models/gpt-room-setting';
 import { GPTStatistics } from 'app/models/gpt-statistics';
-import { GPTPlatformStatus, GPTRoomStatus } from 'app/models/gpt-status';
 import { RatingResult } from 'app/models/rating-result';
-import { verifyInstance } from 'app/utils/ts-utils';
-import {
-  catchError,
-  finalize,
-  map,
-  Observable,
-  of,
-  switchMap,
-  tap,
-} from 'rxjs';
+import { UUID, verifyInstance } from 'app/utils/ts-utils';
+import { catchError, finalize, map, Observable, tap } from 'rxjs';
 import { BaseHttpService } from './base-http.service';
+import { postSSE } from 'app/utils/sse-client';
 
 /* eslint-disable @typescript-eslint/naming-convention */
 const httpOptions = {
@@ -46,64 +32,6 @@ const httpOptionsPlainString = {
   responseType: 'text',
 } as const;
 
-interface GPTPrompt {
-  roomId?: string;
-  model: string;
-  prompt: string;
-  suffix?: string;
-  maxTokens?: number;
-  temperature?: number;
-  topP?: number;
-  n?: number;
-  logprobs?: number;
-  echo?: boolean;
-  stop?: string[];
-  presencePenalty?: number;
-  frequencyPenalty?: number;
-  bestOf?: number;
-  logitBias?: { [key: string]: number };
-}
-
-interface GPTModerationResult {
-  flagged: boolean;
-  flaggedCategories: string[];
-}
-
-interface GPTEndStreamEntry {
-  finished: true;
-  moderationResults: GPTModerationResult[];
-  finishReasons: string[];
-}
-
-interface GPTDataStreamEntry {
-  text: string;
-  index: number;
-}
-
-export type GPTStreamResult = GPTEndStreamEntry | GPTDataStreamEntry;
-
-interface BlockingCompletion {
-  completion: GPTCompletion;
-  moderationResults: GPTModerationResult[];
-}
-
-interface CachedModelData {
-  categories: string[];
-  costPerToken: number;
-  endpoint: string;
-  betterEndpoint: string;
-  reference: string;
-  betterModel: string;
-  deprecated: boolean;
-  allowSuffix: boolean;
-  alpha: boolean;
-  common: boolean;
-  preferred: boolean;
-  maxInputTokens: number;
-  embeddingOutputDimension: number;
-  contextTokens: number;
-}
-
 export type GPTRoomSettingAPI = Pick<
   GPTRoomSetting,
   | 'apiKey'
@@ -120,11 +48,6 @@ export type GPTRoomSettingAPI = Pick<
   | 'rightsBitset'
 >;
 
-export interface CachedModel {
-  name: string;
-  model: CachedModelData;
-}
-
 interface UsageTimeActionDelete {
   deleteId: string;
 }
@@ -136,12 +59,155 @@ interface UsageTimeActionAdd {
   endDate: Date;
 }
 
+export interface TextCompletionRequest {
+  roomId?: UUID;
+  model: 'text-davinci-003' | 'text-davinci-002' | 'code-davinci-002';
+  prompt: string[];
+  suffix?: string;
+  maxTokens?: number;
+  temperature?: number;
+  topP?: number;
+  n?: number;
+  logprobs?: number;
+  echo?: boolean;
+  stop?: string[];
+  presencePenalty?: number;
+  frequencyPenalty?: number;
+  bestOf?: number;
+  logitBias?: { [key: string]: number };
+}
+
+export interface ChatCompletionRequest {
+  roomId?: UUID;
+  model: 'gpt-3.5-turbo' | 'gpt-4' | 'gpt-4-32k';
+  messages: ChatCompletionMessage[];
+  temperature?: number;
+  topP?: number;
+  n?: number;
+  stop?: string[];
+  maxTokens?: number;
+  presencePenalty?: number;
+  frequencyPenalty?: number;
+  logitBias?: { [key: string]: number };
+}
+
+export interface TextCompletionChoice {
+  index: number;
+  finishReason: string;
+  text: string;
+  logprobs: {
+    textOffset: number[];
+    tokenLogprobs: number[];
+    tokens: string[];
+    topLogprobs: { [key: string]: number };
+  };
+}
+
+export interface ChatCompletionMessage {
+  role: 'user' | 'system' | 'assistant';
+  content: string;
+  name?: 'example_user' | 'example_assistant';
+}
+
+export interface ChatCompletionChoice {
+  index: number;
+  finishReason: string;
+  message: ChatCompletionMessage;
+}
+
+export interface ChatCompletionDeltaChoice {
+  index: number;
+  finishReason: string;
+  delta: {
+    role: 'user' | 'system' | 'assistant';
+    content: string;
+  };
+}
+
+export interface CompletionResponse<T> {
+  id: string;
+  object: string;
+  created: Date;
+  model: string;
+  usage: {
+    promptTokens: number;
+    completionTokens: number;
+    totalTokens: number;
+  };
+  choices: T[];
+}
+
+export interface ModerationResponse {
+  id: string;
+  model: string;
+  results: {
+    categories: { [key: string]: boolean };
+    categoryScores: { [key: string]: number };
+    flagged: boolean;
+  }[];
+}
+
+export interface ModerationMarker {
+  done: true;
+  response: ModerationResponse;
+}
+
+export interface ModerationWrapped<T> {
+  completion: T;
+  response: ModerationResponse;
+}
+
+export interface Model {
+  name: string;
+  costPerPromptToken: number;
+  costPerCompletionToken: number;
+  maxTokens: number;
+  interruptTokens: number;
+  encoderName: string;
+}
+
+export interface GlobalAccessInfo {
+  blocked: boolean;
+  registered: boolean;
+  apiKeyPresent: boolean;
+  apiEnabled: boolean;
+  apiExpired: boolean;
+  consented: boolean;
+  restricted: boolean;
+}
+
+export interface RoomAccessInfo {
+  globalInfo: GlobalAccessInfo;
+  apiKeyPresent: boolean;
+  usingTrial: boolean;
+  roomDisabled: boolean;
+  moderatorDisabled: boolean;
+  participantDisabled: boolean;
+  usageTimeOver: boolean;
+  isMod: boolean;
+  isOwner: boolean;
+  restricted: boolean;
+}
+
 export type UsageTimeAction = UsageTimeActionDelete | UsageTimeActionAdd;
 
 interface PropmtPresetAdd {
   act: string;
   prompt: string;
 }
+
+export type StreamTextCompletion =
+  | CompletionResponse<TextCompletionChoice>
+  | ModerationMarker;
+export type BlockedTextCompletion = ModerationWrapped<
+  CompletionResponse<TextCompletionChoice>
+>;
+export type StreamChatCompletion =
+  | CompletionResponse<ChatCompletionDeltaChoice>
+  | ModerationMarker;
+export type BlockedChatCompletion = ModerationWrapped<
+  CompletionResponse<ChatCompletionChoice>
+>;
 
 @Injectable({
   providedIn: 'root',
@@ -151,12 +217,57 @@ export class GptService extends BaseHttpService {
     super();
   }
 
-  getCompletionModelsOnce(): Observable<CachedModel[]> {
-    const url = '/api/gpt/completion-models';
-    return this.httpClient.get<CachedModel[]>(url, httpOptions).pipe(
-      tap((_) => ''),
-      catchError(this.handleError<CachedModel[]>('getCompletionModelsOnce')),
-    );
+  getModels(): Model[] {
+    return [
+      {
+        name: 'gpt-4-32k',
+        costPerPromptToken: 6000,
+        costPerCompletionToken: 12000,
+        maxTokens: 32768,
+        interruptTokens: 8,
+        encoderName: 'cl100k',
+      },
+      {
+        name: 'gpt-4',
+        costPerPromptToken: 3000,
+        costPerCompletionToken: 6000,
+        maxTokens: 8192,
+        interruptTokens: 8,
+        encoderName: 'cl100k',
+      },
+      {
+        name: 'gpt-3.5-turbo',
+        costPerPromptToken: 200,
+        costPerCompletionToken: 200,
+        maxTokens: 4096,
+        interruptTokens: 8,
+        encoderName: 'cl100k',
+      },
+      {
+        name: 'text-davinci-003',
+        costPerPromptToken: 2000,
+        costPerCompletionToken: 2000,
+        maxTokens: 4097,
+        interruptTokens: 5,
+        encoderName: 'p50k',
+      },
+      {
+        name: 'text-davinci-002',
+        costPerPromptToken: 2000,
+        costPerCompletionToken: 2000,
+        maxTokens: 4097,
+        interruptTokens: 5,
+        encoderName: 'p50k',
+      },
+      {
+        name: 'code-davinci-002',
+        costPerPromptToken: 2000,
+        costPerCompletionToken: 2000,
+        maxTokens: 8001,
+        interruptTokens: 5,
+        encoderName: 'p50k',
+      },
+    ];
   }
 
   getRoomSetting(roomId: string): Observable<GPTRoomSetting> {
@@ -301,53 +412,62 @@ export class GptService extends BaseHttpService {
     );
   }
 
-  requestCompletion(prompt: GPTPrompt): Observable<BlockingCompletion> {
+  requestCompletion(
+    prompt: TextCompletionRequest,
+  ): Observable<BlockedTextCompletion> {
     const url = '/api/gpt/completion';
     return this.httpClient
-      .post<BlockingCompletion>(url, prompt, httpOptions)
+      .post<BlockedTextCompletion>(url, prompt, httpOptions)
       .pipe(
         tap((_) => ''),
-        map((v) => {
-          v.completion = verifyInstance(GPTCompletion, v.completion);
-          return v;
+        catchError(
+          this.handleError<BlockedTextCompletion>('requestCompletion'),
+        ),
+        finalize(() => {
+          this.abortStreamCompletion().subscribe();
         }),
-        catchError(this.handleError<BlockingCompletion>('requestCompletion')),
       );
   }
 
-  requestStreamCompletion(prompt: GPTPrompt): Observable<GPTStreamResult> {
+  requestStreamCompletion(
+    prompt: TextCompletionRequest,
+  ): Observable<StreamTextCompletion> {
     const url = '/api/gpt/stream-completion';
-    const request = new HttpRequest('POST', url, prompt, {
-      reportProgress: true,
-      responseType: 'text',
-    });
-    let lastSize = 0;
-    let remainingString = '';
-    return this.httpClient.request(request).pipe(
+    return postSSE(this.httpClient, url, prompt).pipe(
       tap((_) => ''),
-      switchMap((event) => {
-        if (event.type === HttpEventType.DownloadProgress) {
-          const text = event['partialText'] as string;
-          if (!Boolean(text)) {
-            return of();
-          }
-          remainingString += text.slice(lastSize);
-          lastSize = text.length;
-          return this.extractData(
-            remainingString,
-            (s) => (remainingString = s),
-          );
-        } else if (event.type === HttpEventType.Response) {
-          const text = event.body as string;
-          remainingString += text.slice(lastSize);
-          return this.extractData(
-            remainingString,
-            (s) => (remainingString = s),
-          );
-        }
-        return of();
+      map((event) => event.jsonData() as StreamTextCompletion),
+      catchError(
+        this.handleError<StreamTextCompletion>('requestStreamCompletion'),
+      ),
+      finalize(() => {
+        this.abortStreamCompletion().subscribe();
       }),
-      catchError(this.handleError<GPTStreamResult>('requestStreamCompletion')),
+    );
+  }
+
+  requestChat(
+    prompt: ChatCompletionRequest,
+  ): Observable<BlockedChatCompletion> {
+    const url = '/api/gpt/chat/completion';
+    return this.httpClient
+      .post<BlockedChatCompletion>(url, prompt, httpOptions)
+      .pipe(
+        tap((_) => ''),
+        catchError(this.handleError<BlockedChatCompletion>('requestChat')),
+        finalize(() => {
+          this.abortStreamCompletion().subscribe();
+        }),
+      );
+  }
+
+  requestChatStream(
+    prompt: ChatCompletionRequest,
+  ): Observable<StreamChatCompletion> {
+    const url = '/api/gpt/chat/stream-completion';
+    return postSSE(this.httpClient, url, prompt).pipe(
+      tap((_) => ''),
+      map((event) => event.jsonData() as StreamChatCompletion),
+      catchError(this.handleError<StreamChatCompletion>('requestChatStream')),
       finalize(() => {
         this.abortStreamCompletion().subscribe();
       }),
@@ -362,21 +482,19 @@ export class GptService extends BaseHttpService {
     );
   }
 
-  getStatusForRoom(roomId: string): Observable<GPTRoomStatus> {
+  getStatusForRoom(roomId: string): Observable<RoomAccessInfo> {
     const url = '/api/gpt/status/' + roomId;
-    return this.httpClient.get<GPTRoomStatus>(url, httpOptions).pipe(
+    return this.httpClient.get<RoomAccessInfo>(url, httpOptions).pipe(
       tap((_) => ''),
-      map((v) => verifyInstance(GPTRoomStatus, v)),
-      catchError(this.handleError<GPTRoomStatus>('getStatusForRoom')),
+      catchError(this.handleError<RoomAccessInfo>('getStatusForRoom')),
     );
   }
 
-  getStatus(): Observable<GPTPlatformStatus> {
+  getStatus(): Observable<GlobalAccessInfo> {
     const url = '/api/gpt/plain-status';
-    return this.httpClient.get<GPTPlatformStatus>(url, httpOptions).pipe(
+    return this.httpClient.get<GlobalAccessInfo>(url, httpOptions).pipe(
       tap((_) => ''),
-      map((v) => verifyInstance(GPTPlatformStatus, v)),
-      catchError(this.handleError<GPTPlatformStatus>('getStatus')),
+      catchError(this.handleError<GlobalAccessInfo>('getStatus')),
     );
   }
 
@@ -481,22 +599,5 @@ export class GptService extends BaseHttpService {
       tap((_) => ''),
       catchError(this.handleError<void>('deletePrompt')),
     );
-  }
-
-  private extractData(
-    data: string,
-    updater: (str: string) => void,
-  ): Observable<GPTStreamResult> {
-    let lastIndex = 0;
-    let currentIndex = 0;
-    const resultArr = [];
-    while ((currentIndex = data.indexOf('\n\n', lastIndex)) >= 0) {
-      resultArr.push(JSON.parse(data.slice(lastIndex + 5, currentIndex)));
-      lastIndex = currentIndex + 2;
-    }
-    if (lastIndex > 0) {
-      updater(data.slice(lastIndex));
-    }
-    return of(...resultArr);
   }
 }

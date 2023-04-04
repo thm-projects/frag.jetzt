@@ -9,7 +9,10 @@ import {
 import { TranslateService } from '@ngx-translate/core';
 import { GPTEncoder } from 'app/gpt-encoder/GPTEncoder';
 import { Room } from 'app/models/room';
-import { GptService, GPTStreamResult } from 'app/services/http/gpt.service';
+import {
+  GptService,
+  StreamTextCompletion,
+} from 'app/services/http/gpt.service';
 import { DeviceInfoService } from 'app/services/util/device-info.service';
 import { GptEncoderService } from 'app/services/util/gpt-encoder.service';
 import { KeyboardUtils } from 'app/utils/keyboard';
@@ -167,9 +170,9 @@ export class GptChatComponent implements OnInit, OnDestroy {
     };
     this.gptService
       .requestStreamCompletion({
-        prompt: this.generatePrompt(index),
+        prompt: [this.generatePrompt(index)],
         roomId: this.room?.id || null,
-        model: this.model,
+        model: 'text-davinci-003',
       })
       .pipe(
         takeUntil(this.stopper),
@@ -180,38 +183,6 @@ export class GptChatComponent implements OnInit, OnDestroy {
         }),
       )
       .subscribe(this.generateObserver(index));
-  }
-
-  refreshWaitingGPTMessage(index: number) {
-    if (this.isSending) {
-      return;
-    }
-    this.isSending = true;
-    this.renewIndex = index;
-    const messages = this.conversation.slice(0, index).map((e) => e.message);
-    this.gptService
-      .requestCompletion({
-        prompt: messages.join('\u0003') + '\u0003',
-        roomId: this.room?.id || null,
-        model: this.model,
-      })
-      .subscribe({
-        next: (d) => {
-          this.updateConversationEntry(index, {
-            message: d.completion.choices[0].text,
-            type: 'gpt',
-          });
-          this.isSending = false;
-        },
-        error: (e) => {
-          console.error(e);
-          this.updateConversationEntry(index, {
-            message: 'ERROR: ' + (e?.message ? e.message : e),
-            type: 'gpt',
-          });
-          this.isSending = false;
-        },
-      });
   }
 
   sendGPTMessage() {
@@ -249,9 +220,9 @@ export class GptChatComponent implements OnInit, OnDestroy {
     });
     this.gptService
       .requestStreamCompletion({
-        prompt: this.generatePrompt(index),
+        prompt: [this.generatePrompt(index)],
         roomId: this.room?.id || null,
-        model: this.model,
+        model: 'text-davinci-003',
       })
       .subscribe(this.generateObserver(index));
   }
@@ -260,48 +231,6 @@ export class GptChatComponent implements OnInit, OnDestroy {
     return this.error instanceof String
       ? this.error
       : JSON.stringify(this.error);
-  }
-
-  sendWaitingGPTMessage() {
-    if (this.isSending) {
-      return;
-    }
-    this.isSending = true;
-    this.renewIndex = -1;
-    this.addToConversation({
-      message: this.sendGPTContent,
-      type: 'human',
-    });
-    this.sendGPTContent = '';
-    this.calculateTokens();
-    this.gptService
-      .requestCompletion({
-        prompt:
-          this.conversation.map((entry) => entry.message).join('\u0003') +
-          '\u0003',
-        roomId: this.room?.id || null,
-        model: this.model,
-      })
-      .subscribe({
-        next: (d) => {
-          this.addToConversation({
-            message: d.completion.choices[0].text,
-            type: 'gpt',
-          });
-          this.calculateTokens();
-          this.isSending = false;
-          this.autoGrowElement.nativeElement.focus();
-        },
-        error: (e) => {
-          console.error(e);
-          this.addToConversation({
-            message: 'ERROR: ' + (e?.message ? e.message : e),
-            type: 'gpt',
-          });
-          this.calculateTokens();
-          this.isSending = false;
-        },
-      });
   }
 
   private initAdmin() {
@@ -361,15 +290,18 @@ export class GptChatComponent implements OnInit, OnDestroy {
     );
   }
 
-  private generateObserver(index: number): Partial<Observer<GPTStreamResult>> {
+  private generateObserver(
+    index: number,
+  ): Partial<Observer<StreamTextCompletion>> {
     return {
       next: (msg) => {
-        if ('text' in msg) {
-          if (msg.index !== 0) {
+        if ('choices' in msg) {
+          const firstChoice = msg.choices.find((choice) => choice.index === 0);
+          if (!firstChoice) {
             return;
           }
           this.conversation[index] = {
-            message: this.conversation[index].message + msg.text,
+            message: this.conversation[index].message + firstChoice.text,
             type: 'gpt',
           };
           this.calculateTokens();

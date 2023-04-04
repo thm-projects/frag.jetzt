@@ -120,6 +120,7 @@
     "filter-read": "Questions discussed",
     "filter-reset": "Reset",
     "filter-unanswered": "Not answered",
+    "filter-approved": "Reviewed",
     "filter-wrong": "Negated questions",
     "owner": "Questions I have asked",
     "pause-comments": "Freezes the display to read or present the questions at rest. Questions can still be asked and scored. The display is only updated again by clicking the button.",
@@ -268,6 +269,8 @@
     "live-announcer-moderation": "You are now on the moderation page. To get information about key combinations press the Enter key or call the announcement later with the Escape key.",
     "mark-bookmark": "Bookmark",
     "mark-correct": "Answer question with »yes« or mark as »done«",
+    "mark-approved": "Show that the question has passed the fact check",
+    "mark-not-approved": "Indicate that the question has not been subjected to a fact check",
     "mark-favorite": "Mark for bonus",
     "mark-favorite-disabled-bonus": "Mark with a star",
     "mark-not-bookmark": "Unmark",
@@ -442,14 +445,8 @@
     "prompt-label": "Prompt search",
     "option-total-acts": "Hits in »Act as …«",
     "option-total-prompts": "Hits in prompts",
-    "use-case": "Use case",
-    "use-case-tooltip": "Selecting a specific use case for better answers.",
-    "use-case-answer-questions": "Answering questions",
-    "use-case-tooltip-answer-questions": "Very effective when given good questions or tasks (e.g. translation and summary). Usually provides the best text answers.",
-    "use-case-code": "Code Understanding & Generation",
-    "use-case-tooltip-code": "Very good at code understanding and generation. Has a wider context than language models.",
-    "use-case-chat": "Chat/Conversations",
-    "use-case-tooltip-chat": "Effective for open-ended questions where follow-up questions are needed. Does not provide as accurate results as answering questions."
+    "temperature": "Temperature",
+    "temperature-tooltip": "Setting of creativity and determinism of answers"
   },
   "header": {
     "overview-keywords-tooltip": "Number of Keywords",

@@ -178,7 +178,9 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
     this._matcher = matchMedia('(min-width: 1320px)');
     this.sessionService
       .getGPTStatusOnce()
-      .subscribe((data) => (this.canOpenGPT = data.hasAPI && !data.restricted));
+      .subscribe(
+        (data) => (this.canOpenGPT = Boolean(data) && !data.restricted),
+      );
   }
 
   handlePageEvent(e: PageEvent) {

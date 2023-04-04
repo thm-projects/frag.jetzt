@@ -120,6 +120,7 @@
     "filter-read": "Questions discutées",
     "filter-reset": "Réinitialiser",
     "filter-unanswered": "Sans réponse",
+    "filter-approved": "Vérifié",
     "filter-wrong": "Questions négatives",
     "owner": "Questions posées",
     "pause-comments": "Fige l'affichage pour permettre de lire ou de présenter les questions en toute tranquillité. Les questions peuvent toujours être posées et évaluées. L'affichage s'actualise à nouveau en cliquant sur le bouton.",
@@ -268,6 +269,8 @@
     "live-announcer-moderation": "Tu te trouves maintenant sur la page de modération. Pour obtenir des informations sur les combinaisons de touches, appuie maintenant sur la touche Entrée ou appelle l'annonce ultérieurement avec la touche Échap.",
     "mark-bookmark": "Mettre un signet",
     "mark-correct": "Répondre à la question par « oui » ou marquer comme « fait »",
+    "mark-approved": "Indications que la question a passé le test des faits",
+    "mark-not-approved": "Indications selon lesquelles la question n'a pas fait l'objet d'une vérification des faits",
     "mark-favorite": "Marquer la question pour un bonus",
     "mark-favorite-disabled-bonus": "Marquer d'une étoile",
     "mark-not-bookmark": "Annuler le marquage",
@@ -442,14 +445,8 @@
     "prompt-label": "Recherche du prompt",
     "option-total-acts": "Hits dans « Agir comme … »",
     "option-total-prompts": "Hits dans prompts",
-    "use-case": "Cas d'utilisation",
-    "use-case-tooltip": "Sélection d'un cas d'utilisation spécifique pour de meilleures réponses.",
-    "use-case-answer-questions": "Réponse aux questions",
-    "use-case-tooltip-answer-questions": "Très efficace si de bonnes questions ou tâches (par ex. traduction et résumé) sont posées. Fournit généralement les meilleures réponses textuelles.",
-    "use-case-code": "Compréhension du code & génération",
-    "use-case-tooltip-code": "Très bon dans le domaine de la compréhension et de la génération de code. A un contexte plus large que les modèles de langage.",
-    "use-case-chat": "Chat/Conversations",
-    "use-case-tooltip-chat": "Efficace pour les questions ouvertes, où des demandes de précisions sont nécessaires. N'offre pas de résultats aussi précis que les réponses aux questions."
+    "temperature": "Température",
+    "temperature-tooltip": "Attitude de créativité et déterminisme des réponses"
   },
   "header": {
     "overview-keywords-tooltip": "Nombre de mots-clés",
