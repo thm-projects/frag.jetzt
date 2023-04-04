@@ -546,14 +546,11 @@ export class SessionService {
   }
 
   private onLivepollCreated(message: any, room: Room) {
-    this.receiveRoomUpdates(false)
-      .pipe(take(1))
-      .subscribe((sub) => {
-        this.livepollService.open(this.currentRole, true, sub.livepollSession);
-      });
     this._beforeRoomUpdates.next(room);
+    const livepollSessionObject = new LivepollSession(message.payload.livepoll);
+    this._currentLivepollSession.next(livepollSessionObject);
     this.updateCurrentRoom({
-      livepollSession: message.payload.livepoll,
+      livepollSession: livepollSessionObject,
     });
     this._afterRoomUpdates.next(room);
   }
