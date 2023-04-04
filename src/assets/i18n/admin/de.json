@@ -2,7 +2,7 @@
   "overview": {
     "motd": "Ankündigungen",
     "gpt": "ChatGPT-Einstellungen",
-    "gpt-chat": "Chat mit ChatGPT",
+    "gpt-chat": "Frag ChatGPT!",
     "gpt-prompts": "Globale Prompts"
   },
   "create-motd": {

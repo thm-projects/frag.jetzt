@@ -14,7 +14,7 @@
     "vote-delete": "Deine Abstimmung wurde zurückgesetzt.",
     "dialog-confirm-create-new-description": "Willst du wirklich die aktuelle Umfrage beenden und eine neue starten?",
     "dialog-confirm-create-new-title": "Neue Umfrage",
-    "dialog-confirm-delete-description": "Willst du wirklich die Umfrage beenden? Das Abstimmungsergebnis wird weiterhin angezeigt, aber beim Verlassen der Umfrage gelöscht. ",
+    "dialog-confirm-delete-description": "Willst du wirklich die Umfrage beenden? Das Abstimmungsergebnis wird dir weiterhin angezeigt, aber beim Verlassen der Umfrage gelöscht. ",
     "dialog-confirm-delete-title": "Umfrage beenden",
     "votes": "Stimmen:",
     "confirm-yes": "Ja, beenden",
