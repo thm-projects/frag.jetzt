@@ -164,8 +164,6 @@ export class LivepollService extends BaseHttpService {
   }
 
   open(session: SessionService) {
-    // for backtracking the caller
-    console.error('trace');
     if (!this.isOpen) {
       switch (session.currentRole) {
         case UserRole.PARTICIPANT:
@@ -296,5 +294,8 @@ export class LivepollService extends BaseHttpService {
       LivepollSummaryComponent,
       config,
     );
+    dialogRef.afterClosed().subscribe(() => {
+      this._dialogState.next(LivepollDialogState.Closed);
+    });
   }
 }

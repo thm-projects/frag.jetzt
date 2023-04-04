@@ -245,7 +245,6 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
   }
 
   public close(reason: LivepollDialogResponseReason) {
-    console.error('trace-close');
     switch (reason) {
       case 'delete':
         this.createConfirmationDialog(

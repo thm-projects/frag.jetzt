@@ -387,6 +387,24 @@ export class SessionService {
         next: (categories) =>
           this._currentBrainstormingCategories.next(categories),
       });
+      const _beforeActive = new BehaviorSubject<boolean>(false);
+      _beforeActive.subscribe((x) => {
+        if (!this.currentRole) {
+          if (!this.livepollService.isOpen) {
+            this.livepollService.open(this);
+          }
+        }
+      });
+      this.receiveRoomUpdates().subscribe((x) => {
+        if (_beforeActive.value !== !!this.currentLivepoll?.active) {
+          _beforeActive.next(!!this.currentLivepoll?.active);
+        }
+      });
+      if (this._currentLivepollSession.value?.active) {
+        if (!this.livepollService.isOpen) {
+          this.livepollService.open(this);
+        }
+      }
     });
   }
 
