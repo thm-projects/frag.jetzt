@@ -22,10 +22,7 @@
     </mat-select>
   </mat-form-field>
 
-  <app-livepoll-dialog
-    [template]="templateSelection.value"
-    [livepollSession]="livepollConfiguration"
-    [valueChange]="templateSelection.valueChanges"></app-livepoll-dialog>
+  <ng-container #viewContainerRef></ng-container>
 </mat-dialog-content>
 
 <mat-dialog-actions style="display: flex; justify-content: flex-end">
