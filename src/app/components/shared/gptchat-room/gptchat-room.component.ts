@@ -88,6 +88,11 @@ interface Context {
   selected?: string;
 }
 
+interface MultiContextElement {
+  text?: string;
+  type: 'select' | 'span';
+}
+
 @Component({
   selector: 'app-gptchat-room',
   templateUrl: './gptchat-room.component.html',
@@ -486,6 +491,18 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
       duration: 12_500,
       panelClass: ['snackbar', 'important'],
     });
+  }
+
+  protected splitIntoParts(message: string): MultiContextElement[] {
+    //TODO: Translate get
+    const parts = message.split('{{value}}');
+    const result: MultiContextElement[] = [];
+    for (let i = 0; i < parts.length - 1; i++) {
+      result.push({ text: parts[i], type: 'span' });
+      result.push({ type: 'select' });
+    }
+    result.push({ text: parts[parts.length - 1], type: 'span' });
+    return result;
   }
 
   protected setLanguagePreset(language: GPTRoomPresetLanguage): void {
