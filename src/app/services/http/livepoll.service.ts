@@ -71,6 +71,7 @@ export class LivepollService extends BaseHttpService {
     width: '700px',
   };
   private static readonly livepollEventEmitter: EventEmitter<{
+    session: LivepollSession;
     changes: Partial<LivepollSession>;
     type: LivepollEventType;
   }> = new EventEmitter();
@@ -202,9 +203,33 @@ export class LivepollService extends BaseHttpService {
     }
   }
 
-  emitEvent(changes: Partial<LivepollSession>, type: LivepollEventType) {
-    console.warn('emitEvent', changes, LivepollEventType[type]);
-    LivepollService.livepollEventEmitter.emit({ changes, type });
+  emitEvent(
+    session: LivepollSession,
+    changes: Partial<LivepollSession>,
+    type: LivepollEventType,
+  ) {
+    console.warn('emitEvent', session, changes, LivepollEventType[type]);
+    LivepollService.livepollEventEmitter.emit({
+      type,
+      changes,
+      session,
+    });
+  }
+
+  private onNextEvent(type: LivepollEventType): Observable<LivepollSession> {
+    return new Observable<LivepollSession>((subscriber) => {
+      const subscription = LivepollService.livepollEventEmitter.subscribe(
+        (data) => {
+          if (data.type === type) {
+            if (data.type === type) {
+              subscriber.next();
+              subscription.unsubscribe();
+              subscriber.unsubscribe();
+            }
+          }
+        },
+      );
+    });
   }
 
   private openDialog(session: SessionService) {
@@ -277,16 +302,18 @@ export class LivepollService extends BaseHttpService {
       // ? creator wants to create a live poll
       // : creator closed dialog
       if (data) {
-        this.create(data).subscribe((result) => {
-          console.warn(result, session.currentLivepoll);
-          if (result?.id === session.currentLivepoll?.id) {
+        this.onNextEvent(LivepollEventType.Create).subscribe(
+          (livepollSession) => {
             this._dialogState.next(LivepollDialogState.Closed);
             this.open(session);
-          } else {
-            console.error(
-              `ID of live poll in session and ID of live poll in response to create don't match`,
-            );
-          }
+          },
+        );
+        this.create(data).subscribe((result) => {
+          console.warn(
+            'create service-response',
+            result,
+            session.currentLivepoll,
+          );
         });
       } else {
         this._dialogState.next(LivepollDialogState.Closed);

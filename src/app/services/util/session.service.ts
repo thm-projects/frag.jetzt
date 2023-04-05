@@ -573,7 +573,11 @@ export class SessionService {
       livepollSession: livepollSessionObject,
     });
     this._afterRoomUpdates.next(room);
-    this.livepollService.emitEvent({}, LivepollEventType.Create);
+    this.livepollService.emitEvent(
+      this.currentLivepoll,
+      {},
+      LivepollEventType.Create,
+    );
   }
 
   private onLivepollPatched(message: any, room: Room) {
@@ -590,18 +594,23 @@ export class SessionService {
     if (typeof changes.active !== 'undefined') {
       if (!changes.active) {
         room.livepollSession = null;
+        const cached = this.currentLivepoll;
         this._currentLivepollSession.next(null);
-        this.livepollService.emitEvent(changes, LivepollEventType.Delete);
+        this.livepollService.emitEvent(
+          cached,
+          changes,
+          LivepollEventType.Delete,
+        );
       }
     } else {
       for (const key of Object.keys(changes)) {
         room.livepollSession[key] = changes[key];
-        console.log(
-          JSON.stringify(room.livepollSession) ===
-            JSON.stringify(this.currentLivepoll),
-        );
       }
-      this.livepollService.emitEvent(changes, LivepollEventType.Patch);
+      this.livepollService.emitEvent(
+        this.currentLivepoll,
+        changes,
+        LivepollEventType.Patch,
+      );
     }
     this._afterRoomUpdates.next(room);
   }
