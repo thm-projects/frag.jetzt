@@ -8,6 +8,7 @@ import {
   templateEntries,
 } from '../../../../../models/livepoll-template';
 import { LivepollOptionEntry } from '../livepoll-dialog/livepoll-dialog.component';
+import { LivepollService } from '../../../../../services/http/livepoll.service';
 
 @Component({
   selector: 'app-livepoll-summary',
@@ -23,6 +24,7 @@ export class LivepollSummaryComponent implements OnInit {
 
   constructor(
     public readonly session: SessionService,
+    public readonly livepollService: LivepollService,
     @Inject(MAT_DIALOG_DATA) public readonly livepollSession: LivepollSession,
   ) {
     this.template = templateEntries[livepollSession.template];
@@ -36,5 +38,12 @@ export class LivepollSummaryComponent implements OnInit {
 
   ngOnInit(): void {
     LivepollComponentUtility.initTemplate(this);
+    this.livepollService
+      .getResults(this.livepollSession.id)
+      .subscribe((results) => {
+        for (let i = 0; i < results.length; i++) {
+          this.votes[i] = results[i];
+        }
+      });
   }
 }
