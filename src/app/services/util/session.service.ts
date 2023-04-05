@@ -26,7 +26,7 @@ import { BrainstormingService } from '../http/brainstorming.service';
 import { BrainstormingSession } from 'app/models/brainstorming-session';
 import { GptService, RoomAccessInfo } from '../http/gpt.service';
 import { LivepollSession } from '../../models/livepoll-session';
-import { LivepollService } from '../http/livepoll.service';
+import { LivepollEventType, LivepollService } from '../http/livepoll.service';
 
 @Injectable({
   providedIn: 'root',
@@ -565,6 +565,7 @@ export class SessionService {
   }
 
   private onLivepollCreated(message: any, room: Room) {
+    console.warn('LIVEPOLL CREATED');
     this._beforeRoomUpdates.next(room);
     const livepollSessionObject = new LivepollSession(message.payload.livepoll);
     this._currentLivepollSession.next(livepollSessionObject);
@@ -572,12 +573,16 @@ export class SessionService {
       livepollSession: livepollSessionObject,
     });
     this._afterRoomUpdates.next(room);
+    this.livepollService.emitEvent({}, LivepollEventType.Create);
   }
 
   private onLivepollPatched(message: any, room: Room) {
+    console.warn('LIVEPOLL PATCHED');
     const id = room.livepollSession?.id;
     if (id !== message.payload.id) {
-      console.warn(`return from mismatching live poll session ID's`);
+      console.error(
+        `"id !== message.payload.id" : incoming ID: ${message.payload.id}, currentLivepoll ID: ${this.currentLivepoll.id}, roomLivepoll ID: ${room.livepollSession.id} `,
+      );
       return;
     }
     this._beforeRoomUpdates.next(room);
@@ -586,13 +591,18 @@ export class SessionService {
       if (!changes.active) {
         room.livepollSession = null;
         this._currentLivepollSession.next(null);
+        this.livepollService.emitEvent(changes, LivepollEventType.Delete);
       }
     } else {
       for (const key of Object.keys(changes)) {
         room.livepollSession[key] = changes[key];
+        console.log(
+          JSON.stringify(room.livepollSession) ===
+            JSON.stringify(this.currentLivepoll),
+        );
       }
+      this.livepollService.emitEvent(changes, LivepollEventType.Patch);
     }
     this._afterRoomUpdates.next(room);
-    this.livepollService.emitEvent(changes);
   }
 }
