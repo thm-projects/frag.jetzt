@@ -50,7 +50,6 @@ export class GptChatComponent implements OnInit, OnDestroy {
     promptTokens: '?' as string | number,
     allTokens: '?' as string | number,
   };
-  model: string = 'text-davinci-003';
   stopper = new Subject<boolean>();
   isGPTPrivacyPolicyAccepted: boolean = false;
   prompts: GPTPromptPreset[] = [];
@@ -59,6 +58,7 @@ export class GptChatComponent implements OnInit, OnDestroy {
   amountOfFoundActs: number = 0;
   amountOfFoundPrompts: number = 0;
   searchTerm: string = '';
+  temperature = 0.7;
   private destroyer = new ReplaySubject(1);
   private encoder: GPTEncoder = null;
   private room: Room = null;
@@ -115,9 +115,6 @@ export class GptChatComponent implements OnInit, OnDestroy {
   }
 
   formatText(text: string) {
-    if (this.model === 'code-davinci-002') {
-      return '``\n' + text + '\n``';
-    }
     return text.replace(/\n/g, '<br>');
   }
 

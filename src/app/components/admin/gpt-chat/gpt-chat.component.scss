@@ -17,6 +17,18 @@
   }
 }
 
+.slide-container {
+  margin-top: 2rem;
+  gap: 1em;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+
+  > * {
+    flex: 1;
+  }
+}
+
 .counter-container {
   display: block;
   text-align: center;
