@@ -36,26 +36,23 @@ export class GPTStatistic {
 }
 
 export class GPTStatistics {
-  promptTokens: GPTStatistic;
-  completionTokens: GPTStatistic;
-  accumulatedQuota: number;
-  weeklyQuota: number;
-  dailyQuota: number;
-  lastUsed: Date;
+  lastUpdate: Date;
+  dailyCounter: number;
+  weeklyCounter: number;
+  monthlyCounter: number;
+  accumulatedCounter: number;
 
   constructor({
-    promptTokens = {} as GPTStatistic,
-    completionTokens = {} as GPTStatistic,
-    accumulatedQuota = 0,
-    weeklyQuota = 0,
-    dailyQuota = 0,
-    lastUsed = null,
+    lastUpdate = null,
+    dailyCounter = 0,
+    weeklyCounter = 0,
+    monthlyCounter = 0,
+    accumulatedCounter = 0,
   }: GPTStatistics) {
-    this.promptTokens = verifyInstance(GPTStatistic, promptTokens);
-    this.completionTokens = verifyInstance(GPTStatistic, completionTokens);
-    this.accumulatedQuota = accumulatedQuota;
-    this.weeklyQuota = weeklyQuota;
-    this.dailyQuota = dailyQuota;
-    this.lastUsed = verifyInstance(Date, lastUsed);
+    this.lastUpdate = verifyInstance(Date, lastUpdate);
+    this.dailyCounter = dailyCounter;
+    this.weeklyCounter = weeklyCounter;
+    this.monthlyCounter = monthlyCounter;
+    this.accumulatedCounter = accumulatedCounter;
   }
 }

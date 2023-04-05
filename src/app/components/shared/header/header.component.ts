@@ -137,7 +137,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
       this.isInRouteWithRoles = this.sessionService.canChangeRoleOnRoute;
     });
     this.sessionService.getGPTStatus().subscribe((status) => {
-      this.canOpenGPT = status?.hasAPI && !status?.restricted;
+      this.canOpenGPT = Boolean(status) && !status.restricted;
     });
     this.topicCloudAdminService.getAdminData.subscribe((data) => {
       this.isAdminConfigEnabled =

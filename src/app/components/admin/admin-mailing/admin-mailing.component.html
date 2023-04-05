@@ -1,0 +1,25 @@
+<mat-card>
+  <h1>{{ "mailing.title" | translate }}</h1>
+  <mat-form-field>
+    <mat-label>{{ "mailing.subject" | translate }}</mat-label>
+    <input
+      appAccessibilityEscapedInput
+      matInput
+      [(ngModel)]="subject"
+      [placeholder]="'mailing.placeholder-subject' | translate" />
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>{{ "mailing.body" | translate }}</mat-label>
+    <textarea
+      appAccessibilityEscapedInput
+      matInput
+      rows="10"
+      [(ngModel)]="message"
+      [placeholder]="'mailing.placeholder-body' | translate"></textarea>
+  </mat-form-field>
+  <button
+    mat-flat-button
+    (click)="send()">
+    {{ "mailing.send" | translate }}
+  </button>
+</mat-card>

@@ -18,6 +18,11 @@
   <div class="runningnum-outer">
     <p>
       <mat-icon
+        *ngIf="comment.gptWriterState % 2 > 0"
+        class="material-icons-round">
+        smart_toy
+      </mat-icon>
+      <mat-icon
         *ngIf="getCommentIcon() as icon"
         [class]="getCommentIconClass()">
         {{ icon }}
@@ -60,6 +65,25 @@
                 : ('comment-page.show-comment-without-filter' | translate)
             ">
             {{ filterProfanityForModerators ? "visibility_off" : "visibility" }}
+          </mat-icon>
+        </button>
+        <button
+          mat-icon-button
+          *ngIf="(!isStudent || comment.approved) && !moderator"
+          [disabled]="isStudent"
+          (click)="toggleApproved()"
+          tabindex="0">
+          <mat-icon
+            [ngClass]="{
+              'approved-icon': comment.approved,
+              'not-marked': !comment.approved
+            }"
+            [matTooltip]="
+              comment.approved
+                ? ('comment-page.mark-not-approved' | translate)
+                : ('comment-page.mark-approved' | translate)
+            ">
+            {{ comment.approved ? "shield" : "remove_moderator" }}
           </mat-icon>
         </button>
         <button

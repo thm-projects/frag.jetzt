@@ -144,6 +144,7 @@ const SIMPLE_PATCH_PROPERTIES: Set<keyof Comment> = new Set([
   'upvotes',
   'downvotes',
   'tag',
+  'approved',
 ]);
 
 export class DataAccessor {

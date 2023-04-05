@@ -217,7 +217,13 @@ export class FilteredDataAccess {
     [FilterType.Number]: (c, value) => c.number === value,
     [FilterType.Censored]: (c) => this._profanityChecker(c),
     [FilterType.Conversation]: (c) => c.totalAnswerCounts.accumulated > 0,
-    [FilterType.BrainstormingIdea]: (c, value) => value?.includes?.(c.brainstormingWordId),
+    [FilterType.BrainstormingIdea]: (c, value) =>
+      value?.includes?.(c.brainstormingWordId),
+    [FilterType.Approved]: (c) =>
+      c.approved ||
+      (!this._isRaw
+        ? getMultiLevelFilterParent(c, (comment) => comment.approved) !== null
+        : false),
   } as const;
   // general properties
   private _settings: AttachOptions = null;
@@ -557,8 +563,10 @@ export class FilteredDataAccess {
       return () => this.updateDataSubscription();
     }
     if (
-      oldFilter.sourceFilterAcknowledgement !== newFilter.sourceFilterAcknowledgement ||
-      oldFilter.sourceFilterBrainstorming !== newFilter.sourceFilterBrainstorming ||
+      oldFilter.sourceFilterAcknowledgement !==
+        newFilter.sourceFilterAcknowledgement ||
+      oldFilter.sourceFilterBrainstorming !==
+        newFilter.sourceFilterBrainstorming ||
       oldFilter.ignoreThreshold !== newFilter.ignoreThreshold
     ) {
       return () => this.updateStages(UPDATE_ALL);
@@ -671,7 +679,9 @@ export class FilteredDataAccess {
       const onlyBrain =
         this._filter.sourceFilterBrainstorming ===
         BrainstormingFilter.OnlyBrainstorming;
-      data = data.filter((c) => (c.brainstormingSessionId !== null) === onlyBrain);
+      data = data.filter(
+        (c) => (c.brainstormingSessionId !== null) === onlyBrain,
+      );
     }
     if (this._filter.ignoreThreshold) {
       this._preFilteredData = [...data];
