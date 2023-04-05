@@ -264,7 +264,8 @@ export class LivepollService extends BaseHttpService {
       // : creator closed dialog
       if (data) {
         this.create(data).subscribe((result) => {
-          if (result.id === session.currentLivepoll.id) {
+          console.warn(result, session.currentLivepoll);
+          if (result?.id === session.currentLivepoll?.id) {
             this._dialogState.next(LivepollDialogState.Closed);
             this.open(session);
           } else {
