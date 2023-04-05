@@ -396,6 +396,25 @@
 
       <button
         mat-menu-item
+        (click)="applyFilterByKey('Approved')">
+        <mat-icon
+          class="material-icons-outlined"
+          style="color: var(--primary)"
+          [ngClass]="{ Approved: 'approved-icon' }[filterType]">
+          shield
+        </mat-icon>
+        <span [ngClass]="{ Approved: 'approved-icon' }[filterType]">
+          {{ "comment-list.filter-approved" | translate }}
+        </span>
+        <span
+          class="inline-count-badge"
+          [matBadge]="filterTypeCounts?.['Approved'] || 0"
+          matBadgeColor="secondary"
+          matBadgeSize="medium"></span>
+      </button>
+
+      <button
+        mat-menu-item
         (click)="applyFilterByKey('Censored')">
         <mat-icon
           class="material-icons-outlined"

@@ -49,6 +49,7 @@ import { UserManagementService } from '../../../services/util/user-management.se
 import { EventService } from '../../../services/util/event.service';
 import { take } from 'rxjs/operators';
 import { GPTChatInfoComponent } from '../_dialogs/gptchat-info/gptchat-info.component';
+import { TSMap } from 'typescript-map';
 
 @Component({
   selector: 'app-comment',
@@ -334,6 +335,15 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
     this.commentService.markCorrect(comment).subscribe((c) => {
       this.comment.correct = c.correct;
       this.checkProfanity();
+    });
+  }
+
+  toggleApproved(): void {
+    this.comment.approved = !this.comment.approved;
+    const changes = new TSMap<string, any>();
+    changes.set('approved', this.comment.approved);
+    this.commentService.patchComment(this.comment, changes).subscribe((c) => {
+      this.comment.approved = c.approved;
     });
   }
 

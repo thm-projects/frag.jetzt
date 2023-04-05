@@ -26,6 +26,7 @@ export class CreateCommentWrapper {
     user: User,
     userRole: UserRole,
     brainstormingData: BrainstormingSession = undefined,
+    commentOverride?: Partial<Comment>,
   ): Observable<Comment> {
     const dialogRef = this.dialog.open(CreateCommentComponent, {
       width: '650px',
@@ -37,13 +38,16 @@ export class CreateCommentWrapper {
     dialogRef.componentInstance.tags =
       (!brainstormingData && this.room.tags) || [];
     dialogRef.componentInstance.brainstormingData = brainstormingData;
-    return dialogRef
-      .afterClosed()
-      .pipe(
-        mergeMap((comment: Comment) =>
-          comment ? this.send(comment) : of<Comment>(null),
-        ),
-      );
+    return dialogRef.afterClosed().pipe(
+      mergeMap((comment: Comment) => {
+        if (commentOverride && comment) {
+          for (const key of Object.keys(commentOverride)) {
+            comment[key] = commentOverride[key];
+          }
+        }
+        return comment ? this.send(comment) : of<Comment>(null);
+      }),
+    );
   }
 
   send(comment: Comment): Observable<Comment> {

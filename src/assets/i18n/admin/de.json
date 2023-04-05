@@ -3,7 +3,8 @@
     "motd": "Ankündigungen",
     "gpt": "ChatGPT-Einstellungen",
     "gpt-chat": "Frag ChatGPT!",
-    "gpt-prompts": "Globale Prompts"
+    "gpt-prompts": "Globale Prompts",
+    "mailing": "Mailing"
   },
   "create-motd": {
     "create": "Erstellen",
@@ -99,14 +100,8 @@
     "prompt-label": "Prompt-Suche",
     "option-total-acts": "Treffer in »Agiere als …«",
     "option-total-prompts": "Treffer in Prompts",
-    "use-case": "Sprachmodell",
-    "use-case-tooltip": "Auswahl eines speziellen Sprachmodells für bessere Antworten.",
-    "use-case-answer-questions": "Beantwortung von Fragen",
-    "use-case-tooltip-answer-questions": "Sehr effektiv, wenn gute Fragen oder Aufgaben (z. B. Übersetzung und Zusammenfassung) gestellt werden. Liefert meist die besten Text-Antworten.",
-    "use-case-code": "Code-Verständnis & Generierung",
-    "use-case-tooltip-code": "Sehr gut im Bereich von Code-Verständnis und Generierung. Hat einen größeren Kontext als Sprachmodelle.",
-    "use-case-chat": "Chat/Konversationen",
-    "use-case-tooltip-chat": "Effektiv für offene Fragen, wo nachfragen benötigt werden. Bietet nicht so genaue Ergebnisse, wie die Beantwortung von Fragen."
+    "temperature": "Temperatur",
+    "temperature-tooltip": "Einstellung der Kreativität und Determinismus der Antworten"
   },
   "quill": {
     "cancel": "Abbrechen",
@@ -156,5 +151,15 @@
     "no-patch-needed": "Es wurden keine Änderungen vorgenommen.",
     "no-prompt-selected": "Es wurde kein Prompt ausgewählt.",
     "enter-prompt-name": "Bitte gib einen Namen ein."
+  },
+  "mailing": {
+    "title": "Rundmail an alle",
+    "subject": "Betreff",
+    "placeholder-subject": "Gib hier dein Betreff ein …",
+    "body": "Nachricht",
+    "placeholder-body": "Gib hier deine Nachricht ein …",
+    "send": "An alle registrierten Nutzer senden",
+    "start-sending": "Nachrichten werden gesendet …",
+    "finish-sending": "Nachrichten wurden alle versandt."
   }
 }
