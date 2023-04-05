@@ -388,9 +388,11 @@ export class SessionService {
       });
       const _beforeActive = new BehaviorSubject<boolean>(false);
       _beforeActive.subscribe((x) => {
-        if (!this.currentRole) {
-          if (!this.livepollService.isOpen) {
-            this.livepollService.open(this);
+        if (x) {
+          if (!this.currentRole) {
+            if (!this.livepollService.isOpen) {
+              this.livepollService.open(this);
+            }
           }
         }
       });
