@@ -156,7 +156,7 @@ app-comment {
 }
 
 .approved-icon {
-  color: green;
+  color: var(--green);
 }
 
 .favorite-icon {
@@ -176,11 +176,11 @@ app-comment {
 }
 
 .conversation-icon {
-  color: green;
+  color: var(--secondary);
 }
 
 .brainstorm-icon {
-  color: green;
+  color: var(--green);
 }
 
 .censored-icon {

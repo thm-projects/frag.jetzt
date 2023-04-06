@@ -74,6 +74,7 @@
           (click)="toggleApproved()"
           tabindex="0">
           <mat-icon
+            class="material-icons-outlined"
             [ngClass]="{
               'approved-icon': comment.approved,
               'not-marked': !comment.approved
@@ -83,7 +84,7 @@
                 ? ('comment-page.mark-not-approved' | translate)
                 : ('comment-page.mark-approved' | translate)
             ">
-            {{ comment.approved ? "shield" : "remove_moderator" }}
+            {{ comment.approved ? "fact_check" : "rule" }}
           </mat-icon>
         </button>
         <button

@@ -74,7 +74,7 @@
     "filter-read": "Questions discussed",
     "filter-reset": "Reset",
     "filter-unanswered": "Not answered",
-    "filter-approved": "Reviewed",
+    "filter-approved": "Checked",
     "filter-wrong": "Negated questions",
     "owner": "Questions I have asked",
     "pause-comments": "Freezes the display to read the questions at rest. Questions can still be asked and scored. The display is only updated again by clicking the button.",
@@ -131,6 +131,7 @@
     "needs-user-account": "You need an account with an email address to receive notifications!"
   },
   "comment-page": {
+    "mark-not-approved": "Checked",
     "a11y-comment-answer": "View Answer",
     "a11y-comment-answer-not": "Create Answer",
     "a11y-comment_input": "Enter your question",
