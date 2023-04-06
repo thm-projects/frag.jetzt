@@ -74,6 +74,7 @@
     "filter-read": "Questions discutées",
     "filter-reset": "Réinitialiser",
     "filter-unanswered": "Sans réponse",
+    "filter-approved": "Vérifié",
     "filter-wrong": "Questions négatives",
     "owner": "Questions posées",
     "pause-comments": "Fige l'affichage pour pouvoir lire les questions en toute tranquillité. Les questions peuvent toujours être posées et évaluées. L'affichage s'actualise à nouveau en cliquant sur le bouton.",
@@ -130,6 +131,7 @@
     "needs-user-account": "Tu as besoin d'un compte avec une adresse e-mail pour recevoir des notifications !"
   },
   "comment-page": {
+    "mark-not-approved": "Vérifié",
     "a11y-comment-answer": "Voir la réponse à cette question",
     "a11y-comment-answer-not": "Répondre à cette question",
     "a11y-comment_input": "Écris ta question",
@@ -202,6 +204,7 @@
     "preview-in-mock": "Aperçu sur un smartphone",
     "questioner-name": "Nom auto-attribué",
     "reply-comment-button": "Écrire une réponse",
+    "reply-AI": "Laisser le ChatGPT répondre",
     "save-answer": "Enregistrer",
     "search-box-input-description": "Ici, tu peux rechercher des questions.",
     "send": "Envoyer",
@@ -271,6 +274,60 @@
     "topic-cloud": "## Radar à questions \n\n Si tu veux garder un œil sur toutes les questions, tu as besoin d'une sorte de « radar ». Notre radar localise les questions et les réponses à l'aide de leurs mots-clés : plus il y a de questions et de réponses qui se rapportent à un mot-clé, plus le mot-clé apparaît grand et central sur le radar.\n\n Le radar à questions te sert de **navigateur** : Si tu cliques sur un mot, tu accèderas aux questions et réponses liées à ce mot-clé. \n\n Les mots-clés sont déterminés en temps réel à l'aide d'une analyse grammaticale des noms ou ont été déterminés par l'auteur. \n\n Le calcul de la taille du texte prend en compte:\n\n* la différence entre les votes ascendants et descendants, si elle est positive,\n* le nombre de questions avec ce mot-clé,\n* le nombre d'auteurs de questions avec ce mot-clé,\n* le rôle : créateur de salle, modérateur ou participant,\n* si une catégorie de questions a été choisie,\n* si le mot-clé a été généré ou attribué,\n* si la question a reçu une réponse,\n* la controversité de la question. \n\nTu peux personnaliser la visualisation à ton goût.  Dans le rôle de créateur ou de modérateur de salle, tu peux expérimenter avec les paramètres de la génération de mots-clés pour améliorer la **sélectivité sémantique**.",
     "user-bonus": "L'enseignant peut marquer les « bonnes » questions avec un bonus. Tes questions de tous les cours (salles) qui ont reçu une étoile sont listées ici.\n\nSelon l'accord, tu peux envoyer le code bonus par e-mail à l'enseignant pour l'échanger contre un bonus."
   },
+  "gpt-chat": {
+    "answer-format": {
+      "disabled": "Désactivé",
+      "summary": "Résumé",
+      "definition": "Définition",
+      "flashcard": "Carte éclair"
+    },
+    "optin-accept": "Accepter",
+    "optin-reject": "Refuser",
+    "privacy-policy": "Déclaration de confidentialité pour l'utilisation de l'API OpenAI",
+    "enter-conversation-text": "Parle à ChatGPT",
+    "send": "Envoyer",
+    "empty-conversation": "Vider l'historique",
+    "input-forbidden": "Saisie interdite, veuillez vérifier les paramètres de l'API GPT.",
+    "no-api-setup": "La clé d'API ou le modèle de langage n'a pas été défini.",
+    "greetings": {
+      "text-davinci-003": [
+        {
+          "key": "École primaire",
+          "value": "Tu es dans la salle de chat appelée \"Français\" et le sujet est la poésie. Explique la question suivante au niveau d'un élève d'une école primaire.\nElève : Qu'est-ce que les haïkus?\nTu : "
+        },
+        {
+          "key": "École secondaire",
+          "value": "Tu es dans la salle de chat appelée \"Histoire\" et le sujet est les années folles. Explique, au niveau d'un élève de terminale, la question suivante.\nElève : Que dit le plan Dawes?\nTu : "
+        },
+        {
+          "key": "Université",
+          "value": "Tu es dans la salle de chat appelée \"Algorithmes et structures de données\" et le sujet est les structures de données simples. Explique la question suivante au niveau d'un étudiant en informatique de deuxième année.\nEtudiant : Y a-t-il un gain de performance si l'on combine une liste liée et une liste de tableaux ? Il serait en effet imaginable de pouvoir lier des tableaux, ou est-ce que je me trompe?\nTu : "
+        }
+      ],
+      "code-davinci-002": [
+        {
+          "key": "Web",
+          "value": "<|endoftext|>/* I start with a blank HTML page, and incrementally modify it via <script> injection. Written for Chrome. */\n/* Command: Add \"Hello World\", by adding an HTML DOM node */\nvar helloWorld = document.createElement('div');\nhelloWorld.innerHTML = 'Hello World';\ndocument.body.appendChild(helloWorld);\n/* Command: Clear the page. */\nwhile (document.body.firstChild) {\n  document.body.removeChild(document.body.firstChild);\n}\n\n/* Command: Display this image of a cat: https://bit.ly/3fsc0rH */\n"
+        }
+      ],
+      "davinci-instruct-beta:2.0.0": [
+        {
+          "key": "Smalltalk",
+          "value": "Cette matière est démotivante. As-tu des astuces pour encourager et être plus actif ?"
+        }
+      ]
+    },
+    "cancel": "Fermer",
+    "refresh": "Générer à nouveau la sortie",
+    "edit": "Modifier la sortie en tant que réponse modifiable à la question.",
+    "paste": "Publier le numéro directement en réponse à la question.",
+    "token-info": "Tokens (saisie/conversation/total) : {{promptTokens}}/{{conversationTokens}}/{{allTokens}}",
+    "prompt-label": "Recherche du prompt",
+    "option-total-acts": "Hits dans « Agir comme … »",
+    "option-total-prompts": "Hits dans prompts",
+    "temperature": "Température",
+    "temperature-tooltip": "Attitude de créativité et déterminisme des réponses"
+  },
   "header": {
     "overview-keywords-tooltip": "Nombre de mots-clés",
     "overview-question-tooltip": "Nombre de questions",
@@ -290,7 +347,9 @@
     "user-bonus-token": "Mes étoiles de bonus",
     "room-qr": "Code QR",
     "motd": "Actualités",
-    "logout": "Se déconnecter"
+    "logout": "Se déconnecter",
+    "livepoll": "Sondage flash",
+    "livepoll-button": "Créer des sondages et notifier automatiquement tous les participants."
   },
   "home-page": {
     "exactly-8": "Un code de salle comporte exactement 8 chiffres.",
@@ -307,7 +366,8 @@
     "brainstorming-title": "Brainstorming",
     "cancel": "Fermer",
     "question-wall-title": "Les cas d'utilisation du mode de présentation",
-    "tag-cloud-title": "Cas d'utilisation du radar à questions"
+    "tag-cloud-title": "Cas d'utilisation du radar à questions",
+    "prompt-guide-chatbot": "Communiquer efficacement avec ChatGPT"
   },
   "joyride": {
     "commentFilter": "Il existe de nombreuses options de tri et de filtrage pour la liste des questions-réponses. Un filtre actif est affiché en rouge. Pour une meilleure lisibilité en cas de grande dynamique, le flux de questions peut également être mis en pause.",
@@ -473,7 +533,7 @@
   },
   "spacy-dialog": {
     "add-manually": "Saisis un mot-clé en rapport avec ta question. Sépare plusieurs mots-clés par une virgule.",
-    "analysis-bad-spelled": "Aucun mot-clé n'a pu être généré",
+    "analysis-bad-spelled": "Remarque : Le texte n'est pas adapté à la génération de mots-clés.",
     "analysis-error": "Des erreurs sont survenues pendant l'extraction des mots-clés. Doit-on créer la question sans mots-clés ?",
     "auto": "auto",
     "de": "Allemand",
@@ -716,9 +776,16 @@
     "name-length-error": "Le nom doit comporter entre {{min}} et {{max}} caractères.",
     "questioner-name": "Ton nom, si tu veux …"
   },
-  "pseudonym-editor": {
-    "name": "Utilisé lors de la post …",
-    "title": "Mon nom de forum",
-    "deepl": "Tutoyer ou vouvoyer ?"
+  "gpt-user-description": {
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "title": "Description personnelle pour GPT",
+    "user-description": "Description personnelle",
+    "token-info": "{{tokens}} / {{maxLength}} Tokens"
+  },
+  "gptchat-info": {
+    "title": "ChatGPT",
+    "content": "ChatGPT est la solution parfaite pour répondre automatiquement à une question dans le forum Q&A. Tu peux même créer tes propres prompts ou choisir parmi des centaines de prompts prédéfinis celui qui convient le mieux. Pour utiliser ChatGPT, tu n'as besoin que d'un compte sur frag.jetzt et d'une [clé API d'OpenAI](https://platform.openai.com).\n\nVoici comment ça marche en seulement deux étapes:\n\n1. Inscris-toi sur frag.jetzt, connecte-toi et réserve une salle.\n\n2. Ajoute la [clé API d'OpenAI](https://platform.openai.com) dans le menu Options de ta salle et c'est parti !\n\nTa clé API est stockée en sécurité sur notre serveur et ton mot de passe frag.jetzt est également en sécurité. De plus, tu peux limiter le nombre de tokens et les coûts de ton API sur une durée limitée si tu veux utiliser ChatGPT dans ta salle. Tu trouveras toutes les options dans le menu Options de ta salle.\n\nCommence dès maintenant avec un crédit de 5 $ que tu peux utiliser pendant les trois premiers mois. Selon le modèle de langue que tu choisis, tu peux utiliser ce crédit pour des millions de tokens (1 token correspond à environ 5-7 caractères) pour des demandes ChatGPT.",    
+    "cancel": "Fermer"
   }
 }

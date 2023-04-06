@@ -1,4 +1,11 @@
 {
+  "overview": {
+    "motd": "Announcements",
+    "gpt": "ChatGPT settings",
+    "gpt-chat": "Chat with ChatGPT",
+    "gpt-prompts": "Global Prompts",
+    "mailing": "Mailing"
+  },
   "create-motd": {
     "create": "Create",
     "english": "English text",
@@ -15,5 +22,144 @@
     "placeholder-time-start": "Start time",
     "success": "News successfully created",
     "title": "Create latest news"
+  },
+  "introductions": {
+    "prompt-guide-chatbot": "Communicating Effectively with ChatGPT",
+    "cancel": "Close",
+    "tooltip-button" : "Prompt Guide"
+  },
+  "gpt-config": {
+    "title": "GPT Settings & API Test",
+    "api-key": "API Key",
+    "organization": "Organization",
+    "next": "Next",
+    "previous": "Back",
+    "save": "Save",
+    "end": "Ende",
+    "header-settings": "GPT API settings",
+    "header-restrictions": "GPT API Restriction",
+    "header-metrics": "GPT API statistics",
+    "restrict-active": "API enabled",
+    "restrict-end-date": "API end",
+    "save-error": "Could not save data!",
+    "load-error": "Could not load configuration!",
+    "load-stats-error": "Could not load statistics!",
+    "stats-message": "The platform has used a total of {{all}} Tokens.\nOf which {{week}} was this week and {{day}} Tokens this day.\nThe last usage was on {{date}}.",
+    "prompt-type": "Token for the request",
+    "completion-type": "Token for output",
+    "boxplot-message": "The median {{median}} {{type}} per request was consumed, with 50% of the data between {{lower}} tokens and {{upper}} Tokens. Of {{count}} Requests, {{lowerStray}} below and {{upperStray}} above are torn out.",
+    "help-general": "The GPT API provides an artificial intelligence that performs text completion. In doing so, the AI answers classification, knowledge, and other questions. The AI has one input and provides at least one output.",
+    "help-api-key": "The API key assigns the requests to an account. So consumption and costs can be calculated and displayed in the OpenAI account",
+    "help-organization": "Organization is an optional way to have consumption billed through an organization instead of directly through your own OpenAI account.",
+    "activation-code": "Study activation code",
+    "activation-max-cost": "Study cost per month",
+    "activation-used": "Code was redeemed",
+    "activation-info": "{{code}}: ({{maxCost}}$ / Month)",
+    "help-activation-codes": "Here activation codes for the study can be viewed, created and deleted."
+  },
+  "gpt-chat": {
+    "optin-accept": "Accept",
+    "optin-reject": "Reject",
+    "privacy-policy": "Privacy Policy for the Use of OpenAI API",
+    "enter-conversation-text": "Chat with ChatGPT …",
+    "send": "Send",
+    "empty-conversation": "Clear history",
+    "input-forbidden": "Input forbidden, please check the GPT API settings.",
+    "no-api-setup": "The API key or language model was not set.",
+    "greetings": {
+      "text-davinci-003": [
+        {
+          "key": "Elementary school",
+          "value": "You are in the chat room called \"English\" and the topic is poetry. Explain the following question at the level of an elementary school student.\nStudent: What are haikus?\nYou: "
+        },
+        {
+          "key": "High school",
+          "value": "You are in the chat room called \"History\" and the topic is the golden twenties. Explain the following question at the level of a high school student.\nStudent: What does the Dawes Plan say?\nYou: "
+        },
+        {
+          "key": "University",
+          "value": "You are in the chat room called \"Algorithms and Data Structures\" and the topic is simple data structures. Explain at the level of a 2nd semester computer science student the following question.\nStudent: Is there a performance gain when you combine a linked list and an array list? Surely it would be conceivable to link arrays, or am I wrong there?\nYou: "
+        }
+      ],
+      "code-davinci-002": [
+        {
+          "key": "Web",
+          "value": "<|endoftext|>/* I start with a blank HTML page, and incrementally modify it via <script> injection. Written for Chrome. */\n/* Command: Add \"Hello World\", by adding an HTML DOM node */\nvar helloWorld = document.createElement('div');\nhelloWorld.innerHTML = 'Hello World';\ndocument.body.appendChild(helloWorld);\n/* Command: Clear the page. */\nwhile (document.body.firstChild) {\n  document.body.removeChild(document.body.firstChild);\n}\n\n/* Command: Display this image of a cat: https://bit.ly/3fsc0rH */\n"
+        }
+      ],
+      "davinci-instruct-beta:2.0.0": [
+        {
+          "key": "Smalltalk",
+          "value": "The subject is demotivating. Do you have any tricks to cheer up and get more active?"
+        }
+      ]
+    },
+    "cancel": "Close",
+    "refresh": "Generate output again",
+    "token-info": "Tokens (input / chat / total): {{promptTokens}} / {{conversationTokens}} / {{allTokens}}",
+    "prompt-label": "Prompt search",
+    "option-total-acts": "Founds acts",
+    "option-total-prompts": "Hits in prompts",
+    "temperature": "Temperature",
+    "temperature-tooltip": "Setting of creativity and determinism of answers"
+  },
+  "quill": {
+    "cancel": "Cancel",
+    "heading": "Input",
+    "preview": "Preview",
+    "tooltip-action": "Edit",
+    "tooltip-action-save": "Save",
+    "tooltip-label": "Visit link …",
+    "tooltip-label-formula": "Enter a KaTeX formula, for example …",
+    "tooltip-label-image": "Enter image URL …",
+    "tooltip-label-link": "Enter link …",
+    "tooltip-label-video": "Enter video URL …",
+    "tooltip-placeholder-formula": "We support the KaTeX formula set.",
+    "tooltip-placeholder-image": "Image address must begin with https:// …",
+    "tooltip-placeholder-link": "Address must begin with https:// …",
+    "tooltip-placeholder-video": "Video address must begin with https:// …",
+    "tooltip-remove": "Yes",
+    "tooltip-toolbar-blockquote": "Cite",
+    "tooltip-toolbar-bold": "Bold",
+    "tooltip-toolbar-italic": "Italic",
+    "tooltip-toolbar-code": "Mark as source code",
+    "tooltip-toolbar-color": "Font color",
+    "tooltip-toolbar-emote": "Insert emoji",
+    "tooltip-toolbar-formula": "Insert formula",
+    "tooltip-toolbar-image": "Insert image",
+    "tooltip-toolbar-link": "Link selected text",
+    "tooltip-toolbar-ordered-list": "Numbered list",
+    "tooltip-toolbar-strike": "Strike through",
+    "tooltip-toolbar-textcolor": "Text color",
+    "tooltip-toolbar-unordered-list": "Bullet list",
+    "tooltip-toolbar-video": "Insert video"
+  },
+  "chat-gptprompt-preset": {
+    "title": "Prompts for ChatGPT",
+    "search-prompt": "Prompt search or new prompt",
+    "found-acts": "Hits in »Act as ...« ({{count}})",
+    "found-prompts": "Hits in prompts ({{count}})",
+    "token-info": "Tokens: {{promptTokens}}",
+    "placeholder-edit-preset": "Edit your prompt here",
+    "save": "Save",
+    "delete": "Delete",
+    "an-error-occured": "Something has gone wrong!",
+    "delete-success": "Prompt was removed.",
+    "add-success": "Prompt was added.",
+    "already-present": "Prompt already exists, please change the name. Or select the appropriate prompt.",
+    "patch-success": "Changes have been saved.",
+    "no-patch-needed": "No changes have been made.",
+    "no-prompt-selected": "No prompt was selected.",
+    "enter-prompt-name": "Please enter a name."
+  },
+  "mailing": {
+    "title": "Mail to all",
+    "subject": "Subject",
+    "placeholder-subject": "Enter your subject here …",
+    "body": "Message",
+    "placeholder-body": "Enter your message here …",
+    "send": "Send to all registered users",
+    "start-sending": "Messages are sent …",
+    "finish-sending": "Messages have all been sent."
   }
 }

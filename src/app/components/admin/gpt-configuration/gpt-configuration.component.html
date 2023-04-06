@@ -1,0 +1,271 @@
+<mat-card>
+  <h1>{{ "gpt-config.title" | translate }}</h1>
+  <p>{{ "gpt-config.help-general" | translate }}</p>
+  <mat-accordion *ngIf="!isLoading; else loading">
+    <!-- GPT Settings -->
+    <mat-expansion-panel
+      [expanded]="step === 0"
+      (opened)="step = 0"
+      hideToggle>
+      <mat-expansion-panel-header>
+        {{ "gpt-config.header-settings" | translate }}
+      </mat-expansion-panel-header>
+
+      <div class="panel-content-container">
+        <!-- API Key -->
+        <mat-icon [matTooltip]="'gpt-config.help-api-key' | translate">
+          help
+        </mat-icon>
+        <mat-form-field>
+          <mat-label>
+            {{ "gpt-config.api-key" | translate }}
+          </mat-label>
+          <input
+            matInput
+            appAccessibilityEscapedInput
+            type="password"
+            [(ngModel)]="apiKey" />
+          <button
+            *ngIf="apiKey !== null"
+            matSuffix
+            mat-icon-button
+            aria-label="Clear"
+            (click)="apiKey = null">
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
+        <!-- Organization -->
+        <mat-icon [matTooltip]="'gpt-config.help-organization' | translate">
+          help
+        </mat-icon>
+        <mat-form-field>
+          <mat-label>{{ "gpt-config.organization" | translate }}</mat-label>
+          <input
+            matInput
+            appAccessibilityEscapedInput
+            type="text"
+            [(ngModel)]="organization" />
+          <button
+            *ngIf="organization !== null"
+            matSuffix
+            mat-icon-button
+            aria-label="Clear"
+            (click)="organization = null">
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+
+      <button
+        mat-button
+        class="secondary-btn"
+        (click)="saveProperties()">
+        {{ "gpt-config.save" | translate }}
+      </button>
+
+      <mat-action-row>
+        <button
+          mat-button
+          (click)="step = 1">
+          {{ "gpt-config.next" | translate }}
+        </button>
+      </mat-action-row>
+    </mat-expansion-panel>
+    <!-- GPT Restrictions -->
+    <mat-expansion-panel
+      [expanded]="step === 1"
+      (opened)="step = 1"
+      hideToggle>
+      <mat-expansion-panel-header>
+        {{ "gpt-config.header-restrictions" | translate }}
+      </mat-expansion-panel-header>
+
+      <div class="panel-content-container">
+        <!-- Active -->
+        <mat-slide-toggle [(ngModel)]="active">
+          {{ "gpt-config.restrict-active" | translate }}
+        </mat-slide-toggle>
+        <!-- End Date -->
+        <div class="panel-sub-item">
+          <mat-form-field>
+            <mat-label>
+              {{ "gpt-config.restrict-end-date" | translate }}
+            </mat-label>
+            <input
+              matInput
+              [matDatepicker]="picker"
+              [formControl]="endDateControl" />
+            <mat-hint>{{ getDateFormatString() }}</mat-hint>
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+            <button
+              *ngIf="endDateControl.value !== null"
+              matSuffix
+              mat-icon-button
+              aria-label="Clear"
+              (click)="endDateControl.setValue(null)">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+          <span class="time-select">
+            <mat-label>
+              {{ "gpt-config.restrict-end-date" | translate }}
+            </mat-label>
+            <ngx-mat-timepicker [(ngModel)]="endDate"></ngx-mat-timepicker>
+          </span>
+        </div>
+        <!-- Activation codes -->
+        <mat-icon [matTooltip]="'gpt-config.help-activation-codes' | translate">
+          help
+        </mat-icon>
+        <mat-form-field>
+          <mat-label>{{ "gpt-config.activation-code" | translate }}</mat-label>
+          <input
+            matInput
+            (keydown)="checkEnter($event, addActivationCode)"
+            appAccessibilityEscapedInput
+            type="text"
+            [(ngModel)]="activationCode" />
+          <button
+            *ngIf="isValid()"
+            matSuffix
+            mat-icon-button
+            aria-label="Submit"
+            (click)="addActivationCode()">
+            <mat-icon>check</mat-icon>
+          </button>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>
+            {{ "gpt-config.activation-max-cost" | translate }}
+          </mat-label>
+          <input
+            #inputCheck
+            matInput
+            (keydown)="checkEnter($event, addActivationCode)"
+            appAccessibilityEscapedInput
+            min="0"
+            step="0.01"
+            type="number"
+            inputmode="numeric"
+            [(ngModel)]="activationMaxCost" />
+        </mat-form-field>
+        <mat-list>
+          <mat-list-item
+            class="stop-item"
+            *ngFor="let item of platformCodes; let i = index">
+            <div matListItemTitle>
+              {{
+                "gpt-config.activation-info"
+                  | translate
+                    : { code: item.code, maxCost: item.maximalCost.toFixed(2) }
+              }}
+            </div>
+            <div
+              matListItemLine
+              *ngIf="item.activatedRoomId">
+              {{ "gpt-config.activation-used" | translate }}
+            </div>
+            <button mat-icon-button>
+              <mat-icon (click)="platformCodes.splice(i, 1)">close</mat-icon>
+            </button>
+          </mat-list-item>
+        </mat-list>
+      </div>
+
+      <button
+        mat-button
+        class="secondary-btn"
+        (click)="saveRestrictions()">
+        {{ "gpt-config.save" | translate }}
+      </button>
+
+      <mat-action-row>
+        <button
+          mat-button
+          (click)="step = 0">
+          {{ "gpt-config.previous" | translate }}
+        </button>
+        <button
+          mat-button
+          (click)="step = 2">
+          {{ "gpt-config.next" | translate }}
+        </button>
+      </mat-action-row>
+    </mat-expansion-panel>
+    <!-- GPT Metrics -->
+    <mat-expansion-panel
+      [expanded]="step === 2"
+      (opened)="step = 2; updateStatistics()"
+      hideToggle>
+      <mat-expansion-panel-header>
+        {{ "gpt-config.header-metrics" | translate }}
+      </mat-expansion-panel-header>
+
+      <div *ngIf="statistics; else loading">
+        {{
+          "gpt-config.stats-message"
+            | translate
+              : {
+                  all: statistics.accumulatedQuota,
+                  week: statistics.weeklyQuota,
+                  day: statistics.dailyQuota,
+                  date: prettyDate(statistics.lastUsed)
+                }
+        }}
+        <br />
+        <br />
+        {{
+          "gpt-config.boxplot-message"
+            | translate
+              : {
+                  median: statistics.promptTokens.percentiles[5],
+                  type: "gpt-config.prompt-type" | translate,
+                  lower: statistics.promptTokens.lowerQuartile,
+                  upper: statistics.promptTokens.upperQuartile,
+                  count: statistics.promptTokens.count,
+                  lowerStray: statistics.promptTokens.strayBulletsLower,
+                  upperStray: statistics.promptTokens.strayBulletsUpper
+                }
+        }}
+        <br />
+        <br />
+        {{
+          "gpt-config.boxplot-message"
+            | translate
+              : {
+                  median: statistics.completionTokens.percentiles[5],
+                  type: "gpt-config.completion-type" | translate,
+                  lower: statistics.completionTokens.lowerQuartile,
+                  upper: statistics.completionTokens.upperQuartile,
+                  count: statistics.completionTokens.count,
+                  lowerStray: statistics.completionTokens.strayBulletsLower,
+                  upperStray: statistics.completionTokens.strayBulletsUpper
+                }
+        }}
+      </div>
+
+      <mat-action-row>
+        <button
+          mat-button
+          (click)="step = 1">
+          {{ "gpt-config.previous" | translate }}
+        </button>
+        <button
+          mat-button
+          (click)="step = 3">
+          {{ "gpt-config.end" | translate }}
+        </button>
+      </mat-action-row>
+    </mat-expansion-panel>
+  </mat-accordion>
+</mat-card>
+
+<ng-template #loading>
+  <app-mat-spinner-overlay
+    color="on-surface"
+    diameter="40"
+    strokeWidth="5"></app-mat-spinner-overlay>
+</ng-template>

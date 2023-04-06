@@ -37,10 +37,10 @@
     "you-sure-category": "Faut-il vraiment réinitialiser toutes les affectations de catégories ?"
   },
   "brainstorming-edit": {
-    "title" : "Paramètres de brainstorming",
-    "question" : "Thème ou question de focalisation …",
-    "word-count" : "Nombre maximum de mots par idée",
-    "word-length" : "Nombre maximal de caractères par idée",
+    "title": "Paramètres de brainstorming",
+    "question": "Thème ou question de focalisation …",
+    "word-count": "Nombre maximum de mots par idée",
+    "word-length": "Nombre maximal de caractères par idée",
     "field-hint-number": "Valeur : {{min}} - {{max}}",
     "field-required": "Ce champ est nécessaire.",
     "field-too-high": "Ton entrée est trop longue, elle doit être au maximum de {{max}}.",
@@ -120,6 +120,7 @@
     "filter-read": "Questions discutées",
     "filter-reset": "Réinitialiser",
     "filter-unanswered": "Sans réponse",
+    "filter-approved": "Vérifié",
     "filter-wrong": "Questions négatives",
     "owner": "Questions posées",
     "pause-comments": "Fige l'affichage pour permettre de lire ou de présenter les questions en toute tranquillité. Les questions peuvent toujours être posées et évaluées. L'affichage s'actualise à nouveau en cliquant sur le bouton.",
@@ -268,6 +269,8 @@
     "live-announcer-moderation": "Tu te trouves maintenant sur la page de modération. Pour obtenir des informations sur les combinaisons de touches, appuie maintenant sur la touche Entrée ou appelle l'annonce ultérieurement avec la touche Échap.",
     "mark-bookmark": "Mettre un signet",
     "mark-correct": "Répondre à la question par « oui » ou marquer comme « fait »",
+    "mark-approved": "Vérification des faits : clique ici si tu as vérifié le post.",
+    "mark-not-approved": "Annuler la vérification des faits",
     "mark-favorite": "Marquer la question pour un bonus",
     "mark-favorite-disabled-bonus": "Marquer d'une étoile",
     "mark-not-bookmark": "Annuler le marquage",
@@ -290,6 +293,7 @@
     "really-delete-answer": "Tu veux vraiment supprimer ta réponse ?",
     "reject": "Déplacer vers la modération",
     "reply-comment-button": "Écrire une réponse",
+    "reply-AI": "Laisser le ChatGPT répondre",
     "save-answer": "Enregistrer",
     "search-box-input-description": "Ici, tu peux rechercher des questions.",
     "semicolon": "Format CSV (.csv)",
@@ -367,6 +371,123 @@
     "topic-cloud": "## Radar à questions \n\n Si tu veux garder un œil sur toutes les questions, tu as besoin d'une sorte de « radar ». Notre radar localise les questions et les réponses à l'aide de leurs mots-clés : plus il y a de questions et de réponses qui se rapportent à un mot-clé, plus le mot-clé apparaît grand et central sur le radar.\n\n Le radar à questions te sert de **navigateur** : Si tu cliques sur un mot, tu accèderas aux questions et réponses liées à ce mot-clé. \n\n Les mots-clés sont déterminés en temps réel à l'aide d'une analyse grammaticale des noms ou ont été déterminés par l'auteur. \n\n Le calcul de la taille du texte prend en compte:\n\n* la différence entre les votes ascendants et descendants, si elle est positive,\n* le nombre de questions avec ce mot-clé,\n* le nombre d'auteurs de questions avec ce mot-clé,\n* le rôle : créateur de salle, modérateur ou participant,\n* si une catégorie de questions a été choisie,\n* si le mot-clé a été généré ou attribué,\n* si la question a reçu une réponse,\n* la controversité de la question. \n\nTu peux personnaliser la visualisation à ton goût.  Dans le rôle de créateur ou de modérateur de salle, tu peux expérimenter avec les paramètres de la génération de mots-clés pour améliorer la **sélectivité sémantique**.",
     "user-bonus": "## Bonus \n\nL'enseignant peut marquer les « bonnes » questions avec un bonus. Tes questions de tous les cours (salles) qui ont reçu une étoile sont listées ici.\n\nSelon l'accord, tu peux envoyer le code bonus par e-mail à l'enseignant pour l'échanger contre un bonus."
   },
+  "gpt-chat": {
+    "optin-accept": "Accepter",
+    "optin-reject": "Refuser",
+    "privacy-policy": "Déclaration de confidentialité pour l'utilisation de l'API OpenAI",
+    "enter-conversation-text": "Parle à ChatGPT",
+    "context-competence": "J'ai les compétences {{value}}.",
+    "context-self-description": "Ma description de moi-même est {{value}}.",
+    "context-context": "Le contexte de ma question est {{value}}.",
+    "context-topic": "Le thème est {{value}}.",
+    "context-language": "Réponds-moi {{value}}.",
+    "context-social-tone": "Parle-moi {{value}}.",
+    "context-formal-address": "Adresse-toi à moi de manière {{value}}, s'il te plaît.",
+    "context-response-length": "Réponds-moi {{value}}, s'il te plaît.",
+    "context-response-format": "Formate la réponse sous forme {{value}}.",
+    "context-question": "Ma question est:\n{{value}}",
+    "choices": {
+      "social-tone": [
+        { "key": "neutral", "text": "de manière neutre" },
+        { "key": "friendly", "text": "gentiment" },
+        { "key": "expertly", "text": "en tant qu'expert" },
+        { "key": "humorous", "text": "avec humour" }
+      ],
+      "response-format": [
+        { "key": "summary", "text": "de résumé" },
+        { "key": "definition", "text": "de définition" },
+        { "key": "flashcard", "text": "de carte d'apprentissage" }
+      ],
+      "language": {
+        "de": "en allemand",
+        "en": "en anglais",
+        "fr": "en français",
+        "like_question": "dans la langue de la question"
+      },
+      "response-length": {
+        "short": "brièvement",
+        "detailed": "en détail",
+        "extensive": "largement"
+      },
+      "formal-address": {
+        "true": "formelle",
+        "false": "informelle"
+      }
+    },
+    "your-choice": "Ta sélection",
+    "none": "Aucun",
+    "send": "Envoyer",
+    "empty-conversation": "Vider l'historique",
+    "input-forbidden": "Saisie interdite, veuillez vérifier les paramètres de l'API GPT.",
+    "no-api-setup": "La clé d'API ou le modèle de langage n'a pas été défini.",
+    "presets": {
+      "disabled": "Désactivé",
+      "language": {
+        "de": "Allemand",
+        "en": "Anglais",
+        "fr": "Français",
+        "*": "Comme la question"
+      },
+      "tone": {
+        "neutral": "Neutre",
+        "friendly": "Amical",
+        "professional": "Professionnel",
+        "humorous": "Humoristique"
+      },
+      "formality": {
+        "informal": "Informel",
+        "polite": "Poli"
+      },
+      "length": {
+        "short": "Court",
+        "detailed": "Détaillé",
+        "extensive": "Extensive"
+      }
+    },
+    "answer-format": {
+      "summary": "Résumé",
+      "definition": "Définition",
+      "flashcard": "Carte éclair"
+    },
+    "greetings": {
+      "text-davinci-003": [
+        {
+          "key": "École primaire",
+          "value": "Tu es dans la salle de chat appelée \"Français\" et le sujet est la poésie. Explique la question suivante au niveau d'un élève d'une école primaire.\nElève : Qu'est-ce que les haïkus?\nTu : "
+        },
+        {
+          "key": "École secondaire",
+          "value": "Tu es dans la salle de chat appelée \"Histoire\" et le sujet est les années folles. Explique, au niveau d'un élève de terminale, la question suivante.\nElève : Que dit le plan Dawes?\nTu : "
+        },
+        {
+          "key": "Université",
+          "value": "Tu es dans la salle de chat appelée \"Algorithmes et structures de données\" et le sujet est les structures de données simples. Explique la question suivante au niveau d'un étudiant en informatique de deuxième année.\nEtudiant : Y a-t-il un gain de performance si l'on combine une liste liée et une liste de tableaux ? Il serait en effet imaginable de pouvoir lier des tableaux, ou est-ce que je me trompe?\nTu : "
+        }
+      ],
+      "code-davinci-002": [
+        {
+          "key": "Web",
+          "value": "<|endoftext|>/* I start with a blank HTML page, and incrementally modify it via <script> injection. Written for Chrome. */\n/* Command: Add \"Hello World\", by adding an HTML DOM node */\nvar helloWorld = document.createElement('div');\nhelloWorld.innerHTML = 'Hello World';\ndocument.body.appendChild(helloWorld);\n/* Command: Clear the page. */\nwhile (document.body.firstChild) {\n  document.body.removeChild(document.body.firstChild);\n}\n\n/* Command: Display this image of a cat: https://bit.ly/3fsc0rH */\n"
+        }
+      ],
+      "davinci-instruct-beta:2.0.0": [
+        {
+          "key": "Smalltalk",
+          "value": "Cette matière est démotivante. As-tu des astuces pour encourager et être plus actif ?"
+        }
+      ]
+    },
+    "cancel": "Fermer",
+    "refresh": "Générer à nouveau la sortie",
+    "edit": "Modifier la sortie en tant que réponse modifiable à la question.",
+    "paste": "Publier le numéro directement en réponse à la question.",
+    "token-info": "Tokens (saisie/conversation/total) : {{promptTokens}}/{{conversationTokens}}/{{allTokens}}",
+    "prompt-label": "Recherche du prompt",
+    "option-total-acts": "Hits dans « Agir comme … »",
+    "option-total-prompts": "Hits dans prompts",
+    "temperature": "Température",
+    "temperature-tooltip": "Attitude de créativité et déterminisme des réponses"
+  },
   "header": {
     "overview-keywords-tooltip": "Nombre de mots-clés",
     "overview-question-tooltip": "Nombre de questions",
@@ -384,7 +505,8 @@
     "brainstorming-title": "Brainstorming",
     "cancel": "Fermer",
     "question-wall-title": "Les cas d'utilisation du mode de présentation",
-    "tag-cloud-title": "Cas d'utilisation du radar à questions"
+    "tag-cloud-title": "Cas d'utilisation du radar à questions",
+    "prompt-guide-chatbot": "Communiquer efficacement avec ChatGPT"
   },
   "joyride": {
     "commentFilter": "Il existe de nombreuses options de tri et de filtrage pour la liste des questions-réponses. Un filtre actif est affiché en rouge. Pour une meilleure lisibilité en cas de grande dynamique, le flux de questions peut également être mis en pause.",
@@ -607,7 +729,71 @@
     "update-description": "Enregistre les modifications.",
     "words-will-be-overwritten": "Les mots vulgaires sont remplacés par ★★★★."
   },
+  "gpt-room-settings": {
+    "title": "Paramètres ChatGPT",
+    "trial-info": "Étude ChatGPT (clé API via frag.jetzt):",
+    "trial-code": "Code d'activation",
+    "trial-enabled": "Tu participes à l'étude frag.jetzt.",
+    "own-openai-api-key": "GPT via des paramètres API personnalisés",
+    "own-openai-info": "Si l'étude frag.jetzt est active, le décompte se fait quand même sur les propres réglages, si ceux-ci sont présents.",
+    "api-key": "OpenAI API Key",
+    "api-organization": "ID de l'organisation OpenAI",
+    "restrictions-room": "Espace Limitations de quotas",
+    "rest-room-acc": "Limitation globale des coûts",
+    "rest-room-month": "Limitation des coûts mensuels",
+    "rest-room-day": "Limitation des coûts quotidiens",
+    "restrictions-moderator": "Limites de quota du modérateur",
+    "rest-mod-acc": "Limitation globale des coûts",
+    "rest-mod-month": "Limitation des coûts mensuels",
+    "rest-mod-day": "Limitation des coûts quotidiens",
+    "restrictions-participant": "Limites de quota des participants",
+    "rest-part-acc": "Limitation globale des coûts",
+    "rest-part-month": "Limitation des coûts mensuels",
+    "rest-part-day": "Limitation des coûts quotidiens",
+    "rest-wrong": "Une limite de coûts ne correspond pas à un chiffre valide. (chiffre avec deux décimales)",
+    "deactivated": "Le propriétaire de la salle n'autorise aucun changement.",
+    "moderator-rights": "Droits des modérateurs",
+    "mod-right-part-quota": "Modifier le quota des participants",
+    "mod-right-mod-quota": "Modifier le quota des modérateurs",
+    "mod-right-room-quota": "Modifier le quota d'espace",
+    "mod-right-preset": "Modifier les paramètres de l'invite GPT",
+    "mod-right-usage-times": "Modifier les périodes d'utilisation",
+    "mod-right-api-settings": "Modifier les paramètres de l'API",
+    "usage-times": "Périodes d'utilisation",
+    "usage-time-info": "Si aucune période d'utilisation n'est créée, l'API est accessible en permanence.",
+    "start-time": "Heure de début",
+    "end-time": "Heure de fin",
+    "start-and-end-date": "Date de début et de fin",
+    "add-usage-time": "Ajouter une période d'utilisation",
+    "usage-time-duration": "Facteur de répétition",
+    "usage-time-unit": "Unité de temps de répétition",
+    "usage-time-values": {
+      "HOUR": "Toutes les heures",
+      "DAY": "Tous les jours",
+      "WEEK": "Hebdomadaire",
+      "MONTH": "Mensuel",
+      "YEAR": "Annual"
+    },
+    "usage-time-repeat": {
+      "one_HOUR": "est répété chaque heure",
+      "other_HOUR": "est répété toutes les {{value}} heures",
+      "one_DAY": "est répété chaque jour",
+      "other_DAY": "est répété tous les {{value}} jours",
+      "one_WEEK": "est répété chaque semaine",
+      "other_WEEK": "est répété toutes les {{value}} semaines",
+      "one_MONTH": "est répété chaque mois",
+      "other_MONTH": "est répété tous les {{value}} mois",
+      "one_YEAR": "est répété chaque année",
+      "other_YEAR": "est répété tous les {{value}} ans"
+    },
+    "reset": "Réinitialiser",
+    "save": "Enregistrer",
+    "cancel": "Rejeter",
+    "send": "Envoyer"
+  },
   "room-settings-overview": {
+    "livepoll-enabled": "Activer sondage flash",
+    "tooltip-livepoll-enabled": "Créer des sondages et informer automatiquement tous les participants. Les résultats des deux sondages peuvent être comparés ultérieurement.",
     "a11y-bonus-archive-enabled": "Curseur pour activer l'archive de bonus.",
     "a11y-brainstorming-enabled": "Curseur pour autoriser le brainstorming.",
     "a11y-conversation-enabled": "Curseur pour débloquer les conversations dans cette salle.",
@@ -652,7 +838,7 @@
   },
   "spacy-dialog": {
     "add-manually": "Saisis un mot-clé en rapport avec ta question. Sépare plusieurs mots-clés par une virgule.",
-    "analysis-bad-spelled": "Aucun mot-clé n'a pu être généré",
+    "analysis-bad-spelled": "Remarque : Le texte n'est pas adapté à la génération de mots-clés.",
     "analysis-error": "Des erreurs sont survenues pendant l'extraction des mots-clés. Doit-on créer la question sans mots-clés ?",
     "auto": "auto",
     "de": "Allemand",
@@ -825,7 +1011,7 @@
     "keyword-scoring-controversy-info": "Ce paramètre forme un score qui dépend des votes positifs et négatifs.",
     "keyword-scoring-countComments": "Nombre de questions",
     "keyword-scoring-countComments-info": "Nombre de questions à partir desquelles les mots-clés ont été extraits",
-    "keyword-scoring-countKeywordByCreator": "Nombre de mots-clés du créateur d'une pièce",
+    "keyword-scoring-countKeywordByCreator": "Nombre de mots-clés du créateur d'une salle",
     "keyword-scoring-countKeywordByCreator-info": "Nombre d'utilisations de ce mot-clé par le créateur",
     "keyword-scoring-countKeywordByModerator": "Nombre de mots-clés utilisés par les modérateurs",
     "keyword-scoring-countKeywordByModerator-info": "Nombre d'utilisations de ce mot-clé par les modérateurs",
@@ -902,9 +1088,27 @@
     "name-length-error": "Le nom doit comporter entre {{min}} et {{max}} caractères.",
     "questioner-name": "Ton nom, si tu veux …"
   },
-  "pseudonym-editor": {
-    "name": "Utilisé lors de la post …",
-    "title": "Mon nom de forum",
-    "deepl": "Tutoyer ou vouvoyer ?"
+  "presets-dialog": {
+    "context-title": "contexte de l'événement",
+    "persona-title": "Presets pour chaque personne",
+    "topic-title": "thèmes de l'événement",
+    "context-label": "Contexte",
+    "topic-label": "Sujet",
+    "persona-moderator-label": "Persona (Présentateur)",
+    "persona-user-label": "Persona (Utilisateur)",
+    "persona-creator-label": "Persona (Créateur)",
+    "context-placeholder": "Cours WPW",
+    "topic-placeholder": "Angular",
+    "persona-moderator-placeholder": "Modérateur",
+    "persona-user-placeholder": "Utilisateur",
+    "persona-creator-placeholder": "Créateur",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "delete": "Supprimer"
+  },
+  "gptchat-info": {
+    "title": "ChatGPT",
+    "content": "ChatGPT est la solution parfaite pour répondre automatiquement à toutes les questions du forum Q&R. Tu peux facilement créer tes propres prompts ou choisir le prompt qui te convient parmi des centaines de prompts prédéfinis. Pour utiliser ChatGPT, tu as seulement besoin d'un compte chez frag.jetzt et d'une [clé API d'OpenAI](https://platform.openai.com).\n\nC'est aussi simple que ça, en deux étapes seulement:\n\n1. Inscris-toi sur frag.jetzt, crée un compte et réserve une salle.\n\n2. Dépose la [clé API d'OpenAI](https://platform.openai.com) dans le menu d'options de ta salle et c'est parti!\n\nTa clé API est stockée en toute sécurité sur notre serveur et ton mot de passe frag.jetzt est également sécurisé. De plus, tu peux limiter dans le temps le contingent de tokens et tes coûts API si tu veux autoriser ChatGPT à être utilisé dans ta salle. Tu trouveras tous les paramètres nécessaires dans le menu d'options de ta salle.\n\nDémarre maintenant avec un crédit gratuit de 5 $ que tu peux utiliser pendant les 3 premiers mois. Selon le modèle linguistique, tu peux ainsi consommer entre 250 000 et 12,5 millions de tokens.",
+    "cancel": "Fermer"
   }
 }

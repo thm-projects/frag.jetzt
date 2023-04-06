@@ -1,0 +1,87 @@
+{
+  "common": {
+    "create-dialog-title": "Créer un sondage rapide",
+    "dialog-title": "Sondage rapide",
+    "option-select-title": "Ta question …",
+    "dialog-preview-title": "Aperçu du participant :",
+    "create": "Lancer le sondage",
+    "participants": "Participants :",
+    "close": "Fermer",
+    "cancel": "Annuler",
+    "save": "Envoyer les modifications à tous",
+    "new": "Nouveau sondage",
+    "vote-make": "Ton vote a été comptabilisé.",
+    "vote-delete": "Ton vote a été supprimé.",
+    "dialog-confirm-create-new-description": "Veux-tu vraiment arrêter le sondage en cours et en lancer un nouveau ?",
+    "dialog-confirm-create-new-title": "Nouveau sondage",
+    "dialog-confirm-delete-description": "Veux-tu vraiment arrêter le sondage ? Le résultat du sondage reste affiché. Toutefois, il sera supprimé lorsque tu quitteras le sondage.",
+    "dialog-confirm-delete-title": "Arrêter le sondage",
+    "votes": "Votes :",
+    "confirm-yes": "Oui, arrêter",
+    "creator-settings": "Options en direct …",
+    "creator-settings-icon": "cloud_upload",
+    "creator-settings-delete": "Arrêter le sondage",
+    "creator-settings-pause": "Suspendre le sondage",
+    "creator-settings-continue": "Continuer le sondage",
+    "template-name-AB": "AB",
+    "template-name-ABCD": "ABCD",
+    "template-name-symbol": "Humeur",
+    "option-select-result-visibility": "Vote visible en directe",
+    "tooltip-option-select-result-visibility": "Afficher les votes en temps réel pour tous les participants",
+    "option-select-views-visibility": "Participation visible en direct",
+    "tooltip-option-select-views-visibility": "Afficher la participation en temps réel pour tous les participants",
+    "option-select-template": "Choisir un modèle …",
+    "template-name-agree-multi": "Accord",
+    "option-agree-multi": [
+      "Je suis tout à fait d'accord",
+      "Je suis plutôt d'accord",
+      "Je ne suis pas sûr(e)",
+      "Je suis plutôt en désaccord",
+      "Je suis totalement en désaccord"
+    ],
+    "template-name-frequency-multi": "Fréquence",
+    "option-frequency-multi": ["jamais", "rarement", "souvent", "toujours"],
+    "template-name-quality-multi": "Qualité",
+    "option-quality-multi": [
+      "très bien",
+      "bien",
+      "satisfaisant",
+      "suffisant",
+      "insuffisant",
+      "très insuffisant"
+    ],
+    "template-name-feedback-multi": "Compréhension de la présentation",
+    "option-feedback-multi": [
+      "très facile à suivre",
+      "facile à suivre",
+      "assez facile à suivre",
+      "assez difficile à suivre",
+      "difficile à suivre",
+      "très difficile à suivre"
+    ],
+    "template-name-feedback-multi-2": "Satisfaction des attentes",
+    "option-feedback-multi-2": [
+      "Attentes pleinement satisfaites",
+      "… en grande partie satisfaites",
+      "… partiellement satisfaites",
+      "… partiellement non satisfaites",
+      "… en grande partie non satisfaites",
+      "… pas du tout satisfaites"
+    ],
+    "template-name-feedback-multi-3": "Style de présentation",
+    "option-feedback-multi-3": [
+      "trop faible",
+      "trop rapide",
+      "trop lent",
+      "continuer ainsi"
+      ],
+    "template-name-agree-binary": "Pouce en haut | Pouce en bas",
+    "group-label": {
+      "multiplechoice": "AB …",
+      "likertscale": "Évaluation",
+      "mood": "Emojis",
+      "custom": "Personnalisé",
+      "feedback": "Feedback"
+    }
+  }
+}

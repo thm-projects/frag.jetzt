@@ -21,6 +21,7 @@ export class RoomSettingsOverviewComponent implements OnInit {
   bonusArchiveEnabled: boolean;
   quizEnabled: boolean;
   brainstormingEnabled: boolean;
+  livepollEnabled: boolean;
 
   constructor(
     private dialogRef: MatDialogRef<RoomSettingsOverviewComponent>,
@@ -38,6 +39,7 @@ export class RoomSettingsOverviewComponent implements OnInit {
     this.bonusArchiveEnabled = this.room.bonusArchiveActive;
     this.quizEnabled = this.room.quizActive;
     this.brainstormingEnabled = this.room.brainstormingActive;
+    this.livepollEnabled = this.room.livepollActive;
   }
 
   onConfirm() {
@@ -48,6 +50,7 @@ export class RoomSettingsOverviewComponent implements OnInit {
       bonusArchiveActive: this.bonusArchiveEnabled,
       quizActive: this.quizEnabled,
       brainstormingActive: this.brainstormingEnabled,
+      livepollActive: this.livepollEnabled
     };
     this.roomService.patchRoom(this.room.id, update).subscribe({
       next: () => {

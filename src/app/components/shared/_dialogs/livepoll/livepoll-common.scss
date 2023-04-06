@@ -1,0 +1,170 @@
+$vote-foreground: var(--livepoll-vote-foreground);
+$vote-background: var(--livepoll-vote-background);
+$vote-foreground-active: var(--livepoll-vote-foreground-active);
+$vote-background-active: var(--livepoll-vote-background-active);
+$vote-foreground-hover: var(--livepoll-vote-foreground-hover);
+$vote-background-hover: var(--livepoll-vote-background-hover);
+$vote-foreground-active-hover: var(--livepoll-vote-foreground-active-hover);
+$vote-background-active-hover: var(--livepoll-vote-background-active-hover);
+$bar-foreground: var(--livepoll-bar-foreground);
+$bar-background: var(--livepoll-bar-background);
+
+.button {
+  &-cancel {
+    background-color: transparent;
+    color: var(--on-dialog);
+
+    &:hover {
+      outline: var(--cancel) solid 3px;
+    }
+  }
+
+  &-secondary {
+    background-color: transparent;
+    color: var(--secondary);
+    outline: var(--secondary) solid 3px;
+
+    &:hover {
+      background-color: var(--secondary);
+      color: var(--on-secondary);
+    }
+
+    &-filled {
+      background-color: var(--secondary);
+      color: var(--on-secondary);
+
+      &:hover {
+        background-color: var(--secondary);
+        color: var(--on-secondary);
+      }
+    }
+  }
+
+  &-primary {
+    background-color: transparent;
+    color: var(--primary);
+    outline: var(--primary) solid 3px;
+
+    &:hover {
+      background-color: var(--primary);
+      color: var(--on-primary);
+    }
+
+    &-filled {
+      background-color: var(--primary);
+      color: var(--on-primary);
+
+      &:hover {
+        background-color: var(--primary);
+        color: var(--on-primary);
+      }
+    }
+  }
+
+  &-vote {
+    &-active {
+      background-color: $vote-background-active;
+      color: $vote-foreground-active;
+
+      &:hover {
+        background-color: $vote-background-active-hover;
+        color: $vote-foreground-active-hover;
+      }
+    }
+
+    &-default {
+      background-color: $vote-background;
+      color: $vote-foreground;
+
+      &:hover {
+        background-color: $vote-background-hover;
+        color: $vote-foreground-hover;
+      }
+    }
+  }
+}
+
+.button-vote-translated-text {
+  font-size: 1.4em;
+  @media only screen and (max-width: 900px) {
+    font-size: 1.3em;
+    line-height: 4px;
+  }
+  @media only screen and (max-width: 800px) {
+    font-size: 1.2em;
+    line-height: 4px;
+  }
+  @media only screen and (max-width: 700px) {
+    font-size: 1.1em;
+    line-height: 4px;
+  }
+  @media only screen and (max-width: 600px) {
+    font-size: 1em;
+    line-height: 4px;
+  }
+  @media only screen and (max-width: 500px) {
+    font-size: 0.9em;
+    line-height: 4px;
+  }
+  @media only screen and (max-width: 400px) {
+    font-size: 0.8em;
+    line-height: 4px;
+  }
+  @media only screen and (max-width: 300px) {
+    font-size: 0.7em;
+    line-height: 4px;
+  }
+}
+
+.button-vote-text-as-icon {
+  font-size: 3em;
+  @media only screen and (max-width: 900px) {
+    font-size: 2.5em;
+    line-height: 4px;
+  }
+  @media only screen and (max-width: 800px) {
+    line-height: 4px;
+  }
+  @media only screen and (max-width: 700px) {
+    line-height: 4px;
+  }
+  @media only screen and (max-width: 600px) {
+    line-height: 4px;
+  }
+  @media only screen and (max-width: 500px) {
+    line-height: 4px;
+  }
+  @media only screen and (max-width: 400px) {
+    font-size: 1em;
+    line-height: 4px;
+  }
+  @media only screen and (max-width: 300px) {
+    line-height: 4px;
+  }
+}
+
+.button-vote-material-icons {
+  font-size: inherit;
+}
+
+.on-desktop {
+  @media only screen and (max-width: 900px) {
+    display: none;
+  }
+}
+
+.actions-container {
+  display: flex;
+  justify-content: space-between;
+  > .left-container {
+    display: flex;
+  }
+
+  > .right-container {
+    display: flex;
+  }
+}
+
+.vote-plain-text {
+  word-wrap: anywhere;
+}

@@ -1,7 +1,6 @@
 import { ThemeMeta } from '../Theme';
 
 export const dark = {
-
   '--primary': 'darkorange',
   '--primary-variant': 'darkslategrey',
 
@@ -38,12 +37,21 @@ export const dark = {
 
   '--questionwall-intro-primary': 'darkorange',
   '--questionwall-intro-secondary': '#eadabf',
-  '--questionwall-intro-background': '#121212'
+  '--questionwall-intro-background': '#121212',
 
+  '--livepoll-vote-foreground': '#FFFFFF',
+  '--livepoll-vote-background': '#8a2be2',
+  '--livepoll-vote-foreground-hover': '#FFFFFF',
+  '--livepoll-vote-background-hover': '#ff0000',
+  '--livepoll-vote-foreground-active': '#FFFFFF',
+  '--livepoll-vote-background-active': '#ff8c00',
+  '--livepoll-vote-foreground-active-hover': '#FFFFFF',
+  '--livepoll-vote-background-active-hover': '#ff0000',
+  '--livepoll-bar-foreground': '#FFFFFF',
+  '--livepoll-bar-background': '#ff8c00',
 };
 
 export const dark_meta: ThemeMeta = {
-
   translation: {
     name: {
       en: 'Dark mode',
@@ -59,5 +67,4 @@ export const dark_meta: ThemeMeta = {
   previewColor: 'background',
   icon: 'nightlight_round',
   highlightJsClass: 'pojoaque.css',
-
 };

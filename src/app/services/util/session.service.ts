@@ -24,6 +24,9 @@ import { BrainstormingWord } from 'app/models/brainstorming-word';
 import { BrainstormingCategory } from 'app/models/brainstorming-category';
 import { BrainstormingService } from '../http/brainstorming.service';
 import { BrainstormingSession } from 'app/models/brainstorming-session';
+import { GptService, RoomAccessInfo } from '../http/gpt.service';
+import { LivepollSession } from '../../models/livepoll-session';
+import { LivepollEventType, LivepollService } from '../http/livepoll.service';
 
 @Injectable({
   providedIn: 'root',
@@ -35,6 +38,11 @@ export class SessionService {
   private readonly _currentBrainstormingCategories = new BehaviorSubject<
     BrainstormingCategory[]
   >(null);
+  private readonly _currentGPTRoomStatus = new BehaviorSubject<RoomAccessInfo>(
+    null,
+  );
+  private readonly _currentLivepollSession =
+    new BehaviorSubject<LivepollSession>(null);
   private _beforeRoomUpdates: Subject<Partial<Room>>;
   private _afterRoomUpdates: Subject<Room>;
   private _roomSubscription: Subscription;
@@ -52,7 +60,13 @@ export class SessionService {
     private userManagementService: UserManagementService,
     private wsConnectorService: WsConnectorService,
     private brainstormingService: BrainstormingService,
+    private gptService: GptService,
+    private livepollService: LivepollService,
   ) {}
+
+  get currentLivepoll(): LivepollSession {
+    return this._currentLivepollSession.value;
+  }
 
   get canChangeRoleOnRoute(): boolean {
     return this._canChangeRoleOnRoute;
@@ -149,6 +163,23 @@ export class SessionService {
       filter((v) => !!v),
       take(1),
     );
+  }
+
+  getGPTStatus(): Observable<RoomAccessInfo> {
+    return this._currentGPTRoomStatus;
+  }
+
+  getGPTStatusOnce(): Observable<RoomAccessInfo> {
+    return this._currentGPTRoomStatus.pipe(
+      filter((v) => Boolean(v)),
+      take(1),
+    );
+  }
+
+  updateStatus() {
+    this.gptService
+      .getStatusForRoom(this._currentRoom.value?.id)
+      .subscribe((roomStatus) => this._currentGPTRoomStatus.next(roomStatus));
   }
 
   validateNewRoute(
@@ -295,8 +326,14 @@ export class SessionService {
     if (this._currentModerators.value) {
       this._currentModerators.next(null);
     }
+    if (this._currentGPTRoomStatus.value) {
+      this._currentGPTRoomStatus.next(null);
+    }
     if (this._currentBrainstormingCategories.value) {
       this._currentBrainstormingCategories.next(null);
+    }
+    if (this._currentLivepollSession.value) {
+      this._currentLivepollSession.next(null);
     }
   }
 
@@ -340,6 +377,8 @@ export class SessionService {
         .getRoomStream(room.id)
         .subscribe((msg) => this.receiveMessage(msg, room));
       this._currentRoom.next(room);
+      this._currentLivepollSession.next(room.livepollSession);
+      this.updateStatus();
       this.moderatorService
         .get(room.id)
         .subscribe((moderators) => this._currentModerators.next(moderators));
@@ -347,6 +386,26 @@ export class SessionService {
         next: (categories) =>
           this._currentBrainstormingCategories.next(categories),
       });
+      const _beforeActive = new BehaviorSubject<boolean>(false);
+      _beforeActive.subscribe((x) => {
+        if (x) {
+          if (!this.currentRole) {
+            if (!this.livepollService.isOpen) {
+              this.livepollService.open(this);
+            }
+          }
+        }
+      });
+      this.receiveRoomUpdates().subscribe((x) => {
+        if (_beforeActive.value !== !!this.currentLivepoll?.active) {
+          _beforeActive.next(!!this.currentLivepoll?.active);
+        }
+      });
+      if (this._currentLivepollSession.value?.active) {
+        if (!this.livepollService.isOpen) {
+          this.livepollService.open(this);
+        }
+      }
     });
   }
 
@@ -389,6 +448,10 @@ export class SessionService {
       this.onBrainstormingPatched(message, room);
     } else if (message.type === 'BrainstormingCategorizationReset') {
       this.onBrainstormingCategorizationReset(message, room);
+    } else if (message.type === 'LivepollSessionCreated') {
+      this.onLivepollCreated(message, room);
+    } else if (message.type === 'LivepollSessionPatched') {
+      this.onLivepollPatched(message, room);
     } else if (!environment.production) {
       console.log('Ignored: ', message);
     }
@@ -499,5 +562,56 @@ export class SessionService {
       return;
     }
     this.userManagementService.forceLogin().subscribe();
+  }
+
+  private onLivepollCreated(message: any, room: Room) {
+    console.warn('LIVEPOLL CREATED');
+    this._beforeRoomUpdates.next(room);
+    const livepollSessionObject = new LivepollSession(message.payload.livepoll);
+    this._currentLivepollSession.next(livepollSessionObject);
+    this.updateCurrentRoom({
+      livepollSession: livepollSessionObject,
+    });
+    this._afterRoomUpdates.next(room);
+    this.livepollService.emitEvent(
+      this.currentLivepoll,
+      {},
+      LivepollEventType.Create,
+    );
+  }
+
+  private onLivepollPatched(message: any, room: Room) {
+    console.warn('LIVEPOLL PATCHED');
+    const id = room.livepollSession?.id;
+    if (id !== message.payload.id) {
+      console.error(
+        `"id !== message.payload.id" : incoming ID: ${message.payload.id}, currentLivepoll ID: ${this.currentLivepoll.id}, roomLivepoll ID: ${room.livepollSession.id} `,
+      );
+      return;
+    }
+    this._beforeRoomUpdates.next(room);
+    const changes = message.payload.changes;
+    if (typeof changes.active !== 'undefined') {
+      if (!changes.active) {
+        room.livepollSession = null;
+        const cached = this.currentLivepoll;
+        this._currentLivepollSession.next(null);
+        this.livepollService.emitEvent(
+          cached,
+          changes,
+          LivepollEventType.Delete,
+        );
+      }
+    } else {
+      for (const key of Object.keys(changes)) {
+        room.livepollSession[key] = changes[key];
+      }
+      this.livepollService.emitEvent(
+        this.currentLivepoll,
+        changes,
+        LivepollEventType.Patch,
+      );
+    }
+    this._afterRoomUpdates.next(room);
   }
 }

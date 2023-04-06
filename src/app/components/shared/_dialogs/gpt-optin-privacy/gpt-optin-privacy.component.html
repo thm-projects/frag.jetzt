@@ -1,0 +1,29 @@
+<div>
+  <h1>{{ "gpt-chat.privacy-policy" | translate }}</h1>
+
+  <mat-dialog-content tabindex="-1">
+    <app-gptprivacypolicy-de
+      *ngIf="langService.currentLanguage() === 'de'"></app-gptprivacypolicy-de>
+    <app-gptprivacypolicy-en
+      *ngIf="langService.currentLanguage() === 'en'"></app-gptprivacypolicy-en>
+    <app-gptprivacypolicy-fr
+      *ngIf="langService.currentLanguage() === 'fr'"></app-gptprivacypolicy-fr>
+  </mat-dialog-content>
+
+  <button
+    mat-button
+    class="secondary-btn"
+    (click)="onAccept()"
+    [mat-dialog-close]="true">
+    {{ "gpt-chat.optin-accept" | translate }}
+  </button>
+
+  <!-- Deactiv the Send Button from gpt-chat component -->
+  <button
+    mat-button
+    class="danger-btn"
+    (click)="onDecline()"
+    [mat-dialog-close]="true">
+    {{ "gpt-chat.optin-reject" | translate }}
+  </button>
+</div>

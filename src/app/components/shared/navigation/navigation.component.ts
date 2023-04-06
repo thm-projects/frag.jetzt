@@ -21,9 +21,11 @@ import { UserManagementService } from 'app/services/util/user-management.service
 import { RoomDataFilter } from 'app/utils/data-filter-object.lib';
 import { filter, ReplaySubject, takeUntil } from 'rxjs';
 import { QrCodeDialogComponent } from '../_dialogs/qr-code-dialog/qr-code-dialog.component';
-import { RoomSettingsOverviewComponent } from '../_dialogs/room-settings-overview/room-settings-overview.component';
 import { TopicCloudBrainstormingComponent } from '../_dialogs/topic-cloud-brainstorming/topic-cloud-brainstorming.component';
 import { TopicCloudFilterComponent } from '../_dialogs/topic-cloud-filter/topic-cloud-filter.component';
+import { Room } from '../../../models/room';
+import { User } from '../../../models/user';
+import { LivepollService } from '../../../services/http/livepoll.service';
 
 interface LocationData {
   id: string;
@@ -101,6 +103,28 @@ export const navigateBrainstorming = (
   confirmDialogRef.componentInstance.userRole = userRole;
 };
 
+export const livepollNavigationAccessOnRoute = (
+  route: string,
+  room: Room | undefined,
+  user: User | undefined,
+) => {
+  if (room && room.livepollActive) {
+    if (ROOM_REGEX.test(route) || COMMENTS_REGEX.test(route)) {
+      if (
+        !route.includes('participant') ||
+        (route.endsWith('comments/questionwall') &&
+          user &&
+          user.role > UserRole.PARTICIPANT)
+      ) {
+        return true;
+      } else {
+        return !!room.livepollSession && room.livepollSession.active;
+      }
+    }
+  }
+  return false;
+};
+
 @Component({
   selector: 'app-navigation',
   templateUrl: './navigation.component.html',
@@ -109,6 +133,7 @@ export const navigateBrainstorming = (
 })
 export class NavigationComponent implements OnInit, OnDestroy {
   @Input() isQuestionWall = false;
+  @Input() showText = true;
   readonly possibleLocations: AppLocation[] = [
     {
       id: 'back',
@@ -159,14 +184,30 @@ export class NavigationComponent implements OnInit, OnDestroy {
       i18n: 'header.questionwall',
       svgIcon: 'beamer',
       isCurrentRoute: (route) => FOCUS_REGEX.test(route),
-      canBeAccessedOnRoute: (route) => ROOM_REGEX.test(route) &&
-        this.deviceInfo.isCurrentlyDesktop,
+      canBeAccessedOnRoute: (route) =>
+        ROOM_REGEX.test(route) && this.deviceInfo.isCurrentlyDesktop,
       navigate: (route) => {
         const data = route.match(ROOM_REGEX);
         this.router.navigate([
           `participant/room/${data[2]}/comments/questionwall`,
         ]);
       },
+    },
+    {
+      id: 'livepoll',
+      accessible: false,
+      active: false,
+      i18n: 'header.livepoll',
+      icon: 'mic_external_on',
+      class: 'material-icons-filled',
+      canBeAccessedOnRoute: (route) =>
+        livepollNavigationAccessOnRoute(
+          route,
+          this.sessionService.currentRoom,
+          this.userManagementService.getCurrentUser(),
+        ),
+      navigate: (route) => this.livepollService.open(this.sessionService),
+      isCurrentRoute: (route) => false,
     },
     {
       id: 'radar',
@@ -224,6 +265,18 @@ export class NavigationComponent implements OnInit, OnDestroy {
       canBeAccessedOnRoute: () => this.sessionService.currentRoom?.quizActive,
       navigate: () => {
         this.router.navigate(['/quiz']);
+      },
+    },
+    {
+      id: 'qr code',
+      accessible: false,
+      active: false,
+      i18n: 'header.room-qr',
+      icon: 'qr_code',
+      isCurrentRoute: (route) => false,
+      canBeAccessedOnRoute: (route) => ROOM_REGEX.test(route),
+      navigate: () => {
+        this.showQRDialog();
       },
     },
     {
@@ -317,38 +370,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
         dialogRef.componentInstance.room = this.sessionService.currentRoom;
       },
     },
-    {
-      id: 'qr code',
-      accessible: false,
-      active: false,
-      i18n: 'header.room-qr',
-      icon: 'qr_code',
-      outside: true,
-      isCurrentRoute: () => false,
-      canBeAccessedOnRoute: (route) => ROOM_REGEX.test(route),
-      navigate: () => {
-        this.showQRDialog();
-      },
-    },
-    {
-      id: 'room settings',
-      accessible: false,
-      active: false,
-      i18n: 'room-list.settings-overview',
-      icon: 'room_preferences',
-      class: 'btn-primary',
-      outside: true,
-      isCurrentRoute: () => false,
-      canBeAccessedOnRoute: (route) =>
-        ROOM_REGEX.test(route) &&
-        this.sessionService.currentRole > UserRole.PARTICIPANT,
-      navigate: () => {
-        const ref = this.dialog.open(RoomSettingsOverviewComponent, {
-          width: '600px',
-        });
-        ref.componentInstance.room = this.sessionService.currentRoom;
-      },
-    },
+
     {
       id: 'news',
       accessible: false,
@@ -394,6 +416,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
     private location: Location,
     private eventService: EventService,
     public deviceInfo: DeviceInfoService,
+    public readonly livepollService: LivepollService,
   ) {}
 
   ngOnInit(): void {
@@ -416,9 +439,15 @@ export class NavigationComponent implements OnInit, OnDestroy {
       .getUser()
       .pipe(takeUntil(this.destroyer))
       .subscribe(observer);
-    this.deviceInfo.isMobile()
+    this.deviceInfo
+      .isMobile()
       .pipe(takeUntil(this.destroyer))
       .subscribe(observer);
+    this.livepollService.listener
+      .pipe(takeUntil(this.destroyer))
+      .subscribe(() => {
+        this.refreshLocations();
+      });
   }
 
   ngOnDestroy(): void {

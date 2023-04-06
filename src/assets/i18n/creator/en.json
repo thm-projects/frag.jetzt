@@ -120,6 +120,7 @@
     "filter-read": "Questions discussed",
     "filter-reset": "Reset",
     "filter-unanswered": "Not answered",
+    "filter-approved": "Checked",
     "filter-wrong": "Negated questions",
     "owner": "Questions I have asked",
     "pause-comments": "Freezes the display to read or present the questions at rest. Questions can still be asked and scored. The display is only updated again by clicking the button.",
@@ -268,6 +269,8 @@
     "live-announcer-moderation": "You are now on the moderation page. To get information about key combinations press the Enter key or call the announcement later with the Escape key.",
     "mark-bookmark": "Bookmark",
     "mark-correct": "Answer question with »yes« or mark as »done«",
+    "mark-approved": "Fact check: click here if you checked the post.",
+    "mark-not-approved": "Cancel fact check",
     "mark-favorite": "Mark for bonus",
     "mark-favorite-disabled-bonus": "Mark with a star",
     "mark-not-bookmark": "Unmark",
@@ -290,6 +293,7 @@
     "really-delete-answer": "Do you really want to delete this answer?",
     "reject": "Move to the moderation",
     "reply-comment-button": "Write reply",
+    "reply-AI": "Let ChatGPT answer",
     "save-answer": "Save",
     "search-box-input-description": "Search for questions",
     "semicolon": "CSV format (.csv)",
@@ -367,6 +371,123 @@
     "topic-cloud": "## Question radar \n\n If you want to keep track of all questions, you need a kind of \"radar\". Our radar locates questions and answers by their keywords: The more questions and answers refer to a keyword, the larger and more central the keyword appears on the radar.\n\n The question radar serves you as a **navigator**: Clicking on a word will take you to the questions and answers related to that keyword. \n\n The keywords are determined in real time by means of a grammatical analysis of the nouns or were determined by the author. \n The calculation of the font size includes:\n\n* the difference between up- and down-votes, if positive,\n* the number of questions with this keyword,\n* the number of question creators with this keyword,\n* the role: room creator, moderator, or participant,\n* whether a question category was selected,\n* whether the keyword was generated or assigned,\n* whether the question was answered,\n* the controversiality of the question. \n\nYou can customize the visualization to your liking.  In the role of room creator or moderator, you can experiment with the parameters of the keyword generation to improve the **semantic selectivity**.",
     "user-bonus": "## Bonus \n\nThe teacher can mark »good« questions for a bonus. Your questions from all courses (rooms) that have received a star will be listed here.\n\nDepending on the agreement, you can email the code of the star to the teacher to redeem it for a bonus."
   },
+  "gpt-chat": {
+    "optin-accept": "Accept",
+    "optin-reject": "Reject",
+    "privacy-policy": "Privacy Policy for the Use of OpenAI API",
+    "enter-conversation-text": "Chat with ChatGPT",
+    "context-competence": "I have the competence {{value}}.",
+    "context-self-description": "My self description is {{value}}.",
+    "context-context": "The context of my question is {{value}}.",
+    "context-topic": "The topic is {{value}}.",
+    "context-language": "Answer me {{value}}.",
+    "context-social-tone": "Talk {{value}} to me.",
+    "context-formal-address": "Please contact me {{value}}.",
+    "context-response-length": "Answer me {{value}}, please.",
+    "context-response-format": "Format the answer as {{value}}.",
+    "context-question": "My question is:\n{{value}}",
+    "choices": {
+      "social-tone": [
+        { "key": "neutral", "text": "neutral" },
+        { "key": "friendly", "text": "friendly" },
+        { "key": "expertly", "text": "expertly" },
+        { "key": "humorous", "text": "humorous" }
+      ],
+      "response-format": [
+        { "key": "summary", "text": "a summary" },
+        { "key": "definition", "text": "a definition" },
+        { "key": "flashcard", "text": "a flashcard" }
+      ],
+      "language": {
+        "de": "in German",
+        "en": "in English",
+        "fr": "in French",
+        "like_question": "in the language of the question"
+      },
+      "response-length": {
+        "short": "shortly",
+        "detailed": "in detail",
+        "extensive": "extensively"
+      },
+      "formal-address": {
+        "true": "formally",
+        "false": "informally"
+      }
+    },
+    "your-choice": "Your selection",
+    "none": "None",
+    "send": "Send",
+    "empty-conversation": "Clear history",
+    "input-forbidden": "Input forbidden, please check the GPT API settings.",
+    "no-api-setup": "The API key or language model was not set.",
+    "presets": {
+      "disabled": "Disabled",
+      "language": {
+        "de": "German",
+        "en": "English",
+        "fr": "French",
+        "*": "Like question"
+      },
+      "tone": {
+        "neutral": "Neutral",
+        "friendly": "Friendly",
+        "professional": "Professional",
+        "humorous": "Humorous"
+      },
+      "formality": {
+        "informal": "Informal",
+        "polite": "Polite"
+      },
+      "length": {
+        "short": "Short",
+        "detailed": "Detailed",
+        "extensive": "Extensive"
+      }
+    },
+    "answer-format": {
+      "summary": "Summary",
+      "definition": "Definition",
+      "flashcard": "Flashcard"
+    },
+    "greetings": {
+      "text-davinci-003": [
+        {
+          "key": "Elementary school",
+          "value": "You are in the chat room called \"English\" and the topic is poetry. Explain the following question at the level of an elementary school student.\nStudent: What are haikus?\nYou: "
+        },
+        {
+          "key": "High school",
+          "value": "You are in the chat room called \"History\" and the topic is the golden twenties. Explain the following question at the level of a high school student.\nStudent: What does the Dawes Plan say?\nYou: "
+        },
+        {
+          "key": "University",
+          "value": "You are in the chat room called \"Algorithms and Data Structures\" and the topic is simple data structures. Explain at the level of a 2nd semester computer science student the following question.\nStudent: Is there a performance gain when you combine a linked list and an array list? Surely it would be conceivable to link arrays, or am I wrong there?\nYou: "
+        }
+      ],
+      "code-davinci-002": [
+        {
+          "key": "Web",
+          "value": "<|endoftext|>/* I start with a blank HTML page, and incrementally modify it via <script> injection. Written for Chrome. */\n/* Command: Add \"Hello World\", by adding an HTML DOM node */\nvar helloWorld = document.createElement('div');\nhelloWorld.innerHTML = 'Hello World';\ndocument.body.appendChild(helloWorld);\n/* Command: Clear the page. */\nwhile (document.body.firstChild) {\n  document.body.removeChild(document.body.firstChild);\n}\n\n/* Command: Display this image of a cat: https://bit.ly/3fsc0rH */\n"
+        }
+      ],
+      "davinci-instruct-beta:2.0.0": [
+        {
+          "key": "Smalltalk",
+          "value": "The subject is demotivating. Do you have any tricks to cheer up and get more active?"
+        }
+      ]
+    },
+    "cancel": "Close",
+    "refresh": "Generate output again",
+    "edit": "Edit output as editable answer to question.",
+    "paste": "Publish output directly in response to question.",
+    "token-info": "Tokens (input/chat/total): {{promptTokens}}/{{conversationTokens}}/{{allTokens}}",
+    "prompt-label": "Prompt search",
+    "option-total-acts": "Hits in »Act as …«",
+    "option-total-prompts": "Hits in prompts",
+    "temperature": "Temperature",
+    "temperature-tooltip": "Setting of creativity and determinism of answers"
+  },
   "header": {
     "overview-keywords-tooltip": "Number of Keywords",
     "overview-question-tooltip": "Number of questions",
@@ -384,7 +505,8 @@
     "brainstorming-title": "Brainstorming",
     "cancel": "Close",
     "question-wall-title": "Use cases of the presentation mode",
-    "tag-cloud-title": "Use cases of the question radar"
+    "tag-cloud-title": "Use cases of the question radar",
+    "prompt-guide-chatbot": "Communicate effectively with ChatGPT"
   },
   "joyride": {
     "commentFilter": "There are numerous sorting and filtering options for the Q&A list. An active filter is shown in red. For better readability, the question stream can also be paused if it is very dynamic.",
@@ -607,7 +729,71 @@
     "update-description": "Save changes",
     "words-will-be-overwritten": "Profane words will be overwritten with ★★★★."
   },
+  "gpt-room-settings": {
+    "title": "ChatGPT settings",
+    "trial-info": "ChatGPT study (API key via frag.jetzt):",
+    "trial-code": "Activation code",
+    "trial-enabled": "You are participating in the frag.jetzt study.",
+    "own-openai-api-key": "GPT via own API settings",
+    "own-openai-info": "If the frag.jetzt study is active, you will still be billed for your own settings if they are present.",
+    "api-key": "OpenAI API Key",
+    "api-organization": "OpenAI Organization Id",
+    "restrictions-room": "Room quota limits",
+    "rest-room-acc": "Total cost limit",
+    "rest-room-month": "Monthly cost limit",
+    "rest-room-day": "Daily cost limit",
+    "restrictions-moderator": "Moderator quota limits",
+    "rest-mod-acc": "Total cost limit",
+    "rest-mod-month": "Monthly cost limit",
+    "rest-mod-day": "Daily cost limit",
+    "restrictions-participant": "Participant quota limits",
+    "rest-part-acc": "Total cost limit",
+    "rest-part-month": "Monthly cost limit",
+    "rest-part-day": "Daily cost limit",
+    "rest-wrong": "A cost limit does not correspond to a valid number. (Number with two decimal places)",
+    "deactivated": "The owner of the room does not allow any changes.",
+    "moderator-rights": "Moderator rights",
+    "mod-right-part-quota": "Change participant quota",
+    "mod-right-mod-quota": "Change moderators quota",
+    "mod-right-room-quota": "Change room quota",
+    "mod-right-preset": "Change the GPT prompt settings",
+    "mod-right-usage-times": "Changing the periods of use",
+    "mod-right-api-settings": "Changing the API settings",
+    "usage-times": "Periods of use",
+    "usage-time-info": "If no usage period is created, the API is continuously accessible.",
+    "start-time": "Starting time",
+    "end-time": "End time",
+    "start-and-end-date": "Start and end date",
+    "add-usage-time": "Add period of use",
+    "usage-time-duration": "Repetition factor",
+    "usage-time-unit": "Repeat time unit",
+    "usage-time-values": {
+      "HOUR": "Hourly",
+      "DAY": "Daily",
+      "WEEK": "Weekly",
+      "MONTH": "Monthly",
+      "YEAR": "Annual"
+    },
+    "usage-time-repeat": {
+      "one_HOUR": "is repeated every hour",
+      "other_HOUR": "is repeated every {{value}} hours",
+      "one_DAY": "is repeated every day",
+      "other_DAY": "is repeated every {{value}} days",
+      "one_WEEK": "is repeated every week",
+      "other_WEEK": "repeated every {{value}} weeks",
+      "one_MONTH": "is repeated every month",
+      "other_MONTH": "is repeated every {{value}} months",
+      "one_YEAR": "is repeated every year",
+      "other_YEAR": "is repeated every {{value}} years"
+    },
+    "reset": "Reset",
+    "save": "Save",
+    "cancel": "Discard",
+    "send": "Submit"
+  },
   "room-settings-overview": {
+    "livepoll-enabled": "Enable flash poll",
+    "tooltip-livepoll-enabled": "Create surveys and automatically notify all participants. The results of two surveys can be compared later.",
     "a11y-bonus-archive-enabled": "Slider to enable the bonus archive",
     "a11y-brainstorming-enabled": "Slider to allow brainstorming",
     "a11y-conversation-enabled": "Slider to enable conversations inside this room",
@@ -652,7 +838,7 @@
   },
   "spacy-dialog": {
     "add-manually": "Enter a keyword for your question. Separate several keywords with a comma.",
-    "analysis-bad-spelled": "No keywords could be generated.",
+    "analysis-bad-spelled": "Note: The text is not suitable for keyword generation.",
     "analysis-error": "Errors occurred during the extraction of keywords. Should the question be created without keywords?",
     "auto": "auto",
     "de": "German",
@@ -902,9 +1088,27 @@
     "name-length-error": "The name must be {{min}} to {{max}} characters long.",
     "questioner-name": "Your name, if you want …"
   },
-  "pseudonym-editor": {
-    "name": "Used when posting …",
-    "title": "My forum name",
-    "deepl": "Informal or formal?"
+  "presets-dialog": {
+    "context-title": "Context of the event",
+    "persona-title": "Presets for each person",
+    "topic-title": "Topics of the event",
+    "context-label": "Context",
+    "topic-label": "Topic",
+    "persona-moderator-label": "Persona (Moderator)",
+    "persona-user-label": "Persona (User)",
+    "persona-creator-label": "Persona (Creator)",
+    "context-placeholder": "WPW Course",
+    "topic-placeholder": "Angular",
+    "persona-moderator-placeholder": "Moderator",
+    "persona-user-placeholder": "User",
+    "persona-creator-placeholder": "Creator",
+    "save": "Save",
+    "cancel": "Cancel",
+    "clear": "Clear"
+  },
+  "gptchat-info": {
+    "title": "ChatGPT",
+    "content": "ChatGPT is the perfect solution to automatically answer a question in the Q&A forum. You can also create your own prompts or choose from hundreds of predefined prompts that best fit your needs. To use ChatGPT, you only need an account on frag.jetzt and an [API key from OpenAI](https://platform.openai.com).\n\nHere's how it works in just two steps:\n\n1. Register on frag.jetzt, sign in, and book a room.\n\n2. Add the OpenAI API key in the options menu of your room and you're good to go!\n\nYour API key is securely stored on our server and your frag.jetzt password is also secure. Additionally, you can limit the token quota and API costs for a limited time if you want to make ChatGPT available for use in your room. You can find all the settings in the options menu of your room.\n\nStart now with a $5 credit that you can use for the first 3 months. Depending on the language model you choose, you can consume several million tokens (1 token is approximately 5-7 characters) for ChatGPT requests with this credit.",    
+    "cancel": "Close"
   }
 }

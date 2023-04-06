@@ -72,22 +72,22 @@ const PROXY_CONFIG = {
     },
     "logLevel": "debug"
   },
-  "/api/ws/websocket": {
+  "/gateway/ws/websocket": {
     "target": process.env.WS_GATEWAY_WS_ADDRESS || "ws://localhost:8080",
     "secure": process.env.BACKEND_SECURE || false,
     "pathRewrite": {
-      [process.env.WS_GATEWAY_WS_REWRITE || "^/api"]: ""
+      [process.env.WS_GATEWAY_WS_REWRITE || "^/gateway"]: ""
     },
     ...wsHeaders,
     "ws": true,
     "logLevel": "debug"
   },
-  "/api/roomsubscription": {
+  "/gateway-api": {
     "target": process.env.WS_GATEWAY_HTTP_ADDRESS || "http://localhost:8080",
     "secure": process.env.BACKEND_SECURE || false,
     "changeOrigin": process.env.BACKEND_CHANGE_ORIGIN || false,
     "pathRewrite": {
-      [process.env.WS_GATEWAY_HTTP_REWRITE || "^/api"]: ""
+      [process.env.WS_GATEWAY_HTTP_REWRITE || "^/gateway-api"]: ""
     },
     "logLevel": "debug"
   },

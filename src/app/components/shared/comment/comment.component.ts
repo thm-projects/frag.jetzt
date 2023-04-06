@@ -46,6 +46,10 @@ import { QuillUtils } from '../../../utils/quill-utils';
 import { forkJoin, ReplaySubject, takeUntil } from 'rxjs';
 import { ResponseViewInformation } from '../comment-response-view/comment-response-view.component';
 import { UserManagementService } from '../../../services/util/user-management.service';
+import { EventService } from '../../../services/util/event.service';
+import { take } from 'rxjs/operators';
+import { GPTChatInfoComponent } from '../_dialogs/gptchat-info/gptchat-info.component';
+import { TSMap } from 'typescript-map';
 
 @Component({
   selector: 'app-comment',
@@ -91,6 +95,8 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() indentationPossible = false;
   @Input() showResponses: boolean = false;
   @Input() activeKeywordSearchString: string = null;
+  @Input() canOpenGPT = false;
+  @Input() consentGPT = false;
   @Output() clickedOnTag = new EventEmitter<string>();
   @Output() clickedOnKeyword = new EventEmitter<string>();
   @Output() clickedUserNumber = new EventEmitter<string>();
@@ -143,6 +149,7 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
     protected langService: LanguageService,
     public deviceInfo: DeviceInfoService,
     public notificationService: DashboardNotificationService,
+    protected eventService: EventService,
   ) {
     langService
       .getLanguage()
@@ -328,6 +335,15 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
     this.commentService.markCorrect(comment).subscribe((c) => {
       this.comment.correct = c.correct;
       this.checkProfanity();
+    });
+  }
+
+  toggleApproved(): void {
+    this.comment.approved = !this.comment.approved;
+    const changes = new TSMap<string, any>();
+    changes.set('approved', this.comment.approved);
+    this.commentService.patchComment(this.comment, changes).subscribe((c) => {
+      this.comment.approved = c.approved;
     });
   }
 
@@ -593,6 +609,26 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
     this.route.params.subscribe((params) => {
       url = `${this.roleString}/room/${params['shortId']}/comment/${this.comment.id}`;
     });
+    this.router.navigate([url]);
+  }
+
+  openGPT() {
+    if (!this.canOpenGPT) {
+      GPTChatInfoComponent.open(this.dialog);
+      return;
+    }
+    let url: string;
+    this.route.params.subscribe((params) => {
+      url = `${this.roleString}/room/${params['shortId']}/gpt-chat-room`;
+    });
+
+    this.eventService
+      .on('gptchat-room.init')
+      .pipe(take(1))
+      .subscribe(() => {
+        this.eventService.broadcast('gptchat-room.data', this.comment);
+      });
+
     this.router.navigate([url]);
   }
 

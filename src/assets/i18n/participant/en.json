@@ -74,6 +74,7 @@
     "filter-read": "Questions discussed",
     "filter-reset": "Reset",
     "filter-unanswered": "Not answered",
+    "filter-approved": "Checked",
     "filter-wrong": "Negated questions",
     "owner": "Questions I have asked",
     "pause-comments": "Freezes the display to read the questions at rest. Questions can still be asked and scored. The display is only updated again by clicking the button.",
@@ -130,6 +131,7 @@
     "needs-user-account": "You need an account with an email address to receive notifications!"
   },
   "comment-page": {
+    "mark-not-approved": "Checked",
     "a11y-comment-answer": "View Answer",
     "a11y-comment-answer-not": "Create Answer",
     "a11y-comment_input": "Enter your question",
@@ -202,6 +204,7 @@
     "preview-in-mock": "Smartphone preview",
     "questioner-name": "Self assigned name",
     "reply-comment-button": "Write reply",
+    "reply-AI": "Let ChatGPT answer",
     "save-answer": "Save",
     "search-box-input-description": "Here you can search for questions.",
     "send": "Send",
@@ -271,6 +274,60 @@
     "topic-cloud": "## Question radar \n\n If you want to keep track of all questions, you need a kind of \"radar\". Our radar locates questions and answers by their keywords: The more questions and answers refer to a keyword, the larger and more central the keyword appears on the radar.\n\n The question radar serves you as a **navigator**: Clicking on a word will take you to the questions and answers related to that keyword. \n\n The keywords are determined in real time by means of a grammatical analysis of the nouns or were determined by the author. \n The calculation of the font size includes:\n\n* the difference between up- and down-votes, if positive,\n* the number of questions with this keyword,\n* the number of question creators with this keyword,\n* the role: room creator, moderator, or participant,\n* whether a question category was selected,\n* whether the keyword was generated or assigned,\n* whether the question was answered,\n* the controversiality of the question. \n\nYou can customize the visualization to your liking.  In the role of room creator or moderator, you can experiment with the parameters of the keyword generation to improve the **semantic selectivity**.",
     "user-bonus": "The teacher can mark »good« questions for a bonus. Your questions from all courses (rooms) that have received a star will be listed here.\n\nDepending on the agreement, you can email the code of the star to the teacher to redeem it for a bonus."
   },
+  "gpt-chat": {
+    "answer-format": {
+      "disabled": "Disabled",
+      "summary": "Summary",
+      "definition": "Definition",
+      "flashcard": "Flashcard"
+    },
+    "optin-accept": "Accept",
+    "optin-reject": "Reject",
+    "privacy-policy": "Privacy Policy for the Use of OpenAI API",
+    "enter-conversation-text": "Chat with ChatGPT",
+    "send": "Send",
+    "empty-conversation": "Clear history",
+    "input-forbidden": "Input forbidden, please check the GPT API settings.",
+    "no-api-setup": "The API key or language model was not set.",
+    "greetings": {
+      "text-davinci-003": [
+        {
+          "key": "Elementary school",
+          "value": "You are in the chat room called \"English\" and the topic is poetry. Explain the following question at the level of an elementary school student.\nStudent: What are haikus?\nYou: "
+        },
+        {
+          "key": "High school",
+          "value": "You are in the chat room called \"History\" and the topic is the golden twenties. Explain the following question at the level of a high school student.\nStudent: What does the Dawes Plan say?\nYou: "
+        },
+        {
+          "key": "University",
+          "value": "You are in the chat room called \"Algorithms and Data Structures\" and the topic is simple data structures. Explain at the level of a 2nd semester computer science student the following question.\nStudent: Is there a performance gain when you combine a linked list and an array list? Surely it would be conceivable to link arrays, or am I wrong there?\nYou: "
+        }
+      ],
+      "code-davinci-002": [
+        {
+          "key": "Web",
+          "value": "<|endoftext|>/* I start with a blank HTML page, and incrementally modify it via <script> injection. Written for Chrome. */\n/* Command: Add \"Hello World\", by adding an HTML DOM node */\nvar helloWorld = document.createElement('div');\nhelloWorld.innerHTML = 'Hello World';\ndocument.body.appendChild(helloWorld);\n/* Command: Clear the page. */\nwhile (document.body.firstChild) {\n  document.body.removeChild(document.body.firstChild);\n}\n\n/* Command: Display this image of a cat: https://bit.ly/3fsc0rH */\n"
+        }
+      ],
+      "davinci-instruct-beta:2.0.0": [
+        {
+          "key": "Smalltalk",
+          "value": "The subject is demotivating. Do you have any tricks to cheer up and get more active?"
+        }
+      ]
+    },
+    "cancel": "Schließen",
+    "refresh": "Generate output again",
+    "edit": "Edit output as editable answer to question.",
+    "paste": "Publish output directly in response to question.",
+    "token-info": "Tokens (input/chat/total): {{promptTokens}}/{{conversationTokens}}/{{allTokens}}",
+    "prompt-label": "Prompt search",
+    "option-total-acts": "Hits in »Act as …«",
+    "option-total-prompts": "Founds prompts",
+    "temperature": "Temperature",
+    "temperature-tooltip": "Setting of creativity and determinism of answers"
+  },
   "header": {
     "overview-keywords-tooltip": "Number of Keywords",
     "overview-question-tooltip": "Number of questions",
@@ -290,7 +347,9 @@
     "user-bonus-token": "My bonus stars",
     "room-qr": "QR code",
     "motd": "News",
-    "logout": "Log out"
+    "logout": "Log out",
+    "livepoll": "Flash Poll",
+    "livepoll-button": "Create surveys and automatically notify all participants."
   },
   "home-page": {
     "exactly-8": "A key is a combination of 8 digits.",
@@ -307,7 +366,8 @@
     "brainstorming-title": "Brainstorming",
     "cancel": "Schließen",
     "question-wall-title": "Use cases of the presentation mode",
-    "tag-cloud-title": "Use cases of the question radar"
+    "tag-cloud-title": "Use cases of the question radar",
+    "prompt-guide-chatbot": "Communicate effectively with ChatGPT"
   },
   "joyride": {
     "commentFilter": "There are numerous sorting and filtering options for the Q&A list. An active filter is shown in red. For better readability, the question stream can also be paused if it is very dynamic.",
@@ -473,7 +533,7 @@
   },
   "spacy-dialog": {
     "add-manually": "Enter a keyword for your question. Separate several keywords with a comma.",
-    "analysis-bad-spelled": "No keywords could be generated.",
+    "analysis-bad-spelled": "Note: The text is not suitable for keyword generation.",
     "analysis-error": "Errors occurred during the extraction of keywords. Should the question be created without keywords?",
     "auto": "auto",
     "de": "German",
@@ -716,9 +776,16 @@
     "name-length-error": "The name must be {{min}} to {{max}} characters long.",
     "questioner-name": "Your name, if you want …"
   },
-  "pseudonym-editor": {
-    "name": "Used when posting …",
-    "title": "My forum name",
-    "deepl": "Informal or formal?"
+  "gpt-user-description": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "title": "Self description for GPT",
+    "user-description": "Self description",
+    "token-info": "{{tokens}} / {{maxLength}} Tokens"
+  },
+  "gptchat-info": {
+    "title": "ChatGPT",
+    "content": "ChatGPT is the perfect solution to automatically answer a question in the Q&A forum. You can also create your own prompts or choose from hundreds of predefined prompts that best fit your needs. To use ChatGPT, you only need an account on frag.jetzt and an [API key from OpenAI](https://platform.openai.com).\n\nHere's how it works in just two steps:\n\n1. Register on frag.jetzt, sign in, and book a room.\n\n2. Add the OpenAI API key in the options menu of your room and you're good to go!\n\nYour API key is securely stored on our server and your frag.jetzt password is also secure. Additionally, you can limit the token quota and API costs for a limited time if you want to make ChatGPT available for use in your room. You can find all the settings in the options menu of your room.\n\nStart now with a $5 credit that you can use for the first 3 months. Depending on the language model you choose, you can consume several million tokens (1 token is approximately 5-7 characters) for ChatGPT requests with this credit.",    
+    "cancel": "Close"
   }
 }

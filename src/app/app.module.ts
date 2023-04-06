@@ -3,8 +3,16 @@ import { AppComponent } from './app.component';
 import { RegisterComponent } from './components/home/_dialogs/register/register.component';
 import { PasswordResetComponent } from './components/home/_dialogs/password-reset/password-reset.component';
 import { AppRoutingModule } from './app-routing.module';
-import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogModule,
+  MatDialogRef,
+} from '@angular/material/dialog';
+import {
+  HTTP_INTERCEPTORS,
+  HttpClient,
+  HttpClientModule,
+} from '@angular/common/http';
 import { UserService } from './services/http/user.service';
 import { NotificationService } from './services/util/notification.service';
 import { AuthenticationService } from './services/http/authentication.service';
@@ -32,7 +40,11 @@ import { ThemeModule } from '../theme/theme.module';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { ModeratorService } from './services/http/moderator.service';
-import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import {
+  TranslateLoader,
+  TranslateModule,
+  TranslateService,
+} from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { DemoVideoComponent } from './components/home/_dialogs/demo-video/demo-video.component';
 import { HomeCreatorPageComponent } from './components/home/home-creator-page/home-creator-page.component';
@@ -47,6 +59,9 @@ import { DataProtectionEnComponent } from '../assets/i18n/components/data-protec
 import { DataProtectionDeComponent } from '../assets/i18n/components/data-protection/data-protection-de';
 import { CookiesEnComponent } from '../assets/i18n/components/cookies/cookies-en';
 import { CookiesDeComponent } from '../assets/i18n/components/cookies/cookies-de';
+import { GptPrivacyPolicyDeComponent } from '../assets/i18n/components/gpt-privacy-policy/gpt-privacy-policy-de';
+import { GptPrivacyPolicyEnComponent } from '../assets/i18n/components/gpt-privacy-policy/gpt-privacy-policy-en';
+import { GptPrivacyPolicyFrComponent } from '../assets/i18n/components/gpt-privacy-policy/gpt-privacy-policy-fr';
 import { ImprintEnComponent } from '../assets/i18n/components/imprint/imprint-en';
 import { ImprintDeComponent } from '../assets/i18n/components/imprint/imprint-de';
 import { HelpDeComponent } from '../assets/i18n/components/help/help-de';
@@ -64,9 +79,7 @@ import { JoyrideModule } from 'ngx-joyride';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { DashboardNotificationService } from './services/util/dashboard-notification.service';
 import { MatNativeDateModule } from '@angular/material/core';
-import {
-  NotifyUnsupportedBrowserComponent
-} from './components/home/_dialogs/notify-unsupported-browser/notify-unsupported-browser.component';
+import { NotifyUnsupportedBrowserComponent } from './components/home/_dialogs/notify-unsupported-browser/notify-unsupported-browser.component';
 import { ImprintFrComponent } from '../assets/i18n/components/imprint/imprint-fr';
 import { HelpFrComponent } from '../assets/i18n/components/help/help-fr';
 import { DemoFrComponent } from '../assets/i18n/components/demo/demo-fr';
@@ -75,7 +88,11 @@ import { CookiesFrComponent } from '../assets/i18n/components/cookies/cookies-fr
 import { AdminModule } from './components/admin/admin.module';
 import { NgxIndexedDBModule } from 'ngx-indexed-db';
 import { DB_CONFIG } from '../indexeddb';
-import { HIGHLIGHT_OPTIONS, HighlightLoader, HighlightModule } from 'ngx-highlightjs';
+import {
+  HIGHLIGHT_OPTIONS,
+  HighlightLoader,
+  HighlightModule,
+} from 'ngx-highlightjs';
 import { HighlightJsDefaults } from './utils/highlight-js-defaults';
 
 import 'prismjs';
@@ -85,13 +102,15 @@ import 'katex/dist/katex.min.js';
 import 'emoji-toolkit/lib/js/joypixels.min.js';
 import 'quill-emoji/dist/quill-emoji.js';
 import { QuillModule } from 'ngx-quill';
+import { PasswordGeneratorComponent } from './components/home/_dialogs/password-generator/password-generator.component';
 
 export const dialogClose = (dialogResult: any) => '';
 
 export const initializeApp = (appConfig: AppConfig) => () => appConfig.load();
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
-export const HttpLoaderFactory = (http: HttpClient) => new TranslateHttpLoader(http, '../../assets/i18n/home/', '.json');
+export const HttpLoaderFactory = (http: HttpClient) =>
+  new TranslateHttpLoader(http, '../../assets/i18n/home/', '.json');
 
 // @ts-ignore
 @NgModule({
@@ -126,7 +145,8 @@ export const HttpLoaderFactory = (http: HttpClient) => new TranslateHttpLoader(h
     DemoFrComponent,
     OverlayComponent,
     QuizNowComponent,
-    NotifyUnsupportedBrowserComponent
+    NotifyUnsupportedBrowserComponent,
+    PasswordGeneratorComponent,
   ],
   imports: [
     MatomoModule,
@@ -153,18 +173,20 @@ export const HttpLoaderFactory = (http: HttpClient) => new TranslateHttpLoader(h
           sanitize: false,
           smartLists: true,
           smartypants: true,
-          xhtml: false
-        }
-      }
+          xhtml: false,
+        },
+      },
     }),
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+    }),
     TranslateModule.forChild({
       loader: {
         provide: TranslateLoader,
-        useFactory: (HttpLoaderFactory),
-        deps: [HttpClient]
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient],
       },
-      isolate: true
+      isolate: true,
     }),
     ArsModule,
     TagCloudModule,
@@ -183,7 +205,7 @@ export const HttpLoaderFactory = (http: HttpClient) => new TranslateHttpLoader(h
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthenticationInterceptor,
-      multi: true
+      multi: true,
     },
     {
       provide: HIGHLIGHT_OPTIONS,
@@ -212,25 +234,25 @@ export const HttpLoaderFactory = (http: HttpClient) => new TranslateHttpLoader(h
     {
       provide: MatDialogRef,
       useValue: {
-        dialogClose
-      }
+        dialogClose,
+      },
     },
     {
       provide: MAT_DIALOG_DATA,
-      useValue: []
+      useValue: [],
     },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule {
-
   constructor(
     private languageService: LanguageService,
     private translateService: TranslateService,
     private highlightLoader: HighlightLoader,
   ) {
     this.highlightLoader.ready.subscribe();
-    this.languageService.getLanguage().subscribe(lang => this.translateService.use(lang));
+    this.languageService
+      .getLanguage()
+      .subscribe((lang) => this.translateService.use(lang));
   }
-
 }

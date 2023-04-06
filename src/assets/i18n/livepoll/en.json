@@ -1,0 +1,87 @@
+{
+  "common": {
+    "create-dialog-title": "Create flash poll",
+    "dialog-title": "Flash poll",
+    "option-select-title": "Your question…",
+    "dialog-preview-title": "Preview from participant view:",
+    "create": "Start poll",
+    "participants": "Participants:",
+    "close": "Close",
+    "cancel": "Cancel",
+    "save": "Send changes to all",
+    "new": "New poll",
+    "vote-make": "Your vote has been counted.",
+    "vote-delete": "Your vote has been reset.",
+    "dialog-confirm-create-new-description": "Are you sure you want to end the current poll and start a new one?",
+    "dialog-confirm-create-new-title": "New poll",
+    "dialog-confirm-delete-description": "Are you sure you want to end the poll? The poll result will still be displayed. However, it will be deleted when you exit the poll.",
+    "dialog-confirm-delete-title": "End poll",
+    "votes": "Votes:",
+    "confirm-yes": "Yes, end poll",
+    "creator-settings": "Live options…",
+    "creator-settings-icon": "cloud_upload",
+    "creator-settings-delete": "End poll",
+    "creator-settings-pause": "Pause poll",
+    "creator-settings-continue": "Resume poll",
+    "template-name-AB": "AB",
+    "template-name-ABCD": "ABCD",
+    "template-name-symbol": "Mood",
+    "option-select-result-visibility": "Poll results live visible",
+    "tooltip-option-select-result-visibility": "Show poll results in real-time for everyone in the room",
+    "option-select-views-visibility": "Participation live visible",
+    "tooltip-option-select-views-visibility": "Show participation in real-time for everyone in the room",
+    "option-select-template": "Select a template…",
+    "template-name-agree-multi": "Agreement",
+    "option-agree-multi": [
+      "strongly agree",
+      "somewhat agree",
+      "neutral",
+      "somewhat disagree",
+      "strongly disagree"
+    ],
+    "template-name-frequency-multi": "Frequency",
+    "option-frequency-multi": ["never", "rarely", "sometimes", "always"],
+    "template-name-quality-multi": "Quality",
+    "option-quality-multi": [
+      "excellent",
+      "good",
+      "fair",
+      "poor",
+      "very poor",
+      "unacceptable"
+    ],
+    "template-name-feedback-multi": "Comprehensibility of presentation",
+    "option-feedback-multi": [
+      "very easy to follow",
+      "easy to follow",
+      "fairly easy to follow",
+      "fairly hard to follow",
+      "hard to follow",
+      "very hard to follow"
+    ],
+    "template-name-feedback-multi-2": "Expectation fulfillment",
+    "option-feedback-multi-2": [
+      "Expectations fully met",
+      "… largely met",
+      "… partially met",
+      "… partially not met",
+      "… largely not met",
+      "… not met at all"
+    ],
+    "template-name-feedback-multi-3": "Presentation style",
+    "option-feedback-multi-3": [
+      "too quiet",
+      "too fast",
+      "too slow",
+      "keep it up"
+    ],
+    "template-name-agree-binary": "Thumbs up | Thumbs down",
+    "group-label": {
+      "multiplechoice": "AB…",
+      "likertscale": "Rating",
+      "mood": "Emojis",
+      "custom": "Custom",
+      "feedback": "Feedback"
+    }
+  }
+}

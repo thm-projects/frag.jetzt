@@ -1,0 +1,87 @@
+{
+  "common": {
+    "create-dialog-title": "Blitzumfrage erstellen",
+    "dialog-title": "Blitzumfrage",
+    "option-select-title": "Deine Frage …",
+    "dialog-preview-title": "Vorschau aus Teilnehmersicht:",
+    "create": "Umfrage starten",
+    "participants": "Personen:",
+    "close": "Schließen",
+    "cancel": "Abbrechen",
+    "save": "Änderungen an alle senden",
+    "new": "Neue Umfrage",
+    "vote-make": "Deine Stimme wurde gezählt.",
+    "vote-delete": "Deine Abstimmung wurde zurückgesetzt.",
+    "dialog-confirm-create-new-description": "Willst du wirklich die aktuelle Umfrage beenden und eine neue starten?",
+    "dialog-confirm-create-new-title": "Neue Umfrage",
+    "dialog-confirm-delete-description": "Willst du wirklich die Umfrage beenden? Das Abstimmungsergebnis wird dir weiterhin angezeigt, aber beim Verlassen der Umfrage gelöscht. ",
+    "dialog-confirm-delete-title": "Umfrage beenden",
+    "votes": "Stimmen:",
+    "confirm-yes": "Ja, beenden",
+    "creator-settings": "Live-Optionen …",
+    "creator-settings-icon": "cloud_upload",
+    "creator-settings-delete": "Umfrage beenden",
+    "creator-settings-pause": "Umfrage pausieren",
+    "creator-settings-continue": "Umfrage fortsetzen",
+    "template-name-AB": "AB",
+    "template-name-ABCD": "ABCD",
+    "template-name-symbol": "Stimmung",
+    "option-select-result-visibility": "Abstimmung live sichtbar",
+    "tooltip-option-select-result-visibility": "Abstimmung für alle im Raum in Echtzeit anzeigen",
+    "option-select-views-visibility": "Beteiligung live sichtbar",
+    "tooltip-option-select-views-visibility": "Beteiligung für alle im Raum in Echtzeit anzeigen",
+    "option-select-template": "Wähle eine Vorlage …",
+    "template-name-agree-multi": "Zustimmung",
+    "option-agree-multi": [
+      "ich stimme voll und ganz zu",
+      "ich stimme eher zu",
+      "ich bin mir nicht sicher",
+      "ich bin eher dagegen",
+      "ich bin entschieden dagegen"
+    ],
+    "template-name-frequency-multi": "Häufigkeit",
+    "option-frequency-multi": ["nie", "selten", "öfters", "immer"],
+    "template-name-quality-multi": "Qualität",
+    "option-quality-multi": [
+      "sehr gut",
+      "gut",
+      "befriedigend",
+      "ausreichend",
+      "mangelhaft",
+      "ungenügend"
+    ],
+    "template-name-feedback-multi": "Verständlichkeit der Präsentation",
+    "option-feedback-multi": [
+      "sehr leicht verständlich",
+      "leicht verständlich",
+      "ziemlich leicht verständlich",
+      "ziemlich schwer verständlich",
+      "schwer verständlich",
+      "sehr schwer verständlich"
+    ],
+    "template-name-feedback-multi-2": "Erwartungserfüllung",
+    "option-feedback-multi-2": [
+      "Erwartungen voll und ganz erfüllt",
+      "… weitestgehend erfüllt",
+      "… teilweise erfüllt",
+      "… teilweise nicht erfüllt",
+      "… weitestgehend nicht erfüllt",
+      "… ganz und gar nicht erfüllt"
+    ],
+    "template-name-feedback-multi-3": "Vortragsstil",
+    "option-feedback-multi-3": [
+      "zu leise",
+      "zu schnell",
+      "zu langsam",
+      "weiter so"
+    ],
+    "template-name-agree-binary": "Daumen hoch | Daumen runter",
+    "group-label": {
+      "multiplechoice": "AB …",
+      "likertscale": "Bewertung",
+      "mood": "Emojis",
+      "feedback": "Feedback",
+      "custom": "Benutzerdefiniert"
+    }
+  }
+}

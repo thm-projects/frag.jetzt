@@ -68,6 +68,7 @@ th, tr {
   top: -2px;
   background: var(--secondary);
   color: var(--on-secondary);
+  font-weight: normal;
 }
 
 .table-container {
@@ -125,6 +126,7 @@ th.mat-header-cell:first-of-type {
     color: var(--on-primary);
     left: -20px !important;
     top: 14px !important;
+    font-weight: normal;
   }
 }
 

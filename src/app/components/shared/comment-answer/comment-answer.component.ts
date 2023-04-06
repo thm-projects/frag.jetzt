@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   Component,
   ComponentRef,
   Injector,
@@ -19,8 +20,8 @@ import { User } from '../../../models/user';
 import { KeyboardUtils } from '../../../utils/keyboard';
 import { KeyboardKey } from '../../../utils/keyboard/keys';
 import { RoomDataService } from '../../../services/util/room-data.service';
-import { forkJoin, Observable, of } from 'rxjs';
-import { map, mergeMap } from 'rxjs/operators';
+import { forkJoin, Observable, of, ReplaySubject } from 'rxjs';
+import { map, mergeMap, takeUntil } from 'rxjs/operators';
 import { SessionService } from '../../../services/util/session.service';
 import { Room } from '../../../models/room';
 import { VoteService } from '../../../services/http/vote.service';
@@ -36,17 +37,21 @@ import { ResponseViewInformation } from '../comment-response-view/comment-respon
 import { UserManagementService } from '../../../services/util/user-management.service';
 import { EditQuestionComponent } from '../_dialogs/edit-question/edit-question.component';
 import { CreateCommentWrapper } from 'app/utils/create-comment-wrapper';
+import { ComponentEvent, sendSyncEvent } from 'app/utils/component-events';
 
 @Component({
   selector: 'app-comment-answer',
   templateUrl: './comment-answer.component.html',
   styleUrls: ['./comment-answer.component.scss'],
 })
-export class CommentAnswerComponent implements OnInit, OnDestroy {
+export class CommentAnswerComponent
+  implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild(WriteCommentComponent) commentComponent: WriteCommentComponent;
 
+  canOpenGPT = false;
+  consentGPT = false;
   comment: ForumComment;
-  answer: StandardDelta;
+  answer: StandardDelta = { ops: [] };
   isLoading = true;
   userRole: UserRole;
   user: User;
@@ -62,8 +67,10 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
   viewInfo: ResponseViewInformation;
   private createCommentWrapper: CreateCommentWrapper = null;
   private _commentSubscription;
+  private destroyer = new ReplaySubject(1);
   private _list: ComponentRef<any>[];
   private _keywordExtractor: KeywordExtractor;
+  private commentOverride: Partial<Comment>;
 
   constructor(
     protected route: ActivatedRoute,
@@ -91,6 +98,17 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.userManagementService
+      .getGPTConsentState()
+      .pipe(takeUntil(this.destroyer))
+      .subscribe((state) => {
+        this.consentGPT = state;
+      });
+    this.sessionService
+      .getGPTStatusOnce()
+      .subscribe(
+        (data) => (this.canOpenGPT = Boolean(data) && !data.restricted),
+      );
     this.backUrl = sessionStorage.getItem('conversation-fallback-url');
     this.isConversationView = this.router.url.endsWith('conversation');
     this.initNavigation();
@@ -155,6 +173,20 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
     });
   }
 
+  ngAfterViewInit(): void {
+    sendSyncEvent(
+      this.eventService,
+      new ComponentEvent(
+        'comment-answer.receive-startup',
+        'comment-answer.on-startup',
+      ),
+    ).subscribe((next) => {
+      this.commentOverride = next as Partial<Comment>;
+      this.commentComponent.commentData.currentData = this.commentOverride
+        .body as StandardDelta;
+    });
+  }
+
   writeComment() {
     this.createCommentWrapper
       .openCreateDialog(this.user, this.userRole)
@@ -170,6 +202,8 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.destroyer.next(true);
+    this.destroyer.complete();
     sessionStorage.removeItem('conversation-fallback-url');
     document.getElementById('header_rescale').style.display = '';
     this._list?.forEach((e) => e.destroy());
@@ -221,6 +255,11 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
       return;
     }
     comment.ack = this.room.directSend;
+    if (this.commentOverride) {
+      for (const key of Object.keys(this.commentOverride)) {
+        comment[key] = this.commentOverride[key];
+      }
+    }
     this.commentService.addComment(comment).subscribe((newComment) => {
       this.translateService
         .get('comment-list.comment-sent')
@@ -233,7 +272,6 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
           .then(() => {
             if (!comment.ack) {
               this.roomDataService.dataAccessor.addComment(newComment);
-              console.log(newComment.createdAt);
             }
           });
       });

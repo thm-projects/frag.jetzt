@@ -1,0 +1,469 @@
+<mat-card>
+  <div
+    class="gpt-requester"
+    *ngIf="!isLoading; else loading">
+    <div
+      fxLayout="row"
+      style="padding: 0">
+      <mat-form-field
+        style="width: 100%"
+        floatLabel="always"
+        *ngIf="conversation.length < 1">
+        <mat-icon
+          matPrefix
+          class="search-icon"
+          style="margin-right: 0.1em">
+          search
+        </mat-icon>
+        <mat-label></mat-label>
+        <input
+          placeholder="{{ 'gpt-chat.prompt-label' | translate }}"
+          autofocus
+          type="text"
+          aria-label="Prompt"
+          matInput
+          [matAutocomplete]="auto"
+          [(ngModel)]="searchTerm"
+          (input)="filterPrompts()" />
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option
+            *ngFor="let prompt of filteredPrompts"
+            [value]="prompt.act"
+            (click)="setValue(prompt.prompt)"
+            class="mat-option"
+            [ngClass]="{
+              'mat-option-header':
+                prompt.act === 'acts' || prompt.act === 'prompts'
+            }"
+            [disabled]="!prompt.prompt">
+            <ng-container *ngIf="prompt.act !== null && prompt.prompt !== null">
+              {{ prompt.act }}
+            </ng-container>
+            <ng-container
+              *ngIf="prompt.act === 'acts' && prompt.prompt === null">
+              <div class="counter-container">
+                <span>
+                  {{ "gpt-chat.option-total-acts" | translate }} ({{
+                    amountOfFoundActs
+                  }})
+                </span>
+              </div>
+            </ng-container>
+            <ng-container
+              *ngIf="prompt.act === 'prompts' && prompt.prompt === null">
+              <div class="counter-container">
+                <span>
+                  {{ "gpt-chat.option-total-prompts" | translate }} ({{
+                    amountOfFoundPrompts
+                  }})
+                </span>
+              </div>
+            </ng-container>
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+
+    <div
+      *ngFor="let item of conversation; let i = index"
+      [class]="item.type">
+      <mat-icon
+        class="material-icons-outlined"
+        *ngIf="item.type === 'gpt'">
+        smart_toy
+      </mat-icon>
+      <div
+        markdown
+        emoji
+        katex>
+        {{ formatText(item.message) }}
+      </div>
+      <ng-container *ngIf="!isSending && item.type === 'gpt'">
+        <button
+          class="refresh-indicator"
+          [matTooltip]="'gpt-chat.paste' | translate"
+          mat-icon-button
+          (click)="forwardGPTMessage(i)">
+          <mat-icon class="material-icons-outlined">content_paste_go</mat-icon>
+        </button>
+        <button
+          class="refresh-indicator"
+          [matTooltip]="'gpt-chat.edit' | translate"
+          mat-icon-button
+          *ngIf="owningComment?.id"
+          (click)="openEditGPTMessage(i)">
+          <mat-icon class="material-icons-outlined">rate_review</mat-icon>
+        </button>
+        <button
+          class="refresh-indicator"
+          [matTooltip]="'gpt-chat.refresh' | translate"
+          mat-icon-button
+          (click)="refreshGPTMessage(i)">
+          <mat-icon class="material-icons-round">autorenew</mat-icon>
+        </button>
+      </ng-container>
+      <button
+        *ngIf="isSending && renewIndex === i"
+        mat-icon-button
+        (mousedown)="stopper.next(true)"
+        class="refresh-indicator">
+        <mat-icon class="material-icons-outlined">cancel</mat-icon>
+      </button>
+    </div>
+
+    <div class="slide-container">
+      <mat-slider
+        [matTooltip]="'gpt-chat.temperature-tooltip' | translate"
+        showTickMarks
+        (input)="temperature = $event.value"
+        min="0"
+        max="2"
+        step="0.05"
+        [value]="temperature">
+        <input matSliderThumb />
+      </mat-slider>
+      <mat-form-field>
+        <mat-label>{{ "gpt-chat.temperature" | translate }}</mat-label>
+        <input
+          [matTooltip]="'gpt-chat.temperature-tooltip' | translate"
+          [(ngModel)]="temperature"
+          matInput
+          inputmode="numeric"
+          min="0"
+          max="2"
+          step="0.05"
+          type="number"
+          appAccessibilityEscapedInput />
+      </mat-form-field>
+    </div>
+
+    <app-view-comment-data
+      *ngIf="!answeringComment || conversation.length > 0"
+      [currentData]="initDelta"
+      [textOverwrite]="'gpt-chat.token-info' | translate : tokenInfo"
+      (changeContent)="calculateTokens(getCurrentText())"
+      [isModerator]="(sessionService.currentRole || 0) > 0"
+      [isBrainstorming]="false"
+      [isEditor]="true"
+      [maxTextCharacters]="1000"
+      [maxDataCharacters]="2000"
+      [placeHolderText]="
+        'gpt-chat.enter-conversation-text' | translate
+      "></app-view-comment-data>
+
+    <ng-container *ngIf="answeringComment && conversation.length < 1">
+      <ng-container *ngFor="let context of contexts">
+        <div
+          *ngIf="context.value && context.type === 'single'"
+          class="gpt-gap-text">
+          <span>
+            {{
+              "gpt-chat.context-" + context.name
+                | translate : { value: context.value.text }
+            }}
+          </span>
+        </div>
+        <div
+          *ngIf="
+            context.value &&
+            (context.type === 'multiple' || context.type === 'quill')
+          "
+          class="gpt-gap-text">
+          <ng-container *ngFor="let part of splitIntoParts(context) | async">
+            <span *ngIf="part.type === 'span'">
+              {{ part.text }}
+            </span>
+            <mat-form-field *ngIf="part.type === 'select'">
+              <mat-label>{{ "gpt-chat.your-choice" | translate }}</mat-label>
+              <mat-select
+                [(ngModel)]="context.selected"
+                [required]="!context.allowNone">
+                <mat-option
+                  *ngIf="context.allowNone"
+                  [value]="null">
+                  <em>{{ "gpt-chat.none" | translate }}</em>
+                </mat-option>
+                <mat-option
+                  *ngFor="let option of context.value"
+                  [value]="option.key">
+                  {{ option.text }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <app-view-comment-data
+              *ngIf="part.type === 'quill'"
+              [currentData]="context.value"></app-view-comment-data>
+          </ng-container>
+        </div>
+      </ng-container>
+    </ng-container>
+
+    <ng-container *ngIf="!error">
+      <div *ngIf="!isSending; else loading">
+        <button
+          mat-button
+          class="secondary-btn"
+          (click)="cancel()">
+          {{ "gpt-chat.cancel" | translate }}
+        </button>
+        <button
+          mat-button
+          [disabled]="!canSend()"
+          style="float: right"
+          class="secondary-btn"
+          (click)="sendGPTMessage()">
+          {{ "gpt-chat.send" | translate }}
+        </button>
+        <button
+          mat-button
+          style="float: right"
+          class="danger-btn"
+          (click)="clearMessages()">
+          {{ "gpt-chat.empty-conversation" | translate }}
+        </button>
+      </div>
+    </ng-container>
+  </div>
+  <div>
+    <button
+      class="start_introduction"
+      mat-fab
+      mat-icon-button
+      (click)="showPromptGuide()"
+      matTooltip="{{ 'introductions.tooltip-button' | translate }}"
+      [matTooltipPosition]="'above'">
+      <mat-icon>question_mark</mat-icon>
+    </button>
+  </div>
+</mat-card>
+
+<ng-template #loading>
+  <app-mat-spinner-overlay
+    color="on-surface"
+    diameter="40"
+    strokeWidth="5"></app-mat-spinner-overlay>
+</ng-template>
+
+<mat-menu
+  #languageSubMenu="matMenu"
+  [overlapTrigger]="false"
+  cdkTrapFocus>
+  <button
+    mat-menu-item
+    (click)="this.setLanguagePreset(GPTRoomPresetLanguage.DISABLED)"
+    class="preset-btn"
+    tabindex="0">
+    <mat-icon class="material-icons-outlined submenu-icon">
+      do_not_disturb
+    </mat-icon>
+    {{ "gpt-chat.presets.disabled" | translate }}
+  </button>
+  <button
+    mat-menu-item
+    (click)="this.setLanguagePreset(GPTRoomPresetLanguage.GERMAN)"
+    class="preset-btn"
+    tabindex="0">
+    <mat-icon class="material-icons-outlined submenu-icon">sports_bar</mat-icon>
+    {{ "gpt-chat.presets.language.de" | translate }}
+  </button>
+  <button
+    mat-menu-item
+    (click)="this.setLanguagePreset(GPTRoomPresetLanguage.ENGLISH)"
+    class="preset-btn"
+    tabindex="0">
+    <mat-icon class="material-icons-outlined submenu-icon">
+      lunch_dining
+    </mat-icon>
+    {{ "gpt-chat.presets.language.en" | translate }}
+  </button>
+  <button
+    mat-menu-item
+    (click)="this.setLanguagePreset(GPTRoomPresetLanguage.FRENCH)"
+    class="preset-btn"
+    tabindex="0">
+    <mat-icon class="material-icons-outlined submenu-icon">
+      bakery_dining
+    </mat-icon>
+    {{ "gpt-chat.presets.language.fr" | translate }}
+  </button>
+  <button
+    mat-menu-item
+    (click)="this.setLanguagePreset(GPTRoomPresetLanguage.LIKE_QUESTION)"
+    class="preset-btn"
+    tabindex="0">
+    <mat-icon class="material-icons-outlined submenu-icon">
+      question_answer
+    </mat-icon>
+    {{ "gpt-chat.presets.language.*" | translate }}
+  </button>
+</mat-menu>
+
+<mat-menu
+  #toneSubMenu="matMenu"
+  [overlapTrigger]="false"
+  cdkTrapFocus>
+  <button
+    mat-menu-item
+    (click)="this.setTonePreset(GPTRoomPresetTone.DISABLED)"
+    class="preset-btn"
+    tabindex="0">
+    <mat-icon class="material-icons-outlined submenu-icon">
+      do_not_disturb
+    </mat-icon>
+    {{ "gpt-chat.presets.disabled" | translate }}
+  </button>
+  <button
+    mat-menu-item
+    (click)="this.setTonePreset(GPTRoomPresetTone.NEUTRAL)"
+    class="preset-btn"
+    tabindex="0">
+    <mat-icon class="material-icons-outlined submenu-icon">
+      sentiment_neutral
+    </mat-icon>
+    {{ "gpt-chat.presets.tone.neutral" | translate }}
+  </button>
+  <button
+    mat-menu-item
+    (click)="this.setTonePreset(GPTRoomPresetTone.FRIENDLY)"
+    class="preset-btn"
+    tabindex="0">
+    <mat-icon class="material-icons-outlined submenu-icon">
+      sentiment_satisfied
+    </mat-icon>
+    {{ "gpt-chat.presets.tone.friendly" | translate }}
+  </button>
+  <button
+    mat-menu-item
+    (click)="this.setTonePreset(GPTRoomPresetTone.PROFESSIONAL)"
+    class="preset-btn"
+    tabindex="0">
+    <mat-icon class="material-icons-outlined submenu-icon">work</mat-icon>
+    {{ "gpt-chat.presets.tone.professional" | translate }}
+  </button>
+  <button
+    mat-menu-item
+    (click)="this.setTonePreset(GPTRoomPresetTone.HUMOROUS)"
+    class="preset-btn"
+    tabindex="0">
+    <mat-icon class="material-icons-outlined submenu-icon">
+      sentiment_very_satisfied
+    </mat-icon>
+    {{ "gpt-chat.presets.tone.humorous" | translate }}
+  </button>
+</mat-menu>
+
+<mat-menu
+  #formalitySubMenu="matMenu"
+  [overlapTrigger]="false"
+  cdkTrapFocus>
+  <button
+    mat-menu-item
+    (click)="this.setFormalityPreset(null)"
+    class="preset-btn"
+    tabindex="0">
+    <mat-icon class="material-icons-outlined submenu-icon">
+      do_not_disturb
+    </mat-icon>
+    {{ "gpt-chat.presets.disabled" | translate }}
+  </button>
+  <button
+    mat-menu-item
+    (click)="this.setFormalityPreset(false)"
+    class="preset-btn"
+    tabindex="0">
+    <mat-icon class="material-icons-outlined submenu-icon">
+      sports_football
+    </mat-icon>
+    {{ "gpt-chat.presets.formality.informal" | translate }}
+  </button>
+  <button
+    mat-menu-item
+    (click)="this.setFormalityPreset(true)"
+    class="preset-btn"
+    tabindex="0">
+    <mat-icon class="material-icons-outlined submenu-icon">work</mat-icon>
+    {{ "gpt-chat.presets.formality.polite" | translate }}
+  </button>
+</mat-menu>
+
+<mat-menu
+  #lengthSubMenu="matMenu"
+  [overlapTrigger]="false"
+  cdkTrapFocus>
+  <button
+    mat-menu-item
+    (click)="this.setLengthPreset(GPTRoomPresetLength.DISABLED)"
+    class="preset-btn"
+    tabindex="0">
+    <mat-icon class="material-icons-outlined submenu-icon">
+      do_not_disturb
+    </mat-icon>
+    {{ "gpt-chat.presets.disabled" | translate }}
+  </button>
+  <button
+    mat-menu-item
+    (click)="this.setLengthPreset(GPTRoomPresetLength.SHORT)"
+    class="preset-btn"
+    tabindex="0">
+    <mat-icon class="material-icons-outlined submenu-icon">short_text</mat-icon>
+    {{ "gpt-chat.presets.length.short" | translate }}
+  </button>
+  <button
+    mat-menu-item
+    (click)="this.setLengthPreset(GPTRoomPresetLength.DETAILED)"
+    class="preset-btn"
+    tabindex="0">
+    <mat-icon class="material-icons-outlined submenu-icon">notes</mat-icon>
+    {{ "gpt-chat.presets.length.detailed" | translate }}
+  </button>
+  <button
+    mat-menu-item
+    (click)="this.setLengthPreset(GPTRoomPresetLength.EXTENSIVE)"
+    class="preset-btn"
+    tabindex="0">
+    <mat-icon class="material-icons-outlined submenu-icon">
+      format_align_left
+    </mat-icon>
+    {{ "gpt-chat.presets.length.extensive" | translate }}
+  </button>
+</mat-menu>
+
+<mat-menu
+  #answerFormatSubMenu="matMenu"
+  [overlapTrigger]="false"
+  cdkTrapFocus>
+  <button
+    mat-menu-item
+    (click)="this.setAnswerFormat(GPTRoomAnswerFormat.DISABLED)"
+    class="preset-btn"
+    tabindex="0">
+    <mat-icon class="material-icons-outlined submenu-icon">
+      do_not_disturb
+    </mat-icon>
+    {{ "gpt-chat.answer-format.disabled" | translate }}
+  </button>
+  <button
+    mat-menu-item
+    (click)="this.setAnswerFormat(GPTRoomAnswerFormat.SUMMARY)"
+    class="preset-btn"
+    tabindex="0">
+    <mat-icon class="material-icons-outlined submenu-icon">summarize</mat-icon>
+    {{ "gpt-chat.answer-format.summary" | translate }}
+  </button>
+  <button
+    mat-menu-item
+    (click)="this.setAnswerFormat(GPTRoomAnswerFormat.DEFINITION)"
+    class="preset-btn"
+    tabindex="0">
+    <mat-icon class="material-icons-outlined submenu-icon">menu_book</mat-icon>
+    {{ "gpt-chat.answer-format.definition" | translate }}
+  </button>
+  <button
+    mat-menu-item
+    (click)="this.setAnswerFormat(GPTRoomAnswerFormat.FLASHCARD)"
+    class="preset-btn"
+    tabindex="0">
+    <mat-icon class="material-icons-outlined submenu-icon">style</mat-icon>
+    {{ "gpt-chat.answer-format.flashcard" | translate }}
+  </button>
+</mat-menu>

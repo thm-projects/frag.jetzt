@@ -1,21 +1,18 @@
 import { Component, Input, OnInit } from '@angular/core';
-
 /**
  * Available confirm button types.
  */
 export enum DialogConfirmActionButtonType {
   Primary = 'primary',
-  Alert = 'alert'
+  Alert = 'alert',
 }
-
 
 @Component({
   selector: 'app-dialog-action-buttons',
   templateUrl: './dialog-action-buttons.component.html',
-  styleUrls: ['./dialog-action-buttons.component.scss']
+  styleUrls: ['./dialog-action-buttons.component.scss'],
 })
 export class DialogActionButtonsComponent implements OnInit {
-
   /**
    * gray out confirm button
    */
@@ -38,7 +35,6 @@ export class DialogActionButtonsComponent implements OnInit {
    */
   @Input() buttonIcon: string;
 
-
   /**
    * The i18n label identifier of the confirm button.
    */
@@ -49,24 +45,21 @@ export class DialogActionButtonsComponent implements OnInit {
    */
   @Input() cancelButtonLabel = 'cancel';
 
-
   /**
    * The confirm button type.
    */
-  @Input() confirmButtonType: DialogConfirmActionButtonType = DialogConfirmActionButtonType.Primary;
-
+  @Input() confirmButtonType: DialogConfirmActionButtonType =
+    DialogConfirmActionButtonType.Primary;
 
   /**
    * A callback which will be executed if the confirm button was clicked.
    */
-  @Input() confirmButtonClickAction: ((() => void) | undefined);
-
+  @Input() confirmButtonClickAction: (() => void) | undefined;
 
   /**
    * A callback which will be executed if the cancel button was clicked.
    */
-  @Input() cancelButtonClickAction: ((() => void) | undefined);
-
+  @Input() cancelButtonClickAction: (() => void) | undefined;
 
   /**
    * TRUE if some spacing will be rendered above the action buttons.
@@ -75,12 +68,10 @@ export class DialogActionButtonsComponent implements OnInit {
 
   @Input() showLoadingCycle = false;
 
-
   /**
    * The ARIA identifier prefix.
    */
-  private ariaPrefix: string = (new Date().getTime().toString());
-
+  private ariaPrefix: string = new Date().getTime().toString();
 
   /**
    * @inheritDoc
@@ -88,7 +79,6 @@ export class DialogActionButtonsComponent implements OnInit {
   ngOnInit() {
     // nothing special yet
   }
-
 
   /**
    * Performs the confirm button click action.

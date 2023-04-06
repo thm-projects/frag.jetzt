@@ -1,39 +1,56 @@
-<div style="display: none;"
-     [joyrideStep]="'greeting'"
-     appJoyrideTemplate
-     [stepPosition]="'center'">
-</div>
+<div
+  style="display: none"
+  [joyrideStep]="'greeting'"
+  appJoyrideTemplate
+  [stepPosition]="'center'"></div>
 
-<div data-nosnippet
-     class="main-container">
-  <div class="bg-object" style="top: 20%; left: 20%; animation-delay: 0s;">?</div>
-  <div class="bg-object" style="top: 30%; left: 80%; animation-delay: 2s;">?</div>
-
-  <div fxLayout="row"
-       fxLayoutAlign="center">
-
-    <h1>
-      <span class="main-heading-secondary"
-            aria-hidden="true">{{ 'login.welcome' | translate }}</span>
-      <span class="main-heading-primary">frag.jetzt</span>
-    </h1>
-
+<div
+  data-nosnippet
+  class="main-container">
+  <div
+    class="bg-object"
+    style="top: 20%; left: 20%; animation-delay: 0s">
+    ?
+  </div>
+  <div
+    class="bg-object"
+    style="top: 30%; left: 80%; animation-delay: 2s">
+    ?
   </div>
 
-  <img tabindex="-1"
-       src="/assets/background/auditorium.webp"
-       srcset="/assets/background/auditorium.webp 1x, /assets/background/Auditorium-original-bw.webp 2x"
-       class="screenshot"
-       width="811"
-       height="185"
-       alt="Auditorium">
+  <div
+    fxLayout="row"
+    fxLayoutAlign="center">
+    <h1>
+      <span
+        class="main-heading-secondary"
+        aria-hidden="true">
+        {{ "login.welcome" | translate }}
+      </span>
+      <span class="main-heading-primary">frag.jetzt & ChatGPT</span>
+    </h1>
+  </div>
 
-  <div fxLayout="row"
-       fxLayoutAlign="center">
+  <img
+    tabindex="-1"
+    src="/assets/background/auditorium.webp"
+    srcset="
+      /assets/background/auditorium.webp             1x,
+      /assets/background/Auditorium-original-bw.webp 2x
+    "
+    class="screenshot"
+    width="811"
+    height="185"
+    alt="Auditorium" />
+
+  <div
+    fxLayout="row"
+    fxLayoutAlign="center">
     <mat-card class="outer">
       <mat-card-content>
-        <div fxLayout="row"
-             fxLayoutAlign="center">
+        <div
+          fxLayout="row"
+          fxLayoutAlign="center">
           <app-new-landing></app-new-landing>
         </div>
       </mat-card-content>
@@ -41,27 +58,39 @@
   </div>
 
   <h2>
-    <span data-nosnippet
-          class="feedback">
-      <a [joyrideStep]="'feedbackLink'"
-         appJoyrideTemplate
-         [stepPosition]="'top'"
-         class="info"
-         href="https://frag.jetzt/participant/room/Feedback"
-         target="_blank"
-         rel="noreferrer noopener"
-         aria-labelledby="feedback-aria">{{ 'login.welcome-feedback' | translate }}
+    <span
+      data-nosnippet
+      class="feedback">
+      <a
+        [joyrideStep]="'feedbackLink'"
+        appJoyrideTemplate
+        [stepPosition]="'top'"
+        class="info"
+        href="https://frag.jetzt/participant/room/Feedback"
+        target="_blank"
+        rel="noreferrer noopener"
+        aria-labelledby="feedback-aria">
+        {{ "login.welcome-feedback" | translate }}
       </a>
     </span>
   </h2>
 
-  <button id="live_announcer-button"
-          autofocus
-          tabIndex="-1"
-          (click)="announce()"
-          class="visually-hidden">{{ 'home-page.live-announcer' | translate }}</button>
-  <app-app-rating *ngIf="accumulatedRatings" [ratingResults]="accumulatedRatings"></app-app-rating>
+  <button
+    id="live_announcer-button"
+    autofocus
+    tabIndex="-1"
+    (click)="announce()"
+    class="visually-hidden">
+    {{ "home-page.live-announcer" | translate }}
+  </button>
+  <app-app-rating
+    *ngIf="accumulatedRatings"
+    [ratingResults]="accumulatedRatings"></app-app-rating>
 </div>
 <div class="visually-hidden">
-  <div id="feedback-aria" style="display: none;">{{'login.feedback-aria' | translate}}</div>
+  <div
+    id="feedback-aria"
+    style="display: none">
+    {{ "login.feedback-aria" | translate }}
+  </div>
 </div>

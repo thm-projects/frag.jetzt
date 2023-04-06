@@ -1,4 +1,11 @@
-import { Component, ComponentRef, EventEmitter, Injector, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  ComponentRef,
+  EventEmitter,
+  Injector,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { Room } from '../../../models/room';
 import { RoomPatch, RoomService } from '../../../services/http/room.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -11,12 +18,9 @@ import { Palette } from '../../../../theme/Theme';
 import { ArsObserver } from '../../../../../projects/ars/src/lib/models/util/ars-observer';
 import { HeaderService } from '../../../services/util/header.service';
 import { ArsComposeService } from '../../../../../projects/ars/src/lib/services/ars-compose.service';
-import { User } from '../../../models/user';
 import { RoomNameSettingsComponent } from '../../creator/_dialogs/room-name-settings/room-name-settings.component';
 import { MatDialog } from '@angular/material/dialog';
-import {
-  RoomDescriptionSettingsComponent
-} from '../../creator/_dialogs/room-description-settings/room-description-settings.component';
+import { RoomDescriptionSettingsComponent } from '../../creator/_dialogs/room-description-settings/room-description-settings.component';
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
 import { TranslateService } from '@ngx-translate/core';
 import { NotificationService } from '../../../services/util/notification.service';
@@ -35,29 +39,30 @@ import {
   exportRoom,
   ImportQuestionsResult,
   importToRoom,
-  uploadCSV
+  uploadCSV,
 } from '../../../utils/ImportExportMethods';
 import { SessionService } from '../../../services/util/session.service';
 import { RoomDataService } from '../../../services/util/room-data.service';
 import { mergeMap } from 'rxjs/operators';
-import {
-  CommentNotificationDialogComponent
-} from '../_dialogs/comment-notification-dialog/comment-notification-dialog.component';
 import { ToggleConversationComponent } from '../../creator/_dialogs/toggle-conversation/toggle-conversation.component';
 import { QuillUtils } from '../../../utils/quill-utils';
 import { TitleService } from '../../../services/util/title.service';
 import { DeviceInfoService } from '../../../services/util/device-info.service';
-import { UserManagementService } from '../../../services/util/user-management.service';
+import {
+  ManagedUser,
+  UserManagementService,
+} from '../../../services/util/user-management.service';
 import { RoomSettingsOverviewComponent } from '../_dialogs/room-settings-overview/room-settings-overview.component';
+import { GptRoomSettingsComponent } from '../_dialogs/gpt-room-settings/gpt-room-settings.component';
 
 @Component({
   selector: 'app-room-page',
   templateUrl: './room-page.component.html',
-  styleUrls: ['./room-page.component.scss']
+  styleUrls: ['./room-page.component.scss'],
 })
 export class RoomPageComponent implements OnInit, OnDestroy {
   room: Room = null;
-  user: User = null;
+  user: ManagedUser = null;
   isLoading = true;
   commentCounter: number;
   responseCounter: number;
@@ -89,9 +94,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
   private _sub: Subscription;
   private _list: ComponentRef<any>[];
 
-  constructor(
-    protected injector: Injector,
-  ) {
+  constructor(protected injector: Injector) {
     this.deviceInfo = injector.get(DeviceInfoService);
     this.roomService = injector.get(RoomService);
     this.route = injector.get(ActivatedRoute);
@@ -118,7 +121,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.listenerFn();
     this.eventService.makeFocusOnInputFalse();
-    this._list?.forEach(e => e.destroy());
+    this._list?.forEach((e) => e.destroy());
     this._sub?.unsubscribe();
     this.titleService.resetTitle();
   }
@@ -128,28 +131,32 @@ export class RoomPageComponent implements OnInit, OnDestroy {
   }
 
   initializeRoom(): void {
-    this.userManagementService.getUser().subscribe(user => {
+    this.userManagementService.getUser().subscribe((user) => {
       this.user = user;
     });
     this.userRole = this.route.snapshot.data.roles[0];
     this.preRoomLoadHook().subscribe(() => {
-      this.sessionService.getRoomOnce().subscribe(room => {
+      this.sessionService.getRoomOnce().subscribe((room) => {
         this.room = room;
         this.isLoading = false;
         this.moderationEnabled = !this.room.directSend;
-        const roomSub = this.sessionService.receiveRoomUpdates().subscribe(updRoom => {
-          this.moderationEnabled = !updRoom.directSend;
-          this.updateResponseCounter();
-        });
+        const roomSub = this.sessionService
+          .receiveRoomUpdates()
+          .subscribe((updRoom) => {
+            this.moderationEnabled = !updRoom.directSend;
+            this.updateResponseCounter();
+          });
         this.onDestroyListener.subscribe(() => roomSub.unsubscribe());
         this.updateResponseCounter();
-        const sub = this.roomDataService.dataAccessor.receiveUpdates([
-          { type: 'CommentCreated', finished: true },
-          { type: 'CommentDeleted', finished: true },
-          { type: 'CommentPatched', finished: true, updates: ['ack'] }
-        ]).subscribe(() => {
-          this.updateResponseCounter();
-        });
+        const sub = this.roomDataService.dataAccessor
+          .receiveUpdates([
+            { type: 'CommentCreated', finished: true },
+            { type: 'CommentDeleted', finished: true },
+            { type: 'CommentPatched', finished: true, updates: ['ack'] },
+          ])
+          .subscribe(() => {
+            this.updateResponseCounter();
+          });
         this.onDestroyListener.subscribe(() => sub.unsubscribe());
         this.postRoomLoadHook();
         this._navigationBuild.resolveCondition(0);
@@ -169,7 +176,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
       width: '900px',
       maxWidth: 'calc( 100% - 50px )',
       maxHeight: 'calc( 100vh - 50px )',
-      autoFocus: false
+      autoFocus: false,
     });
     dialogRef.componentInstance.editRoom = this.room;
   }
@@ -180,41 +187,47 @@ export class RoomPageComponent implements OnInit, OnDestroy {
       width: '900px',
       maxWidth: 'calc( 100% - 50px )',
       maxHeight: 'calc( 100vh - 50px )',
-      autoFocus: false
+      autoFocus: false,
     });
     dialogRef.componentInstance.editRoom = this.room;
   }
 
   exportQuestions() {
-    this.sessionService.getModeratorsOnce().subscribe(mods => {
-      exportRoom(this.translateService,
+    this.sessionService.getModeratorsOnce().subscribe((mods) => {
+      exportRoom(
+        this.translateService,
         this.notificationService,
         this.bonusTokenService,
         this.commentService,
         'room-export',
         this.user,
         this.room,
-        new Set<string>(mods.map(mod => mod.accountId))
-      ).subscribe(text => {
-        copyCSVString(text[0], this.room.name + '-' + this.room.shortId + '-' + text[1] + '.csv');
+        new Set<string>(mods.map((mod) => mod.accountId)),
+      ).subscribe((text) => {
+        copyCSVString(
+          text[0],
+          this.room.name + '-' + this.room.shortId + '-' + text[1] + '.csv',
+        );
       });
     });
   }
 
   importQuestions(): Observable<ImportQuestionsResult> {
     return uploadCSV().pipe(
-      mergeMap(data => {
+      mergeMap((data) => {
         if (!data) {
           return of(null);
         }
-        return importToRoom(this.translateService,
+        return importToRoom(
+          this.translateService,
           this.room.id,
           this.roomService,
           this.commentService,
           'room-export',
-          data);
+          data,
+        );
       }),
-      tap(_ => {
+      tap((_) => {
         const url = decodeURI(this.router.url);
         this.router.navigate(['/']).then(() => {
           setTimeout(() => this.router.navigate([url]));
@@ -226,14 +239,16 @@ export class RoomPageComponent implements OnInit, OnDestroy {
   deleteQuestions() {
     console.assert(this.userRole > UserRole.PARTICIPANT);
     const dialogRef = this.dialog.open(DeleteCommentsComponent, {
-      width: '400px'
+      width: '400px',
     });
     dialogRef.componentInstance.roomId = this.room.id;
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result === 'delete') {
-        this.translateService.get('room-page.comments-deleted').subscribe(msg => {
-          this.notificationService.show(msg);
-        });
+        this.translateService
+          .get('room-page.comments-deleted')
+          .subscribe((msg) => {
+            this.notificationService.show(msg);
+          });
         this.commentService.deleteCommentsByRoomId(this.room.id).subscribe();
       }
     });
@@ -242,14 +257,19 @@ export class RoomPageComponent implements OnInit, OnDestroy {
   showToggleConversationDialog() {
     const dialogRef = this.dialog.open(ToggleConversationComponent, {
       width: '600px',
-      data: { conversationDepth: this.room.conversationDepth, directSend: this.room.directSend }
+      data: {
+        conversationDepth: this.room.conversationDepth,
+        directSend: this.room.directSend,
+      },
     });
     dialogRef.componentInstance.editorRoom = this.room;
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (typeof result === 'number') {
-        this.roomService.patchRoom(this.room.id, {
-          conversationDepth: result,
-        }).subscribe();
+        this.roomService
+          .patchRoom(this.room.id, {
+            conversationDepth: result,
+          })
+          .subscribe();
       }
     });
   }
@@ -257,29 +277,14 @@ export class RoomPageComponent implements OnInit, OnDestroy {
   openDeleteRoomDialog(): void {
     console.assert(this.userRole === UserRole.CREATOR);
     const dialogRef = this.dialog.open(RoomDeleteComponent, {
-      width: '400px'
+      width: '400px',
     });
     dialogRef.componentInstance.room = this.room;
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result === 'delete') {
         this.deleteRoom();
       }
     });
-  }
-
-  openEmailNotification(): void {
-    if (!this.user?.loginId) {
-      this.translateService
-        .get('comment-notification.needs-user-account')
-        .subscribe((msg) =>
-          this.notificationService.show(msg, undefined, {
-            duration: 7000,
-            panelClass: ['snackbar', 'important'],
-          }),
-        );
-      return;
-    }
-    CommentNotificationDialogComponent.openDialog(this.dialog, this.room);
   }
 
   deleteRoom(): void {
@@ -290,43 +295,51 @@ export class RoomPageComponent implements OnInit, OnDestroy {
         this.eventService.broadcast(event.type, event.payload);
         this.userManagementService.removeAccess(this.room.shortId);
         this.router.navigate(['/user']).then(() => {
-          this.translateService.get('room-page.deleted').subscribe(msg => {
+          this.translateService.get('room-page.deleted').subscribe((msg) => {
             this.notificationService.show(this.room.name + msg);
           });
         });
       },
       error: () => {
-        this.translateService.get('room-page.deleted-error').subscribe(msg => {
-          this.notificationService.show(msg);
-        });
-      }
+        this.translateService
+          .get('room-page.deleted-error')
+          .subscribe((msg) => {
+            this.notificationService.show(msg);
+          });
+      },
     });
   }
 
   copyShortId(): void {
     console.assert(this.userRole > UserRole.PARTICIPANT);
-    navigator.clipboard.writeText(`${this.urlToCopy}${this.room.shortId}`).then(() => {
-      this.translateService.get('room-page.session-id-copied').subscribe(msg => {
-        this.notificationService.show(msg, '', { duration: 2000 });
-      });
-    }, () => {
-      console.log('Clipboard write failed.');
-    });
+    navigator.clipboard.writeText(`${this.urlToCopy}${this.room.shortId}`).then(
+      () => {
+        this.translateService
+          .get('room-page.session-id-copied')
+          .subscribe((msg) => {
+            this.notificationService.show(msg, '', { duration: 2000 });
+          });
+      },
+      () => {
+        console.log('Clipboard write failed.');
+      },
+    );
   }
 
   showModeratorsDialog(): void {
     console.assert(this.userRole > UserRole.PARTICIPANT);
     const dialogRef = this.dialog.open(ModeratorsComponent, {
-      width: '400px'
+      width: '400px',
     });
     dialogRef.componentInstance.roomId = this.room.id;
-    dialogRef.componentInstance.isCreator = this.sessionService.currentRole === 3;
+    dialogRef.componentInstance.isCreator =
+      this.sessionService.currentRole === 3;
   }
 
   showBonusTokenDialog(): void {
     console.assert(this.userRole > UserRole.PARTICIPANT);
     const dialogRef = this.dialog.open(BonusTokenComponent, {
-      width: '400px'
+      width: '400px',
     });
     dialogRef.componentInstance.room = this.room;
   }
@@ -334,17 +347,20 @@ export class RoomPageComponent implements OnInit, OnDestroy {
   showCommentsDialog(): void {
     console.assert(this.userRole > UserRole.PARTICIPANT);
     const dialogRef = this.dialog.open(CommentSettingsComponent, {
-      width: '400px'
+      width: '400px',
     });
     dialogRef.componentInstance.editRoom = this.room;
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result === 'abort') {
         return;
       } else if (result instanceof CommentSettingsDialog) {
-        this.saveChanges({ threshold: result.threshold, directSend: result.directSend });
+        this.saveChanges({
+          threshold: result.threshold,
+          directSend: result.directSend,
+        });
       }
     });
-    dialogRef.backdropClick().subscribe(res => {
+    dialogRef.backdropClick().subscribe((res) => {
       dialogRef.close('abort');
     });
   }
@@ -352,13 +368,17 @@ export class RoomPageComponent implements OnInit, OnDestroy {
   showTagsDialog(): void {
     console.assert(this.userRole > UserRole.PARTICIPANT);
     const dialogRef = this.dialog.open(TagsComponent, {
-      width: '400px'
+      width: '400px',
     });
     const tags = [...(this.room.tags || [])];
     const tagsBefore = [...tags];
     dialogRef.componentInstance.tags = tags;
-    dialogRef.afterClosed().subscribe(result => {
-      if (!result || result === 'abort' || !this.hasTagChanges(tagsBefore, result)) {
+    dialogRef.afterClosed().subscribe((result) => {
+      if (
+        !result ||
+        result === 'abort' ||
+        !this.hasTagChanges(tagsBefore, result)
+      ) {
         return;
       } else {
         this.saveChanges({ tags: result });
@@ -370,13 +390,13 @@ export class RoomPageComponent implements OnInit, OnDestroy {
     if (before.length !== after.length) {
       return true;
     }
-    return before.some(tag => !after.includes(tag));
+    return before.some((tag) => !after.includes(tag));
   }
 
   toggleProfanityFilter() {
     console.assert(this.userRole > UserRole.PARTICIPANT);
     const dialogRef = this.dialog.open(ProfanitySettingsComponent, {
-      width: '400px'
+      width: '400px',
     });
     dialogRef.componentInstance.editRoom = this.room;
   }
@@ -385,183 +405,213 @@ export class RoomPageComponent implements OnInit, OnDestroy {
     return of('');
   }
 
-  protected postRoomLoadHook() {
-  }
+  protected postRoomLoadHook() {}
 
   protected saveChanges(data: Partial<Room>) {
-    const description = data?.description ? QuillUtils.serializeDelta(data.description) : null;
-    const obj: RoomPatch = (description ? { ...data, description } : { ...data }) as RoomPatch;
+    const description = data?.description
+      ? QuillUtils.serializeDelta(data.description)
+      : null;
+    const obj: RoomPatch = (
+      description ? { ...data, description } : { ...data }
+    ) as RoomPatch;
     this.roomService.patchRoom(this.room.id, obj).subscribe({
       next: (room) => {
-        this.translateService.get('room-page.changes-successful').subscribe(msg => {
-          this.notificationService.show(msg);
-        });
+        this.translateService
+          .get('room-page.changes-successful')
+          .subscribe((msg) => {
+            this.notificationService.show(msg);
+          });
       },
       error: (error) => {
-        this.translateService.get('room-page.changes-gone-wrong').subscribe(msg => {
-          this.notificationService.show(msg);
-        });
-      }
+        this.translateService
+          .get('room-page.changes-gone-wrong')
+          .subscribe((msg) => {
+            this.notificationService.show(msg);
+          });
+      },
     });
   }
 
   private updateResponseCounter(): void {
-    this.commentService.countByRoomId([
-      { roomId: this.room.id, ack: true },
-      { roomId: this.room.id, ack: false }
-    ]).subscribe(commentCounter => {
-      this.setCommentCounter(commentCounter[0].questionCount, commentCounter[0].responseCount);
-      if (!this.room.directSend && this.userRole > UserRole.PARTICIPANT) {
-        this.moderatorCommentCounter = commentCounter[1].questionCount;
-        this.moderatorResponseCounter = commentCounter[1].responseCount;
-      }
-    });
+    this.commentService
+      .countByRoomId([
+        { roomId: this.room.id, ack: true },
+        { roomId: this.room.id, ack: false },
+      ])
+      .subscribe((commentCounter) => {
+        this.setCommentCounter(
+          commentCounter[0].questionCount,
+          commentCounter[0].responseCount,
+        );
+        if (!this.room.directSend && this.userRole > UserRole.PARTICIPANT) {
+          this.moderatorCommentCounter = commentCounter[1].questionCount;
+          this.moderatorResponseCounter = commentCounter[1].responseCount;
+        }
+      });
   }
 
   private initNavigation() {
-    this._list = this.composeService.builder(this.headerService.getHost(), e => {
-      e.menuItem({
-        translate: this.headerService.getTranslate(),
-        icon: 'visibility_off',
-        class: 'material-icons-outlined',
-        isSVGIcon: false,
-        text: 'header.moderation-mode',
-        callback: () => this.showCommentsDialog(),
-        condition: () => this.userRole > UserRole.PARTICIPANT
-      });
-      e.menuItem({
-        translate: this.headerService.getTranslate(),
-        icon: 'forum',
-        class: 'material-icons-outlined',
-        isSVGIcon: false,
-        text: 'header.conversation',
-        callback: () => this.showToggleConversationDialog(),
-        condition: () => this.userRole > UserRole.PARTICIPANT
-      });
-      e.menuItem({
-        translate: this.headerService.getTranslate(),
-        icon: 'sell',
-        class: 'material-icons-outlined',
-        isSVGIcon: false,
-        text: 'header.edit-tags',
-        callback: () => this.showTagsDialog(),
-        condition: () => this.userRole > UserRole.PARTICIPANT
-      });
-      e.menuItem({
-        translate: this.headerService.getTranslate(),
-        icon: 'grade',
-        class: 'material-icons-round',
-        iconColor: Palette.YELLOW,
-        text: 'header.bonustoken',
-        callback: () => this.showBonusTokenDialog(),
-        condition: () => this.userRole > UserRole.PARTICIPANT && this.room?.bonusArchiveActive
-      });
-      e.menuItem({
-        translate: this.headerService.getTranslate(),
-        icon: 'file_download',
-        class: 'material-icons-outlined',
-        text: 'header.export-questions',
-        callback: () => this.exportQuestions(),
-        condition: () => this.userRole >= UserRole.PARTICIPANT
-      });
-      e.menuItem({
-        translate: this.headerService.getTranslate(),
-        icon: 'file_upload',
-        class: 'material-icons-outlined',
-        text: 'header.import-questions',
-        callback: () => this.importQuestions().subscribe(),
-        condition: () => (this.roomDataService.dataAccessor.currentRawComments()?.length || 0) +
-          (this.roomDataService.moderatorDataAccessor.currentRawComments()?.length || 0) === 0 &&
-          this.user.id === this.room.ownerId && this.userRole > UserRole.PARTICIPANT,
-      });
-      e.menuItem({
-        translate: this.headerService.getTranslate(),
-        icon: 'email',
-        class: 'material-icons-outlined',
-        iconColor: Palette.YELLOW,
-        isSVGIcon: false,
-        text: 'room-list.email-notification',
-        callback: () => this.openEmailNotification(),
-        condition: () => !!this.user
-      });
-      e.menuItem({
-        translate: this.headerService.getTranslate(),
-        icon: 'article',
-        class: 'material-icons-outlined',
-        text: 'header.edit-session-description',
-        callback: () => this.editSessionDescription(),
-        condition: () => this.userRole > UserRole.PARTICIPANT
-      });
-      e.menuItem({
-        translate: this.headerService.getTranslate(),
-        icon: 'password',
-        class: 'material-icons-outlined',
-        text: 'header.profanity-filter',
-        callback: () => this.toggleProfanityFilter(),
-        condition: () => this.userRole > UserRole.PARTICIPANT,
-      });
-      e.menuItem({
-        translate: this.headerService.getTranslate(),
-        icon: 'room_preferences',
-        class: 'material-icons-round settings',
-        text: 'room-list.settings-overview',
-        callback: () => {
-          const ref = this.dialog.open(RoomSettingsOverviewComponent, {
-            width: '600px',
-          });
-          ref.componentInstance.room = this.room;
-        },
-        condition: () => this.userRole > UserRole.PARTICIPANT,
-      });
-      e.altToggle(
-        {
+    this._list = this.composeService.builder(
+      this.headerService.getHost(),
+      (e) => {
+        e.menuItem({
           translate: this.headerService.getTranslate(),
-          text: 'header.block',
-          icon: 'comments_disabled',
+          icon: 'visibility_off',
+          class: 'material-icons-outlined',
+          isSVGIcon: false,
+          text: 'header.moderation-mode',
+          callback: () => this.showCommentsDialog(),
+          condition: () => this.userRole > UserRole.PARTICIPANT,
+        });
+        e.menuItem({
+          translate: this.headerService.getTranslate(),
+          icon: 'forum',
+          class: 'material-icons-outlined',
+          isSVGIcon: false,
+          text: 'header.conversation',
+          callback: () => this.showToggleConversationDialog(),
+          condition: () => this.userRole > UserRole.PARTICIPANT,
+        });
+        e.menuItem({
+          translate: this.headerService.getTranslate(),
+          icon: 'sell',
+          class: 'material-icons-outlined',
+          isSVGIcon: false,
+          text: 'header.edit-tags',
+          callback: () => this.showTagsDialog(),
+          condition: () => this.userRole > UserRole.PARTICIPANT,
+        });
+        e.menuItem({
+          translate: this.headerService.getTranslate(),
+          icon: 'grade',
+          class: 'material-icons-round',
+          iconColor: Palette.YELLOW,
+          text: 'header.bonustoken',
+          callback: () => this.showBonusTokenDialog(),
+          condition: () =>
+            this.userRole > UserRole.PARTICIPANT &&
+            this.room?.bonusArchiveActive,
+        });
+        e.menuItem({
+          translate: this.headerService.getTranslate(),
+          icon: 'file_download',
+          class: 'material-icons-outlined',
+          text: 'header.export-questions',
+          callback: () => this.exportQuestions(),
+          condition: () => this.userRole >= UserRole.PARTICIPANT,
+        });
+        e.menuItem({
+          translate: this.headerService.getTranslate(),
+          icon: 'file_upload',
+          class: 'material-icons-outlined',
+          text: 'header.import-questions',
+          callback: () => this.importQuestions().subscribe(),
+          condition: () =>
+            (this.roomDataService.dataAccessor.currentRawComments()?.length ||
+              0) +
+              (this.roomDataService.moderatorDataAccessor.currentRawComments()
+                ?.length || 0) ===
+              0 &&
+            this.user.id === this.room.ownerId &&
+            this.userRole > UserRole.PARTICIPANT,
+        });
+        e.menuItem({
+          translate: this.headerService.getTranslate(),
+          icon: 'article',
+          class: 'material-icons-outlined',
+          text: 'header.edit-session-description',
+          callback: () => this.editSessionDescription(),
+          condition: () => this.userRole > UserRole.PARTICIPANT,
+        });
+        e.menuItem({
+          translate: this.headerService.getTranslate(),
+          icon: 'password',
+          class: 'material-icons-outlined',
+          text: 'header.profanity-filter',
+          callback: () => this.toggleProfanityFilter(),
+          condition: () => this.userRole > UserRole.PARTICIPANT,
+        });
+        e.menuItem({
+          translate: this.headerService.getTranslate(),
+          icon: 'room_preferences',
+          class: 'material-icons-round settings',
+          text: 'room-list.settings-overview',
+          callback: () => {
+            const ref = this.dialog.open(RoomSettingsOverviewComponent, {
+              width: '600px',
+            });
+            ref.componentInstance.room = this.room;
+          },
+          condition: () => this.userRole > UserRole.PARTICIPANT,
+        });
+        e.menuItem({
+          translate: this.headerService.getTranslate(),
+          icon: 'smart_toy',
+          class: 'material-icons-outlined settings',
+          text: 'header.gpt-settings',
+          callback: () => {
+            GptRoomSettingsComponent.open(
+              this.dialog,
+              this.room,
+              this.userRole,
+            );
+          },
+          condition: () => this.userRole > UserRole.PARTICIPANT,
+        });
+        e.altToggle(
+          {
+            translate: this.headerService.getTranslate(),
+            text: 'header.block',
+            icon: 'comments_disabled',
+            class: 'material-icons-outlined',
+            iconColor: Palette.RED,
+            color: Palette.RED,
+          },
+          {
+            translate: this.headerService.getTranslate(),
+            text: 'header.unlock',
+            icon: 'comments_disabled',
+            class: 'material-icons-outlined',
+            iconColor: Palette.RED,
+          },
+          ArsObserver.build<boolean>((ev) => {
+            ev.set(this.room.questionsBlocked);
+            ev.onChange((a) => {
+              this.roomService
+                .patchRoom(this.room.id, { questionsBlocked: a.get() })
+                .subscribe();
+              if (a.get()) {
+                this.headerService
+                  .getTranslate()
+                  .get('header.questions-blocked')
+                  .subscribe((msg) => {
+                    this.headerService.getNotificationService().show(msg);
+                  });
+              }
+            });
+          }),
+          () => this.userRole > UserRole.PARTICIPANT,
+        );
+        e.menuItem({
+          translate: this.headerService.getTranslate(),
+          icon: 'delete_sweep',
           class: 'material-icons-outlined',
           iconColor: Palette.RED,
-          color: Palette.RED
-        },
-        {
+          text: 'header.delete-questions',
+          callback: () => this.deleteQuestions(),
+          condition: () => this.userRole > UserRole.PARTICIPANT,
+        });
+        e.menuItem({
           translate: this.headerService.getTranslate(),
-          text: 'header.unlock',
-          icon: 'comments_disabled',
+          icon: 'delete',
           class: 'material-icons-outlined',
-          iconColor: Palette.RED
-        },
-        ArsObserver.build<boolean>(ev => {
-          ev.set(this.room.questionsBlocked);
-          ev.onChange(a => {
-            this.roomService.patchRoom(this.room.id, { questionsBlocked: a.get() }).subscribe();
-            if (a.get()) {
-              this.headerService.getTranslate().get('header.questions-blocked').subscribe(msg => {
-                this.headerService.getNotificationService().show(msg);
-              });
-            }
-          });
-        }),
-        () => this.userRole > UserRole.PARTICIPANT
-      );
-      e.menuItem({
-        translate: this.headerService.getTranslate(),
-        icon: 'delete_sweep',
-        class: 'material-icons-outlined',
-        iconColor: Palette.RED,
-        text: 'header.delete-questions',
-        callback: () => this.deleteQuestions(),
-        condition: () => this.userRole > UserRole.PARTICIPANT
-      });
-      e.menuItem({
-        translate: this.headerService.getTranslate(),
-        icon: 'delete',
-        class: 'material-icons-outlined',
-        iconColor: Palette.RED,
-        isSVGIcon: false,
-        text: 'header.delete-room',
-        callback: () => this.openDeleteRoomDialog(),
-        condition: () => this.userRole === UserRole.CREATOR
-      });
-    });
+          iconColor: Palette.RED,
+          isSVGIcon: false,
+          text: 'header.delete-room',
+          callback: () => this.openDeleteRoomDialog(),
+          condition: () => this.userRole === UserRole.CREATOR,
+        });
+      },
+    );
   }
-
 }

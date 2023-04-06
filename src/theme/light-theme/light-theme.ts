@@ -1,16 +1,15 @@
 import { ThemeMeta } from '../Theme';
 
 export const arsnova = {
-
   '--primary': 'darkblue',
   '--primary-variant': 'blanchedalmond',
 
   '--secondary': 'darkcyan',
   '--secondary-variant': 'lightgreen',
 
-  '--background': 'AliceBlue',
-  '--surface': 'mintcream',
-  '--dialog': 'ivory',
+  '--background': 'ivory',
+  '--surface': 'bisque',
+  '--dialog': 'cornsilk',
   '--cancel': 'red',
   '--alt-surface': '#eeeeee',
   '--alt-dialog': 'aliceblue',
@@ -38,12 +37,21 @@ export const arsnova = {
 
   '--questionwall-intro-primary': 'darkorange',
   '--questionwall-intro-secondary': 'white',
-  '--questionwall-intro-background': '#121212'
+  '--questionwall-intro-background': '#121212',
 
+  '--livepoll-vote-foreground': '#FFFFFF',
+  '--livepoll-vote-background': '#8a2be2',
+  '--livepoll-vote-foreground-hover': '#FFFFFF',
+  '--livepoll-vote-background-hover': '#ff0000',
+  '--livepoll-vote-foreground-active': '#FFFFFF',
+  '--livepoll-vote-background-active': '#ff8c00',
+  '--livepoll-vote-foreground-active-hover': '#FFFFFF',
+  '--livepoll-vote-background-active-hover': '#ff0000',
+  '--livepoll-bar-foreground': '#FFFFFF',
+  '--livepoll-bar-background': '#ff8c00',
 };
 
 export const arsnova_meta: ThemeMeta = {
-
   translation: {
     name: {
       en: 'Light mode',
@@ -59,5 +67,4 @@ export const arsnova_meta: ThemeMeta = {
   previewColor: 'background',
   icon: 'light',
   highlightJsClass: 'a11y-dark.css',
-
 };

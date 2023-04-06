@@ -28,6 +28,7 @@ export interface ForumData {
 }
 
 export interface ForumComment extends Comment, ForumData {
+  highlighted: boolean;
   removed: boolean;
   created: boolean;
   globalBookmark?: boolean;
@@ -143,6 +144,7 @@ const SIMPLE_PATCH_PROPERTIES: Set<keyof Comment> = new Set([
   'upvotes',
   'downvotes',
   'tag',
+  'approved',
 ]);
 
 export class DataAccessor {
@@ -238,7 +240,9 @@ export class DataAccessor {
     this._userBookmarks = userBookmarks;
     this._filter = profanityFilter;
     // migrate comments
-    const forumComments: ForumComment[] = comments.map((c) => this.toForumComment(c));
+    const forumComments: ForumComment[] = comments.map((c) =>
+      this.toForumComment(c),
+    );
     // apply profanity filtering and register in cache
     for (const comment of forumComments) {
       this._fastAccess[comment.id] = profanityFilter.filterComment(comment);

@@ -1,7 +1,6 @@
 import { ThemeMeta } from '../Theme';
 
 export const purple = {
-
   '--primary': '#00324a',
   '--primary-variant': 'white',
 
@@ -36,14 +35,23 @@ export const purple = {
   '--black': 'black',
   '--moderator': 'lightsalmon',
 
-  '--questionwall-intro-primary':'darkorange',
-  '--questionwall-intro-secondary':'#eadabf',
-  '--questionwall-intro-background':'#121212'
+  '--questionwall-intro-primary': 'darkorange',
+  '--questionwall-intro-secondary': '#eadabf',
+  '--questionwall-intro-background': '#121212',
 
+  '--livepoll-vote-foreground': '#FFFFFF',
+  '--livepoll-vote-background': '#8a2be2',
+  '--livepoll-vote-foreground-hover': '#FFFFFF',
+  '--livepoll-vote-background-hover': '#ff0000',
+  '--livepoll-vote-foreground-active': '#FFFFFF',
+  '--livepoll-vote-background-active': '#ff8c00',
+  '--livepoll-vote-foreground-active-hover': '#FFFFFF',
+  '--livepoll-vote-background-active-hover': '#ff0000',
+  '--livepoll-bar-foreground': '#FFFFFF',
+  '--livepoll-bar-background': '#ff8c00',
 };
 
 export const purple_meta: ThemeMeta = {
-
   translation: {
     name: {
       en: 'Presentation',
@@ -59,5 +67,4 @@ export const purple_meta: ThemeMeta = {
   previewColor: 'background',
   icon: 'co_present',
   highlightJsClass: 'a11y-dark.css',
-
 };

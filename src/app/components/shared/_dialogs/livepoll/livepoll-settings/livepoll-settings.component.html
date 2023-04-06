@@ -1,0 +1,63 @@
+<mat-accordion class="accordion">
+  <mat-expansion-panel class="settings-expansion-panel">
+    <mat-expansion-panel-header>
+      <mat-panel-title class="settings-panel-title">
+        {{ parent.translateKey + ".creator-settings" | translate }}
+      </mat-panel-title>
+      <mat-panel-description
+        [ngClass]="
+          'settings-panel-description-' +
+          (parent.device.isCurrentlyDesktop ? 'desktop' : 'mobile')
+        ">
+        <mat-icon>
+          {{ parent.translateKey + ".creator-settings-icon" | translate }}
+        </mat-icon>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <div class="settings-panel-container">
+      <mat-form-field appearance="outline">
+        <mat-label>
+          {{ parent.translateKey + ".option-select-title" | translate }}
+        </mat-label>
+        <input
+          matInput
+          [(ngModel)]="parent.livepollSession.title" />
+      </mat-form-field>
+      <mat-slide-toggle
+        [matTooltip]="
+          parent.translateKey + '.tooltip-option-select-result-visibility'
+            | translate
+        "
+        [(ngModel)]="parent.livepollSession.resultVisible">
+        {{
+          parent.translateKey + ".option-select-result-visibility" | translate
+        }}
+      </mat-slide-toggle>
+      <mat-slide-toggle
+        [matTooltip]="
+          parent.translateKey + '.tooltip-option-select-views-visibility'
+            | translate
+        "
+        [(ngModel)]="parent.livepollSession.viewsVisible">
+        {{
+          parent.translateKey + ".option-select-views-visibility" | translate
+        }}
+      </mat-slide-toggle>
+    </div>
+    <div class="expansion-action-list">
+      <button
+        *ngIf="parent.isProduction"
+        class="button-save"
+        mat-flat-button
+        (click)="parent.save()">
+        <mat-icon class="force-corporate-design">cloud_upload</mat-icon>
+        <span
+          class="force-corporate-design"
+          style="margin-left: 4px"
+          *ngIf="parent.device.isCurrentlyDesktop">
+          {{ parent.translateKey + ".save" | translate }}
+        </span>
+      </button>
+    </div>
+  </mat-expansion-panel>
+</mat-accordion>

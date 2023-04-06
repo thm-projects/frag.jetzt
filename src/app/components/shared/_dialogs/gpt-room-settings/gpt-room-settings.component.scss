@@ -1,0 +1,62 @@
+.primary-btn {
+  background-color: transparent;
+  color: var(--primary);
+  outline: var(--primary) solid 3px;
+  width: 100%;
+  margin-top: 10px;
+
+  &:hover {
+    background-color: var(--primary);
+    color: var(--on-primary);
+  }
+}
+
+.mat-form-field,
+.mat-slide-toggle {
+  width: 100%;
+}
+
+.keyword-item {
+  color: var(--on-surface);
+
+  ::ng-deep .mat-list-item-content {
+    flex-wrap: wrap;
+  }
+
+  div[matListItemTitle] {
+    width: 100%;
+  }
+
+  div[matlistitemline] {
+    font-style: italic;
+    font-size: 0.9em;
+  }
+
+  .mat-icon-button {
+    font-size: 1em;
+    width: 2.5em;
+    height: 2.5em;
+    line-height: 2.5em;
+    margin-top: -0.2em;
+    position: absolute;
+    right: 0;
+  }
+}
+
+.time-select,
+.repeat-select {
+  display: flex;
+  justify-content: space-evenly;
+  margin: 1em 0;
+}
+
+::ng-deep mat-datepicker-toggle,
+::ng-deep .mat-date-range-input-separator {
+  color: var(--on-surface) !important;
+}
+
+
+mat-list mat-list-item:nth-child(2n + 1) {
+  background-color: var(--surface);
+  color: var(--on-surface);
+}

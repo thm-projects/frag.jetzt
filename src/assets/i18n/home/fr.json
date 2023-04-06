@@ -174,6 +174,8 @@
     "style": "Choix du design"
   },
   "header": {
+    "livepoll": "Sondage flash",
+    "livepoll-button": "Créer des sondages et notifier automatiquement tous les participants.",
     "back-button": "Retour",
     "tour-button": "Introduction de 2 minutes",
     "sign-in-button": "Se connecter avec un compte",
@@ -181,6 +183,7 @@
     "question-radar-button": "Découvrir des questions intéressantes",
     "question-focus-button": "Afficher les questions une par une",
     "quiz-rally-button": "Aller au quiz du jeu …",
+    "chat-gpt-button": "Demande à ChatGPT et choisis parmi des centaines de prompts !",
     "options-button": "Qu'est-ce que je peux faire ici ?",
     "QR": "Code QR de la session en plein écran",
     "abort": "Annuler",
@@ -231,6 +234,7 @@
     "direct-link": "Lien direct",
     "edit-moderator": "Modérateur",
     "edit-session-description": "Texte de bienvenue",
+    "gpt-settings": "Paramètres ChatGPT",
     "edit-tags": "Catégories de questions",
     "export-questions": "Exporter les Q&R",
     "fullscreen": "Plein écran & taille du texte",
@@ -248,11 +252,12 @@
     "moderationboard": "Modération",
     "motd": "Actualités",
     "my-account": "Options",
+    "chatroom-options-menu": "Prompt à l'emploi",
     "my-sessions": "Mes salles",
     "navigation": "Navigation [{{loc}}]",
     "navigation-no-target": "Navigation",
     "not-in-own-view": "Tu te trouves actuellement dans la vue des participants. Dans les options, tu peux revenir à ta vue.",
-    "open-admin": "Créer un message",
+    "open-admin": "Administration",
     "overview-admin-config-enabled": "Les seuils pour l'affichage des sujets sont actifs.",
     "overview-keywords-tooltip": "Nombre de mots-clés",
     "overview-question-tooltip": "Nombre de questions",
@@ -261,6 +266,16 @@
     "overview-ideas-tooltip": "Nombre d'idées",
     "own-view": "Retourner à ta vue",
     "profanity-filter": "Filtre de profanation",
+    "prompt-guide": "Prompt guide",
+    "preset-context": "Contexte",
+    "preset-topic": "Sujet",
+    "preset-persona": "Persona",
+    "preset-language": "Langue",
+    "preset-formality": "Type de salutation",
+    "preset-tone": "Ton de la voix",
+    "preset-length": "Longueur",
+    "chat-self-description": "Description de soi",
+    "chat-answer-format": "Format de réponse",
     "question-board": "Forum de questions-réponses",
     "question-wall": "Présenter les questions",
     "questions-blocked": "Questions bloquées",
@@ -269,7 +284,9 @@
     "really-delete-account": "Veux-tu supprimer irrévocablement ton compte avec toutes les salles ? Si tu as attribué des bonus (étoiles), exporte les questions afin de pouvoir vérifier les codes bonus soumis.",
     "regular-user-view": "Vue des participants",
     "room-qr": "Code QR",
-    "room-presets": "Mon nom de forum",
+    "room-presets": "Mon pseudonyme Q&R",
+    "gpt-user-description": "Profile personnel ChatGPT",
+    "my-profile": "Mon profile",
     "session-id-copied": "Le lien direct pour les participants a été copié dans le cache du navigateur.",
     "sure": "Tu en es sûr ?",
     "tag-cloud": "Radar à questions",
@@ -290,7 +307,15 @@
     "zoom-exit": "Quitter la vue complète",
     "zoom-minus": "Réduire la taille du texte",
     "zoom-plus": "Agrandir la taille du texte",
-    "zoom-reset": "Réinitialiser le niveau de zoom"
+    "zoom-reset": "Réinitialiser le niveau de zoom",
+    "gpt-chat": "Chat avec ChatGPT",
+    "gpt-privacy-policy": "Protection des données",
+    "gpt-prompts": "Mes prompts ChatGPT"
+  },
+  "gpt-chat": {
+    "optin-accept": "Accepter",
+    "optin-reject": "Refuser",
+    "privacy-policy": "ChatGPT Politique de confidentialité"
   },
   "help": {
     "cancel": "Fermer",
@@ -341,7 +366,8 @@
     "comment-list-title": "Les cas d'utilisation du forum Q&R",
     "moderation-title": "Les cas d'utilisation de la modération",
     "room-list-title": "Les cas d'utilisation de la liste des salles",
-    "room-page-title": "Les cas d'utilisation de la salle"
+    "room-page-title": "Les cas d'utilisation de la salle",
+    "prompt-guide-chatbot": "Communiquer efficacement avec ChatGPT"
   },
   "joyride": {
     "cantAccessRoute": "Cet itinéraire n'est pas disponible. La visite est annulée.",
@@ -367,7 +393,8 @@
     "step": "{{step}} / {{total}}"
   },
   "login": {
-    "activation-key": "Clé d'activation",
+    "not-authorized": "Tu n'es pas autorisé à voir cette page.",
+    "activation-key": "Code d'activation …",
     "cancel": "Annuler",
     "cancel-description": "Annuler",
     "email": "E-mail",
@@ -382,6 +409,8 @@
     "input-incorrect": "Vérifie tes données, s'il te plaît.",
     "login": "Se connecter avec un compte",
     "login-data-incorrect": "E-mail ou mot de passe incorrect",
+    "login-data-expired": "Ton mot de passe a expiré, demande-en un nouveau.",
+    "login-error-unknown": "Erreur inconnue: {{code}}",
     "login-description": "Se connecter avec les données de compte saisies",
     "login-successful": "Tu es maintenant connecté.",
     "login-tooltip": "La session est enregistrée pendant 180 jours.",
@@ -389,13 +418,13 @@
     "password": "Mot de passe",
     "password-description": "Saisis ici ton mot de passe.",
     "password-required": "Mot de passe nécessaire",
-    "password-reset": "Nouveau mot de passe",
+    "password-reset": "Nouveau mot de passe …",
     "register": "S'inscrire",
-    "restart-account-activation-button": "Demander une nouvelle clé",
-    "restart-account-activation-correct": "La clé d'activation a été envoyée.",
-    "restart-account-activation-tooltip": "Envoie une nouvelle clé d'activation à ton adresse.",
+    "restart-account-activation-button": "Demander un nouveau code",
+    "restart-account-activation-correct": "Le code d'activation a été envoyée.",
+    "restart-account-activation-tooltip": "Envoie un nouveau code d'activation à ton adresse.",
     "welcome": "Des questions ?",
-    "welcome-feedback": "➤ Écris aux développeurs de « frag.jetzt »",
+    "welcome-feedback": "➤ Écris à l'équipe de « frag.jetzt »",
     "welcome-subtitle": "Anonyme | à l'intérieur du navigateur | gratuit"
   },
   "login-dialog": {
@@ -450,8 +479,8 @@
   "password-reset": {
     "a11y-new_password1": "Saisis ici ton nouveau mot de passe.",
     "a11y-new_password2": "Saisis à nouveau ton nouveau mot de passe ici.",
-    "a11y-password_reset_button": "Envoie à l'e-mail saisi une clé de réinitialisation du mot de passe qui permet de créer un nouveau mot de passe.",
-    "a11y-password_reset_key": "Saisis ici la clé de réinitialisation du mot de passe que tu as reçue par e-mail.",
+    "a11y-password_reset_button": "Envoie à l'e-mail saisi le code de confirmation qui permet de créer un nouveau mot de passe.",
+    "a11y-password_reset_key": "Saisis ici code de confirmation que tu as reçue par e-mail.",
     "a11y-password_set_button": "Définit le nouveau mot de passe",
     "a11y-password_set_email": "Saisis ici ton adresse mail pour créer un nouveau mot de passe.",
     "cancel": "Annuler",
@@ -460,22 +489,23 @@
     "email-description": "Saisis ici ton adresse mail pour réinitialiser ton mot de passe.",
     "email-invalid": "Adresse mail non valide",
     "email-required": "Adresse mail requise",
-    "forgot-password": "Tu as oublié ton mot de passe ?",
+    "forgot-password": "Demande le code de confirmation pour un nouveau mot de passe :",
     "input-incorrect": "Vérifie tes données, s'il te plaît.",
-    "key": "Clé de réinitialisation du mot de passe",
-    "key-required": "Clé de réinitialisation du mot de passe requise",
+    "key": "Code de confirmation de passe",
+    "key-required": "Code de confirmation requise",
     "new-password": "Nouveau mot de passe",
-    "new-password-key-expired": "La clé a expiré, le processus doit être redémarré.",
-    "new-password-key-invalid": "La clé n'est pas valide.",
+    "new-password-key-expired": "Le code de confirmation a expiré, le processus doit être redémarré.",
+    "new-password-key-invalid": "Le code de confirmation n'est pas valide.",
     "new-password-successful": "Ton nouveau mot de passe a été créé.",
     "reset-button-description": "Réinitialise le mot de passe du compte.",
     "reset-failed-because-of-activation-process": "La réinitialisation a échoué, le processus d'activation est en cours.",
-    "reset-password": "Réinitialiser le mot de passe",
+    "reset-password": "Demander le code de confirmation",
     "reset-password-description": "Tu peux réinitialiser ton mot de passe ici.",
     "reset-successful": "Si un compte existe avec cette adresse mail, un message a été envoyé.",
     "set-button-description": "Crée le nouveau mot de passe pour le compte",
-    "set-new-password": "Crée un nouveau mot de passe à l'aide du code clé qui t'a été envoyé :",
-    "set-new-password-button": "Créer le mot de passe"
+    "set-new-password": "Définis un nouveau mot de passe à l'aide du code de confirmation que tu as reçu dans ta boîte aux lettres :",
+    "set-new-password-button": "Enregistrer le nouveau mot de passe",
+    "new-password-is-old" : "Le nouveau mot de passe doit être différent de l'ancien."
   },
   "qr-dialog": {
     "session": "Code ",
@@ -493,16 +523,41 @@
     "email-verify": "Répéter l'adresse mail",
     "forgot-password": "Mot de passe oublié ?",
     "password": "Mot de passe",
+    "new-password": "Nouveau mot de passe",
     "password-description": "Saisis ici le mot de passe que tu souhaites utiliser pour t'inscrire.",
     "password-description-repeat": "Saisis à nouveau le mot de passe que tu souhaites utiliser pour t'inscrire, afin de t'assurer que tu n'as pas fait de faute de frappe.",
     "password-required": "Mot de passe nécessaire",
+    "password-length-invalid": "Doit comporter 12 à 64 caractères",
+    "password-no-number": "Doit contenir un nombre",
+    "password-no-lowercase": "Doit contenir une lettre minuscule",
+    "password-no-uppercase": "Doit contenir une majuscule",
+    "password-no-special-character": "Doit contenir l'un des caractères spéciaux",
+    "password-too-similar": "Ressemble trop à l'e-mail",
     "password-unmatch": "Les mots de passe ne correspondent pas.",
-    "password-verify": "Répéter le mot de passe",
+    "password-verify": "Répéter le mot de passe …",
     "register": "S'inscrire",
     "register-description": "Terminer l'enregistrement",
     "register-request-error": "Quelque chose s'est mal passé lors de l'enregistrement. Tu t'es peut-être déjà enregistré ?",
     "register-successful": "Enregistré avec succès. Vérifie ta boîte de réception !",
-    "register-unsuccessful": "Vérifie tes données, s'il te plaît."
+    "register-error-password-too-common": "Le mot de passe est composé en grande partie de chaînes de caractères faciles à deviner. Veuillez choisir un autre mot de passe.",
+    "register-unsuccessful": "Vérifie tes données, s'il te plaît.",
+    "password-generator": "Générateur de mots de passe"
+  },
+  "password-generator": {
+    "title": "Générateur de mots de passe",
+    "password-length": "Longueur du mot de passe",
+    "password-input": "Saisie du mot de passe",
+    "regenerate": "Créer un mot de passe sûr",
+    "cancel": "Annuler",
+    "copy-and-confirm": "Copier et insérer le mot de passe",
+    "eternity": "Ton mot de passe est très très sûr.",
+    "duration": "Ton mot de passe peut être déchiffré {{text}}.",
+    "copy-password": "Copier le mot de passe",
+    "err-required": "Tu dois saisir un chiffre",
+    "err-min": "Le mot de passe doit avoir une longueur minimale de 12 caractères",
+    "err-max": "Le mot de passe ne doit pas dépasser 64 caractères",
+    "copy-success": "Mot de passe copié",
+    "copy-fail": "Le mot de passe n'a pas pu être copié"
   },
   "remind-of-tokens": {
     "cancel": "Vers mes tokens",
@@ -585,6 +640,8 @@
     "settings-overview": "Réglages de la salle"
   },
   "room-settings-overview": {
+    "livepoll-enabled": "Activer sondage en direct",
+    "tooltip-livepoll-enabled": "Créer des sondages et informer automatiquement tous les participants. Les résultats des deux sondages peuvent être comparés ultérieurement.",
     "a11y-bonus-archive-enabled": "Curseur pour activer l'archive de bonus.",
     "a11y-brainstorming-enabled": "Curseur pour autoriser le brainstorming.",
     "a11y-conversation-enabled": "Curseur pour débloquer les conversations dans cette salle.",
@@ -628,7 +685,7 @@
   },
   "title": {
     "attach-title": "frag.jetzt {{attachment}}",
-    "default-title": "frag.jetzt : Collecter, évaluer et présenter des questions"
+    "default-title": "frag.jetzt & ChatGPT : où les questions trouvent leurs réponses !"
   },
   "token-validator": {
     "bonus-token-header": "Archive de bonus",
@@ -669,7 +726,7 @@
     "questions-title": "Quelles sont les questions que tu aimerais avoir sur le radar ?"
   },
   "unsupported-browser": {
-    "body": "Les fonctionnalités « Tour de l'onboarding », « Focus sur les questions », « Horloge à saut de minutes », « Plein écran et mise à l'échelle du texte » ainsi que certaines options d'affichage ne sont pas disponibles dans le navigateur Safari. S'il te plaît, utilise Google Chrome, Mozilla Firefox ou Microsoft Edge.",
+    "body": "Malheureusement, le navigateur Safari ne prend pas en charge toutes les fonctionnalités de la norme CSS nécessaires aux fonctions « Focalisation des questions » et « Plein écran et mise à l'échelle du texte ». Nous vous recommandons donc d'utiliser Google Chrome ou Microsoft Edge.",
     "close": "Continuer quand même",
     "title": "Remarque Safari"
   },
@@ -678,7 +735,7 @@
     "activate-description": "Active le compte",
     "activation-key": "Clé d'activation",
     "activation-key-incorrect": "Clé d'activation incorrecte",
-    "activation-key-input-description": "Saisis ici la clé d'activation que tu as reçue par e-mail.",
+    "activation-key-input-description": "Saisis ici le code de confirmation que tu as reçue par e-mail.",
     "activation-key-required": "Clé d'activation nécessaire",
     "cancel": "Annuler",
     "cancel-description": "Annuler"
@@ -716,5 +773,80 @@
     "inline-header": "Mises à jour des mots-clés en cours",
     "room-name": "Salle",
     "running": "Mots clés …"
+  },
+  "pseudonym-editor": {
+    "name": "Utilisé lors de la post …",
+    "title": "Mon nom de forum",
+    "deepl": "Tutoyer ou vouvoyer ?",
+    "update": "Enregistrer",
+    "cancel": "Annuler"
+  },
+  "gpt-user-description": {
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "title": "Description personnelle pour GPT",
+    "user-description": "Description personnelle",
+    "token-info": "{{tokens}} / {{maxLength}} Tokens"
+  },
+  "deepl-formality-select": {
+    "default": "Préréglage",
+    "error": "Le texte n'a pas pu être mis à jour.",
+    "less": "Informel",
+    "more": "Formel",
+    "name": "Style"
+  },
+  "quill": {
+    "cancel": "Annuler",
+    "heading": "Saisie",
+    "preview": "Aperçu",
+    "tooltip-action": "Éditer",
+    "tooltip-action-save": "Enregistrer",
+    "tooltip-label": "Visiter le lien …",
+    "tooltip-label-formula": "Saisir une formule KaTeX, par exemple …",
+    "tooltip-label-image": "Saisir l'URL de l'image …",
+    "tooltip-label-link": "Saisir le lien …",
+    "tooltip-label-video": "Saisir l'URL d'une vidéo …",
+    "tooltip-placeholder-formula": "Nous soutenons le jeu de formules KaTeX.",
+    "tooltip-placeholder-image": "L'adresse de l'image doit commencer par https:// …",
+    "tooltip-placeholder-link": "L'adresse doit commencer par https://. …",
+    "tooltip-placeholder-video": "L'adresse de la vidéo doit commencer par https:// …",
+    "tooltip-remove": "Oui",
+    "tooltip-toolbar-blockquote": "Citer",
+    "tooltip-toolbar-bold": "En gras",
+    "tooltip-toolbar-italic": "En italique",
+    "tooltip-toolbar-code": "Marquer comme code source",
+    "tooltip-toolbar-color": "Couleur du texte",
+    "tooltip-toolbar-emote": "Insérer un emoji",
+    "tooltip-toolbar-formula": "Insérer une formule",
+    "tooltip-toolbar-image": "Insérer une image",
+    "tooltip-toolbar-link": "Lier le texte sélectionné",
+    "tooltip-toolbar-ordered-list": "Liste numérotée",
+    "tooltip-toolbar-strike": "Barrer",
+    "tooltip-toolbar-textcolor": "Couleur du texte",
+    "tooltip-toolbar-unordered-list": "Liste à puces",
+    "tooltip-toolbar-video": "Insérer une vidéo"
+  },
+  "chat-gptprompt-preset": {
+    "title": "Prompts pour ChatGPT",
+    "search-prompt": "Recherche de prompt ou nouvelle prompt",
+    "found-acts": "Résultats trouvés dans »Agir en tant que ...« ({{count}})",
+    "found-prompts": "Hits dans Prompts ({{count}})",
+    "token-info": "tokens : {{promptTokens}}",
+    "placeholder-edit-preset": "Modifie ici ton prompt",
+    "save": "Enregistrer",
+    "delete": "Supprimer",
+    "an-error-occured": "Quelque chose a mal tourné !",
+    "delete-success": "Prompt a été supprimé.",
+    "add-success": "Prompt a été ajouté.",
+    "already-present": "Le prompt existe déjà, modifie son nom. Ou sélectionne le prompt correspondant.",
+    "patch-success": "Les modifications ont été enregistrées.",
+    "no-patch-needed": "Aucune modification n'a été apportée.",
+    "no-prompt-selected": "Aucune invite n'a été sélectionnée.",
+    "enter-prompt-name": "Veuillez saisir un nom."
+  },
+  "gptchat-info": {
+    "title": "ChatGPT",
+    "content": "ChatGPT est la solution parfaite pour répondre automatiquement à une question dans le forum Q&A. Tu peux même créer tes propres prompts ou choisir parmi des centaines de prompts prédéfinis celui qui convient le mieux. Pour utiliser ChatGPT, tu n'as besoin que d'un compte sur frag.jetzt et d'une [clé API d'OpenAI](https://platform.openai.com).\n\nVoici comment ça marche en seulement deux étapes:\n\n1. Inscris-toi sur frag.jetzt, connecte-toi et réserve une salle.\n\n2. Ajoute la [clé API d'OpenAI](https://platform.openai.com) dans le menu Options de ta salle et c'est parti !\n\nTa clé API est stockée en sécurité sur notre serveur et ton mot de passe frag.jetzt est également en sécurité. De plus, tu peux limiter le nombre de tokens et les coûts de ton API sur une durée limitée si tu veux utiliser ChatGPT dans ta salle. Tu trouveras toutes les options dans le menu Options de ta salle.\n\nCommence dès maintenant avec un crédit de 5 $ que tu peux utiliser pendant les trois premiers mois. Selon le modèle de langue que tu choisis, tu peux utiliser ce crédit pour des millions de tokens (1 token correspond à environ 5-7 caractères) pour des demandes ChatGPT.",    
+    "cancel": "Fermer"
   }
 }

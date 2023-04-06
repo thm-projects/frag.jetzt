@@ -1,0 +1,35 @@
+<h3>{{ "gpt-user-description.title" | translate }}</h3>
+
+<mat-dialog-content *ngIf="!isLoading; else loading">
+  <mat-form-field>
+    <mat-label>
+      {{ "gpt-user-description.user-description" | translate }}
+    </mat-label>
+    <textarea
+      style="min-height: 10em"
+      matInput
+      [formControl]="descriptionFormControl"></textarea>
+    <mat-hint align="end">
+      <span aria-hidden="true">
+        {{
+          "gpt-user-description.token-info"
+            | translate
+              : { maxLength: maxLength, tokens: descriptionTokenLength }
+        }}
+      </span>
+    </mat-hint>
+  </mat-form-field>
+</mat-dialog-content>
+
+<app-dialog-action-buttons
+  [buttonsLabelSection]="'gpt-user-description'"
+  [confirmButtonLabel]="'save'"
+  [cancelButtonClickAction]="buildCancelAction()"
+  [confirmButtonClickAction]="buildConfirmAction()"></app-dialog-action-buttons>
+
+<ng-template #loading>
+  <app-mat-spinner-overlay
+    color="on-surface"
+    diameter="40"
+    strokeWidth="5"></app-mat-spinner-overlay>
+</ng-template>

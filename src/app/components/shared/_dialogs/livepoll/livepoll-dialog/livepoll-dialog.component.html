@@ -1,0 +1,194 @@
+<div
+  class="dialog-title"
+  *ngIf="isProduction">
+  <p mat-dialog-title>{{ translateKey + ".dialog-title" | translate }}</p>
+</div>
+<mat-dialog-content
+  class="content"
+  *ngIf="livepollSession">
+  <ng-container
+    *ngIf="session.currentRole && livepollSession.active && !isConclusion">
+    <app-livepoll-settings [parent]="this"></app-livepoll-settings>
+  </ng-container>
+
+  <div class="title-container">
+    <p
+      class="preview-title"
+      *ngIf="!isProduction">
+      {{ translateKey + ".dialog-preview-title" | translate }}
+    </p>
+    <p
+      class="custom-title"
+      *ngIf="livepollSession.title">
+      {{ livepollSession.title }}
+    </p>
+  </div>
+
+  <div class="info-container">
+    <div
+      @AnimateInOut
+      *ngIf="livepollSession.viewsVisible">
+      <span>{{ translateKey + ".participants" | translate }}</span>
+      <span>{{ userCount }}</span>
+    </div>
+    <div
+      @AnimateInOut
+      *ngIf="livepollSession.resultVisible">
+      <span>{{ translateKey + ".votes" | translate }}</span>
+      <span>{{ totalVotes }}</span>
+    </div>
+  </div>
+
+  <div class="result-settings-container">
+    <!-- relative / absolute settings -->
+  </div>
+
+  <ng-container *ngIf="options && livepollSession.resultVisible">
+    <app-livepoll-statistic
+      @AnimateInOut
+      [options]="this.options"
+      [template]="this.template"
+      [translateKey]="this.translateKey"
+      [votes]="this.votes"
+      [totalVotes]="this.totalVotes"></app-livepoll-statistic>
+  </ng-container>
+
+  <div
+    class="vote-container"
+    *ngIf="!isConclusion && livepollSession.active">
+    <div
+      [ngClass]="'reverse-' + !!template.reverse + ' grid-' + template.isGrid"
+      [ngStyle]="{ 'grid-template-rows': 'repeat(' + rowHeight + ',1fr)' }"
+      *ngIf="template">
+      <ng-container *ngIf="template.symbols">
+        <ng-container *ngFor="let symbol of template.symbols; index as i">
+          <ng-container
+            *ngTemplateOutlet="
+              option;
+              context: {
+                i: i,
+                symbol: symbol
+              }
+            "></ng-container>
+        </ng-container>
+      </ng-container>
+      <ng-container *ngIf="template.length">
+        <ng-container
+          *ngFor="let symbol of [].constructor(template.length); index as i">
+          <ng-container
+            *ngTemplateOutlet="
+              option;
+              context: {
+                i: i,
+                symbol: i
+              }
+            "></ng-container>
+        </ng-container>
+      </ng-container>
+    </div>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions
+  *ngIf="isProduction"
+  class="actions-container"
+  #dialogActions>
+  <div class="left-container">
+    <button
+      mat-flat-button
+      class="button-primary"
+      *ngIf="session.currentRole && !isConclusion"
+      (click)="isPaused ? play() : pause()">
+      <mat-icon>{{ isPaused ? "play_circle" : "pause_circle" }}</mat-icon>
+      <span
+        *ngIf="device.isCurrentlyDesktop"
+        class="on-desktop">
+        {{
+          translateKey +
+            ".creator-settings-" +
+            (isPaused ? "continue" : "pause") | translate
+        }}
+      </span>
+    </button>
+    <button
+      mat-flat-button
+      class="button-cancel"
+      *ngIf="session.currentRole && isProduction && !isConclusion"
+      (click)="close('delete')">
+      <mat-icon style="color: var(--red)">stop_circle</mat-icon>
+      <span
+        *ngIf="device.isCurrentlyDesktop"
+        class="on-desktop">
+        {{ translateKey + ".creator-settings-delete" | translate }}
+      </span>
+    </button>
+  </div>
+  <div class="right-container">
+    <button
+      mat-flat-button
+      class="button-cancel"
+      *ngIf="isProduction"
+      (click)="close('close')">
+      <span>{{ translateKey + ".close" | translate }}</span>
+    </button>
+    <button
+      mat-flat-button
+      *ngIf="
+        session.currentRole && (dialogActions.offsetWidth > 310 || isConclusion)
+      "
+      (click)="close('reset')"
+      class="button-secondary">
+      <mat-icon style="margin-right: 4px">add_circle</mat-icon>
+      <span
+        *ngIf="device.isCurrentlyDesktop"
+        class="on-desktop">
+        {{ translateKey + ".new" | translate }}
+      </span>
+    </button>
+  </div>
+</mat-dialog-actions>
+
+<ng-template
+  #option
+  let-i="i"
+  let-symbol="symbol">
+  <button
+    [ngClass]="getVoteButtonClass(i)"
+    mat-flat-button
+    class="vote-text"
+    [disabled]="isPaused"
+    [ngStyle]="{
+      order: i * (template.reverse ? -1 : 1)
+    }"
+    (click)="vote(i)">
+    <ng-container
+      *ngTemplateOutlet="
+        optionEntry;
+        context: { i: i, symbol: symbol }
+      "></ng-container>
+  </button>
+</ng-template>
+
+<ng-template
+  #optionEntry
+  let-i="i"
+  let-symbol="symbol">
+  <ng-container *ngIf="template.isPlain">
+    <span
+      class="vote-plain-text"
+      [ngStyle]="
+        template.translate ? template.style?.text : template.style?.plainIcon
+      ">
+      {{
+        template.translate
+          ? (translateKey + "." + "option-" + template.name! | translate)[i]
+          : symbol
+      }}
+    </span>
+  </ng-container>
+  <ng-container *ngIf="!template.isPlain">
+    <mat-icon [ngStyle]="template.style?.matIcon">
+      {{ symbol }}
+    </mat-icon>
+  </ng-container>
+</ng-template>

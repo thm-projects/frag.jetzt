@@ -1,6 +1,5 @@
 export const blue = {
-
-  '--primary' : '#3f51b5',
+  '--primary': '#3f51b5',
   '--primary-variant': '#5c6bc0',
 
   '--secondary': '#ffca28',
@@ -30,18 +29,27 @@ export const blue = {
   '--black': '#212121',
   '--moderator': 'darkred',
 
-  '--questionwall-intro-primary':'red',
-  '--questionwall-intro-secondary':'red',
-  '--questionwall-intro-background':'red'
+  '--questionwall-intro-primary': 'red',
+  '--questionwall-intro-secondary': 'red',
+  '--questionwall-intro-background': 'red',
 
+  '--livepoll-vote-foreground': '#FFFFFF',
+  '--livepoll-vote-background': '#58E315',
+  '--livepoll-vote-foreground-hover': '#FFFFFF',
+  '--livepoll-vote-background-hover': '#BFE315',
+  '--livepoll-vote-foreground-active': '#FFFFFF',
+  '--livepoll-vote-background-active': '#E3A015',
+  '--livepoll-vote-foreground-active-hover': '#FFFFFF',
+  '--livepoll-vote-background-active-hover': '#E33915',
+  '--livepoll-bar-foreground': '#FFFFFF',
+  '--livepoll-bar-background': '#B315E3',
 };
 
 export const blue_meta = {
-
   translation: {
     name: {
       en: 'ENGLISH_NAME',
-      de: 'GERMAN_NAME'
+      de: 'GERMAN_NAME',
     },
   },
   isDark: false,
@@ -49,6 +57,5 @@ export const blue_meta = {
   order: 4,
   scale_desktop: 1,
   scale_mobile: 1,
-  previewColor: 'background'
-
+  previewColor: 'background',
 };

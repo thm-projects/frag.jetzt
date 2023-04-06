@@ -1,4 +1,11 @@
 {
+  "overview": {
+    "motd": "Annonces",
+    "gpt": "Paramètres ChatGPT",
+    "gpt-chat": "Chat avec ChatGPT",
+    "gpt-prompts": "Prompts globaux",
+    "mailing": "Mailing"
+  },
   "create-motd": {
     "create": "Créer",
     "english": "Texte anglais",
@@ -15,5 +22,144 @@
     "placeholder-time-start": "Heure de début",
     "success": "Créé avec succès",
     "title": "Créer des news"
+  },
+  "introductions": {
+    "prompt-guide-chatbot": "Communiquer efficacement avec ChatGPT",
+    "cancel": "Fermer",
+    "tooltip-button" : "Guide de prompt"
+  },
+  "gpt-config": {
+    "title": "Paramètres ChatGPT & test API",
+    "api-key": "API Key",
+    "organization": "Organisation",
+    "next": "Continuer",
+    "previous": "Retour",
+    "save": "Enregistrer",
+    "end": "Fin",
+    "header-settings": "Paramètres de l'API GPT",
+    "header-restrictions": "Limitation de l'API GPT",
+    "header-metrics": "Statistiques de l'API GPT",
+    "restrict-active": "API activée",
+    "restrict-end-date": "Fin de l'API",
+    "save-error": "N'a pas pu enregistrer les données !",
+    "load-error": "Impossible de charger la configuration !",
+    "load-stats-error": "Je n'ai pas pu charger les statistiques !",
+    "stats-message": "La plateforme a consommé au total {{all}}.\nDont {{week}} cette semaine et {{day}} ce jour.\nLa dernière utilisation a eu lieu le {{date}}.",
+    "prompt-type": "Jeton pour la demande",
+    "completion-type": "Jeton pour la distribution",
+    "boxplot-message": "La médiane {{médiane}} {{type}} par requête a été consommée, avec 50% des données entre les tokens {{inférieurs}} et {{supérieurs}}. tokens. Parmi les {{comptes}} Requêtes, {{lowerStray}} en bas et {{upperStray}} en haut sont arrachées.",
+    "help-general": "L'API GPT met à disposition une intelligence artificielle qui effectue la complétion de texte. L'IA répond à des questions de classification, de connaissance et autres. L'IA possède une entrée et fournit au moins une sortie.",
+    "help-api-key": "La clé API attribue les demandes à un compte. Ainsi, la consommation et les coûts peuvent être calculés et affichés dans le compte OpenAI.",
+    "help-organization": "L'organisation est une possibilité optionnelle de faire facturer la consommation par une organisation plutôt que directement par son propre compte OpenAI.",
+    "activation-code": "Code d'activation de l'étude",
+    "activation-max-cost": "Frais d'études par mois",
+    "activation-used": "Le code a été validé",
+    "activation-info": "{{code}}: ({{maxCost}}$ / mois)",
+    "help-activation-codes": "Ici, les codes d'activation pour l'étude peuvent être consultés, créés et supprimés."
+  },
+  "gpt-chat": {
+    "optin-accept": "Accepter",
+    "optin-reject": "Refuser",
+    "privacy-policy": "Déclaration de confidentialité pour l'utilisation de l'API OpenAI",
+    "enter-conversation-text": "Chat avec ChatGPT …",
+    "send": "Envoyer",
+    "empty-conversation": "Vider l'historique",
+    "input-forbidden": "Saisie interdite, veuillez vérifier les paramètres de l'API GPT.",
+    "no-api-setup": "La clé d'API ou le modèle de langage n'a pas été défini.",
+    "greetings": {
+      "text-davinci-003": [
+        {
+          "key": "École primaire",
+          "value": "Tu es dans la salle de chat appelée \"Français\" et le sujet est la poésie. Explique la question suivante au niveau d'un élève d'une école primaire.\nElève : Qu'est-ce que les haïkus?\nTu : "
+        },
+        {
+          "key": "École secondaire",
+          "value": "Tu es dans la salle de chat appelée \"Histoire\" et le sujet est les années folles. Explique, au niveau d'un élève de terminale, la question suivante.\nElève : Que dit le plan Dawes?\nTu : "
+        },
+        {
+          "key": "Université",
+          "value": "Tu es dans la salle de chat appelée \"Algorithmes et structures de données\" et le sujet est les structures de données simples. Explique la question suivante au niveau d'un étudiant en informatique de deuxième année.\nEtudiant : Y a-t-il un gain de performance si l'on combine une liste liée et une liste de tableaux ? Il serait en effet imaginable de pouvoir lier des tableaux, ou est-ce que je me trompe?\nTu : "
+        }
+      ],
+      "code-davinci-002": [
+        {
+          "key": "Web",
+          "value": "<|endoftext|>/* I start with a blank HTML page, and incrementally modify it via <script> injection. Written for Chrome. */\n/* Command: Add \"Hello World\", by adding an HTML DOM node */\nvar helloWorld = document.createElement('div');\nhelloWorld.innerHTML = 'Hello World';\ndocument.body.appendChild(helloWorld);\n/* Command: Clear the page. */\nwhile (document.body.firstChild) {\n  document.body.removeChild(document.body.firstChild);\n}\n\n/* Command: Display this image of a cat: https://bit.ly/3fsc0rH */\n"
+        }
+      ],
+      "davinci-instruct-beta:2.0.0": [
+        {
+          "key": "Smalltalk",
+          "value": "Cette matière est démotivante. As-tu des astuces pour encourager et être plus actif ?"
+        }
+      ]
+    },
+    "cancel": "Fermer",
+    "refresh": "Générer à nouveau la sortie",
+    "token-info": "Tokens (saisie / conversation / total) : {{promptTokens}} / {{conversationTokens}} / {{allTokens}}",
+    "prompt-label": "Recherche du prompt",
+    "option-total-acts": "Hits dans « Agir comme … »",
+    "option-total-prompts": "Hits dans prompts",
+    "temperature": "Température",
+    "temperature-tooltip": "Attitude de créativité et déterminisme des réponses"
+  },
+  "quill": {
+    "cancel": "Annuler",
+    "heading": "Saisie",
+    "preview": "Aperçu",
+    "tooltip-action": "Éditer",
+    "tooltip-action-save": "Enregistrer",
+    "tooltip-label": "Visiter le lien …",
+    "tooltip-label-formula": "Saisir une formule KaTeX, par exemple …",
+    "tooltip-label-image": "Saisir l'URL de l'image …",
+    "tooltip-label-link": "Saisir le lien …",
+    "tooltip-label-video": "Saisir l'URL d'une vidéo …",
+    "tooltip-placeholder-formula": "Nous soutenons le jeu de formules KaTeX.",
+    "tooltip-placeholder-image": "L'adresse de l'image doit commencer par https:// …",
+    "tooltip-placeholder-link": "L'adresse doit commencer par https://. …",
+    "tooltip-placeholder-video": "L'adresse de la vidéo doit commencer par https:// …",
+    "tooltip-remove": "Oui",
+    "tooltip-toolbar-blockquote": "Citer",
+    "tooltip-toolbar-bold": "En gras",
+    "tooltip-toolbar-italic": "En italique",
+    "tooltip-toolbar-code": "Marquer comme code source",
+    "tooltip-toolbar-color": "Couleur du texte",
+    "tooltip-toolbar-emote": "Insérer un emoji",
+    "tooltip-toolbar-formula": "Insérer une formule",
+    "tooltip-toolbar-image": "Insérer une image",
+    "tooltip-toolbar-link": "Lier le texte sélectionné",
+    "tooltip-toolbar-ordered-list": "Liste numérotée",
+    "tooltip-toolbar-strike": "Barrer",
+    "tooltip-toolbar-textcolor": "Couleur du texte",
+    "tooltip-toolbar-unordered-list": "Liste à puces",
+    "tooltip-toolbar-video": "Insérer une vidéo"
+  },
+  "chat-gptprompt-preset": {
+    "title": "Prompts pour ChatGPT",
+    "search-prompt": "Recherche de prompt ou nouvelle prompt",
+    "found-acts": "Résultats trouvés dans »Agir en tant que ...« ({{count}})",
+    "found-prompts": "Hits dans Prompts ({{count}})",
+    "token-info": "tokens : {{promptTokens}}",
+    "placeholder-edit-preset": "Modifie ici ton prompt",
+    "save": "Enregistrer",
+    "delete": "Supprimer",
+    "an-error-occured": "Quelque chose a mal tourné !",
+    "delete-success": "Prompt a été supprimé.",
+    "add-success": "Prompt a été ajouté.",
+    "already-present": "Le prompt existe déjà, modifie son nom. Ou sélectionne le prompt correspondant.",
+    "patch-success": "Les modifications ont été enregistrées.",
+    "no-patch-needed": "Aucune modification n'a été apportée.",
+    "no-prompt-selected": "Aucune invite n'a été sélectionnée.",
+    "enter-prompt-name": "Veuillez saisir un nom."
+  },
+  "mailing": {
+    "title": "Mail à tous",
+    "subject": "Sujet",
+    "placeholder-subject": "Saisis ici ton sujet …",
+    "body": "Message",
+    "placeholder-body": "Saisis ton message ici …",
+    "send": "Envoyer à tous les utilisateurs inscrits",
+    "start-sending": "Les messages sont envoyés …",
+    "finish-sending": "Les messages ont tous été envoyés."
   }
 }

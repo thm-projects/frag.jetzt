@@ -1,9 +1,24 @@
-import { Component, Inject, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { LoginResult, LoginResultArray } from '../../../services/http/authentication.service';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Inject,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
+import {
+  LoginResult,
+  LoginResultArray,
+} from '../../../services/http/authentication.service';
 import { Router } from '@angular/router';
 import { NotificationService } from '../../../services/util/notification.service';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
-import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
+import {
+  FormControl,
+  FormGroupDirective,
+  NgForm,
+  Validators,
+} from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { UserActivationComponent } from '../../home/_dialogs/user-activation/user-activation.component';
 import { PasswordResetComponent } from '../../home/_dialogs/password-reset/password-reset.component';
@@ -12,9 +27,16 @@ import { ErrorStateMatcher } from '@angular/material/core';
 import { UserManagementService } from '../../../services/util/user-management.service';
 
 export class LoginErrorStateMatcher implements ErrorStateMatcher {
-  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+  isErrorState(
+    control: FormControl | null,
+    form: FormGroupDirective | NgForm | null,
+  ): boolean {
     const isSubmitted = form && form.submitted;
-    return (control && control.invalid && (control.dirty || control.touched || isSubmitted));
+    return (
+      control &&
+      control.invalid &&
+      (control.dirty || control.touched || isSubmitted)
+    );
   }
 }
 
@@ -27,7 +49,10 @@ export class LoginComponent implements OnInit, OnChanges {
   username: string;
   password: string;
   redirectUrl = null;
-  usernameFormControl = new FormControl('', [Validators.required, Validators.email]);
+  usernameFormControl = new FormControl('', [
+    Validators.required,
+    Validators.email,
+  ]);
   passwordFormControl = new FormControl('', [Validators.required]);
   matcher = new LoginErrorStateMatcher();
   name = '';
@@ -40,11 +65,9 @@ export class LoginComponent implements OnInit, OnChanges {
     public notificationService: NotificationService,
     public dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data: any,
-  ) {
-  }
+  ) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   ngOnChanges(changes: SimpleChanges) {
     let u = false;
@@ -57,42 +80,73 @@ export class LoginComponent implements OnInit, OnChanges {
       this.passwordFormControl.setValue(changes.password.currentValue);
       p = true;
     }
-    if (u && p && !changes.username.isFirstChange() && !changes.username.isFirstChange()) {
+    if (
+      u &&
+      p &&
+      !changes.username.isFirstChange() &&
+      !changes.username.isFirstChange()
+    ) {
       this.activateUser();
     }
   }
 
   activateUser(): void {
-    this.dialog.open(UserActivationComponent, {
-      width: '350px',
-      data: {
-        name: this.username,
-      },
-    }).afterClosed().subscribe(result => {
-      if (result && result.success) {
-        this.login(this.username, this.password);
-      }
-    });
+    this.dialog
+      .open(UserActivationComponent, {
+        width: '350px',
+        data: {
+          name: this.username,
+        },
+      })
+      .afterClosed()
+      .subscribe((result) => {
+        if (result && result.success) {
+          this.login(this.username, this.password);
+        }
+      });
   }
 
   login(username: string, password: string): void {
     this.username = username.trim();
     this.password = password.trim();
 
-    if (!this.usernameFormControl.hasError('required') && !this.usernameFormControl.hasError('email') &&
-      !this.passwordFormControl.hasError('required')) {
-      this.userManagementService.login(this.username, this.password)
-        .subscribe(loginSuccessful => this.checkLogin(loginSuccessful));
+    if (
+      !this.usernameFormControl.hasError('required') &&
+      !this.usernameFormControl.hasError('email') &&
+      !this.passwordFormControl.hasError('required')
+    ) {
+      this.userManagementService
+        .login(this.username, this.password)
+        .subscribe((loginSuccessful) => this.checkLogin(loginSuccessful));
     } else {
-      this.translationService.get('login.input-incorrect').subscribe(message => {
-        this.notificationService.show(message);
-      });
+      this.translationService
+        .get('login.input-incorrect')
+        .subscribe((message) => {
+          this.notificationService.show(message);
+        });
     }
   }
 
+  copyPassword() {
+    navigator.clipboard.writeText(this.passwordFormControl.value).then(
+      () => {
+        this.translationService
+          .get('password-generator.copy-success')
+          .subscribe((msg) => this.notificationService.show(msg));
+      },
+      (err) => {
+        console.error(err);
+        this.translationService
+          .get('password-generator.copy-fail')
+          .subscribe((msg) => this.notificationService.show(msg));
+      },
+    );
+  }
+
   guestLogin(): void {
-    this.userManagementService.loginAsGuest()
-      .subscribe(loginSuccessful => this.checkLogin(loginSuccessful));
+    this.userManagementService
+      .loginAsGuest()
+      .subscribe((loginSuccessful) => this.checkLogin(loginSuccessful));
   }
 
   openPasswordDialog(initProcess = true): void {
@@ -100,22 +154,33 @@ export class LoginComponent implements OnInit, OnChanges {
       width: '350px',
     });
     ref.componentInstance.initProcess = initProcess;
-    ref.componentInstance.setUsername(this.username);
-  }
-
-  openRegisterDialog(): void {
-    this.dialog.open(RegisterComponent, {
-      width: '350px',
-    }).afterClosed().subscribe(result => {
-      if (result) {
-        this.usernameFormControl.setValue(result.username);
-        this.passwordFormControl.setValue(result.password);
-        this.username = result.username;
-        this.password = result.password;
+    ref.componentInstance.setUsername(this.usernameFormControl.value);
+    ref.afterClosed().subscribe((result) => {
+      if (!result) {
+        return;
       }
+      this.usernameFormControl.setValue(result.username);
+      this.passwordFormControl.setValue(result.password);
+      this.username = result.username;
+      this.password = result.password;
     });
   }
 
+  openRegisterDialog(): void {
+    this.dialog
+      .open(RegisterComponent, {
+        width: '350px',
+      })
+      .afterClosed()
+      .subscribe((result) => {
+        if (result) {
+          this.usernameFormControl.setValue(result.username);
+          this.passwordFormControl.setValue(result.password);
+          this.username = result.username;
+          this.password = result.password;
+        }
+      });
+  }
 
   /**
    * Returns a lambda which closes the dialog on call.
@@ -124,11 +189,13 @@ export class LoginComponent implements OnInit, OnChanges {
     this.dialog.closeAll();
   }
 
-
   /**
    * Returns a lambda which executes the dialog dedicated action on call.
    */
-  buildLoginActionCallback(userEmail: HTMLInputElement, userPassword: HTMLInputElement): () => void {
+  buildLoginActionCallback(
+    userEmail: HTMLInputElement,
+    userPassword: HTMLInputElement,
+  ): () => void {
     return () => this.login(userEmail.value, userPassword.value);
   }
 
@@ -141,10 +208,34 @@ export class LoginComponent implements OnInit, OnChanges {
       this.openPasswordDialog(false);
       return;
     }
+    if (
+      [
+        LoginResult.SessionExpired,
+        LoginResult.FailureException,
+        LoginResult.DisabledException,
+      ].includes(loginResult[0])
+    ) {
+      this.translationService
+        .get('login.login-data-incorrect')
+        .subscribe((message) => {
+          this.notificationService.show(message);
+        });
+      return;
+    }
+    if (loginResult[0] === LoginResult.FailurePasswordExpired) {
+      this.translationService
+        .get('login.login-data-expired')
+        .subscribe((message) => {
+          this.notificationService.show(message);
+        });
+      return;
+    }
     if (loginResult[0] !== LoginResult.Success) {
-      this.translationService.get('login.login-data-incorrect').subscribe(message => {
-        this.notificationService.show(message);
-      });
+      this.translationService
+        .get('login.login-error-unknown', { code: loginResult[0] })
+        .subscribe((message) => {
+          this.notificationService.show(message);
+        });
       return;
     }
     this.dialog.closeAll();

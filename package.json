@@ -17,7 +17,8 @@
     "i18n:find-missing": "node ./src/assets/i18n/i18nUpdater.js missing",
     "i18n:count-untranslated": "node ./src/assets/i18n/i18nUpdater.js untranslated",
     "i18n:find-untranslated": "node ./src/assets/i18n/i18nUpdater.js untranslated --show-all",
-    "i18n:find-unused": "node ./src/assets/i18n/i18nUpdater.js project-unused"
+    "i18n:find-unused": "node ./src/assets/i18n/i18nUpdater.js project-unused",
+    "prepare": "husky install"
   },
   "private": true,
   "dependencies": {
@@ -93,20 +94,31 @@
     "cypress-wait-until": "^1.7.2",
     "cypress-xpath": "^1.6.2",
     "eslint": "^8.17.0",
+    "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-jsdoc": "^39.3.2",
     "eslint-plugin-prefer-arrow": "^1.2.3",
+    "husky": "8.0.3",
     "jasmine-spec-reporter": "^7.0.0",
     "karma": "^6.3.20",
     "karma-chrome-launcher": "^3.1.0",
     "karma-coverage-istanbul-reporter": "^3.0.3",
     "karma-jasmine": "^5.0.1",
     "karma-jasmine-html-reporter": "^2.0.0",
+    "lint-staged": "13.1.2",
+    "prettier": "2.8.4",
     "ts-node": "^10.8.1",
     "typescript": "^4.7.3"
   },
   "cypress-cucumber-preprocessor": {
     "nonGlobalStepDefinitions": true,
     "stepDefinitions": "cypress/e2e"
+  },
+  "lint-staged": {
+    "src/**/*.{js,ts}": [
+      "prettier --write",
+      "eslint --cache --fix"
+    ],
+    "*.{scss,md,component.html}": "prettier --write"
   }
 }

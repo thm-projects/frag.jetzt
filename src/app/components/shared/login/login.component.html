@@ -1,68 +1,132 @@
 <header>
-  <h1 class="title">{{ 'login-dialog.title' | translate }}</h1>
-  <button class="button" (click)="buildCloseDialogActionCallback()">
+  <h1 class="title">{{ "login-dialog.title" | translate }}</h1>
+  <button
+    class="button"
+    (click)="buildCloseDialogActionCallback()">
     <span class="material-icons-outlined close">close</span>
   </button>
 </header>
 
 <form (submit)="login(userEmail.value, userPassword.value)">
-  <p id="inactiveInfo" *ngIf="redirectUrl">
-    {{ 'login-dialog.inactive-info' | translate }}
+  <p
+    id="inactiveInfo"
+    *ngIf="redirectUrl">
+    {{ "login-dialog.inactive-info" | translate }}
   </p>
   <div class="login-container">
     <div class="login-system-container">
       <!-- email -->
-      <div class="input-container"
-           [ngClass]="usernameFormControl.hasError('email') && !usernameFormControl.hasError('required') ? 'error' : 'no-error'">
-        <input appAccessibilityEscapedInput [formControl]="usernameFormControl" name="username"
-               aria-labelledby="email-description" class="input" #userEmail required/>
-        <label>{{ 'login-dialog.e-mail' | translate }}</label>
+      <div
+        class="input-container"
+        [ngClass]="
+          usernameFormControl.hasError('email') &&
+          !usernameFormControl.hasError('required')
+            ? 'error'
+            : 'no-error'
+        ">
+        <input
+          appAccessibilityEscapedInput
+          [formControl]="usernameFormControl"
+          name="username"
+          aria-labelledby="email-description"
+          class="input"
+          #userEmail
+          required />
+        <label>{{ "login-dialog.e-mail" | translate }}</label>
       </div>
 
       <!-- password -->
       <div class="input-container">
-        <input appAccessibilityEscapedInput [formControl]="passwordFormControl" name="password"
-               [type]="hide ? 'password' : 'text'" aria-labelledby="password-description" class="input" #userPassword
-               required/>
-        <label>{{ 'login-dialog.password' | translate }}</label>
-        <span (click)="hide = !hide" class="material-icons-outlined"
-              style="margin: 0 7px; cursor: pointer; user-select: none;">{{hide ? 'visibility_off' : 'visibility'}}</span>
+        <input
+          appAccessibilityEscapedInput
+          [formControl]="passwordFormControl"
+          name="password"
+          [type]="hide ? 'password' : 'text'"
+          aria-labelledby="password-description"
+          class="input"
+          #userPassword
+          required />
+        <label>{{ "login-dialog.password" | translate }}</label>
+        <button
+          (click)="hide = !hide"
+          type="button"
+          mat-icon-button
+          matSuffix>
+          <mat-icon class="material-icons-outlined">
+            {{ hide ? "visibility_off" : "visibility" }}
+          </mat-icon>
+        </button>
+        <button
+          (click)="copyPassword()"
+          type="button"
+          mat-icon-button
+          matSuffix
+          [matTooltip]="'password-generator.copy-password' | translate">
+          <mat-icon class="material-icons-outlined">content_copy</mat-icon>
+        </button>
       </div>
     </div>
-
     <!-- reset-password -->
     <div class="forgot-password-container">
       <p>
-        {{ 'login-dialog.forgot-password-description' | translate }}
-        <a href="" (click)="openPasswordDialog(); $event.preventDefault(); $event.stopPropagation();"
-           role="button">{{ 'login.password-reset' | translate }}</a>
+        {{ "login-dialog.forgot-password-description" | translate }}
+        <a
+          href=""
+          (click)="
+            openPasswordDialog();
+            $event.preventDefault();
+            $event.stopPropagation()
+          "
+          role="button">
+          {{ "login.password-reset" | translate }}
+        </a>
       </p>
     </div>
 
     <!-- sign up & login -->
     <div class="bottom-container">
-      <a href="" class="registerBtn"
-         (click)="openRegisterDialog(); $event.preventDefault(); $event.stopPropagation();">{{ 'login-dialog.sign-up' | translate }}</a>
-      <button type="submit" aria-labelledby="login-description"
-              class="alt-button login">{{ 'login-dialog.login' | translate }}</button>
+      <a
+        href=""
+        class="registerBtn"
+        (click)="
+          openRegisterDialog();
+          $event.preventDefault();
+          $event.stopPropagation()
+        ">
+        {{ "login-dialog.sign-up" | translate }}
+      </a>
+      <button
+        type="submit"
+        aria-labelledby="login-description"
+        class="alt-button login">
+        {{ "login-dialog.login" | translate }}
+      </button>
     </div>
   </div>
 
   <div class="page-splitter">
-    <span>{{ 'login-dialog.or' | translate }}</span>
+    <span>{{ "login-dialog.or" | translate }}</span>
   </div>
 
   <div class="anonymous-container">
-    <button (click)="guestLogin()" class=" alt-button guest" type="button" aria-labelledby="guest-login-description"
-            matTooltip="{{'login.guest-login-tooltip' | translate}}">
-      {{ 'login-dialog.sign-in-as-guest' | translate }}
+    <button
+      (click)="guestLogin()"
+      class="alt-button guest"
+      type="button"
+      aria-labelledby="guest-login-description"
+      matTooltip="{{ 'login.guest-login-tooltip' | translate }}">
+      {{ "login-dialog.sign-in-as-guest" | translate }}
     </button>
   </div>
 </form>
 
 <div class="visually-hidden">
-  <div id="email-description">{{ 'login.email-description' | translate }}</div>
-  <div id="password-description">{{ 'login.password-description' | translate }}</div>
-  <div id="login-description">{{ 'login.login-description' | translate }}</div>
-  <div id="guest-login-description">{{ 'login.guest-login-description' | translate }}</div>
+  <div id="email-description">{{ "login.email-description" | translate }}</div>
+  <div id="password-description">
+    {{ "login.password-description" | translate }}
+  </div>
+  <div id="login-description">{{ "login.login-description" | translate }}</div>
+  <div id="guest-login-description">
+    {{ "login.guest-login-description" | translate }}
+  </div>
 </div>

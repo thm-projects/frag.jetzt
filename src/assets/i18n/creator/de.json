@@ -120,6 +120,7 @@
     "filter-read": "Besprochene Fragen",
     "filter-reset": "Zurücksetzen",
     "filter-unanswered": "Unbeantwortet",
+    "filter-approved": "Geprüft",
     "filter-wrong": "Verneinte Fragen",
     "owner": "Fragen, die ich gestellt habe",
     "pause-comments": "Friert die Anzeige ein, um die Fragen in Ruhe zu lesen oder zu präsentieren. Fragen können weiterhin gestellt und bewertet werden. Die Anzeige aktualisiert sich wieder durch Klicken des Buttons.",
@@ -216,8 +217,8 @@
     "brainstorming-info-multiple": "{{maxWordCount}} Wörter / {{maxWordLength}} Zeichen",
     "brainstorming-info-single": "{{maxWordCount}} Wort / {{maxWordLength}} Zeichen",
     "brainstorming-placeholder": "Jede Idee ist willkommen!\nErstelle für jede neue Idee einen eigenen Eintrag.\nVerwende keine Sonder- oder Satzzeichen.",
-    "cancel": "Verwerfen",
-    "cancel-description": "Verwerfen",
+    "cancel": "Abbrechen",
+    "cancel-description": "Abbrechen",
     "category": "Kategorie:",
     "select-brainstorm-category": "Kategorie wählen:",
     "select-brainstorm-category-none": "Keine",
@@ -269,6 +270,8 @@
     "live-announcer-moderation": "Du befindest dich jetzt auf der Moderations-Seite. Um Informationen zu Tastenkombinationen zu erhalten drücke jetzt die Enter-Taste oder rufe die Ansage zu einem späteren Zeitpunkt mit der Escape-Taste auf.",
     "mark-bookmark": "Lesezeichen setzen",
     "mark-correct": "Frage mit »ja« beantworten oder als »erledigt« markieren",
+    "mark-approved": "Faktencheck: Klick hier, wenn du den Beitrag geprüft hast.",
+    "mark-not-approved": "Faktencheck annullieren",
     "mark-favorite": "Frage für einen Bonus markieren",
     "mark-favorite-disabled-bonus": "Mit einem Stern auszeichnen",
     "mark-not-bookmark": "Markierung zurücknehmen",
@@ -291,12 +294,14 @@
     "really-delete-answer": "Willst du deine Antwort wirklich löschen?",
     "reject": "In die Moderation verschieben",
     "reply-comment-button": "Antwort schreiben",
+    "reply-AI": "ChatGPT antworten lassen",
     "save-answer": "Speichern",
     "search-box-input-description": "Hier kannst du nach Fragen suchen.",
     "semicolon": "CSV-Format (.csv)",
     "send": "Abschicken",
     "send-description": "Abschicken",
     "show-comment-with-filter": "Vulgäre Ausdrücke zensieren",
+
     "show-comment-without-filter": "Vulgäre Wörter anzeigen",
     "show-conversation-tooltip": "Antworten auf diesen Beitrag anzeigen",
     "show-conversation-full-tooltip": "Konversation anzeigen",
@@ -368,6 +373,118 @@
     "topic-cloud": "## Fragen-Radar \n\n Wenn du alle Fragen im Blick behalten willst, brauchst du eine Art »Radar«. Unser Radar ortet Fragen und Antworten anhand ihrer Stichwörter: Je mehr Fragen und Antworten sich auf ein Stichwort beziehen, desto größer und zentraler erscheint das Stichwort auf dem Radar.\n\n Das Fragen-Radar dient dir als **Navi**: Wenn du auf ein Wort klickst, gelangst du zu den Fragen und Antworten mit diesem Stichwort. \n\n Die Stichwörter werden in Echtzeit mittels einer grammatikalischen Analyse der Nomen ermittelt oder wurden von der Autorin oder dem Autor bestimmt.\n\n  In die Berechnung der Schriftgröße gehen ein:\n\n* die Differenz zwischen Up- und Down-Votes, wenn sie positiv ist,\n* die Anzahl der Fragen mit diesem Stichwort,\n* die Anzahl der Fragensteller\\*innen mit diesem Stichwort,\n* die Rolle: Raumersteller\\*in, Moderator\\*in oder Teilnehmer\\*in,\n* ob eine Fragenkategorie ausgewählt wurde,\n* ob das Stichwort generiert oder vergeben wurde,\n* ob die Frage beantwortet wurde,\n* die Kontroversität der Frage. \n\nDu kannst die Visualisierung nach deinen Wünschen anpassen.  In der Rolle Raumersteller\\*in oder Moderator\\*in kannst du mit den Parametern der Stichwortgenerierung experimentieren, um die **semantische Trennschärfe** zu verbessern.",
     "user-bonus": "## Bonus \n\nDie Lehrperson kann »gute« Fragen für einen Bonus markieren. Deine Fragen aus allen Kursen (Räumen), die einen Stern erhalten haben, werden hier aufgelistet.\n\nJe nach Vereinbarung kannst du den Bonuscode per E-Mail an die Lehrperson schicken, um ihn gegen einen Bonus einzulösen."
   },
+  "gpt-chat": {
+    "optin-accept": "Akzeptieren",
+    "optin-reject": "Ablehnen",
+    "privacy-policy": "Datenschutzerklärung für die Nutzung der OpenAI API",
+    "enter-conversation-text": "Deine Eingabe …",
+    "context-competence": "Ich habe die Kompetenz {{value}}.",
+    "context-self-description": "Meine Selbstbeschreibung ist {{value}}.",
+    "context-context": "Der Kontext meiner Frage ist {{value}}.",
+    "context-topic": "Das Thema ist {{value}}.",
+    "context-language": "Antworte mir {{value}}.",
+    "context-social-tone": "Rede {{value}} mit mir.",
+    "context-formal-address": "Spreche mich bitte {{value}} an.",
+    "context-response-length": "Antworte mir bitte {{value}}.",
+    "context-response-format": "Formatiere die Antwort als {{value}}.",
+    "context-question": "Meine Frage ist:\n{{value}}",
+    "choices": {
+      "social-tone": [
+        { "key": "neutral", "text": "neutral" },
+        { "key": "friendly", "text": "freundlich" },
+        { "key": "expertly", "text": "fachkundig" },
+        { "key": "humorous", "text": "humorvoll" }
+      ],
+      "response-format": [
+        { "key": "summary", "text": "Zusammenfassung" },
+        { "key": "definition", "text": "Definition" },
+        { "key": "flashcard", "text": "Lernkarte" }
+      ],
+      "language": {
+        "de": "auf Deutsch",
+        "en": "auf Englisch",
+        "fr": "auf Französisch",
+        "like_question": "in der Sprache der Frage"
+      },
+      "response-length": {
+        "short": "kurz",
+        "detailed": "detailliert",
+        "extensive": "umfangreich"
+      },
+      "formal-address": {
+        "true": "formal",
+        "false": "informal"
+      }
+    },
+    "your-choice": "Deine Auswahl",
+    "none": "Keine",
+    "send": "Senden",
+    "empty-conversation": "Verlauf leeren",
+    "input-forbidden": "Bitte prüfe die ChatGPT-Einstellungen.",
+    "no-api-setup": "Der API Schlüssel oder das Sprachmodell wurden nicht gesetzt.",
+    "presets": {
+      "disabled": "Deaktiviert",
+      "language": {
+        "de": "Deutsch",
+        "en": "Englisch",
+        "fr": "Französisch",
+        "*": "Wie Frage"
+      },
+      "tone": {
+        "neutral": "Neutral",
+        "friendly": "Freundlich",
+        "professional": "Professionell",
+        "humorous": "Humorvoll"
+      },
+      "formality": {
+        "informal": "Formlos",
+        "polite": "Höflich"
+      },
+      "length": {
+        "short": "Kurz",
+        "detailed": "Detailliert",
+        "extensive": "Umfangreich"
+      }
+    },
+    "greetings": {
+      "text-davinci-003": [
+        {
+          "key": "Grundschule",
+          "value": "Du bist im Chat-Raum namens \"Deutsch\" und es geht um das Thema Gedichte. Erkläre auf dem Niveau eines Schülers einer Grundschule folgende Frage.\nSchüler: Was sind Haikus?\nDu: "
+        },
+        {
+          "key": "Gymnasium",
+          "value": "Du bist im Chat-Raum namens \"Geschichte\" und es geht um das Thema der goldenen Zwanziger. Erkläre auf dem Niveau eines Abitur-Schülers folgende Frage.\nSchüler: Was besagt der Dawes-Plan?\nDu: "
+        },
+        {
+          "key": "Hochschule",
+          "value": "Du bist im Chat-Raum namens \"Algorithmen und Datenstrukturen\" und es geht um das Thema simple Datenstrukturen. Erkläre auf dem Niveau eines Informatik-Studenten im 2. Semester folgende Frage.\nStudent: Gibt es ein Performance-Gewinn, wenn man eine verlinkte Liste und eine Array Liste kombiniert? Es wäre doch vorstellbar, dass man Arrays verlinken könnte, oder liege ich dort falsch?\nDu: "
+        }
+      ],
+      "code-davinci-002": [
+        {
+          "key": "Web",
+          "value": "<|endoftext|>/* I start with a blank HTML page, and incrementally modify it via <script> injection. Written for Chrome. */\n/* Command: Add \"Hello World\", by adding an HTML DOM node */\nvar helloWorld = document.createElement('div');\nhelloWorld.innerHTML = 'Hello World';\ndocument.body.appendChild(helloWorld);\n/* Command: Clear the page. */\nwhile (document.body.firstChild) {\n  document.body.removeChild(document.body.firstChild);\n}\n\n/* Command: Display this image of a cat: https://bit.ly/3fsc0rH */\n"
+        }
+      ],
+      "davinci-instruct-beta:2.0.0": [
+        {
+          "key": "Smalltalk",
+          "value": "Das Fach ist demotivierend. Hast du Tricks zum aufmuntern und aktiver werden?"
+        }
+      ]
+    },
+    "cancel": "Schließen",
+    "refresh": "Ausgabe erneut generieren",
+    "edit": "Ausgabe als editierbare Antwort auf Frage bearbeiten.",
+    "paste": "Ausgabe direkt als Antwort auf Frage veröffentlichen.",
+    "token-info": "Token (Eingabe / Chat / Gesamt): {{promptTokens}} / {{conversationTokens}} / {{allTokens}}",
+    "prompt-label": "Prompt-Suche",
+    "option-total-acts": "Treffer in »Agiere als …«",
+    "option-total-prompts": "Treffer in Prompts",
+    "temperature": "Temperatur",
+    "temperature-tooltip": "Einstellung der Kreativität und Determinismus der Antworten"
+  },
   "header": {
     "overview-keywords-tooltip": "Anzahl Stichwörter",
     "overview-question-tooltip": "Anzahl Fragen",
@@ -386,7 +503,8 @@
     "brainstorming-title": "Brainstorming",
     "cancel": "Schließen",
     "question-wall-title": "Use Cases des Präsentationsmodus",
-    "tag-cloud-title": "Use Cases des Fragen-Radars"
+    "tag-cloud-title": "Use Cases des Fragen-Radars",
+    "prompt-guide-chatbot": "Effektiv kommunizieren mit ChatGPT"
   },
   "joyride": {
     "commentFilter": "Es gibt zahlreiche Sortier- und Filteroptionen für das Q&A-Forum. Ein aktiver Filter wird rot angezeigt. Für eine bessere Lesbarkeit bei großer Dynamik kann der Fragenstrom auch angehalten werden.",
@@ -609,7 +727,71 @@
     "update-description": "Speichert die Änderungen",
     "words-will-be-overwritten": "Vulgäre Wörter werden mit ★★★★ überschrieben."
   },
+  "gpt-room-settings": {
+    "title": "ChatGPT-Einstellungen",
+    "trial-info": "ChatGPT-Studie (API-Key über frag.jetzt):",
+    "trial-code": "Aktivierungscode",
+    "trial-enabled": "Du nimmst an der Evaluationsstudie teil.",
+    "own-openai-api-key": "GPT über eigene API-Einstellungen:",
+    "own-openai-info": "Falls die Evaluationsstudie aktiv ist, wird trotzdem über die eigenen Einstellungen abgerechnet.",
+    "api-key": "OpenAI API Key",
+    "api-organization": "OpenAI Organisations-ID",
+    "restrictions-room": "Raumkontingent:",
+    "rest-room-acc": "Gesamte Kostenbegrenzung",
+    "rest-room-month": "Monatliche Kostenbegrenzung",
+    "rest-room-day": "Tägliche Kostenbegrenzung",
+    "restrictions-moderator": "Moderatorenkontingent:",
+    "rest-mod-acc": "Gesamte Kostenbegrenzung",
+    "rest-mod-month": "Monatliche Kostenbegrenzung",
+    "rest-mod-day": "Tägliche Kostenbegrenzung",
+    "restrictions-participant": "Teilnehmerkontingent:",
+    "rest-part-acc": "Gesamte Kostenbegrenzung",
+    "rest-part-month": "Monatliche Kostenbegrenzung",
+    "rest-part-day": "Tägliche Kostenbegrenzung",
+    "rest-wrong": "Eine Kostenbegrenzung entspricht nicht einer gültigen Zahl. (Zahl mit zwei Nachkommastellen)",
+    "deactivated": "Rauminhabender*in erlaubt keine Änderungen.",
+    "moderator-rights": "Moderatorenrechte:",
+    "mod-right-part-quota": "Ändern des Teilnehmerkontingents",
+    "mod-right-mod-quota": "Ändern des Moderatorenkontingents",
+    "mod-right-room-quota": "Ändern des Raumkontingents",
+    "mod-right-preset": "Ändern der GPT Prompt Einstellungen",
+    "mod-right-usage-times": "Ändern der Nutzungszeiträume",
+    "mod-right-api-settings": "Ändern der API-Einstellungen",
+    "usage-times": "Nutzungszeiträume:",
+    "usage-time-info": "Ohne Einstellung ist die API durchgängig erreichbar.",
+    "start-time": "Anfangszeit",
+    "end-time": "Endzeit",
+    "start-and-end-date": "Anfangs- und Enddatum",
+    "add-usage-time": "Nutzungszeitraum hinzufügen",
+    "usage-time-duration": "Wiederholungsfaktor",
+    "usage-time-unit": "Widerholungszeiteinheit",
+    "usage-time-values": {
+      "HOUR": "Stündlich",
+      "DAY": "Täglich",
+      "WEEK": "Wöchentlich",
+      "MONTH": "Monatlich",
+      "YEAR": "Jährlich"
+    },
+    "usage-time-repeat": {
+      "one_HOUR": "wird jede Stunde wiederholt",
+      "other_HOUR": "wird alle {{value}} Stunden wiederholt",
+      "one_DAY": "wird jeden Tag wiederholt",
+      "other_DAY": "wird alle {{value}} Tage wiederholt",
+      "one_WEEK": "wird jede Woche wiederholt",
+      "other_WEEK": "wird alle {{value}} Wochen wiederholt",
+      "one_MONTH": "wird jeden Monat wiederholt",
+      "other_MONTH": "wird alle {{value}} Monate wiederholt",
+      "one_YEAR": "wird jedes Jahr wiederholt",
+      "other_YEAR": "wird alle {{value}} Jahre wiederholt"
+    },
+    "reset": "Zurücksetzen",
+    "save": "Speichern",
+    "cancel": "Abbrechen",
+    "send": "Abschicken"
+  },
   "room-settings-overview": {
+    "livepoll-enabled": "Blitzumfragen aktivieren",
+    "tooltip-livepoll-enabled": "Umfragen erstellen und alle Personen im Raum automatisch benachrichtigen.",
     "a11y-bonus-archive-enabled": "Schieberegler, um das Bonus-Archiv zu aktivieren.",
     "a11y-brainstorming-enabled": "Schieberegler, um Brainstorming zu erlauben.",
     "a11y-conversation-enabled": "Schieberegler, um Konversationen in diesem Raum freizuschalten.",
@@ -654,7 +836,7 @@
   },
   "spacy-dialog": {
     "add-manually": "Gib ein Stichwort zu deiner Frage ein. Trenne mehrere Stichwörter mit einem Komma.",
-    "analysis-bad-spelled": "Es konnten keine Stichwörter generiert werden.",
+    "analysis-bad-spelled": "Hinweis: Der Text eignet sich nicht zur Generierung von Stichwörtern.",
     "analysis-error": "Während der Extraktion von Stichwörtern sind Fehler aufgetreten. Soll die Frage ohne Stichwörter erstellt werden?",
     "auto": "auto",
     "de": "Deutsch",
@@ -904,9 +1086,27 @@
     "name-length-error": "Der Name muss {{min}} bis {{max}} Zeichen lang sein.",
     "questioner-name": "Dein Name, wenn du willst …"
   },
-  "pseudonym-editor": {
-    "name": "Wird beim Posten verwendet …",
-    "title": "Mein Forumsname",
-    "deepl": "Duzen oder Siezen?"
+  "presets-dialog": {
+    "context-title": "Kontext der Veranstalltung",
+    "persona-title": "Presets für jede Rolle",
+    "topic-title": "Thema der Veranstaltung",
+    "context-label": "Kontext",
+    "topic-label": "Thema",
+    "persona-moderator-label": "Persona (Moderator*in)",
+    "persona-user-label": "Persona (Teilnehmer*in)",
+    "persona-creator-label": "Persona (Raumersteller*in)",
+    "context-placeholder": "Beschreibe die Inhalte der Veranstaltung …",
+    "topic-placeholder": "Beschreibe das aktuelle Thema der Veranstaltung …",
+    "persona-moderator-placeholder": "Beschreibe die Kompetenz dieser Roole …",
+    "persona-user-placeholder": "Beschreibe die Kompetenz dieser Roole …",
+    "persona-creator-placeholder": "Beschreibe die Kompetenz dieser Roole …",
+    "save": "Speichern",
+    "cancel": "Abbrechen",
+    "clear": "Löschen"
+  },
+  "gptchat-info": {
+    "title": "ChatGPT",
+    "content": "ChatGPT ist die perfekte Lösung, um eine Frage im Q&A Forum automatisch zu beantworten. Du kannst auch eigene Prompts erstellen oder aus hunderten vordefinierten Prompts den passenden auswählen. Um ChatGPT zu nutzen, benötigst du lediglich einen Account bei frag.jetzt und einen [API-Key von OpenAI](https://platform.openai.com).\n\nSo einfach geht's in nur zwei Schritten:\n\n1. Registriere dich bei frag.jetzt, melde dich an und buche einen Raum.\n\n2. Hinterlege den [API-Key von OpenAI](https://platform.openai.com) im Optionsmenü deines Raumes und schon kann es losgehen!\n\nDein API-Key wird sicher auf unserem Server gespeichert und dein frag.jetzt-Passwort ist ebenfalls sicher. Außerdem kannst du das Token-Kontingent und somit deine API-Kosten zeitlich begrenzen, wenn du ChatGPT für die Benutzung in deinem Raum freigeben möchtest. Alle Einstellungen findest du im Optionsmenü deines Raumes.\n\nStarte jetzt mit einem Guthaben von 5 $, das du in den ersten 3 Monaten einlösen kannst. Je nach Sprachmodell kannst du mit diesem Guthaben mehrere Millionen Token (1 Token entspricht in etwa 5-7 Zeichen) für ChatGPT-Anfragen verbrauchen.",
+    "cancel": "Schließen"
   }
 }

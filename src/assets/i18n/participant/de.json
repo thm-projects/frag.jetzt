@@ -74,6 +74,7 @@
     "filter-read": "Besprochene Fragen",
     "filter-reset": "Zurücksetzen",
     "filter-unanswered": "Unbeantwortet",
+    "filter-approved": "Geprüft",
     "filter-wrong": "Verneinte Fragen",
     "owner": "Fragen, die ich gestellt habe",
     "pause-comments": "Friert die Anzeige ein, um die Fragen in Ruhe zu lesen. Fragen können weiterhin gestellt und bewertet werden. Die Anzeige aktualisiert sich wieder durch Klicken des Buttons.",
@@ -130,6 +131,7 @@
     "needs-user-account": "Du benötigst ein Konto mit einer E-Mail-Adresse, um Benachrichtigungen zu erhalten!"
   },
   "comment-page": {
+    "mark-not-approved": "Geprüft",
     "a11y-comment-answer": "Antwort dieser Frage ansehen",
     "a11y-comment-answer-not": "Diese Frage beantworten",
     "a11y-comment_input": "Gib deine Frage ein",
@@ -158,8 +160,8 @@
     "brainstorming-info-multiple": "{{maxWordCount}} Wörter / {{maxWordLength}} Zeichen",
     "brainstorming-info-single": "{{maxWordCount}} Wort / {{maxWordLength}} Zeichen",
     "brainstorming-placeholder": "Jede Idee ist willkommen!\nErstelle für jede neue Idee einen eigenen Eintrag.\nVerwende keine Sonder- oder Satzzeichen.",
-    "cancel": "Verwerfen",
-    "cancel-description": "Verwerfen",
+    "cancel": "Abbrechen",
+    "cancel-description": "Abbrechen",
     "category": "Kategorie:",
     "comment": "Die Frage {{ comment }} wurde um {{ time }} Uhr gestellt und hat derzeitig {{ votes }}. {{correct}} {{wrong}} {{bonus}} {{beamer}}",
     "continue": "Weiter",
@@ -203,6 +205,7 @@
     "preview-in-mock": "Smartphone-Vorschau",
     "questioner-name": "Selbst vergebener Name",
     "reply-comment-button": "Antwort schreiben",
+    "reply-AI": "ChatGPT antworten lassen",
     "save-answer": "Speichern",
     "search-box-input-description": "Hier kannst du nach Fragen suchen.",
     "send": "Abschicken",
@@ -272,6 +275,60 @@
     "topic-cloud": "## Fragen-Radar \n\n Wenn du alle Fragen im Blick behalten willst, brauchst du eine Art »Radar«. Unser Radar ortet Fragen und Antworten anhand ihrer Stichwörter: Je mehr Fragen und Antworten sich auf ein Stichwort beziehen, desto größer und zentraler erscheint das Stichwort auf dem Radar.\n\n Das Fragen-Radar dient dir als **Navi**: Wenn du auf ein Wort klickst, gelangst du zu den Fragen und Antworten mit diesem Stichwort. \n\n Die Stichwörter werden in Echtzeit mittels einer grammatikalischen Analyse der Nomen ermittelt oder wurden von der Autorin oder dem Autor bestimmt.\n\n  In die Berechnung der Schriftgröße gehen ein:\n\n* die Differenz zwischen Up- und Down-Votes, wenn sie positiv ist,\n* die Anzahl der Fragen mit diesem Stichwort,\n* die Anzahl der Fragensteller\\*innen mit diesem Stichwort,\n* die Rolle: Raumersteller\\*in, Moderator\\*in oder Teilnehmer\\*in,\n* ob eine Fragenkategorie ausgewählt wurde,\n* ob das Stichwort generiert oder vergeben wurde,\n* ob die Frage beantwortet wurde,\n* die Kontroversität der Frage. \n\nDu kannst die Visualisierung nach deinen Wünschen anpassen.  In der Rolle Raumersteller\\*in oder Moderator\\*in kannst du mit den Parametern der Stichwortgenerierung experimentieren, um die **semantische Trennschärfe** zu verbessern.",
     "user-bonus": "Die Lehrperson kann »gute« Fragen für einen Bonus markieren. Deine Fragen aus allen Kursen (Räumen), die einen Stern erhalten haben, werden hier aufgelistet.\n\nJe nach Vereinbarung kannst du den Bonuscode per E-Mail an die Lehrperson schicken, um ihn gegen einen Bonus einzulösen."
   },
+  "gpt-chat": {
+    "optin-accept": "Akzeptieren",
+    "optin-reject": "Ablehnen",
+    "privacy-policy": "Datenschutzerklärung für die Nutzung der OpenAI API",
+    "enter-conversation-text": "Deine Eingabe …",
+    "send": "Senden",
+    "empty-conversation": "Verlauf leeren",
+    "input-forbidden": "Bitte prüfe die ChatGPT-Einstellungen.",
+    "no-api-setup": "Der API-Schlüssel oder das Sprachmodell wurden nicht gesetzt.",
+    "answer-format": {
+      "disabled": "Deaktiviert",
+      "summary": "Zusammenfassung",
+      "definition": "Definition",
+      "flashcard": "Lernkarte"
+    },
+    "greetings": {
+      "text-davinci-003": [
+        {
+          "key": "Grundschule",
+          "value": "Du bist im Chat-Raum namens \"Deutsch\" und es geht um das Thema Gedichte. Erkläre auf dem Niveau eines Schülers einer Grundschule folgende Frage.\nSchüler: Was sind Haikus?\nDu: "
+        },
+        {
+          "key": "Gymnasium",
+          "value": "Du bist im Chat-Raum namens \"Geschichte\" und es geht um das Thema der goldenen Zwanziger. Erkläre auf dem Niveau eines Abitur-Schülers folgende Frage.\nSchüler: Was besagt der Dawes-Plan?\nDu: "
+        },
+        {
+          "key": "Hochschule",
+          "value": "Du bist im Chat-Raum namens \"Algorithmen und Datenstrukturen\" und es geht um das Thema simple Datenstrukturen. Erkläre auf dem Niveau eines Informatik-Studenten im 2. Semester folgende Frage.\nStudent: Gibt es ein Performance-Gewinn, wenn man eine verlinkte Liste und eine Array Liste kombiniert? Es wäre doch vorstellbar, dass man Arrays verlinken könnte, oder liege ich dort falsch?\nDu: "
+        }
+      ],
+      "code-davinci-002": [
+        {
+          "key": "Web",
+          "value": "<|endoftext|>/* I start with a blank HTML page, and incrementally modify it via <script> injection. Written for Chrome. */\n/* Command: Add \"Hello World\", by adding an HTML DOM node */\nvar helloWorld = document.createElement('div');\nhelloWorld.innerHTML = 'Hello World';\ndocument.body.appendChild(helloWorld);\n/* Command: Clear the page. */\nwhile (document.body.firstChild) {\n  document.body.removeChild(document.body.firstChild);\n}\n\n/* Command: Display this image of a cat: https://bit.ly/3fsc0rH */\n"
+        }
+      ],
+      "davinci-instruct-beta:2.0.0": [
+        {
+          "key": "Smalltalk",
+          "value": "Das Fach ist demotivierend. Hast du Tricks zum aufmuntern und aktiver werden?"
+        }
+      ]
+    },
+    "cancel": "Schließen",
+    "refresh": "Ausgabe erneut generieren",
+    "edit": "Ausgabe als editierbare Antwort auf Frage bearbeiten.",
+    "paste": "Ausgabe direkt als Antwort auf Frage veröffentlichen.",
+    "token-info": "Token (Eingabe / Chat / Gesamt): {{promptTokens}} / {{conversationTokens}} / {{allTokens}}",
+    "prompt-label": "Prompt-Suche",
+    "option-total-acts": "Treffer in »Agiere als …«",
+    "option-total-prompts": "Treffer in Prompts",
+    "temperature": "Temperatur",
+    "temperature-tooltip": "Einstellung der Kreativität und Determinismus der Antworten"
+  },
   "header": {
     "overview-keywords-tooltip": "Anzahl Stichwörter",
     "overview-question-tooltip": "Anzahl Fragen",
@@ -291,7 +348,9 @@
     "user-bonus-token": "Meine Bonus-Sterne",
     "room-qr": "QR-Code",
     "motd": "News",
-    "logout": "Abmelden"
+    "logout": "Abmelden",
+    "livepoll": "Blitzumfrage",
+    "livepoll-button": "Umfrage erstellen und alle Personen im Raum automatisch benachrichtigen."
   },
   "home-page": {
     "exactly-8": "Ein Raum-Code hat genau 8 Ziffern.",
@@ -308,7 +367,8 @@
     "brainstorming-title": "Brainstorming",
     "cancel": "Schließen",
     "question-wall-title": "Use Cases des Präsentationsmodus",
-    "tag-cloud-title": "Use Cases des Fragen-Radars"
+    "tag-cloud-title": "Use Cases des Fragen-Radars",
+    "prompt-guide-chatbot": "Effektiv kommunizieren mit ChatGPT"
   },
   "joyride": {
     "commentFilter": "Es gibt zahlreiche Sortier- und Filteroptionen für die Q&A-Liste. Ein aktiver Filter wird rot angezeigt. Für eine bessere Lesbarkeit bei großer Dynamik kann der Fragenstrom auch angehalten werden.",
@@ -474,7 +534,7 @@
   },
   "spacy-dialog": {
     "add-manually": "Gib ein Stichwort zu deiner Frage ein. Trenne mehrere Stichwörter mit einem Komma.",
-    "analysis-bad-spelled": "Es konnten keine Stichwörter generiert werden.",
+    "analysis-bad-spelled": "Hinweis: Der Text eignet sich nicht zur Generierung von Stichwörtern.",
     "analysis-error": "Während der Extraktion von Stichwörtern sind Fehler aufgetreten. Soll die Frage ohne Stichwörter erstellt werden?",
     "auto": "auto",
     "de": "Deutsch",
@@ -717,9 +777,16 @@
     "name-length-error": "Der Name muss {{min}} bis {{max}} Zeichen lang sein.",
     "questioner-name": "Dein Name, wenn du willst …"
   },
-  "pseudonym-editor": {
-    "name": "Wird beim Posten verwendet …",
-    "title": "Mein Forumsname",
-    "deepl": "Duzen oder Siezen?"
+  "gpt-user-description": {
+    "save": "Speichern",
+    "cancel": "Abbrechen",
+    "title": "Selbstbeschreibung für ChatGPT",
+    "user-description": "Selbstbeschreibung",
+    "token-info": "{{tokens}} / {{maxLength}} Token"
+  },
+  "gptchat-info": {
+    "title": "ChatGPT",
+    "content": "ChatGPT ist die perfekte Lösung, um eine Frage im Q&A Forum automatisch zu beantworten. Du kannst auch eigene Prompts erstellen oder aus hunderten vordefinierten Prompts den passenden auswählen. Um ChatGPT zu nutzen, benötigst du lediglich einen Account bei frag.jetzt und einen [API-Key von OpenAI](https://platform.openai.com).\n\nSo einfach geht's in nur zwei Schritten:\n\n1. Registriere dich bei frag.jetzt, melde dich an und buche einen Raum.\n\n2. Hinterlege den [API-Key von OpenAI](https://platform.openai.com) im Optionsmenü deines Raumes und schon kann es losgehen!\n\nDein API-Key wird sicher auf unserem Server gespeichert und dein frag.jetzt-Passwort ist ebenfalls sicher. Außerdem kannst du das Token-Kontingent und somit deine API-Kosten zeitlich begrenzen, wenn du ChatGPT für die Benutzung in deinem Raum freigeben möchtest. Alle Einstellungen findest du im Optionsmenü deines Raumes.\n\nStarte jetzt mit einem Guthaben von 5 $, das du in den ersten 3 Monaten einlösen kannst. Je nach Sprachmodell kannst du mit diesem Guthaben mehrere Millionen Token (1 Token entspricht in etwa 5-7 Zeichen) für ChatGPT-Anfragen verbrauchen.",    
+    "cancel": "Schließen"
   }
 }

@@ -38,6 +38,11 @@
 
     <h3>{{'room-settings-overview.education' | translate}}</h3>
 
+    <mat-slide-toggle [(ngModel)]="livepollEnabled"
+                      aria-labelledby="livepoll-enabled"
+                      matTooltip="{{ 'room-settings-overview.tooltip-livepoll-enabled' | translate }}">
+      {{ 'room-settings-overview.livepoll-enabled' | translate}}
+    </mat-slide-toggle>
     <mat-slide-toggle [(ngModel)]="bonusArchiveEnabled"
                       aria-labelledby="bonus-archive-enabled"
                       matTooltip="{{ 'room-settings-overview.tooltip-bonus-archive-enabled' | translate }}">

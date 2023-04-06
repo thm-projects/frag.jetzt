@@ -49,10 +49,10 @@ mat-toolbar-row {
   flex: 1;
   justify-content: space-evenly;
   align-items: center;
-  overflow: hidden;
+  overflow: visible;
 
   > button {
-    background-color: var(--background);
+    background-color: transparent;
     color: var(--on-background);
   }
 }
@@ -73,7 +73,8 @@ mat-toolbar-row {
     cursor: default;
     width: auto;
 
-    &:hover, &:focus {
+    &:hover,
+    &:focus {
       border: none;
       cursor: default;
     }
@@ -180,7 +181,9 @@ svg {
   background-color: var(--primary-variant);
   border-radius: 5px;
 
-  > ::ng-deep button, ::ng-deep ars-mat-menu-item > button {
+  > ::ng-deep button,
+  ::ng-deep ars-mat-menu-item > button,
+  ::ng-deep ars-mat-sub-menu > button {
     background-color: transparent !important;
 
     &.outside {
@@ -219,9 +222,9 @@ h1 {
 
 .userActivityIcon {
   display: inline-block;
-  width: 25px;
-  height: 25px;
-  margin-bottom: -5px;
+  width: 30px;
+  height: 30px;
+  margin-bottom: -8px;
   background-color: var(--primary);
   -webkit-mask-image: url("../../../../assets/icons/activity.svg");
   mask-image: url("../../../../assets/icons/activity.svg");
@@ -242,7 +245,6 @@ h1 {
   font-size: 14px;
   color: var(--on-surface);
 }
-
 
 .theme-btn {
   &:focus {
@@ -314,7 +316,7 @@ h1 {
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    color: #FFFFFF;
+    color: #ffffff;
     border-radius: 100%;
   }
 }

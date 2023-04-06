@@ -1,0 +1,42 @@
+<h1 mat-dialog-title>
+  {{ translateKey + ".create-dialog-title" | translate }}
+</h1>
+<mat-dialog-content class="content">
+  <mat-form-field appearance="outline">
+    <mat-label>
+      {{ translateKey + ".option-select-template" | translate }}
+    </mat-label>
+    <mat-select
+      [formControl]="templateSelection"
+      #matSelect
+      (openedChange)="overrideHeight($event, matSelect)">
+      <mat-optgroup
+        *ngFor="let group of templateGroups"
+        [label]="(translateKey + '.group-label' | translate)[group.key]">
+        <mat-option
+          *ngFor="let template of group.templates"
+          [value]="template">
+          {{ translateKey + ".template-name-" + template.name | translate }}
+        </mat-option>
+      </mat-optgroup>
+    </mat-select>
+  </mat-form-field>
+
+  <ng-container #viewContainerRef></ng-container>
+</mat-dialog-content>
+
+<mat-dialog-actions style="display: flex; justify-content: flex-end">
+  <button
+    mat-flat-button
+    class="button-cancel"
+    (click)="dialogRef.close()">
+    <span>{{ translateKey + ".cancel" | translate }}</span>
+  </button>
+  <button
+    (click)="create()"
+    mat-flat-button
+    class="button-primary">
+    <mat-icon style="margin-right: 4px">rocket_launch</mat-icon>
+    <span>{{ translateKey + ".create" | translate }}</span>
+  </button>
+</mat-dialog-actions>
