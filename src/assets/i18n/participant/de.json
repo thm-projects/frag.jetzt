@@ -131,6 +131,7 @@
     "needs-user-account": "Du benötigst ein Konto mit einer E-Mail-Adresse, um Benachrichtigungen zu erhalten!"
   },
   "comment-page": {
+    "mark-not-approved": "Geprüft",
     "a11y-comment-answer": "Antwort dieser Frage ansehen",
     "a11y-comment-answer-not": "Diese Frage beantworten",
     "a11y-comment_input": "Gib deine Frage ein",

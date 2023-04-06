@@ -131,6 +131,7 @@
     "needs-user-account": "Tu as besoin d'un compte avec une adresse e-mail pour recevoir des notifications !"
   },
   "comment-page": {
+    "mark-not-approved": "Vérifié",
     "a11y-comment-answer": "Voir la réponse à cette question",
     "a11y-comment-answer-not": "Répondre à cette question",
     "a11y-comment_input": "Écris ta question",

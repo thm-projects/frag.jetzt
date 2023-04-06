@@ -320,6 +320,25 @@
 
       <button
         mat-menu-item
+        (click)="applyFilterByKey('Approved')">
+        <mat-icon
+          class="material-icons-outlined"
+          style="color: var(--green)"
+          [ngClass]="{ Approved: 'approved-icon' }[filterType]">
+          fact_check
+        </mat-icon>
+        <span [ngClass]="{ Approved: 'approved-icon' }[filterType]">
+          {{ "comment-list.filter-approved" | translate }}
+        </span>
+        <span
+          class="inline-count-badge"
+          [matBadge]="filterTypeCounts?.['Approved'] || 0"
+          matBadgeColor="secondary"
+          matBadgeSize="medium"></span>
+      </button>
+
+      <button
+        mat-menu-item
         (click)="applyFilterByKey('Conversation')"
         aria-labelledby="conversation">
         <mat-icon class="conversation-icon material-icons-outlined">
@@ -390,25 +409,6 @@
         <span
           class="inline-count-badge"
           [matBadge]="filterTypeCounts?.['Unanswered'] || 0"
-          matBadgeColor="secondary"
-          matBadgeSize="medium"></span>
-      </button>
-
-      <button
-        mat-menu-item
-        (click)="applyFilterByKey('Approved')">
-        <mat-icon
-          class="material-icons-outlined"
-          style="color: var(--primary)"
-          [ngClass]="{ Approved: 'approved-icon' }[filterType]">
-          shield
-        </mat-icon>
-        <span [ngClass]="{ Approved: 'approved-icon' }[filterType]">
-          {{ "comment-list.filter-approved" | translate }}
-        </span>
-        <span
-          class="inline-count-badge"
-          [matBadge]="filterTypeCounts?.['Approved'] || 0"
           matBadgeColor="secondary"
           matBadgeSize="medium"></span>
       </button>
