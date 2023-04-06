@@ -376,6 +376,46 @@
     "optin-reject": "Refuser",
     "privacy-policy": "Déclaration de confidentialité pour l'utilisation de l'API OpenAI",
     "enter-conversation-text": "Parle à ChatGPT",
+    "context-competence": "J'ai les compétences {{value}}.",
+    "context-self-description": "Ma description de moi-même est {{value}}.",
+    "context-context": "Le contexte de ma question est {{value}}.",
+    "context-topic": "Le thème est {{value}}.",
+    "context-language": "Réponds-moi {{value}}.",
+    "context-social-tone": "Parle-moi {{value}}.",
+    "context-formal-address": "Adresse-toi à moi de manière {{value}}, s'il te plaît.",
+    "context-response-length": "Réponds-moi {{value}}, s'il te plaît.",
+    "context-response-format": "Formate la réponse sous forme {{value}}.",
+    "context-question": "Ma question est:\n{{value}}",
+    "choices": {
+      "social-tone": [
+        { "key": "neutral", "text": "de manière neutre" },
+        { "key": "friendly", "text": "gentiment" },
+        { "key": "expertly", "text": "en tant qu'expert" },
+        { "key": "humorous", "text": "avec humour" }
+      ],
+      "response-format": [
+        { "key": "summary", "text": "de résumé" },
+        { "key": "definition", "text": "de définition" },
+        { "key": "flashcard", "text": "de carte d'apprentissage" }
+      ],
+      "language": {
+        "de": "en allemand",
+        "en": "en anglais",
+        "fr": "en français",
+        "like_question": "dans la langue de la question"
+      },
+      "response-length": {
+        "short": "brièvement",
+        "detailed": "en détail",
+        "extensive": "largement"
+      },
+      "formal-address": {
+        "true": "formelle",
+        "false": "informelle"
+      }
+    },
+    "your-choice": "Ta sélection",
+    "none": "Aucun",
     "send": "Envoyer",
     "empty-conversation": "Vider l'historique",
     "input-forbidden": "Saisie interdite, veuillez vérifier les paramètres de l'API GPT.",
