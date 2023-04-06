@@ -565,7 +565,6 @@ export class SessionService {
   }
 
   private onLivepollCreated(message: any, room: Room) {
-    console.warn('LIVEPOLL CREATED');
     this._beforeRoomUpdates.next(room);
     const livepollSessionObject = new LivepollSession(message.payload.livepoll);
     this._currentLivepollSession.next(livepollSessionObject);
@@ -581,12 +580,9 @@ export class SessionService {
   }
 
   private onLivepollPatched(message: any, room: Room) {
-    console.warn('LIVEPOLL PATCHED');
     const id = room.livepollSession?.id;
     if (id !== message.payload.id) {
-      console.error(
-        `"id !== message.payload.id" : incoming ID: ${message.payload.id}, currentLivepoll ID: ${this.currentLivepoll.id}, roomLivepoll ID: ${room.livepollSession.id} `,
-      );
+      // skip
       return;
     }
     this._beforeRoomUpdates.next(room);
