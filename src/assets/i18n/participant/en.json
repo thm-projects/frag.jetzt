@@ -285,6 +285,46 @@
     "optin-reject": "Reject",
     "privacy-policy": "Privacy Policy for the Use of OpenAI API",
     "enter-conversation-text": "Chat with ChatGPT",
+    "context-competence": "I have the competence {{value}}.",
+    "context-self-description": "My self description is {{value}}.",
+    "context-context": "The context of my question is {{value}}.",
+    "context-topic": "The topic is {{value}}.",
+    "context-language": "Answer me {{value}}.",
+    "context-social-tone": "Talk {{value}} to me.",
+    "context-formal-address": "Please contact me {{value}}.",
+    "context-response-length": "Answer me {{value}}, please.",
+    "context-response-format": "Format the answer as {{value}}.",
+    "context-question": "My question is:\n{{value}}",
+    "choices": {
+      "social-tone": [
+        { "key": "neutral", "text": "neutral" },
+        { "key": "friendly", "text": "friendly" },
+        { "key": "expertly", "text": "expertly" },
+        { "key": "humorous", "text": "humorous" }
+      ],
+      "response-format": [
+        { "key": "summary", "text": "a summary" },
+        { "key": "definition", "text": "a definition" },
+        { "key": "flashcard", "text": "a flashcard" }
+      ],
+      "language": {
+        "de": "in German",
+        "en": "in English",
+        "fr": "in French",
+        "like_question": "in the language of the question"
+      },
+      "response-length": {
+        "short": "shortly",
+        "detailed": "in detail",
+        "extensive": "extensively"
+      },
+      "formal-address": {
+        "true": "formally",
+        "false": "informally"
+      }
+    },
+    "your-choice": "Your selection",
+    "none": "None",
     "send": "Send",
     "empty-conversation": "Clear history",
     "input-forbidden": "Input forbidden, please check the GPT API settings.",

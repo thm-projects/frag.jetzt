@@ -12,7 +12,15 @@ import {
 import { GPTStatistics } from 'app/models/gpt-statistics';
 import { RatingResult } from 'app/models/rating-result';
 import { UUID, verifyInstance } from 'app/utils/ts-utils';
-import { catchError, finalize, map, Observable, tap } from 'rxjs';
+import {
+  catchError,
+  finalize,
+  map,
+  Observable,
+  of,
+  tap,
+  throwError,
+} from 'rxjs';
 import { BaseHttpService } from './base-http.service';
 import { postSSE } from 'app/utils/sse-client';
 
@@ -334,6 +342,12 @@ export class GptService extends BaseHttpService {
     const url = '/api/gpt/user-description/' + roomId;
     return this.httpClient.get(url, httpOptionsPlainString).pipe(
       tap((_) => ''),
+      catchError((err) => {
+        if (err?.status === 404) {
+          return of('');
+        }
+        return throwError(() => err);
+      }),
       catchError(this.handleError<string>('getUserDescription')),
     );
   }

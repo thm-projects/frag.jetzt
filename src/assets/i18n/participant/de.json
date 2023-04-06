@@ -281,6 +281,46 @@
     "privacy-policy": "Datenschutzerklärung für die Nutzung der OpenAI API",
     "enter-conversation-text": "Deine Eingabe …",
     "send": "Senden",
+    "context-competence": "Ich habe die Kompetenz {{value}}.",
+    "context-self-description": "Meine Selbstbeschreibung ist {{value}}.",
+    "context-context": "Der Kontext meiner Frage ist {{value}}.",
+    "context-topic": "Das Thema ist {{value}}.",
+    "context-language": "Antworte mir {{value}}.",
+    "context-social-tone": "Rede {{value}} mit mir.",
+    "context-formal-address": "Spreche mich bitte {{value}} an.",
+    "context-response-length": "Antworte mir bitte {{value}}.",
+    "context-response-format": "Formatiere die Antwort als {{value}}.",
+    "context-question": "Meine Frage ist:\n{{value}}",
+    "choices": {
+      "social-tone": [
+        { "key": "neutral", "text": "neutral" },
+        { "key": "friendly", "text": "freundlich" },
+        { "key": "expertly", "text": "fachkundig" },
+        { "key": "humorous", "text": "humorvoll" }
+      ],
+      "response-format": [
+        { "key": "summary", "text": "Zusammenfassung" },
+        { "key": "definition", "text": "Definition" },
+        { "key": "flashcard", "text": "Lernkarte" }
+      ],
+      "language": {
+        "de": "auf Deutsch",
+        "en": "auf Englisch",
+        "fr": "auf Französisch",
+        "like_question": "in der Sprache der Frage"
+      },
+      "response-length": {
+        "short": "kurz",
+        "detailed": "detailliert",
+        "extensive": "umfangreich"
+      },
+      "formal-address": {
+        "true": "formal",
+        "false": "informal"
+      }
+    },
+    "your-choice": "Deine Auswahl",
+    "none": "Keine",
     "empty-conversation": "Verlauf leeren",
     "input-forbidden": "Bitte prüfe die ChatGPT-Einstellungen.",
     "no-api-setup": "Der API-Schlüssel oder das Sprachmodell wurden nicht gesetzt.",
