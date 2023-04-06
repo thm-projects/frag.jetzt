@@ -44,7 +44,7 @@
     "save-error": "Could not save data!",
     "load-error": "Could not load configuration!",
     "load-stats-error": "Could not load statistics!",
-    "stats-message": "The platform has used a total of {{all}} Tokens.\nOf which {{week}} was this week and {{day}} Tokens this day.\nThe last usage was on {{date}}.",
+    "stats-message": "The platform has used a total of {{all}}$.\nOf which {{month}}$ was this month, {{week}}% this week and {{day}}$ this day.\nThe last access was on {{date}}.",
     "prompt-type": "Token for the request",
     "completion-type": "Token for output",
     "boxplot-message": "The median {{median}} {{type}} per request was consumed, with 50% of the data between {{lower}} tokens and {{upper}} Tokens. Of {{count}} Requests, {{lowerStray}} below and {{upperStray}} above are torn out.",

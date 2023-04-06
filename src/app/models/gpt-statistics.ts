@@ -3,6 +3,7 @@ import {
   verifyFixedSize,
   verifyInstance,
 } from 'app/utils/ts-utils';
+import { GPTQuotaUnit } from './gpt-configuration';
 
 export class GPTStatistic {
   percentiles: FixedSizeArray<number, 11>;
@@ -37,22 +38,22 @@ export class GPTStatistic {
 
 export class GPTStatistics {
   lastUpdate: Date;
-  dailyCounter: number;
-  weeklyCounter: number;
-  monthlyCounter: number;
-  accumulatedCounter: number;
+  dailyCounter: GPTQuotaUnit;
+  weeklyCounter: GPTQuotaUnit;
+  monthlyCounter: GPTQuotaUnit;
+  accumulatedCounter: GPTQuotaUnit;
 
   constructor({
     lastUpdate = null,
-    dailyCounter = 0,
-    weeklyCounter = 0,
-    monthlyCounter = 0,
-    accumulatedCounter = 0,
+    dailyCounter = null,
+    weeklyCounter = null,
+    monthlyCounter = null,
+    accumulatedCounter = null,
   }: GPTStatistics) {
     this.lastUpdate = verifyInstance(Date, lastUpdate);
-    this.dailyCounter = dailyCounter;
-    this.weeklyCounter = weeklyCounter;
-    this.monthlyCounter = monthlyCounter;
-    this.accumulatedCounter = accumulatedCounter;
+    this.dailyCounter = verifyInstance(GPTQuotaUnit, dailyCounter);
+    this.weeklyCounter = verifyInstance(GPTQuotaUnit, weeklyCounter);
+    this.monthlyCounter = verifyInstance(GPTQuotaUnit, monthlyCounter);
+    this.accumulatedCounter = verifyInstance(GPTQuotaUnit, accumulatedCounter);
   }
 }

@@ -44,7 +44,7 @@
     "save-error": "Konnte Daten nicht speichern!",
     "load-error": "Konnte Konfiguration nicht laden!",
     "load-stats-error": "Konnte Statistiken nicht laden!",
-    "stats-message": "Die Plattform hat insgesamt {{all}} Tokens verbraucht.\nDavon {{week}} diese Woche und {{day}} Tokens an diesem Tag.\nDie letzte Nutzung fand am {{date}} statt.",
+    "stats-message": "Die Plattform hat insgesamt {{all}}$ verbraucht.\nDavon {{month}}$ diesen Monat, {{week}}$ diese Woche und {{day}}$ an diesem Tag.\nDer letzte Zugriff fand am {{date}} statt.",
     "prompt-type": "Token für die Anfrage",
     "completion-type": "Token für die Ausgabe",
     "boxplot-message": "Es wurden im Median {{median}} {{type}} pro Request verbraucht, dabei befanden sich 50% der Daten zwischen {{lower}} Tokens und {{upper}} Tokens. Von {{count}} Requests sind {{lowerStray}} unterhalb und {{upperStray}} oberhalb ausgerissen.",

@@ -160,7 +160,10 @@
               {{
                 "gpt-config.activation-info"
                   | translate
-                    : { code: item.code, maxCost: item.maximalCost.toFixed(2) }
+                    : {
+                        code: item.code,
+                        maxCost: (item.maximalCost.toPlain(2) / 100).toFixed(2)
+                      }
               }}
             </div>
             <div
@@ -209,40 +212,11 @@
           "gpt-config.stats-message"
             | translate
               : {
-                  all: statistics.accumulatedQuota,
-                  week: statistics.weeklyQuota,
-                  day: statistics.dailyQuota,
-                  date: prettyDate(statistics.lastUsed)
-                }
-        }}
-        <br />
-        <br />
-        {{
-          "gpt-config.boxplot-message"
-            | translate
-              : {
-                  median: statistics.promptTokens.percentiles[5],
-                  type: "gpt-config.prompt-type" | translate,
-                  lower: statistics.promptTokens.lowerQuartile,
-                  upper: statistics.promptTokens.upperQuartile,
-                  count: statistics.promptTokens.count,
-                  lowerStray: statistics.promptTokens.strayBulletsLower,
-                  upperStray: statistics.promptTokens.strayBulletsUpper
-                }
-        }}
-        <br />
-        <br />
-        {{
-          "gpt-config.boxplot-message"
-            | translate
-              : {
-                  median: statistics.completionTokens.percentiles[5],
-                  type: "gpt-config.completion-type" | translate,
-                  lower: statistics.completionTokens.lowerQuartile,
-                  upper: statistics.completionTokens.upperQuartile,
-                  count: statistics.completionTokens.count,
-                  lowerStray: statistics.completionTokens.strayBulletsLower,
-                  upperStray: statistics.completionTokens.strayBulletsUpper
+                  all: statistics.accumulatedCounter.toFixed(2, 6),
+                  month: statistics.monthlyCounter.toFixed(2, 6),
+                  week: statistics.weeklyCounter.toFixed(2, 6),
+                  day: statistics.dailyCounter.toFixed(2, 6),
+                  date: prettyDate(statistics.lastUpdate)
                 }
         }}
       </div>

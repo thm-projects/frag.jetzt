@@ -447,7 +447,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
       return true;
     }
     return this.contexts.every(
-      (e) => e.type !== 'multiple' || e.selected || e.allowNone,
+      (e) => !e.value || e.type !== 'multiple' || e.selected || e.allowNone,
     );
   }
 
@@ -1075,7 +1075,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
       }
       this.gptService
         .patchPreset(this.room.id, {
-          topics: [{ description: result[0], active: true }],
+          topics: result[0] ? [{ description: result[0], active: true }] : [],
         })
         .subscribe((preset) => {
           this.updatePresetEntries(preset);

@@ -44,7 +44,7 @@
     "save-error": "N'a pas pu enregistrer les données !",
     "load-error": "Impossible de charger la configuration !",
     "load-stats-error": "Je n'ai pas pu charger les statistiques !",
-    "stats-message": "La plateforme a consommé au total {{all}}.\nDont {{week}} cette semaine et {{day}} ce jour.\nLa dernière utilisation a eu lieu le {{date}}.",
+    "stats-message": "La plateforme a consommé un total de {{all}}$.\nDont {{month}}$ ce mois-ci, {{week}}$ cette semaine et {{day}}$ ce jour.\nLe dernier accès a eu lieu le {{date}}.",
     "prompt-type": "Jeton pour la demande",
     "completion-type": "Jeton pour la distribution",
     "boxplot-message": "La médiane {{médiane}} {{type}} par requête a été consommée, avec 50% des données entre les tokens {{inférieurs}} et {{supérieurs}}. tokens. Parmi les {{comptes}} Requêtes, {{lowerStray}} en bas et {{upperStray}} en haut sont arrachées.",
