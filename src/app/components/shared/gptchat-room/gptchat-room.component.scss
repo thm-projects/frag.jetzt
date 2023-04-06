@@ -49,6 +49,16 @@
   }
 }
 
+.gpt-gap-text {
+  margin: 0.5em !important;
+  padding: 0 !important;
+
+  > mat-form-field {
+    margin-bottom: -1.25em;
+    margin-inline: 1em;
+  }
+}
+
 .gpt-requester {
   display: flex;
   flex-direction: column;

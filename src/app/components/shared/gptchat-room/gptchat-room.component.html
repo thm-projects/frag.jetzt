@@ -153,13 +153,47 @@
 
     <ng-container *ngIf="answeringComment && conversation.length < 1">
       <ng-container *ngFor="let context of contexts">
-        <div *ngIf="context.value">
+        <div
+          *ngIf="context.value && context.type === 'single'"
+          class="gpt-gap-text">
           <span>
             {{
               "gpt-chat.context-" + context.name
-                | translate : { value: context.value }
+                | translate : { value: context.value.text }
             }}
           </span>
+        </div>
+        <div
+          *ngIf="
+            context.value &&
+            (context.type === 'multiple' || context.type === 'quill')
+          "
+          class="gpt-gap-text">
+          <ng-container *ngFor="let part of splitIntoParts(context) | async">
+            <span *ngIf="part.type === 'span'">
+              {{ part.text }}
+            </span>
+            <mat-form-field *ngIf="part.type === 'select'">
+              <mat-label>{{ "gpt-chat.your-choice" | translate }}</mat-label>
+              <mat-select
+                [(ngModel)]="context.selected"
+                [required]="!context.allowNone">
+                <mat-option
+                  *ngIf="context.allowNone"
+                  [value]="null">
+                  <em>{{ "gpt-chat.none" | translate }}</em>
+                </mat-option>
+                <mat-option
+                  *ngFor="let option of context.value"
+                  [value]="option.key">
+                  {{ option.text }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <app-view-comment-data
+              *ngIf="part.type === 'quill'"
+              [currentData]="context.value"></app-view-comment-data>
+          </ng-container>
         </div>
       </ng-container>
     </ng-container>
@@ -174,6 +208,7 @@
         </button>
         <button
           mat-button
+          [disabled]="!canSend()"
           style="float: right"
           class="secondary-btn"
           (click)="sendGPTMessage()">

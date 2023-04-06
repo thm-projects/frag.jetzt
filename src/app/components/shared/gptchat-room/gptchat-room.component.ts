@@ -26,12 +26,14 @@ import { UserManagementService } from 'app/services/util/user-management.service
 import { KeyboardUtils } from 'app/utils/keyboard';
 import { KeyboardKey } from 'app/utils/keyboard/keys';
 import {
+  ImmutableStandardDelta,
   MarkdownDelta,
   QuillUtils,
   StandardDelta,
 } from 'app/utils/quill-utils';
 import {
   finalize,
+  Observable,
   Observer,
   ReplaySubject,
   Subject,
@@ -62,7 +64,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { UserRole } from '../../../models/user-roles.enum';
 import { ForumComment } from '../../../utils/data-accessor';
 import { EventService } from '../../../services/util/event.service';
-import { take } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { clone } from '../../../utils/ts-utils';
 import {
   CommentCreateOptions,
@@ -81,11 +83,23 @@ interface ConversationEntry {
   message: string;
 }
 
+interface ContextOption {
+  key: string;
+  text: string;
+}
+
 interface Context {
   name: string;
-  type: 'single' | 'multiple';
-  value?: string | string[];
+  type: 'single' | 'multiple' | 'quill';
+  value?: ContextOption | ContextOption[] | ImmutableStandardDelta;
+  parts?: Observable<MultiContextElement[]>;
   selected?: string;
+  allowNone?: true;
+}
+
+interface MultiContextElement {
+  text?: string;
+  type: 'select' | 'span' | 'quill';
 }
 
 @Component({
@@ -145,7 +159,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
     },
     {
       name: 'topic',
-      type: 'single',
+      type: 'multiple',
       value: null,
     },
     {
@@ -154,9 +168,10 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
       value: null,
     },
     {
-      name: 'social-tone', // TODO Translate service
+      name: 'social-tone',
       type: 'multiple',
       value: null,
+      allowNone: true,
     },
     {
       name: 'formal-address',
@@ -169,13 +184,14 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
       value: null,
     },
     {
-      name: 'response-format', // TODO Translate service
+      name: 'response-format',
       type: 'multiple',
       value: null,
+      allowNone: true,
     },
     {
       name: 'question',
-      type: 'single',
+      type: 'quill',
       value: null,
     },
   ];
@@ -206,6 +222,12 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
     private notificationService: NotificationService,
   ) {
     this.keywordExtractor = new KeywordExtractor(injector);
+    this.languageService
+      .getLanguage()
+      .pipe(takeUntil(this.destroyer))
+      .subscribe(() => {
+        this.updatePresetEntries(this._preset);
+      });
   }
 
   ngOnInit(): void {
@@ -216,15 +238,12 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
         this.owningComment = comment;
       });
     this.eventService.broadcast('gptchat-room.init');
-    const TODOHint = false;
-    if (this.owningComment?.body && TODOHint) {
+    if (this.owningComment?.body) {
       this.answeringComment = true;
       this.initDelta = clone(this.owningComment?.body);
-      this.getContextByName('question').value = QuillUtils.getMarkdownFromDelta(
-        this.initDelta,
-      );
+      this.getContextByName('question').value = clone(this.initDelta);
     } else {
-      this.initDelta = clone(this.owningComment?.body) || { ops: [] };
+      this.initDelta = { ops: [] };
       this.loadConversation();
     }
     this.initNormal();
@@ -423,6 +442,15 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
     this.location.back();
   }
 
+  canSend() {
+    if (!this.answeringComment || this.conversation.length > 0) {
+      return true;
+    }
+    return this.contexts.every(
+      (e) => e.type !== 'multiple' || e.selected || e.allowNone,
+    );
+  }
+
   sendGPTMessage() {
     if (this.isSending || this.error) {
       return;
@@ -486,6 +514,32 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
       duration: 12_500,
       panelClass: ['snackbar', 'important'],
     });
+  }
+
+  protected splitIntoParts(
+    context: Context,
+  ): Observable<MultiContextElement[]> {
+    if (context.parts) {
+      return context.parts;
+    }
+    context.parts = this.translateService
+      .stream('gpt-chat.context-' + context.name)
+      .pipe(
+        takeUntil(this.destroyer),
+        map((message) => {
+          const parts = message.split('{{value}}');
+          const result: MultiContextElement[] = [];
+          for (let i = 0; i < parts.length - 1; i++) {
+            result.push({ text: parts[i], type: 'span' });
+            result.push({
+              type: context.type === 'multiple' ? 'select' : 'quill',
+            });
+          }
+          result.push({ text: parts[parts.length - 1], type: 'span' });
+          return result;
+        }),
+      );
+    return context.parts;
   }
 
   protected setLanguagePreset(language: GPTRoomPresetLanguage): void {
@@ -568,7 +622,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
       });
       this.gptService.getUserDescription(r.id).subscribe((description) => {
         this.getContextByName('self-description').value = description
-          ? description
+          ? { key: null, text: description }
           : null;
       });
       this.gptService.getPrompts().subscribe((prompts) => {
@@ -870,7 +924,39 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
     };
   }
 
-  private getCurrentText() {
+  private getCurrentText(): string {
+    if (this.answeringComment && this.conversation.length < 1) {
+      return this.contexts.reduce((acc, current) => {
+        if (!current.value) {
+          return acc;
+        }
+        let message: string;
+        this.translateService
+          .get('gpt-chat.context-' + current.name)
+          .subscribe((msg) => (message = msg));
+        if (current.type === 'single') {
+          message = message.replaceAll('{{value}}', current.value['text']);
+        } else if (current.type === 'quill') {
+          message = message.replaceAll(
+            '{{value}}',
+            QuillUtils.getMarkdownFromDelta(
+              current.value as ImmutableStandardDelta,
+            ),
+          );
+        } else {
+          if (!current.selected) {
+            return acc;
+          }
+          message = message.replaceAll(
+            '{{value}}',
+            (current.value as ContextOption[]).find(
+              (e) => e.key === current.selected,
+            ).text,
+          );
+        }
+        return (acc ? acc + '\n' : '') + message;
+      }, '');
+    }
     const data = this.commentData?.currentData;
     if (!data) {
       return '';
@@ -880,6 +966,9 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private updatePresetEntries(preset: GPTRoomPreset) {
     this._preset = preset;
+    if (!preset) {
+      return;
+    }
     const role = this.sessionService.currentRole;
     let persona = preset.personaParticipant;
     if (role === UserRole.CREATOR) {
@@ -887,17 +976,65 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
     } else if (role > UserRole.PARTICIPANT) {
       persona = preset.personaParticipant;
     }
-    this.getContextByName('competence').value = persona || null;
-    this.getContextByName('context').value = preset.context || null;
-    let arr = [];
+    this.getContextByName('competence').value = persona
+      ? { key: null, text: persona }
+      : null;
+    this.getContextByName('context').value = preset.context
+      ? { key: null, text: preset.context }
+      : null;
+    let arr: string[] = [];
     if (preset.topics) {
       arr = preset.topics.filter((e) => e.active).map((e) => e.description);
     }
-    this.getContextByName('topic').value = arr?.length ? arr : null;
-    this.getContextByName('language').value = preset.language || null;
-    this.getContextByName('formal-address').value =
-      String(preset.formal) || null;
-    this.getContextByName('response-length').value = preset.length || null;
+    this.getContextByName('topic').value = arr?.length
+      ? arr.map((e, i) => ({ key: String(i), text: e }))
+      : null;
+    if (preset.language) {
+      this.translateService
+        .get('gpt-chat.choices.language.' + preset.language)
+        .subscribe((msg) => {
+          this.getContextByName('language').value = {
+            key: preset.language,
+            text: msg,
+          };
+        });
+    } else {
+      this.getContextByName('language').value = null;
+    }
+    if (preset.formal !== null) {
+      this.translateService
+        .get('gpt-chat.choices.formal-address.' + preset.formal)
+        .subscribe((msg) => {
+          this.getContextByName('formal-address').value = {
+            key: String(preset.formal),
+            text: msg,
+          };
+        });
+    } else {
+      this.getContextByName('formal-address').value = null;
+    }
+    if (preset.length) {
+      this.translateService
+        .get('gpt-chat.choices.response-length.' + preset.length)
+        .subscribe((msg) => {
+          this.getContextByName('response-length').value = {
+            key: preset.length,
+            text: msg,
+          };
+        });
+    } else {
+      this.getContextByName('response-length').value = null;
+    }
+    this.translateService
+      .get('gpt-chat.choices.social-tone')
+      .subscribe((options) => {
+        this.getContextByName('social-tone').value = options;
+      });
+    this.translateService
+      .get('gpt-chat.choices.response-format')
+      .subscribe((options) => {
+        this.getContextByName('response-format').value = options;
+      });
   }
 
   private showContextPresetsDefinition() {
