@@ -125,6 +125,7 @@ export class RoomCreateComponent implements OnInit {
       shortId: this.hasCustomShortId
         ? this.roomShortIdFormControl.value
         : undefined,
+      directSend: true,
     });
     this.roomService
       .addRoom(newRoom, () => {
