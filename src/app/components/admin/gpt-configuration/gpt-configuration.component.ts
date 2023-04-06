@@ -11,6 +11,7 @@ import { TranslateService } from '@ngx-translate/core';
 import {
   GPTActivationCode,
   GPTConfiguration,
+  GPTQuotaUnit,
   GPTRestrictions,
 } from 'app/models/gpt-configuration';
 import { GPTStatistics } from 'app/models/gpt-statistics';
@@ -104,7 +105,10 @@ export class GptConfigurationComponent implements OnInit, OnDestroy {
     this.platformCodes.push(
       new GPTActivationCode({
         code: newCode,
-        maximalCost: this.activationMaxCost,
+        maximalCost: new GPTQuotaUnit({
+          value: Math.round(this.activationMaxCost * 100),
+          exponent: 2,
+        }),
       }),
     );
     this.activationCode = '';
@@ -180,7 +184,7 @@ export class GptConfigurationComponent implements OnInit, OnDestroy {
         if (!obj.platformCodes.includes(code)) {
           arr.push({
             code: code.code,
-            maximalCost: Math.round(code.maximalCost * 100),
+            maximalCost: code.maximalCost.toPlain(2),
           });
         }
       }
@@ -237,10 +241,7 @@ export class GptConfigurationComponent implements OnInit, OnDestroy {
     this.active = obj.active;
     this.endDate = obj.endDate ? new Date(obj.endDate) : null;
     this.endDateControl.setValue(this.endDate);
-    this.platformCodes = obj.platformCodes.map((e) => {
-      e.maximalCost = e.maximalCost / 100;
-      return e;
-    });
+    this.platformCodes = [...obj.platformCodes];
   }
 
   private updateGPT(changes: Partial<GPTConfiguration>) {
