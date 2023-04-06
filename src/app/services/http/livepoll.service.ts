@@ -208,7 +208,6 @@ export class LivepollService extends BaseHttpService {
     changes: Partial<LivepollSession>,
     type: LivepollEventType,
   ) {
-    console.warn('emitEvent', session, changes, LivepollEventType[type]);
     LivepollService.livepollEventEmitter.emit({
       type,
       changes,
@@ -302,18 +301,12 @@ export class LivepollService extends BaseHttpService {
       // ? creator wants to create a live poll
       // : creator closed dialog
       if (data) {
-        this.onNextEvent(LivepollEventType.Create).subscribe(
-          (livepollSession) => {
-            this._dialogState.next(LivepollDialogState.Closed);
-            this.open(session);
-          },
-        );
-        this.create(data).subscribe((result) => {
-          console.warn(
-            'create service-response',
-            result,
-            session.currentLivepoll,
-          );
+        this.onNextEvent(LivepollEventType.Create).subscribe(() => {
+          this._dialogState.next(LivepollDialogState.Closed);
+          this.open(session);
+        });
+        const subscription = this.create(data).subscribe(() => {
+          subscription.unsubscribe();
         });
       } else {
         this._dialogState.next(LivepollDialogState.Closed);
