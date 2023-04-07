@@ -376,18 +376,18 @@
   "gpt-chat": {
     "optin-accept": "Akzeptieren",
     "optin-reject": "Ablehnen",
-    "privacy-policy": "Datenschutzerklärung für die Nutzung der OpenAI API",
+    "privacy-policy": "Datenschutzerklärung für die Nutzung der OpenAI-API",
     "enter-conversation-text": "Deine Eingabe …",
-    "context-competence": "Ich habe die Kompetenz {{value}}.",
-    "context-self-description": "Meine Selbstbeschreibung ist {{value}}.",
-    "context-context": "Der Kontext meiner Frage ist {{value}}.",
-    "context-topic": "Das Thema ist {{value}}.",
-    "context-language": "Antworte mir {{value}}.",
-    "context-social-tone": "Rede {{value}} mit mir.",
-    "context-formal-address": "Spreche mich bitte {{value}} an.",
-    "context-response-length": "Antworte mir bitte {{value}}.",
-    "context-response-format": "Formatiere die Antwort als {{value}}.",
-    "context-question": "Meine Frage ist:\n{{value}}",
+    "context-competence": "Kompetenz: {{value}}",
+    "context-self-description": "Selbstbeschreibung: {{value}}",
+    "context-context": "Kontext: {{value}}",
+    "context-topic": "Thema: {{value}}",
+    "context-language": "Sprache: {{value}}",
+    "context-social-tone": "Tonfall: {{value}}",
+    "context-formal-address": "Anrede: {{value}}",
+    "context-response-length": "Umfang: {{value}}",
+    "context-response-format": "Format: {{value}}",
+    "context-question": "\nFrage:\n\n{{value}}",
     "choices": {
       "social-tone": [
         { "key": "neutral", "text": "neutral" },
@@ -401,10 +401,10 @@
         { "key": "flashcard", "text": "Lernkarte" }
       ],
       "language": {
-        "de": "auf Deutsch",
-        "en": "auf Englisch",
-        "fr": "auf Französisch",
-        "like_question": "in der Sprache der Frage"
+        "de": "Deutsch",
+        "en": "Englisch",
+        "fr": "Französisch",
+        "like_question": "wie Frage"
       },
       "response-length": {
         "short": "kurz",
