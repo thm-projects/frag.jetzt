@@ -339,7 +339,7 @@
     "join-room": "Participer",
     "key-code-length-error": "Le code doit comporter entre {{min}} et {{max}} caractères.",
     "link-description": "Ouvrir une nouvelle fenêtre",
-    "live-announcer": "Bienvenue sur le site de fragpunktjetzt. Ce site a été optimisé pour les lecteurs d'écran comme ChromeVox, Voiceover et bien d'autres. Un audioguide peut t'aider à naviguer. Pour obtenir des informations sur les combinaisons de touches, appuie maintenant sur la touche Entrée ou appelle l'annonce ultérieurement avec la touche Échap.",
+    "live-announcer": "Bienvenue sur le site de frag jetzt. Ce site a été optimisé pour les lecteurs d'écran comme ChromeVox, Voiceover et bien d'autres. Un audioguide peut t'aider à naviguer. Pour obtenir des informations sur les combinaisons de touches, appuie maintenant sur la touche Entrée ou appelle l'annonce ultérieurement avec la touche Échap.",
     "live-announcer-user": "Tu te trouves maintenant sur la page d'utilisateur. Pour obtenir des informations sur les combinaisons de touches, appuie maintenant sur la touche Entrée ou appelle l'annonce plus tard avec la touche Echap.",
     "name-length-error": "Le nom doit comporter entre {{min}} et {{max}} caractères.",
     "no-room-found": "Une salle portant ce nom ou ce code n'existe pas.",

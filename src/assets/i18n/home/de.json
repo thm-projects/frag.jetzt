@@ -339,7 +339,7 @@
     "join-room": "Teilnehmen",
     "key-code-length-error": "Der Code muss {{min}} bis {{max}} Zeichen lang sein.",
     "link-description": "Öffnet neues Fenster",
-    "live-announcer": "Willkommen auf der Seite fragpunktjetzt. Diese Seite wurde für Screenreader wie ChromeVox, Voiceover und viele andere optimiert. Ein Audioguide kann dir bei der Navigation helfen. Um Informationen zu Tastenkombinationen zu erhalten drücke jetzt die Enter-Taste oder rufe die Ansage zu einem späteren Zeitpunkt mit der Escape-Taste auf.",
+    "live-announcer": "Willkommen auf der Seite frag jetzt. Diese Seite wurde für Screenreader wie ChromeVox, Voiceover und viele andere optimiert. Ein Audioguide kann dir bei der Navigation helfen. Um Informationen zu Tastenkombinationen zu erhalten drücke jetzt die Enter-Taste oder rufe die Ansage zu einem späteren Zeitpunkt mit der Escape-Taste auf.",
     "live-announcer-user": "Du befindest dich jetzt auf der Benutzer-Seite. Um Informationen zu Tastenkombinationen zu erhalten drücke jetzt die Enter-Taste oder rufe die Ansage zu einem späteren Zeitpunkt mit der Escape-Taste auf.",
     "name-length-error": "Der Name muss {{min}} bis {{max}} Zeichen lang sein.",
     "no-room-found": "Ein Raum mit diesem Namen oder Code existiert nicht.",

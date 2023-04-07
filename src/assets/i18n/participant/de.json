@@ -288,8 +288,8 @@
     "context-language": "Sprache: {{value}}",
     "context-social-tone": "Tonfall: {{value}}",
     "context-formal-address": "Anrede: {{value}}",
-    "context-response-length": "Umfang: {{value}}",
-    "context-response-format": "Format: {{value}}",
+    "context-response-length": "Antwortlänge: {{value}}",
+    "context-response-format": "Antwortformat: {{value}}",
     "context-question": "\nFrage:\n\n{{value}}",
     "choices": {
       "social-tone": [
@@ -304,10 +304,10 @@
         { "key": "flashcard", "text": "Lernkarte" }
       ],
       "language": {
-        "de": "auf Deutsch",
-        "en": "auf Englisch",
-        "fr": "auf Französisch",
-        "like_question": "in der Sprache der Frage"
+        "de": "Deutsch",
+        "en": "Englisch",
+        "fr": "Französisch",
+        "like_question": "wie Frage"
       },
       "response-length": {
         "short": "kurz",
@@ -315,8 +315,8 @@
         "extensive": "umfangreich"
       },
       "formal-address": {
-        "true": "formal",
-        "false": "informal"
+        "true": "siezen",
+        "false": "duzen"
       }
     },
     "your-choice": "Deine Auswahl …",

@@ -339,7 +339,7 @@
     "join-room": "Join event",
     "key-code-length-error": "The code must be {{min}} to {{max}} characters long.",
     "link-description": "Opens a new tab",
-    "live-announcer": "Welcome to fragpunktjetzt. This site has been designed to support screen readers like ChromeVox, Voiceover and many others. Our Audioguide feature can assist you in navigating the site. To get information about key combinations press the Enter key or call the announcement later with the Escape key.",
+    "live-announcer": "Welcome to frag jetzt. This site has been designed to support screen readers like ChromeVox, Voiceover and many others. Our Audioguide feature can assist you in navigating the site. To get information about key combinations press the Enter key or call the announcement later with the Escape key.",
     "live-announcer-user": "You are now on the user page. To get information about key combinations press the Enter key or call the announcement later with the Escape key.",
     "name-length-error": "The name must be {{min}} to {{max}} characters long.",
     "no-room-found": "No room found with this name or key code.",
