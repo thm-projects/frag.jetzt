@@ -416,19 +416,19 @@
         "false": "informal"
       }
     },
-    "your-choice": "Deine Auswahl",
+    "your-choice": "Deine Auswahl …",
     "none": "Keine",
     "send": "Senden",
     "empty-conversation": "Verlauf leeren",
     "input-forbidden": "Bitte prüfe die ChatGPT-Einstellungen.",
-    "no-api-setup": "Der API Schlüssel oder das Sprachmodell wurden nicht gesetzt.",
+    "no-api-setup": "Der API-Schlüssel oder das Sprachmodell wurden nicht gesetzt.",
     "presets": {
       "disabled": "Deaktiviert",
       "language": {
         "de": "Deutsch",
         "en": "Englisch",
         "fr": "Französisch",
-        "*": "Wie Frage"
+        "*": "In der Sprache der Frage"
       },
       "tone": {
         "neutral": "Neutral",
@@ -446,44 +446,16 @@
         "extensive": "Umfangreich"
       }
     },
-    "greetings": {
-      "text-davinci-003": [
-        {
-          "key": "Grundschule",
-          "value": "Du bist im Chat-Raum namens \"Deutsch\" und es geht um das Thema Gedichte. Erkläre auf dem Niveau eines Schülers einer Grundschule folgende Frage.\nSchüler: Was sind Haikus?\nDu: "
-        },
-        {
-          "key": "Gymnasium",
-          "value": "Du bist im Chat-Raum namens \"Geschichte\" und es geht um das Thema der goldenen Zwanziger. Erkläre auf dem Niveau eines Abitur-Schülers folgende Frage.\nSchüler: Was besagt der Dawes-Plan?\nDu: "
-        },
-        {
-          "key": "Hochschule",
-          "value": "Du bist im Chat-Raum namens \"Algorithmen und Datenstrukturen\" und es geht um das Thema simple Datenstrukturen. Erkläre auf dem Niveau eines Informatik-Studenten im 2. Semester folgende Frage.\nStudent: Gibt es ein Performance-Gewinn, wenn man eine verlinkte Liste und eine Array Liste kombiniert? Es wäre doch vorstellbar, dass man Arrays verlinken könnte, oder liege ich dort falsch?\nDu: "
-        }
-      ],
-      "code-davinci-002": [
-        {
-          "key": "Web",
-          "value": "<|endoftext|>/* I start with a blank HTML page, and incrementally modify it via <script> injection. Written for Chrome. */\n/* Command: Add \"Hello World\", by adding an HTML DOM node */\nvar helloWorld = document.createElement('div');\nhelloWorld.innerHTML = 'Hello World';\ndocument.body.appendChild(helloWorld);\n/* Command: Clear the page. */\nwhile (document.body.firstChild) {\n  document.body.removeChild(document.body.firstChild);\n}\n\n/* Command: Display this image of a cat: https://bit.ly/3fsc0rH */\n"
-        }
-      ],
-      "davinci-instruct-beta:2.0.0": [
-        {
-          "key": "Smalltalk",
-          "value": "Das Fach ist demotivierend. Hast du Tricks zum aufmuntern und aktiver werden?"
-        }
-      ]
-    },
     "cancel": "Schließen",
     "refresh": "Ausgabe erneut generieren",
-    "edit": "Ausgabe als editierbare Antwort auf Frage bearbeiten.",
-    "paste": "Ausgabe direkt als Antwort auf Frage veröffentlichen.",
+    "edit": "Ausgabe als Antwort auf die Forumsfrage bearbeiten",
+    "paste": "Ausgabe als Antwort auf die Forumsfrage veröffentlichen",
     "token-info": "Token (Eingabe / Chat / Gesamt): {{promptTokens}} / {{conversationTokens}} / {{allTokens}}",
-    "prompt-label": "Prompt-Suche",
+    "prompt-label": "Prompt-Suche …",
     "option-total-acts": "Treffer in »Agiere als …«",
     "option-total-prompts": "Treffer in Prompts",
     "temperature": "Temperatur",
-    "temperature-tooltip": "Einstellung der Kreativität und Determinismus der Antworten"
+    "temperature-tooltip": "Höhere Werte wie 0,8 machen die Ausgabe zufälliger, während niedrigere Werte wie 0,2 sie präziser und deterministischer machen."
   },
   "header": {
     "overview-keywords-tooltip": "Anzahl Stichwörter",
@@ -802,7 +774,7 @@
     "a11y-settings-direct-send": "Schieberegler, um Fragen sofort sichtbar zu machen.",
     "bonus-archive-enabled": "Bonus-Archiv aktivieren",
     "brainstorming-enabled": "Brainstorming aktivieren",
-    "note-on-changing-settings": "Du kannst alle Raumeinstellungen später noch unter »Navigation« ändern.",
+    "note-on-changing-settings": "Du kannst alle Einstellungen später noch ändern.",
     "cancel": "Abbrechen",
     "changes-gone-wrong": "Etwas ist schief gelaufen!",
     "changes-successful": "Änderungen gespeichert",

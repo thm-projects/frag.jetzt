@@ -84,7 +84,7 @@
     "field-too-high": "Your input is too long. It may be at most {{max}}.",
     "field-too-low": "Your input is too short. It must be at least {{min}}.",
     "reset": "Reset",
-    "note-on-changing-settings": "You can still change all settings later under »Navigation«."
+    "note-on-changing-settings": "You can change all settings later."
   },
   "cookies": {
     "accept": "Onboarding …",
@@ -505,7 +505,7 @@
     "set-button-description": "Set the new password for the account",
     "set-new-password": "Use the confirmation code from your mailbox to set a new password:",
     "set-new-password-button": "Save new password",
-    "new-password-is-old" : "The new password must be different from the old one."
+    "new-password-is-old": "The new password must be different from the old one."
   },
   "qr-dialog": {
     "session": "Code",
@@ -652,7 +652,7 @@
     "a11y-settings-direct-send": "Slider to send Questions directly to participant",
     "bonus-archive-enabled": "Enable bonus archive",
     "brainstorming-enabled": "Enable brainstorming",
-    "note-on-changing-settings": "You can still change all room settings later under »Navigation«.",
+    "note-on-changing-settings": "You can change all settings later.",
     "cancel": "Cancel",
     "changes-gone-wrong": "Something has gone wrong!",
     "changes-successful": "Successfully updated",
@@ -726,7 +726,8 @@
     "questions-title": "Which questions do you want on the radar?"
   },
   "unsupported-browser": {
-    "body": "Unfortunately, the Safari browser does not support all the features of the CSS standard that are required for the »Question Focus« and »Full Screen & Text Scaling« functions. We, therefore, recommend using Google Chrome or Microsoft Edge.",    "close": "Continue anyway",
+    "body": "Unfortunately, the Safari browser does not support all the features of the CSS standard that are required for the »Question Focus« and »Full Screen & Text Scaling« functions. We, therefore, recommend using Google Chrome or Microsoft Edge.",
+    "close": "Continue anyway",
     "title": "Safari note"
   },
   "user-activation": {
@@ -845,7 +846,7 @@
   },
   "gptchat-info": {
     "title": "ChatGPT",
-    "content": "ChatGPT is the perfect solution to automatically answer a question in the Q&A forum. You can also create your own prompts or choose from hundreds of predefined prompts that best fit your needs. To use ChatGPT, you only need an account on frag.jetzt and an [API key from OpenAI](https://platform.openai.com).\n\nHere's how it works in just two steps:\n\n1. Register on frag.jetzt, sign in, and book a room.\n\n2. Add the OpenAI API key in the options menu of your room and you're good to go!\n\nYour API key is securely stored on our server and your frag.jetzt password is also secure. Additionally, you can limit the token quota and API costs for a limited time if you want to make ChatGPT available for use in your room. You can find all the settings in the options menu of your room.\n\nStart now with a $5 credit that you can use for the first 3 months. Depending on the language model you choose, you can consume several million tokens (1 token is approximately 5-7 characters) for ChatGPT requests with this credit.",    
+    "content": "ChatGPT is the perfect solution to automatically answer a question in the Q&A forum. You can also create your own prompts or choose from hundreds of predefined prompts that best fit your needs. To use ChatGPT, you only need an account on frag.jetzt and an [API key from OpenAI](https://platform.openai.com).\n\nHere's how it works in just two steps:\n\n1. Register on frag.jetzt, sign in, and book a room.\n\n2. Add the OpenAI API key in the options menu of your room and you're good to go!\n\nYour API key is securely stored on our server and your frag.jetzt password is also secure. Additionally, you can limit the token quota and API costs for a limited time if you want to make ChatGPT available for use in your room. You can find all the settings in the options menu of your room.\n\nStart now with a $5 credit that you can use for the first 3 months. Depending on the language model you choose, you can consume several million tokens (1 token is approximately 5-7 characters) for ChatGPT requests with this credit.",
     "cancel": "Close"
   }
 }

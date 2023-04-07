@@ -84,7 +84,7 @@
     "field-too-high": "Ton entrée est trop longue, elle doit être au maximum de {{max}}.",
     "field-too-low": "Ta saisie est trop courte, elle doit être au moins {{min}}.",
     "reset": "Réinitialiser",
-    "note-on-changing-settings": "Tu peux encore modifier tous les paramètres ultérieurement sous « Navigation »."
+    "note-on-changing-settings": "Tu peux modifier tous les paramètres ultérieurement."
   },
   "cookies": {
     "accept": "Onboarding …",
@@ -652,7 +652,7 @@
     "a11y-settings-direct-send": "Curseur pour rendre les questions immédiatement visibles.",
     "bonus-archive-enabled": "Activer l'archive de bonus",
     "brainstorming-enabled": "Activer le brainstorming",
-    "note-on-changing-settings": "Tu peux toujours modifier tous les paramètres de la salle plus tard sous « Navigation ».",
+    "note-on-changing-settings": "Tu peux modifier tous les paramètres ultérieurement.",
     "cancel": "Annuler",
     "changes-gone-wrong": "Quelque chose a mal tourné !",
     "changes-successful": "Modifications enregistrées",
