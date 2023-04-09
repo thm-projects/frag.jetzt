@@ -9,6 +9,7 @@ export enum LivepollTemplate {
   YesNo = 'YesNo',
   Feedback2 = 'Feedback2',
   Feedback3 = 'Feedback3',
+  YesNoNeither = 'YesNoNeither',
 }
 
 export enum LivepollGroupKind {
@@ -177,6 +178,16 @@ export const templateEntries: EachOfTemplate<
     style: defaultTemplateStyle,
     isGrid: true,
   },
+  [LivepollTemplate.YesNoNeither]: {
+    kind: LivepollTemplate.YesNoNeither,
+    isPlain: false,
+    name: 'agree-tertiary',
+    translate: false,
+    reverse: false,
+    symbols: ['thumb_up', 'thumb_down', 'thumbs_up_down'],
+    style: defaultTemplateStyle,
+    isGrid: true,
+  },
 };
 
 export const groupEntries: EachOfGroup<LivepollGroupKind> = {
@@ -192,6 +203,7 @@ export const groupEntries: EachOfGroup<LivepollGroupKind> = {
   [LivepollGroupKind.Mood]: [
     templateEntries[LivepollTemplate.Symbol],
     templateEntries[LivepollTemplate.YesNo],
+    templateEntries[LivepollTemplate.YesNoNeither],
   ],
   [LivepollGroupKind.Feedback]: [
     templateEntries[LivepollTemplate.Feedback],
