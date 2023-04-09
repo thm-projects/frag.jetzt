@@ -84,7 +84,7 @@
     "field-too-high": "Deine Eingabe ist zu lang, sie darf maximal {{max}} sein.",
     "field-too-low": "Deine Eingabe ist zu kurz, sie muss mindestens {{min}} sein.",
     "reset": "Zurücksetzen",
-    "note-on-changing-settings": "Du kannst alle Einstellungen später noch unter »Navigation« ändern."
+    "note-on-changing-settings": "Du kannst alle Einstellungen später noch ändern."
   },
   "cookies": {
     "accept": "Onboarding …",
@@ -228,8 +228,8 @@
     "create-question": "Frage stellen",
     "prompt-guide": "Prompt Guide",
     "preset-context": "Kontext",
-    "preset-topic": "Thema",
-    "preset-persona": "Persona",
+    "preset-topic": "Themen",
+    "preset-persona": "Kompetenz",
     "preset-language": "Sprache",
     "preset-tone": "Tonfall",
     "preset-formality": "Anrede",
@@ -339,7 +339,7 @@
     "join-room": "Teilnehmen",
     "key-code-length-error": "Der Code muss {{min}} bis {{max}} Zeichen lang sein.",
     "link-description": "Öffnet neues Fenster",
-    "live-announcer": "Willkommen auf der Seite fragpunktjetzt. Diese Seite wurde für Screenreader wie ChromeVox, Voiceover und viele andere optimiert. Ein Audioguide kann dir bei der Navigation helfen. Um Informationen zu Tastenkombinationen zu erhalten drücke jetzt die Enter-Taste oder rufe die Ansage zu einem späteren Zeitpunkt mit der Escape-Taste auf.",
+    "live-announcer": "Willkommen auf der Seite frag jetzt. Diese Seite wurde für Screenreader wie ChromeVox, Voiceover und viele andere optimiert. Ein Audioguide kann dir bei der Navigation helfen. Um Informationen zu Tastenkombinationen zu erhalten drücke jetzt die Enter-Taste oder rufe die Ansage zu einem späteren Zeitpunkt mit der Escape-Taste auf.",
     "live-announcer-user": "Du befindest dich jetzt auf der Benutzer-Seite. Um Informationen zu Tastenkombinationen zu erhalten drücke jetzt die Enter-Taste oder rufe die Ansage zu einem späteren Zeitpunkt mit der Escape-Taste auf.",
     "name-length-error": "Der Name muss {{min}} bis {{max}} Zeichen lang sein.",
     "no-room-found": "Ein Raum mit diesem Namen oder Code existiert nicht.",
@@ -651,7 +651,7 @@
     "a11y-quiz-enabled": "Schieberegler, um die integrierte Quiz-Option anzuzeigen.",
     "a11y-settings-direct-send": "Schieberegler, um Fragen sofort sichtbar zu machen.",
     "bonus-archive-enabled": "Bonus-Archiv aktivieren",
-    "note-on-changing-settings": "Du kannst alle Raumeinstellungen später noch unter »Navigation« ändern.",
+    "note-on-changing-settings": "Du kannst alle Einstellungen später noch ändern.",
     "brainstorming-enabled": "Brainstorming aktivieren",
     "cancel": "Abbrechen",
     "changes-gone-wrong": "Etwas ist schief gelaufen!",
@@ -846,7 +846,7 @@
   },
   "gptchat-info": {
     "title": "ChatGPT",
-    "content": "ChatGPT ist die perfekte Lösung, um eine Frage im Q&A Forum automatisch zu beantworten. Du kannst auch eigene Prompts erstellen oder aus hunderten vordefinierten Prompts den passenden auswählen. Um ChatGPT zu nutzen, benötigst du lediglich einen Account bei frag.jetzt und einen [API-Key von OpenAI](https://platform.openai.com).\n\nSo einfach geht's in nur zwei Schritten:\n\n1. Registriere dich bei frag.jetzt, melde dich an und buche einen Raum.\n\n2. Hinterlege den [API-Key von OpenAI](https://platform.openai.com) im Optionsmenü deines Raumes und schon kann es losgehen!\n\nDein API-Key wird sicher auf unserem Server gespeichert und dein frag.jetzt-Passwort ist ebenfalls sicher. Außerdem kannst du das Token-Kontingent und somit deine API-Kosten zeitlich begrenzen, wenn du ChatGPT für die Benutzung in deinem Raum freigeben möchtest. Alle Einstellungen findest du im Optionsmenü deines Raumes.\n\nStarte jetzt mit einem Guthaben von 5 $, das du in den ersten 3 Monaten einlösen kannst. Je nach Sprachmodell kannst du mit diesem Guthaben mehrere Millionen Token (1 Token entspricht in etwa 5-7 Zeichen) für ChatGPT-Anfragen verbrauchen.",    
+    "content": "ChatGPT ist die perfekte Lösung, um eine Frage im Q&A Forum automatisch zu beantworten. Du kannst auch eigene Prompts erstellen oder aus hunderten vordefinierten Prompts den passenden auswählen. Um ChatGPT zu nutzen, benötigst du lediglich einen Account bei frag.jetzt und einen [API-Key von OpenAI](https://platform.openai.com).\n\nSo einfach geht's in nur zwei Schritten:\n\n1. Registriere dich bei frag.jetzt, melde dich an und buche einen Raum.\n\n2. Hinterlege den [API-Key von OpenAI](https://platform.openai.com) im Optionsmenü deines Raumes und schon kann es losgehen!\n\nDein API-Key wird sicher auf unserem Server gespeichert und dein frag.jetzt-Passwort ist ebenfalls sicher. Außerdem kannst du das Token-Kontingent und somit deine API-Kosten zeitlich begrenzen, wenn du ChatGPT für die Benutzung in deinem Raum freigeben möchtest. Alle Einstellungen findest du im Optionsmenü deines Raumes.\n\nStarte jetzt mit einem Guthaben von 5 $, das du in den ersten 3 Monaten einlösen kannst. Mit diesem Guthaben kannst du mehrere Millionen Token für ChatGPT-Anfragen verbrauchen (1 Token entspricht in etwa 5-7 Zeichen).",
     "cancel": "Schließen"
   }
 }

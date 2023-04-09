@@ -18,8 +18,8 @@
     "dialog-confirm-delete-title": "Umfrage beenden",
     "votes": "Stimmen:",
     "confirm-yes": "Ja, beenden",
-    "creator-settings": "Live-Optionen …",
-    "creator-settings-icon": "cloud_upload",
+    "creator-settings": "Blitzoptionen …",
+    "creator-settings-icon": "flash_on",
     "creator-settings-delete": "Umfrage beenden",
     "creator-settings-pause": "Umfrage pausieren",
     "creator-settings-continue": "Umfrage fortsetzen",
@@ -76,6 +76,14 @@
       "weiter so"
     ],
     "template-name-agree-binary": "Daumen hoch | Daumen runter",
+    "group-label": {
+      "multiplechoice": "AB …",
+      "likertscale": "Bewertung",
+      "mood": "Emojis",
+      "feedback": "Feedback",
+      "custom": "Benutzerdefiniert"
+    },
+    "template-name-agree-tertiary": "Daumen hoch | Daumen runter | Neutral",
     "group-label": {
       "multiplechoice": "AB …",
       "likertscale": "Bewertung",

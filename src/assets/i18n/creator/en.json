@@ -376,22 +376,22 @@
     "optin-reject": "Reject",
     "privacy-policy": "Privacy Policy for the Use of OpenAI API",
     "enter-conversation-text": "Chat with ChatGPT",
-    "context-competence": "I have the competence {{value}}.",
-    "context-self-description": "My self description is {{value}}.",
-    "context-context": "The context of my question is {{value}}.",
-    "context-topic": "The topic is {{value}}.",
+    "context-competence": "My competence: {{value}}.",
+    "context-self-description": "My self-description: {{value}}.",
+    "context-context": "Context of my question: {{value}}.",
+    "context-topic": "Topic: {{value}}.",
     "context-language": "Answer me {{value}}.",
-    "context-social-tone": "Talk {{value}} to me.",
-    "context-formal-address": "Please contact me {{value}}.",
-    "context-response-length": "Answer me {{value}}, please.",
-    "context-response-format": "Format the answer as {{value}}.",
-    "context-question": "My question is:\n{{value}}",
+    "context-social-tone": "Speak to me {{value}}.",
+    "context-formal-address": "Address me {{value}}.",
+    "context-response-length": "Respond to me {{value}}.",
+    "context-response-format": "Format the response as {{value}}.",
+    "context-question": "My question is:\n\n{{value}}",
     "choices": {
       "social-tone": [
-        { "key": "neutral", "text": "neutral" },
+        { "key": "neutral", "text": "neutrally" },
         { "key": "friendly", "text": "friendly" },
         { "key": "expertly", "text": "expertly" },
-        { "key": "humorous", "text": "humorous" }
+        { "key": "humorous", "text": "humorously" }
       ],
       "response-format": [
         { "key": "summary", "text": "a summary" },
@@ -414,11 +414,11 @@
         "false": "informally"
       }
     },
-    "your-choice": "Your selection",
+    "your-choice": "Your selection …",
     "none": "None",
     "send": "Send",
     "empty-conversation": "Clear history",
-    "input-forbidden": "Input forbidden, please check the GPT API settings.",
+    "input-forbidden": "Input is forbidden, please check the GPT API settings.",
     "no-api-setup": "The API key or language model was not set.",
     "presets": {
       "disabled": "Disabled",
@@ -426,7 +426,7 @@
         "de": "German",
         "en": "English",
         "fr": "French",
-        "*": "Like question"
+        "*": "Like the question"
       },
       "tone": {
         "neutral": "Neutral",
@@ -449,44 +449,16 @@
       "definition": "Definition",
       "flashcard": "Flashcard"
     },
-    "greetings": {
-      "text-davinci-003": [
-        {
-          "key": "Elementary school",
-          "value": "You are in the chat room called \"English\" and the topic is poetry. Explain the following question at the level of an elementary school student.\nStudent: What are haikus?\nYou: "
-        },
-        {
-          "key": "High school",
-          "value": "You are in the chat room called \"History\" and the topic is the golden twenties. Explain the following question at the level of a high school student.\nStudent: What does the Dawes Plan say?\nYou: "
-        },
-        {
-          "key": "University",
-          "value": "You are in the chat room called \"Algorithms and Data Structures\" and the topic is simple data structures. Explain at the level of a 2nd semester computer science student the following question.\nStudent: Is there a performance gain when you combine a linked list and an array list? Surely it would be conceivable to link arrays, or am I wrong there?\nYou: "
-        }
-      ],
-      "code-davinci-002": [
-        {
-          "key": "Web",
-          "value": "<|endoftext|>/* I start with a blank HTML page, and incrementally modify it via <script> injection. Written for Chrome. */\n/* Command: Add \"Hello World\", by adding an HTML DOM node */\nvar helloWorld = document.createElement('div');\nhelloWorld.innerHTML = 'Hello World';\ndocument.body.appendChild(helloWorld);\n/* Command: Clear the page. */\nwhile (document.body.firstChild) {\n  document.body.removeChild(document.body.firstChild);\n}\n\n/* Command: Display this image of a cat: https://bit.ly/3fsc0rH */\n"
-        }
-      ],
-      "davinci-instruct-beta:2.0.0": [
-        {
-          "key": "Smalltalk",
-          "value": "The subject is demotivating. Do you have any tricks to cheer up and get more active?"
-        }
-      ]
-    },
     "cancel": "Close",
     "refresh": "Generate output again",
-    "edit": "Edit output as editable answer to question.",
-    "paste": "Publish output directly in response to question.",
+    "edit": "Edit output as an answer to forum question",
+    "paste": " Publish output as a reply to the forum question",
     "token-info": "Tokens (input/chat/total): {{promptTokens}}/{{conversationTokens}}/{{allTokens}}",
     "prompt-label": "Prompt search",
     "option-total-acts": "Hits in »Act as …«",
     "option-total-prompts": "Hits in prompts",
     "temperature": "Temperature",
-    "temperature-tooltip": "Setting of creativity and determinism of answers"
+    "temperature-tooltip": "Higher values like 0.8 make the output more random, while lower values like 0.2 make it more precise and deterministic."
   },
   "header": {
     "overview-keywords-tooltip": "Number of Keywords",
@@ -804,7 +776,7 @@
     "a11y-settings-direct-send": "Slider to send Questions directly to participant",
     "bonus-archive-enabled": "Enable bonus archive",
     "brainstorming-enabled": "Enable brainstorming",
-    "note-on-changing-settings": "You can still change all room settings later under »Navigation«.",
+    "note-on-changing-settings": "You can change all settings later.",
     "cancel": "Cancel",
     "changes-gone-wrong": "Something has gone wrong!",
     "changes-successful": "Successfully updated",
@@ -1093,10 +1065,10 @@
     "persona-title": "Presets for each person",
     "topic-title": "Topics of the event",
     "context-label": "Context",
-    "topic-label": "Topic",
-    "persona-moderator-label": "Persona (Moderator)",
-    "persona-user-label": "Persona (User)",
-    "persona-creator-label": "Persona (Creator)",
+    "topic-label": "Topics",
+    "persona-moderator-label": "Competence (Moderator)",
+    "persona-user-label": "Competence (User)",
+    "persona-creator-label": "Competence (Creator)",
     "context-placeholder": "WPW Course",
     "topic-placeholder": "Angular",
     "persona-moderator-placeholder": "Moderator",
@@ -1108,7 +1080,7 @@
   },
   "gptchat-info": {
     "title": "ChatGPT",
-    "content": "ChatGPT is the perfect solution to automatically answer a question in the Q&A forum. You can also create your own prompts or choose from hundreds of predefined prompts that best fit your needs. To use ChatGPT, you only need an account on frag.jetzt and an [API key from OpenAI](https://platform.openai.com).\n\nHere's how it works in just two steps:\n\n1. Register on frag.jetzt, sign in, and book a room.\n\n2. Add the OpenAI API key in the options menu of your room and you're good to go!\n\nYour API key is securely stored on our server and your frag.jetzt password is also secure. Additionally, you can limit the token quota and API costs for a limited time if you want to make ChatGPT available for use in your room. You can find all the settings in the options menu of your room.\n\nStart now with a $5 credit that you can use for the first 3 months. Depending on the language model you choose, you can consume several million tokens (1 token is approximately 5-7 characters) for ChatGPT requests with this credit.",    
+    "content": "ChatGPT is the perfect solution to automatically answer a question in the Q&A forum. You can also create your own prompts or choose from hundreds of predefined prompts that best fit your needs. To use ChatGPT, you only need an account on frag.jetzt and an [API key from OpenAI](https://platform.openai.com).\n\nHere's how it works in just two steps:\n\n1. Register on frag.jetzt, sign in, and book a room.\n\n2. Add the OpenAI API key in the options menu of your room and you're good to go!\n\nYour API key is securely stored on our server and your frag.jetzt password is also secure. Additionally, you can limit the token quota and API costs for a limited time if you want to make ChatGPT available for use in your room. You can find all the settings in the options menu of your room.\n\nStart now with a $5 credit that you can use for the first 3 months. Depending on the language model you choose, you can consume several million tokens (1 token is approximately 5-7 characters) for ChatGPT requests with this credit.",
     "cancel": "Close"
   }
 }

@@ -376,16 +376,16 @@
     "optin-reject": "Refuser",
     "privacy-policy": "Déclaration de confidentialité pour l'utilisation de l'API OpenAI",
     "enter-conversation-text": "Parle à ChatGPT",
-    "context-competence": "J'ai les compétences {{value}}.",
-    "context-self-description": "Ma description de moi-même est {{value}}.",
-    "context-context": "Le contexte de ma question est {{value}}.",
-    "context-topic": "Le thème est {{value}}.",
-    "context-language": "Réponds-moi {{value}}.",
+    "context-competence": "Ma compétence : {{value}}.",
+    "context-self-description": "Ma description : {{value}}.",
+    "context-context": "Contexte de ma question : {{value}}.",
+    "context-topic": "Sujet : {{value}}.",
+    "context-language": "Réponds-moi en {{value}}.",
     "context-social-tone": "Parle-moi {{value}}.",
-    "context-formal-address": "Adresse-toi à moi de manière {{value}}, s'il te plaît.",
-    "context-response-length": "Réponds-moi {{value}}, s'il te plaît.",
-    "context-response-format": "Formate la réponse sous forme {{value}}.",
-    "context-question": "Ma question est:\n{{value}}",
+    "context-formal-address": "Adresse-toi à moi {{value}}.",
+    "context-response-length": "Réponds-moi {{value}}.",
+    "context-response-format": "Formatte la réponse comme {{value}}.",
+    "context-question": "Ma question est :\n\n{{value}}",
     "choices": {
       "social-tone": [
         { "key": "neutral", "text": "de manière neutre" },
@@ -414,7 +414,7 @@
         "false": "informelle"
       }
     },
-    "your-choice": "Ta sélection",
+    "your-choice": "Ta sélection …",
     "none": "Aucun",
     "send": "Envoyer",
     "empty-conversation": "Vider l'historique",
@@ -449,44 +449,16 @@
       "definition": "Définition",
       "flashcard": "Carte éclair"
     },
-    "greetings": {
-      "text-davinci-003": [
-        {
-          "key": "École primaire",
-          "value": "Tu es dans la salle de chat appelée \"Français\" et le sujet est la poésie. Explique la question suivante au niveau d'un élève d'une école primaire.\nElève : Qu'est-ce que les haïkus?\nTu : "
-        },
-        {
-          "key": "École secondaire",
-          "value": "Tu es dans la salle de chat appelée \"Histoire\" et le sujet est les années folles. Explique, au niveau d'un élève de terminale, la question suivante.\nElève : Que dit le plan Dawes?\nTu : "
-        },
-        {
-          "key": "Université",
-          "value": "Tu es dans la salle de chat appelée \"Algorithmes et structures de données\" et le sujet est les structures de données simples. Explique la question suivante au niveau d'un étudiant en informatique de deuxième année.\nEtudiant : Y a-t-il un gain de performance si l'on combine une liste liée et une liste de tableaux ? Il serait en effet imaginable de pouvoir lier des tableaux, ou est-ce que je me trompe?\nTu : "
-        }
-      ],
-      "code-davinci-002": [
-        {
-          "key": "Web",
-          "value": "<|endoftext|>/* I start with a blank HTML page, and incrementally modify it via <script> injection. Written for Chrome. */\n/* Command: Add \"Hello World\", by adding an HTML DOM node */\nvar helloWorld = document.createElement('div');\nhelloWorld.innerHTML = 'Hello World';\ndocument.body.appendChild(helloWorld);\n/* Command: Clear the page. */\nwhile (document.body.firstChild) {\n  document.body.removeChild(document.body.firstChild);\n}\n\n/* Command: Display this image of a cat: https://bit.ly/3fsc0rH */\n"
-        }
-      ],
-      "davinci-instruct-beta:2.0.0": [
-        {
-          "key": "Smalltalk",
-          "value": "Cette matière est démotivante. As-tu des astuces pour encourager et être plus actif ?"
-        }
-      ]
-    },
     "cancel": "Fermer",
     "refresh": "Générer à nouveau la sortie",
-    "edit": "Modifier la sortie en tant que réponse modifiable à la question.",
-    "paste": "Publier le numéro directement en réponse à la question.",
+    "edit": "Éditer la sortie en réponse à la question du forum",
+    "paste": "Publier la sortie en réponse à la question du forum",
     "token-info": "Tokens (saisie/conversation/total) : {{promptTokens}}/{{conversationTokens}}/{{allTokens}}",
     "prompt-label": "Recherche du prompt",
     "option-total-acts": "Hits dans « Agir comme … »",
     "option-total-prompts": "Hits dans prompts",
     "temperature": "Température",
-    "temperature-tooltip": "Attitude de créativité et déterminisme des réponses"
+    "temperature-tooltip": "Des valeurs plus élevées comme 0,8 rendent la sortie plus aléatoire, tandis que des valeurs plus faibles comme 0,2 la rendent plus précise et déterministe."
   },
   "header": {
     "overview-keywords-tooltip": "Nombre de mots-clés",
@@ -804,7 +776,7 @@
     "a11y-settings-direct-send": "Curseur pour rendre les questions immédiatement visibles.",
     "bonus-archive-enabled": "Activer l'archive de bonus",
     "brainstorming-enabled": "Activer le brainstorming",
-    "note-on-changing-settings": "Tu peux toujours modifier tous les paramètres de la salle plus tard sous « Navigation ».",
+    "note-on-changing-settings": "Tu peux modifier tous les paramètres ultérieurement.",
     "cancel": "Annuler",
     "changes-gone-wrong": "Quelque chose a mal tourné !",
     "changes-successful": "Modifications enregistrées",
@@ -1094,9 +1066,9 @@
     "topic-title": "thèmes de l'événement",
     "context-label": "Contexte",
     "topic-label": "Sujet",
-    "persona-moderator-label": "Persona (Présentateur)",
-    "persona-user-label": "Persona (Utilisateur)",
-    "persona-creator-label": "Persona (Créateur)",
+    "persona-moderator-label": "Compétence (Présentateur)",
+    "persona-user-label": "Compétence (Utilisateur)",
+    "persona-creator-label": "Compétence (Créateur)",
     "context-placeholder": "Cours WPW",
     "topic-placeholder": "Angular",
     "persona-moderator-placeholder": "Modérateur",

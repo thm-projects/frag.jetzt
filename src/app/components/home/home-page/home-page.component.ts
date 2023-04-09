@@ -102,7 +102,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
     this.liveAnnouncer.clear();
     if (lang === 'de') {
       this.liveAnnouncer.announce(
-        'Du befindest dich auf der Startseite von fragpunktjetzt. ' +
+        'Du befindest dich auf der Startseite von frag jetzt. ' +
           'Drücke die Taste 1 um einen Raum-Code einzugeben, die Taste 2 um in die Benutzer-Anmeldung ' +
           'oder das Sitzungs-Menü zu gelangen, die Taste 3 um eine neue Sitzung zu erstellen, ' +
           'die Taste 4 um zur Sprachauswahl zu gelangen, oder die Taste 9 um diese Ansage zu wiederholen.',
@@ -110,7 +110,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
       );
     } else {
       this.liveAnnouncer.announce(
-        'You are on the homepage of fragpunktjetzt. ' +
+        'You are on the homepage of frag jetzt. ' +
           'Press key 1 to enter a room code, key 2 to enter the user login ' +
           'or the session menu, press 3 to create a new session, ' +
           'Press 4 to go to the language selection menu or 9 to repeat this announcement',

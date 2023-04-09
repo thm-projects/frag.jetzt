@@ -285,16 +285,16 @@
     "optin-reject": "Refuser",
     "privacy-policy": "Déclaration de confidentialité pour l'utilisation de l'API OpenAI",
     "enter-conversation-text": "Parle à ChatGPT",
-    "context-competence": "J'ai les compétences {{value}}.",
-    "context-self-description": "Ma description de moi-même est {{value}}.",
-    "context-context": "Le contexte de ma question est {{value}}.",
-    "context-topic": "Le thème est {{value}}.",
-    "context-language": "Réponds-moi {{value}}.",
+    "context-competence": "Ma compétence : {{value}}.",
+    "context-self-description": "Ma description : {{value}}.",
+    "context-context": "Contexte de ma question : {{value}}.",
+    "context-topic": "Sujet : {{value}}.",
+    "context-language": "Réponds-moi en {{value}}.",
     "context-social-tone": "Parle-moi {{value}}.",
-    "context-formal-address": "Adresse-toi à moi de manière {{value}}, s'il te plaît.",
-    "context-response-length": "Réponds-moi {{value}}, s'il te plaît.",
-    "context-response-format": "Formate la réponse sous forme {{value}}.",
-    "context-question": "Ma question est:\n{{value}}",
+    "context-formal-address": "Adresse-toi à moi {{value}}.",
+    "context-response-length": "Réponds-moi {{value}}.",
+    "context-response-format": "Formatte la réponse comme {{value}}.",
+    "context-question": "Ma question est :\n\n{{value}}",
     "choices": {
       "social-tone": [
         { "key": "neutral", "text": "de manière neutre" },
@@ -323,50 +323,22 @@
         "false": "informelle"
       }
     },
-    "your-choice": "Ta sélection",
+    "your-choice": "Ta sélection …",
     "none": "Aucun",
     "send": "Envoyer",
     "empty-conversation": "Vider l'historique",
     "input-forbidden": "Saisie interdite, veuillez vérifier les paramètres de l'API GPT.",
     "no-api-setup": "La clé d'API ou le modèle de langage n'a pas été défini.",
-    "greetings": {
-      "text-davinci-003": [
-        {
-          "key": "École primaire",
-          "value": "Tu es dans la salle de chat appelée \"Français\" et le sujet est la poésie. Explique la question suivante au niveau d'un élève d'une école primaire.\nElève : Qu'est-ce que les haïkus?\nTu : "
-        },
-        {
-          "key": "École secondaire",
-          "value": "Tu es dans la salle de chat appelée \"Histoire\" et le sujet est les années folles. Explique, au niveau d'un élève de terminale, la question suivante.\nElève : Que dit le plan Dawes?\nTu : "
-        },
-        {
-          "key": "Université",
-          "value": "Tu es dans la salle de chat appelée \"Algorithmes et structures de données\" et le sujet est les structures de données simples. Explique la question suivante au niveau d'un étudiant en informatique de deuxième année.\nEtudiant : Y a-t-il un gain de performance si l'on combine une liste liée et une liste de tableaux ? Il serait en effet imaginable de pouvoir lier des tableaux, ou est-ce que je me trompe?\nTu : "
-        }
-      ],
-      "code-davinci-002": [
-        {
-          "key": "Web",
-          "value": "<|endoftext|>/* I start with a blank HTML page, and incrementally modify it via <script> injection. Written for Chrome. */\n/* Command: Add \"Hello World\", by adding an HTML DOM node */\nvar helloWorld = document.createElement('div');\nhelloWorld.innerHTML = 'Hello World';\ndocument.body.appendChild(helloWorld);\n/* Command: Clear the page. */\nwhile (document.body.firstChild) {\n  document.body.removeChild(document.body.firstChild);\n}\n\n/* Command: Display this image of a cat: https://bit.ly/3fsc0rH */\n"
-        }
-      ],
-      "davinci-instruct-beta:2.0.0": [
-        {
-          "key": "Smalltalk",
-          "value": "Cette matière est démotivante. As-tu des astuces pour encourager et être plus actif ?"
-        }
-      ]
-    },
     "cancel": "Fermer",
     "refresh": "Générer à nouveau la sortie",
-    "edit": "Modifier la sortie en tant que réponse modifiable à la question.",
-    "paste": "Publier le numéro directement en réponse à la question.",
+    "edit": "Éditer la sortie en réponse à la question du forum",
+    "paste": "Publier la sortie en réponse à la question du forum",
     "token-info": "Tokens (saisie/conversation/total) : {{promptTokens}}/{{conversationTokens}}/{{allTokens}}",
     "prompt-label": "Recherche du prompt",
     "option-total-acts": "Hits dans « Agir comme … »",
     "option-total-prompts": "Hits dans prompts",
     "temperature": "Température",
-    "temperature-tooltip": "Attitude de créativité et déterminisme des réponses"
+    "temperature-tooltip": "Des valeurs plus élevées comme 0,8 rendent la sortie plus aléatoire, tandis que des valeurs plus faibles comme 0,2 la rendent plus précise et déterministe."
   },
   "header": {
     "overview-keywords-tooltip": "Nombre de mots-clés",
@@ -825,7 +797,7 @@
   },
   "gptchat-info": {
     "title": "ChatGPT",
-    "content": "ChatGPT est la solution parfaite pour répondre automatiquement à une question dans le forum Q&A. Tu peux même créer tes propres prompts ou choisir parmi des centaines de prompts prédéfinis celui qui convient le mieux. Pour utiliser ChatGPT, tu n'as besoin que d'un compte sur frag.jetzt et d'une [clé API d'OpenAI](https://platform.openai.com).\n\nVoici comment ça marche en seulement deux étapes:\n\n1. Inscris-toi sur frag.jetzt, connecte-toi et réserve une salle.\n\n2. Ajoute la [clé API d'OpenAI](https://platform.openai.com) dans le menu Options de ta salle et c'est parti !\n\nTa clé API est stockée en sécurité sur notre serveur et ton mot de passe frag.jetzt est également en sécurité. De plus, tu peux limiter le nombre de tokens et les coûts de ton API sur une durée limitée si tu veux utiliser ChatGPT dans ta salle. Tu trouveras toutes les options dans le menu Options de ta salle.\n\nCommence dès maintenant avec un crédit de 5 $ que tu peux utiliser pendant les trois premiers mois. Selon le modèle de langue que tu choisis, tu peux utiliser ce crédit pour des millions de tokens (1 token correspond à environ 5-7 caractères) pour des demandes ChatGPT.",    
+    "content": "ChatGPT est la solution parfaite pour répondre automatiquement à une question dans le forum Q&A. Tu peux même créer tes propres prompts ou choisir parmi des centaines de prompts prédéfinis celui qui convient le mieux. Pour utiliser ChatGPT, tu n'as besoin que d'un compte sur frag.jetzt et d'une [clé API d'OpenAI](https://platform.openai.com).\n\nVoici comment ça marche en seulement deux étapes:\n\n1. Inscris-toi sur frag.jetzt, connecte-toi et réserve une salle.\n\n2. Ajoute la [clé API d'OpenAI](https://platform.openai.com) dans le menu Options de ta salle et c'est parti !\n\nTa clé API est stockée en sécurité sur notre serveur et ton mot de passe frag.jetzt est également en sécurité. De plus, tu peux limiter le nombre de tokens et les coûts de ton API sur une durée limitée si tu veux utiliser ChatGPT dans ta salle. Tu trouveras toutes les options dans le menu Options de ta salle.\n\nCommence dès maintenant avec un crédit de 5 $ que tu peux utiliser pendant les trois premiers mois. Selon le modèle de langue que tu choisis, tu peux utiliser ce crédit pour des millions de tokens (1 token correspond à environ 5-7 caractères) pour des demandes ChatGPT.",
     "cancel": "Fermer"
   }
 }

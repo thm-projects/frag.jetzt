@@ -376,18 +376,18 @@
   "gpt-chat": {
     "optin-accept": "Akzeptieren",
     "optin-reject": "Ablehnen",
-    "privacy-policy": "Datenschutzerklärung für die Nutzung der OpenAI API",
+    "privacy-policy": "Datenschutzerklärung für die Nutzung der OpenAI-API",
     "enter-conversation-text": "Deine Eingabe …",
-    "context-competence": "Ich habe die Kompetenz {{value}}.",
-    "context-self-description": "Meine Selbstbeschreibung ist {{value}}.",
-    "context-context": "Der Kontext meiner Frage ist {{value}}.",
-    "context-topic": "Das Thema ist {{value}}.",
-    "context-language": "Antworte mir {{value}}.",
-    "context-social-tone": "Rede {{value}} mit mir.",
-    "context-formal-address": "Spreche mich bitte {{value}} an.",
-    "context-response-length": "Antworte mir bitte {{value}}.",
-    "context-response-format": "Formatiere die Antwort als {{value}}.",
-    "context-question": "Meine Frage ist:\n{{value}}",
+    "context-competence": "Kompetenz: {{value}}",
+    "context-self-description": "Selbstbeschreibung: {{value}}",
+    "context-context": "Kontext: {{value}}",
+    "context-topic": "Thema: {{value}}",
+    "context-language": "Sprache: {{value}}",
+    "context-social-tone": "Tonfall: {{value}}",
+    "context-formal-address": "Anrede: {{value}}",
+    "context-response-length": "Antwortlänge: {{value}}",
+    "context-response-format": "Antwortformat: {{value}}",
+    "context-question": "\nFrage:\n\n{{value}}",
     "choices": {
       "social-tone": [
         { "key": "neutral", "text": "neutral" },
@@ -401,10 +401,10 @@
         { "key": "flashcard", "text": "Lernkarte" }
       ],
       "language": {
-        "de": "auf Deutsch",
-        "en": "auf Englisch",
-        "fr": "auf Französisch",
-        "like_question": "in der Sprache der Frage"
+        "de": "Deutsch",
+        "en": "Englisch",
+        "fr": "Französisch",
+        "like_question": "wie Frage"
       },
       "response-length": {
         "short": "kurz",
@@ -412,23 +412,23 @@
         "extensive": "umfangreich"
       },
       "formal-address": {
-        "true": "formal",
-        "false": "informal"
+        "true": "siezen",
+        "false": "duzen"
       }
     },
-    "your-choice": "Deine Auswahl",
+    "your-choice": "Deine Auswahl …",
     "none": "Keine",
     "send": "Senden",
     "empty-conversation": "Verlauf leeren",
     "input-forbidden": "Bitte prüfe die ChatGPT-Einstellungen.",
-    "no-api-setup": "Der API Schlüssel oder das Sprachmodell wurden nicht gesetzt.",
+    "no-api-setup": "Der API-Schlüssel oder das Sprachmodell wurden nicht gesetzt.",
     "presets": {
       "disabled": "Deaktiviert",
       "language": {
         "de": "Deutsch",
         "en": "Englisch",
         "fr": "Französisch",
-        "*": "Wie Frage"
+        "*": "In der Sprache der Frage"
       },
       "tone": {
         "neutral": "Neutral",
@@ -446,44 +446,16 @@
         "extensive": "Umfangreich"
       }
     },
-    "greetings": {
-      "text-davinci-003": [
-        {
-          "key": "Grundschule",
-          "value": "Du bist im Chat-Raum namens \"Deutsch\" und es geht um das Thema Gedichte. Erkläre auf dem Niveau eines Schülers einer Grundschule folgende Frage.\nSchüler: Was sind Haikus?\nDu: "
-        },
-        {
-          "key": "Gymnasium",
-          "value": "Du bist im Chat-Raum namens \"Geschichte\" und es geht um das Thema der goldenen Zwanziger. Erkläre auf dem Niveau eines Abitur-Schülers folgende Frage.\nSchüler: Was besagt der Dawes-Plan?\nDu: "
-        },
-        {
-          "key": "Hochschule",
-          "value": "Du bist im Chat-Raum namens \"Algorithmen und Datenstrukturen\" und es geht um das Thema simple Datenstrukturen. Erkläre auf dem Niveau eines Informatik-Studenten im 2. Semester folgende Frage.\nStudent: Gibt es ein Performance-Gewinn, wenn man eine verlinkte Liste und eine Array Liste kombiniert? Es wäre doch vorstellbar, dass man Arrays verlinken könnte, oder liege ich dort falsch?\nDu: "
-        }
-      ],
-      "code-davinci-002": [
-        {
-          "key": "Web",
-          "value": "<|endoftext|>/* I start with a blank HTML page, and incrementally modify it via <script> injection. Written for Chrome. */\n/* Command: Add \"Hello World\", by adding an HTML DOM node */\nvar helloWorld = document.createElement('div');\nhelloWorld.innerHTML = 'Hello World';\ndocument.body.appendChild(helloWorld);\n/* Command: Clear the page. */\nwhile (document.body.firstChild) {\n  document.body.removeChild(document.body.firstChild);\n}\n\n/* Command: Display this image of a cat: https://bit.ly/3fsc0rH */\n"
-        }
-      ],
-      "davinci-instruct-beta:2.0.0": [
-        {
-          "key": "Smalltalk",
-          "value": "Das Fach ist demotivierend. Hast du Tricks zum aufmuntern und aktiver werden?"
-        }
-      ]
-    },
     "cancel": "Schließen",
     "refresh": "Ausgabe erneut generieren",
-    "edit": "Ausgabe als editierbare Antwort auf Frage bearbeiten.",
-    "paste": "Ausgabe direkt als Antwort auf Frage veröffentlichen.",
+    "edit": "Ausgabe als Antwort auf die Forumsfrage bearbeiten",
+    "paste": "Ausgabe als Antwort auf die Forumsfrage veröffentlichen",
     "token-info": "Token (Eingabe / Chat / Gesamt): {{promptTokens}} / {{conversationTokens}} / {{allTokens}}",
-    "prompt-label": "Prompt-Suche",
+    "prompt-label": "Prompt-Suche …",
     "option-total-acts": "Treffer in »Agiere als …«",
     "option-total-prompts": "Treffer in Prompts",
     "temperature": "Temperatur",
-    "temperature-tooltip": "Einstellung der Kreativität und Determinismus der Antworten"
+    "temperature-tooltip": "Höhere Werte wie 0,8 machen die Ausgabe zufälliger, während niedrigere Werte wie 0,2 sie präziser und deterministischer machen."
   },
   "header": {
     "overview-keywords-tooltip": "Anzahl Stichwörter",
@@ -802,7 +774,7 @@
     "a11y-settings-direct-send": "Schieberegler, um Fragen sofort sichtbar zu machen.",
     "bonus-archive-enabled": "Bonus-Archiv aktivieren",
     "brainstorming-enabled": "Brainstorming aktivieren",
-    "note-on-changing-settings": "Du kannst alle Raumeinstellungen später noch unter »Navigation« ändern.",
+    "note-on-changing-settings": "Du kannst alle Einstellungen später noch ändern.",
     "cancel": "Abbrechen",
     "changes-gone-wrong": "Etwas ist schief gelaufen!",
     "changes-successful": "Änderungen gespeichert",
@@ -1089,24 +1061,24 @@
   "presets-dialog": {
     "context-title": "Kontext der Veranstalltung",
     "persona-title": "Presets für jede Rolle",
-    "topic-title": "Thema der Veranstaltung",
+    "topic-title": "Themen der Veranstaltung",
     "context-label": "Kontext",
-    "topic-label": "Thema",
-    "persona-moderator-label": "Persona (Moderator*in)",
-    "persona-user-label": "Persona (Teilnehmer*in)",
-    "persona-creator-label": "Persona (Raumersteller*in)",
+    "topic-label": "Themen",
+    "persona-moderator-label": "Kompetenz (Moderator*in)",
+    "persona-user-label": "Kompetenz (Teilnehmer*in)",
+    "persona-creator-label": "Kompetenz (Raumersteller*in)",
     "context-placeholder": "Beschreibe die Inhalte der Veranstaltung …",
     "topic-placeholder": "Beschreibe das aktuelle Thema der Veranstaltung …",
-    "persona-moderator-placeholder": "Beschreibe die Kompetenz dieser Roole …",
-    "persona-user-placeholder": "Beschreibe die Kompetenz dieser Roole …",
-    "persona-creator-placeholder": "Beschreibe die Kompetenz dieser Roole …",
+    "persona-moderator-placeholder": "Beschreibe die Kompetenz dieser Rolle …",
+    "persona-user-placeholder": "Beschreibe die Kompetenz dieser Rolle …",
+    "persona-creator-placeholder": "Beschreibe die Kompetenz dieser Rolle …",
     "save": "Speichern",
     "cancel": "Abbrechen",
     "clear": "Löschen"
   },
   "gptchat-info": {
     "title": "ChatGPT",
-    "content": "ChatGPT ist die perfekte Lösung, um eine Frage im Q&A Forum automatisch zu beantworten. Du kannst auch eigene Prompts erstellen oder aus hunderten vordefinierten Prompts den passenden auswählen. Um ChatGPT zu nutzen, benötigst du lediglich einen Account bei frag.jetzt und einen [API-Key von OpenAI](https://platform.openai.com).\n\nSo einfach geht's in nur zwei Schritten:\n\n1. Registriere dich bei frag.jetzt, melde dich an und buche einen Raum.\n\n2. Hinterlege den [API-Key von OpenAI](https://platform.openai.com) im Optionsmenü deines Raumes und schon kann es losgehen!\n\nDein API-Key wird sicher auf unserem Server gespeichert und dein frag.jetzt-Passwort ist ebenfalls sicher. Außerdem kannst du das Token-Kontingent und somit deine API-Kosten zeitlich begrenzen, wenn du ChatGPT für die Benutzung in deinem Raum freigeben möchtest. Alle Einstellungen findest du im Optionsmenü deines Raumes.\n\nStarte jetzt mit einem Guthaben von 5 $, das du in den ersten 3 Monaten einlösen kannst. Je nach Sprachmodell kannst du mit diesem Guthaben mehrere Millionen Token (1 Token entspricht in etwa 5-7 Zeichen) für ChatGPT-Anfragen verbrauchen.",
+    "content": "ChatGPT ist die perfekte Lösung, um eine Frage im Q&A Forum automatisch zu beantworten. Du kannst auch eigene Prompts erstellen oder aus hunderten vordefinierten Prompts den passenden auswählen. Um ChatGPT zu nutzen, benötigst du lediglich einen Account bei frag.jetzt und einen [API-Key von OpenAI](https://platform.openai.com).\n\nSo einfach geht's in nur zwei Schritten:\n\n1. Registriere dich bei frag.jetzt, melde dich an und buche einen Raum.\n\n2. Hinterlege den [API-Key von OpenAI](https://platform.openai.com) im Optionsmenü deines Raumes und schon kann es losgehen!\n\nDein API-Key wird sicher auf unserem Server gespeichert und dein frag.jetzt-Passwort ist ebenfalls sicher. Außerdem kannst du das Token-Kontingent und somit deine API-Kosten zeitlich begrenzen, wenn du ChatGPT für die Benutzung in deinem Raum freigeben möchtest. Alle Einstellungen findest du im Optionsmenü deines Raumes.\n\nStarte jetzt mit einem Guthaben von 5 $, das du in den ersten 3 Monaten einlösen kannst. Mit diesem Guthaben kannst du mehrere Millionen Token für ChatGPT-Anfragen verbrauchen (1 Token entspricht in etwa 5-7 Zeichen).",
     "cancel": "Schließen"
   }
 }

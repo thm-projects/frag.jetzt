@@ -19,7 +19,7 @@
     "votes": "Votes :",
     "confirm-yes": "Oui, arrêter",
     "creator-settings": "Options en direct …",
-    "creator-settings-icon": "cloud_upload",
+    "creator-settings-icon": "flash_on",
     "creator-settings-delete": "Arrêter le sondage",
     "creator-settings-pause": "Suspendre le sondage",
     "creator-settings-continue": "Continuer le sondage",
@@ -82,6 +82,14 @@
       "mood": "Emojis",
       "custom": "Personnalisé",
       "feedback": "Feedback"
+    },
+    "template-name-agree-tertiary": "Thumb up | Thumb down | Neutral",
+    "group-label": {
+      "multiplechoice": "AB …",
+      "likertscale": "Bewertung",
+      "mood": "Emojis",
+      "feedback": "Feedback",
+      "custom": "Benutzerdefiniert"
     }
   }
 }

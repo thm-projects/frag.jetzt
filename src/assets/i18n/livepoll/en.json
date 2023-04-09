@@ -18,8 +18,8 @@
     "dialog-confirm-delete-title": "End poll",
     "votes": "Votes:",
     "confirm-yes": "Yes, end poll",
-    "creator-settings": "Live options…",
-    "creator-settings-icon": "cloud_upload",
+    "creator-settings": "Flash options…",
+    "creator-settings-icon": "flash_on",
     "creator-settings-delete": "End poll",
     "creator-settings-pause": "Pause poll",
     "creator-settings-continue": "Resume poll",
@@ -75,13 +75,21 @@
       "too slow",
       "keep it up"
     ],
-    "template-name-agree-binary": "Thumbs up | Thumbs down",
+    "template-name-agree-binary": "Thumb up | Thumb down",
     "group-label": {
       "multiplechoice": "AB…",
       "likertscale": "Rating",
       "mood": "Emojis",
       "custom": "Custom",
       "feedback": "Feedback"
+    },
+    "template-name-agree-tertiary": "Thumb up | Thumb down | Neutral",
+    "group-label": {
+      "multiplechoice": "AB …",
+      "likertscale": "Bewertung",
+      "mood": "Emojis",
+      "feedback": "Feedback",
+      "custom": "Benutzerdefiniert"
     }
   }
 }
