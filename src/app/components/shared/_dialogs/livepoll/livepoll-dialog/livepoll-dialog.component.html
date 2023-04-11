@@ -17,11 +17,15 @@
       *ngIf="!isProduction">
       {{ translateKey + ".dialog-preview-title" | translate }}
     </p>
-    <p
-      class="custom-title"
-      *ngIf="livepollSession.title">
-      {{ livepollSession.title }}
-    </p>
+    <!--    <p-->
+    <!--      class="custom-title"-->
+    <!--      *ngIf="livepollSession.title">-->
+    <!--      {{ livepollSession.title }}-->
+    <!--    </p>-->
+  </div>
+
+  <div class="markdown-container">
+    <markdown [data]="livepollSession.title"></markdown>
   </div>
 
   <div class="info-container">

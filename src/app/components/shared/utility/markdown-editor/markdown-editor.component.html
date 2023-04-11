@@ -1,0 +1,28 @@
+<div class="markdown-editor">
+  <div class="editor-options">
+    <mat-button-toggle-group
+      [value]="editorTab.value"
+      (change)="editorTab.setValue($event.value)">
+      <mat-button-toggle [value]="'edit'">
+        <span>edit</span>
+      </mat-button-toggle>
+      <mat-button-toggle [value]="'preview'">
+        <span>preview</span>
+      </mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
+  <div class="editor-content">
+    <ng-container *ngIf="editorTab.value === 'edit'">
+      <div
+        class="editor-input"
+        contenteditable="true"
+        (input)="updateText(editorInputElement)"
+        #editorInputElement></div>
+    </ng-container>
+    <ng-container *ngIf="editorTab.value === 'preview'">
+      <div class="editor-markdown">
+        <markdown [data]="data"></markdown>
+      </div>
+    </ng-container>
+  </div>
+</div>
