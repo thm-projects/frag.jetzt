@@ -1,5 +1,15 @@
-import { Component, ElementRef, Input, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  Input,
+  OnDestroy,
+  ViewChild,
+} from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { ReplaySubject, takeUntil } from 'rxjs';
+import { LanguageService } from '../../../../services/util/language.service';
+import { HttpClient } from '@angular/common/http';
+import { TranslateService } from '@ngx-translate/core';
 
 export type MarkdownEditorTab = 'edit' | 'preview';
 
@@ -8,14 +18,31 @@ export type MarkdownEditorTab = 'edit' | 'preview';
   templateUrl: './markdown-editor.component.html',
   styleUrls: ['./markdown-editor.component.scss'],
 })
-export class MarkdownEditorComponent {
+export class MarkdownEditorComponent implements OnDestroy {
   @Input() public data: string;
   public readonly editorTab: FormControl<MarkdownEditorTab> =
     new FormControl<MarkdownEditorTab>('edit');
 
   private editorInputElement: ElementRef<HTMLDivElement>;
+  private readonly _destroyer = new ReplaySubject(1);
 
-  constructor() {}
+  constructor(
+    public readonly languageService: LanguageService,
+    public readonly http: HttpClient,
+    public readonly translationService: TranslateService,
+  ) {
+    languageService
+      .getLanguage()
+      .pipe(takeUntil(this._destroyer))
+      .subscribe((lang) => {
+        translationService.use(lang);
+        http
+          .get('/assets/i18n/utility-components/' + lang + '.json')
+          .subscribe((translation) => {
+            translationService.setTranslation(lang, translation, true);
+          });
+      });
+  }
 
   @ViewChild('editorInputElement')
   set setEditorInputElement(editorInputElement: ElementRef<HTMLDivElement>) {
@@ -29,5 +56,9 @@ export class MarkdownEditorComponent {
 
   updateText(editorInputElement: HTMLDivElement) {
     this.data = editorInputElement.innerText;
+  }
+
+  ngOnDestroy() {
+    this._destroyer.next(0);
   }
 }

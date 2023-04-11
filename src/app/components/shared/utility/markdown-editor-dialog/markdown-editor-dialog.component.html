@@ -6,12 +6,12 @@
     mat-flat-button
     class="button-cancel"
     (click)="this.dialogRef.close()">
-    <span>cancel</span>
+    <span>{{ "utility.markdown-editor-dialog.cancel" | translate }}</span>
   </button>
   <button
     mat-flat-button
     class="button-secondary"
     (click)="this.dialogRef.close(markdownEditorComponent.data)">
-    <span>confirm</span>
+    <span>{{ "utility.markdown-editor-dialog.confirm" | translate }}</span>
   </button>
 </mat-dialog-actions>

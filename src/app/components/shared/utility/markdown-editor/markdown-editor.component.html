@@ -1,15 +1,24 @@
 <div class="markdown-editor">
   <div class="editor-options">
-    <mat-button-toggle-group
-      [value]="editorTab.value"
-      (change)="editorTab.setValue($event.value)">
-      <mat-button-toggle [value]="'edit'">
-        <span>edit</span>
-      </mat-button-toggle>
-      <mat-button-toggle [value]="'preview'">
-        <span>preview</span>
-      </mat-button-toggle>
-    </mat-button-toggle-group>
+    <button
+      mat-flat-button
+      (click)="editorTab.setValue('edit')"
+      [ngClass]="
+        'button-primary' + (this.editorTab.value === 'edit' ? '-checked' : '')
+      ">
+      <mat-icon>edit</mat-icon>
+      <span>{{ "utility.markdown-editor.edit" | translate }}</span>
+    </button>
+    <button
+      mat-flat-button
+      (click)="editorTab.setValue('preview')"
+      [ngClass]="
+        'button-primary' +
+        (this.editorTab.value === 'preview' ? '-checked' : '')
+      ">
+      <mat-icon>face</mat-icon>
+      <span>{{ "utility.markdown-editor.preview" | translate }}</span>
+    </button>
   </div>
   <div class="editor-content">
     <ng-container *ngIf="editorTab.value === 'edit'">
