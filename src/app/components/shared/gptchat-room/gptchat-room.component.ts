@@ -45,21 +45,13 @@ import { GptOptInPrivacyComponent } from '../_dialogs/gpt-optin-privacy/gpt-opti
 import { IntroductionPromptGuideChatbotComponent } from '../_dialogs/introductions/introduction-prompt-guide-chatbot/introduction-prompt-guide-chatbot.component';
 import { ArsComposeService } from '../../../../../projects/ars/src/lib/services/ars-compose.service';
 import { HeaderService } from '../../../services/util/header.service';
-import { GPTUserDescriptionDialogComponent } from '../_dialogs/gptuser-description-dialog/gptuser-description-dialog.component';
 import { MatMenu } from '@angular/material/menu';
 import {
   PresetsDialogComponent,
   PresetsDialogType,
 } from '../_dialogs/presets-dialog/presets-dialog.component';
-import {
-  GPTRoomAnswerFormat,
-  GPTRoomPreset,
-  GPTRoomPresetTone,
-} from 'app/models/gpt-room-preset';
-import {
-  GPTRoomPresetLanguage,
-  GPTRoomPresetLength,
-} from '../../../models/gpt-room-preset';
+import { GPTRoomAnswerFormat, GPTRoomPreset } from 'app/models/gpt-room-preset';
+import { GPTRoomPresetLength } from '../../../models/gpt-room-preset';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserRole } from '../../../models/user-roles.enum';
 import { ForumComment } from '../../../utils/data-accessor';
@@ -77,9 +69,10 @@ import { GPTPromptPreset } from 'app/models/gpt-prompt-preset';
 import { escapeForRegex } from 'app/utils/regex-escape';
 import { ComponentEvent, sendAwaitingEvent } from 'app/utils/component-events';
 import { Comment } from 'app/models/comment';
+import { GPTPresetTopicsDialogComponent } from '../_dialogs/gptpreset-topics-dialog/gptpreset-topics-dialog.component';
 
 interface ConversationEntry {
-  type: 'human' | 'gpt' | 'error';
+  type: 'human' | 'gpt' | 'system';
   message: string;
 }
 
@@ -87,6 +80,8 @@ interface ContextOption {
   key: string;
   text: string;
 }
+
+type SelectComponents = { text?: string; small?: string }[];
 
 interface Context {
   name: string;
@@ -110,9 +105,6 @@ interface MultiContextElement {
 export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild(ViewCommentDataComponent)
   commentData: ViewCommentDataComponent;
-  @ViewChild('languageSubMenu') languageSubMenu: MatMenu;
-  @ViewChild('toneSubMenu') toneSubMenu: MatMenu;
-  @ViewChild('formalitySubMenu') formalitySubMenu: MatMenu;
   @ViewChild('lengthSubMenu') lengthSubMenu: MatMenu;
   @ViewChild('answerFormatSubMenu') answerFormatSubMenu: MatMenu;
   @Input() private owningComment: ForumComment;
@@ -130,9 +122,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
   isGPTPrivacyPolicyAccepted: boolean = false;
   initDelta: StandardDelta;
   answerFormat: GPTRoomAnswerFormat = GPTRoomAnswerFormat.DISABLED;
-  GPTRoomPresetLanguage = GPTRoomPresetLanguage;
   GPTRoomPresetLength = GPTRoomPresetLength;
-  GPTRoomPresetTone = GPTRoomPresetTone;
   GPTRoomAnswerFormat = GPTRoomAnswerFormat;
   prompts: GPTPromptPreset[] = [];
   amountOfFoundActs: number = 0;
@@ -141,17 +131,25 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
   temperature: number = 0.7;
   searchTerm: string = '';
   answeringComment = false;
+  temperatureOptions: { key: string; value: number; text: SelectComponents }[] =
+    [
+      {
+        key: 'creative',
+        value: 1.0,
+        text: [],
+      },
+      {
+        key: 'balanced',
+        value: 0.7,
+        text: [],
+      },
+      {
+        key: 'precise',
+        value: 0,
+        text: [],
+      },
+    ];
   contexts: Context[] = [
-    {
-      name: 'competence',
-      type: 'single',
-      value: null,
-    },
-    {
-      name: 'self-description',
-      type: 'single',
-      value: null,
-    },
     {
       name: 'context',
       type: 'single',
@@ -160,22 +158,6 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
     {
       name: 'topic',
       type: 'multiple',
-      value: null,
-    },
-    {
-      name: 'language',
-      type: 'single',
-      value: null,
-    },
-    {
-      name: 'social-tone',
-      type: 'multiple',
-      value: null,
-      allowNone: true,
-    },
-    {
-      name: 'formal-address',
-      type: 'single',
       value: null,
     },
     {
@@ -258,10 +240,15 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
         this.isGPTPrivacyPolicyAccepted = state;
         this.openPrivacyDialog();
       });
-    this.sessionService
-      .getRole()
-      .pipe(takeUntil(this.destroyer), take(1))
-      .subscribe((role) => {});
+    const prefix = 'gpt-chat.temperature-';
+    this.translateService
+      .stream(this.temperatureOptions.map((x) => prefix + x.key))
+      .pipe(takeUntil(this.destroyer))
+      .subscribe((msg) => {
+        this.temperatureOptions.forEach((e) => {
+          e.text = this.generateComponents(msg[prefix + e.key]);
+        });
+      });
   }
 
   setValue(msg: string) {
@@ -458,8 +445,15 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
     this.isSending = true;
     this.renewIndex = -1;
     const lastType =
-      this.conversation[this.conversation.length - 1]?.type || 'error';
+      this.conversation[this.conversation.length - 1]?.type || 'system';
     const currentText = this.getCurrentText();
+    if (this.answeringComment && this.conversation.length < 1) {
+      this.conversation.push({
+        type: 'system',
+        message:
+          'You are a multilingual assistant in a chat room answering questions. Always answer the questions professionally.',
+      });
+    }
     const hasContent = currentText.trim().length > 0;
     if (lastType === 'human') {
       if (hasContent) {
@@ -493,6 +487,27 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
         temperature: this.temperature,
       })
       .subscribe(this.generateObserver(index));
+  }
+
+  generateComponents(msg: string): SelectComponents {
+    const regex = /\[[^\]]*\]/gm;
+    const res: SelectComponents = [];
+    let m: RegExpExecArray;
+    let index = 0;
+    while ((m = regex.exec(msg)) !== null) {
+      if (m.index === regex.lastIndex) {
+        regex.lastIndex++;
+      }
+      if (index < m.index) {
+        res.push({ text: msg.slice(index, m.index) });
+      }
+      index = m.index + m[0].length;
+      res.push({ small: msg.slice(m.index + 1, index - 1) });
+    }
+    if (index < msg.length) {
+      res.push({ text: msg.slice(index) });
+    }
+    return res;
   }
 
   getError() {
@@ -540,26 +555,6 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
         }),
       );
     return context.parts;
-  }
-
-  protected setLanguagePreset(language: GPTRoomPresetLanguage): void {
-    this.gptService
-      .patchPreset(this.room.id, { language })
-      .subscribe((newPreset) => this.updatePresetEntries(newPreset));
-  }
-
-  protected setTonePreset(tone: GPTRoomPresetTone): void {
-    this.gptService
-      .patchPreset(this.room.id, {
-        tones: [{ description: tone, active: true }],
-      })
-      .subscribe((newPreset) => this.updatePresetEntries(newPreset));
-  }
-
-  protected setFormalityPreset(formality?: boolean): void {
-    this.gptService
-      .patchPreset(this.room.id, { formal: formality })
-      .subscribe((newPreset) => this.updatePresetEntries(newPreset));
   }
 
   protected setLengthPreset(length: GPTRoomPresetLength): void {
@@ -619,11 +614,6 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
       this.room = r;
       this.gptService.getPreset(this.room.id).subscribe((preset) => {
         this.updatePresetEntries(preset);
-      });
-      this.gptService.getUserDescription(r.id).subscribe((description) => {
-        this.getContextByName('self-description').value = description
-          ? { key: null, text: description }
-          : null;
       });
       this.gptService.getPrompts().subscribe((prompts) => {
         this.prompts = prompts;
@@ -688,74 +678,6 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
             return this.sessionService.currentRole > 0;
           },
         });
-        e.menuItem({
-          translate: this.headerService.getTranslate(),
-          icon: 'person',
-          class: 'material-icons-outlined',
-          text: 'header.preset-persona',
-          callback: () => this.showPersonaPresetsDefinition(),
-          condition: () => {
-            return this.sessionService.currentRole > 0;
-          },
-        });
-        e.subMenu({
-          translate: this.headerService.getTranslate(),
-          icon: 'language',
-          class: 'material-icons-outlined',
-          menu: this.languageSubMenu,
-          text: 'header.preset-language',
-          condition: () => {
-            return this.sessionService.currentRole > 0;
-          },
-          menuOpened: () => {
-            const active = this._preset.language;
-            const languages = Object.values(GPTRoomPresetLanguage);
-            const index = languages.findIndex(
-              (language) => language === active,
-            );
-            if (index < 0) {
-              return;
-            }
-            this.languageSubMenu._allItems.get(index).focus();
-          },
-        });
-        e.subMenu({
-          translate: this.headerService.getTranslate(),
-          icon: 'sentiment_satisfied',
-          class: 'material-icons-outlined',
-          menu: this.toneSubMenu,
-          text: 'header.preset-tone',
-          condition: () => {
-            return this.sessionService.currentRole > 0;
-          },
-          menuOpened: () => {
-            const active = this._preset.tones[0].description;
-            const tones = Object.values(GPTRoomPresetTone);
-            const index = tones.findIndex((tone) => tone === active);
-            if (index < 0) {
-              return;
-            }
-            this.toneSubMenu._allItems.get(index).focus();
-          },
-        });
-        e.subMenu({
-          translate: this.headerService.getTranslate(),
-          icon: 'work',
-          class: 'material-icons-outlined',
-          menu: this.formalitySubMenu,
-          text: 'header.preset-formality',
-          condition: () => {
-            return this.sessionService.currentRole > 0;
-          },
-          menuOpened: () => {
-            const active = this._preset.formal;
-            const index = active === null ? 0 : active ? 2 : 1;
-            if (index < 0) {
-              return;
-            }
-            this.formalitySubMenu._allItems.get(index).focus();
-          },
-        });
         e.subMenu({
           translate: this.headerService.getTranslate(),
           icon: 'straighten',
@@ -773,17 +695,6 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
               return;
             }
             this.lengthSubMenu._allItems.get(index).focus();
-          },
-        });
-        e.menuItem({
-          translate: this.headerService.getTranslate(),
-          icon: 'person',
-          class: 'material-icons-outlined',
-          text: 'header.chat-self-description',
-          callback: () =>
-            GPTUserDescriptionDialogComponent.open(this.dialog, this.room.id),
-          condition: () => {
-            return this.sessionService.currentRole === 0;
           },
         });
         e.subMenu({
@@ -814,33 +725,25 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
   private generatePrompt(
     length: number = this.conversation.length,
   ): ChatCompletionMessage[] {
-    let wasHuman = false;
-    let wasEmpty = false;
-    return this.conversation
-      .slice(0, length)
-      .filter((e) => e.type !== 'error')
-      .reduce((acc, current, i) => {
-        if (wasEmpty) {
-          wasEmpty = false;
+    const roles: {
+      [key in ConversationEntry['type']]: ChatCompletionMessage['role'];
+    } = {
+      gpt: 'assistant',
+      human: 'user',
+      system: 'system',
+    };
+    return this.conversation.slice(0, length).reduce((acc, current, i) => {
+      if (current.message.trim().length < 1) {
+        if ((this.conversation[i + 1]?.message?.trim()?.length || 1) < 1) {
           return;
         }
-        if (current.message.trim().length < 1) {
-          if ((this.conversation[i + 1]?.message?.trim()?.length || 1) < 1) {
-            wasEmpty = true;
-            return;
-          }
-        }
-        const isHuman = current.type === 'human';
-        if (isHuman === wasHuman) {
-          acc.push({ role: isHuman ? 'assistant' : 'user', content: '' });
-        }
-        acc.push({
-          role: isHuman ? 'user' : 'assistant',
-          content: current.message,
-        });
-        wasHuman = isHuman;
-        return acc;
-      }, [] as ChatCompletionMessage[]);
+      }
+      acc.push({
+        role: roles[current.type],
+        content: current.message,
+      });
+      return acc;
+    }, [] as ChatCompletionMessage[]);
   }
 
   private getContextByName(name: string) {
@@ -894,7 +797,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
   private saveConversation() {
     sessionStorage.setItem(
       'gpt-conversation',
-      JSON.stringify(this.conversation.filter((e) => e.type !== 'error')),
+      JSON.stringify(this.conversation),
     );
   }
 
@@ -969,50 +872,21 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
     if (!preset) {
       return;
     }
-    const role = this.sessionService.currentRole;
-    let persona = preset.personaParticipant;
-    if (role === UserRole.CREATOR) {
-      persona = preset.personaCreator;
-    } else if (role > UserRole.PARTICIPANT) {
-      persona = preset.personaParticipant;
-    }
-    this.getContextByName('competence').value = persona
-      ? { key: null, text: persona }
-      : null;
     this.getContextByName('context').value = preset.context
       ? { key: null, text: preset.context }
       : null;
     let arr: string[] = [];
     if (preset.topics) {
       arr = preset.topics.filter((e) => e.active).map((e) => e.description);
+      preset.topics.sort((a, b) =>
+        a.description.localeCompare(b.description, undefined, {
+          sensitivity: 'base',
+        }),
+      );
     }
     this.getContextByName('topic').value = arr?.length
       ? arr.map((e, i) => ({ key: String(i), text: e }))
       : null;
-    if (preset.language) {
-      this.translateService
-        .get('gpt-chat.choices.language.' + preset.language)
-        .subscribe((msg) => {
-          this.getContextByName('language').value = {
-            key: preset.language,
-            text: msg,
-          };
-        });
-    } else {
-      this.getContextByName('language').value = null;
-    }
-    if (preset.formal !== null) {
-      this.translateService
-        .get('gpt-chat.choices.formal-address.' + preset.formal)
-        .subscribe((msg) => {
-          this.getContextByName('formal-address').value = {
-            key: String(preset.formal),
-            text: msg,
-          };
-        });
-    } else {
-      this.getContextByName('formal-address').value = null;
-    }
     if (preset.length) {
       this.translateService
         .get('gpt-chat.choices.response-length.' + preset.length)
@@ -1025,11 +899,6 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
     } else {
       this.getContextByName('response-length').value = null;
     }
-    this.translateService
-      .get('gpt-chat.choices.social-tone')
-      .subscribe((options) => {
-        this.getContextByName('social-tone').value = options;
-      });
     this.translateService
       .get('gpt-chat.choices.response-format')
       .subscribe((options) => {
@@ -1060,50 +929,17 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private showTopicPresetsDefinition() {
-    const dialogRef = this.dialog.open(PresetsDialogComponent, {
-      autoFocus: false,
-      width: '80%',
-      maxWidth: '600px',
-    });
-    dialogRef.componentInstance.type = PresetsDialogType.TOPIC;
-    dialogRef.componentInstance.data = [
-      this._preset.topics?.[0]?.description || '',
-    ];
+    const dialogRef = GPTPresetTopicsDialogComponent.open(
+      this.dialog,
+      this._preset.topics,
+    );
     dialogRef.afterClosed().subscribe((result) => {
-      if (result === undefined) {
+      if (!result) {
         return;
       }
       this.gptService
         .patchPreset(this.room.id, {
-          topics: result[0] ? [{ description: result[0], active: true }] : [],
-        })
-        .subscribe((preset) => {
-          this.updatePresetEntries(preset);
-        });
-    });
-  }
-
-  private showPersonaPresetsDefinition() {
-    const dialogRef = this.dialog.open(PresetsDialogComponent, {
-      autoFocus: false,
-      width: '80%',
-      maxWidth: '600px',
-    });
-    dialogRef.componentInstance.type = PresetsDialogType.PERSONA;
-    dialogRef.componentInstance.data = [
-      this._preset.personaModerator,
-      this._preset.personaParticipant,
-      this._preset.personaCreator,
-    ];
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result === undefined) {
-        return;
-      }
-      this.gptService
-        .patchPreset(this.room.id, {
-          personaModerator: result[0],
-          personaParticipant: result[1],
-          personaCreator: result[2],
+          topics: result,
         })
         .subscribe((preset) => {
           this.updatePresetEntries(preset);

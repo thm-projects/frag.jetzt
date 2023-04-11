@@ -50,7 +50,6 @@ import {
 } from '../navigation/navigation.component';
 import { PseudonymEditorComponent } from '../_dialogs/pseudonym-editor/pseudonym-editor.component';
 import { CommentNotificationDialogComponent } from '../_dialogs/comment-notification-dialog/comment-notification-dialog.component';
-import { GPTUserDescriptionDialogComponent } from '../_dialogs/gptuser-description-dialog/gptuser-description-dialog.component';
 import { GptOptInPrivacyComponent } from '../_dialogs/gpt-optin-privacy/gpt-optin-privacy.component';
 import { ShrinkObserver } from 'app/utils/shrink-observer';
 import { LivepollService } from '../../../services/http/livepoll.service';
@@ -379,10 +378,6 @@ export class HeaderComponent implements OnInit, AfterViewInit {
       return;
     }
     CommentNotificationDialogComponent.openDialog(this.dialog, this.room);
-  }
-
-  openGPTUser() {
-    GPTUserDescriptionDialogComponent.open(this.dialog, this.room.id);
   }
 
   openGPT() {

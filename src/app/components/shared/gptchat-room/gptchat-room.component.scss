@@ -55,7 +55,10 @@
 
   > mat-form-field {
     margin-bottom: -1.25em;
-    margin-inline: 1em;
+    padding-inline: 1em;
+    padding-top: 0.4em;
+    background-color: var(--dialog);
+    border-radius: 10px;
   }
 }
 
@@ -110,10 +113,10 @@
     }
   }
 
-  > .error {
+  > .system {
     margin-inline: auto;
-    background-color: var(--red);
-    color: #000;
+    background-color: var(--dialog);
+    color: var(--on-dialog);
   }
 
   > .gpt {
@@ -162,14 +165,16 @@
 }
 
 .slide-container {
-  margin-top: 2rem;
-  gap: 1em;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
+  text-align: center;
+  width: min-content;
+  margin-left: auto !important;
 
-  > * {
-    flex: 1;
+  &::before {
+    display: none;
+  }
+
+  > h3 {
+    display: inline-block;
   }
 }
 
