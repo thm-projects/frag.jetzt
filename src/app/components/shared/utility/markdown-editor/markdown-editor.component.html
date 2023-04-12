@@ -1,0 +1,37 @@
+<div class="markdown-editor">
+  <div class="editor-options">
+    <button
+      mat-flat-button
+      (click)="editorTab.setValue('edit')"
+      [ngClass]="
+        'button-primary' + (this.editorTab.value === 'edit' ? '-checked' : '')
+      ">
+      <mat-icon>edit</mat-icon>
+      <span>{{ "utility.markdown-editor.edit" | translate }}</span>
+    </button>
+    <button
+      mat-flat-button
+      (click)="editorTab.setValue('preview')"
+      [ngClass]="
+        'button-primary' +
+        (this.editorTab.value === 'preview' ? '-checked' : '')
+      ">
+      <mat-icon>face</mat-icon>
+      <span>{{ "utility.markdown-editor.preview" | translate }}</span>
+    </button>
+  </div>
+  <div class="editor-content">
+    <ng-container *ngIf="editorTab.value === 'edit'">
+      <div
+        class="editor-input"
+        contenteditable="true"
+        (input)="updateText(editorInputElement)"
+        #editorInputElement></div>
+    </ng-container>
+    <ng-container *ngIf="editorTab.value === 'preview'">
+      <div class="editor-markdown">
+        <markdown [data]="data"></markdown>
+      </div>
+    </ng-container>
+  </div>
+</div>

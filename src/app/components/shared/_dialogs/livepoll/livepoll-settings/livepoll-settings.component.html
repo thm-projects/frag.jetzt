@@ -15,14 +15,27 @@
       </mat-panel-description>
     </mat-expansion-panel-header>
     <div class="settings-panel-container">
-      <mat-form-field appearance="outline">
-        <mat-label>
-          {{ parent.translateKey + ".option-select-title" | translate }}
-        </mat-label>
-        <input
-          matInput
-          [(ngModel)]="parent.livepollSession.title" />
-      </mat-form-field>
+      <div class="title-option-container">
+        <mat-form-field appearance="outline">
+          <mat-label>
+            {{ parent.translateKey + ".option-select-title" | translate }}
+          </mat-label>
+          <input
+            matInput
+            [(ngModel)]="parent.livepollSession.title" />
+        </mat-form-field>
+        <button
+          mat-flat-button
+          class="button-primary"
+          (click)="openMarkdownEditor()">
+          <mat-icon>edit</mat-icon>
+          <span>
+            {{
+              parent.translateKey + ".creator-settings-open-editor" | translate
+            }}
+          </span>
+        </button>
+      </div>
       <mat-slide-toggle
         [matTooltip]="
           parent.translateKey + '.tooltip-option-select-result-visibility'

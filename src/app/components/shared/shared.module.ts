@@ -134,6 +134,8 @@ import { ChatGPTPromptPresetComponent } from './chat-gptprompt-preset/chat-gptpr
 import { LivepollConfirmationDialogComponent } from './_dialogs/livepoll/livepoll-confirmation-dialog/livepoll-confirmation-dialog.component';
 import { LivepollStatisticComponent } from './_dialogs/livepoll/livepoll-statistic/livepoll-statistic.component';
 import { LivepollSummaryComponent } from './_dialogs/livepoll/livepoll-summary/livepoll-summary.component';
+import { MarkdownEditorComponent } from './utility/markdown-editor/markdown-editor.component';
+import { MarkdownEditorDialogComponent } from './utility/markdown-editor-dialog/markdown-editor-dialog.component';
 import { GPTPresetTopicsDialogComponent } from './_dialogs/gptpreset-topics-dialog/gptpreset-topics-dialog.component';
 
 @NgModule({
@@ -271,6 +273,8 @@ import { GPTPresetTopicsDialogComponent } from './_dialogs/gptpreset-topics-dial
     LivepollConfirmationDialogComponent,
     LivepollStatisticComponent,
     LivepollSummaryComponent,
+    MarkdownEditorComponent,
+    MarkdownEditorDialogComponent,
     GPTPresetTopicsDialogComponent,
   ],
   exports: [

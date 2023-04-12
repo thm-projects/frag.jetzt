@@ -1,0 +1,12 @@
+{
+  "utility": {
+    "markdown-editor": {
+      "edit": "Modifier",
+      "preview": "Aperçu"
+    },
+    "markdown-editor-dialog": {
+      "confirm": "Enregistrer",
+      "cancel": "Fermer"
+    }
+  }
+}

@@ -142,13 +142,20 @@ fg-1 {
   }
 }
 
+.markdown-container {
+  max-height: 400px;
+  overflow: auto;
+}
+
 .mat-expansion-panel {
   background-color: var(--surface);
   color: var(--on-surface);
+
   :active {
     background-color: var(--surface);
     color: var(--on-surface);
   }
+
   :focus {
     background-color: var(--surface);
     color: var(--on-surface);
