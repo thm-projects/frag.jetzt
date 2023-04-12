@@ -99,7 +99,7 @@
     <button
       type="button"
       class="ql-emoji"
-      *ngIf="hasEmoji"
+      *ngIf="hasEmoji && !disableEmoji"
       [matTooltip]="'quill.tooltip-toolbar-emote' | translate"
       [matTooltipPosition]="'above'"></button>
     <mat-form-field
@@ -146,6 +146,7 @@
       [matTooltip]="'quill.tooltip-toolbar-strike' | translate"
       [matTooltipPosition]="'above'"></button>
     <span
+      *ngIf="!disableColor"
       class="ql-select-wrapper"
       [matTooltip]="'quill.tooltip-toolbar-textcolor' | translate"
       [matTooltipPosition]="'above'">
@@ -183,6 +184,7 @@
       [matTooltip]="'quill.tooltip-toolbar-image' | translate"
       [matTooltipPosition]="'above'"></button>
     <button
+      *ngIf="!disableVideo"
       type="button"
       class="ql-video"
       (click)="onClick($event, 'video')"

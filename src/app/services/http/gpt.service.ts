@@ -338,33 +338,6 @@ export class GptService extends BaseHttpService {
       );
   }
 
-  getUserDescription(roomId: string): Observable<string> {
-    const url = '/api/gpt/user-description/' + roomId;
-    return this.httpClient.get(url, httpOptionsPlainString).pipe(
-      tap((_) => ''),
-      catchError((err) => {
-        if (err?.status === 404) {
-          return of('');
-        }
-        return throwError(() => err);
-      }),
-      catchError(this.handleError<string>('getUserDescription')),
-    );
-  }
-
-  updateUserDescription(
-    roomId: string,
-    description: string,
-  ): Observable<string> {
-    const url = '/api/gpt/user-description/' + roomId;
-    return this.httpClient
-      .post(url, { description }, httpOptionsPlainString)
-      .pipe(
-        tap((_) => ''),
-        catchError(this.handleError<string>('updateUserDescription')),
-      );
-  }
-
   getConsentState(): Observable<boolean | null> {
     const url = '/api/gpt/gdpr';
     return this.httpClient.get(url, httpOptionsPlainString).pipe(
