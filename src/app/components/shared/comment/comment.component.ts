@@ -646,7 +646,7 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
         roomOwner: room.ownerId,
         user: this.user,
         userRole: this.userRole,
-        isModerationComment: this.isModerator,
+        isModerationComment: this.moderator,
         votes: this._votes,
       };
       this.showResponses =

@@ -554,3 +554,21 @@ iframe {
 .mat-form-field-appearance-outline .mat-form-field-outline {
   color: var(--on-surface);
 }
+
+.mat-button-toggle-group {
+  border-color: var(--on-primary-variant);
+}
+
+.mat-button-toggle {
+  color: var(--on-primary-variant);
+  background: var(--primary-variant);
+
+  &.mat-button-toggle-checked {
+    color: var(--on-primary);
+    background: var(--primary);
+  }
+
+  + .mat-button-toggle {
+    border-left: solid 1px var(--on-primary-variant) !important;
+  }
+}

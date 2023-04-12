@@ -117,7 +117,6 @@ import { NavigationComponent } from './navigation/navigation.component';
 import { QuestionWallComponent } from './questionwall/question-wall/question-wall.component';
 import { LivepollCreateComponent } from './_dialogs/livepoll/livepoll-create/livepoll-create.component';
 import { GptRoomSettingsComponent } from './_dialogs/gpt-room-settings/gpt-room-settings.component';
-import { GPTUserDescriptionDialogComponent } from './_dialogs/gptuser-description-dialog/gptuser-description-dialog.component';
 import { GptOptInPrivacyComponent } from './_dialogs/gpt-optin-privacy/gpt-optin-privacy.component';
 import { GptPrivacyPolicyDeComponent } from '../../../assets/i18n/components/gpt-privacy-policy/gpt-privacy-policy-de';
 import { GptPrivacyPolicyEnComponent } from '../../../assets/i18n/components/gpt-privacy-policy/gpt-privacy-policy-en';
@@ -137,6 +136,7 @@ import { LivepollStatisticComponent } from './_dialogs/livepoll/livepoll-statist
 import { LivepollSummaryComponent } from './_dialogs/livepoll/livepoll-summary/livepoll-summary.component';
 import { MarkdownEditorComponent } from './utility/markdown-editor/markdown-editor.component';
 import { MarkdownEditorDialogComponent } from './utility/markdown-editor-dialog/markdown-editor-dialog.component';
+import { GPTPresetTopicsDialogComponent } from './_dialogs/gptpreset-topics-dialog/gptpreset-topics-dialog.component';
 
 @NgModule({
   imports: [
@@ -256,7 +256,6 @@ import { MarkdownEditorDialogComponent } from './utility/markdown-editor-dialog/
     QuestionWallComponent,
     LivepollCreateComponent,
     GptRoomSettingsComponent,
-    GPTUserDescriptionDialogComponent,
     IntroductionPromptGuideChatbotComponent,
     IntroductionPromptGuideChatbotDeComponent,
     IntroductionPromptGuideChatbotEnComponent,
@@ -276,6 +275,7 @@ import { MarkdownEditorDialogComponent } from './utility/markdown-editor-dialog/
     LivepollSummaryComponent,
     MarkdownEditorComponent,
     MarkdownEditorDialogComponent,
+    GPTPresetTopicsDialogComponent,
   ],
   exports: [
     RoomJoinComponent,

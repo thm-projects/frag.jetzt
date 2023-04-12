@@ -181,9 +181,9 @@ export class CommentAnswerComponent
         'comment-answer.on-startup',
       ),
     ).subscribe((next) => {
-      this.commentOverride = next as Partial<Comment>;
-      this.commentComponent.commentData.currentData = this.commentOverride
-        .body as StandardDelta;
+      const { body, ...elements } = next as Partial<Comment>;
+      this.commentOverride = elements;
+      this.commentComponent.commentData.currentData = body as StandardDelta;
     });
   }
 

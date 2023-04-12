@@ -69,6 +69,9 @@ export class ViewCommentDataComponent
   @Input() usesFormality = false;
   @Input() formalityEmitter: (string) => void;
   @Input() selectedFormality = 'default';
+  @Input() disableVideo = false;
+  @Input() disableColor = false;
+  @Input() disableEmoji = false;
   @Output() changeContent = new EventEmitter<
     [ImmutableStandardDelta, string]
   >();
