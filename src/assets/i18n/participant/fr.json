@@ -283,44 +283,30 @@
     },
     "optin-accept": "Accepter",
     "optin-reject": "Refuser",
+    "preset-preamble": "Prompt préambule",
+    "temperature-creative": "[Plus] Créatif",
+    "temperature-tooltip-creative": "Cette attitude laisse une plus grande marge de manœuvre et permet donc des réponses plus créatives.",
+    "temperature-balanced": "[Bien] Équilibré",
+    "temperature-tooltip-balanced": "Les réponses équilibrées peuvent changer, mais elles sont souvent très bien adaptées à la question.",
+    "temperature-precise": "[Plus] Précis",
+    "temperature-tooltip-precise": "Ne laisse pratiquement aucune marge de manœuvre. Les réponses sont presque identiques et donc partiellement déterministes.",
     "privacy-policy": "Déclaration de confidentialité pour l'utilisation de l'API OpenAI",
     "enter-conversation-text": "Parle à ChatGPT",
-    "context-competence": "Ma compétence : {{value}}.",
-    "context-self-description": "Ma description : {{value}}.",
     "context-context": "Contexte de ma question : {{value}}.",
     "context-topic": "Sujet : {{value}}.",
-    "context-language": "Réponds-moi en {{value}}.",
-    "context-social-tone": "Parle-moi {{value}}.",
-    "context-formal-address": "Adresse-toi à moi {{value}}.",
     "context-response-length": "Réponds-moi {{value}}.",
     "context-response-format": "Formatte la réponse comme {{value}}.",
     "context-question": "Ma question est :\n\n{{value}}",
     "choices": {
-      "social-tone": [
-        { "key": "neutral", "text": "de manière neutre" },
-        { "key": "friendly", "text": "gentiment" },
-        { "key": "expertly", "text": "en tant qu'expert" },
-        { "key": "humorous", "text": "avec humour" }
-      ],
       "response-format": [
         { "key": "summary", "text": "de résumé" },
         { "key": "definition", "text": "de définition" },
         { "key": "flashcard", "text": "de carte d'apprentissage" }
       ],
-      "language": {
-        "de": "en allemand",
-        "en": "en anglais",
-        "fr": "en français",
-        "like_question": "dans la langue de la question"
-      },
       "response-length": {
         "short": "brièvement",
         "detailed": "en détail",
         "extensive": "largement"
-      },
-      "formal-address": {
-        "true": "formelle",
-        "false": "informelle"
       }
     },
     "your-choice": "Ta sélection …",
@@ -337,8 +323,7 @@
     "prompt-label": "Recherche du prompt",
     "option-total-acts": "Hits dans « Agir comme … »",
     "option-total-prompts": "Hits dans prompts",
-    "temperature": "Température",
-    "temperature-tooltip": "Des valeurs plus élevées comme 0,8 rendent la sortie plus aléatoire, tandis que des valeurs plus faibles comme 0,2 la rendent plus précise et déterministe."
+    "temperature": "Température"
   },
   "header": {
     "overview-keywords-tooltip": "Nombre de mots-clés",

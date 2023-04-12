@@ -283,44 +283,30 @@
     },
     "optin-accept": "Accept",
     "optin-reject": "Reject",
+    "preset-preamble": "Prompt Preamble",
+    "temperature-creative": "[More] Creative",
+    "temperature-tooltip-creative": "This setting allows for greater latitude and thus more creative responses.",
+    "temperature-balanced": "[More] Balanced",
+    "temperature-tooltip-balanced": "Balanced answers can change, but are often very well matched to the question.",
+    "temperature-precise": "[More] Precise",
+    "temperature-tooltip-precise": "Leaves virtually no room for maneuver. The answers are almost identical and thus partially deterministic.",
     "privacy-policy": "Privacy Policy for the Use of OpenAI API",
     "enter-conversation-text": "Chat with ChatGPT",
-    "context-competence": "My competence: {{value}}.",
-    "context-self-description": "My self-description: {{value}}.",
     "context-context": "Context of my question: {{value}}.",
     "context-topic": "Topic: {{value}}.",
-    "context-language": "Answer me {{value}}.",
-    "context-social-tone": "Speak to me {{value}}.",
-    "context-formal-address": "Address me {{value}}.",
     "context-response-length": "Respond to me {{value}}.",
     "context-response-format": "Format the response as {{value}}.",
     "context-question": "My question is:\n\n{{value}}",
     "choices": {
-      "social-tone": [
-        { "key": "neutral", "text": "neutrally" },
-        { "key": "friendly", "text": "friendly" },
-        { "key": "expertly", "text": "expertly" },
-        { "key": "humorous", "text": "humorously" }
-      ],
       "response-format": [
         { "key": "summary", "text": "a summary" },
         { "key": "definition", "text": "a definition" },
         { "key": "flashcard", "text": "a flashcard" }
       ],
-      "language": {
-        "de": "in German",
-        "en": "in English",
-        "fr": "in French",
-        "like_question": "in the language of the question"
-      },
       "response-length": {
         "short": "shortly",
         "detailed": "in detail",
         "extensive": "extensively"
-      },
-      "formal-address": {
-        "true": "formally",
-        "false": "informally"
       }
     },
     "your-choice": "Your selection …",
@@ -337,8 +323,7 @@
     "prompt-label": "Prompt search",
     "option-total-acts": "Hits in »Act as …«",
     "option-total-prompts": "Founds prompts",
-    "temperature": "Temperature",
-    "temperature-tooltip": "Higher values like 0.8 make the output more random, while lower values like 0.2 make it more precise and deterministic."
+    "temperature": "Temperature"
   },
   "header": {
     "overview-keywords-tooltip": "Number of Keywords",

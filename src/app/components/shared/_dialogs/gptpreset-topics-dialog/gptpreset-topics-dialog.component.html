@@ -1,0 +1,48 @@
+<h3>{{ "gptpreset-topics.title" | translate }}</h3>
+
+<mat-dialog-content>
+  <div class="input-container">
+    <mat-form-field>
+      <mat-label>{{ "gptpreset-topics.topic" | translate }}</mat-label>
+      <input
+        appAccessibilityEscapedInput
+        (keydown)="checkEnter($event, addTopic)"
+        matInput
+        type="text"
+        [(ngModel)]="topicDescription" />
+      <button
+        *ngIf="topicDescription"
+        matSuffix
+        mat-icon-button
+        aria-label="Clear"
+        (click)="topicDescription = ''">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+    <button
+      (click)="addTopic()"
+      mat-flat-button
+      class="secondary-btn">
+      {{ "gptpreset-topics.add-topic" | translate }}
+    </button>
+  </div>
+  <mat-selection-list (selectionChange)="onChange($event)">
+    <mat-list-option
+      *ngFor="let topic of topics; let i = index"
+      [selected]="topic.active">
+      {{ topic.description }}
+      <button
+        (click)="topics.splice(i, 1)"
+        matSuffix
+        mat-icon-button>
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-list-option>
+  </mat-selection-list>
+</mat-dialog-content>
+
+<app-dialog-action-buttons
+  [buttonsLabelSection]="'gptpreset-topics'"
+  [confirmButtonLabel]="'save'"
+  [cancelButtonClickAction]="onCancel"
+  [confirmButtonClickAction]="onSubmit"></app-dialog-action-buttons>

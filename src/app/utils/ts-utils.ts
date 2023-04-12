@@ -108,6 +108,8 @@ export type GeneralFunction = (...anyArgs: any) => any;
 
 export type Storable<T> = T extends GeneralFunction
   ? never
+  : T extends (infer K)[]
+  ? Storable<K>[]
   : IsObject<T> extends true
   ? {
       [P in keyof T as T[P] extends GeneralFunction ? never : P]: Storable<
