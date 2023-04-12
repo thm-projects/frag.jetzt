@@ -90,6 +90,11 @@
     background-color: var(--primary);
     color: var(--on-primary);
 
+    &a {
+      text-decoration: underline;
+      color: var(--on-secondary);
+    }
+
     &::before {
       border-bottom-left-radius: 0.8rem 0.7rem;
       border-right: 1rem solid var(--primary);

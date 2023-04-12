@@ -1,0 +1,95 @@
+.markdown-editor {
+  display: flex;
+  flex-direction: column;
+
+  > .editor-options {
+    height: 64px;
+    align-items: center;
+    display: flex;
+
+    > button + button {
+      margin-left: 8px;
+    }
+  }
+
+  > .editor-content {
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+
+    .editor-input {
+      white-space: pre-wrap;
+      font-family: "Consolas", monospace;
+      border: 1px solid var(--on-background);
+    }
+
+    > div {
+      flex-grow: 1;
+      overflow: auto;
+      padding: 8px;
+      outline: none;
+    }
+  }
+}
+
+.button {
+  mat-icon {
+    margin-right: 4px;
+  }
+
+  &-cancel {
+    @extend .button;
+    background-color: transparent;
+    color: var(--on-dialog);
+
+    &:hover {
+      outline: var(--cancel) solid 3px;
+    }
+  }
+
+  &-secondary {
+    @extend .button;
+    background-color: transparent;
+    color: var(--secondary);
+    outline: var(--secondary) solid 3px;
+
+    &:hover {
+      background-color: var(--secondary);
+      color: var(--on-secondary);
+    }
+
+    &-checked {
+      @extend .button;
+      background-color: var(--secondary);
+      color: var(--on-secondary);
+
+      &:hover {
+        background-color: var(--secondary);
+        color: var(--on-secondary);
+      }
+    }
+  }
+
+  &-primary {
+    @extend .button;
+    background-color: var(--primary);
+    color: var(--on-primary);
+
+    &:hover {
+      background-color: var(--primary);
+      color: var(--on-primary);
+    }
+
+    &-checked {
+      @extend .button;
+      background-color: transparent;
+      color: var(--primary);
+      outline: var(--primary) solid 3px;
+
+      &:hover {
+        background-color: var(--primary);
+        color: var(--on-primary);
+      }
+    }
+  }
+}
