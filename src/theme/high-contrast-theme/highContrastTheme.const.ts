@@ -5,7 +5,7 @@ export const highcontrast = {
   '--primary-variant': 'DarkSlateGray',
 
   '--secondary': 'white',
-  '--secondary-variant': '#fb9a1c',
+  '--secondary-variant': 'DarkSlateGray',
 
   '--background': '#121212',
   '--surface': '#1e1e1e',
