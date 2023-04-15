@@ -11,8 +11,8 @@ body {
 @import "util";
 @import "form";
 
-.mat-flat-button.mat-button-disabled {
+.mat-button-disabled {
   background-color: lightgray !important;
   color: darkslategray !important;
-  outline: gray solid 3px !important;
+  outline: gray solid 1px !important;
 }
