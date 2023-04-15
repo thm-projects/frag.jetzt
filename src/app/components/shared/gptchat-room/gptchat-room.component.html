@@ -131,7 +131,6 @@
     <div
       *ngIf="answeringComment && conversation.length < 1"
       class="human">
-      <h3>{{ "gpt-chat.preset-preamble" | translate }}</h3>
       <ng-container *ngFor="let context of contexts">
         <div
           *ngIf="context.value && context.type === 'single'"

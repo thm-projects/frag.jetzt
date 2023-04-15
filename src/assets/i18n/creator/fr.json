@@ -374,7 +374,6 @@
   "gpt-chat": {
     "optin-accept": "Accepter",
     "optin-reject": "Refuser",
-    "preset-preamble": "Prompt préambule",
     "temperature-creative": "[Plus] Créatif",
     "temperature-tooltip-creative": "Cette attitude laisse une plus grande marge de manœuvre et permet donc des réponses plus créatives.",
     "temperature-balanced": "[Bien] Équilibré",
@@ -383,21 +382,21 @@
     "temperature-tooltip-precise": "Ne laisse pratiquement aucune marge de manœuvre. Les réponses sont presque identiques et donc partiellement déterministes.",
     "privacy-policy": "Déclaration de confidentialité pour l'utilisation de l'API OpenAI",
     "enter-conversation-text": "Parle à ChatGPT",
-    "context-context": "Contexte de ma question : {{value}}.",
+    "context-context": "Contexte : {{value}}.",
     "context-topic": "Sujet : {{value}}.",
-    "context-response-length": "Réponds-moi {{value}}.",
-    "context-response-format": "Formatte la réponse comme {{value}}.",
-    "context-question": "Ma question est :\n\n{{value}}",
+    "context-response-length": "Longueur : {{value}}.",
+    "context-response-format": "Format : {{value}}.",
+    "context-question": "Question :\n\n{{value}}",
     "choices": {
       "response-format": [
-        { "key": "summary", "text": "de résumé" },
-        { "key": "definition", "text": "de définition" },
-        { "key": "flashcard", "text": "de carte d'apprentissage" }
+        { "key": "summary", "text": "Résumé" },
+        { "key": "definition", "text": "Définition" },
+        { "key": "flashcard", "text": "Carte d'apprentissage" }
       ],
       "response-length": {
-        "short": "brièvement",
+        "short": "en bref",
         "detailed": "en détail",
-        "extensive": "largement"
+        "extensive": "vaste"
       }
     },
     "your-choice": "Ta sélection …",
@@ -691,10 +690,10 @@
     "trial-info": "Étude ChatGPT (clé API via frag.jetzt):",
     "trial-code": "Code d'activation",
     "trial-enabled": "Tu participes à l'étude frag.jetzt.",
-    "own-openai-api-key": "GPT via des paramètres API personnalisés",
+    "own-openai-api-key": "ChatGPT via des paramètres API personnalisés",
     "own-openai-info": "Si l'étude frag.jetzt est active, le décompte se fait quand même sur les propres réglages, si ceux-ci sont présents.",
-    "api-key": "OpenAI API Key",
-    "api-organization": "ID de l'organisation OpenAI",
+    "api-key": "OpenAI API Key (commence par : sk- …)",
+    "api-organization": "ID de l'organisation OpenAI (commence par : org- …)",
     "restrictions-room": "Espace Limitations de quotas",
     "rest-room-acc": "Limitation globale des coûts",
     "rest-room-month": "Limitation des coûts mensuels",

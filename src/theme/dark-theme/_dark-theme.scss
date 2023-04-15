@@ -47,3 +47,9 @@ a {
 .mat-radio-button.mat-accent:active .mat-radio-persistent-ripple {
   background-color: var(--on-dialog) !important;
 }
+
+.mat-flat-button.mat-button-disabled {
+  background-color: lightgray !important;
+  color: darkslategray !important;
+  outline: gray solid 3px !important;
+}
