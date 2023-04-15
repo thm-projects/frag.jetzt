@@ -443,7 +443,7 @@
     "prompt-label": "Recherche du prompt",
     "option-total-acts": "Hits dans « Agir comme … »",
     "option-total-prompts": "Hits dans prompts",
-    "temperature": "Température"
+    "temperature": "Variabilité de réponse"
   },
   "header": {
     "overview-keywords-tooltip": "Nombre de mots-clés",

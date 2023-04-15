@@ -51,7 +51,7 @@
     "help-general": "The GPT API provides an artificial intelligence that performs text completion. In doing so, the AI answers classification, knowledge, and other questions. The AI has one input and provides at least one output.",
     "help-api-key": "The API key assigns the requests to an account. So consumption and costs can be calculated and displayed in the OpenAI account",
     "help-organization": "Organization is an optional way to have consumption billed through an organization instead of directly through your own OpenAI account.",
-    "activation-code": "Study activation code",
+    "activation-code": "Study activation code (≥ 8 characters)",
     "activation-max-cost": "Study cost per month",
     "activation-used": "Code was redeemed",
     "activation-info": "{{code}}: ({{maxCost}}$ / Month)",
