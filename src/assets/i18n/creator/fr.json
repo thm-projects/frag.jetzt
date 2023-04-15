@@ -383,21 +383,21 @@
     "temperature-tooltip-precise": "Ne laisse pratiquement aucune marge de manœuvre. Les réponses sont presque identiques et donc partiellement déterministes.",
     "privacy-policy": "Déclaration de confidentialité pour l'utilisation de l'API OpenAI",
     "enter-conversation-text": "Parle à ChatGPT",
-    "context-context": "Contexte de ma question : {{value}}.",
+    "context-context": "Contexte : {{value}}.",
     "context-topic": "Sujet : {{value}}.",
-    "context-response-length": "Réponds-moi {{value}}.",
-    "context-response-format": "Formatte la réponse comme {{value}}.",
-    "context-question": "Ma question est :\n\n{{value}}",
+    "context-response-length": "Longueur : {{value}}.",
+    "context-response-format": "Format : {{value}}.",
+    "context-question": "Question :\n\n{{value}}",
     "choices": {
       "response-format": [
-        { "key": "summary", "text": "de résumé" },
-        { "key": "definition", "text": "de définition" },
-        { "key": "flashcard", "text": "de carte d'apprentissage" }
+        { "key": "summary", "text": "Résumé" },
+        { "key": "definition", "text": "Définition" },
+        { "key": "flashcard", "text": "Carte d'apprentissage" }
       ],
       "response-length": {
-        "short": "brièvement",
+        "short": "en bref",
         "detailed": "en détail",
-        "extensive": "largement"
+        "extensive": "vaste"
       }
     },
     "your-choice": "Ta sélection …",

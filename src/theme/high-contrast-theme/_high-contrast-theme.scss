@@ -1,12 +1,19 @@
-@use '@angular/material' as mat;
-@import './../../../node_modules/@angular/material/theming';
+@use "@angular/material" as mat;
+@import "./../../../node_modules/@angular/material/theming";
 
-$purple-primary: mat.define-palette(mat.$purple-palette,500);
-$purple-accent: mat.define-palette(mat.$amber-palette, 200); //$mat-purple-gray, A200, A100, A400);
+$purple-primary: mat.define-palette(mat.$purple-palette, 500);
+$purple-accent: mat.define-palette(
+  mat.$amber-palette,
+  200
+); //$mat-purple-gray, A200, A100, A400);
 
 $purple-warn: mat.define-palette(mat.$red-palette, A100);
 
-$purple-theme: mat.define-light-theme($purple-primary, $purple-accent, $purple-warn);
+$purple-theme: mat.define-light-theme(
+  $purple-primary,
+  $purple-accent,
+  $purple-warn
+);
 
 .mat-dialog-container {
   color: var(--on-surface) !important;
@@ -24,4 +31,10 @@ $purple-theme: mat.define-light-theme($purple-primary, $purple-accent, $purple-w
 .mat-menu-panel .mat-menu-item {
   background-color: var(--dialog) !important;
   color: var(--on-dialog) !important;
+}
+
+.mat-flat-button.mat-button-disabled {
+  background-color: lightgray !important;
+  color: darkslategray !important;
+  outline: gray solid 3px !important;
 }

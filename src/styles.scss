@@ -389,12 +389,6 @@ blockquote {
   hyphens: auto;
 }
 
-.mat-flat-button.mat-button-disabled {
-  background-color: lightgray !important;
-  color: gray !important;
-  outline: gray solid 3px !important;
-}
-
 .mat-bottom-sheet-container {
   background-color: var(--dialog);
   color: var(--on-dialog);
