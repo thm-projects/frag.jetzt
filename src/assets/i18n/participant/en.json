@@ -283,7 +283,6 @@
     },
     "optin-accept": "Accept",
     "optin-reject": "Reject",
-    "preset-preamble": "Prompt Preamble",
     "temperature-creative": "[More] Creative",
     "temperature-tooltip-creative": "This setting allows for a larger margin and thus more creative responses.",
     "temperature-balanced": "[More] Balanced",

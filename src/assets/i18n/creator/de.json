@@ -383,7 +383,6 @@
   "gpt-chat": {
     "optin-accept": "Akzeptieren",
     "optin-reject": "Ablehnen",
-    "preset-preamble": "Prompt Präambel",
     "temperature-creative": "[Mehr] Kreativ",
     "temperature-tooltip-creative": "Diese Einstellung lässt einen größeren Spielraum zu und ermöglicht somit kreativere Antworten.",
     "temperature-balanced": "[Mehr] Ausgewogen",
