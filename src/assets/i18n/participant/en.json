@@ -323,7 +323,7 @@
     "prompt-label": "Prompt search",
     "option-total-acts": "Hits in »Act as …«",
     "option-total-prompts": "Founds prompts",
-    "temperature": "Temperature"
+    "temperature": "Response variability"
   },
   "header": {
     "overview-keywords-tooltip": "Number of Keywords",

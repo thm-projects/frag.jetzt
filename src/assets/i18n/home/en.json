@@ -496,7 +496,7 @@
     "reset-failed-because-of-activation-process": "Password reset failed, still in activation process",
     "reset-password": "Request confirmation code",
     "reset-password-description": "Reset password",
-    "reset-successful": "If an account with this mail address exists, a message was sent.",
+    "reset-successful": "If an account with this mail address exists, a message was sent. Also check the spam folder.",
     "set-button-description": "Set the new password for the account",
     "set-new-password": "Use the confirmation code from your mailbox to set a new password:",
     "set-new-password-button": "Save new password",

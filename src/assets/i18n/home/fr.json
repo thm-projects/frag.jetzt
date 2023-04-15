@@ -496,7 +496,7 @@
     "reset-failed-because-of-activation-process": "La réinitialisation a échoué, le processus d'activation est en cours.",
     "reset-password": "Demander le code de confirmation",
     "reset-password-description": "Tu peux réinitialiser ton mot de passe ici.",
-    "reset-successful": "Si un compte existe avec cette adresse mail, un message a été envoyé.",
+    "reset-successful": "Si un compte existe avec cette adresse mail, un message a été envoyé. Vérifie aussi le dossier des spams.",
     "set-button-description": "Crée le nouveau mot de passe pour le compte",
     "set-new-password": "Définis un nouveau mot de passe à l'aide du code de confirmation que tu as reçu dans ta boîte aux lettres :",
     "set-new-password-button": "Enregistrer le nouveau mot de passe",

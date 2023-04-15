@@ -51,7 +51,7 @@
     "help-general": "Die GPT API stellt eine künstliche Intelligenz bereit, die Text-Vervollständigung durchführt. Dabei beantwortet die KI Klassifizierungs-, Wissens- und weitere Fragen. Die KI besitzt eine Eingabe und liefert mindestens eine Ausgabe.",
     "help-api-key": "Der API Schlüssel ordnet die Anfragen einem Account zu. So können Verbrauch und Kosten im OpenAI Konto berechnet und angezeigt werden",
     "help-organization": "Die Organisation ist eine optionale Möglichkeit den Verbrauch über eine Organisation abrechnen zu lassen, anstatt direkt über den eigenen OpenAI-Account.",
-    "activation-code": "Studien-Aktivierungscode",
+    "activation-code": "Studien-Aktivierungscode (≥ 8 Zeichen)",
     "activation-max-cost": "Studienkosten pro Monat",
     "activation-used": "Code wurde eingelöst",
     "activation-info": "{{code}}: ({{maxCost}}$ / Monat)",
@@ -99,8 +99,8 @@
     "token-info": "Token (Eingabe / Chat / Gesamt): {{promptTokens}} / {{conversationTokens}} / {{allTokens}}",
     "prompt-label": "Prompt-Suche",
     "option-total-acts": "Treffer in »Agiere als …«",
-    "option-total-prompts": "Treffer in Prompts",
-    "temperature": "Temperatur",
+    "option-total-prompts": "Treffer in Prompts …",
+    "temperature": "Antwortvariabilität",
     "temperature-tooltip": "Einstellung der Kreativität und Determinismus der Antworten"
   },
   "quill": {
