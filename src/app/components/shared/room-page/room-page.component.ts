@@ -456,6 +456,33 @@ export class RoomPageComponent implements OnInit, OnDestroy {
       (e) => {
         e.menuItem({
           translate: this.headerService.getTranslate(),
+          icon: 'smart_toy',
+          class: 'material-icons-outlined settings',
+          text: 'header.gpt-settings',
+          callback: () => {
+            GptRoomSettingsComponent.open(
+              this.dialog,
+              this.room,
+              this.userRole,
+            );
+          },
+          condition: () => this.userRole > UserRole.PARTICIPANT,
+        });
+        e.menuItem({
+          translate: this.headerService.getTranslate(),
+          icon: 'room_preferences',
+          class: 'material-icons-round settings',
+          text: 'room-list.settings-overview',
+          callback: () => {
+            const ref = this.dialog.open(RoomSettingsOverviewComponent, {
+              width: '600px',
+            });
+            ref.componentInstance.room = this.room;
+          },
+          condition: () => this.userRole > UserRole.PARTICIPANT,
+        });
+        e.menuItem({
+          translate: this.headerService.getTranslate(),
           icon: 'visibility_off',
           class: 'material-icons-outlined',
           isSVGIcon: false,
@@ -517,7 +544,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
         });
         e.menuItem({
           translate: this.headerService.getTranslate(),
-          icon: 'article',
+          icon: 'waving_hand',
           class: 'material-icons-outlined',
           text: 'header.edit-session-description',
           callback: () => this.editSessionDescription(),
@@ -529,33 +556,6 @@ export class RoomPageComponent implements OnInit, OnDestroy {
           class: 'material-icons-outlined',
           text: 'header.profanity-filter',
           callback: () => this.toggleProfanityFilter(),
-          condition: () => this.userRole > UserRole.PARTICIPANT,
-        });
-        e.menuItem({
-          translate: this.headerService.getTranslate(),
-          icon: 'room_preferences',
-          class: 'material-icons-round settings',
-          text: 'room-list.settings-overview',
-          callback: () => {
-            const ref = this.dialog.open(RoomSettingsOverviewComponent, {
-              width: '600px',
-            });
-            ref.componentInstance.room = this.room;
-          },
-          condition: () => this.userRole > UserRole.PARTICIPANT,
-        });
-        e.menuItem({
-          translate: this.headerService.getTranslate(),
-          icon: 'smart_toy',
-          class: 'material-icons-outlined settings',
-          text: 'header.gpt-settings',
-          callback: () => {
-            GptRoomSettingsComponent.open(
-              this.dialog,
-              this.room,
-              this.userRole,
-            );
-          },
           condition: () => this.userRole > UserRole.PARTICIPANT,
         });
         e.altToggle(

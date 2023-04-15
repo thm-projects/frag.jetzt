@@ -451,7 +451,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
       this.conversation.push({
         type: 'system',
         message:
-          'You are a multilingual assistant in a chat room answering questions. Always answer in a professional manner. If you do not know the answer to a question, do not make it up. Instead, ask a follow-up question to get more context.',
+          'You are a multilingual chat assistant on a Q&A forum answering questions. Always answer in a professional manner. If you do not know the answer to a question, do not make it up. Instead, ask a follow-up question to get more context.',
       });
     }
     const hasContent = currentText.trim().length > 0;
