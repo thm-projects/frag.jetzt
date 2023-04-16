@@ -16,7 +16,9 @@
     </mat-expansion-panel-header>
     <div class="settings-panel-container">
       <div class="title-option-container">
-        <mat-form-field appearance="outline">
+        <mat-form-field
+          appearance="outline"
+          *ngIf="device.isCurrentlyDesktop">
           <mat-label>
             {{ parent.translateKey + ".option-select-title" | translate }}
           </mat-label>
@@ -25,6 +27,7 @@
             [(ngModel)]="parent.livepollSession.title" />
         </mat-form-field>
         <button
+          [ngStyle]="{ 'flex-grow': device.isCurrentlyDesktop ? '0' : '1' }"
           mat-flat-button
           class="button-primary"
           (click)="openMarkdownEditor()">

@@ -6,7 +6,8 @@
     },
     "markdown-editor-dialog": {
       "confirm": "confirm",
-      "cancel": "cancel"
+      "cancel": "cancel",
+      "template": "# h1\n# h2 text **bold** *cursive*"
     }
   }
 }
