@@ -74,7 +74,7 @@
     "filter-read": "Questions discussed",
     "filter-reset": "Reset",
     "filter-unanswered": "Not answered",
-    "filter-approved": "Checked",
+    "filter-approved": "Checked answers",
     "filter-wrong": "Negated questions",
     "owner": "Questions I have asked",
     "pause-comments": "Freezes the display to read the questions at rest. Questions can still be asked and scored. The display is only updated again by clicking the button.",

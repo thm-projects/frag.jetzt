@@ -84,7 +84,7 @@
       "feedback": "Feedback",
       "custom": "Benutzerdefiniert"
     },
-    "template-name-agree-tertiary": "Daumen hoch | Daumen runter | Neutral",
+    "template-name-agree-tertiary": "Daumen hoch | Daumen runter | Neutral | Fragezeichen",
     "group-label": {
       "multiplechoice": "AB …",
       "likertscale": "Bewertung",

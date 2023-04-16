@@ -84,7 +84,7 @@
       "custom": "Personnalisé",
       "feedback": "Feedback"
     },
-    "template-name-agree-tertiary": "Thumb up | Thumb down | Neutral",
+    "template-name-agree-tertiary": "Thumb up | Thumb down | Neutral | Point d'interrogation",
     "group-label": {
       "multiplechoice": "AB …",
       "likertscale": "Bewertung",

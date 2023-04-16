@@ -303,7 +303,7 @@
     "zoom-minus": "Text verkleinern",
     "zoom-plus": "Text vergrößern",
     "zoom-reset": "Zoomstufe zurücksetzen",
-    "gpt-chat": "ChatGPT",
+    "gpt-chat": "Frag ChatGPT",
     "gpt-privacy-policy": "ChatGPT-Datenschutzrichtlinie",
     "gpt-prompts": "Meine ChatGPT-Prompts"
   },
@@ -496,7 +496,7 @@
     "reset-failed-because-of-activation-process": "Zurücksetzen fehlgeschlagen, Aktivierungsprozess ist im Gange.",
     "reset-password": "Bestätigungscode anfordern",
     "reset-password-description": "Hier kannst du dein Passwort zurücksetzen.",
-    "reset-successful": "Wenn ein Konto mit dieser Mailadresse existiert, wurde ein Bestätigungscode versendet. Schau auch im Spam-Ordner nach.",
+    "reset-successful": "Der Bestätigungscode wurde gesendet. Aktualisiere deinen Posteingang und schau auch in deinem Spam-Ordner nach.",
     "set-button-description": "Setzt für den Account das neue Passwort",
     "set-new-password": "Bestätigungscode und Mailadresse eingeben:",
     "set-new-password-button": "Neues Passwort speichern",
@@ -534,7 +534,7 @@
     "register-description": "Registrierung abschließen",
     "register-request-error": "Bei der Registrierung ist etwas schief gelaufen. Hast du dich bereits registriert?",
     "register-successful": "Erfolgreich registriert. Bitte prüfe deine Mailbox!",
-    "register-error-password-too-common": "Das Passwort besteht größtenteils aus leicht zu erratenden Zeichenfolgen. Bitte wähle ein anderes Passwort.",
+    "register-error-password-too-common": "Das Passwort besteht aus leicht zu erratenden Zeichenfolgen oder Zeichenfolgen aus veröffentlichten Passwortlisten. Bitte wähle ein anderes Passwort oder benutze den Passwortgenerator.",
     "register-unsuccessful": "Bitte prüfe deine Eingaben.",
     "password-generator": "Passwort-Generator"
   },
