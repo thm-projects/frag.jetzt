@@ -48,13 +48,6 @@ export class LivepollStatisticComponent implements OnInit, OnDestroy {
   }
 
   public getVoteBarSize(i: number) {
-    return Math.floor(
-      this.votes[i]
-        ? (this.votes[i] /
-            ((this.votes.reduce((a, b) => Math.max(a, b)) + this.totalVotes) /
-              2)) *
-            100
-        : 0,
-    );
+    return this.getVotePercentage(i);
   }
 }
