@@ -26,6 +26,7 @@
         class="editor-input"
         contenteditable="true"
         (input)="updateText(editorInputElement)"
+        (keyup)="updateText(editorInputElement)"
         #editorInputElement></div>
     </ng-container>
     <ng-container *ngIf="editorTab.value === 'preview'">

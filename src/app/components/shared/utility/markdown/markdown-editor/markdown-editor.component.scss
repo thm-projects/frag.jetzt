@@ -1,3 +1,15 @@
+.markdown-help {
+  position: absolute;
+
+  > .markdown-help-container {
+    width: 330px;
+    height: 720px;
+    position: relative;
+    left: 500px;
+    top: 300px;
+  }
+}
+
 .markdown-editor {
   display: flex;
   flex-direction: column;

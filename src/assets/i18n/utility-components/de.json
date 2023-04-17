@@ -6,7 +6,8 @@
     },
     "markdown-editor-dialog": {
       "confirm": "Speichern",
-      "cancel": "Schließen"
+      "cancel": "Schließen",
+      "template": "# h1\n# h2 text **bold** *cursive*"
     }
   }
 }
