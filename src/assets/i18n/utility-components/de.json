@@ -7,7 +7,7 @@
     "markdown-editor-dialog": {
       "confirm": "Speichern",
       "cancel": "Schließen",
-      "template": "# h1\n# h2 text **bold** *cursive*"
+			"template": "## Du kannst Markdown verwenden:\n\n- Zwei Sterne vor und nach Text für **Fett** \n- Ein Stern vor und nach Text für *Kursiv* \n- Raute für Überschriften \n- Bindestrich für Listen \n1. Zahl mit Punkt für Aufzählungen \n- ![ ](URL) für Bilder \n- `code` für Quellcode"
     }
   }
 }
