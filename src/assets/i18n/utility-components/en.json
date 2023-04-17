@@ -6,7 +6,8 @@
     },
     "markdown-editor-dialog": {
       "confirm": "confirm",
-      "cancel": "cancel"
+      "cancel": "cancel",
+      "template": "## You can use Markdown:\n\n- Two asterisks before and after text for **Bold** \n- One asterisk before and after text for *Italic* \n- Hash for headings \n- Hyphen for lists \n1. Number with period for enumerations \n- ![ ](URL) for images \n- `code` for source code"
     }
   }
 }

@@ -1,0 +1,19 @@
+<ng-container *ngIf="this.data">
+  <app-markdown-editor
+    [data]="data"
+    #markdownEditorComponent></app-markdown-editor>
+  <mat-dialog-actions style="justify-content: flex-end">
+    <button
+      mat-flat-button
+      class="button-cancel"
+      (click)="this.dialogRef.close()">
+      <span>{{ "utility.markdown-editor-dialog.cancel" | translate }}</span>
+    </button>
+    <button
+      mat-flat-button
+      class="button-secondary"
+      (click)="this.close(markdownEditorComponent.data)">
+      <span>{{ "utility.markdown-editor-dialog.confirm" | translate }}</span>
+    </button>
+  </mat-dialog-actions>
+</ng-container>

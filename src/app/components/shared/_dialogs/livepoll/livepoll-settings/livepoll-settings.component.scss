@@ -14,6 +14,9 @@
 
     > mat-form-field {
       flex-grow: 1;
+      @media screen and (max-width: 600px) {
+        width: 50%;
+      }
     }
 
     > * + * {
