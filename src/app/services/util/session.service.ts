@@ -92,8 +92,7 @@ export class SessionService {
     return this._initFinished.asObservable();
   }
 
-  public static needsUser(router: Router) {
-    const url = decodeURI(router.url);
+  public static needsUser(url: string) {
     return !(
       url === '/' ||
       url === '/home' ||
@@ -558,7 +557,7 @@ export class SessionService {
   }
 
   private checkUser() {
-    if (!SessionService.needsUser(this.router)) {
+    if (!SessionService.needsUser(decodeURI(this.router.url))) {
       return;
     }
     this.userManagementService.forceLogin().subscribe();
