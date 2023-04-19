@@ -405,6 +405,7 @@
     "login": "Se connecter avec un compte",
     "login-data-incorrect": "E-mail ou mot de passe incorrect",
     "login-data-expired": "Ton mot de passe a expiré, demande-en un nouveau.",
+    "guest-expired": "Le compte d'invité a expiré, veuillez réessayer.",
     "login-error-unknown": "Erreur inconnue: {{code}}",
     "login-description": "Se connecter avec les données de compte saisies",
     "login-successful": "Tu es maintenant connecté.",
