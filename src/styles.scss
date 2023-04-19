@@ -566,3 +566,7 @@ iframe {
     border-left: solid 1px var(--on-primary-variant) !important;
   }
 }
+
+div[markdown] img {
+  max-width: 100% !important;
+}
