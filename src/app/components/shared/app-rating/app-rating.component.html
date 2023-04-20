@@ -1,7 +1,6 @@
 <ng-container *ngIf="!ratingResults; else stars">
-  <h2 class="oldtypo-h2">{{ 'app-rating.title' | translate }}</h2>
-  <div
-    (mouseleave)="onMouseLeave()">
+  <h2 class="oldtypo-h2">{{ "app-rating.title" | translate }}</h2>
+  <div (mouseleave)="onMouseLeave()">
     <mat-icon
       *ngFor="let index of [0, 1, 2, 3, 4]"
       class="material-icons-outlined interactive"
@@ -11,23 +10,28 @@
       {{ getIcon(index) }}
     </mat-icon>
   </div>
-  <button mat-flat-button (click)="save()">
-    {{ 'app-rating.save' | translate }}
+  <button
+    mat-flat-button
+    (click)="save()">
+    {{ "app-rating.save" | translate }}
   </button>
 </ng-container>
 
 <ng-template #stars>
-  <span #spanRef
-        (mouseenter)="openPerMouse(spanRef)"
-        (click)="openPopup(spanRef)"
-        class="star-preview">
+  <span
+    #spanRef
+    (click)="openPopup(spanRef)"
+    class="star-preview">
     <mat-icon
+      style="cursor: pointer"
       *ngFor="let index of [0, 1, 2, 3, 4]"
       class="material-icons-outlined star"
       [ngClass]="getIconAccumulated(index)">
       {{ getIconAccumulated(index) }}
     </mat-icon>
-    <mat-icon style="cursor: pointer;">expand_more</mat-icon>
+    <mat-icon style="cursor: pointer">expand_more</mat-icon>
     {{ people }}
+    <span style="margin-inline: 0.75em"></span>
+    <app-global-status-indicator></app-global-status-indicator>
   </span>
 </ng-template>

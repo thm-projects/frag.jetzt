@@ -278,6 +278,10 @@
   "gpt-chat": {
     "optin-accept": "Akzeptieren",
     "optin-reject": "Ablehnen",
+    "interrupt": "Ausgabe stoppen",
+    "copy-markdown": "Markdown kopieren",
+    "copy-success": "Markdown erfolgreich kopiert",
+    "copy-fail": "Markdown konnte nicht kopiert werden!",
     "temperature-creative": "[Mehr] Kreativ",
     "temperature-tooltip-creative": "Diese Einstellung lässt einen größeren Spielraum zu und ermöglicht somit kreativere Antworten.",
     "temperature-balanced": "[Mehr] Ausgewogen",

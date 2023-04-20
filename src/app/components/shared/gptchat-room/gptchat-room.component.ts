@@ -365,6 +365,23 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
       .subscribe(() => this.router.navigate([url]));
   }
 
+  copyMarkdown(index: number) {
+    const text = this.conversation[index].message;
+    navigator.clipboard.writeText(text).then(
+      () => {
+        this.translateService
+          .get('gpt-chat.copy-success')
+          .subscribe((msg) => this.notificationService.show(msg));
+      },
+      (err) => {
+        console.error(err);
+        this.translateService
+          .get('gpt-chat.copy-fail')
+          .subscribe((msg) => this.notificationService.show(msg));
+      },
+    );
+  }
+
   openEditGPTMessage(index: number) {
     if (this.isSending) {
       return;
@@ -475,6 +492,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
     this.initDelta = { ops: [] };
     this.calculateTokens(currentText);
     const index = this.conversation.length;
+    this.renewIndex = index;
     this.conversation.push({
       message: '',
       type: 'gpt',
@@ -486,6 +504,14 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
         model: 'gpt-3.5-turbo',
         temperature: this.temperature,
       })
+      .pipe(
+        takeUntil(this.stopper),
+        finalize(() => {
+          this.isSending = false;
+          this.renewIndex = -1;
+          this.saveConversation();
+        }),
+      )
       .subscribe(this.generateObserver(index));
   }
 

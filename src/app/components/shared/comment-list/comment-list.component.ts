@@ -602,6 +602,10 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
     ref.componentInstance.userRole = this.userRole;
   }
 
+  protected openFilterMenu() {
+    this._filterObject.updateCount(Boolean(this.searchString));
+  }
+
   private updateQrCodeColors() {
     const div = this.qrCodeColors?.nativeElement;
     if (!div) {
