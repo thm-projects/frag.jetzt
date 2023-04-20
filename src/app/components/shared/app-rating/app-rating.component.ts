@@ -1,4 +1,12 @@
-import { Component, Input, OnChanges, OnInit, QueryList, SimpleChanges, ViewChildren } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  QueryList,
+  SimpleChanges,
+  ViewChildren,
+} from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { NotificationService } from '../../../services/util/notification.service';
 import { LanguageService } from '../../../services/util/language.service';
@@ -14,10 +22,9 @@ import { UserManagementService } from '../../../services/util/user-management.se
 @Component({
   selector: 'app-app-rating',
   templateUrl: './app-rating.component.html',
-  styleUrls: ['./app-rating.component.scss']
+  styleUrls: ['./app-rating.component.scss'],
 })
 export class AppRatingComponent implements OnInit, OnChanges {
-
   @Input() rating: Rating = undefined;
   @Input() onSuccess: (r: Rating) => void;
   @Input() ratingResults: RatingResult = undefined;
@@ -37,8 +44,7 @@ export class AppRatingComponent implements OnInit, OnChanges {
     private readonly ratingService: RatingService,
     private dialog: MatDialog,
     private deviceInfo: DeviceInfoService,
-  ) {
-  }
+  ) {}
 
   getIcon(index: number) {
     if (this.visibleRating >= index + 1) {
@@ -59,15 +65,17 @@ export class AppRatingComponent implements OnInit, OnChanges {
     if (!this.canSubmit()) {
       return;
     }
-    const subscription = this.userManagementService.getUser().subscribe(user => {
-      this.ratingService.getByAccountId(user.id).subscribe(r => {
-        if (r !== undefined && r !== null) {
-          this.visibleRating = r.rating;
-          this.changedBySubscription = true;
-        }
+    const subscription = this.userManagementService
+      .getUser()
+      .subscribe((user) => {
+        this.ratingService.getByAccountId(user.id).subscribe((r) => {
+          if (r !== undefined && r !== null) {
+            this.visibleRating = r.rating;
+            this.changedBySubscription = true;
+          }
+        });
+        setTimeout(() => subscription.unsubscribe());
       });
-      setTimeout(() => subscription.unsubscribe());
-    });
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -76,7 +84,11 @@ export class AppRatingComponent implements OnInit, OnChanges {
 
   onClick(index: number, event: MouseEvent) {
     const elem = this.children.get(index)._elementRef.nativeElement;
-    if (this.listeningToMove || this.visibleRating < index || this.visibleRating > index + 1) {
+    if (
+      this.listeningToMove ||
+      this.visibleRating < index ||
+      this.visibleRating > index + 1
+    ) {
       this.listeningToMove = false;
       const x = Math.trunc(event.offsetX / (elem.clientWidth / 3));
       this.visibleRating = index + x / 2;
@@ -87,9 +99,13 @@ export class AppRatingComponent implements OnInit, OnChanges {
       }
     }
     elem.classList.add('bounce');
-    elem.addEventListener('animationend', () => {
-      elem.classList.remove('bounce');
-    }, { once: true });
+    elem.addEventListener(
+      'animationend',
+      () => {
+        elem.classList.remove('bounce');
+      },
+      { once: true },
+    );
   }
 
   onMouseMove(index: number, event: MouseEvent) {
@@ -106,15 +122,13 @@ export class AppRatingComponent implements OnInit, OnChanges {
     this.listeningToMove = true;
   }
 
-  openPerMouse(target: HTMLElement) {
-    if (this.deviceInfo.isCurrentlyMobile) {
-      return;
-    }
-    this.openPopup(target);
-  }
-
   openPopup(target: HTMLElement) {
-    AppRatingPopUpComponent.openDialogAt(this.dialog, target, this.ratingResults, this.popUpBelow);
+    AppRatingPopUpComponent.openDialogAt(
+      this.dialog,
+      target,
+      this.ratingResults,
+      this.popUpBelow,
+    );
   }
 
   save() {
@@ -122,24 +136,31 @@ export class AppRatingComponent implements OnInit, OnChanges {
       return;
     }
     if (this.changedBySubscription) {
-      this.translateService.get('app-rating.retry')
-        .subscribe(msg => this.notificationService.show(msg));
+      this.translateService
+        .get('app-rating.retry')
+        .subscribe((msg) => this.notificationService.show(msg));
       return;
     }
     this.isSaving = true;
-    this.ratingService.create(this.userManagementService.getCurrentUser().id, this.visibleRating)
+    this.ratingService
+      .create(
+        this.userManagementService.getCurrentUser().id,
+        this.visibleRating,
+      )
       .subscribe({
         next: (r: Rating) => {
-          this.translateService.get('app-rating.success')
-            .subscribe(msg => this.notificationService.show(msg));
+          this.translateService
+            .get('app-rating.success')
+            .subscribe((msg) => this.notificationService.show(msg));
           this.onSuccess?.(r);
           this.isSaving = false;
         },
         error: () => {
-          this.translateService.get('app-rating.error')
-            .subscribe(msg => this.notificationService.show(msg));
+          this.translateService
+            .get('app-rating.error')
+            .subscribe((msg) => this.notificationService.show(msg));
           this.isSaving = false;
-        }
+        },
       });
   }
 
@@ -151,10 +172,11 @@ export class AppRatingComponent implements OnInit, OnChanges {
     }
     if (this.ratingResults !== undefined) {
       this.visibleRating = this.ratingResults.rating;
-      this.people = this.ratingResults.people.toLocaleString(this.languageService.currentLanguage() ?? undefined);
+      this.people = this.ratingResults.people.toLocaleString(
+        this.languageService.currentLanguage() ?? undefined,
+      );
       return false;
     }
     return true;
   }
-
 }

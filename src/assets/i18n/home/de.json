@@ -14,6 +14,11 @@
     "success": "Vielen Dank für deine Bewertung! Du möchtest dich mit den Entwicklern über Bugs und neue Features unterhalten? Dann besuche unseren »Feedback«-Raum.",
     "title": "App-Bewertung"
   },
+  "status-info": {
+    "title": "Auslastung von frag.jetzt",
+    "message": "frag.jetzt bedient gerade {{sessionCount}} Verbindungen.\nDiese sind aufgeteilt auf {{creatorCount}} Raumerinhabende, {{moderatorCount}} Moderierende und {{participantCount}} Teilnehmende.\n\nIn {{activeRoomCount}} Räumen kann ein direkter Austausch von Nachrichten stattfinden.\n\nfrag.jetzt bedient gerade {{activeLivepollCount}} Blitzumfragen.",
+    "close": "Schließen"
+  },
   "bonus-archive-export": {
     "code": "Raum-Code",
     "date": "Bonus-Archiv",
@@ -405,6 +410,7 @@
     "login": "Anmelden mit Konto",
     "login-data-incorrect": "E-Mail oder Passwort falsch",
     "login-data-expired": "Dein Passwort ist abgelaufen, bitte fordere ein neues an.",
+    "guest-expired": "Das Gastkonto ist abgelaufen, bitte versuche es erneut.",
     "login-error-unknown": "Unbekannter Fehler: {{code}}",
     "login-description": "Mit den eingegebenen Kontodaten anmelden",
     "login-successful": "Du bist jetzt angemeldet.",

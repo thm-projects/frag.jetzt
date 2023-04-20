@@ -137,6 +137,8 @@ import { LivepollSummaryComponent } from './_dialogs/livepoll/livepoll-summary/l
 import { MarkdownEditorComponent } from './utility/markdown/markdown-editor/markdown-editor.component';
 import { MarkdownEditorDialogComponent } from './utility/markdown/markdown-editor-dialog/markdown-editor-dialog.component';
 import { GPTPresetTopicsDialogComponent } from './_dialogs/gptpreset-topics-dialog/gptpreset-topics-dialog.component';
+import { GlobalStatusIndicatorComponent } from './global-status-indicator/global-status-indicator.component';
+import { StatusInfoComponent } from './_dialogs/status-info/status-info.component';
 
 @NgModule({
   imports: [
@@ -276,6 +278,8 @@ import { GPTPresetTopicsDialogComponent } from './_dialogs/gptpreset-topics-dial
     MarkdownEditorComponent,
     MarkdownEditorDialogComponent,
     GPTPresetTopicsDialogComponent,
+    GlobalStatusIndicatorComponent,
+    StatusInfoComponent,
   ],
   exports: [
     RoomJoinComponent,
@@ -306,6 +310,7 @@ import { GPTPresetTopicsDialogComponent } from './_dialogs/gptpreset-topics-dial
     DashboardComponent,
     AppRatingComponent,
     MinuteJumpClockComponent,
+    GlobalStatusIndicatorComponent,
   ],
 })
 export class SharedModule {

@@ -27,11 +27,14 @@ import { BrainstormingSession } from 'app/models/brainstorming-session';
 import { GptService, RoomAccessInfo } from '../http/gpt.service';
 import { LivepollSession } from '../../models/livepoll-session';
 import { LivepollEventType, LivepollService } from '../http/livepoll.service';
+import { WsGlobalService } from '../websockets/ws-global.service';
+import { GlobalCountChanged } from 'app/models/global-count-changed';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SessionService {
+  private readonly globalData = new BehaviorSubject<GlobalCountChanged>(null);
   private readonly _currentRole = new BehaviorSubject<UserRole>(null);
   private readonly _currentRoom = new BehaviorSubject<Room>(null);
   private readonly _currentModerators = new BehaviorSubject<Moderator[]>(null);
@@ -62,6 +65,7 @@ export class SessionService {
     private brainstormingService: BrainstormingService,
     private gptService: GptService,
     private livepollService: LivepollService,
+    private wsGlobal: WsGlobalService,
   ) {}
 
   get currentLivepoll(): LivepollSession {
@@ -92,8 +96,7 @@ export class SessionService {
     return this._initFinished.asObservable();
   }
 
-  public static needsUser(router: Router) {
-    const url = decodeURI(router.url);
+  public static needsUser(url: string) {
     return !(
       url === '/' ||
       url === '/home' ||
@@ -117,6 +120,16 @@ export class SessionService {
       }
       this.onNavigate();
     });
+    this.wsGlobal.getGlobalCountStream().subscribe((e) => {
+      const data = JSON.parse(e.body)?.['GlobalCountChanged'];
+      if (data) {
+        this.globalData.next(new GlobalCountChanged(data));
+      }
+    });
+  }
+
+  getGlobalData(): Observable<GlobalCountChanged> {
+    return this.globalData.asObservable();
   }
 
   getRole(): Observable<UserRole> {
@@ -558,7 +571,7 @@ export class SessionService {
   }
 
   private checkUser() {
-    if (!SessionService.needsUser(this.router)) {
+    if (!SessionService.needsUser(decodeURI(this.router.url))) {
       return;
     }
     this.userManagementService.forceLogin().subscribe();

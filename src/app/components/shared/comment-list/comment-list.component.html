@@ -127,6 +127,7 @@
         !search
       "
       [matMenuTriggerFor]="filterMenu"
+      (menuOpened)="openFilterMenu()"
       [ngClass]="{ 'active-filter': !!filterType }"
       matTooltip="{{ 'comment-list.filter-comments' | translate }}">
       <mat-icon class="searchBarIcon">filter_list</mat-icon>

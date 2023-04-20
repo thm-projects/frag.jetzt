@@ -1,0 +1,14 @@
+<h3>{{ "status-info.title" | translate }}</h3>
+
+<mat-dialog-content>
+  <div
+    [data]="'status-info.message' | translate : status"
+    markdown
+    emoji
+    katex></div>
+</mat-dialog-content>
+
+<app-dialog-action-buttons
+  [buttonsLabelSection]="'status-info'"
+  [confirmButtonLabel]="'close'"
+  [confirmButtonClickAction]="onConfirm"></app-dialog-action-buttons>
