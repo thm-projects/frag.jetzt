@@ -146,7 +146,7 @@ export class LoginComponent implements OnInit, OnChanges {
   guestLogin(): void {
     this.userManagementService
       .loginAsGuest()
-      .subscribe((loginSuccessful) => this.checkLogin(loginSuccessful));
+      .subscribe((loginSuccessful) => this.checkLogin(loginSuccessful, true));
   }
 
   openPasswordDialog(initProcess = true): void {
@@ -199,7 +199,7 @@ export class LoginComponent implements OnInit, OnChanges {
     return () => this.login(userEmail.value, userPassword.value);
   }
 
-  private checkLogin(loginResult: LoginResultArray) {
+  private checkLogin(loginResult: LoginResultArray, isGuest = false) {
     if (loginResult[0] === LoginResult.FailureActivation) {
       this.activateUser();
       return;
@@ -225,6 +225,14 @@ export class LoginComponent implements OnInit, OnChanges {
     if (loginResult[0] === LoginResult.FailurePasswordExpired) {
       this.translationService
         .get('login.login-data-expired')
+        .subscribe((message) => {
+          this.notificationService.show(message);
+        });
+      return;
+    }
+    if (loginResult[0] === LoginResult.AccessDenied && isGuest) {
+      this.translationService
+        .get('login.guest-expired')
         .subscribe((message) => {
           this.notificationService.show(message);
         });

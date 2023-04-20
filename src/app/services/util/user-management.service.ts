@@ -127,7 +127,7 @@ export class UserManagementService {
         .get('header.logged-out')
         .subscribe((msg) => this.notificationService.show(msg));
     }
-    if (SessionService.needsUser(this.router)) {
+    if (SessionService.needsUser(decodeURI(this.router.url))) {
       this.router.navigate(['/home']);
     }
   }
@@ -311,7 +311,7 @@ export class UserManagementService {
         .pipe(switchMap((data) => this.onReceive(previousUser, data, true)));
     }
     if (force) {
-      if (SessionService.needsUser(this.router)) {
+      if (SessionService.needsUser(decodeURI(this.router.url))) {
         this.router.navigate(['/']);
       }
       return of(null);
@@ -331,6 +331,9 @@ export class UserManagementService {
   }
 
   protected setUser(user: ManagedUser) {
+    if (this._currentUser === user) {
+      return;
+    }
     this._currentUser = user;
     this._user.next(user);
     this.configurationService.put('currentAccount', user).subscribe();

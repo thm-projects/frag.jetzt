@@ -14,6 +14,11 @@
     "success": "Thank you for your review! You want to talk to the developers about bugs and new features? Then visit our »Feedback« room.",
     "title": "App rating"
   },
+  "status-info": {
+    "title": "Utilization of frag.jetzt",
+    "message": "frag.jetzt currently serves {{sessionCount}} connections.\nThese are divided among {{creatorCount}} room creators, {{moderatorCount}} moderators and {{participantCount}} participants.\n\nIn {{activeRoomCount}} rooms a direct exchange of messages can take place.\n\nfrag.jetzt currently serves {{activeLivepollCount}} flash polls.",
+    "close": "Close"
+  },
   "bonus-archive-export": {
     "code": "Key code",
     "date": "Bonus archive",
@@ -405,6 +410,7 @@
     "login": "Sign in with account",
     "login-data-incorrect": "E-mail or password incorrect",
     "login-data-expired": "Your password has expired, please request a new one.",
+    "guest-expired": "The guest account has expired, please try again.",
     "login-error-unknown": "Unknown error: {{code}}",
     "login-description": "Sign in with the entered account data",
     "login-successful": "You are logged in now.",
