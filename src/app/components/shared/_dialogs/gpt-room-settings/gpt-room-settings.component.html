@@ -1,4 +1,4 @@
-<h3>{{ "gpt-room-settings.title" | translate }}</h3>
+<h2>{{ "gpt-room-settings.title" | translate }}</h2>
 
 <mat-dialog-content *ngIf="!isLoading; else loading">
   <!-- GPT over frag.jetzt -->
@@ -25,6 +25,10 @@
   <p *ngIf="trialEnabled">
     {{ "gpt-room-settings.trial-enabled" | translate }}
   </p>
+
+  <br />
+  <br />
+  <br />
 
   <!-- GPT from own OpenAI account-->
   <h3>{{ "gpt-room-settings.own-openai-api-key" | translate }}</h3>
@@ -63,6 +67,8 @@
       </button>
     </mat-form-field>
   </ng-container>
+
+  <h2>{{ "gpt-room-settings.quota-management" | translate }}</h2>
 
   <!-- Room Restrictions -->
   <h3>{{ "gpt-room-settings.restrictions-room" | translate }}</h3>
@@ -266,7 +272,7 @@
   </ng-container>
 
   <!-- Usage times -->
-  <h3>{{ "gpt-room-settings.usage-times" | translate }}</h3>
+  <h2>{{ "gpt-room-settings.usage-times" | translate }}</h2>
   <ng-container *ngIf="isOwner || canChangeUsageTimes; else deactivated">
     <p>{{ "gpt-room-settings.usage-time-info" | translate }}</p>
     <div class="time-select">
@@ -367,7 +373,9 @@
 
   <!-- Rights setting -->
   <ng-container *ngIf="isOwner">
-    <h3>{{ "gpt-room-settings.moderator-rights" | translate }}</h3>
+    <br />
+    <br />
+    <h2>{{ "gpt-room-settings.moderator-rights" | translate }}</h2>
     <mat-slide-toggle [(ngModel)]="canChangeParticipantQuota">
       {{ "gpt-room-settings.mod-right-part-quota" | translate }}
     </mat-slide-toggle>

@@ -690,6 +690,7 @@
     "words-will-be-overwritten": "Les mots vulgaires sont remplacés par ★★★★."
   },
   "gpt-room-settings": {
+    "quota-management": "Gestion des quotas",
     "title": "Paramètres de ChatGPT",
     "trial-info": "Je participe à l'étude d'évaluation gratuite de THM « ChatGPT dans l'enseignement » :",
     "trial-code": "J'ai reçu le code d'activation suivant de l'équipe frag.jetzt :",

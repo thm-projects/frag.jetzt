@@ -690,6 +690,7 @@
     "words-will-be-overwritten": "Profane words will be overwritten with ★★★★."
   },
   "gpt-room-settings": {
+    "quota-management": "Quota management",
     "title": "ChatGPT Settings",
     "trial-info": "I am participating in the free evaluation study of THM »ChatGPT in Education«:",
     "trial-code": "I have received the following activation code from the frag.jetzt team:",
