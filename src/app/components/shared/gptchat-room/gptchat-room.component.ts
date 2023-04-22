@@ -550,6 +550,14 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
+  showPromptExplanation() {
+    this.dialog.open(IntroductionPromptGuideChatbotComponent, {
+      autoFocus: false,
+      width: '80%',
+      maxWidth: '600px',
+    });
+  }
+
   showError(message: string) {
     this.notificationService.show(message, undefined, {
       duration: 12_500,
@@ -684,6 +692,16 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
     this._list = this.composeService.builder(
       this.headerService.getHost(),
       (e) => {
+        e.menuItem({
+          translate: this.headerService.getTranslate(),
+          icon: 'school',
+          class: 'material-icons-outlined',
+          text: 'header.prompt-explanation',
+          callback: () => this.showPromptExplanation(),
+          condition: () => {
+            return this.sessionService.currentRole > 0;
+          },
+        });
         e.menuItem({
           translate: this.headerService.getTranslate(),
           icon: 'architecture',
