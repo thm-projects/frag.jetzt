@@ -15,8 +15,8 @@
     "title": "App rating"
   },
   "status-info": {
-    "title": "Utilization of frag.jetzt",
-    "message": "frag.jetzt currently serves {{sessionCount}} connections.\nThese are divided among {{creatorCount}} room creators, {{moderatorCount}} moderators and {{participantCount}} participants.\n\nIn {{activeRoomCount}} rooms a direct exchange of messages can take place.\n\nfrag.jetzt currently serves {{activeLivepollCount}} flash polls.",
+    "title": "Current capacity utilization",
+    "message": "frag.jetzt is serving {{sessionCount}} connection(s), with {{creatorCount}} room creator(s), {{moderatorCount}} moderator(s), and {{participantCount}} participant(s).\n\n{{activeRoomCount}} room(s) have ongoing events, where the room creator or a moderator is engaging with multiple participants simultaneously.\n\nCurrently, frag.jetzt is handling {{activeLivepollCount}} live poll(s).",
     "close": "Close"
   },
   "bonus-archive-export": {

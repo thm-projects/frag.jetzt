@@ -15,9 +15,9 @@
     "title": "App-Bewertung"
   },
   "status-info": {
-    "title": "Auslastung von frag.jetzt",
-    "message": "frag.jetzt bedient gerade {{sessionCount}} Verbindungen.\nDiese sind aufgeteilt auf {{creatorCount}} Raumerinhabende, {{moderatorCount}} Moderierende und {{participantCount}} Teilnehmende.\n\nIn {{activeRoomCount}} Räumen kann ein direkter Austausch von Nachrichten stattfinden.\n\nfrag.jetzt bedient gerade {{activeLivepollCount}} Blitzumfragen.",
-    "close": "Schließen"
+    "title": "Aktuelle Kapazitätsauslastung",
+  "message": "frag.jetzt bedient {{sessionCount}} Verbindung(en) mit {{creatorCount}} Raumersteller\\*innen, {{moderatorCount}} Moderator\\*innen und {{participantCount}} Teilnehmer\\*innen.\n\nIn {{activeRoomCount}} Raum/Räumen finden Veranstaltungen statt, bei denen der\\*die Raumersteller\\*in oder ein\\*e Moderator\\*in gleichzeitig mit mehreren Teilnehmer\\*innen im Gespräch ist.\n\nDerzeit führt frag.jetzt {{activeLivepollCount}} Blitzumfrage(n) durch.",
+  "close": "Schließen"
   },
   "bonus-archive-export": {
     "code": "Raum-Code",
