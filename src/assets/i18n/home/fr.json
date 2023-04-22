@@ -15,9 +15,9 @@
     "title": "Évaluation de l'app"
   },
   "status-info": {
-    "title": "Taux d'utilisation de frag.jetzt",
-    "message": "frag.jetzt sert actuellement {{sessionCount}} connexions.\nCelles-ci sont réparties entre {{creatorCount}} créateurs d'espaces, {{moderatorCount}} modérateurs et {{participantCount}} participants.\n\nDans {{activeRoomCount}} espaces, un échange direct de messages peut avoir lieu.\n\nfrag.jetzt sert actuellement {{activeLivepollCount}} sondages flash.",
-    "close": "Fermer"
+    "title": "Utilisation actuelle de la capacité",
+  "message": "frag.jetzt gère {{sessionCount}} connexion(s), avec {{creatorCount}} créateur(s) de salle, {{moderatorCount}} modérateur(s) et {{participantCount}} participant(s).\n\n{{activeRoomCount}} salle(s) ont des événements en cours, où le créateur de la salle ou un modérateur interagit avec plusieurs participants simultanément.\n\nActuellement, frag.jetzt gère {{activeLivepollCount}} sondage(s) en direct.",
+  "close": "Fermer"
   },
   "bonus-archive-export": {
     "code": "Code de la salle",
