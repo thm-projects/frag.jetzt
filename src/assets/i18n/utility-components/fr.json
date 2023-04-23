@@ -7,7 +7,7 @@
     "markdown-editor-dialog": {
       "confirm": "Enregistrer",
       "cancel": "Fermer",
-      "template": "## Tu peux utiliser Markdown :\n\n- Deux astérisques avant et après le texte pour **Gras** \n- Un astérisque avant et après le texte pour *Italique* \n- Dièse pour les titres \n- Tiret pour les listes \n1. Numéro avec un point pour les énumérations \n- ![ ](URL) pour les images \n- `code` pour le code source"
+      "template": "## Tu peux utiliser Markdown :\n\n- Deux astérisques avant et après le texte pour **Gras** \n- Un astérisque avant et après le texte pour *Italique* \n- Dièse pour les titres \n- Tiret pour les listes \n1. Numéro avec un point pour les énumérations \n- `code` pour le code source \n- Insérer une image \n\n![ ](/assets/background/auditorium.webp)"
     }
   }
 }
