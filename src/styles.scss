@@ -570,3 +570,9 @@ iframe {
 div[markdown] img {
   max-width: 100% !important;
 }
+
+markdown {
+  img {
+    max-width: 100%;
+  }
+}
