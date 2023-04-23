@@ -88,7 +88,7 @@
       </div>
 
       <button
-        class="gpt-icon"
+        class="gpt-icon-btn"
         [matTooltip]="'gpt-chat.copy-markdown' | translate"
         mat-icon-button
         (click)="copyMarkdown(i)">
@@ -97,24 +97,27 @@
 
       <ng-container *ngIf="!isSending && item.type === 'gpt'">
         <button
-          class="gpt-paste"
+          class="gpt-paste-btn"
           [matTooltip]="'gpt-chat.paste' | translate"
           mat-fab
           color="white"
           (click)="forwardGPTMessage(i)">
-          <mat-icon class="material-icons-outlined">content_paste_go</mat-icon>
+          <mat-icon class="material-icons-outlined gpt-paste-icon">
+            content_paste_go
+          </mat-icon>
         </button>
 
         <button
-          class="gpt-icon"
+          class="gpt-icon-btn"
           [matTooltip]="'gpt-chat.edit' | translate"
           mat-icon-button
+          *ngIf="owningComment?.id"
           (click)="openEditGPTMessage(i)">
           <mat-icon class="material-icons-outlined">rate_review</mat-icon>
         </button>
 
         <button
-          class="gpt-icon"
+          class="gpt-icon-btn"
           [matTooltip]="'gpt-chat.refresh' | translate"
           mat-icon-button
           (click)="refreshGPTMessage(i)">
