@@ -3,7 +3,9 @@
   (click)="openInfo($event)">
   <mat-icon
     class="material-icons"
-    [ngClass]="class">
+    [ngClass]="class"
+    [matTooltip]="'footer.performance-indicator' | translate"
+    [matTooltipPosition]="'above'">
     analytics
   </mat-icon>
 </button>
