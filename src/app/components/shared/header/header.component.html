@@ -383,9 +383,17 @@
           <h2
             style="margin-left: 5px"
             *ngIf="deviceInfo.isCurrentlyDesktop && !showSmallButtons">
+            <!-- ChatGPT with Context -->
             <div *ngIf="this.router.url.includes('/gpt-chat-room')">
               {{ "header.chatroom-options-menu" | translate }}
             </div>
+
+            <!-- ChatGPT without Context. Weiß nicht wie man hier unterscheiden könnte :( ) -->
+
+            <!-- <div *ngIf="this.router.url.includes('/gpt-chat-room') and ...">
+              {{ "header.my-account" | translate }}
+            </div> -->
+
             <div *ngIf="!this.router.url.includes('/gpt-chat-room')">
               {{ "header.my-account" | translate }}
             </div>
