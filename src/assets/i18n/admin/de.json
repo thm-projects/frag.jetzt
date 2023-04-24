@@ -25,6 +25,7 @@
   },
   "introductions": {
     "prompt-guide-chatbot": "Effektiv kommunizieren mit ChatGPT",
+    "prompt-explanation": "Prompts kurz erklärt",
     "cancel": "Schließen",
     "tooltip-button" : "Prompt Guide"
   },
