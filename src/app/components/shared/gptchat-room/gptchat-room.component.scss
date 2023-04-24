@@ -223,7 +223,17 @@ mat-card {
   color: var(--on-primary);
 }
 
-.refresh-indicator {
+.gpt-icon-btn {
+  transform: scale(1.5);
+  margin-right: 30px;
+}
+
+.gpt-paste-icon {
+  transform: scale(1.5);
+  color: red;
+}
+
+.gpt-paste-btn {
   float: right;
 }
 
