@@ -383,11 +383,11 @@
           <h2
             style="margin-left: 5px"
             *ngIf="deviceInfo.isCurrentlyDesktop && !showSmallButtons">
-            <div *ngIf="this.router.url.includes('/gpt-chat-room')">
-              {{ "header.chatroom-options-menu" | translate }}
+            <div *ngIf="customOptionText?.noTranslate">
+              {{ customOptionText.key }}
             </div>
-            <div *ngIf="!this.router.url.includes('/gpt-chat-room')">
-              {{ "header.my-account" | translate }}
+            <div *ngIf="!customOptionText?.noTranslate">
+              {{ customOptionText?.key || "header.my-account" | translate }}
             </div>
           </h2>
           <mat-icon

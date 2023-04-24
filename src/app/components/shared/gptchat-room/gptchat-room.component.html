@@ -173,10 +173,8 @@
                 [(ngModel)]="context.selected"
                 [required]="!context.allowNone">
                 <mat-option
-                  [matTooltipPosition]="'left'"
-                  [matTooltip]="'Erlaubt das weglassen des Feldes'"
                   *ngIf="context.allowNone"
-                  [value]="null">
+                  [value]="''">
                   <em>{{ "gpt-chat.none" | translate }}</em>
                 </mat-option>
                 <mat-option
@@ -186,6 +184,17 @@
                 </mat-option>
               </mat-select>
             </mat-form-field>
+            <mat-icon
+              *ngIf="part.type === 'select' && context.selected && context.access?.[context.selected]?.hover as text"
+              class="material-icons-outlined"
+              [matTooltip]="text">
+              info
+            </mat-icon>
+            <mat-icon
+              *ngIf="part.type === 'select' && !context.selected"
+              [matTooltip]="'gpt-chat.selection-none' | translate">
+              help_outline
+            </mat-icon>
             <app-view-comment-data
               *ngIf="part.type === 'quill'"
               [currentData]="context.value"></app-view-comment-data>

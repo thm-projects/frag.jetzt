@@ -80,6 +80,7 @@ interface ConversationEntry {
 interface ContextOption {
   key: string;
   text: string;
+  hover?: string;
 }
 
 type SelectComponents = { text?: string; small?: string }[];
@@ -87,6 +88,7 @@ type SelectComponents = { text?: string; small?: string }[];
 interface Context {
   name: string;
   type: 'single' | 'multiple' | 'quill';
+  access?: { [key: string]: ContextOption };
   value?: ContextOption | ContextOption[] | ImmutableStandardDelta;
   parts?: Observable<MultiContextElement[]>;
   selected?: string;
@@ -226,6 +228,11 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
       this.initDelta = { ops: [] };
       this.loadConversation();
     }
+    if (this.answeringComment) {
+      this.headerService.getHeaderComponent().customOptionText = {
+        key: 'header.chatroom-options-menu',
+      };
+    }
     this.initNormal();
     this.gptEncoderService.getEncoderOnce().subscribe((e) => {
       this.encoder = e;
@@ -278,6 +285,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnDestroy(): void {
+    this.headerService.getHeaderComponent().customOptionText = null;
     this._list?.forEach((e) => e.destroy());
     this.destroyer.next(true);
     this.destroyer.complete();
@@ -351,6 +359,8 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
       hadUsedDeepL: false,
       selectedLanguage: 'auto',
       commentReference: this.owningComment?.id || null,
+      keywordExtractionActive:
+        this.sessionService.currentRoom?.keywordExtractionActive,
     };
     this.keywordExtractor
       .createCommentInteractive(options)
@@ -919,7 +929,10 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
     this.translateService
       .get('gpt-chat.choices.response-format')
       .subscribe((options) => {
-        this.getContextByName('response-format').value = options;
+        const obj = this.getContextByName('response-format');
+        obj.value = options;
+        obj.access = {};
+        options.forEach((e) => (obj.access[e.key] = e));
       });
   }
 

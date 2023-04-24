@@ -82,6 +82,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   showSmallButtons = false;
   isGPTPrivacyPolicyAccepted: boolean = false;
   canOpenGPT = false;
+  customOptionText: { key: string; noTranslate?: boolean } = null;
   public readonly navigationAccess = {
     livepoll: livepollNavigationAccessOnRoute,
   };

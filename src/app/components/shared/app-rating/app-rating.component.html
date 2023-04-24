@@ -31,7 +31,9 @@
     </mat-icon>
     <mat-icon style="cursor: pointer">expand_more</mat-icon>
     {{ people }}
-    <span style="margin-inline: 0.75em"></span>
-    <app-global-status-indicator></app-global-status-indicator>
+    <span
+      *ngIf="indicator.status"
+      style="margin-inline: 0.75em"></span>
+    <app-global-status-indicator #indicator></app-global-status-indicator>
   </span>
 </ng-template>
