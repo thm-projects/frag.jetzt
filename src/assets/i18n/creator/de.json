@@ -402,7 +402,7 @@
     "context-question": "\nFrage:\n\n{{value}}",
     "choices": {
       "response-format": [
-        { "key": "summary", "text": "Zusammenfassung" },
+        { "key": "summary", "text": "Zusammenfassung", "hover": "Test" },
         { "key": "definition", "text": "Definition" },
         { "key": "flashcard", "text": "Lernkarte" }
       ],
