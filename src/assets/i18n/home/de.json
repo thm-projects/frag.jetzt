@@ -233,6 +233,7 @@
     "conversation-is-disabled": "Konversation ist in diesem Raum nicht erlaubt.",
     "create-question": "Frage stellen",
     "prompt-guide": "Prompt Guide",
+    "prompt-explanation": "Was sind Prompts?",
     "preset-context": "Kontext",
     "preset-topic": "Themen",
     "preset-length": "Länge",

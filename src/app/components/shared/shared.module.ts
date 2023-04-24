@@ -139,6 +139,10 @@ import { MarkdownEditorDialogComponent } from './utility/markdown/markdown-edito
 import { GPTPresetTopicsDialogComponent } from './_dialogs/gptpreset-topics-dialog/gptpreset-topics-dialog.component';
 import { GlobalStatusIndicatorComponent } from './global-status-indicator/global-status-indicator.component';
 import { StatusInfoComponent } from './_dialogs/status-info/status-info.component';
+import { GptPromptExplanationComponent } from './_dialogs/gpt-prompt-explanation/gpt-prompt-explanation.component';
+import { GptPromptExplanationDeComponent } from '../../../assets/i18n/components/gpt-prompt-explanation/gpt-prompt-explanation-de';
+import { GptPromptExplanationEnComponent } from '../../../assets/i18n/components/gpt-prompt-explanation/gpt-prompt-explanation-en';
+import { GptPromptExplanationFrComponent } from '../../../assets/i18n/components/gpt-prompt-explanation/gpt-prompt-explanation-fr';
 
 @NgModule({
   imports: [
@@ -280,6 +284,10 @@ import { StatusInfoComponent } from './_dialogs/status-info/status-info.componen
     GPTPresetTopicsDialogComponent,
     GlobalStatusIndicatorComponent,
     StatusInfoComponent,
+    GptPromptExplanationComponent,
+    GptPromptExplanationDeComponent,
+    GptPromptExplanationEnComponent,
+    GptPromptExplanationFrComponent,
   ],
   exports: [
     RoomJoinComponent,

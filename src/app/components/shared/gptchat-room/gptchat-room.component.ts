@@ -70,6 +70,7 @@ import { escapeForRegex } from 'app/utils/regex-escape';
 import { ComponentEvent, sendAwaitingEvent } from 'app/utils/component-events';
 import { Comment } from 'app/models/comment';
 import { GPTPresetTopicsDialogComponent } from '../_dialogs/gptpreset-topics-dialog/gptpreset-topics-dialog.component';
+import { GptPromptExplanationComponent } from '../_dialogs/gpt-prompt-explanation/gpt-prompt-explanation.component';
 
 interface ConversationEntry {
   type: 'human' | 'gpt' | 'system';
@@ -550,6 +551,14 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
+  showPromptExplanation() {
+    this.dialog.open(GptPromptExplanationComponent, {
+      autoFocus: false,
+      width: '80%',
+      maxWidth: '600px',
+    });
+  }
+
   showError(message: string) {
     this.notificationService.show(message, undefined, {
       duration: 12_500,
@@ -684,6 +693,16 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
     this._list = this.composeService.builder(
       this.headerService.getHost(),
       (e) => {
+        e.menuItem({
+          translate: this.headerService.getTranslate(),
+          icon: 'school',
+          class: 'material-icons-outlined',
+          text: 'header.prompt-explanation',
+          callback: () => this.showPromptExplanation(),
+          condition: () => {
+            return this.sessionService.currentRole > 0;
+          },
+        });
         e.menuItem({
           translate: this.headerService.getTranslate(),
           icon: 'architecture',

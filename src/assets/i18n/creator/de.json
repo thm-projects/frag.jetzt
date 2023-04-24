@@ -471,7 +471,8 @@
     "cancel": "Schließen",
     "question-wall-title": "Use Cases des Präsentationsmodus",
     "tag-cloud-title": "Use Cases des Fragen-Radars",
-    "prompt-guide-chatbot": "Effektiv kommunizieren mit ChatGPT"
+    "prompt-guide-chatbot": "Effektiv kommunizieren mit ChatGPT",
+    "prompt-explanation": "Prompts kurz erklärt"
   },
   "joyride": {
     "commentFilter": "Es gibt zahlreiche Sortier- und Filteroptionen für das Q&A-Forum. Ein aktiver Filter wird rot angezeigt. Für eine bessere Lesbarkeit bei großer Dynamik kann der Fragenstrom auch angehalten werden.",

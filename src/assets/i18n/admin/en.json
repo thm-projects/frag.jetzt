@@ -26,7 +26,8 @@
   "introductions": {
     "prompt-guide-chatbot": "Communicating Effectively with ChatGPT",
     "cancel": "Close",
-    "tooltip-button" : "Prompt Guide"
+    "tooltip-button" : "Prompt Guide",
+    "prompt-explanation": "Prompts briefly explained"
   },
   "gpt-config": {
     "title": "GPT Settings & API Test",
