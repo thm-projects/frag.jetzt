@@ -13,7 +13,7 @@ const decodeStr = (arr: number[]): string => {
   return textDecoder.decode(new Uint8Array(arr));
 };
 
-type NumberAsString = MakeUnique<number>;
+type NumberAsString = MakeUnique<number, 'NumberAsString'>;
 
 class ByteEncoder {
   public static readonly BYTE_ENCODER: { [key: NumberAsString]: string } = {};

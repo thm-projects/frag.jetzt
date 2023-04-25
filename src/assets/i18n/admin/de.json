@@ -151,7 +151,20 @@
     "patch-success": "Änderungen wurden gespeichert.",
     "no-patch-needed": "Es wurden keine Änderungen vorgenommen.",
     "no-prompt-selected": "Es wurde kein Prompt ausgewählt.",
-    "enter-prompt-name": "Bitte gib einen Namen ein."
+    "enter-prompt-name": "Bitte gib einen Namen ein.",
+    "language": "Sprache",
+    "lang": {
+      "de": "Deutsch",
+      "en": "Englisch",
+      "fr": "Französisch"
+    },
+    "advanced-settings": "Erweiterte Einstellungen",
+    "advanced-settings-info": "Parameter, die direkt an die Schnittstelle übergeben werden",
+    "advanced-setting-temperature": "Temperatur",
+    "advanced-setting-presence-penalty": "Wiederholungsstrafe für Token",
+    "advanced-setting-frequency-penalty": "Frequenzstrafe für Token",
+    "advanced-setting-top-p": "Höchster Prozentsatz",
+    "advanced-setting-reset": "Zurücksetzen"
   },
   "mailing": {
     "title": "Rundmail an alle",

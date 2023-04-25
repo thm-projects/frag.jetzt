@@ -151,7 +151,20 @@
     "patch-success": "Les modifications ont été enregistrées.",
     "no-patch-needed": "Aucune modification n'a été apportée.",
     "no-prompt-selected": "Aucune invite n'a été sélectionnée.",
-    "enter-prompt-name": "Veuillez saisir un nom."
+    "enter-prompt-name": "Veuillez saisir un nom.",
+    "language": "Langue",
+    "lang": {
+      "de": "Allemand",
+      "en": "Anglais",
+      "fr": "Français"
+    },
+    "advanced-settings": "Paramètres avancés",
+    "advanced-settings-info": "Paramètres transmis directement à l'API",
+    "advanced-setting-temperature": "Température",
+    "advanced-setting-presence-penalty": "Pénalité de présence pour le jeton",
+    "advanced-setting-frequency-penalty": "Pénalité de fréquence pour le jeton",
+    "advanced-setting-top-p": "Pourcentage supérieur",
+    "advanced-setting-reset": "Réinitialiser"
   },
   "mailing": {
     "title": "Mail à tous",

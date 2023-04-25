@@ -58,9 +58,9 @@ export type StandardDelta = Delta<DeltaOpInsert>;
 
 export type ImmutableStandardDelta = Immutable<StandardDelta>;
 
-export type SerializedDelta = MakeUnique<string>;
+export type SerializedDelta = MakeUnique<string, 'SerializedDelta'>;
 
-export type MarkdownDelta = MakeUnique<string>;
+export type MarkdownDelta = MakeUnique<string, 'MarkdownDelta'>;
 
 export class QuillUtils {
   static serializeDelta(delta: ImmutableStandardDelta): SerializedDelta {

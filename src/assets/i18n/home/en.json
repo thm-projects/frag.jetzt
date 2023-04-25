@@ -845,7 +845,20 @@
     "patch-success": "Changes have been saved.",
     "no-patch-needed": "No changes have been made.",
     "no-prompt-selected": "No prompt was selected.",
-    "enter-prompt-name": "Please enter a name."
+    "enter-prompt-name": "Please enter a name.",
+    "language": "Language",
+    "lang": {
+      "de": "German",
+      "en": "English",
+      "fr": "French"
+    },
+    "advanced-settings": "Advanced settings",
+    "advanced-settings-info": "Parameters that are passed directly to the API",
+    "advanced-setting-temperature": "Temperature",
+    "advanced-setting-presence-penalty": "Presence penalty for token",
+    "advanced-setting-frequency-penalty": "Frequency penalty for tokens",
+    "advanced-setting-top-p": "Top percentage",
+    "advanced-setting-reset": "Reset"
   },
   "gptchat-info": {
     "title": "ChatGPT",

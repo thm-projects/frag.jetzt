@@ -29,7 +29,7 @@ export const dark_solarized = {
   '--light-green': '#859900',
   '--grey': '#839496',
   '--grey-light': '#657b83',
-  '--black': '#073642'
+  '--black': '#073642',
 };
 
 export const dark_solarized_meta: ThemeMeta = {

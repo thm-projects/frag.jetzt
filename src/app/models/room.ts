@@ -27,6 +27,7 @@ export class Room {
   brainstormingActive: boolean;
   language: string;
   livepollActive: boolean;
+  keywordExtractionActive: boolean;
   // transient fields
   tags: string[];
   brainstormingSession: BrainstormingSession;
@@ -56,6 +57,7 @@ export class Room {
     brainstormingActive = false,
     language = null,
     livepollActive = true,
+    keywordExtractionActive = true,
     // transient fields
     tags = [],
     brainstormingSession = null,
@@ -85,6 +87,7 @@ export class Room {
     this.brainstormingActive = brainstormingActive;
     this.language = language;
     this.livepollActive = livepollActive;
+    this.keywordExtractionActive = keywordExtractionActive;
     this.tags = [...tags];
     this.brainstormingSession = verifyInstance(
       BrainstormingSession,
