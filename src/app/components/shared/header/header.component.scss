@@ -48,7 +48,7 @@ mat-toolbar-row {
   justify-content: space-evenly;
   overflow: visible;
 
-  >button {
+  > button {
     background-color: transparent;
     color: var(--on-background);
   }
@@ -65,7 +65,7 @@ mat-toolbar-row {
   display: flex;
   justify-content: flex-end;
 
-  >mat-icon {
+  > mat-icon {
     margin-top: auto;
     margin-bottom: auto;
     margin-right: 7px;
@@ -73,7 +73,7 @@ mat-toolbar-row {
 }
 
 .topic-cloud-btns {
-  >ars-col button {
+  > ars-col button {
     margin-right: 0.75em;
     cursor: default;
     width: auto;
@@ -85,7 +85,7 @@ mat-toolbar-row {
     }
   }
 
-  >* {
+  > * {
     overflow: hidden !important;
     color: var(--on-surface);
   }
@@ -184,8 +184,8 @@ svg {
   border-radius: 5px;
 
   > ::ng-deep button,
-  ::ng-deep ars-mat-menu-item>button,
-  ::ng-deep ars-mat-sub-menu>button {
+  ::ng-deep ars-mat-menu-item > button,
+  ::ng-deep ars-mat-sub-menu > button {
     background-color: transparent !important;
 
     &.outside {
@@ -267,7 +267,7 @@ h1 {
   margin-bottom: 5px;
 }
 
-.btnContent>.btnColorIcon {
+.btnContent > .btnColorIcon {
   width: 40px;
   height: 40px;
   float: left;
@@ -291,11 +291,11 @@ h1 {
     opacity: 1;
     background-color: transparent;
 
-    >.theme-icon {
+    > .theme-icon {
       display: none;
     }
 
-    >.theme-icon-checked {
+    > .theme-icon-checked {
       opacity: 1;
     }
   }
@@ -303,16 +303,16 @@ h1 {
   &.checked_false {
     opacity: 1;
 
-    >.theme-icon {
+    > .theme-icon {
       opacity: 1;
     }
 
-    >.theme-icon-checked {
+    > .theme-icon-checked {
       display: none;
     }
   }
 
-  >mat-icon {
+  > mat-icon {
     float: left;
     position: relative;
     left: 50%;
@@ -323,25 +323,25 @@ h1 {
   }
 }
 
-.btnContent>.btnAppend {
+.btnContent > .btnAppend {
   width: calc(100% - 50px);
   float: right;
   position: relative;
   top: -10px;
 }
 
-.btnContent>.btnAppend>.title {
+.btnContent > .btnAppend > .title {
   width: 100%;
   height: 15px;
   float: left;
   margin-bottom: 5px;
 }
 
-.btnContent>.btnAppend>.title:last-child {
+.btnContent > .btnAppend > .title:last-child {
   margin-bottom: 0px;
 }
 
-.title>* {
+.title > * {
   text-overflow: ellipsis;
   white-space: nowrap;
   float: left;

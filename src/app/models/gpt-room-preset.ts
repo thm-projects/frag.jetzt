@@ -10,13 +10,6 @@ export class GPTRoomPresetTopic {
   }
 }
 
-export enum GPTRoomAnswerFormat {
-  DISABLED = '',
-  SUMMARY = 'summary',
-  DEFINITION = 'definition',
-  FLASHCARD = 'flashcard',
-}
-
 export enum GPTRoomPresetLength {
   DISABLED = '',
   SHORT = 'short',

@@ -296,11 +296,60 @@
     "context-response-length": "Länge: {{value}}",
     "context-response-format": "Format: {{value}}",
     "context-question": "\nFrage:\n\n{{value}}",
+    "selection-none": "Bei keiner Auswahl kann ChatGPT einen größeren Antwortbereich haben. Dies kann dazu führen, dass unerwünschte Informationen generiert werden.",
+    "tooltip-temperature-disabled": "Antwortvariabilität wird von ausgewählten Prompt übernommen.",
     "choices": {
       "response-format": [
-        { "key": "summary", "text": "Zusammenfassung" },
-        { "key": "definition", "text": "Definition" },
-        { "key": "flashcard", "text": "Lernkarte" }
+        {
+          "key": "short answer",
+          "text": "Kurzantwort",
+          "hover": "Kurze, prägnante Antwort, die schnell und einfach Informationen liefert."
+        },
+        {
+          "key": "answer as definition",
+          "text": "Antwort als Begriffsdefinition",
+          "hover": "Erklärung der Bedeutung von Begriffen und Konzepten, um das Verständnis zu fördern."
+        },
+        {
+          "key": "answer with examples",
+          "text": "Antwort mit Beispielen",
+          "hover": "Anwendung von abstrakten Konzepten auf konkrete Situationen, um das Verständnis zu vertiefen."
+        },
+        {
+          "key": "answer as flashcard",
+          "text": "Antwort als Lernkarte",
+          "hover": "Instrument zur Wissensvermittlung und -wiederholung von Fakten, Definitionen, Begriffen oder Daten."
+        },
+        {
+          "key": "answer as mindmap",
+          "text": "Antwort als Mindmap",
+          "hover": "Visuelle Darstellung von Informationen, um Zusammenhänge zwischen verschiedenen Konzepten und Ideen zu verdeutlichen."
+        },
+        {
+          "key": "answer as essay",
+          "text": "Antwort als Essay oder Aufsatz",
+          "hover": "Ausführliche Antwort auf offene Fragen, um die Fähigkeiten im Verfassen von längeren Texten zu verbessern."
+        },
+        {
+          "key": "answer as summary",
+          "text": "Antwort als Zusammenfassung",
+          "hover": "Kurze und prägnante Übersicht über ein bestimmtes Thema oder Konzept."
+        },
+        {
+          "key": "answer with mc question",
+          "text": "Antwort mit Multiple-Choice-Fragen",
+          "hover": "Quizfragen, bei der der Lernende aus einer Liste von Antwortoptionen die richtige auswählen muss, um das Wissen zu überprüfen und Zusammenhänge zu verstehen."
+        },
+        {
+          "key": "answer with sources",
+          "text": "Antwort mit Quellenangaben",
+          "hover": "Hinweise auf weiterführende Informationen, um Lernende zur eigenen Recherche zu ermutigen."
+        },
+        {
+          "key": "answer with links",
+          "text": "Antwort mit Links auf weitere Informationen",
+          "hover": "Links und Ressourcen, die den Lernenden Zugang zu zusätzlichen Materialien wie Videos, Grafiken oder Artikeln geben, um das Verständnis zu vertiefen."
+        }
       ],
       "response-length": {
         "short": "kurz",

@@ -300,11 +300,60 @@
     "context-response-length": "Length: {{value}}.",
     "context-response-format": "Format: {{value}}.",
     "context-question": "Question:\n\n{{value}}",
+    "selection-none": "With no selection, ChatGPT can have a larger response range. This may result in unwanted information being generated.",
+    "tooltip-temperature-disabled": "Response variability is taken from selected prompt.",
     "choices": {
       "response-format": [
-        { "key": "summary", "text": "Summary" },
-        { "key": "definition", "text": "Definition" },
-        { "key": "flashcard", "text": "Flashcard" }
+        {
+          "key": "short answer",
+          "text": "Short answer",
+          "hover": "A brief and concise answer that provides information quickly and easily."
+        },
+        {
+          "key": "answer as definition",
+          "text": "Answer as definition",
+          "hover": "Explanation of the meaning of terms and concepts to promote understanding."
+        },
+        {
+          "key": "answer with examples",
+          "text": "Answer with examples",
+          "hover": "Application of abstract concepts to concrete situations to deepen understanding."
+        },
+        {
+          "key": "answer as flashcard",
+          "text": "Answer as flashcard",
+          "hover": "Instrument for knowledge transfer and repetition of facts, definitions, terms, or data."
+        },
+        {
+          "key": "answer as mindmap",
+          "text": "Answer as mind map",
+          "hover": "Visual representation of information to illustrate connections between different concepts and ideas."
+        },
+        {
+          "key": "answer as essay",
+          "text": "Answer as essay or paper",
+          "hover": "Detailed answer to open questions to improve skills in writing longer texts."
+        },
+        {
+          "key": "answer as summary",
+          "text": "Answer as summary",
+          "hover": "Short and concise overview of a specific topic or concept."
+        },
+        {
+          "key": "answer with mc question",
+          "text": "Answer with multiple-choice questions",
+          "hover": "Quiz questions in which the learner must choose the correct answer from a list of options to check knowledge and understand connections."
+        },
+        {
+          "key": "answer with sources",
+          "text": "Answer with source references",
+          "hover": "References to further information to encourage learners to conduct their own research."
+        },
+        {
+          "key": "answer with links",
+          "text": "Answer with links to further information",
+          "hover": "Links and resources that give learners access to additional materials such as videos, graphics, or articles to deepen understanding."
+        }
       ],
       "response-length": {
         "short": "short",

@@ -29,7 +29,7 @@
           <mat-option
             *ngFor="let prompt of filteredPrompts"
             [value]="prompt.act"
-            (click)="setValue(prompt.prompt)"
+            (click)="setValue(prompt)"
             class="mat-option"
             [ngClass]="{
               'mat-option-header':
@@ -37,7 +37,7 @@
             }"
             [disabled]="!prompt.prompt">
             <ng-container *ngIf="prompt.act !== null && prompt.prompt !== null">
-              {{ prompt.act }}
+              {{ "(" + prompt.language + ") " + prompt.act }}
             </ng-container>
             <ng-container
               *ngIf="prompt.act === 'acts' && prompt.prompt === null">
@@ -174,7 +174,7 @@
                 [required]="!context.allowNone">
                 <mat-option
                   *ngIf="context.allowNone"
-                  [value]="null">
+                  [value]="''">
                   <em>{{ "gpt-chat.none" | translate }}</em>
                 </mat-option>
                 <mat-option
@@ -184,6 +184,17 @@
                 </mat-option>
               </mat-select>
             </mat-form-field>
+            <mat-icon
+              *ngIf="part.type === 'select' && context.selected && context.access?.[context.selected]?.hover as text"
+              class="material-icons-outlined"
+              [matTooltip]="text">
+              info
+            </mat-icon>
+            <mat-icon
+              *ngIf="part.type === 'select' && !context.selected"
+              [matTooltip]="'gpt-chat.selection-none' | translate">
+              help_outline
+            </mat-icon>
             <app-view-comment-data
               *ngIf="part.type === 'quill'"
               [currentData]="context.value"></app-view-comment-data>
@@ -221,9 +232,17 @@
     <div class="slide-container">
       <h3>
         {{ "gpt-chat.temperature" | translate }}
+        <mat-icon
+          *ngIf="selectedPrompt"
+          [matTooltip]="'gpt-chat.tooltip-temperature-disabled' | translate"
+          class="material-icons-outlined">
+          info
+        </mat-icon>
       </h3>
       <br />
-      <mat-button-toggle-group [value]="temperature">
+      <mat-button-toggle-group
+        [value]="temperature"
+        [disabled]="selectedPrompt">
         <mat-button-toggle
           [matTooltip]="
             'gpt-chat.temperature-tooltip-' + option.key | translate
@@ -301,45 +320,5 @@
       format_align_left
     </mat-icon>
     {{ "gpt-chat.presets.length.extensive" | translate }}
-  </button>
-</mat-menu>
-
-<mat-menu
-  #answerFormatSubMenu="matMenu"
-  [overlapTrigger]="false"
-  cdkTrapFocus>
-  <button
-    mat-menu-item
-    (click)="this.setAnswerFormat(GPTRoomAnswerFormat.DISABLED)"
-    class="preset-btn"
-    tabindex="0">
-    <mat-icon class="material-icons-outlined submenu-icon">
-      do_not_disturb
-    </mat-icon>
-    {{ "gpt-chat.answer-format.disabled" | translate }}
-  </button>
-  <button
-    mat-menu-item
-    (click)="this.setAnswerFormat(GPTRoomAnswerFormat.SUMMARY)"
-    class="preset-btn"
-    tabindex="0">
-    <mat-icon class="material-icons-outlined submenu-icon">summarize</mat-icon>
-    {{ "gpt-chat.answer-format.summary" | translate }}
-  </button>
-  <button
-    mat-menu-item
-    (click)="this.setAnswerFormat(GPTRoomAnswerFormat.DEFINITION)"
-    class="preset-btn"
-    tabindex="0">
-    <mat-icon class="material-icons-outlined submenu-icon">menu_book</mat-icon>
-    {{ "gpt-chat.answer-format.definition" | translate }}
-  </button>
-  <button
-    mat-menu-item
-    (click)="this.setAnswerFormat(GPTRoomAnswerFormat.FLASHCARD)"
-    class="preset-btn"
-    tabindex="0">
-    <mat-icon class="material-icons-outlined submenu-icon">style</mat-icon>
-    {{ "gpt-chat.answer-format.flashcard" | translate }}
   </button>
 </mat-menu>
