@@ -4,25 +4,26 @@
     [ngClass]="{
       'mat-toolbar-moderation': router.url.endsWith('/moderator/comments')
     }">
-    <app-navigation [showText]="!showSmallButtons"></app-navigation>
-
-    <button
-      id="tour-button"
-      mat-button
-      aria-labelledby="tour-label"
-      class="focus_button"
-      [matTooltip]="'header.tour-button' | translate"
-      [disabled]="!startUpFinished()"
-      *ngIf="router.url.endsWith('/home') && !deviceInfo.isSafari"
-      (click)="startTour()">
-      <mat-icon class="header-icons material-icons-outlined">flag</mat-icon>
-      <span *ngIf="deviceInfo.isCurrentlyDesktop && !showSmallButtons">
-        {{ "header.tour" | translate }}
-      </span>
-    </button>
+    <div class="header-row-section">
+      <app-navigation [showText]="!showSmallButtons"></app-navigation>
+      <button
+        id="tour-button"
+        mat-button
+        aria-labelledby="tour-label"
+        class="focus_button"
+        [matTooltip]="'header.tour-button' | translate"
+        [disabled]="!startUpFinished()"
+        *ngIf="router.url.endsWith('/home') && !deviceInfo.isSafari"
+        (click)="startTour()">
+        <mat-icon class="header-icons material-icons-outlined">flag</mat-icon>
+        <span *ngIf="deviceInfo.isCurrentlyDesktop && !showSmallButtons">
+          {{ "header.tour" | translate }}
+        </span>
+      </button>
+    </div>
 
     <div
-      class="header-content-container"
+      class="header-content-container header-row-section"
       [ngClass]="{ darken: themeService.currentTheme?.isDark }">
       <div *ngIf="headerService.isToggleCurrentUserActivity()">
         <div
@@ -360,7 +361,9 @@
       </div>
     </div>
 
-    <div id="options-login-box">
+    <div
+      id="options-login-box"
+      class="header-row-section">
       <mat-icon
         *ngIf="user?.isGuest"
         class="header-icons material-icons-filled color-warn"

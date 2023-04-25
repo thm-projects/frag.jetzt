@@ -1,6 +1,7 @@
 @use "@angular/material" as mat;
 @import "theme/light-theme/_variables.scss";
 @import "theme/dark-theme/dark-theme";
+@import "theme/dark-solarized-theme/dark-solarized-theme";
 @import "theme/blue-theme/blue-theme";
 @import "theme/purple-theme/purple-theme";
 
@@ -32,6 +33,10 @@ body {
 
 .dark {
   @include mat.all-component-themes($dark-theme);
+}
+
+.dark-solarized {
+  @include mat.all-component-themes($dark-solarized-theme);
 }
 
 .blue {
