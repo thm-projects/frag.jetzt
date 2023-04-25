@@ -297,6 +297,7 @@
     "context-response-format": "Format: {{value}}",
     "context-question": "\nFrage:\n\n{{value}}",
     "selection-none": "Bei keiner Auswahl kann ChatGPT einen größeren Antwortbereich haben. Dies kann dazu führen, dass unerwünschte Informationen generiert werden.",
+    "tooltip-temperature-disabled": "Antwortvariabilität wird von ausgewählten Prompt übernommen.",
     "choices": {
       "response-format": [
         {

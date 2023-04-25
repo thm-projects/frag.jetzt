@@ -15,6 +15,7 @@ import { GPTEncoder } from 'app/gpt-encoder/GPTEncoder';
 import { Room } from 'app/models/room';
 import {
   ChatCompletionMessage,
+  ChatCompletionRequest,
   GptService,
   StreamChatCompletion,
 } from 'app/services/http/gpt.service';
@@ -177,6 +178,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
       value: null,
     },
   ];
+  protected selectedPrompt: GPTPromptPreset = null;
   private destroyer = new ReplaySubject(1);
   private encoder: GPTEncoder = null;
   private room: Room = null;
@@ -256,7 +258,9 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
       });
   }
 
-  setValue(msg: string) {
+  setValue(prompt: GPTPromptPreset) {
+    this.selectedPrompt = prompt;
+    let msg = prompt.prompt;
     if (!msg.endsWith('\n')) {
       msg += '\n';
     }
@@ -505,13 +509,20 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
       message: '',
       type: 'gpt',
     });
+    const request: ChatCompletionRequest = {
+      messages: this.generatePrompt(index),
+      roomId: this.room?.id || null,
+      model: 'gpt-3.5-turbo',
+      temperature: this.temperature,
+    };
+    if (this.selectedPrompt !== null) {
+      request.temperature = this.selectedPrompt.temperature;
+      request.presencePenalty = this.selectedPrompt.presencePenalty;
+      request.frequencyPenalty = this.selectedPrompt.frequencyPenalty;
+      request.topP = this.selectedPrompt.topP;
+    }
     this.gptService
-      .requestChatStream({
-        messages: this.generatePrompt(index),
-        roomId: this.room?.id || null,
-        model: 'gpt-3.5-turbo',
-        temperature: this.temperature,
-      })
+      .requestChatStream(request)
       .pipe(
         takeUntil(this.stopper),
         finalize(() => {
@@ -606,6 +617,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   protected filterPrompts() {
+    this.selectedPrompt = null;
     if (!this.searchTerm.trim()) {
       this.filteredPrompts = [...this.prompts];
       return;

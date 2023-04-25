@@ -199,7 +199,7 @@ export interface RoomAccessInfo {
 
 export type UsageTimeAction = UsageTimeActionDelete | UsageTimeActionAdd;
 
-interface PropmtPresetAdd {
+export interface PropmtPresetAdd {
   act: string;
   prompt: string;
   language: string;

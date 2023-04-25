@@ -392,6 +392,7 @@
     "context-response-format": "Format : {{value}}.",
     "context-question": "Question :\n\n{{value}}",
     "selection-none": "En l'absence de sélection, ChatGPT peut avoir une zone de réponse plus large. Cela peut conduire à la génération d'informations non souhaitées.",
+    "tooltip-temperature-disabled": "La variabilité des réponses est prise en compte par l'invite sélectionnée.",
     "choices": {
       "response-format": [
         {

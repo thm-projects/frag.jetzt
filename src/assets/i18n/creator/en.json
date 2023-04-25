@@ -392,6 +392,7 @@
     "context-response-format": "Format: {{value}}.",
     "context-question": "Question: \n\n{{value}}",
     "selection-none": "With no selection, ChatGPT can have a larger response range. This may result in unwanted information being generated.",
+    "tooltip-temperature-disabled": "Response variability is taken from selected prompt.",
     "choices": {
       "response-format": [
         {

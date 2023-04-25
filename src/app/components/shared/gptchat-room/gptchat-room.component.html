@@ -29,7 +29,7 @@
           <mat-option
             *ngFor="let prompt of filteredPrompts"
             [value]="prompt.act"
-            (click)="setValue(prompt.prompt)"
+            (click)="setValue(prompt)"
             class="mat-option"
             [ngClass]="{
               'mat-option-header':
@@ -37,7 +37,7 @@
             }"
             [disabled]="!prompt.prompt">
             <ng-container *ngIf="prompt.act !== null && prompt.prompt !== null">
-              {{ prompt.act }}
+              {{ "(" + prompt.language + ") " + prompt.act }}
             </ng-container>
             <ng-container
               *ngIf="prompt.act === 'acts' && prompt.prompt === null">
@@ -232,9 +232,17 @@
     <div class="slide-container">
       <h3>
         {{ "gpt-chat.temperature" | translate }}
+        <mat-icon
+          *ngIf="selectedPrompt"
+          [matTooltip]="'gpt-chat.tooltip-temperature-disabled' | translate"
+          class="material-icons-outlined">
+          info
+        </mat-icon>
       </h3>
       <br />
-      <mat-button-toggle-group [value]="temperature">
+      <mat-button-toggle-group
+        [value]="temperature"
+        [disabled]="selectedPrompt">
         <mat-button-toggle
           [matTooltip]="
             'gpt-chat.temperature-tooltip-' + option.key | translate
