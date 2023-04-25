@@ -13,8 +13,8 @@ export const dark_solarized = {
   '--dialog': '#073642',
   '--cancel': '#dc322f',
 
-  '--on-primary': '#839496',
-  '--on-secondary': '#93a1a1',
+  '--on-primary': '#ffffff',
+  '--on-secondary': '#ffffff',
 
   '--on-background': '#93a1a1',
   '--on-surface': '#93a1a1',
