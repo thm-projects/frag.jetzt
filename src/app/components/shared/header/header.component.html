@@ -1,47 +1,30 @@
 <mat-toolbar class="mat-elevation-z2">
-  <mat-toolbar-row
-    #toolbarRow
-    [ngClass]="{
+  <mat-toolbar-row #toolbarRow [ngClass]="{
       'mat-toolbar-moderation': router.url.endsWith('/moderator/comments')
     }">
-    <app-navigation [showText]="!showSmallButtons"></app-navigation>
+    <div class="header-row-section">
+      <app-navigation [showText]="!showSmallButtons"></app-navigation>
+      <button id="tour-button" mat-button aria-labelledby="tour-label" class="focus_button"
+        [matTooltip]="'header.tour-button' | translate" [disabled]="!startUpFinished()"
+        *ngIf="router.url.endsWith('/home') && !deviceInfo.isSafari" (click)="startTour()">
+        <mat-icon class="header-icons material-icons-outlined">flag</mat-icon>
+        <span *ngIf="deviceInfo.isCurrentlyDesktop && !showSmallButtons">
+          {{ "header.tour" | translate }}
+        </span>
+      </button>
+    </div>
 
-    <button
-      id="tour-button"
-      mat-button
-      aria-labelledby="tour-label"
-      class="focus_button"
-      [matTooltip]="'header.tour-button' | translate"
-      [disabled]="!startUpFinished()"
-      *ngIf="router.url.endsWith('/home') && !deviceInfo.isSafari"
-      (click)="startTour()">
-      <mat-icon class="header-icons material-icons-outlined">flag</mat-icon>
-      <span *ngIf="deviceInfo.isCurrentlyDesktop && !showSmallButtons">
-        {{ "header.tour" | translate }}
-      </span>
-    </button>
-
-    <div
-      class="header-content-container"
-      [ngClass]="{ darken: themeService.currentTheme?.isDark }">
+    <div class="header-content-container header-row-section" [ngClass]="{ darken: themeService.currentTheme?.isDark }">
       <div *ngIf="headerService.isToggleCurrentUserActivity()">
-        <div
-          class="userActivityIcon"
-          matTooltip="{{ 'header.users-online' | translate }}"></div>
+        <div class="userActivityIcon" matTooltip="{{ 'header.users-online' | translate }}"></div>
         <p class="userActivityTxt">
           {{ headerService.getCurrentUserActivity() }}
         </p>
       </div>
 
-      <button
-        mat-flat-button
-        tabindex="0"
-        [matTooltip]="'header.chat-gpt-button' | translate"
-        *ngIf="!router.url.endsWith('/gpt-chat-room') && isInRouteWithRoles"
-        (click)="openGPT()">
-        <mat-icon
-          class="material-icons material-icons-outlined"
-          style="transform: scale(1.2); margin-right: 5px">
+      <button mat-flat-button tabindex="0" [matTooltip]="'header.chat-gpt-button' | translate"
+        *ngIf="!router.url.endsWith('/gpt-chat-room') && isInRouteWithRoles" (click)="openGPT()">
+        <mat-icon class="material-icons material-icons-outlined" style="transform: scale(1.2); margin-right: 5px">
           smart_toy
         </mat-icon>
         <span *ngIf="!showSmallButtons && deviceInfo.isCurrentlyDesktop">
@@ -49,20 +32,13 @@
         </span>
       </button>
 
-      <button
-        mat-flat-button
-        tabindex="0"
-        [matTooltip]="'header.quiz-rally-button' | translate"
-        *ngIf="
+      <button mat-flat-button tabindex="0" [matTooltip]="'header.quiz-rally-button' | translate" *ngIf="
           !router.url.endsWith('moderator/comments') &&
           router.url.endsWith('/comments') &&
           room?.quizActive &&
           deviceInfo.isCurrentlyDesktop
-        "
-        routerLink="quiz">
-        <mat-icon
-          class="material-icons"
-          style="transform: scale(1.2); margin-right: 5px">
+        " routerLink="quiz">
+        <mat-icon class="material-icons" style="transform: scale(1.2); margin-right: 5px">
           rocket_launch
         </mat-icon>
         <span *ngIf="!showSmallButtons">
@@ -70,14 +46,9 @@
         </span>
       </button>
 
-      <button
-        mat-flat-button
-        tabindex="0"
-        [matTooltip]="'header.livepoll-button' | translate"
-        (click)="openLivepollDialog()"
-        *ngIf="navigationAccess.livepoll(router.url, room, user)">
-        <mat-icon
-          class="material-icons header-icons material-icons-filled"
+      <button mat-flat-button tabindex="0" [matTooltip]="'header.livepoll-button' | translate"
+        (click)="openLivepollDialog()" *ngIf="navigationAccess.livepoll(router.url, room, user)">
+        <mat-icon class="material-icons header-icons material-icons-filled"
           style="transform: scale(1.2); margin-right: 5px">
           flash_on
         </mat-icon>
@@ -86,18 +57,13 @@
         </span>
       </button>
 
-      <button
-        mat-flat-button
-        tabindex="0"
-        [matTooltip]="'header.question-radar-button' | translate"
-        *ngIf="
+      <button mat-flat-button tabindex="0" [matTooltip]="'header.question-radar-button' | translate" *ngIf="
           !router.url.endsWith('moderator/comments') &&
           router.url.endsWith('/comments') &&
           deviceInfo.isCurrentlyDesktop &&
           ((tagCloudDataService.currentData?.size || 0) > 0 ||
             topicCloudAdminService.isTopicRequirementActive())
-        "
-        (click)="navigateCloud()">
+        " (click)="navigateCloud()">
         <mat-icon style="transform: scale(1.3); margin-right: 7px">
           radar
         </mat-icon>
@@ -106,27 +72,18 @@
         </span>
       </button>
 
-      <button
-        mat-flat-button
-        tabindex="0"
-        [matTooltip]="'header.brainstorming-button' | translate"
-        *ngIf="
+      <button mat-flat-button tabindex="0" [matTooltip]="'header.brainstorming-button' | translate" *ngIf="
           !router.url.endsWith('moderator/comments') &&
           router.url.endsWith('/comments') &&
           room?.brainstormingActive &&
           deviceInfo.isCurrentlyDesktop &&
           (!!room?.brainstormingSession || userRole > 0)
-        "
-        (click)="navigateBrainstormingDialog()">
-        <mat-icon
-          class="material-icons"
-          *ngIf="room?.brainstormingSession?.active"
+        " (click)="navigateBrainstormingDialog()">
+        <mat-icon class="material-icons" *ngIf="room?.brainstormingSession?.active"
           style="transform: scale(1.4); color: var(--red); margin-right: 5px">
           tips_and_updates
         </mat-icon>
-        <mat-icon
-          class="material-icons"
-          *ngIf="!room?.brainstormingSession?.active"
+        <mat-icon class="material-icons" *ngIf="!room?.brainstormingSession?.active"
           style="transform: scale(1.4); margin-right: 5px">
           tips_and_updates
         </mat-icon>
@@ -135,18 +92,14 @@
         </span>
       </button>
 
-      <div
-        *ngIf="
+      <div *ngIf="
           room?.brainstormingSession?.active &&
           ((!router.url.endsWith('/brainstorming') &&
             !deviceInfo.isCurrentlyDesktop) ||
             router.url.endsWith('/room/' + sessionService.currentRoom?.shortId))
         ">
-        <mat-icon
-          class="material-icons brainstorming-action-icon"
-          [ngClass]="'clickable'"
-          (click)="navigateBrainstormingDirectly()"
-          style="transform: scale(1.4); color: var(--red); margin-top: 8px"
+        <mat-icon class="material-icons brainstorming-action-icon" [ngClass]="'clickable'"
+          (click)="navigateBrainstormingDirectly()" style="transform: scale(1.4); color: var(--red); margin-top: 8px"
           [matTooltip]="
             'header.brainstorm-active' +
               (!router.url.endsWith('/brainstorming') ? '-clickable' : '')
@@ -156,146 +109,102 @@
         </mat-icon>
       </div>
 
-      <span
-        *ngIf="
+      <span *ngIf="
           isInRouteWithRoles &&
           userRole !== null &&
           user &&
           user.role !== userRole
         ">
-        <mat-icon
-          class="material-icons-outlined"
-          style="color: var(--red); margin-top: 8px"
+        <mat-icon class="material-icons-outlined" style="color: var(--red); margin-top: 8px"
           [matTooltip]="'header.not-in-own-view' | translate">
           groups_3
         </mat-icon>
       </span>
 
-      <h2
-        class="oldtypo-h2"
-        style="color: var(--red) !important"
-        *ngIf="
+      <h2 class="oldtypo-h2" style="color: var(--red) !important" *ngIf="
           router.url.endsWith('/moderator/comments') &&
           deviceInfo.isCurrentlyDesktop
         ">
         {{ "header.moderation-warning" | translate }}
       </h2>
 
-      <div
-        *ngIf="
+      <div *ngIf="
           hasEmailNotifications &&
           router.url.endsWith('/room/' + sessionService.currentRoom?.shortId)
         ">
-        <mat-icon
-          class="material-icons-outlined"
-          style="color: red; margin-top: 8px"
+        <mat-icon class="material-icons-outlined" style="color: red; margin-top: 8px"
           [matTooltip]="'header.active-email-notification' | translate">
           email
         </mat-icon>
       </div>
 
-      <span
-        *ngIf="room && !room.directSend && router.url.includes('comments')"
-        class="moderation-enabled"
+      <span *ngIf="room && !room.directSend && router.url.includes('comments')" class="moderation-enabled"
         fxLayoutAlign="center center">
-        <mat-icon
-          class="material-icons-round"
-          style="color: var(--red)"
+        <mat-icon class="material-icons-round" style="color: var(--red)"
           matTooltip="{{ 'header.moderation-enabled' | translate }}">
           gavel
         </mat-icon>
       </span>
 
       <!--Feedback im Hörsaal-->
-      <h2
-        class="header-slogan-mobile"
-        *ngIf="
+      <h2 class="header-slogan-mobile" *ngIf="
           router.url.includes('home') &&
           deviceInfo.isCurrentlyMobile &&
           !deviceInfo.isSafari
-        "
-        fxLayoutAlign="center center">
+        " fxLayoutAlign="center center">
         {{ "header.home-header-mobile" | translate }}
       </h2>
 
-      <h2
-        class="header-slogan-mobile-safari"
-        *ngIf="
+      <h2 class="header-slogan-mobile-safari" *ngIf="
           router.url.includes('home') &&
           deviceInfo.isCurrentlyMobile &&
           deviceInfo.isSafari
-        "
-        fxLayoutAlign="center center">
+        " fxLayoutAlign="center center">
         {{ "header.home-header-mobile" | translate }}
       </h2>
 
-      <h2
-        class="header-slogan-desktop"
-        *ngIf="
+      <h2 class="header-slogan-desktop" *ngIf="
           router.url.includes('home') &&
           deviceInfo.isCurrentlyDesktop &&
           !deviceInfo.isSafari
-        "
-        fxLayoutAlign="center center">
+        " fxLayoutAlign="center center">
         {{ "header.home-header" | translate }}
       </h2>
 
-      <h2
-        class="header-slogan-desktop-safari"
-        *ngIf="
+      <h2 class="header-slogan-desktop-safari" *ngIf="
           router.url.includes('home') &&
           deviceInfo.isCurrentlyDesktop &&
           deviceInfo.isSafari
-        "
-        fxLayoutAlign="center center">
+        " fxLayoutAlign="center center">
         {{ "header.home-header" | translate }}
       </h2>
 
       <span *ngIf="room && room.questionsBlocked">
-        <mat-icon
-          class="material-icons-outlined"
-          style="color: var(--red); margin-top: 8px"
+        <mat-icon class="material-icons-outlined" style="color: var(--red); margin-top: 8px"
           [matTooltip]="'header.questions-blocked' | translate">
           comments_disabled
         </mat-icon>
       </span>
 
-      <button
-        mat-flat-button
-        tabindex="0"
-        [matTooltip]="'header.question-focus-button' | translate"
-        *ngIf="
+      <button mat-flat-button tabindex="0" [matTooltip]="'header.question-focus-button' | translate" *ngIf="
           deviceInfo.isCurrentlyDesktop &&
           !router.url.endsWith('moderator/comments') &&
           router.url.endsWith('/comments') &&
           !deviceInfo.isSafari
-        "
-        routerLink="participant/room/{{ room?.shortId }}/comments/questionwall">
-        <mat-icon
-          class="beamer-icon"
-          svgIcon="beamer"></mat-icon>
+        " routerLink="participant/room/{{ room?.shortId }}/comments/questionwall">
+        <mat-icon class="beamer-icon" svgIcon="beamer"></mat-icon>
         <span *ngIf="!showSmallButtons">
           {{ "header.questionwall" | translate }}
         </span>
       </button>
 
       <!--Topic Cloud-->
-      <div
-        class="topic-cloud-btns"
-        *ngIf="router.url.endsWith('tagcloud')"
-        ars-flex-box>
+      <div class="topic-cloud-btns" *ngIf="router.url.endsWith('tagcloud')" ars-flex-box>
         <ars-col>
-          <button
-            mat-icon-button
-            disableRipple="true"
-            *ngIf="isAdminConfigEnabled"
-            class="pseudo-button"
-            matTooltip="{{
+          <button mat-icon-button disableRipple="true" *ngIf="isAdminConfigEnabled" class="pseudo-button" matTooltip="{{
               'header.overview-admin-config-enabled' | translate
             }}">
-            <mat-icon
-              class="oldtypo-h2 comment_tag-icon"
-              style="
+            <mat-icon class="oldtypo-h2 comment_tag-icon" style="
                 color: var(--red) !important;
                 font-size: 24px !important;
                 margin-top: -8px;
@@ -303,28 +212,18 @@
               tag
             </mat-icon>
           </button>
-          <button
-            mat-icon-button
-            disableRipple="true"
-            class="pseudo-button"
+          <button mat-icon-button disableRipple="true" class="pseudo-button"
             matTooltip="{{ 'header.overview-question-tooltip' | translate }}">
             <mat-icon class="oldtypo-h2 comment_tag-icon">comment</mat-icon>
             <span style="margin-left: 0.2em">{{ commentsCountQuestions }}</span>
           </button>
-          <button
-            mat-icon-button
-            disableRipple="true"
-            class="pseudo-button"
-            matTooltip="{{
+          <button mat-icon-button disableRipple="true" class="pseudo-button" matTooltip="{{
               'header.overview-questioners-tooltip' | translate
             }}">
             <mat-icon class="oldtypo-h2 comment_tag-icon">person</mat-icon>
             <span style="margin-left: 0.1em">{{ commentsCountUsers }}</span>
           </button>
-          <button
-            mat-icon-button
-            disableRipple="true"
-            class="pseudo-button"
+          <button mat-icon-button disableRipple="true" class="pseudo-button"
             matTooltip="{{ 'header.overview-keywords-tooltip' | translate }}">
             <mat-icon class="oldtypo-h2 comment_tag-icon">tag</mat-icon>
             <span style="margin-left: 0.1em">{{ commentsCountKeywords }}</span>
@@ -333,25 +232,15 @@
       </div>
 
       <!--Brainstorming-->
-      <div
-        class="topic-cloud-btns"
-        *ngIf="router.url.includes('brainstorming')"
-        ars-flex-box>
+      <div class="topic-cloud-btns" *ngIf="router.url.includes('brainstorming')" ars-flex-box>
         <ars-col>
-          <button
-            mat-icon-button
-            disableRipple="true"
-            class="pseudo-button"
-            matTooltip="{{
+          <button mat-icon-button disableRipple="true" class="pseudo-button" matTooltip="{{
               'header.overview-brainstormers-tooltip' | translate
             }}">
             <mat-icon class="oldtypo-h2 comment_tag-icon">person</mat-icon>
             <span style="margin-left: 0.1em">{{ commentsCountUsers }}</span>
           </button>
-          <button
-            mat-icon-button
-            disableRipple="true"
-            class="pseudo-button"
+          <button mat-icon-button disableRipple="true" class="pseudo-button"
             matTooltip="{{ 'header.overview-ideas-tooltip' | translate }}">
             <mat-icon class="oldtypo-h2 comment_tag-icon">tag</mat-icon>
             <span style="margin-left: 0.1em">{{ commentsCountKeywords }}</span>
@@ -360,29 +249,20 @@
       </div>
     </div>
 
-    <div id="options-login-box">
-      <mat-icon
-        *ngIf="user?.isGuest"
-        class="header-icons material-icons-filled color-warn"
-        style="margin-right: 5px"
+    <div id="options-login-box" class="header-row-section">
+      <mat-icon *ngIf="user?.isGuest" class="header-icons material-icons-filled color-warn" style="margin-right: 5px"
         [matTooltip]="'header.guest-account-tooltip' | translate">
         priority_high
       </mat-icon>
 
-      <mat-icon
-        *ngIf="this.router.url.indexOf('/room/') > 0"
-        class="header-icons material-icons-outlined"
+      <mat-icon *ngIf="this.router.url.indexOf('/room/') > 0" class="header-icons material-icons-outlined"
         [matTooltip]="'header.' + getCurrentRoleDescription() | translate">
         {{ getCurrentRoleIcon() }}
       </mat-icon>
 
       <ng-template #optionContent>
-        <div
-          class="label-icon"
-          [matTooltip]="'header.options-button' | translate">
-          <h2
-            style="margin-left: 5px"
-            *ngIf="deviceInfo.isCurrentlyDesktop && !showSmallButtons">
+        <div class="label-icon" [matTooltip]="'header.options-button' | translate">
+          <h2 style="margin-left: 5px" *ngIf="deviceInfo.isCurrentlyDesktop && !showSmallButtons">
             <div *ngIf="this.router.url.includes('/gpt-chat-room')">
               {{ "header.chatroom-options-menu" | translate }}
             </div>
@@ -390,76 +270,42 @@
               {{ "header.my-account" | translate }}
             </div>
           </h2>
-          <mat-icon
-            class="header-icons"
-            style="color: var(--secondary); transform: scale(1.5)">
+          <mat-icon class="header-icons" style="color: var(--secondary); transform: scale(1.5)">
             more_vert
           </mat-icon>
         </div>
       </ng-template>
 
-      <button
-        [disabled]="!startUpFinished()"
-        mat-button
-        [joyrideStep]="'optionHeader'"
-        [stepPosition]="'center'"
-        appJoyrideTemplate
-        *ngIf="user && deviceInfo.isCurrentlyDesktop"
-        [matMenuTriggerFor]="userMenu"
-        aria-labelledby="session-label"
-        id="session-button">
+      <button [disabled]="!startUpFinished()" mat-button [joyrideStep]="'optionHeader'" [stepPosition]="'center'"
+        appJoyrideTemplate *ngIf="user && deviceInfo.isCurrentlyDesktop" [matMenuTriggerFor]="userMenu"
+        aria-labelledby="session-label" id="session-button">
         <ng-container [ngTemplateOutlet]="optionContent"></ng-container>
       </button>
 
-      <button
-        [disabled]="!startUpFinished()"
-        mat-icon-button
-        [joyrideStep]="'optionHeader'"
-        [stepPosition]="'center'"
-        appJoyrideTemplate
-        *ngIf="user && deviceInfo.isCurrentlyMobile"
-        [matMenuTriggerFor]="userMenu"
+      <button [disabled]="!startUpFinished()" mat-icon-button [joyrideStep]="'optionHeader'" [stepPosition]="'center'"
+        appJoyrideTemplate *ngIf="user && deviceInfo.isCurrentlyMobile" [matMenuTriggerFor]="userMenu"
         aria-labelledby="session-label">
         <ng-container [ngTemplateOutlet]="optionContent"></ng-container>
       </button>
 
       <ng-template #loginBtnContent>
-        <div
-          class="label-icon"
-          [matTooltip]="'header.sign-in-button' | translate">
-          <mat-icon
-            class="header-icons"
-            style="padding-right: 10px">
+        <div class="label-icon" [matTooltip]="'header.sign-in-button' | translate">
+          <mat-icon class="header-icons" style="padding-right: 10px">
             login
           </mat-icon>
-          <h2
-            class="oldtypo-h2"
-            *ngIf="deviceInfo.isCurrentlyDesktop && !showSmallButtons">
+          <h2 class="oldtypo-h2" *ngIf="deviceInfo.isCurrentlyDesktop && !showSmallButtons">
             {{ "header.login" | translate }}
           </h2>
         </div>
       </ng-template>
 
-      <button
-        id="login-button"
-        [disabled]="!startUpFinished()"
-        mat-button
-        [joyrideStep]="'loginButtonHeader'"
-        [stepPosition]="'center'"
-        appJoyrideTemplate
-        *ngIf="!user && deviceInfo.isCurrentlyDesktop"
-        (click)="login()"
+      <button id="login-button" [disabled]="!startUpFinished()" mat-button [joyrideStep]="'loginButtonHeader'"
+        [stepPosition]="'center'" appJoyrideTemplate *ngIf="!user && deviceInfo.isCurrentlyDesktop" (click)="login()"
         aria-labelledby="login-label">
         <ng-container [ngTemplateOutlet]="loginBtnContent"></ng-container>
       </button>
-      <button
-        [disabled]="!startUpFinished()"
-        mat-icon-button
-        [joyrideStep]="'loginButtonHeader'"
-        [stepPosition]="'center'"
-        appJoyrideTemplate
-        *ngIf="!user && deviceInfo.isCurrentlyMobile"
-        (click)="login()"
+      <button [disabled]="!startUpFinished()" mat-icon-button [joyrideStep]="'loginButtonHeader'"
+        [stepPosition]="'center'" appJoyrideTemplate *ngIf="!user && deviceInfo.isCurrentlyMobile" (click)="login()"
         aria-labelledby="login-label">
         <ng-container [ngTemplateOutlet]="loginBtnContent"></ng-container>
       </button>
@@ -475,69 +321,41 @@
 </div>
 
 <mat-menu #profileMenu="matMenu">
-  <button
-    mat-menu-item
-    (click)="openPseudoEditor()"
-    tabindex="0">
+  <button mat-menu-item (click)="openPseudoEditor()" tabindex="0">
     <mat-icon class="material-icons-outlined">account_circle</mat-icon>
     {{ "header.room-presets" | translate }}
   </button>
-  <button
-    mat-menu-item
-    (click)="openUserBonusTokenDialog()"
-    tabindex="0">
+  <button mat-menu-item (click)="openUserBonusTokenDialog()" tabindex="0">
     <mat-icon class="star material-icons-round">grade</mat-icon>
     {{ "header.user-bonus-token" | translate }}
   </button>
-  <button
-    mat-menu-item
-    (click)="openEmailNotification()"
-    tabindex="0">
+  <button mat-menu-item (click)="openEmailNotification()" tabindex="0">
     <mat-icon class="star material-icons-outlined">email</mat-icon>
     {{ "room-list.email-notification" | translate }}
   </button>
-  <button
-    mat-menu-item
-    routerLink="/gpt-prompts">
+  <button mat-menu-item routerLink="/gpt-prompts">
     <mat-icon class="material-icons-outlined">smart_toy</mat-icon>
     {{ "header.gpt-prompts" | translate }}
   </button>
-  <button
-    mat-menu-item
-    class="replyButton"
-    (click)="openPrivacyDialog()">
+  <button mat-menu-item class="replyButton" (click)="openPrivacyDialog()">
     <mat-icon class="material-icons-outlined">smart_toy</mat-icon>
     {{ "header.gpt-privacy-policy" | translate }}
   </button>
 </mat-menu>
 
-<mat-menu
-  #themeMenu="matMenu"
-  class="color-menu">
-  <button
-    (click)="changeTheme(theme)"
-    *ngFor="let theme of themes"
-    mat-menu-item
-    class="theme-btn"
+<mat-menu #themeMenu="matMenu" class="color-menu">
+  <button (click)="changeTheme(theme)" *ngFor="let theme of themes" mat-menu-item class="theme-btn"
     style="height: 50px">
     <div class="btnContent">
-      <div
-        [ngStyle]="{ 'background-color': theme.getPreviewColor() }"
-        class="btnColorIcon">
-        <div
-          [ngClass]="{
+      <div [ngStyle]="{ 'background-color': theme.getPreviewColor() }" class="btnColorIcon">
+        <div [ngClass]="{
             checked_true: theme.key === themeService.activeTheme.key,
             checked_false: theme.key !== themeService.activeTheme.key
-          }"
-          class="checked">
-          <mat-icon
-            class="theme-icon"
-            [ngStyle]="{ color: theme.getOnPreviewColor() }">
+          }" class="checked">
+          <mat-icon class="theme-icon" [ngStyle]="{ color: theme.getOnPreviewColor() }">
             {{ theme.icon }}
           </mat-icon>
-          <mat-icon
-            class="theme-icon-checked"
-            [ngStyle]="{ color: theme.getOnPreviewColor() }">
+          <mat-icon class="theme-icon-checked" [ngStyle]="{ color: theme.getOnPreviewColor() }">
             checked
           </mat-icon>
         </div>
@@ -553,33 +371,22 @@
   </button>
 </mat-menu>
 
-<mat-menu
-  #userMenu="matMenu"
-  [overlapTrigger]="false">
+<mat-menu #userMenu="matMenu" [overlapTrigger]="false">
   <div class="mat-menu-inner-box">
     <ng-container arsComposeHost></ng-container>
   </div>
 
   <!-- General Options -->
 
-  <button
-    mat-menu-item
-    *ngIf="isInRouteWithRoles && user && user.role > 0"
-    (click)="navigateToOtherView()"
+  <button mat-menu-item *ngIf="isInRouteWithRoles && user && user.role > 0" (click)="navigateToOtherView()"
     tabindex="0">
-    <mat-icon
-      *ngIf="user && user.role === 3 && userRole !== user.role"
-      class="material-icons-outlined">
+    <mat-icon *ngIf="user && user.role === 3 && userRole !== user.role" class="material-icons-outlined">
       co_present
     </mat-icon>
-    <mat-icon
-      *ngIf="user && user.role === 2 && userRole !== user.role"
-      class="material-icons-round">
+    <mat-icon *ngIf="user && user.role === 2 && userRole !== user.role" class="material-icons-round">
       support_agent
     </mat-icon>
-    <mat-icon
-      *ngIf="userRole === user.role"
-      class="material-icons-outlined">
+    <mat-icon *ngIf="userRole === user.role" class="material-icons-outlined">
       groups_3
     </mat-icon>
     <span *ngIf="userRole === user.role">
@@ -590,85 +397,55 @@
     </span>
   </button>
 
-  <button
-    mat-menu-item
-    *ngIf="isInRouteWithRoles"
-    [matMenuTriggerFor]="profileMenu"
-    class="focus_button"
+  <button mat-menu-item *ngIf="isInRouteWithRoles" [matMenuTriggerFor]="profileMenu" class="focus_button"
     (click)="$event.stopImmediatePropagation()">
     <mat-icon style="color: var(--yellow)">badge</mat-icon>
     <span>{{ "header.my-profile" | translate }}</span>
   </button>
 
-  <button
-    mat-menu-item
-    *ngIf="
+  <button mat-menu-item *ngIf="
       userRole === 0 && !router.url.endsWith('/quiz') && !isInRouteWithRoles
-    "
-    (click)="openUserBonusTokenDialog()"
-    tabindex="0">
+    " (click)="openUserBonusTokenDialog()" tabindex="0">
     <mat-icon class="star material-icons-round">grade</mat-icon>
     <span>{{ "header.user-bonus-token" | translate }}</span>
   </button>
 
-  <button
-    mat-menu-item
-    *ngIf="user && router.url.endsWith('/quiz')"
-    tabindex="0"
-    (click)="navigateQuestionBoard()">
+  <button mat-menu-item *ngIf="user && router.url.endsWith('/quiz')" tabindex="0" (click)="navigateQuestionBoard()">
     <mat-icon class="header-icons material-icons-outlined">forum</mat-icon>
     <span>{{ "header.back-to-questionboard" | translate }}</span>
   </button>
 
-  <button
-    mat-menu-item
-    [matMenuTriggerFor]="themeMenu"
-    (menuOpened)="openMenu()"
-    class="focus_button"
+  <button mat-menu-item [matMenuTriggerFor]="themeMenu" (menuOpened)="openMenu()" class="focus_button"
     (click)="$event.stopImmediatePropagation()">
     <mat-icon>format_color_fill</mat-icon>
     <span>{{ "footer.style" | translate }}</span>
   </button>
 
-  <button
-    mat-menu-item
-    aria-hidden="true"
-    *ngIf="
+  <button mat-menu-item aria-hidden="true" *ngIf="
       !deviceInfo.isSafari &&
       !router.url.includes('home') &&
       !router.url.endsWith('/quiz')
-    "
-    (click)="getRescale().toggleState()">
-    <mat-icon
-      class="fullscreen"
-      (click)="getRescale().toggleState()">
+    " (click)="getRescale().toggleState()">
+    <mat-icon class="fullscreen" (click)="getRescale().toggleState()">
       screenshot_monitor
     </mat-icon>
     <span>{{ "header.fullscreen" | translate }}</span>
   </button>
 
-  <button
-    mat-menu-item
-    *ngIf="
+  <button mat-menu-item *ngIf="
       user &&
       !user.isGuest &&
       user.loginId &&
       userManagementService.getCurrentUser()?.isSuperAdmin &&
       router.url.endsWith('/user')
-    "
-    (click)="routeAdmin()"
-    tabindex="0">
+    " (click)="routeAdmin()" tabindex="0">
     <mat-icon class="color-warn">key</mat-icon>
     <span>{{ "header.open-admin" | translate }}</span>
   </button>
 
-  <button
-    mat-menu-item
-    *ngIf="
+  <button mat-menu-item *ngIf="
       user && !user.isGuest && user.loginId && router.url.endsWith('/user')
-    "
-    (click)="openDeleteUserDialog()"
-    tabindex="0">
+    " (click)="openDeleteUserDialog()" tabindex="0">
     <mat-icon class="color-warn material-icons-outlined">delete</mat-icon>
     <span>{{ "header.delete-account" | translate }}</span>
   </button>
