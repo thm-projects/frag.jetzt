@@ -6,7 +6,11 @@ $dark-solarized-accent: mat.define-palette(mat.$orange-palette, 200);
 $dark-solarized-warn: mat.define-palette(mat.$red-palette, A200);
 
 //$dark-solarized-theme: mat.define-dark-solarized-theme($dark-solarized-primary, $dark-solarized-accent, $dark-solarized-warn);
-$dark-solarized-theme: mat.define-dark-theme($dark-primary, $dark-accent, $dark-warn);
+$dark-solarized-theme: mat.define-dark-theme(
+  $dark-primary,
+  $dark-accent,
+  $dark-warn
+);
 
 a {
   text-decoration: underline;

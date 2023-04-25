@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { GPTEncoder } from 'app/gpt-encoder/GPTEncoder';
 import { GPTPromptPreset } from 'app/models/gpt-prompt-preset';
-import { GptService } from 'app/services/http/gpt.service';
+import { GptService, PropmtPresetAdd } from 'app/services/http/gpt.service';
 import { GptEncoderService } from 'app/services/util/gpt-encoder.service';
 import { NotificationService } from 'app/services/util/notification.service';
 import { SessionService } from 'app/services/util/session.service';
@@ -15,6 +15,11 @@ import {
 } from 'app/utils/quill-utils';
 import { escapeForRegex } from 'app/utils/regex-escape';
 import { ViewCommentDataComponent } from '../view-comment-data/view-comment-data.component';
+import {
+  AVAILABLE_LANGUAGES,
+  LanguageService,
+} from 'app/services/util/language.service';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-chat-gptprompt-preset',
@@ -36,6 +41,12 @@ export class ChatGPTPromptPresetComponent implements OnInit {
   amountOfFoundPrompts = 0;
   filteredPrompts: GPTPromptPreset[] = [];
   isGlobal = false;
+  language: string;
+  temperature = 0.7;
+  presencePenalty = 0;
+  frequencyPenalty = 0;
+  topP = 1;
+  protected languages = AVAILABLE_LANGUAGES;
   private prompts: GPTPromptPreset[];
   private encoder: GPTEncoder;
   private selectedPrompt: GPTPromptPreset;
@@ -48,10 +59,15 @@ export class ChatGPTPromptPresetComponent implements OnInit {
     private gptService: GptService,
     private tranlateService: TranslateService,
     private notificationService: NotificationService,
+    languageService: LanguageService,
   ) {
     encoderService
       .getEncoderOnce()
       .subscribe((encoder) => (this.encoder = encoder));
+    languageService
+      .getLanguage()
+      .pipe(take(1))
+      .subscribe((lang) => (this.language = lang));
   }
 
   ngOnInit(): void {
@@ -66,6 +82,11 @@ export class ChatGPTPromptPresetComponent implements OnInit {
     this.initDelta = QuillUtils.getDeltaFromMarkdown(
       (this.selectedPrompt?.prompt || '') as MarkdownDelta,
     );
+    this.language = prompt.language;
+    this.temperature = prompt.temperature;
+    this.presencePenalty = prompt.presencePenalty;
+    this.frequencyPenalty = prompt.frequencyPenalty;
+    this.topP = prompt.topP;
   }
 
   filterPrompts() {
@@ -210,7 +231,26 @@ export class ChatGPTPromptPresetComponent implements OnInit {
     }
     if (match === 0) {
       const newData = this.getCurrentText();
-      if (newData.localeCompare(this.selectedPrompt.prompt) === 0) {
+      const patch: Partial<PropmtPresetAdd> = {};
+      if (newData.localeCompare(this.selectedPrompt.prompt) !== 0) {
+        patch.prompt = newData;
+      }
+      if (this.language !== this.selectedPrompt.language) {
+        patch.language = this.language;
+      }
+      if (this.temperature !== this.selectedPrompt.temperature) {
+        patch.temperature = this.temperature;
+      }
+      if (this.presencePenalty !== this.selectedPrompt.presencePenalty) {
+        patch.presencePenalty = this.presencePenalty;
+      }
+      if (this.frequencyPenalty !== this.selectedPrompt.frequencyPenalty) {
+        patch.frequencyPenalty = this.frequencyPenalty;
+      }
+      if (this.topP !== this.selectedPrompt.topP) {
+        patch.topP = this.topP;
+      }
+      if (Object.keys(patch).length < 1) {
         this.tranlateService
           .get('chat-gptprompt-preset.no-patch-needed')
           .subscribe((msg) =>
@@ -221,31 +261,33 @@ export class ChatGPTPromptPresetComponent implements OnInit {
           );
         return;
       }
-      this.gptService
-        .patchPrompt(this.selectedPrompt.id, { prompt: newData })
-        .subscribe({
-          next: (data) => {
-            const index = this.prompts.indexOf(this.selectedPrompt);
-            if (index < 0) {
-              this.onError('Index out of bounds');
-              return;
-            }
-            this.prompts[index] = data;
-            this.filterPrompts();
-            this.setValue(data);
-            this.tranlateService
-              .get('chat-gptprompt-preset.patch-success')
-              .subscribe((msg) =>
-                this.notificationService.show(msg, undefined, {
-                  duration: 5000,
-                  panelClass: ['snackbar-valid'],
-                }),
-              );
-          },
-          error: this.onError.bind(this),
-        });
+      this.gptService.patchPrompt(this.selectedPrompt.id, patch).subscribe({
+        next: (data) => {
+          const index = this.prompts.indexOf(this.selectedPrompt);
+          if (index < 0) {
+            this.onError('Index out of bounds');
+            return;
+          }
+          this.prompts[index] = data;
+          this.filterPrompts();
+          this.setValue(data);
+          this.tranlateService
+            .get('chat-gptprompt-preset.patch-success')
+            .subscribe((msg) =>
+              this.notificationService.show(msg, undefined, {
+                duration: 5000,
+                panelClass: ['snackbar-valid'],
+              }),
+            );
+        },
+        error: this.onError.bind(this),
+      });
       return;
-    } else if (this.prompts.some((x) => x.act.localeCompare(term) === 0)) {
+    } else if (
+      this.prompts.some(
+        (x) => x.act.localeCompare(term) === 0 && x.language === this.language,
+      )
+    ) {
       this.tranlateService
         .get('chat-gptprompt-preset.already-present')
         .subscribe((msg) =>
@@ -263,6 +305,11 @@ export class ChatGPTPromptPresetComponent implements OnInit {
       .call(this.gptService, {
         act: term,
         prompt: this.getCurrentText(),
+        language: this.language,
+        temperature: this.temperature,
+        presencePenalty: this.presencePenalty,
+        frequencyPenalty: this.frequencyPenalty,
+        topP: this.topP,
       })
       .subscribe({
         next: (data) => {

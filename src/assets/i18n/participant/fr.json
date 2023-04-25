@@ -300,11 +300,60 @@
     "context-response-length": "Longueur : {{value}}.",
     "context-response-format": "Format : {{value}}.",
     "context-question": "Question :\n\n{{value}}",
+    "selection-none": "En l'absence de sélection, ChatGPT peut avoir une zone de réponse plus large. Cela peut conduire à la génération d'informations non souhaitées.",
+    "tooltip-temperature-disabled": "La variabilité des réponses est prise en compte par l'invite sélectionnée.",
     "choices": {
       "response-format": [
-        { "key": "summary", "text": "Résumé" },
-        { "key": "definition", "text": "Définition" },
-        { "key": "flashcard", "text": "Carte d'apprentissage" }
+        {
+          "key": "short answer",
+          "text": "Réponse courte",
+          "hover": "Réponse brève et concise qui fournit rapidement et facilement des informations."
+        },
+        {
+          "key": "answer as definition",
+          "text": "Réponse comme définition",
+          "hover": "Explication de la signification des termes et concepts pour favoriser la compréhension."
+        },
+        {
+          "key": "answer with examples",
+          "text": "Réponse avec des exemples",
+          "hover": "Application de concepts abstraits à des situations concrètes pour approfondir la compréhension."
+        },
+        {
+          "key": "answer as flashcard",
+          "text": "Réponse comme carte d'apprentissage",
+          "hover": "Instrument de transfert de connaissances et de répétition de faits, définitions, termes ou données."
+        },
+        {
+          "key": "answer as mindmap",
+          "text": "Réponse comme carte mentale",
+          "hover": "Représentation visuelle des informations pour illustrer les liens entre différents concepts et idées."
+        },
+        {
+          "key": "answer as essay",
+          "text": "Réponse sous forme d'essai ou de travail écrit",
+          "hover": "Réponse détaillée aux questions ouvertes pour améliorer les compétences en écriture de textes plus longs."
+        },
+        {
+          "key": "answer as summary",
+          "text": "Réponse comme résumé",
+          "hover": "Aperçu court et concis d'un sujet ou d'un concept spécifique."
+        },
+        {
+          "key": "answer with mc question",
+          "text": "Réponse avec des questions à choix multiples",
+          "hover": " Questions de quiz dans lesquelles l'apprenant doit choisir la bonne réponse parmi une liste d'options afin de tester ses connaissances et de comprendre les liens."
+        },
+        {
+          "key": "answer with sources",
+          "text": "Réponse avec des références de sources",
+          "hover": "Références à des informations supplémentaires pour encourager les apprenants à mener leurs propres recherches."
+        },
+        {
+          "key": "answer with links",
+          "text": "Réponse avec des liens vers des informations supplémentaires",
+          "hover": "Liens et ressources qui donnent aux apprenants accès à des matériaux supplémentaires tels que des vidéos, des graphiques ou des articles pour approfondir la compréhension."
+        }
       ],
       "response-length": {
         "short": "en bref",

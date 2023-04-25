@@ -1,24 +1,56 @@
-<div fxLayout="column" fxLayoutAlign="center center" fxlayoutgap="50px" fxFill>
+<div
+  fxLayout="column"
+  fxLayoutAlign="center center"
+  fxlayoutgap="50px"
+  fxFill>
   <form (ngSubmit)="joinRoom(sessionCode.value)">
-    <div fxLayout.sm="row" fxLayout="column" fxLayoutAlign="center" fxLayoutGap="10px" class="layoutWrapper"
-      [joyrideStep]="'roomJoin'" [stepPosition]="'top'" appJoyrideTemplate>
+    <div
+      fxLayout.sm="row"
+      fxLayout="column"
+      fxLayoutAlign="center"
+      fxLayoutGap="10px"
+      class="layoutWrapper"
+      [joyrideStep]="'roomJoin'"
+      [stepPosition]="'top'"
+      appJoyrideTemplate>
       <mat-form-field>
-        <input id="session_id-input" matInput #sessionCode appAccessibilityEscapedInput type="text" maxlength="30"
-          [formControl]="sessionCodeFormControl" [errorStateMatcher]="matcher" aria-labelledby="join-input-label" />
-        <mat-placeholder class="placeholder">{{ 'home-page.session-id' | translate}}</mat-placeholder>
-        <mat-error *ngIf="sessionCodeFormControl.hasError('required')" aria-hidden="true">{{ 'home-page.please-enter' |
-          translate}}</mat-error>
+        <input
+          id="session_id-input"
+          matInput
+          #sessionCode
+          appAccessibilityEscapedInput
+          type="text"
+          maxlength="30"
+          [formControl]="sessionCodeFormControl"
+          [errorStateMatcher]="matcher"
+          aria-labelledby="join-input-label" />
+        <mat-placeholder class="placeholder">
+          {{ "home-page.session-id" | translate }}
+        </mat-placeholder>
+        <mat-error
+          *ngIf="sessionCodeFormControl.hasError('required')"
+          aria-hidden="true">
+          {{ "home-page.please-enter" | translate }}
+        </mat-error>
       </mat-form-field>
-      <button [disabled]="!sessionService.isReady" id="session_enter-button" mat-flat-button type="submit"
+      <button
+        [disabled]="!sessionService.isReady"
+        id="session_enter-button"
+        mat-flat-button
+        type="submit"
         aria-labelledby="join-button-label">
         <mat-icon class="join-room material-icons">groups_3</mat-icon>
-        {{ 'home-page.join-room' | translate }}
+        {{ "home-page.join-room" | translate }}
       </button>
     </div>
   </form>
 </div>
 
 <div class="visually-hidden">
-  <div id="join-input-label">{{ 'home-page.accessibility-join-input' | translate }}</div>
-  <div id="join-button-label">{{ 'home-page.accessibility-join-button' | translate }}</div>
+  <div id="join-input-label">
+    {{ "home-page.accessibility-join-input" | translate }}
+  </div>
+  <div id="join-button-label">
+    {{ "home-page.accessibility-join-button" | translate }}
+  </div>
 </div>

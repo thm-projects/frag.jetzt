@@ -1,4 +1,11 @@
-import { AfterContentInit, Component, ComponentRef, OnDestroy, OnInit, Renderer2 } from '@angular/core';
+import {
+  AfterContentInit,
+  Component,
+  ComponentRef,
+  OnDestroy,
+  OnInit,
+  Renderer2,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { RoomCreateComponent } from '../../shared/_dialogs/room-create/room-create.component';
@@ -20,7 +27,7 @@ import { SessionService } from '../../../services/util/session.service';
 @Component({
   selector: 'app-user-home',
   templateUrl: './user-home.component.html',
-  styleUrls: ['./user-home.component.scss']
+  styleUrls: ['./user-home.component.scss'],
 })
 export class UserHomeComponent implements OnInit, OnDestroy, AfterContentInit {
   user: User;
@@ -44,8 +51,7 @@ export class UserHomeComponent implements OnInit, OnDestroy, AfterContentInit {
     protected headerService: HeaderService,
     protected composeService: ArsComposeService,
     public sessionService: SessionService,
-  ) {
-  }
+  ) {}
 
   ngAfterContentInit(): void {
     setTimeout(() => {
@@ -54,13 +60,19 @@ export class UserHomeComponent implements OnInit, OnDestroy, AfterContentInit {
   }
 
   ngOnInit() {
-    this.userManagementService.getUser().subscribe(newUser => {
+    this.userManagementService.getUser().subscribe((newUser) => {
       this.user = newUser;
-      if (this.canRate && this.fetchedRating === undefined && this.user !== undefined && this.user !== null) {
+      if (
+        this.fetchedRating === undefined &&
+        this.user !== undefined &&
+        this.user !== null
+      ) {
         this.fetchedRating = null;
-        this.ratingService.getByAccountId(this.user.id).subscribe(r => {
+        this.ratingService.getByAccountId(this.user.id).subscribe((r) => {
           if (r !== null) {
             this.onRate(r);
+          } else if (!this.canRate) {
+            this.onRate(new Rating(this.user.id, 0));
           } else {
             this.loadingRatings = false;
           }
@@ -68,28 +80,42 @@ export class UserHomeComponent implements OnInit, OnDestroy, AfterContentInit {
       }
     });
     this.listenerFn = this._r.listen(document, 'keyup', (event) => {
-      if (KeyboardUtils.isKeyEvent(event, KeyboardKey.Digit1) === true && this.eventService.focusOnInput === false) {
+      if (
+        KeyboardUtils.isKeyEvent(event, KeyboardKey.Digit1) === true &&
+        this.eventService.focusOnInput === false
+      ) {
         document.getElementById('session_id-input').focus();
-      } else if (KeyboardUtils.isKeyEvent(event, KeyboardKey.Digit3) === true && this.eventService.focusOnInput === false) {
+      } else if (
+        KeyboardUtils.isKeyEvent(event, KeyboardKey.Digit3) === true &&
+        this.eventService.focusOnInput === false
+      ) {
         document.getElementById('create_session-button').focus();
       } else if (
-        KeyboardUtils.isKeyEvent(event, KeyboardKey.Escape, KeyboardKey.Digit9) === true && this.eventService.focusOnInput === false
+        KeyboardUtils.isKeyEvent(
+          event,
+          KeyboardKey.Escape,
+          KeyboardKey.Digit9,
+        ) === true &&
+        this.eventService.focusOnInput === false
       ) {
         this.announce();
-      } else if (KeyboardUtils.isKeyEvent(event, KeyboardKey.Escape) === true && this.eventService.focusOnInput === true) {
+      } else if (
+        KeyboardUtils.isKeyEvent(event, KeyboardKey.Escape) === true &&
+        this.eventService.focusOnInput === true
+      ) {
         document.getElementById('session_enter-button').focus();
       }
     });
   }
 
   ngOnDestroy() {
-    this._list?.forEach(e => e.destroy());
+    this._list?.forEach((e) => e.destroy());
     this.listenerFn();
   }
 
   onRate(r: Rating) {
     this.fetchedRating = r;
-    this.ratingService.getRatings().subscribe(ratings => {
+    this.ratingService.getRatings().subscribe((ratings) => {
       this.accumulatedRatings = ratings;
       this.initNavigation();
       this.loadingRatings = false;
@@ -100,21 +126,27 @@ export class UserHomeComponent implements OnInit, OnDestroy, AfterContentInit {
     const lang: string = this.translateService.currentLang;
     this.liveAnnouncer.clear();
     if (lang === 'de') {
-      this.liveAnnouncer.announce('Du befindest dich auf deiner Benutzer-Seite. ' +
-        'Drücke die Taste 1 um einen Raum-Code einzugeben, die Taste 2 um auf das Sitzungs-Menü zu gelangen, ' +
-        'die Taste 3 um eine neue Sitzung zu erstellen, die Taste 0 um zurück zur Startseite zu gelangen, ' +
-        'oder die Taste 9 um diese Ansage zu wiederholen.', 'assertive');
+      this.liveAnnouncer.announce(
+        'Du befindest dich auf deiner Benutzer-Seite. ' +
+          'Drücke die Taste 1 um einen Raum-Code einzugeben, die Taste 2 um auf das Sitzungs-Menü zu gelangen, ' +
+          'die Taste 3 um eine neue Sitzung zu erstellen, die Taste 0 um zurück zur Startseite zu gelangen, ' +
+          'oder die Taste 9 um diese Ansage zu wiederholen.',
+        'assertive',
+      );
     } else {
-      this.liveAnnouncer.announce('You are on your user page.' +
-        'Press 1 to enter a room code, key 2 to enter the session menu, ' +
-        'key 3 to create a new session, key 0 to go back to the start page, ' +
-        'or press the 9 key to repeat this announcement.', 'assertive');
+      this.liveAnnouncer.announce(
+        'You are on your user page.' +
+          'Press 1 to enter a room code, key 2 to enter the session menu, ' +
+          'key 3 to create a new session, key 0 to go back to the start page, ' +
+          'or press the 9 key to repeat this announcement.',
+        'assertive',
+      );
     }
   }
 
   openCreateRoomDialog(): void {
     this.dialog.open(RoomCreateComponent, {
-      width: '350px'
+      width: '350px',
     });
   }
 
@@ -122,23 +154,27 @@ export class UserHomeComponent implements OnInit, OnDestroy, AfterContentInit {
     if (this._list) {
       return;
     }
-    this._list = this.composeService.builder(this.headerService.getHost(), e => {
-      e.menuItem({
-        translate: this.headerService.getTranslate(),
-        icon: 'star',
-        class: 'material-icons-outlined',
-        isSVGIcon: false,
-        text: 'home-page.app-rating',
-        callback: () => {
-          const dialogRef = this.dialog.open(AppRatingComponent);
-          dialogRef.componentInstance.rating = this.fetchedRating;
-          dialogRef.componentInstance.onSuccess = (r: Rating) => {
-            dialogRef.close();
-            this.onRate(r);
-          };
-        },
-        condition: () => this.fetchedRating !== null && this.fetchedRating !== undefined,
-      });
-    });
+    this._list = this.composeService.builder(
+      this.headerService.getHost(),
+      (e) => {
+        e.menuItem({
+          translate: this.headerService.getTranslate(),
+          icon: 'star',
+          class: 'material-icons-outlined',
+          isSVGIcon: false,
+          text: 'home-page.app-rating',
+          callback: () => {
+            const dialogRef = this.dialog.open(AppRatingComponent);
+            dialogRef.componentInstance.rating = this.fetchedRating;
+            dialogRef.componentInstance.onSuccess = (r: Rating) => {
+              dialogRef.close();
+              this.onRate(r);
+            };
+          },
+          condition: () =>
+            this.fetchedRating !== null && this.fetchedRating !== undefined,
+        });
+      },
+    );
   }
 }
