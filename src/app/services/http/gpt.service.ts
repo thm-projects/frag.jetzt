@@ -202,6 +202,11 @@ export type UsageTimeAction = UsageTimeActionDelete | UsageTimeActionAdd;
 interface PropmtPresetAdd {
   act: string;
   prompt: string;
+  language: string;
+  temperature: number;
+  presencePenalty: number;
+  frequencyPenalty: number;
+  topP: number;
 }
 
 export type StreamTextCompletion =

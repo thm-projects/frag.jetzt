@@ -15,6 +15,11 @@ import {
 } from 'app/utils/quill-utils';
 import { escapeForRegex } from 'app/utils/regex-escape';
 import { ViewCommentDataComponent } from '../view-comment-data/view-comment-data.component';
+import {
+  AVAILABLE_LANGUAGES,
+  LanguageService,
+} from 'app/services/util/language.service';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-chat-gptprompt-preset',
@@ -36,6 +41,12 @@ export class ChatGPTPromptPresetComponent implements OnInit {
   amountOfFoundPrompts = 0;
   filteredPrompts: GPTPromptPreset[] = [];
   isGlobal = false;
+  language: string;
+  temperature = 0.7;
+  presencePenalty = 0;
+  frequencyPenalty = 0;
+  topP = 1;
+  protected languages = AVAILABLE_LANGUAGES;
   private prompts: GPTPromptPreset[];
   private encoder: GPTEncoder;
   private selectedPrompt: GPTPromptPreset;
@@ -48,10 +59,15 @@ export class ChatGPTPromptPresetComponent implements OnInit {
     private gptService: GptService,
     private tranlateService: TranslateService,
     private notificationService: NotificationService,
+    languageService: LanguageService,
   ) {
     encoderService
       .getEncoderOnce()
       .subscribe((encoder) => (this.encoder = encoder));
+    languageService
+      .getLanguage()
+      .pipe(take(1))
+      .subscribe((lang) => (this.language = lang));
   }
 
   ngOnInit(): void {
@@ -209,6 +225,7 @@ export class ChatGPTPromptPresetComponent implements OnInit {
       return;
     }
     if (match === 0) {
+      //TODO: Check if update neccessary, lang, ...
       const newData = this.getCurrentText();
       if (newData.localeCompare(this.selectedPrompt.prompt) === 0) {
         this.tranlateService
@@ -263,6 +280,11 @@ export class ChatGPTPromptPresetComponent implements OnInit {
       .call(this.gptService, {
         act: term,
         prompt: this.getCurrentText(),
+        language: this.language,
+        temperature: this.temperature,
+        presencePenalty: this.presencePenalty,
+        frequencyPenalty: this.frequencyPenalty,
+        topP: this.topP,
       })
       .subscribe({
         next: (data) => {
