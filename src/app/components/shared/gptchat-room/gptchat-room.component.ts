@@ -695,7 +695,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
       (e) => {
         e.menuItem({
           translate: this.headerService.getTranslate(),
-          icon: 'school',
+          icon: 'question_mark',
           class: 'material-icons-outlined',
           text: 'header.prompt-explanation',
           callback: () => this.showPromptExplanation(),
