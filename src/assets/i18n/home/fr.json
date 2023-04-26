@@ -277,6 +277,7 @@
     "preset-context": "Contexte",
     "preset-topic": "Sujet",
     "preset-length": "Longueur",
+    "gpt-feedback": "Ton commentaire",
     "chat-answer-format": "Format de réponse",
     "question-board": "Forum de questions-réponses",
     "question-wall": "Présenter les questions",

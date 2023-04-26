@@ -274,6 +274,13 @@
     "topic-cloud": "## Radar à questions \n\n Si tu veux garder un œil sur toutes les questions, tu as besoin d'une sorte de « radar ». Notre radar localise les questions et les réponses à l'aide de leurs mots-clés : plus il y a de questions et de réponses qui se rapportent à un mot-clé, plus le mot-clé apparaît grand et central sur le radar.\n\n Le radar à questions te sert de **navigateur** : Si tu cliques sur un mot, tu accèderas aux questions et réponses liées à ce mot-clé. \n\n Les mots-clés sont déterminés en temps réel à l'aide d'une analyse grammaticale des noms ou ont été déterminés par l'auteur. \n\n Le calcul de la taille du texte prend en compte:\n\n* la différence entre les votes ascendants et descendants, si elle est positive,\n* le nombre de questions avec ce mot-clé,\n* le nombre d'auteurs de questions avec ce mot-clé,\n* le rôle : créateur de salle, modérateur ou participant,\n* si une catégorie de questions a été choisie,\n* si le mot-clé a été généré ou attribué,\n* si la question a reçu une réponse,\n* la controversité de la question. \n\nTu peux personnaliser la visualisation à ton goût.  Dans le rôle de créateur ou de modérateur de salle, tu peux expérimenter avec les paramètres de la génération de mots-clés pour améliorer la **sélectivité sémantique**.",
     "user-bonus": "L'enseignant peut marquer les « bonnes » questions avec un bonus. Tes questions de tous les cours (salles) qui ont reçu une étoile sont listées ici.\n\nSelon l'accord, tu peux envoyer le code bonus par e-mail à l'enseignant pour l'échanger contre un bonus."
   },
+  "gptrating": {
+    "title": "Évaluation de ChatGPT dans frag.jetzt",
+    "input": "Saisis ici tes commentaires …",
+    "placeholder": "Est-ce que tu as eu des problèmes ? Qu'est-ce qui t'a plu ?",
+    "send": "Envoyer",
+    "cancel": "Annuler"
+  },
   "gpt-chat": {
     "answer-format": {
       "disabled": "Désactivé",

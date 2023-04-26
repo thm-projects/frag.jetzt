@@ -36,6 +36,7 @@
     "next": "Next",
     "previous": "Back",
     "save": "Save",
+    "add-code": "Add Code",
     "end": "Ende",
     "header-settings": "GPT API settings",
     "header-restrictions": "GPT API Restriction",
@@ -55,7 +56,7 @@
     "activation-code": "Study activation code (≥ 8 characters)",
     "activation-max-cost": "Study cost per month",
     "activation-used": "Code was redeemed",
-    "activation-info": "{{code}}: ({{maxCost}}$ / Month)",
+    "activation-info": "{{code}}: ({{maxCost}}$ / Month, Counter: {{current}}$)",
     "help-activation-codes": "Here activation codes for the study can be viewed, created and deleted."
   },
   "gpt-chat": {

@@ -11,6 +11,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { DateAdapter } from '@angular/material/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
+import { GPTActivationCode } from 'app/models/gpt-configuration';
 import { GPTRoomSetting, GPTRoomUsageTime } from 'app/models/gpt-room-setting';
 import { Room } from 'app/models/room';
 import { UserRole } from 'app/models/user-roles.enum';
@@ -59,12 +60,15 @@ export class GptRoomSettingsComponent implements OnInit, OnDestroy {
   apiOrganization: string = null;
   maxDailyRoomCost: number = null;
   maxMonthlyRoomCost: number = null;
+  maxMonthlyFlowingRoomCost: number = null;
   maxAccumulatedRoomCost: number = null;
   maxDailyParticipantCost: number = null;
   maxMonthlyParticipantCost: number = null;
+  maxMonthlyFlowingParticipantCost: number = null;
   maxAccumulatedParticipantCost: number = null;
   maxDailyModeratorCost: number = null;
   maxMonthlyModeratorCost: number = null;
+  maxMonthlyFlowingModeratorCost: number = null;
   maxAccumulatedModeratorCost: number = null;
   canChangeParticipantQuota: boolean = false;
   canChangeModeratorQuota: boolean = false;
@@ -84,6 +88,7 @@ export class GptRoomSettingsComponent implements OnInit, OnDestroy {
   endDate: Date;
   dateRange: FormGroup;
   possibleRepeatUnits = Object.keys(UsageRepeatUnit);
+  protected activatedCode: GPTActivationCode = null;
   private previousSetting: GPTRoomSetting;
   private destroyer = new ReplaySubject(1);
   private intlRangeDescription: Intl.DateTimeFormat;
@@ -139,21 +144,31 @@ export class GptRoomSettingsComponent implements OnInit, OnDestroy {
         this.isLoading = false;
         this.previousSetting = setting;
         this.usageTimes = [...setting.usageTimes];
+        this.activatedCode = setting.trialCode;
         this.trialEnabled = setting.trialEnabled;
         this.apiKey = setting.apiKey;
         this.apiOrganization = setting.apiOrganization;
         this.maxDailyRoomCost = verify(setting.maxDailyRoomCost);
         this.maxMonthlyRoomCost = verify(setting.maxMonthlyRoomCost);
+        this.maxMonthlyFlowingRoomCost = verify(
+          setting.maxMonthlyFlowingRoomCost,
+        );
         this.maxAccumulatedRoomCost = verify(setting.maxAccumulatedRoomCost);
         this.maxDailyParticipantCost = verify(setting.maxDailyParticipantCost);
         this.maxMonthlyParticipantCost = verify(
           setting.maxMonthlyParticipantCost,
+        );
+        this.maxMonthlyFlowingParticipantCost = verify(
+          setting.maxMonthlyFlowingParticipantCost,
         );
         this.maxAccumulatedParticipantCost = verify(
           setting.maxAccumulatedParticipantCost,
         );
         this.maxDailyModeratorCost = verify(setting.maxDailyModeratorCost);
         this.maxMonthlyModeratorCost = verify(setting.maxMonthlyModeratorCost);
+        this.maxMonthlyFlowingModeratorCost = verify(
+          setting.maxMonthlyFlowingModeratorCost,
+        );
         this.maxAccumulatedModeratorCost = verify(
           setting.maxAccumulatedModeratorCost,
         );
@@ -278,6 +293,10 @@ export class GptRoomSettingsComponent implements OnInit, OnDestroy {
         if (cost !== this.previousSetting.maxMonthlyRoomCost) {
           patch.maxMonthlyRoomCost = cost;
         }
+        cost = verify(this.maxMonthlyFlowingRoomCost);
+        if (cost !== this.previousSetting.maxMonthlyFlowingRoomCost) {
+          patch.maxMonthlyFlowingRoomCost = cost;
+        }
         cost = verify(this.maxAccumulatedRoomCost);
         if (cost !== this.previousSetting.maxAccumulatedRoomCost) {
           patch.maxAccumulatedRoomCost = cost;
@@ -290,6 +309,10 @@ export class GptRoomSettingsComponent implements OnInit, OnDestroy {
         if (cost !== this.previousSetting.maxMonthlyParticipantCost) {
           patch.maxMonthlyParticipantCost = cost;
         }
+        cost = verify(this.maxMonthlyFlowingParticipantCost);
+        if (cost !== this.previousSetting.maxMonthlyFlowingParticipantCost) {
+          patch.maxMonthlyFlowingParticipantCost = cost;
+        }
         cost = verify(this.maxAccumulatedParticipantCost);
         if (cost !== this.previousSetting.maxAccumulatedParticipantCost) {
           patch.maxAccumulatedParticipantCost = cost;
@@ -301,6 +324,10 @@ export class GptRoomSettingsComponent implements OnInit, OnDestroy {
         cost = verify(this.maxMonthlyModeratorCost);
         if (cost !== this.previousSetting.maxMonthlyModeratorCost) {
           patch.maxMonthlyModeratorCost = cost;
+        }
+        cost = verify(this.maxMonthlyFlowingModeratorCost);
+        if (cost !== this.previousSetting.maxMonthlyFlowingModeratorCost) {
+          patch.maxMonthlyFlowingModeratorCost = cost;
         }
         cost = verify(this.maxAccumulatedModeratorCost);
         if (cost !== this.previousSetting.maxAccumulatedModeratorCost) {

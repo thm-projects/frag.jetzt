@@ -744,12 +744,24 @@
     "update-description": "Speichert die Änderungen",
     "words-will-be-overwritten": "Vulgäre Wörter werden mit ★★★★ überschrieben."
   },
+  "gptrating": {
+    "title": "Bewertung zu ChatGPT in frag.jetzt",
+    "input": "Gib hier dein Feedback ein …",
+    "placeholder": "Gab es Probleme? Was hat dir gefallen?",
+    "send": "Abschicken",
+    "cancel": "Abbrechen"
+  },
   "gpt-room-settings": {
     "quota-management": "Kontingentverwaltung",
     "title": "ChatGPT-Einstellungen",
     "trial-info": "Ich nehme an der kostenlosen Evaluationsstudie der THM »ChatGPT in der Lehre« teil:",
     "trial-code": "Ich habe folgenden Aktivierungscode vom frag.jetzt-Team erhalten:",
     "trial-enabled": "Perfekt: Du nimmst an der Evaluationsstudie teil.",
+    "trial-activated-info": "Durch die Evaluationsstudie besitzt du {{quota}}$ pro Monat. Diesen Monat wurden bereits {{counter}}$ verwendet.",
+    "rest-flow-description": "Das fluide Kontingent funktioniert anders als andere Kontingente. Jeden Tag wird ein Teil des Kontingents freigegeben. Bei einem Kontingent von 20$ zum Beispiel sind am 2. Januar 20$ * 2 / 31, also etwa 1,29$, verfügbar.",
+    "rest-room-flow-month": "Monatlich fliessende Kostenbegrenzung",
+    "rest-mod-flow-month": "Monatlich fliessende Kostenbegrenzung",
+    "rest-part-flow-month": "Monatlich fliessende Kostenbegrenzung",
     "own-openai-api-key": "ich nehme nicht an der Studie teil, sondern verwende meinen eigenen API-Key von OpenAI:",
     "own-openai-info": "Falls die Evaluationsstudie aktiv ist, wird trotzdem über das eigene OpenAI-Konto abgerechnet. Alle Angaben in US-Dollar.",
     "api-key": "OpenAI API Key (beginnt mit sk- …)",

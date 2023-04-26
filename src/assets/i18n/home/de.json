@@ -237,6 +237,7 @@
     "preset-context": "Kontext",
     "preset-topic": "Themen",
     "preset-length": "Länge",
+    "gpt-feedback": "Dein Feedback",
     "chat-answer-format": "Antwortformat",
     "delete": "Ja",
     "delete-account": "Konto löschen",

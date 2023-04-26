@@ -137,10 +137,11 @@
             <mat-icon>check</mat-icon>
           </button>
         </mat-form-field>
-        <mat-form-field>
+        <mat-form-field class="flex-text">
           <mat-label>
             {{ "gpt-config.activation-max-cost" | translate }}
           </mat-label>
+          <span matTextPrefix>$&nbsp;</span>
           <input
             #inputCheck
             matInput
@@ -152,6 +153,14 @@
             inputmode="numeric"
             [(ngModel)]="activationMaxCost" />
         </mat-form-field>
+        <button
+          mat-button
+          [disabled]="!isValid()"
+          style="width: 100%; margin-top: 0"
+          class="secondary-btn"
+          (click)="addActivationCode()">
+          {{ "gpt-config.add-code" | translate }}
+        </button>
         <mat-list>
           <mat-list-item
             class="stop-item"
@@ -162,6 +171,7 @@
                   | translate
                     : {
                         code: item.code,
+                        current: (item.costCounter.toPlain(2) / 100).toFixed(2),
                         maxCost: (item.maximalCost.toPlain(2) / 100).toFixed(2)
                       }
               }}

@@ -1,0 +1,29 @@
+<h3>{{ "gptrating.title" | translate }}</h3>
+
+<mat-dialog-content>
+  <div
+    (mouseleave)="onMouseLeave()"
+    class="star-container">
+    <mat-icon
+      *ngFor="let index of [0, 1, 2, 3, 4]"
+      class="material-icons-outlined interactive"
+      [ngClass]="getIcon(index)"
+      (click)="onClick(index, $event)"
+      (mousemove)="onMouseMove(index, $event)">
+      {{ getIcon(index) }}
+    </mat-icon>
+  </div>
+  <mat-form-field style="width: 100%">
+    <mat-label>{{ "gptrating.input" | translate }}</mat-label>
+    <textarea
+      [(ngModel)]="text"
+      matInput
+      [placeholder]="'gptrating.placeholder' | translate"></textarea>
+  </mat-form-field>
+</mat-dialog-content>
+
+<app-dialog-action-buttons
+  [buttonsLabelSection]="'gptrating'"
+  [confirmButtonLabel]="'send'"
+  [cancelButtonClickAction]="onCancel"
+  [confirmButtonClickAction]="onSubmit"></app-dialog-action-buttons>
