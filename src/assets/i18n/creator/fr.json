@@ -739,12 +739,24 @@
     "update-description": "Enregistre les modifications.",
     "words-will-be-overwritten": "Les mots vulgaires sont remplacés par ★★★★."
   },
+  "gptrating": {
+    "title": "Évaluation de ChatGPT dans frag.jetzt",
+    "input": "Saisis ici tes commentaires …",
+    "placeholder": "Est-ce que tu as eu des problèmes ? Qu'est-ce qui t'a plu ?",
+    "send": "Envoyer",
+    "cancel": "Annuler"
+  },
   "gpt-room-settings": {
     "quota-management": "Gestion des quotas",
     "title": "Paramètres de ChatGPT",
     "trial-info": "Je participe à l'étude d'évaluation gratuite de THM « ChatGPT dans l'enseignement » :",
     "trial-code": "J'ai reçu le code d'activation suivant de l'équipe frag.jetzt :",
     "trial-enabled": "Parfait : Vous participez à l'étude d'évaluation.",
+    "trial-activated-info": "Grâce à l'étude d'évaluation, tu possèdes {{quota}}$ par mois. Ce mois-ci, {{counter}}$ a déjà été utilisé.",
+    "rest-flow-description": "Le contingent fluide fonctionne différemment des autres contingents. Chaque jour, une partie du contingent est libérée. Par exemple, pour un contingent de 20 $, 20 $ * 2 / 31, soit environ 1,29 $, sont disponibles le 2 janvier.",
+    "rest-room-flow-month": "Limitation des coûts mensuels fluides",
+    "rest-mod-flow-month": "Limitation des coûts mensuels fluides",
+    "rest-part-flow-month": "Limitation des coûts mensuels fluides",
     "own-openai-api-key": "Utilisez ChatGPT avec votre propre clé API d'OpenAI :",
     "own-openai-info": "Si l'étude d'évaluation est active, la facturation se fera toujours via votre propre compte OpenAI. Tous les montants en dollars américains.",
     "api-key": "OpenAI API Key (commence par sk- …)",

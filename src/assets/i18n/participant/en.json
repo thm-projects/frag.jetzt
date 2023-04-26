@@ -274,6 +274,13 @@
     "topic-cloud": "## Question radar \n\n If you want to keep track of all questions, you need a kind of \"radar\". Our radar locates questions and answers by their keywords: The more questions and answers refer to a keyword, the larger and more central the keyword appears on the radar.\n\n The question radar serves you as a **navigator**: Clicking on a word will take you to the questions and answers related to that keyword. \n\n The keywords are determined in real time by means of a grammatical analysis of the nouns or were determined by the author. \n The calculation of the font size includes:\n\n* the difference between up- and down-votes, if positive,\n* the number of questions with this keyword,\n* the number of question creators with this keyword,\n* the role: room creator, moderator, or participant,\n* whether a question category was selected,\n* whether the keyword was generated or assigned,\n* whether the question was answered,\n* the controversiality of the question. \n\nYou can customize the visualization to your liking.  In the role of room creator or moderator, you can experiment with the parameters of the keyword generation to improve the **semantic selectivity**.",
     "user-bonus": "The teacher can mark »good« questions for a bonus. Your questions from all courses (rooms) that have received a star will be listed here.\n\nDepending on the agreement, you can email the code of the star to the teacher to redeem it for a bonus."
   },
+  "gptrating": {
+    "title": "Rating to ChatGPT in frag.jetzt",
+    "input": "Enter your feedback here …",
+    "placeholder": "Were there any problems? What did you like?",
+    "send": "Send",
+    "cancel": "Cancel"
+  },
   "gpt-chat": {
     "answer-format": {
       "disabled": "Disabled",

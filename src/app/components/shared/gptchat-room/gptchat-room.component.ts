@@ -72,6 +72,7 @@ import { ComponentEvent, sendAwaitingEvent } from 'app/utils/component-events';
 import { Comment } from 'app/models/comment';
 import { GPTPresetTopicsDialogComponent } from '../_dialogs/gptpreset-topics-dialog/gptpreset-topics-dialog.component';
 import { GptPromptExplanationComponent } from '../_dialogs/gpt-prompt-explanation/gpt-prompt-explanation.component';
+import { GPTRatingDialogComponent } from '../_dialogs/gptrating-dialog/gptrating-dialog.component';
 
 interface ConversationEntry {
   type: 'human' | 'gpt' | 'system';
@@ -374,7 +375,17 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
           return this.commentService.addComment(comment);
         }),
       )
-      .subscribe(() => this.router.navigate([url]));
+      .subscribe(() =>
+        GPTRatingDialogComponent.open(this.dialog, this.gptService).subscribe({
+          next: (ref) => {
+            if (!ref) {
+              this.router.navigate([url]);
+            } else {
+              ref.afterClosed().subscribe(() => this.router.navigate([url]));
+            }
+          },
+        }),
+      );
   }
 
   copyMarkdown(index: number) {
@@ -756,6 +767,19 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
             }
             this.lengthSubMenu._allItems.get(index).focus();
           },
+        });
+        e.menuItem({
+          translate: this.headerService.getTranslate(),
+          icon: 'feedback',
+          class: 'material-icons-outlined',
+          text: 'header.gpt-feedback',
+          callback: () =>
+            GPTRatingDialogComponent.open(
+              this.dialog,
+              this.gptService,
+              true,
+            ).subscribe(),
+          condition: () => true,
         });
       },
     );

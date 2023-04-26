@@ -1,4 +1,5 @@
-import { verifyInstance } from 'app/utils/ts-utils';
+import { FieldsOf, verifyInstance } from 'app/utils/ts-utils';
+import { GPTActivationCode } from './gpt-configuration';
 
 export enum UsageRepeatUnit {
   HOUR = 'HOUR',
@@ -28,7 +29,7 @@ export class GPTRoomUsageTime {
     endDate = null,
     createdAt = new Date(),
     updatedAt = null,
-  }: GPTRoomUsageTime) {
+  }: FieldsOf<GPTRoomUsageTime>) {
     this.id = id;
     this.settingId = settingId;
     this.repeatDuration = repeatDuration;
@@ -48,12 +49,15 @@ export class GPTRoomSetting {
   trialEnabled: boolean;
   maxDailyRoomCost: number | null;
   maxMonthlyRoomCost: number | null;
+  maxMonthlyFlowingRoomCost: number | null;
   maxAccumulatedRoomCost: number | null;
   maxDailyParticipantCost: number | null;
   maxMonthlyParticipantCost: number | null;
+  maxMonthlyFlowingParticipantCost: number | null;
   maxAccumulatedParticipantCost: number | null;
   maxDailyModeratorCost: number | null;
   maxMonthlyModeratorCost: number | null;
+  maxMonthlyFlowingModeratorCost: number | null;
   maxAccumulatedModeratorCost: number | null;
   // stats
   dailyQuotaCounter: number;
@@ -72,6 +76,7 @@ export class GPTRoomSetting {
   updatedAt: Date | null;
   // additional transient
   usageTimes: GPTRoomUsageTime[];
+  trialCode: GPTActivationCode;
   // presets
   presetContext: string;
   presetPersonaCreator: string;
@@ -89,12 +94,15 @@ export class GPTRoomSetting {
     trialEnabled = false,
     maxDailyRoomCost = null,
     maxMonthlyRoomCost = null,
+    maxMonthlyFlowingRoomCost = null,
     maxAccumulatedRoomCost = null,
     maxDailyParticipantCost = null,
     maxMonthlyParticipantCost = null,
+    maxMonthlyFlowingParticipantCost = null,
     maxAccumulatedParticipantCost = null,
     maxDailyModeratorCost = null,
     maxMonthlyModeratorCost = null,
+    maxMonthlyFlowingModeratorCost = null,
     maxAccumulatedModeratorCost = null,
     dailyQuotaCounter = 0,
     monthlyQuotaCounter = 0,
@@ -108,6 +116,7 @@ export class GPTRoomSetting {
     createdAt = new Date(),
     updatedAt = null,
     usageTimes = [],
+    trialCode = null,
     presetContext = '',
     presetPersonaCreator = '',
     presetPersonaModerator = '',
@@ -115,7 +124,7 @@ export class GPTRoomSetting {
     presetLanguage = '',
     presetFormal = null,
     presetLength = '',
-  }: GPTRoomSetting) {
+  }: FieldsOf<GPTRoomSetting>) {
     this.id = id;
     this.roomId = roomId;
     this.apiKey = apiKey;
@@ -123,12 +132,15 @@ export class GPTRoomSetting {
     this.trialEnabled = trialEnabled;
     this.maxDailyRoomCost = maxDailyRoomCost;
     this.maxMonthlyRoomCost = maxMonthlyRoomCost;
+    this.maxMonthlyFlowingRoomCost = maxMonthlyFlowingRoomCost;
     this.maxAccumulatedRoomCost = maxAccumulatedRoomCost;
     this.maxDailyParticipantCost = maxDailyParticipantCost;
     this.maxMonthlyParticipantCost = maxMonthlyParticipantCost;
+    this.maxMonthlyFlowingParticipantCost = maxMonthlyFlowingParticipantCost;
     this.maxAccumulatedParticipantCost = maxAccumulatedParticipantCost;
     this.maxDailyModeratorCost = maxDailyModeratorCost;
     this.maxMonthlyModeratorCost = maxMonthlyModeratorCost;
+    this.maxMonthlyFlowingModeratorCost = maxMonthlyFlowingModeratorCost;
     this.maxAccumulatedModeratorCost = maxAccumulatedModeratorCost;
     this.dailyQuotaCounter = dailyQuotaCounter;
     this.monthlyQuotaCounter = monthlyQuotaCounter;
@@ -144,6 +156,7 @@ export class GPTRoomSetting {
     this.usageTimes = usageTimes.map((time) =>
       verifyInstance(GPTRoomUsageTime, time),
     );
+    this.trialCode = verifyInstance(GPTActivationCode, trialCode);
     this.presetContext = presetContext;
     this.presetPersonaCreator = presetPersonaCreator;
     this.presetPersonaModerator = presetPersonaModerator;

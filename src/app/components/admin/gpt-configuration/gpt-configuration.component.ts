@@ -109,6 +109,12 @@ export class GptConfigurationComponent implements OnInit, OnDestroy {
           value: Math.round(this.activationMaxCost * 100),
           exponent: 2,
         }),
+        costCounter: new GPTQuotaUnit({
+          value: 0,
+          exponent: 8,
+        }),
+        activatedRoomId: null,
+        lastUse: null,
       }),
     );
     this.activationCode = '';
