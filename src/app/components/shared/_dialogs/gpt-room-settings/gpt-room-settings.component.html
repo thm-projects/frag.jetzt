@@ -486,6 +486,11 @@
   <ng-container *ngIf="isOwner">
     <br />
     <br />
+    <h2>{{ "gpt-room-settings.general-rights" | translate }}</h2>
+    <mat-slide-toggle [(ngModel)]="allowsUnregisteredUsers">
+      {{ "gpt-room-settings.general-right-unregistered" | translate }}
+    </mat-slide-toggle>
+    <br />
     <h2>{{ "gpt-room-settings.moderator-rights" | translate }}</h2>
     <mat-slide-toggle [(ngModel)]="canChangeParticipantQuota">
       {{ "gpt-room-settings.mod-right-part-quota" | translate }}

@@ -50,6 +50,7 @@ export class ChatGPTPromptPresetComponent implements OnInit {
   private prompts: GPTPromptPreset[];
   private encoder: GPTEncoder;
   private selectedPrompt: GPTPromptPreset;
+  private startLanguage: string;
 
   constructor(
     protected sessionService: SessionService,
@@ -67,7 +68,10 @@ export class ChatGPTPromptPresetComponent implements OnInit {
     languageService
       .getLanguage()
       .pipe(take(1))
-      .subscribe((lang) => (this.language = lang));
+      .subscribe((lang) => {
+        this.startLanguage = lang;
+        this.language = lang;
+      });
   }
 
   ngOnInit(): void {
@@ -82,11 +86,11 @@ export class ChatGPTPromptPresetComponent implements OnInit {
     this.initDelta = QuillUtils.getDeltaFromMarkdown(
       (this.selectedPrompt?.prompt || '') as MarkdownDelta,
     );
-    this.language = prompt.language;
-    this.temperature = prompt.temperature;
-    this.presencePenalty = prompt.presencePenalty;
-    this.frequencyPenalty = prompt.frequencyPenalty;
-    this.topP = prompt.topP;
+    this.language = prompt?.language || this.startLanguage;
+    this.temperature = prompt?.temperature || 0.7;
+    this.presencePenalty = prompt?.presencePenalty || 0;
+    this.frequencyPenalty = prompt?.frequencyPenalty || 0;
+    this.topP = prompt?.topP || 1;
   }
 
   filterPrompts() {
@@ -229,6 +233,9 @@ export class ChatGPTPromptPresetComponent implements OnInit {
         );
       return;
     }
+    const hasSimilarElement = this.prompts.some(
+      (x) => x.act.localeCompare(term) === 0 && x.language === this.language,
+    );
     if (match === 0) {
       const newData = this.getCurrentText();
       const patch: Partial<PropmtPresetAdd> = {};
@@ -236,6 +243,17 @@ export class ChatGPTPromptPresetComponent implements OnInit {
         patch.prompt = newData;
       }
       if (this.language !== this.selectedPrompt.language) {
+        if (hasSimilarElement) {
+          this.tranlateService
+            .get('chat-gptprompt-preset.already-present')
+            .subscribe((msg) =>
+              this.notificationService.show(msg, undefined, {
+                duration: 12000,
+                panelClass: ['snackbar-invalid'],
+              }),
+            );
+          return;
+        }
         patch.language = this.language;
       }
       if (this.temperature !== this.selectedPrompt.temperature) {
@@ -283,11 +301,7 @@ export class ChatGPTPromptPresetComponent implements OnInit {
         error: this.onError.bind(this),
       });
       return;
-    } else if (
-      this.prompts.some(
-        (x) => x.act.localeCompare(term) === 0 && x.language === this.language,
-      )
-    ) {
+    } else if (hasSimilarElement) {
       this.tranlateService
         .get('chat-gptprompt-preset.already-present')
         .subscribe((msg) =>

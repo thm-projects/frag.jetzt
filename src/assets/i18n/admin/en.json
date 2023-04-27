@@ -148,7 +148,7 @@
     "an-error-occured": "Something has gone wrong!",
     "delete-success": "Prompt was removed.",
     "add-success": "Prompt was added.",
-    "already-present": "Prompt already exists, please change the name. Or select the appropriate prompt.",
+    "already-present": "Prompt already exists, please change the name or the language. Or select the appropriate prompt.",
     "patch-success": "Changes have been saved.",
     "no-patch-needed": "No changes have been made.",
     "no-prompt-selected": "No prompt was selected.",

@@ -189,4 +189,8 @@ export class GPTRoomSetting {
   canChangeApiSettings(): boolean {
     return ((this.rightsBitset >>> 5) & 1) > 0;
   }
+
+  allowsUnregisteredUsers(): boolean {
+    return ((this.rightsBitset >>> 6) & 1) > 0;
+  }
 }
