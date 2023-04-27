@@ -775,6 +775,8 @@
     "rest-part-day": "Limitation des coûts quotidiens",
     "rest-wrong": "Une limite de coûts ne correspond pas à un chiffre valide. (chiffre avec deux décimales)",
     "deactivated": "Le propriétaire de la salle n'autorise aucun changement.",
+    "general-rights": "Droits généraux",
+    "general-right-unregistered": "Autoriser les utilisateurs non enregistrés",
     "moderator-rights": "Droits des modérateurs",
     "mod-right-part-quota": "Modifier le quota des participants",
     "mod-right-mod-quota": "Modifier le quota des modérateurs",

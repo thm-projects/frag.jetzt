@@ -148,7 +148,7 @@
     "an-error-occured": "Quelque chose a mal tourné !",
     "delete-success": "Prompt a été supprimé.",
     "add-success": "Prompt a été ajouté.",
-    "already-present": "Le prompt existe déjà, modifie son nom. Ou sélectionne le prompt correspondant.",
+    "already-present": "Le prompt existe déjà, modifie son nom ou sa langue. Ou sélectionne le prompt correspondant.",
     "patch-success": "Les modifications ont été enregistrées.",
     "no-patch-needed": "Aucune modification n'a été apportée.",
     "no-prompt-selected": "Aucune invite n'a été sélectionnée.",

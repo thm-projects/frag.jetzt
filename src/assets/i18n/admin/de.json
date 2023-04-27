@@ -148,7 +148,7 @@
     "an-error-occured": "Etwas ist schiefgelaufen!",
     "delete-success": "Prompt wurde entfernt.",
     "add-success": "Prompt wurde hinzugefügt.",
-    "already-present": "Prompt existiert bereits, bitte ändere den Namen. Oder wähle den entsprechenden Prompt aus.",
+    "already-present": "Prompt existiert bereits, bitte ändere den Namen oder die Sprache. Oder wähle den entsprechenden Prompt aus.",
     "patch-success": "Änderungen wurden gespeichert.",
     "no-patch-needed": "Es wurden keine Änderungen vorgenommen.",
     "no-prompt-selected": "Es wurde kein Prompt ausgewählt.",

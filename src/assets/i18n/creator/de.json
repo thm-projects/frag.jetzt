@@ -780,6 +780,8 @@
     "rest-part-day": "Tägliche Kostenbegrenzung",
     "rest-wrong": "Eine Kostenbegrenzung entspricht nicht einer gültigen Zahl. (Zahl mit zwei Nachkommastellen)",
     "deactivated": "Rauminhabender*in erlaubt keine Änderungen.",
+    "general-rights": "Allgemeine Rechte",
+    "general-right-unregistered": "Unregistrierte Nutzer zulassen",
     "moderator-rights": "Moderatorenrechte",
     "mod-right-part-quota": "Ändern des Teilnehmerkontingents",
     "mod-right-mod-quota": "Ändern des Moderatorenkontingents",

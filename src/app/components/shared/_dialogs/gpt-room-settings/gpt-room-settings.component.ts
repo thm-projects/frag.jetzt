@@ -76,6 +76,7 @@ export class GptRoomSettingsComponent implements OnInit, OnDestroy {
   canChangePreset: boolean = false;
   canChangeUsageTimes: boolean = false;
   canChangeApiSettings: boolean = false;
+  allowsUnregisteredUsers: boolean = false;
   usageTimes: UsageTime[] = [];
   // only ng model variables
   trialCode: string = '';
@@ -178,6 +179,7 @@ export class GptRoomSettingsComponent implements OnInit, OnDestroy {
         this.canChangePreset = setting.canChangePreset();
         this.canChangeUsageTimes = setting.canChangeUsageTimes();
         this.canChangeApiSettings = setting.canChangeApiSettings();
+        this.allowsUnregisteredUsers = setting.allowsUnregisteredUsers();
       },
     });
   }
@@ -351,6 +353,9 @@ export class GptRoomSettingsComponent implements OnInit, OnDestroy {
         }
         if (this.canChangeApiSettings) {
           rights |= 0x1 << 5;
+        }
+        if (this.allowsUnregisteredUsers) {
+          rights |= 0x1 << 6;
         }
         if (rights !== this.previousSetting.rightsBitset) {
           patch.rightsBitset = rights;
