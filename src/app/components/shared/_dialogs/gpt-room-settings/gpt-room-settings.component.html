@@ -490,6 +490,12 @@
     <mat-slide-toggle [(ngModel)]="allowsUnregisteredUsers">
       {{ "gpt-room-settings.general-right-unregistered" | translate }}
     </mat-slide-toggle>
+    <mat-slide-toggle [(ngModel)]="disableEnhancedPrompt">
+      {{ "gpt-room-settings.general-disable-enhanced-prompt" | translate }}
+    </mat-slide-toggle>
+    <mat-slide-toggle [(ngModel)]="disableForwardMessage">
+      {{ "gpt-room-settings.general-disable-forward-message" | translate }}
+    </mat-slide-toggle>
     <br />
     <h2>{{ "gpt-room-settings.moderator-rights" | translate }}</h2>
     <mat-slide-toggle [(ngModel)]="canChangeParticipantQuota">

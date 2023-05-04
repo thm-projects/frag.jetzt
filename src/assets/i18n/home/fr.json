@@ -275,6 +275,7 @@
     "prompt-guide": "Prompt guide",
     "prompt-explanation": "Que sont les invites?",
     "preset-context": "Contexte",
+    "preset-role-instruction": "Rôles Instruction",
     "preset-topic": "Sujet",
     "preset-length": "Longueur",
     "gpt-feedback": "Ton commentaire",

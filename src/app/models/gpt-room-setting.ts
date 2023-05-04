@@ -85,6 +85,7 @@ export class GPTRoomSetting {
   presetLanguage: string;
   presetFormal: boolean | null;
   presetLength: string;
+  roleInstruction: string;
 
   constructor({
     id = null,
@@ -124,6 +125,7 @@ export class GPTRoomSetting {
     presetLanguage = '',
     presetFormal = null,
     presetLength = '',
+    roleInstruction = '',
   }: FieldsOf<GPTRoomSetting>) {
     this.id = id;
     this.roomId = roomId;
@@ -164,6 +166,7 @@ export class GPTRoomSetting {
     this.presetLanguage = presetLanguage;
     this.presetFormal = presetFormal;
     this.presetLength = presetLength;
+    this.roleInstruction = roleInstruction;
   }
 
   canChangeParticipantQuota(): boolean {
@@ -192,5 +195,13 @@ export class GPTRoomSetting {
 
   allowsUnregisteredUsers(): boolean {
     return ((this.rightsBitset >>> 6) & 1) > 0;
+  }
+
+  disableEnhancedPrompt(): boolean {
+    return ((this.rightsBitset >>> 7) & 1) > 0;
+  }
+
+  disableForwardMessage(): boolean {
+    return ((this.rightsBitset >>> 8) & 1) > 0;
   }
 }

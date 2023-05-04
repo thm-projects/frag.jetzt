@@ -235,6 +235,7 @@
     "prompt-guide": "Prompt Guide",
     "prompt-explanation": "Was sind Prompts?",
     "preset-context": "Kontext",
+    "preset-role-instruction": "Rollen Instruktion",
     "preset-topic": "Themen",
     "preset-length": "Länge",
     "gpt-feedback": "Dein Feedback",

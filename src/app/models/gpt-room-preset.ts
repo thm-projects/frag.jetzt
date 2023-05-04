@@ -21,14 +21,23 @@ export class GPTRoomPreset {
   context: string;
   topics: GPTRoomPresetTopic[];
   length: string;
+  disableEnhancedPrompt: boolean;
+  disableForwardMessage: boolean;
+  roleInstruction: string;
 
   constructor({
     context = '',
     topics = [],
     length = GPTRoomPresetLength.DISABLED,
+    disableEnhancedPrompt = false,
+    disableForwardMessage = false,
+    roleInstruction = null,
   }: Storable<GPTRoomPreset>) {
     this.context = context;
     this.topics = topics.map((e) => verifyInstance(GPTRoomPresetTopic, e));
     this.length = length;
+    this.disableEnhancedPrompt = disableEnhancedPrompt;
+    this.disableForwardMessage = disableForwardMessage;
+    this.roleInstruction = roleInstruction;
   }
 }
