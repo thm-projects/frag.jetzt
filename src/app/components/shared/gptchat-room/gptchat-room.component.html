@@ -97,6 +97,7 @@
 
       <ng-container *ngIf="!isSending && item.type === 'gpt'">
         <button
+          *ngIf="forwardAllowed()"
           class="gpt-paste-btn"
           [matTooltip]="'gpt-chat.paste' | translate"
           mat-fab
@@ -127,7 +128,7 @@
     </div>
 
     <app-view-comment-data
-      *ngIf="!answeringComment || conversation.length > 0"
+      *ngIf="!answeringWriteComment || conversation.length > 0"
       [currentData]="initDelta"
       [textOverwrite]="'gpt-chat.token-info' | translate : tokenInfo"
       (changeContent)="calculateTokens(getCurrentText())"
@@ -144,7 +145,7 @@
       "></app-view-comment-data>
 
     <div
-      *ngIf="answeringComment && conversation.length < 1"
+      *ngIf="answeringWriteComment && conversation.length < 1"
       class="human">
       <ng-container *ngFor="let context of contexts">
         <div

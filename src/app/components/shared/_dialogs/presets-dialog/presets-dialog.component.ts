@@ -6,6 +6,7 @@ export enum PresetsDialogType {
   CONTEXT = 'CONTEXT',
   PERSONA = 'PERSONA',
   TOPIC = 'TOPIC',
+  ROLE_INSTRUCTION = 'ROLE_INSTRUCTION',
 }
 
 @Component({
@@ -22,7 +23,7 @@ export class PresetsDialogComponent implements OnInit {
   labels: string[] = [];
   placeholders: string[] = [];
   readonly presetsDefinitionMin = 2;
-  readonly presetsDefinitionMax = 100;
+  presetsDefinitionMax = 100;
   formControls = [];
   constructor(private dialogRef: MatDialogRef<PresetsDialogComponent>) {}
 
@@ -37,6 +38,8 @@ export class PresetsDialogComponent implements OnInit {
   ngOnInit(): void {
     this.isLoading = false;
     this.setPresetsStrings();
+    this.presetsDefinitionMax =
+      this.type === PresetsDialogType.ROLE_INSTRUCTION ? 2000 : 100;
     this.data.forEach((item) => {
       this.formControls.push(
         new FormControl(item, [
@@ -72,6 +75,11 @@ export class PresetsDialogComponent implements OnInit {
         this.title[0] = 'presets-dialog.topic-title';
         this.labels[0] = 'presets-dialog.topic-label';
         this.placeholders[0] = 'presets-dialog.topic-placeholder';
+        break;
+      case PresetsDialogType.ROLE_INSTRUCTION:
+        this.title[0] = 'presets-dialog.role-instruction-title';
+        this.labels[0] = 'presets-dialog.role-instruction-label';
+        this.placeholders[0] = 'presets-dialog.role-instruction-placeholder';
         break;
     }
   }

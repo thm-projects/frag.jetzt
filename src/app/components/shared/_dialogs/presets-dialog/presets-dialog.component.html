@@ -11,6 +11,7 @@
       <textarea
         appAccessibilityEscapedInput
         style="min-height: 10em"
+        [maxlength]="presetsDefinitionMax"
         matInput
         placeholder="{{ placeholders[i] | translate }}"
         [formControl]="control"></textarea>
@@ -20,13 +21,15 @@
           {{ presetsDefinitionMax }}
         </span>
       </mat-hint>
+      <button
+        *ngIf="control.value.length"
+        matSuffix
+        mat-icon-button
+        aria-label="Clear"
+        (click)="clear(i)">
+        <mat-icon>close</mat-icon>
+      </button>
     </mat-form-field>
-    <button
-      mat-button
-      class="danger-btn"
-      (click)="clear(i)">
-      {{ "presets-dialog.clear" | translate }}
-    </button>
   </div>
 </mat-dialog-content>
 

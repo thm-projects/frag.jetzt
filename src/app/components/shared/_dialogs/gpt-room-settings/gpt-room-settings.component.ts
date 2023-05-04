@@ -77,6 +77,8 @@ export class GptRoomSettingsComponent implements OnInit, OnDestroy {
   canChangeUsageTimes: boolean = false;
   canChangeApiSettings: boolean = false;
   allowsUnregisteredUsers: boolean = false;
+  disableEnhancedPrompt: boolean = false;
+  disableForwardMessage: boolean = false;
   usageTimes: UsageTime[] = [];
   // only ng model variables
   trialCode: string = '';
@@ -180,6 +182,8 @@ export class GptRoomSettingsComponent implements OnInit, OnDestroy {
         this.canChangeUsageTimes = setting.canChangeUsageTimes();
         this.canChangeApiSettings = setting.canChangeApiSettings();
         this.allowsUnregisteredUsers = setting.allowsUnregisteredUsers();
+        this.disableEnhancedPrompt = setting.disableEnhancedPrompt();
+        this.disableForwardMessage = setting.disableForwardMessage();
       },
     });
   }
@@ -356,6 +360,12 @@ export class GptRoomSettingsComponent implements OnInit, OnDestroy {
         }
         if (this.allowsUnregisteredUsers) {
           rights |= 0x1 << 6;
+        }
+        if (this.disableEnhancedPrompt) {
+          rights |= 0x1 << 7;
+        }
+        if (this.disableForwardMessage) {
+          rights |= 0x1 << 8;
         }
         if (rights !== this.previousSetting.rightsBitset) {
           patch.rightsBitset = rights;
