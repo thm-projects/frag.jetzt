@@ -997,7 +997,11 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
       });
     this.answeringWriteComment =
       this.answeringComment && !preset.disableEnhancedPrompt;
-    if (this.conversation.length < 1 && !this.answeringWriteComment) {
+    if (
+      this.conversation.length < 1 &&
+      !this.answeringWriteComment &&
+      this.answeringComment
+    ) {
       this.sendGPTMessage();
     }
   }
