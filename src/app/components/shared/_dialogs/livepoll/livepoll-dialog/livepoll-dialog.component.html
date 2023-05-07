@@ -2,6 +2,10 @@
   class="dialog-title"
   *ngIf="isProduction">
   <p mat-dialog-title>{{ translateKey + ".dialog-title" | translate }}</p>
+  <div>
+    <mat-icon>fiber_manual_record</mat-icon>
+    <span>{{ translateKey + ".live" | translate }}</span>
+  </div>
 </div>
 <mat-dialog-content
   class="content"

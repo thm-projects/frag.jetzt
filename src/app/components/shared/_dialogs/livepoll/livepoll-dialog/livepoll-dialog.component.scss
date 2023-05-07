@@ -4,6 +4,14 @@
   display: flex;
   justify-content: space-between;
 
+  > div {
+    display: flex;
+    align-items: center;
+    position: relative;
+    top: -12px;
+    color: var(--red);
+  }
+
   > h5 {
     font-size: 12px;
     text-transform: uppercase;
