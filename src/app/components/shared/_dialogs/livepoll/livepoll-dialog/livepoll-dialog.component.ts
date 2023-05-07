@@ -309,6 +309,21 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
     return collect.map((x) => `button-vote-${x}`).join(' ');
   }
 
+  resetResults() {
+    this.createConfirmationDialog(
+      'dialog-confirm-resetResults-title',
+      'dialog-confirm-resetResults-description',
+    ).subscribe((x) => {
+      if (x) {
+        this.livepollService
+          .resetResults(this.livepollSession.id)
+          .subscribe((votes) => {
+            console.log(votes);
+          });
+      }
+    });
+  }
+
   private parseWebSocketStream(type: string, payload: any, id?: UUID) {
     switch (type) {
       case 'LivepollResult':
