@@ -116,6 +116,11 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     if (this.livepollSession) {
+      this.livepollService
+        .findByRoomId(this.session.currentRoom.id)
+        .subscribe((x) => {
+          console.log(x);
+        });
       // Template can't change, only needs to be initialized once
       this.initTemplate();
       if (this.isProduction) {
@@ -322,6 +327,12 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
           });
       }
     });
+  }
+
+  openArchive() {
+    this.livepollService
+      .findByRoomId(this.session.currentRoom.id)
+      .subscribe((query) => {});
   }
 
   private parseWebSocketStream(type: string, payload: any, id?: UUID) {

@@ -1,10 +1,31 @@
 <div
-  class="dialog-title"
+  class="dialog-header"
   *ngIf="isProduction">
-  <p mat-dialog-title>{{ translateKey + ".dialog-title" | translate }}</p>
-  <div [ngClass]="isPaused ? 'live-paused' : 'live-active'">
-    <mat-icon>fiber_manual_record</mat-icon>
-    <span>{{ translateKey + ".live" | translate }}</span>
+  <div class="dialog-header-title">
+    <h5 mat-dialog-title>{{ translateKey + ".dialog-title" | translate }}</h5>
+  </div>
+  <div class="dialog-header-content">
+    <div [ngClass]="isPaused ? 'live-paused' : 'live-active'">
+      <mat-icon>fiber_manual_record</mat-icon>
+      <span>{{ translateKey + ".live" | translate }}</span>
+    </div>
+    <div class="fill"></div>
+    <div class="settings">
+      <button
+        mat-flat-button
+        [mat-menu-trigger-for]="archiveMenu"
+        class="button-primary"
+        (click)="openArchive()">
+        <mat-icon>archive</mat-icon>
+        <span>{{ translateKey + ".option-archive" | translate }}</span>
+      </button>
+      <mat-menu #archiveMenu>
+        <button mat-menu-item>
+          <span>t</span>
+          <span>t</span>
+        </button>
+      </mat-menu>
+    </div>
   </div>
 </div>
 <mat-dialog-content

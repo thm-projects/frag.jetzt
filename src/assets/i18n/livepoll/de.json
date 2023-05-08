@@ -1,6 +1,7 @@
 {
   "common": {
     "live": "Live",
+    "option-archive": "Archive",
     "create-dialog-title": "Blitzumfrage erstellen",
     "dialog-title": "Blitzumfrage",
     "option-select-title": "Deine Frage …",

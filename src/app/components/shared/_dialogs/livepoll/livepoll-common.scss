@@ -16,6 +16,53 @@ $on-secondary--hover: var(--on-livepoll-secondary--hover);
 $bar-foreground: $on-secondary;
 $bar-background: $secondary;
 
+.fill {
+  flex-grow: 1;
+}
+
+.dialog-header {
+  display: flex;
+
+  .dialog-header-title {
+    display: flex;
+    align-items: center;
+    line-height: 32px;
+  }
+
+  .dialog-header-content {
+    height: 32px;
+    display: flex;
+    flex-grow: 1;
+    align-items: center;
+    justify-content: end;
+
+    > h5 {
+      font-size: 12px;
+      text-transform: uppercase;
+    }
+
+    .settings {
+      align-items: center;
+    }
+
+    > .live {
+      display: flex;
+      align-items: center;
+      position: relative;
+
+      &-active {
+        @extend .live;
+        color: var(--red);
+      }
+
+      &-paused {
+        @extend .live;
+        color: var(--gray);
+      }
+    }
+  }
+}
+
 .button {
   &-cancel {
     background-color: transparent;

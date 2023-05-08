@@ -1,6 +1,7 @@
 {
   "common": {
     "live": "Live",
+    "option-archive": "Archive",
     "create-dialog-title": "Create flash poll",
     "dialog-title": "Flash poll",
     "option-select-title": "Your question…",

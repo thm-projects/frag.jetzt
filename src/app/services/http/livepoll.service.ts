@@ -20,6 +20,8 @@ import {
 } from '../../components/shared/_dialogs/livepoll/livepoll-dialog/livepoll-dialog.component';
 import { LivepollCreateComponent } from '../../components/shared/_dialogs/livepoll/livepoll-create/livepoll-create.component';
 import { LivepollSummaryComponent } from '../../components/shared/_dialogs/livepoll/livepoll-summary/livepoll-summary.component';
+import { Overlay, OverlayRef } from '@angular/cdk/overlay';
+import { ComponentPortal } from '@angular/cdk/portal';
 
 export interface LivepollSessionCreateAPI {
   template: string;
@@ -83,6 +85,7 @@ export class LivepollService extends BaseHttpService {
     public readonly http: HttpClient,
     public readonly roomService: RoomService,
     public readonly dialog: MatDialog,
+    public readonly overlay: Overlay,
   ) {
     super();
   }
@@ -93,6 +96,23 @@ export class LivepollService extends BaseHttpService {
 
   get listener(): Observable<any> {
     return LivepollService.livepollEventEmitter;
+  }
+
+  findByRoomId(roomId: string): Observable<LivepollSession[]> {
+    return this.http
+      .post<LivepollSession[]>('/api/livepoll/find', {
+        properties: {
+          roomId,
+        },
+      })
+      .pipe(
+        tap(() => ''),
+        catchError(
+          this.handleError<LivepollSession[]>(
+            `get bonus token by roomid = ${roomId}`,
+          ),
+        ),
+      );
   }
 
   create(
