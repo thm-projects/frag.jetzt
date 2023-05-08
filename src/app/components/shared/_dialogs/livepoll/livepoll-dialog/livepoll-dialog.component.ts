@@ -295,7 +295,7 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
   public getVoteButtonClass(index: number) {
     const collect: string[] = [];
     if (index === this.livepollVote?.voteIndex) {
-      collect.push('active');
+      collect.push('voted');
     } else {
       collect.push('default');
     }

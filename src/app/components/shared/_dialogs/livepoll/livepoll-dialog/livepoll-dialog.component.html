@@ -31,7 +31,7 @@
     <div class="statistics-options">
       <button
         mat-flat-button
-        *ngIf="isProduction"
+        *ngIf="isProduction && session.currentRole"
         class="button-cancel"
         (click)="resetResults()">
         <mat-icon style="margin-right: 4px">undo</mat-icon>

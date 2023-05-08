@@ -63,7 +63,7 @@
         > .bar {
           min-width: 1px;
           width: 10px;
-          background-color: $bar-background;
+          background-color: var(--livepoll-secondary);
           border-radius: #{$border-radius - ($border-radius / 2)}px;
           transition: width 100ms ease-in-out;
         }
@@ -81,7 +81,7 @@
           top: 8px;
           left: 13px;
           font-weight: normal;
-          color: $bar-foreground;
+          color: var(--on-livepoll-secondary);
         }
       }
     }

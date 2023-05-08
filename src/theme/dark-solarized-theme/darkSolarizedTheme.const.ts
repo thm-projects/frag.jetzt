@@ -30,6 +30,20 @@ export const dark_solarized = {
   '--grey': '#839496',
   '--grey-light': '#657b83',
   '--black': '#073642',
+
+  '--livepoll-primary': '#6c71c4',
+  '--livepoll-primary--disabled': '#282934',
+  '--livepoll-primary--hover': '#7E83CB',
+  '--on-livepoll-primary': '#ffffff',
+  '--on-livepoll-primary--disabled': '#c5c5c5',
+  '--on-livepoll-primary--hover': '#ffffff',
+
+  '--livepoll-secondary': '#D33682',
+  '--livepoll-secondary--disabled': '#5f5f64',
+  '--livepoll-secondary--hover': '#D94F92',
+  '--on-livepoll-secondary': '#ffffff',
+  '--on-livepoll-secondary--disabled': '#c5c5c5',
+  '--on-livepoll-secondary--hover': '#ffffff',
 };
 
 export const dark_solarized_meta: ThemeMeta = {

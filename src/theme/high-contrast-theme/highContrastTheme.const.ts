@@ -39,16 +39,19 @@ export const highcontrast = {
   '--questionwall-intro-secondary': '#eadabf',
   '--questionwall-intro-background': '#121212',
 
-  '--livepoll-vote-foreground': '#FFFFFF',
-  '--livepoll-vote-background': '#8a2be2',
-  '--livepoll-vote-foreground-hover': '#FFFFFF',
-  '--livepoll-vote-background-hover': '#ff0000',
-  '--livepoll-vote-foreground-active': '#FFFFFF',
-  '--livepoll-vote-background-active': '#ff8c00',
-  '--livepoll-vote-foreground-active-hover': '#FFFFFF',
-  '--livepoll-vote-background-active-hover': '#ff0000',
-  '--livepoll-bar-foreground': '#FFFFFF',
-  '--livepoll-bar-background': '#ff8c00',
+  '--livepoll-primary': '#3833e9',
+  '--livepoll-primary--disabled': '#282934',
+  '--livepoll-primary--hover': '#E6E5FC',
+  '--on-livepoll-primary': '#ffffff',
+  '--on-livepoll-primary--disabled': '#c5c5c5',
+  '--on-livepoll-primary--hover': '#282934',
+
+  '--livepoll-secondary': '#ff8e00',
+  '--livepoll-secondary--disabled': '#5f5f64',
+  '--livepoll-secondary--hover': '#FFF1DF',
+  '--on-livepoll-secondary': '#ffffff',
+  '--on-livepoll-secondary--disabled': '#c5c5c5',
+  '--on-livepoll-secondary--hover': '#282934',
 };
 
 export const highcontrast_meta: ThemeMeta = {
