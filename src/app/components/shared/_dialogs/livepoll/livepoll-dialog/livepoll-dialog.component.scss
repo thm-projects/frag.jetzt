@@ -4,12 +4,19 @@
   display: flex;
   justify-content: space-between;
 
-  > div {
+  > .live {
+    &-active {
+      @extend .live;
+      color: var(--red);
+    }
+    &-paused {
+      @extend .live;
+      color: var(--gray);
+    }
     display: flex;
     align-items: center;
     position: relative;
     top: -12px;
-    color: var(--red);
   }
 
   > h5 {
