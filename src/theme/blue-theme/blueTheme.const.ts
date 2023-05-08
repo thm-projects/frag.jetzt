@@ -33,16 +33,19 @@ export const blue = {
   '--questionwall-intro-secondary': 'red',
   '--questionwall-intro-background': 'red',
 
-  '--livepoll-vote-foreground': '#FFFFFF',
-  '--livepoll-vote-background': '#58E315',
-  '--livepoll-vote-foreground-hover': '#FFFFFF',
-  '--livepoll-vote-background-hover': '#BFE315',
-  '--livepoll-vote-foreground-active': '#FFFFFF',
-  '--livepoll-vote-background-active': '#E3A015',
-  '--livepoll-vote-foreground-active-hover': '#FFFFFF',
-  '--livepoll-vote-background-active-hover': '#E33915',
-  '--livepoll-bar-foreground': '#FFFFFF',
-  '--livepoll-bar-background': '#B315E3',
+  '--livepoll-primary': '#ffca28',
+  '--livepoll-primary--disabled': '#282934',
+  '--livepoll-primary--hover': '#fff350',
+  '--on-livepoll-primary': '#ffffff',
+  '--on-livepoll-primary--disabled': '#c5c5c5',
+  '--on-livepoll-primary--hover': '#ffffff',
+
+  '--livepoll-secondary': '#3f51b5',
+  '--livepoll-secondary--disabled': '#5f5f64',
+  '--livepoll-secondary--hover': '#5c6bc0',
+  '--on-livepoll-secondary': '#ffffff',
+  '--on-livepoll-secondary--disabled': '#c5c5c5',
+  '--on-livepoll-secondary--hover': '#ffffff',
 };
 
 export const blue_meta = {
