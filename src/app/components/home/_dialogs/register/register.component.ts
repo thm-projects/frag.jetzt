@@ -185,7 +185,10 @@ export class RegisterComponent implements OnInit, AfterViewInit {
         this.translationService
           .get('register.register-successful')
           .subscribe((message) => {
-            this.notificationService.show(message);
+            this.notificationService.show(message, undefined, {
+              duration: 12_500,
+              panelClass: ['snackbar-valid'],
+            });
           });
         this.dialogRef.close({ username, password });
       },
@@ -194,13 +197,19 @@ export class RegisterComponent implements OnInit, AfterViewInit {
           this.translationService
             .get('register.register-error-password-too-common')
             .subscribe((message) => {
-              this.notificationService.show(message);
+              this.notificationService.show(message, undefined, {
+                duration: 12_500,
+                panelClass: ['snackbar-warn'],
+              });
             });
         } else {
           this.translationService
             .get('register.register-request-error')
             .subscribe((message) => {
-              this.notificationService.show(message);
+              this.notificationService.show(message, undefined, {
+                duration: 12_500,
+                panelClass: ['snackbar-invalid'],
+              });
             });
         }
       },
@@ -257,18 +266,15 @@ export class RegisterComponent implements OnInit, AfterViewInit {
   }
 
   checkPasswordStrength() {
-    this.passwordStrength = PasswordResetComponent.calculateStrength(
+    PasswordResetComponent.calculateStrength(
+      this.authenticationService,
       this.password1FormControl,
-    );
-    const color =
-      'rgb(' +
-      Math.round((255 * (100 - this.passwordStrength)) / 100) +
-      ', ' +
-      Math.round((255 * this.passwordStrength) / 100) +
-      ', 0)';
-    this.customProgressBar._elementRef.nativeElement.style.setProperty(
-      '--line-color',
-      color,
-    );
+    ).subscribe(([strength, color]) => {
+      this.passwordStrength = strength;
+      this.customProgressBar._elementRef.nativeElement.style.setProperty(
+        '--line-color',
+        color,
+      );
+    });
   }
 }
