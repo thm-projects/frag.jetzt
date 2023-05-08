@@ -1,12 +1,20 @@
-import { EventEmitter, Injectable } from '@angular/core';
+import { EventEmitter, Injectable, Injector } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {
+  MAT_DIALOG_DATA,
   MatDialog,
   MatDialogConfig,
   MatDialogRef,
 } from '@angular/material/dialog';
 import { RoomService } from './room.service';
-import { BehaviorSubject, catchError, map, Observable, tap } from 'rxjs';
+import {
+  BehaviorSubject,
+  catchError,
+  map,
+  Observable,
+  Subject,
+  tap,
+} from 'rxjs';
 import { LivepollSession } from 'app/models/livepoll-session';
 import { verifyInstance } from 'app/utils/ts-utils';
 import { BaseHttpService } from './base-http.service';

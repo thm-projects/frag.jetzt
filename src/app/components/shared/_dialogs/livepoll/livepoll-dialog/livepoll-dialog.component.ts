@@ -72,6 +72,7 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
   public isConclusion: boolean = false;
   public waitForSocket: boolean = false;
   public rowHeight: number;
+  public archive: LivepollSession[];
   private voteQuery: number = -1;
   private _destroyer = new ReplaySubject(1);
   private lastSession: LivepollSession;
@@ -332,7 +333,9 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
   openArchive() {
     this.livepollService
       .findByRoomId(this.session.currentRoom.id)
-      .subscribe((query) => {});
+      .subscribe((archive) => {
+        this.archive = archive;
+      });
   }
 
   private parseWebSocketStream(type: string, payload: any, id?: UUID) {

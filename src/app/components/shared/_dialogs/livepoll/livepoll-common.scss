@@ -20,6 +20,26 @@ $bar-background: $secondary;
   flex-grow: 1;
 }
 
+.archive-menu {
+  background-color: red;
+}
+
+.live {
+  display: flex;
+  align-items: center;
+  position: relative;
+
+  &-active {
+    @extend .live;
+    color: var(--red);
+  }
+
+  &-paused {
+    @extend .live;
+    color: var(--gray);
+  }
+}
+
 .dialog-header {
   display: flex;
 
@@ -43,22 +63,6 @@ $bar-background: $secondary;
 
     .settings {
       align-items: center;
-    }
-
-    > .live {
-      display: flex;
-      align-items: center;
-      position: relative;
-
-      &-active {
-        @extend .live;
-        color: var(--red);
-      }
-
-      &-paused {
-        @extend .live;
-        color: var(--gray);
-      }
     }
   }
 }

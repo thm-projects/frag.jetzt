@@ -1,3 +1,12 @@
+<ng-template
+  #LiveIcon
+  let-isPaused="isPaused">
+  <div [ngClass]="isPaused ? 'live-paused' : 'live-active'">
+    <mat-icon>fiber_manual_record</mat-icon>
+    <span>{{ translateKey + ".live" | translate }}</span>
+  </div>
+</ng-template>
+
 <div
   class="dialog-header"
   *ngIf="isProduction">
@@ -5,10 +14,11 @@
     <h5 mat-dialog-title>{{ translateKey + ".dialog-title" | translate }}</h5>
   </div>
   <div class="dialog-header-content">
-    <div [ngClass]="isPaused ? 'live-paused' : 'live-active'">
-      <mat-icon>fiber_manual_record</mat-icon>
-      <span>{{ translateKey + ".live" | translate }}</span>
-    </div>
+    <ng-container
+      *ngTemplateOutlet="
+        LiveIcon;
+        context: { isPaused: isPaused }
+      "></ng-container>
     <div class="fill"></div>
     <div class="settings">
       <button
@@ -19,11 +29,35 @@
         <mat-icon>archive</mat-icon>
         <span>{{ translateKey + ".option-archive" | translate }}</span>
       </button>
-      <mat-menu #archiveMenu>
-        <button mat-menu-item>
-          <span>t</span>
-          <span>t</span>
-        </button>
+      <mat-menu
+        #archiveMenu
+        [classList]="'livepoll-dialog-component-archive-menu'">
+        <ng-container *ngIf="archive">
+          <div
+            *ngFor="let entry of archive"
+            class="archive-menu-item">
+            <div class="header">
+              <span>{{ entry.title ? entry.title : "..." }}</span>
+              <ng-container *ngIf="entry.active">
+                <ng-container
+                  *ngTemplateOutlet="
+                    LiveIcon;
+                    context: { isPaused: entry.paused }
+                  "></ng-container>
+              </ng-container>
+              <ng-container *ngIf="!entry.active">
+                <span>COMPLETE</span>
+              </ng-container>
+              <div class="fill"></div>
+              <span>
+                {{ entry.createdAt.toLocaleString("ja-JP").slice(0, 10) }}
+              </span>
+            </div>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="!archive">
+          <mat-spinner></mat-spinner>
+        </ng-container>
       </mat-menu>
     </div>
   </div>
