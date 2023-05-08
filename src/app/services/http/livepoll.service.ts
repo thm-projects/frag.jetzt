@@ -69,6 +69,7 @@ const httpOptions = {
 export class LivepollService extends BaseHttpService {
   public static readonly dialogDefaults: MatDialogConfig = {
     width: '700px',
+    maxWidth: '100vw',
   };
   private static readonly livepollEventEmitter: EventEmitter<{
     session: LivepollSession;
@@ -94,9 +95,15 @@ export class LivepollService extends BaseHttpService {
     return LivepollService.livepollEventEmitter;
   }
 
-  create(livepoll: LivepollSessionCreateAPI): Observable<LivepollSession> {
+  create(
+    livepollSessionCreateAPI: LivepollSessionCreateAPI,
+  ): Observable<LivepollSession> {
     return this.http
-      .post<LivepollSession>('/api/livepoll/session', livepoll, httpOptions)
+      .post<LivepollSession>(
+        '/api/livepoll/session',
+        livepollSessionCreateAPI,
+        httpOptions,
+      )
       .pipe(
         tap(() => ''),
         map((e) => verifyInstance(LivepollSession, e)),
@@ -104,18 +111,18 @@ export class LivepollService extends BaseHttpService {
       );
   }
 
-  delete(id: string): Observable<LivepollSession> {
-    return this.update(id, {
+  delete(livepollId: string): Observable<LivepollSession> {
+    return this.update(livepollId, {
       active: false,
       paused: true,
     });
   }
 
-  update(id: string, livepoll: Partial<LivepollSessionPatchAPI>) {
+  update(livepollId: string, changes: Partial<LivepollSessionPatchAPI>) {
     return this.http
       .patch<LivepollSession>(
-        '/api/livepoll/session/' + id,
-        livepoll,
+        '/api/livepoll/session/' + livepollId,
+        changes,
         httpOptions,
       )
       .pipe(
@@ -166,18 +173,18 @@ export class LivepollService extends BaseHttpService {
       );
   }
 
-  setPaused(id: string, paused: boolean): Observable<LivepollSession> {
-    return this.update(id, {
+  setPaused(livepollId: string, paused: boolean): Observable<LivepollSession> {
+    return this.update(livepollId, {
       paused,
     });
   }
 
-  open(session: SessionService) {
+  open(sessionService: SessionService) {
     if (!this.isOpen) {
-      switch (session.currentRole) {
+      switch (sessionService.currentRole) {
         case UserRole.PARTICIPANT:
-          if (session.currentLivepoll?.active) {
-            this.openDialog(session);
+          if (sessionService.currentLivepoll?.active) {
+            this.openDialog(sessionService);
           } else {
             console.error(
               `Live Poll Dialog cannot be opened as participant, participant cannot create Live Polls either`,
@@ -187,10 +194,10 @@ export class LivepollService extends BaseHttpService {
         case UserRole.EDITING_MODERATOR:
         case UserRole.EXECUTIVE_MODERATOR:
         case UserRole.CREATOR:
-          if (session.currentLivepoll) {
-            this.openDialog(session);
+          if (sessionService.currentLivepoll) {
+            this.openDialog(sessionService);
           } else {
-            this.openCreateDialog(session);
+            this.openCreateDialog(sessionService);
           }
           break;
       }
@@ -215,6 +222,15 @@ export class LivepollService extends BaseHttpService {
     });
   }
 
+  resetResults(livepollId: string) {
+    return this.http
+      .delete<never>('/api/livepoll/reset/' + livepollId, httpOptions)
+      .pipe(
+        tap(() => ''),
+        catchError(this.handleError<number[]>('deleteVotes')),
+      );
+  }
+
   private onNextEvent(type: LivepollEventType): Observable<LivepollSession> {
     return new Observable<LivepollSession>((subscriber) => {
       const subscription = LivepollService.livepollEventEmitter.subscribe(
@@ -231,14 +247,14 @@ export class LivepollService extends BaseHttpService {
     });
   }
 
-  private openDialog(session: SessionService) {
+  private openDialog(sessionService: SessionService) {
     this._dialogState.next(LivepollDialogState.Opening);
-    if (session.currentLivepoll) {
-      const cachedLivepollSession = session.currentLivepoll;
+    if (sessionService.currentLivepoll) {
+      const cachedLivepollSession = sessionService.currentLivepoll;
       const config = {
         ...{
           data: {
-            session: session.currentLivepoll,
+            session: sessionService.currentLivepoll,
             isProduction: true,
           } as LivepollDialogInjectionData,
         },
@@ -254,20 +270,20 @@ export class LivepollService extends BaseHttpService {
       dialogRef.afterClosed().subscribe((result) => {
         switch (result?.reason) {
           case 'delete':
-            this.delete(session.currentLivepoll.id).subscribe((res) => {
+            this.delete(sessionService.currentLivepoll.id).subscribe((res) => {
               this._dialogState.next(LivepollDialogState.Closed);
-              this.openSummary(session, cachedLivepollSession);
+              this.openSummary(sessionService, cachedLivepollSession);
             });
             break;
           case 'reset':
-            this.delete(session.currentLivepoll.id).subscribe(() => {
+            this.delete(sessionService.currentLivepoll.id).subscribe(() => {
               this._dialogState.next(LivepollDialogState.Closed);
-              this.open(session);
+              this.open(sessionService);
             });
             break;
           case 'closedAsCreator':
             this._dialogState.next(LivepollDialogState.Closed);
-            this.openSummary(session, cachedLivepollSession);
+            this.openSummary(sessionService, cachedLivepollSession);
             break;
           case 'closedAsParticipant':
           case 'close':
@@ -284,7 +300,7 @@ export class LivepollService extends BaseHttpService {
     }
   }
 
-  private openCreateDialog(session: SessionService) {
+  private openCreateDialog(sessionService: SessionService) {
     this._dialogState.next(LivepollDialogState.Opening);
     const config = {
       ...{
@@ -303,7 +319,7 @@ export class LivepollService extends BaseHttpService {
       if (data) {
         this.onNextEvent(LivepollEventType.Create).subscribe(() => {
           this._dialogState.next(LivepollDialogState.Closed);
-          this.open(session);
+          this.open(sessionService);
         });
         const subscription = this.create(data).subscribe(() => {
           subscription.unsubscribe();
@@ -318,7 +334,7 @@ export class LivepollService extends BaseHttpService {
   }
 
   private openSummary(
-    session: SessionService,
+    sessionService: SessionService,
     livepollSession: LivepollSession,
   ) {
     const config = {

@@ -27,23 +27,33 @@
     <markdown [data]="livepollSession.title"></markdown>
   </div>
 
-  <div class="info-container">
-    <div
-      @AnimateInOut
-      *ngIf="livepollSession.viewsVisible">
-      <span>{{ translateKey + ".participants" | translate }}</span>
-      <span>{{ userCount }}</span>
+  <div class="statistics-settings-container">
+    <div class="statistics-options">
+      <button
+        mat-flat-button
+        *ngIf="isProduction"
+        class="button-cancel"
+        (click)="resetResults()">
+        <mat-icon style="margin-right: 4px">undo</mat-icon>
+        <span class="on-desktop">
+          {{ translateKey + ".settings-resetResults" | translate }}
+        </span>
+      </button>
     </div>
-    <div
-      @AnimateInOut
-      *ngIf="livepollSession.resultVisible">
-      <span>{{ translateKey + ".votes" | translate }}</span>
-      <span>{{ totalVotes }}</span>
+    <div class="statistics-info">
+      <div
+        @AnimateInOut
+        *ngIf="livepollSession.viewsVisible">
+        <span>{{ translateKey + ".participants" | translate }}</span>
+        <span>{{ userCount }}</span>
+      </div>
+      <div
+        @AnimateInOut
+        *ngIf="livepollSession.resultVisible">
+        <span>{{ translateKey + ".votes" | translate }}</span>
+        <span>{{ totalVotes }}</span>
+      </div>
     </div>
-  </div>
-
-  <div class="result-settings-container">
-    <!-- relative / absolute settings -->
   </div>
 
   <ng-container *ngIf="options && livepollSession.resultVisible">
@@ -141,7 +151,7 @@
       "
       (click)="close('reset')"
       class="button-secondary">
-      <mat-icon style="margin-right: 4px">add_circle</mat-icon>
+      <mat-icon>add_circle</mat-icon>
       <span
         *ngIf="device.isCurrentlyDesktop"
         class="on-desktop">
