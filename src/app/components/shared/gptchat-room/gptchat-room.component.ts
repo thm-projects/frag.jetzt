@@ -378,7 +378,11 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
         }),
       )
       .subscribe(() =>
-        GPTRatingDialogComponent.open(this.dialog, this.gptService).subscribe({
+        GPTRatingDialogComponent.open(
+          this.dialog,
+          this.gptService,
+          true,
+        ).subscribe({
           next: (ref) => {
             if (!ref) {
               this.router.navigate([url]);
@@ -435,7 +439,19 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     this.route.params.subscribe((params) => {
       url = `${roleString}/room/${params['shortId']}/comment/${this.owningComment.id}`;
-      this.router.navigate([url]);
+      GPTRatingDialogComponent.open(
+        this.dialog,
+        this.gptService,
+        true,
+      ).subscribe({
+        next: (ref) => {
+          if (!ref) {
+            this.router.navigate([url]);
+          } else {
+            ref.afterClosed().subscribe(() => this.router.navigate([url]));
+          }
+        },
+      });
     });
   }
 

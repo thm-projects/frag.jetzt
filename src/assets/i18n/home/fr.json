@@ -331,6 +331,7 @@
     "title": "Aide"
   },
   "home-page": {
+    "gpt-topic-general": "Général",
     "accessibility-create": "Crée une nouvelle session.",
     "accessibility-join-button": "Rejoins la session dont tu as saisi le code.",
     "accessibility-join-input": "Tu peux saisir ici le nom de la session que tu souhaites rejoindre. Le nom te sera communiqué par le responsable de la session.",

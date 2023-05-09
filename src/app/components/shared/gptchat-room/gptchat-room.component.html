@@ -2,6 +2,11 @@
   <div
     class="gpt-requester"
     *ngIf="!isLoading; else loading">
+    <h2 class="heading">
+      {{
+        "gpt-chat.title-" + (answeringComment ? "answer" : "free") | translate
+      }}
+    </h2>
     <div
       fxLayout="row"
       style="padding: 0">
@@ -171,6 +176,7 @@
             <mat-form-field *ngIf="part.type === 'select'">
               <mat-label>{{ "gpt-chat.your-choice" | translate }}</mat-label>
               <mat-select
+                [panelClass]="'gpt-chat-room-select'"
                 [(ngModel)]="context.selected"
                 [required]="!context.allowNone">
                 <mat-option

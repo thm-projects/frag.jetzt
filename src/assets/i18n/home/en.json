@@ -331,6 +331,7 @@
     "title": "Help"
   },
   "home-page": {
+    "gpt-topic-general": "General",
     "accessibility-create": "Create a new session",
     "accessibility-join-button": "Enter the session with the specified session key.",
     "accessibility-join-input": "Here you can enter the  key of the session you want to join. The presenter will tell you the session key.",

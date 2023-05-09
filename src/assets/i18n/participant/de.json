@@ -131,6 +131,9 @@
     "needs-user-account": "Du benötigst ein Konto mit einer E-Mail-Adresse, um Benachrichtigungen zu erhalten!"
   },
   "comment-page": {
+    "share-comment": "Teilnehmer-Link auf diesen Beitrag kopieren",
+    "share-comment-success": "Erfolgreich kopiert.",
+    "share-comment-fail": "Etwas ist schiefgelaufen!",
     "mark-not-approved": "Geprüft",
     "a11y-comment-answer": "Antwort dieser Frage ansehen",
     "a11y-comment-answer-not": "Diese Frage beantworten",
@@ -285,6 +288,8 @@
   "gpt-chat": {
     "optin-accept": "Akzeptieren",
     "optin-reject": "Ablehnen",
+    "title-free": "ChatGPT | Freies Fragen und Antworten",
+    "title-answer": "ChatGPT | Assistent für Antworten",
     "interrupt": "Ausgabe stoppen",
     "copy-markdown": "Markdown kopieren",
     "copy-success": "Markdown erfolgreich kopiert",
@@ -412,7 +417,8 @@
     "exactly-8": "Ein Raum-Code hat genau 8 Ziffern.",
     "no-room-found": "Es wurde kein Raum mit diesem Raum-Code gefunden.",
     "only-numbers": "Ein Raum-Code besteht aus Ziffern.",
-    "please-enter": "Bitte Raum-Code eingeben."
+    "please-enter": "Bitte Raum-Code eingeben.",
+    "gpt-topic-general": "Allgemein"
   },
   "introduction": {
     "cancel": "Schließen",

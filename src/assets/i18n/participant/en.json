@@ -131,6 +131,9 @@
     "needs-user-account": "You need an account with an email address to receive notifications!"
   },
   "comment-page": {
+    "share-comment": "Copy participant link to this post",
+    "share-comment-success": "Successfully copied.",
+    "share-comment-fail": "Something went wrong!",
     "mark-not-approved": "Checked",
     "a11y-comment-answer": "View Answer",
     "a11y-comment-answer-not": "Create Answer",
@@ -282,14 +285,10 @@
     "cancel": "Cancel"
   },
   "gpt-chat": {
-    "answer-format": {
-      "disabled": "Disabled",
-      "summary": "Summary",
-      "definition": "Definition",
-      "flashcard": "Flashcard"
-    },
     "optin-accept": "Accept",
     "optin-reject": "Reject",
+    "title-free": "ChatGPT | Free questions and answers",
+    "title-answer": "ChatGPT | Answer Assistent",
     "interrupt": "Stop output",
     "copy-markdown": "Copy Markdown",
     "copy-success": "Markdown successfully copied",
@@ -411,7 +410,8 @@
     "exactly-8": "A key is a combination of 8 digits.",
     "no-room-found": "No session found with this key",
     "only-numbers": "A key is a combination of digits.",
-    "please-enter": "Please enter a session key"
+    "please-enter": "Please enter a session key",
+    "gpt-topic-general": "General"
   },
   "introduction": {
     "cancel": "Close",

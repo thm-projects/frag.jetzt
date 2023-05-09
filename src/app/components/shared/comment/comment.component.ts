@@ -437,6 +437,32 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
+  copyShareCommentLink(): void {
+    const url = `${window.location.protocol}//${window.location.host}/participant/room/${this.room.shortId}/comment/${this.comment.id}/conversation`;
+    navigator.clipboard.writeText(url).then(
+      () => {
+        this.translateService
+          .get('comment-page.share-comment-success')
+          .subscribe((msg) => {
+            this.notification.show(msg, undefined, {
+              duration: 5_000,
+              panelClass: ['snackbar-valid'],
+            });
+          });
+      },
+      () => {
+        this.translateService
+          .get('comment-page.share-comment-fail')
+          .subscribe((msg) => {
+            this.notification.show(msg, undefined, {
+              duration: 12_500,
+              panelClass: ['snackbar-invalid'],
+            });
+          });
+      },
+    );
+  }
+
   openChangeCommentTagDialog(): void {
     const dialogRef = this.dialog.open(EditCommentTagComponent, {
       minWidth: '80%',

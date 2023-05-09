@@ -331,6 +331,7 @@
     "title": "Hilfe"
   },
   "home-page": {
+    "gpt-topic-general": "Allgemein",
     "accessibility-create": "Erstellt eine neue Sitzung.",
     "accessibility-join-button": "Betritt die Sitzung, deren Code du eingegeben hast.",
     "accessibility-join-input": "Hier kannst du den Namen der Sitzung eingeben der du beitreten möchtest. Den Namen sagt dir die Sitzungsleitung.",
