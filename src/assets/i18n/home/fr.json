@@ -91,8 +91,12 @@
     "reset": "Réinitialiser",
     "note-on-changing-settings": "Tu peux modifier tous les paramètres ultérieurement."
   },
+  "ask-onboarding": {
+    "start": "Lancement",
+    "cancel": "Peut-être plus tard …"
+  },
   "cookies": {
-    "accept": "Onboarding …",
+    "accept": "Accepter",
     "accept-description": "Confirme l'utilisation de la technique de stockage web et active l'application.",
     "cancel": "Annuler",
     "cancel-description": "Refuse l'utilisation de la technique de stockage web et bloque l'application.",
@@ -327,6 +331,7 @@
     "title": "Aide"
   },
   "home-page": {
+    "gpt-topic-general": "Général",
     "accessibility-create": "Crée une nouvelle session.",
     "accessibility-join-button": "Rejoins la session dont tu as saisi le code.",
     "accessibility-join-input": "Tu peux saisir ici le nom de la session que tu souhaites rejoindre. Le nom te sera communiqué par le responsable de la session.",
@@ -543,7 +548,7 @@
     "register": "S'inscrire",
     "register-description": "Terminer l'enregistrement",
     "register-request-error": "Quelque chose s'est mal passé lors de l'enregistrement. Tu t'es peut-être déjà enregistré ?",
-    "register-successful": "Enregistré avec succès. Vérifie ta boîte de réception !",
+    "register-successful": "Enregistré avec succès. Veuillez vérifier votre messagerie ! L'envoi peut prendre jusqu'à 10min.",
     "register-error-password-too-common": "Le mot de passe est composé de chaînes de caractères faciles à deviner ou de chaînes de caractères provenant de listes de mots de passe publiées. Choisis un autre mot de passe ou utilise le générateur de mots de passe.",
     "register-unsuccessful": "Vérifie tes données, s'il te plaît.",
     "password-generator": "Générateur de mots de passe"

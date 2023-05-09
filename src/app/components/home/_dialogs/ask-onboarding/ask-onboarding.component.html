@@ -1,0 +1,14 @@
+<mat-dialog-content tabindex="-1">
+  <app-ask-onboarding-de
+    *ngIf="langService.currentLanguage() === 'de'"></app-ask-onboarding-de>
+  <app-ask-onboarding-en
+    *ngIf="langService.currentLanguage() === 'en'"></app-ask-onboarding-en>
+  <app-ask-onboarding-fr
+    *ngIf="langService.currentLanguage() === 'fr'"></app-ask-onboarding-fr>
+</mat-dialog-content>
+
+<app-dialog-action-buttons
+  buttonsLabelSection="ask-onboarding"
+  confirmButtonLabel="start"
+  [cancelButtonClickAction]="onCancel"
+  [confirmButtonClickAction]="onSubmit"></app-dialog-action-buttons>

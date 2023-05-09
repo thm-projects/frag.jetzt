@@ -2,6 +2,11 @@
   <div
     class="gpt-requester"
     *ngIf="!isLoading; else loading">
+    <h2 class="heading">
+      {{
+        "gpt-chat.title-" + (answeringComment ? "answer" : "free") | translate
+      }}
+    </h2>
     <div
       fxLayout="row"
       style="padding: 0">
@@ -134,7 +139,7 @@
       (changeContent)="calculateTokens(getCurrentText())"
       [isModerator]="(sessionService.currentRole || 0) > 0"
       [isBrainstorming]="false"
-      [isEditor]="true"
+      [isEditor]="conversation.length > 0 || !answeringComment"
       [maxTextCharacters]="1000"
       [maxDataCharacters]="2000"
       [disableVideo]="true"
@@ -171,6 +176,7 @@
             <mat-form-field *ngIf="part.type === 'select'">
               <mat-label>{{ "gpt-chat.your-choice" | translate }}</mat-label>
               <mat-select
+                [panelClass]="'gpt-chat-room-select'"
                 [(ngModel)]="context.selected"
                 [required]="!context.allowNone">
                 <mat-option

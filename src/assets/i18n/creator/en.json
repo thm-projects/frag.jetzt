@@ -178,6 +178,9 @@
     "needs-user-account": "You need an account with an email address to receive notifications!"
   },
   "comment-page": {
+    "share-comment": "Copy participant link to this post",
+    "share-comment-success": "Successfully copied.",
+    "share-comment-fail": "Something went wrong!",
     "a11y-comment-answer": "View Answer",
     "a11y-comment-answer-not": "Create Answer",
     "a11y-comment_delete": "Deletes this question",
@@ -374,6 +377,8 @@
   "gpt-chat": {
     "optin-accept": "Accept",
     "optin-reject": "Reject",
+    "title-free": "ChatGPT | Free questions and answers",
+    "title-answer": "ChatGPT | Answer Assistent",
     "interrupt": "Stop output",
     "copy-markdown": "Copy Markdown",
     "copy-success": "Markdown successfully copied",
@@ -508,7 +513,8 @@
   "home-page": {
     "create-session": "New session",
     "created": "The room for the session »{{longRoomName}}« has been created.",
-    "no-empty-name": "Please enter a name."
+    "no-empty-name": "Please enter a name.",
+    "gpt-topic-general": "General"
   },
   "introductions": {
     "brainstorming-title": "Brainstorming",

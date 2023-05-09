@@ -30,6 +30,7 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { MatProgressBar } from '@angular/material/progress-bar';
 import { PasswordGeneratorComponent } from '../password-generator/password-generator.component';
+import { Observable, map, of } from 'rxjs';
 
 export class PasswordResetErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(
@@ -87,9 +88,18 @@ export class PasswordResetComponent implements OnInit, AfterViewInit {
     private dialog: MatDialog,
   ) {}
 
-  public static calculateStrength(passwordControl: FormControl): number {
+  public static calculateStrength(
+    auth: AuthenticationService,
+    passwordControl: FormControl,
+  ): Observable<[number, string]> {
+    const getColor = (num: number) =>
+      'rgb(' +
+      Math.round((255 * (100 - num)) / 100) +
+      ', ' +
+      Math.round((255 * num) / 100) +
+      ', 0)';
     if (passwordControl.errors) {
-      return 5;
+      return of([5, getColor(5)]);
     }
     let permutation = 1;
     for (const c of passwordControl.value.split('')) {
@@ -107,9 +117,21 @@ export class PasswordResetComponent implements OnInit, AfterViewInit {
     }
 
     const oneYearFourCores = 2052e13;
-    return Math.max(
+    const strength = Math.max(
       5,
       Math.min(100, (Math.log(permutation) * 100) / Math.log(oneYearFourCores)),
+    );
+    const password = passwordControl.value;
+    return auth.checkCompromised(password).pipe(
+      map((compromisedLength) => {
+        const diff = password.length - compromisedLength;
+        if (diff < 6) {
+          return [5, getColor(5)];
+        }
+        const mod = Math.min(1, diff / 9);
+        const finalStrength = Math.round(strength * mod);
+        return [finalStrength, getColor(finalStrength)];
+      }),
     );
   }
 
@@ -190,7 +212,6 @@ export class PasswordResetComponent implements OnInit, AfterViewInit {
                 this.notificationService.show(message);
               });
           }
-          this.closeDialog();
         });
     } else {
       this.translationService
@@ -248,31 +269,46 @@ export class PasswordResetComponent implements OnInit, AfterViewInit {
           this.translationService
             .get('password-reset.new-password-key-expired')
             .subscribe((message) => {
-              this.notificationService.show(message);
+              this.notificationService.show(message, undefined, {
+                duration: 12_500,
+                panelClass: ['snackbar-warn'],
+              });
             });
         } else if (errorCode === LoginResult.InvalidKey) {
           this.translationService
             .get('password-reset.new-password-key-invalid')
             .subscribe((message) => {
-              this.notificationService.show(message);
+              this.notificationService.show(message, undefined, {
+                duration: 12_500,
+                panelClass: ['snackbar-warn'],
+              });
             });
         } else if (errorCode === LoginResult.PasswordTooCommon) {
           this.translationService
             .get('register.register-error-password-too-common')
             .subscribe((message) => {
-              this.notificationService.show(message);
+              this.notificationService.show(message, undefined, {
+                duration: 12_500,
+                panelClass: ['snackbar-warn'],
+              });
             });
         } else if (errorCode === LoginResult.NewPasswordIsOldPassword) {
           this.translationService
             .get('password-reset.new-password-is-old')
             .subscribe((message) => {
-              this.notificationService.show(message);
+              this.notificationService.show(message, undefined, {
+                duration: 12_500,
+                panelClass: ['snackbar-warn'],
+              });
             });
         } else {
           this.translationService
             .get('register.register-request-error')
             .subscribe((message) => {
-              this.notificationService.show(message);
+              this.notificationService.show(message, undefined, {
+                duration: 12_500,
+                panelClass: ['snackbar-invalid'],
+              });
             });
         }
       },
@@ -298,18 +334,15 @@ export class PasswordResetComponent implements OnInit, AfterViewInit {
   }
 
   checkPasswordStrength() {
-    this.passwordStrength = PasswordResetComponent.calculateStrength(
+    PasswordResetComponent.calculateStrength(
+      this.authenticationService,
       this.passwordFormControl,
-    );
-    const color =
-      'rgb(' +
-      Math.round((255 * (100 - this.passwordStrength)) / 100) +
-      ', ' +
-      Math.round((255 * this.passwordStrength) / 100) +
-      ', 0)';
-    this.customProgressBar._elementRef.nativeElement.style.setProperty(
-      '--line-color',
-      color,
-    );
+    ).subscribe(([strength, color]) => {
+      this.passwordStrength = strength;
+      this.customProgressBar._elementRef.nativeElement.style.setProperty(
+        '--line-color',
+        color,
+      );
+    });
   }
 }

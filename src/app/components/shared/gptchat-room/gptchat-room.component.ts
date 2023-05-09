@@ -57,7 +57,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { UserRole } from '../../../models/user-roles.enum';
 import { ForumComment } from '../../../utils/data-accessor';
 import { EventService } from '../../../services/util/event.service';
-import { map, take } from 'rxjs/operators';
+import { filter, map, take } from 'rxjs/operators';
 import { clone } from '../../../utils/ts-utils';
 import {
   CommentCreateOptions,
@@ -378,7 +378,11 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
         }),
       )
       .subscribe(() =>
-        GPTRatingDialogComponent.open(this.dialog, this.gptService).subscribe({
+        GPTRatingDialogComponent.open(
+          this.dialog,
+          this.gptService,
+          true,
+        ).subscribe({
           next: (ref) => {
             if (!ref) {
               this.router.navigate([url]);
@@ -435,7 +439,19 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     this.route.params.subscribe((params) => {
       url = `${roleString}/room/${params['shortId']}/comment/${this.owningComment.id}`;
-      this.router.navigate([url]);
+      GPTRatingDialogComponent.open(
+        this.dialog,
+        this.gptService,
+        true,
+      ).subscribe({
+        next: (ref) => {
+          if (!ref) {
+            this.router.navigate([url]);
+          } else {
+            ref.afterClosed().subscribe(() => this.router.navigate([url]));
+          }
+        },
+      });
     });
   }
 
@@ -1002,7 +1018,14 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
       !this.answeringWriteComment &&
       this.answeringComment
     ) {
-      this.sendGPTMessage();
+      this.userManagementService
+        .getGPTConsentState()
+        .pipe(
+          takeUntil(this.destroyer),
+          filter((v) => v),
+          take(1),
+        )
+        .subscribe(() => this.sendGPTMessage());
     }
   }
 

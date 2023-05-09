@@ -178,6 +178,9 @@
     "needs-user-account": "Tu as besoin d'un compte avec une adresse e-mail pour recevoir des notifications !"
   },
   "comment-page": {
+    "share-comment": "Copier le lien du participant sur ce post",
+    "share-comment-success": "Copie réussie.",
+    "share-comment-fail": "Quelque chose a mal tourné!",
     "a11y-comment-answer": "Voir la réponse à cette question",
     "a11y-comment-answer-not": "Répondre à cette question",
     "a11y-comment_delete": "Supprime cette question",
@@ -374,6 +377,8 @@
   "gpt-chat": {
     "optin-accept": "Accepter",
     "optin-reject": "Refuser",
+    "title-free": "ChatGPT | Questions et réponses libres",
+    "title-answer": "ChatGPT | Assistant pour les réponses",
     "interrupt": "Arrêter la sortie",
     "copy-markdown": "Copier Markdown",
     "copy-success": "Markdown copié avec succès",
@@ -508,7 +513,8 @@
   "home-page": {
     "create-session": "Nouvelle session",
     "created": "La salle pour la session \"{{longRoomName}}\" a été créée.",
-    "no-empty-name": "Saisissez un nom. Le code de la salle est généré."
+    "no-empty-name": "Saisissez un nom. Le code de la salle est généré.",
+    "gpt-topic-general": "Général"
   },
   "introductions": {
     "brainstorming-title": "Brainstorming",

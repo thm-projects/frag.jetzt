@@ -91,8 +91,12 @@
     "reset": "Reset",
     "note-on-changing-settings": "You can change all settings later."
   },
+  "ask-onboarding": {
+    "start": "Start",
+    "cancel": "Maybe later …"
+  },
   "cookies": {
-    "accept": "Onboarding …",
+    "accept": "Accept",
     "accept-description": "Accept the use of a web storage and proceed to the app.",
     "cancel": "Cancel",
     "cancel-description": "Reject usage of a web storage and exit the app.",
@@ -327,6 +331,7 @@
     "title": "Help"
   },
   "home-page": {
+    "gpt-topic-general": "General",
     "accessibility-create": "Create a new session",
     "accessibility-join-button": "Enter the session with the specified session key.",
     "accessibility-join-input": "Here you can enter the  key of the session you want to join. The presenter will tell you the session key.",
@@ -543,7 +548,7 @@
     "register": "Register",
     "register-description": "Register User",
     "register-request-error": "Something went wrong during registration. Maybe you have already created the account?",
-    "register-successful": "Successfully registered. Please check your emails.",
+    "register-successful": "Successfully registered. Please check your mailbox! The dispatch can take up to 10min.",
     "register-error-password-too-common": "Password consists of easily guessed strings or strings from published password lists. Please choose a different password or use the password generator.",
     "register-unsuccessful": "Please check your data.",
     "password-generator": "Password generator"

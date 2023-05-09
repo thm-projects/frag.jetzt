@@ -91,8 +91,12 @@
     "reset": "Zurücksetzen",
     "note-on-changing-settings": "Du kannst alle Einstellungen später noch ändern."
   },
+  "ask-onboarding": {
+    "start": "Starten",
+    "cancel": "Vielleicht später …"
+  },
   "cookies": {
-    "accept": "Onboarding …",
+    "accept": "Annehmen",
     "accept-description": "Bestätigt die Verwendung der Web-Storage-Technik und schaltet die Anwendung frei",
     "cancel": "Abbrechen",
     "cancel-description": "Lehnt die Verwendung der Web-Storage-Technik ab und sperrt die Anwendung",
@@ -327,6 +331,7 @@
     "title": "Hilfe"
   },
   "home-page": {
+    "gpt-topic-general": "Allgemein",
     "accessibility-create": "Erstellt eine neue Sitzung.",
     "accessibility-join-button": "Betritt die Sitzung, deren Code du eingegeben hast.",
     "accessibility-join-input": "Hier kannst du den Namen der Sitzung eingeben der du beitreten möchtest. Den Namen sagt dir die Sitzungsleitung.",
@@ -543,7 +548,7 @@
     "register": "Registrieren",
     "register-description": "Registrierung abschließen",
     "register-request-error": "Bei der Registrierung ist etwas schief gelaufen. Hast du dich bereits registriert?",
-    "register-successful": "Erfolgreich registriert. Bitte prüfe deine Mailbox!",
+    "register-successful": "Erfolgreich registriert. Bitte prüfe deine Mailbox! Der Versand kann bis zu 10min dauern.",
     "register-error-password-too-common": "Das Passwort besteht aus leicht zu erratenden Zeichenfolgen oder Zeichenfolgen aus veröffentlichten Passwortlisten. Bitte wähle ein anderes Passwort oder benutze den Passwortgenerator.",
     "register-unsuccessful": "Bitte prüfe deine Eingaben.",
     "password-generator": "Passwort-Generator"
