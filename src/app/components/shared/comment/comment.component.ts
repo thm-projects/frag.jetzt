@@ -50,6 +50,7 @@ import { EventService } from '../../../services/util/event.service';
 import { take } from 'rxjs/operators';
 import { GPTChatInfoComponent } from '../_dialogs/gptchat-info/gptchat-info.component';
 import { TSMap } from 'typescript-map';
+import { prettyPrintDate } from '../../../utils/date';
 
 @Component({
   selector: 'app-comment',
@@ -768,23 +769,10 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
     if (!this.comment) {
       return;
     }
-    const date = new Date(this.comment.createdAt);
-    const dateString = date.toLocaleDateString(
-      this.langService.currentLanguage() ?? undefined,
-      {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric',
-      },
+    this.readableCommentDate = prettyPrintDate(
+      this.comment.createdAt,
+      this.langService.currentLanguage(),
     );
-    const timeString = date.toLocaleTimeString(
-      this.langService.currentLanguage() ?? undefined,
-      {
-        minute: '2-digit',
-        hour: '2-digit',
-      },
-    );
-    this.readableCommentDate = dateString + ' ' + timeString;
   }
 
   private generateCommentNumber() {

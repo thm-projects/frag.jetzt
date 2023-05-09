@@ -1,10 +1,75 @@
-<div
-  class="dialog-title"
-  *ngIf="isProduction">
-  <p mat-dialog-title>{{ translateKey + ".dialog-title" | translate }}</p>
+<ng-template
+  #LiveIcon
+  let-isPaused="isPaused">
   <div [ngClass]="isPaused ? 'live-paused' : 'live-active'">
     <mat-icon>fiber_manual_record</mat-icon>
     <span>{{ translateKey + ".live" | translate }}</span>
+  </div>
+</ng-template>
+
+<div
+  class="dialog-header"
+  *ngIf="isProduction">
+  <div class="dialog-header-title">
+    <h5 mat-dialog-title>{{ translateKey + ".dialog-title" | translate }}</h5>
+  </div>
+  <div class="dialog-header-content">
+    <span style="padding-left: 8px"></span>
+    <ng-container
+      *ngTemplateOutlet="
+        LiveIcon;
+        context: { isPaused: isPaused }
+      "></ng-container>
+    <div class="fill"></div>
+    <div class="settings">
+      <button
+        mat-flat-button
+        [mat-menu-trigger-for]="archiveMenu"
+        class="button-primary"
+        (click)="openArchive()">
+        <mat-icon>archive</mat-icon>
+        <span>{{ translateKey + ".option-archive" | translate }}</span>
+      </button>
+      <mat-menu
+        #archiveMenu
+        [classList]="'livepoll-dialog-component-archive-menu'">
+        <ng-container *ngIf="archive">
+          <div
+            *ngFor="let entry of archive"
+            class="archive-menu-item">
+            <div class="header">
+              <span>
+                {{
+                  entry.title
+                    ? entry.title.length > 27
+                      ? entry.title.slice(0, 24) + "..."
+                      : entry.title
+                    : (translateKey + ".archive-noname" | translate)
+                }}
+              </span>
+              <ng-container *ngIf="entry.active">
+                <span style="padding-left: 4px"></span>
+                <ng-container
+                  *ngTemplateOutlet="
+                    LiveIcon;
+                    context: { isPaused: entry.paused }
+                  "></ng-container>
+              </ng-container>
+              <ng-container *ngIf="!entry.active">
+                <span style="padding-left: 8px">
+                  {{ translateKey + ".archive-finished" | translate }}
+                </span>
+              </ng-container>
+              <div class="fill"></div>
+              <span>{{ this.prettyPrintDate(entry.createdAt) }}</span>
+            </div>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="!archive">
+          <mat-spinner></mat-spinner>
+        </ng-container>
+      </mat-menu>
+    </div>
   </div>
 </div>
 <mat-dialog-content

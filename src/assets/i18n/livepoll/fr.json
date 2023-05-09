@@ -1,6 +1,9 @@
 {
   "common": {
     "live": "Live",
+    "option-archive": "Archive",
+    "archive-noname": "Sondage sans nom",
+    "archive-finished": "Ends",
     "create-dialog-title": "Créer un sondage rapide",
     "dialog-title": "Sondage rapide",
     "option-select-title": "Ta question …",

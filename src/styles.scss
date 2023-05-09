@@ -582,3 +582,34 @@ div[markdown] img {
     max-width: 100%;
   }
 }
+
+// If it's unavoidable to use global styles:
+//    Link a REASON with \@see in order to keep REFERENCES.
+//    This will improve readability and in case the responsible component gets removed,
+//    this can be removed without having to fear nasty side-effects.
+// @see src/app/components/shared/_dialogs/livepoll/livepoll-common.scss
+.livepoll-dialog-component-archive-menu {
+  min-width: auto;
+  width: 400px;
+
+  // When using !important, at least bind it to a class,
+  // that way, if this property needs to be changed in a different component, it won't affect this one.
+  max-width: calc(100vw - 16px) !important;
+  overflow: auto;
+
+  .archive-menu-item {
+    display: flex;
+    flex-direction: column;
+    overflow: visible;
+
+    > .header {
+      height: 32px;
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  .fill {
+    flex-grow: 1;
+  }
+}
