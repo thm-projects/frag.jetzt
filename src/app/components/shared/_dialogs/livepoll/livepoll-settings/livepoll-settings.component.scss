@@ -47,6 +47,9 @@
 
 .settings-expansion-panel {
   box-shadow: none;
+  border: 1px solid var(--on-surface);
+  transition: all 0.2s ease-in-out;
+  box-sizing: border-box;
 }
 
 .force-corporate-design {

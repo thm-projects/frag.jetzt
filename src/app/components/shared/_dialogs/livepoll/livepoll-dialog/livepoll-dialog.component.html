@@ -74,98 +74,105 @@
 </div>
 <mat-dialog-content
   class="content"
-  *ngIf="livepollSession">
-  <ng-container
-    *ngIf="session.currentRole && livepollSession.active && !isConclusion">
-    <app-livepoll-settings [parent]="this"></app-livepoll-settings>
-  </ng-container>
-
-  <div class="title-container">
-    <p
-      class="preview-title"
-      *ngIf="!isProduction">
-      {{ translateKey + ".dialog-preview-title" | translate }}
-    </p>
-  </div>
-
-  <div class="markdown-container">
-    <markdown [data]="livepollSession.title"></markdown>
-  </div>
-
-  <div class="statistics-settings-container">
-    <div class="statistics-options">
-      <button
-        mat-flat-button
-        *ngIf="isProduction && session.currentRole"
-        class="button-cancel"
-        (click)="resetResults()">
-        <mat-icon style="margin-right: 4px">undo</mat-icon>
-        <span class="on-desktop">
-          {{ translateKey + ".settings-resetResults" | translate }}
-        </span>
-      </button>
-    </div>
-    <div class="statistics-info">
-      <div
-        @AnimateInOut
-        *ngIf="livepollSession.viewsVisible">
-        <span>{{ translateKey + ".participants" | translate }}</span>
-        <span>{{ userCount }}</span>
-      </div>
-      <div
-        @AnimateInOut
-        *ngIf="livepollSession.resultVisible">
-        <span>{{ translateKey + ".votes" | translate }}</span>
-        <span>{{ totalVotes }}</span>
-      </div>
-    </div>
-  </div>
-
-  <ng-container *ngIf="options && livepollSession.resultVisible">
-    <app-livepoll-statistic
-      @AnimateInOut
-      [options]="this.options"
-      [template]="this.template"
-      [translateKey]="this.translateKey"
-      [votes]="this.votes"
-      [totalVotes]="this.totalVotes"></app-livepoll-statistic>
-  </ng-container>
-
-  <div
-    class="vote-container"
-    *ngIf="!isConclusion && livepollSession.active">
-    <div
-      [ngClass]="'reverse-' + !!template.reverse + ' grid-' + template.isGrid"
-      [ngStyle]="{ 'grid-template-rows': 'repeat(' + rowHeight + ',1fr)' }"
-      *ngIf="template">
-      <ng-container *ngIf="template.symbols">
-        <ng-container *ngFor="let symbol of template.symbols; index as i">
-          <ng-container
-            *ngTemplateOutlet="
-              option;
-              context: {
-                i: i,
-                symbol: symbol
-              }
-            "></ng-container>
-        </ng-container>
-      </ng-container>
-      <ng-container *ngIf="template.length">
-        <ng-container
-          *ngFor="let symbol of [].constructor(template.length); index as i">
-          <ng-container
-            *ngTemplateOutlet="
-              option;
-              context: {
-                i: i,
-                symbol: i
-              }
-            "></ng-container>
-        </ng-container>
-      </ng-container>
-    </div>
-  </div>
+  *ngIf="isProduction; else dialogContent">
+  <ng-container *ngTemplateOutlet="dialogContent"></ng-container>
 </mat-dialog-content>
+<ng-template
+  #dialogContent
+  class="content">
+  <ng-container *ngIf="livepollSession">
+    <ng-container
+      *ngIf="session.currentRole && livepollSession.active && !isConclusion">
+      <app-livepoll-settings [parent]="this"></app-livepoll-settings>
+    </ng-container>
+
+    <div class="title-container">
+      <p
+        class="preview-title"
+        *ngIf="!isProduction">
+        {{ translateKey + ".dialog-preview-title" | translate }}
+      </p>
+    </div>
+
+    <div class="markdown-container">
+      <markdown [data]="livepollSession.title"></markdown>
+    </div>
+
+    <div class="statistics-settings-container">
+      <div class="statistics-options">
+        <button
+          mat-flat-button
+          *ngIf="isProduction && session.currentRole"
+          class="button-cancel"
+          (click)="resetResults()">
+          <mat-icon style="margin-right: 4px">undo</mat-icon>
+          <span class="on-desktop">
+            {{ translateKey + ".settings-resetResults" | translate }}
+          </span>
+        </button>
+      </div>
+      <div class="statistics-info">
+        <div
+          @AnimateInOut
+          *ngIf="livepollSession.viewsVisible">
+          <span>{{ translateKey + ".participants" | translate }}</span>
+          <span>{{ userCount }}</span>
+        </div>
+        <div
+          @AnimateInOut
+          *ngIf="livepollSession.resultVisible">
+          <span>{{ translateKey + ".votes" | translate }}</span>
+          <span>{{ totalVotes }}</span>
+        </div>
+      </div>
+    </div>
+
+    <ng-container *ngIf="options && livepollSession.resultVisible">
+      <app-livepoll-statistic
+        @AnimateInOut
+        [options]="this.options"
+        [template]="this.template"
+        [translateKey]="this.translateKey"
+        [votes]="this.votes"
+        [totalVotes]="this.totalVotes"></app-livepoll-statistic>
+    </ng-container>
+
+    <div
+      class="vote-container"
+      *ngIf="!isConclusion && livepollSession.active">
+      <div
+        [ngClass]="'reverse-' + !!template.reverse + ' grid-' + template.isGrid"
+        [ngStyle]="{ 'grid-template-rows': 'repeat(' + rowHeight + ',1fr)' }"
+        *ngIf="template">
+        <ng-container *ngIf="template.symbols">
+          <ng-container *ngFor="let symbol of template.symbols; index as i">
+            <ng-container
+              *ngTemplateOutlet="
+                option;
+                context: {
+                  i: i,
+                  symbol: symbol
+                }
+              "></ng-container>
+          </ng-container>
+        </ng-container>
+        <ng-container *ngIf="template.length">
+          <ng-container
+            *ngFor="let symbol of [].constructor(template.length); index as i">
+            <ng-container
+              *ngTemplateOutlet="
+                option;
+                context: {
+                  i: i,
+                  symbol: i
+                }
+              "></ng-container>
+          </ng-container>
+        </ng-container>
+      </div>
+    </div>
+  </ng-container>
+</ng-template>
 
 <mat-dialog-actions
   *ngIf="isProduction"

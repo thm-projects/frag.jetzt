@@ -36,7 +36,16 @@
             *ngIf="votes"
             [ngStyle]="{
               width: getVoteBarSize(i) + '%'
-            }"></div>
+            }">
+            <div>
+              <span>
+                {{
+                  getVotePercentage(i) +
+                    (languageService.currentLanguage() === "de" ? " " : "")
+                }}%
+              </span>
+            </div>
+          </div>
         </div>
         <div class="foreground">
           <span>
