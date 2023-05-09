@@ -1,3 +1,4 @@
+@use "sass:math";
 @import "../livepoll-common";
 
 .result-container {
@@ -64,8 +65,22 @@
           min-width: 1px;
           width: 10px;
           background-color: var(--livepoll-secondary);
-          border-radius: #{$border-radius - ($border-radius / 2)}px;
+          border-radius: #{$border-radius - math.div($border-radius, 2)}px;
           transition: width 100ms ease-in-out;
+          overflow: hidden;
+
+          > div {
+            position: relative;
+
+            > span {
+              position: absolute;
+              top: 2px;
+              font-weight: bold;
+              left: 9px;
+              z-index: 10;
+              color: var(--on-livepoll-secondary);
+            }
+          }
         }
       }
 
@@ -76,12 +91,12 @@
         position: relative;
         top: -$height;
 
-        > span {
-          position: relative;
-          top: 8px;
+        span {
+          position: absolute;
+          top: 6px;
+          font-weight: bold;
           left: 13px;
-          font-weight: normal;
-          color: var(--on-livepoll-secondary);
+          color: var(--livepoll-secondary);
         }
       }
     }

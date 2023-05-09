@@ -587,7 +587,7 @@ div[markdown] img {
 //    Link a REASON with \@see in order to keep REFERENCES.
 //    This will improve readability and in case the responsible component gets removed,
 //    this can be removed without having to fear nasty side-effects.
-// @see src/app/components/shared/_dialogs/livepoll/livepoll-common.scss
+// @see src/app/components/shared/_dialogs/livepoll/**.html
 .livepoll-dialog-component-archive-menu {
   min-width: auto;
   width: 400px;
@@ -611,5 +611,18 @@ div[markdown] img {
 
   .fill {
     flex-grow: 1;
+  }
+}
+
+// @see src/app/components/shared/_dialogs/livepoll/**.html
+.livepoll-component {
+  .mat-form-field-appearance-outline .mat-form-field-outline {
+    color: var(--on-surface);
+  }
+  input.mat-input-element {
+    color: var(--on-surface);
+  }
+  .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
+    color: var(--on-surface);
   }
 }
