@@ -728,16 +728,6 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
       (e) => {
         e.menuItem({
           translate: this.headerService.getTranslate(),
-          icon: 'integration_instructions',
-          class: 'material-icons-outlined',
-          text: 'header.preset-role-instruction',
-          callback: () => this.showInstructionPresetsDefinition(),
-          condition: () => {
-            return this.sessionService.currentRole > 0 && this.answeringComment;
-          },
-        });
-        e.menuItem({
-          translate: this.headerService.getTranslate(),
           icon: 'question_mark',
           class: 'material-icons-outlined',
           text: 'header.prompt-explanation',
@@ -746,6 +736,16 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
             return (
               this.sessionService.currentRole > 0 && this.answeringWriteComment
             );
+          },
+        });
+        e.menuItem({
+          translate: this.headerService.getTranslate(),
+          icon: 'integration_instructions',
+          class: 'material-icons-outlined',
+          text: 'header.preset-role-instruction',
+          callback: () => this.showInstructionPresetsDefinition(),
+          condition: () => {
+            return this.sessionService.currentRole > 0 && this.answeringComment;
           },
         });
         e.menuItem({
