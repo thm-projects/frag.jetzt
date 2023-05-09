@@ -413,7 +413,7 @@
     "password": "Mot de passe",
     "password-description": "Saisis ici ton mot de passe.",
     "password-required": "Mot de passe nécessaire",
-    "password-reset": "Nouveau mot de passe …",
+    "password-reset": "Mot de passe oublié?",
     "register": "S'inscrire",
     "restart-account-activation-button": "Demander un nouveau code",
     "restart-account-activation-correct": "Le code d'activation a été envoyée.",
@@ -431,7 +431,7 @@
     "or": "ou",
     "password": "Mot de passe",
     "sign-in-as-guest": "Continuer en tant qu'invité",
-    "sign-up": "Créer un compte",
+    "sign-up": "S'inscrire",
     "title": "S'inscrire"
   },
   "moderators-dialog": {

@@ -413,7 +413,7 @@
     "password": "Password",
     "password-description": "Enter your password here.",
     "password-required": "Password required",
-    "password-reset": "New password …",
+    "password-reset": "Forgot password?",
     "register": "Sign up",
     "restart-account-activation-button": "Request a new activation code",
     "restart-account-activation-correct": "New activation code sent.",
@@ -431,7 +431,7 @@
     "or": "or",
     "password": "Password",
     "sign-in-as-guest": "Continue as a guest",
-    "sign-up": "Create account",
+    "sign-up": "Register",
     "title": "Sign in"
   },
   "moderators-dialog": {
