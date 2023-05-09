@@ -190,7 +190,6 @@ export class PasswordResetComponent implements OnInit, AfterViewInit {
                 this.notificationService.show(message);
               });
           }
-          this.closeDialog();
         });
     } else {
       this.translationService
