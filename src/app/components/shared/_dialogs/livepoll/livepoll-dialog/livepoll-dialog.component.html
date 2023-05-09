@@ -14,6 +14,7 @@
     <h5 mat-dialog-title>{{ translateKey + ".dialog-title" | translate }}</h5>
   </div>
   <div class="dialog-header-content">
+    <span style="padding-left: 8px"></span>
     <ng-container
       *ngTemplateOutlet="
         LiveIcon;
@@ -37,8 +38,17 @@
             *ngFor="let entry of archive"
             class="archive-menu-item">
             <div class="header">
-              <span>{{ entry.title ? entry.title : "..." }}</span>
+              <span>
+                {{
+                  entry.title
+                    ? entry.title.length > 27
+                      ? entry.title.slice(0, 24) + "..."
+                      : entry.title
+                    : (translateKey + ".archive-noname" | translate)
+                }}
+              </span>
               <ng-container *ngIf="entry.active">
+                <span style="padding-left: 4px"></span>
                 <ng-container
                   *ngTemplateOutlet="
                     LiveIcon;
@@ -46,12 +56,12 @@
                   "></ng-container>
               </ng-container>
               <ng-container *ngIf="!entry.active">
-                <span>COMPLETE</span>
+                <span style="padding-left: 8px">
+                  {{ translateKey + ".archive-finished" | translate }}
+                </span>
               </ng-container>
               <div class="fill"></div>
-              <span>
-                {{ entry.createdAt.toLocaleString("ja-JP").slice(0, 10) }}
-              </span>
+              <span>{{ this.prettyPrintDate(entry.createdAt) }}</span>
             </div>
           </div>
         </ng-container>

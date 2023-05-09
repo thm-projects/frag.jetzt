@@ -2,6 +2,8 @@
   "common": {
     "live": "Live",
     "option-archive": "Archive",
+    "archive-noname": "Unbenannte Blitzumfrage",
+    "archive-finished": "Beendet",
     "create-dialog-title": "Blitzumfrage erstellen",
     "dialog-title": "Blitzumfrage",
     "option-select-title": "Deine Frage …",
