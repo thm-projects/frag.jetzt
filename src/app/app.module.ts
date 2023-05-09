@@ -103,6 +103,10 @@ import 'emoji-toolkit/lib/js/joypixels.min.js';
 import 'quill-emoji/dist/quill-emoji.js';
 import { QuillModule } from 'ngx-quill';
 import { PasswordGeneratorComponent } from './components/home/_dialogs/password-generator/password-generator.component';
+import { AskOnboardingComponent } from './components/home/_dialogs/ask-onboarding/ask-onboarding.component';
+import { AskOnboardingDEComponent } from 'assets/i18n/components/ask-onboarding/ask-onboarding-de.component';
+import { AskOnboardingENComponent } from 'assets/i18n/components/ask-onboarding/ask-onboarding-en.component';
+import { AskOnboardingFRComponent } from 'assets/i18n/components/ask-onboarding/ask-onboarding-fr.component';
 
 export const dialogClose = (dialogResult: any) => '';
 
@@ -147,6 +151,10 @@ export const HttpLoaderFactory = (http: HttpClient) =>
     QuizNowComponent,
     NotifyUnsupportedBrowserComponent,
     PasswordGeneratorComponent,
+    AskOnboardingComponent,
+    AskOnboardingDEComponent,
+    AskOnboardingENComponent,
+    AskOnboardingFRComponent,
   ],
   imports: [
     MatomoModule,

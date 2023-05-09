@@ -8,9 +8,7 @@ import { ThemeService } from '../../../theme/theme.service';
 import { catchError, map } from 'rxjs/operators';
 import { MatomoTrackingService } from './matomo-tracking.service';
 import { TitleService } from './title.service';
-import {
-  NotifyUnsupportedBrowserComponent,
-} from '../../components/home/_dialogs/notify-unsupported-browser/notify-unsupported-browser.component';
+import { NotifyUnsupportedBrowserComponent } from '../../components/home/_dialogs/notify-unsupported-browser/notify-unsupported-browser.component';
 import { MatDialog } from '@angular/material/dialog';
 import { DeviceInfoService } from './device-info.service';
 import { SessionService } from './session.service';
@@ -23,15 +21,18 @@ import { environment } from '../../../environments/environment';
 import { User } from '../../models/user';
 import { StyleService } from '../../../../projects/ars/src/lib/style/style.service';
 import { NgxIndexedDBService } from 'ngx-indexed-db';
-import { MotdDialogRequest, sendEvent } from '../../utils/service-component-events';
+import {
+  MotdDialogRequest,
+  sendEvent,
+} from '../../utils/service-component-events';
 import { EventService } from './event.service';
 import { TimeoutHelper } from '../../utils/ts-utils';
+import { AskOnboardingComponent } from 'app/components/home/_dialogs/ask-onboarding/ask-onboarding.component';
 
 @Injectable({
   providedIn: 'root',
 })
 export class StartUpService {
-
   private _hasUnreadMotds = false;
   private _unreadMotds = new ReplaySubject<boolean>(1);
 
@@ -65,37 +66,49 @@ export class StartUpService {
     private _dsgvo: DSGVOService,
   ) {
     this.measure('Require data');
-    configurationService.get(
-      'language', 'theme', 'cookieAccepted', 'guestAccount', 'currentAccount',
-    ).subscribe(([lang, theme, cookie, guest, acc]) => {
-      this.measure('Language and Theme');
-      this.checkLanguageAndTheme(lang, theme).pipe(
-        switchMap(() => {
-          this.measure('Cookie Consent');
-          return this.checkCookieAndProtectionConsent(cookie);
-        }),
-        switchMap(() => {
-          this.measure('Account Login');
-          return this.checkAccount(guest, acc);
-        }),
-        switchMap(() => {
-          this.measure('Safari check');
-          return this.checkSafari();
-        }),
-        catchError((e) => {
-          console.error('error on startup:', e);
-          return of(true);
-        }),
-      ).subscribe(() => {
-        this.measure('End Sync');
-        this.startAsync();
+    configurationService
+      .get(
+        'language',
+        'theme',
+        'cookieAccepted',
+        'guestAccount',
+        'currentAccount',
+      )
+      .subscribe(([lang, theme, cookie, guest, acc]) => {
+        this.measure('Language and Theme');
+        this.checkLanguageAndTheme(lang, theme)
+          .pipe(
+            switchMap(() => {
+              this.measure('Cookie Consent');
+              return this.checkCookieAndProtectionConsent(cookie);
+            }),
+            switchMap(() => {
+              this.measure('Account Login');
+              return this.checkAccount(guest, acc);
+            }),
+            switchMap(() => {
+              this.measure('Safari check');
+              return this.checkSafari();
+            }),
+            switchMap(() => {
+              this.measure('Onboarding interactions');
+              return this.startOnboarding();
+            }),
+            catchError((e) => {
+              console.error('error on startup:', e);
+              return of(true);
+            }),
+          )
+          .subscribe(() => {
+            this.measure('End Sync');
+            this.startAsync();
+          });
       });
-    });
   }
 
   readMOTD(motdIds: string[]) {
     this.userManagementService.readMOTDs(motdIds);
-    this.getMotds().subscribe(data => this.checkNew(data));
+    this.getMotds().subscribe((data) => this.checkNew(data));
   }
 
   setMotdUnread(motdId: string) {
@@ -107,7 +120,7 @@ export class StartUpService {
   }
 
   openMotdDialog() {
-    this.getMotds().subscribe(data => {
+    this.getMotds().subscribe((data) => {
       sendEvent(this.eventService, new MotdDialogRequest(data));
     });
   }
@@ -117,8 +130,6 @@ export class StartUpService {
   }
 
   private startAsync() {
-    this.measure('Onboarding Tour');
-    this.startOnboarding();
     this.measure('Start Session service');
     this._sessionService.init();
     this.measure('Start Motd');
@@ -130,7 +141,7 @@ export class StartUpService {
     if (!this.deviceInfo.isSafari) {
       return of(true);
     }
-    return new Observable<any>(subscriber => {
+    return new Observable<any>((subscriber) => {
       const ref = this.dialog.open(NotifyUnsupportedBrowserComponent, {
         width: '600px',
       });
@@ -150,7 +161,9 @@ export class StartUpService {
       return of(true);
     }
     return this.showCookieModal().pipe(
-      tap(() => this.configurationService.put('cookieAccepted', true).subscribe()),
+      tap(() =>
+        this.configurationService.put('cookieAccepted', true).subscribe(),
+      ),
     );
   }
 
@@ -162,7 +175,7 @@ export class StartUpService {
     });
     dialogRef.disableClose = true;
     return dialogRef.afterClosed().pipe(
-      switchMap(d => {
+      switchMap((d) => {
         if (!d) {
           return this.showOverlay(() => this.showCookieModal());
         }
@@ -172,7 +185,27 @@ export class StartUpService {
   }
 
   private startOnboarding() {
-    this.onboardingService.startDefaultTour();
+    if (localStorage.getItem('onboarding_default')) {
+      return of(true);
+    }
+    const dialogRef = this.dialog.open(AskOnboardingComponent, {
+      width: '80%',
+      maxWidth: '600px',
+      autoFocus: true,
+    });
+    dialogRef.disableClose = true;
+    return dialogRef.afterClosed().pipe(
+      tap((data) => {
+        if (!data) {
+          localStorage.setItem(
+            'onboarding_default',
+            JSON.stringify({ state: 'canceled' }),
+          );
+        } else {
+          this.onboardingService.startDefaultTour();
+        }
+      }),
+    );
   }
 
   private updateNews() {
@@ -183,7 +216,10 @@ export class StartUpService {
     let requestTimeout = 0 as unknown as TimeoutHelper;
     let motdData;
     const request = () => {
-      if (!this.onboardingService.isFinished() || !this._sessionService.currentRole) {
+      if (
+        !this.onboardingService.isFinished() ||
+        !this._sessionService.currentRole
+      ) {
         requestTimeout = setTimeout(request, SPIN_DURATION);
         return;
       }
@@ -208,7 +244,7 @@ export class StartUpService {
       clearTimeout(timeout);
       nextFetch = dateNow + WAIT_DURATION;
       timeout = setTimeout(update, nextFetch - dateNow);
-      this.motdService.getList().subscribe(data => {
+      this.motdService.getList().subscribe((data) => {
         this.saveMotds(data);
         this.checkNew(data);
         motdData = data;
@@ -217,7 +253,7 @@ export class StartUpService {
         }
       });
     };
-    this.userManagementService.getUser().subscribe(_ => {
+    this.userManagementService.getUser().subscribe((_) => {
       clearTimeout(requestTimeout);
       requestTimeout = 0;
       update();
@@ -228,7 +264,7 @@ export class StartUpService {
     const dialogRef = this.dialog.open(OverlayComponent, {});
     dialogRef.disableClose = true;
     return dialogRef.afterClosed().pipe(
-      switchMap(d => {
+      switchMap((d) => {
         if (d) {
           return onSuccess();
         }
@@ -240,7 +276,7 @@ export class StartUpService {
   private leaveApp(): Observable<any> {
     window.close();
     const current = location.origin;
-    return new Observable(subscriber => {
+    return new Observable((subscriber) => {
       const intervalId = setInterval(() => {
         if (location.origin !== current) {
           window.clearInterval(intervalId);
@@ -262,9 +298,11 @@ export class StartUpService {
   }
 
   private checkLanguageAndTheme(lang: string, theme: string): Observable<any> {
-    return new Observable<any>(subscriber => {
+    return new Observable<any>((subscriber) => {
       this.languageService.init(lang);
-      this.translateService.setDefaultLang(this.languageService.currentLanguage());
+      this.translateService.setDefaultLang(
+        this.languageService.currentLanguage(),
+      );
       this.themeService.init(theme);
       this.styleService.init();
       subscriber.next(true);
@@ -273,9 +311,9 @@ export class StartUpService {
   }
 
   private saveMotds(motds: MotdAPI[]) {
-    this.getMotds().subscribe(oldMotds => {
-      const newMotds = motds.filter(m => {
-        if (oldMotds.findIndex(o => o.id === m.id) < 0) {
+    this.getMotds().subscribe((oldMotds) => {
+      const newMotds = motds.filter((m) => {
+        if (oldMotds.findIndex((o) => o.id === m.id) < 0) {
           return true;
         }
         this.indexedDBService.update('motd', m).subscribe();
@@ -288,7 +326,9 @@ export class StartUpService {
   private getMotds(): Observable<MotdAPI[]> {
     return this.indexedDBService.getAll('motd').pipe(
       map((motds: MotdAPI[]) => {
-        motds.sort((a, b) => b.startTimestamp.getTime() - a.startTimestamp.getTime());
+        motds.sort(
+          (a, b) => b.startTimestamp.getTime() - a.startTimestamp.getTime(),
+        );
         return motds;
       }),
     );
@@ -321,15 +361,18 @@ export class StartUpService {
     if (finish) {
       const entries = performance.getEntriesByName('startup', 'mark');
       let prev = null;
-      const [_, object, last] = entries.reduce((acc, value) => {
-        if (prev !== null) {
-          prev['duration'] = format(value.startTime - acc[2]);
-        }
-        prev = { start: format(value.startTime) };
-        acc[1][`${ acc[0]++ } ${ value['detail'] }`] = prev;
-        acc[2] = value.startTime;
-        return acc;
-      }, [0, {} as any, entries[0].startTime]);
+      const [_, object, last] = entries.reduce(
+        (acc, value) => {
+          if (prev !== null) {
+            prev['duration'] = format(value.startTime - acc[2]);
+          }
+          prev = { start: format(value.startTime) };
+          acc[1][`${acc[0]++} ${value['detail']}`] = prev;
+          acc[2] = value.startTime;
+          return acc;
+        },
+        [0, {} as any, entries[0].startTime],
+      );
       prev['duration'] = 'Total: ' + format(last - entries[0].startTime);
       console.table(object);
       performance.clearMarks('startup');
