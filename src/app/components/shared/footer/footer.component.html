@@ -42,8 +42,7 @@
         class="focus_button"
         mat-button>
         <mat-icon class="material-icons-outlined">summarize</mat-icon>
-        <span
-          *ngIf="deviceInfo.isCurrentlyDesktop && router.url.endsWith('/home')">
+        <span *ngIf="deviceInfo.isCurrentlyDesktop">
           {{ "footer.demo" | translate }}
         </span>
       </button>
@@ -74,8 +73,7 @@
         class="focus_button"
         mat-button>
         <mat-icon>format_color_fill</mat-icon>
-        <span
-          *ngIf="deviceInfo.isCurrentlyDesktop && router.url.endsWith('/home')">
+        <span *ngIf="deviceInfo.isCurrentlyDesktop">
           {{ "footer.style" | translate }}
         </span>
       </button>
@@ -92,8 +90,7 @@
         id="language-menu"
         mat-button>
         <mat-icon>language</mat-icon>
-        <span
-          *ngIf="deviceInfo.isCurrentlyDesktop && router.url.endsWith('/home')">
+        <span *ngIf="deviceInfo.isCurrentlyDesktop">
           {{ "footer.language" | translate }}
         </span>
       </button>
@@ -108,7 +105,7 @@
         class="focus_button"
         mat-button>
         <mat-icon class="material-icons-outlined">security</mat-icon>
-        <span *ngIf="router.url.endsWith('/home')">
+        <span>
           {{ "footer.dsgvo" | translate }}
         </span>
       </button>
@@ -123,7 +120,7 @@
         class="focus_button"
         mat-button>
         <mat-icon class="material-icons-outlined">privacy_tip</mat-icon>
-        <span *ngIf="router.url.endsWith('/home')">
+        <span>
           {{ "footer.imprint" | translate }}
         </span>
       </button>
