@@ -734,6 +734,17 @@
     </button>
     <button
       mat-icon-button
+      (click)="copyShareCommentLink()"
+      tabindex="0">
+      <mat-icon
+        class="not-marked"
+        [matTooltip]="'comment-page.share-comment' | translate"
+        [matTooltipPosition]="'right'">
+        share
+      </mat-icon>
+    </button>
+    <button
+      mat-icon-button
       *ngIf="canInteractWithAction('delete')"
       (click)="openDeleteCommentDialog()"
       tabindex="0"

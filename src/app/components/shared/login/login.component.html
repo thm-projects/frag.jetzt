@@ -48,6 +48,15 @@
           required />
         <label>{{ "login-dialog.password" | translate }}</label>
         <button
+          *ngIf="!hide"
+          (click)="copyPassword()"
+          type="button"
+          mat-icon-button
+          matSuffix
+          [matTooltip]="'password-generator.copy-password' | translate">
+          <mat-icon class="material-icons-outlined">content_copy</mat-icon>
+        </button>
+        <button
           (click)="hide = !hide"
           type="button"
           mat-icon-button
@@ -55,14 +64,6 @@
           <mat-icon class="material-icons-outlined">
             {{ hide ? "visibility_off" : "visibility" }}
           </mat-icon>
-        </button>
-        <button
-          (click)="copyPassword()"
-          type="button"
-          mat-icon-button
-          matSuffix
-          [matTooltip]="'password-generator.copy-password' | translate">
-          <mat-icon class="material-icons-outlined">content_copy</mat-icon>
         </button>
       </div>
     </div>

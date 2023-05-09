@@ -73,6 +73,15 @@
         {{ "register.password" | translate }}
       </mat-placeholder>
       <button
+        *ngIf="isPasswordVisible"
+        (click)="copyPassword()"
+        type="button"
+        mat-icon-button
+        matSuffix
+        [matTooltip]="'password-generator.copy-password' | translate">
+        <mat-icon class="material-icons-outlined">content_copy</mat-icon>
+      </button>
+      <button
         (click)="togglePasswordVisibility()"
         type="button"
         class="visibility-icon"
@@ -81,14 +90,6 @@
         <mat-icon class="material-icons-outlined">
           {{ isPasswordVisible ? "visibility" : "visibility_off" }}
         </mat-icon>
-      </button>
-      <button
-        (click)="copyPassword()"
-        type="button"
-        mat-icon-button
-        matSuffix
-        [matTooltip]="'password-generator.copy-password' | translate">
-        <mat-icon class="material-icons-outlined">content_copy</mat-icon>
       </button>
 
       <mat-error *ngIf="password1FormControl.hasError('required')">
@@ -160,6 +161,15 @@
         {{ "register.password-verify" | translate }}
       </mat-placeholder>
       <button
+        *ngIf="isPasswordVisible"
+        (click)="copyPassword()"
+        type="button"
+        mat-icon-button
+        matSuffix
+        [matTooltip]="'password-generator.copy-password' | translate">
+        <mat-icon class="material-icons-outlined">content_copy</mat-icon>
+      </button>
+      <button
         (click)="togglePasswordVisibility()"
         type="button"
         class="visibility-icon"
@@ -168,14 +178,6 @@
         <mat-icon class="material-icons-outlined">
           {{ isPasswordVisible ? "visibility" : "visibility_off" }}
         </mat-icon>
-      </button>
-      <button
-        (click)="copyPassword()"
-        type="button"
-        mat-icon-button
-        matSuffix
-        [matTooltip]="'password-generator.copy-password' | translate">
-        <mat-icon class="material-icons-outlined">content_copy</mat-icon>
       </button>
 
       <mat-error *ngIf="password2FormControl.hasError('required')">

@@ -667,6 +667,15 @@
 
   <button
     mat-menu-item
+    *ngIf="user"
+    (click)="logoutUser()"
+    tabindex="0">
+    <mat-icon class="color-warn material-icons-outlined">logout</mat-icon>
+    <span>{{ "header.logout" | translate }}</span>
+  </button>
+
+  <button
+    mat-menu-item
     *ngIf="
       user && !user.isGuest && user.loginId && router.url.endsWith('/user')
     "
