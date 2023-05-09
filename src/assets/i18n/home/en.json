@@ -542,6 +542,7 @@
     "title": "Password generator",
     "password-length": "Password length",
     "password-input": "Password input",
+    "password-output": "Password output",
     "regenerate": "Generate a secure password",
     "cancel": "Cancel",
     "copy-and-confirm": "Copy and paste password",
