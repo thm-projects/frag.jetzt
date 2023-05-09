@@ -96,10 +96,7 @@
           top: 6px;
           font-weight: bold;
           left: 13px;
-
-          &:nth-child(1) {
-            color: var(--livepoll-secondary);
-          }
+          color: var(--livepoll-secondary);
         }
       }
     }
