@@ -96,10 +96,12 @@
         {{ "login-dialog.sign-up" | translate }}
       </a>
       <button
-        type="submit"
-        aria-labelledby="login-description"
-        class="alt-button login">
-        {{ "login-dialog.login" | translate }}
+        (click)="guestLogin()"
+        class="alt-button guest"
+        type="button"
+        aria-labelledby="guest-login-description"
+        matTooltip="{{ 'login.guest-login-tooltip' | translate }}">
+        {{ "login-dialog.sign-in-as-guest" | translate }}
       </button>
     </div>
   </div>
@@ -110,12 +112,10 @@
 
   <div class="anonymous-container">
     <button
-      (click)="guestLogin()"
-      class="alt-button guest"
-      type="button"
-      aria-labelledby="guest-login-description"
-      matTooltip="{{ 'login.guest-login-tooltip' | translate }}">
-      {{ "login-dialog.sign-in-as-guest" | translate }}
+      type="submit"
+      aria-labelledby="login-description"
+      class="alt-button login">
+      {{ "login-dialog.login" | translate }}
     </button>
   </div>
 </form>

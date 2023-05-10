@@ -661,7 +661,14 @@
     <mat-icon class="color-warn">key</mat-icon>
     <span>{{ "header.open-admin" | translate }}</span>
   </button>
-
+  <button
+    mat-menu-item
+    *ngIf="user"
+    (click)="logoutUser()"
+    tabindex="0">
+    <mat-icon class="color-warn material-icons-outlined">logout</mat-icon>
+    <span>{{ "header.logout" | translate }}</span>
+  </button>
   <button
     mat-menu-item
     *ngIf="
