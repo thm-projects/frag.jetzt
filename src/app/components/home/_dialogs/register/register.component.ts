@@ -136,6 +136,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
 
   matcher = new RegisterErrorStateMatcher();
   passwordStrength: number = 5;
+  userEdit = true;
 
   isPasswordVisible = false;
 
@@ -224,6 +225,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
         this.password1FormControl.setValue(data);
         this.password2FormControl.setValue(data);
         this.checkPasswordStrength();
+        this.userEdit = false;
       }
     });
   }
