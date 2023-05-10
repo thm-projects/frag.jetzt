@@ -1,0 +1,13 @@
+:host-context {
+  display: flex;
+  align-items: center;
+  position: relative;
+
+  :host-context(.live-indicator-paused) {
+    color: var(--gray);
+  }
+
+  :host-context(.live-indicator-active) {
+    color: var(--red);
+  }
+}

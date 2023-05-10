@@ -20,22 +20,6 @@ $bar-background: $secondary;
   flex-grow: 1;
 }
 
-.live {
-  display: flex;
-  align-items: center;
-  position: relative;
-
-  &-active {
-    @extend .live;
-    color: var(--red);
-  }
-
-  &-paused {
-    @extend .live;
-    color: var(--gray);
-  }
-}
-
 .dialog-header {
   display: flex;
 

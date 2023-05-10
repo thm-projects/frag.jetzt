@@ -16,6 +16,8 @@ const animateClosed = {
   height: '0px',
 };
 
+export class TemplateData {}
+
 export class LivepollComponentUtility {
   static readonly animation = [
     trigger('AnimateInOut', [
@@ -46,6 +48,25 @@ export class LivepollComponentUtility {
             translationService.setTranslation(lang, translation, true);
           });
       });
+  }
+
+  static resolveTemplate(
+    templateContext: LivepollTemplateContext,
+  ): TemplateData {
+    const target: {
+      votes: number[];
+      template: LivepollTemplateContext;
+      rowHeight: number;
+      options: LivepollOptionEntry[];
+    } = {
+      options: [],
+      votes: [],
+      rowHeight: 0,
+      template: templateContext,
+    };
+    this.initTemplate(target);
+    console.log(templateContext);
+    return new TemplateData();
   }
 
   static initTemplate(target: {

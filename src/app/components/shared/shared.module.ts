@@ -144,6 +144,11 @@ import { GptPromptExplanationDeComponent } from '../../../assets/i18n/components
 import { GptPromptExplanationEnComponent } from '../../../assets/i18n/components/gpt-prompt-explanation/gpt-prompt-explanation-en';
 import { GptPromptExplanationFrComponent } from '../../../assets/i18n/components/gpt-prompt-explanation/gpt-prompt-explanation-fr';
 import { GPTRatingDialogComponent } from './_dialogs/gptrating-dialog/gptrating-dialog.component';
+import { LivepollArchiveComponent } from './_dialogs/livepoll/overlay/livepoll-archive/livepoll-archive.component';
+import { LivepollHeaderComponent } from './_dialogs/livepoll/livepoll-header/livepoll-header.component';
+import { LivepollLiveIndicatorComponent } from './_dialogs/livepoll/livepoll-live-indicator/livepoll-live-indicator.component';
+import { OverlayModule } from '@angular/cdk/overlay';
+import { LivepollCompareComponent } from './_dialogs/livepoll/overlay/livepoll-compare/livepoll-compare.component';
 
 @NgModule({
   imports: [
@@ -163,6 +168,7 @@ import { GPTRatingDialogComponent } from './_dialogs/gptrating-dialog/gptrating-
     NgxMatNativeDateModule,
     MatSliderModule,
     MatSlideToggleModule,
+    OverlayModule,
   ],
   declarations: [
     RoomJoinComponent,
@@ -290,6 +296,10 @@ import { GPTRatingDialogComponent } from './_dialogs/gptrating-dialog/gptrating-
     GptPromptExplanationEnComponent,
     GptPromptExplanationFrComponent,
     GPTRatingDialogComponent,
+    LivepollArchiveComponent,
+    LivepollHeaderComponent,
+    LivepollLiveIndicatorComponent,
+    LivepollCompareComponent,
   ],
   exports: [
     RoomJoinComponent,

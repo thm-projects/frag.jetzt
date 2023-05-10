@@ -1,0 +1,13 @@
+<span mat-dialog-title>{{ title | translate }}</span>
+<app-livepoll-live-indicator
+  [livepollSession]="livepollSession"></app-livepoll-live-indicator>
+<div class="options">
+  <button
+    mat-flat-button
+    class="button-primary"
+    *ngIf="session.currentRole"
+    (click)="openArchive($event)">
+    <mat-icon>archive</mat-icon>
+    <span>{{ translateKey + ".option-archive" | translate }}</span>
+  </button>
+</div>

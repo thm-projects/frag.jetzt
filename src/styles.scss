@@ -613,10 +613,28 @@ div[markdown] img {
   .mat-form-field-appearance-outline .mat-form-field-outline {
     color: var(--on-surface);
   }
+
   input.mat-input-element {
     color: var(--on-surface);
   }
+
   .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
     color: var(--on-surface);
+  }
+}
+
+// This has to be done, due to improper implementation / modification of angular material themes.
+// And because everything needs to be customized instead of just relying on the framework.
+// @see src/app/components/shared/_dialogs/livepoll/overlay/**
+.livepoll-archive {
+  .list-item {
+    color: var(--on-surface);
+  }
+}
+
+.overlay {
+  &-row {
+    left: 50%;
+    transform: translateX(-50%);
   }
 }

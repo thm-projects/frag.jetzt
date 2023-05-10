@@ -1,0 +1,110 @@
+.fill {
+  flex-grow: 1;
+}
+
+$yOffset: 64px;
+$xOffset: 64px;
+$width: 800px;
+$header-height: 86px;
+$footer-height: 64px;
+
+:host-context {
+  width: $width;
+  max-width: calc(100vw - $xOffset);
+  position: relative;
+  top: calc($yOffset / 2);
+  height: calc(100vh - $yOffset);
+  background-color: var(--dialog);
+  display: flex;
+  flex-direction: column;
+
+  > .header {
+    height: $header-height;
+    border-bottom: 1px solid rgba(127, 127, 127, 0.2);
+    box-sizing: border-box;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+
+    > * + * {
+      margin-left: 8px;
+    }
+
+    > mat-form-field {
+      flex-grow: 1;
+      position: relative;
+      top: 12px;
+    }
+  }
+
+  > .content {
+    height: calc(100vh - ($yOffset - $header-height - $footer-height));
+    display: flex;
+    flex-direction: column;
+
+    .compare-info {
+      height: 64px;
+      background-color: red;
+    }
+  }
+
+  > .footer {
+    height: $footer-height;
+    border-top: 1px solid rgba(127, 127, 127, 0.2);
+    box-sizing: border-box;
+    padding: 8px;
+  }
+}
+
+//:host-context {
+//  width: 800px;
+//  max-width: calc(100vw - 16px);
+//  height: 100vh;
+//  position: absolute;
+//  left: 50vw;
+//  top: 0;
+//  transform: translate3d(-50%, 0%, 0);
+//  color: var(--on-surface);
+//  display: flex;
+//  flex-direction: column;
+//
+//  > * + * {
+//    margin-top: 4px;
+//  }
+//
+//  > .list {
+//    display: flex;
+//    flex-direction: column;
+//
+//    .list-item {
+//      display: flex;
+//    }
+//
+//    > * {
+//      background-color: var(--surface);
+//    }
+//  }
+//
+//  > .preview {
+//    display: flex;
+//    flex-direction: column;
+//    background-color: var(--surface);
+//
+//    > .header {
+//      height: 58px;
+//      padding: 8px 16px;
+//      box-sizing: border-box;
+//      display: flex;
+//      align-items: center;
+//      border-bottom: solid 1px black;
+//
+//      > * + * {
+//        margin-left: 4px;
+//      }
+//    }
+//
+//    > .content {
+//      padding: 8px 16px;
+//    }
+//  }
+//}

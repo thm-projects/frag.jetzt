@@ -1,0 +1,9 @@
+<ng-container *ngIf="livepollSession">
+  <ng-container *ngIf="livepollSession.active">
+    <mat-icon>fiber_manual_record</mat-icon>
+    <span>{{ translateKey + ".live" | translate }}</span>
+  </ng-container>
+  <ng-container *ngIf="!livepollSession.active">
+    <span>{{ translateKey + ".finished" | translate }}</span>
+  </ng-container>
+</ng-container>
