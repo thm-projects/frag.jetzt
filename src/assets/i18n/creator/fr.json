@@ -536,7 +536,11 @@
     "prev": "Retourner",
     "step": "{{step}} / {{total}}",
     "voting": "Le public peut valoriser ou dévaloriser les questions et les réactions qu'elles suscitent, exprimant ainsi son intérêt pour la réponse à la question ou son accord ou son désaccord. La différence d'évaluation est affichée.",
-    "votingTitle": "Evaluer une question"
+    "votingTitle": "Evaluer une question",
+    "chatGPT": "Dans un contexte donné, ChatGPT te permet généralement de répondre efficacement aux questions et d'avoir un aperçu de nouveaux sujets. Il est le premier interlocuteur pour les questions relatives à l'enseignement.",
+    "chatGPTTitle": "Travailler avec ChatGPT",
+    "navigationButton": "Avec la navigation, tu peux voir presque toutes les actions dans le contexte actuel.",
+    "navigationButtonTitle": "Navigation dans l'application"
   },
   "moderator-join": {
     "cancel": "Annuler",

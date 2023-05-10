@@ -2,6 +2,12 @@
   margin-top: 1.5em;
   margin-bottom: 1.5em;
   text-align: center;
+  width: max-content;
+  margin-inline: auto;
+}
+
+h3 {
+  margin: 0;
 }
 
 mat-icon.interactive {

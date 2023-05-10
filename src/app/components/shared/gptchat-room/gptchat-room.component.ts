@@ -233,7 +233,10 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
       this.initDelta = { ops: [] };
       this.loadConversation();
     }
-    if (this.answeringComment) {
+    if (
+      this.answeringComment &&
+      this.sessionService.currentRole > UserRole.PARTICIPANT
+    ) {
       this.headerService.getHeaderComponent().customOptionText = {
         key: 'header.chatroom-options-menu',
       };

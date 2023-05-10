@@ -34,7 +34,7 @@ export class GPTRatingDialogComponent implements OnInit {
           return;
         }
         const dialogRef = dialog.open(GPTRatingDialogComponent, {
-          maxWidth: '80vw',
+          maxWidth: '95vw',
           width: '600px',
         });
         dialogRef.componentInstance.visibleRating = e?.rating || 0;
