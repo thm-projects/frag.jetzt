@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { NgxIndexedDBService } from 'ngx-indexed-db';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { PersistentDataService } from './persistent-data.service';
 
 export const CONFIGURATION_KEYS = [
   'language',
@@ -11,27 +11,23 @@ export const CONFIGURATION_KEYS = [
   'cookieAccepted',
 ] as const;
 
-export type ConfigurationKey = typeof CONFIGURATION_KEYS[number];
+export type ConfigurationKey = (typeof CONFIGURATION_KEYS)[number];
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ConfigurationService {
-
-  constructor(
-    private indexedDBService: NgxIndexedDBService,
-  ) {
-  }
+  constructor(private persistentDataService: PersistentDataService) {}
 
   get(...keys: ConfigurationKey[]): Observable<any[]> {
-    return (this.indexedDBService.bulkGet('config', keys) as Observable<any[]>).pipe(
-      map(data => data.map(datum => datum?.value)),
-    );
+    return (
+      this.persistentDataService.bulkGet('config', keys) as Observable<any[]>
+    ).pipe(map((data) => data.map((datum) => datum?.value)));
   }
 
   put<T>(key: ConfigurationKey, value: T): Observable<T> {
-    return this.indexedDBService.update('config', { key, value }).pipe(
-      map(data => data?.value),
-    );
+    return this.persistentDataService
+      .update('config', { key, value })
+      .pipe(map((data) => data?.value));
   }
 }

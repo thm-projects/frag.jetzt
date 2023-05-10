@@ -6,7 +6,6 @@ import {
   Observable,
   of,
   ReplaySubject,
-  switchMap,
   tap,
 } from 'rxjs';
 import {
@@ -15,9 +14,8 @@ import {
   LoginResultArray,
 } from '../http/authentication.service';
 import { UserRole } from '../../models/user-roles.enum';
-import { NgxIndexedDBService } from 'ngx-indexed-db';
 import { Immutable, Mutable } from '../../utils/ts-utils';
-import { filter, map } from 'rxjs/operators';
+import { filter, map, mergeMap } from 'rxjs/operators';
 import { ConfigurationService } from './configuration.service';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -35,6 +33,7 @@ import {
   SavedRoomAccess,
 } from '../persistence/dbroom-access.service';
 import { GptService } from '../http/gpt.service';
+import { PersistentDataService } from './persistent-data.service';
 
 export interface ManagedUser extends User {
   readonly isSuperAdmin: boolean;
@@ -59,7 +58,6 @@ export class UserManagementService {
 
   constructor(
     private authenticationService: AuthenticationService,
-    private indexedDBService: NgxIndexedDBService,
     private configurationService: ConfigurationService,
     private translateService: TranslateService,
     private notificationService: NotificationService,
@@ -68,6 +66,7 @@ export class UserManagementService {
     private eventService: EventService,
     private dbRoomAccess: DBRoomAccessService,
     private gptService: GptService,
+    private persistentDataService: PersistentDataService,
   ) {}
 
   init(guestUser: User, currentUser: User): Observable<any> {
@@ -82,7 +81,7 @@ export class UserManagementService {
     return this.authenticationService
       .refreshLoginWithToken(currentUser.token)
       .pipe(
-        switchMap((data) =>
+        mergeMap((data) =>
           this.onReceive(currentUser, data, false, false, false),
         ),
       );
@@ -106,7 +105,7 @@ export class UserManagementService {
       return this.authenticationService
         .refreshLoginWithToken(this._guestUser.token)
         .pipe(
-          switchMap((data) =>
+          mergeMap((data) =>
             this.onReceive(this._guestUser, data, false, true).pipe(
               map((d) => [data[0], d] as LoginResultArray),
             ),
@@ -178,7 +177,7 @@ export class UserManagementService {
       return;
     }
     motdIds.forEach((id) => {
-      this.indexedDBService
+      this.persistentDataService
         .update<ReadMOTD>('motdRead', {
           userId: owner.id,
           motdId: id,
@@ -194,7 +193,9 @@ export class UserManagementService {
       console.error('Wrongly attempted to read motd while not registered!');
       return;
     }
-    this.indexedDBService.deleteByKey('motdRead', [id, owner.id]).subscribe();
+    this.persistentDataService
+      .deleteByKey('motdRead', [id, owner.id])
+      .subscribe();
     (owner.readMotds as Set<string>).delete(id);
   }
 
@@ -256,7 +257,7 @@ export class UserManagementService {
       console.error('Wrongly attempted to remove access while not registered!');
       return;
     }
-    this.indexedDBService
+    this.persistentDataService
       .deleteByKey('roomAccess', [owner.id, shortId])
       .subscribe();
     delete (owner.roomAccess as any)[shortId];
@@ -308,7 +309,7 @@ export class UserManagementService {
     if (previousUser?.isGuest && !retry) {
       return this.authenticationService
         .loginAsGuest()
-        .pipe(switchMap((data) => this.onReceive(previousUser, data, true)));
+        .pipe(mergeMap((data) => this.onReceive(previousUser, data, true)));
     }
     if (force) {
       if (SessionService.needsUser(decodeURI(this.router.url))) {
@@ -354,7 +355,7 @@ export class UserManagementService {
     obs: Observable<LoginResultArray>,
   ): Observable<LoginResultArray> {
     return obs.pipe(
-      switchMap((data) => {
+      mergeMap((data) => {
         if (data[0] === LoginResult.Success) {
           return this.onReceive(this.getCurrentUser(), data, false, true).pipe(
             map((user) => [LoginResult.Success, user] as LoginResultArray),
@@ -366,7 +367,7 @@ export class UserManagementService {
   }
 
   private loadMOTDs(userId: string) {
-    return this.indexedDBService.getAllByIndex<ReadMOTD>(
+    return this.persistentDataService.getAllByIndex<ReadMOTD>(
       'motdRead',
       'userId',
       IDBKeyRange.only(userId),
