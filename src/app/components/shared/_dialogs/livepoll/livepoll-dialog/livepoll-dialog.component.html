@@ -26,6 +26,7 @@
         mat-flat-button
         [mat-menu-trigger-for]="archiveMenu"
         class="button-primary"
+        *ngIf="session.currentRole"
         (click)="openArchive()">
         <mat-icon>archive</mat-icon>
         <span>{{ translateKey + ".option-archive" | translate }}</span>
