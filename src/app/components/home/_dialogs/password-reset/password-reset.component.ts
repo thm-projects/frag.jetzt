@@ -78,6 +78,7 @@ export class PasswordResetComponent implements OnInit, AfterViewInit {
   passwordStrength: number = 5;
 
   isPasswordVisible = false;
+  isPasswordRequirementsVisible = false;
 
   constructor(
     private translationService: TranslateService,
@@ -333,6 +334,10 @@ export class PasswordResetComponent implements OnInit, AfterViewInit {
 
   togglePasswordVisibility(): void {
     this.isPasswordVisible = !this.isPasswordVisible;
+  }
+
+  toggleAllPasswordRequirements(): void {
+    this.isPasswordRequirementsVisible = !this.isPasswordRequirementsVisible;
   }
 
   checkPasswordStrength() {

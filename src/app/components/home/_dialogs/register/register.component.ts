@@ -139,6 +139,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
   userEdit = true;
 
   isPasswordVisible = false;
+  isPasswordRequirementsVisible = false;
 
   constructor(
     private translationService: TranslateService,
@@ -265,6 +266,10 @@ export class RegisterComponent implements OnInit, AfterViewInit {
 
   togglePasswordVisibility(): void {
     this.isPasswordVisible = !this.isPasswordVisible;
+  }
+
+  toggleAllPasswordRequirements(): void {
+    this.isPasswordRequirementsVisible = !this.isPasswordRequirementsVisible;
   }
 
   checkPasswordStrength() {
