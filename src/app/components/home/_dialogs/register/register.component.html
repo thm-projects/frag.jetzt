@@ -65,7 +65,10 @@
         matInput
         [type]="isPasswordVisible ? 'text' : 'password'"
         #userPassword1
-        (input)="checkPasswordStrength()"
+        (input)="
+          checkPasswordStrength();
+          revalidatePasswordField2(password1FormControl)
+        "
         [formControl]="password1FormControl"
         [errorStateMatcher]="matcher"
         aria-labelledby="register-password-description" />
