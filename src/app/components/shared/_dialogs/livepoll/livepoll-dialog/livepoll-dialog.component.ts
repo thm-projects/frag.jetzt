@@ -27,7 +27,7 @@ import { WsLivepollService } from '../../../../../services/websockets/ws-livepol
 import { NotificationService } from '../../../../../services/util/notification.service';
 import { ActiveUserService } from 'app/services/http/active-user.service';
 import { LivepollComponentUtility } from '../livepoll-component-utility';
-import { prettyPrintDate } from '../../../../../utils/date';
+import { prettyPrintDate } from 'app/utils/date';
 
 export interface LivepollDialogInjectionData {
   session: LivepollSession;
