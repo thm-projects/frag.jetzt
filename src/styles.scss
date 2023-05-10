@@ -29,6 +29,9 @@ body {
   overflow: hidden;
   cursor: default;
   background-color: var(--background, #121212);
+  -ms-overflow-style: none; /* for Internet Explorer, Edge */
+  scrollbar-width: none; /* for Firefox */
+  overflow-y: scroll;
 }
 
 .dark {
@@ -416,12 +419,6 @@ blockquote {
 * {
   scrollbar-width: thin;
   scrollbar-color: var(--secondary) transparent;
-}
-
-body {
-  -ms-overflow-style: none; /* for Internet Explorer, Edge */
-  scrollbar-width: none; /* for Firefox */
-  overflow-y: scroll;
 }
 
 /* Works on Chrome, Edge, and Safari */
