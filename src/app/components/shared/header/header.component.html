@@ -37,6 +37,9 @@
       <button
         mat-flat-button
         tabindex="0"
+        [joyrideStep]="'chatGPT'"
+        [stepPosition]="'bottom'"
+        appJoyrideTemplate
         [matTooltip]="'header.chat-gpt-button' | translate"
         *ngIf="!router.url.endsWith('/gpt-chat-room') && isInRouteWithRoles"
         (click)="openGPT()">

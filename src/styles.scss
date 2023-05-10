@@ -411,34 +411,31 @@ blockquote {
   overflow-y: scroll !important;
 }
 
-@media screen and (min-width: 800px) {
-  /* Works on Firefox */
-  * {
-    scrollbar-width: thin;
-    scrollbar-color: var(--secondary) transparent;
-  }
-
-  /* Works on Chrome, Edge, and Safari */
-  *::-webkit-scrollbar {
-    width: 0.7rem;
-  }
-
-  *::-webkit-scrollbar-track {
-    background: var(--dialog);
-  }
-
-  *::-webkit-scrollbar-thumb {
-    background-color: var(--secondary);
-    border-radius: 5px;
-  }
+/* ---- Scroll bar ----- */
+/* Works on Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--secondary) transparent;
 }
 
-@media screen and (max-width: 800px) {
-  body {
-    -ms-overflow-style: none; /* for Internet Explorer, Edge */
-    scrollbar-width: none; /* for Firefox */
-    overflow-y: scroll;
-  }
+body {
+  -ms-overflow-style: none; /* for Internet Explorer, Edge */
+  scrollbar-width: none; /* for Firefox */
+  overflow-y: scroll;
+}
+
+/* Works on Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 0.7rem;
+}
+
+*::-webkit-scrollbar-track {
+  background: var(--dialog);
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: var(--secondary);
+  border-radius: 5px;
 }
 
 .mat-slide-toggle-bar {

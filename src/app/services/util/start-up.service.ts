@@ -275,26 +275,8 @@ export class StartUpService {
 
   private leaveApp(): Observable<any> {
     window.close();
-    const current = location.origin;
-    return new Observable((subscriber) => {
-      const intervalId = setInterval(() => {
-        if (location.origin !== current) {
-          window.clearInterval(intervalId);
-          subscriber.next(true);
-          subscriber.complete();
-          return;
-        }
-        if (history.length === 1) {
-          window.close();
-          window.clearInterval(intervalId);
-          location.replace('about:blank');
-          subscriber.next(true);
-          subscriber.complete();
-          return;
-        }
-        history.back();
-      });
-    });
+    location.replace('about:blank');
+    return of();
   }
 
   private checkLanguageAndTheme(lang: string, theme: string): Observable<any> {

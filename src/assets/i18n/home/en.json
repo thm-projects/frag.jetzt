@@ -399,7 +399,11 @@
     "prev": "Back",
     "roomJoin": "Enter the access code for the room where the event you want to attend is taking place.",
     "roomJoinTitle": "Join an event",
-    "step": "{{step}} / {{total}}"
+    "step": "{{step}} / {{total}}",
+    "chatGPT": "With ChatGPT, given a context, you can usually answer questions effectively and gain insight into new topics. He is the first interlocutor for questions in teaching.",
+    "chatGPTTitle": "Work with ChatGPT",
+    "navigationButton": "With navigation you can see almost all actions in the current context.",
+    "navigationButtonTitle": "Navigation in the app"
   },
   "login": {
     "not-authorized": "You're not authorized to view this page.",

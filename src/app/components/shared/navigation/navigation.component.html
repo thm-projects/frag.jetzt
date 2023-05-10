@@ -1,5 +1,8 @@
 <button
   class="navigation-button"
+  appJoyrideTemplate
+  [joyrideStep]="'navigationButton'"
+  [stepPosition]="'center'"
   [ngClass]="{ 'question-wall': isQuestionWall }"
   mat-button
   *ngIf="!possibleLocationsEmpty"

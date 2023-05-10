@@ -61,6 +61,7 @@
       class="input-block"
       style="padding-top: 20px">
       <input
+        (input)="userEdit = true"
         appAccessibilityEscapedInput
         matInput
         [type]="isPasswordVisible ? 'text' : 'password'"
@@ -73,7 +74,7 @@
         {{ "register.password" | translate }}
       </mat-placeholder>
       <button
-        *ngIf="isPasswordVisible"
+        *ngIf="!userEdit"
         (click)="copyPassword()"
         type="button"
         mat-icon-button
@@ -150,6 +151,7 @@
 
     <mat-form-field class="input-block">
       <input
+        (input)="userEdit = true"
         appAccessibilityEscapedInput
         matInput
         [type]="isPasswordVisible ? 'text' : 'password'"
@@ -161,7 +163,7 @@
         {{ "register.password-verify" | translate }}
       </mat-placeholder>
       <button
-        *ngIf="isPasswordVisible"
+        *ngIf="!userEdit"
         (click)="copyPassword()"
         type="button"
         mat-icon-button

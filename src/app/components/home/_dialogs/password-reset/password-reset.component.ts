@@ -54,6 +54,7 @@ export class PasswordResetErrorStateMatcher implements ErrorStateMatcher {
 export class PasswordResetComponent implements OnInit, AfterViewInit {
   @ViewChild('customProgressBar') customProgressBar: MatProgressBar;
   initProcess = true;
+  userEdit = true;
 
   usernameFormControl = new FormControl('', [
     Validators.required,
@@ -151,6 +152,7 @@ export class PasswordResetComponent implements OnInit, AfterViewInit {
         this.passwordFormControl.setValue(data);
         this.passwordFormControl2.setValue(data);
         this.checkPasswordStrength();
+        this.userEdit = false;
       }
     });
   }

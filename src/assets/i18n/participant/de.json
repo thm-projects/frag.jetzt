@@ -445,7 +445,11 @@
     "prev": "Zurück",
     "step": "{{step}} / {{total}}",
     "voting": "Das Publikum kann Fragen auf- oder abwerten und so sein Interesse an einer Beantwortung der Frage oder seine Zustimmung oder Ablehnung bekunden.",
-    "votingTitle": "Eine Frage bewerten"
+    "votingTitle": "Eine Frage bewerten",
+    "chatGPT": "Mit ChatGPT kannst du bei einem gegebenen Kontext meist effektiv Fragen beantworten und einen Einblick in neue Themen bekommen. Er ist der erste Gesprächspartner für Fragen in der Lehre.",
+    "chatGPTTitle": "Mit ChatGPT arbeiten",
+    "navigationButton": "Mit dier Navigation kannst du fast alle Aktionen im derzeitigen Kontext sehen.",
+    "navigationButtonTitle": "Navigation in der App"
   },
   "question-wall": {
     "auto-renew-off": "Autofokus für neue Fragen beenden",
