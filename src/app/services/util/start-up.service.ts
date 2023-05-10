@@ -28,6 +28,7 @@ import {
 import { EventService } from './event.service';
 import { TimeoutHelper } from '../../utils/ts-utils';
 import { AskOnboardingComponent } from 'app/components/home/_dialogs/ask-onboarding/ask-onboarding.component';
+import { PersistentDataService } from './persistent-data.service';
 
 @Injectable({
   providedIn: 'root',
@@ -64,6 +65,7 @@ export class StartUpService {
     private _matomoTrackingService: MatomoTrackingService,
     private _titleService: TitleService,
     private _dsgvo: DSGVOService,
+    private persitentData: PersistentDataService,
   ) {
     this.measure('Require data');
     configurationService
