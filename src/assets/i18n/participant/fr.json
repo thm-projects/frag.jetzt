@@ -131,6 +131,9 @@
     "needs-user-account": "Tu as besoin d'un compte avec une adresse e-mail pour recevoir des notifications !"
   },
   "comment-page": {
+    "share-comment": "Copier le lien du participant sur ce post",
+    "share-comment-success": "Copie réussie.",
+    "share-comment-fail": "Quelque chose a mal tourné!",
     "mark-not-approved": "Vérifié",
     "a11y-comment-answer": "Voir la réponse à cette question",
     "a11y-comment-answer-not": "Répondre à cette question",
@@ -282,14 +285,10 @@
     "cancel": "Annuler"
   },
   "gpt-chat": {
-    "answer-format": {
-      "disabled": "Désactivé",
-      "summary": "Résumé",
-      "definition": "Définition",
-      "flashcard": "Carte éclair"
-    },
     "optin-accept": "Accepter",
     "optin-reject": "Refuser",
+    "title-free": "ChatGPT | Questions et réponses libres",
+    "title-answer": "ChatGPT | Assistant pour les réponses",
     "interrupt": "Arrêter la sortie",
     "copy-markdown": "Copier Markdown",
     "copy-success": "Markdown copié avec succès",
@@ -411,7 +410,8 @@
     "exactly-8": "Un code de salle comporte exactement 8 chiffres.",
     "no-room-found": "Aucune salle n'a été trouvée avec ce code de salle.",
     "only-numbers": "Un code de salle est composé de chiffres.",
-    "please-enter": "Veuillez saisir le code de la salle."
+    "please-enter": "Veuillez saisir le code de la salle.",
+    "gpt-topic-general": "Général"
   },
   "introduction": {
     "cancel": "Fermer",

@@ -91,8 +91,12 @@
     "reset": "Réinitialiser",
     "note-on-changing-settings": "Tu peux modifier tous les paramètres ultérieurement."
   },
+  "ask-onboarding": {
+    "start": "Lancement",
+    "cancel": "Peut-être plus tard …"
+  },
   "cookies": {
-    "accept": "Onboarding …",
+    "accept": "Accepter",
     "accept-description": "Confirme l'utilisation de la technique de stockage web et active l'application.",
     "cancel": "Annuler",
     "cancel-description": "Refuse l'utilisation de la technique de stockage web et bloque l'application.",
@@ -327,6 +331,7 @@
     "title": "Aide"
   },
   "home-page": {
+    "gpt-topic-general": "Général",
     "accessibility-create": "Crée une nouvelle session.",
     "accessibility-join-button": "Rejoins la session dont tu as saisi le code.",
     "accessibility-join-input": "Tu peux saisir ici le nom de la session que tu souhaites rejoindre. Le nom te sera communiqué par le responsable de la session.",
@@ -423,7 +428,7 @@
     "password": "Mot de passe",
     "password-description": "Saisis ici ton mot de passe.",
     "password-required": "Mot de passe nécessaire",
-    "password-reset": "Nouveau mot de passe …",
+    "password-reset": "Mot de passe oublié ?",
     "register": "S'inscrire",
     "restart-account-activation-button": "Demander un nouveau code",
     "restart-account-activation-correct": "Le code d'activation a été envoyée.",
@@ -441,7 +446,7 @@
     "or": "ou",
     "password": "Mot de passe",
     "sign-in-as-guest": "Continuer en tant qu'invité",
-    "sign-up": "Créer un compte",
+    "sign-up": "Créer un compte …",
     "title": "S'inscrire"
   },
   "moderators-dialog": {
@@ -506,7 +511,7 @@
     "reset-failed-because-of-activation-process": "La réinitialisation a échoué, le processus d'activation est en cours.",
     "reset-password": "Demander le code de confirmation",
     "reset-password-description": "Tu peux réinitialiser ton mot de passe ici.",
-    "reset-successful": "Le code de confirmation a été envoyé. Actualise ta boîte de réception et vérifie aussi dans ton dossier spam.",
+    "reset-successful": "Le code de confirmation a été envoyé. Cela peut prendre quelques minutes avant que l'e-mail n'arrive. Vérifie prochainement ta boîte de réception et n'oublie pas de contrôler également le dossier spam si tu ne trouves pas immédiatement le message.",
     "set-button-description": "Crée le nouveau mot de passe pour le compte",
     "set-new-password": "Définis un nouveau mot de passe à l'aide du code de confirmation que tu as reçu dans ta boîte aux lettres :",
     "set-new-password-button": "Enregistrer le nouveau mot de passe",
@@ -543,7 +548,7 @@
     "register": "S'inscrire",
     "register-description": "Terminer l'enregistrement",
     "register-request-error": "Quelque chose s'est mal passé lors de l'enregistrement. Tu t'es peut-être déjà enregistré ?",
-    "register-successful": "Enregistré avec succès. Vérifie ta boîte de réception !",
+    "register-successful": "Enregistré avec succès. Veuillez vérifier votre messagerie ! L'envoi peut prendre jusqu'à 10min.",
     "register-error-password-too-common": "Le mot de passe est composé de chaînes de caractères faciles à deviner ou de chaînes de caractères provenant de listes de mots de passe publiées. Choisis un autre mot de passe ou utilise le générateur de mots de passe.",
     "register-unsuccessful": "Vérifie tes données, s'il te plaît.",
     "password-generator": "Générateur de mots de passe"

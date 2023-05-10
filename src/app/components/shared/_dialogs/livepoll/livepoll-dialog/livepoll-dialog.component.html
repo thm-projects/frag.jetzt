@@ -1,92 +1,178 @@
+<ng-template
+  #LiveIcon
+  let-isPaused="isPaused">
+  <div [ngClass]="isPaused ? 'live-paused' : 'live-active'">
+    <mat-icon>fiber_manual_record</mat-icon>
+    <span>{{ translateKey + ".live" | translate }}</span>
+  </div>
+</ng-template>
+
 <div
-  class="dialog-title"
+  class="dialog-header"
   *ngIf="isProduction">
-  <p mat-dialog-title>{{ translateKey + ".dialog-title" | translate }}</p>
+  <div class="dialog-header-title">
+    <h5 mat-dialog-title>{{ translateKey + ".dialog-title" | translate }}</h5>
+  </div>
+  <div class="dialog-header-content">
+    <span style="padding-left: 8px"></span>
+    <ng-container
+      *ngTemplateOutlet="
+        LiveIcon;
+        context: { isPaused: isPaused }
+      "></ng-container>
+    <div class="fill"></div>
+    <div class="settings">
+      <button
+        mat-flat-button
+        [mat-menu-trigger-for]="archiveMenu"
+        class="button-primary"
+        (click)="openArchive()">
+        <mat-icon>archive</mat-icon>
+        <span>{{ translateKey + ".option-archive" | translate }}</span>
+      </button>
+      <mat-menu
+        #archiveMenu
+        [classList]="'livepoll-dialog-component-archive-menu'">
+        <ng-container *ngIf="archive">
+          <div
+            *ngFor="let entry of archive"
+            class="archive-menu-item">
+            <div class="header">
+              <span>
+                {{
+                  entry.title
+                    ? entry.title.length > 27
+                      ? entry.title.slice(0, 24) + "..."
+                      : entry.title
+                    : (translateKey + ".archive-noname" | translate)
+                }}
+              </span>
+              <ng-container *ngIf="entry.active">
+                <span style="padding-left: 4px"></span>
+                <ng-container
+                  *ngTemplateOutlet="
+                    LiveIcon;
+                    context: { isPaused: entry.paused }
+                  "></ng-container>
+              </ng-container>
+              <ng-container *ngIf="!entry.active">
+                <span style="padding-left: 8px">
+                  {{ translateKey + ".archive-finished" | translate }}
+                </span>
+              </ng-container>
+              <div class="fill"></div>
+              <span>{{ this.prettyPrintDate(entry.createdAt) }}</span>
+            </div>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="!archive">
+          <mat-spinner></mat-spinner>
+        </ng-container>
+      </mat-menu>
+    </div>
+  </div>
 </div>
 <mat-dialog-content
   class="content"
-  *ngIf="livepollSession">
-  <ng-container
-    *ngIf="session.currentRole && livepollSession.active && !isConclusion">
-    <app-livepoll-settings [parent]="this"></app-livepoll-settings>
-  </ng-container>
-
-  <div class="title-container">
-    <p
-      class="preview-title"
-      *ngIf="!isProduction">
-      {{ translateKey + ".dialog-preview-title" | translate }}
-    </p>
-  </div>
-
-  <div class="markdown-container">
-    <markdown [data]="livepollSession.title"></markdown>
-  </div>
-
-  <div class="info-container">
-    <div
-      @AnimateInOut
-      *ngIf="livepollSession.viewsVisible">
-      <span>{{ translateKey + ".participants" | translate }}</span>
-      <span>{{ userCount }}</span>
-    </div>
-    <div
-      @AnimateInOut
-      *ngIf="livepollSession.resultVisible">
-      <span>{{ translateKey + ".votes" | translate }}</span>
-      <span>{{ totalVotes }}</span>
-    </div>
-  </div>
-
-  <div class="result-settings-container">
-    <!-- relative / absolute settings -->
-  </div>
-
-  <ng-container *ngIf="options && livepollSession.resultVisible">
-    <app-livepoll-statistic
-      @AnimateInOut
-      [options]="this.options"
-      [template]="this.template"
-      [translateKey]="this.translateKey"
-      [votes]="this.votes"
-      [totalVotes]="this.totalVotes"></app-livepoll-statistic>
-  </ng-container>
-
-  <div
-    class="vote-container"
-    *ngIf="!isConclusion && livepollSession.active">
-    <div
-      [ngClass]="'reverse-' + !!template.reverse + ' grid-' + template.isGrid"
-      [ngStyle]="{ 'grid-template-rows': 'repeat(' + rowHeight + ',1fr)' }"
-      *ngIf="template">
-      <ng-container *ngIf="template.symbols">
-        <ng-container *ngFor="let symbol of template.symbols; index as i">
-          <ng-container
-            *ngTemplateOutlet="
-              option;
-              context: {
-                i: i,
-                symbol: symbol
-              }
-            "></ng-container>
-        </ng-container>
-      </ng-container>
-      <ng-container *ngIf="template.length">
-        <ng-container
-          *ngFor="let symbol of [].constructor(template.length); index as i">
-          <ng-container
-            *ngTemplateOutlet="
-              option;
-              context: {
-                i: i,
-                symbol: i
-              }
-            "></ng-container>
-        </ng-container>
-      </ng-container>
-    </div>
-  </div>
+  *ngIf="isProduction; else dialogContent">
+  <ng-container *ngTemplateOutlet="dialogContent"></ng-container>
 </mat-dialog-content>
+<ng-template
+  #dialogContent
+  class="content">
+  <ng-container *ngIf="livepollSession">
+    <ng-container
+      *ngIf="session.currentRole && livepollSession.active && !isConclusion">
+      <app-livepoll-settings [parent]="this"></app-livepoll-settings>
+    </ng-container>
+
+    <div class="title-container">
+      <p
+        class="preview-title"
+        *ngIf="!isProduction">
+        {{ translateKey + ".dialog-preview-title" | translate }}
+      </p>
+    </div>
+
+    <div class="markdown-container">
+      <markdown [data]="livepollSession.title"></markdown>
+    </div>
+
+    <div class="statistics-settings-container">
+      <div class="statistics-options">
+        <button
+          mat-flat-button
+          *ngIf="isProduction && session.currentRole"
+          class="button-cancel"
+          (click)="resetResults()">
+          <mat-icon style="margin-right: 4px">undo</mat-icon>
+          <span class="on-desktop">
+            {{ translateKey + ".settings-resetResults" | translate }}
+          </span>
+        </button>
+      </div>
+      <div class="statistics-info">
+        <div
+          @AnimateInOut
+          *ngIf="livepollSession.viewsVisible">
+          <span>{{ translateKey + ".participants" | translate }}</span>
+          <span>{{ userCount }}</span>
+        </div>
+        <div
+          @AnimateInOut
+          *ngIf="livepollSession.resultVisible">
+          <span>{{ translateKey + ".votes" | translate }}</span>
+          <span>{{ totalVotes }}</span>
+        </div>
+      </div>
+    </div>
+
+    <ng-container *ngIf="options && livepollSession.resultVisible">
+      <app-livepoll-statistic
+        @AnimateInOut
+        [options]="this.options"
+        [template]="this.template"
+        [translateKey]="this.translateKey"
+        [votes]="this.votes"
+        [totalVotes]="this.totalVotes"></app-livepoll-statistic>
+    </ng-container>
+
+    <div
+      class="vote-container"
+      *ngIf="!isConclusion && livepollSession.active">
+      <div
+        [ngClass]="'reverse-' + !!template.reverse + ' grid-' + template.isGrid"
+        [ngStyle]="{ 'grid-template-rows': 'repeat(' + rowHeight + ',1fr)' }"
+        *ngIf="template">
+        <ng-container *ngIf="template.symbols">
+          <ng-container *ngFor="let symbol of template.symbols; index as i">
+            <ng-container
+              *ngTemplateOutlet="
+                option;
+                context: {
+                  i: i,
+                  symbol: symbol
+                }
+              "></ng-container>
+          </ng-container>
+        </ng-container>
+        <ng-container *ngIf="template.length">
+          <ng-container
+            *ngFor="let symbol of [].constructor(template.length); index as i">
+            <ng-container
+              *ngTemplateOutlet="
+                option;
+                context: {
+                  i: i,
+                  symbol: i
+                }
+              "></ng-container>
+          </ng-container>
+        </ng-container>
+      </div>
+    </div>
+  </ng-container>
+</ng-template>
 
 <mat-dialog-actions
   *ngIf="isProduction"
@@ -137,7 +223,7 @@
       "
       (click)="close('reset')"
       class="button-secondary">
-      <mat-icon style="margin-right: 4px">add_circle</mat-icon>
+      <mat-icon>add_circle</mat-icon>
       <span
         *ngIf="device.isCurrentlyDesktop"
         class="on-desktop">

@@ -1,3 +1,16 @@
+:host {
+  margin: 3rem 0;
+  display: block;
+}
+
+::ng-deep .gpt-chat-room-select {
+  max-height: 80vh !important;
+}
+
+.heading {
+  margin: 0.5em 0;
+}
+
 .mat-option {
   border-bottom: 1px solid var(--dialog);
 
@@ -56,8 +69,22 @@
   > mat-form-field {
     padding-inline: 1em;
     padding-top: 0.4em;
-    background-color: var(--secondary-variant);
+    background-color: var(--secondary);
+    color: var(--on-secondary);
     border-radius: 10px;
+
+    ::ng-deep .mat-select-arrow,
+    ::ng-deep .mat-select-value {
+      color: currentColor;
+    }
+
+    ::ng-deep .mat-form-field-label {
+      color: currentColor !important;
+    }
+
+    ::ng-deep .mat-form-field-underline {
+      background-color: currentColor !important;
+    }
   }
 }
 

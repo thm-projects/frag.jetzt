@@ -178,6 +178,9 @@
     "needs-user-account": "Du benötigst ein Konto mit einer E-Mail-Adresse, um Benachrichtigungen zu erhalten!"
   },
   "comment-page": {
+    "share-comment": "Teilnehmer-Link auf diesen Beitrag kopieren",
+    "share-comment-success": "Erfolgreich kopiert.",
+    "share-comment-fail": "Etwas ist schiefgelaufen!",
     "a11y-comment-answer": "Antwort dieser Frage ansehen",
     "a11y-comment-answer-not": "Diese Frage beantworten",
     "a11y-comment_delete": "Löscht diese Frage",
@@ -383,6 +386,8 @@
   "gpt-chat": {
     "optin-accept": "Akzeptieren",
     "optin-reject": "Ablehnen",
+    "title-free": "ChatGPT | Freies Fragen und Antworten",
+    "title-answer": "ChatGPT | Assistent für Antworten",
     "interrupt": "Ausgabe stoppen",
     "copy-markdown": "Markdown kopieren",
     "copy-success": "Markdown erfolgreich kopiert",
@@ -513,7 +518,8 @@
   "home-page": {
     "create-session": "Neue Sitzung",
     "created": "Der Raum für die Sitzung »{{longRoomName}}« wurde erstellt.",
-    "no-empty-name": "Gib einen Namen ein. Der Raum-Code wird generiert."
+    "no-empty-name": "Gib einen Namen ein. Der Raum-Code wird generiert.",
+    "gpt-topic-general": "Allgemein"
   },
   "introductions": {
     "brainstorming-title": "Brainstorming",
@@ -781,9 +787,9 @@
     "rest-wrong": "Eine Kostenbegrenzung entspricht nicht einer gültigen Zahl. (Zahl mit zwei Nachkommastellen)",
     "deactivated": "Rauminhabender*in erlaubt keine Änderungen.",
     "general-rights": "Allgemeine Rechte",
-    "general-right-unregistered": "Unregistrierte Nutzer zulassen",
-    "general-disable-enhanced-prompt": "ChatGPT-Antwort ohne Prompt Lückentext",
-    "general-disable-forward-message": "Verbiete direkte ChatGPT Antworten",
+    "general-right-unregistered": "Unregistrierte Teilnehmer*innen dürfen ChatGPT verwenden",
+    "general-disable-enhanced-prompt": "ChatGPT ohne Prompt-Presets antworten lassen",
+    "general-disable-forward-message": "Direkte ChatGPT-Antworten verbieten",
     "moderator-rights": "Moderatorenrechte",
     "mod-right-part-quota": "Ändern des Teilnehmerkontingents",
     "mod-right-mod-quota": "Ändern des Moderatorenkontingents",

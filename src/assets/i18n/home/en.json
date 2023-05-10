@@ -91,8 +91,12 @@
     "reset": "Reset",
     "note-on-changing-settings": "You can change all settings later."
   },
+  "ask-onboarding": {
+    "start": "Start",
+    "cancel": "Maybe later …"
+  },
   "cookies": {
-    "accept": "Onboarding …",
+    "accept": "Accept",
     "accept-description": "Accept the use of a web storage and proceed to the app.",
     "cancel": "Cancel",
     "cancel-description": "Reject usage of a web storage and exit the app.",
@@ -327,6 +331,7 @@
     "title": "Help"
   },
   "home-page": {
+    "gpt-topic-general": "General",
     "accessibility-create": "Create a new session",
     "accessibility-join-button": "Enter the session with the specified session key.",
     "accessibility-join-input": "Here you can enter the  key of the session you want to join. The presenter will tell you the session key.",
@@ -423,7 +428,7 @@
     "password": "Password",
     "password-description": "Enter your password here.",
     "password-required": "Password required",
-    "password-reset": "New password …",
+    "password-reset": "Password forgotten?",
     "register": "Sign up",
     "restart-account-activation-button": "Request a new activation code",
     "restart-account-activation-correct": "New activation code sent.",
@@ -441,7 +446,7 @@
     "or": "or",
     "password": "Password",
     "sign-in-as-guest": "Continue as a guest",
-    "sign-up": "Create account",
+    "sign-up": "Create account …",
     "title": "Sign in"
   },
   "moderators-dialog": {
@@ -506,7 +511,7 @@
     "reset-failed-because-of-activation-process": "Password reset failed, still in activation process",
     "reset-password": "Request confirmation code",
     "reset-password-description": "Reset password",
-    "reset-successful": "The confirmation code has been sent. Refresh your inbox and also check your spam folder.",
+    "reset-successful": "The confirmation code has been sent. It may take a few minutes for the email to arrive. Please check your inbox shortly and don't forget to check your spam folder as well in case you don't find the message right away.",
     "set-button-description": "Set the new password for the account",
     "set-new-password": "Use the confirmation code from your mailbox to set a new password:",
     "set-new-password-button": "Save new password",
@@ -543,7 +548,7 @@
     "register": "Register",
     "register-description": "Register User",
     "register-request-error": "Something went wrong during registration. Maybe you have already created the account?",
-    "register-successful": "Successfully registered. Please check your emails.",
+    "register-successful": "Successfully registered. Please check your mailbox! The dispatch can take up to 10min.",
     "register-error-password-too-common": "Password consists of easily guessed strings or strings from published password lists. Please choose a different password or use the password generator.",
     "register-unsuccessful": "Please check your data.",
     "password-generator": "Password generator"

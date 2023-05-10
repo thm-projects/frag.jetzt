@@ -1,15 +1,5 @@
 @import "../livepoll-common";
 
-.dialog-title {
-  display: flex;
-  justify-content: space-between;
-
-  > h5 {
-    font-size: 12px;
-    text-transform: uppercase;
-  }
-}
-
 .title-container {
   display: flex;
   flex-direction: column;
@@ -73,27 +63,45 @@
   }
 }
 
-.info-container {
+.statistics-settings-container {
   display: flex;
   justify-content: flex-end;
 
-  > div ~ div {
-    margin-left: 16px;
+  > div {
+    flex-grow: 1;
+    flex-shrink: 0;
   }
 
-  > div {
-    :first-child {
-      margin-right: 4px;
-      font-weight: normal;
+  > .statistics-info {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
+    > div ~ div {
+      margin-left: 16px;
+    }
+
+    > div {
+      :first-child {
+        margin-right: 4px;
+        font-weight: normal;
+      }
+    }
+
+    @media only screen and (max-width: 900px) {
+      font-size: 100%;
+      line-height: 16px;
+    }
+    @media only screen and (max-width: 700px) {
+      font-size: 80%;
+      line-height: 16px;
     }
   }
-  @media only screen and (max-width: 900px) {
-    font-size: 100%;
-    line-height: 16px;
-  }
-  @media only screen and (max-width: 700px) {
-    font-size: 80%;
-    line-height: 16px;
+
+  > .statistics-options {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
   }
 }
 

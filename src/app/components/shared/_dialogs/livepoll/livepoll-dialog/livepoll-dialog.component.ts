@@ -27,6 +27,7 @@ import { WsLivepollService } from '../../../../../services/websockets/ws-livepol
 import { NotificationService } from '../../../../../services/util/notification.service';
 import { ActiveUserService } from 'app/services/http/active-user.service';
 import { LivepollComponentUtility } from '../livepoll-component-utility';
+import { prettyPrintDate } from '../../../../../utils/date';
 
 export interface LivepollDialogInjectionData {
   session: LivepollSession;
@@ -72,6 +73,7 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
   public isConclusion: boolean = false;
   public waitForSocket: boolean = false;
   public rowHeight: number;
+  public archive: LivepollSession[];
   private voteQuery: number = -1;
   private _destroyer = new ReplaySubject(1);
   private lastSession: LivepollSession;
@@ -116,12 +118,17 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     if (this.livepollSession) {
+      this.livepollService
+        .findByRoomId(this.session.currentRoom.id)
+        .subscribe((x) => {
+          console.log(x);
+        });
       // Template can't change, only needs to be initialized once
       this.initTemplate();
       if (this.isProduction) {
         this.livepollService.listener
           .pipe(takeUntil(this._destroyer))
-          .subscribe((changes) => {
+          .subscribe(() => {
             if (!this.session.currentLivepoll) {
               if (this.session.currentRole) {
                 this.close('closedAsCreator');
@@ -295,7 +302,7 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
   public getVoteButtonClass(index: number) {
     const collect: string[] = [];
     if (index === this.livepollVote?.voteIndex) {
-      collect.push('active');
+      collect.push('voted');
     } else {
       collect.push('default');
     }
@@ -307,6 +314,36 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
       collect.push('material-icons');
     }
     return collect.map((x) => `button-vote-${x}`).join(' ');
+  }
+
+  resetResults() {
+    this.createConfirmationDialog(
+      'dialog-confirm-resetResults-title',
+      'dialog-confirm-resetResults-description',
+    ).subscribe((x) => {
+      if (x) {
+        this.livepollService
+          .resetResults(this.livepollSession.id)
+          .subscribe((votes) => {
+            console.log(votes);
+          });
+      }
+    });
+  }
+
+  openArchive() {
+    this.livepollService
+      .findByRoomId(this.session.currentRoom.id)
+      .subscribe((archive) => {
+        this.archive = archive.sort(
+          (a, b) =>
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+        );
+      });
+  }
+
+  prettyPrintDate(createdAt: Date): string {
+    return prettyPrintDate(createdAt, this.languageService.currentLanguage());
   }
 
   private parseWebSocketStream(type: string, payload: any, id?: UUID) {

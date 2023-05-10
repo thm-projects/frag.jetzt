@@ -91,8 +91,12 @@
     "reset": "Zurücksetzen",
     "note-on-changing-settings": "Du kannst alle Einstellungen später noch ändern."
   },
+  "ask-onboarding": {
+    "start": "Starten",
+    "cancel": "Vielleicht später …"
+  },
   "cookies": {
-    "accept": "Onboarding …",
+    "accept": "Annehmen",
     "accept-description": "Bestätigt die Verwendung der Web-Storage-Technik und schaltet die Anwendung frei",
     "cancel": "Abbrechen",
     "cancel-description": "Lehnt die Verwendung der Web-Storage-Technik ab und sperrt die Anwendung",
@@ -327,6 +331,7 @@
     "title": "Hilfe"
   },
   "home-page": {
+    "gpt-topic-general": "Allgemein",
     "accessibility-create": "Erstellt eine neue Sitzung.",
     "accessibility-join-button": "Betritt die Sitzung, deren Code du eingegeben hast.",
     "accessibility-join-input": "Hier kannst du den Namen der Sitzung eingeben der du beitreten möchtest. Den Namen sagt dir die Sitzungsleitung.",
@@ -423,7 +428,7 @@
     "password": "Passwort",
     "password-description": "Gib hier dein Passwort ein.",
     "password-required": "Passwort erforderlich",
-    "password-reset": "Neues Passwort …",
+    "password-reset": "Passwort vergessen?",
     "register": "Registrieren",
     "restart-account-activation-button": "Neuen Aktivierungscode anfordern",
     "restart-account-activation-correct": "Der Aktivierungscode wurde gesendet.",
@@ -498,7 +503,7 @@
     "input-incorrect": "Bitte prüfe deine Eingaben.",
     "key": "Bestätigungscode …",
     "key-required": "Bestätigungscode erforderlich",
-    "new-password": "Neues Passwort …",
+    "new-password": "Passwort vergessen?",
     "new-password-key-expired": "Der Bestätigungscode ist abgelaufen, der Prozess muss neugestartet werden.",
     "new-password-key-invalid": "Der Bestätigungscode ist ungültig.",
     "new-password-successful": "Dein neues Passwort wurde gesetzt.",
@@ -506,7 +511,7 @@
     "reset-failed-because-of-activation-process": "Zurücksetzen fehlgeschlagen, Aktivierungsprozess ist im Gange.",
     "reset-password": "Bestätigungscode anfordern",
     "reset-password-description": "Hier kannst du dein Passwort zurücksetzen.",
-    "reset-successful": "Der Bestätigungscode wurde gesendet. Aktualisiere deinen Posteingang und schau auch in deinem Spam-Ordner nach.",
+    "reset-successful": "Der Bestätigungscode wurde gesendet. Es kann einige Minuten dauern, bis die E-Mail ankommt. Bitte prüfe in Kürze deinen Posteingang und vergiss nicht, auch den Spam-Ordner zu kontrollieren, falls du die Nachricht nicht sofort findest.",
     "set-button-description": "Setzt für den Account das neue Passwort",
     "set-new-password": "Bestätigungscode und Mailadresse eingeben:",
     "set-new-password-button": "Neues Passwort speichern",
@@ -528,7 +533,7 @@
     "email-verify": "E-Mail-Adresse wiederholen …",
     "forgot-password": "Passwort vergessen?",
     "password": "Passwort …",
-    "new-password": "Neues Passwort …",
+    "new-password": "Passwort vergessen?",
     "password-description": "Gib hier das Passwort ein, mit dem du dich registrieren möchtest.",
     "password-description-repeat": "Bitte gib hier noch einmal das Passwort ein, mit dem du dich registrieren möchtest, um sicherzugehen, dass du dich nicht vertippt hast.",
     "password-required": "Passwort erforderlich",
@@ -543,7 +548,7 @@
     "register": "Registrieren",
     "register-description": "Registrierung abschließen",
     "register-request-error": "Bei der Registrierung ist etwas schief gelaufen. Hast du dich bereits registriert?",
-    "register-successful": "Erfolgreich registriert. Bitte prüfe deine Mailbox!",
+    "register-successful": "Erfolgreich registriert. Bitte prüfe deine Mailbox! Der Versand kann bis zu 10min dauern.",
     "register-error-password-too-common": "Das Passwort besteht aus leicht zu erratenden Zeichenfolgen oder Zeichenfolgen aus veröffentlichten Passwortlisten. Bitte wähle ein anderes Passwort oder benutze den Passwortgenerator.",
     "register-unsuccessful": "Bitte prüfe deine Eingaben.",
     "password-generator": "Passwort-Generator"
