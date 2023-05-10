@@ -385,6 +385,21 @@ export class NavigationComponent implements OnInit, OnDestroy {
         this.startUpService.openMotdDialog();
       },
     },
+    {
+      id: 'logout',
+      accessible: false,
+      active: false,
+      i18n: 'header.logout',
+      icon: 'logout',
+      class: 'btn-red',
+      outside: true,
+      isCurrentRoute: () => false,
+      canBeAccessedOnRoute: () =>
+        Boolean(this.userManagementService.getCurrentUser()),
+      navigate: () => {
+        this.userManagementService.logout();
+      },
+    },
   ];
   currentLocation: PossibleLocation;
   possibleLocationsEmpty = false;
