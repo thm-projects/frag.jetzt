@@ -387,6 +387,7 @@ blockquote {
   line-height: 1.5;
   padding: 15px !important;
   hyphens: auto;
+  pointer-events: none;
 }
 
 .mat-flat-button.mat-button-disabled {

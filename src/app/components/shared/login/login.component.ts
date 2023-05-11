@@ -149,6 +149,13 @@ export class LoginComponent implements OnInit, OnChanges {
       .subscribe((loginSuccessful) => this.checkLogin(loginSuccessful));
   }
 
+  hideTooltip() : void {
+    const tooltip = document.querySelector('.mat-tooltip') as HTMLElement;
+    if (tooltip) {
+      tooltip.style.display = 'none';
+    }
+  }
+
   openPasswordDialog(initProcess = true): void {
     const ref = this.dialog.open(PasswordResetComponent, {
       width: '350px',
