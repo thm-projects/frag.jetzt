@@ -95,14 +95,14 @@
         ">
         {{ "login-dialog.sign-up" | translate }}
       </a>
-      <button
-        (click)="guestLogin()"
-        class="alt-button guest"
-        type="button"
-        aria-labelledby="guest-login-description"
-        matTooltip="{{ 'login.guest-login-tooltip' | translate }}">
-        {{ "login-dialog.sign-in-as-guest" | translate }}
-      </button>
+      <div class="anonymous-container">
+        <button
+          type="submit"
+          aria-labelledby="login-description"
+          class="alt-button login">
+          {{ "login-dialog.login" | translate }}
+        </button>
+      </div>
     </div>
   </div>
 
@@ -110,14 +110,15 @@
     <span>{{ "login-dialog.or" | translate }}</span>
   </div>
 
-  <div class="anonymous-container">
-    <button
-      type="submit"
-      aria-labelledby="login-description"
-      class="alt-button login">
-      {{ "login-dialog.login" | translate }}
+  <button
+      (click)="guestLogin()"
+      class="alt-button guest"
+      type="button"
+      aria-labelledby="guest-login-description"
+      matTooltip="{{ 'login.guest-login-tooltip' | translate }}">
+      {{ "login-dialog.sign-in-as-guest" | translate }}
     </button>
-  </div>
+
 </form>
 
 <div class="visually-hidden">
