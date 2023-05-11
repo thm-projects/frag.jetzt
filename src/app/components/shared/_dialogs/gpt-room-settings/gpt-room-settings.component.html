@@ -7,17 +7,10 @@
     <ng-container *ngIf="isOwner || canChangeApiSettings; else deactivated">
       <mat-form-field>
         <mat-label>{{ "gpt-room-settings.trial-code" | translate }}</mat-label>
-        <input
-          matInput
-          type="password"
-          (keydown)="(isEnter($event) && activateTrial()) || true"
-          appAccessibilityEscapedInput
-          [(ngModel)]="trialCode" />
+        <input matInput type="password" (keydown)="(isEnter($event) && activateTrial()) || true"
+          appAccessibilityEscapedInput [(ngModel)]="trialCode" />
       </mat-form-field>
-      <button
-        mat-button
-        (click)="activateTrial()"
-        class="primary-btn">
+      <button mat-button (click)="activateTrial()" class="primary-btn">
         {{ "gpt-room-settings.send" | translate }}
       </button>
     </ng-container>
@@ -32,16 +25,8 @@
     <p>{{ "gpt-room-settings.own-openai-info" | translate }}</p>
     <mat-form-field>
       <mat-label>{{ "gpt-room-settings.api-key" | translate }}</mat-label>
-      <input
-        matInput
-        appAccessibilityEscapedInput
-        [(ngModel)]="apiKey" />
-      <button
-        *ngIf="apiKey !== null"
-        matSuffix
-        mat-icon-button
-        aria-label="Clear"
-        (click)="apiKey = null">
+      <input matInput appAccessibilityEscapedInput [(ngModel)]="apiKey" />
+      <button *ngIf="apiKey !== null" matSuffix mat-icon-button aria-label="Clear" (click)="apiKey = null">
         <mat-icon>close</mat-icon>
       </button>
     </mat-form-field>
@@ -49,15 +34,8 @@
       <mat-label>
         {{ "gpt-room-settings.api-organization" | translate }}
       </mat-label>
-      <input
-        matInput
-        appAccessibilityEscapedInput
-        [(ngModel)]="apiOrganization" />
-      <button
-        *ngIf="apiOrganization !== null"
-        matSuffix
-        mat-icon-button
-        aria-label="Clear"
+      <input matInput appAccessibilityEscapedInput [(ngModel)]="apiOrganization" />
+      <button *ngIf="apiOrganization !== null" matSuffix mat-icon-button aria-label="Clear"
         (click)="apiOrganization = null">
         <mat-icon>close</mat-icon>
       </button>
@@ -69,20 +47,10 @@
   <ng-container *ngIf="isOwner || canChangeRoomQuota; else deactivated">
     <mat-form-field>
       <mat-label>{{ "gpt-room-settings.rest-room-acc" | translate }}</mat-label>
-      <input
-        #costInput
-        matInput
-        appAccessibilityEscapedInput
-        type="number"
-        inputmode="numeric"
-        min="0"
-        step="0.01"
+      <input #costInput matInput appAccessibilityEscapedInput type="text" pattern="^[0-9]+(\.[0-9]{1,2})?$"
+        (keyup)="resetInputField(maxAccumulatedRoomCost, 'maxAccumulatedRoomCost')"
         [(ngModel)]="maxAccumulatedRoomCost" />
-      <button
-        *ngIf="maxAccumulatedRoomCost !== null"
-        matSuffix
-        mat-icon-button
-        aria-label="Clear"
+      <button *ngIf="maxAccumulatedRoomCost !== null" matSuffix mat-icon-button aria-label="Clear"
         (click)="maxAccumulatedRoomCost = null">
         <mat-icon>close</mat-icon>
       </button>
@@ -91,40 +59,18 @@
       <mat-label>
         {{ "gpt-room-settings.rest-room-month" | translate }}
       </mat-label>
-      <input
-        #costInput
-        matInput
-        appAccessibilityEscapedInput
-        type="number"
-        inputmode="numeric"
-        min="0"
-        step="0.01"
-        [(ngModel)]="maxMonthlyRoomCost" />
-      <button
-        *ngIf="maxMonthlyRoomCost !== null"
-        matSuffix
-        mat-icon-button
-        aria-label="Clear"
+      <input #costInput matInput appAccessibilityEscapedInput type="text" pattern="^[0-9]+(\.[0-9]{1,2})?$"
+        (keyup)="resetInputField(maxMonthlyRoomCost, 'maxMonthlyRoomCost')" [(ngModel)]="maxMonthlyRoomCost" />
+      <button *ngIf="maxMonthlyRoomCost !== null" matSuffix mat-icon-button aria-label="Clear"
         (click)="maxMonthlyRoomCost = null">
         <mat-icon>close</mat-icon>
       </button>
     </mat-form-field>
     <mat-form-field>
       <mat-label>{{ "gpt-room-settings.rest-room-day" | translate }}</mat-label>
-      <input
-        #costInput
-        matInput
-        appAccessibilityEscapedInput
-        type="number"
-        inputmode="numeric"
-        min="0"
-        step="0.01"
-        [(ngModel)]="maxDailyRoomCost" />
-      <button
-        *ngIf="maxDailyRoomCost !== null"
-        matSuffix
-        mat-icon-button
-        aria-label="Clear"
+      <input #costInput matInput appAccessibilityEscapedInput type="text" pattern="^[0-9]+(\.[0-9]{1,2})?$"
+        (keyup)="resetInputField(maxDailyRoomCost, 'maxDailyRoomCost')" [(ngModel)]="maxDailyRoomCost" />
+      <button *ngIf="maxDailyRoomCost !== null" matSuffix mat-icon-button aria-label="Clear"
         (click)="maxDailyRoomCost = null">
         <mat-icon>close</mat-icon>
       </button>
@@ -136,20 +82,10 @@
   <ng-container *ngIf="isOwner || canChangeModeratorQuota; else deactivated">
     <mat-form-field>
       <mat-label>{{ "gpt-room-settings.rest-mod-acc" | translate }}</mat-label>
-      <input
-        #costInput
-        matInput
-        appAccessibilityEscapedInput
-        type="number"
-        inputmode="numeric"
-        min="0"
-        step="0.01"
+      <input #costInput matInput appAccessibilityEscapedInput type="text" pattern="^[0-9]+(\.[0-9]{1,2})?$"
+        (keyup)="resetInputField(maxAccumulatedModeratorCost, 'maxAccumulatedModeratorCost')"
         [(ngModel)]="maxAccumulatedModeratorCost" />
-      <button
-        *ngIf="maxAccumulatedModeratorCost !== null"
-        matSuffix
-        mat-icon-button
-        aria-label="Clear"
+      <button *ngIf="maxAccumulatedModeratorCost !== null" matSuffix mat-icon-button aria-label="Clear"
         (click)="maxAccumulatedModeratorCost = null">
         <mat-icon>close</mat-icon>
       </button>
@@ -158,40 +94,19 @@
       <mat-label>
         {{ "gpt-room-settings.rest-mod-month" | translate }}
       </mat-label>
-      <input
-        #costInput
-        matInput
-        appAccessibilityEscapedInput
-        type="number"
-        inputmode="numeric"
-        min="0"
-        step="0.01"
+      <input #costInput matInput appAccessibilityEscapedInput type="text" pattern="^[0-9]+(\.[0-9]{1,2})?$"
+        (keyup)="resetInputField(maxMonthlyModeratorCost, 'maxMonthlyModeratorCost')"
         [(ngModel)]="maxMonthlyModeratorCost" />
-      <button
-        *ngIf="maxMonthlyModeratorCost !== null"
-        matSuffix
-        mat-icon-button
-        aria-label="Clear"
+      <button *ngIf="maxMonthlyModeratorCost !== null" matSuffix mat-icon-button aria-label="Clear"
         (click)="maxMonthlyModeratorCost = null">
         <mat-icon>close</mat-icon>
       </button>
     </mat-form-field>
     <mat-form-field>
       <mat-label>{{ "gpt-room-settings.rest-mod-day" | translate }}</mat-label>
-      <input
-        #costInput
-        matInput
-        appAccessibilityEscapedInput
-        type="number"
-        inputmode="numeric"
-        min="0"
-        step="0.01"
-        [(ngModel)]="maxDailyModeratorCost" />
-      <button
-        *ngIf="maxDailyModeratorCost !== null"
-        matSuffix
-        mat-icon-button
-        aria-label="Clear"
+      <input #costInput matInput appAccessibilityEscapedInput type="text" pattern="^[0-9]+(\.[0-9]{1,2})?$"
+        (keyup)="resetInputField(maxDailyModeratorCost, 'maxDailyModeratorCost')" [(ngModel)]="maxDailyModeratorCost" />
+      <button *ngIf="maxDailyModeratorCost !== null" matSuffix mat-icon-button aria-label="Clear"
         (click)="maxDailyModeratorCost = null">
         <mat-icon>close</mat-icon>
       </button>
@@ -203,20 +118,10 @@
   <ng-container *ngIf="isOwner || canChangeParticipantQuota; else deactivated">
     <mat-form-field>
       <mat-label>{{ "gpt-room-settings.rest-part-acc" | translate }}</mat-label>
-      <input
-        #costInput
-        matInput
-        appAccessibilityEscapedInput
-        type="number"
-        inputmode="numeric"
-        min="0"
-        step="0.01"
+      <input #costInput matInput appAccessibilityEscapedInput type="text" pattern="^[0-9]+(\.[0-9]{1,2})?$"
+        (keyup)="resetInputField(maxAccumulatedParticipantCost, 'maxAccumulatedParticipantCost')"
         [(ngModel)]="maxAccumulatedParticipantCost" />
-      <button
-        *ngIf="maxAccumulatedParticipantCost !== null"
-        matSuffix
-        mat-icon-button
-        aria-label="Clear"
+      <button *ngIf="maxAccumulatedParticipantCost !== null" matSuffix mat-icon-button aria-label="Clear"
         (click)="maxAccumulatedParticipantCost = null">
         <mat-icon>close</mat-icon>
       </button>
@@ -225,40 +130,20 @@
       <mat-label>
         {{ "gpt-room-settings.rest-part-month" | translate }}
       </mat-label>
-      <input
-        #costInput
-        matInput
-        appAccessibilityEscapedInput
-        type="number"
-        inputmode="numeric"
-        min="0"
-        step="0.01"
+      <input #costInput matInput appAccessibilityEscapedInput type="text" pattern="^[0-9]+(\.[0-9]{1,2})?$"
+        (keyup)="resetInputField(maxMonthlyParticipantCost, 'maxMonthlyParticipantCost')"
         [(ngModel)]="maxMonthlyParticipantCost" />
-      <button
-        *ngIf="maxMonthlyParticipantCost !== null"
-        matSuffix
-        mat-icon-button
-        aria-label="Clear"
+      <button *ngIf="maxMonthlyParticipantCost !== null" matSuffix mat-icon-button aria-label="Clear"
         (click)="maxMonthlyParticipantCost = null">
         <mat-icon>close</mat-icon>
       </button>
     </mat-form-field>
     <mat-form-field>
       <mat-label>{{ "gpt-room-settings.rest-part-day" | translate }}</mat-label>
-      <input
-        #costInput
-        matInput
-        appAccessibilityEscapedInput
-        type="number"
-        inputmode="numeric"
-        min="0"
-        step="0.01"
+      <input #costInput matInput appAccessibilityEscapedInput type="text" pattern="^[0-9]+(\.[0-9]{1,2})?$"
+        (keyup)="resetInputField(maxDailyParticipantCost, 'maxDailyParticipantCost')"
         [(ngModel)]="maxDailyParticipantCost" />
-      <button
-        *ngIf="maxDailyParticipantCost !== null"
-        matSuffix
-        mat-icon-button
-        aria-label="Clear"
+      <button *ngIf="maxDailyParticipantCost !== null" matSuffix mat-icon-button aria-label="Clear"
         (click)="maxDailyParticipantCost = null">
         <mat-icon>close</mat-icon>
       </button>
@@ -283,22 +168,14 @@
       <mat-label>
         {{ "gpt-room-settings.start-and-end-date" | translate }}
       </mat-label>
-      <mat-date-range-input
-        [formGroup]="dateRange"
-        [rangePicker]="dateRangePicker">
-        <input
-          matStartDate
-          formControlName="start" />
-        <input
-          matEndDate
-          formControlName="end" />
+      <mat-date-range-input [formGroup]="dateRange" [rangePicker]="dateRangePicker">
+        <input matStartDate formControlName="start" />
+        <input matEndDate formControlName="end" />
       </mat-date-range-input>
       <mat-hint>
         {{ getDateFormatString() }} – {{ getDateFormatString() }}
       </mat-hint>
-      <mat-datepicker-toggle
-        matSuffix
-        [for]="dateRangePicker"></mat-datepicker-toggle>
+      <mat-datepicker-toggle matSuffix [for]="dateRangePicker"></mat-datepicker-toggle>
       <mat-date-range-picker #dateRangePicker></mat-date-range-picker>
     </mat-form-field>
     <div class="repeat-select">
@@ -306,18 +183,9 @@
         <mat-label>
           {{ "gpt-room-settings.usage-time-duration" | translate }}
         </mat-label>
-        <input
-          matInput
-          appAccessibilityEscapedInput
-          type="number"
-          inputmode="numeric"
-          pattern="[0-9]*"
+        <input matInput appAccessibilityEscapedInput type="number" inputmode="numeric" pattern="[0-9]*"
           [(ngModel)]="repeatDuration" />
-        <button
-          *ngIf="repeatDuration !== null"
-          matSuffix
-          mat-icon-button
-          aria-label="Clear"
+        <button *ngIf="repeatDuration !== null" matSuffix mat-icon-button aria-label="Clear"
           (click)="repeatDuration = null">
           <mat-icon>close</mat-icon>
         </button>
@@ -330,32 +198,23 @@
           <mat-option [value]="null">
             <em>{{ "gpt-room-settings.reset" | translate }}</em>
           </mat-option>
-          <mat-option
-            *ngFor="let unit of possibleRepeatUnits"
-            [value]="unit">
+          <mat-option *ngFor="let unit of possibleRepeatUnits" [value]="unit">
             {{ "gpt-room-settings.usage-time-values." + unit | translate }}
           </mat-option>
         </mat-select>
       </mat-form-field>
     </div>
-    <button
-      mat-button
-      (click)="addUsageTime()"
-      class="primary-btn">
+    <button mat-button (click)="addUsageTime()" class="primary-btn">
       {{ "gpt-room-settings.add-usage-time" | translate }}
     </button>
     <mat-list>
-      <mat-list-item
-        class="keyword-item"
-        *ngFor="let item of usageTimes; let i = index">
+      <mat-list-item class="keyword-item" *ngFor="let item of usageTimes; let i = index">
         <div matListItemTitle>
           {{ formatRange(item.startDate, item.endDate) }}
         </div>
-        <div
-          matListItemLine
-          *ngIf="item.repeatDuration && item.repeatUnit">
+        <div matListItemLine *ngIf="item.repeatDuration && item.repeatUnit">
           {{
-            getRepeatString(item) | translate : { value: item.repeatDuration }
+          getRepeatString(item) | translate : { value: item.repeatDuration }
           }}
         </div>
         <button mat-icon-button>
@@ -389,9 +248,7 @@
   </ng-container>
 </mat-dialog-content>
 
-<app-dialog-action-buttons
-  [buttonsLabelSection]="'gpt-room-settings'"
-  [confirmButtonLabel]="'save'"
+<app-dialog-action-buttons [buttonsLabelSection]="'gpt-room-settings'" [confirmButtonLabel]="'save'"
   [cancelButtonClickAction]="buildCancelAction()"
   [confirmButtonClickAction]="buildConfirmAction()"></app-dialog-action-buttons>
 
@@ -400,8 +257,5 @@
 </ng-template>
 
 <ng-template #loading>
-  <app-mat-spinner-overlay
-    color="on-surface"
-    diameter="40"
-    strokeWidth="5"></app-mat-spinner-overlay>
+  <app-mat-spinner-overlay color="on-surface" diameter="40" strokeWidth="5"></app-mat-spinner-overlay>
 </ng-template>

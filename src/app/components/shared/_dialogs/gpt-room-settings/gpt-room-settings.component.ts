@@ -220,6 +220,15 @@ export class GptRoomSettingsComponent implements OnInit, OnDestroy {
     });
   }
 
+  resetInputField(input, varName) {
+    if (input.toString() == "") {
+      this[varName] = null;
+      console.log('====================================');
+      console.log('test');
+      console.log('====================================');
+    }
+  }
+
   buildConfirmAction() {
     if (this.isLoading) {
       return undefined;
