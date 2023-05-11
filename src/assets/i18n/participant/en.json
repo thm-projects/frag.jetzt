@@ -378,7 +378,7 @@
     "edit": "Edit output as an answer to forum question",
     "paste": " Publish output as a reply to the forum question",
     "token-info": "Tokens (input/chat/total): {{promptTokens}}/{{conversationTokens}}/{{allTokens}}",
-    "prompt label": "Search for prompts | spacebar to see all prompts",
+    "prompt-label": "Search for prompts | spacebar to see all prompts",
     "option-total-acts": "Hits in »Act as …«",
     "option-total-prompts": "Founds prompts",
     "temperature": "Response variability"
