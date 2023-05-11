@@ -53,9 +53,9 @@ export const purple = {
 export const purple_meta: ThemeMeta = {
   translation: {
     name: {
-      en: 'Presentation',
-      de: 'Präsentation',
-      fr: 'Présentation',
+      en: 'Projector',
+      de: 'Beamer',
+      fr: 'Projecteur',
     },
   },
   isDark: false,
