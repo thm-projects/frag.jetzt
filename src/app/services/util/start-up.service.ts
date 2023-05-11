@@ -20,7 +20,6 @@ import { OnboardingService } from './onboarding.service';
 import { environment } from '../../../environments/environment';
 import { User } from '../../models/user';
 import { StyleService } from '../../../../projects/ars/src/lib/style/style.service';
-import { NgxIndexedDBService } from 'ngx-indexed-db';
 import {
   MotdDialogRequest,
   sendEvent,
@@ -28,6 +27,7 @@ import {
 import { EventService } from './event.service';
 import { TimeoutHelper } from '../../utils/ts-utils';
 import { AskOnboardingComponent } from 'app/components/home/_dialogs/ask-onboarding/ask-onboarding.component';
+import { PersistentDataService } from './persistent-data.service';
 
 @Injectable({
   providedIn: 'root',
@@ -49,7 +49,6 @@ export class StartUpService {
    */
   constructor(
     private eventService: EventService,
-    private indexedDBService: NgxIndexedDBService,
     private configurationService: ConfigurationService,
     private deviceInfo: DeviceInfoService,
     private translateService: TranslateService,
@@ -64,6 +63,7 @@ export class StartUpService {
     private _matomoTrackingService: MatomoTrackingService,
     private _titleService: TitleService,
     private _dsgvo: DSGVOService,
+    private persistentData: PersistentDataService,
   ) {
     this.measure('Require data');
     configurationService
@@ -298,15 +298,15 @@ export class StartUpService {
         if (oldMotds.findIndex((o) => o.id === m.id) < 0) {
           return true;
         }
-        this.indexedDBService.update('motd', m).subscribe();
+        this.persistentData.update('motd', m).subscribe();
         return false;
       });
-      this.indexedDBService.bulkAdd('motd', newMotds).subscribe();
+      this.persistentData.bulkAdd('motd', newMotds).subscribe();
     });
   }
 
   private getMotds(): Observable<MotdAPI[]> {
-    return this.indexedDBService.getAll('motd').pipe(
+    return this.persistentData.getAll('motd').pipe(
       map((motds: MotdAPI[]) => {
         motds.sort(
           (a, b) => b.startTimestamp.getTime() - a.startTimestamp.getTime(),

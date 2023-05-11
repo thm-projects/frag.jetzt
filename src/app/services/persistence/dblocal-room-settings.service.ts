@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { NgxIndexedDBService } from 'ngx-indexed-db';
 import { RoomDataFilter } from 'app/utils/data-filter-object.lib';
 import { Storable } from 'app/utils/ts-utils';
 import { FormalityType } from '../http/deep-l.service';
+import { PersistentDataService } from '../util/persistent-data.service';
 
 export interface SavedRoomSettings {
   // keys
@@ -18,10 +18,10 @@ export interface SavedRoomSettings {
   providedIn: 'root',
 })
 export class DBLocalRoomSettingsService {
-  constructor(private indexedDb: NgxIndexedDBService) {}
+  constructor(private persistentDataService: PersistentDataService) {}
 
   getAllByAccount(accountId: string) {
-    return this.indexedDb.getAllByIndex<SavedRoomSettings>(
+    return this.persistentDataService.getAllByIndex<SavedRoomSettings>(
       'localRoomSettings',
       'accountId',
       IDBKeyRange.only(accountId),
@@ -29,14 +29,14 @@ export class DBLocalRoomSettingsService {
   }
 
   getSettings(roomId: string, accountId: string) {
-    return this.indexedDb.getByKey<SavedRoomSettings>('localRoomSettings', [
-      roomId,
-      accountId,
-    ]);
+    return this.persistentDataService.getByKey<SavedRoomSettings>(
+      'localRoomSettings',
+      [roomId, accountId],
+    );
   }
 
   setOrUpdateSettings(settings: SavedRoomSettings) {
-    return this.indexedDb.update<SavedRoomSettings>(
+    return this.persistentDataService.update<SavedRoomSettings>(
       'localRoomSettings',
       settings,
     );

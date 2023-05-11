@@ -330,6 +330,12 @@
     "cancel-description": "Ferme l'aide",
     "title": "Aide"
   },
+  "update-info": {
+    "cancel": "Fermer",
+    "install": "Installer",
+    "title": "Nouvelle version",
+    "description": "Une nouvelle version est disponible pour l'installation.<br>Il est recommandé de l'installer afin d'obtenir une expérience irréprochable avec frag.jetzt.<br><br>Tu peux encore essayer de terminer ton travail et de fermer la boîte de dialogue, mais si tu rencontres des problèmes, recharge la page."
+  },
   "home-page": {
     "gpt-topic-general": "Général",
     "accessibility-create": "Crée une nouvelle session.",
@@ -847,7 +853,7 @@
   },
   "chat-gptprompt-preset": {
     "title": "Prompts pour ChatGPT",
-    "search-prompt": "Recherche de prompt ou nouvelle prompt",
+    "search-prompt": "Recherche de prompts ou nouvelle prompt",
     "found-acts": "Résultats trouvés dans »Agir en tant que ...« ({{count}})",
     "found-prompts": "Hits dans Prompts ({{count}})",
     "token-info": "tokens : {{promptTokens}}",

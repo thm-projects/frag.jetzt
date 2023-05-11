@@ -99,7 +99,7 @@
     "cancel": "Close",
     "refresh": "Generate output again",
     "token-info": "Tokens (input / chat / total): {{promptTokens}} / {{conversationTokens}} / {{allTokens}}",
-    "prompt-label": "Prompt search",
+    "prompt-label": "Search for prompts | spacebar to see all prompts",
     "option-total-acts": "Founds acts",
     "option-total-prompts": "Hits in prompts",
     "temperature": "Temperature",

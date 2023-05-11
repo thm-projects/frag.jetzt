@@ -330,6 +330,12 @@
     "cancel-description": "Schließt die Hilfe",
     "title": "Hilfe"
   },
+  "update-info": {
+    "cancel": "Schließen",
+    "install": "Installieren",
+    "title": "Neue Version",
+    "description": "Eine neue Version steht zur Installation bereit.<br>Es wird empfohlen diese zu installieren um eine einwandfreie Erfahrung mit frag.jetzt zu bekommen.<br><br>Du kannst noch versuchen, deine Arbeit zu beenden und den Dialog schließen, wenn es jedoch zu Problemen kommt, lade die Seite neu."
+  },
   "home-page": {
     "gpt-topic-general": "Allgemein",
     "accessibility-create": "Erstellt eine neue Sitzung.",

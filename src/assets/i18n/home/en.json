@@ -330,6 +330,12 @@
     "cancel-description": "Closes the help dialog",
     "title": "Help"
   },
+  "update-info": {
+    "cancel": "Close",
+    "install": "Install",
+    "title": "New version",
+    "description": "A new version is available for installation.<br>It is recommended to install it to get a flawless experience with frag.jetzt.<br><br>You can still try to finish your work and close the dialog, but if you encounter problems, reload the page."
+  },
   "home-page": {
     "gpt-topic-general": "General",
     "accessibility-create": "Create a new session",

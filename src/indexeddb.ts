@@ -6,17 +6,29 @@ export const migrator: DBConfig['migrationFactory'] = () => {
     // 1: migrate to indexed db
     1: (_, transaction) => {
       // transform user data
-      const currentUser = JSON.parse(localStorage.getItem('USER') || null) as User;
-      const roomAccess = JSON.parse(localStorage.getItem('ROOM_ACCESS') || '[]') as string[];
+      const currentUser = JSON.parse(
+        localStorage.getItem('USER') || null,
+      ) as User;
+      const roomAccess = JSON.parse(
+        localStorage.getItem('ROOM_ACCESS') || '[]',
+      ) as string[];
       const loggedIn = localStorage.getItem('loggedin') === 'true';
-      const motds = JSON.parse(localStorage.getItem('motds') || '[]') as string[];
+      const motds = JSON.parse(
+        localStorage.getItem('motds') || '[]',
+      ) as string[];
       const configStore = transaction.objectStore('config');
       if (currentUser) {
         const isGuest = currentUser.type === 'guest' || !currentUser.loginId;
-        configStore.put({ key: 'guestAccount', value: isGuest ? currentUser : null });
-        configStore.put({ key: 'currentAccount', value: loggedIn ? currentUser : null });
+        configStore.put({
+          key: 'guestAccount',
+          value: isGuest ? currentUser : null,
+        });
+        configStore.put({
+          key: 'currentAccount',
+          value: loggedIn ? currentUser : null,
+        });
         const roomAccessStore = transaction.objectStore('roomAccess');
-        roomAccess.forEach(access => {
+        roomAccess.forEach((access) => {
           roomAccessStore.put({
             userId: currentUser.id,
             roomShortId: access.substring(2),
@@ -24,7 +36,7 @@ export const migrator: DBConfig['migrationFactory'] = () => {
           });
         });
         const motdReadStore = transaction.objectStore('motdRead');
-        motds.forEach(motdId => {
+        motds.forEach((motdId) => {
           motdReadStore.put({
             userId: currentUser.id,
             motdId,
@@ -110,6 +122,6 @@ export const DB_CONFIG: DBConfig = {
       storeSchema: [
         { name: 'accountId', keypath: 'accountId', options: { unique: false } },
       ],
-    }
-  ]
+    },
+  ],
 };
