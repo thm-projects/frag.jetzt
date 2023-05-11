@@ -99,7 +99,7 @@
     "cancel": "Schließen",
     "refresh": "Ausgabe erneut generieren",
     "token-info": "Token (Eingabe / Chat / Gesamt): {{promptTokens}} / {{conversationTokens}} / {{allTokens}}",
-    "prompt-label": "Prompt-Suche",
+    "prompt-label": "Suche nach Prompts | Leertaste für alle Prompts anzeigen",
     "option-total-acts": "Treffer in »Agiere als …«",
     "option-total-prompts": "Treffer in Prompts …",
     "temperature": "Antwortvariabilität",

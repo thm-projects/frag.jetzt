@@ -497,7 +497,7 @@
     "edit": "Éditer la sortie en réponse à la question du forum",
     "paste": "Publier la sortie en réponse à la question du forum",
     "token-info": "Tokens (saisie/conversation/total) : {{promptTokens}}/{{conversationTokens}}/{{allTokens}}",
-    "prompt-label": "Recherche du prompt",
+    "prompt-label": "Recherche de prompts | barre d'espacement pour voir tous les prompts",
     "option-total-acts": "Hits dans « Agir comme … »",
     "option-total-prompts": "Hits dans prompts",
     "temperature": "Variabilité de réponse"

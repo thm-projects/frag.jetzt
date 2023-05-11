@@ -138,7 +138,7 @@
   },
   "chat-gptprompt-preset": {
     "title": "Prompts pour ChatGPT",
-    "search-prompt": "Recherche de prompt ou nouvelle prompt",
+    "search-prompt": "Recherche de prompts ou nouvelle prompt",
     "found-acts": "Résultats trouvés dans »Agir en tant que ...« ({{count}})",
     "found-prompts": "Hits dans Prompts ({{count}})",
     "token-info": "tokens : {{promptTokens}}",
