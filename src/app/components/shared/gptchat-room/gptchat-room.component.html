@@ -139,7 +139,7 @@
       (changeContent)="calculateTokens(getCurrentText())"
       [isModerator]="(sessionService.currentRole || 0) > 0"
       [isBrainstorming]="false"
-      [isEditor]="conversation.length > 0 || !answeringComment"
+      [isEditor]="true"
       [maxTextCharacters]="1000"
       [maxDataCharacters]="2000"
       [disableVideo]="true"
