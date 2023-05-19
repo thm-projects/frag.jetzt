@@ -85,6 +85,10 @@
         <mat-slide-toggle [(ngModel)]="active">
           {{ "gpt-config.restrict-active" | translate }}
         </mat-slide-toggle>
+        <!-- Global Active -->
+        <mat-slide-toggle [(ngModel)]="globalActive">
+          {{ "gpt-config.restrict-global-active" | translate }}
+        </mat-slide-toggle>
         <!-- End Date -->
         <div class="panel-sub-item">
           <mat-form-field>
@@ -146,6 +150,7 @@
             #inputCheck
             matInput
             (keydown)="checkEnter($event, addActivationCode)"
+            (wheel)="$event.stopImmediatePropagation()"
             appAccessibilityEscapedInput
             min="0"
             step="0.01"

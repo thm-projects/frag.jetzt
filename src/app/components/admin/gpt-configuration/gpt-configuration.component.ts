@@ -44,6 +44,7 @@ export class GptConfigurationComponent implements OnInit, OnDestroy {
   organization: string = null;
   // restriction members
   active: boolean = null;
+  globalActive: boolean = null;
   endDate: Date = null;
   platformCodes: GPTActivationCode[] = [];
   // stats
@@ -164,6 +165,9 @@ export class GptConfigurationComponent implements OnInit, OnDestroy {
     if (this.active !== obj.active) {
       changes.active = this.active;
     }
+    if (this.globalActive !== obj.globalActive) {
+      changes.globalActive = this.globalActive;
+    }
     const endDate = this.endDateControl.value as Date;
     if (endDate !== null) {
       endDate.setHours(
@@ -245,6 +249,7 @@ export class GptConfigurationComponent implements OnInit, OnDestroy {
   private loadRestrictions() {
     const obj = this.configuration.restrictions;
     this.active = obj.active;
+    this.globalActive = obj.globalActive;
     this.endDate = obj.endDate ? new Date(obj.endDate) : null;
     this.endDateControl.setValue(this.endDate);
     this.platformCodes = [...obj.platformCodes];
