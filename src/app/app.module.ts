@@ -59,9 +59,6 @@ import { DataProtectionEnComponent } from '../assets/i18n/components/data-protec
 import { DataProtectionDeComponent } from '../assets/i18n/components/data-protection/data-protection-de';
 import { CookiesEnComponent } from '../assets/i18n/components/cookies/cookies-en';
 import { CookiesDeComponent } from '../assets/i18n/components/cookies/cookies-de';
-import { GptPrivacyPolicyDeComponent } from '../assets/i18n/components/gpt-privacy-policy/gpt-privacy-policy-de';
-import { GptPrivacyPolicyEnComponent } from '../assets/i18n/components/gpt-privacy-policy/gpt-privacy-policy-en';
-import { GptPrivacyPolicyFrComponent } from '../assets/i18n/components/gpt-privacy-policy/gpt-privacy-policy-fr';
 import { ImprintEnComponent } from '../assets/i18n/components/imprint/imprint-en';
 import { ImprintDeComponent } from '../assets/i18n/components/imprint/imprint-de';
 import { HelpDeComponent } from '../assets/i18n/components/help/help-de';

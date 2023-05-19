@@ -124,6 +124,10 @@ export class GptRoomSettingsComponent implements OnInit, OnDestroy {
     return ref;
   }
 
+  onWheel(event: WheelEvent) {
+    event.stopImmediatePropagation();
+  }
+
   ngOnInit(): void {
     this.languageService
       .getLanguage()

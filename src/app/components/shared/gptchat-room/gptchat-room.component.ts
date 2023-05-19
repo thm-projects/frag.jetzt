@@ -719,7 +719,9 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
         } else if (
           !(
             data.apiKeyPresent ||
-            (data.usingTrial && data.globalInfo.apiKeyPresent)
+            ((data.usingTrial ||
+              (data.globalInfo.globalActive && data.roomOwnerRegistered)) &&
+              data.globalInfo.apiKeyPresent)
           )
         ) {
           this.error = 'No API Key';
