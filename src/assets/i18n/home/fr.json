@@ -334,7 +334,7 @@
     "cancel": "Fermer",
     "install": "Installer",
     "title": "Nouvelle version",
-    "description": "Une nouvelle version est disponible pour l'installation.<br>Il est recommandé de l'installer afin d'obtenir une expérience irréprochable avec frag.jetzt.<br><br>Tu peux encore essayer de terminer ton travail et de fermer la boîte de dialogue, mais si tu rencontres des problèmes, recharge la page."
+    "description": "Une nouvelle version est prête à être installée.<br><br>Tu peux encore terminer ton travail et fermer la boîte de dialogue. Si des problèmes surviennent, recharge la page."
   },
   "home-page": {
     "gpt-topic-general": "Général",
@@ -444,6 +444,7 @@
     "restart-account-activation-correct": "Le code d'activation a été envoyée.",
     "restart-account-activation-tooltip": "Envoie un nouveau code d'activation à ton adresse.",
     "welcome": "Des questions ?",
+    "welcome-primary": "ChatGPT répond …",
     "welcome-feedback": "➤ Écris à l'équipe de « frag.jetzt »",
     "welcome-subtitle": "Anonyme | à l'intérieur du navigateur | gratuit"
   },
