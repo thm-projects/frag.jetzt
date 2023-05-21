@@ -444,7 +444,7 @@
     "restart-account-activation-correct": "New activation code sent.",
     "restart-account-activation-tooltip": "Sends a new activation code to your address.",
     "welcome": "frag.jetzt",
-    "welcome-primary": "ChatGPT answers …",
+    "welcome-primary": "ChatGPT answers",
     "welcome-feedback": "➤ Write to the »frag.jetzt« team",
     "welcome-subtitle": "anonymous | in your browser | for free"
   },
