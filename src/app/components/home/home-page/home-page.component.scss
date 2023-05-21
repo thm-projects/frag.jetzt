@@ -17,7 +17,6 @@ h1 {
   color: var(--primary);
   animation: moveInLeft 3s ease;
   margin-top: 10px;
-  margin-bottom: 40px;
 }
 
 .main-container {
@@ -97,9 +96,10 @@ mat-card-header {
 
 .screenshot {
   display: block;
-  margin-top: -40px;
   margin-left: auto;
   margin-right: auto;
+  margin-top: -10px;
+  margin-bottom: 20px;
   max-width: 70vw;
   height: fit-content;
   outline: none;

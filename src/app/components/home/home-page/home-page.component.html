@@ -12,6 +12,7 @@
     style="top: 20%; left: 20%; animation-delay: 0s">
     ?
   </div>
+
   <div
     class="bg-object"
     style="top: 30%; left: 80%; animation-delay: 2s">
@@ -33,15 +34,6 @@
     </h1>
   </div>
 
-  <img
-    tabindex="-1"
-    src="/assets/images/Chatbot.png"
-    srcset="/assets/images/Chatbot.png 1x, /assets/images/Chatbot.png 2x"
-    class="screenshot"
-    width="381"
-    height="358"
-    alt="AI Tutor" />
-
   <div
     fxLayout="row"
     fxLayoutAlign="center">
@@ -55,6 +47,15 @@
       </mat-card-content>
     </mat-card>
   </div>
+
+  <img
+    tabindex="-1"
+    src="/assets/images/Chatbot.png"
+    srcset="/assets/images/Chatbot.png 1x, /assets/images/Chatbot.png 2x"
+    class="screenshot"
+    width="381"
+    height="358"
+    alt="AI Tutor" />
 
   <h2>
     <span
@@ -82,10 +83,12 @@
     class="visually-hidden">
     {{ "home-page.live-announcer" | translate }}
   </button>
+
   <app-app-rating
     *ngIf="accumulatedRatings"
     [ratingResults]="accumulatedRatings"></app-app-rating>
 </div>
+
 <div class="visually-hidden">
   <div
     id="feedback-aria"
