@@ -8,6 +8,7 @@ import { ComponentType, Overlay, OverlayConfig } from '@angular/cdk/overlay';
 import { Observable, ReplaySubject } from 'rxjs';
 import { ComponentPortal } from '@angular/cdk/portal';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { LivepollSession } from '../../models/livepoll-session';
 
 export interface ComposedOverlay<E, R, C> {
   component: ComponentRef<C>;

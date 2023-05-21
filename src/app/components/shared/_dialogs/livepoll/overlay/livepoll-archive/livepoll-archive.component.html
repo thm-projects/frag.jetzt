@@ -1,114 +1,62 @@
 <div class="header">
-  <ng-container *ngIf="this.mode === 'beforeCompare'">
-    <mat-form-field appearance="outline">
-      <mat-label>{{ translateKey + ".form-sessions" }}</mat-label>
-      <mat-select [formControl]="leftLivepollSelection">
-        <mat-option
-          *ngFor="let entry of entries; index as i"
-          [value]="entry">
-          <div class="option">
-            <span>{{ i }}</span>
-            <span>{{ prettyPrintDate(entry.createdAt) }}</span>
-          </div>
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-    <mat-form-field appearance="outline">
-      <mat-label>{{ translateKey + ".form-sessions" }}</mat-label>
-      <mat-select [formControl]="rightLivepollSelection">
-        <mat-option
-          *ngFor="let entry of entries; index as i"
-          [value]="entry">
-          <div class="option">
-            <span>{{ i }}</span>
-            <span>{{ prettyPrintDate(entry.createdAt) }}</span>
-          </div>
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-    <button
-      mat-flat-button
-      (click)="compare()"
-      [disabled]="!canCompare">
-      <mat-icon>face</mat-icon>
-      <span>compare</span>
-    </button>
-  </ng-container>
-  <ng-container *ngIf="this.mode === 'compare'">
-    <button
-      mat-flat-button
-      (click)="mode = 'beforeCompare'">
-      <span>stop comparing</span>
-    </button>
-  </ng-container>
-</div>
-<div class="content">
-  <ng-container *ngIf="mode === 'compare'">
-    <app-livepoll-compare
-      [left]="this.leftLivepollSelection.value!"
-      [right]="this.rightLivepollSelection.value!"></app-livepoll-compare>
-  </ng-container>
-</div>
-<div class="footer">
-  <button mat-flat-button>
-    <span>close</span>
+  <button
+    mat-flat-button
+    (click)="showOutline = !showOutline">
+    <span>toggle outline</span>
   </button>
 </div>
-
-<!--<div class="list">-->
-<!--  <ng-container *ngIf="this.entries">-->
-<!--    <mat-selection-list multiple="false" (selectionChange)="this.setSelection($event)">-->
-<!--      <ng-container *ngFor="let entry of this.entries; index as i">-->
-<!--        <mat-list-option [value]="i">-->
-<!--          <div class="list-item">-->
-<!--            <span>{{i}}</span>-->
-<!--            <app-livepoll-live-indicator [livepollSession]="entry"></app-livepoll-live-indicator>-->
-<!--            <span>{{prettyPrintDate(entry.createdAt)}}</span>-->
-<!--          </div>-->
-<!--        </mat-list-option>-->
-<!--      </ng-container>-->
-<!--    </mat-selection-list>-->
-<!--  </ng-container>-->
-<!--</div>-->
-<!--<div class="preview" *ngIf="this.selected">-->
-<!--  <div class="header">-->
-<!--    <button mat-flat-button>-->
-<!--      <mat-icon>face</mat-icon>-->
-<!--      <span>compare</span>-->
-<!--    </button>-->
-<!--    <button mat-flat-button>-->
-<!--      <mat-icon>face</mat-icon>-->
-<!--      <span>show</span>-->
-<!--    </button>-->
-<!--    <div class="fill"></div>-->
-<!--    <p>{{prettyPrintDate(this.selected.createdAt)}}</p>-->
-<!--  </div>-->
-<!--  <div class="content">-->
-<!--    <ng-container>-->
-<!--      <ng-container *ngIf="this.selected.title">-->
-<!--        <markdown [data]="this.selected.title"></markdown>-->
-<!--      </ng-container>-->
-<!--      <ng-container *ngIf="!this.selected.title">-->
-<!--        <p>no title</p>-->
-<!--      </ng-container>-->
-<!--    </ng-container>-->
-<!--  </div>-->
-<!--</div>-->
-<!--<div class="list">-->
-<!--  <ng-container>-->
-<!--    <div style="margin-top:4px;"></div>-->
-<!--    <ng-container *ngIf="this.entries">-->
-<!--      <mat-selection-list multiple="false" (selectionChange)="this.setSelection($event)">-->
-<!--        <ng-container *ngFor="let entry of this.entries; index as i">-->
-<!--          <mat-list-option [value]="i">-->
-<!--            <div class="list-item">-->
-<!--              <span>{{i}}</span>-->
-<!--              <app-livepoll-live-indicator [livepollSession]="entry"></app-livepoll-live-indicator>-->
-<!--              <span>{{prettyPrintDate(entry.createdAt)}}</span>-->
-<!--            </div>-->
-<!--          </mat-list-option>-->
-<!--        </ng-container>-->
-<!--      </mat-selection-list>-->
-<!--    </ng-container>-->
-<!--  </ng-container>-->
-<!--</div>-->
+<div class="content">
+  <div
+    class="left-content"
+    *ngIf="showOutline">
+    <div class="header">
+      <mat-form-field [appearance]="'fill'">
+        <mat-label>Select Livepoll</mat-label>
+        <mat-select [(ngModel)]="current">
+          <mat-option
+            *ngFor="let entry of entries"
+            [value]="entry">
+            {{ prettyPrintDate(entry.createdAt) }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="content">
+      <ng-container *ngIf="showSelectionList">
+        <ng-container *ngFor="let entry of entries; index as i">
+          <div (click)="current = entries[i]; showSelectionList = false">
+            <p>{{ entry.updatedAt }}</p>
+          </div>
+        </ng-container>
+      </ng-container>
+      <ng-container *ngIf="!showSelectionList">
+        <ng-container *ngIf="current">
+          <div class="header">
+            <button mat-flat-button>
+              <mat-icon>edit</mat-icon>
+              <span>edit</span>
+            </button>
+          </div>
+          <div class="markdown">
+            <markdown
+              *ngIf="current.title"
+              [data]="current.title"></markdown>
+          </div>
+          <ng-container *ngIf="!current.title">
+            <p>no title</p>
+          </ng-container>
+        </ng-container>
+        <ng-container *ngIf="!current"></ng-container>
+      </ng-container>
+    </div>
+  </div>
+  <div class="explore">
+    <ng-container *ngIf="current">
+      <div class="explore-header-container">
+        <div class="explore-votes"></div>
+        <div class="explore-date"></div>
+      </div>
+    </ng-container>
+  </div>
+</div>
+<div class="footer"></div>

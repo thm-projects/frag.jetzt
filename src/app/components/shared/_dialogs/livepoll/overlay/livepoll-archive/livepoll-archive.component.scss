@@ -4,9 +4,15 @@
 
 $yOffset: 64px;
 $xOffset: 64px;
-$width: 800px;
+$width: 2000px;
 $header-height: 86px;
 $footer-height: 64px;
+
+.option {
+  > * + * {
+    margin-left: 4px;
+  }
+}
 
 :host-context {
   width: $width;
@@ -40,12 +46,7 @@ $footer-height: 64px;
   > .content {
     height: calc(100vh - ($yOffset - $header-height - $footer-height));
     display: flex;
-    flex-direction: column;
-
-    .compare-info {
-      height: 64px;
-      background-color: red;
-    }
+    flex-direction: row;
   }
 
   > .footer {
@@ -56,55 +57,53 @@ $footer-height: 64px;
   }
 }
 
-//:host-context {
-//  width: 800px;
-//  max-width: calc(100vw - 16px);
-//  height: 100vh;
-//  position: absolute;
-//  left: 50vw;
-//  top: 0;
-//  transform: translate3d(-50%, 0%, 0);
-//  color: var(--on-surface);
-//  display: flex;
-//  flex-direction: column;
-//
-//  > * + * {
-//    margin-top: 4px;
-//  }
-//
-//  > .list {
-//    display: flex;
-//    flex-direction: column;
-//
-//    .list-item {
-//      display: flex;
-//    }
-//
-//    > * {
-//      background-color: var(--surface);
-//    }
-//  }
-//
-//  > .preview {
-//    display: flex;
-//    flex-direction: column;
-//    background-color: var(--surface);
-//
-//    > .header {
-//      height: 58px;
-//      padding: 8px 16px;
-//      box-sizing: border-box;
-//      display: flex;
-//      align-items: center;
-//      border-bottom: solid 1px black;
-//
-//      > * + * {
-//        margin-left: 4px;
-//      }
-//    }
-//
-//    > .content {
-//      padding: 8px 16px;
-//    }
-//  }
-//}
+.left-content {
+  width: 600px;
+  flex-shrink: 0;
+  border-right: 1px solid rgba(127, 127, 127, 0.2);
+  display: flex;
+  flex-direction: column;
+
+  > .header {
+    height: 56px;
+    border-bottom: 1px solid rgba(127, 127, 127, 0.2);
+    align-items: center;
+
+    > * {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  > .content {
+    display: flex;
+    flex-direction: column;
+
+    > .header {
+      display: flex;
+      padding: 0 16px;
+    }
+
+    > .markdown {
+      padding: 0 16px;
+    }
+  }
+}
+
+.explore {
+  flex-grow: 1;
+}
+
+.explore-header-container {
+  height: ;
+}
+
+.explore-votes {
+}
+
+.explore-date {
+}
+
+.fill {
+  flex-grow: 1;
+}

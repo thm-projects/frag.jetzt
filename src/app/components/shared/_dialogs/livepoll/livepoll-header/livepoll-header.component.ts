@@ -46,8 +46,15 @@ export class LivepollHeaderComponent implements OnInit, OnDestroy {
   }
 
   openArchive(event: MouseEvent) {
-    const ref = this.overlayService.create(LivepollArchiveComponent, {
-      panelClass: 'overlay-row',
-    });
+    console.log(this.livepollSession);
+    const ref = this.overlayService.create(
+      LivepollArchiveComponent,
+      {
+        panelClass: 'overlay-row',
+      },
+      {
+        initial: this.livepollSession,
+      },
+    );
   }
 }

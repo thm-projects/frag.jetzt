@@ -1,5 +1,6 @@
 import {
   AfterViewInit,
+  ChangeDetectorRef,
   Component,
   HostBinding,
   Inject,
@@ -26,23 +27,40 @@ export class LivepollArchiveComponent
   @HostBinding('class') cls: string = 'livepoll-archive';
   public entries: LivepollSession[];
   selected: LivepollSession | undefined;
+  base: LivepollSession;
+  comparison: LivepollSession;
   leftLivepollSelection: FormControl = new FormControl<LivepollSession>(null);
   rightLivepollSelection: FormControl = new FormControl<LivepollSession>(null);
   public readonly translateKey: string = 'common';
   public mode: 'beforeCompare' | 'compare' = 'beforeCompare';
+  public data: {
+    initial: LivepollSession;
+  };
+
+  /**/
+
+  showSelectionList: boolean = false;
+  current: LivepollSession | undefined;
+  showOutline: boolean = false;
+  /**/
 
   constructor(
     public readonly livepollService: LivepollService,
     public readonly session: SessionService,
     public readonly language: LanguageService,
     private _formBuilder: FormBuilder,
+    public readonly cdr: ChangeDetectorRef,
     @Inject(MAT_DIALOG_DATA) data: ComposedData,
   ) {
-    console.log(data);
+    this.data = data.data;
     this.livepollService
       .findByRoomId(this.session.currentRoom.id)
       .subscribe((entries) => {
         this.entries = entries;
+        this.base = this.entries.filter(
+          (x) => x.id === this.data.initial.id,
+        )[0];
+        this.cdr.detectChanges();
       });
   }
 

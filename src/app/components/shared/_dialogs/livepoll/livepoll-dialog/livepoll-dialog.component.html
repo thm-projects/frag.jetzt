@@ -1,4 +1,5 @@
 <app-livepoll-header
+  *ngIf="isProduction"
   [title]="translateKey + '.dialog-title'"
   [livepollSession]="this.livepollSession"
   [isProduction]="this.isProduction"></app-livepoll-header>
