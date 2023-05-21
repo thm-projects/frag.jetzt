@@ -11,12 +11,12 @@ h1 {
 
 .main-heading-primary {
   display: block;
-  font-size: 36px;
+  font-size: 30px;
   font-weight: normal;
   text-align: center;
   color: var(--primary);
   animation: moveInLeft 3s ease;
-  margin-top: 30px;
+  margin-top: 20px;
 }
 
 .main-container {
@@ -34,7 +34,6 @@ h1 {
   font-size: 50px;
   font-weight: normal;
   text-align: center;
-  margin-top: 20px;
   color: var(--secondary);
   animation: moveInRight 3s ease;
 }
@@ -100,8 +99,8 @@ mat-card-header {
   display: block;
   margin-left: auto;
   margin-right: auto;
-  margin-top: -10px;
-  margin-bottom: 20px;
+  margin-top: -55px;
+  margin-bottom: 10px;
   max-width: 70vw;
   height: fit-content;
   outline: none;
