@@ -257,7 +257,7 @@
     "export-questions": "Q&A exportieren",
     "fullscreen": "Vollbild & Textgröße",
     "guest-account-tooltip": "Du bist als Gast eingeloggt. Deine Räume und Boni werden gelöscht, wenn du den Browser zurücksetzt. Wenn du dich mit einem Konto anmeldest, werden deine Räume und Boni für 180 Tage gespeichert. Diese Frist verlängert sich um 180 Tage mit jedem weiteren Besuch deiner Räume.",
-    "home-header": "Q&A live mit KI",
+    "home-header": "Fragen sammeln, bewerten, präsentieren",
     "home-header-mobile": "Q&A live mit KI",
     "id": "Code",
     "import-questions": "Q&A importieren",
@@ -445,7 +445,7 @@
     "restart-account-activation-tooltip": "Sendet einen neuen Aktivierungscode an deine Adresse.",
     "welcome": "frag.jetzt",
     "welcome-primary": "ChatGPT antwortet",
-    "welcome-feedback": "➤ Schreib dem »frag.jetzt«-Team",
+    "welcome-feedback": "➤ Feedback",
     "welcome-subtitle": "Anonym | innerhalb des Browsers | kostenlos"
   },
   "login-dialog": {
