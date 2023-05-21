@@ -2,10 +2,6 @@ mat-form-field {
   color: var(--on-surface);
 }
 
-.layoutWrapper {
-  padding-left: 15px;
-}
-
 form {
   padding-top: 5%;
 }
@@ -15,7 +11,8 @@ mat-error {
   color: var(--red) !important;
 }
 
-input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin-button {
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
   -webkit-appearance: none;
 }
 
@@ -62,7 +59,7 @@ input:-webkit-autofill {
 
 .join-room {
   padding: 0 22px 0 17px;
-  transform: scale(3.0);
+  transform: scale(2.5);
   color: var(--primary);
 }
 

@@ -342,7 +342,7 @@
     "accessibility-join-button": "Rejoins la session dont tu as saisi le code.",
     "accessibility-join-input": "Tu peux saisir ici le nom de la session que tu souhaites rejoindre. Le nom te sera communiqué par le responsable de la session.",
     "app-rating": "Réévaluer l'app",
-    "create-session": "Réserver une salle gratuitement",
+    "create-session": "Réserver une salle",
     "created": "La salle pour la session \"{{longRoomName}}\" a été réservée.",
     "custom-shortid": "Quel doit être le code de la salle ?",
     "custom-shortid-placeholder": "Code composé de : a-z A-Z 0-9 - _ ~ .",
@@ -457,7 +457,7 @@
     "or": "ou",
     "password": "Mot de passe",
     "sign-in-as-guest": "Continuer en tant qu'invité",
-    "sign-up": "Créer un compte …",
+    "sign-up": "S'inscrire",
     "title": "S'inscrire"
   },
   "moderators-dialog": {
