@@ -16,6 +16,13 @@ import { prettyPrintDate } from 'app/utils/date';
 import { LanguageService } from '../../../../../../services/util/language.service';
 import { MatSelectionListChange } from '@angular/material/list';
 import { FormBuilder, FormControl } from '@angular/forms';
+import { BehaviorSubject } from 'rxjs';
+import { LivepollOptionEntry } from '../../livepoll-dialog/livepoll-dialog.component';
+import { LivepollComponentUtility } from '../../livepoll-component-utility';
+import {
+  LivepollTemplateContext,
+  templateEntries,
+} from '../../../../../../models/livepoll-template';
 
 @Component({
   selector: 'app-livepoll-archive',
@@ -40,8 +47,19 @@ export class LivepollArchiveComponent
   /**/
 
   showSelectionList: boolean = false;
-  current: LivepollSession | undefined;
-  showOutline: boolean = false;
+  showOutline: boolean = true;
+  private readonly _current: BehaviorSubject<LivepollSession | null> =
+    new BehaviorSubject(null);
+  private readonly _results: BehaviorSubject<number[] | null> =
+    new BehaviorSubject(null);
+  private readonly _totalVotes: BehaviorSubject<number> = new BehaviorSubject(
+    0,
+  );
+  private readonly _options: BehaviorSubject<LivepollOptionEntry[] | null> =
+    new BehaviorSubject(null);
+  private readonly _template: BehaviorSubject<LivepollTemplateContext | null> =
+    new BehaviorSubject(null);
+
   /**/
 
   constructor(
@@ -62,6 +80,19 @@ export class LivepollArchiveComponent
         )[0];
         this.cdr.detectChanges();
       });
+    this._current.subscribe((x) => {
+      if (x) {
+        this._template.next(templateEntries[x.template]);
+        this._options.next(
+          LivepollComponentUtility.resolveTemplate(templateEntries[x.template]),
+        );
+        this.livepollService.getResults(x.id).subscribe((x) => {
+          const o = x.map((a) => Math.ceil(Math.random() * 1000));
+          this._results.next(o);
+          this._totalVotes.next(o.reduce((a, b) => a + b, 0));
+        });
+      }
+    });
   }
 
   get left(): LivepollSession | null {
@@ -74,6 +105,30 @@ export class LivepollArchiveComponent
 
   get canCompare(): boolean {
     return !!this.left && !!this.right && this.left.id !== this.right.id;
+  }
+
+  get template(): LivepollTemplateContext | null {
+    return this._template.value;
+  }
+
+  get options(): LivepollOptionEntry[] {
+    return this._options.value;
+  }
+
+  get totalVotes(): number {
+    return this._totalVotes.value;
+  }
+
+  get result(): number[] | null {
+    return this._results.value;
+  }
+
+  get current(): LivepollSession | null {
+    return this._current.value;
+  }
+
+  set current(current: LivepollSession) {
+    this._current.next(current);
   }
 
   ngOnInit(): void {}

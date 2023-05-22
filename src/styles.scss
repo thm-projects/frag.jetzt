@@ -638,3 +638,9 @@ div[markdown] img {
     transform: translateX(-50%);
   }
 }
+
+.cdk-overlay-container {
+  .mat-select-panel.auto-height {
+    max-height: none;
+  }
+}

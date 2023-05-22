@@ -1,0 +1,37 @@
+<div class="chart">
+  <div class="chart-label-container">
+    <ng-container *ngFor="let _unused of indices; index as i">
+      <div
+        class="list"
+        [ngStyle]="{
+          'height.px': this.options.length * 24
+        }">
+        <div
+          class="chart-label"
+          *ngFor="let option of getOptions(i)">
+          <span *ngIf="option">{{ option.symbol }}</span>
+          <span *ngIf="!option">yeet</span>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+  <div class="chart-bar-container">
+    <ng-container *ngFor="let _unused of indices; index as i">
+      <div
+        class="list"
+        [ngStyle]="{
+          'height.px': this.options.length * 24
+        }">
+        <div
+          class="chart-bar"
+          *ngFor="let option of getVotes(i); index as y">
+          <div
+            class="bar"
+            [ngStyle]="{
+              width: getVotePercentage(i, y) + '%'
+            }"></div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>

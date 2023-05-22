@@ -149,6 +149,7 @@ import { LivepollHeaderComponent } from './_dialogs/livepoll/livepoll-header/liv
 import { LivepollLiveIndicatorComponent } from './_dialogs/livepoll/livepoll-live-indicator/livepoll-live-indicator.component';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { LivepollCompareComponent } from './_dialogs/livepoll/overlay/livepoll-compare/livepoll-compare.component';
+import { LivepollBarChartComponent } from './_dialogs/livepoll/livepoll-bar-chart/livepoll-bar-chart.component';
 
 @NgModule({
   imports: [
@@ -300,6 +301,7 @@ import { LivepollCompareComponent } from './_dialogs/livepoll/overlay/livepoll-c
     LivepollHeaderComponent,
     LivepollLiveIndicatorComponent,
     LivepollCompareComponent,
+    LivepollBarChartComponent,
   ],
   exports: [
     RoomJoinComponent,

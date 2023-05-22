@@ -81,6 +81,7 @@ $footer-height: 64px;
 
     > .header {
       display: flex;
+      margin-top: 16px;
       padding: 0 16px;
     }
 
@@ -90,20 +91,88 @@ $footer-height: 64px;
   }
 }
 
+.select-livepoll {
+  height: 56px;
+  border-bottom: 1px solid rgba(127, 127, 127, 0.2);
+  align-items: center;
+
+  > * {
+    width: 100%;
+    height: 100%;
+  }
+}
+
 .explore {
   flex-grow: 1;
+  padding: 0 16px;
 }
 
 .explore-header-container {
-  height: ;
+  display: flex;
+  padding: 16px 0;
 }
 
 .explore-votes {
+  &-number {
+    font-size: 32px;
+  }
+
+  &-flag {
+  }
+
+  > * + * {
+    margin-left: 8px;
+  }
 }
 
 .explore-date {
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+
+  &-created {
+    display: flex;
+  }
+
+  &-edited {
+    display: flex;
+  }
+
+  > * {
+    > * + * {
+      margin-left: 8px;
+    }
+
+    > .flag {
+      font-size: 12px;
+    }
+
+    > .date {
+    }
+  }
+}
+
+.explore-chart {
+  &-container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &-option-container {
+  }
 }
 
 .fill {
   flex-grow: 1;
+}
+
+.outline-helper-container {
+  padding: 16px;
+  display: flex;
+}
+
+.outline-helper-image {
+}
+
+.outline-helper-text {
 }

@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { LivepollTemplateContext } from '../../../../models/livepoll-template';
 import { LivepollOptionEntry } from './livepoll-dialog/livepoll-dialog.component';
+import { LivepollCustomTemplateEntry } from '../../../../models/livepoll-session';
 
 const animateOpen = {
   opacity: 1,
@@ -15,8 +16,6 @@ const animateClosed = {
   opacity: 0,
   height: '0px',
 };
-
-export class TemplateData {}
 
 export class LivepollComponentUtility {
   static readonly animation = [
@@ -51,22 +50,39 @@ export class LivepollComponentUtility {
   }
 
   static resolveTemplate(
-    templateContext: LivepollTemplateContext,
-  ): TemplateData {
-    const target: {
-      votes: number[];
-      template: LivepollTemplateContext;
-      rowHeight: number;
-      options: LivepollOptionEntry[];
-    } = {
-      options: [],
-      votes: [],
-      rowHeight: 0,
-      template: templateContext,
+    template: LivepollTemplateContext | LivepollCustomTemplateEntry,
+  ): LivepollOptionEntry[] {
+    const isTemplateContext = (
+      template: LivepollTemplateContext | LivepollCustomTemplateEntry,
+    ): template is LivepollTemplateContext => {
+      return !template.hasOwnProperty('id');
     };
-    this.initTemplate(target);
-    console.log(templateContext);
-    return new TemplateData();
+    if (isTemplateContext(template)) {
+      const votes: number[] = new Array(
+        template.symbols?.length || template.length,
+      ).fill(0);
+      const rowHeight = Math.ceil(votes.length / 2);
+      let options: LivepollOptionEntry[] | undefined;
+      if (typeof template.length === 'undefined') {
+        options = template.symbols.map((symbol, index) => {
+          return {
+            index,
+            symbol,
+          };
+        });
+      } else {
+        options = [];
+        for (let index = 0; index < template.length; index++) {
+          options.push({
+            index,
+            symbol: 'option-' + template.name,
+          });
+        }
+      }
+      return options;
+    } else {
+      throw new Error('Not implemented.');
+    }
   }
 
   static initTemplate(target: {

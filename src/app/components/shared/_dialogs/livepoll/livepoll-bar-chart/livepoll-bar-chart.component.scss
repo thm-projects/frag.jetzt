@@ -1,0 +1,45 @@
+.chart {
+  display: flex;
+}
+
+.chart-label-container {
+  display: flex;
+  flex-direction: column;
+
+  > .list {
+    display: flex;
+    flex-direction: column;
+    border-bottom: 5px solid red;
+  }
+}
+
+.chart-label {
+  height: 56px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  border-bottom: 1px solid orange;
+}
+
+.chart-bar-container {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+
+  > .list {
+    display: flex;
+    flex-direction: column;
+    border-bottom: 5px solid red;
+  }
+}
+
+.chart-bar {
+  height: 56px;
+  width: 100%;
+  border-bottom: 1px solid orange;
+  display: flex;
+}
+
+.bar {
+  background-color: orange;
+}
