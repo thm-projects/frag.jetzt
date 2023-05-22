@@ -20,7 +20,7 @@ export const dark_solarized = {
   '--on-surface': '#93a1a1',
   '--on-dialog': '#93a1a1',
   '--on-cancel': '#93a1a1',
-  '--green': '859900',
+  '--green': '#859900',
   '--red': '#dc322f',
   '--white': '#fdf6e3',
   '--yellow': '#b58900',
