@@ -91,6 +91,11 @@ export class GptRoomSettingsComponent implements OnInit, OnDestroy {
   endDate: Date;
   dateRange: FormGroup;
   possibleRepeatUnits = Object.keys(UsageRepeatUnit);
+  globalInfo = {
+    active: false,
+    counter: '?',
+    max: '?',
+  };
   protected activatedCode: GPTActivationCode = null;
   private previousSetting: GPTRoomSetting;
   private destroyer = new ReplaySubject(1);
@@ -188,6 +193,19 @@ export class GptRoomSettingsComponent implements OnInit, OnDestroy {
         this.allowsUnregisteredUsers = setting.allowsUnregisteredUsers();
         this.disableEnhancedPrompt = setting.disableEnhancedPrompt();
         this.disableForwardMessage = setting.disableForwardMessage();
+        this.sessionService.getGPTStatusOnce().subscribe((status) => {
+          this.globalInfo.active =
+            !setting.apiKey &&
+            status.globalInfo.globalActive &&
+            !status.globalInfo.restricted &&
+            !setting.trialCode;
+          this.globalInfo.counter = (
+            setting.accumulatedCostCounter / 10_000
+          ).toFixed(4);
+          this.globalInfo.max = (setting.globalAccumulatedQuota / 100).toFixed(
+            2,
+          );
+        });
       },
     });
   }

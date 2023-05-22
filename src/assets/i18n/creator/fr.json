@@ -760,6 +760,7 @@
     "quota-management": "Gestion des quotas",
     "title": "Paramètres de ChatGPT",
     "trial-info": "Je participe à l'étude d'évaluation gratuite de THM « ChatGPT dans l'enseignement » :",
+    "global-trial": "Tu possèdes {{max}}$ par une libération globale. Tu en as déjà consommé {{counter}}$.",
     "trial-code": "J'ai reçu le code d'activation suivant de l'équipe frag.jetzt :",
     "trial-enabled": "Parfait : Vous participez à l'étude d'évaluation.",
     "trial-activated-info": "Grâce à l'étude d'évaluation, tu possèdes {{quota}}$ par mois. Ce mois-ci, {{counter}}$ a déjà été utilisé.",

@@ -43,6 +43,7 @@
     "header-metrics": "GPT API statistics",
     "restrict-active": "API enabled",
     "restrict-global-active": "Activate in each room with registered room owner",
+    "restrict-global-amount": "Total quota per room",
     "restrict-end-date": "API end",
     "save-error": "Could not save data!",
     "load-error": "Could not load configuration!",

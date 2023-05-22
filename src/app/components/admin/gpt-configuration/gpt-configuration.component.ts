@@ -45,6 +45,7 @@ export class GptConfigurationComponent implements OnInit, OnDestroy {
   // restriction members
   active: boolean = null;
   globalActive: boolean = null;
+  globalAccumulatedQuota: number = 0;
   endDate: Date = null;
   platformCodes: GPTActivationCode[] = [];
   // stats
@@ -159,6 +160,10 @@ export class GptConfigurationComponent implements OnInit, OnDestroy {
     this.updateGPT(changes);
   }
 
+  onWheel(event: WheelEvent) {
+    event.stopImmediatePropagation();
+  }
+
   saveRestrictions() {
     const obj = this.configuration.restrictions;
     const changes: Partial<GPTRestrictions> = {};
@@ -167,6 +172,10 @@ export class GptConfigurationComponent implements OnInit, OnDestroy {
     }
     if (this.globalActive !== obj.globalActive) {
       changes.globalActive = this.globalActive;
+    }
+    const changed = Math.round(this.globalAccumulatedQuota * 100);
+    if (changed !== obj.globalAccumulatedQuota) {
+      changes.globalAccumulatedQuota = changed;
     }
     const endDate = this.endDateControl.value as Date;
     if (endDate !== null) {
@@ -250,6 +259,7 @@ export class GptConfigurationComponent implements OnInit, OnDestroy {
     const obj = this.configuration.restrictions;
     this.active = obj.active;
     this.globalActive = obj.globalActive;
+    this.globalAccumulatedQuota = obj.globalAccumulatedQuota / 100;
     this.endDate = obj.endDate ? new Date(obj.endDate) : null;
     this.endDateControl.setValue(this.endDate);
     this.platformCodes = [...obj.platformCodes];

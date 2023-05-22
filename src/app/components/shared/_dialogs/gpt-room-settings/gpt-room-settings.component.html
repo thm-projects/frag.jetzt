@@ -1,6 +1,10 @@
 <h2>{{ "gpt-room-settings.title" | translate }}</h2>
 
 <mat-dialog-content *ngIf="!isLoading; else loading">
+  <p *ngIf="globalInfo.active">
+    {{ "gpt-room-settings.global-trial" | translate : globalInfo }}
+  </p>
+
   <!-- GPT over frag.jetzt -->
   <h3>{{ "gpt-room-settings.trial-info" | translate }}</h3>
   <ng-container *ngIf="!trialEnabled">

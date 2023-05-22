@@ -43,6 +43,7 @@
     "header-metrics": "Statistiques de l'API GPT",
     "restrict-active": "API activée",
     "restrict-global-active": "Activer dans chaque salle où le propriétaire de la salle est enregistré",
+    "restrict-global-amount": "Crédit total par salle",
     "restrict-end-date": "Fin de l'API",
     "save-error": "N'a pas pu enregistrer les données !",
     "load-error": "Impossible de charger la configuration !",

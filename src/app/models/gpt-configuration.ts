@@ -51,17 +51,20 @@ export class GPTActivationCode {
 export class GPTRestrictions {
   active: boolean;
   globalActive: boolean;
+  globalAccumulatedQuota: number;
   endDate: Date;
   platformCodes: GPTActivationCode[];
 
   constructor({
     active = false,
     globalActive = false,
+    globalAccumulatedQuota = 500,
     endDate = new Date(),
     platformCodes = [],
   }) {
     this.active = active;
     this.globalActive = globalActive;
+    this.globalAccumulatedQuota = globalAccumulatedQuota;
     this.endDate = verifyInstance(Date, endDate);
     this.platformCodes = platformCodes.map((e) =>
       verifyInstance(GPTActivationCode, e),
