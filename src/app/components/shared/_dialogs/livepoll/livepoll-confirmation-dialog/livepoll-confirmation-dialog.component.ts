@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DeviceInfoService } from '../../../../../services/util/device-info.service';
 import { MatDialogRef } from '@angular/material/dialog';
-import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-livepoll-confirmation-dialog',

@@ -57,6 +57,7 @@ export interface CommentCreateOptions {
   brainstormingLanguage: string;
   selectedLanguage: Language;
   hadUsedDeepL: boolean;
+  keywordExtractionActive: boolean;
   callbackFinished?: () => void;
 }
 
@@ -162,6 +163,9 @@ export class KeywordExtractor {
         comment.language = result.language;
         comment.keywordsFromSpacy = result.keywords;
         comment.keywordsFromQuestioner = [];
+        if (!options.keywordExtractionActive) {
+          return of(comment);
+        }
         return this.openSpacyDialog(comment, result);
       }),
     );

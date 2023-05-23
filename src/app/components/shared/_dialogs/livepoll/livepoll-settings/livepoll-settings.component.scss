@@ -14,6 +14,9 @@
 
     > mat-form-field {
       flex-grow: 1;
+      @media screen and (max-width: 600px) {
+        width: 50%;
+      }
     }
 
     > * + * {
@@ -24,9 +27,6 @@
       position: relative;
       top: -12px;
       left: 0;
-      mat-icon {
-        margin-right: 4px;
-      }
     }
   }
 
@@ -47,6 +47,7 @@
 
 .settings-expansion-panel {
   box-shadow: none;
+  border: 1px solid rgba(127, 127, 127, 0.5);
 }
 
 .force-corporate-design {

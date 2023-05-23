@@ -389,6 +389,8 @@ export class WriteCommentComponent implements OnInit, AfterViewInit, OnDestroy {
         hadUsedDeepL: this._hadUsedDeepl,
         selectedLanguage: this.selectedLang,
         commentReference: this.commentReference,
+        keywordExtractionActive:
+          this.sessionService.currentRoom?.keywordExtractionActive,
       };
       if (this.onlyText) {
         this.onClose(this._keywordExtractor.createPlainComment(options));

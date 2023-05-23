@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ReplaySubject, takeUntil } from 'rxjs';
-import { LanguageService } from '../../../../services/util/language.service';
+import { LanguageService } from '../../../../../services/util/language.service';
 import { HttpClient } from '@angular/common/http';
 import { TranslateService } from '@ngx-translate/core';
 

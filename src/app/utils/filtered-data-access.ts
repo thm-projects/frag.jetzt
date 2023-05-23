@@ -552,6 +552,18 @@ export class FilteredDataAccess {
     this._sortedFilteredData = null;
   }
 
+  updateCount(search = false) {
+    if (!search) {
+      this.updateStages(STAGE_FILTER | STAGE_SORT_FILTER);
+      return;
+    }
+    const stage =
+      (this._filter.currentSearch ? 0 : STAGE_FILTER | STAGE_SORT_FILTER) |
+      STAGE_SEARCH |
+      STAGE_SORT_SEARCH;
+    this.updateStages(stage);
+  }
+
   private calculateChanges(
     oldFilter: RoomDataFilter,
     newFilter: RoomDataFilter,

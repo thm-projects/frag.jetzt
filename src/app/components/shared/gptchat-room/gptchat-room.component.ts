@@ -15,6 +15,7 @@ import { GPTEncoder } from 'app/gpt-encoder/GPTEncoder';
 import { Room } from 'app/models/room';
 import {
   ChatCompletionMessage,
+  ChatCompletionRequest,
   GptService,
   StreamChatCompletion,
 } from 'app/services/http/gpt.service';
@@ -50,13 +51,13 @@ import {
   PresetsDialogComponent,
   PresetsDialogType,
 } from '../_dialogs/presets-dialog/presets-dialog.component';
-import { GPTRoomAnswerFormat, GPTRoomPreset } from 'app/models/gpt-room-preset';
+import { GPTRoomPreset } from 'app/models/gpt-room-preset';
 import { GPTRoomPresetLength } from '../../../models/gpt-room-preset';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserRole } from '../../../models/user-roles.enum';
 import { ForumComment } from '../../../utils/data-accessor';
 import { EventService } from '../../../services/util/event.service';
-import { map, take } from 'rxjs/operators';
+import { filter, map, take } from 'rxjs/operators';
 import { clone } from '../../../utils/ts-utils';
 import {
   CommentCreateOptions,
@@ -70,6 +71,8 @@ import { escapeForRegex } from 'app/utils/regex-escape';
 import { ComponentEvent, sendAwaitingEvent } from 'app/utils/component-events';
 import { Comment } from 'app/models/comment';
 import { GPTPresetTopicsDialogComponent } from '../_dialogs/gptpreset-topics-dialog/gptpreset-topics-dialog.component';
+import { GptPromptExplanationComponent } from '../_dialogs/gpt-prompt-explanation/gpt-prompt-explanation.component';
+import { GPTRatingDialogComponent } from '../_dialogs/gptrating-dialog/gptrating-dialog.component';
 
 interface ConversationEntry {
   type: 'human' | 'gpt' | 'system';
@@ -79,6 +82,7 @@ interface ConversationEntry {
 interface ContextOption {
   key: string;
   text: string;
+  hover?: string;
 }
 
 type SelectComponents = { text?: string; small?: string }[];
@@ -86,6 +90,7 @@ type SelectComponents = { text?: string; small?: string }[];
 interface Context {
   name: string;
   type: 'single' | 'multiple' | 'quill';
+  access?: { [key: string]: ContextOption };
   value?: ContextOption | ContextOption[] | ImmutableStandardDelta;
   parts?: Observable<MultiContextElement[]>;
   selected?: string;
@@ -106,7 +111,6 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild(ViewCommentDataComponent)
   commentData: ViewCommentDataComponent;
   @ViewChild('lengthSubMenu') lengthSubMenu: MatMenu;
-  @ViewChild('answerFormatSubMenu') answerFormatSubMenu: MatMenu;
   @Input() private owningComment: ForumComment;
   conversation: ConversationEntry[] = [];
   isSending = false;
@@ -121,9 +125,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
   stopper = new Subject<boolean>();
   isGPTPrivacyPolicyAccepted: boolean = false;
   initDelta: StandardDelta;
-  answerFormat: GPTRoomAnswerFormat = GPTRoomAnswerFormat.DISABLED;
   GPTRoomPresetLength = GPTRoomPresetLength;
-  GPTRoomAnswerFormat = GPTRoomAnswerFormat;
   prompts: GPTPromptPreset[] = [];
   amountOfFoundActs: number = 0;
   amountOfFoundPrompts: number = 0;
@@ -131,6 +133,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
   temperature: number = 0.7;
   searchTerm: string = '';
   answeringComment = false;
+  answeringWriteComment = false;
   temperatureOptions: { key: string; value: number; text: SelectComponents }[] =
     [
       {
@@ -177,6 +180,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
       value: null,
     },
   ];
+  protected selectedPrompt: GPTPromptPreset = null;
   private destroyer = new ReplaySubject(1);
   private encoder: GPTEncoder = null;
   private room: Room = null;
@@ -222,11 +226,20 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
     this.eventService.broadcast('gptchat-room.init');
     if (this.owningComment?.body) {
       this.answeringComment = true;
+      this.answeringWriteComment = true;
       this.initDelta = clone(this.owningComment?.body);
       this.getContextByName('question').value = clone(this.initDelta);
     } else {
       this.initDelta = { ops: [] };
       this.loadConversation();
+    }
+    if (
+      this.answeringComment &&
+      this.sessionService.currentRole > UserRole.PARTICIPANT
+    ) {
+      this.headerService.getHeaderComponent().customOptionText = {
+        key: 'header.chatroom-options-menu',
+      };
     }
     this.initNormal();
     this.gptEncoderService.getEncoderOnce().subscribe((e) => {
@@ -251,7 +264,9 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
       });
   }
 
-  setValue(msg: string) {
+  setValue(prompt: GPTPromptPreset) {
+    this.selectedPrompt = prompt;
+    let msg = prompt.prompt;
     if (!msg.endsWith('\n')) {
       msg += '\n';
     }
@@ -280,6 +295,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnDestroy(): void {
+    this.headerService.getHeaderComponent().customOptionText = null;
     this._list?.forEach((e) => e.destroy());
     this.destroyer.next(true);
     this.destroyer.complete();
@@ -353,6 +369,8 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
       hadUsedDeepL: false,
       selectedLanguage: 'auto',
       commentReference: this.owningComment?.id || null,
+      keywordExtractionActive:
+        this.sessionService.currentRoom?.keywordExtractionActive,
     };
     this.keywordExtractor
       .createCommentInteractive(options)
@@ -362,7 +380,38 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
           return this.commentService.addComment(comment);
         }),
       )
-      .subscribe(() => this.router.navigate([url]));
+      .subscribe(() =>
+        GPTRatingDialogComponent.open(
+          this.dialog,
+          this.gptService,
+          true,
+        ).subscribe({
+          next: (ref) => {
+            if (!ref) {
+              this.router.navigate([url]);
+            } else {
+              ref.afterClosed().subscribe(() => this.router.navigate([url]));
+            }
+          },
+        }),
+      );
+  }
+
+  copyMarkdown(index: number) {
+    const text = this.conversation[index].message;
+    navigator.clipboard.writeText(text).then(
+      () => {
+        this.translateService
+          .get('gpt-chat.copy-success')
+          .subscribe((msg) => this.notificationService.show(msg));
+      },
+      (err) => {
+        console.error(err);
+        this.translateService
+          .get('gpt-chat.copy-fail')
+          .subscribe((msg) => this.notificationService.show(msg));
+      },
+    );
   }
 
   openEditGPTMessage(index: number) {
@@ -393,7 +442,19 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     this.route.params.subscribe((params) => {
       url = `${roleString}/room/${params['shortId']}/comment/${this.owningComment.id}`;
-      this.router.navigate([url]);
+      GPTRatingDialogComponent.open(
+        this.dialog,
+        this.gptService,
+        true,
+      ).subscribe({
+        next: (ref) => {
+          if (!ref) {
+            this.router.navigate([url]);
+          } else {
+            ref.afterClosed().subscribe(() => this.router.navigate([url]));
+          }
+        },
+      });
     });
   }
 
@@ -451,7 +512,8 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
       this.conversation.push({
         type: 'system',
         message:
-          'You are a multilingual assistant in a chat room answering questions. Always answer the questions professionally.',
+          this._preset.roleInstruction ||
+          'You are a multilingual chat assistant on a Q&A forum answering questions. Always answer in a professional manner. If you do not know the answer to a question, do not make it up. Instead, ask a follow-up question to get more context.',
       });
     }
     const hasContent = currentText.trim().length > 0;
@@ -475,17 +537,33 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
     this.initDelta = { ops: [] };
     this.calculateTokens(currentText);
     const index = this.conversation.length;
+    this.renewIndex = index;
     this.conversation.push({
       message: '',
       type: 'gpt',
     });
+    const request: ChatCompletionRequest = {
+      messages: this.generatePrompt(index),
+      roomId: this.room?.id || null,
+      model: 'gpt-3.5-turbo',
+      temperature: this.temperature,
+    };
+    if (this.selectedPrompt !== null) {
+      request.temperature = this.selectedPrompt.temperature;
+      request.presencePenalty = this.selectedPrompt.presencePenalty;
+      request.frequencyPenalty = this.selectedPrompt.frequencyPenalty;
+      request.topP = this.selectedPrompt.topP;
+    }
     this.gptService
-      .requestChatStream({
-        messages: this.generatePrompt(index),
-        roomId: this.room?.id || null,
-        model: 'gpt-3.5-turbo',
-        temperature: this.temperature,
-      })
+      .requestChatStream(request)
+      .pipe(
+        takeUntil(this.stopper),
+        finalize(() => {
+          this.isSending = false;
+          this.renewIndex = -1;
+          this.saveConversation();
+        }),
+      )
       .subscribe(this.generateObserver(index));
   }
 
@@ -524,11 +602,23 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
+  showPromptExplanation() {
+    this.dialog.open(GptPromptExplanationComponent, {
+      autoFocus: false,
+      width: '80%',
+      maxWidth: '600px',
+    });
+  }
+
   showError(message: string) {
     this.notificationService.show(message, undefined, {
       duration: 12_500,
       panelClass: ['snackbar', 'important'],
     });
+  }
+
+  protected forwardAllowed() {
+    return !this._preset?.disableForwardMessage;
   }
 
   protected splitIntoParts(
@@ -563,11 +653,8 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
       .subscribe((newPreset) => this.updatePresetEntries(newPreset));
   }
 
-  protected setAnswerFormat(answerFormat: GPTRoomAnswerFormat): void {
-    this.answerFormat = answerFormat;
-  }
-
   protected filterPrompts() {
+    this.selectedPrompt = null;
     if (!this.searchTerm.trim()) {
       this.filteredPrompts = [...this.prompts];
       return;
@@ -632,7 +719,9 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
         } else if (
           !(
             data.apiKeyPresent ||
-            (data.usingTrial && data.globalInfo.apiKeyPresent)
+            ((data.usingTrial ||
+              (data.globalInfo.globalActive && data.roomOwnerRegistered)) &&
+              data.globalInfo.apiKeyPresent)
           )
         ) {
           this.error = 'No API Key';
@@ -660,12 +749,36 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
       (e) => {
         e.menuItem({
           translate: this.headerService.getTranslate(),
+          icon: 'integration_instructions',
+          class: 'material-icons-outlined',
+          text: 'header.preset-role-instruction',
+          callback: () => this.showInstructionPresetsDefinition(),
+          condition: () => {
+            return this.sessionService.currentRole > 0 && this.answeringComment;
+          },
+        });
+        e.menuItem({
+          translate: this.headerService.getTranslate(),
+          icon: 'question_mark',
+          class: 'material-icons-outlined',
+          text: 'header.prompt-explanation',
+          callback: () => this.showPromptExplanation(),
+          condition: () => {
+            return (
+              this.sessionService.currentRole > 0 && this.answeringWriteComment
+            );
+          },
+        });
+        e.menuItem({
+          translate: this.headerService.getTranslate(),
           icon: 'architecture',
           class: 'material-icons-outlined',
           text: 'header.preset-context',
           callback: () => this.showContextPresetsDefinition(),
           condition: () => {
-            return this.sessionService.currentRole > 0;
+            return (
+              this.sessionService.currentRole > 0 && this.answeringWriteComment
+            );
           },
         });
         e.menuItem({
@@ -675,7 +788,9 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
           text: 'header.preset-topic',
           callback: () => this.showTopicPresetsDefinition(),
           condition: () => {
-            return this.sessionService.currentRole > 0;
+            return (
+              this.sessionService.currentRole > 0 && this.answeringWriteComment
+            );
           },
         });
         e.subMenu({
@@ -685,7 +800,9 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
           menu: this.lengthSubMenu,
           text: 'header.preset-length',
           condition: () => {
-            return this.sessionService.currentRole > 0;
+            return (
+              this.sessionService.currentRole > 0 && this.answeringWriteComment
+            );
           },
           menuOpened: () => {
             const active = this._preset.length;
@@ -697,26 +814,18 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
             this.lengthSubMenu._allItems.get(index).focus();
           },
         });
-        e.subMenu({
+        e.menuItem({
           translate: this.headerService.getTranslate(),
-          icon: 'sms',
+          icon: 'feedback',
           class: 'material-icons-outlined',
-          menu: this.answerFormatSubMenu,
-          text: 'header.chat-answer-format',
-          condition: () => {
-            return this.sessionService.currentRole === 0;
-          },
-          menuOpened: () => {
-            const active = this.answerFormat;
-            const answerFormats = Object.values(GPTRoomAnswerFormat);
-            const index = answerFormats.findIndex(
-              (answerFormat) => answerFormat === active,
-            );
-            if (index < 0) {
-              return;
-            }
-            this.answerFormatSubMenu._allItems.get(index).focus();
-          },
+          text: 'header.gpt-feedback',
+          callback: () =>
+            GPTRatingDialogComponent.open(
+              this.dialog,
+              this.gptService,
+              true,
+            ).subscribe(),
+          condition: () => true,
         });
       },
     );
@@ -828,7 +937,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private getCurrentText(): string {
-    if (this.answeringComment && this.conversation.length < 1) {
+    if (this.answeringWriteComment && this.conversation.length < 1) {
       return this.contexts.reduce((acc, current) => {
         if (!current.value) {
           return acc;
@@ -902,8 +1011,27 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
     this.translateService
       .get('gpt-chat.choices.response-format')
       .subscribe((options) => {
-        this.getContextByName('response-format').value = options;
+        const obj = this.getContextByName('response-format');
+        obj.value = options;
+        obj.access = {};
+        options.forEach((e) => (obj.access[e.key] = e));
       });
+    this.answeringWriteComment =
+      this.answeringComment && !preset.disableEnhancedPrompt;
+    if (
+      this.conversation.length < 1 &&
+      !this.answeringWriteComment &&
+      this.answeringComment
+    ) {
+      this.userManagementService
+        .getGPTConsentState()
+        .pipe(
+          takeUntil(this.destroyer),
+          filter((v) => v),
+          take(1),
+        )
+        .subscribe(() => this.sendGPTMessage());
+    }
   }
 
   private showContextPresetsDefinition() {
@@ -921,6 +1049,28 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
       this.gptService
         .patchPreset(this.room.id, {
           context: result[0],
+        })
+        .subscribe((preset) => {
+          this.updatePresetEntries(preset);
+        });
+    });
+  }
+
+  private showInstructionPresetsDefinition() {
+    const dialogRef = this.dialog.open(PresetsDialogComponent, {
+      autoFocus: false,
+      width: '80%',
+      maxWidth: '600px',
+    });
+    dialogRef.componentInstance.type = PresetsDialogType.ROLE_INSTRUCTION;
+    dialogRef.componentInstance.data = [this._preset.roleInstruction || ''];
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === undefined) {
+        return;
+      }
+      this.gptService
+        .patchPreset(this.room.id, {
+          roleInstruction: result[0] || null,
         })
         .subscribe((preset) => {
           this.updatePresetEntries(preset);

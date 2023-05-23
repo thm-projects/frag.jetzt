@@ -74,7 +74,7 @@
     "filter-read": "Questions discussed",
     "filter-reset": "Reset",
     "filter-unanswered": "Not answered",
-    "filter-approved": "Checked",
+    "filter-approved": "Checked answers",
     "filter-wrong": "Negated questions",
     "owner": "Questions I have asked",
     "pause-comments": "Freezes the display to read the questions at rest. Questions can still be asked and scored. The display is only updated again by clicking the button.",
@@ -131,6 +131,9 @@
     "needs-user-account": "You need an account with an email address to receive notifications!"
   },
   "comment-page": {
+    "share-comment": "Copy participant link to this post",
+    "share-comment-success": "Successfully copied.",
+    "share-comment-fail": "Something went wrong!",
     "mark-not-approved": "Checked",
     "a11y-comment-answer": "View Answer",
     "a11y-comment-answer-not": "Create Answer",
@@ -274,39 +277,94 @@
     "topic-cloud": "## Question radar \n\n If you want to keep track of all questions, you need a kind of \"radar\". Our radar locates questions and answers by their keywords: The more questions and answers refer to a keyword, the larger and more central the keyword appears on the radar.\n\n The question radar serves you as a **navigator**: Clicking on a word will take you to the questions and answers related to that keyword. \n\n The keywords are determined in real time by means of a grammatical analysis of the nouns or were determined by the author. \n The calculation of the font size includes:\n\n* the difference between up- and down-votes, if positive,\n* the number of questions with this keyword,\n* the number of question creators with this keyword,\n* the role: room creator, moderator, or participant,\n* whether a question category was selected,\n* whether the keyword was generated or assigned,\n* whether the question was answered,\n* the controversiality of the question. \n\nYou can customize the visualization to your liking.  In the role of room creator or moderator, you can experiment with the parameters of the keyword generation to improve the **semantic selectivity**.",
     "user-bonus": "The teacher can mark »good« questions for a bonus. Your questions from all courses (rooms) that have received a star will be listed here.\n\nDepending on the agreement, you can email the code of the star to the teacher to redeem it for a bonus."
   },
+  "gptrating": {
+    "title": "Rating to ChatGPT in frag.jetzt",
+    "input": "Enter your feedback here …",
+    "placeholder": "Were there any problems? What did you like?",
+    "send": "Send",
+    "cancel": "Cancel"
+  },
   "gpt-chat": {
-    "answer-format": {
-      "disabled": "Disabled",
-      "summary": "Summary",
-      "definition": "Definition",
-      "flashcard": "Flashcard"
-    },
     "optin-accept": "Accept",
     "optin-reject": "Reject",
-    "preset-preamble": "Prompt Preamble",
+    "title-free": "ChatGPT | Free questions and answers",
+    "title-answer": "ChatGPT | Answer Assistent",
+    "interrupt": "Stop output",
+    "copy-markdown": "Copy Markdown",
+    "copy-success": "Markdown successfully copied",
+    "copy-fail": "Markdown could not be copied!",
     "temperature-creative": "[More] Creative",
-    "temperature-tooltip-creative": "This setting allows for greater latitude and thus more creative responses.",
+    "temperature-tooltip-creative": "This setting allows for a larger margin and thus more creative responses.",
     "temperature-balanced": "[More] Balanced",
     "temperature-tooltip-balanced": "Balanced answers can change, but are often very well matched to the question.",
     "temperature-precise": "[More] Precise",
-    "temperature-tooltip-precise": "Leaves virtually no room for maneuver. The answers are almost identical and thus partially deterministic.",
+    "temperature-tooltip-precise": "Allows virtually no leeway. The answers are almost identical and thus partially deterministic.",
     "privacy-policy": "Privacy Policy for the Use of OpenAI API",
     "enter-conversation-text": "Chat with ChatGPT",
-    "context-context": "Context of my question: {{value}}.",
+    "context-context": "Context: {{value}}.",
     "context-topic": "Topic: {{value}}.",
-    "context-response-length": "Respond to me {{value}}.",
-    "context-response-format": "Format the response as {{value}}.",
-    "context-question": "My question is:\n\n{{value}}",
+    "context-response-length": "Length: {{value}}.",
+    "context-response-format": "Format: {{value}}.",
+    "context-question": "Question:\n\n{{value}}",
+    "selection-none": "With no selection, ChatGPT can have a larger response range. This may result in unwanted information being generated.",
+    "tooltip-temperature-disabled": "Response variability is taken from selected prompt.",
     "choices": {
       "response-format": [
-        { "key": "summary", "text": "a summary" },
-        { "key": "definition", "text": "a definition" },
-        { "key": "flashcard", "text": "a flashcard" }
+        {
+          "key": "short answer",
+          "text": "Short answer",
+          "hover": "A brief and concise answer that provides information quickly and easily."
+        },
+        {
+          "key": "answer as definition",
+          "text": "Answer as definition",
+          "hover": "Explanation of the meaning of terms and concepts to promote understanding."
+        },
+        {
+          "key": "answer with examples",
+          "text": "Answer with examples",
+          "hover": "Application of abstract concepts to concrete situations to deepen understanding."
+        },
+        {
+          "key": "answer as flashcard",
+          "text": "Answer as flashcard",
+          "hover": "Instrument for knowledge transfer and repetition of facts, definitions, terms, or data."
+        },
+        {
+          "key": "answer as mindmap",
+          "text": "Answer as mind map",
+          "hover": "Visual representation of information to illustrate connections between different concepts and ideas."
+        },
+        {
+          "key": "answer as essay",
+          "text": "Answer as essay or paper",
+          "hover": "Detailed answer to open questions to improve skills in writing longer texts."
+        },
+        {
+          "key": "answer as summary",
+          "text": "Answer as summary",
+          "hover": "Short and concise overview of a specific topic or concept."
+        },
+        {
+          "key": "answer with mc question",
+          "text": "Answer with multiple-choice questions",
+          "hover": "Quiz questions in which the learner must choose the correct answer from a list of options to check knowledge and understand connections."
+        },
+        {
+          "key": "answer with sources",
+          "text": "Answer with source references",
+          "hover": "References to further information to encourage learners to conduct their own research."
+        },
+        {
+          "key": "answer with links",
+          "text": "Answer with links to further information",
+          "hover": "Links and resources that give learners access to additional materials such as videos, graphics, or articles to deepen understanding."
+        }
       ],
       "response-length": {
-        "short": "shortly",
+        "short": "short",
         "detailed": "in detail",
-        "extensive": "extensively"
+        "extensive": "extensive"
       }
     },
     "your-choice": "Your selection …",
@@ -320,10 +378,10 @@
     "edit": "Edit output as an answer to forum question",
     "paste": " Publish output as a reply to the forum question",
     "token-info": "Tokens (input/chat/total): {{promptTokens}}/{{conversationTokens}}/{{allTokens}}",
-    "prompt-label": "Prompt search",
+    "prompt-label": "Search for prompts | spacebar to see all prompts",
     "option-total-acts": "Hits in »Act as …«",
     "option-total-prompts": "Founds prompts",
-    "temperature": "Temperature"
+    "temperature": "Response variability"
   },
   "header": {
     "overview-keywords-tooltip": "Number of Keywords",
@@ -352,7 +410,8 @@
     "exactly-8": "A key is a combination of 8 digits.",
     "no-room-found": "No session found with this key",
     "only-numbers": "A key is a combination of digits.",
-    "please-enter": "Please enter a session key"
+    "please-enter": "Please enter a session key",
+    "gpt-topic-general": "General"
   },
   "introduction": {
     "cancel": "Close",
@@ -364,7 +423,8 @@
     "cancel": "Schließen",
     "question-wall-title": "Use cases of the presentation mode",
     "tag-cloud-title": "Use cases of the question radar",
-    "prompt-guide-chatbot": "Communicate effectively with ChatGPT"
+    "prompt-guide-chatbot": "Communicate effectively with ChatGPT",
+    "prompt-explanation": "Prompts briefly explained"
   },
   "joyride": {
     "commentFilter": "There are numerous sorting and filtering options for the Q&A list. An active filter is shown in red. For better readability, the question stream can also be paused if it is very dynamic.",
@@ -378,7 +438,11 @@
     "prev": "Back",
     "step": "{{step}} / {{total}}",
     "voting": "The audience can rate questions up or down, indicating their interest in answering a question or their agreement or disagreement with it. The rating difference is displayed.",
-    "votingTitle": "Rate a question"
+    "votingTitle": "Rate a question",
+    "chatGPT": "With ChatGPT, given a context, you can usually answer questions effectively and gain insight into new topics. He is the first interlocutor for questions in teaching.",
+    "chatGPTTitle": "Work with ChatGPT",
+    "navigationButton": "With navigation you can see almost all actions in the current context.",
+    "navigationButtonTitle": "Navigation in the app"
   },
   "question-wall": {
     "auto-renew-off": "Exit autofocus for new questions",

@@ -12,6 +12,7 @@ import {
   defaultLivepollTemplate,
   LivepollGroupContext,
   LivepollTemplateContext,
+  templateEntries,
   templateGroups,
 } from '../../../../../models/livepoll-template';
 import { FormControl } from '@angular/forms';
@@ -87,12 +88,18 @@ export class LivepollCreateComponent implements OnDestroy, AfterViewInit {
   }
 
   public create() {
+    const node = templateEntries[this.livepollConfiguration.template];
+    const nodeAnswerCount = node.length ? node.length : node.symbols.length;
+    if (!nodeAnswerCount) {
+      throw new Error('Could not find answer count!');
+    }
     const data = {
       roomId: this.sessionService.currentRoom.id,
       template: this.livepollConfiguration.template,
       title: this.livepollConfiguration.title,
       resultVisible: this.livepollConfiguration.resultVisible,
       viewsVisible: this.livepollConfiguration.viewsVisible,
+      answerCount: nodeAnswerCount,
       customEntries: [],
     };
     this.dialogRef.close(data);

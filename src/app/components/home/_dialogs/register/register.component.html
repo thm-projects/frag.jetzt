@@ -61,6 +61,7 @@
       class="input-block"
       style="padding-top: 20px">
       <input
+        (input)="userEdit = true"
         appAccessibilityEscapedInput
         matInput
         [type]="isPasswordVisible ? 'text' : 'password'"
@@ -73,6 +74,15 @@
         {{ "register.password" | translate }}
       </mat-placeholder>
       <button
+        *ngIf="!userEdit"
+        (click)="copyPassword()"
+        type="button"
+        mat-icon-button
+        matSuffix
+        [matTooltip]="'password-generator.copy-password' | translate">
+        <mat-icon class="material-icons-outlined">content_copy</mat-icon>
+      </button>
+      <button
         (click)="togglePasswordVisibility()"
         type="button"
         class="visibility-icon"
@@ -81,14 +91,6 @@
         <mat-icon class="material-icons-outlined">
           {{ isPasswordVisible ? "visibility" : "visibility_off" }}
         </mat-icon>
-      </button>
-      <button
-        (click)="copyPassword()"
-        type="button"
-        mat-icon-button
-        matSuffix
-        [matTooltip]="'password-generator.copy-password' | translate">
-        <mat-icon class="material-icons-outlined">content_copy</mat-icon>
       </button>
 
       <mat-error *ngIf="password1FormControl.hasError('required')">
@@ -149,6 +151,7 @@
 
     <mat-form-field class="input-block">
       <input
+        (input)="userEdit = true"
         appAccessibilityEscapedInput
         matInput
         [type]="isPasswordVisible ? 'text' : 'password'"
@@ -160,6 +163,15 @@
         {{ "register.password-verify" | translate }}
       </mat-placeholder>
       <button
+        *ngIf="!userEdit"
+        (click)="copyPassword()"
+        type="button"
+        mat-icon-button
+        matSuffix
+        [matTooltip]="'password-generator.copy-password' | translate">
+        <mat-icon class="material-icons-outlined">content_copy</mat-icon>
+      </button>
+      <button
         (click)="togglePasswordVisibility()"
         type="button"
         class="visibility-icon"
@@ -168,14 +180,6 @@
         <mat-icon class="material-icons-outlined">
           {{ isPasswordVisible ? "visibility" : "visibility_off" }}
         </mat-icon>
-      </button>
-      <button
-        (click)="copyPassword()"
-        type="button"
-        mat-icon-button
-        matSuffix
-        [matTooltip]="'password-generator.copy-password' | translate">
-        <mat-icon class="material-icons-outlined">content_copy</mat-icon>
       </button>
 
       <mat-error *ngIf="password2FormControl.hasError('required')">

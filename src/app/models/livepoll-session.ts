@@ -1,6 +1,6 @@
 import { LivepollTemplate } from './livepoll-template';
 import { defaultLivepollConfiguration } from './livepoll-configuration';
-import { UUID, verifyInstance } from 'app/utils/ts-utils';
+import { Storable, UUID, verifyInstance } from 'app/utils/ts-utils';
 
 export class LivepollCustomTemplateEntry {
   id: UUID;
@@ -39,6 +39,7 @@ export class LivepollSession {
   resultVisible: boolean;
   viewsVisible: boolean;
   paused: boolean;
+  answerCount: number;
   customEntries: LivepollCustomTemplateEntry[];
   createdAt: Date;
   updatedAt: Date | null;
@@ -52,10 +53,11 @@ export class LivepollSession {
     resultVisible = defaultLivepollConfiguration.resultVisible,
     viewsVisible = defaultLivepollConfiguration.viewsVisible,
     paused = false,
+    answerCount = 0,
     customEntries = [],
     createdAt = new Date(),
     updatedAt = null,
-  }: LivepollSession) {
+  }: Storable<LivepollSession>) {
     this.id = id;
     this.roomId = roomId;
     this.active = active;
@@ -64,6 +66,7 @@ export class LivepollSession {
     this.resultVisible = resultVisible;
     this.viewsVisible = viewsVisible;
     this.paused = paused;
+    this.answerCount = answerCount;
     this.customEntries = customEntries.map((x) =>
       verifyInstance(LivepollCustomTemplateEntry, x),
     );

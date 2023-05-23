@@ -2,6 +2,11 @@
   <div
     class="gpt-requester"
     *ngIf="!isLoading; else loading">
+    <h2 class="heading">
+      {{
+        "gpt-chat.title-" + (answeringComment ? "answer" : "free") | translate
+      }}
+    </h2>
     <div
       fxLayout="row"
       style="padding: 0">
@@ -29,7 +34,7 @@
           <mat-option
             *ngFor="let prompt of filteredPrompts"
             [value]="prompt.act"
-            (click)="setValue(prompt.prompt)"
+            (click)="setValue(prompt)"
             class="mat-option"
             [ngClass]="{
               'mat-option-header':
@@ -37,7 +42,7 @@
             }"
             [disabled]="!prompt.prompt">
             <ng-container *ngIf="prompt.act !== null && prompt.prompt !== null">
-              {{ prompt.act }}
+              {{ "(" + prompt.language + ") " + prompt.act }}
             </ng-container>
             <ng-container
               *ngIf="prompt.act === 'acts' && prompt.prompt === null">
@@ -67,52 +72,66 @@
     <div
       *ngFor="let item of conversation; let i = index"
       [class]="item.type">
-      <mat-icon
-        class="material-icons-outlined"
-        *ngIf="item.type === 'gpt'">
-        smart_toy
-      </mat-icon>
+      <div
+        class="img"
+        *ngIf="item.type === 'gpt'"></div>
+
+      <button
+        *ngIf="isSending && renewIndex === i"
+        mat-button
+        class="danger-btn"
+        (mousedown)="stopper.next(true)">
+        {{ "gpt-chat.interrupt" | translate }}
+      </button>
       <div
         markdown
         emoji
         katex>
         {{ formatText(item.message) }}
       </div>
+
+      <button
+        class="gpt-icon-btn"
+        [matTooltip]="'gpt-chat.copy-markdown' | translate"
+        mat-icon-button
+        (click)="copyMarkdown(i)">
+        <mat-icon class="material-icons-outlined">content_copy</mat-icon>
+      </button>
+
       <ng-container *ngIf="!isSending && item.type === 'gpt'">
         <button
-          class="refresh-indicator"
+          *ngIf="forwardAllowed()"
+          class="gpt-paste-btn"
           [matTooltip]="'gpt-chat.paste' | translate"
-          mat-icon-button
+          mat-fab
+          color="white"
           (click)="forwardGPTMessage(i)">
-          <mat-icon class="material-icons-outlined">content_paste_go</mat-icon>
+          <mat-icon class="material-icons-outlined gpt-paste-icon">
+            content_paste_go
+          </mat-icon>
         </button>
+
         <button
-          class="refresh-indicator"
+          class="gpt-icon-btn"
           [matTooltip]="'gpt-chat.edit' | translate"
           mat-icon-button
           *ngIf="owningComment?.id"
           (click)="openEditGPTMessage(i)">
           <mat-icon class="material-icons-outlined">rate_review</mat-icon>
         </button>
+
         <button
-          class="refresh-indicator"
+          class="gpt-icon-btn"
           [matTooltip]="'gpt-chat.refresh' | translate"
           mat-icon-button
           (click)="refreshGPTMessage(i)">
           <mat-icon class="material-icons-round">autorenew</mat-icon>
         </button>
       </ng-container>
-      <button
-        *ngIf="isSending && renewIndex === i"
-        mat-icon-button
-        (mousedown)="stopper.next(true)"
-        class="refresh-indicator">
-        <mat-icon class="material-icons-outlined">cancel</mat-icon>
-      </button>
     </div>
 
     <app-view-comment-data
-      *ngIf="!answeringComment || conversation.length > 0"
+      *ngIf="!answeringWriteComment || conversation.length > 0"
       [currentData]="initDelta"
       [textOverwrite]="'gpt-chat.token-info' | translate : tokenInfo"
       (changeContent)="calculateTokens(getCurrentText())"
@@ -129,9 +148,8 @@
       "></app-view-comment-data>
 
     <div
-      *ngIf="answeringComment && conversation.length < 1"
+      *ngIf="answeringWriteComment && conversation.length < 1"
       class="human">
-      <h3>{{ "gpt-chat.preset-preamble" | translate }}</h3>
       <ng-container *ngFor="let context of contexts">
         <div
           *ngIf="context.value && context.type === 'single'"
@@ -156,11 +174,12 @@
             <mat-form-field *ngIf="part.type === 'select'">
               <mat-label>{{ "gpt-chat.your-choice" | translate }}</mat-label>
               <mat-select
+                [panelClass]="'gpt-chat-room-select'"
                 [(ngModel)]="context.selected"
                 [required]="!context.allowNone">
                 <mat-option
                   *ngIf="context.allowNone"
-                  [value]="null">
+                  [value]="''">
                   <em>{{ "gpt-chat.none" | translate }}</em>
                 </mat-option>
                 <mat-option
@@ -170,6 +189,17 @@
                 </mat-option>
               </mat-select>
             </mat-form-field>
+            <mat-icon
+              *ngIf="part.type === 'select' && context.selected && context.access?.[context.selected]?.hover as text"
+              class="material-icons-outlined"
+              [matTooltip]="text">
+              info
+            </mat-icon>
+            <mat-icon
+              *ngIf="part.type === 'select' && !context.selected"
+              [matTooltip]="'gpt-chat.selection-none' | translate">
+              help_outline
+            </mat-icon>
             <app-view-comment-data
               *ngIf="part.type === 'quill'"
               [currentData]="context.value"></app-view-comment-data>
@@ -207,9 +237,17 @@
     <div class="slide-container">
       <h3>
         {{ "gpt-chat.temperature" | translate }}
+        <mat-icon
+          *ngIf="selectedPrompt"
+          [matTooltip]="'gpt-chat.tooltip-temperature-disabled' | translate"
+          class="material-icons-outlined">
+          info
+        </mat-icon>
       </h3>
       <br />
-      <mat-button-toggle-group [value]="temperature">
+      <mat-button-toggle-group
+        [value]="temperature"
+        [disabled]="selectedPrompt">
         <mat-button-toggle
           [matTooltip]="
             'gpt-chat.temperature-tooltip-' + option.key | translate
@@ -287,45 +325,5 @@
       format_align_left
     </mat-icon>
     {{ "gpt-chat.presets.length.extensive" | translate }}
-  </button>
-</mat-menu>
-
-<mat-menu
-  #answerFormatSubMenu="matMenu"
-  [overlapTrigger]="false"
-  cdkTrapFocus>
-  <button
-    mat-menu-item
-    (click)="this.setAnswerFormat(GPTRoomAnswerFormat.DISABLED)"
-    class="preset-btn"
-    tabindex="0">
-    <mat-icon class="material-icons-outlined submenu-icon">
-      do_not_disturb
-    </mat-icon>
-    {{ "gpt-chat.answer-format.disabled" | translate }}
-  </button>
-  <button
-    mat-menu-item
-    (click)="this.setAnswerFormat(GPTRoomAnswerFormat.SUMMARY)"
-    class="preset-btn"
-    tabindex="0">
-    <mat-icon class="material-icons-outlined submenu-icon">summarize</mat-icon>
-    {{ "gpt-chat.answer-format.summary" | translate }}
-  </button>
-  <button
-    mat-menu-item
-    (click)="this.setAnswerFormat(GPTRoomAnswerFormat.DEFINITION)"
-    class="preset-btn"
-    tabindex="0">
-    <mat-icon class="material-icons-outlined submenu-icon">menu_book</mat-icon>
-    {{ "gpt-chat.answer-format.definition" | translate }}
-  </button>
-  <button
-    mat-menu-item
-    (click)="this.setAnswerFormat(GPTRoomAnswerFormat.FLASHCARD)"
-    class="preset-btn"
-    tabindex="0">
-    <mat-icon class="material-icons-outlined submenu-icon">style</mat-icon>
-    {{ "gpt-chat.answer-format.flashcard" | translate }}
   </button>
 </mat-menu>

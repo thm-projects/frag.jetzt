@@ -147,6 +147,9 @@ export class AuthenticationService extends BaseHttpService {
       }),
       map(() => LoginResult.Success),
       catchError((err) => {
+        if (typeof err === 'number') {
+          return throwError(() => err);
+        }
         const msg = err.error?.message;
         const errVal = ERROR_TABLE[msg];
         if (errVal) {

@@ -11,6 +11,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { DateAdapter } from '@angular/material/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
+import { GPTActivationCode } from 'app/models/gpt-configuration';
 import { GPTRoomSetting, GPTRoomUsageTime } from 'app/models/gpt-room-setting';
 import { Room } from 'app/models/room';
 import { UserRole } from 'app/models/user-roles.enum';
@@ -59,12 +60,15 @@ export class GptRoomSettingsComponent implements OnInit, OnDestroy {
   apiOrganization: string = null;
   maxDailyRoomCost: number = null;
   maxMonthlyRoomCost: number = null;
+  maxMonthlyFlowingRoomCost: number = null;
   maxAccumulatedRoomCost: number = null;
   maxDailyParticipantCost: number = null;
   maxMonthlyParticipantCost: number = null;
+  maxMonthlyFlowingParticipantCost: number = null;
   maxAccumulatedParticipantCost: number = null;
   maxDailyModeratorCost: number = null;
   maxMonthlyModeratorCost: number = null;
+  maxMonthlyFlowingModeratorCost: number = null;
   maxAccumulatedModeratorCost: number = null;
   canChangeParticipantQuota: boolean = false;
   canChangeModeratorQuota: boolean = false;
@@ -72,6 +76,9 @@ export class GptRoomSettingsComponent implements OnInit, OnDestroy {
   canChangePreset: boolean = false;
   canChangeUsageTimes: boolean = false;
   canChangeApiSettings: boolean = false;
+  allowsUnregisteredUsers: boolean = false;
+  disableEnhancedPrompt: boolean = false;
+  disableForwardMessage: boolean = false;
   usageTimes: UsageTime[] = [];
   // only ng model variables
   trialCode: string = '';
@@ -84,6 +91,12 @@ export class GptRoomSettingsComponent implements OnInit, OnDestroy {
   endDate: Date;
   dateRange: FormGroup;
   possibleRepeatUnits = Object.keys(UsageRepeatUnit);
+  globalInfo = {
+    active: false,
+    counter: '?',
+    max: '?',
+  };
+  protected activatedCode: GPTActivationCode = null;
   private previousSetting: GPTRoomSetting;
   private destroyer = new ReplaySubject(1);
   private intlRangeDescription: Intl.DateTimeFormat;
@@ -116,6 +129,10 @@ export class GptRoomSettingsComponent implements OnInit, OnDestroy {
     return ref;
   }
 
+  onWheel(event: WheelEvent) {
+    event.stopImmediatePropagation();
+  }
+
   ngOnInit(): void {
     this.languageService
       .getLanguage()
@@ -139,21 +156,31 @@ export class GptRoomSettingsComponent implements OnInit, OnDestroy {
         this.isLoading = false;
         this.previousSetting = setting;
         this.usageTimes = [...setting.usageTimes];
+        this.activatedCode = setting.trialCode;
         this.trialEnabled = setting.trialEnabled;
         this.apiKey = setting.apiKey;
         this.apiOrganization = setting.apiOrganization;
         this.maxDailyRoomCost = verify(setting.maxDailyRoomCost);
         this.maxMonthlyRoomCost = verify(setting.maxMonthlyRoomCost);
+        this.maxMonthlyFlowingRoomCost = verify(
+          setting.maxMonthlyFlowingRoomCost,
+        );
         this.maxAccumulatedRoomCost = verify(setting.maxAccumulatedRoomCost);
         this.maxDailyParticipantCost = verify(setting.maxDailyParticipantCost);
         this.maxMonthlyParticipantCost = verify(
           setting.maxMonthlyParticipantCost,
+        );
+        this.maxMonthlyFlowingParticipantCost = verify(
+          setting.maxMonthlyFlowingParticipantCost,
         );
         this.maxAccumulatedParticipantCost = verify(
           setting.maxAccumulatedParticipantCost,
         );
         this.maxDailyModeratorCost = verify(setting.maxDailyModeratorCost);
         this.maxMonthlyModeratorCost = verify(setting.maxMonthlyModeratorCost);
+        this.maxMonthlyFlowingModeratorCost = verify(
+          setting.maxMonthlyFlowingModeratorCost,
+        );
         this.maxAccumulatedModeratorCost = verify(
           setting.maxAccumulatedModeratorCost,
         );
@@ -163,6 +190,22 @@ export class GptRoomSettingsComponent implements OnInit, OnDestroy {
         this.canChangePreset = setting.canChangePreset();
         this.canChangeUsageTimes = setting.canChangeUsageTimes();
         this.canChangeApiSettings = setting.canChangeApiSettings();
+        this.allowsUnregisteredUsers = setting.allowsUnregisteredUsers();
+        this.disableEnhancedPrompt = setting.disableEnhancedPrompt();
+        this.disableForwardMessage = setting.disableForwardMessage();
+        this.sessionService.getGPTStatusOnce().subscribe((status) => {
+          this.globalInfo.active =
+            !setting.apiKey &&
+            status.globalInfo.globalActive &&
+            !status.globalInfo.restricted &&
+            !setting.trialCode;
+          this.globalInfo.counter = (
+            setting.accumulatedCostCounter / 10_000
+          ).toFixed(4);
+          this.globalInfo.max = (setting.globalAccumulatedQuota / 100).toFixed(
+            2,
+          );
+        });
       },
     });
   }
@@ -278,6 +321,10 @@ export class GptRoomSettingsComponent implements OnInit, OnDestroy {
         if (cost !== this.previousSetting.maxMonthlyRoomCost) {
           patch.maxMonthlyRoomCost = cost;
         }
+        cost = verify(this.maxMonthlyFlowingRoomCost);
+        if (cost !== this.previousSetting.maxMonthlyFlowingRoomCost) {
+          patch.maxMonthlyFlowingRoomCost = cost;
+        }
         cost = verify(this.maxAccumulatedRoomCost);
         if (cost !== this.previousSetting.maxAccumulatedRoomCost) {
           patch.maxAccumulatedRoomCost = cost;
@@ -290,6 +337,10 @@ export class GptRoomSettingsComponent implements OnInit, OnDestroy {
         if (cost !== this.previousSetting.maxMonthlyParticipantCost) {
           patch.maxMonthlyParticipantCost = cost;
         }
+        cost = verify(this.maxMonthlyFlowingParticipantCost);
+        if (cost !== this.previousSetting.maxMonthlyFlowingParticipantCost) {
+          patch.maxMonthlyFlowingParticipantCost = cost;
+        }
         cost = verify(this.maxAccumulatedParticipantCost);
         if (cost !== this.previousSetting.maxAccumulatedParticipantCost) {
           patch.maxAccumulatedParticipantCost = cost;
@@ -301,6 +352,10 @@ export class GptRoomSettingsComponent implements OnInit, OnDestroy {
         cost = verify(this.maxMonthlyModeratorCost);
         if (cost !== this.previousSetting.maxMonthlyModeratorCost) {
           patch.maxMonthlyModeratorCost = cost;
+        }
+        cost = verify(this.maxMonthlyFlowingModeratorCost);
+        if (cost !== this.previousSetting.maxMonthlyFlowingModeratorCost) {
+          patch.maxMonthlyFlowingModeratorCost = cost;
         }
         cost = verify(this.maxAccumulatedModeratorCost);
         if (cost !== this.previousSetting.maxAccumulatedModeratorCost) {
@@ -324,6 +379,15 @@ export class GptRoomSettingsComponent implements OnInit, OnDestroy {
         }
         if (this.canChangeApiSettings) {
           rights |= 0x1 << 5;
+        }
+        if (this.allowsUnregisteredUsers) {
+          rights |= 0x1 << 6;
+        }
+        if (this.disableEnhancedPrompt) {
+          rights |= 0x1 << 7;
+        }
+        if (this.disableForwardMessage) {
+          rights |= 0x1 << 8;
         }
         if (rights !== this.previousSetting.rightsBitset) {
           patch.rightsBitset = rights;

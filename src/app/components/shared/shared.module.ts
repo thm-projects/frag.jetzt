@@ -134,9 +134,16 @@ import { ChatGPTPromptPresetComponent } from './chat-gptprompt-preset/chat-gptpr
 import { LivepollConfirmationDialogComponent } from './_dialogs/livepoll/livepoll-confirmation-dialog/livepoll-confirmation-dialog.component';
 import { LivepollStatisticComponent } from './_dialogs/livepoll/livepoll-statistic/livepoll-statistic.component';
 import { LivepollSummaryComponent } from './_dialogs/livepoll/livepoll-summary/livepoll-summary.component';
-import { MarkdownEditorComponent } from './utility/markdown-editor/markdown-editor.component';
-import { MarkdownEditorDialogComponent } from './utility/markdown-editor-dialog/markdown-editor-dialog.component';
+import { MarkdownEditorComponent } from './utility/markdown/markdown-editor/markdown-editor.component';
+import { MarkdownEditorDialogComponent } from './utility/markdown/markdown-editor-dialog/markdown-editor-dialog.component';
 import { GPTPresetTopicsDialogComponent } from './_dialogs/gptpreset-topics-dialog/gptpreset-topics-dialog.component';
+import { GlobalStatusIndicatorComponent } from './global-status-indicator/global-status-indicator.component';
+import { StatusInfoComponent } from './_dialogs/status-info/status-info.component';
+import { GptPromptExplanationComponent } from './_dialogs/gpt-prompt-explanation/gpt-prompt-explanation.component';
+import { GptPromptExplanationDeComponent } from '../../../assets/i18n/components/gpt-prompt-explanation/gpt-prompt-explanation-de';
+import { GptPromptExplanationEnComponent } from '../../../assets/i18n/components/gpt-prompt-explanation/gpt-prompt-explanation-en';
+import { GptPromptExplanationFrComponent } from '../../../assets/i18n/components/gpt-prompt-explanation/gpt-prompt-explanation-fr';
+import { GPTRatingDialogComponent } from './_dialogs/gptrating-dialog/gptrating-dialog.component';
 
 @NgModule({
   imports: [
@@ -276,6 +283,13 @@ import { GPTPresetTopicsDialogComponent } from './_dialogs/gptpreset-topics-dial
     MarkdownEditorComponent,
     MarkdownEditorDialogComponent,
     GPTPresetTopicsDialogComponent,
+    GlobalStatusIndicatorComponent,
+    StatusInfoComponent,
+    GptPromptExplanationComponent,
+    GptPromptExplanationDeComponent,
+    GptPromptExplanationEnComponent,
+    GptPromptExplanationFrComponent,
+    GPTRatingDialogComponent,
   ],
   exports: [
     RoomJoinComponent,
@@ -306,6 +320,7 @@ import { GPTPresetTopicsDialogComponent } from './_dialogs/gptpreset-topics-dial
     DashboardComponent,
     AppRatingComponent,
     MinuteJumpClockComponent,
+    GlobalStatusIndicatorComponent,
   ],
 })
 export class SharedModule {

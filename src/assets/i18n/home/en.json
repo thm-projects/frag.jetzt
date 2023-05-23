@@ -14,6 +14,11 @@
     "success": "Thank you for your review! You want to talk to the developers about bugs and new features? Then visit our »Feedback« room.",
     "title": "App rating"
   },
+  "status-info": {
+    "title": "Current capacity utilization",
+    "message": "frag.jetzt is serving {{sessionCount}} connection(s), with {{creatorCount}} room creator(s), {{moderatorCount}} moderator(s), and {{participantCount}} participant(s).\n\n{{activeRoomCount}} room(s) have ongoing events, where the room creator or a moderator is engaging with multiple participants simultaneously.\n\nCurrently, frag.jetzt is handling {{activeLivepollCount}} live poll(s).",
+    "close": "Close"
+  },
   "bonus-archive-export": {
     "code": "Key code",
     "date": "Bonus archive",
@@ -86,8 +91,12 @@
     "reset": "Reset",
     "note-on-changing-settings": "You can change all settings later."
   },
+  "ask-onboarding": {
+    "start": "Start",
+    "cancel": "Maybe later …"
+  },
   "cookies": {
-    "accept": "Onboarding …",
+    "accept": "Accept",
     "accept-description": "Accept the use of a web storage and proceed to the app.",
     "cancel": "Cancel",
     "cancel-description": "Reject usage of a web storage and exit the app.",
@@ -142,6 +151,7 @@
     "user-bonus": "## Bonus \n\nThe teacher can mark »good« questions for a bonus. Your questions from all courses (rooms) that have received a star will be listed here.\n\nDepending on the agreement, you can email the code of the star to the teacher to redeem it for a bonus."
   },
   "footer": {
+    "performance-indicator": "Green = low server load \nYellow = normal server load \nRed = critical server load",
     "introduction-button": "What is this about?",
     "display-button": "Design selection",
     "language-button": "Language selection",
@@ -239,8 +249,8 @@
     "export-questions": "Export Q&A",
     "fullscreen": "Fullscreen & Text size",
     "guest-account-tooltip": "You are logged in as a guest. Your rooms and bonuses will be deleted when you reset your browser. If you sign in with an account, your rooms and bonuses will be saved for 180 days. This period is extended by 180 days with each additional visit to your rooms.",
-    "home-header": "Q&A live",
-    "home-header-mobile": "Q&A live",
+    "home-header": "Collect questions, evaluate, present",
+    "home-header-mobile": "Q&A live with AI",
     "id": "Key",
     "import-questions": "Import Q&A",
     "logged-out": "You are logged out now.",
@@ -267,9 +277,12 @@
     "own-view": "Back to own view",
     "profanity-filter": "Profanity filter",
     "prompt-guide": "Prompt guide",
+    "prompt-explanation": "What are Prompts?",
     "preset-context": "Context",
+    "preset-role-instruction": "Role instruction",
     "preset-topic": "Topics",
     "preset-length": "Length",
+    "gpt-feedback": "Your feedback",
     "chat-answer-format": "Response format",
     "question-board": "Q&A forum",
     "question-wall": "Present questions",
@@ -317,12 +330,19 @@
     "cancel-description": "Closes the help dialog",
     "title": "Help"
   },
+  "update-info": {
+    "cancel": "Close",
+    "install": "Install",
+    "title": "New version",
+    "description": "A new version is ready for installation.<br><br>You can still finish your work and close the dialog. If you encounter problems, reload the page."
+  },
   "home-page": {
+    "gpt-topic-general": "General",
     "accessibility-create": "Create a new session",
     "accessibility-join-button": "Enter the session with the specified session key.",
-    "accessibility-join-input": "Here you can enter the  key of the session you want to join. The presenter will tell you the session key.",
+    "accessibility-join-input": "Here you can enter the key of the session you want to join. The presenter will tell you the session key.",
     "app-rating": "Reevaluate app",
-    "create-session": "Book a room for free",
+    "create-session": "Book a room",
     "created": "The room for the session »{{longRoomName}}« has been booked.",
     "custom-shortid": "What should the key code be?",
     "custom-shortid-placeholder": "Characters: a-z A-Z 0-9 - _ ~ .",
@@ -385,7 +405,11 @@
     "prev": "Back",
     "roomJoin": "Enter the access code for the room where the event you want to attend is taking place.",
     "roomJoinTitle": "Join an event",
-    "step": "{{step}} / {{total}}"
+    "step": "{{step}} / {{total}}",
+    "chatGPT": "With ChatGPT, given a context, you can usually answer questions effectively and gain insight into new topics. He is the first interlocutor for questions in teaching.",
+    "chatGPTTitle": "Work with ChatGPT",
+    "navigationButton": "With navigation you can see almost all actions in the current context.",
+    "navigationButtonTitle": "Navigation in the app"
   },
   "login": {
     "not-authorized": "You're not authorized to view this page.",
@@ -405,6 +429,7 @@
     "login": "Sign in with account",
     "login-data-incorrect": "E-mail or password incorrect",
     "login-data-expired": "Your password has expired, please request a new one.",
+    "guest-expired": "The guest account has expired, please try again.",
     "login-error-unknown": "Unknown error: {{code}}",
     "login-description": "Sign in with the entered account data",
     "login-successful": "You are logged in now.",
@@ -413,13 +438,14 @@
     "password": "Password",
     "password-description": "Enter your password here.",
     "password-required": "Password required",
-    "password-reset": "Forgot password?",
+    "password-reset": "Password forgotten?",
     "register": "Sign up",
     "restart-account-activation-button": "Request a new activation code",
     "restart-account-activation-correct": "New activation code sent.",
     "restart-account-activation-tooltip": "Sends a new activation code to your address.",
-    "welcome": "Any questions?",
-    "welcome-feedback": "➤ Write to the »frag.jetzt« team",
+    "welcome": "frag.jetzt",
+    "welcome-primary": "ChatGPT answers",
+    "welcome-feedback": "➤ Feedback",
     "welcome-subtitle": "anonymous | in your browser | for free"
   },
   "login-dialog": {
@@ -431,7 +457,7 @@
     "or": "or",
     "password": "Password",
     "sign-in-as-guest": "Continue as a guest",
-    "sign-up": "Register",
+    "sign-up": "Create account",
     "title": "Sign in"
   },
   "moderators-dialog": {
@@ -496,7 +522,7 @@
     "reset-failed-because-of-activation-process": "Password reset failed, still in activation process",
     "reset-password": "Request confirmation code",
     "reset-password-description": "Reset password",
-    "reset-successful": "If an account with this mail address exists, a message was sent.",
+    "reset-successful": "The confirmation code has been sent. It may take a few minutes for the email to arrive. Please check your inbox shortly and don't forget to check your spam folder as well in case you don't find the message right away.",
     "set-button-description": "Set the new password for the account",
     "set-new-password": "Use the confirmation code from your mailbox to set a new password:",
     "set-new-password-button": "Save new password",
@@ -533,8 +559,8 @@
     "register": "Register",
     "register-description": "Register User",
     "register-request-error": "Something went wrong during registration. Maybe you have already created the account?",
-    "register-successful": "Successfully registered. Please check your mails.",
-    "register-error-password-too-common": "The password consists mainly of easy to guess strings. Please choose another password.",
+    "register-successful": "Successfully registered. Please check your mailbox! The dispatch can take up to 10min.",
+    "register-error-password-too-common": "Password consists of easily guessed strings or strings from published password lists. Please choose a different password or use the password generator.",
     "register-unsuccessful": "Please check your data.",
     "password-generator": "Password generator"
   },
@@ -638,6 +664,10 @@
   "room-settings-overview": {
     "livepoll-enabled": "Enable flash poll",
     "tooltip-livepoll-enabled": "Create surveys and automatically notify all participants. The results of two surveys can be compared later.",
+    "a11y-livepoll-enabled": "Slider to enable flash polls.",
+    "keyword-extraction-enabled": "Enable keyword extraction",
+    "tooltip-keyword-extraction-enabled": "When creating a question, create keywords that best describe that question.",
+    "a11y-keyword-extraction-enabled": "Slider to enable keyword extraction.",
     "a11y-bonus-archive-enabled": "Slider to enable the bonus archive",
     "a11y-brainstorming-enabled": "Slider to allow brainstorming",
     "a11y-conversation-enabled": "Slider to enable conversations inside this room",
@@ -661,6 +691,7 @@
     "settings-direct-send": "Release questions directly",
     "moderation": "Moderation options",
     "education": "Teaching options",
+    "general": "General options",
     "title-profanity": "Profanity filter",
     "tooltip-bonus-archive-enabled": "If you star a post, you can use the star to award bonus points. A code will be generated that the participant will send to your email address for bonus redemption.",
     "tooltip-brainstorming-enabled": "You can conduct brainstorming sessions on specific questions. The ideas (words) are morphologically compared by an AI and displayed in a word cloud.",
@@ -834,11 +865,24 @@
     "an-error-occured": "Something has gone wrong!",
     "delete-success": "Prompt was removed.",
     "add-success": "Prompt was added.",
-    "already-present": "Prompt already exists, please change the name. Or select the appropriate prompt.",
+    "already-present": "Prompt already exists, please change the name or the language. Or select the appropriate prompt.",
     "patch-success": "Changes have been saved.",
     "no-patch-needed": "No changes have been made.",
     "no-prompt-selected": "No prompt was selected.",
-    "enter-prompt-name": "Please enter a name."
+    "enter-prompt-name": "Please enter a name.",
+    "language": "Language",
+    "lang": {
+      "de": "German",
+      "en": "English",
+      "fr": "French"
+    },
+    "advanced-settings": "Advanced settings",
+    "advanced-settings-info": "Parameters that are passed directly to the API",
+    "advanced-setting-temperature": "Temperature",
+    "advanced-setting-presence-penalty": "Presence penalty for token",
+    "advanced-setting-frequency-penalty": "Frequency penalty for tokens",
+    "advanced-setting-top-p": "Top percentage",
+    "advanced-setting-reset": "Reset"
   },
   "gptchat-info": {
     "title": "ChatGPT",

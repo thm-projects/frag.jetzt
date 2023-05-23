@@ -59,9 +59,6 @@ import { DataProtectionEnComponent } from '../assets/i18n/components/data-protec
 import { DataProtectionDeComponent } from '../assets/i18n/components/data-protection/data-protection-de';
 import { CookiesEnComponent } from '../assets/i18n/components/cookies/cookies-en';
 import { CookiesDeComponent } from '../assets/i18n/components/cookies/cookies-de';
-import { GptPrivacyPolicyDeComponent } from '../assets/i18n/components/gpt-privacy-policy/gpt-privacy-policy-de';
-import { GptPrivacyPolicyEnComponent } from '../assets/i18n/components/gpt-privacy-policy/gpt-privacy-policy-en';
-import { GptPrivacyPolicyFrComponent } from '../assets/i18n/components/gpt-privacy-policy/gpt-privacy-policy-fr';
 import { ImprintEnComponent } from '../assets/i18n/components/imprint/imprint-en';
 import { ImprintDeComponent } from '../assets/i18n/components/imprint/imprint-de';
 import { HelpDeComponent } from '../assets/i18n/components/help/help-de';
@@ -103,6 +100,11 @@ import 'emoji-toolkit/lib/js/joypixels.min.js';
 import 'quill-emoji/dist/quill-emoji.js';
 import { QuillModule } from 'ngx-quill';
 import { PasswordGeneratorComponent } from './components/home/_dialogs/password-generator/password-generator.component';
+import { AskOnboardingComponent } from './components/home/_dialogs/ask-onboarding/ask-onboarding.component';
+import { AskOnboardingDEComponent } from 'assets/i18n/components/ask-onboarding/ask-onboarding-de.component';
+import { AskOnboardingENComponent } from 'assets/i18n/components/ask-onboarding/ask-onboarding-en.component';
+import { AskOnboardingFRComponent } from 'assets/i18n/components/ask-onboarding/ask-onboarding-fr.component';
+import { UpdateInfoDialogComponent } from './components/home/_dialogs/update-info-dialog/update-info-dialog.component';
 
 export const dialogClose = (dialogResult: any) => '';
 
@@ -147,6 +149,11 @@ export const HttpLoaderFactory = (http: HttpClient) =>
     QuizNowComponent,
     NotifyUnsupportedBrowserComponent,
     PasswordGeneratorComponent,
+    AskOnboardingComponent,
+    AskOnboardingDEComponent,
+    AskOnboardingENComponent,
+    AskOnboardingFRComponent,
+    UpdateInfoDialogComponent,
   ],
   imports: [
     MatomoModule,

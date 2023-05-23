@@ -83,10 +83,10 @@ export type HasStringLength<
     : false
   : false;
 
-export type MakeUnique<T> = T & { readonly __TYPE__: unique symbol };
+export type MakeUnique<T, K extends string> = T & { readonly __TYPE_NAME__: K };
 
-export type JSONString = MakeUnique<string>;
-export type UUID = MakeUnique<string>;
+export type JSONString = MakeUnique<string, 'JSONString'>;
+export type UUID = MakeUnique<string, 'UUID'>;
 
 export type IsObject<T> = T extends { [key: string | number | symbol]: any }
   ? true
@@ -105,6 +105,20 @@ export type Mutable<T> = IsObject<T> extends true
   : T;
 
 export type GeneralFunction = (...anyArgs: any) => any;
+
+export type FieldsOf<T> = T extends GeneralFunction
+  ? never
+  : T extends (infer K)[]
+  ? FieldsOf<K>[]
+  : T extends MakeUnique<infer K, infer J>
+  ? MakeUnique<K, J>
+  : IsObject<T> extends true
+  ? {
+      [P in keyof T as T[P] extends GeneralFunction ? never : P]: FieldsOf<
+        T[P]
+      >;
+    }
+  : T;
 
 export type Storable<T> = T extends GeneralFunction
   ? never

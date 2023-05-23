@@ -50,6 +50,7 @@ import { EventService } from '../../../services/util/event.service';
 import { take } from 'rxjs/operators';
 import { GPTChatInfoComponent } from '../_dialogs/gptchat-info/gptchat-info.component';
 import { TSMap } from 'typescript-map';
+import { prettyPrintDate } from '../../../utils/date';
 
 @Component({
   selector: 'app-comment',
@@ -437,6 +438,32 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
+  copyShareCommentLink(): void {
+    const url = `${window.location.protocol}//${window.location.host}/participant/room/${this.room.shortId}/comment/${this.comment.id}/conversation`;
+    navigator.clipboard.writeText(url).then(
+      () => {
+        this.translateService
+          .get('comment-page.share-comment-success')
+          .subscribe((msg) => {
+            this.notification.show(msg, undefined, {
+              duration: 5_000,
+              panelClass: ['snackbar-valid'],
+            });
+          });
+      },
+      () => {
+        this.translateService
+          .get('comment-page.share-comment-fail')
+          .subscribe((msg) => {
+            this.notification.show(msg, undefined, {
+              duration: 12_500,
+              panelClass: ['snackbar-invalid'],
+            });
+          });
+      },
+    );
+  }
+
   openChangeCommentTagDialog(): void {
     const dialogRef = this.dialog.open(EditCommentTagComponent, {
       minWidth: '80%',
@@ -742,23 +769,10 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
     if (!this.comment) {
       return;
     }
-    const date = new Date(this.comment.createdAt);
-    const dateString = date.toLocaleDateString(
-      this.langService.currentLanguage() ?? undefined,
-      {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric',
-      },
+    this.readableCommentDate = prettyPrintDate(
+      this.comment.createdAt,
+      this.langService.currentLanguage(),
     );
-    const timeString = date.toLocaleTimeString(
-      this.langService.currentLanguage() ?? undefined,
-      {
-        minute: '2-digit',
-        hour: '2-digit',
-      },
-    );
-    this.readableCommentDate = dateString + ' ' + timeString;
   }
 
   private generateCommentNumber() {

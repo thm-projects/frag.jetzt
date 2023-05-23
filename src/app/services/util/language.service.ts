@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, ReplaySubject } from 'rxjs';
 import { ConfigurationService } from './configuration.service';
 
-export const AVAILABLE_LANGUAGES = ['en', 'de', 'fr'];
+export const AVAILABLE_LANGUAGES = ['en', 'de', 'fr'] as const;
 
 export type Language = (typeof AVAILABLE_LANGUAGES)[number];
 
@@ -12,26 +12,25 @@ export class LanguageService {
   private readonly _language = new ReplaySubject<Language>(1);
   private _initialized = false;
 
-  constructor(
-    private configurationService: ConfigurationService,
-  ) {
-  }
+  constructor(private configurationService: ConfigurationService) {}
 
   init(storedLanguage: string) {
     if (this._initialized) {
       return;
     }
-    let lang = AVAILABLE_LANGUAGES.includes(storedLanguage) ? storedLanguage : null;
+    let lang = AVAILABLE_LANGUAGES.includes(storedLanguage as Language)
+      ? storedLanguage
+      : null;
     if (!lang) {
       for (const language of navigator.languages) {
         const langKey = language.split('-')[0].toLowerCase();
-        if (AVAILABLE_LANGUAGES.includes(langKey)) {
+        if (AVAILABLE_LANGUAGES.includes(langKey as Language)) {
           lang = langKey;
           break;
         }
       }
     }
-    this.setLanguage(lang || AVAILABLE_LANGUAGES[0]);
+    this.setLanguage((lang || AVAILABLE_LANGUAGES[0]) as Language);
     this._initialized = true;
   }
 

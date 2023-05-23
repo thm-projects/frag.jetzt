@@ -85,6 +85,26 @@
         <mat-slide-toggle [(ngModel)]="active">
           {{ "gpt-config.restrict-active" | translate }}
         </mat-slide-toggle>
+        <!-- Global Active -->
+        <mat-slide-toggle [(ngModel)]="globalActive">
+          {{ "gpt-config.restrict-global-active" | translate }}
+        </mat-slide-toggle>
+        <!-- Global Accumulated Quota -->
+        <mat-form-field>
+          <mat-label>
+            {{ "gpt-config.restrict-global-amount" | translate }}
+          </mat-label>
+          <span matPrefix>$&nbsp;</span>
+          <input
+            matInput
+            (wheel)="onWheel($event)"
+            appAccessibilityEscapedInput
+            type="number"
+            inputmode="numeric"
+            min="0"
+            step="0.01"
+            [(ngModel)]="globalAccumulatedQuota" />
+        </mat-form-field>
         <!-- End Date -->
         <div class="panel-sub-item">
           <mat-form-field>
@@ -137,14 +157,16 @@
             <mat-icon>check</mat-icon>
           </button>
         </mat-form-field>
-        <mat-form-field>
+        <mat-form-field class="flex-text">
           <mat-label>
             {{ "gpt-config.activation-max-cost" | translate }}
           </mat-label>
+          <span matTextPrefix>$&nbsp;</span>
           <input
             #inputCheck
             matInput
             (keydown)="checkEnter($event, addActivationCode)"
+            (wheel)="$event.stopImmediatePropagation()"
             appAccessibilityEscapedInput
             min="0"
             step="0.01"
@@ -152,6 +174,14 @@
             inputmode="numeric"
             [(ngModel)]="activationMaxCost" />
         </mat-form-field>
+        <button
+          mat-button
+          [disabled]="!isValid()"
+          style="width: 100%; margin-top: 0"
+          class="secondary-btn"
+          (click)="addActivationCode()">
+          {{ "gpt-config.add-code" | translate }}
+        </button>
         <mat-list>
           <mat-list-item
             class="stop-item"
@@ -162,6 +192,7 @@
                   | translate
                     : {
                         code: item.code,
+                        current: (item.costCounter.toPlain(2) / 100).toFixed(2),
                         maxCost: (item.maximalCost.toPlain(2) / 100).toFixed(2)
                       }
               }}

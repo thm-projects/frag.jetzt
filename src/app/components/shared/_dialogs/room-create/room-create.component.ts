@@ -17,6 +17,8 @@ import { LanguageService } from '../../../../services/util/language.service';
 import { SessionService } from '../../../../services/util/session.service';
 import { RoomSettingsOverviewComponent } from '../room-settings-overview/room-settings-overview.component';
 import { UserManagementService } from '../../../../services/util/user-management.service';
+import { GptService } from 'app/services/http/gpt.service';
+import { switchMap } from 'rxjs';
 
 const invalidRegex = /[^A-Z0-9_\-.~]+/gi;
 
@@ -60,6 +62,7 @@ export class RoomCreateComponent implements OnInit {
     private languageService: LanguageService,
     private sessionService: SessionService,
     private dialog: MatDialog,
+    private gptService: GptService,
   ) {}
 
   ngOnInit() {
@@ -134,6 +137,7 @@ export class RoomCreateComponent implements OnInit {
         this.isLoading = false;
       })
       .subscribe((room) => {
+        this.createDefaultTopic(room.id);
         this.room = room;
         this.translateService
           .get('home-page.created', { longRoomName })
@@ -177,5 +181,27 @@ export class RoomCreateComponent implements OnInit {
    */
   closeDialog(): void {
     this.dialogRef.close();
+  }
+
+  private createDefaultTopic(roomId: string) {
+    this.translateService
+      .get('home-page.gpt-topic-general')
+      .subscribe((msg) => {
+        this.gptService
+          .getStatusForRoom(roomId)
+          .pipe(
+            switchMap(() =>
+              this.gptService.patchPreset(roomId, {
+                topics: [
+                  {
+                    description: msg,
+                    active: true,
+                  },
+                ],
+              }),
+            ),
+          )
+          .subscribe();
+      });
   }
 }

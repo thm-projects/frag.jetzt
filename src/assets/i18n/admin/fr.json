@@ -26,7 +26,8 @@
   "introductions": {
     "prompt-guide-chatbot": "Communiquer efficacement avec ChatGPT",
     "cancel": "Fermer",
-    "tooltip-button" : "Guide de prompt"
+    "tooltip-button" : "Guide de prompt",
+    "prompt-explanation": "Prompts en bref"
   },
   "gpt-config": {
     "title": "Paramètres ChatGPT & test API",
@@ -35,11 +36,14 @@
     "next": "Continuer",
     "previous": "Retour",
     "save": "Enregistrer",
+    "add-code": "Ajouter le code",
     "end": "Fin",
     "header-settings": "Paramètres de l'API GPT",
     "header-restrictions": "Limitation de l'API GPT",
     "header-metrics": "Statistiques de l'API GPT",
     "restrict-active": "API activée",
+    "restrict-global-active": "Activer dans chaque salle où le propriétaire de la salle est enregistré",
+    "restrict-global-amount": "Crédit total par salle",
     "restrict-end-date": "Fin de l'API",
     "save-error": "N'a pas pu enregistrer les données !",
     "load-error": "Impossible de charger la configuration !",
@@ -51,10 +55,10 @@
     "help-general": "L'API GPT met à disposition une intelligence artificielle qui effectue la complétion de texte. L'IA répond à des questions de classification, de connaissance et autres. L'IA possède une entrée et fournit au moins une sortie.",
     "help-api-key": "La clé API attribue les demandes à un compte. Ainsi, la consommation et les coûts peuvent être calculés et affichés dans le compte OpenAI.",
     "help-organization": "L'organisation est une possibilité optionnelle de faire facturer la consommation par une organisation plutôt que directement par son propre compte OpenAI.",
-    "activation-code": "Code d'activation de l'étude",
+    "activation-code": "Code d'activation de l'étude ((≥ 8 caractères))",
     "activation-max-cost": "Frais d'études par mois",
     "activation-used": "Le code a été validé",
-    "activation-info": "{{code}}: ({{maxCost}}$ / mois)",
+    "activation-info": "{{code}}: ({{maxCost}}$ / mois, compteur: {{current}}$)",
     "help-activation-codes": "Ici, les codes d'activation pour l'étude peuvent être consultés, créés et supprimés."
   },
   "gpt-chat": {
@@ -136,7 +140,7 @@
   },
   "chat-gptprompt-preset": {
     "title": "Prompts pour ChatGPT",
-    "search-prompt": "Recherche de prompt ou nouvelle prompt",
+    "search-prompt": "Recherche de prompts ou nouvelle prompt",
     "found-acts": "Résultats trouvés dans »Agir en tant que ...« ({{count}})",
     "found-prompts": "Hits dans Prompts ({{count}})",
     "token-info": "tokens : {{promptTokens}}",
@@ -146,11 +150,24 @@
     "an-error-occured": "Quelque chose a mal tourné !",
     "delete-success": "Prompt a été supprimé.",
     "add-success": "Prompt a été ajouté.",
-    "already-present": "Le prompt existe déjà, modifie son nom. Ou sélectionne le prompt correspondant.",
+    "already-present": "Le prompt existe déjà, modifie son nom ou sa langue. Ou sélectionne le prompt correspondant.",
     "patch-success": "Les modifications ont été enregistrées.",
     "no-patch-needed": "Aucune modification n'a été apportée.",
     "no-prompt-selected": "Aucune invite n'a été sélectionnée.",
-    "enter-prompt-name": "Veuillez saisir un nom."
+    "enter-prompt-name": "Veuillez saisir un nom.",
+    "language": "Langue",
+    "lang": {
+      "de": "Allemand",
+      "en": "Anglais",
+      "fr": "Français"
+    },
+    "advanced-settings": "Paramètres avancés",
+    "advanced-settings-info": "Paramètres transmis directement à l'API",
+    "advanced-setting-temperature": "Température",
+    "advanced-setting-presence-penalty": "Pénalité de présence pour le jeton",
+    "advanced-setting-frequency-penalty": "Pénalité de fréquence pour le jeton",
+    "advanced-setting-top-p": "Pourcentage supérieur",
+    "advanced-setting-reset": "Réinitialiser"
   },
   "mailing": {
     "title": "Mail à tous",
