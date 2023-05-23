@@ -159,8 +159,7 @@
       font-size: 2.5em;
       width: 1.35em;
       height: 1.35em;
-      background-color: var(--on-surface);
-      mask: url(/assets/images/chat_bot.svg) no-repeat center / contain;
+      color: var(--on-surface);
     }
 
     &::before {

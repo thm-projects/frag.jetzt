@@ -194,14 +194,15 @@ export class GptRoomSettingsComponent implements OnInit, OnDestroy {
         this.disableEnhancedPrompt = setting.disableEnhancedPrompt();
         this.disableForwardMessage = setting.disableForwardMessage();
         this.sessionService.getGPTStatusOnce().subscribe((status) => {
+          const hasOwn = setting.apiKey || setting.trialCode;
           this.globalInfo.active =
-            !setting.apiKey &&
+            !hasOwn &&
             status.globalInfo.globalActive &&
             !status.globalInfo.restricted &&
-            !setting.trialCode;
+            !status.restricted;
           this.globalInfo.counter = (
-            setting.accumulatedCostCounter / 10_000
-          ).toFixed(4);
+            setting.accumulatedCostCounter / 100
+          ).toFixed(2);
           this.globalInfo.max = (setting.globalAccumulatedQuota / 100).toFixed(
             2,
           );
