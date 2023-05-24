@@ -86,10 +86,12 @@ export class StartUpService {
               this.measure('Account Login');
               return this.checkAccount(guest, acc);
             }),
+            /*
             switchMap(() => {
               this.measure('Safari check');
               return this.checkSafari();
             }),
+            */
             switchMap(() => {
               this.measure('Onboarding interactions');
               return this.startOnboarding();

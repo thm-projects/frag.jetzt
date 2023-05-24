@@ -16,8 +16,8 @@
   },
   "status-info": {
     "title": "Aktuelle Kapazitätsauslastung",
-  "message": "frag.jetzt bedient {{sessionCount}} Verbindung(en) mit {{creatorCount}} Raumersteller\\*innen, {{moderatorCount}} Moderator\\*innen und {{participantCount}} Teilnehmer\\*innen.\n\nIn {{activeRoomCount}} Raum/Räumen finden Veranstaltungen statt, bei denen der\\*die Raumersteller\\*in oder ein\\*e Moderator\\*in gleichzeitig mit mehreren Teilnehmer\\*innen im Gespräch ist.\n\nDerzeit führt frag.jetzt {{activeLivepollCount}} Blitzumfrage(n) durch.",
-  "close": "Schließen"
+    "message": "frag.jetzt bedient {{sessionCount}} Verbindung(en) mit {{creatorCount}} Raumersteller\\*innen, {{moderatorCount}} Moderator\\*innen und {{participantCount}} Teilnehmer\\*innen.\n\nIn {{activeRoomCount}} Raum/Räumen finden Veranstaltungen statt, bei denen der\\*die Raumersteller\\*in oder ein\\*e Moderator\\*in gleichzeitig mit mehreren Teilnehmer\\*innen im Gespräch ist.\n\nDerzeit führt frag.jetzt {{activeLivepollCount}} Blitzumfrage(n) durch.",
+    "close": "Schließen"
   },
   "bonus-archive-export": {
     "code": "Raum-Code",
@@ -257,8 +257,8 @@
     "export-questions": "Q&A exportieren",
     "fullscreen": "Vollbild & Textgröße",
     "guest-account-tooltip": "Du bist als Gast eingeloggt. Deine Räume und Boni werden gelöscht, wenn du den Browser zurücksetzt. Wenn du dich mit einem Konto anmeldest, werden deine Räume und Boni für 180 Tage gespeichert. Diese Frist verlängert sich um 180 Tage mit jedem weiteren Besuch deiner Räume.",
-    "home-header": "Q&A live",
-    "home-header-mobile": "Q&A live",
+    "home-header": "Fragen sammeln ➧ bewerten ➧ präsentieren ➧ mit KI beantworten",
+    "home-header-mobile": "Q&A live mit KI",
     "id": "Code",
     "import-questions": "Q&A importieren",
     "logged-out": "Du bist jetzt abgemeldet.",
@@ -334,7 +334,7 @@
     "cancel": "Schließen",
     "install": "Installieren",
     "title": "Neue Version",
-    "description": "Eine neue Version steht zur Installation bereit.<br>Es wird empfohlen diese zu installieren um eine einwandfreie Erfahrung mit frag.jetzt zu bekommen.<br><br>Du kannst noch versuchen, deine Arbeit zu beenden und den Dialog schließen, wenn es jedoch zu Problemen kommt, lade die Seite neu."
+    "description": "Eine neue Version steht zur Installation bereit.<br><br>Du kannst deine Arbeit noch beenden und den Dialog schließen. Wenn Probleme auftreten, lade die Seite neu."
   },
   "home-page": {
     "gpt-topic-general": "Allgemein",
@@ -342,7 +342,7 @@
     "accessibility-join-button": "Betritt die Sitzung, deren Code du eingegeben hast.",
     "accessibility-join-input": "Hier kannst du den Namen der Sitzung eingeben der du beitreten möchtest. Den Namen sagt dir die Sitzungsleitung.",
     "app-rating": "App neu bewerten",
-    "create-session": "Raum kostenlos buchen",
+    "create-session": "Raum buchen",
     "created": "Der Raum für die Sitzung »{{longRoomName}}« wurde gebucht.",
     "custom-shortid": "Wie soll der Raum-Code lauten?",
     "custom-shortid-placeholder": "Code aus: a-z A-Z 0-9 - _ ~ .",
@@ -443,8 +443,9 @@
     "restart-account-activation-button": "Neuen Aktivierungscode anfordern",
     "restart-account-activation-correct": "Der Aktivierungscode wurde gesendet.",
     "restart-account-activation-tooltip": "Sendet einen neuen Aktivierungscode an deine Adresse.",
-    "welcome": "Noch Fragen?",
-    "welcome-feedback": "➤ Schreib dem »frag.jetzt«-Team",
+    "welcome": "frag.jetzt",
+    "welcome-primary": "ChatGPT antwortet",
+    "welcome-feedback": "➤ Feedback",
     "welcome-subtitle": "Anonym | innerhalb des Browsers | kostenlos"
   },
   "login-dialog": {
@@ -456,7 +457,7 @@
     "or": "oder",
     "password": "Passwort",
     "sign-in-as-guest": "Als Gast fortfahren",
-    "sign-up": "Konto erstellen …",
+    "sign-up": "Registrieren",
     "title": "Anmelden"
   },
   "moderators-dialog": {

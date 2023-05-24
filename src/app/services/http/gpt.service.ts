@@ -180,6 +180,7 @@ export interface Model {
 export interface GlobalAccessInfo {
   blocked: boolean;
   registered: boolean;
+  globalActive: boolean;
   apiKeyPresent: boolean;
   apiEnabled: boolean;
   apiExpired: boolean;
@@ -190,6 +191,7 @@ export interface GlobalAccessInfo {
 export interface RoomAccessInfo {
   globalInfo: GlobalAccessInfo;
   apiKeyPresent: boolean;
+  roomOwnerRegistered: boolean;
   usingTrial: boolean;
   roomDisabled: boolean;
   moderatorDisabled: boolean;

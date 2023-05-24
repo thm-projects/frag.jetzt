@@ -77,6 +77,7 @@ export class GPTRoomSetting {
   // additional transient
   usageTimes: GPTRoomUsageTime[];
   trialCode: GPTActivationCode;
+  globalAccumulatedQuota: number;
   // presets
   presetContext: string;
   presetPersonaCreator: string;
@@ -118,6 +119,7 @@ export class GPTRoomSetting {
     updatedAt = null,
     usageTimes = [],
     trialCode = null,
+    globalAccumulatedQuota = 0,
     presetContext = '',
     presetPersonaCreator = '',
     presetPersonaModerator = '',
@@ -159,6 +161,7 @@ export class GPTRoomSetting {
       verifyInstance(GPTRoomUsageTime, time),
     );
     this.trialCode = verifyInstance(GPTActivationCode, trialCode);
+    this.globalAccumulatedQuota = globalAccumulatedQuota;
     this.presetContext = presetContext;
     this.presetPersonaCreator = presetPersonaCreator;
     this.presetPersonaModerator = presetPersonaModerator;

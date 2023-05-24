@@ -31,7 +31,6 @@ body {
   background-color: var(--background, #121212);
   -ms-overflow-style: none; /* for Internet Explorer, Edge */
   scrollbar-width: none; /* for Firefox */
-  overflow-y: scroll;
 }
 
 .dark {
@@ -619,4 +618,14 @@ div[markdown] img {
   .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
     color: var(--on-surface);
   }
+}
+
+.chatgpt-robot-icon {
+  background-color: currentColor;
+  mask: url(/assets/images/chat_bot.svg) no-repeat center / contain;
+  font-size: 2.25em;
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  line-height: 0.75;
 }
