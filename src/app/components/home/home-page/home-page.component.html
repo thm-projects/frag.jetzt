@@ -12,6 +12,7 @@
     style="top: 20%; left: 20%; animation-delay: 0s">
     ?
   </div>
+
   <div
     class="bg-object"
     style="top: 30%; left: 80%; animation-delay: 2s">
@@ -27,35 +28,29 @@
         aria-hidden="true">
         {{ "login.welcome" | translate }}
       </span>
-      <span class="main-heading-primary">frag.jetzt & ChatGPT</span>
+      <span class="main-heading-primary">
+        {{ "login.welcome-primary" | translate }}
+      </span>
     </h1>
   </div>
 
-  <img
-    tabindex="-1"
-    src="/assets/background/auditorium.webp"
-    srcset="
-      /assets/background/auditorium.webp             1x,
-      /assets/background/Auditorium-original-bw.webp 2x
-    "
-    class="screenshot"
-    width="811"
-    height="185"
-    alt="Auditorium" />
-
-  <div
-    fxLayout="row"
-    fxLayoutAlign="center">
+  <div fxLayoutAlign="center">
     <mat-card class="outer">
       <mat-card-content>
-        <div
-          fxLayout="row"
-          fxLayoutAlign="center">
+        <div fxLayoutAlign="center">
           <app-new-landing></app-new-landing>
         </div>
       </mat-card-content>
     </mat-card>
   </div>
+
+  <img
+    tabindex="-1"
+    src="/assets/images/Chatbot.webp"
+    class="screenshot"
+    width="381"
+    height="358"
+    alt="AI Tutor" />
 
   <h2>
     <span
@@ -83,10 +78,12 @@
     class="visually-hidden">
     {{ "home-page.live-announcer" | translate }}
   </button>
+
   <app-app-rating
     *ngIf="accumulatedRatings"
     [ratingResults]="accumulatedRatings"></app-app-rating>
 </div>
+
 <div class="visually-hidden">
   <div
     id="feedback-aria"

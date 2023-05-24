@@ -249,8 +249,8 @@
     "export-questions": "Exporter les Q&R",
     "fullscreen": "Plein écran & taille du texte",
     "guest-account-tooltip": "Tu es connecté en tant qu'invité. Tes salles et tes bonus sont supprimés lorsque tu réinitialises ton navigateur. Si tu te connectes avec un compte, tes salles et tes bonus sont conservés pendant 180 jours. Ce délai est prolongé de 180 jours à chaque nouvelle visite de tes salles.",
-    "home-header": "Q&R en direct",
-    "home-header-mobile": "Q&R en direct",
+    "home-header": "Collecter des questions ➧ évaluer ➧ présenter ➧ répondre avec l'IA",
+    "home-header-mobile": "Q&R en direct avec l'IA",
     "id": "Code ",
     "import-questions": "Importer des Q&R",
     "logged-out": "Tu es maintenant déconnecté.",
@@ -334,7 +334,7 @@
     "cancel": "Fermer",
     "install": "Installer",
     "title": "Nouvelle version",
-    "description": "Une nouvelle version est disponible pour l'installation.<br>Il est recommandé de l'installer afin d'obtenir une expérience irréprochable avec frag.jetzt.<br><br>Tu peux encore essayer de terminer ton travail et de fermer la boîte de dialogue, mais si tu rencontres des problèmes, recharge la page."
+    "description": "Une nouvelle version est prête à être installée.<br><br>Tu peux encore terminer ton travail et fermer la boîte de dialogue. Si des problèmes surviennent, recharge la page."
   },
   "home-page": {
     "gpt-topic-general": "Général",
@@ -342,7 +342,7 @@
     "accessibility-join-button": "Rejoins la session dont tu as saisi le code.",
     "accessibility-join-input": "Tu peux saisir ici le nom de la session que tu souhaites rejoindre. Le nom te sera communiqué par le responsable de la session.",
     "app-rating": "Réévaluer l'app",
-    "create-session": "Réserver une salle gratuitement",
+    "create-session": "Réserver une salle",
     "created": "La salle pour la session \"{{longRoomName}}\" a été réservée.",
     "custom-shortid": "Quel doit être le code de la salle ?",
     "custom-shortid-placeholder": "Code composé de : a-z A-Z 0-9 - _ ~ .",
@@ -443,8 +443,9 @@
     "restart-account-activation-button": "Demander un nouveau code",
     "restart-account-activation-correct": "Le code d'activation a été envoyée.",
     "restart-account-activation-tooltip": "Envoie un nouveau code d'activation à ton adresse.",
-    "welcome": "Des questions ?",
-    "welcome-feedback": "➤ Écris à l'équipe de « frag.jetzt »",
+    "welcome": "frag.jetzt",
+    "welcome-primary": "ChatGPT répond",
+    "welcome-feedback": "➤ Feedback",
     "welcome-subtitle": "Anonyme | à l'intérieur du navigateur | gratuit"
   },
   "login-dialog": {
@@ -456,7 +457,7 @@
     "or": "ou",
     "password": "Mot de passe",
     "sign-in-as-guest": "Continuer en tant qu'invité",
-    "sign-up": "Créer un compte …",
+    "sign-up": "S'inscrire",
     "title": "S'inscrire"
   },
   "moderators-dialog": {

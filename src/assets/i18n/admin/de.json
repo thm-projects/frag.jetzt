@@ -42,6 +42,8 @@
     "header-restrictions": "GPT API Beschränkung",
     "header-metrics": "GPT API Statistiken",
     "restrict-active": "API aktiviert",
+    "restrict-global-active": "In jedem Raum mit registrierten Rauminhabenden aktivieren",
+    "restrict-global-amount": "Gesamtes Guthaben pro Raum",
     "restrict-end-date": "API Ende",
     "save-error": "Konnte Daten nicht speichern!",
     "load-error": "Konnte Konfiguration nicht laden!",

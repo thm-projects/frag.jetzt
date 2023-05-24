@@ -249,8 +249,8 @@
     "export-questions": "Export Q&A",
     "fullscreen": "Fullscreen & Text size",
     "guest-account-tooltip": "You are logged in as a guest. Your rooms and bonuses will be deleted when you reset your browser. If you sign in with an account, your rooms and bonuses will be saved for 180 days. This period is extended by 180 days with each additional visit to your rooms.",
-    "home-header": "Q&A live",
-    "home-header-mobile": "Q&A live",
+    "home-header": "Collect questions ➧ evaluate ➧ present ➧ answer with AI",
+    "home-header-mobile": "Q&A live with AI",
     "id": "Key",
     "import-questions": "Import Q&A",
     "logged-out": "You are logged out now.",
@@ -334,15 +334,15 @@
     "cancel": "Close",
     "install": "Install",
     "title": "New version",
-    "description": "A new version is available for installation.<br>It is recommended to install it to get a flawless experience with frag.jetzt.<br><br>You can still try to finish your work and close the dialog, but if you encounter problems, reload the page."
+    "description": "A new version is ready for installation.<br><br>You can still finish your work and close the dialog. If you encounter problems, reload the page."
   },
   "home-page": {
     "gpt-topic-general": "General",
     "accessibility-create": "Create a new session",
     "accessibility-join-button": "Enter the session with the specified session key.",
-    "accessibility-join-input": "Here you can enter the  key of the session you want to join. The presenter will tell you the session key.",
+    "accessibility-join-input": "Here you can enter the key of the session you want to join. The presenter will tell you the session key.",
     "app-rating": "Reevaluate app",
-    "create-session": "Book a room for free",
+    "create-session": "Book a room",
     "created": "The room for the session »{{longRoomName}}« has been booked.",
     "custom-shortid": "What should the key code be?",
     "custom-shortid-placeholder": "Characters: a-z A-Z 0-9 - _ ~ .",
@@ -443,8 +443,9 @@
     "restart-account-activation-button": "Request a new activation code",
     "restart-account-activation-correct": "New activation code sent.",
     "restart-account-activation-tooltip": "Sends a new activation code to your address.",
-    "welcome": "Any questions?",
-    "welcome-feedback": "➤ Write to the »frag.jetzt« team",
+    "welcome": "frag.jetzt",
+    "welcome-primary": "ChatGPT answers",
+    "welcome-feedback": "➤ Feedback",
     "welcome-subtitle": "anonymous | in your browser | for free"
   },
   "login-dialog": {
@@ -456,7 +457,7 @@
     "or": "or",
     "password": "Password",
     "sign-in-as-guest": "Continue as a guest",
-    "sign-up": "Create account …",
+    "sign-up": "Sign up",
     "title": "Sign in"
   },
   "moderators-dialog": {

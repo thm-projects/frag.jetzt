@@ -68,10 +68,8 @@
       *ngFor="let item of conversation; let i = index"
       [class]="item.type">
       <mat-icon
-        class="material-icons-outlined"
-        *ngIf="item.type === 'gpt'">
-        smart_toy
-      </mat-icon>
+        class="chatgpt-robot-icon"
+        *ngIf="item.type === 'gpt'"></mat-icon>
       <div
         markdown
         emoji

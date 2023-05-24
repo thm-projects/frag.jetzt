@@ -11,14 +11,12 @@ h1 {
 
 .main-heading-primary {
   display: block;
-  font-size: 4vh;
-  font-weight: 100;
+  font-size: 30px;
+  font-weight: normal;
   text-align: center;
-  letter-spacing: 1px;
   color: var(--primary);
   animation: moveInLeft 3s ease;
   margin-top: 20px;
-  margin-bottom: 30px;
 }
 
 .main-container {
@@ -33,7 +31,7 @@ h1 {
 
 .main-heading-secondary {
   display: block;
-  font-size: 2vh;
+  font-size: 50px;
   font-weight: normal;
   text-align: center;
   color: var(--secondary);
@@ -43,10 +41,9 @@ h1 {
 .feedback {
   display: block;
   font-weight: normal;
-  font-size: 14px;
+  font-size: 16px;
   text-align: center;
   color: var(--on-background);
-  opacity: 0.6;
 
   > a {
     padding: 10px;
@@ -99,12 +96,12 @@ mat-card-header {
 
 .screenshot {
   display: block;
-  margin-top: -20px;
   margin-left: auto;
   margin-right: auto;
-  max-width: 100%;
-  min-width: 50%;
-  height: auto;
+  margin-top: -55px;
+  margin-bottom: 10px;
+  max-width: 70vw;
+  height: fit-content;
   outline: none;
 }
 
@@ -133,8 +130,4 @@ mat-card-header {
     opacity: 0;
     transform: scale(11) translate(-50%, -50%);
   }
-}
-
-app-app-rating {
-  margin-bottom: 1em;
 }

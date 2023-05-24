@@ -43,11 +43,9 @@
         [matTooltip]="'header.chat-gpt-button' | translate"
         *ngIf="!router.url.endsWith('/gpt-chat-room') && isInRouteWithRoles"
         (click)="openGPT()">
-        <mat-icon
-          class="material-icons material-icons-outlined"
-          style="transform: scale(1.2); margin-right: 5px">
-          smart_toy
-        </mat-icon>
+        <span
+          class="chatgpt-robot-icon"
+          style="transform: scale(1.2); margin-right: 5px"></span>
         <span *ngIf="!showSmallButtons && deviceInfo.isCurrentlyDesktop">
           {{ "header.gpt-chat" | translate }}
         </span>
@@ -505,14 +503,14 @@
   <button
     mat-menu-item
     routerLink="/gpt-prompts">
-    <mat-icon class="material-icons-outlined">smart_toy</mat-icon>
+    <mat-icon class="chatgpt-robot-icon"></mat-icon>
     {{ "header.gpt-prompts" | translate }}
   </button>
   <button
     mat-menu-item
     class="replyButton"
     (click)="openPrivacyDialog()">
-    <mat-icon class="material-icons-outlined">smart_toy</mat-icon>
+    <mat-icon class="chatgpt-robot-icon"></mat-icon>
     {{ "header.gpt-privacy-policy" | translate }}
   </button>
 </mat-menu>
