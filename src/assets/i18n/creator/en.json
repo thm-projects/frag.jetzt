@@ -760,7 +760,7 @@
     "quota-management": "Quota management",
     "title": "ChatGPT Settings",
     "trial-info": "I am participating in the free evaluation study of THM »ChatGPT in Education«:",
-    "global-trial": "The frag.jetzt team has given you ${max}} for a three-month trial period. That's enough for a few million words in conversations using the GPT-3.5 turbo language model. So far you have used ${counter}}.",
+    "global-trial": "The frag.jetzt team has given you $ {max}} for a three-month trial period. That's enough for a few million words in conversations using the GPT-3.5 turbo language model. So far you have used $ {counter}}.",
     "trial-code": "I have received the following activation code from the frag.jetzt team:",
     "trial-enabled": "Perfect: You are participating in the evaluation study.",
     "trial-activated-info": "Through the evaluation study you have {{quota}}$ per month. This month {{counter}}$ have already been used.",
