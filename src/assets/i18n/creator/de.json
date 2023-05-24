@@ -765,7 +765,7 @@
     "quota-management": "Kontingentverwaltung",
     "title": "ChatGPT-Einstellungen",
     "trial-info": "Ich nehme an der kostenlosen Evaluationsstudie der THM »ChatGPT in der Lehre« teil:",
-    "global-trial": "Du besitzt {{max}}$ durch eine globale Freigabe. Du hast davon bereits {{counter}}$ verbraucht.",
+    "global-trial": "Das frag.jetzt-Team hat dir {{max}} $ für eine dreimonatige Testphase gegeben, gleichwertig mit {{max*375000}} Wörtern bei GPT-3.5-Turbo. Dein Verbrauch beträgt bisher {{counter}} $.",
     "trial-code": "Ich habe folgenden Aktivierungscode vom frag.jetzt-Team erhalten:",
     "trial-enabled": "Perfekt: Du nimmst an der Evaluationsstudie teil.",
     "trial-activated-info": "Durch die Evaluationsstudie besitzt du {{quota}}$ pro Monat. Diesen Monat wurden bereits {{counter}}$ verwendet.",
