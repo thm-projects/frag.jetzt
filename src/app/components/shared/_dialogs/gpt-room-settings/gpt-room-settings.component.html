@@ -84,10 +84,21 @@
     </mat-form-field>
   </ng-container>
 
-  <h2>{{ "gpt-room-settings.quota-management" | translate }}</h2>
+  <h2>{{ "gpt-room-settings.quota-management" | translate }}
+    <button
+      style="cursor: help"
+      [matTooltip]="'gpt-room-settings.rest-contingent-description' | translate"
+      matSuffix
+      mat-icon-button>
+      <mat-icon
+      style="margin-bottom: 5px;"
+      class="material-icons-outlined">info</mat-icon>
+    </button>
+  </h2>
 
   <!-- Room Restrictions -->
-  <h3>{{ "gpt-room-settings.restrictions-room" | translate }}</h3>
+  <h3>{{ "gpt-room-settings.restrictions-room" | translate }}
+  </h3>
   <ng-container *ngIf="isOwner || canChangeRoomQuota; else deactivated">
     <mat-form-field>
       <mat-label>{{ "gpt-room-settings.rest-room-acc" | translate }}</mat-label>

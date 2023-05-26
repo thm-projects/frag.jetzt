@@ -769,6 +769,7 @@
     "trial-code": "Ich habe folgenden Aktivierungscode vom frag.jetzt-Team erhalten:",
     "trial-enabled": "Perfekt: Du nimmst an der Evaluationsstudie teil.",
     "trial-activated-info": "Durch die Evaluationsstudie besitzt du {{quota}}$ pro Monat. Diesen Monat wurden bereits {{counter}}$ verwendet.",
+    "rest-contingent-description": "Die Kontigentverwaltung ist dafür da, um das Budget für die Nutzung von ChatGPT im aktuellen Raum kontrollieren zu können. So lässt sich einstellen, wie viele Anfragen Moderatoren oder Teilnehmer am Tag, Monat oder insgesamt durchführen können.Somit kann sichergestellt werden, dass Anfragen an ChatGPT  über den kompletten Zeitraum möglich sind und nicht am ersten Tag aufgebraucht werden.",
     "rest-flow-description": "Das fluide Kontingent funktioniert anders als andere Kontingente. Jeden Tag wird ein Teil des Kontingents freigegeben. Bei einem Kontingent von 20$ zum Beispiel sind am 2. Januar 20$ * 2 / 31, also etwa 1,29$, verfügbar.",
     "rest-room-flow-month": "Monatlich fliessende Kostenbegrenzung",
     "rest-mod-flow-month": "Monatlich fliessende Kostenbegrenzung",

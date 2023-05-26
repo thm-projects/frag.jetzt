@@ -764,6 +764,7 @@
     "trial-code": "J'ai reçu le code d'activation suivant de l'équipe frag.jetzt :",
     "trial-enabled": "Parfait : Vous participez à l'étude d'évaluation.",
     "trial-activated-info": "Grâce à l'étude d'évaluation, tu possèdes {{quota}}$ par mois. Ce mois-ci, {{counter}}$ a déjà été utilisé.",
+    "rest-contingent-description": "La gestion des quotas permet de contrôler le budget d'utilisation de ChatGPT dans la salle actuelle. Il est ainsi possible de définir le nombre de demandes que les modérateurs ou les participants peuvent effectuer par jour, par mois ou au total, ce qui permet de s'assurer que les demandes à ChatGPT sont possibles sur toute la période et ne sont pas épuisées le premier jour.",
     "rest-flow-description": "Le contingent fluide fonctionne différemment des autres contingents. Chaque jour, une partie du contingent est libérée. Par exemple, pour un contingent de 20 $, 20 $ * 2 / 31, soit environ 1,29 $, sont disponibles le 2 janvier.",
     "rest-room-flow-month": "Limitation des coûts mensuels fluides",
     "rest-mod-flow-month": "Limitation des coûts mensuels fluides",
