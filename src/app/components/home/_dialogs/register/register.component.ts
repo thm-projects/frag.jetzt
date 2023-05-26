@@ -139,6 +139,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
   userEdit = true;
 
   isPasswordVisible = false;
+  passwordRequirements: any;
 
   constructor(
     private translationService: TranslateService,

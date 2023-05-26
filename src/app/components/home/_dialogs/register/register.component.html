@@ -148,7 +148,27 @@
       class="custom-progress-bar"
       mode="determinate"
       [value]="passwordStrength"></mat-progress-bar>
-
+    <div class="password-requirments">
+      <span id="register-password-length-invalid">
+        {{ "register.password-length-invalid" | translate }}
+      </span>
+      <br>
+      <span id="register-password-no-number">
+        {{ "register.password-no-number" | translate }}
+      </span>
+      <br>
+      <span id="register-password-no-lowercase">
+        {{ "register.password-no-lowercase" | translate }}
+      </span>
+      <br>
+      <span id="register-password-no-uppercase">
+        {{ "register.password-no-uppercase" | translate }}
+      </span>
+      <br>
+      <span id="register-password-no-special-character">
+        {{ "register.password-no-special-character" | translate }}
+      </span>
+    </div>
     <mat-form-field class="input-block">
       <input
         (input)="userEdit = true"
