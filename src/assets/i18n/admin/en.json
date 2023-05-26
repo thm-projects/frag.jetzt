@@ -105,7 +105,8 @@
     "option-total-acts": "Founds acts",
     "option-total-prompts": "Hits in prompts",
     "temperature": "Temperature",
-    "temperature-tooltip": "Setting of creativity and determinism of answers"
+    "temperature-tooltip": "Setting of creativity and determinism of answers",
+    "hint-apply-text": "Please make sure to accept/apply the answer because this chat while not be saved"
   },
   "quill": {
     "cancel": "Cancel",

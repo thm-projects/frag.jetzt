@@ -500,7 +500,8 @@
     "prompt-label": "Recherche de prompts | barre d'espacement pour voir tous les prompts",
     "option-total-acts": "Hits dans « Agir comme … »",
     "option-total-prompts": "Hits dans prompts",
-    "temperature": "Variabilité de réponse"
+    "temperature": "Variabilité de réponse",
+    "hint-apply-text": "N'oubliez pas d'appliquer la réponse avant de quitter la page, sinon elle sera perdue."
   },
   "header": {
     "overview-keywords-tooltip": "Nombre de mots-clés",

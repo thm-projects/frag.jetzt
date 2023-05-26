@@ -500,7 +500,8 @@
     "prompt-label": "Search for prompts | spacebar to see all prompts",
     "option-total-acts": "Hits in »Act as …«",
     "option-total-prompts": "Hits in prompts",
-    "temperature": "Response variability"
+    "temperature": "Response variability",
+    "hint-apply-text": "Please make sure to accept/apply the answer because this chat while not be saved"
   },
   "header": {
     "overview-keywords-tooltip": "Number of Keywords",
