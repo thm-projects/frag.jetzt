@@ -11,10 +11,9 @@ import { UserManagementService } from '../../../services/util/user-management.se
 @Component({
   selector: 'app-moderator-join',
   templateUrl: './moderator-join.component.html',
-  styleUrls: ['./moderator-join.component.scss']
+  styleUrls: ['./moderator-join.component.scss'],
 })
 export class ModeratorJoinComponent implements OnInit {
-
   room: Room;
   isSending: boolean;
   private moderatorRoom: Room;
@@ -25,30 +24,31 @@ export class ModeratorJoinComponent implements OnInit {
     private roomService: RoomService,
     private moderatorService: ModeratorService,
     private userManagementService: UserManagementService,
-  ) {
-  }
+  ) {}
 
   get user() {
     return this.userManagementService.getCurrentUser();
   }
 
   ngOnInit(): void {
-    this.route.params.subscribe(params => {
-      this.userManagementService.forceLogin().subscribe(result => {
+    this.route.params.subscribe((params) => {
+      this.userManagementService.forceLogin().subscribe((result) => {
         if (result === null || result === undefined) {
           this.router.navigate(['/']);
           return;
         }
-        this.roomService.getErrorHandledRoomByShortId(params.shortId, () => {
-          this.router.navigate(['/']);
-        }).subscribe(room => {
-          if (!room) {
+        this.roomService
+          .getErrorHandledRoomByShortId(params.shortId, () => {
             this.router.navigate(['/']);
-            return;
-          }
-          this.moderatorRoom = room;
-          this.onRoomReceive(room);
-        });
+          })
+          .subscribe((room) => {
+            if (!room) {
+              this.router.navigate(['/']);
+              return;
+            }
+            this.moderatorRoom = room;
+            this.onRoomReceive(room);
+          });
       });
     });
   }
@@ -59,12 +59,16 @@ export class ModeratorJoinComponent implements OnInit {
     this.moderatorService.addByRoomCode(this.moderatorRoom.id).subscribe({
       next: () => {
         this.roomService.addToHistory(this.room.id);
-        this.userManagementService.setAccess(this.room.shortId, this.room.id, UserRole.EXECUTIVE_MODERATOR);
+        this.userManagementService.setAccess(
+          this.room.shortId,
+          this.room.id,
+          UserRole.EXECUTIVE_MODERATOR,
+        );
         this.router.navigate([`/moderator/room/${this.room.shortId}/comments`]);
       },
       error: () => {
         this.isSending = false;
-      }
+      },
     });
   }
 
@@ -79,22 +83,30 @@ export class ModeratorJoinComponent implements OnInit {
     }
     forkJoin([
       this.roomService.getRoom(modRoom.moderatorRoomReference),
-      this.moderatorService.get(modRoom.moderatorRoomReference)
-        .pipe(map(mods => new Set(mods.map(m => m.accountId))))
+      this.moderatorService
+        .get(modRoom.moderatorRoomReference)
+        .pipe(map((mods) => new Set(mods.map((m) => m.accountId)))),
     ]).subscribe(([room, mods]) => {
       if (room.ownerId === this.user.id) {
-        this.userManagementService.setAccess(room.shortId, room.id, UserRole.CREATOR);
+        this.userManagementService.setAccess(
+          room.shortId,
+          room.id,
+          UserRole.CREATOR,
+        );
         this.router.navigate([`/creator/room/${room.shortId}/comments`]);
         return;
       }
       if (mods.has(this.user.id)) {
         this.roomService.addToHistory(room.id);
-        this.userManagementService.setAccess(room.shortId, room.id, UserRole.EXECUTIVE_MODERATOR);
+        this.userManagementService.setAccess(
+          room.shortId,
+          room.id,
+          UserRole.EXECUTIVE_MODERATOR,
+        );
         this.router.navigate([`/moderator/room/${room.shortId}/comments`]);
         return;
       }
       this.room = room;
     });
   }
-
 }

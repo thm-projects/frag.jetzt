@@ -5,25 +5,27 @@ $colorItemMargin: 2px;
 $colorItemSize: 16px;
 $colorItemsPerRow: 7;
 
-$themeName: 'INVALID' !default;
-$activeColor: '#000000' !default;
-$inactiveColor: '#000000' !default;
-$backgroundColor: '#000000' !default;
-$borderColor: '#000000' !default;
-
+$themeName: "INVALID" !default;
+$activeColor: "#000000" !default;
+$inactiveColor: "#000000" !default;
+$backgroundColor: "#000000" !default;
+$borderColor: "#000000" !default;
 
 // Fix for iOS not losing hover on touch
 @media (pointer: coarse) {
   .ql-#{$themeName} {
-    &.ql-toolbar, .ql-toolbar {
+    &.ql-toolbar,
+    .ql-toolbar {
       button:hover:not(.ql-active) {
         color: $inactiveColor;
 
-        .ql-fill, .ql-stroke.ql-fill {
+        .ql-fill,
+        .ql-stroke.ql-fill {
           fill: $inactiveColor;
         }
 
-        .ql-stroke, .ql-stroke-miter {
+        .ql-stroke,
+        .ql-stroke-miter {
           stroke: $inactiveColor;
         }
       }
@@ -34,10 +36,11 @@ $borderColor: '#000000' !default;
 .ql-#{$themeName} {
   box-sizing: border-box;
 
-  &.ql-toolbar, .ql-toolbar {
+  &.ql-toolbar,
+  .ql-toolbar {
     &:after {
       clear: both;
-      content: '';
+      content: "";
       display: table;
     }
 
@@ -61,7 +64,7 @@ $borderColor: '#000000' !default;
       }
     }
 
-    input.ql-image[type=file] {
+    input.ql-image[type="file"] {
       display: none;
     }
 
@@ -70,11 +73,13 @@ $borderColor: '#000000' !default;
     .ql-picker-item:is(:hover, .ql-selected) {
       color: $activeColor;
 
-      .ql-fill, .ql-stroke.ql-fill {
+      .ql-fill,
+      .ql-stroke.ql-fill {
         fill: $activeColor;
       }
 
-      .ql-stroke, .ql-stroke-miter {
+      .ql-stroke,
+      .ql-stroke-miter {
         stroke: $activeColor;
       }
     }
@@ -88,7 +93,8 @@ $borderColor: '#000000' !default;
     display: none;
   }
 
-  .ql-out-bottom, .ql-out-top {
+  .ql-out-bottom,
+  .ql-out-top {
     visibility: hidden;
   }
 
@@ -112,7 +118,7 @@ $borderColor: '#000000' !default;
 
     &:after {
       clear: both;
-      content: '';
+      content: "";
       display: table;
     }
   }
@@ -132,7 +138,8 @@ $borderColor: '#000000' !default;
     stroke-width: 2;
   }
 
-  .ql-fill, .ql-stroke.ql-fill {
+  .ql-fill,
+  .ql-stroke.ql-fill {
     fill: $inactiveColor;
   }
 
@@ -144,7 +151,8 @@ $borderColor: '#000000' !default;
     fill-rule: evenodd;
   }
 
-  .ql-thin, .ql-stroke.ql-thin {
+  .ql-thin,
+  .ql-stroke.ql-thin {
     stroke-width: 1;
   }
 
@@ -204,7 +212,8 @@ $borderColor: '#000000' !default;
       padding-left: 16px;
     }
 
-    code, pre {
+    code,
+    pre {
       background-color: #f0f0f0;
       border-radius: 3px;
     }
@@ -300,13 +309,13 @@ $borderColor: '#000000' !default;
 
       .ql-picker-label::before,
       .ql-picker-item::before {
-        content: 'Normal';
+        content: "Normal";
       }
 
       @for $num from 1 through 6 {
         .ql-picker-label[data-value=\"#{$num}\"]::before,
         .ql-picker-item[data-value=\"#{$num}\"]::before {
-          content: 'Heading ' + $num;
+          content: "Heading " + $num;
         }
       }
 
@@ -340,24 +349,24 @@ $borderColor: '#000000' !default;
 
       .ql-picker-label::before,
       .ql-picker-item::before {
-        content: 'Sans Serif';
+        content: "Sans Serif";
       }
 
-      .ql-picker-label[data-value=serif]::before,
-      .ql-picker-item[data-value=serif]::before {
-        content: 'Serif';
+      .ql-picker-label[data-value="serif"]::before,
+      .ql-picker-item[data-value="serif"]::before {
+        content: "Serif";
       }
 
-      .ql-picker-label[data-value=monospace]::before,
-      .ql-picker-item[data-value=monospace]::before {
-        content: 'Monospace';
+      .ql-picker-label[data-value="monospace"]::before,
+      .ql-picker-item[data-value="monospace"]::before {
+        content: "Monospace";
       }
 
-      .ql-picker-item[data-value=serif]::before {
+      .ql-picker-item[data-value="serif"]::before {
         font-family: Georgia, Times New Roman, serif;
       }
 
-      .ql-picker-item[data-value=monospace]::before {
+      .ql-picker-item[data-value="monospace"]::before {
         font-family: Monaco, Courier New, monospace;
       }
     }
@@ -367,39 +376,40 @@ $borderColor: '#000000' !default;
 
       .ql-picker-label::before,
       .ql-picker-item::before {
-        content: 'Normal';
+        content: "Normal";
       }
 
-      .ql-picker-label[data-value=small]::before,
-      .ql-picker-item[data-value=small]::before {
-        content: 'Small';
+      .ql-picker-label[data-value="small"]::before,
+      .ql-picker-item[data-value="small"]::before {
+        content: "Small";
       }
 
-      .ql-picker-label[data-value=large]::before,
-      .ql-picker-item[data-value=large]::before {
-        content: 'Large';
+      .ql-picker-label[data-value="large"]::before,
+      .ql-picker-item[data-value="large"]::before {
+        content: "Large";
       }
 
-      .ql-picker-label[data-value=huge]::before,
-      .ql-picker-item[data-value=huge]::before {
-        content: 'Huge';
+      .ql-picker-label[data-value="huge"]::before,
+      .ql-picker-item[data-value="huge"]::before {
+        content: "Huge";
       }
 
-      .ql-picker-item[data-value=small]::before {
+      .ql-picker-item[data-value="small"]::before {
         font-size: 10px;
       }
 
-      .ql-picker-item[data-value=large]::before {
+      .ql-picker-item[data-value="large"]::before {
         font-size: 18px;
       }
 
-      .ql-picker-item[data-value=huge]::before {
+      .ql-picker-item[data-value="huge"]::before {
         font-size: 32px;
       }
     }
   }
 
-  .ql-color-picker, .ql-icon-picker {
+  .ql-color-picker,
+  .ql-icon-picker {
     width: #{$controlHeight + 4px};
 
     .ql-picker-label {
@@ -426,7 +436,8 @@ $borderColor: '#000000' !default;
   .ql-color-picker {
     .ql-picker-options {
       padding: $inputPaddingHeight $inputPaddingWidth;
-      width: #{($colorItemSize + 2 * $colorItemMargin) * $colorItemsPerRow + 2 * $inputPaddingWidth + 2px}; // +2 for the border
+      width: #{($colorItemSize + 2 * $colorItemMargin) * $colorItemsPerRow + 2 *
+        $inputPaddingWidth + 2px}; // +2 for the border
     }
 
     .ql-picker-item {
@@ -459,11 +470,11 @@ $borderColor: '#000000' !default;
     width: 18px;
   }
 
-  .ql-picker:is(.ql-header, .ql-font, .ql-size) .ql-picker-label[data-label]:not([data-label='']),
-  .ql-picker-item[data-label]:not([data-label='']) {
+  .ql-picker:is(.ql-header, .ql-font, .ql-size)
+    .ql-picker-label[data-label]:not([data-label=""]),
+  .ql-picker-item[data-label]:not([data-label=""]) {
     &::before {
       content: attr(data-label);
     }
   }
-
 }

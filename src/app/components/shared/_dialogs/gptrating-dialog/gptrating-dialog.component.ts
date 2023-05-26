@@ -1,5 +1,8 @@
 import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import {
+  MatLegacyDialog as MatDialog,
+  MatLegacyDialogRef as MatDialogRef,
+} from '@angular/material/legacy-dialog';
 import { MatIcon } from '@angular/material/icon';
 import { GptService } from 'app/services/http/gpt.service';
 import { Observable, map } from 'rxjs';

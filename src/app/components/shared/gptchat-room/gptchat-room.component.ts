@@ -9,7 +9,7 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { GPTEncoder } from 'app/gpt-encoder/GPTEncoder';
 import { Room } from 'app/models/room';
@@ -46,7 +46,7 @@ import { GptOptInPrivacyComponent } from '../_dialogs/gpt-optin-privacy/gpt-opti
 import { IntroductionPromptGuideChatbotComponent } from '../_dialogs/introductions/introduction-prompt-guide-chatbot/introduction-prompt-guide-chatbot.component';
 import { ArsComposeService } from '../../../../../projects/ars/src/lib/services/ars-compose.service';
 import { HeaderService } from '../../../services/util/header.service';
-import { MatMenu } from '@angular/material/menu';
+import { MatLegacyMenu as MatMenu } from '@angular/material/legacy-menu';
 import {
   PresetsDialogComponent,
   PresetsDialogType,
@@ -111,7 +111,6 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild(ViewCommentDataComponent)
   commentData: ViewCommentDataComponent;
   @ViewChild('lengthSubMenu') lengthSubMenu: MatMenu;
-  @Input() private owningComment: ForumComment;
   conversation: ConversationEntry[] = [];
   isSending = false;
   renewIndex = null;
@@ -187,6 +186,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
   private _list: ComponentRef<any>[];
   private _preset: GPTRoomPreset;
   private keywordExtractor: KeywordExtractor;
+  @Input() private owningComment: ForumComment;
 
   constructor(
     private gptService: GptService,

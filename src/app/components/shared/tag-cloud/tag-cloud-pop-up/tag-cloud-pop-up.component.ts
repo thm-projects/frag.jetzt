@@ -20,7 +20,7 @@ import { FormControl } from '@angular/forms';
 import { TSMap } from 'typescript-map';
 import { CommentService } from '../../../../services/http/comment.service';
 import { NotificationService } from '../../../../services/util/notification.service';
-import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { MatLegacyAutocompleteTrigger as MatAutocompleteTrigger } from '@angular/material/legacy-autocomplete';
 import { UserRole } from '../../../../models/user-roles.enum';
 import { SpacyKeyword } from '../../../../services/http/spacy.service';
 import { Router } from '@angular/router';
@@ -39,7 +39,8 @@ const CLOSE_TIME = 100;
   templateUrl: './tag-cloud-pop-up.component.html',
   styleUrls: ['./tag-cloud-pop-up.component.scss'],
 })
-export class TagCloudPopUpComponent implements OnInit, AfterViewInit, OnDestroy {
+export class TagCloudPopUpComponent
+  implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('popupContainer') popupContainer: ElementRef;
   @ViewChild(MatAutocompleteTrigger) trigger: MatAutocompleteTrigger;
   @Input() room: Room;
@@ -269,7 +270,7 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit, OnDestroy 
       return false;
     }
     const tag = this.replacementInput.value.trim();
-    if (this.isBrainstorming){
+    if (this.isBrainstorming) {
       return !(tag.length < 1 || tag === this.brainstormingData.preview);
     }
     return !(tag.length < 1 || tag === this.tag);
@@ -292,11 +293,11 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit, OnDestroy 
       return;
     }
     const tagReplacementInput = this.replacementInput.value.trim();
-    if (this.isBrainstorming){
+    if (this.isBrainstorming) {
       const changes = {
         correctedWord: tagReplacementInput,
       };
-      this.brainstormingData.words.forEach(wordId => {
+      this.brainstormingData.words.forEach((wordId) => {
         this.brainstormingService.patchWord(wordId, changes).subscribe();
       });
       this.close(false);

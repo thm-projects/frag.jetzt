@@ -2,24 +2,26 @@ import { LanguagetoolResult } from '../../../services/http/languagetool.service'
 import { QuillEditorComponent } from 'ngx-quill';
 
 class ContentIndexFinder {
-
   private opIndex = 0;
   private contentOffset = 0;
   private textOffset = 0;
 
-  constructor(private contentOps) {
-  }
+  constructor(private contentOps) {}
 
   adjustTextIndexes(startIndex: number, length: number): [number, number] {
     const endIndex = startIndex + length;
-    let textLen = typeof this.contentOps[this.opIndex]['insert'] === 'string' ?
-      this.contentOps[this.opIndex]['insert'].length : 0;
+    let textLen =
+      typeof this.contentOps[this.opIndex]['insert'] === 'string'
+        ? this.contentOps[this.opIndex]['insert'].length
+        : 0;
     while (textLen === 0 || this.textOffset + textLen < startIndex) {
       this.textOffset += textLen;
       this.contentOffset += textLen === 0 ? 1 : textLen;
       ++this.opIndex;
-      textLen = typeof this.contentOps[this.opIndex]['insert'] === 'string' ?
-        this.contentOps[this.opIndex]['insert'].length : 0;
+      textLen =
+        typeof this.contentOps[this.opIndex]['insert'] === 'string'
+          ? this.contentOps[this.opIndex]['insert'].length
+          : 0;
     }
     const diff = this.contentOffset - this.textOffset;
     startIndex += diff;
@@ -27,8 +29,10 @@ class ContentIndexFinder {
       this.textOffset += textLen;
       this.contentOffset += textLen === 0 ? 1 : textLen;
       ++this.opIndex;
-      textLen = typeof this.contentOps[this.opIndex]['insert'] === 'string' ?
-        this.contentOps[this.opIndex]['insert'].length : 0;
+      textLen =
+        typeof this.contentOps[this.opIndex]['insert'] === 'string'
+          ? this.contentOps[this.opIndex]['insert'].length
+          : 0;
     }
     length += this.contentOffset - this.textOffset - diff;
     return [startIndex, length];
@@ -36,13 +40,13 @@ class ContentIndexFinder {
 }
 
 export class Marks {
-
   private textErrors: Mark[] = [];
 
-  constructor(private markContainer: HTMLDivElement,
-              private tooltipContainer: HTMLDivElement,
-              private editor: QuillEditorComponent) {
-  }
+  constructor(
+    private markContainer: HTMLDivElement,
+    private tooltipContainer: HTMLDivElement,
+    private editor: QuillEditorComponent,
+  ) {}
 
   clear() {
     for (const textError of this.textErrors) {
@@ -52,7 +56,8 @@ export class Marks {
   }
 
   onClick(index: number) {
-    const editorRect = this.editor.editorElem.firstElementChild.getBoundingClientRect();
+    const editorRect =
+      this.editor.editorElem.firstElementChild.getBoundingClientRect();
     for (const textError of this.textErrors) {
       textError.close();
       if (index !== null) {
@@ -80,9 +85,14 @@ export class Marks {
   buildErrors(initialText: string, res: LanguagetoolResult): void {
     this.onClick(null);
     this.clear();
-    const indexFinder = new ContentIndexFinder(this.editor.quillEditor.getContents().ops);
+    const indexFinder = new ContentIndexFinder(
+      this.editor.quillEditor.getContents().ops,
+    );
     for (const match of res.matches) {
-      const [start, len] = indexFinder.adjustTextIndexes(match.offset, match.length);
+      const [start, len] = indexFinder.adjustTextIndexes(
+        match.offset,
+        match.length,
+      );
       this.createMark(start, len, match);
     }
     this.sync();
@@ -90,7 +100,8 @@ export class Marks {
 
   sync(): void {
     const parentRect = this.markContainer.getBoundingClientRect();
-    const editorRect = this.editor.editorElem.firstElementChild.getBoundingClientRect();
+    const editorRect =
+      this.editor.editorElem.firstElementChild.getBoundingClientRect();
     for (const error of this.textErrors) {
       error.syncMark(parentRect, editorRect.y - parentRect.y);
     }
@@ -151,9 +162,15 @@ export class Marks {
   }
 
   private createMark(start: number, len: number, dataObject: any) {
-    const newMark = new Mark(start, len, this.markContainer, this.tooltipContainer, this.editor.quillEditor);
+    const newMark = new Mark(
+      start,
+      len,
+      this.markContainer,
+      this.tooltipContainer,
+      this.editor.quillEditor,
+    );
     newMark.setSuggestions(dataObject.replacements, dataObject.message, () => {
-      const index = this.textErrors.findIndex(elem => elem === newMark);
+      const index = this.textErrors.findIndex((elem) => elem === newMark);
       if (index >= 0) {
         this.textErrors.splice(index, 1);
       }
@@ -164,18 +181,18 @@ export class Marks {
 }
 
 class Mark {
-
   public replacements: { value?: string }[];
   public message: string;
   private marks: HTMLSpanElement[] = [];
   private dropdown: HTMLDivElement;
 
-  constructor(public startIndex,
-              public markLength,
-              private markContainer: HTMLDivElement,
-              private tooltipContainer: HTMLDivElement,
-              private quillEditor: any) {
-  }
+  constructor(
+    public startIndex,
+    public markLength,
+    private markContainer: HTMLDivElement,
+    private tooltipContainer: HTMLDivElement,
+    private quillEditor: any,
+  ) {}
 
   syncMark(parentRect: DOMRect, offset: number) {
     const boundaries = this.calculateBoundaries();
@@ -190,11 +207,14 @@ class Mark {
     this.marks.length = boundaries.length;
     for (let i = 0; i < this.marks.length; i++) {
       const current = this.marks[i];
-      const rect = this.quillEditor.getBounds(boundaries[i][0], boundaries[i][1]);
+      const rect = this.quillEditor.getBounds(
+        boundaries[i][0],
+        boundaries[i][1],
+      );
       current.style.setProperty('--width', rect.width + 'px');
       current.style.setProperty('--height', rect.height + 'px');
       current.style.setProperty('--left', rect.left + 'px');
-      current.style.setProperty('--top', (rect.top + offset) + 'px');
+      current.style.setProperty('--top', rect.top + offset + 'px');
     }
   }
 
@@ -208,19 +228,22 @@ class Mark {
       return;
     }
     const boundaries = this.calculateBoundaries();
-    const i = boundaries.findIndex(value => index >= value[0] && index < value[0] + value[1]);
+    const i = boundaries.findIndex(
+      (value) => index >= value[0] && index < value[0] + value[1],
+    );
     this.dropdown.style.display = 'block';
     if (i >= 0) {
       const rangeRect = this.marks[i].getBoundingClientRect();
-      this.dropdown.style.left = (rangeRect.x + rangeRect.width / 2) + 'px';
+      this.dropdown.style.left = rangeRect.x + rangeRect.width / 2 + 'px';
       this.dropdown.style.top = rangeRect.y + 'px';
     } else {
       const bounds = this.quillEditor.getBounds(index);
-      this.dropdown.style.left = (bounds.left + editorOffsetLeft) + 'px';
-      this.dropdown.style.top = (bounds.top + editorOffsetTop) + 'px';
+      this.dropdown.style.left = bounds.left + editorOffsetLeft + 'px';
+      this.dropdown.style.top = bounds.top + editorOffsetTop + 'px';
     }
     this.tooltipContainer.appendChild(this.dropdown);
-    this.dropdown.style.transform = 'translateY(-' + this.dropdown.getBoundingClientRect().height + 'px)';
+    this.dropdown.style.transform =
+      'translateY(-' + this.dropdown.getBoundingClientRect().height + 'px)';
   }
 
   remove() {
@@ -231,7 +254,11 @@ class Mark {
     this.dropdown.remove();
   }
 
-  setSuggestions(replacements: { value?: string }[], message: string, removeMark: () => void): void {
+  setSuggestions(
+    replacements: { value?: string }[],
+    message: string,
+    removeMark: () => void,
+  ): void {
     this.replacements = replacements;
     this.message = message;
     this.dropdown = document.createElement('div');
@@ -248,14 +275,18 @@ class Mark {
         const dropdownElem = document.createElement('span');
         dropdownElem.classList.add('suggestions');
         if (suggestions[j].value.trim().length < 1) {
-          dropdownElem.innerHTML = '<em>\'' + suggestions[j].value + '\'</em>';
+          dropdownElem.innerHTML = "<em>'" + suggestions[j].value + "'</em>";
         } else {
           dropdownElem.innerText = suggestions[j].value;
         }
         this.dropdown.append(dropdownElem);
         dropdownElem.addEventListener('click', () => {
           this.quillEditor.deleteText(this.startIndex, this.markLength, 'user');
-          this.quillEditor.insertText(this.startIndex, suggestions[j].value, 'user');
+          this.quillEditor.insertText(
+            this.startIndex,
+            suggestions[j].value,
+            'user',
+          );
           removeMark();
         });
       }
@@ -263,7 +294,10 @@ class Mark {
   }
 
   private calculateBoundaries(): [start: number, length: number][] {
-    const ops = this.quillEditor.getContents(this.startIndex, this.markLength).ops;
+    const ops = this.quillEditor.getContents(
+      this.startIndex,
+      this.markLength,
+    ).ops;
     const bounds = [];
     let currentIndex = 0;
     for (const op of ops) {
@@ -276,25 +310,40 @@ class Mark {
     return bounds;
   }
 
-  private updateBoundaryForText(op: any, bounds: [number, number][], currentIndex: number) {
+  private updateBoundaryForText(
+    op: any,
+    bounds: [number, number][],
+    currentIndex: number,
+  ) {
     const text = op['insert'];
     let i = text.indexOf('\n');
     let findIndex = 0;
     while (i >= 0) {
       if (i > findIndex) {
-        bounds.push([this.startIndex + findIndex + currentIndex, i - findIndex]);
+        bounds.push([
+          this.startIndex + findIndex + currentIndex,
+          i - findIndex,
+        ]);
       }
       findIndex = i + 1;
       i = text.indexOf('\n', findIndex);
     }
     if (text.length + currentIndex < this.markLength) {
       if (text.length > findIndex) {
-        bounds.push([this.startIndex + findIndex + currentIndex, text.length - findIndex]);
+        bounds.push([
+          this.startIndex + findIndex + currentIndex,
+          text.length - findIndex,
+        ]);
       }
-    } else if (this.markLength > findIndex + currentIndex && text.length > findIndex) {
-      bounds.push([this.startIndex + findIndex + currentIndex, this.markLength - findIndex - currentIndex]);
+    } else if (
+      this.markLength > findIndex + currentIndex &&
+      text.length > findIndex
+    ) {
+      bounds.push([
+        this.startIndex + findIndex + currentIndex,
+        this.markLength - findIndex - currentIndex,
+      ]);
     }
     return text.length;
   }
-
 }

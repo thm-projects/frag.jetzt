@@ -1,24 +1,22 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { LanguageService } from '../../../../services/util/language.service';
 
 @Component({
   selector: 'app-imprint',
   templateUrl: './imprint.component.html',
-  styleUrls: ['./imprint.component.scss']
+  styleUrls: ['./imprint.component.scss'],
 })
 export class ImprintComponent implements OnInit {
   safeURLfrontend: SafeResourceUrl;
   safeURLbackend: SafeResourceUrl;
 
-
   constructor(
     private dialogRef: MatDialogRef<ImprintComponent>,
     private sanitizer: DomSanitizer,
     public languageService: LanguageService,
-  ) {
-  }
+  ) {}
 
   ngOnInit() {
     /**

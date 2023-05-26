@@ -6,10 +6,10 @@ import {
   ViewChild,
 } from '@angular/core';
 import {
-  MAT_DIALOG_DATA,
-  MatDialogRef,
-  MatDialog,
-} from '@angular/material/dialog';
+  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
+  MatLegacyDialogRef as MatDialogRef,
+  MatLegacyDialog as MatDialog,
+} from '@angular/material/legacy-dialog';
 import {
   FormControl,
   FormGroupDirective,
@@ -24,7 +24,7 @@ import { NotificationService } from '../../../../services/util/notification.serv
 import { TranslateService } from '@ngx-translate/core';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { PasswordResetComponent } from '../password-reset/password-reset.component';
-import { MatProgressBar } from '@angular/material/progress-bar';
+import { MatLegacyProgressBar as MatProgressBar } from '@angular/material/legacy-progress-bar';
 import { PasswordGeneratorComponent } from '../password-generator/password-generator.component';
 
 export class RegisterErrorStateMatcher implements ErrorStateMatcher {

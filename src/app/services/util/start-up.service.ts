@@ -9,7 +9,7 @@ import { catchError, map } from 'rxjs/operators';
 import { MatomoTrackingService } from './matomo-tracking.service';
 import { TitleService } from './title.service';
 import { NotifyUnsupportedBrowserComponent } from '../../components/home/_dialogs/notify-unsupported-browser/notify-unsupported-browser.component';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { DeviceInfoService } from './device-info.service';
 import { SessionService } from './session.service';
 import { UserManagementService } from './user-management.service';

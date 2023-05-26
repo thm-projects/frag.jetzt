@@ -1,9 +1,10 @@
-<h2 class="oldtypo-h2">{{ 'room-page.sure' | translate }}</h2>
-<p class="oldtypo-p">{{reallyDeleteText}}</p>
+<h2 class="oldtypo-h2">{{ "room-page.sure" | translate }}</h2>
+<p class="oldtypo-p">{{ reallyDeleteText }}</p>
 <app-dialog-action-buttons
   buttonsLabelSection="content"
   confirmButtonLabel="delete"
-  [confirmButtonType]=confirmButtonType
+  [confirmButtonType]="confirmButtonType"
   [cancelButtonClickAction]="buildCloseDialogActionCallback()"
-  [confirmButtonClickAction]="buildCommentsDeleteActionCallback()"
-></app-dialog-action-buttons>
+  [confirmButtonClickAction]="
+    buildCommentsDeleteActionCallback()
+  "></app-dialog-action-buttons>

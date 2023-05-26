@@ -4,11 +4,9 @@ import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable()
 export class BaseHttpService {
-
   private nextRequest = 0;
 
-  constructor() {
-  }
+  constructor() {}
 
   public handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {

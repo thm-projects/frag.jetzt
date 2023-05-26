@@ -9,28 +9,27 @@ const routes: Routes = [
   {
     path: 'room/:shortId',
     component: RoomParticipantPageComponent,
-    data: { roles: [UserRole.PARTICIPANT] }
+    data: { roles: [UserRole.PARTICIPANT] },
   },
   {
     path: 'room/:shortId/comments',
     component: CommentPageComponent,
-    data: { roles: [UserRole.PARTICIPANT] }
+    data: { roles: [UserRole.PARTICIPANT] },
   },
   {
     path: 'room/:shortId/comment/:commentId',
     component: CommentAnswerComponent,
-    data: { roles: [UserRole.PARTICIPANT] }
+    data: { roles: [UserRole.PARTICIPANT] },
   },
   {
     path: 'room/:shortId/comment/:commentId/conversation',
     component: CommentAnswerComponent,
-    data: { roles: [UserRole.PARTICIPANT] }
-  }
+    data: { roles: [UserRole.PARTICIPANT] },
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class ParticipantRoutingModule {
-}
+export class ParticipantRoutingModule {}

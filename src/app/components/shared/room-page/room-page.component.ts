@@ -19,7 +19,7 @@ import { ArsObserver } from '../../../../../projects/ars/src/lib/models/util/ars
 import { HeaderService } from '../../../services/util/header.service';
 import { ArsComposeService } from '../../../../../projects/ars/src/lib/services/ars-compose.service';
 import { RoomNameSettingsComponent } from '../../creator/_dialogs/room-name-settings/room-name-settings.component';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { RoomDescriptionSettingsComponent } from '../../creator/_dialogs/room-description-settings/room-description-settings.component';
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
 import { TranslateService } from '@ngx-translate/core';

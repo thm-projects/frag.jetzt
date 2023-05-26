@@ -133,14 +133,14 @@
       .go-to {
         padding-left: 0 !important;
         padding-right: 0 !important;
-        color: var(--on-dialog)
+        color: var(--on-dialog);
       }
 
       .remove-btn {
         width: 50px !important;
       }
 
-      @media(max-width: 450px) {
+      @media (max-width: 450px) {
         .message {
           font-size: 14px;
         }

@@ -1,5 +1,4 @@
 :host {
-
   .userActivityIcon {
     display: inline-block;
     /*width: 25px;
@@ -13,7 +12,12 @@
     mask-size: 100% 100%;
   }
 
-  p, h1, h2, h3, h4, h5 {
+  p,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
     padding: 0;
     margin: 0;
   }
@@ -48,12 +52,11 @@
     &:hover * {
       color: white;
     }
-
   }
 
   .questionwall {
     &-icon {
-      font-family: 'Material Icons', serif;
+      font-family: "Material Icons", serif;
       font-weight: normal;
       font-style: normal;
       font-size: 22px;
@@ -66,14 +69,14 @@
     &-header {
       background-color: var(--ars-foreground-color);
       border-bottom: solid 1px var(--ars-border-color);
-      transition:all 0.2s ease-in-out;
+      transition: all 0.2s ease-in-out;
       z-index: 4;
     }
 
     &-footer {
       background-color: var(--ars-foreground-color);
       border-top: solid 1px var(--ars-border-color);
-      transition:all 0.2s ease-in-out;
+      transition: all 0.2s ease-in-out;
       z-index: 54;
 
       > * {
@@ -128,7 +131,6 @@
         > button > * {
           color: darkorange;
         }
-
       }
 
       &-notification {
@@ -318,7 +320,6 @@
       transform: scale(1.5);
     }
   }
-
 }
 
 :host ::ng-deep {
@@ -338,13 +339,13 @@
 
     > p {
       text-align: center;
-      color: #FFFFFF;
+      color: #ffffff;
     }
 
     &-indicator {
       width: 10px;
       height: 10px;
-      background-color: #FFFFFF;
+      background-color: #ffffff;
       border-radius: 2px;
       position: relative;
       left: 50%;
@@ -387,7 +388,7 @@
     bottom: 64px;
     width: 200px;
     height: 200px;
-    animation: popin-qr-overlay 0.2s cubic-bezier(0, .04, 0, 1) both;
+    animation: popin-qr-overlay 0.2s cubic-bezier(0, 0.04, 0, 1) both;
   }
 
   @keyframes popin-qr-overlay {
@@ -492,7 +493,6 @@
   .qw-text-paragraph {
     color: var(--ars-header-color);
   }
-
 }
 
 .selected {

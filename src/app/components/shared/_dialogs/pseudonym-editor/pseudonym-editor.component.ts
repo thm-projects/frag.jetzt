@@ -1,6 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import {
+  MatLegacyDialog as MatDialog,
+  MatLegacyDialogRef as MatDialogRef,
+} from '@angular/material/legacy-dialog';
 import { FormalityType } from 'app/services/http/deep-l.service';
 import { switchMap } from 'rxjs';
 import { DBLocalRoomSettingsService } from '../../../../services/persistence/dblocal-room-settings.service';

@@ -10,7 +10,7 @@ export class Moderator {
     accountId: string = '',
     roomId: string = '',
     loginId: string = '',
-    role: UserRole = UserRole.PARTICIPANT
+    role: UserRole = UserRole.PARTICIPANT,
   ) {
     this.accountId = accountId;
     this.roomId = roomId;

@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { GlobalCountChanged } from 'app/models/global-count-changed';
 import { SessionService } from 'app/services/util/session.service';
 import { StatusInfoComponent } from '../_dialogs/status-info/status-info.component';

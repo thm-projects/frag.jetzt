@@ -4,10 +4,9 @@ import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from './language.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class TitleService {
-
   private _attachment: any = null;
 
   constructor(
@@ -15,7 +14,7 @@ export class TitleService {
     private translateService: TranslateService,
     private languageService: LanguageService,
   ) {
-    this.languageService.getLanguage().subscribe(_ => {
+    this.languageService.getLanguage().subscribe((_) => {
       this.updateTitle();
     });
   }
@@ -32,9 +31,10 @@ export class TitleService {
 
   private updateTitle() {
     const key = this._attachment ? 'title.attach-title' : 'title.default-title';
-    this.translateService.get(key, { attachment: this._attachment }).subscribe(msg => {
-      document.title = msg;
-    });
+    this.translateService
+      .get(key, { attachment: this._attachment })
+      .subscribe((msg) => {
+        document.title = msg;
+      });
   }
-
 }

@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { BrainstormingWord } from 'app/models/brainstorming-word';
 import { Room } from 'app/models/room';
 import { BrainstormingService } from 'app/services/http/brainstorming.service';
@@ -31,10 +31,7 @@ export class BrainstormingBlacklistEditComponent implements OnInit {
 
   addBlacklistWord() {
     this._brainstormingService
-      .createWord(
-        this.room.brainstormingSession.id,
-        this.newBlacklistWord,
-      )
+      .createWord(this.room.brainstormingSession.id, this.newBlacklistWord)
       .pipe(
         switchMap((word) =>
           this._brainstormingService.patchWord(word.id, { banned: true }),

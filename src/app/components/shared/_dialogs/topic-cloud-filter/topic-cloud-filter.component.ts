@@ -1,9 +1,9 @@
 import { Component, Inject, Input, OnDestroy, OnInit } from '@angular/core';
 import {
-  MAT_DIALOG_DATA,
-  MatDialog,
-  MatDialogRef,
-} from '@angular/material/dialog';
+  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
+  MatLegacyDialog as MatDialog,
+  MatLegacyDialogRef as MatDialogRef,
+} from '@angular/material/legacy-dialog';
 import { NotificationService } from '../../../../services/util/notification.service';
 import { EventService } from '../../../../services/util/event.service';
 import { Router } from '@angular/router';
@@ -57,7 +57,7 @@ const FILTER_TYPES = [
   'from-now',
 ] as const;
 
-type FilterTypeKey = typeof FILTER_TYPES[number];
+type FilterTypeKey = (typeof FILTER_TYPES)[number];
 
 @Component({
   selector: 'app-topic-cloud-filter',

@@ -1,14 +1,17 @@
 <!--Are you sure-->
-<h2 class="oldtypo-h2">{{ 'moderators-dialog.sure' | translate }}</h2>
+<h2 class="oldtypo-h2">{{ "moderators-dialog.sure" | translate }}</h2>
 <!--remove moderator-->
-<p class="oldtypo-p">{{ 'moderators-dialog.really-remove-moderator' | translate }}</p>
+<p class="oldtypo-p">
+  {{ "moderators-dialog.really-remove-moderator" | translate }}
+</p>
 <!--list of moderators-->
-<p class="oldtypo-p">{{loginId}}</p>
+<p class="oldtypo-p">{{ loginId }}</p>
 <app-dialog-action-buttons
   buttonsLabelSection="moderators-dialog"
   confirmButtonLabel="delete"
   cancelButtonLabel="abort"
-  [confirmButtonType]=confirmButtonType
+  [confirmButtonType]="confirmButtonType"
   [cancelButtonClickAction]="buildCloseDialogActionCallback()"
-  [confirmButtonClickAction]="buildModeratorDeleteActionCallback()"
-></app-dialog-action-buttons>
+  [confirmButtonClickAction]="
+    buildModeratorDeleteActionCallback()
+  "></app-dialog-action-buttons>

@@ -2,7 +2,7 @@
   transform: translate(-50%, -100%);
 
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 100%;
     left: 50%;
@@ -13,7 +13,7 @@
   }
 
   &::after {
-    content: '';
+    content: "";
     position: absolute;
     top: calc(100% - 1px);
     left: 50%;
@@ -27,7 +27,7 @@
     transform: translateX(-50%);
 
     &::before {
-      content: '';
+      content: "";
       position: absolute;
       top: -10px;
       left: 50%;
@@ -38,7 +38,7 @@
     }
 
     &::after {
-      content: '';
+      content: "";
       position: absolute;
       top: -9px;
       left: 50%;

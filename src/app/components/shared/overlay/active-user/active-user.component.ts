@@ -8,10 +8,9 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-active-user',
   templateUrl: './active-user.component.html',
-  styleUrls: ['./active-user.component.scss']
+  styleUrls: ['./active-user.component.scss'],
 })
 export class ActiveUserComponent implements OnInit, OnDestroy {
-
   @Input() room: Room;
   @Input() iconColor: string;
   @Input() foregroundColor: string;
@@ -28,15 +27,14 @@ export class ActiveUserComponent implements OnInit, OnDestroy {
     private headerService: HeaderService,
     private roomDataService: RoomDataService,
     private deviceInfo: DeviceInfoService,
-  ) {
-  }
+  ) {}
 
   ngOnInit(): void {
-    this.deviceInfo.isMobile().subscribe(mobile => {
+    this.deviceInfo.isMobile().subscribe((mobile) => {
       this.showByComponent = !(mobile || this.alwaysShowInHeader);
       this.headerService.toggleCurrentUserActivity(!this.showByComponent);
     });
-    this._sub = this.roomDataService.observeUserCount().subscribe(value => {
+    this._sub = this.roomDataService.observeUserCount().subscribe((value) => {
       this.activeUser = value;
       this.headerService.setCurrentUserActivity(value);
     });
@@ -46,5 +44,4 @@ export class ActiveUserComponent implements OnInit, OnDestroy {
     this.headerService.toggleCurrentUserActivity(false);
     this._sub?.unsubscribe();
   }
-
 }

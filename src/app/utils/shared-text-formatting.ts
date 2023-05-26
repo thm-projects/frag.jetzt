@@ -1,6 +1,6 @@
 export class SharedTextFormatting {
   static getWords(text: string): string[] {
-    return text.split(/\s+/g).filter(e => e.trim().length);
+    return text.split(/\s+/g).filter((e) => e.trim().length);
   }
 
   static getTerm(text: string): string {

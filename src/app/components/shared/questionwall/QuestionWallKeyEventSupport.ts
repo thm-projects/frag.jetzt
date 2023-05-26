@@ -1,10 +1,9 @@
 export class QuestionWallKeyEventSupport {
-
   private keyMap: Map<string, () => void> = new Map<string, () => void>();
   private readonly windowEvent;
 
   constructor() {
-    this.windowEvent = e => {
+    this.windowEvent = (e) => {
       if (this.keyMap.has(e.key)) {
         this.keyMap.get(e.key)();
         e.cancelBubble = true;
@@ -20,5 +19,4 @@ export class QuestionWallKeyEventSupport {
   public destroy() {
     window.removeEventListener('keyup', this.windowEvent);
   }
-
 }

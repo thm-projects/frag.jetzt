@@ -5,17 +5,13 @@ import { CachedSanitizerService } from '../../../../../../app/services/util/cach
 @Component({
   selector: 'app-introduction-tag-cloud-de',
   templateUrl: './introduction-tag-cloud-de.component.html',
-  styleUrls: ['./introduction-tag-cloud-de.component.scss']
+  styleUrls: ['./introduction-tag-cloud-de.component.scss'],
 })
 export class IntroductionTagCloudDEComponent implements OnInit {
-
   constructor(
     public sessionInfo: SessionService,
     public sanitizer: CachedSanitizerService,
-  ) {
-  }
+  ) {}
 
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

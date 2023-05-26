@@ -4,23 +4,20 @@ import { BonusTokenService } from '../http/bonus-token.service';
 import { BonusToken } from '../../models/bonus-token';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class BonusTokenUtilService {
-
   constructor(
     private commentService: CommentService,
-    private bonusTokenService: BonusTokenService
-  ) {
-  }
+    private bonusTokenService: BonusTokenService,
+  ) {}
 
   setQuestionNumber(bts: BonusToken[]): BonusToken[] {
-    bts.forEach(bt => {
-      this.commentService.getComment(bt.commentId).subscribe(comment => {
+    bts.forEach((bt) => {
+      this.commentService.getComment(bt.commentId).subscribe((comment) => {
         bt.questionNumber = comment.number;
       });
     });
     return bts;
   }
 }
-

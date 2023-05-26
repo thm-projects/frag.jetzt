@@ -44,7 +44,10 @@
   background-color: var(--red);
 }
 
-mat-panel-description, mat-panel-title, p, input {
+mat-panel-description,
+mat-panel-title,
+p,
+input {
   color: var(--on-background);
 }
 
@@ -54,7 +57,6 @@ mat-icon {
 
 mat-list-item:hover {
   background-color: rgba(128, 128, 128, 0.2);
-
 }
 
 .color-surface {
@@ -90,7 +92,7 @@ mat-list-item:hover {
 }
 
 label {
-  color: var(--on-surface)
+  color: var(--on-surface);
 }
 
 mat-slide-toggle {
@@ -99,8 +101,9 @@ mat-slide-toggle {
   color: var(--on-surface);
 }
 
-mat-panel-title, mat-panel-description {
-  flex-basis: 0
+mat-panel-title,
+mat-panel-description {
+  flex-basis: 0;
 }
 
 @keyframes animation_blink_5s {
@@ -115,7 +118,7 @@ mat-panel-title, mat-panel-description {
   animation-timing-function: ease-in;
   animation-duration: 2s;
   animation-iteration-count: 2;
-  opacity: 1.0 !important;
+  opacity: 1 !important;
 }
 
 .new-profanity-word .mat-expansion-panel-header-title,
@@ -170,11 +173,21 @@ mat-dialog-content {
   margin-top: 0px;
 }
 
-::ng-deep .ng-animating div mat-accordion mat-expansion-panel mat-expansion-panel-header {
+::ng-deep
+  .ng-animating
+  div
+  mat-accordion
+  mat-expansion-panel
+  mat-expansion-panel-header {
   height: 48px;
 }
 
-::ng-deep .ng-animating div mat-accordion mat-expansion-panel div.mat-expansion-panel-content {
+::ng-deep
+  .ng-animating
+  div
+  mat-accordion
+  mat-expansion-panel
+  div.mat-expansion-panel-content {
   height: 0px;
   visibility: hidden;
 }

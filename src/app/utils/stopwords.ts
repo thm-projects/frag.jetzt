@@ -70,6 +70,7 @@ export const stopWords = [
   'Thema',
   'Subject',
   'Topic',
-  'Sujet'
+  'Sujet',
 ];
-export const superfluousSpecialCharacters = '“”‘’„‚«»‹›『』﹃﹄「」﹁﹂",《》〈〉\'`#&…\\';
+export const superfluousSpecialCharacters =
+  '“”‘’„‚«»‹›『』﹃﹄「」﹁﹂",《》〈〉\'`#&…\\';

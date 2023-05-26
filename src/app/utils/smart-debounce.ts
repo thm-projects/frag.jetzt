@@ -31,7 +31,10 @@ export class SmartDebounce {
         this.debounceTimer = setTimeout(callFunc, this.minDelay);
       }
     } else {
-      this.debounceTimer = setTimeout(callFunc, Math.max(this.minDelay, this.maxDelay - diff));
+      this.debounceTimer = setTimeout(
+        callFunc,
+        Math.max(this.minDelay, this.maxDelay - diff),
+      );
     }
   }
 }

@@ -4,11 +4,7 @@ export class Bookmark {
   roomId: string;
   commentId: string;
 
-  constructor(
-    accountId = '',
-    roomId = '',
-    commentId = ''
-  ) {
+  constructor(accountId = '', roomId = '', commentId = '') {
     this.accountId = accountId;
     this.roomId = roomId;
     this.commentId = commentId;

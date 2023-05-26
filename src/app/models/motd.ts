@@ -1,5 +1,4 @@
 export class Motd {
-
   public date: string;
   private readonly fallbackKey: string;
 
@@ -18,5 +17,4 @@ export class Motd {
     const message = this.messages[language]?.message;
     return message ?? this.messages[this.fallbackKey]?.message;
   }
-
 }

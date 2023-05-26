@@ -4,12 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { ThemeDirective } from './theme.directive';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule
-  ],
+  imports: [CommonModule, FormsModule],
   declarations: [ThemeDirective],
   exports: [ThemeDirective],
 })
-export class ThemeModule {
-}
+export class ThemeModule {}

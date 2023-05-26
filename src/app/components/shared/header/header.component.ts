@@ -10,7 +10,7 @@ import { NotificationService } from '../../../services/util/notification.service
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserRole } from '../../../models/user-roles.enum';
 import { TranslateService } from '@ngx-translate/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { LoginComponent } from '../login/login.component';
 import { DeleteAccountComponent } from '../_dialogs/delete-account/delete-account.component';
 import { UserService } from '../../../services/http/user.service';
@@ -40,7 +40,7 @@ import {
 import { StartUpService } from '../../../services/util/start-up.service';
 import { BrainstormingDataService } from 'app/services/util/brainstorming-data.service';
 import { Theme } from 'theme/Theme';
-import { MatMenu } from '@angular/material/menu';
+import { MatLegacyMenu as MatMenu } from '@angular/material/legacy-menu';
 import { LanguageService } from 'app/services/util/language.service';
 import {
   getBrainstormingURL,

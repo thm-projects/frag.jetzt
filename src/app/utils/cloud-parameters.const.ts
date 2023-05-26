@@ -25,7 +25,7 @@ export const LIGHT_THEME: DefaultCloudParameters = {
   w9: 'darkorange',
   w10: 'red',
   backgroundColor: 'var(--background, moccasin)',
-  hoverColor: 'var(--black, black)'
+  hoverColor: 'var(--black, black)',
 };
 
 export const DARK_THEME: DefaultCloudParameters = {
@@ -40,5 +40,5 @@ export const DARK_THEME: DefaultCloudParameters = {
   w9: 'Tomato',
   w10: 'red',
   backgroundColor: 'var(--background, #121212)',
-  hoverColor: 'var(--white, white)'
+  hoverColor: 'var(--white, white)',
 };

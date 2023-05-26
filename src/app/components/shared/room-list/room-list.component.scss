@@ -10,13 +10,17 @@ button {
   color: var(--on-surface) !important;
 }
 
-table, th, tr, td {
+table,
+th,
+tr,
+td {
   background-color: var(--primary-variant) !important;
   color: var(--on-primary-variant) !important;
   hyphens: auto;
 }
 
-th, tr {
+th,
+tr {
   font-size: small !important;
 }
 

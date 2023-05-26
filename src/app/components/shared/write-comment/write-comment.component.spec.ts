@@ -2,14 +2,14 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { WriteCommentComponent } from './write-comment.component';
 import { ArsModule } from '../../../../../projects/ars/src/lib/ars.module';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { TranslateServiceMock } from '../../../services/mocks/translate.service.mock';
 import { DeepLService } from '../../../services/http/deep-l.service';
 import { LanguagetoolService } from '../../../services/http/languagetool.service';
 import { LanguageService } from '../../../services/util/language.service';
 import { NotificationService } from '../../../services/util/notification.service';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatLegacySnackBarModule as MatSnackBarModule } from '@angular/material/legacy-snack-bar';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { RoomService } from '../../../services/http/room.service';
@@ -55,10 +55,7 @@ describe('WriteCommentComponent', () => {
         DataStoreService,
         ModeratorService,
       ],
-      declarations: [
-        WriteCommentComponent,
-        TranslatePipe,
-      ]
+      declarations: [WriteCommentComponent, TranslatePipe],
     }).compileComponents();
   });
 
@@ -77,7 +74,9 @@ describe('WriteCommentComponent', () => {
     component.questionerNameFormControl.updateValueAndValidity();
     expect(component.questionerNameFormControl.valid).toBeTruthy();
 
-    component.questionerNameFormControl.setValue('5Zexkv95t4v5SKLdZkpS0AMjP6gl1H');
+    component.questionerNameFormControl.setValue(
+      '5Zexkv95t4v5SKLdZkpS0AMjP6gl1H',
+    );
     component.questionerNameFormControl.updateValueAndValidity();
     expect(component.questionerNameFormControl.valid).toBeTruthy();
   });
@@ -87,7 +86,9 @@ describe('WriteCommentComponent', () => {
     component.questionerNameFormControl.updateValueAndValidity();
     expect(component.questionerNameFormControl.valid).toBeFalsy();
 
-    component.questionerNameFormControl.setValue('5Zexkv95t4v5SKLdZkpS0AMjP6gl1Ha');
+    component.questionerNameFormControl.setValue(
+      '5Zexkv95t4v5SKLdZkpS0AMjP6gl1Ha',
+    );
     component.questionerNameFormControl.updateValueAndValidity();
     expect(component.questionerNameFormControl.valid).toBeFalsy();
   });

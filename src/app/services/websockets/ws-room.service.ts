@@ -4,14 +4,10 @@ import { Observable } from 'rxjs';
 import { IMessage } from '@stomp/stompjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class WsRoomService {
-
-  constructor(
-    private wsConnector: WsConnectorService,
-  ) {
-  }
+  constructor(private wsConnector: WsConnectorService) {}
 
   getRoomStream(roomId: string): Observable<IMessage> {
     return this.wsConnector.getWatcher(`/topic/${roomId}.room.stream`);

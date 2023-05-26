@@ -1,14 +1,14 @@
 {
-    "env": {
-        "name": "dev"
-    },
+  "env": {
+    "name": "dev"
+  },
 
-    "authentication": {
-        "lecturer": {
-            "allowGuest": true
-        },
-        "student": {
-            "allowGuest": true
-        }
+  "authentication": {
+    "lecturer": {
+      "allowGuest": true
+    },
+    "student": {
+      "allowGuest": true
     }
+  }
 }

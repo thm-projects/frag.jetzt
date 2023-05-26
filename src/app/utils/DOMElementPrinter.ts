@@ -9,7 +9,11 @@ export class DOMElementPrinter {
     this.refresh();
   }
 
-  static printOnce(elem: HTMLElement, title: string, background: string = null) {
+  static printOnce(
+    elem: HTMLElement,
+    title: string,
+    background: string = null,
+  ) {
     const printer = new DOMElementPrinter(elem);
     printer.print(title, background);
     printer.clean();
@@ -34,22 +38,27 @@ export class DOMElementPrinter {
   refresh() {
     DOMElementPrinter.clean(this.iframe.contentDocument.head);
     DOMElementPrinter.clean(this.iframe.contentDocument.body);
-    document.querySelectorAll('link[rel="stylesheet"], style').forEach(node => {
-      const cloned = node.cloneNode(true);
-      this.iframe.contentDocument.head.appendChild(cloned);
-      if ((cloned as HTMLElement).tagName === 'STYLE') {
-        const styleDoc = (node as HTMLStyleElement).sheet.cssRules;
-        const newStyleDoc = (cloned as HTMLStyleElement).sheet;
-        if (newStyleDoc.cssRules.length !== styleDoc.length) {
-          while (newStyleDoc.cssRules.length) {
-            newStyleDoc.deleteRule(0);
-          }
-          for (let i = 0; i < styleDoc.length; i++) {
-            newStyleDoc.insertRule(styleDoc.item(i).cssText, newStyleDoc.cssRules.length);
+    document
+      .querySelectorAll('link[rel="stylesheet"], style')
+      .forEach((node) => {
+        const cloned = node.cloneNode(true);
+        this.iframe.contentDocument.head.appendChild(cloned);
+        if ((cloned as HTMLElement).tagName === 'STYLE') {
+          const styleDoc = (node as HTMLStyleElement).sheet.cssRules;
+          const newStyleDoc = (cloned as HTMLStyleElement).sheet;
+          if (newStyleDoc.cssRules.length !== styleDoc.length) {
+            while (newStyleDoc.cssRules.length) {
+              newStyleDoc.deleteRule(0);
+            }
+            for (let i = 0; i < styleDoc.length; i++) {
+              newStyleDoc.insertRule(
+                styleDoc.item(i).cssText,
+                newStyleDoc.cssRules.length,
+              );
+            }
           }
         }
-      }
-    });
+      });
     this.iframe.contentDocument.body.appendChild(this.parent.cloneNode(true));
   }
 }

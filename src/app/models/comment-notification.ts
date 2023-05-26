@@ -12,7 +12,7 @@ export class CommentNotification {
     roomId: string = null,
     notificationSetting: number = 0,
     createdAt = new Date(),
-    updatedAt: Date = null
+    updatedAt: Date = null,
   ) {
     this.id = id;
     this.accountId = accountId;
@@ -21,5 +21,4 @@ export class CommentNotification {
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
   }
-
 }

@@ -1,21 +1,23 @@
-import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
 import { RoomDataService } from '../../../services/util/room-data.service';
 
 @Component({
   selector: 'app-uiregistration',
   templateUrl: './uiregistration.component.html',
-  styleUrls: ['./uiregistration.component.scss']
+  styleUrls: ['./uiregistration.component.scss'],
 })
 export class UIRegistrationComponent implements OnInit, OnDestroy, OnChanges {
-
   @Input()
   commentId: string;
 
-  constructor(
-    private roomDataService: RoomDataService,
-  ) {
-  }
-
+  constructor(private roomDataService: RoomDataService) {}
 
   ngOnInit(): void {
     // on changes are going to handle init
@@ -46,5 +48,4 @@ export class UIRegistrationComponent implements OnInit, OnDestroy, OnChanges {
     }
     this.roomDataService.unregisterUI(id, this);
   }
-
 }

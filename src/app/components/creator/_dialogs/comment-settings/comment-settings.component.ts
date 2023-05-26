@@ -1,5 +1,9 @@
 import { Component, Inject, Input, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import {
+  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
+  MatLegacyDialog as MatDialog,
+  MatLegacyDialogRef as MatDialogRef,
+} from '@angular/material/legacy-dialog';
 import { RoomCreatorPageComponent } from '../../room-creator-page/room-creator-page.component';
 import { NotificationService } from '../../../../services/util/notification.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -12,10 +16,9 @@ import { CommentSettingsDialog } from '../../../../models/comment-settings-dialo
 @Component({
   selector: 'app-comment-settings',
   templateUrl: './comment-settings.component.html',
-  styleUrls: ['./comment-settings.component.scss']
+  styleUrls: ['./comment-settings.component.scss'],
 })
 export class CommentSettingsComponent implements OnInit {
-
   @Input() editRoom: Readonly<Room>;
   settingThreshold = false;
   commentThreshold = -100;
@@ -29,9 +32,8 @@ export class CommentSettingsComponent implements OnInit {
     protected roomService: RoomService,
     public router: Router,
     public commentService: CommentService,
-    @Inject(MAT_DIALOG_DATA) public data: any
-  ) {
-  }
+    @Inject(MAT_DIALOG_DATA) public data: any,
+  ) {}
 
   ngOnInit() {
     if (this.editRoom.threshold !== null) {
@@ -50,12 +52,13 @@ export class CommentSettingsComponent implements OnInit {
   }
 
   closeDialog(): void {
-    this.dialogRef.close(new CommentSettingsDialog(
-      this.settingThreshold ? this.commentThreshold : 0,
-      this.directSend
-    ));
+    this.dialogRef.close(
+      new CommentSettingsDialog(
+        this.settingThreshold ? this.commentThreshold : 0,
+        this.directSend,
+      ),
+    );
   }
-
 
   /**
    * Returns a lambda which closes the dialog on call.
@@ -63,7 +66,6 @@ export class CommentSettingsComponent implements OnInit {
   buildCloseDialogActionCallback(): () => void {
     return () => this.dialogRef.close('abort');
   }
-
 
   /**
    * Returns a lambda which executes the dialog dedicated action on call.

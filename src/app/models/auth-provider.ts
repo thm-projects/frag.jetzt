@@ -5,5 +5,5 @@ export enum AuthProvider {
   CAS,
   GOOGLE,
   FACEBOOK,
-  TWITTER
+  TWITTER,
 }

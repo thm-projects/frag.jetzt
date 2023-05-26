@@ -1,7 +1,10 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { UserRole } from '../../../../models/user-roles.enum';
 import { DeviceInfoService } from '../../../../services/util/device-info.service';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import {
+  MatLegacyDialog as MatDialog,
+  MatLegacyDialogRef as MatDialogRef,
+} from '@angular/material/legacy-dialog';
 import { FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SessionService } from '../../../../services/util/session.service';
@@ -14,7 +17,10 @@ import { CommentService } from '../../../../services/http/comment.service';
 import { ExplanationDialogComponent } from '../explanation-dialog/explanation-dialog.component';
 import { BrainstormingService } from '../../../../services/http/brainstorming.service';
 import { BrainstormingSession } from '../../../../models/brainstorming-session';
-import { AVAILABLE_LANGUAGES, LanguageService } from 'app/services/util/language.service';
+import {
+  AVAILABLE_LANGUAGES,
+  LanguageService,
+} from 'app/services/util/language.service';
 
 @Component({
   selector: 'app-topic-cloud-brainstorming',
@@ -66,9 +72,10 @@ export class TopicCloudBrainstormingComponent implements OnInit, OnDestroy {
     private brainstormingService: BrainstormingService,
     private languageService: LanguageService,
   ) {
-    this.language = new FormControl(languageService.currentLanguage() || this.languages[0], [
-      Validators.required,
-    ]);
+    this.language = new FormControl(
+      languageService.currentLanguage() || this.languages[0],
+      [Validators.required],
+    );
   }
 
   cancelButtonActionCallback(): () => void {

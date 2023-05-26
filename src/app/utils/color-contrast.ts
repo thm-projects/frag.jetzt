@@ -21,13 +21,12 @@ const HSLIndexes = [
   [1, 2],
   [2, 1],
   [2, 0],
-  [0, 2]
+  [0, 2],
 ] as const;
 
 const WCAGLuminanceCoefficients = [0.2126, 0.7152, 0.0722] as const;
 
 export class ColorContrast {
-
   /**
    * Definition after <a href="https://www.w3.org/TR/WCAG21/#dfn-relative-luminance">W3 - WCAG 2.1</a>
    *
@@ -49,11 +48,7 @@ export class ColorContrast {
     if (!match) {
       console.error('Could not match str!', str);
     }
-    return [
-      Number(match[1]),
-      Number(match[2]),
-      Number(match[3]),
-    ] as ColorRGB;
+    return [Number(match[1]), Number(match[2]), Number(match[3])] as ColorRGB;
   }
 
   static rgbToHex(color: ColorRGB) {
@@ -65,7 +60,7 @@ export class ColorContrast {
     return [
       parseInt(hexStr.substring(1, 3), 16),
       parseInt(hexStr.substring(3, 5), 16),
-      parseInt(hexStr.substring(5, 7), 16)
+      parseInt(hexStr.substring(5, 7), 16),
     ] as ColorRGB;
   }
 
@@ -76,10 +71,7 @@ export class ColorContrast {
    * @param secondColor the second rgb color
    * @returns the relative luminance in 1:1 till 21:1
    */
-  static getWCAGContrast(
-    firstColor: ColorRGB,
-    secondColor: ColorRGB
-  ): number {
+  static getWCAGContrast(firstColor: ColorRGB, secondColor: ColorRGB): number {
     const firstL = this.getWCAGRelativeLuminance(this.rgbToSrgb(firstColor));
     const secondL = this.getWCAGRelativeLuminance(this.rgbToSrgb(secondColor));
     const l1 = Math.max(firstL, secondL);
@@ -116,34 +108,52 @@ export class ColorContrast {
     return [hue, saturation, lightness];
   }
 
-
   /**
    * @param color an rgb color
    * @param fallbackHue in [0, 360]
    * @param contrastRatio in [1, 21]
    */
-  static getInvertedColor(color: ColorRGB, fallbackHue: number = 0, contrastRatio: number = 4.5): ColorRGB {
+  static getInvertedColor(
+    color: ColorRGB,
+    fallbackHue: number = 0,
+    contrastRatio: number = 4.5,
+  ): ColorRGB {
     const [h, s, l] = this.RGBToHSLuma(color, fallbackHue);
     const invertedHue = (180 + h) % 360;
     const ensureBoundaries = (x: number) => Math.max(0, Math.min(1, x));
-    const lighter = ensureBoundaries(l * contrastRatio + 0.05 * (contrastRatio - 1));
+    const lighter = ensureBoundaries(
+      l * contrastRatio + 0.05 * (contrastRatio - 1),
+    );
     const darker = ensureBoundaries((l + 0.05) / contrastRatio - 0.05);
     const lighterContrast = (lighter + 0.05) / (l + 0.05);
     const darkerContrast = (l + 0.05) / (darker + 0.05);
-    return ColorContrast.HSLumaToRGB([invertedHue, s, lighterContrast > darkerContrast ? lighter : darker]);
+    return ColorContrast.HSLumaToRGB([
+      invertedHue,
+      s,
+      lighterContrast > darkerContrast ? lighter : darker,
+    ]);
   }
 
   public static rgbToSrgb(color: ColorRGB): ColorSRGB {
-    const computeSRGB = (v: number) => v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
-    return color.map(v => computeSRGB(v / 255)) as [red: number, green: number, blue: number];
+    const computeSRGB = (v: number) =>
+      v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+    return color.map((v) => computeSRGB(v / 255)) as [
+      red: number,
+      green: number,
+      blue: number,
+    ];
   }
 
   private static srgbToRgb(color: ColorSRGB): ColorRGB {
-    const computeRGB = (v: number) => v < 0.00304 ? v * 12.92 : Math.pow(v, 1 / 2.4) * 1.055 - 0.055;
-    return color.map(v => Math.round(computeRGB(v) * 255)) as ColorRGB;
+    const computeRGB = (v: number) =>
+      v < 0.00304 ? v * 12.92 : Math.pow(v, 1 / 2.4) * 1.055 - 0.055;
+    return color.map((v) => Math.round(computeRGB(v) * 255)) as ColorRGB;
   }
 
-  private static RGBToHSLuma(color: ColorRGB, fallbackHue: number = 0): ColorHSLuma {
+  private static RGBToHSLuma(
+    color: ColorRGB,
+    fallbackHue: number = 0,
+  ): ColorHSLuma {
     const srgb = this.rgbToSrgb(color);
     const [sr, sg, sb] = srgb;
     const max = Math.max(sr, sg, sb);
@@ -176,7 +186,7 @@ export class ColorContrast {
   private static HSLumaToRGB(color: ColorHSLuma) {
     const [h, s, luma] = color;
     const hueSub = h / 60;
-    const hueRatio = 1 - Math.abs(hueSub % 2 - 1);
+    const hueRatio = 1 - Math.abs((hueSub % 2) - 1);
     const truncatedHue = Math.trunc(hueSub);
     const indexes = HSLIndexes[truncatedHue];
     const f_1 = WCAGLuminanceCoefficients[indexes[0]];
@@ -200,8 +210,7 @@ export class ColorContrast {
     result[indexes[0]] = chromaticRange;
     result[indexes[1]] = x;
     const m = l - chromaticRange / 2;
-    const srgb = result.map(el => el + m) as ColorSRGB;
+    const srgb = result.map((el) => el + m) as ColorSRGB;
     return this.srgbToRgb(srgb);
   }
-
 }

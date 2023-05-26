@@ -6,7 +6,11 @@ import { ModeratorCommentListComponent } from './moderator-comment-list/moderato
 import { ModeratorCommentPageComponent } from './moderator-comment-page/moderator-comment-page.component';
 import { EssentialsModule } from '../essentials/essentials.module';
 import { SharedModule } from '../shared/shared.module';
-import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import {
+  TranslateLoader,
+  TranslateModule,
+  TranslateService,
+} from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { MarkdownModule } from 'ngx-markdown';
@@ -15,7 +19,8 @@ import { ModeratorJoinComponent } from './moderator-join/moderator-join.componen
 import { LanguageService } from '../../services/util/language.service';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
-export const HttpLoaderFactory = (http: HttpClient) => new TranslateHttpLoader(http, '../../assets/i18n/creator/', '.json');
+export const HttpLoaderFactory = (http: HttpClient) =>
+  new TranslateHttpLoader(http, '../../assets/i18n/creator/', '.json');
 
 @NgModule({
   imports: [
@@ -26,30 +31,28 @@ export const HttpLoaderFactory = (http: HttpClient) => new TranslateHttpLoader(h
     TranslateModule.forChild({
       loader: {
         provide: TranslateLoader,
-        useFactory: (HttpLoaderFactory),
-        deps: [HttpClient]
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient],
       },
-      isolate: true
+      isolate: true,
     }),
     MarkdownModule,
-    ArsModule
+    ArsModule,
   ],
   declarations: [
     RoomModeratorPageComponent,
     ModeratorCommentListComponent,
     ModeratorCommentPageComponent,
-    ModeratorJoinComponent
-  ]
+    ModeratorJoinComponent,
+  ],
 })
 export class ModeratorModule {
-
   constructor(
     private languageService: LanguageService,
     private translateService: TranslateService,
   ) {
-    this.languageService.getLanguage().subscribe(lang => {
+    this.languageService.getLanguage().subscribe((lang) => {
       this.translateService.use(lang);
     });
   }
-
 }

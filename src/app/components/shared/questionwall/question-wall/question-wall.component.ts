@@ -13,17 +13,15 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Rescale } from '../../../../models/rescale';
 import { QuestionWallKeyEventSupport } from '../QuestionWallKeyEventSupport';
-import { MatSliderChange } from '@angular/material/slider';
+import { MatLegacySliderChange as MatSliderChange } from '@angular/material/legacy-slider';
 import { RoomDataService } from '../../../../services/util/room-data.service';
 import { User } from '../../../../models/user';
 import { UserRole } from '../../../../models/user-roles.enum';
 import { SessionService } from '../../../../services/util/session.service';
 import { Room } from '../../../../models/room';
 import { mergeMap } from 'rxjs/operators';
-import { MatDialog } from '@angular/material/dialog';
-import {
-  IntroductionQuestionWallComponent,
-} from '../../_dialogs/introductions/introduction-question-wall/introduction-question-wall.component';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { IntroductionQuestionWallComponent } from '../../_dialogs/introductions/introduction-question-wall/introduction-question-wall.component';
 import {
   BrainstormingFilter,
   FilterType,
@@ -38,7 +36,7 @@ import { HeaderService } from '../../../../services/util/header.service';
 import { ForumComment } from '../../../../utils/data-accessor';
 import { UserManagementService } from '../../../../services/util/user-management.service';
 import { RowComponent } from '../../../../../../projects/ars/src/lib/components/layout/frame/row/row.component';
-import { PageEvent } from '@angular/material/paginator';
+import { LegacyPageEvent as PageEvent } from '@angular/material/legacy-paginator';
 
 interface CommentCache {
   [commentId: string]: {

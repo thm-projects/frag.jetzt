@@ -19,14 +19,14 @@ import {
 import { LanguageService } from '../../../services/util/language.service';
 import { TranslateService } from '@ngx-translate/core';
 import { DeviceInfoService } from '../../../services/util/device-info.service';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { QuillInputDialogComponent } from '../_dialogs/quill-input-dialog/quill-input-dialog.component';
 import { Marks } from './view-comment-data.marks';
 import { LanguagetoolResult } from '../../../services/http/languagetool.service';
 import { NotificationService } from '../../../services/util/notification.service';
 import { AccessibilityEscapedInputDirective } from '../../../directives/accessibility-escaped-input.directive';
 import { EventService } from '../../../services/util/event.service';
-import { MatTooltip } from '@angular/material/tooltip';
+import { MatLegacyTooltip as MatTooltip } from '@angular/material/legacy-tooltip';
 import {
   ImmutableStandardDelta,
   QuillUtils,
