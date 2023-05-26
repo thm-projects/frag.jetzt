@@ -524,6 +524,7 @@
     "reset-password-description": "Tu peux réinitialiser ton mot de passe ici.",
     "reset-successful": "Le code de confirmation a été envoyé. Cela peut prendre quelques minutes avant que l'e-mail n'arrive. Vérifie prochainement ta boîte de réception et n'oublie pas de contrôler également le dossier spam si tu ne trouves pas immédiatement le message.",
     "set-button-description": "Crée le nouveau mot de passe pour le compte",
+    "scroll-instruction": "Veillez à utiliser la barre de défilement si le bouton d'enregistrement n'est pas visible",
     "set-new-password": "Définis un nouveau mot de passe à l'aide du code de confirmation que tu as reçu dans ta boîte aux lettres :",
     "set-new-password-button": "Enregistrer le nouveau mot de passe",
     "new-password-is-old": "Le nouveau mot de passe doit être différent de l'ancien."
@@ -559,7 +560,7 @@
     "register": "S'inscrire",
     "register-description": "Terminer l'enregistrement",
     "register-request-error": "Quelque chose s'est mal passé lors de l'enregistrement. Tu t'es peut-être déjà enregistré ?",
-    "register-successful": "Enregistré avec succès. Veuillez vérifier votre messagerie ! L'envoi peut prendre jusqu'à 10min.",
+    "register-successful": "Enregistré avec succès. Veuillez vérifier votre messagerie (dans le dossier spam également)! L'envoi peut prendre jusqu'à 10min.",
     "register-error-password-too-common": "Le mot de passe est composé de chaînes de caractères faciles à deviner ou de chaînes de caractères provenant de listes de mots de passe publiées. Choisis un autre mot de passe ou utilise le générateur de mots de passe.",
     "register-unsuccessful": "Vérifie tes données, s'il te plaît.",
     "password-generator": "Générateur de mots de passe"
