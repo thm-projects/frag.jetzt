@@ -1,107 +1,143 @@
-<div class="header">
+<div
+  class="header"
+  *ngIf="contentContainer.offsetWidth > 1200">
   <button
     mat-flat-button
     (click)="showOutline = !showOutline">
     <span>toggle outline</span>
   </button>
 </div>
-<div class="content">
-  <div
-    class="left-content"
-    *ngIf="showOutline">
-    <div class="header">
-      <mat-form-field [appearance]="'fill'">
-        <mat-label>Select Livepoll</mat-label>
-        <mat-select
-          [panelClass]="'auto-height'"
-          [(ngModel)]="current">
-          <mat-option
-            *ngFor="let entry of entries"
-            [value]="entry">
-            {{ prettyPrintDate(entry.createdAt) }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
+<div
+  class="content"
+  #contentContainer>
+  <ng-container *ngIf="contentContainer.offsetWidth > 1200">
+    <div
+      class="left-content"
+      *ngIf="showOutline">
+      <ng-container *ngTemplateOutlet="outlineContent"></ng-container>
     </div>
-    <div class="content">
-      <ng-container *ngIf="showSelectionList">
-        <ng-container *ngFor="let entry of entries; index as i">
-          <div (click)="current = entries[i]; showSelectionList = false">
-            <p>{{ entry.updatedAt }}</p>
-          </div>
-        </ng-container>
-      </ng-container>
-      <ng-container *ngIf="!showSelectionList">
-        <ng-container *ngIf="current">
-          <div class="header">
-            <button mat-flat-button>
-              <mat-icon>edit</mat-icon>
-              <span>edit</span>
-            </button>
-          </div>
-          <div class="markdown">
-            <markdown
-              *ngIf="current.title"
-              [data]="current.title"></markdown>
-          </div>
-          <ng-container *ngIf="!current.title">
-            <div class="markdown">
-              <p>no title</p>
-            </div>
-          </ng-container>
-        </ng-container>
-        <ng-container *ngIf="!current">
-          <div class="outline-helper-container">
-            <div class="outline-helper-text">This is a helper text</div>
-            <div class="outline-helper-image"></div>
-          </div>
-        </ng-container>
-      </ng-container>
+    <div class="explore">
+      <ng-container *ngTemplateOutlet="exploreContent"></ng-container>
     </div>
-  </div>
-  <div class="explore">
-    <ng-container *ngIf="current">
-      <div class="explore-header-container">
-        <div class="explore-votes">
-          <span class="explore-votes-number">{{ totalVotes }}</span>
-          <span class="explore-votes-flag">votes</span>
+  </ng-container>
+  <ng-container *ngIf="contentContainer.offsetWidth <= 1200">
+    <mat-tab-group
+      style="width: 100%"
+      dynamicHeight>
+      <mat-tab [label]="'markdown'">
+        <div class="tab-container">
+          <ng-container *ngTemplateOutlet="outlineContent"></ng-container>
         </div>
-        <div class="fill"></div>
-        <div class="explore-date">
-          <div class="explore-date-created">
-            <span class="flag">created at</span>
-            <span class="date">{{ prettyPrintDate(current.createdAt) }}</span>
-          </div>
-          <div
-            class="explore-date-edited"
-            *ngIf="current.updatedAt">
-            <span class="flag">updated at</span>
-            <span class="date">{{ prettyPrintDate(current.updatedAt) }}</span>
-          </div>
+      </mat-tab>
+      <mat-tab [label]="'statistics'">
+        <div class="tab-container">
+          <ng-container *ngTemplateOutlet="exploreContent"></ng-container>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </ng-container>
+</div>
+<div
+  class="footer"
+  *ngIf="contentContainer.offsetWidth > 1200"></div>
+
+<ng-template #exploreContent>
+  <ng-container *ngIf="current">
+    <div class="explore-header-container">
+      <div class="explore-votes">
+        <span class="explore-votes-number">{{ totalVotes }}</span>
+        <span class="explore-votes-flag">votes</span>
+      </div>
+      <div class="fill"></div>
+      <div class="explore-date">
+        <div class="explore-date-created">
+          <span class="flag">created at</span>
+          <span class="date">{{ prettyPrintDate(current.createdAt) }}</span>
+        </div>
+        <div
+          class="explore-date-edited"
+          *ngIf="current.updatedAt">
+          <span class="flag">updated at</span>
+          <span class="date">{{ prettyPrintDate(current.updatedAt) }}</span>
         </div>
       </div>
-      <div class="explore-chart">
-        <div class="explore-chart-container">
-          <ng-container *ngIf="options && template && result">
-            <app-livepoll-bar-chart
-              [options]="[options]"
-              [votes]="[result]"
-              [templates]="[template]"></app-livepoll-bar-chart>
-            <!--            <app-livepoll-statistic-->
-            <!--                    [options]="options"-->
-            <!--                    [template]="template"-->
-            <!--                    [translateKey]="'common'"-->
-            <!--                    [votes]="result"-->
-            <!--                    [totalVotes]="totalVotes"></app-livepoll-statistic>-->
-          </ng-container>
+    </div>
+    <div class="explore-chart">
+      <div class="explore-chart-container">
+        <ng-container *ngIf="options && template && result">
+          <!--            <app-livepoll-bar-chart-->
+          <!--              [options]="[options]"-->
+          <!--              [votes]="[result]"-->
+          <!--              [templates]="[template]"></app-livepoll-bar-chart>-->
+          <app-livepoll-statistic
+            [options]="options"
+            [template]="template"
+            [translateKey]="'common'"
+            [votes]="result"
+            [totalVotes]="totalVotes"></app-livepoll-statistic>
+        </ng-container>
+      </div>
+      <div class="explore-chart-option-container">
+        <button mat-flat-button>
+          <span>compare with...</span>
+        </button>
+      </div>
+    </div>
+  </ng-container>
+</ng-template>
+
+<ng-template #outlineContent>
+  <div class="header">
+    <mat-form-field
+      [appearance]="'fill'"
+      [ngStyle]="{
+        width: contentContainer.offsetWidth > 1200
+      }">
+      <mat-label>Select Livepoll</mat-label>
+      <mat-select
+        [panelClass]="'auto-height'"
+        [(ngModel)]="current">
+        <mat-option
+          *ngFor="let entry of entries"
+          [value]="entry">
+          {{ prettyPrintDate(entry.createdAt) }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div class="content">
+    <ng-container *ngIf="showSelectionList">
+      <ng-container *ngFor="let entry of entries; index as i">
+        <div (click)="current = entries[i]; showSelectionList = false">
+          <p>{{ entry.updatedAt }}</p>
         </div>
-        <div class="explore-chart-option-container">
+      </ng-container>
+    </ng-container>
+    <ng-container *ngIf="!showSelectionList">
+      <ng-container *ngIf="current">
+        <div class="header">
           <button mat-flat-button>
-            <span>compare with...</span>
+            <mat-icon>edit</mat-icon>
+            <span>edit</span>
           </button>
         </div>
-      </div>
+        <div class="markdown">
+          <markdown
+            *ngIf="current.title"
+            [data]="current.title"></markdown>
+        </div>
+        <ng-container *ngIf="!current.title">
+          <div class="markdown">
+            <p>no title</p>
+          </div>
+        </ng-container>
+      </ng-container>
+      <ng-container *ngIf="!current">
+        <div class="outline-helper-container">
+          <div class="outline-helper-text">This is a helper text</div>
+          <div class="outline-helper-image"></div>
+        </div>
+      </ng-container>
     </ng-container>
   </div>
-</div>
-<div class="footer"></div>
+</ng-template>

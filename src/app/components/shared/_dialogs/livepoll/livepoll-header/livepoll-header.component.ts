@@ -51,6 +51,7 @@ export class LivepollHeaderComponent implements OnInit, OnDestroy {
       LivepollArchiveComponent,
       {
         panelClass: 'overlay-row',
+        backdropClass: 'overlay-backdrop',
       },
       {
         initial: this.livepollSession,

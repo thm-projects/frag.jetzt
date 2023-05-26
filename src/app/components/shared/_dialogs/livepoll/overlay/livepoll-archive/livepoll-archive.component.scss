@@ -23,6 +23,10 @@ $footer-height: 64px;
   background-color: var(--dialog);
   display: flex;
   flex-direction: column;
+  @media only screen and (max-width: 800px) {
+    max-width: calc(100vw);
+    max-height: calc(100vh);
+  }
 
   > .header {
     height: $header-height;
@@ -175,4 +179,11 @@ $footer-height: 64px;
 }
 
 .outline-helper-text {
+}
+
+.tab-container {
+  display: flex;
+  height: 100vh;
+  padding: 16px;
+  flex-direction: column;
 }

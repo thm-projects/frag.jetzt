@@ -637,6 +637,9 @@ div[markdown] img {
     left: 50%;
     transform: translateX(-50%);
   }
+  &-backdrop {
+    background-color: rgba(0, 0, 0, 1);
+  }
 }
 
 .cdk-overlay-container {
