@@ -265,7 +265,7 @@ export class GptRoomSettingsComponent implements OnInit, OnDestroy {
   }
 
   resetInputField(input, varName) {
-    if (input.toString() == "") {
+    if (input.toString() === "") {
       this[varName] = null;
       console.log('====================================');
       console.log('test');
