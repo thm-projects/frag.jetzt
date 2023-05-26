@@ -1,0 +1,12 @@
+<button
+  *ngIf="status"
+  mat-icon-button
+  (click)="openInfo($event)">
+  <mat-icon
+    class="material-icons"
+    [ngClass]="class"
+    [matTooltip]="'footer.performance-indicator' | translate"
+    [matTooltipPosition]="'above'">
+    monitor_heart
+  </mat-icon>
+</button>

@@ -9,7 +9,8 @@ import { StartUpService } from './services/util/start-up.service';
 import { EventService } from './services/util/event.service';
 import {
   LoginDialogRequest,
-  LoginDialogResponse, MotdDialogRequest,
+  LoginDialogResponse,
+  MotdDialogRequest,
   RescaleRequest,
   RescaleResponse,
   sendEvent,
@@ -19,6 +20,7 @@ import { LoginComponent } from './components/shared/login/login.component';
 import { MotdDialogComponent } from './components/shared/_dialogs/motd-dialog/motd-dialog.component';
 import { Router } from '@angular/router';
 import { DeviceInfoService } from './services/util/device-info.service';
+import { UpdateInfoDialogComponent } from './components/home/_dialogs/update-info-dialog/update-info-dialog.component';
 
 @Component({
   selector: 'app-root',
@@ -26,7 +28,6 @@ import { DeviceInfoService } from './services/util/device-info.service';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-
   public static rescale: Rescale = new Rescale();
   public static instance: AppComponent;
   private static scrollAnimation = true;
@@ -70,24 +71,9 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.update.versionUpdates.pipe(
-      filter(e => e.type === 'VERSION_READY'),
-    ).subscribe(_ => {
-      let install: string;
-      this.translationService.get('home-page.install').subscribe(msg => {
-        install = msg;
-      });
-      this.translationService.get('home-page.update-available').subscribe(msg => {
-        this.notification.show(msg, install, {
-          duration: 5000,
-        });
-      });
-      this.notification.snackRef.afterDismissed().subscribe(info => {
-        if (info.dismissedByAction === true) {
-          window.location.reload();
-        }
-      });
-    });
+    this.update.versionUpdates
+      .pipe(filter((e) => e.type === 'VERSION_READY'))
+      .subscribe((_) => UpdateInfoDialogComponent.open(this.dialog));
   }
 
   public getRescale(): Rescale {
@@ -107,7 +93,8 @@ export class AppComponent implements OnInit {
     } else {
       header.style.marginTop = '0';
     }
-    const height = scroller.scrollHeight - scroller.clientHeight - footer.offsetHeight;
+    const height =
+      scroller.scrollHeight - scroller.clientHeight - footer.offsetHeight;
     if (current > this._lastScrollTop && current < height) {
       footer.style.marginBottom = '-' + footer.offsetHeight + 'px';
     } else {
@@ -117,37 +104,42 @@ export class AppComponent implements OnInit {
   }
 
   private initDialogsForServices() {
-    this.eventService.on<LoginDialogRequest>(LoginDialogRequest.name).subscribe(request => {
-      const dialogRef = this.dialog.open(LoginComponent, {
-        width: '350px'
+    this.eventService
+      .on<LoginDialogRequest>(LoginDialogRequest.name)
+      .subscribe((request) => {
+        const dialogRef = this.dialog.open(LoginComponent, {
+          width: '350px',
+        });
+        dialogRef.componentInstance.redirectUrl = request.redirectUrl;
+        dialogRef.afterClosed().subscribe(() => {
+          sendEvent(this.eventService, new LoginDialogResponse());
+        });
       });
-      dialogRef.componentInstance.redirectUrl = request.redirectUrl;
-      dialogRef.afterClosed().subscribe(() => {
-        sendEvent(this.eventService, new LoginDialogResponse());
+    this.eventService
+      .on<RescaleRequest>(RescaleRequest.name)
+      .subscribe((request) => {
+        let scale;
+        if (request.scale === 'initial') {
+          scale = this.getRescale().getInitialScale();
+        } else {
+          scale = request.scale;
+        }
+        this.getRescale().setScale(scale);
+        sendEvent(this.eventService, new RescaleResponse());
       });
-    });
-    this.eventService.on<RescaleRequest>(RescaleRequest.name).subscribe(request => {
-      let scale;
-      if (request.scale === 'initial') {
-        scale = this.getRescale().getInitialScale();
-      } else {
-        scale = request.scale;
-      }
-      this.getRescale().setScale(scale);
-      sendEvent(this.eventService, new RescaleResponse());
-    });
-    this.eventService.on<MotdDialogRequest>(MotdDialogRequest.name).subscribe(request => {
-      const dialogRef = this.dialog.open(MotdDialogComponent, {
-        width: '80%',
-        maxWidth: '600px',
-        minHeight: '95%',
-        height: '95%',
+    this.eventService
+      .on<MotdDialogRequest>(MotdDialogRequest.name)
+      .subscribe((request) => {
+        const dialogRef = this.dialog.open(MotdDialogComponent, {
+          width: '80%',
+          maxWidth: '600px',
+          minHeight: '95%',
+          height: '95%',
+        });
+        dialogRef.componentInstance.motds = request.motds;
+        dialogRef.afterClosed().subscribe(() => {
+          sendEvent(this.eventService, new LoginDialogResponse());
+        });
       });
-      dialogRef.componentInstance.motds = request.motds;
-      dialogRef.afterClosed().subscribe(() => {
-        sendEvent(this.eventService, new LoginDialogResponse());
-      });
-    });
   }
-
 }

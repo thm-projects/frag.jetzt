@@ -46,12 +46,15 @@ export type GPTRoomSettingAPI = Pick<
   | 'apiOrganization'
   | 'maxDailyRoomCost'
   | 'maxMonthlyRoomCost'
+  | 'maxMonthlyFlowingRoomCost'
   | 'maxAccumulatedRoomCost'
   | 'maxDailyParticipantCost'
   | 'maxMonthlyParticipantCost'
+  | 'maxMonthlyFlowingParticipantCost'
   | 'maxAccumulatedParticipantCost'
   | 'maxDailyModeratorCost'
   | 'maxMonthlyModeratorCost'
+  | 'maxMonthlyFlowingModeratorCost'
   | 'maxAccumulatedModeratorCost'
   | 'rightsBitset'
 >;
@@ -177,6 +180,7 @@ export interface Model {
 export interface GlobalAccessInfo {
   blocked: boolean;
   registered: boolean;
+  globalActive: boolean;
   apiKeyPresent: boolean;
   apiEnabled: boolean;
   apiExpired: boolean;
@@ -187,6 +191,7 @@ export interface GlobalAccessInfo {
 export interface RoomAccessInfo {
   globalInfo: GlobalAccessInfo;
   apiKeyPresent: boolean;
+  roomOwnerRegistered: boolean;
   usingTrial: boolean;
   roomDisabled: boolean;
   moderatorDisabled: boolean;
@@ -199,9 +204,14 @@ export interface RoomAccessInfo {
 
 export type UsageTimeAction = UsageTimeActionDelete | UsageTimeActionAdd;
 
-interface PropmtPresetAdd {
+export interface PropmtPresetAdd {
   act: string;
   prompt: string;
+  language: string;
+  temperature: number;
+  presencePenalty: number;
+  frequencyPenalty: number;
+  topP: number;
 }
 
 export type StreamTextCompletion =

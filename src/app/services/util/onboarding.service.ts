@@ -4,20 +4,27 @@ import { EventService } from './event.service';
 import { Router } from '@angular/router';
 import { DataStoreService } from './data-store.service';
 import { BehaviorSubject, Observable, of, Subscription } from 'rxjs';
-import { initDefaultTour, OnboardingTour, OnboardingTourStepInteraction } from './onboarding.tours';
+import {
+  initDefaultTour,
+  OnboardingTour,
+  OnboardingTourStepInteraction,
+} from './onboarding.tours';
 import { JoyrideStepInfo } from 'ngx-joyride/lib/models/joyride-step-info.class';
 import { NotificationService } from './notification.service';
 import { RoomService } from '../http/room.service';
 import { TranslateService } from '@ngx-translate/core';
 import { DeviceInfoService } from './device-info.service';
 import { UserManagementService } from './user-management.service';
-import { RescaleRequest, sendEvent } from '../../utils/service-component-events';
+import {
+  RescaleRequest,
+  sendEvent,
+} from '../../utils/service-component-events';
+import { SessionService } from './session.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class OnboardingService {
-
   private _activeTour: OnboardingTour;
   private _eventServiceSubscription: Subscription;
   private _tourSubscription: Subscription;
@@ -48,8 +55,8 @@ export class OnboardingService {
     if (obj && obj.state !== 'running') {
       return of(obj.state);
     }
-    return new Observable<any>(e => {
-      const subscription = this._finishedTours.subscribe(tours => {
+    return new Observable<any>((e) => {
+      const subscription = this._finishedTours.subscribe((tours) => {
         if (tours.includes(name)) {
           e.next(true);
           e.complete();
@@ -61,7 +68,13 @@ export class OnboardingService {
 
   startDefaultTour(ignoreDone = false): boolean {
     return this.startOnboardingTour(
-      initDefaultTour(this.userManagementService, this.dataStoreService, this.roomService), ignoreDone);
+      initDefaultTour(
+        this.userManagementService,
+        this.dataStoreService,
+        this.roomService,
+      ),
+      ignoreDone,
+    );
   }
 
   doStep(stepDirection: number): boolean {
@@ -69,7 +82,8 @@ export class OnboardingService {
       return false;
     }
     const previous = this._activeTour.tour[this._currentStep - 1].split('@');
-    const current = this._activeTour.tour[this._currentStep - 1 + stepDirection].split('@');
+    const current =
+      this._activeTour.tour[this._currentStep - 1 + stepDirection].split('@');
     if (this._activeTour.tourActions) {
       const prevObj = this._activeTour.tourActions[previous[0]];
       const currentObj = this._activeTour.tourActions[current[0]];
@@ -86,24 +100,32 @@ export class OnboardingService {
       const routeChecker = this._activeTour.checkIfRouteCanBeAccessed;
       this.cleanup();
       this.joyrideService.closeTour();
-      this.dataStoreService.set('onboarding_' + name, JSON.stringify({
-        state: 'running',
-        step: this._currentStep + stepDirection
-      }));
+      this.dataStoreService.set(
+        'onboarding_' + name,
+        JSON.stringify({
+          state: 'running',
+          step: this._currentStep + stepDirection,
+        }),
+      );
       this.tryNavigate(name, current[1], routeChecker);
       return true;
     }
     return false;
   }
 
-  private startOnboardingTour(tour: OnboardingTour, ignoreDone = false): boolean {
+  private startOnboardingTour(
+    tour: OnboardingTour,
+    ignoreDone = false,
+  ): boolean {
     if (this._activeTour || this.deviceInfo.isSafari) {
       return false;
     }
     if (ignoreDone) {
       this.dataStoreService.remove('onboarding_' + tour.name);
     }
-    const tourInfo = JSON.parse(this.dataStoreService.get('onboarding_' + tour.name));
+    const tourInfo = JSON.parse(
+      this.dataStoreService.get('onboarding_' + tour.name),
+    );
     if (tourInfo && tourInfo.state !== 'running') {
       return false;
     }
@@ -115,7 +137,11 @@ export class OnboardingService {
     this._currentStep = tourInfo && tourInfo.step ? tourInfo.step : 1;
     const firstStepRoute = tour.tour[this._currentStep - 1].split('@');
     if (firstStepRoute.length > 1 && !url.endsWith('/' + firstStepRoute[1])) {
-      this.tryNavigate(tour.name, firstStepRoute[1], tour.checkIfRouteCanBeAccessed);
+      this.tryNavigate(
+        tour.name,
+        firstStepRoute[1],
+        tour.checkIfRouteCanBeAccessed,
+      );
       return false;
     }
     this._activeTour = tour;
@@ -124,14 +150,17 @@ export class OnboardingService {
     }
     this.emulateWalkthrough();
     window.addEventListener('keyup', this._keyUpWrapper);
-    this._tourSubscription = this.joyrideService.startTour({
-      steps: tour.tour,
-      logsEnabled: false,
-      stepDefaultPosition: 'center',
-      startWith: this._activeTour.tour[this._currentStep - 1]
-    }).subscribe(step => this.afterStepMade(step));
-    this._eventServiceSubscription = this.eventService.on<string>('onboarding')
-      .subscribe(action => {
+    this._tourSubscription = this.joyrideService
+      .startTour({
+        steps: tour.tour,
+        logsEnabled: false,
+        stepDefaultPosition: 'center',
+        startWith: this._activeTour.tour[this._currentStep - 1],
+      })
+      .subscribe((step) => this.afterStepMade(step));
+    this._eventServiceSubscription = this.eventService
+      .on<string>('onboarding')
+      .subscribe((action) => {
         this.checkTourEnding(action);
         this._finishedTours.next(this._finishedTours.value.concat(tour.name));
       });
@@ -140,14 +169,20 @@ export class OnboardingService {
 
   private afterStepMade(step: JoyrideStepInfo) {
     sendEvent(this.eventService, new RescaleRequest(1));
-    this.dataStoreService.set('onboarding_' + this._activeTour.name, JSON.stringify({
-      state: 'running',
-      step: step.number
-    }));
+    this.dataStoreService.set(
+      'onboarding_' + this._activeTour.name,
+      JSON.stringify({
+        state: 'running',
+        step: step.number,
+      }),
+    );
     if (!this._activeTour.tourActions) {
       return;
     }
-    const previous = this._activeTour.tourActions[this._activeTour.tour[this._currentStep - 1].split('@')[0]];
+    const previous =
+      this._activeTour.tourActions[
+        this._activeTour.tour[this._currentStep - 1].split('@')[0]
+      ];
     const current = this._activeTour.tourActions[step.name];
     const isNext = this._currentStep < step.number;
     this._currentStep = step.number;
@@ -159,16 +194,25 @@ export class OnboardingService {
     }
   }
 
-  private tryNavigate(tourName: string, route: string, routeChecker: (string) => Observable<boolean>) {
+  private tryNavigate(
+    tourName: string,
+    route: string,
+    routeChecker: (string) => Observable<boolean>,
+  ) {
     if (routeChecker) {
-      routeChecker(route).subscribe(canAccess => {
+      routeChecker(route).subscribe((canAccess) => {
         if (canAccess) {
           this.router.navigate([route]);
         } else {
-          this.dataStoreService.set('onboarding_' + tourName, JSON.stringify({ state: 'canceled' }));
-          this.translateService.get('joyride.cantAccessRoute').subscribe(message => {
-            this.notificationService.show(message);
-          });
+          this.dataStoreService.set(
+            'onboarding_' + tourName,
+            JSON.stringify({ state: 'canceled' }),
+          );
+          this.translateService
+            .get('joyride.cantAccessRoute')
+            .subscribe((message) => {
+              this.notificationService.show(message);
+            });
         }
       });
     } else {
@@ -183,7 +227,8 @@ export class OnboardingService {
     let lastTourObject: OnboardingTourStepInteraction = null;
     let currentTourObject: OnboardingTourStepInteraction;
     for (let i = 0; i < this._currentStep; i++) {
-      currentTourObject = this._activeTour.tourActions[this._activeTour.tour[i].split('@')[0]];
+      currentTourObject =
+        this._activeTour.tourActions[this._activeTour.tour[i].split('@')[0]];
       if (lastTourObject && lastTourObject.beforeUnload) {
         lastTourObject.beforeUnload(true);
       }
@@ -201,7 +246,10 @@ export class OnboardingService {
   }
 
   private checkTourEnding(action: string) {
-    this.dataStoreService.set('onboarding_' + this._activeTour.name, JSON.stringify({ state: action }));
+    this.dataStoreService.set(
+      'onboarding_' + this._activeTour.name,
+      JSON.stringify({ state: action }),
+    );
     sendEvent(this.eventService, new RescaleRequest('initial'));
     if (this._activeTour.doneAction) {
       this._activeTour.doneAction(action === 'finished');
@@ -218,7 +266,13 @@ export class OnboardingService {
       this._tourSubscription.unsubscribe();
       window.removeEventListener('keyup', this._keyUpWrapper);
       this.dataStoreService.remove(redirectKey);
-      this.userManagementService.forceLogin().subscribe(() => this.router.navigate([redirect]));
+      if (SessionService.needsUser(redirect)) {
+        this.userManagementService
+          .forceLogin()
+          .subscribe(() => this.router.navigate([redirect]));
+      } else {
+        this.router.navigate([redirect]);
+      }
     }
   }
 

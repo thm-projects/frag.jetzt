@@ -19,14 +19,7 @@ input {
 }
 
 .visibility-icon {
-  visibility: hidden;
-}
-
-.input-block:hover {
-  .visibility-icon {
-    visibility: visible;
-    cursor: pointer;
-  }
+  cursor: pointer;
 }
 
 .custom-progress-bar ::ng-deep .mat-progress-bar-element::after {

@@ -1,6 +1,7 @@
 @use "@angular/material" as mat;
 @import "theme/light-theme/_variables.scss";
 @import "theme/dark-theme/dark-theme";
+@import "theme/dark-solarized-theme/dark-solarized-theme";
 @import "theme/blue-theme/blue-theme";
 @import "theme/purple-theme/purple-theme";
 
@@ -28,10 +29,16 @@ body {
   overflow: hidden;
   cursor: default;
   background-color: var(--background, #121212);
+  -ms-overflow-style: none; /* for Internet Explorer, Edge */
+  scrollbar-width: none; /* for Firefox */
 }
 
 .dark {
   @include mat.all-component-themes($dark-theme);
+}
+
+.dark-solarized {
+  @include mat.all-component-themes($dark-solarized-theme);
 }
 
 .blue {
@@ -390,12 +397,6 @@ blockquote {
   pointer-events: none;
 }
 
-.mat-flat-button.mat-button-disabled {
-  background-color: lightgray !important;
-  color: gray !important;
-  outline: gray solid 3px !important;
-}
-
 .mat-bottom-sheet-container {
   background-color: var(--dialog);
   color: var(--on-dialog);
@@ -413,33 +414,25 @@ blockquote {
   overflow-y: scroll !important;
 }
 
-@media screen and (min-width: 800px) {
-  /* Works on Firefox */
-  * {
-    scrollbar-width: thin;
-    scrollbar-color: var(--secondary) transparent;
-  }
-
-  /* Works on Chrome, Edge, and Safari */
-  *::-webkit-scrollbar {
-    width: 3px;
-  }
-
-  *::-webkit-scrollbar-track {
-    background: var(--dialog);
-  }
-
-  *::-webkit-scrollbar-thumb {
-    background-color: var(--secondary);
-  }
+/* ---- Scroll bar ----- */
+/* Works on Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--secondary) transparent;
 }
 
-@media screen and (max-width: 800px) {
-  body {
-    -ms-overflow-style: none; /* for Internet Explorer, Edge */
-    scrollbar-width: none; /* for Firefox */
-    overflow-y: scroll;
-  }
+/* Works on Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 0.7rem;
+}
+
+*::-webkit-scrollbar-track {
+  background: var(--dialog);
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: var(--secondary);
+  border-radius: 5px;
 }
 
 .mat-slide-toggle-bar {
@@ -572,4 +565,68 @@ iframe {
   + .mat-button-toggle {
     border-left: solid 1px var(--on-primary-variant) !important;
   }
+}
+
+div[markdown] img {
+  max-width: 100% !important;
+}
+
+#{markdown} {
+  img {
+    max-width: 100%;
+  }
+}
+
+// If it's unavoidable to use global styles:
+//    Link a REASON with \@see in order to keep REFERENCES.
+//    This will improve readability and in case the responsible component gets removed,
+//    this can be removed without having to fear nasty side-effects.
+// @see src/app/components/shared/_dialogs/livepoll/**.html
+.livepoll-dialog-component-archive-menu {
+  min-width: auto;
+  width: 400px;
+
+  // When using !important, at least bind it to a class,
+  // that way, if this property needs to be changed in a different component, it won't affect this one.
+  max-width: calc(100vw - 16px) !important;
+  overflow: auto;
+
+  .archive-menu-item {
+    display: flex;
+    flex-direction: column;
+    overflow: visible;
+
+    > .header {
+      height: 32px;
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  .fill {
+    flex-grow: 1;
+  }
+}
+
+// @see src/app/components/shared/_dialogs/livepoll/**.html
+.livepoll-component {
+  .mat-form-field-appearance-outline .mat-form-field-outline {
+    color: var(--on-surface);
+  }
+  input.mat-input-element {
+    color: var(--on-surface);
+  }
+  .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
+    color: var(--on-surface);
+  }
+}
+
+.chatgpt-robot-icon {
+  background-color: currentColor;
+  mask: url(/assets/images/chat_bot.svg) no-repeat center / contain;
+  font-size: 2.25em;
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  line-height: 0.75;
 }

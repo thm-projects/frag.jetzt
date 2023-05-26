@@ -25,6 +25,7 @@
   },
   "introductions": {
     "prompt-guide-chatbot": "Effektiv kommunizieren mit ChatGPT",
+    "prompt-explanation": "Prompts kurz erklärt",
     "cancel": "Schließen",
     "tooltip-button" : "Prompt Guide"
   },
@@ -35,11 +36,14 @@
     "next": "Weiter",
     "previous": "Zurück",
     "save": "Speichern",
+    "add-code": "Code hinzufügen",
     "end": "Ende",
     "header-settings": "GPT API Einstellungen",
     "header-restrictions": "GPT API Beschränkung",
     "header-metrics": "GPT API Statistiken",
     "restrict-active": "API aktiviert",
+    "restrict-global-active": "In jedem Raum mit registrierten Rauminhabenden aktivieren",
+    "restrict-global-amount": "Gesamtes Guthaben pro Raum",
     "restrict-end-date": "API Ende",
     "save-error": "Konnte Daten nicht speichern!",
     "load-error": "Konnte Konfiguration nicht laden!",
@@ -51,10 +55,10 @@
     "help-general": "Die GPT API stellt eine künstliche Intelligenz bereit, die Text-Vervollständigung durchführt. Dabei beantwortet die KI Klassifizierungs-, Wissens- und weitere Fragen. Die KI besitzt eine Eingabe und liefert mindestens eine Ausgabe.",
     "help-api-key": "Der API Schlüssel ordnet die Anfragen einem Account zu. So können Verbrauch und Kosten im OpenAI Konto berechnet und angezeigt werden",
     "help-organization": "Die Organisation ist eine optionale Möglichkeit den Verbrauch über eine Organisation abrechnen zu lassen, anstatt direkt über den eigenen OpenAI-Account.",
-    "activation-code": "Studien-Aktivierungscode",
+    "activation-code": "Studien-Aktivierungscode (≥ 8 Zeichen)",
     "activation-max-cost": "Studienkosten pro Monat",
     "activation-used": "Code wurde eingelöst",
-    "activation-info": "{{code}}: ({{maxCost}}$ / Monat)",
+    "activation-info": "{{code}}: ({{maxCost}}$ / Monat, Counter: {{current}}$)",
     "help-activation-codes": "Hier können Aktivierungscodes für die Studie angesehen, erstellt und gelöscht werden."
   },
   "gpt-chat": {
@@ -97,10 +101,10 @@
     "cancel": "Schließen",
     "refresh": "Ausgabe erneut generieren",
     "token-info": "Token (Eingabe / Chat / Gesamt): {{promptTokens}} / {{conversationTokens}} / {{allTokens}}",
-    "prompt-label": "Prompt-Suche",
+    "prompt-label": "Suche nach Prompts | Leertaste für alle Prompts anzeigen",
     "option-total-acts": "Treffer in »Agiere als …«",
-    "option-total-prompts": "Treffer in Prompts",
-    "temperature": "Temperatur",
+    "option-total-prompts": "Treffer in Prompts …",
+    "temperature": "Antwortvariabilität",
     "temperature-tooltip": "Einstellung der Kreativität und Determinismus der Antworten"
   },
   "quill": {
@@ -146,11 +150,24 @@
     "an-error-occured": "Etwas ist schiefgelaufen!",
     "delete-success": "Prompt wurde entfernt.",
     "add-success": "Prompt wurde hinzugefügt.",
-    "already-present": "Prompt existiert bereits, bitte ändere den Namen. Oder wähle den entsprechenden Prompt aus.",
+    "already-present": "Prompt existiert bereits, bitte ändere den Namen oder die Sprache. Oder wähle den entsprechenden Prompt aus.",
     "patch-success": "Änderungen wurden gespeichert.",
     "no-patch-needed": "Es wurden keine Änderungen vorgenommen.",
     "no-prompt-selected": "Es wurde kein Prompt ausgewählt.",
-    "enter-prompt-name": "Bitte gib einen Namen ein."
+    "enter-prompt-name": "Bitte gib einen Namen ein.",
+    "language": "Sprache",
+    "lang": {
+      "de": "Deutsch",
+      "en": "Englisch",
+      "fr": "Französisch"
+    },
+    "advanced-settings": "Erweiterte Einstellungen",
+    "advanced-settings-info": "Parameter, die direkt an die Schnittstelle übergeben werden",
+    "advanced-setting-temperature": "Temperatur",
+    "advanced-setting-presence-penalty": "Wiederholungsstrafe für Token",
+    "advanced-setting-frequency-penalty": "Frequenzstrafe für Token",
+    "advanced-setting-top-p": "Höchster Prozentsatz",
+    "advanced-setting-reset": "Zurücksetzen"
   },
   "mailing": {
     "title": "Rundmail an alle",

@@ -74,7 +74,7 @@
     "filter-read": "Questions discutées",
     "filter-reset": "Réinitialiser",
     "filter-unanswered": "Sans réponse",
-    "filter-approved": "Vérifié",
+    "filter-approved": "Réponses vérifiées",
     "filter-wrong": "Questions négatives",
     "owner": "Questions posées",
     "pause-comments": "Fige l'affichage pour pouvoir lire les questions en toute tranquillité. Les questions peuvent toujours être posées et évaluées. L'affichage s'actualise à nouveau en cliquant sur le bouton.",
@@ -131,6 +131,9 @@
     "needs-user-account": "Tu as besoin d'un compte avec une adresse e-mail pour recevoir des notifications !"
   },
   "comment-page": {
+    "share-comment": "Copier le lien du participant sur ce post",
+    "share-comment-success": "Copie réussie.",
+    "share-comment-fail": "Quelque chose a mal tourné!",
     "mark-not-approved": "Vérifié",
     "a11y-comment-answer": "Voir la réponse à cette question",
     "a11y-comment-answer-not": "Répondre à cette question",
@@ -274,16 +277,22 @@
     "topic-cloud": "## Radar à questions \n\n Si tu veux garder un œil sur toutes les questions, tu as besoin d'une sorte de « radar ». Notre radar localise les questions et les réponses à l'aide de leurs mots-clés : plus il y a de questions et de réponses qui se rapportent à un mot-clé, plus le mot-clé apparaît grand et central sur le radar.\n\n Le radar à questions te sert de **navigateur** : Si tu cliques sur un mot, tu accèderas aux questions et réponses liées à ce mot-clé. \n\n Les mots-clés sont déterminés en temps réel à l'aide d'une analyse grammaticale des noms ou ont été déterminés par l'auteur. \n\n Le calcul de la taille du texte prend en compte:\n\n* la différence entre les votes ascendants et descendants, si elle est positive,\n* le nombre de questions avec ce mot-clé,\n* le nombre d'auteurs de questions avec ce mot-clé,\n* le rôle : créateur de salle, modérateur ou participant,\n* si une catégorie de questions a été choisie,\n* si le mot-clé a été généré ou attribué,\n* si la question a reçu une réponse,\n* la controversité de la question. \n\nTu peux personnaliser la visualisation à ton goût.  Dans le rôle de créateur ou de modérateur de salle, tu peux expérimenter avec les paramètres de la génération de mots-clés pour améliorer la **sélectivité sémantique**.",
     "user-bonus": "L'enseignant peut marquer les « bonnes » questions avec un bonus. Tes questions de tous les cours (salles) qui ont reçu une étoile sont listées ici.\n\nSelon l'accord, tu peux envoyer le code bonus par e-mail à l'enseignant pour l'échanger contre un bonus."
   },
+  "gptrating": {
+    "title": "Évaluation de ChatGPT dans frag.jetzt",
+    "input": "Saisis ici tes commentaires …",
+    "placeholder": "Est-ce que tu as eu des problèmes ? Qu'est-ce qui t'a plu ?",
+    "send": "Envoyer",
+    "cancel": "Annuler"
+  },
   "gpt-chat": {
-    "answer-format": {
-      "disabled": "Désactivé",
-      "summary": "Résumé",
-      "definition": "Définition",
-      "flashcard": "Carte éclair"
-    },
     "optin-accept": "Accepter",
     "optin-reject": "Refuser",
-    "preset-preamble": "Prompt préambule",
+    "title-free": "ChatGPT | Questions et réponses libres",
+    "title-answer": "ChatGPT | Assistant pour les réponses",
+    "interrupt": "Arrêter la sortie",
+    "copy-markdown": "Copier Markdown",
+    "copy-success": "Markdown copié avec succès",
+    "copy-fail": "Markdown n'a pas pu être copié !",
     "temperature-creative": "[Plus] Créatif",
     "temperature-tooltip-creative": "Cette attitude laisse une plus grande marge de manœuvre et permet donc des réponses plus créatives.",
     "temperature-balanced": "[Bien] Équilibré",
@@ -292,21 +301,70 @@
     "temperature-tooltip-precise": "Ne laisse pratiquement aucune marge de manœuvre. Les réponses sont presque identiques et donc partiellement déterministes.",
     "privacy-policy": "Déclaration de confidentialité pour l'utilisation de l'API OpenAI",
     "enter-conversation-text": "Parle à ChatGPT",
-    "context-context": "Contexte de ma question : {{value}}.",
+    "context-context": "Contexte : {{value}}.",
     "context-topic": "Sujet : {{value}}.",
-    "context-response-length": "Réponds-moi {{value}}.",
-    "context-response-format": "Formatte la réponse comme {{value}}.",
-    "context-question": "Ma question est :\n\n{{value}}",
+    "context-response-length": "Longueur : {{value}}.",
+    "context-response-format": "Format : {{value}}.",
+    "context-question": "Question :\n\n{{value}}",
+    "selection-none": "En l'absence de sélection, ChatGPT peut avoir une zone de réponse plus large. Cela peut conduire à la génération d'informations non souhaitées.",
+    "tooltip-temperature-disabled": "La variabilité des réponses est prise en compte par l'invite sélectionnée.",
     "choices": {
       "response-format": [
-        { "key": "summary", "text": "de résumé" },
-        { "key": "definition", "text": "de définition" },
-        { "key": "flashcard", "text": "de carte d'apprentissage" }
+        {
+          "key": "short answer",
+          "text": "Réponse courte",
+          "hover": "Réponse brève et concise qui fournit rapidement et facilement des informations."
+        },
+        {
+          "key": "answer as definition",
+          "text": "Réponse comme définition",
+          "hover": "Explication de la signification des termes et concepts pour favoriser la compréhension."
+        },
+        {
+          "key": "answer with examples",
+          "text": "Réponse avec des exemples",
+          "hover": "Application de concepts abstraits à des situations concrètes pour approfondir la compréhension."
+        },
+        {
+          "key": "answer as flashcard",
+          "text": "Réponse comme carte d'apprentissage",
+          "hover": "Instrument de transfert de connaissances et de répétition de faits, définitions, termes ou données."
+        },
+        {
+          "key": "answer as mindmap",
+          "text": "Réponse comme carte mentale",
+          "hover": "Représentation visuelle des informations pour illustrer les liens entre différents concepts et idées."
+        },
+        {
+          "key": "answer as essay",
+          "text": "Réponse sous forme d'essai ou de travail écrit",
+          "hover": "Réponse détaillée aux questions ouvertes pour améliorer les compétences en écriture de textes plus longs."
+        },
+        {
+          "key": "answer as summary",
+          "text": "Réponse comme résumé",
+          "hover": "Aperçu court et concis d'un sujet ou d'un concept spécifique."
+        },
+        {
+          "key": "answer with mc question",
+          "text": "Réponse avec des questions à choix multiples",
+          "hover": " Questions de quiz dans lesquelles l'apprenant doit choisir la bonne réponse parmi une liste d'options afin de tester ses connaissances et de comprendre les liens."
+        },
+        {
+          "key": "answer with sources",
+          "text": "Réponse avec des références de sources",
+          "hover": "Références à des informations supplémentaires pour encourager les apprenants à mener leurs propres recherches."
+        },
+        {
+          "key": "answer with links",
+          "text": "Réponse avec des liens vers des informations supplémentaires",
+          "hover": "Liens et ressources qui donnent aux apprenants accès à des matériaux supplémentaires tels que des vidéos, des graphiques ou des articles pour approfondir la compréhension."
+        }
       ],
       "response-length": {
-        "short": "brièvement",
+        "short": "en bref",
         "detailed": "en détail",
-        "extensive": "largement"
+        "extensive": "vaste"
       }
     },
     "your-choice": "Ta sélection …",
@@ -320,10 +378,10 @@
     "edit": "Éditer la sortie en réponse à la question du forum",
     "paste": "Publier la sortie en réponse à la question du forum",
     "token-info": "Tokens (saisie/conversation/total) : {{promptTokens}}/{{conversationTokens}}/{{allTokens}}",
-    "prompt-label": "Recherche du prompt",
+    "prompt-label": "Recherche de prompts | barre d'espacement pour voir tous les prompts",
     "option-total-acts": "Hits dans « Agir comme … »",
     "option-total-prompts": "Hits dans prompts",
-    "temperature": "Température"
+    "temperature": "Variabilité de réponse"
   },
   "header": {
     "overview-keywords-tooltip": "Nombre de mots-clés",
@@ -352,7 +410,8 @@
     "exactly-8": "Un code de salle comporte exactement 8 chiffres.",
     "no-room-found": "Aucune salle n'a été trouvée avec ce code de salle.",
     "only-numbers": "Un code de salle est composé de chiffres.",
-    "please-enter": "Veuillez saisir le code de la salle."
+    "please-enter": "Veuillez saisir le code de la salle.",
+    "gpt-topic-general": "Général"
   },
   "introduction": {
     "cancel": "Fermer",
@@ -364,7 +423,8 @@
     "cancel": "Fermer",
     "question-wall-title": "Les cas d'utilisation du mode de présentation",
     "tag-cloud-title": "Cas d'utilisation du radar à questions",
-    "prompt-guide-chatbot": "Communiquer efficacement avec ChatGPT"
+    "prompt-guide-chatbot": "Communiquer efficacement avec ChatGPT",
+    "prompt-explanation": "Prompts en bref"
   },
   "joyride": {
     "commentFilter": "Il existe de nombreuses options de tri et de filtrage pour la liste des questions-réponses. Un filtre actif est affiché en rouge. Pour une meilleure lisibilité en cas de grande dynamique, le flux de questions peut également être mis en pause.",
@@ -378,7 +438,11 @@
     "prev": "Retourner",
     "step": "{{step}} / {{total}}",
     "voting": "Le public peut valoriser ou dévaloriser les questions, exprimant ainsi son intérêt pour la réponse à la question ou son accord ou désaccord.",
-    "votingTitle": "Evaluer une question"
+    "votingTitle": "Evaluer une question",
+    "chatGPT": "Dans un contexte donné, ChatGPT te permet généralement de répondre efficacement aux questions et d'avoir un aperçu de nouveaux sujets. Il est le premier interlocuteur pour les questions relatives à l'enseignement.",
+    "chatGPTTitle": "Travailler avec ChatGPT",
+    "navigationButton": "Avec la navigation, tu peux voir presque toutes les actions dans le contexte actuel.",
+    "navigationButtonTitle": "Navigation dans l'application"
   },
   "question-wall": {
     "auto-renew-off": "Arrêter la mise au point automatique pour les nouvelles questions",

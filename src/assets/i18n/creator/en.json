@@ -120,7 +120,7 @@
     "filter-read": "Questions discussed",
     "filter-reset": "Reset",
     "filter-unanswered": "Not answered",
-    "filter-approved": "Checked",
+    "filter-approved": "Checked answers",
     "filter-wrong": "Negated questions",
     "owner": "Questions I have asked",
     "pause-comments": "Freezes the display to read or present the questions at rest. Questions can still be asked and scored. The display is only updated again by clicking the button.",
@@ -178,6 +178,9 @@
     "needs-user-account": "You need an account with an email address to receive notifications!"
   },
   "comment-page": {
+    "share-comment": "Copy participant link to this post",
+    "share-comment-success": "Successfully copied.",
+    "share-comment-fail": "Something went wrong!",
     "a11y-comment-answer": "View Answer",
     "a11y-comment-answer-not": "Create Answer",
     "a11y-comment_delete": "Deletes this question",
@@ -374,30 +377,84 @@
   "gpt-chat": {
     "optin-accept": "Accept",
     "optin-reject": "Reject",
-    "preset-preamble": "Prompt Preamble",
+    "title-free": "ChatGPT | Free questions and answers",
+    "title-answer": "ChatGPT | Answer Assistent",
+    "interrupt": "Stop output",
+    "copy-markdown": "Copy Markdown",
+    "copy-success": "Markdown successfully copied",
+    "copy-fail": "Markdown could not be copied!",
     "temperature-creative": "[More] Creative",
-    "temperature-tooltip-creative": "This setting allows for greater latitude and thus more creative responses.",
+    "temperature-tooltip-creative": "This setting allows for a larger margin and thus more creative responses.",
     "temperature-balanced": "[More] Balanced",
     "temperature-tooltip-balanced": "Balanced answers can change, but are often very well matched to the question.",
     "temperature-precise": "[More] Precise",
-    "temperature-tooltip-precise": "Leaves virtually no room for maneuver. The answers are almost identical and thus partially deterministic.",
+    "temperature-tooltip-precise": "Allows virtually no leeway. The answers are almost identical and thus partially deterministic.",
     "privacy-policy": "Privacy Policy for the Use of OpenAI API",
     "enter-conversation-text": "Chat with ChatGPT",
-    "context-context": "Context of my question: {{value}}.",
+    "context-context": "Context: {{value}}.",
     "context-topic": "Topic: {{value}}.",
-    "context-response-length": "Respond to me {{value}}.",
-    "context-response-format": "Format the response as {{value}}.",
-    "context-question": "My question is:\n\n{{value}}",
+    "context-response-length": "Length: {{value}}.",
+    "context-response-format": "Format: {{value}}.",
+    "context-question": "Question: \n\n{{value}}",
+    "selection-none": "With no selection, ChatGPT can have a larger response range. This may result in unwanted information being generated.",
+    "tooltip-temperature-disabled": "Response variability is taken from selected prompt.",
     "choices": {
       "response-format": [
-        { "key": "summary", "text": "a summary" },
-        { "key": "definition", "text": "a definition" },
-        { "key": "flashcard", "text": "a flashcard" }
+        {
+          "key": "short answer",
+          "text": "Short answer",
+          "hover": "A brief and concise answer that provides information quickly and easily."
+        },
+        {
+          "key": "answer as definition",
+          "text": "Answer as definition",
+          "hover": "Explanation of the meaning of terms and concepts to promote understanding."
+        },
+        {
+          "key": "answer with examples",
+          "text": "Answer with examples",
+          "hover": "Application of abstract concepts to concrete situations to deepen understanding."
+        },
+        {
+          "key": "answer as flashcard",
+          "text": "Answer as flashcard",
+          "hover": "Instrument for knowledge transfer and repetition of facts, definitions, terms, or data."
+        },
+        {
+          "key": "answer as mindmap",
+          "text": "Answer as mind map",
+          "hover": "Visual representation of information to illustrate connections between different concepts and ideas."
+        },
+        {
+          "key": "answer as essay",
+          "text": "Answer as essay or paper",
+          "hover": "Detailed answer to open questions to improve skills in writing longer texts."
+        },
+        {
+          "key": "answer as summary",
+          "text": "Answer as summary",
+          "hover": "Short and concise overview of a specific topic or concept."
+        },
+        {
+          "key": "answer with mc question",
+          "text": "Answer with multiple-choice questions",
+          "hover": "Quiz questions in which the learner must choose the correct answer from a list of options to check knowledge and understand connections."
+        },
+        {
+          "key": "answer with sources",
+          "text": "Answer with source references",
+          "hover": "References to further information to encourage learners to conduct their own research."
+        },
+        {
+          "key": "answer with links",
+          "text": "Answer with links to further information",
+          "hover": "Links and resources that give learners access to additional materials such as videos, graphics, or articles to deepen understanding."
+        }
       ],
       "response-length": {
-        "short": "shortly",
+        "short": "short",
         "detailed": "in detail",
-        "extensive": "extensively"
+        "extensive": "extensive"
       }
     },
     "your-choice": "Your selection …",
@@ -440,10 +497,10 @@
     "edit": "Edit output as an answer to forum question",
     "paste": " Publish output as a reply to the forum question",
     "token-info": "Tokens (input/chat/total): {{promptTokens}}/{{conversationTokens}}/{{allTokens}}",
-    "prompt-label": "Prompt search",
+    "prompt-label": "Search for prompts | spacebar to see all prompts",
     "option-total-acts": "Hits in »Act as …«",
     "option-total-prompts": "Hits in prompts",
-    "temperature": "Temperature"
+    "temperature": "Response variability"
   },
   "header": {
     "overview-keywords-tooltip": "Number of Keywords",
@@ -456,14 +513,16 @@
   "home-page": {
     "create-session": "New session",
     "created": "The room for the session »{{longRoomName}}« has been created.",
-    "no-empty-name": "Please enter a name."
+    "no-empty-name": "Please enter a name.",
+    "gpt-topic-general": "General"
   },
   "introductions": {
     "brainstorming-title": "Brainstorming",
     "cancel": "Close",
     "question-wall-title": "Use cases of the presentation mode",
     "tag-cloud-title": "Use cases of the question radar",
-    "prompt-guide-chatbot": "Communicate effectively with ChatGPT"
+    "prompt-guide-chatbot": "Communicate effectively with ChatGPT",
+    "prompt-explanation": "Prompts briefly explained"
   },
   "joyride": {
     "commentFilter": "There are numerous sorting and filtering options for the Q&A list. An active filter is shown in red. For better readability, the question stream can also be paused if it is very dynamic.",
@@ -477,7 +536,11 @@
     "prev": "Back",
     "step": "{{step}} / {{total}}",
     "voting": "The audience can rate questions up or down, indicating their interest in answering a question or their agreement or disagreement with it.",
-    "votingTitle": "Rate a question"
+    "votingTitle": "Rate a question",
+    "chatGPT": "With ChatGPT, given a context, you can usually answer questions effectively and gain insight into new topics. He is the first interlocutor for questions in teaching.",
+    "chatGPTTitle": "Work with ChatGPT",
+    "navigationButton": "With navigation you can see almost all actions in the current context.",
+    "navigationButtonTitle": "Navigation in the app"
   },
   "moderator-join": {
     "cancel": "Cancel",
@@ -686,38 +749,56 @@
     "update-description": "Save changes",
     "words-will-be-overwritten": "Profane words will be overwritten with ★★★★."
   },
+  "gptrating": {
+    "title": "Rating to ChatGPT in frag.jetzt",
+    "input": "Enter your feedback here …",
+    "placeholder": "Were there any problems? What did you like?",
+    "send": "Send",
+    "cancel": "Cancel"
+  },
   "gpt-room-settings": {
-    "title": "ChatGPT settings",
-    "trial-info": "ChatGPT study (API key via frag.jetzt):",
-    "trial-code": "Activation code",
-    "trial-enabled": "You are participating in the frag.jetzt study.",
-    "own-openai-api-key": "GPT via own API settings",
-    "own-openai-info": "If the frag.jetzt study is active, you will still be billed for your own settings if they are present.",
-    "api-key": "OpenAI API Key",
-    "api-organization": "OpenAI Organization Id",
-    "restrictions-room": "Room quota limits",
+    "quota-management": "Quota management",
+    "title": "ChatGPT Settings",
+    "trial-info": "I am participating in the free evaluation study of THM »ChatGPT in Education«:",
+    "global-trial": "The frag.jetzt team has given you $ {{max}} for a three-month trial period. That's enough for a few million words in conversations using the GPT-3.5 turbo language model. So far you have used $ {{counter}}.",
+    "trial-code": "I have received the following activation code from the frag.jetzt team:",
+    "trial-enabled": "Perfect: You are participating in the evaluation study.",
+    "trial-activated-info": "Through the evaluation study you have {{quota}}$ per month. This month {{counter}}$ have already been used.",
+    "rest-flow-description": "The fluid quota works differently than other quotas. Every day, a part of the quota is released. For example, with a $20 quota, $20 * 2 / 31, or about $1.29, will be available on January 2.",
+    "rest-room-flow-month": "Monthly flowing cost limit",
+    "rest-mod-flow-month": "Monthly flowing cost limit",
+    "rest-part-flow-month": "Monthly flowing cost limit",
+    "own-openai-api-key": "Use ChatGPT with your API key from OpenAI:",
+    "own-openai-info": "If the evaluation study is active, billing will still be done through your own OpenAI account. All amounts in US dollars.",
+    "api-key": "OpenAI API Key (starts with sk- …)",
+    "api-organization": "OpenAI Organization ID (starts with org- …)",
+    "restrictions-room": "Room quota (all amounts in US dollars):",
     "rest-room-acc": "Total cost limit",
     "rest-room-month": "Monthly cost limit",
     "rest-room-day": "Daily cost limit",
-    "restrictions-moderator": "Moderator quota limits",
+    "restrictions-moderator": "Moderator quota (all amounts in US dollars):",
     "rest-mod-acc": "Total cost limit",
     "rest-mod-month": "Monthly cost limit",
     "rest-mod-day": "Daily cost limit",
-    "restrictions-participant": "Participant quota limits",
+    "restrictions-participant": "Participant quota (all amounts in US dollars):",
     "rest-part-acc": "Total cost limit",
     "rest-part-month": "Monthly cost limit",
     "rest-part-day": "Daily cost limit",
     "rest-wrong": "A cost limit does not correspond to a valid number. (Number with two decimal places)",
     "deactivated": "The owner of the room does not allow any changes.",
+    "general-rights": "General rights",
+    "general-right-unregistered": "Allow unregistered users",
+    "general-disable-enhanced-prompt": "ChatGPT response without prompt gap text",
+    "general-disable-forward-message": "Prohibit direct ChatGPT responses",
     "moderator-rights": "Moderator rights",
-    "mod-right-part-quota": "Change participant quota",
-    "mod-right-mod-quota": "Change moderators quota",
-    "mod-right-room-quota": "Change room quota",
-    "mod-right-preset": "Change the GPT prompt settings",
-    "mod-right-usage-times": "Changing the periods of use",
-    "mod-right-api-settings": "Changing the API settings",
+    "mod-right-part-quota": "Changing participant quota",
+    "mod-right-mod-quota": "Changing moderator quota",
+    "mod-right-room-quota": "Changing room quota",
+    "mod-right-preset": "Changing prompt defaults",
+    "mod-right-usage-times": "Changing periods of use",
+    "mod-right-api-settings": "Changing  API settings",
     "usage-times": "Periods of use",
-    "usage-time-info": "If no usage period is created, the API is continuously accessible.",
+    "usage-time-info": "If no usage period is created, the API is always accessible.",
     "start-time": "Starting time",
     "end-time": "End time",
     "start-and-end-date": "Start and end date",
@@ -751,6 +832,10 @@
   "room-settings-overview": {
     "livepoll-enabled": "Enable flash poll",
     "tooltip-livepoll-enabled": "Create surveys and automatically notify all participants. The results of two surveys can be compared later.",
+    "a11y-livepoll-enabled": "Slider to enable flash polls.",
+    "keyword-extraction-enabled": "Enable keyword extraction",
+    "tooltip-keyword-extraction-enabled": "When creating a question, create keywords that best describe that question.",
+    "a11y-keyword-extraction-enabled": "Slider to enable keyword extraction.",
     "a11y-bonus-archive-enabled": "Slider to enable the bonus archive",
     "a11y-brainstorming-enabled": "Slider to allow brainstorming",
     "a11y-conversation-enabled": "Slider to enable conversations inside this room",
@@ -774,6 +859,7 @@
     "settings-direct-send": "Release questions directly",
     "moderation": "Moderation options",
     "education": "Teaching options",
+    "general": "General options",
     "title-profanity": "Profanity filter",
     "tooltip-bonus-archive-enabled": "If you star a post, you can use the star to award bonus points. A code will be generated that the participant will send to your email address for bonus redemption.",
     "tooltip-brainstorming-enabled": "You can conduct brainstorming sessions on specific questions. The ideas (words) are morphologically compared by an AI and displayed in a word cloud.",
@@ -1049,16 +1135,19 @@
     "context-title": "Context of the event",
     "persona-title": "Presets for each person",
     "topic-title": "Topics of the event",
+    "role-instruction-title": "Role instructions for answers",
     "context-label": "Context",
     "topic-label": "Topics",
     "persona-moderator-label": "Competence (Moderator)",
     "persona-user-label": "Competence (User)",
     "persona-creator-label": "Competence (Creator)",
+    "role-instruction-label": "Role instructions",
     "context-placeholder": "WPW Course",
     "topic-placeholder": "Angular",
     "persona-moderator-placeholder": "Moderator",
     "persona-user-placeholder": "User",
     "persona-creator-placeholder": "Creator",
+    "role-instruction-placeholder": "Describe here role instructions for ChatGPT …",
     "save": "Save",
     "cancel": "Cancel",
     "clear": "Clear"

@@ -1,6 +1,10 @@
-<h3>{{ "gpt-room-settings.title" | translate }}</h3>
+<h2>{{ "gpt-room-settings.title" | translate }}</h2>
 
 <mat-dialog-content *ngIf="!isLoading; else loading">
+  <p *ngIf="globalInfo.active">
+    {{ "gpt-room-settings.global-trial" | translate : globalInfo }}
+  </p>
+
   <!-- GPT over frag.jetzt -->
   <h3>{{ "gpt-room-settings.trial-info" | translate }}</h3>
   <ng-container *ngIf="!trialEnabled">
@@ -17,7 +21,23 @@
   </ng-container>
   <p *ngIf="trialEnabled">
     {{ "gpt-room-settings.trial-enabled" | translate }}
+    <ng-container *ngIf="activatedCode">
+      <br />
+      <br />
+      {{
+        "gpt-room-settings.trial-activated-info"
+          | translate
+            : {
+                quota: (activatedCode.maximalCost.toPlain(2) / 100).toFixed(2),
+                counter: (activatedCode.costCounter.toPlain(2) / 100).toFixed(2)
+              }
+      }}
+    </ng-container>
   </p>
+
+  <br />
+  <br />
+  <br />
 
   <!-- GPT from own OpenAI account-->
   <h3>{{ "gpt-room-settings.own-openai-api-key" | translate }}</h3>
@@ -42,6 +62,8 @@
     </mat-form-field>
   </ng-container>
 
+  <h2>{{ "gpt-room-settings.quota-management" | translate }}</h2>
+
   <!-- Room Restrictions -->
   <h3>{{ "gpt-room-settings.restrictions-room" | translate }}</h3>
   <ng-container *ngIf="isOwner || canChangeRoomQuota; else deactivated">
@@ -64,6 +86,37 @@
       <button *ngIf="maxMonthlyRoomCost !== null" matSuffix mat-icon-button aria-label="Clear"
         (click)="maxMonthlyRoomCost = null">
         <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>
+        {{ "gpt-room-settings.rest-room-flow-month" | translate }}
+      </mat-label>
+      <span matPrefix>$&nbsp;</span>
+      <input
+        #costInput
+        matInput
+        (wheel)="onWheel($event)"
+        appAccessibilityEscapedInput
+        type="number"
+        inputmode="numeric"
+        min="0"
+        step="0.01"
+        [(ngModel)]="maxMonthlyFlowingRoomCost" />
+      <button
+        *ngIf="maxMonthlyFlowingRoomCost !== null"
+        matSuffix
+        mat-icon-button
+        aria-label="Clear"
+        (click)="maxMonthlyFlowingRoomCost = null">
+        <mat-icon>close</mat-icon>
+      </button>
+      <button
+        style="cursor: help"
+        [matTooltip]="'gpt-room-settings.rest-flow-description' | translate"
+        matSuffix
+        mat-icon-button>
+        <mat-icon class="material-icons-outlined">info</mat-icon>
       </button>
     </mat-form-field>
     <mat-form-field>
@@ -103,6 +156,37 @@
       </button>
     </mat-form-field>
     <mat-form-field>
+      <mat-label>
+        {{ "gpt-room-settings.rest-mod-flow-month" | translate }}
+      </mat-label>
+      <span matPrefix>$&nbsp;</span>
+      <input
+        #costInput
+        matInput
+        (wheel)="onWheel($event)"
+        appAccessibilityEscapedInput
+        type="number"
+        inputmode="numeric"
+        min="0"
+        step="0.01"
+        [(ngModel)]="maxMonthlyFlowingModeratorCost" />
+      <button
+        *ngIf="maxMonthlyFlowingModeratorCost !== null"
+        matSuffix
+        mat-icon-button
+        aria-label="Clear"
+        (click)="maxMonthlyFlowingModeratorCost = null">
+        <mat-icon>close</mat-icon>
+      </button>
+      <button
+        style="cursor: help"
+        [matTooltip]="'gpt-room-settings.rest-flow-description' | translate"
+        matSuffix
+        mat-icon-button>
+        <mat-icon class="material-icons-outlined">info</mat-icon>
+      </button>
+    </mat-form-field>
+    <mat-form-field>
       <mat-label>{{ "gpt-room-settings.rest-mod-day" | translate }}</mat-label>
       <input #costInput matInput appAccessibilityEscapedInput type="text" pattern="^[0-9]+(\.[0-9]{1,2})?$"
         (keyup)="resetInputField(maxDailyModeratorCost, 'maxDailyModeratorCost')" [(ngModel)]="maxDailyModeratorCost" />
@@ -139,6 +223,37 @@
       </button>
     </mat-form-field>
     <mat-form-field>
+      <mat-label>
+        {{ "gpt-room-settings.rest-part-flow-month" | translate }}
+      </mat-label>
+      <span matPrefix>$&nbsp;</span>
+      <input
+        #costInput
+        matInput
+        (wheel)="onWheel($event)"
+        appAccessibilityEscapedInput
+        type="number"
+        inputmode="numeric"
+        min="0"
+        step="0.01"
+        [(ngModel)]="maxMonthlyFlowingParticipantCost" />
+      <button
+        *ngIf="maxMonthlyFlowingParticipantCost !== null"
+        matSuffix
+        mat-icon-button
+        aria-label="Clear"
+        (click)="maxMonthlyFlowingParticipantCost = null">
+        <mat-icon matSuffix>close</mat-icon>
+      </button>
+      <button
+        style="cursor: help"
+        [matTooltip]="'gpt-room-settings.rest-flow-description' | translate"
+        matSuffix
+        mat-icon-button>
+        <mat-icon class="material-icons-outlined">info</mat-icon>
+      </button>
+    </mat-form-field>
+    <mat-form-field>
       <mat-label>{{ "gpt-room-settings.rest-part-day" | translate }}</mat-label>
       <input #costInput matInput appAccessibilityEscapedInput type="text" pattern="^[0-9]+(\.[0-9]{1,2})?$"
         (keyup)="resetInputField(maxDailyParticipantCost, 'maxDailyParticipantCost')"
@@ -151,7 +266,7 @@
   </ng-container>
 
   <!-- Usage times -->
-  <h3>{{ "gpt-room-settings.usage-times" | translate }}</h3>
+  <h2>{{ "gpt-room-settings.usage-times" | translate }}</h2>
   <ng-container *ngIf="isOwner || canChangeUsageTimes; else deactivated">
     <p>{{ "gpt-room-settings.usage-time-info" | translate }}</p>
     <div class="time-select">
@@ -226,7 +341,20 @@
 
   <!-- Rights setting -->
   <ng-container *ngIf="isOwner">
-    <h3>{{ "gpt-room-settings.moderator-rights" | translate }}</h3>
+    <br />
+    <br />
+    <h2>{{ "gpt-room-settings.general-rights" | translate }}</h2>
+    <mat-slide-toggle [(ngModel)]="allowsUnregisteredUsers">
+      {{ "gpt-room-settings.general-right-unregistered" | translate }}
+    </mat-slide-toggle>
+    <mat-slide-toggle [(ngModel)]="disableEnhancedPrompt">
+      {{ "gpt-room-settings.general-disable-enhanced-prompt" | translate }}
+    </mat-slide-toggle>
+    <mat-slide-toggle [(ngModel)]="disableForwardMessage">
+      {{ "gpt-room-settings.general-disable-forward-message" | translate }}
+    </mat-slide-toggle>
+    <br />
+    <h2>{{ "gpt-room-settings.moderator-rights" | translate }}</h2>
     <mat-slide-toggle [(ngModel)]="canChangeParticipantQuota">
       {{ "gpt-room-settings.mod-right-part-quota" | translate }}
     </mat-slide-toggle>

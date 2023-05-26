@@ -26,7 +26,8 @@
   "introductions": {
     "prompt-guide-chatbot": "Communicating Effectively with ChatGPT",
     "cancel": "Close",
-    "tooltip-button" : "Prompt Guide"
+    "tooltip-button" : "Prompt Guide",
+    "prompt-explanation": "Prompts briefly explained"
   },
   "gpt-config": {
     "title": "GPT Settings & API Test",
@@ -35,11 +36,14 @@
     "next": "Next",
     "previous": "Back",
     "save": "Save",
+    "add-code": "Add Code",
     "end": "Ende",
     "header-settings": "GPT API settings",
     "header-restrictions": "GPT API Restriction",
     "header-metrics": "GPT API statistics",
     "restrict-active": "API enabled",
+    "restrict-global-active": "Activate in each room with registered room owner",
+    "restrict-global-amount": "Total quota per room",
     "restrict-end-date": "API end",
     "save-error": "Could not save data!",
     "load-error": "Could not load configuration!",
@@ -51,10 +55,10 @@
     "help-general": "The GPT API provides an artificial intelligence that performs text completion. In doing so, the AI answers classification, knowledge, and other questions. The AI has one input and provides at least one output.",
     "help-api-key": "The API key assigns the requests to an account. So consumption and costs can be calculated and displayed in the OpenAI account",
     "help-organization": "Organization is an optional way to have consumption billed through an organization instead of directly through your own OpenAI account.",
-    "activation-code": "Study activation code",
+    "activation-code": "Study activation code (≥ 8 characters)",
     "activation-max-cost": "Study cost per month",
     "activation-used": "Code was redeemed",
-    "activation-info": "{{code}}: ({{maxCost}}$ / Month)",
+    "activation-info": "{{code}}: ({{maxCost}}$ / Month, Counter: {{current}}$)",
     "help-activation-codes": "Here activation codes for the study can be viewed, created and deleted."
   },
   "gpt-chat": {
@@ -97,7 +101,7 @@
     "cancel": "Close",
     "refresh": "Generate output again",
     "token-info": "Tokens (input / chat / total): {{promptTokens}} / {{conversationTokens}} / {{allTokens}}",
-    "prompt-label": "Prompt search",
+    "prompt-label": "Search for prompts | spacebar to see all prompts",
     "option-total-acts": "Founds acts",
     "option-total-prompts": "Hits in prompts",
     "temperature": "Temperature",
@@ -146,11 +150,24 @@
     "an-error-occured": "Something has gone wrong!",
     "delete-success": "Prompt was removed.",
     "add-success": "Prompt was added.",
-    "already-present": "Prompt already exists, please change the name. Or select the appropriate prompt.",
+    "already-present": "Prompt already exists, please change the name or the language. Or select the appropriate prompt.",
     "patch-success": "Changes have been saved.",
     "no-patch-needed": "No changes have been made.",
     "no-prompt-selected": "No prompt was selected.",
-    "enter-prompt-name": "Please enter a name."
+    "enter-prompt-name": "Please enter a name.",
+    "language": "Language",
+    "lang": {
+      "de": "German",
+      "en": "English",
+      "fr": "French"
+    },
+    "advanced-settings": "Advanced settings",
+    "advanced-settings-info": "Parameters that are passed directly to the API",
+    "advanced-setting-temperature": "Temperature",
+    "advanced-setting-presence-penalty": "Presence penalty for token",
+    "advanced-setting-frequency-penalty": "Frequency penalty for tokens",
+    "advanced-setting-top-p": "Top percentage",
+    "advanced-setting-reset": "Reset"
   },
   "mailing": {
     "title": "Mail to all",

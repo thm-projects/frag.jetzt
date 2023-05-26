@@ -45,10 +45,7 @@ mat-toolbar-row {
 
 .header-content-container {
   display: flex;
-  flex-direction: row;
-  flex: 1;
   justify-content: space-evenly;
-  align-items: center;
   overflow: visible;
 
   > button {
@@ -57,8 +54,16 @@ mat-toolbar-row {
   }
 }
 
+.header-row-section {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  flex: 1;
+}
+
 #options-login-box {
   display: flex;
+  justify-content: flex-end;
 
   > mat-icon {
     margin-top: auto;
@@ -96,27 +101,23 @@ h2 {
 }
 
 .header-slogan-desktop {
-  margin-left: 50px;
-  font-size: unset !important;
+  font-size: 12pt !important;
   letter-spacing: 1px;
   color: var(--primary);
 }
 
 .header-slogan-desktop-safari {
-  margin-left: 150px;
   font-size: unset !important;
   letter-spacing: 1px;
   color: var(--primary);
 }
 
 .header-slogan-mobile {
-  margin-right: 7px;
   letter-spacing: 1px;
   color: var(--primary);
 }
 
 .header-slogan-mobile-safari {
-  margin-left: 70px;
   letter-spacing: 1px;
   color: var(--primary);
 }
@@ -140,7 +141,8 @@ button:hover {
 }
 
 svg {
-  -webkit-filter: invert(100%); /* safari 6.0 - 9.0 */
+  -webkit-filter: invert(100%);
+  /* safari 6.0 - 9.0 */
   filter: invert(100%);
 }
 

@@ -184,7 +184,7 @@ export const templateEntries: EachOfTemplate<
     name: 'agree-tertiary',
     translate: false,
     reverse: false,
-    symbols: ['thumb_up', 'thumb_down', 'thumbs_up_down'],
+    symbols: ['thumb_up', 'thumb_down', 'thumbs_up_down', 'question_mark'],
     style: defaultTemplateStyle,
     isGrid: true,
   },

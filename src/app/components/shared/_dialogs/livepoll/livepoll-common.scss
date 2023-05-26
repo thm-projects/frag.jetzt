@@ -1,13 +1,67 @@
-$vote-foreground: var(--livepoll-vote-foreground);
-$vote-background: var(--livepoll-vote-background);
-$vote-foreground-active: var(--livepoll-vote-foreground-active);
-$vote-background-active: var(--livepoll-vote-background-active);
-$vote-foreground-hover: var(--livepoll-vote-foreground-hover);
-$vote-background-hover: var(--livepoll-vote-background-hover);
-$vote-foreground-active-hover: var(--livepoll-vote-foreground-active-hover);
-$vote-background-active-hover: var(--livepoll-vote-background-active-hover);
-$bar-foreground: var(--livepoll-bar-foreground);
-$bar-background: var(--livepoll-bar-background);
+@use "sass:map";
+
+$primary: var(--livepoll-primary);
+$primary--disabled: var(--livepoll-primary--disabled);
+$primary--hover: var(--livepoll-primary--hover);
+$on-primary: var(--on-livepoll-primary);
+$on-primary--disabled: var(--on-livepoll-primary--disabled);
+$on-primary--hover: var(--on-livepoll-primary--hover);
+$secondary: var(--livepoll-secondary);
+$secondary--disabled: var(--livepoll-secondary--disabled);
+$secondary--hover: var(--livepoll-secondary--hover);
+$on-secondary: var(--on-livepoll-secondary);
+$on-secondary--disabled: var(--on-livepoll-secondary--disabled);
+$on-secondary--hover: var(--on-livepoll-secondary--hover);
+
+$bar-foreground: $on-secondary;
+$bar-background: $secondary;
+
+.fill {
+  flex-grow: 1;
+}
+
+.live {
+  display: flex;
+  align-items: center;
+  position: relative;
+
+  &-active {
+    @extend .live;
+    color: var(--red);
+  }
+
+  &-paused {
+    @extend .live;
+    color: var(--gray);
+  }
+}
+
+.dialog-header {
+  display: flex;
+
+  .dialog-header-title {
+    display: flex;
+    align-items: center;
+    line-height: 32px;
+  }
+
+  .dialog-header-content {
+    height: 32px;
+    display: flex;
+    flex-grow: 1;
+    align-items: center;
+    justify-content: flex-end;
+
+    > h5 {
+      font-size: 12px;
+      text-transform: uppercase;
+    }
+
+    .settings {
+      align-items: center;
+    }
+  }
+}
 
 .button {
   &-cancel {
@@ -62,23 +116,33 @@ $bar-background: var(--livepoll-bar-background);
   }
 
   &-vote {
-    &-active {
-      background-color: $vote-background-active;
-      color: $vote-foreground-active;
+    &-voted {
+      background-color: $secondary;
+      color: $on-primary;
 
       &:hover {
-        background-color: $vote-background-active-hover;
-        color: $vote-foreground-active-hover;
+        background-color: $secondary--hover;
+        color: $on-secondary--hover;
+      }
+
+      &:disabled {
+        background-color: $secondary--disabled;
+        color: $on-secondary--disabled;
       }
     }
 
     &-default {
-      background-color: $vote-background;
-      color: $vote-foreground;
+      background-color: $primary;
+      color: $on-primary;
 
       &:hover {
-        background-color: $vote-background-hover;
-        color: $vote-foreground-hover;
+        background-color: $primary--hover;
+        color: $on-primary--hover;
+      }
+
+      &:disabled {
+        background-color: $primary--disabled;
+        color: $on-primary--disabled;
       }
     }
   }

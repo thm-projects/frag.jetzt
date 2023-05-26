@@ -1,7 +1,7 @@
 <h1 mat-dialog-title>
   {{ translateKey + ".create-dialog-title" | translate }}
 </h1>
-<mat-dialog-content class="content">
+<mat-dialog-content class="content livepoll-component">
   <mat-form-field appearance="outline">
     <mat-label>
       {{ translateKey + ".option-select-template" | translate }}
@@ -36,7 +36,7 @@
     (click)="create()"
     mat-flat-button
     class="button-primary">
-    <mat-icon style="margin-right: 4px">rocket_launch</mat-icon>
+    <mat-icon>rocket_launch</mat-icon>
     <span>{{ translateKey + ".create" | translate }}</span>
   </button>
 </mat-dialog-actions>

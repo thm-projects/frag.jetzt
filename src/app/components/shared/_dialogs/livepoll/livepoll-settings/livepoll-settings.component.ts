@@ -4,7 +4,8 @@ import { MatDialog } from '@angular/material/dialog';
 import {
   MarkdownEditorDialogComponent,
   MarkdownEditorDialogData,
-} from '../../../utility/markdown-editor-dialog/markdown-editor-dialog.component';
+} from '../../../utility/markdown/markdown-editor-dialog/markdown-editor-dialog.component';
+import { DeviceInfoService } from '../../../../../services/util/device-info.service';
 
 @Component({
   selector: 'app-livepoll-settings',
@@ -18,17 +19,21 @@ import {
 export class LivepollSettingsComponent {
   @Input() parent!: LivepollDialogComponent;
 
-  constructor(public readonly dialog: MatDialog) {}
+  constructor(
+    public readonly dialog: MatDialog,
+    public readonly device: DeviceInfoService,
+  ) {}
 
   openMarkdownEditor() {
     const dialog = this.dialog.open(MarkdownEditorDialogComponent, {
       width: '500px',
       data: {
         data: this.parent.livepollSession.title || '',
+        useTemplate: true,
       } as MarkdownEditorDialogData,
     });
     dialog.afterClosed().subscribe((result) => {
-      if (result) {
+      if (typeof result === 'string') {
         this.parent.livepollSession.title = result;
       }
     });

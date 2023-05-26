@@ -1,16 +1,3 @@
-<div
-  *ngIf="!deviceInfo.isSafari"
-  class="bg-object"
-  style="top: 20%; left: 20%; animation-delay: 3s">
-  ?
-</div>
-<div
-  *ngIf="!deviceInfo.isSafari"
-  class="bg-object"
-  style="top: 30%; left: 80%; animation-delay: 5s">
-  ?
-</div>
-
 <p style="font-size: 18px; hyphens: auto">
   {{ "room-page.session-id-lq-x" | translate }}{{ room?.name
   }}{{ "room-page.session-id-rq" | translate }}
@@ -127,6 +114,7 @@
         !search
       "
       [matMenuTriggerFor]="filterMenu"
+      (menuOpened)="openFilterMenu()"
       [ngClass]="{ 'active-filter': !!filterType }"
       matTooltip="{{ 'comment-list.filter-comments' | translate }}">
       <mat-icon class="searchBarIcon">filter_list</mat-icon>

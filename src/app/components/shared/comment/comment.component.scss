@@ -442,7 +442,8 @@ $width-range: $max-width - $min-width;
       max-width: 100%;
       overflow: hidden;
 
-      > mat-icon {
+      > mat-icon,
+      > .chatgpt-robot-icon {
         line-height: 1em;
         font-size: 1.1em;
         width: 1em;

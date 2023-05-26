@@ -1,10 +1,10 @@
-import { Storable, verifyInstance } from 'app/utils/ts-utils';
+import { FieldsOf, verifyInstance } from 'app/utils/ts-utils';
 
 export class GPTQuotaUnit {
   value: number;
   exponent: number;
 
-  constructor({ value = 0, exponent = 0 }: Storable<GPTQuotaUnit>) {
+  constructor({ value = 0, exponent = 0 }: FieldsOf<GPTQuotaUnit>) {
     this.value = value;
     this.exponent = exponent;
   }
@@ -31,27 +31,40 @@ export class GPTActivationCode {
   maximalCost: GPTQuotaUnit;
   costCounter: GPTQuotaUnit;
   activatedRoomId: string;
+  lastUse: Date;
 
   constructor({
     code = null,
     maximalCost = null,
     costCounter = null,
     activatedRoomId = null,
-  }) {
+    lastUse = null,
+  }: FieldsOf<GPTActivationCode>) {
     this.code = code;
     this.maximalCost = verifyInstance(GPTQuotaUnit, maximalCost);
     this.costCounter = verifyInstance(GPTQuotaUnit, costCounter);
     this.activatedRoomId = activatedRoomId;
+    this.lastUse = verifyInstance(Date, lastUse);
   }
 }
 
 export class GPTRestrictions {
   active: boolean;
+  globalActive: boolean;
+  globalAccumulatedQuota: number;
   endDate: Date;
   platformCodes: GPTActivationCode[];
 
-  constructor({ active = false, endDate = new Date(), platformCodes = [] }) {
+  constructor({
+    active = false,
+    globalActive = false,
+    globalAccumulatedQuota = 500,
+    endDate = new Date(),
+    platformCodes = [],
+  }) {
     this.active = active;
+    this.globalActive = globalActive;
+    this.globalAccumulatedQuota = globalAccumulatedQuota;
     this.endDate = verifyInstance(Date, endDate);
     this.platformCodes = platformCodes.map((e) =>
       verifyInstance(GPTActivationCode, e),
