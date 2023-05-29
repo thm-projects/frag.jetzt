@@ -1,4 +1,20 @@
 <button
+  class="color"
+  mat-flat-button
+  tabindex="0"
+  *ngIf="possibleLocations[0].accessible"
+  (click)="navigateToPage(possibleLocations[0])">
+  <mat-icon
+    class="material-icons material-icons-outlined"
+    style="transform: scale(1.2); margin-right: 5px">
+    arrow_back
+  </mat-icon>
+  <span *ngIf="deviceInfo.isCurrentlyDesktop && showText">
+    {{ "header.back-button" | translate }}
+  </span>
+</button>
+
+<button
   class="navigation-button"
   appJoyrideTemplate
   [joyrideStep]="'navigationButton'"
@@ -26,7 +42,7 @@
   [overlapTrigger]="false">
   <ng-container *ngFor="let location of possibleLocations">
     <button
-      *ngIf="location.accessible"
+      *ngIf="location.accessible && location.id !== 'back'"
       [ngClass]="{
         'active-nav-button': location.active,
         outside: location.outside

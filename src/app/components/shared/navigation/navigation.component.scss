@@ -109,3 +109,11 @@ button:hover {
     }
   }
 }
+
+.mat-flat-button,
+.mat-raised-button,
+.mat-fab,
+.mat-mini-fab {
+  color: rgba(0, 0, 0, 0.87);
+  background-color: transparent;
+}
