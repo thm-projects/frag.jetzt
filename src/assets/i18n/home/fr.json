@@ -570,6 +570,7 @@
     "title": "Générateur de mots de passe",
     "password-length": "Longueur du mot de passe",
     "password-input": "Saisie du mot de passe",
+    "password-output": "Sortie du mot de passe",
     "regenerate": "Créer un mot de passe sûr",
     "cancel": "Annuler",
     "copy-and-confirm": "Copier et insérer le mot de passe",

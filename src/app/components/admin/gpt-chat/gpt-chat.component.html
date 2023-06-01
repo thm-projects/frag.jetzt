@@ -18,12 +18,12 @@
         <mat-label></mat-label>
         <input
           placeholder="{{ 'gpt-chat.prompt-label' | translate }}"
-          autofocus
           type="text"
           aria-label="Prompt"
           matInput
           [matAutocomplete]="auto"
           [(ngModel)]="searchTerm"
+          (focus)="filterPrompts()"
           (input)="filterPrompts()" />
         <mat-autocomplete #auto="matAutocomplete">
           <mat-option

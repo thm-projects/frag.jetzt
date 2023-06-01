@@ -558,6 +558,29 @@
 </mat-menu>
 
 <mat-menu
+  #langMenu="matMenu"
+  [overlapTrigger]="false">
+  <button
+    (click)="useLanguage('de')"
+    class="focus_item"
+    mat-menu-item>
+    {{ "footer.german" | translate }}
+  </button>
+  <button
+    (click)="useLanguage('en')"
+    class="focus_item"
+    mat-menu-item>
+    {{ "footer.english" | translate }}
+  </button>
+  <button
+    (click)="useLanguage('fr')"
+    class="focus_item"
+    mat-menu-item>
+    {{ "footer.french" | translate }}
+  </button>
+</mat-menu>
+
+<mat-menu
   #userMenu="matMenu"
   [overlapTrigger]="false">
   <div class="mat-menu-inner-box">
@@ -636,6 +659,16 @@
 
   <button
     mat-menu-item
+    [matMenuTriggerFor]="langMenu"
+    (menuOpened)="openLanguageMenu()"
+    class="focus_button"
+    (click)="$event.stopImmediatePropagation()">
+    <mat-icon>language</mat-icon>
+    <span>{{ "footer.language" | translate }}</span>
+  </button>
+
+  <button
+    mat-menu-item
     aria-hidden="true"
     *ngIf="
       !deviceInfo.isSafari &&
@@ -669,7 +702,7 @@
   <button
     mat-menu-item
     *ngIf="user"
-    (click)="logoutUser()"
+    (click)="logout()"
     tabindex="0">
     <mat-icon class="color-warn material-icons-outlined">logout</mat-icon>
     <span>{{ "header.logout" | translate }}</span>
