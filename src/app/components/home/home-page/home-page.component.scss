@@ -1,133 +1,217 @@
-.outer {
-  width: 80%;
-  max-width: 300px;
-  background-color: transparent;
-  box-shadow: none;
-}
+//.outer {
+//  width: 80%;
+//  max-width: 300px;
+//  background-color: transparent;
+//  box-shadow: none;
+//}
+//
+//h1 {
+//  font-size: 1.5em !important;
+//}
+//
+//.main-heading-primary {
+//  display: block;
+//  font-size: 30px;
+//  font-weight: normal;
+//  text-align: center;
+//  color: var(--primary);
+//  animation: moveInLeft 3s ease;
+//  margin-top: 20px;
+//}
+//
+//.main-container {
+//  height: 100%;
+//  min-height: calc(100vh - 180px);
+//  display: flex;
+//  flex-direction: column;
+//  align-items: stretch;
+//  justify-content: center;
+//  box-sizing: border-box;
+//}
+//
+//.main-heading-secondary {
+//  display: block;
+//  font-size: 50px;
+//  font-weight: normal;
+//  text-align: center;
+//  color: var(--secondary);
+//  animation: moveInRight 3s ease;
+//}
+//
+//.feedback {
+//  display: block;
+//  font-weight: normal;
+//  font-size: 16px;
+//  text-align: center;
+//  color: var(--on-background);
+//
+//  > a {
+//    padding: 10px;
+//    display: inline;
+//
+//    &:hover {
+//      background-color: transparent;
+//      color: var(--on-background);
+//      outline: var(--secondary) solid 3px;
+//      border-radius: 5px;
+//    }
+//  }
+//}
+//
+//@keyframes moveInLeft {
+//  0% {
+//    opacity: 0;
+//    transform: translateX(-100px);
+//  }
+//
+//  80% {
+//    transform: translateX(10px);
+//  }
+//
+//  100% {
+//    opacity: 1;
+//    transform: translate(0);
+//  }
+//}
+//
+//@keyframes moveInRight {
+//  0% {
+//    opacity: 0;
+//    transform: translateX(100px);
+//  }
+//
+//  80% {
+//    transform: translateX(-10px);
+//  }
+//
+//  100% {
+//    opacity: 1;
+//    transform: translate(0);
+//  }
+//}
+//
+//mat-card-header {
+//  justify-content: center;
+//}
+//
+//.screenshot {
+//  display: block;
+//  margin-left: auto;
+//  margin-right: auto;
+//  margin-top: -55px;
+//  margin-bottom: 10px;
+//  max-width: 70vw;
+//  height: fit-content;
+//  outline: none;
+//}
+//
+//.bg-object {
+//  width: 15px;
+//  height: 15px;
+//  font-size: 70px;
+//  line-height: 100%;
+//  font-weight: bold;
+//  position: absolute;
+//  transform: scale(0) translate(-50%, -50%);
+//  z-index: 1000;
+//  @media (min-width: 750px) {
+//    animation: bg-object-anim 10s ease-in-out 1;
+//  }
+//}
+//
+//@keyframes bg-object-anim {
+//  from {
+//    color: var(--secondary);
+//    opacity: 1;
+//    transform: scale(0) translate(-50%, -50%);
+//  }
+//  to {
+//    color: var(--seconday);
+//    opacity: 0;
+//    transform: scale(11) translate(-50%, -50%);
+//  }
+//}
 
-h1 {
-  font-size: 1.5em !important;
-}
+$header-size: 64px;
+$footer-size: 50px;
+$preferred-size: calc(100vh - $header-size - $footer-size);
 
-.main-heading-primary {
-  display: block;
-  font-size: 30px;
-  font-weight: normal;
-  text-align: center;
-  color: var(--primary);
-  animation: moveInLeft 3s ease;
-  margin-top: 20px;
-}
-
-.main-container {
-  height: 100%;
-  min-height: calc(100vh - 180px);
+:host {
+  width: 100vw;
+  max-height: 100vh;
+  position: absolute;
+  left: 0;
+  top: 0;
   display: flex;
   flex-direction: column;
-  align-items: stretch;
+
+  > .fill-header {
+    height: $header-size;
+  }
+
+  > .fill-content {
+    flex-grow: 1;
+    max-height: $preferred-size;
+    height: $preferred-size;
+    overflow: auto;
+    display: flex;
+  }
+
+  > .fill-footer {
+    height: $footer-size;
+  }
+}
+
+.content-container {
+  height: $preferred-size;
+  display: flex;
+  flex-direction: column;
   justify-content: center;
-  box-sizing: border-box;
-}
 
-.main-heading-secondary {
-  display: block;
-  font-size: 50px;
-  font-weight: normal;
-  text-align: center;
-  color: var(--secondary);
-  animation: moveInRight 3s ease;
-}
-
-.feedback {
-  display: block;
-  font-weight: normal;
-  font-size: 16px;
-  text-align: center;
-  color: var(--on-background);
-
-  > a {
-    padding: 10px;
-    display: inline;
-
-    &:hover {
-      background-color: transparent;
-      color: var(--on-background);
-      outline: var(--secondary) solid 3px;
-      border-radius: 5px;
-    }
+  > .content {
   }
 }
 
-@keyframes moveInLeft {
-  0% {
-    opacity: 0;
-    transform: translateX(-100px);
-  }
+.event-form-container {
+  width: 556px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 0 16px;
+}
 
-  80% {
-    transform: translateX(10px);
-  }
-
-  100% {
-    opacity: 1;
-    transform: translate(0);
+.event-form-header-container {
+  display: flex;
+  color: white;
+  z-index: 1;
+  > * + * {
+    margin-left: 16px;
   }
 }
 
-@keyframes moveInRight {
-  0% {
-    opacity: 0;
-    transform: translateX(100px);
-  }
-
-  80% {
-    transform: translateX(-10px);
-  }
-
-  100% {
-    opacity: 1;
-    transform: translate(0);
-  }
+.event-form-content {
+  display: flex;
 }
 
-mat-card-header {
-  justify-content: center;
+.event-form-footer-container {
+  display: flex;
 }
 
-.screenshot {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: -55px;
-  margin-bottom: 10px;
-  max-width: 70vw;
-  height: fit-content;
-  outline: none;
-}
-
-.bg-object {
-  width: 15px;
-  height: 15px;
-  font-size: 70px;
-  line-height: 100%;
-  font-weight: bold;
+.background-container {
+  width: 100vw;
+  height: 100vh;
+  background-color: #171a1c;
   position: absolute;
-  transform: scale(0) translate(-50%, -50%);
-  z-index: 1000;
-  @media (min-width: 750px) {
-    animation: bg-object-anim 10s ease-in-out 1;
-  }
-}
+  left: 0;
+  top: 0;
 
-@keyframes bg-object-anim {
-  from {
-    color: var(--secondary);
-    opacity: 1;
-    transform: scale(0) translate(-50%, -50%);
-  }
-  to {
-    color: var(--seconday);
-    opacity: 0;
-    transform: scale(11) translate(-50%, -50%);
+  > .background-image {
+    width: 100vw;
+    height: 100vh;
+    background-image: url("/assets/background/background-gpt1.png");
+    background-position: center right;
+    background-repeat: no-repeat;
+    background-size: contain;
   }
 }
