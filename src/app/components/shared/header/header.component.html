@@ -53,6 +53,26 @@
 
       <button
         mat-flat-button
+        routerLink="/gpt-prompts"
+        tabindex="0"
+        [joyrideStep]="'chatGPT'"
+        [stepPosition]="'bottom'"
+        appJoyrideTemplate
+        [matTooltip]="'header.gpt-prompts' | translate"
+        *ngIf="router.url.endsWith('/gpt-chat-room') && isInRouteWithRoles"
+      >
+      <mat-icon
+        class="material-icons header-icons material-icons-filled"
+        style="transform: scale(1.2); margin-right: 5px">
+      assignment
+      </mat-icon>
+      <span *ngIf="!showSmallButtons && deviceInfo.isCurrentlyDesktop">
+        {{ "header.gpt-prompts" | translate }}
+      </span>
+      </button>
+
+      <button
+        mat-flat-button
         tabindex="0"
         [matTooltip]="'header.quiz-rally-button' | translate"
         *ngIf="
