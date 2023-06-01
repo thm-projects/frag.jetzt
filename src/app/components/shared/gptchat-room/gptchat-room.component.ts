@@ -759,18 +759,6 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
         });
         e.menuItem({
           translate: this.headerService.getTranslate(),
-          icon: 'question_mark',
-          class: 'material-icons-outlined',
-          text: 'header.prompt-explanation',
-          callback: () => this.showPromptExplanation(),
-          condition: () => {
-            return (
-              this.sessionService.currentRole > 0 && this.answeringWriteComment
-            );
-          },
-        });
-        e.menuItem({
-          translate: this.headerService.getTranslate(),
           icon: 'architecture',
           class: 'material-icons-outlined',
           text: 'header.preset-context',
@@ -812,6 +800,18 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
               return;
             }
             this.lengthSubMenu._allItems.get(index).focus();
+          },
+        });
+        e.menuItem({
+          translate: this.headerService.getTranslate(),
+          icon: 'question_mark',
+          class: 'material-icons-outlined',
+          text: 'header.prompt-explanation',
+          callback: () => this.showPromptExplanation(),
+          condition: () => {
+            return (
+              this.sessionService.currentRole > 0 && this.answeringWriteComment
+            );
           },
         });
         e.menuItem({
