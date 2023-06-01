@@ -292,4 +292,13 @@ export class RegisterComponent implements OnInit, AfterViewInit {
       );
     });
   }
+
+  revalidatePasswordField2(formField1: FormControl) {
+    this.password2FormControl.setErrors(
+      this.password2FormControl.validator.apply(this.password2FormControl, [
+        this.password2FormControl,
+        formField1,
+      ]),
+    );
+  }
 }
