@@ -90,6 +90,14 @@ export class PasswordResetComponent implements OnInit, AfterViewInit {
     private dialog: MatDialog,
   ) {}
 
+  static open(dialog: MatDialog): MatDialogRef<PasswordResetComponent> {
+    const ref = dialog.open(PasswordResetComponent, {
+      minWidth: '22em',
+      maxWidth: '37.5em',
+    });
+    return ref;
+  }
+
   public static calculateStrength(
     auth: AuthenticationService,
     passwordControl: FormControl,

@@ -150,6 +150,14 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     private dialog: MatDialog,
   ) {}
 
+  static open(dialog: MatDialog): MatDialogRef<RegisterComponent> {
+    const ref = dialog.open(RegisterComponent, {
+      minWidth: '22em',
+      maxWidth: '37.5em',
+    });
+    return ref;
+  }
+
   /**
    * Closes the register dialog on call.
    */
