@@ -7,61 +7,79 @@
 <div class="background-container">
   <div class="background-image"></div>
 </div>
-<div class="fill-header"></div>
+
 <div
-  class="fill-content"
-  data-nosnippet>
-  <div class="content-container">
-    <div class="content">
-      <div class="event-form-container">
-        <div class="event-form-header-container">
-          <span
-            class="main-heading-secondary"
-            aria-hidden="true">
-            {{ "login.welcome" | translate }}
-          </span>
-          <span class="main-heading-primary">
-            {{ "login.welcome-primary" | translate }}
-          </span>
-        </div>
-        <div class="event-form-content">
-          <app-new-landing></app-new-landing>
-        </div>
-        <div class="event-form-footer-container">
-          <h2>
-            <span data-nosnippet>
-              <a
-                [joyrideStep]="'feedbackLink'"
-                appJoyrideTemplate
-                [stepPosition]="'top'"
-                href="https://frag.jetzt/participant/room/Feedback"
-                target="_blank"
-                rel="noreferrer noopener"
-                aria-labelledby="feedback-aria">
-                {{ "login.welcome-feedback" | translate }}
-              </a>
-            </span>
-          </h2>
-        </div>
-
-        <button
-          id="live_announcer-button"
-          autofocus
-          tabIndex="-1"
-          (click)="announce()"
-          class="visually-hidden">
-          {{ "home-page.live-announcer" | translate }}
+  fxLayout="column"
+  fxLayoutAlign="center center"
+  class="content-container">
+  <div
+    class="content"
+    fxLayout="row">
+    <div
+      fxLayout="column"
+      style="width: 500px"
+      fxLayoutGap="32px">
+      <div
+        fxLayout="column"
+        fxLayoutGap="16px">
+        <span
+          class="main-heading-secondary"
+          aria-hidden="true">
+          {{ "login.welcome" | translate }}
+        </span>
+        <span class="main-heading-primary">
+          {{ "login.welcome-primary" | translate }}
+        </span>
+      </div>
+      <div
+        fxLayout="row"
+        style="align-items: center"
+        fxLayoutGap="16px">
+        <mat-form-field
+          style="flex-grow: 1"
+          appearance="standard">
+          <mat-label>Key code ...</mat-label>
+          <input
+            matInput
+            type="text" />
+        </mat-form-field>
+        <button mat-flat-button>
+          <span>join</span>
         </button>
-
+      </div>
+      <div fxLayout="row">
+        <button mat-flat-button>
+          <mat-icon>add</mat-icon>
+          <span>book a room</span>
+        </button>
+      </div>
+      <div fxLayout="row">
         <app-app-rating
           *ngIf="accumulatedRatings"
           [ratingResults]="accumulatedRatings"></app-app-rating>
       </div>
+      <div>
+        <h2>
+          <span
+            class="feedback"
+            data-nosnippet>
+            <a
+              [joyrideStep]="'feedbackLink'"
+              appJoyrideTemplate
+              [stepPosition]="'top'"
+              href="https://frag.jetzt/participant/room/Feedback"
+              target="_blank"
+              rel="noreferrer noopener"
+              aria-labelledby="feedback-aria">
+              {{ "login.welcome-feedback" | translate }}
+            </a>
+          </span>
+        </h2>
+      </div>
     </div>
-    <div class="fill"></div>
+    <div style="flex-grow: 1"></div>
   </div>
 </div>
-<div class="fill-footer"></div>
 
 <div class="visually-hidden">
   <div
