@@ -167,9 +167,6 @@ $preferred-size: calc(100vh - $header-size - $footer-size);
   display: flex;
   flex-direction: column;
   justify-content: center;
-
-  > .content {
-  }
 }
 
 .event-form-container {
