@@ -381,7 +381,8 @@
     "prompt-label": "Search for prompts | spacebar to see all prompts",
     "option-total-acts": "Hits in »Act as …«",
     "option-total-prompts": "Founds prompts",
-    "temperature": "Response variability"
+    "temperature": "Response variability",
+    "hint-apply-text": "Please note that this answer is not saved. You must accept the answer for it to be displayed."
   },
   "header": {
     "overview-keywords-tooltip": "Number of Keywords",

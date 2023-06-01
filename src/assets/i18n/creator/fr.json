@@ -500,7 +500,8 @@
     "prompt-label": "Recherche de prompts | barre d'espacement pour voir tous les prompts",
     "option-total-acts": "Hits dans « Agir comme … »",
     "option-total-prompts": "Hits dans prompts",
-    "temperature": "Variabilité de réponse"
+    "temperature": "Variabilité de réponse",
+    "hint-apply-text": "Veuillez noter que cette réponse n'est pas enregistrée. Tu dois saisir à nouveau la réponse pour qu'elle s'affiche."
   },
   "header": {
     "overview-keywords-tooltip": "Nombre de mots-clés",
