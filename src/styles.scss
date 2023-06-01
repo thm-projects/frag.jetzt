@@ -619,3 +619,13 @@ div[markdown] img {
     color: var(--on-surface);
   }
 }
+
+.chatgpt-robot-icon {
+  background-color: currentColor;
+  mask: url(/assets/images/chat_bot.svg) no-repeat center / contain;
+  font-size: 2.25em;
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  line-height: 0.75;
+}

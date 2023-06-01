@@ -456,8 +456,8 @@ export class RoomPageComponent implements OnInit, OnDestroy {
       (e) => {
         e.menuItem({
           translate: this.headerService.getTranslate(),
-          icon: 'smart_toy',
-          class: 'material-icons-outlined settings',
+          icon: '',
+          class: 'chatgpt-robot-icon settings',
           text: 'header.gpt-settings',
           callback: () => {
             GptRoomSettingsComponent.open(
@@ -548,14 +548,6 @@ export class RoomPageComponent implements OnInit, OnDestroy {
           class: 'material-icons-outlined',
           text: 'header.edit-session-description',
           callback: () => this.editSessionDescription(),
-          condition: () => this.userRole > UserRole.PARTICIPANT,
-        });
-        e.menuItem({
-          translate: this.headerService.getTranslate(),
-          icon: 'password',
-          class: 'material-icons-outlined',
-          text: 'header.profanity-filter',
-          callback: () => this.toggleProfanityFilter(),
           condition: () => this.userRole > UserRole.PARTICIPANT,
         });
         e.altToggle(
