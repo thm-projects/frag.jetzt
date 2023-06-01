@@ -35,10 +35,13 @@
           <span class="keyword-span" *ngIf="!keyword.editing">{{keyword.word}}</span>
           <input class="keyword-span, isEditing" *ngIf="keyword.editing" [(ngModel)]="keyword.word"/>
           <div class="keywords-actions">
-            <mat-checkbox [checked]="keyword.completed"
+            <mat-checkbox
+                          *ngIf="!keyword.editing"
+                          [checked]="keyword.completed"
                           (change)="keyword.selected = $event.checked"
                           [(ngModel)]="keyword.completed"
                           matTooltip="{{ 'spacy-dialog.select-keyword-hint' | translate }}"
+                          [disabled]="keyword.editing"
                           [matTooltipPosition]="'above'">
             </mat-checkbox>
             <button *ngIf="!keyword.editing"
@@ -52,7 +55,7 @@
                     (click)="onEndEditing(keyword); onEditChange(-1)" mat-icon-button
                     class="edit-accept"
                     matTooltip="{{ 'spacy-dialog.editing-done-hint' | translate }}">
-              <mat-icon>check</mat-icon>
+              <mat-icon>save</mat-icon>
             </button>
           </div>
         </mat-list-item>
