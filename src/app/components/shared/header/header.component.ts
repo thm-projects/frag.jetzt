@@ -41,7 +41,7 @@ import { StartUpService } from '../../../services/util/start-up.service';
 import { BrainstormingDataService } from 'app/services/util/brainstorming-data.service';
 import { Theme } from 'theme/Theme';
 import { MatMenu } from '@angular/material/menu';
-import { LanguageService } from 'app/services/util/language.service';
+import { Language, LanguageService } from 'app/services/util/language.service';
 import {
   getBrainstormingURL,
   livepollNavigationAccessOnRoute,
@@ -66,6 +66,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   @ViewChild(ArsComposeHostDirective) host: ArsComposeHostDirective;
   @ViewChild('toolbarRow') toolbarRow: ElementRef<HTMLElement>;
   @ViewChild('themeMenu') themeMenu: MatMenu;
+  @ViewChild('langMenu') languageMenu: MatMenu;
   user: ManagedUser;
   userRole: UserRole;
   cTime: string;
@@ -197,6 +198,11 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     this.startUpService.unreadMotds().subscribe((state) => {
       this.motdState = state;
     });
+  }
+
+  useLanguage(language: Language) {
+    this.translationService.use(language);
+    this.langService.setLanguage(language);
   }
 
   getClockCount() {
@@ -360,6 +366,17 @@ export class HeaderComponent implements OnInit, AfterViewInit {
       return;
     }
     this.themeMenu._allItems.get(index).focus();
+  }
+
+  openLanguageMenu() {
+    const language = this.langService.currentLanguage();
+    if (language === 'de') {
+      this.languageMenu._allItems.get(0).focus();
+    } else if (language === 'en') {
+      this.languageMenu._allItems.get(1).focus();
+    } else if (language === 'fr') {
+      this.languageMenu._allItems.get(2).focus();
+    }
   }
 
   openPseudoEditor() {

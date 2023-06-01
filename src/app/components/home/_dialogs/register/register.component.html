@@ -142,33 +142,46 @@
       </mat-error>
     </mat-form-field>
 
-    <!--password strength-->
-    <mat-progress-bar
-      #customProgressBar
-      class="custom-progress-bar"
-      mode="determinate"
-      [value]="passwordStrength"></mat-progress-bar>
-    <div class="password-requirments">
-      <span id="register-password-length-invalid">
-        {{ "register.password-length-invalid" | translate }}
-      </span>
-      <br>
-      <span id="register-password-no-number">
-        {{ "register.password-no-number" | translate }}
-      </span>
-      <br>
-      <span id="register-password-no-lowercase">
-        {{ "register.password-no-lowercase" | translate }}
-      </span>
-      <br>
-      <span id="register-password-no-uppercase">
-        {{ "register.password-no-uppercase" | translate }}
-      </span>
-      <br>
-      <span id="register-password-no-special-character">
-        {{ "register.password-no-special-character" | translate }}
-      </span>
+    <div
+      fxLayout="row"
+      fxLayoutGap="10px"
+      style="align-items: flex-end">
+      <!--password strength-->
+      <mat-progress-bar
+        #customProgressBar
+        class="custom-progress-bar"
+        mode="determinate"
+        [value]="passwordStrength"></mat-progress-bar>
+      <button
+        mat-icon-button
+        matSuffix
+        type="button"
+        [matTooltip]="'register.password-show-all-req' | translate"
+        (click)="toggleAllPasswordRequirements()">
+        <mat-icon class="material-icons-outlined">password</mat-icon>
+      </button>
     </div>
+
+    <!--password requirements-->
+    <div
+      fxLayout="column"
+      fxLayoutAlign="start start"
+      *ngIf="isPasswordRequirementsVisible">
+      <p class="oldtypo-p">{{ "register.password-req" | translate }}:</p>
+      <ul class="oldtypo-p">
+        <li>{{ "register.password-length-invalid" | translate }}</li>
+        <li>{{ "register.password-no-number" | translate }}</li>
+        <li>{{ "register.password-no-lowercase" | translate }}</li>
+        <li>{{ "register.password-no-uppercase" | translate }}</li>
+        <li>
+          {{ "register.password-no-special-character" | translate }}
+          <br />
+          (!, @, #, $, %, ^, &, *, (, ), _, +, -, =)
+        </li>
+        <li>{{ "register.password-too-similar" | translate }}</li>
+      </ul>
+    </div>
+
     <mat-form-field class="input-block">
       <input
         (input)="userEdit = true"

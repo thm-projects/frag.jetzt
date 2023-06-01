@@ -78,6 +78,7 @@ export class PasswordResetComponent implements OnInit, AfterViewInit {
   passwordStrength: number = 5;
 
   isPasswordVisible = false;
+  isPasswordRequirementsVisible = false;
 
   constructor(
     private translationService: TranslateService,
@@ -88,6 +89,14 @@ export class PasswordResetComponent implements OnInit, AfterViewInit {
     private liveAnnouncer: LiveAnnouncer,
     private dialog: MatDialog,
   ) {}
+
+  static open(dialog: MatDialog): MatDialogRef<PasswordResetComponent> {
+    const ref = dialog.open(PasswordResetComponent, {
+      minWidth: '22em',
+      maxWidth: '37.5em',
+    });
+    return ref;
+  }
 
   public static calculateStrength(
     auth: AuthenticationService,
@@ -333,6 +342,10 @@ export class PasswordResetComponent implements OnInit, AfterViewInit {
 
   togglePasswordVisibility(): void {
     this.isPasswordVisible = !this.isPasswordVisible;
+  }
+
+  toggleAllPasswordRequirements(): void {
+    this.isPasswordRequirementsVisible = !this.isPasswordRequirementsVisible;
   }
 
   checkPasswordStrength() {
