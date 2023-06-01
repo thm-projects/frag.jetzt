@@ -570,6 +570,7 @@
     "title": "Passwort-Generator",
     "password-length": "Länge des Passworts",
     "password-input": "Passworteingabe",
+    "password-output": "Passwortausgabe",
     "regenerate": "Sicheres Passwort generieren",
     "cancel": "Abbrechen",
     "copy-and-confirm": "Passwort kopieren und einsetzen",

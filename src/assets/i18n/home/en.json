@@ -457,7 +457,7 @@
     "or": "or",
     "password": "Password",
     "sign-in-as-guest": "Continue as a guest",
-    "sign-up": "Sign up",
+    "sign-up": "Create account",
     "title": "Sign in"
   },
   "moderators-dialog": {
@@ -570,6 +570,7 @@
     "title": "Password generator",
     "password-length": "Password length",
     "password-input": "Password input",
+    "password-output": "Password output",
     "regenerate": "Generate a secure password",
     "cancel": "Cancel",
     "copy-and-confirm": "Copy and paste password",
