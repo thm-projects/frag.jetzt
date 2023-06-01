@@ -561,7 +561,7 @@
     "register": "S'inscrire",
     "register-description": "Terminer l'enregistrement",
     "register-request-error": "Quelque chose s'est mal passé lors de l'enregistrement. Tu t'es peut-être déjà enregistré ?",
-    "register-successful": "Enregistré avec succès. Veuillez vérifier votre messagerie ! L'envoi peut prendre jusqu'à 10min.",
+    "register-successful": "Enregistré avec succès. Veuillez vérifier votre messagerie (éventuellement même dans le dossier spam)! L'envoi peut prendre jusqu'à 10min.",
     "register-error-password-too-common": "Le mot de passe est composé de chaînes de caractères faciles à deviner ou de chaînes de caractères provenant de listes de mots de passe publiées. Choisis un autre mot de passe ou utilise le générateur de mots de passe.",
     "register-unsuccessful": "Vérifie tes données, s'il te plaît.",
     "password-generator": "Générateur de mots de passe"

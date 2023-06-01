@@ -51,7 +51,9 @@
   <ng-container *ngIf="isOwner || canChangeApiSettings; else deactivated">
     <p>{{ "gpt-room-settings.own-openai-info" | translate }}</p>
     <mat-form-field>
-      <mat-label>{{ "gpt-room-settings.api-key" | translate }}</mat-label>
+      <mat-label>
+        {{ "gpt-room-settings.api-key" | translate }}
+      </mat-label>
       <input
         matInput
         appAccessibilityEscapedInput

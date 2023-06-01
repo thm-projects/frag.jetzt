@@ -388,7 +388,8 @@
     "prompt-label": "Suche nach Prompts | Leertaste für alle Prompts anzeigen",
     "option-total-acts": "Treffer in »Agiere als …«",
     "option-total-prompts": "Treffer in Prompts …",
-    "temperature": "Antwortvariabilität"
+    "temperature": "Antwortvariabilität",
+    "hint-apply-text": "Bitte beachte, dass diese Antwort nicht gespeichert wird. Du musst die Antwort übernehmen, damit diese angezeigt wird."
   },
   "header": {
     "overview-keywords-tooltip": "Anzahl Stichwörter",

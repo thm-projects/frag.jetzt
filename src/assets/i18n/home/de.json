@@ -561,7 +561,7 @@
     "register": "Registrieren",
     "register-description": "Registrierung abschließen",
     "register-request-error": "Bei der Registrierung ist etwas schief gelaufen. Hast du dich bereits registriert?",
-    "register-successful": "Erfolgreich registriert. Bitte prüfe deine Mailbox! Der Versand kann bis zu 10min dauern.",
+    "register-successful": "Erfolgreich registriert. Bitte prüfe deine Mailbox (eventuell sogar im Spam-Ordner)! Der Versand kann bis zu 10min dauern.",
     "register-error-password-too-common": "Das Passwort besteht aus leicht zu erratenden Zeichenfolgen oder Zeichenfolgen aus veröffentlichten Passwortlisten. Bitte wähle ein anderes Passwort oder benutze den Passwortgenerator.",
     "register-unsuccessful": "Bitte prüfe deine Eingaben.",
     "password-generator": "Passwort-Generator"

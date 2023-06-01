@@ -561,7 +561,7 @@
     "register": "Register",
     "register-description": "Register User",
     "register-request-error": "Something went wrong during registration. Maybe you have already created the account?",
-    "register-successful": "Successfully registered. Please check your mailbox! The dispatch can take up to 10min.",
+    "register-successful": "Successfully registered. Please check your mailbox (possibly even in spam folder)! The dispatch can take up to 10min.",
     "register-error-password-too-common": "Password consists of easily guessed strings or strings from published password lists. Please choose a different password or use the password generator.",
     "register-unsuccessful": "Please check your data.",
     "password-generator": "Password generator"
