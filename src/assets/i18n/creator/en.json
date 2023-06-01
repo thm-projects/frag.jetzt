@@ -765,6 +765,7 @@
     "trial-code": "I have received the following activation code from the frag.jetzt team:",
     "trial-enabled": "Perfect: You are participating in the evaluation study.",
     "trial-activated-info": "Through the evaluation study you have {{quota}}$ per month. This month {{counter}}$ have already been used.",
+    "rest-contingent-description": "The quota management is there to control the budget for the use of ChatGPT in the current room. This way you can set how many requests moderators or participants can make per day, month or in total, ensuring that requests to ChatGPT are possible for the entire period and are not used up on the first day.",
     "rest-flow-description": "The fluid quota works differently than other quotas. Every day, a part of the quota is released. For example, with a $20 quota, $20 * 2 / 31, or about $1.29, will be available on January 2.",
     "rest-room-flow-month": "Monthly flowing cost limit",
     "rest-mod-flow-month": "Monthly flowing cost limit",
