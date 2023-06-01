@@ -61,6 +61,9 @@
         class="focus_button"
         mat-button>
         <mat-icon class="material-icons-outlined">question_mark</mat-icon>
+        <span *ngIf="deviceInfo.isCurrentlyDesktop">
+          {{ "footer.help" | translate }}
+        </span>
       </button>
       <span class="fill-remaining-space"></span>
     </ng-container>

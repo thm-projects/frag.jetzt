@@ -369,12 +369,12 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   }
 
   openLanguageMenu() {
-    console.log(this.langService.currentLanguage());
-    if (this.langService.currentLanguage() === 'de') {
+    const language = this.langService.currentLanguage();
+    if (language === 'de') {
       this.languageMenu._allItems.get(0).focus();
-    } else if (this.langService.currentLanguage() === 'en') {
+    } else if (language === 'en') {
       this.languageMenu._allItems.get(1).focus();
-    } else if (this.langService.currentLanguage() === 'fr') {
+    } else if (language === 'fr') {
       this.languageMenu._allItems.get(2).focus();
     }
   }
