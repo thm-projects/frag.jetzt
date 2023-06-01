@@ -501,7 +501,7 @@
     "option-total-acts": "Hits in »Act as …«",
     "option-total-prompts": "Hits in prompts",
     "temperature": "Response variability",
-    "hint-apply-text": "Please make sure to accept/apply the answer because this chat while not be saved"
+    "hint-apply-text": "Please note that this answer is not saved. You must accept the answer for it to be displayed."
   },
   "header": {
     "overview-keywords-tooltip": "Number of Keywords",

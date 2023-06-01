@@ -524,7 +524,6 @@
     "reset-password-description": "Reset password",
     "reset-successful": "The confirmation code has been sent. It may take a few minutes for the email to arrive. Please check your inbox shortly and don't forget to check your spam folder as well in case you don't find the message right away.",
     "set-button-description": "Set the new password for the account",
-    "scroll-instruction": "Make sure to use the scrollbar if the save button is not visible",
     "set-new-password": "Use the confirmation code from your mailbox to set a new password:",
     "set-new-password-button": "Save new password",
     "new-password-is-old": "The new password must be different from the old one."
@@ -562,7 +561,7 @@
     "register": "Register",
     "register-description": "Register User",
     "register-request-error": "Something went wrong during registration. Maybe you have already created the account?",
-    "register-successful": "Successfully registered. Please check your mailbox (in spam folder too)! The dispatch can take up to 10min.",
+    "register-successful": "Successfully registered. Please check your mailbox (possibly even in spam folder)! The dispatch can take up to 10min.",
     "register-error-password-too-common": "Password consists of easily guessed strings or strings from published password lists. Please choose a different password or use the password generator.",
     "register-unsuccessful": "Please check your data.",
     "password-generator": "Password generator"

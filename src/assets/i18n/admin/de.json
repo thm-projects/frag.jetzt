@@ -106,7 +106,7 @@
     "option-total-prompts": "Treffer in Prompts …",
     "temperature": "Antwortvariabilität",
     "temperature-tooltip": "Einstellung der Kreativität und Determinismus der Antworten",
-    "hint-apply-text": "Bitte beachte, dass diese Antwort nicht gespeichert wird. Sie müssen das Antwort übernehmen."
+    "hint-apply-text": "Bitte beachte, dass diese Antwort nicht gespeichert wird. Du musst die Antwort übernehmen, damit diese angezeigt wird."
   },
   "quill": {
     "cancel": "Abbrechen",

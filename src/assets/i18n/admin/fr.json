@@ -106,7 +106,7 @@
     "option-total-prompts": "Hits dans prompts",
     "temperature": "Température",
     "temperature-tooltip": "Attitude de créativité et déterminisme des réponses",
-    "hint-apply-text": "N'oubliez pas d'appliquer la réponse avant de quitter la page, sinon elle sera perdue."
+    "hint-apply-text": "Veuillez noter que cette réponse n'est pas enregistrée. Tu dois saisir à nouveau la réponse pour qu'elle s'affiche."
   },
   "quill": {
     "cancel": "Annuler",

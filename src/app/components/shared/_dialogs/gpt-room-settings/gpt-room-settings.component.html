@@ -51,7 +51,7 @@
   <ng-container *ngIf="isOwner || canChangeApiSettings; else deactivated">
     <p>{{ "gpt-room-settings.own-openai-info" | translate }}</p>
     <mat-form-field>
-      <mat-label class="apiHeader">
+      <mat-label>
         {{ "gpt-room-settings.api-key" | translate }}
       </mat-label>
       <input
@@ -68,7 +68,7 @@
       </button>
     </mat-form-field>
     <mat-form-field>
-      <mat-label class="apiHeader">
+      <mat-label>
         {{ "gpt-room-settings.api-organization" | translate }}
       </mat-label>
       <input
