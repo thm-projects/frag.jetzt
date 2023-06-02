@@ -139,6 +139,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
   userEdit = true;
 
   isPasswordVisible = false;
+  isPasswordRequirementsVisible = false;
 
   constructor(
     private translationService: TranslateService,
@@ -148,6 +149,14 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialog: MatDialog,
   ) {}
+
+  static open(dialog: MatDialog): MatDialogRef<RegisterComponent> {
+    const ref = dialog.open(RegisterComponent, {
+      minWidth: '22em',
+      maxWidth: '37.5em',
+    });
+    return ref;
+  }
 
   /**
    * Closes the register dialog on call.
@@ -267,6 +276,10 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     this.isPasswordVisible = !this.isPasswordVisible;
   }
 
+  toggleAllPasswordRequirements(): void {
+    this.isPasswordRequirementsVisible = !this.isPasswordRequirementsVisible;
+  }
+
   checkPasswordStrength() {
     PasswordResetComponent.calculateStrength(
       this.authenticationService,
@@ -278,5 +291,14 @@ export class RegisterComponent implements OnInit, AfterViewInit {
         color,
       );
     });
+  }
+
+  revalidatePasswordField2(formField1: FormControl) {
+    this.password2FormControl.setErrors(
+      this.password2FormControl.validator.apply(this.password2FormControl, [
+        this.password2FormControl,
+        formField1,
+      ]),
+    );
   }
 }

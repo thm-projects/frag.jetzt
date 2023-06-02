@@ -150,9 +150,7 @@ export class LoginComponent implements OnInit, OnChanges {
   }
 
   openPasswordDialog(initProcess = true): void {
-    const ref = this.dialog.open(PasswordResetComponent, {
-      width: '350px',
-    });
+    const ref = PasswordResetComponent.open(this.dialog);
     ref.componentInstance.initProcess = initProcess;
     ref.componentInstance.setUsername(this.usernameFormControl.value);
     ref.afterClosed().subscribe((result) => {
@@ -167,10 +165,7 @@ export class LoginComponent implements OnInit, OnChanges {
   }
 
   openRegisterDialog(): void {
-    this.dialog
-      .open(RegisterComponent, {
-        width: '350px',
-      })
+    RegisterComponent.open(this.dialog)
       .afterClosed()
       .subscribe((result) => {
         if (result) {

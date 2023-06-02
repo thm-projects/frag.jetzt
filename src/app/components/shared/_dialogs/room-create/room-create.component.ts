@@ -32,7 +32,7 @@ export class RoomCreateComponent implements OnInit {
   room: Room;
   roomId: string;
   user: User;
-  hasCustomShortId = false;
+  hasCustomShortId = true;
   isLoading = false;
   readonly roomNameLengthMin = 3;
   readonly roomNameLengthMax = 30;

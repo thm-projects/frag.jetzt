@@ -275,6 +275,9 @@ app-comment {
 .fab_add_comment {
   position: fixed;
   right: 20px;
+  @media (min-width: 960px) {
+    right: calc(50% - 460px);
+  }
   bottom: 65px;
   z-index: 1;
   background-color: var(--primary);

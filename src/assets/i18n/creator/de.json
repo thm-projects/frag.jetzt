@@ -504,7 +504,8 @@
     "prompt-label": "Suche nach Prompts | Leertaste für alle Prompts anzeigen",
     "option-total-acts": "Treffer in »Agiere als …«",
     "option-total-prompts": "Treffer in Prompts …",
-    "temperature": "Antwortvariabilität"
+    "temperature": "Antwortvariabilität",
+    "hint-apply-text": "Bitte beachte, dass diese Antwort nicht gespeichert wird. Du musst die Antwort übernehmen, damit diese angezeigt wird."
   },
   "header": {
     "overview-keywords-tooltip": "Anzahl Stichwörter",
@@ -769,6 +770,7 @@
     "trial-code": "Ich habe folgenden Aktivierungscode vom frag.jetzt-Team erhalten:",
     "trial-enabled": "Perfekt: Du nimmst an der Evaluationsstudie teil.",
     "trial-activated-info": "Durch die Evaluationsstudie besitzt du {{quota}}$ pro Monat. Diesen Monat wurden bereits {{counter}}$ verwendet.",
+    "rest-contingent-description": "Die Kontigentverwaltung ist dafür da, um das Budget für die Nutzung von ChatGPT im aktuellen Raum kontrollieren zu können. So lässt sich einstellen, wie viele Anfragen Moderatoren oder Teilnehmer am Tag, Monat oder insgesamt durchführen können.Somit kann sichergestellt werden, dass Anfragen an ChatGPT  über den kompletten Zeitraum möglich sind und nicht am ersten Tag aufgebraucht werden.",
     "rest-flow-description": "Das fluide Kontingent funktioniert anders als andere Kontingente. Jeden Tag wird ein Teil des Kontingents freigegeben. Bei einem Kontingent von 20$ zum Beispiel sind am 2. Januar 20$ * 2 / 31, also etwa 1,29$, verfügbar.",
     "rest-room-flow-month": "Monatlich fliessende Kostenbegrenzung",
     "rest-mod-flow-month": "Monatlich fliessende Kostenbegrenzung",
@@ -891,7 +893,7 @@
     "auto": "auto",
     "de": "Deutsch",
     "edit-keyword-hint": "Wort editieren",
-    "editing-done-hint": "Editieren beenden",
+    "editing-done-hint": "Änderung speichern",
     "en": "Englisch",
     "force-language-selection": "Die Sprache der Eingabe konnte nicht automatisch erkannt werden.",
     "fr": "Französisch",

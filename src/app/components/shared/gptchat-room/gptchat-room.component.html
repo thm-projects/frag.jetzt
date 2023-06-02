@@ -23,12 +23,12 @@
         <mat-label></mat-label>
         <input
           placeholder="{{ 'gpt-chat.prompt-label' | translate }}"
-          autofocus
           type="text"
           aria-label="Prompt"
           matInput
           [matAutocomplete]="auto"
           [(ngModel)]="searchTerm"
+          (focus)="filterPrompts()"
           (input)="filterPrompts()" />
         <mat-autocomplete #auto="matAutocomplete">
           <mat-option
@@ -146,7 +146,13 @@
       [placeHolderText]="
         'gpt-chat.enter-conversation-text' | translate
       "></app-view-comment-data>
-
+    <div
+      fxLayout="column"
+      class="textfields">
+      <p class="oldtypo-p">
+        {{ "gpt-chat.hint-apply-text" | translate }}
+      </p>
+    </div>
     <div
       *ngIf="answeringWriteComment && conversation.length < 1"
       class="human">
