@@ -342,7 +342,7 @@
     "accessibility-join-button": "Enter the session with the specified session key.",
     "accessibility-join-input": "Here you can enter the key of the session you want to join. The presenter will tell you the session key.",
     "app-rating": "Reevaluate app",
-    "create-session": "Create a room",
+    "create-session": "Book a room",
     "created": "The room for the session »{{longRoomName}}« has been booked.",
     "custom-shortid": "Generate key code",
     "custom-shortid-placeholder": "Key code from: a-z A-Z 0-9 - _ ~ .",
@@ -457,7 +457,7 @@
     "or": "or",
     "password": "Password",
     "sign-in-as-guest": "Continue as a guest",
-    "sign-up": "Create account",
+    "sign-up": "Sign up",
     "title": "Sign in"
   },
   "moderators-dialog": {

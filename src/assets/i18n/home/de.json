@@ -342,7 +342,7 @@
     "accessibility-join-button": "Betritt die Sitzung, deren Code du eingegeben hast.",
     "accessibility-join-input": "Hier kannst du den Namen der Sitzung eingeben der du beitreten möchtest. Den Namen sagt dir die Sitzungsleitung.",
     "app-rating": "App neu bewerten",
-    "create-session": "Raum erstellen",
+    "create-session": "Raum buchen",
     "created": "Der Raum für die Sitzung »{{longRoomName}}« wurde gebucht.",
     "custom-shortid": "Raum-Code generieren lassen",
     "custom-shortid-placeholder": "Raum-Code aus: a-z A-Z 0-9 - _ ~ .",
