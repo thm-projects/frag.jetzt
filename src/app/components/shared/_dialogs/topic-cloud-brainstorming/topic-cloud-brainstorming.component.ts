@@ -14,7 +14,10 @@ import { CommentService } from '../../../../services/http/comment.service';
 import { ExplanationDialogComponent } from '../explanation-dialog/explanation-dialog.component';
 import { BrainstormingService } from '../../../../services/http/brainstorming.service';
 import { BrainstormingSession } from '../../../../models/brainstorming-session';
-import { AVAILABLE_LANGUAGES, LanguageService } from 'app/services/util/language.service';
+import {
+  AVAILABLE_LANGUAGES,
+  LanguageService,
+} from 'app/services/util/language.service';
 
 @Component({
   selector: 'app-topic-cloud-brainstorming',
@@ -40,9 +43,9 @@ export class TopicCloudBrainstormingComponent implements OnInit, OnDestroy {
     Validators.max(this.maxWordLengthMax),
   ]);
   question = '';
-  brainstormingDuration = 5;
-  brainstormingAllowIdeas = false;
-  brainstormingAllowRating = false;
+  brainstormingDuration = 15;
+  brainstormingAllowIdeas = true;
+  brainstormingAllowRating = true;
   roomSubscription: Subscription;
   brainstormingData: BrainstormingSession;
   isLoading = true;
@@ -66,9 +69,10 @@ export class TopicCloudBrainstormingComponent implements OnInit, OnDestroy {
     private brainstormingService: BrainstormingService,
     private languageService: LanguageService,
   ) {
-    this.language = new FormControl(languageService.currentLanguage() || this.languages[0], [
-      Validators.required,
-    ]);
+    this.language = new FormControl(
+      languageService.currentLanguage() || this.languages[0],
+      [Validators.required],
+    );
   }
 
   cancelButtonActionCallback(): () => void {

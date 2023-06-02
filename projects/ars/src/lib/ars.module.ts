@@ -35,7 +35,8 @@ import { ArsMatPaginatorComponent } from './components/content/paginator/ars-mat
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { DateTestComponent } from './components/test/date-test/date-test/date-test.component';
 import { DateFormatterComponent } from './components/content/date-formatter/date-formatter.component';
-import {ArsLifeCycleVisitor} from "./models/util/ars-life-cycle-visitor";
+import { ArsLifeCycleVisitor } from './models/util/ars-life-cycle-visitor';
+import { MatSubMenuComponent } from './compose/elements/mat-sub-menu/mat-sub-menu.component';
 
 @NgModule({
   declarations: [
@@ -64,42 +65,43 @@ import {ArsLifeCycleVisitor} from "./models/util/ars-life-cycle-visitor";
     ArsMatPaginatorComponent,
     DateTestComponent,
     DateFormatterComponent,
-    ArsLifeCycleVisitor
+    ArsLifeCycleVisitor,
+    MatSubMenuComponent,
   ],
-    imports:[
-        MatIconModule,
-        MatButtonModule,
-        CommonModule,
-        MatChipsModule,
-        MatFormFieldModule,
-        MatDatepickerModule,
-        TranslateModule,
-        MatMenuModule,
-        MatInputModule,
-        MatSlideToggleModule,
-        MatPaginatorModule
-    ],
-    exports: [
-        ArsComponent,
-        FullScreenOverlayComponent,
-        WrapperDirective,
-        FrameTestComponent,
-        ScrollDirective,
-        MaterialTypographyComponent,
-        RowComponent,
-        ColComponent,
-        FillComponent,
-        ThemeTestComponent,
-        BaseTestComponent,
-        MenuWrapperDirective,
-        ButtonWrapperDirective,
-        ButtonBaseDirective,
-        MaterialBtnComponent,
-        ArsComposeHostDirective,
-        ArsMatPaginatorComponent,
-        MatButtonComponent,
-        DateTestComponent,
-        DateFormatterComponent
-    ]
+  imports: [
+    MatIconModule,
+    MatButtonModule,
+    CommonModule,
+    MatChipsModule,
+    MatFormFieldModule,
+    MatDatepickerModule,
+    TranslateModule,
+    MatMenuModule,
+    MatInputModule,
+    MatSlideToggleModule,
+    MatPaginatorModule,
+  ],
+  exports: [
+    ArsComponent,
+    FullScreenOverlayComponent,
+    WrapperDirective,
+    FrameTestComponent,
+    ScrollDirective,
+    MaterialTypographyComponent,
+    RowComponent,
+    ColComponent,
+    FillComponent,
+    ThemeTestComponent,
+    BaseTestComponent,
+    MenuWrapperDirective,
+    ButtonWrapperDirective,
+    ButtonBaseDirective,
+    MaterialBtnComponent,
+    ArsComposeHostDirective,
+    ArsMatPaginatorComponent,
+    MatButtonComponent,
+    DateTestComponent,
+    DateFormatterComponent,
+  ],
 })
-export class ArsModule { }
+export class ArsModule {}

@@ -21,9 +21,9 @@
  *
  */
 export class ArsAnchor<E> {
-  public value:E;
-  constructor(private rel:()=>void){}
-  public release():void{
+  public value: E;
+  constructor(private rel: () => void) {}
+  public release(): void {
     this.rel();
   }
 }
@@ -33,56 +33,65 @@ export class ArsAnchor<E> {
  * State-Change-Listener
  */
 export class ArsObserver<E> {
-
-  public static build<E>(e:(a:ArsObserver<E>)=>void):ArsObserver<E>{
-    const obs=new ArsObserver<E>();
+  public static build<E>(e: (a: ArsObserver<E>) => void): ArsObserver<E> {
+    const obs = new ArsObserver<E>();
     e(obs);
     return obs;
   }
 
-  private previous:E;
-  private current:E;
-  private listener:((e:ArsObserver<E>)=>void)[]=[];
-  constructor(e?:E){
-    if(e)this.current=e;
+  private previous: E;
+  private current: E;
+  private listener: ((e: ArsObserver<E>) => void)[] = [];
+  constructor(e?: E) {
+    if (e) this.current = e;
   }
 
-  public set(e:E){
-    this.previous=this.current;
-    this.current=e;
-    this.listener.forEach(listener=>listener(this));
+  public set(e: E) {
+    this.internalSet(e);
+    this.listener.forEach((listener) => listener(this));
   }
 
-  public get():E{
+  public internalSet(e: E) {
+    this.previous = this.current;
+    this.current = e;
+  }
+
+  public get(): E {
     return this.current;
   }
 
-  public getPrevious():E{
+  public getPrevious(): E {
     return this.previous;
   }
 
-  public empty():boolean{
+  public empty(): boolean {
     return this.current == null;
   }
 
-  public onChange(consumer:(e:ArsObserver<E>)=>void,run?:boolean):()=>void {
+  public onChange(
+    consumer: (e: ArsObserver<E>) => void,
+    run?: boolean,
+  ): () => void {
     this.listener.push(consumer);
-    if(run)consumer(this);
-    return ()=>this.listener
-      =this.listener.splice(this.listener.indexOf(consumer));
+    if (run) consumer(this);
+    return () =>
+      (this.listener = this.listener.splice(this.listener.indexOf(consumer)));
   }
 
   // this works for some reason
-  public createAnchor():ArsAnchor<E>{
-    const anchor:ArsAnchor<E>=new ArsAnchor<E>(
-      this.onChange(e=>anchor.value=e.get()));
+  public createAnchor(): ArsAnchor<E> {
+    const anchor: ArsAnchor<E> = new ArsAnchor<E>(
+      this.onChange((e) => (anchor.value = e.get())),
+    );
     return anchor;
   }
 
-  public map<A>(consumer:(left:ArsObserver<E>,right?:ArsObserver<A>)=>A,run?:boolean):ArsObserver<A>{
-    const obs=new ArsObserver<A>();
-    this.onChange(e=>obs.set(consumer(e,obs)),run);
+  public map<A>(
+    consumer: (left: ArsObserver<E>, right?: ArsObserver<A>) => A,
+    run?: boolean,
+  ): ArsObserver<A> {
+    const obs = new ArsObserver<A>();
+    this.onChange((e) => obs.set(consumer(e, obs)), run);
     return obs;
   }
-
 }

@@ -1,14 +1,13 @@
 import { ThemeMeta } from '../Theme';
 
 export const dark = {
-
   '--primary': 'darkorange',
   '--primary-variant': 'darkslategrey',
 
   '--secondary': 'blueviolet',
-  '--secondary-variant': '#6f74dd',
+  '--secondary-variant': 'blueviolet',
 
-  '--background': 'black',
+  '--background': '#1F1B24',
   '--surface': '#052338',
   '--dialog': '#15171D',
   '--cancel': 'red',
@@ -38,12 +37,24 @@ export const dark = {
 
   '--questionwall-intro-primary': 'darkorange',
   '--questionwall-intro-secondary': '#eadabf',
-  '--questionwall-intro-background': '#121212'
+  '--questionwall-intro-background': '#121212',
 
+  '--livepoll-primary': '#8a2be2',
+  '--livepoll-primary--disabled': '#282934',
+  '--livepoll-primary--hover': '#993cf5',
+  '--on-livepoll-primary': '#ffffff',
+  '--on-livepoll-primary--disabled': '#c5c5c5',
+  '--on-livepoll-primary--hover': '#ffffff',
+
+  '--livepoll-secondary': '#ff8e00',
+  '--livepoll-secondary--disabled': '#5f5f64',
+  '--livepoll-secondary--hover': '#faa24f',
+  '--on-livepoll-secondary': '#ffffff',
+  '--on-livepoll-secondary--disabled': '#c5c5c5',
+  '--on-livepoll-secondary--hover': '#ffffff',
 };
 
 export const dark_meta: ThemeMeta = {
-
   translation: {
     name: {
       en: 'Dark mode',
@@ -59,5 +70,4 @@ export const dark_meta: ThemeMeta = {
   previewColor: 'background',
   icon: 'nightlight_round',
   highlightJsClass: 'pojoaque.css',
-
 };

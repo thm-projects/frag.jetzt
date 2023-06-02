@@ -1,5 +1,5 @@
-@use '@angular/material' as mat;
-@import './../../../node_modules/@angular/material/theming';
+@use "@angular/material" as mat;
+@import "./../../../node_modules/@angular/material/theming";
 
 $dark-primary: mat.define-palette(mat.$blue-gray-palette, 800);
 $dark-accent: mat.define-palette(mat.$orange-palette, 200);
@@ -39,6 +39,11 @@ a {
   border-color: var(--on-dialog) !important;
 }
 
-.mat-radio-button.mat-accent .mat-radio-inner-circle, .mat-radio-button.mat-accent .mat-radio-ripple .mat-ripple-element:not(.mat-radio-persistent-ripple), .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-persistent-ripple, .mat-radio-button.mat-accent:active .mat-radio-persistent-ripple {
+.mat-radio-button.mat-accent .mat-radio-inner-circle,
+.mat-radio-button.mat-accent
+  .mat-radio-ripple
+  .mat-ripple-element:not(.mat-radio-persistent-ripple),
+.mat-radio-button.mat-accent.mat-radio-checked .mat-radio-persistent-ripple,
+.mat-radio-button.mat-accent:active .mat-radio-persistent-ripple {
   background-color: var(--on-dialog) !important;
 }

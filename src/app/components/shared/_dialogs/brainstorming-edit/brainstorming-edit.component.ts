@@ -32,9 +32,9 @@ export class BrainstormingEditComponent implements OnInit {
     Validators.max(this.maxWordLengthMax),
   ]);
   question = '';
-  brainstormingDuration = 5;
-  brainstormingAllowIdeas = false;
-  brainstormingAllowRating = false;
+  brainstormingDuration = 15;
+  brainstormingAllowIdeas = true;
+  brainstormingAllowRating = true;
   roomSubscription: Subscription;
   isCreating = false;
   readonly languages = [...AVAILABLE_LANGUAGES];
@@ -100,7 +100,7 @@ export class BrainstormingEditComponent implements OnInit {
     if (this.brainstormingAllowIdeas === this.session.ideasFrozen) {
       changes.ideasFrozen = !this.brainstormingAllowIdeas;
     }
-    if (this.brainstormingAllowRating === this.session.ratingAllowed) {
+    if (this.brainstormingAllowRating !== this.session.ratingAllowed) {
       changes.ratingAllowed = this.brainstormingAllowRating;
     }
     if (Object.keys(changes).length < 1) {

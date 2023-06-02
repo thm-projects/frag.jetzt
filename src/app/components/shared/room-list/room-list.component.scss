@@ -10,14 +10,17 @@ button {
   color: var(--on-surface) !important;
 }
 
-table, th, tr, td {
+table,
+th,
+tr,
+td {
   background-color: var(--primary-variant) !important;
   color: var(--on-primary-variant) !important;
   hyphens: auto;
-  overflow-wrap: anywhere;
 }
 
-th, tr {
+th,
+tr {
   font-size: small !important;
 }
 
@@ -69,6 +72,7 @@ th, tr {
   top: -2px;
   background: var(--secondary);
   color: var(--on-secondary);
+  font-weight: normal;
 }
 
 .table-container {
@@ -101,6 +105,8 @@ th, tr {
 
 .clickable {
   cursor: pointer;
+  overflow-wrap: anywhere;
+  padding-right: 10px;
 }
 
 .list-entries {
@@ -122,7 +128,16 @@ th.mat-header-cell:first-of-type {
   > .mat-badge-content {
     background-color: var(--primary);
     color: var(--on-primary);
-    left: -16px !important;
+    left: -20px !important;
     top: 14px !important;
+    font-weight: normal;
   }
+}
+
+.mat-badge-small.mat-badge-before .mat-badge-content {
+  left: -20px !important;
+}
+
+.mat-sort-header-content {
+  text-align: left !important;
 }

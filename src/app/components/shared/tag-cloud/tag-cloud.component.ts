@@ -44,9 +44,7 @@ import { TagCloudSettings } from '../../../utils/TagCloudSettings';
 import { SessionService } from '../../../services/util/session.service';
 import { BrainstormingSession } from '../../../models/brainstorming-session';
 import { IntroductionTagCloudComponent } from '../_dialogs/introductions/introduction-tag-cloud/introduction-tag-cloud.component';
-import {
-  IntroductionBrainstormingComponent,
-} from '../_dialogs/introductions/introduction-brainstorming/introduction-brainstorming.component';
+import { IntroductionBrainstormingComponent } from '../_dialogs/introductions/introduction-brainstorming/introduction-brainstorming.component';
 import { ComponentType } from '@angular/cdk/overlay';
 import { RoomDataService } from '../../../services/util/room-data.service';
 import {
@@ -57,7 +55,7 @@ import {
 } from '../../../utils/data-filter-object.lib';
 import { maskKeyword } from '../../../services/util/tag-cloud-data.util';
 import { FilteredDataAccess } from '../../../utils/filtered-data-access';
-import { forkJoin, Subscription, switchMap } from 'rxjs';
+import { forkJoin, Subject, Subscription, switchMap, takeUntil } from 'rxjs';
 import { UserManagementService } from '../../../services/util/user-management.service';
 import { BrainstormingBlacklistEditComponent } from '../_dialogs/brainstorming-blacklist-edit/brainstorming-blacklist-edit.component';
 import { BrainstormingTopic } from 'app/services/util/brainstorming-data-builder';
@@ -73,6 +71,7 @@ import {
   exportBrainstorming,
 } from 'app/utils/ImportExportMethods';
 import { BonusTokenService } from 'app/services/http/bonus-token.service';
+import { BrainstormingCategory } from 'app/models/brainstorming-category';
 
 class TagComment implements WordMeta {
   constructor(
@@ -93,7 +92,6 @@ class BrainstormComment implements WordMeta {
     public weight: number,
     public brainData: BrainstormingTopic,
     public index: number,
-    public wordId: string,
   ) {}
 }
 
@@ -132,11 +130,15 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
   createCommentWrapper: CreateCommentWrapper = null;
   brainstormingData: BrainstormingSession;
   brainstormingActive: boolean;
+  brainstormingCategories: BrainstormingCategory[];
+  private destroyer = new Subject();
   private _currentSettings: CloudParameters;
   private _subscriptionRoom = null;
   private readonly _smartDebounce = new SmartDebounce(50, 1_000);
   private intervalWriteChecker: TimeoutHelper;
   private themeSubscription: Subscription;
+  private demoDataKeys: [string, TagCloudDataTagEntry][] = [];
+  private _demoActive = false;
 
   constructor(
     private commentService: CommentService,
@@ -159,7 +161,35 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     private roomDataService: RoomDataService,
     private brainstormingService: BrainstormingService,
     private bonusTokenService: BonusTokenService,
-  ) {}
+  ) {
+    this.brainstormingActive = this.router.url.endsWith('/brainstorming');
+    for (let i = 0; i < 10; i++) {
+      this.demoDataKeys.push([
+        '',
+        {
+          weight: i,
+          adjustedWeight: i,
+          answerCount: 0,
+          cachedDownVotes: 0,
+          cachedUpVotes: 0,
+          cachedVoteCount: 0,
+          categories: new Set(),
+          comments: [],
+          commentsByCreator: 0,
+          commentsByModerators: 0,
+          countedComments: new Set(),
+          dependencies: new Set(),
+          distinctUsers: new Set(),
+          firstTimeStamp: new Date(),
+          generatedByQuestionerCount: 0,
+          lastTimeStamp: new Date(),
+          questionChildren: new Map(),
+          responseCount: 0,
+          taggedCommentsCount: 0,
+        },
+      ]);
+    }
+  }
 
   get tagCloudDataManager(): TagCloudDataService {
     return this.dataManager;
@@ -167,6 +197,18 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
 
   get currentCloudParameters(): CloudParameters {
     return new CloudParameters(this._currentSettings);
+  }
+
+  get demoActive(): boolean {
+    return this._demoActive;
+  }
+
+  set demoActive(value: boolean) {
+    if (value === this._demoActive) {
+      return;
+    }
+    this._demoActive = value;
+    this.rebuildDemoData();
   }
 
   ngOnInit(): void {
@@ -185,12 +227,20 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
   ngAfterContentInit() {
     this.sessionService.onReady.subscribe(() => {
       this.initNavigation();
-      this.dataManager.updateDemoData(this.translateService);
+      this.translateService
+        .get('tag-cloud.demo-data-topic')
+        .subscribe((text) => {
+          for (let i = 0; i < 10; i++) {
+            this.demoDataKeys[i][0] = text.replace('%d', String(i + 1));
+          }
+        });
       this.setCloudParameters(this.getCurrentCloudParameters(), false);
     });
   }
 
   ngOnDestroy() {
+    this.destroyer.next(true);
+    this.destroyer.complete();
     this.dataManager.unloadCloud();
     const customTagCloudStyles = document.getElementById(
       'tagCloudStyles',
@@ -236,6 +286,10 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     this.updateTagCloud();
   }
 
+  setIdeaFiltering(value: string | null) {
+    this.brainDataManager.ideaFiltering = value;
+  }
+
   canWriteComment(ignoreInternal = false): boolean {
     if (
       (!this.room || this.room.questionsBlocked) &&
@@ -278,13 +332,17 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
   }
 
   rebuildBrainstormingData() {
+    if (this.demoActive) {
+      this.rebuildDemoData();
+      return;
+    }
     if (!this.cloud || !this.brainDataManager.currentData) {
       return;
     }
     const newElements = [];
     const data = this.brainDataManager.currentData;
-    for (const [word, topic] of data) {
-      this.createBrainTagElement(topic, word.id, word.correctedWord || word.word, newElements);
+    for (const topic of data) {
+      this.createBrainTagElement(topic, newElements);
     }
     this.data = newElements;
     setTimeout(() => {
@@ -293,6 +351,10 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
   }
 
   rebuildData() {
+    if (this.demoActive) {
+      this.rebuildDemoData();
+      return;
+    }
     if (!this.cloud || !this.dataManager.currentData) {
       return;
     }
@@ -305,12 +367,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
       );
     }
     for (const [tag, tagData] of data) {
-      const amount = this.dataManager.demoActive
-        ? 10 - tagData.adjustedWeight
-        : 1;
-      for (let i = 0; i < amount; i++) {
-        this.createTagElement(countFiler, tagData, tag, newElements);
-      }
+      this.createTagElement(countFiler, tagData, tag, newElements);
     }
     this.data = newElements;
     setTimeout(() => {
@@ -322,8 +379,12 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     this._smartDebounce.call(() => this.redraw(dataUpdated));
   }
 
-  openTags(tag: WordMeta): void {
-    if (this.dataManager.demoActive) {
+  request() {
+    return (i: number) => this.cloud.requestEntry(i);
+  }
+
+  openTags(tag: WordMeta, isRequested = false): void {
+    if (this.demoActive) {
       return;
     }
     //Room filter
@@ -332,9 +393,12 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     filter.lastRoomId = this.room.id;
     filter.period = Period.All;
     if (this.brainstormingActive) {
+      if (!isRequested) {
+        return;
+      }
       filter.sourceFilterBrainstorming = BrainstormingFilter.OnlyBrainstorming;
       filter.filterType = FilterType.BrainstormingIdea;
-      filter.filterCompare = (tag as BrainstormComment).wordId;
+      filter.filterCompare = [...(tag as BrainstormComment).brainData.words];
     } else {
       filter.filterType = FilterType.Keyword;
       filter.filterCompare = (tag as TagComment).realText;
@@ -352,17 +416,16 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
       (this._currentSettings.hoverTime + this._currentSettings.hoverDelay) *
       1_000;
     if (this.brainstormingActive) {
-      this.sessionService.getCategoriesOnce().subscribe((categories) => {
-        this.popup.enterBrainstorming(
-          word.element,
-          word.meta.text,
-          this.brainstormingData?.active,
-          hoverDelay,
-          (word.meta as BrainstormComment).brainData,
-          (word.meta as BrainstormComment).wordId,
-          categories,
-        );
-      });
+      this.popup.enterBrainstorming(
+        word.element,
+        (word.meta as BrainstormComment).realText,
+        this.brainstormingData?.active,
+        this.brainstormingData?.ratingAllowed ||
+          this.userRole > UserRole.PARTICIPANT,
+        hoverDelay,
+        (word.meta as BrainstormComment).brainData,
+        this.brainstormingCategories,
+      );
       return;
     }
     this.popup.enter(
@@ -437,6 +500,30 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     });
   }
 
+  private rebuildDemoData() {
+    if (!this.cloud) {
+      return;
+    }
+    const newElements = [];
+    const countFiler = [];
+    for (let i = 0; i < 10; i++) {
+      countFiler.push(
+        this._currentSettings.cloudWeightSettings[i].maxVisibleElements,
+      );
+    }
+    for (let i = 0; i < this.demoDataKeys.length; i++) {
+      const amount = 10 - i;
+      for (let i = 0; i < amount; i++) {
+        const [tag, tagData] = this.demoDataKeys[i];
+        this.createTagElement(countFiler, tagData, tag, newElements);
+      }
+    }
+    this.data = newElements;
+    setTimeout(() => {
+      this.updateTagCloud(true);
+    }, 2);
+  }
+
   private initBrainstorming() {
     this.brainstormingActive = true;
     this._currentSettings = this.getCurrentCloudParameters();
@@ -451,6 +538,15 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
         this.user = newUser;
       }
     });
+    this.sessionService
+      .getCategories()
+      .pipe(takeUntil(this.destroyer))
+      .subscribe((categories) => {
+        this.brainstormingCategories = categories || [];
+        this.brainstormingCategories.sort((a, b) =>
+          a.name.localeCompare(b.name, undefined, { sensitivity: 'base' }),
+        );
+      });
     forkJoin([
       this.sessionService.getRoomOnce(),
       this.sessionService.getModeratorsOnce(),
@@ -535,8 +631,6 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
 
   private createBrainTagElement(
     topicData: BrainstormingTopic,
-    wordId: string,
-    tag: string,
     newElements: BrainstormComment[],
   ) {
     let rotation =
@@ -545,7 +639,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     if (rotation === null || this._currentSettings.randomAngles) {
       rotation = Math.floor(Math.random() * 30 - 15);
     }
-    let filteredTag = tag;
+    let filteredTag = topicData.preview;
     if (filteredTag.length > this.brainstormingData.maxWordLength) {
       filteredTag =
         filteredTag.substring(0, this.brainstormingData.maxWordLength - 1) +
@@ -554,12 +648,11 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     newElements.push(
       new BrainstormComment(
         filteredTag,
-        tag,
+        topicData.preview,
         rotation,
         topicData.weight,
         topicData,
         newElements.length,
-        wordId,
       ),
     );
   }
@@ -595,7 +688,12 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
             this.writeComment();
             this.translateService
               .get('tag-cloud.write-last-idea')
-              .subscribe((msg) => this.notificationService.show(msg));
+              .subscribe((msg) =>
+                this.notificationService.show(msg, undefined, {
+                  duration: 12_500,
+                  panelClass: ['snackbar', 'important'],
+                }),
+              );
           }
         }, 1_000);
       }
@@ -646,17 +744,8 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
       (e) => {
         e.menuItem({
           translate: this.headerService.getTranslate(),
-          icon: 'forum',
-          class: 'material-icons-outlined',
-          text: 'header.back-to-questionboard',
-          callback: () =>
-            this.router.navigate(['../'], { relativeTo: this.route }),
-          condition: () => true,
-        });
-        e.menuItem({
-          translate: this.headerService.getTranslate(),
-          icon: 'cloud',
-          class: 'material-icons-outlined',
+          icon: 'format_paint',
+          class: 'material-icons-filled',
           text: 'header.tag-cloud-config',
           callback: () => this.drawer.toggle(),
           condition: () => true,
@@ -698,16 +787,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
       (e) => {
         e.menuItem({
           translate: this.headerService.getTranslate(),
-          icon: 'forum',
-          class: 'material-icons-outlined',
-          text: 'header.brainstorm-back-to-questionboard',
-          callback: () =>
-            this.router.navigate(['../'], { relativeTo: this.route }),
-          condition: () => true,
-        });
-        e.menuItem({
-          translate: this.headerService.getTranslate(),
-          icon: 'psychology_alt',
+          icon: 'question_mark',
           class: 'material-icons-outlined',
           text: 'header.brainstorm-info',
           callback: () => {
@@ -715,23 +795,34 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
               autoFocus: false,
             });
           },
-          condition: () => true,
+          condition: () => this.userRole > UserRole.PARTICIPANT,
         });
         e.altToggle(
           {
             translate: this.headerService.getTranslate(),
-            icon: 'start',
+            icon: 'timer',
             class: 'material-icons-outlined',
             text: 'header.brainstorm-start',
           },
           {
             translate: this.headerService.getTranslate(),
-            icon: 'stop',
+            icon: 'timer_off',
             class: 'material-icons-outlined',
             text: 'header.brainstorm-stop',
           },
           ArsObserver.build<boolean>((emitter) => {
-            emitter.set(this.brainstormingData.ideasEndTimestamp !== null);
+            emitter.internalSet(
+              this.brainstormingData.ideasEndTimestamp !== null,
+            );
+            this.sessionService
+              .receiveRoomUpdates()
+              .pipe(takeUntil(this.destroyer))
+              .subscribe((room) => {
+                emitter.internalSet(
+                  (room.brainstormingSession?.ideasEndTimestamp ?? null) !==
+                    null,
+                );
+              });
             emitter.onChange((observer) => {
               this.brainstormingService
                 .patchSession(this.brainstormingData.id, {
@@ -763,7 +854,15 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
             text: 'header.brainstorm-unfreeze-ideas',
           },
           ArsObserver.build<boolean>((emitter) => {
-            emitter.set(this.brainstormingData.ideasFrozen ?? true);
+            emitter.internalSet(this.brainstormingData.ideasFrozen ?? true);
+            this.sessionService
+              .receiveRoomUpdates()
+              .pipe(takeUntil(this.destroyer))
+              .subscribe((room) => {
+                emitter.internalSet(
+                  room.brainstormingSession?.ideasFrozen ?? true,
+                );
+              });
             emitter.onChange((observer) => {
               this.brainstormingService
                 .patchSession(this.brainstormingData.id, {
@@ -796,7 +895,9 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
                 '/comments/questionwall',
             ]);
           },
-          condition: () => true,
+          condition: () =>
+            this.userRole > UserRole.PARTICIPANT &&
+            !this.deviceInfo.isCurrentlyMobile,
         });
         e.menuItem({
           translate: this.headerService.getTranslate(),
@@ -816,41 +917,41 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
         });
         e.menuItem({
           translate: this.headerService.getTranslate(),
-          icon: 'category',
-          class: 'material-icons-outlined',
+          icon: 'interests',
+          class: 'material-icons-filled',
           text: 'header.brainstorm-categories',
           callback: () => {
-            this.sessionService.getCategoriesOnce().subscribe((categories) => {
-              const dialogRef = this.dialog.open(
-                BrainstormingCategoryEditorComponent,
-                {
-                  width: '400px',
-                },
-              );
-              dialogRef.componentInstance.tags = categories.map((c) => c.name);
-              dialogRef.afterClosed().subscribe((result) => {
-                if (!result || result === 'abort') {
-                  return;
-                }
-                this.brainstormingService
-                  .updateCategories(this.sessionService.currentRoom.id, result)
-                  .subscribe({
-                    next: () => {
-                      this.translateService
-                        .get('room-page.changes-successful')
-                        .subscribe((msg) => {
-                          this.notificationService.show(msg);
-                        });
-                    },
-                    error: () => {
-                      this.translateService
-                        .get('room-page.changes-gone-wrong')
-                        .subscribe((msg) => {
-                          this.notificationService.show(msg);
-                        });
-                    },
-                  });
-              });
+            const dialogRef = this.dialog.open(
+              BrainstormingCategoryEditorComponent,
+              {
+                width: '400px',
+              },
+            );
+            dialogRef.componentInstance.tags = this.brainstormingCategories.map(
+              (c) => c.name,
+            );
+            dialogRef.afterClosed().subscribe((result) => {
+              if (!result || result === 'abort') {
+                return;
+              }
+              this.brainstormingService
+                .updateCategories(this.sessionService.currentRoom.id, result)
+                .subscribe({
+                  next: () => {
+                    this.translateService
+                      .get('room-page.changes-successful')
+                      .subscribe((msg) => {
+                        this.notificationService.show(msg);
+                      });
+                  },
+                  error: () => {
+                    this.translateService
+                      .get('room-page.changes-gone-wrong')
+                      .subscribe((msg) => {
+                        this.notificationService.show(msg);
+                      });
+                  },
+                });
             });
           },
           condition: () => this.userRole > UserRole.PARTICIPANT,
@@ -923,7 +1024,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
         );
         e.menuItem({
           translate: this.headerService.getTranslate(),
-          icon: 'handyman',
+          icon: 'summarize',
           class: 'material-icons-outlined',
           text: 'header.brainstorm-blacklist',
           callback: () => {
@@ -940,8 +1041,8 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
         });
         e.menuItem({
           translate: this.headerService.getTranslate(),
-          icon: 'psychology',
-          class: 'material-icons-outlined',
+          icon: 'handyman',
+          class: 'material-icons-filled',
           text: 'header.brainstorm-settings',
           callback: () => {
             const dialogRef = this.dialog.open(BrainstormingEditComponent, {
@@ -954,8 +1055,8 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
         });
         e.menuItem({
           translate: this.headerService.getTranslate(),
-          icon: 'cloud',
-          class: 'material-icons-outlined',
+          icon: 'format_paint',
+          class: 'material-icons-filled',
           text: 'header.brainstorm-look-and-feel',
           callback: () => this.drawer.toggle(),
           condition: () => true,

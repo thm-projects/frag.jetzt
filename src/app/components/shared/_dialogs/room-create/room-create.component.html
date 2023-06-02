@@ -1,63 +1,99 @@
 <form>
-  <div fxLayout="column"
-       fxLayoutAlign="center"
-       fxLayoutGap="10px">
+  <div
+    fxLayout="column"
+    fxLayoutAlign="center"
+    fxLayoutGap="10px">
     <mat-form-field>
-      <input appAccessibilityEscapedInput
-             matInput
-             class="input-block"
-             type="text"
-             [maxlength]="roomNameLengthMax"
-             [formControl]="roomNameFormControl"
-             name="roomName"
-             aria-labelledby="room-name-input">
-      <mat-placeholder *ngIf="hasCustomShortId"
-                       class="placeholder">{{ 'session.session-name' | translate }}</mat-placeholder>
-      <mat-placeholder *ngIf="!hasCustomShortId"
-                       class="placeholder">{{ 'session.session-name-with-key-code-generated' | translate }}</mat-placeholder>
-      <mat-hint align="end" class="count">
-        <span aria-hidden="true">{{roomNameFormControl.value.length}} / {{roomNameLengthMax}}</span>
+      <input
+        appAccessibilityEscapedInput
+        matInput
+        class="input-block"
+        type="text"
+        [maxlength]="roomNameLengthMax"
+        [formControl]="roomNameFormControl"
+        name="roomName"
+        aria-labelledby="room-name-input" />
+      <mat-placeholder
+        *ngIf="hasCustomShortId"
+        class="placeholder">
+        {{ "session.session-name" | translate }}
+      </mat-placeholder>
+      <mat-placeholder
+        *ngIf="!hasCustomShortId"
+        class="placeholder">
+        {{ "session.session-name-with-key-code-generated" | translate }}
+      </mat-placeholder>
+      <mat-hint
+        align="end"
+        class="count">
+        <span aria-hidden="true">
+          {{ roomNameFormControl.value.length }} / {{ roomNameLengthMax }}
+        </span>
       </mat-hint>
-      <mat-error *ngIf="roomNameFormControl.hasError('required')
-          || roomNameFormControl.hasError('minlength')
-          || roomNameFormControl.hasError('maxlength')">
+      <mat-error
+        *ngIf="
+          roomNameFormControl.hasError('required') ||
+          roomNameFormControl.hasError('minlength') ||
+          roomNameFormControl.hasError('maxlength')
+        ">
         <strong>
-          {{ 'home-page.name-length-error' | translate: {min: roomNameLengthMin, max: roomNameLengthMax} }}
+          {{
+            "home-page.name-length-error"
+              | translate : { min: roomNameLengthMin, max: roomNameLengthMax }
+          }}
         </strong>
       </mat-error>
     </mat-form-field>
     <mat-slide-toggle
-      (change)="hasCustomShortId=$event.checked">
-      <span *ngIf="hasCustomShortId">{{ 'home-page.custom-shortid' | translate }}</span>
-      <span *ngIf="!hasCustomShortId">{{ 'home-page.generated-shortid' | translate }}</span>
+      (change)="hasCustomShortId = !$event.checked"
+      checked="false">
+      <span *ngIf="hasCustomShortId">
+        {{ "home-page.custom-shortid" | translate }}
+      </span>
+      <span *ngIf="!hasCustomShortId">
+        {{ "home-page.generated-shortid" | translate }}
+      </span>
     </mat-slide-toggle>
     <mat-form-field *ngIf="hasCustomShortId">
-      <input appAccessibilityEscapedInput
-             (keyup)="resetInvalidCharacters()"
-             autofocus
-             matInput
-             class="input-block"
-             type="text"
-             [maxlength]="shortIdLengthMax"
-             [formControl]="roomShortIdFormControl"
-             name="customShortId"
-             aria-labelledby="room-name-input">
-      <mat-placeholder class="placeholder">{{ 'home-page.custom-shortid-placeholder' | translate }}</mat-placeholder>
-      <mat-hint align="end" class="count">
-        <span aria-hidden="true">{{roomShortIdFormControl.value.length}} / {{shortIdLengthMax}}</span>
+      <input
+        appAccessibilityEscapedInput
+        (keyup)="resetInvalidCharacters()"
+        autofocus
+        matInput
+        class="input-block"
+        type="text"
+        [maxlength]="shortIdLengthMax"
+        [formControl]="roomShortIdFormControl"
+        name="customShortId"
+        aria-labelledby="room-name-input" />
+      <mat-placeholder class="placeholder">
+        {{ "home-page.custom-shortid-placeholder" | translate }}
+      </mat-placeholder>
+      <mat-hint
+        align="end"
+        class="count">
+        <span aria-hidden="true">
+          {{ roomShortIdFormControl.value.length }} / {{ shortIdLengthMax }}
+        </span>
       </mat-hint>
-      <mat-error *ngIf="roomShortIdFormControl.hasError('required')
-          || roomShortIdFormControl.hasError('minlength')
-          || roomShortIdFormControl.hasError('maxlength')">
+      <mat-error
+        *ngIf="
+          roomShortIdFormControl.hasError('required') ||
+          roomShortIdFormControl.hasError('minlength') ||
+          roomShortIdFormControl.hasError('maxlength')
+        ">
         <strong>
-          {{ 'home-page.key-code-length-error' | translate: {min: shortIdLengthMin, max: shortIdLengthMax} }}
+          {{
+            "home-page.key-code-length-error"
+              | translate : { min: shortIdLengthMin, max: shortIdLengthMax }
+          }}
         </strong>
       </mat-error>
       <mat-error *ngIf="roomShortIdFormControl.hasError('pattern')">
-        <strong>{{ 'home-page.invalid-char-shortid' | translate }}</strong>
+        <strong>{{ "home-page.invalid-char-shortid" | translate }}</strong>
       </mat-error>
       <mat-error *ngIf="roomShortIdFormControl.hasError('shortId')">
-        <strong>{{ 'home-page.invalid-shortid' | translate }}</strong>
+        <strong>{{ "home-page.invalid-shortid" | translate }}</strong>
       </mat-error>
     </mat-form-field>
   </div>
@@ -67,9 +103,10 @@
   confirmButtonLabel="create-room"
   [showLoadingCycle]="isLoading"
   [cancelButtonClickAction]="buildCloseDialogActionCallback()"
-  [confirmButtonClickAction]="buildRoomCreateActionCallback()">
-</app-dialog-action-buttons>
+  [confirmButtonClickAction]="
+    buildRoomCreateActionCallback()
+  "></app-dialog-action-buttons>
 
 <div class="visually-hidden">
-  <div id="room-name-input">{{ 'home-page.room-name-input' | translate }}</div>
+  <div id="room-name-input">{{ "home-page.room-name-input" | translate }}</div>
 </div>

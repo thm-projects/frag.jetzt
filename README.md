@@ -50,15 +50,23 @@ With our innovative product "frag.jetzt" we want to conquer the market of audien
 
 ## Glossary
 
-See [PDF](https://git.thm.de/arsnova/frag.jetzt/-/blob/staging/docs/diagrams/Glossary.pdf)
+See [PDF](https://git.thm.de/arsnova/frag.jetzt/-/raw/staging/docs/diagrams/Glossary.pdf)
 
 ## Use Case Diagram
 
-See [SVG](https://git.thm.de/arsnova/frag.jetzt/-/blob/staging/docs/diagrams/Use-Case-Diagram.svg)
+See [SVG](https://staging.frag.jetzt/assets/images/Use_Case_Diagram.svg)
 
 ## Domain Diagram
 
-See [SVG](https://git.thm.de/arsnova/frag.jetzt/-/blob/staging/docs/diagrams/Domain_Diagram.svg)
+See [SVG](https://staging.frag.jetzt/assets/images/Domain_Diagram.svg)
+
+## Activity Diagram for Bonus Awarding
+
+See [SVG](https://staging.frag.jetzt/assets/images/activity_diagram_bonus_option.svg)
+
+## Activity Diagram for Brainstorming
+
+See [SVG](https://staging.frag.jetzt/assets/images/activity_diagram_brainstorming.svg)
 
 ## frag.jetzt development with docker
 
@@ -69,16 +77,16 @@ frag.jetzt consists of a variety of backend services. Starting them all individu
 The following software has to be installed on your computer:
 
 1. GNU/Linux compliant operating system, for example:
-    1. Debian based: Debian, Ubuntu, Mint, ...
-    2. Arch based: Arch, Manjaro, ...
-    3. Red Hat based: Red Hat, RHEL, Fedora, CentOS, ...
-    4. ...
+   1. Debian based: Debian, Ubuntu, Mint, ...
+   2. Arch based: Arch, Manjaro, ...
+   3. Red Hat based: Red Hat, RHEL, Fedora, CentOS, ...
+   4. ...
 2. Docker
-    1. [Installation Instructions](https://docs.docker.com/engine/install/)
-    2. [Docker Reference](https://docs.docker.com/reference/)
+   1. [Installation Instructions](https://docs.docker.com/engine/install/)
+   2. [Docker Reference](https://docs.docker.com/reference/)
 3. Docker Compose
-    1. [Installation Instructions](https://docs.docker.com/compose/install/)
-    2. [Docker Compose Reference](https://docs.docker.com/compose/reference/)
+   1. [Installation Instructions](https://docs.docker.com/compose/install/)
+   2. [Docker Compose Reference](https://docs.docker.com/compose/reference/)
 
 #### Prerequisite for other OS's
 
@@ -155,11 +163,11 @@ All emails from the system are intercepted and can be viewed in the Mailhog inte
 To run a local code style check with sonarqube, follow these steps:
 
 1. switch into the analysis folder  
-  `cd analysis`
+   `cd analysis`
 2. start the sonarqube server  
-  `docker-compose up -d sonarqube`
+   `docker-compose up -d sonarqube`
 3. when sonarqube has started, you may run analysis whenever you want with  
-  `docker-compose run --rm analysis`
+   `docker-compose run --rm analysis`
 
 ## Credits
 

@@ -2,11 +2,18 @@
 
 <mat-dialog-content>
   <mat-form-field>
-    <mat-label>{{ "brainstorming-blacklist.placeholder-add" | translate }}</mat-label>
-    <input matInput [(ngModel)]="newBlacklistWord" />
+    <mat-label>
+      {{ "brainstorming-blacklist.placeholder-add" | translate }}
+    </mat-label>
+    <input
+      matInput
+      [(ngModel)]="newBlacklistWord" />
   </mat-form-field>
 
-  <button mat-flat-button class="edit-button" (click)="addBlacklistWord()">
+  <button
+    mat-flat-button
+    class="edit-button"
+    (click)="addBlacklistWord()">
     {{ "brainstorming-blacklist.add-button" | translate }}
   </button>
 
@@ -14,8 +21,7 @@
     mat-flat-button
     class="edit-button"
     *ngIf="blacklist?.length > 0"
-    (click)="showBlacklistWordList = !showBlacklistWordList"
-  >
+    (click)="showBlacklistWordList = !showBlacklistWordList">
     {{
       showBlacklistWordList
         ? ("brainstorming-blacklist.hide-button" | translate)
@@ -26,23 +32,22 @@
   <mat-list
     role="list"
     *ngIf="showBlacklistWordList && blacklist?.length > 0"
-    class="margin-bottom"
-  >
+    class="margin-bottom">
     <mat-list-item
       class="color-on-surface"
       *ngFor="let word of blacklist"
-      role="listitem"
-      >{{ word.word }}
+      role="listitem">
+      {{ word.word }}
       <button
         style="margin-left: auto; color: var(--red)"
         mat-icon-button
-        (click)="removeWordFromBlacklist(word.id)"
-      >
+        matTooltip="{{ 'brainstorming-blacklist.back' | translate }}"
+        (click)="removeWordFromBlacklist(word.id)">
         <mat-icon
           class="material-icons-outlined"
           mat-list-icon
-          style="margin-bottom: 6px"
-          >delete_sweep
+          style="margin-bottom: 6px">
+          undo
         </mat-icon>
       </button>
     </mat-list-item>
@@ -53,5 +58,6 @@
   buttonsLabelSection="brainstorming-blacklist"
   confirmButtonLabel="update"
   [spacing]="true"
-  [confirmButtonClickAction]="buildSaveActionCallback()"
-></app-dialog-action-buttons>
+  [confirmButtonClickAction]="
+    buildSaveActionCallback()
+  "></app-dialog-action-buttons>

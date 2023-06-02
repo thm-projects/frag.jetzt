@@ -1,5 +1,4 @@
 :host {
-
   .userActivityIcon {
     display: inline-block;
     /*width: 25px;
@@ -13,7 +12,12 @@
     mask-size: 100% 100%;
   }
 
-  p, h1, h2, h3, h4, h5 {
+  p,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
     padding: 0;
     margin: 0;
   }
@@ -48,12 +52,11 @@
     &:hover * {
       color: white;
     }
-
   }
 
   .questionwall {
     &-icon {
-      font-family: 'Material Icons', serif;
+      font-family: "Material Icons", serif;
       font-weight: normal;
       font-style: normal;
       font-size: 22px;
@@ -66,14 +69,14 @@
     &-header {
       background-color: var(--ars-foreground-color);
       border-bottom: solid 1px var(--ars-border-color);
-      transition:all 0.2s ease-in-out;
+      transition: all 0.2s ease-in-out;
       z-index: 4;
     }
 
     &-footer {
       background-color: var(--ars-foreground-color);
       border-top: solid 1px var(--ars-border-color);
-      transition:all 0.2s ease-in-out;
+      transition: all 0.2s ease-in-out;
       z-index: 54;
 
       > * {
@@ -128,7 +131,6 @@
         > button > * {
           color: darkorange;
         }
-
       }
 
       &-notification {
@@ -141,7 +143,7 @@
       }
 
       &-number {
-        font-size: 35px;
+        font-size: 30px;
         padding-right: 20px;
         font-weight: bold;
         color: rgba(255, 255, 255, 0.2);
@@ -214,14 +216,15 @@
         &-outer {
           display: flex;
           flex-direction: row;
-          justify-content: center;
+          justify-content: left;
           hyphens: auto;
           word-break: break-word;
           color: darkorange;
         }
 
         &-inner {
-          width: 1000px;
+          width: 80%;
+          margin-left: 200px;
           flex-shrink: 1;
         }
       }
@@ -255,14 +258,14 @@
         }
 
         &-number {
-          font-size: 110px;
+          font-size: 50px;
           padding-left: 16px;
           font-weight: bold;
           color: rgba(255, 255, 255, 0.2);
 
           > mat-icon {
-            font-size: 135px;
-            width: 135px;
+            font-size: 70px;
+            width: 70px;
             height: 100%;
             vertical-align: text-bottom;
           }
@@ -317,7 +320,6 @@
       transform: scale(1.5);
     }
   }
-
 }
 
 :host ::ng-deep {
@@ -337,13 +339,13 @@
 
     > p {
       text-align: center;
-      color: #FFFFFF;
+      color: #ffffff;
     }
 
     &-indicator {
       width: 10px;
       height: 10px;
-      background-color: #FFFFFF;
+      background-color: #ffffff;
       border-radius: 2px;
       position: relative;
       left: 50%;
@@ -386,7 +388,7 @@
     bottom: 64px;
     width: 200px;
     height: 200px;
-    animation: popin-qr-overlay 0.2s cubic-bezier(0, .04, 0, 1) both;
+    animation: popin-qr-overlay 0.2s cubic-bezier(0, 0.04, 0, 1) both;
   }
 
   @keyframes popin-qr-overlay {
@@ -491,7 +493,6 @@
   .qw-text-paragraph {
     color: var(--ars-header-color);
   }
-
 }
 
 .selected {
@@ -507,4 +508,14 @@ h2 {
 button > mat-icon {
   color: darkorange;
   height: unset;
+}
+
+ars-mat-paginator {
+  display: block;
+  float: left;
+  ::ng-deep {
+    * {
+      color: var(--ars-paragraph-color);
+    }
+  }
 }

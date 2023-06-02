@@ -23,26 +23,28 @@ export interface OnboardingTour {
   checkIfRouteCanBeAccessed?: (route: string) => Observable<boolean>;
 }
 
-const roomChecker = (roomService: RoomService, roomUrl: string): Observable<boolean> => {
+const roomChecker = (
+  roomService: RoomService,
+  roomUrl: string,
+): Observable<boolean> => {
   const index = roomUrl.indexOf('room/') + 5;
   const shortId = roomUrl.substring(index, roomUrl.indexOf('/', index));
   const sub = new Subject<boolean>();
-  roomService.getRoomByShortId(shortId)
-    .subscribe({
-      next: room => {
-        sub.next(room != null);
-      },
-      error: () => {
-        sub.next(false);
-      }
-    });
+  roomService.getRoomByShortId(shortId).subscribe({
+    next: (room) => {
+      sub.next(room != null);
+    },
+    error: () => {
+      sub.next(false);
+    },
+  });
   return sub.asObservable();
 };
 
 export const initDefaultTour = (
   userManagementService: UserManagementService,
   dataStoreService: DataStoreService,
-  roomService: RoomService
+  roomService: RoomService,
 ): OnboardingTour => ({
   name: 'default',
   tour: [
@@ -57,26 +59,36 @@ export const initDefaultTour = (
     'commentFilter@participant/room/Feedback/comments',
     'commentUserNumber@participant/room/Feedback/comments',
     'dashboard@participant/room/Feedback/comments',
-    'optionHeader@participant/room/Feedback/comments'
+    'chatGPT@participant/room/Feedback/comments',
+    'navigationButton@participant/room/Feedback/comments',
+    'optionHeader@participant/room/Feedback/comments',
   ],
   tourActions: {
     feedbackLink: {
       beforeLoad: (isNext: boolean) => {
-        if (isNext && dataStoreService.get('onboarding-default-meta') === 'false' && !userManagementService.isLoggedIn()) {
+        if (
+          isNext &&
+          dataStoreService.get('onboarding-default-meta') === 'false' &&
+          !userManagementService.isLoggedIn()
+        ) {
           userManagementService.loginAsGuest().subscribe();
         }
       },
       beforeUnload: (isNext: boolean) => {
-        if (!isNext && dataStoreService.get('onboarding-default-meta') === 'false' && userManagementService.isLoggedIn()) {
+        if (
+          !isNext &&
+          dataStoreService.get('onboarding-default-meta') === 'false' &&
+          userManagementService.isLoggedIn()
+        ) {
           userManagementService.logout();
         }
-      }
+      },
     },
     voting: {
       beforeLoad: () => {
         document.getElementById('scroll_container').scrollTop = 0;
-      }
-    }
+      },
+    },
   },
   doneAction: (_) => {
     if (dataStoreService.get('onboarding-default-meta') === 'false') {
@@ -85,12 +97,15 @@ export const initDefaultTour = (
     dataStoreService.remove('onboarding-default-meta');
   },
   startupAction: () => {
-    dataStoreService.set('onboarding-default-meta', String(userManagementService.isLoggedIn()));
+    dataStoreService.set(
+      'onboarding-default-meta',
+      String(userManagementService.isLoggedIn()),
+    );
   },
   checkIfRouteCanBeAccessed: (route: string) => {
     if (route.endsWith('home')) {
       return of(true);
     }
     return roomChecker(roomService, route);
-  }
+  },
 });

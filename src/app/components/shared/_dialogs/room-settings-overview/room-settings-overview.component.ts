@@ -9,10 +9,9 @@ import { NotificationService } from '../../../../services/util/notification.serv
 @Component({
   selector: 'app-room-settings-overview',
   templateUrl: './room-settings-overview.component.html',
-  styleUrls: ['./room-settings-overview.component.scss']
+  styleUrls: ['./room-settings-overview.component.scss'],
 })
 export class RoomSettingsOverviewComponent implements OnInit {
-
   @Input() room: Readonly<Room>;
   @Input() awaitComplete = false;
   directSend: boolean;
@@ -21,6 +20,8 @@ export class RoomSettingsOverviewComponent implements OnInit {
   bonusArchiveEnabled: boolean;
   quizEnabled: boolean;
   brainstormingEnabled: boolean;
+  livepollEnabled: boolean;
+  keywordExtrationEnabled: boolean;
 
   constructor(
     private dialogRef: MatDialogRef<RoomSettingsOverviewComponent>,
@@ -28,8 +29,7 @@ export class RoomSettingsOverviewComponent implements OnInit {
     private roomService: RoomService,
     private translateService: TranslateService,
     private notificationService: NotificationService,
-  ) {
-  }
+  ) {}
 
   ngOnInit(): void {
     this.directSend = this.room.directSend;
@@ -38,6 +38,8 @@ export class RoomSettingsOverviewComponent implements OnInit {
     this.bonusArchiveEnabled = this.room.bonusArchiveActive;
     this.quizEnabled = this.room.quizActive;
     this.brainstormingEnabled = this.room.brainstormingActive;
+    this.livepollEnabled = this.room.livepollActive;
+    this.keywordExtrationEnabled = this.room.keywordExtractionActive;
   }
 
   onConfirm() {
@@ -48,22 +50,26 @@ export class RoomSettingsOverviewComponent implements OnInit {
       bonusArchiveActive: this.bonusArchiveEnabled,
       quizActive: this.quizEnabled,
       brainstormingActive: this.brainstormingEnabled,
+      livepollActive: this.livepollEnabled,
+      keywordExtractionActive: this.keywordExtrationEnabled,
     };
     this.roomService.patchRoom(this.room.id, update).subscribe({
       next: () => {
-        this.translateService.get('room-settings-overview.changes-successful')
-          .subscribe(msg => this.notificationService.show(msg));
+        this.translateService
+          .get('room-settings-overview.changes-successful')
+          .subscribe((msg) => this.notificationService.show(msg));
         if (this.awaitComplete) {
           this.dialogRef.close(update);
         }
       },
       error: () => {
-        this.translateService.get('room-settings-overview.changes-gone-wrong')
-          .subscribe(msg => this.notificationService.show(msg));
+        this.translateService
+          .get('room-settings-overview.changes-gone-wrong')
+          .subscribe((msg) => this.notificationService.show(msg));
         if (this.awaitComplete) {
           this.dialogRef.close({});
         }
-      }
+      },
     });
     if (!this.awaitComplete) {
       this.dialogRef.close(update);
@@ -78,8 +84,10 @@ export class RoomSettingsOverviewComponent implements OnInit {
     event.stopImmediatePropagation();
     event.preventDefault();
     event.stopPropagation();
-    this.profanityFilter = this.profanityFilter !== ProfanityFilter.DEACTIVATED ?
-      ProfanityFilter.DEACTIVATED : ProfanityFilter.NONE;
+    this.profanityFilter =
+      this.profanityFilter !== ProfanityFilter.DEACTIVATED
+        ? ProfanityFilter.DEACTIVATED
+        : ProfanityFilter.NONE;
   }
 
   toggleProfanityLanguage(event: Event) {
@@ -114,9 +122,8 @@ export class RoomSettingsOverviewComponent implements OnInit {
 
   openHelp() {
     const ref = this.dialog.open(ExplanationDialogComponent, {
-      autoFocus: false
+      autoFocus: false,
     });
     ref.componentInstance.translateKey = 'explanation.room-settings-overview';
   }
-
 }

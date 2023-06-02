@@ -217,7 +217,13 @@ export class FilteredDataAccess {
     [FilterType.Number]: (c, value) => c.number === value,
     [FilterType.Censored]: (c) => this._profanityChecker(c),
     [FilterType.Conversation]: (c) => c.totalAnswerCounts.accumulated > 0,
-    [FilterType.BrainstormingIdea]: (c, value) => c.brainstormingWordId === value,
+    [FilterType.BrainstormingIdea]: (c, value) =>
+      value?.includes?.(c.brainstormingWordId),
+    [FilterType.Approved]: (c) =>
+      c.approved ||
+      (!this._isRaw
+        ? getMultiLevelFilterParent(c, (comment) => comment.approved) !== null
+        : false),
   } as const;
   // general properties
   private _settings: AttachOptions = null;
@@ -546,6 +552,18 @@ export class FilteredDataAccess {
     this._sortedFilteredData = null;
   }
 
+  updateCount(search = false) {
+    if (!search) {
+      this.updateStages(STAGE_FILTER | STAGE_SORT_FILTER);
+      return;
+    }
+    const stage =
+      (this._filter.currentSearch ? 0 : STAGE_FILTER | STAGE_SORT_FILTER) |
+      STAGE_SEARCH |
+      STAGE_SORT_SEARCH;
+    this.updateStages(stage);
+  }
+
   private calculateChanges(
     oldFilter: RoomDataFilter,
     newFilter: RoomDataFilter,
@@ -557,8 +575,10 @@ export class FilteredDataAccess {
       return () => this.updateDataSubscription();
     }
     if (
-      oldFilter.sourceFilterAcknowledgement !== newFilter.sourceFilterAcknowledgement ||
-      oldFilter.sourceFilterBrainstorming !== newFilter.sourceFilterBrainstorming ||
+      oldFilter.sourceFilterAcknowledgement !==
+        newFilter.sourceFilterAcknowledgement ||
+      oldFilter.sourceFilterBrainstorming !==
+        newFilter.sourceFilterBrainstorming ||
       oldFilter.ignoreThreshold !== newFilter.ignoreThreshold
     ) {
       return () => this.updateStages(UPDATE_ALL);
@@ -671,7 +691,9 @@ export class FilteredDataAccess {
       const onlyBrain =
         this._filter.sourceFilterBrainstorming ===
         BrainstormingFilter.OnlyBrainstorming;
-      data = data.filter((c) => (c.brainstormingSessionId !== null) === onlyBrain);
+      data = data.filter(
+        (c) => (c.brainstormingSessionId !== null) === onlyBrain,
+      );
     }
     if (this._filter.ignoreThreshold) {
       this._preFilteredData = [...data];

@@ -1,52 +1,42 @@
 # How to contribute
 
-This project is due to a 'Softwaretechnik-Projekt' at THM in WiSe 17/18, from March 1st until March 16th. If you want to contribute, please contact our product owner. 
+We want to make this frontend as lightweight as possible while still providing a user friendly, engaging experience.
 
-> Contact Information will be added when he gives his okay.
-
-## Horizon
-
-With this project, a new frontend for [ARSnova](https://arsnova.thm.de/mobile/) based on [Angular](https://angular.io/) will be build. 
-
-We want to build this frontend as lightweight as possible while granting a user friendly, envolving experience.
-
-For more information, see our [README.md](README.md).
+More information can be found in our [README.md](README.md).
 
 ## Getting Started
 
-* Make sure you have a [THM Gitlab account](https://git.thm.de/).
-* Submit an issue for every task if it does not already exist.
-* Clearly describe the issue including steps to reproduce when it is a bug.
+- Make sure you have a [THM GitLab account](https://git.thm.de/).
+- Submit an issue for each task if one does not already exist.
+- Clearly describe the issue, including steps to reproduce it if it is a bug.
 
-## Making changes
+## Making Changes
 
-* Create a topic branch from where you want to base your work.
-    * This should always be the master branch, unless something went terribly wrong.
-    * Use tags to describe your issue/branch/merge request.
-    * Always provide information on what you are working on.
-    * To quickly create a topic branch, go to your issue, expand `Create a merge request` and select `Create branch`.
-* Make commits of logical and atomic units.
-* Check for unnecessary whitespaces with `git diff --check` before commiting.
-* Create tests for your changes, if possible (yes, it takes time, it is annoying, but also it is **necassary**)
-* Run *all* tests to assure nothing else was accidentally broken.
+- Create a topic branch on which to base your work.
+  - This should always be the master branch, unless something has gone terribly wrong.
+  - Use tags to describe your issue/branch/merge request.
+  - Always provide information about what you are working on.
+  - To quickly create a topic branch, go to your issue, expand `Create merge request` and select `Create branch`.
+- Make logical and atomic commits.
+- Check for unnecessary whitespace with `git diff --check` before committing.
+- Create tests for your changes if possible (yes, it takes time, it is annoying, but it is also _necessary_).
+- Run _all_ the tests to make sure nothing else is broken by accident.
 
-## Submitting Changes
+## Submitting changes
 
-* Push your changes to a topic branch in the repository.
-* Check whether your topic branch is up to date with `master`. If not, please rebase your branch.
-* Submit a merge request to the repository.
-* Provide information about what changed.
-* Mark you merge request with `ready for testing` when you finished your work. If you haven't already, mark it with `work in progress` and add `[WIP]: ` to the merge request's title.
-* The team will then test your changes. When everything is as expected, your merge request will be marked as `ready for review`
-* The scrum master will then check your code for style and compatibility. If everything is okay, your changes will be merged.
-* If something goes wrong - do not panic! There will be a change request with more information about what went wrong. You can fix these problems, your merge request will remain open.
+- Push your changes to a topic branch in the repository.
+- Check that your topic branch is up to date with `staging'. If not, rebase your branch.
+- Submit a merge request to the repository.
+- Check that your changes meet all the [Definition of Done](DoD.md) criteria.
+- Provide information about what has changed.
+- Mark your merge request as `Ready for testing` when you have finished your work. If you haven't already done so, mark it as `work in progress` and add `[WIP]:` to the merge request title.
+- The team will then test your changes. If everything is as expected, your merge request will be marked as `Ready for Review`.
+- The Scrum Master will then review your code for style and compatibility. If all is well, your changes will be merged.
+- If something goes wrong - do not panic! There will be a change request with more information about what went wrong. You can fix those problems, and your merge request will remain open.
 
+## Git commit messages
 
-## Styleguides
-
-### Git Commit Messages
-
-* Use the present tense (`Add feature` instead of `Added feature`).
-* Use the imperative mood (`Move cursor to...`instead of `Moves cursor to...`).
-* Limit the first line to 72 characters or less.
-* Reference issues and merge requests liberally after the first line.
+- Use the present tense (`Add feature` instead of `Added feature`).
+- Use imperative mood (`Move cursor to....` instead of `Moves cursor to...`).
+- Limit the first line to 72 characters or less.
+- Reference issues and merge requests liberally after the first line.

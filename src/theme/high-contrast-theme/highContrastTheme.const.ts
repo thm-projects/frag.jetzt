@@ -1,12 +1,11 @@
 import { ThemeMeta } from '../Theme';
 
 export const highcontrast = {
-
   '--primary': 'white',
   '--primary-variant': 'DarkSlateGray',
 
   '--secondary': 'white',
-  '--secondary-variant': '#fb9a1c',
+  '--secondary-variant': 'DarkSlateGray',
 
   '--background': '#121212',
   '--surface': '#1e1e1e',
@@ -16,7 +15,7 @@ export const highcontrast = {
   '--alt-dialog': '#455a64',
 
   '--on-primary': '#141414',
-  '--on-secondary': '#141414',
+  '--on-secondary': 'black',
   '--on-primary-variant': '#FFFFFF',
   '--on-background': '#FFFFFF',
   '--on-surface': '#FFFFFF',
@@ -38,12 +37,24 @@ export const highcontrast = {
 
   '--questionwall-intro-primary': 'darkorange',
   '--questionwall-intro-secondary': '#eadabf',
-  '--questionwall-intro-background': '#121212'
+  '--questionwall-intro-background': '#121212',
 
+  '--livepoll-primary': '#3833e9',
+  '--livepoll-primary--disabled': '#282934',
+  '--livepoll-primary--hover': '#E6E5FC',
+  '--on-livepoll-primary': '#ffffff',
+  '--on-livepoll-primary--disabled': '#c5c5c5',
+  '--on-livepoll-primary--hover': '#282934',
+
+  '--livepoll-secondary': '#ff8e00',
+  '--livepoll-secondary--disabled': '#5f5f64',
+  '--livepoll-secondary--hover': '#FFF1DF',
+  '--on-livepoll-secondary': '#ffffff',
+  '--on-livepoll-secondary--disabled': '#c5c5c5',
+  '--on-livepoll-secondary--hover': '#282934',
 };
 
 export const highcontrast_meta: ThemeMeta = {
-
   translation: {
     name: {
       en: 'High contrast',
@@ -59,23 +70,4 @@ export const highcontrast_meta: ThemeMeta = {
   previewColor: 'secondary',
   icon: 'contrast',
   highlightJsClass: 'sunburst.css',
-
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -1,7 +1,6 @@
 import { ThemeMeta } from '../Theme';
 
 export const purple = {
-
   '--primary': '#00324a',
   '--primary-variant': 'white',
 
@@ -36,19 +35,27 @@ export const purple = {
   '--black': 'black',
   '--moderator': 'lightsalmon',
 
-  '--questionwall-intro-primary':'darkorange',
-  '--questionwall-intro-secondary':'#eadabf',
-  '--questionwall-intro-background':'#121212'
+  '--livepoll-primary': '#00324A',
+  '--livepoll-primary--disabled': '#282934',
+  '--livepoll-primary--hover': '#204C61',
+  '--on-livepoll-primary': '#ffffff',
+  '--on-livepoll-primary--disabled': '#c5c5c5',
+  '--on-livepoll-primary--hover': '#ffffff',
 
+  '--livepoll-secondary': '#ff4500',
+  '--livepoll-secondary--disabled': '#5f5f64',
+  '--livepoll-secondary--hover': '#FF5C20',
+  '--on-livepoll-secondary': '#ffffff',
+  '--on-livepoll-secondary--disabled': '#c5c5c5',
+  '--on-livepoll-secondary--hover': '#ffffff',
 };
 
 export const purple_meta: ThemeMeta = {
-
   translation: {
     name: {
-      en: 'Presentation',
-      de: 'Präsentation',
-      fr: 'Présentation',
+      en: 'Projector',
+      de: 'Beamer',
+      fr: 'Projecteur',
     },
   },
   isDark: false,
@@ -59,5 +66,4 @@ export const purple_meta: ThemeMeta = {
   previewColor: 'background',
   icon: 'co_present',
   highlightJsClass: 'a11y-dark.css',
-
 };

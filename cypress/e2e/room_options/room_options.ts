@@ -10,6 +10,6 @@ Then('The participant view icon should be visible on the top', () => {
 });
 
 But('The brainstorming option should not be visible', () => {
-  cy.get('mat-icon').should('not.have.text', 'psychology_alt ');
+  cy.get('mat-icon').should('not.have.text', ' tips_and_updates ');
 });
 

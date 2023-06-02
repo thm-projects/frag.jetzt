@@ -15,14 +15,22 @@ button {
   min-width: 80px;
 }
 
-.mat-flat-button.mat-primary.mat-button-disabled, .mat-flat-button.mat-accent.mat-button-disabled,
-.mat-flat-button.mat-warn.mat-button-disabled, .mat-flat-button.mat-button-disabled.mat-button-disabled,
-.mat-raised-button.mat-primary.mat-button-disabled, .mat-raised-button.mat-accent.mat-button-disabled,
-.mat-raised-button.mat-warn.mat-button-disabled, .mat-raised-button.mat-button-disabled.mat-button-disabled,
-.mat-fab.mat-primary.mat-button-disabled, .mat-fab.mat-accent.mat-button-disabled,
-.mat-fab.mat-warn.mat-button-disabled, .mat-fab.mat-button-disabled.mat-button-disabled,
-.mat-mini-fab.mat-primary.mat-button-disabled, .mat-mini-fab.mat-accent.mat-button-disabled,
-.mat-mini-fab.mat-warn.mat-button-disabled, .mat-mini-fab.mat-button-disabled.mat-button-disabled {
+.mat-flat-button.mat-primary.mat-button-disabled,
+.mat-flat-button.mat-accent.mat-button-disabled,
+.mat-flat-button.mat-warn.mat-button-disabled,
+.mat-flat-button.mat-button-disabled.mat-button-disabled,
+.mat-raised-button.mat-primary.mat-button-disabled,
+.mat-raised-button.mat-accent.mat-button-disabled,
+.mat-raised-button.mat-warn.mat-button-disabled,
+.mat-raised-button.mat-button-disabled.mat-button-disabled,
+.mat-fab.mat-primary.mat-button-disabled,
+.mat-fab.mat-accent.mat-button-disabled,
+.mat-fab.mat-warn.mat-button-disabled,
+.mat-fab.mat-button-disabled.mat-button-disabled,
+.mat-mini-fab.mat-primary.mat-button-disabled,
+.mat-mini-fab.mat-accent.mat-button-disabled,
+.mat-mini-fab.mat-warn.mat-button-disabled,
+.mat-mini-fab.mat-button-disabled.mat-button-disabled {
   display: none;
 }
 
@@ -50,6 +58,7 @@ button {
     flex-direction: column !important;
     flex-wrap: wrap;
     align-items: flex-end;
+    align-content: center;
   }
 }
 
@@ -79,7 +88,8 @@ button {
     color: var(--on-surface) !important;
   }
 
-  .mat-form-field-underline, .mat-form-field-ripple {
+  .mat-form-field-underline,
+  .mat-form-field-ripple {
     background-color: var(--on-surface) !important;
   }
 
@@ -251,7 +261,10 @@ $mockPixelRadius: 132px;
 $scale-factor: math.div($innerWidth, $mockWidth - $mockPadRight - $mockPadLeft);
 $width: math.round($mockWidth * $scale-factor);
 $height: math.round($mockHeight * $scale-factor);
-$padding: math.ceil($mockPadTop * $scale-factor) math.ceil($mockPadRight * $scale-factor) math.ceil($mockPadBottom * $scale-factor) math.ceil($mockPadLeft * $scale-factor);
+$padding: math.ceil($mockPadTop * $scale-factor)
+  math.ceil($mockPadRight * $scale-factor)
+  math.ceil($mockPadBottom * $scale-factor)
+  math.ceil($mockPadLeft * $scale-factor);
 
 $parentWidth: 900px;
 $dialog-margin: 130px;
@@ -260,7 +273,8 @@ $parentWidthHalf: math.div($parentWidth, 2);
 $scaledWidth: math.div($width * (1 - $customScaleFactor), 2);
 
 .mobile-mock-wrapper {
-  --end-position: #{$parentWidthHalf - $dialog-margin + $own-margin - $scaledWidth};
+  --end-position: #{$parentWidthHalf - $dialog-margin + $own-margin -
+    $scaledWidth};
   --start-position: #{$parentWidthHalf - $dialog-margin - $width + $scaledWidth};
   --test: #{$scale-factor};
   --current-position: var(--start-position);

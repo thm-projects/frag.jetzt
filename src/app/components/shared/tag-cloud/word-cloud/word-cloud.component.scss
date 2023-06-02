@@ -4,9 +4,10 @@
   position: fixed;
   top: 0;
   left: 0;
-  background-image: url('/assets/images/radar.svg'), url('/assets/images/radar.png');
+  background-image: url("/assets/images/radar.svg"),
+    url("/assets/images/radar.png");
   background-repeat: no-repeat;
-  background-size: auto;
+  background-size: cover;
   background-position: center center;
   width: 100%;
   height: 100%;
@@ -14,11 +15,11 @@
   filter: var(--word-cloud-image, hue-rotate(0deg) grayscale(0) opacity(0.5));
 
   &.brainstorm {
-    background-image: url('/assets/images/normal-themes-brainstorm.jpeg');
+    background-image: url("/assets/images/clouds.svg");
     filter: unset;
 
     &.dark {
-      background-image: url('/assets/images/dark-theme-brainstorm.jpeg');
+      background-image: url("/assets/images/dark-theme-brainstorm.jpeg");
     }
   }
 }
@@ -35,9 +36,8 @@
     z-index: 0;
     left: 50%;
     top: 50%;
-    transform:
-      rotate(var(--rot, 0deg))
-      rotate(var(--neg-phi, 0deg)) translateX(var(--radius, 0px)) rotate(var(--phi, 0deg))
+    transform: rotate(var(--rot, 0deg)) rotate(var(--neg-phi, 0deg))
+      translateX(var(--radius, 0px)) rotate(var(--phi, 0deg))
       translate(-50%, -50%) scale(var(--scale, 1));
     user-select: none;
     text-transform: var(--tag-cloud-transform, unset);
@@ -46,7 +46,8 @@
     font-style: var(--tag-cloud-font-style, unset);
 
     &.visible {
-      transition: opacity ease var(--fadeInTime, 0ms), transform var(--hover-time, 1s) ease var(--hover-delay, 0.4s);
+      transition: opacity ease var(--fadeInTime, 0ms),
+        transform var(--hover-time, 1s) ease var(--hover-delay, 0.4s);
       opacity: 1;
       border-radius: 20px;
     }
@@ -55,7 +56,7 @@
       color: var(--tag-cloud-font-color, unset);
       background-color: var(--tag-cloud-inverted-font-color, unset);
       z-index: 1;
-      --scale: 1.4;
+      --scale: 1.1;
     }
   }
 }

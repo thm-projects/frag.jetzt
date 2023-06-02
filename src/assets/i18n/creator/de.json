@@ -16,11 +16,12 @@
     "user-name": "User"
   },
   "brainstorming-blacklist": {
-    "title": "Brainstorming Blacklist",
-    "placeholder-add": "Wort eingeben",
-    "add-button": "Wort hinzufügen",
-    "show-button": "Zeige Blacklist",
-    "hide-button": "Verberge Blacklist",
+    "back": "Idee wieder zurücklegen",
+    "title": "Liste verworfener Ideen",
+    "placeholder-add": "Zu verwerfende Idee…",
+    "add-button": "Hinzufügen",
+    "show-button": "Zeige verworfene Ideen",
+    "hide-button": "Verberge Liste",
     "update": "Schließen"
   },
   "brainstorming-category": {
@@ -36,24 +37,24 @@
     "you-sure-category": "Sollen wirklich alle Kategoriezuordnungen zurückgesetzt werden?"
   },
   "brainstorming-edit": {
-    "title": "Brainstorming bearbeiten",
+    "title": "Brainstorming-Einstellungen",
     "question": "Thema oder Fokus-Frage …",
-    "word-count": "Maximale Anzahl Wörter",
-    "word-length": "Maximale Anzahl Zeichen",
+    "word-count": "Maximale Anzahl Wörter pro Idee",
+    "word-length": "Maximale Anzahl Zeichen pro Idee",
     "field-hint-number": "Wert: {{min}} - {{max}}",
     "field-required": "Dieses Feld wird benötigt",
     "field-too-high": "Deine Eingabe ist zu lang, sie darf maximal {{max}} sein.",
     "field-too-low": "Deine Eingabe ist zu kurz, sie muss mindestens {{min}} sein.",
-    "language-title": "Sprache",
+    "language-title": "Sprache der Teilnehmer*innen",
     "language": {
       "de": "Deutsch",
       "en": "Englisch",
       "fr": "Französisch"
     },
-    "duration": "Dauer nach Start - {{duration}} Minuten: ",
-    "allow-ideas": "Erlaube durchgehende Ideeneingabe",
-    "allow-rating": "Erlaube Bewertung ab Start",
-    "update": "Update"
+    "duration": "Dauer nach Start: {{duration}} Minuten ",
+    "allow-ideas": "Ideeneingabe von Anfang an zulassen",
+    "allow-rating": "Ideenbewertung von Anfang an zulassen",
+    "update": "Aktualisieren"
   },
   "comment-list": {
     "a11y-access_time": "Sortiert Fragen nach der Uhrzeit",
@@ -91,7 +92,7 @@
     "add-idea": "Gib deine Idee ein!",
     "answered": "Beantwortete Fragen",
     "ask-brainstorm-empty": "Gib deine Idee ein!",
-    "ask-question-empty": "Hier kannst du deine Frage stellen.",
+    "ask-question-empty": "Motiviere dein Publikum, Fragen zu stellen!",
     "comment-deleted": "Der Beitrag wurde gelöscht.",
     "comment-number": "Q{{topLevelNumber}}/L{{level}}/A{{number}}",
     "comment-sent": "Dein Beitrag wurde veröffentlicht.",
@@ -119,12 +120,14 @@
     "filter-read": "Besprochene Fragen",
     "filter-reset": "Zurücksetzen",
     "filter-unanswered": "Unbeantwortet",
+    "filter-approved": "Geprüfte Antworten",
     "filter-wrong": "Verneinte Fragen",
     "owner": "Fragen, die ich gestellt habe",
     "pause-comments": "Friert die Anzeige ein, um die Fragen in Ruhe zu lesen oder zu präsentieren. Fragen können weiterhin gestellt und bewertet werden. Die Anzeige aktualisiert sich wieder durch Klicken des Buttons.",
     "play-comments": "Neue Fragen und Bewertungen wieder anzeigen",
     "qr-in-fullscreen": "QR-Code in Vollansicht anzeigen",
     "question-number": "Q{{number}}",
+    "brainstorming-number": "I{{number}}",
     "question-was-marked-with-a-star": "Der Fragesteller oder die Fragestellerin kann den Stern per Mail gegen einen Bonus einlösen.",
     "read": "Fragen, die der Vortragende coram publico besprochen hat",
     "really-delete": "Willst du den Beitrag wirklich löschen?",
@@ -171,9 +174,13 @@
     "thursday": "Donnerstag",
     "title": "Mail-Benachrichtigung",
     "tuesday": "Dienstag",
-    "wednesday": "Mittwoch"
+    "wednesday": "Mittwoch",
+    "needs-user-account": "Du benötigst ein Konto mit einer E-Mail-Adresse, um Benachrichtigungen zu erhalten!"
   },
   "comment-page": {
+    "share-comment": "Teilnehmer-Link auf diesen Beitrag kopieren",
+    "share-comment-success": "Erfolgreich kopiert.",
+    "share-comment-fail": "Etwas ist schiefgelaufen!",
     "a11y-comment-answer": "Antwort dieser Frage ansehen",
     "a11y-comment-answer-not": "Diese Frage beantworten",
     "a11y-comment_delete": "Löscht diese Frage",
@@ -197,6 +204,7 @@
     "acknowledge": "Setzt die Frage zurück auf die öffentliche Liste",
     "answer": "Frage kommentieren",
     "answer-deleted": "Antwort wurde gelöscht.",
+    "any-questions": "Noch Fragen?",
     "ask-question-description": "Gib hier deine Frage ans Publikum ein!",
     "back-to-question-focus": "Zurück zum Fragen-Fokus",
     "border-tooltip-border-answer": "Dieser Post wurde beantwortet.",
@@ -211,9 +219,9 @@
     "border-tooltip-border-wrong": "Dieser Post wurde als inhaltlich falsch markiert.",
     "brainstorming-info-multiple": "{{maxWordCount}} Wörter / {{maxWordLength}} Zeichen",
     "brainstorming-info-single": "{{maxWordCount}} Wort / {{maxWordLength}} Zeichen",
-    "brainstorming-placeholder": "Jede Idee ist willkommen!\nErstelle für jede neue Idee einen eigenen Eintrag.",
-    "cancel": "Verwerfen",
-    "cancel-description": "Verwerfen",
+    "brainstorming-placeholder": "Jede Idee ist willkommen!\nErstelle für jede neue Idee einen eigenen Eintrag.\nVerwende keine Sonder- oder Satzzeichen.",
+    "cancel": "Abbrechen",
+    "cancel-description": "Abbrechen",
     "category": "Kategorie:",
     "select-brainstorm-category": "Kategorie wählen:",
     "select-brainstorm-category-none": "Keine",
@@ -225,7 +233,7 @@
     "delete-answer": "Antwort löschen",
     "delete-question": "Löschen",
     "delimiter": "Dateiformat",
-    "downvote": "negativ:",
+    "downvote": " – \uD83D\uDC4E",
     "edit-answer": "Bearbeiten",
     "edit-answer-create": "Beantworten / Kommentieren",
     "edit-answer-edit": "Antwort anzeigen / bearbeiten",
@@ -265,6 +273,8 @@
     "live-announcer-moderation": "Du befindest dich jetzt auf der Moderations-Seite. Um Informationen zu Tastenkombinationen zu erhalten drücke jetzt die Enter-Taste oder rufe die Ansage zu einem späteren Zeitpunkt mit der Escape-Taste auf.",
     "mark-bookmark": "Lesezeichen setzen",
     "mark-correct": "Frage mit »ja« beantworten oder als »erledigt« markieren",
+    "mark-approved": "Faktencheck: Klick hier, wenn du den Beitrag geprüft hast.",
+    "mark-not-approved": "Faktencheck annullieren",
     "mark-favorite": "Frage für einen Bonus markieren",
     "mark-favorite-disabled-bonus": "Mit einem Stern auszeichnen",
     "mark-not-bookmark": "Markierung zurücknehmen",
@@ -276,23 +286,25 @@
     "mark-wrong": "Frage verneinen oder als irrelevant markieren",
     "new-comment": "Eine neue Frage mit dem Inhalt, {{ comment }}, wurde soeben gestellt.",
     "no-comment": "Der Kommentar existiert nicht!",
-    "no-comments": "Keine Einträge zurzeit",
+    "no-comments": "",
     "no-comments-with-filter": "Keine Einträge mit dem ausgewählten Filter",
     "no-comments-with-search": "Keine Fragen mit deiner Suche",
     "notification-on-off": "Benachrichtigungen toggeln",
     "option-menue": "Weitere Optionen",
     "preview-comment": "Vorschau",
-    "preview-in-mock": "Vorschau auf einem Smartphone",
+    "preview-in-mock": "Smartphone-Vorschau",
     "questioner-name": "Selbst vergebener Name",
     "really-delete-answer": "Willst du deine Antwort wirklich löschen?",
     "reject": "In die Moderation verschieben",
     "reply-comment-button": "Antwort schreiben",
+    "reply-AI": "ChatGPT antworten lassen",
     "save-answer": "Speichern",
     "search-box-input-description": "Hier kannst du nach Fragen suchen.",
     "semicolon": "CSV-Format (.csv)",
     "send": "Abschicken",
     "send-description": "Abschicken",
     "show-comment-with-filter": "Vulgäre Ausdrücke zensieren",
+
     "show-comment-without-filter": "Vulgäre Wörter anzeigen",
     "show-conversation-tooltip": "Antworten auf diesen Beitrag anzeigen",
     "show-conversation-full-tooltip": "Konversation anzeigen",
@@ -304,7 +316,7 @@
     "tag-title": "Kategorie wählen oder ändern",
     "tag-to-filter": "Klick auf die Fragenkategorie, um Fragen dieser Kategorie zu filtern.",
     "update": "Speichern",
-    "upvote": "positiv:",
+    "upvote": "Bewertungsdifferenz: \uD83D\uDC4D",
     "user-number": "Klick auf das Pin-Icon, um alle Fragen des Fragenstellers oder der Fragensteller*in zu filtern.",
     "vote-down": "Frage abwerten",
     "vote-up": "Frage aufwerten",
@@ -364,24 +376,159 @@
     "topic-cloud": "## Fragen-Radar \n\n Wenn du alle Fragen im Blick behalten willst, brauchst du eine Art »Radar«. Unser Radar ortet Fragen und Antworten anhand ihrer Stichwörter: Je mehr Fragen und Antworten sich auf ein Stichwort beziehen, desto größer und zentraler erscheint das Stichwort auf dem Radar.\n\n Das Fragen-Radar dient dir als **Navi**: Wenn du auf ein Wort klickst, gelangst du zu den Fragen und Antworten mit diesem Stichwort. \n\n Die Stichwörter werden in Echtzeit mittels einer grammatikalischen Analyse der Nomen ermittelt oder wurden von der Autorin oder dem Autor bestimmt.\n\n  In die Berechnung der Schriftgröße gehen ein:\n\n* die Differenz zwischen Up- und Down-Votes, wenn sie positiv ist,\n* die Anzahl der Fragen mit diesem Stichwort,\n* die Anzahl der Fragensteller\\*innen mit diesem Stichwort,\n* die Rolle: Raumersteller\\*in, Moderator\\*in oder Teilnehmer\\*in,\n* ob eine Fragenkategorie ausgewählt wurde,\n* ob das Stichwort generiert oder vergeben wurde,\n* ob die Frage beantwortet wurde,\n* die Kontroversität der Frage. \n\nDu kannst die Visualisierung nach deinen Wünschen anpassen.  In der Rolle Raumersteller\\*in oder Moderator\\*in kannst du mit den Parametern der Stichwortgenerierung experimentieren, um die **semantische Trennschärfe** zu verbessern.",
     "user-bonus": "## Bonus \n\nDie Lehrperson kann »gute« Fragen für einen Bonus markieren. Deine Fragen aus allen Kursen (Räumen), die einen Stern erhalten haben, werden hier aufgelistet.\n\nJe nach Vereinbarung kannst du den Bonuscode per E-Mail an die Lehrperson schicken, um ihn gegen einen Bonus einzulösen."
   },
+  "gptpreset-topics": {
+    "title": "Auswählbare Themen",
+    "topic": "Neues Thema",
+    "add-topic": "Hinzufügen",
+    "cancel": "Abbrechen",
+    "save": "Speichern"
+  },
+  "gpt-chat": {
+    "optin-accept": "Akzeptieren",
+    "optin-reject": "Ablehnen",
+    "title-free": "ChatGPT | Freies Fragen und Antworten",
+    "title-answer": "ChatGPT | Assistent für Antworten",
+    "interrupt": "Ausgabe stoppen",
+    "copy-markdown": "Markdown kopieren",
+    "copy-success": "Markdown erfolgreich kopiert",
+    "copy-fail": "Markdown konnte nicht kopiert werden!",
+    "temperature-creative": "[Mehr] Kreativ",
+    "temperature-tooltip-creative": "Diese Einstellung lässt einen größeren Spielraum zu und ermöglicht somit kreativere Antworten.",
+    "temperature-balanced": "[Mehr] Ausgewogen",
+    "temperature-tooltip-balanced": "Ausgewogene Antworten können sich ändern, sind aber oft sehr gut auf die Frage abgestimmt.",
+    "temperature-precise": "[Mehr] Genau",
+    "temperature-tooltip-precise": "Lässt praktisch keinen Spielraum zu. Die Antworten sind fast identisch und somit teilweise deterministisch.",
+    "privacy-policy": "Datenschutzerklärung für die Nutzung der OpenAI-API",
+    "enter-conversation-text": "Deine Eingabe …",
+    "context-context": "Kontext: {{value}}",
+    "context-topic": "Thema: {{value}}",
+    "context-response-length": "Länge: {{value}}",
+    "context-response-format": "Format: {{value}}",
+    "context-question": "\nFrage:\n\n{{value}}",
+    "selection-none": "Bei keiner Auswahl kann ChatGPT einen größeren Antwortbereich haben. Dies kann dazu führen, dass unerwünschte Informationen generiert werden.",
+    "tooltip-temperature-disabled": "Antwortvariabilität wird von ausgewählten Prompt übernommen.",
+    "choices": {
+      "response-format": [
+        {
+          "key": "short answer",
+          "text": "Kurzantwort",
+          "hover": "Kurze, prägnante Antwort, die schnell und einfach Informationen liefert."
+        },
+        {
+          "key": "answer as definition",
+          "text": "Antwort als Begriffsdefinition",
+          "hover": "Erklärung der Bedeutung von Begriffen und Konzepten, um das Verständnis zu fördern."
+        },
+        {
+          "key": "answer with examples",
+          "text": "Antwort mit Beispielen",
+          "hover": "Anwendung von abstrakten Konzepten auf konkrete Situationen, um das Verständnis zu vertiefen."
+        },
+        {
+          "key": "answer as flashcard",
+          "text": "Antwort als Lernkarte",
+          "hover": "Instrument zur Wissensvermittlung und -wiederholung von Fakten, Definitionen, Begriffen oder Daten."
+        },
+        {
+          "key": "answer as mindmap",
+          "text": "Antwort als Mindmap",
+          "hover": "Visuelle Darstellung von Informationen, um Zusammenhänge zwischen verschiedenen Konzepten und Ideen zu verdeutlichen."
+        },
+        {
+          "key": "answer as essay",
+          "text": "Antwort als Essay oder Aufsatz",
+          "hover": "Ausführliche Antwort auf offene Fragen, um die Fähigkeiten im Verfassen von längeren Texten zu verbessern."
+        },
+        {
+          "key": "answer as summary",
+          "text": "Antwort als Zusammenfassung",
+          "hover": "Kurze und prägnante Übersicht über ein bestimmtes Thema oder Konzept."
+        },
+        {
+          "key": "answer with mc question",
+          "text": "Antwort mit Multiple-Choice-Fragen",
+          "hover": "Quizfragen, bei der der Lernende aus einer Liste von Antwortoptionen die richtige auswählen muss, um das Wissen zu überprüfen und Zusammenhänge zu verstehen."
+        },
+        {
+          "key": "answer with sources",
+          "text": "Antwort mit Quellenangaben",
+          "hover": "Hinweise auf weiterführende Informationen, um Lernende zur eigenen Recherche zu ermutigen."
+        },
+        {
+          "key": "answer with links",
+          "text": "Antwort mit Links auf weitere Informationen",
+          "hover": "Links und Ressourcen, die den Lernenden Zugang zu zusätzlichen Materialien wie Videos, Grafiken oder Artikeln geben, um das Verständnis zu vertiefen."
+        }
+      ],
+      "response-length": {
+        "short": "kurz",
+        "detailed": "detailliert",
+        "extensive": "umfangreich"
+      }
+    },
+    "your-choice": "Deine Auswahl …",
+    "none": "Keine",
+    "send": "Senden",
+    "empty-conversation": "Verlauf leeren",
+    "input-forbidden": "Bitte prüfe die ChatGPT-Einstellungen.",
+    "no-api-setup": "Der API-Schlüssel oder das Sprachmodell wurden nicht gesetzt.",
+    "presets": {
+      "disabled": "Deaktiviert",
+      "language": {
+        "de": "Deutsch",
+        "en": "Englisch",
+        "fr": "Französisch",
+        "*": "In der Sprache der Frage"
+      },
+      "tone": {
+        "neutral": "Neutral",
+        "friendly": "Freundlich",
+        "professional": "Professionell",
+        "humorous": "Humorvoll"
+      },
+      "formality": {
+        "informal": "Formlos",
+        "polite": "Höflich"
+      },
+      "length": {
+        "short": "Kurz",
+        "detailed": "Detailliert",
+        "extensive": "Umfangreich"
+      }
+    },
+    "cancel": "Schließen",
+    "refresh": "Ausgabe erneut generieren",
+    "edit": "Ausgabe als Antwort auf die Forumsfrage bearbeiten",
+    "paste": "Ausgabe als Antwort auf die Forumsfrage veröffentlichen",
+    "token-info": "Token (Eingabe / Chat / Gesamt): {{promptTokens}} / {{conversationTokens}} / {{allTokens}}",
+    "prompt-label": "Suche nach Prompts | Leertaste für alle Prompts anzeigen",
+    "option-total-acts": "Treffer in »Agiere als …«",
+    "option-total-prompts": "Treffer in Prompts …",
+    "temperature": "Antwortvariabilität",
+    "hint-apply-text": "Bitte beachte, dass diese Antwort nicht gespeichert wird. Du musst die Antwort übernehmen, damit diese angezeigt wird."
+  },
   "header": {
     "overview-keywords-tooltip": "Anzahl Stichwörter",
     "overview-question-tooltip": "Anzahl Fragen",
     "overview-questioners-tooltip": "Anzahl Fragensteller*innen",
     "overview-admin-config-enabled": "Schwellenwerte für die Anzeige der Themen sind aktiv.",
-    "overview-brainstormers-tooltip": "Anzahl Brainstormende",
-    "overview-ideas-tooltip": "Anzahl Ideen"
+    "overview-brainstormers-tooltip": "Brainstormer",
+    "overview-ideas-tooltip": "Ideen",
+    "brainstorming-button": "Was ist das?"
   },
   "home-page": {
     "create-session": "Neue Sitzung",
     "created": "Der Raum für die Sitzung »{{longRoomName}}« wurde erstellt.",
-    "no-empty-name": "Gib einen Namen ein. Der Raum-Code wird generiert."
+    "no-empty-name": "Gib einen Namen ein. Der Raum-Code wird generiert.",
+    "gpt-topic-general": "Allgemein"
   },
   "introductions": {
     "brainstorming-title": "Brainstorming",
     "cancel": "Schließen",
     "question-wall-title": "Use Cases des Präsentationsmodus",
-    "tag-cloud-title": "Use Cases des Fragen-Radars"
+    "tag-cloud-title": "Use Cases des Fragen-Radars",
+    "prompt-guide-chatbot": "Effektiv kommunizieren mit ChatGPT",
+    "prompt-explanation": "Prompts kurz erklärt"
   },
   "joyride": {
     "commentFilter": "Es gibt zahlreiche Sortier- und Filteroptionen für das Q&A-Forum. Ein aktiver Filter wird rot angezeigt. Für eine bessere Lesbarkeit bei großer Dynamik kann der Fragenstrom auch angehalten werden.",
@@ -395,7 +542,11 @@
     "prev": "Zurück",
     "step": "{{step}} / {{total}}",
     "voting": "Das Publikum kann Fragen auf- oder abwerten und so sein Interesse an einer Beantwortung der Frage oder seine Zustimmung oder Ablehnung bekunden. Angezeigt wird die Bewertungsdifferenz.",
-    "votingTitle": "Eine Frage bewerten"
+    "votingTitle": "Eine Frage bewerten",
+    "chatGPT": "Mit ChatGPT kannst du bei einem gegebenen Kontext meist effektiv Fragen beantworten und einen Einblick in neue Themen bekommen. Er ist der erste Gesprächspartner für Fragen in der Lehre.",
+    "chatGPTTitle": "Mit ChatGPT arbeiten",
+    "navigationButton": "Mit der Navigation kannst du fast alle Aktionen im derzeitigen Kontext sehen.",
+    "navigationButtonTitle": "Navigation in der App"
   },
   "moderator-join": {
     "cancel": "Abbrechen",
@@ -450,6 +601,7 @@
     "tooltip-remove": "Ja",
     "tooltip-toolbar-blockquote": "Zitieren",
     "tooltip-toolbar-bold": "Fett",
+    "tooltip-toolbar-italic": "Kursiv",
     "tooltip-toolbar-code": "Als Quellcode auszeichnen",
     "tooltip-toolbar-color": "Schriftfarbe",
     "tooltip-toolbar-emote": "Emoji einfügen",
@@ -458,6 +610,7 @@
     "tooltip-toolbar-link": "Markierten Text verlinken",
     "tooltip-toolbar-ordered-list": "Nummerierte Liste",
     "tooltip-toolbar-strike": "Durchstreichen",
+    "tooltip-toolbar-textcolor": "Textfarbe",
     "tooltip-toolbar-unordered-list": "Aufzählungsliste",
     "tooltip-toolbar-video": "Video einfügen"
   },
@@ -602,7 +755,94 @@
     "update-description": "Speichert die Änderungen",
     "words-will-be-overwritten": "Vulgäre Wörter werden mit ★★★★ überschrieben."
   },
+  "gptrating": {
+    "title": "Bewertung zu ChatGPT in frag.jetzt",
+    "input": "Gib hier dein Feedback ein …",
+    "placeholder": "Gab es Probleme? Was hat dir gefallen?",
+    "send": "Abschicken",
+    "cancel": "Abbrechen"
+  },
+  "gpt-room-settings": {
+    "quota-management": "Kontingentverwaltung",
+    "title": "ChatGPT-Einstellungen",
+    "trial-info": "Ich nehme an der kostenlosen Evaluationsstudie der THM »ChatGPT in der Lehre« teil:",
+    "global-trial": "Das frag.jetzt-Team hat dir {{max}} $ für eine dreimonatige Testphase zur Verfügung gestellt. Das reicht für einige Millionen Wörter in Konversationen mit dem GPT-3.5-Turbo-Sprachmodell. Bislang hast du {{counter}} $ verbraucht.",
+    "trial-code": "Ich habe folgenden Aktivierungscode vom frag.jetzt-Team erhalten:",
+    "trial-enabled": "Perfekt: Du nimmst an der Evaluationsstudie teil.",
+    "trial-activated-info": "Durch die Evaluationsstudie besitzt du {{quota}}$ pro Monat. Diesen Monat wurden bereits {{counter}}$ verwendet.",
+    "rest-contingent-description": "Die Kontigentverwaltung ist dafür da, um das Budget für die Nutzung von ChatGPT im aktuellen Raum kontrollieren zu können. So lässt sich einstellen, wie viele Anfragen Moderatoren oder Teilnehmer am Tag, Monat oder insgesamt durchführen können.Somit kann sichergestellt werden, dass Anfragen an ChatGPT  über den kompletten Zeitraum möglich sind und nicht am ersten Tag aufgebraucht werden.",
+    "rest-flow-description": "Das fluide Kontingent funktioniert anders als andere Kontingente. Jeden Tag wird ein Teil des Kontingents freigegeben. Bei einem Kontingent von 20$ zum Beispiel sind am 2. Januar 20$ * 2 / 31, also etwa 1,29$, verfügbar.",
+    "rest-room-flow-month": "Monatlich fliessende Kostenbegrenzung",
+    "rest-mod-flow-month": "Monatlich fliessende Kostenbegrenzung",
+    "rest-part-flow-month": "Monatlich fliessende Kostenbegrenzung",
+    "own-openai-api-key": "ich nehme nicht an der Studie teil, sondern verwende meinen eigenen API-Key von OpenAI:",
+    "own-openai-info": "Falls die Evaluationsstudie aktiv ist, wird trotzdem über das eigene OpenAI-Konto abgerechnet. Alle Angaben in US-Dollar.",
+    "api-key": "OpenAI API Key (beginnt mit sk- …)",
+    "api-organization": "OpenAI Organisations-ID (beginnt mit org- …)",
+    "restrictions-room": "Raumkontingent (Angaben in US-Dollar):",
+    "rest-room-acc": "Gesamte Kostenbegrenzung",
+    "rest-room-month": "Monatliche Kostenbegrenzung",
+    "rest-room-day": "Tägliche Kostenbegrenzung",
+    "restrictions-moderator": "Moderatorenkontingent (Angaben in US-Dollar):",
+    "rest-mod-acc": "Gesamte Kostenbegrenzung",
+    "rest-mod-month": "Monatliche Kostenbegrenzung",
+    "rest-mod-day": "Tägliche Kostenbegrenzung",
+    "restrictions-participant": "Teilnehmerkontingent (Angaben in US-Dollar):",
+    "rest-part-acc": "Gesamte Kostenbegrenzung",
+    "rest-part-month": "Monatliche Kostenbegrenzung",
+    "rest-part-day": "Tägliche Kostenbegrenzung",
+    "rest-wrong": "Eine Kostenbegrenzung entspricht nicht einer gültigen Zahl. (Zahl mit zwei Nachkommastellen)",
+    "deactivated": "Rauminhabender*in erlaubt keine Änderungen.",
+    "general-rights": "Allgemeine Rechte",
+    "general-right-unregistered": "Unregistrierte Teilnehmer*innen dürfen ChatGPT verwenden",
+    "general-disable-enhanced-prompt": "ChatGPT ohne Prompt-Presets antworten lassen",
+    "general-disable-forward-message": "Direkte ChatGPT-Antworten verbieten",
+    "moderator-rights": "Moderatorenrechte",
+    "mod-right-part-quota": "Ändern des Teilnehmerkontingents",
+    "mod-right-mod-quota": "Ändern des Moderatorenkontingents",
+    "mod-right-room-quota": "Ändern des Raumkontingents",
+    "mod-right-preset": "Ändern der Prompt-Vorgaben",
+    "mod-right-usage-times": "Ändern der Nutzungszeiträume",
+    "mod-right-api-settings": "Ändern der API-Einstellungen",
+    "usage-times": "Nutzungszeiträume",
+    "usage-time-info": "Ohne Einstellung ist die API immer erreichbar.",
+    "start-time": "Anfangszeit",
+    "end-time": "Endzeit",
+    "start-and-end-date": "Anfangs- und Enddatum",
+    "add-usage-time": "Nutzungszeitraum hinzufügen",
+    "usage-time-duration": "Wiederholungsfaktor",
+    "usage-time-unit": "Widerholungszeiteinheit",
+    "usage-time-values": {
+      "HOUR": "Stündlich",
+      "DAY": "Täglich",
+      "WEEK": "Wöchentlich",
+      "MONTH": "Monatlich",
+      "YEAR": "Jährlich"
+    },
+    "usage-time-repeat": {
+      "one_HOUR": "wird jede Stunde wiederholt",
+      "other_HOUR": "wird alle {{value}} Stunden wiederholt",
+      "one_DAY": "wird jeden Tag wiederholt",
+      "other_DAY": "wird alle {{value}} Tage wiederholt",
+      "one_WEEK": "wird jede Woche wiederholt",
+      "other_WEEK": "wird alle {{value}} Wochen wiederholt",
+      "one_MONTH": "wird jeden Monat wiederholt",
+      "other_MONTH": "wird alle {{value}} Monate wiederholt",
+      "one_YEAR": "wird jedes Jahr wiederholt",
+      "other_YEAR": "wird alle {{value}} Jahre wiederholt"
+    },
+    "reset": "Zurücksetzen",
+    "save": "Speichern",
+    "cancel": "Abbrechen",
+    "send": "Abschicken"
+  },
   "room-settings-overview": {
+    "livepoll-enabled": "Blitzumfragen aktivieren",
+    "tooltip-livepoll-enabled": "Umfragen erstellen und alle Personen im Raum automatisch benachrichtigen.",
+    "a11y-livepoll-enabled": "Schieberegler, um die Blitzumfragen zu aktivieren.",
+    "keyword-extraction-enabled": "Stichwort-Extraktion aktivieren",
+    "tooltip-keyword-extraction-enabled": "Erstelle beim Erstellen einer Frage Schlüsselwörter, die diese Frage am besten beschreiben.",
+    "a11y-keyword-extraction-enabled": "Schieberegler, um die Stichwort-Extraktion zu aktivieren.",
     "a11y-bonus-archive-enabled": "Schieberegler, um das Bonus-Archiv zu aktivieren.",
     "a11y-brainstorming-enabled": "Schieberegler, um Brainstorming zu erlauben.",
     "a11y-conversation-enabled": "Schieberegler, um Konversationen in diesem Raum freizuschalten.",
@@ -613,6 +853,7 @@
     "a11y-settings-direct-send": "Schieberegler, um Fragen sofort sichtbar zu machen.",
     "bonus-archive-enabled": "Bonus-Archiv aktivieren",
     "brainstorming-enabled": "Brainstorming aktivieren",
+    "note-on-changing-settings": "Du kannst alle Einstellungen später noch ändern.",
     "cancel": "Abbrechen",
     "changes-gone-wrong": "Etwas ist schief gelaufen!",
     "changes-successful": "Änderungen gespeichert",
@@ -625,6 +866,7 @@
     "settings-direct-send": "Fragen direkt veröffentlichen",
     "moderation": "Optionen für die Moderation",
     "education": "Optionen für den Unterricht",
+    "general": "Allgemeine Optionen",
     "title-profanity": "Profanitätsfilter",
     "tooltip-bonus-archive-enabled": "Wenn du einen Beitrag mit einem Stern auszeichnest, kannst du den Stern für die Vergabe von Bonuspunkten verwenden. Es wird ein Code generiert, den der/die Teilnehmer*in an deine E-Mail-Adresse für die Bonuseinlösung schickt.",
     "tooltip-brainstorming-enabled": "Du kannst Brainstorming-Sitzungen zu bestimmten Fragen durchführen. Die Ideen (Wörter) werden von einer KI morphologisch verglichen und in einer Wortwolke angezeigt.",
@@ -646,12 +888,12 @@
   },
   "spacy-dialog": {
     "add-manually": "Gib ein Stichwort zu deiner Frage ein. Trenne mehrere Stichwörter mit einem Komma.",
-    "analysis-bad-spelled": "Es konnten keine Stichwörter generiert werden.",
+    "analysis-bad-spelled": "Hinweis: Der Text eignet sich nicht zur Generierung von Stichwörtern.",
     "analysis-error": "Während der Extraktion von Stichwörtern sind Fehler aufgetreten. Soll die Frage ohne Stichwörter erstellt werden?",
     "auto": "auto",
     "de": "Deutsch",
     "edit-keyword-hint": "Wort editieren",
-    "editing-done-hint": "Editieren beenden",
+    "editing-done-hint": "Änderung speichern",
     "en": "Englisch",
     "force-language-selection": "Die Sprache der Eingabe konnte nicht automatisch erkannt werden.",
     "fr": "Französisch",
@@ -664,7 +906,7 @@
     "tag-button-hint": "Wähle die treffende Kategorie für deine Frage."
   },
   "tag-cloud": {
-    "blacklist-topic": "Auf die Sperrliste setzen",
+    "blacklist-topic": "Entfernen",
     "changes-gone-wrong": "Etwas ist schiefgelaufen!",
     "changes-successful": "Änderungen gespeichert",
     "write-last-idea": "Schreibe die letzte Brainstorming-Idee!",
@@ -673,13 +915,18 @@
     "downvote-topic-brainstorming": "Gefällt mir nicht",
     "no-elements": "Die Wortwolke ist leer.",
     "overview-question-topic-tooltip": "Mehrfachnennungen",
+    "open-in-q-and-a": "Im Forum diskutieren",
+    "show-comments-by-topic": "Zu den Fragen …",
     "overview-questioners-topic-tooltip": "Autor*innen",
     "period-since-first-comment": "Zeit seit dem ersten Beitrag",
     "print-title": "Wortwolke aus dem Raum »{{roomName}}«",
     "responses-to-keyword": "Anzahl aller Antworten zu diesem Stichwort",
     "ups-downs-difference": "Bewertungsdifferenz | {{upvotes}} 👍  {{downvotes}} 👎",
     "upvote-topic": "Up-Votes für dieses Stichwort",
-    "upvote-topic-brainstorming": "Gefällt mir"
+    "upvote-topic-brainstorming": "Gefällt mir",
+    "brainstorming-idea-filter": "Ideenfilter:",
+    "brainstorming-idea-all": "Alle",
+    "brainstorming-idea-without-category": "Ohne Kategorie"
   },
   "tag-cloud-config": {
     "alphabetical-sorting": "Alphabetisch sortieren",
@@ -870,21 +1117,6 @@
     "words-in-profanity": "Profane Wörter",
     "words-will-be-overwritten": "Vulgäre Wörter mit ★★★★ überschreiben"
   },
-  "topic-cloud-filter": {
-    "info-no-keywords": "Unsere KI-basierte Textanalyse kann Stichwörter ermitteln. Analyse starten?",
-    "label-refresh-keywords-start": "Starten",
-    "current-filter": "Gefilterte Fragen",
-    "current-filter-short": "Gefilterte Fragen",
-    "all-questions-and-answers": "Alle Fragen mit Antworten",
-    "all-questions-and-answers-short": "Alle Fragen mit Antworten",
-    "only-questions": "Nur Fragen",
-    "only-questions-short": "Nur Fragen",
-    "from-now": "Nur Fragen ab jetzt",
-    "from-now-short": "Nur Fragen ab jetzt",
-    "create": "Weiter",
-    "cancel": "Abbrechen",
-    "questions-title": "Welche Fragen willst du auf dem Radar haben?"
-  },
   "worker-config": {
     "cancel": "Abbrechen",
     "continue": "Weiter",
@@ -906,9 +1138,30 @@
     "name-length-error": "Der Name muss {{min}} bis {{max}} Zeichen lang sein.",
     "questioner-name": "Dein Name, wenn du willst …"
   },
-  "pseudonym-editor": {
-    "name": "Wird beim Posten verwendet …",
-    "title": "Mein Forumsname",
-    "deepl": "Duzen oder Siezen?"
+  "presets-dialog": {
+    "context-title": "Kontext der Veranstalltung",
+    "persona-title": "Presets für jede Rolle",
+    "topic-title": "Themen der Veranstaltung",
+    "role-instruction-title": "Rollenanweisungen für Antworten",
+    "context-label": "Kontext",
+    "topic-label": "Themen",
+    "persona-moderator-label": "Kompetenz (Moderator*in)",
+    "persona-user-label": "Kompetenz (Teilnehmer*in)",
+    "persona-creator-label": "Kompetenz (Raumersteller*in)",
+    "role-instruction-label": "Rollenanweisungen",
+    "context-placeholder": "Beschreibe die Inhalte der Veranstaltung …",
+    "topic-placeholder": "Beschreibe das aktuelle Thema der Veranstaltung …",
+    "persona-moderator-placeholder": "Beschreibe die Kompetenz dieser Rolle …",
+    "persona-user-placeholder": "Beschreibe die Kompetenz dieser Rolle …",
+    "persona-creator-placeholder": "Beschreibe die Kompetenz dieser Rolle …",
+    "role-instruction-placeholder": "Beschreibe hier Rollenanweisungen für ChatGPT …",
+    "save": "Speichern",
+    "cancel": "Abbrechen",
+    "clear": "Löschen"
+  },
+  "gptchat-info": {
+    "title": "ChatGPT",
+    "content": "ChatGPT ist die perfekte Lösung, um eine Frage im Q&A Forum automatisch zu beantworten. Du kannst auch eigene Prompts erstellen oder aus hunderten vordefinierten Prompts den passenden auswählen. Um ChatGPT zu nutzen, benötigst du lediglich einen Account bei frag.jetzt und einen [API-Key von OpenAI](https://platform.openai.com).\n\nSo einfach geht's in nur zwei Schritten:\n\n1. Registriere dich bei frag.jetzt, melde dich an und buche einen Raum.\n\n2. Hinterlege den [API-Key von OpenAI](https://platform.openai.com) im Optionsmenü deines Raumes und schon kann es losgehen!\n\nDein API-Key wird sicher auf unserem Server gespeichert und dein frag.jetzt-Passwort ist ebenfalls sicher. Außerdem kannst du das Token-Kontingent und somit deine API-Kosten zeitlich begrenzen, wenn du ChatGPT für die Benutzung in deinem Raum freigeben möchtest. Alle Einstellungen findest du im Optionsmenü deines Raumes.\n\nStarte jetzt mit einem Guthaben von 5 $, das du in den ersten 3 Monaten einlösen kannst. Mit diesem Guthaben kannst du mehrere Millionen Token für ChatGPT-Anfragen verbrauchen (1 Token entspricht in etwa 5-7 Zeichen).",
+    "cancel": "Schließen"
   }
 }

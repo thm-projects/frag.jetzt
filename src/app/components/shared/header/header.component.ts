@@ -1,14 +1,14 @@
 import {
   AfterViewInit,
   Component,
+  ElementRef,
   OnInit,
   Renderer2,
   ViewChild,
 } from '@angular/core';
 import { NotificationService } from '../../../services/util/notification.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserRole } from '../../../models/user-roles.enum';
-import { Location } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
 import { MatDialog } from '@angular/material/dialog';
 import { LoginComponent } from '../login/login.component';
@@ -21,7 +21,6 @@ import { KeyboardUtils } from '../../../utils/keyboard';
 import { KeyboardKey } from '../../../utils/keyboard/keys';
 import { UserBonusTokenComponent } from '../../participant/_dialogs/user-bonus-token/user-bonus-token.component';
 import { RemindOfTokensComponent } from '../../participant/_dialogs/remind-of-tokens/remind-of-tokens.component';
-import { QrCodeDialogComponent } from '../_dialogs/qr-code-dialog/qr-code-dialog.component';
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
 import { RoomService } from '../../../services/http/room.service';
 import { Room } from '../../../models/room';
@@ -31,7 +30,6 @@ import { HeaderService } from '../../../services/util/header.service';
 import { OnboardingService } from '../../../services/util/onboarding.service';
 import { ArsComposeHostDirective } from '../../../../../projects/ars/src/lib/compose/ars-compose-host.directive';
 import { ThemeService } from '../../../../theme/theme.service';
-import { TopicCloudBrainstormingComponent } from '../_dialogs/topic-cloud-brainstorming/topic-cloud-brainstorming.component';
 import { SessionService } from '../../../services/util/session.service';
 import { DeviceInfoService } from '../../../services/util/device-info.service';
 import { CommentNotificationService } from '../../../services/http/comment-notification.service';
@@ -41,6 +39,23 @@ import {
 } from '../../../services/util/user-management.service';
 import { StartUpService } from '../../../services/util/start-up.service';
 import { BrainstormingDataService } from 'app/services/util/brainstorming-data.service';
+import { Theme } from 'theme/Theme';
+import { MatMenu } from '@angular/material/menu';
+import { Language, LanguageService } from 'app/services/util/language.service';
+import {
+  getBrainstormingURL,
+  livepollNavigationAccessOnRoute,
+  navigateBrainstorming,
+  navigateTopicCloud,
+} from '../navigation/navigation.component';
+import { PseudonymEditorComponent } from '../_dialogs/pseudonym-editor/pseudonym-editor.component';
+import { CommentNotificationDialogComponent } from '../_dialogs/comment-notification-dialog/comment-notification-dialog.component';
+import { GptOptInPrivacyComponent } from '../_dialogs/gpt-optin-privacy/gpt-optin-privacy.component';
+import { ShrinkObserver } from 'app/utils/shrink-observer';
+import { LivepollService } from '../../../services/http/livepoll.service';
+import { take } from 'rxjs/operators';
+import { GptService } from 'app/services/http/gpt.service';
+import { GPTChatInfoComponent } from '../_dialogs/gptchat-info/gptchat-info.component';
 
 @Component({
   selector: 'app-header',
@@ -49,6 +64,9 @@ import { BrainstormingDataService } from 'app/services/util/brainstorming-data.s
 })
 export class HeaderComponent implements OnInit, AfterViewInit {
   @ViewChild(ArsComposeHostDirective) host: ArsComposeHostDirective;
+  @ViewChild('toolbarRow') toolbarRow: ElementRef<HTMLElement>;
+  @ViewChild('themeMenu') themeMenu: MatMenu;
+  @ViewChild('langMenu') languageMenu: MatMenu;
   user: ManagedUser;
   userRole: UserRole;
   cTime: string;
@@ -61,10 +79,18 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   isInRouteWithRoles = false;
   hasEmailNotifications = false;
   hasKeywords = false;
+  themes: Theme[];
+  showSmallButtons = false;
+  isGPTPrivacyPolicyAccepted: boolean = false;
+  canOpenGPT = false;
+  customOptionText: { key: string; noTranslate?: boolean } = null;
+  public readonly navigationAccess = {
+    livepoll: livepollNavigationAccessOnRoute,
+  };
   private _clockCount = 0;
+  private shrinkObserver: ShrinkObserver;
 
   constructor(
-    public location: Location,
     public userManagementService: UserManagementService,
     public notificationService: NotificationService,
     public router: Router,
@@ -74,7 +100,6 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     public eventService: EventService,
     private bonusTokenService: BonusTokenService,
     private _r: Renderer2,
-    private confirmDialog: MatDialog,
     private roomService: RoomService,
     public topicCloudAdminService: TopicCloudAdminService,
     public headerService: HeaderService,
@@ -86,10 +111,19 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     private commentNotificationService: CommentNotificationService,
     private startUpService: StartUpService,
     private brainstormingDataService: BrainstormingDataService,
+    public langService: LanguageService,
+    public readonly livepollService: LivepollService,
+    private gptService: GptService,
+    private route: ActivatedRoute,
   ) {}
 
   ngAfterViewInit() {
     this.headerService.initHeader(() => this);
+    this.themes = this.themeService.getThemes();
+    this.shrinkObserver = new ShrinkObserver(this.toolbarRow.nativeElement);
+    this.shrinkObserver
+      .observeShrink()
+      .subscribe((shrinked) => (this.showSmallButtons = shrinked));
   }
 
   ngOnInit() {
@@ -102,6 +136,9 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     this.sessionService.getRole().subscribe((role) => {
       this.userRole = role;
       this.isInRouteWithRoles = this.sessionService.canChangeRoleOnRoute;
+    });
+    this.sessionService.getGPTStatus().subscribe((status) => {
+      this.canOpenGPT = Boolean(status) && !status.restricted;
     });
     this.topicCloudAdminService.getAdminData.subscribe((data) => {
       this.isAdminConfigEnabled =
@@ -123,9 +160,9 @@ export class HeaderComponent implements OnInit, AfterViewInit {
       this.commentsCountUsers = data.userCount;
       this.commentsCountKeywords = data.tagCount;
     });
-    this.userManagementService
-      .getUser()
-      .subscribe((newUser) => (this.user = newUser));
+    this.userManagementService.getUser().subscribe((newUser) => {
+      this.user = newUser;
+    });
 
     let time = new Date();
     this.getTime(time);
@@ -137,6 +174,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     this.sessionService.getRoom().subscribe((room) => {
       this.room = room;
       this.refreshNotifications();
+      this.refreshLivepollNotification();
     });
 
     this._r.listen(document, 'keyup', (event) => {
@@ -162,6 +200,11 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     });
   }
 
+  useLanguage(language: Language) {
+    this.translationService.use(language);
+    this.langService.setLanguage(language);
+  }
+
   getClockCount() {
     return this._clockCount;
   }
@@ -172,10 +215,6 @@ export class HeaderComponent implements OnInit, AfterViewInit {
 
   unregisterClock() {
     this._clockCount--;
-  }
-
-  showMotdDialog() {
-    this.startUpService.openMotdDialog();
   }
 
   getTime(time: Date) {
@@ -199,7 +238,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
       });
       dialogRef.afterClosed().subscribe((result) => {
         if (result === 'abort') {
-          this.openUserBonusTokenDialog();
+          UserBonusTokenComponent.openDialog(this.dialog, this.user?.id);
         } else if (result === 'logout') {
           this.logoutUser();
         }
@@ -209,10 +248,6 @@ export class HeaderComponent implements OnInit, AfterViewInit {
 
   logoutUser() {
     this.userManagementService.logout();
-  }
-
-  goBack() {
-    this.location.back();
   }
 
   startTour() {
@@ -226,7 +261,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   }
 
   routeAdmin() {
-    this.router.navigate(['/admin/create-motd']);
+    this.router.navigate(['/admin/overview']);
   }
 
   openDeleteUserDialog() {
@@ -242,15 +277,12 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     });
   }
 
-  openUserBonusTokenDialog() {
-    const dialogRef = this.dialog.open(UserBonusTokenComponent, {
-      width: '600px',
-    });
-    dialogRef.componentInstance.userId = this.user.id;
-  }
-
   startUpFinished() {
     return this.sessionService.isReady;
+  }
+
+  openUserBonusTokenDialog() {
+    UserBonusTokenComponent.openDialog(this.dialog, this.user?.id);
   }
 
   /*Rescale*/
@@ -261,24 +293,6 @@ export class HeaderComponent implements OnInit, AfterViewInit {
    */
   public getRescale(): Rescale {
     return AppComponent.rescale;
-  }
-
-  /*QR*/
-
-  public getURL(): string {
-    return `${location.origin}/participant/room/${this.room?.shortId}`;
-  }
-
-  public showQRDialog() {
-    Rescale.requestFullscreen();
-    const dialogRef = this.dialog.open(QrCodeDialogComponent, {
-      panelClass: 'screenDialog',
-    });
-    dialogRef.componentInstance.data = this.getURL();
-    dialogRef.componentInstance.key = this.room?.shortId;
-    dialogRef.afterClosed().subscribe((res) => {
-      Rescale.exitFullscreen();
-    });
   }
 
   public navigateQuestionBoard() {
@@ -306,20 +320,21 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     this.router.navigate([url.replace(/^\/[^\/]+\//gim, newRoute)]);
   }
 
-  public navigateTopicCloud() {
-    this.eventService.broadcast('navigate', 'topic-cloud');
+  navigateCloud() {
+    navigateTopicCloud(
+      this.router,
+      this.eventService,
+      this.dialog,
+      this.userRole,
+    );
   }
 
-  public navigateBrainstorming() {
-    const confirmDialogRef = this.confirmDialog.open(
-      TopicCloudBrainstormingComponent,
-      {
-        autoFocus: false,
-      },
-    );
-    confirmDialogRef.componentInstance.target =
-      this.router.url + '/brainstorming';
-    confirmDialogRef.componentInstance.userRole = this.userRole;
+  public navigateBrainstormingDialog() {
+    navigateBrainstorming(this.dialog, this.router, this.userRole);
+  }
+
+  public navigateBrainstormingDirectly() {
+    this.router.navigate([getBrainstormingURL(decodeURI(this.router.url))]);
   }
 
   public getCurrentRoleIcon() {
@@ -343,4 +358,98 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     }
     return 'tooltip-participant';
   }
+
+  openMenu() {
+    const active = this.themeService.activeTheme.key;
+    const index = this.themes.findIndex((theme) => theme.key === active);
+    if (index < 0) {
+      return;
+    }
+    this.themeMenu._allItems.get(index).focus();
+  }
+
+  openLanguageMenu() {
+    const language = this.langService.currentLanguage();
+    if (language === 'de') {
+      this.languageMenu._allItems.get(0).focus();
+    } else if (language === 'en') {
+      this.languageMenu._allItems.get(1).focus();
+    } else if (language === 'fr') {
+      this.languageMenu._allItems.get(2).focus();
+    }
+  }
+
+  openPseudoEditor() {
+    PseudonymEditorComponent.open(this.dialog, this.user.id, this.room.id);
+  }
+
+  openEmailNotification(): void {
+    if (!this.user?.loginId) {
+      this.translationService
+        .get('comment-notification.needs-user-account')
+        .subscribe((msg) =>
+          this.notificationService.show(msg, undefined, {
+            duration: 7000,
+            panelClass: ['snackbar', 'important'],
+          }),
+        );
+      return;
+    }
+    CommentNotificationDialogComponent.openDialog(this.dialog, this.room);
+  }
+
+  openGPT() {
+    if (!this.canOpenGPT) {
+      GPTChatInfoComponent.open(this.dialog);
+      return;
+    }
+    let roleString = 'participant';
+    if (this.userRole === UserRole.CREATOR) {
+      roleString = 'creator';
+    } else if (this.userRole > UserRole.PARTICIPANT) {
+      roleString = 'moderator';
+    }
+    const url = `/${roleString}/room/${this.room.shortId}/gpt-chat-room`;
+    this.router.navigate([url]);
+  }
+
+  openPrivacyDialog() {
+    const dialogRef = this.dialog.open(GptOptInPrivacyComponent, {
+      autoFocus: false,
+      width: '80%',
+      maxWidth: '600px',
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      this.userManagementService.updateGPTConsentState(result).subscribe();
+    });
+  }
+
+  changeTheme(theme: Theme) {
+    this.themeService.activate(theme.key);
+    this.updateScale(
+      theme.getScale(this.deviceInfo.isCurrentlyMobile ? 'mobile' : 'desktop'),
+    );
+  }
+
+  updateScale(scale: number) {
+    AppComponent.rescale.setInitialScale(scale);
+    AppComponent.rescale.setDefaultScale(scale);
+  }
+
+  openLivepollDialog() {
+    this.livepollService.open(this.sessionService);
+  }
+
+  private refreshLivepollNotification() {
+    if (this.livepollService.isOpen)
+      this.sessionService.getRoomOnce().subscribe((room) => {
+        if (room.livepollSession) {
+          this.livepollService.open(this.sessionService);
+        }
+      });
+  }
+
+  // openGPTPrivacyDialog() {
+  //   const dialogRef = this.dialog.open(GptOptInPrivacyComponent);
+  // }
 }

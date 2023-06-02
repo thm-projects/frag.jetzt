@@ -5,7 +5,7 @@ export const light = {
   'ars-button-color-light': '#eadabf',
   'ars-background-color': '#121212',
   'ars-foreground-color': '#121212',
-  'ars-border-color': '#121212'
+  'ars-border-color': '#121212',
 };
 
 export const dark = {
@@ -15,5 +15,5 @@ export const dark = {
   'ars-button-color-light': '#eadabf',
   'ars-background-color': '#121212f',
   'ars-foreground-color': '#121212',
-  'ars-border-color': '#121212'
+  'ars-border-color': '#121212',
 };

@@ -46,6 +46,11 @@ import { QuillUtils } from '../../../utils/quill-utils';
 import { forkJoin, ReplaySubject, takeUntil } from 'rxjs';
 import { ResponseViewInformation } from '../comment-response-view/comment-response-view.component';
 import { UserManagementService } from '../../../services/util/user-management.service';
+import { EventService } from '../../../services/util/event.service';
+import { take } from 'rxjs/operators';
+import { GPTChatInfoComponent } from '../_dialogs/gptchat-info/gptchat-info.component';
+import { TSMap } from 'typescript-map';
+import { prettyPrintDate } from '../../../utils/date';
 
 @Component({
   selector: 'app-comment',
@@ -73,7 +78,6 @@ import { UserManagementService } from '../../../services/util/user-management.se
   ],
 })
 export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
-
   static COMMENT_MAX_HEIGHT = 250;
 
   @Input() comment: ForumComment;
@@ -92,6 +96,8 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() indentationPossible = false;
   @Input() showResponses: boolean = false;
   @Input() activeKeywordSearchString: string = null;
+  @Input() canOpenGPT = false;
+  @Input() consentGPT = false;
   @Output() clickedOnTag = new EventEmitter<string>();
   @Output() clickedOnKeyword = new EventEmitter<string>();
   @Output() clickedUserNumber = new EventEmitter<string>();
@@ -144,6 +150,7 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
     protected langService: LanguageService,
     public deviceInfo: DeviceInfoService,
     public notificationService: DashboardNotificationService,
+    protected eventService: EventService,
   ) {
     langService
       .getLanguage()
@@ -175,13 +182,13 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
 
   getCommentIcon(): string {
     if ((this.comment?.brainstormingSessionId || null) !== null) {
-      return 'psychology_alt';
+      return ' tips_and_updates';
     } else if (this.isFromOwner) {
       return 'co_present';
     } else if (this.isFromModerator) {
       return 'support_agent';
     }
-    return 'person';
+    return '';
   }
 
   getCommentIconClass(): string {
@@ -332,6 +339,15 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
+  toggleApproved(): void {
+    this.comment.approved = !this.comment.approved;
+    const changes = new TSMap<string, any>();
+    changes.set('approved', this.comment.approved);
+    this.commentService.patchComment(this.comment, changes).subscribe((c) => {
+      this.comment.approved = c.approved;
+    });
+  }
+
   setFavorite(comment: Comment): void {
     if (this.comment.favorite) {
       if (!this.room?.bonusArchiveActive) {
@@ -420,6 +436,32 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
         this.delete();
       }
     });
+  }
+
+  copyShareCommentLink(): void {
+    const url = `${window.location.protocol}//${window.location.host}/participant/room/${this.room.shortId}/comment/${this.comment.id}/conversation`;
+    navigator.clipboard.writeText(url).then(
+      () => {
+        this.translateService
+          .get('comment-page.share-comment-success')
+          .subscribe((msg) => {
+            this.notification.show(msg, undefined, {
+              duration: 5_000,
+              panelClass: ['snackbar-valid'],
+            });
+          });
+      },
+      () => {
+        this.translateService
+          .get('comment-page.share-comment-fail')
+          .subscribe((msg) => {
+            this.notification.show(msg, undefined, {
+              duration: 12_500,
+              panelClass: ['snackbar-invalid'],
+            });
+          });
+      },
+    );
   }
 
   openChangeCommentTagDialog(): void {
@@ -597,6 +639,26 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
     this.router.navigate([url]);
   }
 
+  openGPT() {
+    if (!this.canOpenGPT) {
+      GPTChatInfoComponent.open(this.dialog);
+      return;
+    }
+    let url: string;
+    this.route.params.subscribe((params) => {
+      url = `${this.roleString}/room/${params['shortId']}/gpt-chat-room`;
+    });
+
+    this.eventService
+      .on('gptchat-room.init')
+      .pipe(take(1))
+      .subscribe(() => {
+        this.eventService.broadcast('gptchat-room.data', this.comment);
+      });
+
+    this.router.navigate([url]);
+  }
+
   getResponses() {
     this.hasVoted = this._votes?.[this.comment.id]?.vote || 0;
     this.responses = [...this.comment.children];
@@ -611,7 +673,7 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
         roomOwner: room.ownerId,
         user: this.user,
         userRole: this.userRole,
-        isModerationComment: this.isModerator,
+        isModerationComment: this.moderator,
         votes: this._votes,
       };
       this.showResponses =
@@ -707,32 +769,21 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
     if (!this.comment) {
       return;
     }
-    const date = new Date(this.comment.createdAt);
-    const dateString = date.toLocaleDateString(
-      this.langService.currentLanguage() ?? undefined,
-      {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric',
-      },
+    this.readableCommentDate = prettyPrintDate(
+      this.comment.createdAt,
+      this.langService.currentLanguage(),
     );
-    const timeString = date.toLocaleTimeString(
-      this.langService.currentLanguage() ?? undefined,
-      {
-        minute: '2-digit',
-        hour: '2-digit',
-      },
-    );
-    this.readableCommentDate = dateString + ' ' + timeString;
   }
 
   private generateCommentNumber() {
     if (!this.comment?.number) {
       return;
     }
-    this._commentNumber = Comment.computePrettyCommentNumber(
+    Comment.getPrettyCommentNumber(
       this.translateService,
       this.comment,
-    );
+    ).subscribe((msg) => {
+      this._commentNumber = msg;
+    });
   }
 }

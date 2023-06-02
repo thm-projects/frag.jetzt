@@ -8,10 +8,9 @@ import { StartUpService } from '../../../../services/util/start-up.service';
 @Component({
   selector: 'app-motd-dialog',
   templateUrl: './motd-dialog.component.html',
-  styleUrls: ['./motd-dialog.component.scss']
+  styleUrls: ['./motd-dialog.component.scss'],
 })
 export class MotdDialogComponent implements OnInit {
-
   @Input()
   motds: MotdAPI[];
   builtMotds: Motd[];
@@ -20,8 +19,7 @@ export class MotdDialogComponent implements OnInit {
     public dialogRef: MatDialogRef<MotdDialogComponent>,
     private userManagementService: UserManagementService,
     private startUpService: StartUpService,
-  ) {
-  }
+  ) {}
 
   markAllAsRead() {
     const newRead = this.builtMotds.reduce((acc, value) => {
@@ -32,11 +30,12 @@ export class MotdDialogComponent implements OnInit {
       return acc;
     }, []);
     this.startUpService.readMOTD(newRead);
+    this.dialogRef.close();
   }
 
   ngOnInit(): void {
     const read = this.userManagementService.getCurrentUser().readMotds;
-    this.builtMotds = this.motds.map(motd => {
+    this.builtMotds = this.motds.map((motd) => {
       return new Motd(
         motd.id,
         motd.startTimestamp,
@@ -50,5 +49,4 @@ export class MotdDialogComponent implements OnInit {
   buildDeclineActionCallback(): () => void {
     return () => this.dialogRef.close();
   }
-
 }

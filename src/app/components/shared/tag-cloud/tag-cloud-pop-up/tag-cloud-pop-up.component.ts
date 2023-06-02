@@ -32,17 +32,19 @@ import { BrainstormingDataService } from 'app/services/util/brainstorming-data.s
 import { BrainstormingTopic } from 'app/services/util/brainstorming-data-builder';
 import { BrainstormingCategory } from 'app/models/brainstorming-category';
 
-const CLOSE_TIME = 1500;
+const CLOSE_TIME = 100;
 
 @Component({
   selector: 'app-tag-cloud-pop-up',
   templateUrl: './tag-cloud-pop-up.component.html',
   styleUrls: ['./tag-cloud-pop-up.component.scss'],
 })
-export class TagCloudPopUpComponent implements OnInit, AfterViewInit, OnDestroy {
+export class TagCloudPopUpComponent
+  implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('popupContainer') popupContainer: ElementRef;
   @ViewChild(MatAutocompleteTrigger) trigger: MatAutocompleteTrigger;
   @Input() room: Room;
+  @Input() requester: (index: number) => void;
   replacementInput = new FormControl();
   userRole: UserRole;
   // Both
@@ -56,9 +58,9 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit, OnDestroy 
   spellingData: string[] = [];
   isBlacklistActive = true;
   // Brainstorming
-  wordId: string;
   isBrainstorming = false;
   isBrainstormingActive = false;
+  isRatingAllowed = false;
   brainstormingData: BrainstormingTopic;
   possibleCategories: BrainstormingCategory[];
   selectedCategory: string;
@@ -118,24 +120,25 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   getBrainstormingUpvotes(): number {
-    return this.room.brainstormingSession.wordsWithMeta[this.wordId].word
-      .upvotes;
+    const wordId = this.brainstormingData.words.values().next().value;
+    return this.room.brainstormingSession.wordsWithMeta[wordId].word.upvotes;
   }
 
   getBrainstormingDownvotes(): number {
-    return this.room.brainstormingSession.wordsWithMeta[this.wordId].word
-      .downvotes;
+    const wordId = this.brainstormingData.words.values().next().value;
+    return this.room.brainstormingSession.wordsWithMeta[wordId].word.downvotes;
   }
 
   getBrainstormingVotes(): number {
-    const word = this.room.brainstormingSession.wordsWithMeta[this.wordId].word;
+    const wordId = this.brainstormingData.words.values().next().value;
+    const word = this.room.brainstormingSession.wordsWithMeta[wordId].word;
     return word.upvotes - word.downvotes;
   }
 
   getOwnVote(): number {
+    const wordId = this.brainstormingData.words.values().next().value;
     const vote =
-      this.room.brainstormingSession.wordsWithMeta?.[this.wordId]
-        ?.ownHasUpvoted;
+      this.room.brainstormingSession.wordsWithMeta?.[wordId]?.ownHasUpvoted;
     if (vote === true) {
       return 1;
     } else if (vote === false) {
@@ -146,13 +149,17 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit, OnDestroy 
     }
   }
 
+  openTag() {
+    this.requester?.(Number(this.elem.dataset.index));
+  }
+
   enterBrainstorming(
     elem: HTMLElement,
     tag: string,
     isBrainstormingActive: boolean,
+    isRatingAllowed: boolean,
     hoverDelayInMs: number,
     brainstormingData: BrainstormingTopic,
-    wordId: string,
     possibleCategories: BrainstormingCategory[],
   ) {
     if (!elem) {
@@ -164,10 +171,10 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit, OnDestroy 
     this._hasLeft = true;
     this._popupHoverTimer = setTimeout(() => {
       this.possibleCategories = possibleCategories;
-      this.wordId = wordId;
       this.isBlacklistActive = true;
       this.isBrainstorming = true;
       this.isBrainstormingActive = isBrainstormingActive;
+      this.isRatingAllowed = isRatingAllowed;
       this.tag = tag;
       this.previousTag = elem.innerText;
       elem.innerText = this.tag;
@@ -175,9 +182,9 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit, OnDestroy 
       this.brainstormingData = brainstormingData;
       const keys = [...brainstormingData.categories.keys()];
       this.selectedCategory = keys.length > 0 ? keys[0] : null;
-      this.categories = keys.map(
-        (key) => possibleCategories.find((e) => e.id === key)?.name,
-      ).filter(e => e);
+      this.categories = keys
+        .map((key) => possibleCategories.find((e) => e.id === key)?.name)
+        .filter((e) => e);
       this.timePeriodText = '';
       this.position(elem);
     }, hoverDelayInMs);
@@ -212,7 +219,7 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit, OnDestroy 
       this.isBrainstorming = false;
       this.tag = tag;
       this.previousTag = null; // dont allow modification of tag key
-      this.elem = null; // dont allow modification of tag key
+      this.elem = elem;
       this.tagData = tagData;
       this.categories = Array.from(tagData.categories.keys());
       this.calculateDateText(() => {
@@ -224,7 +231,9 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit, OnDestroy 
 
   addBlacklistWord(): void {
     if (this.isBrainstorming) {
-      this.brainstormingDataService.blockWord(this.wordId);
+      this.brainstormingData.words.forEach((wordId) => {
+        this.brainstormingDataService.blockWord(wordId);
+      });
     } else {
       this.tagCloudDataService.blockWord(this.tag, this.room);
     }
@@ -257,21 +266,26 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   isNewTagReady(): boolean {
-    if (!this.replacementInput.value || this.isBrainstorming) {
+    if (!this.replacementInput.value) {
       return false;
     }
     const tag = this.replacementInput.value.trim();
+    if (this.isBrainstorming) {
+      return !(tag.length < 1 || tag === this.brainstormingData.preview);
+    }
     return !(tag.length < 1 || tag === this.tag);
   }
 
-  updateCategory(): void {
-    this.brainstormingService
-      .patchWord(this.wordId, {
-        categoryId: this.selectedCategory || null,
-      })
-      .subscribe({
-        complete: () => this.close(false),
-      });
+  updateCategory(value: string): void {
+    this.brainstormingData.words.forEach((wordId) => {
+      this.brainstormingService
+        .patchWord(wordId, {
+          categoryId: value || null,
+        })
+        .subscribe({
+          complete: () => this.close(false),
+        });
+    });
   }
 
   updateTag(): void {
@@ -279,6 +293,17 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit, OnDestroy 
       return;
     }
     const tagReplacementInput = this.replacementInput.value.trim();
+    if (this.isBrainstorming) {
+      const changes = {
+        correctedWord: tagReplacementInput,
+      };
+      this.brainstormingData.words.forEach((wordId) => {
+        this.brainstormingService.patchWord(wordId, changes).subscribe();
+      });
+      this.close(false);
+      this.replacementInput.reset();
+      return;
+    }
     const renameKeyword = (elem: SpacyKeyword) => {
       if (elem.text === this.tag) {
         elem.text = tagReplacementInput;
@@ -359,22 +384,26 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit, OnDestroy 
     const lastVote = this.getOwnVote();
     if (currentVote === lastVote) {
       this.setOwnVote(0);
-      this.brainstormingService.deleteVote(this.wordId).subscribe({
+      this.brainstormingData.words.forEach((wordId) => {
+        this.brainstormingService.deleteVote(wordId).subscribe({
+          next: (_) => (this._isSending = false),
+          error: (_) => {
+            this.setOwnVote(lastVote);
+            this._isSending = false;
+          },
+        });
+      });
+      return;
+    }
+    this.setOwnVote(currentVote);
+    this.brainstormingData.words.forEach((wordId) => {
+      this.brainstormingService.createVote(wordId, upvote).subscribe({
         next: (_) => (this._isSending = false),
         error: (_) => {
           this.setOwnVote(lastVote);
           this._isSending = false;
         },
       });
-      return;
-    }
-    this.setOwnVote(currentVote);
-    this.brainstormingService.createVote(this.wordId, upvote).subscribe({
-      next: (_) => (this._isSending = false),
-      error: (_) => {
-        this.setOwnVote(lastVote);
-        this._isSending = false;
-      },
     });
   }
 
@@ -395,8 +424,10 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit, OnDestroy 
     } else if (vote === -1) {
       upvote = false;
     }
-    this.room.brainstormingSession.wordsWithMeta[this.wordId].ownHasUpvoted =
-      upvote;
+    this.brainstormingData.words.forEach((wordId) => {
+      this.room.brainstormingSession.wordsWithMeta[wordId].ownHasUpvoted =
+        upvote;
+    });
   }
 
   private position(elem: HTMLElement) {

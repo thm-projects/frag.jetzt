@@ -2,55 +2,84 @@
   <div *ngIf="customMessage">
     <p>{{ customMessage | translate }}</p>
   </div>
-  <div *ngIf="!customMessage"
-       class="anchor-wrp">
+  <div
+    *ngIf="!customMessage"
+    class="anchor-wrp">
     <span *ngIf="keywords.length > 0">
-        <span>{{ 'spacy-dialog.select-keywords' | translate }}</span>
+      <span>{{ "spacy-dialog.select-keywords" | translate }}</span>
       <ars-row class="select-all-section">
-        <mat-checkbox class="select-all-checkbox"
-                      id="checkAll"
-                      (change)="selectAll(checkall.checked)"
-                      #checkall
-                      [checked]="allKeywordsSelected()"
-                      matTooltip="{{ 'spacy-dialog.select-all-hint' | translate }}"
-                      matTooltipShowDelay="1000">
-        </mat-checkbox>
-        <mat-label class="select-all-label"
-                   for="checkAll"
-                   (click)="checkall.checked = !checkall.checked;
-                   selectAll(checkall.checked)"
-                   matTooltip="{{ 'spacy-dialog.select-all-hint' | translate }}"
-                   matTooltipShowDelay="1000">
+        <mat-checkbox
+          class="select-all-checkbox"
+          id="checkAll"
+          (change)="selectAll(checkall.checked)"
+          #checkall
+          [checked]="allKeywordsSelected()"
+          matTooltip="{{ 'spacy-dialog.select-all-hint' | translate }}"
+          matTooltipShowDelay="1000"></mat-checkbox>
+        <mat-label
+          class="select-all-label"
+          for="checkAll"
+          (click)="
+            checkall.checked = !checkall.checked; selectAll(checkall.checked)
+          "
+          matTooltip="{{ 'spacy-dialog.select-all-hint' | translate }}"
+          matTooltipShowDelay="1000">
           <mat-icon class="select-all-icon">checklist_rtl</mat-icon>
-          {{ 'spacy-dialog.select-all' | translate }}
+          {{ "spacy-dialog.select-all" | translate }}
         </mat-label>
       </ars-row>
     </span>
     <ars-row class="list-container">
-      <mat-list dense class="keywords-list">
-        <mat-list-item *ngFor="let keyword of keywords; let odd = odd; let even = even; let i = index"
-                       [class.keywords-alternate]="odd"
-                       [class.keywords-even]="even"
-                       [ngClass]="{'keyword-selected': keyword.selected, 'first-keyword': i === 0}">
-          <span class="keyword-span" *ngIf="!keyword.editing">{{keyword.word}}</span>
-          <input class="keyword-span, isEditing" *ngIf="keyword.editing" [(ngModel)]="keyword.word"/>
+      <mat-list
+        dense
+        class="keywords-list">
+        <mat-list-item
+          *ngFor="
+            let keyword of keywords;
+            let odd = odd;
+            let even = even;
+            let i = index
+          "
+          [class.keywords-alternate]="odd"
+          [class.keywords-even]="even"
+          [ngClass]="{
+            'keyword-selected': keyword.selected,
+            'first-keyword': i === 0
+          }">
+          <span
+            class="keyword-span"
+            *ngIf="!keyword.editing">
+            {{ keyword.word }}
+          </span>
+          <input
+            class="keyword-span, isEditing"
+            *ngIf="keyword.editing"
+            [(ngModel)]="keyword.word" />
           <div class="keywords-actions">
-            <mat-checkbox [checked]="keyword.completed"
-                          (change)="keyword.selected = $event.checked"
-                          [(ngModel)]="keyword.completed"
-                          matTooltip="{{ 'spacy-dialog.select-keyword-hint' | translate }}">
-            </mat-checkbox>
-            <button *ngIf="!keyword.editing"
-                    (click)="onEdit(keyword); onEditChange(1)" mat-icon-button
-                    [ngClass]="{'keywords-actions-selected': keyword.selected}"
-                    matTooltip="{{ 'spacy-dialog.edit-keyword-hint' | translate }}">
+            <mat-checkbox
+              *ngIf="!keyword.editing"
+              [checked]="keyword.completed"
+              (change)="keyword.selected = $event.checked"
+              [(ngModel)]="keyword.completed"
+              matTooltip="{{ 'spacy-dialog.select-keyword-hint' | translate }}"
+              [disabled]="keyword.editing"
+              [matTooltipPosition]="'above'"></mat-checkbox>
+            <button
+              *ngIf="!keyword.editing"
+              (click)="onEdit(keyword); onEditChange(1)"
+              mat-icon-button
+              [ngClass]="{ 'keywords-actions-selected': keyword.selected }"
+              matTooltip="{{ 'spacy-dialog.edit-keyword-hint' | translate }}"
+              [matTooltipPosition]="'right'">
               <mat-icon>edit</mat-icon>
             </button>
-            <button *ngIf="keyword.editing"
-                    (click)="onEndEditing(keyword); onEditChange(-1)" mat-icon-button
-                    class="edit-accept"
-                    matTooltip="{{ 'spacy-dialog.editing-done-hint' | translate }}">
-              <mat-icon>check</mat-icon>
+            <button
+              *ngIf="keyword.editing"
+              (click)="onEndEditing(keyword); onEditChange(-1)"
+              mat-icon-button
+              class="edit-accept"
+              matTooltip="{{ 'spacy-dialog.editing-done-hint' | translate }}">
+              <mat-icon>save</mat-icon>
             </button>
           </div>
         </mat-list-item>
@@ -58,25 +87,31 @@
     </ars-row>
     <ars-row>
       <span *ngIf="!langSupported || !hasKeywordsFromSpacy">
-        <p class="manual-input-title">{{ 'spacy-dialog.add-manually' | translate }}</p>
-        <textarea class="manual-input" [(ngModel)]="manualKeywords" (input)="manualKeywordsToKeywords()"></textarea>
+        <p class="manual-input-title">
+          {{ "spacy-dialog.add-manually" | translate }}
+        </p>
+        <textarea
+          class="manual-input"
+          [(ngModel)]="manualKeywords"
+          (input)="manualKeywordsToKeywords()"></textarea>
       </span>
     </ars-row>
   </div>
 </ars-row>
 
-<ars-row ars-flex-box class="action-button-container">
+<ars-row
+  ars-flex-box
+  class="action-button-container">
   <ars-col *ngIf="langSupported && hasKeywordsFromSpacy">
     <button
       mat-flat-button
       class="help-button"
       (click)="openHelp()">
       <mat-icon>question_mark</mat-icon>
-      {{ 'explanation.label' | translate}}
+      {{ "explanation.label" | translate }}
     </button>
   </ars-col>
-  <ars-fill *ngIf="!langSupported || !hasKeywordsFromSpacy">
-  </ars-fill>
+  <ars-fill *ngIf="!langSupported || !hasKeywordsFromSpacy"></ars-fill>
   <ars-col>
     <app-dialog-action-buttons
       #appDialogActionButtons
@@ -85,7 +120,8 @@
       [showDivider]="false"
       [spacing]="false"
       [cancelButtonClickAction]="buildCloseDialogActionCallback()"
-      [confirmButtonClickAction]="buildCreateCommentActionCallback()">
-    </app-dialog-action-buttons>
+      [confirmButtonClickAction]="
+        buildCreateCommentActionCallback()
+      "></app-dialog-action-buttons>
   </ars-col>
 </ars-row>

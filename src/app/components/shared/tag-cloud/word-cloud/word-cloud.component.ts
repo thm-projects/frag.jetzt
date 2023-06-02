@@ -63,13 +63,13 @@ const TO_RAD = (2 * Math.PI) / 360;
   styleUrls: ['./word-cloud.component.scss'],
 })
 export class WordCloudComponent<T extends WordMeta>
-  implements OnInit, OnChanges, OnDestroy
-{
+  implements OnInit, OnChanges, OnDestroy {
   @ViewChild('wordCloud', { static: true })
   wordCloud: ElementRef<HTMLDivElement>;
   @Output() clicked = new EventEmitter<T>();
   @Output() entered = new EventEmitter<ActiveWord<T>>();
   @Output() left = new EventEmitter<ActiveWord<T>>();
+  @Output() requested = new EventEmitter<T>();
   @Input() isRadar = false;
   @Input() keywords: T[];
   @Input() weightClasses = 10;
@@ -293,6 +293,10 @@ export class WordCloudComponent<T extends WordMeta>
           });
       });
     }
+  }
+
+  requestEntry(index: number) {
+    this.requested.emit(this._elements[index].meta);
   }
 
   onMouseEvent(event: MouseEvent) {
@@ -565,7 +569,6 @@ export class WordCloudComponent<T extends WordMeta>
     parentHeight: number,
   ) {
     const timeInMs = 500;
-    const interval = this.parameters.delayWord;
     parentElement.style.setProperty('--fadeInTime', timeInMs + 'ms');
     this._elements.forEach((e, i) => {
       e.element.style.display = e.visible ? '' : 'none';

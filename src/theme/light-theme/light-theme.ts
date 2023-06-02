@@ -1,16 +1,15 @@
 import { ThemeMeta } from '../Theme';
 
 export const arsnova = {
-
   '--primary': 'darkblue',
   '--primary-variant': 'blanchedalmond',
 
-  '--secondary': 'darkcyan',
-  '--secondary-variant': 'lightgreen',
+  '--secondary': '#1d6161',
+  '--secondary-variant': '#1d6161',
 
-  '--background': 'AliceBlue',
-  '--surface': 'mintcream',
-  '--dialog': 'ivory',
+  '--background': 'ivory',
+  '--surface': 'bisque',
+  '--dialog': 'cornsilk',
   '--cancel': 'red',
   '--alt-surface': '#eeeeee',
   '--alt-dialog': 'aliceblue',
@@ -38,12 +37,24 @@ export const arsnova = {
 
   '--questionwall-intro-primary': 'darkorange',
   '--questionwall-intro-secondary': 'white',
-  '--questionwall-intro-background': '#121212'
+  '--questionwall-intro-background': '#121212',
 
+  '--livepoll-primary': '#8a2be2',
+  '--livepoll-primary--disabled': '#282934',
+  '--livepoll-primary--hover': '#993cf5',
+  '--on-livepoll-primary': '#ffffff',
+  '--on-livepoll-primary--disabled': '#c5c5c5',
+  '--on-livepoll-primary--hover': '#ffffff',
+
+  '--livepoll-secondary': '#ff8e00',
+  '--livepoll-secondary--disabled': '#5f5f64',
+  '--livepoll-secondary--hover': '#faa24f',
+  '--on-livepoll-secondary': '#ffffff',
+  '--on-livepoll-secondary--disabled': '#c5c5c5',
+  '--on-livepoll-secondary--hover': '#ffffff',
 };
 
 export const arsnova_meta: ThemeMeta = {
-
   translation: {
     name: {
       en: 'Light mode',
@@ -59,5 +70,4 @@ export const arsnova_meta: ThemeMeta = {
   previewColor: 'background',
   icon: 'light',
   highlightJsClass: 'a11y-dark.css',
-
 };

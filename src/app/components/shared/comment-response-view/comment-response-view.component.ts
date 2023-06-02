@@ -53,6 +53,10 @@ export class CommentResponseViewComponent
   viewInfo: ResponseViewInformation;
   @ViewChild('containerRef')
   containerRef: ElementRef<HTMLDivElement>;
+  @Input()
+  canOpenGPT = false;
+  @Input()
+  consentGPT = false;
   sortType: SortTypeKey;
   sortReverse: boolean;
   private _rootComment: ForumComment;

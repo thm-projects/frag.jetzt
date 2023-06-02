@@ -7,7 +7,7 @@ import { IMessage } from '@stomp/stompjs';
 import { UserManagementService } from '../util/user-management.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class WsConnectorService {
   public readonly connected$ = new BehaviorSubject<boolean>(false);
@@ -15,15 +15,13 @@ export class WsConnectorService {
 
   private headers = {
     'content-type': 'application/json',
-    'ars-user-id': ''
+    'ars-user-id': '',
   };
 
   private deactivationPromise: Promise<void>;
   private isConnecting: boolean = false;
 
-  constructor(
-    private userManagementService: UserManagementService,
-  ) {
+  constructor(private userManagementService: UserManagementService) {
     this.client = new RxStomp();
     this.client.connectionState$.subscribe(() => {
       const connected = !!this.client.stompClient.connected;
@@ -41,14 +39,20 @@ export class WsConnectorService {
       this.client.publish({
         destination,
         body,
-        headers: this.headers
+        headers: this.headers,
       });
     }
   }
 
-  public getWatcher(topic: string): Observable<IMessage> {
+  public getWatcher(
+    topic: string,
+    additionalHeaders = {},
+  ): Observable<IMessage> {
     if (this.client.connected) {
-      return this.client.watch(topic, this.headers);
+      return this.client.watch(topic, {
+        ...this.headers,
+        ...additionalHeaders,
+      });
     }
   }
 
@@ -61,7 +65,7 @@ export class WsConnectorService {
       }
       this.headers = {
         'content-type': 'application/json',
-        'ars-user-id': ''
+        'ars-user-id': '',
       };
       this.deactivationPromise = this.client.deactivate().then(() => {
         this.deactivationPromise = null;
@@ -70,7 +74,7 @@ export class WsConnectorService {
     }
     this.headers = {
       'content-type': 'application/json',
-      'ars-user-id': String(user.id)
+      'ars-user-id': String(user.id),
     };
     const copiedConf = { ...ARSRxStompConfig };
     copiedConf.connectHeaders.token = user.token;

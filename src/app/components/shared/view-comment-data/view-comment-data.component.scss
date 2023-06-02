@@ -1,5 +1,5 @@
 #editorRow {
-  overflow-x: hidden !important;
+  overflow-x: visible !important;
 }
 
 #deeplFormality {
@@ -15,7 +15,6 @@
   float: right;
   margin-right: 0 !important;
 }
-
 
 .anchor-right {
   @media screen and (max-width: 500px) {
@@ -121,14 +120,15 @@
         color: var(--on-cancel);
       }
 
-      &.ql-editing input[type=text] {
+      &.ql-editing input[type="text"] {
         border-color: var(--on-surface);
         color: var(--on-surface);
         background-color: var(--dialog);
       }
     }
 
-    .ql-fill, .ql-stroke.ql-fill {
+    .ql-fill,
+    .ql-stroke.ql-fill {
       fill: var(--on-surface);
     }
 
@@ -147,7 +147,8 @@
       padding-right: 15px;
     }
 
-    &.ql-toolbar, .ql-toolbar {
+    &.ql-toolbar,
+    .ql-toolbar {
       border-color: var(--on-surface);
       border-top: unset;
       border-right: unset;
@@ -159,8 +160,8 @@
 
         > * {
           @media only screen and (max-device-width: 480px) and (orientation: portrait),
-          only screen and (max-device-height: 480px) and (orientation: landscape) {
-            margin: 7px;
+            only screen and (max-device-height: 480px) and (orientation: landscape) {
+            margin: 4px;
           }
         }
       }
@@ -181,16 +182,21 @@
         width: 1.75em !important;
       }
 
-      button:hover, button:focus, button.ql-active,
-      .ql-picker-label:hover, .ql-picker-label.ql-active,
-      .ql-picker-item:hover, .ql-picker-item.ql-selected {
+      button:hover,
+      button:focus,
+      button.ql-active,
+      .ql-picker-label:hover,
+      .ql-picker-label.ql-active,
+      .ql-picker-item:hover,
+      .ql-picker-item.ql-selected {
         color: var(--primary);
 
         .ql-stroke {
           stroke: var(--primary);
         }
 
-        .ql-fill, .ql-stroke.ql-fill {
+        .ql-fill,
+        .ql-stroke.ql-fill {
           fill: var(--primary);
         }
       }
@@ -204,7 +210,7 @@
     right: 0;
 
     @media only screen and (max-device-width: 480px) and (orientation: portrait),
-    only screen and (max-device-height: 480px) and (orientation: landscape) {
+      only screen and (max-device-height: 480px) and (orientation: landscape) {
       top: -1em;
     }
   }

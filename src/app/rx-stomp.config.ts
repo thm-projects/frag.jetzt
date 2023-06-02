@@ -3,12 +3,13 @@ import { environment } from '../environments/environment';
 
 export const ARSRxStompConfig: RxStompConfig = {
   // Which server?
-  brokerURL: ((window.location.protocol === 'http:') ? 'ws' : 'wss')
-    + `://${window.location.host}/api/ws/websocket`,
+  brokerURL:
+    (window.location.protocol === 'http:' ? 'ws' : 'wss') +
+    `://${window.location.host}/gateway/ws/websocket`,
 
   connectHeaders: {
     login: 'guest',
-    password: 'guest'
+    password: 'guest',
   },
 
   // How often to heartbeat?
@@ -28,5 +29,5 @@ export const ARSRxStompConfig: RxStompConfig = {
     if (environment.stomp_debug) {
       console.log(new Date(), 'STOMP debug: ' + msg);
     }
-  }
+  },
 };

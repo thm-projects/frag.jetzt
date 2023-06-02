@@ -6,19 +6,24 @@ import {
   OnInit,
   Renderer2,
   RendererStyleFlags2,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
 
-export type SpinnerTheme = 'primary' | 'on-primary' | 'secondary' | 'on-secondary';
+export type SpinnerTheme =
+  | 'primary'
+  | 'on-primary'
+  | 'secondary'
+  | 'on-secondary'
+  | 'surface'
+  | 'on-surface';
 
 @Component({
   selector: 'app-mat-spinner-overlay',
   templateUrl: './mat-spinner-overlay.component.html',
-  styleUrls: ['./mat-spinner-overlay.component.scss']
+  styleUrls: ['./mat-spinner-overlay.component.scss'],
 })
 export class MatSpinnerOverlayComponent implements OnInit, AfterViewInit {
-
   @ViewChild('containerRef') containerRef: ElementRef;
   @Input() value = 100;
   @Input() diameter = 100;
@@ -31,9 +36,10 @@ export class MatSpinnerOverlayComponent implements OnInit, AfterViewInit {
   @Input() parentFontContainer: HTMLElement = null;
   @Input() color: SpinnerTheme = 'primary';
 
-  constructor(private element: ElementRef<HTMLElement>,
-              private renderer2: Renderer2) {
-  }
+  constructor(
+    private element: ElementRef<HTMLElement>,
+    private renderer2: Renderer2,
+  ) {}
 
   ngOnInit(): void {
     if (this.parentFontContainer && !this.overlay) {
@@ -42,7 +48,9 @@ export class MatSpinnerOverlayComponent implements OnInit, AfterViewInit {
       const style = window.getComputedStyle(this.parentFontContainer);
       ctx.font = style.font;
       const metric = ctx.measureText(this.parentFontContainer.innerText);
-      this.diameter = Math.abs(metric.fontBoundingBoxAscent) + Math.abs(metric.actualBoundingBoxDescent);
+      this.diameter =
+        Math.abs(metric.fontBoundingBoxAscent) +
+        Math.abs(metric.actualBoundingBoxDescent);
       this.strokeWidth = this.diameter / 10;
     }
   }
@@ -52,10 +60,20 @@ export class MatSpinnerOverlayComponent implements OnInit, AfterViewInit {
     if (svg.length < 1) {
       return;
     }
+    this.renderer2.setStyle(
+      svg[0].parentElement,
+      'color',
+      'var(--' + this.color + ')',
+      RendererStyleFlags2.Important,
+    );
     this.renderer2.setStyle(svg[0], 'position', 'static');
     if (svg[0].firstElementChild) {
-      this.renderer2.setStyle(svg[0].firstElementChild, 'stroke', 'currentColor', RendererStyleFlags2.Important);
+      this.renderer2.setStyle(
+        svg[0].firstElementChild,
+        'stroke',
+        'currentColor',
+        RendererStyleFlags2.Important,
+      );
     }
   }
-
 }

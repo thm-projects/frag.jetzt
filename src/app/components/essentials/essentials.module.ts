@@ -33,8 +33,15 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { MAT_TOOLTIP_DEFAULT_OPTIONS, MatTooltipModule } from '@angular/material/tooltip';
-import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import {
+  MAT_TOOLTIP_DEFAULT_OPTIONS,
+  MatTooltipModule,
+} from '@angular/material/tooltip';
+import {
+  TranslateLoader,
+  TranslateModule,
+  TranslateService,
+} from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { LanguageService } from '../../services/util/language.service';
 
@@ -49,9 +56,9 @@ export const HttpLoaderFactory = (http: HttpClient) => {
       loader: {
         provide: TranslateLoader,
         useFactory: HttpLoaderFactory,
-        deps: [HttpClient]
+        deps: [HttpClient],
       },
-      isolate: true
+      isolate: true,
     }),
   ],
   exports: [
@@ -98,7 +105,7 @@ export const HttpLoaderFactory = (http: HttpClient) => {
     {
       provide: MAT_TOOLTIP_DEFAULT_OPTIONS,
       useValue: {
-        disableTooltipInteractivity: false,
+        disableTooltipInteractivity: true,
         hideDelay: 0,
         position: undefined,
         showDelay: 200,
@@ -106,17 +113,15 @@ export const HttpLoaderFactory = (http: HttpClient) => {
         touchendHideDelay: 1500,
       },
     },
-  ]
+  ],
 })
 export class EssentialsModule {
-
   constructor(
     private languageService: LanguageService,
     private translateService: TranslateService,
   ) {
-    this.languageService.getLanguage().subscribe(lang => {
+    this.languageService.getLanguage().subscribe((lang) => {
       this.translateService.use(lang);
     });
   }
-
 }

@@ -21,9 +21,7 @@ import { SessionService } from '../../../../services/util/session.service';
 import { Room } from '../../../../models/room';
 import { mergeMap } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
-import {
-  IntroductionQuestionWallComponent,
-} from '../../_dialogs/introductions/introduction-question-wall/introduction-question-wall.component';
+import { IntroductionQuestionWallComponent } from '../../_dialogs/introductions/introduction-question-wall/introduction-question-wall.component';
 import {
   BrainstormingFilter,
   FilterType,
@@ -38,6 +36,7 @@ import { HeaderService } from '../../../../services/util/header.service';
 import { ForumComment } from '../../../../utils/data-accessor';
 import { UserManagementService } from '../../../../services/util/user-management.service';
 import { RowComponent } from '../../../../../../projects/ars/src/lib/components/layout/frame/row/row.component';
+import { PageEvent } from '@angular/material/paginator';
 
 interface CommentCache {
   [commentId: string]: {
@@ -82,6 +81,10 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   firstPassIntroduction = true;
   room: Room = null;
   period: Period;
+  // paginator
+  pageIndex = 0;
+  pageSize = 25;
+  pageSizeOptions = [25, 50, 100, 200];
   private readonly commentCache: CommentCache = {};
   private _filterObj: FilteredDataAccess;
 
@@ -120,6 +123,17 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     } else if (elsePart) {
       elsePart();
     }
+  }
+
+  handlePageEvent(e: PageEvent) {
+    this.pageIndex = e.pageIndex;
+    this.pageSize = e.pageSize;
+  }
+
+  getSlicedComments(): ForumComment[] {
+    const start = this.pageIndex * this.pageSize;
+    const end = start + this.pageSize;
+    return this.comments.slice(start, end);
   }
 
   toggleSideList() {
@@ -215,7 +229,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     document.getElementById('footer_rescale').style.display = 'none';
     setTimeout(() => {
       Rescale.requestFullscreen();
-    }, 10);
+    }, 0);
     setTimeout(() => {
       Array.from(
         document
@@ -499,13 +513,13 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
           )),
       );
     if ((comment?.brainstormingSessionId || null) !== null) {
-      return 'psychology_alt';
+      return ' tips_and_updates';
     } else if (isFromOwner) {
       return 'co_present';
     } else if (isFromModerator) {
       return 'support_agent';
     }
-    return 'person';
+    return '';
   }
 
   getCommentIconClass(comment: Comment): string {

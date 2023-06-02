@@ -1,3 +1,4 @@
+import { UUID } from 'app/utils/ts-utils';
 import { BrainstormingWord } from './brainstorming-word';
 
 // https://datatracker.ietf.org/doc/html/rfc5646#section-2
@@ -11,8 +12,8 @@ export interface WordsWithMeta {
 }
 
 export class BrainstormingSession {
-  id: string;
-  roomId: string;
+  id: UUID;
+  roomId: UUID;
   title: string;
   active: boolean;
   createdAt: Date;
@@ -27,8 +28,8 @@ export class BrainstormingSession {
   ideasEndTimestamp: Date;
 
   constructor({
-    id = '',
-    roomId = '',
+    id = null,
+    roomId = null,
     title = '',
     active = true,
     createdAt = null,
@@ -40,7 +41,7 @@ export class BrainstormingSession {
     ideasFrozen = true,
     ideasTimeDuration = null,
     ideasEndTimestamp = null,
-    updatedAt = null
+    updatedAt = null,
   }: BrainstormingSession) {
     this.id = id;
     this.roomId = roomId;
@@ -49,7 +50,14 @@ export class BrainstormingSession {
     this.createdAt = createdAt;
     this.maxWordLength = maxWordLength;
     this.maxWordCount = maxWordCount;
-    this.wordsWithMeta = wordsWithMeta ?? {};
+    this.wordsWithMeta = {};
+    if (wordsWithMeta) {
+      Object.keys(wordsWithMeta).forEach((key) => {
+        const entry = wordsWithMeta[key];
+        entry.word = new BrainstormingWord(entry.word);
+        this.wordsWithMeta[key] = entry;
+      });
+    }
     this.language = language;
     this.ratingAllowed = ratingAllowed;
     this.ideasFrozen = ideasFrozen;

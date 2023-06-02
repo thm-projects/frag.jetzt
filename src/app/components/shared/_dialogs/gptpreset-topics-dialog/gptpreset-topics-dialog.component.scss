@@ -1,0 +1,34 @@
+.input-container {
+  display: flex;
+
+  > mat-form-field {
+    flex: 1;
+  }
+
+  > button {
+    margin-left: 1em;
+  }
+}
+
+:host ::ng-deep .mat-list-text {
+  flex-direction: row !important;
+  align-items: center;
+}
+
+.secondary-btn {
+  background-color: transparent;
+  color: var(--secondary);
+  outline: var(--secondary) solid 3px;
+  width: 100%;
+  margin-top: 10px;
+
+  &:hover {
+    background-color: var(--secondary);
+    color: var(--on-secondary);
+  }
+}
+
+:host ::ng-deep .mat-list-option:not(.mat-list-item-disabled),
+:host ::ng-deep .mat-pseudo-checkbox {
+  color: var(--on-dialog);
+}
