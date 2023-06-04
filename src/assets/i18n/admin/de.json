@@ -105,8 +105,7 @@
     "option-total-acts": "Treffer in »Agiere als …«",
     "option-total-prompts": "Treffer in Prompts …",
     "temperature": "Antwortvariabilität",
-    "temperature-tooltip": "Einstellung der Kreativität und Determinismus der Antworten",
-    "hint-apply-text": "Bitte beachte, dass diese Antwort nicht gespeichert wird. Du musst die Antwort übernehmen, damit diese angezeigt wird."
+    "temperature-tooltip": "Einstellung der Kreativität und Determinismus der Antworten"
   },
   "quill": {
     "cancel": "Abbrechen",

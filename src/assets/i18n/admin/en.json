@@ -105,8 +105,7 @@
     "option-total-acts": "Founds acts",
     "option-total-prompts": "Hits in prompts",
     "temperature": "Temperature",
-    "temperature-tooltip": "Setting of creativity and determinism of answers",
-    "hint-apply-text": "Please note that this answer is not saved. You must accept the answer for it to be displayed."
+    "temperature-tooltip": "Setting of creativity and determinism of answers"
   },
   "quill": {
     "cancel": "Cancel",
