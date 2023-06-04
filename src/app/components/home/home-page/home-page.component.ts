@@ -12,6 +12,8 @@ import { NotificationService } from 'app/services/util/notification.service';
 import { LanguageService } from 'app/services/util/language.service';
 import { filter, take } from 'rxjs';
 
+export type CarouselState = 'highlight' | 'peek' | 'hidden';
+
 @Component({
   selector: 'app-home-page',
   templateUrl: './home-page.component.html',
@@ -20,6 +22,37 @@ import { filter, take } from 'rxjs';
 export class HomePageComponent implements OnInit, OnDestroy {
   listenerFn: () => void;
   accumulatedRatings: RatingResult;
+
+  protected carouselIndex: number = 0;
+  protected readonly carousel = [
+    {
+      title: 'Title 1',
+      description: 'Description 1',
+      images: [
+        {
+          url: 'url("/assets/background/background-gpt1_masked.png")',
+        },
+      ],
+    },
+    {
+      title: 'Title 1',
+      description: 'Description 1',
+      images: [
+        {
+          url: 'url("/assets/background/background-gpt1_masked.png")',
+        },
+      ],
+    },
+    {
+      title: 'Title 1',
+      description: 'Description 1',
+      images: [
+        {
+          url: 'url("/assets/background/background-gpt1_masked.png")',
+        },
+      ],
+    },
+  ];
 
   constructor(
     private translateService: TranslateService,
@@ -32,6 +65,38 @@ export class HomePageComponent implements OnInit, OnDestroy {
     private notificationService: NotificationService,
     private languageService: LanguageService,
   ) {}
+
+  getBackgroundStyleForEntry(i: number): any {
+    return {
+      backgroundImage: this.carousel[i].images[0].url,
+    };
+  }
+
+  getStyleForEntry(i: number): any {
+    const state = this.getClassForEntry(i);
+    switch (state) {
+      case 'highlight':
+        return {
+          backgroundColor: 'red',
+        };
+      case 'peek':
+        return {
+          backgroundColor: 'green',
+        };
+      case 'hidden':
+        return {};
+    }
+  }
+
+  getClassForEntry(i: number): CarouselState {
+    if (i === this.carouselIndex) {
+      return 'highlight';
+    } else if (i === this.carouselIndex - 1 || i === this.carouselIndex + 1) {
+      return 'peek';
+    } else {
+      return 'hidden';
+    }
+  }
 
   ngOnInit() {
     this.ratingService.getRatings().subscribe((r) => {
@@ -117,5 +182,9 @@ export class HomePageComponent implements OnInit, OnDestroy {
         'assertive',
       );
     }
+  }
+
+  selectEntry(i: number) {
+    this.carouselIndex = i;
   }
 }

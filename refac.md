@@ -1,4 +1,4 @@
-# Project Refactoring
+# Project Refactoring (WIP)
 
 ## 1. Example - Styles
 
@@ -45,3 +45,37 @@ there's no elegant way to use this component in new components.
 <summary>Example <b>(2.4)</b></summary>
 ![image](/uploads/ad73fa94c567a55aac9cbc13ebe38825/image.png)
 </details>
+
+> ## Issue
+>
+> The main issue here is, there's a lot of effort in these components, but their style is dependant on their functionality vice versa.
+
+> ## Possible Solution
+>
+> A possible solution might be:
+>
+> - when creating a subcomponent, don't use style on that subcomponent, so that:
+>   1. the subcomponent only implements the functionality
+>   2. the parent component controls the layout style
+>   3. the theme controls the component coloring.
+
+## 3 Translation
+
+**(3.1)** Different components import different language files (_type: json_).\
+This is an Issue, when reusing components. A subcomponent uses the translation of the parent (if not otherwise specified, which itself is a workaround, to this issue).
+E.g.: For every cancel button, the translation has to be redone resulting in countless duplicate entries, for a translation.
+
+<details>
+<summary>Example <b>(3.2)</b></summary>
+![image](/uploads/992b96d1e3336228a06094d18d531b19/image.png)
+</details>
+
+> ## Issue
+>
+> 1. trivial translations have to be defined for every new component.
+> 2. side effects when reusing components
+
+> ## Possible Solution
+>
+> 1. common pool for translations
+> 2. introduction of new pipe for common pool translations

@@ -9,6 +9,9 @@ $preferred-size: calc(100vh - $header-size - $footer-size);
   left: 0;
   top: 0;
   padding: $header-size 32px $footer-size;
+  &.mobile {
+    padding: $header-size 4px $footer-size;
+  }
 }
 
 .content {
@@ -22,7 +25,6 @@ $preferred-size: calc(100vh - $header-size - $footer-size);
   font-size: 30px;
   font-weight: normal;
   color: var(--primary);
-  animation: moveInLeft 3s ease;
   padding: 0;
   margin: 0;
   line-height: 30px;
@@ -33,7 +35,6 @@ $preferred-size: calc(100vh - $header-size - $footer-size);
   font-size: 50px;
   font-weight: normal;
   color: var(--secondary);
-  animation: moveInRight 3s ease;
   padding: 0;
   margin: 0;
   line-height: 50px;
@@ -50,7 +51,6 @@ $preferred-size: calc(100vh - $header-size - $footer-size);
   > .background-image {
     width: 100vw;
     height: 100vh;
-    background-image: url("/assets/background/background-gpt1_masked.png");
     filter: hue-rotate(50deg);
     background-position: center right;
     background-repeat: no-repeat;
@@ -75,4 +75,31 @@ $preferred-size: calc(100vh - $header-size - $footer-size);
       border-radius: 5px;
     }
   }
+}
+
+.carousel-entry {
+  &.highlight {
+    .carousel-pointer {
+      display: none;
+    }
+  }
+  &.peek {
+    .carousel-pointer {
+      display: none;
+    }
+    .carousel-description {
+      display: none;
+    }
+  }
+  &.hidden {
+    .carousel-content {
+      display: none;
+    }
+  }
+}
+
+.carousel-pointer {
+  width: 25px;
+  height: 25px;
+  background-color: red;
 }
