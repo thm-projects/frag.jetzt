@@ -248,7 +248,7 @@
     "edit-tags": "Question categories",
     "export-questions": "Export Q&A",
     "fullscreen": "Fullscreen & Text size",
-    "guest-account-tooltip": "You are logged in as a guest. Your rooms and bonuses will be deleted when you reset your browser. If you sign in with an account, your rooms and bonuses will be saved for 180 days. This period is extended by 180 days with each additional visit to your rooms.",
+    "guest-account-tooltip": "You are logged in as a guest. As a guest, you can only create rooms without using ChatGPT. Note: Your rooms will be bound to this browser. As a registered user, you can open your ChatGPT rooms in any browser. Remember that rooms are automatically deleted after 180 days of inactivity.",
     "home-header": "Collect questions ➧ evaluate ➧ present ➧ answer with AI",
     "home-header-mobile": "Q&A live with AI",
     "id": "Key",
@@ -423,7 +423,7 @@
     "feedback-aria": "Please use the following link to offer the developers bugs, features, praise and blame",
     "guest-login": "Sign in as a guest",
     "guest-login-description": "Sign in as a guest",
-    "guest-login-tooltip": "Your rooms and bonuses will be deleted when you reset your browser. If you sign in with an account, your rooms and bonuses will be saved for 180 days. This period is extended by 180 days with each additional visit to your rooms.",
+    "guest-login-tooltip": "As a guest, you can only create rooms without using ChatGPT. Note: Your rooms will be bound to this browser. As a registered user, you can open your ChatGPT rooms in any browser. Remember that rooms are automatically deleted after 180 days of inactivity.",
     "header": "Sign in",
     "input-incorrect": "Please check your data.",
     "login": "Sign in with account",
@@ -888,7 +888,7 @@
   },
   "gptchat-info": {
     "title": "ChatGPT",
-    "content": "ChatGPT is the perfect solution to automatically answer a question in the Q&A forum. You can also create your own prompts or choose from hundreds of predefined prompts that best fit your needs. To use ChatGPT, you only need an account on frag.jetzt and an [API key from OpenAI](https://platform.openai.com).\n\nHere's how it works in just two steps:\n\n1. Register on frag.jetzt, sign in, and book a room.\n\n2. Add the OpenAI API key in the options menu of your room and you're good to go!\n\nYour API key is securely stored on our server and your frag.jetzt password is also secure. Additionally, you can limit the token quota and API costs for a limited time if you want to make ChatGPT available for use in your room. You can find all the settings in the options menu of your room.\n\nStart now with a $5 credit that you can use for the first 3 months. Depending on the language model you choose, you can consume several million tokens (1 token is approximately 5-7 characters) for ChatGPT requests with this credit.",
+    "content": "Sorry, this room has been created by a guest. ChatGPT can only be used in rooms created by registered room creators. Create your own room to use ChatGPT.\n\nHere's how it works in just two steps:\n\n1. Register on frag.jetzt, sign in, and book a room.\n\n2. Add the OpenAI API key in the options menu of your room and you're good to go!\n\nYour API key is securely stored on our server and your frag.jetzt password is also secure. Additionally, you can limit the token quota and API costs for a limited time if you want to make ChatGPT available for use in your room. You can find all the settings in the options menu of your room.\n\nStart now with a $5 credit that you can use for the first 3 months. Depending on the language model you choose, you can consume several million tokens (1 token is approximately 5-7 characters) for ChatGPT requests with this credit.",
     "cancel": "Close"
   }
 }
