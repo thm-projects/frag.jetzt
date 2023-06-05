@@ -10,23 +10,23 @@
     *ngFor="let background of carousel; index as i"
     [ngStyle]="getBackgroundStyleForEntry(i)"></div>
 </div>
-
 <div
   fxLayout="column"
   fxLayoutAlign="center center"
   class="content-container"
   #contentContainer
-  [ngClass]="{
-    mobile: contentContainer.offsetWidth < 800,
-    desktop: contentContainer.offsetWidth >= 800
-  }">
+  [ngClass]="
+    (contentContainer.offsetWidth < 630 ? 'mobile' : 'desktop') +
+    ' ' +
+    (themeService.activeTheme?.key || 'undefined')
+  ">
   <div
     class="content"
     fxLayoutGap="16px"
     fxLayout="row">
     <div
+      class="book-room-container"
       fxLayout="column"
-      style="width: 300px; flex-shrink: 1"
       fxLayoutGap="32px">
       <div
         fxLayout="column"
@@ -44,23 +44,7 @@
         fxLayout="row"
         style="align-items: center"
         fxLayoutGap="16px">
-        <mat-form-field
-          style="flex-grow: 1"
-          appearance="standard">
-          <mat-label>Key code ...</mat-label>
-          <input
-            matInput
-            type="text" />
-        </mat-form-field>
-        <button mat-flat-button>
-          <span>join</span>
-        </button>
-      </div>
-      <div fxLayout="row">
-        <button mat-flat-button>
-          <mat-icon>add</mat-icon>
-          <span>book a room</span>
-        </button>
+        <app-new-landing></app-new-landing>
       </div>
       <div fxLayout="row">
         <app-app-rating
@@ -88,7 +72,7 @@
     </div>
     <div
       class="carousel-container-ghost"
-      *ngIf="contentContainer.offsetWidth > 800">
+      *ngIf="contentContainer.offsetWidth > 630">
       <div class="carousel-anchor">
         <div class="carousel-transform">
           <div
@@ -102,15 +86,15 @@
                 [ngClass]="kind"
                 [ngStyle]="getStyleForEntry(i, kind)"
                 role="button"
-                (click)="selectEntry(i, entryElement)"
-                mat-ripple
-                [matRippleColor]="'rgba(123,123,123,0.1)'"
                 #entryElement>
                 <div
                   class="carousel-pointer"
                   [ngStyle]="{ 'height.px': content.offsetHeight }">
                   <div
                     class="pointer"
+                    mat-ripple
+                    [matRippleColor]="'rgba(123,123,123,0.1)'"
+                    (click)="selectEntry(i, entryElement)"
                     [ngClass]="getPositionClass(i)">
                     <div class="point"></div>
                     <div class="point"></div>
@@ -118,15 +102,21 @@
                   </div>
                 </div>
                 <div
+                  mat-ripple
+                  [matRippleColor]="'rgba(123,123,123,0.1)'"
                   class="carousel-content"
+                  (click)="selectEntry(i, entryElement)"
                   #content>
                   <div
                     fxLayout="row"
                     fxLayoutAlign="space-between center">
-                    <span>{{ entry.title }}</span>
-                    <span>{{ i }}</span>
+                    <span class="carousel-entry-title">
+                      {{ entry.title[this.languageService.language] }}
+                    </span>
                   </div>
-                  <span>{{ entry.description }}</span>
+                  <span>
+                    {{ entry.description[this.languageService.language] }}
+                  </span>
                 </div>
               </div>
             </ng-container>

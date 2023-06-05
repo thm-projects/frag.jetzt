@@ -25,6 +25,19 @@ e.g.: when removing Style of the home-page.component in scss
 
 - No Side-Effects appear for other Components.
 
+### strategy for color-names
+
+// TODO
+
+### usage of multiple color code notations
+
+e.g.: ![image](/uploads/69eaa9d5cfe8aec7f66ea835d99574c0/image.png)
+
+preferred format should be `RED, GREEN, BLUE` instead of `FULL_NAME` or `#FFFFFF`,
+reason: with this notation `RED, GREEN, BLUE`, `rgba(var(--color),0.-1)` can be used. it allows to automatically generate accent colors.
+
+if full names or hex codes are still required, a preprocessor can be used to generate scss entries.
+
 ## 2. Component Scope
 
 **(2.1)** The reuse of components has advantages. DRY - Principle
@@ -79,3 +92,47 @@ E.g.: For every cancel button, the translation has to be redone resulting in cou
 >
 > 1. common pool for translations
 > 2. introduction of new pipe for common pool translations
+
+## 4 Brand Identity & Design
+
+(No need to go fancy here)\
+A design choice can only be justified, with a common goal. Otherwise, it's highly subjective.
+Considering the target audience for this project, it's important to keep this in mind.
+It should create a lasting impression on the target audience.
+
+> ## Issue
+>
+> 1. no definition of 'corporate design'
+>    1. constant overwriting of components ⇒ crude implementation ⇒ no goal ⇒ non-maintainable code
+> 2. different design philosophies
+>    1. material design framework, but forcing a unique selling point by overwriting said framework, resulting in different design approaches
+> 3. too many colors and themes (no brand colors, difficult to maintain, bad implementation, side-effects e.g.: changing background-color, changes text color in a non-related component)
+> 4. too many elements, that don't serve a purpose ⇒ which is irritating for users? (those elements need to be maintained)
+>    1. why is it (maybe, potentially) irritating for some users?\
+>       User uses product during critical moments, overcomplicating (and constantly changing) UI elements will hinder that behaviour.\
+>       Also the learning curve for new users gets too steep. (normal users don't have the context developers have)
+>
+> ## Solution
+>
+> 1. define a design which serves as benchmark for every future implementation
+>    1. create components based on that design
+>    2. use those components for features
+>    3. stay on track, don't lose scope
+>    4. don't overcomplicate features
+>       1. **if an implementation of a feature takes too long due to overcomplicating and micromanaging the design, ultimately the feature release will be delayed**, it's important to release a feature as fast as possible and then evaluate whether additional features are really necessary. It's important to get feedback from active and new users regarding future features or other requests. (This excludes anecdotal requests)
+>
+> scratch notes:
+>
+> - When does a feature become a new Application
+> - How to handle anecdotal requests? _CRM_
+> - Provide resources for target audience e.g.: https://www.jetbrains.com/help/
+>   - Link features within the web app to those resources e.g.:
+>   - user uses certain feature, link article describing features or insights https://www.jetbrains.com/help/idea/work-with-maven-goals.html
+>   - provide user with options to migrate from other system e.g.: https://www.jetbrains.com/help/idea/migrating-from-eclipse-to-intellij-idea.html
+>   - provide educational templates / articles about how to integrate a feature in lectures e.g.: https://www.jetbrains.com/help/idea/product-educational-tools.html
+>   - always provide help (**see s.1**)
+
+<details>
+<summary>Example <b>(s.1)</b></summary>
+![image](/uploads/6dc663f65660c6566c18dc39fb69b474/image.png)
+</details>

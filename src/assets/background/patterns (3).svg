@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440.56 1440.56">
+  <rect width="1440.56" height="1440.56" fill="transparent" id="bg" class="bg"/>
+  <g>
+    <g transform="translate(360.14,&#10;                                360.14) rotate(90, 180.07, 180.07)">
+      <svg xmlns="http://www.w3.org/2000/svg" id="Layer_1" data-name="Layer 1" viewBox="0 0 100 100" width="360.14"
+           height="360.14">
+        <path d="M50,100a50,50,0,1,1,50-50v50Z" fill="#3D348B"/>
+      </svg>
+    </g>
+    <g transform="translate(720.28,&#10;                                0.00) rotate(0, 180.07, 180.07)">
+      <svg xmlns="http://www.w3.org/2000/svg" id="Layer_1" data-name="Layer 1" viewBox="0 0 100 100" width="360.14"
+           height="360.14">
+        <path d="M50,100h0A50,50,0,0,1,0,50V0H100V50A50,50,0,0,1,50,100Z" fill="#F18701"/>
+      </svg>
+    </g>
+    <g transform="translate(1080.42,&#10;                                0.00) rotate(180, 180.07, 180.07)">
+      <svg xmlns="http://www.w3.org/2000/svg" id="Layer_1" data-name="Layer 1" viewBox="0 0 100 100" width="360.14"
+           height="360.14">
+        <path d="M100,100A50,50,0,0,0,0,100Z" fill="#7678ED"/>
+      </svg>
+    </g>
+    <g transform="translate(720.28,&#10;                                360.14) rotate(90, 180.07, 180.07)">
+      <svg xmlns="http://www.w3.org/2000/svg" id="Layer_1" data-name="Layer 1" viewBox="0 0 100 100" width="360.14"
+           height="360.14">
+        <path d="M50,100h0A50,50,0,0,1,0,50V0H100V50A50,50,0,0,1,50,100Z" fill="#F18701"/>
+      </svg>
+    </g>
+  </g>
+  <g>
+    <g transform="translate(360.14,&#10;                                1080.42) rotate(180, 180.07, 180.07)">
+      <svg xmlns="http://www.w3.org/2000/svg" id="Layer_1" data-name="Layer 1" viewBox="0 0 100 100" width="360.14"
+           height="360.14">
+        <path d="M100,100A50,50,0,0,0,0,100Z" fill="#7678ED"/>
+      </svg>
+    </g>
+    <g transform="translate(720.28,&#10;                                720.28) rotate(180, 180.07, 180.07)">
+      <svg xmlns="http://www.w3.org/2000/svg" id="Layer_1" data-name="Layer 1" viewBox="0 0 100 100" width="360.14"
+           height="360.14">
+        <path d="M50,100h0A50,50,0,0,1,0,50V0H100V50A50,50,0,0,1,50,100Z" fill="#F18701"/>
+      </svg>
+    </g>
+    <g transform="translate(1080.42,&#10;                                720.28) rotate(0, 180.07, 180.07)">
+      <svg xmlns="http://www.w3.org/2000/svg" id="Layer_1" data-name="Layer 1" viewBox="0 0 100 100" width="360.14"
+           height="360.14">
+        <path d="M100,100A50,50,0,0,0,0,100Z" fill="#7678ED"/>
+      </svg>
+    </g>
+    <g transform="translate(720.28,&#10;                                1080.42) rotate(90, 180.07, 180.07)">
+      <svg xmlns="http://www.w3.org/2000/svg" id="Layer_1" data-name="Layer 1" viewBox="0 0 100 100" width="360.14"
+           height="360.14">
+        <path d="M100,100A50,50,0,0,0,0,100Z" fill="#7678ED"/>
+      </svg>
+    </g>
+  </g>
+</svg>
