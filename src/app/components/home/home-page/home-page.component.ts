@@ -1,4 +1,13 @@
-import { Component, OnDestroy, OnInit, Renderer2 } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  Renderer2,
+  ViewChild,
+} from '@angular/core';
 import { EventService } from '../../../services/util/event.service';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { KeyboardUtils } from '../../../utils/keyboard';
@@ -12,7 +21,7 @@ import { NotificationService } from 'app/services/util/notification.service';
 import { LanguageService } from 'app/services/util/language.service';
 import { filter, take } from 'rxjs';
 
-export type CarouselState = 'highlight' | 'peek' | 'hidden';
+export type CarouselEntryKind = 'highlight' | 'peek' | 'hidden';
 
 @Component({
   selector: 'app-home-page',
@@ -20,14 +29,18 @@ export type CarouselState = 'highlight' | 'peek' | 'hidden';
   styleUrls: ['./home-page.component.scss'],
 })
 export class HomePageComponent implements OnInit, OnDestroy {
+  @ViewChild('carouselScrollElement')
+  _carouselScrollElement: ElementRef<HTMLDivElement>;
   listenerFn: () => void;
+
   accumulatedRatings: RatingResult;
 
   protected carouselIndex: number = 0;
   protected readonly carousel = [
     {
       title: 'Title 1',
-      description: 'Description 1',
+      description:
+        'Da ging der Butt auf Grund und ließ einen langen Streifen Blut hinter sich. Da stand der Fischer auf und ging zu seiner Frau in die kleine Hütte.',
       images: [
         {
           url: 'url("/assets/background/background-gpt1_masked.png")',
@@ -36,7 +49,8 @@ export class HomePageComponent implements OnInit, OnDestroy {
     },
     {
       title: 'Title 1',
-      description: 'Description 1',
+      description:
+        '"Mann," sagte die Frau, "hast du heute nichts gefangen?" - "Nein," sagte der Mann.',
       images: [
         {
           url: 'url("/assets/background/background-gpt1_masked.png")',
@@ -45,7 +59,28 @@ export class HomePageComponent implements OnInit, OnDestroy {
     },
     {
       title: 'Title 1',
-      description: 'Description 1',
+      description:
+        'Als er an die See kam, war das Wasser ganz violett und dunkelblau und grau und dick, und gar nicht mehr so grün und gelb, doch war es noch still. Da stellte er sich hin und sagte:',
+      images: [
+        {
+          url: 'url("/assets/background/background-gpt1_masked.png")',
+        },
+      ],
+    },
+    {
+      title: 'Title 1',
+      description:
+        '"Na, was will sie denn?" sagte der Butt. "Ach, Butt," sagte er, "meine Frau will Kaiser werden." - "Geh nur hin," sagte der Butt, "sie ist es schon."',
+      images: [
+        {
+          url: 'url("/assets/background/background-gpt1_masked.png")',
+        },
+      ],
+    },
+    {
+      title: 'Title 1',
+      description:
+        'So ging es wohl nun acht oder vierzehn Tage, da sagte die Frau: "Hör, Mann, das Häuschen ist auch gar zu eng, und der Hof und der Garten ist so klein: der Butt hätt uns auch wohl ein größeres Haus schenken können.',
       images: [
         {
           url: 'url("/assets/background/background-gpt1_masked.png")',
@@ -64,7 +99,21 @@ export class HomePageComponent implements OnInit, OnDestroy {
     private onboardingService: OnboardingService,
     private notificationService: NotificationService,
     private languageService: LanguageService,
+    private readonly cdr: ChangeDetectorRef,
   ) {}
+
+  get carouselOffset() {
+    if (this._carouselScrollElement) {
+      const target = this._carouselScrollElement.nativeElement.children[
+        this.carouselIndex
+      ] as HTMLDivElement;
+      return {
+        'top.px': -target.offsetTop - target.offsetHeight / 2,
+      };
+    } else {
+      return {};
+    }
+  }
 
   getBackgroundStyleForEntry(i: number): any {
     return {
@@ -72,23 +121,20 @@ export class HomePageComponent implements OnInit, OnDestroy {
     };
   }
 
-  getStyleForEntry(i: number): any {
-    const state = this.getClassForEntry(i);
-    switch (state) {
+  getStyleForEntry(i: number, kind: CarouselEntryKind): any {
+    switch (kind) {
       case 'highlight':
-        return {
-          backgroundColor: 'red',
-        };
+        return {};
       case 'peek':
-        return {
-          backgroundColor: 'green',
-        };
+        return {};
       case 'hidden':
+        return {};
+      default:
         return {};
     }
   }
 
-  getClassForEntry(i: number): CarouselState {
+  getEntryKind(i: number): CarouselEntryKind {
     if (i === this.carouselIndex) {
       return 'highlight';
     } else if (i === this.carouselIndex - 1 || i === this.carouselIndex + 1) {
@@ -184,7 +230,21 @@ export class HomePageComponent implements OnInit, OnDestroy {
     }
   }
 
-  selectEntry(i: number) {
+  selectEntry(i: number, entryElement: HTMLDivElement) {
     this.carouselIndex = i;
+  }
+
+  getPositionClass(i: number) {
+    let _class = '';
+    const offset = i - this.carouselIndex;
+    if (offset === -2 || offset === 2) {
+      _class = '';
+    } else {
+      _class += 'hide ';
+    }
+    if (offset === 0) _class += 'center';
+    else if (offset < 0) _class += 'bottom';
+    else _class += 'top';
+    return _class;
   }
 }

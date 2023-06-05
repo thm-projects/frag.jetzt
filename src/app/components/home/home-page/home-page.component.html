@@ -17,15 +17,16 @@
   class="content-container"
   #contentContainer
   [ngClass]="{
-    mobile: contentContainer.offsetWidth < 900,
-    desktop: contentContainer.offsetWidth >= 900
+    mobile: contentContainer.offsetWidth < 800,
+    desktop: contentContainer.offsetWidth >= 800
   }">
   <div
     class="content"
+    fxLayoutGap="16px"
     fxLayout="row">
     <div
       fxLayout="column"
-      style="width: 500px"
+      style="width: 300px; flex-shrink: 1"
       fxLayoutGap="32px">
       <div
         fxLayout="column"
@@ -85,21 +86,53 @@
         </h2>
       </div>
     </div>
-    <div style="flex-grow: 1">
-      <ng-container *ngFor="let entry of carousel; index as i">
-        <div
-          class="carousel-entry"
-          [ngStyle]="getStyleForEntry(i)"
-          [ngClass]="getClassForEntry(i)"
-          role="button"
-          (click)="selectEntry(i)">
-          <div class="carousel-content">
-            <p class="carousel-title">{{ entry.title }}</p>
-            <p class="carousel-description">{{ entry.description }}</p>
+    <div
+      class="carousel-container-ghost"
+      *ngIf="contentContainer.offsetWidth > 800">
+      <div class="carousel-anchor">
+        <div class="carousel-transform">
+          <div
+            class="carousel-scroll"
+            [ngStyle]="carouselOffset"
+            #carouselScrollElement>
+            <ng-container *ngFor="let entry of carousel; index as i">
+              <div
+                class="carousel-entry"
+                *ngIf="getEntryKind(i) as kind"
+                [ngClass]="kind"
+                [ngStyle]="getStyleForEntry(i, kind)"
+                role="button"
+                (click)="selectEntry(i, entryElement)"
+                mat-ripple
+                [matRippleColor]="'rgba(123,123,123,0.1)'"
+                #entryElement>
+                <div
+                  class="carousel-pointer"
+                  [ngStyle]="{ 'height.px': content.offsetHeight }">
+                  <div
+                    class="pointer"
+                    [ngClass]="getPositionClass(i)">
+                    <div class="point"></div>
+                    <div class="point"></div>
+                    <div class="point"></div>
+                  </div>
+                </div>
+                <div
+                  class="carousel-content"
+                  #content>
+                  <div
+                    fxLayout="row"
+                    fxLayoutAlign="space-between center">
+                    <span>{{ entry.title }}</span>
+                    <span>{{ i }}</span>
+                  </div>
+                  <span>{{ entry.description }}</span>
+                </div>
+              </div>
+            </ng-container>
           </div>
-          <div class="carousel-pointer"></div>
         </div>
-      </ng-container>
+      </div>
     </div>
   </div>
 </div>
