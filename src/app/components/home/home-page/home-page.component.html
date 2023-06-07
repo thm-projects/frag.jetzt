@@ -88,16 +88,13 @@
                 role="button"
                 #entryElement>
                 <div
+                  mat-ripple
                   class="carousel-pointer"
+                  (click)="selectEntry(i, entryElement)"
                   [ngStyle]="{ 'height.px': content.offsetHeight }">
                   <div
                     class="pointer"
-                    mat-ripple
-                    [matRippleColor]="'rgba(123,123,123,0.1)'"
-                    (click)="selectEntry(i, entryElement)"
                     [ngClass]="getPositionClass(i)">
-                    <div class="point"></div>
-                    <div class="point"></div>
                     <div class="point"></div>
                   </div>
                 </div>
@@ -114,7 +111,7 @@
                       {{ entry.title[this.languageService.language] }}
                     </span>
                   </div>
-                  <span>
+                  <span class="carousel-text">
                     {{ entry.description[this.languageService.language] }}
                   </span>
                 </div>

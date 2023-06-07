@@ -42,14 +42,14 @@ export class HomePageComponent implements OnInit, OnDestroy {
   protected readonly carousel = [
     {
       title: {
-        en: 'Introducing ChatGPT',
-        de: 'Einführung in ChatGPT',
-        fr: 'Présentation de ChatGPT',
+        en: 'ChatGPT',
+        de: 'ChatGPT',
+        fr: 'ChatGPT',
       },
       description: {
-        en: 'We’ve trained a model called ChatGPT which interacts in a conversational way. The dialogue format makes it possible for ChatGPT to answer followup questions, admit its mistakes, challenge incorrect premises, and reject inappropriate requests.',
-        de: 'Wir haben ein Modell namens ChatGPT trainiert, das auf eine dialogische Weise interagiert. Das Dialogformat ermöglicht es ChatGPT, Folgefragen zu beantworten, Fehler zuzugeben, falsche Prämissen in Frage zu stellen und unangemessene Anfragen abzulehnen.',
-        fr: "Nous avons formé un modèle appelé ChatGPT qui interagit de manière conversationnelle. Le format de dialogue permet à ChatGPT de répondre à des questions de suivi, d'admettre ses erreurs, de contester des prémisses incorrectes et de rejeter des demandes inappropriées.",
+        en: 'Inspire your learners with our interactive AI chatbot. It provides answers tailored to the individual needs of the questioners. Define prompt settings and combine them to receive precise and customized answers. Discover the unlimited possibilities of chat to inspire and support both teachers and learners alike.\n',
+        de: 'Begeistern Sie Ihre Lernenden mit unserem interaktiven KI-Chatbot. Er liefert Antworten, die auf die individuellen Bedürfnisse der Fragenden abgestimmt sind. Definieren Sie Prompt-Voreinstellungen und kombinieren Sie diese, um präzise und maßgeschneiderte Antworten zu erhalten. Entdecken Sie die unbegrenzten Möglichkeiten des Chats, um Lehrende und Lernende gleichermaßen zu inspirieren und zu unterstützen.',
+        fr: 'Inspirez vos apprenants avec notre chatbot IA interactif. Il fournit des réponses adaptées aux besoins individuels des personnes qui posent des questions. Définissez des paramètres de prompt et combinez-les pour recevoir des réponses précises et personnalisées. Découvrez les possibilités illimitées du chat pour inspirer et soutenir à la fois les enseignants et les apprenants.\n',
       },
       images: [
         {
@@ -60,14 +60,14 @@ export class HomePageComponent implements OnInit, OnDestroy {
     },
     {
       title: {
-        en: 'Methods',
-        de: 'Methods',
-        fr: 'Methods',
+        en: 'Bonus for Good Questions',
+        de: 'Bonus für gute Fragen',
+        fr: 'Bonus pour les Bonnes Questions',
       },
       description: {
-        en: 'We trained this model using Reinforcement Learning from Human Feedback (RLHF), using the same methods as InstructGPT, but with slight differences in the data collection setup. We trained an initial model using supervised fine-tuning: human AI trainers provided conversations in which they played both sides—the user and an AI assistant. We gave the trainers access to model-written suggestions to help them compose their responses. We mixed this new dialogue dataset with the InstructGPT dataset, which we transformed into a dialogue format.',
-        de: 'We trained this model using Reinforcement Learning from Human Feedback (RLHF), using the same methods as InstructGPT, but with slight differences in the data collection setup. We trained an initial model using supervised fine-tuning: human AI trainers provided conversations in which they played both sides—the user and an AI assistant. We gave the trainers access to model-written suggestions to help them compose their responses. We mixed this new dialogue dataset with the InstructGPT dataset, which we transformed into a dialogue format.',
-        fr: 'We trained this model using Reinforcement Learning from Human Feedback (RLHF), using the same methods as InstructGPT, but with slight differences in the data collection setup. We trained an initial model using supervised fine-tuning: human AI trainers provided conversations in which they played both sides—the user and an AI assistant. We gave the trainers access to model-written suggestions to help them compose their responses. We mixed this new dialogue dataset with the InstructGPT dataset, which we transformed into a dialogue format.',
+        en: "Promote your learners' engagement and reward outstanding questions with stars! With each star awarded, the questioners receive a code, which they can redeem via email to receive bonus points. This recognition motivates your learners and creates a positive learning culture. Track your learners' progress and inspire them to ask more great questions!\n",
+        de: 'Fördern Sie das Engagement Ihrer Lernenden und belohnen Sie herausragende Fragen mit Sternen! Mit jedem vergebenen Stern erhalten die Fragenden einen Code, den sie per Mail einlösen können, um Bonuspunkte zu erhalten. Diese Anerkennung motiviert Ihre Lernenden und schafft eine positive Lernkultur. Verfolgen Sie die Fortschritte Ihrer Lernenden und inspirieren Sie sie zu weiteren großartigen Fragen!',
+        fr: "Encouragez l'engagement de vos apprenants et récompensez les questions exceptionnelles avec des étoiles ! Pour chaque étoile attribuée, les personnes qui posent des questions reçoivent un code, qu'elles peuvent échanger par e-mail pour obtenir des points bonus. Cette reconnaissance motive vos apprenants et crée une culture d'apprentissage positive. Suivez les progrès de vos apprenants et inspirez-les à poser d'autres excellentes questions !\n",
       },
       images: [
         {
@@ -82,14 +82,86 @@ export class HomePageComponent implements OnInit, OnDestroy {
     },
     {
       title: {
-        en: 'Iterative deployment',
-        de: 'Iterative deployment',
-        fr: 'Iterative deployment',
+        en: 'Quizzing',
+        de: 'Quizzen',
+        fr: 'Quiz',
       },
       description: {
-        en: 'Today’s research release of ChatGPT is the latest step in OpenAI’s iterative deployment of increasingly safe and useful AI systems. Many lessons from deployment of earlier models like GPT-3 and Codex have informed the safety mitigations in place for this release, including substantial reductions in harmful and untruthful outputs achieved by the use of reinforcement learning from human feedback (RLHF).',
-        de: 'Today’s research release of ChatGPT is the latest step in OpenAI’s iterative deployment of increasingly safe and useful AI systems. Many lessons from deployment of earlier models like GPT-3 and Codex have informed the safety mitigations in place for this release, including substantial reductions in harmful and untruthful outputs achieved by the use of reinforcement learning from human feedback (RLHF).',
-        fr: 'Today’s research release of ChatGPT is the latest step in OpenAI’s iterative deployment of increasingly safe and useful AI systems. Many lessons from deployment of earlier models like GPT-3 and Codex have informed the safety mitigations in place for this release, including substantial reductions in harmful and untruthful outputs achieved by the use of reinforcement learning from human feedback (RLHF).',
+        en: 'Excite your learners with an interactive quiz! This way, you can promote playful learning and liven up the classroom through competition. The quiz questions vary in difficulty and points are awarded based on the correctness of the answers and speed. Challenge your learners and motivate them with bonus points in the leaderboard. Make learning a fun group experience!\n',
+        de: 'Begeistern Sie Ihre Lernenden mit einem interaktiven Quiz! So können Sie spielerisches Lernen fördern und den Unterricht durch Wettbewerb auflockern. Die Quizfragen haben verschiedene Schwierigkeitsgrade und die Punkte werden nach Richtigkeit der Antworten und Schnelligkeit vergeben. Fordern Sie Ihre Lernenden heraus und motivieren Sie sie mit Bonuspunkten in der Rangliste. Machen Sie Lernen zu einem unterhaltsamen Gruppenerlebnis!',
+        fr: "Excitez vos apprenants avec un quiz interactif ! De cette manière, vous pouvez promouvoir un apprentissage ludique et animer la salle de classe grâce à la compétition. Les questions du quiz varient en difficulté et les points sont attribués en fonction de la justesse des réponses et de la rapidité. Challengez vos apprenants et motivez-les avec des points bonus dans le classement. Faites de l'apprentissage une expérience de groupe amusante !\n",
+      },
+      images: [
+        {
+          url: 'url("/assets/background/patterns (3).svg")',
+          override: {},
+        },
+      ],
+    },
+    {
+      title: {
+        en: 'Flash Polls',
+        de: 'Blitzumfragen',
+        fr: 'Sondages Éclairs',
+      },
+      description: {
+        en: 'Get valuable feedback in real time! With just one click, you can solicit the opinion of your learners. Numerous survey templates are available for you. The dynamic display of votes cast increases the willingness to participate. Use flash polls to improve your events and actively involve your learners in the process!\n',
+        de: 'Holen Sie sich wertvolles Feedback in Echtzeit! Mit nur einem Klick können Sie die Meinung Ihrer Lernenden einholen. Zahlreiche Umfragevorlagen stehen Ihnen zur Verfügung. Die dynamische Anzeige der abgegebenen Stimmen erhöht die Bereitschaft zur Teilnahme. Nutzen Sie Blitzumfragen, um Ihre Veranstaltungen zu verbessern und Ihre Lernenden aktiv in den Prozess einzubeziehen!',
+        fr: "Obtenez des commentaires précieux en temps réel ! En un seul clic, vous pouvez solliciter l'opinion de vos apprenants. De nombreux modèles de sondages sont à votre disposition. L'affichage dynamique des votes augmente la volonté de participer. Utilisez des sondages éclairs pour améliorer vos événements et impliquer activement vos apprenants dans le processus !\n",
+      },
+      images: [
+        {
+          url: 'url("/assets/background/patterns (3).svg")',
+          override: {},
+        },
+      ],
+    },
+    {
+      title: {
+        en: 'Brainstorming',
+        de: 'Brainstorming',
+        fr: 'Brainstorming',
+      },
+      description: {
+        en: "Awaken your learners' creativity in an interactive brainstorming session! Pose a guiding question and visualize all ideas in real time in a word cloud. With the rating function and the ability to edit contributions, ideas are further developed and refined. Create an inspiring and collaborative atmosphere where learners can unfold their creativity and develop innovative solutions!\n",
+        de: 'Wecken Sie die Kreativität Ihrer Lernenden in einer interaktiven Brainstorming-Session! Stellen Sie eine Leitfrage und visualisieren Sie alle Ideen in Echtzeit in einer Wortwolke. Mit der Bewertungsfunktion und der Möglichkeit, Beiträge zu bearbeiten, werden die Ideen weiterentwickelt und verfeinert. Schaffen Sie eine inspirierende und kollaborative Atmosphäre, in der die Lernenden ihre Kreativität entfalten und innovative Lösungen entwickeln können!\n',
+        fr: "Éveillez la créativité de vos apprenants lors d'une séance de brainstorming interactif ! Posez une question directrice et visualisez toutes les idées en temps réel dans un nuage de mots. Grâce à la fonction d'évaluation et à la possibilité d'éditer les contributions, les idées sont développées et affinées. Créez une atmosphère inspirante et collaborative où les apprenants peuvent déployer leur créativité et développer des solutions innovantes !\n",
+      },
+      images: [
+        {
+          url: 'url("/assets/background/patterns (3).svg")',
+          override: {},
+        },
+      ],
+    },
+    {
+      title: {
+        en: 'Question Radar',
+        de: 'Fragen-Radar',
+        fr: 'Radar de Questions',
+      },
+      description: {
+        en: 'Effortlessly keep track of hundreds of questions with our Question Radar! An AI analyzes the questions and suggests thematic keywords. By using DeepL for translation and immediate back-translation, you can ensure that the texts have no linguistic deficits. With the radar, you get a quick overview of the central themes and can reach the hotspots in the Q&A forum with one click!\n',
+        de: 'Behalten Sie mühelos den Überblick über Hunderte von Fragen mit unserem Fragen-Radar! Eine KI analysiert die Fragen und schlägt thematische Stichwörter vor. Durch die Verwendung von DeepL für die Übersetzung und sofortige Rückübersetzung können Sie sicherstellen, dass die Texte keine sprachlichen Defizite aufweisen. Mit dem Radar erhalten Sie einen schnellen Überblick über die zentralen Themen und gelangen mit einem Klick zu den Hotspots im Q&A-Forum!',
+        fr: "Gardez facilement une vue d'ensemble de centaines de questions avec notre Radar de Questions ! Une IA analyse les questions et suggère des mots-clés thématiques. En utilisant DeepL pour la traduction et la retraduction immédiate, vous pouvez vous assurer que les textes ne présentent pas de déficits linguistiques. Avec le radar, vous obtenez un aperçu rapide des thèmes centraux et vous pouvez atteindre les points chauds du forum Q&R en un clic !\n",
+      },
+      images: [
+        {
+          url: 'url("/assets/background/patterns (3).svg")',
+          override: {},
+        },
+      ],
+    },
+    {
+      title: {
+        en: 'Question Focus',
+        de: 'Fragen-Fokus',
+        fr: 'Focus sur les Questions',
+      },
+      description: {
+        en: 'Present questions with style and impact! Display questions in large format on a projector and comfortably navigate through the questions using the arrow keys. Switch to autofocus to automatically display new questions in full view. Inspire your learners for insightful discussions and create an interactive learning environment that focuses on questions that have been upvoted or controversially discussed.\n',
+        de: 'Präsentieren Sie Fragen mit Stil und Wirkung! Stellen Sie Fragen großformatig am Beamer dar und navigieren Sie mit den Pfeiltasten bequem durch die Fragen. Schalten Sie in den Autofokus, um neue Fragen automatisch in Vollansicht anzuzeigen. Inspirieren Sie Ihre Lernenden zu aufschlussreichen Diskussionen und schaffen Sie eine interaktive Lernumgebung, die den Fokus auf Fragen legt, die hochgevotet oder kontrovers diskutiert wurden.',
+        fr: "Présentez les questions avec style et impact ! Affichez les questions en grand format sur un projecteur et naviguez confortablement à travers les questions à l'aide des flèches. Passez en mode autofocus pour afficher automatiquement les nouvelles questions en plein écran. Inspirez vos apprenants à des discussions perspicaces et créez un environnement d'apprentissage interactif qui met l'accent sur les questions qui ont été hautement votées ou discutées de manière controversée.\n",
       },
       images: [
         {
