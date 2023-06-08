@@ -308,6 +308,23 @@
 
       <button
         mat-menu-item
+        (click)="applyFilterByKey('ChatGPT')">
+        <span
+          class="chatgpt-robot-icon"
+          style="color: var(--primary)"
+          [ngClass]="{ ChatGPT: 'chatgpt-icon' }[filterType]"></span>
+        <span [ngClass]="{ ChatGPT: 'chatgpt-icon' }[filterType]">
+          {{ "comment-list.filter-chatgpt" | translate }}
+        </span>
+        <span
+          class="inline-count-badge"
+          [matBadge]="filterTypeCounts?.['ChatGPT'] || 0"
+          matBadgeColor="secondary"
+          matBadgeSize="medium"></span>
+      </button>
+
+      <button
+        mat-menu-item
         (click)="applyFilterByKey('Approved')">
         <mat-icon
           class="material-icons-outlined"
@@ -611,6 +628,8 @@
     }}
   </p>
 </div>
+
+<app-comment-a11y-elements></app-comment-a11y-elements>
 
 <!--Hidden Div's for a11y-Descriptions-->
 <div class="visually-hidden">
