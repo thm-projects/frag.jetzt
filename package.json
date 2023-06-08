@@ -37,6 +37,7 @@
     "@angular/platform-browser-dynamic": "^14.0.1",
     "@angular/router": "^14.0.1",
     "@angular/service-worker": "^14.0.1",
+    "@capacitor/android": "^5.0.4",
     "@capacitor/cli": "^5.0.4",
     "@capacitor/core": "^5.0.4",
     "@ngx-translate/core": "^14.0.0",
