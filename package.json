@@ -1,6 +1,6 @@
 {
   "name": "arsnova-lite",
-  "version": "1.3.0-SNAPSHOT",
+  "version": "1.3.0",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
