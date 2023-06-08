@@ -1,0 +1,10 @@
+<div class="visually-hidden">
+  <div
+    *ngFor="let elem of a11yData"
+    [id]="elem.ariaId">
+    {{ elem.ariaKey | translate }}
+  </div>
+  <div id="comment_action_menu">
+    {{ "comment-page.a11y.comment_action.menu" | translate }}
+  </div>
+</div>
