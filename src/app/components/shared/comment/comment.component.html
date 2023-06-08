@@ -309,7 +309,14 @@
           (deviceInfo.isCurrentlyDesktop || comment.questionerName.length < 21)
         "
         class="questioner-name">
-        <mat-icon class="material-icons-outlined">account_circle</mat-icon>
+        <span
+          *ngIf="comment.gptWriterState !== 0"
+          class="chatgpt-robot-icon"></span>
+        <mat-icon
+          *ngIf="comment.gptWriterState === 0"
+          class="material-icons-outlined">
+          account_circle
+        </mat-icon>
         <span style="padding-left: 5px">
           {{ comment.questionerName }}
         </span>

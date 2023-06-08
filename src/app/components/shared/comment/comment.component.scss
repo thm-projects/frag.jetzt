@@ -214,6 +214,10 @@ mat-card-content > :first-child {
   &-moderated {
     @include card-box-shadow(var(--red));
   }
+
+  &-chatgpt {
+    @include card-box-shadow(var(--red));
+  }
 }
 
 .comment-tags {

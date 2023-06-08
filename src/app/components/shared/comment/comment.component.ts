@@ -628,6 +628,7 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
       const ref = this.comment.commentReference;
       url = ref ? url + '/' + ref + '/conversation' : url + 's';
     });
+    localStorage.setItem('answeringQuestion', this.comment.id);
     this.router.navigate([url]);
   }
 
@@ -725,7 +726,9 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   getBorderClass(): string {
-    if (this.isFromOwner) {
+    if (this.comment.gptWriterState > 0) {
+      return 'border-chatgpt';
+    } else if (this.isFromOwner) {
       return 'border-fromOwner';
     } else if (this.isFromModerator) {
       return 'border-fromModerator';
@@ -763,13 +766,13 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
       url = `${this.roleString}/room/${params['shortId']}/gpt-chat-room`;
     });
 
+    localStorage.setItem('answeringQuestion', this.comment.id);
     this.eventService
       .on('gptchat-room.init')
       .pipe(take(1))
       .subscribe(() => {
         this.eventService.broadcast('gptchat-room.data', this.comment);
       });
-
     this.router.navigate([url]);
   }
 
