@@ -111,7 +111,6 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild(ViewCommentDataComponent)
   commentData: ViewCommentDataComponent;
   @ViewChild('lengthSubMenu') lengthSubMenu: MatMenu;
-  @Input() private owningComment: ForumComment;
   conversation: ConversationEntry[] = [];
   isSending = false;
   renewIndex = null;
@@ -181,6 +180,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
     },
   ];
   protected selectedPrompt: GPTPromptPreset = null;
+  private owningComment: ForumComment;
   private destroyer = new ReplaySubject(1);
   private encoder: GPTEncoder = null;
   private room: Room = null;
