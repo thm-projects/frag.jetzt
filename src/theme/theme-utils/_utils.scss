@@ -1,0 +1,19 @@
+@use "sass:map" as map;
+@use "@angular/material" as mat;
+
+@function override-theme($theme, $color-map) {
+  // Get the color config from the theme.
+  $color-config: mat.get-color-config($theme);
+  // apply new color options
+  $new-color-config: map.merge($color-config, $color-map);
+  // apply new color options to root
+  $new-theme: map.merge($theme, $color-map);
+  // reapply color config
+  $new-theme: map.merge(
+    $new-theme,
+    (
+      color: $new-color-config,
+    )
+  );
+  @return $new-theme;
+}

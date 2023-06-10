@@ -1,4 +1,5 @@
 @use "@angular/material" as mat;
+@use "../theme-utils/utils" as util;
 @import "./../../../node_modules/@angular/material/theming";
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
@@ -14,7 +15,59 @@ $arsnova-warn: mat.define-palette(mat.$red-palette, A100);
 
 // Create the theme object (a Sass map containing all of the palettes).
 $arsnova-theme: mat.define-light-theme(
-  $arsnova-primary,
-  $arsnova-accent,
-  $arsnova-warn
+  (
+    color: (
+      primary: $arsnova-primary,
+      accent: $arsnova-accent,
+      warn: $arsnova-warn,
+    ),
+    typography: mat.define-typography-config(),
+    density: 0,
+  )
 );
+
+$arsnova-theme: util.override-theme(
+  $arsnova-theme,
+  (
+    foreground: (
+      base: pink,
+      divider: rgba(0, 0, 0, 0.12),
+      dividers: rgba(0, 0, 0, 0.12),
+      disabled: rgba(0, 0, 0, 0.38),
+      disabled-button: rgba(0, 0, 0, 0.26),
+      disabled-text: rgba(0, 0, 0, 0.38),
+      elevation: black,
+      hint-text: rgba(0, 0, 0, 0.38),
+      secondary-text: rgba(0, 0, 0, 0.54),
+      icon: rgba(0, 0, 0, 0.54),
+      icons: rgba(0, 0, 0, 0.54),
+      text: rgba(0, 0, 0, 0.87),
+      slider-min: rgba(0, 0, 0, 0.87),
+      slider-off: rgba(0, 0, 0, 0.26),
+      slider-off-active: rgba(0, 0, 0, 0.38),
+    ),
+    background: (
+      status-bar: #e0e0e0,
+      app-bar: #f5f5f5,
+      background: #fafafa,
+      hover: rgba(0, 0, 0, 0.04),
+      card: white,
+      dialog: white,
+      disabled-button: rgba(0, 0, 0, 0.12),
+      raised-button: white,
+      focused-button: rgba(0, 0, 0, 0.12),
+      selected-button: #e0e0e0,
+      selected-disabled-button: #bdbdbd,
+      disabled-button-toggle: #eeeeee,
+      unselected-chip: #e0e0e0,
+      disabled-list-option: #eeeeee,
+      tooltip: #616161,
+    ),
+  )
+);
+
+/*
+.mat-raised-button.mat-warn, .mat-fab.mat-warn, .mat-mini-fab.mat-warn, .mat-flat-button, .mat-raised-button, .mat-fab, .mat-mini-fab {
+  background-color: $light-grey-1;
+}
+*/
