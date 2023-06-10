@@ -1,9 +1,10 @@
 <h3 matDialogTitle>{{ "update-info.title" | translate }}</h3>
 
 <mat-dialog-content>
-  <div
-    markdown
-    [data]="'update-info.description' | translate"></div>
+  <!-- TODO: Markdown -->
+  <p>
+    {{ "update-info.description" | translate }}
+  </p>
 </mat-dialog-content>
 
 <app-dialog-action-buttons

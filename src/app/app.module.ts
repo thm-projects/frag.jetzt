@@ -31,7 +31,6 @@ import { CreatorModule } from './components/creator/creator.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LanguageService } from './services/util/language.service';
-import { MarkdownModule, MarkdownService, MarkedOptions } from 'ngx-markdown';
 import { NewLandingComponent } from './components/home/new-landing/new-landing.component';
 import { HomePageComponent } from './components/home/home-page/home-page.component';
 import { UserHomeComponent } from './components/home/user-home/user-home.component';
@@ -169,21 +168,6 @@ export const HttpLoaderFactory = (http: HttpClient) =>
     AdminModule,
     CreatorModule,
     ModeratorModule,
-    MarkdownModule.forRoot({
-      loader: HttpClient,
-      markedOptions: {
-        provide: MarkedOptions,
-        useValue: {
-          pedantic: false,
-          gfm: true,
-          breaks: true,
-          sanitize: false,
-          smartLists: true,
-          smartypants: true,
-          xhtml: false,
-        },
-      },
-    }),
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
     }),
@@ -227,8 +211,6 @@ export const HttpLoaderFactory = (http: HttpClient) =>
     RoomService,
     CommentService,
     LanguageService,
-    MarkdownService,
-    MarkedOptions,
     UserService,
     VoteService,
     ModeratorService,

@@ -45,13 +45,11 @@
   <input
     appAccessibilityEscapedInput
     matInput
+    [placeholder]="'write-comment.questioner-name' | translate"
     [formControl]="questionerNameFormControl"
     name="questioner-name"
     [maxlength]="questionerNameMax"
     aria-labelledby="questioner-name" />
-  <mat-placeholder class="placeholder">
-    {{ "write-comment.questioner-name" | translate }}
-  </mat-placeholder>
   <mat-hint align="end">
     <span aria-hidden="true">
       {{ questionerNameFormControl.value.length }} / {{ questionerNameMax }}

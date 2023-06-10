@@ -14,36 +14,42 @@ const routes: Routes = [
     component: AdminOverviewComponent,
     canActivate: [AuthenticationGuard],
     data: { superAdmin: true },
+    title: 'admin-dashboard',
   },
   {
     path: 'create-motd',
     component: CreateMotdComponent,
     canActivate: [AuthenticationGuard],
     data: { superAdmin: true },
+    title: 'motd-management',
   },
   {
     path: 'gpt-config',
     component: GptConfigurationComponent,
     canActivate: [AuthenticationGuard],
     data: { superAdmin: true },
+    title: 'global-gpt-config',
   },
   {
     path: 'gpt-chat',
     component: GptChatComponent,
     canActivate: [AuthenticationGuard],
     data: { superAdmin: true },
+    title: 'admin-gpt-test',
   },
   {
     path: 'gpt-prompts',
     component: ChatGPTPromptPresetComponent,
     canActivate: [AuthenticationGuard],
     data: { superAdmin: true },
+    title: 'global-gpt-prompts',
   },
   {
     path: 'mailing',
     component: AdminMailingComponent,
     canActivate: [AuthenticationGuard],
     data: { superAdmin: true },
+    title: 'global-mailing',
   },
 ];
 

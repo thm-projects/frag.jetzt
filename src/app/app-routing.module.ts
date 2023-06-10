@@ -14,34 +14,42 @@ const routes: Routes = [
     path: '',
     redirectTo: '/home',
     pathMatch: 'full',
+    title: 'index',
   },
   {
     path: 'home',
     component: HomePageComponent,
+    title: 'home',
   },
   {
     path: 'user',
     component: UserHomeComponent,
+    title: 'user',
   },
   {
     path: 'imprint',
     component: ImprintComponent,
+    title: 'imprint',
   },
   {
     path: 'introduction',
     component: DemoVideoComponent,
+    title: 'introduction',
   },
   {
     path: 'data-protection',
     component: DataProtectionComponent,
+    title: 'data-protection',
   },
   {
     path: 'quiz',
     component: QuizNowComponent,
+    title: 'quiz',
   },
   {
     path: 'gpt-prompts',
     component: ChatGPTPromptPresetComponent,
+    title: 'gpt-prompts',
   },
   {
     path: 'admin',
@@ -72,11 +80,12 @@ const routes: Routes = [
   {
     path: '**',
     component: PageNotFoundComponent,
+    title: 'page-not-found',
   },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' })],
+  imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

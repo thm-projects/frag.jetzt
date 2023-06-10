@@ -10,12 +10,10 @@
         matInput
         type="email"
         #userName
+        [placeholder]="'register.email' | translate"
         [formControl]="usernameFormControl"
         [errorStateMatcher]="matcher"
         aria-labelledby="register-email-description" />
-      <mat-placeholder class="placeholder">
-        {{ "register.email" | translate }}
-      </mat-placeholder>
       <mat-error
         *ngIf="
           usernameFormControl.hasError('email') &&
@@ -34,12 +32,10 @@
         matInput
         type="email"
         #userName2
+        [placeholder]="'register.email-verify' | translate"
         [formControl]="username2FormControl"
         [errorStateMatcher]="matcher"
         aria-labelledby="register-email-description-repeat" />
-      <mat-placeholder class="placeholder">
-        {{ "register.email-verify" | translate }}
-      </mat-placeholder>
       <mat-error
         *ngIf="
           username2FormControl.hasError('isEqual') &&
@@ -64,6 +60,7 @@
         (input)="userEdit = true"
         appAccessibilityEscapedInput
         matInput
+        [placeholder]="'register.password' | translate"
         [type]="isPasswordVisible ? 'text' : 'password'"
         #userPassword1
         (input)="
@@ -73,9 +70,6 @@
         [formControl]="password1FormControl"
         [errorStateMatcher]="matcher"
         aria-labelledby="register-password-description" />
-      <mat-placeholder class="placeholder">
-        {{ "register.password" | translate }}
-      </mat-placeholder>
       <button
         *ngIf="!userEdit"
         (click)="copyPassword()"
@@ -192,12 +186,10 @@
         matInput
         [type]="isPasswordVisible ? 'text' : 'password'"
         #userPassword2
+        [placeholder]="'register.password-verify' | translate"
         [formControl]="password2FormControl"
         [errorStateMatcher]="matcher"
         aria-labelledby="register-password-description-repeat" />
-      <mat-placeholder class="placeholder">
-        {{ "register.password-verify" | translate }}
-      </mat-placeholder>
       <button
         *ngIf="!userEdit"
         (click)="copyPassword()"

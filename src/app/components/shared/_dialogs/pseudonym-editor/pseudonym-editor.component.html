@@ -11,13 +11,11 @@
     <input
       appAccessibilityEscapedInput
       matInput
+      [placeholder]="'pseudonym-editor.name' | translate"
       [formControl]="questionerNameFormControl"
       name="questioner-name"
       [maxlength]="questionerNameMax"
       aria-labelledby="questioner-name" />
-    <mat-placeholder class="placeholder">
-      {{ "pseudonym-editor.name" | translate }}
-    </mat-placeholder>
     <mat-hint align="end">
       <span aria-hidden="true">
         {{ questionerNameFormControl.value.length }} / {{ questionerNameMax }}

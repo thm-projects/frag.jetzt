@@ -7,22 +7,16 @@
       <input
         appAccessibilityEscapedInput
         matInput
+        [placeholder]="
+          'session.session-name' +
+            (!hasCustomShortId ? '-with-key-code-generated' : '') | translate
+        "
         class="input-block"
         type="text"
         [maxlength]="roomNameLengthMax"
         [formControl]="roomNameFormControl"
         name="roomName"
         aria-labelledby="room-name-input" />
-      <mat-placeholder
-        *ngIf="hasCustomShortId"
-        class="placeholder">
-        {{ "session.session-name" | translate }}
-      </mat-placeholder>
-      <mat-placeholder
-        *ngIf="!hasCustomShortId"
-        class="placeholder">
-        {{ "session.session-name-with-key-code-generated" | translate }}
-      </mat-placeholder>
       <mat-hint
         align="end"
         class="count">
@@ -60,15 +54,13 @@
         (keyup)="resetInvalidCharacters()"
         autofocus
         matInput
+        [placeholder]="'home-page.custom-shortid-placeholder' | translate"
         class="input-block"
         type="text"
         [maxlength]="shortIdLengthMax"
         [formControl]="roomShortIdFormControl"
         name="customShortId"
         aria-labelledby="room-name-input" />
-      <mat-placeholder class="placeholder">
-        {{ "home-page.custom-shortid-placeholder" | translate }}
-      </mat-placeholder>
       <mat-hint
         align="end"
         class="count">

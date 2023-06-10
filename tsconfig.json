@@ -9,7 +9,8 @@
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "target": "ES2021",
+    "useDefineForClassFields": false,
+    "target": "ES2022",
     "typeRoots": [
       "node_modules/@types"
     ],

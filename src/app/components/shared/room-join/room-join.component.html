@@ -15,15 +15,13 @@
           id="session_id-input"
           matInput
           #sessionCode
+          [placeholder]="'home-page.session-id' | translate"
           appAccessibilityEscapedInput
           type="text"
           maxlength="30"
           [formControl]="sessionCodeFormControl"
           [errorStateMatcher]="matcher"
           aria-labelledby="join-input-label" />
-        <mat-placeholder class="placeholder">
-          {{ "home-page.session-id" | translate }}
-        </mat-placeholder>
         <mat-error
           *ngIf="sessionCodeFormControl.hasError('required')"
           aria-hidden="true">

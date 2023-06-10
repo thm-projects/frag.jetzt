@@ -23,7 +23,6 @@ import { QrCodeDialogComponent } from './_dialogs/qr-code-dialog/qr-code-dialog.
 import { ArsModule } from '../../../../projects/ars/src/lib/ars.module';
 import { RemoveFromHistoryComponent } from './_dialogs/remove-from-history/remove-from-history.component';
 import { CommentAnswerComponent } from './comment-answer/comment-answer.component';
-import { MarkdownModule } from 'ngx-markdown';
 import { MatRippleModule } from '@angular/material/core';
 import { QRCodeModule } from 'angularx-qrcode';
 import { MotdDialogComponent } from './_dialogs/motd-dialog/motd-dialog.component';
@@ -153,7 +152,6 @@ import { CommentA11yElementsComponent } from './comment/comment-a11y-elements/co
     SharedRoutingModule,
     MatRippleModule,
     ArsModule,
-    MarkdownModule,
     QRCodeModule,
     TagCloudModule,
     ColorPickerModule,

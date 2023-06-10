@@ -11,32 +11,34 @@ const routes: Routes = [
     path: 'room/:shortId',
     component: RoomCreatorPageComponent,
     canActivate: [AuthenticationGuard],
-    data: { roles: [UserRole.CREATOR] }
+    data: { roles: [UserRole.CREATOR] },
+    title: 'creator-room-page',
   },
   {
     path: 'room/:shortId/comments',
     component: CommentPageComponent,
     canActivate: [AuthenticationGuard],
-    data: { roles: [UserRole.CREATOR] }
+    data: { roles: [UserRole.CREATOR] },
+    title: 'creator-room-comments',
   },
   {
     path: 'room/:shortId/comment/:commentId',
     component: CommentAnswerComponent,
     canActivate: [AuthenticationGuard],
-    data: { roles: [UserRole.CREATOR] }
+    data: { roles: [UserRole.CREATOR] },
+    title: 'creator-room-comment',
   },
   {
     path: 'room/:shortId/comment/:commentId/conversation',
     component: CommentAnswerComponent,
     canActivate: [AuthenticationGuard],
-    data: { roles: [UserRole.CREATOR] }
-  }
+    data: { roles: [UserRole.CREATOR] },
+    title: 'creator-room-comment-conversation',
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-
-export class CreatorRoutingModule {
-}
+export class CreatorRoutingModule {}

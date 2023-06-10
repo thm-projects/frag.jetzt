@@ -38,7 +38,6 @@
               "node_modules/quill-emoji/dist/quill-emoji.css"
             ],
             "scripts": [
-              "node_modules/marked/marked.min.js",
               "node_modules/emoji-toolkit/lib/js/joypixels.min.js",
               "node_modules/prismjs/prism.js",
               "node_modules/prismjs/components/prism-csharp.min.js",
@@ -109,7 +108,6 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.spec.json",
             "scripts": [
-              "node_modules/marked/marked.min.js",
               "node_modules/emoji-toolkit/lib/js/joypixels.min.js",
               "node_modules/prismjs/prism.js",
               "node_modules/prismjs/components/prism-csharp.min.js",

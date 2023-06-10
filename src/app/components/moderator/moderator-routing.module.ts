@@ -13,41 +13,46 @@ const routes: Routes = [
     path: 'room/:shortId',
     component: RoomModeratorPageComponent,
     canActivate: [AuthenticationGuard],
-    data: { roles: [UserRole.EXECUTIVE_MODERATOR] }
+    data: { roles: [UserRole.EXECUTIVE_MODERATOR] },
+    title: 'moderator-room-page',
   },
   {
     path: 'room/:shortId/comments',
     component: CommentPageComponent,
     canActivate: [AuthenticationGuard],
-    data: { roles: [UserRole.EXECUTIVE_MODERATOR] }
+    data: { roles: [UserRole.EXECUTIVE_MODERATOR] },
+    title: 'moderator-room-comments',
   },
   {
     path: 'room/:shortId/moderator/comments',
     component: ModeratorCommentPageComponent,
     canActivate: [AuthenticationGuard],
-    data: { roles: [UserRole.EXECUTIVE_MODERATOR] }
+    data: { roles: [UserRole.EXECUTIVE_MODERATOR] },
+    title: 'moderator-room-moderated-comments',
   },
   {
     path: 'room/:shortId/comment/:commentId',
     component: CommentAnswerComponent,
     canActivate: [AuthenticationGuard],
-    data: { roles: [UserRole.EXECUTIVE_MODERATOR] }
+    data: { roles: [UserRole.EXECUTIVE_MODERATOR] },
+    title: 'moderator-room-comment',
   },
   {
     path: 'room/:shortId/comment/:commentId/conversation',
     component: CommentAnswerComponent,
     canActivate: [AuthenticationGuard],
-    data: { roles: [UserRole.EXECUTIVE_MODERATOR] }
+    data: { roles: [UserRole.EXECUTIVE_MODERATOR] },
+    title: 'moderator-room-comment-conversation',
   },
   {
     path: 'join/:shortId',
-    component: ModeratorJoinComponent
-  }
+    component: ModeratorJoinComponent,
+    title: 'moderator-room-join',
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class ModeratorRoutingModule {
-}
+export class ModeratorRoutingModule {}
