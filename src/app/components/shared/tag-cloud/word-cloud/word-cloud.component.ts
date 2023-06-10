@@ -66,7 +66,8 @@ const TO_RAD = (2 * Math.PI) / 360;
   templateUrl: './word-cloud.component.html',
   styleUrls: ['./word-cloud.component.scss'],
 })
-export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges, OnDestroy {
+export class WordCloudComponent<T extends WordMeta>
+  implements OnInit, OnChanges, OnDestroy {
   @ViewChild('wordCloud', { static: true })
   wordCloud: ElementRef<HTMLDivElement>;
   @Output() clicked = new EventEmitter<T>();
@@ -570,8 +571,14 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
         return;
       }
       e.element.style.setProperty('--offset-scale', scalar.toFixed(2));
-      e.element.style.setProperty('--pos-x', mapper(e.buildInformation, 'x') + parentWidth + 'px');
-      e.element.style.setProperty('--pos-y', mapper(e.buildInformation, 'y') + parentHeight + 'px');
+      e.element.style.setProperty(
+        '--pos-x',
+        mapper(e.buildInformation, 'x') + parentWidth + 'px',
+      );
+      e.element.style.setProperty(
+        '--pos-y',
+        mapper(e.buildInformation, 'y') + parentHeight + 'px',
+      );
       e.element.dataset.index = String(i);
     });
     const newElements = this._elements.filter(

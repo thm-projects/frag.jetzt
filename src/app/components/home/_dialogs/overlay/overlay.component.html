@@ -1,10 +1,12 @@
 <div>
-  <h2 class="header" tabindex="0">
-    {{ 'overlay.title' | translate }}
+  <h2
+    class="header"
+    tabindex="0">
+    {{ "overlay.title" | translate }}
   </h2>
 
   <mat-dialog-content tabindex="0">
-    <p class="oldtypo-p">{{ 'overlay.message' | translate }}</p>
+    <p class="oldtypo-p">{{ "overlay.message" | translate }}</p>
   </mat-dialog-content>
 
   <app-dialog-action-buttons
@@ -13,6 +15,5 @@
     cancelButtonLabel="cancel"
     [confirmButtonType]="confirmButtonType"
     [confirmButtonClickAction]="onResume.bind(this)"
-    [cancelButtonClickAction]="onAbort.bind(this)"
-  ></app-dialog-action-buttons>
+    [cancelButtonClickAction]="onAbort.bind(this)"></app-dialog-action-buttons>
 </div>

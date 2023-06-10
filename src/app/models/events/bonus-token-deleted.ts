@@ -7,7 +7,7 @@ export class BonusTokenDeleted {
   constructor(token: string) {
     this.type = 'BonusTokenDeleted';
     this.payload = {
-      token
+      token,
     };
   }
 }

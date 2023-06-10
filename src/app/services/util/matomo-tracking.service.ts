@@ -7,58 +7,102 @@ import { UserRole } from '../../models/user-roles.enum';
 import { UserManagementService } from './user-management.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class MatomoTrackingService {
-
   private lastUrl = '/';
   private currentUser: User;
   private readonly CONFIG = [
-    [/^\/quiz$/, () => {
-      this.matomoTracker.setDocumentTitle('Quizzing');
-    }],
-    [/^\/(creator|moderator)\/room\/([^\/]+)\/moderator\/comments$/, (exp: RegExpMatchArray) => {
-      this.matomoTracker.setDocumentTitle('Moderation page');
-      this.matomoTracker.setCustomVariable(1, 'VisitorRole', exp[1], 'page');
-      this.matomoTracker.setCustomVariable(2, 'UserRole',
-        MatomoTrackingService.getUserRoleString(this.currentUser), 'page');
-      this.matomoTracker.setCustomVariable(3, 'RoomShortId', exp[2], 'page');
-    }],
-    [/^\/(creator|moderator|participant)\/room\/([^\/]+)$/, (exp: RegExpMatchArray) => {
-      this.matomoTracker.setDocumentTitle('Room page');
-      this.matomoTracker.setCustomVariable(1, 'VisitorRole', exp[1], 'page');
-      this.matomoTracker.setCustomVariable(2, 'UserRole',
-        MatomoTrackingService.getUserRoleString(this.currentUser), 'page');
-      this.matomoTracker.setCustomVariable(3, 'RoomShortId', exp[2], 'page');
-    }],
-    [/^\/(creator|moderator|participant)\/room\/([^\/]+)\/comments$/, (exp: RegExpMatchArray) => {
-      this.matomoTracker.setDocumentTitle('Q&A');
-      this.matomoTracker.setCustomVariable(1, 'VisitorRole', exp[1], 'page');
-      this.matomoTracker.setCustomVariable(2, 'UserRole',
-        MatomoTrackingService.getUserRoleString(this.currentUser), 'page');
-      this.matomoTracker.setCustomVariable(3, 'RoomShortId', exp[2], 'page');
-    }],
-    [/^\/(creator|moderator|participant)\/room\/([^\/]+)\/comments\/tagcloud$/, (exp: RegExpMatchArray) => {
-      this.matomoTracker.setDocumentTitle('Keyword word cloud');
-      this.matomoTracker.setCustomVariable(1, 'VisitorRole', exp[1], 'page');
-      this.matomoTracker.setCustomVariable(2, 'UserRole',
-        MatomoTrackingService.getUserRoleString(this.currentUser), 'page');
-      this.matomoTracker.setCustomVariable(3, 'RoomShortId', exp[2], 'page');
-    }],
-    [/^\/(creator|moderator|participant)\/room\/([^\/]+)\/comments\/brainstorming$/, (exp: RegExpMatchArray) => {
-      this.matomoTracker.setDocumentTitle('Brainstorming');
-      this.matomoTracker.setCustomVariable(1, 'VisitorRole', exp[1], 'page');
-      this.matomoTracker.setCustomVariable(2, 'UserRole',
-        MatomoTrackingService.getUserRoleString(this.currentUser), 'page');
-      this.matomoTracker.setCustomVariable(3, 'RoomShortId', exp[2], 'page');
-    }],
-    [/^\/(creator|moderator|participant)\/room\/([^\/]+)\/comments\/questionwall$/, (exp: RegExpMatchArray) => {
-      this.matomoTracker.setDocumentTitle('Question focus');
-      this.matomoTracker.setCustomVariable(1, 'VisitorRole', exp[1], 'page');
-      this.matomoTracker.setCustomVariable(2, 'UserRole',
-        MatomoTrackingService.getUserRoleString(this.currentUser), 'page');
-      this.matomoTracker.setCustomVariable(3, 'RoomShortId', exp[2], 'page');
-    }],
+    [
+      /^\/quiz$/,
+      () => {
+        this.matomoTracker.setDocumentTitle('Quizzing');
+      },
+    ],
+    [
+      /^\/(creator|moderator)\/room\/([^\/]+)\/moderator\/comments$/,
+      (exp: RegExpMatchArray) => {
+        this.matomoTracker.setDocumentTitle('Moderation page');
+        this.matomoTracker.setCustomVariable(1, 'VisitorRole', exp[1], 'page');
+        this.matomoTracker.setCustomVariable(
+          2,
+          'UserRole',
+          MatomoTrackingService.getUserRoleString(this.currentUser),
+          'page',
+        );
+        this.matomoTracker.setCustomVariable(3, 'RoomShortId', exp[2], 'page');
+      },
+    ],
+    [
+      /^\/(creator|moderator|participant)\/room\/([^\/]+)$/,
+      (exp: RegExpMatchArray) => {
+        this.matomoTracker.setDocumentTitle('Room page');
+        this.matomoTracker.setCustomVariable(1, 'VisitorRole', exp[1], 'page');
+        this.matomoTracker.setCustomVariable(
+          2,
+          'UserRole',
+          MatomoTrackingService.getUserRoleString(this.currentUser),
+          'page',
+        );
+        this.matomoTracker.setCustomVariable(3, 'RoomShortId', exp[2], 'page');
+      },
+    ],
+    [
+      /^\/(creator|moderator|participant)\/room\/([^\/]+)\/comments$/,
+      (exp: RegExpMatchArray) => {
+        this.matomoTracker.setDocumentTitle('Q&A');
+        this.matomoTracker.setCustomVariable(1, 'VisitorRole', exp[1], 'page');
+        this.matomoTracker.setCustomVariable(
+          2,
+          'UserRole',
+          MatomoTrackingService.getUserRoleString(this.currentUser),
+          'page',
+        );
+        this.matomoTracker.setCustomVariable(3, 'RoomShortId', exp[2], 'page');
+      },
+    ],
+    [
+      /^\/(creator|moderator|participant)\/room\/([^\/]+)\/comments\/tagcloud$/,
+      (exp: RegExpMatchArray) => {
+        this.matomoTracker.setDocumentTitle('Keyword word cloud');
+        this.matomoTracker.setCustomVariable(1, 'VisitorRole', exp[1], 'page');
+        this.matomoTracker.setCustomVariable(
+          2,
+          'UserRole',
+          MatomoTrackingService.getUserRoleString(this.currentUser),
+          'page',
+        );
+        this.matomoTracker.setCustomVariable(3, 'RoomShortId', exp[2], 'page');
+      },
+    ],
+    [
+      /^\/(creator|moderator|participant)\/room\/([^\/]+)\/comments\/brainstorming$/,
+      (exp: RegExpMatchArray) => {
+        this.matomoTracker.setDocumentTitle('Brainstorming');
+        this.matomoTracker.setCustomVariable(1, 'VisitorRole', exp[1], 'page');
+        this.matomoTracker.setCustomVariable(
+          2,
+          'UserRole',
+          MatomoTrackingService.getUserRoleString(this.currentUser),
+          'page',
+        );
+        this.matomoTracker.setCustomVariable(3, 'RoomShortId', exp[2], 'page');
+      },
+    ],
+    [
+      /^\/(creator|moderator|participant)\/room\/([^\/]+)\/comments\/questionwall$/,
+      (exp: RegExpMatchArray) => {
+        this.matomoTracker.setDocumentTitle('Question focus');
+        this.matomoTracker.setCustomVariable(1, 'VisitorRole', exp[1], 'page');
+        this.matomoTracker.setCustomVariable(
+          2,
+          'UserRole',
+          MatomoTrackingService.getUserRoleString(this.currentUser),
+          'page',
+        );
+        this.matomoTracker.setCustomVariable(3, 'RoomShortId', exp[2], 'page');
+      },
+    ],
   ] as const;
 
   constructor(
@@ -71,7 +115,7 @@ export class MatomoTrackingService {
       return;
     }
     this.matomoInjector.init('/matomo/', 6);
-    this.userManagementService.getUser().subscribe(user => {
+    this.userManagementService.getUser().subscribe((user) => {
       this.currentUser = user;
       if (user?.id) {
         this.matomoTracker.setUserId(user.id);
@@ -79,7 +123,7 @@ export class MatomoTrackingService {
         this.matomoTracker.resetUserId();
       }
     });
-    this.router.events.subscribe(e => {
+    this.router.events.subscribe((e) => {
       if (!(e instanceof NavigationEnd)) {
         return;
       }

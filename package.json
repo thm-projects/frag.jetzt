@@ -116,7 +116,7 @@
   "lint-staged": {
     "src/**/*.{js,ts}": [
       "prettier --write",
-      "eslint --cache --fix"
+      "eslint --fix"
     ],
     "*.{scss,md,component.html}": "prettier --write"
   }

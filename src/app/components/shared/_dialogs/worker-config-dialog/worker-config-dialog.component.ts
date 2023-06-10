@@ -6,31 +6,29 @@ import { WorkerDialogComponent } from '../worker-dialog/worker-dialog.component'
 @Component({
   selector: 'app-worker-config-dialog',
   templateUrl: './worker-config-dialog.component.html',
-  styleUrls: ['./worker-config-dialog.component.scss']
+  styleUrls: ['./worker-config-dialog.component.scss'],
 })
 export class WorkerConfigDialogComponent implements OnInit {
-
   public selection = 'normal';
 
-  constructor(
-    private dialogRef: MatDialogRef<WorkerConfigDialogComponent>,
-  ) {
-  }
+  constructor(private dialogRef: MatDialogRef<WorkerConfigDialogComponent>) {}
 
   public static addTask(dialog: MatDialog, room: Room) {
-    dialog.open(WorkerConfigDialogComponent, {
-      width: '900px',
-      maxWidth: '100%'
-    }).afterClosed().subscribe(data => {
-      if (!data) {
-        return;
-      }
-      WorkerDialogComponent.addWorkTask(dialog, room, data === 'only-failed');
-    });
+    dialog
+      .open(WorkerConfigDialogComponent, {
+        width: '900px',
+        maxWidth: '100%',
+      })
+      .afterClosed()
+      .subscribe((data) => {
+        if (!data) {
+          return;
+        }
+        WorkerDialogComponent.addWorkTask(dialog, room, data === 'only-failed');
+      });
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   buildConfirmAction() {
     return () => {
@@ -41,5 +39,4 @@ export class WorkerConfigDialogComponent implements OnInit {
   buildCancelAction() {
     return () => this.dialogRef.close();
   }
-
 }

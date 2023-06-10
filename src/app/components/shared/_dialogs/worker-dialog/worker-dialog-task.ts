@@ -1,12 +1,8 @@
 import { Room } from '../../../../models/room';
-import {
-  SpacyKeyword,
-} from '../../../../services/http/spacy.service';
+import { SpacyKeyword } from '../../../../services/http/spacy.service';
 import { CommentService } from '../../../../services/http/comment.service';
 import { Comment, Language } from '../../../../models/comment';
-import {
-  Language as Lang,
-} from '../../../../services/http/languagetool.service';
+import { Language as Lang } from '../../../../services/http/languagetool.service';
 import { TSMap } from 'typescript-map';
 import { HttpErrorResponse } from '@angular/common/http';
 import {

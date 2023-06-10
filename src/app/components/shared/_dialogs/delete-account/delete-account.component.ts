@@ -10,18 +10,16 @@ import { UserManagementService } from '../../../../services/util/user-management
 @Component({
   selector: 'app-delete-account',
   templateUrl: './delete-account.component.html',
-  styleUrls: ['./delete-account.component.scss']
+  styleUrls: ['./delete-account.component.scss'],
 })
 export class DeleteAccountComponent implements OnInit {
-
   rooms: Room[];
-
 
   /**
    * The confirm button type of the delete account.
    */
-  confirmButtonType: DialogConfirmActionButtonType = DialogConfirmActionButtonType.Alert;
-
+  confirmButtonType: DialogConfirmActionButtonType =
+    DialogConfirmActionButtonType.Alert;
 
   constructor(
     public dialogRef: MatDialogRef<DeleteAccountComponent>,
@@ -29,16 +27,19 @@ export class DeleteAccountComponent implements OnInit {
     private roomService: RoomService,
     private userManagementService: UserManagementService,
     private liveAnnouncer: LiveAnnouncer,
-    private translationService: TranslateService
-  ) {
-  }
+    private translationService: TranslateService,
+  ) {}
 
   ngOnInit() {
     this.announce();
-    this.roomService.getCreatorRooms(this.userManagementService.getCurrentUser().id).subscribe(rooms => {
-      rooms.sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: 'base' }));
-      this.rooms = rooms;
-    });
+    this.roomService
+      .getCreatorRooms(this.userManagementService.getCurrentUser().id)
+      .subscribe((rooms) => {
+        rooms.sort((a, b) =>
+          a.name.localeCompare(b.name, undefined, { sensitivity: 'base' }),
+        );
+        this.rooms = rooms;
+      });
   }
 
   public announce() {
@@ -48,18 +49,21 @@ export class DeleteAccountComponent implements OnInit {
     this.liveAnnouncer.clear();
 
     if (lang === 'de') {
-      this.liveAnnouncer.announce('Willst du dein Konto mit allen Räumen unwiderruflich löschen?', 'assertive');
+      this.liveAnnouncer.announce(
+        'Willst du dein Konto mit allen Räumen unwiderruflich löschen?',
+        'assertive',
+      );
     } else {
-      this.liveAnnouncer.announce('Do you really want to irrevocably delete your account with the associated rooms?', 'assertive');
+      this.liveAnnouncer.announce(
+        'Do you really want to irrevocably delete your account with the associated rooms?',
+        'assertive',
+      );
     }
-
   }
-
 
   close(type: string): void {
     this.dialogRef.close(type);
   }
-
 
   /**
    * Returns a lambda which closes the dialog on call.
@@ -67,7 +71,6 @@ export class DeleteAccountComponent implements OnInit {
   buildCloseDialogActionCallback(): () => void {
     return () => this.close('abort');
   }
-
 
   /**
    * Returns a lambda which executes the dialog dedicated action on call.

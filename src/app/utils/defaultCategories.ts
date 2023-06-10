@@ -1,7 +1,8 @@
 import { HasStringLength } from './ts-utils';
 
-type HasObjectArrayStringLengths<T extends { [key: string]: Readonly<string[]> }> =
-  false extends HasStringLength<3, 20, T[keyof T][number]> ? false : true;
+type HasObjectArrayStringLengths<
+  T extends { [key: string]: Readonly<string[]> },
+> = false extends HasStringLength<3, 20, T[keyof T][number]> ? false : true;
 
 export const defaultCategories = {
   de: [
@@ -34,12 +35,8 @@ export const defaultCategories = {
     'Quiz',
     'Divers',
   ],
-  default: [
-    'Feedback',
-    '»frag.jetzt«',
-    'Quizzing',
-  ],
+  default: ['Feedback', '»frag.jetzt«', 'Quizzing'],
 } as const;
 
-const ASSERT_VALID: HasObjectArrayStringLengths<typeof defaultCategories> = true;
-
+const ASSERT_VALID: HasObjectArrayStringLengths<typeof defaultCategories> =
+  true;

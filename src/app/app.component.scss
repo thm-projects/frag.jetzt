@@ -61,7 +61,7 @@ main {
   border-radius: 15px;
   position: fixed;
   z-index: 2;
-  transition: inset 1.0s ease-in-out, transform 0.2s ease-in-out;
+  transition: inset 1s ease-in-out, transform 0.2s ease-in-out;
   left: 15px;
   top: -200px;
   display: none;
@@ -100,7 +100,7 @@ main {
     background-color: var(--primary);
     color: var(--on-primary);
     border-radius: 15px;
-    padding: 3px
+    padding: 3px;
   }
 }
 

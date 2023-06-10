@@ -8,7 +8,7 @@ import { ImmutableStandardDelta } from '../../../../utils/quill-utils';
 @Component({
   selector: 'app-present-comment',
   templateUrl: './present-comment.component.html',
-  styleUrls: ['./present-comment.component.scss']
+  styleUrls: ['./present-comment.component.scss'],
 })
 export class PresentCommentComponent implements OnInit {
   public body: ImmutableStandardDelta;
@@ -19,8 +19,7 @@ export class PresentCommentComponent implements OnInit {
     @Inject(DOCUMENT) private document: Document,
     public dialogRef: MatDialogRef<PresentCommentComponent>,
     public dialog: MatDialog,
-  ) {
-  }
+  ) {}
 
   onKeyUp(event: KeyboardEvent) {
     if (KeyboardUtils.isKeyEvent(event, KeyboardKey.Escape) === true) {
@@ -44,6 +43,7 @@ export class PresentCommentComponent implements OnInit {
   }
 
   updateFontSize(event: any): void {
-    document.getElementById('comment').style.fontSize = (event.value * 2.5) + 'em';
+    document.getElementById('comment').style.fontSize =
+      event.value * 2.5 + 'em';
   }
 }

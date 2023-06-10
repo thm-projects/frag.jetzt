@@ -5,20 +5,19 @@ import { DialogConfirmActionButtonType } from '../../dialog/dialog-action-button
 @Component({
   selector: 'app-topic-cloud-confirm-dialog',
   templateUrl: './topic-cloud-confirm-dialog.component.html',
-  styleUrls: ['./topic-cloud-confirm-dialog.component.scss']
+  styleUrls: ['./topic-cloud-confirm-dialog.component.scss'],
 })
 export class TopicCloudConfirmDialogComponent implements OnInit {
-
-  confirmButtonType: DialogConfirmActionButtonType = DialogConfirmActionButtonType.Alert;
+  confirmButtonType: DialogConfirmActionButtonType =
+    DialogConfirmActionButtonType.Alert;
   confirmLabel = this.data.confirmLabel;
 
   constructor(
     public confirmDialogRef: MatDialogRef<TopicCloudConfirmDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData) {
-  }
+    @Inject(MAT_DIALOG_DATA) public data: DialogData,
+  ) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   onNoClick(): void {
     this.confirmDialogRef.close();

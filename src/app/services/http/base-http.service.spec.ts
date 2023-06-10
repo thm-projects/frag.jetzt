@@ -5,11 +5,14 @@ import { BaseHttpService } from './base-http.service';
 describe('BaseHttpService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [BaseHttpService]
+      providers: [BaseHttpService],
     });
   });
 
-  it('should be created', inject([BaseHttpService], (service: BaseHttpService) => {
-    expect(service).toBeTruthy();
-  }));
+  it('should be created', inject(
+    [BaseHttpService],
+    (service: BaseHttpService) => {
+      expect(service).toBeTruthy();
+    },
+  ));
 });

@@ -1,9 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import {
-  DialogConfirmActionButtonType
-} from '../../../shared/dialog/dialog-action-buttons/dialog-action-buttons.component';
+import { DialogConfirmActionButtonType } from '../../../shared/dialog/dialog-action-buttons/dialog-action-buttons.component';
 import { TranslateService } from '@ngx-translate/core';
 import { BonusTokenService } from '../../../../services/http/bonus-token.service';
 import { CommentSettingsComponent } from '../comment-settings/comment-settings.component';
@@ -11,14 +9,14 @@ import { CommentSettingsComponent } from '../comment-settings/comment-settings.c
 @Component({
   selector: 'app-delete-comment',
   templateUrl: './delete-comments.component.html',
-  styleUrls: ['./delete-comments.component.scss']
+  styleUrls: ['./delete-comments.component.scss'],
 })
 export class DeleteCommentsComponent implements OnInit {
-
   /**
    * The confirm button type of the dialog.
    */
-  confirmButtonType: DialogConfirmActionButtonType = DialogConfirmActionButtonType.Alert;
+  confirmButtonType: DialogConfirmActionButtonType =
+    DialogConfirmActionButtonType.Alert;
   roomId: string;
   bonusQuestions = false;
 
@@ -27,16 +25,16 @@ export class DeleteCommentsComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private liveAnnouncer: LiveAnnouncer,
     private translationService: TranslateService,
-    private tokenService: BonusTokenService
-  ) {
-  }
-
+    private tokenService: BonusTokenService,
+  ) {}
 
   ngOnInit() {
-    this.translationService.get('room-page.really-delete-comments').subscribe(msg => {
-      this.liveAnnouncer.announce(msg);
-    });
-    this.tokenService.getTokensByRoomId(this.roomId).subscribe(tokens => {
+    this.translationService
+      .get('room-page.really-delete-comments')
+      .subscribe((msg) => {
+        this.liveAnnouncer.announce(msg);
+      });
+    this.tokenService.getTokensByRoomId(this.roomId).subscribe((tokens) => {
       if (tokens.length > 0) {
         this.bonusQuestions = true;
       }

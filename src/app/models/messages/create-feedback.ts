@@ -7,7 +7,7 @@ export class CreateFeedback {
   constructor(val: number) {
     this.type = 'CreateFeedback';
     this.payload = {
-      value: val
+      value: val,
     };
   }
 }

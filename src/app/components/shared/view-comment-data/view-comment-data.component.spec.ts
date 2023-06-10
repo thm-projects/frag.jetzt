@@ -49,7 +49,7 @@ describe('ViewCommentDataComponent', () => {
         DeviceInfoService,
         EventService,
       ],
-      declarations: [ViewCommentDataComponent, TranslatePipe]
+      declarations: [ViewCommentDataComponent, TranslatePipe],
     }).compileComponents();
   });
 

@@ -1,7 +1,7 @@
 <p>
-  Cette page n'est visible que par les modérateurs.
-  Si tu as activé le mode modération sur la page d'accueil de la salle,
-  tu ne peux publier des questions et des réponses individuellement qu'à partir d'ici.
+  Cette page n'est visible que par les modérateurs. Si tu as activé le mode
+  modération sur la page d'accueil de la salle, tu ne peux publier des questions
+  et des réponses individuellement qu'à partir d'ici.
 </p>
 
 <ol>
@@ -10,11 +10,13 @@
 </ol>
 
 <div class="videoWrapper">
-  <iframe allowfullscreen
-          height="315"
-          width="560"
-          [src]="sanitizer.trust('https://www.youtube.com/embed/ScMzIvxBSi4?autoplay=0')"
-          tabindex="0"
-          title="Placeholder video"
-  ></iframe>
+  <iframe
+    allowfullscreen
+    height="315"
+    width="560"
+    [src]="
+      sanitizer.trust('https://www.youtube.com/embed/ScMzIvxBSi4?autoplay=0')
+    "
+    tabindex="0"
+    title="Placeholder video"></iframe>
 </div>

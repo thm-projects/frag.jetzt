@@ -57,7 +57,7 @@ const FILTER_TYPES = [
   'from-now',
 ] as const;
 
-type FilterTypeKey = typeof FILTER_TYPES[number];
+type FilterTypeKey = (typeof FILTER_TYPES)[number];
 
 @Component({
   selector: 'app-topic-cloud-filter',

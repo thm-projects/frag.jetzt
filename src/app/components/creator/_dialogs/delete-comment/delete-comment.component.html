@@ -1,9 +1,10 @@
-<h3>{{ 'room-page.sure' | translate }}</h3>
-<p>{{ 'comment-list.really-delete' | translate }}</p>
+<h3>{{ "room-page.sure" | translate }}</h3>
+<p>{{ "comment-list.really-delete" | translate }}</p>
 <app-dialog-action-buttons
   buttonsLabelSection="content"
   confirmButtonLabel="yes"
-  [confirmButtonType]=confirmButtonType
+  [confirmButtonType]="confirmButtonType"
   [cancelButtonClickAction]="buildCloseDialogActionCallback()"
-  [confirmButtonClickAction]="buildCommentDeleteActionCallback()"
-></app-dialog-action-buttons>
+  [confirmButtonClickAction]="
+    buildCommentDeleteActionCallback()
+  "></app-dialog-action-buttons>

@@ -22,9 +22,7 @@ import { copyCSVString, exportRoom } from '../../../utils/ImportExportMethods';
 import { Sort } from '@angular/material/sort';
 import { filter, take } from 'rxjs/operators';
 import { ModeratorsComponent } from '../../creator/_dialogs/moderators/moderators.component';
-import {
-  CommentNotificationDialogComponent
-} from '../_dialogs/comment-notification-dialog/comment-notification-dialog.component';
+import { CommentNotificationDialogComponent } from '../_dialogs/comment-notification-dialog/comment-notification-dialog.component';
 import { CommentNotificationService } from '../../../services/http/comment-notification.service';
 import { BonusTokenComponent } from '../../creator/_dialogs/bonus-token/bonus-token.component';
 import { UserBonusTokenComponent } from '../../participant/_dialogs/user-bonus-token/user-bonus-token.component';

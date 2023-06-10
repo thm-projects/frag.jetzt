@@ -1,4 +1,5 @@
-h3, p {
+h3,
+p {
   font-size: 14px !important;
   font-weight: normal !important;
 }
@@ -19,7 +20,8 @@ h3, p {
   margin: 20px 0;
 }
 
-.mailto, .copyClipboard {
+.mailto,
+.copyClipboard {
   background-color: var(--primary);
   color: var(--on-primary);
 }

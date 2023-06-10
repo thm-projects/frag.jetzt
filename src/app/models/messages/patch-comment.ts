@@ -11,7 +11,7 @@ export class PatchComment {
     this.type = 'PatchComment';
     this.payload = {
       id,
-      changes
+      changes,
     };
   }
 }

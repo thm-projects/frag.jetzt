@@ -21,9 +21,7 @@ import { SessionService } from '../../../../services/util/session.service';
 import { Room } from '../../../../models/room';
 import { mergeMap } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
-import {
-  IntroductionQuestionWallComponent,
-} from '../../_dialogs/introductions/introduction-question-wall/introduction-question-wall.component';
+import { IntroductionQuestionWallComponent } from '../../_dialogs/introductions/introduction-question-wall/introduction-question-wall.component';
 import {
   BrainstormingFilter,
   FilterType,

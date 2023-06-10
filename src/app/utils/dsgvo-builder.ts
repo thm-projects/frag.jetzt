@@ -34,7 +34,7 @@ export class DsgvoBuilder {
     messageId: string,
     translator: TranslateService,
     action: () => void,
-    isActionOnce = true
+    isActionOnce = true,
   ) {
     const article = document.createElement('article');
     article.contentEditable = 'false';

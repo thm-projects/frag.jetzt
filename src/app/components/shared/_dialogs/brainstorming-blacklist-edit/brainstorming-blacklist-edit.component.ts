@@ -31,10 +31,7 @@ export class BrainstormingBlacklistEditComponent implements OnInit {
 
   addBlacklistWord() {
     this._brainstormingService
-      .createWord(
-        this.room.brainstormingSession.id,
-        this.newBlacklistWord,
-      )
+      .createWord(this.room.brainstormingSession.id, this.newBlacklistWord)
       .pipe(
         switchMap((word) =>
           this._brainstormingService.patchWord(word.id, { banned: true }),

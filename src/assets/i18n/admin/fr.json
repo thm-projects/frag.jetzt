@@ -26,7 +26,7 @@
   "introductions": {
     "prompt-guide-chatbot": "Communiquer efficacement avec ChatGPT",
     "cancel": "Fermer",
-    "tooltip-button" : "Guide de prompt",
+    "tooltip-button": "Guide de prompt",
     "prompt-explanation": "Prompts en bref"
   },
   "gpt-config": {

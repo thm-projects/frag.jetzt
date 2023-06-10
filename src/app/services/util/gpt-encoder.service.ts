@@ -24,10 +24,7 @@ export class GptEncoderService {
         '/assets/config/gpt/encoder.json',
         httpOptions,
       ),
-      this.httpClient.get(
-        '/assets/config/gpt/vocab.bpe',
-        httpOptionsPlain,
-      ),
+      this.httpClient.get('/assets/config/gpt/vocab.bpe', httpOptionsPlain),
     ]).subscribe({
       next: ([encoder, bpeData]) => {
         this.gptEncoder.next(new GPTEncoder(encoder, bpeData));

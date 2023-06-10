@@ -126,7 +126,10 @@ export class TagCloudDataBuilder {
       if (maskKeyword(keyword.text).length < 3 || information.censored[index]) {
         return;
       }
-      if (wantedLabels?.length && !keyword.dep?.some((e) => wantedLabels.includes(e))) {
+      if (
+        wantedLabels?.length &&
+        !keyword.dep?.some((e) => wantedLabels.includes(e))
+      ) {
         return;
       }
       if (!this.passesBlacklist(keyword.text)) {

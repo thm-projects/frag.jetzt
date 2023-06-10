@@ -1,6 +1,4 @@
-<p>
-  Here you get an overview of all the rooms you have created or visited.
-</p>
+<p>Here you get an overview of all the rooms you have created or visited.</p>
 
 <ol>
   <li>Visit a room</li>
@@ -13,11 +11,13 @@
 </ol>
 
 <div class="videoWrapper">
-  <iframe allowfullscreen
-          height="315"
-          width="560"
-          [src]="sanitizer.trust('https://www.youtube.com/embed/ScMzIvxBSi4?autoplay=0')"
-          tabindex="0"
-          title="Placeholder video"
-  ></iframe>
+  <iframe
+    allowfullscreen
+    height="315"
+    width="560"
+    [src]="
+      sanitizer.trust('https://www.youtube.com/embed/ScMzIvxBSi4?autoplay=0')
+    "
+    tabindex="0"
+    title="Placeholder video"></iframe>
 </div>

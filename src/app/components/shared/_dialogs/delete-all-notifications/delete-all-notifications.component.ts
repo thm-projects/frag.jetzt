@@ -7,24 +7,25 @@ import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-delete-all-notifications',
   templateUrl: './delete-all-notifications.component.html',
-  styleUrls: ['./delete-all-notifications.component.scss']
+  styleUrls: ['./delete-all-notifications.component.scss'],
 })
 export class DeleteAllNotificationsComponent implements OnInit {
-
-  confirmButtonType: DialogConfirmActionButtonType = DialogConfirmActionButtonType.Alert;
+  confirmButtonType: DialogConfirmActionButtonType =
+    DialogConfirmActionButtonType.Alert;
 
   constructor(
     public dialogRef: MatDialogRef<DeleteAllNotificationsComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private liveAnnouncer: LiveAnnouncer,
-    private translationService: TranslateService
-  ) {
-  }
+    private translationService: TranslateService,
+  ) {}
 
   ngOnInit() {
-    this.translationService.get('delete-notifications.message').subscribe(msg => {
-      this.liveAnnouncer.announce(msg);
-    });
+    this.translationService
+      .get('delete-notifications.message')
+      .subscribe((msg) => {
+        this.liveAnnouncer.announce(msg);
+      });
   }
 
   /**

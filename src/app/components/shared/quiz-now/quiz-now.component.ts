@@ -11,7 +11,7 @@ import { DsgvoBuilder } from '../../../utils/dsgvo-builder';
 @Component({
   selector: 'app-quiz-now',
   templateUrl: './quiz-now.component.html',
-  styleUrls: ['./quiz-now.component.scss']
+  styleUrls: ['./quiz-now.component.scss'],
 })
 export class QuizNowComponent implements OnInit, OnDestroy {
   urlSafe: SafeResourceUrl;
@@ -35,24 +35,30 @@ export class QuizNowComponent implements OnInit, OnDestroy {
       this.roleString = 'participant';
       return;
     }
-    this.dbRoomAccess.getByUserAndShortId(id, this.shortId).subscribe(access => {
-      if (access.role === UserRole.CREATOR) {
-        this.roleString = 'creator';
-      } else if (access.role > UserRole.PARTICIPANT) {
-        this.roleString = 'moderator';
-      } else {
-        this.roleString = 'participant';
-      }
-    });
+    this.dbRoomAccess
+      .getByUserAndShortId(id, this.shortId)
+      .subscribe((access) => {
+        if (access.role === UserRole.CREATOR) {
+          this.roleString = 'creator';
+        } else if (access.role > UserRole.PARTICIPANT) {
+          this.roleString = 'moderator';
+        } else {
+          this.roleString = 'participant';
+        }
+      });
   }
 
   ngOnInit() {
     this.initURL();
-    this._headerSubscription = this.eventService.on<string>('navigate').subscribe(action => {
-      if (action === 'questionBoard') {
-        this.router.navigate(['/' + this.roleString + '/room/' + this.shortId + '/comments']);
-      }
-    });
+    this._headerSubscription = this.eventService
+      .on<string>('navigate')
+      .subscribe((action) => {
+        if (action === 'questionBoard') {
+          this.router.navigate([
+            '/' + this.roleString + '/room/' + this.shortId + '/comments',
+          ]);
+        }
+      });
   }
 
   ngOnDestroy() {
@@ -64,7 +70,9 @@ export class QuizNowComponent implements OnInit, OnDestroy {
     xhr.onreadystatechange = () => {
       if (xhr.responseURL) {
         DsgvoBuilder.trustURL(xhr.responseURL);
-        this.urlSafe = this.sanitizer.bypassSecurityTrustResourceUrl(xhr.responseURL);
+        this.urlSafe = this.sanitizer.bypassSecurityTrustResourceUrl(
+          xhr.responseURL,
+        );
         this.isURLLoading = false;
         xhr.abort();
       }

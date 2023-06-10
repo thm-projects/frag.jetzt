@@ -3,7 +3,6 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-help-fr',
   templateUrl: './help-fr.html',
-  styleUrls: ['./help.scss']
+  styleUrls: ['./help.scss'],
 })
-export class HelpFrComponent {
-}
+export class HelpFrComponent {}

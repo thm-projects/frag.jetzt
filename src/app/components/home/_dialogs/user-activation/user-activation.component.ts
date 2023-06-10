@@ -8,10 +8,9 @@ import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-user-activation',
   templateUrl: './user-activation.component.html',
-  styleUrls: ['./user-activation.component.scss']
+  styleUrls: ['./user-activation.component.scss'],
 })
 export class UserActivationComponent implements OnInit {
-
   activationKeyFormControl = new FormControl('', [Validators.required]);
 
   constructor(
@@ -19,28 +18,27 @@ export class UserActivationComponent implements OnInit {
     public userService: UserService,
     public notificationService: NotificationService,
     public dialogRef: MatDialogRef<UserActivationComponent>,
-    private translationService: TranslateService) {
-  }
+    private translationService: TranslateService,
+  ) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   login(activationKey: string): void {
     activationKey = activationKey.trim();
 
-    this.userService.activate(this.data.name.trim(), activationKey)
-      .subscribe({
-        next: (ret) => {
-          this.dialogRef.close({ success: true });
-        },
-        error: (err) => {
-          this.translationService.get('user-activation.activation-key-incorrect').subscribe(message => {
+    this.userService.activate(this.data.name.trim(), activationKey).subscribe({
+      next: (ret) => {
+        this.dialogRef.close({ success: true });
+      },
+      error: (err) => {
+        this.translationService
+          .get('user-activation.activation-key-incorrect')
+          .subscribe((message) => {
             this.notificationService.show(message);
           });
-        }
-      });
+      },
+    });
   }
-
 
   /**
    * Returns a lambda which closes the dialog on call.
@@ -50,15 +48,14 @@ export class UserActivationComponent implements OnInit {
   }
 
   resetActivation(): void {
-    this.userService.resetActivation(this.data.name.trim()).subscribe(
-      ret => {
-        this.translationService.get('login.restart-account-activation-correct').subscribe(message => {
+    this.userService.resetActivation(this.data.name.trim()).subscribe((ret) => {
+      this.translationService
+        .get('login.restart-account-activation-correct')
+        .subscribe((message) => {
           this.notificationService.show(message);
         });
-      }
-    );
+    });
   }
-
 
   /**
    * Returns a lambda which executes the dialog dedicated action on call.

@@ -55,10 +55,7 @@ describe('WriteCommentComponent', () => {
         DataStoreService,
         ModeratorService,
       ],
-      declarations: [
-        WriteCommentComponent,
-        TranslatePipe,
-      ]
+      declarations: [WriteCommentComponent, TranslatePipe],
     }).compileComponents();
   });
 
@@ -77,7 +74,9 @@ describe('WriteCommentComponent', () => {
     component.questionerNameFormControl.updateValueAndValidity();
     expect(component.questionerNameFormControl.valid).toBeTruthy();
 
-    component.questionerNameFormControl.setValue('5Zexkv95t4v5SKLdZkpS0AMjP6gl1H');
+    component.questionerNameFormControl.setValue(
+      '5Zexkv95t4v5SKLdZkpS0AMjP6gl1H',
+    );
     component.questionerNameFormControl.updateValueAndValidity();
     expect(component.questionerNameFormControl.valid).toBeTruthy();
   });
@@ -87,7 +86,9 @@ describe('WriteCommentComponent', () => {
     component.questionerNameFormControl.updateValueAndValidity();
     expect(component.questionerNameFormControl.valid).toBeFalsy();
 
-    component.questionerNameFormControl.setValue('5Zexkv95t4v5SKLdZkpS0AMjP6gl1Ha');
+    component.questionerNameFormControl.setValue(
+      '5Zexkv95t4v5SKLdZkpS0AMjP6gl1Ha',
+    );
     component.questionerNameFormControl.updateValueAndValidity();
     expect(component.questionerNameFormControl.valid).toBeFalsy();
   });

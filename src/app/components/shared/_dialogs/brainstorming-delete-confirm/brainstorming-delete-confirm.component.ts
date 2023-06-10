@@ -45,22 +45,24 @@ export class BrainstormingDeleteConfirmComponent implements OnInit {
           },
         });
       } else {
-        this.brainstormingService.deleteAllCategoryAssignments(this.sessionId).subscribe({
-          next: () => {
-            this.translateService
-              .get('room-page.changes-successful')
-              .subscribe((msg) => {
-                this.notificationService.show(msg);
-              });
-          },
-          error: () => {
-            this.translateService
-              .get('room-page.changes-gone-wrong')
-              .subscribe((msg) => {
-                this.notificationService.show(msg);
-              });
-          },
-        });
+        this.brainstormingService
+          .deleteAllCategoryAssignments(this.sessionId)
+          .subscribe({
+            next: () => {
+              this.translateService
+                .get('room-page.changes-successful')
+                .subscribe((msg) => {
+                  this.notificationService.show(msg);
+                });
+            },
+            error: () => {
+              this.translateService
+                .get('room-page.changes-gone-wrong')
+                .subscribe((msg) => {
+                  this.notificationService.show(msg);
+                });
+            },
+          });
       }
     };
   }

@@ -8,20 +8,21 @@ import { lastValueFrom } from 'rxjs';
 export class AppConfig {
   static settings: IAppConfig;
 
-  constructor(
-    private http: HttpClient,
-  ) {
-  }
+  constructor(private http: HttpClient) {}
 
   load() {
     const jsonFile = `assets/config/config.${environment.name}.json`;
     return new Promise<void>((resolve, reject) => {
-      lastValueFrom(this.http.get(jsonFile)).then((response: IAppConfig) => {
-        AppConfig.settings = response;
-        resolve();
-      }).catch((response: any) => {
-        reject(`Could not load file '${jsonFile}': ${JSON.stringify(response)}`);
-      });
+      lastValueFrom(this.http.get(jsonFile))
+        .then((response: IAppConfig) => {
+          AppConfig.settings = response;
+          resolve();
+        })
+        .catch((response: any) => {
+          reject(
+            `Could not load file '${jsonFile}': ${JSON.stringify(response)}`,
+          );
+        });
     });
   }
 }

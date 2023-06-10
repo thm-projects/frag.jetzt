@@ -5,21 +5,17 @@ import { MatDialogRef } from '@angular/material/dialog';
 @Component({
   selector: 'app-introduction-question-wall',
   templateUrl: './introduction-question-wall.component.html',
-  styleUrls: ['./introduction-question-wall.component.scss']
+  styleUrls: ['./introduction-question-wall.component.scss'],
 })
 export class IntroductionQuestionWallComponent implements OnInit {
-
   constructor(
     private dialogRef: MatDialogRef<IntroductionQuestionWallComponent>,
     public languageService: LanguageService,
-  ) {
-  }
+  ) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   onClose() {
     this.dialogRef.close();
   }
-
 }

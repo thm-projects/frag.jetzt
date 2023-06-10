@@ -4,10 +4,9 @@ import { Observable, of } from 'rxjs';
 import { generateBoolean } from '../../utils/test-utils';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthenticationServiceMock extends AuthenticationService {
-
   constructor() {
     super(null);
   }
@@ -15,5 +14,4 @@ export class AuthenticationServiceMock extends AuthenticationService {
   checkSuperAdmin(token: string): Observable<boolean> {
     return of(generateBoolean());
   }
-
 }

@@ -15,7 +15,9 @@ $header-size: 64px;
     align-items: center;
     justify-content: space-evenly;
     padding: $padding;
-    min-height: calc(100vh - #{$footer-size + $header-size + $margin * 2 + $padding * 2});
+    min-height: calc(
+      100vh - #{$footer-size + $header-size + $margin * 2 + $padding * 2}
+    );
     height: 100%;
     width: 100%;
     max-width: 800px;
@@ -101,7 +103,7 @@ $header-size: 64px;
         transition: all 0.3s;
 
         &:hover {
-          transform: scale(1.2)
+          transform: scale(1.2);
         }
       }
 

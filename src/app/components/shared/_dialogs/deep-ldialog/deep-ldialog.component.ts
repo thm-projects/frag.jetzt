@@ -1,10 +1,23 @@
-import { AfterViewInit, Component, Inject, OnInit, ViewChild } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import {
+  AfterViewInit,
+  Component,
+  Inject,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
+import {
+  MAT_DIALOG_DATA,
+  MatDialog,
+  MatDialogRef,
+} from '@angular/material/dialog';
 import { ViewCommentDataComponent } from '../../view-comment-data/view-comment-data.component';
 import { NotificationService } from '../../../../services/util/notification.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ExplanationDialogComponent } from '../explanation-dialog/explanation-dialog.component';
-import { DeepLService, FormalityType } from '../../../../services/http/deep-l.service';
+import {
+  DeepLService,
+  FormalityType,
+} from '../../../../services/http/deep-l.service';
 import { StandardDelta } from '../../../../utils/quill-utils';
 
 export interface ResultValue {
@@ -16,10 +29,9 @@ export interface ResultValue {
 @Component({
   selector: 'app-deep-ldialog',
   templateUrl: './deep-ldialog.component.html',
-  styleUrls: ['./deep-ldialog.component.scss']
+  styleUrls: ['./deep-ldialog.component.scss'],
 })
 export class DeepLDialogComponent implements OnInit, AfterViewInit {
-
   @ViewChild('normal') normal: ViewCommentDataComponent;
   @ViewChild('improved') improved: ViewCommentDataComponent;
   radioButtonValue: ResultValue;
@@ -43,12 +55,12 @@ export class DeepLDialogComponent implements OnInit, AfterViewInit {
     this.normalValue = {
       body: this.data.body,
       text: this.data.text,
-      view: this.normal
+      view: this.normal,
     };
     this.improvedValue = {
       body: this.data.improvedBody,
       text: this.data.improvedText,
-      view: this.improved
+      view: this.improved,
     };
     this.radioButtonValue = this.normalValue;
     this.formality = this.data.formality;
@@ -83,9 +95,16 @@ export class DeepLDialogComponent implements OnInit, AfterViewInit {
         this.improvedValue.view = this.improved;
         current = this.improvedValue;
       }
-      if (ViewCommentDataComponent.checkInputData(
-        current.body, current.text, this.translateService, this.notificationService, this.data.maxTextCharacters,
-        this.data.maxDataCharacters)) {
+      if (
+        ViewCommentDataComponent.checkInputData(
+          current.body,
+          current.text,
+          this.translateService,
+          this.notificationService,
+          this.data.maxTextCharacters,
+          this.data.maxDataCharacters,
+        )
+      ) {
         this.data.onClose(current, true);
         this.dialogRef.close(true);
       }
@@ -94,13 +113,18 @@ export class DeepLDialogComponent implements OnInit, AfterViewInit {
 
   openHelp() {
     const ref = this.dialog.open(ExplanationDialogComponent, {
-      autoFocus: false
+      autoFocus: false,
     });
     ref.componentInstance.translateKey = 'explanation.deepl';
   }
 
   onFormalityChange(formality: string) {
-    this.deeplService.improveDelta(this.data.body, this.data.usedTarget, formality as FormalityType)
+    this.deeplService
+      .improveDelta(
+        this.data.body,
+        this.data.usedTarget,
+        formality as FormalityType,
+      )
       .subscribe({
         next: ([improvedBody, improvedText]) => {
           this.improvedValue.body = improvedBody;
@@ -108,11 +132,12 @@ export class DeepLDialogComponent implements OnInit, AfterViewInit {
           this.improved.currentData = improvedBody;
         },
         error: () => {
-          this.translateService.get('deepl-formality-select.error').subscribe(str => {
-            this.notificationService.show(str);
-          });
-        }
+          this.translateService
+            .get('deepl-formality-select.error')
+            .subscribe((str) => {
+              this.notificationService.show(str);
+            });
+        },
       });
   }
-
 }

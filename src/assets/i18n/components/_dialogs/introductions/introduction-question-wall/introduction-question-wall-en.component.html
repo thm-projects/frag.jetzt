@@ -1,5 +1,6 @@
 <p>
-  Let this page automatically show you new questions one by one in full screen mode.
+  Let this page automatically show you new questions one by one in full screen
+  mode.
 </p>
 
 <ol>
@@ -11,11 +12,13 @@
 </ol>
 
 <div class="videoWrapper">
-  <iframe allowfullscreen
-          height="315"
-          width="560"
-          [src]="sanitizer.trust('https://www.youtube.com/embed/ScMzIvxBSi4?autoplay=0')"
-          tabindex="0"
-          title="Placeholder video"
-  ></iframe>
+  <iframe
+    allowfullscreen
+    height="315"
+    width="560"
+    [src]="
+      sanitizer.trust('https://www.youtube.com/embed/ScMzIvxBSi4?autoplay=0')
+    "
+    tabindex="0"
+    title="Placeholder video"></iframe>
 </div>

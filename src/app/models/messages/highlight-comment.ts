@@ -9,7 +9,7 @@ export class HighlightComment {
     this.type = 'HighlightComment';
     this.payload = {
       id,
-      lights
+      lights,
     };
   }
 }

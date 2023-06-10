@@ -160,13 +160,15 @@ export class DeepLService extends BaseHttpService {
   }
 
   private static decodeHTML(str: string): string {
-    return str
-      // eslint-disable-next-line @typescript-eslint/quotes
-      .replace(/&apos;/g, "'")
-      .replace(/&quot;/g, '"')
-      .replace(/&gt;/g, '>')
-      .replace(/&lt;/g, '<')
-      .replace(/&amp;/g, '&');
+    return (
+      str
+        // eslint-disable-next-line @typescript-eslint/quotes
+        .replace(/&apos;/g, "'")
+        .replace(/&quot;/g, '"')
+        .replace(/&gt;/g, '>')
+        .replace(/&lt;/g, '<')
+        .replace(/&amp;/g, '&')
+    );
   }
 
   improveDelta(

@@ -32,7 +32,7 @@ type KeyOfKeyboardKey = keyof typeof KeyboardKey;
 // Setup all application available keyboard keys here
 // @see https://keycode.info/ for easy keyboard key detection
 // A map of available keyboard keys for the application
-export const KEYBOARD_KEYS: {[key in KeyOfKeyboardKey]: IKeyboardKey}  = {
+export const KEYBOARD_KEYS: { [key in KeyOfKeyboardKey]: IKeyboardKey } = {
   Digit0: { key: ['0'] },
   Digit1: { key: ['1'] },
   Digit2: { key: ['2'] },

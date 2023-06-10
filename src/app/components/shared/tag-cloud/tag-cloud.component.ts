@@ -44,9 +44,7 @@ import { TagCloudSettings } from '../../../utils/TagCloudSettings';
 import { SessionService } from '../../../services/util/session.service';
 import { BrainstormingSession } from '../../../models/brainstorming-session';
 import { IntroductionTagCloudComponent } from '../_dialogs/introductions/introduction-tag-cloud/introduction-tag-cloud.component';
-import {
-  IntroductionBrainstormingComponent,
-} from '../_dialogs/introductions/introduction-brainstorming/introduction-brainstorming.component';
+import { IntroductionBrainstormingComponent } from '../_dialogs/introductions/introduction-brainstorming/introduction-brainstorming.component';
 import { ComponentType } from '@angular/cdk/overlay';
 import { RoomDataService } from '../../../services/util/room-data.service';
 import {
@@ -166,27 +164,30 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
   ) {
     this.brainstormingActive = this.router.url.endsWith('/brainstorming');
     for (let i = 0; i < 10; i++) {
-      this.demoDataKeys.push(['', {
-        weight: i,
-        adjustedWeight: i,
-        answerCount: 0,
-        cachedDownVotes: 0,
-        cachedUpVotes: 0,
-        cachedVoteCount: 0,
-        categories: new Set(),
-        comments: [],
-        commentsByCreator: 0,
-        commentsByModerators: 0,
-        countedComments: new Set(),
-        dependencies: new Set(),
-        distinctUsers: new Set(),
-        firstTimeStamp: new Date(),
-        generatedByQuestionerCount: 0,
-        lastTimeStamp: new Date(),
-        questionChildren: new Map(),
-        responseCount: 0,
-        taggedCommentsCount: 0,
-      }]);
+      this.demoDataKeys.push([
+        '',
+        {
+          weight: i,
+          adjustedWeight: i,
+          answerCount: 0,
+          cachedDownVotes: 0,
+          cachedUpVotes: 0,
+          cachedVoteCount: 0,
+          categories: new Set(),
+          comments: [],
+          commentsByCreator: 0,
+          commentsByModerators: 0,
+          countedComments: new Set(),
+          dependencies: new Set(),
+          distinctUsers: new Set(),
+          firstTimeStamp: new Date(),
+          generatedByQuestionerCount: 0,
+          lastTimeStamp: new Date(),
+          questionChildren: new Map(),
+          responseCount: 0,
+          taggedCommentsCount: 0,
+        },
+      ]);
     }
   }
 
@@ -226,11 +227,13 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
   ngAfterContentInit() {
     this.sessionService.onReady.subscribe(() => {
       this.initNavigation();
-      this.translateService.get('tag-cloud.demo-data-topic').subscribe((text) => {
-        for (let i = 0; i < 10; i++) {
-          this.demoDataKeys[i][0] = text.replace('%d', String(i + 1));
-        }
-      });
+      this.translateService
+        .get('tag-cloud.demo-data-topic')
+        .subscribe((text) => {
+          for (let i = 0; i < 10; i++) {
+            this.demoDataKeys[i][0] = text.replace('%d', String(i + 1));
+          }
+        });
       this.setCloudParameters(this.getCurrentCloudParameters(), false);
     });
   }
@@ -497,7 +500,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     });
   }
 
-  private rebuildDemoData(){
+  private rebuildDemoData() {
     if (!this.cloud) {
       return;
     }

@@ -13,7 +13,7 @@ export class BonusToken {
     commentId: string,
     timestamp: Date,
     userId: string,
-    token: string
+    token: string,
   ) {
     this.roomId = roomId;
     this.commentId = commentId;

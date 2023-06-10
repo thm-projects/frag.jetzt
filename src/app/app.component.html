@@ -44,8 +44,8 @@
         (deviceInfo.isCurrentlyMobile || router.url.endsWith('/brainstorming')),
       above:
         rescaleActive &&
-        (deviceInfo.isCurrentlyDesktop &&
-          !router.url.endsWith('/brainstorming'))
+        deviceInfo.isCurrentlyDesktop &&
+        !router.url.endsWith('/brainstorming')
     }">
     <button
       mat-icon-button

@@ -4,25 +4,20 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class CustomIconService {
-
-  icons = [
-    'beamer',
-    'meeting_room',
-    'comment_tag',
-    'hashtag',
-    'qrcode'
-  ];
+  icons = ['beamer', 'meeting_room', 'comment_tag', 'hashtag', 'qrcode'];
 
   constructor(
     private matIconRegistry: MatIconRegistry,
-    private domSanitizer: DomSanitizer
+    private domSanitizer: DomSanitizer,
   ) {}
 
   init() {
     for (const icon of this.icons) {
       this.matIconRegistry.addSvgIcon(
         icon,
-        this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/icons/' + icon + '.svg')
+        this.domSanitizer.bypassSecurityTrustResourceUrl(
+          '../assets/icons/' + icon + '.svg',
+        ),
       );
     }
   }

@@ -3,7 +3,7 @@ import {
   ensureDefaultScorings,
   KeywordOrFulltext,
   spacyLabels,
-  TopicCloudAdminData
+  TopicCloudAdminData,
 } from '../../components/shared/_dialogs/topic-cloud-administration/TopicCloudAdminData';
 import { RoomPatch, RoomService } from '../http/room.service';
 import { Room } from '../../models/room';
@@ -27,11 +27,15 @@ export class TopicCloudAdminService {
     private notificationService: NotificationService,
     private themeService: ThemeService,
   ) {
-    this.adminData = new BehaviorSubject<TopicCloudAdminData>(TopicCloudAdminService.getDefaultAdminData);
+    this.adminData = new BehaviorSubject<TopicCloudAdminData>(
+      TopicCloudAdminService.getDefaultAdminData,
+    );
   }
 
   static get getDefaultAdminData(): TopicCloudAdminData {
-    let data: TopicCloudAdminData = JSON.parse(localStorage.getItem(this.adminKey));
+    let data: TopicCloudAdminData = JSON.parse(
+      localStorage.getItem(this.adminKey),
+    );
     if (!data) {
       data = {
         wantedLabels: {
@@ -46,7 +50,7 @@ export class TopicCloudAdminService {
         minUpvotes: 0,
         startDate: null,
         endDate: null,
-        scorings: null
+        scorings: null,
       };
     }
     ensureDefaultScorings(data);
@@ -57,18 +61,31 @@ export class TopicCloudAdminService {
     return this.adminData.asObservable();
   }
 
-  static isTopicAllowed(config: TopicCloudAdminData, comments: number, users: number,
-                        upvotes: number, firstTimeStamp: Date, lastTimeStamp: Date) {
-    return !((config.minQuestions > comments) ||
-      (config.minQuestioners > users) ||
-      (config.minUpvotes > upvotes) ||
+  static isTopicAllowed(
+    config: TopicCloudAdminData,
+    comments: number,
+    users: number,
+    upvotes: number,
+    firstTimeStamp: Date,
+    lastTimeStamp: Date,
+  ) {
+    return !(
+      config.minQuestions > comments ||
+      config.minQuestioners > users ||
+      config.minUpvotes > upvotes ||
       (config.startDate && new Date(config.startDate) > firstTimeStamp) ||
-      (config.endDate && new Date(config.endDate) < lastTimeStamp));
+      (config.endDate && new Date(config.endDate) < lastTimeStamp)
+    );
   }
 
   static isTopicRequirementDisabled(data: TopicCloudAdminData): boolean {
-    return (data.minQuestioners === 1) && (data.minQuestions === 1) && (data.minUpvotes === 0) &&
-      (data.startDate === null) && (data.endDate === null);
+    return (
+      data.minQuestioners === 1 &&
+      data.minQuestions === 1 &&
+      data.minUpvotes === 0 &&
+      data.startDate === null &&
+      data.endDate === null
+    );
   }
 
   static getDefaultSpacyTags(lang: string): string[] {
@@ -86,7 +103,7 @@ export class TopicCloudAdminService {
         break;
       default:
     }
-    currentSpacyLabels.forEach(label => {
+    currentSpacyLabels.forEach((label) => {
       if (label.enabledByDefault) {
         tags.push(label.tag);
       }
@@ -102,8 +119,16 @@ export class TopicCloudAdminService {
     return !TopicCloudAdminService.isTopicRequirementDisabled(value);
   }
 
-  setAdminData(_adminData: TopicCloudAdminData, id: string, userRole: UserRole, data?: RoomPatch) {
-    localStorage.setItem(TopicCloudAdminService.adminKey, JSON.stringify(_adminData));
+  setAdminData(
+    _adminData: TopicCloudAdminData,
+    id: string,
+    userRole: UserRole,
+    data?: RoomPatch,
+  ) {
+    localStorage.setItem(
+      TopicCloudAdminService.adminKey,
+      JSON.stringify(_adminData),
+    );
     this.adminData.next(_adminData);
     if (!id || !userRole || userRole <= UserRole.PARTICIPANT) {
       return;
@@ -130,7 +155,7 @@ export class TopicCloudAdminService {
       return;
     }
     word = word.toLowerCase().trim();
-    const newList = JSON.parse(room.blacklist).filter(e => e !== word);
+    const newList = JSON.parse(room.blacklist).filter((e) => e !== word);
     if (room.blacklist.length !== newList.length) {
       this.updateBlacklist(newList, room.id, 'remove-successful');
     }
@@ -146,15 +171,17 @@ export class TopicCloudAdminService {
         if (!message) {
           message = 'changes-successful';
         }
-        this.translateService.get('topic-cloud.' + message).subscribe(msg => {
+        this.translateService.get('topic-cloud.' + message).subscribe((msg) => {
           this.notificationService.show(msg);
         });
       },
       error: () => {
-        this.translateService.get('topic-cloud.changes-gone-wrong').subscribe(msg => {
-          this.notificationService.show(msg);
-        });
-      }
+        this.translateService
+          .get('topic-cloud.changes-gone-wrong')
+          .subscribe((msg) => {
+            this.notificationService.show(msg);
+          });
+      },
     });
   }
 }

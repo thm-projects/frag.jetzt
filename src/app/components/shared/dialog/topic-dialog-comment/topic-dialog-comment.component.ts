@@ -1,15 +1,17 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Language } from '../../../../models/comment';
 import { ProfanityFilterService } from '../../../../services/util/profanity-filter.service';
-import { ImmutableStandardDelta, QuillUtils } from '../../../../utils/quill-utils';
+import {
+  ImmutableStandardDelta,
+  QuillUtils,
+} from '../../../../utils/quill-utils';
 
 @Component({
   selector: 'app-topic-dialog-comment',
   templateUrl: './topic-dialog-comment.component.html',
-  styleUrls: ['./topic-dialog-comment.component.scss']
+  styleUrls: ['./topic-dialog-comment.component.scss'],
 })
 export class TopicDialogCommentComponent implements OnInit {
-
   @Input() question: ImmutableStandardDelta;
   @Input() language: Language;
   @Input() keyword: string;
@@ -29,15 +31,16 @@ export class TopicDialogCommentComponent implements OnInit {
   public partsShort: string[];
   public partsWithoutProfanityShort: string[];
 
-  constructor(private profanityFilterService: ProfanityFilterService) {
-  }
+  constructor(private profanityFilterService: ProfanityFilterService) {}
 
   get partsOfQuestion() {
     return this.profanityFilter ? this.partsWithoutProfanity : this.parts;
   }
 
   get partsOfShortQuestion() {
-    return this.profanityFilter ? this.partsWithoutProfanityShort : this.partsShort;
+    return this.profanityFilter
+      ? this.partsWithoutProfanityShort
+      : this.partsShort;
   }
 
   splitShortQuestion(question: string) {
@@ -53,11 +56,20 @@ export class TopicDialogCommentComponent implements OnInit {
       return;
     }
     this.questionText = QuillUtils.getTextFromDelta(this.question);
-    this.questionWithoutProfanity = this.profanityFilterService.filterProfanityWords(this.questionText,
-      this.partialWords, this.languageSpecific, this.language)[0];
-    this.partsWithoutProfanity = this.splitQuestion(this.questionWithoutProfanity);
+    this.questionWithoutProfanity =
+      this.profanityFilterService.filterProfanityWords(
+        this.questionText,
+        this.partialWords,
+        this.languageSpecific,
+        this.language,
+      )[0];
+    this.partsWithoutProfanity = this.splitQuestion(
+      this.questionWithoutProfanity,
+    );
     this.parts = this.splitQuestion(this.questionText);
-    this.partsWithoutProfanityShort = this.splitShortQuestion(this.questionWithoutProfanity);
+    this.partsWithoutProfanityShort = this.splitShortQuestion(
+      this.questionWithoutProfanity,
+    );
     this.partsShort = this.splitShortQuestion(this.questionText);
   }
 }

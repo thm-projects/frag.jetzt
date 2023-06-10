@@ -4,20 +4,20 @@ import { Observable } from 'rxjs';
 import { IMessage } from '@stomp/stompjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class WsCommentChangeService {
-
-  constructor(
-    private wsConnector: WsConnectorService
-  ) {
-  }
+  constructor(private wsConnector: WsConnectorService) {}
 
   getRoomStream(roomId: string): Observable<IMessage> {
-    return this.wsConnector.getWatcher(`/topic/${roomId}.comment-change.stream`);
+    return this.wsConnector.getWatcher(
+      `/topic/${roomId}.comment-change.stream`,
+    );
   }
 
   getCommentStream(roomId: string, commentId: string): Observable<IMessage> {
-    return this.wsConnector.getWatcher(`/topic/${roomId}.comment-change.${commentId}.stream`);
+    return this.wsConnector.getWatcher(
+      `/topic/${roomId}.comment-change.${commentId}.stream`,
+    );
   }
 }

@@ -7,22 +7,17 @@ import { BrainstormingSession } from '../../../../models/brainstorming-session';
 @Component({
   selector: 'app-submit-comment',
   templateUrl: './create-comment.component.html',
-  styleUrls: ['./create-comment.component.scss']
+  styleUrls: ['./create-comment.component.scss'],
 })
 export class CreateCommentComponent implements OnInit {
-
   @ViewChild(WriteCommentComponent) commentComponent: WriteCommentComponent;
   @Input() userRole: UserRole;
   @Input() tags: string[];
   @Input() brainstormingData: BrainstormingSession;
 
-  constructor(
-    public dialogRef: MatDialogRef<CreateCommentComponent>,
-  ) {
-  }
+  constructor(public dialogRef: MatDialogRef<CreateCommentComponent>) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   onNoClick(comment?: Comment): void {
     this.dialogRef.close(comment);

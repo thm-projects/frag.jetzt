@@ -26,7 +26,7 @@ import {
   JoyrideStepService,
   LoggerService,
   StepDrawerService,
-  TemplatesService
+  TemplatesService,
 } from 'ngx-joyride';
 import { RatingService } from '../../../services/http/rating.service';
 import { RatingServiceMock } from '../../../services/mocks/rating.service.mock';
@@ -34,7 +34,6 @@ import { LoginComponent } from '../../shared/login/login.component';
 import { NgxIndexedDBModule } from 'ngx-indexed-db';
 import { DB_CONFIG } from '../../../../indexeddb';
 import { MatomoModule } from 'ngx-matomo-v9';
-
 
 describe('HomePageComponent', () => {
   let component: HomePageComponent;
@@ -81,7 +80,7 @@ describe('HomePageComponent', () => {
           provide: RatingService,
           useClass: RatingServiceMock,
         },
-      ]
+      ],
     }).compileComponents();
   }));
 
@@ -95,4 +94,3 @@ describe('HomePageComponent', () => {
     expect(component).toBeTruthy();
   });
 });
-
