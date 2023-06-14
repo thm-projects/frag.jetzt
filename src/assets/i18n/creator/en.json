@@ -398,6 +398,12 @@
   "gpt-chat": {
     "optin-accept": "Accept",
     "optin-reject": "Reject",
+    "model-select": "Model selection",
+    "model-placeholder": "Select language model …",
+    "model-gpt-3.5-turbo": "GPT 3.5 »Turbo«",
+    "model-description-gpt-3.5-turbo": "Effective model with about 4,000 characters context",
+    "model-gpt-3.5-turbo-16k": "GPT 3.5 »Turbo« 16K",
+    "model-description-gpt-3.5-turbo-16k": "Effective model with about 16,000 characters context",
     "title-free": "ChatGPT | Free questions and answers",
     "title-answer": "ChatGPT | Answer Assistent",
     "interrupt": "Stop output",

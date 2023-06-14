@@ -15,6 +15,7 @@ import { GPTEncoder } from 'app/gpt-encoder/GPTEncoder';
 import { Room } from 'app/models/room';
 import {
   ChatCompletionMessage,
+  ChatCompletionModels,
   ChatCompletionRequest,
   GptService,
   StreamChatCompletion,
@@ -134,6 +135,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
   searchTerm: string = '';
   answeringComment = false;
   answeringWriteComment = false;
+  model: ChatCompletionRequest['model'] = 'gpt-3.5-turbo-16k';
   temperatureOptions: { key: string; value: number; text: SelectComponents }[] =
     [
       {
@@ -180,6 +182,11 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
       value: null,
     },
   ];
+  chatModels: (typeof ChatCompletionModels)[number][] = [
+    'gpt-3.5-turbo',
+    'gpt-3.5-turbo-16k',
+  ];
+  prettifyModel = this.translateModel.bind(this);
   protected selectedPrompt: GPTPromptPreset = null;
   private destroyer = new ReplaySubject(1);
   private encoder: GPTEncoder = null;
@@ -472,7 +479,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
       .requestChatStream({
         messages: this.generatePrompt(index),
         roomId: this.room?.id || null,
-        model: 'gpt-3.5-turbo',
+        model: this.model,
         temperature: this.temperature,
       })
       .pipe(
@@ -545,7 +552,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
     const request: ChatCompletionRequest = {
       messages: this.generatePrompt(index),
       roomId: this.room?.id || null,
-      model: 'gpt-3.5-turbo',
+      model: this.model,
       temperature: this.temperature,
     };
     if (this.selectedPrompt !== null) {
@@ -829,6 +836,17 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
         });
       },
     );
+  }
+
+  private translateModel(e: string) {
+    if (!e) {
+      return e;
+    }
+    let str = e;
+    this.translateService
+      .get('gpt-chat.model-' + e)
+      .subscribe((msg) => (str = msg));
+    return str;
   }
 
   private generatePrompt(

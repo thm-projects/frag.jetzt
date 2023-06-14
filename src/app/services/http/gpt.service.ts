@@ -88,9 +88,16 @@ export interface TextCompletionRequest {
   logitBias?: { [key: string]: number };
 }
 
+export const ChatCompletionModels = [
+  'gpt-3.5-turbo',
+  'gpt-3.5-turbo-16k',
+  'gpt-4',
+  'gpt-4-32k',
+] as const;
+
 export interface ChatCompletionRequest {
   roomId?: UUID;
-  model: 'gpt-3.5-turbo' | 'gpt-4' | 'gpt-4-32k';
+  model: (typeof ChatCompletionModels)[number];
   messages: ChatCompletionMessage[];
   temperature?: number;
   topP?: number;
