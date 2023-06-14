@@ -2,6 +2,7 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  HostListener,
   OnDestroy,
   OnInit,
   Renderer2,
@@ -53,8 +54,12 @@ export class HomePageComponent implements OnInit, OnDestroy {
       },
       images: [
         {
-          url: 'url("/assets/background/ccchaos (2).svg")',
-          override: {},
+          url: 'url("/assets/background/background-gpt1_masked.png")',
+          override: {
+            default: {
+              backgroundSize: 'cover',
+            },
+          },
         },
       ],
     },
@@ -71,10 +76,11 @@ export class HomePageComponent implements OnInit, OnDestroy {
       },
       images: [
         {
-          url: 'url("/assets/background/patternpad (1).svg")',
+          url: 'url("/assets/background/Good_Noodles_board.webp")',
           override: {
             default: {
-              'right.px': -500,
+              backgroundPosition: 'center right',
+              backgroundSize: '45%',
             },
           },
         },
@@ -93,8 +99,13 @@ export class HomePageComponent implements OnInit, OnDestroy {
       },
       images: [
         {
-          url: 'url("/assets/background/patterns (3).svg")',
-          override: {},
+          url: 'url("/assets/background/head.png")',
+          override: {
+            default: {
+              backgroundPosition: 'center right',
+              backgroundSize: '45%',
+            },
+          },
         },
       ],
     },
@@ -111,7 +122,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
       },
       images: [
         {
-          url: 'url("/assets/background/patterns (3).svg")',
+          url: 'url("/assets/background/livepoll.png")',
           override: {},
         },
       ],
@@ -129,7 +140,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
       },
       images: [
         {
-          url: 'url("/assets/background/patterns (3).svg")',
+          url: 'url("/assets/background/download.png")',
           override: {},
         },
       ],
@@ -147,7 +158,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
       },
       images: [
         {
-          url: 'url("/assets/background/patterns (3).svg")',
+          url: 'url("/assets/background/question-radar.png")',
           override: {},
         },
       ],
@@ -165,7 +176,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
       },
       images: [
         {
-          url: 'url("/assets/background/patterns (3).svg")',
+          url: 'url("/assets/background/question-focus.png")',
           override: {},
         },
       ],
@@ -200,6 +211,18 @@ export class HomePageComponent implements OnInit, OnDestroy {
       };
     } else {
       return {};
+    }
+  }
+
+  @HostListener('wheel', ['$event']) _onWheel(wheel: WheelEvent) {
+    if (wheel.deltaY > 0) {
+      if (this.carouselIndex < this.carousel.length - 1) {
+        this.carouselIndex += 1;
+      }
+    } else if (wheel.deltaY < 0) {
+      if (this.carouselIndex > 0) {
+        this.carouselIndex -= 1;
+      }
     }
   }
 
