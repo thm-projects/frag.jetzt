@@ -159,6 +159,16 @@ app-comment {
   color: var(--green);
 }
 
+.chatgpt-icon {
+  color: var(--primary);
+}
+
+.chatgpt-robot-icon {
+  margin-bottom: -10px;
+  margin-right: 10px;
+  margin-left: -2px;
+}
+
 .favorite-icon {
   color: var(--yellow);
 }
@@ -275,6 +285,9 @@ app-comment {
 .fab_add_comment {
   position: fixed;
   right: 20px;
+  @media (min-width: 960px) {
+    right: calc(50% - 460px);
+  }
   bottom: 65px;
   z-index: 1;
   background-color: var(--primary);

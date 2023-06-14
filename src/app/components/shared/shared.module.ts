@@ -145,6 +145,7 @@ import { GptPromptExplanationEnComponent } from '../../../assets/i18n/components
 import { GptPromptExplanationFrComponent } from '../../../assets/i18n/components/gpt-prompt-explanation/gpt-prompt-explanation-fr';
 import { GPTRatingDialogComponent } from './_dialogs/gptrating-dialog/gptrating-dialog.component';
 import { UtilityStyleTestComponent } from './utility/style/utility-style-test/utility-style-test.component';
+import { CommentA11yElementsComponent } from './comment/comment-a11y-elements/comment-a11y-elements.component';
 
 @NgModule({
   imports: [
@@ -292,6 +293,7 @@ import { UtilityStyleTestComponent } from './utility/style/utility-style-test/ut
     GptPromptExplanationFrComponent,
     GPTRatingDialogComponent,
     UtilityStyleTestComponent,
+    CommentA11yElementsComponent,
   ],
   exports: [
     RoomJoinComponent,

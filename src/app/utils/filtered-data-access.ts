@@ -224,6 +224,14 @@ export class FilteredDataAccess {
       (!this._isRaw
         ? getMultiLevelFilterParent(c, (comment) => comment.approved) !== null
         : false),
+    [FilterType.ChatGPT]: (c) =>
+      c.gptWriterState > 0 ||
+      (!this._isRaw
+        ? getMultiLevelFilterParent(
+            c,
+            (comment) => comment.gptWriterState > 0,
+          ) !== null
+        : false),
   } as const;
   // general properties
   private _settings: AttachOptions = null;

@@ -53,6 +53,26 @@
 
       <button
         mat-flat-button
+        routerLink="/gpt-prompts"
+        tabindex="0"
+        [joyrideStep]="'chatGPT'"
+        [stepPosition]="'bottom'"
+        appJoyrideTemplate
+        [matTooltip]="'header.gpt-prompts' | translate"
+        *ngIf="router.url.endsWith('/gpt-chat-room') && isInRouteWithRoles"
+      >
+      <mat-icon
+        class="material-icons header-icons material-icons-filled"
+        style="transform: scale(1.2); margin-right: 5px">
+      assignment
+      </mat-icon>
+      <span *ngIf="!showSmallButtons && deviceInfo.isCurrentlyDesktop">
+        {{ "header.gpt-prompts" | translate }}
+      </span>
+      </button>
+
+      <button
+        mat-flat-button
         tabindex="0"
         [matTooltip]="'header.quiz-rally-button' | translate"
         *ngIf="
@@ -558,6 +578,29 @@
 </mat-menu>
 
 <mat-menu
+  #langMenu="matMenu"
+  [overlapTrigger]="false">
+  <button
+    (click)="useLanguage('de')"
+    class="focus_item"
+    mat-menu-item>
+    {{ "footer.german" | translate }}
+  </button>
+  <button
+    (click)="useLanguage('en')"
+    class="focus_item"
+    mat-menu-item>
+    {{ "footer.english" | translate }}
+  </button>
+  <button
+    (click)="useLanguage('fr')"
+    class="focus_item"
+    mat-menu-item>
+    {{ "footer.french" | translate }}
+  </button>
+</mat-menu>
+
+<mat-menu
   #userMenu="matMenu"
   [overlapTrigger]="false">
   <div class="mat-menu-inner-box">
@@ -636,6 +679,16 @@
 
   <button
     mat-menu-item
+    [matMenuTriggerFor]="langMenu"
+    (menuOpened)="openLanguageMenu()"
+    class="focus_button"
+    (click)="$event.stopImmediatePropagation()">
+    <mat-icon>language</mat-icon>
+    <span>{{ "footer.language" | translate }}</span>
+  </button>
+
+  <button
+    mat-menu-item
     aria-hidden="true"
     *ngIf="
       !deviceInfo.isSafari &&
@@ -669,7 +722,7 @@
   <button
     mat-menu-item
     *ngIf="user"
-    (click)="logoutUser()"
+    (click)="logout()"
     tabindex="0">
     <mat-icon class="color-warn material-icons-outlined">logout</mat-icon>
     <span>{{ "header.logout" | translate }}</span>
