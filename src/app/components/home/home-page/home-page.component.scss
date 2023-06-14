@@ -12,6 +12,23 @@ $carousel-container-size: 450px;
   }
 }
 
+.side-overlay {
+  width: 50%;
+  height: 100%;
+  position: fixed;
+  left: 0;
+  background-color: var(--background);
+  //background-color: rgba(0, 0, 0, 0.2);
+  //box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+  //backdrop-filter: blur(16px) saturate(1.1);
+  //
+  //&.arsnova,
+  //&.systemDefault {
+  //  background-color: rgba(255, 255, 255, 0.2);
+  //  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.03);
+  //}
+}
+
 .content-container {
   width: 100vw;
   height: 100vh;
@@ -55,8 +72,8 @@ $carousel-container-size: 450px;
         color: rgba(255, 255, 255, 1);
       }
 
-      background-color: rgba(0, 0, 0, 0.2);
-      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+      background-color: rgba(0, 0, 0, 0.5);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.15);
     }
 
     &.peek {
@@ -64,12 +81,12 @@ $carousel-container-size: 450px;
         color: rgba(255, 255, 255, 0.5);
       }
 
-      background-color: rgba(0, 0, 0, 0.05);
-      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.03);
+      background-color: rgba(0, 0, 0, 0.1);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.15);
     }
 
     &.hidden {
-      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.03);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.15);
     }
   }
 
@@ -147,6 +164,9 @@ $carousel-container-size: 450px;
     opacity: 0;
     fill: transparent;
     transform: translateY(100px);
+    &.before {
+      filter: blur(256px);
+    }
   }
 }
 

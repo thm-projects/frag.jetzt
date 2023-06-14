@@ -76,11 +76,10 @@ export class HomePageComponent implements OnInit, OnDestroy {
       },
       images: [
         {
-          url: 'url("/assets/background/Good_Noodles_board.webp")',
+          url: 'url("/assets/background/background-2.png")',
           override: {
             default: {
-              backgroundPosition: 'center right',
-              backgroundSize: '45%',
+              'mix-blend-mode': 'lighten',
             },
           },
         },
@@ -99,7 +98,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
       },
       images: [
         {
-          url: 'url("/assets/background/head.png")',
+          url: 'url("/assets/background/Countdown.webp")',
           override: {
             default: {
               backgroundPosition: 'center right',
@@ -122,8 +121,12 @@ export class HomePageComponent implements OnInit, OnDestroy {
       },
       images: [
         {
-          url: 'url("/assets/background/livepoll.png")',
-          override: {},
+          url: 'url("/assets/background/question-mark.webp")',
+          override: {
+            default: {
+              'background-size': '50%',
+            },
+          },
         },
       ],
     },
@@ -140,8 +143,12 @@ export class HomePageComponent implements OnInit, OnDestroy {
       },
       images: [
         {
-          url: 'url("/assets/background/download.png")',
-          override: {},
+          url: 'url("/assets/background/antworte_jetzt.webp")',
+          override: {
+            default: {
+              'background-size': '50%',
+            },
+          },
         },
       ],
     },
@@ -158,7 +165,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
       },
       images: [
         {
-          url: 'url("/assets/background/question-radar.png")',
+          url: 'url("/assets/background/radar.svg")',
           override: {},
         },
       ],
@@ -176,8 +183,12 @@ export class HomePageComponent implements OnInit, OnDestroy {
       },
       images: [
         {
-          url: 'url("/assets/background/question-focus.png")',
-          override: {},
+          url: 'url("/assets/background/lens-1723832_1920.png")',
+          override: {
+            default: {
+              backgroundSize: '50%',
+            },
+          },
         },
       ],
     },
@@ -215,13 +226,15 @@ export class HomePageComponent implements OnInit, OnDestroy {
   }
 
   @HostListener('wheel', ['$event']) _onWheel(wheel: WheelEvent) {
-    if (wheel.deltaY > 0) {
-      if (this.carouselIndex < this.carousel.length - 1) {
-        this.carouselIndex += 1;
-      }
-    } else if (wheel.deltaY < 0) {
-      if (this.carouselIndex > 0) {
-        this.carouselIndex -= 1;
+    if (!wheel.ctrlKey) {
+      if (wheel.deltaY > 0) {
+        if (this.carouselIndex < this.carousel.length - 1) {
+          this.carouselIndex += 1;
+        }
+      } else if (wheel.deltaY < 0) {
+        if (this.carouselIndex > 0) {
+          this.carouselIndex -= 1;
+        }
       }
     }
   }

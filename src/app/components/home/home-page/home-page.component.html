@@ -4,12 +4,22 @@
   appJoyrideTemplate
   [stepPosition]="'center'"></div>
 
-<div class="background-container">
+<div
+  class="background-container"
+  *ngIf="contentContainer.offsetWidth > 630">
   <div
     class="background-image"
     *ngFor="let background of carousel; index as i"
     [ngStyle]="getBackgroundStyleForEntry(i)"></div>
 </div>
+<div
+  class="side-overlay"
+  *ngIf="contentContainer.offsetWidth > 630"
+  [ngClass]="
+    (contentContainer.offsetWidth < 630 ? 'mobile' : 'desktop') +
+    ' ' +
+    (themeService.activeTheme?.key || 'undefined')
+  "></div>
 <div
   fxLayout="column"
   fxLayoutAlign="center center"
