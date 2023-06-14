@@ -79,7 +79,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
           url: 'url("/assets/background/background-2.png")',
           override: {
             default: {
-              'mix-blend-mode': 'lighten',
+              backgroundSize: 'auto 100%',
             },
           },
         },
@@ -124,7 +124,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
           url: 'url("/assets/background/question-mark.webp")',
           override: {
             default: {
-              'background-size': '50%',
+              backgroundSize: 'auto 100%',
             },
           },
         },
@@ -185,9 +185,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
         {
           url: 'url("/assets/background/lens-1723832_1920.png")',
           override: {
-            default: {
-              backgroundSize: '50%',
-            },
+            default: {},
           },
         },
       ],
