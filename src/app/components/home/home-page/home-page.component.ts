@@ -167,7 +167,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
           url: 'url("/assets/background/question_radar.svg")',
           override: {
             default: {
-              'background-size': '35%',
+              'background-size': '36%',
             },
           },
         },
@@ -189,7 +189,29 @@ export class HomePageComponent implements OnInit, OnDestroy {
           url: 'url("/assets/background/lens.svg")',
           override: {
             default: {
-              'background-size': '32%',
+              'background-size': '34%',
+            },
+          },
+        },
+      ],
+    },
+    {
+      title: {
+        en: 'Learn more …',
+        de: 'Mehr erfahren …',
+        fr: 'En savoir plus …',
+      },
+      description: {
+        en: "Great that you've scrolled this far! Take a look at the footer on the left. There you will find lots of useful information and tips. It's worth it! Start your journey of discovery now!",
+        de: 'Toll, dass du bis hierher gescrollt hast! Schau mal links in die Fußzeile. Dort findest du viele nützliche Informationen und Tipps. Es lohnt sich! Starte jetzt deine Entdeckungsreise!',
+        fr: "Super que tu aies défilé jusque ici ! Regarde dans le pied de page à gauche. Là, tu trouveras beaucoup d'informations utiles et des astuces. Ça vaut le coup ! Commence ton voyage de découverte maintenant !",
+      },
+      images: [
+        {
+          url: 'url("/assets/background/info.svg")',
+          override: {
+            default: {
+              'background-size': '34%',
             },
           },
         },
