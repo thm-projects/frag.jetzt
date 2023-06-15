@@ -32,6 +32,25 @@ $dark-theme: utils.override-theme($dark-theme, ());
 // that you are using.
 @include mat.all-component-themes($dark-theme);
 
+// angular fixes
+
+button.mat-mdc-button.mat-tertiary,
+button.mat-mdc-outlined-button.mat-tertiary {
+  //TODO
+  --mat-mdc-button-persistent-ripple-color: yellow;
+  --mat-mdc-button-ripple-color: rgba(255, 255, 0, 0.1);
+  --mdc-outlined-button-label-text-color: yellow;
+}
+
+button.mat-mdc-outlined-button span.mat-mdc-button-ripple,
+button.mat-mdc-outlined-button span.mdc-button__ripple {
+  inset: -0.1em;
+  border-width: 0.1em !important;
+  border-color: currentColor;
+}
+
+// own styles
+
 .visually-hidden {
   position: absolute;
   width: 1px;
@@ -57,4 +76,66 @@ $dark-theme: utils.override-theme($dark-theme, ());
   }
 }
 
-//*{box-shadow:inset 0 0 0 1px red;}
+a {
+  &.info {
+    position: relative;
+
+    > span {
+      display: none;
+      position: absolute;
+      left: 50%;
+      transform: translate(-50%);
+      width: max-content;
+      padding: 0.3em;
+      z-index: 1;
+
+      // color
+      color: var(--app-on-primary);
+      background-color: var(--app-primary);
+    }
+
+    &:hover > span {
+      display: block;
+    }
+  }
+
+  &:link {
+    color: red; //TODO
+  }
+
+  &:visited {
+    color: blue; //TODO
+  }
+
+  &:hover {
+    color: pink; //TODO
+  }
+
+  &:active,
+  &:focus {
+    color: yellow; //TODO
+  }
+}
+
+/* ---- Scroll bar ----- */
+/* Works on Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--app-secondary) transparent;
+}
+
+/* Works on Chrome, Edge, and Safari */
+::-webkit-scrollbar {
+  width: 0.75rem;
+}
+
+::-webkit-scrollbar-track {
+  background-color: var(--app-bg-dialog);
+  border-radius: 0.3rem;
+  border: 0.125rem solid var(--app-bg-background);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--app-secondary);
+  border-radius: 0.3rem;
+}

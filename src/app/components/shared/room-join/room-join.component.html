@@ -31,8 +31,9 @@
       <button
         color="primary"
         [disabled]="!sessionService.isReady"
+        style="font-size: 1em; height: 3.5em"
         id="session_enter-button"
-        mat-flat-button
+        mat-stroked-button
         type="submit"
         aria-labelledby="join-button-label">
         {{ "home-page.join-room" | translate }}
