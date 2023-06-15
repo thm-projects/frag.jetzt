@@ -48,9 +48,9 @@ export class HomePageComponent implements OnInit, OnDestroy {
         fr: 'ChatGPT',
       },
       description: {
-        en: 'Inspire your learners with our interactive AI chatbot. It provides answers tailored to the individual needs of the questioners. Define prompt settings and combine them to receive precise and customized answers. Discover the unlimited possibilities of chat to inspire and support both teachers and learners alike.\n',
-        de: 'Begeistern Sie Ihre Lernenden mit unserem interaktiven KI-Chatbot. Er liefert Antworten, die auf die individuellen Bedürfnisse der Fragenden abgestimmt sind. Definieren Sie Prompt-Voreinstellungen und kombinieren Sie diese, um präzise und maßgeschneiderte Antworten zu erhalten. Entdecken Sie die unbegrenzten Möglichkeiten des Chats, um Lehrende und Lernende gleichermaßen zu inspirieren und zu unterstützen.',
-        fr: 'Inspirez vos apprenants avec notre chatbot IA interactif. Il fournit des réponses adaptées aux besoins individuels des personnes qui posent des questions. Définissez des paramètres de prompt et combinez-les pour recevoir des réponses précises et personnalisées. Découvrez les possibilités illimitées du chat pour inspirer et soutenir à la fois les enseignants et les apprenants.\n',
+        en: "Let ChatGPT answer all the questions. Our prompt catalog will help you generate tailored and precise texts. A quick fact check, and you've saved yourself hours of work. Experience how AI makes you more efficient!",
+        de: 'Lass ChatGPT alle Fragen beantworten. Unser Prompt-Katalog hilft dir, maßgeschneiderte und präzise Texte zu generieren. Ein kurzer Faktencheck und du hast dir viele Stunden Arbeit erspart. Erlebe, wie die KI dich effizienter macht!',
+        fr: "Laisse ChatGPT répondre à toutes les questions. Notre catalogue de prompts t'aidera à générer des textes précis et sur mesure. Un rapide contrôle des faits et tu as économisé des heures de travail. Découvre comment l'IA te rend plus efficace !",
       },
       images: [
         {
@@ -65,14 +65,14 @@ export class HomePageComponent implements OnInit, OnDestroy {
     },
     {
       title: {
-        en: 'Bonus for Good Questions',
-        de: 'Bonus für gute Fragen',
-        fr: 'Bonus pour les Bonnes Questions',
+        en: 'Good Questions',
+        de: 'Gute Fragen',
+        fr: 'Bonnes Questions',
       },
       description: {
-        en: "Promote your learners' engagement and reward outstanding questions with stars! With each star awarded, the questioners receive a code, which they can redeem via email to receive bonus points. This recognition motivates your learners and creates a positive learning culture. Track your learners' progress and inspire them to ask more great questions!\n",
-        de: 'Fördern Sie das Engagement Ihrer Lernenden und belohnen Sie herausragende Fragen mit Sternen! Mit jedem vergebenen Stern erhalten die Fragenden einen Code, den sie per Mail einlösen können, um Bonuspunkte zu erhalten. Diese Anerkennung motiviert Ihre Lernenden und schafft eine positive Lernkultur. Verfolgen Sie die Fortschritte Ihrer Lernenden und inspirieren Sie sie zu weiteren großartigen Fragen!',
-        fr: "Encouragez l'engagement de vos apprenants et récompensez les questions exceptionnelles avec des étoiles ! Pour chaque étoile attribuée, les personnes qui posent des questions reçoivent un code, qu'elles peuvent échanger par e-mail pour obtenir des points bonus. Cette reconnaissance motive vos apprenants et crée une culture d'apprentissage positive. Suivez les progrès de vos apprenants et inspirez-les à poser d'autres excellentes questions !\n",
+        en: 'Boost the engagement of your learners and reward good questions with a star! Stars can be redeemed for bonus points via email. This appreciation motivates and contributes to a positive learning culture.',
+        de: 'Fördere das Engagement deiner Lernenden und belohne gute Fragen mit einem Stern! Sterne können per Mail in Bonuspunkte eingelöst werden. Diese Wertschätzung motiviert  und trägt zu einer positiven Lernkultur bei.',
+        fr: "Stimule l'engagement de tes apprenants et récompense les bonnes questions par une étoile ! Les étoiles peuvent être échangées contre des points bonus par email. Cette reconnaissance motive et contribue à une culture d'apprentissage positive.",
       },
       images: [
         {
@@ -87,14 +87,14 @@ export class HomePageComponent implements OnInit, OnDestroy {
     },
     {
       title: {
-        en: 'Quizzing',
-        de: 'Quizzen',
-        fr: 'Quiz',
+        en: 'Quiz rally',
+        de: 'Quiz-Rallye',
+        fr: 'Rallye quiz',
       },
       description: {
-        en: 'Excite your learners with an interactive quiz! This way, you can promote playful learning and liven up the classroom through competition. The quiz questions vary in difficulty and points are awarded based on the correctness of the answers and speed. Challenge your learners and motivate them with bonus points in the leaderboard. Make learning a fun group experience!\n',
-        de: 'Begeistern Sie Ihre Lernenden mit einem interaktiven Quiz! So können Sie spielerisches Lernen fördern und den Unterricht durch Wettbewerb auflockern. Die Quizfragen haben verschiedene Schwierigkeitsgrade und die Punkte werden nach Richtigkeit der Antworten und Schnelligkeit vergeben. Fordern Sie Ihre Lernenden heraus und motivieren Sie sie mit Bonuspunkten in der Rangliste. Machen Sie Lernen zu einem unterhaltsamen Gruppenerlebnis!',
-        fr: "Excitez vos apprenants avec un quiz interactif ! De cette manière, vous pouvez promouvoir un apprentissage ludique et animer la salle de classe grâce à la compétition. Les questions du quiz varient en difficulté et les points sont attribués en fonction de la justesse des réponses et de la rapidité. Challengez vos apprenants et motivez-les avec des points bonus dans le classement. Faites de l'apprentissage une expérience de groupe amusante !\n",
+        en: 'Energize your group with an interactive quiz! Liven up your teaching with competitions. Whoever answers quickly and correctly gets rewarded with bonus points. This way, learning becomes a fun group experience!',
+        de: 'Aktiviere deine Gruppe mit einem interaktiven Quiz! Lockere deinen Unterricht mit Wettbewerben auf. Wer schnell und richtig antwortet, wird mit Bonuspunkten belohnt. So wird Lernen zum unterhaltsamen Gruppenerlebnis!',
+        fr: "Anime ton groupe avec un quiz interactif ! Rends ton enseignement plus vivant avec des compétitions. Celui qui répond vite et correctement est récompensé par des points bonus. Ainsi, l'apprentissage devient une expérience de groupe amusante !",
       },
       images: [
         {
@@ -114,9 +114,9 @@ export class HomePageComponent implements OnInit, OnDestroy {
         fr: 'Sondages Éclairs',
       },
       description: {
-        en: 'Get valuable feedback in real time! With just one click, you can solicit the opinion of your learners. Numerous survey templates are available for you. The dynamic display of votes cast increases the willingness to participate. Use flash polls to improve your events and actively involve your learners in the process!\n',
-        de: 'Holen Sie sich wertvolles Feedback in Echtzeit! Mit nur einem Klick können Sie die Meinung Ihrer Lernenden einholen. Zahlreiche Umfragevorlagen stehen Ihnen zur Verfügung. Die dynamische Anzeige der abgegebenen Stimmen erhöht die Bereitschaft zur Teilnahme. Nutzen Sie Blitzumfragen, um Ihre Veranstaltungen zu verbessern und Ihre Lernenden aktiv in den Prozess einzubeziehen!',
-        fr: "Obtenez des commentaires précieux en temps réel ! En un seul clic, vous pouvez solliciter l'opinion de vos apprenants. De nombreux modèles de sondages sont à votre disposition. L'affichage dynamique des votes augmente la volonté de participer. Utilisez des sondages éclairs pour améliorer vos événements et impliquer activement vos apprenants dans le processus !\n",
+        en: 'Get valuable real-time feedback with just one click! Numerous templates are available for you. Use flash polls to optimize your event or to find out if everyone can follow you.',
+        de: 'Hol dir wertvolles Feedback in Echtzeit mit nur einem Klick!  Zahlreiche Vorlagen stehen dir zur Verfügung. Nutze Blitzumfragen, um deine Veranstaltung zu optimieren oder um herauszufinden, ob dir alle folgen können.',
+        fr: 'Obtiens des retours précieux en temps réel avec un simple clic ! De nombreux modèles sont à ta disposition. Utilise des sondages éclair pour optimiser ton événement ou pour savoir si tout le monde peut te suivre.',
       },
       images: [
         {
@@ -136,9 +136,9 @@ export class HomePageComponent implements OnInit, OnDestroy {
         fr: 'Brainstorming',
       },
       description: {
-        en: "Awaken your learners' creativity in an interactive brainstorming session! Pose a guiding question and visualize all ideas in real time in a word cloud. With the rating function and the ability to edit contributions, ideas are further developed and refined. Create an inspiring and collaborative atmosphere where learners can unfold their creativity and develop innovative solutions!\n",
-        de: 'Wecken Sie die Kreativität Ihrer Lernenden in einer interaktiven Brainstorming-Session! Stellen Sie eine Leitfrage und visualisieren Sie alle Ideen in Echtzeit in einer Wortwolke. Mit der Bewertungsfunktion und der Möglichkeit, Beiträge zu bearbeiten, werden die Ideen weiterentwickelt und verfeinert. Schaffen Sie eine inspirierende und kollaborative Atmosphäre, in der die Lernenden ihre Kreativität entfalten und innovative Lösungen entwickeln können!\n',
-        fr: "Éveillez la créativité de vos apprenants lors d'une séance de brainstorming interactif ! Posez une question directrice et visualisez toutes les idées en temps réel dans un nuage de mots. Grâce à la fonction d'évaluation et à la possibilité d'éditer les contributions, les idées sont développées et affinées. Créez une atmosphère inspirante et collaborative où les apprenants peuvent déployer leur créativité et développer des solutions innovantes !\n",
+        en: 'Stir up the creativity of your group with an interactive brainstorming session! Ask a guiding question and visualize all ideas in real-time in a word cloud. Bonus tip: With just one click, ChatGPT generates as many ideas as you need!',
+        de: 'Wecke die Kreativität deiner Gruppe mit einem interaktiven Brainstorming! Stelle eine Leitfrage und visualisiere alle Ideen in Echtzeit in einer Wortwolke. Bonustipp: Mit nur einem Klick generiert dir ChatGPT beliebig viele Ideen!',
+        fr: "Réveille la créativité de ton groupe avec un brainstorming interactif! Pose une question guide et visualise toutes les idées en temps réel dans un nuage de mots. Conseil bonus : Avec un simple clic, ChatGPT génère autant d'idées que tu en as besoin !",
       },
       images: [
         {
@@ -158,9 +158,9 @@ export class HomePageComponent implements OnInit, OnDestroy {
         fr: 'Radar de Questions',
       },
       description: {
-        en: 'Effortlessly keep track of hundreds of questions with our Question Radar! An AI analyzes the questions and suggests thematic keywords. By using DeepL for translation and immediate back-translation, you can ensure that the texts have no linguistic deficits. With the radar, you get a quick overview of the central themes and can reach the hotspots in the Q&A forum with one click!\n',
-        de: 'Behalten Sie mühelos den Überblick über Hunderte von Fragen mit unserem Fragen-Radar! Eine KI analysiert die Fragen und schlägt thematische Stichwörter vor. Durch die Verwendung von DeepL für die Übersetzung und sofortige Rückübersetzung können Sie sicherstellen, dass die Texte keine sprachlichen Defizite aufweisen. Mit dem Radar erhalten Sie einen schnellen Überblick über die zentralen Themen und gelangen mit einem Klick zu den Hotspots im Q&A-Forum!',
-        fr: "Gardez facilement une vue d'ensemble de centaines de questions avec notre Radar de Questions ! Une IA analyse les questions et suggère des mots-clés thématiques. En utilisant DeepL pour la traduction et la retraduction immédiate, vous pouvez vous assurer que les textes ne présentent pas de déficits linguistiques. Avec le radar, vous obtenez un aperçu rapide des thèmes centraux et vous pouvez atteindre les points chauds du forum Q&R en un clic !\n",
+        en: 'Effortlessly keep track of hundreds of questions! An AI analyzes the questions and suggests thematic keywords. With the question radar, you get a quick overview of the central themes and can reach the hotspots in the Q&A forum with just one click!',
+        de: 'Behalte mühelos den Überblick über hunderte von Fragen! Eine KI analysiert die Fragen und schlägt thematische Stichwörter vor. Mit dem Fragen-Radar erhältst du einen schnellen Überblick über die zentralen Themen und gelangst mit einem Klick zu den Hotspots im Q&A-Forum!',
+        fr: "Garde facilement une vue d'ensemble sur des centaines de questions ! Une IA analyse les questions et suggère des mots-clés thématiques. Avec le radar de questions, tu obtiens un aperçu rapide des thèmes centraux et tu peux atteindre les points chauds dans le forum Q&R en un seul clic !",
       },
       images: [
         {
@@ -180,9 +180,9 @@ export class HomePageComponent implements OnInit, OnDestroy {
         fr: 'Focus sur les Questions',
       },
       description: {
-        en: 'Present questions with style and impact! Display questions in large format on a projector and comfortably navigate through the questions using the arrow keys. Switch to autofocus to automatically display new questions in full view. Inspire your learners for insightful discussions and create an interactive learning environment that focuses on questions that have been upvoted or controversially discussed.\n',
-        de: 'Präsentieren Sie Fragen mit Stil und Wirkung! Stellen Sie Fragen großformatig am Beamer dar und navigieren Sie mit den Pfeiltasten bequem durch die Fragen. Schalten Sie in den Autofokus, um neue Fragen automatisch in Vollansicht anzuzeigen. Inspirieren Sie Ihre Lernenden zu aufschlussreichen Diskussionen und schaffen Sie eine interaktive Lernumgebung, die den Fokus auf Fragen legt, die hochgevotet oder kontrovers diskutiert wurden.',
-        fr: "Présentez les questions avec style et impact ! Affichez les questions en grand format sur un projecteur et naviguez confortablement à travers les questions à l'aide des flèches. Passez en mode autofocus pour afficher automatiquement les nouvelles questions en plein écran. Inspirez vos apprenants à des discussions perspicaces et créez un environnement d'apprentissage interactif qui met l'accent sur les questions qui ont été hautement votées ou discutées de manière controversée.\n",
+        en: 'Present questions with style and impact! Show individual questions in large format on the projector. Switch to autofocus to automatically display new questions in full screen. Focus on questions that have been highly rated or controversially discussed.',
+        de: 'Präsentiere Fragen mit Stil und Wirkung! Zeig einzelne Fragen im Großformat am Beamer. Schalte auf Autofokus, um neue Fragen automatisch im Vollbild anzuzeigen. Lege den Fokus auf Fragen, die hoch bewertet oder kontrovers diskutiert wurden.',
+        fr: "Présente des questions avec style et impact ! Affiche des questions individuelles en grand format sur le projecteur. Passe en autofocus pour afficher automatiquement les nouvelles questions en plein écran. Concentre-toi sur les questions qui ont été très bien notées ou qui ont fait l'objet de discussions controversées.",
       },
       images: [
         {
