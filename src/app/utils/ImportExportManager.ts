@@ -48,9 +48,9 @@ export interface ExportTable<K> {
 
 export type ExportStructureItem =
   | ExportEmptyLine
-  | ExportItemValue<any>
-  | ExportItemValues<any>
-  | ExportTable<any>;
+  | ExportItemValue<unknown>
+  | ExportItemValues<unknown>
+  | ExportTable<unknown>;
 
 class CSVParser {
   private readonly parser: RegExp;
@@ -145,12 +145,12 @@ export class ImportExportManager {
             ? ImportExportManager.serializeQuill(strVal)
             : cfg.additional[0] || '';
         },
-        import: (cfg, val: string, c?: any) =>
+        import: (cfg, val: string, c?: unknown) =>
           fill(
             val === (cfg.additional[0] || '')
               ? ''
               : ImportExportManager.deserializeQuill(val),
-            c,
+            c as Partial<T>,
           ),
       },
     };
@@ -257,7 +257,7 @@ export class ImportExportManager {
     count: number,
     last: number,
     objStr: string,
-  ): [any, string] {
+  ): [unknown, string] {
     const result = {};
     while (count-- > 0) {
       const start = last + 1;
@@ -298,7 +298,7 @@ export class ImportExportManager {
     return [result, objStr.substring(last + 1, objStr.length - 1)];
   }
 
-  private static serializeQuillAttributes(attr: any): string {
+  private static serializeQuillAttributes(attr: unknown): string {
     let result = '';
     let count = 0;
     if (attr['code-block']) {
@@ -344,7 +344,7 @@ export class ImportExportManager {
     return count + ';' + result;
   }
 
-  exportToCSV(data: any[]): Observable<string> {
+  exportToCSV(data: unknown[]): Observable<string> {
     return this.translationService.get(this.createTranslationKeys()).pipe(
       map((trans) => {
         let index = 0;
@@ -371,7 +371,7 @@ export class ImportExportManager {
                 );
               }
               result +=
-                this.escape(value) +
+                this.escape(value as string) +
                 this.cellSeparator +
                 this.lineSeparators[0];
               break;
@@ -385,7 +385,7 @@ export class ImportExportManager {
                     trans,
                     item.additionalLanguageKeys,
                   ),
-                  value,
+                  value as unknown[],
                 );
               }
               result =
@@ -395,27 +395,29 @@ export class ImportExportManager {
                 ) + this.lineSeparators[0];
               break;
             case 'table':
-              const rows = new Array(value.length).fill('');
-              item.columns.forEach((col, i) => {
-                key = trans[col.languageKey];
-                result += this.escape(key) + this.cellSeparator;
-                const mapperObj = this.buildMappingObject(
-                  key,
-                  trans,
-                  col.additionalLanguageKeys,
-                );
-                value.forEach(
-                  (e, j) =>
-                    (rows[j] +=
-                      this.escape(col.valueMapper.export(mapperObj, e)) +
-                      this.cellSeparator),
-                );
-              });
-              result +=
-                this.lineSeparators[0] +
-                rows.join(this.lineSeparators[0]) +
-                this.lineSeparators[0];
-              result += this.lineSeparators[0];
+              {
+                const rows = new Array((value as unknown[]).length).fill('');
+                item.columns.forEach((col) => {
+                  key = trans[col.languageKey];
+                  result += this.escape(key) + this.cellSeparator;
+                  const mapperObj = this.buildMappingObject(
+                    key,
+                    trans,
+                    col.additionalLanguageKeys,
+                  );
+                  (value as unknown[]).forEach(
+                    (e, j) =>
+                      (rows[j] +=
+                        this.escape(col.valueMapper.export(mapperObj, e)) +
+                        this.cellSeparator),
+                  );
+                });
+                result +=
+                  this.lineSeparators[0] +
+                  rows.join(this.lineSeparators[0]) +
+                  this.lineSeparators[0];
+                result += this.lineSeparators[0];
+              }
               break;
             default:
               console.error('Discarded data on output: ' + value);
@@ -427,7 +429,7 @@ export class ImportExportManager {
     );
   }
 
-  importFromCSV(str: string): Observable<any[]> {
+  importFromCSV(str: string): Observable<unknown[]> {
     return this.translationService.get(this.createTranslationKeys()).pipe(
       map((trans) => {
         const parser = new CSVParser(
@@ -470,9 +472,9 @@ export class ImportExportManager {
     item: ExportStructureItem,
     line: string[],
     key: string,
-    translateObject: any,
+    translateObject: unknown,
     parser: CSVParser,
-    result: any[],
+    result: unknown[],
   ) {
     let value;
     switch (item.type) {
@@ -505,32 +507,34 @@ export class ImportExportManager {
         result.push(value);
         break;
       case 'table':
-        const cols = line.map((e, i) =>
-          this.buildMappingObject(
-            this.unescape(e),
-            translateObject,
-            item.columns[i].additionalLanguageKeys,
-          ),
-        );
-        const data = [];
-        let dataLine: string[];
-        while ((dataLine = parser.readNextLine()) !== null) {
-          if (dataLine.length < item.columns.length) {
-            break;
-          }
-          data.push(
-            item.columns.reduce(
-              (acc, col, i) =>
-                col.valueMapper.import(
-                  cols[i],
-                  this.unescape(dataLine[i]),
-                  acc,
-                ),
-              null,
+        {
+          const cols = line.map((e, i) =>
+            this.buildMappingObject(
+              this.unescape(e),
+              translateObject,
+              item.columns[i].additionalLanguageKeys,
             ),
           );
+          const data = [];
+          let dataLine: string[];
+          while ((dataLine = parser.readNextLine()) !== null) {
+            if (dataLine.length < item.columns.length) {
+              break;
+            }
+            data.push(
+              item.columns.reduce(
+                (acc, col, i) =>
+                  col.valueMapper.import(
+                    cols[i],
+                    this.unescape(dataLine[i]),
+                    acc,
+                  ),
+                null,
+              ),
+            );
+          }
+          result.push(data);
         }
-        result.push(data);
         break;
       default:
         console.error('Discarded data on input (missing structure): ' + line);
@@ -585,7 +589,7 @@ export class ImportExportManager {
 
   private buildMappingObject(
     key: string,
-    translateObj: any,
+    translateObj: unknown,
     keys: string[],
   ): MapperConfiguration {
     return {

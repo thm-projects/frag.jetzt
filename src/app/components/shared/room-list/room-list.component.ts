@@ -93,12 +93,13 @@ export class RoomListComponent implements OnInit, OnDestroy {
         this.user = user;
         this.getRooms();
       });
-    this.sub = this.eventService.on<any>('RoomDeleted').subscribe((payload) => {
-      this.rooms = this.rooms.filter((r) => r.id !== payload.id);
-      this.roomsWithRole = this.roomsWithRole.filter(
-        (r) => r.id !== payload.id,
-      );
-    });
+    this.sub = this.eventService
+      .on<unknown>('RoomDeleted')
+      .subscribe((payload) => {
+        const id = payload['id'];
+        this.rooms = this.rooms.filter((r) => r.id !== id);
+        this.roomsWithRole = this.roomsWithRole.filter((r) => r.id !== id);
+      });
   }
 
   ngOnDestroy() {

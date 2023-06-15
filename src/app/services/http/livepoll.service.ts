@@ -1,20 +1,12 @@
-import { EventEmitter, Injectable, Injector } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {
-  MAT_DIALOG_DATA,
   MatDialog,
   MatDialogConfig,
   MatDialogRef,
 } from '@angular/material/dialog';
 import { RoomService } from './room.service';
-import {
-  BehaviorSubject,
-  catchError,
-  map,
-  Observable,
-  Subject,
-  tap,
-} from 'rxjs';
+import { BehaviorSubject, catchError, map, Observable, tap } from 'rxjs';
 import { LivepollSession } from 'app/models/livepoll-session';
 import { verifyInstance } from 'app/utils/ts-utils';
 import { BaseHttpService } from './base-http.service';
@@ -28,8 +20,7 @@ import {
 } from '../../components/shared/_dialogs/livepoll/livepoll-dialog/livepoll-dialog.component';
 import { LivepollCreateComponent } from '../../components/shared/_dialogs/livepoll/livepoll-create/livepoll-create.component';
 import { LivepollSummaryComponent } from '../../components/shared/_dialogs/livepoll/livepoll-summary/livepoll-summary.component';
-import { Overlay, OverlayRef } from '@angular/cdk/overlay';
-import { ComponentPortal } from '@angular/cdk/portal';
+import { Overlay } from '@angular/cdk/overlay';
 
 export interface LivepollSessionCreateAPI {
   template: string;
@@ -102,7 +93,7 @@ export class LivepollService extends BaseHttpService {
     return this._dialogState.value > LivepollDialogState.Closed;
   }
 
-  get listener(): Observable<any> {
+  get listener(): Observable<unknown> {
     return LivepollService.livepollEventEmitter;
   }
 
@@ -298,7 +289,7 @@ export class LivepollService extends BaseHttpService {
       dialogRef.afterClosed().subscribe((result) => {
         switch (result?.reason) {
           case 'delete':
-            this.delete(sessionService.currentLivepoll.id).subscribe((res) => {
+            this.delete(sessionService.currentLivepoll.id).subscribe(() => {
               this._dialogState.next(LivepollDialogState.Closed);
               this.openSummary(sessionService, cachedLivepollSession);
             });

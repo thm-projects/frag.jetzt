@@ -37,6 +37,6 @@ export const defaultCategories = {
   ],
   default: ['Feedback', '»frag.jetzt«', 'Quizzing'],
 } as const;
-
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const ASSERT_VALID: HasObjectArrayStringLengths<typeof defaultCategories> =
   true;

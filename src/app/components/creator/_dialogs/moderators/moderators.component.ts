@@ -39,12 +39,12 @@ export class ModeratorsComponent implements OnInit, OnDestroy {
     public translationService: TranslateService,
     protected moderatorService: ModeratorService,
     protected langService: LanguageService,
-    @Inject(MAT_DIALOG_DATA) public data: any,
+    @Inject(MAT_DIALOG_DATA) public data: unknown,
   ) {
     langService
       .getLanguage()
       .pipe(takeUntil(this._destroyer))
-      .subscribe((_) => {
+      .subscribe(() => {
         this.translationService
           .get('moderators-dialog.not-generated')
           .subscribe((msg) => (this.notGeneratedMessage = msg));
@@ -132,12 +132,12 @@ export class ModeratorsComponent implements OnInit, OnDestroy {
   getModerators() {
     this.moderatorService.get(this.roomId).subscribe((list) => {
       this.moderators = list;
-      this.moderators.forEach((user: any, i) => {
+      this.moderators.forEach((user: { accountId: string }, i) => {
         this.userIds[i] = user.accountId;
       });
       this.moderatorService.getUserData(this.userIds).subscribe((users) => {
-        users.forEach((user: any, i) => {
-          this.moderators[i].loginId = user.email;
+        users.forEach((user, i) => {
+          this.moderators[i].loginId = user['email'];
         });
       });
     });
@@ -179,7 +179,7 @@ export class ModeratorsComponent implements OnInit, OnDestroy {
   }
 
   removeModerator(userId: string, index: number) {
-    this.moderatorService.delete(this.roomId, userId).subscribe((_) => {
+    this.moderatorService.delete(this.roomId, userId).subscribe(() => {
       this.moderators.splice(index, 1);
     });
     this.translationService

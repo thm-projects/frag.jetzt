@@ -189,7 +189,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     this.sessionService
       .getRoomOnce()
       .pipe(
-        mergeMap((_) =>
+        mergeMap(() =>
           this.roomDataService.dataAccessor.receiveUpdates([
             { type: 'CommentCreated' },
           ]),

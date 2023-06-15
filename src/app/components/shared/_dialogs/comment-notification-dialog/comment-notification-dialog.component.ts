@@ -53,7 +53,7 @@ export class CommentNotificationDialogComponent implements OnInit, OnDestroy {
     this.languageService
       .getLanguage()
       .pipe(takeUntil(this._destroyer))
-      .subscribe((_) => {
+      .subscribe(() => {
         this.translateService
           .get('comment-notification.last-setting')
           .subscribe((text) => (this.lastSetting = text));
@@ -169,7 +169,7 @@ export class CommentNotificationDialogComponent implements OnInit, OnDestroy {
     const date = CommentNotificationDialogComponent.notificationSettingToDate(
       c.notificationSetting,
     );
-    if (!!this.notifications[date.getDay()]) {
+    if (this.notifications[date.getDay()]) {
       console.warn('Notifications should never be overridden!');
     }
     this.notifications[date.getDay()] = [date, c.id];

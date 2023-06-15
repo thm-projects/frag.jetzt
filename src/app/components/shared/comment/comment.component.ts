@@ -406,7 +406,7 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
     return keywords.sort((a, b) => a.text.localeCompare(b.text));
   }
 
-  toggleExpand(evt: MouseEvent) {
+  toggleExpand() {
     this.isExpanded = !this.isExpanded;
     if (this.isExpanded) {
       this.commentBody.setAutoHeight(true);
@@ -455,7 +455,7 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
 
   toggleApproved(): void {
     this.comment.approved = !this.comment.approved;
-    const changes = new TSMap<string, any>();
+    const changes = new TSMap<string, unknown>();
     changes.set('approved', this.comment.approved);
     this.commentService.patchComment(this.comment, changes).subscribe((c) => {
       this.comment.approved = c.approved;
@@ -507,13 +507,13 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.hasVoted !== 1) {
       this.commentService
         .voteUp(comment, userId)
-        .subscribe((_) => this.votedComment.emit(this.comment.id));
+        .subscribe(() => this.votedComment.emit(this.comment.id));
       this.hasVoted = 1;
       this.currentVote = '1';
     } else {
       this.commentService
         .resetVote(comment, userId)
-        .subscribe((_) => this.votedComment.emit(this.comment.id));
+        .subscribe(() => this.votedComment.emit(this.comment.id));
       this.hasVoted = 0;
       this.currentVote = '0';
     }
@@ -528,13 +528,13 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.hasVoted !== -1) {
       this.commentService
         .voteDown(comment, userId)
-        .subscribe((_) => this.votedComment.emit(this.comment.id));
+        .subscribe(() => this.votedComment.emit(this.comment.id));
       this.hasVoted = -1;
       this.currentVote = '-1';
     } else {
       this.commentService
         .resetVote(comment, userId)
-        .subscribe((_) => this.votedComment.emit(this.comment.id));
+        .subscribe(() => this.votedComment.emit(this.comment.id));
       this.hasVoted = 0;
       this.currentVote = '0';
     }
@@ -648,7 +648,7 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   delete(): void {
-    this.commentService.deleteComment(this.comment.id).subscribe((room) => {
+    this.commentService.deleteComment(this.comment.id).subscribe(() => {
       this.translateService
         .get('comment-list.comment-deleted')
         .subscribe((msg) => {
@@ -686,7 +686,7 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  goToFullScreen(element: Element): void {
+  goToFullScreen(): void {
     Rescale.requestFullscreen();
   }
 
@@ -712,7 +712,7 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
       width: '100%',
     });
     dialogRef.componentInstance.body = comment.body;
-    dialogRef.afterClosed().subscribe((result) => {
+    dialogRef.afterClosed().subscribe(() => {
       this.commentService.lowlight(comment).subscribe();
       this.exitFullScreen();
     });

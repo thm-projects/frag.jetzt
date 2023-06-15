@@ -23,7 +23,7 @@ import { StartUpService } from '../../../../../services/util/start-up.service';
 })
 export class MotdMessageComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() message: Motd;
-  @ViewChild('markdown', { static: true }) markdown: any;
+  @ViewChild('markdown', { static: true }) markdown: unknown;
   translatedMessage: string;
   date: EventEmitter<ArsApproximateDate> =
     new EventEmitter<ArsApproximateDate>();
@@ -68,8 +68,9 @@ export class MotdMessageComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
+    //TODO
     Array.from<HTMLElement>(
-      this.markdown.element.nativeElement.children,
+      this.markdown['element'].nativeElement.children,
     ).forEach((e) => (e.tabIndex = 0));
   }
 

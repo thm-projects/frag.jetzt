@@ -116,7 +116,7 @@ export class Marks {
     this.sync();
   }
 
-  private refreshMarkByOpDelete(op: any, index: number): void {
+  private refreshMarkByOpDelete(op: unknown, index: number): void {
     const len = op['delete'];
     const endDelete = index + len;
     this.textErrors = this.textErrors.filter((textError) => {
@@ -146,7 +146,7 @@ export class Marks {
     });
   }
 
-  private refreshMarkByOpInsert(op: any, index: number): number {
+  private refreshMarkByOpInsert(op: unknown, index: number): number {
     const len = typeof op['insert'] === 'string' ? op['insert'].length : 1;
     for (const textError of this.textErrors) {
       if (index > textError.startIndex + textError.markLength) {
@@ -161,7 +161,7 @@ export class Marks {
     return len;
   }
 
-  private createMark(start: number, len: number, dataObject: any) {
+  private createMark(start: number, len: number, dataObject: unknown) {
     const newMark = new Mark(
       start,
       len,
@@ -169,13 +169,17 @@ export class Marks {
       this.tooltipContainer,
       this.editor.quillEditor,
     );
-    newMark.setSuggestions(dataObject.replacements, dataObject.message, () => {
-      const index = this.textErrors.findIndex((elem) => elem === newMark);
-      if (index >= 0) {
-        this.textErrors.splice(index, 1);
-      }
-      newMark.remove();
-    });
+    newMark.setSuggestions(
+      dataObject['replacements'],
+      dataObject['message'],
+      () => {
+        const index = this.textErrors.findIndex((elem) => elem === newMark);
+        if (index >= 0) {
+          this.textErrors.splice(index, 1);
+        }
+        newMark.remove();
+      },
+    );
     this.textErrors.push(newMark);
   }
 }
@@ -191,7 +195,7 @@ class Mark {
     public markLength,
     private markContainer: HTMLDivElement,
     private tooltipContainer: HTMLDivElement,
-    private quillEditor: any,
+    private quillEditor: QuillEditorComponent['quillEditor'],
   ) {}
 
   syncMark(parentRect: DOMRect, offset: number) {
@@ -311,7 +315,7 @@ class Mark {
   }
 
   private updateBoundaryForText(
-    op: any,
+    op: unknown,
     bounds: [number, number][],
     currentIndex: number,
   ) {

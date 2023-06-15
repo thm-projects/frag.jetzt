@@ -39,36 +39,45 @@ export class DeepLDialogComponent implements OnInit, AfterViewInit {
   improvedValue: ResultValue;
   supportsFormality: boolean;
   formality: FormalityType;
+  maxTextCharacters: number;
+  maxDataCharacters: number;
+  isModerator: boolean;
 
   constructor(
     private dialogRef: MatDialogRef<DeepLDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any,
+    @Inject(MAT_DIALOG_DATA) public data: unknown,
     private notificationService: NotificationService,
     private translateService: TranslateService,
     private deeplService: DeepLService,
     private dialog: MatDialog,
   ) {
-    this.supportsFormality = DeepLService.supportsFormality(this.data.target);
+    this.supportsFormality = DeepLService.supportsFormality(
+      this.data['target'],
+    );
   }
 
   ngOnInit(): void {
     this.normalValue = {
-      body: this.data.body,
-      text: this.data.text,
+      body: this.data['body'],
+      text: this.data['text'],
       view: this.normal,
     };
     this.improvedValue = {
-      body: this.data.improvedBody,
-      text: this.data.improvedText,
+      body: this.data['improvedBody'],
+      text: this.data['improvedText'],
       view: this.improved,
     };
     this.radioButtonValue = this.normalValue;
-    this.formality = this.data.formality;
+    this.formality = this.data['formality'];
+
+    this.maxTextCharacters = this.data['maxTextCharacters'];
+    this.maxDataCharacters = this.data['maxDataCharacters'];
+    this.isModerator = this.data['isModerator'];
   }
 
   ngAfterViewInit() {
     const build = () => {
-      this.normal.buildMarks(this.data.text, this.data.result);
+      this.normal.buildMarks(this.data['text'], this.data['result']);
     };
     if (this.normal.initialized) {
       build();
@@ -101,11 +110,11 @@ export class DeepLDialogComponent implements OnInit, AfterViewInit {
           current.text,
           this.translateService,
           this.notificationService,
-          this.data.maxTextCharacters,
-          this.data.maxDataCharacters,
+          this.maxTextCharacters,
+          this.maxDataCharacters,
         )
       ) {
-        this.data.onClose(current, true);
+        this.data['onClose']?.(current, true);
         this.dialogRef.close(true);
       }
     };
@@ -121,8 +130,8 @@ export class DeepLDialogComponent implements OnInit, AfterViewInit {
   onFormalityChange(formality: string) {
     this.deeplService
       .improveDelta(
-        this.data.body,
-        this.data.usedTarget,
+        this.data['body'],
+        this.data['usedTarget'],
         formality as FormalityType,
       )
       .subscribe({

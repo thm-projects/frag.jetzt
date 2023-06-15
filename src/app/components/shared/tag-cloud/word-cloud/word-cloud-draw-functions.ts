@@ -61,12 +61,12 @@ interface PrepareCollideArguments {
 
 export class WordCloudDrawFunctions {
   static calculateCloud<T extends WordMeta>(
-    elements: ActiveWord<T>[],
+    elements: ActiveWord<T, CloudDrawFuncType<T>>[],
     parentWidth: number,
     parentHeight: number,
     minHeight: number,
   ) {
-    const currentElements = [] as ActiveWord<T>[];
+    const currentElements = [] as ActiveWord<T, CloudDrawFuncType<T>>[];
     const aspectSquared = Math.pow(parentHeight / parentWidth, 2);
     const width = parentWidth * 2;
     const height = parentHeight * 2;

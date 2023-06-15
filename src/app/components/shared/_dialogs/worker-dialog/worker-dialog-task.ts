@@ -75,7 +75,7 @@ export class WorkerDialogTask {
   }
 
   private finishSpacyCall(index: number, result: KeywordsResult): void {
-    let undo: () => any = () => '';
+    let undo: () => unknown = () => '';
     if (result.resultType === KeywordsResultType.BadSpelled) {
       this.statistics.badSpelled++;
       undo = () => this.statistics.badSpelled--;
@@ -96,7 +96,7 @@ export class WorkerDialogTask {
     tags: SpacyKeyword[],
     index: number,
     language: Language,
-    undo: () => any,
+    undo: () => unknown,
   ) {
     const changes = new TSMap<string, string>();
     changes.set('keywordsFromSpacy', JSON.stringify(tags));

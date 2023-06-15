@@ -68,7 +68,7 @@ export class BonusTokenService extends BaseHttpService {
       `${this.apiUrl.base + this.apiUrl.bonustoken + this.apiUrl.delete}` +
       `?&commentid=${commentId}&userid=${userId}`;
     return this.http.delete<BonusToken>(connectionUrl, httpOptions).pipe(
-      tap((_) => ''),
+      tap(() => ''),
       catchError(this.handleError<BonusToken>('deleteToken')),
     );
   }
@@ -78,7 +78,7 @@ export class BonusTokenService extends BaseHttpService {
       this.apiUrl.base + this.apiUrl.bonustoken + this.apiUrl.deleteByRoom
     }?roomid=${roomId}`;
     return this.http.delete<BonusToken>(connectionUrl, httpOptions).pipe(
-      tap((_) => ''),
+      tap(() => ''),
       catchError(this.handleError<BonusToken>('deleteToken')),
     );
   }

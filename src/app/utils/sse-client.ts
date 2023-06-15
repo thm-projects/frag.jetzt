@@ -9,7 +9,7 @@ class ServerSentEvent {
     public readonly retry: string,
   ) {}
 
-  public jsonData(): any {
+  public jsonData(): unknown {
     return JSON.parse(this.data);
   }
 }
@@ -17,7 +17,7 @@ class ServerSentEvent {
 export const postSSE = (
   httpClient: HttpClient,
   url: string,
-  body: any,
+  body: unknown,
 ): Observable<ServerSentEvent> => {
   const request = new HttpRequest('POST', url, body, {
     reportProgress: true,

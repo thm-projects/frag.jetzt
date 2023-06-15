@@ -8,10 +8,10 @@ interface DataAccess {
     storeName: string,
     values: Array<
       T & {
-        key?: any;
+        key?: unknown;
       }
     >,
-  ): Observable<any>;
+  ): Observable<unknown>;
   update<T>(storeName: string, value: T): Observable<T>;
   getAll<T>(storeName: string): Observable<T[]>;
   getAllByIndex<T>(
@@ -20,7 +20,7 @@ interface DataAccess {
     keyRange: IDBKeyRange,
   ): Observable<T[]>;
   deleteByKey(storeName: string, key: Key): Observable<boolean>;
-  bulkGet<T>(storeName: string, keys: Array<IDBValidKey>): any;
+  bulkGet(storeName: string, keys: Array<IDBValidKey>): Observable<unknown[]>;
   getByKey<T>(storeName: string, key: IDBValidKey): Observable<T>;
 }
 
@@ -33,8 +33,8 @@ DB_CONFIG.objectStoresMeta.forEach((meta) => {
 class LocalDataAccess implements DataAccess {
   bulkAdd<T>(
     storeName: string,
-    values: Array<T & { key?: any }>,
-  ): Observable<any> {
+    values: Array<T & { key?: unknown }>,
+  ): Observable<unknown> {
     const meta = this.getMeta(storeName);
     values.forEach((value) => this.insert(storeName, value, meta, false));
     return of(true);
@@ -97,7 +97,7 @@ class LocalDataAccess implements DataAccess {
     return of(result);
   }
 
-  bulkGet<T>(storeName: string, keys: IDBValidKey[]) {
+  bulkGet(storeName: string, keys: IDBValidKey[]) {
     this.getMeta(storeName);
     const result = [];
     keys.forEach((key) => {
@@ -139,7 +139,7 @@ class LocalDataAccess implements DataAccess {
 
   private insert(
     store: string,
-    value: any,
+    value: unknown,
     meta?: ObjectStoreMeta,
     allowPresent = true,
   ) {
@@ -158,7 +158,7 @@ class LocalDataAccess implements DataAccess {
   private deleteSchema(
     store: string,
     meta: ObjectStoreMeta,
-    value: any,
+    value: unknown,
     valueId: string,
   ) {
     meta.storeSchema.forEach((schema) => {
@@ -182,7 +182,7 @@ class LocalDataAccess implements DataAccess {
   private updateSchema(
     store: string,
     meta: ObjectStoreMeta,
-    value: any,
+    value: unknown,
     valueId: string,
   ): void {
     meta.storeSchema.forEach((schema) => {
@@ -200,7 +200,7 @@ class LocalDataAccess implements DataAccess {
         }
         localStorage.setItem(key, valueId);
       } else {
-        const arr = (JSON.parse(oldVal) as any[]) || [];
+        const arr = (JSON.parse(oldVal) as unknown[]) || [];
         if (!arr.includes(valueId)) {
           arr.push(valueId);
         }
@@ -213,7 +213,7 @@ class LocalDataAccess implements DataAccess {
     return `idb-${store}.${id}`;
   }
 
-  private getId(keyPath: string | string[], value: any): string {
+  private getId(keyPath: string | string[], value: unknown): string {
     if (Array.isArray(keyPath)) {
       return keyPath.map((x) => value[x]).join('.');
     } else {
@@ -241,8 +241,8 @@ export class PersistentDataService implements DataAccess {
 
   bulkAdd<T>(
     storeName: string,
-    values: (T & { key?: any })[],
-  ): Observable<any> {
+    values: (T & { key?: unknown })[],
+  ): Observable<unknown> {
     return this.access.pipe(
       take(1),
       mergeMap((access) => access.bulkAdd<T>(storeName, values)),
@@ -283,10 +283,10 @@ export class PersistentDataService implements DataAccess {
     );
   }
 
-  bulkGet<T>(storeName: string, keys: IDBValidKey[]) {
+  bulkGet(storeName: string, keys: IDBValidKey[]) {
     return this.access.pipe(
       take(1),
-      mergeMap((access) => access.bulkGet<T>(storeName, keys)),
+      mergeMap((access) => access.bulkGet(storeName, keys)),
     );
   }
 

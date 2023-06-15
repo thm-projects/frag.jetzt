@@ -1,22 +1,14 @@
-import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  OnInit,
-  Renderer2,
-} from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Renderer2 } from '@angular/core';
 
 @Component({
   selector: 'app-question-wall-intro',
   templateUrl: './question-wall-intro.component.html',
   styleUrls: ['./question-wall-intro.component.scss'],
 })
-export class QuestionWallIntroComponent implements OnInit, AfterViewInit {
+export class QuestionWallIntroComponent implements AfterViewInit {
   resolved: boolean = false;
 
   constructor(private r: Renderer2, private ref: ElementRef) {}
-
-  ngOnInit(): void {}
 
   ngAfterViewInit() {
     this.backgroundAnimation();

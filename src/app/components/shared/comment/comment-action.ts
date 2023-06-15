@@ -144,10 +144,3 @@ export const IconActionArias: { [key in IconActionKey]: IconActionARIA[] } = {
     },
   ],
 };
-
-const stateToNum = (state: MenuState): number => {
-  if (state === 'outside') return 0;
-  if (state === 'anywhere') return 1;
-  if (state === 'inside') return 2;
-  throw new Error('Invalid state');
-};

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { LanguageService } from '../../../../../services/util/language.service';
 
@@ -7,13 +7,11 @@ import { LanguageService } from '../../../../../services/util/language.service';
   templateUrl: './introduction-tag-cloud.component.html',
   styleUrls: ['./introduction-tag-cloud.component.scss'],
 })
-export class IntroductionTagCloudComponent implements OnInit {
+export class IntroductionTagCloudComponent {
   constructor(
     private dialogRef: MatDialogRef<IntroductionTagCloudComponent>,
     public languageService: LanguageService,
   ) {}
-
-  ngOnInit(): void {}
 
   onClose() {
     this.dialogRef.close();

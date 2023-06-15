@@ -41,7 +41,7 @@ export class FooterComponent implements OnInit {
   public user: User;
   public open: string;
   public themes: Theme[];
-  private _tourSite: ComponentType<any>;
+  private _tourSite: ComponentType<unknown>;
 
   constructor(
     public notificationService: NotificationService,

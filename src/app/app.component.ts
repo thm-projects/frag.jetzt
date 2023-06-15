@@ -73,7 +73,7 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.update.versionUpdates
       .pipe(filter((e) => e.type === 'VERSION_READY'))
-      .subscribe((_) => UpdateInfoDialogComponent.open(this.dialog));
+      .subscribe(() => UpdateInfoDialogComponent.open(this.dialog));
   }
 
   public getRescale(): Rescale {

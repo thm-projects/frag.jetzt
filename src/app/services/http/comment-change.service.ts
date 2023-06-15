@@ -54,7 +54,7 @@ export class CommentChangeService extends BaseHttpService {
         httpOptions,
       )
       .pipe(
-        tap((_) => ''),
+        tap(() => ''),
         catchError(this.handleError<CommentChange[]>('findAllChangesSince')),
       );
   }
@@ -63,7 +63,7 @@ export class CommentChangeService extends BaseHttpService {
     const connectionUrl =
       this.apiUrl.base + this.apiUrl.commentChange + '/' + id;
     return this.http.get<CommentChange>(connectionUrl, httpOptions).pipe(
-      tap((_) => ''),
+      tap(() => ''),
       catchError(this.handleError<CommentChange>('getCommentChangeById')),
     );
   }
@@ -80,7 +80,7 @@ export class CommentChangeService extends BaseHttpService {
     return this.http
       .post<CommentChangeSubscription>(connectionUrl, null, httpOptions)
       .pipe(
-        tap((_) => ''),
+        tap(() => ''),
         catchError(
           this.handleError<CommentChangeSubscription>(
             'createCommentSubscription',
@@ -89,16 +89,16 @@ export class CommentChangeService extends BaseHttpService {
       );
   }
 
-  deleteCommentSubscription(commentId: string): Observable<any> {
+  deleteCommentSubscription(commentId: string): Observable<void> {
     const connectionUrl =
       this.apiUrl.base +
       this.apiUrl.commentChange +
       this.apiUrl.commentSubscribe +
       '/' +
       commentId;
-    return this.http.delete<any>(connectionUrl, httpOptions).pipe(
-      tap((_) => ''),
-      catchError(this.handleError<any>('deleteCommentSubscription')),
+    return this.http.delete<void>(connectionUrl, httpOptions).pipe(
+      tap(() => ''),
+      catchError(this.handleError<void>('deleteCommentSubscription')),
     );
   }
 
@@ -110,7 +110,7 @@ export class CommentChangeService extends BaseHttpService {
     return this.http
       .get<CommentChangeSubscription[]>(connectionUrl, httpOptions)
       .pipe(
-        tap((_) => ''),
+        tap(() => ''),
         catchError(
           this.handleError<CommentChangeSubscription[]>(
             'getCommentSubscriptions',
@@ -131,7 +131,7 @@ export class CommentChangeService extends BaseHttpService {
     return this.http
       .post<RoomCommentChangeSubscription>(connectionUrl, null, httpOptions)
       .pipe(
-        tap((_) => ''),
+        tap(() => ''),
         catchError(
           this.handleError<RoomCommentChangeSubscription>(
             'createRoomSubscription',
@@ -140,16 +140,16 @@ export class CommentChangeService extends BaseHttpService {
       );
   }
 
-  deleteRoomSubscription(roomId: string): Observable<any> {
+  deleteRoomSubscription(roomId: string): Observable<void> {
     const connectionUrl =
       this.apiUrl.base +
       this.apiUrl.commentChange +
       this.apiUrl.roomSubscribe +
       '/' +
       roomId;
-    return this.http.delete<any>(connectionUrl, httpOptions).pipe(
-      tap((_) => ''),
-      catchError(this.handleError<any>('deleteRoomSubscription')),
+    return this.http.delete<void>(connectionUrl, httpOptions).pipe(
+      tap(() => ''),
+      catchError(this.handleError<void>('deleteRoomSubscription')),
     );
   }
 
@@ -159,7 +159,7 @@ export class CommentChangeService extends BaseHttpService {
     return this.http
       .get<RoomCommentChangeSubscription[]>(connectionUrl, httpOptions)
       .pipe(
-        tap((_) => ''),
+        tap(() => ''),
         catchError(
           this.handleError<RoomCommentChangeSubscription[]>(
             'getRoomSubscriptions',

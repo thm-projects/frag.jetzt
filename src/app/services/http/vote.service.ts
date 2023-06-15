@@ -1,14 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Vote } from '../../models/vote';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { AuthenticationService } from './authentication.service';
 import { BaseHttpService } from './base-http.service';
-
-const httpOptions = {
-  headers: new HttpHeaders({}),
-};
 
 @Injectable()
 export class VoteService extends BaseHttpService {

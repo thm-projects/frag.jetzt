@@ -1,10 +1,4 @@
-import {
-  Component,
-  ElementRef,
-  Input,
-  OnChanges,
-  SimpleChanges,
-} from '@angular/core';
+import { Component, ElementRef, Input, OnChanges } from '@angular/core';
 
 @Component({
   selector: 'app-custom-markdown',
@@ -98,13 +92,13 @@ export class CustomMarkdownComponent implements OnChanges {
     return elem.value;
   }
 
-  ngOnChanges(changes: SimpleChanges) {
+  ngOnChanges() {
     if (this.data != null) {
       this.render(this.data);
     }
   }
 
-  private render(markdown: string, decodeHtml = false): void {
+  private render(markdown: string): void {
     if (this.katex) {
       markdown = CustomMarkdownComponent.fixKatex(markdown);
     }

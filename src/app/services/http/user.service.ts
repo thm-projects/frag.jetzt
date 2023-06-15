@@ -45,8 +45,8 @@ export class UserService extends BaseHttpService {
       '/~' +
       encodeURIComponent(username) +
       this.apiUrl.resetActivation;
-    return this.http.post<any>(connectionUrl, httpOptions).pipe(
-      tap((_) => ''),
+    return this.http.post<User>(connectionUrl, httpOptions).pipe(
+      tap(() => ''),
       catchError(this.handleError<User>('resetActivation')),
     );
   }
@@ -55,7 +55,7 @@ export class UserService extends BaseHttpService {
     const connectionUrl: string =
       this.apiUrl.base + this.apiUrl.user + '/' + id;
     return this.http.delete<User>(connectionUrl, httpOptions).pipe(
-      tap((_) => ''),
+      tap(() => ''),
       catchError(this.handleError<User>('deleteUser')),
     );
   }

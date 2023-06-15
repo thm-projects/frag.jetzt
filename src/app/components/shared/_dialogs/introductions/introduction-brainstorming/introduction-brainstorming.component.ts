@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { LanguageService } from '../../../../../services/util/language.service';
 
@@ -7,13 +7,11 @@ import { LanguageService } from '../../../../../services/util/language.service';
   templateUrl: './introduction-brainstorming.component.html',
   styleUrls: ['./introduction-brainstorming.component.scss'],
 })
-export class IntroductionBrainstormingComponent implements OnInit {
+export class IntroductionBrainstormingComponent {
   constructor(
     private dialogRef: MatDialogRef<IntroductionBrainstormingComponent>,
     public languageService: LanguageService,
   ) {}
-
-  ngOnInit(): void {}
 
   onClose() {
     this.dialogRef.close();

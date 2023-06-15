@@ -1,4 +1,4 @@
-import { Component, Injector, Input, OnInit } from '@angular/core';
+import { Component, Injector, Input } from '@angular/core';
 import { Room } from '../../../../models/room';
 import { TSMap } from 'typescript-map';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
@@ -11,7 +11,7 @@ import { RoomDataService } from '../../../../services/util/room-data.service';
   templateUrl: './worker-dialog.component.html',
   styleUrls: ['./worker-dialog.component.scss'],
 })
-export class WorkerDialogComponent implements OnInit {
+export class WorkerDialogComponent {
   private static dialogRef: MatDialogRef<WorkerDialogComponent> = null;
   private static queuedRooms = new TSMap<string, WorkerDialogTask>();
 
@@ -45,7 +45,7 @@ export class WorkerDialogComponent implements OnInit {
         closeOnNavigation: false,
         panelClass: 'workerContainer',
       });
-      this.dialogRef.beforeClosed().subscribe((_) => {
+      this.dialogRef.beforeClosed().subscribe(() => {
         for (const value of WorkerDialogComponent.queuedRooms.values()) {
           value.error = 'interrupt';
         }
@@ -82,8 +82,6 @@ export class WorkerDialogComponent implements OnInit {
     this.dialogRef.componentInstance.appendRoom(room, [...comments]);
     return true;
   }
-
-  ngOnInit(): void {}
 
   checkTasks(event: BeforeUnloadEvent) {
     if (WorkerDialogComponent.queuedRooms.length > 0) {

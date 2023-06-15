@@ -206,8 +206,8 @@ export class NavigationComponent implements OnInit, OnDestroy {
           this.sessionService.currentRoom,
           this.userManagementService.getCurrentUser(),
         ),
-      navigate: (route) => this.livepollService.open(this.sessionService),
-      isCurrentRoute: (route) => false,
+      navigate: () => this.livepollService.open(this.sessionService),
+      isCurrentRoute: () => false,
     },
     {
       id: 'radar',
@@ -273,7 +273,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
       active: false,
       i18n: 'header.room-qr',
       icon: 'qr_code',
-      isCurrentRoute: (route) => false,
+      isCurrentRoute: () => false,
       canBeAccessedOnRoute: (route) => ROOM_REGEX.test(route),
       navigate: () => {
         this.showQRDialog();
@@ -491,7 +491,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
     const room = this.sessionService.currentRoom;
     dialogRef.componentInstance.data = `${location.origin}/participant/room/${room?.shortId}`;
     dialogRef.componentInstance.key = room?.shortId;
-    dialogRef.afterClosed().subscribe((res) => {
+    dialogRef.afterClosed().subscribe(() => {
       Rescale.exitFullscreen();
     });
   }

@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { DialogConfirmActionButtonType } from '../../dialog/dialog-action-buttons/dialog-action-buttons.component';
 import { UserRole } from '../../../../models/user-roles.enum';
@@ -8,7 +8,7 @@ import { UserRole } from '../../../../models/user-roles.enum';
   templateUrl: './remove-from-history.component.html',
   styleUrls: ['./remove-from-history.component.scss'],
 })
-export class RemoveFromHistoryComponent implements OnInit {
+export class RemoveFromHistoryComponent {
   confirmButtonType: DialogConfirmActionButtonType =
     DialogConfirmActionButtonType.Alert;
 
@@ -17,10 +17,8 @@ export class RemoveFromHistoryComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<RemoveFromHistoryComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any,
+    @Inject(MAT_DIALOG_DATA) public data: unknown,
   ) {}
-
-  ngOnInit() {}
 
   close(type: string): void {
     this.dialogRef.close(type);

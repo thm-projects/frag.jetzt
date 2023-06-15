@@ -18,7 +18,7 @@ export class AppConfig {
           AppConfig.settings = response;
           resolve();
         })
-        .catch((response: any) => {
+        .catch((response: unknown) => {
           reject(
             `Could not load file '${jsonFile}': ${JSON.stringify(response)}`,
           );

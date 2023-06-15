@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { DialogConfirmActionButtonType } from '../../../shared/dialog/dialog-action-buttons/dialog-action-buttons.component';
 import { MatDialogRef } from '@angular/material/dialog';
@@ -9,7 +9,7 @@ import { LanguageService } from '../../../../services/util/language.service';
   templateUrl: './data-protection.component.html',
   styleUrls: ['./data-protection.component.scss'],
 })
-export class DataProtectionComponent implements OnInit {
+export class DataProtectionComponent {
   confirmButtonType: DialogConfirmActionButtonType;
 
   constructor(
@@ -19,8 +19,6 @@ export class DataProtectionComponent implements OnInit {
   ) {
     this.confirmButtonType = DialogConfirmActionButtonType.Primary;
   }
-
-  ngOnInit() {}
 
   buildDeclineActionCallback(): () => void {
     return () => this.dialogRef.close(false);

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { LanguageService } from '../../../../../services/util/language.service';
 import { MatDialogRef } from '@angular/material/dialog';
 
@@ -7,13 +7,11 @@ import { MatDialogRef } from '@angular/material/dialog';
   templateUrl: './introduction-question-wall.component.html',
   styleUrls: ['./introduction-question-wall.component.scss'],
 })
-export class IntroductionQuestionWallComponent implements OnInit {
+export class IntroductionQuestionWallComponent {
   constructor(
     private dialogRef: MatDialogRef<IntroductionQuestionWallComponent>,
     public languageService: LanguageService,
   ) {}
-
-  ngOnInit(): void {}
 
   onClose() {
     this.dialogRef.close();

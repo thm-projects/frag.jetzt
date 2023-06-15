@@ -41,7 +41,7 @@ export interface KeywordsResult {
   keywords: SpacyKeyword[];
   language: CommentLanguage;
   resultType: KeywordsResultType;
-  error?: any;
+  error?: unknown;
   wasSpacyError?: boolean;
   wasDeepLError?: boolean;
 }
@@ -84,7 +84,7 @@ export class KeywordExtractor {
   ) {}
 
   static isKeywordAcceptable(keyword: string): boolean {
-    const regex = /^[ -\/:-@\[-`{-~]+$/g;
+    const regex = /^[ -/:-@[-`{-~]+$/g;
     // accept only if some normal characters are present
     return keyword.match(regex) === null && keyword.length > 2;
   }
@@ -270,7 +270,7 @@ export class KeywordExtractor {
     return this.deeplService
       .improveDelta(body, target, FormalityType.Less)
       .pipe(
-        switchMap(([_, improvedText]) =>
+        switchMap(([, improvedText]) =>
           this.callSpacy(improvedText.trim(), finalLanguage, commentModel),
         ),
         catchError((err) =>

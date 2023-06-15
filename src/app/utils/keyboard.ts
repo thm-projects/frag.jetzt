@@ -1,4 +1,4 @@
-import { KeyboardKey, KEYBOARD_KEYS, IKeyboardKey } from './keyboard/keys';
+import { KeyboardKey, KEYBOARD_KEYS } from './keyboard/keys';
 
 /**
  * Contains keyboard processing helper functions.

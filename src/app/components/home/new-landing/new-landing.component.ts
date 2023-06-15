@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { RoomCreateComponent } from '../../shared/_dialogs/room-create/room-create.component';
 import { MatDialog } from '@angular/material/dialog';
 import { SessionService } from '../../../services/util/session.service';
@@ -8,13 +8,11 @@ import { SessionService } from '../../../services/util/session.service';
   templateUrl: './new-landing.component.html',
   styleUrls: ['./new-landing.component.scss'],
 })
-export class NewLandingComponent implements OnInit {
+export class NewLandingComponent {
   constructor(
     public dialog: MatDialog,
     public sessionService: SessionService,
   ) {}
-
-  ngOnInit() {}
 
   openCreateRoomDialog(): void {
     this.dialog.open(RoomCreateComponent, {

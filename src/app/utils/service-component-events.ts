@@ -6,9 +6,7 @@ export class ServiceComponentEvent {
   constructor(public readonly name: string) {}
 }
 
-export class ServiceRequest<
-  T extends ComponentResponse,
-> extends ServiceComponentEvent {
+export class ServiceRequest extends ServiceComponentEvent {
   constructor(name: string, public readonly responseName: string) {
     super(name);
   }
@@ -16,7 +14,7 @@ export class ServiceRequest<
 
 export class ComponentResponse extends ServiceComponentEvent {}
 
-export class LoginDialogRequest extends ServiceRequest<LoginDialogResponse> {
+export class LoginDialogRequest extends ServiceRequest {
   constructor(public readonly redirectUrl: string = null) {
     super(LoginDialogRequest.name, LoginDialogResponse.name);
   }
@@ -28,7 +26,7 @@ export class LoginDialogResponse extends ComponentResponse {
   }
 }
 
-export class MotdDialogRequest extends ServiceRequest<MotdDialogResponse> {
+export class MotdDialogRequest extends ServiceRequest {
   constructor(public readonly motds: MotdAPI[]) {
     super(MotdDialogRequest.name, MotdDialogResponse.name);
   }
@@ -40,7 +38,7 @@ export class MotdDialogResponse extends ComponentResponse {
   }
 }
 
-export class RescaleRequest extends ServiceRequest<RescaleResponse> {
+export class RescaleRequest extends ServiceRequest {
   constructor(public readonly scale: number | 'initial') {
     super(RescaleRequest.name, RescaleResponse.name);
   }
@@ -54,7 +52,7 @@ export class RescaleResponse extends ComponentResponse {
 
 export const callServiceEvent = <
   K extends ComponentResponse,
-  T extends ServiceRequest<K>,
+  T extends ServiceRequest,
 >(
   eventService: EventService,
   event: T,

@@ -4,7 +4,6 @@ import {
   OnChanges,
   OnInit,
   QueryList,
-  SimpleChanges,
   ViewChildren,
 } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
@@ -78,7 +77,7 @@ export class AppRatingComponent implements OnInit, OnChanges {
       });
   }
 
-  ngOnChanges(changes: SimpleChanges) {
+  ngOnChanges() {
     this.canSubmit();
   }
 

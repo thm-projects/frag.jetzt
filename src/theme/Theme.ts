@@ -16,10 +16,8 @@ export class ThemeTranslationList {
   map: string[][] = [];
 
   constructor(private name, translation: LanguageTranslations) {
-    for (const k in translation) {
-      if (translation.hasOwnProperty(k)) {
-        this.map.push([k, translation[k]]);
-      }
+    for (const k of Object.keys(translation)) {
+      this.map.push([k, translation[k]]);
     }
   }
 
@@ -50,7 +48,7 @@ export interface ThemeMeta {
   scale_desktop: number;
   scale_mobile: number;
   previewColor: string;
-  config?: any;
+  config?: unknown;
   icon: string;
   isUtility?: boolean;
   highlightJsClass?: string;
@@ -131,11 +129,15 @@ export class Theme {
    */
   public isDark: boolean;
 
-  public config: any;
+  public config: unknown;
 
   public icon: string;
 
-  constructor(public key: string, public palette: any, public meta: ThemeMeta) {
+  constructor(
+    public key: string,
+    public palette: object,
+    public meta: ThemeMeta,
+  ) {
     /*Init order*/
     this.order = meta['order'];
 
@@ -163,11 +165,9 @@ export class Theme {
 
     this.colors = [];
     this.main = [];
-    for (const k in palette) {
-      if (palette.hasOwnProperty(k)) {
-        if (k !== 'name') {
-          this.colors.push(new ColorElem(k.slice(2, k.length), k, palette[k]));
-        }
+    for (const k of Object.keys(palette)) {
+      if (k !== 'name') {
+        this.colors.push(new ColorElem(k.slice(2, k.length), k, palette[k]));
       }
     }
 

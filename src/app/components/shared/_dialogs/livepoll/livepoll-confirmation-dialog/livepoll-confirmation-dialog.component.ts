@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { DeviceInfoService } from '../../../../../services/util/device-info.service';
 import { MatDialogRef } from '@angular/material/dialog';
 
@@ -10,7 +10,7 @@ import { MatDialogRef } from '@angular/material/dialog';
     '../livepoll-common.scss',
   ],
 })
-export class LivepollConfirmationDialogComponent implements OnInit {
+export class LivepollConfirmationDialogComponent {
   public readonly translateKey: string = 'common';
   public textRef: string;
   public titleRef: string;
@@ -22,8 +22,6 @@ export class LivepollConfirmationDialogComponent implements OnInit {
       boolean
     >,
   ) {}
-
-  ngOnInit(): void {}
 
   public accept() {
     this.matDialogRef.close(true);

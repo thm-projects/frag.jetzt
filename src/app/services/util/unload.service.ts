@@ -5,8 +5,6 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class UnloadService {
-  constructor() {}
-
   onUnload(): Observable<BeforeUnloadEvent> {
     return new Observable<BeforeUnloadEvent>((subscriber) => {
       const evt = (e: BeforeUnloadEvent) => subscriber.next(e);

@@ -37,7 +37,7 @@ export class MotdService extends BaseHttpService {
 
   createMOTD(motd: MotdAPI): Observable<MotdAPI> {
     return this.http.post<MotdAPI>('/api/motds/', motd).pipe(
-      tap((_) => ''),
+      tap(() => ''),
       catchError(this.handleError<MotdAPI>('createMOTD')),
     );
   }
@@ -51,8 +51,8 @@ export class MotdService extends BaseHttpService {
         },
       })
       .pipe(
-        tap((_) => ''),
-        catchError((_) => of([])),
+        tap(() => ''),
+        catchError(() => of([])),
       );
   }
 }

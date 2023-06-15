@@ -32,7 +32,7 @@ export class CommentSettingsComponent implements OnInit {
     protected roomService: RoomService,
     public router: Router,
     public commentService: CommentService,
-    @Inject(MAT_DIALOG_DATA) public data: any,
+    @Inject(MAT_DIALOG_DATA) public data: unknown,
   ) {}
 
   ngOnInit() {
@@ -43,9 +43,10 @@ export class CommentSettingsComponent implements OnInit {
     this.directSend = this.editRoom.directSend;
   }
 
-  onSliderChange(event: any) {
-    if (event.value) {
-      this.commentThreshold = event.value;
+  onSliderChange(event: unknown) {
+    const value = event['value'];
+    if (value) {
+      this.commentThreshold = value;
     } else {
       this.commentThreshold = 0;
     }

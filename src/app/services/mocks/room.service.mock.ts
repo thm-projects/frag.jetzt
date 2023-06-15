@@ -13,6 +13,7 @@ import { defaultCategories } from '../../utils/defaultCategories';
 import { Router } from '@angular/router';
 import { QuillUtils } from '../../utils/quill-utils';
 import { UserManagementService } from '../util/user-management.service';
+import { UUID } from 'app/utils/ts-utils';
 
 interface RoomHistory {
   userId: string;
@@ -23,8 +24,8 @@ interface RoomHistory {
 @Injectable()
 export class RoomServiceMock extends RoomService {
   private static readonly _roomMock = {
-    id: '',
-    ownerId: '',
+    id: '' as unknown as UUID,
+    ownerId: '' as unknown as UUID,
     shortId: '',
     abbreviation: '00000000',
     name: '',
@@ -49,6 +50,10 @@ export class RoomServiceMock extends RoomService {
     brainstormingActive: true,
     conversationDepth: 7,
     blacklistActive: true,
+    keywordExtractionActive: true,
+    language: 'en',
+    livepollActive: true,
+    livepollSession: null,
   } as Readonly<Room>;
 
   rooms: Readonly<Room>[] = [];
@@ -187,7 +192,7 @@ export class RoomServiceMock extends RoomService {
     return of(updatedRoom);
   }
 
-  deleteRoom(roomId: string): Observable<any> {
+  deleteRoom(roomId: string): Observable<void> {
     const roomIndex = this.rooms.findIndex((r) => r.id === roomId);
     if (roomIndex < 0) {
       throw new Error('Not Found');
@@ -202,8 +207,8 @@ export class RoomServiceMock extends RoomService {
       .map((history, i) => [history, i] as [RoomHistory, number])
       .filter(([history]) => history.roomId === roomId)
       .reverse()
-      .forEach(([_, i]) => this.roomHistories.splice(i, 1));
-    return of(true);
+      .forEach(([, i]) => this.roomHistories.splice(i, 1));
+    return of();
   }
 
   createGuestsForImport(
@@ -217,10 +222,10 @@ export class RoomServiceMock extends RoomService {
     return of(arr);
   }
 
-  handleRoomError<T>(operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-      console.error(error);
-      if (error.status === 404) {
+  handleRoomError<T>(operation = 'operation') {
+    return (error: unknown): Observable<T> => {
+      console.error(operation, error);
+      if (error['status'] === 404) {
         this.angularRouter.navigateByUrl('');
       }
       return throwError(() => error);
@@ -228,7 +233,7 @@ export class RoomServiceMock extends RoomService {
   }
 
   private buildErrorCallback(data: string, exc: () => void) {
-    return (error: any) => {
+    return (error: unknown) => {
       if (exc) {
         exc();
       }

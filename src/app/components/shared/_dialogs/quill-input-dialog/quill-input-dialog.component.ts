@@ -1,13 +1,14 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { QuillUtils } from '../../../../utils/quill-utils';
+import { QuillEditorComponent } from 'ngx-quill';
 
 interface DialogData {
   type: string;
   meta: string;
-  quill: any;
-  selection: any;
-  overrideAction?: (value: string, selection: any) => void;
+  quill: QuillEditorComponent['quillEditor'];
+  selection: unknown;
+  overrideAction?: (value: string, selection: unknown) => void;
 }
 
 @Component({
@@ -42,41 +43,42 @@ export class QuillInputDialogComponent implements OnInit {
 
   buildConfirmAction() {
     return () => {
+      const selection = this.data['selection'];
+      const index = selection['index'];
       if (this.data.overrideAction) {
-        this.data.overrideAction(this.value, this.data.selection);
+        this.data.overrideAction(this.value, selection);
         this.dialogRef.close();
         return;
       }
       switch (this.data.type) {
         case 'link':
-          if (this.value) {
-            const ops = [];
-            const startIndex = this.data.selection.index;
-            if (startIndex > 0) {
-              ops.push({ retain: startIndex });
+          {
+            if (this.value) {
+              const ops = [];
+              const startIndex = index;
+              if (startIndex > 0) {
+                ops.push({ retain: startIndex });
+              }
+              ops.push({
+                retain: selection['length'],
+                attributes: { link: this.value },
+              });
+              this.data.quill.updateContents({ ops });
             }
-            ops.push({
-              retain: this.data.selection.length,
-              attributes: { link: this.value },
-            });
-            this.data.quill.updateContents({ ops });
           }
           break;
         case 'video':
-          const value = QuillUtils.getVideoUrl(this.value)[0];
-          if (value) {
-            this.data.quill.insertEmbed(
-              this.data.selection.index,
-              'dsgvo-video',
-              value,
-              'user',
-            );
+          {
+            const value = QuillUtils.getVideoUrl(this.value)[0];
+            if (value) {
+              this.data.quill.insertEmbed(index, 'dsgvo-video', value, 'user');
+            }
           }
           break;
         default:
           if (this.value) {
             this.data.quill.insertEmbed(
-              this.data.selection.index,
+              index,
               this.data.type,
               this.value,
               'user',

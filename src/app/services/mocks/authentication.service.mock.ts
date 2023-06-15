@@ -11,7 +11,7 @@ export class AuthenticationServiceMock extends AuthenticationService {
     super(null);
   }
 
-  checkSuperAdmin(token: string): Observable<boolean> {
+  checkSuperAdmin(): Observable<boolean> {
     return of(generateBoolean());
   }
 }

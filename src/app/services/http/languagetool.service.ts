@@ -119,9 +119,9 @@ export class LanguagetoolService extends BaseHttpService {
           },
         })
         .pipe(
-          tap((_) => ''),
+          tap(() => ''),
           timeout(4500),
-          catchError(this.handleError<any>('checkSpellings')),
+          catchError(this.handleError<LanguagetoolResult>('checkSpellings')),
         )
     );
   }

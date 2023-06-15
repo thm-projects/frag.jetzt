@@ -2,22 +2,22 @@ import { Observable, Subject } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 
-interface BroadcastEvent {
-  key: any;
-  data?: any;
+interface BroadcastEvent<T> {
+  key: string;
+  data?: T;
 }
 
 @Injectable()
 export class EventService {
   focusOnInput: boolean;
-  private _eventBus: Subject<BroadcastEvent>;
+  private _eventBus: Subject<BroadcastEvent<unknown>>;
 
   constructor() {
-    this._eventBus = new Subject<BroadcastEvent>();
+    this._eventBus = new Subject<BroadcastEvent<unknown>>();
     this.focusOnInput = false;
   }
 
-  broadcast(key: any, data?: any) {
+  broadcast<T>(key: string, data?: T) {
     this._eventBus.next({ key, data });
   }
 
@@ -29,7 +29,7 @@ export class EventService {
     this.focusOnInput = false;
   }
 
-  on<T>(key: any): Observable<T> {
+  on<T>(key: string): Observable<T> {
     return this._eventBus.asObservable().pipe(
       filter((event) => event.key === key),
       map((event) => event.data as T),

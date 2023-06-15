@@ -20,7 +20,7 @@ export class ThemeDirective implements OnInit, OnDestroy {
   constructor(
     private elementRef: ElementRef,
     private renderer: Renderer2,
-    @Inject(DOCUMENT) private document: any,
+    @Inject(DOCUMENT) private document: Document,
     private themService: ThemeService,
   ) {}
 
@@ -32,15 +32,9 @@ export class ThemeDirective implements OnInit, OnDestroy {
 
   updateTheme(themeName: string) {
     const them = themes[themeName];
-    for (const key in them) {
-      if (them.hasOwnProperty(key)) {
-        this.renderer.setProperty(
-          this.elementRef.nativeElement,
-          key,
-          them[key],
-        );
-        // this.document.body.style.setProperty(key, them[key]);
-      }
+    for (const key of Object.keys(them)) {
+      this.renderer.setProperty(this.elementRef.nativeElement, key, them[key]);
+      // this.document.body.style.setProperty(key, them[key]);
     }
   }
 

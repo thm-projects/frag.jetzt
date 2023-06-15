@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { RoomService } from '../../../../services/http/room.service';
-import { ProfanityFilter, Room } from '../../../../models/room';
+import { Room } from '../../../../models/room';
 import { UserRole } from '../../../../models/user-roles.enum';
 import { Router } from '@angular/router';
 import { NotificationService } from '../../../../services/util/notification.service';
@@ -58,7 +58,7 @@ export class RoomCreateComponent implements OnInit {
     public dialogRef: MatDialogRef<RoomCreateComponent>,
     private translateService: TranslateService,
     private userManagementService: UserManagementService,
-    @Inject(MAT_DIALOG_DATA) public data: any,
+    @Inject(MAT_DIALOG_DATA) public data: unknown,
     private languageService: LanguageService,
     private sessionService: SessionService,
     private dialog: MatDialog,
@@ -80,7 +80,7 @@ export class RoomCreateComponent implements OnInit {
     }
   }
 
-  verifyAlreadyUsed(c: FormControl) {
+  verifyAlreadyUsed() {
     return this.shortIdAlreadyUsed
       ? {
           shortId: {

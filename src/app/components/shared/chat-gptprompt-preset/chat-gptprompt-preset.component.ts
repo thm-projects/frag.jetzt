@@ -208,7 +208,7 @@ export class ChatGPTPromptPresetComponent implements OnInit {
     });
   }
 
-  private onError(err: any) {
+  private onError() {
     this.tranlateService
       .get('chat-gptprompt-preset.an-error-occured')
       .subscribe((msg) =>
@@ -283,7 +283,7 @@ export class ChatGPTPromptPresetComponent implements OnInit {
         next: (data) => {
           const index = this.prompts.indexOf(this.selectedPrompt);
           if (index < 0) {
-            this.onError('Index out of bounds');
+            this.onError();
             return;
           }
           this.prompts[index] = data;

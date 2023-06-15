@@ -15,7 +15,7 @@ export class DeleteAllNotificationsComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<DeleteAllNotificationsComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any,
+    @Inject(MAT_DIALOG_DATA) public data: unknown,
     private liveAnnouncer: LiveAnnouncer,
     private translationService: TranslateService,
   ) {}

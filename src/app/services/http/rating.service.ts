@@ -28,7 +28,7 @@ export class RatingService extends BaseHttpService {
   public getByAccountId(accountId: string): Observable<Rating> {
     const connectionUrl = `${this.apiUrl.base}${this.apiUrl.rating}/${accountId}`;
     return this.http.get<Rating>(connectionUrl, httpOptions).pipe(
-      tap((_) => ''),
+      tap(() => ''),
       catchError(this.handleError<Rating>('getByUserId')),
     );
   }
@@ -38,7 +38,7 @@ export class RatingService extends BaseHttpService {
     return this.http
       .post<Rating>(connectionUrl, { accountId, rating }, httpOptions)
       .pipe(
-        tap((_) => ''),
+        tap(() => ''),
         catchError(this.handleError<Rating>('create')),
       );
   }
@@ -46,7 +46,7 @@ export class RatingService extends BaseHttpService {
   public deleteByAccountId(accountId: string): Observable<void> {
     const connectionUrl = `${this.apiUrl.base}${this.apiUrl.rating}/${accountId}`;
     return this.http.delete<void>(connectionUrl, httpOptions).pipe(
-      tap((_) => ''),
+      tap(() => ''),
       catchError(this.handleError<void>('deleteByUserId')),
     );
   }
@@ -54,7 +54,7 @@ export class RatingService extends BaseHttpService {
   public getRatings(): Observable<RatingResult> {
     const connectionUrl = `${this.apiUrl.base}${this.apiUrl.rating}${this.apiUrl.accumulated}`;
     return this.http.get<RatingResult>(connectionUrl, httpOptions).pipe(
-      tap((_) => ''),
+      tap(() => ''),
       catchError(this.handleError<RatingResult>('getRatings')),
     );
   }

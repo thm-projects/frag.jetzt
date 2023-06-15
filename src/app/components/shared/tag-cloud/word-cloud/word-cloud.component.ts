@@ -5,7 +5,6 @@ import {
   Input,
   OnChanges,
   OnDestroy,
-  OnInit,
   Output,
   Renderer2,
   SimpleChanges,
@@ -17,7 +16,10 @@ import {
   CloudTextStyle,
 } from '../../../../utils/cloud-parameters';
 import { ColorContrast } from '../../../../utils/color-contrast';
-import { WordCloudDrawFunctions } from './word-cloud-draw-functions';
+import {
+  CloudDrawFuncType,
+  WordCloudDrawFunctions,
+} from './word-cloud-draw-functions';
 import { ThemeService } from '../../../../../theme/theme.service';
 
 export interface WordMeta {
@@ -26,7 +28,7 @@ export interface WordMeta {
   rotate: number;
 }
 
-interface PositionInformation<K = any> {
+interface PositionInformation<K = unknown> {
   position: {
     width: number;
     height: number;
@@ -40,7 +42,7 @@ interface PositionInformation<K = any> {
   additional?: K;
 }
 
-export interface ActiveWord<T extends WordMeta, K = any> {
+export interface ActiveWord<T extends WordMeta, K = unknown> {
   meta: T;
   weightClass: number;
   visible: boolean;
@@ -67,7 +69,7 @@ const TO_RAD = (2 * Math.PI) / 360;
   styleUrls: ['./word-cloud.component.scss'],
 })
 export class WordCloudComponent<T extends WordMeta>
-  implements OnInit, OnChanges, OnDestroy {
+  implements OnChanges, OnDestroy {
   @ViewChild('wordCloud', { static: true })
   wordCloud: ElementRef<HTMLDivElement>;
   @Output() clicked = new EventEmitter<T>();
@@ -89,8 +91,6 @@ export class WordCloudComponent<T extends WordMeta>
     private fontInfoService: FontInfoService,
     public themeService: ThemeService,
   ) {}
-
-  ngOnInit() {}
 
   ngOnDestroy() {
     this._cssStyleElement?.remove();
@@ -227,9 +227,9 @@ export class WordCloudComponent<T extends WordMeta>
     parent.style.setProperty('--hover-delay', hoverDelay + 's');
   }
 
-  transformObjectToCSS(sheet: CSSStyleSheet, index: number, object: any) {
+  transformObjectToCSS(sheet: CSSStyleSheet, index: number, object: unknown) {
     const upper = /[A-Z]/gm;
-    const replacer = (x: string, ...args: any) =>
+    const replacer = (x: string, ...args: unknown[]) =>
       (args[0] === 0 ? '--' : '-') + x.toLowerCase();
     let str = '{';
     for (const key of Object.keys(object)) {
@@ -261,7 +261,7 @@ export class WordCloudComponent<T extends WordMeta>
       );
     } else {
       WordCloudDrawFunctions.calculateCloud(
-        this._elements,
+        this._elements as ActiveWord<WordMeta, CloudDrawFuncType<WordMeta>>[],
         parentWidth,
         parentHeight,
         this._minHeight,
@@ -269,7 +269,7 @@ export class WordCloudComponent<T extends WordMeta>
     }
     this.fontInfoService
       .waitTillFontLoaded(this.parameters.fontFamily)
-      .subscribe((_) => {
+      .subscribe(() => {
         this.doDraw(parentElement, parentWidth, parentHeight);
       });
   }

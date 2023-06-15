@@ -140,6 +140,7 @@ export class GPTEncoder {
       return token;
     }
 
+    // eslint-disable-next-line no-constant-condition
     while (true) {
       const minPairs: { [key: NumberAsString]: string } = {};
       Array.from(pairs).map((pair) => {

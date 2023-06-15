@@ -3,6 +3,7 @@ import {
   DefaultCloudParameters,
   LIGHT_THEME,
 } from './cloud-parameters.const';
+import { FieldsOf } from './ts-utils';
 
 export interface CloudWeightSetting {
   maxVisibleElements: number;
@@ -68,7 +69,7 @@ export class CloudParameters {
   textTransform: CloudTextStyle;
   cloudWeightSettings: CloudWeightSettings;
 
-  constructor(obj?: any) {
+  constructor(obj?: FieldsOf<CloudParameters>) {
     if (obj) {
       this.fontFamily = obj.fontFamily;
       this.fontStyle = obj.fontStyle;

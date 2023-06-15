@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { SessionService } from '../../../../services/util/session.service';
 import { TagsComponent } from '../tags/tags.component';
@@ -11,7 +11,7 @@ import { RoomService } from '../../../../services/http/room.service';
   templateUrl: './edit-comment-tag.component.html',
   styleUrls: ['./edit-comment-tag.component.scss'],
 })
-export class EditCommentTagComponent implements OnInit {
+export class EditCommentTagComponent {
   selectedTag: string;
 
   constructor(
@@ -22,8 +22,6 @@ export class EditCommentTagComponent implements OnInit {
     private notificationService: NotificationService,
     private roomService: RoomService,
   ) {}
-
-  ngOnInit(): void {}
 
   openAllTags(): void {
     const dialogRef = this.dialog.open(TagsComponent, {

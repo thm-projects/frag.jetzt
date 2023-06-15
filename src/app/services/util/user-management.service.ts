@@ -69,7 +69,7 @@ export class UserManagementService {
     private persistentDataService: PersistentDataService,
   ) {}
 
-  init(guestUser: User, currentUser: User): Observable<any> {
+  init(guestUser: User, currentUser: User): Observable<unknown> {
     if (this._initialized) {
       return of(null);
     }
@@ -260,7 +260,7 @@ export class UserManagementService {
     this.persistentDataService
       .deleteByKey('roomAccess', [owner.id, shortId])
       .subscribe();
-    delete (owner.roomAccess as any)[shortId];
+    delete (owner.roomAccess as unknown)[shortId];
   }
 
   protected setInitialized() {
@@ -323,7 +323,7 @@ export class UserManagementService {
         callServiceEvent<LoginDialogResponse, LoginDialogRequest>(
           this.eventService,
           new LoginDialogRequest(current),
-        ).subscribe((_) => {
+        ).subscribe(() => {
           subscriber.next(this.getCurrentUser());
           subscriber.complete();
         });

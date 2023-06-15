@@ -24,8 +24,6 @@ export interface FontFace {
   providedIn: 'root',
 })
 export class FontInfoService {
-  constructor() {}
-
   private static checkFontReady(
     faceSet: FontFaceSet,
     notLoadedFonts: FontFace[],
@@ -42,7 +40,7 @@ export class FontInfoService {
       sub.complete();
     }
     notLoadedFonts.forEach((font) => {
-      font.loaded.then((_) => {
+      font.loaded.then(() => {
         if (!sub.closed) {
           sub.next(font);
           sub.complete();
@@ -53,7 +51,7 @@ export class FontInfoService {
 
   waitTillFontLoaded(fontFamily: string): Observable<FontFace> {
     return new Observable((sub) => {
-      const faceSet = (document as any).fonts;
+      const faceSet = (document as unknown)['fonts'];
       faceSet.ready.then(() => {
         const notLoadedFonts: FontFace[] = [];
         const iter: Iterator<FontFace> = faceSet.keys();

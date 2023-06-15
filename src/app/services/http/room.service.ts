@@ -132,7 +132,7 @@ export class RoomService extends BaseHttpService {
     const connectionUrl = `${this.apiUrl.base + this.apiUrl.rooms}/${id}`;
     return this.http.get<RoomAPI>(connectionUrl).pipe(
       map((r) => this.parseRoom(r)),
-      tap((_) => ''),
+      tap(() => ''),
       catchError(this.handleRoomError<Room>(`getRoom keyword=${id}`)),
     );
   }
@@ -141,7 +141,7 @@ export class RoomService extends BaseHttpService {
     const connectionUrl = `${this.apiUrl.base + this.apiUrl.rooms}/~${shortId}`;
     return this.http.get<RoomAPI>(connectionUrl).pipe(
       map((r) => this.parseRoom(r)),
-      tap((_) => ''),
+      tap(() => ''),
       catchError(this.handleRoomError<Room>(`getRoom shortId=${shortId}`)),
     );
   }
@@ -153,7 +153,7 @@ export class RoomService extends BaseHttpService {
     const connectionUrl = `${this.apiUrl.base + this.apiUrl.rooms}/~${shortId}`;
     return this.http.get<RoomAPI>(connectionUrl).pipe(
       map((r) => this.parseRoom(r)),
-      tap((_) => ''),
+      tap(() => ''),
       catchError(
         this.buildErrorExecutionCallback(`getRoom shortId=${shortId}`, err),
       ),
@@ -191,7 +191,7 @@ export class RoomService extends BaseHttpService {
       updatedRoom.shortId
     }`;
     return this.http
-      .put<RoomAPI>(
+      .put<Room>(
         connectionUrl,
         {
           ...updatedRoom,
@@ -201,7 +201,7 @@ export class RoomService extends BaseHttpService {
       )
       .pipe(
         tap(() => ''),
-        catchError(this.handleError<any>('updateRoom')),
+        catchError(this.handleError<Room>('updateRoom')),
       );
   }
 
@@ -234,10 +234,10 @@ export class RoomService extends BaseHttpService {
     );
   }
 
-  handleRoomError<T>(operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-      console.error(error);
-      if (error.status === 404) {
+  handleRoomError<T>(operation = 'operation') {
+    return (error: unknown): Observable<T> => {
+      console.error(operation, error);
+      if (error['status'] === 404) {
         this.translateService
           .get('room-list.room-not-exist')
           .subscribe((msg) => {
@@ -264,7 +264,7 @@ export class RoomService extends BaseHttpService {
   }
 
   private buildErrorExecutionCallback(data: string, exc: () => void) {
-    return (error: any) => {
+    return (error: unknown) => {
       if (exc) {
         exc();
       }

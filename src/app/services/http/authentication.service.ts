@@ -134,7 +134,7 @@ export class AuthenticationService extends BaseHttpService {
 
     return this.checkCompromised(password).pipe(
       map((compromisedLength) => password.length - compromisedLength >= 6),
-      tap((_) => ''),
+      tap(() => ''),
       switchMap((isPasswordUncommonEnough: boolean) => {
         if (!isPasswordUncommonEnough) {
           return throwError(() => LoginResult.PasswordTooCommon);
@@ -170,7 +170,7 @@ export class AuthenticationService extends BaseHttpService {
     return this.http
       .post(connectionUrl, { key: null, password: null }, this.httpOptions)
       .pipe(
-        tap((_) => ''),
+        tap(() => ''),
         catchError((err) => of(err.error.message)),
       );
   }
@@ -208,7 +208,7 @@ export class AuthenticationService extends BaseHttpService {
         return this.http
           .post<string>(connectionUrl, { key, password }, this.httpOptions)
           .pipe(
-            tap((_) => ''),
+            tap(() => ''),
             catchError((err) => {
               const msg = err.error.message;
               const errVal = ERROR_TABLE[msg];
@@ -226,7 +226,7 @@ export class AuthenticationService extends BaseHttpService {
     const connectionUrl: string =
       this.apiUrl.base + this.apiUrl.user + this.apiUrl.superAdmin;
     return this.http.get(connectionUrl, this.getTokenHeader(token)).pipe(
-      tap((_) => ''),
+      tap(() => ''),
       catchError((err) => of(err.error?.message || err)),
     );
   }
@@ -260,11 +260,11 @@ export class AuthenticationService extends BaseHttpService {
     );
   }
 
-  private catchErrors(e: any): Observable<LoginResultArray> {
-    if (e.status === 401 && e.statusText === 'Unauthorized') {
+  private catchErrors(e: unknown): Observable<LoginResultArray> {
+    if (e['status'] === 401 && e['statusText'] === 'Unauthorized') {
       return of([LoginResult.SessionExpired, null] as LoginResultArray);
     }
-    const msg = e.error?.message;
+    const msg = e['error']?.message;
     const err = ERROR_TABLE[msg];
     if (err !== undefined && err !== null) {
       return of([err, null] as LoginResultArray);

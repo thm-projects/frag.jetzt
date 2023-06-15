@@ -92,7 +92,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
   protected router: Router;
   private _navigationBuild = new SyncFence(2, this.initNavigation.bind(this));
   private _sub: Subscription;
-  private _list: ComponentRef<any>[];
+  private _list: ComponentRef<unknown>[];
 
   constructor(protected injector: Injector) {
     this.deviceInfo = injector.get(DeviceInfoService);
@@ -227,7 +227,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
           data,
         );
       }),
-      tap((_) => {
+      tap(() => {
         const url = decodeURI(this.router.url);
         this.router.navigate(['/']).then(() => {
           setTimeout(() => this.router.navigate([url]));
@@ -360,7 +360,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
         });
       }
     });
-    dialogRef.backdropClick().subscribe((res) => {
+    dialogRef.backdropClick().subscribe(() => {
       dialogRef.close('abort');
     });
   }
@@ -401,11 +401,13 @@ export class RoomPageComponent implements OnInit, OnDestroy {
     dialogRef.componentInstance.editRoom = this.room;
   }
 
-  protected preRoomLoadHook(): Observable<any> {
+  protected preRoomLoadHook(): Observable<unknown> {
     return of('');
   }
 
-  protected postRoomLoadHook() {}
+  protected postRoomLoadHook() {
+    of('');
+  }
 
   protected saveChanges(data: Partial<Room>) {
     const description = data?.description
@@ -415,14 +417,14 @@ export class RoomPageComponent implements OnInit, OnDestroy {
       description ? { ...data, description } : { ...data }
     ) as RoomPatch;
     this.roomService.patchRoom(this.room.id, obj).subscribe({
-      next: (room) => {
+      next: () => {
         this.translateService
           .get('room-page.changes-successful')
           .subscribe((msg) => {
             this.notificationService.show(msg);
           });
       },
-      error: (error) => {
+      error: () => {
         this.translateService
           .get('room-page.changes-gone-wrong')
           .subscribe((msg) => {

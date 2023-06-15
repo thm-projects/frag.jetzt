@@ -33,7 +33,7 @@ export class LivepollComponentUtility {
     languageService: LanguageService,
     translationService: TranslateService,
     http: HttpClient,
-    _destroyer: ReplaySubject<any>,
+    _destroyer: ReplaySubject<unknown>,
   ) {
     languageService
       .getLanguage()

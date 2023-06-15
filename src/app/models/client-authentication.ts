@@ -20,7 +20,7 @@ export interface RoomAccess {
 export class ClientAuthentication {
   accountId: string;
   authenticated: boolean;
-  authorities: any[];
+  authorities: unknown[];
   credentials: string;
   details: string;
   name: string;
@@ -31,7 +31,7 @@ export class ClientAuthentication {
   constructor(
     accountId: string = null,
     authenticated: boolean = true,
-    authorities: any[] = [],
+    authorities: unknown[] = [],
     credentials: string = null,
     details: string = null,
     name: string = null,

@@ -27,17 +27,17 @@ export class BookmarkService extends BaseHttpService {
   create(bookmark: Partial<Bookmark>): Observable<Bookmark> {
     const connectionUrl = this.apiUrl.base + this.apiUrl.bookmark + '/';
     return this.http.post<Bookmark>(connectionUrl, bookmark, httpOptions).pipe(
-      tap((_) => ''),
+      tap(() => ''),
       catchError(this.handleError<Bookmark>('create')),
     );
   }
 
-  delete(bookmarkId: string): Observable<any> {
+  delete(bookmarkId: string): Observable<void> {
     const connectionUrl =
       this.apiUrl.base + this.apiUrl.bookmark + '/' + bookmarkId;
-    return this.http.delete(connectionUrl, httpOptions).pipe(
-      tap((_) => ''),
-      catchError(this.handleError('delete')),
+    return this.http.delete<void>(connectionUrl, httpOptions).pipe(
+      tap(() => ''),
+      catchError(this.handleError<void>('delete')),
     );
   }
 
@@ -54,7 +54,7 @@ export class BookmarkService extends BaseHttpService {
         httpOptions,
       )
       .pipe(
-        tap((_) => ''),
+        tap(() => ''),
         catchError(this.handleError<Bookmark[]>('getByRoomId')),
       );
   }

@@ -19,10 +19,12 @@ export type ConfigurationKey = (typeof CONFIGURATION_KEYS)[number];
 export class ConfigurationService {
   constructor(private persistentDataService: PersistentDataService) {}
 
-  get(...keys: ConfigurationKey[]): Observable<any[]> {
+  get(...keys: ConfigurationKey[]): Observable<unknown[]> {
     return (
-      this.persistentDataService.bulkGet('config', keys) as Observable<any[]>
-    ).pipe(map((data) => data.map((datum) => datum?.value)));
+      this.persistentDataService.bulkGet('config', keys) as Observable<
+        unknown[]
+      >
+    ).pipe(map((data) => data.map((datum) => datum?.['value'])));
   }
 
   put<T>(key: ConfigurationKey, value: T): Observable<T> {

@@ -1,11 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Inject,
-  OnChanges,
-  OnInit,
-  SimpleChanges,
-} from '@angular/core';
+import { Component, Inject, OnChanges, SimpleChanges } from '@angular/core';
 import {
   LoginResult,
   LoginResultArray,
@@ -45,7 +38,7 @@ export class LoginErrorStateMatcher implements ErrorStateMatcher {
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
-export class LoginComponent implements OnInit, OnChanges {
+export class LoginComponent implements OnChanges {
   username: string;
   password: string;
   redirectUrl = null;
@@ -64,10 +57,8 @@ export class LoginComponent implements OnInit, OnChanges {
     private translationService: TranslateService,
     public notificationService: NotificationService,
     public dialog: MatDialog,
-    @Inject(MAT_DIALOG_DATA) public data: any,
+    @Inject(MAT_DIALOG_DATA) public data: unknown,
   ) {}
-
-  ngOnInit() {}
 
   ngOnChanges(changes: SimpleChanges) {
     let u = false;

@@ -110,7 +110,7 @@ export class CommentPageComponent
     }
   }
 
-  private a11yCheckEventsOnFocus(event: any) {
+  private a11yCheckEventsOnFocus(event: KeyboardEvent) {
     if (!KeyboardUtils.isKeyEvent(event, KeyboardKey.Escape)) {
       return;
     }

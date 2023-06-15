@@ -1,4 +1,4 @@
-import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { Component, QueryList, ViewChildren } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatIcon } from '@angular/material/icon';
 import { GptService } from 'app/services/http/gpt.service';
@@ -9,7 +9,7 @@ import { Observable, map } from 'rxjs';
   templateUrl: './gptrating-dialog.component.html',
   styleUrls: ['./gptrating-dialog.component.scss'],
 })
-export class GPTRatingDialogComponent implements OnInit {
+export class GPTRatingDialogComponent {
   @ViewChildren(MatIcon) children: QueryList<MatIcon>;
   protected text: string = '';
   protected readonly onCancel = this.cancel.bind(this);
@@ -43,8 +43,6 @@ export class GPTRatingDialogComponent implements OnInit {
       }),
     );
   }
-
-  ngOnInit(): void {}
 
   protected onMouseLeave() {
     this.listeningToMove = true;

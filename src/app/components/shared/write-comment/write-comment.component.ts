@@ -56,11 +56,11 @@ export class WriteCommentComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('mobileMock') mobileMock: ElementRef<HTMLDivElement>;
   @Input() isModerator = false;
   @Input() tags: string[];
-  @Input() onClose: (comment?: Comment) => any;
+  @Input() onClose: (comment?: Comment) => unknown;
   @Input() disableCancelButton = false;
   @Input() confirmLabel = 'save';
   @Input() cancelLabel = 'cancel';
-  @Input() additionalTemplate: TemplateRef<any>;
+  @Input() additionalTemplate: TemplateRef<unknown>;
   @Input() enabled = true;
   @Input() isCommentAnswer = false;
   @Input() placeholder = 'comment-page.enter-comment';
@@ -255,9 +255,9 @@ export class WriteCommentComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  checkLanguageConfidence(wordsCheck: any) {
+  checkLanguageConfidence(wordsCheck: unknown) {
     return this.selectedLang === 'auto'
-      ? wordsCheck.language.detectedLanguage.confidence >= 0.5
+      ? wordsCheck['language'].detectedLanguage.confidence >= 0.5
       : true;
   }
 

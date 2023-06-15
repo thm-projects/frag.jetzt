@@ -31,9 +31,9 @@ export class ModeratorService extends BaseHttpService {
     const url = `${this.apiUrl.base + this.apiUrl.room}/${
       roomId + this.apiUrl.moderator
     }`;
-    return this.http.get(url, httpOptions).pipe(
-      tap((_) => ''),
-      catchError(this.handleError<any>('getModerator')),
+    return this.http.get<Moderator[]>(url, httpOptions).pipe(
+      tap(() => ''),
+      catchError(this.handleError<Moderator[]>('getModerator')),
     );
   }
 
@@ -42,8 +42,8 @@ export class ModeratorService extends BaseHttpService {
       roomId + this.apiUrl.moderator
     }/${userId}`;
     return this.http.put(url, httpOptions).pipe(
-      tap((_) => ''),
-      catchError(this.handleError<any>('addModerator')),
+      tap(() => ''),
+      catchError(this.handleError<void>('addModerator')),
     );
   }
 
@@ -52,9 +52,9 @@ export class ModeratorService extends BaseHttpService {
       parentRoomId + this.apiUrl.moderatorCode
     }`;
     return this.http.get(url, httpOptions).pipe(
-      tap((_) => ''),
+      tap(() => ''),
       map((obj) => obj['accessCode']),
-      catchError(this.handleError<any>('getModeratorRoomCode')),
+      catchError(this.handleError<string>('getModeratorRoomCode')),
     );
   }
 
@@ -63,8 +63,8 @@ export class ModeratorService extends BaseHttpService {
       moderatorRoomId + this.apiUrl.moderatorCode
     }/`;
     return this.http.post(url, null, httpOptions).pipe(
-      tap((_) => ''),
-      catchError(this.handleError<any>('addByRoomCode')),
+      tap(() => ''),
+      catchError(this.handleError<void>('addByRoomCode')),
     );
   }
 
@@ -73,9 +73,9 @@ export class ModeratorService extends BaseHttpService {
       roomId + this.apiUrl.recreateCode
     }`;
     return this.http.put(url, null, httpOptions).pipe(
-      tap((_) => ''),
+      tap(() => ''),
       map((obj) => obj['accessCode']),
-      catchError(this.handleError<any>('refreshRoomCode')),
+      catchError(this.handleError<string>('refreshRoomCode')),
     );
   }
 
@@ -84,8 +84,8 @@ export class ModeratorService extends BaseHttpService {
       roomId + this.apiUrl.moderator
     }/${accountId}`;
     return this.http.delete(url, httpOptions).pipe(
-      tap((_) => ''),
-      catchError(this.handleError<any>('deleteModerator')),
+      tap(() => ''),
+      catchError(this.handleError<void>('deleteModerator')),
     );
   }
 

@@ -76,15 +76,15 @@ export class StartUpService {
       )
       .subscribe(([lang, theme, cookie, guest, acc]) => {
         this.measure('Language and Theme');
-        this.checkLanguageAndTheme(lang, theme)
+        this.checkLanguageAndTheme(lang as string, theme as string)
           .pipe(
             switchMap(() => {
               this.measure('Cookie Consent');
-              return this.checkCookieAndProtectionConsent(cookie);
+              return this.checkCookieAndProtectionConsent(cookie as boolean);
             }),
             switchMap(() => {
               this.measure('Account Login');
-              return this.checkAccount(guest, acc);
+              return this.checkAccount(guest as User, acc as User);
             }),
             /*
             switchMap(() => {
@@ -139,11 +139,11 @@ export class StartUpService {
     this.measure('End', true);
   }
 
-  private checkSafari(): Observable<any> {
+  private checkSafari(): Observable<unknown> {
     if (!this.deviceInfo.isSafari) {
       return of(true);
     }
-    return new Observable<any>((subscriber) => {
+    return new Observable<unknown>((subscriber) => {
       const ref = this.dialog.open(NotifyUnsupportedBrowserComponent, {
         width: '600px',
       });
@@ -154,11 +154,13 @@ export class StartUpService {
     });
   }
 
-  private checkAccount(guest: User, account: User): Observable<any> {
+  private checkAccount(guest: User, account: User): Observable<unknown> {
     return this.userManagementService.init(guest, account);
   }
 
-  private checkCookieAndProtectionConsent(cookie: boolean): Observable<any> {
+  private checkCookieAndProtectionConsent(
+    cookie: boolean,
+  ): Observable<unknown> {
     if (cookie) {
       return of(true);
     }
@@ -169,7 +171,7 @@ export class StartUpService {
     );
   }
 
-  private showCookieModal(): Observable<any> {
+  private showCookieModal(): Observable<unknown> {
     const dialogRef = this.dialog.open(CookiesComponent, {
       width: '80%',
       maxWidth: '600px',
@@ -255,14 +257,16 @@ export class StartUpService {
         }
       });
     };
-    this.userManagementService.getUser().subscribe((_) => {
+    this.userManagementService.getUser().subscribe(() => {
       clearTimeout(requestTimeout);
       requestTimeout = 0;
       update();
     });
   }
 
-  private showOverlay(onSuccess: () => Observable<any>): Observable<any> {
+  private showOverlay(
+    onSuccess: () => Observable<unknown>,
+  ): Observable<unknown> {
     const dialogRef = this.dialog.open(OverlayComponent, {});
     dialogRef.disableClose = true;
     return dialogRef.afterClosed().pipe(
@@ -275,14 +279,17 @@ export class StartUpService {
     );
   }
 
-  private leaveApp(): Observable<any> {
+  private leaveApp(): Observable<unknown> {
     window.close();
     location.replace('about:blank');
     return of();
   }
 
-  private checkLanguageAndTheme(lang: string, theme: string): Observable<any> {
-    return new Observable<any>((subscriber) => {
+  private checkLanguageAndTheme(
+    lang: string,
+    theme: string,
+  ): Observable<unknown> {
+    return new Observable<unknown>((subscriber) => {
       this.languageService.init(lang);
       this.translateService.setDefaultLang(
         this.languageService.currentLanguage(),
@@ -345,7 +352,7 @@ export class StartUpService {
     if (finish) {
       const entries = performance.getEntriesByName('startup', 'mark');
       let prev = null;
-      const [_, object, last] = entries.reduce(
+      const [, object, last] = entries.reduce(
         (acc, value) => {
           if (prev !== null) {
             prev['duration'] = format(value.startTime - acc[2]);
@@ -355,7 +362,7 @@ export class StartUpService {
           acc[2] = value.startTime;
           return acc;
         },
-        [0, {} as any, entries[0].startTime],
+        [0, {} as unknown, entries[0].startTime],
       );
       prev['duration'] = 'Total: ' + format(last - entries[0].startTime);
       console.table(object);

@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { NotificationService } from '../../../../services/util/notification.service';
 import { UserService } from '../../../../services/http/user.service';
 import { FormControl, Validators } from '@angular/forms';
@@ -10,34 +10,34 @@ import { TranslateService } from '@ngx-translate/core';
   templateUrl: './user-activation.component.html',
   styleUrls: ['./user-activation.component.scss'],
 })
-export class UserActivationComponent implements OnInit {
+export class UserActivationComponent {
   activationKeyFormControl = new FormControl('', [Validators.required]);
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: any,
+    @Inject(MAT_DIALOG_DATA) public data: unknown,
     public userService: UserService,
     public notificationService: NotificationService,
     public dialogRef: MatDialogRef<UserActivationComponent>,
     private translationService: TranslateService,
   ) {}
 
-  ngOnInit() {}
-
   login(activationKey: string): void {
     activationKey = activationKey.trim();
 
-    this.userService.activate(this.data.name.trim(), activationKey).subscribe({
-      next: (ret) => {
-        this.dialogRef.close({ success: true });
-      },
-      error: (err) => {
-        this.translationService
-          .get('user-activation.activation-key-incorrect')
-          .subscribe((message) => {
-            this.notificationService.show(message);
-          });
-      },
-    });
+    this.userService
+      .activate(this.data['name'].trim(), activationKey)
+      .subscribe({
+        next: () => {
+          this.dialogRef.close({ success: true });
+        },
+        error: () => {
+          this.translationService
+            .get('user-activation.activation-key-incorrect')
+            .subscribe((message) => {
+              this.notificationService.show(message);
+            });
+        },
+      });
   }
 
   /**
@@ -48,7 +48,7 @@ export class UserActivationComponent implements OnInit {
   }
 
   resetActivation(): void {
-    this.userService.resetActivation(this.data.name.trim()).subscribe((ret) => {
+    this.userService.resetActivation(this.data['name'].trim()).subscribe(() => {
       this.translationService
         .get('login.restart-account-activation-correct')
         .subscribe((message) => {

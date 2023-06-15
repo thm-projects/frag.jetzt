@@ -6,7 +6,6 @@ import {
   OnChanges,
   OnDestroy,
   OnInit,
-  SimpleChanges,
   ViewChild,
 } from '@angular/core';
 import { ForumComment } from '../../../utils/data-accessor';
@@ -108,7 +107,7 @@ export class CommentResponseViewComponent
     this._canNew = width >= 400;
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  ngOnChanges(): void {
     if (!this._keywordFilter) {
       this.changeParent(this.owningComment.id);
     } else {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
@@ -7,7 +7,6 @@ import { LanguageService } from 'app/services/util/language.service';
 import { NotificationService } from 'app/services/util/notification.service';
 import {
   BehaviorSubject,
-  debounce,
   debounceTime,
   distinctUntilChanged,
   map,
@@ -21,7 +20,7 @@ import {
   templateUrl: './password-generator.component.html',
   styleUrls: ['./password-generator.component.scss'],
 })
-export class PasswordGeneratorComponent implements OnInit {
+export class PasswordGeneratorComponent {
   password: string = '';
   passwordCount = new FormControl(12, [
     Validators.required,
@@ -59,6 +58,7 @@ export class PasswordGeneratorComponent implements OnInit {
   }
 
   generatePassword() {
+    // eslint-disable-next-line no-constant-condition
     while (true) {
       this.password = this.makePassword();
       const chars = this.password.split('');
@@ -90,8 +90,6 @@ export class PasswordGeneratorComponent implements OnInit {
           .subscribe((msg) => this.notificationService.show(msg));
       });
   }
-
-  ngOnInit(): void {}
 
   confirm() {
     if (!this.passwordCount.valid || this.password.trim().length < 8) {

@@ -116,8 +116,9 @@ export class Rescale {
   }
 
   private scaleUpdate() {
-    (document.getElementById('rescale_screen').style as any).zoom =
-      this.scale + '';
+    document.getElementById('rescale_screen').style['zoom'] = String(
+      this.scale,
+    );
   }
 
   private toggleHeader(b: boolean) {

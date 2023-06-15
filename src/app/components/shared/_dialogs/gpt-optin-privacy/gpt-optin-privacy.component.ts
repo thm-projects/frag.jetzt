@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { LanguageService } from '../../../../services/util/language.service';
 import { MatDialogRef } from '@angular/material/dialog';
 
@@ -7,13 +7,11 @@ import { MatDialogRef } from '@angular/material/dialog';
   templateUrl: './gpt-optin-privacy.component.html',
   styleUrls: ['./gpt-optin-privacy.component.scss'],
 })
-export class GptOptInPrivacyComponent implements OnInit {
+export class GptOptInPrivacyComponent {
   constructor(
     public langService: LanguageService,
     private dialogRef: MatDialogRef<GptOptInPrivacyComponent>,
   ) {}
-
-  ngOnInit(): void {}
 
   onDecline(): void {
     this.dialogRef.close(false);

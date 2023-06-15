@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { LanguageService } from '../../../../../services/util/language.service';
 
@@ -7,13 +7,11 @@ import { LanguageService } from '../../../../../services/util/language.service';
   templateUrl: './introduction-comment-list.component.html',
   styleUrls: ['./introduction-comment-list.component.scss'],
 })
-export class IntroductionCommentListComponent implements OnInit {
+export class IntroductionCommentListComponent {
   constructor(
     private dialogRef: MatDialogRef<IntroductionCommentListComponent>,
     public languageService: LanguageService,
   ) {}
-
-  ngOnInit(): void {}
 
   onClose() {
     this.dialogRef.close();

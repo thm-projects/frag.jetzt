@@ -23,7 +23,7 @@ export class JoyrideTemplateDirective implements OnInit {
     this.joyrideDirective.prevTemplate = templates.instance.prevButton;
     this.joyrideDirective.counterTemplate = templates.instance.counter;
     this.joyrideDirective.stepContent = templates.instance.translateText;
-    this.joyrideDirective.done.subscribe((_) => {
+    this.joyrideDirective.done.subscribe(() => {
       this.eventService.broadcast('onboarding', 'canceled');
     });
   }

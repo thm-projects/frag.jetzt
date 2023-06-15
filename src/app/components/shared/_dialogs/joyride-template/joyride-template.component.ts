@@ -17,11 +17,12 @@ import { SessionService } from '../../../../services/util/session.service';
   styleUrls: ['./joyride-template.component.scss'],
 })
 export class JoyrideTemplateComponent implements OnInit {
-  @ViewChild('translateText', { static: true }) translateText: TemplateRef<any>;
-  @ViewChild('nextButton', { static: true }) nextButton: TemplateRef<any>;
-  @ViewChild('prevButton', { static: true }) prevButton: TemplateRef<any>;
-  @ViewChild('doneButton', { static: true }) doneButton: TemplateRef<any>;
-  @ViewChild('counter', { static: true }) counter: TemplateRef<any>;
+  @ViewChild('translateText', { static: true })
+  translateText: TemplateRef<unknown>;
+  @ViewChild('nextButton', { static: true }) nextButton: TemplateRef<unknown>;
+  @ViewChild('prevButton', { static: true }) prevButton: TemplateRef<unknown>;
+  @ViewChild('doneButton', { static: true }) doneButton: TemplateRef<unknown>;
+  @ViewChild('counter', { static: true }) counter: TemplateRef<unknown>;
 
   @Input() name: string;
 

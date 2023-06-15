@@ -1,5 +1,5 @@
 import { DialogRef } from '@angular/cdk/dialog';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { BrainstormingService } from 'app/services/http/brainstorming.service';
 import { NotificationService } from 'app/services/util/notification.service';
@@ -9,7 +9,7 @@ import { NotificationService } from 'app/services/util/notification.service';
   templateUrl: './brainstorming-delete-confirm.component.html',
   styleUrls: ['./brainstorming-delete-confirm.component.scss'],
 })
-export class BrainstormingDeleteConfirmComponent implements OnInit {
+export class BrainstormingDeleteConfirmComponent {
   @Input()
   type: 'rating' | 'category' = 'rating';
   @Input()
@@ -21,8 +21,6 @@ export class BrainstormingDeleteConfirmComponent implements OnInit {
     private translateService: TranslateService,
     private notificationService: NotificationService,
   ) {}
-
-  ngOnInit(): void {}
 
   buildSaveActionCallback() {
     return () => {

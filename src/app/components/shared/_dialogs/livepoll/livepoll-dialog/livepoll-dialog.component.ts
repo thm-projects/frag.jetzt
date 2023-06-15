@@ -146,7 +146,7 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
           .pipe(takeUntil(this._destroyer))
           .subscribe((userCount) => {
             const parsed = JSON.parse(userCount.body);
-            if (parsed.hasOwnProperty('UserCountChanged')) {
+            if (Object.keys(parsed).includes('UserCountChanged')) {
               this.parseWebSocketStream(
                 'UserCountChanged',
                 parsed['UserCountChanged'],
@@ -310,7 +310,7 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
       collect.push('translated-text');
     } else if (!this.template.translate && this.template.isPlain) {
       collect.push('text-as-icon');
-    } else if (!!this.template.symbols) {
+    } else if (this.template.symbols) {
       collect.push('material-icons');
     }
     return collect.map((x) => `button-vote-${x}`).join(' ');
@@ -346,10 +346,10 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
     return prettyPrintDate(createdAt, this.languageService.currentLanguage());
   }
 
-  private parseWebSocketStream(type: string, payload: any, id?: UUID) {
+  private parseWebSocketStream(type: string, payload: unknown, id?: UUID) {
     switch (type) {
       case 'LivepollResult':
-        this.updateVotes(payload.votes);
+        this.updateVotes(payload['votes']);
         this.livepollService
           .getVote(this.livepollSession.id)
           .subscribe((vote) => {
@@ -368,7 +368,7 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
           });
         break;
       case 'UserCountChanged':
-        this.setUserCount(payload.userCount);
+        this.setUserCount(payload['userCount']);
         break;
       default:
         console.error('Ignored [ type, payload, id ]', { type, payload, id });

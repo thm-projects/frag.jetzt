@@ -162,7 +162,7 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
     this.commentsLoadedCallback(true);
     this._subscriptionCommentUpdates = this.roomDataService.dataAccessor
       .receiveUpdates([{ finished: true }])
-      .subscribe((_) => this.commentsLoadedCallback());
+      .subscribe(() => this.commentsLoadedCallback());
   }
 
   ngOnDestroy() {
@@ -275,10 +275,12 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
           onlyQuestions = true;
           break;
         case 'current-filter':
-          onlyQuestions = true;
-          const roomId = filter.lastRoomId;
-          filter.applyOptions(this.data.filterObject.dataFilter);
-          filter.lastRoomId = roomId;
+          {
+            onlyQuestions = true;
+            const roomId = filter.lastRoomId;
+            filter.applyOptions(this.data.filterObject.dataFilter);
+            filter.lastRoomId = roomId;
+          }
           break;
         case 'from-now':
           onlyQuestions = true;

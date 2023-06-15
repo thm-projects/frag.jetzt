@@ -123,7 +123,7 @@ export class TopicCloudBrainstormingComponent implements OnInit, OnDestroy {
           this._room.brainstormingSession = new BrainstormingSession(session);
           this.open();
         },
-        error: (_) => {
+        error: () => {
           this.isCreating = false;
           this.showSomethingWentWrong();
         },
@@ -178,7 +178,7 @@ export class TopicCloudBrainstormingComponent implements OnInit, OnDestroy {
     this.brainstormingService
       .patchSession(this.brainstormingData.id, { active: false })
       .subscribe({
-        next: (_) => (this.isClosing = false),
+        next: () => (this.isClosing = false),
         error: () => {
           this.isClosing = false;
           this.showSomethingWentWrong();
@@ -192,7 +192,7 @@ export class TopicCloudBrainstormingComponent implements OnInit, OnDestroy {
     }
     this.isDeleting = true;
     this.deleteOld().subscribe({
-      next: (_) => (this.isDeleting = false),
+      next: () => (this.isDeleting = false),
       error: () => {
         this.isDeleting = false;
         this.showSomethingWentWrong();
@@ -209,7 +209,7 @@ export class TopicCloudBrainstormingComponent implements OnInit, OnDestroy {
     ]);
   }
 
-  private deleteOldBrainstormingQuestions(): Observable<any> {
+  private deleteOldBrainstormingQuestions(): Observable<unknown> {
     const comments = this.roomDataService.dataAccessor.currentRawComments();
     if (!comments) {
       return of(null);

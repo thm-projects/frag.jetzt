@@ -365,14 +365,14 @@ export class SessionService {
             this.userManagementService.setCurrentAccess(shortId);
             return data;
           }),
-          mergeMap((_) =>
+          mergeMap(() =>
             this.wsConnectorService.connected$.pipe(
               filter((v) => !!v),
               take(1),
             ),
           ),
         )
-        .subscribe((_) => this.fetchRoom(shortId));
+        .subscribe(() => this.fetchRoom(shortId));
     });
   }
 
@@ -409,7 +409,7 @@ export class SessionService {
           }
         }
       });
-      this.receiveRoomUpdates().subscribe((x) => {
+      this.receiveRoomUpdates().subscribe(() => {
         if (_beforeActive.value !== !!this.currentLivepoll?.active) {
           _beforeActive.next(!!this.currentLivepoll?.active);
         }
@@ -422,8 +422,8 @@ export class SessionService {
     });
   }
 
-  private receiveMessage(msg: any, room: Room) {
-    const message = JSON.parse(msg.body);
+  private receiveMessage(msg: unknown, room: Room) {
+    const message = JSON.parse(msg['body']);
     if (message.roomId && message.roomId !== room.id) {
       console.error('Wrong room!', message);
       return;
@@ -470,9 +470,9 @@ export class SessionService {
     }
   }
 
-  private onBrainstormingCategorizationReset(message: any, room: Room) {
+  private onBrainstormingCategorizationReset(message: unknown, room: Room) {
     const id = room.brainstormingSession?.id;
-    if (id !== message.payload.sessionId) {
+    if (id !== message['payload']['sessionId']) {
       return;
     }
     this._beforeRoomUpdates.next(room);
@@ -481,14 +481,15 @@ export class SessionService {
     this._afterRoomUpdates.next(room);
   }
 
-  private onBrainstormingPatched(message: any, room: Room) {
+  private onBrainstormingPatched(message: unknown, room: Room) {
     const id = room.brainstormingSession?.id;
-    if (id !== message.payload.id) {
+    const payload = message['payload'];
+    if (id !== payload['id']) {
       return;
     }
     this._beforeRoomUpdates.next(room);
-    Object.keys(message.payload.changes).forEach((key) => {
-      const change = message.payload.changes[key];
+    Object.keys(payload['changes']).forEach((key) => {
+      const change = payload['changes'][key];
       if (key === 'ideasEndTimestamp' && change) {
         room.brainstormingSession[key] = new Date(change);
       } else {
@@ -498,9 +499,9 @@ export class SessionService {
     this._afterRoomUpdates.next(room);
   }
 
-  private onBrainstormingVoteReset(message: any, room: Room) {
+  private onBrainstormingVoteReset(message: unknown, room: Room) {
     const id = room.brainstormingSession?.id;
-    if (id !== message.payload.sessionId) {
+    if (id !== message['payload'].sessionId) {
       return;
     }
     this._beforeRoomUpdates.next(room);
@@ -513,26 +514,28 @@ export class SessionService {
     this._afterRoomUpdates.next(room);
   }
 
-  private onBrainstormingWordPatched(message: any, room: Room) {
-    const wordId = message.payload.id;
+  private onBrainstormingWordPatched(message: unknown, room: Room) {
+    const payload = message['payload'];
+    const wordId = payload.id;
     const entry = room.brainstormingSession?.wordsWithMeta?.[wordId];
     if (!entry) {
       return;
     }
     this._beforeRoomUpdates.next(room);
-    const changes = message.payload.changes;
+    const changes = payload.changes;
     Object.keys(changes).forEach((key) => {
       entry.word[key] = changes[key];
     });
     this._afterRoomUpdates.next(room);
   }
 
-  private onBrainstormingWordCreated(message: any, room: Room) {
-    const word = new BrainstormingWord({} as any);
-    word.id = message.payload.id;
-    word.sessionId = message.payload.sessionId;
-    word.word = message.payload.name;
-    word.correctedWord = message.payload.correctedWord;
+  private onBrainstormingWordCreated(message: unknown, room: Room) {
+    const payload = message['payload'];
+    const word = new BrainstormingWord({} as BrainstormingWord);
+    word.id = payload.id;
+    word.sessionId = payload.sessionId;
+    word.word = payload.name;
+    word.correctedWord = payload.correctedWord;
     if (word.sessionId !== room.brainstormingSession?.id) {
       console.error('Wrong session');
       return;
@@ -556,10 +559,11 @@ export class SessionService {
     this._afterRoomUpdates.next(room);
   }
 
-  private onBrainstormingVoteUpdated(message: any, room: Room) {
-    const wordId = message.payload.wordId;
-    const upvotes = message.payload.upvotes;
-    const downvotes = message.payload.downvotes;
+  private onBrainstormingVoteUpdated(message: unknown, room: Room) {
+    const payload = message['payload'];
+    const wordId = payload.wordId;
+    const upvotes = payload.upvotes;
+    const downvotes = payload.downvotes;
     const entry = room.brainstormingSession?.wordsWithMeta?.[wordId];
     if (!entry) {
       return;
@@ -577,9 +581,11 @@ export class SessionService {
     this.userManagementService.forceLogin().subscribe();
   }
 
-  private onLivepollCreated(message: any, room: Room) {
+  private onLivepollCreated(message: unknown, room: Room) {
     this._beforeRoomUpdates.next(room);
-    const livepollSessionObject = new LivepollSession(message.payload.livepoll);
+    const livepollSessionObject = new LivepollSession(
+      message['payload'].livepoll,
+    );
     this._currentLivepollSession.next(livepollSessionObject);
     this.updateCurrentRoom({
       livepollSession: livepollSessionObject,
@@ -592,14 +598,15 @@ export class SessionService {
     );
   }
 
-  private onLivepollPatched(message: any, room: Room) {
+  private onLivepollPatched(message: unknown, room: Room) {
     const id = room.livepollSession?.id;
-    if (id !== message.payload.id) {
+    const payload = message['payload'];
+    if (id !== payload.id) {
       // skip
       return;
     }
     this._beforeRoomUpdates.next(room);
-    const changes = message.payload.changes;
+    const changes = payload.changes;
     if (typeof changes.active !== 'undefined') {
       if (!changes.active) {
         room.livepollSession = null;

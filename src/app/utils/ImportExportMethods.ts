@@ -102,7 +102,7 @@ export const uploadCSV = (): Observable<string> =>
     let hadData = false;
     input.addEventListener(
       'change',
-      (_) => {
+      () => {
         hadData = true;
         const reader = new FileReader();
         reader.addEventListener('load', (event) => {
@@ -229,7 +229,7 @@ export const exportBonusArchive = (
           );
           return moderatorService.getUserData([...filteredComments]).pipe(
             map((users) => {
-              const fastAccess = {} as any;
+              const fastAccess = {} as { [key: string]: string };
               users.forEach((user) => {
                 if (user) {
                   fastAccess[user.id] = user['email'];
@@ -240,7 +240,7 @@ export const exportBonusArchive = (
           );
         }),
         switchMap((arr: [userId: string, c: Comment][]) => {
-          arr.sort(([_, a], [__, b]) => numberSorter(a?.number, b?.number));
+          arr.sort(([, a], [, b]) => numberSorter(a?.number, b?.number));
           const data: BonusArchiveEntry[] = arr.map(([loginId, c], i) => ({
             question: QuillUtils.serializeDelta(c?.body),
             bonusToken: tokens[i].token,
@@ -312,7 +312,7 @@ const roomImportExport = (
       languageKey: translatePath + '.room-categories',
       additionalLanguageKeys: [empty],
       valueMapper: {
-        export: (cfg, val) =>
+        export: (cfg, val: string[]) =>
           val?.length ? serializeStringArray(val) : cfg.additional[0],
         import: (cfg, val) =>
           val === cfg.additional[0] ? [] : deserializeStringArray(val),
@@ -698,7 +698,7 @@ const generateCommentCreatorIds = (
     mergeMap((value) => {
       value[5] = value[5].filter((c) => c.creatorId);
       const userSet = new Set<string>(value[5].map((c) => c.creatorId));
-      const fastAccess = {} as any;
+      const fastAccess = {} as { [key: string]: number };
       [...userSet].forEach((user, index) => (fastAccess[user] = index));
       return roomService.createGuestsForImport(roomId, userSet.size).pipe(
         map((guestIds) => {
@@ -722,7 +722,7 @@ const importRoomSettings = (
       description: value[3],
       tags: value[4],
     })
-    .pipe(map((_) => value));
+    .pipe(map(() => value));
 
 const importComments = (
   comments: CommentBonusTokenMixin[],
@@ -755,6 +755,6 @@ export const importToRoom = (
   return generateCommentCreatorIds(result, roomService, roomId).pipe(
     mergeMap((value) => importRoomSettings(value, roomService, roomId)),
     mergeMap((value) => importComments(value[5], roomId, commentService)),
-    mergeMap((_) => result),
+    mergeMap(() => result),
   );
 };

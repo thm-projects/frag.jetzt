@@ -3,7 +3,6 @@ import {
   Input,
   OnChanges,
   OnDestroy,
-  OnInit,
   SimpleChanges,
 } from '@angular/core';
 import { RoomDataService } from '../../../services/util/room-data.service';
@@ -13,15 +12,11 @@ import { RoomDataService } from '../../../services/util/room-data.service';
   templateUrl: './uiregistration.component.html',
   styleUrls: ['./uiregistration.component.scss'],
 })
-export class UIRegistrationComponent implements OnInit, OnDestroy, OnChanges {
+export class UIRegistrationComponent implements OnDestroy, OnChanges {
   @Input()
   commentId: string;
 
   constructor(private roomDataService: RoomDataService) {}
-
-  ngOnInit(): void {
-    // on changes are going to handle init
-  }
 
   ngOnChanges(changes: SimpleChanges) {
     if ('commentId' in changes) {

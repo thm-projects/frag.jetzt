@@ -5,7 +5,7 @@ import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
   providedIn: 'root',
 })
 export class NotificationService {
-  public snackRef: any;
+  public snackRef: unknown;
 
   constructor(public snackBar: MatSnackBar) {}
 

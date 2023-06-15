@@ -14,8 +14,6 @@ export class HeaderService {
   private userActivityToggleListener: ((v: boolean) => void)[] = [];
   private headerComponent: () => HeaderComponent;
 
-  constructor() {}
-
   public getHeaderComponent(): HeaderComponent {
     return this.headerComponent();
   }

@@ -28,7 +28,7 @@ export class TagCloudSettings {
     return new TagCloudSettings(TopicCloudAdminService.getDefaultAdminData);
   }
 
-  private static migrate(object: unknown, currentVersion: number): any {
+  private static migrate(object: unknown, currentVersion: number): unknown {
     switch (currentVersion) {
       case 1:
         return {

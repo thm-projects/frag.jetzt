@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { SessionService } from '../../../../../../app/services/util/session.service';
 import { CachedSanitizerService } from '../../../../../../app/services/util/cached-sanitizer.service';
 
@@ -7,11 +7,9 @@ import { CachedSanitizerService } from '../../../../../../app/services/util/cach
   templateUrl: './introduction-question-wall-en.component.html',
   styleUrls: ['./introduction-question-wall-en.component.scss'],
 })
-export class IntroductionQuestionWallENComponent implements OnInit {
+export class IntroductionQuestionWallENComponent {
   constructor(
     public sessionInfo: SessionService,
     public sanitizer: CachedSanitizerService,
   ) {}
-
-  ngOnInit(): void {}
 }

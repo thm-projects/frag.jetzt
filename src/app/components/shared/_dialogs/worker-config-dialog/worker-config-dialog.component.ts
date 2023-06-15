@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Room } from '../../../../models/room';
 import { WorkerDialogComponent } from '../worker-dialog/worker-dialog.component';
@@ -8,7 +8,7 @@ import { WorkerDialogComponent } from '../worker-dialog/worker-dialog.component'
   templateUrl: './worker-config-dialog.component.html',
   styleUrls: ['./worker-config-dialog.component.scss'],
 })
-export class WorkerConfigDialogComponent implements OnInit {
+export class WorkerConfigDialogComponent {
   public selection = 'normal';
 
   constructor(private dialogRef: MatDialogRef<WorkerConfigDialogComponent>) {}
@@ -27,8 +27,6 @@ export class WorkerConfigDialogComponent implements OnInit {
         WorkerDialogComponent.addWorkTask(dialog, room, data === 'only-failed');
       });
   }
-
-  ngOnInit(): void {}
 
   buildConfirmAction() {
     return () => {

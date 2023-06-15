@@ -23,7 +23,7 @@ export class DeleteAccountComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<DeleteAccountComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any,
+    @Inject(MAT_DIALOG_DATA) public data: unknown,
     private roomService: RoomService,
     private userManagementService: UserManagementService,
     private liveAnnouncer: LiveAnnouncer,

@@ -32,6 +32,7 @@ type IsNegativeInteger<T extends number> = `${T}` extends `-${string}`
   : never;
 
 type FixedSizeArrayBuilder<
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   T extends any[],
   L extends number,
 > = T['length'] extends L
@@ -88,6 +89,7 @@ export type MakeUnique<T, K extends string> = T & { readonly __TYPE_NAME__: K };
 export type JSONString = MakeUnique<string, 'JSONString'>;
 export type UUID = MakeUnique<string, 'UUID'>;
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type IsObject<T> = T extends { [key: string | number | symbol]: any }
   ? true
   : false;
@@ -104,6 +106,7 @@ export type Mutable<T> = IsObject<T> extends true
     }
   : T;
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type GeneralFunction = (...anyArgs: any) => any;
 
 export type FieldsOf<T> = T extends GeneralFunction
@@ -139,7 +142,7 @@ export const clone = <T>(elem: T): Mutable<T> => {
     return Object.keys(elem).reduce((acc, e) => {
       acc[e] = clone(elem[e]);
       return acc;
-    }, {} as any);
+    }, {} as Mutable<T>);
   }
   return elem as Mutable<T>;
 };

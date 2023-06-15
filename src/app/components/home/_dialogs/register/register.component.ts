@@ -1,10 +1,4 @@
-import {
-  AfterViewInit,
-  Component,
-  Inject,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { AfterViewInit, Component, Inject, ViewChild } from '@angular/core';
 import {
   MAT_DIALOG_DATA,
   MatDialogRef,
@@ -83,7 +77,7 @@ export const checkForPasswordValidity =
       return { containsLowercase: { _: false } };
     if (!/[A-Z]/.test(passwordField.value))
       return { containsUppercase: { _: false } };
-    if (!/[!@#$%^&*()_+\-=\?]/.test(passwordField.value))
+    if (!/[!@#$%^&*()_+\-=?]/.test(passwordField.value))
       return { containsSpecialCharacter: { _: false } };
 
     if ((usernameField.value || '').trim().length <= 0) return null;
@@ -115,7 +109,7 @@ export const checkForEquality =
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss'],
 })
-export class RegisterComponent implements OnInit, AfterViewInit {
+export class RegisterComponent implements AfterViewInit {
   @ViewChild('customProgressBar') customProgressBar: MatProgressBar;
   usernameFormControl = new FormControl('', [
     Validators.required,
@@ -146,7 +140,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     public authenticationService: AuthenticationService,
     public notificationService: NotificationService,
     public dialogRef: MatDialogRef<RegisterComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any,
+    @Inject(MAT_DIALOG_DATA) public data: unknown,
     private dialog: MatDialog,
   ) {}
 
@@ -163,13 +157,6 @@ export class RegisterComponent implements OnInit, AfterViewInit {
    */
   closeDialog(): void {
     this.dialogRef.close();
-  }
-
-  /**
-   * @inheritDoc
-   */
-  ngOnInit() {
-    // nothing special yet
   }
 
   ngAfterViewInit(): void {

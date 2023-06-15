@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { EmailService } from 'app/services/http/email.service';
 import { NotificationService } from 'app/services/util/notification.service';
@@ -8,7 +8,7 @@ import { NotificationService } from 'app/services/util/notification.service';
   templateUrl: './admin-mailing.component.html',
   styleUrls: ['./admin-mailing.component.scss'],
 })
-export class AdminMailingComponent implements OnInit {
+export class AdminMailingComponent {
   subject: string = '';
   message: string = '';
 
@@ -17,8 +17,6 @@ export class AdminMailingComponent implements OnInit {
     private notification: NotificationService,
     private translateService: TranslateService,
   ) {}
-
-  ngOnInit(): void {}
 
   send() {
     const subject = this.subject;

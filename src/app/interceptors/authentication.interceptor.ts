@@ -29,7 +29,7 @@ export class AuthenticationInterceptor implements HttpInterceptor {
         /^\/api\/user\/register(\/|$)/g,
         /^\/api\/user\/[^/]+\/activate(\/|$)/g,
         /^\/api\/user\/[^/]+\/resetactivation(\/|$)/g,
-        /^\/api\/user\/[^\/]+\/resetpassword(\/|$)/g,
+        /^\/api\/user\/[^/]+\/resetpassword(\/|$)/g,
         /^\/api\/rating\/accumulated(\/|$)/g,
       ],
     },
@@ -43,9 +43,9 @@ export class AuthenticationInterceptor implements HttpInterceptor {
   ) {}
 
   intercept(
-    req: HttpRequest<any>,
+    req: HttpRequest<unknown>,
     next: HttpHandler,
-  ): Observable<HttpEvent<any>> {
+  ): Observable<HttpEvent<unknown>> {
     if (!this.userManagementService.isLoggedIn()) {
       return next.handle(req);
     }
@@ -70,12 +70,12 @@ export class AuthenticationInterceptor implements HttpInterceptor {
 
     return next.handle(cloned).pipe(
       tap({
-        next: (event: HttpEvent<any>) => {
+        next: (event: HttpEvent<unknown>) => {
           if (event instanceof HttpResponse) {
             // Possible to do something with the response here
           }
         },
-        error: (err: any) => {
+        error: (err: unknown) => {
           if (err instanceof HttpErrorResponse) {
             // Possible to do something with the response here
           }

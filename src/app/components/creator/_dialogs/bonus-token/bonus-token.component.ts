@@ -34,7 +34,7 @@ import { UserManagementService } from '../../../../services/util/user-management
   styleUrls: ['./bonus-token.component.scss'],
 })
 export class BonusTokenComponent implements OnInit, OnDestroy {
-  value: any = '';
+  value: string = '';
   valid = false;
   room: Room;
   bonusTokens: BonusToken[] = [];
@@ -72,10 +72,10 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.getTokens();
     this.sub = this.eventService
-      .on<any>('BonusTokenDeleted')
+      .on<unknown>('BonusTokenDeleted')
       .subscribe((payload) => {
         this.bonusTokens = this.bonusTokens.filter(
-          (bt) => bt.token !== payload.token,
+          (bt) => bt.token !== payload['token'],
         );
         this.updateTable(false);
       });
@@ -116,7 +116,7 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
     this.commentService
       .getComment(bonusToken.commentId)
       .subscribe((comment) => {
-        this.commentService.toggleFavorite(comment).subscribe((_) => {
+        this.commentService.toggleFavorite(comment).subscribe(() => {
           const event = new BonusTokenDeleted(bonusToken.token);
           this.eventService.broadcast(event.type, event.payload);
         });
@@ -166,10 +166,10 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
     return () => this.dialogRef.close();
   }
 
-  inputChanged(event: any) {
-    event.cancelBubble = true;
-    this.value = event.target.value;
-    this.modelChanged.next(event);
+  inputChanged(event: InputEvent) {
+    event.stopImmediatePropagation();
+    this.value = event.target['value'];
+    this.modelChanged.next(this.value);
     this.selection.clear();
   }
 
@@ -198,7 +198,7 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
     }
   }
 
-  validateTokenInput(input: any): boolean {
+  validateTokenInput(input: string): boolean {
     let res = false;
     if (input.length === 8 && this.isNumeric(input)) {
       this.bonusTokens.forEach((bonusToken) => {
@@ -221,7 +221,7 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
     );
     this.subscription = this.modelChanged
       .pipe(debounceTime(this.debounceTime))
-      .subscribe((_) => {
+      .subscribe(() => {
         this.inputToken();
       });
     this.isLoading = false;
@@ -307,8 +307,6 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
   }
 
   private isNumeric(msg: string): boolean {
-    // @ts-ignore
-    // eslint-disable-next-line eqeqeq
-    return +msg == msg;
+    return !Number.isNaN(Number(msg));
   }
 }

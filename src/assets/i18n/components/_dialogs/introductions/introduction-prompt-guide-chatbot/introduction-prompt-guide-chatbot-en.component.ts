@@ -1,12 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-introduction-prompt-guide-chatbot-en',
   templateUrl: './introduction-prompt-guide-chatbot-en.component.html',
   styleUrls: ['./introduction-prompt-guide-chatbot-en.component.scss'],
 })
-export class IntroductionPromptGuideChatbotEnComponent implements OnInit {
-  constructor() {}
-
-  ngOnInit(): void {}
-}
+export class IntroductionPromptGuideChatbotEnComponent {}

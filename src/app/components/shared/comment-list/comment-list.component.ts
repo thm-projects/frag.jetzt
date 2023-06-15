@@ -124,7 +124,7 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
   consentGPT = false;
   private firstReceive = true;
   private _allQuestionNumberOptions: string[] = [];
-  private _list: ComponentRef<any>[];
+  private _list: ComponentRef<unknown>[];
   private _filterObject: FilteredDataAccess;
   private _cloudFilterObject: FilteredDataAccess;
   private _destroySubject = new Subject();
@@ -158,7 +158,7 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
     langService
       .getLanguage()
       .pipe(takeUntil(this._destroySubject))
-      .subscribe((_) => {
+      .subscribe(() => {
         this.translateService.get('comment-list.search').subscribe((msg) => {
           this.searchPlaceholder = msg;
         });
@@ -166,7 +166,7 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
     themeService
       .getTheme()
       .pipe(takeUntil(this._destroySubject))
-      .subscribe((_) => {
+      .subscribe(() => {
         this.updateQrCodeColors();
       });
     this.questionNumberFormControl.valueChanges.subscribe((v) => {
@@ -401,7 +401,7 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
     this._filterObject.dataFilter = filter;
   }
 
-  applyFilterByKey(type: FilterTypeKey, compare?: any): void {
+  applyFilterByKey(type: FilterTypeKey, compare?: unknown): void {
     this.pageIndex = 0;
     const filter = this._filterObject.dataFilter;
     filter.filterType = FilterType[type];

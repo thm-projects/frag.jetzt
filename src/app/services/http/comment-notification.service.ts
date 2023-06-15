@@ -28,7 +28,7 @@ export class CommentNotificationService extends BaseHttpService {
         externalFilters: {},
       })
       .pipe(
-        tap((_) => ''),
+        tap(() => ''),
         catchError(this.handleError<CommentNotification[]>('findByRoomId')),
       );
   }
@@ -37,7 +37,7 @@ export class CommentNotificationService extends BaseHttpService {
     const connectionUrl =
       this.apiUrl.base + this.apiUrl.commentNotification + '/' + id;
     return this.http.get<CommentNotification>(connectionUrl).pipe(
-      tap((_) => ''),
+      tap(() => ''),
       catchError(this.handleError<CommentNotification>('getById')),
     );
   }
@@ -51,7 +51,7 @@ export class CommentNotificationService extends BaseHttpService {
     return this.http
       .post<CommentNotification>(connectionUrl, { roomId, notificationSetting })
       .pipe(
-        tap((_) => ''),
+        tap(() => ''),
         catchError(this.handleError<CommentNotification>('createNotification')),
       );
   }
@@ -60,7 +60,7 @@ export class CommentNotificationService extends BaseHttpService {
     const connectionUrl =
       this.apiUrl.base + this.apiUrl.commentNotification + '/' + id;
     return this.http.delete(connectionUrl).pipe(
-      tap((_) => ''),
+      tap(() => ''),
       catchError(this.handleError<CommentNotification>('deleteNotification')),
     );
   }

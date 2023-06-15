@@ -87,7 +87,7 @@ class FileSearcher {
           ) {
             if (expr.left.kind === ts.SyntaxKind.StringLiteral) {
               success = true;
-              keys.push((expr.left as ts.StringLiteral).text);
+              // keys.push((expr.left as ts.StringLiteral).text);
             }
           }
         }
@@ -126,32 +126,36 @@ export const delint = (sourceFile: ts.SourceFile) => {
         break;
 
       case ts.SyntaxKind.IfStatement:
-        const ifStatement = node as ts.IfStatement;
-        if (ifStatement.thenStatement.kind !== ts.SyntaxKind.Block) {
-          report(
-            ifStatement.thenStatement,
-            "An if statement's contents should be wrapped in a block body.",
-          );
-        }
-        if (
-          ifStatement.elseStatement &&
-          ifStatement.elseStatement.kind !== ts.SyntaxKind.Block &&
-          ifStatement.elseStatement.kind !== ts.SyntaxKind.IfStatement
-        ) {
-          report(
-            ifStatement.elseStatement,
-            "An else statement's contents should be wrapped in a block body.",
-          );
+        {
+          const ifStatement = node as ts.IfStatement;
+          if (ifStatement.thenStatement.kind !== ts.SyntaxKind.Block) {
+            report(
+              ifStatement.thenStatement,
+              "An if statement's contents should be wrapped in a block body.",
+            );
+          }
+          if (
+            ifStatement.elseStatement &&
+            ifStatement.elseStatement.kind !== ts.SyntaxKind.Block &&
+            ifStatement.elseStatement.kind !== ts.SyntaxKind.IfStatement
+          ) {
+            report(
+              ifStatement.elseStatement,
+              "An else statement's contents should be wrapped in a block body.",
+            );
+          }
         }
         break;
 
       case ts.SyntaxKind.BinaryExpression:
-        const op = (node as ts.BinaryExpression).operatorToken.kind;
-        if (
-          op === ts.SyntaxKind.EqualsEqualsToken ||
-          op === ts.SyntaxKind.ExclamationEqualsToken
-        ) {
-          report(node, "Use '===' and '!=='.");
+        {
+          const op = (node as ts.BinaryExpression).operatorToken.kind;
+          if (
+            op === ts.SyntaxKind.EqualsEqualsToken ||
+            op === ts.SyntaxKind.ExclamationEqualsToken
+          ) {
+            report(node, "Use '===' and '!=='.");
+          }
         }
         break;
     }

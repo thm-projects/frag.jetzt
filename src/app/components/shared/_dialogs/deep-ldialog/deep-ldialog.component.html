@@ -10,9 +10,9 @@
     </mat-radio-button>
     <app-view-comment-data
       #normal
-      [maxTextCharacters]="data.maxTextCharacters"
-      [maxDataCharacters]="data.maxDataCharacters"
-      [isModerator]="data.isModerator"
+      [maxTextCharacters]="maxTextCharacters"
+      [maxDataCharacters]="maxDataCharacters"
+      [isModerator]="isModerator"
       [isEditor]="true"
       [currentData]="normalValue.body"></app-view-comment-data>
     <br />
@@ -21,9 +21,9 @@
     </mat-radio-button>
     <app-view-comment-data
       #improved
-      [maxTextCharacters]="data.maxTextCharacters"
-      [maxDataCharacters]="data.maxDataCharacters"
-      [isModerator]="data.isModerator"
+      [maxTextCharacters]="maxTextCharacters"
+      [maxDataCharacters]="maxDataCharacters"
+      [isModerator]="isModerator"
       [isEditor]="true"
       [currentData]="improvedValue.body"
       [usesFormality]="supportsFormality"

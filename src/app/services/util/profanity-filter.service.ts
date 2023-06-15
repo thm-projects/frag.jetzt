@@ -95,7 +95,7 @@ export class ProfanityFilterService {
     censorLanguageSpecificCheck: boolean,
     lang?: string,
   ): [string, boolean] {
-    let profWords: any[];
+    let profWords: string[];
     if (censorLanguageSpecificCheck) {
       profWords =
         BadWords[

@@ -85,7 +85,7 @@ export class PasswordResetComponent implements OnInit, AfterViewInit {
     public authenticationService: AuthenticationService,
     public notificationService: NotificationService,
     public dialogRef: MatDialogRef<PasswordResetComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any,
+    @Inject(MAT_DIALOG_DATA) public data: unknown,
     private liveAnnouncer: LiveAnnouncer,
     private dialog: MatDialog,
   ) {}
@@ -275,7 +275,7 @@ export class PasswordResetComponent implements OnInit, AfterViewInit {
           });
         this.dialogRef.close({ username: email, password });
       },
-      error: (errorCode: any) => {
+      error: (errorCode: unknown) => {
         if (errorCode === LoginResult.KeyExpired) {
           this.translationService
             .get('password-reset.new-password-key-expired')

@@ -14,14 +14,17 @@ export class CommentServiceMock extends CommentService {
     super(null);
   }
 
-  patchComment(comment: Comment, changes: TSMap<string, any>): Observable<any> {
+  patchComment(
+    comment: Comment,
+    changes: TSMap<string, unknown>,
+  ): Observable<Comment> {
     changes.forEach((value, key) => {
       comment[key] = value;
     });
     return of(comment);
   }
 
-  getComments(roomId: string): Observable<Comment[]> {
+  getComments(): Observable<Comment[]> {
     return of([
       new Comment({
         id: generateConsequentlyUUID(),
@@ -60,14 +63,14 @@ export class CommentServiceMock extends CommentService {
     ]);
   }
 
-  getAckComments(roomId: string): Observable<Comment[]> {
-    return this.getComments(roomId).pipe(
+  getAckComments(): Observable<Comment[]> {
+    return this.getComments().pipe(
       map((comments) => comments.filter((c) => c.ack)),
     );
   }
 
-  getRejectedComments(roomId: string): Observable<Comment[]> {
-    return this.getComments(roomId).pipe(
+  getRejectedComments(): Observable<Comment[]> {
+    return this.getComments().pipe(
       map((comments) => comments.filter((c) => !c.ack)),
     );
   }

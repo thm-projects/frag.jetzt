@@ -97,7 +97,7 @@ class DataAccessorUpdateSubscription {
   /**
    * Checks if value1 is a subset of value2
    */
-  private ensureEqual(value1: any, value2: any): boolean {
+  private ensureEqual(value1: unknown, value2: unknown): boolean {
     if (Array.isArray(value1)) {
       return this.checkArrayIsSubset(value1, value2);
     } else if (typeof value1 === 'object') {
@@ -115,7 +115,7 @@ class DataAccessorUpdateSubscription {
     return value1 === value2;
   }
 
-  private checkArrayIsSubset(value1: any[], value2: any) {
+  private checkArrayIsSubset(value1: unknown[], value2: unknown) {
     if (!Array.isArray(value2)) {
       return false;
     }
@@ -154,7 +154,7 @@ export class DataAccessor {
   private _rawComments: BehaviorSubject<ForumComment[]>;
   private _forumComments: BehaviorSubject<ForumComment[]>;
   private _wasReset: boolean;
-  private _messageQueue: any[] = [];
+  private _messageQueue: unknown[] = [];
   private _currentSubscriptions: DataAccessorUpdateSubscription[] = [];
   // Room specific
   private _moderatorIds: Set<string>;
@@ -257,9 +257,7 @@ export class DataAccessor {
       });
     }
     this._rawComments.next(forumComments);
-    this._forumComments.next(
-      forumComments.filter((c) => !Boolean(c.commentReference)),
-    );
+    this._forumComments.next(forumComments.filter((c) => !c.commentReference));
     // apply missed messages
     this._messageQueue.forEach((msg) => this.onMessageReceive(msg));
     this._messageQueue.length = 0;
@@ -284,7 +282,7 @@ export class DataAccessor {
     this._userBookmarks = null;
   }
 
-  receiveMessage(message: any) {
+  receiveMessage(message: unknown) {
     if (this._wasReset) {
       this._messageQueue.push(message);
       return;
@@ -350,7 +348,7 @@ export class DataAccessor {
     }
     this._rawComments.value.push(forumComment);
     this._rawComments.next(this._rawComments.value);
-    if (!Boolean(forumComment.commentReference)) {
+    if (!forumComment.commentReference) {
       this._forumComments.value.push(forumComment);
       this._forumComments.next(this._forumComments.value);
     }
@@ -386,37 +384,40 @@ export class DataAccessor {
     });
   }
 
-  private onMessageReceive(data: any) {
-    switch (data.type) {
+  private onMessageReceive(data: unknown) {
+    const type = data['type'];
+    const payload = data['payload'];
+    switch (type) {
       case 'CommentCreated':
-        this.onCommentCreate(data.payload);
+        this.onCommentCreate(payload);
         break;
       case 'CommentPatched':
-        this.onCommentPatched(data.payload);
+        this.onCommentPatched(payload);
         break;
       case 'CommentHighlighted':
-        this.onCommentHighlighted(data.payload);
+        this.onCommentHighlighted(payload);
         break;
       case 'CommentDeleted':
-        this.removeComment(data.payload.id);
+        this.removeComment(payload['id']);
         break;
     }
   }
 
-  private onCommentCreate(payload: any) {
-    this.commentService.getComment(payload.id).subscribe((comment) => {
+  private onCommentCreate(payload: unknown) {
+    this.commentService.getComment(payload['id']).subscribe((comment) => {
       this.addComment(comment);
     });
   }
 
-  private onCommentPatched(payload: any) {
-    const comment = this._fastAccess[payload.id]?.comment;
+  private onCommentPatched(payload: unknown) {
+    const id = payload['id'];
+    const comment = this._fastAccess[id]?.comment;
     if (comment === undefined) {
-      console.error('Patch: Comment ' + payload.id + ' was not found!');
+      console.error('Patch: Comment ' + id + ' was not found!');
       return;
     }
     const updates: (keyof Comment)[] = [];
-    for (const [key, value] of Object.entries(payload.changes)) {
+    for (const [key, value] of Object.entries(payload['changes'])) {
       const changeKey = key as keyof Comment;
       if (this.patchCommentValue(changeKey, comment, value)) {
         updates.push(changeKey);
@@ -439,7 +440,7 @@ export class DataAccessor {
   private patchCommentValue(
     changeKey: keyof Comment,
     comment: ForumComment,
-    value: any,
+    value: unknown,
   ) {
     let hadKey = true;
     switch (changeKey) {
@@ -456,10 +457,12 @@ export class DataAccessor {
         comment[changeKey] = JSON.parse(value as string);
         break;
       case 'ack':
-        const isNowAck = value as boolean;
-        comment.ack = isNowAck;
-        if (isNowAck !== this.isAcknowledged) {
-          this.removeComment(comment.id);
+        {
+          const isNowAck = value as boolean;
+          comment.ack = isNowAck;
+          if (isNowAck !== this.isAcknowledged) {
+            this.removeComment(comment.id);
+          }
         }
         break;
       case 'body':
@@ -467,8 +470,8 @@ export class DataAccessor {
         break;
       default:
         if (SIMPLE_PATCH_PROPERTIES.has(changeKey)) {
-          // @ts-ignore
-          comment[changeKey] = value;
+          // @ts-expect-error object value can not be asserted to object
+          comment[key] = value;
         } else {
           console.error('Unknown comment patch: ' + changeKey);
           hadKey = false;
@@ -478,13 +481,14 @@ export class DataAccessor {
     return hadKey;
   }
 
-  private onCommentHighlighted(payload: any) {
-    const comment = this._fastAccess[payload.id]?.comment;
+  private onCommentHighlighted(payload: unknown) {
+    const id = payload['id'];
+    const comment = this._fastAccess[id]?.comment;
     if (comment === undefined) {
-      console.error('Highlighted: Comment ' + payload.id + ' was not found!');
+      console.error('Highlighted: Comment ' + id + ' was not found!');
       return;
     }
-    comment.highlighted = payload.lights as boolean;
+    comment.highlighted = payload['lights'] as boolean;
     this.triggerUpdate({
       type: 'CommentHighlighted',
       finished: true,

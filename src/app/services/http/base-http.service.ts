@@ -1,15 +1,13 @@
 import { Injectable } from '@angular/core';
-import { Observable, throwError, TimeoutError } from 'rxjs';
+import { Observable, of, throwError, TimeoutError } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable()
 export class BaseHttpService {
   private nextRequest = 0;
 
-  constructor() {}
-
-  public handleError<T>(operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
+  public handleError<T>(operation = 'operation', results?: T) {
+    return (error: unknown): Observable<T> => {
       if (error instanceof TimeoutError) {
         this.nextRequest = new Date().getTime() + 1_000;
       } else if (error instanceof HttpErrorResponse) {
@@ -20,6 +18,9 @@ export class BaseHttpService {
         }
       }
       console.error(operation, error);
+      if (results) {
+        return of(results);
+      }
       return throwError(() => error);
     };
   }
@@ -28,7 +29,7 @@ export class BaseHttpService {
     this.nextRequest = new Date().getTime() + ms;
   }
 
-  protected checkCanSendRequest(operation = 'operation'): Observable<any> {
+  protected checkCanSendRequest<T>(operation = 'operation'): Observable<T> {
     if (new Date().getTime() < this.nextRequest) {
       const message = `${operation} is in timeout`;
       console.error(message);

@@ -282,7 +282,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     CloudParameters.removeParameters();
   }
 
-  onResize(event: UIEvent): any {
+  onResize() {
     this.updateTagCloud();
   }
 
@@ -310,7 +310,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
   }
 
   startIntroduction() {
-    const type: ComponentType<any> = this.brainstormingActive
+    const type: ComponentType<unknown> = this.brainstormingActive
       ? IntroductionBrainstormingComponent
       : IntroductionTagCloudComponent;
     this.dialog.open(type, {
@@ -491,7 +491,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
       });
       this.dataManager.filterObject = filterObj;
     });
-    this.themeSubscription = this.themeService.getTheme().subscribe((_) => {
+    this.themeSubscription = this.themeService.getTheme().subscribe(() => {
       if (this.cloud) {
         setTimeout(() => {
           this.setCloudParameters(this.getCurrentCloudParameters(), false);
@@ -589,7 +589,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
       filterObj.dataFilter = filter;
       this.brainDataManager.filterObject = filterObj;
     });
-    this.themeSubscription = this.themeService.getTheme().subscribe((_) => {
+    this.themeSubscription = this.themeService.getTheme().subscribe(() => {
       if (this.cloud) {
         setTimeout(() => {
           this.setCloudParameters(this.getCurrentCloudParameters(), false);
@@ -739,7 +739,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
   }
 
   private initNormalNavigation() {
-    const list: ComponentRef<any>[] = this.composeService.builder(
+    const list: ComponentRef<unknown>[] = this.composeService.builder(
       this.headerService.getHost(),
       (e) => {
         e.menuItem({
@@ -782,7 +782,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
   }
 
   private initBrainstormingNavigation() {
-    const list: ComponentRef<any>[] = this.composeService.builder(
+    const list: ComponentRef<unknown>[] = this.composeService.builder(
       this.headerService.getHost(),
       (e) => {
         e.menuItem({

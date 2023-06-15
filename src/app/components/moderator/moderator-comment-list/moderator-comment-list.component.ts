@@ -94,7 +94,7 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
   private _allQuestionNumberOptions: string[] = [];
   private firstReceive = true;
   private _deviceSub: Subscription;
-  private _list: ComponentRef<any>[];
+  private _list: ComponentRef<unknown>[];
   private _filterObject: FilteredDataAccess;
 
   constructor(
@@ -248,7 +248,7 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
     this.period = filter.period;
   }
 
-  applyFilterByKey(type: FilterTypeKey, compare?: any): void {
+  applyFilterByKey(type: FilterTypeKey, compare?: unknown): void {
     this.pageIndex = 0;
     const filter = this._filterObject.dataFilter;
     filter.filterType = FilterType[type];

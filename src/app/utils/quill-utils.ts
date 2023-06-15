@@ -218,8 +218,6 @@ export class QuillMarkdownCreator {
   private wasItalic = -1;
   private wasBold = -1;
 
-  constructor() {}
-
   getMarkdown(): string {
     return this.entireDoc;
   }
@@ -376,7 +374,7 @@ const CITE = /^(?: {0,5}|\t)>\s*(.*)$/gm;
 const LIST_ORDER = /^ {0,3}\d+\.\s+(.*)$/gm;
 const LIST_DASH = /^ {0,3}(?:\*|\+|-)\s+(.*)$/gm;
 
-const LINK = /\!?\[([^\]]*)\]\(([^)]*)\)/;
+const LINK = /!?\[([^\]]*)\]\(([^)]*)\)/;
 const FORMULA = /\${1,2}([^$]*)\${1,2}/;
 const EMOJI = /:([a-zA-Z0-9-]+):/;
 const TEXT_FORMAT = /(_|\*|~~)+/;
@@ -495,6 +493,7 @@ export class QuillMarkdownParser {
 
   private parseTextStates(line: string, addEndLine: boolean) {
     let index = 0;
+    // eslint-disable-next-line no-constant-condition
     while (true) {
       line = line.substring(index);
       type Match = [string, RegExpMatchArray];

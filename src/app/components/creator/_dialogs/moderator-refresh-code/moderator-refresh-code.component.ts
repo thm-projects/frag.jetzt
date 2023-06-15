@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
@@ -6,10 +6,8 @@ import { MatDialogRef } from '@angular/material/dialog';
   templateUrl: './moderator-refresh-code.component.html',
   styleUrls: ['./moderator-refresh-code.component.scss'],
 })
-export class ModeratorRefreshCodeComponent implements OnInit {
+export class ModeratorRefreshCodeComponent {
   constructor(private dialogRef: MatDialogRef<ModeratorRefreshCodeComponent>) {}
-
-  ngOnInit(): void {}
 
   confirm() {
     this.dialogRef.close(true);

@@ -7,14 +7,14 @@ import { LanguageService } from './language.service';
   providedIn: 'root',
 })
 export class TitleService {
-  private _attachment: any = null;
+  private _attachment: unknown = null;
 
   constructor(
     private httpClient: HttpClient,
     private translateService: TranslateService,
     private languageService: LanguageService,
   ) {
-    this.languageService.getLanguage().subscribe((_) => {
+    this.languageService.getLanguage().subscribe(() => {
       this.updateTitle();
     });
   }

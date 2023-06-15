@@ -105,7 +105,7 @@ export class GptRoomSettingsComponent implements OnInit, OnDestroy {
   constructor(
     private gptService: GptService,
     private dialogRef: MatDialogRef<GptRoomSettingsComponent>,
-    private adapter: DateAdapter<any>,
+    private adapter: DateAdapter<unknown>,
     private languageService: LanguageService,
     private translateService: TranslateService,
     private notificationService: NotificationService,
