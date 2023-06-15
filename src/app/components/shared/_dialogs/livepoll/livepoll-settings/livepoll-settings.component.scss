@@ -54,23 +54,3 @@
   color: inherit !important;
   background-color: inherit !important;
 }
-
-.button-save {
-  background-color: transparent;
-  color: var(--primary) !important;
-  outline: var(--primary) solid 3px;
-
-  &:hover {
-    background-color: var(--primary) !important;
-    color: var(--on-primary) !important;
-  }
-
-  &:focus-within {
-    outline: var(--primary) solid 3px;
-  }
-
-  &:active {
-    background-color: var(--primary);
-    color: var(--on-primary);
-  }
-}

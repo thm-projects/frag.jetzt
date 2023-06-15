@@ -7,9 +7,6 @@
 }
 
 mat-card {
-  background-color: var(--surface);
-  color: var(--on-surface) !important;
-
   > :first-child {
     margin: 20px;
   }

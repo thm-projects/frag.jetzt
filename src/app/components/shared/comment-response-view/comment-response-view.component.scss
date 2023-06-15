@@ -7,48 +7,23 @@ $responseShadowOff: math.ceil($responseShadowWidth + $responseShadowYOffset);
   width: 100%;
   max-width: 800px;
 
+  // TODO: Theming #1
   &.marker {
-    box-shadow: 0 -#{$responseShadowOff} var(--background),
+    box-shadow: 0 -#{$responseShadowOff} red,
       -#{$responseShadowWidth} -#{$responseShadowYOffset} 0 #{$responseShadowWidth}
-        var(--on-background),
+        red,
       -#{$responseShadowWidth} #{$responseShadowWidth} 0 #{$responseShadowWidth}
-        var(--on-background);
+        red;
     border-radius: 0 0 $responseBorderRadius $responseBorderRadius;
   }
 }
 
 #sort-button {
-  color: var(--secondary);
   transform: scale(2.5);
-}
-
-.timesort {
-  color: var(--primary);
-}
-
-.timesort-reverse {
-  color: var(--secondary);
-}
-
-.up {
-  color: var(--green);
-}
-
-.down {
-  color: var(--red);
-}
-
-.controversy {
-  color: var(--primary);
-}
-
-.commented {
-  color: var(--primary);
 }
 
 .response-container {
   display: flex;
-  color: var(--on-background);
   margin: auto;
   margin-bottom: 30px;
   width: 100%;
@@ -82,6 +57,5 @@ $responseShadowOff: math.ceil($responseShadowWidth + $responseShadowYOffset);
   .number {
     font-size: 0.5em;
     line-height: 1em;
-    color: var(--red);
   }
 }

@@ -12,7 +12,6 @@ h3 {
 
 mat-icon.interactive {
   display: inline-block;
-  color: var(--on-dialog);
   opacity: 0.5;
   width: 1em;
   height: 1em;
@@ -21,12 +20,10 @@ mat-icon.interactive {
   transition: transform 250ms ease, color 250ms ease;
 
   &.star_full {
-    color: var(--yellow);
     opacity: unset;
   }
 
   &.star_half {
-    color: var(--yellow);
     opacity: unset;
   }
 

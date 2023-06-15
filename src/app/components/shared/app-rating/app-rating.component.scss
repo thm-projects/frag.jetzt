@@ -11,18 +11,9 @@ button {
   border-radius: 5px;
   font-size: 1em;
   width: 100%;
-  background-color: transparent;
-  color: var(--primary);
-  outline: var(--primary) solid 3px;
-
-  &:hover {
-    background-color: var(--primary);
-    color: var(--on-primary);
-  }
 }
 
 mat-icon.interactive {
-  color: var(--on-dialog);
   opacity: 0.5;
   width: 1em;
   height: 1em;
@@ -31,12 +22,10 @@ mat-icon.interactive {
   transition: transform 250ms ease, color 250ms ease;
 
   &.star_full {
-    color: var(--yellow);
     opacity: unset;
   }
 
   &.star_half {
-    color: var(--yellow);
     opacity: unset;
   }
 
@@ -51,16 +40,11 @@ mat-icon.interactive {
 
 .star-preview {
   justify-content: center;
-  color: var(--on-background);
   display: flex;
   align-items: center;
   font-size: 1em;
   width: max-content;
   margin: 0 auto;
-
-  .star {
-    color: var(--yellow);
-  }
 }
 
 @keyframes starBounce {

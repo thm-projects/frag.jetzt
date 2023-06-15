@@ -1,6 +1,5 @@
 .qr-container {
   height: 100%;
-  background-color: var(--background);
   cursor: move;
 }
 
@@ -10,17 +9,12 @@ ars-screen {
 
 .exitButton {
   transform: scale(2.5);
-  color: var(--red);
   position: absolute;
   top: 3em;
   right: 3em;
   border-radius: 100%;
   background-color: rgba(0, 0, 0, 0.75);
   z-index: 1;
-
-  &:hover {
-    outline: var(--red) solid 2px;
-  }
 }
 
 .action-buttons {
@@ -29,7 +23,6 @@ ars-screen {
   bottom: 1em;
   left: 50%;
   transform: translate(-50%, 0);
-  background-color: transparent;
   z-index: 1;
   line-height: 1;
   border-radius: 10px;

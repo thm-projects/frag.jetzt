@@ -56,7 +56,6 @@
         height: $height;
         flex-direction: row;
         justify-content: flex-start;
-        box-shadow: inset 0 0 0 2px var(--surface);
         border-radius: #{$border-radius}px;
         box-sizing: border-box;
         padding: 4px;
@@ -64,7 +63,6 @@
         > .bar {
           min-width: 1px;
           width: 10px;
-          background-color: var(--livepoll-secondary);
           border-radius: #{$border-radius - math.div($border-radius, 2)}px;
           transition: width 100ms ease-in-out;
           overflow: hidden;
@@ -78,7 +76,6 @@
               font-weight: bold;
               left: 9px;
               z-index: 10;
-              color: var(--on-livepoll-secondary);
             }
           }
         }
@@ -96,7 +93,6 @@
           top: 6px;
           font-weight: bold;
           left: 13px;
-          color: var(--livepoll-secondary);
         }
       }
     }

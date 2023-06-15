@@ -9,7 +9,6 @@
     margin-left: -5px;
     border-width: 5px;
     border-style: solid;
-    border-color: var(--on-dialog) transparent transparent transparent;
   }
 
   &::after {
@@ -20,7 +19,6 @@
     margin-left: -5px;
     border-width: 5px;
     border-style: solid;
-    border-color: var(--dialog) transparent transparent transparent;
   }
 
   &-below {
@@ -34,7 +32,6 @@
       margin-left: -5px;
       border-width: 5px;
       border-style: solid;
-      border-color: transparent transparent var(--on-dialog) transparent;
     }
 
     &::after {
@@ -45,21 +42,15 @@
       margin-left: -5px;
       border-width: 5px;
       border-style: solid;
-      border-color: transparent transparent var(--dialog) transparent;
     }
   }
 }
 
 .star_container {
-  color: var(--on-background);
   display: flex;
   align-items: center;
   font-size: 1.2em;
   margin-bottom: 0.75em;
-
-  > mat-icon {
-    color: var(--yellow);
-  }
 }
 
 .global_people {
@@ -94,14 +85,12 @@
       }
 
       .mat-progress-bar-buffer {
-        background: var(--background);
-        border: 1px solid var(--on-dialog);
         height: calc(1em - 2px);
         width: calc(100% - 2px);
       }
 
       .mat-progress-bar-fill::after {
-        background: var(--yellow);
+        background: red; // TODO: Theming #1
       }
     }
   }

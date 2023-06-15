@@ -311,7 +311,6 @@
         (click)="applyFilterByKey('ChatGPT')">
         <span
           class="chatgpt-robot-icon"
-          style="color: var(--primary)"
           [ngClass]="{ ChatGPT: 'chatgpt-icon' }[filterType]"></span>
         <span [ngClass]="{ ChatGPT: 'chatgpt-icon' }[filterType]">
           {{ "comment-list.filter-chatgpt" | translate }}
@@ -328,7 +327,6 @@
         (click)="applyFilterByKey('Approved')">
         <mat-icon
           class="material-icons-outlined"
-          style="color: var(--green)"
           [ngClass]="{ Approved: 'approved-icon' }[filterType]">
           fact_check
         </mat-icon>
@@ -365,7 +363,6 @@
         aria-labelledby="comment">
         <mat-icon
           class="answer"
-          style="color: var(--primary)"
           [ngClass]="{ AnsweredCreator: 'answered-icon' }[filterType]">
           co_present
         </mat-icon>
@@ -385,7 +382,6 @@
         aria-labelledby="comment">
         <mat-icon
           class="answer"
-          style="color: var(--primary)"
           [ngClass]="{ AnsweredModerator: 'answered-icon' }[filterType]">
           support_agent
         </mat-icon>
@@ -510,7 +506,7 @@
         mat-menu-item
         (click)="applyFilterByKey(null)"
         aria-labelledby="close">
-        <mat-icon style="color: var(--red)">close</mat-icon>
+        <mat-icon>close</mat-icon>
         <span>{{ "comment-list.filter-reset" | translate }}</span>
       </button>
     </div>

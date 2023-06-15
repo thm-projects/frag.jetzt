@@ -39,7 +39,7 @@ export class ThemeDirective implements OnInit, OnDestroy {
           key,
           them[key],
         );
-        this.document.body.style.setProperty(key, them[key]);
+        // this.document.body.style.setProperty(key, them[key]);
       }
     }
   }

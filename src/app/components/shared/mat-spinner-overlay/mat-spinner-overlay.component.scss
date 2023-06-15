@@ -8,13 +8,11 @@ mat-progress-spinner {
   -moz-transform: translateX(-50%) translateY(-50%);
   -webkit-transform: translateX(-50%) translateY(-50%);
   transform: translateX(-50%) translateY(-50%);
-  color: var(--green) !important;
 }
 
 .overlay {
   height: 100vh;
   width: 100%;
-  background-color: var(--background);
   opacity: 1;
   z-index: 10;
   top: 0;

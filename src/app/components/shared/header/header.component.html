@@ -142,7 +142,7 @@
         <mat-icon
           class="material-icons"
           *ngIf="room?.brainstormingSession?.active"
-          style="transform: scale(1.4); color: var(--red); margin-right: 5px">
+          style="transform: scale(1.4); margin-right: 5px">
           tips_and_updates
         </mat-icon>
         <mat-icon
@@ -167,7 +167,7 @@
           class="material-icons brainstorming-action-icon"
           [ngClass]="'clickable'"
           (click)="navigateBrainstormingDirectly()"
-          style="transform: scale(1.4); color: var(--red); margin-top: 8px"
+          style="transform: scale(1.4); margin-top: 8px"
           [matTooltip]="
             'header.brainstorm-active' +
               (!router.url.endsWith('/brainstorming') ? '-clickable' : '')
@@ -186,7 +186,7 @@
         ">
         <mat-icon
           class="material-icons-outlined"
-          style="color: var(--red); margin-top: 8px"
+          style="margin-top: 8px"
           [matTooltip]="'header.not-in-own-view' | translate">
           groups_3
         </mat-icon>
@@ -194,7 +194,6 @@
 
       <h2
         class="oldtypo-h2"
-        style="color: var(--red) !important"
         *ngIf="
           router.url.endsWith('/moderator/comments') &&
           deviceInfo.isCurrentlyDesktop
@@ -221,7 +220,6 @@
         fxLayoutAlign="center center">
         <mat-icon
           class="material-icons-round"
-          style="color: var(--red)"
           matTooltip="{{ 'header.moderation-enabled' | translate }}">
           gavel
         </mat-icon>
@@ -275,7 +273,7 @@
       <span *ngIf="room && room.questionsBlocked">
         <mat-icon
           class="material-icons-outlined"
-          style="color: var(--red); margin-top: 8px"
+          style="margin-top: 8px"
           [matTooltip]="'header.questions-blocked' | translate">
           comments_disabled
         </mat-icon>
@@ -316,11 +314,7 @@
             }}">
             <mat-icon
               class="oldtypo-h2 comment_tag-icon"
-              style="
-                color: var(--red) !important;
-                font-size: 24px !important;
-                margin-top: -8px;
-              ">
+              style="font-size: 24px !important; margin-top: -8px">
               tag
             </mat-icon>
           </button>
@@ -415,7 +409,7 @@
           </h2>
           <mat-icon
             class="header-icons"
-            style="color: var(--secondary); transform: scale(1.5)">
+            style="transform: scale(1.5)">
             more_vert
           </mat-icon>
         </div>
@@ -540,39 +534,24 @@
   <button
     (click)="changeTheme(theme)"
     *ngFor="let theme of themes"
-    mat-menu-item
-    class="theme-btn"
-    style="height: 50px">
-    <div class="btnContent">
-      <div
-        [ngStyle]="{ 'background-color': theme.getPreviewColor() }"
-        class="btnColorIcon">
-        <div
-          [ngClass]="{
-            checked_true: theme.key === themeService.activeTheme.key,
-            checked_false: theme.key !== themeService.activeTheme.key
-          }"
-          class="checked">
-          <mat-icon
-            class="theme-icon"
-            [ngStyle]="{ color: theme.getOnPreviewColor() }">
-            {{ theme.icon }}
-          </mat-icon>
-          <mat-icon
-            class="theme-icon-checked"
-            [ngStyle]="{ color: theme.getOnPreviewColor() }">
-            checked
-          </mat-icon>
-        </div>
-      </div>
-      <div class="btnAppend">
-        <div class="title">
-          <p class="title_bold">
-            {{ theme.getName(langService.currentLanguage()) }}
-          </p>
-        </div>
-      </div>
+    mat-menu-item>
+    <div
+      [ngStyle]="{ 'background-color': theme.getPreviewColor() }"
+      class="theme-select-icon">
+      <mat-icon
+        *ngIf="theme.key !== themeService.activeTheme.key"
+        [ngStyle]="{ color: theme.getOnPreviewColor() }">
+        {{ theme.icon }}
+      </mat-icon>
+      <mat-icon
+        *ngIf="theme.key === themeService.activeTheme.key"
+        [ngStyle]="{ color: theme.getOnPreviewColor() }">
+        checked
+      </mat-icon>
     </div>
+    <span style="margin-inline: 0.5em">
+      {{ theme.getName(langService.currentLanguage()) }}
+    </span>
   </button>
 </mat-menu>
 
@@ -642,7 +621,7 @@
     [matMenuTriggerFor]="profileMenu"
     class="focus_button"
     (click)="$event.stopImmediatePropagation()">
-    <mat-icon style="color: var(--yellow)">badge</mat-icon>
+    <mat-icon>badge</mat-icon>
     <span>{{ "header.my-profile" | translate }}</span>
   </button>
 

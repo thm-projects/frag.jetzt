@@ -63,7 +63,7 @@ export class MatSpinnerOverlayComponent implements OnInit, AfterViewInit {
     this.renderer2.setStyle(
       svg[0].parentElement,
       'color',
-      'var(--' + this.color + ')',
+      'var(--' + this.color + ')', // TODO: Theming #1
       RendererStyleFlags2.Important,
     );
     this.renderer2.setStyle(svg[0], 'position', 'static');

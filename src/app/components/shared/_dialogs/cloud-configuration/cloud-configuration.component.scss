@@ -1,10 +1,8 @@
 h2 {
-  color: var(--on-dialog);
   font-size: 1.7rem;
 }
 
 .expansion-title {
-  color: var(--primary);
   padding-bottom: 6px;
   font-size: 1.2rem;
 }
@@ -20,15 +18,11 @@ div {
 .delete {
   margin-bottom: 20px;
   min-width: 220px;
-  background-color: var(--red);
-  color: var(--white);
 }
 
 .export {
   margin-bottom: 20px;
   min-width: 220px;
-  background-color: var(--secondary);
-  color: var(--on-secondary);
 }
 
 .tag-config-button {
@@ -42,16 +36,6 @@ div {
 
 mat-icon {
   margin-right: 10px;
-}
-
-.abort {
-  background-color: var(--cancel);
-  color: var(--on-cancel);
-}
-
-.update {
-  background-color: var(--primary);
-  color: var(--on-primary);
 }
 
 .submit {
@@ -73,49 +57,8 @@ mat-icon {
   pointer-events: none;
 }
 
-::ng-deep .mat-form-field-label {
-  color: var(--on-surface) !important;
-}
-
-::ng-deep .mat-form-field-underline {
-  background-color: var(--on-surface) !important;
-}
-
-::ng-deep .mat-form-field-ripple {
-  background-color: var(--on-surface) !important;
-}
-
-::ng-deep .mat-select-arrow-wrapper .mat-select-arrow {
-  color: var(--on-surface);
-}
-
-::ng-deep .mat-select-value-text {
-  color: var(--on-surface);
-}
-
-::ng-deep .mat-primary .mat-option.mat-selected:not(.mat-option-disabled) {
-  color: var(--primary);
-}
-
-.primary {
-  background-color: transparent;
-  color: var(--primary);
-  outline: var(--primary) solid 3px;
-
-  &:hover {
-    background-color: var(--primary);
-    color: var(--on-primary);
-  }
-}
-
 .secondary {
-  background-color: transparent;
-  color: var(--on-dialog);
   margin-right: 15px;
-
-  &:hover {
-    outline: var(--cancel) solid 3px;
-  }
 }
 
 .button-row {
@@ -126,14 +69,6 @@ mat-icon {
 .reset {
   width: 100%;
   margin: 25px auto auto auto;
-  background-color: transparent;
-  color: var(--secondary);
-  outline: var(--secondary) solid 3px;
-
-  &:hover {
-    background-color: var(--secondary);
-    color: var(--on-secondary);
-  }
 }
 
 .cloud-configuration-form {
@@ -142,7 +77,6 @@ mat-icon {
 }
 
 .drawer-container {
-  color: var(--on-dialog) !important;
   margin: 20px;
   align-items: center;
   justify-content: center;
@@ -168,17 +102,12 @@ mat-icon {
 }
 
 ::ng-deep.mat-slider-track-background {
-  background-color: var(--primary);
   opacity: 0.2;
 }
 
 .weight-class-setting-content {
   padding-top: 20px;
   padding-bottom: 15px;
-}
-
-.weight-class-heading {
-  color: var(--on-dialog);
 }
 
 #extendedViewButton {
@@ -204,8 +133,6 @@ mat-icon {
 }
 
 .matExpansionPanel {
-  background-color: var(--dialog);
-  color: var(--on-dialog) !important;
   margin: 2px;
   padding: 5px;
 }

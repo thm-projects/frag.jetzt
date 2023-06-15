@@ -35,15 +35,7 @@ button {
 }
 
 .spell-button {
-  background-color: transparent;
-  color: var(--green);
-  outline: var(--green) solid 3px;
   margin: 10px;
-
-  &:hover {
-    background-color: var(--green);
-    color: var(--black);
-  }
 
   .mat-icon {
     font-size: 18px;
@@ -69,9 +61,7 @@ button {
 
 #answer-input {
   line-height: 120%;
-  color: var(--on-surface);
-  caret-color: var(--on-surface);
-  -webkit-appearance: textarea;
+  appearance: textarea;
   min-height: 50px;
   cursor: text;
   word-wrap: break-word;
@@ -84,48 +74,17 @@ button {
 }
 
 ::ng-deep {
-  .mat-form-field-label {
-    color: var(--on-surface) !important;
-  }
-
-  .mat-form-field-underline,
-  .mat-form-field-ripple {
-    background-color: var(--on-surface) !important;
-  }
-
   .mat-tab-body-content {
     height: auto !important;
     overflow-x: hidden !important;
   }
 
-  .mat-select-arrow-wrapper .mat-select-arrow {
-    color: var(--on-surface);
-  }
-
   .mat-select-value {
     width: auto !important;
   }
-
-  .mat-select-value-text {
-    color: var(--on-surface);
-    caret-color: var(--on-surface);
-  }
-
-  .mat-primary .mat-option.mat-selected:not(.mat-option-disabled) {
-    color: var(--primary);
-  }
-
-  .mat-select-panel {
-    background: var(--dialog);
-  }
-}
-
-mat-hint {
-  color: var(--on-surface) !important;
 }
 
 .placeholder {
-  color: var(--on-surface);
   filter: opacity(0.6);
   font-style: italic;
 }
@@ -135,8 +94,6 @@ mat-hint {
 }
 
 .lang-confidence {
-  color: var(--on-cancel);
-  background-color: var(--cancel);
   font-size: 16px;
   padding: 5px;
 }
@@ -191,10 +148,6 @@ Styling for language select
 Styling for tag selection and language selection
  */
 
-.mat-option {
-  color: var(--on-surface);
-}
-
 /*
 Suggestion classes from Languagetool
  */
@@ -220,10 +173,7 @@ $borderOffset: 2px;
   width: 160px;
   height: fit-content;
   margin-left: -80px;
-  background-color: var(--surface);
   border-style: solid;
-  border-color: var(--primary);
-  color: var(--on-surface);
   text-align: center;
   border-radius: 6px;
   padding: 5px 0;
@@ -232,14 +182,12 @@ $borderOffset: 2px;
   bottom: 100%;
 
   > .suggestions {
-    color: var(--on-surface);
     display: block;
     text-align: center;
     cursor: pointer;
   }
 
   > .error-message {
-    color: var(--on-surface);
     display: block;
     text-align: center;
   }
@@ -296,20 +244,13 @@ $scaledWidth: math.div($width * (1 - $customScaleFactor), 2);
       width: 12px;
     }
 
-    div::-webkit-scrollbar-track {
-      background: var(--dialog);
-    }
-
     div::-webkit-scrollbar-thumb {
-      background-color: var(--secondary-variant);
       border-radius: 20px;
-      border: 3px solid var(--surface);
     }
   }
 
   > div {
     display: flex;
-    background-color: var(--background);
     width: 100%;
     height: 100%;
     border-radius: #{$mockPixelRadius * $scale-factor};
@@ -336,13 +277,5 @@ $scaledWidth: math.div($width * (1 - $customScaleFactor), 2);
 
 .preview-btn {
   margin: 10px;
-  background-color: transparent;
-  color: var(--on-dialog);
-  outline: var(--secondary) solid 3px;
   width: fit-content;
-
-  &:hover {
-    background-color: var(--secondary);
-    color: var(--on-secondary);
-  }
 }

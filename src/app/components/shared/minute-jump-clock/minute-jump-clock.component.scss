@@ -1,5 +1,5 @@
 .clock {
-  --second-color: var(--red);
+  --second-color: var(--red); // TODO: Theming #1
   --accent-color: var(--on-background);
   position: fixed;
   transform: scale(0.75);

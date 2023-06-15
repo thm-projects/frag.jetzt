@@ -10,8 +10,6 @@ $responseShadowOff: math.ceil($responseShadowWidth + $responseShadowYOffset);
   position: fixed;
   left: 0;
   top: 5px;
-  background-color: var(--background);
-  color: var(--on-background);
   display: flex;
   align-items: center;
 
@@ -19,10 +17,6 @@ $responseShadowOff: math.ceil($responseShadowWidth + $responseShadowYOffset);
     margin: 0 0 0 10px;
     min-width: 0;
     border-radius: 5px;
-
-    &:hover {
-      outline: 3px solid var(--secondary);
-    }
 
     mat-icon {
       font-size: 24px;
@@ -39,8 +33,6 @@ $responseShadowOff: math.ceil($responseShadowWidth + $responseShadowYOffset);
   right: 20px;
   bottom: 65px;
   z-index: 1;
-  background-color: var(--primary);
-  color: var(--on-primary);
   transform: scale(1.4);
   transition: all 0.5s ease-in-out;
   min-width: unset;
@@ -48,12 +40,6 @@ $responseShadowOff: math.ceil($responseShadowWidth + $responseShadowYOffset);
 
   mat-icon {
     margin: 0;
-  }
-
-  &:hover {
-    background-color: var(--background);
-    color: var(--primary);
-    outline: var(--primary) solid 3px;
   }
 }
 
@@ -64,8 +50,6 @@ mat-card {
 }
 
 .answer {
-  background-color: var(--primary-variant);
-  color: var(--on-primary-variant);
   padding: 3% 3% 70px 3%;
   margin-bottom: 20px;
   box-sizing: border-box;
@@ -75,7 +59,6 @@ mat-card {
 }
 
 .answer a {
-  color: var(--on-primary) !important;
   text-decoration: underline !important;
 }
 
@@ -85,15 +68,7 @@ button {
 }
 
 .save {
-  background-color: transparent;
-  color: var(--primary);
-  outline: var(--primary) solid 3px;
   margin-right: 10px;
-
-  &:hover {
-    background-color: var(--primary);
-    color: var(--on-primary);
-  }
 }
 
 mat-icon {
@@ -116,11 +91,12 @@ mat-card {
   width: 100%;
   max-width: 800px;
 
-  box-shadow: 0 -#{$responseShadowOff} var(--background),
+  box-shadow: 0 -#{$responseShadowOff} red,
+    // TODO: Theming #1
     -#{$responseShadowWidth} -#{$responseShadowYOffset} 0 #{$responseShadowWidth}
-      var(--on-background),
+      red,
     -#{$responseShadowWidth} #{$responseShadowWidth} 0 #{$responseShadowWidth}
-      var(--on-background);
+      red;
   border-radius: 0 0 $responseBorderRadius $responseBorderRadius;
 
   > mat-card {

@@ -31,12 +31,10 @@ app-comment {
 #searchBox {
   box-sizing: border-box;
   padding: 0 10px 0 10px;
-  background-color: var(--background);
   border: none;
   outline: none;
   min-height: 60px;
   font-size: large;
-  color: var(--on-surface);
   transition: width 300ms linear;
 }
 
@@ -54,12 +52,10 @@ app-comment {
 }
 
 .search-container {
-  background-color: var(--background);
   margin-bottom: 2%;
 }
 
 .search-container-fixed {
-  background-color: var(--background);
   margin-bottom: 2%;
   position: fixed;
   top: 10px;
@@ -70,7 +66,6 @@ app-comment {
 
 .search-icon {
   padding: 10px 0 10px 0;
-  color: var(--on-surface);
 }
 
 .searchBarButton {
@@ -78,43 +73,28 @@ app-comment {
   height: 45px !important;
   text-align: center;
   margin: 1% 2% 1% 1%;
-  color: var(--secondary);
-}
-
-.red {
-  color: var(--red) !important;
-
-  &:hover {
-    outline: var(--red) solid 3px;
-    border-radius: 23px;
-  }
 }
 
 .actionButton {
   width: 45px;
   height: 45px;
-  background-color: var(--primary);
 }
 
 .freezeButton {
   width: 45px;
   height: 45px;
-  background-color: var(--background);
 }
 
 .actionIcon {
   transform: scale(1.2);
-  color: var(--secondary);
 }
 
 .freezeIcon {
   transform: scale(1.7);
-  color: var(--secondary);
 }
 
 .playIcon {
   transform: scale(1.7);
-  color: var(--red);
 }
 
 .close {
@@ -126,41 +106,11 @@ app-comment {
   height: 45px;
   width: 45px;
   line-height: 100% !important;
-  color: var(--secondary);
 }
 
 .button-bar.joyrideActive {
   padding: 15px 30px;
   margin: unset;
-}
-
-.correct-icon {
-  color: var(--green);
-}
-
-.wrong-icon {
-  color: var(--red);
-}
-
-.beamer-icon {
-  color: var(--primary);
-}
-
-.answered-icon {
-  color: var(--primary);
-  transform: scale(1.5);
-}
-
-.unanswered-icon {
-  color: slategray;
-}
-
-.approved-icon {
-  color: var(--green);
-}
-
-.chatgpt-icon {
-  color: var(--primary);
 }
 
 .chatgpt-robot-icon {
@@ -169,82 +119,16 @@ app-comment {
   margin-left: -2px;
 }
 
-.favorite-icon {
-  color: var(--yellow);
-}
-
-.bookmark-icon {
-  color: hotpink;
-}
-
-.not_bookmarked-icon {
-  color: slategray;
-}
-
-.owner-icon {
-  color: hotpink;
-}
-
-.conversation-icon {
-  color: var(--secondary);
-}
-
-.brainstorm-icon {
-  color: var(--green);
-}
-
-.censored-icon {
-  color: var(--red);
-}
-
-.number-icon {
-  color: var(--red);
-}
-
-.lecturer-icon {
-  color: var(--primary);
-}
-
-.moderator-icon {
-  color: var(--primary);
-}
-
 .counter {
   font-size: 18px;
-  color: var(--on-background);
 }
 
 .counter-filtered {
   font-size: 18px;
-  color: var(--red);
   font-weight: bold;
 }
 
-.timesort {
-  color: var(--primary);
-}
-
-.up {
-  color: var(--green);
-}
-
-.down {
-  color: var(--red);
-}
-
-.controversy {
-  color: var(--primary);
-}
-
-.commented {
-  color: var(--primary);
-}
-
-::placeholder {
-  color: var(--on-surface);
-  filter: opacity(0.6);
-  font-style: italic;
-}
+//TODO: Theming #1: Placeholder
 
 .fab-extended {
   width: 50%;
@@ -254,15 +138,12 @@ app-comment {
   border-radius: 32px;
   margin: 10% 0 10% 0;
   font-size: large;
-  background-color: var(--primary);
-  color: var(--on-primary);
 }
 
 .add {
   transform: scale(1.4);
   margin-right: 4%;
   margin-left: 4%;
-  color: var(--on-primary);
 }
 
 .scrollTop {
@@ -271,15 +152,7 @@ app-comment {
   bottom: 65px;
   transform: scale(0);
   z-index: 1;
-  background-color: var(--secondary);
-  color: var(--on-secondary);
   transition: 0.1s;
-
-  &:hover {
-    background-color: var(--background);
-    color: var(--secondary);
-    outline: var(--secondary) solid 3px;
-  }
 }
 
 .fab_add_comment {
@@ -290,16 +163,8 @@ app-comment {
   }
   bottom: 65px;
   z-index: 1;
-  background-color: var(--primary);
-  color: var(--on-primary);
   transform: scale(1.4);
   transition: all 0.5s ease-in-out;
-
-  &:hover {
-    background-color: var(--background);
-    color: var(--primary);
-    outline: var(--primary) solid 3px;
-  }
 
   &.center_screen {
     right: calc(50% - 20px);
@@ -326,7 +191,6 @@ app-comment {
 }
 
 .selected {
-  color: var(--red) !important;
   font-weight: bold;
   animation-name: animation_blink_5s;
   animation-timing-function: ease-in;
@@ -342,16 +206,11 @@ app-comment {
 }
 
 .active-filter .mat-icon {
-  color: var(--red) !important;
   animation-name: animation_blink_5s;
   animation-timing-function: ease-in;
   animation-duration: 2s;
   animation-iteration-count: 2;
   opacity: 1 !important;
-}
-
-h1 {
-  color: var(--red);
 }
 
 .bg-object {
@@ -370,12 +229,10 @@ h1 {
 
 @keyframes bg-object-anim {
   from {
-    color: var(--secondary);
     opacity: 1;
     transform: scale(0) translate(-50%, -50%);
   }
   to {
-    color: var(--seconday);
     opacity: 0;
     transform: scale(13) translate(-50%, -50%);
   }

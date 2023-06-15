@@ -9,7 +9,6 @@
 }
 
 #comment-card {
-  background-color: var(--surface);
   padding: 1.5% 1.5% 3% 3%;
   transition: background-color 0.5s linear, box-shadow 0.15s ease-in-out;
   touch-action: auto !important;
@@ -29,71 +28,45 @@ mat-card-content > :first-child {
   margin-top: 20px;
 }
 
-.delete-own-comment {
-  color: var(--on-surface) !important;
-}
-
 .voting-icon {
   width: 36px;
   height: 36px;
   font-size: 36px;
-  color: var(--on-surface);
-}
-
-.upVoted {
-  color: var(--green);
-}
-
-.downVoted {
-  color: var(--red);
-}
-
-.not-marked {
-  color: dimgray;
 }
 
 .answered-icon {
-  color: var(--primary);
   transform: scale(1.5) !important;
 }
 
 .correct-icon {
-  color: var(--green);
   transform: scale(1.5) !important;
 }
 
 .approved-icon {
-  color: var(--green);
   transform: scale(1.5) !important;
 }
 
 .favorite-icon {
-  color: var(--yellow);
   transform: scale(1.5) !important;
 }
 
 .bookmark-icon {
-  color: hotpink;
   transform: scale(1.3) !important;
 }
 
 .unfold-icon {
-  color: var(--primary);
   transform: scale(1.8) !important;
 }
 
 .fold-icon {
-  color: var(--red);
   transform: scale(1.8) !important;
 }
 
 .wrong-icon {
-  color: var(--red);
   transform: scale(1.5) !important;
 }
 
 .beamer-icon {
-  color: var(--on-surface);
   transform: scale(1.8) !important;
   padding-left: 10px;
 }
@@ -102,7 +75,6 @@ mat-card-content > :first-child {
   min-width: 40px;
   text-align: center;
   margin-top: 3px;
-  color: var(--primary);
   font-size: 24px;
 
   @media (max-width: 330px) {
@@ -111,7 +83,6 @@ mat-card-content > :first-child {
 }
 
 .scoreCreator {
-  color: var(--primary);
   margin-right: 10px;
   font-size: 24px;
 
@@ -126,7 +97,6 @@ mat-card-content > :first-child {
   text-align: start;
   font-size: 16px;
   overflow: auto;
-  color: var(--on-surface);
   white-space: pre-line;
   hyphens: auto;
   overflow-wrap: break-word !important;
@@ -144,7 +114,6 @@ mat-card-content > :first-child {
 
 .date-container {
   font-size: 12px;
-  color: dimgray;
   padding-top: 0.3rem;
 }
 
@@ -153,92 +122,78 @@ mat-card-content > :first-child {
   height: 3.5rem;
 }
 
-.action-menu-content {
-  background: var(--dialog);
-}
-
 .gavel {
-  color: var(--primary) !important;
   margin: 0 10px 0 10px;
   transform: scale(1.5) !important;
-}
-
-.moderator {
-  background-color: var(--moderator) !important;
-  border: thin solid dimgray;
 }
 
 .border {
   @include card-box-shadow(transparent, 0);
 
   &-correct {
-    @include card-box-shadow(var(--green));
+    @include card-box-shadow(red); // TODO: Theming #1: Green
   }
 
   &-wrong {
-    @include card-box-shadow(var(--red));
+    @include card-box-shadow(red); // TODO: Theming #1: Red
   }
 
   &-bookmark {
-    @include card-box-shadow(hotpink);
+    @include card-box-shadow(red); // // TODO: Theming #1: Pink
   }
 
   &-favorite {
-    @include card-box-shadow(var(--yellow));
+    @include card-box-shadow(red); // TODO: Theming #1: Yellow
   }
 
   &-notMarked {
-    @include card-box-shadow(var(--grey));
+    @include card-box-shadow(red); // TODO: Theming #1: Grey
   }
 
   &-ownQuestion {
-    @include card-box-shadow(hotpink);
+    @include card-box-shadow(red); // TODO: Theming #1: pink
   }
 
   &-bonus {
-    @include card-box-shadow(var(--yellow));
+    @include card-box-shadow(red); // TODO: Theming #1: Yellow
   }
 
   &-discussed {
-    @include card-box-shadow(var(--gray));
+    @include card-box-shadow(red); // TODO: Theming #1: Grey
   }
 
   &-fromModerator {
-    @include card-box-shadow(var(--primary));
+    @include card-box-shadow(red); // TODO: Theming #1: Primary
   }
 
   &-fromOwner {
-    @include card-box-shadow(var(--primary));
+    @include card-box-shadow(red); // TODO: Theming #1: Primary
   }
 
   &-moderated {
-    @include card-box-shadow(var(--red));
+    @include card-box-shadow(red); // TODO: Theming #1: Red
   }
 
   &-chatgpt {
-    @include card-box-shadow(var(--red));
+    @include card-box-shadow(red); // TODO: Theming #1: Red
   }
 }
 
 .comment-tags {
   cursor: pointer;
-  color: var(--primary);
   margin-right: 10px;
 }
 
 .comment-brainstorm-tags {
-  color: var(--secondary);
   margin-right: 10px;
 }
 
 .comment-keywords {
   cursor: pointer;
-  color: var(--on-surface);
   margin-right: 25px;
 }
 
 .questioner-name {
-  color: var(--secondary);
   margin-right: 6px;
   margin-left: 10px;
 }
@@ -252,15 +207,9 @@ mat-card-content > :first-child {
   flex-shrink: 1;
   overflow: auto;
   padding-top: 0 !important;
-  background-color: var(--alt-dialog);
-}
-
-.keywords-even {
-  background-color: var(--alt-surface);
 }
 
 .keyword-span {
-  color: var(--on-surface) !important;
   opacity: 1 !important;
   cursor: pointer;
   width: 100%;
@@ -268,7 +217,6 @@ mat-card-content > :first-child {
 
 .keyword-answer-icon {
   margin-left: 10px;
-  color: var(--primary) !important;
 
   + span {
     transform: scale(1.2);
@@ -284,14 +232,8 @@ mat-card-content > :first-child {
   }
 }
 
-::ng-deep .mat-badge-content {
-  background: var(--secondary);
-  color: var(--on-secondary);
-}
-
 .user-number {
   cursor: pointer;
-  color: var(--on-surface);
   margin-right: 25px;
 
   > span {
@@ -302,10 +244,6 @@ mat-card-content > :first-child {
 .user-number.joyrideActive {
   padding: 5px;
   scroll-margin-top: 100px;
-}
-
-.commentExpanderButton {
-  color: var(--on-surface);
 }
 
 .user-icon {
@@ -327,11 +265,6 @@ mat-card-content > :first-child {
 
 .edit-button .mat-icon {
   transform: scale(1);
-  color: var(--on-surface);
-}
-
-.moderate-button .mat-icon {
-  color: var(--on-surface);
 }
 
 .commentBody {
@@ -437,7 +370,6 @@ $width-range: $max-width - $min-width;
       padding: 0;
       font-weight: normal;
       font-style: normal;
-      color: var(--on-surface);
       opacity: 0.2;
       float: right;
       position: relative;
@@ -480,29 +412,12 @@ $width-range: $max-width - $min-width;
   flex-wrap: wrap;
 }
 
-.replyButton {
-  color: var(--primary);
-  background-color: transparent;
-
-  &:hover {
-    outline: var(--primary) solid;
-  }
-}
-
 .divider {
   width: 5px;
   height: auto;
   display: inline-block;
 }
 
-#sort-button {
-  color: var(--secondary);
-}
-
 .mat-card {
   border-radius: $commentBorderRadius !important;
-}
-
-.gray-button {
-  color: gray;
 }

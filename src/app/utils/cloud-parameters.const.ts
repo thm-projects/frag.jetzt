@@ -13,6 +13,8 @@ export interface DefaultCloudParameters {
   hoverColor: string;
 }
 
+// TODO: Theming #1
+
 export const LIGHT_THEME: DefaultCloudParameters = {
   w1: 'dimgray',
   w2: 'brown',

@@ -3,30 +3,12 @@
 }
 
 .mat-toolbar {
-  background-color: var(--dialog);
-  color: var(--on-dialog) !important;
-
-  .mat-badge-content {
-    background: var(--secondary) !important;
-    color: var(--on-secondary) !important;
-  }
-
   #title {
     font-size: 16px;
   }
 }
 
-.activeIcon {
-  color: var(--primary) !important;
-
-  > mat-icon {
-    color: var(--primary);
-  }
-}
-
 .mat-nav-list {
-  background-color: var(--dialog);
-
   &.mat-list-base {
     margin: 16px 0;
     padding: 0;
@@ -50,16 +32,12 @@
 
     a {
       flex: 1 1 auto;
-      background-color: var(--surface) !important;
-      color: var(--on-surface) !important;
       border-radius: 10px;
       padding: 8px;
       width: auto;
 
       &#empty {
         text-align: center;
-        background: transparent !important;
-        color: var(--on-dialog) !important;
 
         div {
           width: 100%;
@@ -67,7 +45,6 @@
       }
 
       .remove {
-        color: var(--red);
         padding-right: 0 !important;
         padding-left: 5px !important;
         width: 20px;
@@ -85,40 +62,27 @@
         font-size: 12px;
       }
 
-      .iconStar {
-        color: var(--yellow);
-      }
-
-      .checkmark {
-        color: var(--green);
-      }
-
       .comment-icon {
         margin-left: 10px;
       }
 
       .ban-icon {
-        color: var(--red);
         margin-left: 10px;
       }
 
       .star-icon {
-        color: var(--yellow);
         margin-left: 10px;
       }
 
       .correct-icon {
-        color: var(--green);
         margin-left: 10px;
       }
 
       .wrong-icon {
-        color: var(--red);
         margin-left: 10px;
       }
 
       .tag-icon {
-        color: var(--primary);
         margin-left: 10px;
       }
 
@@ -133,7 +97,6 @@
       .go-to {
         padding-left: 0 !important;
         padding-right: 0 !important;
-        color: var(--on-dialog);
       }
 
       .remove-btn {
@@ -155,30 +118,12 @@
 
 footer {
   .help-button {
-    background-color: transparent;
-    color: var(--green);
-    outline: var(--green) solid 3px;
     margin: 10px;
-
-    &:hover {
-      background-color: var(--green);
-      color: var(--black);
-    }
 
     .mat-icon {
       font-size: 18px;
     }
   }
-}
-
-button {
-  background-color: transparent;
-  color: var(--on-dialog);
-  border: transparent;
-}
-
-button.example-icon:hover {
-  outline: 3px solid var(--secondary);
 }
 
 .mat-button {

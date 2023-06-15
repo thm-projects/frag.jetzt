@@ -26,9 +26,7 @@
               door_back
             </mat-icon>
             <span>{{ task.room.name }}</span>
-            <span
-              *ngIf="task.error"
-              style="color: var(--red)">
+            <span *ngIf="task.error">
               {{ task.error }}
             </span>
           </div>
@@ -54,9 +52,7 @@
           <div
             *ngIf="!task.error && task.statistics.failed"
             class="entryRow">
-            <mat-icon
-              style="color: var(--red)"
-              matTooltip="{{ 'worker-dialog.failed' | translate }}">
+            <mat-icon matTooltip="{{ 'worker-dialog.failed' | translate }}">
               error
             </mat-icon>
             <span>
@@ -85,9 +81,7 @@
             door_back
           </mat-icon>
           <span>{{ task.room.name }}</span>
-          <span
-            *ngIf="task.error"
-            style="color: var(--red)">
+          <span *ngIf="task.error">
             {{ task.error }}
           </span>
         </div>
@@ -113,9 +107,7 @@
         <div
           *ngIf="!task.error && task.statistics.failed"
           class="entryRow">
-          <mat-icon
-            style="color: var(--red)"
-            matTooltip="{{ 'worker-dialog.failed' | translate }}">
+          <mat-icon matTooltip="{{ 'worker-dialog.failed' | translate }}">
             error
           </mat-icon>
           <span>

@@ -20,12 +20,6 @@ p {
   margin: 20px 0;
 }
 
-.mailto,
-.copyClipboard {
-  background-color: var(--primary);
-  color: var(--on-primary);
-}
-
 form {
   margin: 10px 0;
   text-align: center;
@@ -54,15 +48,7 @@ form {
 }
 
 .help-button {
-  background-color: transparent;
-  color: var(--green);
-  outline: var(--green) solid 3px;
   margin: 10px;
-
-  &:hover {
-    background-color: var(--green);
-    color: var(--black);
-  }
 
   .mat-icon {
     font-size: 18px;
@@ -70,7 +56,6 @@ form {
 }
 
 .placeholder {
-  color: var(--on-surface);
   filter: opacity(0.6);
   font-style: italic;
 }

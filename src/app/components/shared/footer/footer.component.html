@@ -227,43 +227,27 @@
 
 <mat-menu
   #themeMenu="matMenu"
-  [overlapTrigger]="false"
-  cdkTrapFocus
   class="color-menu">
   <button
     (click)="changeTheme(theme)"
     *ngFor="let theme of themes"
-    mat-menu-item
-    style="height: 50px">
-    <div class="btnContent">
-      <div
-        [ngStyle]="{ 'background-color': theme.getPreviewColor() }"
-        class="btnColorIcon">
-        <div
-          [ngClass]="{
-            checked_true: theme.key === themeService.activeTheme.key,
-            checked_false: theme.key !== themeService.activeTheme.key
-          }"
-          class="checked">
-          <mat-icon
-            class="theme-icon"
-            [ngStyle]="{ color: theme.getOnPreviewColor() }">
-            {{ theme.icon }}
-          </mat-icon>
-          <mat-icon
-            class="theme-icon-checked"
-            [ngStyle]="{ color: theme.getOnPreviewColor() }">
-            checked
-          </mat-icon>
-        </div>
-      </div>
-      <div class="btnAppend">
-        <div class="title">
-          <p class="title_bold">
-            {{ theme.getName(langService.currentLanguage()) }}
-          </p>
-        </div>
-      </div>
+    mat-menu-item>
+    <div
+      [ngStyle]="{ 'background-color': theme.getPreviewColor() }"
+      class="theme-select-icon">
+      <mat-icon
+        *ngIf="theme.key !== themeService.activeTheme.key"
+        [ngStyle]="{ color: theme.getOnPreviewColor() }">
+        {{ theme.icon }}
+      </mat-icon>
+      <mat-icon
+        *ngIf="theme.key === themeService.activeTheme.key"
+        [ngStyle]="{ color: theme.getOnPreviewColor() }">
+        checked
+      </mat-icon>
     </div>
+    <span style="margin-inline: 0.5em">
+      {{ theme.getName(langService.currentLanguage()) }}
+    </span>
   </button>
 </mat-menu>

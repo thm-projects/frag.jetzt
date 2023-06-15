@@ -8,7 +8,6 @@ p {
 
 mat-form-field {
   width: 90%;
-  color: var(--on-surface);
 }
 
 .add {
@@ -16,7 +15,6 @@ mat-form-field {
   height: 45px;
   text-align: center;
   margin: 1% 2% 1% 1%;
-  color: var(--primary);
 }
 
 .add-icon {
@@ -30,19 +28,10 @@ mat-form-field {
   margin-right: 10px;
 }
 
-.close-icon {
-  color: var(--red);
-}
-
 .tags {
   padding-left: 3%;
-
-  &:nth-child(even) {
-    background-color: var(--alt-dialog);
-  }
 }
 
 mat-hint {
-  color: var(--on-surface) !important;
   margin-right: 1%;
 }

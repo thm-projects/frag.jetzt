@@ -2,8 +2,6 @@
   height: 60px;
   border-radius: 5px;
   font-size: 16px;
-  background-color: var(--background);
-  color: var(--on-background);
   margin: 10% 0;
 }
 
@@ -11,9 +9,4 @@
   padding-right: 10px;
   padding-left: 5px;
   transform: scale(2);
-  color: var(--primary);
-}
-
-button:hover {
-  outline: 3px solid var(--secondary);
 }

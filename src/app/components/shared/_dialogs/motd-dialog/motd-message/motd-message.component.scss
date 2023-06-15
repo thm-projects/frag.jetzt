@@ -17,8 +17,6 @@
 
   .container {
     border-radius: 20px;
-    border: thin solid dimgray;
-    background-color: var(--surface);
     box-sizing: border-box;
     padding: 5px 20px;
   }
@@ -37,10 +35,6 @@
     .images img {
       max-width: 100% !important;
       cursor: pointer;
-    }
-
-    .mat-checkbox-frame {
-      border-color: var(--on-surface);
     }
   }
 }

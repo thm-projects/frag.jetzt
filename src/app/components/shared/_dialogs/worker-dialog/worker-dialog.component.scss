@@ -11,14 +11,10 @@ button {
   cursor: pointer;
 }
 
-#btn_hide {
-  color: var(--on-surface) !important;
-}
-
 ::ng-deep .workerContainer > .mat-dialog-container {
   padding: 5px !important;
   box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14),
-    0 1px 3px 0 rgba(0, 0, 0, 0.12), -4px 0 0 0 var(--primary);
+    0 1px 3px 0 rgba(0, 0, 0, 0.12), -4px 0 0 red; // TODO: Theming #1
   overflow: hidden !important;
   position: relative !important;
 }
@@ -36,7 +32,6 @@ button {
   display: flex;
   flex-direction: column;
   justify-content: left;
-  border-bottom: var(--primary) dashed 2px;
   margin-bottom: 3px;
   padding-bottom: 3px;
 }
@@ -65,13 +60,9 @@ details[open] > summary {
 }
 
 ::ng-deep .noKeywords {
-  color: var(--on-surface);
-  background: var(--surface);
   margin: 0.75em;
 
   > button {
-    color: var(--on-primary);
-    background: var(--primary);
     margin-left: 1em;
   }
 }

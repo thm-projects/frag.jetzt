@@ -246,7 +246,6 @@
         aria-labelledby="comment">
         <mat-icon
           class="answer"
-          style="color: var(--primary)"
           [ngClass]="{ AnsweredCreator: 'answered-icon' }[filterType]">
           co_present
         </mat-icon>
@@ -261,7 +260,6 @@
         aria-labelledby="comment">
         <mat-icon
           class="answer"
-          style="color: var(--primary)"
           [ngClass]="{ AnsweredModerator: 'answered-icon' }[filterType]">
           co_present
         </mat-icon>
@@ -355,7 +353,7 @@
         mat-menu-item
         (click)="applyFilterByKey(null)"
         aria-labelledby="close">
-        <mat-icon style="color: var(--red)">close</mat-icon>
+        <mat-icon>close</mat-icon>
         <span>{{ "comment-list.filter-reset" | translate }}</span>
       </button>
     </div>

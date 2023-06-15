@@ -1,14 +1,7 @@
 .primary-btn {
-  background-color: transparent;
-  color: var(--primary);
-  outline: var(--primary) solid 3px;
+  // TODO: Theming #1
   width: 100%;
   margin-top: 10px;
-
-  &:hover {
-    background-color: var(--primary);
-    color: var(--on-primary);
-  }
 }
 
 .mat-form-field,
@@ -18,8 +11,6 @@
 }
 
 .keyword-item {
-  color: var(--on-surface);
-
   ::ng-deep .mat-list-item-content {
     flex-wrap: wrap;
   }
@@ -49,14 +40,4 @@
   display: flex;
   justify-content: space-evenly;
   margin: 1em 0;
-}
-
-::ng-deep mat-datepicker-toggle,
-::ng-deep .mat-date-range-input-separator {
-  color: var(--on-surface) !important;
-}
-
-mat-list mat-list-item:nth-child(2n + 1) {
-  background-color: var(--surface);
-  color: var(--on-surface);
 }

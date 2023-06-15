@@ -10,7 +10,6 @@ p {
 
 mat-form-field {
   width: 90%;
-  color: var(--on-surface);
 }
 
 .add {
@@ -18,7 +17,6 @@ mat-form-field {
   height: 45px;
   text-align: center;
   margin: 1% 2% 1% 1%;
-  color: var(--primary);
 }
 
 .add-icon {
@@ -32,16 +30,8 @@ mat-form-field {
   margin-right: 10px;
 }
 
-.close-icon {
-  color: var(--red);
-}
-
 .moderators {
   padding-left: 3%;
-
-  &:nth-child(even) {
-    background-color: var(--alt-dialog);
-  }
 }
 
 .action-button-container {
@@ -56,15 +46,7 @@ mat-form-field {
 }
 
 .help-button {
-  background-color: transparent;
-  color: var(--green);
-  outline: var(--green) solid 3px;
   margin: 10px;
-
-  &:hover {
-    background-color: var(--green);
-    color: var(--black);
-  }
 
   .mat-icon {
     font-size: 18px;

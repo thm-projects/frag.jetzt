@@ -1,13 +1,14 @@
 @use "sass:map" as map;
+@use "sass:list" as list;
 @use "@angular/material" as mat;
 
 @function override-theme($theme, $color-map) {
   // Get the color config from the theme.
   $color-config: mat.get-color-config($theme);
   // apply new color options
-  $new-color-config: map.merge($color-config, $color-map);
+  $new-color-config: map.deep-merge($color-config, $color-map);
   // apply new color options to root
-  $new-theme: map.merge($theme, $color-map);
+  $new-theme: map.deep-merge($theme, $color-map);
   // reapply color config
   $new-theme: map.merge(
     $new-theme,
@@ -16,4 +17,46 @@
     )
   );
   @return $new-theme;
+}
+
+@function is-palette($object) {
+  @return map.get($object, contrast) != null and map.get($object, default) !=
+    null and map.get($object, default-contrast) != null;
+}
+
+@mixin export-css-variables(
+  $object-or-theme,
+  $prefix: --app-,
+  $replace: (background: bg, foreground: fg, accent: secondary),
+  $start: true
+) {
+  @if $start == true {
+    $object-or-theme: mat.get-color-config($object-or-theme);
+  }
+  // Custom variable export
+  @each $key, $value in $object-or-theme {
+    @if map.get($replace, $key) != null {
+      $key: map.get($replace, $key);
+    }
+    @if type-of($value) == "map" {
+      @if is-palette($value) {
+        #{$prefix + $key}: #{map.get($value, default)};
+        #{$prefix + 'on-' + $key}: #{map.get($value, default-contrast)};
+        #{$prefix + $key + '-light'}: #{map.get($value, lighter)};
+        #{$prefix + 'on-' + $key + '-light'}: #{map.get(
+            $value,
+            lighter-contrast
+          )};
+        #{$prefix + $key + '-dark'}: #{map.get($value, darker)};
+        #{$prefix + 'on-' + $key + '-dark'}: #{map.get(
+            $value,
+            darker-contrast
+          )};
+      } @else {
+        @include export-css-variables($value, $prefix + $key + "-", (), false);
+      }
+    } @else {
+      #{$prefix + $key}: #{$value};
+    }
+  }
 }

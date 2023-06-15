@@ -5,16 +5,10 @@ p {
 }
 
 p {
-  color: var(--on-surface);
   margin-right: 15px;
 }
 
-.delete {
-  color: var(--red);
-}
-
 .selected {
-  color: var(--green) !important;
   font-size: 18px !important;
   font-weight: bold;
 }
@@ -34,8 +28,6 @@ table,
 th,
 tr,
 td {
-  background-color: var(--primary-variant) !important;
-  color: var(--on-primary-variant) !important;
   hyphens: auto;
   overflow-wrap: anywhere;
 }
@@ -62,14 +54,7 @@ tr {
 
 .help-button {
   background-color: transparent;
-  color: var(--green);
-  outline: var(--green) solid 3px;
   margin: 10px;
-
-  &:hover {
-    background-color: var(--green);
-    color: var(--black);
-  }
 
   .mat-icon {
     font-size: 18px;
@@ -77,8 +62,6 @@ tr {
 }
 
 .export-button {
-  background-color: var(--primary);
-  color: var(--on-primary);
   margin-top: 1rem;
 
   .mat-icon {

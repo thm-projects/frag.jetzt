@@ -7,8 +7,6 @@ mat-dialog-content > div {
   overflow: unset;
 
   > mat-card {
-    background-color: var(--surface);
-    color: var(--on-surface) !important;
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -33,15 +31,7 @@ mat-dialog-content > div {
 }
 
 .help-button {
-  background-color: transparent;
-  color: var(--green);
-  outline: var(--green) solid 3px;
   margin: 10px;
-
-  &:hover {
-    background-color: var(--green);
-    color: var(--black);
-  }
 
   .mat-icon {
     font-size: 18px;

@@ -6,37 +6,12 @@
   flex-wrap: wrap-reverse;
 }
 
-.cancel-button {
-  background-color: transparent;
-  color: var(--on-dialog);
-
-  &:hover {
-    outline: var(--cancel) solid 3px;
-  }
-}
-
 .primary-confirm-button {
-  background-color: transparent;
-  color: var(--primary);
-  outline: var(--primary) solid 3px;
   margin-left: 15px !important;
-
-  &:hover {
-    background-color: var(--primary);
-    color: var(--on-primary);
-  }
 }
 
 .alert-confirm-button {
-  background-color: transparent;
-  color: var(--primary);
-  outline: var(--primary) solid 3px;
   margin-left: 15px !important;
-
-  &:hover {
-    background-color: var(--primary);
-    color: var(--on-primary);
-  }
 }
 
 .spinner-container {

@@ -1,35 +1,10 @@
-input {
-  color: var(--on-surface);
-}
-
 .placeholder {
-  color: var(--on-surface);
   filter: opacity(0.6);
   font-style: italic;
 }
 
-.mat-form-field-label {
-  color: var(--on-surface) !important;
-}
-
-::ng-deep.mat-form-field-ripple {
-  /*change color of underline when focused*/
-  background-color: var(--primary) !important;
-}
-
-mat-form-field {
-  color: var(--on-surface);
-}
-
-.count {
-  color: var(--on-surface) !important;
-}
-
-.error {
-  color: var(--red) !important;
-}
-
 .visually-hidden {
+  // TODO: Theming #1
   position: absolute;
   width: 1px;
   height: 1px;

@@ -1,22 +1,11 @@
-.mat-raised-button {
-  background-color: var(--primary);
-  color: var(--on-primary);
-}
-
-.mat-stroked-button {
-  color: var(--on-surface);
-}
-
 .info {
   margin-top: -20px;
 }
 
 .info-icon {
   font-size: 24px;
-  color: var(--on-surface);
 
   &:hover {
-    outline: var(--primary) solid 3px;
     border-radius: 15px;
     padding: 5px;
   }

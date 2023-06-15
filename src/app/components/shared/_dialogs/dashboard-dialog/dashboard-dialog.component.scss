@@ -30,17 +30,8 @@ h2 {
 }
 
 .close-button {
-  background-color: transparent;
-  color: var(--primary);
-  outline: var(--primary) solid 3px;
-
   margin: 10px;
   float: right;
-
-  &:hover {
-    background-color: var(--primary) !important;
-    color: var(--on-secondary);
-  }
 
   .mat-icon {
     font-size: 18px;

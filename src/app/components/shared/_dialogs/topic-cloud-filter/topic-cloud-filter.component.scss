@@ -43,26 +43,11 @@ mat-radio-group {
 }
 
 .noKeywords {
-  background: var(--surface);
-  color: var(--on-surface);
   margin-top: 20px;
 }
 
-.secondary-confirm-button {
-  background-color: var(--secondary);
-  color: var(--on-secondary);
-}
-
 .help-button {
-  background-color: transparent;
-  color: var(--green);
-  outline: var(--green) solid 3px;
   margin: 10px;
-
-  &:hover {
-    background-color: var(--green);
-    color: var(--black);
-  }
 
   .mat-icon {
     font-size: 18px;

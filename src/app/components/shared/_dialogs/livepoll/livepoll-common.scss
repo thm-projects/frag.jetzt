@@ -1,21 +1,5 @@
 @use "sass:map";
 
-$primary: var(--livepoll-primary);
-$primary--disabled: var(--livepoll-primary--disabled);
-$primary--hover: var(--livepoll-primary--hover);
-$on-primary: var(--on-livepoll-primary);
-$on-primary--disabled: var(--on-livepoll-primary--disabled);
-$on-primary--hover: var(--on-livepoll-primary--hover);
-$secondary: var(--livepoll-secondary);
-$secondary--disabled: var(--livepoll-secondary--disabled);
-$secondary--hover: var(--livepoll-secondary--hover);
-$on-secondary: var(--on-livepoll-secondary);
-$on-secondary--disabled: var(--on-livepoll-secondary--disabled);
-$on-secondary--hover: var(--on-livepoll-secondary--hover);
-
-$bar-foreground: $on-secondary;
-$bar-background: $secondary;
-
 .fill {
   flex-grow: 1;
 }
@@ -27,12 +11,10 @@ $bar-background: $secondary;
 
   &-active {
     @extend .live;
-    color: var(--red);
   }
 
   &-paused {
     @extend .live;
-    color: var(--gray);
   }
 }
 
@@ -59,91 +41,6 @@ $bar-background: $secondary;
 
     .settings {
       align-items: center;
-    }
-  }
-}
-
-.button {
-  &-cancel {
-    background-color: transparent;
-    color: var(--on-dialog);
-
-    &:hover {
-      outline: var(--cancel) solid 3px;
-    }
-  }
-
-  &-secondary {
-    background-color: transparent;
-    color: var(--secondary);
-    outline: var(--secondary) solid 3px;
-
-    &:hover {
-      background-color: var(--secondary);
-      color: var(--on-secondary);
-    }
-
-    &-filled {
-      background-color: var(--secondary);
-      color: var(--on-secondary);
-
-      &:hover {
-        background-color: var(--secondary);
-        color: var(--on-secondary);
-      }
-    }
-  }
-
-  &-primary {
-    background-color: transparent;
-    color: var(--primary);
-    outline: var(--primary) solid 3px;
-
-    &:hover {
-      background-color: var(--primary);
-      color: var(--on-primary);
-    }
-
-    &-filled {
-      background-color: var(--primary);
-      color: var(--on-primary);
-
-      &:hover {
-        background-color: var(--primary);
-        color: var(--on-primary);
-      }
-    }
-  }
-
-  &-vote {
-    &-voted {
-      background-color: $secondary;
-      color: $on-primary;
-
-      &:hover {
-        background-color: $secondary--hover;
-        color: $on-secondary--hover;
-      }
-
-      &:disabled {
-        background-color: $secondary--disabled;
-        color: $on-secondary--disabled;
-      }
-    }
-
-    &-default {
-      background-color: $primary;
-      color: $on-primary;
-
-      &:hover {
-        background-color: $primary--hover;
-        color: $on-primary--hover;
-      }
-
-      &:disabled {
-        background-color: $primary--disabled;
-        color: $on-primary--disabled;
-      }
     }
   }
 }

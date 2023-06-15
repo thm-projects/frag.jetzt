@@ -14,12 +14,9 @@
 #comment p {
   hyphens: auto;
   overflow-wrap: break-word;
-  color: var(--on-surface);
 }
 
 #exitButton {
-  background-color: var(--primary);
-  color: var(--on-primary);
   position: absolute;
   top: 2em;
   right: 2em;

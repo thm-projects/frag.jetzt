@@ -1,21 +1,11 @@
-button {
-  color: var(--on-primary-secondary);
-}
-
 .filterWrapper {
   width: 100%;
-}
-
-.filter {
-  color: var(--on-surface) !important;
 }
 
 table,
 th,
 tr,
 td {
-  background-color: var(--primary-variant) !important;
-  color: var(--on-primary-variant) !important;
   hyphens: auto;
 }
 
@@ -32,22 +22,18 @@ tr {
 .sessionName {
   width: 8%;
   min-width: 50px;
-  color: var(--on-surface) !important;
 }
 
 .sessionId {
   width: 8%;
   min-width: 50px;
-  color: var(--on-surface) !important;
 }
 
 .roleName {
-  color: var(--on-surface) !important;
   width: 5%;
 }
 
 .buttonName {
-  color: var(--on-surface) !important;
   width: 5%;
   display: flex;
   place-content: stretch flex-end;
@@ -55,7 +41,6 @@ tr {
 
 .noRoomHistory {
   padding-top: 100px;
-  color: var(--on-surface);
   font-weight: normal;
   text-align: center;
 }
@@ -70,8 +55,6 @@ tr {
 
 .mat-badge-content {
   top: -2px;
-  background: var(--secondary);
-  color: var(--on-secondary);
   font-weight: normal;
 }
 
@@ -89,17 +72,14 @@ tr {
 }
 
 .delete {
-  color: var(--red) !important;
   margin-right: 10px;
 }
 
 .export {
-  color: var(--green) !important;
   margin-right: 10px;
 }
 
 .notification {
-  color: var(--yellow) !important;
   margin-right: 10px;
 }
 
@@ -114,7 +94,6 @@ tr {
 }
 
 .warn {
-  color: var(--red) !important;
   padding-left: 3px;
 }
 
@@ -126,8 +105,6 @@ th.mat-header-cell:first-of-type {
   width: 0;
 
   > .mat-badge-content {
-    background-color: var(--primary);
-    color: var(--on-primary);
     left: -20px !important;
     top: 14px !important;
     font-weight: normal;

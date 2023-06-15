@@ -11,13 +11,11 @@ app-comment {
 #searchBox {
   box-sizing: border-box;
   padding: 0 10px 0 5px;
-  background-color: var(--background);
   border: none;
   outline: none;
   min-height: 60px;
   font-size: large;
   border-radius: 5px;
-  color: var(--on-surface);
   transition: width 300ms linear;
 }
 
@@ -36,13 +34,11 @@ app-comment {
 
 .search-container {
   border-radius: 5px;
-  background-color: var(--background);
   margin-bottom: 2%;
 }
 
 .search-container-fixed {
   border-radius: 5px;
-  background-color: var(--background);
   margin-bottom: 2%;
   position: fixed;
   top: 10px;
@@ -53,7 +49,6 @@ app-comment {
 
 .search-icon {
   padding: 10px;
-  color: var(--on-surface);
 }
 
 .searchBarButton {
@@ -61,7 +56,6 @@ app-comment {
   height: 45px !important;
   text-align: center;
   margin: 1% 2% 1% 1%;
-  color: var(--secondary);
 }
 
 .close {
@@ -73,11 +67,6 @@ app-comment {
   height: 45px;
   width: 45px;
   line-height: 100% !important;
-  color: var(--secondary);
-}
-
-.red {
-  color: var(--red) !important;
 }
 
 .no-comments {
@@ -86,29 +75,15 @@ app-comment {
 
 .counter {
   font-size: 18px;
-  color: var(--on-background);
 }
 
 .counter-filtered {
   font-size: 18px;
-  color: var(--red);
   font-weight: bold;
 }
 
-.timesort {
-  color: var(--primary);
-}
-
-.up {
-  color: var(--green);
-}
-
-.down {
-  color: var(--red);
-}
-
 ::placeholder {
-  color: var(--on-surface);
+  // TODO: Theming #1
   filter: opacity(0.6);
   font-style: italic;
 }
@@ -119,8 +94,6 @@ app-comment {
   bottom: 65px;
   transform: scale(0);
   z-index: 1;
-  background-color: var(--secondary);
-  color: var(--on-secondary);
   transition: 0.1s;
 }
 
@@ -129,7 +102,6 @@ app-comment {
 }
 
 .selected {
-  color: var(--red) !important;
   font-weight: bold;
   animation-name: animation_blink_5s;
   animation-timing-function: ease-in;
@@ -145,7 +117,6 @@ app-comment {
 }
 
 .active-filter .mat-icon {
-  color: var(--red) !important;
   animation-name: animation_blink_5s;
   animation-timing-function: ease-in;
   animation-duration: 2s;

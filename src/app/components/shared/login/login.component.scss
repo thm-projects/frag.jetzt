@@ -5,8 +5,6 @@
 }
 
 #inactiveInfo {
-  background-color: var(--surface);
-  color: var(--on-surface);
   padding: 0.25em;
   border-radius: 8px;
   text-align: center;
@@ -20,7 +18,6 @@ header {
   align-items: center;
 
   h1.title {
-    color: var(--on-dialog) !important;
     font-size: 18px !important;
     font-weight: 400;
   }
@@ -52,10 +49,6 @@ form {
 
   align-items: center;
 
-  background-color: var(--dialog);
-  color: var(--on-dialog);
-
-  border: 1px solid #3a3a3a;
   border-radius: 7px;
   transition: all 150ms ease-in-out;
 
@@ -67,24 +60,11 @@ form {
 
     width: 100%;
     border-radius: 7px;
-
-    background-color: var(--dialog);
-    color: var(--on-dialog);
-  }
-
-  &.error {
-    border: 1px solid var(--cancel);
-
-    label {
-      color: var(--cancel);
-    }
   }
 
   label {
     margin: 0 14px;
 
-    background-color: var(--dialog);
-    color: var(--on-dialog);
     font-style: italic !important;
 
     position: absolute;
@@ -112,25 +92,12 @@ button {
   cursor: pointer;
   transition: all 150ms ease-in-out;
 
-  &.button {
-    background-color: var(--dialog);
-    color: var(--on-dialog);
-  }
-
   &.mat-icon-button {
     padding: 0;
   }
 
   &.alt-button {
-    background-color: var(--dialog);
-    color: var(--primary);
-    border: 1px solid var(--primary);
     border-radius: 7px;
-
-    &:hover {
-      background-color: var(--primary);
-      color: var(--on-primary);
-    }
   }
 }
 
@@ -143,13 +110,6 @@ button {
 .anonymous-container {
   button {
     width: 100%;
-    background-color: var(--primary);
-    color: var(--on-primary);
-
-    &:hover {
-      background-color: var(--dialog);
-      color: var(--primary);
-    }
   }
 }
 
@@ -195,11 +155,6 @@ button {
 }
 
 .close {
-  color: var(--cancel);
   padding: 5px;
   border-radius: 17px;
-
-  &:hover {
-    outline: var(--cancel) solid 3px;
-  }
 }

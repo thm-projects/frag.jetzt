@@ -21,7 +21,6 @@ $header-size: 64px;
     height: 100%;
     width: 100%;
     max-width: 800px;
-    background-color: var(--surface) !important;
 
     > mat-card-header {
       margin: 8px 0;
@@ -31,7 +30,6 @@ $header-size: 64px;
       mat-card-title {
         display: flex;
         justify-content: center;
-        color: var(--on-surface) !important;
 
         h2 {
           font-size: 16px !important;
@@ -49,11 +47,9 @@ $header-size: 64px;
       mat-card-subtitle {
         display: flex;
         justify-content: center;
-        color: var(--on-surface) !important;
 
         .room-short-id {
           font-size: 14px;
-          color: var(--on-surface) !important;
           margin-top: -8px;
         }
 
@@ -61,11 +57,9 @@ $header-size: 64px;
           width: 40px;
           height: 40px;
           margin-top: -20px;
-          color: var(--primary);
         }
 
         .key-icon {
-          color: var(--red);
           font-size: 36px;
           width: 40px;
           height: 40px;
@@ -90,7 +84,6 @@ $header-size: 64px;
 
       h3 {
         margin: 0;
-        color: var(--on-surface) !important;
         font-size: 14px;
         font-weight: normal;
         padding: 0 20px 20px 20px; //Bugfix for Safari, which otherwise cuts off the text at the corners
@@ -99,16 +92,11 @@ $header-size: 64px;
       .mat-icon-button {
         width: max-content;
         height: 100%;
-        color: var(--primary) !important;
         transition: all 0.3s;
 
         &:hover {
           transform: scale(1.2);
         }
-      }
-
-      .gavel-icon {
-        color: var(--red);
       }
 
       .main-icon {
@@ -130,8 +118,6 @@ $header-size: 64px;
         width: 40px;
         height: 40px;
         line-height: 40px;
-        background: var(--secondary);
-        color: var(--on-secondary);
         font-weight: normal;
       }
 
@@ -153,8 +139,6 @@ $header-size: 64px;
           width: 40px !important;
           height: 40px !important;
           line-height: 40px !important;
-          background-color: var(--primary);
-          color: var(--on-primary);
           font-size: 16px !important;
           font-weight: normal;
           margin: 30px 0 0 10px;

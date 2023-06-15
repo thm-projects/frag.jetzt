@@ -8,16 +8,12 @@ $margin: 15px;
   left: 50%;
   top: 88%;
   transform: translate(-50%, 0);
-  background: transparent;
   border-radius: 5px;
-  outline: 2px solid var(--primary);
   outline-offset: 1em;
 }
 
 mat-drawer,
 .mat-drawer {
-  background-color: var(--background);
-
   @media (max-width: 450px) {
     width: 100vw;
   }
@@ -61,34 +57,18 @@ app-tag-cloud-pop-up {
   position: fixed;
   left: 35px;
   bottom: 35px;
-  background-color: var(--secondary);
-  color: var(--on-secondary);
   transform: scale(1.4);
   transition: all 0.1s ease-in-out;
   z-index: 2;
-
-  &:hover {
-    background-color: transparent;
-    color: var(--secondary);
-    outline: var(--secondary) solid 3px;
-  }
 }
 
 .fab_add_comment {
   position: fixed;
   right: 35px;
   bottom: 35px;
-  background-color: var(--primary);
-  color: var(--on-primary);
   transform: scale(1.4);
   transition: all 0.5s ease-in-out;
   z-index: 2;
-
-  &:hover {
-    background-color: transparent;
-    color: var(--primary);
-    outline: var(--primary) solid 3px;
-  }
 
   &.center_screen {
     right: calc(50% - 20px);
@@ -106,7 +86,6 @@ app-tag-cloud-pop-up {
   top: 60px;
   left: 20px;
   z-index: 2;
-  color: var(--primary) !important;
   font-weight: bold;
   font-style: var(--tag-cloud-font-style, normal);
   font-family: var(--tag-cloud-font-family, "sans-serif");

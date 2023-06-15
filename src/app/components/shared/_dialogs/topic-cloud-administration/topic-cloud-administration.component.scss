@@ -23,56 +23,12 @@
   margin-top: 16px;
 }
 
-.primary {
-  color: var(--primary);
-  background: none;
-}
-
-.red {
-  color: var(--red);
-}
-
-.green {
-  color: var(--green);
-}
-
-.primaryBackground {
-  background-color: var(--primary);
-}
-
-.redBackground {
-  background-color: var(--red);
-}
-
-mat-panel-description,
-mat-panel-title,
-p,
-input {
-  color: var(--on-background);
-}
-
 mat-icon {
   fill: currentColor;
 }
 
 mat-list-item:hover {
   background-color: rgba(128, 128, 128, 0.2);
-}
-
-.color-surface {
-  background-color: var(--surface);
-}
-
-.color-background {
-  background-color: var(--dialog);
-}
-
-.color-on-surface {
-  color: var(--on-surface);
-}
-
-.color-on-background {
-  color: var(--on-background);
 }
 
 .search {
@@ -83,7 +39,6 @@ mat-list-item:hover {
   min-height: 60px;
   font-size: large;
   border-radius: 5px;
-  color: var(--on-surface);
   transition: width 300ms linear;
 }
 
@@ -91,14 +46,9 @@ mat-list-item:hover {
   max-width: 100px;
 }
 
-label {
-  color: var(--on-surface);
-}
-
 mat-slide-toggle {
   margin-bottom: 16px;
   display: block;
-  color: var(--on-surface);
 }
 
 mat-panel-title,
@@ -113,7 +63,6 @@ mat-panel-description {
 }
 
 .animation-blink {
-  color: var(--red) !important;
   animation-name: animation_blink_5s;
   animation-timing-function: ease-in;
   animation-duration: 2s;
@@ -148,7 +97,6 @@ mat-panel-description {
 
 .radio-button-item {
   margin-bottom: 7px;
-  color: var(--on-surface);
 }
 
 .radio-button-group {
@@ -194,14 +142,7 @@ mat-dialog-content {
 
 .reset {
   margin: 25px auto auto auto;
-  background-color: var(--secondary);
-  color: var(--on-secondary);
   width: 100%;
-
-  &:focus {
-    background-color: var(--secondary);
-    color: var(--on-secondary);
-  }
 }
 
 .keyword-scoring {
@@ -218,7 +159,6 @@ mat-dialog-content {
   line-height: 1.2em;
   font-size: 1.2em;
   margin: auto 0 auto 0.25em;
-  color: var(--on-dialog);
 }
 
 .action-button-container {
@@ -235,15 +175,7 @@ mat-dialog-content {
 }
 
 .help-button {
-  background-color: transparent;
-  color: var(--green);
-  outline: var(--green) solid 3px;
   margin: 10px;
-
-  &:hover {
-    background-color: var(--green);
-    color: var(--black);
-  }
 
   .mat-icon {
     font-size: 18px;
