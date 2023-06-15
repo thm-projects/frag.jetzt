@@ -57,7 +57,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
           url: 'url("/assets/background/chatgpt.svg")',
           override: {
             default: {
-              backgroundSize: 'auto 85%',
+              backgroundSize: '42%',
             },
           },
         },
@@ -70,16 +70,16 @@ export class HomePageComponent implements OnInit, OnDestroy {
         fr: 'Bonnes Questions',
       },
       description: {
-        en: 'Boost the engagement of your learners and reward good questions with a star! Stars can be redeemed for bonus points via email. This appreciation motivates and contributes to a positive learning culture.',
-        de: 'Fördere das Engagement deiner Lernenden und belohne gute Fragen mit einem Stern! Sterne können per Mail in Bonuspunkte eingelöst werden. Diese Wertschätzung motiviert  und trägt zu einer positiven Lernkultur bei.',
-        fr: "Stimule l'engagement de tes apprenants et récompense les bonnes questions par une étoile ! Les étoiles peuvent être échangées contre des points bonus par email. Cette reconnaissance motive et contribue à une culture d'apprentissage positive.",
+        en: 'Boost engagement and reward good questions with a star! Stars can be redeemed for bonus points via email. This appreciation motivates and contributes to a positive learning culture.',
+        de: 'Fördere Engagement und belohne gute Fragen mit einem Stern! Sterne können per Mail in Bonuspunkte eingelöst werden. Diese Wertschätzung motiviert  und trägt zu einer positiven Lernkultur bei.',
+        fr: "Stimule l'engagement et récompense les bonnes questions par une étoile ! Les étoiles peuvent être échangées contre des points bonus par email. Cette reconnaissance motive et contribue à une culture d'apprentissage positive.",
       },
       images: [
         {
           url: 'url("/assets/background/bonus.svg")',
           override: {
             default: {
-              backgroundSize: 'auto 65%',
+              backgroundSize: '35%',
             },
           },
         },
@@ -92,9 +92,9 @@ export class HomePageComponent implements OnInit, OnDestroy {
         fr: 'Rallye quiz',
       },
       description: {
-        en: 'Energize your group with an interactive quiz! Liven up your teaching with competitions. Whoever answers quickly and correctly gets rewarded with bonus points. This way, learning becomes a fun group experience!',
-        de: 'Aktiviere deine Gruppe mit einem interaktiven Quiz! Lockere deinen Unterricht mit Wettbewerben auf. Wer schnell und richtig antwortet, wird mit Bonuspunkten belohnt. So wird Lernen zum unterhaltsamen Gruppenerlebnis!',
-        fr: "Anime ton groupe avec un quiz interactif ! Rends ton enseignement plus vivant avec des compétitions. Celui qui répond vite et correctement est récompensé par des points bonus. Ainsi, l'apprentissage devient une expérience de groupe amusante !",
+        en: 'Energize with an interactive quiz! Liven up your teaching with competitions. Whoever answers quickly and correctly gets rewarded with bonus points. This way, learning becomes a fun group experience!',
+        de: 'Aktiviere mit einem interaktiven Quiz! Lockere deinen Unterricht mit Wettbewerben auf. Wer schnell und richtig antwortet, wird mit Bonuspunkten belohnt. So wird Lernen zum unterhaltsamen Gruppenerlebnis!',
+        fr: "Anime avec un quiz interactif ! Rends ton enseignement plus vivant avec des compétitions. Celui qui répond vite et correctement est récompensé par des points bonus. Ainsi, l'apprentissage devient une expérience de groupe amusante !",
       },
       images: [
         {
@@ -114,16 +114,16 @@ export class HomePageComponent implements OnInit, OnDestroy {
         fr: 'Sondages Éclairs',
       },
       description: {
-        en: 'Get valuable real-time feedback with just one click! Numerous templates are available for you. Use flash polls to optimize your event or to find out if everyone can follow you.',
-        de: 'Hol dir wertvolles Feedback in Echtzeit mit nur einem Klick!  Zahlreiche Vorlagen stehen dir zur Verfügung. Nutze Blitzumfragen, um deine Veranstaltung zu optimieren oder um herauszufinden, ob dir alle folgen können.',
-        fr: 'Obtiens des retours précieux en temps réel avec un simple clic ! De nombreux modèles sont à ta disposition. Utilise des sondages éclair pour optimiser ton événement ou pour savoir si tout le monde peut te suivre.',
+        en: 'Get real-time feedback with just one click! Numerous templates are available for you. Use flash polls to optimize your event and to find out if everyone can follow you.',
+        de: 'Hol dir Feedback in Echtzeit mit nur einem Klick!  Zahlreiche Vorlagen stehen dir zur Verfügung. Nutze Blitzumfragen, um deine Veranstaltung zu optimieren und um herauszufinden, ob dir alle folgen können.',
+        fr: 'Reçois du feedback en temps réel avec un simple clic ! De nombreux modèles sont à ta disposition. Utilise des sondages éclair pour optimiser ton événement et pour savoir si tout le monde peut te suivre.',
       },
       images: [
         {
           url: 'url("/assets/background/flash_poll.svg")',
           override: {
             default: {
-              backgroundSize: 'auto 60%',
+              backgroundSize: '33%',
             },
           },
         },
@@ -138,14 +138,14 @@ export class HomePageComponent implements OnInit, OnDestroy {
       description: {
         en: 'Stir up the creativity of your group with an interactive brainstorming session! Ask a guiding question and visualize all ideas in real-time in a word cloud. Bonus tip: With just one click, ChatGPT generates as many ideas as you need!',
         de: 'Wecke die Kreativität deiner Gruppe mit einem interaktiven Brainstorming! Stelle eine Leitfrage und visualisiere alle Ideen in Echtzeit in einer Wortwolke. Bonustipp: Mit nur einem Klick generiert dir ChatGPT beliebig viele Ideen!',
-        fr: "Réveille la créativité de ton groupe avec un brainstorming interactif! Pose une question guide et visualise toutes les idées en temps réel dans un nuage de mots. Conseil bonus : Avec un simple clic, ChatGPT génère autant d'idées que tu en as besoin !",
+        fr: "Réveille la créativité de ton groupe avec un brainstorming interactif  Pose une question guide et visualise toutes les idées en temps réel dans un nuage de mots. Conseil bonus : Avec un simple clic, ChatGPT génère autant d'idées que tu en as besoin !",
       },
       images: [
         {
           url: 'url("/assets/background/brainstorming.svg")',
           override: {
             default: {
-              'background-size': 'auto 60%',
+              'background-size': '35%',
             },
           },
         },
@@ -158,9 +158,9 @@ export class HomePageComponent implements OnInit, OnDestroy {
         fr: 'Radar de Questions',
       },
       description: {
-        en: 'Effortlessly keep track of hundreds of questions! An AI analyzes the questions and suggests thematic keywords. With the question radar, you get a quick overview of the central themes and can reach the hotspots in the Q&A forum with just one click!',
-        de: 'Behalte mühelos den Überblick über hunderte von Fragen! Eine KI analysiert die Fragen und schlägt thematische Stichwörter vor. Mit dem Fragen-Radar erhältst du einen schnellen Überblick über die zentralen Themen und gelangst mit einem Klick zu den Hotspots im Q&A-Forum!',
-        fr: "Garde facilement une vue d'ensemble sur des centaines de questions ! Une IA analyse les questions et suggère des mots-clés thématiques. Avec le radar de questions, tu obtiens un aperçu rapide des thèmes centraux et tu peux atteindre les points chauds dans le forum Q&R en un seul clic !",
+        en: 'Effortlessly keep track of hundreds of questions! An AI analyzes them and suggests keywords. With the question radar, you get a quick overview of the central themes and can reach the hotspots in the Q&A forum with just one click!',
+        de: 'Behalte mühelos den Überblick über hunderte von Fragen! Eine KI analysiert sie und schlägt Stichwörter vor. Mit dem Fragen-Radar erhältst du einen schnellen Überblick über die zentralen Themen und gelangst mit einem Klick zu den Hotspots im Q&A-Forum!',
+        fr: "Garde facilement une vue d'ensemble sur des centaines de questions ! Une IA les analyse et suggère des mots-clés. Avec le radar de questions, tu obtiens un aperçu rapide des thèmes centraux et tu peux atteindre les points chauds dans le forum Q&R en un seul clic !",
       },
       images: [
         {
@@ -182,7 +182,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
       description: {
         en: 'Present questions with style and impact! Show individual questions in large format on the projector. Switch to autofocus to automatically display new questions in full screen. Focus on questions that have been highly rated or controversially discussed.',
         de: 'Präsentiere Fragen mit Stil und Wirkung! Zeig einzelne Fragen im Großformat am Beamer. Schalte auf Autofokus, um neue Fragen automatisch im Vollbild anzuzeigen. Lege den Fokus auf Fragen, die hoch bewertet oder kontrovers diskutiert wurden.',
-        fr: "Présente des questions avec style et impact ! Affiche des questions individuelles en grand format sur le projecteur. Passe en autofocus pour afficher automatiquement les nouvelles questions en plein écran. Concentre-toi sur les questions qui ont été très bien notées ou qui ont fait l'objet de discussions controversées.",
+        fr: "Présente des questions avec style et impact ! Affiche des questions individuelles en grand format sur le projecteur. Passe en autofocus pour afficher automatiquement les nouvelles questions en plein écran. Concentre-toi sur les questions qui ont été très bien notées ou qui ont fait l'objet de discussions controversées.",
       },
       images: [
         {
