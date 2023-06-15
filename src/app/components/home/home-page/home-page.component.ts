@@ -54,10 +54,10 @@ export class HomePageComponent implements OnInit, OnDestroy {
       },
       images: [
         {
-          url: 'url("/assets/background/background-gpt1_masked.png")',
+          url: 'url("/assets/background/chatgpt.svg")',
           override: {
             default: {
-              backgroundSize: 'cover',
+              backgroundSize: 'auto 85%',
             },
           },
         },
@@ -76,10 +76,10 @@ export class HomePageComponent implements OnInit, OnDestroy {
       },
       images: [
         {
-          url: 'url("/assets/background/background-2.png")',
+          url: 'url("/assets/background/bonus.svg")',
           override: {
             default: {
-              backgroundSize: 'auto 100%',
+              backgroundSize: 'auto 65%',
             },
           },
         },
@@ -98,11 +98,10 @@ export class HomePageComponent implements OnInit, OnDestroy {
       },
       images: [
         {
-          url: 'url("/assets/background/Countdown.webp")',
+          url: 'url("/assets/background/quizzing-7.png")',
           override: {
             default: {
-              backgroundPosition: 'center right',
-              backgroundSize: '45%',
+              backgroundSize: '35%',
             },
           },
         },
@@ -121,10 +120,10 @@ export class HomePageComponent implements OnInit, OnDestroy {
       },
       images: [
         {
-          url: 'url("/assets/background/question-mark.webp")',
+          url: 'url("/assets/background/flash_poll.svg")',
           override: {
             default: {
-              backgroundSize: 'auto 100%',
+              backgroundSize: 'auto 60%',
             },
           },
         },
@@ -143,10 +142,10 @@ export class HomePageComponent implements OnInit, OnDestroy {
       },
       images: [
         {
-          url: 'url("/assets/background/antworte_jetzt.webp")',
+          url: 'url("/assets/background/brainstorming.svg")',
           override: {
             default: {
-              'background-size': '50%',
+              'background-size': 'auto 60%',
             },
           },
         },
@@ -165,8 +164,12 @@ export class HomePageComponent implements OnInit, OnDestroy {
       },
       images: [
         {
-          url: 'url("/assets/background/radar.svg")',
-          override: {},
+          url: 'url("/assets/background/question_radar.svg")',
+          override: {
+            default: {
+              'background-size': '35%',
+            },
+          },
         },
       ],
     },
@@ -183,9 +186,11 @@ export class HomePageComponent implements OnInit, OnDestroy {
       },
       images: [
         {
-          url: 'url("/assets/background/lens-1723832_1920.png")',
+          url: 'url("/assets/background/lens.svg")',
           override: {
-            default: {},
+            default: {
+              'background-size': '32%',
+            },
           },
         },
       ],
