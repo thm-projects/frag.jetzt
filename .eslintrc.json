@@ -15,10 +15,10 @@
         "createDefaultProgram": true
       },
       "extends": [
-        "plugin:@angular-eslint/ng-cli-compat",
-        "plugin:@angular-eslint/ng-cli-compat--formatting-add-on",
-        "plugin:@angular-eslint/template/process-inline-templates",
-        "prettier"
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended",
+        "prettier",
+        "plugin:@angular-eslint/recommended"
       ],
       "rules": {
         "@angular-eslint/component-selector": [

@@ -309,7 +309,7 @@ export class ArsDateFormatter implements OnDestroy{
     if (!test || !test.length) {
       return {
         date: date,
-        unit: -1,
+        unit: -1 as ArsTimeUnit,
         time: -1
       }
     }

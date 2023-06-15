@@ -68,7 +68,6 @@ import { DemoEnComponent } from '../assets/i18n/components/demo/demo-en';
 import { ArsModule } from '../../projects/ars/src/lib/ars.module';
 import { MatIconModule } from '@angular/material/icon';
 import { MatomoModule } from 'ngx-matomo-v9';
-import { TagCloudModule } from 'angular-tag-cloud-module';
 import { SpacyService } from './services/http/spacy.service';
 import { QuizNowComponent } from './components/shared/quiz-now/quiz-now.component';
 import { JoyrideModule } from 'ngx-joyride';
@@ -105,7 +104,7 @@ import { AskOnboardingENComponent } from 'assets/i18n/components/ask-onboarding/
 import { AskOnboardingFRComponent } from 'assets/i18n/components/ask-onboarding/ask-onboarding-fr.component';
 import { UpdateInfoDialogComponent } from './components/home/_dialogs/update-info-dialog/update-info-dialog.component';
 
-export const dialogClose = (dialogResult: any) => '';
+export const dialogClose = () => '';
 
 export const initializeApp = (appConfig: AppConfig) => () => appConfig.load();
 
@@ -113,7 +112,6 @@ export const initializeApp = (appConfig: AppConfig) => () => appConfig.load();
 export const HttpLoaderFactory = (http: HttpClient) =>
   new TranslateHttpLoader(http, '../../assets/i18n/home/', '.json');
 
-// @ts-ignore
 @NgModule({
   declarations: [
     AppComponent,
@@ -180,7 +178,6 @@ export const HttpLoaderFactory = (http: HttpClient) =>
       isolate: true,
     }),
     ArsModule,
-    TagCloudModule,
     JoyrideModule.forRoot(),
     NgxIndexedDBModule.forRoot(DB_CONFIG),
     MatNativeDateModule,
