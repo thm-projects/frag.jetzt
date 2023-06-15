@@ -228,7 +228,6 @@
       }
     }
   },
-  "defaultProject": "arsnova-angular-frontend",
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "app",
@@ -239,7 +238,6 @@
     }
   },
   "cli": {
-    "analytics": false,
-    "defaultCollection": "@angular-eslint/schematics"
+    "analytics": false
   }
 }
