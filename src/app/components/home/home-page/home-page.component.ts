@@ -1,4 +1,13 @@
-import { Component, OnDestroy, OnInit, Renderer2 } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  HostListener,
+  OnDestroy,
+  OnInit,
+  Renderer2,
+  ViewChild,
+} from '@angular/core';
 import { EventService } from '../../../services/util/event.service';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { KeyboardUtils } from '../../../utils/keyboard';
@@ -10,16 +19,234 @@ import { SessionService } from '../../../services/util/session.service';
 import { OnboardingService } from '../../../services/util/onboarding.service';
 import { NotificationService } from 'app/services/util/notification.service';
 import { LanguageService } from 'app/services/util/language.service';
-import { filter, take } from 'rxjs';
+import { filter, ReplaySubject, take } from 'rxjs';
+import { ThemeService } from '../../../../theme/theme.service';
+
+export type CarouselEntryKind = 'highlight' | 'peek' | 'hidden';
 
 @Component({
   selector: 'app-home-page',
   templateUrl: './home-page.component.html',
-  styleUrls: ['./home-page.component.scss'],
+  styleUrls: [
+    './home-page.component.scss',
+    '../../shared/utility/style/common-style.scss',
+  ],
 })
 export class HomePageComponent implements OnInit, OnDestroy {
+  @ViewChild('carouselScrollElement')
+  _carouselScrollElement: ElementRef<HTMLDivElement>;
   listenerFn: () => void;
+
   accumulatedRatings: RatingResult;
+
+  protected carouselIndex: number = 0;
+  protected readonly carousel = [
+    {
+      title: {
+        en: 'ChatGPT',
+        de: 'ChatGPT',
+        fr: 'ChatGPT',
+      },
+      description: {
+        en: "Let ChatGPT answer all the questions. Our prompt catalog will help you generate tailored and precise texts. A quick fact check, and you've saved yourself hours of work. Experience how AI makes you more efficient!",
+        de: 'Lass ChatGPT alle Fragen beantworten. Unser Prompt-Katalog hilft dir, maßgeschneiderte und präzise Texte zu generieren. Ein kurzer Faktencheck und du hast dir viele Stunden Arbeit erspart. Erlebe, wie die KI dich effizienter macht!',
+        fr: "Laisse ChatGPT répondre à toutes les questions. Notre catalogue de prompts t'aidera à générer des textes précis et sur mesure. Un rapide contrôle des faits et tu as économisé des heures de travail. Découvre comment l'IA te rend plus efficace !",
+      },
+      images: [
+        {
+          url: 'url("/assets/background/chatgpt.svg")',
+          override: {
+            default: {
+              backgroundSize: '42%',
+            },
+          },
+        },
+      ],
+    },
+    {
+      title: {
+        en: 'Good Questions',
+        de: 'Gute Fragen',
+        fr: 'Bonnes Questions',
+      },
+      description: {
+        en: 'Boost engagement and reward good questions with a star! Stars can be redeemed for bonus points via email. This appreciation motivates and contributes to a positive learning culture.',
+        de: 'Fördere Engagement und belohne gute Fragen mit einem Stern! Sterne können per Mail in Bonuspunkte eingelöst werden. Diese Wertschätzung motiviert  und trägt zu einer positiven Lernkultur bei.',
+        fr: "Stimule l'engagement et récompense les bonnes questions par une étoile ! Les étoiles peuvent être échangées contre des points bonus par email. Cette reconnaissance motive et contribue à une culture d'apprentissage positive.",
+      },
+      images: [
+        {
+          url: 'url("/assets/background/bonus.svg")',
+          override: {
+            default: {
+              backgroundSize: '35%',
+            },
+          },
+        },
+      ],
+    },
+    {
+      title: {
+        en: 'Quiz rally',
+        de: 'Quiz-Rallye',
+        fr: 'Rallye quiz',
+      },
+      description: {
+        en: 'Energize with an interactive quiz! Liven up your teaching with competitions. Whoever answers quickly and correctly gets rewarded with bonus points. This way, learning becomes a fun group experience!',
+        de: 'Aktiviere mit Quizfragen! Lockere deinen Unterricht mit Wettbewerben auf. Wer schnell und richtig antwortet, wird mit Bonuspunkten belohnt. So wird Lernen zum unterhaltsamen Gruppenerlebnis!',
+        fr: "Anime avec un quiz interactif ! Rends ton enseignement plus vivant avec des compétitions. Celui qui répond vite et correctement est récompensé par des points bonus. Ainsi, l'apprentissage devient une expérience de groupe amusante !",
+      },
+      images: [
+        {
+          url: 'url("/assets/background/quizzing-7.png")',
+          override: {
+            default: {
+              backgroundSize: '35%',
+            },
+          },
+        },
+      ],
+    },
+    {
+      title: {
+        en: 'Flash Polls',
+        de: 'Blitzumfragen',
+        fr: 'Sondages Éclairs',
+      },
+      description: {
+        en: 'Get real-time feedback with just one click! Numerous templates are available for you. Use flash polls to optimize your event and to find out if everyone can follow you.',
+        de: 'Hol dir Feedback in Echtzeit mit nur einem Klick! Zahlreiche Vorlagen stehen dir zur Verfügung. Nutze Blitzumfragen, um deine Vorträge zu optimieren. Finde heraus, ob dir alle folgen können.',
+        fr: 'Reçois du feedback en temps réel avec un simple clic ! De nombreux modèles sont à ta disposition. Utilise des sondages éclair pour optimiser ton événement et pour savoir si tout le monde peut te suivre.',
+      },
+      images: [
+        {
+          url: 'url("/assets/background/flash_poll.svg")',
+          override: {
+            default: {
+              backgroundSize: '33%',
+            },
+          },
+        },
+      ],
+    },
+    {
+      title: {
+        en: 'Brainstorming',
+        de: 'Brainstorming',
+        fr: 'Brainstorming',
+      },
+      description: {
+        en: 'Stir up the creativity of your group with an interactive brainstorming session! Ask a guiding question and visualize all ideas in real-time in a word cloud. Bonus tip: With just one click, ChatGPT generates as many ideas as you need!',
+        de: 'Wecke die Kreativität deiner Gruppe! Mit einem Brainstorming wird es gelingen! Stelle eine Leitfrage und visualisiere alle Ideen in Echtzeit in einer Wortwolke. Bonustipp: Mit nur einem Klick generiert ChatGPT beliebig viele Ideen zu jedem Thema!',
+        fr: "Réveille la créativité de ton groupe avec un brainstorming interactif  Pose une question guide et visualise toutes les idées en temps réel dans un nuage de mots. Conseil bonus : Avec un simple clic, ChatGPT génère autant d'idées que tu en as besoin !",
+      },
+      images: [
+        {
+          url: 'url("/assets/background/brainstorming.svg")',
+          override: {
+            default: {
+              'background-size': '35%',
+            },
+          },
+        },
+      ],
+    },
+    {
+      title: {
+        en: 'Question Radar',
+        de: 'Fragen-Radar',
+        fr: 'Radar de Questions',
+      },
+      description: {
+        en: 'Effortlessly keep track of hundreds of questions! An AI analyzes them and suggests keywords. With the question radar, you get a quick overview of the central themes and can reach the hotspots in the Q&A forum with just one click!',
+        de: 'Behalte den Überblick über hunderte von Fragen! Eine KI analysiert sie und schlägt Stichwörter vor. Auf dem Radarschirm siehst du die zentralen Themen. Mit nur einem Klick springst du zu den Hotspots ins Q&A-Forum!',
+        fr: "Garde facilement une vue d'ensemble sur des centaines de questions ! Une IA les analyse et suggère des mots-clés. Avec le radar de questions, tu obtiens un aperçu rapide des thèmes centraux et tu peux atteindre les points chauds dans le forum Q&R en un seul clic !",
+      },
+      images: [
+        {
+          url: 'url("/assets/background/question_radar.svg")',
+          override: {
+            default: {
+              'background-size': '36%',
+            },
+          },
+        },
+      ],
+    },
+    {
+      title: {
+        en: 'Question Focus',
+        de: 'Fragen-Fokus',
+        fr: 'Focus sur les Questions',
+      },
+      description: {
+        en: 'Present questions with style and impact! Show individual questions in large format on the projector. Switch to autofocus to automatically display new questions in full screen. Focus on questions that have been highly rated or controversially discussed.',
+        de: 'Präsentier Fragen mit Stil und Wirkung! Zeig einzelne Fragen im Großformat am Beamer. Schalt auf Autofokus, um neue Fragen automatisch anzuzeigen. Wähle die passende Blende für hoch bewertete oder kontroverse Fragen.',
+        fr: "Présente des questions avec style et impact ! Affiche des questions individuelles en grand format sur le projecteur. Passe en autofocus pour afficher automatiquement les nouvelles questions en plein écran. Concentre-toi sur les questions qui ont été très bien notées ou qui ont fait l'objet de discussions controversées.",
+      },
+      images: [
+        {
+          url: 'url("/assets/background/lens.svg")',
+          override: {
+            default: {
+              'background-size': '34%',
+            },
+          },
+        },
+      ],
+    },
+    {
+      title: {
+        en: 'Learn more …',
+        de: 'Mehr erfahren …',
+        fr: 'En savoir plus …',
+      },
+      description: {
+        en: "Great that you've scrolled this far! Take a look at the footer on the left. There you will find lots of useful information and tips. It's worth it! Start your journey of discovery now!",
+        de: 'Schön, dass du bis hierher gescrollt hast! Schau mal links in die Fußzeile. Dort findest du viele nützliche Informationen und Tipps. Es lohnt sich! Geh jetzt auf Entdeckungsreise!',
+        fr: "Super que tu aies défilé jusque ici ! Regarde dans le pied de page à gauche. Là, tu trouveras beaucoup d'informations utiles et des astuces. Ça vaut le coup ! Commence ton voyage de découverte maintenant !",
+      },
+      images: [
+        {
+          url: 'url("/assets/background/info.svg")',
+          override: {
+            default: {
+              'background-size': '34%',
+            },
+          },
+        },
+      ],
+    },
+    {
+      title: {
+        en: 'Start Now!',
+        de: 'Starte jetzt!',
+        fr: 'Démarre maintenant !',
+      },
+      description: {
+        en: "Book a room, share the key code. It's that easy! If you want to use frag.jetzt with ChatGPT at all times, in any browser, on any device, set up a free account: Click on »Sign in« in the top right corner. Don't hold back, try everything out!",
+        de: "Raum buchen, Raum-Code verteilen. So einfach geht's! Wenn du frag.jetzt mit ChatGPT immer und in jedem Browser auf jedem Gerät einsetzen willst, richte dir ein kostenloses Konto ein: Klick oben rechts auf »Anmelden«. Hab keine Hemmungen, probier alles aus!",
+        fr: "Réserve une salle, distribue le code de la salle. C'est si simple ! Si tu veux utiliser frag.jetzt avec ChatGPT à tout moment, dans n'importe quel navigateur, sur n'importe quel appareil, crée un compte gratuit : Il suffit de cliquer sur « Se connecter » en haut à droite. Ne te retiens pas, essaie tout !",
+      },
+      images: [
+        {
+          url: 'url("/assets/background/rocket.svg")',
+          override: {
+            default: {
+              'background-size': '40%',
+            },
+          },
+        },
+      ],
+    },
+  ];
+  protected readonly mobileBoundaryWidth = 600;
+  protected readonly mobileBoundaryHeight = 630;
+
+  private currentTheme: string;
+  private readonly _destroyer: ReplaySubject<number> =
+    new ReplaySubject<number>(1);
+  private lastScrollMs: number = -1;
 
   constructor(
     private translateService: TranslateService,
@@ -30,8 +257,123 @@ export class HomePageComponent implements OnInit, OnDestroy {
     private sessionService: SessionService,
     private onboardingService: OnboardingService,
     private notificationService: NotificationService,
-    private languageService: LanguageService,
-  ) {}
+    public readonly languageService: LanguageService,
+    private readonly cdr: ChangeDetectorRef,
+    public readonly themeService: ThemeService,
+  ) {
+    themeService.getTheme().subscribe((x) => (this.currentTheme = x.key));
+    const arrowEventListener = (event: KeyboardEvent) => {
+      if (!document.activeElement.hasAttribute('mat-menu-item')) {
+        switch (event.key) {
+          case 'ArrowUp':
+            this.setCarouselIndex(this.carouselIndex - 1);
+            break;
+          case 'ArrowDown':
+            this.setCarouselIndex(this.carouselIndex + 1);
+            break;
+        }
+      }
+    };
+    window.addEventListener('keydown', arrowEventListener, true);
+    this._destroyer.subscribe(() => {
+      this.listenerFn?.();
+      this.eventService.makeFocusOnInputFalse();
+      window.removeEventListener('keydown', arrowEventListener);
+    });
+  }
+
+  get carouselOffset() {
+    if (this._carouselScrollElement) {
+      const target = this._carouselScrollElement.nativeElement.children[
+        this.carouselIndex
+      ] as HTMLDivElement;
+      return {
+        'top.px': -target.offsetTop - target.offsetHeight / 2,
+      };
+    } else {
+      return {};
+    }
+  }
+
+  /**
+   * @desc touchpad scroll fires multiple events with different deltaY.\
+   * In order to limit the request amount, a time switch is added.
+   * @param wheel
+   */
+  @HostListener('wheel', ['$event']) _onWheel(wheel: WheelEvent) {
+    if (!wheel.ctrlKey && wheel.deltaY) {
+      if (
+        Math.abs(wheel.deltaY) === 120 ||
+        this.lastScrollMs === -1 ||
+        new Date().getTime() - this.lastScrollMs > 200
+      ) {
+        let changed = true;
+        if (wheel.deltaY > 0) {
+          this.setCarouselIndex(this.carouselIndex + 1);
+        } else if (wheel.deltaY < 0) {
+          this.setCarouselIndex(this.carouselIndex - 1);
+        } else {
+          changed = false;
+        }
+        if (changed) {
+          this.lastScrollMs = new Date().getTime();
+        }
+      }
+    }
+  }
+
+  getBackgroundStyleForEntry(i: number): any {
+    let _override = {};
+    if (i < this.carouselIndex) {
+      _override['opacity'] = 0;
+    } else if (i > this.carouselIndex) {
+      _override['opacity'] = 0;
+    } else {
+      _override['opacity'] = 1;
+    }
+    if (this.carousel[i].images[0]['override']) {
+      _override = {
+        ..._override,
+        ...this.carousel[i].images[0]['override'][this.currentTheme + '-theme'],
+      };
+      if (this.carousel[i].images[0]['override']['default']) {
+        _override = {
+          ..._override,
+          ...this.carousel[i].images[0]['override']['default'],
+        };
+      }
+    }
+    return {
+      ...{
+        backgroundImage: this.carousel[i].images[0].url,
+        transform: `translateY(${(this.carouselIndex - i) * -1000}px)`,
+      },
+      ..._override,
+    };
+  }
+
+  getStyleForEntry(i: number, kind: CarouselEntryKind): any {
+    switch (kind) {
+      case 'highlight':
+        return {};
+      case 'peek':
+        return {};
+      case 'hidden':
+        return {};
+      default:
+        return {};
+    }
+  }
+
+  getEntryKind(i: number): CarouselEntryKind {
+    if (i === this.carouselIndex) {
+      return 'highlight';
+    } else if (i === this.carouselIndex - 1 || i === this.carouselIndex + 1) {
+      return 'peek';
+    } else {
+      return 'hidden';
+    }
+  }
 
   ngOnInit() {
     this.ratingService.getRatings().subscribe((r) => {
@@ -93,11 +435,10 @@ export class HomePageComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.listenerFn?.();
-    this.eventService.makeFocusOnInputFalse();
+    this._destroyer.next(1);
   }
 
-  public announce() {
+  announce() {
     const lang: string = this.translateService.currentLang;
     this.liveAnnouncer.clear();
     if (lang === 'de') {
@@ -116,6 +457,34 @@ export class HomePageComponent implements OnInit, OnDestroy {
           'Press 4 to go to the language selection menu or 9 to repeat this announcement',
         'assertive',
       );
+    }
+  }
+
+  selectEntry(i: number, entryElement: HTMLDivElement) {
+    this.carouselIndex = i;
+  }
+
+  getPositionClass(i: number) {
+    let _class = '';
+    const offset = i - this.carouselIndex;
+    if (offset === -2 || offset === 2) {
+      _class = '';
+    } else {
+      _class += 'hide ';
+    }
+    if (offset === 0) _class += 'center';
+    else if (offset < 0) _class += 'bottom';
+    else _class += 'top';
+    return _class;
+  }
+
+  private setCarouselIndex(carouselIndex: number, throwError: boolean = false) {
+    if (carouselIndex < 0 || carouselIndex >= this.carousel.length) {
+      if (throwError) {
+        throw new Error();
+      }
+    } else {
+      this.carouselIndex = carouselIndex;
     }
   }
 }

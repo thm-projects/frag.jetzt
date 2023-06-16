@@ -1,0 +1,84 @@
+$_outline-width: 1px;
+
+@mixin mix-button-stroked($color, $on-color) {
+  background-color: transparent;
+  color: $color;
+  outline: $color solid $_outline-width;
+
+  &:hover {
+    color: $on-color;
+  }
+}
+
+@mixin mix-button-flat($color, $on-color) {
+  background-color: $color;
+  color: $on-color;
+
+  &:hover {
+    background-color: $color;
+    color: $on-color;
+  }
+}
+
+@mixin mix-button-fill($color, $on-color) {
+  background-color: transparent;
+  color: $color !important;
+  outline: $color solid $_outline-width;
+
+  &:hover {
+    background-color: $color !important;
+    color: $on-color !important;
+  }
+
+  &:focus-within {
+    outline: $color solid 3px;
+  }
+
+  &:active {
+    background-color: $color;
+    color: $on-color;
+  }
+}
+
+@mixin mix-default($key-color) {
+  &[_color*="stroked"] {
+    @include mix-button-stroked(var(--#{$key-color}), var(--on-surface));
+  }
+
+  &[_color*="flat"] {
+    @include mix-button-flat(var(--#{$key-color}), var(--on-#{$key-color}));
+  }
+
+  &[_color*="fill"] {
+    @include mix-button-fill(var(--#{$key-color}), var(--on-#{$key-color}));
+  }
+}
+
+button {
+  * + * {
+    margin-left: 4px;
+  }
+
+  &.mat-flat-button {
+    &[_color*="primary"] {
+      @include mix-default(primary);
+    }
+
+    &[_color*="secondary"] {
+      @include mix-default(secondary);
+    }
+
+    &[_color*="cancel"] {
+      background-color: transparent;
+      color: var(--on-dialog);
+
+      &:hover {
+        outline: var(--cancel) solid 3px;
+      }
+
+      .mat-icon {
+        color: var(--cancel);
+      }
+    }
+  }
+}

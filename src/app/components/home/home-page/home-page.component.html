@@ -5,83 +5,152 @@
   [stepPosition]="'center'"></div>
 
 <div
-  data-nosnippet
-  class="main-container">
+  class="background-container"
+  *ngIf="
+    contentContainer.offsetWidth > mobileBoundaryWidth &&
+    contentContainer.offsetHeight > mobileBoundaryHeight
+  ">
   <div
-    class="bg-object"
-    style="top: 20%; left: 20%; animation-delay: 0s">
-    ?
-  </div>
-
+    class="background-image"
+    *ngFor="let background of carousel; index as i"
+    [ngStyle]="getBackgroundStyleForEntry(i)"></div>
+</div>
+<div
+  class="side-overlay"
+  *ngIf="
+    contentContainer.offsetWidth > mobileBoundaryWidth &&
+    contentContainer.offsetHeight > mobileBoundaryHeight
+  "
+  [ngClass]="
+    (contentContainer.offsetWidth < mobileBoundaryWidth ||
+    contentContainer.offsetHeight < mobileBoundaryHeight
+      ? 'mobile'
+      : 'desktop') +
+    ' ' +
+    (themeService.activeTheme?.key || 'undefined')
+  "></div>
+<div
+  fxLayout="column"
+  fxLayoutAlign="center center"
+  class="content-container"
+  #contentContainer
+  [ngClass]="
+    (contentContainer.offsetWidth < mobileBoundaryWidth ||
+    contentContainer.offsetHeight < mobileBoundaryHeight
+      ? 'mobile'
+      : 'desktop') +
+    ' ' +
+    (themeService.activeTheme?.key || 'undefined') +
+    ' ' +
+    (contentContainer.offsetHeight < mobileBoundaryHeight
+      ? 'scroll-bound'
+      : ' ')
+  ">
   <div
-    class="bg-object"
-    style="top: 30%; left: 80%; animation-delay: 2s">
-    ?
-  </div>
-
-  <div
-    fxLayout="row"
-    fxLayoutAlign="center">
-    <h1>
-      <span
-        class="main-heading-secondary"
-        aria-hidden="true">
-        {{ "login.welcome" | translate }}
-      </span>
-      <span class="main-heading-primary">
-        {{ "login.welcome-primary" | translate }}
-      </span>
-    </h1>
-  </div>
-
-  <div fxLayoutAlign="center">
-    <mat-card class="outer">
-      <mat-card-content>
-        <div fxLayoutAlign="center">
-          <app-new-landing></app-new-landing>
+    class="content"
+    fxLayoutGap="16px"
+    fxLayout="row">
+    <div
+      class="book-room-container"
+      fxLayout="column"
+      fxLayoutGap="32px">
+      <div
+        fxLayout="column"
+        fxLayoutGap="16px">
+        <span
+          class="main-heading-secondary"
+          aria-hidden="true">
+          {{ "login.welcome" | translate }}
+        </span>
+        <span class="main-heading-primary">
+          {{ "login.welcome-primary" | translate }}
+        </span>
+      </div>
+      <div
+        fxLayout="row"
+        fxLayoutGap="16px"
+        fxLayoutAlign="flex-start center">
+        <app-new-landing></app-new-landing>
+      </div>
+      <div fxLayout="row">
+        <app-app-rating
+          *ngIf="accumulatedRatings"
+          [ratingResults]="accumulatedRatings"></app-app-rating>
+      </div>
+      <div>
+        <h2>
+          <span
+            class="feedback"
+            data-nosnippet>
+            <a
+              [joyrideStep]="'feedbackLink'"
+              appJoyrideTemplate
+              [stepPosition]="'top'"
+              href="https://frag.jetzt/participant/room/Feedback"
+              target="_blank"
+              rel="noreferrer noopener"
+              aria-labelledby="feedback-aria">
+              {{ "login.welcome-feedback" | translate }}
+            </a>
+          </span>
+        </h2>
+      </div>
+    </div>
+    <div
+      class="carousel-container-ghost"
+      *ngIf="
+        contentContainer.offsetWidth > mobileBoundaryWidth &&
+        contentContainer.offsetHeight > mobileBoundaryHeight
+      ">
+      <div class="carousel-anchor">
+        <div class="carousel-transform">
+          <div
+            class="carousel-scroll"
+            [ngStyle]="carouselOffset"
+            #carouselScrollElement>
+            <ng-container *ngFor="let entry of carousel; index as i">
+              <div
+                class="carousel-entry"
+                *ngIf="getEntryKind(i) as kind"
+                [ngClass]="kind"
+                [ngStyle]="getStyleForEntry(i, kind)"
+                role="button"
+                #entryElement>
+                <div
+                  mat-ripple
+                  class="carousel-pointer"
+                  (click)="selectEntry(i, entryElement)"
+                  [ngStyle]="{ 'height.px': content.offsetHeight }">
+                  <div
+                    class="pointer"
+                    [ngClass]="getPositionClass(i)">
+                    <div class="point"></div>
+                  </div>
+                </div>
+                <div
+                  mat-ripple
+                  [matRippleColor]="'rgba(123,123,123,0.1)'"
+                  class="carousel-content"
+                  (click)="selectEntry(i, entryElement)"
+                  #content>
+                  <div
+                    fxLayout="row"
+                    fxLayoutAlign="space-between center">
+                    <span class="carousel-entry-title">
+                      {{ entry.title[this.languageService.language] }}
+                    </span>
+                  </div>
+                  <span class="carousel-text">
+                    {{ entry.description[this.languageService.language] }}
+                  </span>
+                </div>
+              </div>
+            </ng-container>
+          </div>
         </div>
-      </mat-card-content>
-    </mat-card>
+      </div>
+    </div>
   </div>
-
-  <img
-    tabindex="-1"
-    src="/assets/images/Chatbot.webp"
-    class="screenshot"
-    width="381"
-    height="358"
-    alt="AI Tutor" />
-
-  <h2>
-    <span
-      data-nosnippet
-      class="feedback">
-      <a
-        [joyrideStep]="'feedbackLink'"
-        appJoyrideTemplate
-        [stepPosition]="'top'"
-        class="info"
-        href="https://frag.jetzt/participant/room/Feedback"
-        target="_blank"
-        rel="noreferrer noopener"
-        aria-labelledby="feedback-aria">
-        {{ "login.welcome-feedback" | translate }}
-      </a>
-    </span>
-  </h2>
-
-  <button
-    id="live_announcer-button"
-    autofocus
-    tabIndex="-1"
-    (click)="announce()"
-    class="visually-hidden">
-    {{ "home-page.live-announcer" | translate }}
-  </button>
-
-  <app-app-rating
-    *ngIf="accumulatedRatings"
-    [ratingResults]="accumulatedRatings"></app-app-rating>
 </div>
 
 <div class="visually-hidden">
