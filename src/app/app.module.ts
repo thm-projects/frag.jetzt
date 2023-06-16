@@ -157,7 +157,7 @@ export const HttpLoaderFactory = (http: HttpClient) =>
   imports: [
     MatomoModule,
     AppRoutingModule,
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: 'serverApp' }),
     BrowserAnimationsModule,
     EssentialsModule,
     SharedModule,

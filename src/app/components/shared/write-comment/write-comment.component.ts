@@ -184,7 +184,7 @@ export class WriteCommentComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this._mockMatcher.removeAllListeners();
+    // this._mockMatcher.removeAllListeners();
   }
 
   buildCloseDialogActionCallback(): () => void {

@@ -225,7 +225,7 @@ export class StartUpService {
         requestTimeout = setTimeout(request, SPIN_DURATION);
         return;
       }
-      requestTimeout = 0;
+      requestTimeout = null;
       if (this._hasUnreadMotds) {
         sendEvent(this.eventService, new MotdDialogRequest(motdData));
       }
@@ -233,12 +233,12 @@ export class StartUpService {
     const update = () => {
       if (!this.userManagementService.getCurrentUser()) {
         clearTimeout(timeout);
-        timeout = 0;
+        timeout = null;
         return;
       }
       const dateNow = Date.now();
       if (nextFetch > dateNow) {
-        if (timeout === 0) {
+        if (timeout === null) {
           timeout = setTimeout(update, nextFetch - dateNow);
         }
         return;
@@ -250,14 +250,14 @@ export class StartUpService {
         this.saveMotds(data);
         this.checkNew(data);
         motdData = data;
-        if (requestTimeout === 0) {
+        if (requestTimeout === null) {
           request();
         }
       });
     };
     this.userManagementService.getUser().subscribe((_) => {
       clearTimeout(requestTimeout);
-      requestTimeout = 0;
+      requestTimeout = null;
       update();
     });
   }

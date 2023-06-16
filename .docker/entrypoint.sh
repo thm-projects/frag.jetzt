@@ -18,4 +18,7 @@ fi
 
 # Use public interface, because this script is executed in a container!
 # This is no security issue as the container is located in a private network.
-./node_modules/.bin/ng serve --host 0.0.0.0 --port 4200
+# npm run build:ssr
+npm run dev:ssr
+# ./node_modules/.bin/ng run arsnova-angular-frontend:server
+# ./node_modules/.bin/ng serve --host 0.0.0.0 --port 4200
