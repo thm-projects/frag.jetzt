@@ -631,3 +631,8 @@ div[markdown] img {
 }
 
 //*{box-shadow:inset 0 0 0 1px red;}
+
+*:focus-visible {
+  box-shadow: inset 0 0 0 1px red;
+  outline: 1px solid blue;
+}

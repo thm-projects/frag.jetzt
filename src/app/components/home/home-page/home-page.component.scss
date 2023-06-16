@@ -29,6 +29,12 @@ $carousel-container-size: 450px;
   //}
 }
 
+.content {
+  width: 100%;
+  max-width: 1600px;
+  padding: 16px;
+}
+
 .content-container {
   width: 100vw;
   height: 100vh;
@@ -48,11 +54,25 @@ $carousel-container-size: 450px;
     > .content {
       display: flex;
       justify-content: center;
+      align-items: center;
+      flex-direction: row;
     }
 
     .book-room-container {
       max-width: 100%;
       flex-shrink: 1;
+    }
+  }
+
+  &.scroll-bound {
+    padding: 0;
+    > .content {
+      max-height: calc($preferred-size + 22px);
+      overflow: auto;
+      > .book-room-container {
+        position: relative;
+        top: 128px;
+      }
     }
   }
 
@@ -116,12 +136,6 @@ $carousel-container-size: 450px;
       }
     }
   }
-}
-
-.content {
-  width: 100%;
-  max-width: 1600px;
-  padding: 16px;
 }
 
 .main-heading-primary {

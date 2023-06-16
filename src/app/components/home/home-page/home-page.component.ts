@@ -19,7 +19,7 @@ import { SessionService } from '../../../services/util/session.service';
 import { OnboardingService } from '../../../services/util/onboarding.service';
 import { NotificationService } from 'app/services/util/notification.service';
 import { LanguageService } from 'app/services/util/language.service';
-import { filter, take } from 'rxjs';
+import { filter, ReplaySubject, take } from 'rxjs';
 import { ThemeService } from '../../../../theme/theme.service';
 
 export type CarouselEntryKind = 'highlight' | 'peek' | 'hidden';
@@ -191,8 +191,13 @@ export class HomePageComponent implements OnInit, OnDestroy {
       ],
     },
   ];
+  protected readonly mobileBoundaryWidth = 600;
+  protected readonly mobileBoundaryHeight = 630;
 
   private currentTheme: string;
+  private readonly _destroyer: ReplaySubject<number> =
+    new ReplaySubject<number>(1);
+  private lastScrollMs: number = -1;
 
   constructor(
     private translateService: TranslateService,
@@ -208,6 +213,24 @@ export class HomePageComponent implements OnInit, OnDestroy {
     public readonly themeService: ThemeService,
   ) {
     themeService.getTheme().subscribe((x) => (this.currentTheme = x.key));
+    const arrowEventListener = (event: KeyboardEvent) => {
+      if (!document.activeElement.hasAttribute('mat-menu-item')) {
+        switch (event.key) {
+          case 'ArrowUp':
+            this.setCarouselIndex(this.carouselIndex - 1);
+            break;
+          case 'ArrowDown':
+            this.setCarouselIndex(this.carouselIndex + 1);
+            break;
+        }
+      }
+    };
+    window.addEventListener('keydown', arrowEventListener, true);
+    this._destroyer.subscribe(() => {
+      this.listenerFn?.();
+      this.eventService.makeFocusOnInputFalse();
+      window.removeEventListener('keydown', arrowEventListener);
+    });
   }
 
   get carouselOffset() {
@@ -223,15 +246,28 @@ export class HomePageComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * @desc touchpad scroll fires multiple events with different deltaY.\
+   * In order to limit the request amount, a time switch is added.
+   * @param wheel
+   */
   @HostListener('wheel', ['$event']) _onWheel(wheel: WheelEvent) {
-    if (!wheel.ctrlKey) {
-      if (wheel.deltaY > 0) {
-        if (this.carouselIndex < this.carousel.length - 1) {
-          this.carouselIndex += 1;
+    if (!wheel.ctrlKey && wheel.deltaY) {
+      if (
+        Math.abs(wheel.deltaY) === 120 ||
+        this.lastScrollMs === -1 ||
+        new Date().getTime() - this.lastScrollMs > 200
+      ) {
+        let changed = true;
+        if (wheel.deltaY > 0) {
+          this.setCarouselIndex(this.carouselIndex + 1);
+        } else if (wheel.deltaY < 0) {
+          this.setCarouselIndex(this.carouselIndex - 1);
+        } else {
+          changed = false;
         }
-      } else if (wheel.deltaY < 0) {
-        if (this.carouselIndex > 0) {
-          this.carouselIndex -= 1;
+        if (changed) {
+          this.lastScrollMs = new Date().getTime();
         }
       }
     }
@@ -350,11 +386,10 @@ export class HomePageComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.listenerFn?.();
-    this.eventService.makeFocusOnInputFalse();
+    this._destroyer.next(1);
   }
 
-  public announce() {
+  announce() {
     const lang: string = this.translateService.currentLang;
     this.liveAnnouncer.clear();
     if (lang === 'de') {
@@ -392,5 +427,15 @@ export class HomePageComponent implements OnInit, OnDestroy {
     else if (offset < 0) _class += 'bottom';
     else _class += 'top';
     return _class;
+  }
+
+  private setCarouselIndex(carouselIndex: number, throwError: boolean = false) {
+    if (carouselIndex < 0 || carouselIndex >= this.carousel.length) {
+      if (throwError) {
+        throw new Error();
+      }
+    } else {
+      this.carouselIndex = carouselIndex;
+    }
   }
 }
