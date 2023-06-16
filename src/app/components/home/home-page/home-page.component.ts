@@ -115,7 +115,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
       },
       description: {
         en: 'Get real-time feedback with just one click! Numerous templates are available for you. Use flash polls to optimize your event and to find out if everyone can follow you.',
-        de: 'Hol dir Feedback in Echtzeit mit nur einem Klick!  Zahlreiche Vorlagen stehen dir zur Verfügung. Nutze Blitzumfragen, um deine Veranstaltung zu optimieren und um herauszufinden, ob dir alle folgen können.',
+        de: 'Hol dir Feedback in Echtzeit mit nur einem Klick! Zahlreiche Vorlagen stehen dir zur Verfügung. Nutze Blitzumfragen, um deine Veranstaltung zu optimieren. Finde heraus, ob dir alle folgen können.',
         fr: 'Reçois du feedback en temps réel avec un simple clic ! De nombreux modèles sont à ta disposition. Utilise des sondages éclair pour optimiser ton événement et pour savoir si tout le monde peut te suivre.',
       },
       images: [
@@ -137,7 +137,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
       },
       description: {
         en: 'Stir up the creativity of your group with an interactive brainstorming session! Ask a guiding question and visualize all ideas in real-time in a word cloud. Bonus tip: With just one click, ChatGPT generates as many ideas as you need!',
-        de: 'Wecke die Kreativität deiner Gruppe mit einem interaktiven Brainstorming! Stelle eine Leitfrage und visualisiere alle Ideen in Echtzeit in einer Wortwolke. Bonustipp: Mit nur einem Klick generiert dir ChatGPT beliebig viele Ideen!',
+        de: 'Wecke die Kreativität deiner Gruppe! Mit einem Brainstorming wird es gelingen! Stelle eine Leitfrage und visualisiere alle Ideen in Echtzeit in einer Wortwolke. Bonustipp: Mit nur einem Klick generiert ChatGPT beliebig viele Ideen zu jedem Thema!',
         fr: "Réveille la créativité de ton groupe avec un brainstorming interactif  Pose une question guide et visualise toutes les idées en temps réel dans un nuage de mots. Conseil bonus : Avec un simple clic, ChatGPT génère autant d'idées que tu en as besoin !",
       },
       images: [
@@ -159,7 +159,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
       },
       description: {
         en: 'Effortlessly keep track of hundreds of questions! An AI analyzes them and suggests keywords. With the question radar, you get a quick overview of the central themes and can reach the hotspots in the Q&A forum with just one click!',
-        de: 'Behalte mühelos den Überblick über hunderte von Fragen! Eine KI analysiert sie und schlägt Stichwörter vor. Mit dem Fragen-Radar erhältst du einen schnellen Überblick über die zentralen Themen und gelangst mit einem Klick zu den Hotspots im Q&A-Forum!',
+        de: 'Behalte mühelos den Überblick über hunderte von Fragen! Eine KI analysiert sie und schlägt Stichwörter vor. Auf dem Radarschirm siehst du die zentralen Themen. Mit nur einem Klick springst du zu den Hotspots im Q&A-Forum!',
         fr: "Garde facilement une vue d'ensemble sur des centaines de questions ! Une IA les analyse et suggère des mots-clés. Avec le radar de questions, tu obtiens un aperçu rapide des thèmes centraux et tu peux atteindre les points chauds dans le forum Q&R en un seul clic !",
       },
       images: [
@@ -181,7 +181,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
       },
       description: {
         en: 'Present questions with style and impact! Show individual questions in large format on the projector. Switch to autofocus to automatically display new questions in full screen. Focus on questions that have been highly rated or controversially discussed.',
-        de: 'Präsentiere Fragen mit Stil und Wirkung! Zeig einzelne Fragen im Großformat am Beamer. Schalte auf Autofokus, um neue Fragen automatisch im Vollbild anzuzeigen. Lege den Fokus auf Fragen, die hoch bewertet oder kontrovers diskutiert wurden.',
+        de: 'Präsentiere Fragen mit Stil und Wirkung! Zeig einzelne Fragen im Großformat am Beamer. Schalte auf Autofokus, um neue Fragen in Vollansicht zu präsentieren. Wähle eine passende Blende für hoch bewertete oder kontrovers diskutierte Fragen.',
         fr: "Présente des questions avec style et impact ! Affiche des questions individuelles en grand format sur le projecteur. Passe en autofocus pour afficher automatiquement les nouvelles questions en plein écran. Concentre-toi sur les questions qui ont été très bien notées ou qui ont fait l'objet de discussions controversées.",
       },
       images: [
@@ -203,7 +203,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
       },
       description: {
         en: "Great that you've scrolled this far! Take a look at the footer on the left. There you will find lots of useful information and tips. It's worth it! Start your journey of discovery now!",
-        de: 'Toll, dass du bis hierher gescrollt hast! Schau mal links in die Fußzeile. Dort findest du viele nützliche Informationen und Tipps. Es lohnt sich! Starte jetzt deine Entdeckungsreise!',
+        de: 'Schön, dass du bis hierher gescrollt hast! Schau mal links in die Fußzeile. Dort findest du viele nützliche Informationen und Tipps. Es lohnt sich! Starte jetzt deine Entdeckungsreise!',
         fr: "Super que tu aies défilé jusque ici ! Regarde dans le pied de page à gauche. Là, tu trouveras beaucoup d'informations utiles et des astuces. Ça vaut le coup ! Commence ton voyage de découverte maintenant !",
       },
       images: [
@@ -212,6 +212,28 @@ export class HomePageComponent implements OnInit, OnDestroy {
           override: {
             default: {
               'background-size': '34%',
+            },
+          },
+        },
+      ],
+    },
+    {
+      title: {
+        en: 'Start Now!',
+        de: 'Starte jetzt!',
+        fr: 'Démarre maintenant !',
+      },
+      description: {
+        en: "Book a room, share the key code. It's that easy! If you want to use frag.jetzt with ChatGPT at all times, in any browser, on any device, set up a free account: Click on »Sign in« in the top right corner. Don't hold back, try everything out!",
+        de: "Raum buchen, Raum-Code verteilen. So einfach geht's! Wenn du frag.jetzt mit ChatGPT immer und in jedem Browser auf jedem Gerät einsetzen willst, richte dir ein kostenloses Konto ein: Klick oben rechts auf »Anmelden«. Hab keine Hemmungen, probier alles aus!",
+        fr: "Réserve une salle, distribue le code de la salle. C'est si simple ! Si tu veux utiliser frag.jetzt avec ChatGPT à tout moment, dans n'importe quel navigateur, sur n'importe quel appareil, crée un compte gratuit : Il suffit de cliquer sur « Se connecter » en haut à droite. Ne te retiens pas, essaie tout !",
+      },
+      images: [
+        {
+          url: 'url("/assets/background/rocket.svg")',
+          override: {
+            default: {
+              'background-size': '40%',
             },
           },
         },
