@@ -6,7 +6,10 @@
 
 <div
   class="background-container"
-  *ngIf="contentContainer.offsetWidth > 630">
+  *ngIf="
+    contentContainer.offsetWidth > mobileBoundaryWidth &&
+    contentContainer.offsetHeight > mobileBoundaryHeight
+  ">
   <div
     class="background-image"
     *ngFor="let background of carousel; index as i"
@@ -14,9 +17,15 @@
 </div>
 <div
   class="side-overlay"
-  *ngIf="contentContainer.offsetWidth > 630"
+  *ngIf="
+    contentContainer.offsetWidth > mobileBoundaryWidth &&
+    contentContainer.offsetHeight > mobileBoundaryHeight
+  "
   [ngClass]="
-    (contentContainer.offsetWidth < 630 ? 'mobile' : 'desktop') +
+    (contentContainer.offsetWidth < mobileBoundaryWidth ||
+    contentContainer.offsetHeight < mobileBoundaryHeight
+      ? 'mobile'
+      : 'desktop') +
     ' ' +
     (themeService.activeTheme?.key || 'undefined')
   "></div>
@@ -26,9 +35,16 @@
   class="content-container"
   #contentContainer
   [ngClass]="
-    (contentContainer.offsetWidth < 630 ? 'mobile' : 'desktop') +
+    (contentContainer.offsetWidth < mobileBoundaryWidth ||
+    contentContainer.offsetHeight < mobileBoundaryHeight
+      ? 'mobile'
+      : 'desktop') +
     ' ' +
-    (themeService.activeTheme?.key || 'undefined')
+    (themeService.activeTheme?.key || 'undefined') +
+    ' ' +
+    (contentContainer.offsetHeight < mobileBoundaryHeight
+      ? 'scroll-bound'
+      : ' ')
   ">
   <div
     class="content"
@@ -52,8 +68,8 @@
       </div>
       <div
         fxLayout="row"
-        style="align-items: center"
-        fxLayoutGap="16px">
+        fxLayoutGap="16px"
+        fxLayoutAlign="flex-start center">
         <app-new-landing></app-new-landing>
       </div>
       <div fxLayout="row">
@@ -82,7 +98,10 @@
     </div>
     <div
       class="carousel-container-ghost"
-      *ngIf="contentContainer.offsetWidth > 630">
+      *ngIf="
+        contentContainer.offsetWidth > mobileBoundaryWidth &&
+        contentContainer.offsetHeight > mobileBoundaryHeight
+      ">
       <div class="carousel-anchor">
         <div class="carousel-transform">
           <div
