@@ -66,34 +66,16 @@
           {{ "login.welcome-primary" | translate }}
         </span>
       </div>
-      <div
-        fxLayout="row"
-        fxLayoutGap="16px"
-        fxLayoutAlign="flex-start center">
-        <app-new-landing></app-new-landing>
-      </div>
       <div fxLayout="row">
         <app-app-rating
           *ngIf="accumulatedRatings"
           [ratingResults]="accumulatedRatings"></app-app-rating>
       </div>
-      <div>
-        <h2>
-          <span
-            class="feedback"
-            data-nosnippet>
-            <a
-              [joyrideStep]="'feedbackLink'"
-              appJoyrideTemplate
-              [stepPosition]="'top'"
-              href="https://frag.jetzt/participant/room/Feedback"
-              target="_blank"
-              rel="noreferrer noopener"
-              aria-labelledby="feedback-aria">
-              {{ "login.welcome-feedback" | translate }}
-            </a>
-          </span>
-        </h2>
+      <div
+        fxLayout="row"
+        fxLayoutGap="16px"
+        fxLayoutAlign="flex-start center">
+        <app-new-landing></app-new-landing>
       </div>
     </div>
     <div

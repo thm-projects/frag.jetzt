@@ -65,6 +65,50 @@ export class HomePageComponent implements OnInit, OnDestroy {
     },
     {
       title: {
+        en: 'AI Tutor',
+        de: 'KI-Tutor',
+        fr: 'Tuteur AI',
+      },
+      description: {
+        en: 'Participate in our study »ChatGPT in Teaching & Learning«. Gain unlimited access to the AI-Tutor in all your rooms. Share feedback from your students and tutors with us. Is this the future of learning platforms? Find out. Contact us via the legal notice.',
+        de: 'Mach mit bei unserer Studie »ChatGPT in Lehre & Studium«. Erhalte unbegrenzten Zugang zum KI-Tutor in allen deinen Räumen. Teile uns das Feedback deiner Studierenden und Tutor*innen mit: Sind KI-Tutoren die Zukunft? Finde es heraus! Kontaktiere uns über das Impressum.',
+        fr: "Participe à notre étude « ChatGPT dans l'Enseignement & l'Apprentissage ». Bénéficie d'un accès illimité au Tuteur AI dans toutes tes salles. Partage avec nous les retours de tes étudiants et tuteurs. Est-ce l'avenir des plateformes d'apprentissage ? Découvre-le. Contacte-nous via les mentions légales.",
+      },
+      images: [
+        {
+          url: 'url("/assets/background/Chatbot.png")',
+          override: {
+            default: {
+              backgroundSize: '33%',
+            },
+          },
+        },
+      ],
+    },
+    {
+      title: {
+        en: 'Q&A Forum',
+        de: 'Q&A-Forum',
+        fr: 'Forum Q&R',
+      },
+      description: {
+        en: "Everything is anonymous. Everyone can rate the posts with a thumbs up or down. You can assess the quality of posts in various ways: as correct, incorrect or exceptionally good. DeepL takes care of linguistic flaws. Subject the AI-Tutor's answers to a fact-check and mark them accordingly.",
+        de: 'Alles ist anonym. Alle können die Posts der anderen bewerten, aber nur du kannst die Qualität beurteilen: richtig, falsch oder besonders gut. DeepL kümmert sich um die sprachlichen Mängel. Unterziehe die KI-Antworten einem Faktencheck und kennzeichne sie entsprechend.',
+        fr: "Tout est anonyme. Tout le monde peut évaluer les publications par un système de pouce. Tu peux juger de la qualité des posts de différentes manières : corrects, incorrects ou particulièrement bons. DeepL s'occupe des imperfections linguistiques. Soumets les réponses du Tuteur AI à une vérification des faits et marque-les en conséquence.",
+      },
+      images: [
+        {
+          url: 'url("/assets/background/forum.svg")',
+          override: {
+            default: {
+              backgroundSize: '33%',
+            },
+          },
+        },
+      ],
+    },
+    {
+      title: {
         en: 'Good Questions',
         de: 'Gute Fragen',
         fr: 'Bonnes Questions',
