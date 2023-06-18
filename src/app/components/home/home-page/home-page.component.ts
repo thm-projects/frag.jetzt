@@ -285,14 +285,14 @@ export class HomePageComponent implements OnInit, OnDestroy {
     },
     {
       title: {
-        en: 'EU GDPR',
-        de: 'EU-DSGVO',
-        fr: "RGPD de l'UE",
+        en: 'GDPR',
+        de: 'DSGVO',
+        fr: 'RGPD',
       },
       description: {
-        en: "frag.jetzt fully complies with the EU General Data Protection Regulation (GDPR). It ensures that your personal data is protected and treated confidentially. Our app is securely and reliably hosted in Germany. Please note that the use of ChatGPT requires acceptance of OpenAI's privacy policy.",
-        de: 'frag.jetzt steht voll und ganz im Einklang mit der EU-Datenschutz-Grundverordnung (DSGVO). Sie garantiert, dass deine persönlichen Daten geschützt und vertraulich behandelt werden. Unsere App wird sicher und zuverlässig in Deutschland gehostet. Bitte beachte, dass die Nutzung von ChatGPT die Zustimmung zur Datenschutzerklärung von OpenAI erfordert.',
-        fr: "frag.jetzt est en parfaite conformité avec le Règlement Général sur la Protection des Données (RGPD) de l'UE. Il garantit que tes données personnelles sont protégées et traitées de manière confidentielle. Notre application est hébergée de manière sécurisée et fiable en Allemagne. Note que l'utilisation de ChatGPT nécessite l'acceptation de la politique de confidentialité d'OpenAI.",
+        en: "frag.jetzt fully complies with the EU General Data Protection Regulation. It ensures that your personal data is protected and treated confidentially. Our app is securely and reliably hosted in Germany. Please note that the use of ChatGPT requires acceptance of OpenAI's privacy policy.",
+        de: 'frag.jetzt steht voll und ganz im Einklang mit der EU-Datenschutz-Grundverordnung. Sie garantiert, dass deine persönlichen Daten geschützt und vertraulich behandelt werden. Unsere App wird sicher und zuverlässig in Deutschland gehostet. Bitte beachte, dass die Nutzung von ChatGPT die Zustimmung zur Datenschutzerklärung von OpenAI erfordert.',
+        fr: "frag.jetzt est en parfaite conformité avec le Règlement Général sur la Protection des Données de l'UE. Il garantit que tes données personnelles sont protégées et traitées de manière confidentielle. Notre application est hébergée de manière sécurisée et fiable en Allemagne. Note que l'utilisation de ChatGPT nécessite l'acceptation de la politique de confidentialité d'OpenAI.",
       },
       images: [
         {
@@ -334,9 +334,9 @@ export class HomePageComponent implements OnInit, OnDestroy {
         fr: 'Le Prix ?',
       },
       description: {
-        en: "Nothing. The app is open source and offered as Software-as-a-Service. It runs in any browser, whether mobile or desktop. If you overuse ChatGPT, you could exhaust the API credit: $5 from OpenAI or $20 from us if you participate in the study. For this, ChatGPT generates millions of words for you! If that's not enough, continue with your own API key from OpenAI.",
-        de: 'Nichts. Die App ist Open Source und wird als Software-as-a-Service angeboten. Sie läuft in jedem Browser, egal ob mobil oder auf dem Desktop. Nur wenn du ChatGPT überstrapazierst, kannst du das API-Guthaben aufbrauchen: 5 Dollar von OpenAI oder 20 Dollar von uns, wenn du an der Studie teilnimmst. Dafür generiert dir ChatGPT Millionen Wörter! Wenn das nicht reicht, mach mit deinem eigenen API-Key von OpenAI weiter.',
-        fr: "Rien. L'application est open source et offerte en tant que Software-as-a-Service. Elle fonctionne dans n'importe quel navigateur, que ce soit mobile ou de bureau. Si tu utilises trop ChatGPT, tu pourrais épuiser le crédit API : 5$ de la part d'OpenAI ou 20$ de notre part si tu participes à l'étude. Pour cela, ChatGPT génère des millions de mots pour toi ! Si cela ne suffit pas, continue avec ta propre clé API d'OpenAI.",
+        en: "frag.jetzt is open source and offered as a free software-as-a-service. Each room has a ChatGPT credit: $5 from OpenAI or $20 from us if you participate in our study. In exchange, the chatbot generates millions of words! If that's not enough, you can continue with your own API key from OpenAI.",
+        de: 'frag.jetzt ist Open Source und wird als kostenloser Software-as-a-Service angeboten. Jeder Raum hat ein ChatGPT-Guthaben: 5 Dollar von OpenAI oder 20 Dollar von uns, wenn du an unserer Studie teilnimmst. Dafür generiert der Chatbot Millionen von Wörtern! Wenn das nicht genug ist, kannst du mit deinem eigenen API-Key von OpenAI weitermachen.',
+        fr: "frag.jetzt est open source et offert comme un logiciel en tant que service gratuit. Chaque salle a un crédit ChatGPT : 5 $ de la part de OpenAI ou 20 $ de notre part si tu participes à notre étude. En échange, le chatbot génère des millions de mots ! Si ce n'est pas suffisant, tu peux continuer avec ta propre clé API de OpenAI.",
       },
       images: [
         {
