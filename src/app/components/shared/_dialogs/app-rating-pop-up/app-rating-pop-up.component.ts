@@ -6,25 +6,26 @@ import { LanguageService } from '../../../../services/util/language.service';
 @Component({
   selector: 'app-app-rating-pop-up',
   templateUrl: './app-rating-pop-up.component.html',
-  styleUrls: ['./app-rating-pop-up.component.scss']
+  styleUrls: ['./app-rating-pop-up.component.scss'],
 })
 export class AppRatingPopUpComponent implements OnInit {
-
   @Input()
   result: RatingResult;
   rating: string = '?';
   people: string = '?';
 
-  constructor(
-    private languageService: LanguageService,
-  ) {
-  }
+  constructor(private languageService: LanguageService) {}
 
-  static openDialogAt(dialog: MatDialog, ref: HTMLElement, result: RatingResult, below: boolean) {
+  static openDialogAt(
+    dialog: MatDialog,
+    ref: HTMLElement,
+    result: RatingResult,
+    below: boolean,
+  ) {
     const rect = ref.getBoundingClientRect();
     dialog.open(AppRatingPopUpComponent, {
       position: {
-        left: (rect.left + rect.width / 2) + 'px',
+        left: rect.left + rect.width + 'px',
         top: below ? rect.bottom + 'px' : rect.top + 'px',
       },
       width: '90vw',
@@ -36,11 +37,16 @@ export class AppRatingPopUpComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.rating = this.result.rating.toLocaleString(this.languageService.currentLanguage(), {
-      minimumFractionDigits: 1,
-      maximumFractionDigits: 1,
-    });
-    this.people = this.result.people.toLocaleString(this.languageService.currentLanguage());
+    this.rating = this.result.rating.toLocaleString(
+      this.languageService.currentLanguage(),
+      {
+        minimumFractionDigits: 1,
+        maximumFractionDigits: 1,
+      },
+    );
+    this.people = this.result.people.toLocaleString(
+      this.languageService.currentLanguage(),
+    );
   }
 
   getIconAccumulated(index: number) {
@@ -50,5 +56,4 @@ export class AppRatingPopUpComponent implements OnInit {
     }
     return rating > index ? 'star_half' : 'star_border';
   }
-
 }

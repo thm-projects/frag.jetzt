@@ -109,6 +109,50 @@ export class HomePageComponent implements OnInit, OnDestroy {
     },
     {
       title: {
+        en: 'Q&A Moderation',
+        de: 'Q&A-Moderation',
+        fr: 'Modération Q&R',
+      },
+      description: {
+        en: "Want to review posts before they are published in the forum? Use our moderation feature. Or set it to automated: Define a threshold for negative ratings, beyond which posts are moved to moderation. This way, the group can co-decide what content belongs in the forum and what doesn't.",
+        de: 'Du möchtest Beiträge vor der Veröffentlichung im Forum prüfen? Dann nutze unsere Moderationsfunktion. Oder automatisiert: Lege eine Schwelle für negative Bewertungen fest, ab der Beiträge in die Moderation verschoben werden. So kann die Gruppe mitentscheiden, welche Inhalte ins Forum gehören und welche nicht.',
+        fr: "Veux-tu vérifier les posts avant qu'ils ne soient publiés sur le forum ? Utilise notre fonction de modération. Ou en automatique : fixe un seuil pour les évaluations négatives, au-delà duquel les posts sont déplacés vers la modération. Ainsi, le groupe peut co-décider du contenu qui appartient au forum et celui qui n'y appartient pas.",
+      },
+      images: [
+        {
+          url: 'url("/assets/background/moderation-2.svg")',
+          override: {
+            default: {
+              backgroundSize: '33%',
+            },
+          },
+        },
+      ],
+    },
+    {
+      title: {
+        en: 'Mail Service',
+        de: 'Mail-Service',
+        fr: 'Service Mail',
+      },
+      description: {
+        en: "With frag.jetzt, you're surely not planning for a fleeting visit, but for long-term use. It's understandable that you don't want to search for new posts in each room every day. That's why we've set up a mail option for every room. You decide whether and when you want to receive notifications – an exclusive service for registered users.",
+        de: 'Mit frag.jetzt planst du sicher nicht nur einen flüchtigen Besuch, sondern langfristig. Klar, dass du nicht jeden Tag in jedem Raum nach neuen Beiträgen suchen möchtest. Deshalb haben wir eine Mail-Option eingerichtet. Du entscheidest, ob und wann du Benachrichtigungen erhalten möchtest – ein exklusiver Service für registrierte User.',
+        fr: "Avec frag.jetzt, tu ne prévois sûrement pas une visite éphémère, mais une utilisation à long terme. Il est compréhensible que tu ne veuilles pas chercher de nouveaux posts dans chaque salle chaque jour. C'est pourquoi nous avons mis en place une option mail pour chaque salle. Tu décides si et quand tu veux recevoir des notifications – un service exclusif pour les utilisateurs enregistrés.",
+      },
+      images: [
+        {
+          url: 'url("/assets/background/at-sign.svg")',
+          override: {
+            default: {
+              backgroundSize: '27%',
+            },
+          },
+        },
+      ],
+    },
+    {
+      title: {
         en: 'Good Questions',
         de: 'Gute Fragen',
         fr: 'Bonnes Questions',
@@ -241,6 +285,28 @@ export class HomePageComponent implements OnInit, OnDestroy {
     },
     {
       title: {
+        en: 'EU GDPR',
+        de: 'EU-DSGVO',
+        fr: "RGPD de l'UE",
+      },
+      description: {
+        en: "frag.jetzt fully complies with the EU General Data Protection Regulation (GDPR). It ensures that your personal data is protected and treated confidentially. Our app is securely and reliably hosted in Germany. Please note that the use of ChatGPT requires acceptance of OpenAI's privacy policy.",
+        de: 'frag.jetzt steht voll und ganz im Einklang mit der EU-Datenschutz-Grundverordnung (DSGVO). Sie garantiert, dass deine persönlichen Daten geschützt und vertraulich behandelt werden. Unsere App wird sicher und zuverlässig in Deutschland gehostet. Bitte beachte, dass die Nutzung von ChatGPT die Zustimmung zur Datenschutzerklärung von OpenAI erfordert.',
+        fr: "frag.jetzt est en parfaite conformité avec le Règlement Général sur la Protection des Données (RGPD) de l'UE. Il garantit que tes données personnelles sont protégées et traitées de manière confidentielle. Notre application est hébergée de manière sécurisée et fiable en Allemagne. Note que l'utilisation de ChatGPT nécessite l'acceptation de la politique de confidentialité d'OpenAI.",
+      },
+      images: [
+        {
+          url: 'url("/assets/background/europa.svg")',
+          override: {
+            default: {
+              'background-size': '34%',
+            },
+          },
+        },
+      ],
+    },
+    {
+      title: {
         en: 'Learn more …',
         de: 'Mehr erfahren …',
         fr: 'En savoir plus …',
@@ -253,6 +319,28 @@ export class HomePageComponent implements OnInit, OnDestroy {
       images: [
         {
           url: 'url("/assets/background/info.svg")',
+          override: {
+            default: {
+              'background-size': '34%',
+            },
+          },
+        },
+      ],
+    },
+    {
+      title: {
+        en: 'The Price?',
+        de: 'Der Preis?',
+        fr: 'Le Prix ?',
+      },
+      description: {
+        en: "Nothing. The app is open source and offered as Software-as-a-Service. It runs in any browser, whether mobile or desktop. If you overuse ChatGPT, you could exhaust the API credit: $5 from OpenAI or $20 from us if you participate in the study. For this, ChatGPT generates millions of words for you! If that's not enough, continue with your own API key from OpenAI.",
+        de: 'Nichts. Die App ist Open Source und wird als Software-as-a-Service angeboten. Sie läuft in jedem Browser, egal ob mobil oder auf dem Desktop. Nur wenn du ChatGPT überstrapazierst, kannst du das API-Guthaben aufbrauchen: 5 Dollar von OpenAI oder 20 Dollar von uns, wenn du an der Studie teilnimmst. Dafür generiert dir ChatGPT Millionen Wörter! Wenn das nicht reicht, mach mit deinem eigenen API-Key von OpenAI weiter.',
+        fr: "Rien. L'application est open source et offerte en tant que Software-as-a-Service. Elle fonctionne dans n'importe quel navigateur, que ce soit mobile ou de bureau. Si tu utilises trop ChatGPT, tu pourrais épuiser le crédit API : 5$ de la part d'OpenAI ou 20$ de notre part si tu participes à l'étude. Pour cela, ChatGPT génère des millions de mots pour toi ! Si cela ne suffit pas, continue avec ta propre clé API d'OpenAI.",
+      },
+      images: [
+        {
+          url: 'url("/assets/background/dollars.svg")',
           override: {
             default: {
               'background-size': '34%',

@@ -151,7 +151,7 @@ $carousel-container-size: 450px;
 
 .main-heading-secondary {
   display: block;
-  font-size: 55px;
+  font-size: 56px;
   font-weight: bold;
   color: var(--secondary);
   padding: 0;
@@ -182,25 +182,6 @@ $carousel-container-size: 450px;
     transform: translateY(100px);
     &.before {
       filter: blur(256px);
-    }
-  }
-}
-
-.feedback {
-  display: block;
-  font-weight: normal;
-  font-size: 16px;
-  color: var(--on-background);
-
-  > a {
-    padding: 10px;
-    display: inline;
-
-    &:hover {
-      background-color: transparent;
-      color: var(--on-background);
-      outline: var(--secondary) solid 3px;
-      border-radius: 5px;
     }
   }
 }

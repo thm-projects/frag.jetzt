@@ -371,6 +371,21 @@ export class NavigationComponent implements OnInit, OnDestroy {
       },
     },
     {
+      id: 'feedback',
+      accessible: false,
+      active: false,
+      i18n: 'header.feedback',
+      icon: 'rate_review',
+      class: 'material-icons-outlined',
+      outside: true,
+      isCurrentRoute: () => false,
+      canBeAccessedOnRoute: () =>
+        Boolean(this.userManagementService.getCurrentUser()),
+      navigate: () => {
+        this.router.navigate(['/participant/room/Feedback']);
+      },
+    },
+    {
       id: 'news',
       accessible: false,
       active: false,
