@@ -65,6 +65,94 @@ export class HomePageComponent implements OnInit, OnDestroy {
     },
     {
       title: {
+        en: 'AI Tutor',
+        de: 'KI-Tutor',
+        fr: 'Tuteur AI',
+      },
+      description: {
+        en: 'Participate in our study »ChatGPT in Teaching & Learning«. Gain unlimited access to the AI-Tutor in all your rooms. Share feedback from your students and tutors with us. Is this the future of learning platforms? Find out. Contact us via the legal notice.',
+        de: 'Mach mit bei unserer Studie »ChatGPT in Lehre & Studium«. Erhalte unbegrenzten Zugang zum KI-Tutor in allen deinen Räumen. Teile uns das Feedback deiner Studierenden und Tutor*innen mit: Sind KI-Tutoren die Zukunft? Finde es heraus! Kontaktiere uns über das Impressum.',
+        fr: "Participe à notre étude « ChatGPT dans l'Enseignement & l'Apprentissage ». Bénéficie d'un accès illimité au Tuteur AI dans toutes tes salles. Partage avec nous les retours de tes étudiants et tuteurs. Est-ce l'avenir des plateformes d'apprentissage ? Découvre-le. Contacte-nous via les mentions légales.",
+      },
+      images: [
+        {
+          url: 'url("/assets/background/Chatbot.png")',
+          override: {
+            default: {
+              backgroundSize: '33%',
+            },
+          },
+        },
+      ],
+    },
+    {
+      title: {
+        en: 'Q&A Forum',
+        de: 'Q&A-Forum',
+        fr: 'Forum Q&R',
+      },
+      description: {
+        en: "Everything is anonymous. Everyone can rate the posts with a thumbs up or down. You can assess the quality of posts in various ways: as correct, incorrect or exceptionally good. DeepL takes care of linguistic flaws. Subject the AI-Tutor's answers to a fact-check and mark them accordingly.",
+        de: 'Alles ist anonym. Alle können die Posts der anderen bewerten, aber nur du kannst die Qualität beurteilen: richtig, falsch oder besonders gut. DeepL kümmert sich um die sprachlichen Mängel. Unterziehe die KI-Antworten einem Faktencheck und kennzeichne sie entsprechend.',
+        fr: "Tout est anonyme. Tout le monde peut évaluer les publications par un système de pouce. Tu peux juger de la qualité des posts de différentes manières : corrects, incorrects ou particulièrement bons. DeepL s'occupe des imperfections linguistiques. Soumets les réponses du Tuteur AI à une vérification des faits et marque-les en conséquence.",
+      },
+      images: [
+        {
+          url: 'url("/assets/background/forum.svg")',
+          override: {
+            default: {
+              backgroundSize: '33%',
+            },
+          },
+        },
+      ],
+    },
+    {
+      title: {
+        en: 'Q&A Moderation',
+        de: 'Q&A-Moderation',
+        fr: 'Modération Q&R',
+      },
+      description: {
+        en: "Want to review posts before they are published in the forum? Use our moderation feature. Or set it to automated: Define a threshold for negative ratings, beyond which posts are moved to moderation. This way, the group can co-decide what content belongs in the forum and what doesn't.",
+        de: 'Du möchtest Beiträge vor der Veröffentlichung im Forum prüfen? Dann nutze unsere Moderationsfunktion. Oder automatisiert: Lege eine Schwelle für negative Bewertungen fest, ab der Beiträge in die Moderation verschoben werden. So kann die Gruppe mitentscheiden, welche Inhalte ins Forum gehören und welche nicht.',
+        fr: "Veux-tu vérifier les posts avant qu'ils ne soient publiés sur le forum ? Utilise notre fonction de modération. Ou en automatique : fixe un seuil pour les évaluations négatives, au-delà duquel les posts sont déplacés vers la modération. Ainsi, le groupe peut co-décider du contenu qui appartient au forum et celui qui n'y appartient pas.",
+      },
+      images: [
+        {
+          url: 'url("/assets/background/moderation-2.svg")',
+          override: {
+            default: {
+              backgroundSize: '33%',
+            },
+          },
+        },
+      ],
+    },
+    {
+      title: {
+        en: 'Mail Service',
+        de: 'Mail-Service',
+        fr: 'Service Mail',
+      },
+      description: {
+        en: "With frag.jetzt, you're surely not planning for a fleeting visit, but for long-term use. It's understandable that you don't want to search for new posts in each room every day. That's why we've set up a mail option for every room. You decide whether and when you want to receive notifications – an exclusive service for registered users.",
+        de: 'Mit frag.jetzt planst du sicher nicht nur einen flüchtigen Besuch, sondern langfristig. Klar, dass du nicht jeden Tag in jedem Raum nach neuen Beiträgen suchen möchtest. Deshalb haben wir eine Mail-Option eingerichtet. Du entscheidest, ob und wann du Benachrichtigungen erhalten möchtest – ein exklusiver Service für registrierte User.',
+        fr: "Avec frag.jetzt, tu ne prévois sûrement pas une visite éphémère, mais une utilisation à long terme. Il est compréhensible que tu ne veuilles pas chercher de nouveaux posts dans chaque salle chaque jour. C'est pourquoi nous avons mis en place une option mail pour chaque salle. Tu décides si et quand tu veux recevoir des notifications – un service exclusif pour les utilisateurs enregistrés.",
+      },
+      images: [
+        {
+          url: 'url("/assets/background/at-sign.svg")',
+          override: {
+            default: {
+              backgroundSize: '27%',
+            },
+          },
+        },
+      ],
+    },
+    {
+      title: {
         en: 'Good Questions',
         de: 'Gute Fragen',
         fr: 'Bonnes Questions',
@@ -197,6 +285,28 @@ export class HomePageComponent implements OnInit, OnDestroy {
     },
     {
       title: {
+        en: 'GDPR',
+        de: 'DSGVO',
+        fr: 'RGPD',
+      },
+      description: {
+        en: "frag.jetzt fully complies with the EU General Data Protection Regulation. It ensures that your personal data is protected and treated confidentially. Our app is securely and reliably hosted in Germany. Please note that the use of ChatGPT requires acceptance of OpenAI's privacy policy.",
+        de: 'frag.jetzt steht voll und ganz im Einklang mit der EU-Datenschutz-Grundverordnung. Sie garantiert, dass deine persönlichen Daten geschützt und vertraulich behandelt werden. Unsere App wird sicher und zuverlässig in Deutschland gehostet. Bitte beachte, dass die Nutzung von ChatGPT die Zustimmung zur Datenschutzerklärung von OpenAI erfordert.',
+        fr: "frag.jetzt est en parfaite conformité avec le Règlement Général sur la Protection des Données de l'UE. Il garantit que tes données personnelles sont protégées et traitées de manière confidentielle. Notre application est hébergée de manière sécurisée et fiable en Allemagne. Note que l'utilisation de ChatGPT nécessite l'acceptation de la politique de confidentialité d'OpenAI.",
+      },
+      images: [
+        {
+          url: 'url("/assets/background/europa.svg")',
+          override: {
+            default: {
+              'background-size': '34%',
+            },
+          },
+        },
+      ],
+    },
+    {
+      title: {
         en: 'Learn more …',
         de: 'Mehr erfahren …',
         fr: 'En savoir plus …',
@@ -209,6 +319,28 @@ export class HomePageComponent implements OnInit, OnDestroy {
       images: [
         {
           url: 'url("/assets/background/info.svg")',
+          override: {
+            default: {
+              'background-size': '34%',
+            },
+          },
+        },
+      ],
+    },
+    {
+      title: {
+        en: 'The Price?',
+        de: 'Der Preis?',
+        fr: 'Le Prix ?',
+      },
+      description: {
+        en: "frag.jetzt is open source and offered as a free software-as-a-service. Each room has a ChatGPT credit: $5 from OpenAI or $20 from us if you participate in our study. In exchange, the chatbot generates millions of words! If that's not enough, you can continue with your own API key from OpenAI.",
+        de: 'frag.jetzt ist Open Source und wird als kostenloser Software-as-a-Service angeboten. Jeder Raum hat ein ChatGPT-Guthaben: 5 Dollar von OpenAI oder 20 Dollar von uns, wenn du an unserer Studie teilnimmst. Dafür generiert der Chatbot Millionen von Wörtern! Wenn das nicht genug ist, kannst du mit deinem eigenen API-Key von OpenAI weitermachen.',
+        fr: "frag.jetzt est open source et offert comme un logiciel en tant que service gratuit. Chaque salle a un crédit ChatGPT : 5 $ de la part de OpenAI ou 20 $ de notre part si tu participes à notre étude. En échange, le chatbot génère des millions de mots ! Si ce n'est pas suffisant, tu peux continuer avec ta propre clé API de OpenAI.",
+      },
+      images: [
+        {
+          url: 'url("/assets/background/dollars.svg")',
           override: {
             default: {
               'background-size': '34%',
