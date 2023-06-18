@@ -25,8 +25,8 @@ export class AppRatingPopUpComponent implements OnInit {
     const rect = ref.getBoundingClientRect();
     dialog.open(AppRatingPopUpComponent, {
       position: {
-        left: rect.left + rect.width + 'px',
-        top: below ? rect.bottom + 'px' : rect.top + 'px',
+        left: '50%',
+        top: '50vh',
       },
       width: '90vw',
       maxWidth: '500px',
