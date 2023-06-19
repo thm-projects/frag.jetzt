@@ -1,4 +1,10 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  Injector,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { SwUpdate } from '@angular/service-worker';
 import { NotificationService } from './services/util/notification.service';
@@ -51,6 +57,7 @@ export class AppComponent implements OnInit {
     private dialog: MatDialog,
     public router: Router,
     public deviceInfo: DeviceInfoService,
+    public injector: Injector,
   ) {
     AppComponent.instance = this;
     this.initDialogsForServices();

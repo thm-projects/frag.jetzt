@@ -28,6 +28,7 @@ import { BonusTokenComponent } from '../../creator/_dialogs/bonus-token/bonus-to
 import { UserBonusTokenComponent } from '../../participant/_dialogs/user-bonus-token/user-bonus-token.component';
 import { RoomSettingsOverviewComponent } from '../_dialogs/room-settings-overview/room-settings-overview.component';
 import { UserManagementService } from '../../../services/util/user-management.service';
+import { WindowUtils } from 'app/utils/window-utils';
 
 type SortFunc<T> = (a: T, b: T) => number;
 
@@ -67,7 +68,9 @@ export class RoomListComponent implements OnInit, OnDestroy {
     direction: 'asc',
     active: 'name',
   };
-  private urlToCopy = `${window.location.protocol}//${window.location.host}/participant/room/`;
+  private urlToCopy = `${WindowUtils.getLocation().protocol}//${
+    WindowUtils.getLocation().host
+  }/participant/room/`;
 
   constructor(
     private roomService: RoomService,

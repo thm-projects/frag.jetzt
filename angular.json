@@ -11,7 +11,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist",
+            "outputPath": "dist/arsnova-angular-frontend/browser",
             "index": "src/index.html",
             "main": "src/main.ts",
             "tsConfig": "src/tsconfig.app.json",
@@ -23,31 +23,13 @@
             ],
             "allowedCommonJsDependencies": [
               "qrcode",
-              "quill-emoji/dist/quill-emoji.js",
               "@stomp/rx-stomp"
             ],
             "styles": [
               "src/styles.scss",
-              "src/assets/styles/quill/quill.bubble.css",
-              "src/assets/styles/quill/quill.snow.css",
-              "node_modules/material-icons/iconfont/material-icons.css",
-              "node_modules/prismjs/themes/prism-okaidia.css",
-              "node_modules/prismjs/plugins/line-highlight/prism-line-highlight.css",
-              "node_modules/prismjs/plugins/line-numbers/prism-line-numbers.css",
-              "node_modules/quill/dist/quill.core.css",
-              "node_modules/quill-emoji/dist/quill-emoji.css"
+              "node_modules/material-icons/iconfont/material-icons.css"
             ],
-            "scripts": [
-              "node_modules/emoji-toolkit/lib/js/joypixels.min.js",
-              "node_modules/prismjs/prism.js",
-              "node_modules/prismjs/components/prism-csharp.min.js",
-              "node_modules/prismjs/components/prism-css.min.js",
-              "node_modules/prismjs/plugins/line-highlight/prism-line-highlight.js",
-              "node_modules/prismjs/plugins/line-numbers/prism-line-numbers.js",
-              "node_modules/katex/dist/katex.min.js",
-              "node_modules/quill/dist/quill.js",
-              "node_modules/quill-image-resize-module/image-resize.min.js"
-            ],
+            "scripts": [],
             "vendorChunk": true,
             "extractLicenses": false,
             "buildOptimizer": false,
@@ -56,6 +38,9 @@
             "namedChunks": true
           },
           "configurations": {
+            "development": {
+
+            },
             "production": {
               "budgets": [
                 {
@@ -108,26 +93,9 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.spec.json",
             "scripts": [
-              "node_modules/emoji-toolkit/lib/js/joypixels.min.js",
-              "node_modules/prismjs/prism.js",
-              "node_modules/prismjs/components/prism-csharp.min.js",
-              "node_modules/prismjs/components/prism-css.min.js",
-              "node_modules/prismjs/plugins/line-highlight/prism-line-highlight.js",
-              "node_modules/prismjs/plugins/line-numbers/prism-line-numbers.js",
-              "node_modules/katex/dist/katex.min.js",
-              "node_modules/quill/dist/quill.js",
-              "node_modules/quill-image-resize-module/image-resize.min.js"
             ],
             "styles": [
-              "src/styles.scss",
-              "src/assets/styles/quill/quill.bubble.css",
-              "src/assets/styles/quill/quill.snow.css",
-              "node_modules/material-icons/iconfont/material-icons.css",
-              "node_modules/prismjs/themes/prism-okaidia.css",
-              "node_modules/prismjs/plugins/line-highlight/prism-line-highlight.css",
-              "node_modules/prismjs/plugins/line-numbers/prism-line-numbers.css",
-              "node_modules/quill/dist/quill.core.css",
-              "node_modules/quill-emoji/dist/quill-emoji.css"
+              "src/styles.scss"
             ],
             "assets": [
               "src/assets",
@@ -175,6 +143,75 @@
               "devServerTarget": "arsnova-angular-frontend:serve:production"
             }
           }
+        },
+        "server": {
+          "builder": "@angular-devkit/build-angular:server",
+          "options": {
+            "outputPath": "dist/arsnova-angular-frontend/server",
+            "main": "server.ts",
+            "tsConfig": "src/tsconfig.server.json",
+            "buildOptimizer": false,
+            "optimization": false,
+            "sourceMap": false,
+            "extractLicenses": false,
+            "vendorChunk": true
+          },
+          "configurations": {
+            "development": {
+
+            },
+            "production": {
+              "buildOptimizer": true,
+              "outputHashing": "media",
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "sourceMap": false,
+              "extractLicenses": true,
+              "vendorChunk": false
+            }
+          },
+          "defaultConfiguration": ""
+        },
+        "serve-ssr": {
+          "builder": "@nguniversal/builders:ssr-dev-server",
+          "configurations": {
+            "development": {
+              "browserTarget": "arsnova-angular-frontend:build:development",
+              "serverTarget": "arsnova-angular-frontend:server:development"
+            },
+            "production": {
+              "browserTarget": "arsnova-angular-frontend:build:production",
+              "serverTarget": "arsnova-angular-frontend:server:production"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "prerender": {
+          "builder": "@nguniversal/builders:prerender",
+          "options": {
+            "routes": [
+              "/home",
+              "/data-protection",
+              "/impressum"
+            ],
+            "guessRoutes": false
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "arsnova-angular-frontend:build:production",
+              "serverTarget": "arsnova-angular-frontend:server:production"
+            },
+            "development": {
+              "browserTarget": "arsnova-angular-frontend:build:development",
+              "serverTarget": "arsnova-angular-frontend:server:development"
+            }
+          },
+          "defaultConfiguration": "production"
         }
       }
     },

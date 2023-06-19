@@ -15,6 +15,8 @@ import { RoomService } from '../services/http/room.service';
 import { ModeratorService } from '../services/http/moderator.service';
 import { QuillUtils, SerializedDelta } from './quill-utils';
 import { UUID } from './ts-utils';
+import { Renderer2 } from '@angular/core';
+import { AppComponent } from 'app/app.component';
 
 const serializeDate = (str: string | number | Date) => {
   if (!str) {
@@ -86,8 +88,9 @@ const deserializeStringArray = (str: string) => {
 };
 
 export const copyCSVString = (value: string, fileName: string) => {
+  const renderer2 = AppComponent.instance.injector.get(Renderer2);
   const myBlob = new Blob([value], { type: `text/csv` });
-  const link = document.createElement('a');
+  const link = renderer2.createElement('a');
   link.setAttribute('download', fileName);
   link.href = window.URL.createObjectURL(myBlob);
   link.click();
@@ -95,7 +98,8 @@ export const copyCSVString = (value: string, fileName: string) => {
 
 export const uploadCSV = (): Observable<string> =>
   new Observable<string>((subscriber) => {
-    const input = document.createElement('input');
+    const renderer2 = AppComponent.instance.injector.get(Renderer2);
+    const input = renderer2.createElement('input');
     input.type = 'file';
     input.style.display = 'none';
     input.click();

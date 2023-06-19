@@ -150,7 +150,7 @@ export class Theme {
     /*Init description*/
     this.description = new ThemeTranslationList(
       'description',
-      this.meta['translation']['description'],
+      this.meta['translation']['description'] || {},
     );
 
     /*Init scale*/

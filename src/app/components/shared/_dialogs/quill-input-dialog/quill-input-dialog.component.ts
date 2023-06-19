@@ -1,12 +1,11 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { QuillUtils } from '../../../../utils/quill-utils';
-import { QuillEditorComponent } from 'ngx-quill';
 
 interface DialogData {
   type: string;
   meta: string;
-  quill: QuillEditorComponent['quillEditor'];
+  quill: any;
   selection: unknown;
   overrideAction?: (value: string, selection: unknown) => void;
 }

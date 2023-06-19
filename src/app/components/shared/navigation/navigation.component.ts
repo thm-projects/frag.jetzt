@@ -26,6 +26,7 @@ import { TopicCloudFilterComponent } from '../_dialogs/topic-cloud-filter/topic-
 import { Room } from '../../../models/room';
 import { User } from '../../../models/user';
 import { LivepollService } from '../../../services/http/livepoll.service';
+import { WindowUtils } from 'app/utils/window-utils';
 
 interface LocationData {
   id: string;
@@ -489,7 +490,9 @@ export class NavigationComponent implements OnInit, OnDestroy {
       panelClass: 'screenDialog',
     });
     const room = this.sessionService.currentRoom;
-    dialogRef.componentInstance.data = `${location.origin}/participant/room/${room?.shortId}`;
+    dialogRef.componentInstance.data = `${
+      WindowUtils.getLocation().origin
+    }/participant/room/${room?.shortId}`;
     dialogRef.componentInstance.key = room?.shortId;
     dialogRef.afterClosed().subscribe(() => {
       Rescale.exitFullscreen();

@@ -54,6 +54,7 @@ import {
 } from '../../../services/util/user-management.service';
 import { RoomSettingsOverviewComponent } from '../_dialogs/room-settings-overview/room-settings-overview.component';
 import { GptRoomSettingsComponent } from '../_dialogs/gpt-room-settings/gpt-room-settings.component';
+import { WindowUtils } from 'app/utils/window-utils';
 
 @Component({
   selector: 'app-room-page',
@@ -66,7 +67,9 @@ export class RoomPageComponent implements OnInit, OnDestroy {
   isLoading = true;
   commentCounter: number;
   responseCounter: number;
-  urlToCopy = `${window.location.protocol}//${window.location.host}/participant/room/`;
+  urlToCopy = `${WindowUtils.getLocation().protocol}//${
+    WindowUtils.getLocation().host
+  }/participant/room/`;
   onDestroyListener: EventEmitter<void> = new EventEmitter<void>();
   moderatorCommentCounter: number;
   moderatorResponseCounter: number;

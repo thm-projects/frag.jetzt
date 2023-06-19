@@ -2,17 +2,22 @@ import { BehaviorSubject, Observable } from 'rxjs';
 
 export class ShrinkObserver {
   private readonly element: HTMLElement;
-  private readonly resizeObserver = new ResizeObserver(
-    this.onAction.bind(this),
-  );
-  private readonly mutateObserver = new MutationObserver(
-    this.onAction.bind(this),
-  );
+  private readonly resizeObserver: ResizeObserver;
+  private readonly mutateObserver: MutationObserver;
   private readonly isSmall = new BehaviorSubject(false);
   private fullSize = 0;
 
   constructor(elem: HTMLElement) {
     this.element = elem;
+    if (!globalThis['ResizeObserver'] || !globalThis['MutationObserver']) {
+      return;
+    }
+    this.resizeObserver = new ResizeObserver(
+      this.onAction.bind(this),
+    );
+    this.mutateObserver = new MutationObserver(
+      this.onAction.bind(this),
+    );
     this.resizeObserver.observe(elem);
     this.mutateObserver.observe(elem, {
       subtree: true,

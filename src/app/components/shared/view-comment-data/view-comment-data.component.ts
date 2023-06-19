@@ -7,15 +7,9 @@ import {
   OnDestroy,
   OnInit,
   Output,
+  Renderer2,
   ViewChild,
 } from '@angular/core';
-import {
-  EditorChangeContent,
-  EditorChangeSelection,
-  QuillEditorComponent,
-  QuillModules,
-  QuillViewComponent,
-} from 'ngx-quill';
 import { LanguageService } from '../../../services/util/language.service';
 import { TranslateService } from '@ngx-translate/core';
 import { DeviceInfoService } from '../../../services/util/device-info.service';
@@ -33,15 +27,8 @@ import {
   StandardDelta,
 } from '../../../utils/quill-utils';
 import { ReplaySubject, takeUntil } from 'rxjs';
-import { HighlightLibrary } from 'ngx-highlightjs/lib/highlight.model';
-
-import Quill from 'quill';
-import ImageResize from 'quill-image-resize-module';
 import { DsgvoVideo } from '../../../quill-extentions/formats/dsgvo-video';
 import { FullscreenImageDialogComponent } from '../_dialogs/fullscreen-image-dialog/fullscreen-image-dialog.component';
-
-Quill.register('modules/imageResize', ImageResize);
-Quill.register('formats/dsgvo-video', DsgvoVideo);
 
 @Component({
   selector: 'app-view-comment-data',
@@ -49,9 +36,10 @@ Quill.register('formats/dsgvo-video', DsgvoVideo);
   styleUrls: ['./view-comment-data.component.scss'],
 })
 export class ViewCommentDataComponent
-  implements OnInit, AfterViewInit, OnDestroy {
-  @ViewChild('editor') editor: QuillEditorComponent;
-  @ViewChild('quillView') quillView: QuillViewComponent;
+  implements OnInit, AfterViewInit, OnDestroy
+{
+  @ViewChild('editor') editor: any;
+  @ViewChild('quillView') quillView: any;
   @ViewChild('editorErrorLayer') editorErrorLayer: ElementRef<HTMLDivElement>;
   @ViewChild('tooltipContainer') tooltipContainer: ElementRef<HTMLDivElement>;
   @ViewChild('moderatorToolbarFontColor')
@@ -76,7 +64,7 @@ export class ViewCommentDataComponent
     [ImmutableStandardDelta, string]
   >();
   currentText = '\n';
-  quillModules: QuillModules = {};
+  quillModules = {};
   hasEmoji = true;
   private _initialized = false;
   private _currentData: StandardDelta = null;
@@ -86,6 +74,7 @@ export class ViewCommentDataComponent
   private readonly DEFAULT_VALUE: StandardDelta = { ops: [{ insert: '\n' }] };
 
   constructor(
+    private renderer2: Renderer2,
     private languageService: LanguageService,
     private translateService: TranslateService,
     private deviceInfo: DeviceInfoService,
@@ -152,98 +141,11 @@ export class ViewCommentDataComponent
     return true;
   }
 
-  ngOnInit(): void {
-    const isMobile = this.deviceInfo.isUserAgentMobile;
-    const hljs = window['hljs'] as HighlightLibrary;
-    this.quillModules.syntax = {
-      highlight: (text) =>
-        hljs ? hljs.highlightAuto(text, undefined).value : text,
-    } as unknown as boolean;
-    if (this.isEditor) {
-      this.quillModules['emoji-toolbar'] = !isMobile;
-      this.quillModules.imageResize = {
-        modules: ['Resize', 'DisplaySize'],
-      };
-      this.hasEmoji = !isMobile;
-    }
-    if (this.isEditor) {
-      this.updateCSSVariables();
-    }
-  }
+  ngOnInit(): void {}
 
-  ngAfterViewInit() {
-    if (!this.isEditor) {
-      const startup = () => {
-        this.set(this._currentData);
-        this.quillView.editorElem.addEventListener('click', (e) => {
-          const target = e.target;
-          if (target instanceof HTMLImageElement && target?.['__blot']?.blot) {
-            const ref = this.dialog.open(FullscreenImageDialogComponent);
-            ref.componentInstance.src = target.src;
-            document.body.requestFullscreen();
-            ref.afterClosed().subscribe({
-              next: () => {
-                document.exitFullscreen();
-              },
-            });
-          }
-        });
-      };
-      if (this.quillView.editorElem) {
-        startup();
-        return;
-      }
-      this.quillView.onEditorCreated.subscribe(() => {
-        startup();
-      });
-      return;
-    }
-    let wasLastPaste = false;
-    const initEditor = () => {
-      this._marks = new Marks(
-        this.editorErrorLayer.nativeElement,
-        this.tooltipContainer.nativeElement,
-        this.editor,
-      );
-      if (this._currentData) {
-        this.set(this._currentData);
-      }
-      const elem = this.editor.editorElem.firstElementChild as HTMLElement;
-      elem.focus();
-      elem.addEventListener('paste', () => {
-        wasLastPaste = true;
-      });
-      new AccessibilityEscapedInputDirective(
-        new ElementRef(this.editor.editorElem.firstElementChild as HTMLElement),
-        this.eventService,
-      ).ngAfterViewInit();
-      this.initMaterialTooltip();
-      this.overrideQuillTooltip();
-      this.syncErrorLayer();
-      this.afterEditorInit?.();
-      this._initialized = true;
-    };
-    if (this.editor.editorElem) {
-      initEditor();
-    } else {
-      this.editor.onEditorCreated.subscribe(() => initEditor());
-    }
-    this.editor.onContentChanged.subscribe((e) => {
-      this._marks.onDataChange(e.delta);
-      this._currentData = e.content;
-      this.currentText = e.text;
-      this.changeContent.emit([e.content, e.text]);
-    });
-    this.editor.onEditorChanged.subscribe((e) => {
-      wasLastPaste = this.onEditorChange(e, wasLastPaste);
-    });
-  }
+  ngAfterViewInit() {}
 
-  ngOnDestroy() {
-    this._destroyer.next(1);
-    this._destroyer.complete();
-    this._mutateObserver?.disconnect?.();
-  }
+  ngOnDestroy() {}
 
   onDocumentClick() {
     if (!this._marks) {
@@ -330,10 +232,7 @@ export class ViewCommentDataComponent
     });
   }
 
-  private onEditorChange(
-    e: EditorChangeContent | EditorChangeSelection,
-    wasLastPaste: boolean,
-  ): boolean {
+  private onEditorChange(e: any, wasLastPaste: boolean): boolean {
     if (e.event === 'text-change' && wasLastPaste) {
       wasLastPaste = false;
       this.cleanContentOnPaste(e);
@@ -359,7 +258,7 @@ export class ViewCommentDataComponent
     return wasLastPaste;
   }
 
-  private cleanContentOnPaste(event: EditorChangeContent) {
+  private cleanContentOnPaste(event: any) {
     if (event.source !== 'user') {
       return;
     }

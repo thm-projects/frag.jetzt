@@ -1,4 +1,10 @@
-import { Component, ElementRef, Input, OnChanges } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  Input,
+  OnChanges,
+  Renderer2,
+} from '@angular/core';
 
 @Component({
   selector: 'app-custom-markdown',
@@ -19,7 +25,10 @@ export class CustomMarkdownComponent implements OnChanges {
   };
   @Input() data: string;
 
-  constructor(public element: ElementRef<HTMLElement>) {}
+  constructor(
+    public element: ElementRef<HTMLElement>,
+    private renderer2: Renderer2,
+  ) {}
 
   private static setPluginClass(
     element: HTMLElement,
@@ -86,8 +95,8 @@ export class CustomMarkdownComponent implements OnChanges {
     return newStr;
   }
 
-  private static decodeHTML(encodedHTML: string) {
-    const elem = document.createElement('textarea');
+  private static decodeHTML(renderer2: Renderer2, encodedHTML: string) {
+    const elem = renderer2.createElement('textarea');
     elem.innerHTML = encodedHTML;
     return elem.value;
   }
@@ -137,6 +146,7 @@ export class CustomMarkdownComponent implements OnChanges {
         katex.startsWith('$$') && katex.endsWith('$$');
       const offset = this.katexOptions.displayMode ? 2 : 1;
       const innerKatex = CustomMarkdownComponent.decodeHTML(
+        this.renderer2,
         katex.substring(offset, katex.length - offset),
       ).replace(/(^\s*)|(\s+$)/g, '');
       // newStr += this.markdownService.renderKatex('$' + innerKatex + '$', this.katexOptions);

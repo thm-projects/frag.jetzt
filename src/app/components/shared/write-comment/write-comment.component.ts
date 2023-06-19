@@ -93,6 +93,7 @@ export class WriteCommentComponent implements OnInit, AfterViewInit, OnDestroy {
   private _mobileMockActive = false;
   private _mobileMockTimeout;
   private _mobileMockPossible = false;
+  private _mockListener: (this: MediaQueryList, ev: MediaQueryListEvent) => any;
   private _mockMatcher: MediaQueryList;
   private _keywordExtractor: KeywordExtractor;
   private _currentData: ForumComment;
@@ -126,12 +127,13 @@ export class WriteCommentComponent implements OnInit, AfterViewInit, OnDestroy {
         'px)',
     );
     this._mobileMockPossible = this._mockMatcher.matches;
-    this._mockMatcher.addEventListener('change', (e) => {
+    this._mockListener = (e) => {
       this._mobileMockPossible = e.matches;
       if (!this._mobileMockPossible) {
         this._mobileMockActive = false;
       }
-    });
+    };
+    this._mockMatcher.addEventListener('change', this._mockListener);
     if (this.brainstormingData) {
       this.translateService
         .get('comment-page.brainstorming-placeholder', this.brainstormingData)
@@ -184,7 +186,7 @@ export class WriteCommentComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this._mockMatcher.removeAllListeners();
+    this._mockMatcher.removeEventListener('change', this._mockListener);
   }
 
   buildCloseDialogActionCallback(): () => void {

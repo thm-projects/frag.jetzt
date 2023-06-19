@@ -37,6 +37,7 @@ import { ForumComment } from '../../../../utils/data-accessor';
 import { UserManagementService } from '../../../../services/util/user-management.service';
 import { RowComponent } from '../../../../../../projects/ars/src/lib/components/layout/frame/row/row.component';
 import { PageEvent } from '@angular/material/paginator';
+import { WindowUtils } from 'app/utils/window-utils';
 
 interface CommentCache {
   [commentId: string]: {
@@ -158,7 +159,9 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     if (!room) {
       return '';
     }
-    return `${window.location.protocol}//${window.location.hostname}/participant/room/${room.shortId}`;
+    return `${WindowUtils.getLocation().protocol}//${
+      WindowUtils.getLocation().hostname
+    }/participant/room/${room.shortId}`;
   }
 
   toggleQRCode() {

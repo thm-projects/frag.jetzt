@@ -1,8 +1,12 @@
+import { Renderer2 } from "@angular/core";
+import { AppComponent } from "app/app.component";
+
 export class StyleDebug {
 
   public static border(key: string) {
     let isActive = true;
-    const style: HTMLStyleElement = document.createElement('style');
+  const renderer2 = AppComponent.instance.injector.get(Renderer2);
+    const style: HTMLStyleElement = renderer2.createElement('style');
     style.appendChild(document.createTextNode(
       'body *:hover{background-color:rgba(60,114,201,0.01)} ' +
       'body *{box-shadow:inset 0px 0px 0px 1px rgba(125,125,125,0.2);}'));

@@ -47,7 +47,6 @@ import { MatSpinnerOverlayComponent } from './mat-spinner-overlay/mat-spinner-ov
 import { WriteCommentComponent } from './write-comment/write-comment.component';
 import { CustomMarkdownComponent } from './custom-markdown/custom-markdown.component';
 import { ScrollIntoViewDirective } from '../../directives/scroll-into-view.directive';
-import { QuillModule } from 'ngx-quill';
 import { ViewCommentDataComponent } from './view-comment-data/view-comment-data.component';
 import { DeepLDialogComponent } from './_dialogs/deep-ldialog/deep-ldialog.component';
 import { ExplanationDialogComponent } from './_dialogs/explanation-dialog/explanation-dialog.component';
@@ -156,7 +155,6 @@ import { CommentA11yElementsComponent } from './comment/comment-a11y-elements/co
     ColorPickerModule,
     DragDropModule,
     JoyrideModule.forChild(),
-    QuillModule,
     NgxMatTimepickerModule,
     NgxMatNativeDateModule,
     MatSliderModule,

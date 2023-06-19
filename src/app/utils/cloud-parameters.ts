@@ -1,3 +1,4 @@
+import { Renderer2 } from '@angular/core';
 import {
   DARK_THEME,
   DefaultCloudParameters,
@@ -105,11 +106,14 @@ export class CloudParameters {
     localStorage.setItem('tagCloudConfiguration', JSON.stringify(parameters));
   }
 
-  static getCurrentParameters(isCurrentlyDark: boolean): CloudParameters {
+  static getCurrentParameters(
+    renderer2: Renderer2,
+    isCurrentlyDark: boolean,
+  ): CloudParameters {
     const jsonData = localStorage.getItem('tagCloudConfiguration');
     const temp = jsonData != null ? JSON.parse(jsonData) : null;
     const elem = new CloudParameters();
-    elem.resetToDefault(isCurrentlyDark);
+    elem.resetToDefault(renderer2, isCurrentlyDark);
     if (temp != null) {
       for (const key of Object.keys(elem)) {
         if (temp[key] !== undefined) {
@@ -152,9 +156,9 @@ export class CloudParameters {
     return Math.min(maxOut, Math.max(minOut, value));
   }
 
-  resetToDefault(isDark: boolean) {
+  resetToDefault(renderer2: Renderer2, isDark: boolean) {
     const theme: DefaultCloudParameters = isDark ? DARK_THEME : LIGHT_THEME;
-    const p = document.createElement('p');
+    const p = renderer2.createElement('p');
     p.style.display = 'none';
     document.body.appendChild(p);
     const minValue =

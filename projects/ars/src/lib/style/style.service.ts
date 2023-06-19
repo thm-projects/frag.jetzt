@@ -3,27 +3,25 @@ import { dark, light } from './style.const';
 import { ThemeService } from '../../../../../src/theme/theme.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class StyleService {
-
   public static light = light;
   public static dark = dark;
 
   private colors: any;
   private _initialized = false;
 
-  constructor(
-    private themeService: ThemeService
-  ) {
-  }
+  constructor(private themeService: ThemeService) {}
 
   public init() {
     if (this._initialized) {
       return;
     }
     this._initialized = true;
-    this.themeService.getTheme().subscribe(theme => this.setColor(theme.isDark));
+    this.themeService
+      .getTheme()
+      .subscribe((theme) => this.setColor(theme.isDark));
   }
 
   public setColor(isDark: boolean) {
@@ -36,11 +34,13 @@ export class StyleService {
   }
 
   private initColor() {
+    if (!globalThis['document']) {
+      return;
+    }
     for (const k in this.colors) {
       if (this.colors.hasOwnProperty(k)) {
         document.documentElement.style.setProperty('--' + k, this.colors[k]);
       }
     }
   }
-
 }

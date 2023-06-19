@@ -25,6 +25,9 @@ export class LanguageService {
     let lang = AVAILABLE_LANGUAGES.includes(storedLanguage as Language)
       ? storedLanguage
       : null;
+    if (!globalThis['navigator']) {
+      lang = AVAILABLE_LANGUAGES[0];
+    }
     if (!lang) {
       for (const language of navigator.languages) {
         const langKey = language.split('-')[0].toLowerCase();

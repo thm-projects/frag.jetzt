@@ -17,8 +17,12 @@ import { IMessage } from '@stomp/stompjs';
 import { filter } from 'rxjs/operators';
 import { SessionService } from './session.service';
 import { UserManagementService } from './user-management.service';
+import { UUID } from 'app/utils/ts-utils';
 
 const loadNotifications = (): NotificationEvent[] => {
+  if (!globalThis['localStorage']) {
+    return [];
+  }
   const arr = JSON.parse(
     localStorage.getItem('dashboard-notifications') || '[]',
   ) as NotificationEvent[];
@@ -58,10 +62,8 @@ type DashboardFilterObject = {
 })
 export class DashboardNotificationService {
   public isNotificationBlocked: boolean = false;
-  private _lastChanges = new Date(
-    Number(localStorage.getItem('dashboard-notification-time')),
-  );
-  private _lastUser = localStorage.getItem('dashboard-notification-user');
+  private _lastChanges: Date;
+  private _lastUser: UUID;
   private _notifications = loadNotifications();
   private _filteredNotifications: NotificationEvent[] = [];
   private _roomNotifications: NotificationEvent[] = [];
@@ -146,20 +148,26 @@ export class DashboardNotificationService {
     private userManagementService: UserManagementService,
     private sessionService: SessionService,
   ) {
-    unloadService.onUnload().subscribe(() => {
-      localStorage.setItem(
-        'dashboard-notification-time',
-        String(this._lastChanges.getTime()),
+    if (globalThis['localStorage']) {
+      this._lastChanges =  new Date(
+        Number(localStorage.getItem('dashboard-notification-time')),
       );
-      localStorage.setItem(
-        'dashboard-notification-user',
-        this.userManagementService.getCurrentUser()?.id,
-      );
-      localStorage.setItem(
-        'dashboard-notifications',
-        JSON.stringify(this._notifications),
-      );
-    });
+      this._lastUser = localStorage.getItem('dashboard-notification-user') as UUID;
+      unloadService.onUnload().subscribe(() => {
+        localStorage.setItem(
+          'dashboard-notification-time',
+          String(this._lastChanges.getTime()),
+        );
+        localStorage.setItem(
+          'dashboard-notification-user',
+          this.userManagementService.getCurrentUser()?.id,
+        );
+        localStorage.setItem(
+          'dashboard-notifications',
+          JSON.stringify(this._notifications),
+        );
+      });
+    }
     this.userManagementService
       .getUser()
       .pipe(filter((v) => !!v))

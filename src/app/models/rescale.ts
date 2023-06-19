@@ -15,6 +15,9 @@ export class Rescale {
       return;
     }
     Rescale.isFullscreen = true;
+    if (!globalThis['document']) {
+      return;
+    }
     document.body.requestFullscreen();
   }
 
@@ -26,6 +29,9 @@ export class Rescale {
       return;
     }
     Rescale.isFullscreen = false;
+    if (!globalThis['document']) {
+      return;
+    }
     document.exitFullscreen();
   }
 
@@ -116,6 +122,9 @@ export class Rescale {
   }
 
   private scaleUpdate() {
+    if (!globalThis['document']) {
+      return;
+    }
     document.getElementById('rescale_screen').style['zoom'] = String(
       this.scale,
     );
@@ -154,6 +163,9 @@ export class Rescale {
   }
 
   private getElem(name: string): HTMLElement {
+    if (!globalThis['document']) {
+      return;
+    }
     return document.getElementById(name);
   }
 }

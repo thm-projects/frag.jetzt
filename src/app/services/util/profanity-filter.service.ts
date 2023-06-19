@@ -42,6 +42,9 @@ export class ProfanityFilterService {
   }
 
   getProfanityListFromStorage() {
+    if (!globalThis['localStorage']){
+      return [];
+    }
     const list = localStorage.getItem(this.profanityKey);
     return list ? JSON.parse(list) : [];
   }

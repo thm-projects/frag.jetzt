@@ -28,7 +28,10 @@ import { AuthenticationInterceptor } from './interceptors/authentication.interce
 import { EssentialsModule } from './components/essentials/essentials.module';
 import { SharedModule } from './components/shared/shared.module';
 import { CreatorModule } from './components/creator/creator.module';
-import { BrowserModule } from '@angular/platform-browser';
+import {
+  BrowserModule,
+  provideClientHydration,
+} from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LanguageService } from './services/util/language.service';
 import { NewLandingComponent } from './components/home/new-landing/new-landing.component';
@@ -83,20 +86,6 @@ import { CookiesFrComponent } from '../assets/i18n/components/cookies/cookies-fr
 import { AdminModule } from './components/admin/admin.module';
 import { NgxIndexedDBModule } from 'ngx-indexed-db';
 import { DB_CONFIG } from '../indexeddb';
-import {
-  HIGHLIGHT_OPTIONS,
-  HighlightLoader,
-  HighlightModule,
-} from 'ngx-highlightjs';
-import { HighlightJsDefaults } from './utils/highlight-js-defaults';
-
-import 'prismjs';
-import 'prismjs/plugins/line-numbers/prism-line-numbers.js';
-import 'prismjs/plugins/line-highlight/prism-line-highlight.js';
-import 'katex/dist/katex.min.js';
-import 'emoji-toolkit/lib/js/joypixels.min.js';
-import 'quill-emoji/dist/quill-emoji.js';
-import { QuillModule } from 'ngx-quill';
 import { PasswordGeneratorComponent } from './components/home/_dialogs/password-generator/password-generator.component';
 import { AskOnboardingComponent } from './components/home/_dialogs/ask-onboarding/ask-onboarding.component';
 import { AskOnboardingDEComponent } from 'assets/i18n/components/ask-onboarding/ask-onboarding-de.component';
@@ -181,11 +170,10 @@ export const HttpLoaderFactory = (http: HttpClient) =>
     JoyrideModule.forRoot(),
     NgxIndexedDBModule.forRoot(DB_CONFIG),
     MatNativeDateModule,
-    HighlightModule,
-    QuillModule.forRoot(),
     MatRippleModule,
   ],
   providers: [
+    provideClientHydration(),
     /*AppConfig,
     { provide: APP_INITIALIZER,
       useFactory: initializeApp,
@@ -195,10 +183,6 @@ export const HttpLoaderFactory = (http: HttpClient) =>
       provide: HTTP_INTERCEPTORS,
       useClass: AuthenticationInterceptor,
       multi: true,
-    },
-    {
-      provide: HIGHLIGHT_OPTIONS,
-      useValue: HighlightJsDefaults,
     },
     WsConnectorService,
     NotificationService,
@@ -235,9 +219,7 @@ export class AppModule {
   constructor(
     private languageService: LanguageService,
     private translateService: TranslateService,
-    private highlightLoader: HighlightLoader,
   ) {
-    this.highlightLoader.ready.subscribe();
     this.languageService
       .getLanguage()
       .subscribe((lang) => this.translateService.use(lang));

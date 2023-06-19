@@ -1,20 +1,23 @@
+import { Renderer2 } from '@angular/core';
+
 export class DOMElementPrinter {
   private readonly iframe: HTMLIFrameElement;
 
-  constructor(private parent: HTMLElement) {
-    this.iframe = document.createElement('iframe');
+  constructor(private renderer2: Renderer2, private parent: HTMLElement) {
+    this.iframe = renderer2.createElement('iframe');
     this.iframe.width = '1';
     this.iframe.height = '1';
-    document.body.appendChild(this.iframe);
+    renderer2.selectRootElement('body').appendChild(this.iframe);
     this.refresh();
   }
 
   static printOnce(
+    renderer2: Renderer2,
     elem: HTMLElement,
     title: string,
     background: string = null,
   ) {
-    const printer = new DOMElementPrinter(elem);
+    const printer = new DOMElementPrinter(renderer2, elem);
     printer.print(title, background);
     printer.clean();
   }

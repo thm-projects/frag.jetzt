@@ -52,6 +52,7 @@ import { GPTChatInfoComponent } from '../_dialogs/gptchat-info/gptchat-info.comp
 import { TSMap } from 'typescript-map';
 import { prettyPrintDate } from '../../../utils/date';
 import { IconActionKey, IconActionState, MenuState } from './comment-action';
+import { WindowUtils } from 'app/utils/window-utils';
 
 interface IconAction {
   name: IconActionKey;
@@ -553,7 +554,11 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   copyShareCommentLink(): void {
-    const url = `${window.location.protocol}//${window.location.host}/participant/room/${this.room.shortId}/comment/${this.comment.id}/conversation`;
+    const url = `${WindowUtils.getLocation().protocol}//${
+      WindowUtils.getLocation().host
+    }/participant/room/${this.room.shortId}/comment/${
+      this.comment.id
+    }/conversation`;
     navigator.clipboard.writeText(url).then(
       () => {
         this.translateService

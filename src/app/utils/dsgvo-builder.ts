@@ -1,5 +1,7 @@
 import { TranslateService } from '@ngx-translate/core';
 import { QuillUtils, URLType } from './quill-utils';
+import { WindowUtils } from './window-utils';
+import { Renderer2 } from '@angular/core';
 
 export enum DsgvoSource {
   Unknown,
@@ -16,7 +18,7 @@ const EXTERNAL_TRUSTED = new Set([
 
 export class DsgvoBuilder {
   private static _trustedURLs = new Set<string>([
-    location.origin.toLowerCase(),
+    WindowUtils.getLocation().origin.toLowerCase(),
   ]);
 
   static trustURL(url: string) {
@@ -29,6 +31,7 @@ export class DsgvoBuilder {
   }
 
   static buildArticle(
+    renderer2: Renderer2,
     height: string,
     url: string,
     messageId: string,
@@ -36,13 +39,13 @@ export class DsgvoBuilder {
     action: () => void,
     isActionOnce = true,
   ) {
-    const article = document.createElement('article');
+    const article = renderer2.createElement('article');
     article.contentEditable = 'false';
     article.classList.add('dsgvo-info-article');
     article.style.minHeight = height;
-    const header = document.createElement('h3');
-    const p = document.createElement('p');
-    const button = document.createElement('button');
+    const header = renderer2.createElement('h3');
+    const p = renderer2.createElement('p');
+    const button = renderer2.createElement('button');
     button.classList.add('mat-flat-button', 'mat-button-base');
     button.addEventListener(
       'click',
@@ -64,8 +67,8 @@ export class DsgvoBuilder {
     return article;
   }
 
-  static buildIframe(src: string) {
-    const frame = document.createElement('iframe');
+  static buildIframe(renderer2: Renderer2, src: string) {
+    const frame = renderer2.createElement('iframe');
     frame.classList.add('ql-video');
     frame.setAttribute('frameborder', '0');
     frame.setAttribute('allowfullscreen', 'true');

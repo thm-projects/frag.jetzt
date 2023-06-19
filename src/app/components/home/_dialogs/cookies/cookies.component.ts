@@ -29,17 +29,22 @@ export class CookiesComponent implements OnInit, AfterViewInit {
   ) {}
 
   ngOnInit() {
+    if (!globalThis['document']) {
+      return;
+    }
     // not really the nicest way but should do its job until a better or native solution was found
     setTimeout(() => document.getElementById('cookie-header').focus(), 400);
   }
 
   ngAfterViewInit() {
     setTimeout(() => {
-      (
-        this.ref.nativeElement.getElementsByClassName(
-          'mat-dialog-title',
-        )[0] as HTMLElement
-      ).focus();
+      const elem = this.ref.nativeElement.getElementsByClassName(
+        'mat-dialog-title',
+      );
+      if(!elem) {
+        return;
+      }
+      (elem[0] as HTMLElement).focus();
     }, 500);
   }
 

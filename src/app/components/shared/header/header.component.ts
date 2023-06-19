@@ -176,24 +176,26 @@ export class HeaderComponent implements OnInit, AfterViewInit {
       this.refreshLivepollNotification();
     });
 
-    this._r.listen(document, 'keyup', (event) => {
-      if (
-        document.getElementById('back-button') &&
-        KeyboardUtils.isKeyEvent(event, KeyboardKey.Digit0) === true &&
-        this.eventService.focusOnInput === false
-      ) {
-        document.getElementById('back-button').focus();
-      } else if (
-        KeyboardUtils.isKeyEvent(event, KeyboardKey.Digit2) === true &&
-        this.eventService.focusOnInput === false
-      ) {
-        if (this.user) {
-          document.getElementById('session-button').focus();
-        } else {
-          document.getElementById('login-button').focus();
+    if (globalThis['document']) {
+      this._r.listen(document, 'keyup', (event) => {
+        if (
+          document.getElementById('back-button') &&
+          KeyboardUtils.isKeyEvent(event, KeyboardKey.Digit0) === true &&
+          this.eventService.focusOnInput === false
+        ) {
+          document.getElementById('back-button').focus();
+        } else if (
+          KeyboardUtils.isKeyEvent(event, KeyboardKey.Digit2) === true &&
+          this.eventService.focusOnInput === false
+        ) {
+          if (this.user) {
+            document.getElementById('session-button').focus();
+          } else {
+            document.getElementById('login-button').focus();
+          }
         }
-      }
-    });
+      });
+    }
     this.startUpService.unreadMotds().subscribe((state) => {
       this.motdState = state;
     });

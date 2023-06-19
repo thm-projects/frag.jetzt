@@ -1,13 +1,11 @@
-import Quill from 'quill';
 import { TranslateService } from '@ngx-translate/core';
 import { DsgvoBuilder, DsgvoSource } from '../../utils/dsgvo-builder';
-
-const BlockEmbed = Quill.import('blots/block/embed');
-const Link = Quill.import('formats/link');
+import { AppComponent } from 'app/app.component';
+import { Renderer2 } from '@angular/core';
 
 const ATTRIBUTES = ['height', 'width'];
 
-export class DsgvoVideo extends BlockEmbed {
+export class DsgvoVideo {
   static blotName = 'dsgvo-video';
   static className = 'ql-dsgvo-video';
   static tagName = 'div';
@@ -15,15 +13,17 @@ export class DsgvoVideo extends BlockEmbed {
   domNode: HTMLVideoElement;
 
   static create(value) {
-    const node = super.create(value) as HTMLElement;
+    const node = null;
     const sanitized = this.sanitize(value);
     const [source, url] = DsgvoBuilder.classifyURL(sanitized);
     node.dataset.src = url;
     const messageId = DsgvoBuilder.getMessageFromSource(source);
+    const renderer2 = AppComponent.instance.injector.get(Renderer2);
     if (!messageId) {
-      node.append(DsgvoBuilder.buildIframe(url));
+      node.append(DsgvoBuilder.buildIframe(renderer2, url));
     } else {
       const article = DsgvoBuilder.buildArticle(
+        renderer2,
         '200px',
         url,
         messageId,
@@ -33,7 +33,7 @@ export class DsgvoVideo extends BlockEmbed {
             window.open(url, '_blank').focus();
             return;
           }
-          node.replaceChild(DsgvoBuilder.buildIframe(url), article);
+          node.replaceChild(DsgvoBuilder.buildIframe(renderer2, url), article);
           const width = parseFloat(
             getComputedStyle(node.firstElementChild).width,
           );
@@ -57,7 +57,7 @@ export class DsgvoVideo extends BlockEmbed {
   }
 
   static sanitize(url: string) {
-    return Link.sanitize(url);
+    return null;
   }
 
   static value(domNode: HTMLElement) {
@@ -73,12 +73,12 @@ export class DsgvoVideo extends BlockEmbed {
         this.domNode.firstElementChild.removeAttribute(name);
       }
     } else {
-      super.format(name, value);
+      return;
     }
   }
 
   html() {
-    const { video } = super.value();
+    const video = '';
     return `<a href="${video}">${video}</a>`;
   }
 }

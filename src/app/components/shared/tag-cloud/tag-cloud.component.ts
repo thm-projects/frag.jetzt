@@ -5,6 +5,7 @@ import {
   EventEmitter,
   OnDestroy,
   OnInit,
+  Renderer2,
   ViewChild,
 } from '@angular/core';
 
@@ -161,6 +162,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     private roomDataService: RoomDataService,
     private brainstormingService: BrainstormingService,
     private bonusTokenService: BonusTokenService,
+    private renderer2: Renderer2,
   ) {
     this.brainstormingActive = this.router.url.endsWith('/brainstorming');
     for (let i = 0; i < 10; i++) {
@@ -277,7 +279,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
 
   resetColorsToTheme() {
     const param = new CloudParameters();
-    param.resetToDefault(this.themeService.currentTheme.isDark);
+    param.resetToDefault(this.renderer2, this.themeService.currentTheme.isDark);
     this.setCloudParameters(param, false);
     CloudParameters.removeParameters();
   }
@@ -659,6 +661,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
 
   private getCurrentCloudParameters(): CloudParameters {
     return CloudParameters.getCurrentParameters(
+      this.renderer2,
       this.themeService.currentTheme.isDark,
     );
   }

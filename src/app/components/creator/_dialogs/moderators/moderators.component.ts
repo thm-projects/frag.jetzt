@@ -15,6 +15,7 @@ import { FormControl, Validators } from '@angular/forms';
 import { ExplanationDialogComponent } from '../../../shared/_dialogs/explanation-dialog/explanation-dialog.component';
 import { ModeratorRefreshCodeComponent } from '../moderator-refresh-code/moderator-refresh-code.component';
 import { ReplaySubject, takeUntil } from 'rxjs';
+import { WindowUtils } from 'app/utils/window-utils';
 
 @Component({
   selector: 'app-moderators',
@@ -88,7 +89,9 @@ export class ModeratorsComponent implements OnInit, OnDestroy {
   }
 
   copyShortIdLink() {
-    const url = `${window.location.protocol}//${window.location.host}/moderator/join/${this.moderatorShortId}`;
+    const url = `${WindowUtils.getLocation().protocol}//${
+      WindowUtils.getLocation().host
+    }/moderator/join/${this.moderatorShortId}`;
     navigator.clipboard.writeText(url).then(
       () => {
         this.translationService

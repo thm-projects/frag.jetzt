@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Renderer2 } from '@angular/core';
 import { Observable, ReplaySubject, tap } from 'rxjs';
 import { themes, themes_meta } from './arsnova-theme.const';
 import { Theme } from './Theme';
@@ -22,6 +22,7 @@ export class ThemeService {
     private deviceInfo: DeviceInfoService,
     private configurationService: ConfigurationService,
     private httpClient: HttpClient,
+    private renderer2: Renderer2,
   ) {}
 
   get activeTheme(): Theme {
@@ -36,8 +37,8 @@ export class ThemeService {
     if (this._initialized) {
       return;
     }
-    this._style = document.createElement('style');
-    document.head.append(this._style);
+    this._style = this.renderer2.createElement('style');
+    this.renderer2.selectRootElement('head')?.append?.(this._style);
     for (const k of Object.keys(themes)) {
       if (
         !themes_meta[k].availableOnMobile &&

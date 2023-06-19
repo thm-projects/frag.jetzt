@@ -1,5 +1,5 @@
+import { Renderer2 } from '@angular/core';
 import { LanguagetoolResult } from '../../../services/http/languagetool.service';
-import { QuillEditorComponent } from 'ngx-quill';
 
 class ContentIndexFinder {
   private opIndex = 0;
@@ -43,9 +43,10 @@ export class Marks {
   private textErrors: Mark[] = [];
 
   constructor(
+    private renderer2: Renderer2,
     private markContainer: HTMLDivElement,
     private tooltipContainer: HTMLDivElement,
-    private editor: QuillEditorComponent,
+    private editor: any,
   ) {}
 
   clear() {
@@ -103,7 +104,7 @@ export class Marks {
     const editorRect =
       this.editor.editorElem.firstElementChild.getBoundingClientRect();
     for (const error of this.textErrors) {
-      error.syncMark(parentRect, editorRect.y - parentRect.y);
+      error.syncMark(this.renderer2, parentRect, editorRect.y - parentRect.y);
     }
   }
 
@@ -170,6 +171,7 @@ export class Marks {
       this.editor.quillEditor,
     );
     newMark.setSuggestions(
+      this.renderer2,
       dataObject['replacements'],
       dataObject['message'],
       () => {
@@ -195,13 +197,13 @@ class Mark {
     public markLength,
     private markContainer: HTMLDivElement,
     private tooltipContainer: HTMLDivElement,
-    private quillEditor: QuillEditorComponent['quillEditor'],
+    private quillEditor: any,
   ) {}
 
-  syncMark(parentRect: DOMRect, offset: number) {
+  syncMark(renderer2: Renderer2, parentRect: DOMRect, offset: number) {
     const boundaries = this.calculateBoundaries();
     for (let i = this.marks.length; i < boundaries.length; i++) {
-      const elem = document.createElement('span');
+      const elem = renderer2.createElement('span');
       this.markContainer.appendChild(elem);
       this.marks.push(elem);
     }
@@ -259,24 +261,25 @@ class Mark {
   }
 
   setSuggestions(
+    renderer2: Renderer2,
     replacements: { value?: string }[],
     message: string,
     removeMark: () => void,
   ): void {
     this.replacements = replacements;
     this.message = message;
-    this.dropdown = document.createElement('div');
+    this.dropdown = renderer2.createElement('div');
     this.dropdown.classList.add('dropdownBlock');
     const suggestions = replacements;
     if (!suggestions.length) {
-      const dropdownElem = document.createElement('span');
+      const dropdownElem = renderer2.createElement('span');
       dropdownElem.classList.add('error-message');
       dropdownElem.append(message);
       this.dropdown.append(dropdownElem);
     } else {
       const length = suggestions.length > 3 ? 3 : suggestions.length;
       for (let j = 0; j < length; j++) {
-        const dropdownElem = document.createElement('span');
+        const dropdownElem = renderer2.createElement('span');
         dropdownElem.classList.add('suggestions');
         if (suggestions[j].value.trim().length < 1) {
           dropdownElem.innerHTML = "<em>'" + suggestions[j].value + "'</em>";

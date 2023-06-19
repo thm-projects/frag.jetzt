@@ -11,7 +11,7 @@ export class DeviceInfoService {
   private readonly _isDark = new BehaviorSubject(true);
 
   constructor() {
-    const userAgent = navigator.userAgent;
+    const userAgent = globalThis?.['navigator']?.userAgent || 'Chrome';
     if (
       /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
         userAgent,
@@ -36,6 +36,11 @@ export class DeviceInfoService {
       this._userAgentDeviceType = 'desktop';
     }
     this._isSafari = this._isSafari || false;
+    if (!globalThis['window']) {
+      this._isMobile.next(true);
+      this._isDark.next(true);
+      return;
+    }
     const match = window.matchMedia(
       'only screen and (max-device-width: 480px) and (orientation: portrait), ' +
         'only screen and (max-device-height: 480px) and (orientation: landscape)',

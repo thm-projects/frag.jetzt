@@ -33,6 +33,25 @@ export class TopicCloudAdminService {
   }
 
   static get getDefaultAdminData(): TopicCloudAdminData {
+    if (!globalThis['localStorage']) {
+      const obj = {
+        wantedLabels: {
+          de: this.getDefaultSpacyTags('de'),
+          en: this.getDefaultSpacyTags('en'),
+          fr: this.getDefaultSpacyTags('fr'),
+        },
+        considerVotes: true,
+        keywordORfulltext: KeywordOrFulltext.Both,
+        minQuestioners: 1,
+        minQuestions: 1,
+        minUpvotes: 0,
+        startDate: null,
+        endDate: null,
+        scorings: null,
+      };
+      ensureDefaultScorings(obj);
+      return obj;
+    }
     let data: TopicCloudAdminData = JSON.parse(
       localStorage.getItem(this.adminKey),
     );
