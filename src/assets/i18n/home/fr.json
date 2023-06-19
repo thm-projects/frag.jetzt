@@ -362,7 +362,7 @@
     "only-numbers": "Le code de la salle est alphanumérique.",
     "please-enter": "Quelle salle ?",
     "room-name-input": "Saisis ici le nom de la session que tu veux créer.",
-    "session-id": "Code de la salle …",
+    "session-id": "Code de salle …",
     "update-available": "Une nouvelle version est disponible."
   },
   "imprint": {

@@ -291,7 +291,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
       },
       description: {
         en: "Are you looking for the manual? Don't worry, you don't need one. There are only two menus: the navigation on the top left and the options on the top right. The navigation gives you access to all features of the platform. You can find the functions of each feature in the options menu. It couldn't be simpler.",
-        de: "Suchst du das Handbuch? Keine Sorge, du brauchst keins. Es gibt nur zwei Menüs: Die Navigation oben links und die Optionen oben rechts. Über die Navigation erhältst du Zugriff auf alle Features der Plattform. Die Funktionen jedes Features findest du im Optionsmenü. Einfacher geht’s nicht.",
+        de: 'Suchst du das Handbuch? Keine Sorge, du brauchst keins. Es gibt nur zwei Menüs: Die Navigation oben links und die Optionen oben rechts. Über die Navigation erhältst du Zugriff auf alle Features der Plattform. Die Funktionen jedes Features findest du im Optionsmenü. Einfacher geht’s nicht.',
         fr: "Tu cherches le manuel ? Ne t'inquiète pas, tu n'en as pas besoin. Il n'y a que deux menus : la navigation en haut à gauche et les options en haut à droite. La navigation te donne accès à toutes les fonctionnalités de la plateforme. Tu peux trouver les fonctions de chaque fonctionnalité dans le menu des options. Cela ne pourrait pas être plus simple.",
       },
       images: [
@@ -300,6 +300,28 @@ export class HomePageComponent implements OnInit, OnDestroy {
           override: {
             default: {
               'background-size': '28%',
+            },
+          },
+        },
+      ],
+    },
+    {
+      title: {
+        en: 'Test frag.jetzt!',
+        de: 'Teste frag.jetzt!',
+        fr: 'Teste frag.jetzt !',
+      },
+      description: {
+        en: 'Discover our experimental room and immerse yourself in the new world of audience-response systems! Enter the key code »Feedback«. Explore all features of our Q&A platform with ChatGPT, your personal AI tutor. Experiment with realistic data and use cases. Share your feedback, ask us your questions.',
+        de: 'Entdecke unseren Experimentierraum und tauche ein in die neue Welt der Audience-Response-Systeme! Gib den Raum-Code »Feedback« ein. Erkunde alle Funktionen unserer Q&A-Plattform mit ChatGPT, deinem persönlichen KI-Tutor. Experimentiere mit realistischen Daten und Use Cases. Teile dein Feedback, stelle uns deine Fragen.',
+        fr: "Découvre notre salle d'expérimentation et plonge-toi dans le monde novateur des systèmes de réponse de l'auditoire! Saisis le code de salle « Feedback ». Explore toutes les fonctionnalités de notre plateforme de Q&R avec ChatGPT, ton tuteur AI personnel. Expérimente avec des données réalistes et des cas d'utilisation. Partage tes commentaires, pose-nous tes questions.",
+      },
+      images: [
+        {
+          url: 'url("/assets/background/test-tubes.svg")',
+          override: {
+            default: {
+              'background-size': '34%',
             },
           },
         },
