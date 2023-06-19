@@ -69,5 +69,4 @@ export const highcontrast_meta: ThemeMeta = {
   scale_mobile: 1,
   previewColor: 'secondary',
   icon: 'contrast',
-  highlightJsClass: 'sunburst.css',
 };

@@ -121,19 +121,21 @@ export class WriteCommentComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this._mockMatcher = window.matchMedia(
-      '(min-width: ' +
-        (1500 + this.additionalMockOffset * 2 * 0.8 + 10) +
-        'px)',
-    );
-    this._mobileMockPossible = this._mockMatcher.matches;
-    this._mockListener = (e) => {
-      this._mobileMockPossible = e.matches;
-      if (!this._mobileMockPossible) {
-        this._mobileMockActive = false;
-      }
-    };
-    this._mockMatcher.addEventListener('change', this._mockListener);
+    if (globalThis['window']) {
+      this._mockMatcher = window.matchMedia(
+        '(min-width: ' +
+          (1500 + this.additionalMockOffset * 2 * 0.8 + 10) +
+          'px)',
+      );
+      this._mobileMockPossible = this._mockMatcher.matches;
+      this._mockListener = (e) => {
+        this._mobileMockPossible = e.matches;
+        if (!this._mobileMockPossible) {
+          this._mobileMockActive = false;
+        }
+      };
+      this._mockMatcher.addEventListener('change', this._mockListener);
+    }
     if (this.brainstormingData) {
       this.translateService
         .get('comment-page.brainstorming-placeholder', this.brainstormingData)
@@ -399,15 +401,17 @@ export class WriteCommentComponent implements OnInit, AfterViewInit, OnDestroy {
         return;
       }
       this.isSubmittingComment = true;
-      this._keywordExtractor.createCommentInteractive(options).subscribe({
-        next: (comment) => {
-          localStorage.setItem('comment-created', String(true));
-          this.onClose(comment);
-        },
-        error: () => {
-          // Ignore
-        },
-      });
+      if (globalThis['localStorage']) {
+        this._keywordExtractor.createCommentInteractive(options).subscribe({
+          next: (comment) => {
+            localStorage.setItem('comment-created', String(true));
+            this.onClose(comment);
+          },
+          error: () => {
+            // Ignore
+          },
+        });
+      }
     }
   }
 

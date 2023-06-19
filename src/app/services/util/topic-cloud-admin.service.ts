@@ -52,9 +52,9 @@ export class TopicCloudAdminService {
       ensureDefaultScorings(obj);
       return obj;
     }
-    let data: TopicCloudAdminData = JSON.parse(
+    let data: TopicCloudAdminData = globalThis['localStorage'] ? JSON.parse(
       localStorage.getItem(this.adminKey),
-    );
+    ) : null;
     if (!data) {
       data = {
         wantedLabels: {
@@ -144,10 +144,12 @@ export class TopicCloudAdminService {
     userRole: UserRole,
     data?: RoomPatch,
   ) {
-    localStorage.setItem(
-      TopicCloudAdminService.adminKey,
-      JSON.stringify(_adminData),
-    );
+    if (globalThis['localStorage']) {
+      localStorage.setItem(
+        TopicCloudAdminService.adminKey,
+        JSON.stringify(_adminData),
+      );
+    }
     this.adminData.next(_adminData);
     if (!id || !userRole || userRole <= UserRole.PARTICIPANT) {
       return;

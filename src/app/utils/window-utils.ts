@@ -1,3 +1,5 @@
+export const DOMAIN = globalThis['document'] ? '' : 'http://localhost:4200';
+
 export class WindowUtils {
   private _port: string;
   private _hostname: string;

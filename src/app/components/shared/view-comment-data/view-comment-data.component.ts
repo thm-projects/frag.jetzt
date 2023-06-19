@@ -182,6 +182,9 @@ export class ViewCommentDataComponent
   }
 
   recalcAspectRatio() {
+    if (!globalThis['window']) {
+      return;
+    }
     const elem = this.isEditor
       ? this.editor.editorElem.firstElementChild
       : this.quillView.editorElem.firstElementChild;
@@ -239,21 +242,23 @@ export class ViewCommentDataComponent
     }
     this._marks.sync();
     this.syncErrorLayer();
-    const tooltip: HTMLDivElement = document.querySelector('div.ql-tooltip');
-    if (tooltip) {
-      setTimeout(() => {
-        let left = parseFloat(tooltip.style.left);
-        const containerWidth =
-          this.editor.editorElem.getBoundingClientRect().width;
-        if (left < 0) {
-          tooltip.style.left = '0';
-          left = 0;
-        }
-        const right = left + tooltip.getBoundingClientRect().width;
-        if (right > containerWidth) {
-          tooltip.style.left = containerWidth - right + left + 'px';
-        }
-      });
+    if (globalThis['document']) {
+      const tooltip: HTMLDivElement = document.querySelector('div.ql-tooltip');
+      if (tooltip) {
+        setTimeout(() => {
+          let left = parseFloat(tooltip.style.left);
+          const containerWidth =
+            this.editor.editorElem.getBoundingClientRect().width;
+          if (left < 0) {
+            tooltip.style.left = '0';
+            left = 0;
+          }
+          const right = left + tooltip.getBoundingClientRect().width;
+          if (right > containerWidth) {
+            tooltip.style.left = containerWidth - right + left + 'px';
+          }
+        });
+      }
     }
     return wasLastPaste;
   }
@@ -365,6 +370,9 @@ export class ViewCommentDataComponent
       'quill.tooltip-action',
       'quill.tooltip-label',
     ];
+    if (!globalThis['document']) {
+      return;
+    }
     for (const variable of variables) {
       this.translateService.get(variable).subscribe((translation) => {
         document.body.style.setProperty(

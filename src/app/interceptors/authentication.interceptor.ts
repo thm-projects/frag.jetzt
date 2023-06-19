@@ -46,6 +46,7 @@ export class AuthenticationInterceptor implements HttpInterceptor {
     req: HttpRequest<unknown>,
     next: HttpHandler,
   ): Observable<HttpEvent<unknown>> {
+    console.log(req.url);
     if (!this.userManagementService.isLoggedIn()) {
       return next.handle(req);
     }

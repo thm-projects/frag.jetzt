@@ -12,6 +12,7 @@ import {
   ImportedComment,
   ImportedCommentFields,
 } from '../../utils/ImportExportMethods';
+import { DOMAIN } from 'app/utils/window-utils';
 
 const httpOptions = {
   // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -40,7 +41,7 @@ export type CommentAPI = Omit<
 @Injectable()
 export class CommentService extends BaseHttpService {
   private apiUrl = {
-    base: '/api',
+    base: DOMAIN + '/api',
     comment: '/comment',
     find: '/find',
     count: '/count',
@@ -105,7 +106,7 @@ export class CommentService extends BaseHttpService {
   }
 
   addComment(comment: Comment): Observable<Comment> {
-    const connectionUrl = this.apiUrl.base + this.apiUrl.comment + '/';
+    const connectionUrl = `${this.apiUrl.base}${this.apiUrl.comment}/`;
     return this.http
       .post<CommentAPI>(
         connectionUrl,
@@ -149,8 +150,7 @@ export class CommentService extends BaseHttpService {
       ) as JSONString;
       return c;
     });
-    const connectionUrl =
-      this.apiUrl.base + this.apiUrl.comment + this.apiUrl.import + '/';
+    const connectionUrl = `${this.apiUrl.base}${this.apiUrl.comment}${this.apiUrl.import}/`;
     return this.http
       .post<CommentAPI[]>(connectionUrl, importData, httpOptions)
       .pipe(
@@ -171,8 +171,7 @@ export class CommentService extends BaseHttpService {
   }
 
   getAckComments(roomId: string): Observable<Comment[]> {
-    const connectionUrl =
-      this.apiUrl.base + this.apiUrl.comment + this.apiUrl.find;
+    const connectionUrl = `${this.apiUrl.base}${this.apiUrl.comment}${this.apiUrl.find}`;
     return this.http
       .post<CommentAPI[]>(
         connectionUrl,
@@ -192,8 +191,7 @@ export class CommentService extends BaseHttpService {
   }
 
   getRejectedComments(roomId: string): Observable<Comment[]> {
-    const connectionUrl =
-      this.apiUrl.base + this.apiUrl.comment + this.apiUrl.find;
+    const connectionUrl = `${this.apiUrl.base}${this.apiUrl.comment}${this.apiUrl.find}`;
     return this.http
       .post<CommentAPI[]>(
         connectionUrl,
@@ -213,8 +211,7 @@ export class CommentService extends BaseHttpService {
   }
 
   getComments(roomId: string): Observable<Comment[]> {
-    const connectionUrl =
-      this.apiUrl.base + this.apiUrl.comment + this.apiUrl.find;
+    const connectionUrl = `${this.apiUrl.base}${this.apiUrl.comment}${this.apiUrl.find}`;
     return this.http
       .post<CommentAPI[]>(
         connectionUrl,
@@ -234,8 +231,7 @@ export class CommentService extends BaseHttpService {
   }
 
   updateComment(comment: Comment): Observable<Comment> {
-    const connectionUrl =
-      this.apiUrl.base + this.apiUrl.comment + '/' + comment.id;
+    const connectionUrl = `${this.apiUrl.base}${this.apiUrl.comment}/${comment.id}`;
     return this.http.put<Comment>(connectionUrl, comment, httpOptions).pipe(
       tap(() => ''),
       catchError(this.handleError<Comment>('updateComment')),
@@ -243,8 +239,7 @@ export class CommentService extends BaseHttpService {
   }
 
   patchComment(comment: Comment, changes: TSMap<string, unknown>) {
-    const connectionUrl =
-      this.apiUrl.base + this.apiUrl.comment + '/' + comment.id;
+    const connectionUrl = `${this.apiUrl.base}${this.apiUrl.comment}/${comment.id}`;
     return this.http
       .patch<CommentAPI>(connectionUrl, changes, httpOptions)
       .pipe(
@@ -255,8 +250,7 @@ export class CommentService extends BaseHttpService {
   }
 
   highlight(comment: Comment) {
-    const connectionUrl =
-      this.apiUrl.base + this.apiUrl.comment + '/' + comment.id + '/highlight';
+    const connectionUrl = `${this.apiUrl.base}${this.apiUrl.comment}/${comment.id}/highlight`;
     return this.http.post(connectionUrl, null, httpOptions).pipe(
       tap(() => ''),
       catchError(this.handleError<void>('highlightComment')),
@@ -264,8 +258,7 @@ export class CommentService extends BaseHttpService {
   }
 
   lowlight(comment: Comment) {
-    const connectionUrl =
-      this.apiUrl.base + this.apiUrl.comment + '/' + comment.id + '/lowlight';
+    const connectionUrl = `${this.apiUrl.base}${this.apiUrl.comment}/${comment.id}/lowlight`;
     return this.http.post(connectionUrl, null, httpOptions).pipe(
       tap(() => ''),
       catchError(this.handleError<void>('lowlightComment')),
@@ -273,7 +266,7 @@ export class CommentService extends BaseHttpService {
   }
 
   role(comment: Comment) {
-    const connectionUrl = this.apiUrl.comment + '/' + comment.id + '/role';
+    const connectionUrl = `${this.apiUrl.comment}/${comment.id}/role`;
     return this.http.patch(connectionUrl, httpOptions).pipe(
       tap(() => ''),
       catchError(this.handleError<void>('roleComment')),
@@ -291,9 +284,7 @@ export class CommentService extends BaseHttpService {
   }
 
   bulkDeleteComments(commentIds: string[]): Observable<void> {
-    const connectionUrl = `${
-      this.apiUrl.base + this.apiUrl.comment + this.apiUrl.bulkDelete
-    }`;
+    const connectionUrl = `${this.apiUrl.base}${this.apiUrl.comment}${this.apiUrl.bulkDelete}`;
     return this.http.post<void>(connectionUrl, commentIds, httpOptions).pipe(
       tap(() => ''),
       catchError(this.handleError<void>('bulkDeleteComments')),
@@ -301,8 +292,7 @@ export class CommentService extends BaseHttpService {
   }
 
   countByRoomId(rooms: CountRequest[]): Observable<RoomQuestionCounts[]> {
-    const connectionUrl =
-      this.apiUrl.base + this.apiUrl.comment + this.apiUrl.count;
+    const connectionUrl = `${this.apiUrl.base}${this.apiUrl.comment}${this.apiUrl.count}`;
     return this.http
       .post<RoomQuestionCounts[]>(connectionUrl, rooms, httpOptions)
       .pipe(
@@ -313,7 +303,7 @@ export class CommentService extends BaseHttpService {
 
   voteUp(comment: Comment, userId: string): Observable<Vote> {
     const vote = { accountId: userId, commentId: comment.id, vote: 1 };
-    const connectionUrl = this.apiUrl.base + this.apiUrl.vote + '/';
+    const connectionUrl = `${this.apiUrl.base}${this.apiUrl.vote}/`;
     return this.http.post<Vote>(connectionUrl, vote, httpOptions).pipe(
       tap(() => ''),
       catchError(this.handleError<Vote>('voteUp')),
@@ -322,7 +312,7 @@ export class CommentService extends BaseHttpService {
 
   voteDown(comment: Comment, userId: string): Observable<Vote> {
     const vote = { accountId: userId, commentId: comment.id, vote: -1 };
-    const connectionUrl = this.apiUrl.base + this.apiUrl.vote + '/';
+    const connectionUrl = `${this.apiUrl.base}${this.apiUrl.vote}/`;
     return this.http.post<Vote>(connectionUrl, vote, httpOptions).pipe(
       tap(() => ''),
       catchError(this.handleError<Vote>('voteUp')),
@@ -331,7 +321,7 @@ export class CommentService extends BaseHttpService {
 
   resetVote(comment: Comment, userId: string): Observable<Vote> {
     const vote = { accountId: userId, commentId: comment.id, vote: 0 };
-    const connectionUrl = this.apiUrl.base + this.apiUrl.vote + '/';
+    const connectionUrl = `${this.apiUrl.base}${this.apiUrl.vote}/`;
     return this.http.post<Vote>(connectionUrl, vote, httpOptions).pipe(
       tap(() => ''),
       catchError(this.handleError<Vote>('voteUp')),

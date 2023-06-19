@@ -133,9 +133,12 @@ export class CommentAnswerComponent
           this.roleString = 'moderator';
       }
     });
-    if (this.backUrl && this.isConversationView) {
-      document.getElementById('header_rescale').style.display = 'none';
+    if (globalThis['document']) {
+      if (this.backUrl && this.isConversationView) {
+        document.getElementById('header_rescale').style.display = 'none';
+      }
     }
+
     this.route.params.subscribe((params) => {
       const commentId = params['commentId'];
       forkJoin([
@@ -205,7 +208,9 @@ export class CommentAnswerComponent
     this.destroyer.next(true);
     this.destroyer.complete();
     sessionStorage.removeItem('conversation-fallback-url');
-    document.getElementById('header_rescale').style.display = '';
+    if (!globalThis['document']) {
+      document.getElementById('header_rescale').style.display = '';
+    }
     this._list?.forEach((e) => e.destroy());
     this._commentSubscription?.unsubscribe();
     if (this.comment && !this.isStudent) {
@@ -217,7 +222,9 @@ export class CommentAnswerComponent
     if (KeyboardUtils.isKeyEvent(event, KeyboardKey.Escape)) {
       if (this.eventService.focusOnInput) {
         this.eventService.makeFocusOnInputFalse();
-        (document.activeElement as HTMLElement).blur();
+        if (!globalThis['document']) {
+          (document.activeElement as HTMLElement).blur();
+        }
         return;
       }
       this.goBackToCommentList();
@@ -226,6 +233,9 @@ export class CommentAnswerComponent
 
   checkForBackDropClick(event: PointerEvent, ...elements: Node[]) {
     if (this.isConversationView || !this.isConversationView) {
+      return;
+    }
+    if (!globalThis['document']) {
       return;
     }
     const target = event.target as Node;

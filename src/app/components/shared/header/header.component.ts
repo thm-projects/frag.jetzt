@@ -165,10 +165,12 @@ export class HeaderComponent implements OnInit, AfterViewInit {
 
     let time = new Date();
     this.getTime(time);
-    setInterval(() => {
-      time = new Date();
-      this.getTime(time);
-    }, 1000);
+    if (globalThis['document']) {
+      setInterval(() => {
+        time = new Date();
+        this.getTime(time);
+      }, 1000);
+    }
 
     this.sessionService.getRoom().subscribe((room) => {
       this.room = room;

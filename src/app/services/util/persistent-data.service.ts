@@ -235,10 +235,12 @@ class LocalDataAccess implements DataAccess {
     this.getMeta(storeName);
     const result = [];
     const prefix = this.makeIdentifier(storeName, '');
-    for (let i = 0; i < localStorage.length; i++) {
-      const key = localStorage.key(i);
-      if (key.startsWith(prefix)) {
-        result.push(JSON.parse(localStorage.getItem(key)));
+    if (globalThis['localStorage']) {
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key.startsWith(prefix)) {
+          result.push(JSON.parse(localStorage.getItem(key)));
+        }
       }
     }
     return of(result);
@@ -265,20 +267,22 @@ class LocalDataAccess implements DataAccess {
     }
     const result = [];
     const key = `idb-${storeName}-${indexName}.${keyRange.lower}`;
-    const raw = localStorage.getItem(key);
-    if (entry.options?.unique) {
-      if (raw) {
-        result.push(
-          JSON.parse(localStorage.getItem(this.makeIdentifier(storeName, raw))),
-        );
+    if (globalThis['localStorage']) {
+      const raw = localStorage.getItem(key);
+      if (entry.options?.unique) {
+        if (raw) {
+          result.push(
+            JSON.parse(localStorage.getItem(this.makeIdentifier(storeName, raw))),
+          );
+        }
+      } else {
+        const arr = JSON.parse(raw) || [];
+        arr.forEach((key) => {
+          result.push(
+            JSON.parse(localStorage.getItem(this.makeIdentifier(storeName, key))),
+          );
+        });
       }
-    } else {
-      const arr = JSON.parse(raw) || [];
-      arr.forEach((key) => {
-        result.push(
-          JSON.parse(localStorage.getItem(this.makeIdentifier(storeName, key))),
-        );
-      });
     }
     return of(result);
   }
@@ -286,16 +290,21 @@ class LocalDataAccess implements DataAccess {
   bulkGet(storeName: string, keys: IDBValidKey[]) {
     this.getMeta(storeName);
     const result = [];
-    keys.forEach((key) => {
-      const id = typeof key === 'string' ? key : (key as string[]).join('.');
-      const locId = this.makeIdentifier(storeName, id);
-      result.push(JSON.parse(localStorage.getItem(locId)));
-    });
+    if (globalThis['localStorage']) {
+      keys.forEach((key) => {
+        const id = typeof key === 'string' ? key : (key as string[]).join('.');
+        const locId = this.makeIdentifier(storeName, id);
+        result.push(JSON.parse(localStorage.getItem(locId)));
+      });
+    }
     return of(result);
   }
 
   getByKey<T>(storeName: string, key: IDBValidKey): Observable<T> {
     this.getMeta(storeName);
+    if (!globalThis['localStorage']) {
+      return of(undefined);
+    }
     const id = typeof key === 'string' ? key : (key as string[]).join('.');
     const locId = this.makeIdentifier(storeName, id);
     return of(JSON.parse(localStorage.getItem(locId)));
@@ -314,11 +323,15 @@ class LocalDataAccess implements DataAccess {
     const id =
       typeof keyPath === 'string' ? keyPath : (keyPath as string[]).join('.');
     const locId = this.makeIdentifier(store, id);
+    if (!globalThis['localStorage']) {
+      return false;
+    }
     const data = localStorage.getItem(locId);
     if (!data) {
       return false;
     }
     localStorage.removeItem(locId);
+
     this.deleteSchema(store, meta, data, id);
     return true;
   }
@@ -334,11 +347,13 @@ class LocalDataAccess implements DataAccess {
     }
     const id = this.getId(meta.storeConfig.keyPath, value);
     const locId = this.makeIdentifier(store, id);
-    if (!allowPresent && localStorage.getItem(locId)) {
+    if (!allowPresent && (globalThis['localStorage'] ? localStorage.getItem(locId): true)) {
       throw new Error('Already present!');
     }
     this.updateSchema(store, meta, value, id);
-    localStorage.setItem(locId, JSON.stringify(value));
+    if (globalThis['localStorage']) {
+      localStorage.setItem(locId, JSON.stringify(value));
+    }
   }
 
   private deleteSchema(
@@ -353,14 +368,16 @@ class LocalDataAccess implements DataAccess {
         schema.keypath,
         value,
       )}`;
-      if (isUnique) {
-        localStorage.removeItem(key);
-      } else {
-        const arr: string[] = JSON.parse(localStorage.getItem(key)) || [];
-        localStorage.setItem(
-          key,
-          JSON.stringify(arr.filter((x) => x !== valueId)),
-        );
+      if (globalThis['localStorage']) {
+        if (isUnique) {
+          localStorage.removeItem(key);
+        } else {
+          const arr: string[] = JSON.parse(localStorage.getItem(key)) || [];
+          localStorage.setItem(
+            key,
+            JSON.stringify(arr.filter((x) => x !== valueId)),
+          );
+        }
       }
     });
   }
@@ -371,28 +388,30 @@ class LocalDataAccess implements DataAccess {
     value: unknown,
     valueId: string,
   ): void {
-    meta.storeSchema.forEach((schema) => {
-      const isUnique = Boolean(schema.options?.unique);
-      const key = `idb-${store}-${schema.name}.${this.getId(
-        schema.keypath,
-        value,
-      )}`;
-      const oldVal = localStorage.getItem(key);
-      if (isUnique) {
-        if (Boolean(oldVal) && oldVal !== valueId) {
-          throw new Error(
-            schema.name + ' for store ' + store + ' should be unique!',
-          );
+    if (globalThis['localStorage']) {
+      meta.storeSchema.forEach((schema) => {
+        const isUnique = Boolean(schema.options?.unique);
+        const key = `idb-${store}-${schema.name}.${this.getId(
+          schema.keypath,
+          value,
+        )}`;
+        const oldVal = localStorage.getItem(key);
+        if (isUnique) {
+          if (Boolean(oldVal) && oldVal !== valueId) {
+            throw new Error(
+              schema.name + ' for store ' + store + ' should be unique!',
+            );
+          }
+          localStorage.setItem(key, valueId);
+        } else {
+          const arr = (JSON.parse(oldVal) as unknown[]) || [];
+          if (!arr.includes(valueId)) {
+            arr.push(valueId);
+          }
+          localStorage.setItem(key, JSON.stringify(arr));
         }
-        localStorage.setItem(key, valueId);
-      } else {
-        const arr = (JSON.parse(oldVal) as unknown[]) || [];
-        if (!arr.includes(valueId)) {
-          arr.push(valueId);
-        }
-        localStorage.setItem(key, JSON.stringify(arr));
-      }
-    });
+      });
+    }
   }
 
   private makeIdentifier(store: string, id: string): string {

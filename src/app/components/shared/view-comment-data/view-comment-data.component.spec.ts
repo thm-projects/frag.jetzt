@@ -8,15 +8,9 @@ import { EventService } from '../../../services/util/event.service';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ArsModule } from '../../../../../projects/ars/src/lib/ars.module';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { HttpClient } from '@angular/common/http';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateServiceMock } from '../../../services/mocks/translate.service.mock';
 import { NgxIndexedDBModule } from 'ngx-indexed-db';
 import { DB_CONFIG } from '../../../../indexeddb';
-
-export const HttpLoaderFactory = (http: HttpClient) => {
-  new TranslateHttpLoader(http, '../../assets/i18n/participant/', '.json');
-};
 
 describe('ViewCommentDataComponent', () => {
   let component: ViewCommentDataComponent;

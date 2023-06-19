@@ -615,7 +615,9 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
     this.route.params.subscribe((params) => {
       url = `${this.roleString}/room/${params['shortId']}/comment/${this.comment.id}`;
     });
-    localStorage.setItem('answeringQuestion', this.comment.id);
+    if (globalThis['localStorage']) {
+      localStorage.setItem('answeringQuestion', this.comment.id);
+    }
     this.router.navigate([url]);
   }
 
@@ -633,7 +635,9 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
       const ref = this.comment.commentReference;
       url = ref ? url + '/' + ref + '/conversation' : url + 's';
     });
-    localStorage.setItem('answeringQuestion', this.comment.id);
+    if (!globalThis['localStorage']) {
+      localStorage.setItem('answeringQuestion', this.comment.id);
+    }
     this.router.navigate([url]);
   }
 
@@ -770,8 +774,9 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
     this.route.params.subscribe((params) => {
       url = `${this.roleString}/room/${params['shortId']}/gpt-chat-room`;
     });
-
-    localStorage.setItem('answeringQuestion', this.comment.id);
+    if (!globalThis['localStorage']) {
+      localStorage.setItem('answeringQuestion', this.comment.id);
+    }
     this.eventService
       .on('gptchat-room.init')
       .pipe(take(1))
@@ -1107,6 +1112,9 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private getMaxElem() {
+    if (!globalThis['window']) {
+      return;
+    }
     const width = Math.min(window.innerWidth, 950) * 0.8 - 100;
     return Math.floor(width / 40) - 1;
   }

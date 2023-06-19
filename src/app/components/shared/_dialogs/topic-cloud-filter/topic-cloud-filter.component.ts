@@ -116,7 +116,7 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
     userRole: UserRole,
     roomId: string,
   ): boolean {
-    const data = localStorage.getItem('commentListKeywordGen');
+    const data = globalThis['localStorage'] ? localStorage.getItem('commentListKeywordGen') : null;
     const set = new Set<string>(data ? JSON.parse(data) : []);
     let count = 0;
     let newCount = 0;
@@ -144,12 +144,15 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
   }
 
   public static startUpdate(dialog: MatDialog, room: Room, userRole: UserRole) {
-    const data = localStorage.getItem('commentListKeywordGen');
+    const data = globalThis['localStorage'] ? localStorage.getItem('commentListKeywordGen'): null;
     const set = new Set<string>(data ? JSON.parse(data) : []);
     if (userRole === UserRole.PARTICIPANT && set.has(room.id)) {
       return;
     }
     WorkerDialogComponent.addWorkTask(dialog, room);
+    if (!globalThis['localStorage']) {
+      return;
+    }
     if (userRole === UserRole.PARTICIPANT) {
       localStorage.setItem(
         'commentListKeywordGen',

@@ -32,6 +32,9 @@ export class ModeratorCommentPageComponent
   ) {}
 
   ngAfterContentInit(): void {
+    if (!globalThis['document']) {
+      return;
+    }
     setTimeout(() => {
       document.getElementById('live_announcer-button').focus();
     }, 500);
@@ -39,6 +42,9 @@ export class ModeratorCommentPageComponent
 
   ngOnInit(): void {
     this.announce();
+    if (!globalThis['document']) {
+      return;
+    }
     this.listenerFn = this._r.listen(document, 'keyup', (event) => {
       if (
         KeyboardUtils.isKeyEvent(event, KeyboardKey.Digit1) === true &&
@@ -89,7 +95,7 @@ export class ModeratorCommentPageComponent
   }
 
   ngOnDestroy() {
-    this.listenerFn();
+    this.listenerFn?.();
     this.eventService.makeFocusOnInputFalse();
   }
 

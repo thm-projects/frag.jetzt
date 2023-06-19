@@ -1,10 +1,11 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
 import { MatomoInjector, MatomoTracker } from 'ngx-matomo-v9';
 import { NavigationEnd, Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
 import { User } from '../../models/user';
 import { UserRole } from '../../models/user-roles.enum';
 import { UserManagementService } from './user-management.service';
+import { DOMAIN } from 'app/utils/window-utils';
 
 @Injectable({
   providedIn: 'root',
@@ -106,7 +107,7 @@ export class MatomoTrackingService {
   ] as const;
 
   constructor(
-    private matomoInjector: MatomoInjector,
+    private injector: Injector,
     private matomoTracker: MatomoTracker,
     private router: Router,
     private userManagementService: UserManagementService,
@@ -114,7 +115,7 @@ export class MatomoTrackingService {
     if (environment.name !== 'prod') {
       return;
     }
-    this.matomoInjector.init('/matomo/', 6);
+    injector.get(MatomoInjector).init(DOMAIN + '/matomo/', 6);
     this.userManagementService.getUser().subscribe((user) => {
       this.currentUser = user;
       if (user?.id) {

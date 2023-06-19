@@ -38,18 +38,20 @@ export class CookiesComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     setTimeout(() => {
-      const elem = this.ref.nativeElement.getElementsByClassName(
-        'mat-dialog-title',
-      );
-      if(!elem) {
+      const elem =
+        this.ref.nativeElement.getElementsByClassName('mat-dialog-title');
+      if (!elem) {
         return;
       }
-      (elem[0] as HTMLElement).focus();
+      (elem[0] as HTMLElement)?.focus?.();
     }, 500);
   }
 
   acceptCookies() {
     this.dialogRef.close(true);
+    if (!globalThis['document']) {
+      return;
+    }
     setTimeout(() => {
       document.getElementById('live_announcer-button').focus();
     }, 500);

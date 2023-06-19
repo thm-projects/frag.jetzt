@@ -14,8 +14,17 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { LanguageService } from '../../services/util/language.service';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
-export const HttpLoaderFactory = (http: HttpClient) =>
-  new TranslateHttpLoader(http, '../../assets/i18n/participant/', '.json');
+export const HttpLoaderFactory = (http: HttpClient) => {
+  let key = '../..';
+  if (globalThis['process']) {
+    key = 'http://localhost:4200';
+  }
+  return new TranslateHttpLoader(
+    http,
+    key + '/assets/i18n/participant/',
+    '.json',
+  );
+};
 
 @NgModule({
   imports: [

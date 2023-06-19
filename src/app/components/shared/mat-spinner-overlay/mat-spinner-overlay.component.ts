@@ -45,8 +45,11 @@ export class MatSpinnerOverlayComponent implements OnInit, AfterViewInit {
     if (this.parentFontContainer && !this.overlay) {
       const elem = this.renderer2.createElement('canvas');
       const ctx = elem.getContext('2d');
-      const style = window.getComputedStyle(this.parentFontContainer);
-      ctx.font = style.font;
+      if (!globalThis['window']) {
+        const style = window.getComputedStyle(this.parentFontContainer);
+        ctx.font = style.font;
+      }
+
       const metric = ctx.measureText(this.parentFontContainer.innerText);
       this.diameter =
         Math.abs(metric.fontBoundingBoxAscent) +

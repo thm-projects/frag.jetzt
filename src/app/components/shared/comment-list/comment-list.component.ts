@@ -211,7 +211,7 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
     filter.resetToDefault();
     this._cloudFilterObject.dataFilter = filter;
     this.initNavigation();
-    const data = localStorage.getItem('commentListPageSize');
+    const data = globalThis["localStorage"] ? localStorage.getItem('commentListPageSize') : null;
     this.pageSize = data ? +data || this.pageSize : this.pageSize;
     this.userManagementService.getUser().subscribe((newUser) => {
       if (!newUser) {
@@ -293,10 +293,16 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
     this.commentStream?.unsubscribe();
     this.titleService.resetTitle();
     this.headerInterface?.unsubscribe();
+    if (!globalThis['localStorage']) {
+      return;
+    }
     localStorage.setItem('commentListPageSize', String(this.pageSize));
   }
 
   checkScroll(): void {
+    if (!globalThis['document']) {
+      return;
+    }
     const currentScroll = document.documentElement.scrollTop;
     this.scroll = currentScroll >= 65;
     this.scrollExtended = currentScroll >= 300;
@@ -344,7 +350,9 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
       if (this._filterObject.dataFilter.currentSearch) {
         this.search = true;
       }
-      this.setFocusedComment(localStorage.getItem('answeringQuestion'));
+      if (globalThis['localStorage']) {
+        this.setFocusedComment(localStorage.getItem('answeringQuestion'));
+      }
       this.isJoyrideActive = this.onboardingService.startDefaultTour();
     }
     const allComments = [...this._filterObject.getSourceData()];
@@ -483,7 +491,9 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
   public announceNewComment(comment: string) {
     // update variable so text will be fetched to DOM
     this.newestComment = comment;
-
+    if (!globalThis['document']) {
+      return;
+    }
     // Currently the only possible way to announce the new comment text
     // @see https://github.com/angular/angular/issues/11405
     setTimeout(() => {

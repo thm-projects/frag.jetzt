@@ -5,6 +5,7 @@ import { Rating } from '../../models/rating';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, tap } from 'rxjs/operators';
 import { RatingResult } from '../../models/rating-result';
+import { DOMAIN } from 'app/utils/window-utils';
 
 const httpOptions = {
   // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -16,7 +17,7 @@ const httpOptions = {
 })
 export class RatingService extends BaseHttpService {
   private apiUrl = {
-    base: '/api',
+    base: DOMAIN + '/api',
     rating: '/rating',
     accumulated: '/accumulated',
   };

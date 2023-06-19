@@ -176,6 +176,9 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
   }
 
   checkScroll(): void {
+    if (!globalThis['document']) {
+      return;
+    }
     const currentScroll = document.documentElement.scrollTop;
     this.scroll = currentScroll >= 65;
     this.scrollExtended = currentScroll >= 300;

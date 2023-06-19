@@ -409,6 +409,9 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   }
 
   editKeyword(index: number): void {
+    if (!globalThis['document']) {
+      return;
+    }
     this.edit = true;
     setTimeout(() => {
       document.getElementById('edit-input' + index).focus();
@@ -577,6 +580,9 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   }
 
   focusInput(id: string) {
+    if (!globalThis['document']) {
+      return;
+    }
     setTimeout(() => {
       document.getElementById(id).focus();
     }, 100);

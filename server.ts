@@ -21,6 +21,11 @@ export function app(): express.Express {
     ? 'index.original.html'
     : 'index';
 
+  server.use((req, res, next) => {
+    console.log('Try to access: ' + req.path);
+    next();
+  });
+
   // Our Universal express-engine (found @ https://github.com/angular/universal/tree/main/modules/express-engine)
   server.engine(
     'html',
@@ -42,7 +47,8 @@ export function app(): express.Express {
     }),
   );
 
-  server.all('/matomo', (req, res) => {
+  server.all('/matomo/*', (req, res) => {
+    req.url = req.url.substring(7);
     proxy.web(req, res, {
       target: 'https://stats.frag.jetzt',
       secure: true,
@@ -57,7 +63,8 @@ export function app(): express.Express {
     res.send();
   });
 
-  server.all('/deepl', (req, res) => {
+  server.all('/deepl/*', (req, res) => {
+    req.url = req.url.substring(6);
     req.headers.authorization = 'DeepL-Auth-Key DEEPL_API_KEY';
     proxy.web(req, res, {
       target: process.env.DEEPL_ADDRESS || 'https://api-free.deepl.com/v2',
@@ -66,7 +73,8 @@ export function app(): express.Express {
     });
   });
 
-  server.all('/languagetool', (req, res) => {
+  server.all('/languagetool/*', (req, res) => {
+    req.url = req.url.substring(13);
     proxy.web(req, res, {
       target: process.env.LT_ADDRESS || 'https://frag.jetzt/languagetool',
       secure: true,
@@ -74,7 +82,8 @@ export function app(): express.Express {
     });
   });
 
-  server.all('/spacy', (req, res) => {
+  server.all('/spacy/*', (req, res) => {
+    req.url = req.url.substring(6);
     proxy.web(req, res, {
       target: process.env.SPACY_ADDRESS || 'https://frag.jetzt/spacy',
       secure: true,
@@ -82,7 +91,8 @@ export function app(): express.Express {
     });
   });
 
-  server.all('/lemmatize', (req, res) => {
+  server.all('/lemmatize/*', (req, res) => {
+    req.url = req.url.substring(10);
     proxy.web(req, res, {
       target: process.env.LEMMATIZE_ADDRESS || 'https://frag.jetzt/lemmatize',
       secure: true,
@@ -100,8 +110,11 @@ export function app(): express.Express {
       },
     };
   }
-  server.all('/gateway/ws/websocket', (req, res) => {
-    proxy.web(req, res, {
+  server.all('/gateway/ws/websocket/*', (req, res) => {
+    console.log(123);
+    const rewrite = process.env.WS_GATEWAY_WS_REWRITE  || '^/gateway';
+    req.url = req.url.substring(rewrite.length - 1);
+    proxy.ws(req, res, {
       target: process.env.WS_GATEWAY_HTTP_ADDRESS || 'http://localhost:8080',
       secure: Boolean(process.env.BACKEND_SECURE || false),
       ws: true,
@@ -109,7 +122,9 @@ export function app(): express.Express {
     });
   });
 
-  server.all('/gateway-api', (req, res) => {
+  server.all('/gateway-api/*', (req, res) => {
+    const rewrite = process.env.WS_GATEWAY_HTTP_REWRITE || '^/gateway-api';
+    req.url = req.url.substring(rewrite.length - 1);
     proxy.web(req, res, {
       target: process.env.WS_GATEWAY_HTTP_ADDRESS || 'http://localhost:8080',
       secure: Boolean(process.env.BACKEND_SECURE || false),
@@ -117,17 +132,23 @@ export function app(): express.Express {
     });
   });
 
-  server.all('/api', (req, res) => {
-    console.log(req.path);
+  server.all('/api/*', (req, res) => {
+    req.url = req.url.substring(4);
     proxy.web(req, res, {
       target: process.env.BACKEND_ADDRESS || 'http://localhost:8888',
-      secure: Boolean(process.env.BACKEND_SECURE || false),
-      changeOrigin: Boolean(process.env.BACKEND_CHANGE_ORIGIN || false),
+      secure: false,
+      changeOrigin: true,
+    }, (e, req, res, target) => {
+      console.log(e, req, res, target);
     });
   });
 
   // All regular routes use the Universal engine
   server.get('*', (req, res) => {
+    if (req.path === '/favicon.ico') {
+      res.sendStatus(404);
+      return;
+    }
     res.render(indexHtml, {
       req,
       providers: [{ provide: APP_BASE_HREF, useValue: req.baseUrl }],

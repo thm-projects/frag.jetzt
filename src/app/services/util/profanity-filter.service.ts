@@ -66,7 +66,9 @@ export class ProfanityFilterService {
       return;
     }
     plist.push(word);
-    localStorage.setItem(this.profanityKey, JSON.stringify(plist));
+    if (globalThis['localStorage']) {
+      localStorage.setItem(this.profanityKey, JSON.stringify(plist));
+    }
     this.customProfanityWords.next(this.createProfanityList());
   }
 
@@ -84,12 +86,16 @@ export class ProfanityFilterService {
       return;
     }
     plist.splice(index, 1);
-    localStorage.setItem(this.profanityKey, JSON.stringify(plist));
+    if (globalThis['localStorage']) {
+      localStorage.setItem(this.profanityKey, JSON.stringify(plist));
+    }
     this.customProfanityWords.next(this.createProfanityList());
   }
 
   removeProfanityList() {
-    localStorage.removeItem(this.profanityKey);
+    if (globalThis['localStorage']) {
+      localStorage.removeItem(this.profanityKey);
+    }
   }
 
   filterProfanityWords(

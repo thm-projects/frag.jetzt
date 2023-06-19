@@ -118,19 +118,21 @@ export const uploadCSV = (): Observable<string> =>
       { once: true },
     );
     const func = (e) => {
-      if (e.target === window) {
-        window.addEventListener('focus', func, { once: true });
-        return;
-      }
-      input.remove();
-      setTimeout(() => {
-        if (!hadData) {
-          subscriber.next(null);
-          subscriber.complete();
+      if (globalThis['window']) {
+        if (e.target === window) {
+          window.addEventListener('focus', func, { once: true });
+          return;
         }
-      });
-    };
-    window.addEventListener('focus', func, { once: true });
+        input.remove();
+        setTimeout(() => {
+          if (!hadData) {
+            subscriber.next(null);
+            subscriber.complete();
+          }
+        });
+      };
+      window.addEventListener('focus', func, { once: true });
+      }
   });
 
 export interface BonusArchiveEntry {

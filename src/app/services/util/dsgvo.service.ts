@@ -1,4 +1,4 @@
-import { Injectable, Renderer2 } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { DsgvoBuilder, DsgvoSource } from '../../utils/dsgvo-builder';
 
@@ -8,10 +8,7 @@ import { DsgvoBuilder, DsgvoSource } from '../../utils/dsgvo-builder';
 export class DSGVOService {
   private _observer: MutationObserver;
 
-  constructor(
-    private translateService: TranslateService,
-    private renderer2: Renderer2,
-  ) {
+  constructor(private translateService: TranslateService) {
     if (!globalThis['MutationObserver']) {
       return;
     }
@@ -81,7 +78,6 @@ export class DSGVOService {
     iframe['stop']?.();
     const computed = getComputedStyle(iframe);
     const newElem = DsgvoBuilder.buildArticle(
-      this.renderer2,
       computed.height,
       url,
       messageId,

@@ -34,12 +34,18 @@ export class CommentPageComponent
   ) {}
 
   ngAfterContentInit(): void {
+    if (!globalThis['document']) {
+      return;
+    }
     setTimeout(() => {
       document.getElementById('live_announcer-button').focus();
     }, 800);
   }
 
   ngOnInit(): void {
+    if (!globalThis['document']) {
+      return;
+    }
     this.listenerFn = this._r.listen(document, 'keyup', (event) => {
       if (this.eventService.focusOnInput) {
         this.a11yCheckEventsOnFocus(event);
@@ -80,7 +86,7 @@ export class CommentPageComponent
   }
 
   ngOnDestroy() {
-    this.listenerFn();
+    this.listenerFn?.();
     this.eventService.makeFocusOnInputFalse();
   }
 
@@ -111,6 +117,9 @@ export class CommentPageComponent
   }
 
   private a11yCheckEventsOnFocus(event: KeyboardEvent) {
+    if (!globalThis['document']) {
+      return;
+    }
     if (!KeyboardUtils.isKeyEvent(event, KeyboardKey.Escape)) {
       return;
     }
@@ -126,6 +135,9 @@ export class CommentPageComponent
   }
 
   private a11yFocusAddCommentButton() {
+    if (!globalThis['document']) {
+      return;
+    }
     if (document.getElementById('add_comment-button')) {
       document.getElementById('add_comment-button').focus();
     } else {
@@ -134,6 +146,9 @@ export class CommentPageComponent
   }
 
   private a11yFocusSortButton() {
+    if (!globalThis['document']) {
+      return;
+    }
     if (
       document.body.contains(document.getElementById('sort-button')) === false
     ) {
@@ -154,6 +169,9 @@ export class CommentPageComponent
   }
 
   private a11yFocusFilterButton() {
+    if (!globalThis['document']) {
+      return;
+    }
     if (
       document.body.contains(document.getElementById('filter-button')) === false
     ) {

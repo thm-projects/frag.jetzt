@@ -1,4 +1,4 @@
-import { Injectable, Renderer2 } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Observable, ReplaySubject, tap } from 'rxjs';
 import { themes, themes_meta } from './arsnova-theme.const';
 import { Theme } from './Theme';
@@ -16,13 +16,11 @@ export class ThemeService {
   private _activeTheme: Theme = null;
   private _initialized = false;
   private _style: HTMLStyleElement;
-  private _textNode: Text;
 
   constructor(
     private deviceInfo: DeviceInfoService,
     private configurationService: ConfigurationService,
     private httpClient: HttpClient,
-    private renderer2: Renderer2,
   ) {}
 
   get activeTheme(): Theme {
@@ -37,8 +35,10 @@ export class ThemeService {
     if (this._initialized) {
       return;
     }
-    this._style = this.renderer2.createElement('style');
-    this.renderer2.selectRootElement('head')?.append?.(this._style);
+    if (globalThis['document']) {
+      this._style = globalThis.document.createElement('style');
+      globalThis.document.head.append(this._style);
+    }
     for (const k of Object.keys(themes)) {
       if (
         !themes_meta[k].availableOnMobile &&
@@ -104,18 +104,5 @@ export class ThemeService {
   private setCurrentTheme(theme: Theme) {
     this._currentTheme = theme;
     this.replaySubject.next(theme);
-    this.get(theme.meta.highlightJsClass).subscribe((data) => {
-      this._textNode?.remove();
-      this._textNode = document.createTextNode(data);
-      this._style.append(this._textNode);
-    });
-  }
-
-  private get(name: string): Observable<string> {
-    return this.httpClient
-      .get('/assets/styles/highlight-js/' + name, {
-        responseType: 'text',
-      })
-      .pipe(tap(() => ''));
   }
 }

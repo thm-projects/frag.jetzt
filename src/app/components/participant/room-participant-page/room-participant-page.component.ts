@@ -39,12 +39,18 @@ export class RoomParticipantPageComponent
   }
 
   ngAfterContentInit(): void {
+    if (!globalThis['document']) {
+      return;
+    }
     setTimeout(() => {
       document.getElementById('live_announcer-button').focus();
     }, 700);
   }
 
   ngOnInit() {
+    if (!globalThis['document']) {
+      return;
+    }
     window.scroll(0, 0);
     this.initializeRoom();
     this.listenerFn = this._r.listen(document, 'keyup', (event) => {

@@ -23,14 +23,15 @@ export class DsgvoVideo {
       node.append(DsgvoBuilder.buildIframe(renderer2, url));
     } else {
       const article = DsgvoBuilder.buildArticle(
-        renderer2,
         '200px',
         url,
         messageId,
         this.translator,
         () => {
           if (source === DsgvoSource.ExternalUntrusted) {
-            window.open(url, '_blank').focus();
+            if (globalThis['window']) {
+              window.open(url, '_blank').focus();
+            }
             return;
           }
           node.replaceChild(DsgvoBuilder.buildIframe(renderer2, url), article);

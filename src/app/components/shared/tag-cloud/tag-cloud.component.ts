@@ -244,11 +244,13 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     this.destroyer.next(true);
     this.destroyer.complete();
     this.dataManager.unloadCloud();
-    const customTagCloudStyles = document.getElementById(
-      'tagCloudStyles',
-    ) as HTMLStyleElement;
-    if (customTagCloudStyles) {
-      customTagCloudStyles.sheet.disabled = true;
+    if (globalThis['document']) {
+      const customTagCloudStyles = document.getElementById(
+        'tagCloudStyles',
+      ) as HTMLStyleElement;
+      if (customTagCloudStyles) {
+        customTagCloudStyles.sheet.disabled = true;
+      }
     }
     this.themeSubscription?.unsubscribe();
     this._subscriptionRoom?.unsubscribe();

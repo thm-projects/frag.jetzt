@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { RxStomp } from '@stomp/rx-stomp';
 import { User } from '../../models/user';
 import { ARSRxStompConfig } from '../../rx-stomp.config';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { IMessage } from '@stomp/stompjs';
 import { UserManagementService } from '../util/user-management.service';
 
@@ -21,7 +21,10 @@ export class WsConnectorService {
   private deactivationPromise: Promise<void>;
   private isConnecting: boolean = false;
 
-  constructor(private userManagementService: UserManagementService) {
+  constructor(userManagementService: UserManagementService) {
+    if (!globalThis['document']) {
+      return;
+    }
     this.client = new RxStomp();
     this.client.connectionState$.subscribe(() => {
       const connected = !!this.client.stompClient.connected;
@@ -48,6 +51,9 @@ export class WsConnectorService {
     topic: string,
     additionalHeaders = {},
   ): Observable<IMessage> {
+    if (!this.client) {
+      return of();
+    }
     if (this.client.connected) {
       return this.client.watch(topic, {
         ...this.headers,

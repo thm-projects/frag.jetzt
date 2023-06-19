@@ -103,14 +103,16 @@ export class CloudParameters {
   }
 
   static set currentParameters(parameters: CloudParameters) {
-    localStorage.setItem('tagCloudConfiguration', JSON.stringify(parameters));
+    if (globalThis['localStorage']) {
+      localStorage.setItem('tagCloudConfiguration', JSON.stringify(parameters));
+    }
   }
 
   static getCurrentParameters(
     renderer2: Renderer2,
     isCurrentlyDark: boolean,
   ): CloudParameters {
-    const jsonData = localStorage.getItem('tagCloudConfiguration');
+    const jsonData = globalThis['localStorage'] ? localStorage.getItem('tagCloudConfiguration') : null;
     const temp = jsonData != null ? JSON.parse(jsonData) : null;
     const elem = new CloudParameters();
     elem.resetToDefault(renderer2, isCurrentlyDark);
@@ -125,13 +127,18 @@ export class CloudParameters {
   }
 
   static removeParameters() {
-    localStorage.removeItem('tagCloudConfiguration');
+    if (globalThis['localStorage']) {
+      localStorage.removeItem('tagCloudConfiguration');
+    }
   }
 
   private static resolveColor(
     element: HTMLParagraphElement,
     color: string,
   ): string {
+    if (!globalThis['window']) {
+      return color;
+    }
     element.style.backgroundColor = 'rgb(0, 0, 0)';
     element.style.backgroundColor = color;
     const result = window
@@ -157,6 +164,9 @@ export class CloudParameters {
   }
 
   resetToDefault(renderer2: Renderer2, isDark: boolean) {
+    if (!globalThis['document']) {
+      return [];
+    }
     const theme: DefaultCloudParameters = isDark ? DARK_THEME : LIGHT_THEME;
     const p = renderer2.createElement('p');
     p.style.display = 'none';
