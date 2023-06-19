@@ -30,6 +30,9 @@ export class TitleService {
   }
 
   private updateTitle() {
+    if (!globalThis['document']) {
+      return;
+    }
     const key = this._attachment ? 'title.attach-title' : 'title.default-title';
     this.translateService
       .get(key, { attachment: this._attachment })

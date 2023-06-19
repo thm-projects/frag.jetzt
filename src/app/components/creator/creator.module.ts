@@ -34,8 +34,13 @@ import { LanguageService } from '../../services/util/language.service';
 import { DeleteModerationCommentsComponent } from './_dialogs/delete-moderation-comments/delete-moderation-comments.component';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
-export const HttpLoaderFactory = (http: HttpClient) =>
-  new TranslateHttpLoader(http, '../../assets/i18n/creator/', '.json');
+export const HttpLoaderFactory = (http: HttpClient) => {
+  let key = '../..';
+  if (globalThis['process']) {
+    key = 'http://localhost:4200';
+  }
+  return new TranslateHttpLoader(http, key + '/assets/i18n/creator/', '.json');
+};
 
 @NgModule({
   imports: [

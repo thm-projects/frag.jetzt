@@ -149,7 +149,9 @@ export class OnboardingService {
       this._activeTour.startupAction();
     }
     this.emulateWalkthrough();
-    window.addEventListener('keyup', this._keyUpWrapper);
+    if (globalThis['window']) {
+      window.addEventListener('keyup', this._keyUpWrapper);
+    }
     this._tourSubscription = this.joyrideService
       .startTour({
         steps: tour.tour,

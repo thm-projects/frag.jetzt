@@ -161,7 +161,7 @@ export class StartUpService {
   private checkCookieAndProtectionConsent(
     cookie: boolean,
   ): Observable<unknown> {
-    if (cookie) {
+    if (cookie || !globalThis['document']) {
       return of(true);
     }
     return this.showCookieModal().pipe(
@@ -189,7 +189,10 @@ export class StartUpService {
   }
 
   private startOnboarding() {
-    if (localStorage.getItem('onboarding_default')) {
+    if (
+      !globalThis['localStorage'] ||
+      localStorage.getItem('onboarding_default')
+    ) {
       return of(true);
     }
     const dialogRef = this.dialog.open(AskOnboardingComponent, {

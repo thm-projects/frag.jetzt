@@ -22,7 +22,7 @@ export class DataStoreService {
 
   get(key: string): string {
     if (this.isObject) {
-      return this.db[key];
+      return this.db[key] || null;
     }
     return localStorage.getItem(key);
   }

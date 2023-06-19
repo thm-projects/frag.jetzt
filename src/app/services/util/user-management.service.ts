@@ -367,6 +367,9 @@ export class UserManagementService {
   }
 
   private loadMOTDs(userId: string) {
+    if (!globalThis['IDBKeyRange']) {
+      return of([]);
+    }
     return this.persistentDataService.getAllByIndex<ReadMOTD>(
       'motdRead',
       'userId',

@@ -23,8 +23,13 @@ import { GptChatComponent } from './gpt-chat/gpt-chat.component';
 import { AdminMailingComponent } from './admin-mailing/admin-mailing.component';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
-export const HttpLoaderFactory = (http: HttpClient) =>
-  new TranslateHttpLoader(http, '../../assets/i18n/admin/', '.json');
+export const HttpLoaderFactory = (http: HttpClient) => {
+  let key = '../..';
+  if (globalThis['process']) {
+    key = 'http://localhost:4200';
+  }
+  return new TranslateHttpLoader(http, key + '/assets/i18n/admin/', '.json');
+};
 
 @NgModule({
   declarations: [

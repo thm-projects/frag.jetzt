@@ -33,7 +33,7 @@ export class UserHomeComponent implements OnInit, OnDestroy, AfterContentInit {
   user: User;
   creatorRole: UserRole = UserRole.CREATOR;
   participantRole: UserRole = UserRole.PARTICIPANT;
-  canRate: boolean = Boolean(localStorage.getItem('comment-created'));
+  canRate: boolean;
   loadingRatings: boolean = true;
   fetchedRating: Rating = undefined;
   listenerFn: () => void;
@@ -51,9 +51,16 @@ export class UserHomeComponent implements OnInit, OnDestroy, AfterContentInit {
     protected headerService: HeaderService,
     protected composeService: ArsComposeService,
     public sessionService: SessionService,
-  ) {}
+  ) {
+    this.canRate =
+      globalThis['localStorage'] &&
+      Boolean(localStorage.getItem('comment-created'));
+  }
 
   ngAfterContentInit(): void {
+    if (!globalThis['document']) {
+      return;
+    }
     setTimeout(() => {
       document.getElementById('live_announcer-button').focus();
     }, 700);
@@ -79,6 +86,9 @@ export class UserHomeComponent implements OnInit, OnDestroy, AfterContentInit {
         });
       }
     });
+    if (!globalThis['document']) {
+      return;
+    }
     this.listenerFn = this._r.listen(document, 'keyup', (event) => {
       if (
         KeyboardUtils.isKeyEvent(event, KeyboardKey.Digit1) === true &&
@@ -110,7 +120,7 @@ export class UserHomeComponent implements OnInit, OnDestroy, AfterContentInit {
 
   ngOnDestroy() {
     this._list?.forEach((e) => e.destroy());
-    this.listenerFn();
+    this.listenerFn?.();
   }
 
   onRate(r: Rating) {

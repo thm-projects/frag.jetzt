@@ -319,6 +319,9 @@ export class HomePageComponent implements OnInit, OnDestroy {
   }
 
   loadListener() {
+    if (!globalThis['document']) {
+      return;
+    }
     this.listenerFn = this._r.listen(document, 'keyup', (event) => {
       if (
         KeyboardUtils.isKeyEvent(event, KeyboardKey.Digit1) === true &&

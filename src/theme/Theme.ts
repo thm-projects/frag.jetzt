@@ -51,7 +51,6 @@ export interface ThemeMeta {
   config?: unknown;
   icon: string;
   isUtility?: boolean;
-  highlightJsClass?: string;
 }
 
 export class Theme {

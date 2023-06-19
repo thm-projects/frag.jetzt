@@ -38,13 +38,12 @@ export class CookiesComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     setTimeout(() => {
-      const elem = this.ref.nativeElement.getElementsByClassName(
-        'mat-dialog-title',
-      );
-      if(!elem) {
+      const elem =
+        this.ref.nativeElement.getElementsByClassName('mat-dialog-title');
+      if (!elem) {
         return;
       }
-      (elem[0] as HTMLElement).focus();
+      (elem[0] as HTMLElement)?.focus?.();
     }, 500);
   }
 

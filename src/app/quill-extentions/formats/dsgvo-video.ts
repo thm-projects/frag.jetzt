@@ -23,7 +23,6 @@ export class DsgvoVideo {
       node.append(DsgvoBuilder.buildIframe(renderer2, url));
     } else {
       const article = DsgvoBuilder.buildArticle(
-        renderer2,
         '200px',
         url,
         messageId,

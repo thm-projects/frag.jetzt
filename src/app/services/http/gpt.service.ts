@@ -15,6 +15,7 @@ import { UUID, verifyInstance } from 'app/utils/ts-utils';
 import { catchError, finalize, map, Observable, tap } from 'rxjs';
 import { BaseHttpService } from './base-http.service';
 import { postSSE } from 'app/utils/sse-client';
+import { DOMAIN } from 'app/utils/window-utils';
 
 /* eslint-disable @typescript-eslint/naming-convention */
 const httpOptions = {
@@ -230,6 +231,31 @@ export type BlockedChatCompletion = ModerationWrapped<
   providedIn: 'root',
 })
 export class GptService extends BaseHttpService {
+  private apiUrl = {
+    base: DOMAIN + '/api/gpt',
+    roomSetting: '/room-setting',
+    roomPreset: '/room-preset',
+    roomUsageTimes: '/room-usage-times',
+    gdpr: '/gdpr',
+    activateTrial: '/activate-trial',
+    config: '/config',
+    completion: '/completion',
+    streamCompletion: '/stream-completion',
+    chatCompletion: '/chat/completion',
+    streamChatCompletion: '/chat/stream-completion',
+    interruptStram: '/interrupt-stream',
+    roomStatus: '/status',
+    globalStatus: '/plain-status',
+    rating: '/rating',
+    ratingTexts: '/rating-texts',
+    ratingInfo: '/rating-info',
+    stats: '/stats',
+    userPrompts: '/prompt-presets',
+    globalPrompts: '/global-prompt-presets',
+    addUserPrompt: '/prompt-preset',
+    addGlobalPrompt: '/global-prompt-preset',
+  };
+
   constructor(private httpClient: HttpClient) {
     super();
   }
@@ -288,7 +314,7 @@ export class GptService extends BaseHttpService {
   }
 
   getRoomSetting(roomId: string): Observable<GPTRoomSetting> {
-    const url = '/api/gpt/room-setting/' + roomId;
+    const url = `${this.apiUrl.base}${this.apiUrl.roomSetting}/${roomId}`;
     return this.httpClient.get<GPTRoomSetting>(url, httpOptions).pipe(
       tap(() => ''),
       map((v) => verifyInstance(GPTRoomSetting, v)),
@@ -300,7 +326,7 @@ export class GptService extends BaseHttpService {
     roomId: string,
     patch: Partial<GPTRoomSettingAPI>,
   ): Observable<GPTRoomSetting> {
-    const url = '/api/gpt/room-setting/' + roomId;
+    const url = `${this.apiUrl.base}${this.apiUrl.roomSetting}/${roomId}`;
     return this.httpClient
       .patch<GPTRoomSetting>(url, { changes: patch }, httpOptions)
       .pipe(
@@ -311,7 +337,7 @@ export class GptService extends BaseHttpService {
   }
 
   getPreset(roomId: string): Observable<GPTRoomPreset> {
-    const url = '/api/gpt/room-preset/' + roomId;
+    const url = `${this.apiUrl.base}${this.apiUrl.roomPreset}/${roomId}`;
     return this.httpClient.get<GPTRoomPreset>(url, httpOptions).pipe(
       tap(() => ''),
       map((data) => verifyInstance(GPTRoomPreset, data)),
@@ -323,7 +349,7 @@ export class GptService extends BaseHttpService {
     roomId: string,
     changes: Partial<GPTRoomPreset>,
   ): Observable<GPTRoomPreset> {
-    const url = '/api/gpt/room-preset/' + roomId;
+    const url = `${this.apiUrl.base}${this.apiUrl.roomPreset}/${roomId}`;
     return this.httpClient.patch<GPTRoomPreset>(url, changes, httpOptions).pipe(
       tap(() => ''),
       map((data) => verifyInstance(GPTRoomPreset, data)),
@@ -335,7 +361,7 @@ export class GptService extends BaseHttpService {
     roomId: string,
     usageTimes: UsageTimeAction[],
   ): Observable<GPTRoomUsageTime[]> {
-    const url = '/api/gpt/room-usage-times/' + roomId;
+    const url = `${this.apiUrl.base}${this.apiUrl.roomUsageTimes}/${roomId}`;
     return this.httpClient
       .post<GPTRoomUsageTime[]>(url, usageTimes, httpOptions)
       .pipe(
@@ -348,7 +374,7 @@ export class GptService extends BaseHttpService {
   }
 
   getConsentState(): Observable<boolean | null> {
-    const url = '/api/gpt/gdpr';
+    const url = `${this.apiUrl.base}${this.apiUrl.gdpr}`;
     return this.httpClient.get(url, httpOptionsPlainString).pipe(
       tap(() => ''),
       map((str) => {
@@ -365,7 +391,7 @@ export class GptService extends BaseHttpService {
   }
 
   updateConsentState(consented: boolean): Observable<boolean | null> {
-    const url = '/api/gpt/gdpr';
+    const url = `${this.apiUrl.base}${this.apiUrl.gdpr}`;
     return this.httpClient
       .post(url, { consentState: consented }, httpOptionsPlainString)
       .pipe(
@@ -384,7 +410,7 @@ export class GptService extends BaseHttpService {
   }
 
   activateTrial(roomId: string, trialCode: string): Observable<boolean> {
-    const url = '/api/gpt/activate-trial/' + roomId;
+    const url = `${this.apiUrl.base}${this.apiUrl.activateTrial}/${roomId}`;
     return this.httpClient.post<boolean>(url, { trialCode }, httpOptions).pipe(
       tap(() => ''),
       catchError(this.handleError<boolean>('activateTrial')),
@@ -392,7 +418,7 @@ export class GptService extends BaseHttpService {
   }
 
   getConfiguration(): Observable<GPTConfiguration> {
-    const url = '/api/gpt/config';
+    const url = `${this.apiUrl.base}${this.apiUrl.config}`;
     return this.httpClient.get<GPTConfiguration>(url, httpOptions).pipe(
       tap(() => ''),
       map((v) => verifyInstance(GPTConfiguration, v['config'])),
@@ -401,7 +427,7 @@ export class GptService extends BaseHttpService {
   }
 
   patchConfiguration(changes: Partial<GPTConfiguration>): Observable<void> {
-    const url = '/api/gpt/config';
+    const url = `${this.apiUrl.base}${this.apiUrl.config}`;
     return this.httpClient.patch<void>(url, { changes }, httpOptions).pipe(
       tap(() => ''),
       catchError(this.handleError<void>('patchConfiguration')),
@@ -411,7 +437,7 @@ export class GptService extends BaseHttpService {
   requestCompletion(
     prompt: TextCompletionRequest,
   ): Observable<BlockedTextCompletion> {
-    const url = '/api/gpt/completion';
+    const url = `${this.apiUrl.base}${this.apiUrl.completion}`;
     return this.httpClient
       .post<BlockedTextCompletion>(url, prompt, httpOptions)
       .pipe(
@@ -428,7 +454,7 @@ export class GptService extends BaseHttpService {
   requestStreamCompletion(
     prompt: TextCompletionRequest,
   ): Observable<StreamTextCompletion> {
-    const url = '/api/gpt/stream-completion';
+    const url = `${this.apiUrl.base}${this.apiUrl.streamCompletion}`;
     return postSSE(this.httpClient, url, prompt).pipe(
       tap(() => ''),
       map((event) => event.jsonData() as StreamTextCompletion),
@@ -444,7 +470,7 @@ export class GptService extends BaseHttpService {
   requestChat(
     prompt: ChatCompletionRequest,
   ): Observable<BlockedChatCompletion> {
-    const url = '/api/gpt/chat/completion';
+    const url = `${this.apiUrl.base}${this.apiUrl.chatCompletion}`;
     return this.httpClient
       .post<BlockedChatCompletion>(url, prompt, httpOptions)
       .pipe(
@@ -459,7 +485,7 @@ export class GptService extends BaseHttpService {
   requestChatStream(
     prompt: ChatCompletionRequest,
   ): Observable<StreamChatCompletion> {
-    const url = '/api/gpt/chat/stream-completion';
+    const url = `${this.apiUrl.base}${this.apiUrl.streamChatCompletion}`;
     return postSSE(this.httpClient, url, prompt).pipe(
       tap(() => ''),
       map((event) => event.jsonData() as StreamChatCompletion),
@@ -471,7 +497,7 @@ export class GptService extends BaseHttpService {
   }
 
   abortStreamCompletion(): Observable<boolean> {
-    const url = '/api/gpt/interrupt-stream';
+    const url = `${this.apiUrl.base}${this.apiUrl.interruptStram}`;
     return this.httpClient.post<boolean>(url, httpOptions).pipe(
       tap(() => ''),
       catchError(this.handleError<boolean>('abortStreamCompletion')),
@@ -479,7 +505,7 @@ export class GptService extends BaseHttpService {
   }
 
   getStatusForRoom(roomId: string): Observable<RoomAccessInfo> {
-    const url = '/api/gpt/status/' + roomId;
+    const url = `${this.apiUrl.base}${this.apiUrl.roomStatus}/${roomId}`;
     return this.httpClient.get<RoomAccessInfo>(url, httpOptions).pipe(
       tap(() => ''),
       catchError(this.handleError<RoomAccessInfo>('getStatusForRoom')),
@@ -487,7 +513,7 @@ export class GptService extends BaseHttpService {
   }
 
   getStatus(): Observable<GlobalAccessInfo> {
-    const url = '/api/gpt/plain-status';
+    const url = `${this.apiUrl.base}${this.apiUrl.globalStatus}`;
     return this.httpClient.get<GlobalAccessInfo>(url, httpOptions).pipe(
       tap(() => ''),
       catchError(this.handleError<GlobalAccessInfo>('getStatus')),
@@ -495,7 +521,7 @@ export class GptService extends BaseHttpService {
   }
 
   makeRating(rating: number, ratingText: string): Observable<GPTRating> {
-    const url = '/api/gpt/rating';
+    const url = `${this.apiUrl.base}${this.apiUrl.rating}`;
     return this.httpClient
       .post<GPTRating>(url, { rating, ratingText }, httpOptions)
       .pipe(
@@ -506,7 +532,7 @@ export class GptService extends BaseHttpService {
   }
 
   getRating(): Observable<GPTRating> {
-    const url = '/api/gpt/rating';
+    const url = `${this.apiUrl.base}${this.apiUrl.rating}`;
     return this.httpClient.get<GPTRating>(url, httpOptions).pipe(
       tap(() => ''),
       map((v) => verifyInstance(GPTRating, v)),
@@ -515,7 +541,7 @@ export class GptService extends BaseHttpService {
   }
 
   getRatingTexts(): Observable<string[]> {
-    const url = '/api/gpt/rating-texts';
+    const url = `${this.apiUrl.base}${this.apiUrl.ratingTexts}`;
     return this.httpClient.get<string[]>(url, httpOptions).pipe(
       tap(() => ''),
       catchError(this.handleError<string[]>('getRatingTexts')),
@@ -523,7 +549,7 @@ export class GptService extends BaseHttpService {
   }
 
   getRatingInfo(): Observable<RatingResult> {
-    const url = '/api/gpt/rating-info';
+    const url = `${this.apiUrl.base}${this.apiUrl.ratingInfo}`;
     return this.httpClient.get<RatingResult>(url, httpOptions).pipe(
       tap(() => ''),
       catchError(this.handleError<RatingResult>('getRatingInfo')),
@@ -531,7 +557,7 @@ export class GptService extends BaseHttpService {
   }
 
   getStats(): Observable<GPTStatistics> {
-    const url = '/api/gpt/stats';
+    const url = `${this.apiUrl.base}${this.apiUrl.stats}`;
     return this.httpClient.get<GPTStatistics>(url, httpOptions).pipe(
       tap(() => ''),
       map((v) => verifyInstance(GPTStatistics, v)),
@@ -540,7 +566,7 @@ export class GptService extends BaseHttpService {
   }
 
   getPrompts(): Observable<GPTPromptPreset[]> {
-    const url = '/api/gpt/prompt-presets';
+    const url = `${this.apiUrl.base}${this.apiUrl.userPrompts}`;
     return this.httpClient.get<GPTPromptPreset[]>(url, httpOptions).pipe(
       tap(() => ''),
       map((v) => v.map((e) => verifyInstance(GPTPromptPreset, e))),
@@ -549,7 +575,7 @@ export class GptService extends BaseHttpService {
   }
 
   getGlobalPrompts(): Observable<GPTPromptPreset[]> {
-    const url = '/api/gpt/global-prompt-presets';
+    const url = `${this.apiUrl.base}${this.apiUrl.globalPrompts}`;
     return this.httpClient.get<GPTPromptPreset[]>(url, httpOptions).pipe(
       tap(() => ''),
       map((v) => v.map((e) => verifyInstance(GPTPromptPreset, e))),
@@ -558,7 +584,7 @@ export class GptService extends BaseHttpService {
   }
 
   addPrompt(prompt: PropmtPresetAdd): Observable<GPTPromptPreset> {
-    const url = '/api/gpt/prompt-preset';
+    const url = `${this.apiUrl.base}${this.apiUrl.addUserPrompt}`;
     return this.httpClient.post<GPTPromptPreset>(url, prompt, httpOptions).pipe(
       tap(() => ''),
       map((v) => verifyInstance(GPTPromptPreset, v)),
@@ -567,7 +593,7 @@ export class GptService extends BaseHttpService {
   }
 
   addGlobalPrompt(prompt: PropmtPresetAdd): Observable<GPTPromptPreset> {
-    const url = '/api/gpt/global-prompt-preset';
+    const url = `${this.apiUrl.base}${this.apiUrl.addGlobalPrompt}`;
     return this.httpClient.post<GPTPromptPreset>(url, prompt, httpOptions).pipe(
       tap(() => ''),
       map((v) => verifyInstance(GPTPromptPreset, v)),
@@ -579,7 +605,8 @@ export class GptService extends BaseHttpService {
     id: string,
     prompt: Partial<PropmtPresetAdd>,
   ): Observable<GPTPromptPreset> {
-    const url = '/api/gpt/prompt-preset/' + id;
+    // also suitable for global presets
+    const url = `${this.apiUrl.base}${this.apiUrl.addUserPrompt}/${id}`;
     return this.httpClient
       .patch<GPTPromptPreset>(url, prompt, httpOptions)
       .pipe(
@@ -590,7 +617,8 @@ export class GptService extends BaseHttpService {
   }
 
   deletePrompt(id: string): Observable<void> {
-    const url = '/api/gpt/prompt-preset/' + id;
+    // also suitable for global presets
+    const url = `${this.apiUrl.base}${this.apiUrl.addUserPrompt}/${id}`;
     return this.httpClient.delete<void>(url, httpOptions).pipe(
       tap(() => ''),
       catchError(this.handleError<void>('deletePrompt')),

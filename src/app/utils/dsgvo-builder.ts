@@ -2,6 +2,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { QuillUtils, URLType } from './quill-utils';
 import { WindowUtils } from './window-utils';
 import { Renderer2 } from '@angular/core';
+import { AppComponent } from 'app/app.component';
 
 export enum DsgvoSource {
   Unknown,
@@ -31,7 +32,6 @@ export class DsgvoBuilder {
   }
 
   static buildArticle(
-    renderer2: Renderer2,
     height: string,
     url: string,
     messageId: string,
@@ -39,6 +39,7 @@ export class DsgvoBuilder {
     action: () => void,
     isActionOnce = true,
   ) {
+    const renderer2 = AppComponent.instance.injector.get(Renderer2);
     const article = renderer2.createElement('article');
     article.contentEditable = 'false';
     article.classList.add('dsgvo-info-article');

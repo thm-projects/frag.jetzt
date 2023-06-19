@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { Inject, NgModule, PLATFORM_ID } from '@angular/core';
 import { AppComponent } from './app.component';
 import { RegisterComponent } from './components/home/_dialogs/register/register.component';
 import { PasswordResetComponent } from './components/home/_dialogs/password-reset/password-reset.component';
@@ -28,10 +28,7 @@ import { AuthenticationInterceptor } from './interceptors/authentication.interce
 import { EssentialsModule } from './components/essentials/essentials.module';
 import { SharedModule } from './components/shared/shared.module';
 import { CreatorModule } from './components/creator/creator.module';
-import {
-  BrowserModule,
-  provideClientHydration,
-} from '@angular/platform-browser';
+import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LanguageService } from './services/util/language.service';
 import { NewLandingComponent } from './components/home/new-landing/new-landing.component';
@@ -92,14 +89,20 @@ import { AskOnboardingDEComponent } from 'assets/i18n/components/ask-onboarding/
 import { AskOnboardingENComponent } from 'assets/i18n/components/ask-onboarding/ask-onboarding-en.component';
 import { AskOnboardingFRComponent } from 'assets/i18n/components/ask-onboarding/ask-onboarding-fr.component';
 import { UpdateInfoDialogComponent } from './components/home/_dialogs/update-info-dialog/update-info-dialog.component';
+import { isPlatformServer } from '@angular/common';
 
 export const dialogClose = () => '';
 
 export const initializeApp = (appConfig: AppConfig) => () => appConfig.load();
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
-export const HttpLoaderFactory = (http: HttpClient) =>
-  new TranslateHttpLoader(http, '../../assets/i18n/home/', '.json');
+export const HttpLoaderFactory = (http: HttpClient) => {
+  let key = '../..';
+  if (globalThis['process']) {
+    key = 'http://localhost:4200';
+  }
+  return new TranslateHttpLoader(http, key + '/assets/i18n/home/', '.json');
+};
 
 @NgModule({
   declarations: [
@@ -173,7 +176,7 @@ export const HttpLoaderFactory = (http: HttpClient) =>
     MatRippleModule,
   ],
   providers: [
-    provideClientHydration(),
+    //provideClientHydration(),
     /*AppConfig,
     { provide: APP_INITIALIZER,
       useFactory: initializeApp,

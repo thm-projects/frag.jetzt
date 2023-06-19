@@ -7,6 +7,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ClientAuthentication } from '../../models/client-authentication';
 import { BaseHttpService } from './base-http.service';
 import { UUID } from 'app/utils/ts-utils';
+import { DOMAIN } from 'app/utils/window-utils';
 
 export enum LoginResult {
   Success,
@@ -47,7 +48,7 @@ export interface FoundRange {
 })
 export class AuthenticationService extends BaseHttpService {
   private apiUrl = {
-    base: '/api',
+    base: DOMAIN + '/api',
     v2: '/api/v2',
     auth: '/auth',
     login: '/login',
