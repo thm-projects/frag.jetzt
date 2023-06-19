@@ -79,7 +79,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
           url: 'url("/assets/background/Chatbot.png")',
           override: {
             default: {
-              backgroundSize: '33%',
+              backgroundSize: '28%',
             },
           },
         },
@@ -109,9 +109,9 @@ export class HomePageComponent implements OnInit, OnDestroy {
     },
     {
       title: {
-        en: 'Q&A Moderation',
-        de: 'Q&A-Moderation',
-        fr: 'Modération Q&R',
+        en: 'Moderation',
+        de: 'Moderation',
+        fr: 'Modération',
       },
       description: {
         en: "Want to review posts before they are published in the forum? Use our moderation feature. Or set it to automated: Define a threshold for negative ratings, beyond which posts are moved to moderation. This way, the group can co-decide what content belongs in the forum and what doesn't.",
@@ -137,7 +137,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
       },
       description: {
         en: "With frag.jetzt, you're surely not planning for a fleeting visit, but for long-term use. It's understandable that you don't want to search for new posts in each room every day. That's why we've set up a mail option for every room. You decide whether and when you want to receive notifications – an exclusive service for registered users.",
-        de: 'Mit frag.jetzt planst du sicher nicht nur tagesaktuell, sondern langfristig. Klar, dass du nicht jeden Tag in jedem Raum nach neuen Beiträgen suchen willst. Deshalb haben wir eine Mail-Option eingerichtet. Du entscheidest, ob und wann du Benachrichtigungen erhalten möchtest – ein exklusiver Service für registrierte User.',
+        de: 'frag.jetzt nutzt du nicht nur tagesaktuell, sondern langfristig. Klar, dass du nicht jeden Tag in jedem Raum nach neuen Beiträgen suchen willst. Deshalb haben wir eine Mail-Option eingerichtet. Du entscheidest, ob und wann du Benachrichtigungen erhalten möchtest – ein exklusiver Service für registrierte User.',
         fr: "Avec frag.jetzt, tu ne prévois sûrement pas une visite éphémère, mais une utilisation à long terme. Il est compréhensible que tu ne veuilles pas chercher de nouveaux posts dans chaque salle chaque jour. C'est pourquoi nous avons mis en place une option mail pour chaque salle. Tu décides si et quand tu veux recevoir des notifications – un service exclusif pour les utilisateurs enregistrés.",
       },
       images: [
@@ -285,6 +285,28 @@ export class HomePageComponent implements OnInit, OnDestroy {
     },
     {
       title: {
+        en: 'Navigation',
+        de: 'Navigation',
+        fr: 'Navigation',
+      },
+      description: {
+        en: "Are you looking for the manual? Don't worry, you don't need one. There are only two menus: the navigation on the top left and the options on the top right. The navigation gives you access to all features of the platform. You can find the functions of each feature in the options menu. It couldn't be simpler.",
+        de: "Suchst du das Handbuch? Keine Sorge, du brauchst keins. Es gibt nur zwei Menüs: Die Navigation oben links und die Optionen oben rechts. Über die Navigation erhältst du Zugriff auf alle Features der Plattform. Die Funktionen jedes Features findest du im Optionsmenü. Einfacher geht’s nicht.",
+        fr: "Tu cherches le manuel ? Ne t'inquiète pas, tu n'en as pas besoin. Il n'y a que deux menus : la navigation en haut à gauche et les options en haut à droite. La navigation te donne accès à toutes les fonctionnalités de la plateforme. Tu peux trouver les fonctions de chaque fonctionnalité dans le menu des options. Cela ne pourrait pas être plus simple.",
+      },
+      images: [
+        {
+          url: 'url("/assets/background/compass.svg")',
+          override: {
+            default: {
+              'background-size': '28%',
+            },
+          },
+        },
+      ],
+    },
+    {
+      title: {
         en: 'GDPR',
         de: 'DSGVO',
         fr: 'RGPD',
@@ -312,9 +334,9 @@ export class HomePageComponent implements OnInit, OnDestroy {
         fr: 'En savoir plus …',
       },
       description: {
-        en: "Great that you've scrolled this far! Take a look at the footer on the left. There you will find lots of useful information and tips. It's worth it! Start your journey of discovery now!",
-        de: 'Schön, dass du bis hierher gescrollt hast! Schau mal links in die Fußzeile. Dort findest du viele nützliche Informationen und Tipps. Es lohnt sich! Geh jetzt auf Entdeckungsreise!',
-        fr: "Super que tu aies défilé jusque ici ! Regarde dans le pied de page à gauche. Là, tu trouveras beaucoup d'informations utiles et des astuces. Ça vaut le coup ! Commence ton voyage de découverte maintenant !",
+        en: "Nice that you've made it this far! Take a look at the footer on the left. There you will find lots of useful information and tips. It's worth it! Start your journey of discovery now!",
+        de: 'Schön, dass du bis hierher gekommen bist! Schau mal links in die Fußzeile. Dort findest du viele nützliche Informationen und Tipps. Es lohnt sich! Geh jetzt auf Entdeckungsreise!',
+        fr: "C'est bien que tu sois arrivé jusqu'ici ! Regarde dans le pied de page à gauche. Là, tu trouveras beaucoup d'informations utiles et des astuces. Ça vaut le coup ! Commence ton voyage de découverte maintenant !",
       },
       images: [
         {
