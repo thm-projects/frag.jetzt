@@ -105,6 +105,7 @@ import { AskOnboardingDEComponent } from 'assets/i18n/components/ask-onboarding/
 import { AskOnboardingENComponent } from 'assets/i18n/components/ask-onboarding/ask-onboarding-en.component';
 import { AskOnboardingFRComponent } from 'assets/i18n/components/ask-onboarding/ask-onboarding-fr.component';
 import { UpdateInfoDialogComponent } from './components/home/_dialogs/update-info-dialog/update-info-dialog.component';
+import { DonationComponent } from './components/donation/donation.component';
 
 export const dialogClose = (dialogResult: any) => '';
 
@@ -154,6 +155,7 @@ export const HttpLoaderFactory = (http: HttpClient) =>
     AskOnboardingENComponent,
     AskOnboardingFRComponent,
     UpdateInfoDialogComponent,
+    DonationComponent,
   ],
   imports: [
     MatomoModule,
