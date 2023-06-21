@@ -151,7 +151,7 @@
     "user-bonus": "## Bonus \n\nDie Lehrperson kann »gute« Fragen für einen Bonus markieren. Deine Fragen aus allen Kursen (Räumen), die einen Stern erhalten haben, werden hier aufgelistet.\n\nJe nach Vereinbarung kannst du den Bonuscode per E-Mail an die Lehrperson schicken, um ihn gegen einen Bonus einzulösen."
   },
   "footer": {
-    "performance-indicator": "Grün = geringe Server-Auslastung \nGelb = normale Server-Auslastung \nRot = kritische Server-Auslastung",
+    "performance-indicator": "Grün = geringe Server-Auslastung \nGelb = normale Server-Auslastung \nRot = kritische Server-Auslastung \n\nKlick, um Details zu erfahren!",
     "introduction-button": "Worum geht es hier?",
     "display-button": "Designauswahl",
     "language-button": "Sprachauswahl",
