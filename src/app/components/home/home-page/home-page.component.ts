@@ -48,9 +48,9 @@ export class HomePageComponent implements OnInit, OnDestroy {
         fr: 'ChatGPT',
       },
       description: {
-        en: "Let ChatGPT answer all the questions. Our prompt catalog will help you generate tailored and precise texts. A quick fact check, and you've saved yourself hours of work. Experience how AI makes you more efficient!",
-        de: 'Lass ChatGPT alle Fragen beantworten. Unser Prompt-Katalog hilft dir, maßgeschneiderte und präzise Texte zu generieren. Ein kurzer Faktencheck und du hast dir viele Stunden Arbeit erspart. Erlebe, wie die KI dich effizienter macht!',
-        fr: "Laisse ChatGPT répondre à toutes les questions. Notre catalogue de prompts t'aidera à générer des textes précis et sur mesure. Un rapide contrôle des faits et tu as économisé des heures de travail. Découvre comment l'IA te rend plus efficace !",
+        en: "Let ChatGPT answer all knowledge questions. Our prompt catalog will help you generate tailored and precise texts. A quick fact check, and you've saved yourself hours of work. Experience how AI makes you more efficient!",
+        de: 'Lass ChatGPT alle Wissensfragen beantworten. Unser Prompt-Katalog hilft dir, maßgeschneiderte und präzise Texte zu generieren. Ein kurzer Faktencheck und du hast dir viele Stunden Arbeit erspart. Erlebe, wie die KI dich effizienter macht!',
+        fr: "Laisse ChatGPT répondre à toutes les questions de connaissance. Notre catalogue de prompts t'aidera à générer des textes précis et sur mesure. Un rapide contrôle des faits et tu as économisé des heures de travail. Découvre comment l'IA te rend plus efficace !",
       },
       images: [
         {
@@ -136,9 +136,9 @@ export class HomePageComponent implements OnInit, OnDestroy {
         fr: 'Service Mail',
       },
       description: {
-        en: "With frag.jetzt, you're surely not planning for a fleeting visit, but for long-term use. It's understandable that you don't want to search for new posts in each room every day. That's why we've set up a mail option for every room. You decide whether and when you want to receive notifications – an exclusive service for registered users.",
-        de: 'frag.jetzt nutzt du nicht nur tagesaktuell, sondern langfristig. Klar, dass du nicht jeden Tag in jedem Raum nach neuen Beiträgen suchen willst. Deshalb haben wir eine Mail-Option eingerichtet. Du entscheidest, ob und wann du Benachrichtigungen erhalten möchtest – ein exklusiver Service für registrierte User.',
-        fr: "Avec frag.jetzt, tu ne prévois sûrement pas une visite éphémère, mais une utilisation à long terme. Il est compréhensible que tu ne veuilles pas chercher de nouveaux posts dans chaque salle chaque jour. C'est pourquoi nous avons mis en place une option mail pour chaque salle. Tu décides si et quand tu veux recevoir des notifications – un service exclusif pour les utilisateurs enregistrés.",
+        en: "You can use a frag.jetzt room on a one-time or long-term basis. It's understandable that you don't want to search for new posts in each room every day. That's why we've set up a mail option for every room. You decide whether and when you want to receive notifications – an exclusive service for registered users.",
+        de: 'Du kannst einen frag.jetzt-Raum einmalig oder langfristig nutzen. Klar, dass du nicht jeden Tag in jedem Raum nach neuen Beiträgen suchen willst. Deshalb haben wir eine Mail-Option eingerichtet. Du entscheidest, ob und wann du Benachrichtigungen erhalten möchtest – ein exklusiver Service für registrierte User.',
+        fr: "Tu peux utiliser une salle frag.jetzt une seule fois ou à long terme. Il est compréhensible que tu ne veuilles pas chercher de nouveaux posts dans chaque salle chaque jour. C'est pourquoi nous avons mis en place une option mail pour chaque salle. Tu décides si et quand tu veux recevoir des notifications – un service exclusif pour les utilisateurs enregistrés.",
       },
       images: [
         {
@@ -400,9 +400,9 @@ export class HomePageComponent implements OnInit, OnDestroy {
         fr: 'Démarre maintenant !',
       },
       description: {
-        en: "Book a room, share the key code. It's that easy! If you want to use frag.jetzt with ChatGPT at all times, in any browser, on any device, set up a free account: Click on »Sign in« in the top right corner. Don't hold back, try everything out!",
-        de: "Raum buchen, Raum-Code teilen. So einfach geht's! Wenn du frag.jetzt mit ChatGPT immer und in jedem Browser auf jedem Gerät einsetzen willst, richte dir ein kostenloses Konto ein: Klick oben rechts auf »Anmelden«. Hab keine Hemmungen, probier alles aus!",
-        fr: "Réserve une salle, distribue le code de la salle. C'est si simple ! Si tu veux utiliser frag.jetzt avec ChatGPT à tout moment, dans n'importe quel navigateur, sur n'importe quel appareil, crée un compte gratuit : Il suffit de cliquer sur « Se connecter » en haut à droite. Ne te retiens pas, essaie tout !",
+        en: "Book a room, share the key code. It's that easy! No registration, completely anonymous. If you want to use frag.jetzt with ChatGPT at all times, in any browser, on any device, set up a free account: Click on »Sign in« in the top right corner. Don't hold back, try everything out!",
+        de: "Raum buchen, Raum-Code teilen. So einfach geht's! Ohne Registrierung, völlig anonym. Wenn du frag.jetzt mit ChatGPT immer und in jedem Browser auf jedem Gerät einsetzen willst, richte dir ein kostenloses Konto ein: Klick oben rechts auf »Anmelden«. Hab keine Hemmungen, probier alles aus!",
+        fr: "Réserve une salle, distribue le code de la salle. C'est si simple ! Pas d'inscription, complètement anonyme. Si tu veux utiliser frag.jetzt avec ChatGPT à tout moment, dans n'importe quel navigateur, sur n'importe quel appareil, crée un compte gratuit : Il suffit de cliquer sur « Se connecter » en haut à droite. Ne te retiens pas, essaie tout !",
       },
       images: [
         {
