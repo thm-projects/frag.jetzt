@@ -43,9 +43,9 @@ export class HomePageComponent implements OnInit, OnDestroy {
   protected readonly carousel = [
     {
       title: {
-        en: 'ChatGPT',
-        de: 'ChatGPT',
-        fr: 'ChatGPT',
+        en: 'Q&A with ChatGPT',
+        de: 'Q&A mit ChatGPT',
+        fr: 'Q&R avec ChatGPT',
       },
       description: {
         en: "Let ChatGPT answer all knowledge questions. Our prompt catalog will help you generate tailored and precise texts. A quick fact check, and you've saved yourself hours of work. Experience how AI makes you more efficient!",
@@ -124,6 +124,28 @@ export class HomePageComponent implements OnInit, OnDestroy {
           override: {
             default: {
               backgroundSize: '33%',
+            },
+          },
+        },
+      ],
+    },
+    {
+      title: {
+        en: 'Categories',
+        de: 'Kategorien',
+        fr: 'Catégories',
+      },
+      description: {
+        en: 'Create questions and assign them »labels«. This way, you can categorize your questions, even retrospectively. Click on a label and only questions with this label will be displayed. For example, in a panel discussion, you could use labels such as »Question for Mr. Scholz« or »Question for Ms. Baerbock« to foster a topic-oriented dialogue.',
+        de: 'Erstelle Fragen und ordne ihnen »Labels« zu. So kannst du deine Fragen kategorisieren, sogar nachträglich. Ein Klick auf ein Label und nur Fragen mit diesem Label werden angezeigt. Zum Beispiel könntest du in einer Podiumsdiskussion Labels wie »Frage an Herrn Scholz« oder »Frage an Frau Baerbock« verwenden, um einen themenorientierten Dialog zu fördern.',
+        fr: "Crée des questions et attribue-leur des « labels ». Ainsi, tu peux catégoriser tes questions, même a posteriori. Clique sur un label et seules les questions avec ce label seront affichées. Par exemple, lors d'un débat, tu pourrais utiliser des labels tels que « Question pour M. Scholz » ou « Question pour Mme Baerbock » pour favoriser un dialogue axé sur des sujets spécifiques.",
+      },
+      images: [
+        {
+          url: 'url("/assets/background/folders.svg")',
+          override: {
+            default: {
+              backgroundSize: '37%',
             },
           },
         },
