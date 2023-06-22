@@ -98,7 +98,7 @@ ngbuild:
   before_script:
     - npm update npm -g
   script:
-    - npm run build:ssr
+    - npm run prerender
   artifacts:
     paths:
       - "$BUILD_DIR"
