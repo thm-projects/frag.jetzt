@@ -96,7 +96,7 @@ ngbuild:
   needs:
     - install
   script:
-    - ng build --configuration production --aot
+    - npm run build:ssr
   artifacts:
     paths:
       - "$BUILD_DIR"

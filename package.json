@@ -21,7 +21,7 @@
     "prepare": "husky install",
     "dev:ssr": "ng run arsnova-angular-frontend:serve-ssr",
     "serve:ssr": "node dist/arsnova-angular-frontend/server/main.js",
-    "build:ssr": "ng build && ng run arsnova-angular-frontend:server",
+    "build:ssr": "ng build --configuration production --aot && ng run arsnova-angular-frontend:server",
     "prerender": "ng run arsnova-angular-frontend:prerender"
   },
   "private": true,
