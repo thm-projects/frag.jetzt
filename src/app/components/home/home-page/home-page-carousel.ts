@@ -1,4 +1,24 @@
-export const carousel = [
+interface TranslationEntry {
+  en: string;
+  de: string;
+  fr: string;
+}
+
+interface ImageEntry {
+  isBackground?: boolean;
+  url: string;
+  override: {
+    [theme: string]: {
+      [cssProperty: string]: any;
+    };
+  };
+}
+
+export const carousel: {
+  title: TranslationEntry;
+  description: TranslationEntry;
+  images: ImageEntry[];
+}[] = [
   {
     title: {
       en: 'Q&A with ChatGPT',
@@ -14,8 +34,15 @@ export const carousel = [
       {
         url: 'url("/assets/background/anatomy.svg")',
         override: {
+          default: {},
+        },
+      },
+      {
+        isBackground: true,
+        url: 'url("/assets/background/background-gpt1_masked.png")',
+        override: {
           default: {
-            backgroundSize: '37%',
+            backgroundSize: '100%',
           },
         },
       },

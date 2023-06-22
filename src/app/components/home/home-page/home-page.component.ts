@@ -124,8 +124,54 @@ export class HomePageComponent implements OnInit, OnDestroy {
     }
   }
 
-  getBackgroundStyleForEntry(i: number): any {
+  getForegroundStyleForEntry(i: number, offsetLeft: number) {
+    const imageTargets = this.carousel[i].images.filter((x) => !x.isBackground);
     let _override = {};
+    if (imageTargets && imageTargets.length > 0) {
+      const target = imageTargets[0];
+      _override = {
+        ..._override,
+        ...target.override[this.currentTheme + '-theme'],
+        ...{
+          backgroundImage: target.url,
+        },
+      };
+      if (target.override['default']) {
+        _override = {
+          ..._override,
+          ...target.override['default'],
+        };
+      }
+    }
+    return {
+      ..._override,
+      ...{
+        width: `calc( 100vw - ${offsetLeft}px )`,
+      },
+    };
+  }
+
+  getBackgroundStyleForEntry(i: number): any {
+    const imageTargets = this.carousel[i].images.filter(
+      (x) => !!x.isBackground,
+    );
+    let _override = {};
+    if (imageTargets && imageTargets.length > 0) {
+      const target = imageTargets[0];
+      _override = {
+        ..._override,
+        ...target.override[this.currentTheme + '-theme'],
+        ...{
+          backgroundImage: target.url,
+        },
+      };
+      if (target.override['default']) {
+        _override = {
+          ..._override,
+          ...target.override['default'],
+        };
+      }
+    }
     if (i < this.carouselIndex) {
       _override['opacity'] = 0;
     } else if (i > this.carouselIndex) {
@@ -133,24 +179,11 @@ export class HomePageComponent implements OnInit, OnDestroy {
     } else {
       _override['opacity'] = 1;
     }
-    if (this.carousel[i].images[0]['override']) {
-      _override = {
-        ..._override,
-        ...this.carousel[i].images[0]['override'][this.currentTheme + '-theme'],
-      };
-      if (this.carousel[i].images[0]['override']['default']) {
-        _override = {
-          ..._override,
-          ...this.carousel[i].images[0]['override']['default'],
-        };
-      }
-    }
     return {
+      ..._override,
       ...{
-        backgroundImage: this.carousel[i].images[0].url,
         transform: `translateY(${(this.carouselIndex - i) * -1000}px)`,
       },
-      ..._override,
     };
   }
 
