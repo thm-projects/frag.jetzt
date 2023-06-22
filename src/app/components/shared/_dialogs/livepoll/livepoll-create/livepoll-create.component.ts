@@ -110,6 +110,9 @@ export class LivepollCreateComponent implements OnDestroy, AfterViewInit {
   }
 
   public overrideHeight($event: boolean, matSelect: MatSelect) {
+    if (!globalThis['document']) {
+      return;
+    }
     if (matSelect.panel?.nativeElement) {
       const height =
         window.innerHeight ||

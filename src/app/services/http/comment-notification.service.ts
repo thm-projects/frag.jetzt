@@ -4,13 +4,14 @@ import { CommentNotification } from '../../models/comment-notification';
 import { Observable } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { BaseHttpService } from './base-http.service';
+import { DOMAIN } from 'app/utils/window-utils';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CommentNotificationService extends BaseHttpService {
   private apiUrl = {
-    base: '/api',
+    base: DOMAIN + '/api',
     commentNotification: '/comment-notification',
     find: '/find',
   };

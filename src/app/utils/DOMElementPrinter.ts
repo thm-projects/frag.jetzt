@@ -39,6 +39,9 @@ export class DOMElementPrinter {
   }
 
   refresh() {
+    if (!globalThis['document']) {
+      return;
+    }
     DOMElementPrinter.clean(this.iframe.contentDocument.head);
     DOMElementPrinter.clean(this.iframe.contentDocument.body);
     document

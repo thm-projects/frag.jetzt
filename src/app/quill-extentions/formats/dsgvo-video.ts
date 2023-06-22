@@ -29,7 +29,9 @@ export class DsgvoVideo {
         this.translator,
         () => {
           if (source === DsgvoSource.ExternalUntrusted) {
-            window.open(url, '_blank').focus();
+            if (globalThis['window']) {
+              window.open(url, '_blank').focus();
+            }
             return;
           }
           node.replaceChild(DsgvoBuilder.buildIframe(renderer2, url), article);

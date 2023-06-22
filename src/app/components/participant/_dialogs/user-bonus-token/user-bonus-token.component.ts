@@ -272,6 +272,9 @@ export class UserBonusTokenComponent implements OnInit {
               );
             }) +
           UserBonusTokenComponent.escapeForEmail(msgs[translationList[2]]);
+        if (!globalThis['document']) {
+          return;
+        }
         if (window.open(mailText, '_self') === null) {
           this.notificationService.show(msgs[translationList[6]]);
         }

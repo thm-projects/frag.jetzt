@@ -39,6 +39,9 @@ export class DemoVideoComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (!globalThis['document']) {
+      return;
+    }
     if (this.router.url !== '/introduction') {
       document.getElementById('setFocus').focus();
     }
@@ -53,7 +56,7 @@ export class DemoVideoComponent implements OnInit {
 
   private focusElement(element: HTMLElement) {
     setTimeout(() => {
-      element.focus();
+      element.focus?.();
     }, 100);
   }
 }

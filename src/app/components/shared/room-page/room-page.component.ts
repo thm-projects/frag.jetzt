@@ -122,7 +122,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.listenerFn();
+    this.listenerFn?.();
     this.eventService.makeFocusOnInputFalse();
     this._list?.forEach((e) => e.destroy());
     this._sub?.unsubscribe();

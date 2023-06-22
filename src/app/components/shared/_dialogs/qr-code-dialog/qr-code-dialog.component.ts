@@ -19,6 +19,9 @@ export class QrCodeDialogComponent implements AfterViewInit {
   ) {}
 
   ngAfterViewInit() {
+    if (!globalThis['document']) {
+      return;
+    }
     const minSize = Math.min(
       document.body.clientWidth,
       document.body.clientHeight,

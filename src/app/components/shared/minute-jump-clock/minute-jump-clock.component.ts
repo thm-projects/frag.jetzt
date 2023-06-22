@@ -55,6 +55,9 @@ export class MinuteJumpClockComponent
   ) {}
 
   ngOnInit(): void {
+    if (!globalThis['window']) {
+      return;
+    }
     this._matcher = window.matchMedia('(max-width: ' + this.minWidth + 'px)');
     const func = () => {
       this.update();

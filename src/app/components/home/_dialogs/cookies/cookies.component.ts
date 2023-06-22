@@ -49,6 +49,9 @@ export class CookiesComponent implements OnInit, AfterViewInit {
 
   acceptCookies() {
     this.dialogRef.close(true);
+    if (!globalThis['document']) {
+      return;
+    }
     setTimeout(() => {
       document.getElementById('live_announcer-button').focus();
     }, 500);

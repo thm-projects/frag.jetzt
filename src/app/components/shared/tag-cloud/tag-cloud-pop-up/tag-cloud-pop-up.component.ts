@@ -244,6 +244,9 @@ export class TagCloudPopUpComponent
     const html = this.popupContainer.nativeElement as HTMLDivElement;
     clearTimeout(this._popupCloseTimer);
     if (addDelay) {
+      if (!globalThis['document']) {
+        return;
+      }
       if (
         !this._hasLeft ||
         (html.contains(document.activeElement) &&

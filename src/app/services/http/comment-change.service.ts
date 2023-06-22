@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { CommentChange } from '../../models/comment-change';
+import { DOMAIN } from 'app/utils/window-utils';
 
 const httpOptions = {
   // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -28,7 +29,7 @@ export interface RoomCommentChangeSubscription {
 })
 export class CommentChangeService extends BaseHttpService {
   private apiUrl = {
-    base: '/api',
+    base: DOMAIN + '/api',
     commentChange: '/comment-change',
     find: '/find',
     commentSubscribe: '/comment-subscribe',
@@ -40,8 +41,7 @@ export class CommentChangeService extends BaseHttpService {
   }
 
   findAllChangesSince(date: Date): Observable<CommentChange[]> {
-    const connectionUrl =
-      this.apiUrl.base + this.apiUrl.commentChange + this.apiUrl.find;
+    const connectionUrl = `${this.apiUrl.base}${this.apiUrl.commentChange}${this.apiUrl.find}`;
     return this.http
       .post<CommentChange[]>(
         connectionUrl,
@@ -60,8 +60,7 @@ export class CommentChangeService extends BaseHttpService {
   }
 
   getCommentChangeById(id: string): Observable<CommentChange> {
-    const connectionUrl =
-      this.apiUrl.base + this.apiUrl.commentChange + '/' + id;
+    const connectionUrl = `${this.apiUrl.base}${this.apiUrl.commentChange}/${id}`;
     return this.http.get<CommentChange>(connectionUrl, httpOptions).pipe(
       tap(() => ''),
       catchError(this.handleError<CommentChange>('getCommentChangeById')),
@@ -71,12 +70,7 @@ export class CommentChangeService extends BaseHttpService {
   createCommentSubscription(
     commentId: string,
   ): Observable<CommentChangeSubscription> {
-    const connectionUrl =
-      this.apiUrl.base +
-      this.apiUrl.commentChange +
-      this.apiUrl.commentSubscribe +
-      '/' +
-      commentId;
+    const connectionUrl = `${this.apiUrl.base}${this.apiUrl.commentChange}${this.apiUrl.commentSubscribe}/${commentId}`
     return this.http
       .post<CommentChangeSubscription>(connectionUrl, null, httpOptions)
       .pipe(
@@ -90,12 +84,7 @@ export class CommentChangeService extends BaseHttpService {
   }
 
   deleteCommentSubscription(commentId: string): Observable<void> {
-    const connectionUrl =
-      this.apiUrl.base +
-      this.apiUrl.commentChange +
-      this.apiUrl.commentSubscribe +
-      '/' +
-      commentId;
+    const connectionUrl = `${this.apiUrl.base}${this.apiUrl.commentChange}${this.apiUrl.commentSubscribe}/${commentId}`;
     return this.http.delete<void>(connectionUrl, httpOptions).pipe(
       tap(() => ''),
       catchError(this.handleError<void>('deleteCommentSubscription')),
@@ -103,10 +92,7 @@ export class CommentChangeService extends BaseHttpService {
   }
 
   getCommentSubscriptions(): Observable<CommentChangeSubscription[]> {
-    const connectionUrl =
-      this.apiUrl.base +
-      this.apiUrl.commentChange +
-      this.apiUrl.commentSubscribe;
+    const connectionUrl = `${this.apiUrl.base}${this.apiUrl.commentChange}${this.apiUrl.commentSubscribe}`
     return this.http
       .get<CommentChangeSubscription[]>(connectionUrl, httpOptions)
       .pipe(
@@ -122,12 +108,7 @@ export class CommentChangeService extends BaseHttpService {
   createRoomSubscription(
     roomId: string,
   ): Observable<RoomCommentChangeSubscription> {
-    const connectionUrl =
-      this.apiUrl.base +
-      this.apiUrl.commentChange +
-      this.apiUrl.roomSubscribe +
-      '/' +
-      roomId;
+    const connectionUrl = `${this.apiUrl.base}${this.apiUrl.commentChange}${this.apiUrl.roomSubscribe}/${roomId}`
     return this.http
       .post<RoomCommentChangeSubscription>(connectionUrl, null, httpOptions)
       .pipe(
@@ -141,12 +122,7 @@ export class CommentChangeService extends BaseHttpService {
   }
 
   deleteRoomSubscription(roomId: string): Observable<void> {
-    const connectionUrl =
-      this.apiUrl.base +
-      this.apiUrl.commentChange +
-      this.apiUrl.roomSubscribe +
-      '/' +
-      roomId;
+    const connectionUrl = `${this.apiUrl.base}${this.apiUrl.commentChange}${this.apiUrl.roomSubscribe}/${roomId}`;
     return this.http.delete<void>(connectionUrl, httpOptions).pipe(
       tap(() => ''),
       catchError(this.handleError<void>('deleteRoomSubscription')),
@@ -154,8 +130,7 @@ export class CommentChangeService extends BaseHttpService {
   }
 
   getRoomSubscriptions(): Observable<RoomCommentChangeSubscription[]> {
-    const connectionUrl =
-      this.apiUrl.base + this.apiUrl.commentChange + this.apiUrl.roomSubscribe;
+    const connectionUrl = `${this.apiUrl.base}${this.apiUrl.commentChange}${this.apiUrl.roomSubscribe}`;
     return this.http
       .get<RoomCommentChangeSubscription[]>(connectionUrl, httpOptions)
       .pipe(

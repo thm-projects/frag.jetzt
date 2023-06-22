@@ -228,6 +228,9 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
+    if (!globalThis['document']) {
+      return;
+    }
     document.getElementById('header_rescale').style.display = 'none';
     document.getElementById('footer_rescale').style.display = 'none';
     setTimeout(() => {
@@ -257,8 +260,11 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     this._filterObj.detach(true);
     this.keySupport.destroy();
-    document.getElementById('header_rescale').style.display = 'block';
-    document.getElementById('footer_rescale').style.display = 'block';
+    if (globalThis['document']) {
+      document.getElementById('header_rescale').style.display = 'block';
+      document.getElementById('footer_rescale').style.display = 'block';
+    }
+
     Rescale.exitFullscreen();
   }
 
@@ -275,6 +281,9 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   getDOMComments() {
+    if (!globalThis['document']) {
+      return;
+    }
     return Array.from(
       document.getElementsByClassName('questionwall-comment-anchor'),
     );

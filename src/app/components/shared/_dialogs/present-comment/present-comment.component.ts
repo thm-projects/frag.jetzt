@@ -28,6 +28,9 @@ export class PresentCommentComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (!globalThis['document']) {
+      return;
+    }
     /*  if document is in fullscreen and user presses ESC, it doesn't trigger a keyup event */
     this.document.addEventListener('fullscreenchange', () => {
       if (this.fs && this.document.exitFullscreen) {
@@ -43,6 +46,9 @@ export class PresentCommentComponent implements OnInit {
   }
 
   updateFontSize(event: unknown): void {
+    if (!globalThis['document']) {
+      return;
+    }
     document.getElementById('comment').style.fontSize =
       event['value'] * 2.5 + 'em';
   }

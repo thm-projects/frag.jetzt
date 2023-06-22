@@ -9,6 +9,9 @@ export class QuestionWallKeyEventSupport {
         e.cancelBubble = true;
       }
     };
+    if (!globalThis['window']) {
+      return;
+    }
     window.addEventListener('keyup', this.windowEvent);
   }
 
@@ -17,6 +20,9 @@ export class QuestionWallKeyEventSupport {
   }
 
   public destroy() {
+    if (!globalThis['window']) {
+      return;
+    }
     window.removeEventListener('keyup', this.windowEvent);
   }
 }
