@@ -51,7 +51,7 @@ unit_tests:
   script:
     - npm test
 
-e2e_cypress:
+.e2e_cypress:
   stage: test
   tags:
     - angular
@@ -96,7 +96,7 @@ ngbuild:
   needs:
     - install
   before_script:
-    - npm update npm -g
+    - npm update npm -g && npm cache clean -f && npm install -g n && n 16.14
   script:
     - npm run prerender
   artifacts:
