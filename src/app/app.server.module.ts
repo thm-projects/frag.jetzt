@@ -41,8 +41,8 @@ export class AppServerModule {
     this.ngZone.runOutsideAngular(() => {
       setTimeout(() => {
         // Access the NgZone's internals - TaskTrackingZone:
-        const TaskTrackingZone = (this.ngZone as any)._inner._parent._properties
-          .TaskTrackingZone;
+        const TaskTrackingZone =
+          this.ngZone['_inner']._parent._properties.TaskTrackingZone;
 
         // Print to the console all pending tasks
         // (micro tasks, macro tasks and event listeners):

@@ -1,4 +1,4 @@
-import { Inject, NgModule, PLATFORM_ID } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { RegisterComponent } from './components/home/_dialogs/register/register.component';
 import { PasswordResetComponent } from './components/home/_dialogs/password-reset/password-reset.component';
@@ -89,7 +89,6 @@ import { AskOnboardingDEComponent } from 'assets/i18n/components/ask-onboarding/
 import { AskOnboardingENComponent } from 'assets/i18n/components/ask-onboarding/ask-onboarding-en.component';
 import { AskOnboardingFRComponent } from 'assets/i18n/components/ask-onboarding/ask-onboarding-fr.component';
 import { UpdateInfoDialogComponent } from './components/home/_dialogs/update-info-dialog/update-info-dialog.component';
-import { isPlatformServer } from '@angular/common';
 
 export const dialogClose = () => '';
 

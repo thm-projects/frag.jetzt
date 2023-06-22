@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, ReplaySubject, tap } from 'rxjs';
+import { ReplaySubject } from 'rxjs';
 import { themes, themes_meta } from './arsnova-theme.const';
 import { Theme } from './Theme';
 import { DeviceInfoService } from '../app/services/util/device-info.service';

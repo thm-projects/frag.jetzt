@@ -151,7 +151,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
     };
   }
 
-  getBackgroundStyleForEntry(i: number): any {
+  getBackgroundStyleForEntry(i: number) {
     const imageTargets = this.carousel[i].images.filter(
       (x) => !!x.isBackground,
     );

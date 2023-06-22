@@ -93,7 +93,10 @@ export class WriteCommentComponent implements OnInit, AfterViewInit, OnDestroy {
   private _mobileMockActive = false;
   private _mobileMockTimeout;
   private _mobileMockPossible = false;
-  private _mockListener: (this: MediaQueryList, ev: MediaQueryListEvent) => any;
+  private _mockListener: (
+    this: MediaQueryList,
+    ev: MediaQueryListEvent,
+  ) => unknown;
   private _mockMatcher: MediaQueryList;
   private _keywordExtractor: KeywordExtractor;
   private _currentData: ForumComment;

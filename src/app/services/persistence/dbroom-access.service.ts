@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { UserRole } from '../../models/user-roles.enum';
 import { PersistentDataService } from '../util/persistent-data.service';
-import { of } from 'rxjs';
 
 export interface SavedRoomAccess {
   userId: string;

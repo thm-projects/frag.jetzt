@@ -46,7 +46,7 @@ export class Marks {
     private renderer2: Renderer2,
     private markContainer: HTMLDivElement,
     private tooltipContainer: HTMLDivElement,
-    private editor: any,
+    private editor: unknown,
   ) {}
 
   clear() {
@@ -58,7 +58,7 @@ export class Marks {
 
   onClick(index: number) {
     const editorRect =
-      this.editor.editorElem.firstElementChild.getBoundingClientRect();
+      this.editor['editorElem'].firstElementChild.getBoundingClientRect();
     for (const textError of this.textErrors) {
       textError.close();
       if (index !== null) {
@@ -87,7 +87,7 @@ export class Marks {
     this.onClick(null);
     this.clear();
     const indexFinder = new ContentIndexFinder(
-      this.editor.quillEditor.getContents().ops,
+      this.editor['quillEditor'].getContents().ops,
     );
     for (const match of res.matches) {
       const [start, len] = indexFinder.adjustTextIndexes(
@@ -102,7 +102,7 @@ export class Marks {
   sync(): void {
     const parentRect = this.markContainer.getBoundingClientRect();
     const editorRect =
-      this.editor.editorElem.firstElementChild.getBoundingClientRect();
+      this.editor['editorElem'].firstElementChild.getBoundingClientRect();
     for (const error of this.textErrors) {
       error.syncMark(this.renderer2, parentRect, editorRect.y - parentRect.y);
     }
@@ -168,7 +168,7 @@ export class Marks {
       len,
       this.markContainer,
       this.tooltipContainer,
-      this.editor.quillEditor,
+      this.editor['quillEditor'],
     );
     newMark.setSuggestions(
       this.renderer2,
@@ -197,7 +197,7 @@ class Mark {
     public markLength,
     private markContainer: HTMLDivElement,
     private tooltipContainer: HTMLDivElement,
-    private quillEditor: any,
+    private quillEditor: unknown,
   ) {}
 
   syncMark(renderer2: Renderer2, parentRect: DOMRect, offset: number) {
@@ -213,7 +213,7 @@ class Mark {
     this.marks.length = boundaries.length;
     for (let i = 0; i < this.marks.length; i++) {
       const current = this.marks[i];
-      const rect = this.quillEditor.getBounds(
+      const rect = this.quillEditor['getBounds'](
         boundaries[i][0],
         boundaries[i][1],
       );
@@ -243,7 +243,7 @@ class Mark {
       this.dropdown.style.left = rangeRect.x + rangeRect.width / 2 + 'px';
       this.dropdown.style.top = rangeRect.y + 'px';
     } else {
-      const bounds = this.quillEditor.getBounds(index);
+      const bounds = this.quillEditor['getBounds'](index);
       this.dropdown.style.left = bounds.left + editorOffsetLeft + 'px';
       this.dropdown.style.top = bounds.top + editorOffsetTop + 'px';
     }
@@ -288,8 +288,12 @@ class Mark {
         }
         this.dropdown.append(dropdownElem);
         dropdownElem.addEventListener('click', () => {
-          this.quillEditor.deleteText(this.startIndex, this.markLength, 'user');
-          this.quillEditor.insertText(
+          this.quillEditor['deleteText'](
+            this.startIndex,
+            this.markLength,
+            'user',
+          );
+          this.quillEditor['insertText'](
             this.startIndex,
             suggestions[j].value,
             'user',
@@ -301,7 +305,7 @@ class Mark {
   }
 
   private calculateBoundaries(): [start: number, length: number][] {
-    const ops = this.quillEditor.getContents(
+    const ops = this.quillEditor['getContents'](
       this.startIndex,
       this.markLength,
     ).ops;

@@ -5,7 +5,7 @@ import { QuillUtils } from '../../../../utils/quill-utils';
 interface DialogData {
   type: string;
   meta: string;
-  quill: any;
+  quill: unknown;
   selection: unknown;
   overrideAction?: (value: string, selection: unknown) => void;
 }
@@ -62,7 +62,7 @@ export class QuillInputDialogComponent implements OnInit {
                 retain: selection['length'],
                 attributes: { link: this.value },
               });
-              this.data.quill.updateContents({ ops });
+              this.data.quill['updateContents']({ ops });
             }
           }
           break;
@@ -70,13 +70,18 @@ export class QuillInputDialogComponent implements OnInit {
           {
             const value = QuillUtils.getVideoUrl(this.value)[0];
             if (value) {
-              this.data.quill.insertEmbed(index, 'dsgvo-video', value, 'user');
+              this.data.quill['insertEmbed'](
+                index,
+                'dsgvo-video',
+                value,
+                'user',
+              );
             }
           }
           break;
         default:
           if (this.value) {
-            this.data.quill.insertEmbed(
+            this.data.quill['insertEmbed'](
               index,
               this.data.type,
               this.value,

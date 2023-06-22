@@ -1,11 +1,8 @@
 import {
-  AfterViewInit,
   Component,
   ElementRef,
   EventEmitter,
   Input,
-  OnDestroy,
-  OnInit,
   Output,
   Renderer2,
   ViewChild,
@@ -18,7 +15,6 @@ import { QuillInputDialogComponent } from '../_dialogs/quill-input-dialog/quill-
 import { Marks } from './view-comment-data.marks';
 import { LanguagetoolResult } from '../../../services/http/languagetool.service';
 import { NotificationService } from '../../../services/util/notification.service';
-import { AccessibilityEscapedInputDirective } from '../../../directives/accessibility-escaped-input.directive';
 import { EventService } from '../../../services/util/event.service';
 import { MatTooltip } from '@angular/material/tooltip';
 import {
@@ -28,18 +24,15 @@ import {
 } from '../../../utils/quill-utils';
 import { ReplaySubject, takeUntil } from 'rxjs';
 import { DsgvoVideo } from '../../../quill-extentions/formats/dsgvo-video';
-import { FullscreenImageDialogComponent } from '../_dialogs/fullscreen-image-dialog/fullscreen-image-dialog.component';
 
 @Component({
   selector: 'app-view-comment-data',
   templateUrl: './view-comment-data.component.html',
   styleUrls: ['./view-comment-data.component.scss'],
 })
-export class ViewCommentDataComponent
-  implements OnInit, AfterViewInit, OnDestroy
-{
-  @ViewChild('editor') editor: any;
-  @ViewChild('quillView') quillView: any;
+export class ViewCommentDataComponent {
+  @ViewChild('editor') editor: unknown;
+  @ViewChild('quillView') quillView: unknown;
   @ViewChild('editorErrorLayer') editorErrorLayer: ElementRef<HTMLDivElement>;
   @ViewChild('tooltipContainer') tooltipContainer: ElementRef<HTMLDivElement>;
   @ViewChild('moderatorToolbarFontColor')
@@ -102,7 +95,7 @@ export class ViewCommentDataComponent
 
   @Input() set currentData(data: StandardDelta) {
     this._currentData = data;
-    if (this.editor?.quillEditor || this.quillView?.quillEditor) {
+    if (this.editor?.['quillEditor'] || this.quillView?.['quillEditor']) {
       this.set(this._currentData);
     }
   }
@@ -141,25 +134,19 @@ export class ViewCommentDataComponent
     return true;
   }
 
-  ngOnInit(): void {}
-
-  ngAfterViewInit() {}
-
-  ngOnDestroy() {}
-
   onDocumentClick() {
     if (!this._marks) {
       return;
     }
-    const range = this.editor.quillEditor.getSelection(false);
+    const range = this.editor['quillEditor'].getSelection(false);
     this._marks.onClick(range && range.length === 0 ? range.index : null);
   }
 
   clear(): void {
     if (this.isEditor) {
-      this.editor.quillEditor.setContents({ ops: [] });
+      this.editor['quillEditor'].setContents({ ops: [] });
     } else {
-      this.quillView.quillEditor.setContents({ ops: [] });
+      this.quillView['quillEditor'].setContents({ ops: [] });
     }
   }
 
@@ -167,16 +154,16 @@ export class ViewCommentDataComponent
     if (!this._mutateObserver) {
       this._mutateObserver = new MutationObserver(this.onMutate.bind(this));
       const target = this.isEditor
-        ? this.editor.editorElem
-        : this.quillView.editorElem;
+        ? this.editor['editorElem']
+        : this.quillView['editorElem'];
       this._mutateObserver.observe(target.firstElementChild, {
         childList: true,
       });
     }
     if (this.isEditor) {
-      this.editor.quillEditor.setContents(delta);
+      this.editor['quillEditor'].setContents(delta);
     } else {
-      this.quillView.quillEditor.setContents(delta);
+      this.quillView['quillEditor'].setContents(delta);
     }
     this.recalcAspectRatio();
   }
@@ -186,8 +173,8 @@ export class ViewCommentDataComponent
       return;
     }
     const elem = this.isEditor
-      ? this.editor.editorElem.firstElementChild
-      : this.quillView.editorElem.firstElementChild;
+      ? this.editor['editorElem'].firstElementChild
+      : this.quillView['editorElem'].firstElementChild;
     elem.querySelectorAll('.images .ql-video').forEach((e: HTMLElement) => {
       const width = parseFloat(window.getComputedStyle(e).width);
       e.style.height = (width * 9) / 16 + 'px';
@@ -235,8 +222,8 @@ export class ViewCommentDataComponent
     });
   }
 
-  private onEditorChange(e: any, wasLastPaste: boolean): boolean {
-    if (e.event === 'text-change' && wasLastPaste) {
+  private onEditorChange(e: unknown, wasLastPaste: boolean): boolean {
+    if (e['event'] === 'text-change' && wasLastPaste) {
       wasLastPaste = false;
       this.cleanContentOnPaste(e);
     }
@@ -248,7 +235,7 @@ export class ViewCommentDataComponent
         setTimeout(() => {
           let left = parseFloat(tooltip.style.left);
           const containerWidth =
-            this.editor.editorElem.getBoundingClientRect().width;
+            this.editor['editorElem'].getBoundingClientRect().width;
           if (left < 0) {
             tooltip.style.left = '0';
             left = 0;
@@ -263,12 +250,12 @@ export class ViewCommentDataComponent
     return wasLastPaste;
   }
 
-  private cleanContentOnPaste(event: any) {
-    if (event.source !== 'user') {
+  private cleanContentOnPaste(event: unknown) {
+    if (event['source'] !== 'user') {
       return;
     }
     const newDelta = { ops: [] };
-    for (const deltaObj of event.delta.ops) {
+    for (const deltaObj of event['delta'].ops) {
       if (deltaObj.retain) {
         newDelta.ops.push({ retain: deltaObj.retain });
         continue;
@@ -287,17 +274,17 @@ export class ViewCommentDataComponent
         newDelta.ops.push({ insert: deltaObj.insert });
       }
     }
-    this.editor.quillEditor.setContents(event.oldDelta, 'silent');
-    this.editor.quillEditor.updateContents(newDelta, 'silent');
+    this.editor['quillEditor'].setContents(event['oldDelta'], 'silent');
+    this.editor['quillEditor'].updateContents(newDelta, 'silent');
   }
 
   private overrideQuillTooltip() {
-    const tooltip = this.editor.quillEditor.theme.tooltip;
+    const tooltip = this.editor['quillEditor'].theme.tooltip;
     const prev = tooltip.show.bind(tooltip);
     let range;
     tooltip.show = () => {
-      const sel = this.editor.quillEditor.getSelection(false);
-      const delta = this.editor.quillEditor.getContents();
+      const sel = this.editor['quillEditor'].getSelection(false);
+      const delta = this.editor['quillEditor'].getContents();
       let currentSize = 0;
       for (const op of delta.ops) {
         if (typeof op['insert'] === 'string') {
@@ -325,13 +312,13 @@ export class ViewCommentDataComponent
           retain: range.length,
           attributes: { link: val },
         });
-        this.editor.quillEditor.updateContents({ ops });
+        this.editor['quillEditor'].updateContents({ ops });
       });
     };
   }
 
   private handle(type: string, overrideMeta = '', overrideAction = null) {
-    const quill = this.editor.quillEditor;
+    const quill = this.editor['quillEditor'];
     let meta: string = null;
     const selection = quill.getSelection(false);
     if (overrideMeta) {

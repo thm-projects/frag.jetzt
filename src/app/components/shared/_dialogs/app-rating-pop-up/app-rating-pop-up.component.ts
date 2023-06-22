@@ -22,7 +22,7 @@ export class AppRatingPopUpComponent implements OnInit {
     result: RatingResult,
     below: boolean,
   ) {
-    const rect = ref.getBoundingClientRect();
+    ref.getBoundingClientRect();
     dialog.open(AppRatingPopUpComponent, {
       position: {
         left: '50%',

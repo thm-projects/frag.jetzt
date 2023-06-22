@@ -58,7 +58,7 @@ export class DsgvoVideo {
   }
 
   static sanitize(url: string) {
-    return null;
+    return url;
   }
 
   static value(domNode: HTMLElement) {

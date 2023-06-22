@@ -130,9 +130,9 @@ export const uploadCSV = (): Observable<string> =>
             subscriber.complete();
           }
         });
-      };
-      window.addEventListener('focus', func, { once: true });
       }
+    };
+    window.addEventListener('focus', func, { once: true });
   });
 
 export interface BonusArchiveEntry {
