@@ -95,6 +95,8 @@ ngbuild:
     - install
   needs:
     - install
+  before_script:
+    - npm update npm -g
   script:
     - npm run build:ssr
   artifacts:
