@@ -13,7 +13,14 @@
   <div
     class="background-image"
     *ngFor="let background of carousel; index as i"
-    [ngStyle]="getBackgroundStyleForEntry(i)"></div>
+    [ngStyle]="getBackgroundStyleForEntry(i)">
+    <div
+      *ngIf="contentContainer.offsetWidth > 1100"
+      class="foreground-container"
+      [ngStyle]="
+        getForegroundStyleForEntry(i, foregroundAnchor.offsetLeft)
+      "></div>
+  </div>
 </div>
 <div
   class="side-overlay"
@@ -134,6 +141,7 @@
         </div>
       </div>
     </div>
+    <div #foregroundAnchor></div>
   </div>
 </div>
 
