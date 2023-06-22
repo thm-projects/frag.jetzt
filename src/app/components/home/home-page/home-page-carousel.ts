@@ -26,23 +26,25 @@ export const carousel: {
       fr: 'Q&R avec ChatGPT',
     },
     description: {
-      en: "Let ChatGPT answer all knowledge questions. Our prompt catalog will help you generate tailored and precise texts. A quick fact check, and you've saved yourself hours of work. Experience how AI makes you more efficient!",
-      de: 'Lass ChatGPT alle Wissensfragen beantworten. Unser Prompt-Katalog hilft dir, maßgeschneiderte und präzise Texte zu generieren. Ein kurzer Faktencheck und du hast dir viele Stunden Arbeit erspart. Erlebe, wie die KI dich effizienter macht!',
-      fr: "Laisse ChatGPT répondre à toutes les questions de connaissance. Notre catalogue de prompts t'aidera à générer des textes précis et sur mesure. Un rapide contrôle des faits et tu as économisé des heures de travail. Découvre comment l'IA te rend plus efficace !",
+      en: "Let ChatGPT answer all knowledge questions. Our prompt catalog will help you generate tailored and precise answers. A quick fact check, and you've saved yourself hours of work. Experience how AI makes you more efficient!",
+      de: 'Lass ChatGPT alle Wissensfragen beantworten. Unser Prompt-Katalog hilft dir, maßgeschneiderte und präzise Antworten zu generieren. Ein kurzer Faktencheck und du hast dir viele Stunden Arbeit erspart. Erlebe, wie die KI dich effizienter macht!',
+      fr: "Laisse ChatGPT répondre à toutes les questions de connaissance. Notre catalogue de prompts t'aidera à générer des réponses précises et sur mesure. Un rapide contrôle des faits et tu as économisé des heures de travail. Découvre comment l'IA te rend plus efficace !",
     },
     images: [
       {
         url: 'url("/assets/background/anatomy.svg")',
         override: {
-          default: {},
+          default: {
+            backgroundSize: '90%',
+          },
         },
       },
       {
-        isBackground: true,
+        isBackground: false,
         url: 'url("/assets/background/background-gpt1_masked.png")',
         override: {
           default: {
-            backgroundSize: '100%',
+            backgroundSize: '80%',
           },
         },
       },
@@ -64,7 +66,7 @@ export const carousel: {
         url: 'url("/assets/background/Chatbot.png")',
         override: {
           default: {
-            backgroundSize: '28%',
+            backgroundSize: '80%',
           },
         },
       },
@@ -86,7 +88,7 @@ export const carousel: {
         url: 'url("/assets/background/forum.svg")',
         override: {
           default: {
-            backgroundSize: '33%',
+            backgroundSize: '80%',
           },
         },
       },
@@ -108,7 +110,7 @@ export const carousel: {
         url: 'url("/assets/background/moderation-2.svg")',
         override: {
           default: {
-            backgroundSize: '33%',
+            backgroundSize: '80%',
           },
         },
       },
@@ -121,16 +123,16 @@ export const carousel: {
       fr: 'Catégories',
     },
     description: {
-      en: 'Create questions and assign them »labels«. This way, you can categorize your questions, even retrospectively. Click on a label and only questions with this label will be displayed. For example, in a panel discussion, you could use labels such as »Question for Mr. Scholz« or »Question for Ms. Baerbock« to foster a topic-oriented dialogue.',
-      de: 'Erstelle Fragen und ordne ihnen »Labels« zu. So kannst du deine Fragen kategorisieren, sogar nachträglich. Ein Klick auf ein Label und nur Fragen mit diesem Label werden angezeigt. Zum Beispiel könntest du in einer Podiumsdiskussion Labels wie »Frage an Herrn Scholz« oder »Frage an Frau Baerbock« verwenden, um einen themenorientierten Dialog zu fördern.',
-      fr: "Crée des questions et attribue-leur des « labels ». Ainsi, tu peux catégoriser tes questions, même a posteriori. Clique sur un label et seules les questions avec ce label seront affichées. Par exemple, lors d'un débat, tu pourrais utiliser des labels tels que « Question pour M. Scholz » ou « Question pour Mme Baerbock » pour favoriser un dialogue axé sur des sujets spécifiques.",
+      en: 'Create questions and assign them »labels«. This way, you can categorize your questions. Click on a label and only questions with this label will be displayed. For example, in a panel discussion, you could use labels such as »Question for Mr. Scholz« or »Question for Ms. Baerbock« to moderate a topic-oriented dialogue.',
+      de: 'Erstelle Fragen und ordne ihnen »Labels« zu. So kannst du deine Fragen kategorisieren. Ein Klick auf ein Label und nur Fragen mit diesem Label werden angezeigt. Zum Beispiel könntest du in einer Podiumsdiskussion Labels wie »Frage an Herrn Scholz« oder »Frage an Frau Baerbock« verwenden, um einen themenorientierten Dialog zu moderieren.',
+      fr: "Crée des questions et attribue-leur des « labels ». Ainsi, tu peux catégoriser tes questions. Clique sur un label et seules les questions avec ce label seront affichées. Par exemple, lors d'un débat, tu pourrais utiliser des labels tels que « Question pour M. Scholz » ou « Question pour Mme Baerbock » pour modérer un dialogue axé sur un thème précis.",
     },
     images: [
       {
         url: 'url("/assets/background/folders.svg")',
         override: {
           default: {
-            backgroundSize: '37%',
+            backgroundSize: '90%',
           },
         },
       },
@@ -152,7 +154,7 @@ export const carousel: {
         url: 'url("/assets/background/at-sign.svg")',
         override: {
           default: {
-            backgroundSize: '27%',
+            backgroundSize: '60%',
           },
         },
       },
@@ -174,7 +176,7 @@ export const carousel: {
         url: 'url("/assets/background/bonus.svg")',
         override: {
           default: {
-            backgroundSize: '35%',
+            backgroundSize: '80%',
           },
         },
       },
@@ -196,7 +198,7 @@ export const carousel: {
         url: 'url("/assets/background/quizzing-7.png")',
         override: {
           default: {
-            backgroundSize: '35%',
+            backgroundSize: '80%',
           },
         },
       },
@@ -218,7 +220,7 @@ export const carousel: {
         url: 'url("/assets/background/poll.png")',
         override: {
           default: {
-            backgroundSize: '33%',
+            backgroundSize: '85%',
           },
         },
       },
@@ -240,7 +242,7 @@ export const carousel: {
         url: 'url("/assets/background/brainstorming.svg")',
         override: {
           default: {
-            'background-size': '35%',
+            'background-size': '80%',
           },
         },
       },
@@ -262,7 +264,7 @@ export const carousel: {
         url: 'url("/assets/background/question_radar.svg")',
         override: {
           default: {
-            'background-size': '36%',
+            'background-size': '90%',
           },
         },
       },
@@ -284,7 +286,7 @@ export const carousel: {
         url: 'url("/assets/background/lens.svg")',
         override: {
           default: {
-            'background-size': '34%',
+            'background-size': '80%',
           },
         },
       },
@@ -306,7 +308,7 @@ export const carousel: {
         url: 'url("/assets/background/compass.svg")',
         override: {
           default: {
-            'background-size': '28%',
+            'background-size': '60%',
           },
         },
       },
@@ -328,7 +330,7 @@ export const carousel: {
         url: 'url("/assets/background/test-tubes.svg")',
         override: {
           default: {
-            'background-size': '34%',
+            'background-size': '80%',
           },
         },
       },
@@ -350,7 +352,7 @@ export const carousel: {
         url: 'url("/assets/background/europa.svg")',
         override: {
           default: {
-            'background-size': '34%',
+            'background-size': '90%',
           },
         },
       },
@@ -372,7 +374,7 @@ export const carousel: {
         url: 'url("/assets/background/info.svg")',
         override: {
           default: {
-            'background-size': '34%',
+            'background-size': '70%',
           },
         },
       },
@@ -394,7 +396,7 @@ export const carousel: {
         url: 'url("/assets/background/dollars.svg")',
         override: {
           default: {
-            'background-size': '34%',
+            'background-size': '80%',
           },
         },
       },
@@ -416,7 +418,7 @@ export const carousel: {
         url: 'url("/assets/background/rocket.svg")',
         override: {
           default: {
-            'background-size': '40%',
+            'background-size': '100%',
           },
         },
       },
