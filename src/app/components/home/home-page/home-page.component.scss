@@ -139,6 +139,16 @@ $carousel-container-size: 450px;
   }
 }
 
+.foreground-container {
+  width: 5px;
+  height: 100%;
+  position: absolute;
+  right: 0;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
 .main-heading-primary {
   display: block;
   font-size: 30px;
