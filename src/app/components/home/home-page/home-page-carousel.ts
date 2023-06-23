@@ -26,9 +26,9 @@ export const carousel: {
       fr: 'Q&R avec ChatGPT',
     },
     description: {
-      en: "Let ChatGPT answer all knowledge questions. Our prompt catalog will help you generate tailored and precise answers. A quick fact check, and you've saved yourself hours of work. Experience how AI makes you more efficient!",
-      de: 'Lass ChatGPT alle Wissensfragen beantworten. Unser Prompt-Katalog hilft dir, maßgeschneiderte und präzise Antworten zu generieren. Ein kurzer Faktencheck und du hast dir viele Stunden Arbeit erspart. Erlebe, wie die KI dich effizienter macht!',
-      fr: "Laisse ChatGPT répondre à toutes les questions de connaissance. Notre catalogue de prompts t'aidera à générer des réponses précises et sur mesure. Un rapide contrôle des faits et tu as économisé des heures de travail. Découvre comment l'IA te rend plus efficace !",
+      en: "Let ChatGPT answer all knowledge questions. Our prompt presets will help you generate tailored and precise answers. A quick fact check, and you've saved yourself hours of work. Experience how AI makes you more efficient!",
+      de: 'Lass ChatGPT alle Wissensfragen beantworten. Unsere Prompt-Voreinstellungen ermöglichen es dir, maßgeschneiderte und präzise Antworten zu generieren. Ein kurzer Faktencheck und du hast dir viele Stunden Arbeit erspart. Erlebe, wie die KI dich effizienter macht!',
+      fr: "Laisse ChatGPT répondre à toutes les questions de connaissance. Nos préréglages de prompt t'aideront à générer des réponses précises et sur mesure. Un rapide contrôle des faits et tu as économisé des heures de travail. Découvre comment l'IA te rend plus efficace !",
     },
     images: [
       {
@@ -101,9 +101,9 @@ export const carousel: {
       fr: 'Modération',
     },
     description: {
-      en: "Want to review posts before they are published in the forum? Use our moderation feature. Or set it to automated: Define a threshold for negative ratings, beyond which posts are moved to moderation. This way, the group can co-decide what content belongs in the forum and what doesn't.",
-      de: 'Du möchtest Beiträge vor der Veröffentlichung im Forum prüfen? Dann nutze unsere Moderationsfunktion. Oder automatisiert: Lege eine Schwelle für negative Bewertungen fest, ab der Beiträge in die Moderation verschoben werden. So kann die Gruppe mitentscheiden, welche Inhalte ins Forum gehören und welche nicht.',
-      fr: "Veux-tu vérifier les posts avant qu'ils ne soient publiés sur le forum ? Utilise notre fonction de modération. Ou en automatique : fixe un seuil pour les évaluations négatives, au-delà duquel les posts sont déplacés vers la modération. Ainsi, le groupe peut co-décider du contenu qui appartient au forum et celui qui n'y appartient pas.",
+      en: "Want to review posts before they are published? Use our moderation feature. Or set it to automated: Define a threshold for negative ratings, beyond which posts are moved to moderation. This way, the group can co-decide what content belongs in the forum and what doesn't.",
+      de: 'Du möchtest Beiträge vor ihrer Veröffentlichung prüfen? Dann nutze unsere Moderationsfunktion. Oder automatisiert: Lege eine Schwelle für negative Bewertungen fest, ab der Beiträge in die Moderation verschoben werden. So kann die Gruppe mitentscheiden, welche Inhalte ins Forum gehören und welche nicht.',
+      fr: "Veux-tu vérifier les posts avant qu'ils ne soient publiés ? Utilise notre fonction de modération. Ou en automatique : fixe un seuil pour les évaluations négatives, au-delà duquel les posts sont déplacés vers la modération. Ainsi, le groupe peut co-décider du contenu qui appartient au forum et celui qui n'y appartient pas.",
     },
     images: [
       {
@@ -123,9 +123,9 @@ export const carousel: {
       fr: 'Catégories',
     },
     description: {
-      en: 'Create questions and assign them »labels«. This way, you can categorize your questions. Click on a label and only questions with this label will be displayed. For example, in a panel discussion, you could use labels such as »Question for Mr. Scholz« or »Question for Ms. Baerbock« to moderate a topic-oriented dialogue.',
-      de: 'Erstelle Fragen und ordne ihnen »Labels« zu. So kannst du deine Fragen kategorisieren. Ein Klick auf ein Label und nur Fragen mit diesem Label werden angezeigt. Zum Beispiel könntest du in einer Podiumsdiskussion Labels wie »Frage an Herrn Scholz« oder »Frage an Frau Baerbock« verwenden, um einen themenorientierten Dialog zu moderieren.',
-      fr: "Crée des questions et attribue-leur des « labels ». Ainsi, tu peux catégoriser tes questions. Clique sur un label et seules les questions avec ce label seront affichées. Par exemple, lors d'un débat, tu pourrais utiliser des labels tels que « Question pour M. Scholz » ou « Question pour Mme Baerbock » pour modérer un dialogue axé sur un thème précis.",
+      en: 'Create questions and assign them »labels«. This way, you can categorize your questions. Click on a label and only questions with this label will be displayed. For example, in a panel discussion, you could use labels such as »Question for Mr. Scholz« or »Question for Ms. Baerbock« to bundle the questions from the audience',
+      de: 'Erstelle Fragen und gib ihnen »Labels«. So kannst du deine Fragen kategorisieren. Ein Klick auf ein Label und nur Fragen mit diesem Label werden angezeigt. Zum Beispiel könntest du in einer Podiumsdiskussion Labels wie »Frage an Herrn Scholz« oder »Frage an Frau Baerbock« verwenden, um die Fragen aus dem Publikum zu bündeln.',
+      fr: "Crée des questions et attribue-leur des « labels ». Ainsi, tu peux catégoriser tes questions. Clique sur un label et seules les questions avec ce label seront affichées. Par exemple, lors d'un débat, tu pourrais utiliser des labels tels que « Question pour M. Scholz » ou « Question pour Mme Baerbock » pour grouper les questions du public.",
     },
     images: [
       {
@@ -145,9 +145,9 @@ export const carousel: {
       fr: 'Service Mail',
     },
     description: {
-      en: "You can use a frag.jetzt room on a one-time or long-term basis. It's understandable that you don't want to search for new posts in each room every day. That's why we've set up a mail option for every room. You decide whether and when you want to receive notifications – an exclusive service for registered users.",
-      de: 'Du kannst einen frag.jetzt-Raum einmalig oder langfristig nutzen. Klar, dass du nicht jeden Tag in jedem Raum nach neuen Beiträgen suchen willst. Deshalb haben wir eine Mail-Option eingerichtet. Du entscheidest, ob und wann du Benachrichtigungen erhalten möchtest – ein exklusiver Service für registrierte User.',
-      fr: "Tu peux utiliser une salle frag.jetzt une seule fois ou à long terme. Il est compréhensible que tu ne veuilles pas chercher de nouveaux posts dans chaque salle chaque jour. C'est pourquoi nous avons mis en place une option mail pour chaque salle. Tu décides si et quand tu veux recevoir des notifications – un service exclusif pour les utilisateurs enregistrés.",
+      en: "You can use a room on a one-time or long-term basis. It's understandable that you don't want to search for new posts in each room every day. That's why we've set up a mail option for every room. You decide whether and when you want to receive notifications – an exclusive service for registered users.",
+      de: 'Du kannst einen Raum einmalig oder langfristig nutzen. Klar, dass du nicht jeden Tag in jedem Raum nach neuen Beiträgen suchen willst. Deshalb haben wir eine Mail-Option eingerichtet. Du entscheidest, ob und wann du Benachrichtigungen erhalten möchtest – ein exklusiver Service für registrierte User.',
+      fr: "Tu peux utiliser une salle une seule fois ou à long terme. Il est compréhensible que tu ne veuilles pas chercher de nouveaux posts dans chaque salle chaque jour. C'est pourquoi nous avons mis en place une option mail pour chaque salle. Tu décides si et quand tu veux recevoir des notifications – un service exclusif pour les utilisateurs enregistrés.",
     },
     images: [
       {
