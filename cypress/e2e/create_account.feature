@@ -3,7 +3,8 @@ Feature: Check if a user can sign up to frag.jetzt
 
     Scenario: Create a new Account
         Given I am on the home page and skipped dialogues
-        When I click on the login Button
+        Given I am not logged in
+        When I click on the login menu button
         Then I should see the login form
         And I should be able to create a new user
 
