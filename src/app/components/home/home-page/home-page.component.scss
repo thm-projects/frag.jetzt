@@ -61,7 +61,7 @@ $carousel-container-size: 450px;
     .book-room-container {
       max-width: 100%;
       flex-shrink: 1;
-      padding-left: 15px;
+      padding-left: 25px;
     }
   }
 
@@ -139,6 +139,16 @@ $carousel-container-size: 450px;
   }
 }
 
+.foreground-container {
+  width: 5px;
+  height: 100%;
+  position: absolute;
+  right: 0;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
 .main-heading-primary {
   display: block;
   font-size: 30px;
@@ -151,12 +161,13 @@ $carousel-container-size: 450px;
 
 .main-heading-secondary {
   display: block;
-  font-size: 65px;
-  font-weight: normal;
+  font-size: 56px;
+  font-weight: bold;
   color: var(--secondary);
   padding: 0;
   margin: 0;
   line-height: 50px;
+  letter-spacing: 2pt;
 }
 
 .background-container {
@@ -168,7 +179,7 @@ $carousel-container-size: 450px;
   top: 0;
 
   > .background-image {
-    width: 98vw;
+    width: 100vw;
     height: 100vh;
     background-position: right center;
     background-repeat: no-repeat;
@@ -181,25 +192,6 @@ $carousel-container-size: 450px;
     transform: translateY(100px);
     &.before {
       filter: blur(256px);
-    }
-  }
-}
-
-.feedback {
-  display: block;
-  font-weight: normal;
-  font-size: 16px;
-  color: var(--on-background);
-
-  > a {
-    padding: 10px;
-    display: inline;
-
-    &:hover {
-      background-color: transparent;
-      color: var(--on-background);
-      outline: var(--secondary) solid 3px;
-      border-radius: 5px;
     }
   }
 }
@@ -243,7 +235,7 @@ $carousel-container-size: 450px;
   flex-direction: column;
   transition: all 500ms cubic-bezier(0.77, 0, 0.175, 1), width unset;
   user-select: none;
-  border-radius: 10px;
+  border-radius: 12px;
   @media (max-width: 860px) {
     width: 100%;
     max-width: calc(100vw - 410px);

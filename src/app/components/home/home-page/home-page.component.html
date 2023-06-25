@@ -13,7 +13,14 @@
   <div
     class="background-image"
     *ngFor="let background of carousel; index as i"
-    [ngStyle]="getBackgroundStyleForEntry(i)"></div>
+    [ngStyle]="getBackgroundStyleForEntry(i)">
+    <div
+      *ngIf="contentContainer.offsetWidth > 1100"
+      class="foreground-container"
+      [ngStyle]="
+        getForegroundStyleForEntry(i, foregroundAnchor.offsetLeft)
+      "></div>
+  </div>
 </div>
 <div
   class="side-overlay"
@@ -67,33 +74,17 @@
         </span>
       </div>
       <div
-        fxLayout="row"
-        fxLayoutGap="16px"
-        fxLayoutAlign="flex-start center">
-        <app-new-landing></app-new-landing>
-      </div>
-      <div fxLayout="row">
+        data-nosnippet
+        fxLayout="row">
         <app-app-rating
           *ngIf="accumulatedRatings"
           [ratingResults]="accumulatedRatings"></app-app-rating>
       </div>
-      <div>
-        <h2>
-          <span
-            class="feedback"
-            data-nosnippet>
-            <a
-              [joyrideStep]="'feedbackLink'"
-              appJoyrideTemplate
-              [stepPosition]="'top'"
-              href="https://frag.jetzt/participant/room/Feedback"
-              target="_blank"
-              rel="noreferrer noopener"
-              aria-labelledby="feedback-aria">
-              {{ "login.welcome-feedback" | translate }}
-            </a>
-          </span>
-        </h2>
+      <div
+        fxLayout="row"
+        fxLayoutGap="16px"
+        fxLayoutAlign="flex-start center">
+        <app-new-landing></app-new-landing>
       </div>
     </div>
     <div
@@ -150,11 +141,13 @@
         </div>
       </div>
     </div>
+    <div #foregroundAnchor></div>
   </div>
 </div>
 
 <div class="visually-hidden">
   <div
+    data-nosnippet
     id="feedback-aria"
     style="display: none">
     {{ "login.feedback-aria" | translate }}

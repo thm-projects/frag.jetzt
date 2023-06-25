@@ -116,6 +116,9 @@ app-comment {
 .scrollTop {
   position: fixed;
   left: 20px;
+  @media (min-width: 960px) {
+    left: calc(50% - 480px);
+  }
   bottom: 65px;
   transform: scale(0);
   z-index: 1;
