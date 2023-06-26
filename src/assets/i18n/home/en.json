@@ -343,7 +343,7 @@
     "accessibility-join-button": "Enter the session with the specified session key.",
     "accessibility-join-input": "Here you can enter the key of the session you want to join. The presenter will tell you the session key.",
     "app-rating": "Reevaluate app",
-    "create-session": "Book a room",
+    "create-session": "Create a room",
     "created": "The room for the session »{{longRoomName}}« has been booked.",
     "custom-shortid": "Generate key code",
     "custom-shortid-placeholder": "Key code from: a-z A-Z 0-9 - _ ~ .",
@@ -387,8 +387,8 @@
   },
   "joyride": {
     "cantAccessRoute": "This route is not available. The tour will be cancelled.",
-    "createRoom": "Anyone can book a room for an event. The access code is either generated or you determine it yourself. Bear in mind that without registration, the room and all its data will only exist in this browser.",
-    "createRoomTitle": "Book a room",
+    "createRoom": "Anyone can create a room for an event. The access code is either generated or you determine it yourself. Bear in mind that without registration, the room and all its data will only exist in this browser.",
+    "createRoomTitle": "Create a room",
     "dashboard": "This is the menu for the live notifications",
     "dashboardTitle": "Live notifications",
     "done": "Finish",
@@ -591,7 +591,7 @@
   "room-create": {
     "cancel": "Cancel",
     "cancel-description": "Cancel",
-    "create-room": "Book room",
+    "create-room": "Create a room",
     "create-room-description": "New session"
   },
   "room-export": {
@@ -889,7 +889,7 @@
   },
   "gptchat-info": {
     "title": "ChatGPT",
-    "content": "ChatGPT is only available in rooms created by a registered user. This room has been created by a guest. Create your own room to use ChatGPT.\n\nHere's how it works in just two steps:\n\n1. Register on frag.jetzt, sign in, and book a room.\n\n2. Add the OpenAI API key in the options menu of your room and you're good to go!\n\nYour API key is securely stored on our server and your frag.jetzt password is also secure. Additionally, you can limit the token quota and API costs for a limited time if you want to make ChatGPT available for use in your room. You can find all the settings in the options menu of your room.\n\nStart now with a $5 credit that you can use for the first 3 months. Depending on the language model you choose, you can consume several million tokens (1 token is approximately 5-7 characters) for ChatGPT requests with this credit.",
+    "content": "ChatGPT is only available in rooms created by a registered user. This room has been created by a guest. Create your own room to use ChatGPT.\n\nHere's how it works in just two steps:\n\n1. Register on frag.jetzt, sign in, and create a room.\n\n2. Add the OpenAI API key in the options menu of your room and you're good to go!\n\nYour API key is securely stored on our server and your frag.jetzt password is also secure. Additionally, you can limit the token quota and API costs for a limited time if you want to make ChatGPT available for use in your room. You can find all the settings in the options menu of your room.\n\nStart now with a $5 credit that you can use for the first 3 months. Depending on the language model you choose, you can consume several million tokens (1 token is approximately 5-7 characters) for ChatGPT requests with this credit.",
     "cancel": "Close"
   }
 }

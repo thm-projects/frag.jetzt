@@ -343,7 +343,7 @@
     "accessibility-join-button": "Betritt die Sitzung, deren Code du eingegeben hast.",
     "accessibility-join-input": "Hier kannst du den Namen der Sitzung eingeben der du beitreten möchtest. Den Namen sagt dir die Sitzungsleitung.",
     "app-rating": "App neu bewerten",
-    "create-session": "Raum buchen",
+    "create-session": "Raum erstellen",
     "created": "Der Raum für die Sitzung »{{longRoomName}}« wurde gebucht.",
     "custom-shortid": "Raum-Code generieren lassen",
     "custom-shortid-placeholder": "Raum-Code aus: a-z A-Z 0-9 - _ ~ .",
@@ -387,8 +387,8 @@
   },
   "joyride": {
     "cantAccessRoute": "Diese Route ist nicht verfügbar. Die Tour wird abgebrochen.",
-    "createRoom": "Jeder kann einen Raum für eine Veranstaltung buchen. Der Zugangscode wird entweder generiert oder du bestimmst ihn selbst. Bedenke, ohne Registrierung existiert der Raum mit allen Daten nur in diesem Browser.",
-    "createRoomTitle": "Raum buchen",
+    "createRoom": "Jeder kann einen Raum für eine Veranstaltung erstellen. Der Zugangscode wird entweder generiert oder du bestimmst ihn selbst. Bedenke, ohne Registrierung existiert der Raum mit allen Daten nur in diesem Browser.",
+    "createRoomTitle": "Raum erstellen",
     "dashboard": "Hier befindet sich das Menü für die Live-Nachrichten",
     "dashboardTitle": "Live-Nachrichten",
     "done": "Fertig",
@@ -396,7 +396,7 @@
     "feedbackLinkTitle": "Raum für Feedback",
     "greeting": "Wir führen dich zu den wichtigsten Stellen in unserer Q&A-App »frag.jetzt«. Die Tour dauert nur wenige Minuten. In der App informieren dich die Tooltips der Buttons und Icons über deren Funktion.",
     "greetingTitle": "Onboarding",
-    "introduction": "Wenn du eigene Räume buchen möchtest, informiere dich hier über das didaktische Konzept, die Eigenschaften und die Einsatzszenarien der App. In der App findest du an dieser Stelle ein kurzes Video-Tutorial über die Use-Cases der aktuellen Seite.",
+    "introduction": "Wenn du eigene Räume erstellen möchtest, informiere dich hier über das didaktische Konzept, die Eigenschaften und die Einsatzszenarien der App. In der App findest du an dieser Stelle ein kurzes Video-Tutorial über die Use-Cases der aktuellen Seite.",
     "introductionTitle": "Einführung in »frag.jetzt«",
     "loginButtonHeader": "Nein, es sei denn du willst deine besuchten oder selbst erstellten Räume auf unserem Server speichern. Ein Konto ist auch für die Verwaltung von Bonuspunkten ratsam.",
     "loginButtonHeaderTitle": "Muss ich mich anmelden?",
@@ -591,7 +591,7 @@
   "room-create": {
     "cancel": "Abbrechen",
     "cancel-description": "Abbrechen",
-    "create-room": "Raum buchen",
+    "create-room": "Raum erstellen",
     "create-room-description": "Neue Sitzung."
   },
   "room-export": {
