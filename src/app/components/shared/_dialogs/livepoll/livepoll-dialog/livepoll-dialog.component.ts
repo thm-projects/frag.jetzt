@@ -1,4 +1,13 @@
-import { Component, Inject, Input, OnDestroy, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  Inject,
+  Input,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { DeviceInfoService } from '../../../../../services/util/device-info.service';
 import {
   LivepollTemplateContext,
@@ -61,10 +70,13 @@ export interface LivepollOptionEntry {
   ],
   animations: [...LivepollComponentUtility.animation],
 })
-export class LivepollDialogComponent implements OnInit, OnDestroy {
+export class LivepollDialogComponent
+  implements OnInit, OnDestroy, AfterViewInit {
   @Input() public livepollSession: LivepollSession | undefined;
   @Input() public template: LivepollTemplateContext;
   @Input() public isProduction: boolean = false;
+  @ViewChild('markdownContainer')
+  markdownContainerRef: ElementRef<HTMLDivElement>;
   public translateKey: string = 'common';
   public votes: number[] = [];
   public livepollVote: LivepollVote;
@@ -181,6 +193,10 @@ export class LivepollDialogComponent implements OnInit, OnDestroy {
     } else {
       console.error('Live Poll is not defined.');
     }
+  }
+
+  ngAfterViewInit() {
+    this.markdownContainerRef.nativeElement.scrollTop = 0;
   }
 
   ngOnDestroy(): void {
