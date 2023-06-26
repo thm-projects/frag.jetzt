@@ -343,7 +343,7 @@
     "accessibility-join-button": "Rejoins la session dont tu as saisi le code.",
     "accessibility-join-input": "Tu peux saisir ici le nom de la session que tu souhaites rejoindre. Le nom te sera communiqué par le responsable de la session.",
     "app-rating": "Réévaluer l'app",
-    "create-session": "Réserver une salle",
+    "create-session": "Créer une salle",
     "created": "La salle pour la session \"{{longRoomName}}\" a été réservée.",
     "custom-shortid": "Générer un code de salle",
     "custom-shortid-placeholder": "Code de salle à partir de: a-z A-Z 0-9 - _ ~ .",
@@ -387,8 +387,8 @@
   },
   "joyride": {
     "cantAccessRoute": "Cet itinéraire n'est pas disponible. La visite est annulée.",
-    "createRoom": "Tout le monde peut réserver une salle pour un événement. Le code d'accès est soit généré, soit tu le détermines toi-même. N'oublie pas que sans enregistrement, la salle et toutes les données n'existent que dans ce navigateur.",
-    "createRoomTitle": "Réserver une salle",
+    "createRoom": "Tout le monde peut créer une salle pour un événement. Le code d'accès est soit généré, soit tu le détermines toi-même. N'oublie pas que sans enregistrement, la salle et toutes les données n'existent que dans ce navigateur.",
+    "createRoomTitle": "Créer une salle",
     "dashboard": "Ici se trouve le menu pour les actualités en direct.",
     "dashboardTitle": "Messages en direct",
     "done": "Terminé",
@@ -591,7 +591,7 @@
   "room-create": {
     "cancel": "Annuler",
     "cancel-description": "Annuler",
-    "create-room": "Réserver la salle",
+    "create-room": "Créer une salle",
     "create-room-description": "Nouvelle session."
   },
   "room-export": {
