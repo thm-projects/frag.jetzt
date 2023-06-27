@@ -318,6 +318,7 @@
     "zoom-plus": "Text vergrößern",
     "zoom-reset": "Zoomstufe zurücksetzen",
     "gpt-chat": "Frag ChatGPT",
+    "gpt-brainstorming": "Lass ChatGPT brainstormen",
     "gpt-privacy-policy": "ChatGPT-Datenschutzrichtlinie",
     "gpt-prompts": "Meine ChatGPT-Prompts"
   },

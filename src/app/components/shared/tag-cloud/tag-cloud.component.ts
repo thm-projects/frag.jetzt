@@ -3,6 +3,7 @@ import {
   Component,
   ComponentRef,
   EventEmitter,
+  Injector,
   OnDestroy,
   OnInit,
   ViewChild,
@@ -44,9 +45,7 @@ import { TagCloudSettings } from '../../../utils/TagCloudSettings';
 import { SessionService } from '../../../services/util/session.service';
 import { BrainstormingSession } from '../../../models/brainstorming-session';
 import { IntroductionTagCloudComponent } from '../_dialogs/introductions/introduction-tag-cloud/introduction-tag-cloud.component';
-import {
-  IntroductionBrainstormingComponent,
-} from '../_dialogs/introductions/introduction-brainstorming/introduction-brainstorming.component';
+import { IntroductionBrainstormingComponent } from '../_dialogs/introductions/introduction-brainstorming/introduction-brainstorming.component';
 import { ComponentType } from '@angular/cdk/overlay';
 import { RoomDataService } from '../../../services/util/room-data.service';
 import {
@@ -57,7 +56,14 @@ import {
 } from '../../../utils/data-filter-object.lib';
 import { maskKeyword } from '../../../services/util/tag-cloud-data.util';
 import { FilteredDataAccess } from '../../../utils/filtered-data-access';
-import { forkJoin, Subject, Subscription, switchMap, takeUntil } from 'rxjs';
+import {
+  filter,
+  forkJoin,
+  Subject,
+  Subscription,
+  switchMap,
+  takeUntil,
+} from 'rxjs';
 import { UserManagementService } from '../../../services/util/user-management.service';
 import { BrainstormingBlacklistEditComponent } from '../_dialogs/brainstorming-blacklist-edit/brainstorming-blacklist-edit.component';
 import { BrainstormingTopic } from 'app/services/util/brainstorming-data-builder';
@@ -74,6 +80,10 @@ import {
 } from 'app/utils/ImportExportMethods';
 import { BonusTokenService } from 'app/services/http/bonus-token.service';
 import { BrainstormingCategory } from 'app/models/brainstorming-category';
+import { EventService } from 'app/services/util/event.service';
+import { ChatGPTBrainstormComponent } from '../_dialogs/chat-gptbrainstorm/chat-gptbrainstorm.component';
+import { KeywordExtractor } from 'app/utils/keyword-extractor';
+import { QuillUtils } from 'app/utils/quill-utils';
 
 class TagComment implements WordMeta {
   constructor(
@@ -141,6 +151,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
   private themeSubscription: Subscription;
   private demoDataKeys: [string, TagCloudDataTagEntry][] = [];
   private _demoActive = false;
+  private keywordExtractor: KeywordExtractor;
 
   constructor(
     private commentService: CommentService,
@@ -163,30 +174,36 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     private roomDataService: RoomDataService,
     private brainstormingService: BrainstormingService,
     private bonusTokenService: BonusTokenService,
+    private eventService: EventService,
+    injector: Injector,
   ) {
+    this.keywordExtractor = new KeywordExtractor(injector);
     this.brainstormingActive = this.router.url.endsWith('/brainstorming');
     for (let i = 0; i < 10; i++) {
-      this.demoDataKeys.push(['', {
-        weight: i,
-        adjustedWeight: i,
-        answerCount: 0,
-        cachedDownVotes: 0,
-        cachedUpVotes: 0,
-        cachedVoteCount: 0,
-        categories: new Set(),
-        comments: [],
-        commentsByCreator: 0,
-        commentsByModerators: 0,
-        countedComments: new Set(),
-        dependencies: new Set(),
-        distinctUsers: new Set(),
-        firstTimeStamp: new Date(),
-        generatedByQuestionerCount: 0,
-        lastTimeStamp: new Date(),
-        questionChildren: new Map(),
-        responseCount: 0,
-        taggedCommentsCount: 0,
-      }]);
+      this.demoDataKeys.push([
+        '',
+        {
+          weight: i,
+          adjustedWeight: i,
+          answerCount: 0,
+          cachedDownVotes: 0,
+          cachedUpVotes: 0,
+          cachedVoteCount: 0,
+          categories: new Set(),
+          comments: [],
+          commentsByCreator: 0,
+          commentsByModerators: 0,
+          countedComments: new Set(),
+          dependencies: new Set(),
+          distinctUsers: new Set(),
+          firstTimeStamp: new Date(),
+          generatedByQuestionerCount: 0,
+          lastTimeStamp: new Date(),
+          questionChildren: new Map(),
+          responseCount: 0,
+          taggedCommentsCount: 0,
+        },
+      ]);
     }
   }
 
@@ -226,11 +243,13 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
   ngAfterContentInit() {
     this.sessionService.onReady.subscribe(() => {
       this.initNavigation();
-      this.translateService.get('tag-cloud.demo-data-topic').subscribe((text) => {
-        for (let i = 0; i < 10; i++) {
-          this.demoDataKeys[i][0] = text.replace('%d', String(i + 1));
-        }
-      });
+      this.translateService
+        .get('tag-cloud.demo-data-topic')
+        .subscribe((text) => {
+          for (let i = 0; i < 10; i++) {
+            this.demoDataKeys[i][0] = text.replace('%d', String(i + 1));
+          }
+        });
       this.setCloudParameters(this.getCurrentCloudParameters(), false);
     });
   }
@@ -497,7 +516,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     });
   }
 
-  private rebuildDemoData(){
+  private rebuildDemoData() {
     if (!this.cloud) {
       return;
     }
@@ -535,6 +554,37 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
         this.user = newUser;
       }
     });
+    this.eventService
+      .on('tag-cloud.brainstorming-ideas-with-chatgpt')
+      .subscribe(() => {
+        const ref = ChatGPTBrainstormComponent.open(this.dialog, this.room);
+        ref.afterClosed().subscribe((e) => {
+          if (!e) {
+            return;
+          }
+          const session = this.room.brainstormingSession;
+          e.forEach((elem) => {
+            this.keywordExtractor
+              .createCommentInteractive({
+                body: { ops: [{ insert: elem + '\n\n' }] },
+                brainstormingLanguage: session.language,
+                brainstormingSessionId: session.id,
+                hadUsedDeepL: false,
+                isModerator: true,
+                keywordExtractionActive: false,
+                questionerName: 'ChatGPT',
+                selectedLanguage: 'auto',
+                userId: this.user.id,
+                tag: null,
+              })
+              .pipe(
+                filter((c) => Boolean(c)),
+                switchMap((c) => this.commentService.addComment(c)),
+              )
+              .subscribe();
+          });
+        });
+      });
     this.sessionService
       .getCategories()
       .pipe(takeUntil(this.destroyer))
