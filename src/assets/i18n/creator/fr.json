@@ -1184,5 +1184,16 @@
     "title": "ChatGPT",
     "content": "ChatGPT n'est disponible que dans les salles créées par un utilisateur enregistré. Cette salle a été créée par un invité. Crée ta propre salle pour utiliser ChatGPT.\n\nC'est aussi simple que ça, en deux étapes seulement:\n\n1. Inscris-toi sur frag.jetzt, crée un compte et réserve une salle.\n\n2. Dépose la [clé API d'OpenAI](https://platform.openai.com) dans le menu d'options de ta salle et c'est parti!\n\nTa clé API est stockée en toute sécurité sur notre serveur et ton mot de passe frag.jetzt est également sécurisé. De plus, tu peux limiter dans le temps le contingent de tokens et tes coûts API si tu veux autoriser ChatGPT à être utilisé dans ta salle. Tu trouveras tous les paramètres nécessaires dans le menu d'options de ta salle.\n\nDémarre maintenant avec un crédit gratuit de 5 $ que tu peux utiliser pendant les 3 premiers mois. Selon le modèle linguistique, tu peux ainsi consommer entre 250 000 et 12,5 millions de tokens.",
     "cancel": "Fermer"
+  },
+  "chatgpt-brainstorm": {
+    "title": "Brainstorming sur ChatGPT",
+    "cancel": "Annuler",
+    "confirm": "Appliquer",
+    "count": "Nombre d'idées",
+    "count-placeholder": "Indiquez ici le nombre d'idées",
+    "generate": "Générer",
+    "generate-tooltip": "Génère des idées avec l'aide de ChatGPT",
+    "prompt-preset": "Vous êtes un assistant chargé de participer au brainstorming. Donnez toujours des idées {{count}} pour les sujets suivants. Veillez à tout formater avec des listes en Markdown. Une idée ne doit pas comporter plus de {{wordCount}} mots. Essayez de ne pas dépasser {{charCount}} caractères par idée.",
+    "prompt": "Le thème de la séance de brainstorming est: \"\"\"{{topic}}\"\"\""
   }
 }
