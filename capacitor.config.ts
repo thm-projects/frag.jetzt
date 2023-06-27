@@ -5,7 +5,11 @@ const config: CapacitorConfig = {
   appName: 'frag.jetzt',
   webDir: 'dist',
   server: {
-    androidScheme: 'https'
+    androidScheme: 'https',
+    hostname: "frag.jetzt"
+  },
+  android: {
+    allowMixedContent: true
   }
 };
 
