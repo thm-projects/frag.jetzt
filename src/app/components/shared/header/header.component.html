@@ -41,7 +41,11 @@
         [stepPosition]="'bottom'"
         appJoyrideTemplate
         [matTooltip]="'header.chat-gpt-button' | translate"
-        *ngIf="!router.url.endsWith('/gpt-chat-room') && isInRouteWithRoles"
+        *ngIf="
+          !router.url.endsWith('/gpt-chat-room') &&
+          isInRouteWithRoles &&
+          !router.url.endsWith('/brainstorming')
+        "
         (click)="openGPT()">
         <span
           class="chatgpt-robot-icon"
@@ -53,22 +57,39 @@
 
       <button
         mat-flat-button
+        tabindex="0"
+        [matTooltip]="'header.chat-gpt-button' | translate"
+        *ngIf="
+          router.url.endsWith('/brainstorming') &&
+          room?.brainstormingSession?.active &&
+          userRole > 0
+        "
+        (click)="openBrainstormingGPT()">
+        <span
+          class="chatgpt-robot-icon"
+          style="transform: scale(1.2); margin-right: 5px"></span>
+        <span *ngIf="!showSmallButtons && deviceInfo.isCurrentlyDesktop">
+          {{ "header.gpt-brainstorming" | translate }}
+        </span>
+      </button>
+
+      <button
+        mat-flat-button
         routerLink="/gpt-prompts"
         tabindex="0"
         [joyrideStep]="'chatGPT'"
         [stepPosition]="'bottom'"
         appJoyrideTemplate
         [matTooltip]="'header.gpt-prompts' | translate"
-        *ngIf="router.url.endsWith('/gpt-chat-room') && isInRouteWithRoles"
-      >
-      <mat-icon
-        class="material-icons header-icons material-icons-filled"
-        style="transform: scale(1.2); margin-right: 5px">
-      assignment
-      </mat-icon>
-      <span *ngIf="!showSmallButtons && deviceInfo.isCurrentlyDesktop">
-        {{ "header.gpt-prompts" | translate }}
-      </span>
+        *ngIf="router.url.endsWith('/gpt-chat-room') && isInRouteWithRoles">
+        <mat-icon
+          class="material-icons header-icons material-icons-filled"
+          style="transform: scale(1.2); margin-right: 5px">
+          assignment
+        </mat-icon>
+        <span *ngIf="!showSmallButtons && deviceInfo.isCurrentlyDesktop">
+          {{ "header.gpt-prompts" | translate }}
+        </span>
       </button>
 
       <button
