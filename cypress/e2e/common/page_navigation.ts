@@ -10,6 +10,9 @@ Given('I am on the home page and skipped dialogues', async () => {
   cy.visit('/home');
   //wait till website is ready
   cy.wait(1000);
+});
+
+Given('I have accepted cookies', async () => {
   // confirm cookies
   cy.get('app-cookies').find('button.primary-confirm-button').click()
 });
