@@ -45,6 +45,7 @@ And('I should be able to save the options', () => {
 Then('I should see the room overview', () => {
   //test if redirect worked by checking the url
   cy.url().should('include', '/creator/room/' + roomData.shortId)
+  cy.wait(500)
   //check page content by examining the room title
   cy.get('app-room-creator-page').find('mat-card-title').should('contain.text', roomData.name)
 });
@@ -58,4 +59,20 @@ Given('that the test room will be deleted', () => {
     cy.wait(500)
     //check if redirect to /user page worked after deletion
     cy.url().should('include', '/user')
+});
+
+
+When('I am on the user page', () => {
+  cy.visit('/user')
+  cy.wait(1000)
+});
+
+
+Then('I should be able to join a prepared room with a room code', () => {
+  // the shortId of the prepared room comes from the .env file
+  // NOTICE: the room needs to be created in your local environment to make this test work locally
+  cy.get('#session_id-input').type(Cypress.env('preparedRoomId'));
+  cy.get('#session_enter-button').click();
+  cy.wait(1000)
+  cy.url().should('include', '/participant/room/' + Cypress.env('preparedRoomId') + '/comments')
 });

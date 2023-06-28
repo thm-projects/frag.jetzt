@@ -11,7 +11,14 @@ Feature: Test functionalities for a room
     And I should be able to save the options
     Then I should see the room overview
 
-  Scenario: Cleanup
+  Scenario: Delete a room for Cleanup
     Given I am on the home page and skipped dialogues
     Given that the test room will be deleted
+
+  Scenario: Join a prepared room as a guest
+    Given I am on the home page and skipped dialogues
+    Given I am logged in as a guest
+    When I am on the user page
+    Then I should be able to join a prepared room with a room code
+
 
