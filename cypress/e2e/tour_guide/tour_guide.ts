@@ -11,7 +11,7 @@ When('I accept the privacy terms', () => {
   cy.wait(500)
   //If the element is not found, the cookies have already been accepted
   //the cy.clearAll-calls are not working properly at this point
-  // cy.get('[aria-labelledby="cookie-header"]').find('.primary-confirm-button').click();
+  cy.get('[aria-labelledby="cookie-header"]').find('.primary-confirm-button').click();
 });
 
 Then('the tour guide pops up', () => {
@@ -20,7 +20,7 @@ Then('the tour guide pops up', () => {
 
 Given('the tour guide is visible', () => {
   cy.visit('/home');
-  // cy.get('[aria-labelledby="cookie-header"]').find('.primary-confirm-button').click();
+  cy.get('[aria-labelledby="cookie-header"]').find('.primary-confirm-button').click();
 });
 
 

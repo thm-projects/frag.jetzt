@@ -9,7 +9,7 @@ Then('I should see the login form', () => {
 
 And('I should be able to login to my account', () => {
 
-  //TODO to make this locally work, you need to follow the instructions in .env.local file
+  //to make this locally work, you need to follow the instructions in .env.local file
   cy.get('[aria-labelledby="email-description"]').type(Cypress.env('loginUserMail'))
   cy.get('[aria-labelledby="password-description"]').type(Cypress.env('loginUserPassword'))
 
