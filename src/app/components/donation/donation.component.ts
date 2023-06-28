@@ -1,5 +1,4 @@
 import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
-import { IPayPalConfig} from "ngx-paypal";
 
 declare var paypal;
 
@@ -12,8 +11,7 @@ declare var paypal;
 export class DonationComponent implements OnInit {
 
   constructor() { }
-
-  //public payPalConfig?: IPayPalConfig;
+  
   @Input() amount: string = '';
 
   product = {
