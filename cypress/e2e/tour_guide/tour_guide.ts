@@ -5,14 +5,9 @@ Given('I am on the home page', () => {
   cy.clearAllCookies()
   cy.clearAllLocalStorage()
   cy.visit('/home');
+  cy.wait(500)
 });
 
-When('I accept the privacy terms', () => {
-  cy.wait(500)
-  //If the element is not found, the cookies have already been accepted
-  //the cy.clearAll-calls are not working properly at this point
-  cy.get('[aria-labelledby="cookie-header"]').find('.primary-confirm-button').click();
-});
 
 Then('the tour guide pops up', () => {
   cy.get('app-ask-onboarding').should('be.visible');

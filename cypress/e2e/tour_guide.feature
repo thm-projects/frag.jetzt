@@ -3,7 +3,6 @@ Feature: Check if the tour guide works
 
     Scenario: Tour guide pops up
         Given I am on the home page
-        When I accept the privacy terms
         Then the tour guide pops up
 
     Scenario: Skip the tour guide

@@ -23,7 +23,7 @@ export default defineConfig({
     setupNodeEvents: (on, config) => {
       return require('./cypress/plugins/index.ts')(on, config);
     },
-    baseUrl: 'http://localhost:4200',
+    baseUrl: process.env.TEST_BASE_URL,
     specPattern: 'cypress/e2e/**/*.{feature,features}'
   },
 });

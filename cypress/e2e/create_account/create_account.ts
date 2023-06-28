@@ -27,7 +27,7 @@ And('I should be able to create a new user', () => {
   //wait till async request is finished
   cy.wait('@registerRequest')
   //check for confirmation message
-  cy.get('.mat-simple-snack-bar-content').should('contain.text','Erfolgreich registriert. Bitte prüfe deine Mailbox (eventuell sogar im Spam-Ordner)! Der Versand kann bis zu 10min dauern.')
+  cy.get('.mat-simple-snack-bar-content').should('contain.text','Successfully registered. Please check your mailbox (possibly even in spam folder)! The dispatch can take up to 10min.')
 
   //if there is a way to get the activiation key from email, this test could be extended
 });
