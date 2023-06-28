@@ -12,7 +12,7 @@ Given("I am on the overview of a prepared room", () => {
 });
 
 When('I open the chatGPT assistent', () => {
-  cy.get('button.mat-button-base').contains('Frag ChatGPT').click()
+  cy.get('button.mat-button-base').contains('Chat with ChatGPT').click()
   cy.wait(1000)
   cy.url().should('include', '/participant/room/' + Cypress.env('preparedRoomId') + '/gpt-chat-room')
 
