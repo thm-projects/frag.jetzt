@@ -16,7 +16,7 @@ When('I open the chatGPT assistent', () => {
   cy.wait(1000)
   cy.url().should('include', '/participant/room/' + Cypress.env('preparedRoomId') + '/gpt-chat-room')
 
-  cy.get('app-gpt-optin-privacy').find('button').contains('Akzeptieren').click()
+  cy.get('app-gpt-optin-privacy').find('button.secondary-btn').click()
 });
 
 
