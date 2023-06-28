@@ -74,7 +74,7 @@ export class ChatGPTBrainstormComponent implements OnInit {
               },
             ],
             model: 'gpt-3.5-turbo-16k',
-            temperature: 0.7,
+            temperature: 1.0,
             roomId: this.roomId,
           })
           .pipe(
