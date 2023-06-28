@@ -13,9 +13,9 @@ export default defineConfig({
   video: false,
   screenshotOnRunFailure: false,
   env: {
-    loginUserMail: process.env.TEST_USER_MAIL,
-    loginUserPassword: process.env.TEST_USER_PASSWORD,
-    preparedRoomId: process.env.TEST_ROOM_SHORTID,
+    loginUserMail: "itq94050@omeie.com",
+    loginUserPassword: "k*1myO!9dHAV",
+    preparedRoomId: "28828223"
   },
   e2e: {
     // We've imported your old cypress plugins here.
@@ -23,7 +23,7 @@ export default defineConfig({
     setupNodeEvents: (on, config) => {
       return require('./cypress/plugins/index.ts')(on, config);
     },
-    baseUrl: process.env.TEST_BASE_URL,
+    baseUrl: "https://staging.frag.jetzt",
     specPattern: 'cypress/e2e/**/*.{feature,features}'
   },
 });
