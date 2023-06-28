@@ -1,6 +1,4 @@
 export const disableTour = () => {
-  // confirm cookies
-  cy.get('app-cookies').find('button.primary-confirm-button').click()
   localStorage.setItem('onboarding_default', '{"state":"finished"}');
 };
 

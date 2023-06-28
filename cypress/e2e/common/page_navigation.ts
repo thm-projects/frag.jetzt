@@ -9,7 +9,9 @@ Given('I am on the home page and skipped dialogues', async () => {
   disableTour();
   cy.visit('/home');
   //wait till website is ready
-  cy.wait(1000)
+  cy.wait(1000);
+  // confirm cookies
+  cy.get('app-cookies').find('button.primary-confirm-button').click()
 });
 
 When('I click on the login menu button', () => {
