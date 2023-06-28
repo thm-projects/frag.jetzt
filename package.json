@@ -93,6 +93,7 @@
     "cypress-cucumber-preprocessor": "^4.3.1",
     "cypress-wait-until": "^1.7.2",
     "cypress-xpath": "^2.0.1",
+    "dotenv": "^16.3.1",
     "eslint": "^8.17.0",
     "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-import": "^2.26.0",
