@@ -43,8 +43,12 @@ And('The assistent should answer the prompt', () => {
 });
 
 
-And('I should be able to assume the question to the QnA forum of the room', () => {
-
-  cy.wait(300)
+And('I should be able to assume the answer to the QnA forum of the room', () => {
+    cy.get('div.gpt.ng-star-inserted').find('button.gpt-paste-btn').click()
+    cy.wait(500)
+    cy.get('app-spacy-dialog').find('button.primary-confirm-button').click()
+    cy.get('app-gptrating-dialog').find('button.primary-confirm-button').click()
+    cy.wait(500)
+    cy.url().should('include', '/participant/room/' + Cypress.env('preparedRoomId') + '/comments')
 });
 
