@@ -50,10 +50,11 @@ Then('I should see the room overview', () => {
   cy.get('app-room-creator-page').find('mat-card-title').should('contain.text', roomData.name)
 });
 
+// force is needed because there is an element which covers the button
 Given('that the test room will be deleted', () => {
     cy.visit('/creator/room/' + roomData.shortId);
     cy.wait(500)
-    cy.get('#session-button').click();
+    cy.get('#session-button').click({force: true});
     cy.get('.mat-menu-content').contains('Raum löschen').click()
     cy.get('app-room-delete').find('button.alert-confirm-button').click()
     cy.wait(500)
