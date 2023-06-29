@@ -70,7 +70,7 @@ e2e_cypress:
     - ng e2e arsnova-angular-frontend --watch=false
   artifacts:
     paths:
-      - cypress/e2e/videos
+      - cypress/videos
 
 sonar:
   stage: codequality
