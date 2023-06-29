@@ -68,6 +68,9 @@ e2e_cypress:
     - source ci_staging_backend.export
     - npx cypress verify
     - ng e2e arsnova-angular-frontend --watch=false
+  artifacts:
+    paths:
+      - cypress/e2e/videos
 
 sonar:
   stage: codequality
