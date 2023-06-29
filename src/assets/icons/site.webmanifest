@@ -2,30 +2,34 @@
   "name": "frag.jetzt",
   "short_name": "frag.jetzt",
   "description": "Die Digitalisierung des Nachfragens",
-  "categories": ["education", "audience response system", "Q&A"],
+  "categories": [
+    "education",
+    "audience response system",
+    "Q&A"
+  ],
   "lang": "de",
   "icons": [
     {
-      "src": "maskable_icon_x144.png",
-      "sizes": "144x144",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "maskable_icon_x192.png",
+      "src": "src/assets/images/manifest-icon-192.maskable.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "maskable_icon_x512.png",
+      "src": "src/assets/images/manifest-icon-192.maskable.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "src/assets/images/manifest-icon-512.maskable.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "maskable_icon.png",
-      "sizes": "1024x1024",
+      "src": "src/assets/images/manifest-icon-512.maskable.png",
+      "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
     }
@@ -33,15 +37,23 @@
   "shortcuts": [
     {
       "name": "Feedback",
-      "url": "/participant/room/Feedback"
+      "url": "/participant/room/Feedback",
+      "description": "Room for feature requests, bug reports, and general feedback",
+      "icons": [
+        {
+          "src": "/assets/images/frag-jetzt-icon",
+          "sizes": "96x96"
+        }
+      ]
     },
     {
       "name": "ChatGPT",
       "url": "/participant/room/ChatGPT",
+      "description": "Room for asking ChatGPT",
       "icons": [
         {
-          "src": "/assets/icons/Chatbot.png",
-          "sizes": "192x192"
+          "src": "/assets/images/ChatGPT.png",
+          "sizes": "96x96"
         }
       ]
     }
@@ -51,6 +63,13 @@
   "scope": "/",
   "start_url": "/home",
   "id": "/home",
-  "display": "standalone",
-  "orientation": "any"
+  "orientation": "portrait-primary",
+  "prefer_related_applications": false,
+  "display": "fullscreen",
+  "display_override": [
+    "window-controls-overlay",
+    "fullscreen",
+    "standalone",
+    "browser"
+  ]
 }
