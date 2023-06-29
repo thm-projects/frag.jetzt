@@ -3,6 +3,7 @@
   "short_name": "frag.jetzt",
   "description": "Die Digitalisierung des Nachfragens",
   "categories": [
+    "ChatGPT",
     "education",
     "audience response system",
     "Q&A"
@@ -63,13 +64,6 @@
   "scope": "/",
   "start_url": "/home",
   "id": "/home",
-  "orientation": "portrait-primary",
-  "prefer_related_applications": false,
-  "display": "fullscreen",
-  "display_override": [
-    "window-controls-overlay",
-    "fullscreen",
-    "standalone",
-    "browser"
-  ]
+  "orientation": "any",
+  "display": "standalone"
 }
