@@ -50,6 +50,45 @@ And('I should be able to assume the answer to the QnA forum of the room', () => 
     cy.get('app-spacy-dialog').find('button.primary-confirm-button').click()
     cy.get('app-gptrating-dialog').find('button.primary-confirm-button').click()
     cy.wait(500)
-    cy.url().should('include', '/participant/room/' + Cypress.env('preparedRoomId') + '/comments')
+    cy.url().should('include', '/participant/room/' + Cypress.env('preparedRoomId') + '/comment')
 });
 
+When('I am asking the question {string} on the forum', (question) => {
+  cy.wait(1000)
+  cy.get('button[aria-labelledby="add"]').click();
+  cy.get('div[quill-editor-element]').type(question)
+  cy.get('app-write-comment').find('button.primary-confirm-button').click();
+  cy.wait(500)
+
+  cy.intercept('POST', '/api/comment').as('createQuestion')
+  cy.get('app-spacy-dialog').find('button.primary-confirm-button').click();
+  cy.wait('@createQuestion')
+  cy.url().should('include', '/participant/room/' + Cypress.env('preparedRoomId') + '/comments')
+  cy.get('app-view-comment-data p').first().should('contain.text', question)
+})
+
+
+Then('ChatGPT can let reply on it', () => {
+  cy.get('app-comment').first().find('mat-icon.chatgpt-robot-icon').click();
+  cy.wait(1000)
+  cy.url().should('include', '/participant/room/' + Cypress.env('preparedRoomId') + '/gpt-chat-room')
+
+  cy.get('input[data-placeholder="Select language model …"]').click()
+  cy.get('mat-option[ng-reflect-value="gpt-3.5-turbo"]').last().click()
+
+  cy.get('mat-select[ng-reflect-panel-class="gpt-chat-room-select"]').first().click()
+  cy.wait(500)
+  cy.get('div.mat-select-panel-wrap').find('mat-option').first().click()
+  cy.wait(500)
+  cy.wait(500)
+  cy.intercept('POST', 'api/gpt/interrupt-stream').as('streamAnswerInterrupt')
+
+  cy.get('div.ng-star-inserted').find('span.mat-button-wrapper').contains(" Send ").click()
+  //wait till AI-Answered (max 100 seconds)
+  cy.wait('@streamAnswerInterrupt', { timeout: 100000 }).then((res) => {
+    cy.get('div.gpt.ng-star-inserted').find('p').then($el => {
+      //check if Answer of AI has at least a length of 10
+      expect($el.text()).have.length.above(10)
+    })
+  });
+})
