@@ -15,7 +15,8 @@ Then('the tour guide pops up', () => {
 
 Given('the tour guide is visible', () => {
   cy.visit('/home');
-  cy.get('[aria-labelledby="cookie-header"]').find('.primary-confirm-button').click();
+  cy.wait(500)
+  cy.get('app-ask-onboarding').should('exist')
 });
 
 
