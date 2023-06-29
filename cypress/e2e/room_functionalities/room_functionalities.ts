@@ -55,7 +55,7 @@ Given('that the test room will be deleted', () => {
     cy.visit('/creator/room/' + roomData.shortId);
     cy.wait(500)
     cy.get('#session-button').click({force: true});
-    cy.get('.mat-menu-content').contains('Raum löschen').click()
+    cy.get('.mat-menu-content').contains('Delete room').click()
     cy.get('app-room-delete').find('button.alert-confirm-button').click()
     cy.wait(500)
     //check if redirect to /user page worked after deletion

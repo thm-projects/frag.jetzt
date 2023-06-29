@@ -22,7 +22,7 @@ When('I open the chatGPT assistent', () => {
 
 // Change to unique id instead of placeholder
 Then('I ask the assistent a prepared prompt', () => {
-  cy.get("input[id='edit-input']").click()
+  cy.get("input[id='mat-input-5']").click()
   cy.get('mat-option[ng-reflect-value="gpt-3.5-turbo"]').last().click()
   cy.get('mat-form-field').find('mat-icon').contains('search').type('IT-Experte')
   cy.wait(500)
