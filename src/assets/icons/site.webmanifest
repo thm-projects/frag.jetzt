@@ -3,6 +3,7 @@
   "short_name": "frag.jetzt",
   "description": "Die Digitalisierung des Nachfragens",
   "categories": [
+    "ChatGPT",
     "education",
     "audience response system",
     "Q&A"
@@ -58,18 +59,11 @@
       ]
     }
   ],
-  "theme_color": "#000000",
+  "theme_color": "#ffefd5",
   "background_color": "#000000",
   "scope": "/",
   "start_url": "/home",
   "id": "/home",
-  "orientation": "portrait-primary",
-  "prefer_related_applications": false,
-  "display": "fullscreen",
-  "display_override": [
-    "window-controls-overlay",
-    "fullscreen",
-    "standalone",
-    "browser"
-  ]
+  "orientation": "any",
+  "display": "standalone"
 }
