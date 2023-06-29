@@ -11,25 +11,25 @@
   "icons": [
     {
       "src": "/assets/images/manifest-icon-192.maskable.png",
-      "sizes": "192x192",
+      "sizes": "192x196",
       "type": "image/png",
       "purpose": "any"
     },
     {
       "src": "/assets/images/manifest-icon-192.maskable.png",
-      "sizes": "192x192",
+      "sizes": "192x196",
       "type": "image/png",
       "purpose": "maskable"
     },
     {
       "src": "/assets/images/manifest-icon-512.maskable.png",
-      "sizes": "512x512",
+      "sizes": "512x516",
       "type": "image/png",
       "purpose": "any"
     },
     {
       "src": "/assets/images/manifest-icon-512.maskable.png",
-      "sizes": "512x512",
+      "sizes": "512x516",
       "type": "image/png",
       "purpose": "maskable"
     }
@@ -41,7 +41,7 @@
       "description": "Room for feature requests, bug reports, and general feedback",
       "icons": [
         {
-          "src": "/assets/images/frag-jetzt-icon",
+          "src": "/assets/images/frag-jetzt-icon.png",
           "sizes": "96x96"
         }
       ]
