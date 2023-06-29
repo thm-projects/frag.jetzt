@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ChangeDetectorRef, ViewChild, ElementRef } from '@angular/core';
 
 declare var paypal;
 
@@ -10,22 +10,22 @@ declare var paypal;
 
 export class DonationComponent implements OnInit {
 
-  constructor() { }
-  
-  @Input() amount: string = '';
 
   product = {
     price: 777.77,
-    description: 'used couch, decent condition',
-    img: 'assets/couch.jpg'
+    description: 'donation'
   };
 
   paidFor = false;
 
+  constructor(private changeDetectorRef: ChangeDetectorRef) {}
 
-  //Pass your ClientId + scret key
-  @ViewChild('paypal', {static: true}) paypalElement: ElementRef;
-  ngOnInit(): void {
+  //Pass your ClientId + secret key
+  @ViewChild('paypalButtons', {static: true}) paypalButtonsElement: ElementRef;
+
+  ngOnInit(): void {}
+
+  ngAfterViewInit(): void {
     paypal
       .Buttons({
         createOrder: (data, actions) => {
@@ -50,7 +50,8 @@ export class DonationComponent implements OnInit {
           console.log(err);
         }
       })
-      .render(this.paypalElement.nativeElement);
-  }
+      .render(this.paypalButtonsElement.nativeElement);
 
+    this.changeDetectorRef.detectChanges(); // Trigger change detection
+  }
 }
