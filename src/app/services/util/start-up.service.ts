@@ -187,7 +187,10 @@ export class StartUpService {
   }
 
   private startOnboarding() {
-    if (localStorage.getItem('onboarding_default')) {
+    if (
+      this.deviceInfo.isSafari ||
+      localStorage.getItem('onboarding_default')
+    ) {
       return of(true);
     }
     const dialogRef = this.dialog.open(AskOnboardingComponent, {
