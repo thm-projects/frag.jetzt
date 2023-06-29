@@ -28,7 +28,7 @@ Then('I ask the assistent a prepared prompt', () => {
   cy.get('mat-form-field').find('mat-icon').contains('search').type('IT-Experte')
   cy.wait(500)
   cy.get('mat-option.ng-star-inserted[ng-reflect-value="IT-Experte"]').last().click()
-  cy.get('button.secondary-btn').contains(' Senden ').click()
+  cy.get('button.secondary-btn').contains('Send').click()
 });
 
 And('The assistent should answer the prompt', () => {
