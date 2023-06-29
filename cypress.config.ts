@@ -23,7 +23,7 @@ export default defineConfig({
     setupNodeEvents: (on, config) => {
       return require('./cypress/plugins/index.ts')(on, config);
     },
-    baseUrl: "https://staging.frag.jetzt",
+    baseUrl: "http://localhost:4200",
     specPattern: 'cypress/e2e/**/*.{feature,features}'
   },
 });
