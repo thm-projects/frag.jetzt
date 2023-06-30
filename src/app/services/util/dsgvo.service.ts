@@ -53,7 +53,8 @@ export class DSGVOService {
     const parentClass = elem.parentElement.classList;
     if (
       parentClass.contains('ql-editor') ||
-      parentClass.contains('ql-dsgvo-video')
+      parentClass.contains('ql-dsgvo-video') ||
+      !elem.src
     ) {
       // Fix issues with Quill
       return;
