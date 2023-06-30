@@ -65,5 +65,36 @@
   "start_url": "/home",
   "id": "/home",
   "orientation": "any",
-  "display": "standalone"
+  "display": "standalone",
+  "dir": "ltr",
+  "prefer_related_applications": false,
+  "screenshots" : [
+    {
+      "src": "/assets/images/frag.jetzt_startpage.png",
+      "sizes": "1442x3202",
+      "type": "image/png",
+      "platform": "wide",
+      "label": "Homescreen of frag.jetzt"
+    },
+    {
+      "src": "/assets/images/frag.jetzt_Feedback_room.png",
+      "sizes": "1442x3202",
+      "type": "image/png",
+      "platform": "wide",
+      "label": "Homescreen of frag.jetzt"
+    },{
+      "src": "/assets/images/frag.jetzt_Q&A_forum.png",
+      "sizes": "1442x3202",
+      "type": "image/png",
+      "platform": "wide",
+      "label": "Homescreen of frag.jetzt"
+    },{
+      "src": "/assets/images/frag.jetzt_ChatGPT_room.png",
+      "sizes": "1442x3202",
+      "type": "image/png",
+      "platform": "wide",
+      "label": "Homescreen of frag.jetzt"
+    }
+  ]
+  
 }
