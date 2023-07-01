@@ -26,7 +26,7 @@ export const carousel: {
       fr: 'Q&R avec ChatGPT',
     },
     description: {
-      en: "Let ChatGPT answer all knowledge questions. Our prompt presets allow you to generate precise and personalized answers. A quick fact-check and you have saved yourself many hours of work. Experience how AI makes you more efficient!",
+      en: 'Let ChatGPT answer all knowledge questions. Our prompt presets allow you to generate precise and personalized answers. A quick fact-check and you have saved yourself many hours of work. Experience how AI makes you more efficient!',
       de: 'Lass ChatGPT alle Wissensfragen beantworten. Unsere Prompt-Voreinstellungen ermöglichen es dir, präzise und personalisierte Antworten zu generieren. Ein kurzer Faktencheck und du hast dir viele Stunden Arbeit erspart. Erlebe, wie die KI dich effizienter macht!',
       fr: "Laisse ChatGPT répondre à toutes les questions de connaissance. Nos paramètres de prompt te permettent de générer des réponses précises et personnalisées. Une vérification rapide des faits et tu t'es épargné de nombreuses heures de travail. Découvre comment l'IA te rend plus efficace !",
     },
@@ -195,7 +195,7 @@ export const carousel: {
     },
     images: [
       {
-        url: 'url("/assets/background/quizzing-7.png")',
+        url: 'url("/assets/background/quizzing-7.webp")',
         override: {
           default: {
             backgroundSize: '80%',
