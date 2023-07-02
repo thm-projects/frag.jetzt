@@ -228,6 +228,28 @@ export const carousel: {
   },
   {
     title: {
+      en: 'Peer Instruction',
+      de: 'Peer Instruction',
+      fr: 'Peer Instruction',
+    },
+    description: {
+      en: 'Get a detailed description of the evidence-based teaching method Peer Instruction from ChatGPT. frag.jetzt supports you in using the method. Students answer questions and discuss them with their seat-mates. They argue their answers and develop a deeper understanding of the subject. With our app, you can make Peer Instruction an integral part of your lecture!',
+      de: 'Lass dir von ChatGPT die evidenzbasierte Lehrmethode Peer Instruction erläutern. frag.jetzt unterstützt dich bei der Anwendung: Studierende beantworten Fragen und diskutieren diese mit ihren Sitznachbarn. Sie argumentieren ihre Antworten und entwickeln so ein tieferes Verständnis des Stoffes. Mit unserer App machst du Peer Instruction zum festen Bestandteil deiner Vorlesung!',
+      fr: "Demande à ChatGPT de t'expliquer la méthode d'enseignement basée sur les preuves « Peer Instruction ». frag.jetzt t'aide à l'appliquer : Les élèves répondent à des questions et en discutent avec leurs camarades de classe. Ils argumentent leurs réponses et développent ainsi une compréhension plus approfondie de la matière. Avec notre application, tu fais de la Peer Instruction une partie intégrante de ton enseignement !",
+    },
+    images: [
+      {
+        url: 'url("/assets/background/Peer-Instruction.png")',
+        override: {
+          default: {
+            'background-size': '80%',
+          },
+        },
+      },
+    ],
+  },
+  {
+    title: {
       en: 'Brainstorming',
       de: 'Brainstorming',
       fr: 'Brainstorming',
