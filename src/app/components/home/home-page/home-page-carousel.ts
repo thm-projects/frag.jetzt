@@ -43,9 +43,9 @@ export const carousel: {
   },
   {
     title: {
-      en: 'AI Tutor',
-      de: 'KI-Tutor',
-      fr: 'Tuteur AI',
+      en: 'ChatGPT as a Tutor',
+      de: 'ChatGPT als Tutor',
+      fr: 'ChatGPT comme Tuteur',
     },
     description: {
       en: 'Participate in our study »ChatGPT in Teaching & Learning«. Gain unlimited access to the AI-Tutor in all your rooms. Share feedback from your students and tutors with us. Is this the future of learning platforms? Find out. Contact us via the legal notice.',
