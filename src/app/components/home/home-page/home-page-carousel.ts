@@ -32,16 +32,7 @@ export const carousel: {
     },
     images: [
       {
-        url: 'url("/assets/background/anatomy.svg")',
-        override: {
-          default: {
-            backgroundSize: '90%',
-          },
-        },
-      },
-      {
-        isBackground: false,
-        url: 'url("/assets/background/background-gpt1_masked.png")',
+        url: 'url("/assets/background/chat_bot_green.svg")',
         override: {
           default: {
             backgroundSize: '80%',
@@ -66,7 +57,7 @@ export const carousel: {
         url: 'url("/assets/background/Chatbot.webp")',
         override: {
           default: {
-            backgroundSize: '80%',
+            backgroundSize: '70%',
           },
         },
       },
@@ -132,7 +123,7 @@ export const carousel: {
         url: 'url("/assets/background/folders.svg")',
         override: {
           default: {
-            backgroundSize: '90%',
+            backgroundSize: '80%',
           },
         },
       },
@@ -154,7 +145,7 @@ export const carousel: {
         url: 'url("/assets/background/at-sign.svg")',
         override: {
           default: {
-            backgroundSize: '60%',
+            backgroundSize: '50%',
           },
         },
       },
