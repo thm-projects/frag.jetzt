@@ -63,7 +63,7 @@ export const carousel: {
     },
     images: [
       {
-        url: 'url("/assets/background/Chatbot.png")',
+        url: 'url("/assets/background/Chatbot.webp")',
         override: {
           default: {
             backgroundSize: '80%',
@@ -217,7 +217,7 @@ export const carousel: {
     },
     images: [
       {
-        url: 'url("/assets/background/poll.png")',
+        url: 'url("/assets/background/feedback.webp")',
         override: {
           default: {
             backgroundSize: '85%',
@@ -239,7 +239,7 @@ export const carousel: {
     },
     images: [
       {
-        url: 'url("/assets/background/Peer-Instruction.png")',
+        url: 'url("/assets/background/Peer-Instruction.webp")',
         override: {
           default: {
             'background-size': '80%',
