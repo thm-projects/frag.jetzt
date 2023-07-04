@@ -75,6 +75,7 @@ e2e_cypress:
   artifacts:
     paths:
       - cypress/videos
+    expire_in: 15 mins
 
 sonar:
   stage: codequality
