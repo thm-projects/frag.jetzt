@@ -26,22 +26,13 @@ export const carousel: {
       fr: 'Q&R avec ChatGPT',
     },
     description: {
-      en: "Let ChatGPT answer all knowledge questions. Our prompt presets allow you to generate precise and personalized answers. A quick fact-check and you have saved yourself many hours of work. Experience how AI makes you more efficient!",
+      en: 'Let ChatGPT answer all knowledge questions. Our prompt presets allow you to generate precise and personalized answers. A quick fact-check and you have saved yourself many hours of work. Experience how AI makes you more efficient!',
       de: 'Lass ChatGPT alle Wissensfragen beantworten. Unsere Prompt-Voreinstellungen ermöglichen es dir, präzise und personalisierte Antworten zu generieren. Ein kurzer Faktencheck und du hast dir viele Stunden Arbeit erspart. Erlebe, wie die KI dich effizienter macht!',
       fr: "Laisse ChatGPT répondre à toutes les questions de connaissance. Nos paramètres de prompt te permettent de générer des réponses précises et personnalisées. Une vérification rapide des faits et tu t'es épargné de nombreuses heures de travail. Découvre comment l'IA te rend plus efficace !",
     },
     images: [
       {
-        url: 'url("/assets/background/anatomy.svg")',
-        override: {
-          default: {
-            backgroundSize: '90%',
-          },
-        },
-      },
-      {
-        isBackground: false,
-        url: 'url("/assets/background/background-gpt1_masked.png")',
+        url: 'url("/assets/background/chat_bot_green.svg")',
         override: {
           default: {
             backgroundSize: '80%',
@@ -52,9 +43,9 @@ export const carousel: {
   },
   {
     title: {
-      en: 'AI Tutor',
-      de: 'KI-Tutor',
-      fr: 'Tuteur AI',
+      en: 'ChatGPT as a Tutor',
+      de: 'ChatGPT als Tutor',
+      fr: 'ChatGPT comme Tuteur',
     },
     description: {
       en: 'Participate in our study »ChatGPT in Teaching & Learning«. Gain unlimited access to the AI-Tutor in all your rooms. Share feedback from your students and tutors with us. Is this the future of learning platforms? Find out. Contact us via the legal notice.',
@@ -63,10 +54,32 @@ export const carousel: {
     },
     images: [
       {
-        url: 'url("/assets/background/Chatbot.png")',
+        url: 'url("/assets/background/Chatbot.webp")',
         override: {
           default: {
-            backgroundSize: '80%',
+            backgroundSize: '70%',
+          },
+        },
+      },
+    ],
+  },
+  {
+    title: {
+      en: 'Learn with AI!',
+      de: 'Lerne mit KI!',
+      fr: "Apprends avec l'IA !",
+    },
+    description: {
+      en: "As a student, you can create your own rooms and use all features of frag.jetzt. Ask ChatGPT questions about your courses and save the answers in the Q&A forum. Feed the bot your lecture slides or your notes and let it create study materials, from exam questions to flashcards. You can even get quizzed by ChatGPT before an exam! Sounds exciting, doesn't it?",
+      de: 'Als Student*in kannst du eigene Räume erstellen und alle Funktionen von frag.jetzt nutzen. Stelle ChatGPT Fragen zu deinen Kursen und speichere die Antworten im Q&A-Forum. Gib dem Bot deine Vorlesungsfolien oder deine Notizen und lass ihn daraus Lernmaterialien erstellen, von Prüfungsfragen bis zu Lernkarten. Du kannst dich sogar von ChatGPT vor einer Prüfung abfragen lassen! Klingt spannend, oder?',
+      fr: "En tant qu'étudiant*e, tu peux créer tes propres salles et utiliser toutes les fonctionnalités de frag.jetzt. Pose des questions à ChatGPT sur tes cours et sauvegarde les réponses dans le forum Q&R. Donne au bot tes slides de cours ou tes notes et laisse-le créer des supports d'étude, des questions d'examen aux cartes de mémorisation. Tu peux même te faire interroger par ChatGPT avant un examen ! Ça te semble excitant, n'est-ce pas ?",
+    },
+    images: [
+      {
+        url: 'url("/assets/background/books.svg")',
+        override: {
+          default: {
+            backgroundSize: '70%',
           },
         },
       },
@@ -132,7 +145,7 @@ export const carousel: {
         url: 'url("/assets/background/folders.svg")',
         override: {
           default: {
-            backgroundSize: '90%',
+            backgroundSize: '80%',
           },
         },
       },
@@ -154,7 +167,7 @@ export const carousel: {
         url: 'url("/assets/background/at-sign.svg")',
         override: {
           default: {
-            backgroundSize: '60%',
+            backgroundSize: '50%',
           },
         },
       },
@@ -195,7 +208,7 @@ export const carousel: {
     },
     images: [
       {
-        url: 'url("/assets/background/quizzing-7.png")',
+        url: 'url("/assets/background/quizzing-7.webp")',
         override: {
           default: {
             backgroundSize: '80%',
@@ -217,10 +230,32 @@ export const carousel: {
     },
     images: [
       {
-        url: 'url("/assets/background/poll.png")',
+        url: 'url("/assets/background/feedback.webp")',
         override: {
           default: {
             backgroundSize: '85%',
+          },
+        },
+      },
+    ],
+  },
+  {
+    title: {
+      en: 'Peer Instruction',
+      de: 'Peer Instruction',
+      fr: 'Peer Instruction',
+    },
+    description: {
+      en: 'Get a detailed description of the evidence-based teaching method Peer Instruction from ChatGPT. frag.jetzt supports you in using the method. Students answer concept questions and discuss their answers with their seatmates. They argue their answers and develop a deeper understanding of the subject. With our app, you can make Peer Instruction an integral part of your lecture!',
+      de: 'Lass dir von ChatGPT die evidenzbasierte Lehrmethode Peer Instruction erläutern. frag.jetzt unterstützt dich bei der Anwendung: Studierende beantworten Konzeptfragen und diskutieren ihre Antworten mit ihren Sitznachbarn. Sie argumentieren ihre Antworten und entwickeln so ein tieferes Verständnis des Stoffes. Mit unserer App machst du Peer Instruction zum festen Bestandteil deiner Vorlesung!',
+      fr: "Demande à ChatGPT de t'expliquer la méthode d'enseignement basée sur les preuves « Peer Instruction ». frag.jetzt t'aide à l'appliquer : Les étudiants répondent à des questions conceptuelles et discutent de leurs réponses avec leurs voisins de siège. Ils argumentent leurs réponses et développent ainsi une compréhension plus approfondie de la matière. Avec notre application, tu fais de la Peer Instruction une partie intégrante de ton enseignement !",
+    },
+    images: [
+      {
+        url: 'url("/assets/background/Peer-Instruction.webp")',
+        override: {
+          default: {
+            'background-size': '80%',
           },
         },
       },

@@ -322,7 +322,7 @@
     "model-description-gpt-3.5-turbo": "Effektives Modell mit ca. 4.000 Zeichen Kontext",
     "model-gpt-3.5-turbo-16k": "GPT 3.5 »Turbo« 16K",
     "model-description-gpt-3.5-turbo-16k": "Effektives Modell mit ca. 16.000 Zeichen Kontext",
-    "title-free": "ChatGPT | Freies Fragen und Antworten",
+    "title-free": "ChatGPT | Freies Fragen ohne Prompt-Vorgaben",
     "title-answer": "ChatGPT | Assistent für Antworten",
     "interrupt": "Ausgabe stoppen",
     "copy-markdown": "Markdown kopieren",
@@ -387,7 +387,7 @@
           "hover": "Quizfragen, bei der der Lernende aus einer Liste von Antwortoptionen die richtige auswählen muss, um das Wissen zu überprüfen und Zusammenhänge zu verstehen."
         },
         {
-          "key": "answer with sources",
+          "key": "a nswer with sources",
           "text": "Antwort mit Quellenangaben",
           "hover": "Hinweise auf weiterführende Informationen, um Lernende zur eigenen Recherche zu ermutigen."
         },

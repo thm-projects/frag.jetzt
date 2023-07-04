@@ -317,7 +317,7 @@
     "zoom-minus": "Réduire la taille du texte",
     "zoom-plus": "Agrandir la taille du texte",
     "zoom-reset": "Réinitialiser le niveau de zoom",
-    "gpt-chat": "Chat avec ChatGPT",
+    "gpt-chat": "Chat avec ChatGPT !",
     "gpt-brainstorming": "Laisser ChatGPT brainstormer",
     "gpt-privacy-policy": "Protection des données",
     "gpt-prompts": "Mes prompts ChatGPT"
@@ -343,7 +343,7 @@
     "accessibility-create": "Crée une nouvelle session.",
     "accessibility-join-button": "Rejoins la session dont tu as saisi le code.",
     "accessibility-join-input": "Tu peux saisir ici le nom de la session que tu souhaites rejoindre. Le nom te sera communiqué par le responsable de la session.",
-    "app-rating": "Réévaluer l'app",
+    "app-rating": "Évaluer l'app",
     "create-session": "Créer une salle",
     "created": "La salle pour la session \"{{longRoomName}}\" a été réservée.",
     "custom-shortid": "Générer un code de salle",

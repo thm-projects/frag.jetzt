@@ -404,7 +404,7 @@
     "model-description-gpt-3.5-turbo": "Modèle efficace avec environ 4.000 caractères Contexte",
     "model-gpt-3.5-turbo-16k": "GPT 3.5 »Turbo« 16K",
     "model-description-gpt-3.5-turbo-16k": "Modèle efficace avec environ 16.000 caractères Contexte",
-    "title-free": "ChatGPT | Questions et réponses libres",
+    "title-free": "ChatGPT | Demander librement sans préréglages de prompt",
     "title-answer": "ChatGPT | Assistant pour les réponses",
     "interrupt": "Arrêter la sortie",
     "copy-markdown": "Copier Markdown",
