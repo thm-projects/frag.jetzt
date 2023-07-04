@@ -343,7 +343,7 @@
     "accessibility-create": "Create a new session",
     "accessibility-join-button": "Enter the session with the specified session key.",
     "accessibility-join-input": "Here you can enter the key of the session you want to join. The presenter will tell you the session key.",
-    "app-rating": "Reevaluate app",
+    "app-rating": "Evaluate the app",
     "create-session": "Create a room",
     "created": "The room for the session »{{longRoomName}}« has been booked.",
     "custom-shortid": "Generate key code",
