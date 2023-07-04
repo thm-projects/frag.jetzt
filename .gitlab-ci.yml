@@ -57,7 +57,7 @@ e2e_cypress:
     - angular
   image: local-angular:13
   allow_failure: false
-  env:
+  variables:
     TEST_USER_MAIL: $E2E_TEST_USER_MAIL
     TEST_USER_PASSWORD: $E2E_TEST_USER_PASSWORD
     TEST_ROOM_SHORTID: $E2E_TEST_ROOM_SHORTID
