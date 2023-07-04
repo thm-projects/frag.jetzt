@@ -1,10 +1,4 @@
 import { defineConfig } from 'cypress';
-import * as dotenv from 'dotenv';
-
-//init dotenv with .env.test
-dotenv.config({ path: __dirname+'/.env.test' })
-//override dotenv with values from .env
-dotenv.config({ path: __dirname+'/.env', override: true })
 
 export default defineConfig({
   videosFolder: 'cypress/videos',
