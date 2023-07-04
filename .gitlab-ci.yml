@@ -56,7 +56,11 @@ e2e_cypress:
   tags:
     - angular
   image: local-angular:13
-  allow_failure: true
+  allow_failure: false
+  variables:
+    TEST_USER_MAIL: $E2E_TEST_USER_MAIL
+    TEST_USER_PASSWORD: $E2E_TEST_USER_PASSWORD
+    TEST_ROOM_SHORTID: $E2E_TEST_ROOM_SHORTID
   dependencies:
     - install
   needs:
@@ -68,6 +72,10 @@ e2e_cypress:
     - source ci_staging_backend.export
     - npx cypress verify
     - ng e2e arsnova-angular-frontend --watch=false
+  artifacts:
+    paths:
+      - cypress/videos
+    expire_in: 15 mins
 
 sonar:
   stage: codequality
