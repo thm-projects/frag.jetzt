@@ -71,7 +71,7 @@ export const carousel: {
     },
     description: {
       en: "As a student, you can create your own rooms and use all features of frag.jetzt. Ask ChatGPT questions about your courses and save the answers in the Q&A forum. Feed the bot your lecture slides or your notes and let it create study materials, from exam questions to flashcards. You can even get quizzed by ChatGPT before an exam! Sounds exciting, doesn't it?",
-      de: 'Als Student*in kannst du eigene Räume erstellen und alle Funktionen von frag.jetzt nutzen. Stelle ChatGPT Fragen zu deinen Kursen und speichere die Antworten im Q&A-Forum. Gib dem Bot deine Vorlesungsfolien oder deine Notizen und lass ihn daraus Lernmaterialien erstellen, von Prüfungsfragen bis zu Lernkarten. Du kannst dich sogar von ChatGPT vor einer Prüfung abfragen lassen! Klingt spannend, oder?',
+      de: 'Auch als Student*in kannst du eigene Räume erstellen und alle Funktionen von frag.jetzt nutzen. Stelle ChatGPT Fragen zu deinen Kursen und speichere die Antworten im Q&A-Forum. Gib dem Bot deine Vorlesungsfolien oder deine Notizen und lass ihn daraus Lernmaterialien erstellen, von Prüfungsfragen bis zu Lernkarten. Du kannst dich sogar von ChatGPT vor einer Prüfung abfragen lassen! Klingt spannend, oder?',
       fr: "En tant qu'étudiant*e, tu peux créer tes propres salles et utiliser toutes les fonctionnalités de frag.jetzt. Pose des questions à ChatGPT sur tes cours et sauvegarde les réponses dans le forum Q&R. Donne au bot tes slides de cours ou tes notes et laisse-le créer des supports d'étude, des questions d'examen aux cartes de mémorisation. Tu peux même te faire interroger par ChatGPT avant un examen ! Ça te semble excitant, n'est-ce pas ?",
     },
     images: [
