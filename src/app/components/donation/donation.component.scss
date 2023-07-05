@@ -1,9 +1,39 @@
+.paypal-wrapper{
+  left: 50%;
+  padding: 10px;
+  text-align: center;
+}
+
 .center{
-  margin:auto;
-  border-style: none none none solid;
+  border: 5px solid;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   padding: 10px;
+  text-align: center;
 }
-.paypal-button-container {
-  margin: auto !important;
-  padding: 10px;
+
+.euro-text{
+  font-size: 48px;
 }
+
+input {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  background: rgba(255,255,255,0.4);
+  border: none;
+  outline: none;
+  width: 400px;
+  height: 100px;
+  font-size: 48px;
+  text-align: center;
+  top: 250px;
+  color: #333;
+  -webkit-box-shadow: 0 2px 10px 1px rgba(0,0,0,0.5);
+  box-shadow: 0 2px 10px 1px rgba(0,0,0,0.5);
+}
+::-webkit-input-placeholder { color: #666;}
+:-moz-placeholder { color: #666; }
+::-moz-placeholder { color: #666; }
+:-ms-input-placeholder { color: #666; }
