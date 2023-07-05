@@ -1,5 +1,4 @@
 import {
-  ChangeDetectorRef,
   Component,
   ElementRef,
   HostListener,
@@ -19,7 +18,7 @@ import { SessionService } from '../../../services/util/session.service';
 import { OnboardingService } from '../../../services/util/onboarding.service';
 import { NotificationService } from 'app/services/util/notification.service';
 import { LanguageService } from 'app/services/util/language.service';
-import { filter, ReplaySubject, take } from 'rxjs';
+import { filter, ReplaySubject, Subject, take } from 'rxjs';
 import { ThemeService } from '../../../../theme/theme.service';
 import { carousel } from './home-page-carousel';
 
@@ -46,8 +45,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
   protected carousel = carousel;
 
   private currentTheme: string;
-  private readonly _destroyer: ReplaySubject<number> =
-    new ReplaySubject<number>(1);
+  private readonly _destroyer: Subject<number> = new ReplaySubject(1);
   private lastScrollMs: number = -1;
 
   constructor(
@@ -60,7 +58,6 @@ export class HomePageComponent implements OnInit, OnDestroy {
     private onboardingService: OnboardingService,
     private notificationService: NotificationService,
     public readonly languageService: LanguageService,
-    private readonly cdr: ChangeDetectorRef,
     public readonly themeService: ThemeService,
   ) {
     themeService.getTheme().subscribe((x) => (this.currentTheme = x.key));
@@ -211,6 +208,12 @@ export class HomePageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    console.log('..äöü--,  ngONINIT');
+    for (const key of Object.keys(this)) {
+      if (typeof this[key] === 'number') {
+        console.log(key, this[key]);
+      }
+    }
     this.ratingService.getRatings().subscribe((r) => {
       this.accumulatedRatings = r;
     });

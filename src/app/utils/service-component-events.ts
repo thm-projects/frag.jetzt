@@ -1,6 +1,7 @@
 import { EventService } from '../services/util/event.service';
 import { Observable, Subject, takeUntil, tap } from 'rxjs';
 import { MotdAPI } from '../services/http/motd.service';
+import { MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 
 export class ServiceComponentEvent {
   constructor(public readonly name: string) {}
@@ -37,6 +38,21 @@ export class MotdDialogRequest extends ServiceRequest<MotdDialogResponse> {
 export class MotdDialogResponse extends ComponentResponse {
   constructor() {
     super(MotdDialogResponse.name);
+  }
+}
+
+export class LivepollDialogRequest extends ServiceRequest<LivepollDialogRequest> {
+  constructor(
+    public readonly dialog: 'dialog' | 'create' | 'summary',
+    public readonly config: MatDialogConfig<unknown>,
+  ) {
+    super(LivepollDialogRequest.name, MotdDialogResponse.name);
+  }
+}
+
+export class LivepollDialogResponse extends ComponentResponse {
+  constructor(public readonly dialogRef: MatDialogRef<unknown>) {
+    super(LivepollDialogResponse.name);
   }
 }
 

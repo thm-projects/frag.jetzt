@@ -65,14 +65,36 @@ export const carousel: {
   },
   {
     title: {
+      en: 'Teach with AI!',
+      de: 'Lehre mit KI!',
+      fr: "Enseigne avec l'IA !",
+    },
+    description: {
+      en: "ChatGPT accurately summarizes the chapters of your script, isolates learning objectives and key concepts, and generates a glossary of relevant technical terms. The AI creates exercises and exam questions from your lecture slides and grades submissions and answers. It answers all your students' questions competently and tailored to your audience, around the clock.",
+      de: 'ChatGPT fasst die Kapitel deines Skripts präzise zusammen, isoliert Lernziele und zentrale Konzepte und generiert ein Glossar mit relevanten Fachbegriffen. Die KI erstellt aus deinen Vorlesungsfolien Übungsaufgaben und Prüfungsfragen, bewertet Einreichungen und Antworten. Sie beantwortet rund um die Uhr alle Fragen deiner Studierenden kompetent und zielgruppengerecht.',
+      fr: "ChatGPT résume précisément les chapitres de ton script, isole les objectifs d'apprentissage et les concepts clés, et génère un glossaire de termes techniques pertinents. L'IA crée des tâches pratiques et des questions d'examen à partir de tes diapositives de cours, évalue les soumissions et les réponses. Elle répond à toutes les questions de tes étudiants de manière compétente et appropriée à leur niveau, 24 heures sur 24.",
+    },
+    images: [
+      {
+        url: 'url("/assets/background/graduation-cap.svg")',
+        override: {
+          default: {
+            backgroundSize: '120%',
+          },
+        },
+      },
+    ],
+  },
+  {
+    title: {
       en: 'Learn with AI!',
       de: 'Lerne mit KI!',
       fr: "Apprends avec l'IA !",
     },
     description: {
-      en: "As a student, you can create your own rooms and use all features of frag.jetzt. Ask ChatGPT questions about your courses and save the answers in the Q&A forum. Feed the bot your lecture slides or your notes and let it create study materials, from exam questions to flashcards. You can even get quizzed by ChatGPT before an exam! Sounds exciting, doesn't it?",
-      de: 'Als Student*in kannst du eigene Räume erstellen und alle Funktionen von frag.jetzt nutzen. Stelle ChatGPT Fragen zu deinen Kursen und speichere die Antworten im Q&A-Forum. Gib dem Bot deine Vorlesungsfolien oder deine Notizen und lass ihn daraus Lernmaterialien erstellen, von Prüfungsfragen bis zu Lernkarten. Du kannst dich sogar von ChatGPT vor einer Prüfung abfragen lassen! Klingt spannend, oder?',
-      fr: "En tant qu'étudiant*e, tu peux créer tes propres salles et utiliser toutes les fonctionnalités de frag.jetzt. Pose des questions à ChatGPT sur tes cours et sauvegarde les réponses dans le forum Q&R. Donne au bot tes slides de cours ou tes notes et laisse-le créer des supports d'étude, des questions d'examen aux cartes de mémorisation. Tu peux même te faire interroger par ChatGPT avant un examen ! Ça te semble excitant, n'est-ce pas ?",
+      en: "As a student, you can create your own rooms and use all features of frag.jetzt. Ask ChatGPT questions about your courses and save the answers in the Q&A forum. Feed the bot your notes and let it create study materials, from flashcards to exam questions. You can even get quizzed by ChatGPT before an exam! Sounds exciting, doesn't it?",
+      de: 'Auch als Student*in kannst du eigene Räume erstellen und alle Funktionen von frag.jetzt nutzen. Stelle ChatGPT Fragen zu deinen Kursen und speichere die Antworten im Q&A-Forum. Gib dem Bot deine Mitschriften und lass ihn daraus Lernmaterialien erstellen, von Lernkarten bis zu Prüfungsfragen. Du kannst dich sogar von ChatGPT vor einer Prüfung abfragen lassen! Klingt spannend, oder?',
+      fr: "En tant qu'étudiant*e, tu peux créer tes propres salles et utiliser toutes les fonctionnalités de frag.jetzt. Pose des questions à ChatGPT sur tes cours et sauvegarde les réponses dans le forum Q&R. Donne au bot tes notes et laisse-le créer des supports d'étude, des cartes de mémorisation aux questions d'examen. Tu peux même te faire interroger par ChatGPT avant un examen ! Ça te semble excitant, n'est-ce pas ?",
     },
     images: [
       {

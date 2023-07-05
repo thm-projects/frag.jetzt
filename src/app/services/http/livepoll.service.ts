@@ -1,35 +1,21 @@
-import { EventEmitter, Injectable, Injector } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import {
-  MAT_DIALOG_DATA,
-  MatDialog,
-  MatDialogConfig,
-  MatDialogRef,
-} from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { RoomService } from './room.service';
-import {
-  BehaviorSubject,
-  catchError,
-  map,
-  Observable,
-  Subject,
-  tap,
-} from 'rxjs';
+import { BehaviorSubject, catchError, map, Observable, tap } from 'rxjs';
 import { LivepollSession } from 'app/models/livepoll-session';
 import { verifyInstance } from 'app/utils/ts-utils';
 import { BaseHttpService } from './base-http.service';
 import { LivepollVote } from 'app/models/livepoll-vote';
 import { SessionService } from '../util/session.service';
 import { UserRole } from '../../models/user-roles.enum';
+import { Overlay } from '@angular/cdk/overlay';
 import {
-  LivepollDialogComponent,
-  LivepollDialogInjectionData,
-  LivepollDialogResponseData,
-} from '../../components/shared/_dialogs/livepoll/livepoll-dialog/livepoll-dialog.component';
-import { LivepollCreateComponent } from '../../components/shared/_dialogs/livepoll/livepoll-create/livepoll-create.component';
-import { LivepollSummaryComponent } from '../../components/shared/_dialogs/livepoll/livepoll-summary/livepoll-summary.component';
-import { Overlay, OverlayRef } from '@angular/cdk/overlay';
-import { ComponentPortal } from '@angular/cdk/portal';
+  LivepollDialogRequest,
+  LivepollDialogResponse,
+  callServiceEvent,
+} from 'app/utils/service-component-events';
+import { EventService } from '../util/event.service';
 
 export interface LivepollSessionCreateAPI {
   template: string;
@@ -94,6 +80,7 @@ export class LivepollService extends BaseHttpService {
     public readonly roomService: RoomService,
     public readonly dialog: MatDialog,
     public readonly overlay: Overlay,
+    private readonly eventService: EventService,
   ) {
     super();
   }
@@ -277,28 +264,27 @@ export class LivepollService extends BaseHttpService {
 
   private openDialog(sessionService: SessionService) {
     this._dialogState.next(LivepollDialogState.Opening);
-    if (sessionService.currentLivepoll) {
-      const cachedLivepollSession = sessionService.currentLivepoll;
-      const config = {
-        ...{
-          data: {
-            session: sessionService.currentLivepoll,
-            isProduction: true,
-          } as LivepollDialogInjectionData,
-        },
-        ...LivepollService.dialogDefaults,
-      };
-      const dialogRef: MatDialogRef<
-        LivepollDialogComponent,
-        LivepollDialogResponseData
-      > = this.dialog.open<LivepollDialogComponent>(
-        LivepollDialogComponent,
-        config,
-      );
+    if (!sessionService.currentLivepoll) {
+      console.error(`session does not have Live Poll`);
+      return;
+    }
+    const cachedLivepollSession = sessionService.currentLivepoll;
+    const config = {
+      data: {
+        session: sessionService.currentLivepoll,
+        isProduction: true,
+      },
+      ...LivepollService.dialogDefaults,
+    };
+    callServiceEvent<LivepollDialogResponse, LivepollDialogRequest>(
+      this.eventService,
+      new LivepollDialogRequest('dialog', config),
+    ).subscribe((response) => {
+      const dialogRef = response.dialogRef;
       dialogRef.afterClosed().subscribe((result) => {
         switch (result?.reason) {
           case 'delete':
-            this.delete(sessionService.currentLivepoll.id).subscribe((res) => {
+            this.delete(sessionService.currentLivepoll.id).subscribe(() => {
               this._dialogState.next(LivepollDialogState.Closed);
               this.openSummary(sessionService, cachedLivepollSession);
             });
@@ -323,28 +309,28 @@ export class LivepollService extends BaseHttpService {
       dialogRef.afterOpened().subscribe(() => {
         this._dialogState.next(LivepollDialogState.Open);
       });
-    } else {
-      console.error(`session does not have Live Poll`);
-    }
+    });
   }
 
   private openCreateDialog(sessionService: SessionService) {
     this._dialogState.next(LivepollDialogState.Opening);
     const config = {
-      ...{
-        data: '',
-      },
+      data: '',
       ...LivepollService.dialogDefaults,
     };
-    const dialogRef: MatDialogRef<
-      LivepollCreateComponent,
-      LivepollSessionCreateAPI
-    > = this.dialog.open(LivepollCreateComponent, config);
-    dialogRef.afterClosed().subscribe((data) => {
-      // data
-      // ? creator wants to create a live poll
-      // : creator closed dialog
-      if (data) {
+    callServiceEvent<LivepollDialogResponse, LivepollDialogRequest>(
+      this.eventService,
+      new LivepollDialogRequest('create', config),
+    ).subscribe((response) => {
+      const dialogRef = response.dialogRef;
+      dialogRef.afterClosed().subscribe((data) => {
+        // data
+        // ? creator wants to create a live poll
+        // : creator closed dialog
+        if (!data) {
+          this._dialogState.next(LivepollDialogState.Closed);
+          return;
+        }
         this.onNextEvent(LivepollEventType.Create).subscribe(() => {
           this._dialogState.next(LivepollDialogState.Closed);
           this.open(sessionService);
@@ -352,12 +338,10 @@ export class LivepollService extends BaseHttpService {
         const subscription = this.create(data).subscribe(() => {
           subscription.unsubscribe();
         });
-      } else {
-        this._dialogState.next(LivepollDialogState.Closed);
-      }
-    });
-    dialogRef.afterOpened().subscribe(() => {
-      this._dialogState.next(LivepollDialogState.Open);
+      });
+      dialogRef.afterOpened().subscribe(() => {
+        this._dialogState.next(LivepollDialogState.Open);
+      });
     });
   }
 
@@ -369,12 +353,15 @@ export class LivepollService extends BaseHttpService {
       ...{ data: livepollSession },
       ...LivepollService.dialogDefaults,
     };
-    const dialogRef: MatDialogRef<LivepollSummaryComponent> = this.dialog.open(
-      LivepollSummaryComponent,
-      config,
-    );
-    dialogRef.afterClosed().subscribe(() => {
-      this._dialogState.next(LivepollDialogState.Closed);
+
+    callServiceEvent<LivepollDialogResponse, LivepollDialogRequest>(
+      this.eventService,
+      new LivepollDialogRequest('summary', config),
+    ).subscribe((response) => {
+      const dialogRef = response.dialogRef;
+      dialogRef.afterClosed().subscribe(() => {
+        this._dialogState.next(LivepollDialogState.Closed);
+      });
     });
   }
 }
