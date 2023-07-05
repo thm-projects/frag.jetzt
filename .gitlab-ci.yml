@@ -40,7 +40,7 @@ unit_tests:
   tags:
     - angular
   image: local-angular:13
-  allow_failure: true
+  allow_failure: false
   dependencies:
     - install
   needs:
