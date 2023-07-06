@@ -474,9 +474,9 @@
     "step": "{{step}} / {{total}}",
     "voting": "The audience can rate questions up or down, indicating their interest in answering a question or their agreement or disagreement with it. The rating difference is displayed.",
     "votingTitle": "Rate a question",
-    "chatGPT": "With ChatGPT, given a context, you can usually answer questions effectively and gain insight into new topics. He is the first interlocutor for questions in teaching.",
+    "chatGPT": "Here, the chatbot is available to you just like on OpenAI's website, but much more performant and reliable since it is called via OpenAI's API.",
     "chatGPTTitle": "Work with ChatGPT",
-    "navigationButton": "With navigation you can see almost all actions in the current context.",
+    "navigationButton": "Navigation is available on all pages. Here you can switch to all features of the platform.",
     "navigationButtonTitle": "Navigation in the app"
   },
   "question-wall": {
