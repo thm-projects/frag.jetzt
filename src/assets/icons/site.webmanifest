@@ -60,7 +60,7 @@
     }
   ],
   "theme_color": "#000000",
-  "background_color": "#000000",
+  "background_color": "#018000",
   "scope": "/",
   "start_url": "/home",
   "id": "/home",
@@ -96,5 +96,5 @@
       "label": "ChatGPT Room of frag.jetzt"
     }
   ]
-  
+
 }
