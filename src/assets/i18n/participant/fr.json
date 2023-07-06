@@ -474,9 +474,9 @@
     "step": "{{step}} / {{total}}",
     "voting": "Le public peut valoriser ou dévaloriser les questions, exprimant ainsi son intérêt pour la réponse à la question ou son accord ou désaccord.",
     "votingTitle": "Evaluer une question",
-    "chatGPT": "Dans un contexte donné, ChatGPT te permet généralement de répondre efficacement aux questions et d'avoir un aperçu de nouveaux sujets. Il est le premier interlocuteur pour les questions relatives à l'enseignement.",
+    "chatGPT": "Ici, le chatbot est à ta disposition comme sur le site d'OpenAI, mais il est beaucoup plus performant et fiable, car il est appelé via l'API d'OpenAI.",
     "chatGPTTitle": "Travailler avec ChatGPT",
-    "navigationButton": "Avec la navigation, tu peux voir presque toutes les actions dans le contexte actuel.",
+    "navigationButton": "La navigation est disponible sur toutes les pages. Ici, tu peux passer à toutes les features de la plateforme.",
     "navigationButtonTitle": "Navigation dans l'application"
   },
   "question-wall": {

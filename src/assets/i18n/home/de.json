@@ -181,7 +181,7 @@
     "motd-title-new": "Aktuell",
     "motd-title-old": "Archiv",
     "open": "Offen",
-    "style": "Designauswahl"
+    "style": "Design"
   },
   "header": {
     "livepoll": "Blitzumfrage",
@@ -317,7 +317,7 @@
     "zoom-minus": "Text verkleinern",
     "zoom-plus": "Text vergrößern",
     "zoom-reset": "Zoomstufe zurücksetzen",
-    "gpt-chat": "Frag ChatGPT!",
+    "gpt-chat": "Chat mit ChatGPT!",
     "gpt-brainstorming": "Lass ChatGPT brainstormen!",
     "gpt-privacy-policy": "ChatGPT-Datenschutzrichtlinie",
     "gpt-prompts": "Meine ChatGPT-Prompts"
@@ -408,9 +408,9 @@
     "roomJoin": "Gib hier den Zugangscode für den Raum ein, um an der Veranstaltung teilzunehmen.",
     "roomJoinTitle": "Veranstaltung besuchen",
     "step": "{{step}} / {{total}}",
-    "chatGPT": "Mit ChatGPT kannst du bei einem gegebenen Kontext meist effektiv Fragen beantworten und einen Einblick in neue Themen bekommen. Er ist der erste Gesprächspartner für Fragen in der Lehre.",
+    "chatGPT": "Hier steht dir der Chatbot wie auf der Website von OpenAI zur Verfügung, aber wesentlich performanter und zuverlässiger, da er über die API von OpenAI aufgerufen wird.",
     "chatGPTTitle": "Mit ChatGPT arbeiten",
-    "navigationButton": "Mit der Navigation kannst du fast alle Aktionen im derzeitigen Kontext sehen.",
+    "navigationButton": "Die Navigation ist auf allen Seiten verfügbar. Hier kannst du zu allen Features der Plattform wechseln.",
     "navigationButtonTitle": "Navigation in der App"
   },
   "login": {

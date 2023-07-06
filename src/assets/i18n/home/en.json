@@ -181,7 +181,7 @@
     "motd-title-new": "Latest",
     "motd-title-old": "Archive",
     "open": "Open",
-    "style": "Design selection"
+    "style": "Design"
   },
   "header": {
     "livepoll": "Flash Poll",
@@ -408,9 +408,9 @@
     "roomJoin": "Enter the access code for the room where the event you want to attend is taking place.",
     "roomJoinTitle": "Join an event",
     "step": "{{step}} / {{total}}",
-    "chatGPT": "With ChatGPT, given a context, you can usually answer questions effectively and gain insight into new topics. He is the first interlocutor for questions in teaching.",
+    "chatGPT": "Here, the chatbot is available to you just like on OpenAI's website, but much more performant and reliable since it is called via OpenAI's API.",
     "chatGPTTitle": "Work with ChatGPT",
-    "navigationButton": "With navigation you can see almost all actions in the current context.",
+    "navigationButton": "Navigation is available on all pages. Here you can switch to all features of the platform.",
     "navigationButtonTitle": "Navigation in the app"
   },
   "login": {
