@@ -26,9 +26,9 @@ export const carousel: {
       fr: 'Chat avec ChatGPT',
     },
     description: {
-      en: 'Let ChatGPT answer all knowledge questions. Our prompt presets allow you to generate precise and personalized answers. A quick fact-check and you have saved yourself many hours of work. Experience how AI makes you more efficient!',
-      de: 'Lass ChatGPT alle Wissensfragen beantworten. Unsere Prompt-Voreinstellungen ermöglichen es dir, präzise und personalisierte Antworten zu generieren. Ein kurzer Faktencheck und du hast dir viele Stunden Arbeit erspart. Erlebe, wie die KI dich effizienter macht!',
-      fr: "Laisse ChatGPT répondre à toutes les questions de connaissance. Nos paramètres de prompt te permettent de générer des réponses précises et personnalisées. Une vérification rapide des faits et tu t'es épargné de nombreuses heures de travail. Découvre comment l'IA te rend plus efficace !",
+      en: "Let ChatGPT answer all your knowledge questions. Your prompt presets ensure accurate and personalized answers. A quick fact check, and you've saved yourself hours of work. Experience how AI makes you more efficient!",
+      de: 'Lass ChatGPT alle Wissensfragen beantworten. Deine Prompt-Vorgaben sichern präzise und personalisierte Antworten. Ein kurzer Faktencheck und du hast dir viele Stunden Arbeit erspart. Erlebe, wie die KI dich effizienter macht!',
+      fr: "Laisse ChatGPT répondre à toutes les questions de connaissance. Tes paramètres de prompt garantissent des réponses précises et personnalisées. Une vérification rapide des faits et tu t'es épargné de nombreuses heures de travail. Découvre comment l'IA te rend plus efficace !",
     },
     images: [
       {
@@ -48,9 +48,9 @@ export const carousel: {
       fr: 'Prompting',
     },
     description: {
-      en: 'You can set the context of the chat and the role that ChatGPT should take. You can also define the format and scope of the answers. With keywords, you limit the chat to the topic of your event. By using these prompt presets, you compel ChatGPT to provide precise and personalized answers. The bot will politely but firmly reject inappropriate or unwanted questions.',
-      de: 'Du kannst den Kontext des Chats festlegen und die Rolle, die ChatGPT einnehmen soll. Auch das Format und den Umfang der Antworten. Mit Schlüsselwörtern begrenzt du den Chat auf das Thema deiner Veranstaltung. Mit diesen Prompt-Vorgaben forcierst du ChatGPT zu präzisen und personalisierten Antworten. Unpassende oder unerwünschte Fragen lehnt der Bot freundlich, aber bestimmt ab.',
-      fr: 'Tu peux définir le contexte du chat et le rôle que ChatGPT doit jouer. Tu peux également définir le format et la portée des réponses. Avec des mots-clés, tu limites le chat au sujet de ton événement. En utilisant ces préréglages de prompts, tu pousses ChatGPT à fournir des réponses précises et personnalisées. Le bot rejettera poliment mais fermement les questions inappropriées ou indésirables.',
+      en: 'You can set the context and the role you want ChatGPT to take. Also, the format and scope of the responses. With keywords, you limit the chat to the topic of your event. The bot will reject inappropriate or unwanted questions in a friendly but firm way.',
+      de: 'Du kannst den Kontext festlegen und die Rolle, die ChatGPT einnehmen soll. Auch das Format und den Umfang der Antworten. Mit Schlüsselwörtern begrenzt du den Chat auf das Thema deiner Veranstaltung. Unpassende oder unerwünschte Fragen lehnt der Bot freundlich, aber bestimmt ab.',
+      fr: "Tu peux définir le contexte et le rôle que ChatGPT doit jouer. De même que le format et l'étendue des réponses. Avec des mots-clés, tu limites le chat au thème de ton événement. Le bot refuse gentiment, mais fermement les questions inappropriées ou indésirables.",
     },
     images: [
       {
@@ -58,6 +58,28 @@ export const carousel: {
         override: {
           default: {
             backgroundSize: '60%',
+          },
+        },
+      },
+    ],
+  },
+  {
+    title: {
+      en: 'Performance',
+      de: 'Performance',
+      fr: 'Performance',
+    },
+    description: {
+      en: 'Free yourself from the traffic on the OpenAI website! We directly query the API. Regardless of the time of day or night, or whether half the world is currently chatting with ChatGPT, the bot always responds quickly and reliably!',
+      de: 'Mach dich unabhängig vom Traffic auf der OpenAI-Website! Wir befragen direkt die API. Egal zu welcher Tages- oder Nachtzeit oder ob die halbe Welt gerade mit ChatGPT chattet, der Bot reagiert stets prompt und zuverlässig!',
+      fr: "Libère-toi du trafic sur le site web d'OpenAI ! Nous utilisons directement l'API. Peu importe l'heure du jour ou de la nuit, ou que la moitié du monde soit en train de discuter avec ChatGPT, le bot répond toujours rapidement et de manière fiable !",
+    },
+    images: [
+      {
+        url: 'url("/assets/background/porsche.svg")',
+        override: {
+          default: {
+            backgroundSize: '100%',
           },
         },
       },
