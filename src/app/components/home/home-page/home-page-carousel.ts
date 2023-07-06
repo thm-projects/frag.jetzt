@@ -43,6 +43,28 @@ export const carousel: {
   },
   {
     title: {
+      en: 'Prompting',
+      de: 'Prompting',
+      fr: 'Prompting',
+    },
+    description: {
+      en: 'You can set the context of the chat and the role that ChatGPT should take. You can also define the format and scope of the answers. With keywords, you limit the chat to the topic of your event. By using these prompt presets, you compel ChatGPT to provide precise and personalized answers. The bot will politely but firmly reject inappropriate or unwanted questions.',
+      de: 'Du kannst den Kontext des Chats festlegen und die Rolle, die ChatGPT einnehmen soll. Auch das Format und den Umfang der Antworten. Mit Schlüsselwörtern begrenzt du den Chat auf das Thema deiner Veranstaltung. Mit diesen Prompt-Vorgaben forcierst du ChatGPT zu präzisen und personalisierten Antworten. Unpassende oder unerwünschte Fragen lehnt der Bot freundlich, aber bestimmt ab.',
+      fr: 'Tu peux définir le contexte du chat et le rôle que ChatGPT doit jouer. Tu peux également définir le format et la portée des réponses. Avec des mots-clés, tu limites le chat au sujet de ton événement. En utilisant ces préréglages de prompts, tu pousses ChatGPT à fournir des réponses précises et personnalisées. Le bot rejettera poliment mais fermement les questions inappropriées ou indésirables.',
+    },
+    images: [
+      {
+        url: 'url("/assets/background/prompting.svg")',
+        override: {
+          default: {
+            backgroundSize: '60%',
+          },
+        },
+      },
+    ],
+  },
+  {
+    title: {
       en: 'Join in!',
       de: 'Mach mit!',
       fr: 'Participe !',
