@@ -70,6 +70,12 @@ export class HomePageComponent implements OnInit, OnDestroy {
           case 'ArrowDown':
             this.setCarouselIndex(this.carouselIndex + 1);
             break;
+          case 'ArrowLeft':
+            this.setCarouselIndex(this.carouselIndex - 1);
+            break;
+          case 'ArrowRight':
+            this.setCarouselIndex(this.carouselIndex + 1);
+            break;
         }
       }
     };
