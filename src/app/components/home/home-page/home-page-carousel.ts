@@ -439,6 +439,28 @@ export const carousel: {
   },
   {
     title: {
+      en: 'Progressive App',
+      de: 'Progressive App',
+      fr: 'App Progressive',
+    },
+    description: {
+      en: "Imagine an app that requires no downloads or updates, adapts perfectly to any device, and can even be installed on your laptop. That's frag.jetzt, our Progressive Web App (PWA). Install it directly on your home screen and always enjoy the latest version. Smart, uncomplicated, and forward-thinking.",
+      de: 'Stell dir eine App vor, die keine Downloads oder Updates benötigt, sich perfekt an jedes Gerät anpasst und sogar auf deinem Laptop installiert werden kann. Das ist frag.jetzt, unsere Progressive Web App (PWA). Installiere sie direkt auf deinem Startbildschirm und genieße immer die aktuellste Version. Smart, unkompliziert und zukunftsorientiert.',
+      fr: "Imagine une application qui ne nécessite aucun téléchargement ou mise à jour, qui s'adapte parfaitement à n'importe quel appareil et qui peut même être installée sur ton laptop. C'est frag.jetzt, notre application Web progressive (PWA). Installe-la directement sur ton écran d'accueil et profite toujours de la dernière version. Intelligent, simple et tourné vers l'avenir.",
+    },
+    images: [
+      {
+        url: 'url("/assets/background/PWA.svg")',
+        override: {
+          default: {
+            'background-size': '120%',
+          },
+        },
+      },
+    ],
+  },
+  {
+    title: {
       en: 'GDPR',
       de: 'DSGVO',
       fr: 'RGPD',
