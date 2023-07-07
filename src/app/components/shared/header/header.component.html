@@ -53,22 +53,41 @@
 
       <button
         mat-flat-button
+        routerLink="/donation"
+        tabindex="0"
+        [joyrideStep]="'chatGPT'"
+        [stepPosition]="'bottom'"
+        appJoyrideTemplate
+        [matTooltip]="'header.donation-button' | translate"
+        *ngIf="router.url.includes('/user')"
+        (click)="openGPT()">
+        <mat-icon
+          class="material-symbols-outlined"
+          style="transform: scale(1.2); margin-right: 5px; color: #1d6161">
+          volunteer_activism
+        </mat-icon>
+        <span *ngIf="!showSmallButtons && deviceInfo.isCurrentlyDesktop">
+          {{ "header.donation" | translate }}
+        </span>
+      </button>
+
+      <button
+        mat-flat-button
         routerLink="/gpt-prompts"
         tabindex="0"
         [joyrideStep]="'chatGPT'"
         [stepPosition]="'bottom'"
         appJoyrideTemplate
         [matTooltip]="'header.gpt-prompts' | translate"
-        *ngIf="router.url.endsWith('/gpt-chat-room') && isInRouteWithRoles"
-      >
-      <mat-icon
-        class="material-icons header-icons material-icons-filled"
-        style="transform: scale(1.2); margin-right: 5px">
-      assignment
-      </mat-icon>
-      <span *ngIf="!showSmallButtons && deviceInfo.isCurrentlyDesktop">
-        {{ "header.gpt-prompts" | translate }}
-      </span>
+        *ngIf="router.url.endsWith('/gpt-chat-room') && isInRouteWithRoles">
+        <mat-icon
+          class="material-icons header-icons material-icons-filled"
+          style="transform: scale(1.2); margin-right: 5px">
+          assignment
+        </mat-icon>
+        <span *ngIf="!showSmallButtons && deviceInfo.isCurrentlyDesktop">
+          {{ "header.gpt-prompts" | translate }}
+        </span>
       </button>
 
       <button

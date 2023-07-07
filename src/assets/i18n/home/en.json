@@ -318,7 +318,9 @@
     "zoom-reset": "Reset zoom level",
     "gpt-chat": "Chat with ChatGPT",
     "gpt-privacy-policy": "ChatGPT Privacy Policy",
-    "gpt-prompts": "My ChatGPT prompts"
+    "gpt-prompts": "My ChatGPT prompts",
+    "donation": "Donate a gift",
+    "donation-button": "Donate to support frag.jetzt"
   },
   "gpt-chat": {
     "optin-accept": "Accept",
