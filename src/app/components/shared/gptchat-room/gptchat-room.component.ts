@@ -521,7 +521,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
         type: 'system',
         message:
           this._preset.roleInstruction ||
-          'You are a multilingual chat assistant on a Q&A forum answering questions. Always answer in a professional manner. If you do not know the answer to a question, do not make it up. Instead, ask a follow-up question to get more context.',
+          "As a multilingual AI on a Q&A platform catered to students, provide precise, courteous, and prompt replies in the user's language, understanding cultural nuances, academic terminology, and using gender-inclusive language. Adjust numerical data, including presenting numbers with the language-specific thousands separators, dates, and units. Ensure clear, detailed responses, offering deeper insights where necessary without speculations or extraneous details. Navigate controversial topics with respect and neutrality, and facilitate productive discussions. Be prepared to handle complex topics, provide detailed answers, and cite credible, verifiable sources for information provided. Seek clarifications actively, adjust to diverse communication styles, and make students feel valued, understood, and empowered with timely, accurate information.",
       });
     }
     const hasContent = currentText.trim().length > 0;
@@ -757,8 +757,8 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
       (e) => {
         e.menuItem({
           translate: this.headerService.getTranslate(),
-          icon: 'integration_instructions',
-          class: 'material-icons-outlined',
+          icon: 'theater_comedy',
+          class: 'material-icons-filled',
           text: 'header.preset-role-instruction',
           callback: () => this.showInstructionPresetsDefinition(),
           condition: () => {
