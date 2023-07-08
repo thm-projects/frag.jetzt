@@ -821,7 +821,7 @@
     "rest-wrong": "Eine Kostenbegrenzung entspricht nicht einer gültigen Zahl. (Zahl mit zwei Nachkommastellen)",
     "deactivated": "Rauminhabender*in erlaubt keine Änderungen.",
     "general-rights": "Sonstige Einstellungen",
-    "general-right-unregistered": "Unregistrierte Teilnehmer*innen dürfen ChatGPT verwenden",
+    "general-right-unregistered": "ChatGPT auch für unregistrierte User zulassen",
     "general-disable-enhanced-prompt": "ChatGPT ohne Prompt-Vorgaben antworten lassen",
     "general-disable-forward-message": "ChatGPT nur nach Aufforderung antworten lassen",
     "moderator-rights": "Moderatorenrechte",
