@@ -27,8 +27,8 @@ export const carousel: {
     },
     description: {
       en: "Let ChatGPT answer all your knowledge questions. Your prompt presets ensure accurate and personalized answers. A quick fact check, and you've saved yourself hours of work. Experience how AI makes you more efficient!",
-      de: 'Lass ChatGPT alle Wissensfragen beantworten. Deine Prompt-Vorgaben sichern präzise und personalisierte Antworten. Ein kurzer Faktencheck und du hast dir viele Stunden Arbeit erspart. Erlebe, wie die KI dich effizienter macht!',
-      fr: "Laisse ChatGPT répondre à toutes les questions de connaissance. Tes paramètres de prompt garantissent des réponses précises et personnalisées. Une vérification rapide des faits et tu t'es épargné de nombreuses heures de travail. Découvre comment l'IA te rend plus efficace !",
+      de: 'Lass ChatGPT alle Wissensfragen beantworten. Deine Prompt-Vorgaben sorgen für präzise und personalisierte Antworten. Ein kurzer Faktencheck und du hast dir viele Stunden Arbeit erspart. Erlebe, wie die KI dich effizienter macht!',
+      fr: "Laisse ChatGPT répondre à toutes les questions de connaissance. Tes directives Prompt garantissent des réponses précises et personnalisées. Une vérification rapide des faits et tu t'es épargné de nombreuses heures de travail. Découvre comment l'IA te rend plus efficace !",
     },
     images: [
       {
@@ -114,9 +114,9 @@ export const carousel: {
       fr: "Enseigne avec l'IA !",
     },
     description: {
-      en: "ChatGPT accurately summarizes the chapters of your script, isolates learning objectives and key concepts, and generates a glossary of  technical terms. The AI creates exercises and exam questions from your lecture slides and grades submissions and answers. It answers all your students' questions competently and tailored to your audience, around the clock.",
-      de: 'ChatGPT fasst die Kapitel deines Skripts präzise zusammen, extrahiert Lernziele und Konzepte und generiert ein Glossar mit den Fachbegriffen. Die KI erstellt aus deinen Vorlesungsfolien Übungsaufgaben und Prüfungsfragen, bewertet Einreichungen und Antworten. Sie beantwortet rund um die Uhr alle Fragen deiner Studierenden: stets kompetent und zielgruppengerecht.',
-      fr: "ChatGPT résume précisément les chapitres de ton script, isole les objectifs d'apprentissage et les concepts clés, et génère un glossaire de termes techniques. L'IA crée des tâches pratiques et des questions d'examen à partir de tes diapositives de cours, évalue les soumissions et les réponses. Elle répond à toutes les questions de tes étudiants de manière compétente et appropriée à leur niveau, 24 heures sur 24.",
+      en: "ChatGPT summarizes the chapters of your script, isolates learning objectives and key concepts, and generates a glossary of  technical terms. The AI creates exercises and exam questions from your lecture slides and grades submissions and answers. It answers all your students' questions competently and tailored to your audience, around the clock.",
+      de: 'ChatGPT fasst die Kapitel deines Skripts zusammen, extrahiert Lernziele und Konzepte und generiert ein Glossar mit den Fachbegriffen. Die KI erstellt aus deinen Vorlesungsfolien Übungsaufgaben und Prüfungsfragen, bewertet Einreichungen und Antworten. Sie beantwortet rund um die Uhr alle Fragen deiner Studierenden: stets kompetent und zielgruppengerecht.',
+      fr: "ChatGPT résume les chapitres de ton script, isole les objectifs d'apprentissage et les concepts clés, et génère un glossaire de termes techniques. L'IA crée des tâches pratiques et des questions d'examen à partir de tes diapositives de cours, évalue les soumissions et les réponses. Elle répond à toutes les questions de tes étudiants de manière compétente et appropriée à leur niveau, 24 heures sur 24.",
     },
     images: [
       {
@@ -444,9 +444,9 @@ export const carousel: {
       fr: 'App Progressive',
     },
     description: {
-      en: "Imagine an app that requires no downloads or updates, adapts perfectly to any device, and can even be installed on your laptop. That's frag.jetzt, our Progressive Web App (PWA). Install it directly on your home screen and always enjoy the latest version. Smart, uncomplicated, and forward-thinking.",
-      de: 'Stell dir eine App vor, die keine Downloads oder Updates benötigt, sich perfekt an jedes Gerät anpasst und sogar auf deinem Laptop installiert werden kann. Das ist frag.jetzt, unsere Progressive Web App (PWA). Installiere sie direkt auf deinem Startbildschirm und genieße immer die aktuellste Version. Smart, unkompliziert und zukunftsorientiert.',
-      fr: "Imagine une application qui ne nécessite aucun téléchargement ou mise à jour, qui s'adapte parfaitement à n'importe quel appareil et qui peut même être installée sur ton laptop. C'est frag.jetzt, notre application Web progressive (PWA). Installe-la directement sur ton écran d'accueil et profite toujours de la dernière version. Intelligent, simple et tourné vers l'avenir.",
+      en: "Imagine an app that requires no downloads or updates, adapts perfectly to any device, and can even be installed on your laptop. That's frag.jetzt, our Progressive Web App (PWA). Install it directly on your home screen and always enjoy the latest version. Smart, simple, forward-thinking.",
+      de: 'Stell dir eine App vor, die keine Downloads oder Updates benötigt, sich perfekt an jedes Gerät anpasst und sogar auf deinem Laptop installiert werden kann. Das ist frag.jetzt, unsere Progressive Web App (PWA). Installiere sie direkt auf deinem Startbildschirm und genieße immer die aktuellste Version. Smart, einfach, zukunftsorientiert.',
+      fr: "Imagine une application qui ne nécessite aucun téléchargement ou mise à jour, qui s'adapte parfaitement à n'importe quel appareil et qui peut même être installée sur ton laptop. C'est frag.jetzt, notre application Web progressive (PWA). Installe-la directement sur ton écran d'accueil et profite toujours de la dernière version. Intelligent, simple, tourné vers l'avenir.",
     },
     images: [
       {
@@ -497,7 +497,7 @@ export const carousel: {
         url: 'url("/assets/background/info.svg")',
         override: {
           default: {
-            'background-size': '70%',
+            'background-size': '60%',
           },
         },
       },
@@ -519,7 +519,7 @@ export const carousel: {
         url: 'url("/assets/background/dollars.svg")',
         override: {
           default: {
-            'background-size': '80%',
+            'background-size': '70%',
           },
         },
       },
@@ -541,7 +541,7 @@ export const carousel: {
         url: 'url("/assets/background/rocket.svg")',
         override: {
           default: {
-            'background-size': '100%',
+            'background-size': '80%',
           },
         },
       },
