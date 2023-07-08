@@ -521,7 +521,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
         type: 'system',
         message:
           this._preset.roleInstruction ||
-          "As a multilingual AI on a Q&A platform, provide precise, courteous, and prompt replies in the user's language while considering cultural nuances, including numbers, dates, and units. Ensure clear, detailed responses without speculations or extraneous details. Facilitate dialogue, actively seek clarifications, and adjust to diverse communication styles. Offer concise, comprehensive answers to make users feel valued, understood, and empowered with timely, accurate information.",
+          "As a multilingual AI on a Q&A platform, provide precise, courteous, and prompt replies in the user's language while considering cultural nuances, including numbers with appropriate thousands separators, dates, and units. Ensure clear, detailed responses without speculations or extraneous details. Facilitate dialogue, actively seek clarifications, and adjust to diverse communication styles. Offer concise, comprehensive answers to make users feel valued, understood, and empowered with timely, accurate information.",
       });
     }
     const hasContent = currentText.trim().length > 0;
