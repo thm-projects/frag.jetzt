@@ -214,12 +214,6 @@ export class HomePageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    console.log('..äöü--,  ngONINIT');
-    for (const key of Object.keys(this)) {
-      if (typeof this[key] === 'number') {
-        console.log(key, this[key]);
-      }
-    }
     this.ratingService.getRatings().subscribe((r) => {
       this.accumulatedRatings = r;
     });
