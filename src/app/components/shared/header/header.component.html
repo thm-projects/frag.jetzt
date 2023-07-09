@@ -55,12 +55,8 @@
         mat-flat-button
         routerLink="/donation"
         tabindex="0"
-        [joyrideStep]="'chatGPT'"
-        [stepPosition]="'bottom'"
-        appJoyrideTemplate
         [matTooltip]="'header.donation-button' | translate"
-        *ngIf="router.url.includes('/user')"
-        (click)="openGPT()">
+        *ngIf="router.url.includes('/user')">
         <mat-icon
           class="material-symbols-outlined"
           style="transform: scale(1.2); margin-right: 5px; color: #1d6161">

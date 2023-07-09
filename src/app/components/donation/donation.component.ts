@@ -9,18 +9,13 @@ declare var paypal;
 })
 
 export class DonationComponent implements OnInit {
-
-
-  product = {
-    price: 777.77,
-    description: 'donation'
-  };
-
   paidFor = false;
 
   constructor(private changeDetectorRef: ChangeDetectorRef) {}
 
-  //Pass your ClientId + secret key
+  //Get InputElement From DOM
+  @ViewChild('input') inputElement: ElementRef;
+  //Get PaypalButton Element from DOM
   @ViewChild('paypalButtons', {static: true}) paypalButtonsElement: ElementRef;
 
   ngOnInit(): void {}
@@ -32,10 +27,9 @@ export class DonationComponent implements OnInit {
           return actions.order.create({
             purchase_units: [
               {
-                description: this.product.description,
                 amount: {
                   currency_code: 'USD',
-                  value: this.product.price
+                  value: this.inputElement.nativeElement.value,
                 }
               }
             ]
