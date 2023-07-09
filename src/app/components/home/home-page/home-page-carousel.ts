@@ -26,9 +26,9 @@ export const carousel: {
       fr: 'Chat avec ChatGPT',
     },
     description: {
-      en: "Let ChatGPT answer all your knowledge questions. Your prompt presets ensure accurate and personalized answers. A quick fact check, and you've saved yourself hours of work. Experience how AI makes you more efficient!",
-      de: 'Lass ChatGPT alle Wissensfragen beantworten. Deine Prompt-Vorgaben sorgen für präzise und personalisierte Antworten. Ein kurzer Faktencheck und du hast dir viele Stunden Arbeit erspart. Erlebe, wie die KI dich effizienter macht!',
-      fr: "Laisse ChatGPT répondre à toutes les questions de connaissance. Tes directives Prompt garantissent des réponses précises et personnalisées. Une vérification rapide des faits et tu t'es épargné de nombreuses heures de travail. Découvre comment l'IA te rend plus efficace !",
+      en: "Let ChatGPT answer all your knowledge questions. Your prompt presets ensure accurate and personalized answers. A quick fact check, and you've saved yourself hours of work. Experience how AI makes you more efficient! GPT-4 is at your disposal.",
+      de: 'Lass ChatGPT alle Wissensfragen beantworten. Deine Prompt-Vorgaben sorgen für präzise und personalisierte Antworten. Ein kurzer Faktencheck und du hast dir viele Stunden Arbeit erspart. Erlebe, wie die KI dich effizienter macht! GPT-4 steht dir zur Verfügung.',
+      fr: "Laisse ChatGPT répondre à toutes les questions de connaissance. Tes directives Prompt garantissent des réponses précises et personnalisées. Une vérification rapide des faits et tu t'es épargné de nombreuses heures de travail. Découvre comment l'IA te rend plus efficace ! GPT-4 est à ta disposition.",
     },
     images: [
       {
@@ -92,9 +92,9 @@ export const carousel: {
       fr: 'Participe !',
     },
     description: {
-      en: 'Participate in our study »ChatGPT in Teaching & Learning«. Gain unlimited access to the AI-Tutor in all your rooms. Share feedback from your students and tutors with us. Are AI tutors the future? Contact us via the legal notice.',
-      de: 'Mach mit bei unserer Studie »ChatGPT in Lehre & Studium«. Erhalte unbegrenzten Zugang zum KI-Tutor in allen deinen Räumen. Teile uns das Feedback deiner Studierenden und Tutor*innen mit: Sind KI-Tutoren die Zukunft? Kontaktiere uns über das Impressum.',
-      fr: "Participe à notre étude « ChatGPT dans l'Enseignement & l'Apprentissage ». Bénéficie d'un accès illimité au Tuteur AI dans toutes tes salles. Partage avec nous les retours de tes étudiants et tuteurs. Les tuteurs IA sont-ils l'avenir ? Contacte-nous via les mentions légales.",
+      en: 'Participate in our study »ChatGPT in Teaching & Learning«. Gain unlimited access to the AI-Tutor in all your rooms. Share feedback from your students with us: Are AI tutors the future? Contact us via the legal notice.',
+      de: 'Mach mit bei unserer Studie »ChatGPT in Lehre & Studium«. Erhalte unbegrenzten Zugang zum KI-Tutor in allen deinen Räumen. Teile uns das Feedback deiner Studierenden mit: Sind KI-Tutoren die Zukunft? Kontaktiere uns über das Impressum.',
+      fr: "Participe à notre étude « ChatGPT dans l'Enseignement & l'Apprentissage ». Bénéficie d'un accès illimité au Tuteur AI dans toutes tes salles. Partage avec nous les retours de tes étudiants : Les tuteurs IA sont-ils l'avenir ? Contacte-nous via les mentions légales.",
     },
     images: [
       {
@@ -114,8 +114,8 @@ export const carousel: {
       fr: "Enseigne avec l'IA !",
     },
     description: {
-      en: "ChatGPT summarizes the chapters of your script, isolates learning objectives and key concepts, and generates a glossary of  technical terms. The AI creates exercises and exam questions from your lecture slides and grades submissions and answers. It answers all your students' questions competently and tailored to your audience, around the clock.",
-      de: 'ChatGPT fasst die Kapitel deines Skripts zusammen, extrahiert Lernziele und Konzepte und generiert ein Glossar mit den Fachbegriffen. Die KI erstellt aus deinen Vorlesungsfolien Übungsaufgaben und Prüfungsfragen, bewertet Einreichungen und Antworten. Sie beantwortet rund um die Uhr alle Fragen deiner Studierenden: stets kompetent und zielgruppengerecht.',
+      en: "ChatGPT summarizes the chapters of your script, isolates learning objectives and key concepts, and generates a glossary of  technical terms. The AI creates exercises and exam questions from your lecture slides and grades submissions and answers. It answers all your students' questions 27/7: competently and in line with the target group.",
+      de: 'ChatGPT fasst die Kapitel deines Skripts zusammen, extrahiert Lernziele und Konzepte und generiert ein Glossar mit den Fachbegriffen. Die KI erstellt aus deinen Vorlesungsfolien Übungsaufgaben und Prüfungsfragen, bewertet Einreichungen und Antworten. Sie beantwortet 24/7 alle Fragen deiner Studierenden: stets kompetent und zielgruppengerecht.',
       fr: "ChatGPT résume les chapitres de ton script, isole les objectifs d'apprentissage et les concepts clés, et génère un glossaire de termes techniques. L'IA crée des tâches pratiques et des questions d'examen à partir de tes diapositives de cours, évalue les soumissions et les réponses. Elle répond à toutes les questions de tes étudiants de manière compétente et appropriée à leur niveau, 24 heures sur 24.",
     },
     images: [
@@ -146,6 +146,28 @@ export const carousel: {
         override: {
           default: {
             backgroundSize: '70%',
+          },
+        },
+      },
+    ],
+  },
+  {
+    title: {
+      en: 'Write with AI!',
+      de: 'Schreibe mit KI!',
+      fr: "Écris avec l'IA !",
+    },
+    description: {
+      en: "Use ChatGPT as your writing assistant! The AI helps you overcome writer's block and makes your work more efficient. It supports you in formulating your thoughts, creates outlines, and revises your texts. It assists you in creating project and work plans, in defining goals, prioritizing tasks, and developing schedules. Since code is essentially just text, ChatGPT can generate code, find errors, or explain code. So use ChatGPT whenever you need writing help.",
+      de: 'Nutze ChatGPT als Schreibassistenten! Die KI hilft dir, Schreibblockaden zu überwinden und macht deine Arbeit effizienter. Sie unterstützt dich beim Formulieren deiner Gedanken, erstellt Gliederungen und überarbeitet deine Texte. Sie assistiert dir beim Erstellen von Projekt- und Arbeitsplänen, beim Definieren von Zielen, Priorisieren von Aufgaben und Ausarbeiten von Zeitplänen. Da Code im Grunde genommen auch nur Text ist, kann ChatGPT Code generieren, Fehler finden oder Code erklären. Nutze also ChatGPT, wann immer du eine Schreibhilfe brauchst.',
+      fr: "Utilise ChatGPT comme assistant d'écriture ! L'IA t'aide à surmonter le blocage de l'écrivain et rend ton travail plus efficace. Elle te soutient dans la formulation de tes pensées, crée des plans et révise tes textes. Elle t'assiste dans la création de plans de projet et de travail, dans la définition des objectifs, la priorisation des tâches et l'élaboration des calendriers. Puisque le code n'est fondamentalement que du texte, ChatGPT peut générer du code, trouver des erreurs ou expliquer du code. Alors utilise ChatGPT chaque fois que tu as besoin d'aide pour écrire.",
+    },
+    images: [
+      {
+        url: 'url("/assets/background/paper.svg")',
+        override: {
+          default: {
+            backgroundSize: '80%',
           },
         },
       },
