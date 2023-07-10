@@ -1184,7 +1184,7 @@
   },
   "gptchat-info": {
     "title": "ChatGPT",
-    "content": "ChatGPT n'est disponible que dans les salles créées par un utilisateur enregistré. Cette salle a été créée par un invité. Crée ta propre salle pour utiliser ChatGPT.\n\nC'est aussi simple que ça, en deux étapes seulement:\n\n1. Inscris-toi sur frag.jetzt, crée un compte et réserve une salle.\n\n2. Dépose la [clé API d'OpenAI](https://platform.openai.com) dans le menu d'options de ta salle et c'est parti!\n\nTa clé API est stockée en toute sécurité sur notre serveur et ton mot de passe frag.jetzt est également sécurisé. De plus, tu peux limiter dans le temps le contingent de tokens et tes coûts API si tu veux autoriser ChatGPT à être utilisé dans ta salle. Tu trouveras tous les paramètres nécessaires dans le menu d'options de ta salle.\n\nDémarre maintenant avec un crédit gratuit de 5 $ que tu peux utiliser pendant les 3 premiers mois. Selon le modèle linguistique, tu peux ainsi consommer entre 250 000 et 12,5 millions de tokens.",
+    "content": "ChatGPT n'est disponible que dans les salles créées par un utilisateur enregistré. Cette salle a été créée par un invité. Inscris-toi et crée toi-même une salle pour utiliser ChatGPT.\n\nCommence dès maintenant avec un crédit de 5 $. Avec ce crédit, tu peux consommer plusieurs millions de tokens pour des demandes ChatGPT (1 token correspond à environ 5-7 caractères).",
     "cancel": "Fermer"
   },
   "chatgpt-brainstorm": {
