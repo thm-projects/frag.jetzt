@@ -26,9 +26,9 @@ export const carousel: {
       fr: 'Chat avec ChatGPT',
     },
     description: {
-      en: "Let ChatGPT answer all your knowledge questions. Your prompt presets ensure accurate and personalized answers. A quick fact check, and you've saved yourself hours of work. Experience how AI makes you more efficient! GPT-4 is at your disposal.",
-      de: 'Lass ChatGPT alle Wissensfragen beantworten. Deine Prompt-Vorgaben sorgen für präzise und personalisierte Antworten. Ein kurzer Faktencheck und du hast dir viele Stunden Arbeit erspart. Erlebe, wie die KI dich effizienter macht! GPT-4 steht dir zur Verfügung.',
-      fr: "Laisse ChatGPT répondre à toutes les questions de connaissance. Tes directives Prompt garantissent des réponses précises et personnalisées. Une vérification rapide des faits et tu t'es épargné de nombreuses heures de travail. Découvre comment l'IA te rend plus efficace ! GPT-4 est à ta disposition.",
+      en: "Let ChatGPT answer all your knowledge questions. Your prompt presets ensure accurate and personalized answers. A quick fact check, and you've saved yourself hours of work. Experience how AI makes you more efficient!",
+      de: 'Lass ChatGPT alle Wissensfragen beantworten. Deine Prompt-Vorgaben sorgen für präzise und personalisierte Antworten. Ein kurzer Faktencheck und du hast dir viele Stunden Arbeit erspart. Erlebe, wie die KI dich effizienter macht!',
+      fr: "Laisse ChatGPT répondre à toutes les questions de connaissance. Tes directives Prompt garantissent des réponses précises et personnalisées. Une vérification rapide des faits et tu t'es épargné de nombreuses heures de travail. Découvre comment l'IA te rend plus efficace !",
     },
     images: [
       {
@@ -48,9 +48,9 @@ export const carousel: {
       fr: 'Prompting',
     },
     description: {
-      en: 'You can set the context and the role you want ChatGPT to take. Also, the format and scope of the responses. With keywords, you limit the chat to the topic of your event. The bot will reject inappropriate or unwanted questions in a friendly but firm way.',
-      de: 'Du kannst den Kontext festlegen und die Rolle, die ChatGPT einnehmen soll. Auch das Format und den Umfang der Antworten. Mit Schlüsselwörtern begrenzt du den Chat auf das Thema deiner Veranstaltung. Unpassende oder unerwünschte Fragen lehnt der Bot freundlich, aber bestimmt ab.',
-      fr: "Tu peux définir le contexte et le rôle que ChatGPT doit jouer. De même que le format et l'étendue des réponses. Avec des mots-clés, tu limites le chat au thème de ton événement. Le bot refuse gentiment, mais fermement les questions inappropriées ou indésirables.",
+      en: 'You can set the context for the users of your room and the role you want ChatGPT to take. Also, the format and scope of the responses. With keywords, you limit the chat to the topic of your event. The bot will reject inappropriate or unwanted questions in a friendly but firm way.',
+      de: 'Du kannst für die User deines Raumes den Kontext festlegen und die Rolle, die ChatGPT einnehmen soll. Auch das Format und den Umfang der Antworten. Mit Schlüsselwörtern begrenzt du den Chat auf das Thema deiner Veranstaltung. Unpassende oder unerwünschte Fragen lehnt der Bot freundlich, aber bestimmt ab.',
+      fr: "Tu peux définir pour les utilisateurs de ta salle le contexte et le rôle que ChatGPT doit jouer. De même que le format et l'étendue des réponses. Avec des mots-clés, tu limites le chat au thème de ton événement. Le bot refuse gentiment, mais fermement les questions inappropriées ou indésirables.",
     },
     images: [
       {
@@ -70,9 +70,9 @@ export const carousel: {
       fr: 'Performance',
     },
     description: {
-      en: 'Free yourself from the traffic on the OpenAI website! We directly query the API. Regardless of the time of day or night, or whether half the world is currently chatting with ChatGPT, the bot always responds quickly and reliably!',
-      de: 'Mach dich unabhängig vom Traffic auf der OpenAI-Website! Wir befragen direkt die API. Egal zu welcher Tages- oder Nachtzeit oder ob die halbe Welt gerade mit ChatGPT chattet, der Bot reagiert stets prompt und zuverlässig!',
-      fr: "Libère-toi du trafic sur le site web d'OpenAI ! Nous utilisons directement l'API. Peu importe l'heure du jour ou de la nuit, ou que la moitié du monde soit en train de discuter avec ChatGPT, le bot répond toujours rapidement et de manière fiable !",
+      en: 'Free yourself from the traffic on the OpenAI website! We directly query the GPT-4 API. Regardless of the time of day or night, or whether half the world is currently chatting with ChatGPT, the bot always responds quickly and reliably!',
+      de: 'Mach dich unabhängig vom Traffic auf der OpenAI-Website! Wir befragen direkt die GPT-4-API. Egal zu welcher Tages- oder Nachtzeit oder ob die halbe Welt gerade mit ChatGPT chattet, der Bot reagiert stets prompt und zuverlässig!',
+      fr: "Libère-toi du trafic sur le site web d'OpenAI ! Nous utilisons directement l'API GPT-4. Peu importe l'heure du jour ou de la nuit, ou que la moitié du monde soit en train de discuter avec ChatGPT, le bot répond toujours rapidement et de manière fiable !",
     },
     images: [
       {
@@ -136,9 +136,9 @@ export const carousel: {
       fr: "Apprends avec l'IA !",
     },
     description: {
-      en: "As a student, you can create your own rooms and use all features of frag.jetzt. Ask ChatGPT questions about your courses and save the answers in the Q&A forum. Feed the bot your notes and let it create study materials: from flashcards to exam questions. You can even get quizzed by ChatGPT before an exam! Sounds exciting, doesn't it?",
-      de: 'Als Student*in kannst du eigene Räume erstellen und alle Funktionen von frag.jetzt nutzen. Stelle ChatGPT Fragen zu deinen Kursen und speichere die Antworten im Q&A-Forum. Gib dem Bot deine Mitschrift und lass ihn daraus Lernmaterialien erstellen: von Lernkarten bis zu Prüfungsfragen. Du kannst dich sogar von ChatGPT vor einer Prüfung abfragen lassen! Klingt spannend, oder?',
-      fr: "En tant qu'étudiant*e, tu peux créer tes propres salles et utiliser toutes les fonctionnalités de frag.jetzt. Pose des questions à ChatGPT sur tes cours et sauvegarde les réponses dans le forum Q&R. Donne au bot tes notes et laisse-le créer des supports d'étude : des flashcards aux questions d'examens. Tu peux même te faire interroger par ChatGPT avant un examen ! Ça te semble excitant, n'est-ce pas ?",
+      en: "As a student, you can create your own rooms and use all features of frag.jetzt. Ask ChatGPT questions about your courses and save the answers in the Q&A forum. Feed the bot your notes and let it create study materials: from flashcards to exam questions. You can even get quizzed by ChatGPT before an exam: Face the quiz duel with the AI!",
+      de: 'Als Student*in kannst du eigene Räume erstellen und alle Funktionen von frag.jetzt nutzen. Stelle ChatGPT Fragen zu deinen Kursen und speichere die Antworten im Q&A-Forum. Gib dem Bot deine Mitschrift und lass ihn daraus Lernmaterialien erstellen: von Lernkarten bis zu Prüfungsfragen. Du kannst dich sogar von ChatGPT vor einer Prüfung abfragen lassen: Stell dich dem Quizduell mit der KI!',
+      fr: "En tant qu'étudiant*e, tu peux créer tes propres salles et utiliser toutes les fonctionnalités de frag.jetzt. Pose des questions à ChatGPT sur tes cours et sauvegarde les réponses dans le forum Q&R. Donne au bot tes notes et laisse-le créer des supports d'étude : des flashcards aux questions d'examens. Tu peux même te faire interroger par ChatGPT avant un examen : Affronte l'IA dans un duel de quiz !",
     },
     images: [
       {
@@ -158,9 +158,9 @@ export const carousel: {
       fr: "Écris avec l'IA !",
     },
     description: {
-      en: "Use ChatGPT as your writing assistant! The AI helps you overcome writer's block and makes your work more efficient. It supports you in formulating your thoughts, creates outlines, and revises your texts. It assists you in creating project and work plans, in defining goals, prioritizing tasks, and developing schedules. Since code is essentially just text, ChatGPT can generate code, find errors, or explain code. So use ChatGPT whenever you need writing help.",
-      de: 'Nutze ChatGPT als Schreibassistenten! Die KI hilft dir, Schreibblockaden zu überwinden und macht deine Arbeit effizienter. Sie unterstützt dich beim Formulieren deiner Gedanken, erstellt Gliederungen und überarbeitet deine Texte. Sie assistiert dir beim Erstellen von Projekt- und Arbeitsplänen, beim Definieren von Zielen, Priorisieren von Aufgaben und Ausarbeiten von Zeitplänen. Da Code im Grunde genommen auch nur Text ist, kann ChatGPT Code generieren, Fehler finden oder Code erklären. Nutze also ChatGPT, wann immer du eine Schreibhilfe brauchst.',
-      fr: "Utilise ChatGPT comme assistant d'écriture ! L'IA t'aide à surmonter le blocage de l'écrivain et rend ton travail plus efficace. Elle te soutient dans la formulation de tes pensées, crée des plans et révise tes textes. Elle t'assiste dans la création de plans de projet et de travail, dans la définition des objectifs, la priorisation des tâches et l'élaboration des calendriers. Puisque le code n'est fondamentalement que du texte, ChatGPT peut générer du code, trouver des erreurs ou expliquer du code. Alors utilise ChatGPT chaque fois que tu as besoin d'aide pour écrire.",
+      en: "Use ChatGPT as your writing assistant! The AI helps you overcome writer's block. It supports you in formulating your thoughts, creates outlines, and revises your texts. It assists you in creating project and work plans, in defining goals, prioritizing tasks, and developing schedules. Since code is essentially just text, ChatGPT can generate code, find errors, or explain code. So use ChatGPT whenever you need writing help.",
+      de: 'Nutze ChatGPT als Schreibassistenten! Die KI hilft dir, Schreibblockaden zu überwinden. Sie unterstützt dich beim Formulieren deiner Gedanken, erstellt Gliederungen und überarbeitet deine Texte. Sie organisiert dein Schreibprozess: Sie assistiert dir beim Erstellen von Projekt- und Arbeitsplänen, beim Definieren von Zielen, Priorisieren von Aufgaben und Ausarbeiten von Zeitplänen. Da Code im Grunde genommen auch nur Text ist, kann ChatGPT Code generieren, Fehler finden oder Code erklären. Nutze also ChatGPT, wann immer du eine Schreibhilfe brauchst.',
+      fr: "Utilise ChatGPT comme assistant d'écriture ! L'IA t'aide à surmonter le blocage de l'écrivain. Elle te soutient dans la formulation de tes pensées, crée des plans et révise tes textes. Elle t'assiste dans la création de plans de projet et de travail, dans la définition des objectifs, la priorisation des tâches et l'élaboration des calendriers. Puisque le code n'est fondamentalement que du texte, ChatGPT peut générer du code, trouver des erreurs ou expliquer du code. Alors utilise ChatGPT chaque fois que tu as besoin d'aide pour écrire.",
     },
     images: [
       {
