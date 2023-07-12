@@ -102,11 +102,28 @@
         {{ "gpt-chat.interrupt" | translate }}
       </button>
       <div
+        [data]="formatText(item)"
         markdown
         emoji
-        katex>
-        {{ formatText(item.message) }}
-      </div>
+        katex></div>
+
+      <button
+        mat-icon-button
+        *ngIf="item.type === 'system'"
+        (click)="systemMessagesVisible = !systemMessagesVisible"
+        [matTooltip]="'gpt-chat.system-message' | translate">
+        <mat-icon>
+          {{ systemMessagesVisible ? "visibility_off" : "visibility" }}
+        </mat-icon>
+      </button>
+
+      <button
+        mat-icon-button
+        *ngIf="item.type === 'human'"
+        (click)="editMessage(i)"
+        [matTooltip]="'gpt-chat.edit-message' | translate">
+        <mat-icon>edit</mat-icon>
+      </button>
 
       <button
         class="gpt-icon-btn"
@@ -150,6 +167,7 @@
 
     <app-view-comment-data
       *ngIf="!answeringWriteComment || conversation.length > 0"
+      [onEnter]="enterEvent"
       [currentData]="initDelta"
       [textOverwrite]="'gpt-chat.token-info' | translate : tokenInfo"
       (changeContent)="calculateTokens(getCurrentText())"
@@ -235,6 +253,7 @@
           {{ "gpt-chat.cancel" | translate }}
         </button>
         <button
+          #sendButton
           mat-button
           [disabled]="!canSend()"
           style="float: right"
@@ -243,11 +262,19 @@
           {{ "gpt-chat.send" | translate }}
         </button>
         <button
+          *ngIf="editIndex < 0"
           mat-button
           style="float: right"
           class="danger-btn"
           (click)="clearMessages()">
           {{ "gpt-chat.empty-conversation" | translate }}
+        </button>
+        <button
+          *ngIf="editIndex >= 0"
+          mat-button
+          class="danger-btn"
+          (click)="abortEdit()">
+          {{ "gpt-chat.cancel-edit" | translate }}
         </button>
       </div>
     </ng-container>

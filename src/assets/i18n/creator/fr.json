@@ -410,6 +410,7 @@
     "title-answer": "ChatGPT | Assistant pour les réponses",
     "interrupt": "Arrêter la sortie",
     "copy-markdown": "Copier Markdown",
+    "system-message": "Afficher/cacher les messages système",
     "copy-success": "Markdown copié avec succès",
     "copy-fail": "Markdown n'a pas pu être copié !",
     "temperature-creative": "[Plus] Créatif",
@@ -490,6 +491,8 @@
     "none": "Aucun",
     "send": "Envoyer",
     "empty-conversation": "Vider l'historique",
+    "cancel-edit": "Annuler l'édition",
+    "edit-message": "Éditer le message",
     "input-forbidden": "Saisie interdite, veuillez vérifier les paramètres de l'API GPT.",
     "no-api-setup": "La clé d'API ou le modèle de langage n'a pas été défini.",
     "presets": {

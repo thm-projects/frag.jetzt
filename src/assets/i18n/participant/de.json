@@ -328,6 +328,7 @@
     "title-answer": "ChatGPT | Assistent für Antworten",
     "interrupt": "Ausgabe stoppen",
     "copy-markdown": "Markdown kopieren",
+    "system-message": "Systemnachrichten anzeigen/verbergen",
     "copy-success": "Markdown erfolgreich kopiert",
     "copy-fail": "Markdown konnte nicht kopiert werden!",
     "temperature-creative": "[Mehr] Kreativ",
@@ -408,6 +409,8 @@
     "your-choice": "Deine Auswahl …",
     "none": "Keine",
     "empty-conversation": "Verlauf leeren",
+    "cancel-edit": "Editieren abbrechen",
+    "edit-message": "Nachricht editieren",
     "input-forbidden": "Bitte prüfe die ChatGPT-Einstellungen.",
     "no-api-setup": "Der API-Schlüssel oder das Sprachmodell wurden nicht gesetzt.",
     "answer-format": {

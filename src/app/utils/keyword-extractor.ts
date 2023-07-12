@@ -58,6 +58,7 @@ export interface CommentCreateOptions {
   selectedLanguage: Language;
   hadUsedDeepL: boolean;
   keywordExtractionActive: boolean;
+  ignoreKeywordFailure?: boolean;
   callbackFinished?: () => void;
 }
 
@@ -163,7 +164,10 @@ export class KeywordExtractor {
         comment.language = result.language;
         comment.keywordsFromSpacy = result.keywords;
         comment.keywordsFromQuestioner = [];
-        if (!options.keywordExtractionActive) {
+        if (
+          !options.keywordExtractionActive ||
+          (options.ignoreKeywordFailure && !result.keywords?.length)
+        ) {
           return of(comment);
         }
         return this.openSpacyDialog(comment, result);

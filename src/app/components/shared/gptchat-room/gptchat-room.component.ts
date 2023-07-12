@@ -25,8 +25,6 @@ import { GptEncoderService } from 'app/services/util/gpt-encoder.service';
 import { LanguageService } from 'app/services/util/language.service';
 import { SessionService } from 'app/services/util/session.service';
 import { UserManagementService } from 'app/services/util/user-management.service';
-import { KeyboardUtils } from 'app/utils/keyboard';
-import { KeyboardKey } from 'app/utils/keyboard/keys';
 import {
   ImmutableStandardDelta,
   MarkdownDelta,
@@ -74,6 +72,7 @@ import { Comment } from 'app/models/comment';
 import { GPTPresetTopicsDialogComponent } from '../_dialogs/gptpreset-topics-dialog/gptpreset-topics-dialog.component';
 import { GptPromptExplanationComponent } from '../_dialogs/gpt-prompt-explanation/gpt-prompt-explanation.component';
 import { GPTRatingDialogComponent } from '../_dialogs/gptrating-dialog/gptrating-dialog.component';
+import { MatButton } from '@angular/material/button';
 
 interface ConversationEntry {
   type: 'human' | 'gpt' | 'system';
@@ -112,6 +111,8 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild(ViewCommentDataComponent)
   commentData: ViewCommentDataComponent;
   @ViewChild('lengthSubMenu') lengthSubMenu: MatMenu;
+  @ViewChild('sendButton', { static: false })
+  sendButton: MatButton;
   @Input() private owningComment: ForumComment;
   conversation: ConversationEntry[] = [];
   isSending = false;
@@ -188,6 +189,9 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
     'gpt-4',
   ];
   prettifyModel = this.translateModel.bind(this);
+  enterEvent = this.onEnter.bind(this);
+  systemMessagesVisible = false;
+  editIndex = -1;
   protected selectedPrompt: GPTPromptPreset = null;
   private destroyer = new ReplaySubject(1);
   private encoder: GPTEncoder = null;
@@ -309,27 +313,19 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
     this.destroyer.complete();
   }
 
-  formatText(text: string) {
+  formatText(entry: ConversationEntry) {
+    let text = entry.message;
+    if (!this.systemMessagesVisible && entry.type === 'system') {
+      let index = text.indexOf('.');
+      index = index < 0 ? text.length : index + 1 > 150 ? 150 : index + 1;
+      text = text.substring(0, index) + (index < text.length ? ' …' : '');
+    }
     return text.replace(/\n/g, '<br>');
   }
 
-  onKeyDown(event: KeyboardEvent) {
-    if (event.defaultPrevented) {
-      return;
-    }
-    if (KeyboardUtils.isKeyEvent(event, KeyboardKey.Enter)) {
-      const hasModifier =
-        event.getModifierState('Meta') ||
-        event.getModifierState('Alt') ||
-        event.getModifierState('AltGraph') ||
-        event.getModifierState('Control') ||
-        event.getModifierState('Shift');
-      event.preventDefault();
-      if (hasModifier === this.deviceInfo.isCurrentlyMobile) {
-        this.sendGPTMessage();
-        return;
-      }
-      // do this on view comment data this.sendGPTContent += '\n';
+  onEnter(modifier: boolean) {
+    if (modifier === this.deviceInfo.isCurrentlyMobile) {
+      setTimeout(() => this.sendGPTMessage());
     }
   }
 
@@ -379,6 +375,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
       commentReference: this.owningComment?.id || null,
       keywordExtractionActive:
         this.sessionService.currentRoom?.keywordExtractionActive,
+      ignoreKeywordFailure: true,
     };
     this.keywordExtractor
       .createCommentInteractive(options)
@@ -420,6 +417,22 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
           .subscribe((msg) => this.notificationService.show(msg));
       },
     );
+  }
+
+  editMessage(index: number) {
+    const text = this.conversation[index].message;
+    const data = QuillUtils.getDeltaFromMarkdown(text as MarkdownDelta);
+    this.initDelta = data;
+    this.editIndex = index;
+    this.sendButton._elementRef.nativeElement.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start',
+      inline: 'center',
+    });
+  }
+
+  abortEdit() {
+    this.editIndex = -1;
   }
 
   openEditGPTMessage(index: number) {
@@ -531,11 +544,15 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
           message: '',
           type: 'gpt',
         });
-        this.addToConversation({
-          message: currentText,
-          type: 'human',
-        });
       }
+    }
+    if (this.editIndex >= 0) {
+      this.conversation[this.editIndex] = {
+        ...this.conversation[this.editIndex],
+        message: currentText,
+      };
+      this.conversation.splice(this.editIndex + 1);
+      this.editIndex = -1;
     } else {
       this.addToConversation({
         message: currentText,
