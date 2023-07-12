@@ -3,7 +3,6 @@ Feature: Test basic functionalities of the chatGPT assistent
 
   Scenario: Use chatGPT assistent by sending him a prepared prompt as a guest user
     Given I am on the home page and skipped dialogues
-    Given I have accepted cookies
     And I am logged in as a guest
     And I am on the overview of a prepared room
     When I open the chatGPT assistent
