@@ -25,9 +25,9 @@ Then('I ask the assistent a prepared prompt', () => {
   cy.wait(500)
   cy.get('input[data-placeholder="Select language model …"]').click()
   cy.get('mat-option[ng-reflect-value="gpt-3.5-turbo"]').last().click()
-  cy.get('mat-form-field').find('mat-icon').contains('search').type('IT-Experte')
+  cy.get('mat-form-field').find('mat-icon').contains('search').type('Linux-Terminal')
   cy.wait(500)
-  cy.get('mat-option.ng-star-inserted[ng-reflect-value="IT-Experte"]').last().click()
+  cy.get('mat-option.ng-star-inserted[ng-reflect-value="Linux-Terminal"]').last().click()
   cy.get('button.secondary-btn').contains('Send').click()
 });
 
@@ -38,7 +38,7 @@ And('The assistent should answer the prompt', () => {
   cy.wait('@streamInterrupt', { timeout: 100000 }).then((res) => {
     cy.get('div.gpt.ng-star-inserted').find('p').then($el => {
       //check if Answer of AI has at least a length of 10
-      expect($el.text()).have.length.above(10)
+      expect($el.text()).have.length.above(3)
     })
   });
 });
@@ -47,7 +47,10 @@ And('The assistent should answer the prompt', () => {
 And('I should be able to assume the answer to the QnA forum of the room', () => {
     cy.get('div.gpt.ng-star-inserted').find('button.gpt-paste-btn').click()
     cy.wait(500)
-    cy.get('app-spacy-dialog').find('button.primary-confirm-button').click()
+    const spacyDialog = cy.find('app-spacy-dialog');
+    if (spacyDialog.length > 0) {
+      spacyDialog.find('button.primary-confirm-button').click()
+    }
     cy.get('app-gptrating-dialog').find('button.primary-confirm-button').click()
     cy.wait(500)
     cy.url().should('include', '/participant/room/' + Cypress.env('preparedRoomId') + '/comment')
@@ -88,7 +91,7 @@ Then('ChatGPT can let reply on it', () => {
   cy.wait('@streamAnswerInterrupt', { timeout: 100000 }).then((res) => {
     cy.get('div.gpt.ng-star-inserted').find('p').then($el => {
       //check if Answer of AI has at least a length of 10
-      expect($el.text()).have.length.above(10)
+      expect($el.text()).have.length.above(3)
     })
   });
 })

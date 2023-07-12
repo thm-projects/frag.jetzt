@@ -15,7 +15,7 @@ Feature: Test basic functionalities of the chatGPT assistent
     Given I am on the home page and skipped dialogues
     And I am logged in as a guest
     And I am on the overview of a prepared room
-    When I am asking the question "Was sind die Features von Frag.jetzt?" on the forum
+    When I am asking the question "Ping" on the forum
     Then ChatGPT can let reply on it
     And I should be able to assume the answer to the QnA forum of the room
 
