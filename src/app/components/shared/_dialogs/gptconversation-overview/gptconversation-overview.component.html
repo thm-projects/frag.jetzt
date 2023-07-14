@@ -1,0 +1,89 @@
+<h3>{{ "gptconversation-overview.title" | translate }}</h3>
+
+<mat-dialog-content>
+  <ng-container
+    *ngFor="
+      let elem of [
+        ['gptconversation-overview.this-room', roomConversations],
+        ['gptconversation-overview.other-room', otherConversations]
+      ]
+    ">
+    <h4>{{ elem[0] | translate }}</h4>
+    <table
+      mat-table
+      [dataSource]="elem[1]">
+      <!-- Date Column -->
+      <ng-container matColumnDef="date">
+        <th
+          mat-header-cell
+          *matHeaderCellDef>
+          {{ "gptconversation-overview.last-used" | translate }}
+        </th>
+        <td
+          mat-cell
+          *matCellDef="let element">
+          {{ transformDate(element) }}
+        </td>
+      </ng-container>
+
+      <!-- Last message -->
+      <ng-container matColumnDef="lastMessage">
+        <th
+          mat-header-cell
+          *matHeaderCellDef>
+          {{ "gptconversation-overview.last-message" | translate }}
+        </th>
+        <td
+          mat-cell
+          *matCellDef="let element">
+          {{ transformLastMessage(element) }}
+        </td>
+      </ng-container>
+
+      <!-- First message -->
+      <ng-container matColumnDef="firstMessage">
+        <th
+          mat-header-cell
+          *matHeaderCellDef>
+          {{ "gptconversation-overview.first-message" | translate }}
+        </th>
+        <td
+          mat-cell
+          *matCellDef="let element">
+          {{ transformFirstMessage(element) }}
+        </td>
+      </ng-container>
+
+      <!-- Delete -->
+      <ng-container matColumnDef="delete">
+        <th
+          mat-header-cell
+          *matHeaderCellDef></th>
+        <td
+          mat-cell
+          *matCellDef="let element">
+          <button
+            *ngIf="element.id !== currentId"
+            mat-icon-button
+            [matTooltip]="'gptconversation-overview.delete-element' | translate"
+            (click)="delete($event, element)">
+            <mat-icon>close</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <!-- Header description -->
+      <tr
+        mat-header-row
+        *matHeaderRowDef="displayedColumns"></tr>
+      <tr
+        mat-row
+        (click)="submit(row)"
+        *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  </ng-container>
+</mat-dialog-content>
+
+<app-dialog-action-buttons
+  [buttonsLabelSection]="'gptconversation-overview'"
+  [cancelButtonClickAction]="close"></app-dialog-action-buttons>

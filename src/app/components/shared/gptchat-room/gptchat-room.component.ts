@@ -35,6 +35,7 @@ import {
   finalize,
   Observable,
   Observer,
+  of,
   ReplaySubject,
   Subject,
   switchMap,
@@ -56,7 +57,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { UserRole } from '../../../models/user-roles.enum';
 import { ForumComment } from '../../../utils/data-accessor';
 import { EventService } from '../../../services/util/event.service';
-import { filter, map, take } from 'rxjs/operators';
+import { filter, map, take, tap } from 'rxjs/operators';
 import { clone } from '../../../utils/ts-utils';
 import {
   CommentCreateOptions,
@@ -73,6 +74,12 @@ import { GPTPresetTopicsDialogComponent } from '../_dialogs/gptpreset-topics-dia
 import { GptPromptExplanationComponent } from '../_dialogs/gpt-prompt-explanation/gpt-prompt-explanation.component';
 import { GPTRatingDialogComponent } from '../_dialogs/gptrating-dialog/gptrating-dialog.component';
 import { MatButton } from '@angular/material/button';
+import {
+  GPTConversation,
+  GPTConversationEntry,
+  GPTConversationService,
+} from 'app/services/http/gptconversation.service';
+import { GPTConversationOverviewComponent } from '../_dialogs/gptconversation-overview/gptconversation-overview.component';
 
 interface ConversationEntry {
   type: 'human' | 'gpt' | 'system';
@@ -192,7 +199,9 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
   enterEvent = this.onEnter.bind(this);
   systemMessagesVisible = false;
   editIndex = -1;
+  autoSave = false;
   protected selectedPrompt: GPTPromptPreset = null;
+  private activeConversation: GPTConversation;
   private destroyer = new ReplaySubject(1);
   private encoder: GPTEncoder = null;
   private room: Room = null;
@@ -218,6 +227,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
     private injector: Injector,
     private commentService: CommentService,
     private notificationService: NotificationService,
+    private gptConversation: GPTConversationService,
   ) {
     this.keywordExtractor = new KeywordExtractor(injector);
     this.languageService
@@ -243,7 +253,6 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
       this.getContextByName('question').value = clone(this.initDelta);
     } else {
       this.initDelta = { ops: [] };
-      this.loadConversation();
     }
     if (
       this.answeringComment &&
@@ -307,6 +316,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnDestroy(): void {
+    this.quitConversation();
     this.headerService.getHeaderComponent().customOptionText = null;
     this._list?.forEach((e) => e.destroy());
     this.destroyer.next(true);
@@ -331,8 +341,8 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
 
   clearMessages() {
     this.conversation = [];
+    this.deleteMessages(0).subscribe();
     this.calculateTokens(this.getCurrentText());
-    this.saveConversation();
   }
 
   forwardGPTMessage(index: number) {
@@ -501,7 +511,6 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
         finalize(() => {
           this.isSending = false;
           this.renewIndex = -1;
-          this.saveConversation();
         }),
       )
       .subscribe(this.generateObserver(index));
@@ -526,8 +535,6 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     this.isSending = true;
     this.renewIndex = -1;
-    const lastType =
-      this.conversation[this.conversation.length - 1]?.type || 'system';
     const currentText = this.getCurrentText();
     if (this.answeringComment && this.conversation.length < 1) {
       this.conversation.push({
@@ -536,28 +543,25 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
           this._preset.roleInstruction ||
           "As a multilingual AI on a Q&A platform catered to students, provide precise, courteous, and prompt replies in the user's language, understanding cultural nuances, academic terminology, and using gender-inclusive language. Adjust numerical data, including presenting numbers with the language-specific thousands separators, dates, and units. Ensure clear, detailed responses, offering deeper insights where necessary without speculations or extraneous details. Navigate controversial topics with respect and neutrality, and facilitate productive discussions. Be prepared to handle complex topics, provide detailed answers, and cite credible, verifiable sources for information provided. Seek clarifications actively, adjust to diverse communication styles, and make students feel valued, understood, and empowered with timely, accurate information.",
       });
-    }
-    const hasContent = currentText.trim().length > 0;
-    if (lastType === 'human') {
-      if (hasContent) {
-        this.conversation.push({
-          message: '',
-          type: 'gpt',
-        });
-      }
+      this.addMessage(this.conversation.length - 1).subscribe();
     }
     if (this.editIndex >= 0) {
       this.conversation[this.editIndex] = {
         ...this.conversation[this.editIndex],
         message: currentText,
       };
-      this.conversation.splice(this.editIndex + 1);
+      const index = this.editIndex;
+      this.conversation.splice(index + 1);
+      this.deleteMessages(index).subscribe(() => {
+        this.addMessage(index).subscribe();
+      });
       this.editIndex = -1;
     } else {
-      this.addToConversation({
+      this.conversation.push({
         message: currentText,
         type: 'human',
       });
+      this.addMessage(this.conversation.length - 1).subscribe();
     }
     this.initDelta = { ops: [] };
     this.calculateTokens(currentText);
@@ -586,7 +590,6 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
         finalize(() => {
           this.isSending = false;
           this.renewIndex = -1;
-          this.saveConversation();
         }),
       )
       .subscribe(this.generateObserver(index));
@@ -639,6 +642,66 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
     this.notificationService.show(message, undefined, {
       duration: 12_500,
       panelClass: ['snackbar', 'important'],
+    });
+  }
+
+  openOverview() {
+    const ref = GPTConversationOverviewComponent.open(
+      this.dialog,
+      this.sessionService.currentRoom.id,
+      this.activeConversation?.id,
+    );
+    ref.afterClosed().subscribe((data) => {
+      if (!data) {
+        return;
+      }
+      this.quitConversation();
+      this.selectedPrompt = null;
+      this.activeConversation = data;
+      this.model = this.activeConversation
+        .model as ChatCompletionRequest['model'];
+      this.conversation = this.activeConversation.messages.map((e) => {
+        const role =
+          e.role === 'user'
+            ? 'human'
+            : e.role === 'assistant'
+            ? 'gpt'
+            : 'system';
+        return {
+          type: role,
+          message: e.content,
+        };
+      });
+      this.autoSave = true;
+    });
+  }
+
+  saveConversation() {
+    let obj = this.activeConversation;
+    if (!obj) {
+      obj = new GPTConversation({} as GPTConversation);
+    }
+    obj.accountId = this.userManagementService.getCurrentUser().id;
+    obj.roomId = this.sessionService.currentRoom.id;
+    obj.model = this.model;
+    obj.messages = this.conversation.map(
+      (e, i) =>
+        new GPTConversationEntry({
+          conversationId: obj.id || null,
+          content: e.message,
+          role:
+            e.type === 'gpt'
+              ? 'assistant'
+              : e.type === 'human'
+              ? 'user'
+              : 'system',
+          createdAt: new Date(),
+          index: i,
+        }),
+    );
+    return this.gptConversation.update(obj).subscribe((conversation) => {
+      this.autoSave = true;
+      this.activeConversation = conversation;
     });
   }
 
@@ -915,11 +978,12 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
           this.calculateTokens(currentText);
         } else {
           this.calculateTokens(currentText);
-          this.saveConversation();
           this.isSending = false;
+          this.addMessage(index).subscribe();
         }
       },
       error: (e) => {
+        this.addMessage(index).subscribe();
         const errorIndex = index + 1;
         const error = this.conversation[errorIndex];
         let errorMessage = e.message ? e.message : e;
@@ -933,22 +997,34 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
     };
   }
 
-  private loadConversation() {
-    this.conversation = JSON.parse(
-      sessionStorage.getItem('gpt-conversation') ?? '[]',
-    );
+  private deleteMessages(index: number) {
+    if (!this.activeConversation || !this.autoSave) {
+      return of();
+    }
+    return this.gptConversation
+      .deleteMessages(this.activeConversation.id, index)
+      .pipe(tap(() => this.activeConversation.messages.splice(index)));
   }
 
-  private saveConversation() {
-    sessionStorage.setItem(
-      'gpt-conversation',
-      JSON.stringify(this.conversation),
-    );
-  }
-
-  private addToConversation(entry: ConversationEntry) {
-    this.conversation.push(entry);
-    this.saveConversation();
+  private addMessage(index: number) {
+    if (!this.activeConversation || !this.autoSave) {
+      return of();
+    }
+    const top = this.conversation[index];
+    const role =
+      top.type === 'gpt'
+        ? 'assistant'
+        : top.type === 'human'
+        ? 'user'
+        : 'system';
+    return this.gptConversation
+      .addMessage({
+        conversationId: this.activeConversation.id,
+        role,
+        content: top.message,
+        createdAt: new Date(),
+      })
+      .pipe(tap((msg) => this.activeConversation.messages.push(msg)));
   }
 
   private calculateTokens(text: string) {
@@ -1068,6 +1144,17 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
         )
         .subscribe(() => this.sendGPTMessage());
     }
+  }
+
+  private quitConversation() {
+    if (!this.activeConversation || !this.autoSave) {
+      return;
+    }
+    this.gptConversation
+      .patch(this.activeConversation.id, {
+        model: this.model,
+      })
+      .subscribe();
   }
 
   private showContextPresetsDefinition() {

@@ -1,0 +1,17 @@
+table {
+  width: 100%;
+}
+
+.mat-header-row .mat-header-cell {
+  padding-inline: 1em;
+}
+
+.mat-mdc-row .mat-mdc-cell {
+  border-bottom: 1px solid transparent;
+  border-top: 1px solid transparent;
+  cursor: pointer;
+}
+
+.mat-mdc-row:hover .mat-mdc-cell {
+  border-color: currentColor;
+}

@@ -532,7 +532,21 @@
     "prompt-label": "Recherche de prompts | barre d'espacement pour voir tous les prompts",
     "option-total-acts": "Hits dans « Agir comme … »",
     "option-total-prompts": "Hits dans prompts",
-    "temperature": "Variabilité de réponse"
+    "temperature": "Variabilité de réponse",
+    "conversation": "Options de conversation",
+    "conversation-auto-save": "Enregistrer automatiquement",
+    "conversation-overview": "Vers l'aperçu",
+    "conversation-save": "Enregistrer"
+  },
+  "gptconversation-overview": {
+    "title": "Toutes les conversations",
+    "this-room": "De cette salle",
+    "other-room": "Depuis d'autres salles",
+    "last-used": "Dernier utilisé",
+    "last-message": "Dernier message",
+    "first-message": "Premier message",
+    "delete-element": "Supprimer",
+    "cancel": "Fermer"
   },
   "header": {
     "overview-keywords-tooltip": "Nombre de mots-clés",

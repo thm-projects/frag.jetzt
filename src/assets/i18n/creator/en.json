@@ -532,7 +532,21 @@
     "prompt-label": "Search for prompts | spacebar to see all prompts",
     "option-total-acts": "Hits in »Act as …«",
     "option-total-prompts": "Hits in prompts",
-    "temperature": "Response variability"
+    "temperature": "Response variability",
+    "conversation": "Conversation options",
+    "conversation-auto-save": "Save automatically",
+    "conversation-overview": "To the overview",
+    "conversation-save": "Save"
+  },
+  "gptconversation-overview": {
+    "title": "All conversations",
+    "this-room": "From this room",
+    "other-room": "From other rooms",
+    "last-used": "Last used",
+    "last-message": "Last message",
+    "first-message": "First message",
+    "delete-element": "Delete",
+    "cancel": "Close"
   },
   "header": {
     "overview-keywords-tooltip": "Number of Keywords",

@@ -279,36 +279,61 @@
       </div>
     </ng-container>
 
-    <div class="slide-container">
-      <h3>
-        {{ "gpt-chat.temperature" | translate }}
-        <mat-icon
-          *ngIf="selectedPrompt"
-          [matTooltip]="'gpt-chat.tooltip-temperature-disabled' | translate"
-          class="material-icons-outlined">
-          info
-        </mat-icon>
-      </h3>
-      <br />
-      <mat-button-toggle-group
-        [value]="temperature"
-        [disabled]="selectedPrompt">
-        <mat-button-toggle
-          [matTooltip]="
-            'gpt-chat.temperature-tooltip-' + option.key | translate
-          "
-          *ngFor="let option of temperatureOptions"
-          [value]="option.value">
-          <ng-container *ngFor="let elem of option.text">
-            <small
-              style="display: block; height: 1.5em"
-              *ngIf="elem.small">
-              {{ elem.small }}
-            </small>
-            <ng-container *ngIf="elem.text">{{ elem.text }}</ng-container>
-          </ng-container>
-        </mat-button-toggle>
-      </mat-button-toggle-group>
+    <div class="bottom-options">
+      <div>
+        <h3>
+          {{ "gpt-chat.conversation" | translate }}
+        </h3>
+        <mat-slide-toggle [(ngModel)]="autoSave">
+          {{ "gpt-chat.conversation-auto-save" | translate }}
+        </mat-slide-toggle>
+        <br />
+        <button
+          mat-button
+          class="secondary-btn"
+          (click)="openOverview()">
+          {{ "gpt-chat.conversation-overview" | translate }}
+        </button>
+        <button
+          *ngIf="!autoSave"
+          mat-button
+          class="secondary-btn"
+          (click)="saveConversation()">
+          {{ "gpt-chat.conversation-save" | translate }}
+        </button>
+      </div>
+
+      <div>
+        <h3>
+          {{ "gpt-chat.temperature" | translate }}
+          <mat-icon
+            *ngIf="selectedPrompt"
+            [matTooltip]="'gpt-chat.tooltip-temperature-disabled' | translate"
+            class="material-icons-outlined">
+            info
+          </mat-icon>
+        </h3>
+        <br />
+        <mat-button-toggle-group
+          [value]="temperature"
+          [disabled]="selectedPrompt">
+          <mat-button-toggle
+            [matTooltip]="
+              'gpt-chat.temperature-tooltip-' + option.key | translate
+            "
+            *ngFor="let option of temperatureOptions"
+            [value]="option.value">
+            <ng-container *ngFor="let elem of option.text">
+              <small
+                style="display: block; height: 1.5em"
+                *ngIf="elem.small">
+                {{ elem.small }}
+              </small>
+              <ng-container *ngIf="elem.text">{{ elem.text }}</ng-container>
+            </ng-container>
+          </mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
     </div>
   </div>
   <div>
