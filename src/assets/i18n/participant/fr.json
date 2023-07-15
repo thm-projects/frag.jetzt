@@ -479,7 +479,7 @@
     "tag-cloud-title": "Cas d'utilisation du radar à questions",
     "prompt-guide-chatbot": "Communiquer efficacement avec ChatGPT",
     "prompt-explanation": "Prompts en bref",
-    "tooltip-button": "Qu'est-ce que c'est ?"
+    "tooltip-button": "Comment écris-je de bons prompts ?"
   },
   "joyride": {
     "commentFilter": "Il existe de nombreuses options de tri et de filtrage pour la liste des questions-réponses. Un filtre actif est affiché en rouge. Pour une meilleure lisibilité en cas de grande dynamique, le flux de questions peut également être mis en pause.",

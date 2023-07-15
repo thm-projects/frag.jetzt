@@ -629,3 +629,9 @@ div[markdown] img {
   display: inline-block;
   line-height: 0.75;
 }
+
+.th.mat-header-cell,
+.td.mat-cell,
+.td.mat-footer-cell {
+  padding: 5px !important;
+}
