@@ -283,7 +283,7 @@
     "preset-role-instruction": "Instruction de rôle",
     "preset-topic": "Sujet",
     "preset-length": "Longueur",
-    "gpt-feedback": "Ton commentaire",
+    "gpt-feedback": "Ton commentaire sur ChatGPT",
     "chat-answer-format": "Format de réponse",
     "question-board": "Forum de questions-réponses",
     "question-wall": "Présenter les questions",
@@ -384,7 +384,8 @@
     "moderation-title": "Les cas d'utilisation de la modération",
     "room-list-title": "Les cas d'utilisation de la liste des salles",
     "room-page-title": "Les cas d'utilisation de la salle",
-    "prompt-guide-chatbot": "Communiquer efficacement avec ChatGPT"
+    "prompt-guide-chatbot": "Communiquer efficacement avec ChatGPT",
+    "tooltip-button": "Comment écris-je de bons prompts ?"
   },
   "joyride": {
     "cantAccessRoute": "Cet itinéraire n'est pas disponible. La visite est annulée.",

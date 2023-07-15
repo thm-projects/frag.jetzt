@@ -242,7 +242,7 @@
     "preset-role-instruction": "Rollenanweisung",
     "preset-topic": "Themen",
     "preset-length": "Länge",
-    "gpt-feedback": "Dein Feedback",
+    "gpt-feedback": "Dein Feedback zu ChatGPT",
     "chat-answer-format": "Antwortformat",
     "delete": "Ja",
     "delete-account": "Konto löschen",
@@ -384,7 +384,8 @@
     "moderation-title": "Use Cases der Moderation",
     "room-list-title": "Use Cases der Raumliste",
     "room-page-title": "Use Cases des Raums",
-    "prompt-guide-chatbot": "Effektiv kommunizieren mit ChatGPT"
+    "prompt-guide-chatbot": "Effektiv kommunizieren mit ChatGPT",
+    "tooltip-button": "Wie schreibe ich gute Prompts?"
   },
   "joyride": {
     "cantAccessRoute": "Diese Route ist nicht verfügbar. Die Tour wird abgebrochen.",

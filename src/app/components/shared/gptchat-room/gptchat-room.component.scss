@@ -282,3 +282,9 @@ mat-card {
     outline: var(--secondary) solid 3px;
   }
 }
+
+th.mat-header-cell,
+td.mat-cell,
+td.mat-footer-cell {
+  padding: 5px !important;
+}
