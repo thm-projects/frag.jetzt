@@ -345,6 +345,7 @@ a {
 
 .mat-cell {
   hyphens: auto !important;
+  padding: 5px !important;
 }
 
 .mat-header-row .mat-header-cell {
@@ -628,10 +629,4 @@ div[markdown] img {
   height: 1em;
   display: inline-block;
   line-height: 0.75;
-}
-
-.th.mat-header-cell,
-.td.mat-cell,
-.td.mat-footer-cell {
-  padding: 5px !important;
 }
