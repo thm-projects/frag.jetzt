@@ -26,7 +26,7 @@
   "introductions": {
     "prompt-guide-chatbot": "Communicating Effectively with ChatGPT",
     "cancel": "Close",
-    "tooltip-button" : "Prompt Guide",
+    "tooltip-button": "Prompt Guide",
     "prompt-explanation": "Prompts briefly explained"
   },
   "gpt-config": {
@@ -101,7 +101,7 @@
     "cancel": "Close",
     "refresh": "Generate output again",
     "token-info": "Tokens (input / chat / total): {{promptTokens}} / {{conversationTokens}} / {{allTokens}}",
-    "prompt-label": "Search for prompts | spacebar to see all prompts",
+    "prompt-label": "Search for prompts",
     "option-total-acts": "Founds acts",
     "option-total-prompts": "Hits in prompts",
     "temperature": "Temperature",

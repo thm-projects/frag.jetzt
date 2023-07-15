@@ -26,7 +26,7 @@
   "introductions": {
     "prompt-guide-chatbot": "Communiquer efficacement avec ChatGPT",
     "cancel": "Fermer",
-    "tooltip-button" : "Guide de prompt",
+    "tooltip-button": "Guide de prompt",
     "prompt-explanation": "Prompts en bref"
   },
   "gpt-config": {
@@ -101,7 +101,7 @@
     "cancel": "Fermer",
     "refresh": "Générer à nouveau la sortie",
     "token-info": "Tokens (saisie / conversation / total) : {{promptTokens}} / {{conversationTokens}} / {{allTokens}}",
-    "prompt-label": "Recherche du prompt",
+    "prompt-label": "Recherche de prompts",
     "option-total-acts": "Hits dans « Agir comme … »",
     "option-total-prompts": "Hits dans prompts",
     "temperature": "Température",

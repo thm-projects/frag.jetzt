@@ -27,7 +27,7 @@
     "prompt-guide-chatbot": "Effektiv kommunizieren mit ChatGPT",
     "prompt-explanation": "Prompts kurz erklärt",
     "cancel": "Schließen",
-    "tooltip-button" : "Prompt Guide"
+    "tooltip-button": "Prompt Guide"
   },
   "gpt-config": {
     "title": "ChatGPT-Einstellungen & API-Test",
@@ -101,7 +101,7 @@
     "cancel": "Schließen",
     "refresh": "Ausgabe erneut generieren",
     "token-info": "Token (Eingabe / Chat / Gesamt): {{promptTokens}} / {{conversationTokens}} / {{allTokens}}",
-    "prompt-label": "Suche nach Prompts | Leertaste für alle Prompts anzeigen",
+    "prompt-label": "Suche nach Prompts",
     "option-total-acts": "Treffer in »Agiere als …«",
     "option-total-prompts": "Treffer in Prompts …",
     "temperature": "Antwortvariabilität",

@@ -21,9 +21,9 @@ export const carousel: {
 }[] = [
   {
     title: {
-      en: 'Chat with ChatGPT',
-      de: 'Chat mit ChatGPT',
-      fr: 'Chat avec ChatGPT',
+      en: 'Q&A with ChatGPT',
+      de: 'Q&A mit ChatGPT',
+      fr: 'Q&R avec ChatGPT',
     },
     description: {
       en: "Let ChatGPT answer all your knowledge questions. Your prompt presets ensure accurate and personalized answers. A quick fact check, and you've saved yourself hours of work. Experience how AI makes you more efficient!",

@@ -407,7 +407,7 @@
     "model-gpt-4": "GPT-4",
     "model-description-gpt-4": "Latest and strongest model with about 8,000 characters context",
     "title-free": "ChatGPT | Free asking without prompt presets",
-    "title-answer": "ChatGPT | Answer Assistent",
+    "title-answer": "ChatGPT answers …",
     "interrupt": "Stop output",
     "copy-markdown": "Copy Markdown",
     "system-message": "Show/hide system messages",
@@ -426,7 +426,7 @@
     "context-response-length": "Length: {{value}}.",
     "context-response-format": "Format: {{value}}.",
     "context-question": "Question: \n\n{{value}}",
-    "selection-none": "With no selection, ChatGPT can have a larger response range. This may result in unwanted information being generated.",
+    "selection-none": "If no selection is made, ChatGPT may have a larger response area. This may result in unwanted information being generated.",
     "tooltip-temperature-disabled": "Response variability is taken from selected prompt.",
     "choices": {
       "response-format": [
@@ -527,9 +527,9 @@
     "cancel": "Close",
     "refresh": "Generate output again",
     "edit": "Edit output as an answer to forum question",
-    "paste": " Publish output as a reply to the forum question",
+    "paste": "Publish output in the forum",
     "token-info": "Tokens (input/chat/total): {{promptTokens}}/{{conversationTokens}}/{{allTokens}}",
-    "prompt-label": "Search for prompts | spacebar to see all prompts",
+    "prompt-label": "Search for prompts",
     "option-total-acts": "Hits in »Act as …«",
     "option-total-prompts": "Hits in prompts",
     "temperature": "Response variability",
@@ -568,7 +568,8 @@
     "question-wall-title": "Use cases of the presentation mode",
     "tag-cloud-title": "Use cases of the question radar",
     "prompt-guide-chatbot": "Communicate effectively with ChatGPT",
-    "prompt-explanation": "Prompts briefly explained"
+    "prompt-explanation": "Prompts briefly explained",
+    "tooltip-button": "What is this?"
   },
   "joyride": {
     "commentFilter": "There are numerous sorting and filtering options for the Q&A list. An active filter is shown in red. For better readability, the question stream can also be paused if it is very dynamic.",

@@ -324,7 +324,7 @@
     "model-gpt-4": "GPT-4",
     "model-description-gpt-4": "Modèle le plus récent et le plus puissant avec environ 8 000 caractères Contexte",
     "title-free": "ChatGPT | Demander librement sans préréglages de prompt",
-    "title-answer": "ChatGPT | Assistant pour les réponses",
+    "title-answer": "ChatGPT répond …",
     "interrupt": "Arrêter la sortie",
     "copy-markdown": "Copier Markdown",
     "system-message": "Afficher/cacher les messages système",
@@ -343,7 +343,7 @@
     "context-response-length": "Longueur : {{value}}.",
     "context-response-format": "Format : {{value}}.",
     "context-question": "Question :\n\n{{value}}",
-    "selection-none": "En l'absence de sélection, ChatGPT peut avoir une zone de réponse plus large. Cela peut conduire à la génération d'informations non souhaitées.",
+    "selection-none": "Si aucune sélection n'est faite, ChatGPT peut avoir une zone de réponse plus large. Cela peut conduire à la génération d'informations non souhaitées.",
     "tooltip-temperature-disabled": "La variabilité des réponses est prise en compte par l'invite sélectionnée.",
     "choices": {
       "response-format": [
@@ -415,9 +415,9 @@
     "cancel": "Fermer",
     "refresh": "Générer à nouveau la sortie",
     "edit": "Éditer la sortie en réponse à la question du forum",
-    "paste": "Publier la sortie en réponse à la question du forum",
+    "paste": "Publier l'édition sur le forum",
     "token-info": "Tokens (saisie/conversation/total) : {{promptTokens}}/{{conversationTokens}}/{{allTokens}}",
-    "prompt-label": "Recherche de prompts | barre d'espacement pour voir tous les prompts",
+    "prompt-label": "Recherche de prompts",
     "option-total-acts": "Hits dans « Agir comme … »",
     "option-total-prompts": "Hits dans prompts",
     "temperature": "Variabilité de réponse",
@@ -478,7 +478,8 @@
     "question-wall-title": "Les cas d'utilisation du mode de présentation",
     "tag-cloud-title": "Cas d'utilisation du radar à questions",
     "prompt-guide-chatbot": "Communiquer efficacement avec ChatGPT",
-    "prompt-explanation": "Prompts en bref"
+    "prompt-explanation": "Prompts en bref",
+    "tooltip-button": "Qu'est-ce que c'est ?"
   },
   "joyride": {
     "commentFilter": "Il existe de nombreuses options de tri et de filtrage pour la liste des questions-réponses. Un filtre actif est affiché en rouge. Pour une meilleure lisibilité en cas de grande dynamique, le flux de questions peut également être mis en pause.",

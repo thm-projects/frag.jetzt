@@ -283,7 +283,7 @@
     "preset-role-instruction": "Role instruction",
     "preset-topic": "Topics",
     "preset-length": "Length",
-    "gpt-feedback": "Your feedback",
+    "gpt-feedback": "Your feedback about ChatGPT",
     "chat-answer-format": "Response format",
     "question-board": "Q&A forum",
     "question-wall": "Present questions",
@@ -384,7 +384,8 @@
     "moderation-title": "Use cases of the moderation",
     "room-list-title": "Use cases of the room list",
     "room-page-title": "Use cases of the room",
-    "prompt-guide-chatbot": "Communicating Effectively with ChatGPT"
+    "prompt-guide-chatbot": "Communicating Effectively with ChatGPT",
+    "tooltip-button": "What is this?"
   },
   "joyride": {
     "cantAccessRoute": "This route is not available. The tour will be cancelled.",
