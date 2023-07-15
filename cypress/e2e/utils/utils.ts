@@ -1,5 +1,21 @@
 export const disableTour = () => {
   localStorage.setItem('onboarding_default', '{"state":"finished"}');
+  const request = indexedDB.open('frag.jetzt');
+  request.onsuccess = () => {
+    const db = request.result;
+    const trans = db.transaction('config', 'readwrite');
+    const config = trans.objectStore('config');
+    config.put({
+      key: 'cookieAccepted',
+      value: true,
+    });
+    trans.commit();
+    db.close();
+  };
+};
+
+export const clearDataBase = () => {
+  indexedDB.deleteDatabase('frag.jetzt');
 };
 
 export const ensureUserIsLoggedOut = () => {

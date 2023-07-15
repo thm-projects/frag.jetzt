@@ -39,6 +39,8 @@ import Quill from 'quill';
 import ImageResize from 'quill-image-resize-module';
 import { DsgvoVideo } from '../../../quill-extentions/formats/dsgvo-video';
 import { FullscreenImageDialogComponent } from '../_dialogs/fullscreen-image-dialog/fullscreen-image-dialog.component';
+import { KeyboardUtils } from 'app/utils/keyboard';
+import { KeyboardKey } from 'app/utils/keyboard/keys';
 
 Quill.register('modules/imageResize', ImageResize);
 Quill.register('formats/dsgvo-video', DsgvoVideo);
@@ -72,6 +74,7 @@ export class ViewCommentDataComponent
   @Input() disableVideo = false;
   @Input() disableColor = false;
   @Input() disableEmoji = false;
+  @Input() onEnter: (modifier: boolean) => void;
   @Output() changeContent = new EventEmitter<
     [ImmutableStandardDelta, string]
   >();
@@ -212,6 +215,18 @@ export class ViewCommentDataComponent
       elem.focus();
       elem.addEventListener('paste', () => {
         wasLastPaste = true;
+      });
+      elem.addEventListener('keydown', (e) => {
+        if (!KeyboardUtils.isKeyEvent(e, KeyboardKey.Enter)) {
+          return;
+        }
+        const hasModifier =
+          e.getModifierState('Meta') ||
+          e.getModifierState('Alt') ||
+          e.getModifierState('AltGraph') ||
+          e.getModifierState('Control') ||
+          e.getModifierState('Shift');
+        this.onEnter?.(hasModifier);
       });
       new AccessibilityEscapedInputDirective(
         new ElementRef(this.editor.editorElem.firstElementChild as HTMLElement),

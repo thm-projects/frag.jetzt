@@ -147,6 +147,7 @@ import { GPTRatingDialogComponent } from './_dialogs/gptrating-dialog/gptrating-
 import { UtilityStyleTestComponent } from './utility/style/utility-style-test/utility-style-test.component';
 import { CommentA11yElementsComponent } from './comment/comment-a11y-elements/comment-a11y-elements.component';
 import { ChatGPTBrainstormComponent } from './_dialogs/chat-gptbrainstorm/chat-gptbrainstorm.component';
+import { GPTConversationOverviewComponent } from './_dialogs/gptconversation-overview/gptconversation-overview.component';
 
 @NgModule({
   imports: [
@@ -296,6 +297,7 @@ import { ChatGPTBrainstormComponent } from './_dialogs/chat-gptbrainstorm/chat-g
     UtilityStyleTestComponent,
     CommentA11yElementsComponent,
     ChatGPTBrainstormComponent,
+    GPTConversationOverviewComponent,
   ],
   exports: [
     RoomJoinComponent,

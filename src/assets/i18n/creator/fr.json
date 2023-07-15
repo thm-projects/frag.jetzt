@@ -410,6 +410,7 @@
     "title-answer": "ChatGPT | Assistant pour les réponses",
     "interrupt": "Arrêter la sortie",
     "copy-markdown": "Copier Markdown",
+    "system-message": "Afficher/cacher les messages système",
     "copy-success": "Markdown copié avec succès",
     "copy-fail": "Markdown n'a pas pu être copié !",
     "temperature-creative": "[Plus] Créatif",
@@ -490,6 +491,8 @@
     "none": "Aucun",
     "send": "Envoyer",
     "empty-conversation": "Vider l'historique",
+    "cancel-edit": "Annuler l'édition",
+    "edit-message": "Éditer le message",
     "input-forbidden": "Saisie interdite, veuillez vérifier les paramètres de l'API GPT.",
     "no-api-setup": "La clé d'API ou le modèle de langage n'a pas été défini.",
     "presets": {
@@ -529,7 +532,21 @@
     "prompt-label": "Recherche de prompts | barre d'espacement pour voir tous les prompts",
     "option-total-acts": "Hits dans « Agir comme … »",
     "option-total-prompts": "Hits dans prompts",
-    "temperature": "Variabilité de réponse"
+    "temperature": "Variabilité de réponse",
+    "conversation": "Options de conversation",
+    "conversation-auto-save": "Enregistrer automatiquement",
+    "conversation-overview": "Vers l'aperçu",
+    "conversation-save": "Enregistrer"
+  },
+  "gptconversation-overview": {
+    "title": "Toutes les conversations",
+    "this-room": "De cette salle",
+    "other-room": "Depuis d'autres salles",
+    "last-used": "Dernier utilisé",
+    "last-message": "Dernier message",
+    "first-message": "Premier message",
+    "delete-element": "Supprimer",
+    "cancel": "Fermer"
   },
   "header": {
     "overview-keywords-tooltip": "Nombre de mots-clés",

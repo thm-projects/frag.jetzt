@@ -327,6 +327,7 @@
     "title-answer": "ChatGPT | Answer Assistent",
     "interrupt": "Stop output",
     "copy-markdown": "Copy Markdown",
+    "system-message": "Show/hide system messages",
     "copy-success": "Markdown successfully copied",
     "copy-fail": "Markdown could not be copied!",
     "temperature-creative": "[More] Creative",
@@ -407,6 +408,8 @@
     "none": "None",
     "send": "Send",
     "empty-conversation": "Clear history",
+    "cancel-edit": "Cancel editing",
+    "edit-message": "Edit message",
     "input-forbidden": "Input is forbidden, please check the GPT API settings.",
     "no-api-setup": "The API key or language model was not set.",
     "cancel": "Schließen",
@@ -417,7 +420,21 @@
     "prompt-label": "Search for prompts | spacebar to see all prompts",
     "option-total-acts": "Hits in »Act as …«",
     "option-total-prompts": "Founds prompts",
-    "temperature": "Response variability"
+    "temperature": "Response variability",
+    "conversation": "Conversation options",
+    "conversation-auto-save": "Save automatically",
+    "conversation-overview": "To the overview",
+    "conversation-save": "Save"
+  },
+  "gptconversation-overview": {
+    "title": "All conversations",
+    "this-room": "From this room",
+    "other-room": "From other rooms",
+    "last-used": "Last used",
+    "last-message": "Last message",
+    "first-message": "First message",
+    "delete-element": "Delete",
+    "cancel": "Close"
   },
   "header": {
     "overview-keywords-tooltip": "Number of Keywords",
