@@ -409,7 +409,7 @@
     "title-free": "ChatGPT | Demander librement sans préréglages de prompt",
     "title-answer": "ChatGPT répond …",
     "interrupt": "Arrêter la sortie",
-    "copy-markdown": "Copier Markdown",
+    "copy-markdown": "Copier le résultat au format Markdown",
     "system-message": "Afficher/cacher les messages système",
     "copy-success": "Markdown copié avec succès",
     "copy-fail": "Markdown n'a pas pu être copié !",

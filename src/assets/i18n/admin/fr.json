@@ -70,34 +70,6 @@
     "empty-conversation": "Vider l'historique",
     "input-forbidden": "Saisie interdite, veuillez vérifier les paramètres de l'API GPT.",
     "no-api-setup": "La clé d'API ou le modèle de langage n'a pas été défini.",
-    "greetings": {
-      "text-davinci-003": [
-        {
-          "key": "École primaire",
-          "value": "Tu es dans la salle de chat appelée \"Français\" et le sujet est la poésie. Explique la question suivante au niveau d'un élève d'une école primaire.\nElève : Qu'est-ce que les haïkus?\nTu : "
-        },
-        {
-          "key": "École secondaire",
-          "value": "Tu es dans la salle de chat appelée \"Histoire\" et le sujet est les années folles. Explique, au niveau d'un élève de terminale, la question suivante.\nElève : Que dit le plan Dawes?\nTu : "
-        },
-        {
-          "key": "Université",
-          "value": "Tu es dans la salle de chat appelée \"Algorithmes et structures de données\" et le sujet est les structures de données simples. Explique la question suivante au niveau d'un étudiant en informatique de deuxième année.\nEtudiant : Y a-t-il un gain de performance si l'on combine une liste liée et une liste de tableaux ? Il serait en effet imaginable de pouvoir lier des tableaux, ou est-ce que je me trompe?\nTu : "
-        }
-      ],
-      "code-davinci-002": [
-        {
-          "key": "Web",
-          "value": "<|endoftext|>/* I start with a blank HTML page, and incrementally modify it via <script> injection. Written for Chrome. */\n/* Command: Add \"Hello World\", by adding an HTML DOM node */\nvar helloWorld = document.createElement('div');\nhelloWorld.innerHTML = 'Hello World';\ndocument.body.appendChild(helloWorld);\n/* Command: Clear the page. */\nwhile (document.body.firstChild) {\n  document.body.removeChild(document.body.firstChild);\n}\n\n/* Command: Display this image of a cat: https://bit.ly/3fsc0rH */\n"
-        }
-      ],
-      "davinci-instruct-beta:2.0.0": [
-        {
-          "key": "Smalltalk",
-          "value": "Cette matière est démotivante. As-tu des astuces pour encourager et être plus actif ?"
-        }
-      ]
-    },
     "cancel": "Fermer",
     "refresh": "Générer à nouveau la sortie",
     "token-info": "Tokens (saisie / conversation / total) : {{promptTokens}} / {{conversationTokens}} / {{allTokens}}",

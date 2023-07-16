@@ -26,9 +26,9 @@ export const carousel: {
       fr: 'Q&R avec ChatGPT',
     },
     description: {
-      en: "Let ChatGPT answer all your knowledge questions. Your prompt presets ensure accurate and personalized answers. A quick fact check, and you've saved yourself hours of work. Experience how AI makes you more efficient!",
-      de: 'Lass ChatGPT alle Wissensfragen beantworten. Deine Prompt-Vorgaben sorgen für präzise und personalisierte Antworten. Ein kurzer Faktencheck und du hast dir viele Stunden Arbeit erspart. Erlebe, wie die KI dich effizienter macht!',
-      fr: "Laisse ChatGPT répondre à toutes les questions de connaissance. Tes directives Prompt garantissent des réponses précises et personnalisées. Une vérification rapide des faits et tu t'es épargné de nombreuses heures de travail. Découvre comment l'IA te rend plus efficace !",
+      en: "Let ChatGPT answer all your knowledge questions. Your prompt presets for your rooms on frag.jetzt ensure precise and personalized answers. A quick fact check, and you've saved yourself hours of work. Experience how AI makes you more efficient!",
+      de: 'Lass ChatGPT alle Wissensfragen beantworten. Deine Prompt-Vorgaben für deine Räume auf frag.jetzt sorgen für präzise und personalisierte Antworten. Ein kurzer Faktencheck und du hast dir viele Stunden Arbeit erspart. Erlebe, wie die KI dich effizienter macht!',
+      fr: "Laisse ChatGPT répondre à toutes les questions de connaissance. Tes directives de prompt pour tes salles sur frag.jetzt garantissent des réponses précises et personnalisées. Une vérification rapide des faits et tu t'es épargné de nombreuses heures de travail. Découvre comment l'IA te rend plus efficace !",
     },
     images: [
       {
@@ -180,9 +180,9 @@ export const carousel: {
       fr: 'Forum Q&R',
     },
     description: {
-      en: "Everything is anonymous. Everyone can rate the posts with a thumbs up or down. You can assess the quality of posts in various ways: as correct, incorrect or exceptionally good. DeepL takes care of linguistic flaws. Subject the AI-Tutor's answers to a fact-check and mark them accordingly.",
-      de: 'Alles ist anonym. Alle können die Posts der anderen bewerten, aber nur du kannst die Qualität beurteilen: ob richtig, falsch oder besonders gut. DeepL kümmert sich um die sprachlichen Mängel. Unterziehe die KI-Antworten einem Faktencheck und kennzeichne sie entsprechend.',
-      fr: "Tout est anonyme. Tout le monde peut évaluer les publications par un système de pouce. Tu peux juger de la qualité des posts de différentes manières : corrects, incorrects ou particulièrement bons. DeepL s'occupe des imperfections linguistiques. Soumets les réponses du Tuteur AI à une vérification des faits et marque-les en conséquence.",
+      en: 'Everything is anonymous. Everyone can rate the posts of others, but only you in the moderator role can judge the quality: whether right, wrong or particularly good. DeepL takes care of the linguistic deficiencies. Fact check the AI answers and mark them accordingly.',
+      de: 'Alles ist anonym. Alle können die Posts der anderen bewerten, aber nur du in der Moderatorenrolle kannst die Qualität beurteilen: ob richtig, falsch oder besonders gut. DeepL kümmert sich um die sprachlichen Mängel. Unterziehe die KI-Antworten einem Faktencheck und kennzeichne sie entsprechend.',
+      fr: "Tout est anonyme. Tout le monde peut évaluer les posts des autres, mais toi seul, dans ton rôle de modérateur, peux juger de leur qualité : s'ils sont justes, faux ou particulièrement bons. DeepL s'occupe des défauts linguistiques. Soumets les réponses de l'IA à un contrôle des faits et signale-les en conséquence.",
     },
     images: [
       {
