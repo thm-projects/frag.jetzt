@@ -409,7 +409,7 @@
     "title-free": "ChatGPT | Free asking without prompt presets",
     "title-answer": "ChatGPT answers …",
     "interrupt": "Stop output",
-    "copy-markdown": "Copy Markdown",
+    "copy-markdown": "Copy output in Markdown format",
     "system-message": "Show/hide system messages",
     "copy-success": "Markdown successfully copied",
     "copy-fail": "Markdown could not be copied!",
@@ -492,7 +492,7 @@
     "send": "Send",
     "empty-conversation": "Clear history",
     "cancel-edit": "Cancel editing",
-    "edit-message": "Edit message",
+    "edit-message": "Edit input",
     "input-forbidden": "Input is forbidden, please check the GPT API settings.",
     "no-api-setup": "The API key or language model was not set.",
     "presets": {

@@ -417,7 +417,7 @@
     "title-free": "ChatGPT | Freies Fragen ohne Prompt-Vorgaben",
     "title-answer": "ChatGPT antwortet …",
     "interrupt": "Ausgabe stoppen",
-    "copy-markdown": "Markdown kopieren",
+    "copy-markdown": "Ausgabe im Markdown-Format kopieren",
     "system-message": "Systemnachrichten anzeigen/verbergen",
     "copy-success": "Markdown erfolgreich kopiert",
     "copy-fail": "Markdown konnte nicht kopiert werden!",
@@ -500,7 +500,7 @@
     "send": "Senden",
     "empty-conversation": "Verlauf leeren",
     "cancel-edit": "Editieren abbrechen",
-    "edit-message": "Nachricht editieren",
+    "edit-message": "Eingabe editieren",
     "input-forbidden": "Bitte prüfe die ChatGPT-Einstellungen.",
     "no-api-setup": "Der API-Schlüssel oder das Sprachmodell wurden nicht gesetzt.",
     "presets": {
