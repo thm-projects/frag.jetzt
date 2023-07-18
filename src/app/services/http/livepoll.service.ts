@@ -195,25 +195,33 @@ export class LivepollService extends BaseHttpService {
   }
 
   open(sessionService: SessionService) {
-    switch (sessionService.currentRole) {
-      case UserRole.PARTICIPANT:
-        if (sessionService.currentLivepoll?.active) {
-          this.openDialog(sessionService);
-        } else {
-          console.error(
-            `Live Poll Dialog cannot be opened as participant, participant cannot create Live Polls either`,
-          );
-        }
-        break;
-      case UserRole.EDITING_MODERATOR:
-      case UserRole.EXECUTIVE_MODERATOR:
-      case UserRole.CREATOR:
-        if (sessionService.currentLivepoll) {
-          this.openDialog(sessionService);
-        } else {
-          this.openCreateDialog(sessionService);
-        }
-        break;
+    if (!this.isOpen) {
+      switch (sessionService.currentRole) {
+        case UserRole.PARTICIPANT:
+          if (sessionService.currentLivepoll?.active) {
+            this.openDialog(sessionService);
+          } else {
+            console.error(
+              `Live Poll Dialog cannot be opened as participant, participant cannot create Live Polls either`,
+            );
+          }
+          break;
+        case UserRole.EDITING_MODERATOR:
+        case UserRole.EXECUTIVE_MODERATOR:
+        case UserRole.CREATOR:
+          if (sessionService.currentLivepoll) {
+            this.openDialog(sessionService);
+          } else {
+            this.openCreateDialog(sessionService);
+          }
+          break;
+      }
+    } else {
+      if (this._dialogState.value === LivepollDialogState.Opening) {
+        console.warn('Live Poll Dialog is already opening.');
+      } else {
+        console.error('Live Poll Dialog already open!');
+      }
     }
   }
 
