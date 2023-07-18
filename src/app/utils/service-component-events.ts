@@ -46,7 +46,7 @@ export class LivepollDialogRequest extends ServiceRequest<LivepollDialogRequest>
     public readonly dialog: 'dialog' | 'create' | 'summary',
     public readonly config: MatDialogConfig<unknown>,
   ) {
-    super(LivepollDialogRequest.name, MotdDialogResponse.name);
+    super(LivepollDialogRequest.name, LivepollDialogResponse.name);
   }
 }
 
