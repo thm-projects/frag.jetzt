@@ -51,6 +51,15 @@ import { take } from 'rxjs/operators';
 import { GPTChatInfoComponent } from '../_dialogs/gptchat-info/gptchat-info.component';
 import { TSMap } from 'typescript-map';
 import { prettyPrintDate } from '../../../utils/date';
+import { IconActionKey, IconActionState, MenuState } from './comment-action';
+
+interface IconAction {
+  name: IconActionKey;
+  priority: number;
+  menuState: MenuState;
+  actionObject: IconActionState;
+  onClick: () => void;
+}
 
 @Component({
   selector: 'app-comment',
@@ -131,9 +140,113 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
   viewInfo: ResponseViewInformation;
   commentRegistrationId: string;
   brainstormingCategory: string;
+  outsideActions: IconAction[] = [];
+  menuActions: IconAction[] = [];
   private _votes;
   private _commentNumber: string[] = [];
   private _destroyer = new ReplaySubject(1);
+  private readonly _iconActions: IconAction[] = [
+    {
+      name: 'profanity_switcher',
+      onClick: () => {
+        this.changeProfanityShowForModerators(this.comment);
+        this.updateActions();
+      },
+      actionObject: null,
+      menuState: 'outside',
+      priority: 10,
+    },
+    {
+      name: 'fact_check',
+      onClick: () => {
+        this.toggleApproved();
+        this.updateActions();
+      },
+      actionObject: null,
+      menuState: 'outside',
+      priority: 9,
+    },
+    {
+      name: 'correct',
+      onClick: () => {
+        this.markCorrect(this.comment, CorrectWrong.CORRECT);
+        this.updateActions();
+      },
+      actionObject: null,
+      menuState: 'outside',
+      priority: 8,
+    },
+    {
+      name: 'wrong',
+      onClick: () => {
+        this.markCorrect(this.comment, CorrectWrong.WRONG);
+        this.updateActions();
+      },
+      actionObject: null,
+      menuState: 'outside',
+      priority: 7,
+    },
+    {
+      name: 'favorite',
+      onClick: () => {
+        if (!this.isStudent) {
+          this.setFavorite(this.comment);
+          this.updateActions();
+        } else if (this.comment.creatorId === this.user.id) {
+          this.openBonusStarDialog();
+        }
+      },
+      actionObject: null,
+      menuState: 'outside',
+      priority: 6,
+    },
+    {
+      name: 'bookmark',
+      onClick: () => {
+        this.setBookmark(this.comment);
+        this.updateActions();
+      },
+      actionObject: null,
+      menuState: 'outside',
+      priority: 5,
+    },
+    {
+      name: 'edit',
+      onClick: () => {
+        this.editQuestion();
+      },
+      actionObject: null,
+      menuState: 'inside',
+      priority: 4,
+    },
+    {
+      name: 'change_tag',
+      onClick: () => {
+        this.openChangeCommentTagDialog();
+      },
+      actionObject: null,
+      menuState: 'inside',
+      priority: 3,
+    },
+    {
+      name: 'share',
+      onClick: () => {
+        this.copyShareCommentLink();
+      },
+      actionObject: null,
+      menuState: 'inside',
+      priority: 2,
+    },
+    {
+      name: 'delete',
+      onClick: () => {
+        this.openDeleteCommentDialog();
+      },
+      actionObject: null,
+      menuState: 'inside',
+      priority: 1,
+    },
+  ];
 
   constructor(
     protected userManagementService: UserManagementService,
@@ -280,6 +393,7 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
         this.commentBody.setPx(CommentComponent.COMMENT_MAX_HEIGHT);
         this.commentBody.setOverflow('hidden');
       }
+      this.updateActions();
     });
   }
 
@@ -514,6 +628,7 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
       const ref = this.comment.commentReference;
       url = ref ? url + '/' + ref + '/conversation' : url + 's';
     });
+    localStorage.setItem('answeringQuestion', this.comment.id);
     this.router.navigate([url]);
   }
 
@@ -611,7 +726,9 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   getBorderClass(): string {
-    if (this.isFromOwner) {
+    if (this.comment.gptWriterState > 0) {
+      return 'border-chatgpt';
+    } else if (this.isFromOwner) {
       return 'border-fromOwner';
     } else if (this.isFromModerator) {
       return 'border-fromModerator';
@@ -649,13 +766,13 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
       url = `${this.roleString}/room/${params['shortId']}/gpt-chat-room`;
     });
 
+    localStorage.setItem('answeringQuestion', this.comment.id);
     this.eventService
       .on('gptchat-room.init')
       .pipe(take(1))
       .subscribe(() => {
         this.eventService.broadcast('gptchat-room.data', this.comment);
       });
-
     this.router.navigate([url]);
   }
 
@@ -744,6 +861,12 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
     this.editQuestionEmitter.emit();
   }
 
+  onResize() {
+    if (this.getMaxElem() !== this.outsideActions.length) {
+      this.updateActions();
+    }
+  }
+
   private updateBrainstormingCategory(room: Room) {
     if (!this.comment.brainstormingWordId) {
       return;
@@ -785,5 +908,201 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
     ).subscribe((msg) => {
       this._commentNumber = msg;
     });
+  }
+
+  private updateActions() {
+    let b: boolean;
+    let disabled: boolean;
+    this._iconActions.forEach((action) => {
+      switch (action.name) {
+        case 'profanity_switcher':
+          b = this.filterProfanityForModerators;
+          action.actionObject = {
+            active: !this.isStudent && this.isProfanity,
+            disabled: false,
+            class: 'not-marked material-icons-outlined',
+            icon: b ? 'visibility_off' : 'visibility',
+            tooltipKey:
+              'comment-page.show-comment-' +
+              (b ? 'with' : 'without') +
+              '-filter',
+            ariaLabel: 'comment_action_profanity_' + (b ? 'off' : 'on'),
+          };
+          break;
+        case 'fact_check':
+          b = this.comment.approved;
+          disabled = this.isStudent;
+          action.actionObject = {
+            active: (!this.isStudent || b) && !this.moderator,
+            disabled,
+            class:
+              'material-icons-outlined ' + (b ? 'approved-icon' : 'not-marked'),
+            icon: b ? 'fact_check' : 'rule',
+            tooltipKey:
+              'comment-page.mark-' + (b ? 'not-approved' : 'approved'),
+            ariaLabel:
+              'comment_action_' +
+              (b !== disabled ? 'not_approved' : 'approved') +
+              (disabled ? '_info' : ''),
+          };
+          break;
+        case 'correct':
+          b = this.comment.correct === CorrectWrong.CORRECT;
+          disabled = this.isStudent;
+          action.actionObject = {
+            active: (!this.isStudent || b) && !this.moderator,
+            disabled,
+            class: b ? 'correct-icon' : 'not-marked',
+            icon: 'check_circle',
+            tooltipKey: 'comment-page.mark-' + (b ? 'not-correct' : 'correct'),
+            ariaLabel:
+              'comment_action_' +
+              (b !== disabled ? 'not_correct' : 'correct') +
+              (disabled ? '_info' : ''),
+          };
+          break;
+        case 'wrong':
+          b = this.comment.correct === CorrectWrong.WRONG;
+          disabled = this.isStudent;
+          action.actionObject = {
+            active: (!this.isStudent || b) && !this.moderator,
+            disabled,
+            class: b ? 'wrong-icon' : 'not-marked',
+            icon: 'cancel',
+            tooltipKey: 'comment-page.mark-' + (b ? 'not-wrong' : 'wrong'),
+            ariaLabel:
+              'comment_action_' +
+              (b !== disabled ? 'not_wrong' : 'wrong') +
+              (disabled ? '_info' : ''),
+          };
+          break;
+        case 'favorite':
+          b = this.comment.favorite;
+          disabled = this.isStudent;
+          action.actionObject = {
+            active: !this.isStudent || b,
+            disabled: false,
+            class:
+              'material-icons-round ' + (b ? 'favorite-icon' : 'not-marked'),
+            icon: 'grade',
+            tooltipKey: this.getTranslationForBonus(
+              b ? 'mark-not-favorite' : 'mark-favorite',
+            ),
+            ariaLabel:
+              'comment_action_' +
+              (b !== disabled ? 'not_favorite' : 'favorite') +
+              (disabled ? '_info' : ''),
+          };
+          break;
+        case 'bookmark':
+          b = this.comment.bookmark;
+          action.actionObject = {
+            active: !this.moderator,
+            disabled: false,
+            class: b ? 'bookmark-icon' : 'not-marked',
+            icon: 'bookmark',
+            tooltipKey:
+              'comment-page.mark-' + (b ? 'not-bookmark' : 'bookmark'),
+            ariaLabel: 'comment_action_' + (b ? 'not_bookmark' : 'bookmark'),
+          };
+          break;
+        case 'edit':
+          action.actionObject = {
+            active:
+              !this.isMock &&
+              (this.comment.creatorId === this.user?.id || !this.isStudent) &&
+              this.comment.brainstormingSessionId === null,
+            disabled: false,
+            class: 'material-icons not-marked',
+            icon: 'edit',
+            tooltipKey: 'comment-page.edit-comment',
+            ariaLabel: 'comment_action_edit',
+          };
+          break;
+        case 'change_tag':
+          action.actionObject = {
+            active:
+              this.roomTags?.length &&
+              (this.comment.creatorId === this.user?.id || !this.isStudent),
+            disabled: false,
+            class: 'not-marked',
+            icon: 'sell',
+            tooltipKey: 'comment-page.edit-change-tag',
+            ariaLabel: 'comment_action_change_tag',
+          };
+          break;
+        case 'share':
+          action.actionObject = {
+            active: !this.isMock && !this.moderator,
+            disabled: false,
+            class: 'not-marked',
+            icon: 'share',
+            tooltipKey: 'comment-page.share-comment',
+            ariaLabel: 'comment_action_share',
+          };
+          break;
+        case 'delete':
+          action.actionObject = {
+            active:
+              !this.isMock &&
+              (!this.isStudent || this.comment.creatorId === this.user?.id) &&
+              !this.comment.favorite,
+            disabled: false,
+            class: 'not-marked material-icons-outlined',
+            icon: 'delete',
+            tooltipKey: 'comment-page.delete-question',
+            ariaLabel: 'comment_action_delete',
+          };
+          break;
+      }
+    });
+    // build menu and outside
+    this.menuActions.length = 0;
+    this.outsideActions.length = 0;
+    let hasOnlyOutside = false;
+    const cloned = this._iconActions.filter((e) => e.actionObject?.active);
+    cloned.sort((a, b) => b.priority - a.priority);
+    const maxElem = this.getMaxElem();
+    cloned.forEach((e, i) => {
+      const maxElements =
+        maxElem +
+        Number(i === cloned.length - 1 && this.menuActions.length < 1);
+      const full = this.outsideActions.length >= maxElements;
+      if (
+        e.menuState === 'inside' ||
+        (e.menuState === 'anywhere' && full) ||
+        hasOnlyOutside
+      ) {
+        this.menuActions.push(e);
+        return;
+      }
+      if (!full) {
+        this.outsideActions.push(e);
+        return;
+      }
+      // outside && full
+      const findLastIndex = <T>(arr: T[], predicate: (t: T) => boolean) => {
+        for (let i = arr.length - 1; i >= 0; i--) {
+          if (predicate(arr[i])) return i;
+        }
+        return -1;
+      };
+      const index = findLastIndex(
+        this.outsideActions,
+        (it) => it.menuState === 'anywhere',
+      );
+      if (index < 0) {
+        hasOnlyOutside = true;
+        this.menuActions.push(e);
+        return;
+      }
+      this.menuActions.push(this.outsideActions[index]);
+      this.outsideActions[index] = e;
+    });
+  }
+
+  private getMaxElem() {
+    const width = Math.min(window.innerWidth, 950) * 0.8 - 100;
+    return Math.floor(width / 40) - 1;
   }
 }

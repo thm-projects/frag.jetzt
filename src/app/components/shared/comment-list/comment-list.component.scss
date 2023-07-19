@@ -159,6 +159,16 @@ app-comment {
   color: var(--green);
 }
 
+.chatgpt-icon {
+  color: var(--primary);
+}
+
+.chatgpt-robot-icon {
+  margin-bottom: -10px;
+  margin-right: 10px;
+  margin-left: -2px;
+}
+
 .favorite-icon {
   color: var(--yellow);
 }
@@ -258,6 +268,9 @@ app-comment {
 .scrollTop {
   position: fixed;
   left: 20px;
+  @media (min-width: 960px) {
+    left: calc(50% - 480px);
+  }
   bottom: 65px;
   transform: scale(0);
   z-index: 1;

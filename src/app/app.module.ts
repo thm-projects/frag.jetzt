@@ -75,7 +75,7 @@ import { QuizNowComponent } from './components/shared/quiz-now/quiz-now.componen
 import { JoyrideModule } from 'ngx-joyride';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { DashboardNotificationService } from './services/util/dashboard-notification.service';
-import { MatNativeDateModule } from '@angular/material/core';
+import { MatNativeDateModule, MatRippleModule } from '@angular/material/core';
 import { NotifyUnsupportedBrowserComponent } from './components/home/_dialogs/notify-unsupported-browser/notify-unsupported-browser.component';
 import { ImprintFrComponent } from '../assets/i18n/components/imprint/imprint-fr';
 import { HelpFrComponent } from '../assets/i18n/components/help/help-fr';
@@ -202,6 +202,7 @@ export const HttpLoaderFactory = (http: HttpClient) =>
     MatNativeDateModule,
     HighlightModule,
     QuillModule.forRoot(),
+    MatRippleModule,
   ],
   providers: [
     /*AppConfig,

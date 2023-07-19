@@ -190,17 +190,19 @@
   }
 }
 
-.slide-container {
-  text-align: center;
-  width: min-content;
-  margin-left: auto !important;
+.bottom-options {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
 
   &::before {
+    content: unset;
     display: none;
   }
 
-  > h3 {
-    display: inline-block;
+  > div {
+    text-align: center;
+    width: max-content;
   }
 }
 

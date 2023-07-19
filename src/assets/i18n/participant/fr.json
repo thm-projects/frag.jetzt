@@ -75,6 +75,7 @@
     "filter-reset": "Réinitialiser",
     "filter-unanswered": "Sans réponse",
     "filter-approved": "Réponses vérifiées",
+    "filter-chatgpt": "Réponses ChatGPT",
     "filter-wrong": "Questions négatives",
     "owner": "Questions posées",
     "pause-comments": "Fige l'affichage pour pouvoir lire les questions en toute tranquillité. Les questions peuvent toujours être posées et évaluées. L'affichage s'actualise à nouveau en cliquant sur le bouton.",
@@ -131,6 +132,35 @@
     "needs-user-account": "Tu as besoin d'un compte avec une adresse e-mail pour recevoir des notifications !"
   },
   "comment-page": {
+    "a11y": {
+      "comment_action": {
+        "profanity_on": "Afficher des mots vulgaires",
+        "profanity_off": "Censurer les mots vulgaires",
+        "approved": "Vérification des faits : Cliquez ici si vous avez approuvé le message.",
+        "not_approved": "Retirer l'approbation",
+        "approved_info": "Le message a été vérifié avec succès.",
+        "not_approved_info": "Le message n'a pas été marqué comme vérifié.",
+        "correct": "Répondez par oui ou cochez la case \"terminé\".",
+        "not_correct": "Révoquer la marque \"oui\" ou \"fait\".",
+        "correct_info": "La question a été marquée comme faite ou a reçu une réponse positive.",
+        "not_correct_info": "La question n'a pas été marquée comme faite et n'a pas reçu de réponse positive.",
+        "wrong": "Marquez la question d'une croix.",
+        "not_wrong": "Révoquer le mauvais marquage.",
+        "wrong_info": "La question a été marquée comme erronée.",
+        "not_wrong_info": "La question n'a pas été marquée comme erronée.",
+        "favorite": "Surligner la question avec une étoile",
+        "not_favorite": "Supprimer l'étoile",
+        "favorite_info": "La question a été mise en évidence par une étoile.",
+        "not_favorite_info": "La question n'a pas été mise en évidence par une étoile.",
+        "bookmark": "Mettre un signet sur la question",
+        "not_bookmark": "Supprimer un signet de la question",
+        "edit": "Modifier la question",
+        "change_tag": "Choisir ou changer de catégorie",
+        "share": "Copier le lien du participant vers cet article",
+        "delete": "Supprimer cette question",
+        "menu": "Ouvrir plus d'options"
+      }
+    },
     "share-comment": "Copier le lien du participant sur ce post",
     "share-comment-success": "Copie réussie.",
     "share-comment-fail": "Quelque chose a mal tourné!",
@@ -140,12 +170,9 @@
     "a11y-comment_input": "Écris ta question",
     "a11y-comment_vote_down": "Dévaluer cette question",
     "a11y-comment_vote_up": "Valoriser cette question",
-    "a11y-text_correct": "Cette question a reçu une réponse affirmative.",
-    "a11y-text_grade": "Cette question a été marquée comme question bonus.",
     "a11y-text_read": "Cette question a été présentée. Tu peux filtrer les questions présentées.",
     "a11y-text_textForOneVote": "Une évaluation",
     "a11y-text_textForVotes": "Évaluations",
-    "a11y-text_wrong": "La réponse à cette question est négative.",
     "abort": "Annuler",
     "ask-question-description": "Écris ta question ici !",
     "back-to-question-focus": "Retour au focus sur les questions",
@@ -156,6 +183,7 @@
     "border-tooltip-border-fromModerator": "Ce message a été rédigé par un modérateur.",
     "border-tooltip-border-fromOwner": "Ce message a été envoyé par le créateur de la salle.",
     "border-tooltip-border-moderated": "Ce message est en cours de modération.",
+    "border-tooltip-border-chatgpt": "Ce message a été créée avec ChatGPT.",
     "border-tooltip-border-notMarked": "Ce message a été rédigé par un participant.",
     "border-tooltip-border-ownQuestion": "Vous avez écrit ce message vous-même.",
     "border-tooltip-border-wrong": "Ce message a été marqué comme étant incorrect.",
@@ -203,6 +231,7 @@
     "no-comments": "",
     "no-comments-with-filter": "Aucune entrée avec le filtre sélectionné",
     "no-comments-with-search": "Pas de questions sur ta recherche",
+    "option-menue": "Autres options",
     "preview-comment": "Aperçu",
     "preview-in-mock": "Aperçu sur un smartphone",
     "questioner-name": "Nom auto-attribué",
@@ -287,10 +316,19 @@
   "gpt-chat": {
     "optin-accept": "Accepter",
     "optin-reject": "Refuser",
-    "title-free": "ChatGPT | Questions et réponses libres",
-    "title-answer": "ChatGPT | Assistant pour les réponses",
+    "model-select": "Sélection de modèles",
+    "model-placeholder": "Choisir un modèle linguistique …",
+    "model-gpt-3.5-turbo": "GPT-3.5 »Turbo«",
+    "model-description-gpt-3.5-turbo": "Modèle efficace avec environ 4.000 caractères Contexte",
+    "model-gpt-3.5-turbo-16k": "GPT-3.5 »Turbo« 16K",
+    "model-description-gpt-3.5-turbo-16k": "Modèle efficace avec environ 16.000 caractères Contexte",
+    "model-gpt-4": "GPT-4",
+    "model-description-gpt-4": "Modèle le plus récent et le plus puissant avec environ 8 000 caractères Contexte",
+    "title-free": "ChatGPT | Demander librement sans préréglages de prompt",
+    "title-answer": "ChatGPT répond …",
     "interrupt": "Arrêter la sortie",
-    "copy-markdown": "Copier Markdown",
+    "copy-markdown": "Copier le résultat au format Markdown",
+    "system-message": "Afficher/cacher les messages système",
     "copy-success": "Markdown copié avec succès",
     "copy-fail": "Markdown n'a pas pu être copié !",
     "temperature-creative": "[Plus] Créatif",
@@ -306,7 +344,7 @@
     "context-response-length": "Longueur : {{value}}.",
     "context-response-format": "Format : {{value}}.",
     "context-question": "Question :\n\n{{value}}",
-    "selection-none": "En l'absence de sélection, ChatGPT peut avoir une zone de réponse plus large. Cela peut conduire à la génération d'informations non souhaitées.",
+    "selection-none": "Si aucune sélection n'est faite, ChatGPT peut avoir une zone de réponse plus large. Cela peut conduire à la génération d'informations non souhaitées.",
     "tooltip-temperature-disabled": "La variabilité des réponses est prise en compte par l'invite sélectionnée.",
     "choices": {
       "response-format": [
@@ -371,17 +409,33 @@
     "none": "Aucun",
     "send": "Envoyer",
     "empty-conversation": "Vider l'historique",
+    "cancel-edit": "Annuler l'édition",
+    "edit-message": "Éditer le message",
     "input-forbidden": "Saisie interdite, veuillez vérifier les paramètres de l'API GPT.",
     "no-api-setup": "La clé d'API ou le modèle de langage n'a pas été défini.",
     "cancel": "Fermer",
     "refresh": "Générer à nouveau la sortie",
     "edit": "Éditer la sortie en réponse à la question du forum",
-    "paste": "Publier la sortie en réponse à la question du forum",
+    "paste": "Publier l'édition sur le forum",
     "token-info": "Tokens (saisie/conversation/total) : {{promptTokens}}/{{conversationTokens}}/{{allTokens}}",
-    "prompt-label": "Recherche de prompts | barre d'espacement pour voir tous les prompts",
+    "prompt-label": "Recherche de prompts",
     "option-total-acts": "Hits dans « Agir comme … »",
     "option-total-prompts": "Hits dans prompts",
-    "temperature": "Variabilité de réponse"
+    "temperature": "Variabilité de réponse",
+    "conversation": "Options de conversation",
+    "conversation-auto-save": "Enregistrer automatiquement",
+    "conversation-overview": "Vers l'aperçu",
+    "conversation-save": "Enregistrer"
+  },
+  "gptconversation-overview": {
+    "title": "Toutes les conversations",
+    "this-room": "De cette salle",
+    "other-room": "Depuis d'autres salles",
+    "last-used": "Dernier utilisé",
+    "last-message": "Dernier message",
+    "first-message": "Premier message",
+    "delete-element": "Supprimer",
+    "cancel": "Fermer"
   },
   "header": {
     "overview-keywords-tooltip": "Nombre de mots-clés",
@@ -402,6 +456,7 @@
     "user-bonus-token": "Mes étoiles de bonus",
     "room-qr": "Code QR",
     "motd": "Actualités",
+    "feedback": "Salle de feedback",
     "logout": "Se déconnecter",
     "livepoll": "Sondage flash",
     "livepoll-button": "Créer des sondages et notifier automatiquement tous les participants."
@@ -424,7 +479,8 @@
     "question-wall-title": "Les cas d'utilisation du mode de présentation",
     "tag-cloud-title": "Cas d'utilisation du radar à questions",
     "prompt-guide-chatbot": "Communiquer efficacement avec ChatGPT",
-    "prompt-explanation": "Prompts en bref"
+    "prompt-explanation": "Prompts en bref",
+    "tooltip-button": "Comment écris-je de bons prompts ?"
   },
   "joyride": {
     "commentFilter": "Il existe de nombreuses options de tri et de filtrage pour la liste des questions-réponses. Un filtre actif est affiché en rouge. Pour une meilleure lisibilité en cas de grande dynamique, le flux de questions peut également être mis en pause.",
@@ -439,9 +495,9 @@
     "step": "{{step}} / {{total}}",
     "voting": "Le public peut valoriser ou dévaloriser les questions, exprimant ainsi son intérêt pour la réponse à la question ou son accord ou désaccord.",
     "votingTitle": "Evaluer une question",
-    "chatGPT": "Dans un contexte donné, ChatGPT te permet généralement de répondre efficacement aux questions et d'avoir un aperçu de nouveaux sujets. Il est le premier interlocuteur pour les questions relatives à l'enseignement.",
+    "chatGPT": "Ici, le chatbot est à ta disposition comme sur le site d'OpenAI, mais il est beaucoup plus performant et fiable, car il est appelé via l'API d'OpenAI.",
     "chatGPTTitle": "Travailler avec ChatGPT",
-    "navigationButton": "Avec la navigation, tu peux voir presque toutes les actions dans le contexte actuel.",
+    "navigationButton": "La navigation est disponible sur toutes les pages. Ici, tu peux passer à toutes les features de la plateforme.",
     "navigationButtonTitle": "Navigation dans l'application"
   },
   "question-wall": {
@@ -846,7 +902,7 @@
   },
   "gptchat-info": {
     "title": "ChatGPT",
-    "content": "ChatGPT n'est disponible que dans les salles créées par un utilisateur enregistré. Cette salle a été créée par un invité. Crée ta propre salle pour utiliser ChatGPT.\n\nC'est aussi simple que ça, en deux étapes seulement:\n\n1. Inscris-toi sur frag.jetzt, crée un compte et réserve une salle.\n\n2. Dépose la [clé API d'OpenAI](https://platform.openai.com) dans le menu d'options de ta salle et c'est parti!\n\nTa clé API est stockée en toute sécurité sur notre serveur et ton mot de passe frag.jetzt est également sécurisé. De plus, tu peux limiter dans le temps le contingent de tokens et tes coûts API si tu veux autoriser ChatGPT à être utilisé dans ta salle. Tu trouveras tous les paramètres nécessaires dans le menu d'options de ta salle.\n\nDémarre maintenant avec un crédit gratuit de 5 $ que tu peux utiliser pendant les 3 premiers mois. Selon le modèle linguistique, tu peux ainsi consommer entre 250 000 et 12,5 millions de tokens.",
+    "content": "ChatGPT n'est disponible que dans les salles créées par un utilisateur enregistré. Cette salle a été créée par un invité. Inscris-toi et crée toi-même une salle pour utiliser ChatGPT.\n\nCommence dès maintenant avec un crédit de 5 $. Avec ce crédit, tu peux consommer plusieurs millions de tokens pour des demandes ChatGPT (1 token correspond à environ 5-7 caractères).",
     "cancel": "Fermer"
   }
 }

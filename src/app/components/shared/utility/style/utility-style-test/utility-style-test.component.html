@@ -1,0 +1,83 @@
+<div style="top: 150px; position: fixed; z-index: 5">
+  <ng-container
+    *ngTemplateOutlet="
+      template;
+      context: { bgc: 'var(--surface)', fgc: 'var(--on-surface)' }
+    "></ng-container>
+  <ng-container
+    *ngTemplateOutlet="
+      template;
+      context: { bgc: 'var(--background)', fgc: 'var(--on-background)' }
+    "></ng-container>
+  <ng-container
+    *ngTemplateOutlet="
+      template;
+      context: { bgc: 'var(--dialog)', fgc: 'var(--on-dialog)' }
+    "></ng-container>
+  <ng-container
+    *ngTemplateOutlet="
+      template;
+      context: { bgc: 'var(--alt-surface)', fgc: 'var(--on-surface)' }
+    "></ng-container>
+</div>
+
+<ng-template
+  #template
+  let-bgc="bgc"
+  let-fgc="fgc">
+  <div
+    style="position: relative; z-index: 5; padding: 16px"
+    fxLayout="row"
+    fxLayoutGap="16px"
+    [ngStyle]="{ 'background-color': bgc }">
+    <span
+      style="width: 200px"
+      [ngStyle]="{ color: fgc }">
+      {{ bgc }}
+      <br />
+      {{ fgc }}
+    </span>
+    <button
+      mat-flat-button
+      _color="primary flat">
+      <mat-icon>poll</mat-icon>
+      <span>primary flat</span>
+    </button>
+    <button
+      mat-flat-button
+      _color="primary stroked">
+      <mat-icon>poll</mat-icon>
+      <span>primary stroked</span>
+    </button>
+    <button
+      mat-flat-button
+      _color="primary fill">
+      <mat-icon>poll</mat-icon>
+      <span>primary fill</span>
+    </button>
+    <button
+      mat-flat-button
+      _color="secondary flat">
+      <mat-icon>folder</mat-icon>
+      <span>secondary flat</span>
+    </button>
+    <button
+      mat-flat-button
+      _color="secondary stroked">
+      <mat-icon>folder</mat-icon>
+      <span>secondary stroked</span>
+    </button>
+    <button
+      mat-flat-button
+      _color="secondary fill">
+      <mat-icon>folder</mat-icon>
+      <span>secondary fill</span>
+    </button>
+    <button
+      mat-flat-button
+      _color="cancel">
+      <mat-icon>cancel</mat-icon>
+      <span>cancel</span>
+    </button>
+  </div>
+</ng-template>

@@ -1,4 +1,12 @@
-import { Component, OnDestroy, OnInit, Renderer2 } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  HostListener,
+  OnDestroy,
+  OnInit,
+  Renderer2,
+  ViewChild,
+} from '@angular/core';
 import { EventService } from '../../../services/util/event.service';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { KeyboardUtils } from '../../../utils/keyboard';
@@ -10,16 +18,35 @@ import { SessionService } from '../../../services/util/session.service';
 import { OnboardingService } from '../../../services/util/onboarding.service';
 import { NotificationService } from 'app/services/util/notification.service';
 import { LanguageService } from 'app/services/util/language.service';
-import { filter, take } from 'rxjs';
+import { filter, ReplaySubject, Subject, take } from 'rxjs';
+import { ThemeService } from '../../../../theme/theme.service';
+import { carousel } from './home-page-carousel';
+
+export type CarouselEntryKind = 'highlight' | 'peek' | 'hidden';
 
 @Component({
   selector: 'app-home-page',
   templateUrl: './home-page.component.html',
-  styleUrls: ['./home-page.component.scss'],
+  styleUrls: [
+    './home-page.component.scss',
+    '../../shared/utility/style/common-style.scss',
+  ],
 })
 export class HomePageComponent implements OnInit, OnDestroy {
+  @ViewChild('carouselScrollElement')
+  _carouselScrollElement: ElementRef<HTMLDivElement>;
   listenerFn: () => void;
+
   accumulatedRatings: RatingResult;
+
+  protected carouselIndex: number = 0;
+  protected readonly mobileBoundaryWidth = 600;
+  protected readonly mobileBoundaryHeight = 630;
+  protected carousel = carousel;
+
+  private currentTheme: string;
+  private readonly _destroyer: Subject<number> = new ReplaySubject(1);
+  private lastScrollMs: number = -1;
 
   constructor(
     private translateService: TranslateService,
@@ -30,8 +57,161 @@ export class HomePageComponent implements OnInit, OnDestroy {
     private sessionService: SessionService,
     private onboardingService: OnboardingService,
     private notificationService: NotificationService,
-    private languageService: LanguageService,
-  ) {}
+    public readonly languageService: LanguageService,
+    public readonly themeService: ThemeService,
+  ) {
+    themeService.getTheme().subscribe((x) => (this.currentTheme = x.key));
+    const arrowEventListener = (event: KeyboardEvent) => {
+      if (!document.activeElement.hasAttribute('mat-menu-item')) {
+        switch (event.key) {
+          case 'ArrowUp':
+            this.setCarouselIndex(this.carouselIndex - 1);
+            break;
+          case 'ArrowDown':
+            this.setCarouselIndex(this.carouselIndex + 1);
+            break;
+          case 'ArrowLeft':
+            this.setCarouselIndex(this.carouselIndex - 1);
+            break;
+          case 'ArrowRight':
+            this.setCarouselIndex(this.carouselIndex + 1);
+            break;
+        }
+      }
+    };
+    window.addEventListener('keydown', arrowEventListener, true);
+    this._destroyer.subscribe(() => {
+      this.listenerFn?.();
+      this.eventService.makeFocusOnInputFalse();
+      window.removeEventListener('keydown', arrowEventListener);
+    });
+  }
+
+  get carouselOffset() {
+    if (this._carouselScrollElement) {
+      const target = this._carouselScrollElement.nativeElement.children[
+        this.carouselIndex
+      ] as HTMLDivElement;
+      return {
+        'top.px': -target.offsetTop - target.offsetHeight / 2,
+      };
+    } else {
+      return {};
+    }
+  }
+
+  /**
+   * @desc touchpad scroll fires multiple events with different deltaY.\
+   * In order to limit the request amount, a time switch is added.
+   * @param wheel
+   */
+  @HostListener('wheel', ['$event']) _onWheel(wheel: WheelEvent) {
+    if (!wheel.ctrlKey && wheel.deltaY) {
+      if (
+        Math.abs(wheel.deltaY) === 120 ||
+        this.lastScrollMs === -1 ||
+        new Date().getTime() - this.lastScrollMs > 200
+      ) {
+        let changed = true;
+        if (wheel.deltaY > 0) {
+          this.setCarouselIndex(this.carouselIndex + 1);
+        } else if (wheel.deltaY < 0) {
+          this.setCarouselIndex(this.carouselIndex - 1);
+        } else {
+          changed = false;
+        }
+        if (changed) {
+          this.lastScrollMs = new Date().getTime();
+        }
+      }
+    }
+  }
+
+  getForegroundStyleForEntry(i: number, offsetLeft: number) {
+    const imageTargets = this.carousel[i].images.filter((x) => !x.isBackground);
+    let _override = {};
+    if (imageTargets && imageTargets.length > 0) {
+      const target = imageTargets[0];
+      _override = {
+        ..._override,
+        ...target.override[this.currentTheme + '-theme'],
+        ...{
+          backgroundImage: target.url,
+        },
+      };
+      if (target.override['default']) {
+        _override = {
+          ..._override,
+          ...target.override['default'],
+        };
+      }
+    }
+    return {
+      ..._override,
+      ...{
+        width: `calc( 100vw - ${offsetLeft}px )`,
+      },
+    };
+  }
+
+  getBackgroundStyleForEntry(i: number): any {
+    const imageTargets = this.carousel[i].images.filter(
+      (x) => !!x.isBackground,
+    );
+    let _override = {};
+    if (imageTargets && imageTargets.length > 0) {
+      const target = imageTargets[0];
+      _override = {
+        ..._override,
+        ...target.override[this.currentTheme + '-theme'],
+        ...{
+          backgroundImage: target.url,
+        },
+      };
+      if (target.override['default']) {
+        _override = {
+          ..._override,
+          ...target.override['default'],
+        };
+      }
+    }
+    if (i < this.carouselIndex) {
+      _override['opacity'] = 0;
+    } else if (i > this.carouselIndex) {
+      _override['opacity'] = 0;
+    } else {
+      _override['opacity'] = 1;
+    }
+    return {
+      ..._override,
+      ...{
+        transform: `translateY(${(this.carouselIndex - i) * -1000}px)`,
+      },
+    };
+  }
+
+  getStyleForEntry(i: number, kind: CarouselEntryKind): any {
+    switch (kind) {
+      case 'highlight':
+        return {};
+      case 'peek':
+        return {};
+      case 'hidden':
+        return {};
+      default:
+        return {};
+    }
+  }
+
+  getEntryKind(i: number): CarouselEntryKind {
+    if (i === this.carouselIndex) {
+      return 'highlight';
+    } else if (i === this.carouselIndex - 1 || i === this.carouselIndex + 1) {
+      return 'peek';
+    } else {
+      return 'hidden';
+    }
+  }
 
   ngOnInit() {
     this.ratingService.getRatings().subscribe((r) => {
@@ -93,11 +273,10 @@ export class HomePageComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.listenerFn?.();
-    this.eventService.makeFocusOnInputFalse();
+    this._destroyer.next(1);
   }
 
-  public announce() {
+  announce() {
     const lang: string = this.translateService.currentLang;
     this.liveAnnouncer.clear();
     if (lang === 'de') {
@@ -116,6 +295,34 @@ export class HomePageComponent implements OnInit, OnDestroy {
           'Press 4 to go to the language selection menu or 9 to repeat this announcement',
         'assertive',
       );
+    }
+  }
+
+  selectEntry(i: number, entryElement: HTMLDivElement) {
+    this.carouselIndex = i;
+  }
+
+  getPositionClass(i: number) {
+    let _class = '';
+    const offset = i - this.carouselIndex;
+    if (offset === -2 || offset === 2) {
+      _class = '';
+    } else {
+      _class += 'hide ';
+    }
+    if (offset === 0) _class += 'center';
+    else if (offset < 0) _class += 'bottom';
+    else _class += 'top';
+    return _class;
+  }
+
+  private setCarouselIndex(carouselIndex: number, throwError: boolean = false) {
+    if (carouselIndex < 0 || carouselIndex >= this.carousel.length) {
+      if (throwError) {
+        throw new Error();
+      }
+    } else {
+      this.carouselIndex = carouselIndex;
     }
   }
 }

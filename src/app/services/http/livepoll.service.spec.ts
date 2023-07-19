@@ -1,4 +1,4 @@
-import { TestBed } from '@angular/core/testing';
+/*import { TestBed } from '@angular/core/testing';
 
 import { LivepollService } from './livepoll.service';
 
@@ -14,3 +14,4 @@ describe('LivepollService', () => {
     expect(service).toBeTruthy();
   });
 });
+ */

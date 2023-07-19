@@ -7,8 +7,8 @@
     "pop-up-4-stars": "3.5 - 4 stars",
     "pop-up-5-stars": "4.5 - 5 stars",
     "pop-up-from-5": "{{rating}} from 5",
-    "pop-up-global-people": "{{people}} ratings | To rate, you must have visited a room and asked a question. Please also give us detailed feedback to improve the app. Under »Navigation«, choose »My Rooms« to rate the app.",
-    "pop-up-link": "To the »Feedback« room",
+    "pop-up-global-people": "{{people}} ratings",
+    "pop-up-link": "To the Feedback Room",
     "retry": "This is your old rating. Enter a new one.",
     "save": "Save",
     "success": "Thank you for your review! You want to talk to the developers about bugs and new features? Then visit our »Feedback« room.",
@@ -151,7 +151,7 @@
     "user-bonus": "## Bonus \n\nThe teacher can mark »good« questions for a bonus. Your questions from all courses (rooms) that have received a star will be listed here.\n\nDepending on the agreement, you can email the code of the star to the teacher to redeem it for a bonus."
   },
   "footer": {
-    "performance-indicator": "Green = low server load \nYellow = normal server load \nRed = critical server load",
+    "performance-indicator": "Green = low server load \nYellow = normal server load \nRed = critical server load\n\nClick to see details!",
     "introduction-button": "What is this about?",
     "display-button": "Design selection",
     "language-button": "Language selection",
@@ -181,7 +181,7 @@
     "motd-title-new": "Latest",
     "motd-title-old": "Archive",
     "open": "Open",
-    "style": "Design selection"
+    "style": "Design"
   },
   "header": {
     "livepoll": "Flash Poll",
@@ -249,7 +249,7 @@
     "export-questions": "Export Q&A",
     "fullscreen": "Fullscreen & Text size",
     "guest-account-tooltip": "You are logged in as a guest. As a guest, you can only create rooms without using ChatGPT. Note: Your rooms will be bound to this browser. As a registered user, you can open your ChatGPT rooms in any browser. Remember that rooms are automatically deleted after 180 days of inactivity.",
-    "home-header": "Collect questions ➧ evaluate ➧ present ➧ answer with AI",
+    "home-header": "Q&A live: Collect questions ➧ evaluate ➧ present ➧ answer with AI",
     "home-header-mobile": "Q&A live with AI",
     "id": "Key",
     "import-questions": "Import Q&A",
@@ -261,6 +261,7 @@
     "moderation-warning": "Moderation board with unreleased questions",
     "moderationboard": "Moderation",
     "motd": "News",
+    "feedback": "Feedback Room",
     "my-account": "Options",
     "chatroom-options-menu": "Prompt specifications",
     "my-sessions": "My rooms",
@@ -282,7 +283,7 @@
     "preset-role-instruction": "Role instruction",
     "preset-topic": "Topics",
     "preset-length": "Length",
-    "gpt-feedback": "Your feedback",
+    "gpt-feedback": "Your feedback about ChatGPT",
     "chat-answer-format": "Response format",
     "question-board": "Q&A forum",
     "question-wall": "Present questions",
@@ -316,7 +317,8 @@
     "zoom-minus": "Decrease text size",
     "zoom-plus": "Increase text size",
     "zoom-reset": "Reset zoom level",
-    "gpt-chat": "Chat with ChatGPT",
+    "gpt-chat": "Chat with ChatGPT!",
+    "gpt-brainstorming": "Let ChatGPT brainstorm",
     "gpt-privacy-policy": "ChatGPT Privacy Policy",
     "gpt-prompts": "My ChatGPT prompts"
   },
@@ -341,8 +343,8 @@
     "accessibility-create": "Create a new session",
     "accessibility-join-button": "Enter the session with the specified session key.",
     "accessibility-join-input": "Here you can enter the key of the session you want to join. The presenter will tell you the session key.",
-    "app-rating": "Reevaluate app",
-    "create-session": "Book a room",
+    "app-rating": "Evaluate the app",
+    "create-session": "Create a room",
     "created": "The room for the session »{{longRoomName}}« has been booked.",
     "custom-shortid": "Generate key code",
     "custom-shortid-placeholder": "Key code from: a-z A-Z 0-9 - _ ~ .",
@@ -382,12 +384,13 @@
     "moderation-title": "Use cases of the moderation",
     "room-list-title": "Use cases of the room list",
     "room-page-title": "Use cases of the room",
-    "prompt-guide-chatbot": "Communicating Effectively with ChatGPT"
+    "prompt-guide-chatbot": "Communicating Effectively with ChatGPT",
+    "tooltip-button": "How do I write good prompts?"
   },
   "joyride": {
     "cantAccessRoute": "This route is not available. The tour will be cancelled.",
-    "createRoom": "Anyone can book a room for an event. The access code is either generated or you determine it yourself. Bear in mind that without registration, the room and all its data will only exist in this browser.",
-    "createRoomTitle": "Book a room",
+    "createRoom": "Anyone can create a room for an event. The access code is either generated or you determine it yourself. Bear in mind that without registration, the room and all its data will only exist in this browser.",
+    "createRoomTitle": "Create a room",
     "dashboard": "This is the menu for the live notifications",
     "dashboardTitle": "Live notifications",
     "done": "Finish",
@@ -406,9 +409,9 @@
     "roomJoin": "Enter the access code for the room where the event you want to attend is taking place.",
     "roomJoinTitle": "Join an event",
     "step": "{{step}} / {{total}}",
-    "chatGPT": "With ChatGPT, given a context, you can usually answer questions effectively and gain insight into new topics. He is the first interlocutor for questions in teaching.",
+    "chatGPT": "Here, the chatbot is available to you just like on OpenAI's website, but much more performant and reliable since it is called via OpenAI's API.",
     "chatGPTTitle": "Work with ChatGPT",
-    "navigationButton": "With navigation you can see almost all actions in the current context.",
+    "navigationButton": "Navigation is available on all pages. Here you can switch to all features of the platform.",
     "navigationButtonTitle": "Navigation in the app"
   },
   "login": {
@@ -590,7 +593,7 @@
   "room-create": {
     "cancel": "Cancel",
     "cancel-description": "Cancel",
-    "create-room": "Book room",
+    "create-room": "Create a room",
     "create-room-description": "New session"
   },
   "room-export": {
@@ -888,7 +891,7 @@
   },
   "gptchat-info": {
     "title": "ChatGPT",
-    "content": "ChatGPT is only available in rooms created by a registered user. This room has been created by a guest. Create your own room to use ChatGPT.\n\nHere's how it works in just two steps:\n\n1. Register on frag.jetzt, sign in, and book a room.\n\n2. Add the OpenAI API key in the options menu of your room and you're good to go!\n\nYour API key is securely stored on our server and your frag.jetzt password is also secure. Additionally, you can limit the token quota and API costs for a limited time if you want to make ChatGPT available for use in your room. You can find all the settings in the options menu of your room.\n\nStart now with a $5 credit that you can use for the first 3 months. Depending on the language model you choose, you can consume several million tokens (1 token is approximately 5-7 characters) for ChatGPT requests with this credit.",
+    "content": "ChatGPT is available only in rooms created by a registered user. A guest created this room. Register and create a room yourself to use ChatGPT.\n\nStart now with a credit of $5. With this credit, you can spend several million tokens on ChatGPT requests (1 token is about 5-7 characters).",
     "cancel": "Close"
   }
 }

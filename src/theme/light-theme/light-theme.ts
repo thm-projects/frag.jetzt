@@ -4,10 +4,10 @@ export const arsnova = {
   '--primary': 'darkblue',
   '--primary-variant': 'blanchedalmond',
 
-  '--secondary': '#1d6161',
-  '--secondary-variant': '#1d6161',
+  '--secondary': '#018000',
+  '--secondary-variant': '#018000',
 
-  '--background': 'ivory',
+  '--background': 'papayawhip',
   '--surface': 'bisque',
   '--dialog': 'cornsilk',
   '--cancel': 'red',

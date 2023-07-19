@@ -8,6 +8,8 @@ import { filter } from 'rxjs/operators';
 import { StartUpService } from './services/util/start-up.service';
 import { EventService } from './services/util/event.service';
 import {
+  LivepollDialogRequest,
+  LivepollDialogResponse,
   LoginDialogRequest,
   LoginDialogResponse,
   MotdDialogRequest,
@@ -21,6 +23,9 @@ import { MotdDialogComponent } from './components/shared/_dialogs/motd-dialog/mo
 import { Router } from '@angular/router';
 import { DeviceInfoService } from './services/util/device-info.service';
 import { UpdateInfoDialogComponent } from './components/home/_dialogs/update-info-dialog/update-info-dialog.component';
+import { LivepollDialogComponent } from './components/shared/_dialogs/livepoll/livepoll-dialog/livepoll-dialog.component';
+import { LivepollCreateComponent } from './components/shared/_dialogs/livepoll/livepoll-create/livepoll-create.component';
+import { LivepollSummaryComponent } from './components/shared/_dialogs/livepoll/livepoll-summary/livepoll-summary.component';
 
 @Component({
   selector: 'app-root',
@@ -140,6 +145,32 @@ export class AppComponent implements OnInit {
         dialogRef.afterClosed().subscribe(() => {
           sendEvent(this.eventService, new LoginDialogResponse());
         });
+      });
+    this.eventService
+      .on<LivepollDialogRequest>(LivepollDialogRequest.name)
+      .subscribe((request) => {
+        if (request.dialog === 'dialog') {
+          sendEvent(
+            this.eventService,
+            new LivepollDialogResponse(
+              this.dialog.open(LivepollDialogComponent, request.config),
+            ),
+          );
+        } else if (request.dialog === 'create') {
+          sendEvent(
+            this.eventService,
+            new LivepollDialogResponse(
+              this.dialog.open(LivepollCreateComponent, request.config),
+            ),
+          );
+        } else if (request.dialog === 'summary') {
+          sendEvent(
+            this.eventService,
+            new LivepollDialogResponse(
+              this.dialog.open(LivepollSummaryComponent, request.config),
+            ),
+          );
+        }
       });
   }
 }

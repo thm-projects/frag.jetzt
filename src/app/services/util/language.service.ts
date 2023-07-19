@@ -14,6 +14,10 @@ export class LanguageService {
 
   constructor(private configurationService: ConfigurationService) {}
 
+  get language(): Language {
+    return this._currentLanguage;
+  }
+
   init(storedLanguage: string) {
     if (this._initialized) {
       return;

@@ -4,7 +4,7 @@
 
 <ol>
   <li>Einen Raum aufsuchen</li>
-  <li>Einen Raum buchen</li>
+  <li>Einen Raum erstellen</li>
   <li>Infos und Optionen zu einem Raum anzeigen</li>
   <li>Nachrichten des Entwicklerteams anzeigen</li>
   <li>Vollansicht und Textgröße einstellen</li>
@@ -13,11 +13,13 @@
 </ol>
 
 <div class="videoWrapper">
-  <iframe allowfullscreen
-          height="315"
-          width="560"
-          [src]="sanitizer.trust('https://www.youtube.com/embed/ScMzIvxBSi4?autoplay=0')"
-          tabindex="0"
-          title="Placeholder video"
-  ></iframe>
+  <iframe
+    allowfullscreen
+    height="315"
+    width="560"
+    [src]="
+      sanitizer.trust('https://www.youtube.com/embed/ScMzIvxBSi4?autoplay=0')
+    "
+    tabindex="0"
+    title="Placeholder video"></iframe>
 </div>

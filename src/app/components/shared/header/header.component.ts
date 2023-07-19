@@ -53,7 +53,6 @@ import { CommentNotificationDialogComponent } from '../_dialogs/comment-notifica
 import { GptOptInPrivacyComponent } from '../_dialogs/gpt-optin-privacy/gpt-optin-privacy.component';
 import { ShrinkObserver } from 'app/utils/shrink-observer';
 import { LivepollService } from '../../../services/http/livepoll.service';
-import { take } from 'rxjs/operators';
 import { GptService } from 'app/services/http/gpt.service';
 import { GPTChatInfoComponent } from '../_dialogs/gptchat-info/gptchat-info.component';
 
@@ -396,6 +395,14 @@ export class HeaderComponent implements OnInit, AfterViewInit {
       return;
     }
     CommentNotificationDialogComponent.openDialog(this.dialog, this.room);
+  }
+
+  openBrainstormingGPT() {
+    if (!this.canOpenGPT) {
+      GPTChatInfoComponent.open(this.dialog);
+      return;
+    }
+    this.eventService.broadcast('tag-cloud.brainstorming-ideas-with-chatgpt');
   }
 
   openGPT() {

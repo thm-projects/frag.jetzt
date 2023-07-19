@@ -116,6 +116,9 @@ app-comment {
 .scrollTop {
   position: fixed;
   left: 20px;
+  @media (min-width: 960px) {
+    left: calc(50% - 480px);
+  }
   bottom: 65px;
   transform: scale(0);
   z-index: 1;
@@ -135,7 +138,7 @@ app-comment {
   animation-timing-function: ease-in;
   animation-duration: 2s;
   animation-iteration-count: 1;
-  opacity: 1.0 !important;
+  opacity: 1 !important;
 }
 
 @keyframes animation_blink_5s {
@@ -150,5 +153,5 @@ app-comment {
   animation-timing-function: ease-in;
   animation-duration: 2s;
   animation-iteration-count: 2;
-  opacity: 1.0 !important;
+  opacity: 1 !important;
 }
