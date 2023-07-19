@@ -6,6 +6,9 @@ $carousel-container-size: 450px;
 
 .book-room-container {
   width: 500px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  max-height: calc(100vh - 115px);
 
   @media (max-width: 1700px) {
     width: calc(100vw - 1600px + 500px);

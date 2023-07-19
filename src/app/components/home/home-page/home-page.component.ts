@@ -18,9 +18,10 @@ import { SessionService } from '../../../services/util/session.service';
 import { OnboardingService } from '../../../services/util/onboarding.service';
 import { NotificationService } from 'app/services/util/notification.service';
 import { LanguageService } from 'app/services/util/language.service';
-import { filter, ReplaySubject, Subject, take } from 'rxjs';
+import { filter, ReplaySubject, Subject, take, takeUntil } from 'rxjs';
 import { ThemeService } from '../../../../theme/theme.service';
 import { carousel } from './home-page-carousel';
+import { StandardDelta } from 'app/utils/quill-utils';
 
 export type CarouselEntryKind = 'highlight' | 'peek' | 'hidden';
 
@@ -38,6 +39,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
   listenerFn: () => void;
 
   accumulatedRatings: RatingResult;
+  viewContent: StandardDelta;
 
   protected carouselIndex: number = 0;
   protected readonly mobileBoundaryWidth = 600;
@@ -60,7 +62,24 @@ export class HomePageComponent implements OnInit, OnDestroy {
     public readonly languageService: LanguageService,
     public readonly themeService: ThemeService,
   ) {
-    themeService.getTheme().subscribe((x) => (this.currentTheme = x.key));
+    themeService
+      .getTheme()
+      .pipe(takeUntil(this._destroyer))
+      .subscribe((x) => (this.currentTheme = x.key));
+    languageService
+      .getLanguage()
+      .pipe(takeUntil(this._destroyer))
+      .subscribe((lang) => {
+        this.viewContent = {
+          ops: [
+            {
+              insert: {
+                'dsgvo-video': this.getVideoByLang(lang),
+              },
+            },
+          ],
+        };
+      });
     const arrowEventListener = (event: KeyboardEvent) => {
       if (!document.activeElement.hasAttribute('mat-menu-item')) {
         switch (event.key) {
@@ -324,5 +343,14 @@ export class HomePageComponent implements OnInit, OnDestroy {
     } else {
       this.carouselIndex = carouselIndex;
     }
+  }
+
+  private getVideoByLang(lang: string) {
+    if (lang === 'de') {
+      return 'https://www.youtube-nocookie.com/embed/de8UG1oeH30';
+    } else if (lang === 'fr') {
+      return 'https://www.youtube-nocookie.com/embed/Hn6UW3Lzjaw';
+    }
+    return 'https://www.youtube-nocookie.com/embed/Ownrdlb5e5Q';
   }
 }
