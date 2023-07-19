@@ -439,8 +439,8 @@
     "this-room": "Aus diesem Raum",
     "other-room": "Aus anderen Räumen",
     "last-used": "Zuletzt verwendet",
-    "last-message": "Letzte Nachricht",
-    "first-message": "Erste Nachricht",
+    "last-message": "Letzte Chat",
+    "first-message": "Erster Chat",
     "delete-element": "Löschen",
     "cancel": "Schließen"
   },
