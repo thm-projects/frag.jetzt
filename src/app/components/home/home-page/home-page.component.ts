@@ -21,7 +21,7 @@ import { LanguageService } from 'app/services/util/language.service';
 import { filter, ReplaySubject, Subject, take, takeUntil } from 'rxjs';
 import { ThemeService } from '../../../../theme/theme.service';
 import { carousel } from './home-page-carousel';
-import { StandardDelta } from 'app/utils/quill-utils';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 export type CarouselEntryKind = 'highlight' | 'peek' | 'hidden';
 
@@ -36,10 +36,12 @@ export type CarouselEntryKind = 'highlight' | 'peek' | 'hidden';
 export class HomePageComponent implements OnInit, OnDestroy {
   @ViewChild('carouselScrollElement')
   _carouselScrollElement: ElementRef<HTMLDivElement>;
+  @ViewChild('scaledIframe')
+  scaledIframe: ElementRef<HTMLIFrameElement>;
   listenerFn: () => void;
 
   accumulatedRatings: RatingResult;
-  viewContent: StandardDelta;
+  iframeSrc: SafeUrl;
   imageSrc: string;
   isAccepted = false;
 
@@ -63,6 +65,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
     private notificationService: NotificationService,
     public readonly languageService: LanguageService,
     public readonly themeService: ThemeService,
+    sanitizer: DomSanitizer,
   ) {
     themeService
       .getTheme()
@@ -74,19 +77,9 @@ export class HomePageComponent implements OnInit, OnDestroy {
       .subscribe((lang) => {
         this.isAccepted = false;
         this.imageSrc = this.getImageByLang(lang);
-        this.viewContent = {
-          ops: [
-            {
-              insert: {
-                'dsgvo-video': this.getVideoByLang(lang),
-              },
-            },
-          ],
-        };
-        this.eventService
-          .on('dsgvo.accept')
-          .pipe(takeUntil(this._destroyer), take(1))
-          .subscribe(() => (this.isAccepted = true));
+        this.iframeSrc = sanitizer.bypassSecurityTrustResourceUrl(
+          this.getVideoByLang(lang),
+        );
       });
     const arrowEventListener = (event: KeyboardEvent) => {
       if (!document.activeElement.hasAttribute('mat-menu-item')) {
@@ -152,6 +145,15 @@ export class HomePageComponent implements OnInit, OnDestroy {
         }
       }
     }
+  }
+
+  onResize() {
+    const style = this.scaledIframe?.nativeElement;
+    if (!style) {
+      return;
+    }
+    const height = (parseFloat(getComputedStyle(style).width) * 9) / 16;
+    style.height = height.toFixed(2) + 'px';
   }
 
   getForegroundStyleForEntry(i: number, offsetLeft: number) {

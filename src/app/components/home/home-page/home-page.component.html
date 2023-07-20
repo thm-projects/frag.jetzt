@@ -87,12 +87,20 @@
       </div>
       <div class="yt-video-wrapper">
         <img
+          (click)="isAccepted = true"
           *ngIf="!isAccepted"
           [src]="imageSrc"
           alt="" />
-        <app-view-comment-data
-          class="images"
-          [currentData]="viewContent"></app-view-comment-data>
+        <iframe
+          *ngIf="isAccepted"
+          (window:resize)="onResize()"
+          (load)="onResize()"
+          #scaledIframe
+          allowfullscreen
+          tabindex="0"
+          data-verified="true"
+          title=""
+          [src]="iframeSrc"></iframe>
       </div>
     </div>
     <div
