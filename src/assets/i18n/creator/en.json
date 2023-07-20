@@ -543,8 +543,8 @@
     "this-room": "From this room",
     "other-room": "From other rooms",
     "last-used": "Last used",
-    "last-message": "Last message",
-    "first-message": "First message",
+    "last-message": "Last chat",
+    "first-message": "First chat",
     "delete-element": "Delete",
     "cancel": "Close"
   },
