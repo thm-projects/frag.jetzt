@@ -40,6 +40,8 @@ export class HomePageComponent implements OnInit, OnDestroy {
 
   accumulatedRatings: RatingResult;
   viewContent: StandardDelta;
+  imageSrc: string;
+  isAccepted = false;
 
   protected carouselIndex: number = 0;
   protected readonly mobileBoundaryWidth = 600;
@@ -70,6 +72,8 @@ export class HomePageComponent implements OnInit, OnDestroy {
       .getLanguage()
       .pipe(takeUntil(this._destroyer))
       .subscribe((lang) => {
+        this.isAccepted = false;
+        this.imageSrc = this.getImageByLang(lang);
         this.viewContent = {
           ops: [
             {
@@ -79,6 +83,10 @@ export class HomePageComponent implements OnInit, OnDestroy {
             },
           ],
         };
+        this.eventService
+          .on('dsgvo.accept')
+          .pipe(takeUntil(this._destroyer), take(1))
+          .subscribe(() => (this.isAccepted = true));
       });
     const arrowEventListener = (event: KeyboardEvent) => {
       if (!document.activeElement.hasAttribute('mat-menu-item')) {
@@ -343,6 +351,15 @@ export class HomePageComponent implements OnInit, OnDestroy {
     } else {
       this.carouselIndex = carouselIndex;
     }
+  }
+
+  private getImageByLang(lang: string) {
+    if (lang === 'de') {
+      return '/assets/images/youtube-start_de.webp';
+    } else if (lang === 'fr') {
+      return '/assets/images/youtube-start_fr.webp';
+    }
+    return '/assets/images/youtube-start_en.webp';
   }
 
   private getVideoByLang(lang: string) {

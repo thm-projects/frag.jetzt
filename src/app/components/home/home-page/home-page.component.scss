@@ -16,6 +16,20 @@ $carousel-container-size: 450px;
   }
 }
 
+.yt-video-wrapper {
+  width: 100%;
+
+  > img {
+    max-width: calc(100% - 1em);
+    margin-inline: 0.5em;
+  }
+
+  > app-view-comment-data {
+    width: 100%;
+    display: inline-block;
+  }
+}
+
 .content {
   width: 100%;
 }
@@ -150,11 +164,11 @@ $carousel-container-size: 450px;
 
 .main-heading-secondary {
   display: block;
-  font-size: 56px;
+  font-size: 3.5em;
   font-weight: bold;
   color: var(--secondary);
   padding: 0;
-  margin: 0;
+  margin: 0.3em 0 0 0;
   line-height: 50px;
   letter-spacing: 2pt;
 }

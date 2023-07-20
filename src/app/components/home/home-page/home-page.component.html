@@ -85,7 +85,11 @@
         fxLayoutAlign="flex-start center">
         <app-new-landing></app-new-landing>
       </div>
-      <div>
+      <div class="yt-video-wrapper">
+        <img
+          *ngIf="!isAccepted"
+          [src]="imageSrc"
+          alt="" />
         <app-view-comment-data
           class="images"
           [currentData]="viewContent"></app-view-comment-data>
