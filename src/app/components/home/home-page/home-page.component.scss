@@ -6,6 +6,9 @@ $carousel-container-size: 450px;
 
 .book-room-container {
   width: 500px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  max-height: calc(100vh - 115px);
 
   @media (max-width: 1700px) {
     width: calc(100vw - 1600px + 500px);
@@ -13,27 +16,23 @@ $carousel-container-size: 450px;
   }
 }
 
-.side-overlay {
-  width: 50%;
-  height: 100%;
-  position: fixed;
-  left: 0;
-  background-color: var(--background);
-  //background-color: rgba(0, 0, 0, 0.2);
-  //box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05);
-  //backdrop-filter: blur(16px) saturate(1.1);
-  //
-  //&.arsnova,
-  //&.systemDefault {
-  //  background-color: rgba(255, 255, 255, 0.2);
-  //  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.03);
-  //}
+.yt-video-wrapper {
+  width: 100%;
+
+  > img {
+    max-width: calc(100% - 1em);
+    margin-inline: 0.5em;
+    cursor: pointer;
+  }
+
+  > app-view-comment-data {
+    width: 100%;
+    display: inline-block;
+  }
 }
 
 .content {
   width: 100%;
-  max-width: 1600px;
-  padding: 16px;
 }
 
 .content-container {
@@ -47,6 +46,7 @@ $carousel-container-size: 450px;
   .book-room-container {
     max-width: calc(100vw - $carousel-container-size - 64px - 16px);
     flex-shrink: 1;
+    align-items: center;
   }
 
   &.mobile {
@@ -165,11 +165,11 @@ $carousel-container-size: 450px;
 
 .main-heading-secondary {
   display: block;
-  font-size: 56px;
+  font-size: 3.5em;
   font-weight: bold;
   color: var(--secondary);
   padding: 0;
-  margin: 0;
+  margin: 0.3em 0 0 0;
   line-height: 50px;
   letter-spacing: 2pt;
 }

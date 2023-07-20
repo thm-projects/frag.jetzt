@@ -146,7 +146,7 @@ export class QuillUtils {
       );
     if (match && match[2].length === 11) {
       return [
-        'https://www.youtube-nocookie.com/embed/' + match[2] + '?showinfo=0',
+        'https://www.youtube-nocookie.com/embed/' + match[2],
         URLType.YOUTUBE,
       ];
     }
