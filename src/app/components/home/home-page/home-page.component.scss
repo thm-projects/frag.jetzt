@@ -22,6 +22,7 @@ $carousel-container-size: 450px;
   > img {
     max-width: calc(100% - 1em);
     margin-inline: 0.5em;
+    cursor: pointer;
   }
 
   > app-view-comment-data {
