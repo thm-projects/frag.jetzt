@@ -35,7 +35,6 @@ $carousel-container-size: 450px;
 
 .content {
   width: 100%;
-  max-width: 1600px;
   padding: 16px;
 }
 
@@ -50,6 +49,7 @@ $carousel-container-size: 450px;
   .book-room-container {
     max-width: calc(100vw - $carousel-container-size - 64px - 16px);
     flex-shrink: 1;
+    align-items: center;
   }
 
   &.mobile {
