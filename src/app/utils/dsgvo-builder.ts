@@ -1,5 +1,6 @@
 import { TranslateService } from '@ngx-translate/core';
 import { QuillUtils, URLType } from './quill-utils';
+import { EventService } from 'app/services/util/event.service';
 
 export enum DsgvoSource {
   Unknown,
@@ -34,7 +35,7 @@ export class DsgvoBuilder {
     messageId: string,
     translator: TranslateService,
     action: () => void,
-    isActionOnce = true
+    isActionOnce = true,
   ) {
     const article = document.createElement('article');
     article.contentEditable = 'false';
@@ -49,6 +50,7 @@ export class DsgvoBuilder {
       (e) => {
         e.preventDefault();
         e.stopImmediatePropagation();
+        EventService.instance.broadcast('dsgvo.accept', url);
         action();
       },
       { once: isActionOnce },
