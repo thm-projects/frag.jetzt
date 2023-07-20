@@ -23,7 +23,6 @@
   </div>
 </div>
 <div
-  class="side-overlay"
   *ngIf="
     contentContainer.offsetWidth > mobileBoundaryWidth &&
     contentContainer.offsetHeight > mobileBoundaryHeight
@@ -85,6 +84,25 @@
         fxLayoutGap="16px"
         fxLayoutAlign="flex-start center">
         <app-new-landing></app-new-landing>
+      </div>
+      <div class="yt-video-wrapper">
+        <img
+          style="border-radius: 15px"
+          (click)="isAccepted = true"
+          *ngIf="!isAccepted"
+          [src]="imageSrc"
+          alt="" />
+        <iframe
+          style="border-radius: 15px"
+          *ngIf="isAccepted"
+          (window:resize)="onResize()"
+          (load)="onResize()"
+          #scaledIframe
+          allowfullscreen
+          tabindex="0"
+          data-verified="true"
+          title=""
+          [src]="iframeSrc"></iframe>
       </div>
     </div>
     <div
