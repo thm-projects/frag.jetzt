@@ -26,9 +26,9 @@ export const carousel: {
       fr: 'Q&R avec ChatGPT',
     },
     description: {
-      en: "Let ChatGPT answer all your knowledge questions. Your prompt presets for your rooms on frag.jetzt ensure precise and personalized answers. A quick fact check, and you've saved yourself hours of work. Experience how AI makes you more efficient!",
-      de: 'Lass ChatGPT alle Wissensfragen beantworten. Deine Prompt-Vorgaben für deine Räume auf frag.jetzt sorgen für präzise und personalisierte Antworten. Ein kurzer Faktencheck und du hast dir viele Stunden Arbeit erspart. Erlebe, wie die KI dich effizienter macht!',
-      fr: "Laisse ChatGPT répondre à toutes les questions de connaissance. Tes directives de prompt pour tes salles sur frag.jetzt garantissent des réponses précises et personnalisées. Une vérification rapide des faits et tu t'es épargné de nombreuses heures de travail. Découvre comment l'IA te rend plus efficace !",
+      en: "Let ChatGPT-4 answer all knowledge questions. Your prompt presets, tailored to the topic of a room, provide accurate and personalized answers. A quick fact check and you've saved yourself hours of work. Experience how AI makes you more efficient!",
+      de: 'Lass ChatGPT-4 alle Wissensfragen beantworten. Deine Prompt-Vorgaben, die auf das Thema eines Raums zugeschnitten sind, sorgen für präzise und personalisierte Antworten. Ein kurzer Faktencheck und du hast dir viele Stunden Arbeit erspart. Erlebe, wie die KI dich effizienter macht!',
+      fr: "Laisse ChatGPT-4 répondre à toutes les questions de connaissance. Tes préconfigurations de prompt, adaptées au sujet d'une salle, fournissent des réponses précises et personnalisées. Une vérification rapide des faits et tu as économisé des heures de travail. Découvre comment l'IA te rend plus efficace !",
     },
     images: [
       {
@@ -136,9 +136,9 @@ export const carousel: {
       fr: "Apprends avec l'IA !",
     },
     description: {
-      en: 'As a student, you can create your own rooms and use all features of frag.jetzt. Ask ChatGPT questions about your courses and save the answers in the Q&A forum. Feed the bot your notes and let it create study materials: from flashcards to exam questions. You can even get quizzed by ChatGPT before an exam: Face the quiz duel with the AI!',
-      de: 'Als Student*in kannst du eigene Räume erstellen und alle Funktionen von frag.jetzt nutzen. Stelle ChatGPT Fragen zu deinen Kursen und speichere die Antworten im Q&A-Forum. Gib dem Bot deine Mitschrift und lass ihn daraus Lernmaterialien erstellen: von Lernkarten bis zu Prüfungsfragen. Du kannst dich sogar von ChatGPT vor einer Prüfung abfragen lassen: Stell dich dem Quizduell mit der KI!',
-      fr: "En tant qu'étudiant*e, tu peux créer tes propres salles et utiliser toutes les fonctionnalités de frag.jetzt. Pose des questions à ChatGPT sur tes cours et sauvegarde les réponses dans le forum Q&R. Donne au bot tes notes et laisse-le créer des supports d'étude : des flashcards aux questions d'examens. Tu peux même te faire interroger par ChatGPT avant un examen : Affronte l'IA dans un duel de quiz !",
+      en: 'As a student, you can create your own rooms and use all features of frag.jetzt. Create your own room per module. Ask ChatGPT questions about your lectures and save the answers in the Q&A forum. Feed the bot your notes and let it create study materials: from flashcards to exam questions. You can even get quizzed by ChatGPT before the exam: Face the quiz duel with the AI!',
+      de: 'Als Student*in kannst du eigene Räume erstellen und alle Funktionen von frag.jetzt nutzen. Erstelle pro Modul einen eigenen Raum. Stelle ChatGPT Fragen zu deinen Vorlesungen und speichere die Antworten im Q&A-Forum. Gib dem Bot deine Mitschrift und lass ihn daraus Lernmaterialien generieren: von Lernkarten bis zu Prüfungsfragen. Du kannst dich sogar von ChatGPT vor der Prüfung abfragen lassen: Stell dich dem Quizduell mit der KI!',
+      fr: "En tant qu'étudiant*e, tu peux créer tes propres salles et utiliser toutes les fonctionnalités de frag.jetzt. Crée une salle par module. Pose des questions à ChatGPT sur tes cours et sauvegarde les réponses dans le forum Q&R. Donne au bot tes notes et laisse-le créer des supports d'étude : des flashcards aux questions d'examens. Tu peux même te faire interroger par ChatGPT avant l'examen : Affronte l'IA dans un duel de quiz !",
     },
     images: [
       {
@@ -175,9 +175,9 @@ export const carousel: {
   },
   {
     title: {
-      en: 'Q&A Forum',
-      de: 'Q&A-Forum',
-      fr: 'Forum Q&R',
+      en: 'Q&A in Teaching',
+      de: 'Q&A in der Lehre',
+      fr: 'Q&R en classe',
     },
     description: {
       en: 'Everything is anonymous. Everyone can rate the posts of others, but only you in the moderator role can judge the quality: whether right, wrong or particularly good. DeepL takes care of the linguistic deficiencies. Fact check the AI answers and mark them accordingly.',
@@ -285,7 +285,7 @@ export const carousel: {
   },
   {
     title: {
-      en: 'Quiz rally',
+      en: 'Quiz Rally',
       de: 'Quiz-Rallye',
       fr: 'Rallye quiz',
     },
@@ -527,9 +527,9 @@ export const carousel: {
   },
   {
     title: {
-      en: 'The Price?',
-      de: 'Der Preis?',
-      fr: 'Le Prix ?',
+      en: 'Price? Nothing.',
+      de: 'Der Preis? Nichts.',
+      fr: 'Le Prix ? Rien.',
     },
     description: {
       en: "frag.jetzt is open source and offered as a free software-as-a-service. Each room has a ChatGPT credit: $5 from OpenAI or $20 from us if you participate in our study. In exchange, the chatbot generates millions of words! If that's not enough, you can continue with your own API key from OpenAI.",
