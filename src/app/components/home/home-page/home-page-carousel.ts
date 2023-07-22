@@ -27,7 +27,7 @@ export const carousel: {
     },
     description: {
       en: "Let ChatGPT-4 answer all knowledge questions. Your prompt presets, tailored to the topic of a room, provide accurate and personalized answers. A quick fact check and you've saved yourself hours of work. Experience how AI makes you more efficient!",
-      de: 'Lass ChatGPT-4 alle Wissensfragen beantworten. Deine Prompt-Vorgaben, die auf das Thema eines Raums zugeschnitten sind, sorgen für präzise und personalisierte Antworten. Ein kurzer Faktencheck und du hast dir viele Stunden Arbeit erspart. Erlebe, wie die KI dich effizienter macht!',
+      de: 'Lass ChatGPT-4 alle Wissensfragen beantworten. Deine Prompt-Vorgaben, die auf das Thema eines Raumes zugeschnitten sind, sorgen für präzise und personalisierte Antworten. Ein kurzer Faktencheck und du hast dir viele Stunden Arbeit erspart. Erlebe, wie die KI dich effizienter macht!',
       fr: "Laisse ChatGPT-4 répondre à toutes les questions de connaissance. Tes préconfigurations de prompt, adaptées au sujet d'une salle, fournissent des réponses précises et personnalisées. Une vérification rapide des faits et tu as économisé des heures de travail. Découvre comment l'IA te rend plus efficace !",
     },
     images: [
@@ -136,9 +136,9 @@ export const carousel: {
       fr: "Apprends avec l'IA !",
     },
     description: {
-      en: 'As a student, you can create your own rooms and use all features of frag.jetzt. Create your own room per module. Ask ChatGPT questions about your lectures and save the answers in the Q&A forum. Feed the bot your notes and let it create study materials: from flashcards to exam questions. You can even get quizzed by ChatGPT before the exam: Face the quiz duel with the AI!',
-      de: 'Als Student*in kannst du eigene Räume erstellen und alle Funktionen von frag.jetzt nutzen. Erstelle pro Modul einen eigenen Raum. Stelle ChatGPT Fragen zu deinen Vorlesungen und speichere die Antworten im Q&A-Forum. Gib dem Bot deine Mitschrift und lass ihn daraus Lernmaterialien generieren: von Lernkarten bis zu Prüfungsfragen. Du kannst dich sogar von ChatGPT vor der Prüfung abfragen lassen: Stell dich dem Quizduell mit der KI!',
-      fr: "En tant qu'étudiant*e, tu peux créer tes propres salles et utiliser toutes les fonctionnalités de frag.jetzt. Crée une salle par module. Pose des questions à ChatGPT sur tes cours et sauvegarde les réponses dans le forum Q&R. Donne au bot tes notes et laisse-le créer des supports d'étude : des flashcards aux questions d'examens. Tu peux même te faire interroger par ChatGPT avant l'examen : Affronte l'IA dans un duel de quiz !",
+      en: 'Create your own rooms: one room per module. Ask ChatGPT questions about your lectures and save the answers in the Q&A forum. Feed the bot your notes and let it create study materials: from flashcards to exam questions. You can even get quizzed by ChatGPT before the exam: Face the quiz duel with the AI!',
+      de: 'Erstelle eigene Räume: pro Modul einen eigenen Raum. Stelle ChatGPT Fragen zu deinen Vorlesungen und speichere die Antworten im Q&A-Forum. Gib dem Bot deine Mitschrift und lass ihn daraus Lernmaterialien generieren: von Lernkarten bis zu Prüfungsfragen. Du kannst dich sogar von ChatGPT vor der Prüfung abfragen lassen: Stell dich dem Quizduell mit der KI!',
+      fr: "Crée tes propres salles : une salle par module. Pose des questions à ChatGPT sur tes cours et sauvegarde les réponses dans le forum Q&R. Donne au bot tes notes et laisse-le créer des supports d'étude : des flashcards aux questions d'examens. Tu peux même te faire interroger par ChatGPT avant l'examen : Affronte l'IA dans un duel de quiz !",
     },
     images: [
       {
@@ -542,6 +542,28 @@ export const carousel: {
         override: {
           default: {
             'background-size': '70%',
+          },
+        },
+      },
+    ],
+  },
+  {
+    title: {
+      en: 'All inclusive',
+      de: 'All inclusive',
+      fr: 'Tout compris',
+    },
+    description: {
+      en: "On our platform, you'll find everything you need: learning rooms, coaching zones, discussion forums, chats with others and the AI, and so much more. Are you a teacher? Perfect! Distribute the key code in your course. Are you a student looking for a digital room just for you? We've got that too. Quantity and size of the rooms? Unlimited! Welcome to us! Digital, flexible, all inclusive.",
+      de: 'Auf unserer Plattform findest du alles, was du brauchst: Lernräume, Coaching-Zonen, Diskussionsforen, Chats mit anderen und der KI, und vieles mehr. Du bist Lehrkraft? Perfekt! Teile den Raum-Code in deinem Kurs. Du studierst und suchst nach einem digitalen Raum nur für dich? Das geht auch. Anzahl und Größe der Räume? Unbegrenzt! Willkommen bei uns! Digital, flexibel, all inclusive.',
+      fr: "Sur notre plateforme, tu trouveras tout ce dont tu as besoin : des salles d'étude, des zones de coaching, des forums de discussion, des chats avec d'autres personnes et l'IA, et bien plus encore. Tu es enseignant ? Parfait ! Partage le code de salle dans ton cours. Tu es étudiant à la recherche d'une salle numérique juste pour toi ? Nous avons ça aussi. Quantité et taille des salles ? Illimitées ! Bienvenue chez nous ! Numérique, flexible, tous compris.",
+    },
+    images: [
+      {
+        url: 'url("/assets/background/all-inclusive.svg")',
+        override: {
+          default: {
+            backgroundSize: '120%',
           },
         },
       },
