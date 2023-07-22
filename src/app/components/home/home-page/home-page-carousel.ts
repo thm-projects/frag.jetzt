@@ -136,9 +136,9 @@ export const carousel: {
       fr: "Apprends avec l'IA !",
     },
     description: {
-      en: 'Create your own rooms: one room per module. Ask ChatGPT questions about your lectures and save the answers in the Q&A forum. Feed the bot your notes and let it create study materials: from flashcards to exam questions. You can even get quizzed by ChatGPT before the exam: Face the quiz duel with the AI!',
-      de: 'Erstelle eigene Räume: pro Modul einen eigenen Raum. Stelle ChatGPT Fragen zu deinen Vorlesungen und speichere die Antworten im Q&A-Forum. Gib dem Bot deine Mitschrift und lass ihn daraus Lernmaterialien generieren: von Lernkarten bis zu Prüfungsfragen. Du kannst dich sogar von ChatGPT vor der Prüfung abfragen lassen: Stell dich dem Quizduell mit der KI!',
-      fr: "Crée tes propres salles : une salle par module. Pose des questions à ChatGPT sur tes cours et sauvegarde les réponses dans le forum Q&R. Donne au bot tes notes et laisse-le créer des supports d'étude : des flashcards aux questions d'examens. Tu peux même te faire interroger par ChatGPT avant l'examen : Affronte l'IA dans un duel de quiz !",
+      en: 'Create your own rooms: one room per module. Ask ChatGPT questions about your lectures and save the answers in the Q&A forum. Feed the bot your notes and let it create study materials: from flashcards to exam questions. Get quizzed by ChatGPT before the exam: face the quiz duel with the AI!',
+      de: 'Erstelle eigene Räume: pro Modul einen eigenen Raum. Stelle ChatGPT Fragen zu deinen Vorlesungen und speichere die Antworten im Q&A-Forum. Gib dem Bot deine Mitschrift und lass ihn daraus Lernmaterialien generieren: von Lernkarten bis zu Prüfungsfragen. Lass dich vor der Prüfung von ChatGPT abfragen: Stell dich dem Quiz-Duell mit der KI!',
+      fr: "Crée tes propres salles : une salle par module. Pose des questions à ChatGPT sur tes cours et sauvegarde les réponses dans le forum Q&R. Donne au bot tes notes et laisse-le créer des supports d'étude : des flashcards aux questions d'examens. Laisse-toi interroger par ChatGPT avant de passer l'examen : affronte l'IA dans un duel de quiz !",
     },
     images: [
       {
