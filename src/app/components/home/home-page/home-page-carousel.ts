@@ -175,21 +175,21 @@ export const carousel: {
   },
   {
     title: {
-      en: 'Q&A in Teaching',
-      de: 'Q&A in der Lehre',
-      fr: 'Q&R en classe',
+      en: 'ARSnova',
+      de: 'ARSnova',
+      fr: 'ARSnova',
     },
     description: {
-      en: 'Everything is anonymous. Everyone can rate the posts of others, but only you in the moderator role can judge the quality: whether right, wrong or particularly good. DeepL takes care of the linguistic deficiencies. Fact check the AI answers and mark them accordingly.',
-      de: 'Alles ist anonym. Alle können die Posts der anderen bewerten, aber nur du in der Moderatorenrolle kannst die Qualität beurteilen: ob richtig, falsch oder besonders gut. DeepL kümmert sich um die sprachlichen Mängel. Unterziehe die KI-Antworten einem Faktencheck und kennzeichne sie entsprechend.',
-      fr: "Tout est anonyme. Tout le monde peut évaluer les posts des autres, mais toi seul, dans ton rôle de modérateur, peux juger de leur qualité : s'ils sont justes, faux ou particulièrement bons. DeepL s'occupe des défauts linguistiques. Soumets les réponses de l'IA à un contrôle des faits et signale-les en conséquence.",
+      en: "frag.jetzt is a novelty in three ways among Audience Response Systems: 1. Everyone can rate all questions to signal a collective interest in the answer. 2. Moderators can evaluate the quality of posts: whether they're right, wrong, or particularly good. And 3. the chatbot can take over and answer all comprehension questions. But don't forget to also subject the AI's responses to a fact-check and label them accordingly.",
+      de: 'frag.jetzt ist in drei Punkten ein Novum unter den Audience Response Systemen: 1. Alle können alle Fragen bewerten, um ein kollektives Interesse an der Beantwortung zu signalisieren. 2. Tutor*innen können die Qualität der Posts bewerten: ob richtig, falsch oder besonders gut. Und 3. kann der Chatbot die Arbeit übernehmen und alle Verständnisfragen beantworten. Unterziehe aber auch die Antworten des KI-Tutors einem Faktencheck und kennzeichne sie entsprechend.',
+      fr: "frag.jetzt est une nouveauté à trois égards parmi les Audience Response Systems : 1. Tout le monde peut évaluer toutes les questions pour signaler un intérêt collectif dans la réponse. 2. Les modérateurs peuvent évaluer la qualité des posts : s'ils sont corrects, incorrects ou particulièrement bons. Et 3. le chatbot peut prendre le relais et répondre à toutes les questions de compréhension. Mais n'oublie pas de soumettre également les réponses de l'IA à une vérification des faits et de les marquer en conséquence.",
     },
     images: [
       {
-        url: 'url("/assets/background/forum.svg")',
+        url: 'url("/assets/background/supernova.svg")',
         override: {
           default: {
-            backgroundSize: '80%',
+            backgroundSize: '90%',
           },
         },
       },
