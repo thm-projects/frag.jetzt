@@ -26,9 +26,9 @@ export const carousel: {
       fr: 'Q&R avec ChatGPT',
     },
     description: {
-      en: "Let ChatGPT-4 answer all knowledge questions. Your prompt presets, tailored to the topic of a room, provide accurate and personalized answers. A quick fact check and you've saved yourself hours of work. Experience how AI makes you more efficient!",
-      de: 'Lass ChatGPT-4 alle Wissensfragen beantworten. Deine Prompt-Vorgaben, die auf das Thema eines Raumes zugeschnitten sind, sorgen für präzise und personalisierte Antworten. Ein kurzer Faktencheck und du hast dir viele Stunden Arbeit erspart. Erlebe, wie die KI dich effizienter macht!',
-      fr: "Laisse ChatGPT-4 répondre à toutes les questions de connaissance. Tes préconfigurations de prompt, adaptées au sujet d'une salle, fournissent des réponses précises et personnalisées. Une vérification rapide des faits et tu as économisé des heures de travail. Découvre comment l'IA te rend plus efficace !",
+      en: "Let ChatGPT-4 answer all knowledge questions. Your prompt presets, by which you narrow down the topic of a room, provide accurate and personalized answers. A quick fact check and you've saved yourself hours of work. Experience how AI makes you more efficient!",
+      de: 'Lass ChatGPT-4 alle Wissensfragen beantworten. Deine Prompt-Vorgaben, mit denen du das Thema eines Raumes eingrenzt, sorgen für präzise und personalisierte Antworten. Ein kurzer Faktencheck und du hast dir viele Stunden Arbeit erspart. Erlebe, wie die KI dich effizienter macht!',
+      fr: "Laisse ChatGPT-4 répondre à toutes les questions de connaissance. Tes préconfigurations de prompt, qui te permettent de délimiter le thème d'une salle, fournissent des réponses précises et personnalisées. Une vérification rapide des faits et tu as économisé des heures de travail. Découvre comment l'IA te rend plus efficace !",
     },
     images: [
       {
@@ -136,9 +136,9 @@ export const carousel: {
       fr: "Apprends avec l'IA !",
     },
     description: {
-      en: 'Create your own rooms: one room per module. Ask ChatGPT questions about your lectures and save the answers in the Q&A forum. Feed the bot your notes and let it create study materials: from flashcards to exam questions. You can even get quizzed by ChatGPT before the exam: Face the quiz duel with the AI!',
-      de: 'Erstelle eigene Räume: pro Modul einen eigenen Raum. Stelle ChatGPT Fragen zu deinen Vorlesungen und speichere die Antworten im Q&A-Forum. Gib dem Bot deine Mitschrift und lass ihn daraus Lernmaterialien generieren: von Lernkarten bis zu Prüfungsfragen. Du kannst dich sogar von ChatGPT vor der Prüfung abfragen lassen: Stell dich dem Quizduell mit der KI!',
-      fr: "Crée tes propres salles : une salle par module. Pose des questions à ChatGPT sur tes cours et sauvegarde les réponses dans le forum Q&R. Donne au bot tes notes et laisse-le créer des supports d'étude : des flashcards aux questions d'examens. Tu peux même te faire interroger par ChatGPT avant l'examen : Affronte l'IA dans un duel de quiz !",
+      en: 'Create your own rooms: one room per module. Ask ChatGPT questions about your lectures and save the answers in the Q&A forum. Feed the bot your notes and let it create study materials: from flashcards to exam questions. Get quizzed by ChatGPT before the exam: face the quiz duel with the AI!',
+      de: 'Erstelle eigene Räume: pro Modul einen eigenen Raum. Stelle ChatGPT Fragen zu deinen Vorlesungen und speichere die Antworten im Q&A-Forum. Gib dem Bot deine Mitschrift und lass ihn daraus Lernmaterialien generieren: von Lernkarten bis zu Prüfungsfragen. Lass dich vor der Prüfung von ChatGPT abfragen: Stell dich dem Quiz-Duell mit der KI!',
+      fr: "Crée tes propres salles : une salle par module. Pose des questions à ChatGPT sur tes cours et sauvegarde les réponses dans le forum Q&R. Donne au bot tes notes et laisse-le créer des supports d'étude : des flashcards aux questions d'examens. Laisse-toi interroger par ChatGPT avant de passer l'examen : affronte l'IA dans un duel de quiz !",
     },
     images: [
       {
@@ -175,21 +175,21 @@ export const carousel: {
   },
   {
     title: {
-      en: 'Q&A in Teaching',
-      de: 'Q&A in der Lehre',
-      fr: 'Q&R en classe',
+      en: 'ARSnova 2.0',
+      de: 'ARSnova 2.0',
+      fr: 'ARSnova 2.0',
     },
     description: {
-      en: 'Everything is anonymous. Everyone can rate the posts of others, but only you in the moderator role can judge the quality: whether right, wrong or particularly good. DeepL takes care of the linguistic deficiencies. Fact check the AI answers and mark them accordingly.',
-      de: 'Alles ist anonym. Alle können die Posts der anderen bewerten, aber nur du in der Moderatorenrolle kannst die Qualität beurteilen: ob richtig, falsch oder besonders gut. DeepL kümmert sich um die sprachlichen Mängel. Unterziehe die KI-Antworten einem Faktencheck und kennzeichne sie entsprechend.',
-      fr: "Tout est anonyme. Tout le monde peut évaluer les posts des autres, mais toi seul, dans ton rôle de modérateur, peux juger de leur qualité : s'ils sont justes, faux ou particulièrement bons. DeepL s'occupe des défauts linguistiques. Soumets les réponses de l'IA à un contrôle des faits et signale-les en conséquence.",
+      en: 'frag.jetzt is the new ARSnova and a novelty among audience response systems in three respects: 1. everyone can rate all questions to signal a collective interest in answering them. 2. tutors can rate the quality of the posts: right, wrong or especially good. And 3. ChatGPT can provide individualized feedback as an AI tutor and patiently answer all comprehension questions.',
+      de: 'frag.jetzt ist das neue ARSnova und in drei Punkten ein Novum unter den Audience Response Systemen: 1. Alle können alle Fragen bewerten, um ein kollektives Interesse an der Beantwortung zu signalisieren. 2. Tutor*innen können die Qualität der Posts bewerten: ob richtig, falsch oder besonders gut. Und 3. kann ChatGPT als KI-Tutor individualisiertes Feedback geben und alle Verständnisfragen geduldig beantworten.',
+      fr: "frag.jetzt est le nouvel ARSnova et constitue une nouveauté parmi les systèmes de réponse de l'audience sur trois points : 1. tout le monde peut évaluer toutes les questions afin de signaler un intérêt collectif à y répondre. 2. les tuteurs peuvent évaluer la qualité des posts : s'ils sont corrects, incorrects ou particulièrement bons. Et 3. ChatGPT peut, en tant que tuteur IA, donner un feedback individualisé et répondre patiemment à toutes les questions de compréhension.",
     },
     images: [
       {
-        url: 'url("/assets/background/forum.svg")',
+        url: 'url("/assets/background/supernova.svg")',
         override: {
           default: {
-            backgroundSize: '80%',
+            backgroundSize: '90%',
           },
         },
       },
@@ -444,9 +444,9 @@ export const carousel: {
       fr: 'Teste frag.jetzt !',
     },
     description: {
-      en: 'Discover our experimental room and immerse yourself in the new world of audience-response systems! Enter the key code »Feedback«. Explore all features of our platform with ChatGPT, your personal AI tutor. Experiment with realistic data and use cases. Share your feedback, ask us your questions.',
-      de: 'Entdecke unseren Experimentierraum und tauche ein in die neue Welt der Audience-Response-Systeme! Gib den Raum-Code »Feedback« ein. Erkunde alle Funktionen unserer Plattform mit ChatGPT, deinem persönlichen KI-Tutor. Experimentiere mit realistischen Daten und Use Cases. Teile dein Feedback, stelle uns deine Fragen.',
-      fr: "Découvre notre salle d'expérimentation et plonge-toi dans le monde novateur des systèmes de réponse de l'auditoire! Saisis le code de salle « Feedback ». Explore toutes les fonctionnalités de notre plateforme avec ChatGPT, ton tuteur AI personnel. Expérimente avec des données réalistes et des cas d'utilisation. Partage tes commentaires, pose-nous tes questions.",
+      en: 'Discover our experimental room and immerse yourself in the new world of audience-response systems! Enter the key code »Feedback«. Explore all features of our platform and chat with ChatGPT, your personal AI tutor. Experiment with realistic data and use cases. Share your feedback, ask us your questions.',
+      de: 'Entdecke unseren Experimentierraum und tauche ein in die neue Welt der Audience-Response-Systeme! Gib den Raum-Code »Feedback« ein. Erkunde alle Funktionen unserer Plattform und chatte mit ChatGPT, deinem persönlichen KI-Tutor. Experimentiere mit realistischen Daten und Use Cases. Teile dein Feedback, stelle uns deine Fragen.',
+      fr: "Découvre notre salle d'expérimentation et plonge-toi dans le monde novateur des systèmes de réponse de l'auditoire! Saisis le code de salle « Feedback ». Explore toutes les fonctionnalités de notre plateforme et chatte avec ChatGPT, ton tuteur AI personnel. Expérimente avec des données réalistes et des cas d'utilisation. Partage tes commentaires, pose-nous tes questions.",
     },
     images: [
       {
