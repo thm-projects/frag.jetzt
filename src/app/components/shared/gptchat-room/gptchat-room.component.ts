@@ -143,7 +143,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
   searchTerm: string = '';
   answeringComment = false;
   answeringWriteComment = false;
-  model: ChatCompletionRequest['model'] = 'gpt-4';
+  model: ChatCompletionRequest['model'] = 'gpt-3.5-turbo';
   temperatureOptions: { key: string; value: number; text: SelectComponents }[] =
     [
       {
