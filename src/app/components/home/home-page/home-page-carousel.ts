@@ -549,6 +549,28 @@ export const carousel: {
   },
   {
     title: {
+      en: 'Token credit',
+      de: 'Token-Guthaben',
+      fr: 'Crédit en tokens',
+    },
+    description: {
+      en: 'Optimize the cost of the OpenAI API by using GPT-3.5 Turbo (500,000 words per dollar). Use our quota management for individual token limits per month, day, time slot and user role. Benefit from OpenAI credit ($5 for three months). Additionally, you can participate in our study and receive a $20 monthly bonus. Constantly check your quota settings and adjust them if necessary to use your credit efficiently.',
+      de: 'Optimiere die Kosten der OpenAI API durch die Verwendung von GPT-3.5 Turbo (500.000 Wörter pro Dollar). Nutze unser Kontingentmanagement für individuelle Token-Limits pro Monat, Tag, Zeitfenster und Benutzerrolle. Profitiere vom OpenAI-Guthaben (5 Dollar für drei Monate). Zusätzlich kannst du an unserer Studie teilnehmen und einen monatlichen Bonus von 20 Dollar erhalten. Überprüfe ständig deine Quota-Einstellungen und passe sie bei Bedarf an, um dein Guthaben effizient zu nutzen.',
+      fr: "Optimise le coût de l'API OpenAI en utilisant GPT-3.5 Turbo (500 000 mots par dollar). Utilise notre gestion des quotas pour des limites de jetons individuelles par mois, par jour, par tranche horaire et par rôle d'utilisateur. Bénéficie du crédit OpenAI (5 dollars pendant trois mois). En plus, tu peux participer à notre étude et recevoir une prime mensuelle de 20 dollars. Vérifie en permanence tes paramètres de quotas et ajuste-les si nécessaire pour utiliser ton crédit de manière efficace.",
+    },
+    images: [
+      {
+        url: 'url("/assets/background/traffic-light.svg")',
+        override: {
+          default: {
+            'background-size': '70%',
+          },
+        },
+      },
+    ],
+  },
+  {
+    title: {
       en: 'All inclusive',
       de: 'All inclusive',
       fr: 'Tout compris',
