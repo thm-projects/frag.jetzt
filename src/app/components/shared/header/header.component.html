@@ -41,7 +41,11 @@
         [stepPosition]="'bottom'"
         appJoyrideTemplate
         [matTooltip]="'header.chat-gpt-button' | translate"
-        *ngIf="!router.url.endsWith('/gpt-chat-room') && isInRouteWithRoles"
+        *ngIf="
+          !router.url.endsWith('/gpt-chat-room') &&
+          isInRouteWithRoles &&
+          !router.url.endsWith('/brainstorming')
+        "
         (click)="openGPT()">
         <span
           class="chatgpt-robot-icon"
@@ -53,6 +57,7 @@
 
       <button
         mat-flat-button
+<<<<<<< src/app/components/shared/header/header.component.html
         routerLink="/donation"
         tabindex="0"
         [matTooltip]="'header.donation-button' | translate"
@@ -64,6 +69,25 @@
         </mat-icon>
         <span *ngIf="!showSmallButtons && deviceInfo.isCurrentlyDesktop">
           {{ "header.donation" | translate }}
+>>>>>>> src/app/components/shared/header/header.component.html
+        </span>
+      </button>
+
+      <button>
+        mat-flat-button
+        tabindex="0"
+        [matTooltip]="'header.chat-gpt-button' | translate"
+        *ngIf="
+          router.url.endsWith('/brainstorming') &&
+          room?.brainstormingSession?.active &&
+          userRole > 0
+        "
+        (click)="openBrainstormingGPT()">
+        <span
+          class="chatgpt-robot-icon"
+          style="transform: scale(1.2); margin-right: 5px"></span>
+        <span *ngIf="!showSmallButtons && deviceInfo.isCurrentlyDesktop">
+          {{ "header.gpt-brainstorming" | translate }}
         </span>
       </button>
 
@@ -79,7 +103,9 @@
         <mat-icon
           class="material-icons header-icons material-icons-filled"
           style="transform: scale(1.2); margin-right: 5px">
-          assignment
+<<<<<<< src/app/components/shared/header/header.component.html
+          terminal
+>>>>>>> src/app/components/shared/header/header.component.html
         </mat-icon>
         <span *ngIf="!showSmallButtons && deviceInfo.isCurrentlyDesktop">
           {{ "header.gpt-prompts" | translate }}

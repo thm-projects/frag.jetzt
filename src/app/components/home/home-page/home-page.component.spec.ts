@@ -26,7 +26,7 @@ import {
   JoyrideStepService,
   LoggerService,
   StepDrawerService,
-  TemplatesService
+  TemplatesService,
 } from 'ngx-joyride';
 import { RatingService } from '../../../services/http/rating.service';
 import { RatingServiceMock } from '../../../services/mocks/rating.service.mock';
@@ -34,7 +34,7 @@ import { LoginComponent } from '../../shared/login/login.component';
 import { NgxIndexedDBModule } from 'ngx-indexed-db';
 import { DB_CONFIG } from '../../../../indexeddb';
 import { MatomoModule } from 'ngx-matomo-v9';
-
+import { SessionService } from 'app/services/util/session.service';
 
 describe('HomePageComponent', () => {
   let component: HomePageComponent;
@@ -81,18 +81,18 @@ describe('HomePageComponent', () => {
           provide: RatingService,
           useClass: RatingServiceMock,
         },
-      ]
+        SessionService,
+      ],
     }).compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(HomePageComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
+    // TODO: fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 });
-

@@ -7,8 +7,8 @@
     "pop-up-4-stars": "3,5 - 4 Sterne",
     "pop-up-5-stars": "4,5 - 5 Sterne",
     "pop-up-from-5": "{{rating}} von 5",
-    "pop-up-global-people": "{{people}} Bewertungen | Bewerten kann nur, wer einen Raum besucht und eine Frage gestellt hat. Bitte gib uns auch detailliertes Feedback, um die App zu verbessern. Unter »Navigation« wähle »Meine Räume«, um die App zu bewerten.",
-    "pop-up-link": "Zum »Feedback«-Raum",
+    "pop-up-global-people": "{{people}} Bewertungen",
+    "pop-up-link": "Zum Feedback-Raum",
     "retry": "Dies ist deine alte Bewertung. Gib eine neue ein.",
     "save": "Speichern",
     "success": "Vielen Dank für deine Bewertung! Du möchtest dich mit den Entwicklern über Bugs und neue Features unterhalten? Dann besuche unseren »Feedback«-Raum.",
@@ -102,7 +102,7 @@
     "cancel-description": "Lehnt die Verwendung der Web-Storage-Technik ab und sperrt die Anwendung",
     "data-protection": "Datenschutzerklärung",
     "info-label": "Öffnet ein Dialogfenster mit der Datenschutzerklärung zu frag.jetzt",
-    "title": "Willkommen!"
+    "title": "Willkommen auf »frag.jetzt«!"
   },
   "data-protection": {
     "cancel": "Ablehnen",
@@ -151,7 +151,7 @@
     "user-bonus": "## Bonus \n\nDie Lehrperson kann »gute« Fragen für einen Bonus markieren. Deine Fragen aus allen Kursen (Räumen), die einen Stern erhalten haben, werden hier aufgelistet.\n\nJe nach Vereinbarung kannst du den Bonuscode per E-Mail an die Lehrperson schicken, um ihn gegen einen Bonus einzulösen."
   },
   "footer": {
-    "performance-indicator": "Grün = geringe Server-Auslastung \nGelb = normale Server-Auslastung \nRot = kritische Server-Auslastung",
+    "performance-indicator": "Grün = geringe Server-Auslastung \nGelb = normale Server-Auslastung \nRot = kritische Server-Auslastung \n\nKlick, um Details zu erfahren!",
     "introduction-button": "Worum geht es hier?",
     "display-button": "Designauswahl",
     "language-button": "Sprachauswahl",
@@ -181,7 +181,7 @@
     "motd-title-new": "Aktuell",
     "motd-title-old": "Archiv",
     "open": "Offen",
-    "style": "Designauswahl"
+    "style": "Design"
   },
   "header": {
     "livepoll": "Blitzumfrage",
@@ -239,10 +239,10 @@
     "prompt-guide": "Prompt Guide",
     "prompt-explanation": "Was sind Prompts?",
     "preset-context": "Kontext",
-    "preset-role-instruction": "Rollen Instruktion",
+    "preset-role-instruction": "Rollenanweisung",
     "preset-topic": "Themen",
     "preset-length": "Länge",
-    "gpt-feedback": "Dein Feedback",
+    "gpt-feedback": "Dein Feedback zu ChatGPT",
     "chat-answer-format": "Antwortformat",
     "delete": "Ja",
     "delete-account": "Konto löschen",
@@ -257,7 +257,7 @@
     "export-questions": "Q&A exportieren",
     "fullscreen": "Vollbild & Textgröße",
     "guest-account-tooltip": "Du bist als Gast eingeloggt. Als Gast kannst du nur Räume ohne ChatGPT-Nutzung einrichten. Beachte: Deine Räume sind an diesen Browser gebunden. Als registrierter User kannst du deine ChatGPT-Räume in jedem beliebigen Browser öffnen. Denk daran, dass die Räume nach 180 Tagen Inaktivität automatisch gelöscht werden.",
-    "home-header": "Fragen sammeln ➧ bewerten ➧ präsentieren ➧ mit KI beantworten",
+    "home-header": "Du fragst. ChatGPT antwortet.",
     "home-header-mobile": "Q&A live mit KI",
     "id": "Code",
     "import-questions": "Q&A importieren",
@@ -269,6 +269,7 @@
     "moderation-warning": "Moderationsboard mit nicht freigegebenen Fragen",
     "moderationboard": "Moderation",
     "motd": "News",
+    "feedback": "Feedback-Raum",
     "my-account": "Optionen",
     "chatroom-options-menu": "Prompt-Vorgaben",
     "my-sessions": "Meine Räume",
@@ -316,7 +317,8 @@
     "zoom-minus": "Text verkleinern",
     "zoom-plus": "Text vergrößern",
     "zoom-reset": "Zoomstufe zurücksetzen",
-    "gpt-chat": "Frag ChatGPT",
+    "gpt-chat": "Chatte mit ChatGPT!",
+    "gpt-brainstorming": "Lass ChatGPT brainstormen!",
     "gpt-privacy-policy": "ChatGPT-Datenschutzrichtlinie",
     "gpt-prompts": "Meine ChatGPT-Prompts",
     "donation": "Eine Spende machen",
@@ -336,15 +338,15 @@
     "cancel": "Schließen",
     "install": "Installieren",
     "title": "Neue Version",
-    "description": "Eine neue Version steht zur Installation bereit.<br><br>Du kannst deine Arbeit noch beenden und den Dialog schließen. Wenn Probleme auftreten, lade die Seite neu."
+    "description": "Eine neue Version ist fertig.<br><br>Du kannst deine Arbeit noch beenden und den Dialog schließen. Wenn Probleme auftreten, lade die Seite neu."
   },
   "home-page": {
     "gpt-topic-general": "Allgemein",
     "accessibility-create": "Erstellt eine neue Sitzung.",
     "accessibility-join-button": "Betritt die Sitzung, deren Code du eingegeben hast.",
     "accessibility-join-input": "Hier kannst du den Namen der Sitzung eingeben der du beitreten möchtest. Den Namen sagt dir die Sitzungsleitung.",
-    "app-rating": "App neu bewerten",
-    "create-session": "Raum buchen",
+    "app-rating": "App bewerten",
+    "create-session": "Raum erstellen",
     "created": "Der Raum für die Sitzung »{{longRoomName}}« wurde gebucht.",
     "custom-shortid": "Raum-Code generieren lassen",
     "custom-shortid-placeholder": "Raum-Code aus: a-z A-Z 0-9 - _ ~ .",
@@ -384,12 +386,13 @@
     "moderation-title": "Use Cases der Moderation",
     "room-list-title": "Use Cases der Raumliste",
     "room-page-title": "Use Cases des Raums",
-    "prompt-guide-chatbot": "Effektiv kommunizieren mit ChatGPT"
+    "prompt-guide-chatbot": "Effektiv kommunizieren mit ChatGPT",
+    "tooltip-button": "Wie schreibe ich gute Prompts?"
   },
   "joyride": {
     "cantAccessRoute": "Diese Route ist nicht verfügbar. Die Tour wird abgebrochen.",
-    "createRoom": "Jeder kann einen Raum für eine Veranstaltung buchen. Der Zugangscode wird entweder generiert oder du bestimmst ihn selbst. Bedenke, ohne Registrierung existiert der Raum mit allen Daten nur in diesem Browser.",
-    "createRoomTitle": "Raum buchen",
+    "createRoom": "Jeder kann einen Raum für eine Veranstaltung erstellen. Der Zugangscode wird entweder generiert oder du bestimmst ihn selbst. Bedenke, ohne Registrierung existiert der Raum mit allen Daten nur in diesem Browser.",
+    "createRoomTitle": "Raum erstellen",
     "dashboard": "Hier befindet sich das Menü für die Live-Nachrichten",
     "dashboardTitle": "Live-Nachrichten",
     "done": "Fertig",
@@ -397,7 +400,7 @@
     "feedbackLinkTitle": "Raum für Feedback",
     "greeting": "Wir führen dich zu den wichtigsten Stellen in unserer Q&A-App »frag.jetzt«. Die Tour dauert nur wenige Minuten. In der App informieren dich die Tooltips der Buttons und Icons über deren Funktion.",
     "greetingTitle": "Onboarding",
-    "introduction": "Wenn du eigene Räume buchen möchtest, informiere dich hier über das didaktische Konzept, die Eigenschaften und die Einsatzszenarien der App. In der App findest du an dieser Stelle ein kurzes Video-Tutorial über die Use-Cases der aktuellen Seite.",
+    "introduction": "Wenn du eigene Räume erstellen möchtest, informiere dich hier über das didaktische Konzept, die Eigenschaften und die Einsatzszenarien der App. In der App findest du an dieser Stelle ein kurzes Video-Tutorial über die Use-Cases der aktuellen Seite.",
     "introductionTitle": "Einführung in »frag.jetzt«",
     "loginButtonHeader": "Nein, es sei denn du willst deine besuchten oder selbst erstellten Räume auf unserem Server speichern. Ein Konto ist auch für die Verwaltung von Bonuspunkten ratsam.",
     "loginButtonHeaderTitle": "Muss ich mich anmelden?",
@@ -408,9 +411,9 @@
     "roomJoin": "Gib hier den Zugangscode für den Raum ein, um an der Veranstaltung teilzunehmen.",
     "roomJoinTitle": "Veranstaltung besuchen",
     "step": "{{step}} / {{total}}",
-    "chatGPT": "Mit ChatGPT kannst du bei einem gegebenen Kontext meist effektiv Fragen beantworten und einen Einblick in neue Themen bekommen. Er ist der erste Gesprächspartner für Fragen in der Lehre.",
+    "chatGPT": "Hier steht dir der Chatbot wie auf der Website von OpenAI zur Verfügung, aber wesentlich performanter und zuverlässiger, da er über die API von OpenAI aufgerufen wird.",
     "chatGPTTitle": "Mit ChatGPT arbeiten",
-    "navigationButton": "Mit der Navigation kannst du fast alle Aktionen im derzeitigen Kontext sehen.",
+    "navigationButton": "Die Navigation ist auf allen Seiten verfügbar. Hier kannst du zu allen Features der Plattform wechseln.",
     "navigationButtonTitle": "Navigation in der App"
   },
   "login": {
@@ -592,7 +595,7 @@
   "room-create": {
     "cancel": "Abbrechen",
     "cancel-description": "Abbrechen",
-    "create-room": "Raum buchen",
+    "create-room": "Raum erstellen",
     "create-room-description": "Neue Sitzung."
   },
   "room-export": {
@@ -890,7 +893,7 @@
   },
   "gptchat-info": {
     "title": "ChatGPT",
-    "content": "ChatGPT ist nur in Räumen verfügbar, die von einem registrierten User erstellt wurden. Dieser Raum wurde von einem Gast erstellt. Erstelle selbst einen Raum, um ChatGPT zu nutzen.\n\nSo einfach geht's in nur zwei Schritten:\n\n1. Registriere dich bei frag.jetzt, melde dich an und buche einen Raum.\n\n2. Hinterlege den [API-Key von OpenAI](https://platform.openai.com) im Optionsmenü deines Raumes und schon kann es losgehen!\n\nDein API-Key wird sicher auf unserem Server gespeichert und dein frag.jetzt-Passwort ist ebenfalls sicher. Außerdem kannst du das Token-Kontingent und somit deine API-Kosten zeitlich begrenzen, wenn du ChatGPT für die Benutzung in deinem Raum freigeben möchtest. Alle Einstellungen findest du im Optionsmenü deines Raumes.\n\nStarte jetzt mit einem Guthaben von 5 $, das du in den ersten 3 Monaten einlösen kannst. Mit diesem Guthaben kannst du mehrere Millionen Token für ChatGPT-Anfragen verbrauchen (1 Token entspricht in etwa 5-7 Zeichen).",
+    "content": "ChatGPT ist nur in Räumen verfügbar, die von einem registrierten User erstellt wurden. Dieser Raum wurde von einem Gast erstellt. Registriere dich und erstelle selbst einen Raum, um ChatGPT zu nutzen.\n\nStarte jetzt mit einem Guthaben von 5 $. Mit diesem Guthaben kannst du mehrere Millionen Token für ChatGPT-Anfragen verbrauchen (1 Token entspricht in etwa 5-7 Zeichen).",
     "cancel": "Schließen"
   },
   "donation": {

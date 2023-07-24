@@ -231,6 +231,7 @@
     "no-comments": "",
     "no-comments-with-filter": "No entries with selected filter settings",
     "no-comments-with-search": "No questions with your search",
+    "option-menue": "More options",
     "preview-comment": "Preview",
     "preview-in-mock": "Smartphone preview",
     "questioner-name": "Self assigned name",
@@ -317,14 +318,17 @@
     "optin-reject": "Reject",
     "model-select": "Model selection",
     "model-placeholder": "Select language model …",
-    "model-gpt-3.5-turbo": "GPT 3.5 »Turbo«",
+    "model-gpt-3.5-turbo": "GPT-3.5 »Turbo«",
     "model-description-gpt-3.5-turbo": "Effective model with about 4,000 characters context",
-    "model-gpt-3.5-turbo-16k": "GPT 3.5 »Turbo« 16K",
+    "model-gpt-3.5-turbo-16k": "GPT-3.5 »Turbo« 16K",
     "model-description-gpt-3.5-turbo-16k": "Effective model with about 16,000 characters context",
-    "title-free": "ChatGPT | Free questions and answers",
-    "title-answer": "ChatGPT | Answer Assistent",
+    "model-gpt-4": "GPT-4",
+    "model-description-gpt-4": "Latest and strongest model with about 8,000 characters context",
+    "title-free": "ChatGPT | Free asking without prompt presets",
+    "title-answer": "ChatGPT answers …",
     "interrupt": "Stop output",
-    "copy-markdown": "Copy Markdown",
+    "copy-markdown": "Copy output in Markdown format",
+    "system-message": "Show/hide system messages",
     "copy-success": "Markdown successfully copied",
     "copy-fail": "Markdown could not be copied!",
     "temperature-creative": "[More] Creative",
@@ -340,7 +344,7 @@
     "context-response-length": "Length: {{value}}.",
     "context-response-format": "Format: {{value}}.",
     "context-question": "Question:\n\n{{value}}",
-    "selection-none": "With no selection, ChatGPT can have a larger response range. This may result in unwanted information being generated.",
+    "selection-none": "If no selection is made, ChatGPT may have a larger response area. This may result in unwanted information being generated.",
     "tooltip-temperature-disabled": "Response variability is taken from selected prompt.",
     "choices": {
       "response-format": [
@@ -405,17 +409,33 @@
     "none": "None",
     "send": "Send",
     "empty-conversation": "Clear history",
+    "cancel-edit": "Cancel editing",
+    "edit-message": "Edit input",
     "input-forbidden": "Input is forbidden, please check the GPT API settings.",
     "no-api-setup": "The API key or language model was not set.",
     "cancel": "Schließen",
     "refresh": "Generate output again",
     "edit": "Edit output as an answer to forum question",
-    "paste": " Publish output as a reply to the forum question",
+    "paste": "Publish output in the forum",
     "token-info": "Tokens (input/chat/total): {{promptTokens}}/{{conversationTokens}}/{{allTokens}}",
-    "prompt-label": "Search for prompts | spacebar to see all prompts",
+    "prompt-label": "Search for prompts",
     "option-total-acts": "Hits in »Act as …«",
     "option-total-prompts": "Founds prompts",
-    "temperature": "Response variability"
+    "temperature": "Response variability",
+    "conversation": "Conversation options",
+    "conversation-auto-save": "Save automatically",
+    "conversation-overview": "To the overview",
+    "conversation-save": "Save"
+  },
+  "gptconversation-overview": {
+    "title": "All conversations",
+    "this-room": "From this room",
+    "other-room": "From other rooms",
+    "last-used": "Last saved",
+    "last-message": "Last chat",
+    "first-message": "First chat",
+    "delete-element": "Delete",
+    "cancel": "Close"
   },
   "header": {
     "overview-keywords-tooltip": "Number of Keywords",
@@ -436,6 +456,7 @@
     "user-bonus-token": "My bonus stars",
     "room-qr": "QR code",
     "motd": "News",
+    "feedback": "Feedback Room",
     "logout": "Log out",
     "livepoll": "Flash Poll",
     "livepoll-button": "Create surveys and automatically notify all participants."
@@ -458,7 +479,8 @@
     "question-wall-title": "Use cases of the presentation mode",
     "tag-cloud-title": "Use cases of the question radar",
     "prompt-guide-chatbot": "Communicate effectively with ChatGPT",
-    "prompt-explanation": "Prompts briefly explained"
+    "prompt-explanation": "Prompts briefly explained",
+    "tooltip-button": "How do I write good prompts?"
   },
   "joyride": {
     "commentFilter": "There are numerous sorting and filtering options for the Q&A list. An active filter is shown in red. For better readability, the question stream can also be paused if it is very dynamic.",
@@ -473,9 +495,9 @@
     "step": "{{step}} / {{total}}",
     "voting": "The audience can rate questions up or down, indicating their interest in answering a question or their agreement or disagreement with it. The rating difference is displayed.",
     "votingTitle": "Rate a question",
-    "chatGPT": "With ChatGPT, given a context, you can usually answer questions effectively and gain insight into new topics. He is the first interlocutor for questions in teaching.",
+    "chatGPT": "Here, the chatbot is available to you just like on OpenAI's website, but much more performant and reliable since it is called via OpenAI's API.",
     "chatGPTTitle": "Work with ChatGPT",
-    "navigationButton": "With navigation you can see almost all actions in the current context.",
+    "navigationButton": "Navigation is available on all pages. Here you can switch to all features of the platform.",
     "navigationButtonTitle": "Navigation in the app"
   },
   "question-wall": {
@@ -880,7 +902,7 @@
   },
   "gptchat-info": {
     "title": "ChatGPT",
-    "content": "ChatGPT is only available in rooms created by a registered user. This room has been created by a guest. Create your own room to use ChatGPT.\n\nHere's how it works in just two steps:\n\n1. Register on frag.jetzt, sign in, and book a room.\n\n2. Add the OpenAI API key in the options menu of your room and you're good to go!\n\nYour API key is securely stored on our server and your frag.jetzt password is also secure. Additionally, you can limit the token quota and API costs for a limited time if you want to make ChatGPT available for use in your room. You can find all the settings in the options menu of your room.\n\nStart now with a $5 credit that you can use for the first 3 months. Depending on the language model you choose, you can consume several million tokens (1 token is approximately 5-7 characters) for ChatGPT requests with this credit.",
+    "content": "ChatGPT is available only in rooms created by a registered user. A guest created this room. Register and create a room yourself to use ChatGPT.\n\nStart now with a credit of $5. With this credit, you can spend several million tokens on ChatGPT requests (1 token is about 5-7 characters).",
     "cancel": "Close"
   }
 }

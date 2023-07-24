@@ -7,7 +7,7 @@
     "pop-up-4-stars": "3,5 - 4 étoiles",
     "pop-up-5-stars": "4,5 - 5 étoiles",
     "pop-up-from-5": "{{rating}} sur 5",
-    "pop-up-global-people": "{{people}} Évaluations | Pour évaluer, il faut avoir visité une salle et posé une question. Donne-nous aussi un feedback détaillé pour améliorer notre app. Sous « Navigation », choisis « Mes salles » pour donner ton évaluation.",
+    "pop-up-global-people": "{{people}} Évaluations",
     "pop-up-link": "Vers la salle « Feedback »",
     "retry": "Ceci est ton ancienne évaluation. Saisis-en une nouvelle.",
     "save": "Enregistrer",
@@ -102,7 +102,7 @@
     "cancel-description": "Refuse l'utilisation de la technique de stockage web et bloque l'application.",
     "data-protection": "Déclaration de protection des données",
     "info-label": "Ouvre une boîte de dialogue avec la déclaration de confidentialité de frag.jetzt",
-    "title": "Bienvenue !"
+    "title": "Bienvenue sur « frag.jetzt » !"
   },
   "data-protection": {
     "cancel": "Refuser",
@@ -151,7 +151,7 @@
     "user-bonus": "## Bonus \n\nL'enseignant peut marquer les « bonnes » questions avec un bonus. Tes questions de tous les cours (salles) qui ont reçu une étoile sont listées ici.\n\nSelon l'accord, tu peux envoyer le code bonus par e-mail à l'enseignant pour l'échanger contre un bonus."
   },
   "footer": {
-    "performance-indicator": "Vert = utilisation faible du serveur \nJaune = utilisation normale du serveur \nRouge = utilisation critique du serveur",
+    "performance-indicator": "Vert = utilisation faible du serveur \nJaune = utilisation normale du serveur \nRouge = utilisation critique du serveur\n\nClique pour avoir des détails !",
     "introduction-button": "De quoi s'agit-il ?",
     "display-button": "Choix du design",
     "language-button": "Choix de la langue",
@@ -181,7 +181,7 @@
     "motd-title-new": "Actualités",
     "motd-title-old": "Archive",
     "open": "Ouvert",
-    "style": "Choix du design"
+    "style": "Design"
   },
   "header": {
     "livepoll": "Sondage flash",
@@ -249,7 +249,7 @@
     "export-questions": "Exporter les Q&R",
     "fullscreen": "Plein écran & taille du texte",
     "guest-account-tooltip": "Tu es connecté en tant qu'invité. En tant qu'invité, tu peux uniquement créer des salles sans utiliser ChatGPT. Remarque : tes salles sont associées à ce navigateur. En tant qu'utilisateur enregistré, tu peux ouvrir tes salles ChatGPT dans n'importe quel navigateur. N'oublie pas que les salles sont automatiquement supprimées après 180 jours d'inactivité.",
-    "home-header": "Collecter des questions ➧ évaluer ➧ présenter ➧ répondre avec l'IA",
+    "home-header": "Tu demandes. ChatGPT répond.",
     "home-header-mobile": "Q&R en direct avec l'IA",
     "id": "Code ",
     "import-questions": "Importer des Q&R",
@@ -261,6 +261,7 @@
     "moderation-warning": "Tableau de modération avec des questions non validées",
     "moderationboard": "Modération",
     "motd": "Actualités",
+    "feedback": "Salle de feedback",
     "my-account": "Options",
     "chatroom-options-menu": "Prompt à l'emploi",
     "my-sessions": "Mes salles",
@@ -279,10 +280,10 @@
     "prompt-guide": "Prompt guide",
     "prompt-explanation": "Que sont les invites?",
     "preset-context": "Contexte",
-    "preset-role-instruction": "Rôles Instruction",
+    "preset-role-instruction": "Instruction de rôle",
     "preset-topic": "Sujet",
     "preset-length": "Longueur",
-    "gpt-feedback": "Ton commentaire",
+    "gpt-feedback": "Ton commentaire sur ChatGPT",
     "chat-answer-format": "Format de réponse",
     "question-board": "Forum de questions-réponses",
     "question-wall": "Présenter les questions",
@@ -316,7 +317,8 @@
     "zoom-minus": "Réduire la taille du texte",
     "zoom-plus": "Agrandir la taille du texte",
     "zoom-reset": "Réinitialiser le niveau de zoom",
-    "gpt-chat": "Chat avec ChatGPT",
+    "gpt-chat": "Chatte avec ChatGPT !",
+    "gpt-brainstorming": "Laisser ChatGPT brainstormer",
     "gpt-privacy-policy": "Protection des données",
     "gpt-prompts": "Mes prompts ChatGPT",
     "donation": "faire un don",
@@ -336,15 +338,15 @@
     "cancel": "Fermer",
     "install": "Installer",
     "title": "Nouvelle version",
-    "description": "Une nouvelle version est prête à être installée.<br><br>Tu peux encore terminer ton travail et fermer la boîte de dialogue. Si des problèmes surviennent, recharge la page."
+    "description": "Une nouvelle version est prête.<br><br>Tu peux encore terminer ton travail et fermer la boîte de dialogue. Si des problèmes surviennent, recharge la page."
   },
   "home-page": {
     "gpt-topic-general": "Général",
     "accessibility-create": "Crée une nouvelle session.",
     "accessibility-join-button": "Rejoins la session dont tu as saisi le code.",
     "accessibility-join-input": "Tu peux saisir ici le nom de la session que tu souhaites rejoindre. Le nom te sera communiqué par le responsable de la session.",
-    "app-rating": "Réévaluer l'app",
-    "create-session": "Réserver une salle",
+    "app-rating": "Évaluer l'app",
+    "create-session": "Créer une salle",
     "created": "La salle pour la session \"{{longRoomName}}\" a été réservée.",
     "custom-shortid": "Générer un code de salle",
     "custom-shortid-placeholder": "Code de salle à partir de: a-z A-Z 0-9 - _ ~ .",
@@ -363,7 +365,7 @@
     "only-numbers": "Le code de la salle est alphanumérique.",
     "please-enter": "Quelle salle ?",
     "room-name-input": "Saisis ici le nom de la session que tu veux créer.",
-    "session-id": "Code de la salle …",
+    "session-id": "Code de salle …",
     "update-available": "Une nouvelle version est disponible."
   },
   "imprint": {
@@ -384,12 +386,13 @@
     "moderation-title": "Les cas d'utilisation de la modération",
     "room-list-title": "Les cas d'utilisation de la liste des salles",
     "room-page-title": "Les cas d'utilisation de la salle",
-    "prompt-guide-chatbot": "Communiquer efficacement avec ChatGPT"
+    "prompt-guide-chatbot": "Communiquer efficacement avec ChatGPT",
+    "tooltip-button": "Comment écris-je de bons prompts ?"
   },
   "joyride": {
     "cantAccessRoute": "Cet itinéraire n'est pas disponible. La visite est annulée.",
-    "createRoom": "Tout le monde peut réserver une salle pour un événement. Le code d'accès est soit généré, soit tu le détermines toi-même. N'oublie pas que sans enregistrement, la salle et toutes les données n'existent que dans ce navigateur.",
-    "createRoomTitle": "Réserver une salle",
+    "createRoom": "Tout le monde peut créer une salle pour un événement. Le code d'accès est soit généré, soit tu le détermines toi-même. N'oublie pas que sans enregistrement, la salle et toutes les données n'existent que dans ce navigateur.",
+    "createRoomTitle": "Créer une salle",
     "dashboard": "Ici se trouve le menu pour les actualités en direct.",
     "dashboardTitle": "Messages en direct",
     "done": "Terminé",
@@ -408,9 +411,9 @@
     "roomJoin": "Saisis ici le code d'accès de la salle pour participer à l'événement.",
     "roomJoinTitle": "Assister à un événement",
     "step": "{{step}} / {{total}}",
-    "chatGPT": "Dans un contexte donné, ChatGPT te permet généralement de répondre efficacement aux questions et d'avoir un aperçu de nouveaux sujets. Il est le premier interlocuteur pour les questions relatives à l'enseignement.",
+    "chatGPT": "Ici, le chatbot est à ta disposition comme sur le site d'OpenAI, mais il est beaucoup plus performant et fiable, car il est appelé via l'API d'OpenAI.",
     "chatGPTTitle": "Travailler avec ChatGPT",
-    "navigationButton": "Avec la navigation, tu peux voir presque toutes les actions dans le contexte actuel.",
+    "navigationButton": "La navigation est disponible sur toutes les pages. Ici, tu peux passer à toutes les features de la plateforme.",
     "navigationButtonTitle": "Navigation dans l'application"
   },
   "login": {
@@ -592,7 +595,7 @@
   "room-create": {
     "cancel": "Annuler",
     "cancel-description": "Annuler",
-    "create-room": "Réserver la salle",
+    "create-room": "Créer une salle",
     "create-room-description": "Nouvelle session."
   },
   "room-export": {
@@ -890,7 +893,7 @@
   },
   "gptchat-info": {
     "title": "ChatGPT",
-    "content": "ChatGPT n'est disponible que dans les salles créées par un utilisateur enregistré. Cette salle a été créée par un invité. Crée ta propre salle pour utiliser ChatGPT.\n\nC'est aussi simple que ça, en deux étapes seulement:\n\n1. Inscris-toi sur frag.jetzt, crée un compte et réserve une salle.\n\n2. Dépose la [clé API d'OpenAI](https://platform.openai.com) dans le menu d'options de ta salle et c'est parti!\n\nTa clé API est stockée en toute sécurité sur notre serveur et ton mot de passe frag.jetzt est également sécurisé. De plus, tu peux limiter dans le temps le contingent de tokens et tes coûts API si tu veux autoriser ChatGPT à être utilisé dans ta salle. Tu trouveras tous les paramètres nécessaires dans le menu d'options de ta salle.\n\nDémarre maintenant avec un crédit gratuit de 5 $ que tu peux utiliser pendant les 3 premiers mois. Selon le modèle linguistique, tu peux ainsi consommer entre 250 000 et 12,5 millions de tokens.",
+    "content": "ChatGPT n'est disponible que dans les salles créées par un utilisateur enregistré. Cette salle a été créée par un invité. Inscris-toi et crée toi-même une salle pour utiliser ChatGPT.\n\nCommence dès maintenant avec un crédit de 5 $. Avec ce crédit, tu peux consommer plusieurs millions de tokens pour des demandes ChatGPT (1 token correspond à environ 5-7 caractères).",
     "cancel": "Fermer"
   },
   "donation": {

@@ -1,0 +1,41 @@
+<h3>{{ "chatgpt-brainstorm.title" | translate }}</h3>
+
+<mat-dialog-content>
+  <div class="generator">
+    <mat-form-field appearance="outline">
+      <mat-label>{{ "chatgpt-brainstorm.count" | translate }}</mat-label>
+      <input
+        #counter
+        matInput
+        type="number"
+        inputmode="numeric"
+        min="1"
+        max="25"
+        value="10"
+        [placeholder]="'chatgpt-brainstorm.count-placeholder' | translate" />
+    </mat-form-field>
+    <button
+      (click)="generate(counter.value)"
+      [disabled]="isSending"
+      mat-flat-button
+      [matTooltip]="'chatgpt-brainstorm.generate-tooltip' | translate"
+      class="primary-btn">
+      {{ "chatgpt-brainstorm.generate" | translate }}
+    </button>
+  </div>
+  <mat-checkbox
+    style="display: block"
+    *ngFor="let element of elements; let i = index"
+    [(ngModel)]="element.selected">
+    {{ i + 1 + ". " + element.text }}
+  </mat-checkbox>
+</mat-dialog-content>
+
+<ars-row>
+  <app-dialog-action-buttons
+    buttonsLabelSection="chatgpt-brainstorm"
+    cancelButtonLabel="cancel"
+    confirmButtonLabel="confirm"
+    [cancelButtonClickAction]="onCancel"
+    [confirmButtonClickAction]="onConfirm"></app-dialog-action-buttons>
+</ars-row>

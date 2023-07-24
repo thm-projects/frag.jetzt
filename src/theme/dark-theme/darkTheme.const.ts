@@ -1,26 +1,26 @@
 import { ThemeMeta } from '../Theme';
 
 export const dark = {
-  '--primary': 'darkorange',
-  '--primary-variant': 'darkslategrey',
+  '--primary': '#FF8C00',
+  '--primary-variant': '#2F4F4F',
 
-  '--secondary': 'blueviolet',
-  '--secondary-variant': 'blueviolet',
+  '--secondary': '#8A2BE2',
+  '--secondary-variant': '#8A2BE2',
 
   '--background': '#1F1B24',
   '--surface': '#052338',
   '--dialog': '#15171D',
-  '--cancel': 'red',
+  '--cancel': '#FF0000',
   '--alt-surface': '#323232',
   '--alt-dialog': '#111217',
 
   '--on-primary': '#000000',
-  '--on-secondary': 'white',
+  '--on-secondary': '#FFFFFF',
   '--on-primary-variant': '#eadabf',
   '--on-background': '#eadabf',
   '--on-surface': '#eadabf',
   '--on-dialog': '#eadabf',
-  '--on-cancel': 'black',
+  '--on-cancel': '#000000',
 
   '--green': 'lawngreen',
   '--red': 'red',

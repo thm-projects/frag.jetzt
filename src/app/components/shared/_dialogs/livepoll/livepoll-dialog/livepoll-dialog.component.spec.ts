@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+/*import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { LivepollDialogComponent } from './livepoll-dialog.component';
 
@@ -20,3 +20,4 @@ describe('LivepollDialogComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+ */

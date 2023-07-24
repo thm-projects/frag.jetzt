@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+/*import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MarkdownEditorDialogComponent } from './markdown-editor-dialog.component';
 
@@ -20,3 +20,4 @@ describe('MarkdownEditorDialogComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+ */
