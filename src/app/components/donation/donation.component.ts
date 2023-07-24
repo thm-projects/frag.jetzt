@@ -1,6 +1,6 @@
 import { Component, OnInit, AfterViewInit, ChangeDetectorRef, ViewChild, ElementRef } from '@angular/core';
 
-declare var paypal;
+declare let paypal;
 
 @Component({
   selector: 'app-donation',
@@ -18,9 +18,7 @@ export class DonationComponent implements OnInit {
   //Get PaypalButton Element from DOM
   @ViewChild('paypalButtons', {static: true}) paypalButtonsElement: ElementRef;
 
-  ngOnInit(): void {}
-
-  ngAfterViewInit(): void {
+  ngOnInit(): void {
     paypal
       .Buttons({
         createOrder: (data, actions) => {
