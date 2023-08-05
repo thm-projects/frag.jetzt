@@ -98,10 +98,10 @@ export const carousel: {
     },
     images: [
       {
-        url: 'url("/assets/background/Chatbot.webp")',
+        url: 'url("/assets/background/KI-Chatbot-MNI-1024.webp")',
         override: {
           default: {
-            backgroundSize: '70%',
+            backgroundSize: '80%',
           },
         },
       },
