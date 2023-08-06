@@ -87,9 +87,9 @@ export const carousel: {
   },
   {
     title: {
-      en: 'Join in!',
-      de: 'Mach mit!',
-      fr: 'Participe !',
+      en: 'The AI Tutor in Test',
+      de: 'Der KI-Tutor im Test',
+      fr: 'Le tuteur IA en test',
     },
     description: {
       en: 'Participate in our study »ChatGPT in Teaching & Learning«. Gain unlimited access to the AI-Tutor in all your rooms. Share feedback from your students with us: Are AI tutors the future? Contact us via the legal notice.',
@@ -98,10 +98,10 @@ export const carousel: {
     },
     images: [
       {
-        url: 'url("/assets/background/Chatbot.webp")',
+        url: 'url("/assets/background/KI-Chatbot-MNI-1024.webp")',
         override: {
           default: {
-            backgroundSize: '70%',
+            backgroundSize: '80%',
           },
         },
       },
