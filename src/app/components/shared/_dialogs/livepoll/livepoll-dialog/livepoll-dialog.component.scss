@@ -76,12 +76,17 @@
     display: flex;
     justify-content: flex-end;
     align-items: center;
+    > * > mat-icon {
+      align-self: center;
+      color: var(--on-background);
+    }
 
     > div ~ div {
       margin-left: 16px;
     }
 
     > div {
+      display: flex;
       :first-child {
         margin-right: 4px;
         font-weight: normal;
