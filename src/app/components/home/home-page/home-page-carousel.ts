@@ -87,9 +87,9 @@ export const carousel: {
   },
   {
     title: {
-      en: 'The AI Tutor in Test',
-      de: 'Der KI-Tutor im Test',
-      fr: 'Le tuteur IA en test',
+      en: 'AI StudyBuddy',
+      de: 'KI StudyBuddy',
+      fr: 'StudyBuddy IA',
     },
     description: {
       en: 'Participate in our study »ChatGPT in Teaching & Learning«. Gain unlimited access to the AI-Tutor in all your rooms. Share feedback from your students with us: Are AI tutors the future? Contact us via the legal notice.',
