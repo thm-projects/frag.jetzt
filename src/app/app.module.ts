@@ -1,7 +1,5 @@
 import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
-import { RegisterComponent } from './components/home/_dialogs/register/register.component';
-import { PasswordResetComponent } from './components/home/_dialogs/password-reset/password-reset.component';
 import { AppRoutingModule } from './app-routing.module';
 import {
   MAT_DIALOG_DATA,
@@ -23,7 +21,6 @@ import { DataStoreService } from './services/util/data-store.service';
 import { EventService } from './services/util/event.service';
 import { VoteService } from './services/http/vote.service';
 import { WsConnectorService } from './services/websockets/ws-connector.service';
-import { UserActivationComponent } from './components/home/_dialogs/user-activation/user-activation.component';
 import { AuthenticationInterceptor } from './interceptors/authentication.interceptor';
 import { EssentialsModule } from './components/essentials/essentials.module';
 import { SharedModule } from './components/shared/shared.module';
@@ -99,7 +96,6 @@ import 'katex/dist/katex.min.js';
 import 'emoji-toolkit/lib/js/joypixels.min.js';
 import 'quill-emoji/dist/quill-emoji.js';
 import { QuillModule } from 'ngx-quill';
-import { PasswordGeneratorComponent } from './components/home/_dialogs/password-generator/password-generator.component';
 import { AskOnboardingComponent } from './components/home/_dialogs/ask-onboarding/ask-onboarding.component';
 import { AskOnboardingDEComponent } from 'assets/i18n/components/ask-onboarding/ask-onboarding-de.component';
 import { AskOnboardingENComponent } from 'assets/i18n/components/ask-onboarding/ask-onboarding-en.component';
@@ -118,9 +114,6 @@ export const HttpLoaderFactory = (http: HttpClient) =>
 @NgModule({
   declarations: [
     AppComponent,
-    PasswordResetComponent,
-    RegisterComponent,
-    UserActivationComponent,
     NewLandingComponent,
     HomePageComponent,
     DemoVideoComponent,
@@ -148,7 +141,6 @@ export const HttpLoaderFactory = (http: HttpClient) =>
     OverlayComponent,
     QuizNowComponent,
     NotifyUnsupportedBrowserComponent,
-    PasswordGeneratorComponent,
     AskOnboardingComponent,
     AskOnboardingDEComponent,
     AskOnboardingENComponent,

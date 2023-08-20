@@ -1,11 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Inject,
-  OnChanges,
-  OnInit,
-  SimpleChanges,
-} from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import {
   LoginResult,
   LoginResultArray,
@@ -13,18 +6,15 @@ import {
 import { Router } from '@angular/router';
 import { NotificationService } from '../../../services/util/notification.service';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
-import {
-  FormControl,
-  FormGroupDirective,
-  NgForm,
-  Validators,
-} from '@angular/forms';
+import { FormControl, FormGroupDirective, NgForm } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
-import { UserActivationComponent } from '../../home/_dialogs/user-activation/user-activation.component';
-import { PasswordResetComponent } from '../../home/_dialogs/password-reset/password-reset.component';
-import { RegisterComponent } from '../../home/_dialogs/register/register.component';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { UserManagementService } from '../../../services/util/user-management.service';
+import { KeycloakService } from 'app/services/util/keycloak.service';
+import { UUID } from 'app/utils/ts-utils';
+import { KeycloakProvider } from 'app/models/keycloak-provider';
+import { Subject, takeUntil } from 'rxjs';
+import { LanguageService } from 'app/services/util/language.service';
 
 export class LoginErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(
@@ -45,136 +35,81 @@ export class LoginErrorStateMatcher implements ErrorStateMatcher {
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
-export class LoginComponent implements OnInit, OnChanges {
-  username: string;
-  password: string;
+export class LoginComponent implements OnInit, OnDestroy {
   redirectUrl = null;
-  usernameFormControl = new FormControl('', [
-    Validators.required,
-    Validators.email,
-  ]);
-  passwordFormControl = new FormControl('', [Validators.required]);
   matcher = new LoginErrorStateMatcher();
   name = '';
   hide = true;
+  providers: KeycloakProvider[] = [];
+  access: string;
+  private defaultKeycloakProvider: KeycloakProvider;
+  private destroyer = new Subject();
 
   constructor(
     public userManagementService: UserManagementService,
     public router: Router,
+    private languageService: LanguageService,
     private translationService: TranslateService,
     public notificationService: NotificationService,
     public dialog: MatDialog,
+    private keycloak: KeycloakService,
     @Inject(MAT_DIALOG_DATA) public data: any,
   ) {}
 
-  ngOnInit() {}
-
-  ngOnChanges(changes: SimpleChanges) {
-    let u = false;
-    let p = false;
-    if (changes.username) {
-      this.usernameFormControl.setValue(changes.username.currentValue);
-      u = true;
-    }
-    if (changes.password) {
-      this.passwordFormControl.setValue(changes.password.currentValue);
-      p = true;
-    }
-    if (
-      u &&
-      p &&
-      !changes.username.isFirstChange() &&
-      !changes.username.isFirstChange()
-    ) {
-      this.activateUser();
-    }
-  }
-
-  activateUser(): void {
-    this.dialog
-      .open(UserActivationComponent, {
-        width: '350px',
-        data: {
-          name: this.username,
-        },
-      })
-      .afterClosed()
-      .subscribe((result) => {
-        if (result && result.success) {
-          this.login(this.username, this.password);
-        }
+  ngOnInit(): void {
+    this.languageService
+      .getLanguage()
+      .pipe(takeUntil(this.destroyer))
+      .subscribe((lang) => {
+        this.access = lang[0].toUpperCase() + lang.slice(1);
       });
+    const onMessage = (msgs: Record<string, string>) => {
+      const name = msgs['login.default-keycloak-name'];
+      const desc = msgs['login.default-keycloak-description'];
+      const lang = this.languageService.currentLanguage();
+      const access = lang[0].toUpperCase() + lang.slice(1);
+      if (this.defaultKeycloakProvider) {
+        this.defaultKeycloakProvider['translated_name' + access] = name;
+        this.defaultKeycloakProvider['translated_description' + access] = desc;
+      }
+    };
+    this.keycloak
+      .getProviders()
+      .pipe(takeUntil(this.destroyer))
+      .subscribe((data) => {
+        this.providers = data;
+        this.defaultKeycloakProvider = this.providers.find(
+          (p) => p.nameDe.length < 1,
+        );
+        this.translationService
+          .get([
+            'login.default-keycloak-name',
+            'login.default-keycloak-description',
+          ])
+          .subscribe((msgs) => onMessage(msgs));
+      });
+    this.translationService
+      .getStreamOnTranslationChange([
+        'login.default-keycloak-name',
+        'login.default-keycloak-description',
+      ])
+      .pipe(takeUntil(this.destroyer))
+      .subscribe((msgs) => onMessage(msgs));
   }
 
-  login(username: string, password: string): void {
-    this.username = username.trim();
-    this.password = password.trim();
-
-    if (
-      !this.usernameFormControl.hasError('required') &&
-      !this.usernameFormControl.hasError('email') &&
-      !this.passwordFormControl.hasError('required')
-    ) {
-      this.userManagementService
-        .login(this.username, this.password)
-        .subscribe((loginSuccessful) => this.checkLogin(loginSuccessful));
-    } else {
-      this.translationService
-        .get('login.input-incorrect')
-        .subscribe((message) => {
-          this.notificationService.show(message);
-        });
-    }
+  ngOnDestroy(): void {
+    this.destroyer.next(true);
+    this.destroyer.complete();
   }
 
-  copyPassword() {
-    navigator.clipboard.writeText(this.passwordFormControl.value).then(
-      () => {
-        this.translationService
-          .get('password-generator.copy-success')
-          .subscribe((msg) => this.notificationService.show(msg));
-      },
-      (err) => {
-        console.error(err);
-        this.translationService
-          .get('password-generator.copy-fail')
-          .subscribe((msg) => this.notificationService.show(msg));
-      },
-    );
+  providerLogin(keycloakId: UUID): void {
+    this.keycloak.doKeycloakLogin(keycloakId, true).subscribe();
   }
 
   guestLogin(): void {
     this.userManagementService
       .loginAsGuest()
       .subscribe((loginSuccessful) => this.checkLogin(loginSuccessful, true));
-  }
-
-  openPasswordDialog(initProcess = true): void {
-    const ref = PasswordResetComponent.open(this.dialog);
-    ref.componentInstance.initProcess = initProcess;
-    ref.componentInstance.setUsername(this.usernameFormControl.value);
-    ref.afterClosed().subscribe((result) => {
-      if (!result) {
-        return;
-      }
-      this.usernameFormControl.setValue(result.username);
-      this.passwordFormControl.setValue(result.password);
-      this.username = result.username;
-      this.password = result.password;
-    });
-  }
-
-  openRegisterDialog(): void {
-    RegisterComponent.open(this.dialog)
-      .afterClosed()
-      .subscribe((result) => {
-        if (result) {
-          this.usernameFormControl.setValue(result.username);
-          this.passwordFormControl.setValue(result.password);
-          this.username = result.username;
-          this.password = result.password;
-        }
-      });
   }
 
   /**
@@ -184,25 +119,7 @@ export class LoginComponent implements OnInit, OnChanges {
     this.dialog.closeAll();
   }
 
-  /**
-   * Returns a lambda which executes the dialog dedicated action on call.
-   */
-  buildLoginActionCallback(
-    userEmail: HTMLInputElement,
-    userPassword: HTMLInputElement,
-  ): () => void {
-    return () => this.login(userEmail.value, userPassword.value);
-  }
-
   private checkLogin(loginResult: LoginResultArray, isGuest = false) {
-    if (loginResult[0] === LoginResult.FailureActivation) {
-      this.activateUser();
-      return;
-    }
-    if (loginResult[0] === LoginResult.FailurePasswordReset) {
-      this.openPasswordDialog(false);
-      return;
-    }
     if (
       [
         LoginResult.SessionExpired,
@@ -212,14 +129,6 @@ export class LoginComponent implements OnInit, OnChanges {
     ) {
       this.translationService
         .get('login.login-data-incorrect')
-        .subscribe((message) => {
-          this.notificationService.show(message);
-        });
-      return;
-    }
-    if (loginResult[0] === LoginResult.FailurePasswordExpired) {
-      this.translationService
-        .get('login.login-data-expired')
         .subscribe((message) => {
           this.notificationService.show(message);
         });

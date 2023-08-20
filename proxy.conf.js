@@ -10,6 +10,12 @@ if (wsOrigin) {
 }
 
 const PROXY_CONFIG = {
+  "/auth": {
+    "target": process.env.KEYCLOAK_ADDRESS || "http://localhost:8081",
+    "secure": process.env.KEYCLOAK_SECURE || false,
+    "changeOrigin": process.env.KEYCLOAK_CHANGE_ORIGIN || false,
+    "logLevel": "debug"
+  },
   "/matomo": {
     "target": "https://stats.frag.jetzt",
     "secure": true,

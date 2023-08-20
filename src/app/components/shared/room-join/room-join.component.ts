@@ -2,8 +2,12 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Room } from '../../../models/room';
 import { RoomService } from '../../../services/http/room.service';
 import { Router } from '@angular/router';
-import { RegisterErrorStateMatcher } from '../../home/_dialogs/register/register.component';
-import { FormControl, Validators } from '@angular/forms';
+import {
+  FormControl,
+  FormGroupDirective,
+  NgForm,
+  Validators,
+} from '@angular/forms';
 import { NotificationService } from '../../../services/util/notification.service';
 import { TranslateService } from '@ngx-translate/core';
 import { UserRole } from '../../../models/user-roles.enum';
@@ -14,20 +18,38 @@ import { KeyboardKey } from '../../../utils/keyboard/keys';
 import { forkJoin } from 'rxjs';
 import { UserManagementService } from '../../../services/util/user-management.service';
 import { SessionService } from '../../../services/util/session.service';
+import { ErrorStateMatcher } from '@angular/material/core';
+
+export class CustomErrorStateMatcher implements ErrorStateMatcher {
+  isErrorState(
+    control: FormControl | null,
+    form: FormGroupDirective | NgForm | null,
+  ): boolean {
+    const isSubmitted = form && form.submitted;
+    return (
+      control &&
+      control.invalid &&
+      (control.dirty || control.touched || isSubmitted)
+    );
+  }
+}
 
 @Component({
   selector: 'app-room-join',
   templateUrl: './room-join.component.html',
-  styleUrls: ['./room-join.component.scss']
+  styleUrls: ['./room-join.component.scss'],
 })
 export class RoomJoinComponent implements OnInit {
   @ViewChild('sessionCode') sessionCodeElement: ElementRef;
 
   user: User;
 
-  sessionCodeFormControl = new FormControl('', [Validators.required, Validators.pattern('[0-9 ]*')]);
+  sessionCodeFormControl = new FormControl('', [
+    Validators.required,
+    Validators.pattern('[0-9 ]*'),
+  ]);
 
-  matcher = new RegisterErrorStateMatcher();
+  matcher = new CustomErrorStateMatcher();
 
   constructor(
     private roomService: RoomService,
@@ -37,15 +59,19 @@ export class RoomJoinComponent implements OnInit {
     public userManagementService: UserManagementService,
     private moderatorService: ModeratorService,
     public sessionService: SessionService,
-  ) {
-  }
+  ) {}
 
   ngOnInit() {
-    this.userManagementService.getUser().subscribe(newUser => this.user = newUser);
+    this.userManagementService
+      .getUser()
+      .subscribe((newUser) => (this.user = newUser));
   }
 
   joinRoom(id: string): void {
-    if (this.sessionCodeFormControl.hasError('required') || this.sessionCodeFormControl.hasError('minlength')) {
+    if (
+      this.sessionCodeFormControl.hasError('required') ||
+      this.sessionCodeFormControl.hasError('minlength')
+    ) {
       return;
     }
     if (this.user) {
@@ -57,7 +83,6 @@ export class RoomJoinComponent implements OnInit {
     });
   }
 
-
   /**
    * Prettifies the room code input element which:
    *
@@ -65,7 +90,10 @@ export class RoomJoinComponent implements OnInit {
    */
   prettifySessionCode(keyboardEvent: KeyboardEvent): void {
     const sessionCode: string = this.sessionCodeElement.nativeElement.value;
-    const isBackspaceKeyboardEvent: boolean = KeyboardUtils.isKeyEvent(keyboardEvent, KeyboardKey.Backspace);
+    const isBackspaceKeyboardEvent: boolean = KeyboardUtils.isKeyEvent(
+      keyboardEvent,
+      KeyboardKey.Backspace,
+    );
 
     // allow only backspace key press after all 8 digits were entered by the user
     if (
@@ -74,23 +102,28 @@ export class RoomJoinComponent implements OnInit {
     ) {
       keyboardEvent.preventDefault();
       keyboardEvent.stopPropagation();
-    } else if (sessionCode.length === 4 && isBackspaceKeyboardEvent === false) { // add a space between each 4 digit group
+    } else if (sessionCode.length === 4 && isBackspaceKeyboardEvent === false) {
+      // add a space between each 4 digit group
       this.sessionCodeElement.nativeElement.value += ' ';
     }
   }
 
   private getRoom(id: string): void {
-    this.roomService.getErrorHandledRoomByShortId(id, () => {
-      this.translateService.get('home-page.no-room-found').subscribe(message => {
-        this.notificationService.show(message);
+    this.roomService
+      .getErrorHandledRoomByShortId(id, () => {
+        this.translateService
+          .get('home-page.no-room-found')
+          .subscribe((message) => {
+            this.notificationService.show(message);
+          });
+      })
+      .subscribe((room) => {
+        if (room?.moderatorRoomReference) {
+          this.onModeratorCodeJoin(room);
+          return;
+        }
+        this.onRoomReceive(room);
       });
-    }).subscribe(room => {
-      if (room?.moderatorRoomReference) {
-        this.onModeratorCodeJoin(room);
-        return;
-      }
-      this.onRoomReceive(room);
-    });
   }
 
   private onModeratorCodeJoin(room: Room) {
@@ -100,9 +133,9 @@ export class RoomJoinComponent implements OnInit {
     }
     forkJoin([
       this.roomService.getRoom(room.moderatorRoomReference),
-      this.moderatorService.get(room.moderatorRoomReference)
+      this.moderatorService.get(room.moderatorRoomReference),
     ]).subscribe(([parent, mods]) => {
-      const modSet = new Set(mods.map(m => m.accountId));
+      const modSet = new Set(mods.map((m) => m.accountId));
       if (parent.ownerId === this.user.id || modSet.has(this.user.id)) {
         this.addAndNavigate(parent, modSet);
         return;
@@ -113,13 +146,15 @@ export class RoomJoinComponent implements OnInit {
 
   private onRoomReceive(room: Room) {
     if (!room) {
-      this.translateService.get('home-page.no-room-found').subscribe(message => {
-        this.notificationService.show(message);
-      });
+      this.translateService
+        .get('home-page.no-room-found')
+        .subscribe((message) => {
+          this.notificationService.show(message);
+        });
       return;
     }
-    this.moderatorService.get(room.id).subscribe(mods => {
-      const modSet = new Set(mods.map(m => m.accountId));
+    this.moderatorService.get(room.id).subscribe((mods) => {
+      const modSet = new Set(mods.map((m) => m.accountId));
       if (this.user) {
         this.addAndNavigate(room, modSet);
         return;
@@ -129,7 +164,7 @@ export class RoomJoinComponent implements OnInit {
   }
 
   private guestLogin(room: Room, mods: Set<string>) {
-    this.userManagementService.forceLogin().subscribe(result => {
+    this.userManagementService.forceLogin().subscribe((result) => {
       if (result !== null) {
         this.addAndNavigate(room, mods);
       }
@@ -138,16 +173,28 @@ export class RoomJoinComponent implements OnInit {
 
   private addAndNavigate(room: Room, mods: Set<string>) {
     if (this.user.id === room.ownerId) {
-      this.userManagementService.setAccess(room.shortId, room.id, UserRole.CREATOR);
+      this.userManagementService.setAccess(
+        room.shortId,
+        room.id,
+        UserRole.CREATOR,
+      );
       this.router.navigate([`/creator/room/${room.shortId}/comments`]);
       return;
     }
     if (mods.has(this.user.id)) {
-      this.userManagementService.setAccess(room.shortId, room.id, UserRole.EXECUTIVE_MODERATOR);
+      this.userManagementService.setAccess(
+        room.shortId,
+        room.id,
+        UserRole.EXECUTIVE_MODERATOR,
+      );
       this.router.navigate([`/moderator/room/${room.shortId}/comments`]);
       return;
     }
-    this.userManagementService.setAccess(room.shortId, room.id, UserRole.PARTICIPANT);
+    this.userManagementService.setAccess(
+      room.shortId,
+      room.id,
+      UserRole.PARTICIPANT,
+    );
     this.router.navigate([`/participant/room/${room.shortId}/comments`]);
   }
 }

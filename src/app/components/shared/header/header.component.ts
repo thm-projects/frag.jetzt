@@ -337,7 +337,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   }
 
   public getCurrentRoleIcon() {
-    if (this.user?.isSuperAdmin) {
+    if (this.user?.['isSuperAdmin']) {
       return 'manage_accounts';
     } else if (this.user?.role === UserRole.EXECUTIVE_MODERATOR) {
       return 'support_agent';
@@ -348,7 +348,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   }
 
   public getCurrentRoleDescription(): string {
-    if (this.user?.isSuperAdmin) {
+    if (this.user?.['isSuperAdmin']) {
       return 'tooltip-super-admin';
     } else if (this.user?.role === UserRole.EXECUTIVE_MODERATOR) {
       return 'tooltip-moderator';

@@ -206,7 +206,6 @@ export class SessionService {
       return false;
     }
     let previous =
-      this.userManagementService.getCurrentUser()?.isSuperAdmin ||
       !this._initialized ||
       this.userManagementService.hasAccess(shortId, urlRole);
     this.loadRoom(shortId);
@@ -218,11 +217,6 @@ export class SessionService {
         return;
       }
       this.ensureRole(user.id).subscribe((role) => {
-        if (user.isSuperAdmin) {
-          previous = true;
-          onRevalidate(previous);
-          return;
-        }
         if (role >= urlRole) {
           previous = true;
           onRevalidate(previous);

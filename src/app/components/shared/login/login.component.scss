@@ -122,10 +122,16 @@ button {
   }
 
   &.alt-button {
+    width: 100%;
     background-color: var(--dialog);
     color: var(--primary);
     border: 1px solid var(--primary);
     border-radius: 7px;
+    margin-top: 0.5em;
+
+    ~ .alt-button {
+      margin-top: 1em;
+    }
 
     &:hover {
       background-color: var(--primary);
@@ -145,6 +151,7 @@ button {
     width: 100%;
     background-color: var(--primary);
     color: var(--on-primary);
+    margin-top: 0;
 
     &:hover {
       background-color: var(--dialog);

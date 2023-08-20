@@ -22,6 +22,7 @@ import { GptConfigurationComponent } from './gpt-configuration/gpt-configuration
 import { AdminOverviewComponent } from './admin-overview/admin-overview.component';
 import { GptChatComponent } from './gpt-chat/gpt-chat.component';
 import { AdminMailingComponent } from './admin-mailing/admin-mailing.component';
+import { KeycloakProviderComponent } from './keycloak-provider/keycloak-provider.component';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export const HttpLoaderFactory = (http: HttpClient) =>
@@ -34,6 +35,7 @@ export const HttpLoaderFactory = (http: HttpClient) =>
     AdminOverviewComponent,
     GptChatComponent,
     AdminMailingComponent,
+    KeycloakProviderComponent,
   ],
   imports: [
     CommonModule,
