@@ -36,6 +36,10 @@
       </mat-icon>
     </button>
   </mat-form-field>
+  <!-- Id -->
+  <p *ngIf="id">
+    {{ "keycloak-provider.id" | translate : { id: id } }}
+  </p>
   <!-- priority -->
   <mat-form-field>
     <mat-label>{{ "keycloak-provider.priority" | translate }}</mat-label>

@@ -21,6 +21,7 @@ import { Subject, takeUntil } from 'rxjs';
 export class KeycloakProviderComponent implements OnInit, OnDestroy {
   readonly languages = AVAILABLE_LANGUAGES;
   readonly prettifyProvider = this.formatProvider.bind(this);
+  id: string = '';
   names = new Array<string>(this.languages.length).fill('');
   descriptions = new Array<string>(this.languages.length).fill('');
   clientId: string = '';
@@ -138,6 +139,7 @@ export class KeycloakProviderComponent implements OnInit, OnDestroy {
       this.descriptions[i] =
         this.selectedProvider?.['description' + access] || '';
     }
+    this.id = this.selectedProvider?.id || '';
     this.clientId = this.selectedProvider?.clientId || '';
     this.url = this.selectedProvider?.url || '';
     this.priority = this.selectedProvider?.priority || 0;

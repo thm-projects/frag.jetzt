@@ -10,6 +10,7 @@
   "keycloak-provider": {
     "title": "Serveurs Keycloak",
     "provider-select": "Choix du serveur",
+    "id": "Identifiant du serveur: {{id}}",
     "priority": "Priorité",
     "url": "URL du serveur",
     "realm": "Realm de Keycloak",
