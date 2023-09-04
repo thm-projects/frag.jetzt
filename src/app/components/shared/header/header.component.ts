@@ -55,6 +55,7 @@ import { ShrinkObserver } from 'app/utils/shrink-observer';
 import { LivepollService } from '../../../services/http/livepoll.service';
 import { GptService } from 'app/services/http/gpt.service';
 import { GPTChatInfoComponent } from '../_dialogs/gptchat-info/gptchat-info.component';
+import { KeycloakService } from 'app/services/util/keycloak.service';
 
 @Component({
   selector: 'app-header',
@@ -114,6 +115,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     public readonly livepollService: LivepollService,
     private gptService: GptService,
     private route: ActivatedRoute,
+    private keycloakService: KeycloakService,
   ) {}
 
   ngAfterViewInit() {
@@ -263,6 +265,10 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     this.router.navigate(['/admin/overview']);
   }
 
+  routeAccountManagement() {
+    this.keycloakService.redirectAccountManagement();
+  }
+
   openDeleteUserDialog() {
     const dialogRef = this.dialog.open(DeleteAccountComponent, {
       width: '600px',
@@ -337,7 +343,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   }
 
   public getCurrentRoleIcon() {
-    if (this.user?.isSuperAdmin) {
+    if (this.user?.['isSuperAdmin']) {
       return 'manage_accounts';
     } else if (this.user?.role === UserRole.EXECUTIVE_MODERATOR) {
       return 'support_agent';
@@ -348,7 +354,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   }
 
   public getCurrentRoleDescription(): string {
-    if (this.user?.isSuperAdmin) {
+    if (this.user?.['isSuperAdmin']) {
       return 'tooltip-super-admin';
     } else if (this.user?.role === UserRole.EXECUTIVE_MODERATOR) {
       return 'tooltip-moderator';

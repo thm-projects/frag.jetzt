@@ -22,6 +22,7 @@ import { filter, ReplaySubject, Subject, take, takeUntil } from 'rxjs';
 import { ThemeService } from '../../../../theme/theme.service';
 import { carousel } from './home-page-carousel';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { KeycloakService } from 'app/services/util/keycloak.service';
 
 export type CarouselEntryKind = 'highlight' | 'peek' | 'hidden';
 
@@ -66,6 +67,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
     public readonly languageService: LanguageService,
     public readonly themeService: ThemeService,
     sanitizer: DomSanitizer,
+    private readonly keycloak: KeycloakService,
   ) {
     themeService
       .getTheme()

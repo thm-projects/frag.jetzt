@@ -754,9 +754,11 @@
     *ngIf="
       user && !user.isGuest && user.loginId && router.url.endsWith('/user')
     "
-    (click)="openDeleteUserDialog()"
+    (click)="routeAccountManagement()"
     tabindex="0">
-    <mat-icon class="color-warn material-icons-outlined">delete</mat-icon>
-    <span>{{ "header.delete-account" | translate }}</span>
+    <mat-icon class="color-warn material-icons-outlined">
+      manage_accounts
+    </mat-icon>
+    <span>{{ "header.account-management" | translate }}</span>
   </button>
 </mat-menu>

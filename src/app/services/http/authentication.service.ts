@@ -57,7 +57,6 @@ export class AuthenticationService extends BaseHttpService {
     registered: '/registered',
     resetPassword: '/resetpassword',
     guest: '/guest',
-    superAdmin: '/super-admin',
   };
 
   private readonly httpOptions = {
@@ -112,16 +111,18 @@ export class AuthenticationService extends BaseHttpService {
     );
   }
 
-  login(email: string, password: string): Observable<LoginResultArray> {
+  login(token: string, keycloakId: UUID): Observable<LoginResultArray> {
     const connectionUrl: string =
       this.apiUrl.base +
       this.apiUrl.auth +
       this.apiUrl.login +
-      this.apiUrl.registered;
+      this.apiUrl.registered +
+      '/' +
+      keycloakId;
     return this.checkLogin(
       this.http.post<ClientAuthentication>(
         connectionUrl,
-        { loginId: email, password },
+        token,
         this.httpOptions,
       ),
       UserRole.PARTICIPANT,
@@ -219,15 +220,6 @@ export class AuthenticationService extends BaseHttpService {
             }),
           );
       }),
-    );
-  }
-
-  checkSuperAdmin(token: string): Observable<boolean> {
-    const connectionUrl: string =
-      this.apiUrl.base + this.apiUrl.user + this.apiUrl.superAdmin;
-    return this.http.get(connectionUrl, this.getTokenHeader(token)).pipe(
-      tap((_) => ''),
-      catchError((err) => of(err.error?.message || err)),
     );
   }
 
