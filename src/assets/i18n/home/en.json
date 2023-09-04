@@ -238,6 +238,7 @@
     "create-question": "Ask a question",
     "delete": "Yes",
     "delete-account": "Delete account",
+    "account-management": "Manage account",
     "delete-questions": "Delete questions",
     "delete-moderation-questions": "Delete questions in moderation",
     "delete-room": "Delete room",
@@ -415,6 +416,8 @@
     "navigationButtonTitle": "Navigation in the app"
   },
   "login": {
+    "default-keycloak-name": "Log in with frag.jetzt account",
+    "default-keycloak-description": "Register with frag.jetzt to access content across sessions and devices.",
     "not-authorized": "You're not authorized to view this page.",
     "activation-key": "Activation code …",
     "cancel": "Cancel",

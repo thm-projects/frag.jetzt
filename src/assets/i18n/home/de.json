@@ -246,6 +246,7 @@
     "chat-answer-format": "Antwortformat",
     "delete": "Ja",
     "delete-account": "Konto löschen",
+    "account-management": "Konto verwalten",
     "delete-questions": "Fragen löschen",
     "delete-moderation-questions": "Fragen in Moderation löschen",
     "delete-room": "Raum löschen",
@@ -415,6 +416,8 @@
     "navigationButtonTitle": "Navigation in der App"
   },
   "login": {
+    "default-keycloak-name": "Mit frag.jetzt Account anmelden",
+    "default-keycloak-description": "Registriere dich bei frag.jetzt, um Inhalte sitzungs- und geräteübergreifend zu nutzen.",
     "not-authorized": "Du bist nicht berechtigt, diese Seite zu sehen.",
     "activation-key": "Aktivierungscode …",
     "cancel": "Abbrechen",

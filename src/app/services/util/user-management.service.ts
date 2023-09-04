@@ -14,7 +14,7 @@ import {
   LoginResultArray,
 } from '../http/authentication.service';
 import { UserRole } from '../../models/user-roles.enum';
-import { Immutable, Mutable } from '../../utils/ts-utils';
+import { Immutable, Mutable, UUID } from '../../utils/ts-utils';
 import { filter, map, mergeMap } from 'rxjs/operators';
 import { ConfigurationService } from './configuration.service';
 import { Router } from '@angular/router';
@@ -36,7 +36,6 @@ import { GptService } from '../http/gpt.service';
 import { PersistentDataService } from './persistent-data.service';
 
 export interface ManagedUser extends User {
-  readonly isSuperAdmin: boolean;
   readonly roomAccess: Immutable<{ [shortId: string]: SavedRoomAccess }>;
   readonly readMotds: ReadonlySet<string>;
 }
@@ -45,6 +44,8 @@ interface ReadMOTD {
   userId: string;
   motdId: string;
 }
+
+const DEBUG_IGNORE_USER = true;
 
 @Injectable({
   providedIn: 'root',
@@ -115,8 +116,8 @@ export class UserManagementService {
     return this.injectUser(this.authenticationService.loginAsGuest());
   }
 
-  login(email: string, password: string): Observable<LoginResultArray> {
-    return this.injectUser(this.authenticationService.login(email, password));
+  login(token: string, keycloakId: UUID): Observable<LoginResultArray> {
+    return this.injectUser(this.authenticationService.login(token, keycloakId));
   }
 
   logout(message = true) {
@@ -280,13 +281,11 @@ export class UserManagementService {
   ): Observable<ManagedUser> {
     if (result[0] === LoginResult.Success) {
       return forkJoin([
-        this.authenticationService.checkSuperAdmin(result[1].token),
         this.loadMOTDs(result[1].id),
         this.dbRoomAccess.getAllByUser(result[1].id),
       ]).pipe(
-        map(([admin, motds, access]) => {
+        map(([motds, access]) => {
           const managedUser = result[1] as unknown as Mutable<ManagedUser>;
-          managedUser.isSuperAdmin = admin;
           managedUser.readMotds = new Set(motds.map((m) => m.motdId));
           managedUser.roomAccess = access.reduce((acc, value) => {
             acc[value.roomShortId] = value;
@@ -317,6 +316,9 @@ export class UserManagementService {
       }
       return of(null);
     }
+    if (DEBUG_IGNORE_USER) {
+      return of(null);
+    }
     return new Observable((subscriber) => {
       const current = decodeURI(this.router.url);
       this.router.navigate(['/home']).then(() => {
@@ -335,6 +337,7 @@ export class UserManagementService {
     if (this._currentUser === user) {
       return;
     }
+    this._initialized = true;
     this._currentUser = user;
     this._user.next(user);
     this.configurationService.put('currentAccount', user).subscribe();

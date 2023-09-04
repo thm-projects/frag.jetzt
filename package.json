@@ -50,6 +50,7 @@
     "is-docker": "^3.0.0",
     "is-promise": "^4.0.0",
     "katex": "^0.16.0",
+    "keycloak-js": "^22.0.1",
     "material-icons": "^1.11.1",
     "naughty-words": "^1.2.0",
     "ngx-color-picker": "^12.0.1",

@@ -238,6 +238,7 @@
     "create-question": "Poser une question",
     "delete": "Oui",
     "delete-account": "Supprimer le compte",
+    "account-management": "Gérer le compte",
     "delete-questions": "Supprimer des questions",
     "delete-moderation-questions": "Supprimer des questions dans la modération",
     "delete-room": "Supprimer la salle",
@@ -415,6 +416,8 @@
     "navigationButtonTitle": "Navigation dans l'application"
   },
   "login": {
+    "default-keycloak-name": "S'inscrire avec le compte frag.jetzt",
+    "default-keycloak-description": "Inscris-toi sur frag.jetzt pour profiter du contenu sur toutes les sessions et tous les appareils.",
     "not-authorized": "Tu n'es pas autorisé à voir cette page.",
     "activation-key": "Code d'activation …",
     "cancel": "Annuler",
