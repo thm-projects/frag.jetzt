@@ -35,6 +35,10 @@ export class KeycloakService {
     return this.providers;
   }
 
+  redirectAccountManagement() {
+    this.keycloak.accountManagement();
+  }
+
   doKeycloakLogin(
     keycloakId: UUID,
     force: boolean = true,
@@ -151,6 +155,7 @@ export class KeycloakService {
     if (this.keycloak !== keycloak) {
       return;
     }
+    console.log(keycloak.tokenParsed);
     this.userManagement
       .login(this.keycloak.token, this.providerId)
       .subscribe((d) => console.log(d));

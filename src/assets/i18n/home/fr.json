@@ -238,6 +238,7 @@
     "create-question": "Poser une question",
     "delete": "Oui",
     "delete-account": "Supprimer le compte",
+    "account-management": "Gérer le compte",
     "delete-questions": "Supprimer des questions",
     "delete-moderation-questions": "Supprimer des questions dans la modération",
     "delete-room": "Supprimer la salle",

@@ -337,6 +337,7 @@ export class UserManagementService {
     if (this._currentUser === user) {
       return;
     }
+    this._initialized = true;
     this._currentUser = user;
     this._user.next(user);
     this.configurationService.put('currentAccount', user).subscribe();

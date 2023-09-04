@@ -55,6 +55,7 @@ import { ShrinkObserver } from 'app/utils/shrink-observer';
 import { LivepollService } from '../../../services/http/livepoll.service';
 import { GptService } from 'app/services/http/gpt.service';
 import { GPTChatInfoComponent } from '../_dialogs/gptchat-info/gptchat-info.component';
+import { KeycloakService } from 'app/services/util/keycloak.service';
 
 @Component({
   selector: 'app-header',
@@ -114,6 +115,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     public readonly livepollService: LivepollService,
     private gptService: GptService,
     private route: ActivatedRoute,
+    private keycloakService: KeycloakService,
   ) {}
 
   ngAfterViewInit() {
@@ -261,6 +263,10 @@ export class HeaderComponent implements OnInit, AfterViewInit {
 
   routeAdmin() {
     this.router.navigate(['/admin/overview']);
+  }
+
+  routeAccountManagement() {
+    this.keycloakService.redirectAccountManagement();
   }
 
   openDeleteUserDialog() {

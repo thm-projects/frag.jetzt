@@ -238,6 +238,7 @@
     "create-question": "Ask a question",
     "delete": "Yes",
     "delete-account": "Delete account",
+    "account-management": "Manage account",
     "delete-questions": "Delete questions",
     "delete-moderation-questions": "Delete questions in moderation",
     "delete-room": "Delete room",
