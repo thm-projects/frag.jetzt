@@ -13,6 +13,16 @@
       }
     },
     {
+      "name": "authentication",
+      "urls": ["/auth/**"],
+      "cacheConfig": {
+        "strategy": "freshness",
+        "maxSize": 500,
+        "timeout": "3s",
+        "maxAge": "1s"
+      }
+    },
+    {
       "name": "static",
       "urls": [
         "!/**/*api*/**"
