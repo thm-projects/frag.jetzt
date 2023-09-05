@@ -4,6 +4,7 @@ export class KeycloakProvider {
   id: UUID;
   priority: number;
   url: string;
+  frontendUrl: string;
   eventPassword: string;
   realm: string;
   clientId: string;
@@ -20,6 +21,7 @@ export class KeycloakProvider {
     id = null,
     priority = 0,
     url = '',
+    frontendUrl = '',
     eventPassword = '',
     realm = '',
     clientId = '',
@@ -35,6 +37,7 @@ export class KeycloakProvider {
     this.id = id;
     this.priority = priority;
     this.url = url;
+    this.frontendUrl = frontendUrl;
     this.eventPassword = eventPassword;
     this.realm = realm;
     this.clientId = clientId;

@@ -731,7 +731,7 @@
       user &&
       !user.isGuest &&
       user.loginId &&
-      userManagementService.getCurrentUser()?.isSuperAdmin &&
+      isSuperAdmin &&
       router.url.endsWith('/user')
     "
     (click)="routeAdmin()"

@@ -11,9 +11,6 @@ import { UserRole } from '../models/user-roles.enum';
 import { SessionService } from '../services/util/session.service';
 import { UserManagementService } from '../services/util/user-management.service';
 import { EventService } from 'app/services/util/event.service';
-import { filter, take } from 'rxjs';
-
-const DEBUG_IGNORE_ROLE = true;
 
 @Injectable()
 export class AuthenticationGuard implements CanActivate {
@@ -28,12 +25,9 @@ export class AuthenticationGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot,
   ): boolean {
-    if (DEBUG_IGNORE_ROLE) {
-      return true;
-    }
     const url = decodeURI(state.url);
     if (route.data.superAdmin) {
-      return false;
+      return true;
     }
     const requiredRoles = (route.data['roles'] ?? []) as UserRole[];
     let wasAllowed = null;

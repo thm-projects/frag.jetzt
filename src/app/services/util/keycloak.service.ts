@@ -1,11 +1,23 @@
 import { Injectable } from '@angular/core';
 import Keycloak from 'keycloak-js';
 import { LanguageService } from './language.service';
-import { BehaviorSubject, Observable, defer, from, of, switchMap } from 'rxjs';
+import {
+  Observable,
+  Subject,
+  concat,
+  filter,
+  from,
+  merge,
+  of,
+  shareReplay,
+  switchMap,
+  take,
+} from 'rxjs';
 import { KeycloakProviderService } from '../http/keycloak-provider.service';
 import { KeycloakProvider } from 'app/models/keycloak-provider';
 import { UserManagementService } from './user-management.service';
 import { UUID } from 'app/utils/ts-utils';
+import { DsgvoBuilder } from 'app/utils/dsgvo-builder';
 
 const KEYCLOAK_PROVIDER = 'keycloak-provider-id';
 
@@ -13,9 +25,10 @@ const KEYCLOAK_PROVIDER = 'keycloak-provider-id';
   providedIn: 'root',
 })
 export class KeycloakService {
+  providers$: Observable<KeycloakProvider[]>;
   private keycloak: Keycloak;
   private providerId: UUID;
-  private providers = new BehaviorSubject<KeycloakProvider[]>([]);
+  private updateStream$ = new Subject();
 
   constructor(
     keycloakProvider: KeycloakProviderService,
@@ -23,16 +36,25 @@ export class KeycloakService {
     private userManagement: UserManagementService,
   ) {
     const id = localStorage.getItem(KEYCLOAK_PROVIDER);
-    keycloakProvider.getAll().subscribe((providers) => {
-      this.providers.next(providers);
+    this.providers$ = concat(
+      keycloakProvider.getAll(),
+      merge(
+        userManagement.getUser().pipe(filter((v) => Boolean(v))),
+        this.updateStream$,
+      ).pipe(switchMap(() => keycloakProvider.getAll())),
+    ).pipe(shareReplay(1));
+    this.providers$.pipe(take(1)).subscribe((providers) => {
+      providers.forEach((provider) => {
+        DsgvoBuilder.trustURL(this.adjustURL(provider.frontendUrl));
+      });
       if (id) {
         this.doKeycloakLogin(id as UUID, false).subscribe();
       }
     });
   }
 
-  getProviders(): Observable<KeycloakProvider[]> {
-    return this.providers;
+  update() {
+    this.updateStream$.next(true);
   }
 
   redirectAccountManagement() {
@@ -43,17 +65,21 @@ export class KeycloakService {
     keycloakId: UUID,
     force: boolean = true,
   ): Observable<boolean> {
-    let activeProvider = null;
-    for (const provider of this.providers.value) {
-      if (provider.nameDe.length < 1) {
-        activeProvider = provider;
-      }
-      if (keycloakId === provider.id) {
-        activeProvider = provider;
-        break;
-      }
-    }
-    return this.changeProvider(activeProvider).pipe(
+    return this.providers$.pipe(
+      take(1),
+      switchMap((providers) => {
+        let activeProvider = null;
+        for (const provider of providers) {
+          if (provider.nameDe.length < 1) {
+            activeProvider = provider;
+          }
+          if (keycloakId === provider.id) {
+            activeProvider = provider;
+            break;
+          }
+        }
+        return this.changeProvider(activeProvider);
+      }),
       switchMap(() => this.login(force)),
     );
   }
@@ -84,7 +110,7 @@ export class KeycloakService {
         return null;
       }
       const newKeycloak = new Keycloak({
-        url: this.adjustURL(keycloakProvider.url),
+        url: this.adjustURL(keycloakProvider.frontendUrl),
         realm: keycloakProvider.realm,
         clientId: keycloakProvider.clientId,
       });
@@ -139,12 +165,8 @@ export class KeycloakService {
   }
 
   private adjustURL(url: string) {
-    url = url.replace(
-      /^(https?:\/\/)?fragjetzt-keycloak(:\d+)?/i,
-      location.origin,
-    );
     if (url.startsWith('/')) {
-      return location.origin + '/' + url;
+      return location.origin + url;
     } else if (!url.startsWith('http://') && !url.startsWith('https://')) {
       return 'http://' + url;
     }
@@ -155,9 +177,6 @@ export class KeycloakService {
     if (this.keycloak !== keycloak) {
       return;
     }
-    console.log(keycloak.tokenParsed);
-    this.userManagement
-      .login(this.keycloak.token, this.providerId)
-      .subscribe((d) => console.log(d));
+    this.userManagement.login(this.keycloak.token, this.providerId).subscribe();
   }
 }

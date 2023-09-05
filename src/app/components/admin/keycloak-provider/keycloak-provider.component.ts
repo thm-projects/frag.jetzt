@@ -11,7 +11,7 @@ import {
   LanguageService,
 } from 'app/services/util/language.service';
 import { NotificationService } from 'app/services/util/notification.service';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject, take, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-keycloak-provider',
@@ -27,6 +27,7 @@ export class KeycloakProviderComponent implements OnInit, OnDestroy {
   clientId: string = '';
   realm: string = '';
   url: string = '';
+  frontendUrl: string = '';
   eventPassword: string = '';
   priority: number = 0;
   selectedProvider: KeycloakProvider;
@@ -42,9 +43,8 @@ export class KeycloakProviderComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.keyclaokService
-      .getProviders()
-      .pipe(takeUntil(this.destroyer))
+    this.keyclaokService.providers$
+      .pipe(take(1), takeUntil(this.destroyer))
       .subscribe({
         next: (d) => (this.providers = d),
         error: () => this.showError(),
@@ -64,6 +64,7 @@ export class KeycloakProviderComponent implements OnInit, OnDestroy {
     const newProvider: KeycloakProviderAPI = {
       clientId: this.clientId,
       url: this.url,
+      frontendUrl: this.frontendUrl,
       priority: this.priority,
       realm: this.realm,
       eventPassword: this.eventPassword,
@@ -131,7 +132,7 @@ export class KeycloakProviderComponent implements OnInit, OnDestroy {
   }
 
   onSelect() {
-    console.log(1);
+    this.keyclaokService.update();
     for (let i = 0; i < this.languages.length; i++) {
       const lang = this.languages[i];
       const access = lang[0].toUpperCase() + lang.slice(1);
@@ -142,6 +143,7 @@ export class KeycloakProviderComponent implements OnInit, OnDestroy {
     this.id = this.selectedProvider?.id || '';
     this.clientId = this.selectedProvider?.clientId || '';
     this.url = this.selectedProvider?.url || '';
+    this.frontendUrl = this.selectedProvider?.frontendUrl || '';
     this.priority = this.selectedProvider?.priority || 0;
     this.realm = this.selectedProvider?.realm || '';
     this.eventPassword = this.selectedProvider?.eventPassword || '';
@@ -154,6 +156,9 @@ export class KeycloakProviderComponent implements OnInit, OnDestroy {
     }
     if (this.selectedProvider.url !== this.url) {
       newProvider.url = this.url;
+    }
+    if (this.selectedProvider.frontendUrl !== this.frontendUrl) {
+      newProvider.frontendUrl = this.frontendUrl;
     }
     if (this.selectedProvider.priority !== this.priority) {
       newProvider.priority = this.priority;

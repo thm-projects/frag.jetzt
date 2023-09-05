@@ -84,6 +84,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   isGPTPrivacyPolicyAccepted: boolean = false;
   canOpenGPT = false;
   customOptionText: { key: string; noTranslate?: boolean } = null;
+  isSuperAdmin = false;
   public readonly navigationAccess = {
     livepoll: livepollNavigationAccessOnRoute,
   };
@@ -343,7 +344,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   }
 
   public getCurrentRoleIcon() {
-    if (this.user?.['isSuperAdmin']) {
+    if (this.isSuperAdmin) {
       return 'manage_accounts';
     } else if (this.user?.role === UserRole.EXECUTIVE_MODERATOR) {
       return 'support_agent';
@@ -354,7 +355,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   }
 
   public getCurrentRoleDescription(): string {
-    if (this.user?.['isSuperAdmin']) {
+    if (this.isSuperAdmin) {
       return 'tooltip-super-admin';
     } else if (this.user?.role === UserRole.EXECUTIVE_MODERATOR) {
       return 'tooltip-moderator';

@@ -18,8 +18,6 @@ const EXTERNAL_TRUSTED = new Set([
 export class DsgvoBuilder {
   private static _trustedURLs = new Set<string>([
     location.origin.toLowerCase(),
-    // TODO: Keycloak ips
-    'https://staging.frag.jetzt/',
   ]);
 
   static trustURL(url: string) {

@@ -67,6 +67,21 @@
       {{ "keycloak-provider.required" | translate }}
     </mat-error>
   </mat-form-field>
+  <!-- url -->
+  <mat-form-field>
+    <mat-label>{{ "keycloak-provider.frontend-url" | translate }}</mat-label>
+    <input
+      matInput
+      required
+      type="text"
+      [(ngModel)]="frontendUrl"
+      [placeholder]="
+        'keycloak-provider.placeholder-frontend-url' | translate
+      " />
+    <mat-error *ngIf="!frontendUrl">
+      {{ "keycloak-provider.required" | translate }}
+    </mat-error>
+  </mat-form-field>
   <!-- realm -->
   <mat-form-field>
     <mat-label>{{ "keycloak-provider.realm" | translate }}</mat-label>

@@ -13,7 +13,7 @@ import { UserManagementService } from '../../../services/util/user-management.se
 import { KeycloakService } from 'app/services/util/keycloak.service';
 import { UUID } from 'app/utils/ts-utils';
 import { KeycloakProvider } from 'app/models/keycloak-provider';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject, take, takeUntil } from 'rxjs';
 import { LanguageService } from 'app/services/util/language.service';
 
 export class LoginErrorStateMatcher implements ErrorStateMatcher {
@@ -73,9 +73,8 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.defaultKeycloakProvider['translated_description' + access] = desc;
       }
     };
-    this.keycloak
-      .getProviders()
-      .pipe(takeUntil(this.destroyer))
+    this.keycloak.providers$
+      .pipe(take(1), takeUntil(this.destroyer))
       .subscribe((data) => {
         this.providers = data;
         this.defaultKeycloakProvider = this.providers.find(
