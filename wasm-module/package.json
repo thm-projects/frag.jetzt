@@ -1,0 +1,33 @@
+{
+  "name": "frag-jetzt-wasm",
+  "collaborators": [
+    "Ruben Bimberg <ruben.bimberg@mni.thm.de>"
+  ],
+  "description": "Main Project: https://git.thm.de/arsnova/frag.jetzt",
+  "version": "0.1.0",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://git.thm.de/arsnova/frag.jetzt-tools"
+  },
+  "files": [
+    "frag_jetzt_wasm_bg.wasm",
+    "frag_jetzt_wasm.js",
+    "frag_jetzt_wasm_bg.js",
+    "frag_jetzt_wasm.d.ts"
+  ],
+  "module": "frag_jetzt_wasm.js",
+  "homepage": "https://frag.jetzt",
+  "types": "frag_jetzt_wasm.d.ts",
+  "sideEffects": [
+    "./frag_jetzt_wasm.js",
+    "./snippets/*"
+  ],
+  "keywords": [
+    "frag-jetzt",
+    "arsonva",
+    "ars",
+    "feedback",
+    "pwa"
+  ]
+}

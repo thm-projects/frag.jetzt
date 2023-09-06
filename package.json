@@ -46,6 +46,7 @@
     "chart.js": "^3.8.0",
     "ci": "^2.2.0",
     "emoji-toolkit": "^6.5.1",
+    "frag-jetzt-wasm": "file:wasm-module",
     "get-stream": "^6.0.1",
     "is-docker": "^3.0.0",
     "is-promise": "^4.0.0",
