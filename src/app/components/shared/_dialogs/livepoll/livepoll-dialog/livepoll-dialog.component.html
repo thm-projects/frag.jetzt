@@ -24,6 +24,13 @@
     <div class="settings">
       <button
         mat-flat-button
+        (click)="openPeerInstruction()"
+        class="button-secondary">
+        <mat-icon>face</mat-icon>
+        <span>Peer Instruction</span>
+      </button>
+      <button
+        mat-flat-button
         [mat-menu-trigger-for]="archiveMenu"
         class="button-primary"
         *ngIf="session.currentRole"

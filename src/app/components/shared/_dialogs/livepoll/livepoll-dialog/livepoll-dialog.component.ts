@@ -29,7 +29,11 @@ import {
   MatDialog,
   MatDialogRef,
 } from '@angular/material/dialog';
-import { LivepollConfirmationDialogComponent } from '../livepoll-confirmation-dialog/livepoll-confirmation-dialog.component';
+import {
+  ConfirmDialogAction,
+  ConfirmDialogType,
+  LivepollConfirmationDialogComponent,
+} from '../livepoll-confirmation-dialog/livepoll-confirmation-dialog.component';
 import { take } from 'rxjs/operators';
 import { LivepollVote } from '../../../../../models/livepoll-vote';
 import { WsLivepollService } from '../../../../../services/websockets/ws-livepoll.service';
@@ -38,6 +42,7 @@ import { ActiveUserService } from 'app/services/http/active-user.service';
 import { LivepollComponentUtility } from '../livepoll-component-utility';
 import { prettyPrintDate } from 'app/utils/date';
 import { RoomDataService } from '../../../../../services/util/room-data.service';
+import { LivepollPeerInstructionWindowComponent } from '../livepoll-peer-instruction/livepoll-peer-instruction-window/livepoll-peer-instruction-window.component';
 
 export interface LivepollDialogInjectionData {
   session: LivepollSession;
@@ -280,7 +285,7 @@ export class LivepollDialogComponent
           'dialog-confirm-delete-title',
           'dialog-confirm-delete-description',
         ).subscribe((x) => {
-          if (x) {
+          if (x === ConfirmDialogAction.Accept) {
             this.dialogRef.close({
               session: this.livepollSession,
               reason,
@@ -293,7 +298,7 @@ export class LivepollDialogComponent
           'dialog-confirm-create-new-title',
           'dialog-confirm-create-new-description',
         ).subscribe((x) => {
-          if (x) {
+          if (x === ConfirmDialogAction.Accept) {
             this.dialogRef.close({
               session: this.livepollSession,
               reason,
@@ -368,6 +373,13 @@ export class LivepollDialogComponent
     return prettyPrintDate(createdAt, this.languageService.currentLanguage());
   }
 
+  openPeerInstruction() {
+    const dialogRef = this.dialog.open(
+      LivepollPeerInstructionWindowComponent,
+      {},
+    );
+  }
+
   private parseWebSocketStream(type: string, payload: any, id?: UUID) {
     switch (type) {
       case 'LivepollResult':
@@ -410,9 +422,13 @@ export class LivepollDialogComponent
   private createConfirmationDialog(
     title: string,
     text: string,
-  ): Observable<boolean> {
+    type: ConfirmDialogType = ConfirmDialogType.AcceptCancel,
+  ): Observable<ConfirmDialogAction> {
     const dialog = this.dialog.open(LivepollConfirmationDialogComponent, {
       width: '500px',
+      data: {
+        type,
+      },
     });
     dialog.componentInstance.titleRef = title;
     dialog.componentInstance.textRef = text;

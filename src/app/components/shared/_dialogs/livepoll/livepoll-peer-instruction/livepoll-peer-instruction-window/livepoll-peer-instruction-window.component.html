@@ -1,0 +1,18 @@
+<div class="dialog-header">
+  <h5 mat-dialog-title>Peer Instruction</h5>
+</div>
+<mat-dialog-content></mat-dialog-content>
+<mat-dialog-actions>
+  <ng-container></ng-container>
+  <button
+    mat-flat-button
+    class="button-cancel">
+    <span>cancel</span>
+  </button>
+  <button
+    mat-flat-button
+    (click)="nextPeerInstructionStep()"
+    class="button-cancel">
+    <span>Continue</span>
+  </button>
+</mat-dialog-actions>
