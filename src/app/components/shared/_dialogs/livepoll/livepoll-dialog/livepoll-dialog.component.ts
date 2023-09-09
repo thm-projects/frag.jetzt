@@ -13,7 +13,7 @@ import {
   LivepollTemplateContext,
   templateEntries,
 } from '../../../../../models/livepoll-template';
-import { Observable, ReplaySubject, takeUntil } from 'rxjs';
+import { BehaviorSubject, Observable, ReplaySubject, takeUntil } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../../../services/util/language.service';
 import { HttpClient } from '@angular/common/http';
@@ -34,7 +34,7 @@ import {
   ConfirmDialogType,
   LivepollConfirmationDialogComponent,
 } from '../livepoll-confirmation-dialog/livepoll-confirmation-dialog.component';
-import { take } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { LivepollVote } from '../../../../../models/livepoll-vote';
 import { WsLivepollService } from '../../../../../services/websockets/ws-livepoll.service';
 import { NotificationService } from '../../../../../services/util/notification.service';
@@ -43,6 +43,12 @@ import { LivepollComponentUtility } from '../livepoll-component-utility';
 import { prettyPrintDate } from 'app/utils/date';
 import { RoomDataService } from '../../../../../services/util/room-data.service';
 import { LivepollPeerInstructionWindowComponent } from '../livepoll-peer-instruction/livepoll-peer-instruction-window/livepoll-peer-instruction-window.component';
+
+export enum PeerInstructionPhase {
+  Undefined,
+  FirstPass,
+  SecondPass,
+}
 
 export interface LivepollDialogInjectionData {
   session: LivepollSession;
@@ -54,6 +60,7 @@ export type LivepollDialogResponseReason =
   | 'delete'
   | 'reset'
   | 'closedAsParticipant'
+  | 'peerInstructionPhase1'
   | 'closedAsCreator';
 
 export interface LivepollDialogResponseData {
@@ -215,6 +222,10 @@ export class LivepollDialogComponent
   }
 
   public save() {
+    this.saveCallback().pipe(take(1)).subscribe();
+  }
+
+  public saveCallback(): Observable<LivepollSession> {
     const data: Partial<LivepollSessionPatchAPI> = {};
     if (this.lastSession.active !== this.livepollSession.active) {
       data.active = this.livepollSession.active;
@@ -231,9 +242,9 @@ export class LivepollDialogComponent
     if (Object.keys(data).length < 1) {
       return;
     }
-    this.livepollService
+    return this.livepollService
       .update(this.livepollSession.id, data)
-      .subscribe((d) => (this.lastSession = d));
+      .pipe(map((d) => (this.lastSession = d)));
   }
 
   public pause() {
@@ -280,6 +291,7 @@ export class LivepollDialogComponent
 
   public close(reason: LivepollDialogResponseReason) {
     switch (reason) {
+      // delete: 'End poll'
       case 'delete':
         this.createConfirmationDialog(
           'dialog-confirm-delete-title',
@@ -378,6 +390,14 @@ export class LivepollDialogComponent
       LivepollPeerInstructionWindowComponent,
       {},
     );
+    dialogRef.afterClosed().subscribe((x: boolean) => {
+      if (x) {
+        this.dialogRef.close({
+          session: this.livepollSession,
+          reason: 'peerInstructionPhase1',
+        });
+      }
+    });
   }
 
   private parseWebSocketStream(type: string, payload: any, id?: UUID) {

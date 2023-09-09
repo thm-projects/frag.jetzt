@@ -8,10 +8,10 @@ export enum ConfirmDialogType {
 }
 
 export enum ConfirmDialogAction {
+  Cancel,
   Yes,
   No,
   Accept,
-  Cancel,
 }
 
 @Component({

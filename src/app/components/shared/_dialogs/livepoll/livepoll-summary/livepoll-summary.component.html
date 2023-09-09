@@ -4,3 +4,17 @@
   [translateKey]="this.translateKey"
   [votes]="this.votes"
   [totalVotes]="this.totalVotes"></app-livepoll-statistic>
+<mat-dialog-actions *ngIf="data.peerInstruction">
+  <button
+    mat-flat-button
+    class="button-cancel"
+    (click)="abortPeerInstruction()">
+    <span>abort</span>
+  </button>
+  <button
+    mat-flat-button
+    class="button-secondary"
+    (click)="startPeerInstruction2ndPhase()">
+    <span>start 2nd Phase</span>
+  </button>
+</mat-dialog-actions>

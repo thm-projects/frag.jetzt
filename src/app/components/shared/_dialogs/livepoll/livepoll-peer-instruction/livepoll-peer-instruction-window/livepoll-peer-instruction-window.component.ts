@@ -16,7 +16,10 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 export class LivepollPeerInstructionWindowComponent implements OnInit {
   constructor(
     public readonly dialog: MatDialog,
-    public readonly matDialogRef: MatDialogRef<LivepollPeerInstructionWindowComponent>,
+    public readonly matDialogRef: MatDialogRef<
+      LivepollPeerInstructionWindowComponent,
+      boolean
+    >,
   ) {}
 
   ngOnInit(): void {}
@@ -25,21 +28,9 @@ export class LivepollPeerInstructionWindowComponent implements OnInit {
     this.createConfirmationDialog(
       'dialog-confirm-peerInstruction-show1stStageResults-title',
       'dialog-confirm-peerInstruction-show1stStageResults-description',
-      ConfirmDialogType.YesNoCancel,
+      ConfirmDialogType.AcceptCancel,
     ).subscribe((result) => {
-      switch (result) {
-        case ConfirmDialogAction.Yes:
-          this.matDialogRef.close();
-          break;
-        case ConfirmDialogAction.No:
-          this.matDialogRef.close();
-          break;
-        case ConfirmDialogAction.Cancel:
-          this.matDialogRef.close();
-          break;
-        case ConfirmDialogAction.Accept:
-          throw new Error();
-      }
+      this.matDialogRef.close(!!result);
     });
   }
 

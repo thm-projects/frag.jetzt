@@ -11,9 +11,9 @@ import { SessionService } from '../util/session.service';
 import { UserRole } from '../../models/user-roles.enum';
 import { Overlay } from '@angular/cdk/overlay';
 import {
+  callServiceEvent,
   LivepollDialogRequest,
   LivepollDialogResponse,
-  callServiceEvent,
 } from 'app/utils/service-component-events';
 import { EventService } from '../util/event.service';
 
@@ -283,6 +283,7 @@ export class LivepollService extends BaseHttpService {
       const dialogRef = response.dialogRef;
       dialogRef.afterClosed().subscribe((result) => {
         switch (result?.reason) {
+          // delete: after confirmation of 'End poll'
           case 'delete':
             this.delete(sessionService.currentLivepoll.id).subscribe(() => {
               this._dialogState.next(LivepollDialogState.Closed);
@@ -293,6 +294,12 @@ export class LivepollService extends BaseHttpService {
             this.delete(sessionService.currentLivepoll.id).subscribe(() => {
               this._dialogState.next(LivepollDialogState.Closed);
               this.open(sessionService);
+            });
+            break;
+          case 'peerInstructionPhase1':
+            this.delete(sessionService.currentLivepoll.id).subscribe(() => {
+              this._dialogState.next(LivepollDialogState.Closed);
+              this.openSummary(sessionService, cachedLivepollSession, true);
             });
             break;
           case 'closedAsCreator':
@@ -348,12 +355,22 @@ export class LivepollService extends BaseHttpService {
   private openSummary(
     sessionService: SessionService,
     livepollSession: LivepollSession,
+    peerInstruction: boolean = false,
   ) {
     const config = {
-      ...{ data: livepollSession },
-      ...LivepollService.dialogDefaults,
+      ...{
+        data: {
+          peerInstruction,
+          livepollSession,
+        },
+      },
+      ...{
+        ...LivepollService.dialogDefaults,
+        ...({
+          disableClose: true,
+        } as MatDialogConfig),
+      },
     };
-
     callServiceEvent<LivepollDialogResponse, LivepollDialogRequest>(
       this.eventService,
       new LivepollDialogRequest('summary', config),
