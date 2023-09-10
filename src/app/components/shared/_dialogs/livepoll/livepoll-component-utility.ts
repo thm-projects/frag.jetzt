@@ -16,6 +16,13 @@ const animateClosed = {
   height: '0px',
 };
 
+export interface TemplateTarget {
+  votes: number[];
+  template: LivepollTemplateContext;
+  rowHeight: number;
+  options: LivepollOptionEntry[];
+}
+
 export class LivepollComponentUtility {
   static readonly animation = [
     trigger('AnimateInOut', [
@@ -48,12 +55,7 @@ export class LivepollComponentUtility {
       });
   }
 
-  static initTemplate(target: {
-    votes: number[];
-    template: LivepollTemplateContext;
-    rowHeight: number;
-    options: LivepollOptionEntry[];
-  }) {
+  static initTemplate(target: TemplateTarget) {
     target.votes = new Array(
       target.template.symbols?.length || target.template.length,
     ).fill(0);

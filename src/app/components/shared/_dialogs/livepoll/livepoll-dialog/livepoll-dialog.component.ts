@@ -100,6 +100,7 @@ export class LivepollDialogComponent
   public rowHeight: number;
   public archive: LivepollSession[];
   public participantCount: string = '0';
+  protected is2ndPhasePeerInstruction: boolean = false;
   private voteQuery: number = -1;
   private _destroyer = new ReplaySubject(1);
   private lastSession: LivepollSession;
@@ -124,6 +125,12 @@ export class LivepollDialogComponent
       this.isProduction = data.isProduction;
       this.lastSession = clone(this.livepollSession) as LivepollSession;
       this.template = templateEntries[this.livepollSession.template];
+      const relation = this.livepollService.getPeerInstructionRelation(
+        this.livepollSession,
+      );
+      if (relation && relation[1] === this.livepollSession.id) {
+        this.is2ndPhasePeerInstruction = true;
+      }
     }
     LivepollComponentUtility.initLanguage(
       this.languageService,
@@ -386,10 +393,13 @@ export class LivepollDialogComponent
   }
 
   openPeerInstruction() {
-    const dialogRef = this.dialog.open(
-      LivepollPeerInstructionWindowComponent,
-      {},
-    );
+    const dialogRef = this.dialog.open(LivepollPeerInstructionWindowComponent, {
+      data: {
+        windowContext: {
+          is2ndPhasePeerInstruction: this.is2ndPhasePeerInstruction,
+        },
+      },
+    });
     dialogRef.afterClosed().subscribe((x: boolean) => {
       if (x) {
         this.dialogRef.close({

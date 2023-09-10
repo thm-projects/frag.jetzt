@@ -22,6 +22,7 @@
       "></ng-container>
     <div class="fill"></div>
     <div class="settings">
+      <span *ngIf="is2ndPhasePeerInstruction">2nd Phase</span>
       <button
         mat-flat-button
         (click)="openPeerInstruction()"

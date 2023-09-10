@@ -1,18 +1,31 @@
 <div class="dialog-header">
-  <h5 mat-dialog-title>Peer Instruction</h5>
+  <ng-container *ngIf="data.windowContext.is2ndPhasePeerInstruction">
+    <h5 mat-dialog-title>Peer Instruction - 2nd Phase</h5>
+  </ng-container>
+  <ng-container *ngIf="!data.windowContext.is2ndPhasePeerInstruction">
+    <h5 mat-dialog-title>Peer Instruction</h5>
+  </ng-container>
 </div>
 <mat-dialog-content></mat-dialog-content>
 <mat-dialog-actions>
-  <ng-container></ng-container>
-  <button
-    mat-flat-button
-    class="button-cancel">
-    <span>cancel</span>
-  </button>
-  <button
-    mat-flat-button
-    (click)="nextPeerInstructionStep()"
-    class="button-cancel">
-    <span>Continue</span>
-  </button>
+  <ng-container *ngIf="data.windowContext.is2ndPhasePeerInstruction">
+    <button
+      mat-flat-button
+      class="button-cancel">
+      <span>cancel</span>
+    </button>
+  </ng-container>
+  <ng-container *ngIf="!data.windowContext.is2ndPhasePeerInstruction">
+    <button
+      mat-flat-button
+      class="button-cancel">
+      <span>cancel</span>
+    </button>
+    <button
+      mat-flat-button
+      (click)="nextPeerInstructionStep()"
+      class="button-cancel">
+      <span>Continue</span>
+    </button>
+  </ng-container>
 </mat-dialog-actions>

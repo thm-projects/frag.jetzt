@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import {
   ConfirmDialogAction,
@@ -6,7 +6,11 @@ import {
   LivepollConfirmationDialogComponent,
 } from '../../livepoll-confirmation-dialog/livepoll-confirmation-dialog.component';
 import { take } from 'rxjs/operators';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import {
+  MAT_DIALOG_DATA,
+  MatDialog,
+  MatDialogRef,
+} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-livepoll-peer-instruction-window',
@@ -20,6 +24,12 @@ export class LivepollPeerInstructionWindowComponent implements OnInit {
       LivepollPeerInstructionWindowComponent,
       boolean
     >,
+    @Inject(MAT_DIALOG_DATA)
+    public readonly data: {
+      windowContext: {
+        is2ndPhasePeerInstruction: boolean;
+      };
+    },
   ) {}
 
   ngOnInit(): void {}

@@ -1,0 +1,11 @@
+<h1>Peer Instruction - Results</h1>
+<ng-container *ngFor="let pass of comparisonList; index as i">
+  <h2>#{{ i + 1 }} - Run</h2>
+  <app-livepoll-statistic
+    *ngIf="pass.options"
+    [options]="pass.options"
+    [template]="pass.template"
+    [translateKey]="'common'"
+    [votes]="pass.votes"
+    [totalVotes]="pass.totalVotes"></app-livepoll-statistic>
+</ng-container>

@@ -43,7 +43,7 @@ export class MotdDialogResponse extends ComponentResponse {
 
 export class LivepollDialogRequest extends ServiceRequest<LivepollDialogRequest> {
   constructor(
-    public readonly dialog: 'dialog' | 'create' | 'summary',
+    public readonly dialog: 'dialog' | 'create' | 'summary' | 'comparison',
     public readonly config: MatDialogConfig<unknown>,
   ) {
     super(LivepollDialogRequest.name, LivepollDialogResponse.name);

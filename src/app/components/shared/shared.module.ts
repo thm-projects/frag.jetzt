@@ -149,6 +149,7 @@ import { CommentA11yElementsComponent } from './comment/comment-a11y-elements/co
 import { ChatGPTBrainstormComponent } from './_dialogs/chat-gptbrainstorm/chat-gptbrainstorm.component';
 import { GPTConversationOverviewComponent } from './_dialogs/gptconversation-overview/gptconversation-overview.component';
 import { LivepollPeerInstructionWindowComponent } from './_dialogs/livepoll/livepoll-peer-instruction/livepoll-peer-instruction-window/livepoll-peer-instruction-window.component';
+import { LivepollPeerInstructionComparisonComponent } from './_dialogs/livepoll/livepoll-peer-instruction/livepoll-peer-instruction-comparison/livepoll-peer-instruction-comparison.component';
 
 @NgModule({
   imports: [
@@ -300,6 +301,7 @@ import { LivepollPeerInstructionWindowComponent } from './_dialogs/livepoll/live
     ChatGPTBrainstormComponent,
     GPTConversationOverviewComponent,
     LivepollPeerInstructionWindowComponent,
+    LivepollPeerInstructionComparisonComponent,
   ],
   exports: [
     RoomJoinComponent,
