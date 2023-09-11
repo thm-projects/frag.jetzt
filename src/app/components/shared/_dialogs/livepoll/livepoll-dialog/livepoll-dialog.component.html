@@ -22,6 +22,16 @@
       "></ng-container>
     <div class="fill"></div>
     <div class="settings">
+      <span *ngIf="is2ndPhasePeerInstruction">
+        {{ translateKey + ".peerInstruction-phase-2-marker" | translate }}
+      </span>
+      <button
+        mat-flat-button
+        (click)="openPeerInstruction()"
+        class="button-secondary">
+        <mat-icon>face</mat-icon>
+        <span>{{ translateKey + ".peerInstruction-button" | translate }}</span>
+      </button>
       <button
         mat-flat-button
         [mat-menu-trigger-for]="archiveMenu"
