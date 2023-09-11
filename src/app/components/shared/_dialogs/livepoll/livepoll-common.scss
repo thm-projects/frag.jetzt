@@ -59,6 +59,10 @@ $bar-background: $secondary;
 
     .settings {
       align-items: center;
+
+      > * + * {
+        margin-left: 16px;
+      }
     }
   }
 }

@@ -7,21 +7,52 @@
   <span>{{ "common." + textRef | translate }}</span>
 </mat-dialog-content>
 <mat-dialog-actions>
-  <div style="flex-grow: 1"></div>
-  <button
-    mat-flat-button
-    class="button-cancel"
-    (click)="cancel()">
-    <span>
-      {{ "common.cancel" | translate }}
-    </span>
-  </button>
-  <button
-    mat-flat-button
-    class="button-primary-filled"
-    (click)="accept()">
-    <span>
-      {{ "common.confirm-yes" | translate }}
-    </span>
-  </button>
+  <ng-container [ngSwitch]="this.data.type">
+    <ng-container *ngSwitchCase="ConfirmDialogType.AcceptCancel">
+      <div style="flex-grow: 1"></div>
+      <button
+        mat-flat-button
+        class="button-cancel"
+        (click)="emitAction(ConfirmDialogAction.Cancel)">
+        <span>
+          {{ "common.cancel" | translate }}
+        </span>
+      </button>
+      <button
+        mat-flat-button
+        class="button-primary-filled"
+        (click)="emitAction(ConfirmDialogAction.Accept)">
+        <span>
+          {{ "common.confirm-accept" | translate }}
+        </span>
+      </button>
+    </ng-container>
+    <ng-container *ngSwitchCase="ConfirmDialogType.YesNoCancel">
+      <button
+        mat-flat-button
+        class="button-cancel"
+        (click)="emitAction(ConfirmDialogAction.Cancel)">
+        <span>
+          {{ "common.cancel" | translate }}
+        </span>
+      </button>
+      <div style="flex-grow: 1"></div>
+      <button
+        mat-flat-button
+        class="button-primary-filled"
+        (click)="emitAction(ConfirmDialogAction.No)">
+        <span>
+          {{ "common.confirm-no" | translate }}
+        </span>
+      </button>
+      <button
+        mat-flat-button
+        class="button-primary-filled"
+        (click)="emitAction(ConfirmDialogAction.Yes)">
+        <span>
+          {{ "common.confirm-yes" | translate }}
+        </span>
+      </button>
+    </ng-container>
+  </ng-container>
 </mat-dialog-actions>

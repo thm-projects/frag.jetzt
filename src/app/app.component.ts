@@ -26,6 +26,7 @@ import { UpdateInfoDialogComponent } from './components/home/_dialogs/update-inf
 import { LivepollDialogComponent } from './components/shared/_dialogs/livepoll/livepoll-dialog/livepoll-dialog.component';
 import { LivepollCreateComponent } from './components/shared/_dialogs/livepoll/livepoll-create/livepoll-create.component';
 import { LivepollSummaryComponent } from './components/shared/_dialogs/livepoll/livepoll-summary/livepoll-summary.component';
+import { LivepollPeerInstructionComparisonComponent } from './components/shared/_dialogs/livepoll/livepoll-peer-instruction/livepoll-peer-instruction-comparison/livepoll-peer-instruction-comparison.component';
 
 @Component({
   selector: 'app-root',
@@ -149,27 +150,42 @@ export class AppComponent implements OnInit {
     this.eventService
       .on<LivepollDialogRequest>(LivepollDialogRequest.name)
       .subscribe((request) => {
-        if (request.dialog === 'dialog') {
-          sendEvent(
-            this.eventService,
-            new LivepollDialogResponse(
-              this.dialog.open(LivepollDialogComponent, request.config),
-            ),
-          );
-        } else if (request.dialog === 'create') {
-          sendEvent(
-            this.eventService,
-            new LivepollDialogResponse(
-              this.dialog.open(LivepollCreateComponent, request.config),
-            ),
-          );
-        } else if (request.dialog === 'summary') {
-          sendEvent(
-            this.eventService,
-            new LivepollDialogResponse(
-              this.dialog.open(LivepollSummaryComponent, request.config),
-            ),
-          );
+        switch (request.dialog) {
+          case 'dialog':
+            sendEvent(
+              this.eventService,
+              new LivepollDialogResponse(
+                this.dialog.open(LivepollDialogComponent, request.config),
+              ),
+            );
+            break;
+          case 'create':
+            sendEvent(
+              this.eventService,
+              new LivepollDialogResponse(
+                this.dialog.open(LivepollCreateComponent, request.config),
+              ),
+            );
+            break;
+          case 'summary':
+            sendEvent(
+              this.eventService,
+              new LivepollDialogResponse(
+                this.dialog.open(LivepollSummaryComponent, request.config),
+              ),
+            );
+            break;
+          case 'comparison':
+            sendEvent(
+              this.eventService,
+              new LivepollDialogResponse(
+                this.dialog.open(
+                  LivepollPeerInstructionComparisonComponent,
+                  request.config,
+                ),
+              ),
+            );
+            break;
         }
       });
   }
