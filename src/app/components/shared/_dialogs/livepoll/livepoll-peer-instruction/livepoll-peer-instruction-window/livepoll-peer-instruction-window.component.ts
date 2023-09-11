@@ -11,11 +11,15 @@ import {
   MatDialog,
   MatDialogRef,
 } from '@angular/material/dialog';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-livepoll-peer-instruction-window',
   templateUrl: './livepoll-peer-instruction-window.component.html',
-  styleUrls: ['./livepoll-peer-instruction-window.component.scss'],
+  styleUrls: [
+    './livepoll-peer-instruction-window.component.scss',
+    '../../livepoll-common.scss',
+  ],
 })
 export class LivepollPeerInstructionWindowComponent implements OnInit {
   constructor(
@@ -24,6 +28,7 @@ export class LivepollPeerInstructionWindowComponent implements OnInit {
       LivepollPeerInstructionWindowComponent,
       boolean
     >,
+    public readonly translate: TranslateService,
     @Inject(MAT_DIALOG_DATA)
     public readonly data: {
       windowContext: {

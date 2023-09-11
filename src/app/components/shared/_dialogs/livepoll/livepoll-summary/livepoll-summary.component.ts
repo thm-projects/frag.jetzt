@@ -14,7 +14,7 @@ import { take } from 'rxjs';
 @Component({
   selector: 'app-livepoll-summary',
   templateUrl: './livepoll-summary.component.html',
-  styleUrls: ['./livepoll-summary.component.scss'],
+  styleUrls: ['./livepoll-summary.component.scss', '../livepoll-common.scss'],
 })
 export class LivepollSummaryComponent implements OnInit {
   public votes: number[];
