@@ -433,7 +433,6 @@
     "header": "Sign in",
     "input-incorrect": "Please check your data.",
     "login": "Sign in with account",
-    "login-data-incorrect": "E-mail or password incorrect",
     "login-data-expired": "Your password has expired, please request a new one.",
     "guest-expired": "The guest account has expired, please try again.",
     "login-error-unknown": "Unknown error: {{code}}",

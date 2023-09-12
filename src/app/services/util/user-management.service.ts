@@ -10,8 +10,6 @@ import {
 } from 'rxjs';
 import {
   AuthenticationService,
-  LoginResult,
-  LoginResultArray,
 } from '../http/authentication.service';
 import { UserRole } from '../../models/user-roles.enum';
 import { Immutable, Mutable, UUID } from '../../utils/ts-utils';
@@ -70,7 +68,7 @@ export class UserManagementService {
     private persistentDataService: PersistentDataService,
   ) {}
 
-  init(guestUser: User, currentUser: User): Observable<any> {
+ /* init(guestUser: User, currentUser: User): Observable<any> {
     if (this._initialized) {
       return of(null);
     }
@@ -375,5 +373,5 @@ export class UserManagementService {
       'userId',
       IDBKeyRange.only(userId),
     );
-  }
+  }*/
 }

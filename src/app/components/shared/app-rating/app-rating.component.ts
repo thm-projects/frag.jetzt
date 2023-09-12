@@ -2,6 +2,7 @@ import {
   Component,
   Input,
   OnChanges,
+  OnDestroy,
   OnInit,
   QueryList,
   SimpleChanges,
@@ -17,14 +18,15 @@ import { RatingResult } from '../../../models/rating-result';
 import { AppRatingPopUpComponent } from '../_dialogs/app-rating-pop-up/app-rating-pop-up.component';
 import { MatDialog } from '@angular/material/dialog';
 import { DeviceInfoService } from '../../../services/util/device-info.service';
-import { UserManagementService } from '../../../services/util/user-management.service';
+import { AccountStateService } from 'app/services/state/account-state.service';
+import { ReplaySubject, filter, switchMap, take, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-app-rating',
   templateUrl: './app-rating.component.html',
   styleUrls: ['./app-rating.component.scss'],
 })
-export class AppRatingComponent implements OnInit, OnChanges {
+export class AppRatingComponent implements OnInit, OnChanges, OnDestroy {
   @Input() rating: Rating = undefined;
   @Input() onSuccess: (r: Rating) => void;
   @Input() ratingResults: RatingResult = undefined;
@@ -35,12 +37,13 @@ export class AppRatingComponent implements OnInit, OnChanges {
   private visibleRating = 0;
   private listeningToMove = true;
   private changedBySubscription = false;
+  private destroyer = new ReplaySubject(1);
 
   constructor(
     private languageService: LanguageService,
     private notificationService: NotificationService,
     private translateService: TranslateService,
-    private readonly userManagementService: UserManagementService,
+    private readonly accountState: AccountStateService,
     private readonly ratingService: RatingService,
     private dialog: MatDialog,
     private deviceInfo: DeviceInfoService,
@@ -65,21 +68,29 @@ export class AppRatingComponent implements OnInit, OnChanges {
     if (!this.canSubmit()) {
       return;
     }
-    const subscription = this.userManagementService
+    this.accountState
       .getUser()
-      .subscribe((user) => {
-        this.ratingService.getByAccountId(user.id).subscribe((r) => {
-          if (r !== undefined && r !== null) {
-            this.visibleRating = r.rating;
-            this.changedBySubscription = true;
-          }
-        });
-        setTimeout(() => subscription.unsubscribe());
+      .pipe(
+        filter((v) => Boolean(v)),
+        take(1),
+        switchMap((user) => this.ratingService.getByAccountId(user.id)),
+        takeUntil(this.destroyer),
+      )
+      .subscribe((r) => {
+        if (r !== undefined && r !== null) {
+          this.visibleRating = r.rating;
+          this.changedBySubscription = true;
+        }
       });
   }
 
   ngOnChanges(changes: SimpleChanges) {
     this.canSubmit();
+  }
+
+  ngOnDestroy(): void {
+    this.destroyer.next(1);
+    this.destroyer.complete();
   }
 
   onClick(index: number, event: MouseEvent) {
@@ -143,10 +154,7 @@ export class AppRatingComponent implements OnInit, OnChanges {
     }
     this.isSaving = true;
     this.ratingService
-      .create(
-        this.userManagementService.getCurrentUser().id,
-        this.visibleRating,
-      )
+      .create(this.accountState.getCurrentUser().id, this.visibleRating)
       .subscribe({
         next: (r: Rating) => {
           this.translateService

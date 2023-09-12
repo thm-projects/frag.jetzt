@@ -1,8 +1,4 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import {
-  LoginResult,
-  LoginResultArray,
-} from '../../../services/http/authentication.service';
 import { Router } from '@angular/router';
 import { NotificationService } from '../../../services/util/notification.service';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
@@ -15,6 +11,7 @@ import { UUID } from 'app/utils/ts-utils';
 import { KeycloakProvider } from 'app/models/keycloak-provider';
 import { Subject, take, takeUntil } from 'rxjs';
 import { LanguageService } from 'app/services/util/language.service';
+import { AccountStateService } from 'app/services/state/account-state.service';
 
 export class LoginErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(
@@ -46,7 +43,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   private destroyer = new Subject();
 
   constructor(
-    public userManagementService: UserManagementService,
     public router: Router,
     private languageService: LanguageService,
     private translationService: TranslateService,
@@ -54,6 +50,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     private keycloak: KeycloakService,
     @Inject(MAT_DIALOG_DATA) public data: any,
+    private accountState: AccountStateService,
   ) {}
 
   ngOnInit(): void {
@@ -106,9 +103,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   guestLogin(): void {
-    this.userManagementService
-      .loginAsGuest()
-      .subscribe((loginSuccessful) => this.checkLogin(loginSuccessful, true));
+    this.accountState.openGuestSession().subscribe(() => this.checkLogin());
   }
 
   /**
@@ -118,37 +113,15 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.dialog.closeAll();
   }
 
-  private checkLogin(loginResult: LoginResultArray, isGuest = false) {
-    if (
-      [
-        LoginResult.SessionExpired,
-        LoginResult.FailureException,
-        LoginResult.DisabledException,
-      ].includes(loginResult[0])
-    ) {
-      this.translationService
-        .get('login.login-data-incorrect')
-        .subscribe((message) => {
-          this.notificationService.show(message);
-        });
-      return;
-    }
-    if (loginResult[0] === LoginResult.AccessDenied && isGuest) {
-      this.translationService
-        .get('login.guest-expired')
-        .subscribe((message) => {
-          this.notificationService.show(message);
-        });
-      return;
-    }
-    if (loginResult[0] !== LoginResult.Success) {
-      this.translationService
-        .get('login.login-error-unknown', { code: loginResult[0] })
-        .subscribe((message) => {
-          this.notificationService.show(message);
-        });
-      return;
-    }
+  private checkLogin() {
+    this.translationService.get('login.guest-expired').subscribe((message) => {
+      this.notificationService.show(message);
+    });
+    this.translationService
+      .get('login.login-error-unknown', { code: '??' })
+      .subscribe((message) => {
+        this.notificationService.show(message);
+      });
     this.dialog.closeAll();
     this.router.navigate([this.redirectUrl ?? 'user']);
   }
