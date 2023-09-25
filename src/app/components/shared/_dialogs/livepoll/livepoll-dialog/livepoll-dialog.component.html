@@ -27,6 +27,7 @@
       </span>
       <button
         mat-flat-button
+        *ngIf="session.currentRole"
         (click)="openPeerInstruction()"
         class="button-secondary">
         <mat-icon>face</mat-icon>
