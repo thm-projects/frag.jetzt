@@ -88,19 +88,28 @@ export class LivepollService extends BaseHttpService {
     private readonly eventService: EventService,
   ) {
     super();
-    const peerInstructionsMap = localStorage.getItem(
-      'livepoll-peer-instruction-map',
-    );
-    if (peerInstructionsMap) {
-      const parsed = JSON.parse(peerInstructionsMap) as [
-        string,
-        [string, [string, string]][],
-      ][];
-      this._relatePeerInstruction = new Map(
-        parsed.map(([l, r]) => [l, new Map(r)]),
+    let passed = false;
+    try {
+      const peerInstructionsMap = localStorage.getItem(
+        'livepoll-peer-instruction-map',
       );
-    } else {
-      localStorage.setItem('livepoll-peer-instruction-map', '{}');
+      if (peerInstructionsMap) {
+        const parsed = JSON.parse(peerInstructionsMap) as [
+          string,
+          [string, [string, string]][],
+        ][];
+        this._relatePeerInstruction = new Map(
+          parsed.map(([l, r]) => [l, new Map(r)]),
+        );
+        passed = true;
+      } else {
+      }
+    } catch (e) {
+      console.warn('rebuild livepoll-peer-instruction');
+    }
+    if (!passed) {
+      localStorage.setItem('livepoll-peer-instruction-map', '[]');
+      this._relatePeerInstruction = new Map();
     }
   }
 
@@ -431,7 +440,6 @@ export class LivepollService extends BaseHttpService {
           this._dialogState.next(LivepollDialogState.Closed);
           if (peerInstruction && response) {
             this.create(livepollSession).subscribe((newLivepollSession) => {
-              console.log(livepollSession, newLivepollSession);
               this.addPeerInstructionDependency(
                 livepollSession,
                 newLivepollSession,
