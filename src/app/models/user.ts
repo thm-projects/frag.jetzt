@@ -6,6 +6,7 @@ export class User {
   loginId: string;
   type: 'guest' | 'registered';
   token: string;
+  keycloakToken: string;
   role: UserRole;
   isGuest: boolean;
 
@@ -14,6 +15,7 @@ export class User {
     loginId = null,
     type = 'guest',
     token = null,
+    keycloakToken = null,
     role = UserRole.PARTICIPANT,
     isGuest = true,
   }: Partial<User>) {
@@ -21,6 +23,7 @@ export class User {
     this.loginId = loginId;
     this.type = type;
     this.token = token;
+    this.keycloakToken = keycloakToken;
     this.role = role;
     this.isGuest = isGuest;
   }

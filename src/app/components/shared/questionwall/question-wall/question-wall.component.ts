@@ -19,11 +19,9 @@ import { User } from '../../../../models/user';
 import { UserRole } from '../../../../models/user-roles.enum';
 import { SessionService } from '../../../../services/util/session.service';
 import { Room } from '../../../../models/room';
-import { mergeMap } from 'rxjs/operators';
+import { mergeMap, takeUntil } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
-import {
-  IntroductionQuestionWallComponent,
-} from '../../_dialogs/introductions/introduction-question-wall/introduction-question-wall.component';
+import { IntroductionQuestionWallComponent } from '../../_dialogs/introductions/introduction-question-wall/introduction-question-wall.component';
 import {
   BrainstormingFilter,
   FilterType,
@@ -33,12 +31,12 @@ import {
 } from '../../../../utils/data-filter-object.lib';
 import { ArsDateFormatter } from '../../../../../../projects/ars/src/lib/services/ars-date-formatter.service';
 import { FilteredDataAccess } from '../../../../utils/filtered-data-access';
-import { forkJoin } from 'rxjs';
+import { ReplaySubject, forkJoin } from 'rxjs';
 import { HeaderService } from '../../../../services/util/header.service';
 import { ForumComment } from '../../../../utils/data-accessor';
-import { UserManagementService } from '../../../../services/util/user-management.service';
 import { RowComponent } from '../../../../../../projects/ars/src/lib/components/layout/frame/row/row.component';
 import { PageEvent } from '@angular/material/paginator';
+import { AccountStateService } from 'app/services/state/account-state.service';
 
 interface CommentCache {
   [commentId: string]: {
@@ -89,9 +87,9 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   pageSizeOptions = [25, 50, 100, 200];
   private readonly commentCache: CommentCache = {};
   private _filterObj: FilteredDataAccess;
+  private destroyer = new ReplaySubject();
 
   constructor(
-    private userManagementService: UserManagementService,
     public router: Router,
     private commentService: CommentService,
     private wsCommentService: WsCommentService,
@@ -101,6 +99,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     private dialog: MatDialog,
     public dateFormatter: ArsDateFormatter,
     public headerService: HeaderService,
+    private accountState: AccountStateService,
   ) {
     this.keySupport = new QuestionWallKeyEventSupport();
     this._filterObj = FilteredDataAccess.buildNormalAccess(
@@ -168,11 +167,13 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.userManagementService.getUser().subscribe((newUser) => {
-      if (newUser) {
-        this.user = newUser;
-      }
-    });
+    this.accountState.user$
+      .pipe(takeUntil(this.destroyer))
+      .subscribe((newUser) => {
+        if (newUser) {
+          this.user = newUser;
+        }
+      });
     forkJoin([
       this.sessionService.getRoomOnce(),
       this.sessionService.getModeratorsOnce(),
@@ -246,6 +247,8 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.destroyer.next(true);
+    this.destroyer.complete();
     const filter = this._filterObj.dataFilter;
     if (
       filter.sourceFilterBrainstorming !==

@@ -4,23 +4,15 @@ export class Palette {
 }
 
 export class ColorElem {
-
   public on: ColorElem;
   public variant: ColorElem;
 
-  constructor(
-    public name: string,
-    public attr: string,
-    public color: string
-  ) {
-  }
-
+  constructor(public name: string, public attr: string, public color: string) {}
 }
 
 type LanguageTranslations = ThemeMeta['translation']['name'];
 
 export class ThemeTranslationList {
-
   map: string[][] = [];
 
   constructor(private name, translation: LanguageTranslations) {
@@ -37,10 +29,11 @@ export class ThemeTranslationList {
         return mapEntry[1];
       }
     }
-    console.error('ThemeTranslationList: Translation Error, Unknown Language: ' + language);
+    console.error(
+      'ThemeTranslationList: Translation Error, Unknown Language: ' + language,
+    );
     return 'unknown';
   }
-
 }
 
 export interface ThemeMeta {
@@ -60,11 +53,9 @@ export interface ThemeMeta {
   config?: any;
   icon: string;
   isUtility?: boolean;
-  highlightJsClass?: string;
 }
 
 export class Theme {
-
   /**
    * Colors with on-color
    * Example:
@@ -74,7 +65,7 @@ export class Theme {
     'primary',
     'secondary',
     'background',
-    'surface'
+    'surface',
   ];
 
   /**
@@ -82,10 +73,7 @@ export class Theme {
    * Example:
    * primary -> '--primary' and 'primary-variant'
    */
-  public static variantColors: string[] = [
-    'primary',
-    'secondary'
-  ];
+  public static variantColors: string[] = ['primary', 'secondary'];
 
   /**
    * All Colors
@@ -146,23 +134,20 @@ export class Theme {
 
   public icon: string;
 
-  constructor(
-    public key: string,
-    public palette: any,
-    public meta: ThemeMeta
-  ) {
-
+  constructor(public key: string, public palette: any, public meta: ThemeMeta) {
     /*Init order*/
     this.order = meta['order'];
 
     /*Init name*/
     this.name = new ThemeTranslationList(
-      'name', this.meta['translation']['name']
+      'name',
+      this.meta['translation']['name'],
     );
 
     /*Init description*/
     this.description = new ThemeTranslationList(
-      'description', this.meta['translation']['description']
+      'description',
+      this.meta['translation']['description'],
     );
 
     /*Init scale*/
@@ -180,33 +165,31 @@ export class Theme {
     for (const k in palette) {
       if (palette.hasOwnProperty(k)) {
         if (k !== 'name') {
-          this.colors.push(new ColorElem(
-            k.slice(2, k.length),
-            k,
-            palette[k]
-          ));
+          this.colors.push(new ColorElem(k.slice(2, k.length), k, palette[k]));
         }
       }
     }
 
     if (!this.meta?.isUtility) {
-      Theme.mainColors.forEach(e => {
+      Theme.mainColors.forEach((e) => {
         this.get(e).on = this.get('on-' + e);
         this.main.push(this.get(e));
       });
 
-      Theme.variantColors.forEach(e => {
+      Theme.variantColors.forEach((e) => {
         this.get(e).variant = this.get(e + '-variant');
       });
     } else {
-      this.get(this.meta['previewColor']).on = this.get('on-' + this.meta['previewColor']);
+      this.get(this.meta['previewColor']).on = this.get(
+        'on-' + this.meta['previewColor'],
+      );
     }
 
     this.previewColor = this.get(this.meta['previewColor']);
   }
 
   public get(name: string): ColorElem {
-    return this.colors.find(c => c.name === name);
+    return this.colors.find((c) => c.name === name);
   }
 
   public getName(language: string): string {
@@ -244,10 +227,3 @@ export class Theme {
     return this.name.get(language) + ' - ' + this.description.get(language);
   }
 }
-
-
-
-
-
-
-

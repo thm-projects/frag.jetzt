@@ -32,7 +32,6 @@ import {
 import { CloudParameters } from '../../../utils/cloud-parameters';
 import { SmartDebounce } from '../../../utils/smart-debounce';
 import { MatDrawer } from '@angular/material/sidenav';
-import { DeviceInfoService } from '../../../services/util/device-info.service';
 import {
   ActiveWord,
   WordCloudComponent,
@@ -64,7 +63,6 @@ import {
   switchMap,
   takeUntil,
 } from 'rxjs';
-import { UserManagementService } from '../../../services/util/user-management.service';
 import { BrainstormingBlacklistEditComponent } from '../_dialogs/brainstorming-blacklist-edit/brainstorming-blacklist-edit.component';
 import { BrainstormingTopic } from 'app/services/util/brainstorming-data-builder';
 import { BrainstormingDataService } from 'app/services/util/brainstorming-data.service';
@@ -83,7 +81,8 @@ import { BrainstormingCategory } from 'app/models/brainstorming-category';
 import { EventService } from 'app/services/util/event.service';
 import { ChatGPTBrainstormComponent } from '../_dialogs/chat-gptbrainstorm/chat-gptbrainstorm.component';
 import { KeywordExtractor } from 'app/utils/keyword-extractor';
-import { QuillUtils } from 'app/utils/quill-utils';
+import { AccountStateService } from 'app/services/state/account-state.service';
+import { DeviceStateService } from 'app/services/state/device-state.service';
 
 class TagComment implements WordMeta {
   constructor(
@@ -158,7 +157,6 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     private translateService: TranslateService,
     public dialog: MatDialog,
     private notificationService: NotificationService,
-    private userManagementService: UserManagementService,
     private composeService: ArsComposeService,
     private headerService: HeaderService,
     private route: ActivatedRoute,
@@ -170,11 +168,12 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     private router: Router,
     public dataManager: TagCloudDataService,
     public brainDataManager: BrainstormingDataService,
-    private deviceInfo: DeviceInfoService,
     private roomDataService: RoomDataService,
     private brainstormingService: BrainstormingService,
     private bonusTokenService: BonusTokenService,
     private eventService: EventService,
+    private accountState: AccountStateService,
+    private deviceState: DeviceStateService,
     injector: Injector,
   ) {
     this.keywordExtractor = new KeywordExtractor(injector);
@@ -466,11 +465,13 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
       }
       this.rebuildData();
     });
-    this.userManagementService.getUser().subscribe((newUser) => {
-      if (newUser) {
-        this.user = newUser;
-      }
-    });
+    this.accountState.user$
+      .pipe(takeUntil(this.destroyer))
+      .subscribe((newUser) => {
+        if (newUser) {
+          this.user = newUser;
+        }
+      });
     forkJoin([
       this.sessionService.getRoomOnce(),
       this.sessionService.getModeratorsOnce(),
@@ -549,11 +550,13 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
       }
       this.rebuildBrainstormingData();
     });
-    this.userManagementService.getUser().subscribe((newUser) => {
-      if (newUser) {
-        this.user = newUser;
-      }
-    });
+    this.accountState.user$
+      .pipe(takeUntil(this.destroyer))
+      .subscribe((newUser) => {
+        if (newUser) {
+          this.user = newUser;
+        }
+      });
     this.eventService
       .on('tag-cloud.brainstorming-ideas-with-chatgpt')
       .subscribe(() => {
@@ -944,7 +947,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
           },
           condition: () =>
             this.userRole > UserRole.PARTICIPANT &&
-            !this.deviceInfo.isCurrentlyMobile,
+            !this.deviceState.isMobile(),
         });
         e.menuItem({
           translate: this.headerService.getTranslate(),

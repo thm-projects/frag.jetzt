@@ -5,13 +5,12 @@ import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { FormControl, FormGroupDirective, NgForm } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { ErrorStateMatcher } from '@angular/material/core';
-import { UserManagementService } from '../../../services/util/user-management.service';
 import { KeycloakService } from 'app/services/util/keycloak.service';
 import { UUID } from 'app/utils/ts-utils';
 import { KeycloakProvider } from 'app/models/keycloak-provider';
 import { Subject, take, takeUntil } from 'rxjs';
-import { LanguageService } from 'app/services/util/language.service';
 import { AccountStateService } from 'app/services/state/account-state.service';
+import { AppStateService } from 'app/services/state/app-state.service';
 
 export class LoginErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(
@@ -44,7 +43,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   constructor(
     public router: Router,
-    private languageService: LanguageService,
+    private appState: AppStateService,
     private translationService: TranslateService,
     public notificationService: NotificationService,
     public dialog: MatDialog,
@@ -54,8 +53,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.languageService
-      .getLanguage()
+    this.appState.language$
       .pipe(takeUntil(this.destroyer))
       .subscribe((lang) => {
         this.access = lang[0].toUpperCase() + lang.slice(1);
@@ -63,7 +61,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     const onMessage = (msgs: Record<string, string>) => {
       const name = msgs['login.default-keycloak-name'];
       const desc = msgs['login.default-keycloak-description'];
-      const lang = this.languageService.currentLanguage();
+      const lang = this.appState.getCurrentLanguage();
       const access = lang[0].toUpperCase() + lang.slice(1);
       if (this.defaultKeycloakProvider) {
         this.defaultKeycloakProvider['translated_name' + access] = name;

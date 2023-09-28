@@ -8,11 +8,8 @@ import {
   HttpRequest,
   HttpResponse,
 } from '@angular/common/http';
-import { NotificationService } from '../services/util/notification.service';
-import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { TranslateService } from '@ngx-translate/core';
-import { UserManagementService } from '../services/util/user-management.service';
+import { AccountStateService } from 'app/services/state/account-state.service';
 
 const AUTH_HEADER_KEY = 'Authorization';
 const AUTH_SCHEME = 'Bearer';
@@ -23,34 +20,27 @@ export class AuthenticationInterceptor implements HttpInterceptor {
     {
       allow: /^\/api(\/|$)/g,
       blacklist: [
-        /^\/api\/login\/guest(\/|$)/g,
-        /^\/api\/login\/registered(\/|$)/g,
-        /^\/api\/login(\/|$)/g,
-        /^\/api\/user\/register(\/|$)/g,
-        /^\/api\/user\/[^/]+\/activate(\/|$)/g,
-        /^\/api\/user\/[^/]+\/resetactivation(\/|$)/g,
-        /^\/api\/user\/[^\/]+\/resetpassword(\/|$)/g,
-        /^\/api\/rating\/accumulated(\/|$)/g,
+        /^\/api\/auth\/login\/guest(\/|$)/g,
+        /^\/api\/auth\/login\/registered\/.*(\/|$)/g,
+        /^\/api\/auth\/login(\/|$)/g,
+        /^\/api\/keycloak-provider\/providers\/all(\/|$)/g,
+        /^\/api\/motds\/all(\/|$)/g,
       ],
     },
   ];
 
-  constructor(
-    private userManagementService: UserManagementService,
-    private notificationService: NotificationService,
-    private router: Router,
-    private translateService: TranslateService,
-  ) {}
+  constructor(private accountState: AccountStateService) {}
 
   intercept(
     req: HttpRequest<any>,
     next: HttpHandler,
   ): Observable<HttpEvent<any>> {
-    if (!this.userManagementService.isLoggedIn()) {
+    const user = this.accountState.getCurrentUser();
+    if (!user) {
       return next.handle(req);
     }
 
-    const token = this.userManagementService.getCurrentToken();
+    const token = user.token;
     if (!token) {
       return next.handle(req);
     }

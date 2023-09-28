@@ -50,9 +50,7 @@ export class AuthenticationService extends BaseHttpService {
       .post<ClientAuthentication>(connectionUrl, null, this.httpOptions)
       .pipe(
         tap(() => ''),
-        catchError(
-          this.handleError<ClientAuthentication>('refreshLoginWithToken'),
-        ),
+        catchError(this.handleError<ClientAuthentication>('loginAsGuest')),
       );
   }
 
@@ -68,9 +66,7 @@ export class AuthenticationService extends BaseHttpService {
       .post<ClientAuthentication>(connectionUrl, token, this.httpOptions)
       .pipe(
         tap(() => ''),
-        catchError(
-          this.handleError<ClientAuthentication>('refreshLoginWithToken'),
-        ),
+        catchError(this.handleError<ClientAuthentication>('login')),
       );
   }
 

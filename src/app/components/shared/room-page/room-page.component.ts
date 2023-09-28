@@ -5,6 +5,7 @@ import {
   Injector,
   OnDestroy,
   OnInit,
+  inject,
 } from '@angular/core';
 import { Room } from '../../../models/room';
 import { RoomPatch, RoomService } from '../../../services/http/room.service';
@@ -12,7 +13,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { CommentService } from '../../../services/http/comment.service';
 import { EventService } from '../../../services/util/event.service';
-import { Observable, of, Subscription, tap } from 'rxjs';
+import { Observable, of, ReplaySubject, Subscription, tap } from 'rxjs';
 import { UserRole } from '../../../models/user-roles.enum';
 import { Palette } from '../../../../theme/Theme';
 import { ArsObserver } from '../../../../../projects/ars/src/lib/models/util/ars-observer';
@@ -43,17 +44,15 @@ import {
 } from '../../../utils/ImportExportMethods';
 import { SessionService } from '../../../services/util/session.service';
 import { RoomDataService } from '../../../services/util/room-data.service';
-import { mergeMap } from 'rxjs/operators';
+import { mergeMap, takeUntil } from 'rxjs/operators';
 import { ToggleConversationComponent } from '../../creator/_dialogs/toggle-conversation/toggle-conversation.component';
 import { QuillUtils } from '../../../utils/quill-utils';
 import { TitleService } from '../../../services/util/title.service';
-import { DeviceInfoService } from '../../../services/util/device-info.service';
-import {
-  ManagedUser,
-  UserManagementService,
-} from '../../../services/util/user-management.service';
 import { RoomSettingsOverviewComponent } from '../_dialogs/room-settings-overview/room-settings-overview.component';
 import { GptRoomSettingsComponent } from '../_dialogs/gpt-room-settings/gpt-room-settings.component';
+import { User } from 'app/models/user';
+import { DeviceStateService } from 'app/services/state/device-state.service';
+import { AccountStateService } from 'app/services/state/account-state.service';
 
 @Component({
   selector: 'app-room-page',
@@ -62,7 +61,7 @@ import { GptRoomSettingsComponent } from '../_dialogs/gpt-room-settings/gpt-room
 })
 export class RoomPageComponent implements OnInit, OnDestroy {
   room: Room = null;
-  user: ManagedUser = null;
+  user: User = null;
   isLoading = true;
   commentCounter: number;
   responseCounter: number;
@@ -72,7 +71,8 @@ export class RoomPageComponent implements OnInit, OnDestroy {
   moderatorResponseCounter: number;
   userRole: UserRole;
   moderationEnabled = true;
-  deviceInfo: DeviceInfoService;
+  protected deviceState = inject(DeviceStateService);
+  protected accountState = inject(AccountStateService);
   protected listenerFn: () => void;
   protected roomService: RoomService;
   protected route: ActivatedRoute;
@@ -85,17 +85,16 @@ export class RoomPageComponent implements OnInit, OnDestroy {
   protected bonusTokenService: BonusTokenService;
   protected translateService: TranslateService;
   protected notificationService: NotificationService;
-  protected userManagementService: UserManagementService;
   protected sessionService: SessionService;
   protected roomDataService: RoomDataService;
   protected titleService: TitleService;
   protected router: Router;
+  protected destroyer = new ReplaySubject(1);
   private _navigationBuild = new SyncFence(2, this.initNavigation.bind(this));
   private _sub: Subscription;
   private _list: ComponentRef<any>[];
 
   constructor(protected injector: Injector) {
-    this.deviceInfo = injector.get(DeviceInfoService);
     this.roomService = injector.get(RoomService);
     this.route = injector.get(ActivatedRoute);
     this.location = injector.get(Location);
@@ -107,7 +106,6 @@ export class RoomPageComponent implements OnInit, OnDestroy {
     this.bonusTokenService = injector.get(BonusTokenService);
     this.translateService = injector.get(TranslateService);
     this.notificationService = injector.get(NotificationService);
-    this.userManagementService = injector.get(UserManagementService);
     this.sessionService = injector.get(SessionService);
     this.roomDataService = injector.get(RoomDataService);
     this.titleService = injector.get(TitleService);
@@ -131,9 +129,11 @@ export class RoomPageComponent implements OnInit, OnDestroy {
   }
 
   initializeRoom(): void {
-    this.userManagementService.getUser().subscribe((user) => {
-      this.user = user;
-    });
+    this.accountState.user$
+      .pipe(takeUntil(this.destroyer))
+      .subscribe((user) => {
+        this.user = user;
+      });
     this.userRole = this.route.snapshot.data.roles[0];
     this.preRoomLoadHook().subscribe(() => {
       this.sessionService.getRoomOnce().subscribe((room) => {
@@ -293,7 +293,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
       next: () => {
         const event = new RoomDeleted(this.room.id);
         this.eventService.broadcast(event.type, event.payload);
-        this.userManagementService.removeAccess(this.room.shortId);
+        this.accountState.removeAccess(this.room.shortId);
         this.router.navigate(['/user']).then(() => {
           this.translateService.get('room-page.deleted').subscribe((msg) => {
             this.notificationService.show(this.room.name + msg);
@@ -399,6 +399,10 @@ export class RoomPageComponent implements OnInit, OnDestroy {
       width: '400px',
     });
     dialogRef.componentInstance.editRoom = this.room;
+  }
+
+  protected isMobile() {
+    return this.deviceState.isMobile();
   }
 
   protected preRoomLoadHook(): Observable<any> {

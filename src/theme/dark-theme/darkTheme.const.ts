@@ -69,5 +69,4 @@ export const dark_meta: ThemeMeta = {
   scale_mobile: 1,
   previewColor: 'background',
   icon: 'nightlight_round',
-  highlightJsClass: 'pojoaque.css',
 };

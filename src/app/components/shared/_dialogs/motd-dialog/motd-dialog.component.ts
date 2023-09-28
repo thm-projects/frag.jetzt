@@ -2,26 +2,23 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MotdAPI } from '../../../../services/http/motd.service';
 import { Motd } from '../../../../models/motd';
-import { UserManagementService } from '../../../../services/util/user-management.service';
-import { StartUpService } from '../../../../services/util/start-up.service';
+import { AccountStateService } from 'app/services/state/account-state.service';
+import { filter, take } from 'rxjs';
 
 @Component({
   selector: 'app-motd-dialog',
   templateUrl: './motd-dialog.component.html',
-  styleUrls: ['./motd-dialog.component.scss']
+  styleUrls: ['./motd-dialog.component.scss'],
 })
 export class MotdDialogComponent implements OnInit {
-
   @Input()
   motds: MotdAPI[];
   builtMotds: Motd[];
 
   constructor(
     public dialogRef: MatDialogRef<MotdDialogComponent>,
-    private userManagementService: UserManagementService,
-    private startUpService: StartUpService,
-  ) {
-  }
+    private accountState: AccountStateService,
+  ) {}
 
   markAllAsRead() {
     const newRead = this.builtMotds.reduce((acc, value) => {
@@ -31,25 +28,30 @@ export class MotdDialogComponent implements OnInit {
       }
       return acc;
     }, []);
-    this.startUpService.readMOTD(newRead);
+    this.accountState.readMotds(newRead);
     this.dialogRef.close();
   }
 
   ngOnInit(): void {
-    const read = this.userManagementService.getCurrentUser().readMotds;
-    this.builtMotds = this.motds.map(motd => {
-      return new Motd(
-        motd.id,
-        motd.startTimestamp,
-        motd.endTimestamp,
-        read.has(motd.id),
-        motd.messages,
-      );
-    });
+    this.accountState.readMotds$
+      .pipe(
+        filter((v) => Boolean(v)),
+        take(1),
+      )
+      .subscribe((read) => {
+        this.builtMotds = this.motds.map((motd) => {
+          return new Motd(
+            motd.id,
+            motd.startTimestamp,
+            motd.endTimestamp,
+            read.findIndex((v) => v.motdId === motd.id) >= 0,
+            motd.messages,
+          );
+        });
+      });
   }
 
   buildDeclineActionCallback(): () => void {
     return () => this.dialogRef.close();
   }
-
 }

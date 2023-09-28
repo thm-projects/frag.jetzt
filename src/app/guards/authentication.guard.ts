@@ -9,13 +9,11 @@ import {
 
 import { UserRole } from '../models/user-roles.enum';
 import { SessionService } from '../services/util/session.service';
-import { UserManagementService } from '../services/util/user-management.service';
 import { EventService } from 'app/services/util/event.service';
 
 @Injectable()
 export class AuthenticationGuard implements CanActivate {
   constructor(
-    private userManagementService: UserManagementService,
     private router: Router,
     private sessionService: SessionService,
     private eventService: EventService,

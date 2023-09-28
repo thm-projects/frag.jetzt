@@ -2,20 +2,17 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import * as BadWords from 'naughty-words';
 import { escapeForRegex } from '../../utils/regex-escape';
-import { LanguageService } from './language.service';
+import { AppStateService } from '../state/app-state.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ProfanityFilterService {
-
   private customProfanityWords: BehaviorSubject<string[]>;
   private readonly profanityKey = 'custom-Profanity-List';
   private readonly _profanityWords: string[];
 
-  constructor(
-    private languageService: LanguageService,
-  ) {
+  constructor(private appState: AppStateService) {
     const badNL = BadWords['nl'];
     badNL.splice(badNL.indexOf('nicht'), 1);
     const badDE = BadWords['de'];
@@ -35,7 +32,9 @@ export class ProfanityFilterService {
       .concat(badNL)
       .concat(BadWords['pt'])
       .concat(badTR);
-    this.customProfanityWords = new BehaviorSubject<string[]>(this.createProfanityList());
+    this.customProfanityWords = new BehaviorSubject<string[]>(
+      this.createProfanityList(),
+    );
   }
 
   get getProfanityList(): string[] {
@@ -94,11 +93,16 @@ export class ProfanityFilterService {
     str: string,
     censorPartialWordsCheck: boolean,
     censorLanguageSpecificCheck: boolean,
-    lang?: string
+    lang?: string,
   ): [string, boolean] {
     let profWords: any[];
     if (censorLanguageSpecificCheck) {
-      profWords = BadWords[(lang !== 'AUTO' ? lang.toLowerCase() : this.languageService.currentLanguage())];
+      profWords =
+        BadWords[
+          lang !== 'AUTO'
+            ? lang.toLowerCase()
+            : this.appState.getCurrentLanguage()
+        ];
     } else {
       profWords = this.getProfanityList;
     }
@@ -106,14 +110,23 @@ export class ProfanityFilterService {
     if (list.length < 1 || !str) {
       return [str, false];
     }
-    const censoredWords = list.reduce((acc, elem) => acc + (acc.length > 1 ? '|' : '') + escapeForRegex(elem), '(') + ')';
-    const regex = new RegExp(censorPartialWordsCheck ? censoredWords : '\\b' + censoredWords + '\\b', 'gmi');
+    const censoredWords =
+      list.reduce(
+        (acc, elem) => acc + (acc.length > 1 ? '|' : '') + escapeForRegex(elem),
+        '(',
+      ) + ')';
+    const regex = new RegExp(
+      censorPartialWordsCheck ? censoredWords : '\\b' + censoredWords + '\\b',
+      'gmi',
+    );
     let result = '';
     let censored = false;
     let m: RegExpExecArray;
     let lastIndex = 0;
     while ((m = regex.exec(str)) !== null) {
-      result += str.substring(lastIndex, m.index) + '★'.repeat(regex.lastIndex - m.index);
+      result +=
+        str.substring(lastIndex, m.index) +
+        '★'.repeat(regex.lastIndex - m.index);
       lastIndex = regex.lastIndex;
       censored = true;
       if (m.index === regex.lastIndex) {

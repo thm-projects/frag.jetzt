@@ -21,8 +21,9 @@ import { ActiveUserService } from '../http/active-user.service';
 import { BookmarkService } from '../http/bookmark.service';
 import { Bookmark } from '../../models/bookmark';
 import { DataAccessor, ForumComment } from '../../utils/data-accessor';
-import { UserManagementService } from './user-management.service';
 import { filter, take } from 'rxjs/operators';
+import { AccountStateService } from '../state/account-state.service';
+import { RoomStateService } from '../state/room-state.service';
 
 export interface BookmarkAccess {
   [commentId: string]: Bookmark;
@@ -46,9 +47,10 @@ export class RoomDataService {
     private commentService: CommentService,
     public readonly sessionService: SessionService,
     private profanityFilterService: ProfanityFilterService,
-    private userManagementService: UserManagementService,
+    private accountState: AccountStateService,
     private activeUserService: ActiveUserService,
     private bookmarkService: BookmarkService,
+    private roomState: RoomStateService,
   ) {
     this.dataAccessor = new DataAccessor(this, true, commentService);
     this.moderatorDataAccessor = new DataAccessor(this, false, commentService);
@@ -57,9 +59,7 @@ export class RoomDataService {
       lastRoom = room;
       this.onRoomUpdate(room);
     });
-    this.userManagementService
-      .getUser()
-      .subscribe((_) => this.onRoomUpdate(lastRoom));
+    this.accountState.user$.subscribe((_) => this.onRoomUpdate(lastRoom));
     this.sessionService.getRole().subscribe((role) => {
       this.dataAccessor.updateCurrentRole(role);
       this.moderatorDataAccessor.updateCurrentRole(role);
@@ -196,8 +196,7 @@ export class RoomDataService {
       .getActiveUser(room)
       .pipe(takeUntil(currentDestroyer))
       .subscribe(([count]) => this._currentUserCount.next(String(count || 0)));
-    const userRole =
-      this.userManagementService.getCurrentUser()?.role || UserRole.PARTICIPANT;
+    const userRole = this.roomState.getCurrentRole() || UserRole.PARTICIPANT;
     this._canAccessModerator = userRole > UserRole.PARTICIPANT;
     this.wsCommentService
       .getCommentStream(room.id, userRole)

@@ -13,13 +13,13 @@ import { JoyrideStepInfo } from 'ngx-joyride/lib/models/joyride-step-info.class'
 import { NotificationService } from './notification.service';
 import { RoomService } from '../http/room.service';
 import { TranslateService } from '@ngx-translate/core';
-import { DeviceInfoService } from './device-info.service';
-import { UserManagementService } from './user-management.service';
 import {
   RescaleRequest,
   sendEvent,
 } from '../../utils/service-component-events';
 import { SessionService } from './session.service';
+import { AccountStateService } from '../state/account-state.service';
+import { DeviceStateService } from '../state/device-state.service';
 
 @Injectable({
   providedIn: 'root',
@@ -35,12 +35,12 @@ export class OnboardingService {
     private joyrideService: JoyrideService,
     private eventService: EventService,
     private dataStoreService: DataStoreService,
-    private userManagementService: UserManagementService,
     private router: Router,
     private notificationService: NotificationService,
     private roomService: RoomService,
     private translateService: TranslateService,
-    private deviceInfo: DeviceInfoService,
+    private accountState: AccountStateService,
+    private deviceState: DeviceStateService,
   ) {
     this._finishedTours = new BehaviorSubject<string[]>([]);
   }
@@ -69,9 +69,9 @@ export class OnboardingService {
   startDefaultTour(ignoreDone = false): boolean {
     return this.startOnboardingTour(
       initDefaultTour(
-        this.userManagementService,
         this.dataStoreService,
         this.roomService,
+        this.accountState,
       ),
       ignoreDone,
     );
@@ -117,7 +117,7 @@ export class OnboardingService {
     tour: OnboardingTour,
     ignoreDone = false,
   ): boolean {
-    if (this._activeTour || this.deviceInfo.isSafari) {
+    if (this._activeTour || this.deviceState.isSafari) {
       return false;
     }
     if (ignoreDone) {
@@ -133,7 +133,7 @@ export class OnboardingService {
     if (!this.dataStoreService.has('onboarding_' + tour.name + '_redirect')) {
       this.dataStoreService.set('onboarding_' + tour.name + '_redirect', url);
     }
-    sendEvent(this.eventService, new RescaleRequest(1));
+    sendEvent(new RescaleRequest(1));
     this._currentStep = tourInfo && tourInfo.step ? tourInfo.step : 1;
     const firstStepRoute = tour.tour[this._currentStep - 1].split('@');
     if (firstStepRoute.length > 1 && !url.endsWith('/' + firstStepRoute[1])) {
@@ -168,7 +168,7 @@ export class OnboardingService {
   }
 
   private afterStepMade(step: JoyrideStepInfo) {
-    sendEvent(this.eventService, new RescaleRequest(1));
+    sendEvent(new RescaleRequest(1));
     this.dataStoreService.set(
       'onboarding_' + this._activeTour.name,
       JSON.stringify({
@@ -250,7 +250,7 @@ export class OnboardingService {
       'onboarding_' + this._activeTour.name,
       JSON.stringify({ state: action }),
     );
-    sendEvent(this.eventService, new RescaleRequest('initial'));
+    sendEvent(new RescaleRequest('initial'));
     if (this._activeTour.doneAction) {
       this._activeTour.doneAction(action === 'finished');
     }
@@ -267,7 +267,7 @@ export class OnboardingService {
       window.removeEventListener('keyup', this._keyUpWrapper);
       this.dataStoreService.remove(redirectKey);
       if (SessionService.needsUser(redirect)) {
-        this.userManagementService
+        this.accountState
           .forceLogin()
           .subscribe(() => this.router.navigate([redirect]));
       } else {

@@ -4,28 +4,35 @@ import { SwUpdate } from '@angular/service-worker';
 import { NotificationService } from './services/util/notification.service';
 import { Rescale } from './models/rescale';
 import { CustomIconService } from './services/util/custom-icon.service';
-import { filter } from 'rxjs/operators';
+import { filter, switchMap } from 'rxjs/operators';
 import { StartUpService } from './services/util/start-up.service';
 import { EventService } from './services/util/event.service';
 import {
+  CookieDialogRequest,
+  CookieDialogResponse,
   LivepollDialogRequest,
   LivepollDialogResponse,
   LoginDialogRequest,
   LoginDialogResponse,
   MotdDialogRequest,
+  MotdDialogResponse,
   RescaleRequest,
   RescaleResponse,
+  listenEvent,
   sendEvent,
 } from './utils/service-component-events';
 import { MatDialog } from '@angular/material/dialog';
 import { LoginComponent } from './components/shared/login/login.component';
 import { MotdDialogComponent } from './components/shared/_dialogs/motd-dialog/motd-dialog.component';
 import { Router } from '@angular/router';
-import { DeviceInfoService } from './services/util/device-info.service';
 import { UpdateInfoDialogComponent } from './components/home/_dialogs/update-info-dialog/update-info-dialog.component';
 import { LivepollDialogComponent } from './components/shared/_dialogs/livepoll/livepoll-dialog/livepoll-dialog.component';
 import { LivepollCreateComponent } from './components/shared/_dialogs/livepoll/livepoll-create/livepoll-create.component';
 import { LivepollSummaryComponent } from './components/shared/_dialogs/livepoll/livepoll-summary/livepoll-summary.component';
+import { CookiesComponent } from './components/home/_dialogs/cookies/cookies.component';
+import { Observable, of } from 'rxjs';
+import { OverlayComponent } from './components/home/_dialogs/overlay/overlay.component';
+import { UUID } from './utils/ts-utils';
 
 @Component({
   selector: 'app-root',
@@ -55,7 +62,6 @@ export class AppComponent implements OnInit {
     private eventService: EventService,
     private dialog: MatDialog,
     public router: Router,
-    public deviceInfo: DeviceInfoService,
   ) {
     AppComponent.instance = this;
     this.initDialogsForServices();
@@ -109,68 +115,93 @@ export class AppComponent implements OnInit {
   }
 
   private initDialogsForServices() {
-    this.eventService
-      .on<LoginDialogRequest>(LoginDialogRequest.name)
-      .subscribe((request) => {
-        const dialogRef = this.dialog.open(LoginComponent, {
-          width: '350px',
-        });
-        dialogRef.componentInstance.redirectUrl = request.redirectUrl;
-        dialogRef.afterClosed().subscribe(() => {
-          sendEvent(this.eventService, new LoginDialogResponse());
-        });
+    listenEvent(LoginDialogRequest).subscribe((request) => {
+      const dialogRef = this.dialog.open(LoginComponent, {
+        width: '350px',
       });
-    this.eventService
-      .on<RescaleRequest>(RescaleRequest.name)
-      .subscribe((request) => {
-        let scale;
-        if (request.scale === 'initial') {
-          scale = this.getRescale().getInitialScale();
-        } else {
-          scale = request.scale;
-        }
-        this.getRescale().setScale(scale);
-        sendEvent(this.eventService, new RescaleResponse());
-      });
-    this.eventService
-      .on<MotdDialogRequest>(MotdDialogRequest.name)
-      .subscribe((request) => {
-        const dialogRef = this.dialog.open(MotdDialogComponent, {
-          width: '80%',
-          maxWidth: '600px',
-          minHeight: '95%',
-          height: '95%',
+      dialogRef.componentInstance.redirectUrl = request.redirectUrl;
+      dialogRef
+        .afterClosed()
+        .subscribe((data: [token: string, keycloakId: UUID]) => {
+          sendEvent(new LoginDialogResponse(request, data));
         });
-        dialogRef.componentInstance.motds = request.motds;
-        dialogRef.afterClosed().subscribe(() => {
-          sendEvent(this.eventService, new LoginDialogResponse());
-        });
+    });
+    listenEvent(RescaleRequest).subscribe((request) => {
+      let scale;
+      if (request.scale === 'initial') {
+        scale = this.getRescale().getInitialScale();
+      } else {
+        scale = request.scale;
+      }
+      this.getRescale().setScale(scale);
+      sendEvent(new RescaleResponse(request));
+    });
+    listenEvent(MotdDialogRequest).subscribe((req) => {
+      const dialogRef = this.dialog.open(MotdDialogComponent, {
+        width: '80%',
+        maxWidth: '600px',
+        minHeight: '95%',
+        height: '95%',
       });
-    this.eventService
-      .on<LivepollDialogRequest>(LivepollDialogRequest.name)
-      .subscribe((request) => {
-        if (request.dialog === 'dialog') {
+      dialogRef.componentInstance.motds = req.motds;
+      dialogRef.afterClosed().subscribe(() => {
+        sendEvent(new MotdDialogResponse(req));
+      });
+    });
+    listenEvent(CookieDialogRequest).subscribe((req) => {
+      this.showCookieModal().subscribe((returnValue) =>
+        sendEvent(new CookieDialogResponse(req, returnValue)),
+      );
+    });
+    listenEvent(LivepollDialogRequest).subscribe((req) => {
+      switch (req.dialog) {
+        case 'dialog':
           sendEvent(
-            this.eventService,
             new LivepollDialogResponse(
-              this.dialog.open(LivepollDialogComponent, request.config),
+              req,
+              this.dialog.open(LivepollDialogComponent, req.config),
             ),
           );
-        } else if (request.dialog === 'create') {
+          break;
+        case 'create':
           sendEvent(
-            this.eventService,
             new LivepollDialogResponse(
-              this.dialog.open(LivepollCreateComponent, request.config),
+              req,
+              this.dialog.open(LivepollCreateComponent, req.config),
             ),
           );
-        } else if (request.dialog === 'summary') {
+          break;
+        case 'summary':
           sendEvent(
-            this.eventService,
             new LivepollDialogResponse(
-              this.dialog.open(LivepollSummaryComponent, request.config),
+              req,
+              this.dialog.open(LivepollSummaryComponent, req.config),
             ),
           );
-        }
-      });
+          break;
+        default:
+          throw new Error('Should not happen');
+      }
+    });
+  }
+
+  private showCookieModal(): Observable<boolean> {
+    const dialogRef = this.dialog.open(CookiesComponent, {
+      width: '80%',
+      maxWidth: '600px',
+      autoFocus: true,
+    });
+    dialogRef.disableClose = true;
+    return dialogRef
+      .afterClosed()
+      .pipe(switchMap((d) => (d ? of(true) : this.showOverlay())));
+  }
+
+  private showOverlay(): Observable<boolean> {
+    const dialogRef = this.dialog.open(OverlayComponent, {});
+    dialogRef.disableClose = true;
+    return dialogRef
+      .afterClosed()
+      .pipe(switchMap((d) => (d ? this.showCookieModal() : of(false))));
   }
 }

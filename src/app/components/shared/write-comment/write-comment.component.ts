@@ -41,10 +41,10 @@ import {
   KeywordExtractor,
 } from '../../../utils/keyword-extractor';
 import { ForumComment } from '../../../utils/data-accessor';
-import { UserManagementService } from '../../../services/util/user-management.service';
 import { DBLocalRoomSettingsService } from 'app/services/persistence/dblocal-room-settings.service';
 import { forkJoin, of, switchMap, take } from 'rxjs';
 import { clone, UUID } from 'app/utils/ts-utils';
+import { AccountStateService } from 'app/services/state/account-state.service';
 
 @Component({
   selector: 'app-write-comment',
@@ -104,8 +104,8 @@ export class WriteCommentComponent implements OnInit, AfterViewInit, OnDestroy {
     private deeplService: DeepLService,
     private dialog: MatDialog,
     private sessionService: SessionService,
-    private userManagementService: UserManagementService,
     private dBLocalRoomSettingsService: DBLocalRoomSettingsService,
+    private accountState: AccountStateService,
     injector: Injector,
   ) {
     this._keywordExtractor = new KeywordExtractor(injector);
@@ -154,9 +154,7 @@ export class WriteCommentComponent implements OnInit, AfterViewInit, OnDestroy {
     this.maxDataCharacters = this.isModerator
       ? this.maxTextCharacters * 5
       : this.maxTextCharacters * 3;
-    this.userManagementService
-      .getUser()
-      .subscribe((user) => (this.user = user));
+    this.accountState.user$.subscribe((user) => (this.user = user));
     if (this.rewriteCommentData) {
       this.questionerNameFormControl.setValue(
         this.rewriteCommentData?.questionerName,
@@ -164,7 +162,7 @@ export class WriteCommentComponent implements OnInit, AfterViewInit, OnDestroy {
     } else {
       forkJoin([
         this.sessionService.getRoomOnce(),
-        this.userManagementService.getUser().pipe(take(1)),
+        this.accountState.user$.pipe(take(1)),
       ])
         .pipe(
           switchMap(([room, user]) =>

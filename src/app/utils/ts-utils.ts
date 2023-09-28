@@ -91,7 +91,15 @@ export type UUID = MakeUnique<string, 'UUID'>;
 export type IsObject<T> = T extends { [key: string | number | symbol]: any }
   ? true
   : false;
-export type IsClass<T> = T extends abstract new (...args: any[]) => any ? true : false;
+export type IsClass<T> = T extends abstract new (...args: any[]) => any
+  ? true
+  : false;
+
+export type IsValueOf<Value, Type> = Value extends Type
+  ? Type extends Value
+    ? false
+    : true
+  : false;
 
 export type Replaces<T, K> = Required<T> extends Required<K> ? true : false;
 
@@ -155,9 +163,11 @@ export const clone = <T>(elem: T): Mutable<T> => {
 
 export type TimeoutHelper = Parameters<typeof clearTimeout>[0];
 
-export type ClassType<T> = new (parameterObject: object) => T;
+export type CopyClassType<T> = new (parameterObject: object) => T;
 
-export const verifyInstance = <T>(clazz: ClassType<T>, obj: object): T => {
+export type ClassType<T> = abstract new (...args: any) => T;
+
+export const verifyInstance = <T>(clazz: CopyClassType<T>, obj: object): T => {
   if (obj === null) {
     return null;
   }
