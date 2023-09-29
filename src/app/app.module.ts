@@ -27,7 +27,6 @@ import { SharedModule } from './components/shared/shared.module';
 import { CreatorModule } from './components/creator/creator.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { LanguageService } from './services/util/language.service';
 import { MarkdownModule, MarkdownService, MarkedOptions } from 'ngx-markdown';
 import { NewLandingComponent } from './components/home/new-landing/new-landing.component';
 import { HomePageComponent } from './components/home/home-page/home-page.component';
@@ -101,6 +100,7 @@ import { AskOnboardingDEComponent } from 'assets/i18n/components/ask-onboarding/
 import { AskOnboardingENComponent } from 'assets/i18n/components/ask-onboarding/ask-onboarding-en.component';
 import { AskOnboardingFRComponent } from 'assets/i18n/components/ask-onboarding/ask-onboarding-fr.component';
 import { UpdateInfoDialogComponent } from './components/home/_dialogs/update-info-dialog/update-info-dialog.component';
+import { AppStateService } from './services/state/app-state.service';
 
 export const dialogClose = (dialogResult: any) => '';
 
@@ -219,7 +219,6 @@ export const HttpLoaderFactory = (http: HttpClient) =>
     EventService,
     RoomService,
     CommentService,
-    LanguageService,
     MarkdownService,
     MarkedOptions,
     UserService,
@@ -246,13 +245,13 @@ export const HttpLoaderFactory = (http: HttpClient) =>
 })
 export class AppModule {
   constructor(
-    private languageService: LanguageService,
+    private appState: AppStateService,
     private translateService: TranslateService,
     private highlightLoader: HighlightLoader,
   ) {
     this.highlightLoader.ready.subscribe();
-    this.languageService
-      .getLanguage()
-      .subscribe((lang) => this.translateService.use(lang));
+    this.appState.language$.subscribe((lang) =>
+      this.translateService.use(lang),
+    );
   }
 }

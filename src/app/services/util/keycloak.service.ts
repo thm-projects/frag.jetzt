@@ -4,9 +4,7 @@ import {
   BehaviorSubject,
   Observable,
   Subject,
-  filter,
   from,
-  merge,
   of,
   repeat,
   shareReplay,
@@ -17,8 +15,7 @@ import { KeycloakProviderService } from '../http/keycloak-provider.service';
 import { KeycloakProvider } from 'app/models/keycloak-provider';
 import { UUID } from 'app/utils/ts-utils';
 import { DsgvoBuilder } from 'app/utils/dsgvo-builder';
-import { AccountStateService } from '../state/account-state.service';
-import { AppStateService } from '../state/app-state.service';
+import { InitService } from './init.service';
 
 @Injectable({
   providedIn: 'root',
@@ -28,26 +25,24 @@ export class KeycloakService {
   readonly activeProvider$ = new BehaviorSubject<KeycloakProvider>(null);
   private keycloak: Keycloak;
   private updateStream$ = new Subject();
+  private tokenUpdated: (newToken: string) => void;
 
   constructor(
     private keycloakProvider: KeycloakProviderService,
-    private accountState: AccountStateService,
-    private appState: AppStateService,
+    private initService: InitService,
   ) {
     this.providers$ = keycloakProvider.getAll().pipe(
       repeat({
-        delay: () =>
-          merge(
-            accountState.user$.pipe(filter((v) => Boolean(v))),
-            this.updateStream$,
-          ),
+        delay: () => this.updateStream$,
       }),
       shareReplay(1),
     );
-    // side effects
-    this.providers$.subscribe((providers) => {
-      providers.forEach((provider) => {
-        DsgvoBuilder.trustURL(this.adjustURL(provider.frontendUrl));
+    this.initService.init$.pipe(take(1)).subscribe(() => {
+      // side effects
+      this.providers$.subscribe((providers) => {
+        providers.forEach((provider) => {
+          DsgvoBuilder.trustURL(this.adjustURL(provider.frontendUrl));
+        });
       });
     });
   }
@@ -63,6 +58,8 @@ export class KeycloakService {
   doKeycloakLogin(
     keycloakId: UUID,
     force: boolean,
+    language: string,
+    tokenUpdated: (newToken: string) => void,
   ): Observable<[token: string, keycloakId: UUID]> {
     return this.providers$.pipe(
       take(1),
@@ -77,20 +74,21 @@ export class KeycloakService {
             break;
           }
         }
-        return this.changeProvider(activeProvider);
+        return this.changeProvider(activeProvider, tokenUpdated);
       }),
-      switchMap(() => this.login(force)),
+      switchMap(() => this.login(force, language)),
     );
   }
 
   private login(
-    force: boolean = true,
+    force: boolean,
+    language: string,
   ): Observable<[token: string, keycloakId: UUID]> {
     return from(
       this.keycloak
         .init({
           onLoad: force ? 'login-required' : 'check-sso',
-          locale: this.appState.getCurrentLanguage(),
+          locale: language,
         })
         .then(
           (authenticated) => {
@@ -109,6 +107,7 @@ export class KeycloakService {
 
   private changeProvider(
     keycloakProvider: KeycloakProvider,
+    tokenUpdated: (newToken: string) => void,
   ): Observable<Keycloak> {
     const onContinue = () => {
       if (keycloakProvider == null) {
@@ -120,6 +119,7 @@ export class KeycloakService {
         clientId: keycloakProvider.clientId,
       });
       this.keycloak = newKeycloak;
+      this.tokenUpdated = tokenUpdated;
       this.activeProvider$.next(keycloakProvider);
       newKeycloak.onTokenExpired = () => {
         if (this.keycloak !== newKeycloak) return;
@@ -139,6 +139,7 @@ export class KeycloakService {
     let expiresIn = -1;
     const oldKeycloak = this.keycloak;
     this.keycloak = null;
+    this.tokenUpdated = null;
     this.activeProvider$.next(null);
     if (oldKeycloak != null) {
       expiresIn =
@@ -181,7 +182,6 @@ export class KeycloakService {
     if (this.keycloak !== keycloak) {
       return;
     }
-    const id = this.activeProvider$.value.id;
-    this.accountState.updateToken(keycloak.token, id);
+    this.tokenUpdated(keycloak.token);
   }
 }

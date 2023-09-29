@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { RatingResult } from '../../../../models/rating-result';
-import { LanguageService } from '../../../../services/util/language.service';
+import { AppStateService } from 'app/services/state/app-state.service';
 
 @Component({
   selector: 'app-app-rating-pop-up',
@@ -14,7 +14,7 @@ export class AppRatingPopUpComponent implements OnInit {
   rating: string = '?';
   people: string = '?';
 
-  constructor(private languageService: LanguageService) {}
+  constructor(private appState: AppStateService) {}
 
   static openDialogAt(
     dialog: MatDialog,
@@ -38,14 +38,14 @@ export class AppRatingPopUpComponent implements OnInit {
 
   ngOnInit(): void {
     this.rating = this.result.rating.toLocaleString(
-      this.languageService.currentLanguage(),
+      this.appState.getCurrentLanguage(),
       {
         minimumFractionDigits: 1,
         maximumFractionDigits: 1,
       },
     );
     this.people = this.result.people.toLocaleString(
-      this.languageService.currentLanguage(),
+      this.appState.getCurrentLanguage(),
     );
   }
 

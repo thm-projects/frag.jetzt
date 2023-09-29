@@ -6,19 +6,13 @@
 
 <mat-dialog-content tabindex="0">
   <app-gptpromptexplanation-en
-    *ngIf="
-      languageService.currentLanguage() === 'en'
-    "></app-gptpromptexplanation-en>
+    *ngIf="currentLanguage === 'en'"></app-gptpromptexplanation-en>
 
   <app-gptpromptexplanation-de
-    *ngIf="
-      languageService.currentLanguage() === 'de'
-    "></app-gptpromptexplanation-de>
+    *ngIf="currentLanguage === 'de'"></app-gptpromptexplanation-de>
 
   <app-gptpromptexplanation-fr
-    *ngIf="
-      languageService.currentLanguage() === 'fr'
-    "></app-gptpromptexplanation-fr>
+    *ngIf="currentLanguage === 'fr'"></app-gptpromptexplanation-fr>
 </mat-dialog-content>
 
 <app-dialog-action-buttons

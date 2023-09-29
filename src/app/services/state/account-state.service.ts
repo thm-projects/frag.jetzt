@@ -21,14 +21,8 @@ import { ClientAuthentication } from 'app/models/client-authentication';
 import { User } from 'app/models/user';
 import { UUID } from 'app/utils/ts-utils';
 import { UserRole } from 'app/models/user-roles.enum';
-import {
-  DbReadMotdService,
-  ReadMotd,
-} from '../persistence/lg/db-read-motd.service';
-import {
-  DbRoomAccessService,
-  RoomAccess,
-} from '../persistence/lg/db-room-access.service';
+import { DbReadMotdService } from '../persistence/lg/db-read-motd.service';
+import { DbRoomAccessService } from '../persistence/lg/db-room-access.service';
 import { DbConfigService } from '../persistence/lg/db-config.service';
 import { GptService } from '../http/gpt.service';
 import { OnlineStateService } from './online-state.service';
@@ -38,6 +32,9 @@ import {
 } from 'app/utils/service-component-events';
 import { KeycloakService } from '../util/keycloak.service';
 import { AppStateService } from './app-state.service';
+import { RoomAccess } from '../persistence/lg/db-room-acces.model';
+import { ReadMotd } from '../persistence/lg/db-read-motd.model';
+import { EventService } from '../util/event.service';
 
 @Injectable({
   providedIn: 'root',
@@ -51,6 +48,7 @@ export class AccountStateService {
   private readonly updateUser$ = new Subject<User>();
   private readonly updateAccess$ = new Subject<boolean>();
   private readonly updateReadMotds$ = new Subject<boolean>();
+  private readonly updateGptConsented$ = new Subject<boolean>();
   private initialized = false;
 
   constructor(
@@ -62,6 +60,7 @@ export class AccountStateService {
     private onlineState: OnlineStateService,
     private keycloak: KeycloakService,
     private appState: AppStateService,
+    private eventService: EventService,
   ) {
     this.user$ = concat(this.loadUser(), this.updateUser$).pipe(
       distinctUntilChanged(),
@@ -109,9 +108,12 @@ export class AccountStateService {
       distinctUntilChanged(),
       shareReplay(1),
     );
-    this.gptConsented$ = this.user$.pipe(
-      switchMap((user) => {
-        if (!user) {
+    this.gptConsented$ = merge(this.user$, this.updateGptConsented$).pipe(
+      switchMap((v) => {
+        if (typeof v === 'boolean') {
+          return of(v);
+        }
+        if (!v) {
           return of(undefined);
         }
         return this.onlineState.refreshWhenReachable(
@@ -324,13 +326,23 @@ export class AccountStateService {
       .subscribe(() => this.updateReadMotds$.next(true));
   }
 
+  updateGPTConsentState(result: boolean) {
+    this.gptService.updateConsentState(Boolean(result)).subscribe();
+  }
+
   private redirectLogin(): Observable<User> {
-    return callServiceEvent(new LoginDialogRequest(window.location.href)).pipe(
+    return callServiceEvent(
+      this.eventService,
+      new LoginDialogRequest(window.location.href),
+    ).pipe(
       switchMap((response) => {
-        if (!response.loginData) {
+        if (response.keycloakId === undefined) {
+          return of(null);
+        }
+        if (!response.keycloakId) {
           return this.loginAsGuest();
         }
-        return this.loginAsUser(response.loginData[0], response.loginData[1]);
+        return this.doKeycloakLogin(response.keycloakId);
       }),
     );
   }
@@ -369,17 +381,35 @@ export class AccountStateService {
                 return this.loginAsGuest();
               }
               // force keycloak login
-              return this.keycloak.doKeycloakLogin(value, true).pipe(
+              return this.doKeycloakLogin(value).pipe(
                 switchMap((data) => {
-                  if (!data) {
-                    // Choose options on login screen
-                    return this.redirectLogin();
+                  if (data) {
+                    return of(data);
                   }
-                  return this.loginAsUser(data[0], data[1]);
+                  return this.redirectLogin();
                 }),
               );
             }),
           );
+        }),
+      );
+  }
+
+  private doKeycloakLogin(keycloakId: UUID): Observable<User> {
+    return this.keycloak
+      .doKeycloakLogin(
+        keycloakId,
+        true,
+        this.appState.getCurrentLanguage(),
+        (newToken) => this.updateToken(newToken, keycloakId),
+      )
+      .pipe(
+        switchMap((data) => {
+          if (!data) {
+            // Choose options on login screen
+            return of(null);
+          }
+          return this.loginAsUser(data[0], data[1]);
         }),
       );
   }

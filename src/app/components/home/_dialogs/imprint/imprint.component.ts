@@ -1,23 +1,29 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { LanguageService } from '../../../../services/util/language.service';
+import { Language } from 'app/services/http/languagetool.service';
+import { AppStateService } from 'app/services/state/app-state.service';
+import { ReplaySubject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-imprint',
   templateUrl: './imprint.component.html',
-  styleUrls: ['./imprint.component.scss']
+  styleUrls: ['./imprint.component.scss'],
 })
-export class ImprintComponent implements OnInit {
+export class ImprintComponent implements OnInit, OnDestroy {
   safeURLfrontend: SafeResourceUrl;
   safeURLbackend: SafeResourceUrl;
-
+  currentLanguage: Language;
+  private destroyer = new ReplaySubject(1);
 
   constructor(
     private dialogRef: MatDialogRef<ImprintComponent>,
     private sanitizer: DomSanitizer,
-    public languageService: LanguageService,
+    appState: AppStateService,
   ) {
+    appState.language$
+      .pipe(takeUntil(this.destroyer))
+      .subscribe((lang) => (this.currentLanguage = lang));
   }
 
   ngOnInit() {
@@ -27,6 +33,11 @@ export class ImprintComponent implements OnInit {
     this.safeURLbackend = this.sanitizer
       .bypassSecurityTrustResourceUrl('https://www.openhub.net/p/frag-jetzt-backend/widgets/project_partner_badge');
      */
+  }
+
+  ngOnDestroy(): void {
+    this.destroyer.next(true);
+    this.destroyer.complete();
   }
 
   /**

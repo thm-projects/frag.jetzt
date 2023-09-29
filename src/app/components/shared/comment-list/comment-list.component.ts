@@ -10,7 +10,6 @@ import {
 import { Comment, numberSorter } from '../../../models/comment';
 import { CommentService } from '../../../services/http/comment.service';
 import { TranslateService } from '@ngx-translate/core';
-import { LanguageService } from '../../../services/util/language.service';
 import { MatDialog } from '@angular/material/dialog';
 import { User } from '../../../models/user';
 import { UserRole } from '../../../models/user-roles.enum';
@@ -36,7 +35,6 @@ import { FormControl } from '@angular/forms';
 import { copyCSVString, exportRoom } from '../../../utils/ImportExportMethods';
 import { BrainstormingService } from '../../../services/http/brainstorming.service';
 import { SessionService } from '../../../services/util/session.service';
-import { DeviceInfoService } from '../../../services/util/device-info.service';
 import { ArsComposeService } from '../../../../../projects/ars/src/lib/services/ars-compose.service';
 import { HeaderService } from '../../../services/util/header.service';
 import { TagCloudDataService } from '../../../services/util/tag-cloud-data.service';
@@ -59,10 +57,12 @@ import {
   PeriodCounts,
 } from '../../../utils/filtered-data-access';
 import { QuillUtils } from '../../../utils/quill-utils';
-import { UserManagementService } from '../../../services/util/user-management.service';
 import { ThemeService } from '../../../../theme/theme.service';
 import { ColorContrast } from '../../../utils/color-contrast';
 import { EditQuestionComponent } from '../_dialogs/edit-question/edit-question.component';
+import { DeviceStateService } from 'app/services/state/device-state.service';
+import { AccountStateService } from 'app/services/state/account-state.service';
+import { AppStateService } from 'app/services/state/app-state.service';
 
 @Component({
   selector: 'app-comment-list',
@@ -122,6 +122,7 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
   activeKeyword = null;
   canOpenGPT = false;
   consentGPT = false;
+  isMobile = false;
   private firstReceive = true;
   private _allQuestionNumberOptions: string[] = [];
   private _list: ComponentRef<any>[];
@@ -135,10 +136,8 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
     private commentService: CommentService,
     private translateService: TranslateService,
     public dialog: MatDialog,
-    protected langService: LanguageService,
     protected roomService: RoomService,
     protected voteService: VoteService,
-    private userManagementService: UserManagementService,
     private notificationService: NotificationService,
     public eventService: EventService,
     public liveAnnouncer: LiveAnnouncer,
@@ -149,20 +148,22 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
     private onboardingService: OnboardingService,
     private brainstormingService: BrainstormingService,
     private sessionService: SessionService,
-    public deviceInfo: DeviceInfoService,
     private composeService: ArsComposeService,
     private headerService: HeaderService,
     private cloudDataService: TagCloudDataService,
     private themeService: ThemeService,
+    private accountState: AccountStateService,
+    deviceState: DeviceStateService,
+    appState: AppStateService,
   ) {
-    langService
-      .getLanguage()
-      .pipe(takeUntil(this._destroySubject))
-      .subscribe((_) => {
-        this.translateService.get('comment-list.search').subscribe((msg) => {
-          this.searchPlaceholder = msg;
-        });
+    appState.language$.pipe(takeUntil(this._destroySubject)).subscribe((_) => {
+      this.translateService.get('comment-list.search').subscribe((msg) => {
+        this.searchPlaceholder = msg;
       });
+    });
+    deviceState.mobile$
+      .pipe(takeUntil(this._destroySubject))
+      .subscribe((m) => (this.isMobile = m));
     themeService
       .getTheme()
       .pipe(takeUntil(this._destroySubject))
@@ -189,8 +190,7 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.userManagementService
-      .getGPTConsentState()
+    this.accountState.gptConsented$
       .pipe(takeUntil(this._destroySubject))
       .subscribe((state) => {
         this.consentGPT = state;
@@ -213,24 +213,26 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
     this.initNavigation();
     const data = localStorage.getItem('commentListPageSize');
     this.pageSize = data ? +data || this.pageSize : this.pageSize;
-    this.userManagementService.getUser().subscribe((newUser) => {
-      if (!newUser) {
-        return;
-      }
-      this.user = newUser;
-      if (this.sessionService.currentRole !== UserRole.PARTICIPANT) {
-        return;
-      }
-      this.sessionService.getRoomOnce().subscribe((room) => {
-        this.voteService
-          .getByRoomIdAndUserID(room.id, this.user.id)
-          .subscribe((votes) => {
-            for (const v of votes) {
-              this.commentVoteMap[v.commentId] = v;
-            }
-          });
+    this.accountState.user$
+      .pipe(takeUntil(this._destroySubject))
+      .subscribe((newUser) => {
+        if (!newUser) {
+          return;
+        }
+        this.user = newUser;
+        if (this.sessionService.currentRole !== UserRole.PARTICIPANT) {
+          return;
+        }
+        this.sessionService.getRoomOnce().subscribe((room) => {
+          this.voteService
+            .getByRoomIdAndUserID(room.id, this.user.id)
+            .subscribe((votes) => {
+              for (const v of votes) {
+                this.commentVoteMap[v.commentId] = v;
+              }
+            });
+        });
       });
-    });
     forkJoin([
       this.sessionService.getRoomOnce(),
       this.sessionService.getModeratorsOnce(),
@@ -697,9 +699,7 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
           text: 'header.create-question',
           callback: () => this.writeComment(),
           condition: () =>
-            this.deviceInfo.isCurrentlyDesktop &&
-            this.room &&
-            !this.room.questionsBlocked,
+            !this.isMobile && this.room && !this.room.questionsBlocked,
         });
         e.menuItem({
           translate: this.headerService.getTranslate(),

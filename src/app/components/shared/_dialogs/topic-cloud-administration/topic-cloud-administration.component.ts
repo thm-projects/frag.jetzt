@@ -22,9 +22,10 @@ import { TSMap } from 'typescript-map';
 import { RoomDataService } from '../../../../services/util/room-data.service';
 import { ProfanityFilter, Room } from '../../../../models/room';
 import { SessionService } from '../../../../services/util/session.service';
-import { DeviceInfoService } from '../../../../services/util/device-info.service';
 import { SpacyKeyword } from '../../../../services/http/spacy.service';
 import { ExplanationDialogComponent } from '../explanation-dialog/explanation-dialog.component';
+import { DeviceStateService } from 'app/services/state/device-state.service';
+import { ReplaySubject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-topic-cloud-administration',
@@ -82,8 +83,10 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   testProfanityWord: string = undefined;
   testProfanityLanguage = 'de';
   blacklistKeywords = [];
+  isMobile = false;
   private subscriptionRoom = null;
   private topicCloudAdminData: TopicCloudAdminData;
+  private destroyer = new ReplaySubject(1);
 
   constructor(
     public cloudDialogRef: MatDialogRef<TopicCloudAdministrationComponent>,
@@ -95,11 +98,14 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     private commentService: CommentService,
     private roomDataService: RoomDataService,
     private profanityFilterService: ProfanityFilterService,
-    public deviceInfo: DeviceInfoService,
+    deviceState: DeviceStateService,
   ) {
     const emptyData = {} as TopicCloudAdminData;
     ensureDefaultScorings(emptyData);
     this.defaultScorings = emptyData.scorings;
+    deviceState.mobile$
+      .pipe(takeUntil(this.destroyer))
+      .subscribe((m) => (this.isMobile = m));
   }
 
   ngOnInit(): void {
@@ -210,6 +216,8 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.destroyer.next(true);
+    this.destroyer.complete();
     this.profanitylistSubscription?.unsubscribe();
     this.subscriptionRoom?.unsubscribe();
     this.cloudDialogRef.close();

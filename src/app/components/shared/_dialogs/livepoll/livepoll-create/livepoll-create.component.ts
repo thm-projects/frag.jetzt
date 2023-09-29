@@ -18,9 +18,7 @@ import {
 import { FormControl } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
-import { LanguageService } from '../../../../../services/util/language.service';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
-import { DeviceInfoService } from '../../../../../services/util/device-info.service';
 import { SessionService } from 'app/services/util/session.service';
 import { LivepollSession } from '../../../../../models/livepoll-session';
 import { MatSelect } from '@angular/material/select';
@@ -31,6 +29,7 @@ import {
   LivepollDialogInjectionData,
 } from '../livepoll-dialog/livepoll-dialog.component';
 import { LivepollSessionCreateAPI } from '../../../../../services/http/livepoll.service';
+import { AppStateService } from 'app/services/state/app-state.service';
 
 @Component({
   selector: 'app-livepoll-create',
@@ -57,14 +56,13 @@ export class LivepollCreateComponent implements OnDestroy, AfterViewInit {
   constructor(
     public readonly dialogRef: MatDialogRef<LivepollSessionCreateAPI>,
     public readonly translationService: TranslateService,
-    public readonly languageService: LanguageService,
     public readonly http: HttpClient,
-    public readonly device: DeviceInfoService,
     private readonly sessionService: SessionService,
     private readonly renderer: Renderer2,
+    appState: AppStateService,
   ) {
     LivepollComponentUtility.initLanguage(
-      this.languageService,
+      appState,
       this.translationService,
       this.http,
       this._destroyer,

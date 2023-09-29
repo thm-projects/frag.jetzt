@@ -13,6 +13,7 @@ import {
   merge,
   of,
   switchMap,
+  take,
   throwError,
 } from 'rxjs';
 import { SCHEMA } from './lg-persist.schema';
@@ -47,6 +48,7 @@ class BatchedCursor<
 
   next() {
     return this.lgPersist.database$.pipe(
+      take(1),
       switchMap((con) => {
         if (!this.nextAvailable) {
           return throwError(() => 'No more elements');
@@ -159,6 +161,7 @@ export class LgDbBaseService<
 
   clear(): Observable<undefined> {
     return this.lgPersist.database$.pipe(
+      take(1),
       switchMap((con) => {
         const trans = con.transaction(this.storeName, 'readwrite', {
           durability: this.durability,
@@ -173,6 +176,7 @@ export class LgDbBaseService<
 
   createOrThrow(value: Type, key?: Keys): Observable<Keys> {
     return this.lgPersist.database$.pipe(
+      take(1),
       switchMap((con) => {
         const trans = con.transaction(this.storeName, 'readwrite', {
           durability: this.durability,
@@ -189,6 +193,7 @@ export class LgDbBaseService<
 
   createOrUpdate(value: Type, key?: Keys): Observable<Keys> {
     return this.lgPersist.database$.pipe(
+      take(1),
       switchMap((con) => {
         const trans = con.transaction(this.storeName, 'readwrite', {
           durability: this.durability,
@@ -208,6 +213,7 @@ export class LgDbBaseService<
       return of();
     }
     return this.lgPersist.database$.pipe(
+      take(1),
       switchMap((con) => {
         const trans = con.transaction(this.storeName, 'readwrite', {
           durability: this.durability,
@@ -239,6 +245,7 @@ export class LgDbBaseService<
       return of();
     }
     return this.lgPersist.database$.pipe(
+      take(1),
       switchMap((con) => {
         const trans = con.transaction(this.storeName, 'readwrite', {
           durability: this.durability,
@@ -267,6 +274,7 @@ export class LgDbBaseService<
 
   delete(query: Keys | IDBKeyRange): Observable<undefined> {
     return this.lgPersist.database$.pipe(
+      take(1),
       switchMap((con) => {
         const trans = con.transaction(this.storeName, 'readwrite', {
           durability: this.durability,
@@ -284,6 +292,7 @@ export class LgDbBaseService<
       return of();
     }
     return this.lgPersist.database$.pipe(
+      take(1),
       switchMap((con) => {
         const trans = con.transaction(this.storeName, 'readwrite', {
           durability: this.durability,
@@ -304,6 +313,7 @@ export class LgDbBaseService<
 
   count(query?: Keys | IDBKeyRange): Observable<number> {
     return this.lgPersist.database$.pipe(
+      take(1),
       switchMap((con) => {
         const trans = con.transaction(this.storeName, 'readonly');
         return fromRequestClosing(
@@ -316,6 +326,7 @@ export class LgDbBaseService<
 
   getAll(query?: Keys | IDBKeyRange, count?: number): Observable<Type[]> {
     return this.lgPersist.database$.pipe(
+      take(1),
       switchMap((con) => {
         const trans = con.transaction(this.storeName, 'readonly');
         return (
@@ -336,6 +347,7 @@ export class LgDbBaseService<
 
   getAllKeys(query?: Keys | IDBKeyRange, count?: number): Observable<Keys[]> {
     return this.lgPersist.database$.pipe(
+      take(1),
       switchMap((con) => {
         const trans = con.transaction(this.storeName, 'readonly');
         return fromRequestClosing(
@@ -350,6 +362,7 @@ export class LgDbBaseService<
 
   get(query: Keys | IDBKeyRange): Observable<Type> {
     return this.lgPersist.database$.pipe(
+      take(1),
       switchMap((con) => {
         const trans = con.transaction(this.storeName, 'readonly');
         return (
@@ -364,6 +377,7 @@ export class LgDbBaseService<
 
   getKey(query: Keys | IDBKeyRange): Observable<Keys> {
     return this.lgPersist.database$.pipe(
+      take(1),
       switchMap((con) => {
         const trans = con.transaction(this.storeName, 'readonly');
         return fromRequestClosing(
@@ -399,6 +413,7 @@ export class LgDbBaseService<
     query?: IDBValidKey | IDBKeyRange,
   ): Observable<number> {
     return this.lgPersist.database$.pipe(
+      take(1),
       switchMap((con) => {
         const trans = con.transaction(this.storeName, 'readonly');
         return fromRequestClosing(
@@ -415,6 +430,7 @@ export class LgDbBaseService<
     count?: number,
   ): Observable<Type[]> {
     return this.lgPersist.database$.pipe(
+      take(1),
       switchMap((con) => {
         const trans = con.transaction(this.storeName, 'readonly');
         return (
@@ -437,6 +453,7 @@ export class LgDbBaseService<
     count?: number,
   ): Observable<IDBValidKey[]> {
     return this.lgPersist.database$.pipe(
+      take(1),
       switchMap((con) => {
         const trans = con.transaction(this.storeName, 'readonly');
         return fromRequestClosing(
@@ -455,6 +472,7 @@ export class LgDbBaseService<
     query: IDBValidKey | IDBKeyRange,
   ): Observable<Type> {
     return this.lgPersist.database$.pipe(
+      take(1),
       switchMap((con) => {
         const trans = con.transaction(this.storeName, 'readonly');
         return (
@@ -472,6 +490,7 @@ export class LgDbBaseService<
     query: IDBValidKey | IDBKeyRange,
   ): Observable<IDBValidKey> {
     return this.lgPersist.database$.pipe(
+      take(1),
       switchMap((con) => {
         const trans = con.transaction(this.storeName, 'readonly');
         return fromRequestClosing(

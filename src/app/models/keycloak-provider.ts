@@ -6,6 +6,7 @@ export class KeycloakProvider {
   url: string;
   frontendUrl: string;
   eventPassword: string;
+  allowedIps: string;
   realm: string;
   clientId: string;
   nameDe: string;
@@ -23,6 +24,7 @@ export class KeycloakProvider {
     url = '',
     frontendUrl = '',
     eventPassword = '',
+    allowedIps = '',
     realm = '',
     clientId = '',
     nameDe = '',
@@ -39,6 +41,7 @@ export class KeycloakProvider {
     this.url = url;
     this.frontendUrl = frontendUrl;
     this.eventPassword = eventPassword;
+    this.allowedIps = allowedIps;
     this.realm = realm;
     this.clientId = clientId;
     this.nameDe = nameDe;

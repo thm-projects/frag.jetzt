@@ -15,11 +15,11 @@ import {
 } from 'app/utils/quill-utils';
 import { escapeForRegex } from 'app/utils/regex-escape';
 import { ViewCommentDataComponent } from '../view-comment-data/view-comment-data.component';
+import { take } from 'rxjs';
 import {
   AVAILABLE_LANGUAGES,
-  LanguageService,
-} from 'app/services/util/language.service';
-import { take } from 'rxjs';
+  AppStateService,
+} from 'app/services/state/app-state.service';
 
 @Component({
   selector: 'app-chat-gptprompt-preset',
@@ -60,18 +60,15 @@ export class ChatGPTPromptPresetComponent implements OnInit {
     private gptService: GptService,
     private tranlateService: TranslateService,
     private notificationService: NotificationService,
-    languageService: LanguageService,
+    appState: AppStateService,
   ) {
     encoderService
       .getEncoderOnce()
       .subscribe((encoder) => (this.encoder = encoder));
-    languageService
-      .getLanguage()
-      .pipe(take(1))
-      .subscribe((lang) => {
-        this.startLanguage = lang;
-        this.language = lang;
-      });
+    appState.language$.pipe(take(1)).subscribe((lang) => {
+      this.startLanguage = lang;
+      this.language = lang;
+    });
   }
 
   ngOnInit(): void {

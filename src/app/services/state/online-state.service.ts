@@ -1,7 +1,8 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { RatingResult } from 'app/models/rating-result';
 import {
   Observable,
+  Subject,
   catchError,
   concat,
   distinctUntilChanged,
@@ -15,6 +16,7 @@ import {
   switchMap,
   take,
   takeUntil,
+  tap,
 } from 'rxjs';
 import { RatingService } from '../http/rating.service';
 
@@ -86,16 +88,22 @@ export class OnlineStateService {
     offlineAction: Observable<T>,
     onlineAction: Observable<T>,
   ): Observable<T> {
-    if (this.isOnline()) {
-      return onlineAction;
-    }
-    const emitter = this.online$.pipe(
-      filter((v) => Boolean(v)),
-      take(1),
-    );
-    return concat(
-      offlineAction.pipe(takeUntil(emitter)),
-      emitter.pipe(switchMap(() => onlineAction)),
+    let offlineEmitted = false;
+    const subjectOnline = new Subject();
+    return this.online$.pipe(
+      takeUntil(subjectOnline),
+      switchMap((online) => {
+        if (!online) {
+          if (offlineEmitted) {
+            return of();
+          }
+          offlineEmitted = true;
+          return offlineAction;
+        }
+        subjectOnline.next(true);
+        subjectOnline.complete();
+        return onlineAction;
+      }),
     );
   }
 
@@ -111,16 +119,22 @@ export class OnlineStateService {
     offlineAction: Observable<T>,
     onlineAction: Observable<T>,
   ): Observable<T> {
-    if (this.isReachable()) {
-      return onlineAction;
-    }
-    const emitter = this.backendStatus$.pipe(
-      filter((v) => v === BackendStatus.Available),
-      take(1),
-    );
-    return concat(
-      offlineAction.pipe(takeUntil(emitter)),
-      emitter.pipe(switchMap(() => onlineAction)),
+    let offlineEmitted = false;
+    const subjectOnline = new Subject();
+    return this.backendStatus$.pipe(
+      takeUntil(subjectOnline),
+      switchMap((online) => {
+        if (online !== BackendStatus.Available) {
+          if (offlineEmitted) {
+            return of();
+          }
+          offlineEmitted = true;
+          return offlineAction;
+        }
+        subjectOnline.next(true);
+        subjectOnline.complete();
+        return onlineAction;
+      }),
     );
   }
 }

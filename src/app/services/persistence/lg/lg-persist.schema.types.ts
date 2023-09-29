@@ -1,4 +1,4 @@
-import { FieldsOf, IsValueOf } from 'app/utils/ts-utils';
+import { FieldsOf } from 'app/utils/ts-utils';
 import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';
 
@@ -363,11 +363,15 @@ export interface LgTransaction<T extends DatabaseSchema>
   ): LgObjectStore<InstanceType<T['stores'][K]['type']>, T['stores'][K]>;
 }
 
+export interface TransactionOptions {
+  durability: 'relaxed' | 'strict' | 'default';
+}
+
 export interface LgDb<T extends DatabaseSchema> extends IDBDatabase {
   transaction(
     storeNames: keyof T['stores'] | (keyof T['stores'])[],
     mode?: LgTransactionMode,
-    options?: IDBTransactionOptions,
+    options?: TransactionOptions,
   ): LgTransaction<T>;
 }
 

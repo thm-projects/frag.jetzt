@@ -40,8 +40,7 @@
             <div>
               <span>
                 {{
-                  getVotePercentage(i) +
-                    (languageService.currentLanguage() === "de" ? " " : "")
+                  getVotePercentage(i) + (currentLanguage === "de" ? " " : "")
                 }}%
               </span>
             </div>
@@ -49,10 +48,7 @@
         </div>
         <div class="foreground">
           <span>
-            {{
-              getVotePercentage(i) +
-                (languageService.currentLanguage() === "de" ? " " : "")
-            }}%
+            {{ getVotePercentage(i) + (currentLanguage === "de" ? " " : "") }}%
           </span>
         </div>
       </div>

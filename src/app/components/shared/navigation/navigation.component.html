@@ -10,7 +10,7 @@
   [matMenuTriggerFor]="locationMenu">
   <div class="label-icon">
     <mat-icon>place</mat-icon>
-    <h2 *ngIf="deviceInfo.isCurrentlyDesktop && showText">
+    <h2 *ngIf="!isMobile && showText">
       {{
         (currentLocation?.i18n
           ? "header.navigation"

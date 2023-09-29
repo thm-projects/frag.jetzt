@@ -1,28 +1,36 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { KeyboardUtils } from '../../../../utils/keyboard';
 import { KeyboardKey } from '../../../../utils/keyboard/keys';
-import { LanguageService } from '../../../../services/util/language.service';
 import { Router } from '@angular/router';
+import { Language } from 'app/services/http/languagetool.service';
+import { ReplaySubject, takeUntil } from 'rxjs';
+import { AppStateService } from 'app/services/state/app-state.service';
 
 @Component({
   selector: 'app-demo-video',
   templateUrl: './demo-video.component.html',
-  styleUrls: ['./demo-video.component.scss']
+  styleUrls: ['./demo-video.component.scss'],
 })
-export class DemoVideoComponent implements OnInit {
+export class DemoVideoComponent implements OnInit, OnDestroy {
+  currentLanguage: Language;
+  private destroyer = new ReplaySubject(1);
 
   constructor(
     public dialogRef: MatDialogRef<DemoVideoComponent>,
     public dialog: MatDialog,
-    public languageService: LanguageService,
     public router: Router,
+    appState: AppStateService,
   ) {
+    appState.language$
+      .pipe(takeUntil(this.destroyer))
+      .subscribe((lang) => (this.currentLanguage = lang));
   }
 
   onKeyDown(e: KeyboardEvent) {
     if (KeyboardUtils.isKeyEvent(e, KeyboardKey.Digit1)) {
-      const iframe = document.getElementsByClassName('videoWrapper')[0].children[0] as HTMLElement;
+      const iframe = document.getElementsByClassName('videoWrapper')[0]
+        .children[0] as HTMLElement;
       const player = iframe as HTMLIFrameElement;
       if (player.src.charAt(player.src.length - 1) === '0') {
         player.src = player.src.split('?')[0] + '?autoplay=1';
@@ -35,7 +43,7 @@ export class DemoVideoComponent implements OnInit {
     } else if (KeyboardUtils.isKeyEvent(e, KeyboardKey.Digit3)) {
       this.focusElement(document.getElementById('demoContent'));
     } else if (KeyboardUtils.isKeyEvent(e, KeyboardKey.Digit4)) {
-      this.focusElement((document.getElementById('selection')));
+      this.focusElement(document.getElementById('selection'));
     }
   }
 
@@ -43,6 +51,11 @@ export class DemoVideoComponent implements OnInit {
     if (this.router.url !== '/introduction') {
       document.getElementById('setFocus').focus();
     }
+  }
+
+  ngOnDestroy(): void {
+    this.destroyer.next(true);
+    this.destroyer.complete();
   }
 
   /**

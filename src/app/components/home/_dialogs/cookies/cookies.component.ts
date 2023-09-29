@@ -1,28 +1,40 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { DataProtectionComponent } from '../data-protection/data-protection.component';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import {
-  DialogConfirmActionButtonType
-} from '../../../shared/dialog/dialog-action-buttons/dialog-action-buttons.component';
-import { LanguageService } from '../../../../services/util/language.service';
+import { DialogConfirmActionButtonType } from '../../../shared/dialog/dialog-action-buttons/dialog-action-buttons.component';
+import { Language } from 'app/services/http/languagetool.service';
+import { ReplaySubject, takeUntil } from 'rxjs';
+import { AppStateService } from 'app/services/state/app-state.service';
 
 @Component({
   selector: 'app-cookies',
   templateUrl: './cookies.component.html',
-  styleUrls: ['./cookies.component.scss']
+  styleUrls: ['./cookies.component.scss'],
 })
-export class CookiesComponent implements OnInit, AfterViewInit {
-
+export class CookiesComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('header')
   dialogTitle: ElementRef;
-  confirmButtonType: DialogConfirmActionButtonType = DialogConfirmActionButtonType.Primary;
+  confirmButtonType: DialogConfirmActionButtonType =
+    DialogConfirmActionButtonType.Primary;
+  currentLanguage: Language;
+  private destroyer = new ReplaySubject(1);
 
   constructor(
     private dialog: MatDialog,
     private dialogRef: MatDialogRef<CookiesComponent>,
     private ref: ElementRef<HTMLElement>,
-    public langService: LanguageService,
+    appState: AppStateService,
   ) {
+    appState.language$
+      .pipe(takeUntil(this.destroyer))
+      .subscribe((lang) => (this.currentLanguage = lang));
   }
 
   ngOnInit() {
@@ -32,8 +44,17 @@ export class CookiesComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     setTimeout(() => {
-      (this.ref.nativeElement.getElementsByClassName('mat-dialog-title')[0] as HTMLElement).focus();
+      (
+        this.ref.nativeElement.getElementsByClassName(
+          'mat-dialog-title',
+        )[0] as HTMLElement
+      ).focus();
     }, 500);
+  }
+
+  ngOnDestroy(): void {
+    this.destroyer.next(true);
+    this.destroyer.complete();
   }
 
   acceptCookies() {
@@ -49,7 +70,7 @@ export class CookiesComponent implements OnInit, AfterViewInit {
 
   openDataProtection() {
     this.dialog.open(DataProtectionComponent, {
-      width: '90%'
+      width: '90%',
     });
   }
 

@@ -1,21 +1,24 @@
 <div>
-
-  <h2 tabindex="0"
-      mat-dialog-title
-      class="modal oldtypo-h2">{{ 'data-protection.title' | translate }}</h2>
-
+  <h2
+    tabindex="0"
+    mat-dialog-title
+    class="modal oldtypo-h2">
+    {{ "data-protection.title" | translate }}
+  </h2>
 
   <mat-dialog-content tabindex="0">
-    <app-data-protection-en *ngIf="languageService.currentLanguage() === 'en'"></app-data-protection-en>
-    <app-data-protection-de *ngIf="languageService.currentLanguage() === 'de'"></app-data-protection-de>
-    <app-data-protection-fr *ngIf="languageService.currentLanguage() === 'fr'"></app-data-protection-fr>
+    <app-data-protection-en
+      *ngIf="currentLanguage === 'en'"></app-data-protection-en>
+    <app-data-protection-de
+      *ngIf="currentLanguage === 'de'"></app-data-protection-de>
+    <app-data-protection-fr
+      *ngIf="currentLanguage === 'fr'"></app-data-protection-fr>
   </mat-dialog-content>
 
   <app-dialog-action-buttons
     confirmButtonLabel="cancel"
     buttonsLabelSection="imprint"
-    [confirmButtonClickAction]="buildDeclineActionCallback()">
-  </app-dialog-action-buttons>
-
+    [confirmButtonClickAction]="
+      buildDeclineActionCallback()
+    "></app-dialog-action-buttons>
 </div>
-

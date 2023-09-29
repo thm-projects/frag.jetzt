@@ -13,10 +13,10 @@
         class="focus_button"
         [matTooltip]="'header.tour-button' | translate"
         [disabled]="!startUpFinished()"
-        *ngIf="router.url.endsWith('/home') && !deviceInfo.isSafari"
+        *ngIf="router.url.endsWith('/home') && !isSafari"
         (click)="startTour()">
         <mat-icon class="header-icons material-icons-outlined">flag</mat-icon>
-        <span *ngIf="deviceInfo.isCurrentlyDesktop && !showSmallButtons">
+        <span *ngIf="!isMobile && !showSmallButtons">
           {{ "header.tour" | translate }}
         </span>
       </button>
@@ -50,7 +50,7 @@
         <span
           class="chatgpt-robot-icon"
           style="transform: scale(1.2); margin-right: 5px"></span>
-        <span *ngIf="!showSmallButtons && deviceInfo.isCurrentlyDesktop">
+        <span *ngIf="!showSmallButtons && !isMobile">
           {{ "header.gpt-chat" | translate }}
         </span>
       </button>
@@ -68,7 +68,7 @@
         <span
           class="chatgpt-robot-icon"
           style="transform: scale(1.2); margin-right: 5px"></span>
-        <span *ngIf="!showSmallButtons && deviceInfo.isCurrentlyDesktop">
+        <span *ngIf="!showSmallButtons && !isMobile">
           {{ "header.gpt-brainstorming" | translate }}
         </span>
       </button>
@@ -87,7 +87,7 @@
           style="transform: scale(1.2); margin-right: 5px">
           terminal
         </mat-icon>
-        <span *ngIf="!showSmallButtons && deviceInfo.isCurrentlyDesktop">
+        <span *ngIf="!showSmallButtons && !isMobile">
           {{ "header.gpt-prompts" | translate }}
         </span>
       </button>
@@ -100,7 +100,7 @@
           !router.url.endsWith('moderator/comments') &&
           router.url.endsWith('/comments') &&
           room?.quizActive &&
-          deviceInfo.isCurrentlyDesktop
+          !isMobile
         "
         routerLink="quiz">
         <mat-icon
@@ -124,7 +124,7 @@
           style="transform: scale(1.2); margin-right: 5px">
           flash_on
         </mat-icon>
-        <span *ngIf="deviceInfo.isCurrentlyDesktop && !showSmallButtons">
+        <span *ngIf="!isMobile && !showSmallButtons">
           {{ "header.livepoll" | translate }}
         </span>
       </button>
@@ -136,7 +136,7 @@
         *ngIf="
           !router.url.endsWith('moderator/comments') &&
           router.url.endsWith('/comments') &&
-          deviceInfo.isCurrentlyDesktop &&
+          !isMobile &&
           ((tagCloudDataService.currentData?.size || 0) > 0 ||
             topicCloudAdminService.isTopicRequirementActive())
         "
@@ -157,7 +157,7 @@
           !router.url.endsWith('moderator/comments') &&
           router.url.endsWith('/comments') &&
           room?.brainstormingActive &&
-          deviceInfo.isCurrentlyDesktop &&
+          !isMobile &&
           (!!room?.brainstormingSession || userRole > 0)
         "
         (click)="navigateBrainstormingDialog()">
@@ -181,8 +181,7 @@
       <div
         *ngIf="
           room?.brainstormingSession?.active &&
-          ((!router.url.endsWith('/brainstorming') &&
-            !deviceInfo.isCurrentlyDesktop) ||
+          ((!router.url.endsWith('/brainstorming') && isMobile) ||
             router.url.endsWith('/room/' + sessionService.currentRoom?.shortId))
         ">
         <mat-icon
@@ -217,10 +216,7 @@
       <h2
         class="oldtypo-h2"
         style="color: var(--red) !important"
-        *ngIf="
-          router.url.endsWith('/moderator/comments') &&
-          deviceInfo.isCurrentlyDesktop
-        ">
+        *ngIf="router.url.endsWith('/moderator/comments') && !isMobile">
         {{ "header.moderation-warning" | translate }}
       </h2>
 
@@ -252,44 +248,28 @@
       <!--Feedback im Hörsaal-->
       <h2
         class="header-slogan-mobile"
-        *ngIf="
-          router.url.includes('home') &&
-          deviceInfo.isCurrentlyMobile &&
-          !deviceInfo.isSafari
-        "
+        *ngIf="router.url.includes('home') && isMobile && !isSafari"
         fxLayoutAlign="center center">
         {{ "header.home-header-mobile" | translate }}
       </h2>
 
       <h2
         class="header-slogan-mobile-safari"
-        *ngIf="
-          router.url.includes('home') &&
-          deviceInfo.isCurrentlyMobile &&
-          deviceInfo.isSafari
-        "
+        *ngIf="router.url.includes('home') && isMobile && isSafari"
         fxLayoutAlign="center center">
         {{ "header.home-header-mobile" | translate }}
       </h2>
 
       <h2
         class="header-slogan-desktop"
-        *ngIf="
-          router.url.includes('home') &&
-          deviceInfo.isCurrentlyDesktop &&
-          !deviceInfo.isSafari
-        "
+        *ngIf="router.url.includes('home') && !isMobile && !isSafari"
         fxLayoutAlign="center center">
         {{ "header.home-header" | translate }}
       </h2>
 
       <h2
         class="header-slogan-desktop-safari"
-        *ngIf="
-          router.url.includes('home') &&
-          deviceInfo.isCurrentlyDesktop &&
-          deviceInfo.isSafari
-        "
+        *ngIf="router.url.includes('home') && !isMobile && isSafari"
         fxLayoutAlign="center center">
         {{ "header.home-header" | translate }}
       </h2>
@@ -308,10 +288,10 @@
         tabindex="0"
         [matTooltip]="'header.question-focus-button' | translate"
         *ngIf="
-          deviceInfo.isCurrentlyDesktop &&
+          !isMobile &&
           !router.url.endsWith('moderator/comments') &&
           router.url.endsWith('/comments') &&
-          !deviceInfo.isSafari
+          !isSafari
         "
         routerLink="participant/room/{{ room?.shortId }}/comments/questionwall">
         <mat-icon
@@ -427,7 +407,7 @@
           [matTooltip]="'header.options-button' | translate">
           <h2
             style="margin-left: 5px"
-            *ngIf="deviceInfo.isCurrentlyDesktop && !showSmallButtons">
+            *ngIf="!isMobile && !showSmallButtons">
             <div *ngIf="customOptionText?.noTranslate">
               {{ customOptionText.key }}
             </div>
@@ -449,7 +429,7 @@
         [joyrideStep]="'optionHeader'"
         [stepPosition]="'center'"
         appJoyrideTemplate
-        *ngIf="user && deviceInfo.isCurrentlyDesktop"
+        *ngIf="user && !isMobile"
         [matMenuTriggerFor]="userMenu"
         aria-labelledby="session-label"
         id="session-button">
@@ -462,7 +442,7 @@
         [joyrideStep]="'optionHeader'"
         [stepPosition]="'center'"
         appJoyrideTemplate
-        *ngIf="user && deviceInfo.isCurrentlyMobile"
+        *ngIf="user && isMobile"
         [matMenuTriggerFor]="userMenu"
         aria-labelledby="session-label">
         <ng-container [ngTemplateOutlet]="optionContent"></ng-container>
@@ -479,7 +459,7 @@
           </mat-icon>
           <h2
             class="oldtypo-h2"
-            *ngIf="deviceInfo.isCurrentlyDesktop && !showSmallButtons">
+            *ngIf="!isMobile && !showSmallButtons">
             {{ "header.login" | translate }}
           </h2>
         </div>
@@ -492,7 +472,7 @@
         [joyrideStep]="'loginButtonHeader'"
         [stepPosition]="'center'"
         appJoyrideTemplate
-        *ngIf="!user && deviceInfo.isCurrentlyDesktop"
+        *ngIf="!user && !isMobile"
         (click)="login()"
         aria-labelledby="login-label">
         <ng-container [ngTemplateOutlet]="loginBtnContent"></ng-container>
@@ -503,7 +483,7 @@
         [joyrideStep]="'loginButtonHeader'"
         [stepPosition]="'center'"
         appJoyrideTemplate
-        *ngIf="!user && deviceInfo.isCurrentlyMobile"
+        *ngIf="!user && isMobile"
         (click)="login()"
         aria-labelledby="login-label">
         <ng-container [ngTemplateOutlet]="loginBtnContent"></ng-container>
@@ -571,8 +551,8 @@
         class="btnColorIcon">
         <div
           [ngClass]="{
-            checked_true: theme.key === themeService.activeTheme.key,
-            checked_false: theme.key !== themeService.activeTheme.key
+            checked_true: theme.key === themeService.activeTheme?.key,
+            checked_false: theme.key !== themeService.activeTheme?.key
           }"
           class="checked">
           <mat-icon
@@ -590,7 +570,7 @@
       <div class="btnAppend">
         <div class="title">
           <p class="title_bold">
-            {{ theme.getName(langService.currentLanguage()) }}
+            {{ theme.getName(currentLanguage) }}
           </p>
         </div>
       </div>
@@ -712,9 +692,7 @@
     mat-menu-item
     aria-hidden="true"
     *ngIf="
-      !deviceInfo.isSafari &&
-      !router.url.includes('home') &&
-      !router.url.endsWith('/quiz')
+      !isSafari && !router.url.includes('home') && !router.url.endsWith('/quiz')
     "
     (click)="getRescale().toggleState()">
     <mat-icon

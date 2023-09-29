@@ -1,7 +1,8 @@
 <mat-dialog-content>
-  <div fxLayout="row"
-       fxLayoutAlign="center center"
-       fxFill>
+  <div
+    fxLayout="row"
+    fxLayoutAlign="center center"
+    fxFill>
     <app-mat-spinner-overlay *ngIf="isLoading"></app-mat-spinner-overlay>
   </div>
   <div *ngIf="!isLoading">
@@ -10,51 +11,68 @@
         <mat-expansion-panel-header class="color-surface">
           <mat-icon class="color-on-surface">settings</mat-icon>
           <mat-panel-title>
-            {{'topic-cloud-dialog.settings' | translate}}
+            {{ "topic-cloud-dialog.settings" | translate }}
           </mat-panel-title>
         </mat-expansion-panel-header>
-        <mat-card style="background: none; margin-bottom: 10px;">
+        <mat-card style="background: none; margin-bottom: 10px">
           <mat-label class="color-on-surface">
-            {{"topic-cloud-dialog.select-choice" | translate}}
+            {{ "topic-cloud-dialog.select-choice" | translate }}
           </mat-label>
-          <mat-radio-group class="radio-button-group"
-                           (change)=(refreshKeywords())
-                           [(ngModel)]="keywordORfulltext">
-            <mat-radio-button checked="true"
-                              [value]="keywordOrFulltextENUM[0]"
-                              class="radio-button-item">
-              {{"topic-cloud-dialog.keyword" | translate}}
+          <mat-radio-group
+            class="radio-button-group"
+            (change)="refreshKeywords()"
+            [(ngModel)]="keywordORfulltext">
+            <mat-radio-button
+              checked="true"
+              [value]="keywordOrFulltextENUM[0]"
+              class="radio-button-item">
+              {{ "topic-cloud-dialog.keyword" | translate }}
             </mat-radio-button>
-            <mat-radio-button [value]="keywordOrFulltextENUM[1]"
-                              class="radio-button-item">
-              {{"topic-cloud-dialog.full-text" | translate}}
+            <mat-radio-button
+              [value]="keywordOrFulltextENUM[1]"
+              class="radio-button-item">
+              {{ "topic-cloud-dialog.full-text" | translate }}
             </mat-radio-button>
-            <mat-radio-button [value]="keywordOrFulltextENUM[2]"
-                              class="color-on-surface">
-              {{"topic-cloud-dialog.both" | translate}}
+            <mat-radio-button
+              [value]="keywordOrFulltextENUM[2]"
+              class="color-on-surface">
+              {{ "topic-cloud-dialog.both" | translate }}
             </mat-radio-button>
           </mat-radio-group>
         </mat-card>
 
         <mat-accordion>
-          <mat-expansion-panel class="color-background margin-top margin-bottom keyword-scoring">
+          <mat-expansion-panel
+            class="color-background margin-top margin-bottom keyword-scoring">
             <mat-expansion-panel-header class="color-background">
               <mat-panel-title>
-                {{'topic-cloud-dialog.keyword-scoring-header' | translate}}
-                <mat-icon class="help-explanation"
-                          matTooltip="{{'topic-cloud-dialog.keyword-scoring-header-info' | translate}}">help
+                {{ "topic-cloud-dialog.keyword-scoring-header" | translate }}
+                <mat-icon
+                  class="help-explanation"
+                  matTooltip="{{
+                    'topic-cloud-dialog.keyword-scoring-header-info' | translate
+                  }}">
+                  help
                 </mat-icon>
               </mat-panel-title>
             </mat-expansion-panel-header>
             <ng-container *ngFor="let option of scoringOptions">
               <ars-row fxLayout="row">
-                <label
-                  id="keyword-scoring-{{option}}">{{'topic-cloud-dialog.keyword-scoring-' + option | translate}}</label>
-                <mat-icon class="help-explanation"
-                          matTooltip="{{'topic-cloud-dialog.keyword-scoring-' + option + '-info' | translate}}">help
+                <label id="keyword-scoring-{{ option }}">
+                  {{
+                    "topic-cloud-dialog.keyword-scoring-" + option | translate
+                  }}
+                </label>
+                <mat-icon
+                  class="help-explanation"
+                  matTooltip="{{
+                    'topic-cloud-dialog.keyword-scoring-' + option + '-info'
+                      | translate
+                  }}">
+                  help
                 </mat-icon>
                 <ars-fill></ars-fill>
-                <label>{{scorings[option].score}}</label>
+                <label>{{ scorings[option].score }}</label>
               </ars-row>
               <mat-slider
                 [min]="scoringMinMax[option].min"
@@ -62,46 +80,61 @@
                 [(ngModel)]="scorings[option].score"
                 [step]="0.1"
                 [thumbLabel]="true"
-                aria-labelledby="keyword-scoring-{{option}}">
-              </mat-slider>
+                aria-labelledby="keyword-scoring-{{ option }}"></mat-slider>
             </ng-container>
-            <button mat-button
-                    class="themeRequirementInput reset"
-                    [disabled]="isDefaultScoring()"
-                    (click)="setDefaultScoring()">
-              {{'topic-cloud-dialog.topic-requirement-reset' | translate}}
+            <button
+              mat-button
+              class="themeRequirementInput reset"
+              [disabled]="isDefaultScoring()"
+              (click)="setDefaultScoring()">
+              {{ "topic-cloud-dialog.topic-requirement-reset" | translate }}
             </button>
           </mat-expansion-panel>
         </mat-accordion>
 
         <div *ngIf="isCreatorOrMod">
-          <mat-card style="background: none; margin-bottom: 10px;">
-            <mat-slide-toggle (change)="showMessage('words-will-be-overwritten', $event.checked)"
-                              [(ngModel)]="profanityFilter">
-              {{'topic-cloud-dialog.profanity' | translate}}
+          <mat-card style="background: none; margin-bottom: 10px">
+            <mat-slide-toggle
+              (change)="
+                showMessage('words-will-be-overwritten', $event.checked)
+              "
+              [(ngModel)]="profanityFilter">
+              {{ "topic-cloud-dialog.profanity" | translate }}
             </mat-slide-toggle>
-            <mat-slide-toggle *ngIf="profanityFilter"
-                              (change)="showMessage('only-specific-language-will-be-filtered', $event.checked)"
-                              [(ngModel)]="censorLanguageSpecificCheck">
-              {{'topic-cloud-dialog.language-specific-filter' | translate}}
+            <mat-slide-toggle
+              *ngIf="profanityFilter"
+              (change)="
+                showMessage(
+                  'only-specific-language-will-be-filtered',
+                  $event.checked
+                )
+              "
+              [(ngModel)]="censorLanguageSpecificCheck">
+              {{ "topic-cloud-dialog.language-specific-filter" | translate }}
             </mat-slide-toggle>
-            <mat-slide-toggle *ngIf="profanityFilter"
-                              (change)="showMessage('partial-words-will-be-filtered', $event.checked)"
-                              [(ngModel)]="censorPartialWordsCheck">
-              {{'topic-cloud-dialog.partial-words-filter' | translate}}
+            <mat-slide-toggle
+              *ngIf="profanityFilter"
+              (change)="
+                showMessage('partial-words-will-be-filtered', $event.checked)
+              "
+              [(ngModel)]="censorPartialWordsCheck">
+              {{ "topic-cloud-dialog.partial-words-filter" | translate }}
             </mat-slide-toggle>
 
             <mat-accordion>
-              <mat-expansion-panel class="color-background"
-                                   (opened)="focusInput('test-profanity-input')">
+              <mat-expansion-panel
+                class="color-background"
+                (opened)="focusInput('test-profanity-input')">
                 <mat-expansion-panel-header class="color-background">
                   <mat-panel-title>
-                    {{'topic-cloud-dialog.test-profanity' | translate}}
+                    {{ "topic-cloud-dialog.test-profanity" | translate }}
                   </mat-panel-title>
                 </mat-expansion-panel-header>
                 <p>
                   <mat-form-field *ngIf="censorLanguageSpecificCheck">
-                    <mat-label>{{'topic-cloud-dialog.language' | translate}}</mat-label>
+                    <mat-label>
+                      {{ "topic-cloud-dialog.language" | translate }}
+                    </mat-label>
                     <mat-select [(value)]="testProfanityLanguage">
                       <mat-option value="en">English</mat-option>
                       <mat-option value="de">German</mat-option>
@@ -118,94 +151,116 @@
                 </p>
                 <p>
                   <mat-form-field>
-                    <mat-label>{{'topic-cloud-dialog.word' | translate}}</mat-label>
-                    <input id="test-profanity-input"
-                           matInput
-                           [(ngModel)]="testProfanityWord">
+                    <mat-label>
+                      {{ "topic-cloud-dialog.word" | translate }}
+                    </mat-label>
+                    <input
+                      id="test-profanity-input"
+                      matInput
+                      [(ngModel)]="testProfanityWord" />
                   </mat-form-field>
                 </p>
-                <p>{{'topic-cloud-dialog.preview' | translate}}:</p>
-                <p>{{getFilteredProfanity()}}</p>
-
-
+                <p>{{ "topic-cloud-dialog.preview" | translate }}:</p>
+                <p>{{ getFilteredProfanity() }}</p>
               </mat-expansion-panel>
             </mat-accordion>
-
           </mat-card>
-          <mat-card style="background: none; margin-bottom: 10px;">
+          <mat-card style="background: none; margin-bottom: 10px">
             <mat-slide-toggle [(ngModel)]="blacklistIsActive">
-              {{'topic-cloud-dialog.hide-blacklist-words' | translate}}
+              {{ "topic-cloud-dialog.hide-blacklist-words" | translate }}
             </mat-slide-toggle>
           </mat-card>
         </div>
 
-        <mat-accordion class="new-profanity-word"
-                       multi>
+        <mat-accordion
+          class="new-profanity-word"
+          multi>
           <div *ngIf="isCreatorOrMod">
-            <mat-expansion-panel class="color-background"
-                                 (opened)="enterProfanityWord=true; focusInput('bad-word-input')"
-                                 (closed)="enterProfanityWord = false">
-
+            <mat-expansion-panel
+              class="color-background"
+              (opened)="enterProfanityWord = true; focusInput('bad-word-input')"
+              (closed)="enterProfanityWord = false">
               <mat-form-field>
-                <mat-label>{{'topic-cloud-dialog.enter-word' | translate}}</mat-label>
-                <input matInput
-                       id="bad-word-input"
-                       [(ngModel)]="newProfanityWord">
+                <mat-label>
+                  {{ "topic-cloud-dialog.enter-word" | translate }}
+                </mat-label>
+                <input
+                  matInput
+                  id="bad-word-input"
+                  [(ngModel)]="newProfanityWord" />
               </mat-form-field>
 
-              <button mat-stroked-button
-                      class="margin-left color-on-background"
-                      (click)="addProfanityWord()">
-                {{'topic-cloud-dialog.add-word' | translate}}
+              <button
+                mat-stroked-button
+                class="margin-left color-on-background"
+                (click)="addProfanityWord()">
+                {{ "topic-cloud-dialog.add-word" | translate }}
               </button>
-
             </mat-expansion-panel>
 
-            <mat-expansion-panel class="color-background margin-bottom"
-                                 (opened)="enterBlacklistWord = true; focusInput('blacklist-word-input')"
-                                 (closed)="enterBlacklistWord = false">
+            <mat-expansion-panel
+              class="color-background margin-bottom"
+              (opened)="
+                enterBlacklistWord = true; focusInput('blacklist-word-input')
+              "
+              (closed)="enterBlacklistWord = false">
               <mat-expansion-panel-header class="color-background">
                 <mat-panel-title>
-                  {{'topic-cloud-dialog.edit-blacklist-list' | translate}}
+                  {{ "topic-cloud-dialog.edit-blacklist-list" | translate }}
                 </mat-panel-title>
               </mat-expansion-panel-header>
 
               <mat-form-field>
-                <mat-label>{{'topic-cloud-dialog.enter-word' | translate}}</mat-label>
-                <input matInput
-                       id="blacklist-word-input"
-                       [(ngModel)]="newBlacklistWord">
+                <mat-label>
+                  {{ "topic-cloud-dialog.enter-word" | translate }}
+                </mat-label>
+                <input
+                  matInput
+                  id="blacklist-word-input"
+                  [(ngModel)]="newBlacklistWord" />
               </mat-form-field>
 
-              <button mat-stroked-button
-                      class="margin-left color-on-background"
-                      (click)="addBlacklistWord()">
-                {{'topic-cloud-dialog.add-word' | translate}}
+              <button
+                mat-stroked-button
+                class="margin-left color-on-background"
+                (click)="addBlacklistWord()">
+                {{ "topic-cloud-dialog.add-word" | translate }}
               </button>
-              <mat-list role="list"
-                        *ngIf="showBlacklistWordList && blacklist.length > 0"
-                        class="margin-bottom">
-                <mat-list-item class="color-on-surface"
-                               *ngFor="let word of blacklist"
-                               role="listitem">{{word}}
-                  <button style="margin-left: auto"
-                          mat-icon-button
-                          class="red"
-                          (click)="removeWordFromBlacklist(word)">
-                    <mat-icon class="material-icons-outlined" mat-list-icon
-                              style="margin-bottom: 6px;">delete_sweep
+              <mat-list
+                role="list"
+                *ngIf="showBlacklistWordList && blacklist.length > 0"
+                class="margin-bottom">
+                <mat-list-item
+                  class="color-on-surface"
+                  *ngFor="let word of blacklist"
+                  role="listitem">
+                  {{ word }}
+                  <button
+                    style="margin-left: auto"
+                    mat-icon-button
+                    class="red"
+                    (click)="removeWordFromBlacklist(word)">
+                    <mat-icon
+                      class="material-icons-outlined"
+                      mat-list-icon
+                      style="margin-bottom: 6px">
+                      delete_sweep
                     </mat-icon>
                   </button>
                 </mat-list-item>
               </mat-list>
 
               <div>
-                <button mat-raised-button
-                        class="primaryBackground"
-                        *ngIf="blacklist.length > 0"
-                        (click)="showBlacklistWordList=!showBlacklistWordList">
-                  {{showBlacklistWordList ? ('topic-cloud-dialog.hide-blacklist' | translate) :
-                  ('topic-cloud-dialog.show-blacklist' | translate)}}
+                <button
+                  mat-raised-button
+                  class="primaryBackground"
+                  *ngIf="blacklist.length > 0"
+                  (click)="showBlacklistWordList = !showBlacklistWordList">
+                  {{
+                    showBlacklistWordList
+                      ? ("topic-cloud-dialog.hide-blacklist" | translate)
+                      : ("topic-cloud-dialog.show-blacklist" | translate)
+                  }}
                 </button>
               </div>
             </mat-expansion-panel>
@@ -213,73 +268,92 @@
           <mat-expansion-panel class="color-background margin-bottom">
             <mat-expansion-panel-header class="color-background">
               <mat-panel-title>
-                {{'topic-cloud-dialog.spacy-labels' | translate}}
+                {{ "topic-cloud-dialog.spacy-labels" | translate }}
               </mat-panel-title>
             </mat-expansion-panel-header>
 
-            <mat-tab-group animationDuration="0ms"
-                           mat-stretch-tabs
-                           mat-align-tabs="center">
-              <mat-tab label="{{'topic-cloud-dialog.german' | translate}}">
-                <mat-selection-list *ngIf="wantedLabels"
-                                    [(ngModel)]="wantedLabels.de">
-
-                  <mat-option class="color-on-surface"
-                              (click)="selectAllDE()">
+            <mat-tab-group
+              animationDuration="0ms"
+              mat-stretch-tabs
+              mat-align-tabs="center">
+              <mat-tab label="{{ 'topic-cloud-dialog.german' | translate }}">
+                <mat-selection-list
+                  *ngIf="wantedLabels"
+                  [(ngModel)]="wantedLabels.de">
+                  <mat-option
+                    class="color-on-surface"
+                    (click)="selectAllDE()">
                     <mat-label class="color-on-surface">
                       <mat-icon>checklist_rtl</mat-icon>
-                      {{'topic-cloud-dialog.select-all' | translate}}
+                      {{ "topic-cloud-dialog.select-all" | translate }}
                     </mat-label>
-                    <mat-checkbox style="vertical-align: middle;float: right;"
-                                  [checked]="this.wantedLabels.de.length===this.spacyLabels.de.length"></mat-checkbox>
+                    <mat-checkbox
+                      style="vertical-align: middle; float: right"
+                      [checked]="
+                        this.wantedLabels.de.length ===
+                        this.spacyLabels.de.length
+                      "></mat-checkbox>
                   </mat-option>
 
-                  <mat-list-option [value]="label.tag"
-                                   class="color-on-surface"
-                                   *ngFor="let label of spacyLabels.de">
-                    {{label.label + " (" + label.tag + ")"}}
+                  <mat-list-option
+                    [value]="label.tag"
+                    class="color-on-surface"
+                    *ngFor="let label of spacyLabels.de">
+                    {{ label.label + " (" + label.tag + ")" }}
                   </mat-list-option>
                 </mat-selection-list>
               </mat-tab>
-              <mat-tab label="{{'topic-cloud-dialog.english' | translate}}">
-                <mat-selection-list *ngIf="wantedLabels"
-                                    [(ngModel)]="wantedLabels.en">
-
-                  <mat-option class="color-on-surface"
-                              (click)="selectAllEN()">
+              <mat-tab label="{{ 'topic-cloud-dialog.english' | translate }}">
+                <mat-selection-list
+                  *ngIf="wantedLabels"
+                  [(ngModel)]="wantedLabels.en">
+                  <mat-option
+                    class="color-on-surface"
+                    (click)="selectAllEN()">
                     <mat-label class="color-on-surface">
                       <mat-icon>checklist_rtl</mat-icon>
-                      {{'topic-cloud-dialog.select-all' | translate}}
+                      {{ "topic-cloud-dialog.select-all" | translate }}
                     </mat-label>
-                    <mat-checkbox style="vertical-align: middle;float: right;"
-                                  [checked]="this.wantedLabels.en.length===this.spacyLabels.en.length"></mat-checkbox>
+                    <mat-checkbox
+                      style="vertical-align: middle; float: right"
+                      [checked]="
+                        this.wantedLabels.en.length ===
+                        this.spacyLabels.en.length
+                      "></mat-checkbox>
                   </mat-option>
 
-                  <mat-list-option [value]="label.tag"
-                                   class="color-on-surface"
-                                   *ngFor="let label of spacyLabels.en">
-                    {{label.label + " (" + label.tag + ")"}}
+                  <mat-list-option
+                    [value]="label.tag"
+                    class="color-on-surface"
+                    *ngFor="let label of spacyLabels.en">
+                    {{ label.label + " (" + label.tag + ")" }}
                   </mat-list-option>
                 </mat-selection-list>
               </mat-tab>
-              <mat-tab label="{{'topic-cloud-dialog.french' | translate}}">
-                <mat-selection-list *ngIf="wantedLabels"
-                                    [(ngModel)]="wantedLabels.fr">
-
-                  <mat-option class="color-on-surface"
-                              (click)="selectAllFR()">
+              <mat-tab label="{{ 'topic-cloud-dialog.french' | translate }}">
+                <mat-selection-list
+                  *ngIf="wantedLabels"
+                  [(ngModel)]="wantedLabels.fr">
+                  <mat-option
+                    class="color-on-surface"
+                    (click)="selectAllFR()">
                     <mat-label class="color-on-surface">
                       <mat-icon>checklist_rtl</mat-icon>
-                      {{'topic-cloud-dialog.select-all' | translate}}
+                      {{ "topic-cloud-dialog.select-all" | translate }}
                     </mat-label>
-                    <mat-checkbox style="vertical-align: middle;float: right;"
-                                  [checked]="this.wantedLabels.fr.length===this.spacyLabels.fr.length"></mat-checkbox>
+                    <mat-checkbox
+                      style="vertical-align: middle; float: right"
+                      [checked]="
+                        this.wantedLabels.fr.length ===
+                        this.spacyLabels.fr.length
+                      "></mat-checkbox>
                   </mat-option>
 
-                  <mat-list-option [value]="label.tag"
-                                   class="color-on-surface"
-                                   *ngFor="let label of spacyLabels.fr">
-                    {{label.label + " (" + label.tag + ")"}}
+                  <mat-list-option
+                    [value]="label.tag"
+                    class="color-on-surface"
+                    *ngFor="let label of spacyLabels.fr">
+                    {{ label.label + " (" + label.tag + ")" }}
                   </mat-list-option>
                 </mat-selection-list>
               </mat-tab>
@@ -290,92 +364,134 @@
         <mat-accordion>
           <mat-expansion-panel class="color-background margin-top">
             <mat-expansion-panel-header class="color-background">
-              <mat-panel-title [ngClass]="{'animation-blink': isTopicRequirementActive()}">
-                {{'topic-cloud-dialog.topic-requirement-title' | translate}}
+              <mat-panel-title
+                [ngClass]="{ 'animation-blink': isTopicRequirementActive() }">
+                {{ "topic-cloud-dialog.topic-requirement-title" | translate }}
               </mat-panel-title>
             </mat-expansion-panel-header>
-            <mat-form-field class="themeRequirementInput"
-                            appearance="fill">
-              <mat-label>{{'topic-cloud-dialog.topic-requirement-questions' | translate}}</mat-label>
-              <input matInput
-                     type="number"
-                     min="1"
-                     [(ngModel)]="minQuestions">
-              <button *ngIf="minQuestions !== '1'"
-                      matSuffix
-                      mat-icon-button
-                      aria-label="Clear"
-                      (click)="minQuestions='1'">
+            <mat-form-field
+              class="themeRequirementInput"
+              appearance="fill">
+              <mat-label>
+                {{
+                  "topic-cloud-dialog.topic-requirement-questions" | translate
+                }}
+              </mat-label>
+              <input
+                matInput
+                type="number"
+                min="1"
+                [(ngModel)]="minQuestions" />
+              <button
+                *ngIf="minQuestions !== '1'"
+                matSuffix
+                mat-icon-button
+                aria-label="Clear"
+                (click)="minQuestions = '1'">
                 <mat-icon>close</mat-icon>
               </button>
             </mat-form-field>
-            <mat-form-field class="themeRequirementInput"
-                            appearance="fill">
-              <mat-label>{{'topic-cloud-dialog.topic-requirement-questioners' | translate}}</mat-label>
-              <input matInput
-                     type="number"
-                     min="1"
-                     [(ngModel)]="minQuestioners">
-              <button *ngIf="minQuestioners !== '1'"
-                      matSuffix
-                      mat-icon-button
-                      aria-label="Clear"
-                      (click)="minQuestioners='1'">
+            <mat-form-field
+              class="themeRequirementInput"
+              appearance="fill">
+              <mat-label>
+                {{
+                  "topic-cloud-dialog.topic-requirement-questioners" | translate
+                }}
+              </mat-label>
+              <input
+                matInput
+                type="number"
+                min="1"
+                [(ngModel)]="minQuestioners" />
+              <button
+                *ngIf="minQuestioners !== '1'"
+                matSuffix
+                mat-icon-button
+                aria-label="Clear"
+                (click)="minQuestioners = '1'">
                 <mat-icon>close</mat-icon>
               </button>
             </mat-form-field>
-            <mat-form-field class="themeRequirementInput"
-                            appearance="fill">
-              <mat-label>{{'topic-cloud-dialog.topic-requirement-upvotes' | translate}}</mat-label>
-              <input matInput
-                     type="number"
-                     min="0"
-                     [(ngModel)]="minUpvotes">
-              <button *ngIf="minUpvotes !== '0'"
-                      matSuffix
-                      mat-icon-button
-                      aria-label="Clear"
-                      (click)="minUpvotes='0'">
+            <mat-form-field
+              class="themeRequirementInput"
+              appearance="fill">
+              <mat-label>
+                {{ "topic-cloud-dialog.topic-requirement-upvotes" | translate }}
+              </mat-label>
+              <input
+                matInput
+                type="number"
+                min="0"
+                [(ngModel)]="minUpvotes" />
+              <button
+                *ngIf="minUpvotes !== '0'"
+                matSuffix
+                mat-icon-button
+                aria-label="Clear"
+                (click)="minUpvotes = '0'">
                 <mat-icon>close</mat-icon>
               </button>
             </mat-form-field>
-            <mat-form-field class="themeRequirementInput"
-                            appearance="fill">
-              <mat-label>{{'topic-cloud-dialog.topic-requirement-begin-datetime' | translate}}</mat-label>
-              <input matInput
-                     type="datetime-local"
-                     [(ngModel)]="startDate">
-              <button *ngIf="startDate"
-                      matSuffix
-                      mat-icon-button
-                      aria-label="Clear"
-                      (click)="startDate=''">
+            <mat-form-field
+              class="themeRequirementInput"
+              appearance="fill">
+              <mat-label>
+                {{
+                  "topic-cloud-dialog.topic-requirement-begin-datetime"
+                    | translate
+                }}
+              </mat-label>
+              <input
+                matInput
+                type="datetime-local"
+                [(ngModel)]="startDate" />
+              <button
+                *ngIf="startDate"
+                matSuffix
+                mat-icon-button
+                aria-label="Clear"
+                (click)="startDate = ''">
                 <mat-icon>close</mat-icon>
               </button>
             </mat-form-field>
-            <mat-form-field class="themeRequirementInput"
-                            appearance="fill">
-              <mat-label>{{'topic-cloud-dialog.topic-requirement-end-datetime' | translate}}</mat-label>
-              <input matInput
-                     type="datetime-local"
-                     [(ngModel)]="endDate">
-              <button *ngIf="endDate"
-                      matSuffix
-                      mat-icon-button
-                      aria-label="Clear"
-                      (click)="endDate=''">
+            <mat-form-field
+              class="themeRequirementInput"
+              appearance="fill">
+              <mat-label>
+                {{
+                  "topic-cloud-dialog.topic-requirement-end-datetime"
+                    | translate
+                }}
+              </mat-label>
+              <input
+                matInput
+                type="datetime-local"
+                [(ngModel)]="endDate" />
+              <button
+                *ngIf="endDate"
+                matSuffix
+                mat-icon-button
+                aria-label="Clear"
+                (click)="endDate = ''">
                 <mat-icon>close</mat-icon>
               </button>
             </mat-form-field>
-            <button mat-button
-                    class="themeRequirementInput reset"
-                    [disabled]="!isTopicRequirementActive()"
-                    (click)="minQuestioners='1'; minQuestions='1'; minUpvotes='0'; startDate=''; endDate=''">
-              {{'topic-cloud-dialog.topic-requirement-reset' | translate}}
+            <button
+              mat-button
+              class="themeRequirementInput reset"
+              [disabled]="!isTopicRequirementActive()"
+              (click)="
+                minQuestioners = '1';
+                minQuestions = '1';
+                minUpvotes = '0';
+                startDate = '';
+                endDate = ''
+              ">
+              {{ "topic-cloud-dialog.topic-requirement-reset" | translate }}
             </button>
           </mat-expansion-panel>
         </mat-accordion>
-
       </mat-expansion-panel>
     </mat-accordion>
 
@@ -383,150 +499,220 @@
       <mat-label fxLayoutAlign="center center">
         <mat-icon>search</mat-icon>
       </mat-label>
-      <div style="margin-left: 10px; margin-top: 6px;">
-        <mat-form-field [ngClass]="{'search': searchMode, 'smallerInput': deviceInfo.isCurrentlyMobile}">
-          <input #searchBox
-                 class="searchBox"
-                 (input)="searchKeyword()"
-                 [(ngModel)]="searchedKeyword"
-                 matInput
-                 type="text"
-                 placeholder="{{'topic-cloud-dialog.keyword-search' | translate}}">
-          <button *ngIf="searchedKeyword"
-                  (click)="searchedKeyword = ''; searchMode = false;"
-                  mat-button
-                  matSuffix
-                  mat-icon-button
-                  aria-label="topic-cloud-dialog.keyword-search">
+      <div style="margin-left: 10px; margin-top: 6px">
+        <mat-form-field
+          [ngClass]="{ search: searchMode, smallerInput: isMobile }">
+          <input
+            #searchBox
+            class="searchBox"
+            (input)="searchKeyword()"
+            [(ngModel)]="searchedKeyword"
+            matInput
+            type="text"
+            placeholder="{{
+              'topic-cloud-dialog.keyword-search' | translate
+            }}" />
+          <button
+            *ngIf="searchedKeyword"
+            (click)="searchedKeyword = ''; searchMode = false"
+            mat-button
+            matSuffix
+            mat-icon-button
+            aria-label="topic-cloud-dialog.keyword-search">
             <mat-icon>close</mat-icon>
           </button>
         </mat-form-field>
       </div>
 
-      <div fxLayoutAlign="center center"
-           style="margin-left: auto; font-weight: bold;">
-        <mat-icon [ngClass]="{'animation-blink': searchMode}"
-                  class="oldtypo-h2 comment_tag-icon"
-                  matTooltip="{{'topic-cloud-dialog.keyword-counter' | translate}}">tag
+      <div
+        fxLayoutAlign="center center"
+        style="margin-left: auto; font-weight: bold">
+        <mat-icon
+          [ngClass]="{ 'animation-blink': searchMode }"
+          class="oldtypo-h2 comment_tag-icon"
+          matTooltip="{{ 'topic-cloud-dialog.keyword-counter' | translate }}">
+          tag
         </mat-icon>
-        <p [ngClass]="{'animation-blink': searchMode}"
-           matTooltip="{{'topic-cloud-dialog.keyword-counter' | translate}}">
-          {{searchMode ? filteredKeywords.length :
-          selectedTabIndex === 0 ? keywords.size : blacklistKeywords.length}}</p>
+        <p
+          [ngClass]="{ 'animation-blink': searchMode }"
+          matTooltip="{{ 'topic-cloud-dialog.keyword-counter' | translate }}">
+          {{
+            searchMode
+              ? filteredKeywords.length
+              : selectedTabIndex === 0
+              ? keywords.size
+              : blacklistKeywords.length
+          }}
+        </p>
       </div>
       <div class="margin-left vertical-center">
-        <button [ngClass]="{'animation-blink': sortMode!=='alphabetic'}"
-                mat-icon-button
-                [matMenuTriggerFor]="sortMenu">
-          <mat-icon matTooltip="{{'topic-cloud-dialog.sort' | translate}}">swap_vert</mat-icon>
+        <button
+          [ngClass]="{ 'animation-blink': sortMode !== 'alphabetic' }"
+          mat-icon-button
+          [matMenuTriggerFor]="sortMenu">
+          <mat-icon matTooltip="{{ 'topic-cloud-dialog.sort' | translate }}">
+            swap_vert
+          </mat-icon>
         </button>
       </div>
     </div>
 
     <mat-menu #sortMenu>
-      <button [ngClass]="{'animation-blink': sortMode==='alphabetic'}"
-              mat-menu-item
-              (click)="sortQuestions('alphabetic')">
+      <button
+        [ngClass]="{ 'animation-blink': sortMode === 'alphabetic' }"
+        mat-menu-item
+        (click)="sortQuestions('alphabetic')">
         <mat-icon>sort_by_alpha</mat-icon>
-        {{'topic-cloud-dialog.sort-alpha' | translate}}
+        {{ "topic-cloud-dialog.sort-alpha" | translate }}
       </button>
-      <button [ngClass]="{'animation-blink': sortMode==='questionsCount'}"
-              mat-menu-item
-              (click)="sortQuestions('questionsCount')">
+      <button
+        [ngClass]="{ 'animation-blink': sortMode === 'questionsCount' }"
+        mat-menu-item
+        (click)="sortQuestions('questionsCount')">
         <mat-icon>comment</mat-icon>
-        {{'topic-cloud-dialog.sort-count' | translate}}
+        {{ "topic-cloud-dialog.sort-count" | translate }}
       </button>
-      <button [ngClass]="{'animation-blink': sortMode==='voteCount'}"
-              mat-menu-item
-              (click)="sortQuestions('voteCount')">
+      <button
+        [ngClass]="{ 'animation-blink': sortMode === 'voteCount' }"
+        mat-menu-item
+        (click)="sortQuestions('voteCount')">
         <mat-icon class="material-icons-outlined">thumb_up</mat-icon>
-        {{'topic-cloud-dialog.sort-vote' | translate}}
+        {{ "topic-cloud-dialog.sort-vote" | translate }}
       </button>
     </mat-menu>
 
-
-    <mat-tab-group [selectedIndex]="selectedTabIndex"
-                   (selectedIndexChange)="changeTabIndex()"
-                   animationDuration="0ms"
-                   mat-stretch-tabs
-                   mat-align-tabs="center">
-      <mat-tab label="{{'topic-cloud-dialog.keywords' | translate}}">
-        <mat-card class="color-surface"
-                  *ngIf="(keywords.size === 0 || (searchMode && filteredKeywords.length === 0))&&!isLoading">
-          <p class="color-on-surface"
-             fxLayoutAlign="center">
-            {{'topic-cloud-dialog.no-keywords-note' | translate}}
+    <mat-tab-group
+      [selectedIndex]="selectedTabIndex"
+      (selectedIndexChange)="changeTabIndex()"
+      animationDuration="0ms"
+      mat-stretch-tabs
+      mat-align-tabs="center">
+      <mat-tab label="{{ 'topic-cloud-dialog.keywords' | translate }}">
+        <mat-card
+          class="color-surface"
+          *ngIf="
+            (keywords.size === 0 ||
+              (searchMode && filteredKeywords.length === 0)) &&
+            !isLoading
+          ">
+          <p
+            class="color-on-surface"
+            fxLayoutAlign="center">
+            {{ "topic-cloud-dialog.no-keywords-note" | translate }}
           </p>
         </mat-card>
         <mat-accordion>
-          <div *ngFor="let keyword of (searchMode ? filteredKeywords : getValues()); let i = index">
-            <mat-expansion-panel class="color-surface"
-                                 (opened)="panelOpenState = true"
-                                 (closed)="panelOpenState = edit = false"
-                                 [attr.data-index]="i"
-                                 *ngIf="(blacklistIncludesKeyword(keyword.keyword) && isCreatorOrMod) || !blacklistIncludesKeyword(keyword.keyword)"
-                                 matTooltip="{{'topic-cloud-dialog.'+(keyword.keywordType === 2?'Keyword-from-both':(keyword.keywordType === 0?'keyword-from-spacy':'keyword-from-questioner')) | translate}}">
+          <div
+            *ngFor="
+              let keyword of searchMode ? filteredKeywords : getValues();
+              let i = index
+            ">
+            <mat-expansion-panel
+              class="color-surface"
+              (opened)="panelOpenState = true"
+              (closed)="panelOpenState = edit = false"
+              [attr.data-index]="i"
+              *ngIf="
+                (blacklistIncludesKeyword(keyword.keyword) && isCreatorOrMod) ||
+                !blacklistIncludesKeyword(keyword.keyword)
+              "
+              matTooltip="{{
+                'topic-cloud-dialog.' +
+                  (keyword.keywordType === 2
+                    ? 'Keyword-from-both'
+                    : keyword.keywordType === 0
+                    ? 'keyword-from-spacy'
+                    : 'keyword-from-questioner') | translate
+              }}">
               <mat-expansion-panel-header class="color-surface">
                 <mat-panel-title>
-                  {{profanityFilter ? keyword.keywordWithoutProfanity : keyword.keyword}}
+                  {{
+                    profanityFilter
+                      ? keyword.keywordWithoutProfanity
+                      : keyword.keyword
+                  }}
                 </mat-panel-title>
                 <mat-panel-description>
-                  {{keyword.comments.length}}
-                  {{'topic-cloud-dialog.question-count-' + (keyword.comments.length > 1 ? 'plural' : 'singular') | translate}}
+                  {{ keyword.comments.length }}
+                  {{
+                    "topic-cloud-dialog.question-count-" +
+                      (keyword.comments.length > 1 ? "plural" : "singular")
+                      | translate
+                  }}
                 </mat-panel-description>
               </mat-expansion-panel-header>
               <div *ngFor="let question of keyword.comments">
-
-                <app-topic-dialog-comment [question]="question.body"
-                                          [keyword]="keyword.keyword"
-                                          [maxShowedCharachters]="140"
-                                          [profanityFilter]="profanityFilter"
-                                          [languageSpecific]="censorLanguageSpecificCheck"
-                                          [partialWords]="censorPartialWordsCheck"
-                                          [language]="question.language"></app-topic-dialog-comment>
+                <app-topic-dialog-comment
+                  [question]="question.body"
+                  [keyword]="keyword.keyword"
+                  [maxShowedCharachters]="140"
+                  [profanityFilter]="profanityFilter"
+                  [languageSpecific]="censorLanguageSpecificCheck"
+                  [partialWords]="censorPartialWordsCheck"
+                  [language]="question.language"></app-topic-dialog-comment>
               </div>
 
               <div *ngIf="isCreatorOrMod">
                 <!-- Only visible when not editing -->
-                <div *ngIf="!edit"
-                     style="text-align: end">
-
-                  <button class="margin-right"
-                          mat-icon-button
-                          style="align-self:flex-end;"
-                          (click)="editKeyword(i)">
-                    <mat-icon class="primary"
-                              matTooltip="{{'topic-cloud-dialog.edit' | translate}}">edit
+                <div
+                  *ngIf="!edit"
+                  style="text-align: end">
+                  <button
+                    class="margin-right"
+                    mat-icon-button
+                    style="align-self: flex-end"
+                    (click)="editKeyword(i)">
+                    <mat-icon
+                      class="primary"
+                      matTooltip="{{ 'topic-cloud-dialog.edit' | translate }}">
+                      edit
                     </mat-icon>
                   </button>
-                  <button class="margin-right"
-                          mat-icon-button
-                          style="align-self:flex-end;"
-                          (click)="openConfirmDialog('delete-message','delete',keyword)">
-                    <mat-icon class="red material-icons-outlined"
-                              matTooltip="{{'topic-cloud-dialog.delete' | translate}}">delete_sweep
+                  <button
+                    class="margin-right"
+                    mat-icon-button
+                    style="align-self: flex-end"
+                    (click)="
+                      openConfirmDialog('delete-message', 'delete', keyword)
+                    ">
+                    <mat-icon
+                      class="red material-icons-outlined"
+                      matTooltip="{{
+                        'topic-cloud-dialog.delete' | translate
+                      }}">
+                      delete_sweep
                     </mat-icon>
                   </button>
                 </div>
 
                 <!-- Only visible when editing -->
                 <div *ngIf="edit">
-
                   <mat-form-field>
-                    <mat-label>{{'topic-cloud-dialog.edit-keyword-tip' | translate}}</mat-label>
-                    <input matInput
-                           id="{{'edit-input'+i}}"
-                           [(ngModel)]="newKeyword">
+                    <mat-label>
+                      {{ "topic-cloud-dialog.edit-keyword-tip" | translate }}
+                    </mat-label>
+                    <input
+                      matInput
+                      id="{{ 'edit-input' + i }}"
+                      [(ngModel)]="newKeyword" />
                   </mat-form-field>
                   <div style="text-align: end">
-                    <button mat-raised-button
-                            class="redBackground margin-right"
-                            (click)="cancelEdit()">{{'topic-cloud-dialog.cancel' | translate}}</button>
-                    <button mat-raised-button
-                            class="primaryBackground"
-                            [disabled]="!newKeyword || newKeyword.toLowerCase() === keyword.keyword.toLowerCase()"
-                            (click)="confirmEdit(keyword)">
-                      {{'topic-cloud-dialog.save' | translate}}
+                    <button
+                      mat-raised-button
+                      class="redBackground margin-right"
+                      (click)="cancelEdit()">
+                      {{ "topic-cloud-dialog.cancel" | translate }}
+                    </button>
+                    <button
+                      mat-raised-button
+                      class="primaryBackground"
+                      [disabled]="
+                        !newKeyword ||
+                        newKeyword.toLowerCase() ===
+                          keyword.keyword.toLowerCase()
+                      "
+                      (click)="confirmEdit(keyword)">
+                      {{ "topic-cloud-dialog.save" | translate }}
                     </button>
                   </div>
                 </div>
@@ -538,83 +724,129 @@
 
       <mat-tab *ngIf="isCreatorOrMod">
         <ng-template mat-tab-label>
-          <label [ngClass]="{'animation-blink': blacklistIsActive}"
-                 matTooltip="{{'topic-cloud-dialog.blacklist-is'+(blacklistIsActive?'':'-not')+'-active' | translate}}">Blacklist</label>
+          <label
+            [ngClass]="{ 'animation-blink': blacklistIsActive }"
+            matTooltip="{{
+              'topic-cloud-dialog.blacklist-is' +
+                (blacklistIsActive ? '' : '-not') +
+                '-active' | translate
+            }}">
+            Blacklist
+          </label>
         </ng-template>
-        <mat-card class="color-surface"
-                  *ngIf="(blacklistKeywords.length === 0 || (searchMode && filteredKeywords.length === 0))&&!isLoading">
-          <p class="color-on-surface"
-             fxLayoutAlign="center">
-            {{'topic-cloud-dialog.no-keywords-note' | translate}}
+        <mat-card
+          class="color-surface"
+          *ngIf="
+            (blacklistKeywords.length === 0 ||
+              (searchMode && filteredKeywords.length === 0)) &&
+            !isLoading
+          ">
+          <p
+            class="color-on-surface"
+            fxLayoutAlign="center">
+            {{ "topic-cloud-dialog.no-keywords-note" | translate }}
           </p>
         </mat-card>
         <mat-accordion>
-          <div *ngFor="let keyword of (searchMode ? filteredKeywords : blacklistKeywords); let i = index">
-            <mat-expansion-panel class="color-surface"
-                                 (opened)="panelOpenState = true"
-                                 (closed)="panelOpenState = edit = false"
-                                 [attr.data-index]="i"
-                                 matTooltip="{{'topic-cloud-dialog.'+(keyword.keywordType === 2?'Keyword-from-both':(keyword.keywordType === 0?'keyword-from-spacy':'keyword-from-questioner')) | translate}}">
+          <div
+            *ngFor="
+              let keyword of searchMode ? filteredKeywords : blacklistKeywords;
+              let i = index
+            ">
+            <mat-expansion-panel
+              class="color-surface"
+              (opened)="panelOpenState = true"
+              (closed)="panelOpenState = edit = false"
+              [attr.data-index]="i"
+              matTooltip="{{
+                'topic-cloud-dialog.' +
+                  (keyword.keywordType === 2
+                    ? 'Keyword-from-both'
+                    : keyword.keywordType === 0
+                    ? 'keyword-from-spacy'
+                    : 'keyword-from-questioner') | translate
+              }}">
               <mat-expansion-panel-header class="color-surface">
                 <mat-panel-title>
-                  {{keyword.keyword}}
+                  {{ keyword.keyword }}
                 </mat-panel-title>
                 <mat-panel-description>
-                  {{keyword.comments.length}}
-                  {{'topic-cloud-dialog.question-count-' + (keyword.comments.length > 1 ? 'plural' : 'singular') | translate}}
+                  {{ keyword.comments.length }}
+                  {{
+                    "topic-cloud-dialog.question-count-" +
+                      (keyword.comments.length > 1 ? "plural" : "singular")
+                      | translate
+                  }}
                 </mat-panel-description>
               </mat-expansion-panel-header>
               <div *ngFor="let question of keyword.comments">
-
-                <app-topic-dialog-comment [question]="question.body"
-                                          [keyword]="keyword.keyword"
-                                          [maxShowedCharachters]="140"
-                                          [profanityFilter]="profanityFilter"
-                                          [languageSpecific]="censorLanguageSpecificCheck"
-                                          [partialWords]="censorPartialWordsCheck"
-                                          [language]="question.language"></app-topic-dialog-comment>
+                <app-topic-dialog-comment
+                  [question]="question.body"
+                  [keyword]="keyword.keyword"
+                  [maxShowedCharachters]="140"
+                  [profanityFilter]="profanityFilter"
+                  [languageSpecific]="censorLanguageSpecificCheck"
+                  [partialWords]="censorPartialWordsCheck"
+                  [language]="question.language"></app-topic-dialog-comment>
               </div>
               <div>
                 <!-- Only visible when not editing -->
-                <div *ngIf="!edit"
-                     style="text-align: end">
-
-                  <button class="margin-right"
-                          mat-icon-button
-                          style="align-self:flex-end;"
-                          (click)="editKeyword(i)">
-                    <mat-icon class="primary"
-                              matTooltip="{{'topic-cloud-dialog.edit' | translate}}">edit
+                <div
+                  *ngIf="!edit"
+                  style="text-align: end">
+                  <button
+                    class="margin-right"
+                    mat-icon-button
+                    style="align-self: flex-end"
+                    (click)="editKeyword(i)">
+                    <mat-icon
+                      class="primary"
+                      matTooltip="{{ 'topic-cloud-dialog.edit' | translate }}">
+                      edit
                     </mat-icon>
                   </button>
-                  <button class="margin-right"
-                          mat-icon-button
-                          style="align-self:flex-end;"
-                          (click)="openConfirmDialog('delete-message','delete',keyword)">
-                    <mat-icon class="red material-icons-outlined"
-                              matTooltip="{{'topic-cloud-dialog.delete' | translate}}">delete_sweep
+                  <button
+                    class="margin-right"
+                    mat-icon-button
+                    style="align-self: flex-end"
+                    (click)="
+                      openConfirmDialog('delete-message', 'delete', keyword)
+                    ">
+                    <mat-icon
+                      class="red material-icons-outlined"
+                      matTooltip="{{
+                        'topic-cloud-dialog.delete' | translate
+                      }}">
+                      delete_sweep
                     </mat-icon>
                   </button>
                 </div>
 
                 <!-- Only visible when editing -->
                 <div *ngIf="edit">
-
                   <mat-form-field>
-                    <mat-label>{{'topic-cloud-dialog.edit-keyword-tip' | translate}}</mat-label>
-                    <input matInput
-                           id="{{'edit-input'+i}}"
-                           [(ngModel)]="newKeyword">
+                    <mat-label>
+                      {{ "topic-cloud-dialog.edit-keyword-tip" | translate }}
+                    </mat-label>
+                    <input
+                      matInput
+                      id="{{ 'edit-input' + i }}"
+                      [(ngModel)]="newKeyword" />
                   </mat-form-field>
 
                   <div style="text-align: end">
-                    <button mat-raised-button
-                            class="redBackground margin-right"
-                            (click)="cancelEdit()">{{'topic-cloud-dialog.cancel' | translate}}</button>
-                    <button mat-raised-button
-                            class="primaryBackground"
-                            (click)="confirmEdit(keyword)">{{'topic-cloud-dialog.save'
-                      | translate}}</button>
+                    <button
+                      mat-raised-button
+                      class="redBackground margin-right"
+                      (click)="cancelEdit()">
+                      {{ "topic-cloud-dialog.cancel" | translate }}
+                    </button>
+                    <button
+                      mat-raised-button
+                      class="primaryBackground"
+                      (click)="confirmEdit(keyword)">
+                      {{ "topic-cloud-dialog.save" | translate }}
+                    </button>
                   </div>
                 </div>
               </div>
@@ -626,14 +858,16 @@
   </div>
 </mat-dialog-content>
 
-<ars-row ars-flex-box class="action-button-container">
+<ars-row
+  ars-flex-box
+  class="action-button-container">
   <ars-col>
     <button
       mat-flat-button
       class="help-button"
       (click)="openHelp()">
       <mat-icon>question_mark</mat-icon>
-      {{ 'explanation.label' | translate}}
+      {{ "explanation.label" | translate }}
     </button>
   </ars-col>
   <ars-col>
@@ -643,10 +877,8 @@
       [showDivider]="false"
       [spacing]="false"
       [cancelButtonClickAction]="buildCloseDialogActionCallback()"
-      [confirmButtonClickAction]="buildSaveActionCallback()">
-    </app-dialog-action-buttons>
+      [confirmButtonClickAction]="
+        buildSaveActionCallback()
+      "></app-dialog-action-buttons>
   </ars-col>
 </ars-row>
-
-
-

@@ -1,6 +1,6 @@
 import { BrainstormingSession } from './brainstorming-session';
 import { ImmutableStandardDelta } from '../utils/quill-utils';
-import { UUID, verifyInstance } from 'app/utils/ts-utils';
+import { FieldsOf, UUID, verifyInstance } from 'app/utils/ts-utils';
 import { LivepollSession } from './livepoll-session';
 
 export class Room {
@@ -62,7 +62,7 @@ export class Room {
     tags = [],
     brainstormingSession = null,
     livepollSession = null,
-  }: Partial<Room>) {
+  }: Partial<FieldsOf<Room>>) {
     this.id = id;
     this.ownerId = ownerId;
     this.shortId = shortId;

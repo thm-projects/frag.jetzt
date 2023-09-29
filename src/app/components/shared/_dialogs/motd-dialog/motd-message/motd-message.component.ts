@@ -8,14 +8,13 @@ import {
   ViewChild,
 } from '@angular/core';
 import { Motd } from '../../../../../models/motd';
-import { LanguageService } from '../../../../../services/util/language.service';
 import {
   ArsApproximateDate,
   ArsDateFormatter,
 } from '../../../../../../../projects/ars/src/lib/services/ars-date-formatter.service';
 import { ArsUtil } from '../../../../../../../projects/ars/src/lib/models/util/ars-util';
-import { StartUpService } from '../../../../../services/util/start-up.service';
 import { AccountStateService } from 'app/services/state/account-state.service';
+import { AppStateService } from 'app/services/state/app-state.service';
 
 @Component({
   selector: 'app-motd-message',
@@ -31,7 +30,7 @@ export class MotdMessageComponent implements OnInit, AfterViewInit, OnDestroy {
   release: (() => void)[] = [];
 
   constructor(
-    private languageService: LanguageService,
+    private appState: AppStateService,
     private arsDateFormatter: ArsDateFormatter,
     private accountState: AccountStateService,
   ) {}
@@ -40,7 +39,7 @@ export class MotdMessageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.date.subscribe((e) => {
       this.message.date = this.arsDateFormatter.format(
         e,
-        this.languageService.currentLanguage(),
+        this.appState.getCurrentLanguage(),
       );
     });
     this.release.push(
@@ -55,7 +54,7 @@ export class MotdMessageComponent implements OnInit, AfterViewInit, OnDestroy {
       ),
     );
     this.translatedMessage = this.message.getMessage(
-      this.languageService.currentLanguage(),
+      this.appState.getCurrentLanguage(),
     );
   }
 

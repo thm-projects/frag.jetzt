@@ -1,7 +1,11 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NotificationService } from '../../../services/util/notification.service';
-import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import {
+  MAT_DIALOG_DATA,
+  MatDialog,
+  MatDialogRef,
+} from '@angular/material/dialog';
 import { FormControl, FormGroupDirective, NgForm } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { ErrorStateMatcher } from '@angular/material/core';
@@ -50,6 +54,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     private keycloak: KeycloakService,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private accountState: AccountStateService,
+    private dialogRef: MatDialogRef<LoginComponent>,
   ) {}
 
   ngOnInit(): void {
@@ -97,11 +102,11 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   providerLogin(keycloakId: UUID): void {
-    this.keycloak.doKeycloakLogin(keycloakId, true).subscribe();
+    this.dialogRef.close(keycloakId);
   }
 
   guestLogin(): void {
-    this.accountState.openGuestSession().subscribe(() => this.checkLogin());
+    this.dialogRef.close(null);
   }
 
   /**

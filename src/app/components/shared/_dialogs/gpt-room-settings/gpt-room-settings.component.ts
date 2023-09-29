@@ -20,7 +20,7 @@ import {
   GptService,
   UsageTimeAction,
 } from 'app/services/http/gpt.service';
-import { LanguageService } from 'app/services/util/language.service';
+import { AppStateService } from 'app/services/state/app-state.service';
 import { NotificationService } from 'app/services/util/notification.service';
 import { SessionService } from 'app/services/util/session.service';
 import { KeyboardUtils } from 'app/utils/keyboard';
@@ -106,10 +106,10 @@ export class GptRoomSettingsComponent implements OnInit, OnDestroy {
     private gptService: GptService,
     private dialogRef: MatDialogRef<GptRoomSettingsComponent>,
     private adapter: DateAdapter<any>,
-    private languageService: LanguageService,
     private translateService: TranslateService,
     private notificationService: NotificationService,
     private sessionService: SessionService,
+    private appState: AppStateService,
   ) {
     this.startDate = new Date();
     this.startDate.setSeconds(0, 0);
@@ -134,8 +134,7 @@ export class GptRoomSettingsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.languageService
-      .getLanguage()
+    this.appState.language$
       .pipe(takeUntil(this.destroyer))
       .subscribe((lang) => {
         this.adapter.setLocale(lang);
@@ -427,7 +426,7 @@ export class GptRoomSettingsComponent implements OnInit, OnDestroy {
 
   getDateFormatString() {
     const str = new Date(2345, 0, 11).toLocaleDateString(
-      this.languageService.currentLanguage(),
+      this.appState.getCurrentLanguage(),
     );
     return str
       .replace(/(\D|^)2345(\D|$)/, '$1YYYY$2')

@@ -1,15 +1,25 @@
-<div class="activityIcon" *ngIf="showByComponent" [ngStyle]="{
-    'left':left+'px',
-    'top':top+'px'
-  }" #divElement>
-  <div class="activityIconBackground" [ngStyle]="{
-    'background-color':iconColor
+<div
+  class="activityIcon"
+  *ngIf="showByComponent"
+  [ngStyle]="{
+    left: left + 'px',
+    top: top + 'px'
+  }"
+  #divElement>
+  <div
+    class="activityIconBackground"
+    [ngStyle]="{
+      'background-color': iconColor
     }"></div>
-  <div class="activityIconForeground" aria-hidden="true">
-    <p class="activityIconForegroundText" [ngStyle]="{
-      'color':foregroundColor
+  <div
+    class="activityIconForeground"
+    aria-hidden="true">
+    <p
+      class="activityIconForegroundText"
+      [ngStyle]="{
+        color: foregroundColor
       }">
-      {{activeUser}}
+      {{ activeUser }}
     </p>
   </div>
 </div>

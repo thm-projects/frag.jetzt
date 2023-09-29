@@ -46,7 +46,7 @@ export class LoginDialogResponse extends ComponentResponse<
 > {
   constructor(
     request: LoginDialogRequest,
-    public readonly loginData: [token: string, keycloakId: UUID] | null,
+    public readonly keycloakId: UUID | null,
   ) {
     super(LoginDialogResponse, request);
   }
@@ -130,13 +130,49 @@ export class RescaleResponse extends ComponentResponse<
   }
 }
 
+export class OnboardingRequest extends ServiceRequest<
+  OnboardingRequest,
+  OnboardingResponse
+> {
+  constructor() {
+    super(OnboardingRequest, OnboardingResponse);
+  }
+}
+
+export class OnboardingResponse extends ComponentResponse<
+  OnboardingResponse,
+  OnboardingRequest
+> {
+  constructor(request: OnboardingRequest) {
+    super(OnboardingResponse, request);
+  }
+}
+
+export class SafariUnsupportedRequest extends ServiceRequest<
+  SafariUnsupportedRequest,
+  SafariUnsupportedResponse
+> {
+  constructor() {
+    super(SafariUnsupportedRequest, SafariUnsupportedResponse);
+  }
+}
+
+export class SafariUnsupportedResponse extends ComponentResponse<
+  SafariUnsupportedResponse,
+  SafariUnsupportedRequest
+> {
+  constructor(request: SafariUnsupportedRequest) {
+    super(SafariUnsupportedResponse, request);
+  }
+}
+
 export const callServiceEvent = <
   T extends ServiceRequest<T, any>,
   K extends InstanceType<T['responseClass']>,
 >(
+  eventService: EventService,
   event: T,
 ): Observable<K> => {
-  const eventService = inject(EventService);
   return new Observable<K>((subscriber) => {
     const finished = new Subject();
     eventService
@@ -157,9 +193,13 @@ export const callServiceEvent = <
 };
 
 export const listenEvent = <T extends ServiceRequest<T, any>>(
+  eventService: EventService,
   clazz: ClassType<T>,
-) => inject(EventService).on<T>(clazz.name);
+) => eventService.on<T>(clazz.name);
 
-export const sendEvent = (event: ServiceComponentEvent) => {
-  inject(EventService).broadcast(event.name, event);
+export const sendEvent = (
+  eventService: EventService,
+  event: ServiceComponentEvent,
+) => {
+  eventService.broadcast(event.name, event);
 };

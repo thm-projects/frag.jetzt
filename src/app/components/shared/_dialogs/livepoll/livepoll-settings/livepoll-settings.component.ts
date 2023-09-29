@@ -1,11 +1,12 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnDestroy } from '@angular/core';
 import { LivepollDialogComponent } from '../livepoll-dialog/livepoll-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import {
   MarkdownEditorDialogComponent,
   MarkdownEditorDialogData,
 } from '../../../utility/markdown/markdown-editor-dialog/markdown-editor-dialog.component';
-import { DeviceInfoService } from '../../../../../services/util/device-info.service';
+import { ReplaySubject, takeUntil } from 'rxjs';
+import { DeviceStateService } from 'app/services/state/device-state.service';
 
 @Component({
   selector: 'app-livepoll-settings',
@@ -16,13 +17,24 @@ import { DeviceInfoService } from '../../../../../services/util/device-info.serv
     '../livepoll-common.scss',
   ],
 })
-export class LivepollSettingsComponent {
+export class LivepollSettingsComponent implements OnDestroy {
   @Input() parent!: LivepollDialogComponent;
+  isMobile = false;
+  private destroyer = new ReplaySubject(1);
 
   constructor(
     public readonly dialog: MatDialog,
-    public readonly device: DeviceInfoService,
-  ) {}
+    deviceState: DeviceStateService,
+  ) {
+    deviceState.mobile$
+      .pipe(takeUntil(this.destroyer))
+      .subscribe((m) => (this.isMobile = m));
+  }
+
+  ngOnDestroy(): void {
+    this.destroyer.next(true);
+    this.destroyer.complete();
+  }
 
   openMarkdownEditor() {
     const dialog = this.dialog.open(MarkdownEditorDialogComponent, {

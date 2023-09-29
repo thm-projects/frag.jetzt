@@ -306,7 +306,7 @@
         matTooltip="{{ 'comment-page.questioner-name' | translate }}"
         *ngIf="
           comment.questionerName &&
-          (deviceInfo.isCurrentlyDesktop || comment.questionerName.length < 21)
+          (!isMobile || comment.questionerName.length < 21)
         "
         class="questioner-name">
         <span
@@ -328,7 +328,7 @@
         }})"
         *ngIf="
           comment.questionerName &&
-          deviceInfo.isCurrentlyMobile &&
+          isMobile &&
           comment.questionerName.length > 20
         "
         class="questioner-name">

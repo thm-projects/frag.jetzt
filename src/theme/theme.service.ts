@@ -49,7 +49,7 @@ export class ThemeService {
 
   public getThemes(): Theme[] {
     return this.themes.filter(
-      (t) => !t.meta.availableOnMobile || this.device.isMobile(),
+      (t) => t.meta.availableOnMobile || !this.device.isMobile(),
     );
   }
 

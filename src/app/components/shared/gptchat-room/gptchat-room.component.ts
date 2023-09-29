@@ -20,11 +20,8 @@ import {
   GptService,
   StreamChatCompletion,
 } from 'app/services/http/gpt.service';
-import { DeviceInfoService } from 'app/services/util/device-info.service';
 import { GptEncoderService } from 'app/services/util/gpt-encoder.service';
-import { LanguageService } from 'app/services/util/language.service';
 import { SessionService } from 'app/services/util/session.service';
-import { UserManagementService } from 'app/services/util/user-management.service';
 import {
   ImmutableStandardDelta,
   MarkdownDelta,
@@ -80,6 +77,9 @@ import {
   GPTConversationService,
 } from 'app/services/http/gptconversation.service';
 import { GPTConversationOverviewComponent } from '../_dialogs/gptconversation-overview/gptconversation-overview.component';
+import { AppStateService } from 'app/services/state/app-state.service';
+import { AccountStateService } from 'app/services/state/account-state.service';
+import { DeviceStateService } from 'app/services/state/device-state.service';
 
 interface ConversationEntry {
   type: 'human' | 'gpt' | 'system';
@@ -211,10 +211,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
 
   constructor(
     private gptService: GptService,
-    private userManagementService: UserManagementService,
     private translateService: TranslateService,
-    private languageService: LanguageService,
-    private deviceInfo: DeviceInfoService,
     private gptEncoderService: GptEncoderService,
     public sessionService: SessionService,
     public dialog: MatDialog,
@@ -228,14 +225,14 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
     private commentService: CommentService,
     private notificationService: NotificationService,
     private gptConversation: GPTConversationService,
+    private accountState: AccountStateService,
+    private deviceState: DeviceStateService,
+    appState: AppStateService,
   ) {
     this.keywordExtractor = new KeywordExtractor(injector);
-    this.languageService
-      .getLanguage()
-      .pipe(takeUntil(this.destroyer))
-      .subscribe(() => {
-        this.updatePresetEntries(this._preset);
-      });
+    appState.language$.pipe(takeUntil(this.destroyer)).subscribe(() => {
+      this.updatePresetEntries(this._preset);
+    });
   }
 
   ngOnInit(): void {
@@ -267,8 +264,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
       this.encoder = e;
       this.calculateTokens(this.getCurrentText());
     });
-    this.userManagementService
-      .getGPTConsentState()
+    this.accountState.gptConsented$
       .pipe(takeUntil(this.destroyer))
       .subscribe((state) => {
         this.isGPTPrivacyPolicyAccepted = state;
@@ -308,7 +304,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
       maxWidth: '600px',
     });
     dialogRef.afterClosed().subscribe((result) => {
-      this.userManagementService.updateGPTConsentState(result).subscribe();
+      this.accountState.updateGPTConsentState(result);
       if (!result) {
         this.location.back();
       }
@@ -334,7 +330,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   onEnter(modifier: boolean) {
-    if (modifier === this.deviceInfo.isCurrentlyMobile) {
+    if (modifier === this.deviceState.isMobile()) {
       setTimeout(() => this.sendGPTMessage());
     }
   }
@@ -373,7 +369,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     });
     const options: CommentCreateOptions = {
-      userId: this.userManagementService.getCurrentUser().id,
+      userId: this.accountState.getCurrentUser().id,
       brainstormingSessionId: null,
       brainstormingLanguage: 'en',
       body: data,
@@ -681,7 +677,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
     if (!obj) {
       obj = new GPTConversation({} as GPTConversation);
     }
-    obj.accountId = this.userManagementService.getCurrentUser().id;
+    obj.accountId = this.accountState.getCurrentUser().id;
     obj.roomId = this.sessionService.currentRoom.id;
     obj.model = this.model;
     obj.messages = this.conversation.map(
@@ -1135,8 +1131,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
       !this.answeringWriteComment &&
       this.answeringComment
     ) {
-      this.userManagementService
-        .getGPTConsentState()
+      this.accountState.gptConsented$
         .pipe(
           takeUntil(this.destroyer),
           filter((v) => v),

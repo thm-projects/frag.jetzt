@@ -1,8 +1,4 @@
-import {
-  Language,
-  LanguageService,
-} from '../../../services/util/language.service';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NotificationService } from '../../../services/util/notification.service';
 import { NavigationEnd, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
@@ -17,7 +13,6 @@ import { Theme } from '../../../../theme/Theme';
 import { AppComponent } from '../../../app.component';
 import { StyleService } from '../../../../../projects/ars/src/lib/style/style.service';
 import { MatMenu } from '@angular/material/menu';
-import { DeviceInfoService } from '../../../services/util/device-info.service';
 import { ComponentType } from '@angular/cdk/overlay';
 import { IntroductionRoomListComponent } from '../_dialogs/introductions/introduction-room-list/introduction-room-list.component';
 import { IntroductionRoomPageComponent } from '../_dialogs/introductions/introduction-room-page/introduction-room-page.component';
@@ -26,40 +21,56 @@ import { IntroductionModerationComponent } from '../_dialogs/introductions/intro
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { DashboardComponent } from '../_dialogs/dashboard/dashboard.component';
 import { DashboardNotificationService } from '../../../services/util/dashboard-notification.service';
-import { UserManagementService } from '../../../services/util/user-management.service';
 import { SessionService } from '../../../services/util/session.service';
+import {
+  AppStateService,
+  Language,
+  ThemeKey,
+} from 'app/services/state/app-state.service';
+import { ReplaySubject, filter, take, takeUntil, tap } from 'rxjs';
+import { DeviceStateService } from 'app/services/state/device-state.service';
+import { AccountStateService } from 'app/services/state/account-state.service';
 
 @Component({
   selector: 'app-footer',
   templateUrl: './footer.component.html',
   styleUrls: ['./footer.component.scss'],
 })
-export class FooterComponent implements OnInit {
+export class FooterComponent implements OnInit, OnDestroy {
   @ViewChild('langMenu') langaugeMenu: MatMenu;
   public demoId = 'Feedback';
   public room: Room;
   public user: User;
   public open: string;
   public themes: Theme[];
+  currentLanguage: Language = 'en';
+  isMobile = false;
   private _tourSite: ComponentType<any>;
+  private destroyer = new ReplaySubject(1);
 
   constructor(
     public notificationService: NotificationService,
     public router: Router,
     public dialog: MatDialog,
     private translateService: TranslateService,
-    public langService: LanguageService,
-    public userManagementService: UserManagementService,
     public themeService: ThemeService,
     private styleService: StyleService,
-    public deviceInfo: DeviceInfoService,
     public dashboard: MatBottomSheet,
     public change: DashboardNotificationService,
     private sessionService: SessionService,
+    private appState: AppStateService,
+    deviceState: DeviceStateService,
+    accountState: AccountStateService,
   ) {
-    this.userManagementService
-      .getUser()
+    accountState.user$
+      .pipe(takeUntil(this.destroyer))
       .subscribe((user) => (this.user = user));
+    appState.language$
+      .pipe(takeUntil(this.destroyer))
+      .subscribe((lang) => (this.currentLanguage = lang));
+    deviceState.mobile$
+      .pipe(takeUntil(this.destroyer))
+      .subscribe((m) => (this.isMobile = m));
   }
 
   get tourSite() {
@@ -67,7 +78,20 @@ export class FooterComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.sessionService.onReady.subscribe(() => this.init());
+    this.themeService
+      .getTheme()
+      .pipe(
+        filter((v) => Boolean(v)),
+        take(1),
+      )
+      .subscribe(() => {
+        this.init();
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.destroyer.next(true);
+    this.destroyer.complete();
   }
 
   init() {
@@ -77,7 +101,7 @@ export class FooterComponent implements OnInit {
     this.themes = this.themeService.getThemes();
     this.updateScale(
       this.themeService.currentTheme.getScale(
-        this.deviceInfo.isCurrentlyMobile ? 'mobile' : 'desktop',
+        this.isMobile ? 'mobile' : 'desktop',
       ),
     );
     this.router.events.subscribe((e) => {
@@ -122,14 +146,12 @@ export class FooterComponent implements OnInit {
 
   useLanguage(language: Language) {
     this.translateService.use(language);
-    this.langService.setLanguage(language);
+    this.appState.changeLanguage(language);
   }
 
   changeTheme(theme: Theme) {
-    this.themeService.activate(theme.key);
-    this.updateScale(
-      theme.getScale(this.deviceInfo.isCurrentlyMobile ? 'mobile' : 'desktop'),
-    );
+    this.themeService.activate(theme.key as ThemeKey);
+    this.updateScale(theme.getScale(this.isMobile ? 'mobile' : 'desktop'));
   }
 
   updateScale(scale: number) {
@@ -138,11 +160,11 @@ export class FooterComponent implements OnInit {
   }
 
   openMenu() {
-    if (this.langService.currentLanguage() === 'de') {
+    if (this.currentLanguage === 'de') {
       this.langaugeMenu._allItems.get(0).focus();
-    } else if (this.langService.currentLanguage() === 'en') {
+    } else if (this.currentLanguage === 'en') {
       this.langaugeMenu._allItems.get(1).focus();
-    } else if (this.langService.currentLanguage() === 'fr') {
+    } else if (this.currentLanguage === 'fr') {
       this.langaugeMenu._allItems.get(2).focus();
     }
   }

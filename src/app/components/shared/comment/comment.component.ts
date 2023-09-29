@@ -15,7 +15,6 @@ import { Location } from '@angular/common';
 import { CommentService } from '../../../services/http/comment.service';
 import { NotificationService } from '../../../services/util/notification.service';
 import { TranslateService } from '@ngx-translate/core';
-import { LanguageService } from '../../../services/util/language.service';
 import { PresentCommentComponent } from '../_dialogs/present-comment/present-comment.component';
 import { MatDialog } from '@angular/material/dialog';
 import {
@@ -36,7 +35,6 @@ import { SpacyKeyword } from '../../../services/http/spacy.service';
 import { UserBonusTokenComponent } from '../../participant/_dialogs/user-bonus-token/user-bonus-token.component';
 import { EditCommentTagComponent } from '../../creator/_dialogs/edit-comment-tag/edit-comment-tag.component';
 import { SessionService } from '../../../services/util/session.service';
-import { DeviceInfoService } from '../../../services/util/device-info.service';
 import { BonusDeleteComponent } from '../../creator/_dialogs/bonus-delete/bonus-delete.component';
 import { DashboardNotificationService } from '../../../services/util/dashboard-notification.service';
 import { Room } from '../../../models/room';
@@ -45,13 +43,15 @@ import { ForumComment } from '../../../utils/data-accessor';
 import { QuillUtils } from '../../../utils/quill-utils';
 import { forkJoin, ReplaySubject, takeUntil } from 'rxjs';
 import { ResponseViewInformation } from '../comment-response-view/comment-response-view.component';
-import { UserManagementService } from '../../../services/util/user-management.service';
 import { EventService } from '../../../services/util/event.service';
 import { take } from 'rxjs/operators';
 import { GPTChatInfoComponent } from '../_dialogs/gptchat-info/gptchat-info.component';
 import { TSMap } from 'typescript-map';
 import { prettyPrintDate } from '../../../utils/date';
 import { IconActionKey, IconActionState, MenuState } from './comment-action';
+import { DeviceStateService } from 'app/services/state/device-state.service';
+import { AccountStateService } from 'app/services/state/account-state.service';
+import { AppStateService } from 'app/services/state/app-state.service';
 
 interface IconAction {
   name: IconActionKey;
@@ -142,6 +142,7 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
   brainstormingCategory: string;
   outsideActions: IconAction[] = [];
   menuActions: IconAction[] = [];
+  isMobile = false;
   private _votes;
   private _commentNumber: string[] = [];
   private _destroyer = new ReplaySubject(1);
@@ -249,7 +250,6 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
   ];
 
   constructor(
-    protected userManagementService: UserManagementService,
     private route: ActivatedRoute,
     private location: Location,
     protected router: Router,
@@ -260,24 +260,25 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
     private roomDataService: RoomDataService,
     public http: HttpClient,
     public dialog: MatDialog,
-    protected langService: LanguageService,
-    public deviceInfo: DeviceInfoService,
     public notificationService: DashboardNotificationService,
     protected eventService: EventService,
+    private accountState: AccountStateService,
+    private appState: AppStateService,
+    deviceState: DeviceStateService,
   ) {
-    langService
-      .getLanguage()
+    appState.language$.pipe(takeUntil(this._destroyer)).subscribe((lang) => {
+      this.language = lang;
+      this.http
+        .get('/assets/i18n/dashboard/' + lang + '.json')
+        .subscribe((translation) => {
+          this.translateService.setTranslation(lang, translation, true);
+        });
+      this.generateCommentNumber();
+      this.onLanguageChange();
+    });
+    deviceState.mobile$
       .pipe(takeUntil(this._destroyer))
-      .subscribe((lang) => {
-        this.language = lang;
-        this.http
-          .get('/assets/i18n/dashboard/' + lang + '.json')
-          .subscribe((translation) => {
-            this.translateService.setTranslation(lang, translation, true);
-          });
-        this.generateCommentNumber();
-        this.onLanguageChange();
-      });
+      .subscribe((m) => (this.isMobile = m));
   }
 
   @Input() set isRemoved(value: boolean) {
@@ -503,7 +504,7 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.isMock) {
       return;
     }
-    const userId = this.userManagementService.getCurrentUser().id;
+    const userId = this.accountState.getCurrentUser().id;
     if (this.hasVoted !== 1) {
       this.commentService
         .voteUp(comment, userId)
@@ -524,7 +525,7 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.isMock) {
       return;
     }
-    const userId = this.userManagementService.getCurrentUser().id;
+    const userId = this.accountState.getCurrentUser().id;
     if (this.hasVoted !== -1) {
       this.commentService
         .voteDown(comment, userId)
@@ -894,7 +895,7 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     this.readableCommentDate = prettyPrintDate(
       this.comment.createdAt,
-      this.langService.currentLanguage(),
+      this.appState.getCurrentLanguage(),
     );
   }
 

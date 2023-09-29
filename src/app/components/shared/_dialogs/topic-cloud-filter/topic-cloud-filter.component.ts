@@ -17,16 +17,16 @@ import { Room } from '../../../../models/room';
 import { ExplanationDialogComponent } from '../explanation-dialog/explanation-dialog.component';
 import { UserRole } from '../../../../models/user-roles.enum';
 import { RoomDataService } from '../../../../services/util/room-data.service';
-import { forkJoin, Observable, Subscription } from 'rxjs';
+import { forkJoin, Observable, ReplaySubject, Subscription } from 'rxjs';
 import { SessionService } from '../../../../services/util/session.service';
 import {
   Period,
   RoomDataFilter,
 } from '../../../../utils/data-filter-object.lib';
 import { FilteredDataAccess } from '../../../../utils/filtered-data-access';
-import { map, take } from 'rxjs/operators';
-import { UserManagementService } from '../../../../services/util/user-management.service';
-import { DeviceInfoService } from '../../../../services/util/device-info.service';
+import { map, take, takeUntil } from 'rxjs/operators';
+import { DeviceStateService } from 'app/services/state/device-state.service';
+import { AccountStateService } from 'app/services/state/account-state.service';
 
 class CommentsCount {
   comments: number;
@@ -57,7 +57,7 @@ const FILTER_TYPES = [
   'from-now',
 ] as const;
 
-type FilterTypeKey = typeof FILTER_TYPES[number];
+type FilterTypeKey = (typeof FILTER_TYPES)[number];
 
 @Component({
   selector: 'app-topic-cloud-filter',
@@ -89,8 +89,9 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
       count: null,
     },
   };
+  isMobile = false;
   private readonly _adminData: TopicCloudAdminData;
-  private _subscriptionCommentUpdates: Subscription;
+  private destroyer = new ReplaySubject(1);
 
   constructor(
     public dialogRef: MatDialogRef<TopicCloudFilterComponent>,
@@ -103,12 +104,15 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
     private sessionService: SessionService,
     private topicCloudAdminService: TopicCloudAdminService,
     private roomDataService: RoomDataService,
-    private userManagementService: UserManagementService,
-    public deviceInfo: DeviceInfoService,
+    private accountState: AccountStateService,
+    deviceState: DeviceStateService,
   ) {
     this._adminData = TopicCloudAdminService.getDefaultAdminData;
     this.isTopicRequirementActive =
       !TopicCloudAdminService.isTopicRequirementDisabled(this._adminData);
+    deviceState.mobile$
+      .pipe(takeUntil(this.destroyer))
+      .subscribe((m) => (this.isMobile = m));
   }
 
   public static isUpdatable(
@@ -160,15 +164,15 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.commentsLoadedCallback(true);
-    this._subscriptionCommentUpdates = this.roomDataService.dataAccessor
+    this.roomDataService.dataAccessor
       .receiveUpdates([{ finished: true }])
+      .pipe(takeUntil(this.destroyer))
       .subscribe((_) => this.commentsLoadedCallback());
   }
 
   ngOnDestroy() {
-    if (this._subscriptionCommentUpdates) {
-      this._subscriptionCommentUpdates.unsubscribe();
-    }
+    this.destroyer.next(true);
+    this.destroyer.complete();
   }
 
   commentsLoadedCallback(isNew = false) {
@@ -333,7 +337,7 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
       filter.dataFilter = newFilter;
     }
     filter.attach({
-      userId: this.userManagementService.getCurrentUser()?.id,
+      userId: this.accountState.getCurrentUser()?.id,
       roomId: room.id,
       ownerId: room.ownerId,
       threshold: room.threshold,

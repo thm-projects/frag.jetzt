@@ -15,20 +15,22 @@ import {
   tap,
 } from 'rxjs';
 import { DbConfigService } from '../persistence/lg/db-config.service';
-import { DbMotdService, Motd } from '../persistence/lg/db-motd.service';
+import { DbMotdService } from '../persistence/lg/db-motd.service';
 import { OnlineStateService } from './online-state.service';
 import { PreferenceStateService } from './preference-state.service';
 import { MotdService } from '../http/motd.service';
 import {
   CookieDialogRequest,
+  MotdDialogRequest,
+  OnboardingRequest,
+  SafariUnsupportedRequest,
   callServiceEvent,
 } from 'app/utils/service-component-events';
 import { themes, themes_meta } from '../../../theme/arsnova-theme.const';
 import { DeviceStateService } from './device-state.service';
-import { OnboardingService } from '../util/onboarding.service';
-import { AskOnboardingComponent } from 'app/components/home/_dialogs/ask-onboarding/ask-onboarding.component';
-import { MatDialog } from '@angular/material/dialog';
-import { NotifyUnsupportedBrowserComponent } from 'app/components/home/_dialogs/notify-unsupported-browser/notify-unsupported-browser.component';
+import { Motd } from '../persistence/lg/db-motd.model';
+import { EventService } from '../util/event.service';
+import { InitService } from '../util/init.service';
 
 export const AVAILABLE_LANGUAGES = ['en', 'de', 'fr'] as const;
 
@@ -56,7 +58,8 @@ export class AppStateService {
     private preferences: PreferenceStateService,
     private motd: MotdService,
     private deviceState: DeviceStateService,
-    private onboarding: OnboardingService,
+    private eventService: EventService,
+    private initService: InitService,
   ) {
     this.language$ = concat(this.loadLanguage(), this.updateLanguage$).pipe(
       distinctUntilChanged(),
@@ -89,28 +92,33 @@ export class AppStateService {
         }),
       )
       .pipe(distinctUntilChanged(), shareReplay(1));
-    // side effects
-    this.cookiesAccepted$
-      .pipe(
-        filter((v) => !v),
-        switchMap(() => callServiceEvent(new CookieDialogRequest())),
-        switchMap((v) =>
-          this.dbConfig
-            .createOrUpdate({ key: 'cookieAccepted', value: Boolean(v) })
-            .pipe(
-              switchMap(() => {
-                if (v) {
-                  this.updateCookieAccepted$.next(true);
-                  return of();
-                }
-                return this.leaveApp();
-              }),
-            ),
-        ),
-      )
-      .subscribe();
-    // TODO: Onboarding
-    // TODO: Safari unsupported
+
+    this.initService.init$.pipe(take(1)).subscribe(() => {
+      // side effects
+      this.cookiesAccepted$
+        .pipe(
+          filter((v) => !v),
+          switchMap(() =>
+            callServiceEvent(this.eventService, new CookieDialogRequest()),
+          ),
+          switchMap((v) =>
+            this.dbConfig
+              .createOrUpdate({ key: 'cookieAccepted', value: Boolean(v) })
+              .pipe(
+                switchMap(() => {
+                  if (v) {
+                    this.updateCookieAccepted$.next(true);
+                    return of();
+                  }
+                  return this.leaveApp();
+                }),
+              ),
+          ),
+        )
+        .subscribe();
+      // TODO: Onboarding
+      // TODO: Safari unsupported
+    });
   }
 
   changeLanguage(language: Language) {
@@ -147,6 +155,15 @@ export class AppStateService {
     let theme: ThemeKey = null;
     this.appliedTheme$.subscribe((t) => (theme = t)).unsubscribe();
     return theme;
+  }
+
+  openMotdDialog() {
+    this.motd$.subscribe((data) => {
+      callServiceEvent(
+        this.eventService,
+        new MotdDialogRequest(data),
+      ).subscribe();
+    });
   }
 
   private fetchMotds(): Observable<Motd[]> {
@@ -208,40 +225,16 @@ export class AppStateService {
     ) {
       return of(true);
     }
-    const dialog = null as MatDialog;
-    const dialogRef = dialog.open(AskOnboardingComponent, {
-      width: '80%',
-      maxWidth: '600px',
-      autoFocus: true,
-    });
-    dialogRef.disableClose = true;
-    return dialogRef.afterClosed().pipe(
-      tap((data) => {
-        if (!data) {
-          localStorage.setItem(
-            'onboarding_default',
-            JSON.stringify({ state: 'canceled' }),
-          );
-        } else {
-          this.onboarding.startDefaultTour();
-        }
-      }),
-    );
+    callServiceEvent(this.eventService, new OnboardingRequest()).subscribe();
   }
 
-  private checkSafari(): Observable<any> {
+  private checkSafari() {
     if (!this.deviceState.isSafari) {
       return of(true);
     }
-    return new Observable<any>((subscriber) => {
-      const dialog = null as MatDialog;
-      const ref = dialog.open(NotifyUnsupportedBrowserComponent, {
-        width: '600px',
-      });
-      ref.afterClosed().subscribe(() => {
-        subscriber.next(1);
-        subscriber.complete();
-      });
-    });
+    callServiceEvent(
+      this.eventService,
+      new SafariUnsupportedRequest(),
+    ).subscribe();
   }
 }

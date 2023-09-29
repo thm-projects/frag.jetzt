@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { DeviceInfoService } from '../../../../../services/util/device-info.service';
 import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
@@ -16,7 +15,6 @@ export class LivepollConfirmationDialogComponent implements OnInit {
   public titleRef: string;
 
   constructor(
-    public readonly device: DeviceInfoService,
     public readonly matDialogRef: MatDialogRef<
       LivepollConfirmationDialogComponent,
       boolean

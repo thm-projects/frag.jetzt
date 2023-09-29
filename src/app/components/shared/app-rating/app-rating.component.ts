@@ -10,16 +10,15 @@ import {
 } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { NotificationService } from '../../../services/util/notification.service';
-import { LanguageService } from '../../../services/util/language.service';
 import { RatingService } from '../../../services/http/rating.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Rating } from '../../../models/rating';
 import { RatingResult } from '../../../models/rating-result';
 import { AppRatingPopUpComponent } from '../_dialogs/app-rating-pop-up/app-rating-pop-up.component';
 import { MatDialog } from '@angular/material/dialog';
-import { DeviceInfoService } from '../../../services/util/device-info.service';
 import { AccountStateService } from 'app/services/state/account-state.service';
 import { ReplaySubject, filter, switchMap, take, takeUntil } from 'rxjs';
+import { AppStateService } from 'app/services/state/app-state.service';
 
 @Component({
   selector: 'app-app-rating',
@@ -40,13 +39,12 @@ export class AppRatingComponent implements OnInit, OnChanges, OnDestroy {
   private destroyer = new ReplaySubject(1);
 
   constructor(
-    private languageService: LanguageService,
     private notificationService: NotificationService,
     private translateService: TranslateService,
     private readonly accountState: AccountStateService,
     private readonly ratingService: RatingService,
     private dialog: MatDialog,
-    private deviceInfo: DeviceInfoService,
+    private appState: AppStateService,
   ) {}
 
   getIcon(index: number) {
@@ -68,8 +66,7 @@ export class AppRatingComponent implements OnInit, OnChanges, OnDestroy {
     if (!this.canSubmit()) {
       return;
     }
-    this.accountState
-      .getUser()
+    this.accountState.user$
       .pipe(
         filter((v) => Boolean(v)),
         take(1),
@@ -181,7 +178,7 @@ export class AppRatingComponent implements OnInit, OnChanges, OnDestroy {
     if (this.ratingResults !== undefined) {
       this.visibleRating = this.ratingResults.rating;
       this.people = this.ratingResults.people.toLocaleString(
-        this.languageService.currentLanguage() ?? undefined,
+        this.appState.getCurrentLanguage() ?? undefined,
       );
       return false;
     }

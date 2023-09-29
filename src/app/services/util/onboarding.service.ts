@@ -133,7 +133,7 @@ export class OnboardingService {
     if (!this.dataStoreService.has('onboarding_' + tour.name + '_redirect')) {
       this.dataStoreService.set('onboarding_' + tour.name + '_redirect', url);
     }
-    sendEvent(new RescaleRequest(1));
+    sendEvent(this.eventService, new RescaleRequest(1));
     this._currentStep = tourInfo && tourInfo.step ? tourInfo.step : 1;
     const firstStepRoute = tour.tour[this._currentStep - 1].split('@');
     if (firstStepRoute.length > 1 && !url.endsWith('/' + firstStepRoute[1])) {
@@ -168,7 +168,7 @@ export class OnboardingService {
   }
 
   private afterStepMade(step: JoyrideStepInfo) {
-    sendEvent(new RescaleRequest(1));
+    sendEvent(this.eventService, new RescaleRequest(1));
     this.dataStoreService.set(
       'onboarding_' + this._activeTour.name,
       JSON.stringify({
@@ -250,7 +250,7 @@ export class OnboardingService {
       'onboarding_' + this._activeTour.name,
       JSON.stringify({ state: action }),
     );
-    sendEvent(new RescaleRequest('initial'));
+    sendEvent(this.eventService, new RescaleRequest('initial'));
     if (this._activeTour.doneAction) {
       this._activeTour.doneAction(action === 'finished');
     }

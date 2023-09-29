@@ -1,22 +1,28 @@
 import { Injectable } from '@angular/core';
 import { NotificationEvent } from '../../models/dashboard-notification';
-import { CommentChange, CommentChangeRole, CommentChangeType } from '../../models/comment-change';
+import {
+  CommentChange,
+  CommentChangeRole,
+  CommentChangeType,
+} from '../../models/comment-change';
 import { WsCommentChangeService } from '../websockets/ws-comment-change.service';
 import {
   CommentChangeService,
   CommentChangeSubscription,
-  RoomCommentChangeSubscription
+  RoomCommentChangeSubscription,
 } from '../http/comment-change.service';
 import { UnloadService } from './unload.service';
 import { Observable, Subscription, tap, throwError } from 'rxjs';
 import { IMessage } from '@stomp/stompjs';
 import { filter } from 'rxjs/operators';
 import { SessionService } from './session.service';
-import { UserManagementService } from './user-management.service';
+import { AccountStateService } from '../state/account-state.service';
 
 const loadNotifications = (): NotificationEvent[] => {
-  const arr = JSON.parse(localStorage.getItem('dashboard-notifications') || '[]') as NotificationEvent[];
-  arr.forEach(v => {
+  const arr = JSON.parse(
+    localStorage.getItem('dashboard-notifications') || '[]',
+  ) as NotificationEvent[];
+  arr.forEach((v) => {
     v.createdAt = new Date(v.createdAt);
   });
   return arr;
@@ -41,60 +47,120 @@ export enum DashboardFilter {
   QuestionDeleted = 'QuestionDeleted',
 }
 
-type DashboardFilterObject = { [key in DashboardFilter]: (events: NotificationEvent[]) => NotificationEvent[] };
+type DashboardFilterObject = {
+  [key in DashboardFilter]: (
+    events: NotificationEvent[],
+  ) => NotificationEvent[];
+};
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class DashboardNotificationService {
-
   public isNotificationBlocked: boolean = false;
-  private _lastChanges = new Date(Number(localStorage.getItem('dashboard-notification-time')));
+  private _lastChanges = new Date(
+    Number(localStorage.getItem('dashboard-notification-time')),
+  );
   private _lastUser = localStorage.getItem('dashboard-notification-user');
   private _notifications = loadNotifications();
   private _filteredNotifications: NotificationEvent[] = [];
   private _roomNotifications: NotificationEvent[] = [];
-  private _commentSubscriptions: IdSubscriptionMapper<CommentChangeSubscription> = {};
-  private _roomSubscriptions: IdSubscriptionMapper<RoomCommentChangeSubscription> = {};
-  private _activeFilter: (notifications: NotificationEvent[]) => NotificationEvent[];
+  private _commentSubscriptions: IdSubscriptionMapper<CommentChangeSubscription> =
+    {};
+  private _roomSubscriptions: IdSubscriptionMapper<RoomCommentChangeSubscription> =
+    {};
+  private _activeFilter: (
+    notifications: NotificationEvent[],
+  ) => NotificationEvent[];
   private _activeFilterName: DashboardFilter;
   private _initialized = false;
   private readonly filterObject: DashboardFilterObject = {
-    [DashboardFilter.CommentMarkedWithStar]: events =>
-      events.filter(e => e.isAnswer && e.type === CommentChangeType.CHANGE_FAVORITE && e.currentValueString === '1'),
-    [DashboardFilter.QuestionMarkedWithStar]: events =>
-      events.filter(e => !e.isAnswer && e.type === CommentChangeType.CHANGE_FAVORITE && e.currentValueString === '1'),
-    [DashboardFilter.QuestionAffirmed]: events =>
-      events.filter(e => !e.isAnswer && e.type === CommentChangeType.CHANGE_CORRECT && e.currentValueString === '1'),
-    [DashboardFilter.QuestionAnswered]: events =>
-      events.filter(e => !e.isAnswer && e.type === CommentChangeType.ANSWERED &&
-        [CommentChangeRole.CREATOR, CommentChangeRole.EXECUTIVE_MODERATOR, CommentChangeRole.EDITING_MODERATOR].includes(e.initiatorRole)),
-    [DashboardFilter.QuestionBanned]: events =>
-      events.filter(e => !e.isAnswer && e.type === CommentChangeType.CHANGE_ACK && e.currentValueString === '0'),
-    [DashboardFilter.QuestionDeleted]: events =>
-      events.filter(e => !e.isAnswer && e.type === CommentChangeType.DELETED),
-    [DashboardFilter.QuestionCommented]: events =>
-      events.filter(e => !e.isAnswer && e.type === CommentChangeType.ANSWERED &&
-        [CommentChangeRole.PARTICIPANT].includes(e.initiatorRole)),
-    [DashboardFilter.QuestionNegated]: events =>
-      events.filter(e => !e.isAnswer && e.type === CommentChangeType.CHANGE_CORRECT && e.currentValueString === '2'),
-    [DashboardFilter.QuestionPublished]: events =>
-      events.filter(e => !e.isAnswer && e.type === CommentChangeType.CHANGE_ACK && e.currentValueString === '1'),
+    [DashboardFilter.CommentMarkedWithStar]: (events) =>
+      events.filter(
+        (e) =>
+          e.isAnswer &&
+          e.type === CommentChangeType.CHANGE_FAVORITE &&
+          e.currentValueString === '1',
+      ),
+    [DashboardFilter.QuestionMarkedWithStar]: (events) =>
+      events.filter(
+        (e) =>
+          !e.isAnswer &&
+          e.type === CommentChangeType.CHANGE_FAVORITE &&
+          e.currentValueString === '1',
+      ),
+    [DashboardFilter.QuestionAffirmed]: (events) =>
+      events.filter(
+        (e) =>
+          !e.isAnswer &&
+          e.type === CommentChangeType.CHANGE_CORRECT &&
+          e.currentValueString === '1',
+      ),
+    [DashboardFilter.QuestionAnswered]: (events) =>
+      events.filter(
+        (e) =>
+          !e.isAnswer &&
+          e.type === CommentChangeType.ANSWERED &&
+          [
+            CommentChangeRole.CREATOR,
+            CommentChangeRole.EXECUTIVE_MODERATOR,
+            CommentChangeRole.EDITING_MODERATOR,
+          ].includes(e.initiatorRole),
+      ),
+    [DashboardFilter.QuestionBanned]: (events) =>
+      events.filter(
+        (e) =>
+          !e.isAnswer &&
+          e.type === CommentChangeType.CHANGE_ACK &&
+          e.currentValueString === '0',
+      ),
+    [DashboardFilter.QuestionDeleted]: (events) =>
+      events.filter((e) => !e.isAnswer && e.type === CommentChangeType.DELETED),
+    [DashboardFilter.QuestionCommented]: (events) =>
+      events.filter(
+        (e) =>
+          !e.isAnswer &&
+          e.type === CommentChangeType.ANSWERED &&
+          [CommentChangeRole.PARTICIPANT].includes(e.initiatorRole),
+      ),
+    [DashboardFilter.QuestionNegated]: (events) =>
+      events.filter(
+        (e) =>
+          !e.isAnswer &&
+          e.type === CommentChangeType.CHANGE_CORRECT &&
+          e.currentValueString === '2',
+      ),
+    [DashboardFilter.QuestionPublished]: (events) =>
+      events.filter(
+        (e) =>
+          !e.isAnswer &&
+          e.type === CommentChangeType.CHANGE_ACK &&
+          e.currentValueString === '1',
+      ),
   };
 
   constructor(
     private wsCommentChangeService: WsCommentChangeService,
     private commentChangeService: CommentChangeService,
     private unloadService: UnloadService,
-    private userManagementService: UserManagementService,
     private sessionService: SessionService,
+    private accountService: AccountStateService,
   ) {
     unloadService.onUnload().subscribe(() => {
-      localStorage.setItem('dashboard-notification-time', String(this._lastChanges.getTime()));
-      localStorage.setItem('dashboard-notification-user', this.userManagementService.getCurrentUser()?.id);
-      localStorage.setItem('dashboard-notifications', JSON.stringify(this._notifications));
+      localStorage.setItem(
+        'dashboard-notification-time',
+        String(this._lastChanges.getTime()),
+      );
+      localStorage.setItem(
+        'dashboard-notification-user',
+        this.accountService.getCurrentUser()?.id,
+      );
+      localStorage.setItem(
+        'dashboard-notifications',
+        JSON.stringify(this._notifications),
+      );
     });
-    this.userManagementService.getUser().pipe(filter(v => !!v)).subscribe(user => {
+    this.accountService.user$.pipe(filter((v) => !!v)).subscribe((user) => {
       if (user.id === this._lastUser) {
         if (!this._initialized) {
           this.setup();
@@ -105,9 +171,11 @@ export class DashboardNotificationService {
       this.cleanup();
       this.setup();
     });
-    this.sessionService.getRoom().subscribe(room => {
+    this.sessionService.getRoom().subscribe((room) => {
       this._roomNotifications.length = 0;
-      this._roomNotifications.push(...this._notifications.filter(n => n.roomId === room?.id));
+      this._roomNotifications.push(
+        ...this._notifications.filter((n) => n.roomId === room?.id),
+      );
       this._activeFilter = null;
     });
   }
@@ -120,20 +188,30 @@ export class DashboardNotificationService {
     return Boolean(this._roomSubscriptions[roomId]);
   }
 
-  addRoomSubscription(roomId: string): Observable<RoomCommentChangeSubscription> {
+  addRoomSubscription(
+    roomId: string,
+  ): Observable<RoomCommentChangeSubscription> {
     if (this.hasRoomSubscription(roomId)) {
-      return throwError(() => new Error('Already subscribed or currently subscribing!'));
+      return throwError(
+        () => new Error('Already subscribed or currently subscribing!'),
+      );
     }
     this._roomSubscriptions[roomId] = {
-      subscription: this.wsCommentChangeService.getRoomStream(roomId)
+      subscription: this.wsCommentChangeService
+        .getRoomStream(roomId)
         .subscribe(this.pushNotification.bind(this)),
-      information: null
+      information: null,
     };
     return this.commentChangeService.createRoomSubscription(roomId).pipe(
       tap({
-        next: info => this._roomSubscriptions[roomId].information = info,
-        error: () => this._roomSubscriptions[roomId].information = { roomId, accountId: null, id: null },
-      })
+        next: (info) => (this._roomSubscriptions[roomId].information = info),
+        error: () =>
+          (this._roomSubscriptions[roomId].information = {
+            roomId,
+            accountId: null,
+            id: null,
+          }),
+      }),
     );
   }
 
@@ -150,25 +228,33 @@ export class DashboardNotificationService {
     return this.commentChangeService.deleteRoomSubscription(roomId);
   }
 
-  addCommentSubscription(roomId: string, commentId: string): Observable<CommentChangeSubscription> {
+  addCommentSubscription(
+    roomId: string,
+    commentId: string,
+  ): Observable<CommentChangeSubscription> {
     if (this.hasCommentSubscription(commentId)) {
-      return throwError(() => new Error('Already subscribed or currently subscribing!'));
+      return throwError(
+        () => new Error('Already subscribed or currently subscribing!'),
+      );
     }
     this._commentSubscriptions[commentId] = {
-      subscription: this.wsCommentChangeService.getCommentStream(roomId, commentId)
+      subscription: this.wsCommentChangeService
+        .getCommentStream(roomId, commentId)
         .subscribe(this.pushNotification.bind(this)),
-      information: null
+      information: null,
     };
     return this.commentChangeService.createCommentSubscription(commentId).pipe(
       tap({
-        next: info => this._commentSubscriptions[commentId].information = info,
-        error: () => this._commentSubscriptions[commentId].information = {
-          commentId,
-          roomId,
-          accountId: null,
-          id: null
-        },
-      })
+        next: (info) =>
+          (this._commentSubscriptions[commentId].information = info),
+        error: () =>
+          (this._commentSubscriptions[commentId].information = {
+            commentId,
+            roomId,
+            accountId: null,
+            id: null,
+          }),
+      }),
     );
   }
 
@@ -246,7 +332,7 @@ export class DashboardNotificationService {
     if (this.isNotificationBlocked) {
       return;
     }
-    const accountId = this.userManagementService.getCurrentUser()?.id;
+    const accountId = this.accountService.getCurrentUser()?.id;
     const notification: NotificationEvent = {
       ...commentChange,
       fromSelf: accountId === commentChange.initiatorId,
@@ -261,7 +347,9 @@ export class DashboardNotificationService {
     }
     this._roomNotifications.unshift(notification);
     if (this._activeFilter) {
-      this._filteredNotifications.unshift(...this._activeFilter([notification]));
+      this._filteredNotifications.unshift(
+        ...this._activeFilter([notification]),
+      );
     }
   }
 
@@ -283,31 +371,41 @@ export class DashboardNotificationService {
 
   private setup() {
     this._initialized = true;
-    this.commentChangeService.findAllChangesSince(this._lastChanges).subscribe(changes => {
-      changes.forEach(change => {
-        change.createdAt = new Date(change.createdAt);
+    this.commentChangeService
+      .findAllChangesSince(this._lastChanges)
+      .subscribe((changes) => {
+        changes.forEach((change) => {
+          change.createdAt = new Date(change.createdAt);
+        });
+        changes = changes.filter(
+          (change) => change.createdAt.getTime() > this._lastChanges.getTime(),
+        );
+        changes.sort((a, b) => Number(a.createdAt) - Number(b.createdAt));
+        changes.forEach((change) => this.pushCommentChange(change));
       });
-      changes = changes.filter(change => change.createdAt.getTime() > this._lastChanges.getTime());
-      changes.sort((a, b) => Number(a.createdAt) - Number(b.createdAt));
-      changes.forEach(change => this.pushCommentChange(change));
-    });
-    this.commentChangeService.getRoomSubscriptions().subscribe(subscriptions => {
-      subscriptions.forEach(subscription => {
-        this._roomSubscriptions[subscription.roomId] = {
-          subscription: this.wsCommentChangeService.getRoomStream(subscription.roomId)
-            .subscribe(this.pushNotification.bind(this)),
-          information: subscription
-        };
+    this.commentChangeService
+      .getRoomSubscriptions()
+      .subscribe((subscriptions) => {
+        subscriptions.forEach((subscription) => {
+          this._roomSubscriptions[subscription.roomId] = {
+            subscription: this.wsCommentChangeService
+              .getRoomStream(subscription.roomId)
+              .subscribe(this.pushNotification.bind(this)),
+            information: subscription,
+          };
+        });
       });
-    });
-    this.commentChangeService.getCommentSubscriptions().subscribe(subscriptions => {
-      subscriptions.forEach(subscription => {
-        this._commentSubscriptions[subscription.commentId] = {
-          subscription: this.wsCommentChangeService.getCommentStream(subscription.roomId, subscription.commentId)
-            .subscribe(this.pushNotification.bind(this)),
-          information: subscription
-        };
+    this.commentChangeService
+      .getCommentSubscriptions()
+      .subscribe((subscriptions) => {
+        subscriptions.forEach((subscription) => {
+          this._commentSubscriptions[subscription.commentId] = {
+            subscription: this.wsCommentChangeService
+              .getCommentStream(subscription.roomId, subscription.commentId)
+              .subscribe(this.pushNotification.bind(this)),
+            information: subscription,
+          };
+        });
       });
-    });
   }
 }

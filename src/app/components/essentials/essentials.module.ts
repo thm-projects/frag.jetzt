@@ -43,7 +43,7 @@ import {
   TranslateService,
 } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { LanguageService } from '../../services/util/language.service';
+import { AppStateService } from 'app/services/state/app-state.service';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export const HttpLoaderFactory = (http: HttpClient) => {
@@ -117,10 +117,10 @@ export const HttpLoaderFactory = (http: HttpClient) => {
 })
 export class EssentialsModule {
   constructor(
-    private languageService: LanguageService,
+    appState: AppStateService,
     private translateService: TranslateService,
   ) {
-    this.languageService.getLanguage().subscribe((lang) => {
+    appState.language$.subscribe((lang) => {
       this.translateService.use(lang);
     });
   }

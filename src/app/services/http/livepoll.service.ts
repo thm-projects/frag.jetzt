@@ -276,39 +276,40 @@ export class LivepollService extends BaseHttpService {
       },
       ...LivepollService.dialogDefaults,
     };
-    callServiceEvent(new LivepollDialogRequest('dialog', config)).subscribe(
-      (response) => {
-        const dialogRef = response.dialogRef;
-        dialogRef.afterClosed().subscribe((result) => {
-          switch (result?.reason) {
-            case 'delete':
-              this.delete(sessionService.currentLivepoll.id).subscribe(() => {
-                this._dialogState.next(LivepollDialogState.Closed);
-                this.openSummary(sessionService, cachedLivepollSession);
-              });
-              break;
-            case 'reset':
-              this.delete(sessionService.currentLivepoll.id).subscribe(() => {
-                this._dialogState.next(LivepollDialogState.Closed);
-                this.open(sessionService);
-              });
-              break;
-            case 'closedAsCreator':
+    callServiceEvent(
+      this.eventService,
+      new LivepollDialogRequest('dialog', config),
+    ).subscribe((response) => {
+      const dialogRef = response.dialogRef;
+      dialogRef.afterClosed().subscribe((result) => {
+        switch (result?.reason) {
+          case 'delete':
+            this.delete(sessionService.currentLivepoll.id).subscribe(() => {
               this._dialogState.next(LivepollDialogState.Closed);
               this.openSummary(sessionService, cachedLivepollSession);
-              break;
-            case 'closedAsParticipant':
-            case 'close':
-            default:
-              break;
-          }
-          this._dialogState.next(LivepollDialogState.Closed);
-        });
-        dialogRef.afterOpened().subscribe(() => {
-          this._dialogState.next(LivepollDialogState.Open);
-        });
-      },
-    );
+            });
+            break;
+          case 'reset':
+            this.delete(sessionService.currentLivepoll.id).subscribe(() => {
+              this._dialogState.next(LivepollDialogState.Closed);
+              this.open(sessionService);
+            });
+            break;
+          case 'closedAsCreator':
+            this._dialogState.next(LivepollDialogState.Closed);
+            this.openSummary(sessionService, cachedLivepollSession);
+            break;
+          case 'closedAsParticipant':
+          case 'close':
+          default:
+            break;
+        }
+        this._dialogState.next(LivepollDialogState.Closed);
+      });
+      dialogRef.afterOpened().subscribe(() => {
+        this._dialogState.next(LivepollDialogState.Open);
+      });
+    });
   }
 
   private openCreateDialog(sessionService: SessionService) {
@@ -317,30 +318,31 @@ export class LivepollService extends BaseHttpService {
       data: '',
       ...LivepollService.dialogDefaults,
     };
-    callServiceEvent(new LivepollDialogRequest('create', config)).subscribe(
-      (response) => {
-        const dialogRef = response.dialogRef;
-        dialogRef.afterClosed().subscribe((data) => {
-          // data
-          // ? creator wants to create a live poll
-          // : creator closed dialog
-          if (!data) {
-            this._dialogState.next(LivepollDialogState.Closed);
-            return;
-          }
-          this.onNextEvent(LivepollEventType.Create).subscribe(() => {
-            this._dialogState.next(LivepollDialogState.Closed);
-            this.open(sessionService);
-          });
-          const subscription = this.create(data).subscribe(() => {
-            subscription.unsubscribe();
-          });
+    callServiceEvent(
+      this.eventService,
+      new LivepollDialogRequest('create', config),
+    ).subscribe((response) => {
+      const dialogRef = response.dialogRef;
+      dialogRef.afterClosed().subscribe((data) => {
+        // data
+        // ? creator wants to create a live poll
+        // : creator closed dialog
+        if (!data) {
+          this._dialogState.next(LivepollDialogState.Closed);
+          return;
+        }
+        this.onNextEvent(LivepollEventType.Create).subscribe(() => {
+          this._dialogState.next(LivepollDialogState.Closed);
+          this.open(sessionService);
         });
-        dialogRef.afterOpened().subscribe(() => {
-          this._dialogState.next(LivepollDialogState.Open);
+        const subscription = this.create(data).subscribe(() => {
+          subscription.unsubscribe();
         });
-      },
-    );
+      });
+      dialogRef.afterOpened().subscribe(() => {
+        this._dialogState.next(LivepollDialogState.Open);
+      });
+    });
   }
 
   private openSummary(
@@ -352,13 +354,14 @@ export class LivepollService extends BaseHttpService {
       ...LivepollService.dialogDefaults,
     };
 
-    callServiceEvent(new LivepollDialogRequest('summary', config)).subscribe(
-      (response) => {
-        const dialogRef = response.dialogRef;
-        dialogRef.afterClosed().subscribe(() => {
-          this._dialogState.next(LivepollDialogState.Closed);
-        });
-      },
-    );
+    callServiceEvent(
+      this.eventService,
+      new LivepollDialogRequest('summary', config),
+    ).subscribe((response) => {
+      const dialogRef = response.dialogRef;
+      dialogRef.afterClosed().subscribe(() => {
+        this._dialogState.next(LivepollDialogState.Closed);
+      });
+    });
   }
 }

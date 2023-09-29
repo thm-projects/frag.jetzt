@@ -5,13 +5,32 @@ import {
   KeycloakProviderAPI,
   KeycloakProviderService,
 } from 'app/services/http/keycloak-provider.service';
-import { KeycloakService } from 'app/services/util/keycloak.service';
 import {
   AVAILABLE_LANGUAGES,
-  LanguageService,
-} from 'app/services/util/language.service';
+  AppStateService,
+} from 'app/services/state/app-state.service';
+import { KeycloakService } from 'app/services/util/keycloak.service';
 import { NotificationService } from 'app/services/util/notification.service';
 import { Subject, take, takeUntil } from 'rxjs';
+
+interface IpSingle {
+  type: 'single';
+  ip: string;
+}
+
+interface IpRange {
+  type: 'range';
+  ipStart: string;
+  ipEnd: string;
+}
+
+interface IpSubnet {
+  type: 'subnet';
+  ip: string;
+  subnet: number;
+}
+
+type IpType = IpSingle | IpRange | IpSubnet;
 
 @Component({
   selector: 'app-keycloak-provider',
@@ -32,10 +51,11 @@ export class KeycloakProviderComponent implements OnInit, OnDestroy {
   priority: number = 0;
   selectedProvider: KeycloakProvider;
   providers: KeycloakProvider[] = [];
+  allowedIps: IpType[] = [];
   private destroyer = new Subject();
 
   constructor(
-    private languageService: LanguageService,
+    private appState: AppStateService,
     private notification: NotificationService,
     private translateService: TranslateService,
     private keyclaokService: KeycloakService,
@@ -68,6 +88,7 @@ export class KeycloakProviderComponent implements OnInit, OnDestroy {
       priority: this.priority,
       realm: this.realm,
       eventPassword: this.eventPassword,
+      allowedIps: this.typesToString(this.allowedIps),
       descriptionDe: 'n/a',
       descriptionEn: 'n/a',
       descriptionFr: 'n/a',
@@ -147,6 +168,9 @@ export class KeycloakProviderComponent implements OnInit, OnDestroy {
     this.priority = this.selectedProvider?.priority || 0;
     this.realm = this.selectedProvider?.realm || '';
     this.eventPassword = this.selectedProvider?.eventPassword || '';
+    this.allowedIps = this.stringToTypes(
+      this.selectedProvider?.allowedIps || '',
+    );
   }
 
   private patchProvider() {
@@ -222,7 +246,7 @@ export class KeycloakProviderComponent implements OnInit, OnDestroy {
   }
 
   private formatProvider(provider: any) {
-    const lang = this.languageService.currentLanguage() || 'en';
+    const lang = this.appState.getCurrentLanguage() || 'en';
     const access = 'name' + lang[0].toUpperCase() + lang.slice(1);
     if (!provider) {
       return '';
@@ -232,5 +256,51 @@ export class KeycloakProviderComponent implements OnInit, OnDestroy {
       str = 'Default';
     }
     return str;
+  }
+
+  private typesToString(types: IpType[]): string {
+    return types
+      .map((type) => {
+        if (type.type === 'single') return this.checkIp(type.ip);
+        if (type.type === 'subnet')
+          return this.checkIp(type.ip) + '/' + type.subnet;
+        return this.checkIp(type.ipStart) + '//' + this.checkIp(type.ipEnd);
+      })
+      .join('\\');
+  }
+
+  private checkIp(ip: string) {
+    if (ip.includes('/') || ip.includes('\\')) {
+      throw new Error('invalid char');
+    }
+    return ip;
+  }
+
+  private stringToTypes(text: string): IpType[] {
+    if (text.trim().length < 1) {
+      return [];
+    }
+    return text.split('\\').map<IpType>((elem) => {
+      let index = elem.indexOf('//');
+      if (index > 0) {
+        return {
+          type: 'range',
+          ipStart: elem.substring(0, index),
+          ipEnd: elem.substring(index + 2),
+        };
+      }
+      index = elem.indexOf('/');
+      if (index > 0) {
+        return {
+          type: 'subnet',
+          ip: elem.substring(0, index),
+          subnet: Number(elem.substring(index + 1)),
+        };
+      }
+      return {
+        type: 'single',
+        ip: elem,
+      };
+    });
   }
 }

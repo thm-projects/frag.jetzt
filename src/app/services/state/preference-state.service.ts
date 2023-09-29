@@ -5,11 +5,11 @@ import {
   concat,
   distinctUntilChanged,
   map,
-  merge,
   shareReplay,
   take,
 } from 'rxjs';
 import { DbConfigService } from '../persistence/lg/db-config.service';
+import { InitService } from '../util/init.service';
 
 export interface CacheStrategyAlways {
   type: 'always';
@@ -74,39 +74,44 @@ export class PreferenceStateService {
   readonly preferences$: Observable<CacheStrategyObject>;
   private readonly updatePreference$ = new Subject<CacheStrategyObject>();
 
-  constructor(private dbConfig: DbConfigService) {
+  constructor(
+    private dbConfig: DbConfigService,
+    private initService: InitService,
+  ) {
     this.preferences$ = concat(
       this.dbConfig
         .get('cache-preferences')
-        .pipe(map((v) => v.value as CacheStrategyObject)),
+        .pipe(map((v) => v?.value as CacheStrategyObject)),
       this.updatePreference$,
     ).pipe(distinctUntilChanged(), shareReplay(1));
-    // Side effects
-    // Ensure valid
-    this.preferences$.pipe(take(1)).subscribe((preferences) => {
-      let changed = false;
-      if (!preferences) {
-        changed = true;
-        preferences = {} as CacheStrategyObject;
-      }
-      const toDelete = new Set(Object.keys(preferences));
-      for (const key of Object.keys(DEFAULT_CACHE_POLICY)) {
-        if (
-          toDelete.delete(key) &&
-          ALLOWED_TYPES[key].includes(preferences[key].type)
-        ) {
-          continue;
+    this.initService.init$.pipe(take(1)).subscribe(() => {
+      // Side effects
+      // Ensure valid
+      this.preferences$.pipe(take(1)).subscribe((preferences) => {
+        let changed = false;
+        if (!preferences) {
+          changed = true;
+          preferences = {} as CacheStrategyObject;
         }
-        preferences[key] = structuredClone(DEFAULT_CACHE_POLICY[key]);
-        changed = true;
-      }
-      for (const key of toDelete) {
-        changed = true;
-        delete preferences[key];
-      }
-      if (changed) {
-        this.updatePreferences(preferences);
-      }
+        const toDelete = new Set(Object.keys(preferences));
+        for (const key of Object.keys(DEFAULT_CACHE_POLICY)) {
+          if (
+            toDelete.delete(key) &&
+            ALLOWED_TYPES[key].includes(preferences[key].type)
+          ) {
+            continue;
+          }
+          preferences[key] = structuredClone(DEFAULT_CACHE_POLICY[key]);
+          changed = true;
+        }
+        for (const key of toDelete) {
+          changed = true;
+          delete preferences[key];
+        }
+        if (changed) {
+          this.updatePreferences(preferences);
+        }
+      });
     });
   }
 
