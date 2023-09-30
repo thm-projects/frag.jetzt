@@ -185,20 +185,22 @@ export class RoomJoinComponent implements OnInit, OnDestroy {
 
   private addAndNavigate(room: Room, mods: Set<string>) {
     if (this.user.id === room.ownerId) {
-      this.accountState.setAccess(room.shortId, room.id, UserRole.CREATOR);
+      this.accountState
+        .setAccess(room.shortId, room.id, UserRole.CREATOR)
+        .subscribe();
       this.router.navigate([`/creator/room/${room.shortId}/comments`]);
       return;
     }
     if (mods.has(this.user.id)) {
-      this.accountState.setAccess(
-        room.shortId,
-        room.id,
-        UserRole.EXECUTIVE_MODERATOR,
-      );
+      this.accountState
+        .setAccess(room.shortId, room.id, UserRole.EXECUTIVE_MODERATOR)
+        .subscribe();
       this.router.navigate([`/moderator/room/${room.shortId}/comments`]);
       return;
     }
-    this.accountState.setAccess(room.shortId, room.id, UserRole.PARTICIPANT);
+    this.accountState
+      .setAccess(room.shortId, room.id, UserRole.PARTICIPANT)
+      .subscribe();
     this.router.navigate([`/participant/room/${room.shortId}/comments`]);
   }
 }

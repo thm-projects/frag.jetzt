@@ -59,11 +59,13 @@ export class ModeratorJoinComponent implements OnInit {
     this.moderatorService.addByRoomCode(this.moderatorRoom.id).subscribe({
       next: () => {
         this.roomService.addToHistory(this.room.id);
-        this.accountState.setAccess(
-          this.room.shortId,
-          this.room.id,
-          UserRole.EXECUTIVE_MODERATOR,
-        );
+        this.accountState
+          .setAccess(
+            this.room.shortId,
+            this.room.id,
+            UserRole.EXECUTIVE_MODERATOR,
+          )
+          .subscribe();
         this.router.navigate([`/moderator/room/${this.room.shortId}/comments`]);
       },
       error: () => {
@@ -88,17 +90,17 @@ export class ModeratorJoinComponent implements OnInit {
         .pipe(map((mods) => new Set(mods.map((m) => m.accountId)))),
     ]).subscribe(([room, mods]) => {
       if (room.ownerId === this.user.id) {
-        this.accountState.setAccess(room.shortId, room.id, UserRole.CREATOR);
+        this.accountState
+          .setAccess(room.shortId, room.id, UserRole.CREATOR)
+          .subscribe();
         this.router.navigate([`/creator/room/${room.shortId}/comments`]);
         return;
       }
       if (mods.has(this.user.id)) {
         this.roomService.addToHistory(room.id);
-        this.accountState.setAccess(
-          room.shortId,
-          room.id,
-          UserRole.EXECUTIVE_MODERATOR,
-        );
+        this.accountState
+          .setAccess(room.shortId, room.id, UserRole.EXECUTIVE_MODERATOR)
+          .subscribe();
         this.router.navigate([`/moderator/room/${room.shortId}/comments`]);
         return;
       }

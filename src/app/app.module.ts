@@ -79,8 +79,6 @@ import { DemoFrComponent } from '../assets/i18n/components/demo/demo-fr';
 import { DataProtectionFrComponent } from '../assets/i18n/components/data-protection/data-protection-fr';
 import { CookiesFrComponent } from '../assets/i18n/components/cookies/cookies-fr';
 import { AdminModule } from './components/admin/admin.module';
-import { NgxIndexedDBModule } from 'ngx-indexed-db';
-import { DB_CONFIG } from '../indexeddb';
 import {
   HIGHLIGHT_OPTIONS,
   HighlightLoader,
@@ -101,6 +99,7 @@ import { AskOnboardingENComponent } from 'assets/i18n/components/ask-onboarding/
 import { AskOnboardingFRComponent } from 'assets/i18n/components/ask-onboarding/ask-onboarding-fr.component';
 import { UpdateInfoDialogComponent } from './components/home/_dialogs/update-info-dialog/update-info-dialog.component';
 import { AppStateService } from './services/state/app-state.service';
+import { InitService } from './services/util/init.service';
 
 export const dialogClose = (dialogResult: any) => '';
 
@@ -190,7 +189,6 @@ export const HttpLoaderFactory = (http: HttpClient) =>
     ArsModule,
     TagCloudModule,
     JoyrideModule.forRoot(),
-    NgxIndexedDBModule.forRoot(DB_CONFIG),
     MatNativeDateModule,
     HighlightModule,
     QuillModule.forRoot(),
@@ -248,7 +246,9 @@ export class AppModule {
     private appState: AppStateService,
     private translateService: TranslateService,
     private highlightLoader: HighlightLoader,
+    initService: InitService,
   ) {
+    initService.init();
     this.highlightLoader.ready.subscribe();
     this.appState.language$.subscribe((lang) =>
       this.translateService.use(lang),

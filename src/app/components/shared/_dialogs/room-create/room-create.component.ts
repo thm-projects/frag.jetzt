@@ -148,7 +148,9 @@ export class RoomCreateComponent implements OnInit, OnDestroy {
         this.translateService
           .get('home-page.created', { longRoomName })
           .subscribe((msg) => this.notification.show(msg));
-        this.accountState.setAccess(room.shortId, room.id, UserRole.CREATOR);
+        this.accountState
+          .setAccess(room.shortId, room.id, UserRole.CREATOR)
+          .subscribe();
         this.accountState.updateAccess(room.shortId);
         this.router
           .navigate(['/creator/room/' + encodeURIComponent(room.shortId)])

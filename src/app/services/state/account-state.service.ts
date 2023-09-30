@@ -218,12 +218,16 @@ export class AccountStateService {
       .subscribe();
   }
 
-  setAccess(roomShortId: string, roomId: string, role: UserRole) {
+  setAccess(
+    roomShortId: string,
+    roomId: string,
+    role: UserRole,
+  ): Observable<void> {
     const userId = this.getCurrentUser()?.id;
     if (!userId) {
       throw new Error('setAccess: User not logged in');
     }
-    this.dbRoomAccess
+    return this.dbRoomAccess
       .createOrUpdate(
         new RoomAccess({
           userId,
@@ -238,7 +242,10 @@ export class AccountStateService {
           lastAccess: new Date(),
         }),
       )
-      .subscribe(() => this.updateAccess$.next(true));
+      .pipe(
+        tap(() => this.updateAccess$.next(true)),
+        map(() => undefined),
+      );
   }
 
   updateAccess(roomShortId: string) {
@@ -298,7 +305,7 @@ export class AccountStateService {
 
   ensureAccess(roomShortId: string, roomId: string, role: UserRole) {
     if (!this.getAccess(roomShortId)) {
-      this.setAccess(roomShortId, roomId, role);
+      this.setAccess(roomShortId, roomId, role).subscribe();
       return true;
     }
     return false;

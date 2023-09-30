@@ -1,9 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ViewCommentDataComponent } from './view-comment-data.component';
-import { LanguageService } from '../../../services/util/language.service';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
-import { DeviceInfoService } from '../../../services/util/device-info.service';
 import { EventService } from '../../../services/util/event.service';
 import { MatDialogModule } from '@angular/material/dialog';
 import { QuillModule } from 'ngx-quill';
@@ -18,8 +16,6 @@ const Quill: any = QuillNamespace;
 import ImageResize from 'quill-image-resize-module';
 import 'quill-emoji/dist/quill-emoji.js';
 import { TranslateServiceMock } from '../../../services/mocks/translate.service.mock';
-import { NgxIndexedDBModule } from 'ngx-indexed-db';
-import { DB_CONFIG } from '../../../../indexeddb';
 
 Quill.register('modules/imageResize', ImageResize);
 
@@ -33,23 +29,15 @@ describe('ViewCommentDataComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        MatDialogModule,
-        QuillModule,
-        ArsModule,
-        MatTooltipModule,
-        NgxIndexedDBModule.forRoot(DB_CONFIG),
-      ],
+      imports: [MatDialogModule, QuillModule, ArsModule, MatTooltipModule],
       providers: [
         {
           provide: TranslateService,
           useClass: TranslateServiceMock,
         },
-        LanguageService,
-        DeviceInfoService,
         EventService,
       ],
-      declarations: [ViewCommentDataComponent, TranslatePipe]
+      declarations: [ViewCommentDataComponent, TranslatePipe],
     }).compileComponents();
   });
 

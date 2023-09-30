@@ -71,7 +71,6 @@ export class AppComponent implements OnInit {
     private dialog: MatDialog,
     public router: Router,
     private onboarding: OnboardingService,
-    private initService: InitService,
     deviceState: DeviceStateService,
   ) {
     AppComponent.instance = this;
@@ -94,7 +93,6 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.initService.init();
     this.update.versionUpdates
       .pipe(filter((e) => e.type === 'VERSION_READY'))
       .subscribe((_) => UpdateInfoDialogComponent.open(this.dialog));

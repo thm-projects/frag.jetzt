@@ -254,24 +254,22 @@ export class SessionService {
     return this.getRoomOnce().pipe(
       switchMap((room) => {
         if (room.ownerId === userId) {
-          this.accountState.setAccess(room.shortId, room.id, UserRole.CREATOR);
+          this.accountState
+            .setAccess(room.shortId, room.id, UserRole.CREATOR)
+            .subscribe();
           return of(UserRole.CREATOR);
         }
         return this.getModeratorsOnce().pipe(
           map((mods) => {
             if (mods.some((m) => m.accountId === userId)) {
-              this.accountState.setAccess(
-                room.shortId,
-                room.id,
-                UserRole.EXECUTIVE_MODERATOR,
-              );
+              this.accountState
+                .setAccess(room.shortId, room.id, UserRole.EXECUTIVE_MODERATOR)
+                .subscribe();
               return UserRole.EXECUTIVE_MODERATOR;
             }
-            this.accountState.setAccess(
-              room.shortId,
-              room.id,
-              UserRole.PARTICIPANT,
-            );
+            this.accountState
+              .setAccess(room.shortId, room.id, UserRole.PARTICIPANT)
+              .subscribe();
             return UserRole.PARTICIPANT;
           }),
         );

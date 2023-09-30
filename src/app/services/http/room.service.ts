@@ -67,7 +67,9 @@ export class RoomService extends BaseHttpService {
         map((rooms) => rooms.map((r) => this.parseRoom(r))),
         tap((rooms) => {
           for (const r of rooms) {
-            this.accountState.setAccess(r.shortId, r.id, UserRole.CREATOR);
+            this.accountState
+              .setAccess(r.shortId, r.id, UserRole.CREATOR)
+              .subscribe();
           }
         }),
         catchError(this.handleError('getCreatorRooms', [])),
@@ -86,7 +88,9 @@ export class RoomService extends BaseHttpService {
         map((rooms) => rooms.map((r) => this.parseRoom(r))),
         tap((rooms) => {
           for (const r of rooms) {
-            this.accountState.setAccess(r.shortId, r.id, UserRole.PARTICIPANT);
+            this.accountState
+              .setAccess(r.shortId, r.id, UserRole.PARTICIPANT)
+              .subscribe();
           }
         }),
         catchError(this.handleError('getParticipantRooms', [])),
@@ -109,11 +113,13 @@ export class RoomService extends BaseHttpService {
       .pipe(
         map((r) => this.parseRoom(r)),
         tap((returnedRoom) => {
-          this.accountState.setAccess(
-            returnedRoom.shortId,
-            returnedRoom.id,
-            UserRole.PARTICIPANT,
-          );
+          this.accountState
+            .setAccess(
+              returnedRoom.shortId,
+              returnedRoom.id,
+              UserRole.PARTICIPANT,
+            )
+            .subscribe();
         }),
         catchError(this.buildErrorExecutionCallback(`add Room ${room}`, exc)),
       );

@@ -5,6 +5,7 @@ import { MOTD_SCHEMA } from './db-motd.model';
 import { READ_MOTD_SCHEMA } from './db-read-motd.model';
 import { ROOM_ACCESS_SCHEMA } from './db-room-acces.model';
 import { ROOM_SCHEMA } from './db-room.model';
+import { preMigrationStep } from './lg-persist.migration';
 import {
   DatabaseSchema,
   buildDefaultMigrator,
@@ -13,7 +14,7 @@ import {
 export const SCHEMA = {
   name: 'frag.jetzt',
   version: 2,
-  migrator: buildDefaultMigrator(),
+  migrator: buildDefaultMigrator({ preMigrateStep: preMigrationStep }),
   stores: {
     'read-motd': READ_MOTD_SCHEMA,
     'room-access': ROOM_ACCESS_SCHEMA,

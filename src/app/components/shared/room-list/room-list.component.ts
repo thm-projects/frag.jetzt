@@ -132,7 +132,9 @@ export class RoomListComponent implements OnInit, OnDestroy {
       const roomWithRole: RoomRoleMixin = room as RoomRoleMixin;
       if (room.ownerId === this.user.id) {
         roomWithRole.role = UserRole.CREATOR;
-        this.accountState.setAccess(room.shortId, room.id, UserRole.CREATOR);
+        this.accountState
+          .setAccess(room.shortId, room.id, UserRole.CREATOR)
+          .subscribe();
         return roomWithRole;
       }
       roomWithRole.role = UserRole.PARTICIPANT;
@@ -140,18 +142,14 @@ export class RoomListComponent implements OnInit, OnDestroy {
         .get(room.id)
         .subscribe((moderators: Moderator[]) => {
           if (moderators.some((m) => m.accountId === this.user.id)) {
-            this.accountState.setAccess(
-              room.shortId,
-              room.id,
-              UserRole.EXECUTIVE_MODERATOR,
-            );
+            this.accountState
+              .setAccess(room.shortId, room.id, UserRole.EXECUTIVE_MODERATOR)
+              .subscribe();
             roomWithRole.role = UserRole.EXECUTIVE_MODERATOR;
           } else {
-            this.accountState.setAccess(
-              room.shortId,
-              room.id,
-              UserRole.PARTICIPANT,
-            );
+            this.accountState
+              .setAccess(room.shortId, room.id, UserRole.PARTICIPANT)
+              .subscribe();
           }
         });
       return roomWithRole;

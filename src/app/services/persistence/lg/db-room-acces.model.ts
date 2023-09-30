@@ -26,13 +26,13 @@ export class RoomAccess {
 
 export const ROOM_ACCESS_SCHEMA = {
   type: RoomAccess,
-  since: 1,
+  since: 3,
   options: {
     keyPath: ['userId', 'roomShortId'] as const, // satisfies ValidKey<RoomAccess>,
   },
   indexes: {
     'user-id': {
-      since: 1,
+      since: 3,
       keyPath: 'userId', // satisfies ValidKey<RoomAccess>,
     },
   },

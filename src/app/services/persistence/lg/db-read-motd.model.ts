@@ -12,13 +12,13 @@ export class ReadMotd {
 
 export const READ_MOTD_SCHEMA = {
   type: ReadMotd,
-  since: 1,
+  since: 3,
   options: {
     keyPath: ['motdId', 'userId'] as const, // satisfies ValidKey<ReadMotd>,
   },
   indexes: {
     'user-id': {
-      since: 1,
+      since: 3,
       keyPath: 'userId', // satisfies ValidKey<ReadMotd>,
     },
   },
