@@ -103,10 +103,10 @@ export class AppStateService {
           ),
           switchMap((v) =>
             this.dbConfig
-              .createOrUpdate({ key: 'cookieAccepted', value: Boolean(v) })
+              .createOrUpdate({ key: 'cookieAccepted', value: v.accepted })
               .pipe(
                 switchMap(() => {
-                  if (v) {
+                  if (v.accepted) {
                     this.updateCookieAccepted$.next(true);
                     return of();
                   }
@@ -196,7 +196,7 @@ export class AppStateService {
   private loadLanguage(): Observable<Language> {
     return this.dbConfig.get('language').pipe(
       map((cfg) => {
-        let lang = cfg.value as Language;
+        let lang = cfg?.value as Language;
         lang = AVAILABLE_LANGUAGES.includes(lang) ? lang : null;
         if (!lang) {
           for (const language of navigator.languages) {

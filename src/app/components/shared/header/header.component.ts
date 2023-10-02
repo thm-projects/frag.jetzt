@@ -269,7 +269,7 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   logoutUser() {
-    this.accountState.logout();
+    this.accountState.logout().subscribe();
   }
 
   startTour() {

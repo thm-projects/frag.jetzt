@@ -6,7 +6,14 @@ export const preMigrationStep = (
   if (version === 3) migrateToNewDb(db, transaction);
 };
 
+const tryDeleteStore = (db: IDBDatabase, store: string) => {
+  if (db.objectStoreNames.contains(store)) {
+    db.deleteObjectStore(store);
+  }
+};
+
 const migrateToNewDb = (db: IDBDatabase, transaction: IDBTransaction) => {
-  db.deleteObjectStore('motdRead');
-  db.deleteObjectStore('roomAccess');
+  tryDeleteStore(db, 'motdRead');
+  tryDeleteStore(db, 'roomAccess');
+  tryDeleteStore(db, 'localRoomSettings');
 };

@@ -2,8 +2,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { FormalityType } from 'app/services/http/deep-l.service';
+import { DbLocalRoomSettingService } from 'app/services/persistence/lg/db-local-room-setting.service';
 import { switchMap } from 'rxjs';
-import { DBLocalRoomSettingsService } from '../../../../services/persistence/dblocal-room-settings.service';
 
 @Component({
   selector: 'app-pseudonym-editor',
@@ -25,7 +25,7 @@ export class PseudonymEditorComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<PseudonymEditorComponent>,
-    private dBLocalRoomSettingsService: DBLocalRoomSettingsService,
+    private localRoomSetting: DbLocalRoomSettingService,
   ) {}
 
   public static open(dialog: MatDialog, accountId: string, roomId: string) {
@@ -36,10 +36,10 @@ export class PseudonymEditorComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.dBLocalRoomSettingsService
-      .getSettings(this.roomId, this.accountId)
+    this.localRoomSetting
+      .get([this.roomId, this.accountId])
       .subscribe((data) => {
-        this.selectedFormality = data?.formality ?? FormalityType.Default;
+        this.selectedFormality = FormalityType.Default;
         this.questionerNameFormControl.setValue(data?.pseudonym ?? '');
       });
   }
@@ -49,8 +49,8 @@ export class PseudonymEditorComponent implements OnInit {
       if (this.questionerNameFormControl.errors) {
         return;
       }
-      this.dBLocalRoomSettingsService
-        .getSettings(this.roomId, this.accountId)
+      this.localRoomSetting
+        .get([this.roomId, this.accountId])
         .pipe(
           switchMap((data) => {
             if (!data) {
@@ -58,13 +58,12 @@ export class PseudonymEditorComponent implements OnInit {
                 accountId: this.accountId,
                 roomId: this.roomId,
                 pseudonym: this.questionerNameFormControl.value,
-                formality: this.selectedFormality,
               };
             } else {
               data.pseudonym = this.questionerNameFormControl.value;
-              data.formality = this.selectedFormality;
+              //data.formality = this.selectedFormality;
             }
-            return this.dBLocalRoomSettingsService.setOrUpdateSettings(data);
+            return this.localRoomSetting.createOrUpdate(data);
           }),
         )
         .subscribe();

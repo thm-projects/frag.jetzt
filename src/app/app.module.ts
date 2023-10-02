@@ -99,7 +99,6 @@ import { AskOnboardingENComponent } from 'assets/i18n/components/ask-onboarding/
 import { AskOnboardingFRComponent } from 'assets/i18n/components/ask-onboarding/ask-onboarding-fr.component';
 import { UpdateInfoDialogComponent } from './components/home/_dialogs/update-info-dialog/update-info-dialog.component';
 import { AppStateService } from './services/state/app-state.service';
-import { InitService } from './services/util/init.service';
 
 export const dialogClose = (dialogResult: any) => '';
 
@@ -246,9 +245,7 @@ export class AppModule {
     private appState: AppStateService,
     private translateService: TranslateService,
     private highlightLoader: HighlightLoader,
-    initService: InitService,
   ) {
-    initService.init();
     this.highlightLoader.ready.subscribe();
     this.appState.language$.subscribe((lang) =>
       this.translateService.use(lang),

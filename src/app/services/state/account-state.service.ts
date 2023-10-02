@@ -6,6 +6,7 @@ import {
   concat,
   distinctUntilChanged,
   forkJoin,
+  from,
   map,
   merge,
   of,
@@ -35,6 +36,7 @@ import { AppStateService } from './app-state.service';
 import { RoomAccess } from '../persistence/lg/db-room-acces.model';
 import { ReadMotd } from '../persistence/lg/db-read-motd.model';
 import { EventService } from '../util/event.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -61,6 +63,7 @@ export class AccountStateService {
     private keycloak: KeycloakService,
     private appState: AppStateService,
     private eventService: EventService,
+    private router: Router,
   ) {
     this.user$ = concat(this.loadUser(), this.updateUser$).pipe(
       distinctUntilChanged(),
@@ -148,7 +151,7 @@ export class AccountStateService {
     return readMotds;
   }
 
-  logout(): Observable<void> {
+  logout(): Observable<boolean> {
     if (!this.getCurrentUser()) {
       return throwError(() => 'User already logged out');
     }
@@ -156,7 +159,7 @@ export class AccountStateService {
       this.dbConfig.delete('account-registered'),
       this.setLoggedIn('false'),
     ]).pipe(
-      map(() => {}),
+      switchMap(() => from(this.router.navigate(['/']))),
       tap(() => this.updateUser$.next(null)),
     );
   }
@@ -180,7 +183,9 @@ export class AccountStateService {
     if (this.getCurrentUser()) {
       return throwError(() => 'Guest already logged in');
     }
-    return this.loginAsGuest().pipe(tap((user) => this.updateUser$.next(user)));
+    return this.loginAsGuest(false).pipe(
+      tap((user) => this.updateUser$.next(user)),
+    );
   }
 
   forceLogin(): Observable<User> {
@@ -207,7 +212,11 @@ export class AccountStateService {
               () => 'updateToken: Try to update other keycloak data',
             );
           }
-          const user = userCfg.value as User;
+          const user = userCfg?.value as User;
+          if (!user) {
+            // in login phase
+            return of();
+          }
           user.keycloakToken = keycloakToken;
           return this.dbConfig.createOrUpdate({
             key: 'account-registered',
@@ -347,9 +356,9 @@ export class AccountStateService {
           return of(null);
         }
         if (!response.keycloakId) {
-          return this.loginAsGuest();
+          return this.loginAsGuest(true);
         }
-        return this.doKeycloakLogin(response.keycloakId);
+        return this.doKeycloakLogin(response.keycloakId, true);
       }),
     );
   }
@@ -373,55 +382,57 @@ export class AccountStateService {
       .get(`account-${isGuest ? 'guest' : 'registered'}`)
       .pipe(
         switchMap((cfg) => {
+          if (!isGuest) {
+            this.initialized = true;
+            return this.doKeycloakLogin(value as UUID, false).pipe(
+              switchMap((data) => {
+                if (data) {
+                  return of(data);
+                }
+                return this.redirectLogin();
+              }),
+            );
+          }
           if (!cfg?.value) {
             this.initialized = true;
             return of(null);
           }
           const user = cfg.value as User;
           return this.authService.refreshLoginWithToken(user.token).pipe(
-            map((auth) => {
+            switchMap((auth) => {
               this.initialized = true;
-              return this.fromAuth(auth, user.keycloakToken);
+              return of(this.fromAuth(auth, null));
             }),
-            catchError(() => {
-              if (isGuest) {
-                return this.loginAsGuest();
-              }
-              // force keycloak login
-              return this.doKeycloakLogin(value).pipe(
-                switchMap((data) => {
-                  if (data) {
-                    return of(data);
-                  }
-                  return this.redirectLogin();
-                }),
-              );
-            }),
+            catchError(() => this.loginAsGuest(false)),
           );
         }),
       );
   }
 
-  private doKeycloakLogin(keycloakId: UUID): Observable<User> {
-    return this.keycloak
-      .doKeycloakLogin(
-        keycloakId,
-        true,
-        this.appState.getCurrentLanguage(),
-        (newToken) => this.updateToken(newToken, keycloakId),
-      )
-      .pipe(
-        switchMap((data) => {
-          if (!data) {
-            // Choose options on login screen
-            return of(null);
-          }
-          return this.loginAsUser(data[0], data[1]);
-        }),
-      );
+  private doKeycloakLogin(
+    keycloakId: UUID,
+    redirectUser: boolean,
+  ): Observable<User> {
+    return this.setLoggedIn(keycloakId).pipe(
+      switchMap(() =>
+        this.keycloak.doKeycloakLogin(
+          keycloakId,
+          true,
+          this.appState.getCurrentLanguage(),
+          (newToken) => this.updateToken(newToken, keycloakId),
+          redirectUser ? location.origin + '/user' : location.href,
+        ),
+      ),
+      switchMap((data) => {
+        if (!data) {
+          return of(null);
+        }
+        return this.loginAsUser(data[0], data[1], redirectUser);
+      }),
+    );
   }
 
-  private loginAsUser(token: string, keycloakId: UUID) {
+  private loginAsUser(token: string, keycloakId: UUID, navigate: boolean) {
     return this.authService.login(token, keycloakId).pipe(
       map((auth) => this.fromAuth(auth, token)),
       switchMap((user) =>
@@ -433,13 +444,16 @@ export class AccountStateService {
           this.setLoggedIn(keycloakId),
         ]).pipe(map(() => user)),
       ),
-      tap(() => {
+      tap((v) => {
         this.initialized = true;
+        if (v && navigate) {
+          this.router.navigate(['/user']);
+        }
       }),
     );
   }
 
-  private loginAsGuest() {
+  private loginAsGuest(navigate: boolean) {
     return this.authService.loginAsGuest().pipe(
       map((auth) => this.fromAuth(auth, null)),
       switchMap((user) =>
@@ -448,8 +462,11 @@ export class AccountStateService {
           this.setLoggedIn('guest'),
         ]).pipe(map(() => user)),
       ),
-      tap(() => {
+      tap((v) => {
         this.initialized = true;
+        if (v && navigate) {
+          this.router.navigate(['/user']);
+        }
       }),
     );
   }

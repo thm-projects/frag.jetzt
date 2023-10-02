@@ -72,11 +72,13 @@ export class AppComponent implements OnInit {
     public router: Router,
     private onboarding: OnboardingService,
     deviceState: DeviceStateService,
+    initService: InitService,
   ) {
     AppComponent.instance = this;
     this.initDialogsForServices();
     customIconService.init();
     deviceState.mobile$.subscribe((m) => (this.isMobile = m));
+    initService.init();
   }
 
   public static scrollTop() {

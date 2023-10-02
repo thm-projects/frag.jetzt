@@ -1,5 +1,6 @@
 import { COMMENT_SCHEMA } from './db-comment.model';
 import { CONFIG_SCHEMA } from './db-config.model';
+import { LOCAL_ROOM_SETTING_SCHEMA } from './db-local-room-setting.model';
 import { MODERATOR_SCHEMA } from './db-moderator.model';
 import { MOTD_SCHEMA } from './db-motd.model';
 import { READ_MOTD_SCHEMA } from './db-read-motd.model';
@@ -13,7 +14,7 @@ import {
 
 export const SCHEMA = {
   name: 'frag.jetzt',
-  version: 2,
+  version: 3,
   migrator: buildDefaultMigrator({ preMigrateStep: preMigrationStep }),
   stores: {
     'read-motd': READ_MOTD_SCHEMA,
@@ -23,5 +24,6 @@ export const SCHEMA = {
     room: ROOM_SCHEMA,
     moderator: MODERATOR_SCHEMA,
     comment: COMMENT_SCHEMA,
+    'local-room-setting': LOCAL_ROOM_SETTING_SCHEMA,
   },
 } as const; // satisfies DatabaseSchema;

@@ -4,9 +4,11 @@ import {
   BehaviorSubject,
   Observable,
   Subject,
+  defer,
   from,
   of,
   repeat,
+  retry,
   shareReplay,
   switchMap,
   take,
@@ -60,6 +62,7 @@ export class KeycloakService {
     force: boolean,
     language: string,
     tokenUpdated: (newToken: string) => void,
+    redirectUri: string,
   ): Observable<[token: string, keycloakId: UUID]> {
     return this.providers$.pipe(
       take(1),
@@ -76,19 +79,21 @@ export class KeycloakService {
         }
         return this.changeProvider(activeProvider, tokenUpdated);
       }),
-      switchMap(() => this.login(force, language)),
+      switchMap(() => this.login(force, language, redirectUri)),
     );
   }
 
   private login(
     force: boolean,
     language: string,
+    redirectUri: string,
   ): Observable<[token: string, keycloakId: UUID]> {
-    return from(
-      this.keycloak
+    return defer(() => {
+      return this.keycloak
         .init({
           onLoad: force ? 'login-required' : 'check-sso',
           locale: language,
+          redirectUri,
         })
         .then(
           (authenticated) => {
@@ -98,11 +103,12 @@ export class KeycloakService {
             return null;
           },
           (err) => {
+            console.log(err);
             console.error('Keycloak initialization error', err);
             return null;
           },
-        ),
-    );
+        );
+    }).pipe(retry(1));
   }
 
   private changeProvider(

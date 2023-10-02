@@ -8,6 +8,7 @@ import {
 } from 'rxjs';
 import { LgDb } from './lg-persist.schema.types';
 import { SCHEMA } from './lg-persist.schema';
+import { openDatabase } from './lg-persist.emulated';
 
 export enum LgDbEvents {
   // no errors
@@ -88,13 +89,18 @@ export class LgPersistService {
       request.addEventListener('upgradeneeded', (e: IDBVersionChangeEvent) => {
         this.unblock();
         const req = e.target as IDBOpenDBRequest;
-        SCHEMA.migrator(
-          SCHEMA,
-          req.result,
-          req.transaction,
-          e.oldVersion,
-          e.newVersion,
-        );
+        try {
+          SCHEMA.migrator(
+            SCHEMA,
+            req.result,
+            req.transaction,
+            e.oldVersion,
+            e.newVersion,
+          );
+        } catch (e) {
+          console.error(e);
+          req.transaction.abort();
+        }
       });
       request.addEventListener('success', () => {
         this.unblock();

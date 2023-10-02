@@ -1,12 +1,12 @@
 const makeDomList = (arr: string[]): DOMStringList => {
   return new Proxy(arr, {
     get: (target, p, receiver) => {
+      console.log(target, p, receiver);
       if (typeof p === 'string') {
         if (p === 'item') {
           return (index: number) => Reflect.get(target, index, receiver);
         } else if (p === 'contains') {
-          return (string: string) =>
-            Reflect.get(target, 'includes', receiver)(string);
+          return (string: string) => target.includes(string);
         }
       }
       return Reflect.get(target, p, receiver);
@@ -21,12 +21,33 @@ interface StoreMeta {
   options: IDBObjectStoreParameters;
 }
 
-export const openDatabase = (name: string, version: number) => {
+export const openDatabase = (
+  name: string,
+  version?: number,
+): LocalStorageRequest<LocalStorageDb> => {
   const stores = JSON.parse(localStorage.getItem(`idb-stores-${name}`) || '[]');
-  const curentVersion = Number(
+  const currentVersion = Number(
     localStorage.getItem(`idb-version-${name}`) || '0',
   );
-  return new LocalStorageDb(name, curentVersion, stores);
+  const additional: Record<string, any> = {};
+  let db = new LocalStorageDb(name, currentVersion, stores);
+  if (version && currentVersion < version) {
+    additional['upgradeneeded'] = {
+      target: {
+        result: db,
+        transaction: db.transaction(''),
+      },
+      oldVersion: currentVersion,
+      newVersion: version,
+    };
+    localStorage.setItem(`idb-version-${name}`, String(version));
+    db = new LocalStorageDb(
+      name,
+      version,
+      JSON.parse(localStorage.getItem(`idb-stores-${name}`) || '[]'),
+    );
+  }
+  return new LocalStorageRequest(db, null, additional);
 };
 
 export class LocalStorageDb implements IDBDatabase {
@@ -106,7 +127,7 @@ export class LocalStorageDb implements IDBDatabase {
   transaction(
     storeNames: string | string[],
     mode?: IDBTransactionMode,
-    options?: IDBTransactionOptions,
+    options?: any,
   ): IDBTransaction {
     if (typeof storeNames === 'string') {
       storeNames = [storeNames];
@@ -229,7 +250,7 @@ export class LocalStorageStore implements IDBObjectStore {
     this.autoIncrement = Boolean(meta.options?.autoIncrement);
     console.assert(!this.autoIncrement);
     this.keyPath = meta.options?.keyPath || null;
-    console.assert(this.keyPath);
+    console.assert(Boolean(this.keyPath));
     this.name = meta.name;
     this.indexes = JSON.parse(
       localStorage.getItem(`idb-store-indexes-${myDb.name}.!-${meta.name}`) ||
@@ -366,24 +387,67 @@ export class LocalStorageStore implements IDBObjectStore {
   delete(query: IDBValidKey | IDBKeyRange): IDBRequest<undefined> {
     if (query instanceof IDBKeyRange) {
       for (const key of Object.keys(this.data)) {
-        const elemKey = getKeyFromValue(this.data[key], this.keyPath);
-        if (query.includes(elemKey)) {
-          delete this.data[key];
+        const element = this.data[key];
+        const elemKey = getKeyFromValue(element, this.keyPath);
+        if (!query.includes(elemKey)) {
+          continue;
         }
+        delete this.data[key];
+        this.indexes.forEach((index, i) => {
+          const iKey = computeKey(element, index.keyPath);
+          const data = this.cachedIndexes[i];
+          if (index.options.unique) {
+            if (data[iKey] === elemKey) {
+              data[iKey] = null;
+            }
+          } else {
+            const index = data[iKey].indexOf(elemKey);
+            if (index < 0) {
+              return;
+            }
+            (data[iKey] as string[]).splice(index, 1);
+          }
+        });
       }
       localStorage.setItem(
         `idb-store-${this.myDb.name}.!-${this.meta.name}`,
         JSON.stringify(this.data),
       );
+      this.indexes.forEach((index, i) => {
+        localStorage.setItem(
+          `idb-store-index-${this.myDb.name}.!-${this.meta.name}-!.${index.name}`,
+          JSON.stringify(this.cachedIndexes[i]),
+        );
+      });
       return new LocalStorageRequest(undefined, null);
     }
     const cKey = validKeyToComputed(query);
-    if (this.data[cKey]) {
+    const element = this.data[cKey];
+    if (element) {
       delete this.data[cKey];
       localStorage.setItem(
         `idb-store-${this.myDb.name}.!-${this.meta.name}`,
         JSON.stringify(this.data),
       );
+      this.indexes.forEach((index, i) => {
+        const iKey = computeKey(element, index.keyPath);
+        const data = this.cachedIndexes[i];
+        if (index.options.unique) {
+          if (data[iKey] === cKey) {
+            data[iKey] = null;
+          }
+        } else {
+          const index = data[iKey].indexOf(cKey);
+          if (index < 0) {
+            return;
+          }
+          (data[iKey] as string[]).splice(index, 1);
+        }
+        localStorage.setItem(
+          `idb-store-index-${this.myDb.name}.!-${this.meta.name}-!.${index.name}`,
+          JSON.stringify(data),
+        );
+      });
     }
     return new LocalStorageRequest(undefined, null);
   }
@@ -758,7 +822,11 @@ export class LocalStorageRequest<T> implements IDBRequest<T> {
   readonly source: IDBObjectStore | IDBIndex | IDBCursor = null;
   readonly transaction: IDBTransaction = null;
 
-  constructor(readonly result: T, readonly error: DOMException) {}
+  constructor(
+    readonly result: T,
+    readonly error: DOMException,
+    private additional?: { [eventName: string]: any },
+  ) {}
 
   get onerror() {
     return null;
@@ -788,7 +856,12 @@ export class LocalStorageRequest<T> implements IDBRequest<T> {
     listener: EventListenerOrEventListenerObject,
     options?: boolean | AddEventListenerOptions,
   ): void;
-  addEventListener(type: unknown, listener: unknown, options?: unknown): void {}
+  addEventListener(type: unknown, listener: unknown, options?: unknown): void {
+    const obj = this.additional || {};
+    if ((type as string) in obj) {
+      (listener as () => unknown).bind(this)(obj[type as string]);
+    }
+  }
 
   removeEventListener<K extends keyof IDBRequestEventMap>(
     type: K,

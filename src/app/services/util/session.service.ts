@@ -558,6 +558,8 @@ export class SessionService {
   private checkUser() {
     if (!SessionService.needsUser(decodeURI(this.router.url))) {
       return;
+    } else {
+      return;
     }
     this.accountState.forceLogin().subscribe();
   }
