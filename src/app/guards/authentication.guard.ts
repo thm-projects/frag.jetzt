@@ -29,13 +29,15 @@ export class AuthenticationGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot,
   ): Observable<boolean> {
+    this.accountState.forceLogin().subscribe();
+    const roomShortId = route.params.shortId;
+    this.roomState.setRoomShortId(roomShortId);
     const url = decodeURI(state.url);
     if (route.data.superAdmin) {
       return of(true);
     }
     const possibleRoles = (route.data['roles'] ?? []) as UserRole[];
     const wantedRole = this.parseRole(url);
-    const roomShortId = route.params.shortId;
     return this.accountState.access$.pipe(
       filter((v) => Boolean(v)),
       switchMap(() => {

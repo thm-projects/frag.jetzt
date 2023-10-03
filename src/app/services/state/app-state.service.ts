@@ -180,7 +180,7 @@ export class AppStateService {
       .pipe(
         take(1),
         switchMap((pref) => {
-          const needsDelete = pref.motd.type === 'latest';
+          const needsDelete = pref?.motd?.type !== 'always';
           const first = needsDelete ? this.dbMotd.clear() : of(undefined);
           return first;
         }),

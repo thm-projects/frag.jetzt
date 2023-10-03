@@ -31,7 +31,7 @@ import {
   LoginDialogRequest,
   callServiceEvent,
 } from 'app/utils/service-component-events';
-import { KeycloakService } from '../util/keycloak.service';
+import { KeycloakService, TokenReturn } from '../util/keycloak.service';
 import { AppStateService } from './app-state.service';
 import { RoomAccess } from '../persistence/lg/db-room-acces.model';
 import { ReadMotd } from '../persistence/lg/db-read-motd.model';
@@ -200,14 +200,14 @@ export class AccountStateService {
     );
   }
 
-  updateToken(keycloakToken: string, keycloakId: UUID) {
+  updateToken(keycloakToken: TokenReturn) {
     forkJoin([
       this.dbConfig.get('logged-in'),
       this.dbConfig.get('account-registered'),
     ])
       .pipe(
         switchMap(([logged, userCfg]) => {
-          if (logged.value !== keycloakId) {
+          if (logged.value !== keycloakToken.keycloakId) {
             return throwError(
               () => 'updateToken: Try to update other keycloak data',
             );
@@ -217,7 +217,8 @@ export class AccountStateService {
             // in login phase
             return of();
           }
-          user.keycloakToken = keycloakToken;
+          user.keycloakToken = keycloakToken.token;
+          user.keycloakRefreshToken = keycloakToken.refreshToken;
           return this.dbConfig.createOrUpdate({
             key: 'account-registered',
             value: user,
@@ -384,7 +385,19 @@ export class AccountStateService {
         switchMap((cfg) => {
           if (!isGuest) {
             this.initialized = true;
-            return this.doKeycloakLogin(value as UUID, false).pipe(
+            let token;
+            let refreshToken;
+            if (cfg?.value) {
+              const user = cfg.value as User;
+              token = user.keycloakToken || undefined;
+              refreshToken = user.keycloakRefreshToken || undefined;
+            }
+            return this.doKeycloakLogin(
+              value as UUID,
+              false,
+              token,
+              refreshToken,
+            ).pipe(
               switchMap((data) => {
                 if (data) {
                   return of(data);
@@ -401,7 +414,7 @@ export class AccountStateService {
           return this.authService.refreshLoginWithToken(user.token).pipe(
             switchMap((auth) => {
               this.initialized = true;
-              return of(this.fromAuth(auth, null));
+              return of(this.fromAuth(auth, null, null));
             }),
             catchError(() => this.loginAsGuest(false)),
           );
@@ -412,6 +425,8 @@ export class AccountStateService {
   private doKeycloakLogin(
     keycloakId: UUID,
     redirectUser: boolean,
+    token: string = undefined,
+    refreshToken: string = undefined,
   ): Observable<User> {
     return this.setLoggedIn(keycloakId).pipe(
       switchMap(() =>
@@ -419,43 +434,49 @@ export class AccountStateService {
           keycloakId,
           true,
           this.appState.getCurrentLanguage(),
-          (newToken) => this.updateToken(newToken, keycloakId),
+          (newToken) => this.updateToken(newToken),
           redirectUser ? location.origin + '/user' : location.href,
+          token,
+          refreshToken,
         ),
       ),
       switchMap((data) => {
         if (!data) {
           return of(null);
         }
-        return this.loginAsUser(data[0], data[1], redirectUser);
+        return this.loginAsUser(data, redirectUser);
       }),
     );
   }
 
-  private loginAsUser(token: string, keycloakId: UUID, navigate: boolean) {
-    return this.authService.login(token, keycloakId).pipe(
-      map((auth) => this.fromAuth(auth, token)),
-      switchMap((user) =>
-        forkJoin([
-          this.dbConfig.createOrUpdate({
-            key: 'account-registered',
-            value: user,
-          }),
-          this.setLoggedIn(keycloakId),
-        ]).pipe(map(() => user)),
-      ),
-      tap((v) => {
-        this.initialized = true;
-        if (v && navigate) {
-          this.router.navigate(['/user']);
-        }
-      }),
-    );
+  private loginAsUser(tokenReturn: TokenReturn, navigate: boolean) {
+    return this.authService
+      .login(tokenReturn.token, tokenReturn.keycloakId)
+      .pipe(
+        map((auth) =>
+          this.fromAuth(auth, tokenReturn.token, tokenReturn.refreshToken),
+        ),
+        switchMap((user) =>
+          forkJoin([
+            this.dbConfig.createOrUpdate({
+              key: 'account-registered',
+              value: user,
+            }),
+            this.setLoggedIn(tokenReturn.keycloakId),
+          ]).pipe(map(() => user)),
+        ),
+        tap((v) => {
+          this.initialized = true;
+          if (v && navigate) {
+            this.router.navigate(['/user']);
+          }
+        }),
+      );
   }
 
   private loginAsGuest(navigate: boolean) {
     return this.authService.loginAsGuest().pipe(
-      map((auth) => this.fromAuth(auth, null)),
+      map((auth) => this.fromAuth(auth, null, null)),
       switchMap((user) =>
         forkJoin([
           this.dbConfig.createOrUpdate({ key: 'account-guest', value: user }),
@@ -475,13 +496,18 @@ export class AccountStateService {
     return this.dbConfig.createOrUpdate({ key: 'logged-in', value });
   }
 
-  private fromAuth(auth: ClientAuthentication, keycloakToken: string) {
+  private fromAuth(
+    auth: ClientAuthentication,
+    keycloakToken: string,
+    keycloakRefreshToken: string,
+  ) {
     return new User({
       id: auth.credentials as UUID,
       loginId: auth.name,
       type: auth.type,
       token: auth.details,
       keycloakToken,
+      keycloakRefreshToken,
       isGuest: auth.type === 'guest',
     });
   }

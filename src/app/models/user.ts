@@ -7,6 +7,7 @@ export class User {
   type: 'guest' | 'registered';
   token: string;
   keycloakToken: string;
+  keycloakRefreshToken: string;
   role: UserRole;
   isGuest: boolean;
 
@@ -16,6 +17,7 @@ export class User {
     type = 'guest',
     token = null,
     keycloakToken = null,
+    keycloakRefreshToken = null,
     role = UserRole.PARTICIPANT,
     isGuest = true,
   }: Partial<User>) {
@@ -24,6 +26,7 @@ export class User {
     this.type = type;
     this.token = token;
     this.keycloakToken = keycloakToken;
+    this.keycloakRefreshToken = keycloakRefreshToken;
     this.role = role;
     this.isGuest = isGuest;
   }

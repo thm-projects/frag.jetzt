@@ -131,6 +131,10 @@ export class RoomStateService {
     );
   }
 
+  setRoomShortId(roomShortId: string) {
+    this.updateRoomShortId$.next(roomShortId);
+  }
+
   getCurrentRole(): UserRole {
     let role: RoomAccessRole = null;
     this.role$.subscribe((r) => (role = r)).unsubscribe();

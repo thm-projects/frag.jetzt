@@ -13,41 +13,64 @@ const routes: Routes = [
     path: 'room/:shortId',
     component: RoomModeratorPageComponent,
     canActivate: [AuthenticationGuard],
-    data: { roles: [UserRole.EXECUTIVE_MODERATOR] }
+    data: {
+      roles: [
+        UserRole.EXECUTIVE_MODERATOR,
+        UserRole.CREATOR,
+        UserRole.PARTICIPANT,
+      ],
+    },
   },
   {
     path: 'room/:shortId/comments',
     component: CommentPageComponent,
     canActivate: [AuthenticationGuard],
-    data: { roles: [UserRole.EXECUTIVE_MODERATOR] }
+    data: {
+      roles: [
+        UserRole.EXECUTIVE_MODERATOR,
+        UserRole.CREATOR,
+        UserRole.PARTICIPANT,
+      ],
+    },
   },
   {
     path: 'room/:shortId/moderator/comments',
     component: ModeratorCommentPageComponent,
     canActivate: [AuthenticationGuard],
-    data: { roles: [UserRole.EXECUTIVE_MODERATOR] }
+    data: { roles: [UserRole.EXECUTIVE_MODERATOR, UserRole.CREATOR] },
   },
   {
     path: 'room/:shortId/comment/:commentId',
     component: CommentAnswerComponent,
     canActivate: [AuthenticationGuard],
-    data: { roles: [UserRole.EXECUTIVE_MODERATOR] }
+    data: {
+      roles: [
+        UserRole.EXECUTIVE_MODERATOR,
+        UserRole.CREATOR,
+        UserRole.PARTICIPANT,
+      ],
+    },
   },
   {
     path: 'room/:shortId/comment/:commentId/conversation',
     component: CommentAnswerComponent,
     canActivate: [AuthenticationGuard],
-    data: { roles: [UserRole.EXECUTIVE_MODERATOR] }
+    data: {
+      roles: [
+        UserRole.EXECUTIVE_MODERATOR,
+        UserRole.CREATOR,
+        UserRole.PARTICIPANT,
+      ],
+    },
   },
   {
     path: 'join/:shortId',
-    component: ModeratorJoinComponent
-  }
+    component: ModeratorJoinComponent,
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class ModeratorRoutingModule {
-}
+export class ModeratorRoutingModule {}

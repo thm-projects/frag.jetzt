@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import Keycloak from 'keycloak-js';
+import Keycloak, { KeycloakInitOptions } from 'keycloak-js';
 import {
   BehaviorSubject,
   Observable,
@@ -19,6 +19,12 @@ import { UUID } from 'app/utils/ts-utils';
 import { DsgvoBuilder } from 'app/utils/dsgvo-builder';
 import { InitService } from './init.service';
 
+export interface TokenReturn {
+  token: string;
+  refreshToken: string;
+  keycloakId: UUID;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -27,7 +33,7 @@ export class KeycloakService {
   readonly activeProvider$ = new BehaviorSubject<KeycloakProvider>(null);
   private keycloak: Keycloak;
   private updateStream$ = new Subject();
-  private tokenUpdated: (newToken: string) => void;
+  private tokenUpdated: (newToken: TokenReturn) => void;
 
   constructor(
     private keycloakProvider: KeycloakProviderService,
@@ -61,9 +67,11 @@ export class KeycloakService {
     keycloakId: UUID,
     force: boolean,
     language: string,
-    tokenUpdated: (newToken: string) => void,
+    tokenUpdated: (token: TokenReturn) => void,
     redirectUri: string,
-  ): Observable<[token: string, keycloakId: UUID]> {
+    token: string,
+    refreshToken: string,
+  ): Observable<TokenReturn> {
     return this.providers$.pipe(
       take(1),
       switchMap((providers) => {
@@ -79,7 +87,9 @@ export class KeycloakService {
         }
         return this.changeProvider(activeProvider, tokenUpdated);
       }),
-      switchMap(() => this.login(force, language, redirectUri)),
+      switchMap(() =>
+        this.login(force, language, redirectUri, token, refreshToken),
+      ),
     );
   }
 
@@ -87,33 +97,54 @@ export class KeycloakService {
     force: boolean,
     language: string,
     redirectUri: string,
-  ): Observable<[token: string, keycloakId: UUID]> {
+    token: string,
+    refreshToken: string,
+  ): Observable<TokenReturn> {
     return defer(() => {
-      return this.keycloak
-        .init({
-          onLoad: force ? 'login-required' : 'check-sso',
-          locale: language,
-          redirectUri,
-        })
-        .then(
-          (authenticated) => {
-            if (authenticated) {
-              return [this.keycloak.token, this.activeProvider$.value.id];
-            }
-            return null;
-          },
-          (err) => {
-            console.log(err);
-            console.error('Keycloak initialization error', err);
-            return null;
-          },
-        );
+      const options: KeycloakInitOptions = {
+        onLoad: force ? 'login-required' : 'check-sso',
+        locale: language,
+        redirectUri,
+      };
+      if (this.isNotExpired(token)) {
+        options.token = token;
+      }
+      if (this.isNotExpired(refreshToken)) {
+        options.refreshToken = refreshToken;
+      }
+      return this.keycloak.init(options).then(
+        (authenticated) => {
+          if (authenticated) {
+            return {
+              token: this.keycloak.token,
+              refreshToken: this.keycloak.refreshToken,
+              keycloakId: this.activeProvider$.value.id,
+            } as TokenReturn;
+          }
+          return null;
+        },
+        (err) => {
+          console.error('Keycloak initialization error', err);
+          return null;
+        },
+      );
     }).pipe(retry(1));
+  }
+
+  private isNotExpired(token: string): boolean {
+    if (!token) {
+      return false;
+    }
+    const start = token.indexOf('.');
+    const end = token.indexOf('.', start + 1);
+    const text = window.atob(token.substring(start + 1, end));
+    const obj = JSON.parse(text);
+    return obj['exp'] * 1000 > new Date().getTime();
   }
 
   private changeProvider(
     keycloakProvider: KeycloakProvider,
-    tokenUpdated: (newToken: string) => void,
+    tokenUpdated: (newToken: TokenReturn) => void,
   ): Observable<Keycloak> {
     const onContinue = () => {
       if (keycloakProvider == null) {
@@ -188,6 +219,10 @@ export class KeycloakService {
     if (this.keycloak !== keycloak) {
       return;
     }
-    this.tokenUpdated(keycloak.token);
+    this.tokenUpdated({
+      token: this.keycloak.token,
+      refreshToken: this.keycloak.refreshToken,
+      keycloakId: this.activeProvider$.value.id,
+    });
   }
 }

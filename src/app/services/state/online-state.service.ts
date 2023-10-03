@@ -1,10 +1,10 @@
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { RatingResult } from 'app/models/rating-result';
 import {
   Observable,
   Subject,
   catchError,
-  concat,
+  concatMap,
   distinctUntilChanged,
   filter,
   interval,
@@ -14,9 +14,7 @@ import {
   shareReplay,
   startWith,
   switchMap,
-  take,
   takeUntil,
-  tap,
 } from 'rxjs';
 import { RatingService } from '../http/rating.service';
 
@@ -92,7 +90,7 @@ export class OnlineStateService {
     const subjectOnline = new Subject();
     return this.online$.pipe(
       takeUntil(subjectOnline),
-      switchMap((online) => {
+      concatMap((online) => {
         if (!online) {
           if (offlineEmitted) {
             return of();
@@ -123,7 +121,7 @@ export class OnlineStateService {
     const subjectOnline = new Subject();
     return this.backendStatus$.pipe(
       takeUntil(subjectOnline),
-      switchMap((online) => {
+      concatMap((online) => {
         if (online !== BackendStatus.Available) {
           if (offlineEmitted) {
             return of();

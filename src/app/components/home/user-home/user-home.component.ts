@@ -62,7 +62,8 @@ export class UserHomeComponent implements OnInit, OnDestroy, AfterContentInit {
   }
 
   ngOnInit() {
-    this.accountState.user$
+    this.accountState
+      .forceLogin()
       .pipe(takeUntil(this.destroyer))
       .subscribe((newUser) => {
         this.user = newUser;
