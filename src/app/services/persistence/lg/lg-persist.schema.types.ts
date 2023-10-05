@@ -178,12 +178,13 @@ const syncStores = (
     const exists = db.objectStoreNames.contains(storeName);
     // Store was already created
     if (store.since < version) {
-      const objStore = transaction.objectStore(storeName);
-      const sameProps = haveStoresSameProps(store, objStore);
-      if (exists && sameProps) {
-        syncIndexes(storeName, version, store, objStore, logger);
-        continue;
-      } else if (exists) {
+      if (exists) {
+        const objStore = transaction.objectStore(storeName);
+        const sameProps = haveStoresSameProps(store, objStore);
+        if (sameProps) {
+          syncIndexes(storeName, version, store, objStore, logger);
+          continue;
+        }
         throw new Error(
           `${storeName} has other properties, deletion and recreation is up to you. Please make own pre migration.`,
         );
