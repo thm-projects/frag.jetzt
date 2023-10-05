@@ -21,7 +21,7 @@ export class Motd {
 
 export const MOTD_SCHEMA = {
   type: Motd,
-  since: 1,
+  since: 3,
   options: {
     keyPath: ['id'] as const, // satisfies ValidKey<Motd>,
   },

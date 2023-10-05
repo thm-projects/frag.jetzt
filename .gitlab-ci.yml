@@ -125,7 +125,7 @@ deploy_staging:
     - mkdir ~/.ssh
     - ssh-keyscan "$STAGING_SERVER_URL" >> ~/.ssh/known_hosts
     - ssh-add <(echo "$STAGING_KEY")
-    - ssh "$STAGING_SSH_URL" < 'frontend:'
+    - ssh "$STAGING_SSH_URL" <(echo 'frontend:')
 
 deploy_production:
   stage: deploy_servers
