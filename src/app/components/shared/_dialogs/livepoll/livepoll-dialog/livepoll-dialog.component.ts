@@ -8,14 +8,12 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { DeviceInfoService } from '../../../../../services/util/device-info.service';
 import {
   LivepollTemplateContext,
   templateEntries,
 } from '../../../../../models/livepoll-template';
-import { BehaviorSubject, Observable, ReplaySubject, takeUntil } from 'rxjs';
+import { Observable, ReplaySubject, takeUntil } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
-import { LanguageService } from '../../../../../services/util/language.service';
 import { HttpClient } from '@angular/common/http';
 import { SessionService } from '../../../../../services/util/session.service';
 import {
@@ -42,6 +40,8 @@ import { ActiveUserService } from 'app/services/http/active-user.service';
 import { LivepollComponentUtility } from '../livepoll-component-utility';
 import { prettyPrintDate } from 'app/utils/date';
 import { RoomDataService } from '../../../../../services/util/room-data.service';
+import { DeviceStateService } from 'app/services/state/device-state.service';
+import { AppStateService } from 'app/services/state/app-state.service';
 import { LivepollPeerInstructionWindowComponent } from '../livepoll-peer-instruction/livepoll-peer-instruction-window/livepoll-peer-instruction-window.component';
 
 export enum PeerInstructionPhase {
@@ -90,6 +90,7 @@ export class LivepollDialogComponent
   @Input() public isProduction: boolean = false;
   @ViewChild('markdownContainer')
   markdownContainerRef: ElementRef<HTMLDivElement>;
+  isMobile = false;
   public translateKey: string = 'common';
   public votes: number[] = [];
   public livepollVote: LivepollVote;
@@ -106,8 +107,6 @@ export class LivepollDialogComponent
   private lastSession: LivepollSession;
 
   constructor(
-    public readonly device: DeviceInfoService,
-    public readonly languageService: LanguageService,
     public readonly translationService: TranslateService,
     public readonly http: HttpClient,
     public readonly session: SessionService,
@@ -119,6 +118,8 @@ export class LivepollDialogComponent
     private readonly activeUser: ActiveUserService,
     private readonly roomDataService: RoomDataService,
     @Inject(MAT_DIALOG_DATA) data: LivepollDialogInjectionData,
+    private appState: AppStateService,
+    deviceState: DeviceStateService,
   ) {
     if (data) {
       this.livepollSession = data.session;
@@ -132,8 +133,11 @@ export class LivepollDialogComponent
         this.is2ndPhasePeerInstruction = true;
       }
     }
+    deviceState.mobile$
+      .pipe(takeUntil(this._destroyer))
+      .subscribe((m) => (this.isMobile = m));
     LivepollComponentUtility.initLanguage(
-      this.languageService,
+      this.appState,
       this.translationService,
       this.http,
       this._destroyer,
@@ -389,7 +393,7 @@ export class LivepollDialogComponent
   }
 
   prettyPrintDate(createdAt: Date): string {
-    return prettyPrintDate(createdAt, this.languageService.currentLanguage());
+    return prettyPrintDate(createdAt, this.appState.getCurrentLanguage());
   }
 
   openPeerInstruction() {

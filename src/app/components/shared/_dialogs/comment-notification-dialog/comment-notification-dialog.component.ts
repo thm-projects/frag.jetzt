@@ -2,12 +2,12 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Room } from '../../../../models/room';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
-import { LanguageService } from '../../../../services/util/language.service';
 import { CommentNotificationService } from '../../../../services/http/comment-notification.service';
 import { NotificationService } from '../../../../services/util/notification.service';
 import { CommentNotification } from '../../../../models/comment-notification';
 import { ReplaySubject, takeUntil } from 'rxjs';
-import { UserManagementService } from '../../../../services/util/user-management.service';
+import { AppStateService } from 'app/services/state/app-state.service';
+import { AccountStateService } from 'app/services/state/account-state.service';
 
 enum WeekDay {
   Monday,
@@ -45,22 +45,19 @@ export class CommentNotificationDialogComponent implements OnInit, OnDestroy {
   constructor(
     private dialogRef: MatDialogRef<CommentNotificationDialogComponent>,
     private translateService: TranslateService,
-    private languageService: LanguageService,
+    private appState: AppStateService,
     private commentNotificationService: CommentNotificationService,
     private notificationService: NotificationService,
-    private userManagementService: UserManagementService,
+    private accountState: AccountStateService,
   ) {
-    this.languageService
-      .getLanguage()
-      .pipe(takeUntil(this._destroyer))
-      .subscribe((_) => {
-        this.translateService
-          .get('comment-notification.last-setting')
-          .subscribe((text) => (this.lastSetting = text));
-        this.translateService
-          .get('comment-notification.setting-inactive')
-          .subscribe((text) => (this.settingInactive = text));
-      });
+    this.appState.language$.pipe(takeUntil(this._destroyer)).subscribe((_) => {
+      this.translateService
+        .get('comment-notification.last-setting')
+        .subscribe((text) => (this.lastSetting = text));
+      this.translateService
+        .get('comment-notification.setting-inactive')
+        .subscribe((text) => (this.settingInactive = text));
+    });
   }
 
   static openDialog(
@@ -110,7 +107,7 @@ export class CommentNotificationDialogComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    if (!this.userManagementService.getCurrentUser()?.loginId) {
+    if (!this.accountState.getCurrentUser()?.loginId) {
       return;
     }
     this.commentNotificationService

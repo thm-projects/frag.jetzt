@@ -1,55 +1,58 @@
 import { Injectable } from '@angular/core';
-import Keycloak from 'keycloak-js';
-import { LanguageService } from './language.service';
+import Keycloak, { KeycloakInitOptions } from 'keycloak-js';
 import {
+  BehaviorSubject,
   Observable,
   Subject,
-  concat,
-  filter,
+  defer,
   from,
-  merge,
   of,
+  repeat,
+  retry,
   shareReplay,
   switchMap,
   take,
 } from 'rxjs';
 import { KeycloakProviderService } from '../http/keycloak-provider.service';
 import { KeycloakProvider } from 'app/models/keycloak-provider';
-import { UserManagementService } from './user-management.service';
 import { UUID } from 'app/utils/ts-utils';
 import { DsgvoBuilder } from 'app/utils/dsgvo-builder';
+import { InitService } from './init.service';
 
-const KEYCLOAK_PROVIDER = 'keycloak-provider-id';
+export interface TokenReturn {
+  token: string;
+  refreshToken: string;
+  keycloakId: UUID;
+  roles: string[];
+}
 
 @Injectable({
   providedIn: 'root',
 })
 export class KeycloakService {
-  providers$: Observable<KeycloakProvider[]>;
+  readonly providers$ = this.keycloakProvider.getAll();
+  readonly activeProvider$ = new BehaviorSubject<KeycloakProvider>(null);
   private keycloak: Keycloak;
-  private providerId: UUID;
   private updateStream$ = new Subject();
+  private tokenUpdated: (newToken: TokenReturn) => void;
 
   constructor(
-    keycloakProvider: KeycloakProviderService,
-    private languageService: LanguageService,
-    private userManagement: UserManagementService,
+    private keycloakProvider: KeycloakProviderService,
+    private initService: InitService,
   ) {
-    const id = localStorage.getItem(KEYCLOAK_PROVIDER);
-    this.providers$ = concat(
-      keycloakProvider.getAll(),
-      merge(
-        userManagement.getUser().pipe(filter((v) => Boolean(v))),
-        this.updateStream$,
-      ).pipe(switchMap(() => keycloakProvider.getAll())),
-    ).pipe(shareReplay(1));
-    this.providers$.pipe(take(1)).subscribe((providers) => {
-      providers.forEach((provider) => {
-        DsgvoBuilder.trustURL(this.adjustURL(provider.frontendUrl));
+    this.providers$ = keycloakProvider.getAll().pipe(
+      repeat({
+        delay: () => this.updateStream$,
+      }),
+      shareReplay(1),
+    );
+    this.initService.init$.pipe(take(1)).subscribe(() => {
+      // side effects
+      this.providers$.subscribe((providers) => {
+        providers.forEach((provider) => {
+          DsgvoBuilder.trustURL(this.adjustURL(provider.frontendUrl));
+        });
       });
-      if (id) {
-        this.doKeycloakLogin(id as UUID, false).subscribe();
-      }
     });
   }
 
@@ -63,8 +66,13 @@ export class KeycloakService {
 
   doKeycloakLogin(
     keycloakId: UUID,
-    force: boolean = true,
-  ): Observable<boolean> {
+    force: boolean,
+    language: string,
+    tokenUpdated: (token: TokenReturn) => void,
+    redirectUri: string,
+    token: string,
+    refreshToken: string,
+  ): Observable<TokenReturn> {
     return this.providers$.pipe(
       take(1),
       switchMap((providers) => {
@@ -78,33 +86,68 @@ export class KeycloakService {
             break;
           }
         }
-        return this.changeProvider(activeProvider);
+        return this.changeProvider(activeProvider, tokenUpdated);
       }),
-      switchMap(() => this.login(force)),
+      switchMap(() =>
+        this.login(force, language, redirectUri, token, refreshToken),
+      ),
     );
   }
 
-  private login(force: boolean = true): Observable<boolean> {
-    return from(
-      this.keycloak
-        .init({
-          onLoad: force ? 'login-required' : 'check-sso',
-          locale: this.languageService.currentLanguage(),
-        })
-        .then(
-          (authenticated) => authenticated,
-          (err) => {
-            console.error('Keycloak initialization error', err);
-            return false;
-          },
-        ),
-    );
+  private login(
+    force: boolean,
+    language: string,
+    redirectUri: string,
+    token: string,
+    refreshToken: string,
+  ): Observable<TokenReturn> {
+    return defer(() => {
+      const options: KeycloakInitOptions = {
+        onLoad: force ? 'login-required' : 'check-sso',
+        locale: language,
+        redirectUri,
+      };
+      if (this.isNotExpired(token)) {
+        options.token = token;
+      }
+      if (this.isNotExpired(refreshToken)) {
+        options.refreshToken = refreshToken;
+      }
+      return this.keycloak.init(options).then(
+        (authenticated) => {
+          if (authenticated) {
+            return {
+              token: this.keycloak.token,
+              refreshToken: this.keycloak.refreshToken,
+              keycloakId: this.activeProvider$.value.id,
+              roles: this.keycloak.tokenParsed?.realm_access?.roles || [],
+            } as TokenReturn;
+          }
+          return null;
+        },
+        (err) => {
+          console.error('Keycloak initialization error', err);
+          return null;
+        },
+      );
+    }).pipe(retry(1));
+  }
+
+  private isNotExpired(token: string): boolean {
+    if (!token) {
+      return false;
+    }
+    const start = token.indexOf('.');
+    const end = token.indexOf('.', start + 1);
+    const text = window.atob(token.substring(start + 1, end));
+    const obj = JSON.parse(text);
+    return obj['exp'] * 1000 > new Date().getTime();
   }
 
   private changeProvider(
     keycloakProvider: KeycloakProvider,
+    tokenUpdated: (newToken: TokenReturn) => void,
   ): Observable<Keycloak> {
-    localStorage.setItem(KEYCLOAK_PROVIDER, keycloakProvider?.id);
     const onContinue = () => {
       if (keycloakProvider == null) {
         return null;
@@ -115,7 +158,8 @@ export class KeycloakService {
         clientId: keycloakProvider.clientId,
       });
       this.keycloak = newKeycloak;
-      this.providerId = keycloakProvider.id;
+      this.tokenUpdated = tokenUpdated;
+      this.activeProvider$.next(keycloakProvider);
       newKeycloak.onTokenExpired = () => {
         if (this.keycloak !== newKeycloak) return;
         newKeycloak.updateToken(30).then(
@@ -134,7 +178,8 @@ export class KeycloakService {
     let expiresIn = -1;
     const oldKeycloak = this.keycloak;
     this.keycloak = null;
-    this.providerId = null;
+    this.tokenUpdated = null;
+    this.activeProvider$.next(null);
     if (oldKeycloak != null) {
       expiresIn =
         (oldKeycloak.tokenParsed?.exp || 0) -
@@ -145,7 +190,6 @@ export class KeycloakService {
       oldKeycloak.onAuthSuccess = null;
     }
     if (expiresIn > 0 && oldKeycloak?.authenticated) {
-      localStorage.removeItem(KEYCLOAK_PROVIDER);
       return from(
         oldKeycloak
           .logout({
@@ -177,6 +221,11 @@ export class KeycloakService {
     if (this.keycloak !== keycloak) {
       return;
     }
-    this.userManagement.login(this.keycloak.token, this.providerId).subscribe();
+    this.tokenUpdated({
+      token: this.keycloak.token,
+      refreshToken: this.keycloak.refreshToken,
+      keycloakId: this.activeProvider$.value.id,
+      roles: this.keycloak.tokenParsed?.realm_access?.roles || [],
+    });
   }
 }

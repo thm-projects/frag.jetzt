@@ -8,57 +8,123 @@ import {
 } from '@angular/router';
 
 import { UserRole } from '../models/user-roles.enum';
-import { SessionService } from '../services/util/session.service';
-import { UserManagementService } from '../services/util/user-management.service';
 import { EventService } from 'app/services/util/event.service';
+import { Observable, filter, map, of, switchMap, take, tap } from 'rxjs';
+import { AccountStateService } from 'app/services/state/account-state.service';
+import { RoomStateService } from 'app/services/state/room-state.service';
+import { RoomAccess } from 'app/services/persistence/lg/db-room-acces.model';
+import { RoomService } from 'app/services/http/room.service';
+import { KeycloakRoles } from 'app/models/user';
 
 @Injectable()
 export class AuthenticationGuard implements CanActivate {
   constructor(
-    private userManagementService: UserManagementService,
     private router: Router,
-    private sessionService: SessionService,
     private eventService: EventService,
+    private accountState: AccountStateService,
+    private roomState: RoomStateService,
+    private roomService: RoomService,
   ) {}
 
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot,
-  ): boolean {
+  ): Observable<boolean> {
+    this.accountState.forceLogin().subscribe();
+    const roomShortId = route.params.shortId;
+    this.roomState.setRoomShortId(roomShortId);
     const url = decodeURI(state.url);
     if (route.data.superAdmin) {
-      return true;
+      return this.accountState.user$.pipe(
+        filter((v) => Boolean(v)),
+        take(1),
+        map((user) => user.hasRole(KeycloakRoles.AdminDashboard)),
+        tap((v) => !v && this.onNotAllowed()),
+      );
     }
-    const requiredRoles = (route.data['roles'] ?? []) as UserRole[];
-    let wasAllowed = null;
-    wasAllowed = this.sessionService.validateNewRoute(
-      route.params.shortId,
-      this.parseRole(url),
-      requiredRoles,
-      (allowed, redirect) => {
-        if (redirect !== undefined) {
-          this.redirect(redirect, route.url);
-          return;
-        }
-        if (wasAllowed === null) {
-          return;
-        }
-        if (allowed === wasAllowed) {
-          return;
-        }
-        if (!allowed) {
+    const possibleRoles = (route.data['roles'] ?? []) as UserRole[];
+    const wantedRole = this.parseRole(url);
+    return this.accountState.access$.pipe(
+      filter((v) => Boolean(v)),
+      switchMap(() => {
+        const accessRole = this.parseRoomAccess(
+          this.accountState.getAccess(roomShortId),
+        );
+        // User has less rights or wantedRole not in possible
+        if (
+          wantedRole > (accessRole || UserRole.PARTICIPANT) ||
+          !possibleRoles.includes(wantedRole)
+        ) {
+          if (!accessRole) {
+            if (possibleRoles.includes(UserRole.PARTICIPANT)) {
+              return this.updateAccess(roomShortId).pipe(
+                map(() => {
+                  this.redirect(UserRole.PARTICIPANT, route.url);
+                  return false;
+                }),
+              );
+            }
+            this.onNotAllowed();
+            return of(false);
+          }
+          const role = this.findRole(possibleRoles, accessRole);
+          if (role !== null) {
+            this.redirect(role, route.url);
+            return of(false);
+          }
           this.onNotAllowed();
-          return;
+          return of(false);
         }
-        if (wasAllowed !== null) {
-          this.router.navigate([url]);
+        // wantedRole = ok && wantendRole in possible
+        if (!accessRole) {
+          return this.updateAccess(roomShortId).pipe(map(() => true));
         }
-      },
+        return of(true);
+      }),
     );
-    if (!wasAllowed) {
-      this.onNotAllowed();
+  }
+
+  private findRole(roles: UserRole[], ownRole: UserRole) {
+    let highestRole = null;
+    for (const role of roles) {
+      if (role > ownRole) {
+        continue;
+      }
+      if (highestRole == null || highestRole < role) {
+        highestRole = role;
+      }
     }
-    return wasAllowed;
+    return highestRole;
+  }
+
+  private updateAccess(roomShortId: string) {
+    return this.roomState.room$
+      .pipe(
+        filter((v) => Boolean(v)),
+        take(1),
+      )
+      .pipe(
+        switchMap((room) => {
+          if (room.shortId !== roomShortId) {
+            return of();
+          }
+          this.roomService.addToHistory(room.id);
+          return this.accountState.setAccess(
+            roomShortId,
+            room.id,
+            UserRole.PARTICIPANT,
+          );
+        }),
+      );
+  }
+
+  private parseRoomAccess(roomAccess: RoomAccess): UserRole {
+    if (!roomAccess) {
+      return null;
+    }
+    if (roomAccess.role === 'Creator') return UserRole.CREATOR;
+    if (roomAccess.role === 'Moderator') return UserRole.EXECUTIVE_MODERATOR;
+    return UserRole.PARTICIPANT;
   }
 
   private redirect(role: UserRole, segments: UrlSegment[]) {

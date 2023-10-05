@@ -44,7 +44,7 @@
     <mat-icon class="searchBarIcon red">close</mat-icon>
   </button>
   <mat-label
-    *ngIf="deviceInfo.isCurrentlyDesktop"
+    *ngIf="!isMobile"
     fxLayoutAlign="center center">
     <mat-icon class="search-icon">search</mat-icon>
   </mat-label>
@@ -53,9 +53,9 @@
     #searchBox
     id="searchBox"
     [ngClass]="{
-      'desktop-input': deviceInfo.isCurrentlyDesktop,
-      'mobile-input': deviceInfo.isCurrentlyMobile && !search,
-      'mobile-input-2': deviceInfo.isCurrentlyMobile && search
+      'desktop-input': !isMobile,
+      'mobile-input': isMobile && !search,
+      'mobile-input-2': isMobile && search
     }"
     (input)="searchComments()"
     [(ngModel)]="searchString"
@@ -82,12 +82,7 @@
       mat-icon-button
       class="searchBarButton"
       (click)="resetFiltering(); activateSearch()"
-      *ngIf="
-        deviceInfo.isCurrentlyMobile &&
-        !search &&
-        comments &&
-        comments.length > 0
-      ">
+      *ngIf="isMobile && !search && comments && comments.length > 0">
       <mat-icon class="searchBarIcon">search</mat-icon>
     </button>
 

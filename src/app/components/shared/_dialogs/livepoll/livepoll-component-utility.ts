@@ -1,10 +1,10 @@
-import { LanguageService } from '../../../../services/util/language.service';
 import { ReplaySubject, takeUntil } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { LivepollTemplateContext } from '../../../../models/livepoll-template';
 import { LivepollOptionEntry } from './livepoll-dialog/livepoll-dialog.component';
+import { AppStateService } from 'app/services/state/app-state.service';
 
 const animateOpen = {
   opacity: 1,
@@ -37,22 +37,19 @@ export class LivepollComponentUtility {
     ]),
   ];
   static initLanguage(
-    languageService: LanguageService,
+    appState: AppStateService,
     translationService: TranslateService,
     http: HttpClient,
     _destroyer: ReplaySubject<any>,
   ) {
-    languageService
-      .getLanguage()
-      .pipe(takeUntil(_destroyer))
-      .subscribe((lang) => {
-        translationService.use(lang);
-        http
-          .get('/assets/i18n/livepoll/' + lang + '.json')
-          .subscribe((translation) => {
-            translationService.setTranslation(lang, translation, true);
-          });
-      });
+    appState.language$.pipe(takeUntil(_destroyer)).subscribe((lang) => {
+      translationService.use(lang);
+      http
+        .get('/assets/i18n/livepoll/' + lang + '.json')
+        .subscribe((translation) => {
+          translationService.setTranslation(lang, translation, true);
+        });
+    });
   }
 
   static initTemplate(target: TemplateTarget) {

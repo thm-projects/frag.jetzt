@@ -1,5 +1,4 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { DeviceInfoService } from '../../../../../services/util/device-info.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 export enum ConfirmDialogType {
@@ -30,7 +29,6 @@ export class LivepollConfirmationDialogComponent implements OnInit {
   protected readonly ConfirmDialogAction = ConfirmDialogAction;
 
   constructor(
-    public readonly device: DeviceInfoService,
     public readonly matDialogRef: MatDialogRef<
       LivepollConfirmationDialogComponent,
       ConfirmDialogAction

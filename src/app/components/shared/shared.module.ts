@@ -17,7 +17,6 @@ import { LoginComponent } from './login/login.component';
 import { CommentComponent } from './comment/comment.component';
 import { CreateCommentComponent } from './_dialogs/create-comment/create-comment.component';
 import { PresentCommentComponent } from './_dialogs/present-comment/present-comment.component';
-import { DeleteAccountComponent } from './_dialogs/delete-account/delete-account.component';
 import { DialogActionButtonsComponent } from './dialog/dialog-action-buttons/dialog-action-buttons.component';
 import { QrCodeDialogComponent } from './_dialogs/qr-code-dialog/qr-code-dialog.component';
 import { ArsModule } from '../../../../projects/ars/src/lib/ars.module';
@@ -101,7 +100,6 @@ import { IntroductionRoomListFRComponent } from '../../../assets/i18n/components
 import { IntroductionRoomPageFRComponent } from '../../../assets/i18n/components/_dialogs/introductions/introduction-room-page/introduction-room-page-fr.component';
 import { IntroductionTagCloudFRComponent } from '../../../assets/i18n/components/_dialogs/introductions/introduction-tag-cloud/introduction-tag-cloud-fr.component';
 import { CommentResponseViewComponent } from './comment-response-view/comment-response-view.component';
-import { LanguageService } from '../../services/util/language.service';
 import { TranslateService } from '@ngx-translate/core';
 import { UIRegistrationComponent } from './uiregistration/uiregistration.component';
 import { PseudonymEditorComponent } from './_dialogs/pseudonym-editor/pseudonym-editor.component';
@@ -150,6 +148,7 @@ import { ChatGPTBrainstormComponent } from './_dialogs/chat-gptbrainstorm/chat-g
 import { GPTConversationOverviewComponent } from './_dialogs/gptconversation-overview/gptconversation-overview.component';
 import { LivepollPeerInstructionWindowComponent } from './_dialogs/livepoll/livepoll-peer-instruction/livepoll-peer-instruction-window/livepoll-peer-instruction-window.component';
 import { LivepollPeerInstructionComparisonComponent } from './_dialogs/livepoll/livepoll-peer-instruction/livepoll-peer-instruction-comparison/livepoll-peer-instruction-comparison.component';
+import { AppStateService } from 'app/services/state/app-state.service';
 
 @NgModule({
   imports: [
@@ -187,7 +186,6 @@ import { LivepollPeerInstructionComparisonComponent } from './_dialogs/livepoll/
     CommentComponent,
     CreateCommentComponent,
     PresentCommentComponent,
-    DeleteAccountComponent,
     DialogActionButtonsComponent,
     QrCodeDialogComponent,
     RemoveFromHistoryComponent,
@@ -337,10 +335,10 @@ import { LivepollPeerInstructionComparisonComponent } from './_dialogs/livepoll/
 })
 export class SharedModule {
   constructor(
-    private languageService: LanguageService,
     private translateService: TranslateService,
+    appState: AppStateService,
   ) {
-    this.languageService.getLanguage().subscribe((lang) => {
+    appState.language$.subscribe((lang) => {
       this.translateService.use(lang);
     });
   }

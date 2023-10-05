@@ -433,7 +433,6 @@
     "header": "Se connecter",
     "input-incorrect": "Vérifie tes données, s'il te plaît.",
     "login": "Se connecter avec un compte",
-    "login-data-incorrect": "E-mail ou mot de passe incorrect",
     "login-data-expired": "Ton mot de passe a expiré, demande-en un nouveau.",
     "guest-expired": "Le compte d'invité a expiré, veuillez réessayer.",
     "login-error-unknown": "Erreur inconnue: {{code}}",

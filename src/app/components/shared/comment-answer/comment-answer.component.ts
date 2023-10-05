@@ -9,7 +9,6 @@ import {
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { LanguageService } from '../../../services/util/language.service';
 import { CommentService } from '../../../services/http/comment.service';
 import { UserRole } from '../../../models/user-roles.enum';
 import { NotificationService } from '../../../services/util/notification.service';
@@ -34,10 +33,10 @@ import { KeywordExtractor } from '../../../utils/keyword-extractor';
 import { StandardDelta } from '../../../utils/quill-utils';
 import { Comment } from '../../../models/comment';
 import { ResponseViewInformation } from '../comment-response-view/comment-response-view.component';
-import { UserManagementService } from '../../../services/util/user-management.service';
 import { EditQuestionComponent } from '../_dialogs/edit-question/edit-question.component';
 import { CreateCommentWrapper } from 'app/utils/create-comment-wrapper';
 import { ComponentEvent, sendSyncEvent } from 'app/utils/component-events';
+import { AccountStateService } from 'app/services/state/account-state.service';
 
 @Component({
   selector: 'app-comment-answer',
@@ -76,8 +75,6 @@ export class CommentAnswerComponent
     protected route: ActivatedRoute,
     private notificationService: NotificationService,
     private translateService: TranslateService,
-    protected langService: LanguageService,
-    private userManagementService: UserManagementService,
     protected commentService: CommentService,
     private roomDataService: RoomDataService,
     public dialog: MatDialog,
@@ -88,6 +85,7 @@ export class CommentAnswerComponent
     private location: Location,
     private composeService: ArsComposeService,
     private headerService: HeaderService,
+    private accountState: AccountStateService,
     injector: Injector,
   ) {
     this._keywordExtractor = new KeywordExtractor(injector);
@@ -98,8 +96,7 @@ export class CommentAnswerComponent
   }
 
   ngOnInit() {
-    this.userManagementService
-      .getGPTConsentState()
+    this.accountState.gptConsented$
       .pipe(takeUntil(this.destroyer))
       .subscribe((state) => {
         this.consentGPT = state;
@@ -112,11 +109,13 @@ export class CommentAnswerComponent
     this.backUrl = sessionStorage.getItem('conversation-fallback-url');
     this.isConversationView = this.router.url.endsWith('conversation');
     this.initNavigation();
-    this.userManagementService.getUser().subscribe((newUser) => {
-      if (newUser) {
-        this.user = newUser;
-      }
-    });
+    this.accountState.user$
+      .pipe(takeUntil(this.destroyer))
+      .subscribe((newUser) => {
+        if (newUser) {
+          this.user = newUser;
+        }
+      });
     this.sessionService.getRole().subscribe((role) => {
       this.userRole = role;
       switch (this.userRole) {

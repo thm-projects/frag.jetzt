@@ -20,18 +20,14 @@
           [matBadgeHidden]="+change.getList().length < 1">
           <mat-icon>notifications</mat-icon>
         </span>
-        <span
-          *ngIf="deviceInfo.isCurrentlyDesktop && router.url.endsWith('/home')">
+        <span *ngIf="!isMobile && router.url.endsWith('/home')">
           {{ "Dashboard" | translate }}
         </span>
       </button>
       <span class="fill-remaining-space"></span>
     </ng-container>
 
-    <ng-container
-      *ngIf="
-        !this.tourSite && (!this.user || this.deviceInfo.isCurrentlyDesktop)
-      ">
+    <ng-container *ngIf="!this.tourSite && (!this.user || !isMobile)">
       <button
         [matTooltip]="'footer.introduction-button' | translate"
         (click)="showDemo()"
@@ -42,18 +38,14 @@
         class="focus_button"
         mat-button>
         <mat-icon class="material-icons-outlined">summarize</mat-icon>
-        <span *ngIf="deviceInfo.isCurrentlyDesktop">
+        <span *ngIf="!isMobile">
           {{ "footer.demo" | translate }}
         </span>
       </button>
       <span class="fill-remaining-space"></span>
     </ng-container>
 
-    <ng-container
-      *ngIf="
-        this.tourSite &&
-        (!this.user?.loginId || this.deviceInfo.isCurrentlyDesktop)
-      ">
+    <ng-container *ngIf="this.tourSite && (!this.user?.loginId || !isMobile)">
       <button
         [matTooltip]="'footer.help-button' | translate"
         (click)="showCurrentTour()"
@@ -61,7 +53,7 @@
         class="focus_button"
         mat-button>
         <mat-icon class="material-icons-outlined">question_mark</mat-icon>
-        <span *ngIf="deviceInfo.isCurrentlyDesktop">
+        <span *ngIf="!isMobile">
           {{ "footer.help" | translate }}
         </span>
       </button>
@@ -76,7 +68,7 @@
         class="focus_button"
         mat-button>
         <mat-icon>format_color_fill</mat-icon>
-        <span *ngIf="deviceInfo.isCurrentlyDesktop">
+        <span *ngIf="!isMobile">
           {{ "footer.style" | translate }}
         </span>
       </button>
@@ -93,14 +85,14 @@
         id="language-menu"
         mat-button>
         <mat-icon>language</mat-icon>
-        <span *ngIf="deviceInfo.isCurrentlyDesktop">
+        <span *ngIf="!isMobile">
           {{ "footer.language" | translate }}
         </span>
       </button>
       <span class="fill-remaining-space"></span>
     </ng-container>
 
-    <ng-container *ngIf="deviceInfo.isCurrentlyDesktop">
+    <ng-container *ngIf="!isMobile">
       <button
         [matTooltip]="'footer.gdpr-button' | translate"
         (click)="showDataProtection()"
@@ -115,7 +107,7 @@
       <span class="fill-remaining-space"></span>
     </ng-container>
 
-    <ng-container *ngIf="deviceInfo.isCurrentlyDesktop">
+    <ng-container *ngIf="!isMobile">
       <button
         [matTooltip]="'footer.imprint-button' | translate"
         (click)="showImprint()"
@@ -129,7 +121,7 @@
       </button>
     </ng-container>
 
-    <ng-container *ngIf="!deviceInfo.isCurrentlyDesktop">
+    <ng-container *ngIf="isMobile">
       <button
         [matTooltip]="'footer.options-button' | translate"
         class="focus_button"
@@ -241,8 +233,8 @@
         class="btnColorIcon">
         <div
           [ngClass]="{
-            checked_true: theme.key === themeService.activeTheme.key,
-            checked_false: theme.key !== themeService.activeTheme.key
+            checked_true: theme.key === themeService.activeTheme?.key,
+            checked_false: theme.key !== themeService.activeTheme?.key
           }"
           class="checked">
           <mat-icon
@@ -260,7 +252,7 @@
       <div class="btnAppend">
         <div class="title">
           <p class="title_bold">
-            {{ theme.getName(langService.currentLanguage()) }}
+            {{ theme.getName(currentLanguage) }}
           </p>
         </div>
       </div>

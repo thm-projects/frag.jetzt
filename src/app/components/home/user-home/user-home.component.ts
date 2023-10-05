@@ -21,8 +21,9 @@ import { RatingResult } from '../../../models/rating-result';
 import { HeaderService } from '../../../services/util/header.service';
 import { ArsComposeService } from '../../../../../projects/ars/src/lib/services/ars-compose.service';
 import { AppRatingComponent } from '../../shared/app-rating/app-rating.component';
-import { UserManagementService } from '../../../services/util/user-management.service';
 import { SessionService } from '../../../services/util/session.service';
+import { AccountStateService } from 'app/services/state/account-state.service';
+import { ReplaySubject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-user-home',
@@ -39,11 +40,12 @@ export class UserHomeComponent implements OnInit, OnDestroy, AfterContentInit {
   listenerFn: () => void;
   accumulatedRatings: RatingResult = undefined;
   private _list: ComponentRef<any>[];
+  private destroyer = new ReplaySubject(1);
 
   constructor(
     public dialog: MatDialog,
     private translateService: TranslateService,
-    private userManagementService: UserManagementService,
+    private accountState: AccountStateService,
     private eventService: EventService,
     private liveAnnouncer: LiveAnnouncer,
     private _r: Renderer2,
@@ -60,25 +62,28 @@ export class UserHomeComponent implements OnInit, OnDestroy, AfterContentInit {
   }
 
   ngOnInit() {
-    this.userManagementService.getUser().subscribe((newUser) => {
-      this.user = newUser;
-      if (
-        this.fetchedRating === undefined &&
-        this.user !== undefined &&
-        this.user !== null
-      ) {
-        this.fetchedRating = null;
-        this.ratingService.getByAccountId(this.user.id).subscribe((r) => {
-          if (r !== null) {
-            this.onRate(r);
-          } else if (!this.canRate) {
-            this.onRate(new Rating(this.user.id, 0));
-          } else {
-            this.loadingRatings = false;
-          }
-        });
-      }
-    });
+    this.accountState
+      .forceLogin()
+      .pipe(takeUntil(this.destroyer))
+      .subscribe((newUser) => {
+        this.user = newUser;
+        if (
+          this.fetchedRating === undefined &&
+          this.user !== undefined &&
+          this.user !== null
+        ) {
+          this.fetchedRating = null;
+          this.ratingService.getByAccountId(this.user.id).subscribe((r) => {
+            if (r !== null) {
+              this.onRate(r);
+            } else if (!this.canRate) {
+              this.onRate(new Rating(this.user.id, 0));
+            } else {
+              this.loadingRatings = false;
+            }
+          });
+        }
+      });
     this.listenerFn = this._r.listen(document, 'keyup', (event) => {
       if (
         KeyboardUtils.isKeyEvent(event, KeyboardKey.Digit1) === true &&
@@ -109,6 +114,8 @@ export class UserHomeComponent implements OnInit, OnDestroy, AfterContentInit {
   }
 
   ngOnDestroy() {
+    this.destroyer.next(true);
+    this.destroyer.complete();
     this._list?.forEach((e) => e.destroy());
     this.listenerFn();
   }

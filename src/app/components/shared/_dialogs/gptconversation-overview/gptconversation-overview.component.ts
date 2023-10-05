@@ -4,7 +4,7 @@ import {
   GPTConversation,
   GPTConversationService,
 } from 'app/services/http/gptconversation.service';
-import { LanguageService } from 'app/services/util/language.service';
+import { AppStateService } from 'app/services/state/app-state.service';
 
 @Component({
   selector: 'app-gptconversation-overview',
@@ -28,7 +28,7 @@ export class GPTConversationOverviewComponent implements OnInit {
   constructor(
     private ref: MatDialogRef<GPTConversationOverviewComponent>,
     private gptConversation: GPTConversationService,
-    private languageService: LanguageService,
+    private appState: AppStateService,
   ) {}
 
   static open(dialog: MatDialog, roomId: string, id: string) {
@@ -77,7 +77,7 @@ export class GPTConversationOverviewComponent implements OnInit {
 
   transformDate(conversation: GPTConversation) {
     const date = conversation.updatedAt || conversation.createdAt;
-    return date.toLocaleString(this.languageService.currentLanguage());
+    return date.toLocaleString(this.appState.getCurrentLanguage());
   }
 
   transformLastMessage(conversation: GPTConversation) {
