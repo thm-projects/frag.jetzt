@@ -93,7 +93,7 @@ export class LivepollDialogRequest extends ServiceRequest<
   LivepollDialogResponse
 > {
   constructor(
-    public readonly dialog: 'dialog' | 'create' | 'summary',
+    public readonly dialog: 'dialog' | 'create' | 'summary' | 'comparison',
     public readonly config: MatDialogConfig<unknown>,
   ) {
     super(LivepollDialogRequest, LivepollDialogResponse);

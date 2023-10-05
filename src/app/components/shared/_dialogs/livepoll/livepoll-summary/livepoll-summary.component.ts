@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { LivepollSession } from '../../../../../models/livepoll-session';
 import { SessionService } from '../../../../../services/util/session.service';
 import { LivepollComponentUtility } from '../livepoll-component-utility';
@@ -9,11 +9,12 @@ import {
 } from '../../../../../models/livepoll-template';
 import { LivepollOptionEntry } from '../livepoll-dialog/livepoll-dialog.component';
 import { LivepollService } from '../../../../../services/http/livepoll.service';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-livepoll-summary',
   templateUrl: './livepoll-summary.component.html',
-  styleUrls: ['./livepoll-summary.component.scss'],
+  styleUrls: ['./livepoll-summary.component.scss', '../livepoll-common.scss'],
 })
 export class LivepollSummaryComponent implements OnInit {
   public votes: number[];
@@ -21,13 +22,20 @@ export class LivepollSummaryComponent implements OnInit {
   public rowHeight: number;
   public options: LivepollOptionEntry[] | undefined;
   public readonly translateKey: string = 'common';
+  public readonly livepollSession: LivepollSession;
 
   constructor(
     public readonly session: SessionService,
     public readonly livepollService: LivepollService,
-    @Inject(MAT_DIALOG_DATA) public readonly livepollSession: LivepollSession,
+    public readonly matDialogRef: MatDialogRef<LivepollSummaryComponent>,
+    @Inject(MAT_DIALOG_DATA)
+    public readonly data: {
+      peerInstruction: boolean;
+      livepollSession: LivepollSession;
+    },
   ) {
-    this.template = templateEntries[livepollSession.template];
+    this.livepollSession = data.livepollSession;
+    this.template = templateEntries[this.livepollSession.template];
   }
 
   get totalVotes(): number {
@@ -45,5 +53,13 @@ export class LivepollSummaryComponent implements OnInit {
           this.votes[i] = results[i];
         }
       });
+  }
+
+  protected startPeerInstruction2ndPhase() {
+    this.matDialogRef.close(true);
+  }
+
+  protected abortPeerInstruction() {
+    this.matDialogRef.close(false);
   }
 }

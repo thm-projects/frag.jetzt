@@ -27,8 +27,12 @@ import {
   MatDialog,
   MatDialogRef,
 } from '@angular/material/dialog';
-import { LivepollConfirmationDialogComponent } from '../livepoll-confirmation-dialog/livepoll-confirmation-dialog.component';
-import { take } from 'rxjs/operators';
+import {
+  ConfirmDialogAction,
+  ConfirmDialogType,
+  LivepollConfirmationDialogComponent,
+} from '../livepoll-confirmation-dialog/livepoll-confirmation-dialog.component';
+import { map, take } from 'rxjs/operators';
 import { LivepollVote } from '../../../../../models/livepoll-vote';
 import { WsLivepollService } from '../../../../../services/websockets/ws-livepoll.service';
 import { NotificationService } from '../../../../../services/util/notification.service';
@@ -38,6 +42,13 @@ import { prettyPrintDate } from 'app/utils/date';
 import { RoomDataService } from '../../../../../services/util/room-data.service';
 import { DeviceStateService } from 'app/services/state/device-state.service';
 import { AppStateService } from 'app/services/state/app-state.service';
+import { LivepollPeerInstructionWindowComponent } from '../livepoll-peer-instruction/livepoll-peer-instruction-window/livepoll-peer-instruction-window.component';
+
+export enum PeerInstructionPhase {
+  Undefined,
+  FirstPass,
+  SecondPass,
+}
 
 export interface LivepollDialogInjectionData {
   session: LivepollSession;
@@ -49,6 +60,7 @@ export type LivepollDialogResponseReason =
   | 'delete'
   | 'reset'
   | 'closedAsParticipant'
+  | 'peerInstructionPhase1'
   | 'closedAsCreator';
 
 export interface LivepollDialogResponseData {
@@ -89,6 +101,7 @@ export class LivepollDialogComponent
   public rowHeight: number;
   public archive: LivepollSession[];
   public participantCount: string = '0';
+  protected is2ndPhasePeerInstruction: boolean = false;
   private voteQuery: number = -1;
   private _destroyer = new ReplaySubject(1);
   private lastSession: LivepollSession;
@@ -113,6 +126,12 @@ export class LivepollDialogComponent
       this.isProduction = data.isProduction;
       this.lastSession = clone(this.livepollSession) as LivepollSession;
       this.template = templateEntries[this.livepollSession.template];
+      const relation = this.livepollService.getPeerInstructionRelation(
+        this.livepollSession,
+      );
+      if (relation && relation[1] === this.livepollSession.id) {
+        this.is2ndPhasePeerInstruction = true;
+      }
     }
     deviceState.mobile$
       .pipe(takeUntil(this._destroyer))
@@ -214,6 +233,10 @@ export class LivepollDialogComponent
   }
 
   public save() {
+    this.saveCallback().pipe(take(1)).subscribe();
+  }
+
+  public saveCallback(): Observable<LivepollSession> {
     const data: Partial<LivepollSessionPatchAPI> = {};
     if (this.lastSession.active !== this.livepollSession.active) {
       data.active = this.livepollSession.active;
@@ -230,9 +253,9 @@ export class LivepollDialogComponent
     if (Object.keys(data).length < 1) {
       return;
     }
-    this.livepollService
+    return this.livepollService
       .update(this.livepollSession.id, data)
-      .subscribe((d) => (this.lastSession = d));
+      .pipe(map((d) => (this.lastSession = d)));
   }
 
   public pause() {
@@ -279,12 +302,13 @@ export class LivepollDialogComponent
 
   public close(reason: LivepollDialogResponseReason) {
     switch (reason) {
+      // delete: 'End poll'
       case 'delete':
         this.createConfirmationDialog(
           'dialog-confirm-delete-title',
           'dialog-confirm-delete-description',
         ).subscribe((x) => {
-          if (x) {
+          if (x === ConfirmDialogAction.Accept) {
             this.dialogRef.close({
               session: this.livepollSession,
               reason,
@@ -297,7 +321,7 @@ export class LivepollDialogComponent
           'dialog-confirm-create-new-title',
           'dialog-confirm-create-new-description',
         ).subscribe((x) => {
-          if (x) {
+          if (x === ConfirmDialogAction.Accept) {
             this.dialogRef.close({
               session: this.livepollSession,
               reason,
@@ -372,6 +396,24 @@ export class LivepollDialogComponent
     return prettyPrintDate(createdAt, this.appState.getCurrentLanguage());
   }
 
+  openPeerInstruction() {
+    const dialogRef = this.dialog.open(LivepollPeerInstructionWindowComponent, {
+      data: {
+        windowContext: {
+          is2ndPhasePeerInstruction: this.is2ndPhasePeerInstruction,
+        },
+      },
+    });
+    dialogRef.afterClosed().subscribe((x: boolean) => {
+      if (x) {
+        this.dialogRef.close({
+          session: this.livepollSession,
+          reason: 'peerInstructionPhase1',
+        });
+      }
+    });
+  }
+
   private parseWebSocketStream(type: string, payload: any, id?: UUID) {
     switch (type) {
       case 'LivepollResult':
@@ -414,9 +456,13 @@ export class LivepollDialogComponent
   private createConfirmationDialog(
     title: string,
     text: string,
-  ): Observable<boolean> {
+    type: ConfirmDialogType = ConfirmDialogType.AcceptCancel,
+  ): Observable<ConfirmDialogAction> {
     const dialog = this.dialog.open(LivepollConfirmationDialogComponent, {
       width: '500px',
+      data: {
+        type,
+      },
     });
     dialog.componentInstance.titleRef = title;
     dialog.componentInstance.textRef = text;

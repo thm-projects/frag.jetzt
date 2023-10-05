@@ -146,6 +146,8 @@ import { UtilityStyleTestComponent } from './utility/style/utility-style-test/ut
 import { CommentA11yElementsComponent } from './comment/comment-a11y-elements/comment-a11y-elements.component';
 import { ChatGPTBrainstormComponent } from './_dialogs/chat-gptbrainstorm/chat-gptbrainstorm.component';
 import { GPTConversationOverviewComponent } from './_dialogs/gptconversation-overview/gptconversation-overview.component';
+import { LivepollPeerInstructionWindowComponent } from './_dialogs/livepoll/livepoll-peer-instruction/livepoll-peer-instruction-window/livepoll-peer-instruction-window.component';
+import { LivepollPeerInstructionComparisonComponent } from './_dialogs/livepoll/livepoll-peer-instruction/livepoll-peer-instruction-comparison/livepoll-peer-instruction-comparison.component';
 import { AppStateService } from 'app/services/state/app-state.service';
 
 @NgModule({
@@ -296,6 +298,8 @@ import { AppStateService } from 'app/services/state/app-state.service';
     CommentA11yElementsComponent,
     ChatGPTBrainstormComponent,
     GPTConversationOverviewComponent,
+    LivepollPeerInstructionWindowComponent,
+    LivepollPeerInstructionComparisonComponent,
   ],
   exports: [
     RoomJoinComponent,

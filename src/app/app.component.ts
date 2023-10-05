@@ -32,6 +32,7 @@ import { UpdateInfoDialogComponent } from './components/home/_dialogs/update-inf
 import { LivepollDialogComponent } from './components/shared/_dialogs/livepoll/livepoll-dialog/livepoll-dialog.component';
 import { LivepollCreateComponent } from './components/shared/_dialogs/livepoll/livepoll-create/livepoll-create.component';
 import { LivepollSummaryComponent } from './components/shared/_dialogs/livepoll/livepoll-summary/livepoll-summary.component';
+import { LivepollPeerInstructionComparisonComponent } from './components/shared/_dialogs/livepoll/livepoll-peer-instruction/livepoll-peer-instruction-comparison/livepoll-peer-instruction-comparison.component';
 import { CookiesComponent } from './components/home/_dialogs/cookies/cookies.component';
 import { Observable, of } from 'rxjs';
 import { OverlayComponent } from './components/home/_dialogs/overlay/overlay.component';
@@ -196,6 +197,18 @@ export class AppComponent implements OnInit {
             new LivepollDialogResponse(
               req,
               this.dialog.open(LivepollSummaryComponent, req.config),
+            ),
+          );
+          break;
+        case 'comparison':
+          sendEvent(
+            this.eventService,
+            new LivepollDialogResponse(
+              req,
+              this.dialog.open(
+                LivepollPeerInstructionComparisonComponent,
+                req.config,
+              ),
             ),
           );
           break;
