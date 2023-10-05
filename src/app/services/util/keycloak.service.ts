@@ -64,6 +64,12 @@ export class KeycloakService {
     this.keycloak.accountManagement();
   }
 
+  redirectLogout() {
+    this.keycloak.logout({
+      redirectUri: location.origin + '/home',
+    });
+  }
+
   doKeycloakLogin(
     keycloakId: UUID,
     force: boolean,

@@ -386,19 +386,7 @@ export class AccountStateService {
         switchMap((cfg) => {
           if (!isGuest) {
             this.initialized = true;
-            let token;
-            let refreshToken;
-            if (cfg?.value) {
-              const user = cfg.value as User;
-              token = user.keycloakToken || undefined;
-              refreshToken = user.keycloakRefreshToken || undefined;
-            }
-            return this.doKeycloakLogin(
-              value as UUID,
-              false,
-              token,
-              refreshToken,
-            ).pipe(
+            return this.doKeycloakLogin(value as UUID, false).pipe(
               switchMap((data) => {
                 if (data) {
                   return of(data);
@@ -426,19 +414,33 @@ export class AccountStateService {
   private doKeycloakLogin(
     keycloakId: UUID,
     redirectUser: boolean,
-    token: string = undefined,
-    refreshToken: string = undefined,
   ): Observable<User> {
-    return this.setLoggedIn(keycloakId).pipe(
-      switchMap(() =>
+    return forkJoin([
+      this.dbConfig.get('logged-in'),
+      this.dbConfig.get('account-registered'),
+    ]).pipe(
+      switchMap(([loggedCfg, accCfg]) => {
+        if (loggedCfg?.value !== keycloakId) {
+          return forkJoin([
+            this.setLoggedIn(keycloakId),
+            this.dbConfig.delete('account-registered'),
+          ]).pipe(map(() => ({ token: undefined, refreshToken: undefined })));
+        }
+        const user = accCfg?.value as User;
+        return of({
+          token: user?.keycloakToken,
+          refreshToken: user?.keycloakRefreshToken,
+        });
+      }),
+      switchMap((data) =>
         this.keycloak.doKeycloakLogin(
           keycloakId,
           redirectUser,
           this.appState.getCurrentLanguage(),
           (newToken) => this.updateToken(newToken),
           redirectUser ? location.origin + '/user' : location.href,
-          token,
-          refreshToken,
+          data?.token,
+          data?.refreshToken,
         ),
       ),
       switchMap((data) => {
