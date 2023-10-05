@@ -23,6 +23,7 @@ export interface TokenReturn {
   token: string;
   refreshToken: string;
   keycloakId: UUID;
+  roles: string[];
 }
 
 @Injectable({
@@ -119,6 +120,7 @@ export class KeycloakService {
               token: this.keycloak.token,
               refreshToken: this.keycloak.refreshToken,
               keycloakId: this.activeProvider$.value.id,
+              roles: this.keycloak.tokenParsed?.realm_access?.roles || [],
             } as TokenReturn;
           }
           return null;
@@ -223,6 +225,7 @@ export class KeycloakService {
       token: this.keycloak.token,
       refreshToken: this.keycloak.refreshToken,
       keycloakId: this.activeProvider$.value.id,
+      roles: this.keycloak.tokenParsed?.realm_access?.roles || [],
     });
   }
 }

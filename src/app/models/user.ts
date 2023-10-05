@@ -1,5 +1,10 @@
-import { UUID } from 'app/utils/ts-utils';
+import { FieldsOf, UUID } from 'app/utils/ts-utils';
 import { UserRole } from './user-roles.enum';
+
+export enum KeycloakRoles {
+  AdminDashboard = 'admin-dashboard',
+  AdminAllRoomsOwner = 'admin-all-rooms-owner',
+}
 
 export class User {
   id: UUID;
@@ -10,6 +15,7 @@ export class User {
   keycloakRefreshToken: string;
   role: UserRole;
   isGuest: boolean;
+  keycloakRoles: string[];
 
   constructor({
     id = null,
@@ -18,16 +24,22 @@ export class User {
     token = null,
     keycloakToken = null,
     keycloakRefreshToken = null,
+    keycloakRoles = [],
     role = UserRole.PARTICIPANT,
     isGuest = true,
-  }: Partial<User>) {
+  }: Partial<FieldsOf<User>>) {
     this.id = id;
     this.loginId = loginId;
     this.type = type;
     this.token = token;
     this.keycloakToken = keycloakToken;
     this.keycloakRefreshToken = keycloakRefreshToken;
+    this.keycloakRoles = keycloakRoles;
     this.role = role;
     this.isGuest = isGuest;
+  }
+
+  hasRole(role: KeycloakRoles) {
+    return this.keycloakRoles.includes(role);
   }
 }

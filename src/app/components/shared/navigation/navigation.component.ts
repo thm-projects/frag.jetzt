@@ -412,7 +412,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
       isCurrentRoute: () => false,
       canBeAccessedOnRoute: () => Boolean(this.accountState.getCurrentUser()),
       navigate: () => {
-        this.accountState.logout();
+        this.accountState.logout().subscribe();
       },
     },
   ];

@@ -9,11 +9,12 @@ import {
 
 import { UserRole } from '../models/user-roles.enum';
 import { EventService } from 'app/services/util/event.service';
-import { Observable, filter, map, of, switchMap, take } from 'rxjs';
+import { Observable, filter, map, of, switchMap, take, tap } from 'rxjs';
 import { AccountStateService } from 'app/services/state/account-state.service';
 import { RoomStateService } from 'app/services/state/room-state.service';
 import { RoomAccess } from 'app/services/persistence/lg/db-room-acces.model';
 import { RoomService } from 'app/services/http/room.service';
+import { KeycloakRoles } from 'app/models/user';
 
 @Injectable()
 export class AuthenticationGuard implements CanActivate {
@@ -34,7 +35,12 @@ export class AuthenticationGuard implements CanActivate {
     this.roomState.setRoomShortId(roomShortId);
     const url = decodeURI(state.url);
     if (route.data.superAdmin) {
-      return of(true);
+      return this.accountState.user$.pipe(
+        filter((v) => Boolean(v)),
+        take(1),
+        map((user) => user.hasRole(KeycloakRoles.AdminDashboard)),
+        tap((v) => !v && this.onNotAllowed()),
+      );
     }
     const possibleRoles = (route.data['roles'] ?? []) as UserRole[];
     const wantedRole = this.parseRole(url);

@@ -219,6 +219,7 @@ export class AccountStateService {
           }
           user.keycloakToken = keycloakToken.token;
           user.keycloakRefreshToken = keycloakToken.refreshToken;
+          user.keycloakRoles = keycloakToken.roles;
           return this.dbConfig.createOrUpdate({
             key: 'account-registered',
             value: user,
@@ -414,7 +415,7 @@ export class AccountStateService {
           return this.authService.refreshLoginWithToken(user.token).pipe(
             switchMap((auth) => {
               this.initialized = true;
-              return of(this.fromAuth(auth, null, null));
+              return of(this.fromAuth(auth, null));
             }),
             catchError(() => this.loginAsGuest(false)),
           );
@@ -432,7 +433,7 @@ export class AccountStateService {
       switchMap(() =>
         this.keycloak.doKeycloakLogin(
           keycloakId,
-          true,
+          redirectUser,
           this.appState.getCurrentLanguage(),
           (newToken) => this.updateToken(newToken),
           redirectUser ? location.origin + '/user' : location.href,
@@ -453,9 +454,7 @@ export class AccountStateService {
     return this.authService
       .login(tokenReturn.token, tokenReturn.keycloakId)
       .pipe(
-        map((auth) =>
-          this.fromAuth(auth, tokenReturn.token, tokenReturn.refreshToken),
-        ),
+        map((auth) => this.fromAuth(auth, tokenReturn)),
         switchMap((user) =>
           forkJoin([
             this.dbConfig.createOrUpdate({
@@ -476,7 +475,7 @@ export class AccountStateService {
 
   private loginAsGuest(navigate: boolean) {
     return this.authService.loginAsGuest().pipe(
-      map((auth) => this.fromAuth(auth, null, null)),
+      map((auth) => this.fromAuth(auth, null)),
       switchMap((user) =>
         forkJoin([
           this.dbConfig.createOrUpdate({ key: 'account-guest', value: user }),
@@ -496,18 +495,15 @@ export class AccountStateService {
     return this.dbConfig.createOrUpdate({ key: 'logged-in', value });
   }
 
-  private fromAuth(
-    auth: ClientAuthentication,
-    keycloakToken: string,
-    keycloakRefreshToken: string,
-  ) {
+  private fromAuth(auth: ClientAuthentication, keycloakData: TokenReturn) {
     return new User({
       id: auth.credentials as UUID,
       loginId: auth.name,
       type: auth.type,
       token: auth.details,
-      keycloakToken,
-      keycloakRefreshToken,
+      keycloakToken: keycloakData?.token,
+      keycloakRefreshToken: keycloakData?.refreshToken,
+      keycloakRoles: keycloakData?.roles,
       isGuest: auth.type === 'guest',
     });
   }

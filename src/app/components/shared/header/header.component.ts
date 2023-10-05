@@ -49,7 +49,7 @@ import { LivepollService } from '../../../services/http/livepoll.service';
 import { GptService } from 'app/services/http/gpt.service';
 import { GPTChatInfoComponent } from '../_dialogs/gptchat-info/gptchat-info.component';
 import { KeycloakService } from 'app/services/util/keycloak.service';
-import { User } from 'app/models/user';
+import { KeycloakRoles, User } from 'app/models/user';
 import { DeviceStateService } from 'app/services/state/device-state.service';
 import { ReplaySubject, takeUntil } from 'rxjs';
 import {
@@ -184,6 +184,8 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
       .pipe(takeUntil(this.destroyer))
       .subscribe((newUser) => {
         this.user = newUser;
+        this.isSuperAdmin =
+          this.user?.hasRole?.(KeycloakRoles.AdminDashboard) || false;
       });
 
     let time = new Date();
