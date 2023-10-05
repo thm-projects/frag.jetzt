@@ -13,6 +13,7 @@ const tryDeleteStore = (db: IDBDatabase, store: string) => {
 };
 
 const migrateToNewDb = (db: IDBDatabase, transaction: IDBTransaction) => {
+  tryDeleteStore(db, 'motd');
   tryDeleteStore(db, 'motdRead');
   tryDeleteStore(db, 'roomAccess');
   tryDeleteStore(db, 'localRoomSettings');
