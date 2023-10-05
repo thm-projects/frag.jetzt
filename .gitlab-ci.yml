@@ -7,6 +7,7 @@ stages:
   - codequality
   - build
   - deploy
+  - deploy_servers
 
 install:
   stage: install
@@ -110,23 +111,24 @@ ngbuild:
       - "$BUILD_DIR"
 
 deploy_staging:
-  stage: deploy
+  stage: deploy_servers
   only:
     - staging
   tags:
     - ssh
   dependencies:
-    - eslint
-    - ngbuild
+    - build_image
+  needs:
+    - build_image
   script:
     - eval $(ssh-agent -s)
     - mkdir ~/.ssh
     - ssh-keyscan "$STAGING_SERVER_URL" >> ~/.ssh/known_hosts
-    - ssh-add <(echo "$SSH_PRIVATE_KEY")
-    - scp -r "$BUILD_DIR"* "$STAGING_SSH_URL"
+    - ssh-add <(echo "$STAGING_KEY")
+    - ssh "$STAGING_SSH_URL" < 'frontend:'
 
 deploy_production:
-  stage: deploy
+  stage: deploy_servers
   only:
     - master
   tags:
@@ -141,7 +143,7 @@ deploy_production:
     - scp -r "$BUILD_DIR"* "$SSH_URL"
 
 deploy_frag_thm:
-  stage: deploy
+  stage: deploy_servers
   only:
     - master
   tags:
