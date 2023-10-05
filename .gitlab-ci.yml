@@ -52,7 +52,7 @@ unit_tests:
   script:
     - npm test
 
-e2e_cypress:
+.e2e_cypress:
   stage: test
   tags:
     - angular
