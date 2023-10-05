@@ -1,25 +1,35 @@
-import { Component, OnInit } from '@angular/core';
-import { LanguageService } from '../../../../../services/util/language.service';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
+import { Language } from 'app/services/http/languagetool.service';
+import { AppStateService } from 'app/services/state/app-state.service';
+import { ReplaySubject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-introduction-question-wall',
   templateUrl: './introduction-question-wall.component.html',
-  styleUrls: ['./introduction-question-wall.component.scss']
+  styleUrls: ['./introduction-question-wall.component.scss'],
 })
-export class IntroductionQuestionWallComponent implements OnInit {
+export class IntroductionQuestionWallComponent implements OnInit, OnDestroy {
+  currentLanguage: Language;
+  private destroyer = new ReplaySubject(1);
 
   constructor(
     private dialogRef: MatDialogRef<IntroductionQuestionWallComponent>,
-    public languageService: LanguageService,
+    appState: AppStateService,
   ) {
+    appState.language$
+      .pipe(takeUntil(this.destroyer))
+      .subscribe((lang) => (this.currentLanguage = lang));
   }
 
-  ngOnInit(): void {
+  ngOnInit(): void {}
+
+  ngOnDestroy(): void {
+    this.destroyer.next(true);
+    this.destroyer.complete();
   }
 
   onClose() {
     this.dialogRef.close();
   }
-
 }

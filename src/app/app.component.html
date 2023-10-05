@@ -37,15 +37,11 @@
     id="overlay_rescale"
     aria-hidden="true"
     [ngClass]="{
-      'bottom-before':
-        deviceInfo.isCurrentlyMobile || router.url.endsWith('/brainstorming'),
+      'bottom-before': isMobile || router.url.endsWith('/brainstorming'),
       bottom:
-        rescaleActive &&
-        (deviceInfo.isCurrentlyMobile || router.url.endsWith('/brainstorming')),
+        rescaleActive && (isMobile || router.url.endsWith('/brainstorming')),
       above:
-        rescaleActive &&
-        (deviceInfo.isCurrentlyDesktop &&
-          !router.url.endsWith('/brainstorming'))
+        rescaleActive && !isMobile && !router.url.endsWith('/brainstorming')
     }">
     <button
       mat-icon-button

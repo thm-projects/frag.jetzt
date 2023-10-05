@@ -17,12 +17,12 @@ import { MatRippleModule } from '@angular/material/core';
 import { QRCodeModule } from 'angularx-qrcode';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { NgxMatTimepickerModule } from '@angular-material-components/datetime-picker';
-import { LanguageService } from '../../services/util/language.service';
 import { GptConfigurationComponent } from './gpt-configuration/gpt-configuration.component';
 import { AdminOverviewComponent } from './admin-overview/admin-overview.component';
 import { GptChatComponent } from './gpt-chat/gpt-chat.component';
 import { AdminMailingComponent } from './admin-mailing/admin-mailing.component';
 import { KeycloakProviderComponent } from './keycloak-provider/keycloak-provider.component';
+import { AppStateService } from 'app/services/state/app-state.service';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export const HttpLoaderFactory = (http: HttpClient) =>
@@ -60,10 +60,10 @@ export const HttpLoaderFactory = (http: HttpClient) =>
 })
 export class AdminModule {
   constructor(
-    private languageService: LanguageService,
+    private appState: AppStateService,
     private translateService: TranslateService,
   ) {
-    this.languageService.getLanguage().subscribe((lang) => {
+    this.appState.language$.subscribe((lang) => {
       this.translateService.use(lang);
     });
   }

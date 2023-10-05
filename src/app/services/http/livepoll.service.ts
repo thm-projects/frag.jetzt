@@ -312,7 +312,7 @@ export class LivepollService extends BaseHttpService {
       },
       ...LivepollService.dialogDefaults,
     };
-    callServiceEvent<LivepollDialogResponse, LivepollDialogRequest>(
+    callServiceEvent(
       this.eventService,
       new LivepollDialogRequest('dialog', config),
     ).subscribe((response) => {
@@ -361,7 +361,7 @@ export class LivepollService extends BaseHttpService {
       data: '',
       ...LivepollService.dialogDefaults,
     };
-    callServiceEvent<LivepollDialogResponse, LivepollDialogRequest>(
+    callServiceEvent(
       this.eventService,
       new LivepollDialogRequest('create', config),
     ).subscribe((response) => {
@@ -398,7 +398,7 @@ export class LivepollService extends BaseHttpService {
       this.findByRoomId(livepollSession.roomId).subscribe((sessions) => {
         const first = sessions.filter((x) => x.id === relation[0]);
         if (first && first.length > 0) {
-          callServiceEvent<LivepollDialogResponse, LivepollDialogRequest>(
+          callServiceEvent(
             this.eventService,
             new LivepollDialogRequest('comparison', {
               ...{
@@ -431,7 +431,7 @@ export class LivepollService extends BaseHttpService {
           } as MatDialogConfig),
         },
       };
-      callServiceEvent<LivepollDialogResponse, LivepollDialogRequest>(
+      callServiceEvent(
         this.eventService,
         new LivepollDialogRequest('summary', config),
       ).subscribe((response) => {

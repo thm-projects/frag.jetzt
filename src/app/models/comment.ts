@@ -4,7 +4,7 @@ import { Model } from '../services/http/spacy.interface';
 import { TranslateService } from '@ngx-translate/core';
 import { ImmutableStandardDelta, StandardDelta } from '../utils/quill-utils';
 import { map, Observable, of } from 'rxjs';
-import { UUID, verifyInstance } from 'app/utils/ts-utils';
+import { FieldsOf, UUID, verifyInstance } from 'app/utils/ts-utils';
 
 export class Comment {
   id: UUID;
@@ -63,7 +63,7 @@ export class Comment {
     brainstormingWordId = null,
     approved = false,
     gptWriterState = 0,
-  }: Partial<Comment>) {
+  }: Partial<FieldsOf<Comment>>) {
     this.id = id;
     this.roomId = roomId;
     this.creatorId = creatorId;

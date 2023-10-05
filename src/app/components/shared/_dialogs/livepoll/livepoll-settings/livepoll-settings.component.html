@@ -6,8 +6,7 @@
       </mat-panel-title>
       <mat-panel-description
         [ngClass]="
-          'settings-panel-description-' +
-          (parent.device.isCurrentlyDesktop ? 'desktop' : 'mobile')
+          'settings-panel-description-' + (!isMobile ? 'desktop' : 'mobile')
         ">
         <mat-icon>
           {{ parent.translateKey + ".creator-settings-icon" | translate }}
@@ -18,7 +17,7 @@
       <div class="title-option-container">
         <mat-form-field
           appearance="outline"
-          *ngIf="device.isCurrentlyDesktop">
+          *ngIf="!isMobile">
           <mat-label>
             {{ parent.translateKey + ".option-select-title" | translate }}
           </mat-label>
@@ -27,7 +26,7 @@
             [(ngModel)]="parent.livepollSession.title" />
         </mat-form-field>
         <button
-          [ngStyle]="{ 'flex-grow': device.isCurrentlyDesktop ? '0' : '1' }"
+          [ngStyle]="{ 'flex-grow': !isMobile ? '0' : '1' }"
           mat-flat-button
           class="button-primary"
           (click)="openMarkdownEditor()">

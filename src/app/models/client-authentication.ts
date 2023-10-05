@@ -1,10 +1,10 @@
-import { RoomService } from '../services/http/room.service';
+import { FieldsOf } from 'app/utils/ts-utils';
 
 /* eslint-disable @typescript-eslint/naming-convention */
 export enum RoomAccessRole {
   PARTICIPANT = 'PARTICIPANT',
   EDITING_MODERATOR = 'EDITING_MODERATOR',
-  EXECUTIVE_MODERATOR = 'EXECUTIVE_MODERATOR'
+  EXECUTIVE_MODERATOR = 'EXECUTIVE_MODERATOR',
 }
 
 /* eslint-enable @typescript-eslint/naming-convention */
@@ -25,18 +25,20 @@ export class ClientAuthentication {
   details: string;
   name: string;
   principal: string;
-  roomAccesses: RoomService[];
-  type: ('guest' | 'registered');
+  roomAccesses: RoomAccess[];
+  type: 'guest' | 'registered';
 
-  constructor(accountId: string = null,
-              authenticated: boolean = true,
-              authorities: any[] = [],
-              credentials: string = null,
-              details: string = null,
-              name: string = null,
-              principal: string = null,
-              roomAccesses: RoomService[] = [],
-              type: ('guest' | 'registered') = null) {
+  constructor({
+    accountId = null,
+    authenticated = true,
+    authorities = [],
+    credentials = null,
+    details = null,
+    name = null,
+    principal = null,
+    roomAccesses = [],
+    type = null,
+  }: FieldsOf<ClientAuthentication>) {
     this.accountId = accountId;
     this.authenticated = authenticated;
     this.authorities = authorities;
@@ -47,5 +49,4 @@ export class ClientAuthentication {
     this.roomAccesses = roomAccesses;
     this.type = type;
   }
-
 }

@@ -2,6 +2,7 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
+  OnDestroy,
   OnInit,
   Renderer2,
   ViewChild,
@@ -12,7 +13,6 @@ import { UserRole } from '../../../models/user-roles.enum';
 import { TranslateService } from '@ngx-translate/core';
 import { MatDialog } from '@angular/material/dialog';
 import { LoginComponent } from '../login/login.component';
-import { DeleteAccountComponent } from '../_dialogs/delete-account/delete-account.component';
 import { UserService } from '../../../services/http/user.service';
 import { EventService } from '../../../services/util/event.service';
 import { AppComponent } from '../../../app.component';
@@ -31,17 +31,10 @@ import { OnboardingService } from '../../../services/util/onboarding.service';
 import { ArsComposeHostDirective } from '../../../../../projects/ars/src/lib/compose/ars-compose-host.directive';
 import { ThemeService } from '../../../../theme/theme.service';
 import { SessionService } from '../../../services/util/session.service';
-import { DeviceInfoService } from '../../../services/util/device-info.service';
 import { CommentNotificationService } from '../../../services/http/comment-notification.service';
-import {
-  ManagedUser,
-  UserManagementService,
-} from '../../../services/util/user-management.service';
-import { StartUpService } from '../../../services/util/start-up.service';
 import { BrainstormingDataService } from 'app/services/util/brainstorming-data.service';
 import { Theme } from 'theme/Theme';
 import { MatMenu } from '@angular/material/menu';
-import { Language, LanguageService } from 'app/services/util/language.service';
 import {
   getBrainstormingURL,
   livepollNavigationAccessOnRoute,
@@ -56,18 +49,27 @@ import { LivepollService } from '../../../services/http/livepoll.service';
 import { GptService } from 'app/services/http/gpt.service';
 import { GPTChatInfoComponent } from '../_dialogs/gptchat-info/gptchat-info.component';
 import { KeycloakService } from 'app/services/util/keycloak.service';
+import { KeycloakRoles, User } from 'app/models/user';
+import { DeviceStateService } from 'app/services/state/device-state.service';
+import { ReplaySubject, takeUntil } from 'rxjs';
+import {
+  AppStateService,
+  Language,
+  ThemeKey,
+} from 'app/services/state/app-state.service';
+import { AccountStateService } from 'app/services/state/account-state.service';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
 })
-export class HeaderComponent implements OnInit, AfterViewInit {
+export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(ArsComposeHostDirective) host: ArsComposeHostDirective;
   @ViewChild('toolbarRow') toolbarRow: ElementRef<HTMLElement>;
   @ViewChild('themeMenu') themeMenu: MatMenu;
   @ViewChild('langMenu') languageMenu: MatMenu;
-  user: ManagedUser;
+  user: User;
   userRole: UserRole;
   cTime: string;
   motdState = false;
@@ -85,14 +87,17 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   canOpenGPT = false;
   customOptionText: { key: string; noTranslate?: boolean } = null;
   isSuperAdmin = false;
+  currentLanguage: Language = 'en';
+  isMobile = false;
+  isSafari = false;
   public readonly navigationAccess = {
     livepoll: livepollNavigationAccessOnRoute,
   };
   private _clockCount = 0;
   private shrinkObserver: ShrinkObserver;
+  private destroyer = new ReplaySubject(1);
 
   constructor(
-    public userManagementService: UserManagementService,
     public notificationService: NotificationService,
     public router: Router,
     public translationService: TranslateService,
@@ -108,16 +113,24 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     public themeService: ThemeService,
     public sessionService: SessionService,
     public tagCloudDataService: TagCloudDataService,
-    public deviceInfo: DeviceInfoService,
     private commentNotificationService: CommentNotificationService,
-    private startUpService: StartUpService,
     private brainstormingDataService: BrainstormingDataService,
-    public langService: LanguageService,
     public readonly livepollService: LivepollService,
     private gptService: GptService,
     private route: ActivatedRoute,
     private keycloakService: KeycloakService,
-  ) {}
+    private appState: AppStateService,
+    private accountState: AccountStateService,
+    deviceState: DeviceStateService,
+  ) {
+    this.appState.language$
+      .pipe(takeUntil(this.destroyer))
+      .subscribe((lang) => (this.currentLanguage = lang));
+    deviceState.mobile$
+      .pipe(takeUntil(this.destroyer))
+      .subscribe((m) => (this.isMobile = m));
+    this.isSafari = deviceState.isSafari;
+  }
 
   ngAfterViewInit() {
     this.headerService.initHeader(() => this);
@@ -132,6 +145,11 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     this.sessionService.onReady.subscribe(() => {
       this.init();
     });
+  }
+
+  ngOnDestroy(): void {
+    this.destroyer.next(true);
+    this.destroyer.complete();
   }
 
   init() {
@@ -162,9 +180,13 @@ export class HeaderComponent implements OnInit, AfterViewInit {
       this.commentsCountUsers = data.userCount;
       this.commentsCountKeywords = data.tagCount;
     });
-    this.userManagementService.getUser().subscribe((newUser) => {
-      this.user = newUser;
-    });
+    this.accountState.user$
+      .pipe(takeUntil(this.destroyer))
+      .subscribe((newUser) => {
+        this.user = newUser;
+        this.isSuperAdmin =
+          this.user?.hasRole?.(KeycloakRoles.AdminDashboard) || false;
+      });
 
     let time = new Date();
     this.getTime(time);
@@ -197,14 +219,14 @@ export class HeaderComponent implements OnInit, AfterViewInit {
         }
       }
     });
-    this.startUpService.unreadMotds().subscribe((state) => {
-      this.motdState = state;
-    });
+    this.accountState.unreadMotds$
+      .pipe(takeUntil(this.destroyer))
+      .subscribe((state) => (this.motdState = state));
   }
 
   useLanguage(language: Language) {
     this.translationService.use(language);
-    this.langService.setLanguage(language);
+    this.appState.changeLanguage(language);
   }
 
   getClockCount() {
@@ -249,7 +271,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   }
 
   logoutUser() {
-    this.userManagementService.logout();
+    this.accountState.logout().subscribe();
   }
 
   startTour() {
@@ -257,8 +279,8 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   }
 
   login() {
-    this.dialog.open(LoginComponent, {
-      width: '350px',
+    this.accountState.openLogin().subscribe({
+      error: (e) => console.error(e),
     });
   }
 
@@ -268,19 +290,6 @@ export class HeaderComponent implements OnInit, AfterViewInit {
 
   routeAccountManagement() {
     this.keycloakService.redirectAccountManagement();
-  }
-
-  openDeleteUserDialog() {
-    const dialogRef = this.dialog.open(DeleteAccountComponent, {
-      width: '600px',
-    });
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result === 'abort') {
-        return;
-      } else if (result === 'delete') {
-        this.userManagementService.deleteAccount();
-      }
-    });
   }
 
   startUpFinished() {
@@ -375,12 +384,11 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   }
 
   openLanguageMenu() {
-    const language = this.langService.currentLanguage();
-    if (language === 'de') {
+    if (this.currentLanguage === 'de') {
       this.languageMenu._allItems.get(0).focus();
-    } else if (language === 'en') {
+    } else if (this.currentLanguage === 'en') {
       this.languageMenu._allItems.get(1).focus();
-    } else if (language === 'fr') {
+    } else if (this.currentLanguage === 'fr') {
       this.languageMenu._allItems.get(2).focus();
     }
   }
@@ -434,15 +442,13 @@ export class HeaderComponent implements OnInit, AfterViewInit {
       maxWidth: '600px',
     });
     dialogRef.afterClosed().subscribe((result) => {
-      this.userManagementService.updateGPTConsentState(result).subscribe();
+      this.accountState.updateGPTConsentState(result);
     });
   }
 
   changeTheme(theme: Theme) {
-    this.themeService.activate(theme.key);
-    this.updateScale(
-      theme.getScale(this.deviceInfo.isCurrentlyMobile ? 'mobile' : 'desktop'),
-    );
+    this.themeService.activate(theme.key as ThemeKey);
+    this.updateScale(theme.getScale(this.isMobile ? 'mobile' : 'desktop'));
   }
 
   updateScale(scale: number) {

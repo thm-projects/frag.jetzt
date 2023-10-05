@@ -7,9 +7,9 @@ import {
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ReplaySubject, takeUntil } from 'rxjs';
-import { LanguageService } from '../../../../../services/util/language.service';
 import { HttpClient } from '@angular/common/http';
 import { TranslateService } from '@ngx-translate/core';
+import { AppStateService } from 'app/services/state/app-state.service';
 
 export type MarkdownEditorTab = 'edit' | 'preview';
 
@@ -27,21 +27,18 @@ export class MarkdownEditorComponent implements OnDestroy {
   private readonly _destroyer = new ReplaySubject(1);
 
   constructor(
-    public readonly languageService: LanguageService,
     public readonly http: HttpClient,
     public readonly translationService: TranslateService,
+    appState: AppStateService,
   ) {
-    languageService
-      .getLanguage()
-      .pipe(takeUntil(this._destroyer))
-      .subscribe((lang) => {
-        translationService.use(lang);
-        http
-          .get('/assets/i18n/utility-components/' + lang + '.json')
-          .subscribe((translation) => {
-            translationService.setTranslation(lang, translation, true);
-          });
-      });
+    appState.language$.pipe(takeUntil(this._destroyer)).subscribe((lang) => {
+      translationService.use(lang);
+      http
+        .get('/assets/i18n/utility-components/' + lang + '.json')
+        .subscribe((translation) => {
+          translationService.setTranslation(lang, translation, true);
+        });
+    });
   }
 
   @ViewChild('editorInputElement')

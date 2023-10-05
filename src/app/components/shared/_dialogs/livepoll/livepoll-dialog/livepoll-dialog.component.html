@@ -208,7 +208,7 @@
       (click)="isPaused ? play() : pause()">
       <mat-icon>{{ isPaused ? "play_circle" : "pause_circle" }}</mat-icon>
       <span
-        *ngIf="device.isCurrentlyDesktop"
+        *ngIf="!isMobile"
         class="on-desktop">
         {{
           translateKey +
@@ -224,7 +224,7 @@
       (click)="close('delete')">
       <mat-icon style="color: var(--red)">stop_circle</mat-icon>
       <span
-        *ngIf="device.isCurrentlyDesktop"
+        *ngIf="!isMobile"
         class="on-desktop">
         {{ translateKey + ".creator-settings-delete" | translate }}
       </span>
@@ -247,7 +247,7 @@
       class="button-secondary">
       <mat-icon>add_circle</mat-icon>
       <span
-        *ngIf="device.isCurrentlyDesktop"
+        *ngIf="!isMobile"
         class="on-desktop">
         {{ translateKey + ".new" | translate }}
       </span>

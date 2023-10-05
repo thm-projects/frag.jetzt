@@ -1,4 +1,10 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { Room } from '../../../models/room';
 import { RoomService } from '../../../services/http/room.service';
 import { Router } from '@angular/router';
@@ -15,10 +21,10 @@ import { User } from '../../../models/user';
 import { ModeratorService } from '../../../services/http/moderator.service';
 import { KeyboardUtils } from '../../../utils/keyboard';
 import { KeyboardKey } from '../../../utils/keyboard/keys';
-import { forkJoin } from 'rxjs';
-import { UserManagementService } from '../../../services/util/user-management.service';
+import { ReplaySubject, forkJoin, takeUntil } from 'rxjs';
 import { SessionService } from '../../../services/util/session.service';
 import { ErrorStateMatcher } from '@angular/material/core';
+import { AccountStateService } from 'app/services/state/account-state.service';
 
 export class CustomErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(
@@ -39,7 +45,7 @@ export class CustomErrorStateMatcher implements ErrorStateMatcher {
   templateUrl: './room-join.component.html',
   styleUrls: ['./room-join.component.scss'],
 })
-export class RoomJoinComponent implements OnInit {
+export class RoomJoinComponent implements OnInit, OnDestroy {
   @ViewChild('sessionCode') sessionCodeElement: ElementRef;
 
   user: User;
@@ -50,21 +56,27 @@ export class RoomJoinComponent implements OnInit {
   ]);
 
   matcher = new CustomErrorStateMatcher();
+  private destroyer = new ReplaySubject(1);
 
   constructor(
     private roomService: RoomService,
     private router: Router,
     public notificationService: NotificationService,
     private translateService: TranslateService,
-    public userManagementService: UserManagementService,
     private moderatorService: ModeratorService,
     public sessionService: SessionService,
+    private accountState: AccountStateService,
   ) {}
 
   ngOnInit() {
-    this.userManagementService
-      .getUser()
+    this.accountState.user$
+      .pipe(takeUntil(this.destroyer))
       .subscribe((newUser) => (this.user = newUser));
+  }
+
+  ngOnDestroy(): void {
+    this.destroyer.next(true);
+    this.destroyer.complete();
   }
 
   joinRoom(id: string): void {
@@ -78,7 +90,7 @@ export class RoomJoinComponent implements OnInit {
       this.getRoom(id);
       return;
     }
-    this.userManagementService.forceLogin().subscribe(() => {
+    this.accountState.forceLogin().subscribe(() => {
       this.getRoom(id);
     });
   }
@@ -164,7 +176,7 @@ export class RoomJoinComponent implements OnInit {
   }
 
   private guestLogin(room: Room, mods: Set<string>) {
-    this.userManagementService.forceLogin().subscribe((result) => {
+    this.accountState.forceLogin().subscribe((result) => {
       if (result !== null) {
         this.addAndNavigate(room, mods);
       }
@@ -173,28 +185,22 @@ export class RoomJoinComponent implements OnInit {
 
   private addAndNavigate(room: Room, mods: Set<string>) {
     if (this.user.id === room.ownerId) {
-      this.userManagementService.setAccess(
-        room.shortId,
-        room.id,
-        UserRole.CREATOR,
-      );
+      this.accountState
+        .setAccess(room.shortId, room.id, UserRole.CREATOR)
+        .subscribe();
       this.router.navigate([`/creator/room/${room.shortId}/comments`]);
       return;
     }
     if (mods.has(this.user.id)) {
-      this.userManagementService.setAccess(
-        room.shortId,
-        room.id,
-        UserRole.EXECUTIVE_MODERATOR,
-      );
+      this.accountState
+        .setAccess(room.shortId, room.id, UserRole.EXECUTIVE_MODERATOR)
+        .subscribe();
       this.router.navigate([`/moderator/room/${room.shortId}/comments`]);
       return;
     }
-    this.userManagementService.setAccess(
-      room.shortId,
-      room.id,
-      UserRole.PARTICIPANT,
-    );
+    this.accountState
+      .setAccess(room.shortId, room.id, UserRole.PARTICIPANT)
+      .subscribe();
     this.router.navigate([`/participant/room/${room.shortId}/comments`]);
   }
 }
