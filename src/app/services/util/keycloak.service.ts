@@ -190,19 +190,8 @@ export class KeycloakService {
       oldKeycloak.onAuthSuccess = null;
     }
     if (expiresIn > 0 && oldKeycloak?.authenticated) {
-      return from(
-        oldKeycloak
-          .logout({
-            redirectUri: `${location.origin}/home`,
-          })
-          .then(
-            () => onContinue(),
-            (e) => {
-              console.error('Keycloak logout error', e);
-              return onContinue();
-            },
-          ),
-      );
+      // normally it is possible to oldKeycloak.logout, but this would lead to poor UX.
+      return of(onContinue());
     } else {
       return of(onContinue());
     }
