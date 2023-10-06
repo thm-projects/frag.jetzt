@@ -12,7 +12,7 @@ export class Config {
 
 export const CONFIG_SCHEMA = {
   type: Config,
-  since: 1,
+  since: 3,
   options: {
     keyPath: 'key' as const, // satisfies ValidKey<Config>,
   },

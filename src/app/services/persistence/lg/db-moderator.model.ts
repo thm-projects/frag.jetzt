@@ -12,13 +12,13 @@ export class Moderator {
 
 export const MODERATOR_SCHEMA = {
   type: Moderator,
-  since: 1,
+  since: 3,
   options: {
     keyPath: ['roomId', 'accountId'] as const, // satisfies ValidKey<Moderator>,
   },
   indexes: {
     'room-id': {
-      since: 1,
+      since: 3,
       keyPath: 'roomId', // satisfies ValidKey<Moderator>,
     },
   },

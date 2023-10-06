@@ -2,13 +2,13 @@ import { Comment } from 'app/models/comment';
 
 export const COMMENT_SCHEMA = {
   type: Comment,
-  since: 1,
+  since: 3,
   options: {
     keyPath: 'id', // satisfies ValidKey<Comment>,
   },
   indexes: {
     'room-id': {
-      since: 1,
+      since: 3,
       keyPath: 'roomId', // satisfies ValidKey<Comment>,
     },
   },
