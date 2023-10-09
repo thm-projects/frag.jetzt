@@ -20,13 +20,42 @@ button.mat-flat-button {
   }
 }
 
-.mat-form-field {
+.mat-form-field,
+.mat-card {
   background-color: var(--dialog);
   border-radius: 10px;
   margin: 10px;
   box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.2);
   color: var(--on-dialog);
   padding: 1rem 1rem 0.2rem 1rem;
+}
+
+.single,
+.range,
+.subnet {
+  display: flex;
+
+  > * {
+    flex: 1;
+  }
+
+  mat-icon {
+    color: red;
+    font-size: 1.5em !important;
+  }
+}
+
+.ip-adder {
+  display: flex;
+  gap: 1em;
+
+  > button {
+    margin: 10px;
+  }
+}
+
+.mat-card-title {
+  border-bottom: 1px dashed currentColor;
 }
 
 :host {

@@ -123,6 +123,172 @@
       {{ "keycloak-provider.required" | translate }}
     </mat-error>
   </mat-form-field>
+  <!-- ips -->
+  <mat-card>
+    <mat-card-title>
+      {{ "keycloak-provider.allowed-ips" | translate }}
+    </mat-card-title>
+    <mat-card-content>
+      <ng-container *ngFor="let allowedIp of allowedIps; let i = index">
+        <!-- Single -->
+        <div
+          class="single"
+          *ngIf="allowedIp.type === 'single'">
+          <mat-form-field>
+            <mat-label>
+              {{ "keycloak-provider.allowed-ip-single" | translate }}
+            </mat-label>
+            <input
+              matInput
+              required
+              type="text"
+              [(ngModel)]="allowedIp.ip"
+              [placeholder]="
+                'keycloak-provider.placeholder-allowed-ip-single' | translate
+              " />
+            <mat-error *ngIf="!allowedIp.ip">
+              {{ "keycloak-provider.required" | translate }}
+            </mat-error>
+            <button
+              matSuffix
+              mat-icon-button
+              (click)="deleteIpEntry(i)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+        <!-- Range -->
+        <div
+          class="range"
+          *ngIf="allowedIp.type === 'range'">
+          <mat-form-field>
+            <mat-label>
+              {{ "keycloak-provider.allowed-ip-ranged-start" | translate }}
+            </mat-label>
+            <input
+              matInput
+              required
+              type="text"
+              [(ngModel)]="allowedIp.ipStart"
+              [placeholder]="
+                'keycloak-provider.placeholder-allowed-ip-ranged-start'
+                  | translate
+              " />
+            <mat-error *ngIf="!allowedIp.ipStart">
+              {{ "keycloak-provider.required" | translate }}
+            </mat-error>
+            <button
+              matSuffix
+              mat-icon-button
+              (click)="deleteIpEntry(i)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>
+              {{ "keycloak-provider.allowed-ip-ranged-end" | translate }}
+            </mat-label>
+            <input
+              matInput
+              required
+              type="text"
+              [(ngModel)]="allowedIp.ipEnd"
+              [placeholder]="
+                'keycloak-provider.placeholder-allowed-ip-ranged-end'
+                  | translate
+              " />
+            <mat-error *ngIf="!allowedIp.ipEnd">
+              {{ "keycloak-provider.required" | translate }}
+            </mat-error>
+            <button
+              matSuffix
+              mat-icon-button
+              (click)="deleteIpEntry(i)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+        <!-- subnet -->
+        <div
+          class="subnet"
+          *ngIf="allowedIp.type === 'subnet'">
+          <mat-form-field>
+            <mat-label>
+              {{ "keycloak-provider.allowed-ip-subnet-ip" | translate }}
+            </mat-label>
+            <input
+              matInput
+              required
+              type="text"
+              [(ngModel)]="allowedIp.ip"
+              [placeholder]="
+                'keycloak-provider.placeholder-allowed-ip-subnet-ip' | translate
+              " />
+            <mat-error *ngIf="!allowedIp.ip">
+              {{ "keycloak-provider.required" | translate }}
+            </mat-error>
+            <button
+              matSuffix
+              mat-icon-button
+              (click)="deleteIpEntry(i)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>
+              {{ "keycloak-provider.allowed-ip-subnet-bits" | translate }}
+            </mat-label>
+            <input
+              matInput
+              required
+              type="number"
+              inputmode="numeric"
+              min="0"
+              max="128"
+              [(ngModel)]="allowedIp.subnet"
+              [placeholder]="
+                'keycloak-provider.placeholder-allowed-ip-subnet-bits'
+                  | translate
+              " />
+            <mat-error *ngIf="!allowedIp.subnet">
+              {{ "keycloak-provider.required" | translate }}
+            </mat-error>
+            <button
+              matSuffix
+              mat-icon-button
+              (click)="deleteIpEntry(i)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+      </ng-container>
+      <div class="ip-adder">
+        <mat-form-field>
+          <mat-label>
+            {{ "keycloak-provider.allowed-ips-type" | translate }}
+          </mat-label>
+          <mat-select
+            #ipSelect
+            value="single">
+            <mat-option value="single">
+              {{ "keycloak-provider.allowed-ips-type-single" | translate }}
+            </mat-option>
+            <mat-option value="range">
+              {{ "keycloak-provider.allowed-ips-type-ranged" | translate }}
+            </mat-option>
+            <mat-option value="subnet">
+              {{ "keycloak-provider.allowed-ips-type-subnet" | translate }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <button
+          mat-flat-button
+          (click)="addIp(ipSelect.value)">
+          {{ "keycloak-provider.add" | translate }}
+        </button>
+      </div>
+    </mat-card-content>
+  </mat-card>
   <!-- name -->
   <mat-form-field *ngFor="let lang of languages; let i = index">
     <mat-label>{{ "keycloak-provider.name-" + lang | translate }}</mat-label>

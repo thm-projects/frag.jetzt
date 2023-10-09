@@ -76,6 +76,10 @@ export class KeycloakProviderComponent implements OnInit, OnDestroy {
     this.destroyer.complete();
   }
 
+  deleteIpEntry(index: number) {
+    this.allowedIps.splice(index, 1);
+  }
+
   saveProvider() {
     if (this.selectedProvider) {
       this.patchProvider();
@@ -140,6 +144,27 @@ export class KeycloakProviderComponent implements OnInit, OnDestroy {
     return !this.selectedProvider.nameDe;
   }
 
+  addIp(type: IpType['type']) {
+    if (type === 'single') {
+      this.allowedIps.push({
+        type: 'single',
+        ip: 'fragjetzt-keycloak',
+      });
+    } else if (type === 'range') {
+      this.allowedIps.push({
+        type: 'range',
+        ipStart: '8.8.4.0',
+        ipEnd: '8.8.4.234',
+      });
+    } else if (type === 'subnet') {
+      this.allowedIps.push({
+        type: 'subnet',
+        ip: '8.8.4.0',
+        subnet: 24,
+      });
+    }
+  }
+
   canSave() {
     const isDefault = this.selectedProvider && this.isDefault();
     return (
@@ -147,6 +172,12 @@ export class KeycloakProviderComponent implements OnInit, OnDestroy {
       this.priority !== null &&
       this.realm &&
       this.clientId &&
+      this.allowedIps.every(
+        (i) =>
+          (i.type === 'single' && i.ip) ||
+          (i.type === 'range' && i.ipStart && i.ipEnd) ||
+          (i.type === 'subnet' && i.subnet >= 0 && i.subnet <= 128 && i.ip),
+      ) &&
       (isDefault ||
         (this.names.every((n) => n) && this.descriptions.every((d) => d)))
     );
@@ -192,6 +223,10 @@ export class KeycloakProviderComponent implements OnInit, OnDestroy {
     }
     if (this.selectedProvider.eventPassword !== this.eventPassword) {
       newProvider.eventPassword = this.eventPassword;
+    }
+    const newTypes = this.typesToString(this.allowedIps);
+    if (this.selectedProvider.allowedIps !== newTypes) {
+      newProvider.allowedIps = newTypes;
     }
     this.languages.forEach((lang, index) => {
       const access = lang[0].toUpperCase() + lang.slice(1);
