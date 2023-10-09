@@ -8,7 +8,6 @@ import {
 } from 'rxjs';
 import { LgDb } from './lg-persist.schema.types';
 import { SCHEMA } from './lg-persist.schema';
-import { openDatabase } from './lg-persist.emulated';
 
 export enum LgDbEvents {
   // no errors
@@ -99,7 +98,9 @@ export class LgPersistService {
           );
         } catch (e) {
           console.error(e);
+          subscriber.error(e);
           req.transaction.abort();
+          indexedDB.deleteDatabase(SCHEMA.name);
         }
       });
       request.addEventListener('success', () => {
