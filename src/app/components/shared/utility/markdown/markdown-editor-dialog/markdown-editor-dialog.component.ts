@@ -1,9 +1,9 @@
 import { Component, Inject, OnDestroy } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ReplaySubject, takeUntil } from 'rxjs';
-import { LanguageService } from '../../../../../services/util/language.service';
 import { HttpClient } from '@angular/common/http';
 import { TranslateService } from '@ngx-translate/core';
+import { AppStateService } from 'app/services/state/app-state.service';
 
 export interface MarkdownEditorDialogData {
   data: string | undefined;
@@ -20,7 +20,7 @@ export class MarkdownEditorDialogComponent implements OnDestroy {
   private readonly _destroyer = new ReplaySubject(1);
 
   constructor(
-    public readonly languageService: LanguageService,
+    readonly appState: AppStateService,
     public readonly http: HttpClient,
     public readonly translationService: TranslateService,
     public readonly dialogRef: MatDialogRef<MarkdownEditorDialogData>,
@@ -28,29 +28,23 @@ export class MarkdownEditorDialogComponent implements OnDestroy {
     public readonly injection: MarkdownEditorDialogData,
   ) {
     this.data = injection.data;
-    languageService
-      .getLanguage()
-      .pipe(takeUntil(this._destroyer))
-      .subscribe((lang) => {
-        translationService.use(lang);
-        http
-          .get('/assets/i18n/utility-components/' + lang + '.json')
-          .subscribe((translation) => {
-            translationService.setTranslation(lang, translation, true);
-            if (
-              injection.useTemplate &&
-              (!this.data || this.data.length === 0)
-            ) {
-              this.translationService
-                .get('utility.markdown-editor-dialog.template')
-                .subscribe((data) => {
-                  this.data = data;
-                });
-            } else {
-              this.data = injection.data;
-            }
-          });
-      });
+    appState.language$.pipe(takeUntil(this._destroyer)).subscribe((lang) => {
+      translationService.use(lang);
+      http
+        .get('/assets/i18n/utility-components/' + lang + '.json')
+        .subscribe((translation) => {
+          translationService.setTranslation(lang, translation, true);
+          if (injection.useTemplate && (!this.data || this.data.length === 0)) {
+            this.translationService
+              .get('utility.markdown-editor-dialog.template')
+              .subscribe((data) => {
+                this.data = data;
+              });
+          } else {
+            this.data = injection.data;
+          }
+        });
+    });
   }
 
   ngOnDestroy() {

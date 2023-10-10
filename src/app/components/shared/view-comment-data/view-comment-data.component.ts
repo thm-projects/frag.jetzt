@@ -16,9 +16,7 @@ import {
   QuillModules,
   QuillViewComponent,
 } from 'ngx-quill';
-import { LanguageService } from '../../../services/util/language.service';
 import { TranslateService } from '@ngx-translate/core';
-import { DeviceInfoService } from '../../../services/util/device-info.service';
 import { MatDialog } from '@angular/material/dialog';
 import { QuillInputDialogComponent } from '../_dialogs/quill-input-dialog/quill-input-dialog.component';
 import { Marks } from './view-comment-data.marks';
@@ -41,6 +39,8 @@ import { DsgvoVideo } from '../../../quill-extentions/formats/dsgvo-video';
 import { FullscreenImageDialogComponent } from '../_dialogs/fullscreen-image-dialog/fullscreen-image-dialog.component';
 import { KeyboardUtils } from 'app/utils/keyboard';
 import { KeyboardKey } from 'app/utils/keyboard/keys';
+import { AppStateService } from 'app/services/state/app-state.service';
+import { DeviceStateService } from 'app/services/state/device-state.service';
 
 Quill.register('modules/imageResize', ImageResize);
 Quill.register('formats/dsgvo-video', DsgvoVideo);
@@ -89,21 +89,18 @@ export class ViewCommentDataComponent
   private readonly DEFAULT_VALUE: StandardDelta = { ops: [{ insert: '\n' }] };
 
   constructor(
-    private languageService: LanguageService,
+    private appState: AppStateService,
     private translateService: TranslateService,
-    private deviceInfo: DeviceInfoService,
+    private deviceState: DeviceStateService,
     private eventService: EventService,
     private dialog: MatDialog,
   ) {
     DsgvoVideo.translator = translateService;
-    this.languageService
-      .getLanguage()
-      .pipe(takeUntil(this._destroyer))
-      .subscribe((_) => {
-        if (this.isEditor) {
-          this.updateCSSVariables();
-        }
-      });
+    this.appState.language$.pipe(takeUntil(this._destroyer)).subscribe((_) => {
+      if (this.isEditor) {
+        this.updateCSSVariables();
+      }
+    });
   }
 
   get initialized(): boolean {
@@ -156,7 +153,7 @@ export class ViewCommentDataComponent
   }
 
   ngOnInit(): void {
-    const isMobile = this.deviceInfo.isUserAgentMobile;
+    const isMobile = this.deviceState.isMobile();
     const hljs = window['hljs'] as HighlightLibrary;
     this.quillModules.syntax = {
       highlight: (text) =>

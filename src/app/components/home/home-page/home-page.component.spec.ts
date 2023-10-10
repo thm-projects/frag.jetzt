@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { HomePageComponent } from './home-page.component';
-import { LanguageService } from '../../../services/util/language.service';
 import { EssentialsModule } from '../../essentials/essentials.module';
 import { NewLandingComponent } from '../new-landing/new-landing.component';
 import { SharedModule } from '../../shared/shared.module';
@@ -31,8 +30,6 @@ import {
 import { RatingService } from '../../../services/http/rating.service';
 import { RatingServiceMock } from '../../../services/mocks/rating.service.mock';
 import { LoginComponent } from '../../shared/login/login.component';
-import { NgxIndexedDBModule } from 'ngx-indexed-db';
-import { DB_CONFIG } from '../../../../indexeddb';
 import { MatomoModule } from 'ngx-matomo-v9';
 import { SessionService } from 'app/services/util/session.service';
 
@@ -53,15 +50,12 @@ describe('HomePageComponent', () => {
         SharedModule,
         AppRoutingModule,
         BrowserAnimationsModule,
-        NgxIndexedDBModule.forRoot(DB_CONFIG),
         MatomoModule,
       ],
       providers: [
-        LanguageService,
         AuthenticationService,
         DataStoreService,
         NotificationService,
-        LanguageService,
         EventService,
         ModeratorService,
         RoomService,

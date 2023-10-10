@@ -41,10 +41,10 @@ import {
   KeywordExtractor,
 } from '../../../utils/keyword-extractor';
 import { ForumComment } from '../../../utils/data-accessor';
-import { UserManagementService } from '../../../services/util/user-management.service';
-import { DBLocalRoomSettingsService } from 'app/services/persistence/dblocal-room-settings.service';
 import { forkJoin, of, switchMap, take } from 'rxjs';
 import { clone, UUID } from 'app/utils/ts-utils';
+import { AccountStateService } from 'app/services/state/account-state.service';
+import { DbLocalRoomSettingService } from 'app/services/persistence/lg/db-local-room-setting.service';
 
 @Component({
   selector: 'app-write-comment',
@@ -104,8 +104,8 @@ export class WriteCommentComponent implements OnInit, AfterViewInit, OnDestroy {
     private deeplService: DeepLService,
     private dialog: MatDialog,
     private sessionService: SessionService,
-    private userManagementService: UserManagementService,
-    private dBLocalRoomSettingsService: DBLocalRoomSettingsService,
+    private accountState: AccountStateService,
+    private localRoomSeting: DbLocalRoomSettingService,
     injector: Injector,
   ) {
     this._keywordExtractor = new KeywordExtractor(injector);
@@ -154,9 +154,7 @@ export class WriteCommentComponent implements OnInit, AfterViewInit, OnDestroy {
     this.maxDataCharacters = this.isModerator
       ? this.maxTextCharacters * 5
       : this.maxTextCharacters * 3;
-    this.userManagementService
-      .getUser()
-      .subscribe((user) => (this.user = user));
+    this.accountState.user$.subscribe((user) => (this.user = user));
     if (this.rewriteCommentData) {
       this.questionerNameFormControl.setValue(
         this.rewriteCommentData?.questionerName,
@@ -164,11 +162,11 @@ export class WriteCommentComponent implements OnInit, AfterViewInit, OnDestroy {
     } else {
       forkJoin([
         this.sessionService.getRoomOnce(),
-        this.userManagementService.getUser().pipe(take(1)),
+        this.accountState.user$.pipe(take(1)),
       ])
         .pipe(
           switchMap(([room, user]) =>
-            this.dBLocalRoomSettingsService.getSettings(room.id, user.id),
+            this.localRoomSeting.get([room.id, user.id]),
           ),
         )
         .subscribe((data) => {
@@ -423,56 +421,48 @@ export class WriteCommentComponent implements OnInit, AfterViewInit, OnDestroy {
     if (code.startsWith(SourceLang.EN)) {
       target = TargetLang.DE;
     }
-    this.dBLocalRoomSettingsService
-      .getSettings(this.sessionService.currentRoom?.id, this.user?.id)
-      .pipe(
-        switchMap((data) => {
-          const formality = data?.formality ?? FormalityType.Less;
-          return forkJoin([
-            this.deeplService.improveDelta(body, target, formality),
-            of(formality),
-          ]);
-        }),
-      )
-      .subscribe({
-        next: ([[improvedBody, improvedText], formality]) => {
-          this.isSpellchecking = false;
-          if (improvedText.replace(/\s+/g, '') === text.replace(/\s+/g, '')) {
-            this.translateService
-              .get('deepl.no-optimization')
-              .subscribe((msg) => this.notification.show(msg));
-            onClose({ body, text, view: this.commentData });
-            return;
-          }
-          const instance = this.dialog.open(DeepLDialogComponent, {
-            width: '900px',
-            maxWidth: '100%',
-            data: {
-              body,
-              text,
-              improvedBody,
-              improvedText,
-              maxTextCharacters: this.maxTextCharacters,
-              maxDataCharacters: this.maxDataCharacters,
-              isModerator: this.isModerator,
-              result,
-              onClose,
-              target: DeepLService.transformSourceToTarget(source),
-              usedTarget: target,
-              formality,
-            },
-          });
-          instance.afterClosed().subscribe((val) => {
-            if (!val) {
-              onClose({ body, text, view: this.commentData });
-            }
-          });
-        },
-        error: (err) => {
-          console.error(err);
-          this.isSpellchecking = false;
+    forkJoin([
+      this.deeplService.improveDelta(body, target, FormalityType.Less),
+      of(FormalityType.Less),
+    ]).subscribe({
+      next: ([[improvedBody, improvedText], formality]) => {
+        this.isSpellchecking = false;
+        if (improvedText.replace(/\s+/g, '') === text.replace(/\s+/g, '')) {
+          this.translateService
+            .get('deepl.no-optimization')
+            .subscribe((msg) => this.notification.show(msg));
           onClose({ body, text, view: this.commentData });
-        },
-      });
+          return;
+        }
+        const instance = this.dialog.open(DeepLDialogComponent, {
+          width: '900px',
+          maxWidth: '100%',
+          data: {
+            body,
+            text,
+            improvedBody,
+            improvedText,
+            maxTextCharacters: this.maxTextCharacters,
+            maxDataCharacters: this.maxDataCharacters,
+            isModerator: this.isModerator,
+            result,
+            onClose,
+            target: DeepLService.transformSourceToTarget(source),
+            usedTarget: target,
+            formality,
+          },
+        });
+        instance.afterClosed().subscribe((val) => {
+          if (!val) {
+            onClose({ body, text, view: this.commentData });
+          }
+        });
+      },
+      error: (err) => {
+        console.error(err);
+        this.isSpellchecking = false;
+        onClose({ body, text, view: this.commentData });
+      },
+    });
   }
 }

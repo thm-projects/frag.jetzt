@@ -1,11 +1,17 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { UserRole } from '../../../../models/user-roles.enum';
-import { DeviceInfoService } from '../../../../services/util/device-info.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SessionService } from '../../../../services/util/session.service';
-import { forkJoin, Observable, of, Subscription } from 'rxjs';
+import {
+  forkJoin,
+  Observable,
+  of,
+  ReplaySubject,
+  Subscription,
+  takeUntil,
+} from 'rxjs';
 import { Room } from '../../../../models/room';
 import { TranslateService } from '@ngx-translate/core';
 import { NotificationService } from '../../../../services/util/notification.service';
@@ -14,7 +20,11 @@ import { CommentService } from '../../../../services/http/comment.service';
 import { ExplanationDialogComponent } from '../explanation-dialog/explanation-dialog.component';
 import { BrainstormingService } from '../../../../services/http/brainstorming.service';
 import { BrainstormingSession } from '../../../../models/brainstorming-session';
-import { AVAILABLE_LANGUAGES, LanguageService } from 'app/services/util/language.service';
+import {
+  AVAILABLE_LANGUAGES,
+  AppStateService,
+} from 'app/services/state/app-state.service';
+import { DeviceStateService } from 'app/services/state/device-state.service';
 
 @Component({
   selector: 'app-topic-cloud-brainstorming',
@@ -43,7 +53,6 @@ export class TopicCloudBrainstormingComponent implements OnInit, OnDestroy {
   brainstormingDuration = 15;
   brainstormingAllowIdeas = true;
   brainstormingAllowRating = true;
-  roomSubscription: Subscription;
   brainstormingData: BrainstormingSession;
   isLoading = true;
   isDeleting = false;
@@ -51,10 +60,11 @@ export class TopicCloudBrainstormingComponent implements OnInit, OnDestroy {
   isCreating = false;
   readonly languages = [...AVAILABLE_LANGUAGES];
   language: FormControl;
+  isMobile = false;
   private _room: Room;
+  private destroyer = new ReplaySubject(1);
 
   constructor(
-    public deviceInfo: DeviceInfoService,
     private dialogRef: MatDialogRef<TopicCloudBrainstormingComponent>,
     private dialog: MatDialog,
     private sessionService: SessionService,
@@ -64,11 +74,16 @@ export class TopicCloudBrainstormingComponent implements OnInit, OnDestroy {
     private notificationService: NotificationService,
     private router: Router,
     private brainstormingService: BrainstormingService,
-    private languageService: LanguageService,
+    appState: AppStateService,
+    deviceState: DeviceStateService,
   ) {
-    this.language = new FormControl(languageService.currentLanguage() || this.languages[0], [
-      Validators.required,
-    ]);
+    this.language = new FormControl(
+      appState.getCurrentLanguage() || this.languages[0],
+      [Validators.required],
+    );
+    deviceState.mobile$
+      .pipe(takeUntil(this.destroyer))
+      .subscribe((m) => (this.isMobile = m));
   }
 
   cancelButtonActionCallback(): () => void {
@@ -141,8 +156,9 @@ export class TopicCloudBrainstormingComponent implements OnInit, OnDestroy {
       this._room = room;
       this.isLoading = false;
       this.brainstormingData = room.brainstormingSession;
-      this.roomSubscription = this.sessionService
+      this.sessionService
         .receiveRoomUpdates()
+        .pipe(takeUntil(this.destroyer))
         .subscribe(() => {
           this.brainstormingData = room.brainstormingSession;
         });
@@ -154,7 +170,8 @@ export class TopicCloudBrainstormingComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.roomSubscription?.unsubscribe();
+    this.destroyer.next(true);
+    this.destroyer.complete();
   }
 
   canCreate() {

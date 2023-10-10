@@ -17,11 +17,12 @@ import { RatingResult } from '../../../models/rating-result';
 import { SessionService } from '../../../services/util/session.service';
 import { OnboardingService } from '../../../services/util/onboarding.service';
 import { NotificationService } from 'app/services/util/notification.service';
-import { LanguageService } from 'app/services/util/language.service';
 import { filter, ReplaySubject, Subject, take, takeUntil } from 'rxjs';
 import { ThemeService } from '../../../../theme/theme.service';
 import { carousel } from './home-page-carousel';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { Language } from 'app/services/http/languagetool.service';
+import { AppStateService } from 'app/services/state/app-state.service';
 
 export type CarouselEntryKind = 'highlight' | 'peek' | 'hidden';
 
@@ -45,6 +46,8 @@ export class HomePageComponent implements OnInit, OnDestroy {
   imageSrc: string;
   isAccepted = false;
 
+  currentLanguage: Language = 'en';
+
   protected carouselIndex: number = 0;
   protected readonly mobileBoundaryWidth = 600;
   protected readonly mobileBoundaryHeight = 630;
@@ -63,24 +66,25 @@ export class HomePageComponent implements OnInit, OnDestroy {
     private sessionService: SessionService,
     private onboardingService: OnboardingService,
     private notificationService: NotificationService,
-    public readonly languageService: LanguageService,
+    private appState: AppStateService,
     public readonly themeService: ThemeService,
     sanitizer: DomSanitizer,
   ) {
     themeService
       .getTheme()
-      .pipe(takeUntil(this._destroyer))
+      .pipe(
+        filter((v) => Boolean(v)),
+        takeUntil(this._destroyer),
+      )
       .subscribe((x) => (this.currentTheme = x.key));
-    languageService
-      .getLanguage()
-      .pipe(takeUntil(this._destroyer))
-      .subscribe((lang) => {
-        this.isAccepted = false;
-        this.imageSrc = this.getImageByLang(lang);
-        this.iframeSrc = sanitizer.bypassSecurityTrustResourceUrl(
-          this.getVideoByLang(lang),
-        );
-      });
+    appState.language$.pipe(takeUntil(this._destroyer)).subscribe((lang) => {
+      this.currentLanguage = lang;
+      this.isAccepted = false;
+      this.imageSrc = this.getImageByLang(lang);
+      this.iframeSrc = sanitizer.bypassSecurityTrustResourceUrl(
+        this.getVideoByLang(lang),
+      );
+    });
     const arrowEventListener = (event: KeyboardEvent) => {
       if (!document.activeElement.hasAttribute('mat-menu-item')) {
         switch (event.key) {
@@ -251,8 +255,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
       this.loadListener();
     });
     this.eventService.on('not-authorized').subscribe(() => {
-      this.languageService
-        .getLanguage()
+      this.appState.language$
         .pipe(
           filter((v) => Boolean(v)),
           take(1),

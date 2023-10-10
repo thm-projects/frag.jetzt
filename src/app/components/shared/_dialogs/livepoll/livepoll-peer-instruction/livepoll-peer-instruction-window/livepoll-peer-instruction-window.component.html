@@ -1,0 +1,40 @@
+<div class="dialog-header">
+  <ng-container *ngIf="data.windowContext.is2ndPhasePeerInstruction">
+    <span>{{ "common.peerInstruction-title-2" | translate }}</span>
+  </ng-container>
+  <ng-container *ngIf="!data.windowContext.is2ndPhasePeerInstruction">
+    <span>{{ "common.peerInstruction-title-1" | translate }}</span>
+  </ng-container>
+</div>
+<mat-dialog-content>
+  <span *ngIf="!data.windowContext.is2ndPhasePeerInstruction">
+    {{ "common.peerInstruction-description-phase-1" | translate }}
+  </span>
+  <span *ngIf="data.windowContext.is2ndPhasePeerInstruction">
+    {{ "common.peerInstruction-description-phase-2" | translate }}
+  </span>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <ng-container *ngIf="data.windowContext.is2ndPhasePeerInstruction">
+    <button
+      mat-flat-button
+      (click)="matDialogRef.close(false)"
+      class="button-cancel">
+      <span>{{ "common.confirm-cancel" | translate }}</span>
+    </button>
+  </ng-container>
+  <ng-container *ngIf="!data.windowContext.is2ndPhasePeerInstruction">
+    <button
+      mat-flat-button
+      (click)="matDialogRef.close(false)"
+      class="button-cancel">
+      <span>{{ "common.confirm-cancel" | translate }}</span>
+    </button>
+    <button
+      mat-flat-button
+      (click)="nextPeerInstructionStep()"
+      class="button-primary-filled">
+      <span>{{ "common.confirm-continue" | translate }}</span>
+    </button>
+  </ng-container>
+</mat-dialog-actions>

@@ -91,6 +91,31 @@ export type UUID = MakeUnique<string, 'UUID'>;
 export type IsObject<T> = T extends { [key: string | number | symbol]: any }
   ? true
   : false;
+export type IsClass<T> = T extends abstract new (...args: any[]) => any
+  ? true
+  : false;
+
+export type IsValueOf<Value, Type> = Value extends Type
+  ? Type extends Value
+    ? false
+    : true
+  : false;
+
+export type Replaces<T, K> = Required<T> extends Required<K> ? true : false;
+
+export type Get<T, K extends string> = Exclude<T, undefined> extends never
+  ? undefined
+  : K extends keyof Exclude<T, undefined>
+  ? Exclude<T, undefined>[K]
+  : undefined;
+export type GetDefault<Type, Key extends string, Default> = Exclude<
+  Type,
+  undefined
+> extends never
+  ? Default
+  : Key extends keyof Exclude<Type, undefined>
+  ? Exclude<Type, undefined>[Key]
+  : Default;
 
 export type Immutable<T> = IsObject<T> extends true
   ? {
@@ -106,19 +131,11 @@ export type Mutable<T> = IsObject<T> extends true
 
 export type GeneralFunction = (...anyArgs: any) => any;
 
-export type FieldsOf<T> = T extends GeneralFunction
-  ? never
-  : T extends (infer K)[]
-  ? FieldsOf<K>[]
-  : T extends MakeUnique<infer K, infer J>
-  ? MakeUnique<K, J>
-  : IsObject<T> extends true
+export type FieldsOf<T> = IsObject<T> extends true
   ? {
-      [P in keyof T as T[P] extends GeneralFunction ? never : P]: FieldsOf<
-        T[P]
-      >;
+      [P in keyof T as T[P] extends GeneralFunction ? never : P]: T[P];
     }
-  : T;
+  : never;
 
 export type Storable<T> = T extends GeneralFunction
   ? never
@@ -146,9 +163,11 @@ export const clone = <T>(elem: T): Mutable<T> => {
 
 export type TimeoutHelper = Parameters<typeof clearTimeout>[0];
 
-export type ClassType<T> = new (parameterObject: object) => T;
+export type CopyClassType<T> = new (parameterObject: object) => T;
 
-export const verifyInstance = <T>(clazz: ClassType<T>, obj: object): T => {
+export type ClassType<T> = abstract new (...args: any) => T;
+
+export const verifyInstance = <T>(clazz: CopyClassType<T>, obj: object): T => {
   if (obj === null) {
     return null;
   }

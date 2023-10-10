@@ -13,7 +13,6 @@ import {
   GptService,
   StreamTextCompletion,
 } from 'app/services/http/gpt.service';
-import { DeviceInfoService } from 'app/services/util/device-info.service';
 import { GptEncoderService } from 'app/services/util/gpt-encoder.service';
 import { KeyboardUtils } from 'app/utils/keyboard';
 import { KeyboardKey } from 'app/utils/keyboard/keys';
@@ -21,10 +20,10 @@ import { finalize, Observer, ReplaySubject, Subject, takeUntil } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { Location } from '@angular/common';
 import { GptOptInPrivacyComponent } from 'app/components/shared/_dialogs/gpt-optin-privacy/gpt-optin-privacy.component';
-import { UserManagementService } from 'app/services/util/user-management.service';
-import { LanguageService } from 'app/services/util/language.service';
 import { FormControl } from '@angular/forms';
 import { GPTPromptPreset } from 'app/models/gpt-prompt-preset';
+import { DeviceStateService } from 'app/services/state/device-state.service';
+import { AccountStateService } from 'app/services/state/account-state.service';
 
 interface ConversationEntry {
   type: 'human' | 'gpt' | 'error';
@@ -67,12 +66,11 @@ export class GptChatComponent implements OnInit, OnDestroy {
   constructor(
     private gptService: GptService,
     private translateService: TranslateService,
-    private languageService: LanguageService,
-    private deviceInfo: DeviceInfoService,
+    private deviceState: DeviceStateService,
     private gptEncoderService: GptEncoderService,
     public dialog: MatDialog,
     private location: Location,
-    private userManagementService: UserManagementService,
+    private accountState: AccountStateService,
   ) {}
 
   ngOnInit(): void {
@@ -83,8 +81,7 @@ export class GptChatComponent implements OnInit, OnDestroy {
       this.calculateTokens();
     });
 
-    this.userManagementService
-      .getGPTConsentState()
+    this.accountState.gptConsented$
       .pipe(takeUntil(this.destroyer))
       .subscribe((state) => {
         this.isGPTPrivacyPolicyAccepted = state;
@@ -102,7 +99,7 @@ export class GptChatComponent implements OnInit, OnDestroy {
       maxWidth: '600px',
     });
     dialogRef.afterClosed().subscribe((result) => {
-      this.userManagementService.updateGPTConsentState(result).subscribe();
+      this.accountState.updateGPTConsentState(result);
       if (!result) {
         this.location.back();
       }
@@ -140,7 +137,7 @@ export class GptChatComponent implements OnInit, OnDestroy {
         event.getModifierState('Control') ||
         event.getModifierState('Shift');
       event.preventDefault();
-      if (hasModifier === this.deviceInfo.isCurrentlyMobile) {
+      if (hasModifier === this.deviceState.isMobile()) {
         this.sendGPTMessage();
         return;
       }

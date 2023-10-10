@@ -1,0 +1,332 @@
+<mat-card>
+  <h1>{{ "keycloak-provider.title" | translate }}</h1>
+  <!-- Provider Select + Delete Button -->
+  <mat-form-field appearance="outline">
+    <mat-label>{{ "keycloak-provider.provider-select" | translate }}</mat-label>
+    <input
+      matInput
+      [(ngModel)]="selectedProvider"
+      [placeholder]="
+        'keycloak-provider.placeholder-provider-select' | translate
+      "
+      [matAutocomplete]="keycloakProviders" />
+    <mat-autocomplete
+      #keycloakProviders="matAutocomplete"
+      (optionSelected)="onSelect()"
+      [displayWith]="prettifyProvider">
+      <mat-option [value]="null">
+        <em>{{ "keycloak-provider.new-provider" | translate }}</em>
+      </mat-option>
+      <mat-option
+        *ngFor="let provider of providers"
+        [value]="provider">
+        {{ prettifyProvider(provider) }}
+      </mat-option>
+    </mat-autocomplete>
+    <button
+      mat-icon-button
+      matSuffix
+      [matTooltip]="'keycloak-provider.tooltip-delete' | translate"
+      *ngIf="selectedProvider && !isDefault()"
+      (click)="deleteProvider()">
+      <mat-icon
+        style="color: red"
+        class="material-icons-outlined">
+        delete_forever
+      </mat-icon>
+    </button>
+  </mat-form-field>
+  <!-- Id -->
+  <p *ngIf="id">
+    {{ "keycloak-provider.id" | translate : { id: id } }}
+  </p>
+  <!-- priority -->
+  <mat-form-field>
+    <mat-label>{{ "keycloak-provider.priority" | translate }}</mat-label>
+    <input
+      matInput
+      required
+      type="number"
+      inputmode="numeric"
+      [(ngModel)]="priority"
+      [placeholder]="'keycloak-provider.placeholder-priority' | translate" />
+    <mat-error *ngIf="priority === null">
+      {{ "keycloak-provider.required" | translate }}
+    </mat-error>
+  </mat-form-field>
+  <!-- url -->
+  <mat-form-field>
+    <mat-label>{{ "keycloak-provider.url" | translate }}</mat-label>
+    <input
+      matInput
+      required
+      type="text"
+      [(ngModel)]="url"
+      [placeholder]="'keycloak-provider.placeholder-url' | translate" />
+    <mat-error *ngIf="!url">
+      {{ "keycloak-provider.required" | translate }}
+    </mat-error>
+  </mat-form-field>
+  <!-- url -->
+  <mat-form-field>
+    <mat-label>{{ "keycloak-provider.frontend-url" | translate }}</mat-label>
+    <input
+      matInput
+      required
+      type="text"
+      [(ngModel)]="frontendUrl"
+      [placeholder]="
+        'keycloak-provider.placeholder-frontend-url' | translate
+      " />
+    <mat-error *ngIf="!frontendUrl">
+      {{ "keycloak-provider.required" | translate }}
+    </mat-error>
+  </mat-form-field>
+  <!-- realm -->
+  <mat-form-field>
+    <mat-label>{{ "keycloak-provider.realm" | translate }}</mat-label>
+    <input
+      matInput
+      required
+      type="text"
+      [(ngModel)]="realm"
+      [placeholder]="'keycloak-provider.placeholder-realm' | translate" />
+    <mat-error *ngIf="!realm">
+      {{ "keycloak-provider.required" | translate }}
+    </mat-error>
+  </mat-form-field>
+  <!-- clientId -->
+  <mat-form-field>
+    <mat-label>{{ "keycloak-provider.client-id" | translate }}</mat-label>
+    <input
+      matInput
+      required
+      type="text"
+      [(ngModel)]="clientId"
+      [placeholder]="'keycloak-provider.placeholder-client-id' | translate" />
+    <mat-error *ngIf="!clientId">
+      {{ "keycloak-provider.required" | translate }}
+    </mat-error>
+  </mat-form-field>
+  <!-- eventPassword -->
+  <mat-form-field>
+    <mat-label>{{ "keycloak-provider.event-password" | translate }}</mat-label>
+    <input
+      matInput
+      required
+      type="text"
+      [(ngModel)]="eventPassword"
+      [placeholder]="
+        'keycloak-provider.placeholder-event-password' | translate
+      " />
+    <mat-error *ngIf="!eventPassword">
+      {{ "keycloak-provider.required" | translate }}
+    </mat-error>
+  </mat-form-field>
+  <!-- ips -->
+  <mat-card>
+    <mat-card-title>
+      {{ "keycloak-provider.allowed-ips" | translate }}
+    </mat-card-title>
+    <mat-card-content>
+      <ng-container *ngFor="let allowedIp of allowedIps; let i = index">
+        <!-- Single -->
+        <div
+          class="single"
+          *ngIf="allowedIp.type === 'single'">
+          <mat-form-field>
+            <mat-label>
+              {{ "keycloak-provider.allowed-ip-single" | translate }}
+            </mat-label>
+            <input
+              matInput
+              required
+              type="text"
+              [(ngModel)]="allowedIp.ip"
+              [placeholder]="
+                'keycloak-provider.placeholder-allowed-ip-single' | translate
+              " />
+            <mat-error *ngIf="!allowedIp.ip">
+              {{ "keycloak-provider.required" | translate }}
+            </mat-error>
+            <button
+              matSuffix
+              mat-icon-button
+              (click)="deleteIpEntry(i)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+        <!-- Range -->
+        <div
+          class="range"
+          *ngIf="allowedIp.type === 'range'">
+          <mat-form-field>
+            <mat-label>
+              {{ "keycloak-provider.allowed-ip-ranged-start" | translate }}
+            </mat-label>
+            <input
+              matInput
+              required
+              type="text"
+              [(ngModel)]="allowedIp.ipStart"
+              [placeholder]="
+                'keycloak-provider.placeholder-allowed-ip-ranged-start'
+                  | translate
+              " />
+            <mat-error *ngIf="!allowedIp.ipStart">
+              {{ "keycloak-provider.required" | translate }}
+            </mat-error>
+            <button
+              matSuffix
+              mat-icon-button
+              (click)="deleteIpEntry(i)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>
+              {{ "keycloak-provider.allowed-ip-ranged-end" | translate }}
+            </mat-label>
+            <input
+              matInput
+              required
+              type="text"
+              [(ngModel)]="allowedIp.ipEnd"
+              [placeholder]="
+                'keycloak-provider.placeholder-allowed-ip-ranged-end'
+                  | translate
+              " />
+            <mat-error *ngIf="!allowedIp.ipEnd">
+              {{ "keycloak-provider.required" | translate }}
+            </mat-error>
+            <button
+              matSuffix
+              mat-icon-button
+              (click)="deleteIpEntry(i)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+        <!-- subnet -->
+        <div
+          class="subnet"
+          *ngIf="allowedIp.type === 'subnet'">
+          <mat-form-field>
+            <mat-label>
+              {{ "keycloak-provider.allowed-ip-subnet-ip" | translate }}
+            </mat-label>
+            <input
+              matInput
+              required
+              type="text"
+              [(ngModel)]="allowedIp.ip"
+              [placeholder]="
+                'keycloak-provider.placeholder-allowed-ip-subnet-ip' | translate
+              " />
+            <mat-error *ngIf="!allowedIp.ip">
+              {{ "keycloak-provider.required" | translate }}
+            </mat-error>
+            <button
+              matSuffix
+              mat-icon-button
+              (click)="deleteIpEntry(i)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>
+              {{ "keycloak-provider.allowed-ip-subnet-bits" | translate }}
+            </mat-label>
+            <input
+              matInput
+              required
+              type="number"
+              inputmode="numeric"
+              min="0"
+              max="128"
+              [(ngModel)]="allowedIp.subnet"
+              [placeholder]="
+                'keycloak-provider.placeholder-allowed-ip-subnet-bits'
+                  | translate
+              " />
+            <mat-error *ngIf="!allowedIp.subnet">
+              {{ "keycloak-provider.required" | translate }}
+            </mat-error>
+            <button
+              matSuffix
+              mat-icon-button
+              (click)="deleteIpEntry(i)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+      </ng-container>
+      <div class="ip-adder">
+        <mat-form-field>
+          <mat-label>
+            {{ "keycloak-provider.allowed-ips-type" | translate }}
+          </mat-label>
+          <mat-select
+            #ipSelect
+            value="single">
+            <mat-option value="single">
+              {{ "keycloak-provider.allowed-ips-type-single" | translate }}
+            </mat-option>
+            <mat-option value="range">
+              {{ "keycloak-provider.allowed-ips-type-ranged" | translate }}
+            </mat-option>
+            <mat-option value="subnet">
+              {{ "keycloak-provider.allowed-ips-type-subnet" | translate }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <button
+          mat-flat-button
+          (click)="addIp(ipSelect.value)">
+          {{ "keycloak-provider.add" | translate }}
+        </button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+  <!-- name -->
+  <mat-form-field *ngFor="let lang of languages; let i = index">
+    <mat-label>{{ "keycloak-provider.name-" + lang | translate }}</mat-label>
+    <input
+      matInput
+      required
+      type="text"
+      [(ngModel)]="names[i]"
+      [disabled]="selectedProvider && isDefault()"
+      [placeholder]="
+        'keycloak-provider.placeholder-name-' + lang | translate
+      " />
+    <mat-error *ngIf="!names[i]">
+      {{ "keycloak-provider.required" | translate }}
+    </mat-error>
+  </mat-form-field>
+  <!-- description -->
+  <mat-form-field *ngFor="let lang of languages; let i = index">
+    <mat-label>
+      {{ "keycloak-provider.description-" + lang | translate }}
+    </mat-label>
+    <textarea
+      matInput
+      rows="10"
+      required
+      [(ngModel)]="descriptions[i]"
+      [disabled]="selectedProvider && isDefault()"
+      [placeholder]="
+        'keycloak-provider.placeholder-desc-' + lang | translate
+      "></textarea>
+    <mat-error *ngIf="!descriptions[i]">
+      {{ "keycloak-provider.required" | translate }}
+    </mat-error>
+  </mat-form-field>
+  <button
+    mat-flat-button
+    [disabled]="!canSave()"
+    (click)="saveProvider()">
+    {{ "keycloak-provider.save" | translate }}
+  </button>
+</mat-card>

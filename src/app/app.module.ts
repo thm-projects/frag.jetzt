@@ -1,7 +1,5 @@
 import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
-import { RegisterComponent } from './components/home/_dialogs/register/register.component';
-import { PasswordResetComponent } from './components/home/_dialogs/password-reset/password-reset.component';
 import { AppRoutingModule } from './app-routing.module';
 import {
   MAT_DIALOG_DATA,
@@ -23,14 +21,12 @@ import { DataStoreService } from './services/util/data-store.service';
 import { EventService } from './services/util/event.service';
 import { VoteService } from './services/http/vote.service';
 import { WsConnectorService } from './services/websockets/ws-connector.service';
-import { UserActivationComponent } from './components/home/_dialogs/user-activation/user-activation.component';
 import { AuthenticationInterceptor } from './interceptors/authentication.interceptor';
 import { EssentialsModule } from './components/essentials/essentials.module';
 import { SharedModule } from './components/shared/shared.module';
 import { CreatorModule } from './components/creator/creator.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { LanguageService } from './services/util/language.service';
 import { MarkdownModule, MarkdownService, MarkedOptions } from 'ngx-markdown';
 import { NewLandingComponent } from './components/home/new-landing/new-landing.component';
 import { HomePageComponent } from './components/home/home-page/home-page.component';
@@ -83,8 +79,6 @@ import { DemoFrComponent } from '../assets/i18n/components/demo/demo-fr';
 import { DataProtectionFrComponent } from '../assets/i18n/components/data-protection/data-protection-fr';
 import { CookiesFrComponent } from '../assets/i18n/components/cookies/cookies-fr';
 import { AdminModule } from './components/admin/admin.module';
-import { NgxIndexedDBModule } from 'ngx-indexed-db';
-import { DB_CONFIG } from '../indexeddb';
 import {
   HIGHLIGHT_OPTIONS,
   HighlightLoader,
@@ -99,12 +93,12 @@ import 'katex/dist/katex.min.js';
 import 'emoji-toolkit/lib/js/joypixels.min.js';
 import 'quill-emoji/dist/quill-emoji.js';
 import { QuillModule } from 'ngx-quill';
-import { PasswordGeneratorComponent } from './components/home/_dialogs/password-generator/password-generator.component';
 import { AskOnboardingComponent } from './components/home/_dialogs/ask-onboarding/ask-onboarding.component';
 import { AskOnboardingDEComponent } from 'assets/i18n/components/ask-onboarding/ask-onboarding-de.component';
 import { AskOnboardingENComponent } from 'assets/i18n/components/ask-onboarding/ask-onboarding-en.component';
 import { AskOnboardingFRComponent } from 'assets/i18n/components/ask-onboarding/ask-onboarding-fr.component';
 import { UpdateInfoDialogComponent } from './components/home/_dialogs/update-info-dialog/update-info-dialog.component';
+import { AppStateService } from './services/state/app-state.service';
 
 export const dialogClose = (dialogResult: any) => '';
 
@@ -118,9 +112,6 @@ export const HttpLoaderFactory = (http: HttpClient) =>
 @NgModule({
   declarations: [
     AppComponent,
-    PasswordResetComponent,
-    RegisterComponent,
-    UserActivationComponent,
     NewLandingComponent,
     HomePageComponent,
     DemoVideoComponent,
@@ -148,7 +139,6 @@ export const HttpLoaderFactory = (http: HttpClient) =>
     OverlayComponent,
     QuizNowComponent,
     NotifyUnsupportedBrowserComponent,
-    PasswordGeneratorComponent,
     AskOnboardingComponent,
     AskOnboardingDEComponent,
     AskOnboardingENComponent,
@@ -198,7 +188,6 @@ export const HttpLoaderFactory = (http: HttpClient) =>
     ArsModule,
     TagCloudModule,
     JoyrideModule.forRoot(),
-    NgxIndexedDBModule.forRoot(DB_CONFIG),
     MatNativeDateModule,
     HighlightModule,
     QuillModule.forRoot(),
@@ -227,7 +216,6 @@ export const HttpLoaderFactory = (http: HttpClient) =>
     EventService,
     RoomService,
     CommentService,
-    LanguageService,
     MarkdownService,
     MarkedOptions,
     UserService,
@@ -254,13 +242,13 @@ export const HttpLoaderFactory = (http: HttpClient) =>
 })
 export class AppModule {
   constructor(
-    private languageService: LanguageService,
+    private appState: AppStateService,
     private translateService: TranslateService,
     private highlightLoader: HighlightLoader,
   ) {
     this.highlightLoader.ready.subscribe();
-    this.languageService
-      .getLanguage()
-      .subscribe((lang) => this.translateService.use(lang));
+    this.appState.language$.subscribe((lang) =>
+      this.translateService.use(lang),
+    );
   }
 }

@@ -7,6 +7,7 @@ import { AdminOverviewComponent } from './admin-overview/admin-overview.componen
 import { GptChatComponent } from './gpt-chat/gpt-chat.component';
 import { ChatGPTPromptPresetComponent } from '../shared/chat-gptprompt-preset/chat-gptprompt-preset.component';
 import { AdminMailingComponent } from './admin-mailing/admin-mailing.component';
+import { KeycloakProviderComponent } from './keycloak-provider/keycloak-provider.component';
 
 const routes: Routes = [
   {
@@ -42,6 +43,12 @@ const routes: Routes = [
   {
     path: 'mailing',
     component: AdminMailingComponent,
+    canActivate: [AuthenticationGuard],
+    data: { superAdmin: true },
+  },
+  {
+    path: 'keycloak-provider',
+    component: KeycloakProviderComponent,
     canActivate: [AuthenticationGuard],
     data: { superAdmin: true },
   },
