@@ -8,7 +8,7 @@ import { RoomService } from '../../../services/http/room.service';
 import { EventService } from '../../../services/util/event.service';
 import { ModeratorService } from '../../../services/http/moderator.service';
 import { MatDialog } from '@angular/material/dialog';
-import { Subscription } from 'rxjs';
+import { ReplaySubject, Subscription } from 'rxjs';
 import {
   CommentService,
   RoomQuestionCounts,
@@ -20,16 +20,14 @@ import { MatTableDataSource } from '@angular/material/table';
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
 import { copyCSVString, exportRoom } from '../../../utils/ImportExportMethods';
 import { Sort } from '@angular/material/sort';
-import { filter, take } from 'rxjs/operators';
+import { filter, take, takeUntil } from 'rxjs/operators';
 import { ModeratorsComponent } from '../../creator/_dialogs/moderators/moderators.component';
-import {
-  CommentNotificationDialogComponent
-} from '../_dialogs/comment-notification-dialog/comment-notification-dialog.component';
+import { CommentNotificationDialogComponent } from '../_dialogs/comment-notification-dialog/comment-notification-dialog.component';
 import { CommentNotificationService } from '../../../services/http/comment-notification.service';
 import { BonusTokenComponent } from '../../creator/_dialogs/bonus-token/bonus-token.component';
 import { UserBonusTokenComponent } from '../../participant/_dialogs/user-bonus-token/user-bonus-token.component';
 import { RoomSettingsOverviewComponent } from '../_dialogs/room-settings-overview/room-settings-overview.component';
-import { UserManagementService } from '../../../services/util/user-management.service';
+import { AccountStateService } from 'app/services/state/account-state.service';
 
 type SortFunc<T> = (a: T, b: T) => number;
 
@@ -56,7 +54,6 @@ export class RoomListComponent implements OnInit, OnDestroy {
   rooms: Room[] = [];
   roomsWithRole: RoomRoleMixin[] = [];
   isLoading = true;
-  sub: Subscription;
 
   tableDataSource: MatTableDataSource<Room>;
   displayedColumns = ['name', 'shortId', 'role', 'moderator-access', 'button'];
@@ -70,11 +67,11 @@ export class RoomListComponent implements OnInit, OnDestroy {
     active: 'name',
   };
   private urlToCopy = `${window.location.protocol}//${window.location.host}/participant/room/`;
+  private destroyer = new ReplaySubject(1);
 
   constructor(
     private roomService: RoomService,
     public eventService: EventService,
-    protected userManagementService: UserManagementService,
     private moderatorService: ModeratorService,
     private commentService: CommentService,
     public notificationService: NotificationService,
@@ -82,12 +79,13 @@ export class RoomListComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     private bonusTokenService: BonusTokenService,
     private commentNotificationService: CommentNotificationService,
+    private accountState: AccountStateService,
   ) {}
 
   ngOnInit() {
-    this.userManagementService
-      .getUser()
+    this.accountState.user$
       .pipe(
+        takeUntil(this.destroyer),
         filter((user) => !!user),
         take(1),
       )
@@ -95,16 +93,20 @@ export class RoomListComponent implements OnInit, OnDestroy {
         this.user = user;
         this.getRooms();
       });
-    this.sub = this.eventService.on<any>('RoomDeleted').subscribe((payload) => {
-      this.rooms = this.rooms.filter((r) => r.id !== payload.id);
-      this.roomsWithRole = this.roomsWithRole.filter(
-        (r) => r.id !== payload.id,
-      );
-    });
+    this.eventService
+      .on<any>('RoomDeleted')
+      .pipe(takeUntil(this.destroyer))
+      .subscribe((payload) => {
+        this.rooms = this.rooms.filter((r) => r.id !== payload.id);
+        this.roomsWithRole = this.roomsWithRole.filter(
+          (r) => r.id !== payload.id,
+        );
+      });
   }
 
   ngOnDestroy() {
-    this.sub?.unsubscribe();
+    this.destroyer.next(true);
+    this.destroyer.complete();
   }
 
   showModeratorsDialog(room: Room): void {
@@ -130,11 +132,9 @@ export class RoomListComponent implements OnInit, OnDestroy {
       const roomWithRole: RoomRoleMixin = room as RoomRoleMixin;
       if (room.ownerId === this.user.id) {
         roomWithRole.role = UserRole.CREATOR;
-        this.userManagementService.setAccess(
-          room.shortId,
-          room.id,
-          UserRole.CREATOR,
-        );
+        this.accountState
+          .setAccess(room.shortId, room.id, UserRole.CREATOR)
+          .subscribe();
         return roomWithRole;
       }
       roomWithRole.role = UserRole.PARTICIPANT;
@@ -142,18 +142,14 @@ export class RoomListComponent implements OnInit, OnDestroy {
         .get(room.id)
         .subscribe((moderators: Moderator[]) => {
           if (moderators.some((m) => m.accountId === this.user.id)) {
-            this.userManagementService.setAccess(
-              room.shortId,
-              room.id,
-              UserRole.EXECUTIVE_MODERATOR,
-            );
+            this.accountState
+              .setAccess(room.shortId, room.id, UserRole.EXECUTIVE_MODERATOR)
+              .subscribe();
             roomWithRole.role = UserRole.EXECUTIVE_MODERATOR;
           } else {
-            this.userManagementService.setAccess(
-              room.shortId,
-              room.id,
-              UserRole.PARTICIPANT,
-            );
+            this.accountState
+              .setAccess(room.shortId, room.id, UserRole.PARTICIPANT)
+              .subscribe();
           }
         });
       return roomWithRole;
@@ -182,7 +178,7 @@ export class RoomListComponent implements OnInit, OnDestroy {
   }
 
   setCurrentRoom(shortId: string) {
-    this.userManagementService.setCurrentAccess(shortId);
+    this.accountState.updateAccess(shortId);
   }
 
   removeSession(room: RoomRoleMixin) {
@@ -222,7 +218,7 @@ export class RoomListComponent implements OnInit, OnDestroy {
   }
 
   removeFromHistory(room: Room) {
-    this.userManagementService.removeAccess(room.shortId);
+    this.accountState.removeAccess(room.shortId);
     this.roomService.removeFromHistory(room.id).subscribe(() => {
       this.translateService
         .get('room-list.room-successfully-removed')

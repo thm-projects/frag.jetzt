@@ -11,32 +11,54 @@ const routes: Routes = [
     path: 'room/:shortId',
     component: RoomCreatorPageComponent,
     canActivate: [AuthenticationGuard],
-    data: { roles: [UserRole.CREATOR] }
+    data: {
+      roles: [
+        UserRole.CREATOR,
+        UserRole.EXECUTIVE_MODERATOR,
+        UserRole.PARTICIPANT,
+      ],
+    },
   },
   {
     path: 'room/:shortId/comments',
     component: CommentPageComponent,
     canActivate: [AuthenticationGuard],
-    data: { roles: [UserRole.CREATOR] }
+    data: {
+      roles: [
+        UserRole.CREATOR,
+        UserRole.EXECUTIVE_MODERATOR,
+        UserRole.PARTICIPANT,
+      ],
+    },
   },
   {
     path: 'room/:shortId/comment/:commentId',
     component: CommentAnswerComponent,
     canActivate: [AuthenticationGuard],
-    data: { roles: [UserRole.CREATOR] }
+    data: {
+      roles: [
+        UserRole.CREATOR,
+        UserRole.EXECUTIVE_MODERATOR,
+        UserRole.PARTICIPANT,
+      ],
+    },
   },
   {
     path: 'room/:shortId/comment/:commentId/conversation',
     component: CommentAnswerComponent,
     canActivate: [AuthenticationGuard],
-    data: { roles: [UserRole.CREATOR] }
-  }
+    data: {
+      roles: [
+        UserRole.CREATOR,
+        UserRole.EXECUTIVE_MODERATOR,
+        UserRole.PARTICIPANT,
+      ],
+    },
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-
-export class CreatorRoutingModule {
-}
+export class CreatorRoutingModule {}

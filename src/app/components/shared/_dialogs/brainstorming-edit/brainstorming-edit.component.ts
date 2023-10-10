@@ -4,7 +4,7 @@ import { FormControl, Validators } from '@angular/forms';
 import { BrainstormingSession } from 'app/models/brainstorming-session';
 import { UserRole } from 'app/models/user-roles.enum';
 import { BrainstormingService } from 'app/services/http/brainstorming.service';
-import { AVAILABLE_LANGUAGES } from 'app/services/util/language.service';
+import { AVAILABLE_LANGUAGES } from 'app/services/state/app-state.service';
 import { Subscription } from 'rxjs';
 
 @Component({

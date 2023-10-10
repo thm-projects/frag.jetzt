@@ -4,28 +4,44 @@ import { SwUpdate } from '@angular/service-worker';
 import { NotificationService } from './services/util/notification.service';
 import { Rescale } from './models/rescale';
 import { CustomIconService } from './services/util/custom-icon.service';
-import { filter } from 'rxjs/operators';
-import { StartUpService } from './services/util/start-up.service';
+import { filter, switchMap, tap } from 'rxjs/operators';
 import { EventService } from './services/util/event.service';
 import {
+  CookieDialogRequest,
+  CookieDialogResponse,
   LivepollDialogRequest,
   LivepollDialogResponse,
   LoginDialogRequest,
   LoginDialogResponse,
   MotdDialogRequest,
+  MotdDialogResponse,
+  OnboardingRequest,
+  OnboardingResponse,
   RescaleRequest,
   RescaleResponse,
+  SafariUnsupportedRequest,
+  SafariUnsupportedResponse,
+  listenEvent,
   sendEvent,
 } from './utils/service-component-events';
 import { MatDialog } from '@angular/material/dialog';
 import { LoginComponent } from './components/shared/login/login.component';
 import { MotdDialogComponent } from './components/shared/_dialogs/motd-dialog/motd-dialog.component';
 import { Router } from '@angular/router';
-import { DeviceInfoService } from './services/util/device-info.service';
 import { UpdateInfoDialogComponent } from './components/home/_dialogs/update-info-dialog/update-info-dialog.component';
 import { LivepollDialogComponent } from './components/shared/_dialogs/livepoll/livepoll-dialog/livepoll-dialog.component';
 import { LivepollCreateComponent } from './components/shared/_dialogs/livepoll/livepoll-create/livepoll-create.component';
 import { LivepollSummaryComponent } from './components/shared/_dialogs/livepoll/livepoll-summary/livepoll-summary.component';
+import { LivepollPeerInstructionComparisonComponent } from './components/shared/_dialogs/livepoll/livepoll-peer-instruction/livepoll-peer-instruction-comparison/livepoll-peer-instruction-comparison.component';
+import { CookiesComponent } from './components/home/_dialogs/cookies/cookies.component';
+import { Observable, of } from 'rxjs';
+import { OverlayComponent } from './components/home/_dialogs/overlay/overlay.component';
+import { UUID } from './utils/ts-utils';
+import { DeviceStateService } from './services/state/device-state.service';
+import { AskOnboardingComponent } from './components/home/_dialogs/ask-onboarding/ask-onboarding.component';
+import { OnboardingService } from './services/util/onboarding.service';
+import { NotifyUnsupportedBrowserComponent } from './components/home/_dialogs/notify-unsupported-browser/notify-unsupported-browser.component';
+import { InitService } from './services/util/init.service';
 
 @Component({
   selector: 'app-root',
@@ -44,10 +60,10 @@ export class AppComponent implements OnInit {
   scrollElement: ElementRef<HTMLElement>;
   title = 'frag.jetzt';
   rescaleActive: boolean = false;
+  isMobile = false;
   private _lastScrollTop = 0;
 
   constructor(
-    private _startUp: StartUpService,
     private translationService: TranslateService,
     private update: SwUpdate,
     public notification: NotificationService,
@@ -55,11 +71,15 @@ export class AppComponent implements OnInit {
     private eventService: EventService,
     private dialog: MatDialog,
     public router: Router,
-    public deviceInfo: DeviceInfoService,
+    private onboarding: OnboardingService,
+    deviceState: DeviceStateService,
+    initService: InitService,
   ) {
     AppComponent.instance = this;
     this.initDialogsForServices();
     customIconService.init();
+    deviceState.mobile$.subscribe((m) => (this.isMobile = m));
+    initService.init();
   }
 
   public static scrollTop() {
@@ -109,68 +129,143 @@ export class AppComponent implements OnInit {
   }
 
   private initDialogsForServices() {
-    this.eventService
-      .on<LoginDialogRequest>(LoginDialogRequest.name)
-      .subscribe((request) => {
-        const dialogRef = this.dialog.open(LoginComponent, {
-          width: '350px',
-        });
-        dialogRef.componentInstance.redirectUrl = request.redirectUrl;
-        dialogRef.afterClosed().subscribe(() => {
-          sendEvent(this.eventService, new LoginDialogResponse());
-        });
+    listenEvent(this.eventService, LoginDialogRequest).subscribe((request) => {
+      const dialogRef = this.dialog.open(LoginComponent, {
+        width: '350px',
       });
-    this.eventService
-      .on<RescaleRequest>(RescaleRequest.name)
-      .subscribe((request) => {
-        let scale;
-        if (request.scale === 'initial') {
-          scale = this.getRescale().getInitialScale();
-        } else {
-          scale = request.scale;
-        }
-        this.getRescale().setScale(scale);
-        sendEvent(this.eventService, new RescaleResponse());
+      dialogRef.componentInstance.redirectUrl = request.redirectUrl;
+      dialogRef.afterClosed().subscribe((keycloakId: UUID) => {
+        sendEvent(
+          this.eventService,
+          new LoginDialogResponse(request, keycloakId),
+        );
       });
-    this.eventService
-      .on<MotdDialogRequest>(MotdDialogRequest.name)
-      .subscribe((request) => {
-        const dialogRef = this.dialog.open(MotdDialogComponent, {
-          width: '80%',
-          maxWidth: '600px',
-          minHeight: '95%',
-          height: '95%',
-        });
-        dialogRef.componentInstance.motds = request.motds;
-        dialogRef.afterClosed().subscribe(() => {
-          sendEvent(this.eventService, new LoginDialogResponse());
-        });
+    });
+    listenEvent(this.eventService, RescaleRequest).subscribe((request) => {
+      let scale;
+      if (request.scale === 'initial') {
+        scale = this.getRescale().getInitialScale();
+      } else {
+        scale = request.scale;
+      }
+      this.getRescale().setScale(scale);
+      sendEvent(this.eventService, new RescaleResponse(request));
+    });
+    listenEvent(this.eventService, MotdDialogRequest).subscribe((req) => {
+      const dialogRef = this.dialog.open(MotdDialogComponent, {
+        width: '80%',
+        maxWidth: '600px',
+        minHeight: '95%',
+        height: '95%',
       });
-    this.eventService
-      .on<LivepollDialogRequest>(LivepollDialogRequest.name)
-      .subscribe((request) => {
-        if (request.dialog === 'dialog') {
+      dialogRef.componentInstance.motds = req.motds;
+      dialogRef.afterClosed().subscribe(() => {
+        sendEvent(this.eventService, new MotdDialogResponse(req));
+      });
+    });
+    listenEvent(this.eventService, CookieDialogRequest).subscribe((req) => {
+      this.showCookieModal().subscribe((returnValue) =>
+        sendEvent(
+          this.eventService,
+          new CookieDialogResponse(req, returnValue),
+        ),
+      );
+    });
+    listenEvent(this.eventService, LivepollDialogRequest).subscribe((req) => {
+      switch (req.dialog) {
+        case 'dialog':
           sendEvent(
             this.eventService,
             new LivepollDialogResponse(
-              this.dialog.open(LivepollDialogComponent, request.config),
+              req,
+              this.dialog.open(LivepollDialogComponent, req.config),
             ),
           );
-        } else if (request.dialog === 'create') {
+          break;
+        case 'create':
           sendEvent(
             this.eventService,
             new LivepollDialogResponse(
-              this.dialog.open(LivepollCreateComponent, request.config),
+              req,
+              this.dialog.open(LivepollCreateComponent, req.config),
             ),
           );
-        } else if (request.dialog === 'summary') {
+          break;
+        case 'summary':
           sendEvent(
             this.eventService,
             new LivepollDialogResponse(
-              this.dialog.open(LivepollSummaryComponent, request.config),
+              req,
+              this.dialog.open(LivepollSummaryComponent, req.config),
             ),
           );
-        }
+          break;
+        case 'comparison':
+          sendEvent(
+            this.eventService,
+            new LivepollDialogResponse(
+              req,
+              this.dialog.open(
+                LivepollPeerInstructionComparisonComponent,
+                req.config,
+              ),
+            ),
+          );
+          break;
+        default:
+          throw new Error('Should not happen');
+      }
+    });
+    listenEvent(this.eventService, OnboardingRequest).subscribe((request) => {
+      const dialogRef = this.dialog.open(AskOnboardingComponent, {
+        width: '80%',
+        maxWidth: '600px',
+        autoFocus: true,
       });
+      dialogRef.disableClose = true;
+      dialogRef.afterClosed().pipe(
+        tap((data) => {
+          sendEvent(this.eventService, new OnboardingResponse(request));
+          if (!data) {
+            localStorage.setItem(
+              'onboarding_default',
+              JSON.stringify({ state: 'canceled' }),
+            );
+          } else {
+            this.onboarding.startDefaultTour();
+          }
+        }),
+      );
+    });
+    listenEvent(this.eventService, SafariUnsupportedRequest).subscribe(
+      (request) => {
+        const ref = this.dialog.open(NotifyUnsupportedBrowserComponent, {
+          width: '600px',
+        });
+        ref.afterClosed().subscribe(() => {
+          sendEvent(this.eventService, new SafariUnsupportedResponse(request));
+        });
+      },
+    );
+  }
+
+  private showCookieModal(): Observable<boolean> {
+    const dialogRef = this.dialog.open(CookiesComponent, {
+      width: '80%',
+      maxWidth: '600px',
+      autoFocus: true,
+    });
+    dialogRef.disableClose = true;
+    return dialogRef
+      .afterClosed()
+      .pipe(switchMap((d) => (d ? of(true) : this.showOverlay())));
+  }
+
+  private showOverlay(): Observable<boolean> {
+    const dialogRef = this.dialog.open(OverlayComponent, {});
+    dialogRef.disableClose = true;
+    return dialogRef
+      .afterClosed()
+      .pipe(switchMap((d) => (d ? this.showCookieModal() : of(false))));
   }
 }

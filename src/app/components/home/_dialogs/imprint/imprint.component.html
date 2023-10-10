@@ -1,15 +1,19 @@
 <!--Imprint-->
-<h1 tabindex="0"
-    mat-dialog-title>{{ 'imprint.title' | translate }} </h1>
+<h1
+  tabindex="0"
+  mat-dialog-title>
+  {{ "imprint.title" | translate }}
+</h1>
 
 <mat-dialog-content tabindex="0">
-  <app-imprint-en *ngIf="languageService.currentLanguage() === 'en'"></app-imprint-en>
-  <app-imprint-de *ngIf="languageService.currentLanguage() === 'de'"></app-imprint-de>
-  <app-imprint-fr *ngIf="languageService.currentLanguage() === 'fr'"></app-imprint-fr>
+  <app-imprint-en *ngIf="currentLanguage === 'en'"></app-imprint-en>
+  <app-imprint-de *ngIf="currentLanguage === 'de'"></app-imprint-de>
+  <app-imprint-fr *ngIf="currentLanguage === 'fr'"></app-imprint-fr>
 </mat-dialog-content>
 
 <app-dialog-action-buttons
   confirmButtonLabel="cancel"
   buttonsLabelSection="imprint"
-  [confirmButtonClickAction]="buildDeclineActionCallback()">
-</app-dialog-action-buttons>
+  [confirmButtonClickAction]="
+    buildDeclineActionCallback()
+  "></app-dialog-action-buttons>

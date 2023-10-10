@@ -18,7 +18,6 @@ import { UserRole } from '../../models/user-roles.enum';
 import { filter, map, mergeMap, take } from 'rxjs/operators';
 import { WsConnectorService } from '../websockets/ws-connector.service';
 import { QuillUtils, SerializedDelta } from '../../utils/quill-utils';
-import { UserManagementService } from './user-management.service';
 import { environment } from 'environments/environment';
 import { BrainstormingWord } from 'app/models/brainstorming-word';
 import { BrainstormingCategory } from 'app/models/brainstorming-category';
@@ -29,6 +28,7 @@ import { LivepollSession } from '../../models/livepoll-session';
 import { LivepollEventType, LivepollService } from '../http/livepoll.service';
 import { WsGlobalService } from '../websockets/ws-global.service';
 import { GlobalCountChanged } from 'app/models/global-count-changed';
+import { AccountStateService } from '../state/account-state.service';
 
 @Injectable({
   providedIn: 'root',
@@ -60,13 +60,15 @@ export class SessionService {
     private roomService: RoomService,
     private wsRoomService: WsRoomService,
     private moderatorService: ModeratorService,
-    private userManagementService: UserManagementService,
     private wsConnectorService: WsConnectorService,
     private brainstormingService: BrainstormingService,
     private gptService: GptService,
     private livepollService: LivepollService,
     private wsGlobal: WsGlobalService,
-  ) {}
+    private accountState: AccountStateService,
+  ) {
+    this.init();
+  }
 
   get currentLivepoll(): LivepollSession {
     return this._currentLivepollSession.value;
@@ -206,23 +208,16 @@ export class SessionService {
       return false;
     }
     let previous =
-      this.userManagementService.getCurrentUser()?.isSuperAdmin ||
-      !this._initialized ||
-      this.userManagementService.hasAccess(shortId, urlRole);
+      !this._initialized || this.accountState.hasAccess(shortId, urlRole);
     this.loadRoom(shortId);
     this.onReady.subscribe(() => {
-      const user = this.userManagementService.getCurrentUser();
+      const user = this.accountState.getCurrentUser();
       if (!user) {
         previous = false;
         onRevalidate(previous);
         return;
       }
       this.ensureRole(user.id).subscribe((role) => {
-        if (user.isSuperAdmin) {
-          previous = true;
-          onRevalidate(previous);
-          return;
-        }
         if (role >= urlRole) {
           previous = true;
           onRevalidate(previous);
@@ -259,28 +254,22 @@ export class SessionService {
     return this.getRoomOnce().pipe(
       switchMap((room) => {
         if (room.ownerId === userId) {
-          this.userManagementService.setAccess(
-            room.shortId,
-            room.id,
-            UserRole.CREATOR,
-          );
+          this.accountState
+            .setAccess(room.shortId, room.id, UserRole.CREATOR)
+            .subscribe();
           return of(UserRole.CREATOR);
         }
         return this.getModeratorsOnce().pipe(
           map((mods) => {
             if (mods.some((m) => m.accountId === userId)) {
-              this.userManagementService.setAccess(
-                room.shortId,
-                room.id,
-                UserRole.EXECUTIVE_MODERATOR,
-              );
+              this.accountState
+                .setAccess(room.shortId, room.id, UserRole.EXECUTIVE_MODERATOR)
+                .subscribe();
               return UserRole.EXECUTIVE_MODERATOR;
             }
-            this.userManagementService.setAccess(
-              room.shortId,
-              room.id,
-              UserRole.PARTICIPANT,
-            );
+            this.accountState
+              .setAccess(room.shortId, room.id, UserRole.PARTICIPANT)
+              .subscribe();
             return UserRole.PARTICIPANT;
           }),
         );
@@ -358,11 +347,11 @@ export class SessionService {
     this.clearRoom();
     this._currentLoadingShortId = shortId;
     this._initFinished.pipe(take(1)).subscribe(() => {
-      this.userManagementService
+      this.accountState
         .forceLogin()
         .pipe(
           map((data) => {
-            this.userManagementService.setCurrentAccess(shortId);
+            this.accountState.updateAccess(shortId);
             return data;
           }),
           mergeMap((_) =>
@@ -379,11 +368,7 @@ export class SessionService {
   private fetchRoom(shortId: string) {
     this.roomService.getRoomByShortId(shortId).subscribe((room) => {
       this.roomService.addToHistory(room.id);
-      this.userManagementService.ensureAccess(
-        shortId,
-        room.id,
-        UserRole.PARTICIPANT,
-      );
+      this.accountState.ensureAccess(shortId, room.id, UserRole.PARTICIPANT);
       this._beforeRoomUpdates = new Subject<Partial<Room>>();
       this._afterRoomUpdates = new Subject<Room>();
       this._roomSubscription = this.wsRoomService
@@ -573,8 +558,10 @@ export class SessionService {
   private checkUser() {
     if (!SessionService.needsUser(decodeURI(this.router.url))) {
       return;
+    } else {
+      return;
     }
-    this.userManagementService.forceLogin().subscribe();
+    this.accountState.forceLogin().subscribe();
   }
 
   private onLivepollCreated(message: any, room: Room) {

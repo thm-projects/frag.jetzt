@@ -1,11 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { LanguageService } from '../../../services/util/language.service';
 import { TranslateService } from '@ngx-translate/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { DateAdapter } from '@angular/material/core';
 import { MotdService } from '../../../services/http/motd.service';
 import { NotificationService } from '../../../services/util/notification.service';
 import { ReplaySubject, takeUntil } from 'rxjs';
+import { AppStateService } from 'app/services/state/app-state.service';
 
 @Component({
   selector: 'app-create-motd',
@@ -24,14 +24,13 @@ export class CreateMotdComponent implements OnInit, OnDestroy {
   private _destroyer = new ReplaySubject(1);
 
   constructor(
-    private languageService: LanguageService,
     private translateService: TranslateService,
     private _adapter: DateAdapter<any>,
     private motdService: MotdService,
     private notification: NotificationService,
+    private appState: AppStateService,
   ) {
-    this.languageService
-      .getLanguage()
+    this.appState.language$
       .pipe(takeUntil(this._destroyer))
       .subscribe((lang) => {
         this._adapter.setLocale(lang);
@@ -107,7 +106,7 @@ export class CreateMotdComponent implements OnInit, OnDestroy {
 
   getDateFormatString() {
     const str = new Date(2345, 0, 11).toLocaleDateString(
-      this.languageService.currentLanguage(),
+      this.appState.getCurrentLanguage(),
     );
     return str
       .replace(/(\D|^)2345(\D|$)/, '$1YYYY$2')

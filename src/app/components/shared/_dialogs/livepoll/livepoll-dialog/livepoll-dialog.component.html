@@ -22,6 +22,17 @@
       "></ng-container>
     <div class="fill"></div>
     <div class="settings">
+      <span *ngIf="is2ndPhasePeerInstruction">
+        {{ translateKey + ".peerInstruction-phase-2-marker" | translate }}
+      </span>
+      <button
+        mat-flat-button
+        *ngIf="session.currentRole"
+        (click)="openPeerInstruction()"
+        class="button-secondary">
+        <mat-icon>face</mat-icon>
+        <span>{{ translateKey + ".peerInstruction-button" | translate }}</span>
+      </button>
       <button
         mat-flat-button
         [mat-menu-trigger-for]="archiveMenu"
@@ -197,7 +208,7 @@
       (click)="isPaused ? play() : pause()">
       <mat-icon>{{ isPaused ? "play_circle" : "pause_circle" }}</mat-icon>
       <span
-        *ngIf="device.isCurrentlyDesktop"
+        *ngIf="!isMobile"
         class="on-desktop">
         {{
           translateKey +
@@ -213,7 +224,7 @@
       (click)="close('delete')">
       <mat-icon style="color: var(--red)">stop_circle</mat-icon>
       <span
-        *ngIf="device.isCurrentlyDesktop"
+        *ngIf="!isMobile"
         class="on-desktop">
         {{ translateKey + ".creator-settings-delete" | translate }}
       </span>
@@ -236,7 +247,7 @@
       class="button-secondary">
       <mat-icon>add_circle</mat-icon>
       <span
-        *ngIf="device.isCurrentlyDesktop"
+        *ngIf="!isMobile"
         class="on-desktop">
         {{ translateKey + ".new" | translate }}
       </span>

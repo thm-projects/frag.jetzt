@@ -1,6 +1,6 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { RoomService } from '../../../../services/http/room.service';
-import { ProfanityFilter, Room } from '../../../../models/room';
+import { Room } from '../../../../models/room';
 import { UserRole } from '../../../../models/user-roles.enum';
 import { Router } from '@angular/router';
 import { NotificationService } from '../../../../services/util/notification.service';
@@ -13,12 +13,12 @@ import { TranslateService } from '@ngx-translate/core';
 import { User } from '../../../../models/user';
 import { defaultCategories } from '../../../../utils/defaultCategories';
 import { FormControl, Validators } from '@angular/forms';
-import { LanguageService } from '../../../../services/util/language.service';
 import { SessionService } from '../../../../services/util/session.service';
 import { RoomSettingsOverviewComponent } from '../room-settings-overview/room-settings-overview.component';
-import { UserManagementService } from '../../../../services/util/user-management.service';
 import { GptService } from 'app/services/http/gpt.service';
-import { switchMap } from 'rxjs';
+import { ReplaySubject, switchMap, takeUntil } from 'rxjs';
+import { AccountStateService } from 'app/services/state/account-state.service';
+import { AppStateService } from 'app/services/state/app-state.service';
 
 const invalidRegex = /[^A-Z0-9_\-.~]+/gi;
 
@@ -27,7 +27,7 @@ const invalidRegex = /[^A-Z0-9_\-.~]+/gi;
   templateUrl: './room-create.component.html',
   styleUrls: ['./room-create.component.scss'],
 })
-export class RoomCreateComponent implements OnInit {
+export class RoomCreateComponent implements OnInit, OnDestroy {
   shortIdAlreadyUsed = false;
   room: Room;
   roomId: string;
@@ -50,6 +50,7 @@ export class RoomCreateComponent implements OnInit {
     Validators.pattern('[a-zA-Z0-9_\\-.~]+'),
     this.verifyAlreadyUsed.bind(this),
   ]);
+  private destroyer = new ReplaySubject(1);
 
   constructor(
     private roomService: RoomService,
@@ -57,18 +58,23 @@ export class RoomCreateComponent implements OnInit {
     private notification: NotificationService,
     public dialogRef: MatDialogRef<RoomCreateComponent>,
     private translateService: TranslateService,
-    private userManagementService: UserManagementService,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private languageService: LanguageService,
     private sessionService: SessionService,
     private dialog: MatDialog,
     private gptService: GptService,
+    private accountState: AccountStateService,
+    private appState: AppStateService,
   ) {}
 
   ngOnInit() {
-    this.userManagementService
-      .getUser()
+    this.accountState.user$
+      .pipe(takeUntil(this.destroyer))
       .subscribe((newUser) => (this.user = newUser));
+  }
+
+  ngOnDestroy(): void {
+    this.destroyer.next(true);
+    this.destroyer.complete();
   }
 
   resetInvalidCharacters(): void {
@@ -105,7 +111,7 @@ export class RoomCreateComponent implements OnInit {
     }
     this.isLoading = true;
     if (!this.user) {
-      this.userManagementService.forceLogin().subscribe(() => {
+      this.accountState.forceLogin().subscribe(() => {
         this.addRoom(this.roomNameFormControl.value);
       });
     } else {
@@ -120,7 +126,7 @@ export class RoomCreateComponent implements OnInit {
       return;
     }
     const categories =
-      defaultCategories[this.languageService.currentLanguage()] ||
+      defaultCategories[this.appState.getCurrentLanguage()] ||
       defaultCategories.default;
     const newRoom = new Room({
       name: longRoomName,
@@ -142,12 +148,10 @@ export class RoomCreateComponent implements OnInit {
         this.translateService
           .get('home-page.created', { longRoomName })
           .subscribe((msg) => this.notification.show(msg));
-        this.userManagementService.setAccess(
-          room.shortId,
-          room.id,
-          UserRole.CREATOR,
-        );
-        this.userManagementService.setCurrentAccess(room.shortId);
+        this.accountState
+          .setAccess(room.shortId, room.id, UserRole.CREATOR)
+          .subscribe();
+        this.accountState.updateAccess(room.shortId);
         this.router
           .navigate(['/creator/room/' + encodeURIComponent(room.shortId)])
           .then(() => {

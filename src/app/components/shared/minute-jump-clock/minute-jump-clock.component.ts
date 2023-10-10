@@ -8,16 +8,17 @@ import {
   ViewChild,
 } from '@angular/core';
 import { HeaderService } from '../../../services/util/header.service';
-import { DeviceInfoService } from '../../../services/util/device-info.service';
 import { Subject, takeUntil } from 'rxjs';
 import { ThemeService } from '../../../../theme/theme.service';
+import { DeviceStateService } from 'app/services/state/device-state.service';
 
 @Component({
   selector: 'app-minute-jump-clock',
   templateUrl: './minute-jump-clock.component.html',
   styleUrls: ['./minute-jump-clock.component.scss'],
 })
-export class MinuteJumpClockComponent implements OnInit, AfterViewInit, OnDestroy {
+export class MinuteJumpClockComponent
+  implements OnInit, AfterViewInit, OnDestroy {
   @Input()
   minWidth: number = 1320;
   @Input()
@@ -48,7 +49,7 @@ export class MinuteJumpClockComponent implements OnInit, AfterViewInit, OnDestro
 
   constructor(
     private readonly headerService: HeaderService,
-    private readonly deviceInfo: DeviceInfoService,
+    private readonly deviceState: DeviceStateService,
     private readonly themeService: ThemeService,
   ) {}
 
@@ -57,7 +58,7 @@ export class MinuteJumpClockComponent implements OnInit, AfterViewInit, OnDestro
     const func = () => {
       this.update();
     };
-    this.deviceInfo.isMobile().pipe(takeUntil(this._destroyer)).subscribe(func);
+    this.deviceState.mobile$.pipe(takeUntil(this._destroyer)).subscribe(func);
     this._matcher.addEventListener('change', func);
     this._destroyer.subscribe(() =>
       this._matcher.removeEventListener('change', func),
@@ -171,8 +172,8 @@ export class MinuteJumpClockComponent implements OnInit, AfterViewInit, OnDestro
   private update() {
     this.visible =
       (this.ignoreTooLessSpace ||
-        (!this.deviceInfo.isCurrentlyMobile && !this._matcher.matches)) &&
-      !this.deviceInfo.isSafari &&
+        (!this.deviceState.isMobile() && !this._matcher.matches)) &&
+      !this.deviceState.isSafari &&
       this.themeService.currentTheme?.key !== 'projector';
     if (!this._initialized) {
       return;

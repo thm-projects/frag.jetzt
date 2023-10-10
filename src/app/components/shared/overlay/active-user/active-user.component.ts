@@ -2,16 +2,15 @@ import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Room } from '../../../../models/room';
 import { HeaderService } from '../../../../services/util/header.service';
 import { RoomDataService } from '../../../../services/util/room-data.service';
-import { DeviceInfoService } from '../../../../services/util/device-info.service';
-import { Subscription } from 'rxjs';
+import { ReplaySubject, Subscription, takeUntil } from 'rxjs';
+import { DeviceStateService } from 'app/services/state/device-state.service';
 
 @Component({
   selector: 'app-active-user',
   templateUrl: './active-user.component.html',
-  styleUrls: ['./active-user.component.scss']
+  styleUrls: ['./active-user.component.scss'],
 })
 export class ActiveUserComponent implements OnInit, OnDestroy {
-
   @Input() room: Room;
   @Input() iconColor: string;
   @Input() foregroundColor: string;
@@ -22,29 +21,33 @@ export class ActiveUserComponent implements OnInit, OnDestroy {
   @ViewChild('divElement') elem: HTMLElement;
   activeUser = '?';
   showByComponent: boolean;
-  private _sub: Subscription;
+  private destroyer = new ReplaySubject(1);
 
   constructor(
     private headerService: HeaderService,
     private roomDataService: RoomDataService,
-    private deviceInfo: DeviceInfoService,
-  ) {
-  }
+    private deviceState: DeviceStateService,
+  ) {}
 
   ngOnInit(): void {
-    this.deviceInfo.isMobile().subscribe(mobile => {
-      this.showByComponent = !(mobile || this.alwaysShowInHeader);
-      this.headerService.toggleCurrentUserActivity(!this.showByComponent);
-    });
-    this._sub = this.roomDataService.observeUserCount().subscribe(value => {
-      this.activeUser = value;
-      this.headerService.setCurrentUserActivity(value);
-    });
+    this.deviceState.mobile$
+      .pipe(takeUntil(this.destroyer))
+      .subscribe((mobile) => {
+        this.showByComponent = !(mobile || this.alwaysShowInHeader);
+        this.headerService.toggleCurrentUserActivity(!this.showByComponent);
+      });
+    this.roomDataService
+      .observeUserCount()
+      .pipe(takeUntil(this.destroyer))
+      .subscribe((value) => {
+        this.activeUser = value;
+        this.headerService.setCurrentUserActivity(value);
+      });
   }
 
   ngOnDestroy() {
+    this.destroyer.next(true);
+    this.destroyer.complete();
     this.headerService.toggleCurrentUserActivity(false);
-    this._sub?.unsubscribe();
   }
-
 }

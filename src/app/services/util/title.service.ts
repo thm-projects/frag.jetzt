@@ -1,21 +1,18 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { TranslateService } from '@ngx-translate/core';
-import { LanguageService } from './language.service';
+import { AppStateService } from '../state/app-state.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class TitleService {
-
   private _attachment: any = null;
 
   constructor(
-    private httpClient: HttpClient,
     private translateService: TranslateService,
-    private languageService: LanguageService,
+    private appState: AppStateService,
   ) {
-    this.languageService.getLanguage().subscribe(_ => {
+    this.appState.language$.subscribe((_) => {
       this.updateTitle();
     });
   }
@@ -32,9 +29,10 @@ export class TitleService {
 
   private updateTitle() {
     const key = this._attachment ? 'title.attach-title' : 'title.default-title';
-    this.translateService.get(key, { attachment: this._attachment }).subscribe(msg => {
-      document.title = msg;
-    });
+    this.translateService
+      .get(key, { attachment: this._attachment })
+      .subscribe((msg) => {
+        document.title = msg;
+      });
   }
-
 }

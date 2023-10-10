@@ -11,9 +11,9 @@ import { SessionService } from '../util/session.service';
 import { UserRole } from '../../models/user-roles.enum';
 import { Overlay } from '@angular/cdk/overlay';
 import {
+  callServiceEvent,
   LivepollDialogRequest,
   LivepollDialogResponse,
-  callServiceEvent,
 } from 'app/utils/service-component-events';
 import { EventService } from '../util/event.service';
 
@@ -74,6 +74,11 @@ export class LivepollService extends BaseHttpService {
   }> = new EventEmitter();
   private readonly _dialogState: BehaviorSubject<LivepollDialogState> =
     new BehaviorSubject<LivepollDialogState>(LivepollDialogState.Closed);
+  // [<roomID>,[<livepollSessionID>, [<livepollSessionID> <- first pass, <livepollSessionID> <- second pass]]][]
+  private readonly _relatePeerInstruction: Map<
+    string,
+    Map<string, [string, string]>
+  > = new Map();
 
   constructor(
     public readonly http: HttpClient,
@@ -83,6 +88,29 @@ export class LivepollService extends BaseHttpService {
     private readonly eventService: EventService,
   ) {
     super();
+    let passed = false;
+    try {
+      const peerInstructionsMap = localStorage.getItem(
+        'livepoll-peer-instruction-map',
+      );
+      if (peerInstructionsMap) {
+        const parsed = JSON.parse(peerInstructionsMap) as [
+          string,
+          [string, [string, string]][],
+        ][];
+        this._relatePeerInstruction = new Map(
+          parsed.map(([l, r]) => [l, new Map(r)]),
+        );
+        passed = true;
+      } else {
+      }
+    } catch (e) {
+      console.warn('rebuild livepoll-peer-instruction');
+    }
+    if (!passed) {
+      localStorage.setItem('livepoll-peer-instruction-map', '[]');
+      this._relatePeerInstruction = new Map();
+    }
   }
 
   get isOpen(): boolean {
@@ -246,6 +274,14 @@ export class LivepollService extends BaseHttpService {
       );
   }
 
+  getPeerInstructionRelation(
+    livepollSession: LivepollSession,
+  ): [string, string] | undefined {
+    return this._relatePeerInstruction
+      .get(livepollSession.roomId)
+      ?.get(livepollSession.id);
+  }
+
   private onNextEvent(type: LivepollEventType): Observable<LivepollSession> {
     return new Observable<LivepollSession>((subscriber) => {
       const subscription = LivepollService.livepollEventEmitter.subscribe(
@@ -276,13 +312,14 @@ export class LivepollService extends BaseHttpService {
       },
       ...LivepollService.dialogDefaults,
     };
-    callServiceEvent<LivepollDialogResponse, LivepollDialogRequest>(
+    callServiceEvent(
       this.eventService,
       new LivepollDialogRequest('dialog', config),
     ).subscribe((response) => {
       const dialogRef = response.dialogRef;
       dialogRef.afterClosed().subscribe((result) => {
         switch (result?.reason) {
+          // delete: after confirmation of 'End poll'
           case 'delete':
             this.delete(sessionService.currentLivepoll.id).subscribe(() => {
               this._dialogState.next(LivepollDialogState.Closed);
@@ -293,6 +330,12 @@ export class LivepollService extends BaseHttpService {
             this.delete(sessionService.currentLivepoll.id).subscribe(() => {
               this._dialogState.next(LivepollDialogState.Closed);
               this.open(sessionService);
+            });
+            break;
+          case 'peerInstructionPhase1':
+            this.delete(sessionService.currentLivepoll.id).subscribe(() => {
+              this._dialogState.next(LivepollDialogState.Closed);
+              this.openSummary(sessionService, cachedLivepollSession, true);
             });
             break;
           case 'closedAsCreator':
@@ -318,7 +361,7 @@ export class LivepollService extends BaseHttpService {
       data: '',
       ...LivepollService.dialogDefaults,
     };
-    callServiceEvent<LivepollDialogResponse, LivepollDialogRequest>(
+    callServiceEvent(
       this.eventService,
       new LivepollDialogRequest('create', config),
     ).subscribe((response) => {
@@ -348,20 +391,92 @@ export class LivepollService extends BaseHttpService {
   private openSummary(
     sessionService: SessionService,
     livepollSession: LivepollSession,
+    peerInstruction: boolean = false,
   ) {
-    const config = {
-      ...{ data: livepollSession },
-      ...LivepollService.dialogDefaults,
-    };
-
-    callServiceEvent<LivepollDialogResponse, LivepollDialogRequest>(
-      this.eventService,
-      new LivepollDialogRequest('summary', config),
-    ).subscribe((response) => {
-      const dialogRef = response.dialogRef;
-      dialogRef.afterClosed().subscribe(() => {
-        this._dialogState.next(LivepollDialogState.Closed);
+    const relation = this.getPeerInstructionRelation(livepollSession);
+    if (relation && relation[1] === livepollSession.id) {
+      this.findByRoomId(livepollSession.roomId).subscribe((sessions) => {
+        const first = sessions.filter((x) => x.id === relation[0]);
+        if (first && first.length > 0) {
+          callServiceEvent(
+            this.eventService,
+            new LivepollDialogRequest('comparison', {
+              ...{
+                data: [first[0], livepollSession],
+              },
+              ...LivepollService.dialogDefaults,
+            }),
+          ).subscribe((response) => {
+            const dialogRef = response.dialogRef;
+            dialogRef.afterClosed().subscribe((response) => {
+              this._dialogState.next(LivepollDialogState.Closed);
+            });
+          });
+        } else {
+          throw new Error(`Session couldn't be found ${relation[0]}`);
+        }
       });
-    });
+    } else {
+      const config = {
+        ...{
+          data: {
+            peerInstruction,
+            livepollSession,
+          },
+        },
+        ...{
+          ...LivepollService.dialogDefaults,
+          ...({
+            disableClose: peerInstruction,
+          } as MatDialogConfig),
+        },
+      };
+      callServiceEvent(
+        this.eventService,
+        new LivepollDialogRequest('summary', config),
+      ).subscribe((response) => {
+        const dialogRef = response.dialogRef;
+        dialogRef.afterClosed().subscribe((response) => {
+          this._dialogState.next(LivepollDialogState.Closed);
+          if (peerInstruction && response) {
+            this.create(livepollSession).subscribe((newLivepollSession) => {
+              this.addPeerInstructionDependency(
+                livepollSession,
+                newLivepollSession,
+              );
+              this.open(sessionService);
+            });
+          }
+        });
+      });
+    }
+  }
+
+  private addPeerInstructionDependency(
+    _old: LivepollSession,
+    _new: LivepollSession,
+  ) {
+    const relation: [string, string] = [_old.id, _new.id];
+    if (!this._relatePeerInstruction.has(_old.roomId)) {
+      this._relatePeerInstruction.set(
+        _old.roomId,
+        new Map([
+          [_old.id, relation],
+          [_new.id, relation],
+        ]),
+      );
+    } else {
+      this._relatePeerInstruction.get(_old.roomId).set(_old.id, relation);
+      this._relatePeerInstruction.get(_old.roomId).set(_new.id, relation);
+    }
+    localStorage.setItem(
+      'livepoll-peer-instruction-map',
+      JSON.stringify(
+        Array.from(this._relatePeerInstruction.entries()).map(([key, val]) => [
+          key,
+          Array.from(val.entries()),
+        ]),
+      ),
+    );
   }
 }

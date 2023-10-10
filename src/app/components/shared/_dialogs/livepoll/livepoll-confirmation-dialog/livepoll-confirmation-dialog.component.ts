@@ -1,6 +1,17 @@
-import { Component, OnInit } from '@angular/core';
-import { DeviceInfoService } from '../../../../../services/util/device-info.service';
-import { MatDialogRef } from '@angular/material/dialog';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+
+export enum ConfirmDialogType {
+  AcceptCancel,
+  YesNoCancel,
+}
+
+export enum ConfirmDialogAction {
+  Cancel,
+  Yes,
+  No,
+  Accept,
+}
 
 @Component({
   selector: 'app-livepoll-confirmation-dialog',
@@ -14,22 +25,25 @@ export class LivepollConfirmationDialogComponent implements OnInit {
   public readonly translateKey: string = 'common';
   public textRef: string;
   public titleRef: string;
+  protected readonly ConfirmDialogType = ConfirmDialogType;
+  protected readonly ConfirmDialogAction = ConfirmDialogAction;
 
   constructor(
-    public readonly device: DeviceInfoService,
     public readonly matDialogRef: MatDialogRef<
       LivepollConfirmationDialogComponent,
-      boolean
+      ConfirmDialogAction
     >,
+    @Inject(MAT_DIALOG_DATA)
+    public readonly data: {
+      type: ConfirmDialogType;
+    } = {
+      type: ConfirmDialogType.AcceptCancel,
+    },
   ) {}
 
   ngOnInit(): void {}
 
-  public accept() {
-    this.matDialogRef.close(true);
-  }
-
-  public cancel() {
-    this.matDialogRef.close(false);
+  protected emitAction(action: ConfirmDialogAction) {
+    this.matDialogRef.close(action);
   }
 }
