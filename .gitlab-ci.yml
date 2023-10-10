@@ -138,9 +138,9 @@ deploy_production:
   script:
     - eval $(ssh-agent -s)
     - mkdir ~/.ssh
-    - ssh-keyscan "$SERVER_URL" >> ~/.ssh/known_hosts
-    - ssh-add <(echo "$SSH_PRIVATE_KEY")
-    - scp -r "$BUILD_DIR"* "$SSH_URL"
+    - ssh-keyscan "$PROD_SERVER_URL" >> ~/.ssh/known_hosts
+    - ssh-add <(echo "$PROD_KEY")
+    - ssh "$PROD_SSH_URL"
 
 deploy_frag_thm:
   stage: deploy_servers
