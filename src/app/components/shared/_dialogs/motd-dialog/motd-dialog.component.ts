@@ -4,6 +4,7 @@ import { MotdAPI } from '../../../../services/http/motd.service';
 import { Motd } from '../../../../models/motd';
 import { AccountStateService } from 'app/services/state/account-state.service';
 import { filter, take } from 'rxjs';
+import { verifyInstance } from 'app/utils/ts-utils';
 
 @Component({
   selector: 'app-motd-dialog',
@@ -42,8 +43,8 @@ export class MotdDialogComponent implements OnInit {
         this.builtMotds = this.motds.map((motd) => {
           return new Motd(
             motd.id,
-            motd.startTimestamp,
-            motd.endTimestamp,
+            verifyInstance(Date, motd.startTimestamp),
+            verifyInstance(Date, motd.endTimestamp),
             read.findIndex((v) => v.motdId === motd.id) >= 0,
             motd.messages,
           );
