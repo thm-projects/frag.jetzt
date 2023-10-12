@@ -42,6 +42,7 @@ import { AskOnboardingComponent } from './components/home/_dialogs/ask-onboardin
 import { OnboardingService } from './services/util/onboarding.service';
 import { NotifyUnsupportedBrowserComponent } from './components/home/_dialogs/notify-unsupported-browser/notify-unsupported-browser.component';
 import { InitService } from './services/util/init.service';
+import { MatomoTrackingService } from './services/util/matomo-tracking.service';
 
 @Component({
   selector: 'app-root',
@@ -74,6 +75,7 @@ export class AppComponent implements OnInit {
     private onboarding: OnboardingService,
     deviceState: DeviceStateService,
     initService: InitService,
+    _matomoService: MatomoTrackingService,
   ) {
     AppComponent.instance = this;
     this.initDialogsForServices();
