@@ -26,6 +26,10 @@ import { SpacyKeyword } from '../../../../services/http/spacy.service';
 import { ExplanationDialogComponent } from '../explanation-dialog/explanation-dialog.component';
 import { DeviceStateService } from 'app/services/state/device-state.service';
 import { ReplaySubject, takeUntil } from 'rxjs';
+import {
+  ROOM_ROLE_MAPPER,
+  RoomStateService,
+} from 'app/services/state/room-state.service';
 
 @Component({
   selector: 'app-topic-cloud-administration',
@@ -98,6 +102,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     private commentService: CommentService,
     private roomDataService: RoomDataService,
     private profanityFilterService: ProfanityFilterService,
+    private roomState: RoomStateService,
     deviceState: DeviceStateService,
   ) {
     const emptyData = {} as TopicCloudAdminData;
@@ -110,7 +115,8 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.isCreatorOrMod =
-      this.sessionService.currentRole > UserRole.PARTICIPANT;
+      (ROOM_ROLE_MAPPER[this.roomState.getCurrentAssignedRole()] || 0) >
+      UserRole.PARTICIPANT;
     this.spacyLabels = spacyLabels;
     this.wantedLabels = undefined;
     this.sessionService.getRoomOnce().subscribe((room) => {
@@ -336,7 +342,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     this.topicCloudAdminService.setAdminData(
       this.topicCloudAdminData,
       room.id,
-      this.sessionService.currentRole,
+      ROOM_ROLE_MAPPER[this.roomState.getCurrentAssignedRole()] || 0,
       {
         blacklistActive: this.blacklistIsActive,
         blacklist: JSON.stringify(this.blacklist),

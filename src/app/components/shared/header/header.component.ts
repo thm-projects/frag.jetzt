@@ -58,6 +58,11 @@ import {
   ThemeKey,
 } from 'app/services/state/app-state.service';
 import { AccountStateService } from 'app/services/state/account-state.service';
+import {
+  ROOM_ROLE_MAPPER,
+  RoomStateService,
+} from 'app/services/state/room-state.service';
+import { LocationStateService } from 'app/services/state/location-state.service';
 
 @Component({
   selector: 'app-header',
@@ -71,6 +76,7 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('langMenu') languageMenu: MatMenu;
   user: User;
   userRole: UserRole;
+  actualRole: UserRole;
   cTime: string;
   motdState = false;
   room: Room;
@@ -121,6 +127,8 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
     private keycloakService: KeycloakService,
     private appState: AppStateService,
     private accountState: AccountStateService,
+    protected roomState: RoomStateService,
+    private locationState: LocationStateService,
     deviceState: DeviceStateService,
   ) {
     this.appState.language$
@@ -153,9 +161,14 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   init() {
-    this.sessionService.getRole().subscribe((role) => {
-      this.userRole = role;
-      this.isInRouteWithRoles = this.sessionService.canChangeRoleOnRoute;
+    this.roomState.assignedRole$.subscribe((role) => {
+      this.userRole = ROOM_ROLE_MAPPER[role] ?? null;
+      this.isInRouteWithRoles = Boolean(
+        this.locationState.getCurrentRecognized()?.metadata?.isRoom,
+      );
+    });
+    this.roomState.role$.subscribe((role) => {
+      this.actualRole = ROOM_ROLE_MAPPER[role] ?? null;
     });
     this.sessionService.getGPTStatus().subscribe((status) => {
       this.canOpenGPT = Boolean(status) && !status.restricted;
@@ -326,13 +339,17 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public navigateToOtherView() {
-    const url = decodeURI(this.router.url);
-    let newRoute = '/participant/';
-    if (this.userRole !== this.user.role) {
-      newRoute =
-        this.user.role === UserRole.CREATOR ? '/creator/' : '/moderator/';
-    }
-    this.router.navigate([url.replace(/^\/[^\/]+\//gim, newRoute)]);
+    const userRoleToRoomRole = {
+      0: 'Participant',
+      1: 'Moderator',
+      2: 'Moderator',
+      3: 'Creator',
+    } as const;
+    this.roomState.assignRole(
+      this.userRole !== this.actualRole
+        ? userRoleToRoomRole[this.actualRole]
+        : 'Participant',
+    );
   }
 
   navigateCloud() {
@@ -355,9 +372,9 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
   public getCurrentRoleIcon() {
     if (this.isSuperAdmin) {
       return 'manage_accounts';
-    } else if (this.user?.role === UserRole.EXECUTIVE_MODERATOR) {
+    } else if (this.actualRole === UserRole.EXECUTIVE_MODERATOR) {
       return 'support_agent';
-    } else if (this.user?.role === UserRole.CREATOR) {
+    } else if (this.actualRole === UserRole.CREATOR) {
       return 'co_present';
     }
     return 'person';
@@ -366,9 +383,9 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
   public getCurrentRoleDescription(): string {
     if (this.isSuperAdmin) {
       return 'tooltip-super-admin';
-    } else if (this.user?.role === UserRole.EXECUTIVE_MODERATOR) {
+    } else if (this.actualRole === UserRole.EXECUTIVE_MODERATOR) {
       return 'tooltip-moderator';
-    } else if (this.user?.role === UserRole.CREATOR) {
+    } else if (this.actualRole === UserRole.CREATOR) {
       return 'tooltip-creator';
     }
     return 'tooltip-participant';

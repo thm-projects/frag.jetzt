@@ -1,5 +1,4 @@
 import { FieldsOf, UUID } from 'app/utils/ts-utils';
-import { UserRole } from './user-roles.enum';
 
 export enum KeycloakRoles {
   AdminDashboard = 'admin-dashboard',
@@ -13,7 +12,6 @@ export class User {
   token: string;
   keycloakToken: string;
   keycloakRefreshToken: string;
-  role: UserRole;
   isGuest: boolean;
   keycloakRoles: string[];
 
@@ -25,7 +23,6 @@ export class User {
     keycloakToken = null,
     keycloakRefreshToken = null,
     keycloakRoles = [],
-    role = UserRole.PARTICIPANT,
     isGuest = true,
   }: Partial<FieldsOf<User>>) {
     this.id = id;
@@ -35,7 +32,6 @@ export class User {
     this.keycloakToken = keycloakToken;
     this.keycloakRefreshToken = keycloakRefreshToken;
     this.keycloakRoles = keycloakRoles;
-    this.role = role;
     this.isGuest = isGuest;
   }
 

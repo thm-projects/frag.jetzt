@@ -29,13 +29,13 @@ import { LivepollEventType, LivepollService } from '../http/livepoll.service';
 import { WsGlobalService } from '../websockets/ws-global.service';
 import { GlobalCountChanged } from 'app/models/global-count-changed';
 import { AccountStateService } from '../state/account-state.service';
+import { RoomStateService } from '../state/room-state.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SessionService {
   private readonly globalData = new BehaviorSubject<GlobalCountChanged>(null);
-  private readonly _currentRole = new BehaviorSubject<UserRole>(null);
   private readonly _currentRoom = new BehaviorSubject<Room>(null);
   private readonly _currentModerators = new BehaviorSubject<Moderator[]>(null);
   private readonly _currentBrainstormingCategories = new BehaviorSubject<
@@ -49,7 +49,6 @@ export class SessionService {
   private _beforeRoomUpdates: Subject<Partial<Room>>;
   private _afterRoomUpdates: Subject<Room>;
   private _roomSubscription: Subscription;
-  private _canChangeRoleOnRoute = false;
   private _currentLoadingShortId = null;
   private _lastShortId = null;
   private _initialized = false;
@@ -66,20 +65,13 @@ export class SessionService {
     private livepollService: LivepollService,
     private wsGlobal: WsGlobalService,
     private accountState: AccountStateService,
+    private roomState: RoomStateService,
   ) {
     this.init();
   }
 
   get currentLivepoll(): LivepollSession {
     return this._currentLivepollSession.value;
-  }
-
-  get canChangeRoleOnRoute(): boolean {
-    return this._canChangeRoleOnRoute;
-  }
-
-  get currentRole(): UserRole {
-    return this._currentRole.value;
   }
 
   get currentRoom(): Room {
@@ -132,10 +124,6 @@ export class SessionService {
 
   getGlobalData(): Observable<GlobalCountChanged> {
     return this.globalData.asObservable();
-  }
-
-  getRole(): Observable<UserRole> {
-    return this._currentRole.asObservable();
   }
 
   getRoom(): Observable<Room> {
@@ -278,33 +266,19 @@ export class SessionService {
   }
 
   private onNavigate() {
-    const url = decodeURI(this.router.url);
     const segments = this.router.parseUrl(this.router.url).root.children.primary
       ?.segments;
     if (!segments || segments.length < 3) {
-      this._canChangeRoleOnRoute = false;
-      this._currentRole.next(null);
       this.clearRoom();
       this.checkUser();
       return;
     }
     switch (segments[0].path) {
       case 'participant':
-        this._canChangeRoleOnRoute = true;
-        this._currentRole.next(UserRole.PARTICIPANT);
-        break;
       case 'moderator':
-        this._canChangeRoleOnRoute =
-          !url.endsWith('/moderator/comments') && segments[1]?.path !== 'join';
-        this._currentRole.next(UserRole.EXECUTIVE_MODERATOR);
-        break;
       case 'creator':
-        this._canChangeRoleOnRoute = !url.endsWith('/moderator/comments');
-        this._currentRole.next(UserRole.CREATOR);
         break;
       default:
-        this._canChangeRoleOnRoute = false;
-        this._currentRole.next(null);
         this.clearRoom();
         this.checkUser();
         return;
@@ -387,10 +361,8 @@ export class SessionService {
       const _beforeActive = new BehaviorSubject<boolean>(false);
       _beforeActive.subscribe((x) => {
         if (x) {
-          if (!this.currentRole) {
-            if (!this.livepollService.isOpen) {
-              this.livepollService.open(this);
-            }
+          if (!this.livepollService.isOpen) {
+            this.livepollService.open(this);
           }
         }
       });

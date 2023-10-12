@@ -63,6 +63,10 @@ import { EditQuestionComponent } from '../_dialogs/edit-question/edit-question.c
 import { DeviceStateService } from 'app/services/state/device-state.service';
 import { AccountStateService } from 'app/services/state/account-state.service';
 import { AppStateService } from 'app/services/state/app-state.service';
+import {
+  ROOM_ROLE_MAPPER,
+  RoomStateService,
+} from 'app/services/state/room-state.service';
 
 @Component({
   selector: 'app-comment-list',
@@ -153,6 +157,7 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
     private cloudDataService: TagCloudDataService,
     private themeService: ThemeService,
     private accountState: AccountStateService,
+    private roomState: RoomStateService,
     deviceState: DeviceStateService,
     appState: AppStateService,
   ) {
@@ -220,7 +225,10 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
           return;
         }
         this.user = newUser;
-        if (this.sessionService.currentRole !== UserRole.PARTICIPANT) {
+        if (
+          ROOM_ROLE_MAPPER[this.roomState.getCurrentAssignedRole()] !==
+          UserRole.PARTICIPANT
+        ) {
           return;
         }
         this.sessionService.getRoomOnce().subscribe((room) => {
@@ -237,7 +245,7 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
       this.sessionService.getRoomOnce(),
       this.sessionService.getModeratorsOnce(),
     ]).subscribe(([room, mods]) => {
-      this.userRole = this.sessionService.currentRole;
+      this.userRole = ROOM_ROLE_MAPPER[this.roomState.getCurrentAssignedRole()];
       setTimeout(() => (this._isStarting = false), 1_500);
       this.receiveRoom(room);
       this.moderatorAccountIds = new Set<string>(mods.map((m) => m.accountId));
@@ -710,6 +718,8 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
             const room = this.sessionService.currentRoom;
             exportRoom(
               this.translateService,
+              ROOM_ROLE_MAPPER[this.roomState.getCurrentRole()] ||
+                UserRole.PARTICIPANT,
               this.notificationService,
               this.bonusTokenService,
               this.commentService,

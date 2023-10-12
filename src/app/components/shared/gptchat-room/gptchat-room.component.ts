@@ -80,6 +80,10 @@ import { GPTConversationOverviewComponent } from '../_dialogs/gptconversation-ov
 import { AppStateService } from 'app/services/state/app-state.service';
 import { AccountStateService } from 'app/services/state/account-state.service';
 import { DeviceStateService } from 'app/services/state/device-state.service';
+import {
+  ROOM_ROLE_MAPPER,
+  RoomStateService,
+} from 'app/services/state/room-state.service';
 
 interface ConversationEntry {
   type: 'human' | 'gpt' | 'system';
@@ -227,6 +231,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
     private gptConversation: GPTConversationService,
     private accountState: AccountStateService,
     private deviceState: DeviceStateService,
+    private roomState: RoomStateService,
     appState: AppStateService,
   ) {
     this.keywordExtractor = new KeywordExtractor(injector);
@@ -253,7 +258,8 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     if (
       this.answeringComment &&
-      this.sessionService.currentRole > UserRole.PARTICIPANT
+      ROOM_ROLE_MAPPER[this.roomState.getCurrentAssignedRole()] >
+        UserRole.PARTICIPANT
     ) {
       this.headerService.getHeaderComponent().customOptionText = {
         key: 'header.chatroom-options-menu',
@@ -347,19 +353,9 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     const text = this.conversation[index].message;
     const data = QuillUtils.getDeltaFromMarkdown(text as MarkdownDelta);
-
     let url: string;
-    let roleString = 'participant';
-    switch (this.sessionService.currentRole) {
-      case UserRole.PARTICIPANT:
-        roleString = 'participant';
-        break;
-      case UserRole.CREATOR:
-        roleString = 'creator';
-        break;
-      case UserRole.EXECUTIVE_MODERATOR:
-        roleString = 'moderator';
-    }
+    const roleString =
+      this.roomState.getCurrentAssignedRole()?.toLowerCase?.() || 'participant';
     this.route.params.subscribe((params) => {
       url = `${roleString}/room/${params['shortId']}/`;
       if (this.owningComment) {
@@ -375,7 +371,8 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
       body: data,
       tag: null,
       questionerName: 'Chatbot',
-      isModerator: this.sessionService.currentRole > 0,
+      isModerator:
+        ROOM_ROLE_MAPPER[this.roomState.getCurrentAssignedRole()] > 0,
       hadUsedDeepL: false,
       selectedLanguage: 'auto',
       commentReference: this.owningComment?.id || null,
@@ -456,17 +453,8 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
       ),
     ).subscribe();
     let url: string;
-    let roleString = 'participant';
-    switch (this.sessionService.currentRole) {
-      case UserRole.PARTICIPANT:
-        roleString = 'participant';
-        break;
-      case UserRole.CREATOR:
-        roleString = 'creator';
-        break;
-      case UserRole.EXECUTIVE_MODERATOR:
-        roleString = 'moderator';
-    }
+    const roleString =
+      this.roomState.getCurrentAssignedRole()?.toLowerCase?.() || 'participant';
     this.route.params.subscribe((params) => {
       url = `${roleString}/room/${params['shortId']}/comment/${this.owningComment.id}`;
       GPTRatingDialogComponent.open(
@@ -838,7 +826,10 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
           text: 'header.preset-role-instruction',
           callback: () => this.showInstructionPresetsDefinition(),
           condition: () => {
-            return this.sessionService.currentRole > 0 && this.answeringComment;
+            return (
+              ROOM_ROLE_MAPPER[this.roomState.getCurrentAssignedRole()] > 0 &&
+              this.answeringComment
+            );
           },
         });
         e.menuItem({
@@ -849,7 +840,8 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
           callback: () => this.showContextPresetsDefinition(),
           condition: () => {
             return (
-              this.sessionService.currentRole > 0 && this.answeringWriteComment
+              ROOM_ROLE_MAPPER[this.roomState.getCurrentAssignedRole()] > 0 &&
+              this.answeringWriteComment
             );
           },
         });
@@ -861,7 +853,8 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
           callback: () => this.showTopicPresetsDefinition(),
           condition: () => {
             return (
-              this.sessionService.currentRole > 0 && this.answeringWriteComment
+              ROOM_ROLE_MAPPER[this.roomState.getCurrentAssignedRole()] > 0 &&
+              this.answeringWriteComment
             );
           },
         });
@@ -873,7 +866,8 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
           text: 'header.preset-length',
           condition: () => {
             return (
-              this.sessionService.currentRole > 0 && this.answeringWriteComment
+              ROOM_ROLE_MAPPER[this.roomState.getCurrentAssignedRole()] > 0 &&
+              this.answeringWriteComment
             );
           },
           menuOpened: () => {
@@ -894,7 +888,8 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
           callback: () => this.showPromptExplanation(),
           condition: () => {
             return (
-              this.sessionService.currentRole > 0 && this.answeringWriteComment
+              ROOM_ROLE_MAPPER[this.roomState.getCurrentAssignedRole()] > 0 &&
+              this.answeringWriteComment
             );
           },
         });

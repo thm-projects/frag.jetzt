@@ -45,6 +45,10 @@ import { forkJoin, of, switchMap, take } from 'rxjs';
 import { clone, UUID } from 'app/utils/ts-utils';
 import { AccountStateService } from 'app/services/state/account-state.service';
 import { DbLocalRoomSettingService } from 'app/services/persistence/lg/db-local-room-setting.service';
+import {
+  ROOM_ROLE_MAPPER,
+  RoomStateService,
+} from 'app/services/state/room-state.service';
 
 @Component({
   selector: 'app-write-comment',
@@ -106,6 +110,7 @@ export class WriteCommentComponent implements OnInit, AfterViewInit, OnDestroy {
     private sessionService: SessionService,
     private accountState: AccountStateService,
     private localRoomSeting: DbLocalRoomSettingService,
+    private roomState: RoomStateService,
     injector: Injector,
   ) {
     this._keywordExtractor = new KeywordExtractor(injector);
@@ -150,7 +155,7 @@ export class WriteCommentComponent implements OnInit, AfterViewInit, OnDestroy {
     } else {
       this.maxTextCharacters = this.isModerator ? 5000 : 2500;
     }
-    this.userRole = this.sessionService.currentRole;
+    this.userRole = ROOM_ROLE_MAPPER[this.roomState.getCurrentAssignedRole()];
     this.maxDataCharacters = this.isModerator
       ? this.maxTextCharacters * 5
       : this.maxTextCharacters * 3;

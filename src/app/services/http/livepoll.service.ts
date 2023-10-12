@@ -13,9 +13,12 @@ import { Overlay } from '@angular/cdk/overlay';
 import {
   callServiceEvent,
   LivepollDialogRequest,
-  LivepollDialogResponse,
 } from 'app/utils/service-component-events';
 import { EventService } from '../util/event.service';
+import {
+  ROOM_ROLE_MAPPER,
+  RoomStateService,
+} from '../state/room-state.service';
 
 export interface LivepollSessionCreateAPI {
   template: string;
@@ -86,6 +89,7 @@ export class LivepollService extends BaseHttpService {
     public readonly dialog: MatDialog,
     public readonly overlay: Overlay,
     private readonly eventService: EventService,
+    private roomState: RoomStateService,
   ) {
     super();
     let passed = false;
@@ -224,7 +228,7 @@ export class LivepollService extends BaseHttpService {
 
   open(sessionService: SessionService) {
     if (!this.isOpen) {
-      switch (sessionService.currentRole) {
+      switch (ROOM_ROLE_MAPPER[this.roomState.getCurrentAssignedRole()]) {
         case UserRole.PARTICIPANT:
           if (sessionService.currentLivepoll?.active) {
             this.openDialog(sessionService);

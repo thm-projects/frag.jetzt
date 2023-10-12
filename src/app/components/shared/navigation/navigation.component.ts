@@ -21,15 +21,14 @@ import { QrCodeDialogComponent } from '../_dialogs/qr-code-dialog/qr-code-dialog
 import { TopicCloudBrainstormingComponent } from '../_dialogs/topic-cloud-brainstorming/topic-cloud-brainstorming.component';
 import { TopicCloudFilterComponent } from '../_dialogs/topic-cloud-filter/topic-cloud-filter.component';
 import { Room } from '../../../models/room';
-import { User } from '../../../models/user';
 import { LivepollService } from '../../../services/http/livepoll.service';
 import { DeviceStateService } from 'app/services/state/device-state.service';
 import { AccountStateService } from 'app/services/state/account-state.service';
-import {
-  MotdDialogRequest,
-  callServiceEvent,
-} from 'app/utils/service-component-events';
 import { AppStateService } from 'app/services/state/app-state.service';
+import {
+  ROOM_ROLE_MAPPER,
+  RoomStateService,
+} from 'app/services/state/room-state.service';
 
 interface LocationData {
   id: string;
@@ -66,13 +65,22 @@ const RECEPTION_REGEX =
   /^\/(creator|moderator|participant)\/room\/([^/]*)\/?$/i;
 const USER_REGEX = /^\/user\/?$/i;
 
+export const getCurrentLocation = (router: Router) => {
+  let encodedUrl = router.url;
+  const size = encodedUrl.length + 1;
+  const index = (encodedUrl.indexOf('#') + size) % size;
+  const index2 = (encodedUrl.indexOf('?') + size) % size;
+  encodedUrl = encodedUrl.substring(0, Math.min(index, index2));
+  return decodeURI(encodedUrl);
+};
+
 export const navigateTopicCloud = (
   router: Router,
   eventService: EventService,
   dialog: MatDialog,
   userRole: UserRole,
 ) => {
-  const url = decodeURI(router.url);
+  const url = getCurrentLocation(router);
   if (RADAR_REGEX.test(url)) {
     return;
   }
@@ -102,7 +110,7 @@ export const navigateBrainstorming = (
     autoFocus: false,
   });
   confirmDialogRef.componentInstance.target = getBrainstormingURL(
-    decodeURI(router.url),
+    getCurrentLocation(router),
   );
   confirmDialogRef.componentInstance.userRole = userRole;
 };
@@ -110,15 +118,17 @@ export const navigateBrainstorming = (
 export const livepollNavigationAccessOnRoute = (
   route: string,
   room: Room | undefined,
-  user: User | undefined,
+  roomState: RoomStateService,
 ) => {
   if (room && room.livepollActive) {
     if (ROOM_REGEX.test(route) || COMMENTS_REGEX.test(route)) {
+      const role = ROOM_ROLE_MAPPER[roomState.getCurrentRole()];
       if (
         !route.includes('participant') ||
         (route.endsWith('comments/questionwall') &&
-          user &&
-          user.role > UserRole.PARTICIPANT)
+          role !== null &&
+          role !== undefined &&
+          role > UserRole.PARTICIPANT)
       ) {
         return true;
       } else {
@@ -176,7 +186,8 @@ export class NavigationComponent implements OnInit, OnDestroy {
       isCurrentRoute: (route) => MODERATION_REGEX.test(route),
       canBeAccessedOnRoute: (route) =>
         ROOM_REGEX.test(route) &&
-        this.sessionService.currentRole > UserRole.PARTICIPANT,
+        ROOM_ROLE_MAPPER[this.roomState.getCurrentAssignedRole()] >
+          UserRole.PARTICIPANT,
       navigate: (route) => {
         const data = route.match(ROOM_REGEX);
         this.router.navigate([`${data[1]}/room/${data[2]}/moderator/comments`]);
@@ -208,7 +219,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
         livepollNavigationAccessOnRoute(
           route,
           this.sessionService.currentRoom,
-          this.accountState.getCurrentUser(),
+          this.roomState,
         ),
       navigate: (route) => this.livepollService.open(this.sessionService),
       isCurrentRoute: (route) => false,
@@ -226,7 +237,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
           this.router,
           this.eventService,
           this.dialog,
-          this.sessionService.currentRole,
+          ROOM_ROLE_MAPPER[this.roomState.getCurrentAssignedRole()],
         );
       },
     },
@@ -245,11 +256,14 @@ export class NavigationComponent implements OnInit, OnDestroy {
         if (BRAINSTORMING_REGEX.test(route)) {
           return;
         }
-        if (this.sessionService.currentRole > UserRole.PARTICIPANT) {
+        if (
+          ROOM_ROLE_MAPPER[this.roomState.getCurrentAssignedRole()] >
+          UserRole.PARTICIPANT
+        ) {
           navigateBrainstorming(
             this.dialog,
             this.router,
-            this.sessionService.currentRole,
+            ROOM_ROLE_MAPPER[this.roomState.getCurrentAssignedRole()],
           );
           return;
         }
@@ -292,10 +306,12 @@ export class NavigationComponent implements OnInit, OnDestroy {
       class: 'material-icons-outlined',
       isCurrentRoute: (route) =>
         RECEPTION_REGEX.test(route) &&
-        this.sessionService.currentRole === UserRole.PARTICIPANT,
+        ROOM_ROLE_MAPPER[this.roomState.getCurrentAssignedRole()] ===
+          UserRole.PARTICIPANT,
       canBeAccessedOnRoute: (route) =>
         ROOM_REGEX.test(route) &&
-        this.sessionService.currentRole === UserRole.PARTICIPANT,
+        ROOM_ROLE_MAPPER[this.roomState.getCurrentAssignedRole()] ===
+          UserRole.PARTICIPANT,
       navigate: (route) => {
         const data = route.match(ROOM_REGEX);
         this.router.navigate([`${data[1]}/room/${data[2]}`]);
@@ -310,10 +326,12 @@ export class NavigationComponent implements OnInit, OnDestroy {
       class: 'material-icons-outlined',
       isCurrentRoute: (route) =>
         RECEPTION_REGEX.test(route) &&
-        this.sessionService.currentRole > UserRole.PARTICIPANT,
+        ROOM_ROLE_MAPPER[this.roomState.getCurrentAssignedRole()] >
+          UserRole.PARTICIPANT,
       canBeAccessedOnRoute: (route) =>
         ROOM_REGEX.test(route) &&
-        this.sessionService.currentRole > UserRole.PARTICIPANT,
+        ROOM_ROLE_MAPPER[this.roomState.getCurrentAssignedRole()] >
+          UserRole.PARTICIPANT,
       navigate: (route) => {
         const data = route.match(ROOM_REGEX);
         this.router.navigate([`${data[1]}/room/${data[2]}`]);
@@ -345,7 +363,8 @@ export class NavigationComponent implements OnInit, OnDestroy {
       canBeAccessedOnRoute: (route) =>
         Boolean(this.accountState.getCurrentUser()) &&
         (!ROOM_REGEX.test(route) ||
-          this.sessionService.currentRole === UserRole.PARTICIPANT),
+          ROOM_ROLE_MAPPER[this.roomState.getCurrentAssignedRole()] ===
+            UserRole.PARTICIPANT),
       navigate: () => {
         UserBonusTokenComponent.openDialog(
           this.dialog,
@@ -364,7 +383,8 @@ export class NavigationComponent implements OnInit, OnDestroy {
       isCurrentRoute: () => false,
       canBeAccessedOnRoute: (route) =>
         ROOM_REGEX.test(route) &&
-        this.sessionService.currentRole > UserRole.PARTICIPANT &&
+        ROOM_ROLE_MAPPER[this.roomState.getCurrentAssignedRole()] >
+          UserRole.PARTICIPANT &&
         this.sessionService.currentRoom?.bonusArchiveActive,
       navigate: () => {
         const dialogRef = this.dialog.open(BonusTokenComponent, {
@@ -425,6 +445,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
     private router: Router,
     private dialog: MatDialog,
     private sessionService: SessionService,
+    private roomState: RoomStateService,
     private location: Location,
     private eventService: EventService,
     private deviceState: DeviceStateService,
@@ -439,8 +460,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     const observer = { next: () => this.refreshLocations() };
-    this.sessionService
-      .getRole()
+    this.roomState.assignedRole$
       .pipe(takeUntil(this.destroyer))
       .subscribe(observer);
     this.sessionService
@@ -470,11 +490,11 @@ export class NavigationComponent implements OnInit, OnDestroy {
   }
 
   navigateToPage(location: PossibleLocation) {
-    location.navigate(decodeURI(this.router.url));
+    location.navigate(getCurrentLocation(this.router));
   }
 
   refreshLocations() {
-    const url = decodeURI(this.router.url);
+    const url = getCurrentLocation(this.router);
     this.currentLocation = null;
     let anyTrue = false;
     this.possibleLocations.forEach((loc) => {
@@ -492,7 +512,10 @@ export class NavigationComponent implements OnInit, OnDestroy {
   }
 
   private canMakeOrAccessSession() {
-    if (this.sessionService.currentRole > UserRole.PARTICIPANT) {
+    if (
+      ROOM_ROLE_MAPPER[this.roomState.getCurrentAssignedRole()] >
+      UserRole.PARTICIPANT
+    ) {
       return true;
     }
     return Boolean(this.sessionService.currentRoom?.brainstormingSession);

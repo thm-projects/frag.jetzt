@@ -83,6 +83,10 @@ import { ChatGPTBrainstormComponent } from '../_dialogs/chat-gptbrainstorm/chat-
 import { KeywordExtractor } from 'app/utils/keyword-extractor';
 import { AccountStateService } from 'app/services/state/account-state.service';
 import { DeviceStateService } from 'app/services/state/device-state.service';
+import {
+  ROOM_ROLE_MAPPER,
+  RoomStateService,
+} from 'app/services/state/room-state.service';
 
 class TagComment implements WordMeta {
   constructor(
@@ -174,6 +178,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     private eventService: EventService,
     private accountState: AccountStateService,
     private deviceState: DeviceStateService,
+    private roomState: RoomStateService,
     injector: Injector,
   ) {
     this.keywordExtractor = new KeywordExtractor(injector);
@@ -476,7 +481,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
       this.sessionService.getRoomOnce(),
       this.sessionService.getModeratorsOnce(),
     ]).subscribe(([room, mods]) => {
-      this.userRole = this.sessionService.currentRole;
+      this.userRole = ROOM_ROLE_MAPPER[this.roomState.getCurrentAssignedRole()];
       this.shortId = room.shortId;
       this.roomId = room.id;
       this.room = room;
@@ -601,7 +606,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
       this.sessionService.getRoomOnce(),
       this.sessionService.getModeratorsOnce(),
     ]).subscribe(([room, mods]) => {
-      this.userRole = this.sessionService.currentRole;
+      this.userRole = ROOM_ROLE_MAPPER[this.roomState.getCurrentAssignedRole()];
       this.shortId = room.shortId;
       this.roomId = room.id;
       this.room = room;
@@ -1123,6 +1128,8 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
                 switchMap((mods) =>
                   exportBrainstorming(
                     this.translateService,
+                    ROOM_ROLE_MAPPER[this.roomState.getCurrentRole()] ||
+                      UserRole.PARTICIPANT,
                     this.notificationService,
                     this.bonusTokenService,
                     this.commentService,

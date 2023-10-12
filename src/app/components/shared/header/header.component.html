@@ -118,7 +118,7 @@
         tabindex="0"
         [matTooltip]="'header.livepoll-button' | translate"
         (click)="openLivepollDialog()"
-        *ngIf="navigationAccess.livepoll(router.url, room, user)">
+        *ngIf="navigationAccess.livepoll(router.url, room, roomState)">
         <mat-icon
           class="material-icons header-icons material-icons-filled"
           style="transform: scale(1.2); margin-right: 5px">
@@ -200,10 +200,7 @@
 
       <span
         *ngIf="
-          isInRouteWithRoles &&
-          userRole !== null &&
-          user &&
-          user.role !== userRole
+          isInRouteWithRoles && userRole !== null && actualRole !== userRole
         ">
         <mat-icon
           class="material-icons-outlined"
@@ -612,28 +609,28 @@
 
   <button
     mat-menu-item
-    *ngIf="isInRouteWithRoles && user && user.role > 0"
+    *ngIf="isInRouteWithRoles && actualRole > 0"
     (click)="navigateToOtherView()"
     tabindex="0">
     <mat-icon
-      *ngIf="user && user.role === 3 && userRole !== user.role"
+      *ngIf="actualRole === 3 && userRole !== actualRole"
       class="material-icons-outlined">
       co_present
     </mat-icon>
     <mat-icon
-      *ngIf="user && user.role === 2 && userRole !== user.role"
+      *ngIf="actualRole === 2 && userRole !== actualRole"
       class="material-icons-round">
       support_agent
     </mat-icon>
     <mat-icon
-      *ngIf="userRole === user.role"
+      *ngIf="userRole === actualRole"
       class="material-icons-outlined">
       groups_3
     </mat-icon>
-    <span *ngIf="userRole === user.role">
+    <span *ngIf="userRole === actualRole">
       {{ "header.regular-user-view" | translate }}
     </span>
-    <span *ngIf="userRole !== user.role">
+    <span *ngIf="userRole !== actualRole">
       {{ "header.own-view" | translate }}
     </span>
   </button>

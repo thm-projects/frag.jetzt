@@ -37,6 +37,7 @@ import { ForumComment } from '../../../../utils/data-accessor';
 import { RowComponent } from '../../../../../../projects/ars/src/lib/components/layout/frame/row/row.component';
 import { PageEvent } from '@angular/material/paginator';
 import { AccountStateService } from 'app/services/state/account-state.service';
+import { RoomStateService } from 'app/services/state/room-state.service';
 
 interface CommentCache {
   [commentId: string]: {
@@ -100,6 +101,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     public dateFormatter: ArsDateFormatter,
     public headerService: HeaderService,
     private accountState: AccountStateService,
+    private roomState: RoomStateService,
   ) {
     this.keySupport = new QuestionWallKeyEventSupport();
     this._filterObj = FilteredDataAccess.buildNormalAccess(
@@ -573,18 +575,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private resolveUserRole(): string {
-    switch (this.user ? this.user.role : -1) {
-      case UserRole.PARTICIPANT:
-        return 'participant';
-      case UserRole.EDITING_MODERATOR:
-        return 'moderator';
-      case UserRole.EXECUTIVE_MODERATOR:
-        return 'moderator';
-      case UserRole.CREATOR:
-        return 'creator';
-      default:
-        return 'participant';
-    }
+    return this.roomState.getCurrentRole()?.toLowerCase?.() || 'participant';
   }
 
   private refreshUserMap() {

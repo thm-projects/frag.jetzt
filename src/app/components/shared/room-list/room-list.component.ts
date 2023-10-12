@@ -8,7 +8,7 @@ import { RoomService } from '../../../services/http/room.service';
 import { EventService } from '../../../services/util/event.service';
 import { ModeratorService } from '../../../services/http/moderator.service';
 import { MatDialog } from '@angular/material/dialog';
-import { ReplaySubject, Subscription } from 'rxjs';
+import { ReplaySubject } from 'rxjs';
 import {
   CommentService,
   RoomQuestionCounts,
@@ -28,6 +28,7 @@ import { BonusTokenComponent } from '../../creator/_dialogs/bonus-token/bonus-to
 import { UserBonusTokenComponent } from '../../participant/_dialogs/user-bonus-token/user-bonus-token.component';
 import { RoomSettingsOverviewComponent } from '../_dialogs/room-settings-overview/room-settings-overview.component';
 import { AccountStateService } from 'app/services/state/account-state.service';
+import { ROOM_ROLE_MAPPER } from 'app/services/state/room-state.service';
 
 type SortFunc<T> = (a: T, b: T) => number;
 
@@ -313,6 +314,9 @@ export class RoomListComponent implements OnInit, OnDestroy {
     this.moderatorService.get(room.id).subscribe((mods) => {
       exportRoom(
         this.translateService,
+        ROOM_ROLE_MAPPER[
+          this.accountState.getAccess(room.shortId)?.role || 'Participant'
+        ],
         this.notificationService,
         this.bonusTokenService,
         this.commentService,

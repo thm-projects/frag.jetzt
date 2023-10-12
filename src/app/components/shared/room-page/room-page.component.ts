@@ -53,6 +53,10 @@ import { GptRoomSettingsComponent } from '../_dialogs/gpt-room-settings/gpt-room
 import { User } from 'app/models/user';
 import { DeviceStateService } from 'app/services/state/device-state.service';
 import { AccountStateService } from 'app/services/state/account-state.service';
+import {
+  ROOM_ROLE_MAPPER,
+  RoomStateService,
+} from 'app/services/state/room-state.service';
 
 @Component({
   selector: 'app-room-page',
@@ -89,6 +93,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
   protected roomDataService: RoomDataService;
   protected titleService: TitleService;
   protected router: Router;
+  protected roomState: RoomStateService;
   protected destroyer = new ReplaySubject(1);
   private _navigationBuild = new SyncFence(2, this.initNavigation.bind(this));
   private _sub: Subscription;
@@ -110,6 +115,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
     this.roomDataService = injector.get(RoomDataService);
     this.titleService = injector.get(TitleService);
     this.router = injector.get(Router);
+    this.roomState = injector.get(RoomStateService);
   }
 
   ngOnInit() {
@@ -196,6 +202,8 @@ export class RoomPageComponent implements OnInit, OnDestroy {
     this.sessionService.getModeratorsOnce().subscribe((mods) => {
       exportRoom(
         this.translateService,
+        ROOM_ROLE_MAPPER[this.roomState.getCurrentRole()] ||
+          UserRole.PARTICIPANT,
         this.notificationService,
         this.bonusTokenService,
         this.commentService,
@@ -220,6 +228,8 @@ export class RoomPageComponent implements OnInit, OnDestroy {
         }
         return importToRoom(
           this.translateService,
+          ROOM_ROLE_MAPPER[this.roomState.getCurrentRole()] ||
+            UserRole.PARTICIPANT,
           this.room.id,
           this.roomService,
           this.commentService,
@@ -333,7 +343,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
     });
     dialogRef.componentInstance.roomId = this.room.id;
     dialogRef.componentInstance.isCreator =
-      this.sessionService.currentRole === 3;
+      this.roomState.getCurrentAssignedRole() === 'Creator';
   }
 
   showBonusTokenDialog(): void {

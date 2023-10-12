@@ -28,6 +28,10 @@ import {
 import { MatDialog } from '@angular/material/dialog';
 import { CommentService } from 'app/services/http/comment.service';
 import { EditQuestionComponent } from '../_dialogs/edit-question/edit-question.component';
+import {
+  ROOM_ROLE_MAPPER,
+  RoomStateService,
+} from 'app/services/state/room-state.service';
 
 export interface ResponseViewInformation {
   user: User;
@@ -71,6 +75,7 @@ export class CommentResponseViewComponent
     private roomDataService: RoomDataService,
     private dialog: MatDialog,
     private commentService: CommentService,
+    private roomState: RoomStateService,
   ) {}
 
   get keywordFilter() {
@@ -172,7 +177,8 @@ export class CommentResponseViewComponent
     });
     ref.componentInstance.comment = comment;
     ref.componentInstance.tags = this.sessionService.currentRoom.tags;
-    ref.componentInstance.userRole = this.sessionService.currentRole;
+    ref.componentInstance.userRole =
+      ROOM_ROLE_MAPPER[this.roomState.getCurrentAssignedRole()];
   }
 
   private attach() {

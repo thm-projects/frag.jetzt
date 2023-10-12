@@ -31,6 +31,10 @@ import { ReplaySubject, takeUntil } from 'rxjs';
 import { BrainstormingDataService } from 'app/services/util/brainstorming-data.service';
 import { BrainstormingTopic } from 'app/services/util/brainstorming-data-builder';
 import { BrainstormingCategory } from 'app/models/brainstorming-category';
+import {
+  ROOM_ROLE_MAPPER,
+  RoomStateService,
+} from 'app/services/state/room-state.service';
 
 const CLOSE_TIME = 100;
 
@@ -39,7 +43,8 @@ const CLOSE_TIME = 100;
   templateUrl: './tag-cloud-pop-up.component.html',
   styleUrls: ['./tag-cloud-pop-up.component.scss'],
 })
-export class TagCloudPopUpComponent implements OnInit, AfterViewInit, OnDestroy {
+export class TagCloudPopUpComponent
+  implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('popupContainer') popupContainer: ElementRef;
   @ViewChild(MatAutocompleteTrigger) trigger: MatAutocompleteTrigger;
   @Input() room: Room;
@@ -79,13 +84,13 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit, OnDestroy 
     private notificationService: NotificationService,
     private brainstormingService: BrainstormingService,
     private brainstormingDataService: BrainstormingDataService,
+    private roomState: RoomStateService,
   ) {}
 
   ngOnInit(): void {
-    this.sessionService
-      .getRole()
+    this.roomState.assignedRole$
       .pipe(takeUntil(this._destroyer))
-      .subscribe((role) => (this.userRole = role));
+      .subscribe((role) => (this.userRole = ROOM_ROLE_MAPPER[role] ?? null));
     this.timePeriodText = '...';
   }
 
@@ -269,7 +274,7 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit, OnDestroy 
       return false;
     }
     const tag = this.replacementInput.value.trim();
-    if (this.isBrainstorming){
+    if (this.isBrainstorming) {
       return !(tag.length < 1 || tag === this.brainstormingData.preview);
     }
     return !(tag.length < 1 || tag === this.tag);
@@ -292,11 +297,11 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit, OnDestroy 
       return;
     }
     const tagReplacementInput = this.replacementInput.value.trim();
-    if (this.isBrainstorming){
+    if (this.isBrainstorming) {
       const changes = {
         correctedWord: tagReplacementInput,
       };
-      this.brainstormingData.words.forEach(wordId => {
+      this.brainstormingData.words.forEach((wordId) => {
         this.brainstormingService.patchWord(wordId, changes).subscribe();
       });
       this.close(false);
