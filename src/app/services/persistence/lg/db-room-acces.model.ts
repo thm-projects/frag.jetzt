@@ -1,6 +1,7 @@
 import { FieldsOf, verifyInstance } from 'app/utils/ts-utils';
 
-export type RoomAccessRole = 'Participant' | 'Moderator' | 'Creator';
+export const ROOM_ROLE_ORDER = ['Participant', 'Moderator', 'Creator'] as const;
+export type RoomAccessRole = (typeof ROOM_ROLE_ORDER)[number];
 
 export class RoomAccess {
   userId: string;

@@ -371,7 +371,7 @@
     *ngFor="let current of comments"
     [isRemoved]="current?.removed"
     [comment]="current"
-    [userRole]="user.role"
+    [userRole]="userRole"
     [parseVote]="{}"
     [moderator]="true"
     [commentsWrittenByUser]="commentsWrittenByUsers.get(current.creatorId).size"

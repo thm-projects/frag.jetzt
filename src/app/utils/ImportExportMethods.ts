@@ -15,6 +15,10 @@ import { RoomService } from '../services/http/room.service';
 import { ModeratorService } from '../services/http/moderator.service';
 import { QuillUtils, SerializedDelta } from './quill-utils';
 import { UUID } from './ts-utils';
+import {
+  ROOM_ROLE_MAPPER,
+  RoomStateService,
+} from 'app/services/state/room-state.service';
 
 const serializeDate = (str: string | number | Date) => {
   if (!str) {
@@ -286,6 +290,7 @@ export type ImportedComment = Pick<
 
 const roomImportExport = (
   translateService: TranslateService,
+  actualRole: UserRole,
   translatePath: string,
   user?: User,
   room?: Room,
@@ -293,7 +298,7 @@ const roomImportExport = (
 ) => {
   const empty = translatePath + '.export-empty';
   const bufferedIds = [];
-  const isMod = (user?.role || UserRole.PARTICIPANT) > UserRole.PARTICIPANT;
+  const isMod = actualRole > UserRole.PARTICIPANT;
   return new ImportExportManager(translateService, [
     { type: 'value', languageKey: translatePath + '.room-name' },
     { type: 'value', languageKey: translatePath + '.room-code' },
@@ -552,6 +557,7 @@ const roomImportExport = (
 
 export const exportBrainstorming = (
   translateService: TranslateService,
+  actualRole: UserRole,
   notificationService: NotificationService,
   bonusTokenService: BonusTokenService,
   commentService: CommentService,
@@ -562,7 +568,7 @@ export const exportBrainstorming = (
 ): Observable<[string, string]> =>
   commentService.getAckComments(room.id).pipe(
     switchMap((res) => {
-      if ((user?.role || UserRole.PARTICIPANT) > UserRole.PARTICIPANT) {
+      if (actualRole > UserRole.PARTICIPANT) {
         return commentService
           .getRejectedComments(room.id)
           .pipe(map((comments) => [res, comments]));
@@ -597,6 +603,7 @@ export const exportBrainstorming = (
           const dateString = new Date().toLocaleDateString();
           return roomImportExport(
             translateService,
+            actualRole,
             translatePath,
             user,
             room,
@@ -618,6 +625,7 @@ export const exportBrainstorming = (
 
 export const exportRoom = (
   translateService: TranslateService,
+  actualRole: UserRole,
   notificationService: NotificationService,
   bonusTokenService: BonusTokenService,
   commentService: CommentService,
@@ -628,7 +636,7 @@ export const exportRoom = (
 ): Observable<[string, string]> =>
   commentService.getAckComments(room.id).pipe(
     switchMap((res) => {
-      if ((user?.role || UserRole.PARTICIPANT) > UserRole.PARTICIPANT) {
+      if (actualRole > UserRole.PARTICIPANT) {
         return commentService
           .getRejectedComments(room.id)
           .pipe(map((comments) => [res, comments]));
@@ -661,6 +669,7 @@ export const exportRoom = (
           const dateString = new Date().toLocaleDateString();
           return roomImportExport(
             translateService,
+            actualRole,
             translatePath,
             user,
             room,
@@ -742,6 +751,7 @@ const importComments = (
 
 export const importToRoom = (
   translateService: TranslateService,
+  actualRole: UserRole,
   roomId: UUID,
   roomService: RoomService,
   commentService: CommentService,
@@ -750,6 +760,7 @@ export const importToRoom = (
 ): Observable<ImportQuestionsResult> => {
   const result = roomImportExport(
     translateService,
+    actualRole,
     translatePath,
   ).importFromCSV(csv) as Observable<ImportQuestionsResult>;
   return generateCommentCreatorIds(result, roomService, roomId).pipe(

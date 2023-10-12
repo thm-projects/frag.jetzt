@@ -43,6 +43,10 @@ import { RoomDataService } from '../../../../../services/util/room-data.service'
 import { DeviceStateService } from 'app/services/state/device-state.service';
 import { AppStateService } from 'app/services/state/app-state.service';
 import { LivepollPeerInstructionWindowComponent } from '../livepoll-peer-instruction/livepoll-peer-instruction-window/livepoll-peer-instruction-window.component';
+import {
+  ROOM_ROLE_MAPPER,
+  RoomStateService,
+} from 'app/services/state/room-state.service';
 
 export enum PeerInstructionPhase {
   Undefined,
@@ -119,6 +123,7 @@ export class LivepollDialogComponent
     private readonly roomDataService: RoomDataService,
     @Inject(MAT_DIALOG_DATA) data: LivepollDialogInjectionData,
     private appState: AppStateService,
+    private roomState: RoomStateService,
     deviceState: DeviceStateService,
   ) {
     if (data) {
@@ -171,7 +176,9 @@ export class LivepollDialogComponent
           .pipe(takeUntil(this._destroyer))
           .subscribe(() => {
             if (!this.session.currentLivepoll) {
-              if (this.session.currentRole) {
+              if (
+                ROOM_ROLE_MAPPER[this.roomState.getCurrentAssignedRole()] > 0
+              ) {
                 this.close('closedAsCreator');
               } else {
                 this.close('closedAsParticipant');
@@ -182,7 +189,7 @@ export class LivepollDialogComponent
         this.wsLivepollService
           .getLivepollUserCountStream(
             this.livepollSession.id,
-            this.session.currentRole,
+            ROOM_ROLE_MAPPER[this.roomState.getCurrentAssignedRole()] || 0,
           )
           .pipe(takeUntil(this._destroyer))
           .subscribe((userCount) => {

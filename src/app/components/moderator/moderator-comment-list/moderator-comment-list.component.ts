@@ -43,6 +43,10 @@ import { Palette } from '../../../../theme/Theme';
 import { DeleteModerationCommentsComponent } from '../../creator/_dialogs/delete-moderation-comments/delete-moderation-comments.component';
 import { DeviceStateService } from 'app/services/state/device-state.service';
 import { AccountStateService } from 'app/services/state/account-state.service';
+import {
+  ROOM_ROLE_MAPPER,
+  RoomStateService,
+} from 'app/services/state/room-state.service';
 
 @Component({
   selector: 'app-moderator-comment-list',
@@ -112,6 +116,7 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
     private composeService: ArsComposeService,
     private headerService: HeaderService,
     private roomDataService: RoomDataService,
+    private roomState: RoomStateService,
   ) {
     this.deviceState.mobile$
       .pipe(takeUntil(this.destroyer))
@@ -153,8 +158,8 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
         }
         this.user = user;
       });
-    this.sessionService.getRole().subscribe((role) => {
-      this.userRole = role;
+    this.roomState.assignedRole$.subscribe((role) => {
+      this.userRole = ROOM_ROLE_MAPPER[role] ?? null;
     });
     forkJoin([
       this.sessionService.getRoomOnce(),
@@ -337,6 +342,8 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
           callback: () => {
             exportRoom(
               this.translateService,
+              ROOM_ROLE_MAPPER[this.roomState.getCurrentRole()] ||
+                UserRole.PARTICIPANT,
               this.notificationService,
               this.bonusTokenService,
               this.commentService,

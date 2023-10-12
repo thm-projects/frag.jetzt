@@ -32,7 +32,6 @@ export class AuthenticationGuard implements CanActivate {
   ): Observable<boolean> {
     this.accountState.forceLogin().subscribe();
     const roomShortId = route.params.shortId;
-    this.roomState.setRoomShortId(roomShortId);
     const url = decodeURI(state.url);
     if (route.data.superAdmin) {
       return this.accountState.user$.pipe(

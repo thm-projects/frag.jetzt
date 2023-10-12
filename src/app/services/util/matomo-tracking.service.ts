@@ -2,16 +2,14 @@ import { Injectable } from '@angular/core';
 import { MatomoInjector, MatomoTracker } from 'ngx-matomo-v9';
 import { NavigationEnd, Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
-import { User } from '../../models/user';
-import { UserRole } from '../../models/user-roles.enum';
 import { AccountStateService } from '../state/account-state.service';
+import { RoomStateService } from '../state/room-state.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MatomoTrackingService {
   private lastUrl = '/';
-  private currentUser: User;
   private readonly CONFIG = [
     [
       /^\/quiz$/,
@@ -27,7 +25,7 @@ export class MatomoTrackingService {
         this.matomoTracker.setCustomVariable(
           2,
           'UserRole',
-          MatomoTrackingService.getUserRoleString(this.currentUser),
+          this.getUserRoleString(),
           'page',
         );
         this.matomoTracker.setCustomVariable(3, 'RoomShortId', exp[2], 'page');
@@ -41,7 +39,7 @@ export class MatomoTrackingService {
         this.matomoTracker.setCustomVariable(
           2,
           'UserRole',
-          MatomoTrackingService.getUserRoleString(this.currentUser),
+          this.getUserRoleString(),
           'page',
         );
         this.matomoTracker.setCustomVariable(3, 'RoomShortId', exp[2], 'page');
@@ -55,7 +53,7 @@ export class MatomoTrackingService {
         this.matomoTracker.setCustomVariable(
           2,
           'UserRole',
-          MatomoTrackingService.getUserRoleString(this.currentUser),
+          this.getUserRoleString(),
           'page',
         );
         this.matomoTracker.setCustomVariable(3, 'RoomShortId', exp[2], 'page');
@@ -69,7 +67,7 @@ export class MatomoTrackingService {
         this.matomoTracker.setCustomVariable(
           2,
           'UserRole',
-          MatomoTrackingService.getUserRoleString(this.currentUser),
+          this.getUserRoleString(),
           'page',
         );
         this.matomoTracker.setCustomVariable(3, 'RoomShortId', exp[2], 'page');
@@ -83,7 +81,7 @@ export class MatomoTrackingService {
         this.matomoTracker.setCustomVariable(
           2,
           'UserRole',
-          MatomoTrackingService.getUserRoleString(this.currentUser),
+          this.getUserRoleString(),
           'page',
         );
         this.matomoTracker.setCustomVariable(3, 'RoomShortId', exp[2], 'page');
@@ -97,7 +95,7 @@ export class MatomoTrackingService {
         this.matomoTracker.setCustomVariable(
           2,
           'UserRole',
-          MatomoTrackingService.getUserRoleString(this.currentUser),
+          this.getUserRoleString(),
           'page',
         );
         this.matomoTracker.setCustomVariable(3, 'RoomShortId', exp[2], 'page');
@@ -110,13 +108,13 @@ export class MatomoTrackingService {
     private matomoTracker: MatomoTracker,
     private router: Router,
     private accountState: AccountStateService,
+    private roomState: RoomStateService,
   ) {
     if (environment.name !== 'prod') {
       return;
     }
     this.matomoInjector.init('/matomo/', 6);
     this.accountState.user$.subscribe((user) => {
-      this.currentUser = user;
       if (user?.id) {
         this.matomoTracker.setUserId(user.id);
       } else {
@@ -131,8 +129,8 @@ export class MatomoTrackingService {
     });
   }
 
-  private static getUserRoleString(user: User): string {
-    return UserRole[user?.role ?? undefined] ?? 'N/A';
+  private getUserRoleString(): string {
+    return this.roomState.getCurrentRole() ?? 'N/A';
   }
 
   private onNavigate() {

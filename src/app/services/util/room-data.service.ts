@@ -23,7 +23,10 @@ import { Bookmark } from '../../models/bookmark';
 import { DataAccessor, ForumComment } from '../../utils/data-accessor';
 import { filter, take } from 'rxjs/operators';
 import { AccountStateService } from '../state/account-state.service';
-import { RoomStateService } from '../state/room-state.service';
+import {
+  ROOM_ROLE_MAPPER,
+  RoomStateService,
+} from '../state/room-state.service';
 
 export interface BookmarkAccess {
   [commentId: string]: Bookmark;
@@ -60,9 +63,10 @@ export class RoomDataService {
       this.onRoomUpdate(room);
     });
     this.accountState.user$.subscribe((_) => this.onRoomUpdate(lastRoom));
-    this.sessionService.getRole().subscribe((role) => {
-      this.dataAccessor.updateCurrentRole(role);
-      this.moderatorDataAccessor.updateCurrentRole(role);
+    this.roomState.assignedRole$.subscribe((role) => {
+      const userRole = ROOM_ROLE_MAPPER[role];
+      this.dataAccessor.updateCurrentRole(userRole);
+      this.moderatorDataAccessor.updateCurrentRole(userRole);
     });
   }
 
@@ -196,7 +200,8 @@ export class RoomDataService {
       .getActiveUser(room)
       .pipe(takeUntil(currentDestroyer))
       .subscribe(([count]) => this._currentUserCount.next(String(count || 0)));
-    const userRole = this.roomState.getCurrentRole() || UserRole.PARTICIPANT;
+    const userRole =
+      ROOM_ROLE_MAPPER[this.roomState.getCurrentRole()] || UserRole.PARTICIPANT;
     this._canAccessModerator = userRole > UserRole.PARTICIPANT;
     this.wsCommentService
       .getCommentStream(room.id, userRole)

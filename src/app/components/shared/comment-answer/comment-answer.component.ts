@@ -37,6 +37,10 @@ import { EditQuestionComponent } from '../_dialogs/edit-question/edit-question.c
 import { CreateCommentWrapper } from 'app/utils/create-comment-wrapper';
 import { ComponentEvent, sendSyncEvent } from 'app/utils/component-events';
 import { AccountStateService } from 'app/services/state/account-state.service';
+import {
+  ROOM_ROLE_MAPPER,
+  RoomStateService,
+} from 'app/services/state/room-state.service';
 
 @Component({
   selector: 'app-comment-answer',
@@ -86,6 +90,7 @@ export class CommentAnswerComponent
     private composeService: ArsComposeService,
     private headerService: HeaderService,
     private accountState: AccountStateService,
+    private roomState: RoomStateService,
     injector: Injector,
   ) {
     this._keywordExtractor = new KeywordExtractor(injector);
@@ -116,21 +121,10 @@ export class CommentAnswerComponent
           this.user = newUser;
         }
       });
-    this.sessionService.getRole().subscribe((role) => {
-      this.userRole = role;
-      switch (this.userRole) {
-        case UserRole.PARTICIPANT.valueOf():
-          this.isStudent = true;
-          this.roleString = 'participant';
-          break;
-        case UserRole.CREATOR.valueOf():
-          this.isStudent = false;
-          this.roleString = 'creator';
-          break;
-        case UserRole.EXECUTIVE_MODERATOR.valueOf():
-          this.isStudent = false;
-          this.roleString = 'moderator';
-      }
+    this.roomState.assignedRole$.subscribe((role) => {
+      this.userRole = ROOM_ROLE_MAPPER[role];
+      this.roleString = role?.toLocaleLowerCase?.() || 'participant';
+      this.isStudent = !role || role === 'Participant';
     });
     if (this.backUrl && this.isConversationView) {
       document.getElementById('header_rescale').style.display = 'none';
@@ -286,7 +280,8 @@ export class CommentAnswerComponent
     });
     ref.componentInstance.comment = comment;
     ref.componentInstance.tags = this.sessionService.currentRoom.tags;
-    ref.componentInstance.userRole = this.sessionService.currentRole;
+    ref.componentInstance.userRole =
+      ROOM_ROLE_MAPPER[this.roomState.getCurrentAssignedRole()];
   }
 
   private findComment(commentId: string): Observable<[ForumComment, boolean]> {

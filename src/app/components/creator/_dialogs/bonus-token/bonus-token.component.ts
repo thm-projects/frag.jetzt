@@ -26,8 +26,10 @@ import { BonusTokenUtilService } from '../../../../services/util/bonus-token-uti
 import { ModeratorService } from '../../../../services/http/moderator.service';
 import { numberSorter } from '../../../../models/comment';
 import { AppStateService } from 'app/services/state/app-state.service';
-import { AccountStateService } from 'app/services/state/account-state.service';
-import { RoomStateService } from 'app/services/state/room-state.service';
+import {
+  ROOM_ROLE_MAPPER,
+  RoomStateService,
+} from 'app/services/state/room-state.service';
 
 @Component({
   selector: 'app-bonus-token',
@@ -131,7 +133,10 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
   }
 
   navToComment(commentId: string) {
-    if (this.roomState.getCurrentRole() === UserRole.CREATOR) {
+    if (
+      ROOM_ROLE_MAPPER[this.roomState.getCurrentAssignedRole()] ===
+      UserRole.CREATOR
+    ) {
       this.dialogRef.close();
       const commentURL = `creator/room/${this.room.shortId}/comment/${commentId}`;
       this.router.navigate([commentURL]);
