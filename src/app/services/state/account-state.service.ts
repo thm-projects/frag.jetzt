@@ -183,7 +183,7 @@ export class AccountStateService {
     if (this.getCurrentUser()) {
       return throwError(() => 'Guest already logged in');
     }
-    return this.loginAsGuest(false).pipe(
+    return this.makeGuestSession(true, false).pipe(
       tap((user) => this.updateUser$.next(user)),
     );
   }
@@ -348,6 +348,31 @@ export class AccountStateService {
     this.gptService.updateConsentState(Boolean(result)).subscribe();
   }
 
+  private makeGuestSession(force: boolean, navigate: boolean) {
+    return this.dbConfig.get('account-guest').pipe(
+      switchMap((userCfg) => {
+        if (!userCfg?.value) {
+          return of(null);
+        }
+        const user = userCfg.value as User;
+        return this.authService.refreshLoginWithToken(user.token).pipe(
+          map((auth) => this.fromAuth(auth, null)),
+          switchMap((auth) => this.setLoggedIn('guest').pipe(map(() => auth))),
+          catchError(() => of(null)),
+        );
+      }),
+      switchMap((user) => {
+        if (!user && force) {
+          return this.loginAsGuest(navigate);
+        }
+        if (navigate) {
+          this.router.navigate(['/user']);
+        }
+        return of(user);
+      }),
+    );
+  }
+
   private redirectLogin(): Observable<User> {
     return callServiceEvent(
       this.eventService,
@@ -358,7 +383,7 @@ export class AccountStateService {
           return of(null);
         }
         if (!response.keycloakId) {
-          return this.loginAsGuest(true);
+          return this.makeGuestSession(true, true);
         }
         return this.doKeycloakLogin(response.keycloakId, true);
       }),
@@ -379,36 +404,20 @@ export class AccountStateService {
   }
 
   private loginWithSavedUser(value: 'guest' | UUID) {
-    const isGuest = value === 'guest';
-    return this.dbConfig
-      .get(`account-${isGuest ? 'guest' : 'registered'}`)
-      .pipe(
-        switchMap((cfg) => {
-          if (!isGuest) {
-            this.initialized = true;
-            return this.doKeycloakLogin(value as UUID, false).pipe(
-              switchMap((data) => {
-                if (data) {
-                  return of(data);
-                }
-                return this.redirectLogin();
-              }),
-            );
+    if (value !== 'guest') {
+      this.initialized = true;
+      return this.doKeycloakLogin(value as UUID, false).pipe(
+        switchMap((data) => {
+          if (data) {
+            return of(data);
           }
-          if (!cfg?.value) {
-            this.initialized = true;
-            return of(null);
-          }
-          const user = cfg.value as User;
-          return this.authService.refreshLoginWithToken(user.token).pipe(
-            switchMap((auth) => {
-              this.initialized = true;
-              return of(this.fromAuth(auth, null));
-            }),
-            catchError(() => this.loginAsGuest(false)),
-          );
+          return this.redirectLogin();
         }),
       );
+    }
+    return this.makeGuestSession(false, false).pipe(
+      tap(() => (this.initialized = true)),
+    );
   }
 
   private doKeycloakLogin(
