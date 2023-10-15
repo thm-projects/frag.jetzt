@@ -12,7 +12,9 @@ export interface RouteData {
   isRoom?: true;
 }
 
-export interface RouteMapping { [key: string]: RouteData }
+export interface RouteMapping {
+  [key: string]: RouteData;
+}
 
 export const ROUTES = {
   room: {
@@ -21,6 +23,11 @@ export const ROUTES = {
   },
   comments: {
     regex: /^\/(creator|moderator|participant)\/room\/([^/]*)\/comments\/?$/i,
+    isRoom: true,
+  },
+  'gpt-chat-room': {
+    regex:
+      /^\/(creator|moderator|participant)\/room\/([^/]*)\/gpt-chat-room\/?$/i,
     isRoom: true,
   },
   moderation: {

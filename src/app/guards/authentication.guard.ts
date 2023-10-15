@@ -45,10 +45,16 @@ export class AuthenticationGuard implements CanActivate {
     const wantedRole = this.parseRole(url);
     return this.accountState.access$.pipe(
       filter((v) => Boolean(v)),
-      switchMap(() => {
-        const accessRole = this.parseRoomAccess(
-          this.accountState.getAccess(roomShortId),
-        );
+      switchMap(() =>
+        this.accountState.user$.pipe(
+          take(1),
+          map((u) => u && u.hasRole(KeycloakRoles.AdminAllRoomsOwner)),
+        ),
+      ),
+      switchMap((isAdmin) => {
+        const accessRole = isAdmin
+          ? UserRole.CREATOR
+          : this.parseRoomAccess(this.accountState.getAccess(roomShortId));
         // User has less rights or wantedRole not in possible
         if (
           wantedRole > (accessRole || UserRole.PARTICIPANT) ||
@@ -75,7 +81,7 @@ export class AuthenticationGuard implements CanActivate {
           return of(false);
         }
         // wantedRole = ok && wantendRole in possible
-        if (!accessRole) {
+        if (accessRole !== UserRole.PARTICIPANT && !accessRole) {
           return this.updateAccess(roomShortId).pipe(map(() => true));
         }
         return of(true);

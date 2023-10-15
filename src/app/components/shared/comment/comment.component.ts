@@ -764,7 +764,7 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     let url: string;
     this.route.params.subscribe((params) => {
-      url = `${this.roleString}/room/${params['shortId']}/gpt-chat-room`;
+      url = `/${this.roleString}/room/${params['shortId']}/gpt-chat-room`;
     });
 
     localStorage.setItem('answeringQuestion', this.comment.id);
