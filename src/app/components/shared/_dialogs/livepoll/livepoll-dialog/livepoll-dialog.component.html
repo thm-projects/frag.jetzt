@@ -27,7 +27,7 @@
       </span>
       <button
         mat-flat-button
-        *ngIf="session.currentRole"
+        *ngIf="currentRole"
         (click)="openPeerInstruction()"
         class="button-secondary">
         <mat-icon>face</mat-icon>
@@ -37,7 +37,7 @@
         mat-flat-button
         [mat-menu-trigger-for]="archiveMenu"
         class="button-primary"
-        *ngIf="session.currentRole"
+        *ngIf="currentRole"
         (click)="openArchive()">
         <mat-icon>archive</mat-icon>
         <span>{{ translateKey + ".option-archive" | translate }}</span>
@@ -94,7 +94,7 @@
   class="content">
   <ng-container *ngIf="livepollSession">
     <ng-container
-      *ngIf="session.currentRole && livepollSession.active && !isConclusion">
+      *ngIf="currentRole && livepollSession.active && !isConclusion">
       <app-livepoll-settings [parent]="this"></app-livepoll-settings>
     </ng-container>
 
@@ -116,7 +116,7 @@
       <div class="statistics-options">
         <button
           mat-flat-button
-          *ngIf="isProduction && session.currentRole"
+          *ngIf="isProduction && currentRole"
           class="button-cancel"
           (click)="resetResults()">
           <mat-icon style="margin-right: 4px">undo</mat-icon>
@@ -204,7 +204,7 @@
     <button
       mat-flat-button
       class="button-primary"
-      *ngIf="session.currentRole && !isConclusion"
+      *ngIf="currentRole && !isConclusion"
       (click)="isPaused ? play() : pause()">
       <mat-icon>{{ isPaused ? "play_circle" : "pause_circle" }}</mat-icon>
       <span
@@ -220,7 +220,7 @@
     <button
       mat-flat-button
       class="button-cancel"
-      *ngIf="session.currentRole && isProduction && !isConclusion"
+      *ngIf="currentRole && isProduction && !isConclusion"
       (click)="close('delete')">
       <mat-icon style="color: var(--red)">stop_circle</mat-icon>
       <span
@@ -240,9 +240,7 @@
     </button>
     <button
       mat-flat-button
-      *ngIf="
-        session.currentRole && (dialogActions.offsetWidth > 310 || isConclusion)
-      "
+      *ngIf="currentRole && (dialogActions.offsetWidth > 310 || isConclusion)"
       (click)="close('reset')"
       class="button-secondary">
       <mat-icon>add_circle</mat-icon>
