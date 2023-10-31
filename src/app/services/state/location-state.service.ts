@@ -12,7 +12,9 @@ export interface RouteData {
   isRoom?: true;
 }
 
-export interface RouteMapping { [key: string]: RouteData }
+export interface RouteMapping {
+  [key: string]: RouteData;
+}
 
 export const ROUTES = {
   room: {
@@ -21,6 +23,21 @@ export const ROUTES = {
   },
   comments: {
     regex: /^\/(creator|moderator|participant)\/room\/([^/]*)\/comments\/?$/i,
+    isRoom: true,
+  },
+  'comment-answer': {
+    regex:
+      /^\/(creator|moderator|participant)\/room\/([^/]*)\/comment\/([^/]+)\/?/i,
+    isRoom: true,
+  },
+  'comment-conversation': {
+    regex:
+      /^\/(creator|moderator|participant)\/room\/([^/]*)\/comment\/([^/]+)\/conversation\/?/i,
+    isRoom: true,
+  },
+  'gpt-chat-room': {
+    regex:
+      /^\/(creator|moderator|participant)\/room\/([^/]*)\/gpt-chat-room\/?$/i,
     isRoom: true,
   },
   moderation: {
@@ -45,6 +62,30 @@ export const ROUTES = {
   },
   user: {
     regex: /^\/user\/?$/i,
+  },
+  'prompt-catalog': {
+    regex: /^\/gpt-prompts\/?$/i,
+  },
+  'admin-dashboard': {
+    regex: /^\/admin\/overview\/?$/i,
+  },
+  'admin-motd': {
+    regex: /^\/admin\/create-motd\/?$/i,
+  },
+  'admin-gpt-config': {
+    regex: /^\/admin\/gpt-config\/?$/i,
+  },
+  'admin-chat': {
+    regex: /^\/admin\/gpt-chat\/?$/i,
+  },
+  'admin-global-prompt-catalog': {
+    regex: /^\/admin\/gpt-prompts\/?$/i,
+  },
+  'admin-mailing': {
+    regex: /^\/admin\/mailing\/?$/i,
+  },
+  'admin-keycloak-provider': {
+    regex: /^\/admin\/keycloak-provider\/?$/i,
   },
   home: {
     regex: /^(\/|(\/home\/?))$/i,
@@ -116,6 +157,7 @@ export class LocationStateService {
       };
     }
     if (!location) {
+      console.warn('Unknown location: ' + url);
       return {
         shortName: 'unknown',
         url,

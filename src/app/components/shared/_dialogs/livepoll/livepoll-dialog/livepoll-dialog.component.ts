@@ -47,6 +47,7 @@ import {
   ROOM_ROLE_MAPPER,
   RoomStateService,
 } from 'app/services/state/room-state.service';
+import { UserRole } from 'app/models/user-roles.enum';
 
 export enum PeerInstructionPhase {
   Undefined,
@@ -95,6 +96,7 @@ export class LivepollDialogComponent
   @ViewChild('markdownContainer')
   markdownContainerRef: ElementRef<HTMLDivElement>;
   isMobile = false;
+  currentRole = UserRole.PARTICIPANT;
   public translateKey: string = 'common';
   public votes: number[] = [];
   public livepollVote: LivepollVote;
@@ -141,6 +143,11 @@ export class LivepollDialogComponent
     deviceState.mobile$
       .pipe(takeUntil(this._destroyer))
       .subscribe((m) => (this.isMobile = m));
+    roomState.assignedRole$
+      .pipe(takeUntil(this._destroyer))
+      .subscribe((role) => {
+        this.currentRole = ROOM_ROLE_MAPPER[role] || UserRole.PARTICIPANT;
+      });
     LivepollComponentUtility.initLanguage(
       this.appState,
       this.translationService,
@@ -176,9 +183,7 @@ export class LivepollDialogComponent
           .pipe(takeUntil(this._destroyer))
           .subscribe(() => {
             if (!this.session.currentLivepoll) {
-              if (
-                ROOM_ROLE_MAPPER[this.roomState.getCurrentAssignedRole()] > 0
-              ) {
+              if (this.currentRole > 0) {
                 this.close('closedAsCreator');
               } else {
                 this.close('closedAsParticipant');
@@ -187,10 +192,7 @@ export class LivepollDialogComponent
           });
         // init ws.service
         this.wsLivepollService
-          .getLivepollUserCountStream(
-            this.livepollSession.id,
-            ROOM_ROLE_MAPPER[this.roomState.getCurrentAssignedRole()] || 0,
-          )
+          .getLivepollUserCountStream(this.livepollSession.id, this.currentRole)
           .pipe(takeUntil(this._destroyer))
           .subscribe((userCount) => {
             const parsed = JSON.parse(userCount.body);
