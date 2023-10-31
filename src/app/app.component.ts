@@ -225,19 +225,17 @@ export class AppComponent implements OnInit {
         autoFocus: true,
       });
       dialogRef.disableClose = true;
-      dialogRef.afterClosed().pipe(
-        tap((data) => {
-          sendEvent(this.eventService, new OnboardingResponse(request));
-          if (!data) {
-            localStorage.setItem(
-              'onboarding_default',
-              JSON.stringify({ state: 'canceled' }),
-            );
-          } else {
-            this.onboarding.startDefaultTour();
-          }
-        }),
-      );
+      dialogRef.afterClosed().subscribe((data) => {
+        sendEvent(this.eventService, new OnboardingResponse(request));
+        if (!data) {
+          localStorage.setItem(
+            'onboarding_default',
+            JSON.stringify({ state: 'canceled' }),
+          );
+        } else {
+          this.onboarding.startDefaultTour();
+        }
+      });
     });
     listenEvent(this.eventService, SafariUnsupportedRequest).subscribe(
       (request) => {

@@ -251,7 +251,6 @@ export class HomePageComponent implements OnInit, OnDestroy {
       this.accumulatedRatings = r;
     });
     this.sessionService.onReady.subscribe(() => {
-      this.onboardingService.startDefaultTour();
       this.loadListener();
     });
     this.eventService.on('not-authorized').subscribe(() => {

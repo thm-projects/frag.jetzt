@@ -355,7 +355,6 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
         this.search = true;
       }
       this.setFocusedComment(localStorage.getItem('answeringQuestion'));
-      this.isJoyrideActive = this.onboardingService.startDefaultTour();
     }
     const allComments = [...this._filterObject.getSourceData()];
     allComments.sort((a, b) => numberSorter(a.number, b.number));

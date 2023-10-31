@@ -116,7 +116,8 @@ export class AppStateService {
           ),
         )
         .subscribe();
-      // TODO: Onboarding
+      // Onboarding
+      this.startOnboarding().subscribe();
       // TODO: Safari unsupported
     });
   }
@@ -218,14 +219,14 @@ export class AppStateService {
     return of();
   }
 
-  private startOnboarding() {
+  private startOnboarding(): Observable<unknown> {
     if (
       this.deviceState.isSafari ||
       localStorage.getItem('onboarding_default')
     ) {
       return of(true);
     }
-    callServiceEvent(this.eventService, new OnboardingRequest()).subscribe();
+    return callServiceEvent(this.eventService, new OnboardingRequest());
   }
 
   private checkSafari() {
