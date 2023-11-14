@@ -87,54 +87,7 @@
                     <path d="M494.059,438.634C422.785,388.497 362.357,367.041 307.55,360.446C307.55,360.446 247.037,408.623 307.837,470.33C368.637,532.038 501.968,526.051 501.968,526.051L494.059,438.634Z" style="fill:url(#_Linear8);"/>
                 </g>
             </g>
-            <g transform="matrix(0.969126,0,0,0.969126,31.0953,63.7024)">
-                <g transform="matrix(1.03186,0,0,1.03186,-27.192,-16.604)">
-                    <g transform="matrix(1.49294,-0.0535784,0.0358647,0.999357,-500.096,52.5643)">
-                        <text x="974.462px" y="550.555px" style="font-family:'Exo2-ExtraBold', 'Exo 2';font-weight:800;font-size:18px;fill:white;fill-opacity:0.18;">P</text>
-                    </g>
-                    <g transform="matrix(1.49208,-0.0736396,0.0492935,0.998784,-516.291,73.8747)">
-                        <text x="994.118px" y="549.803px" style="font-family:'Exo2-ExtraBold', 'Exo 2';font-weight:800;font-size:18px;fill:white;fill-opacity:0.18;">O</text>
-                    </g>
-                    <g transform="matrix(1.49064,-0.0986372,0.0660267,0.997818,-534.481,101.365)">
-                        <text x="1015.52px" y="548.677px" style="font-family:'Exo2-ExtraBold', 'Exo 2';font-weight:800;font-size:18px;fill:white;fill-opacity:0.18;">R</text>
-                    </g>
-                    <g transform="matrix(1.48863,-0.125355,0.0839114,0.996473,-552.118,131.792)">
-                        <text x="1035.95px" y="547.251px" style="font-family:'Exo2-ExtraBold', 'Exo 2';font-weight:800;font-size:18px;fill:white;fill-opacity:0.18;">S</text>
-                    </g>
-                    <g transform="matrix(1.48577,-0.155634,0.10418,0.994558,-569.15,167.106)">
-                        <text x="1054.63px" y="545.604px" style="font-family:'Exo2-ExtraBold', 'Exo 2';font-weight:800;font-size:18px;fill:white;fill-opacity:0.18;">C</text>
-                    </g>
-                    <g transform="matrix(1.48135,-0.193213,0.129334,0.991601,-586.902,211.926)">
-                        <text x="1073.22px" y="543.577px" style="font-family:'Exo2-ExtraBold', 'Exo 2';font-weight:800;font-size:18px;fill:white;fill-opacity:0.18;">H</text>
-                    </g>
-                    <g transform="matrix(1.47405,-0.242698,0.16246,0.986715,-606.726,272.837)">
-                        <text x="1094.59px" y="540.639px" style="font-family:'Exo2-ExtraBold', 'Exo 2';font-weight:800;font-size:18px;fill:white;fill-opacity:0.18;">E</text>
-                    </g>
-                </g>
-                <g transform="matrix(1.03186,0,0,1.03186,-27.192,-16.604)">
-                    <g transform="matrix(1.49294,-0.0535784,0.0358647,0.999357,-500.096,52.5643)">
-                        <text x="974.462px" y="550.555px" style="font-family:'Exo2-ExtraBold', 'Exo 2';font-weight:800;font-size:18px;fill:white;fill-opacity:0.18;">P</text>
-                    </g>
-                    <g transform="matrix(1.49208,-0.0736396,0.0492935,0.998784,-516.291,73.8747)">
-                        <text x="994.118px" y="549.803px" style="font-family:'Exo2-ExtraBold', 'Exo 2';font-weight:800;font-size:18px;fill:white;fill-opacity:0.18;">O</text>
-                    </g>
-                    <g transform="matrix(1.49064,-0.0986372,0.0660267,0.997818,-534.481,101.365)">
-                        <text x="1015.52px" y="548.677px" style="font-family:'Exo2-ExtraBold', 'Exo 2';font-weight:800;font-size:18px;fill:white;fill-opacity:0.18;">R</text>
-                    </g>
-                    <g transform="matrix(1.48863,-0.125355,0.0839114,0.996473,-552.118,131.792)">
-                        <text x="1035.95px" y="547.251px" style="font-family:'Exo2-ExtraBold', 'Exo 2';font-weight:800;font-size:18px;fill:white;fill-opacity:0.18;">S</text>
-                    </g>
-                    <g transform="matrix(1.48577,-0.155634,0.10418,0.994558,-569.15,167.106)">
-                        <text x="1054.63px" y="545.604px" style="font-family:'Exo2-ExtraBold', 'Exo 2';font-weight:800;font-size:18px;fill:white;fill-opacity:0.18;">C</text>
-                    </g>
-                    <g transform="matrix(1.48135,-0.193213,0.129334,0.991601,-586.902,211.926)">
-                        <text x="1073.22px" y="543.577px" style="font-family:'Exo2-ExtraBold', 'Exo 2';font-weight:800;font-size:18px;fill:white;fill-opacity:0.18;">H</text>
-                    </g>
-                    <g transform="matrix(1.47405,-0.242698,0.16246,0.986715,-606.726,272.837)">
-                        <text x="1094.59px" y="540.639px" style="font-family:'Exo2-ExtraBold', 'Exo 2';font-weight:800;font-size:18px;fill:white;fill-opacity:0.18;">E</text>
-                    </g>
-                </g>
-            </g>
+            
         </g>
     </g>
     <defs>
