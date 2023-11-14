@@ -4,7 +4,19 @@ Nomen est omen: The app's name says it all: it stands for both the app's main pu
 
 [![Quality Gate Status](https://scm.thm.de/sonar/api/project_badges/measure?project=de.thm.arsnova%3Afrag-jetzt-frontend&metric=alert_status)](https://scm.thm.de/sonar/dashboard?id=de.thm.arsnova%3Afrag-jetzt-frontend)
 
-## Vision Statement
+
+## Current Vision Statement
+
+**Dual-Mode Learning Platform: The Evolution of frag.jetzt from ARS to PLE**
+
+With our tried-and-true open-source software frag.jetzt, we have established a robust Audience Response System (ARS) that is utilized as Software-as-a-Service (https://frag.jetzt) by numerous educators at colleges and universities in Germany, Austria, and Switzerland (the DACH region). Equipped with a variety of integrated teaching and learning tools, frag.jetzt has established itself in digital teaching settings. However, the journey is far from over. Despite the positive resonance, we are committed to pushing the boundaries of what is possible and expanding to a broader user base. The previous focus on the educator demographic has constrained the expansion of our user base. We recognize the immense potential that unfolds once an educator discovers the platform and integrates it into their teaching. To fully harness this potential, we have an ambitious vision: the transformation of frag.jetzt into an AI-supported Personal Learning Environment (PLE) for a wide user group.
+
+The core of the next release is the comprehensive refactoring of frag.jetzt from an ARS to a PLE, to cater to both educators and learners. The first encounter with the frag.jetzt platform will be a defining moment as users will have the choice to utilize the platform either as an ARS for educators or a PLE for learners. We are firmly convinced that this groundbreaking realignment, opening up frag.jetzt as a personal learning environment, will exponentially increase the number of users. A central incentive of our realignment is the integration of ChatGPT as an AI tutor in personal virtual rooms, with a dedicated room created for each subject. This innovative approach will make frag.jetzt a magnet for a broader user base, dramatically enhancing our influence and reach in the educational landscape.
+
+---
+
+
+## Old Vision Statement
 
 With our innovative product "frag.jetzt" we want to conquer the market of audience response systems. With "frag.jetzt," we are addressing teachers at schools and universities. With "frag.jetzt," we offer a browser-based, privacy-compliant Q&A app for anonymous, silent questioning. The unique selling point is the option to award "good questions" for earning bonuses. Studies show that active participation in class is significantly boosted by silent questions. Bonuses for good questions as extrinsic learning motivation reinforce this effect.
 
