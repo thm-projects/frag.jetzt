@@ -212,6 +212,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
   private _list: ComponentRef<any>[];
   private _preset: GPTRoomPreset;
   private keywordExtractor: KeywordExtractor;
+  private language: string;
 
   constructor(
     private gptService: GptService,
@@ -235,8 +236,10 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
     appState: AppStateService,
   ) {
     this.keywordExtractor = new KeywordExtractor(injector);
-    appState.language$.pipe(takeUntil(this.destroyer)).subscribe(() => {
+    appState.language$.pipe(takeUntil(this.destroyer)).subscribe((lang) => {
+      this.language = lang;
       this.updatePresetEntries(this._preset);
+      this.filterPrompts();
     });
   }
 
@@ -727,8 +730,9 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
 
   protected filterPrompts() {
     this.selectedPrompt = null;
+    const prompts = this.prompts.filter((x) => x.language === this.language);
     if (!this.searchTerm.trim()) {
-      this.filteredPrompts = [...this.prompts];
+      this.filteredPrompts = prompts;
       return;
     }
     this.filteredPrompts.length = 0;
@@ -737,7 +741,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
       'gi',
     );
     this.filteredPrompts.push({ act: 'acts', prompt: null } as GPTPromptPreset);
-    const data = this.prompts
+    const data = prompts
       .map(
         (x) =>
           [[...x.act.matchAll(searchRegex)].length, x] as [
@@ -753,7 +757,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
       act: 'prompts',
       prompt: null,
     } as GPTPromptPreset);
-    const promptData = this.prompts
+    const promptData = prompts
       .map(
         (x) =>
           [[...x.prompt.matchAll(searchRegex)].length, x] as [
