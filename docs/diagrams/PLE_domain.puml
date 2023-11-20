@@ -1,0 +1,81 @@
+@startuml Domain diagram
+skinparam class {
+  BackgroundColor PaleGreen
+  BorderColor Green
+  ArrowColor black
+  FontSize 28
+  BackgroundColor<<USP>> Pink
+  BorderColor<<USP>> HotPink
+}
+
+skinparam backgroundColor Linen
+skinparam linetype ortho
+skinparam shadowing true
+skinparam minClassWidth 200
+skinparam ArrowThickness 1
+skinparam LegendBackgroundColor Strategy
+skinparam LegendBorderThickness 0
+skinparam LegendFontSize 20
+skinparam defaultFontSize 20
+skinparam Padding 8
+skinparam Nodesep 150
+skinparam ArrowColor DarkSlateGray
+
+hide methods
+hide empty members
+hide circle
+
+package "frag·jetzt | PLE domain diagram" <<Rectangle>> {
+
+  class "Learning space" {
+    welcomeText
+    name
+    directLink
+    settings
+  }
+
+  class Topic {
+    topicNumber
+    rating
+  }
+
+  class Conversation {
+    threads
+    aiAssistantContext
+  }
+
+  class "Lead Learner" {
+
+  }
+
+  class "Collaborative Learner" {
+
+  }
+
+  class "AI Assistant" <<webService>> {
+    [[https://platform.openai.com/docs/assistants/overview {used for automated answering} Link to an Example from OpenAI]]
+  }
+
+  "Collaborative Learner" <|-down- "Lead Learner"
+
+  Topic ----o Conversation
+
+  Conversation --.> "AI Assistant" : <<use>>
+  Conversation ---left-* "Learning space"
+
+  "Learning space" -- "Collaborative Learner"
+
+}
+
+legend right
+|<img:https://git.thm.de/arsnova/frag.jetzt/-/raw/staging/src/assets/icons/chat_bot_green.png{scale=0.4}> |= \n\n »frag.jetzt« - PLE |
+| Domain glossary | [[https://git.thm.de/arsnova/frag.jetzt/-/raw/staging/docs/diagrams/Glossary.pdf]] |
+| Production server | [[https://frag.jetzt]] |
+| Repository | [[https://git.thm.de/arsnova/frag.jetzt/-/blob/staging/README.md]] |
+| Staging server | [[https://staging.frag.jetzt]] |
+| UML tool| PlantUML-Server Version 1.2023.12 - graphviz (20230911.1827)|
+| Author| Ruben Bimberg|
+| Contact| [[mailto:ruben.bimberg@mni.thm.de]] |
+| Last revision| 20.11.2023 |
+end legend
+@enduml

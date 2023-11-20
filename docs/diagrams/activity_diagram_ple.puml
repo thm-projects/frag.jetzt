@@ -1,0 +1,116 @@
+@startuml Bonus awarding
+title frag.jetzt | Workflow for Bonus awarding
+
+skinparam backgroundColor Linen
+skinparam shadowing true
+skinparam defaultFontSize 14
+skinparam Padding 6
+
+|#CE93D8|Lead Learner|
+
+partition "Create a learning space" {
+
+  start
+
+  :go to frag.jetzt;
+  if(you have selected PLE?) then (yes)
+    if(learning space already exists?) then (yes)
+      :go to the learning space;
+    else (no)
+      :create learning space;
+    endif
+  else (no)
+    :select PLE;
+    :create learning space;
+  endif
+  stop
+}
+
+|#90CAF9|Collaborative Learner|
+
+partition "Join learning space" {
+  start
+  :go to frag.jetzt;
+  floating note left: The Lead Learner has given you the key code.
+  if(you have an account?) then (yes)
+    :sign in;
+    :go to the learning space;
+  else (no)
+    :join learning space as guest;
+  endif
+  stop
+}
+
+partition "Create topics" {
+  start
+  floating note left: You are in the learning space.
+  :go to »Topic board«;
+  (T)
+  :open editor;
+  :write topic;
+  :post topic board;
+  if (want to ask more topics?) then (yes)
+    (Q)
+    detach
+  else (no)
+    stop
+  endif
+}
+
+|Lead Learner|
+
+partition "Setup personal AI Assistant" {
+  start
+  :go to »My AI Assistants«;
+  if (you have already created Assistant?) then (yes)
+    :Select AI Assistant;
+  else (no)
+    :create AI Assistant;
+  endif
+  if (you have already uploaded all data for the assistant?) then (yes)
+    :Save AI Assistant and set default;
+  else (no)
+    (U)
+    :Upload data;
+    if (want to upload more data?) then (yes)
+      (U)
+      detach
+    else (no)
+      :Save AI Assistant and set default;
+    endif
+  endif
+  stop
+}
+
+|Collaborative Learner|
+
+partition "Answer question by AI Assistant" {
+  start
+  :go to »Topic board«;
+  :select topic;
+  :press answer by "AI Assistant";
+  :verify answer;
+  :submit answer;
+  (D)
+  if (want to deepen the conversation?) then (yes)
+    :ask more relevant questions;
+    :submit conversation to »Topic board«;
+    (D)
+    detach
+  else (no)
+    stop
+  endif
+}
+
+
+legend right
+|<img:https://git.thm.de/arsnova/frag.jetzt/-/raw/staging/src/assets/icons/chat_bot_green.png{scale=0.4}> |= \n\n »frag.jetzt« |
+| Domain glossary | [[https://git.thm.de/arsnova/frag.jetzt/-/raw/staging/docs/diagrams/Glossary.pdf]] |
+| Production server | [[https://frag.jetzt]] |
+| Repository | [[https://git.thm.de/arsnova/frag.jetzt/-/blob/staging/README.md]] |
+| Staging server | [[https://staging.frag.jetzt]] |
+| UML tool| PlantUML-Server Version 1.2023.12 - graphviz (20230911.1827)|
+| Author| Ruben Bimberg|
+| Contact| [[mailto:ruben.bimberg@mni.thm.de]] |
+| Last revision| 20.11.2023 |
+end legend

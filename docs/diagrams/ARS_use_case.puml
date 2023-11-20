@@ -91,6 +91,8 @@ rectangle "frag.jetzt | Use Case Diagram" {
       usecase "Appoint the role of moderator" as UC29 #lightblue;line:blue;line.bold
       usecase "Export all published and moderated posts" as UC30 #lightblue;line:blue;line.bold
       usecase "Open and manage brainstorming session" as UC31 #lightblue;line:blue;line.bold
+      usecase "Open and manage flash poll" as UC36 #lightblue;line:blue;line.bold
+      usecase "Anaylze flash polls" as UC37 #lightblue;line:blue;line.bold
     }
 
   }
@@ -151,6 +153,8 @@ rectangle "frag.jetzt | Use Case Diagram" {
   M --> UC28
   M --> UC30
   M --> UC31
+  M --> UC36
+  M --> UC37
 
   RU --> UC34
   RU --> UC35
@@ -163,14 +167,15 @@ rectangle "frag.jetzt | Use Case Diagram" {
 }
 
 legend right
-|<img:https://git.thm.de/arsnova/frag.jetzt/-/raw/staging/src/assets/icons/Logo_frag_jetzt_128x128.png> |= \n\n »frag.jetzt« |
+|<img:https://git.thm.de/arsnova/frag.jetzt/-/raw/staging/src/assets/icons/chat_bot_green.png{scale=0.4}> |= \n\n »frag.jetzt« - ARS |
 | Domain glossary | [[https://git.thm.de/arsnova/frag.jetzt/-/raw/staging/docs/diagrams/Glossary.pdf]] |
 | Production server | [[https://frag.jetzt]] |
 | Repository | [[https://git.thm.de/arsnova/frag.jetzt/-/blob/staging/README.md]] |
 | Staging server | [[https://staging.frag.jetzt]] |
-| UML tool| PlantUML-Server Version 1202202|
+| UML tool| PlantUML-Server Version 1.2023.12 - graphviz (20230911.1827)|
 | Author| Klaus Quibeldey-Cirkel|
 | Contact| [[mailto:klaus.quibeldey-cirkel@mni.thm.de]] |
-| Last revision| 04.12.2022 |
+| Last editor| Ruben Bimberg|
+| Last revision| 20.11.2023 |
 end legend
 @enduml
