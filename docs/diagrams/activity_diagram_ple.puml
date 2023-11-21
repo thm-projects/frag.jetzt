@@ -1,49 +1,49 @@
 @startuml Bonus awarding
-title frag.jetzt | Workflow for Bonus awarding
+title frag.jetzt | PLE Workflow
 
 skinparam backgroundColor Linen
 skinparam shadowing true
 skinparam defaultFontSize 14
 skinparam Padding 6
 
-|#CE93D8|Lead Learner|
+|#CE93D8|Learner|
 
-partition "Create a learning space" {
+partition "Create a Study room" {
 
   start
 
   :go to frag.jetzt;
   if(you have selected PLE?) then (yes)
-    if(learning space already exists?) then (yes)
-      :go to the learning space;
+    if(Study room already exists?) then (yes)
+      :go to the Study room;
     else (no)
-      :create learning space;
+      :create Study room;
     endif
   else (no)
     :select PLE;
-    :create learning space;
+    :create Study room;
   endif
   stop
 }
 
-|#90CAF9|Collaborative Learner|
+|#90CAF9|Co-Learner|
 
-partition "Join learning space" {
+partition "Join Study room" {
   start
   :go to frag.jetzt;
-  floating note left: The Lead Learner has given you the key code.
+  floating note left: The Learner has given you the key code.
   if(you have an account?) then (yes)
     :sign in;
-    :go to the learning space;
+    :go to the Study room;
   else (no)
-    :join learning space as guest;
+    :join Study room as guest;
   endif
   stop
 }
 
 partition "Create topics" {
   start
-  floating note left: You are in the learning space.
+  floating note left: You are in the Study room.
   :go to »Topic board«;
   (T)
   :open editor;
@@ -57,7 +57,7 @@ partition "Create topics" {
   endif
 }
 
-|Lead Learner|
+|Learner|
 
 partition "Setup personal AI Assistant" {
   start
@@ -82,7 +82,7 @@ partition "Setup personal AI Assistant" {
   stop
 }
 
-|Collaborative Learner|
+|Co-Learner|
 
 partition "Answer question by AI Assistant" {
   start
@@ -110,7 +110,7 @@ legend right
 | Repository | [[https://git.thm.de/arsnova/frag.jetzt/-/blob/staging/README.md]] |
 | Staging server | [[https://staging.frag.jetzt]] |
 | UML tool| PlantUML-Server Version 1.2023.12 - graphviz (20230911.1827)|
-| Author| Ruben Bimberg|
+| Authors| Ruben Bimberg, Klaus Quibeldey-Cirkel|
 | Contact| [[mailto:ruben.bimberg@mni.thm.de]] |
-| Last revision| 20.11.2023 |
+| Last revision| 21.11.2023 |
 end legend
