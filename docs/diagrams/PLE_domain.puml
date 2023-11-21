@@ -4,8 +4,8 @@ skinparam class {
   BorderColor Green
   ArrowColor black
   FontSize 28
-  BackgroundColor<<USP>> Pink
-  BorderColor<<USP>> HotPink
+  BackgroundColor<<webService>> yellow
+  BorderColor<<webService>> orange
 }
 
 skinparam backgroundColor Linen
@@ -25,9 +25,9 @@ hide methods
 hide empty members
 hide circle
 
-package "frag·jetzt | PLE domain diagram" <<Rectangle>> {
+package "frag.jetzt | PLE domain diagram" <<Rectangle>> {
 
-  class "Learning space" {
+  class "StudyRoom" {
     welcomeText
     name
     directLink
@@ -44,38 +44,38 @@ package "frag·jetzt | PLE domain diagram" <<Rectangle>> {
     aiAssistantContext
   }
 
-  class "Lead Learner" {
+  class "Learner" {
 
   }
 
-  class "Collaborative Learner" {
+  class "CoLearner" {
 
   }
 
-  class "AI Assistant" <<webService>> {
+  class "AI-Assistant" <<webService>> {
     [[https://platform.openai.com/docs/assistants/overview {used for automated answering} Link to an Example from OpenAI]]
   }
 
-  "Collaborative Learner" <|-down- "Lead Learner"
+  "CoLearner" <|--down- "Learner"
 
-  Topic ----o Conversation
+  Topic ---o Conversation
 
-  Conversation --.> "AI Assistant" : <<use>>
-  Conversation ---left-* "Learning space"
+  Conversation --.> "AI-Assistant" : <<use>>
+  Conversation ---left-* "StudyRoom"
 
-  "Learning space" -- "Collaborative Learner"
+  "StudyRoom" -- "CoLearner"
 
 }
 
 legend right
-|<img:https://git.thm.de/arsnova/frag.jetzt/-/raw/staging/src/assets/icons/chat_bot_green.png{scale=0.4}> |= \n\n »frag.jetzt« - PLE |
+|<img:https://git.thm.de/arsnova/frag.jetzt/-/raw/staging/src/assets/icons/chat_bot_green.png{scale=0.4}> |= \n\n »frag.jetzt« — PLE mode |
 | Domain glossary | [[https://git.thm.de/arsnova/frag.jetzt/-/raw/staging/docs/diagrams/Glossary.pdf]] |
 | Production server | [[https://frag.jetzt]] |
 | Repository | [[https://git.thm.de/arsnova/frag.jetzt/-/blob/staging/README.md]] |
 | Staging server | [[https://staging.frag.jetzt]] |
 | UML tool| PlantUML-Server Version 1.2023.12 - graphviz (20230911.1827)|
-| Author| Ruben Bimberg|
+| Authors| Ruben Bimberg, Klaus Quibeldey-Cirkel|
 | Contact| [[mailto:ruben.bimberg@mni.thm.de]] |
-| Last revision| 20.11.2023 |
+| Last revision| 21.11.2023 |
 end legend
 @enduml

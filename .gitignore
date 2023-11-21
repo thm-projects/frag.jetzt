@@ -9,12 +9,14 @@ docker-compose.override.yml
 /dist-server
 /tmp
 /out-tsc
+/out
 
 # dependencies
 /node_modules
 
 # IDEs and editors
 /.idea
+.vscode
 .project
 .classpath
 .c9/

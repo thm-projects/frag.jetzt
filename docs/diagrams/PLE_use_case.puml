@@ -69,18 +69,18 @@ rectangle "frag.jetzt | PLE Use Case Diagram" {
 
   actor "Anonymous User" as AU #linen;line:black;line.bold;text:black
   actor "Registered User" as RU #pink;line:red;line.bold;text:red
-  actor "       Leader\n(Lead Learner)" as LL #violet;line:black;line.bold;text:magenta
-  actor "        Collaborator\n(Collaborative Learner)" as CL #lightblue;line:blue;line.bold;text:blue
+  actor "Learner" as LL #violet;line:black;line.bold;text:magenta
+  actor "Co-Learner" as CL #lightblue;line:blue;line.bold;text:blue
 
-  RU -|> AU
+  RU -|> LL
   CL -|> AU
   LL -|> CL
 
   rectangle "frag.jetzt" <<webService>> {
     together {
       $AUUseCase(UC1, "Switch between\nPLE and ARS")
-      $AUUseCase(UC2, "Create a new\nLearning space")
-      $AUUseCase(UC3, "Join a Learning space")
+      $AUUseCase(UC2, "Create a new\nStudy room")
+      $AUUseCase(UC3, "Join a Study room")
     }
 
     together {
@@ -98,7 +98,7 @@ rectangle "frag.jetzt | PLE Use Case Diagram" {
     together {
       $LLUseCase(UC10, "Manage ChatGPT")
       $LLUseCase(UC11, "Manage topic")
-      $LLUseCase(UC12, "Manage Learning space")
+      $LLUseCase(UC12, "Manage Study room")
       $LLUseCase(UC13, "Add specialized\nChatGPT assistant")
     }
   }
@@ -135,14 +135,14 @@ rectangle "frag.jetzt | PLE Use Case Diagram" {
 }
 
 legend right
-|<img:https://git.thm.de/arsnova/frag.jetzt/-/raw/staging/src/assets/icons/chat_bot_green.png{scale=0.4}> |= \n\n »frag.jetzt« - PLE |
+|<img:https://git.thm.de/arsnova/frag.jetzt/-/raw/staging/src/assets/icons/chat_bot_green.png{scale=0.4}> |= \n\n »frag.jetzt« — PLE mode|
 | Domain glossary | [[https://git.thm.de/arsnova/frag.jetzt/-/raw/staging/docs/diagrams/Glossary.pdf]] |
 | Production server | [[https://frag.jetzt]] |
 | Repository | [[https://git.thm.de/arsnova/frag.jetzt/-/blob/staging/README.md]] |
 | Staging server | [[https://staging.frag.jetzt]] |
 | UML tool| PlantUML-Server Version 1.2023.12 - graphviz (20230911.1827)|
-| Author| Ruben Bimberg|
+| Authors| Ruben Bimberg, Klaus Quibeldey-Cirkel|
 | Contact| [[mailto:ruben.bimberg@mni.thm.de]] |
-| Last revision| 20.11.2023 |
+| Last revision| 21.11.2023 |
 end legend
 @enduml

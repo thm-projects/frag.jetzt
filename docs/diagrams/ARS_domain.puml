@@ -6,6 +6,10 @@ skinparam class {
   FontSize 28
   BackgroundColor<<USP>> Pink
   BorderColor<<USP>> HotPink
+  BackgroundColor<<webService>> yellow
+  BorderColor<<webService>> orange
+  BackgroundColor<<installedService>> yellow
+  BorderColor<<installedService>> orange
 }
 
 skinparam backgroundColor Linen
@@ -25,7 +29,7 @@ hide methods
 hide empty members
 hide circle
 
-package "frag·jetzt | ARS domain diagram" <<Rectangle>> {
+package "frag.jetzt | ARS domain diagram" <<Rectangle>> {
 
   class Conversation {
     keywords
@@ -117,6 +121,7 @@ package "frag·jetzt | ARS domain diagram" <<Rectangle>> {
   }
 
   class FlashPoll {
+    template
     question
     answers
   }
@@ -129,7 +134,7 @@ package "frag·jetzt | ARS domain diagram" <<Rectangle>> {
     [[https://deepl.com {Translator} Link to Website]]
   }
 
-  class "AI Assistant" <<webService>> {
+  class "AI-Assistant" <<webService>> {
     [[https://platform.openai.com/docs/assistants/overview {used for automated answering} Link to an Example from OpenAI]]
   }
 
@@ -160,29 +165,29 @@ package "frag·jetzt | ARS domain diagram" <<Rectangle>> {
   KeywordExtraction  ..> Wikipedia : <<use>>
 
   Moderation "0..1" ---- "1" Room
-  Moderation *--- "*" Post
+  Moderation *-- "*" Post
 
   Post "*" ----o Conversation
   Post --- Notification
   Post -right..> DeepL : <<use>>
-  QuestionRadar -[#red]-> Post : > navigates to
+  QuestionRadar --> Post
 
   Conversation  ---  KeywordExtraction
   Conversation -left--  QuestionFocus
   Conversation ----* Room
-  Conversation <-[#red]right-- QuestionRadar
-  Conversation --.> "AI Assistant" : <<use>>
+  Conversation <-right-- QuestionRadar
+  Conversation -.> "AI-Assistant" : <<use>>
 
   Room "*" -right---- "1" RoomList
   Room "1" ---- "0..1" BonusArchive
   Room "1" -- "0..1" Brainstorming
-  Room ...> QuizRallye : <<use>>
-  Room ..> FlashPoll : <<use>>
+  Room ..> QuizRallye : <<use>>
+  Room --- FlashPoll
 
 }
 
 legend right
-|<img:https://git.thm.de/arsnova/frag.jetzt/-/raw/staging/src/assets/icons/chat_bot_green.png{scale=0.4}> |= \n\n »frag.jetzt« - ARS |
+|<img:https://git.thm.de/arsnova/frag.jetzt/-/raw/staging/src/assets/icons/chat_bot_green.png{scale=0.4}> |= \n\n »frag.jetzt« — ARS mode |
 | Domain glossary | [[https://git.thm.de/arsnova/frag.jetzt/-/raw/staging/docs/diagrams/Glossary.pdf]] |
 | Production server | [[https://frag.jetzt]] |
 | Repository | [[https://git.thm.de/arsnova/frag.jetzt/-/blob/staging/README.md]] |
@@ -190,7 +195,7 @@ legend right
 | UML tool| PlantUML-Server Version 1.2023.12 - graphviz (20230911.1827)|
 | Author| Klaus Quibeldey-Cirkel|
 | Contact| [[mailto:klaus.quibeldey-cirkel@mni.thm.de]] |
-| Last editor| Ruben Bimberg |
-| Last revision| 20.11.2023 |
+| Editors| Ruben Bimberg, Klaus Quibeldey-Cirkel |
+| Last revision| 21.11.2023 |
 end legend
 @enduml
