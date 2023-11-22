@@ -17,11 +17,11 @@ partition "Create a Study room" {
     if(Study room already exists?) then (yes)
       :go to the Study room;
     else (no)
-      :create Study room;
+      :create a Study room;
     endif
   else (no)
     :select PLE;
-    :create Study room;
+    :create a Study room;
   endif
   stop
 }
@@ -50,7 +50,7 @@ partition "Create topics" {
   :write topic;
   :post topic board;
   if (want to ask more topics?) then (yes)
-    (Q)
+    (T)
     detach
   else (no)
     stop
@@ -112,5 +112,5 @@ legend right
 | UML tool| PlantUML-Server Version 1.2023.12 - graphviz (20230911.1827)|
 | Authors| Ruben Bimberg, Klaus Quibeldey-Cirkel|
 | Contact| [[mailto:ruben.bimberg@mni.thm.de]] |
-| Last revision| 21.11.2023 |
+| Last revision| 22.11.2023 |
 end legend

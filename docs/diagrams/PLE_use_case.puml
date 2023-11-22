@@ -112,12 +112,12 @@ rectangle "frag.jetzt | PLE Use Case Diagram" {
 
   note right of (UC2)
     «postCondition»
-    Anonymous User becomes a Lead Learner.
+    Anonymous User becomes a Learner.
   end note
 
   note right of (UC3)
     «postCondition»
-    Anonymous User becomes a Collaborative Learner.
+    Anonymous User becomes a Co-Learner.
   end note
 
   note right of (UC4)
@@ -143,6 +143,6 @@ legend right
 | UML tool| PlantUML-Server Version 1.2023.12 - graphviz (20230911.1827)|
 | Authors| Ruben Bimberg, Klaus Quibeldey-Cirkel|
 | Contact| [[mailto:ruben.bimberg@mni.thm.de]] |
-| Last revision| 21.11.2023 |
+| Last revision| 22.11.2023 |
 end legend
 @enduml
