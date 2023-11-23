@@ -775,7 +775,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
     any prompt with no language is always shown (= separator) */
     this.filteredPrompts = this.filteredPrompts.filter(prompt => 
       (prompt.language === undefined) || 
-      prompt.language == this.appState.getCurrentLanguage());
+      prompt.language === this.appState.getCurrentLanguage());
 
 
     this.amountOfFoundPrompts =
