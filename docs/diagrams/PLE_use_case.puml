@@ -1,0 +1,148 @@
+@startuml Use Cases
+scale 1.0
+
+skinparam backgroundColor Linen
+skinparam LegendBackgroundColor Strategy
+skinparam LegendBorderThickness 0
+skinparam LegendFontSize 12
+skinparam Padding 5
+skinparam defaultFontSize 14
+skinparam ArrowThickness 2
+skinparam shadowing true
+
+!$stringList = ""
+
+!procedure $append($value)
+  !if %strlen($stringList) > 0
+    !$stringList = $stringList + "\n" + $value
+  !else
+    !$stringList = $value
+  !endif
+!endprocedure
+
+!procedure $print()
+  !$i = %strpos($stringList, "\n")
+  !while $i > 0
+    !$arg = %substr($stringList, 0, $i)
+    $arg
+    !$stringList = %substr($stringList, $i + 2)
+    !$i = %strpos($stringList, "\n")
+  !endwhile
+  !if %strlen($stringList) > 0
+  $stringList
+  !endif
+!endprocedure
+
+!procedure $RUUseCase($id, $data)
+  ($data) as ($id) #pink;line:red;line.bold;text:red
+  $append(RU + "-->" + $id)
+!endprocedure
+
+!procedure $AUUseCase($id, $data)
+  ($data) as ($id) #linen;line:black;line.bold;text:black
+  $append(AU + "-->" + $id)
+!endprocedure
+
+!procedure $LLUseCase($id, $data)
+  ($data) as ($id) #violet;line:black;line.bold;text:black
+  $append(LL + "-->" + $id)
+!endprocedure
+
+!procedure $CLUseCase($id, $data)
+  ($data) as ($id) #lightblue;line:blue;line.bold;text:blue
+  $append(CL + "-->" + $id)
+!endprocedure
+
+
+skinparam rectangle {
+  BackgroundColor #fdf6e0
+}
+
+skinparam usecase {
+  BorderThickness 2
+  ArrowThickness 2
+}
+
+rectangle "frag.jetzt | PLE Use Case Diagram" {
+
+  left to right direction
+
+  actor "Anonymous User" as AU #linen;line:black;line.bold;text:black
+  actor "Registered User" as RU #pink;line:red;line.bold;text:red
+  actor "Learner" as LL #violet;line:black;line.bold;text:magenta
+  actor "Co-Learner" as CL #lightblue;line:blue;line.bold;text:blue
+
+  RU -|> LL
+  CL -|> AU
+  LL -|> CL
+
+  rectangle "frag.jetzt" <<webService>> {
+    together {
+      $AUUseCase(UC1, "Switch between\nPLE and ARS")
+      $AUUseCase(UC2, "Create a new\nStudy room")
+      $AUUseCase(UC3, "Join a Study room")
+    }
+
+    together {
+      $RUUseCase(UC4, "Get free access\nto ChatGPT")
+    }
+
+    together {
+      $CLUseCase(UC5, "Create topic")
+      $CLUseCase(UC6, "«USP»\nAnswer Topic with ChatGPT")
+      $CLUseCase(UC7, "Answer Topic")
+      $CLUseCase(UC8, "Learn with topic")
+      $CLUseCase(UC9, "«USP»\nUse specialized\nChatGPT assistant")
+    }
+
+    together {
+      $LLUseCase(UC10, "Manage ChatGPT")
+      $LLUseCase(UC11, "Manage topic")
+      $LLUseCase(UC12, "Manage Study room")
+      $LLUseCase(UC13, "Add specialized\nChatGPT assistant")
+    }
+  }
+
+
+  note right of (UC1)
+    «postCondition»
+    When switching from PLE to ARS, the user is redirected to the ARS section.
+    When switching from ARS to PLE, the user is redirected to the PLE section. (This diagram)
+  end note
+
+  note right of (UC2)
+    «postCondition»
+    Anonymous User becomes a Learner.
+  end note
+
+  note right of (UC3)
+    «postCondition»
+    Anonymous User becomes a Co-Learner.
+  end note
+
+  note right of (UC4)
+    «preCondition»
+    The platform has the global ChatGPT enabled.
+  end note
+
+  note right of (UC13)
+    «preCondition»
+    The specialized ChatGPT assistant is filled with data from the learning environment.
+  end note
+
+  $print()
+
+}
+
+legend right
+|<img:https://git.thm.de/arsnova/frag.jetzt/-/raw/staging/src/assets/icons/chat_bot_green.png{scale=0.4}> |= \n\n »frag.jetzt« — PLE mode|
+| Domain glossary | [[https://git.thm.de/arsnova/frag.jetzt/-/raw/staging/docs/diagrams/Glossary.pdf]] |
+| Production server | [[https://frag.jetzt]] |
+| Repository | [[https://git.thm.de/arsnova/frag.jetzt/-/blob/staging/README.md]] |
+| Staging server | [[https://staging.frag.jetzt]] |
+| UML tool| PlantUML-Server Version 1.2023.12 - graphviz (20230911.1827)|
+| Authors| Ruben Bimberg, Klaus Quibeldey-Cirkel|
+| Contact| [[mailto:ruben.bimberg@mni.thm.de]] |
+| Last revision| 22.11.2023 |
+end legend
+@enduml
