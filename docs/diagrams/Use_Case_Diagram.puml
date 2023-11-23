@@ -49,6 +49,7 @@ rectangle "frag.jetzt | Use Case Diagram" {
     }
 
     together {
+      usecase "Answer flash polls" as UC43 #lightgreen;line:green;line.bold
       usecase "Write a post" as UC4
       usecase "Write a brainstorming idea" as UC5
       usecase "Create keywords for a post" as UC6
@@ -76,6 +77,7 @@ rectangle "frag.jetzt | Use Case Diagram" {
     usecase "Delete spam posts" as UC32 #pink;line:red;line.bold;text:red
     usecase "Delete room" as UC33 #pink;line:red;line.bold;text:red
     usecase "Book a room for at least 180 days" as UC34 #pink;line:red;line.bold;text:red
+    usecase "Join room with AI Study Buddy Access" as UC41 #pink;line:red;line.bold;text:red
     usecase "Keep bonus tokens" as UC35 #pink;line:red;line.bold;text:red
 
     together {
@@ -93,6 +95,25 @@ rectangle "frag.jetzt | Use Case Diagram" {
       usecase "Open and manage brainstorming session" as UC31 #lightblue;line:blue;line.bold
     }
 
+  together {
+    usecase "Create room with AI Study Buddy Access" as UC36 #pink;line:red;line.bold;text:red
+    usecase "Set Use Periods" as UC37 #pink;line:red;line.bold;text:red
+    usecase "Quota Management" as UC38 #pink;line:red;line.bold;text:red
+    usecase "Set OpenAI Key" as UC39 #pink;line:red;line.bold;text:red
+    usecase "Set OpenAI ID" as UC40 #pink;line:red;line.bold;text:red
+    usecase "Create flash polls" as UC42 #pink;line:red;line.bold;text:red
+  }
+
+    RC --> UC42
+    M --> UC42
+    P --> UC43
+
+    RU --> UC41
+    RC --> UC36
+    RC --> UC37
+    RC --> UC38
+    RC --> UC39
+    RC --> UC40
   }
 
   AU --> UC1
@@ -171,6 +192,6 @@ legend right
 | UML tool| PlantUML-Server Version 1202202|
 | Author| Klaus Quibeldey-Cirkel|
 | Contact| [[mailto:klaus.quibeldey-cirkel@mni.thm.de]] |
-| Last revision| 04.12.2022 |
+| Last revision| 22.11.2023 |
 end legend
 @enduml

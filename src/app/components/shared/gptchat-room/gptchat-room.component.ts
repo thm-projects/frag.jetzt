@@ -232,10 +232,10 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
     private accountState: AccountStateService,
     private deviceState: DeviceStateService,
     private roomState: RoomStateService,
-    appState: AppStateService,
+    private appState: AppStateService,
   ) {
     this.keywordExtractor = new KeywordExtractor(injector);
-    appState.language$.pipe(takeUntil(this.destroyer)).subscribe(() => {
+    this.appState.language$.pipe(takeUntil(this.destroyer)).subscribe(() => {
       this.updatePresetEntries(this._preset);
     });
   }
@@ -289,6 +289,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
 
   setValue(prompt: GPTPromptPreset) {
     this.selectedPrompt = prompt;
+    console.log(this.selectedPrompt.language);
     let msg = prompt.prompt;
     if (!msg.endsWith('\n')) {
       msg += '\n';
@@ -727,15 +728,19 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
 
   protected filterPrompts() {
     this.selectedPrompt = null;
+  
+    // Filter by language even if no search term is given
     if (!this.searchTerm.trim()) {
-      this.filteredPrompts = [...this.prompts];
+      this.filteredPrompts = [...this.prompts].filter(prompt => prompt.language === this.appState.getCurrentLanguage());
       return;
     }
+
     this.filteredPrompts.length = 0;
     const searchRegex = new RegExp(
       '\\b' + escapeForRegex(this.searchTerm),
       'gi',
     );
+
     this.filteredPrompts.push({ act: 'acts', prompt: null } as GPTPromptPreset);
     const data = this.prompts
       .map(
@@ -764,6 +769,15 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
       .filter((x) => x[0] > 0);
     promptData.sort((a, b) => b[0] - a[0]);
     this.filteredPrompts.push(...promptData.map((x) => x[1]));
+
+    /* filter by language:
+    filteredPrompts also contains the separators
+    any prompt with no language is always shown (= separator) */
+    this.filteredPrompts = this.filteredPrompts.filter(prompt => 
+      (prompt.language === undefined) || 
+      prompt.language == this.appState.getCurrentLanguage());
+
+
     this.amountOfFoundPrompts =
       this.filteredPrompts.length - this.amountOfFoundActs - 2;
   }

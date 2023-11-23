@@ -1,0 +1,64 @@
+@startuml Brainstorming
+title Using »frag.jetzt« as a Personal Learning Environment
+
+caption <b>Note: The actions <color: hotpink>highlighted in pink</color> are items of the »Options« menu.</b>
+
+skinparam backgroundColor Linen
+skinparam shadowing true
+skinparam defaultFontSize 14
+skinparam Padding 6
+
+partition Participant {
+  (*) --> "go to fragjetzt"
+  if "registered user?" then
+  -->[true] "login"
+  --> "my rooms"
+  else
+  -->[false] "register"
+  endif
+
+  --> "my rooms"
+
+  if "room exists?" then
+  -->[true] "join room"
+  -->  StudyBuddy
+  else
+  -->[false] "create room"
+  endif
+
+  --> StudyBuddy
+  if "Change GPT settings?" then
+  -->[true] Settings
+  else
+  -->[false] "Select Model"
+  if "use predefined prompt"? then
+  -->[true] "select predefined prompt"
+  --> "Talk with StudyBuddy"
+  else
+  -->[false] "write prompt"
+  endif
+  --> "Talk with StudyBuddy"
+  endif
+}
+
+partition Creator #LightSkyBlue {
+    Settings --> GPTSettings
+    --> "Set OpenAI API Key"
+    --> "Set OpenAI Organisation ID"
+    --> "Set Quota"
+    --> "Set Use periods"
+    --> StudyBuddy
+}
+
+legend right
+|<img:https://git.thm.de/arsnova/frag.jetzt/-/raw/staging/src/assets/icons/Logo_frag_jetzt_128x128.png> |= \n\n »frag.jetzt« |
+| Domain glossary | [[https://git.thm.de/arsnova/frag.jetzt/-/raw/staging/docs/diagrams/Glossary.pdf]] |
+| Production server | [[https://frag.jetzt]] |
+| Repository | [[https://git.thm.de/arsnova/frag.jetzt/-/blob/staging/README.md]] |
+| Staging server | [[https://staging.frag.jetzt]] |
+| UML tool| PlantUML-Server Version 1202202|
+| Author| Yousif Wardah|
+| Contact| [[mailto:yousif.wardah@mni.thm.de]] |
+| Last revision| 22.11.2023 |
+end legend
+@enduml

@@ -56,6 +56,24 @@ package "frag.jetzt | domain diagram" <<Rectangle>> {
     keywordCheck
   }
 
+  class FlashPoll {
+      creator
+      question
+      answers
+      participants
+  }
+
+  class AIStudyBuddy {
+      AIModels
+      interactionHistory
+      settings
+  }
+
+  FlashPoll "1"<-- "*" Participant
+  Room -- FlashPoll : Creates
+  Room "1"--"1" AIStudyBuddy : Access
+
+
   class Post {
     postNumber
     questionCategory
@@ -185,6 +203,6 @@ legend right
 | UML tool| PlantUML-Server Version 1202202|
 | Author| Klaus Quibeldey-Cirkel|
 | Contact| [[mailto:klaus.quibeldey-cirkel@mni.thm.de]] |
-| Last revision| 04.12.2022 |
+| Last revision| 22.11.2023 |
 end legend
 @enduml
