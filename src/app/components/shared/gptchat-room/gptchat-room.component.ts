@@ -212,6 +212,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
   private _list: ComponentRef<any>[];
   private _preset: GPTRoomPreset;
   private keywordExtractor: KeywordExtractor;
+  private selectedLanguage: string;
 
   constructor(
     private gptService: GptService,
@@ -237,6 +238,14 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
     this.keywordExtractor = new KeywordExtractor(injector);
     appState.language$.pipe(takeUntil(this.destroyer)).subscribe(() => {
       this.updatePresetEntries(this._preset);
+
+      // filter die Prompts nach der ausgwählten Sprache
+      this.filteredPrompts = this.filteredPrompts.filter((x) => {
+        if (x.prompt === null) {
+          return true;
+        }
+        return x.prompt.includes(this.selectedLanguage);
+      });
     });
   }
 

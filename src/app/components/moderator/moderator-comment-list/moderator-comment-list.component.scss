@@ -138,7 +138,7 @@ app-comment {
   animation-timing-function: ease-in;
   animation-duration: 2s;
   animation-iteration-count: 1;
-  opacity: 1.0 !important;
+  opacity: 1 !important;
 }
 
 @keyframes animation_blink_5s {
@@ -153,5 +153,5 @@ app-comment {
   animation-timing-function: ease-in;
   animation-duration: 2s;
   animation-iteration-count: 2;
-  opacity: 1.0 !important;
+  opacity: 1 !important;
 }

@@ -91,6 +91,8 @@ rectangle "frag.jetzt | Use Case Diagram" {
       usecase "Appoint the role of moderator" as UC29 #lightblue;line:blue;line.bold
       usecase "Export all published and moderated posts" as UC30 #lightblue;line:blue;line.bold
       usecase "Open and manage brainstorming session" as UC31 #lightblue;line:blue;line.bold
+      usecase "Switch Mode ARS & PLE" as UC36 #lightblue;line:blue;line.bold
+      
     }
 
   }
@@ -151,6 +153,8 @@ rectangle "frag.jetzt | Use Case Diagram" {
   M --> UC28
   M --> UC30
   M --> UC31
+  M --> UC36
+
 
   RU --> UC34
   RU --> UC35

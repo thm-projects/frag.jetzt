@@ -81,6 +81,18 @@ package "frag.jetzt | domain diagram" <<Rectangle>> {
     appRating
   }
 
+  class FlashPoll {
+  }
+
+    class ModeSwitcher {
+    ARSMode
+    PLEMode
+  }
+
+  class AiTool <<webService>> {
+    https://chat.openai.com/
+  }
+
   class Brainstorming <<USP>> {
     keywordCloud
   }
