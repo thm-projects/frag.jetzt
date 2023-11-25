@@ -6,6 +6,10 @@ skinparam class {
   FontSize 28
   BackgroundColor<<USP>> Pink
   BorderColor<<USP>> HotPink
+  BackgroundColor<<webService>> yellow
+  BorderColor<<webService>> orange
+  BackgroundColor<<installedService>> yellow
+  BorderColor<<installedService>> orange
 }
 
 skinparam backgroundColor Linen
@@ -25,7 +29,7 @@ hide methods
 hide empty members
 hide circle
 
-package "frag.jetzt | domain diagram" <<Rectangle>> {
+package "frag.jetzt | ARS domain diagram" <<Rectangle>> {
 
   class Conversation {
     keywords
@@ -100,7 +104,6 @@ package "frag.jetzt | domain diagram" <<Rectangle>> {
     eMailVerification
   }
 
-
   class BonusArchive <<USP>> {
     bonusCode
   }
@@ -117,15 +120,23 @@ package "frag.jetzt | domain diagram" <<Rectangle>> {
     newReactionsToPosts
   }
 
+  class FlashPoll {
+    template
+    question
+    answers
+  }
+
   class SpaCy <<installedService>> {
     [[https://spacy.io/ {NLP} Link to Website]]
   }
-
 
   class DeepL <<webService>> {
     [[https://deepl.com {Translator} Link to Website]]
   }
 
+  class "AI-Assistant" <<webService>> {
+    [[https://platform.openai.com/docs/assistants/overview {used for automated answering} Link to an Example from OpenAI]]
+  }
 
   class LanguageTool <<installedService>> {
     [[https://languagetool.org {used for language detection} Link to Website]]
@@ -136,7 +147,6 @@ package "frag.jetzt | domain diagram" <<Rectangle>> {
     [[https://dumps.wikimedia.org/ {complete copy of Wikimedia wikis} Link to Website]]
   }
 
-
   AnonymousUser -up-|> User
   RegisteredUser -up-|> User
   RegisteredUser -- MailNotification
@@ -146,7 +156,6 @@ package "frag.jetzt | domain diagram" <<Rectangle>> {
   BonusArchive o--- "*" Post
   BonusArchive ---  User
 
-
   OnlineNotification -up-|> Notification
   MailNotification -|> Notification
 
@@ -155,36 +164,38 @@ package "frag.jetzt | domain diagram" <<Rectangle>> {
   KeywordExtraction  ..> DeepL : <<use>>
   KeywordExtraction  ..> Wikipedia : <<use>>
 
-
   Moderation "0..1" ---- "1" Room
-  Moderation *--- "*" Post
+  Moderation *-- "*" Post
 
   Post "*" ----o Conversation
   Post --- Notification
   Post -right..> DeepL : <<use>>
-  QuestionRadar -[#red]-> Post : > navigates to
+  QuestionRadar --> Post
 
   Conversation  ---  KeywordExtraction
   Conversation -left--  QuestionFocus
   Conversation ----* Room
-  Conversation <-[#red]right-- QuestionRadar
+  Conversation <-right-- QuestionRadar
+  Conversation -.> "AI-Assistant" : <<use>>
 
   Room "*" -right---- "1" RoomList
   Room "1" ---- "0..1" BonusArchive
   Room "1" -- "0..1" Brainstorming
   Room ..> QuizRallye : <<use>>
+  Room --- FlashPoll
 
 }
 
 legend right
-|<img:https://git.thm.de/arsnova/frag.jetzt/-/raw/staging/src/assets/icons/Logo_frag_jetzt_128x128.png> |= \n\n »frag.jetzt« |
+|<img:https://git.thm.de/arsnova/frag.jetzt/-/raw/staging/src/assets/icons/chat_bot_green.png{scale=0.4}> |= \n\n »frag.jetzt« — ARS mode |
 | Domain glossary | [[https://git.thm.de/arsnova/frag.jetzt/-/raw/staging/docs/diagrams/Glossary.pdf]] |
 | Production server | [[https://frag.jetzt]] |
 | Repository | [[https://git.thm.de/arsnova/frag.jetzt/-/blob/staging/README.md]] |
 | Staging server | [[https://staging.frag.jetzt]] |
-| UML tool| PlantUML-Server Version 1202202|
+| UML tool| PlantUML-Server Version 1.2023.12 - graphviz (20230911.1827)|
 | Author| Klaus Quibeldey-Cirkel|
 | Contact| [[mailto:klaus.quibeldey-cirkel@mni.thm.de]] |
-| Last revision| 04.12.2022 |
+| Editors| Ruben Bimberg, Klaus Quibeldey-Cirkel |
+| Last revision| 21.11.2023 |
 end legend
 @enduml
