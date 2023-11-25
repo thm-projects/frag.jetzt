@@ -1,0 +1,73 @@
+<h1 mat-dialog-title>
+  {{ data.title | translate }}
+</h1>
+
+<div class="multi-level-container">
+  <mat-dialog-content
+    id="multi-level-content"
+    class="thin-scroll"
+    (scroll)="onScroll($event)">
+    <div
+      *ngFor="let element of director.getActiveElements(); let i = index"
+      #contentElement
+      [attr.data-id]="i">
+      {{ element.title | translate }}
+      <ng-container *ngIf="element.action.type === 'select'">
+        <button
+          mat-button
+          *ngFor="
+            let option of element.action.optionLabels;
+            let btnIndex = index
+          "
+          (click)="onAnswer(btnIndex, i, element)">
+          {{ option | translate }}
+        </button>
+      </ng-container>
+    </div>
+  </mat-dialog-content>
+  <div class="multi-level-indicator">
+    <button
+      mat-icon-button
+      (click)="open = true">
+      <mat-icon>keyboard_arrow_left</mat-icon>
+    </button>
+    <div class="thin-scroll multi-level-overview">
+      <button
+        mat-icon-button
+        *ngFor="let element of director.getActiveElements(); let i = index"
+        [ngClass]="{ active: i === activeIndex }"
+        (click)="setActiveIndex(i)">
+        {{ element.display }}
+      </button>
+    </div>
+  </div>
+</div>
+
+<app-dialog-action-buttons
+  [confirmButtonLabel]="data.confirmKey"
+  [buttonsLabelSection]="data.buttonSection"
+  [cancelButtonClickAction]="onClose"
+  [confirmButtonClickAction]="onSubmit"></app-dialog-action-buttons>
+
+<ars-screen *ngIf="open">
+  <mat-drawer-container
+    class="multi-level-more"
+    [hasBackdrop]="true">
+    <mat-drawer
+      #drawer
+      mode="side"
+      [opened]="true"
+      (closedStart)="open = false"
+      [position]="'end'">
+      <h3>{{ "test-dialog.overview" | translate }}</h3>
+      <button
+        mat-button
+        *ngFor="let element of director.getActiveElements(); let i = index"
+        [ngClass]="{ active: i === activeIndex }"
+        (click)="setActiveIndex(i); open = false">
+        {{ element.display + " " + (element.title | translate) }}
+      </button>
+    </mat-drawer>
+    <!-- No content -->
+  </mat-drawer-container>
+</ars-screen>
