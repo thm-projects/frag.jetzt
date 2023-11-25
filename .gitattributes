@@ -1,2 +1,5 @@
 # set line endings to lf
-* text eol=lf
+*.txt text eol=lf
+*.[jtJT][sS] text eol=lf
+*.html text eol=lf
+*.scss text eol=lf
