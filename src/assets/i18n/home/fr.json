@@ -494,6 +494,9 @@
     "tooltip-moderators": "Code d'accès pour les modérateurs invités | Enregistrement des modérateurs permanents",
     "tooltip-recreate": "Générer un code d'accès pour les modérateurs invités"
   },
+  "multi-level-dialog": {
+    "overview": "Aperçu:"
+  },
   "overlay": {
     "cancel": "Quitter l'application",
     "cancel-description": "Quitte l'application",

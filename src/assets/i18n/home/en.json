@@ -494,6 +494,9 @@
     "tooltip-moderators": "Access code for guest moderators | Admission of permanent moderators",
     "tooltip-recreate": "Generate access code for guest moderators"
   },
+  "multi-level-dialog": {
+    "overview": "Overview:"
+  },
   "overlay": {
     "cancel": "Exit app",
     "cancel-description": "Exits the app",

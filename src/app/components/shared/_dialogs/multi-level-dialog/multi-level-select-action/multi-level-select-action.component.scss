@@ -1,0 +1,30 @@
+h3 {
+  font-size: 2em;
+  margin-top: 0;
+  margin-bottom: 0.5em;
+}
+
+.main-container {
+  display: flex;
+  flex-direction: column;
+  min-width: 45vw;
+  height: calc(100% - 3em);
+  justify-content: space-evenly;
+  text-align: center;
+}
+
+.button-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  gap: 1em;
+
+  > button {
+    font-size: 1.25em;
+    height: 2.5em;
+    background-color: var(--primary);
+    color: var(--on-primary);
+  }
+}

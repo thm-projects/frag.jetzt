@@ -149,6 +149,8 @@ import { GPTConversationOverviewComponent } from './_dialogs/gptconversation-ove
 import { LivepollPeerInstructionWindowComponent } from './_dialogs/livepoll/livepoll-peer-instruction/livepoll-peer-instruction-window/livepoll-peer-instruction-window.component';
 import { LivepollPeerInstructionComparisonComponent } from './_dialogs/livepoll/livepoll-peer-instruction/livepoll-peer-instruction-comparison/livepoll-peer-instruction-comparison.component';
 import { AppStateService } from 'app/services/state/app-state.service';
+import { MultiLevelDialogComponent } from './_dialogs/multi-level-dialog/multi-level-dialog.component';
+import { MultiLevelSelectActionComponent } from './_dialogs/multi-level-dialog/multi-level-select-action/multi-level-select-action.component';
 
 @NgModule({
   imports: [
@@ -300,6 +302,8 @@ import { AppStateService } from 'app/services/state/app-state.service';
     GPTConversationOverviewComponent,
     LivepollPeerInstructionWindowComponent,
     LivepollPeerInstructionComparisonComponent,
+    MultiLevelDialogComponent,
+    MultiLevelSelectActionComponent,
   ],
   exports: [
     RoomJoinComponent,
@@ -331,6 +335,7 @@ import { AppStateService } from 'app/services/state/app-state.service';
     AppRatingComponent,
     MinuteJumpClockComponent,
     GlobalStatusIndicatorComponent,
+    MultiLevelDialogComponent,
   ],
 })
 export class SharedModule {

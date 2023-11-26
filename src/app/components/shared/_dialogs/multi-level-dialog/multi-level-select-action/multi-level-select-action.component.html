@@ -1,0 +1,14 @@
+<div class="main-container">
+  <h3>{{ data.entry.title | translate }}</h3>
+  <div class="button-container">
+    <button
+      mat-button
+      *ngFor="
+        let option of data.entry.action.optionLabels;
+        let btnIndex = index
+      "
+      (click)="data.submit(btnIndex)">
+      {{ option | translate }}
+    </button>
+  </div>
+</div>

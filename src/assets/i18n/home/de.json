@@ -494,6 +494,9 @@
     "tooltip-moderators": "Zugangscode für Gastmoderator*innen | Aufnahme von Dauermoderator*innen",
     "tooltip-recreate": "Zugangscode für Gastmoderator*innen erzeugen"
   },
+  "multi-level-dialog": {
+    "overview": "Übersicht:"
+  },
   "overlay": {
     "cancel": "App verlassen",
     "cancel-description": "Verlässt die App",
