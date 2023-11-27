@@ -60,7 +60,7 @@
             }"
             [disabled]="!prompt.prompt">
             <ng-container *ngIf="prompt.act !== null && prompt.prompt !== null">
-              {{ "(" + prompt.language + ") " + prompt.act }}
+              {{ prompt.act }}
             </ng-container>
             <ng-container
               *ngIf="prompt.act === 'acts' && prompt.prompt === null">
