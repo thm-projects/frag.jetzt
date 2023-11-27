@@ -1,4 +1,5 @@
-.mat-list-base[dense] .mat-list-item, .list-item {
+.mat-list-base[dense] .mat-list-item,
+.list-item {
   font-size: 13px;
   height: 40px !important;
 }
@@ -16,7 +17,8 @@
   box-sizing: border-box;
 }
 
-.keywords-even, .keywords-alternate {
+.keywords-even,
+.keywords-alternate {
   background-color: var(--dialog);
   border-bottom: 1px solid var(--surface);
   border-top-left-radius: 5px;
@@ -65,7 +67,7 @@
   padding: 5px;
   border-radius: 5px;
   color: var(--on-dialog);
-  width: 100%
+  width: 100%;
 }
 
 .manual-input-title {
