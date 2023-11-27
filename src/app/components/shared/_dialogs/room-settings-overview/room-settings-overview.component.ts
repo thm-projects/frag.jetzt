@@ -1,10 +1,17 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ProfanityFilter, Room } from '../../../../models/room';
 import { ExplanationDialogComponent } from '../explanation-dialog/explanation-dialog.component';
 import { RoomPatch, RoomService } from '../../../../services/http/room.service';
 import { TranslateService } from '@ngx-translate/core';
 import { NotificationService } from '../../../../services/util/notification.service';
+import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
+import { MatStepper } from '@angular/material/stepper';
+
+interface Question {
+  label: string;
+  options: {label: string; value: string}[];
+}
 
 @Component({
   selector: 'app-room-settings-overview',
@@ -12,6 +19,7 @@ import { NotificationService } from '../../../../services/util/notification.serv
   styleUrls: ['./room-settings-overview.component.scss'],
 })
 export class RoomSettingsOverviewComponent implements OnInit {
+  @ViewChild(MatStepper) stepper!: MatStepper;
   @Input() room: Readonly<Room>;
   @Input() awaitComplete = false;
   directSend: boolean;
@@ -22,6 +30,60 @@ export class RoomSettingsOverviewComponent implements OnInit {
   brainstormingEnabled: boolean;
   livepollEnabled: boolean;
   keywordExtrationEnabled: boolean;
+  questionnaireForm: FormGroup;
+  showQuestionsBasedOnAnswer: boolean;
+  questions: Question[] = [
+    {
+      label: "Question 1",
+      options: [
+        {label: "Option 1", value: "option1"},
+        {label: "Option 2", value: "option2"}
+      ]
+    },
+    {
+      label: "Question 1",
+      options: [
+        {label: "Option 1", value: "option1"},
+        {label: "Option 2", value: "option2"}
+      ]
+    },
+    {
+      label: "Question 1",
+      options: [
+        {label: "Option 1", value: "option1"},
+        {label: "Option 2", value: "option2"}
+      ]
+    },
+    {
+      label: "Question 1",
+      options: [
+        {label: "Option 1", value: "option1"},
+        {label: "Option 2", value: "option2"}
+      ]
+    },
+    {
+      label: "Question 1",
+      options: [
+        {label: "Option 1", value: "option1"},
+        {label: "Option 2", value: "option2"}
+      ]
+    },
+    {
+      label: "Question 1",
+      options: [
+        {label: "Option 1", value: "option1"},
+        {label: "Option 2", value: "option2"}
+      ]
+    },
+    {
+      label: "Question 1",
+      options: [
+        {label: "Option 1", value: "option1"},
+        {label: "Option 2", value: "option2"}
+      ]
+    },
+  ]
+
 
   constructor(
     private dialogRef: MatDialogRef<RoomSettingsOverviewComponent>,
@@ -29,6 +91,7 @@ export class RoomSettingsOverviewComponent implements OnInit {
     private roomService: RoomService,
     private translateService: TranslateService,
     private notificationService: NotificationService,
+    private formBuilder: FormBuilder,
   ) {}
 
   ngOnInit(): void {
@@ -40,6 +103,30 @@ export class RoomSettingsOverviewComponent implements OnInit {
     this.brainstormingEnabled = this.room.brainstormingActive;
     this.livepollEnabled = this.room.livepollActive;
     this.keywordExtrationEnabled = this.room.keywordExtractionActive;
+    this.showQuestionsBasedOnAnswer = true;
+
+    this.questionnaireForm = this.formBuilder.group({});
+
+    this.questions.forEach((question, index) => {
+      this.questionnaireForm.addControl('answer' + index, new FormControl(''));
+    });
+  }
+
+  onSubmitFirstQuestion() {
+  }
+
+  onSubmit() {
+    // Handle form submission
+    console.log('Form submitted:', this.questionnaireForm.value);
+  }
+
+
+  updateAnswer(questionIndex: number, value: string) {
+    this.questionnaireForm.patchValue({ ['answer' + questionIndex]: value });
+  }
+
+  navigateToNext() {
+    this.stepper?.next();
   }
 
   onConfirm() {

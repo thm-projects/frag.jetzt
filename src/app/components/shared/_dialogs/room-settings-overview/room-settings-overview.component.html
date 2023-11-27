@@ -105,6 +105,34 @@
   </div>
 </mat-dialog-content>
 
+<form [formGroup]="questionnaireForm" (ngSubmit)="onSubmit()">
+  <mat-toolbar color="primary">
+    <span>Question {{ questionnaireForm.get('answer0').touched ? questionnaireForm.controls['answer0'].valid ? 1 : 0 : 1 }} of {{ questions.length }}</span>
+  </mat-toolbar>
+
+  <mat-horizontal-stepper linear>
+    <ng-container *ngFor="let question of questions; let i = index">
+      <mat-step [completed]="questionnaireForm.get('answer' + i).valid">
+        <ng-template matStepLabel>{{ question.label }}</ng-template>
+        <div>
+          <mat-radio-group [formControlName]="'answer' + i">
+            <mat-radio-button
+              *ngFor="let option of question.options"
+              [value]="option.value"
+            >
+              {{ option.label }}
+            </mat-radio-button>
+          </mat-radio-group>
+        </div>
+        <div>
+          <button mat-button type="submit" *ngIf="i === questions.length - 1">Finish</button>
+          <button mat-button type="button" (click)="navigateToNext()" *ngIf="i !== questions.length - 1">Next</button>
+        </div>
+      </mat-step>
+    </ng-container>
+  </mat-horizontal-stepper>
+</form>
+
 <ars-row
   ars-flex-box
   class="action-button-container">
