@@ -20,6 +20,7 @@ export class MultiLevelDialogDirector {
   private activeElements: AnnotatedMultiLevelDataEntry[] = [];
   private stack: StackEntry[] = [];
   private answers: AnsweredMultiLevelData;
+  private remainingAnswers: [max: number, current: number] = [0, 0];
 
   constructor(private data: MultiLevelData) {
     const answers: AnsweredMultiLevelDataEntry[] = [];
@@ -140,9 +141,12 @@ export class MultiLevelDialogDirector {
   private next(): boolean {
     while (this.stack.length > 0) {
       if (this.nextQuestionFromStack()) {
+        this.recalculateRemainingAnswersFromStack();
         return true;
       }
     }
+    this.remainingAnswers[0] = 0;
+    this.remainingAnswers[1] = 0;
     return false;
   }
 
@@ -195,5 +199,48 @@ export class MultiLevelDialogDirector {
     }
     this.stack.pop();
     return false;
+  }
+
+  private recalculateRemainingAnswersFromStack() {
+    let max = 0;
+    let current = 0;
+    for (const entry of this.stack) {
+      const [sMax, sCurrent] = this.recalculateRemainingAnswers(entry);
+      max += sMax;
+      current += sCurrent;
+    }
+    this.remainingAnswers[0] = max;
+    this.remainingAnswers[1] = current;
+  }
+
+  private recalculateRemainingAnswers(entry: StackEntry | MultiLevelDataEntry) {
+    let max = 0;
+    let current = 0;
+    if (entry['activeCounter']) {
+      const stack = entry as StackEntry;
+      const last = stack.activeCounter[stack.activeCounter.length - 1] ?? -1;
+      for (let i = last + 1; i < stack.questions.length; i += 1) {
+        const [qMax, qCurrent] = this.recalculateRemainingAnswers(
+          stack.questions[i],
+        );
+        max += qMax;
+        current += qCurrent;
+      }
+      return [max, current];
+    }
+    const question = entry as MultiLevelDataEntry;
+    max += 1;
+    if (!question.active || question.active(this.answers)) {
+      current += 1;
+    }
+    if (!question.questions) {
+      return [max, current];
+    }
+    for (const subQuestion of question.questions) {
+      const [qMax, qCurrent] = this.recalculateRemainingAnswers(subQuestion);
+      max += qMax;
+      current += qCurrent;
+    }
+    return [max, current];
   }
 }

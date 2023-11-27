@@ -151,6 +151,7 @@ import { LivepollPeerInstructionComparisonComponent } from './_dialogs/livepoll/
 import { AppStateService } from 'app/services/state/app-state.service';
 import { MultiLevelDialogComponent } from './_dialogs/multi-level-dialog/multi-level-dialog.component';
 import { MultiLevelSelectActionComponent } from './_dialogs/multi-level-dialog/multi-level-select-action/multi-level-select-action.component';
+import { MultiLevelTextInputActionComponent } from './_dialogs/multi-level-dialog/multi-level-text-input-action/multi-level-text-input-action.component';
 
 @NgModule({
   imports: [
@@ -304,6 +305,7 @@ import { MultiLevelSelectActionComponent } from './_dialogs/multi-level-dialog/m
     LivepollPeerInstructionComparisonComponent,
     MultiLevelDialogComponent,
     MultiLevelSelectActionComponent,
+    MultiLevelTextInputActionComponent,
   ],
   exports: [
     RoomJoinComponent,

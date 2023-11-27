@@ -1,4 +1,5 @@
-import { EventEmitter, InjectionToken, Injector, Output } from '@angular/core';
+import { InjectionToken, Injector } from '@angular/core';
+import { FormControl } from '@angular/forms';
 
 export interface AnsweredMultiLevelDataEntry {
   value: any;
@@ -15,13 +16,24 @@ export interface ActionSelect {
   optionLabels: string[];
 }
 
-export type MultiLevelAction = ActionSelect;
+export interface ActionTextInput {
+  type: 'text-input';
+  label: string;
+  placeholder?: string;
+  hint?: string;
+  control?: FormControl;
+  errorMessages?: { [key: string]: string };
+}
 
-export interface MultiLevelDataEntry {
+export type MultiLevelAction = ActionSelect | ActionTextInput;
+
+export interface MultiLevelDataEntry<
+  T extends MultiLevelAction = MultiLevelAction,
+> {
   tag: string;
   active?: (answers: AnsweredMultiLevelData) => boolean;
   title: string;
-  action: MultiLevelAction;
+  action: T;
   questions?: MultiLevelDataEntry[];
 }
 
@@ -32,17 +44,19 @@ export interface MultiLevelData {
   questions: MultiLevelDataEntry[];
 }
 
-export interface AnnotatedMultiLevelDataEntry extends MultiLevelDataEntry {
+export interface AnnotatedMultiLevelDataEntry<
+  T extends MultiLevelAction = MultiLevelAction,
+> extends MultiLevelDataEntry<T> {
   display: string;
   index: number[];
   injector: Injector;
 }
 
-export interface MultiLevelActionInterface {
+export interface MultiLevelActionInterface<T extends MultiLevelAction> {
   submit: (value: any) => void;
-  entry: AnnotatedMultiLevelDataEntry;
+  entry: AnnotatedMultiLevelDataEntry<T>;
 }
 
-export const DYNAMIC_INPUT = new InjectionToken<MultiLevelActionInterface>(
-  'MulitLevelActionInterface',
-);
+export const DYNAMIC_INPUT = new InjectionToken<
+  MultiLevelActionInterface<MultiLevelAction>
+>('MulitLevelActionInterface');
