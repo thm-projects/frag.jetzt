@@ -149,6 +149,8 @@ import { GPTConversationOverviewComponent } from './_dialogs/gptconversation-ove
 import { LivepollPeerInstructionWindowComponent } from './_dialogs/livepoll/livepoll-peer-instruction/livepoll-peer-instruction-window/livepoll-peer-instruction-window.component';
 import { LivepollPeerInstructionComparisonComponent } from './_dialogs/livepoll/livepoll-peer-instruction/livepoll-peer-instruction-comparison/livepoll-peer-instruction-comparison.component';
 import { AppStateService } from 'app/services/state/app-state.service';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MultilevelDialogComponent } from './components/shared/_dialogs/multilevel-dialog/multilevel-dialog.component';
 
 @NgModule({
   imports: [
@@ -168,6 +170,7 @@ import { AppStateService } from 'app/services/state/app-state.service';
     NgxMatNativeDateModule,
     MatSliderModule,
     MatSlideToggleModule,
+    MatStepperModule,
   ],
   declarations: [
     RoomJoinComponent,
@@ -300,6 +303,7 @@ import { AppStateService } from 'app/services/state/app-state.service';
     GPTConversationOverviewComponent,
     LivepollPeerInstructionWindowComponent,
     LivepollPeerInstructionComparisonComponent,
+    MultilevelDialogComponent,
   ],
   exports: [
     RoomJoinComponent,

@@ -1,0 +1,35 @@
+.dark-mode {
+  background-color: #333;
+  color: #fff;
+}
+
+.dark-mode mat-form-field {
+  color: #fff;
+  fill: #fff;
+}
+
+.dark-mode mat-form-field .mat-input-element {
+  color: #fff;
+}
+
+.dark-mode mat-form-field .mat-form-field-underline {
+  background-color: #fff;
+}
+
+.dark-mode mat-form-field .mat-form-field-ripple {
+  background-color: #fff;
+}
+
+.dark-mode mat-label {
+  color: #fff;
+}
+
+.dark-mode mat-option {
+  color: #333; /* Text color for options */
+  background-color: #fff; /* Background color for options */
+}
+
+.dark-mode button {
+  color: #fff;
+  background-color: #333;
+}

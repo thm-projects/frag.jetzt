@@ -1,0 +1,192 @@
+<mat-vertical-stepper
+  [linear]="false"
+  #stepper
+  [animationDuration]="5"
+  class="dark-mode">
+  <mat-step [stepControl]="firstFormGroup">
+    <form [formGroup]="firstFormGroup">
+      <ng-template matStepLabel>Room Purpose</ng-template>
+      <mat-form-field>
+        <mat-label>Choose your Room-Mode</mat-label>
+        <mat-select [(value)]="selectedOption">
+          <mat-option value="ARS">ARS</mat-option>
+          <mat-option value="PLE">PLE</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <div>
+        <button
+          mat-button
+          matStepperNext>
+          Next
+        </button>
+      </div>
+    </form>
+  </mat-step>
+
+  <mat-step
+    *ngIf="selectedOption === 'ARS'"
+    [stepControl]="firstFormGroup">
+    <form [formGroup]="firstFormGroup">
+      <ng-template matStepLabel>Fill out your subject</ng-template>
+      <mat-form-field>
+        <input
+          matInput
+          placeholder="Subject"
+          formControlName="firstCtrl"
+          required />
+      </mat-form-field>
+      <div>
+        <button
+          mat-button
+          matStepperPrevious>
+          Back
+        </button>
+        <button
+          mat-button
+          matStepperNext>
+          Next
+        </button>
+      </div>
+    </form>
+  </mat-step>
+
+  <mat-step
+    *ngIf="selectedOption === 'ARS'"
+    [stepControl]="firstFormGroup">
+    <form [formGroup]="firstFormGroup">
+      <ng-template matStepLabel>Conversations</ng-template>
+      <mat-slide-toggle>Allow conversations</mat-slide-toggle>
+      <div>
+        <button
+          mat-button
+          matStepperPrevious>
+          Back
+        </button>
+        <button
+          mat-button
+          matStepperNext>
+          Next
+        </button>
+      </div>
+    </form>
+  </mat-step>
+
+  <mat-step
+    *ngIf="selectedOption === 'ARS'"
+    [stepControl]="firstFormGroup">
+    <form [formGroup]="firstFormGroup">
+      <ng-template matStepLabel>Max number of participants</ng-template>
+      <mat-form-field>
+        <input
+          matInput
+          placeholder="Number of participants"
+          formControlName="firstCtrl"
+          required />
+      </mat-form-field>
+      <div>
+        <button
+          mat-button
+          matStepperPrevious>
+          Back
+        </button>
+        <button
+          mat-button
+          matStepperNext>
+          Next
+        </button>
+      </div>
+    </form>
+  </mat-step>
+
+  <mat-step
+    *ngIf="selectedOption === 'PLE'"
+    [stepControl]="secondFormGroup">
+    <form [formGroup]="secondFormGroup">
+      <ng-template matStepLabel>Fill out your goal</ng-template>
+      <mat-form-field>
+        <input
+          matInput
+          placeholder="Goal"
+          formControlName="secondCtrl"
+          required />
+      </mat-form-field>
+      <div>
+        <button
+          mat-button
+          matStepperPrevious>
+          Back
+        </button>
+        <button
+          mat-button
+          matStepperNext>
+          Next
+        </button>
+      </div>
+    </form>
+  </mat-step>
+
+  <mat-step
+    *ngIf="selectedOption === 'PLE'"
+    [stepControl]="secondFormGroup">
+    <form [formGroup]="secondFormGroup">
+      <ng-template matStepLabel>Questions</ng-template>
+      <mat-slide-toggle>Save questions</mat-slide-toggle>
+      <div>
+        <button
+          mat-button
+          matStepperPrevious>
+          Back
+        </button>
+        <button
+          mat-button
+          matStepperNext>
+          Next
+        </button>
+      </div>
+    </form>
+  </mat-step>
+
+  <mat-step
+    *ngIf="selectedOption === 'PLE'"
+    [stepControl]="secondFormGroup">
+    <form [formGroup]="secondFormGroup">
+      <ng-template matStepLabel>Fill out your keyword</ng-template>
+      <mat-form-field>
+        <input
+          matInput
+          placeholder="Keyword"
+          formControlName="secondCtrl"
+          required />
+      </mat-form-field>
+      <div>
+        <button
+          mat-button
+          matStepperPrevious>
+          Back
+        </button>
+        <button
+          mat-button
+          matStepperNext>
+          Next
+        </button>
+      </div>
+    </form>
+  </mat-step>
+
+  <mat-step>
+    <ng-template matStepLabel>Done</ng-template>
+    You are now done.
+    <div>
+      <button
+        mat-button
+        matStepperPrevious>
+        Back
+      </button>
+      <button
+        mat-button
+        (click)="stepper.reset()">
+        Reset
+      </button>
+    </div>
+  </mat-step>
+</mat-vertical-stepper>
