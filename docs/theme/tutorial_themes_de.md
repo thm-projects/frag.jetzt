@@ -4,9 +4,10 @@
   - importieren sie blue und blue_meta
   - erweitern sie themes mit `blue: blue`
   - erweitern sie themes_meta mit `blue: blue_meta`
-- blueTheme.const.ts
+- blueTheme.const.ts 
   - blueTheme.consts.ts ist veraltet. Schauen Sie sich die anderen Themes an und ergänzen Sie die Fehlenden Werte
   - Sie können auch den Inhalt eines anderen Themes kopieren
+ 
 
 # arsnova-theme.const.ts erweitern
 
@@ -177,5 +178,6 @@ export const dark_meta = {
 };
 
 ```
+
 
 ![](https://i.imgur.com/XrOEQiG.png)
