@@ -147,7 +147,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
   searchTerm: string = '';
   answeringComment = false;
   answeringWriteComment = false;
-  model: ChatCompletionRequest['model'] = 'gpt-3.5-turbo';
+  model: ChatCompletionRequest['model'] = 'gpt-3.5-turbo-1106';
   temperatureOptions: { key: string; value: number; text: SelectComponents }[] =
     [
       {
@@ -195,9 +195,8 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
     },
   ];
   chatModels: (typeof ChatCompletionModels)[number][] = [
-    'gpt-3.5-turbo',
-    'gpt-3.5-turbo-16k',
-    'gpt-4',
+    'gpt-3.5-turbo-1106',
+    'gpt-4-1106-preview',
   ];
   prettifyModel = this.translateModel.bind(this);
   enterEvent = this.onEnter.bind(this);
@@ -212,6 +211,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
   private _list: ComponentRef<any>[];
   private _preset: GPTRoomPreset;
   private keywordExtractor: KeywordExtractor;
+  private language: string;
 
   constructor(
     private gptService: GptService,
@@ -235,8 +235,10 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
     appState: AppStateService,
   ) {
     this.keywordExtractor = new KeywordExtractor(injector);
-    appState.language$.pipe(takeUntil(this.destroyer)).subscribe(() => {
+    appState.language$.pipe(takeUntil(this.destroyer)).subscribe((lang) => {
+      this.language = lang;
       this.updatePresetEntries(this._preset);
+      this.filterPrompts();
     });
   }
 
@@ -727,8 +729,9 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
 
   protected filterPrompts() {
     this.selectedPrompt = null;
+    const prompts = this.prompts.filter((x) => x.language === this.language);
     if (!this.searchTerm.trim()) {
-      this.filteredPrompts = [...this.prompts];
+      this.filteredPrompts = prompts;
       return;
     }
     this.filteredPrompts.length = 0;
@@ -737,7 +740,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
       'gi',
     );
     this.filteredPrompts.push({ act: 'acts', prompt: null } as GPTPromptPreset);
-    const data = this.prompts
+    const data = prompts
       .map(
         (x) =>
           [[...x.act.matchAll(searchRegex)].length, x] as [
@@ -753,7 +756,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
       act: 'prompts',
       prompt: null,
     } as GPTPromptPreset);
-    const promptData = this.prompts
+    const promptData = prompts
       .map(
         (x) =>
           [[...x.prompt.matchAll(searchRegex)].length, x] as [
