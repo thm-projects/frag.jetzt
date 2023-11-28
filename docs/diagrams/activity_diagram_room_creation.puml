@@ -15,12 +15,32 @@ skinparam LegendBackgroundColor White
 skinparam LegendBorderThickness 0
 
 start
-:Click on »Create Room«;
+:Click on »Create a Room«;
 note right
   This is the first step in the room creation workflow.
-  The user is presented with a choice between creating a
-  Q&A room or a study room.
+  The user chooses between creating a Q&A room or a study room.
 end note
+
+' New decision: User Registration
+if (Is user registered?) then (yes)
+  note right
+    This part is only relevant for unregistered users.
+    Only registered users can activate ChatGPT in their rooms.
+  end note
+  ' New decision: Activation Code or API Key
+  if (Has activation code for ChatGPT?) then (yes)
+    :Enter activation code;
+    :Activate ChatGPT;
+  else if (Has API key with Organization Id?) then (yes)
+    :Enter API key with Organization Id;
+    :Activate ChatGPT;
+  else
+    :Deactivate ChatGPT;
+  endif
+else
+  :Deactivate ChatGPT;
+endif
+:Prompt user to register if they want to use ChatGPT;
 
 ' Decision: Role
 if (1. Role?) then (Teacher)
@@ -37,23 +57,28 @@ if (1. Role?) then (Teacher)
     :Create Q&A room;
   else (Custom)
     ' Further decisions for custom configuration
-    ' Decision: ChatGPT Availability
-    if (4. Enable ChatGPT?) then (yes)
-      :Activate ChatGPT;
-      ' Additional Decision: Chat Room
-      if (5. Create chat room?) then (yes)
-        :Create chat room;
+    ' Decision: ChatGPT Setup
+    if (4. Can user set up ChatGPT?) then (yes)
+      ' Decision: ChatGPT Availability
+      if (5. Enable ChatGPT?) then (yes)
+        :Activate ChatGPT;
+        ' Additional Decision: »AI StudyBuddy«
+        if (6. Create »AI StudyBuddy«?) then (yes)
+          :Create »AI StudyBuddy«;
 
-        ' New query: ChatGPT Access
-        if (6. Who can use ChatGPT?) then (only teacher and moderators)
-          :Restrict access to teacher and moderators;
-        else (Also students)
-          :Grant access to students;
+          ' New query: ChatGPT Access
+          if (7. Who can use ChatGPT?) then (only teacher and moderators)
+            :Restrict access to teacher and moderators;
+          else (Also students)
+            :Grant access to students;
+          endif
+
         endif
-
+      else (no)
+        :Deactivate ChatGPT;
       endif
     else (no)
-      :Deactivate ChatGPT;
+      :Skip ChatGPT setup;
     endif
     ' Decision: Q&A Forum Moderation
     if (7. Moderate Q&A forum?) then (yes)
@@ -73,11 +98,12 @@ if (1. Role?) then (Teacher)
     else (no)
       :Deactivate keyword generation;
     endif
-    ' Decision: Quick Surveys
-    if (10. Enable quick surveys?) then (yes)
-      :Activate quick surveys;
+
+    ' Decision: Flash Polls
+    if (10. Enable Flash Polls?) then (yes)
+      :Activate Flash Polls;
     else (no)
-      :Deactivate quick surveys;
+      :Deactivate Flash Polls;
     endif
     ' Decision: Bonus Archive
     if (11. Enable bonus archive?) then (yes)
@@ -125,15 +151,20 @@ else (Student)
     :Create study room;
   else (Custom)
     ' Further decisions for custom configuration
-    ' Decision: ChatGPT Availability
-    if (4. Enable ChatGPT?) then (yes)
-      :Activate ChatGPT;
-      ' Additional Decision: Chat Room
-      if (5. Create chat room?) then (yes)
-        :Create chat room;
+    ' Decision: ChatGPT Setup
+    if (3. Can user set up ChatGPT?) then (yes)
+      ' Decision: ChatGPT Availability
+      if (4. Enable ChatGPT?) then (yes)
+        :Activate ChatGPT;
+        ' Additional Decision: »AI StudyBuddy«
+        if (5. Create »AI StudyBuddy«?) then (yes)
+          :Create »AI StudyBuddy«;
+        endif
+      else (no)
+        :Deactivate ChatGPT;
       endif
     else (no)
-      :Deactivate ChatGPT;
+      :Skip ChatGPT setup;
     endif
     ' Decision: Keyword Generation
     if (6. Generate keywords from posts?) then (yes)
@@ -162,19 +193,11 @@ else (Student)
     :Create study room;
   endif
 endif
-' Decision: ChatGPT Availability
-if (Was ChatGPT requested?) then (yes)
-  ' New query: Activation code for ChatGPT
-  if (Is an activation code for ChatGPT available?) then (yes)
-    :Enter the activation code;
-  else (no)
-    :Enter the API key and organization ID;
-  endif
-endif
+
 stop
 
 legend right
-|<img:https://git.thm.de/arsnova/frag.jetzt/-/raw/staging/src/assets/icons/chat_bot_green.png{scale=0.4}> |= \n\n »frag.jetzt« Activity Workflow for Room Creation |
+|<img:https://git.thm.de/arsnova/frag.jetzt/-/raw/staging/src/assets/icons/chat_bot_green.png{scale=0.4}> |= \n\n »frag.jetzt« Room Creation Workflow |
 | Domain glossary | [[https://git.thm.de/arsnova/frag.jetzt/-/raw/staging/docs/diagrams/Glossary.pdf]] |
 | Production server | [[https://frag.jetzt]] |
 | Repository | [[https://git.thm.de/arsnova/frag.jetzt/-/blob/staging/README.md]] |
