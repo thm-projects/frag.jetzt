@@ -15,7 +15,12 @@ skinparam LegendBackgroundColor White
 skinparam LegendBorderThickness 0
 
 start
-:Start;
+:Click on »Create Room«;
+note right
+  This is the first step in the room creation workflow.
+  The user is presented with a choice between creating a
+  Q&A room or a study room.
+end note
 
 ' Decision: Role
 if (1. Role?) then (Teacher)
