@@ -1,4 +1,22 @@
 @startuml room creation
+title frag.jetzt | Room Creation Workflow
+
+skinparam backgroundColor Linen
+skinparam shadowing true
+skinparam defaultFontSize 14
+skinparam Padding 6
+
+' Additional skinparam settings
+skinparam roundcorner 20
+skinparam class {
+  BackgroundColor PaleGreen
+  BorderColor Black
+  FontColor Black
+}
+skinparam arrowColor DarkBlue
+skinparam arrowThickness 1.5
+skinparam packageStyle rectangle
+
 start
 :Start;
 
@@ -22,7 +40,7 @@ if (1. Role?) then (Teacher)
       :Activate ChatGPT;
       ' Additional Decision: Chat Room
       if (5. Create chat room?) then (yes)
-        :Create Chat Room;
+        :Create chat room;
 
         ' New query: ChatGPT Access
         if (6. Who can use ChatGPT?) then (only teacher and moderators)
@@ -92,7 +110,7 @@ if (1. Role?) then (Teacher)
     :Create Q&A room;
   endif
 else (Student)
-  :Enter Study room name;
+  :Enter study room name;
   ' Decision: Key Code Generation
   if (2. Generate key code?) then (yes)
     :Generate key code;
@@ -102,7 +120,7 @@ else (Student)
   ' Decision: Configuration Type
   if (3. Configuration type?) then (Standard)
     :Apply standard configuration;
-    :Create Study room;
+    :Create study room;
   else (Custom)
     ' Further decisions for custom configuration
     ' Decision: ChatGPT Availability
@@ -110,7 +128,7 @@ else (Student)
       :Activate ChatGPT;
       ' Additional Decision: Chat Room
       if (5. Create chat room?) then (yes)
-        :Create Chat Room;
+        :Create chat room;
       endif
     else (no)
       :Deactivate ChatGPT;
@@ -139,7 +157,7 @@ else (Student)
     else (no)
       :Deactivate brainstorming module;
     endif
-    :Create Study room;
+    :Create study room;
   endif
 endif
 ' Decision: ChatGPT Availability
@@ -152,4 +170,17 @@ if (Was ChatGPT requested?) then (yes)
   endif
 endif
 stop
+
+legend right
+|<img:https://git.thm.de/arsnova/frag.jetzt/-/raw/staging/src/assets/icons/chat_bot_green.png{scale=0.4}> |= \n\n »frag.jetzt« Activity Workflow for Room Creation |
+| Domain glossary | [[https://git.thm.de/arsnova/frag.jetzt/-/raw/staging/docs/diagrams/Glossary.pdf]] |
+| Production server | [[https://frag.jetzt]] |
+| Repository | [[https://git.thm.de/arsnova/frag.jetzt/-/blob/staging/README.md]] |
+| Staging server | [[https://staging.frag.jetzt]] |
+| UML tool| PlantUML v2.17.5|
+| Author| Klaus Quibeldey-Cirkel|
+| Contact| [[mailto:klaus.quibeldey-cirkel@mni.thm.de]] |
+| Last revision| 11/28/2023 |
+end legend
+
 @enduml
