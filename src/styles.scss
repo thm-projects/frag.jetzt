@@ -213,9 +213,9 @@ a.info:active span {
   text-align: center;
 }
 
-.mat-vertical-stepper {
-  background-color: var(--on-surface);
-  color: var(--on-dialog) !important;
+.mat-stepper-vertical {
+  background-color: var(--dialog);
+  color: var(--on-surface) !important;
 }
 
 a {
