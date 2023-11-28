@@ -56,12 +56,11 @@ if (1. Role?) then (Teacher)
     :Apply standard configuration;
     :Create Q&A room;
   else (Custom)
-    ' Further decisions for custom configuration
     ' Decision: ChatGPT Setup
     if (4. Can user set up ChatGPT?) then (yes)
       ' Decision: ChatGPT Availability
-      if (5. Enable ChatGPT?) then (yes)
-        :Activate ChatGPT;
+      if (5. Enable ChatGPT for Q&A forum?) then (yes)
+        :Activate »Let ChatGPT answer questions«;
         ' Additional Decision: »AI StudyBuddy«
         if (6. Create »AI StudyBuddy«?) then (yes)
           :Create »AI StudyBuddy«;
@@ -75,7 +74,6 @@ if (1. Role?) then (Teacher)
 
         endif
       else (no)
-        :Deactivate ChatGPT;
       endif
     else (no)
       :Skip ChatGPT setup;
@@ -154,14 +152,13 @@ else (Student)
     ' Decision: ChatGPT Setup
     if (3. Can user set up ChatGPT?) then (yes)
       ' Decision: ChatGPT Availability
-      if (4. Enable ChatGPT?) then (yes)
-        :Activate ChatGPT;
+      if (4. Enable ChatGPT for Q&A forum?) then (yes)
+        :Activate »Let ChatGPT answer questions«;
         ' Additional Decision: »AI StudyBuddy«
         if (5. Create »AI StudyBuddy«?) then (yes)
           :Create »AI StudyBuddy«;
         endif
       else (no)
-        :Deactivate ChatGPT;
       endif
     else (no)
       :Skip ChatGPT setup;
