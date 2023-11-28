@@ -1,0 +1,17 @@
+.hidden-control {
+  display: none;
+}
+
+.mat-radio-button {
+  padding-bottom: 0.7em;
+  display: block;
+}
+
+:host ::ng-deep .mat-form-field-underline {
+  background-color: transparent;
+}
+
+.mat-form-field {
+  margin-bottom: 0.5em;
+  display: block;
+}

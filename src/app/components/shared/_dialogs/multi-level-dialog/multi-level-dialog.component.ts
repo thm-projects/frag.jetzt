@@ -1,42 +1,23 @@
-import {
-  Component,
-  ElementRef,
-  Input,
-  OnDestroy,
-  OnInit,
-  QueryList,
-  ViewChildren,
-} from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { MultiLevelDialogDirector } from './interface/multi-level-dialog.director';
-import { MultiLevelData } from './interface/multi-level-dialog.types';
-import { MultiLevelSelectActionComponent } from './multi-level-select-action/multi-level-select-action.component';
-import { ReplaySubject, takeUntil } from 'rxjs';
-
-const MAPPER = {
-  select: MultiLevelSelectActionComponent,
-};
-
+import {
+  MultiLevelData,
+  MultiLevelDataBuiltAction,
+} from './interface/multi-level-dialog.types';
+import { FormGroup } from '@angular/forms';
+import { MatStepper } from '@angular/material/stepper';
 @Component({
   selector: 'app-multi-level-dialog',
   templateUrl: './multi-level-dialog.component.html',
   styleUrls: ['./multi-level-dialog.component.scss'],
 })
-export class MultiLevelDialogComponent implements OnInit, OnDestroy {
+export class MultiLevelDialogComponent implements OnInit {
   @Input() data: MultiLevelData;
-  @ViewChildren('contentElement') elements: QueryList<
-    ElementRef<HTMLDivElement>
-  >;
-  @ViewChildren('contentButton', { read: ElementRef<HTMLButtonElement> })
-  elementButtons: QueryList<ElementRef<HTMLButtonElement>>;
+  elements: MultiLevelDataBuiltAction[] = [];
   readonly onClose = this.close.bind(this);
-  readonly onSubmit = this.submit.bind(this);
-  activeIndex = 0;
-  open = false;
-  director: MultiLevelDialogDirector;
-  private scheduledFrame: any = 0;
-  private activeSetFrame: any = 0;
-  private destroyed = new ReplaySubject<boolean>();
+  remaining: [number, number] = [0, 0];
+  private createdIndexes: number[] = [];
+  private answers: { [key: string]: FormGroup } = {};
 
   constructor(private dialogRef: MatDialogRef<MultiLevelDialogComponent>) {}
 
@@ -49,82 +30,77 @@ export class MultiLevelDialogComponent implements OnInit, OnDestroy {
     return dialogRef;
   }
 
-  getComponentFromType(action: string) {
-    return MAPPER[action];
-  }
-
   ngOnInit(): void {
-    this.director = new MultiLevelDialogDirector(this.data);
-    this.director.newElement
-      .pipe(takeUntil(this.destroyed))
-      .subscribe((i) => this.setActiveIndex(i));
-    this.director.finished
-      .pipe(takeUntil(this.destroyed))
-      .subscribe(() => this.submit());
+    this.generateNextElements();
   }
 
-  ngOnDestroy(): void {
-    this.destroyed.next(true);
-    this.destroyed.complete();
-  }
-
-  onScroll(event: any) {
-    const elem = event.target as HTMLElement;
-    cancelAnimationFrame(this.activeSetFrame);
-    this.activeSetFrame = requestAnimationFrame(() => {
-      const rect = elem.getBoundingClientRect();
-      const bSearch = this.bSearch(elem.children, (rect.bottom + rect.top) / 2);
-      this.activeIndex = Number((bSearch as HTMLElement).dataset.id);
+  checkIt(index: number, stepper: MatStepper) {
+    const group = this.elements[index].group;
+    group.markAllAsTouched();
+    if (group.invalid) {
+      return;
+    }
+    if (index < this.elements.length - 1) {
+      this.verify(index);
+      stepper.next();
+      return;
+    }
+    this.generateNextElements();
+    requestAnimationFrame(() => {
+      stepper.next();
     });
   }
 
-  setActiveIndex(index: number) {
-    cancelAnimationFrame(this.scheduledFrame);
-    this.scheduledFrame = requestAnimationFrame(() => {
-      const button = this.elementButtons.get(index)?.nativeElement;
-      if (button) {
-        button.scrollIntoView({
-          behavior: 'auto',
-          block: 'start',
-          inline: 'nearest',
-        });
-      }
-      const elem = this.elements.get(index)?.nativeElement;
-      if (!elem) {
-        return;
-      }
-      elem.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start',
-        inline: 'nearest',
-      });
-    });
+  openHelp() {}
+
+  protected submit() {
+    this.dialogRef.close();
   }
 
   private close() {
     this.dialogRef.close();
   }
 
-  private submit() {
-    this.dialogRef.close(this.director.getAnswers());
-  }
-
-  private bSearch(elements: HTMLCollection, target: number) {
-    let start = 0;
-    let end = elements.length - 1;
-    while (start <= end) {
-      const mid = Math.floor((start + end) / 2);
-      const value = elements[mid].getBoundingClientRect();
-      const v1 = value.top - target;
-      const v2 = value.bottom - target;
-      if (v1 >= 0) {
-        end = mid - 1;
-      } else if (v2 >= 0) {
-        return elements[mid];
-      } else {
-        start = mid + 1;
+  private verify(start: number) {
+    for (let i = this.elements.length - 1; i > start; i--) {
+      const questionIndex = this.createdIndexes[i];
+      const question = this.data.questions[questionIndex];
+      if (question.active && !question.active(this.answers)) {
+        this.elements.splice(i, 1);
+        this.createdIndexes.splice(i, 1);
+        delete this.answers[question.tag];
       }
     }
-    return elements[elements.length - 1];
+  }
+
+  private generateNextElements() {
+    const last = this.createdIndexes[this.createdIndexes.length - 1] ?? -1;
+    let i = last + 1;
+    for (; i < this.data.questions.length; i++) {
+      const question = this.data.questions[i];
+      if (question.active && !question.active(this.answers)) {
+        break;
+      }
+      const element = question.buildAction(this.answers);
+      this.elements.push(element);
+      this.createdIndexes.push(i);
+      this.answers[question.tag] = element.group;
+    }
+    // update remaining answers
+    if (i === last + 1) {
+      i += 1;
+    }
+    let uncond = 0;
+    let cond = 0;
+    for (; i < this.data.questions.length; i++) {
+      uncond++;
+      const question = this.data.questions[i];
+      if (question.active && !question.active(this.answers)) {
+        break;
+      }
+      cond++;
+    }
+    console.log(uncond, cond, i);
+    this.remaining = [uncond, cond];
   }
 }

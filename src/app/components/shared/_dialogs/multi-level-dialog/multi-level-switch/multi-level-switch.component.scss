@@ -1,0 +1,26 @@
+.hidden-control {
+  display: none;
+}
+
+:host ::ng-deep .mat-form-field-underline {
+  background-color: transparent;
+}
+
+.mat-form-field {
+  margin-bottom: 0.5em;
+  display: block;
+}
+
+:host ::ng-deep .mat-form-field-wrapper {
+  padding-bottom: 0;
+}
+
+:host ::ng-deep .mat-form-field-infix {
+  padding-block: 0.35em;
+  border-top: 0;
+}
+
+:host ::ng-deep .mat-slide-toggle-content {
+  white-space: wrap;
+  overflow: visible;
+}

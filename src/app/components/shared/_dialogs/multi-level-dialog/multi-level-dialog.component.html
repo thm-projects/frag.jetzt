@@ -1,69 +1,92 @@
 <h1 mat-dialog-title>
   {{ data.title | translate }}
 </h1>
+<p *ngIf="remaining[0] > 0">
+  {{
+    "multi-level-dialog.remaining"
+      | translate : { uncond: remaining[0], cond: remaining[1] }
+  }}
+</p>
+<p *ngIf="remaining[0] === 0">
+  {{ "multi-level-dialog.no-remaining" | translate }}
+</p>
 
 <div class="multi-level-container">
-  <mat-dialog-content
-    id="multi-level-content"
-    class="thin-scroll"
-    (scroll)="onScroll($event)">
-    <div
-      *ngFor="let element of director.getActiveElements(); let i = index"
-      #contentElement
-      [attr.data-id]="i">
-      <ng-container
-        *ngComponentOutlet="
-          getComponentFromType(element.action.type);
-          injector: element.injector
-        "></ng-container>
-    </div>
+  <mat-dialog-content>
+    <mat-stepper
+      orientation="vertical"
+      [linear]="true"
+      #stepper>
+      <mat-step
+        *ngFor="let elem of elements; let isFirst = first; let i = index"
+        [stepControl]="elem.group">
+        <form [formGroup]="elem.group">
+          <ng-template matStepLabel>{{ elem.title | translate }}</ng-template>
+          <ng-container *ngFor="let input of elem.config">
+            <ng-container
+              *ngComponentOutlet="
+                input.component;
+                injector: input.injector
+              "></ng-container>
+          </ng-container>
+          <div>
+            <button
+              *ngIf="!isFirst"
+              class="mat-prev"
+              mat-stroked-button
+              matStepperPrevious>
+              {{ "multi-level-dialog.previous" | translate }}
+            </button>
+            <button
+              class="mat-primary"
+              mat-stroked-button
+              (click)="checkIt(i, stepper)">
+              {{ "multi-level-dialog.next" | translate }}
+            </button>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step>
+        <ng-template matStepLabel>
+          {{ "multi-level-dialog.complete" | translate }}
+        </ng-template>
+        <p>{{ "multi-level-dialog.complete-text" | translate }}</p>
+        <div class="button-container">
+          <button
+            class="mat-prev mat-last-prev"
+            mat-stroked-button
+            matStepperPrevious>
+            {{ "multi-level-dialog.previous" | translate }}
+          </button>
+          <div class="submit-container">
+            <button
+              class="mat-warning"
+              mat-stroked-button
+              (click)="stepper.reset()">
+              {{ "multi-level-dialog.complete-reset" | translate }}
+            </button>
+            <button
+              class="mat-primary"
+              mat-stroked-button
+              (click)="submit()">
+              {{ "multi-level-dialog.confirm" | translate }}
+            </button>
+          </div>
+        </div>
+      </mat-step>
+    </mat-stepper>
   </mat-dialog-content>
-  <div class="multi-level-indicator">
-    <button
-      mat-icon-button
-      (click)="open = true">
-      <mat-icon>keyboard_arrow_left</mat-icon>
-    </button>
-    <div class="thin-scroll multi-level-overview">
-      <button
-        #contentButton
-        mat-icon-button
-        *ngFor="let element of director.getActiveElements(); let i = index"
-        [ngClass]="{ active: i === activeIndex }"
-        (click)="setActiveIndex(i)">
-        {{ element.display }}
-      </button>
-    </div>
-  </div>
 </div>
 
-<app-dialog-action-buttons
-  [confirmButtonLabel]="data.confirmKey"
-  [buttonsLabelSection]="data.buttonSection"
-  [cancelButtonClickAction]="onClose"
-  [confirmButtonClickAction]="onSubmit"></app-dialog-action-buttons>
-
-<ars-screen *ngIf="open">
-  <mat-drawer-container
-    class="multi-level-more"
-    [hasBackdrop]="true">
-    <mat-drawer
-      #drawer
-      mode="side"
-      [opened]="true"
-      (closedStart)="open = false"
-      [position]="'end'">
-      <h3>{{ "multi-level-dialog.overview" | translate }}</h3>
-      <div class="multi-level-more-container">
-        <button
-          mat-button
-          *ngFor="let element of director.getActiveElements(); let i = index"
-          [ngClass]="{ active: i === activeIndex }"
-          (click)="setActiveIndex(i); open = false">
-          {{ element.display + " " + (element.title | translate) }}
-        </button>
-      </div>
-    </mat-drawer>
-    <!-- No content -->
-  </mat-drawer-container>
-</ars-screen>
+<div class="bottom-container">
+  <button
+    mat-flat-button
+    class="help-button"
+    (click)="openHelp()">
+    <mat-icon>question_mark</mat-icon>
+    {{ "explanation.label" | translate }}
+  </button>
+  <app-dialog-action-buttons
+    [buttonsLabelSection]="'multi-level-dialog'"
+    [cancelButtonClickAction]="onClose"></app-dialog-action-buttons>
+</div>

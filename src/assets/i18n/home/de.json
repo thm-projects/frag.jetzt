@@ -495,7 +495,32 @@
     "tooltip-recreate": "Zugangscode für Gastmoderator*innen erzeugen"
   },
   "multi-level-dialog": {
-    "overview": "Übersicht:"
+    "remaining": "Noch max. {{uncond}} kommende Fragen",
+    "no-remaining": "Alle Fragen sind sichtbar",
+    "next": "Weiter",
+    "previous": "Zurück",
+    "cancel": "Abbrechen",
+    "confirm": "Absenden",
+    "complete": "Abschließen",
+    "complete-text": "Du hast alle Fragen beantwortet. Klicke auf Absenden, um die Konfiguration zu beenden. Du kannst auch noch einmal zurückgehen und deine Antworten ändern.",
+    "complete-reset": "Alles zurücksetzen"
+  },
+  "ml-room-create": {
+    "title": "Raum erstellen",
+    "q-1-header": "Rolle wählen",
+    "q-1-title": "Welche Rolle möchtest du übernehmen?",
+    "q-1-short": "Rolle",
+    "e-1-required": "Bitte wähle eine Rolle.",
+    "a-1-teacher": "Lehrer*in",
+    "a-1-student": "Student*in",
+    "q-t1-header": "Veranstaltungsname",
+    "q-t1-title": "Wie heißt die Veranstaltung?",
+    "q-t1-short": "Name",
+    "e-t1-required": "Bitte gib einen Namen ein.",
+    "e-t1-minlength": "Gib mindestens 3 Zeichen ein.",
+    "e-t1-maxlength": "Gib maximal 30 Zeichen ein.",
+    "q-t1-code": "Zugangscode selbst wählen",
+    "q-t1-settings": "Standardeinstellungen"
   },
   "overlay": {
     "cancel": "App verlassen",

@@ -24,6 +24,8 @@ import { AppRatingComponent } from '../../shared/app-rating/app-rating.component
 import { SessionService } from '../../../services/util/session.service';
 import { AccountStateService } from 'app/services/state/account-state.service';
 import { ReplaySubject, takeUntil } from 'rxjs';
+import { MultiLevelDialogComponent } from 'app/components/shared/_dialogs/multi-level-dialog/multi-level-dialog.component';
+import { MULTI_LEVEL_ROOM_CREATE } from 'app/components/shared/_dialogs/room-create/room-create.multi-level';
 
 @Component({
   selector: 'app-user-home',
@@ -152,9 +154,10 @@ export class UserHomeComponent implements OnInit, OnDestroy, AfterContentInit {
   }
 
   openCreateRoomDialog(): void {
-    this.dialog.open(RoomCreateComponent, {
+    /*this.dialog.open(RoomCreateComponent, {
       width: '350px',
-    });
+    });*/
+    MultiLevelDialogComponent.open(this.dialog, MULTI_LEVEL_ROOM_CREATE);
   }
 
   private initNavigation() {
