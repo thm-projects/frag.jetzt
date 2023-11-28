@@ -4,18 +4,15 @@ title frag.jetzt | Room Creation Workflow
 skinparam backgroundColor Linen
 skinparam shadowing true
 skinparam defaultFontSize 14
+skinparam defaultFontName times new roman
 skinparam Padding 6
 
 ' Additional skinparam settings
-skinparam roundcorner 20
-skinparam class {
-  BackgroundColor PaleGreen
-  BorderColor Black
-  FontColor Black
-}
+skinparam roundcorner 50
 skinparam arrowColor DarkBlue
 skinparam arrowThickness 1.5
-skinparam packageStyle rectangle
+skinparam LegendBackgroundColor White
+skinparam LegendBorderThickness 0
 
 start
 :Start;
