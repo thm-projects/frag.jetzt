@@ -1,0 +1,147 @@
+@startuml room creation
+start
+:Start;
+
+' Decision: Role
+if (1. Role?) then (Teacher)
+  :Enter event name;
+  ' Decision: Key Code Generation
+  if (2. Generate key code?) then (yes)
+    :Generate key code;
+  else (no)
+    :Enter memorable key code;
+  endif
+  ' Decision: Configuration Type
+  if (3. Configuration type?) then (Standard)
+    :Apply standard configuration;
+    :Create Q&A room;
+  else (Custom)
+    ' Further decisions for custom configuration
+    ' Decision: ChatGPT Availability
+    if (4. Enable ChatGPT?) then (yes)
+      :Activate ChatGPT;
+      ' Additional Decision: Chat Room
+      if (5. Create chat room?) then (yes)
+        :Create Chat Room;
+
+        ' New query: ChatGPT Access
+        if (6. Who can use ChatGPT?) then (only teacher and moderators)
+          :Restrict access to teacher and moderators;
+        else (Also students)
+          :Grant access to students;
+        endif
+
+      endif
+    else (no)
+      :Deactivate ChatGPT;
+    endif
+    ' Decision: Q&A Forum Moderation
+    if (7. Moderate Q&A forum?) then (yes)
+      :Activate moderation;
+    else (no)
+      :Allow all posts without moderation;
+    endif
+    ' Decision: Profanity Filter
+    if (8. Enable profanity filter?) then (yes)
+      :Activate profanity filter;
+    else (no)
+      :Deactivate profanity filter;
+    endif
+    ' Decision: Keyword Generation
+    if (9. Generate keywords from posts?) then (yes)
+      :Activate keyword generation;
+    else (no)
+      :Deactivate keyword generation;
+    endif
+    ' Decision: Quick Surveys
+    if (10. Enable quick surveys?) then (yes)
+      :Activate quick surveys;
+    else (no)
+      :Deactivate quick surveys;
+    endif
+    ' Decision: Bonus Archive
+    if (11. Enable bonus archive?) then (yes)
+      :Activate bonus archive;
+    else (no)
+      :Deactivate bonus archive;
+    endif
+    ' Decision: Quiz Module
+    if (12. Enable quiz module?) then (yes)
+      :Activate quiz module;
+    else (no)
+      :Deactivate quiz module;
+    endif
+    ' Decision: Brainstorming Module
+    if (13. Enable brainstorming module?) then (yes)
+      :Activate brainstorming module;
+    else (no)
+      :Deactivate brainstorming module;
+    endif
+    ' Decision: Topic Radar Module
+    if (14. Enable Topic Radar module?) then (yes)
+      :Activate Topic Radar module;
+    else (no)
+      :Deactivate Topic Radar module;
+    endif
+    ' Decision: Topic Focus Module
+    if (15. Enable Topic Focus module?) then (yes)
+      :Activate Topic Focus module;
+    else (no)
+      :Deactivate Topic Focus module;
+    endif
+    :Create Q&A room;
+  endif
+else (Student)
+  :Enter Study room name;
+  ' Decision: Key Code Generation
+  if (2. Generate key code?) then (yes)
+    :Generate key code;
+  else (no)
+    :Enter memorable key code;
+  endif
+  ' Decision: Configuration Type
+  if (3. Configuration type?) then (Standard)
+    :Apply standard configuration;
+    :Create Study room;
+  else (Custom)
+    ' Further decisions for custom configuration
+    ' Decision: ChatGPT Availability
+    if (4. Enable ChatGPT?) then (yes)
+      :Activate ChatGPT;
+      ' Additional Decision: Chat Room
+      if (5. Create chat room?) then (yes)
+        :Create Chat Room;
+      endif
+    else (no)
+      :Deactivate ChatGPT;
+    endif
+    ' Decision: Keyword Generation
+    if (6. Generate keywords from posts?) then (yes)
+      :Activate keyword generation;
+    else (no)
+      :Deactivate keyword generation;
+    endif
+    ' Decision: Topic Radar Module
+    if (7. Enable Topic Radar module?) then (yes)
+      :Activate Topic Radar module;
+    else (no)
+      :Deactivate Topic Radar module;
+    endif
+    ' Decision: Topic Focus Module
+    if (8. Enable Topic Focus module?) then (yes)
+      :Activate Topic Focus module;
+    else (no)
+      :Deactivate Topic Focus module;
+    endif
+    ' Decision: Brainstorming Module
+    if (9. Enable brainstorming module?) then (yes)
+      :Activate brainstorming module;
+    else (no)
+      :Deactivate brainstorming module;
+    endif
+    :Create Study room;
+  endif
+endif
+
+stop
+@enduml
