@@ -1,0 +1,145 @@
+@startuml room creation
+start
+:Start;
+
+' Decision: Teacher or Student
+if (1. Are you a teacher or a student?) then (Teacher)
+  :Enter event name;
+  ' Decision: Generate Key Code
+  if (2. Should the key code be generated?) then (yes)
+    :Generate key code;
+  else (no)
+    :Enter easy-to-remember key code;
+  endif
+  ' Decision: Standard or Custom Configuration
+  if (3. Standard configuration or custom configuration?) then (Standard)
+    :Apply standard configuration;
+    :Create Q&A room;
+  else (Custom)
+    ' Further decisions for custom configuration
+    ' Decision: ChatGPT Availability
+    if (4. Should ChatGPT be available to answer questions?) then (yes)
+      :Activate ChatGPT to answer questions;
+      ' Additional Decision: Chat Room
+      if (5. Should a chat room be offered?) then (yes)
+        :Create Chat Room;
+      endif
+    else (no)
+      :Deactivate ChatGPT;
+    endif
+    ' Decision: Q&A Forum Moderation
+    if (6. Should the Q&A forum be moderated?) then (yes)
+      ' Decision: Allow Conversations
+      if (7. Should conversations be allowed?) then (yes)
+        :Allow conversations;
+      else (no)
+        :Do not allow conversations;
+      endif
+    else (no)
+      :Allow conversations;
+    endif
+    ' Decision: Profanity Filter
+    if (8. Should a profanity filter be active?) then (yes)
+      :Activate profanity filter;
+    else (no)
+      :Deactivate profanity filter;
+    endif
+    ' Decision: Keyword Generation
+    if (9. Should keywords be generated from the posts?) then (yes)
+      :Activate keyword generation;
+    else (no)
+      :Deactivate keyword generation;
+    endif
+    ' Decision: Quick Surveys
+    if (10. Should quick surveys be activated?) then (yes)
+      :Activate quick surveys;
+    else (no)
+      :Deactivate quick surveys;
+    endif
+    ' Decision: Bonus Archive
+    if (11. Should a bonus archive be activated?) then (yes)
+      :Activate bonus archive;
+    else (no)
+      :Deactivate bonus archive;
+    endif
+    ' Decision: Quiz Module
+    if (12. Should the quiz module be activated?) then (yes)
+      :Activate quiz module;
+    else (no)
+      :Deactivate quiz module;
+    endif
+    ' Decision: Brainstorming Module
+    if (13. Should the brainstorming module be activated?) then (yes)
+      :Activate brainstorming module;
+    else (no)
+      :Deactivate brainstorming module;
+    endif
+    ' Decision: Topic Radar Module
+    if (14. Should the Topic Radar module be activated?) then (yes)
+      :Activate Topic Radar module;
+    else (no)
+      :Deactivate Topic Radar module;
+    endif
+    ' Decision: Topic Focus Module
+    if (15. Should the Topic Focus module be activated?) then (yes)
+      :Activate Topic Focus module;
+    else (no)
+      :Deactivate Topic Focus module;
+    endif
+    :Create Q&A room;
+  endif
+else (Student)
+  :Enter Study room name;
+  ' Decision: Generate Key Code
+  if (2. Should the key code be generated?) then (yes)
+    :Generate key code;
+  else (no)
+    :Enter easy-to-remember key code;
+  endif
+  ' Decision: Standard or Custom Configuration
+  if (3. Standard configuration or custom configuration?) then (Standard)
+    :Apply standard configuration;
+    :Create Study room;
+  else (Custom)
+    ' Further decisions for custom configuration
+    ' Decision: ChatGPT Availability
+    if (4. Should ChatGPT be available to answer questions?) then (yes)
+      :Activate ChatGPT to answer questions;
+      ' Additional Decision: Chat Room
+      if (5. Should a chat room be offered?) then (yes)
+        :Create Chat Room;
+      endif
+    else (no)
+      :Deactivate ChatGPT;
+    endif
+    ' Decision: Keyword Generation
+    if (6. Should keywords be generated from the posts?) then (yes)
+      :Activate keyword generation;
+    else (no)
+      :Deactivate keyword generation;
+    endif
+    ' Decision: Topic Radar Module
+    if (7. Should the Topic Radar module be activated?) then (yes)
+      :Activate Topic
+      Radar module;
+    else (no)
+      :Deactivate Topic Radar module;
+    endif
+    ' Decision: Topic Focus Module
+    if (8. Should the Topic Focus module be activated?) then (yes)
+      :Activate Topic Focus module;
+    else (no)
+      :Deactivate Topic Focus module;
+    endif
+    ' Decision: Brainstorming Module
+    if (9. Should the brainstorming module be activated?) then (yes)
+      :Activate brainstorming module;
+    else (no)
+      :Deactivate brainstorming module;
+    endif
+    :Create Study room;
+  endif
+endif
+
+stop
+@enduml
