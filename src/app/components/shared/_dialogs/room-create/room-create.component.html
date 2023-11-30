@@ -1,4 +1,75 @@
-<form>
+<form [formGroup]="questionnaireForm" (ngSubmit)="onSubmit()">
+  <mat-vertical-stepper #stepper linear>
+    <mat-step #firstFixedStep>
+      <ng-template matStepLabel>Role</ng-template>
+      <div>
+        <mat-radio-group [(ngModel)]="selectedOption" (change)="onOptionChange()" [ngModelOptions]="{standalone: true}">
+          <mat-radio-button value="ARS">ARS</mat-radio-button>
+          <mat-radio-button value="PLE">PLE</mat-radio-button>
+        </mat-radio-group>
+      </div>
+    </mat-step>
+    
+    <!-- Second Fixed Question -->
+    <mat-step #secondFixedStep>
+      <ng-template matStepLabel>Room Code</ng-template>
+      <div>
+        <mat-radio-group [(ngModel)]="roomCodeChoice" (change)="onRoomCodeChoiceChange()" [ngModelOptions]="{standalone: true}">
+          <mat-radio-button value="dynamic">Dynamic Room Code</mat-radio-button>
+          <mat-radio-button value="manual">Manual Entry</mat-radio-button>
+        </mat-radio-group>
+        <div *ngIf="roomCodeChoice === 'manual'">
+          <mat-form-field appearance="fill">
+            <input matInput type="text" placeholder="Enter room code" [(ngModel)]="manualRoomCode" />
+          </mat-form-field>
+        </div>
+      </div>
+    </mat-step>
+    
+    <!-- Third Fixed Question -->
+    <mat-step #thirdFixedStep>
+      <ng-template matStepLabel>Use preset?</ng-template>
+      <div>
+        <mat-slide-toggle [(ngModel)]="useDefaultSettings" (change)="onDefaultSettingsChange()" [ngModelOptions]="{standalone: true}">Customize</mat-slide-toggle>
+      </div>
+    </mat-step>
+
+    <!-- Dynamic Questions: NgFor Rendering -->
+    <ng-container *ngFor="let question of filteredQuestions; let i = index">
+      <mat-step [stepControl]="questionnaireForm.controls['answer' + i]" *ngIf="!question.isHidden && showDynamicQuestions">
+        <ng-template matStepLabel>{{ question.label }}</ng-template>
+        <div *ngIf="question.type === 'options'">
+          <!-- Render options as radio buttons -->
+          <mat-radio-group [formControlName]="'answer' + i">
+            <mat-radio-button *ngFor="let option of question.options" [value]="option.value">
+              {{ option.label }}
+            </mat-radio-button>
+          </mat-radio-group>
+        </div>
+        <div *ngIf="question.type === 'input'">
+          <!-- Render input field -->
+          <input type="text" [formControlName]="'answer' + i" />
+        </div>
+        <div *ngIf="question.type === 'toggle'">
+          <!-- Render toggle -->
+          <mat-slide-toggle [formControlName]="'answer' + i" (change)="onToggleChange(i, $event.checked)"></mat-slide-toggle>
+        </div>
+        <!-- Add other question types as needed -->
+      </mat-step>
+    </ng-container>
+  </mat-vertical-stepper>
+</form>
+
+<app-dialog-action-buttons
+  buttonsLabelSection="room-create"
+  confirmButtonLabel="create-room"
+  [showLoadingCycle]="isLoading"
+  [cancelButtonClickAction]="buildCloseDialogActionCallback()"
+  [confirmButtonClickAction]="
+    buildRoomCreateActionCallback()
+  "></app-dialog-action-buttons>
+
+<!--<form>
   <div
     fxLayout="column"
     fxLayoutAlign="center"
@@ -110,3 +181,4 @@
 <div class="visually-hidden">
   <div id="room-name-input">{{ "home-page.room-name-input" | translate }}</div>
 </div>
+-->

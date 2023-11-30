@@ -41,3 +41,87 @@ mat-form-field {
   max-width: 500px;
 }
 
+mat-vertical-stepper {
+  background-color: var(--dialog);
+}
+
+mat-toolbar {
+  background-color: var(--dialog);
+  color: var(--on-dialog);
+}
+
+:host ::ng-deep .mat-step:has(.mat-step-header[aria-selected="true"]) {
+  background-color: var(--surface);
+  border: 1px dashed var(--on-surface);
+
+  display: flex;
+  flex-direction: column;
+  align-items: stretch; /* Optional: Ensures items stretch to full width */
+}
+
+:host ::ng-deep .mat-step-header .mat-step-icon {
+  background-color: var(--on-surface);
+  color: var(--surface);
+}
+
+:host ::ng-deep .mat-step-text-label {
+  color: var(--on-dialog);
+}
+
+/* YourComponent.scss */
+.mat-vertical-stepper {
+  width: 100%; /* Ensure stepper takes full width */
+}
+
+.mat-step-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.step-header {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.remaining {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  opacity: 0.75;
+}
+
+.step-content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+
+  padding: 7px 0;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.buttons {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.mat-radio-button {
+  margin-right: 10px;
+}
