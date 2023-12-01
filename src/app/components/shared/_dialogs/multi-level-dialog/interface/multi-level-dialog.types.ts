@@ -11,7 +11,11 @@ export interface MultiLevelDataEntry {
   tag: string;
   title: string;
   active?: (answers: AnsweredMultiLevelData) => boolean;
-  buildAction: (answers: AnsweredMultiLevelData) => MultiLevelDataBuiltAction;
+  buildAction: (
+    injector: Injector,
+    answers: AnsweredMultiLevelData,
+    previousState?: MultiLevelDataBuiltAction,
+  ) => MultiLevelDataBuiltAction;
 }
 
 export interface MultiLevelDataBuiltAction extends MultiLevelDataEntry {
@@ -38,6 +42,7 @@ interface BaseAction {
     [key: string]: string;
   };
   validators?: any[];
+  asyncValidators?: any[];
 }
 
 export interface RadioSelectAction extends BaseAction {
@@ -51,6 +56,7 @@ export interface RadioSelectAction extends BaseAction {
 
 export interface SwitchAction extends BaseAction {
   type: 'switch';
+  label: string;
   defaultValue?: boolean;
 }
 
@@ -99,7 +105,11 @@ export const buildInput = (
       // support multi synced inputs in group
       control =
         obj[action.tag] ??
-        new FormControl(action.defaultValue, action.validators);
+        new FormControl(
+          action.defaultValue,
+          action.validators,
+          action.asyncValidators,
+        );
       obj[action.tag] = control;
     }
     const built: BuiltAction<MultiLevelAction> = {

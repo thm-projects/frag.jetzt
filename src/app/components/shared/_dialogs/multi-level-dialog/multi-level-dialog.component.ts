@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Injector, Input, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import {
   MultiLevelData,
@@ -18,12 +18,17 @@ export class MultiLevelDialogComponent implements OnInit {
   remaining: [number, number] = [0, 0];
   private createdIndexes: number[] = [];
   private answers: { [key: string]: FormGroup } = {};
+  private readonly removedCache = new Map<string, MultiLevelDataBuiltAction>();
 
-  constructor(private dialogRef: MatDialogRef<MultiLevelDialogComponent>) {}
+  constructor(
+    private dialogRef: MatDialogRef<MultiLevelDialogComponent>,
+    private injector: Injector,
+  ) {}
 
   public static open(dialog: MatDialog, data: MultiLevelData) {
     const dialogRef = dialog.open(MultiLevelDialogComponent, {
-      maxWidth: '99vw',
+      width: '85vw',
+      maxWidth: '600px',
       maxHeight: '99vh',
     });
     dialogRef.componentInstance.data = data;
@@ -31,7 +36,7 @@ export class MultiLevelDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.generateNextElements();
+    this.verify(-1);
   }
 
   checkIt(index: number, stepper: MatStepper) {
@@ -40,12 +45,7 @@ export class MultiLevelDialogComponent implements OnInit {
     if (group.invalid) {
       return;
     }
-    if (index < this.elements.length - 1) {
-      this.verify(index);
-      stepper.next();
-      return;
-    }
-    this.generateNextElements();
+    this.verify(index);
     requestAnimationFrame(() => {
       stepper.next();
     });
@@ -53,54 +53,62 @@ export class MultiLevelDialogComponent implements OnInit {
 
   openHelp() {}
 
+  reset(stepper: MatStepper) {
+    stepper.reset();
+    this.answers = {};
+    this.removedCache.clear();
+    this.elements.length = 0;
+    this.createdIndexes.length = 0;
+    this.verify(-1);
+  }
+
   protected submit() {
-    this.dialogRef.close();
+    this.dialogRef.close(this.answers);
   }
 
   private close() {
     this.dialogRef.close();
   }
 
-  private verify(start: number) {
-    for (let i = this.elements.length - 1; i > start; i--) {
-      const questionIndex = this.createdIndexes[i];
-      const question = this.data.questions[questionIndex];
-      if (question.active && !question.active(this.answers)) {
-        this.elements.splice(i, 1);
-        this.createdIndexes.splice(i, 1);
-        delete this.answers[question.tag];
+  private verify(elementIndex: number) {
+    const first = this.createdIndexes[elementIndex++] ?? -1;
+    const questions = this.data.questions;
+    this.remaining[0] = questions.length - first - 1;
+    this.remaining[1] = 0;
+    for (let i = first + 1; i < questions.length; i++) {
+      const question = questions[i];
+      const isActive = !question.active || question.active(this.answers);
+      const isMounted = this.createdIndexes[elementIndex] === i;
+      this.remaining[1] += isActive ? 1 : 0;
+      if (isMounted) {
+        // mounted, but inactive
+        if (!isActive) {
+          this.createdIndexes.splice(elementIndex, 1);
+          this.removedCache.set(
+            question.tag,
+            this.elements.splice(elementIndex, 1)[0],
+          );
+          delete this.answers[question.tag];
+        } else {
+          elementIndex++;
+        }
+        continue;
+      }
+      if (isActive) {
+        // active, but not mounted
+        const previousState = this.removedCache.get(question.tag);
+        this.removedCache.delete(question.tag);
+        const element = question.buildAction(
+          this.injector,
+          this.answers,
+          previousState,
+        );
+        // insert at position
+        this.elements.splice(elementIndex, 0, element);
+        this.createdIndexes.splice(elementIndex, 0, i);
+        elementIndex++;
+        this.answers[question.tag] = element.group;
       }
     }
-  }
-
-  private generateNextElements() {
-    const last = this.createdIndexes[this.createdIndexes.length - 1] ?? -1;
-    let i = last + 1;
-    for (; i < this.data.questions.length; i++) {
-      const question = this.data.questions[i];
-      if (question.active && !question.active(this.answers)) {
-        break;
-      }
-      const element = question.buildAction(this.answers);
-      this.elements.push(element);
-      this.createdIndexes.push(i);
-      this.answers[question.tag] = element.group;
-    }
-    // update remaining answers
-    if (i === last + 1) {
-      i += 1;
-    }
-    let uncond = 0;
-    let cond = 0;
-    for (; i < this.data.questions.length; i++) {
-      uncond++;
-      const question = this.data.questions[i];
-      if (question.active && !question.active(this.answers)) {
-        break;
-      }
-      cond++;
-    }
-    console.log(uncond, cond, i);
-    this.remaining = [uncond, cond];
   }
 }

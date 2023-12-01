@@ -1,11 +1,14 @@
 <h1 mat-dialog-title>
   {{ data.title | translate }}
 </h1>
-<p *ngIf="remaining[0] > 0">
+<p *ngIf="remaining[0] > 1">
   {{
     "multi-level-dialog.remaining"
       | translate : { uncond: remaining[0], cond: remaining[1] }
   }}
+</p>
+<p *ngIf="remaining[0] === 1">
+  {{ "multi-level-dialog.one-remaining" | translate }}
 </p>
 <p *ngIf="remaining[0] === 0">
   {{ "multi-level-dialog.no-remaining" | translate }}
@@ -62,7 +65,7 @@
             <button
               class="mat-warning"
               mat-stroked-button
-              (click)="stepper.reset()">
+              (click)="reset(stepper)">
               {{ "multi-level-dialog.complete-reset" | translate }}
             </button>
             <button
