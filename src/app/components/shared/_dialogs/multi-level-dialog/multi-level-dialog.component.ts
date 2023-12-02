@@ -110,5 +110,8 @@ export class MultiLevelDialogComponent implements OnInit {
         this.answers[question.tag] = element.group;
       }
     }
+    if (this.remaining[1] === 0) {
+      this.remaining[0] = 0;
+    }
   }
 }
