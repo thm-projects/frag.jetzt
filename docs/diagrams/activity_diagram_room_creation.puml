@@ -63,82 +63,91 @@ if (1. Role?) then (Teacher)
     end note
     :Create a Q&A room;
   else (Custom)
-    ' Decision: ChatGPT Setup
-    if (4. Can the user set up ChatGPT?) then (yes)
-      ' Decision: ChatGPT Availability
-      if (5. Enable ChatGPT for Q&A forum?) then (yes)
-        :Activate »Let ChatGPT answer questions«;
-        ' Additional Decision: »AI StudyBuddy«
-        if (6. Create »AI StudyBuddy«?) then (yes)
-          :Create »AI StudyBuddy«;
+    partition "ChatGPT Setup"  {
+      ' Decision: ChatGPT Setup
+      if (4. Can the user set up ChatGPT?) then (yes)
+        ' Decision: ChatGPT Availability
+        if (5. Enable ChatGPT for Q&A forum?) then (yes)
+          :Activate »Let ChatGPT answer questions«;
+          ' Additional Decision: »AI StudyBuddy«
+          if (6. Create »AI StudyBuddy«?) then (yes)
+            :Create »AI StudyBuddy«;
+            if (7. Allow file and picture upload?) then (yes)
+              :Enable file and picture upload feature;
 
-          ' New query: ChatGPT Access
-          if (7. Who can use ChatGPT?) then (only the teacher and moderators)
-            :Restrict access to teacher and moderators;
-          else (also students)
-            :Grant access to students;
+            else (no)
+            endif
+            ' New query: ChatGPT Access
+            if (8. Who can use ChatGPT?) then (only the teacher and moderators)
+              :Restrict access to teacher and moderators;
+            else (also students)
+              :Grant access to students;
+            endif
+
           endif
-
+        else (no)
         endif
       else (no)
       endif
-    else (no)
-    endif
-    ' Decision: Q&A Forum Moderation
-    if (8. Moderate Q&A forum?) then (yes)
-      :Activate moderation;
-    else (no)
-      :Allow all posts without moderation;
-    endif
-    ' Decision: Profanity Filter
-    if (9. Enable profanity filter?) then (yes)
-      :Activate the profanity filter;
-    else (no)
-      :Deactivate the profanity filter;
-    endif
-    ' Decision: Keyword Generation
-    if (10. Generate keywords from posts?) then (yes)
-      :Activate keyword generation;
-    else (no)
-      :Deactivate keyword generation;
-    endif
-
-    ' Decision: Flash Polls
-    if (11. Enable Flash Polls?) then (yes)
-      :Activate Flash Polls;
-    else (no)
-      :Deactivate Flash Polls;
-    endif
-    ' Decision: Bonus Archive
-    if (12. Enable the bonus archive?) then (yes)
-      :Activate the bonus archive;
-    else (no)
-      :Deactivate the bonus archive;
-    endif
-    ' Decision: Quiz Module
-    if (13. Enable the quiz module?) then (yes)
-      :Activate the quiz module;
-    else (no)
-      :Deactivate the quiz module;
-    endif
-    ' Decision: Brainstorming Module
-    if (14. Enable the brainstorming module?) then (yes)
-      :Activate the brainstorming module;
-    else (no)
-      :Deactivate the brainstorming module;
-    endif
-    ' Decision: Topic Radar Module
-    if (15. Enable the Topic Radar module?) then (yes)
-      :Activate the Topic Radar module;
-    else (no)
-      :Deactivate the Topic Radar module;
-    endif
-    ' Decision: Topic Focus Module
-    if (16. Enable the Topic Focus module?) then (yes)
-      :Activate the Topic Focus module;
-    else (no)
-      :Deactivate the Topic Focus module;
-    endif
+    }
+    partition "Q&A Forum Setup"  {
+      ' Decision: Q&A Forum Moderation
+      if (9. Moderate Q&A forum?) then (yes)
+        :Activate moderation;
+      else (no)
+        :Allow all posts without moderation;
+      endif
+      ' Decision: Profanity Filter
+      if (10. Enable profanity filter?) then (yes)
+        :Activate the profanity filter;
+      else (no)
+        :Deactivate the profanity filter;
+      endif
+      ' Decision: Keyword Generation
+      if (11. Generate keywords from posts?) then (yes)
+        :Activate keyword generation;
+      else (no)
+        :Deactivate keyword generation;
+      endif
+    }
+    partition "Feature Configuration" #LightCoral  {
+      ' Decision: Flash Polls
+      if (12. Enable Flash Polls?) then (yes)
+        :Activate Flash Polls;
+      else (no)
+        :Deactivate Flash Polls;
+      endif
+      ' Decision: Bonus Archive
+      if (13. Enable the bonus archive?) then (yes)
+        :Activate the bonus archive;
+      else (no)
+        :Deactivate the bonus archive;
+      endif
+      ' Decision: Quiz Module
+      if (14. Enable the quiz module?) then (yes)
+        :Activate the quiz module;
+      else (no)
+        :Deactivate the quiz module;
+      endif
+      ' Decision: Brainstorming Module
+      if (15. Enable the brainstorming module?) then (yes)
+        :Activate the brainstorming module;
+      else (no)
+        :Deactivate the brainstorming module;
+      endif
+      ' Decision: Topic Radar Module
+      if (16. Enable the Topic Radar module?) then (yes)
+        :Activate the Topic Radar module;
+      else (no)
+        :Deactivate the Topic Radar module;
+      endif
+      ' Decision: Topic Focus Module
+      if (17. Enable the Topic Focus module?) then (yes)
+        :Activate the Topic Focus module;
+      else (no)
+        :Deactivate the Topic Focus module;
+      endif
+    }
     :Create a Q&A room;
   endif
 else (Student)
@@ -168,44 +177,50 @@ else (Student)
     end note
     :Create a study room;
   else (Custom)
-    ' Further decisions for custom configuration
-    ' Decision: ChatGPT Setup
-    if (4. Can the user set up ChatGPT?) then (yes)
-      ' Decision: ChatGPT Availability
-      if (5. Enable ChatGPT for Q&A forum?) then (yes)
-        :Activate »Let ChatGPT answer questions«;
-        ' Additional Decision: »AI StudyBuddy«
-        if (6. Create »AI StudyBuddy«?) then (yes)
-          :Create »AI StudyBuddy«;
+    partition "ChatGPT Setup"  {
+      ' Further decisions for custom configuration
+      ' Decision: ChatGPT Setup
+      if (4. Can the user set up ChatGPT?) then (yes)
+        ' Decision: ChatGPT Availability
+        if (5. Enable ChatGPT for Q&A forum?) then (yes)
+          :Activate »Let ChatGPT answer questions«;
+          ' Additional Decision: »AI StudyBuddy«
+          if (6. Create »AI StudyBuddy«?) then (yes)
+            :Create »AI StudyBuddy«;
+          endif
+        else (no)
         endif
       else (no)
       endif
-    else (no)
-    endif
-    ' Decision: Keyword Generation
-    if (7. Generate keywords from posts?) then (yes)
-      :Activate keyword generation;
-    else (no)
-      :Deactivate keyword generation;
-    endif
-    ' Decision: Topic Radar Module
-    if (8. Enable the Topic Radar module?) then (yes)
-      :Activate the Topic Radar module;
-    else (no)
-      :Deactivate the Topic Radar module;
-    endif
-    ' Decision: Topic Focus Module
-    if (9. Enable the Topic Focus module?) then (yes)
-      :Activate the Topic Focus module;
-    else (no)
-      :Deactivate the Topic Focus module;
-    endif
-    ' Decision: Brainstorming Module
-    if (10. Enable the brainstorming module?) then (yes)
-      :Activate the brainstorming module;
-    else (no)
-      :Deactivate the brainstorming module;
-    endif
+    }
+    partition "Q&A Forum Setup"  {
+      ' Decision: Keyword Generation
+      if (7. Generate keywords from posts?) then (yes)
+        :Activate keyword generation;
+      else (no)
+        :Deactivate keyword generation;
+      endif
+    }
+    partition "Feature Configuration"  #LightCoral {
+      ' Decision: Topic Radar Module
+      if (8. Enable the Topic Radar module?) then (yes)
+        :Activate the Topic Radar module;
+      else (no)
+        :Deactivate the Topic Radar module;
+      endif
+      ' Decision: Topic Focus Module
+      if (9. Enable the Topic Focus module?) then (yes)
+        :Activate the Topic Focus module;
+      else (no)
+        :Deactivate the Topic Focus module;
+      endif
+      ' Decision: Brainstorming Module
+      if (10. Enable the brainstorming module?) then (yes)
+        :Activate the brainstorming module;
+      else (no)
+        :Deactivate the brainstorming module;
+      endif
+    }
     :Create a study room;
   endif
 endif
