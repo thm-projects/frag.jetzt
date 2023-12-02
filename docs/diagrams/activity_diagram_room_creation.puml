@@ -60,10 +60,11 @@ if (1. Role?) then (Teacher)
       - Brainstorming module enabled
       - Topic Radar module enabled
       - Topic Focus module enabled
+      - Moderation disabled
     end note
     :Create a Q&A room;
   else (Custom)
-    partition "ChatGPT Setup"  {
+    partition "ChatGPT Setup" #Aquamarine {
       ' Decision: ChatGPT Setup
       if (4. Can the user set up ChatGPT?) then (yes)
         ' Decision: ChatGPT Availability
@@ -90,7 +91,7 @@ if (1. Role?) then (Teacher)
       else (no)
       endif
     }
-    partition "Q&A Forum Setup"  {
+    partition "Q&A Forum Setup" #MintCream {
       ' Decision: Q&A Forum Moderation
       if (9. Moderate Q&A forum?) then (yes)
         :Activate moderation;
@@ -110,7 +111,7 @@ if (1. Role?) then (Teacher)
         :Deactivate keyword generation;
       endif
     }
-    partition "Feature Configuration" #LightCoral  {
+    partition "Feature Configuration" #MistyRose  {
       ' Decision: Flash Polls
       if (12. Enable Flash Polls?) then (yes)
         :Activate Flash Polls;
@@ -174,10 +175,11 @@ else (Student)
       - Brainstorming module disabled
       - Topic Radar module enabled
       - Topic Focus module enabled
+      - Moderation disabled
     end note
     :Create a study room;
   else (Custom)
-    partition "ChatGPT Setup"  {
+    partition "ChatGPT Setup" #Aquamarine {
       ' Further decisions for custom configuration
       ' Decision: ChatGPT Setup
       if (4. Can the user set up ChatGPT?) then (yes)
@@ -193,7 +195,7 @@ else (Student)
       else (no)
       endif
     }
-    partition "Q&A Forum Setup"  {
+    partition "Q&A Forum Setup" #MintCream {
       ' Decision: Keyword Generation
       if (7. Generate keywords from posts?) then (yes)
         :Activate keyword generation;
@@ -201,7 +203,7 @@ else (Student)
         :Deactivate keyword generation;
       endif
     }
-    partition "Feature Configuration"  #LightCoral {
+    partition "Feature Configuration"  #MistyRose {
       ' Decision: Topic Radar Module
       if (8. Enable the Topic Radar module?) then (yes)
         :Activate the Topic Radar module;
