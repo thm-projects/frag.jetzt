@@ -71,26 +71,26 @@
   "screenshots" : [
     {
       "src": "/assets/images/frag.jetzt_startpage.png",
-      "sizes": "1442x3202",
+      "sizes": "1280x720",
       "type": "image/png",
       "platform": "wide",
       "label": "Startpage of frag.jetzt"
     },
     {
       "src": "/assets/images/frag.jetzt_Feedback_room.png",
-      "sizes": "1442x3202",
+      "sizes": "1280x720",
       "type": "image/png",
       "platform": "wide",
       "label": "Feedback Room of frag.jetzt"
     },{
       "src": "/assets/images/frag.jetzt_Q&A_forum.png",
-      "sizes": "1442x3202",
+      "sizes": "1280x720",
       "type": "image/png",
       "platform": "wide",
       "label": "Q&A Forum of frag.jetzt"
     },{
       "src": "/assets/images/frag.jetzt_ChatGPT_room.png",
-      "sizes": "1442x3202",
+      "sizes": "1280x720",
       "type": "image/png",
       "platform": "wide",
       "label": "ChatGPT Room of frag.jetzt"
