@@ -26,9 +26,9 @@ export const carousel: {
       fr: 'Q&R avec ChatGPT',
     },
     description: {
-      en: "Let ChatGPT-4 answer all knowledge questions. Your prompt presets, by which you narrow down the topic of a room, provide accurate and personalized answers. A quick fact check and you've saved yourself hours of work. Experience how AI makes you more efficient!",
-      de: 'Lass ChatGPT-4 alle Wissensfragen beantworten. Deine Prompt-Vorgaben, mit denen du das Thema eines Raumes eingrenzt, sorgen für präzise und personalisierte Antworten. Ein kurzer Faktencheck und du hast dir viele Stunden Arbeit erspart. Erlebe, wie die KI dich effizienter macht!',
-      fr: "Laisse ChatGPT-4 répondre à toutes les questions de connaissance. Tes préconfigurations de prompt, qui te permettent de délimiter le thème d'une salle, fournissent des réponses précises et personnalisées. Une vérification rapide des faits et tu as économisé des heures de travail. Découvre comment l'IA te rend plus efficace !",
+      en: "Let ChatGPT answer all knowledge questions. Your prompt presets, by which you narrow down the topic of a room, provide accurate and personalized answers. A quick fact check and you've saved yourself hours of work. Experience how AI makes you more efficient!",
+      de: 'Lass ChatGPT alle Wissensfragen beantworten. Deine Prompt-Vorgaben, mit denen du das Thema eines Raumes eingrenzt, sorgen für präzise und personalisierte Antworten. Ein kurzer Faktencheck und du hast dir viele Stunden Arbeit erspart. Erlebe, wie die KI dich effizienter macht!',
+      fr: "Laisse ChatGPT répondre à toutes les questions de connaissance. Tes préconfigurations de prompt, qui te permettent de délimiter le thème d'une salle, fournissent des réponses précises et personnalisées. Une vérification rapide des faits et tu as économisé des heures de travail. Découvre comment l'IA te rend plus efficace !",
     },
     images: [
       {
@@ -70,9 +70,9 @@ export const carousel: {
       fr: 'Performance',
     },
     description: {
-      en: 'Free yourself from the traffic on the OpenAI website! We directly query the GPT-4 API. Regardless of the time of day or night, or whether half the world is currently chatting with ChatGPT, the bot always responds quickly and reliably!',
-      de: 'Mach dich unabhängig vom Traffic auf der OpenAI-Website! Wir befragen direkt die GPT-4-API. Egal zu welcher Tages- oder Nachtzeit oder ob die halbe Welt gerade mit ChatGPT chattet, der Bot reagiert stets prompt und zuverlässig!',
-      fr: "Libère-toi du trafic sur le site web d'OpenAI ! Nous utilisons directement l'API GPT-4. Peu importe l'heure du jour ou de la nuit, ou que la moitié du monde soit en train de discuter avec ChatGPT, le bot répond toujours rapidement et de manière fiable !",
+      en: 'Free yourself from the traffic on the OpenAI website! We directly query the OpenAI API. Regardless of the time of day or night, or whether half the world is currently chatting with ChatGPT, the bot always responds quickly and reliably!',
+      de: 'Mach dich unabhängig vom Traffic auf der OpenAI-Website! Wir befragen direkt die OpenAI-API. Egal zu welcher Tages- oder Nachtzeit oder ob die halbe Welt gerade mit ChatGPT chattet, der Bot reagiert stets prompt und zuverlässig!',
+      fr: "Libère-toi du trafic sur le site web d'OpenAI ! Nous utilisons directement l'API OpenAI. Peu importe l'heure du jour ou de la nuit, ou que la moitié du monde soit en train de discuter avec ChatGPT, le bot répond toujours rapidement et de manière fiable !",
     },
     images: [
       {
@@ -554,9 +554,9 @@ export const carousel: {
       fr: 'Crédit en tokens',
     },
     description: {
-      en: 'Optimize the cost of the OpenAI API by using GPT-3.5 Turbo (500,000 words per dollar) instead of GPT-4 (10,000 words per dollar). Use our quota management for token limits by room, month, day, time span, and user role. Take advantage of the OpenAI credit ($5 for three months). Participate as a teacher in our study and receive a $20 monthly bonus. Review and adjust your quota settings to use your credit efficiently.',
-      de: 'Optimiere die Kosten der OpenAI-API, indem du GPT-3.5 Turbo (500.000 Wörter pro Dollar) anstelle von GPT-4 (10.000 Wörter pro Dollar) verwendest. Nutze unsere Kontingentverwaltung für Token-Limits nach Raum, Monat, Tag, Zeitspanne und Benutzerrolle. Nutze das OpenAI-Guthaben (5 Dollar für drei Monate). Nimm als Lehrkraft an unserer Studie teil und erhalte einen monatlichen Bonus von 20 Dollar. Überprüfe deine Quota-Einstellungen und passe sie an, um dein Guthaben effizient zu nutzen.',
-      fr: "Optimise les coûts de l'API OpenAI en utilisant GPT-3.5 Turbo (500.000 mots par dollar) au lieu de GPT-4 (10.000 mots par dollar). Utilise notre gestion des quotas pour les limites de tokens par salle, mois, jour, période et rôle d'utilisateur. Utilise le crédit OpenAI (5 dollars pour trois mois). Participe à notre étude en tant qu'enseignant et reçois un bonus mensuel de 20 dollars. Vérifie tes paramètres de quotas et ajuste-les pour utiliser efficacement ton crédit",
+      en: 'Optimize the cost of the OpenAI API by using GPT-3.5 Turbo (1000,000 words per dollar) instead of GPT-4 Turbo (75,000 words per dollar). Use our quota management for token limits by room, month, day, time span, and user role. Take advantage of the OpenAI credit ($5 for three months). Participate as a teacher in our study and receive a $20 monthly bonus. Review and adjust your quota settings to use your credit efficiently.',
+      de: 'Optimiere die Kosten der OpenAI-API, indem du GPT-3.5 Turbo (1000.000 Wörter pro Dollar) anstelle von GPT-4 Turbo (75.000 Wörter pro Dollar) verwendest. Nutze unsere Kontingentverwaltung für Token-Limits nach Raum, Monat, Tag, Zeitspanne und Benutzerrolle. Nutze das OpenAI-Guthaben (5 Dollar für drei Monate). Nimm als Lehrkraft an unserer Studie teil und erhalte einen monatlichen Bonus von 20 Dollar. Überprüfe deine Quota-Einstellungen und passe sie an, um dein Guthaben effizient zu nutzen.',
+      fr: "Optimise les coûts de l'API OpenAI en utilisant GPT-3.5 Turbo (1000.000 mots par dollar) au lieu de GPT-4 Turbo (75.000 mots par dollar). Utilise notre gestion des quotas pour les limites de tokens par salle, mois, jour, période et rôle d'utilisateur. Utilise le crédit OpenAI (5 dollars pour trois mois). Participe à notre étude en tant qu'enseignant et reçois un bonus mensuel de 20 dollars. Vérifie tes paramètres de quotas et ajuste-les pour utiliser efficacement ton crédit",
     },
     images: [
       {
