@@ -18,7 +18,7 @@ import { DbConfigService } from '../persistence/lg/db-config.service';
 import { DbMotdService } from '../persistence/lg/db-motd.service';
 import { OnlineStateService } from './online-state.service';
 import { PreferenceStateService } from './preference-state.service';
-import { MotdService } from '../http/motd.service';
+import { MotdAPI, MotdService } from '../http/motd.service';
 import {
   CookieDialogRequest,
   MotdDialogRequest,
