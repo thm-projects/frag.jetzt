@@ -1,145 +1,244 @@
-@startuml room creation
-start
-:Start;
+@startuml Room Creation
+title frag.jetzt | Room Creation Workflow
 
-' Decision: Teacher or Student
-if (1. Are you a teacher or a student?) then (Teacher)
-  :Enter event name;
-  ' Decision: Generate Key Code
-  if (2. Should the key code be generated?) then (yes)
-    :Generate key code;
+skinparam backgroundColor Linen
+skinparam shadowing true
+skinparam defaultFontSize 14
+skinparam defaultFontName Times New Roman
+skinparam Padding 6
+
+' Additional skinparam settings
+skinparam roundcorner 50
+skinparam arrowColor DarkBlue
+skinparam arrowThickness 1.5
+skinparam LegendBackgroundColor White
+skinparam LegendBorderThickness 0
+
+start
+:Click on »Create a Room«;
+' New decision: User Registration
+if (Is the user registered and logged in?) then (yes)
+
+  ' New decision: Activation Code or API Key
+  if (Has an activation code for ChatGPT?) then (yes)
+    :Enter the activation code;
+    :Activate ChatGPT;
+  else if (Has an API key with Organization Id?) then (yes)
+    :Enter the API key with Organization Id;
+    :Activate ChatGPT;
   else (no)
-    :Enter easy-to-remember key code;
   endif
-  ' Decision: Standard or Custom Configuration
-  if (3. Standard configuration or custom configuration?) then (Standard)
-    :Apply standard configuration;
-    :Create Q&A room;
+  note right
+    If ChatGPT is already enabled for this user, skip to role decision.
+  end note
+else (no)
+  :Prompt the user to register if they want to use ChatGPT;
+endif
+
+' Decision: Role
+if (1. Role?) then (Teacher)
+  :Enter the event name;
+  ' Decision: Key Code Generation
+  if (2. Generate a key code?) then (yes)
+    :Generate a key code;
+  else (no)
+    :Enter a memorable key code;
+  endif
+  ' Decision: Configuration Type
+  if (3. Configuration type?) then (Standard)
+    :Apply the standard configuration\nwith all features enabled;
+    note right
+      The standard configuration includes:
+
+      - If possible, ChatGPT enabled for Q&A forum
+      - If possible, AI StudyBuddy enabled
+      - Profanity filter enabled
+      - Keyword generation enabled
+      - Flash polls enabled
+      - Bonus archive enabled
+      - Quiz module enabled
+      - Brainstorming module enabled
+      - Topic Radar module enabled
+      - Topic Focus module enabled
+      - Moderation disabled
+    end note
+    :Create a Q&A room;
   else (Custom)
-    ' Further decisions for custom configuration
-    ' Decision: ChatGPT Availability
-    if (4. Should ChatGPT be available to answer questions?) then (yes)
-      :Activate ChatGPT to answer questions;
-      ' Additional Decision: Chat Room
-      if (5. Should a chat room be offered?) then (yes)
-        :Create Chat Room;
-      endif
-    else (no)
-      :Deactivate ChatGPT;
-    endif
-    ' Decision: Q&A Forum Moderation
-    if (6. Should the Q&A forum be moderated?) then (yes)
-      ' Decision: Allow Conversations
-      if (7. Should conversations be allowed?) then (yes)
-        :Allow conversations;
+    partition "ChatGPT Setup" #Aquamarine {
+      ' Decision: ChatGPT Setup
+      if (4. Can the user set up ChatGPT?) then (yes)
+        ' Decision: ChatGPT Availability
+        if (5. Enable ChatGPT for Q&A forum?) then (yes)
+          :Activate »Let ChatGPT answer questions«;
+          ' Additional Decision: »AI StudyBuddy«
+          if (6. Create »AI StudyBuddy«?) then (yes)
+            :Create »AI StudyBuddy«;
+            if (7. Allow file and picture upload?) then (yes)
+              :Enable file and picture upload feature;
+
+            else (no)
+            endif
+            ' New query: ChatGPT Access
+            if (8. Who can use ChatGPT?) then (only the teacher and moderators)
+              :Restrict access to teacher and moderators;
+            else (also students)
+              :Grant access to students;
+            endif
+
+          endif
+        else (no)
+        endif
       else (no)
-        :Do not allow conversations;
       endif
-    else (no)
-      :Allow conversations;
-    endif
-    ' Decision: Profanity Filter
-    if (8. Should a profanity filter be active?) then (yes)
-      :Activate profanity filter;
-    else (no)
-      :Deactivate profanity filter;
-    endif
-    ' Decision: Keyword Generation
-    if (9. Should keywords be generated from the posts?) then (yes)
-      :Activate keyword generation;
-    else (no)
-      :Deactivate keyword generation;
-    endif
-    ' Decision: Quick Surveys
-    if (10. Should quick surveys be activated?) then (yes)
-      :Activate quick surveys;
-    else (no)
-      :Deactivate quick surveys;
-    endif
-    ' Decision: Bonus Archive
-    if (11. Should a bonus archive be activated?) then (yes)
-      :Activate bonus archive;
-    else (no)
-      :Deactivate bonus archive;
-    endif
-    ' Decision: Quiz Module
-    if (12. Should the quiz module be activated?) then (yes)
-      :Activate quiz module;
-    else (no)
-      :Deactivate quiz module;
-    endif
-    ' Decision: Brainstorming Module
-    if (13. Should the brainstorming module be activated?) then (yes)
-      :Activate brainstorming module;
-    else (no)
-      :Deactivate brainstorming module;
-    endif
-    ' Decision: Topic Radar Module
-    if (14. Should the Topic Radar module be activated?) then (yes)
-      :Activate Topic Radar module;
-    else (no)
-      :Deactivate Topic Radar module;
-    endif
-    ' Decision: Topic Focus Module
-    if (15. Should the Topic Focus module be activated?) then (yes)
-      :Activate Topic Focus module;
-    else (no)
-      :Deactivate Topic Focus module;
-    endif
-    :Create Q&A room;
+    }
+    partition "Q&A Forum Setup" #MintCream {
+      ' Decision: Q&A Forum Moderation
+      if (9. Moderate Q&A forum?) then (yes)
+        :Activate moderation;
+      else (no)
+        :Allow all posts without moderation;
+      endif
+      ' Decision: Profanity Filter
+      if (10. Enable profanity filter?) then (yes)
+        :Activate the profanity filter;
+      else (no)
+        :Deactivate the profanity filter;
+      endif
+      ' Decision: Keyword Generation
+      if (11. Generate keywords from posts?) then (yes)
+        :Activate keyword generation;
+      else (no)
+        :Deactivate keyword generation;
+      endif
+    }
+    partition "Feature Configuration" #MistyRose  {
+      ' Decision: Flash Polls
+      if (12. Enable Flash Polls?) then (yes)
+        :Activate Flash Polls;
+      else (no)
+        :Deactivate Flash Polls;
+      endif
+      ' Decision: Bonus Archive
+      if (13. Enable the bonus archive?) then (yes)
+        :Activate the bonus archive;
+      else (no)
+        :Deactivate the bonus archive;
+      endif
+      ' Decision: Quiz Module
+      if (14. Enable the quiz module?) then (yes)
+        :Activate the quiz module;
+      else (no)
+        :Deactivate the quiz module;
+      endif
+      ' Decision: Brainstorming Module
+      if (15. Enable the brainstorming module?) then (yes)
+        :Activate the brainstorming module;
+      else (no)
+        :Deactivate the brainstorming module;
+      endif
+      ' Decision: Topic Radar Module
+      if (16. Enable the Topic Radar module?) then (yes)
+        :Activate the Topic Radar module;
+      else (no)
+        :Deactivate the Topic Radar module;
+      endif
+      ' Decision: Topic Focus Module
+      if (17. Enable the Topic Focus module?) then (yes)
+        :Activate the Topic Focus module;
+      else (no)
+        :Deactivate the Topic Focus module;
+      endif
+    }
+    :Create a Q&A room;
   endif
 else (Student)
-  :Enter Study room name;
-  ' Decision: Generate Key Code
-  if (2. Should the key code be generated?) then (yes)
-    :Generate key code;
+  :Enter the study room name;
+  ' Decision: Key Code Generation
+  if (2. Generate a key code?) then (yes)
+    :Generate a key code;
   else (no)
-    :Enter easy-to-remember key code;
+    :Enter a memorable key code;
   endif
-  ' Decision: Standard or Custom Configuration
-  if (3. Standard configuration or custom configuration?) then (Standard)
-    :Apply standard configuration;
-    :Create Study room;
+  ' Decision: Configuration Type
+  if (3. Configuration type?) then (Standard)
+    :Apply the standard configuration\nwith most features disabled;
+    note right
+      The standard configuration includes:
+
+      - If possible, ChatGPT enabled for Q&A forum
+      - If possible, AI StudyBuddy enabled
+      - Profanity filter disabled
+      - Keyword generation disabled
+      - Flash polls disabled
+      - Bonus archive disabled
+      - Quiz module disabled
+      - Brainstorming module disabled
+      - Topic Radar module enabled
+      - Topic Focus module enabled
+      - Moderation disabled
+    end note
+    :Create a study room;
   else (Custom)
-    ' Further decisions for custom configuration
-    ' Decision: ChatGPT Availability
-    if (4. Should ChatGPT be available to answer questions?) then (yes)
-      :Activate ChatGPT to answer questions;
-      ' Additional Decision: Chat Room
-      if (5. Should a chat room be offered?) then (yes)
-        :Create Chat Room;
+    partition "ChatGPT Setup" #Aquamarine {
+      ' Further decisions for custom configuration
+      ' Decision: ChatGPT Setup
+      if (4. Can the user set up ChatGPT?) then (yes)
+        ' Decision: ChatGPT Availability
+        if (5. Enable ChatGPT for Q&A forum?) then (yes)
+          :Activate »Let ChatGPT answer questions«;
+          ' Additional Decision: »AI StudyBuddy«
+          if (6. Create »AI StudyBuddy«?) then (yes)
+            :Create »AI StudyBuddy«;
+          endif
+        else (no)
+        endif
+      else (no)
       endif
-    else (no)
-      :Deactivate ChatGPT;
-    endif
-    ' Decision: Keyword Generation
-    if (6. Should keywords be generated from the posts?) then (yes)
-      :Activate keyword generation;
-    else (no)
-      :Deactivate keyword generation;
-    endif
-    ' Decision: Topic Radar Module
-    if (7. Should the Topic Radar module be activated?) then (yes)
-      :Activate Topic
-      Radar module;
-    else (no)
-      :Deactivate Topic Radar module;
-    endif
-    ' Decision: Topic Focus Module
-    if (8. Should the Topic Focus module be activated?) then (yes)
-      :Activate Topic Focus module;
-    else (no)
-      :Deactivate Topic Focus module;
-    endif
-    ' Decision: Brainstorming Module
-    if (9. Should the brainstorming module be activated?) then (yes)
-      :Activate brainstorming module;
-    else (no)
-      :Deactivate brainstorming module;
-    endif
-    :Create Study room;
+    }
+    partition "Q&A Forum Setup" #MintCream {
+      ' Decision: Keyword Generation
+      if (7. Generate keywords from posts?) then (yes)
+        :Activate keyword generation;
+      else (no)
+        :Deactivate keyword generation;
+      endif
+    }
+    partition "Feature Configuration"  #MistyRose {
+      ' Decision: Topic Radar Module
+      if (8. Enable the Topic Radar module?) then (yes)
+        :Activate the Topic Radar module;
+      else (no)
+        :Deactivate the Topic Radar module;
+      endif
+      ' Decision: Topic Focus Module
+      if (9. Enable the Topic Focus module?) then (yes)
+        :Activate the Topic Focus module;
+      else (no)
+        :Deactivate the Topic Focus module;
+      endif
+      ' Decision: Brainstorming Module
+      if (10. Enable the brainstorming module?) then (yes)
+        :Activate the brainstorming module;
+      else (no)
+        :Deactivate the brainstorming module;
+      endif
+    }
+    :Create a study room;
   endif
 endif
 
 stop
+
+legend right
+|<img:https://git.thm.de/arsnova/frag.jetzt/-/raw/staging/src/assets/icons/chat_bot_green.png{scale=0.4}> |= \n\n »frag.jetzt« Room Creation Workflow |
+| Domain glossary | [[https://git.thm.de/arsnova/frag.jetzt/-/raw/staging/docs/diagrams/Glossary.pdf]] |
+| Production server | [[https://frag.jetzt]] |
+| Repository | [[https://git.thm.de/arsnova/frag.jetzt/-/blob/staging/README.md]] |
+| Staging server | [[https://staging.frag.jetzt]] |
+| UML tool| PlantUML v2.17.5|
+| Author| Klaus Quibeldey-Cirkel|
+| Contact| [[mailto:klaus.quibeldey-cirkel@mni.thm.de]] |
+| Last revision| 11/29/2023 |
+end legend
+
 @enduml
