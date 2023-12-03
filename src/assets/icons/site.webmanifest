@@ -1,12 +1,16 @@
 {
   "name": "frag.jetzt",
   "short_name": "frag.jetzt",
-  "description": "Die Digitalisierung des Nachfragens",
+  "description": "Digitalizing the way we ask questions",
   "categories": [
     "ChatGPT",
-    "education",
-    "audience response system",
-    "Q&A"
+    "Education",
+    "Q&A",
+    "Feedback",
+    "Audience Response System",
+    "Personal Learning Environment",
+    "PLE",
+    "ARS"
   ],
   "lang": "de",
   "icons": [
@@ -71,26 +75,26 @@
   "screenshots" : [
     {
       "src": "/assets/images/frag.jetzt_startpage.png",
-      "sizes": "1280x720",
+      "sizes": "720x1280",
       "type": "image/png",
       "platform": "wide",
       "label": "Startpage of frag.jetzt"
     },
     {
       "src": "/assets/images/frag.jetzt_Feedback_room.png",
-      "sizes": "1280x720",
+      "sizes": "720x1280",
       "type": "image/png",
       "platform": "wide",
       "label": "Feedback Room of frag.jetzt"
     },{
       "src": "/assets/images/frag.jetzt_Q&A_forum.png",
-      "sizes": "1280x720",
+      "sizes": "720x1280",
       "type": "image/png",
       "platform": "wide",
       "label": "Q&A Forum of frag.jetzt"
     },{
       "src": "/assets/images/frag.jetzt_ChatGPT_room.png",
-      "sizes": "1280x720",
+      "sizes": "720x1280",
       "type": "image/png",
       "platform": "wide",
       "label": "ChatGPT Room of frag.jetzt"
