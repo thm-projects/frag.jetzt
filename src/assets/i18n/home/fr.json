@@ -1000,7 +1000,17 @@
   },
   "gptchat-info": {
     "title": "ChatGPT",
-    "content": "ChatGPT n'est disponible que dans les salles créées par un utilisateur enregistré. Cette salle a été créée par un invité. Inscris-toi et crée toi-même une salle pour utiliser ChatGPT.\n\nCommence dès maintenant avec un crédit de 5 $. Avec ce crédit, tu peux consommer plusieurs millions de tokens pour des demandes ChatGPT (1 token correspond à environ 5-7 caractères).",
+    "default": "ChatGPT est uniquement disponible dans les salles créées par un utilisateur enregistré. Cette salle a été créée par un invité. Inscrivez-vous et créez votre propre salle pour utiliser ChatGPT.\n\nCommencez maintenant avec un crédit de 5 $. Avec ce crédit, vous pouvez consommer plusieurs millions de jetons pour des requêtes ChatGPT (1 jeton équivaut à environ 5 à 7 caractères).",
+    "blocked": "Vous avez été bloqué et n'avez pas accès à ChatGPT.",
+    "unregisteredNotAllowed": "Vous n'êtes pas enregistré et n'êtes pas autorisé à utiliser ChatGPT.",
+    "noApiKeyNoTrial": "Aucune clé API n'est présente, vous n'utilisez pas d'essai et le créateur de la salle n'est pas enregistré.",
+    "noApiKeyNoGlobalActive": "Aucune clé API n'est présente, aucun essai n'est utilisé et le système global n'est pas actif.",
+    "noApiKeyRestricted": "Aucune clé API n'est présente ou des restrictions globales s'appliquent à l'utilisation de ChatGPT.",
+    "roomDisabled": "ChatGPT n'est pas activé dans cette salle.",
+    "moderatorDisabled": "Vous en tant que modérateur n'avez pas accès à ChatGPT.",
+    "participantDisabled": "Vous en tant que participant n'avez pas accès à ChatGPT.",
+    "usageTimeOver": "La durée d'utilisation est dépassée.",
+    "apiExpired": "L'API a expiré.",
     "cancel": "Fermer"
   }
 }

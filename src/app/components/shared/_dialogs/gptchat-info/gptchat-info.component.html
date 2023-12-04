@@ -1,8 +1,23 @@
 <h3>{{ "gptchat-info.title" | translate }}</h3>
 
 <mat-dialog-content>
-  <app-custom-markdown
-    [data]="'gptchat-info.content' | translate"></app-custom-markdown>
+    <mat-accordion>
+      <ng-container *ngFor="let message of messageCodesFori18n">
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <mat-icon>warning</mat-icon>
+            </mat-panel-title>
+            <mat-panel-description>
+              {{ message | translate }}
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <app-custom-markdown
+            [data]="message | translate">
+          </app-custom-markdown>
+        </mat-expansion-panel>
+      </ng-container>
+    </mat-accordion>
 </mat-dialog-content>
 
 <app-dialog-action-buttons

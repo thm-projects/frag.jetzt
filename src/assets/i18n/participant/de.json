@@ -913,7 +913,17 @@
   },
   "gptchat-info": {
     "title": "ChatGPT",
-    "content": "ChatGPT ist nur in Räumen verfügbar, die von einem registrierten User erstellt wurden. Dieser Raum wurde von einem Gast erstellt. Registriere dich und erstelle selbst einen Raum, um ChatGPT zu nutzen.\n\nStarte jetzt mit einem Guthaben von 5 $. Mit diesem Guthaben kannst du mehrere Millionen Token für ChatGPT-Anfragen verbrauchen (1 Token entspricht in etwa 5-7 Zeichen).",
+    "default": "ChatGPT ist nur in Räumen verfügbar, die von einem registrierten User erstellt wurden. Dieser Raum wurde von einem Gast erstellt. Registriere dich und erstelle selbst einen Raum, um ChatGPT zu nutzen.\n\nStarte jetzt mit einem Guthaben von 5 $. Mit diesem Guthaben kannst du mehrere Millionen Token für ChatGPT-Anfragen verbrauchen (1 Token entspricht in etwa 5-7 Zeichen).",
+    "blocked": "Du wurdest blockiert und hast keinen Zugriff auf ChatGPT.",
+    "unregisteredNotAllowed": "Du bist nicht registriert und hast keine Erlaubnis, ChatGPT zu nutzen.",
+    "noApiKeyNoTrial": "Es ist keine API-Schlüssel vorhanden, du nutzt keine Testversion und der Raum-Ersteller ist nicht registriert",
+    "noApiKeyNoGlobalActive": "Es ist kein API-Schlüssel vorhanden, keine Testversion wird genutzt und das globale System ist nicht aktiv",
+    "noApiKeyRestricted": "Es ist kein API-Schlüssel vorhanden oder es gelten globale Beschränkungen für die Nutzung von ChatGPT.",
+    "roomDisabled": "ChatGPT ist in diesem Raum nicht aktiviert.",
+    "moderatorDisabled": "Du hast als Moderator keinen Zugriff auf ChatGPT.",
+    "participantDisabled": "Du hast als Teilnehmer keinen Zugriff auf ChatGPT.",
+    "usageTimeOver": "Die Nutzungsdauer ist abgelaufen.",
+    "apiExpired": "Die API ist abgelaufen.",
     "cancel": "Schließen"
   }
 }
