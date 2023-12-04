@@ -3,3 +3,26 @@ app-custom-markdown ::ng-deep {
     padding-inline-start: 1.5em;
   }
 }
+
+mat-expansion-panel {
+  background-color: var(--surface);
+  color: var(--on-surface);
+  border: 1px solid var(--on-surface);
+  margin: 4px 0;
+
+  mat-expansion-panel-header {
+    background-color: var(--dialog);
+    color: var(--on-dialog);
+  }
+
+  mat-panel-title, mat-panel-description {
+    color: var(--on-surface);
+  }
+
+  mat-panel-description {
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
