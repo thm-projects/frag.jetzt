@@ -5,24 +5,29 @@ app-custom-markdown ::ng-deep {
 }
 
 mat-expansion-panel {
-  background-color: var(--surface);
-  color: var(--on-surface);
-  border: 1px solid var(--on-surface);
-  margin: 4px 0;
+  background-color: var(--dialog);
+  color: var(--on-dialog);
+
+  border: 1px solid var(--red);
+
+  margin: 4px;
+  padding: 0;
 
   mat-expansion-panel-header {
     background-color: var(--dialog);
     color: var(--on-dialog);
   }
 
-  mat-panel-title, mat-panel-description {
-    color: var(--on-surface);
-  }
-
-  mat-panel-description {
-    text-align: left;
+  mat-panel-title {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+
+    color: var(--on-dialog);
+  }
+
+  mat-panel-description {
+    justify-content: end;
+    color: var(--on-dialog);
   }
 }
