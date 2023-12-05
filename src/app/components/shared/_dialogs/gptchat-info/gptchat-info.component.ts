@@ -12,14 +12,13 @@ import { SessionService } from 'app/services/util/session.service';
 })
 
 export class GPTChatInfoComponent implements OnInit {
-  
+
   readonly onCancel = this.cancel.bind(this);
-  
+
   messageCodesFori18n: string[] = [];
 
-  constructor(private dialogRef: MatDialogRef<GPTChatInfoComponent>, 
-    private sessionService: SessionService,
-    private gptService: GptService,) {}
+  constructor(private dialogRef: MatDialogRef<GPTChatInfoComponent>,
+    private sessionService: SessionService) { }
 
   static open(dialog: MatDialog) {
     const ref = dialog.open(GPTChatInfoComponent);
@@ -30,31 +29,20 @@ export class GPTChatInfoComponent implements OnInit {
     this.sessionService.getGPTStatusOnce().subscribe((status) => {
       const conditionMap = [
         { condition: status.globalInfo.blocked, key: 'blocked' },
-        { condition: !status.globalInfo.apiKeyPresent, key: 'noApiKeyNoTrial' },
-        { condition: !status.globalInfo.apiEnabled, key: 'noApiKeyNoGlobalActive' },
-        { condition: !status.apiKeyPresent && !status.usingTrial && !status.roomOwnerRegistered, key: 'noApiKeyNoTrial' },
-        { condition: !status.apiKeyPresent && !status.usingTrial && !status.globalInfo.globalActive, key: 'noApiKeyNoGlobalActive' },
-        { condition: !status.apiKeyPresent && status.globalInfo.restricted, key: 'noApiKeyRestricted' },
+        { condition: !status.globalInfo.blocked && status.apiKeyPresent, key: 'noApiKeyNoTrial' },
+        {
+          condition: !status.globalInfo.blocked &&
+            !status.apiKeyPresent &&
+            (status.usingTrial || (status.globalInfo.globalActive && status.roomOwnerRegistered)), key: 'noGlobalQuotaAvailable'
+        },
+        { condition: !status.globalInfo.blocked && !status.apiKeyPresent && !(status.usingTrial || (status.globalInfo.globalActive && status.roomOwnerRegistered)), key: 'noApiKeyNoGlobalQuota' },
         { condition: status.roomDisabled, key: 'roomDisabled' },
-        { condition: status.isMod && status.moderatorDisabled, key: 'moderatorDisabled'},
-        { condition: status.isMod && !status.isOwner && status.participantDisabled, key: 'participantDisabled' },
+        { condition: status.isMod && status.moderatorDisabled, key: 'moderatorDisabled' },
+        { condition: !status.isMod && !status.isOwner && status.participantDisabled, key: 'participantDisabled' },
         { condition: !status.isOwner && status.usageTimeOver, key: 'usageTimeOver' },
-        { condition: status.globalInfo.apiExpired, key: 'apiExpired' },
       ];
-
-      this.sessionService.getRoomOnce().subscribe((room) => {
-        this.gptService.getRoomSetting(room.id).subscribe({
-          next: (roomSetting: GPTRoomSetting) => {
-            // Probably better way to do this
-            conditionMap.push({ condition: !status.globalInfo.registered && !roomSetting.allowsUnregisteredUsers(), key: 'unregisteredNotAllowed' });
-          },
-          error: (err) => {
-            console.log(err);
-          },
-        });
-      });
-
-      this.messageCodesFori18n = conditionMap.filter((condition) => condition.condition).map((condition) => `gptchat-info.${condition.key}`);
+      
+      this.messageCodesFori18n = conditionMap.filter(condition => condition.condition).map(condition => `gptchat-info.${condition.key}`);
       if (this.messageCodesFori18n.length === 0) this.messageCodesFori18n.push('gptchat-info.default');
     });
   }
