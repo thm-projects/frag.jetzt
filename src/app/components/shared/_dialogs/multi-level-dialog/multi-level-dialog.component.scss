@@ -17,19 +17,35 @@
 }
 
 :host ::ng-deep .mat-step-icon {
+  background-color: var(--primary);
+  color: var(--on-primary);
+}
+
+:host ::ng-deep .mat-step-icon-state-number {
   background-color: var(--on-dialog);
   color: var(--dialog);
 }
 
-:host ::ng-deep .mat-step-icon-state-edit,
-:host ::ng-deep .mat-step-icon-selected {
-  background-color: var(--primary);
-  color: var(--on-primary);
+:host ::ng-deep .mat-step-header:has(.mat-step-icon-state-back),
+:host ::ng-deep .mat-step-header:has(.mat-step-icon-state-forward) {
+  cursor: pointer;
 }
 
 :host ::ng-deep .mat-step-label,
 :host ::ng-deep .mat-step-label.mat-step-label-active {
   color: var(--on-surface);
+}
+
+:host ::ng-deep .mat-progress-bar-fill::after {
+  background-color: var(--green);
+}
+
+:host ::ng-deep .mat-progress-bar-buffer {
+  background-color: var(--alt-surface);
+}
+
+:host ::ng-deep .mat-step-optional {
+  display: none;
 }
 
 .button-container {
@@ -64,8 +80,8 @@
   display: flex;
   align-items: center;
 
-  > button {
-    margin-right: auto;
+  app-dialog-action-buttons {
+    flex: 1;
   }
 }
 

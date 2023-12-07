@@ -1,4 +1,4 @@
-import { Component, Injector, Input, OnInit } from '@angular/core';
+import { Component, Injector, Input, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import {
   MultiLevelData,
@@ -6,22 +6,44 @@ import {
 } from './interface/multi-level-dialog.types';
 import { FormGroup } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
+import {
+  STEPPER_GLOBAL_OPTIONS,
+  StepperSelectionEvent,
+} from '@angular/cdk/stepper';
+
+const WINDOW_SIZE = 3;
+
 @Component({
   selector: 'app-multi-level-dialog',
   templateUrl: './multi-level-dialog.component.html',
   styleUrls: ['./multi-level-dialog.component.scss'],
+  providers: [
+    {
+      provide: STEPPER_GLOBAL_OPTIONS,
+      useValue: { displayDefaultIndicatorType: false },
+    },
+  ],
 })
 export class MultiLevelDialogComponent implements OnInit {
+  @ViewChild('stepper') stepper: MatStepper;
   @Input() data: MultiLevelData;
   elements: MultiLevelDataBuiltAction[] = [];
+  currentElements: MultiLevelDataBuiltAction[] = [];
   readonly onClose = this.close.bind(this);
-  remaining: [number, number] = [0, 0];
+  remaining: number = 0;
+  currentStepperIndex = 0;
+  showBackOption = false;
+  showForwardOption = false;
+  offsetIndex = 0;
+  highestIndex = -1;
+  readonly windowSize = WINDOW_SIZE;
   private createdIndexes: number[] = [];
   private answers: { [key: string]: FormGroup } = {};
   private readonly removedCache = new Map<string, MultiLevelDataBuiltAction>();
 
   constructor(
     private dialogRef: MatDialogRef<MultiLevelDialogComponent>,
+    private dialog: MatDialog,
     private injector: Injector,
   ) {}
 
@@ -30,6 +52,7 @@ export class MultiLevelDialogComponent implements OnInit {
       width: '85vw',
       maxWidth: '600px',
       maxHeight: '99vh',
+      panelClass: 'overflow-mat-dialog',
     });
     dialogRef.componentInstance.data = data;
     return dialogRef;
@@ -37,28 +60,69 @@ export class MultiLevelDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.verify(-1);
+    this.updateView();
   }
 
-  checkIt(index: number, stepper: MatStepper) {
+  next(index: number) {
     const group = this.elements[index].group;
     group.markAllAsTouched();
     if (group.invalid) {
       return;
     }
+    this.highestIndex = index;
+    this.currentStepperIndex++;
     this.verify(index);
-    requestAnimationFrame(() => {
-      stepper.next();
-    });
   }
 
-  openHelp() {}
+  openHelp() {
+    this.dialog.open(this.data.helpComponent);
+  }
 
-  reset(stepper: MatStepper) {
-    stepper.reset();
+  onChange(e: StepperSelectionEvent) {
+    this.currentStepperIndex = e.selectedIndex;
+    if (this.showBackOption && e.selectedIndex === 0) {
+      const last = this.offsetIndex;
+      this.offsetIndex = Math.max(this.offsetIndex - WINDOW_SIZE, 0);
+      this.currentStepperIndex =
+        last - this.offsetIndex + Number(this.offsetIndex > 0) - 1;
+      this.updateView();
+      requestAnimationFrame(() => {
+        for (
+          let i = this.currentStepperIndex - this.stepper.selectedIndex;
+          i > 0;
+          i--
+        ) {
+          this.stepper.next();
+        }
+      });
+    }
+    if (
+      this.showForwardOption &&
+      e.selectedIndex === WINDOW_SIZE + Number(this.showBackOption)
+    ) {
+      const index =
+        e.selectedIndex - Number(this.showBackOption) + this.offsetIndex;
+      if (index > this.highestIndex) {
+        this.verify(index);
+      }
+      const last = this.offsetIndex;
+      this.offsetIndex = Math.min(
+        this.offsetIndex + WINDOW_SIZE,
+        this.elements.length - WINDOW_SIZE,
+      );
+      this.currentStepperIndex = WINDOW_SIZE + 1 + last - this.offsetIndex;
+      this.updateView();
+    }
+  }
+
+  reset() {
+    this.stepper.reset();
     this.answers = {};
     this.removedCache.clear();
     this.elements.length = 0;
     this.createdIndexes.length = 0;
+    this.currentStepperIndex = 0;
+    this.highestIndex = -1;
     this.verify(-1);
   }
 
@@ -70,16 +134,28 @@ export class MultiLevelDialogComponent implements OnInit {
     this.dialogRef.close();
   }
 
+  private updateView() {
+    this.showBackOption = this.offsetIndex > 0;
+    this.showForwardOption =
+      this.offsetIndex < this.elements.length - WINDOW_SIZE;
+    this.currentElements = this.elements.slice(
+      this.offsetIndex,
+      this.offsetIndex + WINDOW_SIZE,
+    );
+  }
+
   private verify(elementIndex: number) {
     const first = this.createdIndexes[elementIndex++] ?? -1;
     const questions = this.data.questions;
-    this.remaining[0] = questions.length - first - 1;
-    this.remaining[1] = 0;
+    this.remaining = 0;
+    let active = 0;
     for (let i = first + 1; i < questions.length; i++) {
       const question = questions[i];
       const isActive = !question.active || question.active(this.answers);
+      const isCounting = !question.count || question.count(this.answers);
       const isMounted = this.createdIndexes[elementIndex] === i;
-      this.remaining[1] += isActive ? 1 : 0;
+      this.remaining += isActive || isCounting ? 1 : 0;
+      active += isActive ? 1 : 0;
       if (isMounted) {
         // mounted, but inactive
         if (!isActive) {
@@ -110,8 +186,9 @@ export class MultiLevelDialogComponent implements OnInit {
         this.answers[question.tag] = element.group;
       }
     }
-    if (this.remaining[1] === 0) {
-      this.remaining[0] = 0;
+    if (active === 0) {
+      this.remaining = 0;
     }
+    this.updateView();
   }
 }

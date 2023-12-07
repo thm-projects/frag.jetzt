@@ -1,30 +1,42 @@
 <h1 mat-dialog-title>
   {{ data.title | translate }}
 </h1>
-<p *ngIf="remaining[0] > 1">
-  {{
-    "multi-level-dialog.remaining"
-      | translate : { uncond: remaining[0], cond: remaining[1] }
-  }}
-</p>
-<p *ngIf="remaining[0] === 1">
-  {{ "multi-level-dialog.one-remaining" | translate }}
-</p>
-<p *ngIf="remaining[0] === 0">
-  {{ "multi-level-dialog.no-remaining" | translate }}
-</p>
+<mat-progress-bar
+  mode="determinate"
+  [value]="((highestIndex + 1) * 100) / elements.length"></mat-progress-bar>
 
 <div class="multi-level-container">
   <mat-dialog-content>
     <mat-stepper
+      (selectionChange)="onChange($event)"
       orientation="vertical"
       [linear]="true"
+      [selectedIndex]="currentStepperIndex"
       #stepper>
       <mat-step
-        *ngFor="let elem of elements; let isFirst = first; let i = index"
-        [stepControl]="elem.group">
+        class="test"
+        state="back"
+        *ngIf="showBackOption"
+        [optional]="true">
+        <ng-template matStepLabel>
+          {{
+            "multi-level-dialog.range"
+              | translate : { start: 1, end: offsetIndex }
+          }}
+        </ng-template>
+      </mat-step>
+      <mat-step
+        *ngFor="let elem of currentElements; let isFirst = first; let i = index"
+        [stepControl]="elem.group"
+        [completed]="
+          i + offsetIndex <= highestIndex &&
+          currentStepperIndex !== i + +showBackOption
+        "
+        [editable]="true">
         <form [formGroup]="elem.group">
-          <ng-template matStepLabel>{{ elem.title | translate }}</ng-template>
+          <ng-template matStepLabel>
+            {{ elem.title | translate }}
+          </ng-template>
           <ng-container *ngFor="let input of elem.config">
             <ng-container
               *ngComponentOutlet="
@@ -34,7 +46,7 @@
           </ng-container>
           <div>
             <button
-              *ngIf="!isFirst"
+              *ngIf="!isFirst || showBackOption"
               class="mat-prev"
               mat-stroked-button
               matStepperPrevious>
@@ -43,13 +55,29 @@
             <button
               class="mat-primary"
               mat-stroked-button
-              (click)="checkIt(i, stepper)">
+              (click)="next(i + offsetIndex)">
               {{ "multi-level-dialog.next" | translate }}
             </button>
           </div>
         </form>
       </mat-step>
-      <mat-step>
+      <mat-step
+        *ngIf="showForwardOption"
+        state="forward"
+        [completed]="false">
+        <ng-template matStepLabel>
+          {{
+            "multi-level-dialog.range"
+              | translate
+                : { start: offsetIndex + windowSize, end: elements.length }
+          }}
+        </ng-template>
+      </mat-step>
+      <mat-step
+        *ngIf="!showForwardOption"
+        state="summary"
+        [editable]="false"
+        [completed]="false">
         <ng-template matStepLabel>
           {{ "multi-level-dialog.complete" | translate }}
         </ng-template>
@@ -65,7 +93,7 @@
             <button
               class="mat-warning"
               mat-stroked-button
-              (click)="reset(stepper)">
+              (click)="reset()">
               {{ "multi-level-dialog.complete-reset" | translate }}
             </button>
             <button
@@ -77,12 +105,28 @@
           </div>
         </div>
       </mat-step>
+
+      <ng-template matStepperIcon="summary">
+        <mat-icon>summarize</mat-icon>
+      </ng-template>
+      <ng-template matStepperIcon="back">
+        <mat-icon>arrow_back</mat-icon>
+      </ng-template>
+      <ng-template matStepperIcon="forward">
+        <mat-icon>arrow_forward</mat-icon>
+      </ng-template>
+      <ng-template
+        matStepperIcon="number"
+        let-index="index">
+        {{ index + offsetIndex + +!showBackOption }}
+      </ng-template>
     </mat-stepper>
   </mat-dialog-content>
 </div>
 
 <div class="bottom-container">
   <button
+    *ngIf="data.helpComponent"
     mat-flat-button
     class="help-button"
     (click)="openHelp()">

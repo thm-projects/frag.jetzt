@@ -102,7 +102,10 @@ export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData = {
     {
       tag: 'event',
       title: 'ml-room-create.q-t1-header',
-      active: (answers) => answers.role.value['role-select'] === 'teacher',
+      active: (answers) =>
+        answers.role && answers.role.value['role-select'] === 'teacher',
+      count: (answers) =>
+        !answers.role || answers.role.value['role-select'] !== 'student',
       buildAction(_injector, _answers, previousState) {
         return buildInput(
           this,
@@ -151,7 +154,10 @@ export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData = {
     {
       tag: 'event',
       title: 'ml-room-create.q-s1-header',
-      active: (answers) => answers.role.value['role-select'] === 'student',
+      active: (answers) =>
+        answers.role && answers.role.value['role-select'] === 'student',
+      count: (answers) =>
+        !answers.role || answers.role.value['role-select'] !== 'teacher',
       buildAction(_injector, _answers, previousState) {
         return buildInput(
           this,
@@ -200,7 +206,7 @@ export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData = {
     {
       tag: 'code',
       title: 'ml-room-create.q-2-header',
-      active: (answers) => answers.event.value.code,
+      active: (answers) => answers.event && answers.event.value.code,
       buildAction(injector, _answers, previousState) {
         if (previousState) return previousState;
         return buildInput(
@@ -236,8 +242,12 @@ export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData = {
       tag: 'general',
       title: 'ml-room-create.q-t3-header',
       active: (answers) =>
+        answers.role &&
+        answers.event &&
         answers.role.value['role-select'] === 'teacher' &&
         !answers.event.value.settings,
+      count: (answers) =>
+        !answers.role || answers.role.value['role-select'] !== 'student',
       buildAction(_injector, _answers, previousState) {
         return buildInput(
           this,
@@ -287,8 +297,12 @@ export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData = {
       tag: 'general',
       title: 'ml-room-create.q-s3-header',
       active: (answers) =>
+        answers.role &&
+        answers.event &&
         answers.role.value['role-select'] === 'student' &&
         !answers.event.value.settings,
+      count: (answers) =>
+        !answers.role || answers.role.value['role-select'] !== 'teacher',
       buildAction(_injector, _answers, previousState) {
         return buildInput(
           this,
@@ -317,74 +331,53 @@ export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData = {
     },
     // teacher - 4
     {
-      tag: 'gpt-settings',
+      tag: 'gptSettings',
       title: 'ml-room-create.q-t4-header',
       active: (answers) =>
+        answers.role &&
+        answers.general &&
         answers.role.value['role-select'] === 'teacher' &&
-        answers.general?.value?.gpt,
+        answers.general.value.gpt,
+      count: (answers) =>
+        !answers.role || answers.role.value['role-select'] !== 'student',
       buildAction(_injector, _answers, previousState) {
-        let state = null;
-        state = buildInput(
+        return buildInput(
           this,
           {
             type: 'text',
             value: 'ml-room-create.q-t4-title',
           },
           {
-            type: 'switch',
+            type: 'radio-select',
             tag: 'study-buddy',
-            label: 'ml-room-create.q-t4-study-buddy',
             defaultValue: previousState
               ? previousState.group.get('study-buddy').value
               : DEFAULT_TEACHER.studdyBuddy,
-            validators: [
-              () => {
-                if (state) {
-                  state.group.get('target-group').updateValueAndValidity();
-                }
-                return null;
-              },
-            ],
-          },
-          {
-            type: 'radio-select',
-            tag: 'target-group',
-            label: 'ml-room-create.q-t4-target-group',
-            defaultValue: previousState
-              ? previousState.group.get('target-group')?.value ??
-                DEFAULT_TEACHER.studyBuddyGroup
-              : DEFAULT_TEACHER.studyBuddyGroup,
-            validators: [
-              (control) =>
-                state && state.group.get('study-buddy').value && !control.value
-                  ? { optionRequired: true }
-                  : null,
-            ],
             options: [
               {
-                value: 'teachers',
-                label: 'ml-room-create.a-t4-target-group-teacher',
+                label: 'ml-room-create.a-s4-yes',
+                value: true,
               },
               {
-                value: 'all',
-                label: 'ml-room-create.a-t4-target-group-student',
+                label: 'ml-room-create.a-s4-no',
+                value: false,
               },
             ],
-            errorStates: {
-              optionRequired: 'ml-room-create.e-t4-option-required',
-            },
           },
         );
-        return state;
       },
     },
     // student - 4
     {
-      tag: 'gpt-settings',
+      tag: 'gptSettings',
       title: 'ml-room-create.q-s4-header',
       active: (answers) =>
+        answers.role &&
+        answers.general &&
         answers.role.value['role-select'] === 'student' &&
-        answers.general?.value?.gpt,
+        answers.general.value.gpt,
+      count: (answers) =>
+        !answers.role || answers.role.value['role-select'] !== 'teacher',
       buildAction(_injector, _answers, previousState) {
         let state = null;
         state = buildInput(
@@ -394,12 +387,21 @@ export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData = {
             value: 'ml-room-create.q-s4-title',
           },
           {
-            type: 'switch',
+            type: 'radio-select',
             tag: 'study-buddy',
-            label: 'ml-room-create.q-s4-study-buddy',
             defaultValue: previousState
               ? previousState.group.get('study-buddy').value
               : DEFAULT_STUDENT.studdyBuddy,
+            options: [
+              {
+                label: 'ml-room-create.a-s4-yes',
+                value: true,
+              },
+              {
+                label: 'ml-room-create.a-s4-no',
+                value: false,
+              },
+            ],
           },
         );
         return state;
@@ -407,11 +409,15 @@ export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData = {
     },
     // teacher - 5
     {
-      tag: 'features',
+      tag: 'studyBuddyGroup',
       title: 'ml-room-create.q-t5-header',
       active: (answers) =>
+        answers.role &&
+        answers.gptSettings &&
         answers.role.value['role-select'] === 'teacher' &&
-        !answers.event.value.settings,
+        answers.gptSettings.value['study-buddy'],
+      count: (answers) =>
+        !answers.role || answers.role.value['role-select'] !== 'student',
       buildAction(_injector, _answers, previousState) {
         return buildInput(
           this,
@@ -420,9 +426,49 @@ export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData = {
             value: 'ml-room-create.q-t5-title',
           },
           {
+            type: 'radio-select',
+            tag: 'target-group',
+            label: 'ml-room-create.q-t5-target-group',
+            defaultValue: previousState
+              ? previousState.group.get('target-group')?.value ??
+                DEFAULT_TEACHER.studyBuddyGroup
+              : DEFAULT_TEACHER.studyBuddyGroup,
+            options: [
+              {
+                value: 'teachers',
+                label: 'ml-room-create.a-t5-target-group-teacher',
+              },
+              {
+                value: 'all',
+                label: 'ml-room-create.a-t5-target-group-student',
+              },
+            ],
+          },
+        );
+      },
+    },
+    // teacher - 6
+    {
+      tag: 'features',
+      title: 'ml-room-create.q-t6-header',
+      active: (answers) =>
+        answers.role &&
+        answers.event &&
+        answers.role.value['role-select'] === 'teacher' &&
+        !answers.event.value.settings,
+      count: (answers) =>
+        !answers.role || answers.role.value['role-select'] !== 'student',
+      buildAction(_injector, _answers, previousState) {
+        return buildInput(
+          this,
+          {
+            type: 'text',
+            value: 'ml-room-create.q-t6-title',
+          },
+          {
             type: 'switch',
             tag: 'flash-poll',
-            label: 'ml-room-create.q-t5-flash-poll',
+            label: 'ml-room-create.q-t6-flash-poll',
             defaultValue: previousState
               ? previousState.group.get('flash-poll')?.value ??
                 DEFAULT_TEACHER.flashPoll
@@ -431,7 +477,7 @@ export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData = {
           {
             type: 'switch',
             tag: 'bonus-archive',
-            label: 'ml-room-create.q-t5-bonus-archive',
+            label: 'ml-room-create.q-t6-bonus-archive',
             defaultValue: previousState
               ? previousState.group.get('bonus-archive')?.value ??
                 DEFAULT_TEACHER.bonusArchive
@@ -440,7 +486,7 @@ export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData = {
           {
             type: 'switch',
             tag: 'quiz',
-            label: 'ml-room-create.q-t5-quiz',
+            label: 'ml-room-create.q-t6-quiz',
             defaultValue: previousState
               ? previousState.group.get('quiz')?.value ?? DEFAULT_TEACHER.quiz
               : DEFAULT_TEACHER.quiz,
@@ -448,7 +494,7 @@ export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData = {
           {
             type: 'switch',
             tag: 'brainstorming',
-            label: 'ml-room-create.q-t5-brainstorming',
+            label: 'ml-room-create.q-t6-brainstorming',
             defaultValue: previousState
               ? previousState.group.get('brainstorming').value
               : DEFAULT_TEACHER.brainstorming,
@@ -456,7 +502,7 @@ export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData = {
           {
             type: 'switch',
             tag: 'radar',
-            label: 'ml-room-create.q-t5-radar',
+            label: 'ml-room-create.q-t6-radar',
             defaultValue: previousState
               ? previousState.group.get('radar').value
               : DEFAULT_TEACHER.radar,
@@ -464,7 +510,7 @@ export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData = {
           {
             type: 'switch',
             tag: 'focus',
-            label: 'ml-room-create.q-t5-focus',
+            label: 'ml-room-create.q-t6-focus',
             defaultValue: previousState
               ? previousState.group.get('focus').value
               : DEFAULT_TEACHER.focus,
@@ -477,8 +523,12 @@ export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData = {
       tag: 'features',
       title: 'ml-room-create.q-s5-header',
       active: (answers) =>
+        answers.role &&
+        answers.event &&
         answers.role.value['role-select'] === 'student' &&
         !answers.event.value.settings,
+      count: (answers) =>
+        !answers.role || answers.role.value['role-select'] !== 'teacher',
       buildAction(_injector, _answers, previousState) {
         return buildInput(
           this,
@@ -489,7 +539,7 @@ export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData = {
           {
             type: 'switch',
             tag: 'radar',
-            label: 'ml-room-create.q-t5-radar',
+            label: 'ml-room-create.q-s5-radar',
             defaultValue: previousState
               ? previousState.group.get('radar').value
               : DEFAULT_STUDENT.radar,
@@ -497,7 +547,7 @@ export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData = {
           {
             type: 'switch',
             tag: 'focus',
-            label: 'ml-room-create.q-t5-focus',
+            label: 'ml-room-create.q-s5-focus',
             defaultValue: previousState
               ? previousState.group.get('focus').value
               : DEFAULT_STUDENT.focus,
@@ -505,7 +555,7 @@ export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData = {
           {
             type: 'switch',
             tag: 'brainstorming',
-            label: 'ml-room-create.q-t5-brainstorming',
+            label: 'ml-room-create.q-s5-brainstorming',
             defaultValue: previousState
               ? previousState.group.get('brainstorming').value
               : DEFAULT_STUDENT.brainstorming,

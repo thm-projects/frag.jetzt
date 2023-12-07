@@ -638,3 +638,7 @@ div[markdown] img {
   display: inline-block;
   line-height: 0.75;
 }
+
+.overflow-mat-dialog .mat-dialog-container {
+  overflow: visible;
+}

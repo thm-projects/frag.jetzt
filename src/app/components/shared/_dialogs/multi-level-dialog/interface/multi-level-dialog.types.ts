@@ -11,6 +11,7 @@ export interface MultiLevelDataEntry {
   tag: string;
   title: string;
   active?: (answers: AnsweredMultiLevelData) => boolean;
+  count?: (answers: AnsweredMultiLevelData) => boolean;
   buildAction: (
     injector: Injector,
     answers: AnsweredMultiLevelData,
@@ -27,6 +28,7 @@ export interface MultiLevelData {
   title: string;
   buttonSection: string;
   confirmKey: string;
+  helpComponent?: any;
   questions: MultiLevelDataEntry[];
 }
 
