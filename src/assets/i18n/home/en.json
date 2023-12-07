@@ -1000,24 +1000,20 @@
   },
   "gptchat-info": {
     "title": "ChatGPT",
-    "default-title": "Access Status",
-    "default-description": "Your ChatGPT access status is currently unavailable.",
-    "blocked-title": "Blocked Access",
+    "blocked-title": "Access to ChatGPT Blocked",
     "blocked-description": "Your access to ChatGPT has been blocked. Please contact support for assistance.",
-    "noApiKeyNoTrial-title": "No Access Available",
-    "noApiKeyNoTrial-description": "Access to ChatGPT is not available without an API key or trial. Obtain one to start using ChatGPT's features.",
-    "noGlobalQuotaAvailable-title": "Access Limitation",
-    "noGlobalQuotaAvailable-description": "ChatGPT access is currently restricted due to limitations. Please try again later.",
-    "noApiKeyNoGlobalQuota-title": "Access Unavailable",
-    "noApiKeyNoGlobalQuota-description": "You're unable to access ChatGPT without an API key or global quota. Obtain access credentials to use ChatGPT.",
-    "roomDisabled-title": "Room Access Disabled",
-    "roomDisabled-description": "Access to ChatGPT is disabled in this room at the moment. Check back later for access.",
-    "moderatorDisabled-title": "Moderator Access Disabled",
-    "moderatorDisabled-description": "Moderators currently don't have access to ChatGPT. Apologies for the inconvenience.",
-    "participantDisabled-title": "Participant Access Disabled",
-    "participantDisabled-description": "Participants currently don't have access to ChatGPT. Please try again later.",
+    "noGlobalQuotaAvailable-title": "No Global Quota Available",
+    "noGlobalQuotaAvailable-description": "Access to ChatGPT is currently not possible due to global quota restrictions. Please try again later.",
+    "NoApiKey-title": "No API Key Set",
+    "NoApiKey-description": "An API key is required to access ChatGPT. Please set one to proceed.",
+    "roomDisabled-title": "Room Access Temporarily Disabled",
+    "roomDisabled-description": "The quota limit for this room has been reached, so ChatGPT has been temporarily disabled.",
+    "moderatorDisabled-title": "Moderator Access Temporarily Disabled",
+    "moderatorDisabled-description": "The quota limit for moderators of this room has been reached, leading to the temporary deactivation of ChatGPT.",
+    "participantDisabled-title": "Participant Access Temporarily Disabled",
+    "participantDisabled-description": "The quota limit for participants in this room has been reached, resulting in the temporary shutdown of ChatGPT.",
     "usageTimeOver-title": "Usage Time Expired",
-    "usageTimeOver-description": "Your allotted time to use ChatGPT has expired. Renew access for continued usage.",
-    "cancel": "Close"
-  } 
+    "usageTimeOver-description": "The allowed usage time for ChatGPT has expired.",
+    "cancel": "Cancel"
+  }
 }
