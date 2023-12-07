@@ -5,6 +5,7 @@ import {
   catchError,
   concat,
   distinctUntilChanged,
+  filter,
   forkJoin,
   from,
   map,
@@ -29,7 +30,9 @@ import { GptService } from '../http/gpt.service';
 import { OnlineStateService } from './online-state.service';
 import {
   LoginDialogRequest,
+  MotdDialogRequest,
   callServiceEvent,
+  sendEvent,
 } from 'app/utils/service-component-events';
 import { KeycloakService, TokenReturn } from '../util/keycloak.service';
 import { AppStateService } from './app-state.service';
@@ -37,6 +40,9 @@ import { RoomAccess } from '../persistence/lg/db-room-acces.model';
 import { ReadMotd } from '../persistence/lg/db-read-motd.model';
 import { EventService } from '../util/event.service';
 import { Router } from '@angular/router';
+import { send } from 'process';
+import { Motd } from 'app/models/motd';
+import { InitService } from '../util/init.service';
 
 @Injectable({
   providedIn: 'root',
@@ -63,6 +69,7 @@ export class AccountStateService {
     private keycloak: KeycloakService,
     private appState: AppStateService,
     private eventService: EventService,
+    private initService: InitService,
     private router: Router,
   ) {
     this.user$ = concat(this.loadUser(), this.updateUser$).pipe(
@@ -128,7 +135,20 @@ export class AccountStateService {
       shareReplay(1),
     );
     // Side effects
-    // TODO: Read Motds => motd dialog
+    // Read Motds => motd dialog
+    this.initService.init$.subscribe(() => {
+      this.unreadMotds$
+        .pipe(
+          filter((unread) => unread),
+          take(1),
+        )
+        .subscribe((unread) => {
+          sendEvent(
+            this.eventService,
+            new MotdDialogRequest(this.appState.getCurrentMotds()),
+          );
+        });
+    });
   }
 
   isInitialized(): boolean {
