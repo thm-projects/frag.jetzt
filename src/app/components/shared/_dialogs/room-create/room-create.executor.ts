@@ -85,9 +85,15 @@ export const generateRoom = (
           .subscribe((msg) => notification.show(msg));
         accountState
           .setAccess(room.shortId, room.id, UserRole.CREATOR)
+          .pipe(
+            tap(() => {
+              accountState.updateAccess(room.shortId);
+              router.navigate([
+                '/creator/room/' + encodeURIComponent(room.shortId),
+              ]);
+            }),
+          )
           .subscribe();
-        accountState.updateAccess(room.shortId);
-        router.navigate(['/creator/room/' + encodeURIComponent(room.shortId)]);
       }),
     );
 };
