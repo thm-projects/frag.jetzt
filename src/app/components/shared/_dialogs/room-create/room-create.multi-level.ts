@@ -5,6 +5,7 @@ import {
 } from '../multi-level-dialog/interface/multi-level-dialog.types';
 import { RoomService } from 'app/services/http/room.service';
 import { Observable, catchError, map, of } from 'rxjs';
+import { HelpRoomCreateComponent } from './help-room-create/help-room-create.component';
 
 interface DefaultConfig {
   chatgpt: boolean;
@@ -21,7 +22,7 @@ interface DefaultConfig {
   moderation: boolean;
 }
 
-const DEFAULT_TEACHER: DefaultConfig = {
+export const DEFAULT_TEACHER: DefaultConfig = {
   chatgpt: true,
   studdyBuddy: true,
   studyBuddyGroup: 'teachers',
@@ -36,7 +37,7 @@ const DEFAULT_TEACHER: DefaultConfig = {
   moderation: false,
 };
 
-const DEFAULT_STUDENT: DefaultConfig = {
+export const DEFAULT_STUDENT: DefaultConfig = {
   chatgpt: true,
   studdyBuddy: true,
   studyBuddyGroup: 'all',
@@ -70,6 +71,7 @@ export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData = {
   title: 'ml-room-create.title',
   buttonSection: 'ml-room-create',
   confirmKey: 'create',
+  helpComponent: HelpRoomCreateComponent,
   questions: [
     {
       tag: 'role',
@@ -124,11 +126,13 @@ export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData = {
               Validators.required,
               Validators.minLength(3),
               Validators.maxLength(30),
+              Validators.pattern('\\S+.*\\S+'),
             ],
             errorStates: {
               required: 'ml-room-create.e-t1-required',
               minlength: 'ml-room-create.e-t1-minlength',
               maxlength: 'ml-room-create.e-t1-maxlength',
+              pattern: 'ml-room-create.e-t1-pattern',
             },
           },
           {
@@ -176,11 +180,13 @@ export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData = {
               Validators.required,
               Validators.minLength(3),
               Validators.maxLength(30),
+              Validators.pattern('\\S+.*\\S+'),
             ],
             errorStates: {
               required: 'ml-room-create.e-s1-required',
               minlength: 'ml-room-create.e-s1-minlength',
               maxlength: 'ml-room-create.e-s1-maxlength',
+              pattern: 'ml-room-create.e-s1-pattern',
             },
           },
           {

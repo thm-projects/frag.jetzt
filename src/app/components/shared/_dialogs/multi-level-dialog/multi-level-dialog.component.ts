@@ -1,6 +1,7 @@
 import { Component, Injector, Input, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import {
+  AnsweredMultiLevelData,
   MultiLevelData,
   MultiLevelDataBuiltAction,
 } from './interface/multi-level-dialog.types';
@@ -10,8 +11,14 @@ import {
   STEPPER_GLOBAL_OPTIONS,
   StepperSelectionEvent,
 } from '@angular/cdk/stepper';
+import { Observable } from 'rxjs';
 
 const WINDOW_SIZE = 3;
+
+export type MultiLevelDialogSubmit = (
+  injector: Injector,
+  answers: AnsweredMultiLevelData,
+) => Observable<any>;
 
 @Component({
   selector: 'app-multi-level-dialog',
@@ -37,6 +44,8 @@ export class MultiLevelDialogComponent implements OnInit {
   offsetIndex = 0;
   highestIndex = -1;
   readonly windowSize = WINDOW_SIZE;
+  protected sending = false;
+  private onSubmit: MultiLevelDialogSubmit;
   private createdIndexes: number[] = [];
   private answers: { [key: string]: FormGroup } = {};
   private readonly removedCache = new Map<string, MultiLevelDataBuiltAction>();
@@ -47,7 +56,11 @@ export class MultiLevelDialogComponent implements OnInit {
     private injector: Injector,
   ) {}
 
-  public static open(dialog: MatDialog, data: MultiLevelData) {
+  public static open(
+    dialog: MatDialog,
+    data: MultiLevelData,
+    onSubmit: MultiLevelDialogSubmit,
+  ) {
     const dialogRef = dialog.open(MultiLevelDialogComponent, {
       width: '85vw',
       maxWidth: '600px',
@@ -55,6 +68,7 @@ export class MultiLevelDialogComponent implements OnInit {
       panelClass: 'overflow-mat-dialog',
     });
     dialogRef.componentInstance.data = data;
+    dialogRef.componentInstance.onSubmit = onSubmit;
     return dialogRef;
   }
 
@@ -127,7 +141,21 @@ export class MultiLevelDialogComponent implements OnInit {
   }
 
   protected submit() {
-    this.dialogRef.close(this.answers);
+    if (this.sending) {
+      return;
+    }
+    this.sending = true;
+    this.onSubmit(this.injector, this.answers).subscribe({
+      next: (success) => {
+        if (success) {
+          this.dialogRef.close(this.answers);
+        }
+        this.sending = false;
+      },
+      error: () => {
+        this.sending = false;
+      },
+    });
   }
 
   private close() {
@@ -188,6 +216,7 @@ export class MultiLevelDialogComponent implements OnInit {
     }
     if (active === 0) {
       this.remaining = 0;
+      this.highestIndex = this.elements.length - 1;
     }
     this.updateView();
   }

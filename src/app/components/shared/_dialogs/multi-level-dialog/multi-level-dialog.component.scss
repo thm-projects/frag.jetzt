@@ -76,6 +76,10 @@
   margin-inline: 0.15em;
 }
 
+.mat-dialog-content {
+  overflow-y: auto !important;
+}
+
 .bottom-container {
   display: flex;
   align-items: center;

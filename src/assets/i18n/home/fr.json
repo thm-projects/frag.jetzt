@@ -502,6 +502,7 @@
     "complete": "Terminer",
     "complete-text": "Tu as répondu à toutes les questions. Clique sur « Soumettre » pour terminer la configuration. Tu peux aussi revenir en arrière et modifier tes réponses.",
     "complete-reset": "Tout réinitialiser",
+    "single": "Question {{number}}",
     "range": "Questions {{start}} à {{end}}"
   },
   "ml-room-create": {
@@ -518,6 +519,7 @@
     "e-t1-required": "Entre un nom, s'il te plaît.",
     "e-t1-minlength": "Entre au moins 3 caractères.",
     "e-t1-maxlength": "Entre au maximum 30 caractères.",
+    "e-t1-pattern": "Les espaces de début et de fin ne sont pas autorisés.",
     "q-t1-code": "Détermine le code d'accès",
     "q-t1-settings": "Paramètres par défaut",
     "q-s1-header": "Nom de la salle d'étude",
@@ -526,6 +528,7 @@
     "e-s1-required": "Entre un nom, s'il te plaît.",
     "e-s1-minlength": "Entre au moins 3 caractères.",
     "e-s1-maxlength": "Entre au maximum 30 caractères.",
+    "e-s1-pattern": "Les espaces de début et de fin ne sont pas autorisés.",
     "q-s1-code": "Détermine le code d'accès",
     "q-s1-settings": "Paramètres par défaut",
     "q-2-header": "Code de l'événement",
@@ -573,7 +576,10 @@
     "q-s5-title": "Quelles fonctionnalités doivent être activées ?",
     "q-s5-brainstorming": "Activer le brainstorming",
     "q-s5-radar": "Activer le radar de questions",
-    "q-s5-focus": "Activer le focus sur les questions"
+    "q-s5-focus": "Activer le focus sur les questions",
+    "something-went-wrong": "Quelque chose s'est mal passé.",
+    "created": "La salle pour l'événement « {{name}} » a été réservée.",
+    "created-student": "La salle d'étude « {{nom}} » a été réservée."
   },
   "overlay": {
     "cancel": "Quitter l'application",

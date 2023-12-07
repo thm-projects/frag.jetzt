@@ -154,6 +154,10 @@ import { MultiLevelTextInputComponent } from './_dialogs/multi-level-dialog/mult
 import { MultiLevelRadioSelectComponent } from './_dialogs/multi-level-dialog/multi-level-radio-select/multi-level-radio-select.component';
 import { MultiLevelSwitchComponent } from './_dialogs/multi-level-dialog/multi-level-switch/multi-level-switch.component';
 import { MultiLevelTextComponent } from './_dialogs/multi-level-dialog/multi-level-text/multi-level-text.component';
+import { HelpRoomCreateComponent } from './_dialogs/room-create/help-room-create/help-room-create.component';
+import { HelpRoomCreateDeComponent } from './_dialogs/room-create/help-room-create/help-room-create-de/help-room-create-de.component';
+import { HelpRoomCreateEnComponent } from './_dialogs/room-create/help-room-create/help-room-create-en/help-room-create-en.component';
+import { HelpRoomCreateFrComponent } from './_dialogs/room-create/help-room-create/help-room-create-fr/help-room-create-fr.component';
 
 @NgModule({
   imports: [
@@ -310,6 +314,10 @@ import { MultiLevelTextComponent } from './_dialogs/multi-level-dialog/multi-lev
     MultiLevelRadioSelectComponent,
     MultiLevelSwitchComponent,
     MultiLevelTextComponent,
+    HelpRoomCreateComponent,
+    HelpRoomCreateDeComponent,
+    HelpRoomCreateEnComponent,
+    HelpRoomCreateFrComponent,
   ],
   exports: [
     RoomJoinComponent,

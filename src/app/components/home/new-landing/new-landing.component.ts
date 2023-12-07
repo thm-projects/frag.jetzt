@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { RoomCreateComponent } from '../../shared/_dialogs/room-create/room-create.component';
 import { MatDialog } from '@angular/material/dialog';
 import { SessionService } from '../../../services/util/session.service';
 import { MultiLevelDialogComponent } from 'app/components/shared/_dialogs/multi-level-dialog/multi-level-dialog.component';
 import { MULTI_LEVEL_ROOM_CREATE } from 'app/components/shared/_dialogs/room-create/room-create.multi-level';
+import { generateRoom } from 'app/components/shared/_dialogs/room-create/room-create.executor';
 
 @Component({
   selector: 'app-new-landing',
@@ -19,6 +19,10 @@ export class NewLandingComponent implements OnInit {
   ngOnInit() {}
 
   openCreateRoomDialog(): void {
-    MultiLevelDialogComponent.open(this.dialog, MULTI_LEVEL_ROOM_CREATE);
+    MultiLevelDialogComponent.open(
+      this.dialog,
+      MULTI_LEVEL_ROOM_CREATE,
+      generateRoom,
+    );
   }
 }

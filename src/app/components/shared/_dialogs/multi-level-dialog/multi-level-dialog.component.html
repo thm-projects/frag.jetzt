@@ -1,30 +1,40 @@
 <h1 mat-dialog-title>
   {{ data.title | translate }}
 </h1>
-<mat-progress-bar
-  mode="determinate"
-  [value]="((highestIndex + 1) * 100) / elements.length"></mat-progress-bar>
 
 <div class="multi-level-container">
   <mat-dialog-content>
+    <mat-progress-bar
+      mode="determinate"
+      [value]="((highestIndex + 1) * 100) / elements.length"></mat-progress-bar>
     <mat-stepper
       (selectionChange)="onChange($event)"
       orientation="vertical"
       [linear]="true"
       [selectedIndex]="currentStepperIndex"
       #stepper>
+      <!-- Question back stepper -->
       <mat-step
         class="test"
         state="back"
         *ngIf="showBackOption"
-        [optional]="true">
-        <ng-template matStepLabel>
+        [optional]="true"
+        [completed]="false">
+        <ng-template
+          matStepLabel
+          *ngIf="offsetIndex > 1; else firstStepLabel">
           {{
             "multi-level-dialog.range"
               | translate : { start: 1, end: offsetIndex }
           }}
         </ng-template>
+        <ng-template
+          matStepLabel
+          #firstStepLabel>
+          {{ "multi-level-dialog.single" | translate : { number: 1 } }}
+        </ng-template>
       </mat-step>
+      <!-- Dialog steps -->
       <mat-step
         *ngFor="let elem of currentElements; let isFirst = first; let i = index"
         [stepControl]="elem.group"
@@ -61,18 +71,33 @@
           </div>
         </form>
       </mat-step>
+      <!-- Question forward stepper -->
       <mat-step
         *ngIf="showForwardOption"
         state="forward"
         [completed]="false">
-        <ng-template matStepLabel>
+        <ng-template
+          matStepLabel
+          *ngIf="
+            elements.length > offsetIndex + windowSize + 1;
+            else lastStepLabel
+          ">
           {{
             "multi-level-dialog.range"
               | translate
-                : { start: offsetIndex + windowSize, end: elements.length }
+                : { start: offsetIndex + windowSize + 1, end: elements.length }
+          }}
+        </ng-template>
+        <ng-template
+          matStepLabel
+          #lastStepLabel>
+          {{
+            "multi-level-dialog.single"
+              | translate : { number: elements.length }
           }}
         </ng-template>
       </mat-step>
+      <!-- Summary -->
       <mat-step
         *ngIf="!showForwardOption"
         state="summary"
@@ -106,6 +131,7 @@
         </div>
       </mat-step>
 
+      <!-- Icons -->
       <ng-template matStepperIcon="summary">
         <mat-icon>summarize</mat-icon>
       </ng-template>
@@ -135,5 +161,6 @@
   </button>
   <app-dialog-action-buttons
     [buttonsLabelSection]="'multi-level-dialog'"
-    [cancelButtonClickAction]="onClose"></app-dialog-action-buttons>
+    [cancelButtonClickAction]="onClose"
+    [showLoadingCycle]="sending"></app-dialog-action-buttons>
 </div>

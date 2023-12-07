@@ -502,6 +502,7 @@
       "complete": "Abschließen",
       "complete-text": "Du hast alle Fragen beantwortet. Klicke auf »Absenden«, um die Konfiguration zu beenden. Du kannst auch noch einmal zurückgehen und deine Antworten ändern.",
       "complete-reset": "Alles zurücksetzen",
+      "single": "Frage {{number}}",
       "range": "Fragen {{start}} bis {{end}}"
     },
     "ml-room-create": {
@@ -518,6 +519,7 @@
       "e-t1-required": "Bitte gib einen Namen ein.",
       "e-t1-minlength": "Gib mindestens 3 Zeichen ein.",
       "e-t1-maxlength": "Gib maximal 30 Zeichen ein.",
+      "e-t1-pattern": "Keine führenden und folgenden Leerzeichen erlaubt.",
       "q-t1-code": "Zugangscode bestimmen",
       "q-t1-settings": "Standardeinstellungen",
       "q-s1-header": "Studienraumname",
@@ -526,6 +528,7 @@
       "e-s1-required": "Bitte gib einen Namen ein.",
       "e-s1-minlength": "Gib mindestens 3 Zeichen ein.",
       "e-s1-maxlength": "Gib maximal 30 Zeichen ein.",
+      "e-s1-pattern": "Keine führenden und folgenden Leerzeichen erlaubt.",
       "q-s1-code": "Zugangscode bestimmen",
       "q-s1-settings": "Standardeinstellungen",
       "q-2-header": "Veranstaltungscode",
@@ -571,7 +574,10 @@
       "q-s5-title": "Welche Features sollen aktiviert werden?",
       "q-s5-brainstorming": "Brainstorming aktivieren",
       "q-s5-radar": "Fragen-Radar aktivieren",
-      "q-s5-focus": "Fragen-Fokus aktivieren"
+      "q-s5-focus": "Fragen-Fokus aktivieren",
+      "something-went-wrong": "Etwas ist schiefgelaufen.",
+      "created": "Der Raum für die Sitzung »{{name}}« wurde gebucht.",
+      "created-student": "Der Studienraum »{{name}}« wurde gebucht."
     },
   "overlay": {
     "cancel": "App verlassen",

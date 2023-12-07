@@ -502,6 +502,7 @@
     "complete": "Complete",
     "complete-text": "You have answered all the questions. Click »Submit« to finish the configuration. You can also go back and change your answers.",
     "complete-reset": "Reset everything",
+    "single": "Question {{number}}",
     "range": "Questions {{start}} to {{end}}"
   },
   "ml-room-create": {
@@ -518,6 +519,7 @@
     "e-t1-required": "Please enter a name.",
     "e-t1-minlength": "Enter at least 3 characters.",
     "e-t1-maxlength": "Enter no more than 30 characters.",
+    "e-t1-pattern": "No leading and trailing spaces allowed.",
     "q-t1-code": "Determine access code",
     "q-t1-settings": "Default settings",
     "q-s1-header": "Study room name",
@@ -526,6 +528,7 @@
     "e-s1-required": "Please enter a name.",
     "e-s1-minlength": "Enter at least 3 characters.",
     "e-s1-maxlength": "Enter a maximum of 30 characters.",
+    "e-s1-pattern": "No leading and trailing spaces allowed.",
     "q-s1-code": "Determine access code",
     "q-s1-settings": "Default settings",
     "q-2-header": "Event Code",
@@ -573,7 +576,10 @@
     "q-s5-title": "Which features should be activated?",
     "q-s5-brainstorming": "Activate brainstorming",
     "q-s5-radar": "Activate question radar",
-    "q-s5-focus": "Activate question focus"
+    "q-s5-focus": "Activate question focus",
+    "something-went-wrong": "Something went wrong.",
+    "created": "The room for the session »{{name}}« has been booked.",
+    "created-student": "The study room »{{name}}« has been booked."
   },
   "overlay": {
     "cancel": "Exit app",
