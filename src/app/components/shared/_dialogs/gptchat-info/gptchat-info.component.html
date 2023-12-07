@@ -3,17 +3,17 @@
 <mat-dialog-content>
   <mat-accordion>
     <ng-container *ngFor="let message of messageCodesFori18n">
-      <mat-expansion-panel>
+      <mat-expansion-panel [ngClass]="message.severity">
         <mat-expansion-panel-header>
           <mat-panel-title>
-            {{ message + '-title' | translate }}
+            {{ message.key + '-title' | translate }}
           </mat-panel-title>
           <mat-panel-description>
             <mat-icon>error</mat-icon>
           </mat-panel-description>
         </mat-expansion-panel-header>
         <mat-expansion-panel-content>
-          <app-custom-markdown [data]="message + '-description' | translate">
+          <app-custom-markdown [data]="message.key + '-description' | translate">
           </app-custom-markdown>
         </mat-expansion-panel-content>
       </mat-expansion-panel>

@@ -8,7 +8,17 @@ mat-expansion-panel {
   background-color: var(--dialog);
   color: var(--on-dialog);
 
-  border: 1px solid var(--red);
+  &.WARNING {
+    border: 1px solid var(--yellow);
+  }
+
+  &.ERROR {
+    border: 1px solid var(--red);
+  }
+
+  &.INFO {
+    border: 1px solid var(--blue);
+  }
 
   margin: 4px;
   padding: 0;

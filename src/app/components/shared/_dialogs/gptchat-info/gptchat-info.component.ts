@@ -4,6 +4,19 @@ import { Room } from 'app/models/room';
 import { GPTRoomSetting } from 'app/models/gpt-room-setting';
 import { GptService } from 'app/services/http/gpt.service';
 import { SessionService } from 'app/services/util/session.service';
+import { RoomStateService } from 'app/services/state/room-state.service';
+import { takeUntil } from 'rxjs';
+
+enum GPTStatusSeverity {
+  ERROR = 'ERROR',
+  WARNING = 'WARNING',
+  INFO = 'INFO',
+}
+
+interface GPTStatus {
+  key: string;
+  severity: GPTStatusSeverity;
+}
 
 @Component({
   selector: 'app-gptchat-info',
@@ -13,12 +26,24 @@ import { SessionService } from 'app/services/util/session.service';
 
 export class GPTChatInfoComponent implements OnInit {
 
+
   readonly onCancel = this.cancel.bind(this);
 
-  messageCodesFori18n: string[] = [];
+  roles = {
+    participant: false,
+    moderator: false,
+    creator: false,
+  };
+
+  messageCodesFori18n: GPTStatus[] = [];
 
   constructor(private dialogRef: MatDialogRef<GPTChatInfoComponent>,
-    private sessionService: SessionService) { }
+    private sessionService: SessionService,
+    private roomStateService: RoomStateService) {
+      roomStateService.assignedRole$.pipe(takeUntil(dialogRef.afterClosed())).subscribe((role) => {
+        this.roles[role.toLowerCase()] = true;
+      });
+    }
 
   static open(dialog: MatDialog) {
     const ref = dialog.open(GPTChatInfoComponent);
@@ -28,22 +53,23 @@ export class GPTChatInfoComponent implements OnInit {
   ngOnInit(): void {
     this.sessionService.getGPTStatusOnce().subscribe((status) => {
       const conditionMap = [
-        { condition: status.globalInfo.blocked, key: 'blocked' },
-        { condition: !status.globalInfo.blocked && status.apiKeyPresent, key: 'noApiKeyNoTrial' },
+        { condition: status.globalInfo.blocked, key: 'blocked', severity: GPTStatusSeverity.ERROR },
         {
           condition: !status.globalInfo.blocked &&
             !status.apiKeyPresent &&
             (status.usingTrial || (status.globalInfo.globalActive && status.roomOwnerRegistered)), key: 'noGlobalQuotaAvailable'
         },
-        { condition: !status.globalInfo.blocked && !status.apiKeyPresent && !(status.usingTrial || (status.globalInfo.globalActive && status.roomOwnerRegistered)), key: 'noApiKeyNoGlobalQuota' },
+        { condition: !status.globalInfo.blocked && !status.apiKeyPresent && !(status.usingTrial || (status.globalInfo.globalActive && status.roomOwnerRegistered)), key: 'NoApiKey' },
         { condition: status.roomDisabled, key: 'roomDisabled' },
-        { condition: status.isMod && status.moderatorDisabled, key: 'moderatorDisabled' },
-        { condition: !status.isMod && !status.isOwner && status.participantDisabled, key: 'participantDisabled' },
-        { condition: !status.isOwner && status.usageTimeOver, key: 'usageTimeOver' },
+        { condition: this.roles.moderator && status.moderatorDisabled, key: 'moderatorDisabled' },
+        { condition: this.roles.participant && status.participantDisabled, key: 'participantDisabled' },
+        { condition: !this.roles.creator && status.usageTimeOver, key: 'usageTimeOver' },
       ];
       
-      this.messageCodesFori18n = conditionMap.filter(condition => condition.condition).map(condition => `gptchat-info.${condition.key}`);
-      if (this.messageCodesFori18n.length === 0) this.messageCodesFori18n.push('gptchat-info.default');
+      this.messageCodesFori18n = conditionMap.filter((condition) => condition.condition).map((condition) => ({ key: `gptchat-info.${condition.key}`, severity: condition.severity || GPTStatusSeverity.WARNING }));
+      if (this.messageCodesFori18n.length === 0) this.messageCodesFori18n.push({ key: 'gptchat-info.default', severity: GPTStatusSeverity.INFO });
+
+      console.log(this.messageCodesFori18n)
     });
   }
 
