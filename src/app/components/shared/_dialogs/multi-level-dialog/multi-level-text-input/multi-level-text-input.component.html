@@ -4,9 +4,17 @@
     appAccessibilityEscapedInput
     autofocus
     matInput
-    type="text"
+    [type]="hidden ? 'password' : 'text'"
     [placeholder]="data.placeholder | translate"
     [formControl]="data.control" />
+  <button
+    *ngIf="initialHidden"
+    mat-icon-button
+    matSuffix
+    (click)="hidden = !hidden"
+    [attr.aria-pressed]="hidden">
+    <mat-icon>{{ hidden ? "visibility_off" : "visibility" }}</mat-icon>
+  </button>
   <mat-hint *ngIf="data.hint && !data.control.invalid">
     {{ data.hint | translate }}
   </mat-hint>

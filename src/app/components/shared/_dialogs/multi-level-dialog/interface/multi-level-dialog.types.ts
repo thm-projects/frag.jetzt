@@ -4,19 +4,26 @@ import { MultiLevelRadioSelectComponent } from '../multi-level-radio-select/mult
 import { MultiLevelTextInputComponent } from '../multi-level-text-input/multi-level-text-input.component';
 import { MultiLevelSwitchComponent } from '../multi-level-switch/multi-level-switch.component';
 import { MultiLevelTextComponent } from '../multi-level-text/multi-level-text.component';
+import { Observable } from 'rxjs';
 
 export type AnsweredMultiLevelData = Record<string, FormGroup>;
 
 export interface MultiLevelDataEntry {
   tag: string;
   title: string;
-  active?: (answers: AnsweredMultiLevelData) => boolean;
-  count?: (answers: AnsweredMultiLevelData) => boolean;
+  active?: (
+    answers: AnsweredMultiLevelData,
+    injector: Injector,
+  ) => boolean | Observable<boolean>;
+  count?: (
+    answers: AnsweredMultiLevelData,
+    injector: Injector,
+  ) => boolean | Observable<boolean>;
   buildAction: (
     injector: Injector,
     answers: AnsweredMultiLevelData,
     previousState?: MultiLevelDataBuiltAction,
-  ) => MultiLevelDataBuiltAction;
+  ) => MultiLevelDataBuiltAction | Observable<MultiLevelDataBuiltAction>;
 }
 
 export interface MultiLevelDataBuiltAction extends MultiLevelDataEntry {
@@ -66,6 +73,7 @@ export interface TextInputAction extends BaseAction {
   type: 'text-input';
   defaultValue?: string;
   placeholder?: string;
+  hidden?: boolean;
 }
 
 export interface TextAction {

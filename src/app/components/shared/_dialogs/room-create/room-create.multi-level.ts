@@ -4,8 +4,9 @@ import {
   buildInput,
 } from '../multi-level-dialog/interface/multi-level-dialog.types';
 import { RoomService } from 'app/services/http/room.service';
-import { Observable, catchError, map, of } from 'rxjs';
+import { Observable, catchError, map, of, switchMap, take } from 'rxjs';
 import { HelpRoomCreateComponent } from './help-room-create/help-room-create.component';
+import { AccountStateService } from 'app/services/state/account-state.service';
 
 interface DefaultConfig {
   chatgpt: boolean;
@@ -52,19 +53,23 @@ export const DEFAULT_STUDENT: DefaultConfig = {
   moderation: false,
 };
 
-const buildValidator = (roomService: RoomService) => {
+const buildValidator = (
+  roomService: RoomService,
+  account: AccountStateService,
+) => {
   return (control: FormControl): Observable<{ alreadyUsed: boolean }> =>
-    roomService
-      .getErrorHandledRoomByShortId(control.value, () => '')
-      .pipe(
-        map((room) => {
-          if (room) {
-            return { alreadyUsed: true };
-          }
-          return null;
-        }),
-        catchError(() => of(null)),
-      );
+    account.forceLogin().pipe(
+      switchMap(() =>
+        roomService.getErrorHandledRoomByShortId(control.value, () => ''),
+      ),
+      map((room) => {
+        if (room) {
+          return { alreadyUsed: true };
+        }
+        return null;
+      }),
+      catchError(() => of(null)),
+    );
 };
 
 export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData = {
@@ -73,6 +78,120 @@ export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData = {
   confirmKey: 'create',
   helpComponent: HelpRoomCreateComponent,
   questions: [
+    {
+      tag: 'gptInfo',
+      title: 'ml-room-create.q-p1-header',
+      active: (_answers, injector) =>
+        injector.get(AccountStateService).user$.pipe(
+          take(1),
+          map((user) => !user || user.isGuest),
+        ),
+      buildAction(_injector, _answers, previousState) {
+        if (previousState) return previousState;
+        return buildInput(this, {
+          type: 'text',
+          value: 'ml-room-create.q-p1-title',
+        });
+      },
+    },
+    {
+      tag: 'gptSetup',
+      title: 'ml-room-create.q-p2-header',
+      active: (_answers, injector) =>
+        injector.get(AccountStateService).user$.pipe(
+          take(1),
+          map((user) => user && !user.isGuest),
+        ),
+      buildAction(_injector, _answers, previousState) {
+        if (previousState) return previousState;
+        return buildInput(
+          this,
+          {
+            type: 'text',
+            value: 'ml-room-create.q-p2-title',
+          },
+          {
+            type: 'radio-select',
+            tag: 'setupType',
+            label: 'ml-room-create.q-p2-short',
+            options: [
+              { value: 'apiCode', label: 'ml-room-create.a-p2-api-code' },
+              { value: 'voucher', label: 'ml-room-create.a-p2-voucher' },
+              { value: 'nothing', label: 'ml-room-create.a-p2-nothing' },
+            ],
+            validators: [Validators.required],
+            errorStates: {
+              required: 'ml-room-create.e-p2-required',
+            },
+          },
+        );
+      },
+    },
+    {
+      tag: 'gptApiCode',
+      title: 'ml-room-create.q-p3-header',
+      active: (answers) =>
+        answers.gptSetup && answers.gptSetup.value.setupType === 'apiCode',
+      buildAction(_injector, _answers, previousState) {
+        if (previousState) return previousState;
+        return buildInput(
+          this,
+          {
+            type: 'text',
+            value: 'ml-room-create.q-p3-title',
+          },
+          {
+            type: 'text-input',
+            tag: 'apiCode',
+            label: 'ml-room-create.q-p3-short',
+            hidden: true,
+            validators: [
+              Validators.required,
+              Validators.pattern('sk-[a-zA-Z0-9]+'),
+            ],
+            errorStates: {
+              required: 'ml-room-create.e-p3-required',
+              pattern: 'ml-room-create.e-p3-pattern',
+            },
+          },
+          {
+            type: 'text-input',
+            tag: 'organization',
+            label: 'ml-room-create.q-p3-org',
+            validators: [Validators.pattern('org-[a-zA-Z0-9]+')],
+            errorStates: {
+              pattern: 'ml-room-create.e-p3-org-pattern',
+            },
+          },
+        );
+      },
+    },
+    {
+      tag: 'gptVoucher',
+      title: 'ml-room-create.q-p4-header',
+      active: (answers) =>
+        answers.gptSetup && answers.gptSetup.value.setupType === 'voucher',
+      buildAction(_injector, _answers, previousState) {
+        if (previousState) return previousState;
+        return buildInput(
+          this,
+          {
+            type: 'text',
+            value: 'ml-room-create.q-p4-title',
+          },
+          {
+            type: 'text-input',
+            tag: 'voucher',
+            hidden: true,
+            label: 'ml-room-create.q-p4-short',
+            validators: [Validators.required],
+            errorStates: {
+              required: 'ml-room-create.e-p4-required',
+            },
+          },
+        );
+      },
+    },
     {
       tag: 'role',
       title: 'ml-room-create.q-1-header',
@@ -231,7 +350,12 @@ export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData = {
               Validators.maxLength(30),
               Validators.pattern('[a-zA-Z0-9_\\-.~]+'),
             ],
-            asyncValidators: [buildValidator(injector.get(RoomService))],
+            asyncValidators: [
+              buildValidator(
+                injector.get(RoomService),
+                injector.get(AccountStateService),
+              ),
+            ],
             errorStates: {
               required: 'ml-room-create.e-2-required',
               minlength: 'ml-room-create.e-2-minlength',

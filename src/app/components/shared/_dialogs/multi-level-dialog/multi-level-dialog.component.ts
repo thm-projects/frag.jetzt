@@ -11,7 +11,7 @@ import {
   STEPPER_GLOBAL_OPTIONS,
   StepperSelectionEvent,
 } from '@angular/cdk/stepper';
-import { Observable } from 'rxjs';
+import { Observable, forkJoin, isObservable, of } from 'rxjs';
 
 const WINDOW_SIZE = 3;
 
@@ -43,6 +43,7 @@ export class MultiLevelDialogComponent implements OnInit {
   showForwardOption = false;
   offsetIndex = 0;
   highestIndex = -1;
+  loadingCount = 0;
   readonly windowSize = WINDOW_SIZE;
   protected sending = false;
   private onSubmit: MultiLevelDialogSubmit;
@@ -78,6 +79,9 @@ export class MultiLevelDialogComponent implements OnInit {
   }
 
   next(index: number) {
+    if (this.loadingCount > 0) {
+      return;
+    }
     const group = this.elements[index].group;
     group.markAllAsTouched();
     if (group.invalid) {
@@ -117,7 +121,7 @@ export class MultiLevelDialogComponent implements OnInit {
       const index =
         e.selectedIndex - Number(this.showBackOption) + this.offsetIndex;
       if (index > this.highestIndex) {
-        this.verify(index);
+        this.verify(index - 1);
       }
       const last = this.offsetIndex;
       this.offsetIndex = Math.min(
@@ -130,12 +134,16 @@ export class MultiLevelDialogComponent implements OnInit {
   }
 
   reset() {
+    if (this.loadingCount > 0) {
+      return;
+    }
     this.stepper.reset();
     this.answers = {};
     this.removedCache.clear();
     this.elements.length = 0;
     this.createdIndexes.length = 0;
     this.currentStepperIndex = 0;
+    this.offsetIndex = 0;
     this.highestIndex = -1;
     this.verify(-1);
   }
@@ -173,17 +181,50 @@ export class MultiLevelDialogComponent implements OnInit {
   }
 
   private verify(elementIndex: number) {
+    if (this.loadingCount > 0) {
+      console.warn('Tried to verify while loading');
+      return;
+    }
     const first = this.createdIndexes[elementIndex++] ?? -1;
-    const questions = this.data.questions;
     this.remaining = 0;
-    let active = 0;
-    for (let i = first + 1; i < questions.length; i++) {
-      const question = questions[i];
-      const isActive = !question.active || question.active(this.answers);
-      const isCounting = !question.count || question.count(this.answers);
-      const isMounted = this.createdIndexes[elementIndex] === i;
+    this.workOnElement(first + 1, elementIndex, { ...this.answers }, 0);
+  }
+
+  private workOnElement(
+    currentIndex: number,
+    elementIndex: number,
+    previous: AnsweredMultiLevelData,
+    activeCount: number,
+  ) {
+    const questions = this.data.questions;
+    if (currentIndex >= questions.length) {
+      if (activeCount === 0) {
+        this.remaining = 0;
+        this.highestIndex = questions.length - 1;
+      }
+      this.updateView();
+      return;
+    }
+    this.loadingCount += 1;
+    const toObservable = (
+      func?: (
+        answers: AnsweredMultiLevelData,
+        injector: Injector,
+      ) => boolean | Observable<boolean>,
+    ) => {
+      if (!func) {
+        return of(true);
+      }
+      const result = func(previous, this.injector);
+      return isObservable(result) ? result : of(Boolean(result));
+    };
+    const question = questions[currentIndex];
+    const active = toObservable(question.active);
+    const count = toObservable(question.count);
+    forkJoin([active, count]).subscribe(([isActive, isCounting]) => {
+      const isMounted = this.createdIndexes[elementIndex] === currentIndex;
       this.remaining += isActive || isCounting ? 1 : 0;
-      active += isActive ? 1 : 0;
+      activeCount += isActive ? 1 : 0;
       if (isMounted) {
         // mounted, but inactive
         if (!isActive) {
@@ -196,28 +237,36 @@ export class MultiLevelDialogComponent implements OnInit {
         } else {
           elementIndex++;
         }
-        continue;
-      }
-      if (isActive) {
+      } else if (isActive) {
         // active, but not mounted
         const previousState = this.removedCache.get(question.tag);
         this.removedCache.delete(question.tag);
-        const element = question.buildAction(
+        const elemOrObservable = question.buildAction(
           this.injector,
-          this.answers,
+          previous,
           previousState,
         );
         // insert at position
-        this.elements.splice(elementIndex, 0, element);
-        this.createdIndexes.splice(elementIndex, 0, i);
+        const index = elementIndex;
+        const dummy = !isObservable(elemOrObservable)
+          ? elemOrObservable
+          : ({} as MultiLevelDataBuiltAction);
+        this.elements.splice(elementIndex, 0, dummy);
+        this.createdIndexes.splice(elementIndex, 0, currentIndex);
         elementIndex++;
-        this.answers[question.tag] = element.group;
+        if (isObservable(elemOrObservable)) {
+          this.loadingCount += 1;
+          elemOrObservable.subscribe((element) => {
+            this.loadingCount -= 1;
+            this.elements[index] = element;
+            this.answers[question.tag] = element.group;
+          });
+        } else {
+          this.answers[question.tag] = dummy.group;
+        }
       }
-    }
-    if (active === 0) {
-      this.remaining = 0;
-      this.highestIndex = this.elements.length - 1;
-    }
-    this.updateView();
+      this.loadingCount -= 1;
+      this.workOnElement(currentIndex + 1, elementIndex, previous, activeCount);
+    });
   }
 }

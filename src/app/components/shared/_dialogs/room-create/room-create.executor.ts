@@ -68,34 +68,34 @@ export const generateRoom = (
   const notification = injector.get(NotificationService);
   const accountState = injector.get(AccountStateService);
   const router = injector.get(Router);
-  return injector
-    .get(RoomService)
-    .addRoom(newRoom, () => {
-      translateService
-        .get('ml-room-create.something-went-wrong', { longRoomName: name })
-        .subscribe((msg) => notification.show(msg));
-    })
-    .pipe(
-      tap((room) => {
-        createDefaultTopic(injector, room.id);
+  return accountState.forceLogin().pipe(
+    switchMap(() => {
+      return injector.get(RoomService).addRoom(newRoom, () => {
         translateService
-          .get('ml-room-create.created' + (isTeacher ? '' : '-student'), {
-            name,
-          })
+          .get('ml-room-create.something-went-wrong', { longRoomName: name })
           .subscribe((msg) => notification.show(msg));
-        accountState
-          .setAccess(room.shortId, room.id, UserRole.CREATOR)
-          .pipe(
-            tap(() => {
-              accountState.updateAccess(room.shortId);
-              router.navigate([
-                '/creator/room/' + encodeURIComponent(room.shortId),
-              ]);
-            }),
-          )
-          .subscribe();
-      }),
-    );
+      });
+    }),
+    tap((room) => {
+      createDefaultTopic(injector, room.id);
+      translateService
+        .get('ml-room-create.created' + (isTeacher ? '' : '-student'), {
+          name,
+        })
+        .subscribe((msg) => notification.show(msg));
+      accountState
+        .setAccess(room.shortId, room.id, UserRole.CREATOR)
+        .pipe(
+          tap(() => {
+            accountState.updateAccess(room.shortId);
+            router.navigate([
+              '/creator/room/' + encodeURIComponent(room.shortId),
+            ]);
+          }),
+        )
+        .subscribe();
+    }),
+  );
 };
 
 const createDefaultTopic = (injector: Injector, roomId: string) => {

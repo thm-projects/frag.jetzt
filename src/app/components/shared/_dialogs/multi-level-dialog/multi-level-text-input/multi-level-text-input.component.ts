@@ -12,6 +12,8 @@ import {
 })
 export class MultiLevelTextInputComponent implements OnInit {
   data = inject(DYNAMIC_INPUT) as BuiltAction<TextInputAction>;
+  hidden = Boolean(this.data.hidden);
+  readonly initialHidden = this.hidden;
 
   constructor() {}
 

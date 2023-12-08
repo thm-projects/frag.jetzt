@@ -6,7 +6,9 @@
   <mat-dialog-content>
     <mat-progress-bar
       mode="determinate"
-      [value]="((highestIndex + 1) * 100) / elements.length"></mat-progress-bar>
+      [value]="
+        ((highestIndex + 1) * 100) / data.questions.length
+      "></mat-progress-bar>
     <mat-stepper
       (selectionChange)="onChange($event)"
       orientation="vertical"
@@ -126,6 +128,14 @@
               mat-stroked-button
               (click)="submit()">
               {{ "multi-level-dialog.confirm" | translate }}
+              <mat-icon
+                *ngIf="sending"
+                class="spinner-container">
+                <app-mat-spinner-overlay
+                  diameter="20"
+                  strokeWidth="2"
+                  [color]="'primary'"></app-mat-spinner-overlay>
+              </mat-icon>
             </button>
           </div>
         </div>
@@ -161,6 +171,5 @@
   </button>
   <app-dialog-action-buttons
     [buttonsLabelSection]="'multi-level-dialog'"
-    [cancelButtonClickAction]="onClose"
-    [showLoadingCycle]="sending"></app-dialog-action-buttons>
+    [cancelButtonClickAction]="onClose"></app-dialog-action-buttons>
 </div>
