@@ -12,3 +12,4 @@
 10. The merge request is free of any conflicts.
 11. A developer outside the team has reviewed the code and approved the merge.
 12. The product owner has been assigned as a reviewer of the merge request.
+13. The technical debts have been checked with [SonarQube](https://scm.thm.de/sonar/dashboard?id=de.thm.arsnova%3Afrag-jetzt-frontend): Have they increased significantly due to the commits?

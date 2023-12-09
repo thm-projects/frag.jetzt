@@ -49,6 +49,9 @@ export class MotdDialogComponent implements OnInit {
             motd.messages,
           );
         });
+        this.builtMotds.sort(
+          (a, b) => b.startTimestamp.getTime() - a.startTimestamp.getTime(),
+        );
       });
   }
 
