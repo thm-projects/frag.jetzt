@@ -6,6 +6,7 @@ app-custom-markdown ::ng-deep {
 
 mat-icon {
   margin-right: 15px;
+  overflow: visible;
 }
 
 mat-expansion-panel {
@@ -35,8 +36,6 @@ mat-expansion-panel {
   mat-panel-title {
     overflow: hidden;
     text-overflow: ellipsis;
-    white-space: nowrap;
-
     color: var(--on-dialog);
   }
 
