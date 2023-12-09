@@ -226,16 +226,11 @@ a {
 }
 
 .mat-dialog-container {
+  max-height: 90vh !important;
   max-width: 500px !important;
-  max-height: 95vh !important;
-  width: 650px;
   line-height: 1.5 !important;
   border: thin solid dimgray;
   margin: 0 auto;
-}
-
-.mat-dialog-container {
-  max-width: 500px !important;
 }
 
 .mat-menu-item .mat-icon-no-color {
