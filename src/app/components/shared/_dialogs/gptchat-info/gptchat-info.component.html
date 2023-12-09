@@ -6,20 +6,22 @@
       <mat-expansion-panel [ngClass]="message.severity">
         <mat-expansion-panel-header>
           <mat-panel-title>
-            {{ message.key + '-title' | translate }}
-          </mat-panel-title>
-          <mat-panel-description>
             <mat-icon>error</mat-icon>
-          </mat-panel-description>
+            {{ message.key + "-title" | translate }}
+          </mat-panel-title>
+          <mat-panel-description></mat-panel-description>
         </mat-expansion-panel-header>
         <mat-expansion-panel-content>
-          <app-custom-markdown [data]="message.key + '-description' | translate">
-          </app-custom-markdown>
+          <app-custom-markdown
+            [data]="
+              message.key + '-description' | translate
+            "></app-custom-markdown>
         </mat-expansion-panel-content>
       </mat-expansion-panel>
     </ng-container>
   </mat-accordion>
 </mat-dialog-content>
 
-<app-dialog-action-buttons [buttonsLabelSection]="'gptchat-info'"
+<app-dialog-action-buttons
+  [buttonsLabelSection]="'gptchat-info'"
   [cancelButtonClickAction]="onCancel"></app-dialog-action-buttons>
