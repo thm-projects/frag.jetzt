@@ -641,3 +641,7 @@ div[markdown] img {
 .overflow-mat-dialog .mat-dialog-container {
   overflow: visible;
 }
+
+.mat-expansion-panel:not(.mat-expanded):not([aria-disabled=true]) .mat-expansion-panel-header:hover {
+  background: var(--dialog);
+}
