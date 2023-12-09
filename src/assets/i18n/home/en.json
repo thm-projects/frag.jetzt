@@ -893,7 +893,20 @@
   },
   "gptchat-info": {
     "title": "ChatGPT",
-    "content": "ChatGPT is available only in rooms created by a registered user. A guest created this room. Register and create a room yourself to use ChatGPT.\n\nStart now with a credit of $5. With this credit, you can spend several million tokens on ChatGPT requests (1 token is about 5-7 characters).",
-    "cancel": "Close"
+    "blocked-title": "ChatGPT Access Blocked",
+    "blocked-description": "Your ChatGPT access has been blocked. For support, please contact our support team.",
+    "noGlobalQuotaAvailable-title": "Global Token Limit Reached",
+    "noGlobalQuotaAvailable-description": "Access to ChatGPT is currently not possible, as the global token limit has been reached. Please try again later.",
+    "NoApiKey-title": "API Key Missing",
+    "NoApiKey-description": "An API key is required to access ChatGPT. Please visit the OpenAI website (openai.com) to generate an API key. After obtaining it, enter this key in the room creation dialog at the respective prompt to activate ChatGPT.",
+    "roomDisabled-title": "Room Access Temporarily Blocked",
+    "roomDisabled-description": "Access to ChatGPT has been temporarily disabled, as the token limit for this room has been reached.",
+    "moderatorDisabled-title": "Moderator Access Temporarily Blocked",
+    "moderatorDisabled-description": "ChatGPT access has been temporarily suspended, as the token limit for moderators of this room has been reached.",
+    "participantDisabled-title": "Participant Access Temporarily Blocked",
+    "participantDisabled-description": "ChatGPT has been temporarily disabled, as the token limit for participants of this room has been reached.",
+    "usageTimeOver-title": "Maximum Usage Duration Exceeded",
+    "usageTimeOver-description": "The permissible usage duration for ChatGPT has been exceeded.",
+    "cancel": "Cancel"
   }
 }

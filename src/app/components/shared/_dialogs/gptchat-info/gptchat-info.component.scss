@@ -3,3 +3,45 @@ app-custom-markdown ::ng-deep {
     padding-inline-start: 1.5em;
   }
 }
+
+mat-icon {
+  margin-right: 15px;
+}
+
+mat-expansion-panel {
+  background-color: var(--dialog);
+  color: var(--on-dialog);
+
+  &.WARNING {
+    border: 1px solid var(--yellow);
+  }
+
+  &.ERROR {
+    border: 1px solid var(--red);
+  }
+
+  &.INFO {
+    border: 1px solid var(--blue);
+  }
+
+  margin: 4px;
+  padding: 0;
+
+  mat-expansion-panel-header {
+    background-color: var(--dialog);
+    color: var(--on-dialog);
+  }
+
+  mat-panel-title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    color: var(--on-dialog);
+  }
+
+  mat-panel-description {
+    justify-content: end;
+    color: var(--on-dialog);
+  }
+}
