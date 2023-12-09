@@ -642,6 +642,11 @@ div[markdown] img {
   overflow: visible;
 }
 
-.mat-expansion-panel:not(.mat-expanded):not([aria-disabled=true]) .mat-expansion-panel-header:hover {
+.mat-expansion-panel:not(.mat-expanded):not([aria-disabled="true"])
+  .mat-expansion-panel-header:hover {
   background: var(--dialog);
+}
+
+.mat-expansion-panel-header {
+  padding: 15px !important;
 }
