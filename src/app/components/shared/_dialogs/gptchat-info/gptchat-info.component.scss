@@ -4,6 +4,10 @@ app-custom-markdown ::ng-deep {
   }
 }
 
+mat-icon {
+  margin-right: 15px;
+}
+
 mat-expansion-panel {
   background-color: var(--dialog);
   color: var(--on-dialog);
