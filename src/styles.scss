@@ -234,6 +234,12 @@ a {
   margin: 0 auto;
 }
 
+@media screen {
+  .mat-dialog-container {
+    width: 500px !important;
+  }
+}
+
 .mat-menu-item .mat-icon-no-color {
   color: var(--on-dialog);
 }
