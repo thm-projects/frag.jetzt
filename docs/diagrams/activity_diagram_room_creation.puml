@@ -16,25 +16,26 @@ skinparam LegendBorderThickness 0
 
 start
 :Click on »Create a Room«;
-' New decision: User Registration
-if (Is the user registered and logged in?) then (yes)
+partition "OpenAI API Setup" #HoneyDew {
+  ' New decision: User Registration
+  if (Is the user registered and logged in?) then (yes)
 
-  ' New decision: Activation Code or API Key
-  if (Has an activation code for ChatGPT?) then (yes)
-    :Enter the activation code;
-    :Activate ChatGPT;
-  else if (Has an API key with Organization Id?) then (yes)
-    :Enter the API key with Organization Id;
-    :Activate ChatGPT;
+    ' New decision: Activation Code or API Key
+    if (Has an activation code for ChatGPT?) then (yes)
+      :Enter the activation code;
+      :Activate ChatGPT;
+    else if (Has an API key with Organization Id?) then (yes)
+      :Enter the API key with Organization Id;
+      :Activate ChatGPT;
+    else (no)
+    endif
+    note right
+      If ChatGPT is already enabled for this user, skip to role decision.
+    end note
   else (no)
+    :Prompt the user to register if they want to use ChatGPT;
   endif
-  note right
-    If ChatGPT is already enabled for this user, skip to role decision.
-  end note
-else (no)
-  :Prompt the user to register if they want to use ChatGPT;
-endif
-
+}
 ' Decision: Role
 if (1. Role?) then (Teacher)
   :Enter the event name;
@@ -238,7 +239,7 @@ legend right
 | UML tool| PlantUML v2.17.5|
 | Author| Klaus Quibeldey-Cirkel|
 | Contact| [[mailto:klaus.quibeldey-cirkel@mni.thm.de]] |
-| Last revision| 11/29/2023 |
+| Last revision| 12/03/2023 |
 end legend
 
 @enduml

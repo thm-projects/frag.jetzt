@@ -1,0 +1,26 @@
+<mat-form-field floatLabel="always">
+  <mat-label *ngIf="data.label">{{ data.label | translate }}</mat-label>
+  <input
+    [formControl]="data.control"
+    matInput
+    class="hidden-control" />
+  <mat-radio-group [formControl]="data.control">
+    <mat-radio-button
+      *ngFor="let elem of data.options"
+      [value]="elem.value">
+      {{ elem.label | translate }}
+    </mat-radio-button>
+  </mat-radio-group>
+  <mat-hint *ngIf="data.hint && !data.control.invalid">
+    {{ data.hint | translate }}
+  </mat-hint>
+  <mat-error *ngIf="data.control.invalid">
+    <ng-container *ngIf="data.errorStates as errors">
+      <ng-container *ngFor="let entry of errors | keyvalue">
+        <mat-error *ngIf="data.control.hasError(entry.key)">
+          {{ entry.value | translate }}
+        </mat-error>
+      </ng-container>
+    </ng-container>
+  </mat-error>
+</mat-form-field>

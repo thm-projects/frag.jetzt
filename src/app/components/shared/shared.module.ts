@@ -149,6 +149,15 @@ import { GPTConversationOverviewComponent } from './_dialogs/gptconversation-ove
 import { LivepollPeerInstructionWindowComponent } from './_dialogs/livepoll/livepoll-peer-instruction/livepoll-peer-instruction-window/livepoll-peer-instruction-window.component';
 import { LivepollPeerInstructionComparisonComponent } from './_dialogs/livepoll/livepoll-peer-instruction/livepoll-peer-instruction-comparison/livepoll-peer-instruction-comparison.component';
 import { AppStateService } from 'app/services/state/app-state.service';
+import { MultiLevelDialogComponent } from './_dialogs/multi-level-dialog/multi-level-dialog.component';
+import { MultiLevelTextInputComponent } from './_dialogs/multi-level-dialog/multi-level-text-input/multi-level-text-input.component';
+import { MultiLevelRadioSelectComponent } from './_dialogs/multi-level-dialog/multi-level-radio-select/multi-level-radio-select.component';
+import { MultiLevelSwitchComponent } from './_dialogs/multi-level-dialog/multi-level-switch/multi-level-switch.component';
+import { MultiLevelTextComponent } from './_dialogs/multi-level-dialog/multi-level-text/multi-level-text.component';
+import { HelpRoomCreateComponent } from './_dialogs/room-create/help-room-create/help-room-create.component';
+import { HelpRoomCreateDeComponent } from './_dialogs/room-create/help-room-create/help-room-create-de/help-room-create-de.component';
+import { HelpRoomCreateEnComponent } from './_dialogs/room-create/help-room-create/help-room-create-en/help-room-create-en.component';
+import { HelpRoomCreateFrComponent } from './_dialogs/room-create/help-room-create/help-room-create-fr/help-room-create-fr.component';
 
 @NgModule({
   imports: [
@@ -300,6 +309,15 @@ import { AppStateService } from 'app/services/state/app-state.service';
     GPTConversationOverviewComponent,
     LivepollPeerInstructionWindowComponent,
     LivepollPeerInstructionComparisonComponent,
+    MultiLevelDialogComponent,
+    MultiLevelTextInputComponent,
+    MultiLevelRadioSelectComponent,
+    MultiLevelSwitchComponent,
+    MultiLevelTextComponent,
+    HelpRoomCreateComponent,
+    HelpRoomCreateDeComponent,
+    HelpRoomCreateEnComponent,
+    HelpRoomCreateFrComponent,
   ],
   exports: [
     RoomJoinComponent,
@@ -331,6 +349,7 @@ import { AppStateService } from 'app/services/state/app-state.service';
     AppRatingComponent,
     MinuteJumpClockComponent,
     GlobalStatusIndicatorComponent,
+    MultiLevelDialogComponent,
   ],
 })
 export class SharedModule {
