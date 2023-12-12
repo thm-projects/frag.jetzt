@@ -235,15 +235,16 @@ mat-card {
 }
 
 .danger-btn {
-  background-color: transparent;
-  color: var(--red);
+  background-color: var(--red);
+  color: var(--white);
   outline: var(--red) solid 3px;
   width: fit-content;
   margin: 1.5em 0.5em;
 
   &:hover {
-    background-color: var(--red);
-    color: var(--white);
+    font-size: bold;
+    background-color: var(--white);
+    color: var(--red);
   }
 }
 
