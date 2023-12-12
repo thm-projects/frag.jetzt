@@ -146,7 +146,7 @@
         font-size: 30px;
         padding-right: 20px;
         font-weight: bold;
-        color: rgba(255, 255, 255, 0.2);
+        color: var(--ars-header-color);
 
         > mat-icon {
           font-size: 45px;
@@ -265,7 +265,7 @@
           font-size: 50px;
           padding-left: 16px;
           font-weight: bold;
-          color: rgba(255, 255, 255, 0.2);
+          color: red;
 
           > mat-icon {
             font-size: 70px;
