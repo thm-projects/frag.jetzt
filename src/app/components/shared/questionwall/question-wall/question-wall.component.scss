@@ -361,17 +361,18 @@
     }
   }
 
-  .questionwall-present-meta {
-    overflow: visible;
-    display: flex;
-    height: 100%;
-    align-items: center;
+  // .questionwall-present-meta {
+  //   overflow: visible;
+  //   display: flex;
+  //   align-items: center;
+  //   justify-content: center;
+  //   height: 100%;
 
-    > p {
-      display: flex;
-      align-items: center;
-    }
-  }
+  //   > p {
+  //     //display: flex;
+  //     align-items: center;
+  //   }
+  // }
 
   .sln-indicator {
     &-on {
