@@ -76,11 +76,11 @@ export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData = {
   title: 'ml-room-create.title',
   buttonSection: 'ml-room-create',
   confirmKey: 'create',
-  helpComponent: HelpRoomCreateComponent,
   questions: [
     {
       tag: 'gptInfo',
       title: 'ml-room-create.q-p1-header',
+      stepHelp: 'ml-room-create.help.no-chatgpt-for-user',
       active: (_answers, injector) =>
         injector.get(AccountStateService).user$.pipe(
           take(1),
@@ -97,6 +97,7 @@ export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData = {
     {
       tag: 'gptSetup',
       title: 'ml-room-create.q-p2-header',
+      stepHelp: 'ml-room-create.help.select-openai-setup',
       active: (_answers, injector) =>
         injector.get(AccountStateService).user$.pipe(
           take(1),
@@ -130,6 +131,7 @@ export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData = {
     {
       tag: 'gptApiCode',
       title: 'ml-room-create.q-p3-header',
+      stepHelp: HelpRoomCreateComponent,
       active: (answers) =>
         answers.gptSetup && answers.gptSetup.value.setupType === 'apiCode',
       buildAction(_injector, _answers, previousState) {
@@ -169,6 +171,7 @@ export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData = {
     {
       tag: 'gptVoucher',
       title: 'ml-room-create.q-p4-header',
+      stepHelp: 'ml-room-create.help.enter-voucher',
       active: (answers) =>
         answers.gptSetup && answers.gptSetup.value.setupType === 'voucher',
       buildAction(_injector, _answers, previousState) {
@@ -195,6 +198,7 @@ export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData = {
     {
       tag: 'role',
       title: 'ml-room-create.q-1-header',
+      stepHelp: 'ml-room-create.help.select-your-role',
       buildAction(_injector, _answers, previousState) {
         if (previousState) return previousState;
         return buildInput(
@@ -223,6 +227,7 @@ export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData = {
     {
       tag: 'event',
       title: 'ml-room-create.q-t1-header',
+      stepHelp: 'ml-room-create.help.enter-event-name',
       active: (answers) =>
         answers.role && answers.role.value['role-select'] === 'teacher',
       count: (answers) =>
@@ -277,6 +282,7 @@ export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData = {
     {
       tag: 'event',
       title: 'ml-room-create.q-s1-header',
+      stepHelp: 'ml-room-create.help.enter-study-room-name',
       active: (answers) =>
         answers.role && answers.role.value['role-select'] === 'student',
       count: (answers) =>
@@ -331,6 +337,7 @@ export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData = {
     {
       tag: 'code',
       title: 'ml-room-create.q-2-header',
+      stepHelp: 'ml-room-create.help.enter-event-code',
       active: (answers) => answers.event && answers.event.value.code,
       buildAction(injector, _answers, previousState) {
         if (previousState) return previousState;
@@ -371,6 +378,7 @@ export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData = {
     {
       tag: 'general',
       title: 'ml-room-create.q-t3-header',
+      stepHelp: 'ml-room-create.help.general-settings-ars',
       active: (answers) =>
         answers.role &&
         answers.event &&
@@ -426,6 +434,7 @@ export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData = {
     {
       tag: 'general',
       title: 'ml-room-create.q-s3-header',
+      stepHelp: 'ml-room-create.help.general-settings-ple',
       active: (answers) =>
         answers.role &&
         answers.event &&
@@ -463,6 +472,7 @@ export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData = {
     {
       tag: 'gptSettings',
       title: 'ml-room-create.q-t4-header',
+      stepHelp: 'ml-room-create.help.gpt-settings-ars',
       active: (answers) =>
         answers.role &&
         answers.general &&
@@ -501,6 +511,7 @@ export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData = {
     {
       tag: 'gptSettings',
       title: 'ml-room-create.q-s4-header',
+      stepHelp: 'ml-room-create.help.gpt-settings-ple',
       active: (answers) =>
         answers.role &&
         answers.general &&
@@ -541,6 +552,7 @@ export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData = {
     {
       tag: 'studyBuddyGroup',
       title: 'ml-room-create.q-t5-header',
+      stepHelp: 'ml-room-create.help.study-buddy-settings-ars',
       active: (answers) =>
         answers.role &&
         answers.gptSettings &&
@@ -581,6 +593,7 @@ export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData = {
     {
       tag: 'features',
       title: 'ml-room-create.q-t6-header',
+      stepHelp: 'ml-room-create.help.features-ars',
       active: (answers) =>
         answers.role &&
         answers.event &&
@@ -652,6 +665,7 @@ export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData = {
     {
       tag: 'features',
       title: 'ml-room-create.q-s5-header',
+      stepHelp: 'ml-room-create.help.features-ple',
       active: (answers) =>
         answers.role &&
         answers.event &&

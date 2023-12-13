@@ -12,6 +12,7 @@ import {
   StepperSelectionEvent,
 } from '@angular/cdk/stepper';
 import { Observable, forkJoin, isObservable, of } from 'rxjs';
+import { ExplanationDialogComponent } from '../explanation-dialog/explanation-dialog.component';
 
 const WINDOW_SIZE = 3;
 
@@ -44,6 +45,7 @@ export class MultiLevelDialogComponent implements OnInit {
   offsetIndex = 0;
   highestIndex = -1;
   loadingCount = 0;
+  currentQuestion: MultiLevelDataBuiltAction;
   readonly windowSize = WINDOW_SIZE;
   protected sending = false;
   private onSubmit: MultiLevelDialogSubmit;
@@ -74,8 +76,7 @@ export class MultiLevelDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.verify(-1);
-    this.updateView();
+    this.reset();
   }
 
   next(index: number) {
@@ -93,7 +94,13 @@ export class MultiLevelDialogComponent implements OnInit {
   }
 
   openHelp() {
-    this.dialog.open(this.data.helpComponent);
+    const help = this.currentQuestion.stepHelp;
+    if (typeof help === 'string') {
+      const ref = this.dialog.open(ExplanationDialogComponent);
+      ref.componentInstance.translateKey = help;
+    } else {
+      this.dialog.open(help);
+    }
   }
 
   onChange(e: StepperSelectionEvent) {
@@ -131,13 +138,16 @@ export class MultiLevelDialogComponent implements OnInit {
       this.currentStepperIndex = WINDOW_SIZE + 1 + last - this.offsetIndex;
       this.updateView();
     }
+    const index =
+      this.currentStepperIndex + this.offsetIndex - Number(this.showBackOption);
+    this.currentQuestion = this.elements[index];
   }
 
   reset() {
     if (this.loadingCount > 0) {
       return;
     }
-    this.stepper.reset();
+    this.stepper?.reset();
     this.answers = {};
     this.removedCache.clear();
     this.elements.length = 0;
@@ -178,6 +188,9 @@ export class MultiLevelDialogComponent implements OnInit {
       this.offsetIndex,
       this.offsetIndex + WINDOW_SIZE,
     );
+    const index =
+      this.currentStepperIndex + this.offsetIndex - Number(this.showBackOption);
+    this.currentQuestion = this.elements[index];
   }
 
   private verify(elementIndex: number) {
