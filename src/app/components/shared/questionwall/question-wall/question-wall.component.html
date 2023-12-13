@@ -205,7 +205,9 @@
         height="400">
         <ars-fill></ars-fill>
         <ars-col ars-flex-box>
-          <ars-row *ngIf="commentFocus">
+          <ars-row
+            *ngIf="commentFocus"
+            class="questionwall-present-meta">
             <p class="questionwall-present-meta-number">
               <mat-icon
                 *ngIf="getCommentIcon(commentFocus) as icon"
@@ -217,7 +219,6 @@
               </span>
             </p>
           </ars-row>
-          <ars-fill></ars-fill>
         </ars-col>
       </ars-row>
       <ars-row

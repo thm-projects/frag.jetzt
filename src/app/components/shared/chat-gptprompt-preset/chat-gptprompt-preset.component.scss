@@ -6,6 +6,11 @@ mat-card {
   flex-direction: column;
 }
 
+.mat-expansion-panel-header-title,
+.mat-expansion-panel-header-description {
+  min-width: 20% !important;
+}
+
 .counter-container {
   display: block;
   text-align: center;

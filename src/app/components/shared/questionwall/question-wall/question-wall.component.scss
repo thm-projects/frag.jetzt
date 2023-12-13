@@ -147,6 +147,7 @@
         padding-right: 20px;
         font-weight: bold;
         color: var(--ars-header-color);
+        opacity: 0.2;
 
         > mat-icon {
           font-size: 45px;
@@ -265,7 +266,8 @@
           font-size: 50px;
           padding-left: 16px;
           font-weight: bold;
-          color: red;
+          color: var(--ars-header-color);
+          opacity: 0.2;
 
           > mat-icon {
             font-size: 70px;
@@ -356,6 +358,18 @@
       top: 50%;
       transform: translate(-50%, -50%);
       transition: all 0.1s ease-in-out;
+    }
+  }
+
+  .questionwall-present-meta {
+    overflow: visible;
+    display: flex;
+    height: 100%;
+    align-items: center;
+
+    > p {
+      display: flex;
+      align-items: center;
     }
   }
 
