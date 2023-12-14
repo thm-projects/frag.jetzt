@@ -233,7 +233,6 @@ export class NavigationComponent implements OnInit, OnDestroy {
       isCurrentRoute: (route) => RADAR_REGEX.test(route),
       canBeAccessedOnRoute: (route) => ROOM_REGEX.test(route),
       navigate: () => {
-        console.log("hi");
         navigateTopicCloud(
           this.router,
           this.eventService,
