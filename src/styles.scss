@@ -420,11 +420,12 @@ blockquote {
   padding: 0 24px 1em 24px !important;
   overflow-y: scroll !important;
 }
-@media screen and (orientation: landscape) {
+@media screen and (orientation: landscape) and (max-width: 767px) {
   mat-dialog-content {
-    max-height: 45vh !important;
+      max-height: 45vh !important;
   }
 }
+
 
 /* ---- Scroll bar ----- */
 /* Works on Firefox */
