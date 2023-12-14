@@ -1,9 +1,6 @@
 :host {
   .userActivityIcon {
     display: inline-block;
-    /*width: 25px;
-    height: 25px;
-    margin-bottom: -5px;*/
     background-color: currentColor;
     -webkit-mask-image: url("../../../../../assets/icons/activity.svg");
     mask-image: url("../../../../../assets/icons/activity.svg");
@@ -360,19 +357,6 @@
       transition: all 0.1s ease-in-out;
     }
   }
-
-  // .questionwall-present-meta {
-  //   overflow: visible;
-  //   display: flex;
-  //   align-items: center;
-  //   justify-content: center;
-  //   height: 100%;
-
-  //   > p {
-  //     //display: flex;
-  //     align-items: center;
-  //   }
-  // }
 
   .sln-indicator {
     &-on {
