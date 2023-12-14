@@ -194,34 +194,39 @@
   </ars-row>
   <ars-fill ars-flex-box>
     <ars-fill
-      style="overflow: hidden"
+      style="overflow: hidden; position: relative"
       [ngStyle]="{
         height: !commentFocusId && !firstPassIntroduction ? 0 + 'px' : 'auto'
       }"
       ars-flex-box>
       <ars-fill></ars-fill>
+      <p
+        class="questionwall-present-meta-number"
+        style="
+          position: absolute;
+          top: 50%;
+          right: 0px;
+          transform: translate(0, -50%);
+        ">
+        <mat-icon
+          *ngIf="getCommentIcon(commentFocus) as icon"
+          [class]="getCommentIconClass(commentFocus)">
+          {{ icon }}
+        </mat-icon>
+        <span *ngFor="let element of generateCommentNumber(commentFocus)">
+          {{ element }}
+        </span>
+      </p>
       <ars-row
         ars-flex-box
         height="400">
         <ars-fill></ars-fill>
         <ars-col ars-flex-box>
-          <ars-row *ngIf="commentFocus">
-            <p class="questionwall-present-meta-number">
-              <mat-icon
-                *ngIf="getCommentIcon(commentFocus) as icon"
-                [class]="getCommentIconClass(commentFocus)">
-                {{ icon }}
-              </mat-icon>
-              <span *ngFor="let element of generateCommentNumber(commentFocus)">
-                {{ element }}
-              </span>
-            </p>
-          </ars-row>
-          <ars-fill></ars-fill>
+          <ars-row *ngIf="commentFocus"></ars-row>
         </ars-col>
       </ars-row>
       <ars-row
-        overflow=""
+        overflow="auto"
         class="questionwall-present-box-outer"
         style="margin-top: -400px">
         <div class="questionwall-present-box-inner">

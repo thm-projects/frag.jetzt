@@ -3,12 +3,13 @@
 </h1>
 
 <div class="multi-level-container">
+  <mat-progress-bar
+    class="progress-bar"
+    mode="determinate"
+    [value]="
+      ((highestIndex + 1) * 100) / data.questions.length
+    "></mat-progress-bar>
   <mat-dialog-content>
-    <mat-progress-bar
-      mode="determinate"
-      [value]="
-        ((highestIndex + 1) * 100) / data.questions.length
-      "></mat-progress-bar>
     <mat-stepper
       (selectionChange)="onChange($event)"
       orientation="vertical"
@@ -162,7 +163,7 @@
 
 <div class="bottom-container">
   <button
-    *ngIf="data.helpComponent"
+    *ngIf="currentQuestion?.stepHelp"
     mat-flat-button
     class="help-button"
     (click)="openHelp()">

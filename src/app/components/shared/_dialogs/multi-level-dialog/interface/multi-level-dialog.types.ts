@@ -11,6 +11,7 @@ export type AnsweredMultiLevelData = Record<string, FormGroup>;
 export interface MultiLevelDataEntry {
   tag: string;
   title: string;
+  stepHelp?: string | any;
   active?: (
     answers: AnsweredMultiLevelData,
     injector: Injector,
@@ -35,7 +36,6 @@ export interface MultiLevelData {
   title: string;
   buttonSection: string;
   confirmKey: string;
-  helpComponent?: any;
   questions: MultiLevelDataEntry[];
 }
 

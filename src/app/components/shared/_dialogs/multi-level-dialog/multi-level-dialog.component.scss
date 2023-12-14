@@ -78,6 +78,7 @@
 
 .mat-dialog-content {
   overflow-y: auto !important;
+  scrollbar-gutter: stable;
 }
 
 .bottom-container {
@@ -108,4 +109,13 @@
 .spinner-container {
   font-size: 14px;
   margin-top: -2px;
+}
+
+.progress-bar {
+  scrollbar-gutter: stable;
+
+  ::ng-deep .mat-progress-bar-background,
+  ::ng-deep .mat-progress-bar-background rect {
+    fill: transparent;
+  }
 }

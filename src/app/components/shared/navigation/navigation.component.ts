@@ -204,7 +204,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
       navigate: (route) => {
         const data = route.match(ROOM_REGEX);
         this.router.navigate([
-          `participant/room/${data[2]}/comments/questionwall`,
+          `${data[1]}/room/${data[2]}/comments/questionwall`,
         ]);
       },
     },

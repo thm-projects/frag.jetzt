@@ -268,8 +268,8 @@ export class AccountStateService {
             role === UserRole.CREATOR
               ? 'Creator'
               : role > UserRole.PARTICIPANT
-              ? 'Moderator'
-              : 'Participant',
+                ? 'Moderator'
+                : 'Participant',
           lastAccess: new Date(),
         }),
       )
@@ -365,7 +365,13 @@ export class AccountStateService {
   }
 
   updateGPTConsentState(result: boolean) {
-    this.gptService.updateConsentState(Boolean(result)).subscribe();
+    const consentState = Boolean(result);
+
+    this.gptService.updateConsentState(consentState)
+      .pipe(
+        tap(data => this.updateGptConsented$.next(data))
+      )
+      .subscribe();
   }
 
   private makeGuestSession(force: boolean, navigate: boolean) {

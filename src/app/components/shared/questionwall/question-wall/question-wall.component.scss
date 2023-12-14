@@ -1,9 +1,6 @@
 :host {
   .userActivityIcon {
     display: inline-block;
-    /*width: 25px;
-    height: 25px;
-    margin-bottom: -5px;*/
     background-color: currentColor;
     -webkit-mask-image: url("../../../../../assets/icons/activity.svg");
     mask-image: url("../../../../../assets/icons/activity.svg");
@@ -146,7 +143,8 @@
         font-size: 30px;
         padding-right: 20px;
         font-weight: bold;
-        color: rgba(255, 255, 255, 0.2);
+        color: var(--ars-header-color);
+        opacity: 0.2;
 
         > mat-icon {
           font-size: 45px;
@@ -265,7 +263,8 @@
           font-size: 50px;
           padding-left: 16px;
           font-weight: bold;
-          color: rgba(255, 255, 255, 0.2);
+          color: var(--ars-header-color);
+          opacity: 0.2;
 
           > mat-icon {
             font-size: 70px;

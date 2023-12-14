@@ -465,6 +465,21 @@
     "livepoll": "Sondage flash",
     "livepoll-button": "Créer des sondages et notifier automatiquement tous les participants."
   },
+  "topic-cloud-filter": {
+    "info-no-keywords": "Notre analyse de texte basée sur l'IA peut déterminer des mots clés. Démarrer l'analyse ?",
+    "label-refresh-keywords-start": "Démarrer",
+    "current-filter": "Questions filtrées",
+    "current-filter-short": "Questions filtrées",
+    "all-questions-and-answers": "Toutes les questions avec réponses",
+    "all-questions-and-answers-short": "Toutes les questions avec réponses",
+    "only-questions": "Seulement les questions",
+    "only-questions-short": "Seulement les questions",
+    "from-now": "Questions à partir de maintenant",
+    "from-now-short": "Questions à partir de maintenant",
+    "create": "Continuer",
+    "cancel": "Annuler",
+    "questions-title": "Quelles sont les questions que tu aimerais avoir sur le radar ?"
+  },
   "home-page": {
     "exactly-8": "Un code de salle comporte exactement 8 chiffres.",
     "no-room-found": "Aucune salle n'a été trouvée avec ce code de salle.",

@@ -342,7 +342,7 @@
     "temperature-tooltip-balanced": "Ausgewogene Antworten können sich ändern, sind aber oft sehr gut auf die Frage abgestimmt.",
     "temperature-precise": "[Mehr] Genau",
     "temperature-tooltip-precise": "Lässt praktisch keinen Spielraum zu. Die Antworten sind fast identisch und somit teilweise deterministisch.",
-    "privacy-policy": "Datenschutzerklärung für die Nutzung der OpenAI-API",
+    "privacy-policy": "Hier Datenschutzerklärung für die Nutzung der OpenAI-API",
     "enter-conversation-text": "Deine Eingabe …",
     "send": "Senden",
     "context-context": "Kontext: {{value}}",
@@ -471,6 +471,21 @@
     "logout": "Abmelden",
     "livepoll": "Blitzumfrage",
     "livepoll-button": "Umfrage erstellen und alle Personen im Raum automatisch benachrichtigen."
+  },
+  "topic-cloud-filter": {
+    "info-no-keywords": "Unsere KI-basierte Textanalyse kann Stichwörter ermitteln. Analyse starten?",
+    "label-refresh-keywords-start": "Starten",
+    "current-filter": "Gefilterte Fragen",
+    "current-filter-short": "Gefilterte Fragen",
+    "all-questions-and-answers": "Alle Fragen mit Antworten",
+    "all-questions-and-answers-short": "Alle Fragen mit Antworten",
+    "only-questions": "Nur Fragen",
+    "only-questions-short": "Nur Fragen",
+    "from-now": "Nur Fragen ab jetzt",
+    "from-now-short": "Nur Fragen ab jetzt",
+    "create": "Weiter",
+    "cancel": "Abbrechen",
+    "questions-title": "Welche Fragen willst du auf dem Radar haben?"
   },
   "home-page": {
     "exactly-8": "Ein Raum-Code hat genau 8 Ziffern.",
