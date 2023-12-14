@@ -4,6 +4,7 @@
 
 button:hover {
   outline: 3px solid var(--secondary);
+  color: var(--on-secondary);
 }
 
 .navigation-button {
@@ -42,7 +43,7 @@ button:hover {
     &:hover {
       outline: none;
       * {
-        color: white !important;
+        color: var(--secondary) !important;
       }
     }
   }

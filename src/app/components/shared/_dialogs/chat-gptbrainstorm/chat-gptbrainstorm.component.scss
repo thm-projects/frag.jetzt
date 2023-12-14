@@ -13,8 +13,8 @@
 
 .generator {
   display: flex;
-  gap: 2em;
   align-items: center;
+  flex-wrap: wrap;
 
   > mat-form-field {
     width: 100%;
