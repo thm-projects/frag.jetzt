@@ -328,7 +328,7 @@
 :host ::ng-deep {
   .questionwall-present-markdown {
     max-width: 100%;
-    color: darkorange;
+    color: var(--primary);
 
     hr {
       border: 1px solid darkorange;
