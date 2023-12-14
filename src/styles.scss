@@ -419,7 +419,11 @@ blockquote {
 .mat-dialog-content {
   padding: 0 24px 1em 24px !important;
   overflow-y: scroll !important;
-  max-height: 45vh !important;
+}
+@media screen and (orientation: landscape) {
+  mat-dialog-content {
+    max-height: 45vh !important;
+  }
 }
 
 /* ---- Scroll bar ----- */
