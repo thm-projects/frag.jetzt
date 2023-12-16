@@ -1,9 +1,9 @@
 <div class="dialog-header">
   <ng-container *ngIf="data.windowContext.is2ndPhasePeerInstruction">
-    <span>{{ "common.peerInstruction-title-2" | translate }}</span>
+    <h3>{{ "common.peerInstruction-title-2" | translate }}</h3>
   </ng-container>
   <ng-container *ngIf="!data.windowContext.is2ndPhasePeerInstruction">
-    <span>{{ "common.peerInstruction-title-1" | translate }}</span>
+    <h3>{{ "common.peerInstruction-title-1" | translate }}</h3>
   </ng-container>
 </div>
 <mat-dialog-content>
