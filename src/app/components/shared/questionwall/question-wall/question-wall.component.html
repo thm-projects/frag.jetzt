@@ -752,24 +752,25 @@
 <ng-template
   #commentBody
   let-comment="comment">
+  <ars-row>
+    <p class="questionwall-comment-number">
+      <mat-icon
+        *ngIf="getCommentIcon(comment) as icon"
+        [class]="getCommentIconClass(comment)">
+        {{ icon }}
+      </mat-icon>
+      <span *ngFor="let element of generateCommentNumber(comment)">
+        {{ element }}
+      </span>
+    </p>
+  </ars-row>
   <ars-row
     ars-flex-box
-    height="170">
+    height="160">
     <ars-fill></ars-fill>
     <ars-col ars-flex-box>
       <ars-fill></ars-fill>
-      <ars-row>
-        <p class="questionwall-comment-number">
-          <mat-icon
-            *ngIf="getCommentIcon(comment) as icon"
-            [class]="getCommentIconClass(comment)">
-            {{ icon }}
-          </mat-icon>
-          <span *ngFor="let element of generateCommentNumber(comment)">
-            {{ element }}
-          </span>
-        </p>
-      </ars-row>
+
       <ars-fill></ars-fill>
     </ars-col>
   </ars-row>
