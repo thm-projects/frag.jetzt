@@ -204,7 +204,7 @@
     "enter-comment": "Gib deine Frage ein …",
     "enter-title": "Titel",
     "error-both-fields": "Bitte fülle alle Felder aus.",
-    "error-brainstorm-duplicate": "Du hast diese Idee bereits eingereicht.",
+    "error-brainstorm-duplicate": "Du hast diese Idee bereits eingereicht. Hast du eine andere Idee?",
     "error-comment": "Bitte gib deinen Beitrag ein.",
     "error-comment-brainstorming": "Diese Brainstorming-Sitzung erlaubt nur eine Wortanzahl von {{maxWordCount}}.",
     "error-comment-data": "Zu viele Formatierungen oder verknüpfte Elemente. Bitte entferne einige.",
