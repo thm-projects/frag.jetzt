@@ -281,7 +281,7 @@ app-comment {
   &:hover {
     background-color: var(--background);
     color: var(--secondary);
-    outline: var(--secondary) solid 3px;
+    outline: var(--secondary) solid 2px;
   }
 }
 
@@ -301,7 +301,7 @@ app-comment {
   &:hover {
     background-color: var(--background);
     color: var(--primary);
-    outline: var(--primary) solid 3px;
+    outline: var(--primary) solid 2px;
   }
 
   &.center_screen {

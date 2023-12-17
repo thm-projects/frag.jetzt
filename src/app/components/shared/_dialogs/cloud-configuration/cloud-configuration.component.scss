@@ -100,7 +100,7 @@ mat-icon {
 .primary {
   background-color: transparent;
   color: var(--primary);
-  outline: var(--primary) solid 3px;
+  outline: var(--primary) solid 2px;
 
   &:hover {
     background-color: var(--primary);
@@ -114,7 +114,7 @@ mat-icon {
   margin-right: 15px;
 
   &:hover {
-    outline: var(--cancel) solid 3px;
+    outline: var(--cancel) solid 2px;
   }
 }
 
@@ -128,7 +128,7 @@ mat-icon {
   margin: 25px auto auto auto;
   background-color: transparent;
   color: var(--secondary);
-  outline: var(--secondary) solid 3px;
+  outline: var(--secondary) solid 2px;
 
   &:hover {
     background-color: var(--secondary);

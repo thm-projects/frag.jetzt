@@ -73,14 +73,14 @@ $bar-background: $secondary;
     color: var(--on-dialog);
 
     &:hover {
-      outline: var(--cancel) solid 3px;
+      outline: var(--cancel) solid 2px;
     }
   }
 
   &-secondary {
     background-color: transparent;
     color: var(--secondary);
-    outline: var(--secondary) solid 3px;
+    outline: var(--secondary) solid 2px;
 
     &:hover {
       background-color: var(--secondary);
@@ -101,7 +101,7 @@ $bar-background: $secondary;
   &-primary {
     background-color: transparent;
     color: var(--primary);
-    outline: var(--primary) solid 3px;
+    outline: var(--primary) solid 2px;
 
     &:hover {
       background-color: var(--primary);

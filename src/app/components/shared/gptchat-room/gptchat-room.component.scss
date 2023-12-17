@@ -224,7 +224,7 @@ mat-card {
 .secondary-btn {
   background-color: transparent;
   color: var(--secondary);
-  outline: var(--secondary) solid 3px;
+  outline: var(--secondary) solid 2px;
   width: fit-content;
   margin: 1.5em 0.5em;
 
@@ -280,6 +280,6 @@ mat-card {
   &:hover {
     background-color: transparent;
     color: var(--secondary);
-    outline: var(--secondary) solid 3px;
+    outline: var(--secondary) solid 2px;
   }
 }

@@ -16,7 +16,7 @@
   &.selected {
     background-color: transparent;
     color: var(--primary);
-    outline: var(--primary) solid 3px;
+    outline: var(--primary) solid 2px;
   }
 }
 
@@ -32,7 +32,7 @@
   .primary-btn {
     background-color: transparent;
     color: var(--primary);
-    outline: var(--primary) solid 3px;
+    outline: var(--primary) solid 2px;
     width: 70%;
     margin-top: 10px;
 
@@ -49,7 +49,7 @@
     margin: 16px 0;
 
     &:hover {
-      outline: var(--cancel) solid 3px;
+      outline: var(--cancel) solid 2px;
     }
   }
 }

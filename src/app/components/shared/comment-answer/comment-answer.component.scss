@@ -20,7 +20,7 @@ $responseShadowOff: math.ceil($responseShadowWidth + $responseShadowYOffset);
     border-radius: 5px;
 
     &:hover {
-      outline: 3px solid var(--secondary);
+      outline: 2px solid var(--secondary);
     }
 
     mat-icon {
@@ -52,7 +52,7 @@ $responseShadowOff: math.ceil($responseShadowWidth + $responseShadowYOffset);
   &:hover {
     background-color: var(--background);
     color: var(--primary);
-    outline: var(--primary) solid 3px;
+    outline: var(--primary) solid 2px;
   }
 }
 
@@ -85,7 +85,7 @@ button {
 .save {
   background-color: transparent;
   color: var(--primary);
-  outline: var(--primary) solid 3px;
+  outline: var(--primary) solid 2px;
   margin-right: 10px;
 
   &:hover {

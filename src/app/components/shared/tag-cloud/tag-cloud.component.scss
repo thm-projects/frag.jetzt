@@ -71,7 +71,7 @@ app-tag-cloud-pop-up {
   &:hover {
     background-color: transparent;
     color: var(--secondary);
-    outline: var(--secondary) solid 3px;
+    outline: var(--secondary) solid 2px;
   }
 }
 
@@ -88,7 +88,7 @@ app-tag-cloud-pop-up {
   &:hover {
     background-color: transparent;
     color: var(--primary);
-    outline: var(--primary) solid 3px;
+    outline: var(--primary) solid 2px;
   }
 
   &.center_screen {
