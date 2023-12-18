@@ -153,7 +153,8 @@ $carousel-container-size: 450px;
 }
 
 .main-heading-primary {
-  display: block;
+  display: flex;
+  justify-content: center;
   font-size: 30px;
   font-weight: normal;
   color: var(--primary);
