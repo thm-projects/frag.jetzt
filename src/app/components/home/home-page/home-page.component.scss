@@ -92,16 +92,16 @@ $carousel-container-size: 450px;
 
     &.highlight {
       span {
-        color: rgba(255, 255, 255, 1);
+        color: var(--on-background)
       }
 
-      background-color: rgba(0, 0, 0, 0.5);
+      background-color: var(--surface);
       box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.15);
     }
 
     &.peek {
       span {
-        color: rgba(255, 255, 255, 0.5);
+        color: rgba(255, 255, 255, 0.2);
         cursor: pointer;
       }
 
@@ -122,7 +122,7 @@ $carousel-container-size: 450px;
           color: rgba(0, 0, 0, 1);
         }
 
-        background-color: rgba(255, 255, 255, 0.5);
+        background-color: var(--surface);
         box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.05);
       }
 
