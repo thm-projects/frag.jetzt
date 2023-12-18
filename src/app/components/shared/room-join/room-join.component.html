@@ -34,10 +34,10 @@
       <button
         [disabled]="!sessionService.isReady"
         id="session_enter-button"
-        mat-flat-button
+        mat-icon-button
         type="submit"
         aria-labelledby="join-button-label">
-        {{ "home-page.join-room" | translate }}
+        <mat-icon>input</mat-icon>
       </button>
     </div>
   </form>
