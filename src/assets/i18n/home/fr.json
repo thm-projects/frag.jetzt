@@ -557,7 +557,7 @@
     "e-2-required": "Détermine un code d'accès, s'il te plaît.",
     "e-2-minlength": "Le code d'accès doit comporter au moins 3 caractères.",
     "e-2-maxlength": "Le code d'accès peut comporter au maximum 30 caractères.",
-    "e-2-pattern": "Seulement des lettres, des chiffres et . ~ - _ sont autorisés.",
+    "e-2-pattern": "Lettres, chiffres et . ~ - _",
     "e-2-already-used": "Ce code d'accès est déjà pris.",
     "q-t3-header": "Paramètres généraux",
     "q-t3-title": "Comment doit se dérouler l'événement?",

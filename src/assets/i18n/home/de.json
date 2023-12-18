@@ -557,7 +557,7 @@
     "e-2-required": "Bitte bestimme einen Zugangscode.",
     "e-2-minlength": "Der Zugangscode muss mindestens 3 Zeichen lang sein.",
     "e-2-maxlength": "Der Zugangscode darf maximal 30 Zeichen lang sein.",
-    "e-2-pattern": "Nur Buchstaben, Zahlen und . ~ - _ sind erlaubt.",
+    "e-2-pattern": "Buchstaben, Zahlen und . ~ - _",
     "e-2-already-used": "Dieser Zugangscode ist bereits vergeben.",
     "q-t3-header": "Allgemeine Einstellungen",
     "q-t3-title": "Wie soll die Veranstaltung ablaufen?",

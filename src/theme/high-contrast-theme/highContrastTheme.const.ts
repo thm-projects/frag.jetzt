@@ -57,9 +57,9 @@ export const highcontrast = {
 export const highcontrast_meta: ThemeMeta = {
   translation: {
     name: {
-      en: 'High contrast',
-      de: 'Hoher Kontrast',
-      fr: 'Contraste élevé',
+      en: 'Contrast',
+      de: 'Kontrast',
+      fr: 'Contraste',
     },
   },
   isDark: true,

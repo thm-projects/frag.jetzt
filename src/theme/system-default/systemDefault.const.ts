@@ -23,6 +23,6 @@ export const system_default_meta: ThemeMeta = {
     light: 'arsnova',
     dark: 'dark_solarized',
   },
-  icon: 'settings_suggest',
+  icon: 'schedule',
   isUtility: true,
 };

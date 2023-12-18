@@ -557,7 +557,7 @@
     "e-2-required": "Please determine an access code.",
     "e-2-minlength": "The access code must be at least 3 characters long.",
     "e-2-maxlength": "The access code can be a maximum of 30 characters long.",
-    "e-2-pattern": "Only letters, numbers and . ~ - _ are allowed.",
+    "e-2-pattern": "Letters, numbers and . ~ - _",
     "e-2-already-used": "This access code is already taken.",
     "q-t3-header": "General Settings",
     "q-t3-title": "How should the event proceed?",
