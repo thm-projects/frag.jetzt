@@ -96,6 +96,12 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
   currentLanguage: Language = 'en';
   isMobile = false;
   isSafari = false;
+  roleToRoute = {
+    0: 'participant',
+    1: 'moderator',
+    2: 'moderator',
+    3: 'creator',
+  };
   public readonly navigationAccess = {
     livepoll: livepollNavigationAccessOnRoute,
   };
