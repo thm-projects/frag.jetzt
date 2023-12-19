@@ -187,3 +187,4 @@ build_image_manual:
   except:
     - staging
     - master
+
