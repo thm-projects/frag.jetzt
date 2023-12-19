@@ -290,7 +290,7 @@
           router.url.endsWith('/comments') &&
           !isSafari
         "
-        routerLink="participant/room/{{ room?.shortId }}/comments/questionwall">
+        routerLink="{{roleToRoute[userRole]}}/room/{{ room?.shortId }}/comments/questionwall">
         <mat-icon
           class="beamer-icon"
           svgIcon="beamer"></mat-icon>
