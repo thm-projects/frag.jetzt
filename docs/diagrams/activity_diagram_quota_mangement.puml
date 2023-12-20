@@ -1,5 +1,5 @@
 @startuml Bonus awarding
-title frag.jetzt | PLE Workflow
+title frag.jetzt | ChatGPT Settings ARS & PLE
 
 skinparam backgroundColor Linen
 skinparam shadowing true
