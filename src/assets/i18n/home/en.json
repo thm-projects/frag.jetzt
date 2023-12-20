@@ -508,7 +508,7 @@
   "ml-room-create": {
     "title": "Create Room",
     "q-p1-header": "Activate ChatGPT",
-    "q-p1-title": "Since you are not logged in or registered, you can only create rooms without using ChatGPT. Note: Your rooms are bound to this browser. As a registered user, you can open your ChatGPT rooms in any browser. Remember that rooms are automatically deleted after 180 days of inactivity.",
+    "q-p1-title": "To create ChatGPT rooms, you need an account and must be logged in. Without an account, you can only create standard rooms linked to this browser. As a registered user, you can open your rooms in any browser. Rooms unused for 180 days will be deleted.",
     "q-p2-header": "Activate ChatGPT",
     "q-p2-title": "Would you like to activate ChatGPT?",
     "q-p2-short": "Activation type",

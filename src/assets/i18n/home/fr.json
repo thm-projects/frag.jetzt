@@ -508,7 +508,7 @@
   "ml-room-create": {
     "title": "Créer une salle",
     "q-p1-header": "Activer ChatGPT",
-    "q-p1-title": "Comme tu n'es pas connecté ou enregistré, tu ne peux créer que des salons sans utiliser ChatGPT. Attention : tes salles sont liées à ce navigateur. En tant qu'utilisateur enregistré, tu peux ouvrir tes salles de ChatGPT dans n'importe quel navigateur. N'oublie pas que les salons sont automatiquement supprimés après 180 jours d'inactivité.",
+    "q-p1-title": "Pour créer des salles ChatGPT, tu as besoin d'un compte et tu dois être connecté. Sans compte, tu peux seulement créer des salles standards liées à ce navigateur. En tant qu'utilisateur enregistré, tu peux ouvrir tes salles dans n'importe quel navigateur. Les salles inutilisées pendant 180 jours seront supprimées.",
     "q-p2-header": "Activer ChatGPT",
     "q-p2-title": "Tu veux activer ChatGPT ?",
     "q-p2-short": "Type d'activation",
