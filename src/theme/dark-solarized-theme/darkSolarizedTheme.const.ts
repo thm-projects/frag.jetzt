@@ -50,14 +50,14 @@ export const dark_solarized = {
 export const dark_solarized_meta: ThemeMeta = {
   translation: {
     name: {
-      en: 'Solarized Dark',
-      de: 'Solarized Dark',
-      fr: 'Solarized Dark',
+      en: 'Dark mode',
+      de: 'Dark Mode',
+      fr: 'Mode sombre',
     },
   },
   isDark: true,
   availableOnMobile: true,
-  order: 2,
+  order: 1,
   scale_desktop: 1,
   scale_mobile: 1,
   previewColor: 'background',

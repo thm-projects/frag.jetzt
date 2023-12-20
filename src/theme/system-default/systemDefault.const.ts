@@ -1,12 +1,12 @@
 import { ThemeMeta } from '../Theme';
 
 export const system_default = {
-  '--previewColor': '#052338',
+  '--previewColor': 'transparent',
   '--on-previewColor': '#fb9a1c',
 };
 
 export const system_default_meta: ThemeMeta = {
-  order: 5,
+  order: 3,
   translation: {
     name: {
       en: 'Day | Night',

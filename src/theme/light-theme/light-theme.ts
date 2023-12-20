@@ -64,7 +64,7 @@ export const arsnova_meta: ThemeMeta = {
   },
   isDark: false,
   availableOnMobile: true,
-  order: 3,
+  order: 2,
   scale_desktop: 1,
   scale_mobile: 1,
   previewColor: 'background',

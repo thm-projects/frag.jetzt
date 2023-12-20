@@ -67,6 +67,6 @@ export const highcontrast_meta: ThemeMeta = {
   order: 0,
   scale_desktop: 1,
   scale_mobile: 1,
-  previewColor: 'secondary',
+  previewColor: 'background',
   icon: 'contrast',
 };

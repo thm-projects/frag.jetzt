@@ -1,10 +1,8 @@
-import { dark, dark_meta } from './dark-theme/darkTheme.const';
 import {
   dark_solarized,
   dark_solarized_meta,
 } from './dark-solarized-theme/darkSolarizedTheme.const';
 import { arsnova, arsnova_meta } from './light-theme/light-theme';
-import { purple, purple_meta } from './purple-theme/purpleTheme.const';
 import {
   highcontrast,
   highcontrast_meta,
@@ -16,17 +14,15 @@ import {
 import { ThemeMeta } from './Theme';
 
 export const themes = {
-  arsnova,
-  dark,
-  dark_solarized,
   highcontrast,
+  dark_solarized,
+  arsnova,
   systemDefault: system_default,
 };
 
 export const themes_meta: { [key: string]: ThemeMeta } = {
-  arsnova: arsnova_meta,
-  dark: dark_meta,
-  dark_solarized: dark_solarized_meta,
   highcontrast: highcontrast_meta,
+  dark_solarized: dark_solarized_meta,
+  arsnova: arsnova_meta,
   systemDefault: system_default_meta,
 };
