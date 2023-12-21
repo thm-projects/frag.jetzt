@@ -1,4 +1,10 @@
 .mat-form-field {
-  margin-bottom: 0.5em;
+  margin-bottom: 0;
   display: block;
+  transition: margin-bottom 0.2s ease-in-out;
+}
+
+.mat-form-field:has(.mat-hint),
+.mat-form-field-invalid {
+  margin-bottom: 2em;
 }

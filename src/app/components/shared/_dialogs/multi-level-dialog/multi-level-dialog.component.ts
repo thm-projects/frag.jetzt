@@ -247,6 +247,7 @@ export class MultiLevelDialogComponent implements OnInit {
             this.elements.splice(elementIndex, 1)[0],
           );
           delete this.answers[question.tag];
+          delete previous[question.tag];
         } else {
           elementIndex++;
         }

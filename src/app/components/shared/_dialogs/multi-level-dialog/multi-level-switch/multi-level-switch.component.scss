@@ -3,12 +3,18 @@
 }
 
 :host ::ng-deep .mat-form-field-underline {
-  background-color: transparent;
+  background-color: transparent !important;
 }
 
 .mat-form-field {
-  margin-bottom: 0.5em;
+  margin-bottom: 0;
   display: block;
+  transition: margin-bottom 0.2s ease-in-out;
+}
+
+.mat-form-field:has(.mat-hint),
+.mat-form-field-invalid {
+  margin-bottom: 2em;
 }
 
 :host ::ng-deep .mat-form-field-wrapper {
@@ -23,4 +29,8 @@
 :host ::ng-deep .mat-slide-toggle-content {
   white-space: wrap;
   overflow: visible;
+}
+
+:host ::ng-deep .mat-slide-toggle {
+  height: auto !important;
 }
