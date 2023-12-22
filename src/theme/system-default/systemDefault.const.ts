@@ -9,9 +9,9 @@ export const system_default_meta: ThemeMeta = {
   order: 3,
   translation: {
     name: {
-      en: 'Light mode | Dark mode',
-      de: 'Light mode | Dark mode',
-      fr: 'Mode sombre | Mode lumineux',
+      en: 'Light | Dark',
+      de: 'Hell | Dunkel',
+      fr: 'Clair | Foncé',
     },
   },
   isDark: false,
