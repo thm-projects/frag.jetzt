@@ -9,9 +9,9 @@ export const system_default_meta: ThemeMeta = {
   order: 3,
   translation: {
     name: {
-      en: 'Day | Night',
-      de: 'Tag | Nacht',
-      fr: 'Jour | Nuit',
+      en: 'Light mode | Dark mode',
+      de: 'Light mode | Dark mode',
+      fr: 'Mode sombre | Mode lumineux',
     },
   },
   isDark: false,
