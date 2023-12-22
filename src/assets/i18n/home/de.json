@@ -1004,7 +1004,7 @@
       "en": "Englisch",
       "fr": "Französisch"
     },
-    "advanced-settings": "Erweiterte Einstellungen",
+    "advanced-settings": "Einstellungen",
     "advanced-settings-info": "Parameter, die direkt an die Schnittstelle übergeben werden",
     "advanced-setting-temperature": "Temperatur",
     "advanced-setting-presence-penalty": "Wiederholungsstrafe für Token",
