@@ -485,7 +485,7 @@ $width-range: $max-width - $min-width;
   background-color: transparent;
 
   &:hover {
-    outline: var(--primary) solid;
+    outline: var(--primary) solid 2px;
   }
 }
 
