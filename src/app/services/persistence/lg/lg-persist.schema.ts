@@ -26,4 +26,4 @@ export const SCHEMA = {
     comment: COMMENT_SCHEMA,
     'local-room-setting': LOCAL_ROOM_SETTING_SCHEMA,
   },
-} as const; // satisfies DatabaseSchema;
+} as const satisfies DatabaseSchema;

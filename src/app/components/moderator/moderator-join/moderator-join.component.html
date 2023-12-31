@@ -1,18 +1,22 @@
-<app-mat-spinner-overlay *ngIf="!room" [overlay]="true"></app-mat-spinner-overlay>
-<div *ngIf="!!room" class="main-container">
-  <mat-card>
+<app-mat-spinner-overlay
+  *ngIf="!room"
+  [overlay]="true"></app-mat-spinner-overlay>
+<div
+  *ngIf="!!room"
+  class="main-container">
+  <mat-card appearance="outlined">
     <h1>
-      {{'moderator-join.title' | translate}}
+      {{ "moderator-join.title" | translate }}
     </h1>
     <p>
-      {{'moderator-join.description' | translate: {room} }}
+      {{ "moderator-join.description" | translate : { room } }}
     </p>
-    <app-dialog-action-buttons [buttonsLabelSection]="'moderator-join'"
-                               [confirmButtonLabel]="'confirm'"
-                               [showLoadingCycle]="isSending"
-                               [spacing]="false"
-                               [confirmButtonClickAction]="confirm.bind(this)"
-                               [cancelButtonClickAction]="deny.bind(this)">
-    </app-dialog-action-buttons>
+    <app-dialog-action-buttons
+      [buttonsLabelSection]="'moderator-join'"
+      [confirmButtonLabel]="'confirm'"
+      [showLoadingCycle]="isSending"
+      [spacing]="false"
+      [confirmButtonClickAction]="confirm.bind(this)"
+      [cancelButtonClickAction]="deny.bind(this)"></app-dialog-action-buttons>
   </mat-card>
 </div>

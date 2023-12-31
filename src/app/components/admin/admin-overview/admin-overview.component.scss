@@ -7,6 +7,7 @@
   gap: 1.5rem;
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version. */
 mat-card {
   width: 24rem;
   height: 24rem;
@@ -26,7 +27,7 @@ mat-card {
     width: 1em;
     height: 1em;
   }
-  
+
   &:hover {
     transform: scale(1.1);
   }

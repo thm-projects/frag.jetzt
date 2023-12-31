@@ -145,6 +145,7 @@ export const IconActionArias: { [key in IconActionKey]: IconActionARIA[] } = {
   ],
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const stateToNum = (state: MenuState): number => {
   if (state === 'outside') return 0;
   if (state === 'anywhere') return 1;

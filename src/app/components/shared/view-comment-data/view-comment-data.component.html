@@ -8,7 +8,7 @@
     #editor
     placeholder="{{ placeHolderText | translate }}"
     [modules]="quillModules"
-    (document:click)="onDocumentClick($event)"
+    (document:click)="onDocumentClick()"
     (window:resize)="recalcAspectRatio()">
     <div quill-editor-toolbar>
       <ng-container

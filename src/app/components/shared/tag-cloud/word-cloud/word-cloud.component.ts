@@ -5,7 +5,6 @@ import {
   Input,
   OnChanges,
   OnDestroy,
-  OnInit,
   Output,
   Renderer2,
   SimpleChanges,
@@ -26,7 +25,7 @@ export interface WordMeta {
   rotate: number;
 }
 
-interface PositionInformation<K = any> {
+interface PositionInformation<K = unknown> {
   position: {
     width: number;
     height: number;
@@ -40,7 +39,7 @@ interface PositionInformation<K = any> {
   additional?: K;
 }
 
-export interface ActiveWord<T extends WordMeta, K = any> {
+export interface ActiveWord<T extends WordMeta, K = unknown> {
   meta: T;
   weightClass: number;
   visible: boolean;
@@ -66,7 +65,8 @@ const TO_RAD = (2 * Math.PI) / 360;
   templateUrl: './word-cloud.component.html',
   styleUrls: ['./word-cloud.component.scss'],
 })
-export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges, OnDestroy {
+export class WordCloudComponent<T extends WordMeta>
+  implements OnChanges, OnDestroy {
   @ViewChild('wordCloud', { static: true })
   wordCloud: ElementRef<HTMLDivElement>;
   @Output() clicked = new EventEmitter<T>();
@@ -88,8 +88,6 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
     private fontInfoService: FontInfoService,
     public themeService: ThemeService,
   ) {}
-
-  ngOnInit() {}
 
   ngOnDestroy() {
     this._cssStyleElement?.remove();
@@ -226,9 +224,9 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
     parent.style.setProperty('--hover-delay', hoverDelay + 's');
   }
 
-  transformObjectToCSS(sheet: CSSStyleSheet, index: number, object: any) {
+  transformObjectToCSS(sheet: CSSStyleSheet, index: number, object: object) {
     const upper = /[A-Z]/gm;
-    const replacer = (x: string, ...args: any) =>
+    const replacer = (x: string, ...args: unknown[]) =>
       (args[0] === 0 ? '--' : '-') + x.toLowerCase();
     let str = '{';
     for (const key of Object.keys(object)) {
@@ -268,7 +266,7 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
     }
     this.fontInfoService
       .waitTillFontLoaded(this.parameters.fontFamily)
-      .subscribe((_) => {
+      .subscribe(() => {
         this.doDraw(parentElement, parentWidth, parentHeight);
       });
   }
@@ -570,8 +568,14 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
         return;
       }
       e.element.style.setProperty('--offset-scale', scalar.toFixed(2));
-      e.element.style.setProperty('--pos-x', mapper(e.buildInformation, 'x') + parentWidth + 'px');
-      e.element.style.setProperty('--pos-y', mapper(e.buildInformation, 'y') + parentHeight + 'px');
+      e.element.style.setProperty(
+        '--pos-x',
+        mapper(e.buildInformation, 'x') + parentWidth + 'px',
+      );
+      e.element.style.setProperty(
+        '--pos-y',
+        mapper(e.buildInformation, 'y') + parentHeight + 'px',
+      );
       e.element.dataset.index = String(i);
     });
     const newElements = this._elements.filter(

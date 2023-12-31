@@ -17,34 +17,35 @@ a {
   color: var(--on-surface);
 }
 
-.mat-dialog-container {
+.mat-mdc-dialog-container {
   color: var(--on-surface) !important;
 }
 
-.mat-dialog-container h3 {
+.mat-mdc-dialog-container h3 {
   color: var(--on-surface) !important;
 }
 
-.mat-menu-panel {
+.mat-mdc-menu-panel {
   background-color: var(--primary-variant) !important;
   color: var(--on-primary-variant) !important;
 }
 
-.mat-menu-panel .mat-menu-item {
+.mat-mdc-menu-panel .mat-mdc-menu-item {
   background-color: var(--dialog) !important;
   color: var(--on-dialog) !important;
 }
 
-.mat-menu-panel .mat-menu-item:hover {
+.mat-mdc-menu-panel .mat-mdc-menu-item:hover {
   background-color: gray !important;
   color: white !important;
 }
 
+/*TODO(mdc-migration): The following rule targets internal classes of radio that may no longer apply for the MDC version.*/
 .mat-radio-outer-circle {
   border-color: var(--on-dialog) !important;
 }
 
-.mat-radio-button.mat-accent .mat-radio-inner-circle,
+.mat-mdc-radio-button.mat-accent .mat-radio-inner-circle,
 .mat-radio-button.mat-accent
   .mat-radio-ripple
   .mat-ripple-element:not(.mat-radio-persistent-ripple),

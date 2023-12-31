@@ -95,7 +95,7 @@ export class RoomListComponent implements OnInit, OnDestroy {
         this.getRooms();
       });
     this.eventService
-      .on<any>('RoomDeleted')
+      .on<{ id: string }>('RoomDeleted')
       .pipe(takeUntil(this.destroyer))
       .subscribe((payload) => {
         this.rooms = this.rooms.filter((r) => r.id !== payload.id);

@@ -5,16 +5,29 @@ import { catchError, tap, timeout } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { CURRENT_SUPPORTED_LANGUAGES, Model } from './spacy.interface';
 
-export type Language = 'de' | 'de-AT' | 'de-CH' | 'de-DE' |
-  'en' | 'en-AU' | 'en-CA' | 'en-GB' | 'en-US' |
-  'fr' |
-  'es' |
-  'it' |
-  'nl' | 'nl-BE' |
-  'pt' | 'pt-BR' | 'pt-PT' |
-  'auto';
+export type Language =
+  | 'de'
+  | 'de-AT'
+  | 'de-CH'
+  | 'de-DE'
+  | 'en'
+  | 'en-AU'
+  | 'en-CA'
+  | 'en-GB'
+  | 'en-US'
+  | 'fr'
+  | 'es'
+  | 'it'
+  | 'nl'
+  | 'nl-BE'
+  | 'pt'
+  | 'pt-BR'
+  | 'pt-PT'
+  | 'auto';
 
-type FirstPart<T extends string> = T extends `${infer First}-${string}` ? First : T;
+type FirstPart<T extends string> = T extends `${infer First}-${string}`
+  ? First
+  : T;
 
 export interface LanguagetoolResult {
   software: {
@@ -74,10 +87,9 @@ export interface LanguagetoolResult {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LanguagetoolService extends BaseHttpService {
-
   constructor(private http: HttpClient) {
     super();
   }
@@ -87,20 +99,30 @@ export class LanguagetoolService extends BaseHttpService {
   }
 
   isSupportedLanguage(language: Language) {
-    return CURRENT_SUPPORTED_LANGUAGES.includes(this.mapLanguageToSpacyModel(language));
+    return CURRENT_SUPPORTED_LANGUAGES.includes(
+      this.mapLanguageToSpacyModel(language),
+    );
   }
 
-  checkSpellings(text: string, language: Language): Observable<LanguagetoolResult> {
+  checkSpellings(
+    text: string,
+    language: Language,
+  ): Observable<LanguagetoolResult> {
     const url = '/languagetool';
-    return this.checkCanSendRequest('checkSpellings') || this.http
-      .get<LanguagetoolResult>(url, {
-        params: {
-          text, language
-        }
-      }).pipe(
-        tap(_ => ''),
-        timeout(4500),
-        catchError(this.handleError<any>('checkSpellings'))
-      );
+    return (
+      this.checkCanSendRequest('checkSpellings') ||
+      this.http
+        .get<LanguagetoolResult>(url, {
+          params: {
+            text,
+            language,
+          },
+        })
+        .pipe(
+          tap(() => ''),
+          timeout(4500),
+          catchError(this.handleError<LanguagetoolResult>('checkSpellings')),
+        )
+    );
   }
 }

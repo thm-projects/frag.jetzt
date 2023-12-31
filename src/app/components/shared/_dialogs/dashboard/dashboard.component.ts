@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { TranslateService } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
@@ -41,7 +41,7 @@ type LanguageMessageObjectFunction = (
   trans: TranslateService,
   notification: NotificationEvent,
   interpolate: object,
-) => Observable<any>;
+) => Observable<unknown>;
 
 type LanguageMessageObject = {
   [changeType in CommentChangeType]: LanguageMessageObjectFunction;
@@ -219,7 +219,7 @@ const LANGUAGE_MESSAGES: LanguageMessageObject = {
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })
-export class DashboardComponent implements OnInit, OnDestroy {
+export class DashboardComponent implements OnDestroy {
   toggleFilter: boolean = false;
   hasFilter: boolean = false;
   date: string = new Date().toLocaleDateString('de-DE');
@@ -311,10 +311,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     deviceState.mobile$
       .pipe(takeUntil(this._destroyer))
       .subscribe((m) => (this.isMobile = m));
-  }
-
-  ngOnInit(): void {
-    //intentional
   }
 
   ngOnDestroy() {

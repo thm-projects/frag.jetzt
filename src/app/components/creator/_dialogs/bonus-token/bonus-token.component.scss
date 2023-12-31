@@ -1,4 +1,5 @@
-h3, p {
+h3,
+p {
   font-size: 14px !important;
   font-weight: normal !important;
 }
@@ -23,18 +24,24 @@ p {
   flex-direction: column;
 }
 
-.flexbox-container h2, .flexbox-container .input, .flexbox-container table{
+.flexbox-container h2,
+.flexbox-container .input,
+.flexbox-container table {
   margin-bottom: 20px;
 }
 
-table, th, tr, td {
+table,
+th,
+tr,
+td {
   background-color: var(--primary-variant) !important;
   color: var(--on-primary-variant) !important;
   hyphens: auto;
   overflow-wrap: anywhere;
 }
 
-th, tr {
+th,
+tr {
   font-size: small !important;
 }
 
@@ -80,15 +87,21 @@ th, tr {
   }
 }
 
-th.mat-header-cell:first-of-type, td.mat-cell:first-of-type, td.mat-footer-cell:first-of-type {
-  padding-left:10px;
+th.mat-mdc-header-cell:first-of-type,
+td.mat-mdc-cell:first-of-type,
+td.mat-mdc-footer-cell:first-of-type {
+  padding-left: 10px;
   text-align: center;
 }
 
-th.mat-header-cell:last-of-type, td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type {
+th.mat-mdc-header-cell:last-of-type,
+td.mat-mdc-cell:last-of-type,
+td.mat-mdc-footer-cell:last-of-type {
   padding-right: 0px;
 }
 
-th.mat-header-cell, td.mat-cell, td.mat-footer-cell {
+th.mat-mdc-header-cell,
+td.mat-mdc-cell,
+td.mat-mdc-footer-cell {
   font-size: 12px;
 }

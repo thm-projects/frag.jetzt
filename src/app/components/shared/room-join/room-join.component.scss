@@ -27,20 +27,21 @@ mat-hint {
 }
 
 :host {
+  /*TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version.*/
   ::ng-deep .mat-form-field-label {
     color: var(--on-surface) !important;
   }
-
+  /*TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version.*/
   ::ng-deep .mat-form-field-underline {
     background-color: var(--primary) !important;
   }
-
+  /*TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version.*/
   ::ng-deep.mat-form-field-ripple {
     /*change color of underline when focused*/
     background-color: var(--primary) !important;
   }
-
-  ::ng-deep .mat-form-field .mat-form-field-infix {
+  /*TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version.*/
+  ::ng-deep .mat-mdc-form-field .mat-form-field-infix {
     max-width: 130px;
   }
 }

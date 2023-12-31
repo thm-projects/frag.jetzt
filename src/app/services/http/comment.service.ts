@@ -56,41 +56,41 @@ export class CommentService extends BaseHttpService {
 
   toggleRead(comment: Comment): Observable<Comment> {
     comment.read = !comment.read;
-    const changes = new TSMap<string, any>();
+    const changes = new TSMap<string, unknown>();
     changes.set('read', comment.read);
     return this.patchComment(comment, changes);
   }
 
   toggleFavorite(comment: Comment): Observable<Comment> {
     comment.favorite = !comment.favorite;
-    const changes = new TSMap<string, any>();
+    const changes = new TSMap<string, unknown>();
     changes.set('favorite', comment.favorite);
     return this.patchComment(comment, changes);
   }
 
   markCorrect(comment: Comment): Observable<Comment> {
-    const changes = new TSMap<string, any>();
+    const changes = new TSMap<string, unknown>();
     changes.set('correct', comment.correct);
     return this.patchComment(comment, changes);
   }
 
   toggleAck(comment: Comment): Observable<Comment> {
     comment.ack = !comment.ack;
-    const changes = new TSMap<string, any>();
+    const changes = new TSMap<string, unknown>();
     changes.set('ack', comment.ack);
     return this.patchComment(comment, changes);
   }
 
   toggleBookmark(comment: Comment): Observable<Comment> {
     comment.bookmark = !comment.bookmark;
-    const changes = new TSMap<string, any>();
+    const changes = new TSMap<string, unknown>();
     changes.set('bookmark', comment.bookmark);
     return this.patchComment(comment, changes);
   }
 
   updateCommentTag(comment: Comment, tag: string): Observable<Comment> {
     comment.tag = tag;
-    const changes = new TSMap<string, any>();
+    const changes = new TSMap<string, unknown>();
     changes.set('tag', tag);
     return this.patchComment(comment, changes);
   }
@@ -99,7 +99,7 @@ export class CommentService extends BaseHttpService {
     const connectionUrl = `${this.apiUrl.base}${this.apiUrl.comment}/${commentId}`;
     return this.http.get<CommentAPI>(connectionUrl, httpOptions).pipe(
       map((comment) => this.parseComment(comment)),
-      tap((_) => ''),
+      tap(() => ''),
       catchError(this.handleError<Comment>('getComment')),
     );
   }
@@ -130,7 +130,7 @@ export class CommentService extends BaseHttpService {
       )
       .pipe(
         map((c) => this.parseComment(c)),
-        tap((_) => ''),
+        tap(() => ''),
         catchError(this.handleError<Comment>('addComment')),
       );
   }
@@ -139,8 +139,7 @@ export class CommentService extends BaseHttpService {
     const importData = comments.map((comment) => {
       const c = {} as CommentAPI;
       for (const field of ImportedCommentFields) {
-        // @ts-ignore
-        c[field] = comment[field];
+        c[field] = comment[field] as never;
       }
       c.body = QuillUtils.serializeDelta(comment.body);
       c.keywordsFromSpacy = '[]' as JSONString;
@@ -155,7 +154,7 @@ export class CommentService extends BaseHttpService {
       .post<CommentAPI[]>(connectionUrl, importData, httpOptions)
       .pipe(
         map((cApis) => cApis.map((c) => this.parseComment(c))),
-        tap((_) => ''),
+        tap(() => ''),
         catchError(this.handleError<Comment[]>('importComments')),
       );
   }
@@ -165,7 +164,7 @@ export class CommentService extends BaseHttpService {
       this.apiUrl.base + this.apiUrl.comment
     }/${commentId}`;
     return this.http.delete<void>(connectionUrl, httpOptions).pipe(
-      tap((_) => ''),
+      tap(() => ''),
       catchError(this.handleError<void>('deleteComment')),
     );
   }
@@ -186,7 +185,7 @@ export class CommentService extends BaseHttpService {
         map((commentList) =>
           commentList.map((comment) => this.parseComment(comment)),
         ),
-        tap((_) => ''),
+        tap(() => ''),
         catchError(this.handleError<Comment[]>('getComments', [])),
       );
   }
@@ -207,7 +206,7 @@ export class CommentService extends BaseHttpService {
         map((commentList) =>
           commentList.map((comment) => this.parseComment(comment)),
         ),
-        tap((_) => ''),
+        tap(() => ''),
         catchError(this.handleError<Comment[]>('getComments', [])),
       );
   }
@@ -228,29 +227,29 @@ export class CommentService extends BaseHttpService {
         map((commentList) =>
           commentList.map((comment) => this.parseComment(comment)),
         ),
-        tap((_) => ''),
+        tap(() => ''),
         catchError(this.handleError<Comment[]>('getComments', [])),
       );
   }
 
-  updateComment(comment: Comment): Observable<any> {
+  updateComment(comment: Comment): Observable<unknown> {
     const connectionUrl =
       this.apiUrl.base + this.apiUrl.comment + '/' + comment.id;
     return this.http.put(connectionUrl, comment, httpOptions).pipe(
-      tap((_) => ''),
-      catchError(this.handleError<any>('updateComment')),
+      tap(() => ''),
+      catchError(this.handleError<unknown>('updateComment')),
     );
   }
 
-  patchComment(comment: Comment, changes: TSMap<string, any>) {
+  patchComment(comment: Comment, changes: TSMap<string, unknown>) {
     const connectionUrl =
       this.apiUrl.base + this.apiUrl.comment + '/' + comment.id;
     return this.http
       .patch<CommentAPI>(connectionUrl, changes, httpOptions)
       .pipe(
         map((c) => this.parseComment(c)),
-        tap((_) => ''),
-        catchError(this.handleError<any>('patchComment')),
+        tap(() => ''),
+        catchError(this.handleError<Comment>('patchComment')),
       );
   }
 
@@ -258,8 +257,8 @@ export class CommentService extends BaseHttpService {
     const connectionUrl =
       this.apiUrl.base + this.apiUrl.comment + '/' + comment.id + '/highlight';
     return this.http.post(connectionUrl, null, httpOptions).pipe(
-      tap((_) => ''),
-      catchError(this.handleError<any>('highlightComment')),
+      tap(() => ''),
+      catchError(this.handleError<unknown>('highlightComment')),
     );
   }
 
@@ -267,16 +266,16 @@ export class CommentService extends BaseHttpService {
     const connectionUrl =
       this.apiUrl.base + this.apiUrl.comment + '/' + comment.id + '/lowlight';
     return this.http.post(connectionUrl, null, httpOptions).pipe(
-      tap((_) => ''),
-      catchError(this.handleError<any>('lowlightComment')),
+      tap(() => ''),
+      catchError(this.handleError<unknown>('lowlightComment')),
     );
   }
 
   role(comment: Comment) {
     const connectionUrl = this.apiUrl.comment + '/' + comment.id + '/role';
     return this.http.patch(connectionUrl, httpOptions).pipe(
-      tap((_) => ''),
-      catchError(this.handleError<any>('roleComment')),
+      tap(() => ''),
+      catchError(this.handleError<unknown>('roleComment')),
     );
   }
 
@@ -285,7 +284,7 @@ export class CommentService extends BaseHttpService {
       this.apiUrl.base + this.apiUrl.comment + this.apiUrl.byRoom
     }?roomId=${roomId}`;
     return this.http.delete<Comment>(connectionUrl, httpOptions).pipe(
-      tap((_) => ''),
+      tap(() => ''),
       catchError(this.handleError<Comment>('deleteComment')),
     );
   }
@@ -295,7 +294,7 @@ export class CommentService extends BaseHttpService {
       this.apiUrl.base + this.apiUrl.comment + this.apiUrl.bulkDelete
     }`;
     return this.http.post<void>(connectionUrl, commentIds, httpOptions).pipe(
-      tap((_) => ''),
+      tap(() => ''),
       catchError(this.handleError<void>('bulkDeleteComments')),
     );
   }
@@ -306,7 +305,7 @@ export class CommentService extends BaseHttpService {
     return this.http
       .post<RoomQuestionCounts[]>(connectionUrl, rooms, httpOptions)
       .pipe(
-        tap((_) => ''),
+        tap(() => ''),
         catchError(this.handleError<RoomQuestionCounts[]>('countByRoomId', [])),
       );
   }
@@ -315,7 +314,7 @@ export class CommentService extends BaseHttpService {
     const vote = { accountId: userId, commentId: comment.id, vote: 1 };
     const connectionUrl = this.apiUrl.base + this.apiUrl.vote + '/';
     return this.http.post<Vote>(connectionUrl, vote, httpOptions).pipe(
-      tap((_) => ''),
+      tap(() => ''),
       catchError(this.handleError<Vote>('voteUp')),
     );
   }
@@ -324,7 +323,7 @@ export class CommentService extends BaseHttpService {
     const vote = { accountId: userId, commentId: comment.id, vote: -1 };
     const connectionUrl = this.apiUrl.base + this.apiUrl.vote + '/';
     return this.http.post<Vote>(connectionUrl, vote, httpOptions).pipe(
-      tap((_) => ''),
+      tap(() => ''),
       catchError(this.handleError<Vote>('voteUp')),
     );
   }
@@ -333,7 +332,7 @@ export class CommentService extends BaseHttpService {
     const vote = { accountId: userId, commentId: comment.id, vote: 0 };
     const connectionUrl = this.apiUrl.base + this.apiUrl.vote + '/';
     return this.http.post<Vote>(connectionUrl, vote, httpOptions).pipe(
-      tap((_) => ''),
+      tap(() => ''),
       catchError(this.handleError<Vote>('voteUp')),
     );
   }

@@ -18,7 +18,7 @@ export class MatomoTrackingService {
       },
     ],
     [
-      /^\/(creator|moderator)\/room\/([^\/]+)\/moderator\/comments$/,
+      /^\/(creator|moderator)\/room\/([^/]+)\/moderator\/comments$/,
       (exp: RegExpMatchArray) => {
         this.matomoTracker.setDocumentTitle('Moderation page');
         this.matomoTracker.setCustomVariable(1, 'VisitorRole', exp[1], 'page');
@@ -32,7 +32,7 @@ export class MatomoTrackingService {
       },
     ],
     [
-      /^\/(creator|moderator|participant)\/room\/([^\/]+)$/,
+      /^\/(creator|moderator|participant)\/room\/([^/]+)$/,
       (exp: RegExpMatchArray) => {
         this.matomoTracker.setDocumentTitle('Room page');
         this.matomoTracker.setCustomVariable(1, 'VisitorRole', exp[1], 'page');
@@ -46,7 +46,7 @@ export class MatomoTrackingService {
       },
     ],
     [
-      /^\/(creator|moderator|participant)\/room\/([^\/]+)\/comments$/,
+      /^\/(creator|moderator|participant)\/room\/([^/]+)\/comments$/,
       (exp: RegExpMatchArray) => {
         this.matomoTracker.setDocumentTitle('Q&A');
         this.matomoTracker.setCustomVariable(1, 'VisitorRole', exp[1], 'page');
@@ -60,7 +60,7 @@ export class MatomoTrackingService {
       },
     ],
     [
-      /^\/(creator|moderator|participant)\/room\/([^\/]+)\/comments\/tagcloud$/,
+      /^\/(creator|moderator|participant)\/room\/([^/]+)\/comments\/tagcloud$/,
       (exp: RegExpMatchArray) => {
         this.matomoTracker.setDocumentTitle('Keyword word cloud');
         this.matomoTracker.setCustomVariable(1, 'VisitorRole', exp[1], 'page');
@@ -74,7 +74,7 @@ export class MatomoTrackingService {
       },
     ],
     [
-      /^\/(creator|moderator|participant)\/room\/([^\/]+)\/comments\/brainstorming$/,
+      /^\/(creator|moderator|participant)\/room\/([^/]+)\/comments\/brainstorming$/,
       (exp: RegExpMatchArray) => {
         this.matomoTracker.setDocumentTitle('Brainstorming');
         this.matomoTracker.setCustomVariable(1, 'VisitorRole', exp[1], 'page');
@@ -88,7 +88,7 @@ export class MatomoTrackingService {
       },
     ],
     [
-      /^\/(creator|moderator|participant)\/room\/([^\/]+)\/comments\/questionwall$/,
+      /^\/(creator|moderator|participant)\/room\/([^/]+)\/comments\/questionwall$/,
       (exp: RegExpMatchArray) => {
         this.matomoTracker.setDocumentTitle('Question focus');
         this.matomoTracker.setCustomVariable(1, 'VisitorRole', exp[1], 'page');

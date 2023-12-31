@@ -208,7 +208,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
   private destroyer = new ReplaySubject(1);
   private encoder: GPTEncoder = null;
   private room: Room = null;
-  private _list: ComponentRef<any>[];
+  private _list: ComponentRef<unknown>[];
   private _preset: GPTRoomPreset;
   private keywordExtractor: KeywordExtractor;
   private language: string;
@@ -980,6 +980,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
         this.addMessage(index).subscribe();
         const errorIndex = index + 1;
         const error = this.conversation[errorIndex];
+        console.error('Error at index ' + errorIndex + ': ' + error.message);
         let errorMessage = e.message ? e.message : e;
         if (e instanceof HttpErrorResponse) {
           const data = JSON.parse(e.error || null);

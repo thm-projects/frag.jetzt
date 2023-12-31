@@ -1,6 +1,7 @@
 import {
   AfterViewInit,
   Component,
+  ElementRef,
   EventEmitter,
   Input,
   OnDestroy,
@@ -23,7 +24,7 @@ import { AppStateService } from 'app/services/state/app-state.service';
 })
 export class MotdMessageComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() message: Motd;
-  @ViewChild('markdown', { static: true }) markdown: any;
+  @ViewChild('markdown', { static: true }) markdown: { element: ElementRef };
   translatedMessage: string;
   date: EventEmitter<ArsApproximateDate> =
     new EventEmitter<ArsApproximateDate>();

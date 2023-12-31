@@ -230,7 +230,6 @@
       }
     }
   },
-  "defaultProject": "arsnova-angular-frontend",
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "app",

@@ -315,7 +315,7 @@ export class TagCloudPopUpComponent
     };
     const tagReplacementInputLower = tagReplacementInput.toLowerCase();
     this.tagData.comments.forEach((comment) => {
-      const changes = new TSMap<string, any>();
+      const changes = new TSMap<string, unknown>();
       if (
         comment.keywordsFromQuestioner.findIndex(
           (e) => e.text.toLowerCase() === tagReplacementInputLower,
@@ -390,8 +390,8 @@ export class TagCloudPopUpComponent
       this.setOwnVote(0);
       this.brainstormingData.words.forEach((wordId) => {
         this.brainstormingService.deleteVote(wordId).subscribe({
-          next: (_) => (this._isSending = false),
-          error: (_) => {
+          next: () => (this._isSending = false),
+          error: () => {
             this.setOwnVote(lastVote);
             this._isSending = false;
           },
@@ -402,8 +402,8 @@ export class TagCloudPopUpComponent
     this.setOwnVote(currentVote);
     this.brainstormingData.words.forEach((wordId) => {
       this.brainstormingService.createVote(wordId, upvote).subscribe({
-        next: (_) => (this._isSending = false),
-        error: (_) => {
+        next: () => (this._isSending = false),
+        error: () => {
           this.setOwnVote(lastVote);
           this._isSending = false;
         },
@@ -512,8 +512,8 @@ export class TagCloudPopUpComponent
         setTimeout(afterInit);
       }
     };
-    // @ts-ignore
-    const diffMs = Date.now() - Date.parse(this.tagData.firstTimeStamp);
+    const diffMs =
+      Date.now() - Date.parse(this.tagData.firstTimeStamp as unknown as string);
     const seconds = Math.floor(diffMs / 1_000);
     if (seconds < 60) {
       // few seconds

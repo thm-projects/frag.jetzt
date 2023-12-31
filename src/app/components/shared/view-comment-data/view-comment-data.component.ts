@@ -96,7 +96,7 @@ export class ViewCommentDataComponent
     private dialog: MatDialog,
   ) {
     DsgvoVideo.translator = translateService;
-    this.appState.language$.pipe(takeUntil(this._destroyer)).subscribe((_) => {
+    this.appState.language$.pipe(takeUntil(this._destroyer)).subscribe(() => {
       if (this.isEditor) {
         this.updateCSSVariables();
       }
@@ -193,7 +193,7 @@ export class ViewCommentDataComponent
         startup();
         return;
       }
-      this.quillView.onEditorCreated.subscribe((_) => {
+      this.quillView.onEditorCreated.subscribe(() => {
         startup();
       });
       return;
@@ -238,7 +238,7 @@ export class ViewCommentDataComponent
     if (this.editor.editorElem) {
       initEditor();
     } else {
-      this.editor.onEditorCreated.subscribe((_) => initEditor());
+      this.editor.onEditorCreated.subscribe(() => initEditor());
     }
     this.editor.onContentChanged.subscribe((e) => {
       this._marks.onDataChange(e.delta);
@@ -257,7 +257,7 @@ export class ViewCommentDataComponent
     this._mutateObserver?.disconnect?.();
   }
 
-  onDocumentClick(e) {
+  onDocumentClick() {
     if (!this._marks) {
       return;
     }
@@ -440,7 +440,7 @@ export class ViewCommentDataComponent
 
   private handle(type: string, overrideMeta = '', overrideAction = null) {
     const quill = this.editor.quillEditor;
-    let meta: any = null;
+    let meta: unknown = null;
     const selection = quill.getSelection(false);
     if (overrideMeta) {
       meta = overrideMeta;
@@ -465,7 +465,7 @@ export class ViewCommentDataComponent
   }
 
   private syncErrorLayer(): void {
-    const pos = this.editor.elementRef.nativeElement.getBoundingClientRect();
+    const pos = this.editor.editorElem.parentElement.getBoundingClientRect();
     const elem = this.editorErrorLayer.nativeElement;
     elem.style.width = pos.width + 'px';
     elem.style.height = pos.height + 'px';
@@ -488,7 +488,7 @@ export class ViewCommentDataComponent
     }
   }
 
-  private onMutate(mutations: MutationRecord[], _observer: MutationObserver) {
+  private onMutate(mutations: MutationRecord[]) {
     for (const mutation of mutations) {
       Array.from(mutation.addedNodes).forEach((node) => {
         if (

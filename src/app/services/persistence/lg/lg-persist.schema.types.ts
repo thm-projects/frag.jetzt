@@ -55,7 +55,7 @@ export interface DatabaseSchema {
   name: string;
   version: number;
   migrator: Migrator;
-  stores: Record<string, DbStore<any>>;
+  stores: Record<string, DbStore<object>>;
 }
 
 enum LogLevel {
@@ -233,7 +233,7 @@ const haveStoresSameProps = <T extends object>(
 const syncIndexes = (
   storeName: string,
   version: number,
-  store: DbStore<any>,
+  store: DbStore<object>,
   objStore: IDBObjectStore,
   logger: Logger,
 ) => {
@@ -293,6 +293,7 @@ const haveIndexesSameProps = (
   );
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Walk<Path extends string, Obj> = Obj extends Record<string, any>
   ? Path extends `${infer Pre}.${infer Last}`
     ? Walk<Last, Obj[Pre]>
@@ -302,7 +303,7 @@ type Walk<Path extends string, Obj> = Obj extends Record<string, any>
 type TransformArray<
   Path,
   Obj,
-  Start extends any[] = [],
+  Start extends unknown[] = [],
 > = Path extends readonly [infer A extends string, ...infer Rest]
   ? TransformArray<Rest, Obj, [Walk<A, Obj>, ...Start]>
   : Start;
@@ -311,7 +312,7 @@ export type Transform<Path, Obj> = Path extends string
   ? Walk<Path, Obj>
   : Path extends readonly string[]
   ? TransformArray<Path, Obj, []>
-  : any;
+  : unknown;
 
 export interface LgCursor<T> extends IDBCursor {
   update(value: T): IDBRequest<IDBValidKey>;
@@ -377,7 +378,7 @@ export interface LgDb<T extends DatabaseSchema> extends IDBDatabase {
 }
 
 export const fromWriteRequestClosing = <K>(
-  trans: LgTransaction<any>,
+  trans: LgTransaction<DatabaseSchema>,
   request: IDBRequest<K>,
 ): Observable<K> => {
   trans.commit?.();
@@ -402,7 +403,7 @@ export const fromWriteRequestClosing = <K>(
 };
 
 export const fromRequestClosing = <K>(
-  trans: LgTransaction<any>,
+  trans: LgTransaction<DatabaseSchema>,
   request: IDBRequest<K>,
 ): Observable<K> => {
   trans.commit?.();

@@ -64,7 +64,7 @@ export class GptConfigurationComponent implements OnInit, OnDestroy {
     private translateService: TranslateService,
     private notificationService: NotificationService,
     private appState: AppStateService,
-    private adapter: DateAdapter<any>,
+    private adapter: DateAdapter<unknown>,
   ) {}
 
   ngOnInit(): void {
@@ -207,7 +207,7 @@ export class GptConfigurationComponent implements OnInit, OnDestroy {
         }
       }
       if (arr.length > 0) {
-        changes.platformCodes = arr as any;
+        changes.platformCodes = arr as unknown as GPTActivationCode[];
       }
     }
     if (Object.keys(changes).length < 1) {

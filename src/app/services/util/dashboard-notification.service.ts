@@ -215,7 +215,7 @@ export class DashboardNotificationService {
     );
   }
 
-  deleteRoomSubscription(roomId: string): Observable<any> {
+  deleteRoomSubscription(roomId: string): Observable<unknown> {
     const data = this._roomSubscriptions[roomId];
     if (!data) {
       return throwError(() => new Error('No active subscription!'));
@@ -258,7 +258,7 @@ export class DashboardNotificationService {
     );
   }
 
-  deleteCommentSubscription(commentId: string): Observable<any> {
+  deleteCommentSubscription(commentId: string): Observable<unknown> {
     const data = this._commentSubscriptions[commentId];
     if (!data) {
       return throwError(() => new Error('No active comment subscription!'));

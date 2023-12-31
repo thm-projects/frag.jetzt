@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
@@ -6,12 +6,10 @@ import { MatDialogRef } from '@angular/material/dialog';
   templateUrl: './notify-unsupported-browser.component.html',
   styleUrls: ['./notify-unsupported-browser.component.scss'],
 })
-export class NotifyUnsupportedBrowserComponent implements OnInit {
+export class NotifyUnsupportedBrowserComponent {
   constructor(
     private dialogRef: MatDialogRef<NotifyUnsupportedBrowserComponent>,
   ) {}
-
-  ngOnInit(): void {}
 
   onClose(): void {
     this.dialogRef.close();

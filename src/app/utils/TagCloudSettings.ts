@@ -5,9 +5,7 @@ import { TopicCloudAdminService } from '../services/util/topic-cloud-admin.servi
 const CURRENT_VERSION = 2;
 
 export class TagCloudSettings {
-  constructor(
-    public adminData: TopicCloudAdminData,
-  ) {}
+  constructor(public adminData: TopicCloudAdminData) {}
 
   static getFromRoom(room: Room): TagCloudSettings {
     let object = JSON.parse(room.tagCloudSettings || null);
@@ -23,23 +21,20 @@ export class TagCloudSettings {
       version += 1;
     }
     const { admin } = object;
-    return new TagCloudSettings(
-      admin as TopicCloudAdminData,
-    );
+    return new TagCloudSettings(admin as TopicCloudAdminData);
   }
 
   static getCurrent(): TagCloudSettings {
-    return new TagCloudSettings(
-      TopicCloudAdminService.getDefaultAdminData,
-    );
+    return new TagCloudSettings(TopicCloudAdminService.getDefaultAdminData);
   }
 
-  private static migrate(object: unknown, currentVersion: number): any {
+  private static migrate(object: unknown, currentVersion: number): unknown {
     switch (currentVersion) {
-      case 1: return {
-        admin: object['admin'],
-        version: 2,
-      };
+      case 1:
+        return {
+          admin: object['admin'],
+          version: 2,
+        };
     }
     return null;
   }

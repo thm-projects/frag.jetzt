@@ -21,7 +21,7 @@ footer {
   color: var(--on-secondary) !important;
 }
 
-.mat-button {
+.mat-mdc-button {
   min-height: 28px;
   font-size: 12px;
   color: var(--on-surface);
@@ -71,19 +71,18 @@ mat-icon {
   line-height: 100% !important;
 }
 
-
 ::ng-deep .color-menu {
   width: 180px !important;
 }
 
-::ng-deep .mat-menu-panel {
+::ng-deep .mat-mdc-menu-panel {
   padding: 0 8px !important;
   background-color: var(--dialog) !important;
   color: var(--on-dialog) !important;
   min-width: unset !important;
 }
 
-::ng-deep .mat-menu-item {
+::ng-deep .mat-mdc-menu-item {
   background-color: var(--dialog);
   color: var(--on-dialog);
 }
@@ -182,7 +181,7 @@ mat-icon {
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    color: #FFFFFF;
+    color: #ffffff;
     border-radius: 100%;
   }
 }

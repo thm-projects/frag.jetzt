@@ -5,7 +5,6 @@ import {
   OnDestroy,
   OnInit,
   QueryList,
-  SimpleChanges,
   ViewChildren,
 } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
@@ -81,7 +80,7 @@ export class AppRatingComponent implements OnInit, OnChanges, OnDestroy {
       });
   }
 
-  ngOnChanges(changes: SimpleChanges) {
+  ngOnChanges() {
     this.canSubmit();
   }
 

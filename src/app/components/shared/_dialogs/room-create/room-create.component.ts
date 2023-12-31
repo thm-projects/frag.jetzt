@@ -58,7 +58,7 @@ export class RoomCreateComponent implements OnInit, OnDestroy {
     private notification: NotificationService,
     public dialogRef: MatDialogRef<RoomCreateComponent>,
     private translateService: TranslateService,
-    @Inject(MAT_DIALOG_DATA) public data: any,
+    @Inject(MAT_DIALOG_DATA) public data: object,
     private sessionService: SessionService,
     private dialog: MatDialog,
     private gptService: GptService,
@@ -86,7 +86,7 @@ export class RoomCreateComponent implements OnInit, OnDestroy {
     }
   }
 
-  verifyAlreadyUsed(c: FormControl) {
+  verifyAlreadyUsed() {
     return this.shortIdAlreadyUsed
       ? {
           shortId: {

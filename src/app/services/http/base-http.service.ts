@@ -4,14 +4,11 @@ import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable()
 export class BaseHttpService {
-
   private nextRequest = 0;
 
-  constructor() {
-  }
-
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public handleError<T>(operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
+    return (error: object): Observable<T> => {
       if (error instanceof TimeoutError) {
         this.nextRequest = new Date().getTime() + 1_000;
       } else if (error instanceof HttpErrorResponse) {
@@ -30,7 +27,7 @@ export class BaseHttpService {
     this.nextRequest = new Date().getTime() + ms;
   }
 
-  protected checkCanSendRequest(operation = 'operation'): Observable<any> {
+  protected checkCanSendRequest<T>(operation = 'operation'): Observable<T> {
     if (new Date().getTime() < this.nextRequest) {
       const message = `${operation} is in timeout`;
       console.error(message);

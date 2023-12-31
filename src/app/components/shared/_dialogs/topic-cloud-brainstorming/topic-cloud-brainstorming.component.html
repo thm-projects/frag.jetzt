@@ -2,6 +2,7 @@
 <app-mat-spinner-overlay *ngIf="isLoading"></app-mat-spinner-overlay>
 <mat-dialog-content *ngIf="!isLoading">
   <mat-card
+    appearance="outlined"
     class="brainstorm-container"
     *ngIf="userRole > 0 && !brainstormingData?.active">
     <span *ngIf="!isMobile">
@@ -115,6 +116,7 @@
       [displayWith]="displayMin"
       showTickMarks>
       <input matSliderThumb />
+      <input matSliderThumb />
     </mat-slider>
     <br />
     <mat-slide-toggle [(ngModel)]="brainstormingAllowIdeas">
@@ -139,6 +141,7 @@
     </button>
   </mat-card>
   <mat-card
+    appearance="outlined"
     class="brainstorm-session"
     *ngIf="brainstormingData">
     <ng-container *ngIf="!brainstormingData?.active">
@@ -209,6 +212,7 @@
     </ng-container>
   </mat-card>
   <mat-card
+    appearance="outlined"
     *ngIf="userRole === 0 && !this.brainstormingData"
     class="no-brainstorm-session">
     <span>{{ "content.brainstorm-no-session" | translate }}</span>

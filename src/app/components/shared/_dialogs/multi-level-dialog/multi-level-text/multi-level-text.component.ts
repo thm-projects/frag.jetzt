@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   BuiltAction,
   DYNAMIC_INPUT,
@@ -10,10 +10,6 @@ import {
   templateUrl: './multi-level-text.component.html',
   styleUrls: ['./multi-level-text.component.scss'],
 })
-export class MultiLevelTextComponent implements OnInit {
+export class MultiLevelTextComponent {
   data = inject(DYNAMIC_INPUT) as BuiltAction<TextAction>;
-
-  constructor() {}
-
-  ngOnInit(): void {}
 }

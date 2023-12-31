@@ -78,6 +78,11 @@ export interface LivepollOptionEntry {
   symbol: string;
 }
 
+interface MessagePayload {
+  votes: number[];
+  userCount: number;
+}
+
 @Component({
   selector: 'app-livepoll-dialog',
   templateUrl: './livepoll-dialog.component.html',
@@ -196,7 +201,7 @@ export class LivepollDialogComponent
           .pipe(takeUntil(this._destroyer))
           .subscribe((userCount) => {
             const parsed = JSON.parse(userCount.body);
-            if (parsed.hasOwnProperty('UserCountChanged')) {
+            if ('UserCountChanged' in parsed) {
               this.parseWebSocketStream(
                 'UserCountChanged',
                 parsed['UserCountChanged'],
@@ -369,7 +374,7 @@ export class LivepollDialogComponent
       collect.push('translated-text');
     } else if (!this.template.translate && this.template.isPlain) {
       collect.push('text-as-icon');
-    } else if (!!this.template.symbols) {
+    } else if (this.template.symbols) {
       collect.push('material-icons');
     }
     return collect.map((x) => `button-vote-${x}`).join(' ');
@@ -423,7 +428,11 @@ export class LivepollDialogComponent
     });
   }
 
-  private parseWebSocketStream(type: string, payload: any, id?: UUID) {
+  private parseWebSocketStream(
+    type: string,
+    payload: MessagePayload,
+    id?: UUID,
+  ) {
     switch (type) {
       case 'LivepollResult':
         this.updateVotes(payload.votes);

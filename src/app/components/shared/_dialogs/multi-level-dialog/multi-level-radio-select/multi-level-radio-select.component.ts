@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   BuiltAction,
   DYNAMIC_INPUT,
@@ -10,10 +10,6 @@ import {
   templateUrl: './multi-level-radio-select.component.html',
   styleUrls: ['./multi-level-radio-select.component.scss'],
 })
-export class MultiLevelRadioSelectComponent implements OnInit {
+export class MultiLevelRadioSelectComponent {
   data = inject(DYNAMIC_INPUT) as BuiltAction<RadioSelectAction>;
-
-  constructor() {}
-
-  ngOnInit(): void {}
 }

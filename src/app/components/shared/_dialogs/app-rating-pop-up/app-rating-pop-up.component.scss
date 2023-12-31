@@ -2,7 +2,7 @@
   transform: translate(-50%, -100%);
 
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 100%;
     left: 50%;
@@ -13,7 +13,7 @@
   }
 
   &::after {
-    content: '';
+    content: "";
     position: absolute;
     top: calc(100% - 1px);
     left: 50%;
@@ -27,7 +27,7 @@
     transform: translateX(-50%);
 
     &::before {
-      content: '';
+      content: "";
       position: absolute;
       top: -10px;
       left: 50%;
@@ -38,7 +38,7 @@
     }
 
     &::after {
-      content: '';
+      content: "";
       position: absolute;
       top: -9px;
       left: 50%;
@@ -92,14 +92,14 @@
       svg {
         display: none;
       }
-
+      /* TODO(mdc-migration): The following rule targets internal classes of progress-bar that may no longer apply for the MDC version. */
       .mat-progress-bar-buffer {
         background: var(--background);
         border: 1px solid var(--on-dialog);
         height: calc(1em - 2px);
         width: calc(100% - 2px);
       }
-
+      /* TODO(mdc-migration): The following rule targets internal classes of progress-bar that may no longer apply for the MDC version. */
       .mat-progress-bar-fill::after {
         background: var(--yellow);
       }

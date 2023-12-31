@@ -13,13 +13,14 @@ import {
 import { Observable, forkJoin, isObservable, of } from 'rxjs';
 import { ExplanationDialogComponent } from '../explanation-dialog/explanation-dialog.component';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { ComponentType } from '@angular/cdk/portal';
 
 const WINDOW_SIZE = 3;
 
 export type MultiLevelDialogSubmit = (
   injector: Injector,
   answers: AnsweredMultiLevelData,
-) => Observable<any>;
+) => Observable<unknown>;
 
 @Component({
   selector: 'app-multi-level-dialog',
@@ -99,7 +100,7 @@ export class MultiLevelDialogComponent implements OnInit {
       const ref = this.dialog.open(ExplanationDialogComponent);
       ref.componentInstance.translateKey = help;
     } else {
-      this.dialog.open(help);
+      this.dialog.open(help as ComponentType<unknown>);
     }
   }
 

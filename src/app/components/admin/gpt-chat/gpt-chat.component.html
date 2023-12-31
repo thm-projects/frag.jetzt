@@ -1,4 +1,4 @@
-<mat-card>
+<mat-card appearance="outlined">
   <div
     class="gpt-requester"
     *ngIf="!isLoading; else loading">
@@ -97,11 +97,21 @@
       <mat-slider
         [matTooltip]="'gpt-chat.temperature-tooltip' | translate"
         showTickMarks
-        (input)="temperature = $event.value"
         min="0"
         max="2"
         step="0.05"
-        [value]="temperature">
+        #ngSlider>
+        <input
+          matSliderThumb
+          [value]="temperature"
+          (input)="
+            temperature = {
+              source: ngSliderThumb,
+              parent: ngSlider,
+              value: ngSliderThumb.value
+            }.value
+          "
+          #ngSliderThumb="matSliderThumb" />
         <input matSliderThumb />
       </mat-slider>
       <mat-form-field>

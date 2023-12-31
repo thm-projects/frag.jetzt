@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Language } from 'app/services/http/languagetool.service';
@@ -10,7 +10,7 @@ import { ReplaySubject, takeUntil } from 'rxjs';
   templateUrl: './imprint.component.html',
   styleUrls: ['./imprint.component.scss'],
 })
-export class ImprintComponent implements OnInit, OnDestroy {
+export class ImprintComponent implements OnDestroy {
   safeURLfrontend: SafeResourceUrl;
   safeURLbackend: SafeResourceUrl;
   currentLanguage: Language;
@@ -24,15 +24,6 @@ export class ImprintComponent implements OnInit, OnDestroy {
     appState.language$
       .pipe(takeUntil(this.destroyer))
       .subscribe((lang) => (this.currentLanguage = lang));
-  }
-
-  ngOnInit() {
-    /**
-    this.safeURLfrontend = this.sanitizer
-      .bypassSecurityTrustResourceUrl('https://www.openhub.net/p/frag-jetzt/widgets/project_partner_badge');
-    this.safeURLbackend = this.sanitizer
-      .bypassSecurityTrustResourceUrl('https://www.openhub.net/p/frag-jetzt-backend/widgets/project_partner_badge');
-     */
   }
 
   ngOnDestroy(): void {

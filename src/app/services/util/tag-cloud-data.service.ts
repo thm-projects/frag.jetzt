@@ -184,7 +184,7 @@ export class TagCloudDataService {
     } else {
       newData = new Map<string, TagCloudDataTagEntry>(
         [...current].sort(
-          ([_, aTagData], [__, bTagData]) => bTagData.weight - aTagData.weight,
+          ([, aTagData], [, bTagData]) => bTagData.weight - aTagData.weight,
         ),
       );
     }
@@ -227,7 +227,7 @@ export class TagCloudDataService {
         { type: 'CommentPatched', finished: true, updates: ['ack'] },
         { type: 'CommentPatched', finished: true, updates: ['tag'] },
       ])
-      .subscribe((_) => {
+      .subscribe(() => {
         this.rebuildTagData();
       });
   }
@@ -245,7 +245,7 @@ export class TagCloudDataService {
     return this._lastFetchedData;
   }
 
-  private calculateWeight(tagData: TagCloudDataTagEntry, tag: string): number {
+  private calculateWeight(tagData: TagCloudDataTagEntry): number {
     const scorings = this._adminData.scorings;
     return (
       tagData.comments.length * scorings.countComments.score +
@@ -296,8 +296,8 @@ export class TagCloudDataService {
     );
     let minWeight = null;
     let maxWeight = null;
-    data.forEach((value, key) => {
-      value.weight = this.calculateWeight(value, key);
+    data.forEach((value) => {
+      value.weight = this.calculateWeight(value);
       minWeight = Math.min(
         value.weight,
         minWeight === null ? value.weight : minWeight,

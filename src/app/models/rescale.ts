@@ -116,7 +116,7 @@ export class Rescale {
   }
 
   private scaleUpdate() {
-    (document.getElementById('rescale_screen').style as any).zoom =
+    (document.getElementById('rescale_screen').style as object)['zoom'] =
       this.scale + '';
   }
 

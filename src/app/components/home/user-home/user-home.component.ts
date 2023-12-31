@@ -41,7 +41,7 @@ export class UserHomeComponent implements OnInit, OnDestroy, AfterContentInit {
   fetchedRating: Rating = undefined;
   listenerFn: () => void;
   accumulatedRatings: RatingResult = undefined;
-  private _list: ComponentRef<any>[];
+  private _list: ComponentRef<unknown>[];
   private destroyer = new ReplaySubject(1);
 
   constructor(

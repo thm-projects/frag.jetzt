@@ -21,15 +21,14 @@ export interface FontFace {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class FontInfoService {
-
-  constructor() {
-  }
-
   private static checkFontReady(
-    faceSet: FontFaceSet, notLoadedFonts: FontFace[], sub: Subscriber<FontFace>, fontFamily: string
+    faceSet: FontFaceSet,
+    notLoadedFonts: FontFace[],
+    sub: Subscriber<FontFace>,
+    fontFamily: string,
   ) {
     if (faceSet.check('1em ' + fontFamily)) {
       sub.next(null);
@@ -40,8 +39,8 @@ export class FontInfoService {
       sub.next(null);
       sub.complete();
     }
-    notLoadedFonts.forEach(font => {
-      font.loaded.then(_ => {
+    notLoadedFonts.forEach((font) => {
+      font.loaded.then(() => {
         if (!sub.closed) {
           sub.next(font);
           sub.complete();
@@ -51,11 +50,11 @@ export class FontInfoService {
   }
 
   waitTillFontLoaded(fontFamily: string): Observable<FontFace> {
-    return new Observable(sub => {
-      const faceSet = (document as any).fonts;
+    return new Observable((sub) => {
+      const faceSet = document.fonts;
       faceSet.ready.then(() => {
         const notLoadedFonts: FontFace[] = [];
-        const iter: Iterator<FontFace> = faceSet.keys();
+        const iter: Iterator<FontFace> = faceSet['keys']();
         let iterElem = iter.next();
         while (!iterElem.done) {
           const font = iterElem.value as FontFace;
@@ -70,7 +69,12 @@ export class FontInfoService {
           }
           notLoadedFonts.push(font);
         }
-        FontInfoService.checkFontReady(faceSet, notLoadedFonts, sub, fontFamily);
+        FontInfoService.checkFontReady(
+          faceSet,
+          notLoadedFonts,
+          sub,
+          fontFamily,
+        );
       });
     });
   }

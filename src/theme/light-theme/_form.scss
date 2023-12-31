@@ -2,15 +2,16 @@ mat-form-field.input-block {
   display: block;
 }
 
-.mat-fab .mat-button-wrapper {
+/* TODO(mdc-migration): The following rule targets internal classes of button that may no longer apply for the MDC version. */
+.mat-mdc-fab .mat-button-wrapper {
   padding: 0 !important;
 }
 
-.mat-dialog-container {
+.mat-mdc-dialog-container {
   background-color: var(--dialog);
 }
 
-.mat-tab-header {
+.mat-mdc-tab-header {
   border-bottom-style: none !important;
 }
 
@@ -56,6 +57,6 @@ mat-form-field.input-block {
   }
 }
 
-.mat-input-element {
+.mat-mdc-input-element {
   caret-color: var(--on-surface);
 }

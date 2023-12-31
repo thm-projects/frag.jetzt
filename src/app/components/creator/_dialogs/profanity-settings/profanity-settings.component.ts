@@ -31,7 +31,7 @@ export class ProfanitySettingsComponent implements OnInit {
     protected roomService: RoomService,
     public router: Router,
     public eventService: EventService,
-    @Inject(MAT_DIALOG_DATA) public data: any,
+    @Inject(MAT_DIALOG_DATA) public data: object,
   ) {}
 
   ngOnInit() {

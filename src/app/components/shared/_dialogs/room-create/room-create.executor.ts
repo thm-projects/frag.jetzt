@@ -1,4 +1,4 @@
-import { Observable, map, merge, switchMap, tap } from 'rxjs';
+import { Observable, merge, switchMap, tap } from 'rxjs';
 import { AnsweredMultiLevelData } from '../multi-level-dialog/interface/multi-level-dialog.types';
 import { ProfanityFilter, Room } from 'app/models/room';
 import { Injector } from '@angular/core';
@@ -29,15 +29,21 @@ export const generateRoom = (
   const shortId = answers.code?.value?.code;
   // settings
   const general = answers.general?.value;
+  // TODO(update room settings)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const gpt = general?.gpt ?? defaults.chatgpt;
   const moderation = general?.moderation ?? defaults.moderation;
   const profanity = general?.profanity ?? defaults.profanity;
   const keywords = general?.keywords ?? defaults.keyword;
   // gpt settings
   const gptSettings = answers.gptSettings?.value;
+  // TODO(update room settings)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const studdyBuddy = gptSettings?.['study-buddy'] ?? defaults.studdyBuddy;
   // study buddy settings
   const studyBuddySettings = answers.studyBuddyGroup?.value;
+  // TODO(update room settings)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const studdyBuddyGroup =
     studyBuddySettings?.['target-group'] ?? defaults.studyBuddyGroup;
   // feature settings
@@ -48,7 +54,11 @@ export const generateRoom = (
   const quiz = featureSettings?.quiz ?? defaults.quiz;
   const brainstorming =
     featureSettings?.brainstorming ?? defaults.brainstorming;
+  // TODO(update room settings)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const radar = featureSettings?.radar ?? defaults.radar;
+  // TODO(update room settings)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const focus = featureSettings?.focus ?? defaults.focus;
   const newRoom = new Room({
     name,

@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import {
   ConfirmDialogAction,
@@ -21,7 +21,7 @@ import {
     '../../livepoll-common.scss',
   ],
 })
-export class LivepollPeerInstructionWindowComponent implements OnInit {
+export class LivepollPeerInstructionWindowComponent {
   constructor(
     public readonly dialog: MatDialog,
     public readonly matDialogRef: MatDialogRef<
@@ -36,8 +36,6 @@ export class LivepollPeerInstructionWindowComponent implements OnInit {
       };
     },
   ) {}
-
-  ngOnInit(): void {}
 
   nextPeerInstructionStep() {
     this.createConfirmationDialog(

@@ -129,7 +129,7 @@ h2 {
   justify-content: center;
 }
 
-.mat-button {
+.mat-mdc-button {
   padding: 4px;
 }
 
@@ -172,6 +172,7 @@ svg {
   margin-right: 12px;
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of menu that may no longer apply for the MDC version. */
 .mat-menu-inner-title {
   font-size: 16px;
   width: 100%;
@@ -180,6 +181,7 @@ svg {
   color: var(--on-background);
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of menu that may no longer apply for the MDC version. */
 .mat-menu-inner-box {
   background-color: var(--primary-variant);
   border-radius: 5px;

@@ -52,7 +52,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     public notificationService: NotificationService,
     public dialog: MatDialog,
     private keycloak: KeycloakService,
-    @Inject(MAT_DIALOG_DATA) public data: any,
+    @Inject(MAT_DIALOG_DATA) public data: object,
     private accountState: AccountStateService,
     private dialogRef: MatDialogRef<LoginComponent>,
   ) {}

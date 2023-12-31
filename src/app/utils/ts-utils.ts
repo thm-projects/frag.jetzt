@@ -32,8 +32,9 @@ type IsNegativeInteger<T extends number> = `${T}` extends `-${string}`
   : never;
 
 type FixedSizeArrayBuilder<
-  T extends any[],
+  T extends K[],
   L extends number,
+  K = unknown,
 > = T['length'] extends L
   ? T
   : T extends (infer R)[]
@@ -88,10 +89,11 @@ export type MakeUnique<T, K extends string> = T & { readonly __TYPE_NAME__: K };
 export type JSONString = MakeUnique<string, 'JSONString'>;
 export type UUID = MakeUnique<string, 'UUID'>;
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type IsObject<T> = T extends { [key: string | number | symbol]: any }
   ? true
   : false;
-export type IsClass<T> = T extends abstract new (...args: any[]) => any
+export type IsClass<T> = T extends abstract new (...args: unknown[]) => unknown
   ? true
   : false;
 
@@ -129,7 +131,7 @@ export type Mutable<T> = IsObject<T> extends true
     }
   : T;
 
-export type GeneralFunction = (...anyArgs: any) => any;
+export type GeneralFunction = (...anyArgs: unknown[]) => unknown;
 
 export type FieldsOf<T> = IsObject<T> extends true
   ? {
@@ -156,7 +158,7 @@ export const clone = <T>(elem: T): Mutable<T> => {
     return Object.keys(elem).reduce((acc, e) => {
       acc[e] = clone(elem[e]);
       return acc;
-    }, {} as any);
+    }, {} as Mutable<T>);
   }
   return elem as Mutable<T>;
 };
@@ -165,7 +167,7 @@ export type TimeoutHelper = Parameters<typeof clearTimeout>[0];
 
 export type CopyClassType<T> = new (parameterObject: object) => T;
 
-export type ClassType<T> = abstract new (...args: any) => T;
+export type ClassType<T> = abstract new (...args: unknown[]) => T;
 
 export const verifyInstance = <T>(clazz: CopyClassType<T>, obj: object): T => {
   if (obj === null) {

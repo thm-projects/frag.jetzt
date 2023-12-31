@@ -32,8 +32,6 @@ export class LgPersistService {
   private readonly newVersion$ = new ReplaySubject<number>(1);
   private readonly isBlocked$ = new BehaviorSubject<boolean>(false);
 
-  constructor() {}
-
   isBlocked(): Observable<boolean> {
     return this.isBlocked$;
   }

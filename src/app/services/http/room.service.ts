@@ -5,7 +5,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { BaseHttpService } from './base-http.service';
-import { EventService } from '../util/event.service';
 import { NotificationService } from '../util/notification.service';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -129,8 +128,8 @@ export class RoomService extends BaseHttpService {
     const connectionUrl = `${this.apiUrl.base + this.apiUrl.rooms}/${id}`;
     return this.http.get<RoomAPI>(connectionUrl).pipe(
       map((r) => this.parseRoom(r)),
-      tap((_) => ''),
-      catchError(this.handleRoomError<Room>(`getRoom keyword=${id}`)),
+      tap(() => ''),
+      catchError(this.handleRoomError<Room>()),
     );
   }
 
@@ -138,8 +137,8 @@ export class RoomService extends BaseHttpService {
     const connectionUrl = `${this.apiUrl.base + this.apiUrl.rooms}/~${shortId}`;
     return this.http.get<RoomAPI>(connectionUrl).pipe(
       map((r) => this.parseRoom(r)),
-      tap((_) => ''),
-      catchError(this.handleRoomError<Room>(`getRoom shortId=${shortId}`)),
+      tap(() => ''),
+      catchError(this.handleRoomError<Room>()),
     );
   }
 
@@ -150,7 +149,7 @@ export class RoomService extends BaseHttpService {
     const connectionUrl = `${this.apiUrl.base + this.apiUrl.rooms}/~${shortId}`;
     return this.http.get<RoomAPI>(connectionUrl).pipe(
       map((r) => this.parseRoom(r)),
-      tap((_) => ''),
+      tap(() => ''),
       catchError(
         this.buildErrorExecutionCallback(`getRoom shortId=${shortId}`, err),
       ),
@@ -183,7 +182,7 @@ export class RoomService extends BaseHttpService {
     );
   }
 
-  updateRoom(updatedRoom: Room): Observable<Room> {
+  updateRoom(updatedRoom: Room): Observable<RoomAPI> {
     const connectionUrl = `${this.apiUrl.base + this.apiUrl.rooms}/~${
       updatedRoom.shortId
     }`;
@@ -198,7 +197,7 @@ export class RoomService extends BaseHttpService {
       )
       .pipe(
         tap(() => ''),
-        catchError(this.handleError<any>('updateRoom')),
+        catchError(this.handleError<RoomAPI>('updateRoom')),
       );
   }
 
@@ -231,10 +230,10 @@ export class RoomService extends BaseHttpService {
     );
   }
 
-  handleRoomError<T>(operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
+  handleRoomError<T>() {
+    return (error: object): Observable<T> => {
       console.error(error);
-      if (error.status === 404) {
+      if ('status' in error && error.status === 404) {
         this.translateService
           .get('room-list.room-not-exist')
           .subscribe((msg) => {
@@ -261,7 +260,7 @@ export class RoomService extends BaseHttpService {
   }
 
   private buildErrorExecutionCallback(data: string, exc: () => void) {
-    return (error: any) => {
+    return (error: unknown) => {
       if (exc) {
         exc();
       }

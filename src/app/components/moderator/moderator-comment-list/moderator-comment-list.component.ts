@@ -20,7 +20,7 @@ import { NotificationService } from '../../../services/util/notification.service
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
 import { copyCSVString, exportRoom } from '../../../utils/ImportExportMethods';
 import { SessionService } from '../../../services/util/session.service';
-import { forkJoin, ReplaySubject, Subscription, takeUntil } from 'rxjs';
+import { forkJoin, ReplaySubject, takeUntil } from 'rxjs';
 import { ArsComposeService } from '../../../../../projects/ars/src/lib/services/ars-compose.service';
 import { HeaderService } from '../../../services/util/header.service';
 import { FormControl } from '@angular/forms';
@@ -97,7 +97,7 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
   questionNumberOptions: string[] = [];
   private _allQuestionNumberOptions: string[] = [];
   private firstReceive = true;
-  private _list: ComponentRef<any>[];
+  private _list: ComponentRef<unknown>[];
   private _filterObject: FilteredDataAccess;
   private destroyer = new ReplaySubject(1);
 
@@ -256,7 +256,7 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
     this.period = filter.period;
   }
 
-  applyFilterByKey(type: FilterTypeKey, compare?: any): void {
+  applyFilterByKey(type: FilterTypeKey, compare?: unknown): void {
     this.pageIndex = 0;
     const filter = this._filterObject.dataFilter;
     filter.filterType = FilterType[type];

@@ -140,7 +140,7 @@ export class GPTEncoder {
       return token;
     }
 
-    while (true) {
+    while (word.length > 1) {
       const minPairs: { [key: NumberAsString]: string } = {};
       Array.from(pairs).map((pair) => {
         const rank = this.bpe_ranks[pair[0] + ',' + pair[1]];

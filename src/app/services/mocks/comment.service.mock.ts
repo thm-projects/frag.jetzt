@@ -14,13 +14,17 @@ export class CommentServiceMock extends CommentService {
     super(null);
   }
 
-  patchComment(comment: Comment, changes: TSMap<string, any>): Observable<any> {
+  patchComment(
+    comment: Comment,
+    changes: TSMap<string, unknown>,
+  ): Observable<unknown> {
     changes.forEach((value, key) => {
       comment[key] = value;
     });
     return of(comment);
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   getComments(roomId: string): Observable<Comment[]> {
     return of([
       new Comment({

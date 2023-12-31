@@ -40,8 +40,6 @@ import { RoomAccess } from '../persistence/lg/db-room-acces.model';
 import { ReadMotd } from '../persistence/lg/db-read-motd.model';
 import { EventService } from '../util/event.service';
 import { Router } from '@angular/router';
-import { send } from 'process';
-import { Motd } from 'app/models/motd';
 import { InitService } from '../util/init.service';
 
 @Injectable({
@@ -142,7 +140,7 @@ export class AccountStateService {
           filter((unread) => unread),
           take(1),
         )
-        .subscribe((unread) => {
+        .subscribe(() => {
           sendEvent(
             this.eventService,
             new MotdDialogRequest(this.appState.getCurrentMotds()),
@@ -268,8 +266,8 @@ export class AccountStateService {
             role === UserRole.CREATOR
               ? 'Creator'
               : role > UserRole.PARTICIPANT
-                ? 'Moderator'
-                : 'Participant',
+              ? 'Moderator'
+              : 'Participant',
           lastAccess: new Date(),
         }),
       )
@@ -367,10 +365,9 @@ export class AccountStateService {
   updateGPTConsentState(result: boolean) {
     const consentState = Boolean(result);
 
-    this.gptService.updateConsentState(consentState)
-      .pipe(
-        tap(data => this.updateGptConsented$.next(data))
-      )
+    this.gptService
+      .updateConsentState(consentState)
+      .pipe(tap((data) => this.updateGptConsented$.next(data)))
       .subscribe();
   }
 
@@ -424,7 +421,7 @@ export class AccountStateService {
           this.initialized = true;
           return of(null);
         }
-        return this.loginWithSavedUser(v);
+        return this.loginWithSavedUser(v as UUID | 'guest');
       }),
     );
   }

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import {
   AppStateService,
@@ -11,7 +11,7 @@ import { ReplaySubject, takeUntil } from 'rxjs';
   templateUrl: './ask-onboarding.component.html',
   styleUrls: ['./ask-onboarding.component.scss'],
 })
-export class AskOnboardingComponent implements OnInit, OnDestroy {
+export class AskOnboardingComponent implements OnDestroy {
   public readonly onSubmit = this.submit.bind(this);
   public readonly onCancel = this.cancel.bind(this);
   currentLanguage: Language;
@@ -25,8 +25,6 @@ export class AskOnboardingComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroyer))
       .subscribe((lang) => (this.currentLanguage = lang));
   }
-
-  ngOnInit(): void {}
 
   ngOnDestroy(): void {
     this.destroyer.next(true);

@@ -2,7 +2,7 @@ table {
   width: 100%;
 }
 
-.mat-header-row .mat-header-cell {
+.mat-mdc-header-row .mat-mdc-header-cell {
   padding: 5px;
 }
 
@@ -16,9 +16,9 @@ table {
   border-color: currentColor;
 }
 
-th.mat-header-cell,
-td.mat-cell,
-td.mat-footer-cell,
+th.mat-mdc-header-cell,
+td.mat-mdc-cell,
+td.mat-mdc-footer-cell,
 th.mat-header-cell:first-of-type,
 td.mat-cell:first-of-type,
 td.mat-footer-cell:first-of-type,

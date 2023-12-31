@@ -187,7 +187,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
     };
   }
 
-  getBackgroundStyleForEntry(i: number): any {
+  getBackgroundStyleForEntry(i: number): object {
     const imageTargets = this.carousel[i].images.filter(
       (x) => !!x.isBackground,
     );
@@ -223,7 +223,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
     };
   }
 
-  getStyleForEntry(i: number, kind: CarouselEntryKind): any {
+  getStyleForEntry(i: number, kind: CarouselEntryKind): object {
     switch (kind) {
       case 'highlight':
         return {};
@@ -329,7 +329,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
     }
   }
 
-  selectEntry(i: number, entryElement: HTMLDivElement) {
+  selectEntry(i: number) {
     this.carouselIndex = i;
   }
 

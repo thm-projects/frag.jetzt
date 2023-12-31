@@ -18,7 +18,7 @@ export class BonusDeleteComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<BonusTokenComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any,
+    @Inject(MAT_DIALOG_DATA) public data: object,
     private liveAnnouncer: LiveAnnouncer,
     private translationService: TranslateService,
   ) {}

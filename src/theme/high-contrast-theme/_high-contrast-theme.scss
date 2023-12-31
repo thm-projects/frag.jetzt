@@ -15,24 +15,25 @@ $purple-theme: mat.define-light-theme(
   $purple-warn
 );
 
-.mat-dialog-container {
+.mat-mdc-dialog-container {
   color: var(--on-surface) !important;
 }
 
-.mat-dialog-container h3 {
+.mat-mdc-dialog-container h3 {
   color: var(--on-surface) !important;
 }
 
-.mat-menu-panel {
+.mat-mdc-menu-panel {
   background-color: var(--dialog) !important;
   color: var(--on-dialog) !important;
 }
 
-.mat-menu-panel .mat-menu-item {
+.mat-mdc-menu-panel .mat-mdc-menu-item {
   background-color: var(--dialog) !important;
   color: var(--on-dialog) !important;
 }
 
+/*TODO(mdc-migration): The following rule targets internal classes of button that may no longer apply for the MDC version.*/
 .mat-button-disabled {
   background-color: lightgray !important;
   color: darkslategray !important;

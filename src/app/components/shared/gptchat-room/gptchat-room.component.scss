@@ -11,7 +11,7 @@
   margin: 0.5em 0;
 }
 
-.mat-option {
+.mat-mdc-option {
   border-bottom: 1px solid var(--dialog);
 
   &:nth-child(even) {
@@ -23,7 +23,7 @@
     background-color: var(--alt-surface);
     color: var(--on-surface);
   }
-
+  /* TODO(mdc-migration): The following rule targets internal classes of option that may no longer apply for the MDC version. */
   &.mat-option-header {
     background-color: var(--primary);
     color: var(--on-primary);
@@ -72,16 +72,16 @@
     background-color: var(--secondary);
     color: var(--on-secondary);
     border-radius: 10px;
-
+    /* TODO(mdc-migration): The following rule targets internal classes of select that may no longer apply for the MDC version. */
     ::ng-deep .mat-select-arrow,
     ::ng-deep .mat-select-value {
       color: currentColor;
     }
-
+    /* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
     ::ng-deep .mat-form-field-label {
       color: currentColor !important;
     }
-
+    /* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
     ::ng-deep .mat-form-field-underline {
       background-color: currentColor !important;
     }
@@ -216,6 +216,7 @@
   color: var(--on-secondary) !important;
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version. */
 mat-card {
   background-color: var(--surface);
   color: var(--on-surface);
@@ -248,7 +249,7 @@ mat-card {
   }
 }
 
-.mat-chip {
+.mat-mdc-chip {
   background-color: var(--primary);
   color: var(--on-primary);
 }

@@ -6,7 +6,7 @@ import { catchError, tap } from 'rxjs/operators';
 import { BaseHttpService } from './base-http.service';
 
 const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+  headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
 };
 
 @Injectable()
@@ -16,7 +16,7 @@ export class BonusTokenService extends BaseHttpService {
     bonustoken: '/bonustoken',
     delete: '/delete',
     deleteByRoom: '/deletebyroom',
-    find: '/find'
+    find: '/find',
   };
 
   constructor(private http: HttpClient) {
@@ -24,43 +24,62 @@ export class BonusTokenService extends BaseHttpService {
   }
 
   getTokensByRoomId(roomId: string): Observable<BonusToken[]> {
-    const connectionUrl = `${this.apiUrl.base + this.apiUrl.bonustoken + this.apiUrl.find}`;
-    return this.http.post<BonusToken[]>(connectionUrl, {
-      properties: {
-        roomId
-      }
-    }).pipe(
-      tap(() => ''),
-      catchError(this.handleError<BonusToken[]>(`get bonus token by roomid = ${roomId}`))
-    );
+    const connectionUrl = `${
+      this.apiUrl.base + this.apiUrl.bonustoken + this.apiUrl.find
+    }`;
+    return this.http
+      .post<BonusToken[]>(connectionUrl, {
+        properties: {
+          roomId,
+        },
+      })
+      .pipe(
+        tap(() => ''),
+        catchError(
+          this.handleError<BonusToken[]>(
+            `get bonus token by roomid = ${roomId}`,
+          ),
+        ),
+      );
   }
 
   getTokensByUserId(userId: string): Observable<BonusToken[]> {
-    const connectionUrl = `${this.apiUrl.base + this.apiUrl.bonustoken + this.apiUrl.find}`;
-    return this.http.post<BonusToken[]>(connectionUrl, {
-      properties: {
-        accountId: userId
-      }
-    }).pipe(
-      tap(() => ''),
-      catchError(this.handleError<BonusToken[]>(`get bonus token by userId = ${userId}`))
-    );
+    const connectionUrl = `${
+      this.apiUrl.base + this.apiUrl.bonustoken + this.apiUrl.find
+    }`;
+    return this.http
+      .post<BonusToken[]>(connectionUrl, {
+        properties: {
+          accountId: userId,
+        },
+      })
+      .pipe(
+        tap(() => ''),
+        catchError(
+          this.handleError<BonusToken[]>(
+            `get bonus token by userId = ${userId}`,
+          ),
+        ),
+      );
   }
 
   deleteToken(commentId: string, userId: string) {
-    const connectionUrl = `${this.apiUrl.base + this.apiUrl.bonustoken + this.apiUrl.delete}`
-      + `?&commentid=${commentId}&userid=${userId}`;
+    const connectionUrl =
+      `${this.apiUrl.base + this.apiUrl.bonustoken + this.apiUrl.delete}` +
+      `?&commentid=${commentId}&userid=${userId}`;
     return this.http.delete<BonusToken>(connectionUrl, httpOptions).pipe(
-      tap(_ => ''),
-      catchError(this.handleError<BonusToken>('deleteToken'))
+      tap(() => ''),
+      catchError(this.handleError<BonusToken>('deleteToken')),
     );
   }
 
   deleteTokensByRoomId(roomId: string) {
-    const connectionUrl = `${this.apiUrl.base + this.apiUrl.bonustoken + this.apiUrl.deleteByRoom}?roomid=${roomId}`;
+    const connectionUrl = `${
+      this.apiUrl.base + this.apiUrl.bonustoken + this.apiUrl.deleteByRoom
+    }?roomid=${roomId}`;
     return this.http.delete<BonusToken>(connectionUrl, httpOptions).pipe(
-      tap(_ => ''),
-      catchError(this.handleError<BonusToken>('deleteToken'))
+      tap(() => ''),
+      catchError(this.handleError<BonusToken>('deleteToken')),
     );
   }
 }

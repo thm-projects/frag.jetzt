@@ -15,7 +15,6 @@ import { Rescale } from '../../../../models/rescale';
 import { QuestionWallKeyEventSupport } from '../QuestionWallKeyEventSupport';
 import { RoomDataService } from '../../../../services/util/room-data.service';
 import { User } from '../../../../models/user';
-import { UserRole } from '../../../../models/user-roles.enum';
 import { SessionService } from '../../../../services/util/session.service';
 import { Room } from '../../../../models/room';
 import { mergeMap, takeUntil } from 'rxjs/operators';
@@ -193,7 +192,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     this.sessionService
       .getRoomOnce()
       .pipe(
-        mergeMap((_) =>
+        mergeMap(() =>
           this.roomDataService.dataAccessor.receiveUpdates([
             { type: 'CommentCreated' },
           ]),
@@ -458,7 +457,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     this._filterObj.dataFilter = filter;
   }
 
-  sliderChange(evt: any) {
+  sliderChange(evt: { value: number }) {
     this.fontSize = evt.value;
   }
 

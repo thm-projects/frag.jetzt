@@ -2,7 +2,7 @@ import { SpacyKeyword } from '../services/http/spacy.service';
 import { CorrectWrong } from './correct-wrong.enum';
 import { Model } from '../services/http/spacy.interface';
 import { TranslateService } from '@ngx-translate/core';
-import { ImmutableStandardDelta, StandardDelta } from '../utils/quill-utils';
+import { ImmutableStandardDelta } from '../utils/quill-utils';
 import { map, Observable, of } from 'rxjs';
 import { FieldsOf, UUID, verifyInstance } from 'app/utils/ts-utils';
 

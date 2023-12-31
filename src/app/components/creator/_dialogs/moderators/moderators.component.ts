@@ -15,6 +15,7 @@ import {
   MatDialog,
   MatDialogRef,
 } from '@angular/material/dialog';
+import { User } from 'app/models/user';
 
 @Component({
   selector: 'app-moderators',
@@ -39,9 +40,9 @@ export class ModeratorsComponent implements OnInit, OnDestroy {
     public translationService: TranslateService,
     protected moderatorService: ModeratorService,
     appState: AppStateService,
-    @Inject(MAT_DIALOG_DATA) public data: any,
+    @Inject(MAT_DIALOG_DATA) public data: object,
   ) {
-    appState.language$.pipe(takeUntil(this._destroyer)).subscribe((_) => {
+    appState.language$.pipe(takeUntil(this._destroyer)).subscribe(() => {
       this.translationService
         .get('moderators-dialog.not-generated')
         .subscribe((msg) => (this.notGeneratedMessage = msg));
@@ -129,12 +130,14 @@ export class ModeratorsComponent implements OnInit, OnDestroy {
   getModerators() {
     this.moderatorService.get(this.roomId).subscribe((list) => {
       this.moderators = list;
-      this.moderators.forEach((user: any, i) => {
+      this.moderators.forEach((user: Moderator, i) => {
         this.userIds[i] = user.accountId;
       });
       this.moderatorService.getUserData(this.userIds).subscribe((users) => {
-        users.forEach((user: any, i) => {
-          this.moderators[i].loginId = user.email;
+        users.forEach((user: User, i) => {
+          this.moderators[i].loginId = (
+            user as unknown as { email: string }
+          ).email;
         });
       });
     });
@@ -176,7 +179,7 @@ export class ModeratorsComponent implements OnInit, OnDestroy {
   }
 
   removeModerator(userId: string, index: number) {
-    this.moderatorService.delete(this.roomId, userId).subscribe((_) => {
+    this.moderatorService.delete(this.roomId, userId).subscribe(() => {
       this.moderators.splice(index, 1);
     });
     this.translationService

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { SessionService } from '../../../services/util/session.service';
 import { MultiLevelDialogComponent } from 'app/components/shared/_dialogs/multi-level-dialog/multi-level-dialog.component';
 import { MULTI_LEVEL_ROOM_CREATE } from 'app/components/shared/_dialogs/room-create/room-create.multi-level';
@@ -10,13 +10,11 @@ import { MatDialog } from '@angular/material/dialog';
   templateUrl: './new-landing.component.html',
   styleUrls: ['./new-landing.component.scss'],
 })
-export class NewLandingComponent implements OnInit {
+export class NewLandingComponent {
   constructor(
     public dialog: MatDialog,
     public sessionService: SessionService,
   ) {}
-
-  ngOnInit() {}
 
   openCreateRoomDialog(): void {
     MultiLevelDialogComponent.open(

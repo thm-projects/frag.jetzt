@@ -111,7 +111,7 @@ export class RoomParticipantPageComponent
     }
   }
 
-  preRoomLoadHook(): Observable<any> {
+  preRoomLoadHook(): Observable<unknown> {
     if (!this.user) {
       return this.accountState.forceLogin().pipe(map((user) => user));
     } else {

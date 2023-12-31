@@ -1,4 +1,5 @@
-.mat-list-base[dense] .mat-list-item, .list-item {
+.mat-mdc-list-base[dense] .mat-mdc-list-item,
+.list-item {
   font-size: 13px;
   height: 40px !important;
 }
@@ -16,7 +17,8 @@
   box-sizing: border-box;
 }
 
-.keywords-even, .keywords-alternate {
+.keywords-even,
+.keywords-alternate {
   background-color: var(--dialog);
   border-bottom: 1px solid var(--surface);
   border-top-left-radius: 5px;
@@ -36,10 +38,12 @@
   opacity: 1 !important;
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of checkbox that may no longer apply for the MDC version. */
 ::ng-deep .mat-checkbox-checked .mat-checkbox-background {
   background: var(--primary) !important;
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of checkbox that may no longer apply for the MDC version. */
 .mat-checkbox-frame {
   color: var(--secondary);
 }
@@ -65,7 +69,7 @@
   padding: 5px;
   border-radius: 5px;
   color: var(--on-dialog);
-  width: 100%
+  width: 100%;
 }
 
 .manual-input-title {
@@ -119,19 +123,19 @@
   padding-right: 3px;
 }
 
-.mat-select {
+.mat-mdc-select {
   padding-left: 14px;
 }
 
-::ng-deep .mat-select-panel {
+::ng-deep .mat-mdc-select-panel {
   background: var(--dialog);
 }
 
-.mat-option.mat-active {
+.mat-mdc-option.mat-active {
   color: var(--primary);
 }
 
-.mat-option {
+.mat-mdc-option {
   color: var(--on-surface);
 }
 

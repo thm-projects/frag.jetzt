@@ -154,7 +154,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   }
 
   removeFromKeywords(comment: Comment) {
-    for (const [_, keyword] of this.keywords.entries()) {
+    for (const [, keyword] of this.keywords.entries()) {
       const index = keyword.comments.findIndex((c) => c.id === comment.id);
       if (index >= 0) {
         keyword.comments.splice(index, 1);
@@ -400,12 +400,10 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
         entries.sort(([a], [b]) => a.localeCompare(b));
         break;
       case 'questionsCount':
-        entries.sort(
-          ([_, a], [__, b]) => b.comments.length - a.comments.length,
-        );
+        entries.sort(([, a], [, b]) => b.comments.length - a.comments.length);
         break;
       case 'voteCount':
-        entries.sort(([_, a], [__, b]) => b.vote - a.vote);
+        entries.sort(([, a], [, b]) => b.vote - a.vote);
         break;
     }
     this.keywords = new Map(entries);
@@ -433,7 +431,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
 
   deleteKeyword(key: Keyword, message?: string): void {
     key.comments.forEach((comment) => {
-      const changes = new TSMap<string, any>();
+      const changes = new TSMap<string, unknown>();
       let keywords = comment.keywordsFromQuestioner;
       keywords.splice(
         keywords.findIndex((e) => e.text === key.keyword),
@@ -456,7 +454,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
 
   updateComment(
     updatedComment: Comment,
-    changes: TSMap<string, any>,
+    changes: TSMap<string, unknown>,
     messageTranslate?: string,
   ) {
     this.commentService.patchComment(updatedComment, changes).subscribe({
@@ -469,7 +467,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
             });
         }
       },
-      error: (error) => {
+      error: () => {
         this.translateService
           .get('topic-cloud-dialog.changes-gone-wrong')
           .subscribe((msg) => {
@@ -537,7 +535,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
       if (this.selectedTabIndex === 0) {
         const entries = [...this.keywords.entries()];
         this.filteredKeywords = entries
-          .filter(([_, keyword]) =>
+          .filter(([, keyword]) =>
             keyword.keyword
               .toLowerCase()
               .includes(this.searchedKeyword.toLowerCase()),
@@ -558,7 +556,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     if (key1 !== undefined && key2 !== undefined) {
       key1.comments = key1.comments.filter((comment) => {
         if (this.checkIfCommentExists(key2.comments, comment.id)) {
-          const changes = new TSMap<string, any>();
+          const changes = new TSMap<string, unknown>();
           const lowerKey1 = key1.keyword.toLowerCase();
 
           let keywords = comment.keywordsFromQuestioner;
@@ -713,7 +711,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
 
   private renameKeyword(comments: Comment[], lowerCaseKeyword: string) {
     comments.forEach((comment) => {
-      const changes = new TSMap<string, any>();
+      const changes = new TSMap<string, unknown>();
       let keywords = comment.keywordsFromQuestioner;
       for (const keyword of keywords) {
         if (keyword.text.toLowerCase() === lowerCaseKeyword) {

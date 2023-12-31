@@ -2,15 +2,11 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UnloadService {
-
-  constructor() {
-  }
-
   onUnload(): Observable<BeforeUnloadEvent> {
-    return new Observable<BeforeUnloadEvent>(subscriber => {
+    return new Observable<BeforeUnloadEvent>((subscriber) => {
       const evt = (e: BeforeUnloadEvent) => subscriber.next(e);
       window.addEventListener('beforeunload', evt);
       return () => {

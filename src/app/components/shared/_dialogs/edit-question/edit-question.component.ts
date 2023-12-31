@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Comment } from 'app/models/comment';
 import { UserRole } from 'app/models/user-roles.enum';
@@ -11,7 +11,7 @@ import { TSMap } from 'typescript-map';
   templateUrl: './edit-question.component.html',
   styleUrls: ['./edit-question.component.scss'],
 })
-export class EditQuestionComponent implements OnInit {
+export class EditQuestionComponent {
   @Input() comment: Comment;
   @Input() tags: string[];
   @Input() userRole: UserRole;
@@ -21,15 +21,13 @@ export class EditQuestionComponent implements OnInit {
     private commentService: CommentService,
   ) {}
 
-  ngOnInit(): void {}
-
   createClick() {
     return (newComment) => {
       this.ref.close();
       if (!newComment) {
         return;
       }
-      const changes = new TSMap<keyof Comment, any>();
+      const changes = new TSMap<keyof Comment, unknown>();
       const newBody = QuillUtils.serializeDelta(newComment.body);
       if (newBody !== QuillUtils.serializeDelta(this.comment.body)) {
         changes.set('body', newBody);

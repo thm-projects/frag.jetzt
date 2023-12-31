@@ -2,7 +2,9 @@
   <div *ngIf="!isLoading && !room">
     {{ "room-page.room-not-found" | translate }}
   </div>
-  <mat-card *ngIf="room">
+  <mat-card
+    appearance="outlined"
+    *ngIf="room">
     <mat-card-header>
       <mat-card-title>
         <h2>

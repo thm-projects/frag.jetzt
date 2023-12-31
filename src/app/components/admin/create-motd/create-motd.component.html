@@ -1,41 +1,53 @@
-<mat-card>
-  <h1>{{ 'create-motd.title' | translate }}</h1>
+<mat-card appearance="outlined">
+  <h1>{{ "create-motd.title" | translate }}</h1>
   <div class="time-select">
     <span>
-      <mat-label>{{ 'create-motd.placeholder-time-start' | translate }}</mat-label>
-      <ngx-mat-timepicker [(ngModel)]="startDate">
-      </ngx-mat-timepicker>
+      <mat-label>
+        {{ "create-motd.placeholder-time-start" | translate }}
+      </mat-label>
+      <ngx-mat-timepicker [(ngModel)]="startDate"></ngx-mat-timepicker>
     </span>
     <span>
-      <mat-label>{{ 'create-motd.placeholder-time-end' | translate }}</mat-label>
-      <ngx-mat-timepicker [(ngModel)]="endDate">
-      </ngx-mat-timepicker>
+      <mat-label>
+        {{ "create-motd.placeholder-time-end" | translate }}
+      </mat-label>
+      <ngx-mat-timepicker [(ngModel)]="endDate"></ngx-mat-timepicker>
     </span>
   </div>
   <mat-form-field>
-    <mat-label>{{ 'create-motd.label' | translate }}</mat-label>
+    <mat-label>{{ "create-motd.label" | translate }}</mat-label>
     <mat-date-range-input
       [formGroup]="dateRange"
       [rangePicker]="dateRangePicker">
-      <input matStartDate
-             [placeholder]="'create-motd.placeholder-date-start' | translate"
-             formControlName="start">
-      <input matEndDate
-             [placeholder]="'create-motd.placeholder-date-end' | translate"
-             formControlName="end">
+      <input
+        matStartDate
+        [placeholder]="'create-motd.placeholder-date-start' | translate"
+        formControlName="start" />
+      <input
+        matEndDate
+        [placeholder]="'create-motd.placeholder-date-end' | translate"
+        formControlName="end" />
     </mat-date-range-input>
-    <mat-hint>{{ getDateFormatString() }} – {{ getDateFormatString() }}</mat-hint>
-    <mat-datepicker-toggle matSuffix [for]="dateRangePicker"></mat-datepicker-toggle>
+    <mat-hint>
+      {{ getDateFormatString() }} – {{ getDateFormatString() }}
+    </mat-hint>
+    <mat-datepicker-toggle
+      matSuffix
+      [for]="dateRangePicker"></mat-datepicker-toggle>
     <mat-date-range-picker #dateRangePicker></mat-date-range-picker>
   </mat-form-field>
-  <mat-form-field *ngFor="let item of ['english', 'german', 'french']; let i = index">
-    <mat-label>{{ ('create-motd.' + item) | translate }}</mat-label>
-    <textarea matInput rows="10"
-              [(ngModel)]="langEntries[i]"
-              [placeholder]="('create-motd.placeholder-' + item) | translate">
-    </textarea>
+  <mat-form-field
+    *ngFor="let item of ['english', 'german', 'french']; let i = index">
+    <mat-label>{{ "create-motd." + item | translate }}</mat-label>
+    <textarea
+      matInput
+      rows="10"
+      [(ngModel)]="langEntries[i]"
+      [placeholder]="'create-motd.placeholder-' + item | translate"></textarea>
   </mat-form-field>
-  <button mat-flat-button (click)="createEntry()">
-    {{ 'create-motd.create' | translate }}
+  <button
+    mat-flat-button
+    (click)="createEntry()">
+    {{ "create-motd.create" | translate }}
   </button>
 </mat-card>

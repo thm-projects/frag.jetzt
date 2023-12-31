@@ -25,7 +25,7 @@ import {
   Language,
   ThemeKey,
 } from 'app/services/state/app-state.service';
-import { ReplaySubject, filter, take, takeUntil, tap } from 'rxjs';
+import { ReplaySubject, filter, take, takeUntil } from 'rxjs';
 import { DeviceStateService } from 'app/services/state/device-state.service';
 import { AccountStateService } from 'app/services/state/account-state.service';
 import { MatMenu } from '@angular/material/menu';
@@ -45,7 +45,7 @@ export class FooterComponent implements OnInit, OnDestroy {
   public themes: Theme[];
   currentLanguage: Language = 'en';
   isMobile = false;
-  private _tourSite: ComponentType<any>;
+  private _tourSite: ComponentType<unknown>;
   private destroyer = new ReplaySubject(1);
 
   constructor(

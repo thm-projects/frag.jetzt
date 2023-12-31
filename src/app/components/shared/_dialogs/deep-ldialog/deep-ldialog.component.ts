@@ -12,6 +12,7 @@ import { ExplanationDialogComponent } from '../explanation-dialog/explanation-di
 import {
   DeepLService,
   FormalityType,
+  TargetLang,
 } from '../../../../services/http/deep-l.service';
 import { StandardDelta } from '../../../../utils/quill-utils';
 import {
@@ -19,11 +20,26 @@ import {
   MatDialog,
   MatDialogRef,
 } from '@angular/material/dialog';
+import { LanguagetoolResult } from 'app/services/http/languagetool.service';
 
 export interface ResultValue {
   body: StandardDelta;
   text: string;
   view: ViewCommentDataComponent;
+}
+
+interface DialogData {
+  body: StandardDelta;
+  text: string;
+  improvedBody: StandardDelta;
+  improvedText: string;
+  result: LanguagetoolResult;
+  target: TargetLang;
+  usedTarget: TargetLang;
+  maxTextCharacters: number;
+  maxDataCharacters: number;
+  formality: FormalityType;
+  onClose: (result: ResultValue, submit: boolean) => void;
 }
 
 @Component({
@@ -42,7 +58,7 @@ export class DeepLDialogComponent implements OnInit, AfterViewInit {
 
   constructor(
     private dialogRef: MatDialogRef<DeepLDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData,
     private notificationService: NotificationService,
     private translateService: TranslateService,
     private deeplService: DeepLService,

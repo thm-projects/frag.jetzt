@@ -7,17 +7,17 @@ import { Bookmark } from '../../models/bookmark';
 
 const httpOptions = {
   // eslint-disable-next-line @typescript-eslint/naming-convention
-  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+  headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
 };
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class BookmarkService extends BaseHttpService {
   private apiUrl = {
     base: '/api',
     bookmark: '/bookmark',
-    find: '/find'
+    find: '/find',
   };
 
   constructor(private http: HttpClient) {
@@ -27,29 +27,35 @@ export class BookmarkService extends BaseHttpService {
   create(bookmark: Partial<Bookmark>): Observable<Bookmark> {
     const connectionUrl = this.apiUrl.base + this.apiUrl.bookmark + '/';
     return this.http.post<Bookmark>(connectionUrl, bookmark, httpOptions).pipe(
-      tap(_ => ''),
-      catchError(this.handleError<Bookmark>('create'))
+      tap(() => ''),
+      catchError(this.handleError<Bookmark>('create')),
     );
   }
 
-  delete(bookmarkId: string): Observable<any> {
-    const connectionUrl = this.apiUrl.base + this.apiUrl.bookmark + '/' + bookmarkId;
-    return this.http.delete(connectionUrl, httpOptions).pipe(
-      tap(_ => ''),
-      catchError(this.handleError('delete'))
+  delete(bookmarkId: string): Observable<void> {
+    const connectionUrl =
+      this.apiUrl.base + this.apiUrl.bookmark + '/' + bookmarkId;
+    return this.http.delete<void>(connectionUrl, httpOptions).pipe(
+      tap(() => ''),
+      catchError(this.handleError<void>('delete')),
     );
   }
 
   getByRoomId(roomId: string): Observable<Bookmark[]> {
-    const connectionUrl = this.apiUrl.base + this.apiUrl.bookmark + this.apiUrl.find;
-    return this.http.post<Bookmark[]>(connectionUrl, {
-      properties: { roomId },
-      externalFilters: {}
-    }, httpOptions).pipe(
-      tap(_ => ''),
-      catchError(this.handleError<Bookmark[]>('getByRoomId'))
-    );
+    const connectionUrl =
+      this.apiUrl.base + this.apiUrl.bookmark + this.apiUrl.find;
+    return this.http
+      .post<Bookmark[]>(
+        connectionUrl,
+        {
+          properties: { roomId },
+          externalFilters: {},
+        },
+        httpOptions,
+      )
+      .pipe(
+        tap(() => ''),
+        catchError(this.handleError<Bookmark[]>('getByRoomId')),
+      );
   }
-
-
 }

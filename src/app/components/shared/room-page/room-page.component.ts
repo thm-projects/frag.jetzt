@@ -97,7 +97,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
   protected destroyer = new ReplaySubject(1);
   private _navigationBuild = new SyncFence(2, this.initNavigation.bind(this));
   private _sub: Subscription;
-  private _list: ComponentRef<any>[];
+  private _list: ComponentRef<unknown>[];
 
   constructor(protected injector: Injector) {
     this.roomService = injector.get(RoomService);
@@ -237,7 +237,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
           data,
         );
       }),
-      tap((_) => {
+      tap(() => {
         const url = decodeURI(this.router.url);
         this.router.navigate(['/']).then(() => {
           setTimeout(() => this.router.navigate([url]));
@@ -370,7 +370,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
         });
       }
     });
-    dialogRef.backdropClick().subscribe((res) => {
+    dialogRef.backdropClick().subscribe(() => {
       dialogRef.close('abort');
     });
   }
@@ -415,10 +415,11 @@ export class RoomPageComponent implements OnInit, OnDestroy {
     return this.deviceState.isMobile();
   }
 
-  protected preRoomLoadHook(): Observable<any> {
+  protected preRoomLoadHook(): Observable<unknown> {
     return of('');
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   protected postRoomLoadHook() {}
 
   protected saveChanges(data: Partial<Room>) {
@@ -429,14 +430,14 @@ export class RoomPageComponent implements OnInit, OnDestroy {
       description ? { ...data, description } : { ...data }
     ) as RoomPatch;
     this.roomService.patchRoom(this.room.id, obj).subscribe({
-      next: (room) => {
+      next: () => {
         this.translateService
           .get('room-page.changes-successful')
           .subscribe((msg) => {
             this.notificationService.show(msg);
           });
       },
-      error: (error) => {
+      error: () => {
         this.translateService
           .get('room-page.changes-gone-wrong')
           .subscribe((msg) => {

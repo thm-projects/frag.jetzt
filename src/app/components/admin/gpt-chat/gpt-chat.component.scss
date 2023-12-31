@@ -1,4 +1,4 @@
-.mat-option {
+.mat-mdc-option {
   border-bottom: 1px solid var(--dialog);
 
   &:nth-child(even) {
@@ -10,7 +10,7 @@
     background-color: var(--alt-surface);
     color: var(--on-surface);
   }
-
+  /* TODO(mdc-migration): The following rule targets internal classes of option that may no longer apply for the MDC version. */
   &.mat-option-header {
     background-color: var(--primary);
     color: var(--on-primary);
@@ -151,6 +151,7 @@
   }
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version. */
 mat-card {
   background-color: var(--surface);
   color: var(--on-surface);
@@ -182,7 +183,7 @@ mat-card {
   }
 }
 
-.mat-chip {
+.mat-mdc-chip {
   background-color: var(--primary);
   color: var(--on-primary);
 }

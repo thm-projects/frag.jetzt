@@ -73,27 +73,33 @@ mat-icon {
   pointer-events: none;
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
 ::ng-deep .mat-form-field-label {
   color: var(--on-surface) !important;
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
 ::ng-deep .mat-form-field-underline {
   background-color: var(--on-surface) !important;
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
 ::ng-deep .mat-form-field-ripple {
   background-color: var(--on-surface) !important;
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of select that may no longer apply for the MDC version. */
 ::ng-deep .mat-select-arrow-wrapper .mat-select-arrow {
   color: var(--on-surface);
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of select that may no longer apply for the MDC version. */
 ::ng-deep .mat-select-value-text {
   color: var(--on-surface);
 }
 
-::ng-deep .mat-primary .mat-option.mat-selected:not(.mat-option-disabled) {
+/* TODO(mdc-migration): The following rule targets internal classes of option that may no longer apply for the MDC version. */
+::ng-deep .mat-primary .mat-mdc-option.mat-selected:not(.mat-option-disabled) {
   color: var(--primary);
 }
 
@@ -167,6 +173,7 @@ mat-icon {
   opacity: 0;
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of slider that may no longer apply for the MDC version. */
 ::ng-deep.mat-slider-track-background {
   background-color: var(--primary);
   opacity: 0.2;

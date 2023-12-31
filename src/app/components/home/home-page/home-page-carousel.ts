@@ -9,7 +9,7 @@ interface ImageEntry {
   url: string;
   override: {
     [theme: string]: {
-      [cssProperty: string]: any;
+      [cssProperty: string]: string;
     };
   };
 }

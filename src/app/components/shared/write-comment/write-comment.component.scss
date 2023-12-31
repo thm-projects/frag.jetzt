@@ -15,14 +15,22 @@ button {
   min-width: 80px;
 }
 
-.mat-flat-button.mat-primary.mat-button-disabled, .mat-flat-button.mat-accent.mat-button-disabled,
-.mat-flat-button.mat-warn.mat-button-disabled, .mat-flat-button.mat-button-disabled.mat-button-disabled,
-.mat-raised-button.mat-primary.mat-button-disabled, .mat-raised-button.mat-accent.mat-button-disabled,
-.mat-raised-button.mat-warn.mat-button-disabled, .mat-raised-button.mat-button-disabled.mat-button-disabled,
-.mat-fab.mat-primary.mat-button-disabled, .mat-fab.mat-accent.mat-button-disabled,
-.mat-fab.mat-warn.mat-button-disabled, .mat-fab.mat-button-disabled.mat-button-disabled,
-.mat-mini-fab.mat-primary.mat-button-disabled, .mat-mini-fab.mat-accent.mat-button-disabled,
-.mat-mini-fab.mat-warn.mat-button-disabled, .mat-mini-fab.mat-button-disabled.mat-button-disabled {
+.mat-mdc-unelevated-button.mat-primary.mat-button-disabled,
+.mat-flat-button.mat-accent.mat-button-disabled,
+.mat-flat-button.mat-warn.mat-button-disabled,
+.mat-flat-button.mat-button-disabled.mat-button-disabled,
+.mat-mdc-raised-button.mat-primary.mat-button-disabled,
+.mat-raised-button.mat-accent.mat-button-disabled,
+.mat-raised-button.mat-warn.mat-button-disabled,
+.mat-raised-button.mat-button-disabled.mat-button-disabled,
+.mat-mdc-fab.mat-primary.mat-button-disabled,
+.mat-fab.mat-accent.mat-button-disabled,
+.mat-fab.mat-warn.mat-button-disabled,
+.mat-fab.mat-button-disabled.mat-button-disabled,
+.mat-mdc-mini-fab.mat-primary.mat-button-disabled,
+.mat-mini-fab.mat-accent.mat-button-disabled,
+.mat-mini-fab.mat-warn.mat-button-disabled,
+.mat-mini-fab.mat-button-disabled.mat-button-disabled {
   display: none;
 }
 
@@ -76,37 +84,53 @@ button {
 }
 
 ::ng-deep {
+  /*
+TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version.
+ */
   .mat-form-field-label {
     color: var(--on-surface) !important;
   }
-
-  .mat-form-field-underline, .mat-form-field-ripple {
+  /*
+TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version.
+ */
+  .mat-form-field-underline,
+  .mat-form-field-ripple {
     background-color: var(--on-surface) !important;
   }
-
+  /*
+TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version.
+ */
   .mat-tab-body-content {
     height: auto !important;
     overflow-x: hidden !important;
   }
-
+  /*
+TODO(mdc-migration): The following rule targets internal classes of select that may no longer apply for the MDC version.
+ */
   .mat-select-arrow-wrapper .mat-select-arrow {
     color: var(--on-surface);
   }
-
+  /*
+TODO(mdc-migration): The following rule targets internal classes of select that may no longer apply for the MDC version.
+ */
   .mat-select-value {
     width: auto !important;
   }
-
+  /*
+TODO(mdc-migration): The following rule targets internal classes of select that may no longer apply for the MDC version.
+ */
   .mat-select-value-text {
     color: var(--on-surface);
     caret-color: var(--on-surface);
   }
-
-  .mat-primary .mat-option.mat-selected:not(.mat-option-disabled) {
+  /*
+TODO(mdc-migration): The following rule targets internal classes of option that may no longer apply for the MDC version.
+ */
+  .mat-primary .mat-mdc-option.mat-selected:not(.mat-option-disabled) {
     color: var(--primary);
   }
 
-  .mat-select-panel {
+  .mat-mdc-select-panel {
     background: var(--dialog);
   }
 }
@@ -121,6 +145,9 @@ mat-hint {
   font-style: italic;
 }
 
+/*
+TODO(mdc-migration): The following rule targets internal classes of radio that may no longer apply for the MDC version.
+ */
 ::ng-deep .placeholder .mat-radio-label-content {
   width: 100%;
 }
@@ -132,7 +159,10 @@ mat-hint {
   padding: 5px;
 }
 
-::ng-deep .mat-form-field .mat-form-field-infix {
+/*
+TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version.
+ */
+::ng-deep .mat-mdc-form-field .mat-form-field-infix {
   max-width: 500px;
 }
 
@@ -182,7 +212,7 @@ Styling for language select
 Styling for tag selection and language selection
  */
 
-.mat-option {
+.mat-mdc-option {
   color: var(--on-surface);
 }
 
@@ -252,7 +282,10 @@ $mockPixelRadius: 132px;
 $scale-factor: math.div($innerWidth, $mockWidth - $mockPadRight - $mockPadLeft);
 $width: math.round($mockWidth * $scale-factor);
 $height: math.round($mockHeight * $scale-factor);
-$padding: math.ceil($mockPadTop * $scale-factor) math.ceil($mockPadRight * $scale-factor) math.ceil($mockPadBottom * $scale-factor) math.ceil($mockPadLeft * $scale-factor);
+$padding: math.ceil($mockPadTop * $scale-factor)
+  math.ceil($mockPadRight * $scale-factor)
+  math.ceil($mockPadBottom * $scale-factor)
+  math.ceil($mockPadLeft * $scale-factor);
 
 $parentWidth: 900px;
 $dialog-margin: 130px;
@@ -261,7 +294,8 @@ $parentWidthHalf: math.div($parentWidth, 2);
 $scaledWidth: math.div($width * (1 - $customScaleFactor), 2);
 
 .mobile-mock-wrapper {
-  --end-position: #{$parentWidthHalf - $dialog-margin + $own-margin - $scaledWidth};
+  --end-position: #{$parentWidthHalf - $dialog-margin + $own-margin -
+    $scaledWidth};
   --start-position: #{$parentWidthHalf - $dialog-margin - $width + $scaledWidth};
   --test: #{$scale-factor};
   --current-position: var(--start-position);

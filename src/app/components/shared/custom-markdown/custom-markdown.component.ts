@@ -1,10 +1,4 @@
-import {
-  Component,
-  ElementRef,
-  Input,
-  OnChanges,
-  SimpleChanges,
-} from '@angular/core';
+import { Component, ElementRef, Input, OnChanges } from '@angular/core';
 import { KatexOptions, MarkdownService, PrismPlugin } from 'ngx-markdown';
 
 @Component({
@@ -101,7 +95,7 @@ export class CustomMarkdownComponent implements OnChanges {
     return elem.value;
   }
 
-  ngOnChanges(changes: SimpleChanges) {
+  ngOnChanges() {
     if (this.data != null) {
       this.render(this.data);
     }

@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { BrainstormingSession } from 'app/models/brainstorming-session';
@@ -19,7 +19,7 @@ interface SelectableIdea {
   templateUrl: './chat-gptbrainstorm.component.html',
   styleUrls: ['./chat-gptbrainstorm.component.scss'],
 })
-export class ChatGPTBrainstormComponent implements OnInit {
+export class ChatGPTBrainstormComponent {
   onCancel = this.abort.bind(this);
   onConfirm = this.confirm.bind(this);
   isSending = false;
@@ -43,8 +43,6 @@ export class ChatGPTBrainstormComponent implements OnInit {
     ref.componentInstance.roomId = room.id;
     return ref;
   }
-
-  ngOnInit(): void {}
 
   generate(value: string) {
     this.translate

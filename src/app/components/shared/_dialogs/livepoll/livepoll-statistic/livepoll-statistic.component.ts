@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy } from '@angular/core';
 import { LivepollTemplateContext } from '../../../../../models/livepoll-template';
 import { LivepollComponentUtility } from '../livepoll-component-utility';
 import { TranslateService } from '@ngx-translate/core';
@@ -14,7 +14,7 @@ import { AppStateService } from 'app/services/state/app-state.service';
   styleUrls: ['./livepoll-statistic.component.scss'],
   animations: [...LivepollComponentUtility.animation],
 })
-export class LivepollStatisticComponent implements OnInit, OnDestroy {
+export class LivepollStatisticComponent implements OnDestroy {
   @Input() options: LivepollOptionEntry[] | undefined;
 
   @Input() template: LivepollTemplateContext;
@@ -22,7 +22,7 @@ export class LivepollStatisticComponent implements OnInit, OnDestroy {
   @Input() votes: number[] = [];
   @Input() totalVotes: number;
   currentLanguage: Language;
-  private readonly _destroyer = new ReplaySubject<any>(1);
+  private readonly _destroyer = new ReplaySubject<unknown>(1);
 
   constructor(
     public readonly translateService: TranslateService,
@@ -43,8 +43,6 @@ export class LivepollStatisticComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this._destroyer.next(0);
   }
-
-  ngOnInit(): void {}
 
   public getVotePercentage(i: number) {
     return Math.floor(

@@ -15,7 +15,9 @@ $header-size: 64px;
     align-items: center;
     justify-content: space-evenly;
     padding: $padding;
-    min-height: calc(100vh - #{$footer-size + $header-size + $margin * 2 + $padding * 2});
+    min-height: calc(
+      100vh - #{$footer-size + $header-size + $margin * 2 + $padding * 2}
+    );
     height: 100%;
     width: 100%;
     max-width: 800px;
@@ -25,7 +27,7 @@ $header-size: 64px;
       margin: 8px 0;
       display: flex;
       justify-content: center;
-
+      /*TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version.*/
       mat-card-title {
         display: flex;
         justify-content: center;
@@ -43,7 +45,7 @@ $header-size: 64px;
           margin-top: 25px;
         }
       }
-
+      /*TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version.*/
       mat-card-subtitle {
         display: flex;
         justify-content: center;
@@ -94,14 +96,14 @@ $header-size: 64px;
         padding: 0 20px 20px 20px; //Bugfix for Safari, which otherwise cuts off the text at the corners
       }
 
-      .mat-icon-button {
+      .mat-mdc-icon-button {
         width: max-content;
         height: 100%;
         color: var(--primary) !important;
         transition: all 0.3s;
 
         &:hover {
-          transform: scale(1.2)
+          transform: scale(1.2);
         }
       }
 

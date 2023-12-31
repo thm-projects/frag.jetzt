@@ -12,7 +12,7 @@ import { Room } from '../../../../models/room';
 import { ExplanationDialogComponent } from '../explanation-dialog/explanation-dialog.component';
 import { UserRole } from '../../../../models/user-roles.enum';
 import { RoomDataService } from '../../../../services/util/room-data.service';
-import { forkJoin, Observable, ReplaySubject, Subscription } from 'rxjs';
+import { forkJoin, Observable, ReplaySubject } from 'rxjs';
 import { SessionService } from '../../../../services/util/session.service';
 import {
   Period,
@@ -167,7 +167,7 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
     this.roomDataService.dataAccessor
       .receiveUpdates([{ finished: true }])
       .pipe(takeUntil(this.destroyer))
-      .subscribe((_) => this.commentsLoadedCallback());
+      .subscribe(() => this.commentsLoadedCallback());
   }
 
   ngOnDestroy() {
@@ -271,6 +271,7 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
       filter.resetToDefault();
       filter.lastRoomId = this.sessionService.currentRoom?.id;
       let onlyQuestions = false;
+      let roomId: string;
       switch (this.continueFilter) {
         case 'all-questions-and-answers':
           // all questions allowed
@@ -280,7 +281,7 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
           break;
         case 'current-filter':
           onlyQuestions = true;
-          const roomId = filter.lastRoomId;
+          roomId = filter.lastRoomId;
           filter.applyOptions(this.data.filterObject.dataFilter);
           filter.lastRoomId = roomId;
           break;

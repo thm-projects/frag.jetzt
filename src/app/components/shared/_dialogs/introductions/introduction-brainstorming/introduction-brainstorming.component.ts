@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Language } from 'app/services/http/languagetool.service';
 import { AppStateService } from 'app/services/state/app-state.service';
@@ -9,7 +9,7 @@ import { ReplaySubject, takeUntil } from 'rxjs';
   templateUrl: './introduction-brainstorming.component.html',
   styleUrls: ['./introduction-brainstorming.component.scss'],
 })
-export class IntroductionBrainstormingComponent implements OnInit, OnDestroy {
+export class IntroductionBrainstormingComponent implements OnDestroy {
   currentLanguage: Language;
   private destroyer = new ReplaySubject(1);
 
@@ -21,8 +21,6 @@ export class IntroductionBrainstormingComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroyer))
       .subscribe((lang) => (this.currentLanguage = lang));
   }
-
-  ngOnInit(): void {}
 
   ngOnDestroy(): void {
     this.destroyer.next(true);

@@ -1,16 +1,24 @@
 {
   "root": true,
-  "ignorePatterns": ["projects/**/*"],
+  "ignorePatterns": [
+    "projects/**/*",
+    "src/assets/i18n/**/*"
+  ],
   "overrides": [
     {
-      "files": ["*.ts"],
+      "files": [
+        "*.ts"
+      ],
       "parserOptions": {
-        "project": ["tsconfig.json"],
+        "project": [
+          "tsconfig.json"
+        ],
         "createDefaultProgram": true
       },
       "extends": [
-        "plugin:@angular-eslint/ng-cli-compat",
-        "plugin:@angular-eslint/ng-cli-compat--formatting-add-on",
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:@angular-eslint/recommended",
         "plugin:@angular-eslint/template/process-inline-templates",
         "prettier"
       ],
@@ -42,14 +50,25 @@
         "@typescript-eslint/naming-convention": [
           "error",
           {
-            "format": ["UPPER_CASE", "StrictPascalCase"],
-            "selector": ["enumMember"]
+            "format": [
+              "UPPER_CASE",
+              "StrictPascalCase"
+            ],
+            "selector": [
+              "enumMember"
+            ]
           }
         ],
         "@typescript-eslint/no-inferrable-types": "off",
         "@typescript-eslint/no-shadow": "off",
-        "arrow-body-style": ["off", "as-needed"],
-        "brace-style": ["error", "1tbs"],
+        "arrow-body-style": [
+          "off",
+          "as-needed"
+        ],
+        "brace-style": [
+          "error",
+          "1tbs"
+        ],
         "id-blacklist": "off",
         "id-match": "off",
         "no-bitwise": "off",
@@ -57,15 +76,14 @@
       }
     },
     {
-      "files": ["*.html"],
-      "extends": ["plugin:@angular-eslint/template/recommended", "prettier"],
+      "files": [
+        "*.html"
+      ],
+      "extends": [
+        "plugin:@angular-eslint/template/recommended",
+        "prettier"
+      ],
       "rules": {}
-    },
-    {
-      "files": ["*.spec.ts"],
-      "rules": {
-        "@typescript-eslint/no-unused-expressions": "off"
-      }
     }
   ]
 }

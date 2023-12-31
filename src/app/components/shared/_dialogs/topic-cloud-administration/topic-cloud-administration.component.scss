@@ -44,7 +44,10 @@
   background-color: var(--red);
 }
 
-mat-panel-description, mat-panel-title, p, input {
+mat-panel-description,
+mat-panel-title,
+p,
+input {
   color: var(--on-background);
 }
 
@@ -52,9 +55,9 @@ mat-icon {
   fill: currentColor;
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of list that may no longer apply for the MDC version.*/
 mat-list-item:hover {
   background-color: rgba(128, 128, 128, 0.2);
-
 }
 
 .color-surface {
@@ -90,17 +93,19 @@ mat-list-item:hover {
 }
 
 label {
-  color: var(--on-surface)
+  color: var(--on-surface);
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of slide-toggle that may no longer apply for the MDC version.*/
 mat-slide-toggle {
   margin-bottom: 16px;
   display: block;
   color: var(--on-surface);
 }
 
-mat-panel-title, mat-panel-description {
-  flex-basis: 0
+mat-panel-title,
+mat-panel-description {
+  flex-basis: 0;
 }
 
 @keyframes animation_blink_5s {
@@ -115,7 +120,7 @@ mat-panel-title, mat-panel-description {
   animation-timing-function: ease-in;
   animation-duration: 2s;
   animation-iteration-count: 2;
-  opacity: 1.0 !important;
+  opacity: 1 !important;
 }
 
 .new-profanity-word .mat-expansion-panel-header-title,
@@ -129,7 +134,7 @@ mat-panel-title, mat-panel-description {
   align-items: center;
 }
 
-.new-profanity-word .mat-form-field + .mat-form-field {
+.new-profanity-word .mat-mdc-form-field + .mat-form-field {
   margin-left: 8px;
 }
 
@@ -154,6 +159,7 @@ mat-panel-title, mat-panel-description {
   margin: 15px 0;
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of dialog that may no longer apply for the MDC version.*/
 mat-dialog-content {
   max-height: 80vh !important;
   margin: unset;
@@ -170,11 +176,21 @@ mat-dialog-content {
   margin-top: 0px;
 }
 
-::ng-deep .ng-animating div mat-accordion mat-expansion-panel mat-expansion-panel-header {
+::ng-deep
+  .ng-animating
+  div
+  mat-accordion
+  mat-expansion-panel
+  mat-expansion-panel-header {
   height: 48px;
 }
 
-::ng-deep .ng-animating div mat-accordion mat-expansion-panel div.mat-expansion-panel-content {
+::ng-deep
+  .ng-animating
+  div
+  mat-accordion
+  mat-expansion-panel
+  div.mat-expansion-panel-content {
   height: 0px;
   visibility: hidden;
 }
@@ -193,7 +209,7 @@ mat-dialog-content {
 
 .keyword-scoring {
   width: 100%;
-
+  /* TODO(mdc-migration): The following rule targets internal classes of slider that may no longer apply for the MDC version.*/
   mat-slider {
     width: 100%;
   }

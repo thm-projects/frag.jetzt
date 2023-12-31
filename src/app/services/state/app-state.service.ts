@@ -18,7 +18,7 @@ import { DbConfigService } from '../persistence/lg/db-config.service';
 import { DbMotdService } from '../persistence/lg/db-motd.service';
 import { OnlineStateService } from './online-state.service';
 import { PreferenceStateService } from './preference-state.service';
-import { MotdAPI, MotdService } from '../http/motd.service';
+import { MotdService } from '../http/motd.service';
 import {
   CookieDialogRequest,
   MotdDialogRequest,
@@ -91,7 +91,9 @@ export class AppStateService {
             return theme;
           }
           const dark = this.deviceState.isDark();
-          return themes_meta['systemDefault'].config[dark ? 'dark' : 'light'];
+          return themes_meta['systemDefault'].config[
+            dark ? 'dark' : 'light'
+          ] as ThemeKey;
         }),
       )
       .pipe(distinctUntilChanged(), shareReplay(1));
@@ -121,7 +123,6 @@ export class AppStateService {
         .subscribe();
       // Onboarding
       this.startOnboarding().subscribe();
-      // TODO: Safari unsupported
     });
   }
 
@@ -216,7 +217,7 @@ export class AppStateService {
     );
   }
 
-  private leaveApp(): Observable<any> {
+  private leaveApp(): Observable<unknown> {
     window.close();
     location.replace('about:blank');
     return of();

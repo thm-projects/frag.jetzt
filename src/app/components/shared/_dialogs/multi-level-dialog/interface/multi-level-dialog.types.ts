@@ -1,17 +1,23 @@
 import { InjectionToken, Injector } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import {
+  AsyncValidatorFn,
+  FormControl,
+  FormGroup,
+  ValidatorFn,
+} from '@angular/forms';
 import { MultiLevelRadioSelectComponent } from '../multi-level-radio-select/multi-level-radio-select.component';
 import { MultiLevelTextInputComponent } from '../multi-level-text-input/multi-level-text-input.component';
 import { MultiLevelSwitchComponent } from '../multi-level-switch/multi-level-switch.component';
 import { MultiLevelTextComponent } from '../multi-level-text/multi-level-text.component';
 import { Observable } from 'rxjs';
+import { ClassType } from 'app/utils/ts-utils';
 
 export type AnsweredMultiLevelData = Record<string, FormGroup>;
 
 export interface MultiLevelDataEntry {
   tag: string;
   title: string;
-  stepHelp?: string | any;
+  stepHelp?: string | ClassType<unknown>;
   active?: (
     answers: AnsweredMultiLevelData,
     injector: Injector,
@@ -50,15 +56,15 @@ interface BaseAction {
   errorStates?: {
     [key: string]: string;
   };
-  validators?: any[];
-  asyncValidators?: any[];
+  validators?: ValidatorFn[];
+  asyncValidators?: AsyncValidatorFn[];
 }
 
 export interface RadioSelectAction extends BaseAction {
   type: 'radio-select';
-  defaultValue?: any;
+  defaultValue?: unknown;
   options: {
-    value: any;
+    value: unknown;
     label: string;
   }[];
 }
@@ -89,7 +95,7 @@ export type MultiLevelAction =
 
 export type BuiltAction<T> = T & {
   control: FormControl;
-  component: any;
+  component: ClassType<unknown>;
   injector: Injector;
 };
 
@@ -97,7 +103,7 @@ export const DYNAMIC_INPUT = new InjectionToken<BuiltAction<MultiLevelAction>>(
   'MultiLevelAction',
 );
 
-const MAPPER: { [key in MultiLevelAction['type']]: any } = {
+const MAPPER: { [key in MultiLevelAction['type']]: ClassType<unknown> } = {
   'radio-select': MultiLevelRadioSelectComponent,
   switch: MultiLevelSwitchComponent,
   'text-input': MultiLevelTextInputComponent,

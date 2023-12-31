@@ -71,7 +71,7 @@ export class CommentAnswerComponent
   private createCommentWrapper: CreateCommentWrapper = null;
   private _commentSubscription;
   private destroyer = new ReplaySubject(1);
-  private _list: ComponentRef<any>[];
+  private _list: ComponentRef<unknown>[];
   private _keywordExtractor: KeywordExtractor;
   private commentOverride: Partial<Comment>;
 

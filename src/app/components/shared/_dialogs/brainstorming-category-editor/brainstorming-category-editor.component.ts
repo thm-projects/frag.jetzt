@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 
@@ -7,7 +7,7 @@ import { MatDialogRef } from '@angular/material/dialog';
   templateUrl: './brainstorming-category-editor.component.html',
   styleUrls: ['./brainstorming-category-editor.component.scss'],
 })
-export class BrainstormingCategoryEditorComponent implements OnInit {
+export class BrainstormingCategoryEditorComponent {
   readonly max = 40;
   readonly min = 3;
   displayEmptyOnCreateWarning = false;
@@ -21,8 +21,6 @@ export class BrainstormingCategoryEditorComponent implements OnInit {
   constructor(
     private dialogRef: MatDialogRef<BrainstormingCategoryEditorComponent>,
   ) {}
-
-  ngOnInit(): void {}
 
   emptyOnCreate(control: FormControl) {
     if (this.displayEmptyOnCreateWarning && control.value.trim() === '') {

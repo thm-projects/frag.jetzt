@@ -10,7 +10,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import * as QuillNamespace from 'quill';
 
-const Quill: any = QuillNamespace;
+const Quill: typeof QuillNamespace = QuillNamespace;
 import ImageResize from 'quill-image-resize-module';
 import 'quill-emoji/dist/quill-emoji.js';
 import { TranslateServiceMock } from '../../../services/mocks/translate.service.mock';

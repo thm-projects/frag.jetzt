@@ -2,13 +2,19 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { KatexOptions } from 'ngx-markdown';
 import { QuillUtils } from '../../../../utils/quill-utils';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { QuillEditorComponent } from 'ngx-quill';
+
+interface Selection {
+  index: number;
+  length: number;
+}
 
 interface DialogData {
   type: string;
   meta: string;
-  quill: any;
-  selection: any;
-  overrideAction?: (value: string, selection: any) => void;
+  quill: QuillEditorComponent['quillEditor'];
+  selection: Selection;
+  overrideAction?: (value: string, selection: Selection) => void;
 }
 
 @Component({
@@ -48,6 +54,7 @@ export class QuillInputDialogComponent implements OnInit {
         this.dialogRef.close();
         return;
       }
+      let value: string;
       switch (this.data.type) {
         case 'link':
           if (this.value) {
@@ -64,7 +71,7 @@ export class QuillInputDialogComponent implements OnInit {
           }
           break;
         case 'video':
-          const value = QuillUtils.getVideoUrl(this.value)[0];
+          value = QuillUtils.getVideoUrl(this.value)[0];
           if (value) {
             this.data.quill.insertEmbed(
               this.data.selection.index,

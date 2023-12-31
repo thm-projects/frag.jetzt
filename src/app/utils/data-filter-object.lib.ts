@@ -197,7 +197,7 @@ export class RoomDataFilter {
   timeFilterStart: number;
   frozenAt: number;
   filterType: FilterType;
-  filterCompare: any;
+  filterCompare: unknown;
   sortType: SortType;
   sortReverse: boolean;
   ignoreThreshold: boolean;

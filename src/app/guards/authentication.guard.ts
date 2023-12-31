@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
-  CanActivate,
   Router,
   RouterStateSnapshot,
   UrlSegment,
@@ -17,7 +16,7 @@ import { RoomService } from 'app/services/http/room.service';
 import { KeycloakRoles } from 'app/models/user';
 
 @Injectable()
-export class AuthenticationGuard implements CanActivate {
+export class AuthenticationGuard {
   constructor(
     private router: Router,
     private eventService: EventService,

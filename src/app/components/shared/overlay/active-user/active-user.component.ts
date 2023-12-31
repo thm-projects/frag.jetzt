@@ -2,7 +2,7 @@ import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Room } from '../../../../models/room';
 import { HeaderService } from '../../../../services/util/header.service';
 import { RoomDataService } from '../../../../services/util/room-data.service';
-import { ReplaySubject, Subscription, takeUntil } from 'rxjs';
+import { ReplaySubject, takeUntil } from 'rxjs';
 import { DeviceStateService } from 'app/services/state/device-state.service';
 
 @Component({

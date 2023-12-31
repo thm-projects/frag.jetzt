@@ -205,7 +205,8 @@ export class ChatGPTPromptPresetComponent implements OnInit {
     });
   }
 
-  private onError(err: any) {
+  private onError(err: unknown) {
+    console.error(err);
     this.tranlateService
       .get('chat-gptprompt-preset.an-error-occured')
       .subscribe((msg) =>

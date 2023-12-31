@@ -27,7 +27,7 @@ export class UserService extends BaseHttpService {
     const connectionUrl: string =
       this.apiUrl.base + this.apiUrl.user + '/' + id;
     return this.http.delete<User>(connectionUrl, httpOptions).pipe(
-      tap((_) => ''),
+      tap(() => ''),
       catchError(this.handleError<User>('deleteUser')),
     );
   }

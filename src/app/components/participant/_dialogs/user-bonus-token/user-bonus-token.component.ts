@@ -140,7 +140,7 @@ export class UserBonusTokenComponent implements OnInit {
                     (a, b) => userIds.indexOf(a.id) - userIds.indexOf(b.id),
                   );
                   return users
-                    .map((user) => (user as any).email as string)
+                    .map((user) => (user as unknown as { email: string }).email)
                     .filter((e) => e);
                 }),
               );

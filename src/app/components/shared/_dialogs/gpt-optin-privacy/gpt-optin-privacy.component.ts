@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import {
   AppStateService,
@@ -11,7 +11,7 @@ import { ReplaySubject, takeUntil } from 'rxjs';
   templateUrl: './gpt-optin-privacy.component.html',
   styleUrls: ['./gpt-optin-privacy.component.scss'],
 })
-export class GptOptInPrivacyComponent implements OnInit, OnDestroy {
+export class GptOptInPrivacyComponent implements OnDestroy {
   currentLanguage: Language;
   private destroyer = new ReplaySubject(1);
 
@@ -23,8 +23,6 @@ export class GptOptInPrivacyComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroyer))
       .subscribe((lang) => (this.currentLanguage = lang));
   }
-
-  ngOnInit(): void {}
 
   ngOnDestroy(): void {
     this.destroyer.next(true);

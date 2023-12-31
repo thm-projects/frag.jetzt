@@ -1,8 +1,9 @@
 import { FieldsOf } from 'app/utils/ts-utils';
+import { DbStore, ValidKey } from './lg-persist.schema.types';
 
 export class Config {
   key: string;
-  value: any;
+  value: unknown;
 
   constructor({ key = null, value = null }: FieldsOf<Config>) {
     this.key = key;
@@ -14,7 +15,7 @@ export const CONFIG_SCHEMA = {
   type: Config,
   since: 3,
   options: {
-    keyPath: 'key' as const, // satisfies ValidKey<Config>,
+    keyPath: 'key' as const satisfies ValidKey<Config>,
   },
   indexes: {},
-} as const; //satisfies DbStore<Config>;
+} as const satisfies DbStore<Config>;

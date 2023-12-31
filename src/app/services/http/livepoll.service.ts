@@ -106,7 +106,6 @@ export class LivepollService extends BaseHttpService {
           parsed.map(([l, r]) => [l, new Map(r)]),
         );
         passed = true;
-      } else {
       }
     } catch (e) {
       console.warn('rebuild livepoll-peer-instruction');
@@ -121,7 +120,7 @@ export class LivepollService extends BaseHttpService {
     return this._dialogState.value > LivepollDialogState.Closed;
   }
 
-  get listener(): Observable<any> {
+  get listener(): Observable<unknown> {
     return LivepollService.livepollEventEmitter;
   }
 
@@ -412,7 +411,7 @@ export class LivepollService extends BaseHttpService {
             }),
           ).subscribe((response) => {
             const dialogRef = response.dialogRef;
-            dialogRef.afterClosed().subscribe((response) => {
+            dialogRef.afterClosed().subscribe(() => {
               this._dialogState.next(LivepollDialogState.Closed);
             });
           });

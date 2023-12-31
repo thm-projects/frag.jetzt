@@ -1,20 +1,21 @@
 @import "src/layout/layout-util";
 
 :host ::ng-deep {
+  /* TODO(mdc-migration): The following rule targets internal classes of slide-toggle that may no longer apply for the MDC version. */
   .mat-slide-toggle-thumb {
     background-color: var(--on-surface);
   }
-
+  /* TODO(mdc-migration): The following rule targets internal classes of slide-toggle that may no longer apply for the MDC version. */
   .mat-slide-toggle-bar {
     background-color: var(--grey);
   }
 
-  .mat-slide-toggle.mat-checked {
+  .mat-mdc-slide-toggle.mat-checked {
+    /* TODO(mdc-migration): The following rule targets internal classes of slide-toggle that may no longer apply for the MDC version. */
     .mat-slide-toggle-thumb {
       background-color: var(--primary);
     }
   }
-
 }
 
 .primary-btn {

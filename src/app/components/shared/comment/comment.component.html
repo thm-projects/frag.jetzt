@@ -1,6 +1,7 @@
 <app-uiregistration [commentId]="commentRegistrationId"></app-uiregistration>
 
 <mat-card
+  appearance="outlined"
   id="comment-card"
   class="border"
   [style]="{ '--i': responseIndex }"
@@ -203,7 +204,7 @@
         <button
           mat-button
           style="width: 100%"
-          (click)="toggleExpand($event)">
+          (click)="toggleExpand()">
           <span class="commentExpanderButton">
             {{
               isExpanded

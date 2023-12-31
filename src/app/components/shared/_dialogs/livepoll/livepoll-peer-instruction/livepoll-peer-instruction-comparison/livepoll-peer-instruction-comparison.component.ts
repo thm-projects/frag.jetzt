@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { LivepollSession } from '../../../../../../models/livepoll-session';
 import {
@@ -23,7 +23,7 @@ export interface LivepollComparison {
   templateUrl: './livepoll-peer-instruction-comparison.component.html',
   styleUrls: ['./livepoll-peer-instruction-comparison.component.scss'],
 })
-export class LivepollPeerInstructionComparisonComponent implements OnInit {
+export class LivepollPeerInstructionComparisonComponent {
   protected readonly comparisonList: LivepollComparison[] = [];
 
   constructor(
@@ -57,6 +57,4 @@ export class LivepollPeerInstructionComparisonComponent implements OnInit {
       });
     }
   }
-
-  ngOnInit(): void {}
 }

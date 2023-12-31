@@ -20,6 +20,6 @@ describe('DateTestComponent', () => {
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(component).to.exist;
   });
 });

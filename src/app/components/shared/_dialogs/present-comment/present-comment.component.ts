@@ -42,7 +42,7 @@ export class PresentCommentComponent implements OnInit {
     this.dialogRef.close('close');
   }
 
-  updateFontSize(event: any): void {
+  updateFontSize(event: { value: number }): void {
     document.getElementById('comment').style.fontSize =
       event.value * 2.5 + 'em';
   }

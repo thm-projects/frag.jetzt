@@ -27,15 +27,15 @@
 .mat-nav-list {
   background-color: var(--dialog);
 
-  &.mat-list-base {
+  &.mat-mdc-list-base {
     margin: 16px 0;
     padding: 0;
     max-height: 400px;
     overflow: auto;
 
-    .mat-list-item {
+    .mat-mdc-list-item {
       height: auto !important;
-
+      /* TODO(mdc-migration): The following rule targets internal classes of list that may no longer apply for the MDC version. */
       .mat-list-item-content {
         padding: 0 0 0 5px !important;
         height: 200px;
@@ -133,14 +133,14 @@
       .go-to {
         padding-left: 0 !important;
         padding-right: 0 !important;
-        color: var(--on-dialog)
+        color: var(--on-dialog);
       }
 
       .remove-btn {
         width: 50px !important;
       }
 
-      @media(max-width: 450px) {
+      @media (max-width: 450px) {
         .message {
           font-size: 14px;
         }
@@ -181,7 +181,7 @@ button.example-icon:hover {
   outline: 2px solid var(--secondary);
 }
 
-.mat-button {
+.mat-mdc-button {
   min-width: 40px !important;
   padding: 0;
 }

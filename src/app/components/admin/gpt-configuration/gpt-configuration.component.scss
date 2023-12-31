@@ -3,11 +3,13 @@
   display: block;
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version. */
 mat-card {
   background-color: var(--surface);
   color: var(--on-surface);
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of list that may no longer apply for the MDC version. */
 mat-list {
   background-color: var(--dialog);
   color: var(--on-dialog);
@@ -30,7 +32,7 @@ mat-list {
     width: 100%;
   }
 
-  .mat-icon-button {
+  .mat-mdc-icon-button {
     font-size: 1em;
     width: 2.5em;
     height: 2.5em;
@@ -83,7 +85,7 @@ mat-list {
     background-color: var(--secondary);
     color: var(--on-secondary);
   }
-
+  /* TODO(mdc-migration): The following rule targets internal classes of button that may no longer apply for the MDC version. */
   &.mat-button-disabled {
     filter: contrast(0);
   }
@@ -102,6 +104,7 @@ mat-list {
   }
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
 .flex-text ::ng-deep .mat-form-field-infix {
   display: flex;
 }

@@ -20,7 +20,7 @@ export enum LivepollGroupKind {
 }
 
 export type StyleProperties = {
-  [key in keyof Partial<CSSStyleDeclaration>]: any;
+  [key in keyof Partial<CSSStyleDeclaration>]: unknown;
 };
 
 export interface LivepollStyleProperties {
@@ -48,7 +48,7 @@ export type LivepollGroupContext = LivepollGroupNode<LivepollGroupKind>;
 type EachOfTemplate<E extends LivepollTemplate, T extends LivepollNode<E>> = {
   [E in T['kind']]: LivepollNode<E>;
 };
-type EachOfGroup<E extends LivepollGroupKind> = {
+type EachOfGroup = {
   [E in LivepollGroupKind]: LivepollTemplateContext[];
 };
 
@@ -190,7 +190,7 @@ export const templateEntries: EachOfTemplate<
   },
 };
 
-export const groupEntries: EachOfGroup<LivepollGroupKind> = {
+export const groupEntries: EachOfGroup = {
   [LivepollGroupKind.MultipleChoice]: [
     templateEntries[LivepollTemplate.AB],
     templateEntries[LivepollTemplate.ABCD],

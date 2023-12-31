@@ -60,7 +60,6 @@ import { DemoEnComponent } from '../assets/i18n/components/demo/demo-en';
 import { ArsModule } from '../../projects/ars/src/lib/ars.module';
 import { MatIconModule } from '@angular/material/icon';
 import { MatomoModule } from 'ngx-matomo';
-import { TagCloudModule } from 'angular-tag-cloud-module';
 import { SpacyService } from './services/http/spacy.service';
 import { QuizNowComponent } from './components/shared/quiz-now/quiz-now.component';
 import { JoyrideModule } from 'ngx-joyride';
@@ -102,7 +101,6 @@ export const initializeApp = (appConfig: AppConfig) => () => appConfig.load();
 export const HttpLoaderFactory = (http: HttpClient) =>
   new TranslateHttpLoader(http, '../../assets/i18n/home/', '.json');
 
-// @ts-ignore
 @NgModule({
   declarations: [
     AppComponent,
@@ -180,7 +178,6 @@ export const HttpLoaderFactory = (http: HttpClient) =>
       isolate: true,
     }),
     ArsModule,
-    TagCloudModule,
     JoyrideModule.forRoot(),
     MatNativeDateModule,
     HighlightModule,

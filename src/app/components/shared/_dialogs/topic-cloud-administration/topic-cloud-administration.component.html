@@ -14,7 +14,9 @@
             {{ "topic-cloud-dialog.settings" | translate }}
           </mat-panel-title>
         </mat-expansion-panel-header>
-        <mat-card style="background: none; margin-bottom: 10px">
+        <mat-card
+          appearance="outlined"
+          style="background: none; margin-bottom: 10px">
           <mat-label class="color-on-surface">
             {{ "topic-cloud-dialog.select-choice" | translate }}
           </mat-label>
@@ -80,7 +82,9 @@
                 [(ngModel)]="scorings[option].score"
                 [step]="0.1"
                 [thumbLabel]="true"
-                aria-labelledby="keyword-scoring-{{ option }}"></mat-slider>
+                aria-labelledby="keyword-scoring-{{ option }}">
+                <input matSliderThumb />
+              </mat-slider>
             </ng-container>
             <button
               mat-button
@@ -93,7 +97,9 @@
         </mat-accordion>
 
         <div *ngIf="isCreatorOrMod">
-          <mat-card style="background: none; margin-bottom: 10px">
+          <mat-card
+            appearance="outlined"
+            style="background: none; margin-bottom: 10px">
             <mat-slide-toggle
               (change)="
                 showMessage('words-will-be-overwritten', $event.checked)
@@ -165,7 +171,9 @@
               </mat-expansion-panel>
             </mat-accordion>
           </mat-card>
-          <mat-card style="background: none; margin-bottom: 10px">
+          <mat-card
+            appearance="outlined"
+            style="background: none; margin-bottom: 10px">
             <mat-slide-toggle [(ngModel)]="blacklistIsActive">
               {{ "topic-cloud-dialog.hide-blacklist-words" | translate }}
             </mat-slide-toggle>
@@ -589,6 +597,7 @@
       mat-align-tabs="center">
       <mat-tab label="{{ 'topic-cloud-dialog.keywords' | translate }}">
         <mat-card
+          appearance="outlined"
           class="color-surface"
           *ngIf="
             (keywords.size === 0 ||
@@ -735,6 +744,7 @@
           </label>
         </ng-template>
         <mat-card
+          appearance="outlined"
           class="color-surface"
           *ngIf="
             (blacklistKeywords.length === 0 ||

@@ -4,7 +4,7 @@ import { SwUpdate } from '@angular/service-worker';
 import { NotificationService } from './services/util/notification.service';
 import { Rescale } from './models/rescale';
 import { CustomIconService } from './services/util/custom-icon.service';
-import { filter, switchMap, tap } from 'rxjs/operators';
+import { filter, switchMap } from 'rxjs/operators';
 import { EventService } from './services/util/event.service';
 import {
   CookieDialogRequest,
@@ -75,7 +75,8 @@ export class AppComponent implements OnInit {
     private onboarding: OnboardingService,
     deviceState: DeviceStateService,
     initService: InitService,
-    _matomoService: MatomoTrackingService,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    matomoService: MatomoTrackingService,
   ) {
     AppComponent.instance = this;
     this.initDialogsForServices();
@@ -100,7 +101,7 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.update.versionUpdates
       .pipe(filter((e) => e.type === 'VERSION_READY'))
-      .subscribe((_) => UpdateInfoDialogComponent.open(this.dialog));
+      .subscribe(() => UpdateInfoDialogComponent.open(this.dialog));
   }
 
   public getRescale(): Rescale {

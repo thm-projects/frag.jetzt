@@ -26,27 +26,29 @@ export class ActiveUserService extends BaseHttpService {
     super();
   }
 
-  public getActiveUser(room: Room): Observable<any> {
+  public getActiveUser(room: Room): Observable<number[]> {
     const url = '/gateway-api/roomsubscription/usercount?ids=' + room.id;
-    return this.http.get(url, httpOptions).pipe(
-      tap((_) => ''),
-      catchError(this.handleError<any>('getActiveUser')),
+    return this.http.get<number[]>(url, httpOptions).pipe(
+      tap(() => ''),
+      catchError(this.handleError<number[]>('getActiveUser')),
     );
   }
 
-  public getActiveLivepollUser(livepoll: LivepollSession): Observable<any> {
+  public getActiveLivepollUser(
+    livepoll: LivepollSession,
+  ): Observable<number[]> {
     const url =
       '/gateway-api/livepollsubscription/usercount?ids=' + livepoll.id;
-    return this.http.get(url, httpOptions).pipe(
-      tap((_) => ''),
-      catchError(this.handleError<any>('getActiveLivepollUser')),
+    return this.http.get<number[]>(url, httpOptions).pipe(
+      tap(() => ''),
+      catchError(this.handleError<number[]>('getActiveLivepollUser')),
     );
   }
 
   public getGlobal(): Observable<GlobalCount> {
     const url = '/gateway-api/stats';
     return this.http.get<GlobalCount>(url, httpOptions).pipe(
-      tap((_) => ''),
+      tap(() => ''),
       catchError(this.handleError<GlobalCount>('getGlobal')),
     );
   }

@@ -365,9 +365,20 @@
           class="questionwall-present-options-slider"
           min="100"
           max="600"
-          value="400"
-          (input)="sliderChange($event)"
-          aria-labelledby="slider-lbl"></mat-slider>
+          aria-labelledby="slider-lbl"
+          #ngSlider>
+          <input
+            matSliderThumb
+            (input)="
+              sliderChange({
+                source: ngSliderThumb,
+                parent: ngSlider,
+                value: ngSliderThumb.value
+              })
+            "
+            #ngSliderThumb="matSliderThumb"
+            value="400" />
+        </mat-slider>
         <ars-col class="flex-column-center">
           <mat-icon class="icon-color">zoom_in</mat-icon>
         </ars-col>

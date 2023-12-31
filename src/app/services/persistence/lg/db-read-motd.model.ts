@@ -1,4 +1,5 @@
 import { FieldsOf } from 'app/utils/ts-utils';
+import { DbStore, ValidKey } from './lg-persist.schema.types';
 
 export class ReadMotd {
   userId: string;
@@ -14,12 +15,12 @@ export const READ_MOTD_SCHEMA = {
   type: ReadMotd,
   since: 3,
   options: {
-    keyPath: ['motdId', 'userId'] as const, // satisfies ValidKey<ReadMotd>,
+    keyPath: ['motdId', 'userId'] as const satisfies ValidKey<ReadMotd>,
   },
   indexes: {
     'user-id': {
       since: 3,
-      keyPath: 'userId', // satisfies ValidKey<ReadMotd>,
+      keyPath: 'userId' satisfies ValidKey<ReadMotd>,
     },
   },
-} as const; // satisfies DbStore<ReadMotd>;
+} as const satisfies DbStore<ReadMotd>;

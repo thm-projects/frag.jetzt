@@ -1,11 +1,16 @@
 import { Injectable } from '@angular/core';
-import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
+import {
+  MatSnackBar,
+  MatSnackBarConfig,
+  MatSnackBarRef,
+  TextOnlySnackBar,
+} from '@angular/material/snack-bar';
 
 @Injectable({
   providedIn: 'root',
 })
 export class NotificationService {
-  public snackRef: any;
+  public snackRef: MatSnackBarRef<TextOnlySnackBar>;
 
   constructor(public snackBar: MatSnackBar) {}
 
