@@ -1,8 +1,8 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { WriteCommentComponent } from '../../write-comment/write-comment.component';
 import { UserRole } from '../../../../models/user-roles.enum';
 import { BrainstormingSession } from '../../../../models/brainstorming-session';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-submit-comment',

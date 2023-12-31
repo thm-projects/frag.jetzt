@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { RoomCreateComponent } from '../../shared/_dialogs/room-create/room-create.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-home-creator-page',

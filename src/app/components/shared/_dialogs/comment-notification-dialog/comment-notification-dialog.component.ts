@@ -1,9 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Room } from '../../../../models/room';
-import {
-  MatLegacyDialog as MatDialog,
-  MatLegacyDialogRef as MatDialogRef,
-} from '@angular/material/legacy-dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { CommentNotificationService } from '../../../../services/http/comment-notification.service';
 import { NotificationService } from '../../../../services/util/notification.service';
@@ -11,6 +7,7 @@ import { CommentNotification } from '../../../../models/comment-notification';
 import { ReplaySubject, takeUntil } from 'rxjs';
 import { AppStateService } from 'app/services/state/app-state.service';
 import { AccountStateService } from 'app/services/state/account-state.service';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 enum WeekDay {
   Monday,

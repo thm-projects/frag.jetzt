@@ -1,14 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  MatLegacyDialog as MatDialog,
-  MatLegacyDialogRef as MatDialogRef,
-} from '@angular/material/legacy-dialog';
-import { Room } from 'app/models/room';
-import { GPTRoomSetting } from 'app/models/gpt-room-setting';
-import { GptService } from 'app/services/http/gpt.service';
 import { SessionService } from 'app/services/util/session.service';
 import { RoomStateService } from 'app/services/state/room-state.service';
 import { takeUntil } from 'rxjs';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 enum GPTStatusSeverity {
   ERROR = 'ERROR',

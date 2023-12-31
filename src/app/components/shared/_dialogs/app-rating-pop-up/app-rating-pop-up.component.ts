@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { RatingResult } from '../../../../models/rating-result';
 import { AppStateService } from 'app/services/state/app-state.service';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-app-rating-pop-up',

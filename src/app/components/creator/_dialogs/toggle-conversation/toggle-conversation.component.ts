@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { DialogConfirmActionButtonType } from '../../../shared/dialog/dialog-action-buttons/dialog-action-buttons.component';
 import { Room } from '../../../../models/room';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-toggle-conversation',

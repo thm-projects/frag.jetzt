@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NotificationService } from '../../../services/util/notification.service';
 import { NavigationEnd, Router } from '@angular/router';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { User } from '../../../models/user';
 import { Room } from '../../../models/room';
@@ -12,7 +11,6 @@ import { DataProtectionComponent } from '../../home/_dialogs/data-protection/dat
 import { Theme } from '../../../../theme/Theme';
 import { AppComponent } from '../../../app.component';
 import { StyleService } from '../../../../../projects/ars/src/lib/style/style.service';
-import { MatLegacyMenu as MatMenu } from '@angular/material/legacy-menu';
 import { ComponentType } from '@angular/cdk/overlay';
 import { IntroductionRoomListComponent } from '../_dialogs/introductions/introduction-room-list/introduction-room-list.component';
 import { IntroductionRoomPageComponent } from '../_dialogs/introductions/introduction-room-page/introduction-room-page.component';
@@ -30,6 +28,8 @@ import {
 import { ReplaySubject, filter, take, takeUntil, tap } from 'rxjs';
 import { DeviceStateService } from 'app/services/state/device-state.service';
 import { AccountStateService } from 'app/services/state/account-state.service';
+import { MatMenu } from '@angular/material/menu';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-footer',

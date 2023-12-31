@@ -1,5 +1,4 @@
 import { AfterViewInit, Component, Input, ViewChild } from '@angular/core';
-import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { RoomCreatorPageComponent } from '../../room-creator-page/room-creator-page.component';
 import { TranslateService } from '@ngx-translate/core';
 import { RoomService } from '../../../../services/http/room.service';
@@ -8,6 +7,7 @@ import { WriteCommentComponent } from '../../../shared/write-comment/write-comme
 import { QuillUtils } from '../../../../utils/quill-utils';
 import { clone } from '../../../../utils/ts-utils';
 import { Comment } from '../../../../models/comment';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-room-description-settings',

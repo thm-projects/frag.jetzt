@@ -1,6 +1,6 @@
 import { TranslateService } from '@ngx-translate/core';
 import { InjectionToken } from '@angular/core';
-import { MatLegacyMenu as MatMenu } from '@angular/material/legacy-menu';
+import { MatMenu } from '@angular/material/menu';
 
 export interface ArsMatSubMenuConfig {
   translate: TranslateService;

@@ -6,9 +6,7 @@ import {
   OnInit,
   Renderer2,
 } from '@angular/core';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { TranslateService } from '@ngx-translate/core';
-import { RoomCreateComponent } from '../../shared/_dialogs/room-create/room-create.component';
 import { UserRole } from '../../../models/user-roles.enum';
 import { User } from '../../../models/user';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
@@ -27,6 +25,7 @@ import { ReplaySubject, takeUntil } from 'rxjs';
 import { MultiLevelDialogComponent } from 'app/components/shared/_dialogs/multi-level-dialog/multi-level-dialog.component';
 import { MULTI_LEVEL_ROOM_CREATE } from 'app/components/shared/_dialogs/room-create/room-create.multi-level';
 import { generateRoom } from 'app/components/shared/_dialogs/room-create/room-create.executor';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-user-home',

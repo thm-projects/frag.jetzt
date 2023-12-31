@@ -1,9 +1,4 @@
 import { Component, Inject, Input, OnInit } from '@angular/core';
-import {
-  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
-  MatLegacyDialog as MatDialog,
-  MatLegacyDialogRef as MatDialogRef,
-} from '@angular/material/legacy-dialog';
 import { RoomCreatorPageComponent } from '../../room-creator-page/room-creator-page.component';
 import { NotificationService } from '../../../../services/util/notification.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -12,6 +7,11 @@ import { Router } from '@angular/router';
 import { CommentService } from '../../../../services/http/comment.service';
 import { Room } from '../../../../models/room';
 import { CommentSettingsDialog } from '../../../../models/comment-settings-dialog';
+import {
+  MAT_DIALOG_DATA,
+  MatDialog,
+  MatDialogRef,
+} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-comment-settings',

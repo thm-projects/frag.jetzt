@@ -1,20 +1,9 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { UserRole } from '../../../../models/user-roles.enum';
-import {
-  MatLegacyDialog as MatDialog,
-  MatLegacyDialogRef as MatDialogRef,
-} from '@angular/material/legacy-dialog';
 import { FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SessionService } from '../../../../services/util/session.service';
-import {
-  forkJoin,
-  Observable,
-  of,
-  ReplaySubject,
-  Subscription,
-  takeUntil,
-} from 'rxjs';
+import { forkJoin, Observable, of, ReplaySubject, takeUntil } from 'rxjs';
 import { Room } from '../../../../models/room';
 import { TranslateService } from '@ngx-translate/core';
 import { NotificationService } from '../../../../services/util/notification.service';
@@ -28,6 +17,7 @@ import {
   AppStateService,
 } from 'app/services/state/app-state.service';
 import { DeviceStateService } from 'app/services/state/device-state.service';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-topic-cloud-brainstorming',

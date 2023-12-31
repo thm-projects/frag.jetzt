@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { MatomoInjector, MatomoTracker } from 'ngx-matomo-v9';
+import { MatomoInjector, MatomoTracker } from 'ngx-matomo';
 import { NavigationEnd, Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
 import { AccountStateService } from '../state/account-state.service';
@@ -110,10 +110,10 @@ export class MatomoTrackingService {
     private accountState: AccountStateService,
     private roomState: RoomStateService,
   ) {
-    if (environment.name !== 'prod') {
+    if (!environment.production) {
       return;
     }
-    this.matomoInjector.init('/matomo/', 6);
+    this.matomoInjector.init();
     this.accountState.user$.subscribe((user) => {
       if (user?.id) {
         this.matomoTracker.setUserId(user.id);

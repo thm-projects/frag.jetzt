@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
+import { MatDialogRef } from '@angular/material/dialog';
 import { Comment } from 'app/models/comment';
 import { UserRole } from 'app/models/user-roles.enum';
 import { CommentService } from 'app/services/http/comment.service';

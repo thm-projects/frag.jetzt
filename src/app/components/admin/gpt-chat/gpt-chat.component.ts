@@ -17,13 +17,13 @@ import { GptEncoderService } from 'app/services/util/gpt-encoder.service';
 import { KeyboardUtils } from 'app/utils/keyboard';
 import { KeyboardKey } from 'app/utils/keyboard/keys';
 import { finalize, Observer, ReplaySubject, Subject, takeUntil } from 'rxjs';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { Location } from '@angular/common';
 import { GptOptInPrivacyComponent } from 'app/components/shared/_dialogs/gpt-optin-privacy/gpt-optin-privacy.component';
 import { FormControl } from '@angular/forms';
 import { GPTPromptPreset } from 'app/models/gpt-prompt-preset';
 import { DeviceStateService } from 'app/services/state/device-state.service';
 import { AccountStateService } from 'app/services/state/account-state.service';
+import { MatDialog } from '@angular/material/dialog';
 
 interface ConversationEntry {
   type: 'human' | 'gpt' | 'error';

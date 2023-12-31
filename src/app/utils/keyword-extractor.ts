@@ -24,11 +24,11 @@ import { RoomDataService } from '../services/util/room-data.service';
 import { TranslateService } from '@ngx-translate/core';
 import { NotificationService } from '../services/util/notification.service';
 import { SpacyDialogComponent } from '../components/shared/_dialogs/spacy-dialog/spacy-dialog.component';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { BrainstormingWord } from 'app/models/brainstorming-word';
 import { BrainstormingService } from 'app/services/http/brainstorming.service';
 import { Injector } from '@angular/core';
 import { UUID } from './ts-utils';
+import { MatDialog } from '@angular/material/dialog';
 
 export enum KeywordsResultType {
   Successful,

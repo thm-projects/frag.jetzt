@@ -24,7 +24,6 @@ import {
   listenEvent,
   sendEvent,
 } from './utils/service-component-events';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { LoginComponent } from './components/shared/login/login.component';
 import { MotdDialogComponent } from './components/shared/_dialogs/motd-dialog/motd-dialog.component';
 import { Router } from '@angular/router';
@@ -43,6 +42,7 @@ import { OnboardingService } from './services/util/onboarding.service';
 import { NotifyUnsupportedBrowserComponent } from './components/home/_dialogs/notify-unsupported-browser/notify-unsupported-browser.component';
 import { InitService } from './services/util/init.service';
 import { MatomoTrackingService } from './services/util/matomo-tracking.service';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-root',

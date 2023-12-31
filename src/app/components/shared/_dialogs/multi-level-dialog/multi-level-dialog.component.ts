@@ -1,9 +1,5 @@
 import { Component, Injector, Input, OnInit, ViewChild } from '@angular/core';
 import {
-  MatLegacyDialog as MatDialog,
-  MatLegacyDialogRef as MatDialogRef,
-} from '@angular/material/legacy-dialog';
-import {
   AnsweredMultiLevelData,
   MultiLevelData,
   MultiLevelDataBuiltAction,
@@ -16,6 +12,7 @@ import {
 } from '@angular/cdk/stepper';
 import { Observable, forkJoin, isObservable, of } from 'rxjs';
 import { ExplanationDialogComponent } from '../explanation-dialog/explanation-dialog.component';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 const WINDOW_SIZE = 3;
 

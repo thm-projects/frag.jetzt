@@ -28,7 +28,6 @@ import {
   DeepLDialogComponent,
   ResultValue,
 } from '../_dialogs/deep-ldialog/deep-ldialog.component';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { FormControl, Validators } from '@angular/forms';
 import { BrainstormingSession } from '../../../models/brainstorming-session';
 import { SharedTextFormatting } from '../../../utils/shared-text-formatting';
@@ -49,6 +48,7 @@ import {
   ROOM_ROLE_MAPPER,
   RoomStateService,
 } from 'app/services/state/room-state.service';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-write-comment',

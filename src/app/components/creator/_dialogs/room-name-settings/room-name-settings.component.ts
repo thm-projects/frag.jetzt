@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Room } from '../../../../models/room';
 import { FormControl, Validators } from '@angular/forms';
-import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { RoomService } from '../../../../services/http/room.service';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-room-name-settings',

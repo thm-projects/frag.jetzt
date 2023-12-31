@@ -3,11 +3,6 @@ import { BonusTokenService } from '../../../../services/http/bonus-token.service
 import { RoomService } from '../../../../services/http/room.service';
 import { BonusToken } from '../../../../models/bonus-token';
 import { BonusTokenRoomMixin } from '../../../../models/bonus-token-room-mixin';
-import {
-  MatLegacyDialog as MatDialog,
-  MatLegacyDialogRef as MatDialogRef,
-} from '@angular/material/legacy-dialog';
-import { MatLegacyOptionSelectionChange as MatOptionSelectionChange } from '@angular/material/legacy-core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { NotificationService } from '../../../../services/util/notification.service';
@@ -18,6 +13,8 @@ import { Clipboard } from '@angular/cdk/clipboard';
 import { CommentService } from '../../../../services/http/comment.service';
 import { BonusTokenUtilService } from '../../../../services/util/bonus-token-util.service';
 import { numberSorter } from '../../../../models/comment';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatOptionSelectionChange } from '@angular/material/core';
 
 export class MinRoom {
   name: string;

@@ -10,7 +10,6 @@ import {
 import { Comment, numberSorter } from '../../../models/comment';
 import { CommentService } from '../../../services/http/comment.service';
 import { TranslateService } from '@ngx-translate/core';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { User } from '../../../models/user';
 import { UserRole } from '../../../models/user-roles.enum';
 import { Room } from '../../../models/room';
@@ -27,10 +26,7 @@ import { BonusTokenService } from '../../../services/http/bonus-token.service';
 import { CreateCommentWrapper } from '../../../utils/create-comment-wrapper';
 import { RoomDataService } from '../../../services/util/room-data.service';
 import { OnboardingService } from '../../../services/util/onboarding.service';
-import { LegacyPageEvent as PageEvent } from '@angular/material/legacy-paginator';
 import { TopicCloudFilterComponent } from '../_dialogs/topic-cloud-filter/topic-cloud-filter.component';
-import { MatLegacyMenuTrigger as MatMenuTrigger } from '@angular/material/legacy-menu';
-import { MatLegacyAutocompleteTrigger as MatAutocompleteTrigger } from '@angular/material/legacy-autocomplete';
 import { FormControl } from '@angular/forms';
 import { copyCSVString, exportRoom } from '../../../utils/ImportExportMethods';
 import { BrainstormingService } from '../../../services/http/brainstorming.service';
@@ -67,6 +63,10 @@ import {
   ROOM_ROLE_MAPPER,
   RoomStateService,
 } from 'app/services/state/room-state.service';
+import { MatMenuTrigger } from '@angular/material/menu';
+import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { PageEvent } from '@angular/material/paginator';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-comment-list',

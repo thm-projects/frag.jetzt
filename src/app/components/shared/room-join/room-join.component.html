@@ -20,11 +20,9 @@
           type="text"
           maxlength="30"
           [formControl]="sessionCodeFormControl"
+          [placeholder]="'home-page.session-id' | translate"
           [errorStateMatcher]="matcher"
           aria-labelledby="join-input-label" />
-        <mat-placeholder class="placeholder">
-          {{ "home-page.session-id" | translate }}
-        </mat-placeholder>
         <mat-error
           *ngIf="sessionCodeFormControl.hasError('required')"
           aria-hidden="true">

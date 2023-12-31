@@ -1,6 +1,6 @@
 import { Component, Input, OnDestroy } from '@angular/core';
 import { LivepollDialogComponent } from '../livepoll-dialog/livepoll-dialog.component';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import {
   MarkdownEditorDialogComponent,
   MarkdownEditorDialogData,

@@ -2,13 +2,11 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { WriteCommentComponent } from './write-comment.component';
 import { ArsModule } from '../../../../../projects/ars/src/lib/ars.module';
-import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { TranslateServiceMock } from '../../../services/mocks/translate.service.mock';
 import { DeepLService } from '../../../services/http/deep-l.service';
 import { LanguagetoolService } from '../../../services/http/languagetool.service';
 import { NotificationService } from '../../../services/util/notification.service';
-import { MatLegacySnackBarModule as MatSnackBarModule } from '@angular/material/legacy-snack-bar';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { RoomService } from '../../../services/http/room.service';
@@ -18,6 +16,8 @@ import { DataStoreService } from '../../../services/util/data-store.service';
 import { ModeratorService } from '../../../services/http/moderator.service';
 import { CommentService } from '../../../services/http/comment.service';
 import { CommentServiceMock } from '../../../services/mocks/comment.service.mock';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 describe('WriteCommentComponent', () => {
   let component: WriteCommentComponent;
@@ -61,34 +61,34 @@ describe('WriteCommentComponent', () => {
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(component).to.exist;
   });
 
   it('should be allowed to have a questioner name between 2-30 characters', () => {
     component.questionerNameFormControl.setValue('Ab');
     component.questionerNameFormControl.updateValueAndValidity();
-    expect(component.questionerNameFormControl.valid).toBeTruthy();
+    expect(component.questionerNameFormControl.valid).to.exist;
 
     component.questionerNameFormControl.setValue(
       '5Zexkv95t4v5SKLdZkpS0AMjP6gl1H',
     );
     component.questionerNameFormControl.updateValueAndValidity();
-    expect(component.questionerNameFormControl.valid).toBeTruthy();
+    expect(component.questionerNameFormControl.valid).to.exist;
   });
 
   it('should not be allowed to have a questioner name less than 2 or above 30 characters', () => {
     component.questionerNameFormControl.setValue('A');
     component.questionerNameFormControl.updateValueAndValidity();
-    expect(component.questionerNameFormControl.valid).toBeFalsy();
+    expect(component.questionerNameFormControl.valid).to.not.exist;
 
     component.questionerNameFormControl.setValue(
       '5Zexkv95t4v5SKLdZkpS0AMjP6gl1Ha',
     );
     component.questionerNameFormControl.updateValueAndValidity();
-    expect(component.questionerNameFormControl.valid).toBeFalsy();
+    expect(component.questionerNameFormControl.valid).to.not.exist;
   });
 
   it('should be allowed to leave the questioner name empty', () => {
-    expect(component.questionerNameFormControl.valid).toBeTruthy();
+    expect(component.questionerNameFormControl.valid).to.not.exist;
   });
 });

@@ -17,14 +17,12 @@ import {
   QuillViewComponent,
 } from 'ngx-quill';
 import { TranslateService } from '@ngx-translate/core';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { QuillInputDialogComponent } from '../_dialogs/quill-input-dialog/quill-input-dialog.component';
 import { Marks } from './view-comment-data.marks';
 import { LanguagetoolResult } from '../../../services/http/languagetool.service';
 import { NotificationService } from '../../../services/util/notification.service';
 import { AccessibilityEscapedInputDirective } from '../../../directives/accessibility-escaped-input.directive';
 import { EventService } from '../../../services/util/event.service';
-import { MatLegacyTooltip as MatTooltip } from '@angular/material/legacy-tooltip';
 import {
   ImmutableStandardDelta,
   QuillUtils,
@@ -41,6 +39,8 @@ import { KeyboardUtils } from 'app/utils/keyboard';
 import { KeyboardKey } from 'app/utils/keyboard/keys';
 import { AppStateService } from 'app/services/state/app-state.service';
 import { DeviceStateService } from 'app/services/state/device-state.service';
+import { MatTooltip } from '@angular/material/tooltip';
+import { MatDialog } from '@angular/material/dialog';
 
 Quill.register('modules/imageResize', ImageResize);
 Quill.register('formats/dsgvo-video', DsgvoVideo);

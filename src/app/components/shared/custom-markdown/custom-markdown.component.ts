@@ -1,10 +1,16 @@
-import { Component, ElementRef, Input, OnChanges, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  Input,
+  OnChanges,
+  SimpleChanges,
+} from '@angular/core';
 import { KatexOptions, MarkdownService, PrismPlugin } from 'ngx-markdown';
 
 @Component({
   selector: 'app-custom-markdown',
   template: '<ng-content></ng-content>',
-  styleUrls: ['./custom-markdown.component.scss']
+  styleUrls: ['./custom-markdown.component.scss'],
 })
 export class CustomMarkdownComponent implements OnChanges {
   @Input() katex = true;
@@ -15,15 +21,19 @@ export class CustomMarkdownComponent implements OnChanges {
   @Input() line: string | string[] | undefined;
   @Input() lineOffset: number | undefined;
   @Input() katexOptions: KatexOptions = {
-    throwOnError: true
+    throwOnError: true,
   };
   @Input() data: string;
 
-  constructor(public element: ElementRef<HTMLElement>,
-              public markdownService: MarkdownService) {
-  }
+  constructor(
+    public element: ElementRef<HTMLElement>,
+    public markdownService: MarkdownService,
+  ) {}
 
-  private static setPluginClass(element: HTMLElement, plugin: string | string[]): void {
+  private static setPluginClass(
+    element: HTMLElement,
+    plugin: string | string[],
+  ): void {
     const preElements = element.querySelectorAll('pre');
     for (let i = 0; i < preElements.length; i++) {
       const classes = plugin instanceof Array ? plugin : [plugin];
@@ -31,14 +41,19 @@ export class CustomMarkdownComponent implements OnChanges {
     }
   }
 
-  private static setPluginOptions(element: HTMLElement, options: { [key: string]: number | string | string[] | undefined }): void {
+  private static setPluginOptions(
+    element: HTMLElement,
+    options: { [key: string]: number | string | string[] | undefined },
+  ): void {
     const preElements = element.querySelectorAll('pre');
     for (let i = 0; i < preElements.length; i++) {
-      Object.keys(options).forEach(option => {
+      Object.keys(options).forEach((option) => {
         const attributeValue = options[option];
         if (attributeValue) {
           const attributeName = this.toLispCase(option);
-          preElements.item(i).setAttribute(attributeName, attributeValue.toString());
+          preElements
+            .item(i)
+            .setAttribute(attributeName, attributeValue.toString());
         }
       });
     }
@@ -51,7 +66,10 @@ export class CustomMarkdownComponent implements OnChanges {
     }
     let str = value.toString();
     for (let i = 0, n = upperChars.length; i < n; i++) {
-      str = str.replace(new RegExp(upperChars[i]), '-' + upperChars[i].toLowerCase());
+      str = str.replace(
+        new RegExp(upperChars[i]),
+        '-' + upperChars[i].toLowerCase(),
+      );
     }
     if (str.slice(0, 1) === '-') {
       str = str.slice(1);
@@ -68,7 +86,9 @@ export class CustomMarkdownComponent implements OnChanges {
       if (match.index === regexp.lastIndex) {
         regexp.lastIndex++;
       }
-      newStr += markdown.substring(lastIndex, match.index) + match[0].replace('\\\\', '\\\\\\\\');
+      newStr +=
+        markdown.substring(lastIndex, match.index) +
+        match[0].replace('\\\\', '\\\\\\\\');
       lastIndex = match.index + match[0].length;
     }
     newStr += markdown.substring(lastIndex);
@@ -91,17 +111,30 @@ export class CustomMarkdownComponent implements OnChanges {
     if (this.katex) {
       markdown = CustomMarkdownComponent.fixKatex(markdown);
     }
-    const compiled = this.markdownService.compile(markdown, decodeHtml, this.emoji);
-    this.element.nativeElement.innerHTML = this.katex ? this.renderKatex(compiled) : compiled;
+    const compiled = this.markdownService.parse(markdown, {
+      decodeHtml,
+      emoji: this.emoji,
+      inline: false,
+      disableSanitizer: true,
+      mermaid: true,
+    });
+    this.element.nativeElement.innerHTML = this.katex
+      ? this.renderKatex(compiled)
+      : compiled;
     if (this.lineHighlight) {
       CustomMarkdownComponent.setPluginOptions(this.element.nativeElement, {
         dataLine: this.line,
-        dataLineOffset: this.lineOffset
+        dataLineOffset: this.lineOffset,
       });
     }
     if (this.lineNumbers) {
-      CustomMarkdownComponent.setPluginClass(this.element.nativeElement, PrismPlugin.LineNumbers);
-      CustomMarkdownComponent.setPluginOptions(this.element.nativeElement, { dataStart: this.start });
+      CustomMarkdownComponent.setPluginClass(
+        this.element.nativeElement,
+        PrismPlugin.LineNumbers,
+      );
+      CustomMarkdownComponent.setPluginOptions(this.element.nativeElement, {
+        dataStart: this.start,
+      });
     }
     this.markdownService.highlight(this.element.nativeElement);
   }
@@ -118,14 +151,18 @@ export class CustomMarkdownComponent implements OnChanges {
       newStr += compiledMarkdown.substring(lastIndex, match.index);
       const katex = match[0];
       lastIndex = match.index + katex.length;
-      this.katexOptions.displayMode = katex.startsWith('$$') && katex.endsWith('$$');
+      this.katexOptions.displayMode =
+        katex.startsWith('$$') && katex.endsWith('$$');
       const offset = this.katexOptions.displayMode ? 2 : 1;
-      const innerKatex = CustomMarkdownComponent.decodeHTML(katex.substring(offset, katex.length - offset))
-        .replace(/(^\s*)|(\s+$)/g, '');
-      newStr += this.markdownService.renderKatex('$' + innerKatex + '$', this.katexOptions);
+      const innerKatex = CustomMarkdownComponent.decodeHTML(
+        katex.substring(offset, katex.length - offset),
+      ).replace(/(^\s*)|(\s+$)/g, '');
+      newStr += this.markdownService['renderKatex'](
+        '$' + innerKatex + '$',
+        this.katexOptions,
+      );
     }
     newStr += compiledMarkdown.substring(lastIndex);
     return newStr;
   }
-
 }

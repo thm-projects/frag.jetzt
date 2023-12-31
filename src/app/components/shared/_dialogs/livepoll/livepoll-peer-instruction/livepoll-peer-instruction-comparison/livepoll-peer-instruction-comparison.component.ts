@@ -1,14 +1,11 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { LivepollSession } from '../../../../../../models/livepoll-session';
 import {
   LivepollTemplateContext,
   templateEntries,
 } from '../../../../../../models/livepoll-template';
-import {
-  LivepollComponentUtility,
-  TemplateTarget,
-} from '../../livepoll-component-utility';
+import { LivepollComponentUtility } from '../../livepoll-component-utility';
 import { LivepollService } from '../../../../../../services/http/livepoll.service';
 import { LivepollOptionEntry } from '../../livepoll-dialog/livepoll-dialog.component';
 

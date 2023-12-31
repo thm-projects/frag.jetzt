@@ -1,14 +1,14 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
-import {
-  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
-  MatLegacyDialog as MatDialog,
-  MatLegacyDialogRef as MatDialogRef,
-} from '@angular/material/legacy-dialog';
 import { SpacyKeyword } from '../../../../services/http/spacy.service';
 import { Comment } from '../../../../models/comment';
 import { DialogActionButtonsComponent } from '../../dialog/dialog-action-buttons/dialog-action-buttons.component';
 import { ExplanationDialogComponent } from '../explanation-dialog/explanation-dialog.component';
 import { KeywordsResultType } from '../../../../utils/keyword-extractor';
+import {
+  MAT_DIALOG_DATA,
+  MatDialog,
+  MatDialogRef,
+} from '@angular/material/dialog';
 
 export interface Keyword {
   word: string;

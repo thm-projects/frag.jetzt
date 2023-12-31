@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
 import {
@@ -22,6 +21,7 @@ import {
   Language,
 } from 'app/services/state/app-state.service';
 import { DeviceStateService } from 'app/services/state/device-state.service';
+import { MatDialog } from '@angular/material/dialog';
 
 const LANG_KEYS = [
   'PARTICIPANT',

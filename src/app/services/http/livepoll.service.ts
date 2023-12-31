@@ -1,9 +1,5 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import {
-  MatLegacyDialog as MatDialog,
-  MatLegacyDialogConfig as MatDialogConfig,
-} from '@angular/material/legacy-dialog';
 import { RoomService } from './room.service';
 import { BehaviorSubject, catchError, map, Observable, tap } from 'rxjs';
 import { LivepollSession } from 'app/models/livepoll-session';
@@ -22,6 +18,7 @@ import {
   ROOM_ROLE_MAPPER,
   RoomStateService,
 } from '../state/room-state.service';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 
 export interface LivepollSessionCreateAPI {
   template: string;

@@ -2,11 +2,6 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import {
-  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
-  MatLegacyDialogModule as MatDialogModule,
-  MatLegacyDialogRef as MatDialogRef,
-} from '@angular/material/legacy-dialog';
-import {
   HTTP_INTERCEPTORS,
   HttpClient,
   HttpClientModule,
@@ -64,7 +59,7 @@ import { DemoDeComponent } from '../assets/i18n/components/demo/demo-de';
 import { DemoEnComponent } from '../assets/i18n/components/demo/demo-en';
 import { ArsModule } from '../../projects/ars/src/lib/ars.module';
 import { MatIconModule } from '@angular/material/icon';
-import { MatomoModule } from 'ngx-matomo-v9';
+import { MatomoModule } from 'ngx-matomo';
 import { TagCloudModule } from 'angular-tag-cloud-module';
 import { SpacyService } from './services/http/spacy.service';
 import { QuizNowComponent } from './components/shared/quiz-now/quiz-now.component';
@@ -99,8 +94,7 @@ import { AskOnboardingENComponent } from 'assets/i18n/components/ask-onboarding/
 import { AskOnboardingFRComponent } from 'assets/i18n/components/ask-onboarding/ask-onboarding-fr.component';
 import { UpdateInfoDialogComponent } from './components/home/_dialogs/update-info-dialog/update-info-dialog.component';
 import { AppStateService } from './services/state/app-state.service';
-
-export const dialogClose = (dialogResult: any) => '';
+import { MatDialogModule } from '@angular/material/dialog';
 
 export const initializeApp = (appConfig: AppConfig) => () => appConfig.load();
 
@@ -146,7 +140,7 @@ export const HttpLoaderFactory = (http: HttpClient) =>
     UpdateInfoDialogComponent,
   ],
   imports: [
-    MatomoModule,
+    MatomoModule.forRoot(environment.matomo),
     AppRoutingModule,
     BrowserModule,
     BrowserAnimationsModule,
@@ -227,16 +221,6 @@ export const HttpLoaderFactory = (http: HttpClient) =>
     SpacyService,
     MatBottomSheet,
     DashboardNotificationService,
-    {
-      provide: MatDialogRef,
-      useValue: {
-        dialogClose,
-      },
-    },
-    {
-      provide: MAT_DIALOG_DATA,
-      useValue: [],
-    },
   ],
   bootstrap: [AppComponent],
 })

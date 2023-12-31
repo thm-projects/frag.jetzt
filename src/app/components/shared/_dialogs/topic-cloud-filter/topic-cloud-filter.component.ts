@@ -1,9 +1,4 @@
 import { Component, Inject, Input, OnDestroy, OnInit } from '@angular/core';
-import {
-  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
-  MatLegacyDialog as MatDialog,
-  MatLegacyDialogRef as MatDialogRef,
-} from '@angular/material/legacy-dialog';
 import { NotificationService } from '../../../../services/util/notification.service';
 import { EventService } from '../../../../services/util/event.service';
 import { Router } from '@angular/router';
@@ -27,6 +22,11 @@ import { FilteredDataAccess } from '../../../../utils/filtered-data-access';
 import { map, take, takeUntil } from 'rxjs/operators';
 import { DeviceStateService } from 'app/services/state/device-state.service';
 import { AccountStateService } from 'app/services/state/account-state.service';
+import {
+  MAT_DIALOG_DATA,
+  MatDialog,
+  MatDialogRef,
+} from '@angular/material/dialog';
 
 class CommentsCount {
   comments: number;

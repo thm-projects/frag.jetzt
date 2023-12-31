@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
+import { MatDialogRef } from '@angular/material/dialog';
 import { BrainstormingWord } from 'app/models/brainstorming-word';
 import { Room } from 'app/models/room';
 import { BrainstormingService } from 'app/services/http/brainstorming.service';

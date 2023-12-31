@@ -16,7 +16,6 @@ import { CommentService } from '../../../services/http/comment.service';
 import { NotificationService } from '../../../services/util/notification.service';
 import { TranslateService } from '@ngx-translate/core';
 import { PresentCommentComponent } from '../_dialogs/present-comment/present-comment.component';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import {
   animate,
   state,
@@ -52,6 +51,7 @@ import { IconActionKey, IconActionState, MenuState } from './comment-action';
 import { DeviceStateService } from 'app/services/state/device-state.service';
 import { AccountStateService } from 'app/services/state/account-state.service';
 import { AppStateService } from 'app/services/state/app-state.service';
+import { MatDialog } from '@angular/material/dialog';
 
 interface IconAction {
   name: IconActionKey;

@@ -7,14 +7,10 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import {
-  MatLegacyPaginator as MatPaginator,
-  MatLegacyPaginatorIntl as MatPaginatorIntl,
-  LegacyPageEvent as PageEvent,
-} from '@angular/material/legacy-paginator';
 import { HttpClient } from '@angular/common/http';
 import { ReplaySubject, takeUntil } from 'rxjs';
 import { AppStateService } from 'app/services/state/app-state.service';
+import { MatPaginator, MatPaginatorIntl, PageEvent } from '@angular/material/paginator';
 
 export interface ArsMatPaginatorTheme {
   buttonColor: string;

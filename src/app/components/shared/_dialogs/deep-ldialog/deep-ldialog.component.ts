@@ -5,11 +5,6 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import {
-  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
-  MatLegacyDialog as MatDialog,
-  MatLegacyDialogRef as MatDialogRef,
-} from '@angular/material/legacy-dialog';
 import { ViewCommentDataComponent } from '../../view-comment-data/view-comment-data.component';
 import { NotificationService } from '../../../../services/util/notification.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -19,6 +14,11 @@ import {
   FormalityType,
 } from '../../../../services/http/deep-l.service';
 import { StandardDelta } from '../../../../utils/quill-utils';
+import {
+  MAT_DIALOG_DATA,
+  MatDialog,
+  MatDialogRef,
+} from '@angular/material/dialog';
 
 export interface ResultValue {
   body: StandardDelta;

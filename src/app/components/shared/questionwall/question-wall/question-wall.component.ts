@@ -13,14 +13,12 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Rescale } from '../../../../models/rescale';
 import { QuestionWallKeyEventSupport } from '../QuestionWallKeyEventSupport';
-import { MatLegacySliderChange as MatSliderChange } from '@angular/material/legacy-slider';
 import { RoomDataService } from '../../../../services/util/room-data.service';
 import { User } from '../../../../models/user';
 import { UserRole } from '../../../../models/user-roles.enum';
 import { SessionService } from '../../../../services/util/session.service';
 import { Room } from '../../../../models/room';
 import { mergeMap, takeUntil } from 'rxjs/operators';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { IntroductionQuestionWallComponent } from '../../_dialogs/introductions/introduction-question-wall/introduction-question-wall.component';
 import {
   BrainstormingFilter,
@@ -35,9 +33,10 @@ import { ReplaySubject, forkJoin } from 'rxjs';
 import { HeaderService } from '../../../../services/util/header.service';
 import { ForumComment } from '../../../../utils/data-accessor';
 import { RowComponent } from '../../../../../../projects/ars/src/lib/components/layout/frame/row/row.component';
-import { LegacyPageEvent as PageEvent } from '@angular/material/legacy-paginator';
 import { AccountStateService } from 'app/services/state/account-state.service';
 import { RoomStateService } from 'app/services/state/room-state.service';
+import { PageEvent } from '@angular/material/paginator';
+import { MatDialog } from '@angular/material/dialog';
 
 interface CommentCache {
   [commentId: string]: {
@@ -459,7 +458,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     this._filterObj.dataFilter = filter;
   }
 
-  sliderChange(evt: MatSliderChange) {
+  sliderChange(evt: any) {
     this.fontSize = evt.value;
   }
 

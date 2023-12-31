@@ -105,8 +105,6 @@ import { UIRegistrationComponent } from './uiregistration/uiregistration.compone
 import { PseudonymEditorComponent } from './_dialogs/pseudonym-editor/pseudonym-editor.component';
 import { BrainstormingBlacklistEditComponent } from './_dialogs/brainstorming-blacklist-edit/brainstorming-blacklist-edit.component';
 import { EditQuestionComponent } from './_dialogs/edit-question/edit-question.component';
-import { MatLegacySliderModule as MatSliderModule } from '@angular/material/legacy-slider';
-import { MatLegacySlideToggleModule as MatSlideToggleModule } from '@angular/material/legacy-slide-toggle';
 import { BrainstormingCategoryEditorComponent } from './_dialogs/brainstorming-category-editor/brainstorming-category-editor.component';
 import { BrainstormingEditComponent } from './_dialogs/brainstorming-edit/brainstorming-edit.component';
 import { BrainstormingDeleteConfirmComponent } from './_dialogs/brainstorming-delete-confirm/brainstorming-delete-confirm.component';
@@ -158,6 +156,8 @@ import { HelpRoomCreateComponent } from './_dialogs/room-create/help-room-create
 import { HelpRoomCreateDeComponent } from './_dialogs/room-create/help-room-create/help-room-create-de/help-room-create-de.component';
 import { HelpRoomCreateEnComponent } from './_dialogs/room-create/help-room-create/help-room-create-en/help-room-create-en.component';
 import { HelpRoomCreateFrComponent } from './_dialogs/room-create/help-room-create/help-room-create-fr/help-room-create-fr.component';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatSliderModule } from '@angular/material/slider';
 
 @NgModule({
   imports: [

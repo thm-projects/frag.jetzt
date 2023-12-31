@@ -14,39 +14,48 @@ const routes: Routes = [
     path: '',
     redirectTo: '/home',
     pathMatch: 'full',
+    title: 'start',
   },
   {
     path: 'home',
     component: HomePageComponent,
+    title: 'home',
   },
   {
     path: 'user',
     component: UserHomeComponent,
+    title: 'user',
   },
   {
     path: 'imprint',
     component: ImprintComponent,
+    title: 'imprint',
   },
   {
     path: 'introduction',
     component: DemoVideoComponent,
+    title: 'introduction',
   },
   {
     path: 'data-protection',
     component: DataProtectionComponent,
+    title: 'data-protection',
   },
   {
     path: 'quiz',
     component: QuizNowComponent,
+    title: 'quiz',
   },
   {
     path: 'gpt-prompts',
     component: ChatGPTPromptPresetComponent,
+    title: 'gpt-prompts',
   },
   {
     path: 'admin',
     loadChildren: () =>
       import('./components/admin/admin.module').then((m) => m.AdminModule),
+    title: 'admin',
   },
   {
     path: 'creator',
@@ -54,6 +63,7 @@ const routes: Routes = [
       import('./components/creator/creator.module').then(
         (m) => m.CreatorModule,
       ),
+    title: 'creator',
   },
   {
     path: 'participant',
@@ -61,6 +71,7 @@ const routes: Routes = [
       import('./components/participant/participant.module').then(
         (m) => m.ParticipantModule,
       ),
+    title: 'participant',
   },
   {
     path: 'moderator',
@@ -68,10 +79,12 @@ const routes: Routes = [
       import('./components/moderator/moderator.module').then(
         (m) => m.ModeratorModule,
       ),
+    title: 'moderator',
   },
   {
     path: '**',
     component: PageNotFoundComponent,
+    title: 'not-found',
   },
 ];
 

@@ -9,7 +9,6 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { GPTEncoder } from 'app/gpt-encoder/GPTEncoder';
 import { Room } from 'app/models/room';
@@ -43,7 +42,6 @@ import { GptOptInPrivacyComponent } from '../_dialogs/gpt-optin-privacy/gpt-opti
 import { IntroductionPromptGuideChatbotComponent } from '../_dialogs/introductions/introduction-prompt-guide-chatbot/introduction-prompt-guide-chatbot.component';
 import { ArsComposeService } from '../../../../../projects/ars/src/lib/services/ars-compose.service';
 import { HeaderService } from '../../../services/util/header.service';
-import { MatLegacyMenu as MatMenu } from '@angular/material/legacy-menu';
 import {
   PresetsDialogComponent,
   PresetsDialogType,
@@ -70,7 +68,6 @@ import { Comment } from 'app/models/comment';
 import { GPTPresetTopicsDialogComponent } from '../_dialogs/gptpreset-topics-dialog/gptpreset-topics-dialog.component';
 import { GptPromptExplanationComponent } from '../_dialogs/gpt-prompt-explanation/gpt-prompt-explanation.component';
 import { GPTRatingDialogComponent } from '../_dialogs/gptrating-dialog/gptrating-dialog.component';
-import { MatLegacyButton as MatButton } from '@angular/material/legacy-button';
 import {
   GPTConversation,
   GPTConversationEntry,
@@ -84,6 +81,9 @@ import {
   ROOM_ROLE_MAPPER,
   RoomStateService,
 } from 'app/services/state/room-state.service';
+import { MatMenu } from '@angular/material/menu';
+import { MatButton } from '@angular/material/button';
+import { MatDialog } from '@angular/material/dialog';
 
 interface ConversationEntry {
   type: 'human' | 'gpt' | 'system';

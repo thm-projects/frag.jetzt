@@ -1,11 +1,6 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NotificationService } from '../../../services/util/notification.service';
-import {
-  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
-  MatLegacyDialog as MatDialog,
-  MatLegacyDialogRef as MatDialogRef,
-} from '@angular/material/legacy-dialog';
 import { FormControl, FormGroupDirective, NgForm } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { ErrorStateMatcher } from '@angular/material/core';
@@ -15,6 +10,11 @@ import { KeycloakProvider } from 'app/models/keycloak-provider';
 import { Subject, take, takeUntil } from 'rxjs';
 import { AccountStateService } from 'app/services/state/account-state.service';
 import { AppStateService } from 'app/services/state/app-state.service';
+import {
+  MAT_DIALOG_DATA,
+  MatDialog,
+  MatDialogRef,
+} from '@angular/material/dialog';
 
 export class LoginErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(

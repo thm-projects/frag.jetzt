@@ -25,13 +25,13 @@ import {
   SortType,
   SortTypeKey,
 } from '../../../utils/data-filter-object.lib';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { CommentService } from 'app/services/http/comment.service';
 import { EditQuestionComponent } from '../_dialogs/edit-question/edit-question.component';
 import {
   ROOM_ROLE_MAPPER,
   RoomStateService,
 } from 'app/services/state/room-state.service';
+import { MatDialog } from '@angular/material/dialog';
 
 export interface ResponseViewInformation {
   user: User;
