@@ -1,7 +1,10 @@
 import { EventService } from '../services/util/event.service';
 import { Observable, Subject, filter, takeUntil, tap } from 'rxjs';
 import { MotdAPI } from '../services/http/motd.service';
-import { MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
+import {
+  MatLegacyDialogConfig as MatDialogConfig,
+  MatLegacyDialogRef as MatDialogRef,
+} from '@angular/material/legacy-dialog';
 import { ClassType, UUID } from './ts-utils';
 import { inject } from '@angular/core';
 

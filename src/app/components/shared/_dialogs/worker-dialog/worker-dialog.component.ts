@@ -1,7 +1,10 @@
 import { Component, Injector, Input, OnInit } from '@angular/core';
 import { Room } from '../../../../models/room';
 import { TSMap } from 'typescript-map';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import {
+  MatLegacyDialog as MatDialog,
+  MatLegacyDialogRef as MatDialogRef,
+} from '@angular/material/legacy-dialog';
 import { WorkerDialogTask } from './worker-dialog-task';
 import { Comment, Language } from '../../../../models/comment';
 import { RoomDataService } from '../../../../services/util/room-data.service';

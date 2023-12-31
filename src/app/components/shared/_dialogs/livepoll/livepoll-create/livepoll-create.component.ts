@@ -21,9 +21,12 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { SessionService } from 'app/services/util/session.service';
 import { LivepollSession } from '../../../../../models/livepoll-session';
-import { MatSelect } from '@angular/material/select';
+import { MatLegacySelect as MatSelect } from '@angular/material/legacy-select';
 import { LivepollComponentUtility } from '../livepoll-component-utility';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import {
+  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
+  MatLegacyDialogRef as MatDialogRef,
+} from '@angular/material/legacy-dialog';
 import {
   LivepollDialogComponent,
   LivepollDialogInjectionData,

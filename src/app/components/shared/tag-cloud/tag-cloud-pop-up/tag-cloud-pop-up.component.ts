@@ -20,7 +20,7 @@ import { FormControl } from '@angular/forms';
 import { TSMap } from 'typescript-map';
 import { CommentService } from '../../../../services/http/comment.service';
 import { NotificationService } from '../../../../services/util/notification.service';
-import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { MatLegacyAutocompleteTrigger as MatAutocompleteTrigger } from '@angular/material/legacy-autocomplete';
 import { UserRole } from '../../../../models/user-roles.enum';
 import { SpacyKeyword } from '../../../../services/http/spacy.service';
 import { Router } from '@angular/router';

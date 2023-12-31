@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { MotdAPI } from '../../../../services/http/motd.service';
 import { Motd } from '../../../../models/motd';
 import { AccountStateService } from 'app/services/state/account-state.service';

@@ -8,10 +8,10 @@ import {
   ViewChild,
 } from '@angular/core';
 import {
-  MatPaginator,
-  MatPaginatorIntl,
-  PageEvent,
-} from '@angular/material/paginator';
+  MatLegacyPaginator as MatPaginator,
+  MatLegacyPaginatorIntl as MatPaginatorIntl,
+  LegacyPageEvent as PageEvent,
+} from '@angular/material/legacy-paginator';
 import { HttpClient } from '@angular/common/http';
 import { ReplaySubject, takeUntil } from 'rxjs';
 import { AppStateService } from 'app/services/state/app-state.service';

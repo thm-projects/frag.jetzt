@@ -1,6 +1,9 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { UserRole } from '../../../../models/user-roles.enum';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import {
+  MatLegacyDialog as MatDialog,
+  MatLegacyDialogRef as MatDialogRef,
+} from '@angular/material/legacy-dialog';
 import { FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SessionService } from '../../../../services/util/session.service';

@@ -7,7 +7,7 @@ import { Moderator } from '../../../models/moderator';
 import { RoomService } from '../../../services/http/room.service';
 import { EventService } from '../../../services/util/event.service';
 import { ModeratorService } from '../../../services/http/moderator.service';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { ReplaySubject } from 'rxjs';
 import {
   CommentService,
@@ -16,7 +16,7 @@ import {
 import { NotificationService } from '../../../services/util/notification.service';
 import { TranslateService } from '@ngx-translate/core';
 import { RemoveFromHistoryComponent } from '../_dialogs/remove-from-history/remove-from-history.component';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
 import { copyCSVString, exportRoom } from '../../../utils/ImportExportMethods';
 import { Sort } from '@angular/material/sort';

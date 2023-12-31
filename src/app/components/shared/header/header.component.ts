@@ -11,7 +11,7 @@ import { NotificationService } from '../../../services/util/notification.service
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserRole } from '../../../models/user-roles.enum';
 import { TranslateService } from '@ngx-translate/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { LoginComponent } from '../login/login.component';
 import { UserService } from '../../../services/http/user.service';
 import { EventService } from '../../../services/util/event.service';
@@ -34,7 +34,7 @@ import { SessionService } from '../../../services/util/session.service';
 import { CommentNotificationService } from '../../../services/http/comment-notification.service';
 import { BrainstormingDataService } from 'app/services/util/brainstorming-data.service';
 import { Theme } from 'theme/Theme';
-import { MatMenu } from '@angular/material/menu';
+import { MatLegacyMenu as MatMenu } from '@angular/material/legacy-menu';
 import {
   getBrainstormingURL,
   livepollNavigationAccessOnRoute,

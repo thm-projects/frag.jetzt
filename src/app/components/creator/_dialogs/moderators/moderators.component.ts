@@ -1,9 +1,9 @@
 import { Component, Inject, Input, OnDestroy, OnInit } from '@angular/core';
 import {
-  MAT_DIALOG_DATA,
-  MatDialog,
-  MatDialogRef,
-} from '@angular/material/dialog';
+  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
+  MatLegacyDialog as MatDialog,
+  MatLegacyDialogRef as MatDialogRef,
+} from '@angular/material/legacy-dialog';
 import { NotificationService } from '../../../../services/util/notification.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ModeratorService } from '../../../../services/http/moderator.service';

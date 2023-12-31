@@ -1,6 +1,9 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import {
+  MatLegacyDialog as MatDialog,
+  MatLegacyDialogConfig as MatDialogConfig,
+} from '@angular/material/legacy-dialog';
 import { RoomService } from './room.service';
 import { BehaviorSubject, catchError, map, Observable, tap } from 'rxjs';
 import { LivepollSession } from 'app/models/livepoll-session';

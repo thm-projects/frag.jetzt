@@ -12,7 +12,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { CommentService } from '../../../services/http/comment.service';
 import { UserRole } from '../../../models/user-roles.enum';
 import { NotificationService } from '../../../services/util/notification.service';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { EventService } from '../../../services/util/event.service';
 import { WriteCommentComponent } from '../write-comment/write-comment.component';
 import { User } from '../../../models/user';
@@ -48,7 +48,8 @@ import {
   styleUrls: ['./comment-answer.component.scss'],
 })
 export class CommentAnswerComponent
-  implements OnInit, OnDestroy, AfterViewInit {
+  implements OnInit, OnDestroy, AfterViewInit
+{
   @ViewChild(WriteCommentComponent) commentComponent: WriteCommentComponent;
 
   canOpenGPT = false;

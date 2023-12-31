@@ -4,7 +4,10 @@ import {
   Component,
   OnInit,
 } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import {
+  MatLegacyDialog as MatDialog,
+  MatLegacyDialogRef as MatDialogRef,
+} from '@angular/material/legacy-dialog';
 import { GlobalCountChanged } from 'app/models/global-count-changed';
 
 @Component({

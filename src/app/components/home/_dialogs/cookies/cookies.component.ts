@@ -7,7 +7,10 @@ import {
   ViewChild,
 } from '@angular/core';
 import { DataProtectionComponent } from '../data-protection/data-protection.component';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import {
+  MatLegacyDialog as MatDialog,
+  MatLegacyDialogRef as MatDialogRef,
+} from '@angular/material/legacy-dialog';
 import { DialogConfirmActionButtonType } from '../../../shared/dialog/dialog-action-buttons/dialog-action-buttons.component';
 import { Language } from 'app/services/http/languagetool.service';
 import { ReplaySubject, takeUntil } from 'rxjs';

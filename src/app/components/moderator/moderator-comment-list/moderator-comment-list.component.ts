@@ -9,7 +9,7 @@ import {
 import { Comment, numberSorter } from '../../../models/comment';
 import { CommentService } from '../../../services/http/comment.service';
 import { TranslateService } from '@ngx-translate/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { User } from '../../../models/user';
 import { UserRole } from '../../../models/user-roles.enum';
 import { Room } from '../../../models/room';
@@ -19,7 +19,7 @@ import { Router } from '@angular/router';
 import { AppComponent } from '../../../app.component';
 import { NotificationService } from '../../../services/util/notification.service';
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
-import { PageEvent } from '@angular/material/paginator';
+import { LegacyPageEvent as PageEvent } from '@angular/material/legacy-paginator';
 import { copyCSVString, exportRoom } from '../../../utils/ImportExportMethods';
 import { SessionService } from '../../../services/util/session.service';
 import { forkJoin, ReplaySubject, Subscription, takeUntil } from 'rxjs';
@@ -27,8 +27,8 @@ import { ArsComposeService } from '../../../../../projects/ars/src/lib/services/
 import { HeaderService } from '../../../services/util/header.service';
 import { FormControl } from '@angular/forms';
 import { RoomDataService } from '../../../services/util/room-data.service';
-import { MatMenuTrigger } from '@angular/material/menu';
-import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { MatLegacyMenuTrigger as MatMenuTrigger } from '@angular/material/legacy-menu';
+import { MatLegacyAutocompleteTrigger as MatAutocompleteTrigger } from '@angular/material/legacy-autocomplete';
 import {
   FilterType,
   FilterTypeKey,

@@ -15,7 +15,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Rating } from '../../../models/rating';
 import { RatingResult } from '../../../models/rating-result';
 import { AppRatingPopUpComponent } from '../_dialogs/app-rating-pop-up/app-rating-pop-up.component';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { AccountStateService } from 'app/services/state/account-state.service';
 import { ReplaySubject, filter, switchMap, take, takeUntil } from 'rxjs';
 import { AppStateService } from 'app/services/state/app-state.service';

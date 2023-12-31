@@ -1,5 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import {
+  MatLegacyDialog as MatDialog,
+  MatLegacyDialogRef as MatDialogRef,
+} from '@angular/material/legacy-dialog';
 import { NotificationService } from '../../../../services/util/notification.service';
 import { TopicCloudConfirmDialogComponent } from '../topic-cloud-confirm-dialog/topic-cloud-confirm-dialog.component';
 import { UserRole } from '../../../../models/user-roles.enum';

@@ -1,4 +1,4 @@
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { TranslateService } from '@ngx-translate/core';
 
 import { CreateCommentComponent } from '../components/shared/_dialogs/create-comment/create-comment.component';
@@ -9,7 +9,7 @@ import { NotificationService } from '../services/util/notification.service';
 import { CommentService } from '../services/http/comment.service';
 import { Observable, of } from 'rxjs';
 import { mergeMap, tap } from 'rxjs/operators';
-import { MatSnackBarConfig } from '@angular/material/snack-bar';
+import { MatLegacySnackBarConfig as MatSnackBarConfig } from '@angular/material/legacy-snack-bar';
 import { UserRole } from '../models/user-roles.enum';
 import { BrainstormingSession } from '../models/brainstorming-session';
 

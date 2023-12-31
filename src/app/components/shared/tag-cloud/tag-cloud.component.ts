@@ -12,7 +12,7 @@ import {
 import { CloudOptions, ZoomOnHoverOptions } from 'angular-tag-cloud-module';
 import { CommentService } from '../../../services/http/comment.service';
 import { TranslateService } from '@ngx-translate/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { User } from '../../../models/user';
 import { Room } from '../../../models/room';
 import { NotificationService } from '../../../services/util/notification.service';

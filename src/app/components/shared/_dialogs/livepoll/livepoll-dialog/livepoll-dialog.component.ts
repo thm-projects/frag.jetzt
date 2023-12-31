@@ -23,10 +23,10 @@ import {
 import { LivepollSession } from '../../../../../models/livepoll-session';
 import { clone, UUID } from 'app/utils/ts-utils';
 import {
-  MAT_DIALOG_DATA,
-  MatDialog,
-  MatDialogRef,
-} from '@angular/material/dialog';
+  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
+  MatLegacyDialog as MatDialog,
+  MatLegacyDialogRef as MatDialogRef,
+} from '@angular/material/legacy-dialog';
 import {
   ConfirmDialogAction,
   ConfirmDialogType,
@@ -89,7 +89,8 @@ export interface LivepollOptionEntry {
   animations: [...LivepollComponentUtility.animation],
 })
 export class LivepollDialogComponent
-  implements OnInit, OnDestroy, AfterViewInit {
+  implements OnInit, OnDestroy, AfterViewInit
+{
   @Input() public livepollSession: LivepollSession | undefined;
   @Input() public template: LivepollTemplateContext;
   @Input() public isProduction: boolean = false;

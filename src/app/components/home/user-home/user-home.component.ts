@@ -6,7 +6,7 @@ import {
   OnInit,
   Renderer2,
 } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { RoomCreateComponent } from '../../shared/_dialogs/room-create/room-create.component';
 import { UserRole } from '../../../models/user-roles.enum';

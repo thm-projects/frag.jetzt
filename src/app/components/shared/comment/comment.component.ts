@@ -16,7 +16,7 @@ import { CommentService } from '../../../services/http/comment.service';
 import { NotificationService } from '../../../services/util/notification.service';
 import { TranslateService } from '@ngx-translate/core';
 import { PresentCommentComponent } from '../_dialogs/present-comment/present-comment.component';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import {
   animate,
   state,

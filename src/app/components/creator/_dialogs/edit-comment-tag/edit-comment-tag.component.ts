@@ -1,5 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import {
+  MatLegacyDialog as MatDialog,
+  MatLegacyDialogRef as MatDialogRef,
+} from '@angular/material/legacy-dialog';
 import { SessionService } from '../../../../services/util/session.service';
 import { TagsComponent } from '../tags/tags.component';
 import { TranslateService } from '@ngx-translate/core';

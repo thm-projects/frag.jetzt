@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { Language } from 'app/services/http/languagetool.service';
 import { AppStateService } from 'app/services/state/app-state.service';
 import { ReplaySubject, takeUntil } from 'rxjs';
@@ -10,7 +10,8 @@ import { ReplaySubject, takeUntil } from 'rxjs';
   styleUrls: ['./introduction-prompt-guide-chatbot.component.scss'],
 })
 export class IntroductionPromptGuideChatbotComponent
-  implements OnInit, OnDestroy {
+  implements OnInit, OnDestroy
+{
   currentLanguage: Language;
   private destroyer = new ReplaySubject(1);
 

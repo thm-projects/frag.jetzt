@@ -1,8 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
+import { DialogConfirmActionButtonType } from '../../../shared/dialog/dialog-action-buttons/dialog-action-buttons.component';
 import {
-  DialogConfirmActionButtonType
-} from '../../../shared/dialog/dialog-action-buttons/dialog-action-buttons.component';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
+  MatLegacyDialogRef as MatDialogRef,
+} from '@angular/material/legacy-dialog';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { TranslateService } from '@ngx-translate/core';
 import { BonusTokenComponent } from '../bonus-token/bonus-token.component';
@@ -10,11 +11,11 @@ import { BonusTokenComponent } from '../bonus-token/bonus-token.component';
 @Component({
   selector: 'app-bonus-delete',
   templateUrl: './bonus-delete.component.html',
-  styleUrls: ['./bonus-delete.component.scss']
+  styleUrls: ['./bonus-delete.component.scss'],
 })
 export class BonusDeleteComponent implements OnInit {
-
-  confirmButtonType: DialogConfirmActionButtonType = DialogConfirmActionButtonType.Alert;
+  confirmButtonType: DialogConfirmActionButtonType =
+    DialogConfirmActionButtonType.Alert;
   multipleBonuses: boolean;
   reallyDeleteText: string;
 
@@ -23,19 +24,21 @@ export class BonusDeleteComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private liveAnnouncer: LiveAnnouncer,
     private translationService: TranslateService,
-    ) {
-  }
-
+  ) {}
 
   ngOnInit() {
     if (!this.multipleBonuses) {
-      this.translationService.get('room-page.really-delete-token').subscribe(msg => {
-        this.reallyDeleteText = msg;
-      });
+      this.translationService
+        .get('room-page.really-delete-token')
+        .subscribe((msg) => {
+          this.reallyDeleteText = msg;
+        });
     } else {
-      this.translationService.get('room-page.really-delete-tokens').subscribe(msg => {
-        this.reallyDeleteText = msg;
-      });
+      this.translationService
+        .get('room-page.really-delete-tokens')
+        .subscribe((msg) => {
+          this.reallyDeleteText = msg;
+        });
     }
     this.liveAnnouncer.announce(this.reallyDeleteText);
   }

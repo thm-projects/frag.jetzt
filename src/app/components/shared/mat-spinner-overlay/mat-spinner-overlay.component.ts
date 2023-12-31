@@ -8,7 +8,7 @@ import {
   RendererStyleFlags2,
   ViewChild,
 } from '@angular/core';
-import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
+import { LegacyProgressSpinnerMode as ProgressSpinnerMode } from '@angular/material/legacy-progress-spinner';
 
 export type SpinnerTheme =
   | 'primary'

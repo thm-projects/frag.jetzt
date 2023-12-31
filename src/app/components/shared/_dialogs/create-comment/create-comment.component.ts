@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { WriteCommentComponent } from '../../write-comment/write-comment.component';
 import { UserRole } from '../../../../models/user-roles.enum';
 import { BrainstormingSession } from '../../../../models/brainstorming-session';
@@ -7,22 +7,17 @@ import { BrainstormingSession } from '../../../../models/brainstorming-session';
 @Component({
   selector: 'app-submit-comment',
   templateUrl: './create-comment.component.html',
-  styleUrls: ['./create-comment.component.scss']
+  styleUrls: ['./create-comment.component.scss'],
 })
 export class CreateCommentComponent implements OnInit {
-
   @ViewChild(WriteCommentComponent) commentComponent: WriteCommentComponent;
   @Input() userRole: UserRole;
   @Input() tags: string[];
   @Input() brainstormingData: BrainstormingSession;
 
-  constructor(
-    public dialogRef: MatDialogRef<CreateCommentComponent>,
-  ) {
-  }
+  constructor(public dialogRef: MatDialogRef<CreateCommentComponent>) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   onNoClick(comment?: Comment): void {
     this.dialogRef.close(comment);

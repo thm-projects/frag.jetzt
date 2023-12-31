@@ -2,13 +2,13 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { WriteCommentComponent } from './write-comment.component';
 import { ArsModule } from '../../../../../projects/ars/src/lib/ars.module';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { TranslateServiceMock } from '../../../services/mocks/translate.service.mock';
 import { DeepLService } from '../../../services/http/deep-l.service';
 import { LanguagetoolService } from '../../../services/http/languagetool.service';
 import { NotificationService } from '../../../services/util/notification.service';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatLegacySnackBarModule as MatSnackBarModule } from '@angular/material/legacy-snack-bar';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { RoomService } from '../../../services/http/room.service';

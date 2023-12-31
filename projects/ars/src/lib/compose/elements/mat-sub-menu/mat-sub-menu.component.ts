@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
-import { MatMenuTrigger } from '@angular/material/menu';
+import { MatLegacyMenuTrigger as MatMenuTrigger } from '@angular/material/legacy-menu';
 import { TranslateService } from '@ngx-translate/core';
 import {
   ArsMatSubMenuConfig,

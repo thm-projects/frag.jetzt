@@ -3,10 +3,10 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ViewCommentDataComponent } from './view-comment-data.component';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { EventService } from '../../../services/util/event.service';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
 import { QuillModule } from 'ngx-quill';
 import { ArsModule } from '../../../../../projects/ars/src/lib/ars.module';
-import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatLegacyTooltipModule as MatTooltipModule } from '@angular/material/legacy-tooltip';
 import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 

@@ -1,5 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import {
+  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
+  MatLegacyDialogRef as MatDialogRef,
+} from '@angular/material/legacy-dialog';
 import { KatexOptions } from 'ngx-markdown';
 import { QuillUtils } from '../../../../utils/quill-utils';
 
@@ -14,24 +17,24 @@ interface DialogData {
 @Component({
   selector: 'app-quill-input-dialog',
   templateUrl: './quill-input-dialog.component.html',
-  styleUrls: ['./quill-input-dialog.component.scss']
+  styleUrls: ['./quill-input-dialog.component.scss'],
 })
 export class QuillInputDialogComponent implements OnInit {
-
   value = '';
   katexOptions: KatexOptions = {
-    throwOnError: false
+    throwOnError: false,
   };
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
-    private dialogRef: MatDialogRef<QuillInputDialogComponent>
-  ) {
-  }
+    private dialogRef: MatDialogRef<QuillInputDialogComponent>,
+  ) {}
 
   ngOnInit(): void {
     if (this.data?.type === 'formula') {
-      this.value = this.data.meta || '\\sigma = \\sqrt{ \\frac{1}{N} \\sum_{i=1}^N (x_i -\\mu)^2}';
+      this.value =
+        this.data.meta ||
+        '\\sigma = \\sqrt{ \\frac{1}{N} \\sum_{i=1}^N (x_i -\\mu)^2}';
     } else {
       this.value = this.data.meta;
     }
@@ -66,12 +69,22 @@ export class QuillInputDialogComponent implements OnInit {
         case 'video':
           const value = QuillUtils.getVideoUrl(this.value)[0];
           if (value) {
-            this.data.quill.insertEmbed(this.data.selection.index, 'dsgvo-video', value, 'user');
+            this.data.quill.insertEmbed(
+              this.data.selection.index,
+              'dsgvo-video',
+              value,
+              'user',
+            );
           }
           break;
         default:
           if (this.value) {
-            this.data.quill.insertEmbed(this.data.selection.index, this.data.type, this.value, 'user');
+            this.data.quill.insertEmbed(
+              this.data.selection.index,
+              this.data.type,
+              this.value,
+              'user',
+            );
           }
           break;
       }
@@ -82,5 +95,4 @@ export class QuillInputDialogComponent implements OnInit {
   buildCancelAction() {
     return () => this.dialogRef.close();
   }
-
 }

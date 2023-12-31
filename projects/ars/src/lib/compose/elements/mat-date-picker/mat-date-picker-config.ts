@@ -1,6 +1,6 @@
 import { InjectionToken } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { MatFormFieldAppearance } from '@angular/material/form-field';
+import { MatLegacyFormFieldAppearance as MatFormFieldAppearance } from '@angular/material/legacy-form-field';
 import { ArsObserver } from '../../../models/util/ars-observer';
 
 

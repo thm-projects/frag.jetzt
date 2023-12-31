@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, Input, ViewChild } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { RoomCreatorPageComponent } from '../../room-creator-page/room-creator-page.component';
 import { TranslateService } from '@ngx-translate/core';
 import { RoomService } from '../../../../services/http/room.service';
@@ -12,24 +12,23 @@ import { Comment } from '../../../../models/comment';
 @Component({
   selector: 'app-room-description-settings',
   templateUrl: './room-description-settings.component.html',
-  styleUrls: ['./room-description-settings.component.scss']
+  styleUrls: ['./room-description-settings.component.scss'],
 })
 export class RoomDescriptionSettingsComponent implements AfterViewInit {
-
   @ViewChild(WriteCommentComponent) writeComment: WriteCommentComponent;
   @Input() editRoom: Readonly<Room>;
 
   constructor(
     public dialogRef: MatDialogRef<RoomCreatorPageComponent>,
     public translationService: TranslateService,
-    protected roomService: RoomService
-  ) {
-  }
-
+    protected roomService: RoomService,
+  ) {}
 
   ngAfterViewInit() {
     if (this.editRoom) {
-      this.writeComment.commentData.currentData = clone(this.editRoom.description);
+      this.writeComment.commentData.currentData = clone(
+        this.editRoom.description,
+      );
     }
   }
 
@@ -38,10 +37,11 @@ export class RoomDescriptionSettingsComponent implements AfterViewInit {
       this.dialogRef.close();
       return;
     }
-    this.roomService.patchRoom(this.editRoom.id, {
-      description: QuillUtils.serializeDelta(data.body),
-    }).subscribe();
+    this.roomService
+      .patchRoom(this.editRoom.id, {
+        description: QuillUtils.serializeDelta(data.body),
+      })
+      .subscribe();
     this.dialogRef.close('update');
   }
-
 }
