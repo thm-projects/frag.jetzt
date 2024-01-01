@@ -23,7 +23,6 @@
   "private": true,
   "dependencies": {
     "@angular-devkit/architect": "^0.1602.11",
-    "@angular-material-components/datetime-picker": "^15.0.0",
     "@angular/animations": "^16.2.12",
     "@angular/cdk": "^15.2.9",
     "@angular/common": "^16.2.12",
@@ -95,7 +94,7 @@
     "eslint": "^8.39.0",
     "eslint-config-prettier": "^8.10.0",
     "eslint-plugin-import": "^2.26.0",
-    "eslint-plugin-jsdoc": "^39.3.2",
+    "eslint-plugin-jsdoc": "^47.0.2",
     "eslint-plugin-prefer-arrow": "^1.2.3",
     "eslint-plugin-prettier": "^5.1.2",
     "husky": "8.0.3",
