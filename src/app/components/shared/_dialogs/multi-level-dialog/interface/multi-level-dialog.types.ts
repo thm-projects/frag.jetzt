@@ -1,4 +1,4 @@
-import { InjectionToken, Injector } from '@angular/core';
+import { InjectionToken, Injector, Type } from '@angular/core';
 import {
   AsyncValidatorFn,
   FormControl,
@@ -95,7 +95,7 @@ export type MultiLevelAction =
 
 export type BuiltAction<T> = T & {
   control: FormControl;
-  component: ClassType<unknown>;
+  component: Type<unknown>;
   injector: Injector;
 };
 
@@ -103,7 +103,7 @@ export const DYNAMIC_INPUT = new InjectionToken<BuiltAction<MultiLevelAction>>(
   'MultiLevelAction',
 );
 
-const MAPPER: { [key in MultiLevelAction['type']]: ClassType<unknown> } = {
+const MAPPER: { [key in MultiLevelAction['type']]: Type<unknown> } = {
   'radio-select': MultiLevelRadioSelectComponent,
   switch: MultiLevelSwitchComponent,
   'text-input': MultiLevelTextInputComponent,

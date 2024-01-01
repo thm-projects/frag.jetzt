@@ -30,7 +30,6 @@ import {
 import { RatingService } from '../../../services/http/rating.service';
 import { RatingServiceMock } from '../../../services/mocks/rating.service.mock';
 import { LoginComponent } from '../../shared/login/login.component';
-import { MatomoModule } from 'ngx-matomo-v9';
 import { SessionService } from 'app/services/util/session.service';
 
 describe('HomePageComponent', () => {
@@ -50,7 +49,6 @@ describe('HomePageComponent', () => {
         SharedModule,
         AppRoutingModule,
         BrowserAnimationsModule,
-        MatomoModule,
       ],
       providers: [
         AuthenticationService,

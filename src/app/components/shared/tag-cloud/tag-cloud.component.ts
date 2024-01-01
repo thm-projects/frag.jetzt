@@ -234,7 +234,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
   ngOnInit(): void {
     this.sessionService.onReady.subscribe(() => {
       this.route.data.subscribe((d) => {
-        this.brainstormingActive = Boolean(d.brainstorming);
+        this.brainstormingActive = Boolean(d['brainstorming']);
         if (this.brainstormingActive) {
           this.initBrainstorming();
         } else {

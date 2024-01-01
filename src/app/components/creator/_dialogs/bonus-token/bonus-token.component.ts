@@ -52,7 +52,7 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
     active: 'name',
   };
 
-  private selection = new SelectionModel<string>(false, []);
+  protected selection = new SelectionModel<string>(false, []);
   private modelChanged: Subject<string> = new Subject<string>();
   private subscription: Subscription;
   private debounceTime = 800;

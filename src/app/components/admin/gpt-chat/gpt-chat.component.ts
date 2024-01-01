@@ -227,6 +227,52 @@ export class GptChatComponent implements OnInit, OnDestroy {
       : JSON.stringify(this.error);
   }
 
+  protected filterPrompts() {
+    this.filteredPrompts = [];
+
+    this.filteredPrompts.push({ act: 'acts', prompt: null } as GPTPromptPreset);
+    this.filteredPrompts.push(
+      ...this.prompts.filter((prompt) => {
+        return (
+          prompt.act.toLowerCase().indexOf(this.searchTerm.toLowerCase()) > -1
+        );
+      }),
+    );
+    this.amountOfFoundActs = this.filteredPrompts.length - 1;
+
+    if (!this.searchTerm.trim()) {
+      return;
+    }
+
+    this.filteredPrompts.push({
+      act: 'prompts',
+      prompt: null,
+    } as GPTPromptPreset);
+
+    this.filteredPrompts.push(
+      ...this.prompts
+        .filter((prompt) => {
+          return (
+            (
+              prompt.prompt
+                .toLowerCase()
+                .match(this.searchTerm.toLowerCase()) || []
+            ).length > 0
+          );
+        })
+        .sort(
+          (a, b) =>
+            b.prompt.toLowerCase().split(this.searchTerm.toLowerCase()).length -
+            1 -
+            (a.prompt.toLowerCase().split(this.searchTerm.toLowerCase())
+              .length -
+              1),
+        ),
+    );
+    this.amountOfFoundPrompts =
+      this.filteredPrompts.length - this.amountOfFoundActs - 2;
+  }
+
   private initAdmin() {
     this.gptService.getStatus().subscribe({
       next: (data) => {
@@ -264,12 +310,12 @@ export class GptChatComponent implements OnInit, OnDestroy {
         .reduce((acc, current, i) => {
           if (wasEmpty) {
             wasEmpty = false;
-            return;
+            return acc;
           }
           if (current.message.trim().length < 1) {
             if ((this.conversation[i + 1]?.message?.trim()?.length || 1) < 1) {
               wasEmpty = true;
-              return;
+              return acc;
             }
           }
           const isHuman = current.type === 'human';
@@ -367,51 +413,5 @@ export class GptChatComponent implements OnInit, OnDestroy {
       promptTokens: pToken,
       allTokens: pToken + cToken,
     };
-  }
-
-  private filterPrompts() {
-    this.filteredPrompts = [];
-
-    this.filteredPrompts.push({ act: 'acts', prompt: null } as GPTPromptPreset);
-    this.filteredPrompts.push(
-      ...this.prompts.filter((prompt) => {
-        return (
-          prompt.act.toLowerCase().indexOf(this.searchTerm.toLowerCase()) > -1
-        );
-      }),
-    );
-    this.amountOfFoundActs = this.filteredPrompts.length - 1;
-
-    if (!this.searchTerm.trim()) {
-      return;
-    }
-
-    this.filteredPrompts.push({
-      act: 'prompts',
-      prompt: null,
-    } as GPTPromptPreset);
-
-    this.filteredPrompts.push(
-      ...this.prompts
-        .filter((prompt) => {
-          return (
-            (
-              prompt.prompt
-                .toLowerCase()
-                .match(this.searchTerm.toLowerCase()) || []
-            ).length > 0
-          );
-        })
-        .sort(
-          (a, b) =>
-            b.prompt.toLowerCase().split(this.searchTerm.toLowerCase()).length -
-            1 -
-            (a.prompt.toLowerCase().split(this.searchTerm.toLowerCase())
-              .length -
-              1),
-        ),
-    );
-    this.amountOfFoundPrompts =
-      this.filteredPrompts.length - this.amountOfFoundActs - 2;
   }
 }

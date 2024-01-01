@@ -1,13 +1,7 @@
 <h3>{{ "gptconversation-overview.title" | translate }}</h3>
 
 <mat-dialog-content>
-  <ng-container
-    *ngFor="
-      let elem of [
-        ['gptconversation-overview.this-room', roomConversations],
-        ['gptconversation-overview.other-room', otherConversations]
-      ]
-    ">
+  <ng-container *ngFor="let elem of iteration">
     <h4>{{ elem[0] | translate }}</h4>
     <table
       mat-table

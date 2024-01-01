@@ -22,6 +22,10 @@ export class GPTConversationOverviewComponent implements OnInit {
     'delete',
   ];
   currentId: string;
+  protected iteration: [string, GPTConversation[]][] = [
+    ['gptconversation-overview.this-room', this.roomConversations],
+    ['gptconversation-overview.other-room', this.otherConversations],
+  ];
   private conversations: GPTConversation[];
   private roomId: string;
 

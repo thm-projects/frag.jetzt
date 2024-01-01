@@ -37,19 +37,26 @@ export class WordCloudQuadTree<T extends WordMeta, K> {
     this.endY = y + height;
   }
 
-  collideSAT(collideProjection: SATQuadCollision, collideFunc: (elements: ActiveWord<T, K>[]) => boolean): boolean {
-    if (collideFunc(this._elements.map(e => e[0]))) {
+  collideSAT(
+    collideProjection: SATQuadCollision,
+    collideFunc: (elements: ActiveWord<T, K>[]) => boolean,
+  ): boolean {
+    if (collideFunc(this._elements.map((e) => e[0]))) {
       return true;
     }
-    this._quads?.forEach(quad => {
-      if (quad.isCollidingSAT(collideProjection) && quad.collideSAT(collideProjection, collideFunc)) {
-        return true;
-      }
+    return this._quads?.some((quad) => {
+      return (
+        quad.isCollidingSAT(collideProjection) &&
+        quad.collideSAT(collideProjection, collideFunc)
+      );
     });
   }
 
   insertElement(word: ActiveWord<T, K>, collideProjection: SATQuadCollision) {
-    if (this._elements.length === this.configuration.capacity && this.depth < this.configuration.maxDepth) {
+    if (
+      this._elements.length === this.configuration.capacity &&
+      this.depth < this.configuration.maxDepth
+    ) {
       this.divide();
     }
     this._add(word, collideProjection);
@@ -74,8 +81,12 @@ export class WordCloudQuadTree<T extends WordMeta, K> {
   }
 
   private isCollidingSAT(collideProjection: SATQuadCollision) {
-    return collideProjection.xMin < this.endX && collideProjection.xMax > this.x &&
-      collideProjection.yMin < this.endY && collideProjection.yMax > this.y;
+    return (
+      collideProjection.xMin < this.endX &&
+      collideProjection.xMax > this.x &&
+      collideProjection.yMin < this.endY &&
+      collideProjection.yMax > this.y
+    );
   }
 
   private divide() {
@@ -85,13 +96,41 @@ export class WordCloudQuadTree<T extends WordMeta, K> {
     const w = this.width / 2;
     const h = this.height / 2;
     this._quads = [
-      new WordCloudQuadTree(this.x, this.y, w, h, this.configuration, this.depth + 1),
-      new WordCloudQuadTree(this.x + w, this.y, w, h, this.configuration, this.depth + 1),
-      new WordCloudQuadTree(this.x, this.y + h, w, h, this.configuration, this.depth + 1),
-      new WordCloudQuadTree(this.x + w, this.y + h, w, h, this.configuration, this.depth + 1),
+      new WordCloudQuadTree(
+        this.x,
+        this.y,
+        w,
+        h,
+        this.configuration,
+        this.depth + 1,
+      ),
+      new WordCloudQuadTree(
+        this.x + w,
+        this.y,
+        w,
+        h,
+        this.configuration,
+        this.depth + 1,
+      ),
+      new WordCloudQuadTree(
+        this.x,
+        this.y + h,
+        w,
+        h,
+        this.configuration,
+        this.depth + 1,
+      ),
+      new WordCloudQuadTree(
+        this.x + w,
+        this.y + h,
+        w,
+        h,
+        this.configuration,
+        this.depth + 1,
+      ),
     ];
     const copy = [...this._elements];
     this._elements.length = 0;
-    copy.forEach(e => this._add(e[0], e[1]));
+    copy.forEach((e) => this._add(e[0], e[1]));
   }
 }

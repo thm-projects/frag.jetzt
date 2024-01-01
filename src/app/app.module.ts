@@ -22,11 +22,10 @@ import { SharedModule } from './components/shared/shared.module';
 import { CreatorModule } from './components/creator/creator.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MarkdownModule, MarkdownService, MarkedOptions } from 'ngx-markdown';
+import { MARKED_OPTIONS, MarkdownModule, MarkdownService } from 'ngx-markdown';
 import { NewLandingComponent } from './components/home/new-landing/new-landing.component';
 import { HomePageComponent } from './components/home/home-page/home-page.component';
 import { UserHomeComponent } from './components/home/user-home/user-home.component';
-import { AppConfig } from './app.config';
 import { ThemeModule } from '../theme/theme.module';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
@@ -59,7 +58,6 @@ import { DemoDeComponent } from '../assets/i18n/components/demo/demo-de';
 import { DemoEnComponent } from '../assets/i18n/components/demo/demo-en';
 import { ArsModule } from '../../projects/ars/src/lib/ars.module';
 import { MatIconModule } from '@angular/material/icon';
-import { MatomoModule } from 'ngx-matomo';
 import { SpacyService } from './services/http/spacy.service';
 import { QuizNowComponent } from './components/shared/quiz-now/quiz-now.component';
 import { JoyrideModule } from 'ngx-joyride';
@@ -94,8 +92,6 @@ import { AskOnboardingFRComponent } from 'assets/i18n/components/ask-onboarding/
 import { UpdateInfoDialogComponent } from './components/home/_dialogs/update-info-dialog/update-info-dialog.component';
 import { AppStateService } from './services/state/app-state.service';
 import { MatDialogModule } from '@angular/material/dialog';
-
-export const initializeApp = (appConfig: AppConfig) => () => appConfig.load();
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export const HttpLoaderFactory = (http: HttpClient) =>
@@ -138,7 +134,6 @@ export const HttpLoaderFactory = (http: HttpClient) =>
     UpdateInfoDialogComponent,
   ],
   imports: [
-    MatomoModule.forRoot(environment.matomo),
     AppRoutingModule,
     BrowserModule,
     BrowserAnimationsModule,
@@ -154,7 +149,7 @@ export const HttpLoaderFactory = (http: HttpClient) =>
     MarkdownModule.forRoot({
       loader: HttpClient,
       markedOptions: {
-        provide: MarkedOptions,
+        provide: MARKED_OPTIONS,
         useValue: {
           pedantic: false,
           gfm: true,
@@ -208,7 +203,6 @@ export const HttpLoaderFactory = (http: HttpClient) =>
     RoomService,
     CommentService,
     MarkdownService,
-    MarkedOptions,
     UserService,
     VoteService,
     ModeratorService,

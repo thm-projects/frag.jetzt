@@ -238,6 +238,7 @@ export class RoomListComponent implements OnInit, OnDestroy {
       case UserRole.EXECUTIVE_MODERATOR:
         return 'moderator';
     }
+    return 'N/A';
   }
 
   updateTable(): void {

@@ -39,6 +39,7 @@ interface DialogData {
   maxTextCharacters: number;
   maxDataCharacters: number;
   formality: FormalityType;
+  isModerator: boolean;
   onClose: (result: ResultValue, submit: boolean) => void;
 }
 

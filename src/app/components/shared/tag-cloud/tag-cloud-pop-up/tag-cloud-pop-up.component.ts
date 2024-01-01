@@ -154,7 +154,7 @@ export class TagCloudPopUpComponent
   }
 
   openTag() {
-    this.requester?.(Number(this.elem.dataset.index));
+    this.requester?.(Number(this.elem.dataset['index']));
   }
 
   enterBrainstorming(

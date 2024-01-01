@@ -12,7 +12,7 @@ import {
   LivepollTemplateContext,
   templateEntries,
 } from '../../../../../models/livepoll-template';
-import { Observable, ReplaySubject, takeUntil } from 'rxjs';
+import { Observable, ReplaySubject, of, takeUntil } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
 import { SessionService } from '../../../../../services/util/session.service';
@@ -265,7 +265,7 @@ export class LivepollDialogComponent
       data.viewsVisible = this.livepollSession.viewsVisible;
     }
     if (Object.keys(data).length < 1) {
-      return;
+      return of();
     }
     return this.livepollService
       .update(this.livepollSession.id, data)

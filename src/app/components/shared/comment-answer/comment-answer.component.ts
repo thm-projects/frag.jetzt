@@ -217,7 +217,7 @@ export class CommentAnswerComponent
     }
   }
 
-  checkForBackDropClick(event: PointerEvent, ...elements: Node[]) {
+  checkForBackDropClick(event: MouseEvent, ...elements: Node[]) {
     if (this.isConversationView || !this.isConversationView) {
       return;
     }
@@ -245,7 +245,7 @@ export class CommentAnswerComponent
       } else {
         this.goBackToCommentList();
       }
-      return;
+      return () => '';
     }
     comment.ack = this.room.directSend;
     if (this.commentOverride) {
@@ -269,6 +269,7 @@ export class CommentAnswerComponent
           });
       });
     });
+    return () => '';
   }
 
   editQuestion(comment: ForumComment) {

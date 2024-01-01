@@ -71,7 +71,7 @@ export class DialogActionButtonsComponent {
   /**
    * The ARIA identifier prefix.
    */
-  private ariaPrefix: string = new Date().getTime().toString();
+  protected ariaPrefix: string = new Date().getTime().toString();
 
   /**
    * Performs the confirm button click action.

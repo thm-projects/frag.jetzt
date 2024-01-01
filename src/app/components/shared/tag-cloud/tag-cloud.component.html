@@ -59,7 +59,7 @@
           [requester]="request()"></app-tag-cloud-pop-up>
         <app-mat-spinner-overlay
           *ngIf="isLoading"
-          overlay="true"></app-mat-spinner-overlay>
+          [overlay]="true"></app-mat-spinner-overlay>
         <app-word-cloud
           [keywords]="data"
           [isRadar]="!brainstormingActive"

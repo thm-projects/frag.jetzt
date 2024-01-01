@@ -20,8 +20,7 @@
         <mat-slide-toggle
           fxFlex
           (change)="parent.demoActive = !parent.demoActive"
-          [checked]="parent.demoActive"
-          [ngModelOptions]="{ standalone: true }">
+          [checked]="parent.demoActive">
           Demo
         </mat-slide-toggle>
       </div>
@@ -114,7 +113,6 @@
             step="50"
             [(ngModel)]="cloudParameters.delayWord"
             [ngModelOptions]="{ standalone: true }"
-            [thumbLabel]="true"
             #ngSlider>
             <input
               matSliderThumb
@@ -170,8 +168,7 @@
             <div>
               <mat-slide-toggle
                 [checked]="checkBold()"
-                (change)="boldChecked($event)"
-                [ngModelOptions]="{ standalone: true }">
+                (change)="boldChecked($event)">
                 {{ "tag-cloud-config.font-style-bold" | translate }}
               </mat-slide-toggle>
             </div>
@@ -280,7 +277,6 @@
               step="0.2"
               [(ngModel)]="cloudParameters.hoverScale"
               [ngModelOptions]="{ standalone: true }"
-              [thumbLabel]="true"
               #ngSlider>
               <input
                 matSliderThumb
@@ -303,7 +299,6 @@
               step="0.2"
               [(ngModel)]="cloudParameters.hoverTime"
               [ngModelOptions]="{ standalone: true }"
-              [thumbLabel]="true"
               #ngSlider>
               <input
                 matSliderThumb
@@ -326,7 +321,6 @@
               step="0.1"
               [(ngModel)]="cloudParameters.hoverDelay"
               [ngModelOptions]="{ standalone: true }"
-              [thumbLabel]="true"
               #ngSlider>
               <input
                 matSliderThumb
@@ -442,7 +436,6 @@
                       step="1"
                       [(ngModel)]="weightClass.maxTagNumber"
                       [ngModelOptions]="{ standalone: true }"
-                      [thumbLabel]="true"
                       #ngSlider>
                       <input
                         matSliderThumb
@@ -466,7 +459,6 @@
                     step="1"
                     [(ngModel)]="weightClass.rotationAngle"
                     [ngModelOptions]="{ standalone: true }"
-                    [thumbLabel]="true"
                     #ngSlider>
                     <input
                       matSliderThumb

@@ -81,8 +81,7 @@
                 [max]="scoringMinMax[option].max"
                 [(ngModel)]="scorings[option].score"
                 [step]="0.1"
-                [thumbLabel]="true"
-                aria-labelledby="keyword-scoring-{{ option }}">
+                attr.aria-labelledby="keyword-scoring-{{ option }}">
                 <input matSliderThumb />
               </mat-slider>
             </ng-container>
@@ -548,8 +547,8 @@
             searchMode
               ? filteredKeywords.length
               : selectedTabIndex === 0
-              ? keywords.size
-              : blacklistKeywords.length
+                ? keywords.size
+                : blacklistKeywords.length
           }}
         </p>
       </div>
@@ -630,8 +629,8 @@
                   (keyword.keywordType === 2
                     ? 'Keyword-from-both'
                     : keyword.keywordType === 0
-                    ? 'keyword-from-spacy'
-                    : 'keyword-from-questioner') | translate
+                      ? 'keyword-from-spacy'
+                      : 'keyword-from-questioner') | translate
               }}">
               <mat-expansion-panel-header class="color-surface">
                 <mat-panel-title>
@@ -773,8 +772,8 @@
                   (keyword.keywordType === 2
                     ? 'Keyword-from-both'
                     : keyword.keywordType === 0
-                    ? 'keyword-from-spacy'
-                    : 'keyword-from-questioner') | translate
+                      ? 'keyword-from-spacy'
+                      : 'keyword-from-questioner') | translate
               }}">
               <mat-expansion-panel-header class="color-surface">
                 <mat-panel-title>

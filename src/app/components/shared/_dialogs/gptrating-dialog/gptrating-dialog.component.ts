@@ -31,7 +31,7 @@ export class GPTRatingDialogComponent {
       map((e) => {
         const hasVoted = e?.ratingText || e?.rating;
         if (hasVoted && !allowUpdate) {
-          return;
+          return null;
         }
         const dialogRef = dialog.open(GPTRatingDialogComponent, {
           maxWidth: '95vw',

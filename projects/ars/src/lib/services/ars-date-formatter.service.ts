@@ -1,6 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
 
 export enum ArsTimeUnit{
+  INVALID = -1,
   YEAR,
   MONTH,
   WEEK,

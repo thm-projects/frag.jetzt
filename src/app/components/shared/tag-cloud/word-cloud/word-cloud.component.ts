@@ -16,7 +16,10 @@ import {
   CloudTextStyle,
 } from '../../../../utils/cloud-parameters';
 import { ColorContrast } from '../../../../utils/color-contrast';
-import { WordCloudDrawFunctions } from './word-cloud-draw-functions';
+import {
+  CloudDrawFuncType,
+  WordCloudDrawFunctions,
+} from './word-cloud-draw-functions';
 import { ThemeService } from '../../../../../theme/theme.service';
 
 export interface WordMeta {
@@ -78,7 +81,7 @@ export class WordCloudComponent<T extends WordMeta>
   @Input() weightClasses = 10;
   @Input() weightClassType = WeightClassType.Lowest;
   @Input() parameters: CloudParameters = null;
-  private _elements: ActiveWord<T>[] = [];
+  private _elements: ActiveWord<T, CloudDrawFuncType<T>>[] = [];
   private _cssStyleElement: HTMLStyleElement;
   private _styleIndexes: StyleDeclarations;
   private _minHeight: number;
@@ -94,13 +97,13 @@ export class WordCloudComponent<T extends WordMeta>
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes.parameters) {
-      if (Object.keys(changes.parameters.currentValue).length === 0) {
+    if (changes['parameters']) {
+      if (Object.keys(changes['parameters'].currentValue).length === 0) {
         return;
       }
-      this.updateParameters(changes.parameters.previousValue);
+      this.updateParameters(changes['parameters'].previousValue);
     }
-    if (changes.keywords) {
+    if (changes['keywords']) {
       this.redraw();
     }
   }
@@ -281,7 +284,7 @@ export class WordCloudComponent<T extends WordMeta>
     if (!parent || elem === parent || !parent.contains(elem)) {
       return;
     }
-    const activeWord = this._elements[+elem.dataset.index];
+    const activeWord = this._elements[+elem.dataset['index']];
     if (event.type === 'click') {
       this.clicked.emit(activeWord.meta);
       return;
@@ -311,6 +314,7 @@ export class WordCloudComponent<T extends WordMeta>
           fallback = [wordIndex, dist];
         }
       }
+      return false;
     });
     if (index >= 0) {
       // Element is present and doesn't need to be removed
@@ -329,8 +333,8 @@ export class WordCloudComponent<T extends WordMeta>
   ): [
     min: number,
     max: number,
-    obsolete: { word: ActiveWord<T>; index: number }[],
-    newElements: ActiveWord<T>[],
+    obsolete: { word: ActiveWord<T, CloudDrawFuncType<T>>; index: number }[],
+    newElements: ActiveWord<T, CloudDrawFuncType<T>>[],
   ] {
     let min = null;
     let max = null;
@@ -339,7 +343,7 @@ export class WordCloudComponent<T extends WordMeta>
       word,
       index,
     }));
-    const newElements: ActiveWord<T>[] = [];
+    const newElements: ActiveWord<T, CloudDrawFuncType<T>>[] = [];
     for (const dataEntry of data) {
       if (!first) {
         min = Math.min(min, dataEntry.weight);
@@ -381,7 +385,7 @@ export class WordCloudComponent<T extends WordMeta>
   }
 
   private addNewElements(
-    newElements: ActiveWord<T>[],
+    newElements: ActiveWord<T, CloudDrawFuncType<T>>[],
     toDeleteElement: HTMLSpanElement[],
   ) {
     newElements.forEach((word) => {
@@ -576,7 +580,7 @@ export class WordCloudComponent<T extends WordMeta>
         '--pos-y',
         mapper(e.buildInformation, 'y') + parentHeight + 'px',
       );
-      e.element.dataset.index = String(i);
+      e.element.dataset['index'] = String(i);
     });
     const newElements = this._elements.filter(
       (e) => !e.element.classList.contains('visible') && e.visible,

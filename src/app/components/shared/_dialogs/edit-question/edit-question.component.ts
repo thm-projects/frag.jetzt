@@ -3,6 +3,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { Comment } from 'app/models/comment';
 import { UserRole } from 'app/models/user-roles.enum';
 import { CommentService } from 'app/services/http/comment.service';
+import { ForumComment } from 'app/utils/data-accessor';
 import { QuillUtils } from 'app/utils/quill-utils';
 import { TSMap } from 'typescript-map';
 
@@ -12,7 +13,7 @@ import { TSMap } from 'typescript-map';
   styleUrls: ['./edit-question.component.scss'],
 })
 export class EditQuestionComponent {
-  @Input() comment: Comment;
+  @Input() comment: ForumComment;
   @Input() tags: string[];
   @Input() userRole: UserRole;
 

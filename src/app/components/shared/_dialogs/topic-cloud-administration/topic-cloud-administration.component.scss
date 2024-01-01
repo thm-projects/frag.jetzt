@@ -1,11 +1,9 @@
-@import "src/layout/layout-util";
+@import "../../../../../layout/layout-util";
 
 // hide scrollbar
 ::-webkit-scrollbar {
   display: none; /* Chrome Safari */
 }
-
-//TODO: hide scrollbar for IE and Firefox
 
 .margin-right {
   margin-right: 16px;

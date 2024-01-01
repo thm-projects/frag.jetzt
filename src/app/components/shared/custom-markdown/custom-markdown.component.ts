@@ -112,25 +112,32 @@ export class CustomMarkdownComponent implements OnChanges {
       disableSanitizer: true,
       mermaid: true,
     });
-    this.element.nativeElement.innerHTML = this.katex
-      ? this.renderKatex(compiled)
-      : compiled;
-    if (this.lineHighlight) {
-      CustomMarkdownComponent.setPluginOptions(this.element.nativeElement, {
-        dataLine: this.line,
-        dataLineOffset: this.lineOffset,
-      });
+    const onFinish = (compiled: string) => {
+      this.element.nativeElement.innerHTML = this.katex
+        ? this.renderKatex(compiled)
+        : compiled;
+      if (this.lineHighlight) {
+        CustomMarkdownComponent.setPluginOptions(this.element.nativeElement, {
+          dataLine: this.line,
+          dataLineOffset: this.lineOffset,
+        });
+      }
+      if (this.lineNumbers) {
+        CustomMarkdownComponent.setPluginClass(
+          this.element.nativeElement,
+          PrismPlugin.LineNumbers,
+        );
+        CustomMarkdownComponent.setPluginOptions(this.element.nativeElement, {
+          dataStart: this.start,
+        });
+      }
+      this.markdownService.highlight(this.element.nativeElement);
+    };
+    if (compiled instanceof Promise) {
+      compiled.then(onFinish);
+    } else {
+      onFinish(compiled);
     }
-    if (this.lineNumbers) {
-      CustomMarkdownComponent.setPluginClass(
-        this.element.nativeElement,
-        PrismPlugin.LineNumbers,
-      );
-      CustomMarkdownComponent.setPluginOptions(this.element.nativeElement, {
-        dataStart: this.start,
-      });
-    }
-    this.markdownService.highlight(this.element.nativeElement);
   }
 
   private renderKatex(compiledMarkdown: string): string {

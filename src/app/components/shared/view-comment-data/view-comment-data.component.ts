@@ -111,8 +111,8 @@ export class ViewCommentDataComponent
     return this._currentData || this.DEFAULT_VALUE;
   }
 
-  @Input() set currentData(data: StandardDelta) {
-    this._currentData = data;
+  @Input() set currentData(data: StandardDelta | ImmutableStandardDelta) {
+    this._currentData = data as StandardDelta;
     if (this.editor?.quillEditor || this.quillView?.quillEditor) {
       this.set(this._currentData);
     }
@@ -161,7 +161,7 @@ export class ViewCommentDataComponent
     } as unknown as boolean;
     if (this.isEditor) {
       this.quillModules['emoji-toolbar'] = !isMobile;
-      this.quillModules.imageResize = {
+      this.quillModules['imageResize'] = {
         modules: ['Resize', 'DisplaySize'],
       };
       this.hasEmoji = !isMobile;
@@ -326,11 +326,13 @@ export class ViewCommentDataComponent
       return;
     }
     this.moderatorToolbarFontColor.nativeElement.style.opacity = '0';
-    tooltip.addEventListener('mouseenter', () =>
-      this.moderatorToolbarFontColorTooltip?.show(),
+    tooltip.addEventListener(
+      'mouseenter',
+      () => this.moderatorToolbarFontColorTooltip?.show(),
     );
-    tooltip.addEventListener('mouseleave', () =>
-      this.moderatorToolbarFontColorTooltip?.hide(),
+    tooltip.addEventListener(
+      'mouseleave',
+      () => this.moderatorToolbarFontColorTooltip?.hide(),
     );
     const picker = tooltip.querySelector('.ql-picker-options');
     tooltip.addEventListener('mouseover', (e) => {

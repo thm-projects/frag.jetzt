@@ -802,7 +802,7 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
 
   toggleNotifications() {
     if (this.isMock) {
-      return true;
+      return;
     }
     if (this.notificationService.hasCommentSubscription(this.comment.id)) {
       this.notificationService
@@ -813,6 +813,7 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
         .addCommentSubscription(this.comment.roomId, this.comment.id)
         .subscribe();
     }
+    return;
   }
 
   getPrettyCommentNumber(): string[] {
@@ -883,9 +884,8 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
       .getCategoriesOnce()
       .subscribe(
         (categories) =>
-          (this.brainstormingCategory = categories.find(
-            (c) => c.id === id,
-          )?.name),
+          (this.brainstormingCategory = categories.find((c) => c.id === id)
+            ?.name),
       );
   }
 

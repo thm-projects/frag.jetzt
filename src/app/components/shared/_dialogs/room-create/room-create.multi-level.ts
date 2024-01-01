@@ -133,7 +133,8 @@ export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData = {
       title: 'ml-room-create.q-p3-header',
       stepHelp: HelpRoomCreateComponent,
       active: (answers) =>
-        answers.gptSetup && answers.gptSetup.value.setupType === 'apiCode',
+        answers['gptSetup'] &&
+        answers['gptSetup'].value.setupType === 'apiCode',
       buildAction(_injector, _answers, previousState) {
         if (previousState) return previousState;
         return buildInput(
@@ -173,7 +174,8 @@ export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData = {
       title: 'ml-room-create.q-p4-header',
       stepHelp: 'ml-room-create.help.enter-voucher',
       active: (answers) =>
-        answers.gptSetup && answers.gptSetup.value.setupType === 'voucher',
+        answers['gptSetup'] &&
+        answers['gptSetup'].value.setupType === 'voucher',
       buildAction(_injector, _answers, previousState) {
         if (previousState) return previousState;
         return buildInput(
@@ -229,9 +231,9 @@ export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData = {
       title: 'ml-room-create.q-t1-header',
       stepHelp: 'ml-room-create.help.enter-event-name',
       active: (answers) =>
-        answers.role && answers.role.value['role-select'] === 'teacher',
+        answers['role'] && answers['role'].value['role-select'] === 'teacher',
       count: (answers) =>
-        !answers.role || answers.role.value['role-select'] !== 'student',
+        !answers['role'] || answers['role'].value['role-select'] !== 'student',
       buildAction(_injector, _answers, previousState) {
         return buildInput(
           this,
@@ -284,9 +286,9 @@ export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData = {
       title: 'ml-room-create.q-s1-header',
       stepHelp: 'ml-room-create.help.enter-study-room-name',
       active: (answers) =>
-        answers.role && answers.role.value['role-select'] === 'student',
+        answers['role'] && answers['role'].value['role-select'] === 'student',
       count: (answers) =>
-        !answers.role || answers.role.value['role-select'] !== 'teacher',
+        !answers['role'] || answers['role'].value['role-select'] !== 'teacher',
       buildAction(_injector, _answers, previousState) {
         return buildInput(
           this,
@@ -338,7 +340,7 @@ export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData = {
       tag: 'code',
       title: 'ml-room-create.q-2-header',
       stepHelp: 'ml-room-create.help.enter-event-code',
-      active: (answers) => answers.event && answers.event.value.code,
+      active: (answers) => answers['event'] && answers['event'].value.code,
       buildAction(injector, _answers, previousState) {
         if (previousState) return previousState;
         return buildInput(
@@ -380,12 +382,12 @@ export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData = {
       title: 'ml-room-create.q-t3-header',
       stepHelp: 'ml-room-create.help.general-settings-ars',
       active: (answers) =>
-        answers.role &&
-        answers.event &&
-        answers.role.value['role-select'] === 'teacher' &&
-        !answers.event.value.settings,
+        answers['role'] &&
+        answers['event'] &&
+        answers['role'].value['role-select'] === 'teacher' &&
+        !answers['event'].value.settings,
       count: (answers) =>
-        !answers.role || answers.role.value['role-select'] !== 'student',
+        !answers['role'] || answers['role'].value['role-select'] !== 'student',
       buildAction(_injector, _answers, previousState) {
         return buildInput(
           this,
@@ -436,12 +438,12 @@ export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData = {
       title: 'ml-room-create.q-s3-header',
       stepHelp: 'ml-room-create.help.general-settings-ple',
       active: (answers) =>
-        answers.role &&
-        answers.event &&
-        answers.role.value['role-select'] === 'student' &&
-        !answers.event.value.settings,
+        answers['role'] &&
+        answers['event'] &&
+        answers['role'].value['role-select'] === 'student' &&
+        !answers['event'].value.settings,
       count: (answers) =>
-        !answers.role || answers.role.value['role-select'] !== 'teacher',
+        !answers['role'] || answers['role'].value['role-select'] !== 'teacher',
       buildAction(_injector, _answers, previousState) {
         return buildInput(
           this,
@@ -474,12 +476,12 @@ export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData = {
       title: 'ml-room-create.q-t4-header',
       stepHelp: 'ml-room-create.help.gpt-settings-ars',
       active: (answers) =>
-        answers.role &&
-        answers.general &&
-        answers.role.value['role-select'] === 'teacher' &&
-        answers.general.value.gpt,
+        answers['role'] &&
+        answers['general'] &&
+        answers['role'].value['role-select'] === 'teacher' &&
+        answers['general'].value.gpt,
       count: (answers) =>
-        !answers.role || answers.role.value['role-select'] !== 'student',
+        !answers['role'] || answers['role'].value['role-select'] !== 'student',
       buildAction(_injector, _answers, previousState) {
         return buildInput(
           this,
@@ -513,12 +515,12 @@ export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData = {
       title: 'ml-room-create.q-s4-header',
       stepHelp: 'ml-room-create.help.gpt-settings-ple',
       active: (answers) =>
-        answers.role &&
-        answers.general &&
-        answers.role.value['role-select'] === 'student' &&
-        answers.general.value.gpt,
+        answers['role'] &&
+        answers['general'] &&
+        answers['role'].value['role-select'] === 'student' &&
+        answers['general'].value.gpt,
       count: (answers) =>
-        !answers.role || answers.role.value['role-select'] !== 'teacher',
+        !answers['role'] || answers['role'].value['role-select'] !== 'teacher',
       buildAction(_injector, _answers, previousState) {
         let state = null;
         state = buildInput(
@@ -554,12 +556,12 @@ export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData = {
       title: 'ml-room-create.q-t5-header',
       stepHelp: 'ml-room-create.help.study-buddy-settings-ars',
       active: (answers) =>
-        answers.role &&
-        answers.gptSettings &&
-        answers.role.value['role-select'] === 'teacher' &&
-        answers.gptSettings.value['study-buddy'],
+        answers['role'] &&
+        answers['gptSettings'] &&
+        answers['role'].value['role-select'] === 'teacher' &&
+        answers['gptSettings'].value['study-buddy'],
       count: (answers) =>
-        !answers.role || answers.role.value['role-select'] !== 'student',
+        !answers['role'] || answers['role'].value['role-select'] !== 'student',
       buildAction(_injector, _answers, previousState) {
         return buildInput(
           this,
@@ -595,12 +597,12 @@ export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData = {
       title: 'ml-room-create.q-t6-header',
       stepHelp: 'ml-room-create.help.features-ars',
       active: (answers) =>
-        answers.role &&
-        answers.event &&
-        answers.role.value['role-select'] === 'teacher' &&
-        !answers.event.value.settings,
+        answers['role'] &&
+        answers['event'] &&
+        answers['role'].value['role-select'] === 'teacher' &&
+        !answers['event'].value.settings,
       count: (answers) =>
-        !answers.role || answers.role.value['role-select'] !== 'student',
+        !answers['role'] || answers['role'].value['role-select'] !== 'student',
       buildAction(_injector, _answers, previousState) {
         return buildInput(
           this,
@@ -667,12 +669,12 @@ export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData = {
       title: 'ml-room-create.q-s5-header',
       stepHelp: 'ml-room-create.help.features-ple',
       active: (answers) =>
-        answers.role &&
-        answers.event &&
-        answers.role.value['role-select'] === 'student' &&
-        !answers.event.value.settings,
+        answers['role'] &&
+        answers['event'] &&
+        answers['role'].value['role-select'] === 'student' &&
+        !answers['event'].value.settings,
       count: (answers) =>
-        !answers.role || answers.role.value['role-select'] !== 'teacher',
+        !answers['role'] || answers['role'].value['role-select'] !== 'teacher',
       buildAction(_injector, _answers, previousState) {
         return buildInput(
           this,

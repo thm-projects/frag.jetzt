@@ -11,12 +11,10 @@
           </mat-panel-title>
           <mat-panel-description></mat-panel-description>
         </mat-expansion-panel-header>
-        <mat-expansion-panel-content>
-          <app-custom-markdown
-            [data]="
-              message.key + '-description' | translate
-            "></app-custom-markdown>
-        </mat-expansion-panel-content>
+        <app-custom-markdown
+          [data]="
+            message.key + '-description' | translate
+          "></app-custom-markdown>
       </mat-expansion-panel>
     </ng-container>
   </mat-accordion>

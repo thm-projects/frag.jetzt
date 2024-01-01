@@ -98,15 +98,30 @@ interface ContextOption {
 
 type SelectComponents = { text?: string; small?: string }[];
 
-interface Context {
+interface ContextBase {
   name: string;
-  type: 'single' | 'multiple' | 'quill';
   access?: { [key: string]: ContextOption };
-  value?: ContextOption | ContextOption[] | ImmutableStandardDelta;
   parts?: Observable<MultiContextElement[]>;
   selected?: string;
   allowNone?: true;
 }
+
+interface ContextSingle extends ContextBase {
+  type: 'single';
+  value?: ContextOption;
+}
+
+interface ContextMultiple extends ContextBase {
+  type: 'multiple';
+  value?: ContextOption[];
+}
+
+interface ContextQuill extends ContextBase {
+  type: 'quill';
+  value?: ImmutableStandardDelta;
+}
+
+type Context = ContextSingle | ContextMultiple | ContextQuill;
 
 interface MultiContextElement {
   text?: string;
@@ -124,7 +139,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('lengthSubMenu') lengthSubMenu: MatMenu;
   @ViewChild('sendButton', { static: false })
   sendButton: MatButton;
-  @Input() private owningComment: ForumComment;
+  @Input() protected owningComment: ForumComment;
   conversation: ConversationEntry[] = [];
   isSending = false;
   renewIndex = null;
@@ -231,7 +246,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
     private gptConversation: GPTConversationService,
     private accountState: AccountStateService,
     private deviceState: DeviceStateService,
-    private roomState: RoomStateService,
+    protected roomState: RoomStateService,
     appState: AppStateService,
   ) {
     this.keywordExtractor = new KeywordExtractor(injector);
@@ -651,8 +666,8 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
           e.role === 'user'
             ? 'human'
             : e.role === 'assistant'
-            ? 'gpt'
-            : 'system';
+              ? 'gpt'
+              : 'system';
         return {
           type: role,
           message: e.content,
@@ -679,8 +694,8 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
             e.type === 'gpt'
               ? 'assistant'
               : e.type === 'human'
-              ? 'user'
-              : 'system',
+                ? 'user'
+                : 'system',
           createdAt: new Date(),
           index: i,
         }),
@@ -689,6 +704,14 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
       this.autoSave = true;
       this.activeConversation = conversation;
     });
+  }
+
+  protected getAsQuill(context: Context) {
+    return context.value as ImmutableStandardDelta;
+  }
+
+  protected getAsSelectArray(context: Context) {
+    return context.value as ContextOption[];
   }
 
   protected forwardAllowed() {
@@ -769,6 +792,67 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
     this.filteredPrompts.push(...promptData.map((x) => x[1]));
     this.amountOfFoundPrompts =
       this.filteredPrompts.length - this.amountOfFoundActs - 2;
+  }
+
+  protected calculateTokens(text: string) {
+    if (this.encoder == null) {
+      return;
+    }
+    const endOfText = '\u0003';
+    let cToken;
+    if (this.conversation.length < 1) {
+      cToken = 0;
+    } else {
+      cToken = this.encoder.encode(
+        this.conversation.map((c) => c.message).join(endOfText) + endOfText,
+      ).length;
+    }
+    const pToken = this.encoder.encode(text + endOfText).length;
+    this.tokenInfo = {
+      conversationTokens: cToken,
+      promptTokens: pToken,
+      allTokens: pToken + cToken,
+    };
+  }
+
+  protected getCurrentText(): string {
+    if (this.answeringWriteComment && this.conversation.length < 1) {
+      return this.contexts.reduce((acc, current) => {
+        if (!current.value) {
+          return acc;
+        }
+        let message: string;
+        this.translateService
+          .get('gpt-chat.context-' + current.name)
+          .subscribe((msg) => (message = msg));
+        if (current.type === 'single') {
+          message = message.replaceAll('{{value}}', current.value['text']);
+        } else if (current.type === 'quill') {
+          message = message.replaceAll(
+            '{{value}}',
+            QuillUtils.getMarkdownFromDelta(
+              current.value as ImmutableStandardDelta,
+            ),
+          );
+        } else {
+          if (!current.selected) {
+            return acc;
+          }
+          message = message.replaceAll(
+            '{{value}}',
+            (current.value as ContextOption[]).find(
+              (e) => e.key === current.selected,
+            ).text,
+          );
+        }
+        return (acc ? acc + '\n' : '') + message;
+      }, '');
+    }
+    const data = this.commentData?.currentData;
+    if (!data) {
+      return '';
+    }
+    return QuillUtils.getMarkdownFromDelta(data);
   }
 
   private initNormal() {
@@ -937,7 +1021,7 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
     return this.conversation.slice(0, length).reduce((acc, current, i) => {
       if (current.message.trim().length < 1) {
         if ((this.conversation[i + 1]?.message?.trim()?.length || 1) < 1) {
-          return;
+          return null;
         }
       }
       acc.push({
@@ -1010,8 +1094,8 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
       top.type === 'gpt'
         ? 'assistant'
         : top.type === 'human'
-        ? 'user'
-        : 'system';
+          ? 'user'
+          : 'system';
     return this.gptConversation
       .addMessage({
         conversationId: this.activeConversation.id,
@@ -1020,67 +1104,6 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
         createdAt: new Date(),
       })
       .pipe(tap((msg) => this.activeConversation.messages.push(msg)));
-  }
-
-  private calculateTokens(text: string) {
-    if (this.encoder == null) {
-      return;
-    }
-    const endOfText = '\u0003';
-    let cToken;
-    if (this.conversation.length < 1) {
-      cToken = 0;
-    } else {
-      cToken = this.encoder.encode(
-        this.conversation.map((c) => c.message).join(endOfText) + endOfText,
-      ).length;
-    }
-    const pToken = this.encoder.encode(text + endOfText).length;
-    this.tokenInfo = {
-      conversationTokens: cToken,
-      promptTokens: pToken,
-      allTokens: pToken + cToken,
-    };
-  }
-
-  private getCurrentText(): string {
-    if (this.answeringWriteComment && this.conversation.length < 1) {
-      return this.contexts.reduce((acc, current) => {
-        if (!current.value) {
-          return acc;
-        }
-        let message: string;
-        this.translateService
-          .get('gpt-chat.context-' + current.name)
-          .subscribe((msg) => (message = msg));
-        if (current.type === 'single') {
-          message = message.replaceAll('{{value}}', current.value['text']);
-        } else if (current.type === 'quill') {
-          message = message.replaceAll(
-            '{{value}}',
-            QuillUtils.getMarkdownFromDelta(
-              current.value as ImmutableStandardDelta,
-            ),
-          );
-        } else {
-          if (!current.selected) {
-            return acc;
-          }
-          message = message.replaceAll(
-            '{{value}}',
-            (current.value as ContextOption[]).find(
-              (e) => e.key === current.selected,
-            ).text,
-          );
-        }
-        return (acc ? acc + '\n' : '') + message;
-      }, '');
-    }
-    const data = this.commentData?.currentData;
-    if (!data) {
-      return '';
-    }
-    return QuillUtils.getMarkdownFromDelta(data);
   }
 
   private updatePresetEntries(preset: GPTRoomPreset) {

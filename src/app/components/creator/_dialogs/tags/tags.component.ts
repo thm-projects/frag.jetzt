@@ -46,6 +46,7 @@ export class TagsComponent {
     if (this.tagFormControl.hasError('emptyOnCreate')) {
       return 'room-page.tag-error-empty';
     }
+    return '';
   }
 
   addTag(tag: string) {

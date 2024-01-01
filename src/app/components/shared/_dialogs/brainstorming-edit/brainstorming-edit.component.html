@@ -35,7 +35,7 @@
       <mat-hint>
         {{
           "brainstorming-edit.field-hint-number"
-            | translate : { min: maxWordCountMin, max: maxWordCountMax }
+            | translate: { min: maxWordCountMin, max: maxWordCountMax }
         }}
       </mat-hint>
       <mat-error *ngIf="maxWordCount.hasError('required')">
@@ -44,13 +44,13 @@
       <mat-error *ngIf="maxWordCount.hasError('min')">
         {{
           "brainstorming-edit.field-too-low"
-            | translate : { min: maxWordCountMin }
+            | translate: { min: maxWordCountMin }
         }}
       </mat-error>
       <mat-error *ngIf="maxWordCount.hasError('max')">
         {{
           "brainstorming-edit.field-too-high"
-            | translate : { max: maxWordCountMax }
+            | translate: { max: maxWordCountMax }
         }}
       </mat-error>
     </mat-form-field>
@@ -67,7 +67,7 @@
       <mat-hint>
         {{
           "brainstorming-edit.field-hint-number"
-            | translate : { min: maxWordLengthMin, max: maxWordLengthMax }
+            | translate: { min: maxWordLengthMin, max: maxWordLengthMax }
         }}
       </mat-hint>
       <mat-error *ngIf="maxWordLength.hasError('required')">
@@ -76,13 +76,13 @@
       <mat-error *ngIf="maxWordLength.hasError('min')">
         {{
           "brainstorming-edit.field-too-low"
-            | translate : { min: maxWordLengthMin }
+            | translate: { min: maxWordLengthMin }
         }}
       </mat-error>
       <mat-error *ngIf="maxWordLength.hasError('max')">
         {{
           "brainstorming-edit.field-too-high"
-            | translate : { max: maxWordLengthMax }
+            | translate: { max: maxWordLengthMax }
         }}
       </mat-error>
     </mat-form-field>
@@ -103,7 +103,7 @@
     </mat-form-field>
     <mat-label>
       {{
-        "brainstorming-edit.duration" | translate : { duration: getDuration() }
+        "brainstorming-edit.duration" | translate: { duration: getDuration() }
       }}
     </mat-label>
     <mat-slider
@@ -133,8 +133,8 @@
       {{ "brainstorming-edit.update" | translate }}
       <app-mat-spinner-overlay
         *ngIf="isCreating"
-        diameter="20"
-        strokeWidth="2"
+        [diameter]="20"
+        [strokeWidth]="2"
         [color]="'on-primary'"></app-mat-spinner-overlay>
     </button>
   </mat-card>

@@ -128,8 +128,8 @@
                 : {
                     time:
                       language === "de"
-                        ? (comment.createdAt | date : " HH:mm ")
-                        : (comment.createdAt | date : "h:mm a"),
+                        ? (comment.createdAt | date: " HH:mm ")
+                        : (comment.createdAt | date: "h:mm a"),
                     votes:
                       comment.score === 1
                         ? ("comment-page.a11y-text_textForOneVote" | translate)
@@ -393,7 +393,7 @@
         <mat-icon
           class="answered-icon material-icons-round"
           matBadge="{{ comment.totalAnswerCounts.accumulated }}"
-          matBadgeColor="secondary"
+          matBadgeColor="accent"
           matBadgeSize="small"
           (click)="showConversation()"
           [matTooltip]="'comment-page.show-conversation-tooltip' | translate">
@@ -414,7 +414,7 @@
         <mat-icon
           class="unfold-icon material-icons-outlined"
           matBadge="{{ comment.totalAnswerCounts.accumulated }}"
-          matBadgeColor="secondary"
+          matBadgeColor="accent"
           matBadgeSize="small"
           (click)="navigateConversation()"
           [matTooltip]="

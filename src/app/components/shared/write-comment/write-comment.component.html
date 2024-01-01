@@ -46,12 +46,10 @@
     appAccessibilityEscapedInput
     matInput
     [formControl]="questionerNameFormControl"
+    [placeholder]="'write-comment.questioner-name' | translate"
     name="questioner-name"
     [maxlength]="questionerNameMax"
     aria-labelledby="questioner-name" />
-  <mat-placeholder class="placeholder">
-    {{ "write-comment.questioner-name" | translate }}
-  </mat-placeholder>
   <mat-hint align="end">
     <span aria-hidden="true">
       {{ questionerNameFormControl.value.length }} / {{ questionerNameMax }}
@@ -64,7 +62,7 @@
     ">
     {{
       "write-comment.name-length-error"
-        | translate : { min: questionerNameMin, max: questionerNameMax }
+        | translate: { min: questionerNameMin, max: questionerNameMax }
     }}
   </mat-error>
 </mat-form-field>
@@ -83,8 +81,8 @@
         *ngIf="isSpellchecking"
         class="spinner-container">
         <app-mat-spinner-overlay
-          diameter="20"
-          strokeWidth="2"
+          [diameter]="20"
+          [strokeWidth]="2"
           [color]="'on-primary'"></app-mat-spinner-overlay>
       </mat-icon>
     </button>

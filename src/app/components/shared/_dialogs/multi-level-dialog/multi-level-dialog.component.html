@@ -28,13 +28,13 @@
           *ngIf="offsetIndex > 1; else firstStepLabel">
           {{
             "multi-level-dialog.range"
-              | translate : { start: 1, end: offsetIndex }
+              | translate: { start: 1, end: offsetIndex }
           }}
         </ng-template>
         <ng-template
           matStepLabel
           #firstStepLabel>
-          {{ "multi-level-dialog.single" | translate : { number: 1 } }}
+          {{ "multi-level-dialog.single" | translate: { number: 1 } }}
         </ng-template>
       </mat-step>
       <!-- Dialog steps -->
@@ -95,8 +95,7 @@
           matStepLabel
           #lastStepLabel>
           {{
-            "multi-level-dialog.single"
-              | translate : { number: elements.length }
+            "multi-level-dialog.single" | translate: { number: elements.length }
           }}
         </ng-template>
       </mat-step>
@@ -133,8 +132,8 @@
                 *ngIf="sending"
                 class="spinner-container">
                 <app-mat-spinner-overlay
-                  diameter="20"
-                  strokeWidth="2"
+                  [diameter]="20"
+                  [strokeWidth]="2"
                   [color]="'primary'"></app-mat-spinner-overlay>
               </mat-icon>
             </button>

@@ -219,15 +219,16 @@ export class GptRoomSettingsComponent implements OnInit, OnDestroy {
     return KeyboardUtils.isKeyEvent(event, KeyboardKey.Enter);
   }
 
-  activateTrial() {
+  activateTrial(): boolean {
     const code = this.trialCode;
     if (code.trim().length < 1) {
-      return;
+      return false;
     }
     this.trialCode = '';
     this.gptService
       .activateTrial(this.room.id, code)
       .subscribe(() => (this.trialEnabled = true));
+    return true;
   }
 
   addUsageTime() {

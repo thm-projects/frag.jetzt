@@ -1,5 +1,3 @@
-import { MatomoConfiguration } from 'ngx-matomo';
-
 export const environment = {
   name: 'prod',
   production: true,
@@ -20,5 +18,5 @@ export const environment = {
     requireConsent: false,
     requireCookieConsent: false,
     skipTrackingInitialPageView: false,
-  } satisfies Partial<MatomoConfiguration>,
+  },
 };

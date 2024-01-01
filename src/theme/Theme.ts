@@ -7,7 +7,11 @@ export class ColorElem {
   public on: ColorElem;
   public variant: ColorElem;
 
-  constructor(public name: string, public attr: string, public color: string) {}
+  constructor(
+    public name: string,
+    public attr: string,
+    public color: string,
+  ) {}
 }
 
 type LanguageTranslations = ThemeMeta['translation']['name'];
@@ -15,7 +19,10 @@ type LanguageTranslations = ThemeMeta['translation']['name'];
 export class ThemeTranslationList {
   map: string[][] = [];
 
-  constructor(private name, translation: LanguageTranslations) {
+  constructor(
+    private name,
+    translation: LanguageTranslations,
+  ) {
     for (const k of Object.keys(translation)) {
       this.map.push([k, translation[k]]);
     }
@@ -96,12 +103,6 @@ export class Theme {
   public name: ThemeTranslationList;
 
   /**
-   * description:
-   * description of Theme
-   */
-  public description: ThemeTranslationList;
-
-  /**
    * previewColor:
    * used for Color-Icon in Footer
    */
@@ -144,12 +145,6 @@ export class Theme {
     this.name = new ThemeTranslationList(
       'name',
       this.meta['translation']['name'],
-    );
-
-    /*Init description*/
-    this.description = new ThemeTranslationList(
-      'description',
-      this.meta['translation']['description'],
     );
 
     /*Init scale*/
@@ -196,10 +191,6 @@ export class Theme {
     return this.name.get(language);
   }
 
-  public getDescription(language: string): string {
-    return this.description.get(language);
-  }
-
   public getPreviewColor(): string {
     return this.previewColor.color;
   }
@@ -224,6 +215,6 @@ export class Theme {
     if (typeof language === 'undefined') {
       return 'waiting for language (currentLang)';
     }
-    return this.name.get(language) + ' - ' + this.description.get(language);
+    return this.name.get(language);
   }
 }

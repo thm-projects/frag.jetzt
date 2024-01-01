@@ -18,7 +18,7 @@ export class DsgvoVideo extends BlockEmbed {
     const node = super.create(value) as HTMLElement;
     const sanitized = this.sanitize(value);
     const [source, url] = DsgvoBuilder.classifyURL(sanitized);
-    node.dataset.src = url;
+    node.dataset['src'] = url;
     const messageId = DsgvoBuilder.getMessageFromSource(source);
     if (!messageId) {
       node.append(DsgvoBuilder.buildIframe(url));
@@ -61,7 +61,7 @@ export class DsgvoVideo extends BlockEmbed {
   }
 
   static value(domNode: HTMLElement) {
-    return domNode.dataset.src;
+    return domNode.dataset['src'];
   }
 
   format(name, value) {

@@ -22,13 +22,13 @@ export const generateRoom = (
     defaultCategories[appState.getCurrentLanguage()] ||
     defaultCategories.default;
   // role
-  const isTeacher = answers.role.value['role-select'] === 'teacher';
+  const isTeacher = answers['role'].value['role-select'] === 'teacher';
   const defaults = isTeacher ? DEFAULT_TEACHER : DEFAULT_STUDENT;
   // name + short id
-  const name = answers.event.value.name;
-  const shortId = answers.code?.value?.code;
+  const name = answers['event'].value.name;
+  const shortId = answers['code']?.value?.code;
   // settings
-  const general = answers.general?.value;
+  const general = answers['general']?.value;
   // TODO(update room settings)
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const gpt = general?.gpt ?? defaults.chatgpt;
@@ -36,18 +36,18 @@ export const generateRoom = (
   const profanity = general?.profanity ?? defaults.profanity;
   const keywords = general?.keywords ?? defaults.keyword;
   // gpt settings
-  const gptSettings = answers.gptSettings?.value;
+  const gptSettings = answers['gptSettings']?.value;
   // TODO(update room settings)
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const studdyBuddy = gptSettings?.['study-buddy'] ?? defaults.studdyBuddy;
   // study buddy settings
-  const studyBuddySettings = answers.studyBuddyGroup?.value;
+  const studyBuddySettings = answers['studyBuddyGroup']?.value;
   // TODO(update room settings)
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const studdyBuddyGroup =
     studyBuddySettings?.['target-group'] ?? defaults.studyBuddyGroup;
   // feature settings
-  const featureSettings = answers.features?.value;
+  const featureSettings = answers['features']?.value;
   const flashPoll = featureSettings?.['flash-poll'] ?? defaults.flashPoll;
   const bonusArchive =
     featureSettings?.['bonus-archive'] ?? defaults.bonusArchive;

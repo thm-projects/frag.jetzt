@@ -1,5 +1,4 @@
 @use "@angular/material" as mat;
-@import "./../../../node_modules/@angular/material/theming";
 
 $dark-solarized-primary: mat.define-palette(mat.$blue-gray-palette, 800);
 $dark-solarized-accent: mat.define-palette(mat.$orange-palette, 200);

@@ -260,7 +260,7 @@ export class RoomService extends BaseHttpService {
   }
 
   private buildErrorExecutionCallback(data: string, exc: () => void) {
-    return (error: unknown) => {
+    return (error: object) => {
       if (exc) {
         exc();
       }

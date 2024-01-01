@@ -77,8 +77,10 @@ export class AppStateService {
     this.theme$ = concat(
       this.dbConfig.get('theme').pipe(
         map((v) => {
-          const key = v?.value || 'systemDefault';
-          return Object.keys(themes).includes(key) ? key : 'systemDefault';
+          const key = (v?.value as string) || 'systemDefault';
+          return Object.keys(themes).includes(key)
+            ? (key as ThemeKey)
+            : 'systemDefault';
         }),
       ),
       this.updateTheme$,
@@ -241,5 +243,6 @@ export class AppStateService {
       this.eventService,
       new SafariUnsupportedRequest(),
     ).subscribe();
+    return of(true);
   }
 }

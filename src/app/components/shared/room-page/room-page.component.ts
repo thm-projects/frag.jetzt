@@ -140,7 +140,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
       .subscribe((user) => {
         this.user = user;
       });
-    this.userRole = this.route.snapshot.data.roles[0];
+    this.userRole = this.route.snapshot.data['roles'][0];
     this.preRoomLoadHook().subscribe(() => {
       this.sessionService.getRoomOnce().subscribe((room) => {
         this.room = room;

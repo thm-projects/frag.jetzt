@@ -45,7 +45,7 @@ export class SpacyService extends BaseHttpService {
         .pipe(
           tap(() => ''),
           timeout(2500),
-          catchError(this.handleError<unknown>('getKeywords')),
+          catchError(this.handleError<SpacyKeyword[]>('getKeywords')),
           map((elem: SpacyKeyword[]) =>
             elem.filter((e) => KeywordExtractor.isKeywordAcceptable(e.text)),
           ),
@@ -60,7 +60,7 @@ export class SpacyService extends BaseHttpService {
       this.http.post<{ text: string }>(url, { text, model }, httpOptions).pipe(
         tap(() => ''),
         timeout(2500),
-        catchError(this.handleError<unknown>('getLemma')),
+        catchError(this.handleError<{ text: string }>('getLemma')),
       )
     );
   }

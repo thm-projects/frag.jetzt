@@ -11,18 +11,12 @@
         type="text"
         [maxlength]="roomNameLengthMax"
         [formControl]="roomNameFormControl"
+        [placeholder]="
+          'session.session-name' +
+            (hasCustomShortId ? '-with-key-code-generated' : '') | translate
+        "
         name="roomName"
         aria-labelledby="room-name-input" />
-      <mat-placeholder
-        *ngIf="hasCustomShortId"
-        class="placeholder">
-        {{ "session.session-name" | translate }}
-      </mat-placeholder>
-      <mat-placeholder
-        *ngIf="!hasCustomShortId"
-        class="placeholder">
-        {{ "session.session-name-with-key-code-generated" | translate }}
-      </mat-placeholder>
       <mat-hint
         align="end"
         class="count">
@@ -39,7 +33,7 @@
         <strong>
           {{
             "home-page.name-length-error"
-              | translate : { min: roomNameLengthMin, max: roomNameLengthMax }
+              | translate: { min: roomNameLengthMin, max: roomNameLengthMax }
           }}
         </strong>
       </mat-error>
@@ -64,11 +58,9 @@
         type="text"
         [maxlength]="shortIdLengthMax"
         [formControl]="roomShortIdFormControl"
+        [placeholder]="'home-page.custom-shortid-placeholder' | translate"
         name="customShortId"
         aria-labelledby="room-name-input" />
-      <mat-placeholder class="placeholder">
-        {{ "home-page.custom-shortid-placeholder" | translate }}
-      </mat-placeholder>
       <mat-hint
         align="end"
         class="count">
@@ -85,7 +77,7 @@
         <strong>
           {{
             "home-page.key-code-length-error"
-              | translate : { min: shortIdLengthMin, max: shortIdLengthMax }
+              | translate: { min: shortIdLengthMin, max: shortIdLengthMax }
           }}
         </strong>
       </mat-error>

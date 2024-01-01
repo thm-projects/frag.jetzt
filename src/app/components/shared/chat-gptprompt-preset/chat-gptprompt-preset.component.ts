@@ -73,7 +73,7 @@ export class ChatGPTPromptPresetComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.data.subscribe((data) => {
-      this.isGlobal = Boolean(data.superAdmin);
+      this.isGlobal = Boolean(data['superAdmin']);
       this.initPrompts();
     });
   }

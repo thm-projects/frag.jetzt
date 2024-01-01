@@ -282,8 +282,9 @@ export class SessionService {
   }
 
   private onNavigate() {
-    const segments = this.router.parseUrl(this.router.url).root.children.primary
-      ?.segments;
+    const segments = this.router.parseUrl(this.router.url).root.children[
+      'primary'
+    ]?.segments;
     if (!segments || segments.length < 3) {
       this.clearRoom();
       return;
@@ -564,8 +565,8 @@ export class SessionService {
     }
     this._beforeRoomUpdates.next(room);
     const changes = message.payload.changes;
-    if (typeof changes.active !== 'undefined') {
-      if (!changes.active) {
+    if (typeof changes['active'] !== 'undefined') {
+      if (!changes['active']) {
         room.livepollSession = null;
         const cached = this.currentLivepoll;
         this._currentLivepollSession.next(null);

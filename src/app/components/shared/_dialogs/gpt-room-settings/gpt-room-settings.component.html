@@ -2,7 +2,7 @@
 
 <mat-dialog-content *ngIf="!isLoading; else loading">
   <p *ngIf="globalInfo.active">
-    {{ "gpt-room-settings.global-trial" | translate : globalInfo }}
+    {{ "gpt-room-settings.global-trial" | translate: globalInfo }}
   </p>
 
   <!-- GPT over frag.jetzt -->
@@ -86,21 +86,23 @@
     </mat-form-field>
   </ng-container>
 
-  <h2>{{ "gpt-room-settings.quota-management" | translate }}
+  <h2>
+    {{ "gpt-room-settings.quota-management" | translate }}
     <button
       style="cursor: help"
       [matTooltip]="'gpt-room-settings.rest-contingent-description' | translate"
       matSuffix
       mat-icon-button>
       <mat-icon
-      style="margin-bottom: 5px;"
-      class="material-icons-outlined">info</mat-icon>
+        style="margin-bottom: 5px"
+        class="material-icons-outlined">
+        info
+      </mat-icon>
     </button>
   </h2>
 
   <!-- Room Restrictions -->
-  <h3>{{ "gpt-room-settings.restrictions-room" | translate }}
-  </h3>
+  <h3>{{ "gpt-room-settings.restrictions-room" | translate }}</h3>
   <ng-container *ngIf="isOwner || canChangeRoomQuota; else deactivated">
     <mat-form-field>
       <mat-label>{{ "gpt-room-settings.rest-room-acc" | translate }}</mat-label>
@@ -501,7 +503,7 @@
           matListItemLine
           *ngIf="item.repeatDuration && item.repeatUnit">
           {{
-            getRepeatString(item) | translate : { value: item.repeatDuration }
+            getRepeatString(item) | translate: { value: item.repeatDuration }
           }}
         </div>
         <button mat-icon-button>
@@ -561,6 +563,6 @@
 <ng-template #loading>
   <app-mat-spinner-overlay
     color="on-surface"
-    diameter="40"
-    strokeWidth="5"></app-mat-spinner-overlay>
+    [diameter]="40"
+    [strokeWidth]="5"></app-mat-spinner-overlay>
 </ng-template>

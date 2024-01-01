@@ -1,5 +1,5 @@
 @use "sass:math";
-@import "src/layout/layout-variables";
+@import "../../../../layout/layout-variables";
 
 $responseShadowOff: math.ceil($responseShadowWidth + $responseShadowYOffset);
 
@@ -8,7 +8,8 @@ $responseShadowOff: math.ceil($responseShadowWidth + $responseShadowYOffset);
   max-width: 800px;
 
   &.marker {
-    box-shadow: 0 -#{$responseShadowOff} var(--background),
+    box-shadow:
+      0 -#{$responseShadowOff} var(--background),
       -#{$responseShadowWidth} -#{$responseShadowYOffset} 0 #{$responseShadowWidth}
         var(--on-background),
       -#{$responseShadowWidth} #{$responseShadowWidth} 0 #{$responseShadowWidth}

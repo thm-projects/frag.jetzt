@@ -30,9 +30,9 @@ export class AuthenticationGuard {
     state: RouterStateSnapshot,
   ): Observable<boolean> {
     this.accountState.forceLogin().subscribe();
-    const roomShortId = route.params.shortId;
+    const roomShortId = route.params['shortId'];
     const url = decodeURI(state.url);
-    if (route.data.superAdmin) {
+    if (route.data['superAdmin']) {
       return this.accountState.user$.pipe(
         filter((v) => Boolean(v)),
         take(1),

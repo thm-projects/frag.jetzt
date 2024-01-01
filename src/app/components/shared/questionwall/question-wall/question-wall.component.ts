@@ -550,7 +550,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
 
   generateCommentNumber(comment: Comment): string {
     if (!comment?.number) {
-      return;
+      return '';
     }
     const meta = comment.number.split('/');
     const topLevelNumber = meta[0];

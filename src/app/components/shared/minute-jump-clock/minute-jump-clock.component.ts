@@ -84,7 +84,7 @@ export class MinuteJumpClockComponent
 
   calculateArc(): [string, string] {
     if (this.arcEnd === null) {
-      return;
+      return null;
     }
     const radius = 210;
     let startAngle;
