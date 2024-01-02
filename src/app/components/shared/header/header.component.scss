@@ -245,12 +245,6 @@ h1 {
   font-size: 14px;
 }
 
-.focus_button {
-  min-height: 28px;
-  font-size: 14px;
-  color: var(--on-surface);
-}
-
 .focus_item:focus {
   background-color: var(--secondary) !important;
   color: var(--on-secondary) !important;
@@ -270,24 +264,23 @@ h1 {
 
 .btnContent {
   width: 100%;
-  height: 50px;
-  float: left;
-  margin-bottom: 5px;
+  height: 3em;
+  display: flex;
+  align-self: center;
 }
 
 .btnContent > .btnColorIcon {
-  width: 40px;
-  height: 40px;
-  float: left;
-  margin: 5px;
+  width: 2.5em;
+  height: 2.5em;
+  margin: 0.25em;
   padding: 0px;
-  border-radius: 20px;
+  border-radius: 1.25em;
 }
 
 .checked {
-  width: calc(100% - 10px);
-  height: calc(100% - 10px);
-  margin: 5px;
+  width: calc(100% - 0.5em);
+  height: calc(100% - 0.5em);
+  margin: 0.25em;
   float: left;
   border-radius: 100%;
   transition: all 0.1s;
@@ -332,32 +325,12 @@ h1 {
 }
 
 .btnContent > .btnAppend {
-  width: calc(100% - 50px);
-  float: right;
-  position: relative;
-  top: -10px;
-}
-
-.btnContent > .btnAppend > .title {
-  width: 100%;
-  height: 15px;
-  float: left;
-  margin-bottom: 5px;
-}
-
-.btnContent > .btnAppend > .title:last-child {
-  margin-bottom: 0px;
-}
-
-.title > * {
+  width: calc(100% - 3em);
   text-overflow: ellipsis;
   white-space: nowrap;
   float: left;
-  padding: 0px;
-  margin-left: 12px;
-  margin-top: 10px;
-}
-
-.title_bold {
+  padding: 0;
+  margin-block: auto;
+  margin-left: 0.75em;
   font-weight: 500;
 }

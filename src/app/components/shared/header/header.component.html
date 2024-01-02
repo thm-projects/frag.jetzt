@@ -290,7 +290,9 @@
           router.url.endsWith('/comments') &&
           !isSafari
         "
-        routerLink="{{roleToRoute[userRole]}}/room/{{ room?.shortId }}/comments/questionwall">
+        routerLink="{{ roleToRoute[userRole] }}/room/{{
+          room?.shortId
+        }}/comments/questionwall">
         <mat-icon
           class="beamer-icon"
           svgIcon="beamer"></mat-icon>
@@ -565,11 +567,7 @@
         </div>
       </div>
       <div class="btnAppend">
-        <div class="title">
-          <p class="title_bold">
-            {{ theme.getName(currentLanguage) }}
-          </p>
-        </div>
+        {{ theme.getName(currentLanguage) }}
       </div>
     </div>
   </button>

@@ -43,6 +43,7 @@ import { NotifyUnsupportedBrowserComponent } from './components/home/_dialogs/no
 import { InitService } from './services/util/init.service';
 import { MatomoTrackingService } from './services/util/matomo-tracking.service';
 import { MatDialog } from '@angular/material/dialog';
+import { ThemeService } from 'theme/theme.service';
 
 @Component({
   selector: 'app-root',
@@ -63,6 +64,7 @@ export class AppComponent implements OnInit {
   rescaleActive: boolean = false;
   isMobile = false;
   private _lastScrollTop = 0;
+  private _lastClass: string;
 
   constructor(
     private translationService: TranslateService,
@@ -77,6 +79,7 @@ export class AppComponent implements OnInit {
     initService: InitService,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     matomoService: MatomoTrackingService,
+    private themeService: ThemeService,
   ) {
     AppComponent.instance = this;
     this.initDialogsForServices();
@@ -102,6 +105,11 @@ export class AppComponent implements OnInit {
     this.update.versionUpdates
       .pipe(filter((e) => e.type === 'VERSION_READY'))
       .subscribe(() => UpdateInfoDialogComponent.open(this.dialog));
+    this.themeService.getTheme().subscribe((theme) => {
+      document.documentElement.classList.remove(this._lastClass);
+      document.documentElement.classList.add(theme.key);
+      this._lastClass = theme.key;
+    });
   }
 
   public getRescale(): Rescale {

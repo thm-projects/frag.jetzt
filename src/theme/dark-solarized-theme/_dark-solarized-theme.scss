@@ -15,44 +15,46 @@ $dark-solarized-theme: mat.define-dark-theme(
   )
 );
 
-a {
-  text-decoration: underline;
-  color: var(--on-surface);
-}
+$dark-solarized-theme-map: (
+  "--primary": "#2aa198",
 
-.mat-mdc-dialog-container {
-  color: var(--on-surface) !important;
-}
+  "--secondary": "#268bd2",
 
-.mat-mdc-dialog-container h3 {
-  color: var(--on-surface) !important;
-}
+  "--background": "#002b36",
+  "--surface": "#073642",
+  "--dialog": "#073642",
+  "--cancel": "#dc322f",
 
-.mat-mdc-menu-panel {
-  background-color: var(--primary-variant) !important;
-  color: var(--on-primary-variant) !important;
-}
+  "--on-primary": "#ffffff",
+  "--on-secondary": "#ffffff",
 
-.mat-mdc-menu-panel .mat-mdc-menu-item {
-  background-color: var(--dialog) !important;
-  color: var(--on-dialog) !important;
-}
+  "--on-background": "#93a1a1",
+  "--on-surface": "#93a1a1",
+  "--on-dialog": "#93a1a1",
+  "--on-cancel": "#93a1a1",
+  "--green": "#859900",
+  "--red": "#dc322f",
+  "--white": "#fdf6e3",
+  "--yellow": "#b58900",
+  "--blue": "#268bd2",
+  "--purple": "#6c71c4",
+  "--magenta": "#d33682",
+  "--light-green": "#859900",
+  "--grey": "#839496",
+  "--grey-light": "#657b83",
+  "--black": "#073642",
 
-.mat-mdc-menu-panel .mat-mdc-menu-item:hover {
-  background-color: gray !important;
-  color: white !important;
-}
+  "--livepoll-primary": "#6c71c4",
+  "--livepoll-primary--disabled": "#282934",
+  "--livepoll-primary--hover": "#7E83CB",
+  "--on-livepoll-primary": "#ffffff",
+  "--on-livepoll-primary--disabled": "#c5c5c5",
+  "--on-livepoll-primary--hover": "#ffffff",
 
-/*TODO(mdc-migration): The following rule targets internal classes of radio that may no longer apply for the MDC version.*/
-.mat-radio-outer-circle {
-  border-color: var(--on-dialog) !important;
-}
-
-.mat-mdc-radio-button.mat-accent .mat-radio-inner-circle,
-.mat-radio-button.mat-accent
-  .mat-radio-ripple
-  .mat-ripple-element:not(.mat-radio-persistent-ripple),
-.mat-radio-button.mat-accent.mat-radio-checked .mat-radio-persistent-ripple,
-.mat-radio-button.mat-accent:active .mat-radio-persistent-ripple {
-  background-color: var(--on-dialog) !important;
-}
+  "--livepoll-secondary": "#D33682",
+  "--livepoll-secondary--disabled": "#5f5f64",
+  "--livepoll-secondary--hover": "#D94F92",
+  "--on-livepoll-secondary": "#ffffff",
+  "--on-livepoll-secondary--disabled": "#c5c5c5",
+  "--on-livepoll-secondary--hover": "#ffffff",
+);

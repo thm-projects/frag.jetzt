@@ -1,0 +1,83 @@
+@use "@angular/material" as mat;
+
+// Theming
+
+@import "../theme/light-theme/variables";
+//@import "theme/dark-theme/dark-theme";
+@import "../theme/dark-solarized-theme/dark-solarized-theme";
+//@import "theme/blue-theme/blue-theme";
+@import "../theme/high-contrast-theme/high-contrast-theme";
+
+// @include mat.all-component-typographies();
+@include mat.core();
+
+@include mat.all-component-themes($arsnova-theme);
+
+:root {
+  @each $key, $value in $dark-solarized-theme-map {
+    #{$key}: #{$value};
+  }
+  --mdc-dialog-container-color: var(--dialog);
+  --mdc-filled-text-field-container-color: var(--surface);
+  --mat-menu-item-label-text-color: var(--on-surface);
+  --mdc-filled-text-field-input-text-color: var(--on-surface);
+  --mdc-filled-text-field-label-text-color: var(--on-surface);
+  --mat-select-panel-background-color: var(--surface);
+  --mat-option-label-text-color: var(--on-surface);
+  --mat-select-enabled-arrow-color: var(--on-surface);
+  --mdc-filled-text-field-caret-color: var(--on-surface);
+  --mdc-dialog-supporting-text-color: var(--on-surface);
+  --mdc-filled-text-field-active-indicator-color: var(--secondary);
+  --mat-option-selected-state-label-text-color: var(--secondary);
+  --mdc-filled-text-field-focus-active-indicator-color: var(--primary);
+  --mdc-filled-text-field-focus-label-text-color: var(--primary);
+  --mat-select-focused-arrow-color: var(--primary);
+}
+
+.arsnova {
+  @each $key, $value in $arsnova-theme-map {
+    #{$key}: #{$value};
+  }
+}
+
+.highcontrast {
+  @each $key, $value in $high-contrast-theme-map {
+    #{$key}: #{$value};
+  }
+}
+
+.mat-primary {
+  --mat-minimal-pseudo-checkbox-selected-checkmark-color: var(--secondary);
+}
+
+// Classes
+
+.mat-mdc-input-element::placeholder {
+  color: currentColor;
+}
+
+.mat-app-background {
+  background-color: var(--background);
+  color: var(--on-background);
+}
+
+/* ---- Scroll bar ----- */
+/* Works on Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--secondary) transparent;
+}
+
+/* Works on Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 0.7rem;
+}
+
+*::-webkit-scrollbar-track {
+  background: var(--dialog);
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: var(--secondary);
+  border-radius: 5px;
+}

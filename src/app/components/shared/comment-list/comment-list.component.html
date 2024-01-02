@@ -514,11 +514,10 @@
 
 <button
   mat-fab
-  mat-icon-button
   class="scrollTop"
   [ngClass]="{ visible: isScrollButtonVisible() }"
   (click)="AppComponent.scrollTop()">
-  <mat-icon>vertical_align_top</mat-icon>
+  <button mat-icon-button><mat-icon>vertical_align_top</mat-icon></button>
 </button>
 
 <div
@@ -530,7 +529,6 @@
 <button
   *ngIf="commentsEnabled"
   mat-fab
-  mat-icon-button
   [ngClass]="{
     center_screen: isCommentListEmpty() || isStarting()
   }"
@@ -539,7 +537,9 @@
   (click)="writeComment()"
   matTooltip="{{ 'comment-list.add-comment' | translate }}"
   [matTooltipPosition]="'above'">
-  <mat-icon>add</mat-icon>
+  <button mat-icon-button>
+    <mat-icon>add</mat-icon>
+  </button>
   <p
     class="oldtypo-p"
     *ngIf="isCommentListEmpty()">

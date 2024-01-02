@@ -1,2 +1,11 @@
 $header-height: 4rem;
 $footer-height: 3rem;
+
+body {
+  scrollbar-width: none;
+}
+
+.mat-mdc-menu-content .mat-mdc-menu-item .mat-mdc-menu-item-text {
+  display: flex;
+  align-items: center;
+}
