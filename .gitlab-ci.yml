@@ -16,7 +16,7 @@ install:
   image: local-angular:17
   allow_failure: false
   script:
-    - npm ci
+    - npm ci --legacy-peer-deps
   artifacts:
     paths:
       - node_modules/
