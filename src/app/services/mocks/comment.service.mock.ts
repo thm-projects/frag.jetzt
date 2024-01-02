@@ -14,10 +14,10 @@ export class CommentServiceMock extends CommentService {
     super(null);
   }
 
-  patchComment(
+  override patchComment(
     comment: Comment,
     changes: TSMap<string, unknown>,
-  ): Observable<unknown> {
+  ): Observable<Comment> {
     changes.forEach((value, key) => {
       comment[key] = value;
     });
@@ -25,7 +25,7 @@ export class CommentServiceMock extends CommentService {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  getComments(roomId: string): Observable<Comment[]> {
+  override getComments(roomId: string): Observable<Comment[]> {
     return of([
       new Comment({
         id: generateConsequentlyUUID(),
@@ -64,13 +64,13 @@ export class CommentServiceMock extends CommentService {
     ]);
   }
 
-  getAckComments(roomId: string): Observable<Comment[]> {
+  override getAckComments(roomId: string): Observable<Comment[]> {
     return this.getComments(roomId).pipe(
       map((comments) => comments.filter((c) => c.ack)),
     );
   }
 
-  getRejectedComments(roomId: string): Observable<Comment[]> {
+  override getRejectedComments(roomId: string): Observable<Comment[]> {
     return this.getComments(roomId).pipe(
       map((comments) => comments.filter((c) => !c.ack)),
     );

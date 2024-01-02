@@ -19,11 +19,9 @@ export class ThemeService {
     private device: DeviceStateService,
   ) {
     for (const k of Object.keys(themes)) {
-      console.log('Theme: ', k, themes[k], themes_meta[k]);
       this.themes.push(new Theme(k, themes[k], themes_meta[k]));
     }
     this.themes.sort((a, b) => a.order - b.order);
-    console.log('Themes: ', this.themes);
   }
 
   get activeTheme(): Theme {

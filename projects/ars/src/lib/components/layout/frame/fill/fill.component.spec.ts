@@ -20,6 +20,6 @@ describe('FillComponent', () => {
   });
 
   it('should create', () => {
-    expect(component).to.exist;
+    expect(component).toBeTruthy();
   });
 });

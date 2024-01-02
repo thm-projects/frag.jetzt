@@ -47,11 +47,11 @@ describe('ViewCommentDataComponent', () => {
   });
 
   it('should create with quill editor', async () => {
-    expect(component).to.exist;
+    expect(component).toBeTruthy();
     component.isEditor = true;
     fixture.detectChanges();
     await fixture.whenRenderingDone();
     component.ngAfterViewInit();
-    expect(component.editor).to.exist;
+    expect(component.editor).toBeTruthy();
   });
 });

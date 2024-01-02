@@ -47,7 +47,7 @@ And('The assistent should answer the prompt', () => {
 And('I should be able to assume the answer to the QnA forum of the room', () => {
     cy.get('div.gpt.ng-star-inserted').find('button.gpt-paste-btn').click()
     cy.wait(500)
-    if (cy.get('body').find('app-spacy-dialog').length > 0) {
+    if (cy.get('body').find('app-spacy-dialog')['length'] > 0) {
       cy.get('app-spacy-dialog').find('button.primary-confirm-button').click()
     }
     cy.get('app-gptrating-dialog').find('button.primary-confirm-button').click()

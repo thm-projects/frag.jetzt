@@ -136,7 +136,7 @@ export class LocalStorageDb implements IDBDatabase {
       this,
       makeDomList(storeNames),
       mode,
-      options?.durability as IDBTransactionDurability,
+      options?.['durability'] as IDBTransactionDurability,
     );
   }
 
@@ -248,7 +248,10 @@ export class LocalStorageStore implements IDBObjectStore {
   private indexes: IndexMeta[];
   private cachedIndexes: { [key: string]: string | string[] }[];
 
-  constructor(readonly myDb: LocalStorageDb, readonly meta: StoreMeta) {
+  constructor(
+    readonly myDb: LocalStorageDb,
+    readonly meta: StoreMeta,
+  ) {
     this.autoIncrement = Boolean(meta.options?.autoIncrement);
     console.assert(!this.autoIncrement);
     this.keyPath = meta.options?.keyPath || null;

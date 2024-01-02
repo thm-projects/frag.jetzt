@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { RoomService } from '../http/room.service';
+import { RoomAPI, RoomService } from '../http/room.service';
 import { ProfanityFilter, Room } from '../../models/room';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -60,7 +60,10 @@ export class RoomServiceMock extends RoomService {
   roomHistories: Readonly<RoomHistory>[] = [];
   moderators: Map<string, Set<string>> = new Map<string, Set<string>>();
 
-  constructor(private account: AccountStateService, private router1: Router) {
+  constructor(
+    private account: AccountStateService,
+    private router1: Router,
+  ) {
     super(null, null, null, null, null);
   }
 
@@ -72,11 +75,11 @@ export class RoomServiceMock extends RoomService {
     return { ...this._roomMock, ownerId, shortId };
   }
 
-  getCreatorRooms(userId: string): Observable<Room[]> {
+  override getCreatorRooms(userId: string): Observable<Room[]> {
     return of(this.rooms.filter((r) => r.ownerId === userId));
   }
 
-  getParticipantRooms(userId: string): Observable<Room[]> {
+  override getParticipantRooms(userId: string): Observable<Room[]> {
     return of(
       this.roomHistories
         .filter(
@@ -87,7 +90,7 @@ export class RoomServiceMock extends RoomService {
     );
   }
 
-  addRoom(room: Room, exc?: () => void): Observable<Room> {
+  override addRoom(room: Room, exc?: () => void): Observable<Room> {
     this.validateRoom(room);
     room.ownerId = this.account.getCurrentUser().id;
     if (!room.shortId) {
@@ -114,7 +117,7 @@ export class RoomServiceMock extends RoomService {
     return of(room);
   }
 
-  getRoom(id: string): Observable<Room> {
+  override getRoom(id: string): Observable<Room> {
     const room = this.rooms.find((r) => r.id === id);
     if (!room) {
       throw new Error('Not Found');
@@ -122,7 +125,7 @@ export class RoomServiceMock extends RoomService {
     return of(room);
   }
 
-  getRoomByShortId(shortId: string): Observable<Room> {
+  override getRoomByShortId(shortId: string): Observable<Room> {
     const room = this.rooms.find((r) => r.shortId === shortId);
     if (!room) {
       throw new Error('Not Found');
@@ -130,7 +133,7 @@ export class RoomServiceMock extends RoomService {
     return of(room);
   }
 
-  getErrorHandledRoomByShortId(
+  override getErrorHandledRoomByShortId(
     shortId: string,
     err: () => void,
   ): Observable<Room> {
@@ -139,7 +142,7 @@ export class RoomServiceMock extends RoomService {
     );
   }
 
-  addToHistory(roomId: string): void {
+  override addToHistory(roomId: string): void {
     const user = this.account.getCurrentUser();
     const roomIndex = this.rooms.findIndex((r) => r.id === roomId);
     if (roomIndex < 0) {
@@ -160,7 +163,7 @@ export class RoomServiceMock extends RoomService {
     this.roomHistories.splice(index, 1, newElement);
   }
 
-  removeFromHistory(roomId: string): Observable<void> {
+  override removeFromHistory(roomId: string): Observable<void> {
     const user = this.account.getCurrentUser();
     const index = this.roomHistories.findIndex(
       (history) => history.roomId === roomId && history.userId === user.id,
@@ -172,7 +175,7 @@ export class RoomServiceMock extends RoomService {
     return of(null);
   }
 
-  updateRoom(updatedRoom: Room): Observable<Room> {
+  override updateRoom(updatedRoom: Room): Observable<RoomAPI> {
     if (!updatedRoom?.id) {
       throw new Error('id can not be null!');
     }
@@ -186,10 +189,10 @@ export class RoomServiceMock extends RoomService {
     }
     this.validateRoom(updatedRoom);
     this.rooms.splice(roomIndex, 1, { ...updatedRoom });
-    return of(updatedRoom);
+    return of(updatedRoom as unknown as RoomAPI);
   }
 
-  deleteRoom(roomId: string): Observable<void> {
+  override deleteRoom(roomId: string): Observable<void> {
     const roomIndex = this.rooms.findIndex((r) => r.id === roomId);
     if (roomIndex < 0) {
       throw new Error('Not Found');
@@ -208,7 +211,7 @@ export class RoomServiceMock extends RoomService {
     return of();
   }
 
-  createGuestsForImport(
+  override createGuestsForImport(
     roomId: string,
     guestCount: number,
   ): Observable<string[]> {
@@ -219,7 +222,7 @@ export class RoomServiceMock extends RoomService {
     return of(arr);
   }
 
-  handleRoomError<T>() {
+  override handleRoomError<T>() {
     return (error: object): Observable<T> => {
       console.error(error);
       if ('status' in error && error.status === 404) {
@@ -230,7 +233,7 @@ export class RoomServiceMock extends RoomService {
   }
 
   private buildErrorCallback(data: string, exc: () => void) {
-    return (error: unknown) => {
+    return (error: object) => {
       if (exc) {
         exc();
       }

@@ -47,7 +47,7 @@ export class DSGVOService {
   }
 
   private checkIframe(elem: HTMLIFrameElement) {
-    if (elem.dataset.verified === 'true' || !elem.parentNode) {
+    if (elem.dataset['verified'] === 'true' || !elem.parentNode) {
       return;
     }
     const parentClass = elem.parentElement.classList;
@@ -84,7 +84,7 @@ export class DSGVOService {
           window.open(url, '_blank').focus();
           return;
         }
-        iframe.dataset.verified = String(true);
+        iframe.dataset['verified'] = String(true);
         newElem.parentElement.classList.toggle('dsgvo-inside', false);
         newElem.parentNode.replaceChild(iframe, newElem);
       },

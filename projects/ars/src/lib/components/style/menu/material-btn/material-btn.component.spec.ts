@@ -20,6 +20,6 @@ describe('MaterialBtnComponent', () => {
   });
 
   it('should create', () => {
-    expect(component).to.exist;
+    expect(component).toBeTruthy();
   });
 });

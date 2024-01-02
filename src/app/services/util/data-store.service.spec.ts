@@ -12,7 +12,7 @@ describe('DataStoreService', () => {
   it('should be created', inject(
     [DataStoreService],
     (service: DataStoreService) => {
-      expect(service).to.exist;
+      expect(service).toBeTruthy();
     },
   ));
 });

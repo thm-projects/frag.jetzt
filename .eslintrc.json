@@ -2,7 +2,8 @@
   "root": true,
   "ignorePatterns": [
     "projects/**/*",
-    "src/assets/i18n/**/*"
+    "src/assets/i18n/**/*",
+    "cypress/**/*"
   ],
   "overrides": [
     {

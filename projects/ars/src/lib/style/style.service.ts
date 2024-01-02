@@ -38,7 +38,7 @@ export class StyleService {
   private initColor() {
     for (const k in this.colors) {
       if (this.colors.hasOwnProperty(k)) {
-        document.documentElement.style.setProperty('--' + k, this.colors[k]);
+        //document.documentElement.style.setProperty('--' + k, this.colors[k]);
       }
     }
   }

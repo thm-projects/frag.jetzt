@@ -117,16 +117,16 @@ export class AppComponent implements OnInit {
     const header = this.headerElement.nativeElement;
     const footer = this.footerElement.nativeElement;
     if (current > this._lastScrollTop && current > header.offsetHeight) {
-      header.style.marginTop = '-' + header.offsetHeight + 'px';
+      header.classList.add('hide');
     } else {
-      header.style.marginTop = '0';
+      header.classList.remove('hide');
     }
     const height =
       scroller.scrollHeight - scroller.clientHeight - footer.offsetHeight;
     if (current > this._lastScrollTop && current < height) {
-      footer.style.marginBottom = '-' + footer.offsetHeight + 'px';
+      footer.classList.add('hide');
     } else {
-      footer.style.marginBottom = '0';
+      footer.classList.remove('hide');
     }
     this._lastScrollTop = current;
   }

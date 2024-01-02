@@ -20,6 +20,6 @@ describe('ArsComponent', () => {
   });
 
   it('should create', () => {
-    expect(component).to.exist;
+    expect(component).toBeTruthy();
   });
 });

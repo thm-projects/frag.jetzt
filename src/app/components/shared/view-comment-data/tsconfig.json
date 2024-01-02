@@ -1,0 +1,6 @@
+{
+  "include": ["**/*.spec.ts"],
+  "compilerOptions": {
+    "types": ["jasmine"]
+  }
+}

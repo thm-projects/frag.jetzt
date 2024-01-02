@@ -8,4 +8,12 @@ $blue-accent: mat.define-palette(
 
 $blue-warn: mat.define-palette(mat.$red-palette, A100);
 
-$blue-theme: mat.define-light-theme($blue-primary, $blue-accent, $blue-warn);
+$blue-theme: mat.define-light-theme(
+  (
+    color: (
+      primary: $blue-primary,
+      accent: $blue-accent,
+      warn: $blue-warn,
+    ),
+  )
+);

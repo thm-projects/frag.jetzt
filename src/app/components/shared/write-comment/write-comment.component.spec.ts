@@ -61,34 +61,34 @@ describe('WriteCommentComponent', () => {
   });
 
   it('should create', () => {
-    expect(component).to.exist;
+    expect(component).toBeTruthy();
   });
 
   it('should be allowed to have a questioner name between 2-30 characters', () => {
     component.questionerNameFormControl.setValue('Ab');
     component.questionerNameFormControl.updateValueAndValidity();
-    expect(component.questionerNameFormControl.valid).to.exist;
+    expect(component.questionerNameFormControl.valid).toBeTruthy();
 
     component.questionerNameFormControl.setValue(
       '5Zexkv95t4v5SKLdZkpS0AMjP6gl1H',
     );
     component.questionerNameFormControl.updateValueAndValidity();
-    expect(component.questionerNameFormControl.valid).to.exist;
+    expect(component.questionerNameFormControl.valid).toBeTruthy();
   });
 
   it('should not be allowed to have a questioner name less than 2 or above 30 characters', () => {
     component.questionerNameFormControl.setValue('A');
     component.questionerNameFormControl.updateValueAndValidity();
-    expect(component.questionerNameFormControl.valid).to.not.exist;
+    expect(component.questionerNameFormControl.valid).toBeFalsy();
 
     component.questionerNameFormControl.setValue(
       '5Zexkv95t4v5SKLdZkpS0AMjP6gl1Ha',
     );
     component.questionerNameFormControl.updateValueAndValidity();
-    expect(component.questionerNameFormControl.valid).to.not.exist;
+    expect(component.questionerNameFormControl.valid).toBeFalsy();
   });
 
   it('should be allowed to leave the questioner name empty', () => {
-    expect(component.questionerNameFormControl.valid).to.not.exist;
+    expect(component.questionerNameFormControl.valid).toBeFalsy();
   });
 });

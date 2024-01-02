@@ -9,7 +9,6 @@ import {
 import { TranslateService } from '@ngx-translate/core';
 import { EventService } from '../../../../services/util/event.service';
 import { OnboardingService } from '../../../../services/util/onboarding.service';
-import { SessionService } from '../../../../services/util/session.service';
 import { ReplaySubject, takeUntil } from 'rxjs';
 
 @Component({
@@ -35,20 +34,17 @@ export class JoyrideTemplateComponent implements OnInit, OnDestroy {
     private eventService: EventService,
     private translateService: TranslateService,
     private onboardingService: OnboardingService,
-    private sessionService: SessionService,
   ) {}
 
   ngOnInit(): void {
-    this.sessionService.onReady.subscribe(() => {
-      this.translateService
-        .stream(`joyride.${this.name}Title`)
-        .pipe(takeUntil(this._destroyer))
-        .subscribe((translation) => (this.title = translation));
-      this.translateService
-        .stream(`joyride.${this.name}`)
-        .pipe(takeUntil(this._destroyer))
-        .subscribe((translation) => (this.text = translation));
-    });
+    this.translateService
+      .stream(`joyride.${this.name}Title`)
+      .pipe(takeUntil(this._destroyer))
+      .subscribe((translation) => (this.title = translation));
+    this.translateService
+      .stream(`joyride.${this.name}`)
+      .pipe(takeUntil(this._destroyer))
+      .subscribe((translation) => (this.text = translation));
   }
 
   ngOnDestroy(): void {

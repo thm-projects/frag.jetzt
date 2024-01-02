@@ -9,7 +9,11 @@ $purple-accent: mat.define-palette(
 $purple-warn: mat.define-palette(mat.$red-palette, A100);
 
 $purple-theme: mat.define-light-theme(
-  $purple-primary,
-  $purple-accent,
-  $purple-warn
+  (
+    color: (
+      primary: $purple-primary,
+      accent: $purple-accent,
+      warn: $purple-warn,
+    ),
+  )
 );
