@@ -45,7 +45,7 @@
               "node_modules/quill-emoji/dist/quill-emoji.css"
             ],
             "stylePreprocessorOptions": {
-              "includePaths": ["node_modules/"]
+              "includePaths": ["node_modules/", "src/"]
             },
             "scripts": [
               "node_modules/marked/marked.min.js",
@@ -140,7 +140,7 @@
               "node_modules/quill-emoji/dist/quill-emoji.css"
             ],
             "stylePreprocessorOptions": {
-              "includePaths": ["node_modules/"]
+              "includePaths": ["node_modules/", "src/"]
             },
             "scripts": [
               "node_modules/marked/marked.min.js",

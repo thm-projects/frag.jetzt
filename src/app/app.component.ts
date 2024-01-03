@@ -105,6 +105,7 @@ export class AppComponent implements OnInit {
     this.update.versionUpdates
       .pipe(filter((e) => e.type === 'VERSION_READY'))
       .subscribe(() => UpdateInfoDialogComponent.open(this.dialog));
+    document.documentElement.classList.add('theme-target');
     this.themeService.getTheme().subscribe((theme) => {
       document.documentElement.classList.remove(this._lastClass);
       document.documentElement.classList.add(theme.key);

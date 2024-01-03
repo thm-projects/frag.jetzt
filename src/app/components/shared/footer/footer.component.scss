@@ -1,19 +1,16 @@
+@import "style/layout-variables.scss";
+
 footer {
   overflow-y: auto;
 }
 
 #footer-toolbar {
   background-color: var(--background);
-  height: auto;
-  padding: 5px 0;
-
-  &:first-child {
-    padding-left: 5px;
-  }
-
-  &:last-child {
-    padding-right: 5px;
-  }
+  height: $footer-height;
+  padding: 0;
+  display: flex;
+  color: var(--on-background);
+  justify-content: space-around;
 }
 
 .mat-badge-content {
@@ -29,6 +26,7 @@ footer {
 
 button:hover {
   outline: 2px solid var(--secondary);
+  z-index: 1;
 }
 
 button.focus_item:focus {

@@ -135,6 +135,7 @@ h2 {
 
 button:hover {
   outline: 2px solid var(--secondary);
+  z-index: 1;
 }
 
 .pseudo-button:hover {

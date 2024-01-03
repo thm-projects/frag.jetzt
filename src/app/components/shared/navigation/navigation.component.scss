@@ -5,6 +5,7 @@
 button:hover {
   outline: 2px solid var(--secondary);
   color: var(--on-secondary);
+  z-index: 1;
 }
 
 .navigation-button {
