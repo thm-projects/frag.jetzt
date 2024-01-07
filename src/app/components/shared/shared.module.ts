@@ -158,6 +158,7 @@ import { HelpRoomCreateComponent } from './_dialogs/room-create/help-room-create
 import { HelpRoomCreateDeComponent } from './_dialogs/room-create/help-room-create/help-room-create-de/help-room-create-de.component';
 import { HelpRoomCreateEnComponent } from './_dialogs/room-create/help-room-create/help-room-create-en/help-room-create-en.component';
 import { HelpRoomCreateFrComponent } from './_dialogs/room-create/help-room-create/help-room-create-fr/help-room-create-fr.component';
+import { MultiLevelQuotaInputComponent } from './_dialogs/multi-level-dialog/multi-level-quota-input/multi-level-quota-input.component';
 
 @NgModule({
   imports: [
@@ -318,6 +319,7 @@ import { HelpRoomCreateFrComponent } from './_dialogs/room-create/help-room-crea
     HelpRoomCreateDeComponent,
     HelpRoomCreateEnComponent,
     HelpRoomCreateFrComponent,
+    MultiLevelQuotaInputComponent,
   ],
   exports: [
     RoomJoinComponent,

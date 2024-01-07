@@ -16,9 +16,10 @@ import { ExplanationDialogComponent } from '../explanation-dialog/explanation-di
 
 const WINDOW_SIZE = 3;
 
-export type MultiLevelDialogSubmit = (
+export type MultiLevelDialogSubmit<T> = (
   injector: Injector,
   answers: AnsweredMultiLevelData,
+  data?: T,
 ) => Observable<any>;
 
 @Component({
@@ -48,7 +49,7 @@ export class MultiLevelDialogComponent implements OnInit {
   currentQuestion: MultiLevelDataBuiltAction<any>;
   readonly windowSize = WINDOW_SIZE;
   protected sending = false;
-  private onSubmit: MultiLevelDialogSubmit;
+  private onSubmit: MultiLevelDialogSubmit<any>;
   private dialogData: any;
   private createdIndexes: number[] = [];
   private answers: { [key: string]: FormGroup } = {};
@@ -66,7 +67,7 @@ export class MultiLevelDialogComponent implements OnInit {
   public static open<T = any>(
     dialog: MatDialog,
     data: MultiLevelData<T>,
-    onSubmit: MultiLevelDialogSubmit,
+    onSubmit: MultiLevelDialogSubmit<T>,
     dialogData?: T,
   ) {
     const dialogRef = dialog.open(MultiLevelDialogComponent, {
@@ -169,7 +170,7 @@ export class MultiLevelDialogComponent implements OnInit {
       return;
     }
     this.sending = true;
-    this.onSubmit(this.injector, this.answers).subscribe({
+    this.onSubmit(this.injector, this.answers, this.dialogData).subscribe({
       next: (success) => {
         if (success) {
           this.dialogRef.close(this.answers);

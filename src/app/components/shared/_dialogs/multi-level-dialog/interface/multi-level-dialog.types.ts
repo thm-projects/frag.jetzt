@@ -5,6 +5,7 @@ import { MultiLevelTextInputComponent } from '../multi-level-text-input/multi-le
 import { MultiLevelSwitchComponent } from '../multi-level-switch/multi-level-switch.component';
 import { MultiLevelTextComponent } from '../multi-level-text/multi-level-text.component';
 import { Observable } from 'rxjs';
+import { MultiLevelQuotaInputComponent } from '../multi-level-quota-input/multi-level-quota-input.component';
 
 export type AnsweredMultiLevelData = Record<string, FormGroup>;
 
@@ -71,6 +72,18 @@ export interface TextInputAction extends BaseAction {
   hidden?: boolean;
 }
 
+export interface QuotaInputAction extends BaseAction {
+  type: 'quota-input';
+  defaultValue?: string;
+  placeholder?: string;
+  hidden?: boolean;
+  allowedRange: {
+    min: number;
+    max: number;
+    step: number;
+  }
+}
+
 export interface TextAction {
   type: 'text';
   value: string;
@@ -80,7 +93,8 @@ export type MultiLevelAction =
   | TextAction
   | RadioSelectAction
   | SwitchAction
-  | TextInputAction;
+  | TextInputAction
+  | QuotaInputAction;
 
 export type BuiltAction<T> = T & {
   control: FormControl;
@@ -96,6 +110,7 @@ const MAPPER: { [key in MultiLevelAction['type']]: any } = {
   'radio-select': MultiLevelRadioSelectComponent,
   switch: MultiLevelSwitchComponent,
   'text-input': MultiLevelTextInputComponent,
+  'quota-input': MultiLevelQuotaInputComponent,
   text: MultiLevelTextComponent,
 };
 

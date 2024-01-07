@@ -59,6 +59,8 @@ import {
 } from 'app/services/state/room-state.service';
 import { MultiLevelDialogComponent } from '../_dialogs/multi-level-dialog/multi-level-dialog.component';
 import { MULTI_LEVEL_GPT_ROOM_SETTINGS } from '../_dialogs/gpt-room-settings/gpt-room-settings.multi-level';
+import { GptService } from 'app/services/http/gpt.service';
+import { saveSettings } from '../_dialogs/gpt-room-settings/gpt-room-settings.executor';
 
 @Component({
   selector: 'app-room-page',
@@ -95,6 +97,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
   protected roomDataService: RoomDataService;
   protected titleService: TitleService;
   protected router: Router;
+  protected gptService: GptService;
   protected roomState: RoomStateService;
   protected destroyer = new ReplaySubject(1);
   private _navigationBuild = new SyncFence(2, this.initNavigation.bind(this));
@@ -118,6 +121,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
     this.titleService = injector.get(TitleService);
     this.router = injector.get(Router);
     this.roomState = injector.get(RoomStateService);
+    this.gptService = injector.get(GptService);
   }
 
   ngOnInit() {
@@ -476,14 +480,16 @@ export class RoomPageComponent implements OnInit, OnDestroy {
           class: 'chatgpt-robot-icon settings',
           text: 'header.gpt-settings',
           callback: () => {
-            MultiLevelDialogComponent.open(
-              this.dialog,
-              MULTI_LEVEL_GPT_ROOM_SETTINGS,
-              (_injector, data) => {
-                console.log(data);
-                return of();
-              },
-            );
+            this.gptService.getRoomSetting(this.room.id).subscribe((res) => {
+              MultiLevelDialogComponent.open(
+                this.dialog,
+                MULTI_LEVEL_GPT_ROOM_SETTINGS,
+                saveSettings,
+                {
+                  GPTSettings: res,
+                }
+              );
+            });
           },
           condition: () => this.userRole > UserRole.PARTICIPANT,
         });

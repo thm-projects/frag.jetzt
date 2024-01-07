@@ -3,10 +3,43 @@ import {
   MultiLevelData,
   buildInput,
 } from '../multi-level-dialog/interface/multi-level-dialog.types';
+import { GptService } from 'app/services/http/gpt.service';
+import { GPTRoomSetting } from 'app/models/gpt-room-setting';
 
-export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData = {
+export interface Data {
+  GPTSettings: GPTRoomSetting;
+}
+
+export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
   title: 'ml-gpt-room-settings.title',
   questions: [
+    {
+      tag: 'miscellaneousSettings',
+      title: 'ml-gpt-room-settings.q-miscellaneous-settings',
+      buildAction(_injector, _answers, previousState, data) {
+        if (previousState) return previousState;
+        return buildInput(this,
+          {
+            type: 'switch',
+            tag: 'allowUnregisteredUsers',
+            defaultValue: data.GPTSettings.allowsUnregisteredUsers(),
+            label: 'ml-gpt-room-settings.s-allow-unregistered-users',
+          },
+          {
+            type: 'switch',
+            defaultValue: data.GPTSettings.disableEnhancedPrompt(),
+            tag: 'allowAnswerWithoutPreset',
+            label: 'ml-gpt-room-settings.s-allow-answer-without-preset',
+          },
+          {
+            type: 'switch',
+            defaultValue: data.GPTSettings.disableForwardMessage(),
+            tag: 'onlyAnswerWhenCalled',
+            label: 'ml-gpt-room-settings.s-only-answer-when-called',
+          },
+        );
+      },
+    },
     {
       tag: 'gptInfo',
       title: 'ml-gpt-room-settings.q-api-title',
@@ -25,7 +58,7 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData = {
             label: 'ml-gpt-room-settings.l-api-code',
             hidden: true,
             validators: [
-              Validators.required,
+              //Validators.required,
               Validators.pattern('sk-[a-zA-Z0-9]+'),
             ],
             errorStates: {
@@ -46,8 +79,164 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData = {
       },
     },
     {
-      tag: 'gptInfo',
-      title: 'ml-gpt-room-settings.q-api-title',
+      tag: 'roomQuota',
+      title: 'ml-gpt-room-settings.q-room-quota',
+      buildAction(_injector, _answers, previousState, data) {
+        if (previousState) return previousState;
+        return buildInput(this,
+          {
+            type: 'quota-input',
+            allowedRange: {
+              min: 0,
+              max: 1000,
+              step: 0.01,
+            },
+            defaultValue: data.GPTSettings.maxAccumulatedRoomCost?.toString(),
+            tag: 'total',
+            label: 'ml-gpt-room-settings.l-total-cost-limit',
+          },
+          {
+            type: 'quota-input',
+            allowedRange: {
+              min: 0,
+              max: 1000,
+              step: 0.01,
+            },
+            defaultValue: data.GPTSettings.maxAccumulatedRoomCost?.toString(),
+            tag: 'monthly',
+            label: 'ml-gpt-room-settings.l-monthly-cost-limit',
+          },
+          {
+            type: 'quota-input',
+            allowedRange: {
+              min: 0,
+              max: 1000,
+              step: 0.01,
+            },
+            defaultValue: data.GPTSettings.maxAccumulatedRoomCost?.toString(),
+            tag: 'monthlyFlowing',
+            label: 'ml-gpt-room-settings.l-monthly-flowing-cost-limit',
+          },
+          {
+            type: 'quota-input',
+            allowedRange: {
+              min: 0,
+              max: 1000,
+              step: 0.01,
+            },
+            defaultValue: data.GPTSettings.maxAccumulatedRoomCost?.toString(),
+            tag: 'daily',
+            label: 'ml-gpt-room-settings.l-daily-cost-limit',
+          },
+        );
+      },
+    },
+    {
+      tag: 'moderatorQuota',
+      title: 'ml-gpt-room-settings.q-moderator-quota',
+      buildAction(_injector, _answers, previousState, data) {
+        if (previousState) return previousState;
+        return buildInput(this, {
+          type: 'quota-input',
+          allowedRange: {
+            min: 0,
+            max: 1000,
+            step: 0.01,
+          },
+          defaultValue: data.GPTSettings.maxAccumulatedRoomCost?.toString(),
+          tag: 'total',
+          label: 'ml-gpt-room-settings.l-total-cost-limit',
+        },
+          {
+            type: 'quota-input',
+            allowedRange: {
+              min: 0,
+              max: 1000,
+              step: 0.01,
+            },
+            defaultValue: data.GPTSettings.maxAccumulatedRoomCost?.toString(),
+            tag: 'monthly',
+            label: 'ml-gpt-room-settings.l-monthly-cost-limit',
+          },
+          {
+            type: 'quota-input',
+            allowedRange: {
+              min: 0,
+              max: 1000,
+              step: 0.01,
+            },
+            defaultValue: data.GPTSettings.maxAccumulatedRoomCost?.toString(),
+            tag: 'monthlyFlowing',
+            label: 'ml-gpt-room-settings.l-monthly-flowing-cost-limit',
+          },
+          {
+            type: 'quota-input',
+            allowedRange: {
+              min: 0,
+              max: 1000,
+              step: 0.01,
+            },
+            defaultValue: data.GPTSettings.maxAccumulatedRoomCost?.toString(),
+            tag: 'daily',
+            label: 'ml-gpt-room-settings.l-daily-cost-limit',
+          },);
+      },
+    },
+    {
+      tag: 'participantQuota',
+      title: 'ml-gpt-room-settings.q-participant-quota',
+      buildAction(_injector, _answers, previousState, data) {
+        if (previousState) return previousState;
+        return buildInput(this, {
+          type: 'quota-input',
+          allowedRange: {
+            min: 0,
+            max: 1000,
+            step: 0.01,
+          },
+          defaultValue: data.GPTSettings.maxAccumulatedRoomCost?.toString(),
+          tag: 'total',
+          label: 'ml-gpt-room-settings.l-total-cost-limit',
+        },
+          {
+            type: 'quota-input',
+            allowedRange: {
+              min: 0,
+              max: 1000,
+              step: 0.01,
+            },
+            defaultValue: data.GPTSettings.maxAccumulatedRoomCost?.toString(),
+            tag: 'monthly',
+            label: 'ml-gpt-room-settings.l-monthly-cost-limit',
+          },
+          {
+            type: 'quota-input',
+            allowedRange: {
+              min: 0,
+              max: 1000,
+              step: 0.01,
+            },
+            defaultValue: data.GPTSettings.maxAccumulatedRoomCost?.toString(),
+            tag: 'monthlyFlowing',
+            label: 'ml-gpt-room-settings.l-monthly-flowing-cost-limit',
+          },
+          {
+            type: 'quota-input',
+            allowedRange: {
+              min: 0,
+              max: 1000,
+              step: 0.01,
+            },
+            defaultValue: data.GPTSettings.maxAccumulatedRoomCost?.toString(),
+            tag: 'daily',
+            label: 'ml-gpt-room-settings.l-daily-cost-limit',
+          },
+        );
+      },
+    },
+    {
+      tag: 'usageTime',
+      title: 'ml-gpt-room-settings.q-periods-of-use',
       buildAction(_injector, _answers, previousState) {
         if (previousState) return previousState;
         return buildInput(this, {
@@ -57,47 +246,42 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData = {
       },
     },
     {
-      tag: 'gptInfo',
-      title: 'ml-gpt-room-settings.q-api-title',
+      tag: 'moderatorPermissions',
+      title: 'ml-gpt-room-settings.q-moderator-permissions',
       buildAction(_injector, _answers, previousState) {
         if (previousState) return previousState;
-        return buildInput(this, {
-          type: 'text',
-          value: 'Hallo Welt',
-        });
-      },
-    },
-    {
-      tag: 'gptInfo',
-      title: 'ml-gpt-room-settings.q-api-title',
-      buildAction(_injector, _answers, previousState) {
-        if (previousState) return previousState;
-        return buildInput(this, {
-          type: 'text',
-          value: 'Hallo Welt',
-        });
-      },
-    },
-    {
-      tag: 'gptInfo',
-      title: 'ml-gpt-room-settings.q-api-title',
-      buildAction(_injector, _answers, previousState) {
-        if (previousState) return previousState;
-        return buildInput(this, {
-          type: 'text',
-          value: 'Hallo Welt',
-        });
-      },
-    },
-    {
-      tag: 'gptInfo',
-      title: 'ml-gpt-room-settings.q-api-title',
-      buildAction(_injector, _answers, previousState) {
-        if (previousState) return previousState;
-        return buildInput(this, {
-          type: 'text',
-          value: 'Hallo Welt',
-        });
+        return buildInput(this,
+          {
+            type: 'switch',
+            tag: 'apiCode',
+            label: 'ml-gpt-room-settings.l-monthly-cost-limit',
+          },
+          {
+            type: 'switch',
+            tag: 'apiCode',
+            label: 'ml-gpt-room-settings.l-monthly-cost-limit',
+          },
+          {
+            type: 'switch',
+            tag: 'apiCode',
+            label: 'ml-gpt-room-settings.l-monthly-cost-limit',
+          },
+          {
+            type: 'switch',
+            tag: 'apiCode',
+            label: 'ml-gpt-room-settings.l-monthly-cost-limit',
+          },
+          {
+            type: 'switch',
+            tag: 'apiCode',
+            label: 'ml-gpt-room-settings.l-monthly-cost-limit',
+          },
+          {
+            type: 'switch',
+            tag: 'apiCode',
+            label: 'ml-gpt-room-settings.l-monthly-cost-limit',
+          },
+        );
       },
     },
   ],
