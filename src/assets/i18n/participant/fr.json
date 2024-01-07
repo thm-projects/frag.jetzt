@@ -519,6 +519,17 @@
     "navigationButton": "La navigation est disponible sur toutes les pages. Ici, tu peux passer à toutes les features de la plateforme.",
     "navigationButtonTitle": "Navigation dans l'application"
   },
+  "multi-level-dialog": {
+    "next": "Suivant",
+    "previous": "Précédent",
+    "cancel": "Annuler",
+    "confirm": "Soumettre",
+    "complete": "Terminer",
+    "complete-text": "Tu as répondu à toutes les questions. Clique sur « Soumettre » pour terminer la configuration. Tu peux aussi revenir en arrière et modifier tes réponses.",
+    "complete-reset": "Tout réinitialiser",
+    "single": "Question {{number}}",
+    "range": "Questions {{start}} à {{end}}"
+  },
   "question-wall": {
     "auto-renew-off": "Arrêter la mise au point automatique pour les nouvelles questions",
     "auto-renew-off-icon": "close",

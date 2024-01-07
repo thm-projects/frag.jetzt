@@ -726,6 +726,17 @@
     "tooltip-moderators": "Access code for guest moderators | Admission of permanent moderators",
     "tooltip-recreate": "Generate access code for guest moderators"
   },
+  "multi-level-dialog": {
+    "next": "Next",
+    "previous": "Previous",
+    "cancel": "Cancel",
+    "confirm": "Submit",
+    "complete": "Complete",
+    "complete-text": "You have answered all the questions. Click »Submit« to finish the configuration. You can also go back and change your answers.",
+    "complete-reset": "Reset everything",
+    "single": "Question {{number}}",
+    "range": "Questions {{start}} to {{end}}"
+  },
   "quill": {
     "cancel": "Cancel",
     "heading": "Input",

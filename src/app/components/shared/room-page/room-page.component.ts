@@ -57,6 +57,8 @@ import {
   ROOM_ROLE_MAPPER,
   RoomStateService,
 } from 'app/services/state/room-state.service';
+import { MultiLevelDialogComponent } from '../_dialogs/multi-level-dialog/multi-level-dialog.component';
+import { MULTI_LEVEL_GPT_ROOM_SETTINGS } from '../_dialogs/gpt-room-settings/gpt-room-settings.multi-level';
 
 @Component({
   selector: 'app-room-page',
@@ -474,10 +476,13 @@ export class RoomPageComponent implements OnInit, OnDestroy {
           class: 'chatgpt-robot-icon settings',
           text: 'header.gpt-settings',
           callback: () => {
-            GptRoomSettingsComponent.open(
+            MultiLevelDialogComponent.open(
               this.dialog,
-              this.room,
-              this.userRole,
+              MULTI_LEVEL_GPT_ROOM_SETTINGS,
+              (_injector, data) => {
+                console.log(data);
+                return of();
+              },
             );
           },
           condition: () => this.userRole > UserRole.PARTICIPANT,

@@ -35,8 +35,8 @@ export type MultiLevelDialogSubmit = (
 export class MultiLevelDialogComponent implements OnInit {
   @ViewChild('stepper') stepper: MatStepper;
   @Input() data: MultiLevelData;
-  elements: MultiLevelDataBuiltAction[] = [];
-  currentElements: MultiLevelDataBuiltAction[] = [];
+  elements: MultiLevelDataBuiltAction<any>[] = [];
+  currentElements: MultiLevelDataBuiltAction<any>[] = [];
   readonly onClose = this.close.bind(this);
   remaining: number = 0;
   currentStepperIndex = 0;
@@ -45,13 +45,17 @@ export class MultiLevelDialogComponent implements OnInit {
   offsetIndex = 0;
   highestIndex = -1;
   loadingCount = 0;
-  currentQuestion: MultiLevelDataBuiltAction;
+  currentQuestion: MultiLevelDataBuiltAction<any>;
   readonly windowSize = WINDOW_SIZE;
   protected sending = false;
   private onSubmit: MultiLevelDialogSubmit;
+  private dialogData: any;
   private createdIndexes: number[] = [];
   private answers: { [key: string]: FormGroup } = {};
-  private readonly removedCache = new Map<string, MultiLevelDataBuiltAction>();
+  private readonly removedCache = new Map<
+    string,
+    MultiLevelDataBuiltAction<any>
+  >();
 
   constructor(
     private dialogRef: MatDialogRef<MultiLevelDialogComponent>,
@@ -59,10 +63,11 @@ export class MultiLevelDialogComponent implements OnInit {
     private injector: Injector,
   ) {}
 
-  public static open(
+  public static open<T = any>(
     dialog: MatDialog,
-    data: MultiLevelData,
+    data: MultiLevelData<T>,
     onSubmit: MultiLevelDialogSubmit,
+    dialogData?: T,
   ) {
     const dialogRef = dialog.open(MultiLevelDialogComponent, {
       width: '85vw',
@@ -71,6 +76,7 @@ export class MultiLevelDialogComponent implements OnInit {
       panelClass: 'overflow-mat-dialog',
     });
     dialogRef.componentInstance.data = data;
+    dialogRef.componentInstance.dialogData = dialogData;
     dialogRef.componentInstance.onSubmit = onSubmit;
     return dialogRef;
   }
@@ -258,12 +264,13 @@ export class MultiLevelDialogComponent implements OnInit {
           this.injector,
           previous,
           previousState,
+          this.dialogData,
         );
         // insert at position
         const index = elementIndex;
         const dummy = !isObservable(elemOrObservable)
           ? elemOrObservable
-          : ({} as MultiLevelDataBuiltAction);
+          : ({} as MultiLevelDataBuiltAction<any>);
         this.elements.splice(elementIndex, 0, dummy);
         this.createdIndexes.splice(elementIndex, 0, currentIndex);
         elementIndex++;

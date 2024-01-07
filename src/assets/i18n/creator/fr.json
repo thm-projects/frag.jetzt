@@ -662,6 +662,17 @@
     "tooltip-moderators": "Code d'accès pour les modérateurs invités | Enregistrement des modérateurs permanents",
     "tooltip-recreate": "Générer un code d'accès pour les modérateurs invités"
   },
+  "multi-level-dialog": {
+    "next": "Suivant",
+    "previous": "Précédent",
+    "cancel": "Annuler",
+    "confirm": "Soumettre",
+    "complete": "Terminer",
+    "complete-text": "Tu as répondu à toutes les questions. Clique sur « Soumettre » pour terminer la configuration. Tu peux aussi revenir en arrière et modifier tes réponses.",
+    "complete-reset": "Tout réinitialiser",
+    "single": "Question {{number}}",
+    "range": "Questions {{start}} à {{end}}"
+  },
   "quill": {
     "cancel": "Annuler",
     "heading": "Saisie",
