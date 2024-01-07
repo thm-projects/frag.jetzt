@@ -487,6 +487,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
                 saveSettings,
                 {
                   GPTSettings: res,
+                  roomID: this.room.id,
                 }
               );
             });

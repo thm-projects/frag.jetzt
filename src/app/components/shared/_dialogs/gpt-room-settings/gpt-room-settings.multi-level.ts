@@ -7,39 +7,13 @@ import { GptService } from 'app/services/http/gpt.service';
 import { GPTRoomSetting } from 'app/models/gpt-room-setting';
 
 export interface Data {
+  roomID: string;
   GPTSettings: GPTRoomSetting;
 }
 
 export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
   title: 'ml-gpt-room-settings.title',
   questions: [
-    {
-      tag: 'miscellaneousSettings',
-      title: 'ml-gpt-room-settings.q-miscellaneous-settings',
-      buildAction(_injector, _answers, previousState, data) {
-        if (previousState) return previousState;
-        return buildInput(this,
-          {
-            type: 'switch',
-            tag: 'allowUnregisteredUsers',
-            defaultValue: data.GPTSettings.allowsUnregisteredUsers(),
-            label: 'ml-gpt-room-settings.s-allow-unregistered-users',
-          },
-          {
-            type: 'switch',
-            defaultValue: data.GPTSettings.disableEnhancedPrompt(),
-            tag: 'allowAnswerWithoutPreset',
-            label: 'ml-gpt-room-settings.s-allow-answer-without-preset',
-          },
-          {
-            type: 'switch',
-            defaultValue: data.GPTSettings.disableForwardMessage(),
-            tag: 'onlyAnswerWhenCalled',
-            label: 'ml-gpt-room-settings.s-only-answer-when-called',
-          },
-        );
-      },
-    },
     {
       tag: 'gptInfo',
       title: 'ml-gpt-room-settings.q-api-title',
@@ -82,6 +56,7 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
       tag: 'roomQuota',
       title: 'ml-gpt-room-settings.q-room-quota',
       buildAction(_injector, _answers, previousState, data) {
+        console.log(_answers);
         if (previousState) return previousState;
         return buildInput(this,
           {
@@ -246,40 +221,73 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
       },
     },
     {
-      tag: 'moderatorPermissions',
-      title: 'ml-gpt-room-settings.q-moderator-permissions',
-      buildAction(_injector, _answers, previousState) {
+      tag: 'miscellaneousSettings',
+      title: 'ml-gpt-room-settings.q-miscellaneous-settings',
+      buildAction(_injector, _answers, previousState, data) {
         if (previousState) return previousState;
         return buildInput(this,
           {
             type: 'switch',
-            tag: 'apiCode',
-            label: 'ml-gpt-room-settings.l-monthly-cost-limit',
+            tag: 'allowUnregisteredUsers',
+            defaultValue: data.GPTSettings.allowsUnregisteredUsers(),
+            label: 'ml-gpt-room-settings.s-allow-unregistered-users',
           },
           {
             type: 'switch',
-            tag: 'apiCode',
-            label: 'ml-gpt-room-settings.l-monthly-cost-limit',
+            defaultValue: data.GPTSettings.disableEnhancedPrompt(),
+            tag: 'allowAnswerWithoutPreset',
+            label: 'ml-gpt-room-settings.s-allow-answer-without-preset',
           },
           {
             type: 'switch',
-            tag: 'apiCode',
-            label: 'ml-gpt-room-settings.l-monthly-cost-limit',
+            defaultValue: data.GPTSettings.disableForwardMessage(),
+            tag: 'onlyAnswerWhenCalled',
+            label: 'ml-gpt-room-settings.s-only-answer-when-called',
+          },
+        );
+      },
+    },
+    {
+      tag: 'moderatorPermissions',
+      title: 'ml-gpt-room-settings.q-moderator-permissions',
+      buildAction(_injector, _answers, previousState, data) {
+        if (previousState) return previousState;
+        return buildInput(this,
+          {
+            type: 'switch',
+            tag: 'canChangeRoomQuota',
+            defaultValue: data.GPTSettings.canChangeRoomQuota(),
+            label: 'ml-gpt-room-settings.s-moderator-can-change-participant-quota',
           },
           {
             type: 'switch',
-            tag: 'apiCode',
-            label: 'ml-gpt-room-settings.l-monthly-cost-limit',
+            tag: 'canChangeModeratorQuota',
+            defaultValue: data.GPTSettings.canChangeModeratorQuota(),
+            label: 'ml-gpt-room-settings.s-moderator-can-change-moderator-quota',
           },
           {
             type: 'switch',
-            tag: 'apiCode',
-            label: 'ml-gpt-room-settings.l-monthly-cost-limit',
+            tag: 'canChangeParticipantQuota',
+            defaultValue: data.GPTSettings.canChangeParticipantQuota(),
+            label: 'ml-gpt-room-settings.s-moderator-can-change-room-quota',
           },
           {
             type: 'switch',
-            tag: 'apiCode',
-            label: 'ml-gpt-room-settings.l-monthly-cost-limit',
+            tag: 'canChangePreset',
+            defaultValue: data.GPTSettings.canChangePreset(),
+            label: 'ml-gpt-room-settings.s-moderator-can-change-prompt-presets',
+          },
+          {
+            type: 'switch',
+            tag: 'canChangeUsageTimes',
+            defaultValue: data.GPTSettings.canChangeUsageTimes(),
+            label: 'ml-gpt-room-settings.s-moderator-can-change-periods-of-use',
+          },
+          {
+            type: 'switch',
+            tag: 'canChangeApiSettings',
+            defaultValue: data.GPTSettings.canChangeApiSettings(),
+            label: 'ml-gpt-room-settings.s-moderator-can-change-api-settings',
           },
         );
       },
