@@ -58,7 +58,8 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
       buildAction(_injector, _answers, previousState, data) {
         console.log(_answers);
         if (previousState) return previousState;
-        return buildInput(this,
+        return buildInput(
+          this,
           {
             type: 'quota-input',
             allowedRange: {
@@ -66,7 +67,8 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
               max: 1000,
               step: 0.01,
             },
-            defaultValue: data.GPTSettings.maxAccumulatedRoomCost?.toString(),
+            defaultValue:
+              data.GPTSettings.maxAccumulatedRoomCost?.toString() || '20',
             tag: 'total',
             label: 'ml-gpt-room-settings.l-total-cost-limit',
           },
@@ -77,7 +79,7 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
               max: 1000,
               step: 0.01,
             },
-            defaultValue: data.GPTSettings.maxAccumulatedRoomCost?.toString(),
+            defaultValue: data.GPTSettings.maxMonthlyRoomCost?.toString(),
             tag: 'monthly',
             label: 'ml-gpt-room-settings.l-monthly-cost-limit',
           },
@@ -88,7 +90,8 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
               max: 1000,
               step: 0.01,
             },
-            defaultValue: data.GPTSettings.maxAccumulatedRoomCost?.toString(),
+            defaultValue:
+              data.GPTSettings.maxMonthlyFlowingRoomCost?.toString(),
             tag: 'monthlyFlowing',
             label: 'ml-gpt-room-settings.l-monthly-flowing-cost-limit',
           },
@@ -99,7 +102,7 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
               max: 1000,
               step: 0.01,
             },
-            defaultValue: data.GPTSettings.maxAccumulatedRoomCost?.toString(),
+            defaultValue: data.GPTSettings.maxDailyRoomCost?.toString(),
             tag: 'daily',
             label: 'ml-gpt-room-settings.l-daily-cost-limit',
           },
@@ -111,17 +114,8 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
       title: 'ml-gpt-room-settings.q-moderator-quota',
       buildAction(_injector, _answers, previousState, data) {
         if (previousState) return previousState;
-        return buildInput(this, {
-          type: 'quota-input',
-          allowedRange: {
-            min: 0,
-            max: 1000,
-            step: 0.01,
-          },
-          defaultValue: data.GPTSettings.maxAccumulatedRoomCost?.toString(),
-          tag: 'total',
-          label: 'ml-gpt-room-settings.l-total-cost-limit',
-        },
+        return buildInput(
+          this,
           {
             type: 'quota-input',
             allowedRange: {
@@ -129,7 +123,19 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
               max: 1000,
               step: 0.01,
             },
-            defaultValue: data.GPTSettings.maxAccumulatedRoomCost?.toString(),
+            defaultValue:
+              data.GPTSettings.maxAccumulatedModeratorCost?.toString(),
+            tag: 'total',
+            label: 'ml-gpt-room-settings.l-total-cost-limit',
+          },
+          {
+            type: 'quota-input',
+            allowedRange: {
+              min: 0,
+              max: 1000,
+              step: 0.01,
+            },
+            defaultValue: data.GPTSettings.maxMonthlyModeratorCost?.toString(),
             tag: 'monthly',
             label: 'ml-gpt-room-settings.l-monthly-cost-limit',
           },
@@ -140,7 +146,8 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
               max: 1000,
               step: 0.01,
             },
-            defaultValue: data.GPTSettings.maxAccumulatedRoomCost?.toString(),
+            defaultValue:
+              data.GPTSettings.maxMonthlyFlowingModeratorCost?.toString(),
             tag: 'monthlyFlowing',
             label: 'ml-gpt-room-settings.l-monthly-flowing-cost-limit',
           },
@@ -151,10 +158,11 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
               max: 1000,
               step: 0.01,
             },
-            defaultValue: data.GPTSettings.maxAccumulatedRoomCost?.toString(),
+            defaultValue: data.GPTSettings.maxDailyModeratorCost?.toString(),
             tag: 'daily',
             label: 'ml-gpt-room-settings.l-daily-cost-limit',
-          },);
+          },
+        );
       },
     },
     {
@@ -162,17 +170,8 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
       title: 'ml-gpt-room-settings.q-participant-quota',
       buildAction(_injector, _answers, previousState, data) {
         if (previousState) return previousState;
-        return buildInput(this, {
-          type: 'quota-input',
-          allowedRange: {
-            min: 0,
-            max: 1000,
-            step: 0.01,
-          },
-          defaultValue: data.GPTSettings.maxAccumulatedRoomCost?.toString(),
-          tag: 'total',
-          label: 'ml-gpt-room-settings.l-total-cost-limit',
-        },
+        return buildInput(
+          this,
           {
             type: 'quota-input',
             allowedRange: {
@@ -180,7 +179,20 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
               max: 1000,
               step: 0.01,
             },
-            defaultValue: data.GPTSettings.maxAccumulatedRoomCost?.toString(),
+            defaultValue:
+              data.GPTSettings.maxAccumulatedParticipantCost?.toString(),
+            tag: 'total',
+            label: 'ml-gpt-room-settings.l-total-cost-limit',
+          },
+          {
+            type: 'quota-input',
+            allowedRange: {
+              min: 0,
+              max: 1000,
+              step: 0.01,
+            },
+            defaultValue:
+              data.GPTSettings.maxMonthlyParticipantCost?.toString(),
             tag: 'monthly',
             label: 'ml-gpt-room-settings.l-monthly-cost-limit',
           },
@@ -191,7 +203,8 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
               max: 1000,
               step: 0.01,
             },
-            defaultValue: data.GPTSettings.maxAccumulatedRoomCost?.toString(),
+            defaultValue:
+              data.GPTSettings.maxMonthlyFlowingParticipantCost?.toString(),
             tag: 'monthlyFlowing',
             label: 'ml-gpt-room-settings.l-monthly-flowing-cost-limit',
           },
@@ -202,7 +215,7 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
               max: 1000,
               step: 0.01,
             },
-            defaultValue: data.GPTSettings.maxAccumulatedRoomCost?.toString(),
+            defaultValue: data.GPTSettings.maxDailyParticipantCost?.toString(),
             tag: 'daily',
             label: 'ml-gpt-room-settings.l-daily-cost-limit',
           },
@@ -225,7 +238,8 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
       title: 'ml-gpt-room-settings.q-miscellaneous-settings',
       buildAction(_injector, _answers, previousState, data) {
         if (previousState) return previousState;
-        return buildInput(this,
+        return buildInput(
+          this,
           {
             type: 'switch',
             tag: 'allowUnregisteredUsers',
@@ -252,18 +266,21 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
       title: 'ml-gpt-room-settings.q-moderator-permissions',
       buildAction(_injector, _answers, previousState, data) {
         if (previousState) return previousState;
-        return buildInput(this,
+        return buildInput(
+          this,
           {
             type: 'switch',
             tag: 'canChangeRoomQuota',
             defaultValue: data.GPTSettings.canChangeRoomQuota(),
-            label: 'ml-gpt-room-settings.s-moderator-can-change-participant-quota',
+            label:
+              'ml-gpt-room-settings.s-moderator-can-change-participant-quota',
           },
           {
             type: 'switch',
             tag: 'canChangeModeratorQuota',
             defaultValue: data.GPTSettings.canChangeModeratorQuota(),
-            label: 'ml-gpt-room-settings.s-moderator-can-change-moderator-quota',
+            label:
+              'ml-gpt-room-settings.s-moderator-can-change-moderator-quota',
           },
           {
             type: 'switch',
