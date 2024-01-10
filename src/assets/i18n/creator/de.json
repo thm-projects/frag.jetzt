@@ -744,7 +744,7 @@
   "ml-gpt-room-settings": {
     "title": "GPT Einstellungen",
     "q-api-setup": "ChatGPT aktivieren",
-    "l-api-choice": "Möchtest du ChatGPT aktivieren?",
+    "l-api-choice": "Welche Art der Aktivierung?",
     "r-api-short": "Aktivierungsart",
     "r-api-choice-key": "Mit API Key",
     "r-api-choice-voucher": "Mit Voucher",
