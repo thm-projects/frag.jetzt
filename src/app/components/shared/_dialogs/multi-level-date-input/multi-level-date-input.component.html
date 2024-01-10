@@ -1,0 +1,21 @@
+<mat-form-field appearance="outline">
+    <mat-label>DD/MM/YY</mat-label>
+    <input matInput type="datetime-local" placeholder="start date">
+</mat-form-field>
+
+<div class="container">
+    <mat-form-field appearance="outline">
+        <mat-label>Outline form field</mat-label>
+        <input matInput placeholder="Placeholder">
+    </mat-form-field>
+    
+    <mat-form-field>
+        <mat-select>
+            <mat-option *ngFor="let option of options" [value]="option.value">
+                {{option.i18nPath | translate}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+</div>
+
+<button mat-raised-button>Create</button>

@@ -6,6 +6,7 @@ import { MultiLevelSwitchComponent } from '../multi-level-switch/multi-level-swi
 import { MultiLevelTextComponent } from '../multi-level-text/multi-level-text.component';
 import { Observable } from 'rxjs';
 import { MultiLevelQuotaInputComponent } from '../multi-level-quota-input/multi-level-quota-input.component';
+import { MultiLevelDateInputComponent } from '../../multi-level-date-input/multi-level-date-input.component';
 
 export type AnsweredMultiLevelData = Record<string, FormGroup>;
 
@@ -84,6 +85,13 @@ export interface QuotaInputAction extends BaseAction {
   }
 }
 
+export interface DateInputAction extends BaseAction {
+  type: 'date-input';
+  defaultValue?: string;
+  placeholder?: string;
+  hidden?: boolean;
+}
+
 export interface TextAction {
   type: 'text';
   value: string;
@@ -94,7 +102,8 @@ export type MultiLevelAction =
   | RadioSelectAction
   | SwitchAction
   | TextInputAction
-  | QuotaInputAction;
+  | QuotaInputAction
+  | DateInputAction;
 
 export type BuiltAction<T> = T & {
   control: FormControl;
@@ -111,6 +120,7 @@ const MAPPER: { [key in MultiLevelAction['type']]: any } = {
   switch: MultiLevelSwitchComponent,
   'text-input': MultiLevelTextInputComponent,
   'quota-input': MultiLevelQuotaInputComponent,
+  'date-input': MultiLevelDateInputComponent,
   text: MultiLevelTextComponent,
 };
 

@@ -1,0 +1,22 @@
+.mat-form-field {
+  width: 100%;
+}
+
+::ng-deep .mat-form-field-infix {
+    width: 0 !important;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  
+  & .mat-form-field { width: 50%; }
+}
+
+button {
+    width: 100%;
+    margin-bottom: 1rem;
+}

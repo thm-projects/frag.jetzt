@@ -1,12 +1,13 @@
 import { InjectFlags, Injector } from '@angular/core';
 import { Room } from 'app/models/room';
-import { Observable, of, switchMap } from 'rxjs';
+import { Observable, forkJoin, of, switchMap } from 'rxjs';
 import { AnsweredMultiLevelData } from '../multi-level-dialog/interface/multi-level-dialog.types';
-import { GPTRoomSetting } from 'app/models/gpt-room-setting';
+import { GPTRoomSetting, GPTRoomUsageTime } from 'app/models/gpt-room-setting';
 import { Data } from './gpt-room-settings.multi-level';
 import { GPTRoomSettingAPI, GptService } from 'app/services/http/gpt.service';
 import { RoomService } from 'app/services/http/room.service';
 import { SessionService } from 'app/services/util/session.service';
+import { DialogRef } from '@angular/cdk/dialog';
 
 export const saveSettings = (
   injector: Injector,
@@ -14,10 +15,9 @@ export const saveSettings = (
   previous: Data,
 ): Observable<GPTRoomSetting> => {
   // Q1
-  const apiKey = answers.gptInfo.value['apiCode'];
-  const apiOrg = answers.gptInfo.value['apiOrganization'];
-
-  console.log('done with Q1');
+  const apiKey = answers.gptInfo?.value['apiCode'];
+  const apiOrg = answers.gptInfo?.value['apiOrganization'];
+  const apiVoucher = answers.gptInfoVoucher?.value['voucher'];
 
   // Q2
   const roomQuota = answers.roomQuota.value['total'];
@@ -25,25 +25,18 @@ export const saveSettings = (
   const roomQuotaMonthlyFlowing = answers.roomQuota.value['monthlyFlowing'];
   const roomQuotaDaily = answers.roomQuota.value['daily'];
 
-  console.log('done with Q2');
-
   // Q3
   const moderatorQuota = answers.moderatorQuota.value['total'];
   const moderatorQuotaMonthly = answers.moderatorQuota.value['monthly'];
   const moderatorQuotaMonthlyFlowing =
     answers.moderatorQuota.value['monthlyFlowing'];
   const moderatorQuotaDaily = answers.moderatorQuota.value['daily'];
-
-  console.log('done with Q3');
-
   // Q4
   const participantQuota = answers.participantQuota.value['total'];
   const participantQuotaMonthly = answers.participantQuota.value['monthly'];
   const participantQuotaMonthlyFlowing =
     answers.participantQuota.value['monthlyFlowing'];
   const participantQuotaDaily = answers.participantQuota.value['daily'];
-
-  console.log('done with Q4');
 
   // Q5
 
@@ -54,8 +47,6 @@ export const saveSettings = (
     answers.miscellaneousSettings.value['allowAnswerWithoutPreset'];
   const onlyAnswerWhenCalled =
     answers.miscellaneousSettings.value['onlyAnswerWhenCalled'];
-
-  console.log('done with Q6');
 
   // Q7
   const moderatorCanChangeRoomQuota =
@@ -71,10 +62,68 @@ export const saveSettings = (
   const moderatorCanChangeApiSettings =
     answers.moderatorPermissions.value['canChangeApiSettings'];
 
-  console.log('done with Q7');
-
   const verify = (v: number) => (v ? Math.round(v) : v);
   const patch: Partial<GPTRoomSettingAPI> = {};
+
+  if (apiKey !== previous.GPTSettings.apiKey) {
+    patch.apiKey = apiKey;
+  }
+  if (apiOrg !== previous.GPTSettings.apiOrganization) {
+    patch.apiOrganization = apiOrg;
+  }
+  if (apiVoucher !== previous.GPTSettings.trialCode?.code) {
+    /* patch wert existiert nicht */
+    console.error("Api Voucher was not patched");
+  }
+
+  let cost = verify(roomQuota);
+  if (cost !== previous.GPTSettings.maxAccumulatedRoomCost) {
+    patch.maxAccumulatedRoomCost = cost;
+  }
+  cost = verify(roomQuotaMonthly);
+  if (cost !== previous.GPTSettings.maxMonthlyRoomCost) {
+    patch.maxMonthlyRoomCost = cost;
+  }
+  cost = verify(roomQuotaMonthlyFlowing);
+  if (cost !== previous.GPTSettings.maxMonthlyFlowingRoomCost) {
+    patch.maxMonthlyFlowingRoomCost = cost;
+  }
+  cost = verify(roomQuotaDaily);
+  if (cost !== previous.GPTSettings.maxDailyRoomCost) {
+    patch.maxDailyRoomCost = cost;
+  }
+  cost = verify(moderatorQuota);
+  if (cost !== previous.GPTSettings.maxAccumulatedModeratorCost) {
+    patch.maxAccumulatedModeratorCost = cost;
+  }
+  cost = verify(moderatorQuotaMonthly);
+  if (cost !== previous.GPTSettings.maxMonthlyModeratorCost) {
+    patch.maxMonthlyModeratorCost = cost;
+  }
+  cost = verify(moderatorQuotaMonthlyFlowing);
+  if (cost !== previous.GPTSettings.maxMonthlyFlowingModeratorCost) {
+    patch.maxMonthlyFlowingModeratorCost = cost;
+  }
+  cost = verify(moderatorQuotaDaily);
+  if (cost !== previous.GPTSettings.maxDailyModeratorCost) {
+    patch.maxDailyModeratorCost = cost;
+  }
+  cost = verify(participantQuota);
+  if (cost !== previous.GPTSettings.maxAccumulatedParticipantCost) {
+    patch.maxAccumulatedParticipantCost = cost;
+  }
+  cost = verify(participantQuotaMonthly);
+  if (cost !== previous.GPTSettings.maxMonthlyParticipantCost) {
+    patch.maxMonthlyParticipantCost = cost;
+  }
+  cost = verify(participantQuotaMonthlyFlowing);
+  if (cost !== previous.GPTSettings.maxMonthlyFlowingParticipantCost) {
+    patch.maxMonthlyFlowingParticipantCost = cost;
+  }
+  cost = verify(participantQuotaDaily);
+  if (cost !== previous.GPTSettings.maxDailyParticipantCost) {
+    patch.maxDailyParticipantCost = cost;
+  }
 
   let rights = 0;
   if (moderatorCanChangeParticipantQuota) {
@@ -105,27 +154,12 @@ export const saveSettings = (
     rights |= 0x1 << 8;
   }
 
-  patch.rightsBitset = rights;
-  patch.apiKey = apiKey;
-  patch.apiOrganization = apiOrg;
-  patch.maxDailyRoomCost = verify(roomQuotaDaily);
-  patch.maxMonthlyRoomCost = verify(roomQuotaMonthly);
-  patch.maxMonthlyFlowingRoomCost = verify(roomQuotaMonthlyFlowing);
-  patch.maxAccumulatedRoomCost = verify(roomQuota);
-  patch.maxDailyModeratorCost = verify(moderatorQuotaDaily);
-  patch.maxMonthlyModeratorCost = verify(moderatorQuotaMonthly);
-  patch.maxMonthlyFlowingModeratorCost = verify(moderatorQuotaMonthlyFlowing);
-  patch.maxAccumulatedModeratorCost = verify(moderatorQuota);
-  patch.maxDailyParticipantCost = verify(participantQuotaDaily);
-  patch.maxMonthlyParticipantCost = verify(participantQuotaMonthly);
-  patch.maxMonthlyFlowingParticipantCost = verify(
-    participantQuotaMonthlyFlowing,
+  if (rights !== previous.GPTSettings.rightsBitset) {
+    patch.rightsBitset = rights;
+  }
+
+  return injector.get(GptService).patchRoomSetting(
+    previous.roomID,
+    patch,
   );
-  patch.maxAccumulatedParticipantCost = verify(participantQuota);
-
-  console.log('hier');
-
-  const gptService = injector.get(GptService);
-
-  return gptService.patchRoomSetting(previous.roomID, patch);
 };

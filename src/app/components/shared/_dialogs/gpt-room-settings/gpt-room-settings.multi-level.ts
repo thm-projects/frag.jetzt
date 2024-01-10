@@ -5,6 +5,8 @@ import {
 } from '../multi-level-dialog/interface/multi-level-dialog.types';
 import { GptService } from 'app/services/http/gpt.service';
 import { GPTRoomSetting } from 'app/models/gpt-room-setting';
+import { AccountStateService } from 'app/services/state/account-state.service';
+import { map, take, tap } from 'rxjs';
 
 export interface Data {
   roomID: string;
@@ -15,11 +17,48 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
   title: 'ml-gpt-room-settings.title',
   questions: [
     {
+      tag: 'gptSetup',
+      title: 'ml-gpt-room-settings.q-api-setup',
+      stepHelp: 'ml-gpt-room-settings.help.select-openai-setup',
+      active: (_answers, injector) => {
+        return injector.get(AccountStateService).user$.pipe(
+          take(1),
+          map((user) => user && !user.isGuest),
+        )
+      },
+      buildAction(_injector, _answers, previousState, data) {
+        console.log(data);
+        if (previousState) return previousState;
+        return buildInput(
+          this,
+          {
+            type: 'text',
+            value: 'ml-gpt-room-settings.l-api-choice',
+          },
+          {
+            type: 'radio-select',
+            tag: 'setupType',
+            label: 'ml-gpt-room-settings.r-api-short',
+            defaultValue: data.GPTSettings.trialEnabled ? 'apiVoucher' : 'apiCode',
+            options: [
+              { value: 'apiCode', label: 'ml-gpt-room-settings.r-api-choice-key' },
+              { value: 'apiVoucher', label: 'ml-gpt-room-settings.r-api-choice-voucher' },
+            ],
+            validators: [Validators.required],
+            errorStates: {
+              required: 'ml-room-create.e-p2-required',
+            },
+          },
+        );
+      },
+    },
+    {
       tag: 'gptInfo',
       title: 'ml-gpt-room-settings.q-api-title',
       stepHelp: 'ml-gpt-room-settings.help.api-title-help',
-      buildAction(_injector, _answers, previousState) {
-        if (previousState) return previousState;
+      active: (answers) =>
+        answers.gptSetup && answers.gptSetup.value.setupType === 'apiCode',
+      buildAction(_injector, _answers, previousState, data) {
         return buildInput(
           this,
           {
@@ -30,9 +69,10 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
             type: 'text-input',
             tag: 'apiCode',
             label: 'ml-gpt-room-settings.l-api-code',
+            defaultValue: data.GPTSettings.apiKey,
             hidden: true,
             validators: [
-              //Validators.required,
+              Validators.required,
               Validators.pattern('sk-[a-zA-Z0-9]+'),
             ],
             errorStates: {
@@ -44,6 +84,7 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
             type: 'text-input',
             tag: 'apiOrganization',
             label: 'ml-gpt-room-settings.l-api-org',
+            defaultValue: data.GPTSettings.apiOrganization,
             validators: [Validators.pattern('org-[a-zA-Z0-9]+')],
             errorStates: {
               pattern: 'ml-gpt-room-settings.errors.pattern-api-org',
@@ -53,10 +94,38 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
       },
     },
     {
+      tag: 'gptInfoVoucher',
+      title: 'ml-gpt-room-settings.q-api-title',
+      stepHelp: 'ml-gpt-room-settings.help.api-title-help',
+      active: (answers) =>
+        answers.gptSetup && answers.gptSetup.value.setupType === 'apiVoucher',
+      /* sag ruben bescheid: previousstate ist verbuggt (1->2->1->2 (kein rebuild)) */
+      buildAction(_injector, _answers, previousState, data) {
+        return buildInput(
+          this,
+          {
+            type: 'text',
+            value: 'ml-gpt-room-settings.q-api-title-2',
+          },
+          {
+            type: 'text-input',
+            tag: 'voucher',
+            defaultValue: data.GPTSettings.trialCode?.code,
+            hidden: true,
+            label: 'ml-gpt-room-settings.l-api-voucher',
+            validators: [Validators.required],
+            errorStates: {
+              required: 'ml-room-create.e-p4-required',
+            },
+          },
+        );
+      },
+    },
+    {
       tag: 'roomQuota',
       title: 'ml-gpt-room-settings.q-room-quota',
+      stepHelp: 'ml-gpt-room-settings.help.api-title-help',
       buildAction(_injector, _answers, previousState, data) {
-        console.log(_answers);
         if (previousState) return previousState;
         return buildInput(
           this,
@@ -112,6 +181,7 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
     {
       tag: 'moderatorQuota',
       title: 'ml-gpt-room-settings.q-moderator-quota',
+      stepHelp: 'ml-gpt-room-settings.help.api-title-help',
       buildAction(_injector, _answers, previousState, data) {
         if (previousState) return previousState;
         return buildInput(
@@ -168,6 +238,7 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
     {
       tag: 'participantQuota',
       title: 'ml-gpt-room-settings.q-participant-quota',
+      stepHelp: 'ml-gpt-room-settings.help.api-title-help',
       buildAction(_injector, _answers, previousState, data) {
         if (previousState) return previousState;
         return buildInput(
@@ -225,17 +296,20 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
     {
       tag: 'usageTime',
       title: 'ml-gpt-room-settings.q-periods-of-use',
+      stepHelp: 'ml-gpt-room-settings.help.api-title-help',
       buildAction(_injector, _answers, previousState) {
         if (previousState) return previousState;
         return buildInput(this, {
-          type: 'text',
-          value: 'Hallo Welt',
-        });
+          tag: "test",
+          type: 'date-input',
+        }
+        );
       },
     },
     {
       tag: 'miscellaneousSettings',
       title: 'ml-gpt-room-settings.q-miscellaneous-settings',
+      stepHelp: 'ml-gpt-room-settings.help.api-title-help',
       buildAction(_injector, _answers, previousState, data) {
         if (previousState) return previousState;
         return buildInput(
@@ -264,6 +338,7 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
     {
       tag: 'moderatorPermissions',
       title: 'ml-gpt-room-settings.q-moderator-permissions',
+      stepHelp: 'ml-gpt-room-settings.help.api-title-help',
       buildAction(_injector, _answers, previousState, data) {
         if (previousState) return previousState;
         return buildInput(
