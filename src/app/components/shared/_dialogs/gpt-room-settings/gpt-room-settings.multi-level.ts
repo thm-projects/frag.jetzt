@@ -7,6 +7,11 @@ import { GptService } from 'app/services/http/gpt.service';
 import { GPTRoomSetting } from 'app/models/gpt-room-setting';
 import { AccountStateService } from 'app/services/state/account-state.service';
 import { map, take, tap } from 'rxjs';
+import { KeycloakRoles, User } from 'app/models/user';
+import { UserRole } from 'app/models/user-roles.enum';
+import { RoomAccess } from 'app/services/persistence/lg/db-room-acces.model';
+import { RoomAccessRole } from 'app/models/client-authentication';
+import { RoomStateService } from 'app/services/state/room-state.service';
 
 export interface Data {
   roomID: string;
@@ -27,7 +32,6 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
         )
       },
       buildAction(_injector, _answers, previousState, data) {
-        console.log(data);
         if (previousState) return previousState;
         return buildInput(
           this,
@@ -56,8 +60,18 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
       tag: 'gptInfo',
       title: 'ml-gpt-room-settings.q-api-title',
       stepHelp: 'ml-gpt-room-settings.help.api-title-help',
-      active: (answers) =>
-        answers.gptSetup && answers.gptSetup.value.setupType === 'apiCode',
+      active: (answers, injector) => {
+        let roomSID;
+        injector.get(RoomStateService).roomShortId$.pipe(
+          take(1),
+          tap((_roomSID) => {
+            roomSID = _roomSID;
+          }),
+          ).subscribe();
+
+        return (answers.gptSetup && answers.gptSetup.value.setupType === 'apiCode') 
+        && injector.get(AccountStateService).hasAccess(roomSID, UserRole.CREATOR);
+      },
       buildAction(_injector, _answers, previousState, data) {
         return buildInput(
           this,
@@ -114,6 +128,29 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
             hidden: true,
             label: 'ml-gpt-room-settings.l-api-voucher',
             validators: [Validators.required],
+            errorStates: {
+              required: 'ml-room-create.e-p4-required',
+            },
+          },
+        );
+      },
+    },  
+    {
+      tag: 'gptModel',
+      title: 'ml-gpt-room-settings.q-api-title',
+      stepHelp: 'ml-gpt-room-settings.help.api-title-help',
+      buildAction(_injector, _answers, previousState, data) {
+        return buildInput(
+          this,
+          {
+            type: 'text',
+            value: 'ml-gpt-room-settings.q-api-title-2',
+          },
+          {
+            type: 'select-input',
+            tag: 'model',
+            label: 'ml-gpt-room-settings.l-api-voucher',
+            options: _injector.get(GptService).getModels(),
             errorStates: {
               required: 'ml-room-create.e-p4-required',
             },
@@ -194,7 +231,7 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
               step: 0.01,
             },
             defaultValue:
-              data.GPTSettings.maxAccumulatedModeratorCost?.toString(),
+              data.GPTSettings.maxAccumulatedModeratorCost?.toString() || '20',
             tag: 'total',
             label: 'ml-gpt-room-settings.l-total-cost-limit',
           },
@@ -251,7 +288,7 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
               step: 0.01,
             },
             defaultValue:
-              data.GPTSettings.maxAccumulatedParticipantCost?.toString(),
+              data.GPTSettings.maxAccumulatedParticipantCost?.toString() || '20',
             tag: 'total',
             label: 'ml-gpt-room-settings.l-total-cost-limit',
           },

@@ -749,7 +749,7 @@
     "r-api-choice-key": "Mit API Key",
     "r-api-choice-voucher": "Mit Voucher",
     "help-api-setup": "Um ChatGPT zu aktivieren, musst du einen API Key von OpenAI eingeben. Diesen erhältst du, wenn du dich auf der Website von OpenAI registrierst.",    
-    "q-api-title": "API Schlüssel",
+    "q-api-title": "API Schlüssel & Organisation",
     "l-api-code": "API Code",
     "l-api-org": "API Organisation",
     "q-api-title-2": "API Voucher",

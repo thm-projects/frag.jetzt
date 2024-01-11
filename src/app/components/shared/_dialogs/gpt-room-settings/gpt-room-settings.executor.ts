@@ -19,6 +19,9 @@ export const saveSettings = (
   const apiOrg = answers.gptInfo?.value['apiOrganization'];
   const apiVoucher = answers.gptInfoVoucher?.value['voucher'];
 
+  const test = answers.gptModel;
+  console.log(test);
+
   // Q2
   const roomQuota = answers.roomQuota.value['total'];
   const roomQuotaMonthly = answers.roomQuota.value['monthly'];

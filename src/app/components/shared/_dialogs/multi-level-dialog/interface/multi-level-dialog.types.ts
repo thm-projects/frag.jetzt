@@ -6,7 +6,9 @@ import { MultiLevelSwitchComponent } from '../multi-level-switch/multi-level-swi
 import { MultiLevelTextComponent } from '../multi-level-text/multi-level-text.component';
 import { Observable } from 'rxjs';
 import { MultiLevelQuotaInputComponent } from '../multi-level-quota-input/multi-level-quota-input.component';
-import { MultiLevelDateInputComponent } from '../../multi-level-date-input/multi-level-date-input.component';
+import { MultiLevelDateInputComponent } from '../multi-level-date-input/multi-level-date-input.component';
+import { MultiLevelSelectInputComponent } from '../multi-level-select-input/multi-level-select-input.component';
+import { Model } from 'app/services/http/gpt.service';
 
 export type AnsweredMultiLevelData = Record<string, FormGroup>;
 
@@ -73,6 +75,14 @@ export interface TextInputAction extends BaseAction {
   hidden?: boolean;
 }
 
+export interface SelectInputAction extends BaseAction {
+  type: 'select-input';
+  defaultValue?: string;
+  placeholder?: string;
+  hidden?: boolean;
+  options: Model[];
+}
+
 export interface QuotaInputAction extends BaseAction {
   type: 'quota-input';
   defaultValue?: string;
@@ -103,7 +113,8 @@ export type MultiLevelAction =
   | SwitchAction
   | TextInputAction
   | QuotaInputAction
-  | DateInputAction;
+  | DateInputAction
+  | SelectInputAction;
 
 export type BuiltAction<T> = T & {
   control: FormControl;
@@ -121,6 +132,7 @@ const MAPPER: { [key in MultiLevelAction['type']]: any } = {
   'text-input': MultiLevelTextInputComponent,
   'quota-input': MultiLevelQuotaInputComponent,
   'date-input': MultiLevelDateInputComponent,
+  'select-input': MultiLevelSelectInputComponent,
   text: MultiLevelTextComponent,
 };
 

@@ -159,7 +159,8 @@ import { HelpRoomCreateDeComponent } from './_dialogs/room-create/help-room-crea
 import { HelpRoomCreateEnComponent } from './_dialogs/room-create/help-room-create/help-room-create-en/help-room-create-en.component';
 import { HelpRoomCreateFrComponent } from './_dialogs/room-create/help-room-create/help-room-create-fr/help-room-create-fr.component';
 import { MultiLevelQuotaInputComponent } from './_dialogs/multi-level-dialog/multi-level-quota-input/multi-level-quota-input.component';
-import { MultiLevelDateInputComponent } from './_dialogs/multi-level-date-input/multi-level-date-input.component';
+import { MultiLevelDateInputComponent } from './_dialogs/multi-level-dialog/multi-level-date-input/multi-level-date-input.component';
+import { MultiLevelSelectInputComponent } from './_dialogs/multi-level-dialog/multi-level-select-input/multi-level-select-input.component';
 
 @NgModule({
   imports: [
@@ -322,6 +323,7 @@ import { MultiLevelDateInputComponent } from './_dialogs/multi-level-date-input/
     HelpRoomCreateFrComponent,
     MultiLevelQuotaInputComponent,
     MultiLevelDateInputComponent,
+    MultiLevelSelectInputComponent,
   ],
   exports: [
     RoomJoinComponent,
