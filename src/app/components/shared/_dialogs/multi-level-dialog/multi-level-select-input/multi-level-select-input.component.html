@@ -1,6 +1,6 @@
 <mat-form-field>
-    <mat-select>
-        <mat-option *ngFor="let option of data.options" [value]="option.name">
+    <mat-select [formControl]="data.control">
+        <mat-option *ngFor="let option of data.options" [value]="option.name" >
             {{option.name | translate}}
         </mat-option>
     </mat-select>

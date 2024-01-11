@@ -321,7 +321,12 @@
     "gpt-chat": "KI StudyBuddy",
     "gpt-brainstorming": "Lass ChatGPT brainstormen!",
     "gpt-privacy-policy": "ChatGPT-Datenschutzrichtlinie",
-    "gpt-prompts": "Meine ChatGPT-Prompts"
+    "gpt-prompts": "Meine ChatGPT-Prompts",
+    "ple": {
+      "questionwall": "Topic-Fokus",
+      "back-to-questionboard": "Topic-Forum",
+      "tag-cloud": "Topic-Radar"
+    }
   },
   "gpt-chat": {
     "optin-accept": "Akzeptieren",

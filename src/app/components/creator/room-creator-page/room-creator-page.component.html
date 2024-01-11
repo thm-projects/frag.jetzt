@@ -88,7 +88,7 @@
       <button
         id="gavel-button"
         mat-icon-button
-        *ngIf="moderationEnabled"
+        *ngIf="moderationEnabled && room.mode === 'ARS'"
         [disableRipple]="true"
         routerLink="/creator/room/{{ room.shortId }}/moderator/comments"
         aria-labelledby="gavel">

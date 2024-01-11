@@ -581,7 +581,12 @@
     "feedback": "Feedback-Raum",
     "logout": "Abmelden",
     "livepoll": "Blitzumfrage",
-    "livepoll-button": "Umfrage erstellen und alle Personen im Raum automatisch benachrichtigen."
+    "livepoll-button": "Umfrage erstellen und alle Personen im Raum automatisch benachrichtigen.",
+    "ple": {
+      "questionwall": "Topic-testing",
+      "back-to-questionboard": "hii",
+      "tag-cloud": "Topic-Radar"
+    }
   },
   "topic-cloud-filter": {
     "info-no-keywords": "Unsere KI-basierte Textanalyse kann Stichwörter ermitteln. Analyse starten?",

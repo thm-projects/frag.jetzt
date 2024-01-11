@@ -32,6 +32,7 @@ export class Room {
   tags: string[];
   brainstormingSession: BrainstormingSession;
   livepollSession: LivepollSession;
+  mode: 'ARS' | 'PLE';
 
   constructor({
     id = null,
@@ -62,6 +63,7 @@ export class Room {
     tags = [],
     brainstormingSession = null,
     livepollSession = null,
+
   }: Partial<FieldsOf<Room>>) {
     this.id = id;
     this.ownerId = ownerId;
@@ -94,6 +96,7 @@ export class Room {
       brainstormingSession,
     );
     this.livepollSession = verifyInstance(LivepollSession, livepollSession);
+    this.mode = 'PLE';
   }
 }
 

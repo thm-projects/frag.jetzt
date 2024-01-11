@@ -69,6 +69,7 @@ import { saveSettings } from '../_dialogs/gpt-room-settings/gpt-room-settings.ex
 })
 export class RoomPageComponent implements OnInit, OnDestroy {
   room: Room = null;
+  isPle: boolean = false;
   user: User = null;
   isLoading = true;
   commentCounter: number;
@@ -126,6 +127,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.initializeRoom();
+    this.isPle = this.room.mode === 'PLE';
   }
 
   ngOnDestroy() {
@@ -514,7 +516,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
           isSVGIcon: false,
           text: 'header.moderation-mode',
           callback: () => this.showCommentsDialog(),
-          condition: () => this.userRole > UserRole.PARTICIPANT,
+          condition: () => this.userRole > UserRole.PARTICIPANT && this.room.mode === 'ARS',
         });
         e.menuItem({
           translate: this.headerService.getTranslate(),

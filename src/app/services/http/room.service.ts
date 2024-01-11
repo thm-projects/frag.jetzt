@@ -247,7 +247,7 @@ export class RoomService extends BaseHttpService {
   }
 
   private parseRoom(room: RoomAPI): Room {
-    const newRoom = room as unknown as Room;
+    const newRoom = new Room(room as unknown as Room);
     newRoom.description = QuillUtils.deserializeDelta(room.description, true);
     if (newRoom.brainstormingSession?.ideasEndTimestamp) {
       newRoom.brainstormingSession.ideasEndTimestamp = new Date(

@@ -321,7 +321,12 @@
     "gpt-chat": "StudyBuddy IA",
     "gpt-brainstorming": "Laisser ChatGPT brainstormer",
     "gpt-privacy-policy": "Protection des données",
-    "gpt-prompts": "Mes prompts ChatGPT"
+    "gpt-prompts": "Mes prompts ChatGPT",
+    "ple": {
+      "questionwall": "Focus de Sujet",
+      "back-to-questionboard": "Forum de Sujet",
+      "tag-cloud": "Radar de Sujet"
+    }
   },
   "gpt-chat": {
     "optin-accept": "Accepter",

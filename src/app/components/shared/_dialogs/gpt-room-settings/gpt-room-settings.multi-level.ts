@@ -6,7 +6,7 @@ import {
 import { GptService } from 'app/services/http/gpt.service';
 import { GPTRoomSetting } from 'app/models/gpt-room-setting';
 import { AccountStateService } from 'app/services/state/account-state.service';
-import { map, take, tap } from 'rxjs';
+import { forkJoin, map, merge, take, tap } from 'rxjs';
 import { KeycloakRoles, User } from 'app/models/user';
 import { UserRole } from 'app/models/user-roles.enum';
 import { RoomAccess } from 'app/services/persistence/lg/db-room-acces.model';
@@ -61,16 +61,19 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
       title: 'ml-gpt-room-settings.q-api-title',
       stepHelp: 'ml-gpt-room-settings.help.api-title-help',
       active: (answers, injector) => {
-        let roomSID;
-        injector.get(RoomStateService).roomShortId$.pipe(
-          take(1),
-          tap((_roomSID) => {
-            roomSID = _roomSID;
+        return forkJoin([
+          injector.get(AccountStateService).user$.pipe(
+            take(1),
+          ),
+          injector.get(RoomStateService).room$.pipe(
+            take(1),
+          ),]
+        ).pipe(
+          map(([user, room]) => {
+            return user?.id === room?.ownerId
+            && answers.gptSetup && answers.gptSetup.value.setupType === 'apiCode';
           }),
-          ).subscribe();
-
-        return (answers.gptSetup && answers.gptSetup.value.setupType === 'apiCode') 
-        && injector.get(AccountStateService).hasAccess(roomSID, UserRole.CREATOR);
+        );
       },
       buildAction(_injector, _answers, previousState, data) {
         return buildInput(
@@ -113,7 +116,6 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
       stepHelp: 'ml-gpt-room-settings.help.api-title-help',
       active: (answers) =>
         answers.gptSetup && answers.gptSetup.value.setupType === 'apiVoucher',
-      /* sag ruben bescheid: previousstate ist verbuggt (1->2->1->2 (kein rebuild)) */
       buildAction(_injector, _answers, previousState, data) {
         return buildInput(
           this,
