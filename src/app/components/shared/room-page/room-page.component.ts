@@ -516,7 +516,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
           isSVGIcon: false,
           text: 'header.moderation-mode',
           callback: () => this.showCommentsDialog(),
-          condition: () => this.userRole > UserRole.PARTICIPANT && this.room.mode === 'ARS',
+          condition: () => this.userRole > UserRole.PARTICIPANT && this.isPle,
         });
         e.menuItem({
           translate: this.headerService.getTranslate(),

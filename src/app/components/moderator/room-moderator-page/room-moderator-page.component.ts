@@ -13,7 +13,6 @@ import { KeyboardKey } from '../../../utils/keyboard/keys';
   ]
 })
 export class RoomModeratorPageComponent extends RoomPageComponent implements OnInit, OnDestroy, AfterContentInit, AfterViewInit {
-
   constructor(
     private liveAnnouncer: LiveAnnouncer,
     private _r: Renderer2,

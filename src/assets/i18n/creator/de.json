@@ -583,8 +583,8 @@
     "livepoll": "Blitzumfrage",
     "livepoll-button": "Umfrage erstellen und alle Personen im Raum automatisch benachrichtigen.",
     "ple": {
-      "questionwall": "Topic-testing",
-      "back-to-questionboard": "hii",
+      "questionwall": "Topic-Fokus",
+      "back-to-questionboard": "Topic-Forum",
       "tag-cloud": "Topic-Radar"
     }
   },
@@ -601,7 +601,16 @@
     "from-now-short": "Nur Fragen ab jetzt",
     "create": "Weiter",
     "cancel": "Abbrechen",
-    "questions-title": "Welche Fragen willst du auf dem Radar haben?"
+    "questions-title": "Welche Fragen willst du auf dem Radar haben?",
+    "ple": {
+      "questions-title": "Welche Topics willst du auf dem Radar haben?",
+      "all-questions-and-answers": "Alle Topics mit Antworten",
+      "all-questions-and-answers-short": "Alle Topics mit Antworten",
+      "only-questions": "Nur Topics",
+      "only-questions-short": "Nur Topics",
+      "from-now": "Nur Topics ab jetzt",
+      "from-now-short": "Nur Topics ab jetzt"
+    }
   },
   "home-page": {
     "create-session": "Neue Sitzung",
@@ -958,7 +967,11 @@
     "tokens-deleted": "Alle Codes dieser Sitzung wurden gelöscht.",
     "update": "Speichern",
     "update-description": "Speichert die Änderungen",
-    "words-will-be-overwritten": "Vulgäre Wörter werden mit ★★★★ überschrieben."
+    "words-will-be-overwritten": "Vulgäre Wörter werden mit ★★★★ überschrieben.",
+    "ple": {
+      "comments": "Topics erstellen!",
+      "comments-and-answers": "Zum Topic-Forum"
+    }
   },
   "gptrating": {
     "title": "Bewertung zu ChatGPT in frag.jetzt",

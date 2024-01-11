@@ -883,7 +883,16 @@
     "from-now-short": "Nur Fragen ab jetzt",
     "create": "Weiter",
     "cancel": "Abbrechen",
-    "questions-title": "Welche Fragen willst du auf dem Radar haben?"
+    "questions-title": "Welche Fragen willst du auf dem Radar haben?",
+    "ple": {
+      "questions-title": "Welche Topics willst du auf dem Radar haben?",
+      "all-questions-and-answers": "Alle Topics mit Antworten",
+      "all-questions-and-answers-short": "Alle Topics mit Antworten",
+      "only-questions": "Nur Topics",
+      "only-questions-short": "Nur Topics",
+      "from-now": "Nur Topics ab jetzt",
+      "from-now-short": "Nur Topics ab jetzt"
+    }
   },
   "unsupported-browser": {
     "body": "Leider unterstützt der Safari-Browser nicht alle Funktionen des CSS-Standards, die für die »Fragenfokus«- und »Vollbild- & Textskalierung«-Funktionen benötigt werden. Wir empfehlen deshalb, Google Chrome oder Microsoft Edge zu verwenden.",

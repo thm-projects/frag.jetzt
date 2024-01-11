@@ -1,5 +1,7 @@
 <mat-dialog-content>
-  <h3>{{ "topic-cloud-filter.questions-title" | translate }}</h3>
+  <h3>{{ room.mode === 'ARS' 
+    ? ("topic-cloud-filter.questions-title" | translate) 
+    : ("topic-cloud-filter.ple.questions-title" | translate) }}</h3>
 
   <span
     *ngIf="isTopicRequirementActive"
@@ -28,12 +30,16 @@
           <div
             class="elementText"
             *ngIf="isMobile">
-            {{ "topic-cloud-filter." + radioTyp + "-short" | translate }}
-          </div>
+            {{ room.mode === 'ARS'
+            ? ("topic-cloud-filter." + radioTyp + "-short" | translate)
+            :  ("topic-cloud-filter.ple." + radioTyp + "-short" | translate) }}
+          </div> 
           <div
             class="elementText"
             *ngIf="!isMobile">
-            {{ "topic-cloud-filter." + radioTyp | translate }}
+            {{  room.mode === 'ARS'
+            ? ("topic-cloud-filter." + radioTyp | translate)
+            : "topic-cloud-filter.ple." + radioTyp | translate }}
           </div>
           <div
             class="elementIcons"
