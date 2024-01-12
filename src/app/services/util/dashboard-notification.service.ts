@@ -8,9 +8,9 @@ import {
 import { WsCommentChangeService } from '../websockets/ws-comment-change.service';
 import { CommentChangeService } from '../http/comment-change.service';
 import { UnloadService } from './unload.service';
-import { Observable, Subject, Subscription, tap, throwError } from 'rxjs';
+import { Observable, Subject, Subscription, of, tap, throwError } from 'rxjs';
 import { IMessage } from '@stomp/stompjs';
-import { filter, takeUntil } from 'rxjs/operators';
+import { concatMap, filter, takeUntil } from 'rxjs/operators';
 import { SessionService } from './session.service';
 import { AccountStateService } from '../state/account-state.service';
 import {
@@ -254,6 +254,10 @@ export class DashboardNotificationService {
         () => new Error('Already subscribed or currently subscribing!'),
       );
     }
+    let pre: Observable<unknown> = of(1);
+    if (!this.hasRoomSubscription(roomId)) {
+      pre = this.addRoomSubscription(roomId, 0, 0);
+    }
     const createPayload: PushCommentSubscriptionCreate = {
       roomId,
       commentId,
@@ -266,18 +270,20 @@ export class DashboardNotificationService {
         .pipe(takeUntil(this.invalidator))
         .subscribe(this.pushNotification.bind(this)),
     };
-    return this.changeSubscriptionService
-      .createCommentSubscription(createPayload)
-      .pipe(
-        tap({
-          next: (info) =>
-            (this.commentSubscriptions[commentId].subscription = info),
-          error: () => {
-            this.commentSubscriptions[commentId].stream.unsubscribe();
-            this.commentSubscriptions[commentId] = undefined;
-          },
-        }),
-      );
+    return pre.pipe(
+      concatMap(() =>
+        this.changeSubscriptionService.createCommentSubscription(createPayload),
+      ),
+      tap({
+        next: (info) => {
+          this.commentSubscriptions[commentId].subscription = info;
+        },
+        error: () => {
+          this.commentSubscriptions[commentId].stream.unsubscribe();
+          this.commentSubscriptions[commentId] = undefined;
+        },
+      }),
+    );
   }
 
   deleteCommentSubscription(commentId: UUID): Observable<any> {
@@ -384,7 +390,6 @@ export class DashboardNotificationService {
     }
     this._notifications.length = 0;
     this._filteredNotifications.length = 0;
-    this._lastChanges = new Date(0);
     this.invalidator.next(true);
   }
 
