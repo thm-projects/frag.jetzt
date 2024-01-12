@@ -6,17 +6,22 @@ import {
   CommentChangeType,
 } from '../../models/comment-change';
 import { WsCommentChangeService } from '../websockets/ws-comment-change.service';
-import {
-  CommentChangeService,
-  CommentChangeSubscription,
-  RoomCommentChangeSubscription,
-} from '../http/comment-change.service';
+import { CommentChangeService } from '../http/comment-change.service';
 import { UnloadService } from './unload.service';
-import { Observable, Subscription, tap, throwError } from 'rxjs';
+import { Observable, Subject, Subscription, tap, throwError } from 'rxjs';
 import { IMessage } from '@stomp/stompjs';
-import { filter } from 'rxjs/operators';
+import { filter, takeUntil } from 'rxjs/operators';
 import { SessionService } from './session.service';
 import { AccountStateService } from '../state/account-state.service';
+import {
+  ChangeSubscriptionService,
+  DEFAULT_INTEREST,
+  PushCommentSubscription,
+  PushCommentSubscriptionCreate,
+  PushRoomSubscription,
+  PushRoomSubscriptionCreate,
+} from '../http/change-subscription.service';
+import { UUID } from 'app/utils/ts-utils';
 
 const loadNotifications = (): NotificationEvent[] => {
   const arr = JSON.parse(
@@ -27,13 +32,6 @@ const loadNotifications = (): NotificationEvent[] => {
   });
   return arr;
 };
-
-interface IdSubscriptionMapper<T> {
-  [key: string]: {
-    subscription: Subscription;
-    information: T;
-  };
-}
 
 export enum DashboardFilter {
   QuestionPublished = 'QuestionPublished',
@@ -58,6 +56,7 @@ type DashboardFilterObject = {
 })
 export class DashboardNotificationService {
   public isNotificationBlocked: boolean = false;
+  private invalidator = new Subject();
   private _lastChanges = new Date(
     Number(localStorage.getItem('dashboard-notification-time')),
   );
@@ -65,10 +64,18 @@ export class DashboardNotificationService {
   private _notifications = loadNotifications();
   private _filteredNotifications: NotificationEvent[] = [];
   private _roomNotifications: NotificationEvent[] = [];
-  private _commentSubscriptions: IdSubscriptionMapper<CommentChangeSubscription> =
-    {};
-  private _roomSubscriptions: IdSubscriptionMapper<RoomCommentChangeSubscription> =
-    {};
+  private commentSubscriptions: {
+    [commentId: string]: {
+      subscription: PushCommentSubscription;
+      stream: Subscription;
+    };
+  } = {};
+  private roomSubscriptions: {
+    [roomId: string]: {
+      subscription: PushRoomSubscription;
+      stream: Subscription;
+    };
+  } = {};
   private _activeFilter: (
     notifications: NotificationEvent[],
   ) => NotificationEvent[];
@@ -142,6 +149,7 @@ export class DashboardNotificationService {
   constructor(
     private wsCommentChangeService: WsCommentChangeService,
     private commentChangeService: CommentChangeService,
+    private changeSubscriptionService: ChangeSubscriptionService,
     private unloadService: UnloadService,
     private sessionService: SessionService,
     private accountService: AccountStateService,
@@ -181,94 +189,108 @@ export class DashboardNotificationService {
   }
 
   hasCommentSubscription(commentId: string) {
-    return Boolean(this._commentSubscriptions[commentId]);
+    return Boolean(this.commentSubscriptions[commentId]);
   }
 
   hasRoomSubscription(roomId: string) {
-    return Boolean(this._roomSubscriptions[roomId]);
+    return Boolean(this.roomSubscriptions[roomId]);
   }
 
   addRoomSubscription(
-    roomId: string,
-  ): Observable<RoomCommentChangeSubscription> {
+    roomId: UUID,
+    ownCommentBits = DEFAULT_INTEREST,
+    otherCommentBits = DEFAULT_INTEREST,
+  ): Observable<PushRoomSubscription> {
     if (this.hasRoomSubscription(roomId)) {
       return throwError(
         () => new Error('Already subscribed or currently subscribing!'),
       );
     }
-    this._roomSubscriptions[roomId] = {
-      subscription: this.wsCommentChangeService
-        .getRoomStream(roomId)
-        .subscribe(this.pushNotification.bind(this)),
-      information: null,
+    const createPayload: PushRoomSubscriptionCreate = {
+      roomId,
+      ownCommentBits,
+      otherCommentBits,
     };
-    return this.commentChangeService.createRoomSubscription(roomId).pipe(
-      tap({
-        next: (info) => (this._roomSubscriptions[roomId].information = info),
-        error: () =>
-          (this._roomSubscriptions[roomId].information = {
-            roomId,
-            accountId: null,
-            id: null,
-          }),
-      }),
-    );
+    this.roomSubscriptions[roomId] = {
+      subscription: createPayload as PushRoomSubscription,
+      stream: this.wsCommentChangeService
+        .getRoomStream(roomId)
+        .pipe(takeUntil(this.invalidator))
+        .subscribe(this.pushNotification.bind(this)),
+    };
+    return this.changeSubscriptionService
+      .createRoomSubscription(createPayload)
+      .pipe(
+        tap({
+          next: (sub) => (this.roomSubscriptions[roomId].subscription = sub),
+          error: () => {
+            this.roomSubscriptions[roomId].stream.unsubscribe();
+            this.roomSubscriptions[roomId] = undefined;
+          },
+        }),
+      );
   }
 
-  deleteRoomSubscription(roomId: string): Observable<any> {
-    const data = this._roomSubscriptions[roomId];
+  deleteRoomSubscription(roomId: UUID): Observable<any> {
+    const data = this.roomSubscriptions[roomId];
     if (!data) {
       return throwError(() => new Error('No active subscription!'));
     }
-    if (!data.information) {
+    if (!data.subscription.id) {
       return throwError(() => new Error('Not activated yet'));
     }
-    this._roomSubscriptions[roomId] = undefined;
-    data.subscription.unsubscribe();
-    return this.commentChangeService.deleteRoomSubscription(roomId);
+    this.roomSubscriptions[roomId] = undefined;
+    data.stream.unsubscribe();
+    return this.changeSubscriptionService.deleteRoomSubscription(roomId);
   }
 
   addCommentSubscription(
-    roomId: string,
-    commentId: string,
-  ): Observable<CommentChangeSubscription> {
+    roomId: UUID,
+    commentId: UUID,
+    interestBits = DEFAULT_INTEREST,
+  ): Observable<PushCommentSubscription> {
     if (this.hasCommentSubscription(commentId)) {
       return throwError(
         () => new Error('Already subscribed or currently subscribing!'),
       );
     }
-    this._commentSubscriptions[commentId] = {
-      subscription: this.wsCommentChangeService
-        .getCommentStream(roomId, commentId)
-        .subscribe(this.pushNotification.bind(this)),
-      information: null,
+    const createPayload: PushCommentSubscriptionCreate = {
+      roomId,
+      commentId,
+      interestBits,
     };
-    return this.commentChangeService.createCommentSubscription(commentId).pipe(
-      tap({
-        next: (info) =>
-          (this._commentSubscriptions[commentId].information = info),
-        error: () =>
-          (this._commentSubscriptions[commentId].information = {
-            commentId,
-            roomId,
-            accountId: null,
-            id: null,
-          }),
-      }),
-    );
+    this.commentSubscriptions[commentId] = {
+      subscription: createPayload as PushCommentSubscription,
+      stream: this.wsCommentChangeService
+        .getCommentStream(roomId, commentId)
+        .pipe(takeUntil(this.invalidator))
+        .subscribe(this.pushNotification.bind(this)),
+    };
+    return this.changeSubscriptionService
+      .createCommentSubscription(createPayload)
+      .pipe(
+        tap({
+          next: (info) =>
+            (this.commentSubscriptions[commentId].subscription = info),
+          error: () => {
+            this.commentSubscriptions[commentId].stream.unsubscribe();
+            this.commentSubscriptions[commentId] = undefined;
+          },
+        }),
+      );
   }
 
-  deleteCommentSubscription(commentId: string): Observable<any> {
-    const data = this._commentSubscriptions[commentId];
+  deleteCommentSubscription(commentId: UUID): Observable<any> {
+    const data = this.commentSubscriptions[commentId];
     if (!data) {
       return throwError(() => new Error('No active comment subscription!'));
     }
-    if (!data.information) {
+    if (!data.subscription.id) {
       return throwError(() => new Error('Not activated yet'));
     }
-    this._commentSubscriptions[commentId] = undefined;
-    data.subscription.unsubscribe();
-    return this.commentChangeService.deleteCommentSubscription(commentId);
+    this.commentSubscriptions[commentId] = undefined;
+    data.stream.unsubscribe();
+    return this.changeSubscriptionService.deleteCommentSubscription(commentId);
   }
 
   deleteAll() {
@@ -354,19 +376,16 @@ export class DashboardNotificationService {
   }
 
   private cleanup() {
-    for (const key of Object.keys(this._roomSubscriptions)) {
-      const subObject = this._roomSubscriptions[key];
-      subObject.subscription.unsubscribe();
-      this._roomSubscriptions[key] = undefined;
+    for (const key of Object.keys(this.roomSubscriptions)) {
+      this.roomSubscriptions[key] = undefined;
     }
-    for (const key of Object.keys(this._commentSubscriptions)) {
-      const subObject = this._commentSubscriptions[key];
-      subObject.subscription.unsubscribe();
-      this._commentSubscriptions[key] = undefined;
+    for (const key of Object.keys(this.commentSubscriptions)) {
+      this.commentSubscriptions[key] = undefined;
     }
     this._notifications.length = 0;
     this._filteredNotifications.length = 0;
     this._lastChanges = new Date(0);
+    this.invalidator.next(true);
   }
 
   private setup() {
@@ -383,28 +402,26 @@ export class DashboardNotificationService {
         changes.sort((a, b) => Number(a.createdAt) - Number(b.createdAt));
         changes.forEach((change) => this.pushCommentChange(change));
       });
-    this.commentChangeService
+    this.changeSubscriptionService
       .getRoomSubscriptions()
       .subscribe((subscriptions) => {
         subscriptions.forEach((subscription) => {
-          this._roomSubscriptions[subscription.roomId] = {
-            subscription: this.wsCommentChangeService
+          this.roomSubscriptions[subscription.roomId] = {
+            subscription,
+            stream: this.wsCommentChangeService
               .getRoomStream(subscription.roomId)
+              .pipe(takeUntil(this.invalidator))
               .subscribe(this.pushNotification.bind(this)),
-            information: subscription,
           };
-        });
-      });
-    this.commentChangeService
-      .getCommentSubscriptions()
-      .subscribe((subscriptions) => {
-        subscriptions.forEach((subscription) => {
-          this._commentSubscriptions[subscription.commentId] = {
-            subscription: this.wsCommentChangeService
-              .getCommentStream(subscription.roomId, subscription.commentId)
-              .subscribe(this.pushNotification.bind(this)),
-            information: subscription,
-          };
+          subscription.commentSubscriptions.forEach((commentSub) => {
+            this.commentSubscriptions[commentSub.commentId] = {
+              subscription: commentSub,
+              stream: this.wsCommentChangeService
+                .getCommentStream(commentSub.roomId, commentSub.commentId)
+                .pipe(takeUntil(this.invalidator))
+                .subscribe(this.pushNotification.bind(this)),
+            };
+          });
         });
       });
   }

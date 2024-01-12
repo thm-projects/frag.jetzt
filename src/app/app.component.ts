@@ -1,10 +1,16 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  ApplicationRef,
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { SwUpdate } from '@angular/service-worker';
+import { SwPush, SwUpdate } from '@angular/service-worker';
 import { NotificationService } from './services/util/notification.service';
 import { Rescale } from './models/rescale';
 import { CustomIconService } from './services/util/custom-icon.service';
-import { filter, switchMap, tap } from 'rxjs/operators';
+import { filter, first, switchMap, take } from 'rxjs/operators';
 import { EventService } from './services/util/event.service';
 import {
   CookieDialogRequest,
@@ -34,7 +40,7 @@ import { LivepollCreateComponent } from './components/shared/_dialogs/livepoll/l
 import { LivepollSummaryComponent } from './components/shared/_dialogs/livepoll/livepoll-summary/livepoll-summary.component';
 import { LivepollPeerInstructionComparisonComponent } from './components/shared/_dialogs/livepoll/livepoll-peer-instruction/livepoll-peer-instruction-comparison/livepoll-peer-instruction-comparison.component';
 import { CookiesComponent } from './components/home/_dialogs/cookies/cookies.component';
-import { Observable, of } from 'rxjs';
+import { Observable, concat, interval, of } from 'rxjs';
 import { OverlayComponent } from './components/home/_dialogs/overlay/overlay.component';
 import { UUID } from './utils/ts-utils';
 import { DeviceStateService } from './services/state/device-state.service';
@@ -43,6 +49,13 @@ import { OnboardingService } from './services/util/onboarding.service';
 import { NotifyUnsupportedBrowserComponent } from './components/home/_dialogs/notify-unsupported-browser/notify-unsupported-browser.component';
 import { InitService } from './services/util/init.service';
 import { MatomoTrackingService } from './services/util/matomo-tracking.service';
+import { DbConfigService } from './services/persistence/lg/db-config.service';
+import {
+  WebPushService,
+  WebPushSubscription,
+} from './services/http/web-push.service';
+
+const PUSH_KEY = 'push-subscription';
 
 @Component({
   selector: 'app-root',
@@ -67,12 +80,16 @@ export class AppComponent implements OnInit {
   constructor(
     private translationService: TranslateService,
     private update: SwUpdate,
+    private push: SwPush,
     public notification: NotificationService,
     private customIconService: CustomIconService,
     private eventService: EventService,
     private dialog: MatDialog,
     public router: Router,
     private onboarding: OnboardingService,
+    private applicationRef: ApplicationRef,
+    private config: DbConfigService,
+    private webPush: WebPushService,
     deviceState: DeviceStateService,
     initService: InitService,
     _matomoService: MatomoTrackingService,
@@ -98,9 +115,8 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.update.versionUpdates
-      .pipe(filter((e) => e.type === 'VERSION_READY'))
-      .subscribe((_) => UpdateInfoDialogComponent.open(this.dialog));
+    this.initUpdates();
+    this.initPush();
   }
 
   public getRescale(): Rescale {
@@ -267,5 +283,93 @@ export class AppComponent implements OnInit {
     return dialogRef
       .afterClosed()
       .pipe(switchMap((d) => (d ? this.showCookieModal() : of(false))));
+  }
+
+  private initUpdates() {
+    if (!this.update.isEnabled) {
+      return;
+    }
+    this.update.versionUpdates
+      .pipe(filter((e) => e.type === 'VERSION_READY'))
+      .subscribe((_) => UpdateInfoDialogComponent.open(this.dialog));
+    const appIsStable$ = this.applicationRef.isStable.pipe(
+      first((isStable) => isStable === true),
+    );
+    const everyThreeHours$ = interval(3 * 60 * 60 * 1000);
+    concat(appIsStable$, everyThreeHours$).subscribe(() => {
+      this.update.checkForUpdate().then((update) => {
+        if (update) {
+          console.log('Software update available.');
+        }
+      });
+    });
+  }
+
+  private initPush() {
+    if (!this.push.isEnabled) {
+      return;
+    }
+    this.push.subscription.pipe(take(1)).subscribe((sub) => {
+      if (!sub) {
+        this.registerPush();
+        return;
+      }
+      // Check if subscription has changed or updated
+      const current = WebPushSubscription.fromPushSubscription(sub);
+      this.config
+        .get(PUSH_KEY)
+        .pipe(
+          switchMap((entry) => {
+            const oldSub = entry?.value as WebPushSubscription;
+            if (
+              !oldSub ||
+              oldSub.endpoint !== current.endpoint ||
+              oldSub.key !== current.key ||
+              oldSub.auth !== current.auth
+            ) {
+              if (oldSub) {
+                return this.deletePush(oldSub.id).pipe(
+                  switchMap(() => this.savePush(current)),
+                );
+              }
+              return this.savePush(current);
+            }
+            return of();
+          }),
+        )
+        .subscribe();
+    });
+  }
+
+  private registerPush() {
+    this.webPush
+      .getPublicKey()
+      .pipe(
+        // Will error when fail
+        switchMap((key) =>
+          this.push.requestSubscription({ serverPublicKey: key }),
+        ),
+        switchMap((sub) =>
+          this.savePush(WebPushSubscription.fromPushSubscription(sub)),
+        ),
+      )
+      .subscribe();
+  }
+
+  private deletePush(subId: WebPushSubscription['id']): Observable<void> {
+    return this.webPush
+      .deleteSubscription(subId)
+      .pipe(switchMap(() => this.config.delete(PUSH_KEY)));
+  }
+
+  private savePush(sub: WebPushSubscription): Observable<unknown> {
+    return this.webPush.createSubscription(sub).pipe(
+      switchMap((data) =>
+        this.config.createOrUpdate({
+          key: PUSH_KEY,
+          value: data,
+        }),
+      ),
+    );
   }
 }
