@@ -151,14 +151,31 @@ export class AppComponent implements OnInit {
       .getPublicKey()
       .pipe(
         // Will error when fail
-        switchMap((key) =>
-          this.push.requestSubscription({ serverPublicKey: key }),
-        ),
-        switchMap((sub) =>
-          this.savePush(WebPushSubscription.fromPushSubscription(sub)),
-        ),
+        switchMap((key) => {
+          return this.push.requestSubscription({ serverPublicKey: key });
+        }),
+        switchMap((sub) => {
+          return this.savePush(WebPushSubscription.fromPushSubscription(sub));
+        }),
       )
-      .subscribe();
+      .subscribe({
+        next: () => {
+          this.notification.show(
+            this.translationService.instant('push.register-success'),
+          );
+        },
+        error: (err) => {
+          console.error(err);
+          this.notification.show(
+            this.translationService.instant('push.register-error'),
+            undefined,
+            {
+              duration: 12_500,
+              panelClass: ['snackbar', 'important'],
+            },
+          );
+        },
+      });
   }
 
   hasPushSubscription() {

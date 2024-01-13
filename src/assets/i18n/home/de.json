@@ -654,6 +654,10 @@
     "set-new-password-button": "Neues Passwort speichern",
     "new-password-is-old": "Das neue Passwort darf nicht mit dem alten Passwort übereinstimmen."
   },
+  "push": {
+    "register-success": "Push Notification wurde eingerichtet.",
+    "register-error": "Push Notification konnte nicht eingerichtet werden."
+  },
   "qr-dialog": {
     "session": "Code",
     "url": "URL: {{url}}"

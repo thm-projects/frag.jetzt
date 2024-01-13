@@ -656,6 +656,10 @@
     "set-new-password-button": "Save new password",
     "new-password-is-old": "The new password must be different from the old one."
   },
+  "push": {
+    "register-success": "Push notification has been set up.",
+    "register-error": "Push notification could not be set up."
+  },
   "qr-dialog": {
     "session": "Code",
     "url": "URL: {{url}}"
