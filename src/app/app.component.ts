@@ -10,7 +10,7 @@ import { SwPush, SwUpdate } from '@angular/service-worker';
 import { NotificationService } from './services/util/notification.service';
 import { Rescale } from './models/rescale';
 import { CustomIconService } from './services/util/custom-icon.service';
-import { filter, first, switchMap, take } from 'rxjs/operators';
+import { filter, first, map, switchMap, take } from 'rxjs/operators';
 import { EventService } from './services/util/event.service';
 import {
   CookieDialogRequest,
@@ -144,6 +144,25 @@ export class AppComponent implements OnInit {
       footer.style.marginBottom = '0';
     }
     this._lastScrollTop = current;
+  }
+
+  registerPush() {
+    this.webPush
+      .getPublicKey()
+      .pipe(
+        // Will error when fail
+        switchMap((key) =>
+          this.push.requestSubscription({ serverPublicKey: key }),
+        ),
+        switchMap((sub) =>
+          this.savePush(WebPushSubscription.fromPushSubscription(sub)),
+        ),
+      )
+      .subscribe();
+  }
+
+  hasPushSubscription() {
+    return this.config.get(PUSH_KEY).pipe(map((v) => Boolean(v?.value)));
   }
 
   private initDialogsForServices() {
@@ -311,7 +330,7 @@ export class AppComponent implements OnInit {
     }
     this.push.subscription.pipe(take(1)).subscribe((sub) => {
       if (!sub) {
-        this.registerPush();
+        // do only register when user wants that
         return;
       }
       // Check if subscription has changed or updated
@@ -339,21 +358,6 @@ export class AppComponent implements OnInit {
         )
         .subscribe();
     });
-  }
-
-  private registerPush() {
-    this.webPush
-      .getPublicKey()
-      .pipe(
-        // Will error when fail
-        switchMap((key) =>
-          this.push.requestSubscription({ serverPublicKey: key }),
-        ),
-        switchMap((sub) =>
-          this.savePush(WebPushSubscription.fromPushSubscription(sub)),
-        ),
-      )
-      .subscribe();
   }
 
   private deletePush(subId: WebPushSubscription['id']): Observable<void> {
