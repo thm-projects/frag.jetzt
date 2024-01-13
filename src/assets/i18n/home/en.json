@@ -325,7 +325,8 @@
     "ple": {
       "questionwall": "Topic Focus",
       "back-to-questionboard": "Topic Forum",
-      "tag-cloud": "Topic Radar"
+      "tag-cloud": "Topic Radar",
+      "question-focus-button": "Topic Focus"
     }
   },
   "gpt-chat": {

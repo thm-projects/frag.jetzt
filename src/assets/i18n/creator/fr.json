@@ -159,7 +159,10 @@
     "unread": "Questions qui n'ont pas été présentées publiquement par le conférencier",
     "vote-asc": "Notations ascendantes",
     "vote-desc": "Évaluations descendantes",
-    "wrong": "Questions marquées comme fausses par le conférencier ou le modérateur"
+    "wrong": "Questions marquées comme fausses par le conférencier ou le modérateur",
+    "ple":{
+      "ask-question-empty": "Ajouter de nouveaux sujets"
+    }
   },
   "comment-notification": {
     "close": "Fermer",

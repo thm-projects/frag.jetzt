@@ -159,7 +159,10 @@
     "unread": "Not discussed",
     "vote-asc": "Ascending votes",
     "vote-desc": "Descending votes",
-    "wrong": "Marked as wrong"
+    "wrong": "Marked as wrong",
+    "ple":{
+      "ask-question-empty": "Add new Topics"
+    }
   },
   "comment-notification": {
     "close": "Close",

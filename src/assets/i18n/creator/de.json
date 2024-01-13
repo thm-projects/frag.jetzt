@@ -159,7 +159,10 @@
     "unread": "Fragen, die nicht öffentlich vom Vortragenden vorgestellt worden sind",
     "vote-asc": "Aufsteigende Bewertungen",
     "vote-desc": "Absteigende Bewertungen",
-    "wrong": "Fragen, die der Vortragende oder Moderator als falsch markiert hat"
+    "wrong": "Fragen, die der Vortragende oder Moderator als falsch markiert hat",
+    "ple":{
+      "ask-question-empty": "Neue Topics hinzufügen"
+    }
   },
   "comment-notification": {
     "close": "Schließen",
