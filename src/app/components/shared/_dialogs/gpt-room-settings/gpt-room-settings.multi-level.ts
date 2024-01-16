@@ -22,6 +22,19 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
   title: 'ml-gpt-room-settings.title',
   questions: [
     {
+      tag: 'usageTime',
+      title: 'ml-gpt-room-settings.q-periods-of-use',
+      stepHelp: 'ml-gpt-room-settings.help.api-title-help',
+      buildAction(_injector, _answers, previousState) {
+        if (previousState) return previousState;
+        return buildInput(this, {
+          tag: "test",
+          type: 'date-input',
+        }
+        );
+      },
+    },
+    {
       tag: 'gptSetup',
       title: 'ml-gpt-room-settings.q-api-setup',
       stepHelp: 'ml-gpt-room-settings.help.select-openai-setup',
@@ -71,7 +84,7 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
         ).pipe(
           map(([user, room]) => {
             return user?.id === room?.ownerId
-            && answers.gptSetup && answers.gptSetup.value.setupType === 'apiCode';
+            && answers.gptSetup && answers.gptSetup.value.setupType === 'apiCode'
           }),
         );
       },
@@ -141,6 +154,7 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
       tag: 'gptModel',
       title: 'ml-gpt-room-settings.q-api-title',
       stepHelp: 'ml-gpt-room-settings.help.api-title-help',
+      active: () => false,
       buildAction(_injector, _answers, previousState, data) {
         return buildInput(
           this,
@@ -221,6 +235,12 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
       tag: 'moderatorQuota',
       title: 'ml-gpt-room-settings.q-moderator-quota',
       stepHelp: 'ml-gpt-room-settings.help.api-title-help',
+      active: (answers, injector) => {
+        return injector.get(RoomStateService).room$.pipe(
+          take(1),
+          map((room) => room.mode === 'ARS'),
+        )
+      },
       buildAction(_injector, _answers, previousState, data) {
         if (previousState) return previousState;
         return buildInput(
@@ -278,6 +298,12 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
       tag: 'participantQuota',
       title: 'ml-gpt-room-settings.q-participant-quota',
       stepHelp: 'ml-gpt-room-settings.help.api-title-help',
+      active: (answers, injector) => {
+        return injector.get(RoomStateService).room$.pipe(
+          take(1),
+          map((room) => room.mode === 'ARS'),
+        )
+      },
       buildAction(_injector, _answers, previousState, data) {
         if (previousState) return previousState;
         return buildInput(
@@ -349,6 +375,41 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
       tag: 'miscellaneousSettings',
       title: 'ml-gpt-room-settings.q-miscellaneous-settings',
       stepHelp: 'ml-gpt-room-settings.help.api-title-help',
+      active: (answers, injector) => {
+        return injector.get(RoomStateService).room$.pipe(
+          take(1),
+          map((room) => room.mode === 'PLE'),
+        )
+      },
+      buildAction(_injector, _answers, previousState, data) {
+        if (previousState) return previousState;
+        return buildInput(
+          this,
+          {
+            type: 'switch',
+            defaultValue: data.GPTSettings.disableEnhancedPrompt(),
+            tag: 'allowAnswerWithoutPreset',
+            label: 'ml-gpt-room-settings.s-allow-answer-without-preset',
+          },
+          {
+            type: 'switch',
+            defaultValue: data.GPTSettings.disableForwardMessage(),
+            tag: 'onlyAnswerWhenCalled',
+            label: 'ml-gpt-room-settings.s-only-answer-when-called',
+          },
+        );
+      },
+    },
+    {
+      tag: 'miscellaneousSettings',
+      title: 'ml-gpt-room-settings.q-miscellaneous-settings',
+      stepHelp: 'ml-gpt-room-settings.help.api-title-help',
+      active: (answers, injector) => {
+        return injector.get(RoomStateService).room$.pipe(
+          take(1),
+          map((room) => room.mode === 'ARS'),
+        )
+      },
       buildAction(_injector, _answers, previousState, data) {
         if (previousState) return previousState;
         return buildInput(
@@ -378,6 +439,12 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
       tag: 'moderatorPermissions',
       title: 'ml-gpt-room-settings.q-moderator-permissions',
       stepHelp: 'ml-gpt-room-settings.help.api-title-help',
+      active: (answers, injector) => {
+        return injector.get(RoomStateService).room$.pipe(
+          take(1),
+          map((room) => room.mode === 'ARS'),
+        )
+      },
       buildAction(_injector, _answers, previousState, data) {
         if (previousState) return previousState;
         return buildInput(
