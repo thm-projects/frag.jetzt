@@ -57,6 +57,10 @@ import {
   ROOM_ROLE_MAPPER,
   RoomStateService,
 } from 'app/services/state/room-state.service';
+import { MultiLevelDialogComponent } from '../_dialogs/multi-level-dialog/multi-level-dialog.component';
+import { MULTI_LEVEL_GPT_ROOM_SETTINGS } from '../_dialogs/gpt-room-settings/gpt-room-settings.multi-level';
+import { GptService } from 'app/services/http/gpt.service';
+import { saveSettings } from '../_dialogs/gpt-room-settings/gpt-room-settings.executor';
 
 @Component({
   selector: 'app-room-page',
@@ -65,6 +69,7 @@ import {
 })
 export class RoomPageComponent implements OnInit, OnDestroy {
   room: Room = null;
+  isPle: boolean = false;
   user: User = null;
   isLoading = true;
   commentCounter: number;
@@ -93,6 +98,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
   protected roomDataService: RoomDataService;
   protected titleService: TitleService;
   protected router: Router;
+  protected gptService: GptService;
   protected roomState: RoomStateService;
   protected destroyer = new ReplaySubject(1);
   private _navigationBuild = new SyncFence(2, this.initNavigation.bind(this));
@@ -116,10 +122,12 @@ export class RoomPageComponent implements OnInit, OnDestroy {
     this.titleService = injector.get(TitleService);
     this.router = injector.get(Router);
     this.roomState = injector.get(RoomStateService);
+    this.gptService = injector.get(GptService);
   }
 
   ngOnInit() {
     this.initializeRoom();
+    this.isPle = this.room.mode === 'PLE';
   }
 
   ngOnDestroy() {
@@ -474,11 +482,17 @@ export class RoomPageComponent implements OnInit, OnDestroy {
           class: 'chatgpt-robot-icon settings',
           text: 'header.gpt-settings',
           callback: () => {
-            GptRoomSettingsComponent.open(
-              this.dialog,
-              this.room,
-              this.userRole,
-            );
+            this.gptService.getRoomSetting(this.room.id).subscribe((res) => {
+              MultiLevelDialogComponent.open(
+                this.dialog,
+                MULTI_LEVEL_GPT_ROOM_SETTINGS,
+                saveSettings,
+                {
+                  GPTSettings: res,
+                  roomID: this.room.id,
+                }
+              );
+            });
           },
           condition: () => this.userRole > UserRole.PARTICIPANT,
         });
@@ -502,7 +516,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
           isSVGIcon: false,
           text: 'header.moderation-mode',
           callback: () => this.showCommentsDialog(),
-          condition: () => this.userRole > UserRole.PARTICIPANT,
+          condition: () => this.userRole > UserRole.PARTICIPANT && this.isPle,
         });
         e.menuItem({
           translate: this.headerService.getTranslate(),

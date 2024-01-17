@@ -321,7 +321,13 @@
     "gpt-chat": "StudyBuddy IA",
     "gpt-brainstorming": "Laisser ChatGPT brainstormer",
     "gpt-privacy-policy": "Protection des données",
-    "gpt-prompts": "Mes prompts ChatGPT"
+    "gpt-prompts": "Mes prompts ChatGPT",
+    "ple": {
+      "questionwall": "Focus de Sujet",
+      "back-to-questionboard": "Forum de Sujet",
+      "tag-cloud": "Radar de Sujet",
+      "question-focus-button": "Focus de Sujet"
+    }
   },
   "gpt-chat": {
     "optin-accept": "Accepter",
@@ -500,7 +506,7 @@
     "cancel": "Annuler",
     "confirm": "Soumettre",
     "complete": "Terminer",
-    "complete-text": "Tu as répondu à toutes les questions. Clique sur « Soumettre » pour terminer la configuration. Tu peux aussi revenir en arrière et modifier tes réponses.",
+    "complete-text": "Clique sur « Soumettre » pour enregistrer la configuration de la salle.",
     "complete-reset": "Tout réinitialiser",
     "single": "Question {{number}}",
     "range": "Questions {{start}} à {{end}}"
@@ -508,7 +514,7 @@
   "ml-room-create": {
     "title": "Créer une salle",
     "q-p1-header": "Activer ChatGPT",
-    "q-p1-title": "Pour créer des salles ChatGPT, tu as besoin d'un compte et tu dois être connecté. Sans compte, tu peux seulement créer des salles standards liées à ce navigateur. En tant qu'utilisateur enregistré, tu peux ouvrir tes salles dans n'importe quel navigateur. Les salles inutilisées pendant 180 jours seront supprimées.",
+    "q-p1-title": "Pour créer des salles ChatGPT, t'as besoin d'un compte et tu dois être connecté. Sans compte, tu peux seulement créer des salles liées au navigateur. Les salles qui restent inutilisées pendant 180 jours seront supprimées.",
     "q-p2-header": "Activer ChatGPT",
     "q-p2-title": "Tu veux activer ChatGPT ?",
     "q-p2-short": "Type d'activation",
@@ -588,7 +594,7 @@
     "q-s3-gpt": "Activer ChatGPT",
     "q-s3-keywords": "Extraire les mots-clés des contributions",
     "q-s4-header": "Paramètres ChatGPT",
-    "q-s4-title": "« StudyBuddy » doit-il être activé?",
+    "q-s4-title": "« StudyBuddy IA » doit-il être activé?",
     "q-s4-study-buddy": "Activer « StudyBuddy »",
     "a-s4-yes": "Oui",
     "a-s4-no": "Non",
@@ -884,7 +890,16 @@
     "from-now-short": "Questions à partir de maintenant",
     "create": "Continuer",
     "cancel": "Annuler",
-    "questions-title": "Quelles sont les questions que tu aimerais avoir sur le radar ?"
+    "questions-title": "Quelles sont les questions que tu aimerais avoir sur le radar ?",
+    "ple": {
+      "questions-title": "Quels sujets voulez-vous avoir sur le radar ?",
+      "all-questions-and-answers": "Tous les sujets avec réponses",
+      "all-questions-and-answers-short": "Tous les sujets avec réponses",
+      "only-questions": "Seulement les sujets",
+      "only-questions-short": "Seulement les sujets",
+      "from-now": "Seulement les sujets à partir de maintenant",
+      "from-now-short": "Seulement les sujets dès maintenant"
+    }
   },
   "unsupported-browser": {
     "body": "Malheureusement, le navigateur Safari ne prend pas en charge toutes les fonctionnalités de la norme CSS nécessaires aux fonctions « Focalisation des questions » et « Plein écran et mise à l'échelle du texte ». Nous vous recommandons donc d'utiliser Google Chrome ou Microsoft Edge.",

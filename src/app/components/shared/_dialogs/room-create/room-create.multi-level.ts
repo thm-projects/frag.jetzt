@@ -74,8 +74,6 @@ const buildValidator = (
 
 export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData = {
   title: 'ml-room-create.title',
-  buttonSection: 'ml-room-create',
-  confirmKey: 'create',
   questions: [
     {
       tag: 'gptInfo',

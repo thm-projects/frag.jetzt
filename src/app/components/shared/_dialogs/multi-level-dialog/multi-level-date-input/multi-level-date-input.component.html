@@ -1,0 +1,28 @@
+<mat-form-field appearance="outline">
+    <mat-label>Zeitspanne</mat-label>
+    <mat-date-range-input [rangePicker]="picker">
+        <input matStartDate matInput placeholder="Start date" />
+        <input matEndDate matInput placeholder="End date"/>
+  </mat-date-range-input>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-date-range-picker #picker></mat-date-range-picker>
+</mat-form-field>
+
+<div class="container">
+    <mat-form-field appearance="outline">
+        <mat-label>Wiederholungen</mat-label>
+        <input matInput placeholder="Placeholder" type="number">
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-select>
+            <mat-option *ngFor="let option of options" [value]="option.value">
+                {{option.i18nPath | translate}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+</div>
+
+<button mat-raised-button>Zeitraum anlegen</button>
+
+<div class="history"></div>

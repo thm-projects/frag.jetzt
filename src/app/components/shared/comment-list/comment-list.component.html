@@ -528,7 +528,7 @@
   appJoyrideTemplate></div>
 
 <button
-  *ngIf="commentsEnabled"
+  *ngIf="commentsEnabled && room.mode === 'ARS'"
   mat-fab
   mat-icon-button
   [ngClass]="{
@@ -544,6 +544,26 @@
     class="oldtypo-p"
     *ngIf="isCommentListEmpty()">
     {{ "comment-list.ask-question-empty" | translate }}
+  </p>
+</button>
+
+<button
+  *ngIf="commentsEnabled && room.mode === 'PLE'"
+  mat-fab
+  mat-icon-button
+  [ngClass]="{
+    center_screen: isCommentListEmpty() || isStarting()
+  }"
+  aria-labelledby="add"
+  class="fab_add_comment"
+  (click)="writeComment()"
+  matTooltip="{{ 'comment-list.add-comment' | translate }}"
+  [matTooltipPosition]="'above'">
+  <mat-icon>add</mat-icon>
+  <p
+    class="oldtypo-p"
+    *ngIf="isCommentListEmpty()">
+    {{ "comment-list.ple.ask-question-empty" | translate }}
   </p>
 </button>
 

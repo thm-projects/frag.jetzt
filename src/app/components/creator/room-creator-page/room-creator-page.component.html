@@ -39,7 +39,7 @@
           </mat-icon>
         </button>
       </mat-card-subtitle>
-      <mat-card-subtitle>
+      <mat-card-subtitle *ngIf="room.mode === 'ARS'">
         <span class="room-short-id">
           {{ "room-page.moderator-key" | translate }}
         </span>
@@ -78,17 +78,27 @@
           *ngIf="responseCounter > 0 && commentCounter > 0"
           [ngClass]="{ smallerIcon: isMobile() }"
           class="response-badge"></span>
-        <h3 *ngIf="room.conversationDepth === 0">
-          {{ "room-page.comments" | translate }}
-        </h3>
-        <h3 *ngIf="room.conversationDepth !== 0">
-          {{ "room-page.comments-and-answers" | translate }}
-        </h3>
+        <div *ngIf="room.mode === 'ARS'">
+          <h3 *ngIf="room.conversationDepth === 0">
+            {{ "room-page.comments" | translate }}
+          </h3>
+          <h3 *ngIf="room.conversationDepth !== 0">
+            {{ "room-page.comments-and-answers" | translate }}
+          </h3>
+        </div>
+        <div *ngIf="room.mode === 'PLE'">
+          <h3 *ngIf="room.conversationDepth === 0">
+            {{ "room-page.ple.comments" | translate }}
+          </h3>
+          <h3 *ngIf="room.conversationDepth !== 0">
+            {{ "room-page.ple.comments-and-answers" | translate }}
+          </h3>
+        </div>
       </button>
       <button
         id="gavel-button"
         mat-icon-button
-        *ngIf="moderationEnabled"
+        *ngIf="moderationEnabled && room.mode === 'ARS'"
         [disableRipple]="true"
         routerLink="/creator/room/{{ room.shortId }}/moderator/comments"
         aria-labelledby="gavel">

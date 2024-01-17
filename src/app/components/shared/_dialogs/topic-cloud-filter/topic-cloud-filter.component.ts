@@ -32,6 +32,7 @@ class CommentsCount {
   comments: number;
   users: number;
   keywords: number;
+  room: Room;
 
   areEqual(counts: CommentsCount) {
     if (!counts) {
@@ -68,6 +69,7 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
   @Input() target: string;
   @Input() userRole: UserRole;
 
+  room: Room;
   isTopicRequirementActive = false;
   hasNoKeywords = false;
   continueFilter: FilterTypeKey = FILTER_TYPES[0];
@@ -168,6 +170,9 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
       .receiveUpdates([{ finished: true }])
       .pipe(takeUntil(this.destroyer))
       .subscribe((_) => this.commentsLoadedCallback());
+    this.sessionService.getRoom().subscribe((room) => {
+      this.room = room;
+    });
   }
 
   ngOnDestroy() {
