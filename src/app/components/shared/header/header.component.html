@@ -25,7 +25,10 @@
     <div
       class="header-content-container header-row-section"
       [ngClass]="{ darken: themeService.currentTheme?.isDark }">
-      <div *ngIf="headerService.isToggleCurrentUserActivity()">
+      <div
+        *ngIf="
+          headerService.isToggleCurrentUserActivity() && room.mode === 'ARS'
+        ">
         <div
           class="userActivityIcon"
           matTooltip="{{ 'header.users-online' | translate }}"></div>
@@ -118,7 +121,10 @@
         tabindex="0"
         [matTooltip]="'header.livepoll-button' | translate"
         (click)="openLivepollDialog()"
-        *ngIf="navigationAccess.livepoll(router.url, room, roomState)">
+        *ngIf="
+          navigationAccess.livepoll(router.url, room, roomState) &&
+          room.mode === 'ARS'
+        ">
         <mat-icon
           class="material-icons header-icons material-icons-filled"
           style="transform: scale(1.2); margin-right: 5px">
@@ -288,14 +294,39 @@
           !isMobile &&
           !router.url.endsWith('moderator/comments') &&
           router.url.endsWith('/comments') &&
-          !isSafari
+          !isSafari &&
+          room.mode === 'ARS'
         "
-        routerLink="{{roleToRoute[userRole]}}/room/{{ room?.shortId }}/comments/questionwall">
+        routerLink="{{ roleToRoute[userRole] }}/room/{{
+          room?.shortId
+        }}/comments/questionwall">
         <mat-icon
           class="beamer-icon"
           svgIcon="beamer"></mat-icon>
         <span *ngIf="!showSmallButtons">
           {{ "header.questionwall" | translate }}
+        </span>
+      </button>
+
+      <button
+        mat-flat-button
+        tabindex="0"
+        [matTooltip]="'header.question-focus-button' | translate"
+        *ngIf="
+          !isMobile &&
+          !router.url.endsWith('moderator/comments') &&
+          router.url.endsWith('/comments') &&
+          !isSafari &&
+          room.mode === 'PLE'
+        "
+        routerLink="{{ roleToRoute[userRole] }}/room/{{
+          room?.shortId
+        }}/comments/questionwall">
+        <mat-icon
+          class="beamer-icon"
+          svgIcon="beamer"></mat-icon>
+        <span *ngIf="!showSmallButtons">
+          {{ "header.ple.questionwall" | translate }}
         </span>
       </button>
 

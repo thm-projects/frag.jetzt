@@ -321,7 +321,13 @@
     "gpt-chat": "AI StudyBuddy",
     "gpt-brainstorming": "Let ChatGPT brainstorm",
     "gpt-privacy-policy": "ChatGPT Privacy Policy",
-    "gpt-prompts": "My ChatGPT prompts"
+    "gpt-prompts": "My ChatGPT prompts",
+    "ple": {
+      "questionwall": "Topic Focus",
+      "back-to-questionboard": "Topic Forum",
+      "tag-cloud": "Topic Radar",
+      "question-focus-button": "Topic Focus"
+    }
   },
   "gpt-chat": {
     "optin-accept": "Accept",
@@ -500,7 +506,7 @@
     "cancel": "Cancel",
     "confirm": "Submit",
     "complete": "Complete",
-    "complete-text": "You have answered all the questions. Click »Submit« to finish the configuration. You can also go back and change your answers.",
+    "complete-text": "Click »Submit« to save the room configuration.",
     "complete-reset": "Reset everything",
     "single": "Question {{number}}",
     "range": "Questions {{start}} to {{end}}"
@@ -508,7 +514,7 @@
   "ml-room-create": {
     "title": "Create Room",
     "q-p1-header": "Activate ChatGPT",
-    "q-p1-title": "To create ChatGPT rooms, you need an account and must be logged in. Without an account, you can only create standard rooms linked to this browser. As a registered user, you can open your rooms in any browser. Rooms unused for 180 days will be deleted.",
+    "q-p1-title": "To create ChatGPT rooms, you need an account and must be signed in. Without an account, you can only create browser-bound rooms.  Rooms that remain unused for 180 days will be deleted.",
     "q-p2-header": "Activate ChatGPT",
     "q-p2-title": "Would you like to activate ChatGPT?",
     "q-p2-short": "Activation type",
@@ -588,7 +594,7 @@
     "q-s3-gpt": "Activate ChatGPT",
     "q-s3-keywords": "Extract keywords from posts",
     "q-s4-header": "ChatGPT settings",
-    "q-s4-title": "Should the »StudyBuddy« be activated?",
+    "q-s4-title": "Should the »AI StudyBuddy« be activated?",
     "q-s4-study-buddy": "Activate »StudyBuddy«",
     "a-s4-yes": "Yes",
     "a-s4-no": "No",
@@ -614,7 +620,7 @@
       "gpt-settings-ple": "# ChatGPT Settings\nThe StudyBuddy mainly helps as a specialized assistant for questions within the domain of the room.",
       "study-buddy-settings-ars": "# StudyBuddy Settings\nThe StudyBuddy can be activated for all participants or only for moderators. If the StudyBuddy is used by students, the quota may be used up very quickly.",
       "features-ars": "# Additional Features\nTo facilitate interaction with students, frag.jetzt offers additional features. These include:\n - Surveys\n   - Live feedback from students\n   - Mood in an event\n - Bonus Archive\n   - Gives students the opportunity to earn bonus points with good questions\n   - Students can directly send an email to their registered email address\n - Quiz Rally\n   - Students can gain additional motivation through a quiz game\n   - Can also be used as a bonus\n - Brainstorming\n   - Students can collect ideas\n   - Students can rate ideas\n - Question Radar\n   - You can organize the event based on the topics of questions\n   - Topics can be weighted for better feedback\n - Question Focus\n   - Questions can be answered effectively\n   - Optimized for projectors\n\nSettings can be adjusted later.",
-      "features-ple": "# Additional Features\nTo effectively support you in learning, frag.jetzt offers additional features. These include:\n - Question Radar\n   - You can organize learning based on the topics of questions\n   - Topics can be weighted for a better overview\n - Question Focus\n   - Questions can be answered effectively\n   - Learning with flashcards\n - Brainstorming\n   - Helpful for idea collection\n   - Ideas can also be rated\n\nSettings can be adjusted later."
+      "features-ple": "# Additional Features\nTo effectively support you in learning, frag.jetzt offers additional features. These include:\n - Topic Radar\n   - You can organize learning based on the topics of questions\n   - Topics can be weighted for a better overview\n - Topic Focus\n   - Questions can be answered effectively\n   - Learning with flashcards\n - Brainstorming\n   - Helpful for idea collection\n   - Ideas can also be rated\n\nSettings can be adjusted later."
     }
   },
   "overlay": {
@@ -884,7 +890,16 @@
     "only-questions-short": "Questions only",
     "from-now": "Only questions from now on",
     "from-now-short": "Only questions from now on",
-    "questions-title": "Which questions do you want on the radar?"
+    "questions-title": "Which questions do you want on the radar?",
+    "ple": {
+      "questions-title": "Which topics do you want to have on the radar?",
+      "all-questions-and-answers": "All topics with answers",
+      "all-questions-and-answers-short": "All topics with answers",
+      "only-questions": "Only topics",
+      "only-questions-short": "Only topics",
+      "from-now": "Only topics from now on",
+      "from-now-short": "Only topics from now"
+    }
   },
   "unsupported-browser": {
     "body": "Unfortunately, the Safari browser does not support all the features of the CSS standard that are required for the »Question Focus« and »Full Screen & Text Scaling« functions. We, therefore, recommend using Google Chrome or Microsoft Edge.",

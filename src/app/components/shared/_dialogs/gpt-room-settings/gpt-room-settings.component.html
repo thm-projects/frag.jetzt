@@ -1,551 +1,489 @@
 <h2>{{ "gpt-room-settings.title" | translate }}</h2>
 
 <mat-dialog-content *ngIf="!isLoading; else loading">
-  <p *ngIf="globalInfo.active">
-    {{ "gpt-room-settings.global-trial" | translate : globalInfo }}
-  </p>
-
-  <!-- GPT over frag.jetzt -->
-  <h3>{{ "gpt-room-settings.trial-info" | translate }}</h3>
-  <ng-container *ngIf="!trialEnabled">
-    <ng-container *ngIf="isOwner || canChangeApiSettings; else deactivated">
-      <mat-form-field>
-        <mat-label>{{ "gpt-room-settings.trial-code" | translate }}</mat-label>
-        <input
-          matInput
-          type="password"
-          (keydown)="(isEnter($event) && activateTrial()) || true"
-          appAccessibilityEscapedInput
-          [(ngModel)]="trialCode" />
-      </mat-form-field>
-      <button
-        mat-button
-        (click)="activateTrial()"
-        class="primary-btn">
-        {{ "gpt-room-settings.send" | translate }}
-      </button>
-    </ng-container>
-  </ng-container>
-  <p *ngIf="trialEnabled">
-    {{ "gpt-room-settings.trial-enabled" | translate }}
-    <ng-container *ngIf="activatedCode">
-      <br />
-      <br />
-      {{
-        "gpt-room-settings.trial-activated-info"
-          | translate
-            : {
-                quota: (activatedCode.maximalCost.toPlain(2) / 100).toFixed(2),
-                counter: (activatedCode.costCounter.toPlain(2) / 100).toFixed(2)
-              }
-      }}
-    </ng-container>
-  </p>
-
-  <br />
-  <br />
-  <br />
-
-  <!-- GPT from own OpenAI account-->
-  <h3>{{ "gpt-room-settings.own-openai-api-key" | translate }}</h3>
-  <ng-container *ngIf="isOwner || canChangeApiSettings; else deactivated">
-    <p>{{ "gpt-room-settings.own-openai-info" | translate }}</p>
-    <mat-form-field>
-      <mat-label>
-        {{ "gpt-room-settings.api-key" | translate }}
-      </mat-label>
-      <input
-        matInput
-        appAccessibilityEscapedInput
-        [(ngModel)]="apiKey" />
-      <button
-        *ngIf="apiKey !== null"
-        matSuffix
-        mat-icon-button
-        aria-label="Clear"
-        (click)="apiKey = null">
-        <mat-icon>close</mat-icon>
-      </button>
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>
-        {{ "gpt-room-settings.api-organization" | translate }}
-      </mat-label>
-      <input
-        matInput
-        appAccessibilityEscapedInput
-        [(ngModel)]="apiOrganization" />
-      <button
-        *ngIf="apiOrganization !== null"
-        matSuffix
-        mat-icon-button
-        aria-label="Clear"
-        (click)="apiOrganization = null">
-        <mat-icon>close</mat-icon>
-      </button>
-    </mat-form-field>
-  </ng-container>
-
-  <h2>{{ "gpt-room-settings.quota-management" | translate }}
-    <button
-      style="cursor: help"
-      [matTooltip]="'gpt-room-settings.rest-contingent-description' | translate"
-      matSuffix
-      mat-icon-button>
-      <mat-icon
-      style="margin-bottom: 5px;"
-      class="material-icons-outlined">info</mat-icon>
-    </button>
-  </h2>
-
-  <!-- Room Restrictions -->
-  <h3>{{ "gpt-room-settings.restrictions-room" | translate }}
-  </h3>
-  <ng-container *ngIf="isOwner || canChangeRoomQuota; else deactivated">
-    <mat-form-field>
-      <mat-label>{{ "gpt-room-settings.rest-room-acc" | translate }}</mat-label>
-      <span matPrefix>$&nbsp;</span>
-      <input
-        #costInput
-        matInput
-        (wheel)="onWheel($event)"
-        appAccessibilityEscapedInput
-        type="number"
-        inputmode="numeric"
-        min="0"
-        step="0.01"
-        [(ngModel)]="maxAccumulatedRoomCost" />
-      <button
-        *ngIf="maxAccumulatedRoomCost !== null"
-        matSuffix
-        mat-icon-button
-        aria-label="Clear"
-        (click)="maxAccumulatedRoomCost = null">
-        <mat-icon>close</mat-icon>
-      </button>
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>
-        {{ "gpt-room-settings.rest-room-month" | translate }}
-      </mat-label>
-      <span matPrefix>$&nbsp;</span>
-      <input
-        #costInput
-        matInput
-        (wheel)="onWheel($event)"
-        appAccessibilityEscapedInput
-        type="number"
-        inputmode="numeric"
-        min="0"
-        step="0.01"
-        [(ngModel)]="maxMonthlyRoomCost" />
-      <button
-        *ngIf="maxMonthlyRoomCost !== null"
-        matSuffix
-        mat-icon-button
-        aria-label="Clear"
-        (click)="maxMonthlyRoomCost = null">
-        <mat-icon>close</mat-icon>
-      </button>
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>
-        {{ "gpt-room-settings.rest-room-flow-month" | translate }}
-      </mat-label>
-      <span matPrefix>$&nbsp;</span>
-      <input
-        #costInput
-        matInput
-        (wheel)="onWheel($event)"
-        appAccessibilityEscapedInput
-        type="number"
-        inputmode="numeric"
-        min="0"
-        step="0.01"
-        [(ngModel)]="maxMonthlyFlowingRoomCost" />
-      <button
-        *ngIf="maxMonthlyFlowingRoomCost !== null"
-        matSuffix
-        mat-icon-button
-        aria-label="Clear"
-        (click)="maxMonthlyFlowingRoomCost = null">
-        <mat-icon>close</mat-icon>
-      </button>
-      <button
-        style="cursor: help"
-        [matTooltip]="'gpt-room-settings.rest-flow-description' | translate"
-        matSuffix
-        mat-icon-button>
-        <mat-icon class="material-icons-outlined">info</mat-icon>
-      </button>
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>{{ "gpt-room-settings.rest-room-day" | translate }}</mat-label>
-      <span matPrefix>$&nbsp;</span>
-      <input
-        #costInput
-        matInput
-        (wheel)="onWheel($event)"
-        appAccessibilityEscapedInput
-        type="number"
-        inputmode="numeric"
-        min="0"
-        step="0.01"
-        [(ngModel)]="maxDailyRoomCost" />
-      <button
-        *ngIf="maxDailyRoomCost !== null"
-        matSuffix
-        mat-icon-button
-        aria-label="Clear"
-        (click)="maxDailyRoomCost = null">
-        <mat-icon>close</mat-icon>
-      </button>
-    </mat-form-field>
-  </ng-container>
-
-  <!-- Moderator Restrictions -->
-  <h3>{{ "gpt-room-settings.restrictions-moderator" | translate }}</h3>
-  <ng-container *ngIf="isOwner || canChangeModeratorQuota; else deactivated">
-    <mat-form-field>
-      <mat-label>{{ "gpt-room-settings.rest-mod-acc" | translate }}</mat-label>
-      <span matPrefix>$&nbsp;</span>
-      <input
-        #costInput
-        matInput
-        (wheel)="onWheel($event)"
-        appAccessibilityEscapedInput
-        type="number"
-        inputmode="numeric"
-        min="0"
-        step="0.01"
-        [(ngModel)]="maxAccumulatedModeratorCost" />
-      <button
-        *ngIf="maxAccumulatedModeratorCost !== null"
-        matSuffix
-        mat-icon-button
-        aria-label="Clear"
-        (click)="maxAccumulatedModeratorCost = null">
-        <mat-icon>close</mat-icon>
-      </button>
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>
-        {{ "gpt-room-settings.rest-mod-month" | translate }}
-      </mat-label>
-      <span matPrefix>$&nbsp;</span>
-      <input
-        #costInput
-        matInput
-        (wheel)="onWheel($event)"
-        appAccessibilityEscapedInput
-        type="number"
-        inputmode="numeric"
-        min="0"
-        step="0.01"
-        [(ngModel)]="maxMonthlyModeratorCost" />
-      <button
-        *ngIf="maxMonthlyModeratorCost !== null"
-        matSuffix
-        mat-icon-button
-        aria-label="Clear"
-        (click)="maxMonthlyModeratorCost = null">
-        <mat-icon>close</mat-icon>
-      </button>
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>
-        {{ "gpt-room-settings.rest-mod-flow-month" | translate }}
-      </mat-label>
-      <span matPrefix>$&nbsp;</span>
-      <input
-        #costInput
-        matInput
-        (wheel)="onWheel($event)"
-        appAccessibilityEscapedInput
-        type="number"
-        inputmode="numeric"
-        min="0"
-        step="0.01"
-        [(ngModel)]="maxMonthlyFlowingModeratorCost" />
-      <button
-        *ngIf="maxMonthlyFlowingModeratorCost !== null"
-        matSuffix
-        mat-icon-button
-        aria-label="Clear"
-        (click)="maxMonthlyFlowingModeratorCost = null">
-        <mat-icon>close</mat-icon>
-      </button>
-      <button
-        style="cursor: help"
-        [matTooltip]="'gpt-room-settings.rest-flow-description' | translate"
-        matSuffix
-        mat-icon-button>
-        <mat-icon class="material-icons-outlined">info</mat-icon>
-      </button>
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>{{ "gpt-room-settings.rest-mod-day" | translate }}</mat-label>
-      <span matPrefix>$&nbsp;</span>
-      <input
-        #costInput
-        matInput
-        (wheel)="onWheel($event)"
-        appAccessibilityEscapedInput
-        type="number"
-        inputmode="numeric"
-        min="0"
-        step="0.01"
-        [(ngModel)]="maxDailyModeratorCost" />
-      <button
-        *ngIf="maxDailyModeratorCost !== null"
-        matSuffix
-        mat-icon-button
-        aria-label="Clear"
-        (click)="maxDailyModeratorCost = null">
-        <mat-icon>close</mat-icon>
-      </button>
-    </mat-form-field>
-  </ng-container>
-
-  <!-- Participant Restrictions -->
-  <h3>{{ "gpt-room-settings.restrictions-participant" | translate }}</h3>
-  <ng-container *ngIf="isOwner || canChangeParticipantQuota; else deactivated">
-    <mat-form-field>
-      <mat-label>{{ "gpt-room-settings.rest-part-acc" | translate }}</mat-label>
-      <span matPrefix>$&nbsp;</span>
-      <input
-        #costInput
-        matInput
-        (wheel)="onWheel($event)"
-        appAccessibilityEscapedInput
-        type="number"
-        inputmode="numeric"
-        min="0"
-        step="0.01"
-        [(ngModel)]="maxAccumulatedParticipantCost" />
-      <button
-        *ngIf="maxAccumulatedParticipantCost !== null"
-        matSuffix
-        mat-icon-button
-        aria-label="Clear"
-        (click)="maxAccumulatedParticipantCost = null">
-        <mat-icon>close</mat-icon>
-      </button>
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>
-        {{ "gpt-room-settings.rest-part-month" | translate }}
-      </mat-label>
-      <span matPrefix>$&nbsp;</span>
-      <input
-        #costInput
-        matInput
-        (wheel)="onWheel($event)"
-        appAccessibilityEscapedInput
-        type="number"
-        inputmode="numeric"
-        min="0"
-        step="0.01"
-        [(ngModel)]="maxMonthlyParticipantCost" />
-      <button
-        *ngIf="maxMonthlyParticipantCost !== null"
-        matSuffix
-        mat-icon-button
-        aria-label="Clear"
-        (click)="maxMonthlyParticipantCost = null">
-        <mat-icon>close</mat-icon>
-      </button>
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>
-        {{ "gpt-room-settings.rest-part-flow-month" | translate }}
-      </mat-label>
-      <span matPrefix>$&nbsp;</span>
-      <input
-        #costInput
-        matInput
-        (wheel)="onWheel($event)"
-        appAccessibilityEscapedInput
-        type="number"
-        inputmode="numeric"
-        min="0"
-        step="0.01"
-        [(ngModel)]="maxMonthlyFlowingParticipantCost" />
-      <button
-        *ngIf="maxMonthlyFlowingParticipantCost !== null"
-        matSuffix
-        mat-icon-button
-        aria-label="Clear"
-        (click)="maxMonthlyFlowingParticipantCost = null">
-        <mat-icon matSuffix>close</mat-icon>
-      </button>
-      <button
-        style="cursor: help"
-        [matTooltip]="'gpt-room-settings.rest-flow-description' | translate"
-        matSuffix
-        mat-icon-button>
-        <mat-icon class="material-icons-outlined">info</mat-icon>
-      </button>
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>{{ "gpt-room-settings.rest-part-day" | translate }}</mat-label>
-      <span matPrefix>$&nbsp;</span>
-      <input
-        #costInput
-        matInput
-        (wheel)="onWheel($event)"
-        appAccessibilityEscapedInput
-        type="number"
-        inputmode="numeric"
-        min="0"
-        step="0.01"
-        [(ngModel)]="maxDailyParticipantCost" />
-      <button
-        *ngIf="maxDailyParticipantCost !== null"
-        matSuffix
-        mat-icon-button
-        aria-label="Clear"
-        (click)="maxDailyParticipantCost = null">
-        <mat-icon>close</mat-icon>
-      </button>
-    </mat-form-field>
-  </ng-container>
-
-  <!-- Usage times -->
-  <h2>{{ "gpt-room-settings.usage-times" | translate }}</h2>
-  <ng-container *ngIf="isOwner || canChangeUsageTimes; else deactivated">
-    <p>{{ "gpt-room-settings.usage-time-info" | translate }}</p>
-    <div class="time-select">
-      <span>
-        <mat-label>{{ "gpt-room-settings.start-time" | translate }}</mat-label>
-        <ngx-mat-timepicker [(ngModel)]="startDate"></ngx-mat-timepicker>
-      </span>
-      <span>
-        <mat-label>{{ "gpt-room-settings.end-time" | translate }}</mat-label>
-        <ngx-mat-timepicker [(ngModel)]="endDate"></ngx-mat-timepicker>
-      </span>
-    </div>
-    <mat-form-field>
-      <mat-label>
-        {{ "gpt-room-settings.start-and-end-date" | translate }}
-      </mat-label>
-      <mat-date-range-input
-        [formGroup]="dateRange"
-        [rangePicker]="dateRangePicker">
-        <input
-          matStartDate
-          formControlName="start" />
-        <input
-          matEndDate
-          formControlName="end" />
-      </mat-date-range-input>
-      <mat-hint>
-        {{ getDateFormatString() }} – {{ getDateFormatString() }}
-      </mat-hint>
-      <mat-datepicker-toggle
-        matSuffix
-        [for]="dateRangePicker"></mat-datepicker-toggle>
-      <mat-date-range-picker #dateRangePicker></mat-date-range-picker>
-    </mat-form-field>
-    <div class="repeat-select">
+  <mat-stepper orientation="vertical" [linear]="isLinear">
+    <mat-step *ngIf="isOwner || canChangeApiSettings; else deactivated">
+      <ng-template matStepLabel>{{ "gpt-room-settings.own-openai-api-key" | translate }}</ng-template>
+      <p>{{ "gpt-room-settings.own-openai-info" | translate }}</p>
       <mat-form-field>
         <mat-label>
-          {{ "gpt-room-settings.usage-time-duration" | translate }}
+          {{ "gpt-room-settings.api-key" | translate }}
         </mat-label>
         <input
           matInput
           appAccessibilityEscapedInput
-          type="number"
-          inputmode="numeric"
-          pattern="[0-9]*"
-          [(ngModel)]="repeatDuration" />
+          [(ngModel)]="apiKey" />
         <button
-          *ngIf="repeatDuration !== null"
+          *ngIf="apiKey !== null"
           matSuffix
           mat-icon-button
           aria-label="Clear"
-          (click)="repeatDuration = null">
+          (click)="apiKey = null">
           <mat-icon>close</mat-icon>
         </button>
       </mat-form-field>
       <mat-form-field>
         <mat-label>
-          {{ "gpt-room-settings.usage-time-unit" | translate }}
+          {{ "gpt-room-settings.api-organization" | translate }}
         </mat-label>
-        <mat-select [(ngModel)]="repeatUnit">
-          <mat-option [value]="null">
-            <em>{{ "gpt-room-settings.reset" | translate }}</em>
-          </mat-option>
-          <mat-option
-            *ngFor="let unit of possibleRepeatUnits"
-            [value]="unit">
-            {{ "gpt-room-settings.usage-time-values." + unit | translate }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-    <button
-      mat-button
-      (click)="addUsageTime()"
-      class="primary-btn">
-      {{ "gpt-room-settings.add-usage-time" | translate }}
-    </button>
-    <mat-list>
-      <mat-list-item
-        class="keyword-item"
-        *ngFor="let item of usageTimes; let i = index">
-        <div matListItemTitle>
-          {{ formatRange(item.startDate, item.endDate) }}
-        </div>
-        <div
-          matListItemLine
-          *ngIf="item.repeatDuration && item.repeatUnit">
-          {{
-            getRepeatString(item) | translate : { value: item.repeatDuration }
-          }}
-        </div>
-        <button mat-icon-button>
-          <mat-icon (click)="usageTimes.splice(i, 1)">close</mat-icon>
+        <input
+          matInput
+          appAccessibilityEscapedInput
+          [(ngModel)]="apiOrganization" />
+        <button
+          *ngIf="apiOrganization !== null"
+          matSuffix
+          mat-icon-button
+          aria-label="Clear"
+          (click)="apiOrganization = null">
+          <mat-icon>close</mat-icon>
         </button>
-      </mat-list-item>
-    </mat-list>
-  </ng-container>
+      </mat-form-field>
+    </mat-step>
 
-  <!-- Rights setting -->
-  <ng-container *ngIf="isOwner">
-    <br />
-    <br />
-    <h2>{{ "gpt-room-settings.general-rights" | translate }}</h2>
-    <mat-slide-toggle [(ngModel)]="allowsUnregisteredUsers">
-      {{ "gpt-room-settings.general-right-unregistered" | translate }}
-    </mat-slide-toggle>
-    <mat-slide-toggle [(ngModel)]="disableEnhancedPrompt">
-      {{ "gpt-room-settings.general-disable-enhanced-prompt" | translate }}
-    </mat-slide-toggle>
-    <mat-slide-toggle [(ngModel)]="disableForwardMessage">
-      {{ "gpt-room-settings.general-disable-forward-message" | translate }}
-    </mat-slide-toggle>
-    <br />
-    <h2>{{ "gpt-room-settings.moderator-rights" | translate }}</h2>
-    <mat-slide-toggle [(ngModel)]="canChangeParticipantQuota">
-      {{ "gpt-room-settings.mod-right-part-quota" | translate }}
-    </mat-slide-toggle>
-    <mat-slide-toggle [(ngModel)]="canChangeModeratorQuota">
-      {{ "gpt-room-settings.mod-right-mod-quota" | translate }}
-    </mat-slide-toggle>
-    <mat-slide-toggle [(ngModel)]="canChangeRoomQuota">
-      {{ "gpt-room-settings.mod-right-room-quota" | translate }}
-    </mat-slide-toggle>
-    <mat-slide-toggle [(ngModel)]="canChangePreset">
-      {{ "gpt-room-settings.mod-right-preset" | translate }}
-    </mat-slide-toggle>
-    <mat-slide-toggle [(ngModel)]="canChangeUsageTimes">
-      {{ "gpt-room-settings.mod-right-usage-times" | translate }}
-    </mat-slide-toggle>
-    <mat-slide-toggle [(ngModel)]="canChangeApiSettings">
-      {{ "gpt-room-settings.mod-right-api-settings" | translate }}
-    </mat-slide-toggle>
-  </ng-container>
+    <mat-step *ngIf="isOwner || canChangeRoomQuota; else deactivated">
+      <ng-template matStepLabel>{{ "gpt-room-settings.restrictions-room" | translate }}</ng-template>
+      <mat-form-field>
+        <mat-label>{{ "gpt-room-settings.rest-room-acc" | translate }}</mat-label>
+        <span matPrefix>$&nbsp;</span>
+        <input
+          #costInput
+          matInput
+          (wheel)="onWheel($event)"
+          appAccessibilityEscapedInput
+          type="number"
+          inputmode="numeric"
+          min="0"
+          step="0.01"
+          [(ngModel)]="maxAccumulatedRoomCost" />
+        <button
+          *ngIf="maxAccumulatedRoomCost !== null"
+          matSuffix
+          mat-icon-button
+          aria-label="Clear"
+          (click)="maxAccumulatedRoomCost = null">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>
+          {{ "gpt-room-settings.rest-room-month" | translate }}
+        </mat-label>
+        <span matPrefix>$&nbsp;</span>
+        <input
+          #costInput
+          matInput
+          (wheel)="onWheel($event)"
+          appAccessibilityEscapedInput
+          type="number"
+          inputmode="numeric"
+          min="0"
+          step="0.01"
+          [(ngModel)]="maxMonthlyRoomCost" />
+        <button
+          *ngIf="maxMonthlyRoomCost !== null"
+          matSuffix
+          mat-icon-button
+          aria-label="Clear"
+          (click)="maxMonthlyRoomCost = null">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>
+          {{ "gpt-room-settings.rest-room-flow-month" | translate }}
+        </mat-label>
+        <span matPrefix>$&nbsp;</span>
+        <input
+          #costInput
+          matInput
+          (wheel)="onWheel($event)"
+          appAccessibilityEscapedInput
+          type="number"
+          inputmode="numeric"
+          min="0"
+          step="0.01"
+          [(ngModel)]="maxMonthlyFlowingRoomCost" />
+        <button
+          *ngIf="maxMonthlyFlowingRoomCost !== null"
+          matSuffix
+          mat-icon-button
+          aria-label="Clear"
+          (click)="maxMonthlyFlowingRoomCost = null">
+          <mat-icon>close</mat-icon>
+        </button>
+        <button
+          style="cursor: help"
+          [matTooltip]="'gpt-room-settings.rest-flow-description' | translate"
+          matSuffix
+          mat-icon-button>
+          <mat-icon class="material-icons-outlined">info</mat-icon>
+        </button>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>{{ "gpt-room-settings.rest-room-day" | translate }}</mat-label>
+        <span matPrefix>$&nbsp;</span>
+        <input
+          #costInput
+          matInput
+          (wheel)="onWheel($event)"
+          appAccessibilityEscapedInput
+          type="number"
+          inputmode="numeric"
+          min="0"
+          step="0.01"
+          [(ngModel)]="maxDailyRoomCost" />
+        <button
+          *ngIf="maxDailyRoomCost !== null"
+          matSuffix
+          mat-icon-button
+          aria-label="Clear"
+          (click)="maxDailyRoomCost = null">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+    </mat-step>
+
+    <mat-step *ngIf="isOwner || canChangeModeratorQuota; else deactivated">
+      <ng-template matStepLabel>{{ "gpt-room-settings.restrictions-moderator" | translate }}</ng-template>
+      <mat-form-field>
+        <mat-label>{{ "gpt-room-settings.rest-mod-acc" | translate }}</mat-label>
+        <span matPrefix>$&nbsp;</span>
+        <input
+          #costInput
+          matInput
+          (wheel)="onWheel($event)"
+          appAccessibilityEscapedInput
+          type="number"
+          inputmode="numeric"
+          min="0"
+          step="0.01"
+          [(ngModel)]="maxAccumulatedModeratorCost" />
+        <button
+          *ngIf="maxAccumulatedModeratorCost !== null"
+          matSuffix
+          mat-icon-button
+          aria-label="Clear"
+          (click)="maxAccumulatedModeratorCost = null">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>
+          {{ "gpt-room-settings.rest-mod-month" | translate }}
+        </mat-label>
+        <span matPrefix>$&nbsp;</span>
+        <input
+          #costInput
+          matInput
+          (wheel)="onWheel($event)"
+          appAccessibilityEscapedInput
+          type="number"
+          inputmode="numeric"
+          min="0"
+          step="0.01"
+          [(ngModel)]="maxMonthlyModeratorCost" />
+        <button
+          *ngIf="maxMonthlyModeratorCost !== null"
+          matSuffix
+          mat-icon-button
+          aria-label="Clear"
+          (click)="maxMonthlyModeratorCost = null">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>
+          {{ "gpt-room-settings.rest-mod-flow-month" | translate }}
+        </mat-label>
+        <span matPrefix>$&nbsp;</span>
+        <input
+          #costInput
+          matInput
+          (wheel)="onWheel($event)"
+          appAccessibilityEscapedInput
+          type="number"
+          inputmode="numeric"
+          min="0"
+          step="0.01"
+          [(ngModel)]="maxMonthlyFlowingModeratorCost" />
+        <button
+          *ngIf="maxMonthlyFlowingModeratorCost !== null"
+          matSuffix
+          mat-icon-button
+          aria-label="Clear"
+          (click)="maxMonthlyFlowingModeratorCost = null">
+          <mat-icon>close</mat-icon>
+        </button>
+        <button
+          style="cursor: help"
+          [matTooltip]="'gpt-room-settings.rest-flow-description' | translate"
+          matSuffix
+          mat-icon-button>
+          <mat-icon class="material-icons-outlined">info</mat-icon>
+        </button>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>{{ "gpt-room-settings.rest-mod-day" | translate }}</mat-label>
+        <span matPrefix>$&nbsp;</span>
+        <input
+          #costInput
+          matInput
+          (wheel)="onWheel($event)"
+          appAccessibilityEscapedInput
+          type="number"
+          inputmode="numeric"
+          min="0"
+          step="0.01"
+          [(ngModel)]="maxDailyModeratorCost" />
+        <button
+          *ngIf="maxDailyModeratorCost !== null"
+          matSuffix
+          mat-icon-button
+          aria-label="Clear"
+          (click)="maxDailyModeratorCost = null">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+    </mat-step>
+
+    <mat-step *ngIf="isOwner || canChangeParticipantQuota; else deactivated">
+      <ng-template matStepLabel>{{ "gpt-room-settings.restrictions-participant" | translate }}</ng-template>
+      <mat-form-field>
+        <mat-label>{{ "gpt-room-settings.rest-part-acc" | translate }}</mat-label>
+        <span matPrefix>$&nbsp;</span>
+        <input
+          #costInput
+          matInput
+          (wheel)="onWheel($event)"
+          appAccessibilityEscapedInput
+          type="number"
+          inputmode="numeric"
+          min="0"
+          step="0.01"
+          [(ngModel)]="maxAccumulatedParticipantCost" />
+        <button
+          *ngIf="maxAccumulatedParticipantCost !== null"
+          matSuffix
+          mat-icon-button
+          aria-label="Clear"
+          (click)="maxAccumulatedParticipantCost = null">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>
+          {{ "gpt-room-settings.rest-part-month" | translate }}
+        </mat-label>
+        <span matPrefix>$&nbsp;</span>
+        <input
+          #costInput
+          matInput
+          (wheel)="onWheel($event)"
+          appAccessibilityEscapedInput
+          type="number"
+          inputmode="numeric"
+          min="0"
+          step="0.01"
+          [(ngModel)]="maxMonthlyParticipantCost" />
+        <button
+          *ngIf="maxMonthlyParticipantCost !== null"
+          matSuffix
+          mat-icon-button
+          aria-label="Clear"
+          (click)="maxMonthlyParticipantCost = null">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>
+          {{ "gpt-room-settings.rest-part-flow-month" | translate }}
+        </mat-label>
+        <span matPrefix>$&nbsp;</span>
+        <input
+          #costInput
+          matInput
+          (wheel)="onWheel($event)"
+          appAccessibilityEscapedInput
+          type="number"
+          inputmode="numeric"
+          min="0"
+          step="0.01"
+          [(ngModel)]="maxMonthlyFlowingParticipantCost" />
+        <button
+          *ngIf="maxMonthlyFlowingParticipantCost !== null"
+          matSuffix
+          mat-icon-button
+          aria-label="Clear"
+          (click)="maxMonthlyFlowingParticipantCost = null">
+          <mat-icon matSuffix>close</mat-icon>
+        </button>
+        <button
+          style="cursor: help"
+          [matTooltip]="'gpt-room-settings.rest-flow-description' | translate"
+          matSuffix
+          mat-icon-button>
+          <mat-icon class="material-icons-outlined">info</mat-icon>
+        </button>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>{{ "gpt-room-settings.rest-part-day" | translate }}</mat-label>
+        <span matPrefix>$&nbsp;</span>
+        <input
+          #costInput
+          matInput
+          (wheel)="onWheel($event)"
+          appAccessibilityEscapedInput
+          type="number"
+          inputmode="numeric"
+          min="0"
+          step="0.01"
+          [(ngModel)]="maxDailyParticipantCost" />
+        <button
+          *ngIf="maxDailyParticipantCost !== null"
+          matSuffix
+          mat-icon-button
+          aria-label="Clear"
+          (click)="maxDailyParticipantCost = null">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+    </mat-step>
+
+    <mat-step *ngIf="isOwner || canChangeUsageTimes; else deactivated">
+      <ng-template matStepLabel>{{ "gpt-room-settings.usage-times" | translate }}</ng-template>
+      <p>{{ "gpt-room-settings.usage-time-info" | translate }}</p>
+      <div class="time-select">
+        <span>
+          <mat-label>{{ "gpt-room-settings.start-time" | translate }}</mat-label>
+          <ngx-mat-timepicker [(ngModel)]="startDate"></ngx-mat-timepicker>
+        </span>
+        <span>
+          <mat-label>{{ "gpt-room-settings.end-time" | translate }}</mat-label>
+          <ngx-mat-timepicker [(ngModel)]="endDate"></ngx-mat-timepicker>
+        </span>
+      </div>
+      <mat-form-field>
+        <mat-label>
+          {{ "gpt-room-settings.start-and-end-date" | translate }}
+        </mat-label>
+        <mat-date-range-input
+          [formGroup]="dateRange"
+          [rangePicker]="dateRangePicker">
+          <input
+            matStartDate
+            formControlName="start" />
+          <input
+            matEndDate
+            formControlName="end" />
+        </mat-date-range-input>
+        <mat-hint>
+          {{ getDateFormatString() }} – {{ getDateFormatString() }}
+        </mat-hint>
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="dateRangePicker"></mat-datepicker-toggle>
+        <mat-date-range-picker #dateRangePicker></mat-date-range-picker>
+      </mat-form-field>
+      <div class="repeat-select">
+        <mat-form-field>
+          <mat-label>
+            {{ "gpt-room-settings.usage-time-duration" | translate }}
+          </mat-label>
+          <input
+            matInput
+            appAccessibilityEscapedInput
+            type="number"
+            inputmode="numeric"
+            pattern="[0-9]*"
+            [(ngModel)]="repeatDuration" />
+          <button
+            *ngIf="repeatDuration !== null"
+            matSuffix
+            mat-icon-button
+            aria-label="Clear"
+            (click)="repeatDuration = null">
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>
+            {{ "gpt-room-settings.usage-time-unit" | translate }}
+          </mat-label>
+          <mat-select [(ngModel)]="repeatUnit">
+            <mat-option [value]="null">
+              <em>{{ "gpt-room-settings.reset" | translate }}</em>
+            </mat-option>
+            <mat-option
+              *ngFor="let unit of possibleRepeatUnits"
+              [value]="unit">
+              {{ "gpt-room-settings.usage-time-values." + unit | translate }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <button
+        mat-button
+        (click)="addUsageTime()"
+        class="primary-btn">
+        {{ "gpt-room-settings.add-usage-time" | translate }}
+      </button>
+      <mat-list>
+        <mat-list-item
+          class="keyword-item"
+          *ngFor="let item of usageTimes; let i = index">
+          <div matListItemTitle>
+            {{ formatRange(item.startDate, item.endDate) }}
+          </div>
+          <div
+            matListItemLine
+            *ngIf="item.repeatDuration && item.repeatUnit">
+            {{
+              getRepeatString(item) | translate : { value: item.repeatDuration }
+            }}
+          </div>
+          <button mat-icon-button>
+            <mat-icon (click)="usageTimes.splice(i, 1)">close</mat-icon>
+          </button>
+        </mat-list-item>
+      </mat-list>
+    </mat-step>
+
+    <mat-step *ngIf="isOwner">
+      <ng-template matStepLabel>{{ "gpt-room-settings.general-rights" | translate }}</ng-template>
+      <mat-slide-toggle [(ngModel)]="allowsUnregisteredUsers">
+        {{ "gpt-room-settings.general-right-unregistered" | translate }}
+      </mat-slide-toggle>
+      <mat-slide-toggle [(ngModel)]="disableEnhancedPrompt">
+        {{ "gpt-room-settings.general-disable-enhanced-prompt" | translate }}
+      </mat-slide-toggle>
+      <mat-slide-toggle [(ngModel)]="disableForwardMessage">
+        {{ "gpt-room-settings.general-disable-forward-message" | translate }}
+      </mat-slide-toggle>
+    </mat-step>
+
+    <mat-step *ngIf="isOwner">
+      <ng-template matStepLabel>{{ "gpt-room-settings.moderator-rights" | translate }}</ng-template>
+      <mat-slide-toggle [(ngModel)]="canChangeParticipantQuota">
+        {{ "gpt-room-settings.mod-right-part-quota" | translate }}
+      </mat-slide-toggle>
+      <mat-slide-toggle [(ngModel)]="canChangeModeratorQuota">
+        {{ "gpt-room-settings.mod-right-mod-quota" | translate }}
+      </mat-slide-toggle>
+      <mat-slide-toggle [(ngModel)]="canChangeRoomQuota">
+        {{ "gpt-room-settings.mod-right-room-quota" | translate }}
+      </mat-slide-toggle>
+      <mat-slide-toggle [(ngModel)]="canChangePreset">
+        {{ "gpt-room-settings.mod-right-preset" | translate }}
+      </mat-slide-toggle>
+      <mat-slide-toggle [(ngModel)]="canChangeUsageTimes">
+        {{ "gpt-room-settings.mod-right-usage-times" | translate }}
+      </mat-slide-toggle>
+      <mat-slide-toggle [(ngModel)]="canChangeApiSettings">
+        {{ "gpt-room-settings.mod-right-api-settings" | translate }}
+      </mat-slide-toggle>
+    </mat-step>
+  </mat-stepper>
 </mat-dialog-content>
 
 <app-dialog-action-buttons
