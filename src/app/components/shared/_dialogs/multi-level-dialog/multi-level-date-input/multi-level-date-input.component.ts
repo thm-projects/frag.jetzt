@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
+import { BuiltAction, DYNAMIC_INPUT, QuotaInputAction } from '../interface/multi-level-dialog.types';
 
 interface Option {
   value: string;
@@ -13,6 +14,7 @@ interface Option {
 
 
 export class MultiLevelDateInputComponent implements OnInit {
+  data = inject(DYNAMIC_INPUT) as BuiltAction<QuotaInputAction>;
 
   options: Option[] = [
     { value: 'reset', i18nPath: 'Zurücksetzen' },
