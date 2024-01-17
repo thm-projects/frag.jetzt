@@ -685,7 +685,7 @@
     "cancel": "Annuler",
     "confirm": "Soumettre",
     "complete": "Terminer",
-    "complete-text": "Tu as répondu à toutes les questions. Clique sur « Soumettre » pour terminer la configuration. Tu peux aussi revenir en arrière et modifier tes réponses.",
+    "complete-text": "Clique sur « Soumettre » pour enregistrer la configuration de la salle.",
     "complete-reset": "Tout réinitialiser",
     "single": "Question {{number}}",
     "range": "Questions {{start}} à {{end}}"

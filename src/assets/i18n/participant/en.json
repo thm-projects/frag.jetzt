@@ -525,7 +525,7 @@
     "cancel": "Cancel",
     "confirm": "Submit",
     "complete": "Complete",
-    "complete-text": "You have answered all the questions. Click »Submit« to finish the configuration. You can also go back and change your answers.",
+    "complete-text": "Click »Submit« to save the room configuration.",
     "complete-reset": "Reset everything",
     "single": "Question {{number}}",
     "range": "Questions {{start}} to {{end}}"

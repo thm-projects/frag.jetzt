@@ -753,7 +753,7 @@
     "cancel": "Abbrechen",
     "confirm": "Absenden",
     "complete": "Abschließen",
-    "complete-text": "Du hast alle Fragen beantwortet. Klicke auf »Absenden«, um die Konfiguration zu beenden. Du kannst auch noch einmal zurückgehen und deine Antworten ändern.",
+    "complete-text": "Klicke auf »Absenden«, um die Raum-Konfiguration zu speichern.",
     "complete-reset": "Alles zurücksetzen",
     "single": "Frage {{number}}",
     "range": "Fragen {{start}} bis {{end}}"
@@ -765,7 +765,7 @@
     "r-api-short": "Aktivierungsart",
     "r-api-choice-key": "Mit API Key",
     "r-api-choice-voucher": "Mit Voucher",
-    "help-api-setup": "Um ChatGPT zu aktivieren, musst du einen API Key von OpenAI eingeben. Diesen erhältst du, wenn du dich auf der Website von OpenAI registrierst.",    
+    "help-api-setup": "Um ChatGPT zu aktivieren, musst du einen API Key von OpenAI eingeben. Diesen erhältst du, wenn du dich auf der Website von OpenAI registrierst.",
     "q-api-title": "API Schlüssel & Organisation",
     "l-api-code": "API Code",
     "l-api-org": "API Organisation",
