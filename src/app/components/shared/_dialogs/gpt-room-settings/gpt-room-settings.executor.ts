@@ -14,56 +14,65 @@ export const saveSettings = (
   answers: AnsweredMultiLevelData,
   previous: Data,
 ): Observable<GPTRoomSetting> => {
+  console.log("1");
   // Q1
   const apiKey = answers.gptInfo?.value['apiCode'];
   const apiOrg = answers.gptInfo?.value['apiOrganization'];
   const apiVoucher = answers.gptInfoVoucher?.value['voucher'];
 
-  const test = answers.gptModel;
-  console.log(test);
-
+  console.log("2");
   // Q2
-  const roomQuota = answers.roomQuota.value['total'];
-  const roomQuotaMonthly = answers.roomQuota.value['monthly'];
-  const roomQuotaMonthlyFlowing = answers.roomQuota.value['monthlyFlowing'];
-  const roomQuotaDaily = answers.roomQuota.value['daily'];
+  const roomQuota = answers.roomQuota?.value['total'];
+  const roomQuotaMonthly = answers.roomQuota?.value['monthly'];
+  const roomQuotaMonthlyFlowing = answers.roomQuota?.value['monthlyFlowing'];
+  const roomQuotaDaily = answers.roomQuota?.value['daily'];
 
+  console.log("3");
   // Q3
-  const moderatorQuota = answers.moderatorQuota.value['total'];
-  const moderatorQuotaMonthly = answers.moderatorQuota.value['monthly'];
+  const moderatorQuota = answers.moderatorQuota?.value['total'];
+  const moderatorQuotaMonthly = answers.moderatorQuota?.value['monthly'];
   const moderatorQuotaMonthlyFlowing =
-    answers.moderatorQuota.value['monthlyFlowing'];
-  const moderatorQuotaDaily = answers.moderatorQuota.value['daily'];
+    answers.moderatorQuota?.value['monthlyFlowing'];
+  const moderatorQuotaDaily = answers.moderatorQuota?.value['daily'];
+
+  console.log("4");
   // Q4
-  const participantQuota = answers.participantQuota.value['total'];
-  const participantQuotaMonthly = answers.participantQuota.value['monthly'];
+  const participantQuota = answers.participantQuota?.value['total'];
+  const participantQuotaMonthly = answers.participantQuota?.value['monthly'];
   const participantQuotaMonthlyFlowing =
-    answers.participantQuota.value['monthlyFlowing'];
-  const participantQuotaDaily = answers.participantQuota.value['daily'];
+    answers.participantQuota?.value['monthlyFlowing'];
+  const participantQuotaDaily = answers.participantQuota?.value['daily'];
 
+  console.log("5");
   // Q5
+  const usageTimes = answers.usageTime?.value;
+  console.log(usageTimes);
 
+  console.log("6");
   // Q6
   const allowUnregisteredUsers =
-    answers.miscellaneousSettings.value['allowUnregisteredUsers'];
+    answers.miscellaneousSettings?.value['allowUnregisteredUsers'];
   const allowAnswerWithoutPreset =
-    answers.miscellaneousSettings.value['allowAnswerWithoutPreset'];
+    answers.miscellaneousSettings?.value['allowAnswerWithoutPreset'];
   const onlyAnswerWhenCalled =
-    answers.miscellaneousSettings.value['onlyAnswerWhenCalled'];
+    answers.miscellaneousSettings?.value['onlyAnswerWhenCalled'];
 
+  console.log("7");
   // Q7
   const moderatorCanChangeRoomQuota =
-    answers.moderatorPermissions.value['canChangeRoomQuota'];
+    answers.moderatorPermissions?.value['canChangeRoomQuota'];
   const moderatorCanChangeModeratorQuota =
-    answers.moderatorPermissions.value['canChangeModeratorQuota'];
+    answers.moderatorPermissions?.value['canChangeModeratorQuota'];
   const moderatorCanChangeParticipantQuota =
-    answers.moderatorPermissions.value['canChangeParticipantQuota'];
+    answers.moderatorPermissions?.value['canChangeParticipantQuota'];
   const moderatorCanChangePreset =
-    answers.moderatorPermissions.value['canChangePreset'];
+    answers.moderatorPermissions?.value['canChangePreset'];
   const moderatorCanChangeUsageTimes =
-    answers.moderatorPermissions.value['canChangeUsageTimes'];
+    answers.moderatorPermissions?.value['canChangeUsageTimes'];
   const moderatorCanChangeApiSettings =
-    answers.moderatorPermissions.value['canChangeApiSettings'];
+    answers.moderatorPermissions?.value['canChangeApiSettings'];
+
+  console.log("end");
 
   const verify = (v: number) => (v ? Math.round(v) : v);
   const patch: Partial<GPTRoomSettingAPI> = {};
@@ -160,6 +169,12 @@ export const saveSettings = (
   if (rights !== previous.GPTSettings.rightsBitset) {
     patch.rightsBitset = rights;
   }
+
+  const gptService = injector.get(GptService);
+  gptService.updateUsageTimes(
+    previous.roomID,
+    usageTimes,
+  );
 
   return injector.get(GptService).patchRoomSetting(
     previous.roomID,

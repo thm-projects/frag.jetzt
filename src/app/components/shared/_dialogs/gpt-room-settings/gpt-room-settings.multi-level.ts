@@ -6,7 +6,7 @@ import {
 import { GptService } from 'app/services/http/gpt.service';
 import { GPTRoomSetting } from 'app/models/gpt-room-setting';
 import { AccountStateService } from 'app/services/state/account-state.service';
-import { forkJoin, map, merge, take, tap } from 'rxjs';
+import { filter, forkJoin, map, merge, take, tap } from 'rxjs';
 import { KeycloakRoles, User } from 'app/models/user';
 import { UserRole } from 'app/models/user-roles.enum';
 import { RoomAccess } from 'app/services/persistence/lg/db-room-acces.model';
@@ -22,24 +22,12 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
   title: 'ml-gpt-room-settings.title',
   questions: [
     {
-      tag: 'usageTime',
-      title: 'ml-gpt-room-settings.q-periods-of-use',
-      stepHelp: 'ml-gpt-room-settings.help.api-title-help',
-      buildAction(_injector, _answers, previousState) {
-        if (previousState) return previousState;
-        return buildInput(this, {
-          tag: "test",
-          type: 'date-input',
-        }
-        );
-      },
-    },
-    {
       tag: 'gptSetup',
       title: 'ml-gpt-room-settings.q-api-setup',
       stepHelp: 'ml-gpt-room-settings.help.select-openai-setup',
       active: (_answers, injector) => {
         return injector.get(AccountStateService).user$.pipe(
+          filter(v => !!v),
           take(1),
           map((user) => user && !user.isGuest),
         )
@@ -237,6 +225,7 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
       stepHelp: 'ml-gpt-room-settings.help.api-title-help',
       active: (answers, injector) => {
         return injector.get(RoomStateService).room$.pipe(
+          filter(v => !!v),
           take(1),
           map((room) => room.mode === 'ARS'),
         )
@@ -300,6 +289,7 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
       stepHelp: 'ml-gpt-room-settings.help.api-title-help',
       active: (answers, injector) => {
         return injector.get(RoomStateService).room$.pipe(
+          filter(v => !!v),
           take(1),
           map((room) => room.mode === 'ARS'),
         )
@@ -365,7 +355,7 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
       buildAction(_injector, _answers, previousState) {
         if (previousState) return previousState;
         return buildInput(this, {
-          tag: "test",
+          tag: "usageTimes",
           type: 'date-input',
         }
         );
@@ -377,6 +367,7 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
       stepHelp: 'ml-gpt-room-settings.help.api-title-help',
       active: (answers, injector) => {
         return injector.get(RoomStateService).room$.pipe(
+          filter(v => !!v),
           take(1),
           map((room) => room.mode === 'PLE'),
         )
@@ -406,6 +397,7 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
       stepHelp: 'ml-gpt-room-settings.help.api-title-help',
       active: (answers, injector) => {
         return injector.get(RoomStateService).room$.pipe(
+          filter(v => !!v),
           take(1),
           map((room) => room.mode === 'ARS'),
         )

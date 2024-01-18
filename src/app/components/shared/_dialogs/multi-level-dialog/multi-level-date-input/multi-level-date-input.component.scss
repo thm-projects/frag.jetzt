@@ -24,3 +24,13 @@ button {
 ::-webkit-calendar-picker-indicator {
   filter: invert(1);
 }
+
+.time-item {
+  display: grid;
+  grid-template-columns: 1fr auto;
+}
+
+.time-item .delete-button {
+  justify-content: end;
+  align-items: end;
+}
