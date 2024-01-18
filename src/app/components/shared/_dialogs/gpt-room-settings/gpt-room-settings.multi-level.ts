@@ -27,10 +27,10 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
       stepHelp: 'ml-gpt-room-settings.help.select-openai-setup',
       active: (_answers, injector) => {
         return injector.get(AccountStateService).user$.pipe(
-          filter(v => !!v),
+          filter((v) => !!v),
           take(1),
           map((user) => user && !user.isGuest),
-        )
+        );
       },
       buildAction(_injector, _answers, previousState, data) {
         if (previousState) return previousState;
@@ -44,10 +44,18 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
             type: 'radio-select',
             tag: 'setupType',
             label: 'ml-gpt-room-settings.r-api-short',
-            defaultValue: data.GPTSettings.trialEnabled ? 'apiVoucher' : 'apiCode',
+            defaultValue: data.GPTSettings.trialEnabled
+              ? 'apiVoucher'
+              : 'apiCode',
             options: [
-              { value: 'apiCode', label: 'ml-gpt-room-settings.r-api-choice-key' },
-              { value: 'apiVoucher', label: 'ml-gpt-room-settings.r-api-choice-voucher' },
+              {
+                value: 'apiCode',
+                label: 'ml-gpt-room-settings.r-api-choice-key',
+              },
+              {
+                value: 'apiVoucher',
+                label: 'ml-gpt-room-settings.r-api-choice-voucher',
+              },
             ],
             validators: [Validators.required],
             errorStates: {
@@ -63,16 +71,15 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
       stepHelp: 'ml-gpt-room-settings.help.api-title-help',
       active: (answers, injector) => {
         return forkJoin([
-          injector.get(AccountStateService).user$.pipe(
-            take(1),
-          ),
-          injector.get(RoomStateService).room$.pipe(
-            take(1),
-          ),]
-        ).pipe(
+          injector.get(AccountStateService).user$.pipe(take(1)),
+          injector.get(RoomStateService).room$.pipe(take(1)),
+        ]).pipe(
           map(([user, room]) => {
-            return user?.id === room?.ownerId
-            && answers.gptSetup && answers.gptSetup.value.setupType === 'apiCode'
+            return (
+              user?.id === room?.ownerId &&
+              answers.gptSetup &&
+              answers.gptSetup.value.setupType === 'apiCode'
+            );
           }),
         );
       },
@@ -137,7 +144,7 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
           },
         );
       },
-    },  
+    },
     {
       tag: 'gptModel',
       title: 'ml-gpt-room-settings.q-api-title',
@@ -225,10 +232,10 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
       stepHelp: 'ml-gpt-room-settings.help.api-title-help',
       active: (answers, injector) => {
         return injector.get(RoomStateService).room$.pipe(
-          filter(v => !!v),
+          filter((v) => !!v),
           take(1),
           map((room) => room.mode === 'ARS'),
-        )
+        );
       },
       buildAction(_injector, _answers, previousState, data) {
         if (previousState) return previousState;
@@ -289,10 +296,10 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
       stepHelp: 'ml-gpt-room-settings.help.api-title-help',
       active: (answers, injector) => {
         return injector.get(RoomStateService).room$.pipe(
-          filter(v => !!v),
+          filter((v) => !!v),
           take(1),
           map((room) => room.mode === 'ARS'),
-        )
+        );
       },
       buildAction(_injector, _answers, previousState, data) {
         if (previousState) return previousState;
@@ -306,7 +313,8 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
               step: 0.01,
             },
             defaultValue:
-              data.GPTSettings.maxAccumulatedParticipantCost?.toString() || '20',
+              data.GPTSettings.maxAccumulatedParticipantCost?.toString() ||
+              '20',
             tag: 'total',
             label: 'ml-gpt-room-settings.l-total-cost-limit',
           },
@@ -355,10 +363,9 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
       buildAction(_injector, _answers, previousState) {
         if (previousState) return previousState;
         return buildInput(this, {
-          tag: "usageTimes",
+          tag: 'usageTimes',
           type: 'date-input',
-        }
-        );
+        });
       },
     },
     {
@@ -367,10 +374,10 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
       stepHelp: 'ml-gpt-room-settings.help.api-title-help',
       active: (answers, injector) => {
         return injector.get(RoomStateService).room$.pipe(
-          filter(v => !!v),
+          filter((v) => !!v),
           take(1),
           map((room) => room.mode === 'PLE'),
-        )
+        );
       },
       buildAction(_injector, _answers, previousState, data) {
         if (previousState) return previousState;
@@ -397,10 +404,10 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
       stepHelp: 'ml-gpt-room-settings.help.api-title-help',
       active: (answers, injector) => {
         return injector.get(RoomStateService).room$.pipe(
-          filter(v => !!v),
+          filter((v) => !!v),
           take(1),
           map((room) => room.mode === 'ARS'),
-        )
+        );
       },
       buildAction(_injector, _answers, previousState, data) {
         if (previousState) return previousState;
@@ -435,7 +442,7 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
         return injector.get(RoomStateService).room$.pipe(
           take(1),
           map((room) => room.mode === 'ARS'),
-        )
+        );
       },
       buildAction(_injector, _answers, previousState, data) {
         if (previousState) return previousState;

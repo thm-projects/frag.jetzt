@@ -3,7 +3,7 @@
 }
 
 ::ng-deep .mat-form-field-infix {
-    width: 0 !important;
+  width: 0 !important;
 }
 
 .container {
@@ -15,10 +15,10 @@
 }
 
 button {
-    width: 100%;
-    margin-bottom: 1rem;
-    background-color: var(--primary);
-    color: var(--on-primary);
+  width: 100%;
+  margin-bottom: 1rem;
+  background-color: var(--primary);
+  color: var(--on-primary);
 }
 
 ::-webkit-calendar-picker-indicator {

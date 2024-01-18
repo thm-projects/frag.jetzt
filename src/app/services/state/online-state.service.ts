@@ -46,7 +46,7 @@ export class OnlineStateService {
     }).pipe(distinctUntilChanged(), shareReplay(1));
     this.ratingStats$ = this.online$.pipe(
       filter((v) => Boolean(v)),
-      switchMap(() => interval(5000).pipe(startWith(0))),
+      switchMap(() => interval(60_000).pipe(startWith(0))),
       switchMap(() =>
         rating.getRatings().pipe(
           catchError((err) => {

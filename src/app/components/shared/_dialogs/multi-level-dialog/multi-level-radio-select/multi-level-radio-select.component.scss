@@ -3,15 +3,24 @@
 }
 
 .mat-radio-button {
-  padding-bottom: 0.7em;
   display: block;
+
+  &:has(+ .mat-radio-button) {
+    padding-bottom: 0.7em;
+  }
 }
 
 :host ::ng-deep .mat-form-field-underline {
-  background-color: transparent;
+  background-color: transparent !important;
 }
 
 .mat-form-field {
-  margin-bottom: 0.5em;
+  margin-bottom: 0;
   display: block;
+  transition: margin-bottom 0.2s ease-in-out;
+}
+
+.mat-form-field:has(.mat-hint),
+.mat-form-field-invalid {
+  margin-bottom: 2em;
 }

@@ -22,6 +22,7 @@ import {
   Language,
 } from 'app/services/state/app-state.service';
 import { DeviceStateService } from 'app/services/state/device-state.service';
+import { AppComponent } from 'app/app.component';
 
 const LANG_KEYS = [
   'PARTICIPANT',
@@ -328,6 +329,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   toggleNotificationBlock() {
     this.change.isNotificationBlocked = !this.change.isNotificationBlocked;
+    if (!this.change.isNotificationBlocked) {
+      AppComponent.instance.hasPushSubscription().subscribe((b) => {
+        if (!b) {
+          AppComponent.instance.registerPush();
+        }
+      });
+    }
   }
 
   deleteNotes() {

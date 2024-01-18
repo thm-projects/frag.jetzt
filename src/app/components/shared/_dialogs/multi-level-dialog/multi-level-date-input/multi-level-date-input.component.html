@@ -1,55 +1,85 @@
 <form [formGroup]="dateRangeGroup">
+  <mat-form-field appearance="outline">
+    <mat-label>Zeitspanne</mat-label>
+    <mat-date-range-input [rangePicker]="picker">
+      <input
+        matStartDate
+        matInput
+        placeholder="Start date"
+        formControlName="startDate" />
+      <input
+        matEndDate
+        matInput
+        placeholder="End date"
+        formControlName="endDate" />
+    </mat-date-range-input>
+    <mat-datepicker-toggle
+      matSuffix
+      [for]="picker"></mat-datepicker-toggle>
+    <mat-date-range-picker #picker></mat-date-range-picker>
+  </mat-form-field>
+
+  <div class="container">
     <mat-form-field appearance="outline">
-        <mat-label>Zeitspanne</mat-label>
-        <mat-date-range-input [rangePicker]="picker">
-            <input matStartDate matInput placeholder="Start date" formControlName="startDate"/>
-            <input matEndDate matInput placeholder="End date" formControlName="endDate"/>
-      </mat-date-range-input>
-            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-date-range-picker #picker></mat-date-range-picker>
+      <mat-label>Start Time</mat-label>
+      <input
+        matInput
+        type="time"
+        formControlName="startTime" />
     </mat-form-field>
 
-    <div class="container">
-        <mat-form-field appearance="outline">
-            <mat-label>Start Time</mat-label>
-            <input matInput type="time" formControlName="startTime">
-          </mat-form-field>
-          
-          <mat-form-field appearance="outline">
-            <mat-label>End Time</mat-label>
-            <input matInput type="time" formControlName="endTime">
-        </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>End Time</mat-label>
+      <input
+        matInput
+        type="time"
+        formControlName="endTime" />
+    </mat-form-field>
 
-        <mat-form-field appearance="outline">
-            <mat-select formControlName="selectedOption">
-                <mat-option *ngFor="let option of options" [value]="option.value">
-                    {{option.i18nPath | translate}}
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
-    </div>
+    <mat-form-field appearance="outline">
+      <mat-select formControlName="selectedOption">
+        <mat-option
+          *ngFor="let option of options"
+          [value]="option.value">
+          {{ option.i18nPath | translate }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
 </form>
 
-<button mat-raised-button (click)="addUsageTime()">
-    <mat-icon>add</mat-icon>
-    <span>Zeit hinzufügen</span>
+<button
+  mat-raised-button
+  (click)="addUsageTime()">
+  <mat-icon>add</mat-icon>
+  <span>Zeit hinzufügen</span>
 </button>
 
 <div *ngIf="dateRangeGroup.errors?.invalid">
-    End time cannot be before start time.
-  </div>
+  End time cannot be before start time.
+</div>
 
-<div *ngIf="usageTimes.length > 0" class="usage-times-list">
-    <div *ngFor="let time of usageTimes; let i = index" [ngClass]="{'odd': i % 2 !== 0, 'even': i % 2 === 0}" class="time-item">
-      <div class="time-details">
-        <span>{{ time.startDate | date: 'dd.MM.yyyy' }} - {{ time.endDate | date: 'dd.MM.yyyy' }}</span>
-        <br><span>{{ time.startDuration }} - {{ time.endDuration }}</span>
-        <br><span>{{ time.repeatDuration }}x {{ time.repeatUnit | translate }}</span>
-      </div>
-      <button class="delete-button" (click)="deleteTime(i)">
-        <mat-icon>close</mat-icon>
-      </button>
+<div
+  *ngIf="usageTimes.length > 0"
+  class="usage-times-list">
+  <div
+    *ngFor="let time of usageTimes; let i = index"
+    [ngClass]="{ odd: i % 2 !== 0, even: i % 2 === 0 }"
+    class="time-item">
+    <div class="time-details">
+      <span>
+        {{ time.startDate | date : "dd.MM.yyyy" }} -
+        {{ time.endDate | date : "dd.MM.yyyy" }}
+      </span>
+      <br />
+      <span>{{ time.startDuration }} - {{ time.endDuration }}</span>
+      <br />
+      <span>{{ time.repeatDuration }}x {{ time.repeatUnit | translate }}</span>
     </div>
+    <button
+      class="delete-button"
+      (click)="deleteTime(i)">
+      <mat-icon>close</mat-icon>
+    </button>
   </div>
-  
-  
+</div>

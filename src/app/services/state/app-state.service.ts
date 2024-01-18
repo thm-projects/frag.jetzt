@@ -75,9 +75,12 @@ export class AppStateService {
       this.updateCookieAccepted$,
     ).pipe(distinctUntilChanged(), shareReplay(1));
     this.theme$ = concat(
-      this.dbConfig
-        .get('theme')
-        .pipe(map((v) => (v?.value || 'systemDefault') as ThemeKey)),
+      this.dbConfig.get('theme').pipe(
+        map((v) => {
+          const key = v?.value || 'systemDefault';
+          return Object.keys(themes).includes(key) ? key : 'systemDefault';
+        }),
+      ),
       this.updateTheme$,
     ).pipe(distinctUntilChanged(), shareReplay(1));
     this.appliedTheme$ = merge(this.theme$, this.deviceState.dark$)
