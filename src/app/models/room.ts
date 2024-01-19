@@ -28,11 +28,14 @@ export class Room {
   language: string;
   livepollActive: boolean;
   keywordExtractionActive: boolean;
+  radarActive: boolean;
+  focusActive: boolean;
+  chatGptActive: boolean;
+  mode: 'ARS' | 'PLE';
   // transient fields
   tags: string[];
   brainstormingSession: BrainstormingSession;
   livepollSession: LivepollSession;
-  mode: 'ARS' | 'PLE';
 
   constructor({
     id = null,
@@ -59,11 +62,14 @@ export class Room {
     language = null,
     livepollActive = true,
     keywordExtractionActive = true,
+    radarActive = true,
+    focusActive = true,
+    chatGptActive = true,
+    mode = 'ARS',
     // transient fields
     tags = [],
     brainstormingSession = null,
     livepollSession = null,
-
   }: Partial<FieldsOf<Room>>) {
     this.id = id;
     this.ownerId = ownerId;
@@ -96,7 +102,10 @@ export class Room {
       brainstormingSession,
     );
     this.livepollSession = verifyInstance(LivepollSession, livepollSession);
-    this.mode = 'PLE';
+    this.radarActive = radarActive;
+    this.focusActive = focusActive;
+    this.chatGptActive = chatGptActive;
+    this.mode = mode;
   }
 }
 
