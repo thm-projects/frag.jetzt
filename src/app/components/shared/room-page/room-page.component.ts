@@ -69,7 +69,7 @@ import { MULTI_LEVEL_GPT_ROOM_SETTINGS } from '../_dialogs/gpt-room-settings/gpt
 import { GptService } from 'app/services/http/gpt.service';
 import { saveSettings } from '../_dialogs/gpt-room-settings/gpt-room-settings.executor';
 import { GPTRoomService } from 'app/services/http/gptroom.service';
-import { QuotaService } from 'app/services/http/quota.service';
+import { Quota, QuotaService } from 'app/services/http/quota.service';
 
 @Component({
   selector: 'app-room-page',
@@ -510,6 +510,39 @@ export class RoomPageComponent implements OnInit, OnDestroy {
                       : of(null),
                   ]);
                 }),
+                switchMap(
+                  ([setting, roomQuota, moderatorQuota, participantQuota]) => {
+                    const timezone =
+                      Intl.DateTimeFormat().resolvedOptions().timeZone;
+                    return forkJoin([
+                      of(setting),
+                      roomQuota
+                        ? of(roomQuota)
+                        : this.gptRoomService.createRoomQuota(
+                            this.room.id,
+                            new Quota({
+                              timezone,
+                            }),
+                          ),
+                      moderatorQuota
+                        ? of(moderatorQuota)
+                        : this.gptRoomService.createModeratorQuota(
+                            this.room.id,
+                            new Quota({
+                              timezone,
+                            }),
+                          ),
+                      participantQuota
+                        ? of(participantQuota)
+                        : this.gptRoomService.createParticipantQuota(
+                            this.room.id,
+                            new Quota({
+                              timezone,
+                            }),
+                          ),
+                    ]);
+                  },
+                ),
               )
               .subscribe(
                 ([setting, roomQuota, moderatorQuota, participantQuota]) => {
