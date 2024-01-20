@@ -74,7 +74,67 @@ export const saveSettings = (
   console.log('end');
 
   const verify = (v: number) => (v ? Math.round(v) : v);
-  const patch: Partial<PatchRoomSetting> = {};
+  const patch: Partial<GPTRoomSettingAPI> = {};
+
+  if (apiKey !== previous.GPTSettings.apiKey) {
+    patch.apiKey = apiKey;
+  }
+  if (apiOrg !== previous.GPTSettings.apiOrganization) {
+    patch.apiOrganization = apiOrg;
+  }
+  if (apiVoucher !== previous.GPTSettings.trialCode?.code) {
+    /* patch wert existiert nicht */
+    console.error('Api Voucher was not patched');
+  }
+
+  let cost = verify(roomQuota);
+  if (cost !== previous.GPTSettings.maxAccumulatedRoomCost) {
+    patch.maxAccumulatedRoomCost = cost;
+  }
+  cost = verify(roomQuotaMonthly);
+  if (cost !== previous.GPTSettings.maxMonthlyRoomCost) {
+    patch.maxMonthlyRoomCost = cost;
+  }
+  cost = verify(roomQuotaMonthlyFlowing);
+  if (cost !== previous.GPTSettings.maxMonthlyFlowingRoomCost) {
+    patch.maxMonthlyFlowingRoomCost = cost;
+  }
+  cost = verify(roomQuotaDaily);
+  if (cost !== previous.GPTSettings.maxDailyRoomCost) {
+    patch.maxDailyRoomCost = cost;
+  }
+  cost = verify(moderatorQuota);
+  if (cost !== previous.GPTSettings.maxAccumulatedModeratorCost) {
+    patch.maxAccumulatedModeratorCost = cost;
+  }
+  cost = verify(moderatorQuotaMonthly);
+  if (cost !== previous.GPTSettings.maxMonthlyModeratorCost) {
+    patch.maxMonthlyModeratorCost = cost;
+  }
+  cost = verify(moderatorQuotaMonthlyFlowing);
+  if (cost !== previous.GPTSettings.maxMonthlyFlowingModeratorCost) {
+    patch.maxMonthlyFlowingModeratorCost = cost;
+  }
+  cost = verify(moderatorQuotaDaily);
+  if (cost !== previous.GPTSettings.maxDailyModeratorCost) {
+    patch.maxDailyModeratorCost = cost;
+  }
+  cost = verify(participantQuota);
+  if (cost !== previous.GPTSettings.maxAccumulatedParticipantCost) {
+    patch.maxAccumulatedParticipantCost = cost;
+  }
+  cost = verify(participantQuotaMonthly);
+  if (cost !== previous.GPTSettings.maxMonthlyParticipantCost) {
+    patch.maxMonthlyParticipantCost = cost;
+  }
+  cost = verify(participantQuotaMonthlyFlowing);
+  if (cost !== previous.GPTSettings.maxMonthlyFlowingParticipantCost) {
+    patch.maxMonthlyFlowingParticipantCost = cost;
+  }
+  cost = verify(participantQuotaDaily);
+  if (cost !== previous.GPTSettings.maxDailyParticipantCost) {
+    patch.maxDailyParticipantCost = cost;
+  }
 
   let rights = 0;
   if (moderatorCanChangeParticipantQuota) {
