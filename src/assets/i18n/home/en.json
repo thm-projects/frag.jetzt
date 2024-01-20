@@ -514,7 +514,7 @@
   "ml-room-create": {
     "title": "Create Room",
     "q-p1-header": "Activate ChatGPT",
-    "q-p1-title": "To create ChatGPT rooms, you need an account and must be signed in. Without an account, you can only create browser-bound rooms.  Rooms that remain unused for 180 days will be deleted.",
+    "q-p1-title": "Sign up and enter your OpenAI access key. For teachers, we are offering vouchers as part of our study »ChatGPT in Teaching & Learning«.",
     "q-p2-header": "Activate ChatGPT",
     "q-p2-title": "Would you like to activate ChatGPT?",
     "q-p2-short": "Activation type",

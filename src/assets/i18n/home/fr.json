@@ -514,7 +514,7 @@
   "ml-room-create": {
     "title": "Créer une salle",
     "q-p1-header": "Activer ChatGPT",
-    "q-p1-title": "Pour créer des salles ChatGPT, t'as besoin d'un compte et tu dois être connecté. Sans compte, tu peux seulement créer des salles liées au navigateur. Les salles qui restent inutilisées pendant 180 jours seront supprimées.",
+    "q-p1-title": "Inscris-toi et entre ta clé d'accès OpenAI. Pour les enseignants, nous offrons des vouchers dans le cadre de notre étude « ChatGPT dans l'enseignement & les études ».",
     "q-p2-header": "Activer ChatGPT",
     "q-p2-title": "Tu veux activer ChatGPT ?",
     "q-p2-short": "Type d'activation",
