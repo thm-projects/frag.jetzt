@@ -11,21 +11,16 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { DateAdapter } from '@angular/material/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
-import { GPTActivationCode } from 'app/models/gpt-configuration';
-import { GPTRoomSetting, GPTRoomUsageTime } from 'app/models/gpt-room-setting';
+import { GPTRoomSetting } from 'app/models/gpt-room-setting';
 import { Room } from 'app/models/room';
 import { UserRole } from 'app/models/user-roles.enum';
-import {
-  GPTRoomSettingAPI,
-  GptService,
-  UsageTimeAction,
-} from 'app/services/http/gpt.service';
+import { GPTRoomService } from 'app/services/http/gptroom.service';
 import { AppStateService } from 'app/services/state/app-state.service';
 import { NotificationService } from 'app/services/util/notification.service';
 import { SessionService } from 'app/services/util/session.service';
 import { KeyboardUtils } from 'app/utils/keyboard';
 import { KeyboardKey } from 'app/utils/keyboard/keys';
-import { forkJoin, Observable, of, ReplaySubject, takeUntil } from 'rxjs';
+import { ReplaySubject, takeUntil } from 'rxjs';
 
 enum UsageRepeatUnit {
   HOUR = 'HOUR',
@@ -96,14 +91,13 @@ export class GptRoomSettingsComponent implements OnInit, OnDestroy {
     counter: '?',
     max: '?',
   };
-  protected activatedCode: GPTActivationCode = null;
   private previousSetting: GPTRoomSetting;
   private destroyer = new ReplaySubject(1);
   private intlRangeDescription: Intl.DateTimeFormat;
   private intlPluralDetector: Intl.PluralRules;
 
   constructor(
-    private gptService: GptService,
+    private gptRoomService: GPTRoomService,
     private dialogRef: MatDialogRef<GptRoomSettingsComponent>,
     private adapter: DateAdapter<any>,
     private translateService: TranslateService,
@@ -150,39 +144,10 @@ export class GptRoomSettingsComponent implements OnInit, OnDestroy {
       });
     this.isOwner = this.userRole === UserRole.CREATOR;
     const verify = (v: number) => (v ? v / 100 : v);
-    this.gptService.getRoomSetting(this.room.id).subscribe({
+    this.gptRoomService.getByRoomId(this.room.id).subscribe({
       next: (setting) => {
         this.isLoading = false;
         this.previousSetting = setting;
-        this.usageTimes = [...setting.usageTimes];
-        this.activatedCode = setting.trialCode;
-        this.trialEnabled = setting.trialEnabled;
-        this.apiKey = setting.apiKey;
-        this.apiOrganization = setting.apiOrganization;
-        this.maxDailyRoomCost = verify(setting.maxDailyRoomCost);
-        this.maxMonthlyRoomCost = verify(setting.maxMonthlyRoomCost);
-        this.maxMonthlyFlowingRoomCost = verify(
-          setting.maxMonthlyFlowingRoomCost,
-        );
-        this.maxAccumulatedRoomCost = verify(setting.maxAccumulatedRoomCost);
-        this.maxDailyParticipantCost = verify(setting.maxDailyParticipantCost);
-        this.maxMonthlyParticipantCost = verify(
-          setting.maxMonthlyParticipantCost,
-        );
-        this.maxMonthlyFlowingParticipantCost = verify(
-          setting.maxMonthlyFlowingParticipantCost,
-        );
-        this.maxAccumulatedParticipantCost = verify(
-          setting.maxAccumulatedParticipantCost,
-        );
-        this.maxDailyModeratorCost = verify(setting.maxDailyModeratorCost);
-        this.maxMonthlyModeratorCost = verify(setting.maxMonthlyModeratorCost);
-        this.maxMonthlyFlowingModeratorCost = verify(
-          setting.maxMonthlyFlowingModeratorCost,
-        );
-        this.maxAccumulatedModeratorCost = verify(
-          setting.maxAccumulatedModeratorCost,
-        );
         this.canChangeParticipantQuota = setting.canChangeParticipantQuota();
         this.canChangeModeratorQuota = setting.canChangeModeratorQuota();
         this.canChangeRoomQuota = setting.canChangeRoomQuota();
@@ -193,18 +158,10 @@ export class GptRoomSettingsComponent implements OnInit, OnDestroy {
         this.disableEnhancedPrompt = setting.disableEnhancedPrompt();
         this.disableForwardMessage = setting.disableForwardMessage();
         this.sessionService.getGPTStatusOnce().subscribe((status) => {
-          const hasOwn = setting.apiKey || setting.trialCode;
           this.globalInfo.active =
-            !hasOwn &&
             status.globalInfo.globalActive &&
             !status.globalInfo.restricted &&
             !status.restricted;
-          this.globalInfo.counter = (
-            setting.accumulatedCostCounter / 100
-          ).toFixed(2);
-          this.globalInfo.max = (setting.globalAccumulatedQuota / 100).toFixed(
-            2,
-          );
         });
       },
     });
@@ -225,9 +182,6 @@ export class GptRoomSettingsComponent implements OnInit, OnDestroy {
       return;
     }
     this.trialCode = '';
-    this.gptService
-      .activateTrial(this.room.id, code)
-      .subscribe(() => (this.trialEnabled = true));
   }
 
   addUsageTime() {
@@ -274,134 +228,7 @@ export class GptRoomSettingsComponent implements OnInit, OnDestroy {
           .subscribe((msg) => this.notificationService.show(msg));
         return;
       }
-      const operations = [
-        of<GPTRoomUsageTime[]>([]),
-        of<GPTRoomSetting>(null),
-      ] as [Observable<GPTRoomUsageTime[]>, Observable<GPTRoomSetting>];
-      {
-        const usageOps: UsageTimeAction[] = [];
-        this.previousSetting.usageTimes.forEach((elem) => {
-          if (this.usageTimes.findIndex((v) => v.id === elem.id) < 0) {
-            usageOps.push({
-              deleteId: elem.id,
-            });
-          }
-        });
-        this.usageTimes.forEach((elem) => {
-          if (!elem.id) {
-            usageOps.push({
-              repeatDuration: elem.repeatDuration,
-              repeatUnit: elem.repeatUnit,
-              startDate: elem.startDate,
-              endDate: elem.endDate,
-            });
-          }
-        });
-        if (usageOps.length > 0) {
-          operations[0] = this.gptService.updateUsageTimes(
-            this.room.id,
-            usageOps,
-          );
-        }
-      }
-      {
-        const verify = (v: number) => (v ? Math.round(v * 100) : v);
-        const patch: Partial<GPTRoomSettingAPI> = {};
-        if (this.apiKey !== this.previousSetting.apiKey) {
-          patch.apiKey = this.apiKey;
-        }
-        if (this.apiOrganization !== this.previousSetting.apiOrganization) {
-          patch.apiOrganization = this.apiOrganization;
-        }
-        let cost = verify(this.maxDailyRoomCost);
-        if (cost !== this.previousSetting.maxDailyRoomCost) {
-          patch.maxDailyRoomCost = cost;
-        }
-        cost = verify(this.maxMonthlyRoomCost);
-        if (cost !== this.previousSetting.maxMonthlyRoomCost) {
-          patch.maxMonthlyRoomCost = cost;
-        }
-        cost = verify(this.maxMonthlyFlowingRoomCost);
-        if (cost !== this.previousSetting.maxMonthlyFlowingRoomCost) {
-          patch.maxMonthlyFlowingRoomCost = cost;
-        }
-        cost = verify(this.maxAccumulatedRoomCost);
-        if (cost !== this.previousSetting.maxAccumulatedRoomCost) {
-          patch.maxAccumulatedRoomCost = cost;
-        }
-        cost = verify(this.maxDailyParticipantCost);
-        if (cost !== this.previousSetting.maxDailyParticipantCost) {
-          patch.maxDailyParticipantCost = cost;
-        }
-        cost = verify(this.maxMonthlyParticipantCost);
-        if (cost !== this.previousSetting.maxMonthlyParticipantCost) {
-          patch.maxMonthlyParticipantCost = cost;
-        }
-        cost = verify(this.maxMonthlyFlowingParticipantCost);
-        if (cost !== this.previousSetting.maxMonthlyFlowingParticipantCost) {
-          patch.maxMonthlyFlowingParticipantCost = cost;
-        }
-        cost = verify(this.maxAccumulatedParticipantCost);
-        if (cost !== this.previousSetting.maxAccumulatedParticipantCost) {
-          patch.maxAccumulatedParticipantCost = cost;
-        }
-        cost = verify(this.maxDailyModeratorCost);
-        if (cost !== this.previousSetting.maxDailyModeratorCost) {
-          patch.maxDailyModeratorCost = cost;
-        }
-        cost = verify(this.maxMonthlyModeratorCost);
-        if (cost !== this.previousSetting.maxMonthlyModeratorCost) {
-          patch.maxMonthlyModeratorCost = cost;
-        }
-        cost = verify(this.maxMonthlyFlowingModeratorCost);
-        if (cost !== this.previousSetting.maxMonthlyFlowingModeratorCost) {
-          patch.maxMonthlyFlowingModeratorCost = cost;
-        }
-        cost = verify(this.maxAccumulatedModeratorCost);
-        if (cost !== this.previousSetting.maxAccumulatedModeratorCost) {
-          patch.maxAccumulatedModeratorCost = cost;
-        }
-        let rights = 0;
-        if (this.canChangeParticipantQuota) {
-          rights |= 0x1;
-        }
-        if (this.canChangeModeratorQuota) {
-          rights |= 0x1 << 1;
-        }
-        if (this.canChangeRoomQuota) {
-          rights |= 0x1 << 2;
-        }
-        if (this.canChangePreset) {
-          rights |= 0x1 << 3;
-        }
-        if (this.canChangeUsageTimes) {
-          rights |= 0x1 << 4;
-        }
-        if (this.canChangeApiSettings) {
-          rights |= 0x1 << 5;
-        }
-        if (this.allowsUnregisteredUsers) {
-          rights |= 0x1 << 6;
-        }
-        if (this.disableEnhancedPrompt) {
-          rights |= 0x1 << 7;
-        }
-        if (this.disableForwardMessage) {
-          rights |= 0x1 << 8;
-        }
-        if (rights !== this.previousSetting.rightsBitset) {
-          patch.rightsBitset = rights;
-        }
-        if (Object.keys(patch).length > 0) {
-          operations[1] = this.gptService.patchRoomSetting(this.room.id, patch);
-        }
-      }
-      forkJoin(operations).subscribe({
-        next: () => {
-          this.sessionService.updateStatus();
-        },
-        complete: () => this.dialogRef.close(),
-      });
+      this.sessionService.updateStatus();
     };
   }
 

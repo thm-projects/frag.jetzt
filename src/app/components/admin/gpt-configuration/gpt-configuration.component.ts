@@ -9,16 +9,20 @@ import { FormControl } from '@angular/forms';
 import { DateAdapter } from '@angular/material/core';
 import { TranslateService } from '@ngx-translate/core';
 import {
-  GPTActivationCode,
   GPTConfiguration,
   GPTQuotaUnit,
   GPTRestrictions,
 } from 'app/models/gpt-configuration';
 import { GPTStatistics } from 'app/models/gpt-statistics';
 import { GptService } from 'app/services/http/gpt.service';
+import {
+  GPTVoucher,
+  GPTVoucherService,
+} from 'app/services/http/gptvoucher.service';
+import { Quota, QuotaEntry } from 'app/services/http/quota.service';
 import { AppStateService } from 'app/services/state/app-state.service';
 import { NotificationService } from 'app/services/util/notification.service';
-import { ReplaySubject, takeUntil } from 'rxjs';
+import { ReplaySubject, map, switchMap, takeUntil } from 'rxjs';
 
 interface AddActivationCode {
   code: string;
@@ -47,7 +51,7 @@ export class GptConfigurationComponent implements OnInit, OnDestroy {
   globalActive: boolean = null;
   globalAccumulatedQuota: number = 0;
   endDate: Date = null;
-  platformCodes: GPTActivationCode[] = [];
+  platformCodes: GPTVoucher[] = [];
   // stats
   statistics: GPTStatistics = null;
   // ui
@@ -65,6 +69,7 @@ export class GptConfigurationComponent implements OnInit, OnDestroy {
     private notificationService: NotificationService,
     private appState: AppStateService,
     private adapter: DateAdapter<any>,
+    private gptVoucherService: GPTVoucherService,
   ) {}
 
   ngOnInit(): void {
@@ -103,21 +108,27 @@ export class GptConfigurationComponent implements OnInit, OnDestroy {
     if (this.platformCodes.findIndex((code) => code.code === newCode) >= 0) {
       return;
     }
-    this.platformCodes.push(
-      new GPTActivationCode({
-        code: newCode,
-        maximalCost: new GPTQuotaUnit({
-          value: Math.round(this.activationMaxCost * 100),
-          exponent: 2,
+    const quota = new Quota({
+      entries: [
+        new QuotaEntry({
+          quota: Math.round(this.activationMaxCost * 10 ** 8),
+          counter: 0,
         }),
-        costCounter: new GPTQuotaUnit({
-          value: 0,
-          exponent: 8,
+      ],
+    });
+    this.gptVoucherService
+      .create(newCode)
+      .pipe(
+        switchMap((e) => {
+          return this.gptVoucherService.createQuota(e.id, quota).pipe(
+            map((q) => {
+              e.quotaId = q.id;
+              return e;
+            }),
+          );
         }),
-        activatedRoomId: null,
-        lastUse: null,
-      }),
-    );
+      )
+      .subscribe((code) => this.platformCodes.push(code));
     this.activationCode = '';
     this.activationMaxCost = 0;
   }
@@ -188,28 +199,6 @@ export class GptConfigurationComponent implements OnInit, OnDestroy {
     if (endDate?.getTime() !== obj.endDate?.getTime()) {
       changes.endDate = endDate;
     }
-    {
-      const arr: ActivationCodeAction[] = [];
-      for (const code of obj.platformCodes) {
-        if (!this.platformCodes.includes(code)) {
-          arr.push({
-            code: code.code,
-            delete: true,
-          });
-        }
-      }
-      for (const code of this.platformCodes) {
-        if (!obj.platformCodes.includes(code)) {
-          arr.push({
-            code: code.code,
-            maximalCost: code.maximalCost.toPlain(2),
-          });
-        }
-      }
-      if (arr.length > 0) {
-        changes.platformCodes = arr as any;
-      }
-    }
     if (Object.keys(changes).length < 1) {
       return;
     }
@@ -246,6 +235,9 @@ export class GptConfigurationComponent implements OnInit, OnDestroy {
           .subscribe((msg) => this.notificationService.show(msg));
       },
     });
+    this.gptVoucherService.getAll().subscribe((data) => {
+      this.platformCodes = [...data];
+    });
   }
 
   private loadProperties() {
@@ -261,7 +253,6 @@ export class GptConfigurationComponent implements OnInit, OnDestroy {
     this.globalAccumulatedQuota = obj.globalAccumulatedQuota / 100;
     this.endDate = obj.endDate ? new Date(obj.endDate) : null;
     this.endDateControl.setValue(this.endDate);
-    this.platformCodes = [...obj.platformCodes];
   }
 
   private updateGPT(changes: Partial<GPTConfiguration>) {

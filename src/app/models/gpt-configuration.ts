@@ -26,49 +26,22 @@ export class GPTQuotaUnit {
   }
 }
 
-export class GPTActivationCode {
-  code: string;
-  maximalCost: GPTQuotaUnit;
-  costCounter: GPTQuotaUnit;
-  activatedRoomId: string;
-  lastUse: Date;
-
-  constructor({
-    code = null,
-    maximalCost = null,
-    costCounter = null,
-    activatedRoomId = null,
-    lastUse = null,
-  }: FieldsOf<GPTActivationCode>) {
-    this.code = code;
-    this.maximalCost = verifyInstance(GPTQuotaUnit, maximalCost);
-    this.costCounter = verifyInstance(GPTQuotaUnit, costCounter);
-    this.activatedRoomId = activatedRoomId;
-    this.lastUse = verifyInstance(Date, lastUse);
-  }
-}
-
 export class GPTRestrictions {
   active: boolean;
   globalActive: boolean;
   globalAccumulatedQuota: number;
   endDate: Date;
-  platformCodes: GPTActivationCode[];
 
   constructor({
     active = false,
     globalActive = false,
     globalAccumulatedQuota = 500,
     endDate = new Date(),
-    platformCodes = [],
   }) {
     this.active = active;
     this.globalActive = globalActive;
     this.globalAccumulatedQuota = globalAccumulatedQuota;
     this.endDate = verifyInstance(Date, endDate);
-    this.platformCodes = platformCodes.map((e) =>
-      verifyInstance(GPTActivationCode, e),
-    );
   }
 }
 

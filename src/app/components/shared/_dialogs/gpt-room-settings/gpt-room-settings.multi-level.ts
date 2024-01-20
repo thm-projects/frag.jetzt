@@ -6,16 +6,16 @@ import {
 import { GptService } from 'app/services/http/gpt.service';
 import { GPTRoomSetting } from 'app/models/gpt-room-setting';
 import { AccountStateService } from 'app/services/state/account-state.service';
-import { filter, forkJoin, map, merge, take, tap } from 'rxjs';
-import { KeycloakRoles, User } from 'app/models/user';
-import { UserRole } from 'app/models/user-roles.enum';
-import { RoomAccess } from 'app/services/persistence/lg/db-room-acces.model';
-import { RoomAccessRole } from 'app/models/client-authentication';
+import { filter, forkJoin, map, take } from 'rxjs';
 import { RoomStateService } from 'app/services/state/room-state.service';
+import { Quota } from 'app/services/http/quota.service';
 
 export interface Data {
   roomID: string;
   GPTSettings: GPTRoomSetting;
+  participantQuota: Quota;
+  moderatorQuota: Quota;
+  roomQuota: Quota;
 }
 
 export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
@@ -44,7 +44,7 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
             type: 'radio-select',
             tag: 'setupType',
             label: 'ml-gpt-room-settings.r-api-short',
-            defaultValue: data.GPTSettings.trialEnabled
+            defaultValue: data.GPTSettings.apiKeys.some((v) => v.voucherId)
               ? 'apiVoucher'
               : 'apiCode',
             options: [
@@ -94,7 +94,7 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
             type: 'text-input',
             tag: 'apiCode',
             label: 'ml-gpt-room-settings.l-api-code',
-            defaultValue: data.GPTSettings.apiKey,
+            defaultValue: data.GPTSettings.apiKeys[0].apiSetting.apiKey,
             hidden: true,
             validators: [
               Validators.required,
@@ -109,7 +109,8 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
             type: 'text-input',
             tag: 'apiOrganization',
             label: 'ml-gpt-room-settings.l-api-org',
-            defaultValue: data.GPTSettings.apiOrganization,
+            defaultValue:
+              data.GPTSettings.apiKeys[0].apiSetting.apiOrganization,
             validators: [Validators.pattern('org-[a-zA-Z0-9]+')],
             errorStates: {
               pattern: 'ml-gpt-room-settings.errors.pattern-api-org',
@@ -134,7 +135,7 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
           {
             type: 'text-input',
             tag: 'voucher',
-            defaultValue: data.GPTSettings.trialCode?.code,
+            defaultValue: data.GPTSettings.apiKeys[0].voucher.code,
             hidden: true,
             label: 'ml-gpt-room-settings.l-api-voucher',
             validators: [Validators.required],
@@ -184,8 +185,7 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
               max: 1000,
               step: 0.01,
             },
-            defaultValue:
-              data.GPTSettings.maxAccumulatedRoomCost?.toString() || '20',
+            defaultValue: data.roomQuota.entries[0]?.quota?.toString() || '20',
             tag: 'total',
             label: 'ml-gpt-room-settings.l-total-cost-limit',
           },
@@ -196,7 +196,7 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
               max: 1000,
               step: 0.01,
             },
-            defaultValue: data.GPTSettings.maxMonthlyRoomCost?.toString(),
+            defaultValue: data.roomQuota.entries[1]?.quota?.toString(),
             tag: 'monthly',
             label: 'ml-gpt-room-settings.l-monthly-cost-limit',
           },
@@ -207,8 +207,7 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
               max: 1000,
               step: 0.01,
             },
-            defaultValue:
-              data.GPTSettings.maxMonthlyFlowingRoomCost?.toString(),
+            defaultValue: data.roomQuota.entries[2]?.quota?.toString(),
             tag: 'monthlyFlowing',
             label: 'ml-gpt-room-settings.l-monthly-flowing-cost-limit',
           },
@@ -219,7 +218,7 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
               max: 1000,
               step: 0.01,
             },
-            defaultValue: data.GPTSettings.maxDailyRoomCost?.toString(),
+            defaultValue: data.roomQuota.entries[3]?.quota?.toString(),
             tag: 'daily',
             label: 'ml-gpt-room-settings.l-daily-cost-limit',
           },
@@ -249,7 +248,7 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
               step: 0.01,
             },
             defaultValue:
-              data.GPTSettings.maxAccumulatedModeratorCost?.toString() || '20',
+              data.moderatorQuota.entries[0]?.quota?.toString() || '20',
             tag: 'total',
             label: 'ml-gpt-room-settings.l-total-cost-limit',
           },
@@ -260,7 +259,7 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
               max: 1000,
               step: 0.01,
             },
-            defaultValue: data.GPTSettings.maxMonthlyModeratorCost?.toString(),
+            defaultValue: data.moderatorQuota.entries[1]?.quota?.toString(),
             tag: 'monthly',
             label: 'ml-gpt-room-settings.l-monthly-cost-limit',
           },
@@ -271,8 +270,7 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
               max: 1000,
               step: 0.01,
             },
-            defaultValue:
-              data.GPTSettings.maxMonthlyFlowingModeratorCost?.toString(),
+            defaultValue: data.moderatorQuota.entries[2]?.quota?.toString(),
             tag: 'monthlyFlowing',
             label: 'ml-gpt-room-settings.l-monthly-flowing-cost-limit',
           },
@@ -283,7 +281,7 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
               max: 1000,
               step: 0.01,
             },
-            defaultValue: data.GPTSettings.maxDailyModeratorCost?.toString(),
+            defaultValue: data.moderatorQuota.entries[3]?.quota?.toString(),
             tag: 'daily',
             label: 'ml-gpt-room-settings.l-daily-cost-limit',
           },
@@ -313,8 +311,7 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
               step: 0.01,
             },
             defaultValue:
-              data.GPTSettings.maxAccumulatedParticipantCost?.toString() ||
-              '20',
+              data.participantQuota.entries[0]?.quota?.toString() || '20',
             tag: 'total',
             label: 'ml-gpt-room-settings.l-total-cost-limit',
           },
@@ -325,8 +322,7 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
               max: 1000,
               step: 0.01,
             },
-            defaultValue:
-              data.GPTSettings.maxMonthlyParticipantCost?.toString(),
+            defaultValue: data.participantQuota.entries[1]?.quota?.toString(),
             tag: 'monthly',
             label: 'ml-gpt-room-settings.l-monthly-cost-limit',
           },
@@ -337,8 +333,7 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
               max: 1000,
               step: 0.01,
             },
-            defaultValue:
-              data.GPTSettings.maxMonthlyFlowingParticipantCost?.toString(),
+            defaultValue: data.participantQuota.entries[2]?.quota?.toString(),
             tag: 'monthlyFlowing',
             label: 'ml-gpt-room-settings.l-monthly-flowing-cost-limit',
           },
@@ -349,7 +344,7 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
               max: 1000,
               step: 0.01,
             },
-            defaultValue: data.GPTSettings.maxDailyParticipantCost?.toString(),
+            defaultValue: data.participantQuota.entries[3]?.quota?.toString(),
             tag: 'daily',
             label: 'ml-gpt-room-settings.l-daily-cost-limit',
           },
