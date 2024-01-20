@@ -1,5 +1,5 @@
 import { Injector } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable, forkJoin, of } from 'rxjs';
 import { AnsweredMultiLevelData } from '../multi-level-dialog/interface/multi-level-dialog.types';
 import { GPTRoomSetting } from 'app/models/gpt-room-setting';
 import { Data } from './gpt-room-settings.multi-level';
@@ -7,6 +7,7 @@ import {
   GPTRoomService,
   PatchRoomSetting,
 } from 'app/services/http/gptroom.service';
+import { GPTAPISettingService } from 'app/services/http/gptapisetting.service';
 
 export const saveSettings = (
   injector: Injector,
@@ -72,18 +73,43 @@ export const saveSettings = (
     answers.moderatorPermissions?.value['canChangeApiSettings'];
 
   const verify = (v: number) => (v ? Math.round(v) : v);
-  const patch: Partial<GPTRoomSettingAPI> = {};
+  const patch: Partial<GPTRoomSetting> = {};
 
-  if (apiKey !== previous.GPTSettings.apiKey) {
-    patch.apiKey = apiKey;
+  const gptRoomService = injector.get(GPTRoomService);
+
+  if (apiKey !== previous.GPTSettings.apiKeys[0].apiSetting.apiKey) {
+    patch.apiKeys[0].apiSetting.apiKey = apiKey;
   }
-  if (apiOrg !== previous.GPTSettings.apiOrganization) {
-    patch.apiOrganization = apiOrg;
+
+  if (apiOrg !== previous.GPTSettings.apiKeys[0].apiSetting) {
+    patch.apiKeys[0].apiSetting.apiOrganization = apiOrg;
   }
-  if (apiVoucher !== previous.GPTSettings.trialCode?.code) {
-    /* patch wert existiert nicht */
-    console.error('Api Voucher was not patched');
+
+  if (apiVoucher !== previous.GPTSettings.apiKeys[0].voucher.code) {
+    patch.apiKeys[0].voucher.code = apiVoucher;
   }
+
+  let patchRoomQuota = of(previous.roomQuota);
+  const roomQuotaPatch: Partial<Quota> = {};
+  if (roomQuota !== previous.roomQuota.entries.find((e) => e.resetStrategy === 'NEVER').quota) {
+    patchRoomQuota = gptRoomService.patchRoomQuota({
+      resetStrategy: 'NEVER',
+      quota: roomQuota,
+
+    });
+  }
+  //patchRoomQuota = gptRoomService.patchRoomQuota();
+
+  /* 
+  Roomsetting
+  -> apiKeys
+  -> apiModels
+  -> roomQuotaId
+  -> part...Id
+  -> mod...Id
+
+  GPTKey => GPTRoomKey => RoomSetting
+
 
   let cost = verify(roomQuota);
   if (cost !== previous.GPTSettings.maxAccumulatedRoomCost) {
@@ -168,6 +194,14 @@ export const saveSettings = (
   }
 
   
-  if (Object.keys(patch).length === 0) return of(previous.GPTSettings);
-  return injector.get(GPTRoomService).patchRoomSettings(previous.roomID, patch)
+  if (Object.keys(patch).length === 0) return of(previous.GPTSettings);*/
+
+
+  return forkJoin(
+    [
+      patchRoomQuota,
+      // patchModeratorQuota, patchParticipantQuota
+      // patchRoomSettings
+    ]
+  );
 };
