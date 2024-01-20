@@ -135,7 +135,7 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
           {
             type: 'text-input',
             tag: 'voucher',
-            defaultValue: data.GPTSettings.apiKeys[0].voucher.code,
+            defaultValue: data.GPTSettings.apiKeys[0]?.voucher.code,
             hidden: true,
             label: 'ml-gpt-room-settings.l-api-voucher',
             validators: [Validators.required],

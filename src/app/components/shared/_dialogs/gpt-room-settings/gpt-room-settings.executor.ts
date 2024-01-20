@@ -1,5 +1,5 @@
 import { Injector } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { AnsweredMultiLevelData } from '../multi-level-dialog/interface/multi-level-dialog.types';
 import { GPTRoomSetting } from 'app/models/gpt-room-setting';
 import { Data } from './gpt-room-settings.multi-level';
@@ -71,8 +71,6 @@ export const saveSettings = (
   const moderatorCanChangeApiSettings =
     answers.moderatorPermissions?.value['canChangeApiSettings'];
 
-  console.log('end');
-
   const verify = (v: number) => (v ? Math.round(v) : v);
   const patch: Partial<PatchRoomSetting> = {};
 
@@ -109,5 +107,7 @@ export const saveSettings = (
     patch.rightsBitset = rights;
   }
 
-  return injector.get(GPTRoomService).patchRoomSettings(previous.roomID, patch);
+  
+  if (Object.keys(patch).length === 0) return of(previous.GPTSettings);
+  return injector.get(GPTRoomService).patchRoomSettings(previous.roomID, patch)
 };
