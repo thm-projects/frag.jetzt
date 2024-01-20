@@ -100,6 +100,11 @@ export class GptConfigurationComponent implements OnInit, OnDestroy {
     );
   }
 
+  deleteActivationCode(i: number) {
+    const voucher = this.platformCodes.splice(i, 1)[0];
+    this.gptVoucherService.delete(voucher.id).subscribe();
+  }
+
   addActivationCode() {
     if (!this.isValid()) {
       return;
@@ -109,10 +114,11 @@ export class GptConfigurationComponent implements OnInit, OnDestroy {
       return;
     }
     const quota = new Quota({
+      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
       entries: [
         new QuotaEntry({
           quota: Math.round(this.activationMaxCost * 10 ** 8),
-          counter: 0,
+          resetStrategy: 'MONTHLY_FLOWING',
         }),
       ],
     });
@@ -217,6 +223,14 @@ export class GptConfigurationComponent implements OnInit, OnDestroy {
           .subscribe((msg) => this.notificationService.show(msg));
       },
     });
+  }
+
+  protected getQuotaMax(v: GPTVoucher) {
+    return '?';
+  }
+
+  protected getQuotaUsed(v: GPTVoucher) {
+    return '?';
   }
 
   private reloadConfig(): void {
