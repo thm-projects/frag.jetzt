@@ -1,6 +1,8 @@
 import { Validators } from '@angular/forms';
 import {
+  AnsweredMultiLevelData,
   MultiLevelData,
+  MultiLevelDataBuiltAction,
   buildInput,
 } from '../multi-level-dialog/interface/multi-level-dialog.types';
 import { GptService } from 'app/services/http/gpt.service';
@@ -9,6 +11,8 @@ import { AccountStateService } from 'app/services/state/account-state.service';
 import { filter, forkJoin, map, take } from 'rxjs';
 import { RoomStateService } from 'app/services/state/room-state.service';
 import { Quota } from 'app/services/http/quota.service';
+import { Room } from 'app/models/room';
+import { Injector } from '@angular/core';
 
 export interface Data {
   roomID: string;
@@ -229,11 +233,11 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
       tag: 'moderatorQuota',
       title: 'ml-gpt-room-settings.q-moderator-quota',
       stepHelp: 'ml-gpt-room-settings.help.api-title-help',
-      active: (answers, injector) => {
+      active: (answers: AnsweredMultiLevelData, injector: Injector) => {
         return injector.get(RoomStateService).room$.pipe(
           filter((v) => !!v),
           take(1),
-          map((room) => room.mode === 'ARS'),
+          map((room: Room) => room.mode === 'ARS'),
         );
       },
       buildAction(_injector, _answers, previousState, data) {
@@ -292,11 +296,11 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
       tag: 'participantQuota',
       title: 'ml-gpt-room-settings.q-participant-quota',
       stepHelp: 'ml-gpt-room-settings.help.api-title-help',
-      active: (answers, injector) => {
+      active: (answers: AnsweredMultiLevelData, injector: Injector) => {
         return injector.get(RoomStateService).room$.pipe(
           filter((v) => !!v),
           take(1),
-          map((room) => room.mode === 'ARS'),
+          map((room: Room) => room.mode === 'ARS'),
         );
       },
       buildAction(_injector, _answers, previousState, data) {
@@ -367,11 +371,11 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
       tag: 'miscellaneousSettings',
       title: 'ml-gpt-room-settings.q-miscellaneous-settings',
       stepHelp: 'ml-gpt-room-settings.help.api-title-help',
-      active: (answers, injector) => {
+      active: (answers: AnsweredMultiLevelData, injector: Injector) => {
         return injector.get(RoomStateService).room$.pipe(
           filter((v) => !!v),
           take(1),
-          map((room) => room.mode === 'PLE'),
+          map((room: Room) => room.mode === 'PLE'),
         );
       },
       buildAction(_injector, _answers, previousState, data) {
@@ -397,11 +401,11 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
       tag: 'miscellaneousSettings',
       title: 'ml-gpt-room-settings.q-miscellaneous-settings',
       stepHelp: 'ml-gpt-room-settings.help.api-title-help',
-      active: (answers, injector) => {
+      active: (answers: AnsweredMultiLevelData, injector: Injector) => {
         return injector.get(RoomStateService).room$.pipe(
           filter((v) => !!v),
           take(1),
-          map((room) => room.mode === 'ARS'),
+          map((room: Room) => room.mode === 'ARS'),
         );
       },
       buildAction(_injector, _answers, previousState, data) {
@@ -433,10 +437,11 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
       tag: 'moderatorPermissions',
       title: 'ml-gpt-room-settings.q-moderator-permissions',
       stepHelp: 'ml-gpt-room-settings.help.api-title-help',
-      active: (answers, injector) => {
+      active: (answers: AnsweredMultiLevelData, injector: Injector) => {
         return injector.get(RoomStateService).room$.pipe(
+          filter((v) => !!v),
           take(1),
-          map((room) => room.mode === 'ARS'),
+          map((room: Room) => room.mode === 'ARS'),
         );
       },
       buildAction(_injector, _answers, previousState, data) {
