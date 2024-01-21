@@ -164,6 +164,7 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
           {
             type: 'select-input',
             tag: 'model',
+            defaultValue: data.GPTSettings.defaultModel,
             label: 'ml-gpt-room-settings.l-api-voucher',
             options: _injector.get(GptService).getModels().filter(v => v.name.startsWith("gpt-")),
             errorStates: {
