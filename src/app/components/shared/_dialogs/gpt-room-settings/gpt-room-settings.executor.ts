@@ -312,7 +312,7 @@ export const saveSettings = (
         patchParticipantQuota,
         Object.keys(patch).length === 0
           ? of(previous.GPTSettings)
-          : gptRoomService.patchRoomSettings(previous.GPTSettings.id, patch),
+          : gptRoomService.patchRoomSettings(previous.GPTSettings.roomId, patch),
       ]),
     ),
     map((arr) => arr[3]),
