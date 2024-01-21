@@ -80,8 +80,7 @@ export const saveSettings = (
 
   console.log('5');
   // Q5
-  const usageTimes = answers.usageTime?.value;
-  console.log(usageTimes);
+  const usageTimes = answers.usageTime?.value['usageTimes'];
 
   console.log('6');
   // Q6
@@ -167,6 +166,8 @@ export const saveSettings = (
   checkEntry(roomQuotaPatch, previous.roomQuota, 'NEVER', roomQuota);
 
   // TODO: Usage Times
+  roomQuotaPatch.accessTimes = usageTimes;
+  console.log(roomQuotaPatch);
 
   if (roomQuotaPatch.entries.length > 0) {
     // TODO: Check usage times

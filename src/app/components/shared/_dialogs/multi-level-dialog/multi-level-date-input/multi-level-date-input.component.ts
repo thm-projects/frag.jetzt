@@ -136,16 +136,32 @@ export class MultiLevelDateInputComponent implements OnInit {
     const repeatUnit =
       this.dateRangeGroup.get('selectedOption').value || UNITS.WEEKDAYS;
 
-    this.usageTimes.push({
+    const newUsage: Usage = {
       startDate,
       endDate,
       startDuration,
       endDuration,
       repeatDuration,
       repeatUnit,
-    });
+    }
+    
+    if (this.usageTimes.length !== 0 
+      && this.usageAlreadyExists(newUsage)) return;
+    this.usageTimes.push(newUsage);
 
     this.data.control.setValue([...this.usageTimes]);
+  }
+
+  usageAlreadyExists(usage: Usage): boolean {
+    return this.usageTimes.some((u) => 
+    u.startDate.getDate() === usage.startDate.getDate() 
+    && u.endDate.getDate() === usage.endDate.getDate()
+    && u.startDuration.hour === usage.startDuration.hour
+    && u.startDuration.minute === usage.startDuration.minute
+    && u.endDuration.hour === usage.endDuration.hour
+    && u.endDuration.minute === usage.endDuration.minute
+    && u.repeatDuration === usage.repeatDuration
+    && u.repeatUnit === usage.repeatUnit);
   }
 
   deleteTime(index: number): void {
