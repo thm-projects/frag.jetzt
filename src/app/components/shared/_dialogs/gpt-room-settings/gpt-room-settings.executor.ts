@@ -11,6 +11,7 @@ import {
 } from 'app/services/http/quota.service';
 import { GPTAPISettingService } from 'app/services/http/gptapisetting.service';
 import { GPTVoucherService } from 'app/services/http/gptvoucher.service';
+import { GptService } from 'app/services/http/gpt.service';
 
 /**
  * @param value in US $ as float or null
@@ -37,6 +38,8 @@ const checkEntry = (
   );
 };
 
+const userOwnsModel = (requestedModel, models) => models.some(element => element.name === requestedModel);
+
 export const saveSettings = (
   injector: Injector,
   answers: AnsweredMultiLevelData,
@@ -55,6 +58,9 @@ export const saveSettings = (
   const roomQuotaMonthly = answers.roomQuota?.value['monthly'];
   const roomQuotaMonthlyFlowing = answers.roomQuota?.value['monthlyFlowing'];
   const roomQuotaDaily = answers.roomQuota?.value['daily'];
+
+  // gpt-model
+  const gptModel = answers.gptModel?.value['model'];
 
   console.log('3');
   // Q3
@@ -252,8 +258,15 @@ export const saveSettings = (
 */
 
   //TODO: Models
-
   // defaultModel - gptservice.getModels() starts with 'gpt-'
+
+  // logic: selected value must be within apiModels
+  // if yes: set defaultModel
+  // if no: dont update
+  const userOwnsRequestedModel = userOwnsModel(gptModel, previous.GPTSettings.apiModels);
+  if (userOwnsRequestedModel) {
+    patch.defaultModel = gptModel;
+  }
 
   let rights = 0;
   if (moderatorCanChangeParticipantQuota) {

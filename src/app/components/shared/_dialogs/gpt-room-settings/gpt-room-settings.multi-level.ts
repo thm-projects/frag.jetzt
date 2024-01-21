@@ -154,7 +154,6 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
       tag: 'gptModel',
       title: 'ml-gpt-room-settings.q-api-title',
       stepHelp: 'ml-gpt-room-settings.help.api-title-help',
-      active: () => false,
       buildAction(_injector, _answers, previousState, data) {
         return buildInput(
           this,
@@ -166,7 +165,7 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
             type: 'select-input',
             tag: 'model',
             label: 'ml-gpt-room-settings.l-api-voucher',
-            options: _injector.get(GptService).getModels(),
+            options: _injector.get(GptService).getModels().filter(v => v.name.startsWith("gpt-")),
             errorStates: {
               required: 'ml-room-create.e-p4-required',
             },
