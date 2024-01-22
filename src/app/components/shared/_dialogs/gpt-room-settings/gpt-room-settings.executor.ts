@@ -1,17 +1,19 @@
 import { Injector } from '@angular/core';
-import { Observable, concatMap, forkJoin, map, of } from 'rxjs';
+import { Observable, concatMap, forkJoin, map, of, throwError } from 'rxjs';
 import { AnsweredMultiLevelData } from '../multi-level-dialog/interface/multi-level-dialog.types';
 import { GPTRoomKey, GPTRoomSetting } from 'app/models/gpt-room-setting';
 import { Data } from './gpt-room-settings.multi-level';
 import { GPTRoomService } from 'app/services/http/gptroom.service';
 import {
   Quota,
+  QuotaAccessTime,
   QuotaEntry,
   QuotaResetStrategy,
 } from 'app/services/http/quota.service';
 import { GPTAPISettingService } from 'app/services/http/gptapisetting.service';
 import { GPTVoucherService } from 'app/services/http/gptvoucher.service';
 import { GptService } from 'app/services/http/gpt.service';
+import { UNITS } from '../multi-level-dialog/multi-level-date-input/multi-level-date-input.component';
 
 /**
  * @param value in US $ as float or null
@@ -38,7 +40,8 @@ const checkEntry = (
   );
 };
 
-const userOwnsModel = (requestedModel, models) => models.some(element => element.name === requestedModel);
+const userOwnsModel = (requestedModel, models) =>
+  models.some((element) => element.name === requestedModel);
 
 export const saveSettings = (
   injector: Injector,
@@ -165,12 +168,49 @@ export const saveSettings = (
   );
   checkEntry(roomQuotaPatch, previous.roomQuota, 'NEVER', roomQuota);
 
-  // TODO: Usage Times
-  roomQuotaPatch.accessTimes = usageTimes;
+  roomQuotaPatch.accessTimes = [];
+
+  usageTimes.forEach((element) => {
+    let repeatUnit = element.repeatUnit;
+    if (typeof repeatUnit === 'number') {
+      repeatUnit = UNITS[repeatUnit];
+    }
+    const { hour, minute, second } = element.startDuration;
+    const startTime =
+      hour.toString().padStart(2, '0') +
+      ':' +
+      minute.toString().padStart(2, '0') +
+      ':' +
+      second.toString().padStart(2, '0');
+    const {
+      hour: hour2,
+      minute: minute2,
+      second: second2,
+    } = element.endDuration;
+    const endTime =
+      hour2.toString().padStart(2, '0') +
+      ':' +
+      minute2.toString().padStart(2, '0') +
+      ':' +
+      second2.toString().padStart(2, '0');
+    roomQuotaPatch.accessTimes.push(
+      new QuotaAccessTime({
+        startDate: element.startDate,
+        endDate: element.endDate,
+        recurringStrategy: 'WEEKLY',
+        recurringFactor: 1,
+        strategy: repeatUnit,
+        startTime,
+        endTime,
+      }),
+    );
+  });
   console.log(roomQuotaPatch);
 
-  if (roomQuotaPatch.entries.length > 0) {
-    // TODO: Check usage times
+  if (
+    roomQuotaPatch.entries.length > 0 ||
+    roomQuotaPatch.accessTimes.length > 0
+  ) {
     patchRoomQuota = gptRoomService.patchRoomQuota(
       previous.GPTSettings.roomId,
       previous.roomQuota.id,
@@ -264,7 +304,10 @@ export const saveSettings = (
   // logic: selected value must be within apiModels
   // if yes: set defaultModel
   // if no: dont update
-  const userOwnsRequestedModel = userOwnsModel(gptModel, previous.GPTSettings.apiModels);
+  const userOwnsRequestedModel = userOwnsModel(
+    gptModel,
+    previous.GPTSettings.apiModels,
+  );
   if (userOwnsRequestedModel) {
     patch.defaultModel = gptModel;
   }
@@ -312,7 +355,10 @@ export const saveSettings = (
         patchParticipantQuota,
         Object.keys(patch).length === 0
           ? of(previous.GPTSettings)
-          : gptRoomService.patchRoomSettings(previous.GPTSettings.roomId, patch),
+          : gptRoomService.patchRoomSettings(
+              previous.GPTSettings.roomId,
+              patch,
+            ),
       ]),
     ),
     map((arr) => arr[3]),

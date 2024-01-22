@@ -62,8 +62,8 @@ export class QuotaAccessTime {
   recurringStrategy: QuotaRecurringStrategy;
   recurringFactor: number;
   strategy: QuotaTimeStrategy;
-  startTime: Date;
-  endTime: Date;
+  startTime: string;
+  endTime: string;
   createdAt: Date;
   updatedAt: Date | null;
 
@@ -87,8 +87,8 @@ export class QuotaAccessTime {
     this.recurringStrategy = recurringStrategy;
     this.recurringFactor = recurringFactor;
     this.strategy = strategy;
-    this.startTime = verifyInstance(Date, startTime);
-    this.endTime = verifyInstance(Date, endTime);
+    this.startTime = startTime;
+    this.endTime = endTime;
     this.createdAt = verifyInstance(Date, createdAt);
     this.updatedAt = verifyInstance(Date, updatedAt);
   }
