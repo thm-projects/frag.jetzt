@@ -109,11 +109,11 @@ export class QuotaEntry {
   quotaId: UUID;
   startDate: Date | null;
   endDate: Date | null;
-  quota: number; // in 10^-8 US $
-  counter: number; // in 10^-8 US $
+  quota: number; // in 10^-8 US $ // total
+  counter: number; // in 10^-8 US $ // used
   resetCounter: number;
   lastReset: Date;
-  resetStrategy: QuotaResetStrategy;
+  resetStrategy: QuotaResetStrategy; // ...
   resetFactor: number;
   createdAt: Date;
   updatedAt: Date | null;

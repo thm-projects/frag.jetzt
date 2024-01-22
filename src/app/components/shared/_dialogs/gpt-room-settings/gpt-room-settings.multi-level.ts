@@ -10,7 +10,7 @@ import { GPTRoomSetting } from 'app/models/gpt-room-setting';
 import { AccountStateService } from 'app/services/state/account-state.service';
 import { filter, forkJoin, map, take } from 'rxjs';
 import { RoomStateService } from 'app/services/state/room-state.service';
-import { Quota } from 'app/services/http/quota.service';
+import { Quota, QuotaEntry } from 'app/services/http/quota.service';
 import { Room } from 'app/models/room';
 import { Injector } from '@angular/core';
 
@@ -20,6 +20,12 @@ export interface Data {
   participantQuota: Quota;
   moderatorQuota: Quota;
   roomQuota: Quota;
+}
+
+const convertTo = (qE: QuotaEntry, value = undefined) => {
+  if (!qE) return value;
+  const temp = qE.quota / 10e7;
+  return temp.toFixed(2);
 }
 
 export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
@@ -186,7 +192,7 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
               max: 1000,
               step: 0.01,
             },
-            defaultValue: data.roomQuota?.entries[0]?.quota?.toString() || '20',
+            defaultValue: convertTo(data.roomQuota?.entries[0], 20),
             tag: 'total',
             label: 'ml-gpt-room-settings.room-quota-item-one-label',
           },
@@ -197,7 +203,7 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
               max: 1000,
               step: 0.01,
             },
-            defaultValue: data.roomQuota?.entries[1]?.quota?.toString(),
+            defaultValue: convertTo(data.roomQuota?.entries[1]),
             tag: 'monthly',
             label: 'ml-gpt-room-settings.room-quota-item-two-label',
           },
@@ -208,7 +214,7 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
               max: 1000,
               step: 0.01,
             },
-            defaultValue: data.roomQuota?.entries[2]?.quota?.toString(),
+            defaultValue: convertTo(data.roomQuota?.entries[2]),
             tag: 'monthlyFlowing',
             label: 'ml-gpt-room-settings.room-quota-item-three-label',
           },
@@ -219,7 +225,7 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
               max: 1000,
               step: 0.01,
             },
-            defaultValue: data.roomQuota?.entries[3]?.quota?.toString(),
+            defaultValue: convertTo(data.roomQuota?.entries[3]),
             tag: 'daily',
             label: 'ml-gpt-room-settings.room-quota-item-four-label',
           },
@@ -249,7 +255,7 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
               step: 0.01,
             },
             defaultValue:
-              data.moderatorQuota?.entries[0]?.quota?.toString() || '20',
+            convertTo(data.moderatorQuota?.entries[0], 20),
             tag: 'total',
             label: 'ml-gpt-room-settings.moderator-quota-item-one-label',
           },
@@ -260,7 +266,7 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
               max: 1000,
               step: 0.01,
             },
-            defaultValue: data.moderatorQuota?.entries[1]?.quota?.toString(),
+            defaultValue: convertTo(data.moderatorQuota?.entries[1]),
             tag: 'monthly',
             label: 'ml-gpt-room-settings.moderator-quota-item-two-label',
           },
@@ -271,7 +277,7 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
               max: 1000,
               step: 0.01,
             },
-            defaultValue: data.moderatorQuota?.entries[2]?.quota?.toString(),
+            defaultValue: convertTo(data.moderatorQuota?.entries[2]),
             tag: 'monthlyFlowing',
             label: 'ml-gpt-room-settings.moderator-quota-item-three-label',
           },
@@ -282,7 +288,7 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
               max: 1000,
               step: 0.01,
             },
-            defaultValue: data.moderatorQuota?.entries[3]?.quota?.toString(),
+            defaultValue: convertTo(data.moderatorQuota?.entries[3]),
             tag: 'daily',
             label: 'ml-gpt-room-settings.moderator-quota-item-four-label',
           },
@@ -312,7 +318,7 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
               step: 0.01,
             },
             defaultValue:
-              data.participantQuota?.entries[0]?.quota?.toString() || '20',
+            convertTo(data.participantQuota?.entries[0], 20),
             tag: 'total',
             label: 'ml-gpt-room-settings.participant-quota-item-one-label',
           },
@@ -323,7 +329,7 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
               max: 1000,
               step: 0.01,
             },
-            defaultValue: data.participantQuota?.entries[1]?.quota?.toString(),
+            defaultValue: convertTo(data.participantQuota?.entries[1]),
             tag: 'monthly',
             label: 'ml-gpt-room-settings.participant-quota-item-two-label',
           },
@@ -334,7 +340,7 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
               max: 1000,
               step: 0.01,
             },
-            defaultValue: data.participantQuota?.entries[2]?.quota?.toString(),
+            defaultValue: convertTo(data.participantQuota?.entries[2]),
             tag: 'monthlyFlowing',
             label: 'ml-gpt-room-settings.participant-quota-item-three-label',
           },
@@ -345,7 +351,7 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
               max: 1000,
               step: 0.01,
             },
-            defaultValue: data.participantQuota?.entries[3]?.quota?.toString(),
+            defaultValue: convertTo(data.participantQuota?.entries[3]),
             tag: 'daily',
             label: 'ml-gpt-room-settings.participant-quota-item-four-label',
           },
