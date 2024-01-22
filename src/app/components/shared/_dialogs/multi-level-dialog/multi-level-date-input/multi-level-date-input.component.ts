@@ -10,9 +10,9 @@ import { Time } from '@angular/common';
 import { TimeInterval } from 'rxjs/internal/operators/timeInterval';
 
 enum UNITS {
-  NONE,
-  DAILY,
-  WEEKDAYS,
+  NONE = 0,
+  DAILY = 1,
+  WEEKDAYS = 2,
   WEEKENDS,
   MONDAYS,
   TUESDAYS,
@@ -92,11 +92,13 @@ export class MultiLevelDateInputComponent implements OnInit {
     this.usageTimes = [];
 
     this.options = [
-      ...Object.keys(UNITS).map((key) => ({
-        value: key,
-        i18nPath: `${key}`,
-      })),
-    ];
+      ...Object.keys(UNITS).filter(key => isNaN(Number(key))).map(key => {
+        return {
+          value: key,
+          i18nPath: `ml-gpt-room-settings.usage-time-item-one-option-${key.toLowerCase()}`,
+        }
+      }),
+    ]
   }
 
   ngOnInit(): void {}

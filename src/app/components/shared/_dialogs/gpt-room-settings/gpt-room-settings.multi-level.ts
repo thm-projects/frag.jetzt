@@ -26,18 +26,6 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
   title: 'ml-gpt-room-settings.title',
   questions: [
     {
-      tag: 'usageTime',
-      title: 'ml-gpt-room-settings.usage-time-title',
-      stepHelp: 'ml-gpt-room-settings.usage-time-step-help',
-      buildAction(_injector, _answers, previousState) {
-        if (previousState) return previousState;
-        return buildInput(this, {
-          tag: 'usageTimes',
-          type: 'date-input',
-        });
-      },
-    },
-    {
       tag: 'gptSetup',
       title: 'ml-gpt-room-settings.gpt-setup-title',
       stepHelp: 'ml-gpt-room-settings.gpt-setup-step-help',
@@ -373,6 +361,13 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
         return buildInput(this, {
           tag: 'usageTimes',
           type: 'date-input',
+          labels: [
+            'ml-gpt-room-settings.usage-time-item-one-input',
+            'ml-gpt-room-settings.usage-time-item-one-select-one',
+            'ml-gpt-room-settings.usage-time-item-one-select-two',
+            'ml-gpt-room-settings.usage-time-item-one-select-three',
+            'ml-gpt-room-settings.usage-time-item-one-button',
+          ]
         });
       },
     },

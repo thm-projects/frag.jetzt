@@ -100,6 +100,7 @@ export interface DateInputAction extends BaseAction {
   defaultValue?: string;
   placeholder?: string;
   hidden?: boolean;
+  labels: [string, string, string, string, string];
 }
 
 export interface TextAction {

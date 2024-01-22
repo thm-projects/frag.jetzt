@@ -748,6 +748,19 @@
   "usage-time-item-one-select-two": "Heure de Fin",
   "usage-time-item-one-select-three": "Répétition",
   "usage-time-item-one-button": "Ajouter du Temps",
+  "usage-time-item-one-option-none": "Aucun",
+  "usage-time-item-one-option-daily": "Quotidien",
+  "usage-time-item-one-option-weekdays": "Jours Ouvrables",
+  "usage-time-item-one-option-weekends": "Week-ends",
+  "usage-time-item-one-option-mondays": "Les Lundis",
+  "usage-time-item-one-option-tuesdays": "Les Mardis",
+  "usage-time-item-one-option-wednesdays": "Les Mercredis",
+  "usage-time-item-one-option-thursdays": "Les Jeudis",
+  "usage-time-item-one-option-fridays": "Les Vendredis",
+  "usage-time-item-one-option-saturdays": "Les Samedis",
+  "usage-time-item-one-option-sundays": "Les Dimanches",
+
+
 
   "miscellaneous-settings-title": "Paramètres Divers",
   "miscellaneous-settings-step-help": "Saisissez quelque chose ici 14",

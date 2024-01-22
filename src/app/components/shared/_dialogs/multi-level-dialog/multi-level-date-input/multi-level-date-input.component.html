@@ -1,16 +1,16 @@
 <form [formGroup]="dateRangeGroup">
   <mat-form-field appearance="outline">
-    <mat-label>Zeitspanne</mat-label>
+    <mat-label>{{ data.labels[0] | translate }}</mat-label>
     <mat-date-range-input [rangePicker]="picker">
       <input
         matStartDate
         matInput
-        placeholder="Start date"
+        [placeholder]="data.labels[1] | translate"
         formControlName="startDate" />
       <input
         matEndDate
         matInput
-        placeholder="End date"
+        [placeholder]="data.labels[2] | translate"
         formControlName="endDate" />
     </mat-date-range-input>
     <mat-datepicker-toggle
@@ -21,7 +21,7 @@
 
   <div class="container">
     <mat-form-field appearance="outline">
-      <mat-label>Start Time</mat-label>
+      <mat-label>{{ data.labels[1] | translate }}</mat-label>
       <input
         matInput
         type="time"
@@ -29,7 +29,7 @@
     </mat-form-field>
 
     <mat-form-field appearance="outline">
-      <mat-label>End Time</mat-label>
+      <mat-label>{{ data.labels[2] | translate }}</mat-label>
       <input
         matInput
         type="time"
@@ -40,7 +40,7 @@
       <mat-select formControlName="selectedOption">
         <mat-option
           *ngFor="let option of options"
-          [value]="option.value">
+          [value]="option.value" placeholder="Hi">
           {{ option.i18nPath | translate }}
         </mat-option>
       </mat-select>
@@ -52,7 +52,7 @@
   mat-raised-button
   (click)="addUsageTime()">
   <mat-icon>add</mat-icon>
-  <span>Zeit hinzufügen</span>
+  <span>{{ data.labels[4] | translate }}</span>
 </button>
 
 <div *ngIf="dateRangeGroup.errors?.invalid">
