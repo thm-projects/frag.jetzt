@@ -170,41 +170,43 @@ export const saveSettings = (
 
   roomQuotaPatch.accessTimes = [];
 
-  usageTimes.forEach((element) => {
-    let repeatUnit = element.repeatUnit;
-    if (typeof repeatUnit === 'number') {
-      repeatUnit = UNITS[repeatUnit];
-    }
-    const { hour, minute, second } = element.startDuration;
-    const startTime =
-      hour.toString().padStart(2, '0') +
-      ':' +
-      minute.toString().padStart(2, '0') +
-      ':' +
-      second.toString().padStart(2, '0');
-    const {
-      hour: hour2,
-      minute: minute2,
-      second: second2,
-    } = element.endDuration;
-    const endTime =
-      hour2.toString().padStart(2, '0') +
-      ':' +
-      minute2.toString().padStart(2, '0') +
-      ':' +
-      second2.toString().padStart(2, '0');
-    roomQuotaPatch.accessTimes.push(
-      new QuotaAccessTime({
-        startDate: element.startDate,
-        endDate: element.endDate,
-        recurringStrategy: 'WEEKLY',
-        recurringFactor: 1,
-        strategy: repeatUnit,
-        startTime,
-        endTime,
-      }),
-    );
-  });
+  if (usageTimes && usageTimes.length > 0) {
+    usageTimes.forEach((element) => {
+      let repeatUnit = element.repeatUnit;
+      if (typeof repeatUnit === 'number') {
+        repeatUnit = UNITS[repeatUnit];
+      }
+      const { hour, minute, second } = element.startDuration;
+      const startTime =
+        hour.toString().padStart(2, '0') +
+        ':' +
+        minute.toString().padStart(2, '0') +
+        ':' +
+        second.toString().padStart(2, '0');
+      const {
+        hour: hour2,
+        minute: minute2,
+        second: second2,
+      } = element.endDuration;
+      const endTime =
+        hour2.toString().padStart(2, '0') +
+        ':' +
+        minute2.toString().padStart(2, '0') +
+        ':' +
+        second2.toString().padStart(2, '0');
+      roomQuotaPatch.accessTimes.push(
+        new QuotaAccessTime({
+          startDate: element.startDate,
+          endDate: element.endDate,
+          recurringStrategy: 'WEEKLY',
+          recurringFactor: 1,
+          strategy: repeatUnit,
+          startTime,
+          endTime,
+        }),
+      );
+    });
+  }
   console.log(roomQuotaPatch);
 
   if (

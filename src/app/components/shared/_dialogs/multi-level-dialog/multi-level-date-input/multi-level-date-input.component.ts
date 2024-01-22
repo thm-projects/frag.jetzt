@@ -10,9 +10,9 @@ import { Time } from '@angular/common';
 import { TimeInterval } from 'rxjs/internal/operators/timeInterval';
 
 export enum UNITS {
-  NONE = 0,
-  DAILY = 1,
-  WEEKDAYS = 2,
+  NONE,
+  DAILY,
+  WEEKDAYS,
   WEEKENDS,
   MONDAYS,
   TUESDAYS,
@@ -32,6 +32,8 @@ class TimeStamp {
   hour: number;
   minute: number;
   second: number;
+
+  test: string;
 
   constructor(hour = 0, minute = 0, second = 0) {
     this.hour = hour;
@@ -80,7 +82,7 @@ export class MultiLevelDateInputComponent implements OnInit {
       {
         startDate: new FormControl(),
         endDate: new FormControl(),
-        selectedOption: new FormControl(),
+        selectedOption: new FormControl(UNITS[UNITS.WEEKDAYS]),
         startTime: new FormControl('', Validators.required),
         endTime: new FormControl('', Validators.required),
       },
@@ -92,15 +94,13 @@ export class MultiLevelDateInputComponent implements OnInit {
     this.usageTimes = [];
 
     this.options = [
-      ...Object.keys(UNITS)
-        .filter((key) => isNaN(Number(key)))
-        .map((key) => {
-          return {
-            value: key,
-            i18nPath: `ml-gpt-room-settings.usage-time-item-one-option-${key.toLowerCase()}`,
-          };
-        }),
-    ];
+      ...Object.keys(UNITS).filter(key => isNaN(Number(key))).map(key => {
+        return {
+          value: key,
+          i18nPath: `ml-gpt-room-settings.usage-time-item-one-option-${key.toLowerCase()}`,
+        }
+      }),
+    ]
   }
 
   ngOnInit(): void {}
@@ -129,12 +129,9 @@ export class MultiLevelDateInputComponent implements OnInit {
 
     const startDate = new Date(start);
     const endDate = new Date(end);
-    const startDuration = TimeStamp.fromString(
-      this.dateRangeGroup.get('startTime').value,
-    );
-    const endDuration = TimeStamp.fromString(
-      this.dateRangeGroup.get('endTime').value,
-    );
+
+    const startDuration = TimeStamp.fromString(this.dateRangeGroup.get('startTime').value);
+    const endDuration = TimeStamp.fromString(this.dateRangeGroup.get('endTime').value);
 
     if (startDuration.isAfter(endDuration)) return;
 
@@ -149,27 +146,25 @@ export class MultiLevelDateInputComponent implements OnInit {
       endDuration,
       repeatDuration,
       repeatUnit,
-    };
-
-    if (this.usageTimes.length !== 0 && this.usageAlreadyExists(newUsage))
-      return;
+    }
+    
+    if (this.usageTimes.length !== 0 
+      && this.usageAlreadyExists(newUsage)) return;
     this.usageTimes.push(newUsage);
 
     this.data.control.setValue([...this.usageTimes]);
   }
 
   usageAlreadyExists(usage: Usage): boolean {
-    return this.usageTimes.some(
-      (u) =>
-        u.startDate.getDate() === usage.startDate.getDate() &&
-        u.endDate.getDate() === usage.endDate.getDate() &&
-        u.startDuration.hour === usage.startDuration.hour &&
-        u.startDuration.minute === usage.startDuration.minute &&
-        u.endDuration.hour === usage.endDuration.hour &&
-        u.endDuration.minute === usage.endDuration.minute &&
-        u.repeatDuration === usage.repeatDuration &&
-        u.repeatUnit === usage.repeatUnit,
-    );
+    return this.usageTimes.some((u) => 
+    u.startDate.getDate() === usage.startDate.getDate() 
+    && u.endDate.getDate() === usage.endDate.getDate()
+    && u.startDuration.hour === usage.startDuration.hour
+    && u.startDuration.minute === usage.startDuration.minute
+    && u.endDuration.hour === usage.endDuration.hour
+    && u.endDuration.minute === usage.endDuration.minute
+    && u.repeatDuration === usage.repeatDuration
+    && u.repeatUnit === usage.repeatUnit);
   }
 
   deleteTime(index: number): void {

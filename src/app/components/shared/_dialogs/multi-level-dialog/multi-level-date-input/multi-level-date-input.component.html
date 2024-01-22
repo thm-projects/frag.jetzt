@@ -40,7 +40,7 @@
       <mat-select formControlName="selectedOption">
         <mat-option
           *ngFor="let option of options"
-          [value]="option.value" placeholder="Hi">
+          [value]="option.value">
           {{ option.i18nPath | translate }}
         </mat-option>
       </mat-select>
