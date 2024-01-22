@@ -132,6 +132,8 @@ export class MultiLevelDateInputComponent implements OnInit {
       this.dateRangeGroup.get('endTime').value,
     );
 
+    if (startDuration.isAfter(endDuration)) return;
+
     const repeatDuration = 1;
     const repeatUnit =
       this.dateRangeGroup.get('selectedOption').value || UNITS.WEEKDAYS;
