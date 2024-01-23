@@ -1,0 +1,107 @@
+@startuml Bonus awarding
+title frag.jetzt | ChatGPT Settings ARS & PLE
+
+skinparam backgroundColor Linen
+skinparam shadowing true
+skinparam defaultFontSize 14
+skinparam Padding 6
+
+|#CE93D8|PLE|
+partition "Learner" {
+  start
+  :go to »ChatGPT Settings«;
+  if (want to change openAI api settings?) then (yes)
+    :change openAI api key;
+    :change openAI org;
+  endif
+  if (want to manage room quota?) then (yes)
+    :change total quota;
+    :change monthly quota;
+    :change montly flowing quota;
+    :change daily quota;
+  endif
+  if (want to manage co-learner?) then (yes)
+    :change total quota;
+    :change monthly quota;
+    :change montly flowing quota;
+    :change daily quota;
+  endif
+  if (want to manage participant quota?) then (yes)
+    :change total quota;
+    :change monthly quota;
+    :change montly flowing quota;
+    :change daily quota;
+  endif
+  stop
+}
+
+|#90CAF9|ARS|
+partition "Teacher" {
+  start
+  :go to »ChatGPT Settings«;
+
+  if (want to change openAI api key?) then (yes)
+    :change openAI api key;
+  endif
+
+  if (want to change openAI org?) then (yes)
+    :change openAI org;
+  endif
+
+  if (want to manage total quota?) then (yes)
+    :change total quota;
+    :change monthly quota;
+    :change montly flowing quota;
+    :change daily quota;
+  endif
+  
+  if (are there any moderators?) then (yes)
+    if (want to manage moderator quota?) then (yes)
+        :change total quota;
+        :change monthly quota;
+        :change montly flowing quota;
+        :change daily quota;
+    endif
+
+    if (want to manage moderator rights?) then (yes)
+        :Changing participant quota;
+        :Changing moderator quota;
+        :Changing room quota;
+        :Changing prompt defaults;
+        :Changing periods of use;
+        :Changing API settings;
+    endif
+  endif
+
+  if (want to manage participant quota?) then (yes)
+    :change total quota;
+    :change monthly quota;
+    :change montly flowing quota;
+    :change daily quota;
+  endif
+
+  if (want to change periods of use?) then (yes)
+    :change periods of use;
+  endif
+
+  if (want to change miscellaneous settings?) then (yes)
+    :Allow ChatGpt also for unregistered users;
+    :Let ChatGPT answer without prompt presets;
+    :Let ChatGPT answer only when called;
+    endif
+
+  stop
+}
+
+legend right
+|<img:https://git.thm.de/uploads/-/system/project/avatar/8392/maskable_icon_x512.png{scale=0.4}> |= \n\n »frag.jetzt« |
+| Domain glossary | [[https://git.thm.de/arsnova/frag.jetzt/-/raw/staging/docs/diagrams/Glossary.pdf]] |
+| Production server | [[https://frag.jetzt]] |
+| Repository | [[https://git.thm.de/arsnova/frag.jetzt/-/blob/staging/README.md]] |
+| Staging server | [[https://staging.frag.jetzt]] |
+| UML tool| PlantUML-Server Version 1202202|
+| Author| Yousif Wardah, Anas Ahakki and Klaus Quibeldey-Cirkel |
+| Contact| [[mailto:klaus.quibeldey-cirkel@mni.thm.de]] |
+| Last revision| 04.12.2022 |
+end legend
+@enduml

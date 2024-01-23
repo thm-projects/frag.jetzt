@@ -10,19 +10,6 @@ const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
 };
 
-export interface CommentChangeSubscription {
-  id: string;
-  commentId: string;
-  roomId: string;
-  accountId: string;
-}
-
-export interface RoomCommentChangeSubscription {
-  id: string;
-  roomId: string;
-  accountId: string;
-}
-
 @Injectable({
   providedIn: 'root',
 })
@@ -60,6 +47,8 @@ export class CommentChangeService extends BaseHttpService {
   }
 
   getCommentChangeById(id: string): Observable<CommentChange> {
+    const connectionUrl =
+      this.apiUrl.base + this.apiUrl.commentChange + '/' + id;
     const connectionUrl =
       this.apiUrl.base + this.apiUrl.commentChange + '/' + id;
     return this.http.get<CommentChange>(connectionUrl, httpOptions).pipe(

@@ -159,7 +159,10 @@
     "unread": "Not discussed",
     "vote-asc": "Ascending votes",
     "vote-desc": "Descending votes",
-    "wrong": "Marked as wrong"
+    "wrong": "Marked as wrong",
+    "ple":{
+      "ask-question-empty": "Add new Topics"
+    }
   },
   "comment-notification": {
     "close": "Close",
@@ -577,7 +580,12 @@
     "feedback": "Feedback Room",
     "logout": "Log out",
     "livepoll": "Flash Poll",
-    "livepoll-button": "Create surveys and automatically notify all participants."
+    "livepoll-button": "Create surveys and automatically notify all participants.",
+    "ple": {
+      "questionwall": "Topic Focus",
+      "back-to-questionboard": "Topic Forum",
+      "tag-cloud": "Topic Radar"
+    }
   },
   "topic-cloud-filter": {
     "info-no-keywords": "Our AI-based text analysis can identify keywords. Start analysis?",
@@ -592,7 +600,16 @@
     "only-questions-short": "Questions only",
     "from-now": "Only questions from now on",
     "from-now-short": "Only questions from now on",
-    "questions-title": "Which questions do you want on the radar?"
+    "questions-title": "Which questions do you want on the radar?",
+    "ple": {
+      "questions-title": "Which topics do you want to have on the radar?",
+      "all-questions-and-answers": "All topics with answers",
+      "all-questions-and-answers-short": "All topics with answers",
+      "only-questions": "Only topics",
+      "only-questions-short": "Only topics",
+      "from-now": "Only topics from now on",
+      "from-now-short": "Only topics from now"
+    }
   },
   "home-page": {
     "create-session": "New session",
@@ -725,6 +742,17 @@
     "tooltip-clipboard": "Share direct link for guest moderators",
     "tooltip-moderators": "Access code for guest moderators | Admission of permanent moderators",
     "tooltip-recreate": "Generate access code for guest moderators"
+  },
+  "multi-level-dialog": {
+    "next": "Next",
+    "previous": "Previous",
+    "cancel": "Cancel",
+    "confirm": "Submit",
+    "complete": "Complete",
+    "complete-text": "Click »Submit« to save the room configuration.",
+    "complete-reset": "Reset everything",
+    "single": "Question {{number}}",
+    "range": "Questions {{start}} to {{end}}"
   },
   "quill": {
     "cancel": "Cancel",

@@ -519,6 +519,17 @@
     "navigationButton": "La navigation est disponible sur toutes les pages. Ici, tu peux passer à toutes les features de la plateforme.",
     "navigationButtonTitle": "Navigation dans l'application"
   },
+  "multi-level-dialog": {
+    "next": "Suivant",
+    "previous": "Précédent",
+    "cancel": "Annuler",
+    "confirm": "Soumettre",
+    "complete": "Terminer",
+    "complete-text": "Clique sur « Soumettre » pour enregistrer la configuration de la salle.",
+    "complete-reset": "Tout réinitialiser",
+    "single": "Question {{number}}",
+    "range": "Questions {{start}} à {{end}}"
+  },
   "question-wall": {
     "auto-renew-off": "Arrêter la mise au point automatique pour les nouvelles questions",
     "auto-renew-off-icon": "close",

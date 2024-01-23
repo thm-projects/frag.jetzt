@@ -1,0 +1,44 @@
+<mat-form-field appearance="outline">
+  <mat-label *ngIf="data.label">{{ data.label | translate }}</mat-label>
+  <input
+    appAccessibilityEscapedInput
+    autofocus
+    matInput
+    [min]="data.allowedRange.min"
+    [max]="data.allowedRange.max"
+    [step]="data.allowedRange.step"
+    [type]="'number'"
+    inputmode="numeric"
+    [value]="data.defaultValue"
+    [placeholder]="data.placeholder | translate"
+    [formControl]="data.control"
+    (input)="
+      data.control.setValue(
+        clampValue(
+          data.control.value,
+          data.allowedRange.min,
+          data.allowedRange.max
+        )
+      )
+    " />
+  <button
+    *ngIf="initialHidden"
+    mat-icon-button
+    matSuffix
+    (click)="hidden = !hidden"
+    [attr.aria-pressed]="hidden">
+    <mat-icon>{{ hidden ? "visibility_off" : "visibility" }}</mat-icon>
+  </button>
+  <mat-hint *ngIf="data.hint && !data.control.invalid">
+    {{ data.hint | translate }}
+  </mat-hint>
+  <mat-error *ngIf="data.control.invalid">
+    <ng-container *ngIf="data.errorStates as errors">
+      <ng-container *ngFor="let entry of errors | keyvalue">
+        <mat-error *ngIf="data.control.hasError(entry.key)">
+          {{ entry.value | translate }}
+        </mat-error>
+      </ng-container>
+    </ng-container>
+  </mat-error>
+</mat-form-field>

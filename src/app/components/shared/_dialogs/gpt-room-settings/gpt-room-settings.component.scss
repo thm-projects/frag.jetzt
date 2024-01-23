@@ -1,14 +1,34 @@
-.primary-btn {
-  background-color: transparent;
-  color: var(--primary);
-  outline: var(--primary) solid 2px;
+.mat-stepper-vertical {
+  background-color: var(--surface);
+  color: var(--on-surface);
   width: 100%;
-  margin-top: 10px;
+}
 
-  &:hover {
-    background-color: var(--primary);
-    color: var(--on-primary);
-  }
+.mat-stroked-button.mat-primary {
+  color: var(--primary);
+  border: 0.2em solid currentColor;
+  margin-inline: 0.15em;
+}
+
+:host
+  ::ng-deep
+  .mat-vertical-content-container.mat-stepper-vertical-line::before {
+  border-left: 1px solid var(--on-surface);
+}
+
+:host ::ng-deep .mat-step-icon {
+  background-color: var(--primary);
+  color: var(--on-primary);
+}
+
+:host ::ng-deep .mat-step-icon-state-number {
+  background-color: var(--on-dialog);
+  color: var(--dialog);
+}
+
+:host ::ng-deep .mat-step-header:has(.mat-step-icon-state-back),
+:host ::ng-deep .mat-step-header:has(.mat-step-icon-state-forward) {
+  cursor: pointer;
 }
 
 .mat-mdc-form-field,
@@ -17,46 +37,91 @@
   margin-bottom: 1em;
 }
 
-.keyword-item {
+:host ::ng-deep .mat-step-label,
+:host ::ng-deep .mat-step-label.mat-step-label-active {
   color: var(--on-surface);
-  /* TODO(mdc-migration): The following rule targets internal classes of list that may no longer apply for the MDC version. */
-  ::ng-deep .mat-list-item-content {
-    flex-wrap: wrap;
-  }
-
-  div[matListItemTitle] {
-    width: 100%;
-  }
-
-  div[matlistitemline] {
-    font-style: italic;
-    font-size: 0.9em;
-  }
-
-  .mat-mdc-icon-button {
-    font-size: 1em;
-    width: 2.5em;
-    height: 2.5em;
-    line-height: 2.5em;
-    margin-top: -0.2em;
-    position: absolute;
-    right: 0;
-  }
 }
 
-.time-select,
-.repeat-select {
+:host ::ng-deep .mat-progress-bar-fill::after {
+  background-color: var(--green);
+}
+
+:host ::ng-deep .mat-progress-bar-buffer {
+  background-color: var(--grey);
+}
+
+:host ::ng-deep .mat-step-optional {
+  display: none;
+}
+
+.button-container {
   display: flex;
-  justify-content: space-evenly;
-  margin: 1em 0;
+  flex-wrap: wrap;
+  gap: 0.5em;
 }
 
-::ng-deep mat-datepicker-toggle,
-::ng-deep .mat-date-range-input-separator {
-  color: var(--on-surface) !important;
+.submit-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3em;
 }
 
-mat-list mat-list-item:nth-child(2n + 1) {
-  background-color: var(--surface);
-  color: var(--on-surface);
+.mat-prev {
+  color: var(--secondary);
+  border: 0.2em solid currentColor;
+  margin-inline: 0.15em;
+}
+
+.mat-last-prev {
+  margin-right: auto;
+}
+
+.mat-warning {
+  color: var(--red);
+  border: 0.2em solid currentColor;
+  margin-inline: 0.15em;
+}
+
+.mat-dialog-content {
+  overflow-y: auto !important;
+  scrollbar-gutter: stable;
+}
+
+.bottom-container {
+  display: flex;
+  align-items: center;
+
+  app-dialog-action-buttons {
+    flex: 1;
+  }
+}
+
+.help-button {
+  background-color: transparent;
+  color: var(--green);
+  outline: var(--green) solid 2px;
+  margin: 10px;
+
+  &:hover {
+    background-color: var(--green);
+    color: var(--black);
+  }
+
+  .mat-icon {
+    font-size: 18px;
+  }
+}
+
+.spinner-container {
+  font-size: 14px;
+  margin-top: -2px;
+}
+
+.progress-bar {
+  scrollbar-gutter: stable;
+
+  ::ng-deep .mat-progress-bar-background,
+  ::ng-deep .mat-progress-bar-background rect {
+    fill: transparent;
+  }
 }

@@ -159,7 +159,10 @@
     "unread": "Questions qui n'ont pas été présentées publiquement par le conférencier",
     "vote-asc": "Notations ascendantes",
     "vote-desc": "Évaluations descendantes",
-    "wrong": "Questions marquées comme fausses par le conférencier ou le modérateur"
+    "wrong": "Questions marquées comme fausses par le conférencier ou le modérateur",
+    "ple":{
+      "ask-question-empty": "Ajouter de nouveaux sujets"
+    }
   },
   "comment-notification": {
     "close": "Fermer",
@@ -577,7 +580,12 @@
     "feedback": "Salle de feedback",
     "logout": "Se déconnecter",
     "livepoll": "Sondage flash",
-    "livepoll-button": "Créer des sondages et notifier automatiquement tous les participants."
+    "livepoll-button": "Créer des sondages et notifier automatiquement tous les participants.",
+    "ple": {
+      "questionwall": "Focus de Sujet",
+      "back-to-questionboard": "Forum de Sujet",
+      "tag-cloud": "Radar de Sujet"
+    }
   },
   "topic-cloud-filter": {
     "info-no-keywords": "Notre analyse de texte basée sur l'IA peut déterminer des mots clés. Démarrer l'analyse ?",
@@ -592,7 +600,16 @@
     "from-now-short": "Questions à partir de maintenant",
     "create": "Continuer",
     "cancel": "Annuler",
-    "questions-title": "Quelles sont les questions que tu aimerais avoir sur le radar ?"
+    "questions-title": "Quelles sont les questions que tu aimerais avoir sur le radar ?",
+    "ple": {
+      "questions-title": "Quels sujets voulez-vous avoir sur le radar ?",
+      "all-questions-and-answers": "Tous les sujets avec réponses",
+      "all-questions-and-answers-short": "Tous les sujets avec réponses",
+      "only-questions": "Seulement les sujets",
+      "only-questions-short": "Seulement les sujets",
+      "from-now": "Seulement les sujets à partir de maintenant",
+      "from-now-short": "Seulement les sujets dès maintenant"
+    }
   },
   "home-page": {
     "create-session": "Nouvelle session",
@@ -661,6 +678,17 @@
     "tooltip-clipboard": "Partager le lien direct pour les modérateurs invités",
     "tooltip-moderators": "Code d'accès pour les modérateurs invités | Enregistrement des modérateurs permanents",
     "tooltip-recreate": "Générer un code d'accès pour les modérateurs invités"
+  },
+  "multi-level-dialog": {
+    "next": "Suivant",
+    "previous": "Précédent",
+    "cancel": "Annuler",
+    "confirm": "Soumettre",
+    "complete": "Terminer",
+    "complete-text": "Clique sur « Soumettre » pour enregistrer la configuration de la salle.",
+    "complete-reset": "Tout réinitialiser",
+    "single": "Question {{number}}",
+    "range": "Questions {{start}} à {{end}}"
   },
   "quill": {
     "cancel": "Annuler",

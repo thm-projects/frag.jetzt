@@ -706,7 +706,22 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
           text: 'header.create-question',
           callback: () => this.writeComment(),
           condition: () =>
-            !this.isMobile && this.room && !this.room.questionsBlocked,
+            !this.isMobile &&
+            this.room &&
+            !this.room.questionsBlocked &&
+            this.room.mode === 'ARS',
+        });
+        e.menuItem({
+          translate: this.headerService.getTranslate(),
+          icon: 'add',
+          class: 'header-icons material-icons-outlined',
+          text: 'header.ple.create-question',
+          callback: () => this.writeComment(),
+          condition: () =>
+            !this.isMobile &&
+            this.room &&
+            !this.room.questionsBlocked &&
+            this.room.mode === 'PLE',
         });
         e.menuItem({
           translate: this.headerService.getTranslate(),

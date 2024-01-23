@@ -159,7 +159,10 @@
     "unread": "Fragen, die nicht öffentlich vom Vortragenden vorgestellt worden sind",
     "vote-asc": "Aufsteigende Bewertungen",
     "vote-desc": "Absteigende Bewertungen",
-    "wrong": "Fragen, die der Vortragende oder Moderator als falsch markiert hat"
+    "wrong": "Fragen, die der Vortragende oder Moderator als falsch markiert hat",
+    "ple":{
+      "ask-question-empty": "Neue Topics hinzufügen"
+    }
   },
   "comment-notification": {
     "close": "Schließen",
@@ -581,7 +584,12 @@
     "feedback": "Feedback-Raum",
     "logout": "Abmelden",
     "livepoll": "Blitzumfrage",
-    "livepoll-button": "Umfrage erstellen und alle Personen im Raum automatisch benachrichtigen."
+    "livepoll-button": "Umfrage erstellen und alle Personen im Raum automatisch benachrichtigen.",
+    "ple": {
+      "questionwall": "Topic-Fokus",
+      "back-to-questionboard": "Topic-Forum",
+      "tag-cloud": "Topic-Radar"
+    }
   },
   "topic-cloud-filter": {
     "info-no-keywords": "Unsere KI-basierte Textanalyse kann Stichwörter ermitteln. Analyse starten?",
@@ -596,7 +604,16 @@
     "from-now-short": "Nur Fragen ab jetzt",
     "create": "Weiter",
     "cancel": "Abbrechen",
-    "questions-title": "Welche Fragen willst du auf dem Radar haben?"
+    "questions-title": "Welche Fragen willst du auf dem Radar haben?",
+    "ple": {
+      "questions-title": "Welche Topics willst du auf dem Radar haben?",
+      "all-questions-and-answers": "Alle Topics mit Antworten",
+      "all-questions-and-answers-short": "Alle Topics mit Antworten",
+      "only-questions": "Nur Topics",
+      "only-questions-short": "Nur Topics",
+      "from-now": "Nur Topics ab jetzt",
+      "from-now-short": "Nur Topics ab jetzt"
+    }
   },
   "home-page": {
     "create-session": "Neue Sitzung",
@@ -729,6 +746,59 @@
     "tooltip-clipboard": "Direktlink für Gastmoderator*innen teilen",
     "tooltip-moderators": "Zugangscode für Gastmoderator*innen | Aufnahme von Dauermoderator*innen",
     "tooltip-recreate": "Zugangscode für Gastmoderator*innen erzeugen"
+  },
+  "multi-level-dialog": {
+    "next": "Weiter",
+    "previous": "Zurück",
+    "cancel": "Abbrechen",
+    "confirm": "Absenden",
+    "complete": "Abschließen",
+    "complete-text": "Klicke auf »Absenden«, um die Raum-Konfiguration zu speichern.",
+    "complete-reset": "Alles zurücksetzen",
+    "single": "Frage {{number}}",
+    "range": "Fragen {{start}} bis {{end}}"
+  },
+  "ml-gpt-room-settings": {
+    "title": "GPT Einstellungen",
+    "q-api-setup": "ChatGPT aktivieren",
+    "l-api-choice": "Welche Art der Aktivierung?",
+    "r-api-short": "Aktivierungsart",
+    "r-api-choice-key": "Mit API Key",
+    "r-api-choice-voucher": "Mit Voucher",
+    "help-api-setup": "Um ChatGPT zu aktivieren, musst du einen API Key von OpenAI eingeben. Diesen erhältst du, wenn du dich auf der Website von OpenAI registrierst.",
+    "q-api-title": "API Schlüssel & Organisation",
+    "l-api-code": "API Code",
+    "l-api-org": "API Organisation",
+    "q-api-title-2": "API Voucher",
+    "l-api-voucher": "API Voucher",
+    "q-room-quota": "Raum-Kontingent",
+    "q-moderator-quota": "Moderator-Kontingent",
+    "q-participant-quota": "Teilnehmer-Kontingent",
+    "ml-room-create.a-p2-voucher": "test",
+    "q-periods-of-use": "Nutzungszeiträume",
+    "q-miscellaneous-settings": "Sonstige Einstellungen",
+    "q-moderator-permissions": "Moderator-Berechtigungen",
+    "l-total-cost-limit": "Gesamtkostenlimit",
+    "l-monthly-cost-limit": "Monatliches Kostenlimit",
+    "l-monthly-flowing-cost-limit": "Monatliches fließendes Kostenlimit",
+    "l-daily-cost-limit": "Tägliches Kostenlimit",
+    "s-moderator-can-change-participant-quota": "Ändern des Teilnehmerkontingents",
+    "s-moderator-can-change-moderator-quota": "Ändern des Moderator-Kontingents",
+    "s-moderator-can-change-room-quota": "Ändern des Raum-Kontingents",
+    "s-moderator-can-change-periods-of-use": "Ändern der Nutzungszeiträume",
+    "s-moderator-can-change-prompt-presets": "Ändern der Prompt-Vorgaben",
+    "s-moderator-can-change-api-settings": "Ändern der API-Einstellungen",
+    "s-allow-unregistered-users": "ChatGPT auch für unregistrierte User zulassen",
+    "s-allow-answer-without-preset": "ChatGPT ohne Prompt-Vorgaben antworten lassen",
+    "s-only-answer-when-called": "ChatGPT nur nach Aufforderung antworten lassen",
+    "errors": {
+      "pattern-api-org": "Ungültige Organisation",
+      "required-api-code": "Gib einen Key ein",
+      "pattern-api-code": "Ungültiger Key"
+    },
+    "help": {
+      "api-title-help": "TODO"
+    }
   },
   "quill": {
     "cancel": "Abbrechen",
@@ -900,7 +970,11 @@
     "tokens-deleted": "Alle Codes dieser Sitzung wurden gelöscht.",
     "update": "Speichern",
     "update-description": "Speichert die Änderungen",
-    "words-will-be-overwritten": "Vulgäre Wörter werden mit ★★★★ überschrieben."
+    "words-will-be-overwritten": "Vulgäre Wörter werden mit ★★★★ überschrieben.",
+    "ple": {
+      "comments": "Topics erstellen!",
+      "comments-and-answers": "Zum Topic-Forum"
+    }
   },
   "gptrating": {
     "title": "Bewertung zu ChatGPT in frag.jetzt",

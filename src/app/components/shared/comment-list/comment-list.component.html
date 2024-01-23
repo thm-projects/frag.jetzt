@@ -12,7 +12,7 @@
     class="counter"
     *ngIf="!filterType && !search">
     <span matTooltip="{{ 'comment-list.counter-description' | translate }}">
-      {{ "comment-list.counter" | translate: getCommentInfo() }}
+      {{ "comment-list.counter" | translate : getCommentInfo() }}
     </span>
   </p>
   <p
@@ -527,7 +527,7 @@
   appJoyrideTemplate></div>
 
 <button
-  *ngIf="commentsEnabled"
+  *ngIf="commentsEnabled && room.mode === 'ARS'"
   mat-fab
   [ngClass]="{
     center_screen: isCommentListEmpty() || isStarting()
@@ -544,6 +544,26 @@
     class="oldtypo-p"
     *ngIf="isCommentListEmpty()">
     {{ "comment-list.ask-question-empty" | translate }}
+  </p>
+</button>
+
+<button
+  *ngIf="commentsEnabled && room.mode === 'PLE'"
+  mat-fab
+  mat-icon-button
+  [ngClass]="{
+    center_screen: isCommentListEmpty() || isStarting()
+  }"
+  aria-labelledby="add"
+  class="fab_add_comment"
+  (click)="writeComment()"
+  matTooltip="{{ 'comment-list.add-comment' | translate }}"
+  [matTooltipPosition]="'above'">
+  <mat-icon>add</mat-icon>
+  <p
+    class="oldtypo-p"
+    *ngIf="isCommentListEmpty()">
+    {{ "comment-list.ple.ask-question-empty" | translate }}
   </p>
 </button>
 
@@ -664,7 +684,7 @@
     {{ "comment-list.a11y-close_search" | translate }}
   </div>
   <div id="new-comment">
-    {{ "comment-page.new-comment" | translate: { comment: newestComment } }}
+    {{ "comment-page.new-comment" | translate : { comment: newestComment } }}
   </div>
   <div id="select-time">{{ "comment-list.a11y-select-time" | translate }}</div>
   <div id="select-time-1h">

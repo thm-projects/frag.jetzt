@@ -470,7 +470,10 @@
     "feedback": "Feedback-Raum",
     "logout": "Abmelden",
     "livepoll": "Blitzumfrage",
-    "livepoll-button": "Umfrage erstellen und alle Personen im Raum automatisch benachrichtigen."
+    "livepoll-button": "Umfrage erstellen und alle Personen im Raum automatisch benachrichtigen.",
+    "ple": {
+      "questionwall": "Topic-Fokus"
+    }
   },
   "topic-cloud-filter": {
     "info-no-keywords": "Unsere KI-basierte Textanalyse kann Stichwörter ermitteln. Analyse starten?",
@@ -525,6 +528,17 @@
     "chatGPTTitle": "Mit ChatGPT arbeiten",
     "navigationButton": "Die Navigation ist auf allen Seiten verfügbar. Hier kannst du zu allen Features der Plattform wechseln.",
     "navigationButtonTitle": "Navigation in der App"
+  },
+  "multi-level-dialog": {
+    "next": "Weiter",
+    "previous": "Zurück",
+    "cancel": "Abbrechen",
+    "confirm": "Absenden",
+    "complete": "Abschließen",
+    "complete-text": "Klicke auf »Absenden«, um die Raum-Konfiguration zu speichern.",
+    "complete-reset": "Alles zurücksetzen",
+    "single": "Frage {{number}}",
+    "range": "Fragen {{start}} bis {{end}}"
   },
   "question-wall": {
     "auto-renew-off": "Autofokus für neue Fragen beenden",

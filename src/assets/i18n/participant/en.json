@@ -519,6 +519,17 @@
     "navigationButton": "Navigation is available on all pages. Here you can switch to all features of the platform.",
     "navigationButtonTitle": "Navigation in the app"
   },
+  "multi-level-dialog": {
+    "next": "Next",
+    "previous": "Previous",
+    "cancel": "Cancel",
+    "confirm": "Submit",
+    "complete": "Complete",
+    "complete-text": "Click »Submit« to save the room configuration.",
+    "complete-reset": "Reset everything",
+    "single": "Question {{number}}",
+    "range": "Questions {{start}} to {{end}}"
+  },
   "question-wall": {
     "auto-renew-off": "Exit autofocus for new questions",
     "auto-renew-off-icon": "cancel",
