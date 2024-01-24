@@ -10,5 +10,7 @@ import { FormControl } from '@angular/forms';
 export class MultiLevelSelectInputComponent {
   data = inject(DYNAMIC_INPUT) as BuiltAction<SelectInputAction>;
   
-  constructor() {}
+  constructor() {
+    this.data.control = new FormControl(this.data.defaultValue);
+  }
 }

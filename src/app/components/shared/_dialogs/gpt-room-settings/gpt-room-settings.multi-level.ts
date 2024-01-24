@@ -13,6 +13,7 @@ import { RoomStateService } from 'app/services/state/room-state.service';
 import { Quota, QuotaEntry } from 'app/services/http/quota.service';
 import { Room } from 'app/models/room';
 import { Injector } from '@angular/core';
+import { data } from 'cypress/types/jquery';
 
 export interface Data {
   roomID: string;
@@ -161,6 +162,7 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
       title: 'ml-gpt-room-settings.gpt-model-title',
       stepHelp: 'ml-gpt-room-settings.gpt-model-step-help',
       buildAction(_injector, _answers, previousState, data) {
+        console.log(data.GPTSettings.defaultModel);
         return buildInput(
           this,
           {
@@ -362,11 +364,12 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
       tag: 'usageTime',
       title: 'ml-gpt-room-settings.usage-time-title',
       stepHelp: 'ml-gpt-room-settings.usage-time-step-help',
-      buildAction(_injector, _answers, previousState) {
+      buildAction(_injector, _answers, previousState, data) {
         if (previousState) return previousState;
         return buildInput(this, {
           tag: 'usageTimes',
           type: 'date-input',
+          defaultValues: data.roomQuota.accessTimes,
           labels: [
             'ml-gpt-room-settings.usage-time-item-one-input',
             'ml-gpt-room-settings.usage-time-item-one-select-one',

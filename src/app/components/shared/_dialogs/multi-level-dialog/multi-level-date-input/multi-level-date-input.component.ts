@@ -33,16 +33,14 @@ class TimeStamp {
   minute: number;
   second: number;
 
-  test: string;
-
   constructor(hour = 0, minute = 0, second = 0) {
     this.hour = hour;
     this.minute = minute;
     this.second = second;
   }
 
-  static fromString(time: string): TimeStamp {
-    const [hour, minute, second] = time.split(':').map(Number);
+  static fromString(timeString: string): TimeStamp {
+    const [hour, minute, second] = timeString.toString().split(':').map(Number);
     return new TimeStamp(hour, minute, second);
   }
 
@@ -91,7 +89,16 @@ export class MultiLevelDateInputComponent implements OnInit {
       },
     );
 
-    this.usageTimes = [];
+    this.usageTimes = this.data.defaultValues.map((usage) => {
+      return {
+        startDate: new Date(usage.startDate),
+        endDate: new Date(usage.endDate),
+        startDuration: TimeStamp.fromString(usage.startTime),
+        endDuration: TimeStamp.fromString(usage.endTime),
+        repeatDuration: usage.recurringFactor,
+        repeatUnit: usage.recurringStrategy,
+      };
+    });
 
     this.options = [
       ...Object.keys(UNITS).filter(key => isNaN(Number(key))).map(key => {
@@ -120,6 +127,21 @@ export class MultiLevelDateInputComponent implements OnInit {
 
     return { invalid: true };
   }
+
+  formatTimeStamp(time: TimeStamp): string {
+    let hour = time.hour;
+    if (isNaN(hour)) hour = 0;
+    let minute = time.minute;
+    if (isNaN(minute)) minute = 0;
+
+    return `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
+  }
+
+  timeStampExists(time: TimeStamp): boolean {
+    return this.usageTimes.some((u) => 
+    u.startDuration.hour === time.hour
+    && u.startDuration.minute === time.minute);
+  } 
 
   addUsageTime(): void {
     const start = this.dateRangeGroup.get('startDate').value;
@@ -153,6 +175,7 @@ export class MultiLevelDateInputComponent implements OnInit {
     this.usageTimes.push(newUsage);
 
     this.data.control.setValue([...this.usageTimes]);
+    this.dateRangeGroup.reset();
   }
 
   usageAlreadyExists(usage: Usage): boolean {

@@ -9,6 +9,7 @@ import { MultiLevelQuotaInputComponent } from '../multi-level-quota-input/multi-
 import { MultiLevelDateInputComponent } from '../multi-level-date-input/multi-level-date-input.component';
 import { MultiLevelSelectInputComponent } from '../multi-level-select-input/multi-level-select-input.component';
 import { Model } from 'app/services/http/gpt.service';
+import { QuotaAccessTime, QuotaEntry } from 'app/services/http/quota.service';
 
 export type AnsweredMultiLevelData = Record<string, FormGroup>;
 
@@ -100,6 +101,7 @@ export interface DateInputAction extends BaseAction {
   defaultValue?: string;
   placeholder?: string;
   hidden?: boolean;
+  defaultValues?: QuotaAccessTime[];
   labels: [string, string, string, string, string];
 }
 
