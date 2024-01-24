@@ -947,7 +947,10 @@
     "tokens-deleted": "Tous les codes de cette session ont été supprimés.",
     "update": "Enregistrer",
     "update-description": "Enregistre les modifications.",
-    "words-will-be-overwritten": "Les mots vulgaires sont remplacés par ★★★★."
+    "words-will-be-overwritten": "Les mots vulgaires sont remplacés par ★★★★.",
+    "quota-for-room": "Quota de salle",
+    "quota-for-moderators": "Quota de modérateurs",
+    "quota-for-participants": "Quota de participants"
   },
   "gptrating": {
     "title": "Évaluation de ChatGPT dans frag.jetzt",

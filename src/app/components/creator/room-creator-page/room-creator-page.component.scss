@@ -3,6 +3,10 @@ $padding: 16px;
 $footer-size: 46px;
 $header-size: 64px;
 
+* {
+  box-sizing: border-box !important;
+}
+
 .card-wrapper {
   display: flex;
   justify-content: center;
@@ -164,4 +168,69 @@ $header-size: 64px;
 
 .main-icon material-icons-outlined {
   width: 65px;
+}
+
+.spending-container {
+  background-color: var(--surface);
+  border: 1px solid var(--on-surface);
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.spending {
+  padding: 24px;
+  flex-basis: calc(33.33% - 16px);
+  box-sizing: border-box;
+  flex-grow: 1;
+
+  &:nth-child(even) {
+    background-color: var(--background);
+    border: 1px solid var(--on-surface);
+    border-top: none;
+    border-bottom: none;
+  }
+}
+
+.layout {
+  display: grid;
+  grid-template-rows: auto auto;
+  width: 100%;
+}
+
+.information {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  & .label:last-child {
+    text-align: right;
+  }
+}
+
+.bar {
+  padding: 2px;
+  background-color: var(--primary);
+  border-radius: 14px;
+  height: 1px;
+
+  & .spent {
+    width: 0;
+    height: 100%;
+    background-color: var(--on-primary);
+    border-radius: 14px;
+  }
+}
+
+@media (max-width: 768px) {
+  .spending {
+    flex-basis: 100%;
+    max-width: 100%;
+
+    &:nth-child(even) {
+      border: 1px solid var(--on-surface);
+      border-left: none;
+      border-right: none;
+    }
+  }
 }

@@ -121,6 +121,71 @@
         <h3>{{ "room-page.moderating-stream" | translate }}</h3>
       </button>
     </mat-card-footer>
+
+    <div class="spending-container">
+      <div class="spending">
+        <span>{{ "room-page.quota-for-room" | translate }}</span>
+        <div class="layout">
+          <div class="information">
+            <div class="label">
+              <span class="value">
+                {{ roomQuota.spent | currency: "USD" }}
+              </span>
+            </div>
+            <div class="label">
+              <span class="value">
+                {{ roomQuota.limit | currency: "USD" }}
+              </span>
+            </div>
+          </div>
+          <div class="bar">
+            <div class="spent" [style.width.%]="roomQuota.spentAsPercentage"></div>
+          </div> 
+        </div>
+      </div>
+
+      <div class="spending" *ngIf="room.mode === 'ARS'">
+        <div class="layout">
+          <span>{{ "room-page.quota-for-moderators" | translate }}</span>
+          <div class="information">
+            <div class="label">
+              <span class="value">
+                {{ moderatorQuota.spent | currency: "USD" }}
+              </span>
+            </div>
+            <div class="label">
+              <span class="value">
+                {{ moderatorQuota.limit | currency: "USD" }}
+              </span>
+            </div>
+          </div>
+          <div class="bar">
+            <div class="spent" [style.width.%]="roomQuota.spentAsPercentage"></div>
+          </div> 
+        </div>
+      </div>
+
+      <div class="spending" *ngIf="room.mode === 'ARS'">
+        <span>{{ "room-page.quota-for-participants" | translate }}</span>
+        <div class="layout">
+          <div class="information">
+            <div class="label">
+              <span class="value">
+                {{ participantQuota.spent | currency: "USD" }}
+              </span>
+            </div>
+            <div class="label">
+              <span class="value">
+                {{ participantQuota.limit | currency: "USD" }}
+              </span>
+            </div>
+          </div>
+          <div class="bar">
+            <div class="spent" [style.width.%]="roomQuota.spentAsPercentage"></div>
+          </div> 
+        </div>
+      </div>
+    </div>
   </mat-card>
 </div>
 
