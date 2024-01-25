@@ -1014,9 +1014,9 @@
     "update": "Speichern",
     "update-description": "Speichert die Änderungen",
     "words-will-be-overwritten": "Vulgäre Wörter werden mit ★★★★ überschrieben.",
-    "quota-for-room": "Raumkontingent",
-    "quota-for-moderators": "Moderatorenkontingent",
-    "quota-for-participants": "Teilnehmerkontingent",
+    "quota-for-room": "API Kosten",
+    "quota-for-moderators": "Moderation",
+    "quota-for-participants": "Teilnehmende",
     "quota-label-separator": "von",
     "ple": {
       "comments": "Topics erstellen!",

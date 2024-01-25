@@ -1010,9 +1010,9 @@
     "update": "Save",
     "update-description": "Save changes",
     "words-will-be-overwritten": "Profane words will be overwritten with ★★★★.",
-    "quota-for-room": "Room Quota",
-    "quota-for-moderators": "Moderators Quota",
-    "quota-for-participants": "Participants Quota",
+    "quota-for-room": "API Costs",
+    "quota-for-moderators": "Moderation",
+    "quota-for-participants": "Participants",
     "quota-label-separator": "out of"
   },
   "gptrating": {

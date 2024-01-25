@@ -948,9 +948,9 @@
     "update": "Enregistrer",
     "update-description": "Enregistre les modifications.",
     "words-will-be-overwritten": "Les mots vulgaires sont remplacés par ★★★★.",
-    "quota-for-room": "Quota de salle",
-    "quota-for-moderators": "Quota de modérateurs",
-    "quota-for-participants": "Quota de participants",
+    "quota-for-room": "Coûts API",
+    "quota-for-moderators": "Modération",
+    "quota-for-participants": "Participants",
     "quota-label-separator": "sur"
   },
   "gptrating": {
