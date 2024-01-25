@@ -162,7 +162,6 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
       title: 'ml-gpt-room-settings.gpt-model-title',
       stepHelp: 'ml-gpt-room-settings.gpt-model-step-help',
       buildAction(_injector, _answers, previousState, data) {
-        console.log(data.GPTSettings.defaultModel);
         return buildInput(
           this,
           {
@@ -366,10 +365,6 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
       stepHelp: 'ml-gpt-room-settings.usage-time-step-help',
       buildAction(_injector, _answers, previousState, data) {
         if (previousState) return previousState;
-        window.addEventListener("beforeunload", e => {
-          e.preventDefault();
-          e.returnValue = 'dasds';
-        });
         return buildInput(this, {
           tag: 'usageTimes',
           type: 'date-input',

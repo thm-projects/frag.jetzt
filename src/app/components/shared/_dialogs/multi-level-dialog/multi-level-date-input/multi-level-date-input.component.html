@@ -70,11 +70,11 @@
       <span>
         {{ time.startDate | date : "dd.MM.yyyy" }} -
         {{ time.endDate | date : "dd.MM.yyyy" }}
-      </span>
+      </span><br>
       <span *ngIf="timeStampExists(time.startDuration)">
         {{ formatTimeStamp(time.startDuration) }} -
         {{ formatTimeStamp(time.endDuration) }}
-      </span>
+      </span><br>
     </div>
     <button
       class="delete-button"
