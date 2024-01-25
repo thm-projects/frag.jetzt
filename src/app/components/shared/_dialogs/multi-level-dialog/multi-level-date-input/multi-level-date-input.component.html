@@ -1,28 +1,85 @@
-<mat-form-field appearance="outline">
-    <mat-label>Zeitspanne</mat-label>
+<form [formGroup]="dateRangeGroup">
+  <mat-form-field appearance="outline">
+    <mat-label>{{ data.labels[0] | translate }}</mat-label>
     <mat-date-range-input [rangePicker]="picker">
-        <input matStartDate matInput placeholder="Start date" />
-        <input matEndDate matInput placeholder="End date"/>
-  </mat-date-range-input>
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-date-range-picker #picker></mat-date-range-picker>
-</mat-form-field>
+      <input
+        matStartDate
+        matInput
+        [placeholder]="data.labels[1] | translate"
+        formControlName="startDate" />
+      <input
+        matEndDate
+        matInput
+        [placeholder]="data.labels[2] | translate"
+        formControlName="endDate" />
+    </mat-date-range-input>
+    <mat-datepicker-toggle
+      matSuffix
+      [for]="picker"></mat-datepicker-toggle>
+    <mat-date-range-picker #picker></mat-date-range-picker>
+  </mat-form-field>
 
-<div class="container">
+  <div class="container">
     <mat-form-field appearance="outline">
-        <mat-label>Wiederholungen</mat-label>
-        <input matInput placeholder="Placeholder" type="number">
+      <mat-label>{{ data.labels[1] | translate }}</mat-label>
+      <input
+        matInput
+        type="time"
+        formControlName="startTime" />
     </mat-form-field>
 
-    <mat-form-field>
-        <mat-select>
-            <mat-option *ngFor="let option of options" [value]="option.value">
-                {{option.i18nPath | translate}}
-            </mat-option>
-        </mat-select>
+    <mat-form-field appearance="outline">
+      <mat-label>{{ data.labels[2] | translate }}</mat-label>
+      <input
+        matInput
+        type="time"
+        formControlName="endTime" />
     </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-select formControlName="selectedOption">
+        <mat-option
+          *ngFor="let option of options"
+          [value]="option.value">
+          {{ option.i18nPath | translate }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+</form>
+
+<button
+  mat-raised-button
+  (click)="addUsageTime()">
+  <mat-icon>add</mat-icon>
+  <span>{{ data.labels[4] | translate }}</span>
+</button>
+
+<div *ngIf="dateRangeGroup.errors?.invalid">
+  End time cannot be before start time.
 </div>
 
-<button mat-raised-button>Zeitraum anlegen</button>
-
-<div class="history"></div>
+<div
+  *ngIf="usageTimes.length > 0"
+  class="usage-times-list">
+  <div
+    *ngFor="let time of usageTimes; let i = index"
+    [ngClass]="{ odd: i % 2 !== 0, even: i % 2 === 0 }"
+    class="time-item">
+    <div class="time-details">
+      <span>
+        {{ time.startDate | date : "dd.MM.yyyy" }} -
+        {{ time.endDate | date : "dd.MM.yyyy" }}
+      </span><br>
+      <span *ngIf="timeStampExists(time.startDuration)">
+        {{ formatTimeStamp(time.startDuration) }} -
+        {{ formatTimeStamp(time.endDuration) }}
+      </span><br>
+    </div>
+    <button
+      class="delete-button"
+      (click)="deleteTime(i)">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+</div>

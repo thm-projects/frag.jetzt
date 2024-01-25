@@ -61,6 +61,7 @@ class MultiLevelStepper {
     this.highestIndex = -1;
     this.answers = {};
     this.createdIndexes.length = 0;
+    this.elements.length = 0;
     this.remaining = 0;
     this.removedCache.clear();
     this.verify(-1);

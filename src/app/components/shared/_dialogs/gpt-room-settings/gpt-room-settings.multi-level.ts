@@ -1,43 +1,44 @@
 import { Validators } from '@angular/forms';
 import {
+  AnsweredMultiLevelData,
   MultiLevelData,
+  MultiLevelDataBuiltAction,
   buildInput,
 } from '../multi-level-dialog/interface/multi-level-dialog.types';
 import { GptService } from 'app/services/http/gpt.service';
 import { GPTRoomSetting } from 'app/models/gpt-room-setting';
 import { AccountStateService } from 'app/services/state/account-state.service';
-import { first, forkJoin, map, merge, take, tap } from 'rxjs';
-import { KeycloakRoles, User } from 'app/models/user';
-import { UserRole } from 'app/models/user-roles.enum';
-import { RoomAccess } from 'app/services/persistence/lg/db-room-acces.model';
-import { RoomAccessRole } from 'app/models/client-authentication';
+import { filter, first, forkJoin, map, take } from 'rxjs';
 import { RoomStateService } from 'app/services/state/room-state.service';
+import { Quota, QuotaEntry } from 'app/services/http/quota.service';
+import { Room } from 'app/models/room';
+import { Injector } from '@angular/core';
+import { data } from 'cypress/types/jquery';
 
 export interface Data {
   roomID: string;
   GPTSettings: GPTRoomSetting;
+  participantQuota: Quota;
+  moderatorQuota: Quota;
+  roomQuota: Quota;
 }
+
+const convertTo = (qE: QuotaEntry, value = undefined) => {
+  if (!qE) return value;
+  const temp = qE.quota / 10e7;
+  return temp.toFixed(2);
+};
 
 export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
   title: 'ml-gpt-room-settings.title',
   questions: [
     {
-      tag: 'usageTime',
-      title: 'ml-gpt-room-settings.q-periods-of-use',
-      stepHelp: 'ml-gpt-room-settings.help.api-title-help',
-      buildAction() {
-        return buildInput(this, {
-          tag: 'test',
-          type: 'date-input',
-        });
-      },
-    },
-    {
       tag: 'gptSetup',
-      title: 'ml-gpt-room-settings.q-api-setup',
-      stepHelp: 'ml-gpt-room-settings.help.select-openai-setup',
+      title: 'ml-gpt-room-settings.gpt-setup-title',
+      stepHelp: 'ml-gpt-room-settings.gpt-setup-step-help',
       active: (_answers, injector) => {
         return injector.get(AccountStateService).user$.pipe(
+          filter((v) => !!v),
           take(1),
           map((user) => user && !user.isGuest),
         );
@@ -47,28 +48,31 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
           this,
           {
             type: 'text',
-            value: 'ml-gpt-room-settings.l-api-choice',
+            value: 'ml-gpt-room-settings.gpt-setup-item-one-label',
           },
           {
             type: 'radio-select',
             tag: 'setupType',
-            label: 'ml-gpt-room-settings.r-api-short',
+            label: 'ml-gpt-room-settings.gpt-setup-item-two-label',
             defaultValue:
               previousState?.get('setupType')?.value ??
-              (data.GPTSettings.trialEnabled ? 'apiVoucher' : 'apiCode'),
+              data.GPTSettings.apiKeys.some((v) => v.voucherId)
+                ? 'apiVoucher'
+                : 'apiCode',
             options: [
               {
                 value: 'apiCode',
-                label: 'ml-gpt-room-settings.r-api-choice-key',
+                label: 'ml-gpt-room-settings.gpt-setup-item-two-radio-one',
               },
               {
                 value: 'apiVoucher',
-                label: 'ml-gpt-room-settings.r-api-choice-voucher',
+                label: 'ml-gpt-room-settings.gpt-setup-item-two-radio-two',
               },
             ],
             validators: [Validators.required],
             errorStates: {
-              required: 'ml-room-create.e-p2-required',
+              required:
+                'ml-room-create.gpt-setup-item-two-error-label-required',
             },
           },
         );
@@ -76,8 +80,8 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
     },
     {
       tag: 'gptInfo',
-      title: 'ml-gpt-room-settings.q-api-title',
-      stepHelp: 'ml-gpt-room-settings.help.api-title-help',
+      title: 'ml-gpt-room-settings.gpt-info-title',
+      stepHelp: 'ml-gpt-room-settings.gpt-info-step-help',
       active: (answers, injector) => {
         return forkJoin([
           injector.get(AccountStateService).user$.pipe(take(1)),
@@ -97,31 +101,35 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
           this,
           {
             type: 'text',
-            value: 'ml-gpt-room-settings.q-api-title',
+            value: 'ml-gpt-room-settings.gpt-info-item-one-label',
           },
           {
             type: 'text-input',
             tag: 'apiCode',
-            label: 'ml-gpt-room-settings.l-api-code',
-            defaultValue: data.GPTSettings.apiKey,
+            label: 'ml-gpt-room-settings.gpt-info-item-two-label',
+            defaultValue: data.GPTSettings.apiKeys[0]?.apiSetting.apiKey,
             hidden: true,
             validators: [
               Validators.required,
               Validators.pattern('sk-[a-zA-Z0-9]+'),
             ],
             errorStates: {
-              required: 'ml-gpt-room-settings.errors.required-api-code',
-              pattern: 'ml-gpt-room-settings.errors.pattern-api-code',
+              required:
+                'ml-gpt-room-settings.gpt-info-item-two-error-label-required',
+              pattern:
+                'ml-gpt-room-settings.gpt-info-item-two-error-label-pattern',
             },
           },
           {
             type: 'text-input',
             tag: 'apiOrganization',
-            label: 'ml-gpt-room-settings.l-api-org',
-            defaultValue: data.GPTSettings.apiOrganization,
+            label: 'ml-gpt-room-settings.gpt-info-item-three-label',
+            defaultValue:
+              data.GPTSettings.apiKeys[0]?.apiSetting.apiOrganization,
             validators: [Validators.pattern('org-[a-zA-Z0-9]+')],
             errorStates: {
-              pattern: 'ml-gpt-room-settings.errors.pattern-api-org',
+              pattern:
+                'ml-gpt-room-settings.gpt-info-item-three-error-label-pattern',
             },
           },
         );
@@ -129,8 +137,8 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
     },
     {
       tag: 'gptInfoVoucher',
-      title: 'ml-gpt-room-settings.q-api-title',
-      stepHelp: 'ml-gpt-room-settings.help.api-title-help',
+      title: 'ml-gpt-room-settings.gpt-info-voucher-title',
+      stepHelp: 'ml-gpt-room-settings.gpt-info-voucher-step-help',
       active: (answers) =>
         answers.gptSetup &&
         answers.gptSetup.group.value.setupType === 'apiVoucher',
@@ -139,17 +147,18 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
           this,
           {
             type: 'text',
-            value: 'ml-gpt-room-settings.q-api-title-2',
+            value: 'ml-gpt-room-settings.gpt-info-voucher-item-one-label',
           },
           {
             type: 'text-input',
             tag: 'voucher',
-            defaultValue: data.GPTSettings.trialCode?.code,
+            defaultValue: data.GPTSettings.apiKeys[0]?.voucher?.code,
             hidden: true,
-            label: 'ml-gpt-room-settings.l-api-voucher',
+            label: 'ml-gpt-room-settings.gpt-info-voucher-item-two-label',
             validators: [Validators.required],
             errorStates: {
-              required: 'ml-room-create.e-p4-required',
+              required:
+                'ml-gpt-room-settings.gpt-info-voucher-item-two-error-label-required',
             },
           },
         );
@@ -157,32 +166,32 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
     },
     {
       tag: 'gptModel',
-      title: 'ml-gpt-room-settings.q-api-title',
-      stepHelp: 'ml-gpt-room-settings.help.api-title-help',
-      active: () => false,
+      title: 'ml-gpt-room-settings.gpt-model-title',
+      stepHelp: 'ml-gpt-room-settings.gpt-model-step-help',
       buildAction(_injector, _answers, previousState, data) {
         return buildInput(
           this,
           {
             type: 'text',
-            value: 'ml-gpt-room-settings.q-api-title-2',
+            value: 'ml-gpt-room-settings.gpt-model-item-one-label',
           },
           {
             type: 'select-input',
             tag: 'model',
-            label: 'ml-gpt-room-settings.l-api-voucher',
-            options: _injector.get(GptService).getModels(),
-            errorStates: {
-              required: 'ml-room-create.e-p4-required',
-            },
+            defaultValue: data.GPTSettings.defaultModel,
+            label: 'ml-gpt-room-settings.gpt-model-item-two-label',
+            options: _injector
+              .get(GptService)
+              .getModels()
+              .filter((v) => v.name.startsWith('gpt-')),
           },
         );
       },
     },
     {
       tag: 'roomQuota',
-      title: 'ml-gpt-room-settings.q-room-quota',
-      stepHelp: 'ml-gpt-room-settings.help.api-title-help',
+      title: 'ml-gpt-room-settings.room-quota-title',
+      stepHelp: 'ml-gpt-room-settings.room-quota-step-help',
       buildAction(_injector, _answers, previousState, data) {
         return buildInput(
           this,
@@ -195,9 +204,9 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
             },
             defaultValue:
               previousState?.get('total')?.value ??
-              (data.GPTSettings.maxAccumulatedRoomCost?.toString() || '20'),
+              convertTo(data.roomQuota?.entries[0], 20),
             tag: 'total',
-            label: 'ml-gpt-room-settings.l-total-cost-limit',
+            label: 'ml-gpt-room-settings.room-quota-item-one-label',
           },
           {
             type: 'quota-input',
@@ -208,9 +217,9 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
             },
             defaultValue:
               previousState?.get('monthly')?.value ??
-              data.GPTSettings.maxMonthlyRoomCost?.toString(),
+              convertTo(data.roomQuota?.entries[1]),
             tag: 'monthly',
-            label: 'ml-gpt-room-settings.l-monthly-cost-limit',
+            label: 'ml-gpt-room-settings.room-quota-item-two-label',
           },
           {
             type: 'quota-input',
@@ -221,9 +230,9 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
             },
             defaultValue:
               previousState?.get('monthlyFlowing')?.value ??
-              data.GPTSettings.maxMonthlyFlowingRoomCost?.toString(),
+              convertTo(data.roomQuota?.entries[2]),
             tag: 'monthlyFlowing',
-            label: 'ml-gpt-room-settings.l-monthly-flowing-cost-limit',
+            label: 'ml-gpt-room-settings.room-quota-item-three-label',
           },
           {
             type: 'quota-input',
@@ -234,18 +243,18 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
             },
             defaultValue:
               previousState?.get('daily')?.value ??
-              data.GPTSettings.maxDailyRoomCost?.toString(),
+              convertTo(data.roomQuota?.entries[3]),
             tag: 'daily',
-            label: 'ml-gpt-room-settings.l-daily-cost-limit',
+            label: 'ml-gpt-room-settings.room-quota-item-four-label',
           },
         );
       },
     },
     {
       tag: 'moderatorQuota',
-      title: 'ml-gpt-room-settings.q-moderator-quota',
-      stepHelp: 'ml-gpt-room-settings.help.api-title-help',
-      active: (answers, injector) => {
+      title: 'ml-gpt-room-settings.moderator-quota-title',
+      stepHelp: 'ml-gpt-room-settings.moderator-quota-step-help',
+      active: (answers: AnsweredMultiLevelData, injector: Injector) => {
         return injector.get(RoomStateService).room$.pipe(
           first((room) => Boolean(room)),
           map((room) => room.mode === 'ARS'),
@@ -263,10 +272,9 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
             },
             defaultValue:
               previousState?.get('total')?.value ??
-              (data.GPTSettings.maxAccumulatedModeratorCost?.toString() ||
-                '20'),
+              convertTo(data.moderatorQuota?.entries[0], 20),
             tag: 'total',
-            label: 'ml-gpt-room-settings.l-total-cost-limit',
+            label: 'ml-gpt-room-settings.moderator-quota-item-one-label',
           },
           {
             type: 'quota-input',
@@ -277,9 +285,9 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
             },
             defaultValue:
               previousState?.get('monthly')?.value ??
-              data.GPTSettings.maxMonthlyModeratorCost?.toString(),
+              convertTo(data.moderatorQuota?.entries[1]),
             tag: 'monthly',
-            label: 'ml-gpt-room-settings.l-monthly-cost-limit',
+            label: 'ml-gpt-room-settings.moderator-quota-item-two-label',
           },
           {
             type: 'quota-input',
@@ -290,9 +298,9 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
             },
             defaultValue:
               previousState?.get('monthlyFlowing')?.value ??
-              data.GPTSettings.maxMonthlyFlowingModeratorCost?.toString(),
+              convertTo(data.moderatorQuota?.entries[2]),
             tag: 'monthlyFlowing',
-            label: 'ml-gpt-room-settings.l-monthly-flowing-cost-limit',
+            label: 'ml-gpt-room-settings.moderator-quota-item-three-label',
           },
           {
             type: 'quota-input',
@@ -303,19 +311,20 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
             },
             defaultValue:
               previousState?.get('daily')?.value ??
-              data.GPTSettings.maxDailyModeratorCost?.toString(),
+              convertTo(data.moderatorQuota?.entries[3]),
             tag: 'daily',
-            label: 'ml-gpt-room-settings.l-daily-cost-limit',
+            label: 'ml-gpt-room-settings.moderator-quota-item-four-label',
           },
         );
       },
     },
     {
       tag: 'participantQuota',
-      title: 'ml-gpt-room-settings.q-participant-quota',
-      stepHelp: 'ml-gpt-room-settings.help.api-title-help',
-      active: (answers, injector) => {
+      title: 'ml-gpt-room-settings.participant-quota-title',
+      stepHelp: 'ml-gpt-room-settings.participant-quota-step-help',
+      active: (answers: AnsweredMultiLevelData, injector: Injector) => {
         return injector.get(RoomStateService).room$.pipe(
+          filter((v) => !!v),
           take(1),
           map((room) => room.mode === 'ARS'),
         );
@@ -332,10 +341,9 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
             },
             defaultValue:
               previousState?.get('total')?.value ??
-              (data.GPTSettings.maxAccumulatedParticipantCost?.toString() ||
-                '20'),
+              convertTo(data.participantQuota?.entries[0], 20),
             tag: 'total',
-            label: 'ml-gpt-room-settings.l-total-cost-limit',
+            label: 'ml-gpt-room-settings.participant-quota-item-one-label',
           },
           {
             type: 'quota-input',
@@ -346,9 +354,9 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
             },
             defaultValue:
               previousState?.get('monthly')?.value ??
-              data.GPTSettings.maxMonthlyParticipantCost?.toString(),
+              convertTo(data.participantQuota?.entries[1]),
             tag: 'monthly',
-            label: 'ml-gpt-room-settings.l-monthly-cost-limit',
+            label: 'ml-gpt-room-settings.participant-quota-item-two-label',
           },
           {
             type: 'quota-input',
@@ -359,9 +367,9 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
             },
             defaultValue:
               previousState?.get('monthlyFlowing')?.value ??
-              data.GPTSettings.maxMonthlyFlowingParticipantCost?.toString(),
+              convertTo(data.participantQuota?.entries[2]),
             tag: 'monthlyFlowing',
-            label: 'ml-gpt-room-settings.l-monthly-flowing-cost-limit',
+            label: 'ml-gpt-room-settings.participant-quota-item-three-label',
           },
           {
             type: 'quota-input',
@@ -372,30 +380,39 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
             },
             defaultValue:
               previousState?.get('daily')?.value ??
-              data.GPTSettings.maxDailyParticipantCost?.toString(),
+              convertTo(data.participantQuota?.entries[3]),
             tag: 'daily',
-            label: 'ml-gpt-room-settings.l-daily-cost-limit',
+            label: 'ml-gpt-room-settings.participant-quota-item-four-label',
           },
         );
       },
     },
     {
       tag: 'usageTime',
-      title: 'ml-gpt-room-settings.q-periods-of-use',
-      stepHelp: 'ml-gpt-room-settings.help.api-title-help',
-      buildAction(_injector, _answers, previousState) {
+      title: 'ml-gpt-room-settings.usage-time-title',
+      stepHelp: 'ml-gpt-room-settings.usage-time-step-help',
+      buildAction(_injector, _answers, previousState, data) {
         return buildInput(this, {
-          tag: 'test',
+          tag: 'usageTimes',
           type: 'date-input',
+          defaultValues: data.roomQuota.accessTimes,
+          labels: [
+            'ml-gpt-room-settings.usage-time-item-one-input',
+            'ml-gpt-room-settings.usage-time-item-one-select-one',
+            'ml-gpt-room-settings.usage-time-item-one-select-two',
+            'ml-gpt-room-settings.usage-time-item-one-select-three',
+            'ml-gpt-room-settings.usage-time-item-one-button',
+          ],
         });
       },
     },
     {
       tag: 'miscellaneousSettings',
-      title: 'ml-gpt-room-settings.q-miscellaneous-settings',
-      stepHelp: 'ml-gpt-room-settings.help.api-title-help',
-      active: (answers, injector) => {
+      title: 'ml-gpt-room-settings.miscellaneous-settings-title',
+      stepHelp: 'ml-gpt-room-settings.miscellaneous-settings-step-help',
+      active: (answers: AnsweredMultiLevelData, injector: Injector) => {
         return injector.get(RoomStateService).room$.pipe(
+          filter((v) => !!v),
           take(1),
           map((room) => room.mode === 'PLE'),
         );
@@ -409,7 +426,7 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
             defaultValue:
               previousState?.get('allowAnswerWithoutPreset')?.value ??
               data.GPTSettings.disableEnhancedPrompt(),
-            label: 'ml-gpt-room-settings.s-allow-answer-without-preset',
+            label: 'ml-gpt-room-settings.miscellaneous-settings-item-two-label',
           },
           {
             type: 'switch',
@@ -417,17 +434,19 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
             defaultValue:
               previousState?.get('onlyAnswerWhenCalled')?.value ??
               data.GPTSettings.disableForwardMessage(),
-            label: 'ml-gpt-room-settings.s-only-answer-when-called',
+            label:
+              'ml-gpt-room-settings.miscellaneous-settings-item-three-label',
           },
         );
       },
     },
     {
       tag: 'miscellaneousSettings',
-      title: 'ml-gpt-room-settings.q-miscellaneous-settings',
-      stepHelp: 'ml-gpt-room-settings.help.api-title-help',
-      active: (answers, injector) => {
+      title: 'ml-gpt-room-settings.miscellaneous-settings-title',
+      stepHelp: 'ml-gpt-room-settings.miscellaneous-settings-step-help',
+      active: (answers: AnsweredMultiLevelData, injector: Injector) => {
         return injector.get(RoomStateService).room$.pipe(
+          filter((v) => !!v),
           take(1),
           map((room) => room.mode === 'ARS'),
         );
@@ -441,7 +460,7 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
             defaultValue:
               previousState?.get('allowUnregisteredUsers')?.value ??
               data.GPTSettings.allowsUnregisteredUsers(),
-            label: 'ml-gpt-room-settings.s-allow-unregistered-users',
+            label: 'ml-gpt-room-settings.miscellaneous-settings-item-one-label',
           },
           {
             type: 'switch',
@@ -449,7 +468,7 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
             defaultValue:
               previousState?.get('allowAnswerWithoutPreset')?.value ??
               data.GPTSettings.disableEnhancedPrompt(),
-            label: 'ml-gpt-room-settings.s-allow-answer-without-preset',
+            label: 'ml-gpt-room-settings.miscellaneous-settings-item-two-label',
           },
           {
             type: 'switch',
@@ -457,17 +476,19 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
             defaultValue:
               previousState?.get('onlyAnswerWhenCalled')?.value ??
               data.GPTSettings.disableForwardMessage(),
-            label: 'ml-gpt-room-settings.s-only-answer-when-called',
+            label:
+              'ml-gpt-room-settings.miscellaneous-settings-item-three-label',
           },
         );
       },
     },
     {
       tag: 'moderatorPermissions',
-      title: 'ml-gpt-room-settings.q-moderator-permissions',
-      stepHelp: 'ml-gpt-room-settings.help.api-title-help',
-      active: (answers, injector) => {
+      title: 'ml-gpt-room-settings.moderator-permissions-title',
+      stepHelp: 'ml-gpt-room-settings.moderator-permissions-step-help',
+      active: (answers: AnsweredMultiLevelData, injector: Injector) => {
         return injector.get(RoomStateService).room$.pipe(
+          filter((v) => !!v),
           take(1),
           map((room) => room.mode === 'ARS'),
         );
@@ -481,8 +502,7 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
             defaultValue:
               previousState?.get('canChangeRoomQuota')?.value ??
               data.GPTSettings.canChangeRoomQuota(),
-            label:
-              'ml-gpt-room-settings.s-moderator-can-change-participant-quota',
+            label: 'ml-gpt-room-settings.moderator-permissions-item-one-label',
           },
           {
             type: 'switch',
@@ -490,8 +510,7 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
             defaultValue:
               previousState?.get('canChangeModeratorQuota')?.value ??
               data.GPTSettings.canChangeModeratorQuota(),
-            label:
-              'ml-gpt-room-settings.s-moderator-can-change-moderator-quota',
+            label: 'ml-gpt-room-settings.moderator-permissions-item-two-label',
           },
           {
             type: 'switch',
@@ -499,7 +518,8 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
             defaultValue:
               previousState?.get('canChangeParticipantQuota')?.value ??
               data.GPTSettings.canChangeParticipantQuota(),
-            label: 'ml-gpt-room-settings.s-moderator-can-change-room-quota',
+            label:
+              'ml-gpt-room-settings.moderator-permissions-item-three-label',
           },
           {
             type: 'switch',
@@ -507,7 +527,7 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
             defaultValue:
               previousState?.get('canChangePreset')?.value ??
               data.GPTSettings.canChangePreset(),
-            label: 'ml-gpt-room-settings.s-moderator-can-change-prompt-presets',
+            label: 'ml-gpt-room-settings.moderator-permissions-item-four-label',
           },
           {
             type: 'switch',
@@ -515,7 +535,7 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
             defaultValue:
               previousState?.get('canChangeUsageTimes')?.value ??
               data.GPTSettings.canChangeUsageTimes(),
-            label: 'ml-gpt-room-settings.s-moderator-can-change-periods-of-use',
+            label: 'ml-gpt-room-settings.moderator-permissions-item-five-label',
           },
           {
             type: 'switch',
@@ -523,7 +543,7 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
             defaultValue:
               previousState?.get('canChangeApiSettings')?.value ??
               data.GPTSettings.canChangeApiSettings(),
-            label: 'ml-gpt-room-settings.s-moderator-can-change-api-settings',
+            label: 'ml-gpt-room-settings.moderator-permissions-item-six-label',
           },
         );
       },

@@ -1,15 +1,39 @@
-import { AfterContentInit, AfterViewInit, Component, Injector, OnDestroy, OnInit, Renderer2 } from '@angular/core';
+import { AfterContentInit, AfterViewInit, Component, Injector, LOCALE_ID, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { RoomPageComponent } from '../../shared/room-page/room-page.component';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { KeyboardUtils } from '../../../utils/keyboard';
 import { KeyboardKey } from '../../../utils/keyboard/keys';
+import { RoomStateService } from 'app/services/state/room-state.service';
+import { first } from 'rxjs';
+import { QuotaService } from 'app/services/http/quota.service';
+import { GPTRoomSetting } from 'app/models/gpt-room-setting';
+import { GPTAPISettingService } from 'app/services/http/gptapisetting.service';
+import { GptService } from 'app/services/http/gpt.service';
+import { GPTRoomService } from 'app/services/http/gptroom.service';
 
 @Component({
   selector: 'app-room-creator-page',
   templateUrl: './room-creator-page.component.html',
-  styleUrls: ['./room-creator-page.component.scss']
+  styleUrls: ['./room-creator-page.component.scss'],
 })
 export class RoomCreatorPageComponent extends RoomPageComponent implements OnInit, OnDestroy, AfterContentInit, AfterViewInit {
+  roomQuota = {
+    spent: 0,
+    limit: 0,
+    spentAsPercentage: 0,
+  }
+
+  moderatorQuota = {
+    spent: 0,
+    limit: 0,
+    spentAsPercentage: 0,
+  }
+
+  participantQuota = {
+    spent: 0,
+    limit: 0,
+    spentAsPercentage: 0,
+  }
 
   constructor(
     private liveAnnouncer: LiveAnnouncer,
@@ -34,6 +58,39 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
   }
 
   ngOnInit() {
+    this.injector.get(RoomStateService).room$.pipe(first(e => !!e)).subscribe(room => {
+      this.injector.get(GPTRoomService).getByRoomId(room.id).subscribe(gptRoom => {
+        const quotaService = this.injector.get(QuotaService);        
+
+        quotaService.get(gptRoom.roomQuotaId).subscribe(quota => {
+          if (quota.entries.length === 0) {
+            return;
+          }
+          this.roomQuota.spent = quota.entries[0].counter / 10e7;
+          this.roomQuota.limit = quota.entries[0].quota / 10e7;
+          this.roomQuota.spentAsPercentage = this.roomQuota.spent / this.roomQuota.limit * 100;
+        });
+
+        quotaService.get(gptRoom.moderatorQuotaId).subscribe(quota => {
+          if (quota.entries.length === 0) {
+            return;
+          }
+          this.moderatorQuota.spent = quota.entries[0].counter / 10e7;
+          this.moderatorQuota.limit = quota.entries[0].quota / 10e7;
+          this.moderatorQuota.spentAsPercentage = this.moderatorQuota.spent / this.moderatorQuota.limit * 100;
+        });
+
+        quotaService.get(gptRoom.participantQuotaId).subscribe(quota => {
+          if (quota.entries.length === 0) {
+            return;
+          }
+          this.participantQuota.spent = quota.entries[0].counter / 10e7;
+          this.participantQuota.limit = quota.entries[0].quota / 10e7;
+          this.participantQuota.spentAsPercentage = this.participantQuota.spent / this.participantQuota.limit * 100;
+        });
+      });
+    });
+
     window.scroll(0, 0);
     this.initializeRoom();
     this.listenerFn = this._r.listen(document, 'keyup', (event) => {
