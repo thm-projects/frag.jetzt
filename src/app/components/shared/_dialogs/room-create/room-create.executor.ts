@@ -22,26 +22,26 @@ export const generateRoom = (
     defaultCategories[appState.getCurrentLanguage()] ||
     defaultCategories.default;
   // role
-  const isTeacher = answers.role.value['role-select'] === 'teacher';
+  const isTeacher = answers.role.group?.value['role-select'] === 'teacher';
   const defaults = isTeacher ? DEFAULT_TEACHER : DEFAULT_STUDENT;
   // name + short id
-  const name = answers.event.value.name;
-  const shortId = answers.code?.value?.code;
+  const name = answers.event.group?.value.name;
+  const shortId = answers.code?.group?.value?.code;
   // settings
-  const general = answers.general?.value;
+  const general = answers.general?.group?.value;
   const gpt = general?.gpt ?? defaults.chatgpt;
   const moderation = general?.moderation ?? defaults.moderation;
   const profanity = general?.profanity ?? defaults.profanity;
   const keywords = general?.keywords ?? defaults.keyword;
   // gpt settings
-  const gptSettings = answers.gptSettings?.value;
+  const gptSettings = answers.gptSettings?.group?.value;
   const studdyBuddy = gptSettings?.['study-buddy'] ?? defaults.studdyBuddy;
   // study buddy settings
-  const studyBuddySettings = answers.studyBuddyGroup?.value;
+  const studyBuddySettings = answers.studyBuddyGroup?.group?.value;
   const studdyBuddyGroup =
     studyBuddySettings?.['target-group'] ?? defaults.studyBuddyGroup;
   // feature settings
-  const featureSettings = answers.features?.value;
+  const featureSettings = answers.features?.group?.value;
   const flashPoll = featureSettings?.['flash-poll'] ?? defaults.flashPoll;
   const bonusArchive =
     featureSettings?.['bonus-archive'] ?? defaults.bonusArchive;
