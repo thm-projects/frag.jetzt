@@ -1,19 +1,55 @@
-import { InjectFlags, Injector } from '@angular/core';
-import { Room } from 'app/models/room';
-import { Observable, forkJoin, of, switchMap } from 'rxjs';
+import { Injector } from '@angular/core';
+import { Observable, concatMap, forkJoin, map, of, throwError } from 'rxjs';
 import { AnsweredMultiLevelData } from '../multi-level-dialog/interface/multi-level-dialog.types';
-import { GPTRoomSetting, GPTRoomUsageTime } from 'app/models/gpt-room-setting';
+import { GPTRoomKey, GPTRoomSetting } from 'app/models/gpt-room-setting';
 import { Data } from './gpt-room-settings.multi-level';
-import { GPTRoomSettingAPI, GptService } from 'app/services/http/gpt.service';
-import { RoomService } from 'app/services/http/room.service';
-import { SessionService } from 'app/services/util/session.service';
-import { DialogRef } from '@angular/cdk/dialog';
+import { GPTRoomService } from 'app/services/http/gptroom.service';
+import {
+  Quota,
+  QuotaAccessTime,
+  QuotaEntry,
+  QuotaResetStrategy,
+} from 'app/services/http/quota.service';
+import { GPTAPISettingService } from 'app/services/http/gptapisetting.service';
+import { GPTVoucherService } from 'app/services/http/gptvoucher.service';
+import { GptService } from 'app/services/http/gpt.service';
+import { UNITS } from '../multi-level-dialog/multi-level-date-input/multi-level-date-input.component';
+
+/**
+ * @param value in US $ as float or null
+ */
+const checkEntry = (
+  patch: Partial<Quota>,
+  current: Quota,
+  key: QuotaResetStrategy,
+  value: number,
+) => {
+  if (value !== 0 && !value) return;
+  const entry = current.entries.find((e) => e.resetStrategy === key);
+  patch.entries.push(
+    new QuotaEntry({
+      resetStrategy: key,
+      resetFactor: 1,
+      quota: Math.round(value * 10 ** 8),
+      counter: entry?.counter ?? 0,
+      resetCounter: entry?.resetCounter ?? 0,
+      lastReset: entry?.lastReset ?? new Date(),
+      startDate: null,
+      endDate: null,
+    }),
+  );
+};
+
+const userOwnsModel = (requestedModel, models) =>
+  models.some((element) => element.name === requestedModel);
 
 export const saveSettings = (
   injector: Injector,
   answers: AnsweredMultiLevelData,
   previous: Data,
 ): Observable<GPTRoomSetting> => {
+  // Start of destructuring
+  console.log('1');
   // Q1
   const groupGptInfo = answers.gptInfo?.group;
   const groupGptInfoVoucher = answers.gptInfoVoucher?.group;
@@ -21,118 +57,256 @@ export const saveSettings = (
   const apiOrg = groupGptInfo?.value['apiOrganization'];
   const apiVoucher = groupGptInfoVoucher?.value['voucher'];
 
-  const test = answers.gptModel;
-  console.log(test);
-
+  console.log('2');
   // Q2
-  const groupRoomQuota = answers.roomQuota.group;
-  const roomQuota = groupRoomQuota.value['total'];
-  const roomQuotaMonthly = groupRoomQuota.value['monthly'];
-  const roomQuotaMonthlyFlowing = groupRoomQuota.value['monthlyFlowing'];
-  const roomQuotaDaily = groupRoomQuota.value['daily'];
+  const groupRoomQuota = answers.roomQuota?.group;
+  const roomQuota = groupRoomQuota?.value['total'];
+  const roomQuotaMonthly = groupRoomQuota?.value['monthly'];
+  const roomQuotaMonthlyFlowing = groupRoomQuota?.value['monthlyFlowing'];
+  const roomQuotaDaily = groupRoomQuota?.value['daily'];
 
+  // gpt-model
+  const gptModel = answers.gptModel?.group?.value['model'];
+
+  console.log('3');
   // Q3
-  const groupModeratorQuota = answers.moderatorQuota.group;
-  const moderatorQuota = groupModeratorQuota.value['total'];
-  const moderatorQuotaMonthly = groupModeratorQuota.value['monthly'];
+  const groupModeratorQuota = answers.moderatorQuota?.group;
+  const moderatorQuota = groupModeratorQuota?.value['total'];
+  const moderatorQuotaMonthly = groupModeratorQuota?.value['monthly'];
   const moderatorQuotaMonthlyFlowing =
-    groupModeratorQuota.value['monthlyFlowing'];
-  const moderatorQuotaDaily = groupModeratorQuota.value['daily'];
+    groupModeratorQuota?.value['monthlyFlowing'];
+  const moderatorQuotaDaily = groupModeratorQuota?.value['daily'];
   // Q4
-  const groupParticipantQuota = answers.participantQuota.group;
-  const participantQuota = groupParticipantQuota.value['total'];
-  const participantQuotaMonthly = groupParticipantQuota.value['monthly'];
+  const groupParticipantQuota = answers.participantQuota?.group;
+  const participantQuota = groupParticipantQuota?.value['total'];
+  const participantQuotaMonthly = groupParticipantQuota?.value['monthly'];
   const participantQuotaMonthlyFlowing =
-    groupParticipantQuota.value['monthlyFlowing'];
-  const participantQuotaDaily = groupParticipantQuota.value['daily'];
+    groupParticipantQuota?.value['monthlyFlowing'];
+  const participantQuotaDaily = groupParticipantQuota?.value['daily'];
 
+  console.log('5');
   // Q5
+  const usageTimes = answers.usageTime?.group?.value['usageTimes'];
 
+  console.log('6');
   // Q6
-  const groupMiscellaneousSettings = answers.miscellaneousSettings.group;
+  const groupMiscellaneousSettings = answers.miscellaneousSettings?.group;
   const allowUnregisteredUsers =
-    groupMiscellaneousSettings.value['allowUnregisteredUsers'];
+    groupMiscellaneousSettings?.value['allowUnregisteredUsers'];
   const allowAnswerWithoutPreset =
-    groupMiscellaneousSettings.value['allowAnswerWithoutPreset'];
+    groupMiscellaneousSettings?.value['allowAnswerWithoutPreset'];
   const onlyAnswerWhenCalled =
-    groupMiscellaneousSettings.value['onlyAnswerWhenCalled'];
+    groupMiscellaneousSettings?.value['onlyAnswerWhenCalled'];
 
+  console.log('7');
   // Q7
-  const groupModeratorPermissions = answers.moderatorPermissions.group;
+  const groupModeratorPermissions = answers.moderatorPermissions?.group;
   const moderatorCanChangeRoomQuota =
-    groupModeratorPermissions.value['canChangeRoomQuota'];
+    groupModeratorPermissions?.value['canChangeRoomQuota'];
   const moderatorCanChangeModeratorQuota =
-    groupModeratorPermissions.value['canChangeModeratorQuota'];
+    groupModeratorPermissions?.value['canChangeModeratorQuota'];
   const moderatorCanChangeParticipantQuota =
-    groupModeratorPermissions.value['canChangeParticipantQuota'];
+    groupModeratorPermissions?.value['canChangeParticipantQuota'];
   const moderatorCanChangePreset =
-    groupModeratorPermissions.value['canChangePreset'];
+    groupModeratorPermissions?.value['canChangePreset'];
   const moderatorCanChangeUsageTimes =
-    groupModeratorPermissions.value['canChangeUsageTimes'];
+    groupModeratorPermissions?.value['canChangeUsageTimes'];
   const moderatorCanChangeApiSettings =
-    groupModeratorPermissions.value['canChangeApiSettings'];
+    groupModeratorPermissions?.value['canChangeApiSettings'];
 
-  const verify = (v: number) => (v ? Math.round(v) : v);
-  const patch: Partial<GPTRoomSettingAPI> = {};
+  // Start of patching
 
-  if (apiKey !== previous.GPTSettings.apiKey) {
-    patch.apiKey = apiKey;
-  }
-  if (apiOrg !== previous.GPTSettings.apiOrganization) {
-    patch.apiOrganization = apiOrg;
-  }
-  if (apiVoucher !== previous.GPTSettings.trialCode?.code) {
-    /* patch wert existiert nicht */
-    console.error('Api Voucher was not patched');
+  const patch: Partial<GPTRoomSetting> = {};
+
+  const gptRoomService = injector.get(GPTRoomService);
+  const gptApiService = injector.get(GPTAPISettingService);
+  const gptVoucher = injector.get(GPTVoucherService);
+
+  const previousApi = previous.GPTSettings.apiKeys[0]?.apiSetting;
+
+  let before: Observable<unknown> = of(null);
+  if (
+    apiKey !== previousApi?.apiKey ||
+    apiOrg !== previousApi?.apiOrganization
+  ) {
+    before = gptApiService
+      .create({
+        apiKey,
+        apiOrganization: apiOrg,
+      })
+      .pipe(
+        map((api) => {
+          patch.apiKeys = [
+            new GPTRoomKey({
+              apiSettingId: api.id,
+              voucherId: null,
+            }),
+          ];
+        }),
+      );
   }
 
-  let cost = verify(roomQuota);
-  if (cost !== previous.GPTSettings.maxAccumulatedRoomCost) {
-    patch.maxAccumulatedRoomCost = cost;
+  const previousVoucher = previous.GPTSettings.apiKeys[0]?.voucher;
+
+  if (apiVoucher !== previousVoucher?.code) {
+    before = gptVoucher.claim(apiVoucher).pipe(
+      map((v) => {
+        patch.apiKeys = [
+          new GPTRoomKey({
+            apiSettingId: null,
+            voucherId: v.id,
+          }),
+        ];
+      }),
+    );
   }
-  cost = verify(roomQuotaMonthly);
-  if (cost !== previous.GPTSettings.maxMonthlyRoomCost) {
-    patch.maxMonthlyRoomCost = cost;
+
+  let patchRoomQuota = of(previous.roomQuota);
+  const roomQuotaPatch: Partial<Quota> = { entries: [] };
+  checkEntry(roomQuotaPatch, previous.roomQuota, 'DAILY', roomQuotaDaily);
+  checkEntry(roomQuotaPatch, previous.roomQuota, 'MONTHLY', roomQuotaMonthly);
+  checkEntry(
+    roomQuotaPatch,
+    previous.roomQuota,
+    'MONTHLY_FLOWING',
+    roomQuotaMonthlyFlowing,
+  );
+  checkEntry(roomQuotaPatch, previous.roomQuota, 'NEVER', roomQuota);
+
+  roomQuotaPatch.accessTimes = [];
+
+  if (usageTimes && usageTimes.length > 0) {
+    usageTimes.forEach((element) => {
+      let repeatUnit = element.repeatUnit;
+      if (typeof repeatUnit === 'number') {
+        repeatUnit = UNITS[repeatUnit];
+      }
+      const { hour, minute, second } = element.startDuration;
+      const startTime: [number, number] = [hour, minute];
+      const {
+        hour: hour2,
+        minute: minute2,
+        second: second2,
+      } = element.endDuration;
+      const endTime: [number, number] = [hour2, minute2];
+      roomQuotaPatch.accessTimes.push(
+        new QuotaAccessTime({
+          startDate: element.startDate,
+          endDate: element.endDate,
+          recurringStrategy: 'WEEKLY',
+          recurringFactor: 1,
+          strategy: repeatUnit,
+          startTime,
+          endTime,
+        }),
+      );
+    });
   }
-  cost = verify(roomQuotaMonthlyFlowing);
-  if (cost !== previous.GPTSettings.maxMonthlyFlowingRoomCost) {
-    patch.maxMonthlyFlowingRoomCost = cost;
+  console.log(roomQuotaPatch);
+
+  if (
+    roomQuotaPatch.entries.length > 0 ||
+    roomQuotaPatch.accessTimes.length > 0
+  ) {
+    patchRoomQuota = gptRoomService.patchRoomQuota(
+      previous.GPTSettings.roomId,
+      previous.roomQuota.id,
+      roomQuotaPatch,
+    );
   }
-  cost = verify(roomQuotaDaily);
-  if (cost !== previous.GPTSettings.maxDailyRoomCost) {
-    patch.maxDailyRoomCost = cost;
+
+  let patchModeratorQuota = of(previous.moderatorQuota);
+  const moderatorQuotaPatch: Partial<Quota> = { entries: [] };
+  checkEntry(
+    moderatorQuotaPatch,
+    previous.moderatorQuota,
+    'DAILY',
+    moderatorQuotaDaily,
+  );
+  checkEntry(
+    moderatorQuotaPatch,
+    previous.moderatorQuota,
+    'MONTHLY',
+    moderatorQuotaMonthly,
+  );
+  checkEntry(
+    moderatorQuotaPatch,
+    previous.moderatorQuota,
+    'MONTHLY_FLOWING',
+    moderatorQuotaMonthlyFlowing,
+  );
+  checkEntry(
+    moderatorQuotaPatch,
+    previous.moderatorQuota,
+    'NEVER',
+    moderatorQuota,
+  );
+  if (moderatorQuotaPatch.entries.length > 0) {
+    patchModeratorQuota = gptRoomService.patchModeratorQuota(
+      previous.GPTSettings.roomId,
+      previous.moderatorQuota.id,
+      moderatorQuotaPatch,
+    );
   }
-  cost = verify(moderatorQuota);
-  if (cost !== previous.GPTSettings.maxAccumulatedModeratorCost) {
-    patch.maxAccumulatedModeratorCost = cost;
+
+  let patchParticipantQuota = of(previous.participantQuota);
+  const participantQuotaPatch: Partial<Quota> = { entries: [] };
+  checkEntry(
+    participantQuotaPatch,
+    previous.participantQuota,
+    'DAILY',
+    participantQuotaDaily,
+  );
+  checkEntry(
+    participantQuotaPatch,
+    previous.participantQuota,
+    'MONTHLY',
+    participantQuotaMonthly,
+  );
+  checkEntry(
+    participantQuotaPatch,
+    previous.participantQuota,
+    'MONTHLY_FLOWING',
+    participantQuotaMonthlyFlowing,
+  );
+  checkEntry(
+    participantQuotaPatch,
+    previous.participantQuota,
+    'NEVER',
+    participantQuota,
+  );
+  if (participantQuotaPatch.entries.length > 0) {
+    patchParticipantQuota = gptRoomService.patchParticipantQuota(
+      previous.GPTSettings.roomId,
+      previous.participantQuota.id,
+      participantQuotaPatch,
+    );
   }
-  cost = verify(moderatorQuotaMonthly);
-  if (cost !== previous.GPTSettings.maxMonthlyModeratorCost) {
-    patch.maxMonthlyModeratorCost = cost;
-  }
-  cost = verify(moderatorQuotaMonthlyFlowing);
-  if (cost !== previous.GPTSettings.maxMonthlyFlowingModeratorCost) {
-    patch.maxMonthlyFlowingModeratorCost = cost;
-  }
-  cost = verify(moderatorQuotaDaily);
-  if (cost !== previous.GPTSettings.maxDailyModeratorCost) {
-    patch.maxDailyModeratorCost = cost;
-  }
-  cost = verify(participantQuota);
-  if (cost !== previous.GPTSettings.maxAccumulatedParticipantCost) {
-    patch.maxAccumulatedParticipantCost = cost;
-  }
-  cost = verify(participantQuotaMonthly);
-  if (cost !== previous.GPTSettings.maxMonthlyParticipantCost) {
-    patch.maxMonthlyParticipantCost = cost;
-  }
-  cost = verify(participantQuotaMonthlyFlowing);
-  if (cost !== previous.GPTSettings.maxMonthlyFlowingParticipantCost) {
-    patch.maxMonthlyFlowingParticipantCost = cost;
-  }
-  cost = verify(participantQuotaDaily);
-  if (cost !== previous.GPTSettings.maxDailyParticipantCost) {
-    patch.maxDailyParticipantCost = cost;
+
+  /*
+  Roomsetting
+  -> apiKeys
+  -> apiModels
+  -> roomQuotaId
+  -> part...Id
+  -> mod...Id
+
+  GPTAPIKey oder GPTVoucher => GPTRoomKey => RoomSetting
+
+*/
+
+  //TODO: Models
+  // defaultModel - gptservice.getModels() starts with 'gpt-'
+
+  // logic: selected value must be within apiModels
+  // if yes: set defaultModel
+  // if no: dont update
+  const userOwnsRequestedModel = userOwnsModel(
+    gptModel,
+    previous.GPTSettings.apiModels,
+  );
+  if (userOwnsRequestedModel) {
+    patch.defaultModel = gptModel;
   }
 
   let rights = 0;
@@ -168,5 +342,22 @@ export const saveSettings = (
     patch.rightsBitset = rights;
   }
 
-  return injector.get(GptService).patchRoomSetting(previous.roomID, patch);
+  // submit patch
+
+  return before.pipe(
+    concatMap(() =>
+      forkJoin([
+        patchRoomQuota,
+        patchModeratorQuota,
+        patchParticipantQuota,
+        Object.keys(patch).length === 0
+          ? of(previous.GPTSettings)
+          : gptRoomService.patchRoomSettings(
+              previous.GPTSettings.roomId,
+              patch,
+            ),
+      ]),
+    ),
+    map((arr) => arr[3]),
+  );
 };

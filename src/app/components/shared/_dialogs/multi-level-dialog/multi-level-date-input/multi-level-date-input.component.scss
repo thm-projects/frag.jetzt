@@ -3,7 +3,7 @@
 }
 
 ::ng-deep .mat-form-field-infix {
-    width: 0 !important;
+  width: 0 !important;
 }
 
 .container {
@@ -15,12 +15,44 @@
 }
 
 button {
-    width: 100%;
-    margin-bottom: 1rem;
-    background-color: var(--primary);
-    color: var(--on-primary);
+  width: 100%;
+  margin-bottom: 1rem;
+  background-color: var(--primary);
+  color: var(--on-primary);
 }
 
 ::-webkit-calendar-picker-indicator {
   filter: invert(1);
+}
+
+.usage-times-list {
+  border: 1px solid var(--background);
+  border-radius: 4px;
+  margin-bottom: 14px;
+}
+
+.time-item {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  padding: 8px;
+
+  &.even {
+    background-color: var(--background);
+  }
+
+  &:hover button {
+    display: flex;
+  }
+}
+
+.time-item .delete-button {
+  justify-content: end;
+  align-items: center;
+  background-color: transparent;
+  color: var(--on-background);
+  border: none;
+  padding: 0;
+  margin: 0;
+  display: none;
+  cursor: pointer;
 }

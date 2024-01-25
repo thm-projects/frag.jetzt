@@ -63,6 +63,10 @@ export const generateRoom = (
     quizActive: quiz,
     livepollActive: flashPoll,
     keywordExtractionActive: keywords,
+    radarActive: radar,
+    focusActive: focus,
+    chatGptActive: gpt,
+    mode: isTeacher ? 'ARS' : 'PLE',
   });
   const translateService = injector.get(TranslateService);
   const notification = injector.get(NotificationService);

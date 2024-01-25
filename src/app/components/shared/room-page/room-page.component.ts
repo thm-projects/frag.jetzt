@@ -13,7 +13,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { CommentService } from '../../../services/http/comment.service';
 import { EventService } from '../../../services/util/event.service';
-import { Observable, of, ReplaySubject, Subscription, tap } from 'rxjs';
+import {
+  forkJoin,
+  Observable,
+  of,
+  ReplaySubject,
+  Subscription,
+  tap,
+} from 'rxjs';
 import { UserRole } from '../../../models/user-roles.enum';
 import { Palette } from '../../../../theme/Theme';
 import { ArsObserver } from '../../../../../projects/ars/src/lib/models/util/ars-observer';
@@ -44,7 +51,7 @@ import {
 } from '../../../utils/ImportExportMethods';
 import { SessionService } from '../../../services/util/session.service';
 import { RoomDataService } from '../../../services/util/room-data.service';
-import { mergeMap, takeUntil } from 'rxjs/operators';
+import { mergeMap, switchMap, takeUntil } from 'rxjs/operators';
 import { ToggleConversationComponent } from '../../creator/_dialogs/toggle-conversation/toggle-conversation.component';
 import { QuillUtils } from '../../../utils/quill-utils';
 import { TitleService } from '../../../services/util/title.service';
@@ -61,6 +68,8 @@ import { MultiLevelDialogComponent } from '../_dialogs/multi-level-dialog/multi-
 import { MULTI_LEVEL_GPT_ROOM_SETTINGS } from '../_dialogs/gpt-room-settings/gpt-room-settings.multi-level';
 import { GptService } from 'app/services/http/gpt.service';
 import { saveSettings } from '../_dialogs/gpt-room-settings/gpt-room-settings.executor';
+import { GPTRoomService } from 'app/services/http/gptroom.service';
+import { Quota, QuotaService } from 'app/services/http/quota.service';
 
 @Component({
   selector: 'app-room-page',
@@ -98,8 +107,9 @@ export class RoomPageComponent implements OnInit, OnDestroy {
   protected roomDataService: RoomDataService;
   protected titleService: TitleService;
   protected router: Router;
-  protected gptService: GptService;
+  protected gptRoomService: GPTRoomService;
   protected roomState: RoomStateService;
+  protected quotaService: QuotaService;
   protected destroyer = new ReplaySubject(1);
   private _navigationBuild = new SyncFence(2, this.initNavigation.bind(this));
   private _sub: Subscription;
@@ -122,7 +132,8 @@ export class RoomPageComponent implements OnInit, OnDestroy {
     this.titleService = injector.get(TitleService);
     this.router = injector.get(Router);
     this.roomState = injector.get(RoomStateService);
-    this.gptService = injector.get(GptService);
+    this.gptRoomService = injector.get(GPTRoomService);
+    this.quotaService = injector.get(QuotaService);
   }
 
   ngOnInit() {
@@ -482,17 +493,73 @@ export class RoomPageComponent implements OnInit, OnDestroy {
           class: 'chatgpt-robot-icon settings',
           text: 'header.gpt-settings',
           callback: () => {
-            this.gptService.getRoomSetting(this.room.id).subscribe((res) => {
-              MultiLevelDialogComponent.open(
-                this.dialog,
-                MULTI_LEVEL_GPT_ROOM_SETTINGS,
-                saveSettings,
-                {
-                  GPTSettings: res,
-                  roomID: this.room.id,
-                }
+            this.gptRoomService
+              .getByRoomId(this.room.id)
+              .pipe(
+                switchMap((res) => {
+                  return forkJoin([
+                    of(res),
+                    res.roomQuotaId
+                      ? this.quotaService.get(res.roomQuotaId)
+                      : of(null),
+                    res.moderatorQuotaId
+                      ? this.quotaService.get(res.moderatorQuotaId)
+                      : of(null),
+                    res.participantQuotaId
+                      ? this.quotaService.get(res.participantQuotaId)
+                      : of(null),
+                  ]);
+                }),
+                switchMap(
+                  ([setting, roomQuota, moderatorQuota, participantQuota]) => {
+                    const timezone =
+                      Intl.DateTimeFormat().resolvedOptions().timeZone;
+                    return forkJoin([
+                      of(setting),
+                      roomQuota
+                        ? of(roomQuota)
+                        : this.gptRoomService.createRoomQuota(
+                            this.room.id,
+                            new Quota({
+                              timezone,
+                            }),
+                          ),
+                      moderatorQuota
+                        ? of(moderatorQuota)
+                        : this.gptRoomService.createModeratorQuota(
+                            this.room.id,
+                            new Quota({
+                              timezone,
+                            }),
+                          ),
+                      participantQuota
+                        ? of(participantQuota)
+                        : this.gptRoomService.createParticipantQuota(
+                            this.room.id,
+                            new Quota({
+                              timezone,
+                            }),
+                          ),
+                    ]);
+                  },
+                ),
+              )
+              .subscribe(
+                ([setting, roomQuota, moderatorQuota, participantQuota]) => {
+                  MultiLevelDialogComponent.open(
+                    this.dialog,
+                    MULTI_LEVEL_GPT_ROOM_SETTINGS,
+                    saveSettings,
+                    {
+                      GPTSettings: setting,
+                      roomQuota,
+                      moderatorQuota,
+                      participantQuota,
+                      roomID: this.room.id,
+                    },
+                  );
+                },
               );
-            });
           },
           condition: () => this.userRole > UserRole.PARTICIPANT,
         });
