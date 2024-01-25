@@ -11,7 +11,12 @@ import { MultiLevelSelectInputComponent } from '../multi-level-select-input/mult
 import { Model } from 'app/services/http/gpt.service';
 import { QuotaAccessTime, QuotaEntry } from 'app/services/http/quota.service';
 
-export type AnsweredMultiLevelData = Record<string, FormGroup>;
+export type AnsweredMultiLevelData = Record<
+  string,
+  {
+    group: FormGroup;
+  }
+>;
 
 export interface MultiLevelDataEntry<T = any> {
   tag: string;
@@ -28,7 +33,7 @@ export interface MultiLevelDataEntry<T = any> {
   buildAction: (
     injector: Injector,
     answers: AnsweredMultiLevelData,
-    previousState?: MultiLevelDataBuiltAction<T>,
+    previousState?: FormGroup,
     dialogData?: T,
   ) => MultiLevelDataBuiltAction<T> | Observable<MultiLevelDataBuiltAction<T>>;
 }
@@ -93,7 +98,7 @@ export interface QuotaInputAction extends BaseAction {
     min: number;
     max: number;
     step: number;
-  }
+  };
 }
 
 export interface DateInputAction extends BaseAction {

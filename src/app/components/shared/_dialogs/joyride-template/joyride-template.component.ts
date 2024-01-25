@@ -1,17 +1,22 @@
-import { Component, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+  TemplateRef,
+  ViewChild,
+} from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { EventService } from '../../../../services/util/event.service';
 import { OnboardingService } from '../../../../services/util/onboarding.service';
-import { Router } from '@angular/router';
-import { SessionService } from '../../../../services/util/session.service';
+import { ReplaySubject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-joyride-template',
   templateUrl: './joyride-template.component.html',
-  styleUrls: ['./joyride-template.component.scss']
+  styleUrls: ['./joyride-template.component.scss'],
 })
-export class JoyrideTemplateComponent implements OnInit {
-
+export class JoyrideTemplateComponent implements OnInit, OnDestroy {
   @ViewChild('translateText', { static: true }) translateText: TemplateRef<any>;
   @ViewChild('nextButton', { static: true }) nextButton: TemplateRef<any>;
   @ViewChild('prevButton', { static: true }) prevButton: TemplateRef<any>;
@@ -23,20 +28,28 @@ export class JoyrideTemplateComponent implements OnInit {
   title: string;
   text: string;
 
+  private destroyer = new ReplaySubject(1);
+
   constructor(
     private eventService: EventService,
-    private router: Router,
     private translateService: TranslateService,
     private onboardingService: OnboardingService,
-    private sessionService: SessionService,
-  ) {
-  }
+  ) {}
 
   ngOnInit(): void {
-    this.sessionService.onReady.subscribe(() => {
-      this.translateService.get(`joyride.${this.name}Title`).subscribe(translation => this.title = translation);
-      this.translateService.get(`joyride.${this.name}`).subscribe(translation => this.text = translation);
-    });
+    this.translateService
+      .stream(`joyride.${this.name}Title`)
+      .pipe(takeUntil(this.destroyer))
+      .subscribe((translation) => (this.title = translation));
+    this.translateService
+      .stream(`joyride.${this.name}`)
+      .pipe(takeUntil(this.destroyer))
+      .subscribe((translation) => (this.text = translation));
+  }
+
+  ngOnDestroy(): void {
+    this.destroyer.next(true);
+    this.destroyer.complete();
   }
 
   finish() {
@@ -50,5 +63,4 @@ export class JoyrideTemplateComponent implements OnInit {
     }
     return false;
   }
-
 }
