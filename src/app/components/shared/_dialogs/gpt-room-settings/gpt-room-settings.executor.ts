@@ -66,7 +66,7 @@ export const saveSettings = (
   const roomQuotaDaily = groupRoomQuota?.value['daily'];
 
   // gpt-model
-  const gptModel = answers.gptModel?.value['model'];
+  const gptModel = answers.gptModel?.group?.value['model'];
 
   console.log('3');
   // Q3
@@ -86,7 +86,7 @@ export const saveSettings = (
 
   console.log('5');
   // Q5
-  const usageTimes = answers.usageTime?.value['usageTimes'];
+  const usageTimes = answers.usageTime?.group?.value['usageTimes'];
 
   console.log('6');
   // Q6
