@@ -10,7 +10,12 @@ import { MultiLevelDateInputComponent } from '../multi-level-date-input/multi-le
 import { MultiLevelSelectInputComponent } from '../multi-level-select-input/multi-level-select-input.component';
 import { Model } from 'app/services/http/gpt.service';
 
-export type AnsweredMultiLevelData = Record<string, FormGroup>;
+export type AnsweredMultiLevelData = Record<
+  string,
+  {
+    group: FormGroup;
+  }
+>;
 
 export interface MultiLevelDataEntry<T = any> {
   tag: string;
@@ -27,7 +32,7 @@ export interface MultiLevelDataEntry<T = any> {
   buildAction: (
     injector: Injector,
     answers: AnsweredMultiLevelData,
-    previousState?: MultiLevelDataBuiltAction<T>,
+    previousState?: FormGroup,
     dialogData?: T,
   ) => MultiLevelDataBuiltAction<T> | Observable<MultiLevelDataBuiltAction<T>>;
 }
@@ -92,7 +97,7 @@ export interface QuotaInputAction extends BaseAction {
     min: number;
     max: number;
     step: number;
-  }
+  };
 }
 
 export interface DateInputAction extends BaseAction {

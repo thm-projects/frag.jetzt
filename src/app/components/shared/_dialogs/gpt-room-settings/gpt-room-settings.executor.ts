@@ -15,55 +15,62 @@ export const saveSettings = (
   previous: Data,
 ): Observable<GPTRoomSetting> => {
   // Q1
-  const apiKey = answers.gptInfo?.value['apiCode'];
-  const apiOrg = answers.gptInfo?.value['apiOrganization'];
-  const apiVoucher = answers.gptInfoVoucher?.value['voucher'];
+  const groupGptInfo = answers.gptInfo?.group;
+  const groupGptInfoVoucher = answers.gptInfoVoucher?.group;
+  const apiKey = groupGptInfo?.value['apiCode'];
+  const apiOrg = groupGptInfo?.value['apiOrganization'];
+  const apiVoucher = groupGptInfoVoucher?.value['voucher'];
 
   const test = answers.gptModel;
   console.log(test);
 
   // Q2
-  const roomQuota = answers.roomQuota.value['total'];
-  const roomQuotaMonthly = answers.roomQuota.value['monthly'];
-  const roomQuotaMonthlyFlowing = answers.roomQuota.value['monthlyFlowing'];
-  const roomQuotaDaily = answers.roomQuota.value['daily'];
+  const groupRoomQuota = answers.roomQuota.group;
+  const roomQuota = groupRoomQuota.value['total'];
+  const roomQuotaMonthly = groupRoomQuota.value['monthly'];
+  const roomQuotaMonthlyFlowing = groupRoomQuota.value['monthlyFlowing'];
+  const roomQuotaDaily = groupRoomQuota.value['daily'];
 
   // Q3
-  const moderatorQuota = answers.moderatorQuota.value['total'];
-  const moderatorQuotaMonthly = answers.moderatorQuota.value['monthly'];
+  const groupModeratorQuota = answers.moderatorQuota.group;
+  const moderatorQuota = groupModeratorQuota.value['total'];
+  const moderatorQuotaMonthly = groupModeratorQuota.value['monthly'];
   const moderatorQuotaMonthlyFlowing =
-    answers.moderatorQuota.value['monthlyFlowing'];
-  const moderatorQuotaDaily = answers.moderatorQuota.value['daily'];
+    groupModeratorQuota.value['monthlyFlowing'];
+  const moderatorQuotaDaily = groupModeratorQuota.value['daily'];
   // Q4
-  const participantQuota = answers.participantQuota.value['total'];
-  const participantQuotaMonthly = answers.participantQuota.value['monthly'];
+  const groupParticipantQuota = answers.participantQuota.group;
+  const participantQuota = groupParticipantQuota.value['total'];
+  const participantQuotaMonthly = groupParticipantQuota.value['monthly'];
   const participantQuotaMonthlyFlowing =
-    answers.participantQuota.value['monthlyFlowing'];
-  const participantQuotaDaily = answers.participantQuota.value['daily'];
+    groupParticipantQuota.value['monthlyFlowing'];
+  const participantQuotaDaily = groupParticipantQuota.value['daily'];
 
   // Q5
 
   // Q6
+  const groupMiscellaneousSettings = answers.miscellaneousSettings.group;
   const allowUnregisteredUsers =
-    answers.miscellaneousSettings.value['allowUnregisteredUsers'];
+    groupMiscellaneousSettings.value['allowUnregisteredUsers'];
   const allowAnswerWithoutPreset =
-    answers.miscellaneousSettings.value['allowAnswerWithoutPreset'];
+    groupMiscellaneousSettings.value['allowAnswerWithoutPreset'];
   const onlyAnswerWhenCalled =
-    answers.miscellaneousSettings.value['onlyAnswerWhenCalled'];
+    groupMiscellaneousSettings.value['onlyAnswerWhenCalled'];
 
   // Q7
+  const groupModeratorPermissions = answers.moderatorPermissions.group;
   const moderatorCanChangeRoomQuota =
-    answers.moderatorPermissions.value['canChangeRoomQuota'];
+    groupModeratorPermissions.value['canChangeRoomQuota'];
   const moderatorCanChangeModeratorQuota =
-    answers.moderatorPermissions.value['canChangeModeratorQuota'];
+    groupModeratorPermissions.value['canChangeModeratorQuota'];
   const moderatorCanChangeParticipantQuota =
-    answers.moderatorPermissions.value['canChangeParticipantQuota'];
+    groupModeratorPermissions.value['canChangeParticipantQuota'];
   const moderatorCanChangePreset =
-    answers.moderatorPermissions.value['canChangePreset'];
+    groupModeratorPermissions.value['canChangePreset'];
   const moderatorCanChangeUsageTimes =
-    answers.moderatorPermissions.value['canChangeUsageTimes'];
+    groupModeratorPermissions.value['canChangeUsageTimes'];
   const moderatorCanChangeApiSettings =
-    answers.moderatorPermissions.value['canChangeApiSettings'];
+    groupModeratorPermissions.value['canChangeApiSettings'];
 
   const verify = (v: number) => (v ? Math.round(v) : v);
   const patch: Partial<GPTRoomSettingAPI> = {};
@@ -76,7 +83,7 @@ export const saveSettings = (
   }
   if (apiVoucher !== previous.GPTSettings.trialCode?.code) {
     /* patch wert existiert nicht */
-    console.error("Api Voucher was not patched");
+    console.error('Api Voucher was not patched');
   }
 
   let cost = verify(roomQuota);
@@ -161,8 +168,5 @@ export const saveSettings = (
     patch.rightsBitset = rights;
   }
 
-  return injector.get(GptService).patchRoomSetting(
-    previous.roomID,
-    patch,
-  );
+  return injector.get(GptService).patchRoomSetting(previous.roomID, patch);
 };

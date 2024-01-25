@@ -18,10 +18,10 @@
   <mat-hint *ngIf="data.hint && !data.control.invalid">
     {{ data.hint | translate }}
   </mat-hint>
-  <mat-error *ngIf="data.control.invalid">
-    <ng-container *ngIf="data.errorStates | keyvalue as errors">
-      <mat-error *ngIf="errors.length">
-        {{ errors[0].value | translate }}
+  <mat-error *ngIf="data.control.errors | keyvalue as controlErrors">
+    <ng-container *ngIf="data.errorStates as errorStrings">
+      <mat-error *ngIf="errorStrings[controlErrors[0].key] as info">
+        {{ info | translate }}
       </mat-error>
     </ng-container>
   </mat-error>

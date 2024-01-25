@@ -6,9 +6,7 @@
   <mat-progress-bar
     class="progress-bar"
     mode="determinate"
-    [value]="
-      ((highestIndex + 1) * 100) / data.questions.length
-    "></mat-progress-bar>
+    [value]="dialogStepper.progress"></mat-progress-bar>
   <mat-dialog-content>
     <mat-stepper
       (selectionChange)="onChange($event)"
@@ -38,42 +36,49 @@
         </ng-template>
       </mat-step>
       <!-- Dialog steps -->
-      <mat-step
-        *ngFor="let elem of currentElements; let isFirst = first; let i = index"
-        [stepControl]="elem.group"
-        [completed]="
-          i + offsetIndex <= highestIndex &&
-          currentStepperIndex !== i + +showBackOption
-        "
-        [editable]="true">
-        <form [formGroup]="elem.group">
-          <ng-template matStepLabel>
-            {{ elem.title | translate }}
-          </ng-template>
-          <ng-container *ngFor="let input of elem.config">
-            <ng-container
-              *ngComponentOutlet="
-                input.component;
-                injector: input.injector
-              "></ng-container>
-          </ng-container>
-          <div>
-            <button
-              *ngIf="!isFirst || showBackOption"
-              class="mat-prev"
-              mat-stroked-button
-              matStepperPrevious>
-              {{ "multi-level-dialog.previous" | translate }}
-            </button>
-            <button
-              class="mat-primary"
-              mat-stroked-button
-              (click)="next(i + offsetIndex)">
-              {{ "multi-level-dialog.next" | translate }}
-            </button>
-          </div>
-        </form>
-      </mat-step>
+      <ng-container
+        *ngFor="
+          let elem of currentElements;
+          let isFirst = first;
+          let i = index
+        ">
+        <mat-step
+          *ngIf="elem.group"
+          [stepControl]="elem.group"
+          [completed]="
+            (i + offsetIndex <= dialogStepper.highestIndex || defaultTouched) &&
+            currentStepperIndex !== i + +showBackOption
+          "
+          [editable]="true">
+          <form [formGroup]="elem.group">
+            <ng-template matStepLabel>
+              {{ elem.title | translate }}
+            </ng-template>
+            <ng-container *ngFor="let input of elem.config">
+              <ng-container
+                *ngComponentOutlet="
+                  input.component;
+                  injector: input.injector
+                "></ng-container>
+            </ng-container>
+            <div>
+              <button
+                *ngIf="!isFirst || showBackOption"
+                class="mat-prev"
+                mat-stroked-button
+                matStepperPrevious>
+                {{ "multi-level-dialog.previous" | translate }}
+              </button>
+              <button
+                class="mat-primary"
+                mat-stroked-button
+                (click)="next(i + offsetIndex)">
+                {{ "multi-level-dialog.next" | translate }}
+              </button>
+            </div>
+          </form>
+        </mat-step>
+      </ng-container>
       <!-- Question forward stepper -->
       <mat-step
         *ngIf="showForwardOption"
@@ -82,13 +87,16 @@
         <ng-template
           matStepLabel
           *ngIf="
-            elements.length > offsetIndex + windowSize + 1;
+            dialogStepper.elements.length > offsetIndex + windowSize + 1;
             else lastStepLabel
           ">
           {{
             "multi-level-dialog.range"
               | translate
-                : { start: offsetIndex + windowSize + 1, end: elements.length }
+                : {
+                    start: offsetIndex + windowSize + 1,
+                    end: dialogStepper.elements.length
+                  }
           }}
         </ng-template>
         <ng-template
@@ -96,7 +104,7 @@
           #lastStepLabel>
           {{
             "multi-level-dialog.single"
-              | translate : { number: elements.length }
+              | translate : { number: dialogStepper.elements.length }
           }}
         </ng-template>
       </mat-step>
