@@ -57,13 +57,13 @@ export type QuotaTimeStrategy =
 export class QuotaAccessTime {
   id: UUID;
   quotaId: UUID;
-  startDate: Date;
-  endDate: Date;
+  startDate: [year: number, month: number, day: number];
+  endDate: [year: number, month: number, day: number];
   recurringStrategy: QuotaRecurringStrategy;
   recurringFactor: number;
   strategy: QuotaTimeStrategy;
-  startTime: string;
-  endTime: string;
+  startTime: [hour: number, minute: number];
+  endTime: [hour: number, minute: number];
   createdAt: Date;
   updatedAt: Date | null;
 
@@ -82,8 +82,8 @@ export class QuotaAccessTime {
   }: Partial<FieldsOf<QuotaAccessTime>>) {
     this.id = id;
     this.quotaId = quotaId;
-    this.startDate = verifyInstance(Date, startDate);
-    this.endDate = verifyInstance(Date, endDate);
+    this.startDate = startDate;
+    this.endDate = endDate;
     this.recurringStrategy = recurringStrategy;
     this.recurringFactor = recurringFactor;
     this.strategy = strategy;

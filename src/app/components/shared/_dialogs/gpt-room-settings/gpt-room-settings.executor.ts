@@ -177,23 +177,13 @@ export const saveSettings = (
         repeatUnit = UNITS[repeatUnit];
       }
       const { hour, minute, second } = element.startDuration;
-      const startTime =
-        hour.toString().padStart(2, '0') +
-        ':' +
-        minute.toString().padStart(2, '0') +
-        ':' +
-        second.toString().padStart(2, '0');
+      const startTime: [number, number] = [hour, minute];
       const {
         hour: hour2,
         minute: minute2,
         second: second2,
       } = element.endDuration;
-      const endTime =
-        hour2.toString().padStart(2, '0') +
-        ':' +
-        minute2.toString().padStart(2, '0') +
-        ':' +
-        second2.toString().padStart(2, '0');
+      const endTime: [number, number] = [hour2, minute2];
       roomQuotaPatch.accessTimes.push(
         new QuotaAccessTime({
           startDate: element.startDate,

@@ -1,4 +1,4 @@
-import { AfterContentInit, AfterViewInit, Component, Injector, OnDestroy, OnInit, Renderer2 } from '@angular/core';
+import { AfterContentInit, AfterViewInit, Component, Injector, LOCALE_ID, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { RoomPageComponent } from '../../shared/room-page/room-page.component';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { KeyboardUtils } from '../../../utils/keyboard';
@@ -14,7 +14,7 @@ import { GPTRoomService } from 'app/services/http/gptroom.service';
 @Component({
   selector: 'app-room-creator-page',
   templateUrl: './room-creator-page.component.html',
-  styleUrls: ['./room-creator-page.component.scss']
+  styleUrls: ['./room-creator-page.component.scss'],
 })
 export class RoomCreatorPageComponent extends RoomPageComponent implements OnInit, OnDestroy, AfterContentInit, AfterViewInit {
   roomQuota = {

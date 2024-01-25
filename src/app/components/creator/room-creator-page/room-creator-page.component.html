@@ -126,15 +126,16 @@
       <div class="spending">
         <span>{{ "room-page.quota-for-room" | translate }}</span>
         <div class="layout">
-          <div class="information">
+          <div class="information"> 
             <div class="label">
               <span class="value">
-                {{ roomQuota.spent | currency: "USD" }}
+                {{ roomQuota.spent | currency: "USD" : "symbol" : "1.0-0" }}
               </span>
             </div>
+            {{ "room-page.quota-label-separator" | translate }}
             <div class="label">
               <span class="value">
-                {{ roomQuota.limit | currency: "USD" }}
+                {{ roomQuota.limit | currency: "USD" : "symbol" : "1.0-0" }}
               </span>
             </div>
           </div>
@@ -145,22 +146,23 @@
       </div>
 
       <div class="spending" *ngIf="room.mode === 'ARS'">
+        <span>{{ "room-page.quota-for-moderators" | translate }}</span>
         <div class="layout">
-          <span>{{ "room-page.quota-for-moderators" | translate }}</span>
           <div class="information">
             <div class="label">
               <span class="value">
-                {{ moderatorQuota.spent | currency: "USD" }}
+                {{ moderatorQuota.spent | currency: "USD" : "symbol" : "1.0-0" }}
               </span>
             </div>
+            {{ "room-page.quota-label-separator" | translate }}
             <div class="label">
               <span class="value">
-                {{ moderatorQuota.limit | currency: "USD" }}
+                {{ moderatorQuota.limit | currency: "USD" : "symbol" : "1.0-0" }}
               </span>
             </div>
           </div>
           <div class="bar">
-            <div class="spent" [style.width.%]="roomQuota.spentAsPercentage"></div>
+            <div class="spent" [style.width.%]="moderatorQuota.spentAsPercentage"></div>
           </div> 
         </div>
       </div>
@@ -171,17 +173,18 @@
           <div class="information">
             <div class="label">
               <span class="value">
-                {{ participantQuota.spent | currency: "USD" }}
+                {{ participantQuota.spent | currency: "USD" : "symbol" : "1.0-0" }}
               </span>
             </div>
+            {{ "room-page.quota-label-separator" | translate }}
             <div class="label">
               <span class="value">
-                {{ participantQuota.limit | currency: "USD" }}
+                {{ participantQuota.limit | currency: "USD" : "symbol" : "1.0-0" }}
               </span>
             </div>
           </div>
           <div class="bar">
-            <div class="spent" [style.width.%]="roomQuota.spentAsPercentage"></div>
+            <div class="spent" [style.width.%]="participantQuota.spentAsPercentage"></div>
           </div> 
         </div>
       </div>

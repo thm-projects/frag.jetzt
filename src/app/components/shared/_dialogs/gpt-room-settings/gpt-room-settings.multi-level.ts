@@ -366,6 +366,10 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
       stepHelp: 'ml-gpt-room-settings.usage-time-step-help',
       buildAction(_injector, _answers, previousState, data) {
         if (previousState) return previousState;
+        window.addEventListener("beforeunload", e => {
+          e.preventDefault();
+          e.returnValue = 'dasds';
+        });
         return buildInput(this, {
           tag: 'usageTimes',
           type: 'date-input',

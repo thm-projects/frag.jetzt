@@ -1017,6 +1017,7 @@
     "quota-for-room": "Raumkontingent",
     "quota-for-moderators": "Moderatorenkontingent",
     "quota-for-participants": "Teilnehmerkontingent",
+    "quota-label-separator": "von",
     "ple": {
       "comments": "Topics erstellen!",
       "comments-and-answers": "Zum Topic-Forum"

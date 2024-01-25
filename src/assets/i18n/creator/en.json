@@ -1012,7 +1012,8 @@
     "words-will-be-overwritten": "Profane words will be overwritten with ★★★★.",
     "quota-for-room": "Room Quota",
     "quota-for-moderators": "Moderators Quota",
-    "quota-for-participants": "Participants Quota"
+    "quota-for-participants": "Participants Quota",
+    "quota-label-separator": "out of"
   },
   "gptrating": {
     "title": "Rating to ChatGPT in frag.jetzt",

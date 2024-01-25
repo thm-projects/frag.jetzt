@@ -39,8 +39,7 @@ class TimeStamp {
     this.second = second;
   }
 
-  static fromString(timeString: string): TimeStamp {
-    const [hour, minute, second] = timeString.toString().split(':').map(Number);
+  static fromString([hour, minute, second = 0]): TimeStamp {
     return new TimeStamp(hour, minute, second);
   }
 
@@ -88,18 +87,16 @@ export class MultiLevelDateInputComponent implements OnInit {
         validators: this.timeSpanValidator,
       },
     );
-
     this.usageTimes = this.data.defaultValues.map((usage) => {
       return {
-        startDate: new Date(usage.startDate),
-        endDate: new Date(usage.endDate),
+        startDate: new Date(usage.startDate[0], usage.startDate[1]-1, usage.startDate[2]),
+        endDate: new Date(usage.endDate[0], usage.endDate[1]-1, usage.endDate[2]),
         startDuration: TimeStamp.fromString(usage.startTime),
         endDuration: TimeStamp.fromString(usage.endTime),
         repeatDuration: usage.recurringFactor,
         repeatUnit: usage.recurringStrategy,
       };
     });
-
     this.options = [
       ...Object.keys(UNITS).filter(key => isNaN(Number(key))).map(key => {
         return {
