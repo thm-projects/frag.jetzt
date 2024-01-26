@@ -2,7 +2,6 @@ import { Validators } from '@angular/forms';
 import {
   AnsweredMultiLevelData,
   MultiLevelData,
-  MultiLevelDataBuiltAction,
   buildInput,
 } from '../multi-level-dialog/interface/multi-level-dialog.types';
 import { GptService } from 'app/services/http/gpt.service';
@@ -11,9 +10,7 @@ import { AccountStateService } from 'app/services/state/account-state.service';
 import { filter, first, forkJoin, map, take } from 'rxjs';
 import { RoomStateService } from 'app/services/state/room-state.service';
 import { Quota, QuotaEntry } from 'app/services/http/quota.service';
-import { Room } from 'app/models/room';
 import { Injector } from '@angular/core';
-import { data } from 'cypress/types/jquery';
 
 export interface Data {
   roomID: string;
@@ -169,6 +166,15 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
       title: 'ml-gpt-room-settings.gpt-model-title',
       stepHelp: 'ml-gpt-room-settings.gpt-model-step-help',
       buildAction(_injector, _answers, previousState, data) {
+        const options = [];
+        _injector
+          .get(GptService)
+          .getValidModels()
+          .subscribe((models) => {
+            models.forEach((model) => {
+              options.push(model);
+            });
+          });
         return buildInput(
           this,
           {
@@ -178,12 +184,11 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
           {
             type: 'select-input',
             tag: 'model',
-            defaultValue: data.GPTSettings.defaultModel,
+            defaultValue:
+              previousState?.get('model')?.value ??
+              data.GPTSettings.defaultModel,
             label: 'ml-gpt-room-settings.gpt-model-item-two-label',
-            options: _injector
-              .get(GptService)
-              .getModels()
-              .filter((v) => v.name.startsWith('gpt-')),
+            options,
           },
         );
       },

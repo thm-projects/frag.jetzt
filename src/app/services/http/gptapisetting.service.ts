@@ -4,6 +4,7 @@ import { BaseHttpService } from './base-http.service';
 import { Observable, catchError, map, tap } from 'rxjs';
 import { FieldsOf, UUID, verifyInstance } from 'app/utils/ts-utils';
 import { Quota } from './quota.service';
+import { GPTModels } from './gptvoucher.service';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -48,10 +49,20 @@ export class GPTAPISettingService extends BaseHttpService {
   private apiUrl = {
     base: '/api/gpt-api/api-key',
     quota: '/quota',
+    models: '/models',
   };
 
   constructor(private http: HttpClient) {
     super();
+  }
+
+  getModels(): Observable<GPTModels> {
+    return this.http
+      .get<GPTModels>(`${this.apiUrl.base}${this.apiUrl.models}`)
+      .pipe(
+        tap(() => ''),
+        catchError(this.handleError<GPTModels>('getModels')),
+      );
   }
 
   create(body: CreateGPTAPIKey): Observable<GPTAPIKey> {

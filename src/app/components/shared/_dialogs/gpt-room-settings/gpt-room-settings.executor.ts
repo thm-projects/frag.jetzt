@@ -1,5 +1,5 @@
 import { Injector } from '@angular/core';
-import { Observable, concatMap, forkJoin, map, of, throwError } from 'rxjs';
+import { Observable, concatMap, forkJoin, map, of } from 'rxjs';
 import { AnsweredMultiLevelData } from '../multi-level-dialog/interface/multi-level-dialog.types';
 import { GPTRoomKey, GPTRoomSetting } from 'app/models/gpt-room-setting';
 import { Data } from './gpt-room-settings.multi-level';
@@ -12,7 +12,6 @@ import {
 } from 'app/services/http/quota.service';
 import { GPTAPISettingService } from 'app/services/http/gptapisetting.service';
 import { GPTVoucherService } from 'app/services/http/gptvoucher.service';
-import { GptService } from 'app/services/http/gpt.service';
 import { UNITS } from '../multi-level-dialog/multi-level-date-input/multi-level-date-input.component';
 
 /**
@@ -49,7 +48,6 @@ export const saveSettings = (
   previous: Data,
 ): Observable<GPTRoomSetting> => {
   // Start of destructuring
-  console.log('1');
   // Q1
   const groupGptInfo = answers.gptInfo?.group;
   const groupGptInfoVoucher = answers.gptInfoVoucher?.group;
@@ -57,7 +55,6 @@ export const saveSettings = (
   const apiOrg = groupGptInfo?.value['apiOrganization'];
   const apiVoucher = groupGptInfoVoucher?.value['voucher'];
 
-  console.log('2');
   // Q2
   const groupRoomQuota = answers.roomQuota?.group;
   const roomQuota = groupRoomQuota?.value['total'];
@@ -68,7 +65,6 @@ export const saveSettings = (
   // gpt-model
   const gptModel = answers.gptModel?.group?.value['model'];
 
-  console.log('3');
   // Q3
   const groupModeratorQuota = answers.moderatorQuota?.group;
   const moderatorQuota = groupModeratorQuota?.value['total'];
@@ -84,11 +80,9 @@ export const saveSettings = (
     groupParticipantQuota?.value['monthlyFlowing'];
   const participantQuotaDaily = groupParticipantQuota?.value['daily'];
 
-  console.log('5');
   // Q5
   const usageTimes = answers.usageTime?.group?.value['usageTimes'];
 
-  console.log('6');
   // Q6
   const groupMiscellaneousSettings = answers.miscellaneousSettings?.group;
   const allowUnregisteredUsers =
@@ -98,7 +92,6 @@ export const saveSettings = (
   const onlyAnswerWhenCalled =
     groupMiscellaneousSettings?.value['onlyAnswerWhenCalled'];
 
-  console.log('7');
   // Q7
   const groupModeratorPermissions = answers.moderatorPermissions?.group;
   const moderatorCanChangeRoomQuota =
@@ -202,7 +195,6 @@ export const saveSettings = (
       );
     });
   }
-  console.log(roomQuotaPatch);
 
   if (
     roomQuotaPatch.entries.length > 0 ||
@@ -295,12 +287,10 @@ export const saveSettings = (
 
 */
 
-  //TODO: Models
-  // defaultModel - gptservice.getModels() starts with 'gpt-'
+  if (previous.GPTSettings.defaultModel !== gptModel) {
+    patch.defaultModel = gptModel;
+  }
 
-  // logic: selected value must be within apiModels
-  // if yes: set defaultModel
-  // if no: dont update
   const userOwnsRequestedModel = userOwnsModel(
     gptModel,
     previous.GPTSettings.apiModels,

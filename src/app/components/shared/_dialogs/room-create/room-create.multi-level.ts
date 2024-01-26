@@ -8,6 +8,11 @@ import { RoomService } from 'app/services/http/room.service';
 import { Observable, catchError, map, of, switchMap, take } from 'rxjs';
 import { HelpRoomCreateComponent } from './help-room-create/help-room-create.component';
 import { AccountStateService } from 'app/services/state/account-state.service';
+import { GPTAPIKey } from 'app/services/http/gptapisetting.service';
+import {
+  GPTVoucher,
+  GPTVoucherService,
+} from 'app/services/http/gptvoucher.service';
 
 interface DefaultConfig {
   chatgpt: boolean;
@@ -73,7 +78,29 @@ const buildValidator = (
     );
 };
 
-export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData = {
+const buildVoucherValidator = (
+  voucherService: GPTVoucherService,
+  account: AccountStateService,
+) => {
+  return (control: FormControl): Observable<{ voucherUsed: boolean }> =>
+    account.forceLogin().pipe(
+      switchMap(() => voucherService.isClaimable(control.value)),
+      map((voucher) => {
+        if (voucher) {
+          return null;
+        }
+        return { voucherUsed: true };
+      }),
+      catchError(() => of({ voucherUsed: true })),
+    );
+};
+
+export interface RoomCreateState {
+  apiKeys: GPTAPIKey[];
+  vouchers: GPTVoucher[];
+}
+
+export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData<RoomCreateState> = {
   title: 'ml-room-create.title',
   questions: [
     {
@@ -116,6 +143,10 @@ export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData = {
             options: [
               { value: 'apiCode', label: 'ml-room-create.a-p2-api-code' },
               { value: 'voucher', label: 'ml-room-create.a-p2-voucher' },
+              {
+                value: 'with-global',
+                label: 'ml-room-create.a-p2-with-global',
+              },
               { value: 'nothing', label: 'ml-room-create.a-p2-nothing' },
             ],
             validators: [Validators.required],
@@ -133,7 +164,7 @@ export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData = {
       active: (answers) =>
         answers.gptSetup &&
         answers.gptSetup.group.value.setupType === 'apiCode',
-      buildAction(_injector, _answers, previousState) {
+      buildAction(_injector, _answers, previousState, data) {
         return buildInput(
           this,
           {
@@ -145,7 +176,8 @@ export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData = {
             tag: 'apiCode',
             label: 'ml-room-create.q-p3-short',
             hidden: true,
-            defaultValue: previousState?.get('apiCode')?.value,
+            defaultValue:
+              previousState?.get('apiCode')?.value ?? data.apiKeys[0]?.apiKey,
             validators: [
               Validators.required,
               Validators.pattern('sk-[a-zA-Z0-9]+'),
@@ -159,7 +191,9 @@ export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData = {
             type: 'text-input',
             tag: 'organization',
             label: 'ml-room-create.q-p3-org',
-            defaultValue: previousState?.get('organization')?.value,
+            defaultValue:
+              previousState?.get('organization')?.value ??
+              data.apiKeys[0]?.apiOrganization,
             validators: [Validators.pattern('org-[a-zA-Z0-9]+')],
             errorStates: {
               pattern: 'ml-room-create.e-p3-org-pattern',
@@ -175,7 +209,7 @@ export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData = {
       active: (answers) =>
         answers.gptSetup &&
         answers.gptSetup.group.value.setupType === 'voucher',
-      buildAction(_injector, _answers, previousState) {
+      buildAction(injector, _answers, previousState, data) {
         return buildInput(
           this,
           {
@@ -187,10 +221,18 @@ export const MULTI_LEVEL_ROOM_CREATE: MultiLevelData = {
             tag: 'voucher',
             hidden: true,
             label: 'ml-room-create.q-p4-short',
-            defaultValue: previousState?.get('voucher')?.value,
+            defaultValue:
+              previousState?.get('voucher')?.value ?? data.vouchers[0]?.code,
             validators: [Validators.required],
+            asyncValidators: [
+              buildVoucherValidator(
+                injector.get(GPTVoucherService),
+                injector.get(AccountStateService),
+              ),
+            ],
             errorStates: {
               required: 'ml-room-create.e-p4-required',
+              voucherUsed: 'ml-room-create.e-p4-voucher-used',
             },
           },
         );

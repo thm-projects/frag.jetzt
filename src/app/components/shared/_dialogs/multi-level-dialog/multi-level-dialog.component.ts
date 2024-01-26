@@ -92,15 +92,15 @@ class MultiLevelStepper {
     }
     const index = this.createdIndexes[elementIndex++] ?? -1;
     this.remaining = 0;
-    const safeKeys = new Set<string>();
-    for (let i = 0, j = 0; i < index; i++) {
+    const answers: AnsweredMultiLevelData = {};
+    for (let i = 0, j = 0; i <= index; i++) {
       const isMounted = this.createdIndexes[j] === i;
       if (isMounted) {
-        safeKeys.add(this.questions[i].tag);
+        const tag = this.questions[i].tag;
+        answers[tag] = this.answers[tag];
         j += 1;
       }
     }
-    const answers = { ...this.answers };
     const work: Observable<unknown>[] = [];
     let activeCount = 0;
     for (let i = index + 1; i < this.questions.length; i++) {
@@ -118,9 +118,9 @@ class MultiLevelStepper {
             this.remaining += isActive || isCounting ? 1 : 0;
             activeCount += isActive ? 1 : 0;
             if (isMounted && !isActive) {
-              return this.removeElement(currentIndex, safeKeys, answers);
+              return this.removeElement(currentIndex, answers);
             } else if (!isMounted && isActive) {
-              return this.addElement(currentIndex, safeKeys, answers);
+              return this.addElement(currentIndex, answers);
             } else if (isActive) {
               return this.remount(currentIndex, answers);
             }
@@ -180,7 +180,6 @@ class MultiLevelStepper {
 
   private removeElement(
     currentIndex: number,
-    safeKeys: Set<string>,
     answers: AnsweredMultiLevelData,
   ): Observable<void> {
     const found = this.createdIndexes.findIndex((e) => e === currentIndex);
@@ -192,29 +191,24 @@ class MultiLevelStepper {
     const previousState = this.elements.splice(found, 1)[0];
     const tag = previousState.tag;
     this.removedCache.set(tag, previousState);
-    if (safeKeys.has(tag)) {
+    if (tag in answers) {
       console.warn('Tried to remove already present tag: ' + tag);
     } else {
       delete this.answers[tag];
-      delete answers[tag];
     }
     return of();
   }
 
   private addElement(
     currentIndex: number,
-    safeKeys: Set<string>,
     answers: AnsweredMultiLevelData,
   ): Observable<unknown> {
     const question = this.questions[currentIndex];
     // active, but not mounted
-    if (!safeKeys.has(question.tag)) {
-      safeKeys.add(question.tag);
+    if (question.tag in answers) {
       console.warn('Duplicate tag entry: ' + question.tag);
     }
-    const previousState =
-      this.removedCache.get(question.tag)?.group ??
-      answers[question.tag]?.group;
+    const previousState = this.removedCache.get(question.tag)?.group;
     this.removedCache.delete(question.tag);
     const elemOrObservable = question.buildAction(
       this.injector,
@@ -344,6 +338,7 @@ export class MultiLevelDialogComponent implements OnInit {
   }
 
   onChange(e: StepperSelectionEvent) {
+    // TODO: Check next
     this.currentStepperIndex = e.selectedIndex;
     if (this.showBackOption && e.selectedIndex === 0) {
       const last = this.offsetIndex;

@@ -161,40 +161,4 @@ export class GPTRoomService extends BaseHttpService {
         catchError(this.handleError<Quota>('patchRoomQuota')),
       );
   }
-
-  deleteParticipantQuota(roomId: string, quotaId: UUID): Observable<void> {
-    return this.http
-      .delete<void>(
-        `${this.apiUrl.base}/${roomId}${this.apiUrl.participantQuota}/${quotaId}`,
-        httpOptions,
-      )
-      .pipe(
-        tap(() => ''),
-        catchError(this.handleError<void>('deleteParticipantQuota')),
-      );
-  }
-
-  deleteModeratorQuota(roomId: string, quotaId: UUID): Observable<void> {
-    return this.http
-      .delete<void>(
-        `${this.apiUrl.base}/${roomId}${this.apiUrl.moderatorQuota}/${quotaId}`,
-        httpOptions,
-      )
-      .pipe(
-        tap(() => ''),
-        catchError(this.handleError<void>('deleteModeratorQuota')),
-      );
-  }
-
-  deleteRoomQuota(roomId: string, quotaId: UUID): Observable<void> {
-    return this.http
-      .delete<void>(
-        `${this.apiUrl.base}/${roomId}${this.apiUrl.roomQuota}/${quotaId}`,
-        httpOptions,
-      )
-      .pipe(
-        tap(() => ''),
-        catchError(this.handleError<void>('deleteRoomQuota')),
-      );
-  }
 }

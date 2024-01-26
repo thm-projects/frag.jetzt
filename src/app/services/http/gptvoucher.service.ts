@@ -5,6 +5,16 @@ import { FieldsOf, UUID, verifyInstance } from 'app/utils/ts-utils';
 import { Observable, catchError, map, tap } from 'rxjs';
 import { Quota } from './quota.service';
 
+export interface GPTModels {
+  object: 'list';
+  data: {
+    object: 'model';
+    id: string;
+    created: number; // * 1000 = Date
+    ownedBy: string;
+  };
+}
+
 const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type': 'application/json',
@@ -46,10 +56,20 @@ export class GPTVoucherService extends BaseHttpService {
     claim: '/claim',
     claimable: '/claimable',
     all: '/all',
+    models: '/models',
   };
 
   constructor(private http: HttpClient) {
     super();
+  }
+
+  getModels(): Observable<GPTModels> {
+    return this.http
+      .get<GPTModels>(`${this.apiUrl.base}${this.apiUrl.models}`)
+      .pipe(
+        tap(() => ''),
+        catchError(this.handleError<GPTModels>('getModels')),
+      );
   }
 
   create(code: string): Observable<GPTVoucher> {

@@ -11,6 +11,17 @@ import { catchError, finalize, map, Observable, tap } from 'rxjs';
 import { BaseHttpService } from './base-http.service';
 import { postSSE } from 'app/utils/sse-client';
 
+export interface GPTModel {
+  name: string;
+  endpoints: ('ASSISTANT_WITH_RETRIEVAL' | 'ASSISTANT' | 'CHAT')[];
+  costPerPromptToken: number;
+  costPerCompletionToken: number;
+  maxTokens: number;
+  maxOutputTokens: number;
+  interruptTokens: number;
+  encoderName: string;
+}
+
 /* eslint-disable @typescript-eslint/naming-convention */
 const httpOptions = {
   headers: new HttpHeaders({
@@ -130,15 +141,6 @@ export interface ModerationWrapped<T> {
   response: ModerationResponse;
 }
 
-export interface Model {
-  name: string;
-  costPerPromptToken: number;
-  costPerCompletionToken: number;
-  maxTokens: number;
-  interruptTokens: number;
-  encoderName: string;
-}
-
 export interface GlobalAccessInfo {
   blocked: boolean;
   registered: boolean;
@@ -195,57 +197,12 @@ export class GptService extends BaseHttpService {
     super();
   }
 
-  getModels(): Model[] {
-    return [
-      {
-        name: 'gpt-4-32k',
-        costPerPromptToken: 6000,
-        costPerCompletionToken: 12000,
-        maxTokens: 32768,
-        interruptTokens: 8,
-        encoderName: 'cl100k',
-      },
-      {
-        name: 'gpt-4',
-        costPerPromptToken: 3000,
-        costPerCompletionToken: 6000,
-        maxTokens: 8192,
-        interruptTokens: 8,
-        encoderName: 'cl100k',
-      },
-      {
-        name: 'gpt-3.5-turbo',
-        costPerPromptToken: 200,
-        costPerCompletionToken: 200,
-        maxTokens: 4096,
-        interruptTokens: 8,
-        encoderName: 'cl100k',
-      },
-      {
-        name: 'text-davinci-003',
-        costPerPromptToken: 2000,
-        costPerCompletionToken: 2000,
-        maxTokens: 4097,
-        interruptTokens: 5,
-        encoderName: 'p50k',
-      },
-      {
-        name: 'text-davinci-002',
-        costPerPromptToken: 2000,
-        costPerCompletionToken: 2000,
-        maxTokens: 4097,
-        interruptTokens: 5,
-        encoderName: 'p50k',
-      },
-      {
-        name: 'code-davinci-002',
-        costPerPromptToken: 2000,
-        costPerCompletionToken: 2000,
-        maxTokens: 8001,
-        interruptTokens: 5,
-        encoderName: 'p50k',
-      },
-    ];
+  getValidModels(): Observable<GPTModel[]> {
+    const url = '/api/gpt/models';
+    return this.httpClient.get<any[]>(url, httpOptions).pipe(
+      tap((_) => ''),
+      catchError(this.handleError<any[]>('getValidModels')),
+    );
   }
 
   getPreset(roomId: string): Observable<GPTRoomPreset> {

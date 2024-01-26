@@ -791,21 +791,6 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
               this.error = msg;
               this.showError(msg);
             });
-        } else if (
-          !(
-            data.apiKeyPresent ||
-            ((data.usingTrial ||
-              (data.globalInfo.globalActive && data.roomOwnerRegistered)) &&
-              data.globalInfo.apiKeyPresent)
-          )
-        ) {
-          this.error = 'No API Key';
-          this.translateService
-            .get('gpt-chat.no-api-setup')
-            .subscribe((msg) => {
-              this.error = msg;
-              this.showError(msg);
-            });
         }
         this.isLoading = false;
       },
