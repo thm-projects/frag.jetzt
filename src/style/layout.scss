@@ -4,7 +4,22 @@ body {
   scrollbar-width: none;
 }
 
+:root {
+  --mdc-plain-tooltip-container-shape: 0.625rem;
+}
+
 .mat-mdc-menu-content .mat-mdc-menu-item .mat-mdc-menu-item-text {
   display: flex;
   align-items: center;
+}
+
+.mat-mdc-dialog-container .mdc-dialog__surface {
+  padding: 1.5em;
+}
+
+.mat-mdc-tooltip .mdc-tooltip__surface {
+  padding: 1em;
+  border: 0.25em solid #fff7e9;
+  max-width: 18rem;
+  overflow: hidden;
 }
