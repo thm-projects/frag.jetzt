@@ -192,18 +192,18 @@
                   | translate
                     : {
                         code: item.code,
-                        current: (item.costCounter.toPlain(2) / 100).toFixed(2),
-                        maxCost: (item.maximalCost.toPlain(2) / 100).toFixed(2)
+                        current: getQuotaMax(item),
+                        maxCost: getQuotaUsed(item)
                       }
               }}
             </div>
             <div
               matListItemLine
-              *ngIf="item.activatedRoomId">
+              *ngIf="item.accountId">
               {{ "gpt-config.activation-used" | translate }}
             </div>
             <button mat-icon-button>
-              <mat-icon (click)="platformCodes.splice(i, 1)">close</mat-icon>
+              <mat-icon (click)="deleteActivationCode(i)">close</mat-icon>
             </button>
           </mat-list-item>
         </mat-list>

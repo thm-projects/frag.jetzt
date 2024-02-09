@@ -28,7 +28,8 @@ export class JoyrideTemplateComponent implements OnInit, OnDestroy {
 
   title: string;
   text: string;
-  private readonly _destroyer = new ReplaySubject<void>(1);
+
+  private destroyer = new ReplaySubject<void>(1);
 
   constructor(
     private eventService: EventService,
@@ -39,17 +40,17 @@ export class JoyrideTemplateComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.translateService
       .stream(`joyride.${this.name}Title`)
-      .pipe(takeUntil(this._destroyer))
+      .pipe(takeUntil(this.destroyer))
       .subscribe((translation) => (this.title = translation));
     this.translateService
       .stream(`joyride.${this.name}`)
-      .pipe(takeUntil(this._destroyer))
+      .pipe(takeUntil(this.destroyer))
       .subscribe((translation) => (this.text = translation));
   }
 
   ngOnDestroy(): void {
-    this._destroyer.next();
-    this._destroyer.complete();
+    this.destroyer.next();
+    this.destroyer.complete();
   }
 
   finish() {

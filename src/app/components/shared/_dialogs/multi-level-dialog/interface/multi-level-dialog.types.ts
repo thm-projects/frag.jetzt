@@ -14,9 +14,15 @@ import { ClassType } from 'app/utils/ts-utils';
 import { MultiLevelQuotaInputComponent } from '../multi-level-quota-input/multi-level-quota-input.component';
 import { MultiLevelDateInputComponent } from '../multi-level-date-input/multi-level-date-input.component';
 import { MultiLevelSelectInputComponent } from '../multi-level-select-input/multi-level-select-input.component';
-import { Model } from 'app/services/http/gpt.service';
+import { QuotaAccessTime } from 'app/services/http/quota.service';
+import { GPTModel } from 'app/services/http/gpt.service';
 
-export type AnsweredMultiLevelData = Record<string, FormGroup>;
+export type AnsweredMultiLevelData = Record<
+  string,
+  {
+    group: FormGroup;
+  }
+>;
 
 export interface MultiLevelDataEntry<T = unknown> {
   tag: string;
@@ -33,7 +39,7 @@ export interface MultiLevelDataEntry<T = unknown> {
   buildAction: (
     injector: Injector,
     answers: AnsweredMultiLevelData,
-    previousState?: MultiLevelDataBuiltAction<T>,
+    previousState?: FormGroup,
     dialogData?: T,
   ) => MultiLevelDataBuiltAction<T> | Observable<MultiLevelDataBuiltAction<T>>;
 }
@@ -86,7 +92,7 @@ export interface SelectInputAction extends BaseAction {
   defaultValue?: string;
   placeholder?: string;
   hidden?: boolean;
-  options: Model[];
+  options: GPTModel[];
 }
 
 export interface QuotaInputAction extends BaseAction {
@@ -106,6 +112,8 @@ export interface DateInputAction extends BaseAction {
   defaultValue?: string;
   placeholder?: string;
   hidden?: boolean;
+  defaultValues?: QuotaAccessTime[];
+  labels: [string, string, string, string, string];
 }
 
 export interface TextAction {

@@ -4,17 +4,23 @@ import { GPTConfiguration } from 'app/models/gpt-configuration';
 import { GPTPromptPreset } from 'app/models/gpt-prompt-preset';
 import { GPTRating } from 'app/models/gpt-rating';
 import { GPTRoomPreset } from 'app/models/gpt-room-preset';
-import {
-  GPTRoomSetting,
-  GPTRoomUsageTime,
-  UsageRepeatUnit,
-} from 'app/models/gpt-room-setting';
 import { GPTStatistics } from 'app/models/gpt-statistics';
 import { RatingResult } from 'app/models/rating-result';
 import { UUID, verifyInstance } from 'app/utils/ts-utils';
 import { catchError, finalize, map, Observable, tap } from 'rxjs';
 import { BaseHttpService } from './base-http.service';
 import { postSSE } from 'app/utils/sse-client';
+
+export interface GPTModel {
+  name: string;
+  endpoints: ('ASSISTANT_WITH_RETRIEVAL' | 'ASSISTANT' | 'CHAT')[];
+  costPerPromptToken: number;
+  costPerCompletionToken: number;
+  maxTokens: number;
+  maxOutputTokens: number;
+  interruptTokens: number;
+  encoderName: string;
+}
 
 /* eslint-disable @typescript-eslint/naming-convention */
 const httpOptions = {
@@ -31,36 +37,6 @@ const httpOptionsPlainString = {
   }),
   responseType: 'text',
 } as const;
-
-export type GPTRoomSettingAPI = Pick<
-  GPTRoomSetting,
-  | 'apiKey'
-  | 'apiOrganization'
-  | 'maxDailyRoomCost'
-  | 'maxMonthlyRoomCost'
-  | 'maxMonthlyFlowingRoomCost'
-  | 'maxAccumulatedRoomCost'
-  | 'maxDailyParticipantCost'
-  | 'maxMonthlyParticipantCost'
-  | 'maxMonthlyFlowingParticipantCost'
-  | 'maxAccumulatedParticipantCost'
-  | 'maxDailyModeratorCost'
-  | 'maxMonthlyModeratorCost'
-  | 'maxMonthlyFlowingModeratorCost'
-  | 'maxAccumulatedModeratorCost'
-  | 'rightsBitset'
->;
-
-interface UsageTimeActionDelete {
-  deleteId: string;
-}
-
-interface UsageTimeActionAdd {
-  repeatDuration: number | null;
-  repeatUnit: UsageRepeatUnit | null;
-  startDate: Date;
-  endDate: Date;
-}
 
 export interface TextCompletionRequest {
   roomId?: UUID;
@@ -165,15 +141,6 @@ export interface ModerationWrapped<T> {
   response: ModerationResponse;
 }
 
-export interface Model {
-  name: string;
-  costPerPromptToken: number;
-  costPerCompletionToken: number;
-  maxTokens: number;
-  interruptTokens: number;
-  encoderName: string;
-}
-
 export interface GlobalAccessInfo {
   blocked: boolean;
   registered: boolean;
@@ -198,8 +165,6 @@ export interface RoomAccessInfo {
   isOwner: boolean;
   restricted: boolean;
 }
-
-export type UsageTimeAction = UsageTimeActionDelete | UsageTimeActionAdd;
 
 export interface PropmtPresetAdd {
   act: string;
@@ -232,80 +197,12 @@ export class GptService extends BaseHttpService {
     super();
   }
 
-  getModels(): Model[] {
-    return [
-      {
-        name: 'gpt-4-32k',
-        costPerPromptToken: 6000,
-        costPerCompletionToken: 12000,
-        maxTokens: 32768,
-        interruptTokens: 8,
-        encoderName: 'cl100k',
-      },
-      {
-        name: 'gpt-4',
-        costPerPromptToken: 3000,
-        costPerCompletionToken: 6000,
-        maxTokens: 8192,
-        interruptTokens: 8,
-        encoderName: 'cl100k',
-      },
-      {
-        name: 'gpt-3.5-turbo',
-        costPerPromptToken: 200,
-        costPerCompletionToken: 200,
-        maxTokens: 4096,
-        interruptTokens: 8,
-        encoderName: 'cl100k',
-      },
-      {
-        name: 'text-davinci-003',
-        costPerPromptToken: 2000,
-        costPerCompletionToken: 2000,
-        maxTokens: 4097,
-        interruptTokens: 5,
-        encoderName: 'p50k',
-      },
-      {
-        name: 'text-davinci-002',
-        costPerPromptToken: 2000,
-        costPerCompletionToken: 2000,
-        maxTokens: 4097,
-        interruptTokens: 5,
-        encoderName: 'p50k',
-      },
-      {
-        name: 'code-davinci-002',
-        costPerPromptToken: 2000,
-        costPerCompletionToken: 2000,
-        maxTokens: 8001,
-        interruptTokens: 5,
-        encoderName: 'p50k',
-      },
-    ];
-  }
-
-  getRoomSetting(roomId: string): Observable<GPTRoomSetting> {
-    const url = '/api/gpt/room-setting/' + roomId;
-    return this.httpClient.get<GPTRoomSetting>(url, httpOptions).pipe(
+  getValidModels(): Observable<GPTModel[]> {
+    const url = '/api/gpt/models';
+    return this.httpClient.get<GPTModel[]>(url, httpOptions).pipe(
       tap(() => ''),
-      map((v) => verifyInstance(GPTRoomSetting, v)),
-      catchError(this.handleError<GPTRoomSetting>('getRoomSetting')),
+      catchError(this.handleError<GPTModel[]>('getValidModels')),
     );
-  }
-
-  patchRoomSetting(
-    roomId: string,
-    patch: Partial<GPTRoomSettingAPI>,
-  ): Observable<GPTRoomSetting> {
-    const url = '/api/gpt/room-setting/' + roomId;
-    return this.httpClient
-      .patch<GPTRoomSetting>(url, { changes: patch }, httpOptions)
-      .pipe(
-        tap(() => ''),
-        map((v) => verifyInstance(GPTRoomSetting, v)),
-        catchError(this.handleError<GPTRoomSetting>('patchRoomSetting')),
-      );
   }
 
   getPreset(roomId: string): Observable<GPTRoomPreset> {
@@ -327,22 +224,6 @@ export class GptService extends BaseHttpService {
       map((data) => verifyInstance(GPTRoomPreset, data)),
       catchError(this.handleError<GPTRoomPreset>('patchPreset')),
     );
-  }
-
-  updateUsageTimes(
-    roomId: string,
-    usageTimes: UsageTimeAction[],
-  ): Observable<GPTRoomUsageTime[]> {
-    const url = '/api/gpt/room-usage-times/' + roomId;
-    return this.httpClient
-      .post<GPTRoomUsageTime[]>(url, usageTimes, httpOptions)
-      .pipe(
-        tap(() => ''),
-        map((data) =>
-          data.map((datum) => verifyInstance(GPTRoomUsageTime, datum)),
-        ),
-        catchError(this.handleError<GPTRoomUsageTime[]>('updateUsageTimes')),
-      );
   }
 
   getConsentState(): Observable<boolean | null> {
@@ -379,14 +260,6 @@ export class GptService extends BaseHttpService {
         }),
         catchError(this.handleError<boolean>('updateConsentState')),
       );
-  }
-
-  activateTrial(roomId: string, trialCode: string): Observable<boolean> {
-    const url = '/api/gpt/activate-trial/' + roomId;
-    return this.httpClient.post<boolean>(url, { trialCode }, httpOptions).pipe(
-      tap(() => ''),
-      catchError(this.handleError<boolean>('activateTrial')),
-    );
   }
 
   getConfiguration(): Observable<GPTConfiguration> {

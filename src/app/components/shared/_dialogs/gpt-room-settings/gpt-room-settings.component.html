@@ -1,9 +1,7 @@
 <h2>{{ "gpt-room-settings.title" | translate }}</h2>
 
 <mat-dialog-content *ngIf="!isLoading; else loading">
-  <mat-stepper
-    orientation="vertical"
-    [linear]="isLinear">
+  <mat-stepper orientation="vertical">
     <mat-step *ngIf="isOwner || canChangeApiSettings; else deactivated">
       <ng-template matStepLabel>
         {{ "gpt-room-settings.own-openai-api-key" | translate }}
@@ -465,7 +463,7 @@
             matListItemLine
             *ngIf="item.repeatDuration && item.repeatUnit">
             {{
-              getRepeatString(item) | translate : { value: item.repeatDuration }
+              getRepeatString(item) | translate: { value: item.repeatDuration }
             }}
           </div>
           <button mat-icon-button>
