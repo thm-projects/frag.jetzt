@@ -1,9 +1,15 @@
 import Quill from 'quill';
 import { TranslateService } from '@ngx-translate/core';
 import { DsgvoBuilder, DsgvoSource } from '../../utils/dsgvo-builder';
+import { ClassType } from 'app/utils/ts-utils';
 
-const BlockEmbed = Quill.import('blots/block/embed');
-const Link = Quill.import('formats/link');
+const BlockEmbed = Quill.import('blots/block/embed') as ClassType<{
+  format(name: string, value: unknown): void;
+  value: () => unknown;
+}> & { create: (value: string) => HTMLElement };
+const Link = Quill.import('formats/link') as {
+  sanitize(url: string): string;
+};
 
 const ATTRIBUTES = ['height', 'width'];
 
@@ -14,7 +20,7 @@ export class DsgvoVideo extends BlockEmbed {
   static translator: TranslateService;
   domNode: HTMLVideoElement;
 
-  static create(value) {
+  static override create(value) {
     const node = super.create(value) as HTMLElement;
     const sanitized = this.sanitize(value);
     const [source, url] = DsgvoBuilder.classifyURL(sanitized);
@@ -64,7 +70,7 @@ export class DsgvoVideo extends BlockEmbed {
     return domNode.dataset['src'];
   }
 
-  format(name, value) {
+  override format(name, value) {
     if (ATTRIBUTES.indexOf(name) > -1) {
       this.domNode.dataset[name] = value;
       if (value) {
@@ -78,7 +84,7 @@ export class DsgvoVideo extends BlockEmbed {
   }
 
   html() {
-    const { video } = super.value();
+    const { video } = super.value() as { video: string };
     return `<a href="${video}">${video}</a>`;
   }
 }

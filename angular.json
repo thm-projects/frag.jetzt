@@ -56,8 +56,7 @@
               "node_modules/prismjs/plugins/line-highlight/prism-line-highlight.js",
               "node_modules/prismjs/plugins/line-numbers/prism-line-numbers.js",
               "node_modules/katex/dist/katex.min.js",
-              "node_modules/quill/dist/quill.js",
-              "node_modules/quill-image-resize-module/image-resize.min.js"
+              "node_modules/quill/dist/quill.js"
             ],
             "server": "src/main.server.ts",
             "prerender": false,
@@ -151,8 +150,7 @@
               "node_modules/prismjs/plugins/line-highlight/prism-line-highlight.js",
               "node_modules/prismjs/plugins/line-numbers/prism-line-numbers.js",
               "node_modules/katex/dist/katex.min.js",
-              "node_modules/quill/dist/quill.js",
-              "node_modules/quill-image-resize-module/image-resize.min.js"
+              "node_modules/quill/dist/quill.js"
             ]
           }
         },

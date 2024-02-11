@@ -147,7 +147,6 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit() {
     this.headerService.initHeader(() => this);
-    this.themes = this.themeService.getThemes();
     this.shrinkObserver = new ShrinkObserver(this.toolbarRow.nativeElement);
     this.shrinkObserver
       .observeShrink()
@@ -158,6 +157,7 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
     this.sessionService.onReady.subscribe(() => {
       this.init();
     });
+    this.themes = this.themeService.getThemes();
   }
 
   ngOnDestroy(): void {

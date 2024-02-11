@@ -87,8 +87,8 @@ export class AppStateService {
     ).pipe(distinctUntilChanged(), shareReplay(1));
     this.appliedTheme$ = merge(this.theme$, this.deviceState.dark$)
       .pipe(
-        map(() => {
-          const theme = this.getCurrentTheme();
+        switchMap(() => this.theme$.pipe(take(1))),
+        map((theme) => {
           if (theme !== 'systemDefault') {
             return theme;
           }

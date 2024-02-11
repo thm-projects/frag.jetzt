@@ -3,6 +3,7 @@ import { KatexOptions } from 'ngx-markdown';
 import { QuillUtils } from '../../../../utils/quill-utils';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { QuillEditorComponent } from 'ngx-quill';
+import { Delta } from 'quill/core';
 
 interface Selection {
   index: number;
@@ -67,7 +68,7 @@ export class QuillInputDialogComponent implements OnInit {
               retain: this.data.selection.length,
               attributes: { link: this.value },
             });
-            this.data.quill.updateContents({ ops });
+            this.data.quill.updateContents(new Delta({ ops }));
           }
           break;
         case 'video':

@@ -36,6 +36,53 @@
   --mat-menu-item-icon-color: currentColor;
   --mdc-plain-tooltip-container-color: var(--secondary);
   --mdc-plain-tooltip-supporting-text-color: var(--on-secondary);
+  --mdc-snackbar-container-color: var(--secondary);
+  --mdc-snackbar-supporting-text-color: var(--on-secondary);
+  --mat-form-field-error-text-color: var(--red);
+  --mdc-outlined-text-field-error-label-text-color: var(--red);
+  --mdc-outlined-text-field-error-caret-color: var(--red);
+  --mdc-outlined-text-field-error-focus-label-text-color: var(--red);
+  --mdc-outlined-text-field-caret-color: var(--secondary);
+  --mdc-outlined-text-field-focus-outline-color: var(--secondary);
+  --mdc-outlined-text-field-focus-label-text-color: var(--secondary);
+}
+
+.mat-mdc-radio-button.mat-accent {
+  --mdc-radio-disabled-selected-icon-color: #000;
+  --mdc-radio-disabled-unselected-icon-color: #000;
+  --mdc-radio-unselected-hover-icon-color: #212121;
+  --mdc-radio-unselected-icon-color: rgba(0, 0, 0, 0.54);
+  --mdc-radio-unselected-pressed-icon-color: rgba(0, 0, 0, 0.54);
+  --mdc-radio-selected-focus-icon-color: var(--secondary);
+  --mdc-radio-selected-hover-icon-color: var(--secondary);
+  --mdc-radio-selected-icon-color: var(--secondary);
+  --mdc-radio-selected-pressed-icon-color: var(--secondary);
+  --mat-radio-ripple-color: #000;
+  --mat-radio-checked-ripple-color: var(--secondary);
+  --mat-radio-disabled-label-color: rgba(0, 0, 0, 0.38);
+}
+
+.mat-mdc-slide-toggle {
+  // slider off state
+  --mdc-switch-unselected-handle-color: var(--on-dialog);
+  --mdc-switch-unselected-icon-color: var(--dialog);
+  --mdc-switch-unselected-track-color: var(--dialog);
+  // slider on state
+  --mdc-switch-selected-icon-color: var(--on-secondary);
+}
+
+.mat-mdc-slide-toggle.mat-accent {
+  --mdc-switch-selected-focus-state-layer-color: var(--secondary);
+  --mdc-switch-selected-handle-color: var(--secondary);
+  --mdc-switch-selected-hover-state-layer-color: var(--secondary);
+  --mdc-switch-selected-pressed-state-layer-color: var(--secondary);
+  --mdc-switch-selected-focus-handle-color: var(--secondary);
+  --mdc-switch-selected-hover-handle-color: var(--secondary);
+  --mdc-switch-selected-pressed-handle-color: var(--secondary);
+  --mdc-switch-selected-focus-track-color: var(--secondary);
+  --mdc-switch-selected-hover-track-color: var(--secondary);
+  --mdc-switch-selected-pressed-track-color: var(--secondary);
+  --mdc-switch-selected-track-color: var(--secondary);
 }
 
 :root,

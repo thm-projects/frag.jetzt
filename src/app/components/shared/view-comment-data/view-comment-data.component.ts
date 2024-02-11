@@ -32,7 +32,6 @@ import { ReplaySubject, takeUntil } from 'rxjs';
 import { HighlightLibrary } from 'ngx-highlightjs/lib/highlight.model';
 
 import Quill from 'quill';
-import ImageResize from 'quill-image-resize-module';
 import { DsgvoVideo } from '../../../quill-extentions/formats/dsgvo-video';
 import { FullscreenImageDialogComponent } from '../_dialogs/fullscreen-image-dialog/fullscreen-image-dialog.component';
 import { KeyboardUtils } from 'app/utils/keyboard';
@@ -41,9 +40,9 @@ import { AppStateService } from 'app/services/state/app-state.service';
 import { DeviceStateService } from 'app/services/state/device-state.service';
 import { MatTooltip } from '@angular/material/tooltip';
 import { MatDialog } from '@angular/material/dialog';
+import { Delta } from 'quill/core';
 
-Quill.register('modules/imageResize', ImageResize);
-Quill.register('formats/dsgvo-video', DsgvoVideo);
+Quill.register('formats/dsgvo-video', DsgvoVideo as unknown as boolean);
 
 @Component({
   selector: 'app-view-comment-data',
@@ -267,9 +266,9 @@ export class ViewCommentDataComponent
 
   clear(): void {
     if (this.isEditor) {
-      this.editor.quillEditor.setContents({ ops: [] });
+      this.editor.quillEditor.setContents(new Delta({ ops: [] }));
     } else {
-      this.quillView.quillEditor.setContents({ ops: [] });
+      this.quillView.quillEditor.setContents(new Delta({ ops: [] }));
     }
   }
 
@@ -284,9 +283,9 @@ export class ViewCommentDataComponent
       });
     }
     if (this.isEditor) {
-      this.editor.quillEditor.setContents(delta);
+      this.editor.quillEditor.setContents(new Delta(delta));
     } else {
-      this.quillView.quillEditor.setContents(delta);
+      this.quillView.quillEditor.setContents(new Delta(delta));
     }
     this.recalcAspectRatio();
   }
@@ -398,11 +397,11 @@ export class ViewCommentDataComponent
       }
     }
     this.editor.quillEditor.setContents(event.oldDelta, 'silent');
-    this.editor.quillEditor.updateContents(newDelta, 'silent');
+    this.editor.quillEditor.updateContents(new Delta(newDelta), 'silent');
   }
 
   private overrideQuillTooltip() {
-    const tooltip = this.editor.quillEditor.theme.tooltip;
+    const tooltip = this.editor.quillEditor.theme['tooltip'];
     const prev = tooltip.show.bind(tooltip);
     let range;
     tooltip.show = () => {
@@ -435,7 +434,7 @@ export class ViewCommentDataComponent
           retain: range.length,
           attributes: { link: val },
         });
-        this.editor.quillEditor.updateContents({ ops });
+        this.editor.quillEditor.updateContents(new Delta({ ops }));
       });
     };
   }
