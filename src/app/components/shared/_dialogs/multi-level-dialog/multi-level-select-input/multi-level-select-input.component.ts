@@ -8,7 +8,10 @@ import {
 @Component({
   selector: 'app-multi-level-select-input',
   templateUrl: './multi-level-select-input.component.html',
-  styleUrls: ['./multi-level-select-input.component.scss'],
+  styleUrls: [
+    './multi-level-select-input.component.scss',
+    '../common-form-field.scss',
+  ],
 })
 export class MultiLevelSelectInputComponent implements OnInit {
   data = inject(DYNAMIC_INPUT) as BuiltAction<SelectInputAction>;

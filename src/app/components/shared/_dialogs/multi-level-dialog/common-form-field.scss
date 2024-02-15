@@ -1,0 +1,23 @@
+.mat-mdc-form-field {
+  margin-bottom: 0;
+  display: block;
+}
+
+:host ::ng-deep .mat-mdc-form-field-subscript-wrapper {
+  transition: height 0.2s ease-in-out;
+  height: 1em;
+}
+
+:host
+  ::ng-deep
+  .mat-mdc-form-field:has(.mat-mdc-form-field-hint)
+  .mat-mdc-form-field-subscript-wrapper,
+:host ::ng-deep .mat-form-field-invalid .mat-mdc-form-field-subscript-wrapper {
+  height: 5.2em;
+}
+
+:host ::ng-deep .mdc-line-ripple::before {
+  --mdc-filled-text-field-active-indicator-color: transparent;
+  --mdc-filled-text-field-hover-active-indicator-color: transparent;
+  --mdc-filled-text-field-focus-active-indicator-color: transparent;
+}

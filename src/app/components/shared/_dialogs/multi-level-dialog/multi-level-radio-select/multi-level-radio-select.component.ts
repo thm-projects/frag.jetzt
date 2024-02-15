@@ -8,7 +8,10 @@ import {
 @Component({
   selector: 'app-multi-level-radio-select',
   templateUrl: './multi-level-radio-select.component.html',
-  styleUrls: ['./multi-level-radio-select.component.scss'],
+  styleUrls: [
+    './multi-level-radio-select.component.scss',
+    '../common-form-field.scss',
+  ],
 })
 export class MultiLevelRadioSelectComponent {
   data = inject(DYNAMIC_INPUT) as BuiltAction<RadioSelectAction>;

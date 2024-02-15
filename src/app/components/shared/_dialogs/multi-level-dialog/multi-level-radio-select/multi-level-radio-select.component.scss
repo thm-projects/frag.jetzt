@@ -9,19 +9,3 @@
     padding-bottom: 0.7em;
   }
 }
-
-/* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
-:host ::ng-deep .mat-form-field-underline {
-  background-color: transparent !important;
-}
-
-.mat-mdc-form-field {
-  margin-bottom: 0;
-  display: block;
-  transition: margin-bottom 0.2s ease-in-out;
-}
-
-.mat-mdc-form-field:has(.mat-mdc-form-field-hint),
-.mat-form-field-invalid {
-  margin-bottom: 2em;
-}

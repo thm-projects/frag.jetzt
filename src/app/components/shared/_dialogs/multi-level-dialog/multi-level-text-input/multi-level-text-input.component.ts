@@ -8,7 +8,10 @@ import {
 @Component({
   selector: 'app-multi-level-text-input',
   templateUrl: './multi-level-text-input.component.html',
-  styleUrls: ['./multi-level-text-input.component.scss'],
+  styleUrls: [
+    './multi-level-text-input.component.scss',
+    '../common-form-field.scss',
+  ],
 })
 export class MultiLevelTextInputComponent {
   data = inject(DYNAMIC_INPUT) as BuiltAction<TextInputAction>;
