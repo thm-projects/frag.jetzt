@@ -12,7 +12,7 @@
     class="counter"
     *ngIf="!filterType && !search">
     <span matTooltip="{{ 'comment-list.counter-description' | translate }}">
-      {{ "comment-list.counter" | translate : getCommentInfo() }}
+      {{ "comment-list.counter" | translate: getCommentInfo() }}
     </span>
   </p>
   <p
@@ -550,7 +550,6 @@
 <button
   *ngIf="commentsEnabled && room.mode === 'PLE'"
   mat-fab
-  mat-icon-button
   [ngClass]="{
     center_screen: isCommentListEmpty() || isStarting()
   }"
@@ -684,7 +683,7 @@
     {{ "comment-list.a11y-close_search" | translate }}
   </div>
   <div id="new-comment">
-    {{ "comment-page.new-comment" | translate : { comment: newestComment } }}
+    {{ "comment-page.new-comment" | translate: { comment: newestComment } }}
   </div>
   <div id="select-time">{{ "comment-list.a11y-select-time" | translate }}</div>
   <div id="select-time-1h">

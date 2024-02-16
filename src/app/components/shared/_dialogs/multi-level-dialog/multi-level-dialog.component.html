@@ -2,23 +2,22 @@
   {{ data.title | translate }}
 </h1>
 
-<div class="multi-level-container">
+<mat-dialog-content>
   <mat-progress-bar
     class="progress-bar"
     mode="determinate"
     [value]="dialogStepper.progress"></mat-progress-bar>
-  <mat-dialog-content>
-    <mat-stepper
-      (selectionChange)="onChange($event)"
-      orientation="vertical"
-      [linear]="true"
-      [selectedIndex]="currentStepperIndex"
-      #stepper>
-      <!-- Question back stepper -->
+  <mat-stepper
+    (selectionChange)="onChange($event)"
+    orientation="vertical"
+    [linear]="true"
+    [selectedIndex]="currentStepperIndex"
+    #stepper>
+    <!-- Question back stepper -->
+    @if (showBackOption) {
       <mat-step
         class="test"
         state="back"
-        *ngIf="showBackOption"
         [optional]="true"
         [completed]="false">
         <ng-template
@@ -35,15 +34,16 @@
           {{ "multi-level-dialog.single" | translate: { number: 1 } }}
         </ng-template>
       </mat-step>
-      <!-- Dialog steps -->
-      <ng-container
-        *ngFor="
-          let elem of currentElements;
-          let isFirst = first;
-          let i = index
-        ">
+    }
+    <!-- Dialog steps -->
+    @for (
+      elem of currentElements;
+      track elem;
+      let isFirst = $first;
+      let i = $index
+    ) {
+      @if (elem.group) {
         <mat-step
-          *ngIf="elem.group"
           [stepControl]="elem.group"
           [completed]="
             (i + offsetIndex <= dialogStepper.highestIndex || defaultTouched) &&
@@ -54,21 +54,22 @@
             <ng-template matStepLabel>
               {{ elem.title | translate }}
             </ng-template>
-            <ng-container *ngFor="let input of elem.config">
+            @for (input of elem.config; track input) {
               <ng-container
                 *ngComponentOutlet="
                   input.component;
                   injector: input.injector
                 "></ng-container>
-            </ng-container>
+            }
             <div>
-              <button
-                *ngIf="!isFirst || showBackOption"
-                class="mat-prev"
-                mat-stroked-button
-                matStepperPrevious>
-                {{ "multi-level-dialog.previous" | translate }}
-              </button>
+              @if (!isFirst || showBackOption) {
+                <button
+                  class="mat-prev"
+                  mat-stroked-button
+                  matStepperPrevious>
+                  {{ "multi-level-dialog.previous" | translate }}
+                </button>
+              }
               <button
                 class="mat-primary"
                 mat-stroked-button
@@ -78,10 +79,11 @@
             </div>
           </form>
         </mat-step>
-      </ng-container>
-      <!-- Question forward stepper -->
+      }
+    }
+    <!-- Question forward stepper -->
+    @if (showForwardOption) {
       <mat-step
-        *ngIf="showForwardOption"
         state="forward"
         [completed]="false">
         <ng-template
@@ -108,9 +110,9 @@
           }}
         </ng-template>
       </mat-step>
+    } @else {
       <!-- Summary -->
       <mat-step
-        *ngIf="!showForwardOption"
         state="summary"
         [editable]="false"
         [completed]="false">
@@ -149,25 +151,25 @@
           </div>
         </div>
       </mat-step>
+    }
 
-      <!-- Icons -->
-      <ng-template matStepperIcon="summary">
-        <mat-icon>done_all</mat-icon>
-      </ng-template>
-      <ng-template matStepperIcon="back">
-        <mat-icon>arrow_back</mat-icon>
-      </ng-template>
-      <ng-template matStepperIcon="forward">
-        <mat-icon>arrow_forward</mat-icon>
-      </ng-template>
-      <ng-template
-        matStepperIcon="number"
-        let-index="index">
-        {{ index + offsetIndex + +!showBackOption }}
-      </ng-template>
-    </mat-stepper>
-  </mat-dialog-content>
-</div>
+    <!-- Icons -->
+    <ng-template matStepperIcon="summary">
+      <mat-icon>done_all</mat-icon>
+    </ng-template>
+    <ng-template matStepperIcon="back">
+      <mat-icon>arrow_back</mat-icon>
+    </ng-template>
+    <ng-template matStepperIcon="forward">
+      <mat-icon>arrow_forward</mat-icon>
+    </ng-template>
+    <ng-template
+      matStepperIcon="number"
+      let-index="index">
+      {{ index + offsetIndex + +!showBackOption }}
+    </ng-template>
+  </mat-stepper>
+</mat-dialog-content>
 
 <div class="bottom-container">
   <button

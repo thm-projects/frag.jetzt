@@ -113,11 +113,7 @@
   margin-top: -2px;
 }
 
-.progress-bar {
-  scrollbar-gutter: stable;
-  /* TODO(mdc-migration): The following rule targets internal classes of progress-bar that may no longer apply for the MDC version. */
-  ::ng-deep .mat-progress-bar-background,
-  ::ng-deep .mat-progress-bar-background rect {
-    fill: transparent;
-  }
+.mat-mdc-progress-bar {
+  --mdc-linear-progress-active-indicator-color: var(--green);
+  --mdc-linear-progress-track-color: var(--dialog);
 }
