@@ -685,7 +685,11 @@
     "session-id-lq-x": "»",
     "session-id-rq": "«",
     "sure": "Are you sure?",
-    "update": "Save"
+    "update": "Save",
+    "ple": {
+      "create-comment": "Create topics!",
+      "create-comment-and-answer": "Go to the Topic Forum"
+    }
   },
   "spacy-dialog": {
     "add-manually": "Enter a keyword for your question. Separate several keywords with a comma.",

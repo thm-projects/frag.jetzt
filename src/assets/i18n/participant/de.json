@@ -694,7 +694,11 @@
     "session-id-lq-x": "»",
     "session-id-rq": "«",
     "sure": "Bist du sicher?",
-    "update": "Speichern"
+    "update": "Speichern",
+    "ple": {
+      "create-comment": "Topics erstellen!",
+      "create-comment-and-answer": "Zum Topic-Forum"
+    }
   },
   "spacy-dialog": {
     "add-manually": "Gib ein Stichwort zu deiner Frage ein. Trenne mehrere Stichwörter mit einem Komma.",
