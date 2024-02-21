@@ -678,7 +678,8 @@ export class RoomPageComponent implements OnInit, OnDestroy {
               }
             });
           }),
-          () => this.userRole > UserRole.PARTICIPANT && this.isPle,
+          () =>
+            this.userRole > UserRole.PARTICIPANT && this.room.mode === 'ARS',
         );
         e.menuItem({
           translate: this.headerService.getTranslate(),
