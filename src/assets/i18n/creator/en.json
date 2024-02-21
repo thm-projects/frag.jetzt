@@ -688,7 +688,11 @@
     "sort-time": "Time",
     "time-period": "Time Period",
     "user-lbl": "Open user menu",
-    "users-online": "Currently logged-in users"
+    "users-online": "Currently logged-in users",
+    "ple":{
+      "intro-desc": "Click on a topic or navigate forward and backward using the arrow keys.",
+      "intro-title": "Topic Focus"
+    }
   },
   "joyride": {
     "commentFilter": "There are numerous sorting and filtering options for the Q&A list. An active filter is shown in red. For better readability, the question stream can also be paused if it is very dynamic.",

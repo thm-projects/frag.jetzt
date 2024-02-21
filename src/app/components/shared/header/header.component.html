@@ -640,7 +640,7 @@
 
   <button
     mat-menu-item
-    *ngIf="isInRouteWithRoles && actualRole > 0"
+    *ngIf="isInRouteWithRoles && actualRole > 0 && room.mode === 'ARS'"
     (click)="navigateToOtherView()"
     tabindex="0">
     <mat-icon

@@ -463,7 +463,12 @@
     "feedback": "Feedback Room",
     "logout": "Log out",
     "livepoll": "Flash Poll",
-    "livepoll-button": "Create surveys and automatically notify all participants."
+    "livepoll-button": "Create surveys and automatically notify all participants.",
+    "ple": {
+      "questionwall": "Topic Focus",
+      "back-to-questionboard": "Topic Forum",
+      "tag-cloud": "Topic Radar"
+    }
   },
   "topic-cloud-filter": {
     "info-no-keywords": "Our AI-based text analysis can identify keywords. Start analysis?",
@@ -592,7 +597,11 @@
     "sort-time": "Time",
     "time-period": "Time Period",
     "user-lbl": "Open user menu",
-    "users-online": "Currently logged-in users"
+    "users-online": "Currently logged-in users",
+    "ple":{
+      "intro-desc": "Click on a topic or navigate forward and backward using the arrow keys.",
+      "intro-title": "Topic Focus"
+    }
   },
   "quill": {
     "cancel": "Cancel",

@@ -472,7 +472,11 @@
     "livepoll": "Blitzumfrage",
     "livepoll-button": "Umfrage erstellen und alle Personen im Raum automatisch benachrichtigen.",
     "ple": {
-      "questionwall": "Topic-Fokus"
+      "questionwall": "Topic-Fokus",
+      "back-to-questionboard": "Topic-Forum",
+      "tag-cloud": "Topic-Radar",
+      "question-focus-button": "Topic-Fokus",
+      "create-question": "Topic hinzufügen"
     }
   },
   "topic-cloud-filter": {
@@ -602,7 +606,11 @@
     "sort-time": "Zeit",
     "time-period": "Zeitraum",
     "user-lbl": "Benutzer-Menü öffnen",
-    "users-online": "Aktuell eingeloggte User"
+    "users-online": "Aktuell eingeloggte User",
+    "ple":{
+      "intro-desc": "Klick auf ein Topic oder navigiere mit den Pfeiltasten vor und zurück.",
+      "intro-title": "Topic-Fokus"
+    }
   },
   "quill": {
     "cancel": "Abbrechen",

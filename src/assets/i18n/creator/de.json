@@ -692,7 +692,11 @@
     "sort-time": "Zeit",
     "time-period": "Zeitraum",
     "user-lbl": "Benutzer-Menü öffnen",
-    "users-online": "Aktuell eingeloggte User"
+    "users-online": "Aktuell eingeloggte User",
+    "ple":{
+      "intro-desc": "Klick auf ein Topic oder navigiere mit den Pfeiltasten vor und zurück.",
+      "intro-title": "Topic-Fokus"
+    }
   },
   "joyride": {
     "commentFilter": "Es gibt zahlreiche Sortier- und Filteroptionen für das Q&A-Forum. Ein aktiver Filter wird rot angezeigt. Für eine bessere Lesbarkeit bei großer Dynamik kann der Fragenstrom auch angehalten werden.",
