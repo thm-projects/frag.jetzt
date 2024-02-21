@@ -592,7 +592,8 @@ export class RoomPageComponent implements OnInit, OnDestroy {
           isSVGIcon: false,
           text: 'header.conversation',
           callback: () => this.showToggleConversationDialog(),
-          condition: () => this.userRole > UserRole.PARTICIPANT,
+          condition: () =>
+            this.userRole > UserRole.PARTICIPANT && this.room.mode === 'ARS',
         });
         e.menuItem({
           translate: this.headerService.getTranslate(),
@@ -677,7 +678,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
               }
             });
           }),
-          () => this.userRole > UserRole.PARTICIPANT,
+          () => this.userRole > UserRole.PARTICIPANT && this.isPle,
         );
         e.menuItem({
           translate: this.headerService.getTranslate(),
