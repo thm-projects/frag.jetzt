@@ -112,7 +112,10 @@
     "unread": "Nicht vom Vortragenden besprochen",
     "vote-asc": "Aufsteigende Bewertungen",
     "vote-desc": "Absteigende Bewertungen",
-    "wrong": "Verneint"
+    "wrong": "Verneint",
+    "ple":{
+      "ask-question-empty": "Neue Topics hinzufügen"
+    }
   },
   "comment-notification": {
     "close": "Schließen",

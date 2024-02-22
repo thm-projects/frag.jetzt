@@ -112,7 +112,10 @@
     "unread": "Not yet discussed",
     "vote-asc": "Ascending votes",
     "vote-desc": "Descending votes",
-    "wrong": "Marked as wrong"
+    "wrong": "Marked as wrong",
+    "ple":{
+      "ask-question-empty": "Add new topics"
+    }
   },
   "comment-notification": {
     "close": "Close",
@@ -467,7 +470,8 @@
     "ple": {
       "questionwall": "Topic Focus",
       "back-to-questionboard": "Topic Forum",
-      "tag-cloud": "Topic Radar"
+      "tag-cloud": "Topic Radar",
+      "create-question": "Add Topics"
     }
   },
   "topic-cloud-filter": {
