@@ -534,7 +534,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
         this.refreshLocations();
       });
     this.roomState.room$.pipe(takeUntil(this.destroyer)).subscribe((room) => {
-      //this.isPLE = room?.mode === 'PLE';
+      this.isPLE = room?.mode === 'PLE';
     });
   }
 
