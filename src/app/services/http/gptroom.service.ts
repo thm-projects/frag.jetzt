@@ -66,48 +66,6 @@ export class GPTRoomService extends BaseHttpService {
       );
   }
 
-  createParticipantQuota(roomId: string, quota: Quota): Observable<Quota> {
-    return this.http
-      .post<Quota>(
-        `${this.apiUrl.base}/${roomId}${this.apiUrl.participantQuota}`,
-        quota,
-        httpOptions,
-      )
-      .pipe(
-        tap(() => ''),
-        map((res) => verifyInstance(Quota, res)),
-        catchError(this.handleError<Quota>('createParticipantQuota')),
-      );
-  }
-
-  createModeratorQuota(roomId: string, quota: Quota): Observable<Quota> {
-    return this.http
-      .post<Quota>(
-        `${this.apiUrl.base}/${roomId}${this.apiUrl.moderatorQuota}`,
-        quota,
-        httpOptions,
-      )
-      .pipe(
-        tap(() => ''),
-        map((res) => verifyInstance(Quota, res)),
-        catchError(this.handleError<Quota>('createModeratorQuota')),
-      );
-  }
-
-  createRoomQuota(roomId: string, quota: Quota): Observable<Quota> {
-    return this.http
-      .post<Quota>(
-        `${this.apiUrl.base}/${roomId}${this.apiUrl.roomQuota}`,
-        quota,
-        httpOptions,
-      )
-      .pipe(
-        tap(() => ''),
-        map((res) => verifyInstance(Quota, res)),
-        catchError(this.handleError<Quota>('createRoomQuota')),
-      );
-  }
-
   patchParticipantQuota(
     roomId: string,
     quotaId: UUID,

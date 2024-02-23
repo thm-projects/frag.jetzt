@@ -6,7 +6,8 @@ import { MULTI_LEVEL_ROOM_CREATE } from 'app/components/shared/_dialogs/room-cre
 import { generateRoom } from 'app/components/shared/_dialogs/room-create/room-create.executor';
 import { GPTAPISettingService } from 'app/services/http/gptapisetting.service';
 import { GPTVoucherService } from 'app/services/http/gptvoucher.service';
-import { forkJoin } from 'rxjs';
+import { forkJoin, of, switchMap, take } from 'rxjs';
+import { AccountStateService } from 'app/services/state/account-state.service';
 
 @Component({
   selector: 'app-new-landing',
@@ -19,24 +20,32 @@ export class NewLandingComponent implements OnInit {
     public sessionService: SessionService,
     private keyService: GPTAPISettingService,
     private voucherService: GPTVoucherService,
+    private accountState: AccountStateService,
   ) {}
 
   ngOnInit() {}
 
   openCreateRoomDialog(): void {
-    forkJoin([
-      this.keyService.getKeys(),
-      this.voucherService.getVouchers(),
-    ]).subscribe(([apiKeys, vouchers]) => {
-      MultiLevelDialogComponent.open(
-        this.dialog,
-        MULTI_LEVEL_ROOM_CREATE,
-        generateRoom,
-        {
-          apiKeys,
-          vouchers,
-        },
-      );
-    });
+    this.accountState.user$
+      .pipe(
+        take(1),
+        switchMap((user) => {
+          return forkJoin([
+            user ? this.keyService.getKeys() : of([]),
+            user ? this.voucherService.getVouchers() : of([]),
+          ]);
+        }),
+      )
+      .subscribe(([apiKeys, vouchers]) => {
+        MultiLevelDialogComponent.open(
+          this.dialog,
+          MULTI_LEVEL_ROOM_CREATE,
+          generateRoom,
+          {
+            apiKeys,
+            vouchers,
+          },
+        );
+      });
   }
 }

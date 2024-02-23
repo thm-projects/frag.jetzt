@@ -125,17 +125,15 @@ export const generateRoom = (
       });
     }),
     switchMap((room) => {
-      return createQuota(injector, room.id).pipe(
-        switchMap(() => {
-          if (roomKey.apiSettingId || roomKey.voucherId) {
-            return injector.get(GPTRoomService).patchRoomSettings(room.id, {
-              apiKeys: [roomKey],
-            });
-          }
-          return of(null);
-        }),
-        map(() => room),
-      );
+      if (roomKey.apiSettingId || roomKey.voucherId) {
+        return injector
+          .get(GPTRoomService)
+          .patchRoomSettings(room.id, {
+            apiKeys: [roomKey],
+          })
+          .pipe(map(() => room));
+      }
+      return of(room);
     }),
     tap((room) => {
       createDefaultTopic(injector, room.id).subscribe();
@@ -156,139 +154,6 @@ export const generateRoom = (
         )
         .subscribe();
     }),
-  );
-};
-
-const createQuota = (injector: Injector, roomId: string) => {
-  const roomService = injector.get(GPTRoomService);
-  const timezone = new Intl.DateTimeFormat().resolvedOptions().timeZone;
-  return roomService.getByRoomId(roomId).pipe(
-    switchMap((setting) =>
-      roomService.createRoomQuota(
-        roomId,
-        new Quota({
-          timezone,
-          entries: [
-            new QuotaEntry({
-              quota: -1,
-              counter: 0,
-              resetCounter: 0,
-              lastReset: new Date(),
-              resetStrategy: 'NEVER',
-              resetFactor: 1,
-            }),
-            new QuotaEntry({
-              quota: -1,
-              counter: 0,
-              resetCounter: 0,
-              lastReset: new Date(),
-              resetStrategy: 'MONTHLY',
-              resetFactor: 1,
-            }),
-            new QuotaEntry({
-              quota: -1,
-              counter: 0,
-              resetCounter: 0,
-              lastReset: new Date(),
-              resetStrategy: 'MONTHLY_FLOWING',
-              resetFactor: 1,
-            }),
-            new QuotaEntry({
-              quota: -1,
-              counter: 0,
-              resetCounter: 0,
-              lastReset: new Date(),
-              resetStrategy: 'DAILY',
-              resetFactor: 1,
-            }),
-          ],
-        }),
-      ),
-    ),
-    switchMap(() =>
-      roomService.createModeratorQuota(
-        roomId,
-        new Quota({
-          timezone,
-          entries: [
-            new QuotaEntry({
-              quota: -1,
-              counter: 0,
-              resetCounter: 0,
-              lastReset: new Date(),
-              resetStrategy: 'NEVER',
-              resetFactor: 1,
-            }),
-            new QuotaEntry({
-              quota: -1,
-              counter: 0,
-              resetCounter: 0,
-              lastReset: new Date(),
-              resetStrategy: 'MONTHLY',
-              resetFactor: 1,
-            }),
-            new QuotaEntry({
-              quota: -1,
-              counter: 0,
-              resetCounter: 0,
-              lastReset: new Date(),
-              resetStrategy: 'MONTHLY_FLOWING',
-              resetFactor: 1,
-            }),
-            new QuotaEntry({
-              quota: -1,
-              counter: 0,
-              resetCounter: 0,
-              lastReset: new Date(),
-              resetStrategy: 'DAILY',
-              resetFactor: 1,
-            }),
-          ],
-        }),
-      ),
-    ),
-    switchMap(() =>
-      roomService.createParticipantQuota(
-        roomId,
-        new Quota({
-          timezone,
-          entries: [
-            new QuotaEntry({
-              quota: -1,
-              counter: 0,
-              resetCounter: 0,
-              lastReset: new Date(),
-              resetStrategy: 'NEVER',
-              resetFactor: 1,
-            }),
-            new QuotaEntry({
-              quota: -1,
-              counter: 0,
-              resetCounter: 0,
-              lastReset: new Date(),
-              resetStrategy: 'MONTHLY',
-              resetFactor: 1,
-            }),
-            new QuotaEntry({
-              quota: -1,
-              counter: 0,
-              resetCounter: 0,
-              lastReset: new Date(),
-              resetStrategy: 'MONTHLY_FLOWING',
-              resetFactor: 1,
-            }),
-            new QuotaEntry({
-              quota: -1,
-              counter: 0,
-              resetCounter: 0,
-              lastReset: new Date(),
-              resetStrategy: 'DAILY',
-              resetFactor: 1,
-            }),
-          ],
-        }),
-      ),
-    ),
   );
 };
 

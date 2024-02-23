@@ -499,50 +499,11 @@ export class RoomPageComponent implements OnInit, OnDestroy {
                 switchMap((res) => {
                   return forkJoin([
                     of(res),
-                    res.roomQuotaId
-                      ? this.quotaService.get(res.roomQuotaId)
-                      : of(null),
-                    res.moderatorQuotaId
-                      ? this.quotaService.get(res.moderatorQuotaId)
-                      : of(null),
-                    res.participantQuotaId
-                      ? this.quotaService.get(res.participantQuotaId)
-                      : of(null),
+                    this.quotaService.get(res.roomQuotaId),
+                    this.quotaService.get(res.moderatorQuotaId),
+                    this.quotaService.get(res.participantQuotaId),
                   ]);
                 }),
-                switchMap(
-                  ([setting, roomQuota, moderatorQuota, participantQuota]) => {
-                    const timezone =
-                      Intl.DateTimeFormat().resolvedOptions().timeZone;
-                    return forkJoin([
-                      of(setting),
-                      roomQuota
-                        ? of(roomQuota)
-                        : this.gptRoomService.createRoomQuota(
-                            this.room.id,
-                            new Quota({
-                              timezone,
-                            }),
-                          ),
-                      moderatorQuota
-                        ? of(moderatorQuota)
-                        : this.gptRoomService.createModeratorQuota(
-                            this.room.id,
-                            new Quota({
-                              timezone,
-                            }),
-                          ),
-                      participantQuota
-                        ? of(participantQuota)
-                        : this.gptRoomService.createParticipantQuota(
-                            this.room.id,
-                            new Quota({
-                              timezone,
-                            }),
-                          ),
-                    ]);
-                  },
-                ),
               )
               .subscribe(
                 ([setting, roomQuota, moderatorQuota, participantQuota]) => {
