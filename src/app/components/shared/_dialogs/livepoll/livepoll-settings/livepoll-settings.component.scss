@@ -45,32 +45,32 @@
   }
 }
 
-.settings-expansion-panel {
-  box-shadow: none;
-  border: 1px solid rgba(127, 127, 127, 0.5);
-}
+//.settings-expansion-panel {
+//  box-shadow: none;
+//  border: 1px solid rgba(127, 127, 127, 0.5);
+//}
 
-.force-corporate-design {
-  color: inherit !important;
-  background-color: inherit !important;
-}
+//.force-corporate-design {
+//  color: inherit !important;
+//  background-color: inherit !important;
+//}
 
-.button-save {
-  background-color: transparent;
-  color: var(--primary) !important;
-  outline: var(--primary) solid 2px;
-
-  &:hover {
-    background-color: var(--primary) !important;
-    color: var(--on-primary) !important;
-  }
-
-  &:focus-within {
-    outline: var(--primary) solid 2px;
-  }
-
-  &:active {
-    background-color: var(--primary);
-    color: var(--on-primary);
-  }
-}
+//.button-save {
+//  background-color: transparent;
+//  color: var(--primary) !important;
+//  outline: var(--primary) solid 2px;
+//
+//  &:hover {
+//    background-color: var(--primary) !important;
+//    color: var(--on-primary) !important;
+//  }
+//
+//  &:focus-within {
+//    outline: var(--primary) solid 2px;
+//  }
+//
+//  &:active {
+//    background-color: var(--primary);
+//    color: var(--on-primary);
+//  }
+//}

@@ -109,6 +109,18 @@
   --mdc-switch-selected-track-color: var(--secondary);
 }
 
+:root {
+  --mat-expansion-container-background-color: var(--background);
+  --mat-expansion-container-text-color: var(--on-background);
+  --mat-expansion-actions-divider-color: var(--on-background);
+  --mat-expansion-header-hover-state-layer-color: inherit;
+  --mat-expansion-header-focus-state-layer-color: inherit;
+  --mat-expansion-header-disabled-state-text-color: inherit;
+  --mat-expansion-header-text-color: var(--on-background);
+  --mat-expansion-header-description-color: var(--on-background);
+  --mat-expansion-header-indicator-color: var(--on-background);
+}
+
 :root,
 .dark_solarized {
   @each $key, $value in $dark-solarized-theme-map {
