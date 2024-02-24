@@ -91,7 +91,7 @@ import { AskOnboardingENComponent } from 'assets/i18n/components/ask-onboarding/
 import { AskOnboardingFRComponent } from 'assets/i18n/components/ask-onboarding/ask-onboarding-fr.component';
 import { UpdateInfoDialogComponent } from './components/home/_dialogs/update-info-dialog/update-info-dialog.component';
 import { AppStateService } from './services/state/app-state.service';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export const HttpLoaderFactory = (http: HttpClient) =>
@@ -191,6 +191,10 @@ export const HttpLoaderFactory = (http: HttpClient) =>
       useFactory: initializeApp,
       deps: [AppConfig], multi: true
     },*/
+    {
+      provide: MatDialogRef,
+      useValue: {},
+    },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthenticationInterceptor,
