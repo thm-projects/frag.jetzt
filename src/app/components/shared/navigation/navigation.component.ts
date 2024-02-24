@@ -533,9 +533,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
       .subscribe(() => {
         this.refreshLocations();
       });
-    this.roomState.room$.pipe(takeUntil(this.destroyer)).subscribe((room) => {
-      this.isPLE = room?.mode === 'PLE';
-    });
+    this.roomState.room$.pipe(takeUntil(this.destroyer)).subscribe(observer);
   }
 
   ngOnDestroy(): void {
@@ -548,6 +546,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
   }
 
   refreshLocations() {
+    this.isPLE = this.roomState.getCurrentRoom()?.mode === 'PLE';
     const url = getCurrentLocation(this.router);
     this.currentLocation = null;
     let anyTrue = false;
