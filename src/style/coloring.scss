@@ -121,6 +121,16 @@
   --mat-expansion-header-description-color: var(--on-background);
   --mat-expansion-header-indicator-color: var(--on-background);
 
+  /**
+  @description example:
+    <mat-accordion>
+      <mat-expansion-panel
+        [class.mat-elevation-z0]="true"
+        [class.outlined]="true">
+      </mat-expansion-panel>
+    </mat-accordion>
+  @see livepoll-settings.component.html
+   */
   .mat-expansion-panel {
     &.mat-elevation-z0 {
       &.outlined {
