@@ -12,8 +12,9 @@
 
 <div
   *ngIf="isProduction"
-  [class.title-container]="true">
-  <h5 mat-dialog-title>{{ translateKey + ".dialog-title" | translate }}</h5>
+  [class.no-pad]="true"
+  [class.dialog-title]="true">
+  <h5 mat-dialog-title>{{ translateKey + ".title" | translate }}</h5>
   <div [class.title-settings]="true">
     <ng-container
       *ngTemplateOutlet="
@@ -25,65 +26,16 @@
       <span *ngIf="is2ndPhasePeerInstruction">
         {{ translateKey + ".peer-instruction.second-round" | translate }}
       </span>
-      <!-- TODO button secondary -->
       <button
-        mat-flat-button
+        mat-stroked-button
         *ngIf="currentRole"
+        [class.__secondary]="true"
         (click)="openPeerInstruction()">
         <mat-icon>repeat</mat-icon>
         <span>
           {{ translateKey + ".peer-instruction.name" | translate }}
         </span>
       </button>
-      <!-- TODO reimplement archive properly -->
-      <!--      <button-->
-      <!--        mat-flat-button-->
-      <!--        [mat-menu-trigger-for]="archiveMenu"-->
-
-      <!--        *ngIf="currentRole"-->
-      <!--        (click)="openArchive()">-->
-      <!--        <mat-icon>archive</mat-icon>-->
-      <!--        <span>{{ translateKey + ".option-archive" | translate }}</span>-->
-      <!--      </button>-->
-      <!--      <mat-menu-->
-      <!--        #archiveMenu-->
-      <!--        [classList]="'livepoll-dialog-component-archive-menu'">-->
-      <!--        <ng-container *ngIf="archive">-->
-      <!--          <div-->
-      <!--            *ngFor="let entry of archive"-->
-      <!--          >-->
-      <!--            <div>-->
-      <!--              <span>-->
-      <!--                {{-->
-      <!--                  entry.title-->
-      <!--                    ? entry.title.length > 27-->
-      <!--                      ? entry.title.slice(0, 24) + "..."-->
-      <!--                      : entry.title-->
-      <!--                    : (translateKey + ".archive-noname" | translate)-->
-      <!--                }}-->
-      <!--              </span>-->
-      <!--              <ng-container *ngIf="entry.active">-->
-      <!--                <span></span>-->
-      <!--                <ng-container-->
-      <!--                  *ngTemplateOutlet="-->
-      <!--                    LiveIcon;-->
-      <!--                    context: { isPaused: entry.paused }-->
-      <!--                  "></ng-container>-->
-      <!--              </ng-container>-->
-      <!--              <ng-container *ngIf="!entry.active">-->
-      <!--                <span>-->
-      <!--                  {{ translateKey + ".archive-finished" | translate }}-->
-      <!--                </span>-->
-      <!--              </ng-container>-->
-      <!--              <div [class.fill]="true"></div>-->
-      <!--              <span>{{ this.prettyPrintDate(entry.createdAt) }}</span>-->
-      <!--            </div>-->
-      <!--          </div>-->
-      <!--        </ng-container>-->
-      <!--        <ng-container *ngIf="!archive">-->
-      <!--          <mat-spinner></mat-spinner>-->
-      <!--        </ng-container>-->
-      <!--      </mat-menu>-->
     </div>
   </div>
 </div>
@@ -114,10 +66,10 @@
     <div [class.statistics-settings-container]="true">
       <div [class.statistics-options]="true">
         <button
-          mat-flat-button
+          mat-stroked-button
+          [class.__primary]="true"
           *ngIf="isProduction && currentRole"
           (click)="resetResults()">
-          <!-- TODO margin-left 4px -->
           <mat-icon>undo</mat-icon>
           <span>
             {{ translateKey + ".edit.reset" | translate }}
@@ -203,50 +155,49 @@
 
 <mat-dialog-actions
   *ngIf="isProduction"
+  [class.no-pad]="true"
   #dialogActions>
   <div [class.left-container]="true">
-    <!-- TODO class button primary -->
     <button
+      [class.__primary]="true"
       mat-flat-button
       *ngIf="currentRole && !isConclusion"
       (click)="isPaused ? play() : pause()">
       <mat-icon>{{ isPaused ? "play_circle" : "pause_circle" }}</mat-icon>
       <span *ngIf="!isMobile">
         {{
-          translateKey +
-            ".creator-settings-" +
-            (isPaused ? "continue" : "pause") | translate
+          translateKey + ".edit." + (isPaused ? "continue" : "pause")
+            | translate
         }}
       </span>
     </button>
-    <!-- TODO class button cancel -->
     <button
-      mat-flat-button
+      mat-stroked-button
+      [class.__cancel]="true"
       *ngIf="currentRole && isProduction && !isConclusion"
       (click)="close('delete')">
-      <!-- TODO red icon -->
       <mat-icon>stop_circle</mat-icon>
       <span *ngIf="!isMobile">
-        {{ translateKey + ".creator-settings-delete" | translate }}
+        {{ translateKey + ".edit.delete" | translate }}
       </span>
     </button>
   </div>
   <div [class.right-container]="true">
-    <!-- TODO class button cancel -->
     <button
-      mat-flat-button
+      mat-stroked-button
+      [class.__cancel]="true"
       *ngIf="isProduction"
       (click)="close('close')">
-      <span>{{ translateKey + ".close" | translate }}</span>
+      <span>{{ translateKey + ".edit.close" | translate }}</span>
     </button>
-    <!-- TODO class button secondary -->
     <button
       mat-flat-button
+      [class.__secondary]="true"
       *ngIf="currentRole && (dialogActions.offsetWidth > 310 || isConclusion)"
       (click)="close('reset')">
       <mat-icon>add_circle</mat-icon>
       <span *ngIf="!isMobile">
-        {{ translateKey + ".new" | translate }}
+        {{ translateKey + ".edit.new" | translate }}
       </span>
     </button>
   </div>

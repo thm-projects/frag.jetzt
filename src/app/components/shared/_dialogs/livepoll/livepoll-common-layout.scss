@@ -1,11 +1,60 @@
 .mat-mdc-dialog-content {
   &.no-pad {
-    padding: 20px 0;
+    padding: 20px 4px;
   }
+}
+
+.mat-mdc-dialog-actions {
+  &.no-pad {
+    padding: 4px;
+  }
+}
+
+.no-pad {
+  padding: 4px;
 }
 
 .live-icon {
   display: flex;
   flex-direction: row;
+  align-items: center;
+}
+
+.dialog-title {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  .mat-mdc-dialog-title {
+    padding: 0;
+    align-self: center;
+  }
+
+  .mdc-dialog__title::before {
+    height: 0;
+  }
+}
+
+.align-content-right {
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+}
+
+.fill {
+  flex-grow: 1;
+}
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.align-items-center {
   align-items: center;
 }

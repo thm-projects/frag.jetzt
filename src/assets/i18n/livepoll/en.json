@@ -58,11 +58,11 @@
     },
     "confirmation-dialog": {
       "common": {
-        "confirm-yes": "Yes",
-        "confirm-cancel": "Cancel",
-        "confirm-accept": "Yes",
-        "confirm-continue": "Continue",
-        "confirm-no": "No"
+        "yes": "Yes",
+        "cancel": "Cancel",
+        "accept": "Yes",
+        "continue": "Continue",
+        "no": "No"
       },
       "entries": {
         "new": {

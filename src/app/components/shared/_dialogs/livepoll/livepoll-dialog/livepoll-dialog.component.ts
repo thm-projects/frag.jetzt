@@ -318,10 +318,7 @@ export class LivepollDialogComponent
     switch (reason) {
       // delete: 'End poll'
       case 'delete':
-        this.createConfirmationDialog(
-          'dialog-confirm-delete-title',
-          'dialog-confirm-delete-description',
-        ).subscribe((x) => {
+        this.createConfirmationDialog('delete').subscribe((x) => {
           if (x === ConfirmDialogAction.Accept) {
             this.dialogRef.close({
               session: this.livepollSession,
@@ -331,10 +328,7 @@ export class LivepollDialogComponent
         });
         break;
       case 'reset':
-        this.createConfirmationDialog(
-          'dialog-confirm-create-new-title',
-          'dialog-confirm-create-new-description',
-        ).subscribe((x) => {
+        this.createConfirmationDialog('new').subscribe((x) => {
           if (x === ConfirmDialogAction.Accept) {
             this.dialogRef.close({
               session: this.livepollSession,
@@ -381,10 +375,7 @@ export class LivepollDialogComponent
   }
 
   resetResults() {
-    this.createConfirmationDialog(
-      'dialog-confirm-resetResults-title',
-      'dialog-confirm-resetResults-description',
-    ).subscribe((x) => {
+    this.createConfirmationDialog('reset').subscribe((x) => {
       if (x) {
         this.livepollService
           .resetResults(this.livepollSession.id)
@@ -472,8 +463,7 @@ export class LivepollDialogComponent
   }
 
   private createConfirmationDialog(
-    title: string,
-    text: string,
+    confirmationDialogId: string,
     type: ConfirmDialogType = ConfirmDialogType.AcceptCancel,
   ): Observable<ConfirmDialogAction> {
     const dialog = this.dialog.open(LivepollConfirmationDialogComponent, {
@@ -482,8 +472,7 @@ export class LivepollDialogComponent
         type,
       },
     });
-    dialog.componentInstance.titleRef = title;
-    dialog.componentInstance.textRef = text;
+    dialog.componentInstance.confirmationDialogId = confirmationDialogId;
     return dialog.afterClosed().pipe(take(1));
   }
 

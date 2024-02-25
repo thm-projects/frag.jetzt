@@ -23,10 +23,9 @@ export enum ConfirmDialogAction {
 })
 export class LivepollConfirmationDialogComponent {
   public readonly translateKey: string = 'common';
-  public textRef: string;
-  public titleRef: string;
   protected readonly ConfirmDialogType = ConfirmDialogType;
   protected readonly ConfirmDialogAction = ConfirmDialogAction;
+  public confirmationDialogId: string | undefined;
 
   constructor(
     public readonly matDialogRef: MatDialogRef<

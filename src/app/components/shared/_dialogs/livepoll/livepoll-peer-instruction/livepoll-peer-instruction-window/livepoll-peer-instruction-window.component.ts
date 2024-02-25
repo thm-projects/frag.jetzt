@@ -22,6 +22,8 @@ import {
   ],
 })
 export class LivepollPeerInstructionWindowComponent {
+  title: string;
+  description: string;
   constructor(
     public readonly dialog: MatDialog,
     public readonly matDialogRef: MatDialogRef<
@@ -35,12 +37,18 @@ export class LivepollPeerInstructionWindowComponent {
         is2ndPhasePeerInstruction: boolean;
       };
     },
-  ) {}
+  ) {
+    this.title = this.data.windowContext.is2ndPhasePeerInstruction
+      ? 'common.confirmation-dialog.entries.change-peer-instruction-stage-2.title'
+      : 'common.confirmation-dialog.entries.change-peer-instruction-stage.title';
+    this.description = this.data.windowContext.is2ndPhasePeerInstruction
+      ? 'common.confirmation-dialog.entries.change-peer-instruction-stage-2.description'
+      : 'common.confirmation-dialog.entries.change-peer-instruction-stage.description';
+  }
 
   nextPeerInstructionStep() {
     this.createConfirmationDialog(
-      'dialog-confirm-peerInstruction-show1stStageResults-title',
-      'dialog-confirm-peerInstruction-show1stStageResults-description',
+      'change-peer-instruction-stage',
       ConfirmDialogType.AcceptCancel,
     ).subscribe((result) => {
       this.matDialogRef.close(!!result);
@@ -48,8 +56,7 @@ export class LivepollPeerInstructionWindowComponent {
   }
 
   private createConfirmationDialog(
-    title: string,
-    text: string,
+    confirmationDialogId: string,
     type: ConfirmDialogType = ConfirmDialogType.AcceptCancel,
   ): Observable<ConfirmDialogAction> {
     const dialog = this.dialog.open(LivepollConfirmationDialogComponent, {
@@ -58,8 +65,7 @@ export class LivepollPeerInstructionWindowComponent {
         type,
       },
     });
-    dialog.componentInstance.titleRef = title;
-    dialog.componentInstance.textRef = text;
+    dialog.componentInstance.confirmationDialogId = confirmationDialogId;
     return dialog.afterClosed().pipe(take(1));
   }
 }

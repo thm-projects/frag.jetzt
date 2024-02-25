@@ -1,31 +1,4 @@
-.content {
-  display: flex;
-  flex-direction: column;
-  padding-bottom: 16px;
-  padding-top: 16px;
-}
-
-.split {
-  display: flex;
-  flex-direction: row;
-  justify-content: right;
-  padding-top: 32px;
-}
-
-.mobile {
-  flex-direction: column;
-
-  > .adjust {
-    width: auto;
-    padding: 0;
-  }
-}
-
-.desktop {
-  flex-direction: column;
-}
-
-.preview {
+.mat-mdc-dialog-content {
   display: flex;
   flex-direction: column;
 }

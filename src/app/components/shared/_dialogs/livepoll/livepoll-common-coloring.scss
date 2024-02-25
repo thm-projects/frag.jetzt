@@ -31,3 +31,39 @@ $bar-background: $secondary;
 .live-icon-active {
   @include createNamedIcon(var(--red));
 }
+
+.mat-mdc-unelevated-button.__primary {
+  --mdc-filled-button-container-color: var(--livepoll-primary);
+  --mdc-filled-button-label-text-color: var(--on-livepoll-primary);
+}
+
+.mat-mdc-unelevated-button.__secondary {
+  --mdc-filled-button-container-color: var(--livepoll-secondary);
+  --mdc-filled-button-label-text-color: var(--on-livepoll-secondary);
+}
+
+.mat-mdc-unelevated-button.__cancel {
+  --mdc-filled-button-container-color: var(--red);
+  --mdc-filled-button-label-text-color: var(--white);
+}
+
+.mat-mdc-outlined-button.__primary {
+  --mdc-outlined-button-outline-color: var(--livepoll-primary);
+  --mdc-outlined-button-label-text-color: var(--on-surface);
+}
+
+.mat-mdc-outlined-button.__secondary {
+  --mdc-outlined-button-outline-color: red;
+  --mdc-outlined-button-label-text-color: red;
+}
+
+.mat-mdc-outlined-button.__cancel {
+  --mdc-outlined-button-outline-color: transparent;
+  --mdc-outlined-button-label-text-color: var(--on-surface);
+  &:hover {
+    --mdc-outlined-button-outline-color: var(--red);
+  }
+  .mat-icon {
+    color: var(--red);
+  }
+}

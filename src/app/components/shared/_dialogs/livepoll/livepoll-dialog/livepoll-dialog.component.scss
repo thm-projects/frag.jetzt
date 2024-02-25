@@ -1,20 +1,5 @@
 @import "../livepoll-common";
 
-.title-container {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-
-  .mat-mdc-dialog-title {
-    padding: 0;
-    align-self: center;
-  }
-
-  .mdc-dialog__title::before {
-    height: 0;
-  }
-}
-
 .title-settings {
   flex-grow: 1;
   display: flex;
