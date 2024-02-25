@@ -109,6 +109,7 @@
   --mdc-switch-selected-track-color: var(--secondary);
 }
 
+// mat expansion panel
 :root {
   --mat-expansion-container-background-color: var(--background);
   --mat-expansion-container-text-color: var(--on-background);
@@ -119,6 +120,17 @@
   --mat-expansion-header-text-color: var(--on-background);
   --mat-expansion-header-description-color: var(--on-background);
   --mat-expansion-header-indicator-color: var(--on-background);
+
+  .mat-expansion-panel {
+    &.mat-elevation-z0 {
+      &.outlined {
+        --mat-expansion-container-background-color: transparent;
+        border-color: var(--mdc-outlined-text-field-outline-color);
+        border-width: var(--mdc-outlined-text-field-outline-width);
+        border-style: solid;
+      }
+    }
+  }
 }
 
 :root,
