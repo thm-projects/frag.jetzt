@@ -1,0 +1,33 @@
+$primary: var(--livepoll-primary);
+$primary--disabled: var(--livepoll-primary--disabled);
+$primary--hover: var(--livepoll-primary--hover);
+$on-primary: var(--on-livepoll-primary);
+$on-primary--disabled: var(--on-livepoll-primary--disabled);
+$on-primary--hover: var(--on-livepoll-primary--hover);
+$secondary: var(--livepoll-secondary);
+$secondary--disabled: var(--livepoll-secondary--disabled);
+$secondary--hover: var(--livepoll-secondary--hover);
+$on-secondary: var(--on-livepoll-secondary);
+$on-secondary--disabled: var(--on-livepoll-secondary--disabled);
+$on-secondary--hover: var(--on-livepoll-secondary--hover);
+
+$bar-foreground: $on-secondary;
+$bar-background: $secondary;
+
+@mixin createNamedIcon($color) {
+  span {
+    color: $color;
+  }
+
+  .mat-icon {
+    color: $color;
+  }
+}
+
+.live-icon-paused {
+  @include createNamedIcon(inherit);
+}
+
+.live-icon-active {
+  @include createNamedIcon(var(--red));
+}

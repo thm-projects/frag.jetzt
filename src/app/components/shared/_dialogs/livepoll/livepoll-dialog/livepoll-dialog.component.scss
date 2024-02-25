@@ -1,5 +1,5 @@
-//@import "../livepoll-common";
-//
+@import "../livepoll-common";
+
 //.title-container {
 //  display: flex;
 //  flex-direction: column;
@@ -23,92 +23,118 @@
 //  margin-bottom: 16px;
 //}
 //
-//.vote-container {
-//  display: flex;
-//  flex-direction: column;
-//  margin-top: 16px;
-//
-//  .grid {
-//    &-true {
-//      display: grid;
-//      grid-template-columns: repeat(2, 1fr);
-//      grid-template-rows: repeat(2, 1fr);
-//      grid-column-gap: 8px;
-//      grid-row-gap: 8px;
-//
-//      > button {
-//        height: 64px;
-//      }
-//    }
-//
-//    &-false {
-//      display: flex;
-//      flex-direction: column;
-//
-//      > button {
-//        height: 64px;
-//        margin-bottom: 8px;
-//      }
-//    }
-//  }
-//
-//  .reverse {
-//    &-true {
-//      flex-direction: column;
-//    }
-//
-//    &-false {
-//      flex-direction: column;
-//    }
-//  }
-//}
-//
-//.statistics-settings-container {
-//  display: flex;
-//  justify-content: flex-end;
-//
-//  > div {
-//    flex-grow: 1;
-//    flex-shrink: 0;
-//  }
-//
-//  > .statistics-info {
-//    display: flex;
-//    justify-content: flex-end;
-//    align-items: center;
-//    > * > mat-icon {
-//      align-self: center;
-//      color: var(--on-background);
-//    }
-//
-//    > div ~ div {
-//      margin-left: 16px;
-//    }
-//
-//    > div {
-//      display: flex;
-//      :first-child {
-//        margin-right: 4px;
-//        font-weight: normal;
-//      }
-//    }
-//
-//    @media only screen and (max-width: 900px) {
-//      font-size: 100%;
-//      line-height: 16px;
-//    }
-//    @media only screen and (max-width: 700px) {
-//      font-size: 80%;
-//      line-height: 16px;
-//    }
-//  }
-//
-//  > .statistics-options {
-//    display: flex;
-//    justify-content: flex-start;
-//    align-items: center;
-//  }
-//}
+
+.title-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  .mat-mdc-dialog-title {
+    padding: 0;
+    align-self: center;
+  }
+
+  .mdc-dialog__title::before {
+    height: 0;
+  }
+}
+
+.title-settings {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.grid-layout {
+  display: flex;
+  flex-direction: column;
+  margin-top: 16px;
+
+  .grid {
+    &-true {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: repeat(2, 1fr);
+      grid-column-gap: 8px;
+      grid-row-gap: 8px;
+
+      > button {
+        height: 64px;
+      }
+    }
+
+    &-false {
+      display: flex;
+      flex-direction: column;
+
+      > button {
+        height: 64px;
+        margin-bottom: 8px;
+      }
+    }
+  }
+
+  .reverse {
+    &-true {
+      flex-direction: column;
+    }
+
+    &-false {
+      flex-direction: column;
+    }
+  }
+}
+
+.statistics-settings-container {
+  display: flex;
+  justify-content: flex-end;
+
+  > div {
+    flex-grow: 1;
+    flex-shrink: 0;
+  }
+}
+
+.statistics-options {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.statistics-info {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+
+  > * > mat-icon {
+    align-self: center;
+    color: var(--on-background);
+  }
+
+  > div ~ div {
+    margin-left: 16px;
+  }
+
+  > div {
+    display: flex;
+
+    :first-child {
+      margin-right: 4px;
+      font-weight: normal;
+    }
+  }
+
+  @media only screen and (max-width: 900px) {
+    font-size: 100%;
+    line-height: 16px;
+  }
+  @media only screen and (max-width: 700px) {
+    font-size: 80%;
+    line-height: 16px;
+  }
+}
+
 //
 //.vote-text {
 //  white-space: pre-wrap !important;

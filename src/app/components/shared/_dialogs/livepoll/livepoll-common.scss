@@ -1,20 +1,8 @@
 @use "sass:map";
 
-$primary: var(--livepoll-primary);
-$primary--disabled: var(--livepoll-primary--disabled);
-$primary--hover: var(--livepoll-primary--hover);
-$on-primary: var(--on-livepoll-primary);
-$on-primary--disabled: var(--on-livepoll-primary--disabled);
-$on-primary--hover: var(--on-livepoll-primary--hover);
-$secondary: var(--livepoll-secondary);
-$secondary--disabled: var(--livepoll-secondary--disabled);
-$secondary--hover: var(--livepoll-secondary--hover);
-$on-secondary: var(--on-livepoll-secondary);
-$on-secondary--disabled: var(--on-livepoll-secondary--disabled);
-$on-secondary--hover: var(--on-livepoll-secondary--hover);
-
-$bar-foreground: $on-secondary;
-$bar-background: $secondary;
+@import "./livepoll-common-coloring.scss";
+@import "./livepoll-common-typography.scss";
+@import "./livepoll-common-layout.scss";
 
 //.fill {
 //  flex-grow: 1;
@@ -236,3 +224,7 @@ $bar-background: $secondary;
 //.vote-plain-text {
 //  word-wrap: anywhere;
 //}
+
+.fill {
+  flex-grow: 1;
+}

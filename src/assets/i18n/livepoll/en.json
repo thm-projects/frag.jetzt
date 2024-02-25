@@ -1,6 +1,10 @@
 {
   "common": {
-    "live": "",
+    "peer-instruction": {
+      "second-phase-active": "2nd Poll Round",
+      "button-text": "Peer Instruction"
+    },
+    "live": "LIVE",
     "option-archive": "",
     "archive-noname": "Poll",
     "archive-finished": "Finished",
