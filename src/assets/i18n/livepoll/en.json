@@ -1,8 +1,20 @@
 {
   "common": {
+    "title": "Flash Poll",
+    "create": {
+      "title": "Create Flash Poll",
+      "select-template": {
+          "label": "Select a template…"
+      }
+    },
     "peer-instruction": {
       "second-round": "2nd Poll Round",
-      "name": "Peer Instruction"
+      "name": "Peer Instruction",
+      "result-statistics": {
+        "title": "Result",
+        "first": "First Poll",
+        "second": "Second Poll"
+      }
     },
     "edit": {
       "view-as-participant": "Preview from Participant's Perspective:",
@@ -11,7 +23,9 @@
       "delete": "Delete",
       "continue": "Resume",
       "close": "Close",
-      "new": "New Poll"
+      "new": "New Poll",
+      "cancel": "Cancel",
+      "start": "Start Poll"
     },
     "settings": {
       "name": "Flash Options",
@@ -23,6 +37,9 @@
         "user-count-visibility": {
           "text": "Participation live visible",
           "tooltip": "Show participation in real-time for everyone in the room"
+        },
+        "question": {
+          "label": "Your Question…"
         },
         "editor": "Editor",
         "save": "Send Changes to All"
@@ -60,9 +77,17 @@
           "title": "Reset Poll",
           "description": "Do you really want to reset the poll?"
         },
-        "next-peer-instruction-stage": {
+        "change-peer-instruction-stage": {
           "title": "Start 2nd Poll Round",
           "description": "Are you sure you want to end the current poll and start the 2nd poll round?"
+        },
+        "create-peer-instruction": {
+          "title": "2nd Poll Round",
+          "description": "With the start of the second poll round, you can now observe the development of group opinion. This round allows for the comparison of collective responses of the participants with those from the first round. It helps understand how discussions and exchanges can influence the overall group perspectives."
+        },
+        "change-peer-instruction-stage-2": {
+          "title": "2nd Poll Round",
+          "description": "You can end the live poll. The comparison of the polls will be displayed in a dialog."
         }
       }
     },
@@ -72,30 +97,12 @@
         "delete": "Your vote has been reset."
       }
     },
-    "live": "LIVE",
-    "option-archive": "",
-    "archive-noname": "Poll",
-    "archive-finished": "Finished",
-    "create-dialog-title": "Create Flash Poll",
-    "dialog-title": "Flash Poll",
-    "option-select-title": "Your Question...",
-    "create": "Start Poll",
-    "cancel": "Cancel",
-    "peerInstruction-end": "End Poll",
-    "peerInstruction-start-phase-2": "Start 2nd Poll Round",
-    "peerInstruction-comparison-results-1": "First Poll",
-    "peerInstruction-comparison-results-2": "Second Poll",
-    "peerInstruction-comparison-title": "Result",
-    "peerInstruction-button": "",
-    "peerInstruction-phase-2-marker": "",
-    "peerInstruction-title-1": "2nd Poll Round",
-    "peerInstruction-title-2": "2nd Poll Round",
-    "peerInstruction-description-phase-1": "With the start of the second poll round, you can now observe the development of group opinion. This round allows for the comparison of collective responses of the participants with those from the first round. It helps understand how discussions and exchanges can influence the overall group perspectives.",
-    "peerInstruction-description-phase-2": "You can end the live poll. The comparison of the polls will be displayed in a dialog.",
+    "misc": {
+      "live": "LIVE"
+    },
     "template-name-AB": "AB",
     "template-name-ABCD": "ABCD",
     "template-name-symbol": "Mood",
-    "option-select-template": "Select a template…",
     "template-name-agree-multi": "Agreement",
     "option-agree-multi": [
       "strongly agree",
