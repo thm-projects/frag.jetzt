@@ -23,7 +23,7 @@
     <div [class.fill]="true"></div>
     <div>
       <span *ngIf="is2ndPhasePeerInstruction">
-        {{ translateKey + ".peer-instruction.second-phase-active" | translate }}
+        {{ translateKey + ".peer-instruction.second-round" | translate }}
       </span>
       <!-- TODO button secondary -->
       <button
@@ -32,7 +32,7 @@
         (click)="openPeerInstruction()">
         <mat-icon>repeat</mat-icon>
         <span>
-          {{ translateKey + ".peer-instruction.button-text" | translate }}
+          {{ translateKey + ".peer-instruction.name" | translate }}
         </span>
       </button>
       <!-- TODO reimplement archive properly -->
@@ -99,10 +99,9 @@
       <app-livepoll-settings [parent]="this"></app-livepoll-settings>
     </ng-container>
 
-    <!-- TODO unused element -->
     <div>
       <p *ngIf="!isProduction">
-        {{ translateKey + ".dialog-preview-title" | translate }}
+        {{ translateKey + ".edit.view-as-participant" | translate }}
       </p>
     </div>
 
@@ -121,21 +120,25 @@
           <!-- TODO margin-left 4px -->
           <mat-icon>undo</mat-icon>
           <span>
-            {{ translateKey + ".settings-resetResults" | translate }}
+            {{ translateKey + ".edit.reset" | translate }}
           </span>
         </button>
       </div>
       <div [class.statistics-info]="true">
         <div
           @AnimateInOut
-          [matTooltip]="translateKey + '.user' | translate"
+          [matTooltip]="
+            translateKey + '.statistics.active-user-count.tooltip' | translate
+          "
           *ngIf="livepollSession.viewsVisible">
           <mat-icon>visibility</mat-icon>
           <span>{{ userCount }}</span>
         </div>
         <div
           @AnimateInOut
-          [matTooltip]="translateKey + '.participants' | translate"
+          [matTooltip]="
+            translateKey + '.statistics.room-user-count.tooltip' | translate
+          "
           *ngIf="livepollSession.viewsVisible">
           <mat-icon>people</mat-icon>
           <span>{{ participantCount }}</span>
@@ -143,7 +146,9 @@
         <div
           @AnimateInOut
           *ngIf="livepollSession.resultVisible">
-          <span>{{ translateKey + ".votes" | translate }}</span>
+          <span>
+            {{ translateKey + ".statistics.vote-count.text" | translate }}:
+          </span>
           <span>{{ totalVotes }}</span>
         </div>
       </div>

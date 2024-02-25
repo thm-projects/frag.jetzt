@@ -297,14 +297,14 @@ export class LivepollDialogComponent
           this.livepollService
             .deleteVote(this.livepollSession.id)
             .subscribe(() => {
-              this.emitNotification('vote-delete');
+              this.emitNotification('snack-bar.vote.delete');
               this.waitForSocket = true;
             });
         } else {
           this.livepollService
             .makeVote(this.livepollSession.id, i)
             .subscribe(() => {
-              this.emitNotification('vote-make');
+              this.emitNotification('snack-bar.vote.make');
               this.waitForSocket = true;
             });
         }
