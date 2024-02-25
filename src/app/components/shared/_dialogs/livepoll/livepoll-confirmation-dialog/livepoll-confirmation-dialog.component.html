@@ -24,7 +24,7 @@
 <mat-dialog-actions [class.no-pad]="true">
   <ng-container [ngSwitch]="this.data.type">
     <ng-container *ngSwitchCase="ConfirmDialogType.AcceptCancel">
-      <div style="flex-grow: 1"></div>
+      <div [class.fill]="true"></div>
       <button
         mat-stroked-button
         [class.__cancel]="true"
@@ -51,7 +51,7 @@
           {{ translateKey + ".confirmation-dialog.common.cancel" | translate }}
         </span>
       </button>
-      <div style="flex-grow: 1"></div>
+      <div [class.fill]="true"></div>
       <button
         mat-stroked-button
         [class.__cancel]="true"

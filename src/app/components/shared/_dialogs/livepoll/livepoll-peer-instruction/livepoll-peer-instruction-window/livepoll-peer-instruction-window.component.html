@@ -8,7 +8,10 @@
     {{ this.description | translate }}
   </span>
 </mat-dialog-content>
-<mat-dialog-actions [class.no-pad]="true">
+<mat-dialog-actions
+  [class.no-pad]="true"
+  [class.flex-row]="true"
+  [class.align-content-right]="true">
   <ng-container *ngIf="data.windowContext.is2ndPhasePeerInstruction">
     <button
       mat-flat-button

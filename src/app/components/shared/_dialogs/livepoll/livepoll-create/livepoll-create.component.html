@@ -29,18 +29,18 @@
 
 <mat-dialog-actions
   [class.no-pad]="true"
-  [class.align-right]="true">
+  [class.align-content-right]="true">
   <button
     mat-stroked-button
     [class.__cancel]="true"
     (click)="dialogRef.close()">
-    <span>{{ translateKey + ".cancel" | translate }}</span>
+    <span>{{ translateKey + ".edit.cancel" | translate }}</span>
   </button>
   <button
     (click)="create()"
     mat-flat-button
     [class.__primary]="true">
     <mat-icon>rocket_launch</mat-icon>
-    <span>{{ translateKey + ".create" | translate }}</span>
+    <span>{{ translateKey + ".edit.start" | translate }}</span>
   </button>
 </mat-dialog-actions>

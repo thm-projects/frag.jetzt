@@ -357,6 +357,10 @@ export class LivepollDialogComponent
     }
   }
 
+  /**
+   * TODO refactor this
+   * @param index
+   */
   public getVoteButtonClass(index: number) {
     const collect: string[] = [];
     if (index === this.livepollVote?.voteIndex) {

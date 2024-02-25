@@ -46,10 +46,13 @@
             | translate
         "
         [(ngModel)]="parent.livepollSession.resultVisible">
-        {{
-          parent.translateKey + ".settings.option.result-visibility.text"
-            | translate
-        }}
+        <!-- TODO remove label -->
+        <label style="margin-left: 8px">
+          {{
+            parent.translateKey + ".settings.option.result-visibility.text"
+              | translate
+          }}
+        </label>
       </mat-slide-toggle>
       <mat-slide-toggle
         [matTooltip]="
@@ -57,10 +60,13 @@
             | translate
         "
         [(ngModel)]="parent.livepollSession.viewsVisible">
-        {{
-          parent.translateKey + ".settings.option.user-count-visibility.text"
-            | translate
-        }}
+        <!-- TODO remove label -->
+        <label style="margin-left: 8px">
+          {{
+            parent.translateKey + ".settings.option.user-count-visibility.text"
+              | translate
+          }}
+        </label>
       </mat-slide-toggle>
       <button
         *ngIf="parent.isProduction"

@@ -50,6 +50,7 @@
 .statistics-settings-container {
   display: flex;
   justify-content: flex-end;
+  padding: 4px 0 16px;
 
   > div {
     flex-grow: 1;
@@ -93,5 +94,41 @@
   @media only screen and (max-width: 700px) {
     font-size: 80%;
     line-height: 16px;
+  }
+}
+
+/* Corrections */
+
+.mdc-dialog__title::before {
+  content: none;
+}
+
+.mdc-dialog__title {
+  position: relative;
+  top: 2px;
+}
+
+.live-icon {
+  margin-left: 4px;
+}
+
+.title-settings-right {
+  > * + * {
+    margin-left: 4px;
+  }
+
+  > span {
+    position: relative;
+    top: 2px;
+  }
+}
+
+.markdown-container {
+  padding-top: 16px;
+}
+
+.mdc-dialog-content {
+  > * + * {
+    margin-top: 16px;
   }
 }

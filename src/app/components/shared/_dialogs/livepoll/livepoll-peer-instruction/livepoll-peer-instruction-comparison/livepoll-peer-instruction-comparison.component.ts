@@ -21,7 +21,10 @@ export interface LivepollComparison {
 @Component({
   selector: 'app-livepoll-peer-instruction-comparison',
   templateUrl: './livepoll-peer-instruction-comparison.component.html',
-  styleUrls: ['./livepoll-peer-instruction-comparison.component.scss'],
+  styleUrls: [
+    './livepoll-peer-instruction-comparison.component.scss',
+    '../../livepoll-common.scss',
+  ],
 })
 export class LivepollPeerInstructionComparisonComponent {
   protected readonly comparisonList: LivepollComparison[] = [];

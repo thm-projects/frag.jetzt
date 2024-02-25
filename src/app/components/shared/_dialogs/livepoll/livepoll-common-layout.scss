@@ -58,3 +58,12 @@
 .align-items-center {
   align-items: center;
 }
+
+/* Correction */
+
+.vote-text {
+  .mat-icon {
+    position: relative;
+    top: 4px;
+  }
+}

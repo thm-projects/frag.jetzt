@@ -12,8 +12,10 @@
       "name": "Peer Instruction",
       "result-statistics": {
         "title": "Result",
-        "first": "First Poll",
-        "second": "Second Poll"
+        "result-1": "First Poll",
+        "result-2": "Second Poll",
+        "start-next": "Start 2nd Phase",
+        "end": "End Peer Instruction"
       }
     },
     "edit": {

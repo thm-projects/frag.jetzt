@@ -2,7 +2,7 @@
   #LiveIcon
   let-isPaused="isPaused">
   <div
-    class="live-icon"
+    [class.live-icon]="true"
     [class.live-icon-pause]="isPaused"
     [class.live-icon-active]="!isPaused">
     <mat-icon>fiber_manual_record</mat-icon>
@@ -22,12 +22,12 @@
         context: { isPaused: isPaused }
       "></ng-container>
     <div [class.fill]="true"></div>
-    <div>
+    <div [class.title-settings-right]="true">
       <span *ngIf="is2ndPhasePeerInstruction">
         {{ translateKey + ".peer-instruction.second-round" | translate }}
       </span>
       <button
-        mat-stroked-button
+        mat-flat-button
         *ngIf="currentRole"
         [class.__secondary]="true"
         (click)="openPeerInstruction()">
@@ -182,6 +182,7 @@
       </span>
     </button>
   </div>
+  <div [class.fill]="true"></div>
   <div [class.right-container]="true">
     <button
       mat-stroked-button
