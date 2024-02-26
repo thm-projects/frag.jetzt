@@ -262,7 +262,7 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
       active: (answers: AnsweredMultiLevelData, injector: Injector) => {
         return injector.get(RoomStateService).room$.pipe(
           first((room) => Boolean(room)),
-          map((room) => room.mode === 'ARS'),
+          map((room) => room?.mode === 'ARS'),
         );
       },
       buildAction(_injector, _answers, previousState, data) {
@@ -331,7 +331,7 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
         return injector.get(RoomStateService).room$.pipe(
           filter((v) => !!v),
           take(1),
-          map((room) => room.mode === 'ARS'),
+          map((room) => room?.mode === 'ARS'),
         );
       },
       buildAction(_injector, _answers, previousState, data) {
@@ -419,7 +419,7 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
         return injector.get(RoomStateService).room$.pipe(
           filter((v) => !!v),
           take(1),
-          map((room) => room.mode === 'PLE'),
+          map((room) => room?.mode === 'PLE'),
         );
       },
       buildAction(_injector, _answers, previousState, data) {
@@ -453,7 +453,7 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
         return injector.get(RoomStateService).room$.pipe(
           filter((v) => !!v),
           take(1),
-          map((room) => room.mode === 'ARS'),
+          map((room) => room?.mode === 'ARS'),
         );
       },
       buildAction(_injector, _answers, previousState, data) {
@@ -495,7 +495,7 @@ export const MULTI_LEVEL_GPT_ROOM_SETTINGS: MultiLevelData<Data> = {
         return injector.get(RoomStateService).room$.pipe(
           filter((v) => !!v),
           take(1),
-          map((room) => room.mode === 'ARS'),
+          map((room) => room?.mode === 'ARS'),
         );
       },
       buildAction(_injector, _answers, previousState, data) {

@@ -27,7 +27,7 @@
       [ngClass]="{ darken: themeService.currentTheme?.isDark }">
       <div
         *ngIf="
-          headerService.isToggleCurrentUserActivity() && room.mode === 'ARS'
+          headerService.isToggleCurrentUserActivity() && room?.mode === 'ARS'
         ">
         <div
           class="userActivityIcon"
@@ -123,7 +123,7 @@
         (click)="openLivepollDialog()"
         *ngIf="
           navigationAccess.livepoll(router.url, room, roomState) &&
-          room.mode === 'ARS'
+          room?.mode === 'ARS'
         ">
         <mat-icon
           class="material-icons header-icons material-icons-filled"
@@ -295,7 +295,7 @@
           !router.url.endsWith('moderator/comments') &&
           router.url.endsWith('/comments') &&
           !isSafari &&
-          room.mode === 'ARS'
+          room?.mode === 'ARS'
         "
         routerLink="{{ roleToRoute[userRole] }}/room/{{
           room?.shortId
@@ -317,7 +317,7 @@
           !router.url.endsWith('moderator/comments') &&
           router.url.endsWith('/comments') &&
           !isSafari &&
-          room.mode === 'PLE'
+          room?.mode === 'PLE'
         "
         routerLink="{{ roleToRoute[userRole] }}/room/{{
           room?.shortId
@@ -640,7 +640,7 @@
 
   <button
     mat-menu-item
-    *ngIf="isInRouteWithRoles && actualRole > 0"
+    *ngIf="isInRouteWithRoles && actualRole > 0 && room?.mode === 'ARS'"
     (click)="navigateToOtherView()"
     tabindex="0">
     <mat-icon

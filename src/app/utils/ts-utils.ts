@@ -1,3 +1,5 @@
+import { Subscribable } from 'rxjs';
+
 type ArrayLength<A extends Array<unknown>> = A['length'] extends infer T
   ? T
   : never;
@@ -178,4 +180,18 @@ export const verifyInstance = <T>(clazz: CopyClassType<T>, obj: object): T => {
     return obj;
   }
   return new clazz(obj);
+};
+
+export const getInstant = <T, K extends Subscribable<T>>(
+  subscribable: K,
+): T | null => {
+  let result: T | null = null;
+  subscribable
+    .subscribe({
+      next: (value) => {
+        result = value;
+      },
+    })
+    .unsubscribe();
+  return result;
 };
