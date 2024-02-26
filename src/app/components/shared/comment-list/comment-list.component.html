@@ -528,7 +528,7 @@
   appJoyrideTemplate></div>
 
 <button
-  *ngIf="commentsEnabled && room.mode === 'ARS'"
+  *ngIf="commentsEnabled && room?.mode === 'ARS'"
   mat-fab
   mat-icon-button
   [ngClass]="{
@@ -548,7 +548,7 @@
 </button>
 
 <button
-  *ngIf="commentsEnabled && room.mode === 'PLE'"
+  *ngIf="commentsEnabled && room?.mode === 'PLE'"
   mat-fab
   mat-icon-button
   [ngClass]="{

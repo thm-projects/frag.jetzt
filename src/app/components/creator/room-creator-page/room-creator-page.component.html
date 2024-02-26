@@ -39,7 +39,7 @@
           </mat-icon>
         </button>
       </mat-card-subtitle>
-      <mat-card-subtitle *ngIf="room.mode === 'ARS'">
+      <mat-card-subtitle *ngIf="room?.mode === 'ARS'">
         <span class="room-short-id">
           {{ "room-page.moderator-key" | translate }}
         </span>
@@ -78,7 +78,7 @@
           *ngIf="responseCounter > 0 && commentCounter > 0"
           [ngClass]="{ smallerIcon: isMobile() }"
           class="response-badge"></span>
-        <div *ngIf="room.mode === 'ARS'">
+        <div *ngIf="room?.mode === 'ARS'">
           <h3 *ngIf="room.conversationDepth === 0">
             {{ "room-page.comments" | translate }}
           </h3>
@@ -86,7 +86,7 @@
             {{ "room-page.comments-and-answers" | translate }}
           </h3>
         </div>
-        <div *ngIf="room.mode === 'PLE'">
+        <div *ngIf="room?.mode === 'PLE'">
           <h3 *ngIf="room.conversationDepth === 0">
             {{ "room-page.ple.comments" | translate }}
           </h3>
@@ -98,7 +98,7 @@
       <button
         id="gavel-button"
         mat-icon-button
-        *ngIf="moderationEnabled && room.mode === 'ARS'"
+        *ngIf="moderationEnabled && room?.mode === 'ARS'"
         [disableRipple]="true"
         routerLink="/creator/room/{{ room.shortId }}/moderator/comments"
         aria-labelledby="gavel">
@@ -126,66 +126,84 @@
       <div class="spending">
         <span>{{ "room-page.quota-for-room" | translate }}</span>
         <div class="layout">
-          <div class="information"> 
+          <div class="information">
             <div class="label">
               <span class="value">
-                {{ roomQuota.spent | currency: "USD" : "symbol" : "1.0-0" }}
+                {{ roomQuota.spent | currency : "USD" : "symbol" : "1.0-0" }}
               </span>
             </div>
             {{ "room-page.quota-label-separator" | translate }}
             <div class="label">
               <span class="value">
-                {{ roomQuota.limit | currency: "USD" : "symbol" : "1.0-0" }}
+                {{ roomQuota.limit | currency : "USD" : "symbol" : "1.0-0" }}
               </span>
             </div>
           </div>
           <div class="bar">
-            <div class="spent" [style.width.%]="roomQuota.spentAsPercentage"></div>
-          </div> 
+            <div
+              class="spent"
+              [style.width.%]="roomQuota.spentAsPercentage"></div>
+          </div>
         </div>
       </div>
 
-      <div class="spending" *ngIf="room.mode === 'ARS'">
+      <div
+        class="spending"
+        *ngIf="room?.mode === 'ARS'">
         <span>{{ "room-page.quota-for-moderators" | translate }}</span>
         <div class="layout">
           <div class="information">
             <div class="label">
               <span class="value">
-                {{ moderatorQuota.spent | currency: "USD" : "symbol" : "1.0-0" }}
+                {{
+                  moderatorQuota.spent | currency : "USD" : "symbol" : "1.0-0"
+                }}
               </span>
             </div>
             {{ "room-page.quota-label-separator" | translate }}
             <div class="label">
               <span class="value">
-                {{ moderatorQuota.limit | currency: "USD" : "symbol" : "1.0-0" }}
+                {{
+                  moderatorQuota.limit | currency : "USD" : "symbol" : "1.0-0"
+                }}
               </span>
             </div>
           </div>
           <div class="bar">
-            <div class="spent" [style.width.%]="moderatorQuota.spentAsPercentage"></div>
-          </div> 
+            <div
+              class="spent"
+              [style.width.%]="moderatorQuota.spentAsPercentage"></div>
+          </div>
         </div>
       </div>
 
-      <div class="spending" *ngIf="room.mode === 'ARS'">
+      <div
+        class="spending"
+        *ngIf="room?.mode === 'ARS'">
         <span>{{ "room-page.quota-for-participants" | translate }}</span>
         <div class="layout">
           <div class="information">
             <div class="label">
               <span class="value">
-                {{ participantQuota.spent | currency: "USD" : "symbol" : "1.0-0" }}
+                {{
+                  participantQuota.spent | currency : "USD" : "symbol" : "1.0-0"
+                }}
               </span>
             </div>
             {{ "room-page.quota-label-separator" | translate }}
             <div class="label">
               <span class="value">
-                {{ participantQuota.limit | currency: "USD" : "symbol" : "1.0-0" }}
+                {{
+                  participantQuota.limit | currency : "USD" : "symbol" : "1.0-0"
+                }}
               </span>
             </div>
           </div>
           <div class="bar">
-            <div class="spent" [style.width.%]="participantQuota.spentAsPercentage"></div>
-          </div> 
+            <div
+              class="spent"
+              [style.width.%]="participantQuota.spentAsPercentage"></div>
+          </div>
         </div>
       </div>
     </div>

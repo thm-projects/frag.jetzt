@@ -709,7 +709,7 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
             !this.isMobile &&
             this.room &&
             !this.room.questionsBlocked &&
-            this.room.mode === 'ARS',
+            this.room?.mode === 'ARS',
         });
         e.menuItem({
           translate: this.headerService.getTranslate(),
@@ -721,7 +721,7 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
             !this.isMobile &&
             this.room &&
             !this.room.questionsBlocked &&
-            this.room.mode === 'PLE',
+            this.room?.mode === 'PLE',
         });
         e.menuItem({
           translate: this.headerService.getTranslate(),

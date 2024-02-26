@@ -342,22 +342,22 @@
           <ng-container *ngIf="!commentFocusId && firstPassIntroduction">
             <p
               class="questionwall-present-introduction-title"
-              *ngIf="room.mode === 'PLE'">
+              *ngIf="room?.mode === 'PLE'">
               {{ "question-wall.ple.intro-title" | translate }}
             </p>
             <p
               class="questionwall-present-introduction-title"
-              *ngIf="room.mode === 'ARS'">
+              *ngIf="room?.mode === 'ARS'">
               {{ "question-wall.intro-title" | translate }}
             </p>
             <p
               class="questionwall-present-introduction-desc"
-              *ngIf="room.mode === 'PLE'">
+              *ngIf="room?.mode === 'PLE'">
               {{ "question-wall.ple.intro-desc" | translate }}
             </p>
             <p
               class="questionwall-present-introduction-desc"
-              *ngIf="room.mode === 'ARS'">
+              *ngIf="room?.mode === 'ARS'">
               {{ "question-wall.intro-desc" | translate }}
             </p>
             <p class="questionwall-present-introduction-desc">
