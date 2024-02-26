@@ -326,7 +326,8 @@
       "questionwall": "Topic Focus",
       "back-to-questionboard": "Topic Forum",
       "tag-cloud": "Topic Radar",
-      "question-focus-button": "Topic Focus"
+      "question-focus-button": "Topic Focus",
+      "create-question": "Add a Topic"
     }
   },
   "gpt-chat": {

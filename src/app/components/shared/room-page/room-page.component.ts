@@ -56,7 +56,6 @@ import { ToggleConversationComponent } from '../../creator/_dialogs/toggle-conve
 import { QuillUtils } from '../../../utils/quill-utils';
 import { TitleService } from '../../../services/util/title.service';
 import { RoomSettingsOverviewComponent } from '../_dialogs/room-settings-overview/room-settings-overview.component';
-import { GptRoomSettingsComponent } from '../_dialogs/gpt-room-settings/gpt-room-settings.component';
 import { User } from 'app/models/user';
 import { DeviceStateService } from 'app/services/state/device-state.service';
 import { AccountStateService } from 'app/services/state/account-state.service';
@@ -70,6 +69,7 @@ import { GptService } from 'app/services/http/gpt.service';
 import { saveSettings } from '../_dialogs/gpt-room-settings/gpt-room-settings.executor';
 import { GPTRoomService } from 'app/services/http/gptroom.service';
 import { Quota, QuotaService } from 'app/services/http/quota.service';
+import { getInstant } from 'app/utils/ts-utils';
 
 @Component({
   selector: 'app-room-page',
@@ -78,7 +78,6 @@ import { Quota, QuotaService } from 'app/services/http/quota.service';
 })
 export class RoomPageComponent implements OnInit, OnDestroy {
   room: Room = null;
-  isPle: boolean = false;
   user: User = null;
   isLoading = true;
   commentCounter: number;
@@ -138,7 +137,6 @@ export class RoomPageComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.initializeRoom();
-    this.isPle = this.room.mode === 'PLE';
   }
 
   ngOnDestroy() {
@@ -544,7 +542,8 @@ export class RoomPageComponent implements OnInit, OnDestroy {
           isSVGIcon: false,
           text: 'header.moderation-mode',
           callback: () => this.showCommentsDialog(),
-          condition: () => this.userRole > UserRole.PARTICIPANT && this.isPle,
+          condition: () =>
+            this.userRole > UserRole.PARTICIPANT && this.room?.mode === 'PLE',
         });
         e.menuItem({
           translate: this.headerService.getTranslate(),
@@ -553,7 +552,8 @@ export class RoomPageComponent implements OnInit, OnDestroy {
           isSVGIcon: false,
           text: 'header.conversation',
           callback: () => this.showToggleConversationDialog(),
-          condition: () => this.userRole > UserRole.PARTICIPANT,
+          condition: () =>
+            this.userRole > UserRole.PARTICIPANT && this.room?.mode === 'ARS',
         });
         e.menuItem({
           translate: this.headerService.getTranslate(),
@@ -638,7 +638,8 @@ export class RoomPageComponent implements OnInit, OnDestroy {
               }
             });
           }),
-          () => this.userRole > UserRole.PARTICIPANT,
+          () =>
+            this.userRole > UserRole.PARTICIPANT && this.room?.mode === 'ARS',
         );
         e.menuItem({
           translate: this.headerService.getTranslate(),

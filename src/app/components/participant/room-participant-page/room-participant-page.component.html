@@ -43,12 +43,22 @@
           *ngIf="responseCounter > 0 && commentCounter > 0"
           [ngClass]="{ smallerIcon: isMobile() }"
           class="response-badge"></span>
-        <h3 *ngIf="room.conversationDepth === 0">
-          {{ "room-page.create-comment" | translate }}
-        </h3>
-        <h3 *ngIf="room.conversationDepth !== 0">
-          {{ "room-page.create-comment-and-answer" | translate }}
-        </h3>
+        <div *ngIf="room?.mode === 'ARS'">
+          <h3 *ngIf="room.conversationDepth === 0">
+            {{ "room-page.create-comment" | translate }}
+          </h3>
+          <h3 *ngIf="room.conversationDepth !== 0">
+            {{ "room-page.create-comment-and-answer" | translate }}
+          </h3>
+        </div>
+        <div *ngIf="room?.mode === 'PLE'">
+          <h3 *ngIf="room.conversationDepth === 0">
+            {{ "room-page.ple.create-comment" | translate }}
+          </h3>
+          <h3 *ngIf="room.conversationDepth !== 0">
+            {{ "room-page.ple.create-comment-and-answer" | translate }}
+          </h3>
+        </div>
       </button>
     </mat-card-footer>
   </mat-card>

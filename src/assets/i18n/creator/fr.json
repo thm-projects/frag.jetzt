@@ -951,7 +951,11 @@
     "quota-for-room": "Coûts API",
     "quota-for-moderators": "Modération",
     "quota-for-participants": "Participants",
-    "quota-label-separator": "sur"
+    "quota-label-separator": "sur",
+    "ple": {
+      "comments": "Créer des sujets !",
+      "comments-and-answers": "Vers le forum des sujets"
+    }
   },
   "gptrating": {
     "title": "Évaluation de ChatGPT dans frag.jetzt",
@@ -1248,7 +1252,11 @@
     "sort-time": "Heure",
     "time-period": "Période",
     "user-lbl": "Ouvrir le menu utilisateur",
-    "users-online": "Utilisateurs actuellement connectés"
+    "users-online": "Utilisateurs actuellement connectés",
+    "ple":{
+      "intro-desc": "Cliquez sur un sujet ou naviguez avec les touches fléchées vers l'avant et l'arrière.",
+      "intro-title": "Focus sur le sujet"
+    }
   },
   "tag-cloud-popup": {
     "few-minutes": "quelques minutes",

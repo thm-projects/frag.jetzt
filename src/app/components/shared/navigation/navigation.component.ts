@@ -216,7 +216,8 @@ export class NavigationComponent implements OnInit, OnDestroy {
       i18n: 'header.questionwall',
       svgIcon: 'beamer',
       isCurrentRoute: (route) => FOCUS_REGEX.test(route),
-      canBeAccessedOnRoute: (route) => ROOM_REGEX.test(route) && !this.isMobile && !this.isPLE,
+      canBeAccessedOnRoute: (route) =>
+        ROOM_REGEX.test(route) && !this.isMobile && !this.isPLE,
       navigate: (route) => {
         const data = route.match(ROOM_REGEX);
         this.router.navigate([
@@ -231,7 +232,8 @@ export class NavigationComponent implements OnInit, OnDestroy {
       i18n: 'header.ple.questionwall',
       svgIcon: 'beamer',
       isCurrentRoute: (route) => FOCUS_REGEX.test(route),
-      canBeAccessedOnRoute: (route) => ROOM_REGEX.test(route) && !this.isMobile && this.isPLE,
+      canBeAccessedOnRoute: (route) =>
+        ROOM_REGEX.test(route) && !this.isMobile && this.isPLE,
       navigate: (route) => {
         const data = route.match(ROOM_REGEX);
         this.router.navigate([
@@ -259,7 +261,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
       id: 'radar',
       accessible: false,
       active: false,
-      i18n: 'header.ple.tag-cloud',
+      i18n: 'header.tag-cloud',
       icon: 'radar',
       isCurrentRoute: (route) => RADAR_REGEX.test(route),
       canBeAccessedOnRoute: (route) => ROOM_REGEX.test(route) && !this.isPLE,
@@ -328,7 +330,8 @@ export class NavigationComponent implements OnInit, OnDestroy {
       i18n: 'header.quiz-now',
       icon: 'rocket_launch',
       isCurrentRoute: (route) => QUIZ_REGEX.test(route),
-      canBeAccessedOnRoute: () => this.sessionService.currentRoom?.quizActive && !this.isPLE,
+      canBeAccessedOnRoute: () =>
+        this.sessionService.currentRoom?.quizActive && !this.isPLE,
       navigate: () => {
         this.router.navigate(['/quiz']);
       },
@@ -530,9 +533,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
       .subscribe(() => {
         this.refreshLocations();
       });
-    this.roomState.room$.pipe(takeUntil(this.destroyer)).subscribe(room => {
-      //this.isPLE = room?.mode === 'PLE';
-    });
+    this.roomState.room$.pipe(takeUntil(this.destroyer)).subscribe(observer);
   }
 
   ngOnDestroy(): void {
@@ -545,6 +546,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
   }
 
   refreshLocations() {
+    this.isPLE = this.roomState.getCurrentRoom()?.mode === 'PLE';
     const url = getCurrentLocation(this.router);
     this.currentLocation = null;
     let anyTrue = false;
