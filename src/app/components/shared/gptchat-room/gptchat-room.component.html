@@ -1,3 +1,10 @@
+<div
+  appDragElement
+  (fileDrop)="onFileUpload($event)"
+  class="drop-file">
+  <p>{{ "gpt-chat.drop-file" | translate }}</p>
+  <mat-icon>cloud_upload</mat-icon>
+</div>
 <mat-card>
   <div
     class="gpt-requester"

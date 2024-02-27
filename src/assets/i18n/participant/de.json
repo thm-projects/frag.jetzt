@@ -334,6 +334,7 @@
     "model-description-gpt-4-1106-preview": "Neuestes und stärkstes Modell mit rund 128.000 Zeichen Kontext (Ausgabe bis ca. 4.000 Zeichen)",
     "title-free": "ChatGPT | Freies Fragen ohne Prompt-Vorgaben",
     "title-answer": "ChatGPT antwortet …",
+    "drop-file": "Datei hier ablegen",
     "interrupt": "Ausgabe stoppen",
     "copy-markdown": "Ausgabe im Markdown-Format kopieren",
     "system-message": "Systemnachrichten anzeigen/verbergen",

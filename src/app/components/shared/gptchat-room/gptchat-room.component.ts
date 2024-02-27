@@ -695,6 +695,17 @@ export class GPTChatRoomComponent implements OnInit, OnDestroy, AfterViewInit {
     return !this._preset?.disableForwardMessage;
   }
 
+  protected onFileUpload(event: DragEvent) {
+    for (const file of Array.from(event.dataTransfer.files)) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const data = e.target.result as string;
+        console.log(data);
+      };
+      reader.readAsText(file);
+    }
+  }
+
   protected splitIntoParts(
     context: Context,
   ): Observable<MultiContextElement[]> {

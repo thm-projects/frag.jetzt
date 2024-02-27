@@ -161,6 +161,7 @@ import { HelpRoomCreateFrComponent } from './_dialogs/room-create/help-room-crea
 import { MultiLevelQuotaInputComponent } from './_dialogs/multi-level-dialog/multi-level-quota-input/multi-level-quota-input.component';
 import { MultiLevelDateInputComponent } from './_dialogs/multi-level-dialog/multi-level-date-input/multi-level-date-input.component';
 import { MultiLevelSelectInputComponent } from './_dialogs/multi-level-dialog/multi-level-select-input/multi-level-select-input.component';
+import { DragElementDirective } from '../../directives/drag-element.directive';
 
 @NgModule({
   imports: [
@@ -324,6 +325,7 @@ import { MultiLevelSelectInputComponent } from './_dialogs/multi-level-dialog/mu
     MultiLevelQuotaInputComponent,
     MultiLevelDateInputComponent,
     MultiLevelSelectInputComponent,
+    DragElementDirective,
   ],
   exports: [
     RoomJoinComponent,

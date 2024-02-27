@@ -415,6 +415,7 @@
     "model-description-gpt-4-1106-preview": "Modèle le plus récent et le plus puissant avec environ 128 000 caractères Contexte (Sortie jusqu'à environ 4.000 caractères)",
     "title-free": "ChatGPT | Demander librement sans préréglages de prompt",
     "title-answer": "ChatGPT répond …",
+    "drop-file": "Déposer un fichier ici",
     "interrupt": "Arrêter la sortie",
     "copy-markdown": "Copier le résultat au format Markdown",
     "system-message": "Afficher/cacher les messages système",
