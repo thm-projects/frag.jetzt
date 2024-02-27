@@ -1255,7 +1255,13 @@
     "users-online": "Utilisateurs actuellement connectés",
     "ple":{
       "intro-desc": "Cliquez sur un sujet ou naviguez avec les touches fléchées vers l'avant et l'arrière.",
-      "intro-title": "Focus sur le sujet"
+      "intro-title": "Focus sur le sujet",
+      "auto-renew-on": "Démarrer la mise au point automatique pour les nouveaux sujets",
+      "auto-renew-off": "Arrêter la mise au point automatique pour les nouveaux sujets",
+      "next-comment": "Sujet suivant",
+      "prev-comment": "Sujet précédent",
+      "overview-question-tooltip": "Nombre de sujets",
+      "overview-questioners-tooltip": "Nombre d'auteurs de sujets"
     }
   },
   "tag-cloud-popup": {

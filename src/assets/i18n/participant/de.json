@@ -612,7 +612,13 @@
     "users-online": "Aktuell eingeloggte User",
     "ple":{
       "intro-desc": "Klick auf ein Topic oder navigiere mit den Pfeiltasten vor und zurück.",
-      "intro-title": "Topic-Fokus"
+      "intro-title": "Topic-Fokus",
+      "auto-renew-on": "Autofokus für neue Topics starten",
+      "auto-renew-off": "Autofokus für neue Topics beenden",
+      "next-comment": "Nächstes Topic",
+      "prev-comment": "Vorheriges Topic",
+      "overview-question-tooltip": "Anzahl Topics",
+      "overview-questioners-tooltip": "Anzahl Topic-Ersteller*innen"
     }
   },
   "quill": {

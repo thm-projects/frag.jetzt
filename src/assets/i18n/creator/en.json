@@ -691,7 +691,13 @@
     "users-online": "Currently logged-in users",
     "ple": {
       "intro-desc": "Click on a topic or navigate forward and backward using the arrow keys.",
-      "intro-title": "Topic Focus"
+      "intro-title": "Topic Focus",
+      "auto-renew-on": "Start autofocus for new topics",
+      "auto-renew-off": "Stop autofocus for new topics",
+      "next-comment": "Next topic",
+      "prev-comment": "Previous topic",
+      "overview-question-tooltip": "Number of Topics",
+      "overview-questioners-tooltip": "Number of topic creators"
     }
   },
   "joyride": {

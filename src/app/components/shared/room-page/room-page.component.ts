@@ -543,7 +543,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
           text: 'header.moderation-mode',
           callback: () => this.showCommentsDialog(),
           condition: () =>
-            this.userRole > UserRole.PARTICIPANT && this.room?.mode === 'PLE',
+            this.userRole > UserRole.PARTICIPANT && this.room?.mode === 'ARS',
         });
         e.menuItem({
           translate: this.headerService.getTranslate(),
