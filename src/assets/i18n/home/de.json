@@ -329,7 +329,10 @@
       "question-focus-button": "Topic-Fokus",
       "create-question": "Topic hinzufügen",
       "overview-question-tooltip": "Anzahl Topics",
-      "overview-questioners-tooltip": "Anzahl Topic-Ersteller*innen"
+      "overview-questioners-tooltip": "Anzahl Topic-Ersteller*innen",
+      "export-questions": "Topics exportieren",
+      "import-questions": "Topics importieren",
+      "edit-tags": "Topic-kategorien"
     }
   },
   "gpt-chat": {
