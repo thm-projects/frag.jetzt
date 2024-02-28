@@ -161,7 +161,11 @@
     "vote-desc": "Descending votes",
     "wrong": "Marked as wrong",
     "ple": {
-      "ask-question-empty": "Add new Topics"
+      "ask-question-empty": "Add new Topics",
+      "filter-comments": "Filter Topics",
+      "sort-comments": "Sort Topics",
+      "pause-comments": "Freezes the display to read or present the topics at rest. Topics can still be added and rated. The display is only updated again by clicking the button.",
+      "play-comments": "Show new topics and ratings again"
     }
   },
   "comment-notification": {

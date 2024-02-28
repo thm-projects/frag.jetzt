@@ -161,7 +161,11 @@
     "vote-desc": "Absteigende Bewertungen",
     "wrong": "Fragen, die der Vortragende oder Moderator als falsch markiert hat",
     "ple":{
-      "ask-question-empty": "Neue Topics hinzufügen"
+      "ask-question-empty": "Neue Topics hinzufügen",
+      "filter-comments": "Topics filtern",
+      "sort-comments": "Topics sortieren",
+      "pause-comments": "Friert die Anzeige ein, um die Topics in Ruhe zu lesen oder zu präsentieren. Topics können weiterhin hinzugefügt und bewertet werden. Die Anzeige aktualisiert sich wieder durch Klicken des Buttons.",
+      "play-comments": "Neue Topics und Bewertungen wieder anzeigen"
     }
   },
   "comment-notification": {

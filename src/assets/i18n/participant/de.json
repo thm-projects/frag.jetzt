@@ -114,7 +114,9 @@
     "vote-desc": "Absteigende Bewertungen",
     "wrong": "Verneint",
     "ple":{
-      "ask-question-empty": "Neue Topics hinzufügen"
+      "ask-question-empty": "Neue Topics hinzufügen",
+      "filter-comments": "Topics filtern",
+      "sort-comments": "Topics sortieren"
     }
   },
   "comment-notification": {
