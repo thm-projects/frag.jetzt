@@ -472,7 +472,9 @@
       "back-to-questionboard": "Topic Forum",
       "tag-cloud": "Topic Radar",
       "question-focus-button": "Topic Focus",
-      "create-question": "Add Topics"
+      "create-question": "Add Topics",
+      "overview-question-tooltip": "Number of Topics",
+      "overview-questioners-tooltip": "Number of topic creators"
     }
   },
   "topic-cloud-filter": {

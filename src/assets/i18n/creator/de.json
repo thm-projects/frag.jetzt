@@ -588,7 +588,9 @@
     "ple": {
       "questionwall": "Topic-Fokus",
       "back-to-questionboard": "Topic-Forum",
-      "tag-cloud": "Topic-Radar"
+      "tag-cloud": "Topic-Radar",
+      "overview-question-tooltip": "Anzahl Topics",
+      "overview-questioners-tooltip": "Anzahl Topic-Ersteller*innen"
     }
   },
   "topic-cloud-filter": {

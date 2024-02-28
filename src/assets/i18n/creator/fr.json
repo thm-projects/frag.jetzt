@@ -584,7 +584,9 @@
     "ple": {
       "questionwall": "Focus de Sujet",
       "back-to-questionboard": "Forum de Sujet",
-      "tag-cloud": "Radar de Sujet"
+      "tag-cloud": "Radar de Sujet",
+      "overview-question-tooltip": "Nombre de sujets",
+      "overview-questioners-tooltip": "Nombre d'auteurs de sujets"
     }
   },
   "topic-cloud-filter": {

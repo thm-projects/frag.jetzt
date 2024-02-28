@@ -355,6 +355,7 @@
             </mat-icon>
           </button>
           <button
+            *ngIf="room?.mode === 'ARS'"
             mat-icon-button
             disableRipple="true"
             class="pseudo-button"
@@ -363,11 +364,34 @@
             <span style="margin-left: 0.2em">{{ commentsCountQuestions }}</span>
           </button>
           <button
+            *ngIf="room?.mode === 'PLE'"
+            mat-icon-button
+            disableRipple="true"
+            class="pseudo-button"
+            matTooltip="{{
+              'header.ple.overview-question-tooltip' | translate
+            }}">
+            <mat-icon class="oldtypo-h2 comment_tag-icon">comment</mat-icon>
+            <span style="margin-left: 0.2em">{{ commentsCountQuestions }}</span>
+          </button>
+          <button
+            *ngIf="room?.mode === 'ARS'"
             mat-icon-button
             disableRipple="true"
             class="pseudo-button"
             matTooltip="{{
               'header.overview-questioners-tooltip' | translate
+            }}">
+            <mat-icon class="oldtypo-h2 comment_tag-icon">person</mat-icon>
+            <span style="margin-left: 0.1em">{{ commentsCountUsers }}</span>
+          </button>
+          <button
+            *ngIf="room?.mode === 'PLE'"
+            mat-icon-button
+            disableRipple="true"
+            class="pseudo-button"
+            matTooltip="{{
+              'header.ple.overview-questioners-tooltip' | translate
             }}">
             <mat-icon class="oldtypo-h2 comment_tag-icon">person</mat-icon>
             <span style="margin-left: 0.1em">{{ commentsCountUsers }}</span>

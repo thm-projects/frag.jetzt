@@ -472,7 +472,9 @@
       "back-to-questionboard": "Forum du sujet",
       "tag-cloud": "Radar du sujet",
       "question-focus-button": "Focus sur les questions",
-      "create-question": "Ajouter un sujet"
+      "create-question": "Ajouter un sujet",
+      "overview-question-tooltip": "Nombre de sujets",
+      "overview-questioners-tooltip": "Nombre d'auteurs de sujets"
     }
   },
   "topic-cloud-filter": {

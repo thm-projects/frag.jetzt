@@ -327,7 +327,9 @@
       "back-to-questionboard": "Topic Forum",
       "tag-cloud": "Topic Radar",
       "question-focus-button": "Topic Focus",
-      "create-question": "Add a Topic"
+      "create-question": "Add a Topic",
+      "overview-question-tooltip": "Number of Topics",
+      "overview-questioners-tooltip": "Number of topic creators"
     }
   },
   "gpt-chat": {
