@@ -118,7 +118,8 @@
       "filter-comments": "Filtrer les sujets",
       "sort-comments": "Trier les sujets",
       "pause-comments": "Met en pause l'affichage pour lire ou présenter les sujets en toute tranquillité. Les sujets peuvent toujours être ajoutés et évalués. L'affichage est mis à jour à nouveau en cliquant sur le bouton.",
-      "play-comments": "Afficher à nouveau les nouveaux sujets et les évaluations"
+      "play-comments": "Afficher à nouveau les nouveaux sujets et les évaluations",
+      "add-comment": "Ajouter un nouveau sujet !"
     }
   },
   "comment-notification": {

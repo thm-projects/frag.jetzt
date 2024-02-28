@@ -118,7 +118,8 @@
       "filter-comments": "Filter Topics",
       "sort-comments": "Sort Topics",
       "pause-comments": "Freezes the display to read or present the topics at rest. Topics can still be added and rated. The display is only updated again by clicking the button.",
-      "play-comments": "Show new topics and ratings again"
+      "play-comments": "Show new topics and ratings again",
+      "add-comment": "Add a new topic!"
     }
   },
   "comment-notification": {
