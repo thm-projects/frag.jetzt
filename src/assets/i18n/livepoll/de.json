@@ -4,7 +4,7 @@
     "create": {
       "title": "Blitzumfrage erstellen",
       "select-template": {
-        "label": "Wähle eine Vorlage …"
+        "label": "Wähle eine Vorlage…"
       }
     },
     "peer-instruction": {
@@ -30,7 +30,7 @@
       "start": "Umfrage starten"
     },
     "settings": {
-      "name": "Blitzoptionen …",
+      "name": "Blitzoptionen…",
       "option": {
         "result-visibility": {
           "text": "Abstimmung live sichtbar",
@@ -41,7 +41,7 @@
           "tooltip": "Beteiligung für alle im Raum in Echtzeit anzeigen"
         },
         "question": {
-          "label": "Deine Frage..."
+          "label": "Deine Frage…"
         },
         "editor": "Editor",
         "save": "Änderungen an alle senden"
@@ -55,7 +55,7 @@
         "tooltip": "Teilnehmer im Raum"
       },
       "vote-count": {
-        "text": "Stimmen:"
+        "text": "Stimmen"
       }
     },
     "confirmation-dialog": {
@@ -100,7 +100,8 @@
       }
     },
     "misc": {
-      "live": "$undefined"
+      "live": "LIVE",
+      "paused": "PAUSED"
     },
     "template-name-AB": "AB",
     "template-name-ABCD": "ABCD",
@@ -157,7 +158,7 @@
     "template-name-agree-binary": "Daumen hoch | Daumen runter",
     "template-name-agree-tertiary": "Daumen hoch | Daumen runter | Neutral | Fragezeichen",
     "group-label": {
-      "multiplechoice": "AB …",
+      "multiplechoice": "AB…",
       "likertscale": "Bewertung",
       "mood": "Emojis",
       "feedback": "Feedback",

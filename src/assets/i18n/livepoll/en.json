@@ -100,7 +100,8 @@
       }
     },
     "misc": {
-      "live": "LIVE"
+      "live": "LIVE",
+      "paused": "PAUSED"
     },
     "template-name-AB": "AB",
     "template-name-ABCD": "ABCD",
@@ -162,13 +163,6 @@
       "custom": "Custom",
       "feedback": "Feedback"
     },
-    "template-name-agree-tertiary": "Thumb up | Thumb down | Neutral | Question mark",
-    "group-label": {
-      "multiplechoice": "AB …",
-      "likertscale": "Bewertung",
-      "mood": "Emojis",
-      "feedback": "Feedback",
-      "custom": "Benutzerdefiniert"
-    }
+    "template-name-agree-tertiary": "Thumb up | Thumb down | Neutral | Question mark"
   }
 }

@@ -5,8 +5,13 @@
     [class.live-icon]="true"
     [class.live-icon-pause]="isPaused"
     [class.live-icon-active]="!isPaused">
-    <mat-icon>fiber_manual_record</mat-icon>
-    <span>{{ translateKey + ".misc.live" | translate }}</span>
+    <div class="icon-container">
+      <mat-icon [class.hide]="isPaused">fiber_manual_record</mat-icon>
+      <mat-icon [class.hide]="!isPaused">pause</mat-icon>
+    </div>
+    <span>
+      {{ translateKey + ".misc." + (isPaused ? "paused" : "live") | translate }}
+    </span>
   </div>
 </ng-template>
 
@@ -23,19 +28,32 @@
       "></ng-container>
     <div [class.fill]="true"></div>
     <div [class.title-settings-right]="true">
-      <span *ngIf="is2ndPhasePeerInstruction">
+      <span *ngIf="is2ndPhasePeerInstruction && !isMobile">
         {{ translateKey + ".peer-instruction.second-round" | translate }}
       </span>
-      <button
-        mat-flat-button
-        *ngIf="currentRole"
-        [class.__secondary]="true"
-        (click)="openPeerInstruction()">
-        <mat-icon>repeat</mat-icon>
-        <span>
-          {{ translateKey + ".peer-instruction.name" | translate }}
-        </span>
-      </button>
+      <ng-container>
+        <ng-container *ngIf="isMobile">
+          <button
+            mat-icon-button
+            *ngIf="currentRole"
+            [class.__secondary]="true"
+            (click)="openPeerInstruction()">
+            <mat-icon>repeat</mat-icon>
+          </button>
+        </ng-container>
+        <ng-container *ngIf="!isMobile">
+          <button
+            mat-flat-button
+            *ngIf="currentRole"
+            [class.__secondary]="true"
+            (click)="openPeerInstruction()">
+            <mat-icon>repeat</mat-icon>
+            <span>
+              {{ translateKey + ".peer-instruction.name" | translate }}
+            </span>
+          </button>
+        </ng-container>
+      </ng-container>
     </div>
   </div>
 </div>
@@ -158,29 +176,49 @@
   [class.no-pad]="true"
   #dialogActions>
   <div [class.left-container]="true">
-    <button
-      [class.__primary]="true"
-      mat-flat-button
-      *ngIf="currentRole && !isConclusion"
-      (click)="isPaused ? play() : pause()">
-      <mat-icon>{{ isPaused ? "play_circle" : "pause_circle" }}</mat-icon>
-      <span *ngIf="!isMobile">
-        {{
-          translateKey + ".edit." + (isPaused ? "continue" : "pause")
-            | translate
-        }}
-      </span>
-    </button>
-    <button
-      mat-stroked-button
-      [class.__cancel]="true"
-      *ngIf="currentRole && isProduction && !isConclusion"
-      (click)="close('delete')">
-      <mat-icon>stop_circle</mat-icon>
-      <span *ngIf="!isMobile">
-        {{ translateKey + ".edit.delete" | translate }}
-      </span>
-    </button>
+    <ng-container>
+      <ng-container *ngIf="isMobile">
+        <button
+          mat-icon-button
+          [class.__primary]="true"
+          *ngIf="currentRole && !isConclusion"
+          (click)="isPaused ? play() : pause()">
+          <mat-icon>{{ isPaused ? "play_circle" : "pause_circle" }}</mat-icon>
+        </button>
+        <button
+          mat-icon-button
+          [class.__cancel]="true"
+          *ngIf="currentRole && isProduction && !isConclusion"
+          (click)="close('delete')">
+          <mat-icon>stop_circle</mat-icon>
+        </button>
+      </ng-container>
+      <ng-container *ngIf="!isMobile">
+        <button
+          mat-flat-button
+          [class.__primary]="true"
+          *ngIf="currentRole && !isConclusion"
+          (click)="isPaused ? play() : pause()">
+          <mat-icon>{{ isPaused ? "play_circle" : "pause_circle" }}</mat-icon>
+          <span>
+            {{
+              translateKey + ".edit." + (isPaused ? "continue" : "pause")
+                | translate
+            }}
+          </span>
+        </button>
+        <button
+          mat-stroked-button
+          [class.__cancel]="true"
+          *ngIf="currentRole && isProduction && !isConclusion"
+          (click)="close('delete')">
+          <mat-icon>stop_circle</mat-icon>
+          <span>
+            {{ translateKey + ".edit.delete" | translate }}
+          </span>
+        </button>
+      </ng-container>
+    </ng-container>
   </div>
   <div [class.fill]="true"></div>
   <div [class.right-container]="true">
@@ -191,16 +229,29 @@
       (click)="close('close')">
       <span>{{ translateKey + ".edit.close" | translate }}</span>
     </button>
-    <button
-      mat-flat-button
-      [class.__secondary]="true"
-      *ngIf="currentRole && (dialogActions.offsetWidth > 310 || isConclusion)"
-      (click)="close('reset')">
-      <mat-icon>add_circle</mat-icon>
-      <span *ngIf="!isMobile">
-        {{ translateKey + ".edit.new" | translate }}
-      </span>
-    </button>
+    <ng-container>
+      <ng-container *ngIf="isMobile">
+        <button
+          mat-icon-button
+          [class.__secondary]="true"
+          *ngIf="currentRole"
+          (click)="close('reset')">
+          <mat-icon>add_circle</mat-icon>
+        </button>
+      </ng-container>
+      <ng-container *ngIf="!isMobile">
+        <button
+          mat-flat-button
+          [class.__secondary]="true"
+          *ngIf="currentRole"
+          (click)="close('reset')">
+          <mat-icon>add_circle</mat-icon>
+          <span>
+            {{ translateKey + ".edit.new" | translate }}
+          </span>
+        </button>
+      </ng-container>
+    </ng-container>
   </div>
 </mat-dialog-actions>
 

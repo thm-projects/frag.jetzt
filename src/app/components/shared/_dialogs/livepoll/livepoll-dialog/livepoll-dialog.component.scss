@@ -1,5 +1,10 @@
 @import "../livepoll-common";
 
+.right-container {
+  display: flex;
+  align-items: center;
+}
+
 .title-settings {
   flex-grow: 1;
   display: flex;
@@ -106,10 +111,6 @@
 .mdc-dialog__title {
   position: relative;
   top: 2px;
-}
-
-.live-icon {
-  margin-left: 4px;
 }
 
 .title-settings-right {

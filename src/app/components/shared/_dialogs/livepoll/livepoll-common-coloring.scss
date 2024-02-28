@@ -68,6 +68,26 @@ $bar-background: $secondary;
   }
 }
 
+.mat-mdc-icon-button.__primary {
+  --mdc-icon-button-icon-color: var(--on-livepoll-primary);
+  background-color: var(--livepoll-primary);
+}
+
+.mat-mdc-icon-button.__secondary {
+  --mdc-icon-button-icon-color: var(--on-livepoll-secondary);
+  background-color: var(--livepoll-secondary);
+}
+
+.mat-mdc-icon-button.__cancel {
+  --mdc-icon-button-icon-color: var(--red);
+}
+
+.mat-mdc-icon-button.__secondary {
+}
+
+.mat-mdc-icon-button.__cancel {
+}
+
 .button-vote {
   &-voted {
     background-color: var(--livepoll-secondary);

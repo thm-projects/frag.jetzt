@@ -4,7 +4,7 @@
     "create": {
       "title": "Créer un sondage express",
       "select-template": {
-        "label": "Choisir un modèle …"
+        "label": "Choisir un modèle…"
       }
     },
     "peer-instruction": {
@@ -30,7 +30,7 @@
       "start": "Lancer le sondage"
     },
     "settings": {
-      "name": "Options en direct …",
+      "name": "Options en direct…",
       "option": {
         "result-visibility": {
           "text": "Vote visible en directe",
@@ -41,7 +41,7 @@
           "tooltip": "Afficher la participation en temps réel pour tous les participants"
         },
         "question": {
-          "label": "Ta question..."
+          "label": "Ta question…"
         },
         "editor": "Éditeur",
         "save": "Envoyer les changements à tous"
@@ -100,7 +100,8 @@
       }
     },
     "misc": {
-      "live": "$undefined"
+      "live": "LIVE",
+      "paused": "PAUSED"
     },
     "template-name-AB": "AB",
     "template-name-ABCD": "ABCD",
@@ -156,19 +157,12 @@
     ],
     "template-name-agree-binary": "Pouce en haut | Pouce en bas",
     "group-label": {
-      "multiplechoice": "AB …",
+      "multiplechoice": "AB…",
       "likertscale": "Évaluation",
       "mood": "Emojis",
       "custom": "Personnalisé",
       "feedback": "Feedback"
     },
-    "template-name-agree-tertiary": "Thumb up | Thumb down | Neutral | Point d'interrogation",
-    "group-label": {
-      "multiplechoice": "AB …",
-      "likertscale": "Bewertung",
-      "mood": "Emojis",
-      "feedback": "Feedback",
-      "custom": "Benutzerdefiniert"
-    }
+    "template-name-agree-tertiary": "Thumb up | Thumb down | Neutral | Point d'interrogation"
   }
 }

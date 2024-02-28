@@ -8,6 +8,14 @@ body {
   --mdc-plain-tooltip-container-shape: 0.625rem;
 }
 
+.mat-expansion-panel-header-title {
+  white-space: nowrap;
+}
+
+.mdc-button__label {
+  white-space: nowrap;
+}
+
 .mat-mdc-menu-content .mat-mdc-menu-item .mat-mdc-menu-item-text {
   display: flex;
   align-items: center;
