@@ -346,6 +346,7 @@
         attr.aria-labelledby="comment_moderation{{ comment.id }}">
         <mat-icon
           class="gavel material-icons-round"
+          *ngIf="!comment.ack || room?.mode !== 'PLE'"
           [matTooltip]="
             !comment.ack
               ? ('comment-page.acknowledge' | translate)

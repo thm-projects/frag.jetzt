@@ -587,7 +587,10 @@
       animationDuration="0ms"
       mat-stretch-tabs
       mat-align-tabs="center">
-      <mat-tab label="{{ 'topic-cloud-dialog.keywords' | translate }}">
+      <mat-tab
+        label="{{
+          'topic-cloud-dialog.' + (isPle ? 'ple.' : '') + 'keywords' | translate
+        }}">
         <mat-card
           class="color-surface"
           *ngIf="

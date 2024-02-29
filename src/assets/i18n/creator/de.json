@@ -160,8 +160,21 @@
     "vote-asc": "Aufsteigende Bewertungen",
     "vote-desc": "Absteigende Bewertungen",
     "wrong": "Fragen, die der Vortragende oder Moderator als falsch markiert hat",
-    "ple":{
-      "ask-question-empty": "Neue Topics hinzufügen"
+    "ple": {
+      "ask-question-empty": "Neue Topics hinzufügen",
+      "filter-comments": "Topics filtern",
+      "sort-comments": "Topics sortieren",
+      "pause-comments": "Friert die Anzeige ein, um die Topics in Ruhe zu lesen oder zu präsentieren. Topics können weiterhin hinzugefügt und bewertet werden. Die Anzeige aktualisiert sich wieder durch Klicken des Buttons.",
+      "play-comments": "Neue Topics und Bewertungen wieder anzeigen",
+      "add-comment": "Füge ein neues Topic hinzu!",
+      "select-All": "Zeitlich unbegrenzt",
+      "select-FromNow": "Topics ab jetzt anzeigen",
+      "select-OneDay": "Letzte 24 Stunden",
+      "select-OneHour": "Letzte Stunde",
+      "select-OneWeek": "Letzte 7 Tage",
+      "select-ThreeHours": "Letzte 2 Stunden",
+      "select-TwoWeeks": "Letzte 14 Tage",
+      "filter-owner": "Meine Topics"
     }
   },
   "comment-notification": {
@@ -588,7 +601,9 @@
     "ple": {
       "questionwall": "Topic-Fokus",
       "back-to-questionboard": "Topic-Forum",
-      "tag-cloud": "Topic-Radar"
+      "tag-cloud": "Topic-Radar",
+      "overview-question-tooltip": "Anzahl Topics",
+      "overview-questioners-tooltip": "Anzahl Topic-Ersteller*innen"
     }
   },
   "topic-cloud-filter": {
@@ -628,7 +643,10 @@
     "tag-cloud-title": "Use Cases des Fragen-Radars",
     "prompt-guide-chatbot": "Effektiv kommunizieren mit ChatGPT",
     "prompt-explanation": "Prompts kurz erklärt",
-    "tooltip-button": "Wie schreibe ich gute Prompts?"
+    "tooltip-button": "Wie schreibe ich gute Prompts?",
+    "ple": {
+      "tag-cloud-title": "Use Cases des Topic-Radars"
+    }
   },
   "question-wall": {
     "auto-renew-off": "Autofokus für neue Fragen beenden",
@@ -693,9 +711,15 @@
     "time-period": "Zeitraum",
     "user-lbl": "Benutzer-Menü öffnen",
     "users-online": "Aktuell eingeloggte User",
-    "ple":{
+    "ple": {
       "intro-desc": "Klick auf ein Topic oder navigiere mit den Pfeiltasten vor und zurück.",
-      "intro-title": "Topic-Fokus"
+      "intro-title": "Topic-Fokus",
+      "auto-renew-on": "Autofokus für neue Topics starten",
+      "auto-renew-off": "Autofokus für neue Topics beenden",
+      "next-comment": "Nächstes Topic",
+      "prev-comment": "Vorheriges Topic",
+      "overview-question-tooltip": "Anzahl Topics",
+      "overview-questioners-tooltip": "Anzahl Topic-Ersteller*innen"
     }
   },
   "joyride": {
@@ -1387,7 +1411,10 @@
     "word-is-not-profanity": "Wort ist nicht profan.",
     "word-is-profanity": "Wort ist profan.",
     "words-in-profanity": "Profane Wörter",
-    "words-will-be-overwritten": "Vulgäre Wörter mit ★★★★ überschreiben"
+    "words-will-be-overwritten": "Vulgäre Wörter mit ★★★★ überschreiben",
+    "ple": {
+      "keywords": "Topic-Radar"
+    }
   },
   "worker-config": {
     "cancel": "Abbrechen",

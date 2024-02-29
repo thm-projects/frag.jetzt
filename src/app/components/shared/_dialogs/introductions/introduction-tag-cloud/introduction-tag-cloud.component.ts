@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Language } from 'app/services/http/languagetool.service';
 import { AppStateService } from 'app/services/state/app-state.service';
+import { RoomStateService } from 'app/services/state/room-state.service';
 import { ReplaySubject, takeUntil } from 'rxjs';
 
 @Component({
@@ -11,12 +12,17 @@ import { ReplaySubject, takeUntil } from 'rxjs';
 })
 export class IntroductionTagCloudComponent implements OnInit, OnDestroy {
   currentLanguage: Language;
+  protected isPle: boolean = false;
   private destroyer = new ReplaySubject(1);
 
   constructor(
     private dialogRef: MatDialogRef<IntroductionTagCloudComponent>,
+    roomState: RoomStateService,
     appState: AppStateService,
   ) {
+    roomState.room$.pipe(takeUntil(this.destroyer)).subscribe((room) => {
+      this.isPle = room?.mode === 'PLE';
+    });
     appState.language$
       .pipe(takeUntil(this.destroyer))
       .subscribe((lang) => (this.currentLanguage = lang));

@@ -91,9 +91,19 @@
       mat-icon-button
       class="searchBarButton"
       aria-labelledby="swap_vert"
-      *ngIf="comments && comments.length > 2 && !search"
+      *ngIf="comments && comments.length > 2 && !search && room?.mode === 'ARS'"
       [matMenuTriggerFor]="sortMenu"
       matTooltip="{{ 'comment-list.sort-comments' | translate }}">
+      <mat-icon class="searchBarIcon">swap_vert</mat-icon>
+    </button>
+    <button
+      id="sort-button"
+      mat-icon-button
+      class="searchBarButton"
+      aria-labelledby="swap_vert"
+      *ngIf="comments && comments.length > 2 && !search && room?.mode === 'PLE'"
+      [matMenuTriggerFor]="sortMenu"
+      matTooltip="{{ 'comment-list.ple.sort-comments' | translate }}">
       <mat-icon class="searchBarIcon">swap_vert</mat-icon>
     </button>
 
@@ -106,12 +116,31 @@
       *ngIf="
         ((comments && commentsFilteredByTimeLength > 2) ||
           filterBrainstorming) &&
-        !search
+        !search &&
+        room?.mode === 'ARS'
       "
       [matMenuTriggerFor]="filterMenu"
       (menuOpened)="openFilterMenu()"
       [ngClass]="{ 'active-filter': !!filterType }"
       matTooltip="{{ 'comment-list.filter-comments' | translate }}">
+      <mat-icon class="searchBarIcon">filter_list</mat-icon>
+    </button>
+    <button
+      id="filter-button"
+      mat-icon-button
+      class="searchBarButton"
+      aria-labelledby="filter_list"
+      #filterMenuTrigger="matMenuTrigger"
+      *ngIf="
+        ((comments && commentsFilteredByTimeLength > 2) ||
+          filterBrainstorming) &&
+        !search &&
+        room?.mode === 'PLE'
+      "
+      [matMenuTriggerFor]="filterMenu"
+      (menuOpened)="openFilterMenu()"
+      [ngClass]="{ 'active-filter': !!filterType }"
+      matTooltip="{{ 'comment-list.ple.filter-comments' | translate }}">
       <mat-icon class="searchBarIcon">filter_list</mat-icon>
     </button>
 
@@ -132,7 +161,7 @@
       mat-icon-button
       aria-labelledby="pause"
       class="freezeButton"
-      *ngIf="!search && !freeze && comments.length > 0"
+      *ngIf="!search && !freeze && comments.length > 0 && room?.mode === 'ARS'"
       (click)="activateCommentStream(true)"
       matTooltip="{{ 'comment-list.pause-comments' | translate }}">
       <mat-icon class="freezeIcon material-icons-outlined">
@@ -145,9 +174,33 @@
       mat-icon-button
       aria-labelledby="play"
       class="freezeButton"
-      *ngIf="!search && freeze && comments.length > 0"
+      *ngIf="!search && freeze && comments.length > 0 && room?.mode === 'ARS'"
       (click)="activateCommentStream(false)"
       matTooltip="{{ 'comment-list.play-comments' | translate }}">
+      <mat-icon class="playIcon material-icons-outlined">play_circle</mat-icon>
+    </button>
+
+    <button
+      id="pause-comments"
+      mat-icon-button
+      aria-labelledby="pause"
+      class="freezeButton"
+      *ngIf="!search && !freeze && comments.length > 0 && room?.mode === 'PLE'"
+      (click)="activateCommentStream(true)"
+      matTooltip="{{ 'comment-list.ple.pause-comments' | translate }}">
+      <mat-icon class="freezeIcon material-icons-outlined">
+        stop_circle
+      </mat-icon>
+    </button>
+
+    <button
+      id="play-comments"
+      mat-icon-button
+      aria-labelledby="play"
+      class="freezeButton"
+      *ngIf="!search && freeze && comments.length > 0 && room?.mode === 'PLE'"
+      (click)="activateCommentStream(false)"
+      matTooltip="{{ 'comment-list.ple.play-comments' | translate }}">
       <mat-icon class="playIcon material-icons-outlined">play_circle</mat-icon>
     </button>
   </div>
@@ -162,7 +215,14 @@
         class="period"
         [ngClass]="{ selected: periodItem === period }"
         aria-labelledby="{{ periodItem }}">
-        <span>{{ "comment-list.select-" + periodItem | translate }}</span>
+        <span>
+          {{
+            "comment-list." +
+              (room?.mode === "PLE" ? "ple." : "") +
+              "select-" +
+              periodItem | translate
+          }}
+        </span>
         <span
           class="inline-count-badge"
           *ngIf="periodItem !== 'FromNow'"
@@ -253,7 +313,11 @@
         aria-labelledby="comment">
         <mat-icon class="owner-icon material-icons-filled">person</mat-icon>
         <span [ngClass]="{ Owner: 'owner-icon' }[filterType]">
-          {{ "comment-list.filter-owner" | translate }}
+          {{
+            "comment-list." +
+              (room?.mode === "PLE" ? "ple." : "") +
+              "filter-owner" | translate
+          }}
         </span>
         <span
           class="inline-count-badge"
@@ -376,6 +440,7 @@
 
       <button
         mat-menu-item
+        *ngIf="room?.mode !== 'PLE'"
         (click)="applyFilterByKey('AnsweredModerator')"
         aria-labelledby="comment">
         <mat-icon
@@ -557,7 +622,7 @@
   aria-labelledby="add"
   class="fab_add_comment"
   (click)="writeComment()"
-  matTooltip="{{ 'comment-list.add-comment' | translate }}"
+  matTooltip="{{ 'comment-list.ple.add-comment' | translate }}"
   [matTooltipPosition]="'above'">
   <mat-icon>add</mat-icon>
   <p

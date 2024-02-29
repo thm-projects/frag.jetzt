@@ -327,7 +327,13 @@
       "back-to-questionboard": "Forum de Sujet",
       "tag-cloud": "Radar de Sujet",
       "question-focus-button": "Focus de Sujet",
-      "create-question": "Ajouter un sujet"
+      "create-question": "Ajouter un sujet",
+      "overview-question-tooltip": "Nombre de sujets",
+      "overview-questioners-tooltip": "Nombre d'auteurs de sujets",
+      "export-questions": "Exporter les sujets",
+      "import-questions": "Importer les sujets",
+      "edit-tags": "Catégories de sujets",
+      "delete-questions": "Supprimer des sujets"
     }
   },
   "gpt-chat": {

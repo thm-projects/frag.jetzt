@@ -6,6 +6,9 @@
     "nextPageLabel": "Next",
     "previousPageLabel": "Previous",
     "rangePageLabel1": "null",
-    "rangePageLabel2": "%start - %end of %length"
+    "rangePageLabel2": "%start - %end of %length",
+    "ple": {
+      "itemsPerPageLabel": "Topics per page"
+    }
   }
 }

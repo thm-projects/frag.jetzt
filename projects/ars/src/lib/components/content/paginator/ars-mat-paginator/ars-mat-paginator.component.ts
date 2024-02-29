@@ -15,6 +15,8 @@ import {
 import { HttpClient } from '@angular/common/http';
 import { ReplaySubject, takeUntil } from 'rxjs';
 import { AppStateService } from 'app/services/state/app-state.service';
+import { RoomStateService } from 'app/services/state/room-state.service';
+import { getInstant } from 'app/utils/ts-utils';
 
 export interface ArsMatPaginatorTheme {
   buttonColor: string;
@@ -36,33 +38,45 @@ export class ArsMatPaginatorComponent implements OnInit, OnDestroy {
   @Output() page: EventEmitter<PageEvent> = new EventEmitter<PageEvent>();
   currentLang: string;
   private _destroyer = new ReplaySubject(1);
+  private isPle = false;
 
   @Input() colors: ArsMatPaginatorTheme;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  constructor(public appState: AppStateService, public http: HttpClient) {
+  constructor(
+    public appState: AppStateService,
+    public http: HttpClient,
+    public roomState: RoomStateService,
+  ) {
     this.appState.language$
       .pipe(takeUntil(this._destroyer))
       .subscribe((lang) => {
         this.setLang(lang);
       });
+    this.roomState.room$.pipe(takeUntil(this._destroyer)).subscribe((room) => {
+      this.isPle = room?.mode === 'PLE';
+      this.setLang(getInstant(this.appState.language$));
+    });
   }
 
   setLang(lang: string) {
+    if (!lang) {
+      return;
+    }
     this.currentLang = lang;
     this.http
       .get('/assets/i18n/ars-lib/' + this.currentLang + '.json')
       .subscribe((translation) => {
+        const section = translation['paginator'];
         const paginatorIntl = new MatPaginatorIntl();
-        paginatorIntl.itemsPerPageLabel =
-          translation['paginator']['itemsPerPageLabel'];
-        paginatorIntl.nextPageLabel = translation['paginator']['nextPageLabel'];
-        paginatorIntl.previousPageLabel =
-          translation['paginator']['previousPageLabel'];
-        paginatorIntl.firstPageLabel =
-          translation['paginator']['firstPageLabel'];
-        paginatorIntl.lastPageLabel = translation['paginator']['lastPageLabel'];
+        paginatorIntl.itemsPerPageLabel = this.isPle
+          ? section['ple']['itemsPerPageLabel']
+          : section['itemsPerPageLabel'];
+        paginatorIntl.nextPageLabel = section['nextPageLabel'];
+        paginatorIntl.previousPageLabel = section['previousPageLabel'];
+        paginatorIntl.firstPageLabel = section['firstPageLabel'];
+        paginatorIntl.lastPageLabel = section['lastPageLabel'];
         paginatorIntl.getRangeLabel = this.createRangeLabel(translation);
         this.paginator._intl = paginatorIntl;
         this.paginator._changePageSize(this.pageSize);
