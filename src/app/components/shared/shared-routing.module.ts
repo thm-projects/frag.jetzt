@@ -5,8 +5,13 @@ import { UserRole } from '../../models/user-roles.enum';
 import { TagCloudComponent } from './tag-cloud/tag-cloud.component';
 import { AuthenticationGuard } from '../../guards/authentication.guard';
 import { GPTChatRoomComponent } from './gptchat-room/gptchat-room.component';
+import { ComponentTestPageComponent } from './component-test/component-test-page/component-test-page.component';
 
 const routes: Routes = [
+  {
+    path: 'component-test-page',
+    component: ComponentTestPageComponent,
+  },
   {
     path: 'room/:shortId/comments/questionwall',
     component: QuestionWallComponent,

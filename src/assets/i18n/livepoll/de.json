@@ -9,20 +9,20 @@
     },
     "peer-instruction": {
       "second-round": "2. Umfragerunde",
-      "name": "$undefined",
+      "name": "»Peer Instruction«",
       "result-statistics": {
-        "title": "Ergebnis",
+        "title": "Vergleich - »Peer Instruction«",
         "result-1": "Erste Umfrage",
         "result-2": "Zweite Umfrage",
         "start-next": "Starte 2. Umfragerunde",
-        "end": "$undefined"
+        "end": "Beenden"
       }
     },
     "edit": {
       "view-as-participant": "Vorschau aus Teilnehmersicht:",
       "reset": "Reset",
-      "pause": "$undefined",
-      "delete": "$undefined",
+      "pause": "Pausieren",
+      "delete": "Löschen",
       "continue": "Fortsetzen",
       "close": "Schließen",
       "new": "Neue Umfrage",
@@ -100,8 +100,8 @@
       }
     },
     "misc": {
-      "live": "LIVE",
-      "paused": "PAUSED"
+      "live": "Aktiv",
+      "paused": "Pausiert"
     },
     "template-name-AB": "AB",
     "template-name-ABCD": "ABCD",
