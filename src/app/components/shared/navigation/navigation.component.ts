@@ -415,7 +415,8 @@ export class NavigationComponent implements OnInit, OnDestroy {
         Boolean(this.accountState.getCurrentUser()) &&
         (!ROOM_REGEX.test(route) ||
           ROOM_ROLE_MAPPER[this.roomState.getCurrentAssignedRole()] ===
-            UserRole.PARTICIPANT),
+            UserRole.PARTICIPANT) &&
+        !this.isPLE,
       navigate: () => {
         UserBonusTokenComponent.openDialog(
           this.dialog,
@@ -436,7 +437,8 @@ export class NavigationComponent implements OnInit, OnDestroy {
         ROOM_REGEX.test(route) &&
         ROOM_ROLE_MAPPER[this.roomState.getCurrentAssignedRole()] >
           UserRole.PARTICIPANT &&
-        this.sessionService.currentRoom?.bonusArchiveActive,
+        this.sessionService.currentRoom?.bonusArchiveActive &&
+        !this.isPLE,
       navigate: () => {
         const dialogRef = this.dialog.open(BonusTokenComponent, {
           width: '400px',

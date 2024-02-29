@@ -160,8 +160,21 @@
     "vote-asc": "Notations ascendantes",
     "vote-desc": "Évaluations descendantes",
     "wrong": "Questions marquées comme fausses par le conférencier ou le modérateur",
-    "ple":{
-      "ask-question-empty": "Ajouter de nouveaux sujets"
+    "ple": {
+      "ask-question-empty": "Ajouter de nouveaux sujets",
+      "filter-comments": "Filtrer les sujets",
+      "sort-comments": "Trier les sujets",
+      "pause-comments": "Met en pause l'affichage pour lire ou présenter les sujets en toute tranquillité. Les sujets peuvent toujours être ajoutés et évalués. L'affichage est mis à jour à nouveau en cliquant sur le bouton.",
+      "play-comments": "Afficher à nouveau les nouveaux sujets et les évaluations",
+      "add-comment": "Ajouter un nouveau sujet !",
+      "select-All": "Illimité dans le temps",
+      "select-FromNow": "À partir de maintenant",
+      "select-OneDay": "Dernières 24 heures",
+      "select-OneHour": "Dernière heure",
+      "select-OneWeek": "Derniers 7 jours",
+      "select-ThreeHours": "Dernières 2 heures",
+      "select-TwoWeeks": "Derniers 14 jours",
+      "filter-owner": "Mes sujets"
     }
   },
   "comment-notification": {
@@ -584,7 +597,9 @@
     "ple": {
       "questionwall": "Focus de Sujet",
       "back-to-questionboard": "Forum de Sujet",
-      "tag-cloud": "Radar de Sujet"
+      "tag-cloud": "Radar de Sujet",
+      "overview-question-tooltip": "Nombre de sujets",
+      "overview-questioners-tooltip": "Nombre d'auteurs de sujets"
     }
   },
   "topic-cloud-filter": {
@@ -624,7 +639,10 @@
     "tag-cloud-title": "Cas d'utilisation du radar à questions",
     "prompt-guide-chatbot": "Communiquer efficacement avec ChatGPT",
     "prompt-explanation": "Prompts en bref",
-    "tooltip-button": "Comment écris-je de bons prompts ?"
+    "tooltip-button": "Comment écris-je de bons prompts ?",
+    "ple": {
+      "tag-cloud-title": "Cas d'utilisation du radar à sujets"
+    }
   },
   "joyride": {
     "commentFilter": "Il existe de nombreuses options de tri et de filtrage pour la liste des questions-réponses. Un filtre actif est affiché en rouge. Pour une meilleure lisibilité en cas de grande dynamique, le flux de questions peut également être mis en pause.",
@@ -692,90 +710,88 @@
   },
   "ml-gpt-room-settings": {
     "title": "Paramètres GPT",
-  "gpt-setup-title": "Activer ChatGPT",
-  "gpt-setup-step-help": "Saisissez quelque chose ici 1",
-  "gpt-setup-item-one-label": "Quel type d'activation ?",
-  "gpt-setup-item-two-label": "Type d'Activation",
-  "gpt-setup-item-two-radio-one": "Avec clé API",
-  "gpt-setup-item-two-radio-two": "Avec Voucher",
-  "gpt-setup-item-two-error-label-required": "Saisissez quelque chose ici 2",
+    "gpt-setup-title": "Activer ChatGPT",
+    "gpt-setup-step-help": "Saisissez quelque chose ici 1",
+    "gpt-setup-item-one-label": "Quel type d'activation ?",
+    "gpt-setup-item-two-label": "Type d'Activation",
+    "gpt-setup-item-two-radio-one": "Avec clé API",
+    "gpt-setup-item-two-radio-two": "Avec Voucher",
+    "gpt-setup-item-two-error-label-required": "Saisissez quelque chose ici 2",
 
-  "gpt-info-title": "Données OpenAI",
-  "gpt-info-step-help": "Saisissez quelque chose ici 3",
-  "gpt-info-item-one-label": "Code API & Organisation",
-  "gpt-info-item-two-label": "Code API",
-  "gpt-info-item-two-error-label-required": "Saisissez quelque chose ici 4",
-  "gpt-info-item-two-error-label-pattern": "Saisissez quelque chose ici 5",
-  "gpt-info-item-three-label": "Organisation API",
-  "gpt-info-item-three-error-label-pattern": "Saisissez quelque chose ici 6",
+    "gpt-info-title": "Données OpenAI",
+    "gpt-info-step-help": "Saisissez quelque chose ici 3",
+    "gpt-info-item-one-label": "Code API & Organisation",
+    "gpt-info-item-two-label": "Code API",
+    "gpt-info-item-two-error-label-required": "Saisissez quelque chose ici 4",
+    "gpt-info-item-two-error-label-pattern": "Saisissez quelque chose ici 5",
+    "gpt-info-item-three-label": "Organisation API",
+    "gpt-info-item-three-error-label-pattern": "Saisissez quelque chose ici 6",
 
-  "gpt-info-voucher-title": "Voucher OpenAI",
-  "gpt-info-voucher-step-help": "Saisissez quelque chose ici 7",
-  "gpt-info-voucher-item-one-label": "Voucher API",
-  "gpt-info-voucher-item-two-label": "Voucher API",
-  "gpt-info-voucher-item-two-error-label-required": "Saisissez quelque chose ici 8",
+    "gpt-info-voucher-title": "Voucher OpenAI",
+    "gpt-info-voucher-step-help": "Saisissez quelque chose ici 7",
+    "gpt-info-voucher-item-one-label": "Voucher API",
+    "gpt-info-voucher-item-two-label": "Voucher API",
+    "gpt-info-voucher-item-two-error-label-required": "Saisissez quelque chose ici 8",
 
-  "gpt-model-title": "Modèle OpenAI GPT",
-  "gpt-model-step-help": "Saisissez quelque chose ici 9",
-  "gpt-model-item-one-label": "Modèle GPT",
-  "gpt-model-item-two-label": "Sélection LLM",
+    "gpt-model-title": "Modèle OpenAI GPT",
+    "gpt-model-step-help": "Saisissez quelque chose ici 9",
+    "gpt-model-item-one-label": "Modèle GPT",
+    "gpt-model-item-two-label": "Sélection LLM",
 
-  "room-quota-title": "Quota de Salle",
-  "room-quota-step-help": "Saisissez quelque chose ici 10",
-  "room-quota-item-one-label": "Limite Totale des Coûts",
-  "room-quota-item-two-label": "Limite des Coûts Mensuels",
-  "room-quota-item-three-label": "Limite des Coûts Mensuels Cumulatifs",
-  "room-quota-item-four-label": "Limite des Coûts Quotidiens",
+    "room-quota-title": "Quota de Salle",
+    "room-quota-step-help": "Saisissez quelque chose ici 10",
+    "room-quota-item-one-label": "Limite Totale des Coûts",
+    "room-quota-item-two-label": "Limite des Coûts Mensuels",
+    "room-quota-item-three-label": "Limite des Coûts Mensuels Cumulatifs",
+    "room-quota-item-four-label": "Limite des Coûts Quotidiens",
 
-  "moderator-quota-title": "Quota de Modérateur",
-  "moderator-quota-step-help": "Saisissez quelque chose ici 11",
-  "moderator-quota-item-one-label": "Limite Totale des Coûts",
-  "moderator-quota-item-two-label": "Limite des Coûts Mensuels",
-  "moderator-quota-item-three-label": "Limite des Coûts Mensuels Cumulatifs",
-  "moderator-quota-item-four-label": "Limite des Coûts Quotidiens",
+    "moderator-quota-title": "Quota de Modérateur",
+    "moderator-quota-step-help": "Saisissez quelque chose ici 11",
+    "moderator-quota-item-one-label": "Limite Totale des Coûts",
+    "moderator-quota-item-two-label": "Limite des Coûts Mensuels",
+    "moderator-quota-item-three-label": "Limite des Coûts Mensuels Cumulatifs",
+    "moderator-quota-item-four-label": "Limite des Coûts Quotidiens",
 
-  "participant-quota-title": "Quota de Participant",
-  "participant-quota-step-help": "Saisissez quelque chose ici 12",
-  "participant-quota-item-one-label": "Limite Totale des Coûts",
-  "participant-quota-item-two-label": "Limite des Coûts Mensuels",
-  "participant-quota-item-three-label": "Limite des Coûts Mensuels Cumulatifs",
-  "participant-quota-item-four-label": "Limite des Coûts Quotidiens",
+    "participant-quota-title": "Quota de Participant",
+    "participant-quota-step-help": "Saisissez quelque chose ici 12",
+    "participant-quota-item-one-label": "Limite Totale des Coûts",
+    "participant-quota-item-two-label": "Limite des Coûts Mensuels",
+    "participant-quota-item-three-label": "Limite des Coûts Mensuels Cumulatifs",
+    "participant-quota-item-four-label": "Limite des Coûts Quotidiens",
 
-  "usage-time-title": "Périodes d'Utilisation",
-  "usage-time-step-help": "Saisissez quelque chose ici 13",
-  "usage-time-item-one-input": "Plage Horaire",
-  "usage-time-item-one-select-one": "Heure de Début",
-  "usage-time-item-one-select-two": "Heure de Fin",
-  "usage-time-item-one-select-three": "Répétition",
-  "usage-time-item-one-button": "Ajouter du Temps",
-  "usage-time-item-one-option-none": "Aucun",
-  "usage-time-item-one-option-daily": "Quotidien",
-  "usage-time-item-one-option-weekdays": "Jours Ouvrables",
-  "usage-time-item-one-option-weekends": "Week-ends",
-  "usage-time-item-one-option-mondays": "Les Lundis",
-  "usage-time-item-one-option-tuesdays": "Les Mardis",
-  "usage-time-item-one-option-wednesdays": "Les Mercredis",
-  "usage-time-item-one-option-thursdays": "Les Jeudis",
-  "usage-time-item-one-option-fridays": "Les Vendredis",
-  "usage-time-item-one-option-saturdays": "Les Samedis",
-  "usage-time-item-one-option-sundays": "Les Dimanches",
+    "usage-time-title": "Périodes d'Utilisation",
+    "usage-time-step-help": "Saisissez quelque chose ici 13",
+    "usage-time-item-one-input": "Plage Horaire",
+    "usage-time-item-one-select-one": "Heure de Début",
+    "usage-time-item-one-select-two": "Heure de Fin",
+    "usage-time-item-one-select-three": "Répétition",
+    "usage-time-item-one-button": "Ajouter du Temps",
+    "usage-time-item-one-option-none": "Aucun",
+    "usage-time-item-one-option-daily": "Quotidien",
+    "usage-time-item-one-option-weekdays": "Jours Ouvrables",
+    "usage-time-item-one-option-weekends": "Week-ends",
+    "usage-time-item-one-option-mondays": "Les Lundis",
+    "usage-time-item-one-option-tuesdays": "Les Mardis",
+    "usage-time-item-one-option-wednesdays": "Les Mercredis",
+    "usage-time-item-one-option-thursdays": "Les Jeudis",
+    "usage-time-item-one-option-fridays": "Les Vendredis",
+    "usage-time-item-one-option-saturdays": "Les Samedis",
+    "usage-time-item-one-option-sundays": "Les Dimanches",
 
+    "miscellaneous-settings-title": "Paramètres Divers",
+    "miscellaneous-settings-step-help": "Saisissez quelque chose ici 14",
+    "miscellaneous-settings-item-one-label": "Permettre ChatGPT aux utilisateurs non enregistrés",
+    "miscellaneous-settings-item-two-label": "Laisser ChatGPT répondre sans consignes de prompt",
+    "miscellaneous-settings-item-three-label": "Laisser ChatGPT répondre uniquement sur demande",
 
-
-  "miscellaneous-settings-title": "Paramètres Divers",
-  "miscellaneous-settings-step-help": "Saisissez quelque chose ici 14",
-  "miscellaneous-settings-item-one-label": "Permettre ChatGPT aux utilisateurs non enregistrés",
-  "miscellaneous-settings-item-two-label": "Laisser ChatGPT répondre sans consignes de prompt",
-  "miscellaneous-settings-item-three-label": "Laisser ChatGPT répondre uniquement sur demande",
-
-  "moderator-permissions-title": "Permissions des Modérateurs",
-  "moderator-permissions-step-help": "Saisissez quelque chose ici 15",
-  "moderator-permissions-item-one-label": "Modifier le quota de participants",
-  "moderator-permissions-item-two-label": "Modifier le quota de modérateurs",
-  "moderator-permissions-item-three-label": "Modifier le quota de salle",
-  "moderator-permissions-item-four-label": "Modifier les périodes d'utilisation",
-  "moderator-permissions-item-five-label": "Modifier les consignes de prompt",
-  "moderator-permissions-item-six-label": "Modifier les paramètres API"
+    "moderator-permissions-title": "Permissions des Modérateurs",
+    "moderator-permissions-step-help": "Saisissez quelque chose ici 15",
+    "moderator-permissions-item-one-label": "Modifier le quota de participants",
+    "moderator-permissions-item-two-label": "Modifier le quota de modérateurs",
+    "moderator-permissions-item-three-label": "Modifier le quota de salle",
+    "moderator-permissions-item-four-label": "Modifier les périodes d'utilisation",
+    "moderator-permissions-item-five-label": "Modifier les consignes de prompt",
+    "moderator-permissions-item-six-label": "Modifier les paramètres API"
   },
   "quill": {
     "cancel": "Annuler",
@@ -1253,9 +1269,15 @@
     "time-period": "Période",
     "user-lbl": "Ouvrir le menu utilisateur",
     "users-online": "Utilisateurs actuellement connectés",
-    "ple":{
+    "ple": {
       "intro-desc": "Cliquez sur un sujet ou naviguez avec les touches fléchées vers l'avant et l'arrière.",
-      "intro-title": "Focus sur le sujet"
+      "intro-title": "Focus sur le sujet",
+      "auto-renew-on": "Démarrer la mise au point automatique pour les nouveaux sujets",
+      "auto-renew-off": "Arrêter la mise au point automatique pour les nouveaux sujets",
+      "next-comment": "Sujet suivant",
+      "prev-comment": "Sujet précédent",
+      "overview-question-tooltip": "Nombre de sujets",
+      "overview-questioners-tooltip": "Nombre d'auteurs de sujets"
     }
   },
   "tag-cloud-popup": {
@@ -1385,7 +1407,10 @@
     "word-is-not-profanity": "Le mot n'est pas profane.",
     "word-is-profanity": "Le mot est profane.",
     "words-in-profanity": "Mots profanes",
-    "words-will-be-overwritten": "Remplacer les mots vulgaires par ★★★★"
+    "words-will-be-overwritten": "Remplacer les mots vulgaires par ★★★★",
+    "ple": {
+      "keywords": "Radar à sujets"
+    }
   },
   "worker-config": {
     "cancel": "Annuler",

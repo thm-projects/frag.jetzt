@@ -161,7 +161,20 @@
     "vote-desc": "Descending votes",
     "wrong": "Marked as wrong",
     "ple": {
-      "ask-question-empty": "Add new Topics"
+      "ask-question-empty": "Add new Topics",
+      "filter-comments": "Filter Topics",
+      "sort-comments": "Sort Topics",
+      "pause-comments": "Freezes the display to read or present the topics at rest. Topics can still be added and rated. The display is only updated again by clicking the button.",
+      "play-comments": "Show new topics and ratings again",
+      "add-comment": "Add a new topic!",
+      "select-All": "Unlimited in time",
+      "select-FromNow": "Display topics from now on",
+      "select-OneDay": "Last 24 hours",
+      "select-OneHour": "Last hour",
+      "select-OneWeek": "Last 7 days",
+      "select-ThreeHours": "Last 2 hours",
+      "select-TwoWeeks": "Last 14 days",
+      "filter-owner": "My topics"
     }
   },
   "comment-notification": {
@@ -584,7 +597,9 @@
     "ple": {
       "questionwall": "Topic Focus",
       "back-to-questionboard": "Topic Forum",
-      "tag-cloud": "Topic Radar"
+      "tag-cloud": "Topic Radar",
+      "overview-question-tooltip": "Number of Topics",
+      "overview-questioners-tooltip": "Number of topic creators"
     }
   },
   "topic-cloud-filter": {
@@ -624,7 +639,10 @@
     "tag-cloud-title": "Use cases of the question radar",
     "prompt-guide-chatbot": "Communicate effectively with ChatGPT",
     "prompt-explanation": "Prompts briefly explained",
-    "tooltip-button": "How do I write good prompts?"
+    "tooltip-button": "How do I write good prompts?",
+    "ple": {
+      "tag-cloud-title": "Use cases of the topic radar"
+    }
   },
   "question-wall": {
     "auto-renew-off": "Exit autofocus for new questions",
@@ -691,7 +709,13 @@
     "users-online": "Currently logged-in users",
     "ple": {
       "intro-desc": "Click on a topic or navigate forward and backward using the arrow keys.",
-      "intro-title": "Topic Focus"
+      "intro-title": "Topic Focus",
+      "auto-renew-on": "Start autofocus for new topics",
+      "auto-renew-off": "Stop autofocus for new topics",
+      "next-comment": "Next topic",
+      "prev-comment": "Previous topic",
+      "overview-question-tooltip": "Number of Topics",
+      "overview-questioners-tooltip": "Number of topic creators"
     }
   },
   "joyride": {
@@ -1374,7 +1398,10 @@
     "word-is-not-profanity": "Word is not profane",
     "word-is-profanity": "Word is profane",
     "words-in-profanity": "Words in profanity filter",
-    "words-will-be-overwritten": "Profane words will be overwritten with ★★★★."
+    "words-will-be-overwritten": "Profane words will be overwritten with ★★★★.",
+    "ple": {
+      "keywords": "Topic radar"
+    }
   },
   "worker-config": {
     "cancel": "Cancel",

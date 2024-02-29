@@ -748,7 +748,34 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnDestroy {
               );
             });
           },
-          condition: () => true,
+          condition: () => true && this.room?.mode === 'ARS',
+        });
+        e.menuItem({
+          translate: this.headerService.getTranslate(),
+          icon: 'file_download',
+          class: 'material-icons-outlined',
+          text: 'header.ple.export-questions',
+          callback: () => {
+            const room = this.sessionService.currentRoom;
+            exportRoom(
+              this.translateService,
+              ROOM_ROLE_MAPPER[this.roomState.getCurrentRole()] ||
+                UserRole.PARTICIPANT,
+              this.notificationService,
+              this.bonusTokenService,
+              this.commentService,
+              'room-export',
+              this.user,
+              room,
+              new Set<string>(this.moderatorAccountIds),
+            ).subscribe((text) => {
+              copyCSVString(
+                text[0],
+                room.name + '-' + room.shortId + '-' + text[1] + '.csv',
+              );
+            });
+          },
+          condition: () => true && this.room?.mode === 'PLE',
         });
       },
     );
